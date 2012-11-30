@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index d32900c..ec2cf51 100644
+index a5d416f..1850b01 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -292,9 +292,9 @@ IF /I "%~2" == "Win32" (
@@ -15,7 +15,7 @@ index d32900c..ec2cf51 100644
  
  IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 4f065ee..568d41e 100644
+index c919f33..7ce836d 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -40,7 +40,7 @@
@@ -60,7 +60,7 @@ index 4f065ee..568d41e 100644
  DefaultDirName={code:GetInstallFolder}
  LicenseFile=..\COPYING.txt
  OutputDir=.
-@@ -170,15 +170,15 @@ Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
+@@ -171,15 +171,15 @@ Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
  [Messages]
  #ifdef x64Build
  #ifdef MPCHC_LITE
@@ -81,7 +81,7 @@ index 4f065ee..568d41e 100644
  #endif
  
 diff --git a/docs/Readme.txt b/docs/Readme.txt
-index 0ce768e..712c42e 100644
+index 2b60d0f..a1cb8f1 100644
 --- a/docs/Readme.txt
 +++ b/docs/Readme.txt
 @@ -27,7 +27,7 @@ Main Features:
@@ -2072,7 +2072,7 @@ index dd140b2..10345db 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
-index 86c3a28..255feb0 100644
+index 2e0d3a8..53fd2d8 100644
 --- a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 +++ b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 @@ -44,41 +44,49 @@
@@ -2252,10 +2252,10 @@ index 999bda6..d89ee83 100644
  SetupAppTitle=Setup - DirectVobSub
  SetupWindowTitle=Setup - DirectVobSub
 diff --git a/src/mpc-hc/AboutDlg.cpp b/src/mpc-hc/AboutDlg.cpp
-index dc081bd..3810502 100644
+index dc94009..487070d 100644
 --- a/src/mpc-hc/AboutDlg.cpp
 +++ b/src/mpc-hc/AboutDlg.cpp
-@@ -61,7 +61,7 @@ BOOL CAboutDlg::OnInitDialog()
+@@ -66,7 +66,7 @@ BOOL CAboutDlg::OnInitDialog()
      m_strBuildNumber = MPC_VERSION_STR_FULL;
  
  #if defined(__INTEL_COMPILER)
@@ -2265,7 +2265,7 @@ index dc081bd..3810502 100644
  #else
  #error Compiler is not supported!
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index d467f37..fe2f998 100644
+index 3de32e9..2842896 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
@@ -2336,10 +2336,10 @@ index 6a04e51..1631f2f 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpcresources/mpcresources.vcxproj b/src/mpc-hc/mpcresources/mpcresources.vcxproj
-index 49540bd..50306e3 100644
+index 6f27a44..a2f7554 100644
 --- a/src/mpc-hc/mpcresources/mpcresources.vcxproj
 +++ b/src/mpc-hc/mpcresources/mpcresources.vcxproj
-@@ -195,6 +195,7 @@
+@@ -203,6 +203,7 @@
    <PropertyGroup>
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
@@ -2651,7 +2651,7 @@ index fedf4e4..f5dceb1 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index 74e1176..a3c734a 100644
+index 213cc63..b528867 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
 @@ -52,7 +52,7 @@ ifeq ($(64BIT),yes)

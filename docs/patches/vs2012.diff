@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index d32900c..a746a1a 100644
+index a5d416f..284d3d0 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -33,7 +33,7 @@ IF NOT EXIST %MPCHC_MINGW32% GOTO MissingVar
@@ -20,21 +20,8 @@ index d32900c..a746a1a 100644
  
  IF /I "%CONFIG%" == "Filters" (
    CALL :SubFilters %PPLATFORM%
-diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 4f065ee..bb05118 100644
---- a/distrib/mpc-hc_setup.iss
-+++ b/distrib/mpc-hc_setup.iss
-@@ -130,7 +130,7 @@ AllowNoIcons=yes
- ShowTasksTreeLines=yes
- DisableDirPage=auto
- DisableProgramGroupPage=auto
--MinVersion=5.01.2600sp3
-+MinVersion=6.0
- AppMutex=MediaPlayerClassicW
- 
- 
 diff --git a/src/CmdUI/CmdUI.vcxproj b/src/CmdUI/CmdUI.vcxproj
-index 6406461..6ff1cf9 100644
+index 6406461..d7a8fcd 100644
 --- a/src/CmdUI/CmdUI.vcxproj
 +++ b/src/CmdUI/CmdUI.vcxproj
 @@ -22,27 +22,32 @@
@@ -48,30 +35,30 @@ index 6406461..6ff1cf9 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/DSUtil/DSUtil.vcxproj b/src/DSUtil/DSUtil.vcxproj
-index fbf737b..8cd949d 100644
+index fbf737b..5b4db73 100644
 --- a/src/DSUtil/DSUtil.vcxproj
 +++ b/src/DSUtil/DSUtil.vcxproj
 @@ -22,27 +22,32 @@
@@ -85,30 +72,30 @@ index fbf737b..8cd949d 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/DeCSS/DeCSS.vcxproj b/src/DeCSS/DeCSS.vcxproj
-index 285445e..c288c01 100644
+index 285445e..2a75763 100644
 --- a/src/DeCSS/DeCSS.vcxproj
 +++ b/src/DeCSS/DeCSS.vcxproj
 @@ -22,27 +22,32 @@
@@ -122,60 +109,60 @@ index 285445e..c288c01 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/MPCTestAPI/MPCTestAPI.vcxproj b/src/MPCTestAPI/MPCTestAPI.vcxproj
-index 57b706e..c27393d 100644
+index 57b706e..e2d458b 100644
 --- a/src/MPCTestAPI/MPCTestAPI.vcxproj
 +++ b/src/MPCTestAPI/MPCTestAPI.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/SubPic/SubPic.vcxproj b/src/SubPic/SubPic.vcxproj
-index 09c59cd..f83c239 100644
+index 09c59cd..d891165 100644
 --- a/src/SubPic/SubPic.vcxproj
 +++ b/src/SubPic/SubPic.vcxproj
 @@ -22,27 +22,32 @@
@@ -189,30 +176,30 @@ index 09c59cd..f83c239 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/Subtitles/Subtitles.vcxproj b/src/Subtitles/Subtitles.vcxproj
-index 944e53d..ab628c7 100644
+index 944e53d..743a96c 100644
 --- a/src/Subtitles/Subtitles.vcxproj
 +++ b/src/Subtitles/Subtitles.vcxproj
 @@ -22,27 +22,32 @@
@@ -226,30 +213,30 @@ index 944e53d..ab628c7 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/Filters.vcxproj b/src/filters/Filters.vcxproj
-index 781ac11..6eb6cae 100644
+index 781ac11..f8bc05d 100644
 --- a/src/filters/Filters.vcxproj
 +++ b/src/filters/Filters.vcxproj
 @@ -22,27 +22,32 @@
@@ -263,30 +250,30 @@ index 781ac11..6eb6cae 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj b/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
-index 8105408..2d13e35 100644
+index 8105408..9b8ff79 100644
 --- a/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
 +++ b/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
 @@ -22,27 +22,32 @@
@@ -300,30 +287,30 @@ index 8105408..2d13e35 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj b/src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj
-index 880dbc5..0da277c 100644
+index 880dbc5..943f386 100644
 --- a/src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj
 +++ b/src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj
 @@ -38,47 +38,56 @@
@@ -337,54 +324,54 @@ index 880dbc5..0da277c 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj b/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
-index 378c9d7..ce49efd 100644
+index 378c9d7..5a47624 100644
 --- a/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
 +++ b/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
 @@ -38,47 +38,56 @@
@@ -398,54 +385,54 @@ index 378c9d7..ce49efd 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/WavDest/WavDest.vcxproj b/src/filters/muxer/WavDest/WavDest.vcxproj
-index ac1581e..b6e5971 100644
+index ac1581e..5992ad1 100644
 --- a/src/filters/muxer/WavDest/WavDest.vcxproj
 +++ b/src/filters/muxer/WavDest/WavDest.vcxproj
 @@ -38,47 +38,56 @@
@@ -459,54 +446,54 @@ index ac1581e..b6e5971 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/AviSplitter/AviSplitter.vcxproj b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
-index f90c4ec..8b0a5d5 100644
+index f90c4ec..a17c3fe 100644
 --- a/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 +++ b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -520,54 +507,54 @@ index f90c4ec..8b0a5d5 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj b/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
-index 3c1bc6e..e603fa4 100644
+index 3c1bc6e..0ba22cc 100644
 --- a/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
 +++ b/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
 @@ -22,27 +22,32 @@
@@ -581,30 +568,30 @@ index 3c1bc6e..e603fa4 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj b/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
-index 2470933..45dcfab 100644
+index 2470933..63e9973 100644
 --- a/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
 +++ b/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -618,54 +605,54 @@ index 2470933..45dcfab 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj b/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
-index 1edeaaf..d3f3c88 100644
+index 1edeaaf..3645367 100644
 --- a/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
 +++ b/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -679,54 +666,54 @@ index 1edeaaf..d3f3c88 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj b/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
-index 2572e39..385b58f 100644
+index 2572e39..efa6c9c 100644
 --- a/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
 +++ b/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -740,54 +727,54 @@ index 2572e39..385b58f 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj b/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
-index 44c930a..5e09004 100644
+index 44c930a..6b02b22 100644
 --- a/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
 +++ b/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -801,54 +788,54 @@ index 44c930a..5e09004 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj b/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
-index 9d8c571..e0d0182 100644
+index 9d8c571..3224f24 100644
 --- a/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
 +++ b/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -862,54 +849,54 @@ index 9d8c571..e0d0182 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj b/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
-index b0365f1..55bdf59 100644
+index b0365f1..734ff64 100644
 --- a/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
 +++ b/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -923,54 +910,54 @@ index b0365f1..55bdf59 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/OggSplitter/OggSplitter.vcxproj b/src/filters/parser/OggSplitter/OggSplitter.vcxproj
-index 726f66b..de211fb 100644
+index 726f66b..7db7427 100644
 --- a/src/filters/parser/OggSplitter/OggSplitter.vcxproj
 +++ b/src/filters/parser/OggSplitter/OggSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -984,54 +971,54 @@ index 726f66b..de211fb 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj b/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
-index 94b9a8d..bc72e27 100644
+index 94b9a8d..2e941c8 100644
 --- a/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
 +++ b/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -1045,54 +1032,54 @@ index 94b9a8d..bc72e27 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj b/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
-index b23a485..8e3d518 100644
+index b23a485..51ae5c5 100644
 --- a/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
 +++ b/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
 @@ -38,47 +38,56 @@
@@ -1106,54 +1093,54 @@ index b23a485..8e3d518 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/CDDAReader/CDDAReader.vcxproj b/src/filters/reader/CDDAReader/CDDAReader.vcxproj
-index e15f587..75dc611 100644
+index e15f587..806c752 100644
 --- a/src/filters/reader/CDDAReader/CDDAReader.vcxproj
 +++ b/src/filters/reader/CDDAReader/CDDAReader.vcxproj
 @@ -38,47 +38,56 @@
@@ -1167,54 +1154,54 @@ index e15f587..75dc611 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/CDXAReader/CDXAReader.vcxproj b/src/filters/reader/CDXAReader/CDXAReader.vcxproj
-index 42878b8..eb1012e 100644
+index 42878b8..e739c82 100644
 --- a/src/filters/reader/CDXAReader/CDXAReader.vcxproj
 +++ b/src/filters/reader/CDXAReader/CDXAReader.vcxproj
 @@ -38,47 +38,56 @@
@@ -1228,54 +1215,54 @@ index 42878b8..eb1012e 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/UDPReader/UDPReader.vcxproj b/src/filters/reader/UDPReader/UDPReader.vcxproj
-index 28a3918..cbeb934 100644
+index 28a3918..6c7a7df 100644
 --- a/src/filters/reader/UDPReader/UDPReader.vcxproj
 +++ b/src/filters/reader/UDPReader/UDPReader.vcxproj
 @@ -38,47 +38,56 @@
@@ -1289,54 +1276,54 @@ index 28a3918..cbeb934 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/VTSReader/VTSReader.vcxproj b/src/filters/reader/VTSReader/VTSReader.vcxproj
-index 22e2e19..b429b91 100644
+index 22e2e19..9cca508 100644
 --- a/src/filters/reader/VTSReader/VTSReader.vcxproj
 +++ b/src/filters/reader/VTSReader/VTSReader.vcxproj
 @@ -38,47 +38,56 @@
@@ -1350,54 +1337,54 @@ index 22e2e19..b429b91 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
-index 5c42304..0780952 100644
+index 5c42304..2efcde2 100644
 --- a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 +++ b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 @@ -38,47 +38,56 @@
@@ -1411,54 +1398,54 @@ index 5c42304..0780952 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/renderer/SyncClock/SyncClock.vcxproj b/src/filters/renderer/SyncClock/SyncClock.vcxproj
-index 5ec89b2..76fb886 100644
+index 5ec89b2..a657e8c 100644
 --- a/src/filters/renderer/SyncClock/SyncClock.vcxproj
 +++ b/src/filters/renderer/SyncClock/SyncClock.vcxproj
 @@ -22,27 +22,32 @@
@@ -1472,30 +1459,30 @@ index 5ec89b2..76fb886 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj b/src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj
-index 1f61125..0c9e755 100644
+index 1f61125..99ffad3 100644
 --- a/src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj
 +++ b/src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj
 @@ -22,27 +22,32 @@
@@ -1509,30 +1496,30 @@ index 1f61125..0c9e755 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/BaseSource/BaseSource.vcxproj b/src/filters/source/BaseSource/BaseSource.vcxproj
-index 90d3824..655c0f7 100644
+index 90d3824..ddf2549 100644
 --- a/src/filters/source/BaseSource/BaseSource.vcxproj
 +++ b/src/filters/source/BaseSource/BaseSource.vcxproj
 @@ -22,27 +22,32 @@
@@ -1546,30 +1533,30 @@ index 90d3824..655c0f7 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/D2VSource/D2VSource.vcxproj b/src/filters/source/D2VSource/D2VSource.vcxproj
-index ebc0936..92cff30 100644
+index ebc0936..79aa416 100644
 --- a/src/filters/source/D2VSource/D2VSource.vcxproj
 +++ b/src/filters/source/D2VSource/D2VSource.vcxproj
 @@ -38,47 +38,56 @@
@@ -1583,49 +1570,49 @@ index ebc0936..92cff30 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
@@ -1662,7 +1649,7 @@ index ebc0936..92cff30 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj b/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
-index 7ba8144..2e060e1 100644
+index 7ba8144..face3df 100644
 --- a/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
 +++ b/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
 @@ -38,47 +38,56 @@
@@ -1676,54 +1663,54 @@ index 7ba8144..2e060e1 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/FLACSource/FLACSource.vcxproj b/src/filters/source/FLACSource/FLACSource.vcxproj
-index 3ce6035..2496f94 100644
+index 3ce6035..6220dea 100644
 --- a/src/filters/source/FLACSource/FLACSource.vcxproj
 +++ b/src/filters/source/FLACSource/FLACSource.vcxproj
 @@ -38,47 +38,56 @@
@@ -1737,54 +1724,54 @@ index 3ce6035..2496f94 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/FLICSource/FLICSource.vcxproj b/src/filters/source/FLICSource/FLICSource.vcxproj
-index 5b746ba..610f02e 100644
+index 5b746ba..cc0dced 100644
 --- a/src/filters/source/FLICSource/FLICSource.vcxproj
 +++ b/src/filters/source/FLICSource/FLICSource.vcxproj
 @@ -38,47 +38,56 @@
@@ -1798,54 +1785,54 @@ index 5b746ba..610f02e 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj b/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
-index abe97f4..f9c894f 100644
+index abe97f4..3ee74fe 100644
 --- a/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
 +++ b/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
 @@ -38,47 +38,56 @@
@@ -1859,54 +1846,54 @@ index abe97f4..f9c894f 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/SubtitleSource/SubtitleSource.vcxproj b/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
-index 6a28745..510d6f9 100644
+index 6a28745..0fa0551 100644
 --- a/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
 +++ b/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
 @@ -38,47 +38,56 @@
@@ -1920,54 +1907,54 @@ index 6a28745..510d6f9 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj b/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
-index 0532361..c5d1914 100644
+index 0532361..39f814f 100644
 --- a/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
 +++ b/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
 @@ -38,47 +38,56 @@
@@ -1981,54 +1968,54 @@ index 0532361..c5d1914 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj b/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
-index 5ab3438..adcbdc8 100644
+index 5ab3438..8f87a77 100644
 --- a/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
 +++ b/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
 @@ -38,47 +38,56 @@
@@ -2042,54 +2029,54 @@ index 5ab3438..adcbdc8 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj b/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
-index e2ac2b1..c3d0d86 100644
+index e2ac2b1..fb6b08b 100644
 --- a/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
 +++ b/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
 @@ -22,27 +22,32 @@
@@ -2103,30 +2090,30 @@ index e2ac2b1..c3d0d86 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/BufferFilter/BufferFilter.vcxproj b/src/filters/transform/BufferFilter/BufferFilter.vcxproj
-index 36201c9..516a1d3 100644
+index 36201c9..b054af6 100644
 --- a/src/filters/transform/BufferFilter/BufferFilter.vcxproj
 +++ b/src/filters/transform/BufferFilter/BufferFilter.vcxproj
 @@ -38,47 +38,56 @@
@@ -2140,54 +2127,54 @@ index 36201c9..516a1d3 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj b/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
-index 2ea0832..2490a3c 100644
+index 2ea0832..725b9ba 100644
 --- a/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
 +++ b/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
 @@ -38,47 +38,56 @@
@@ -2201,54 +2188,54 @@ index 2ea0832..2490a3c 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj b/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
-index dd140b2..ba0cda9 100644
+index dd140b2..13c20cd 100644
 --- a/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
 +++ b/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
 @@ -38,47 +38,56 @@
@@ -2262,49 +2249,49 @@ index dd140b2..ba0cda9 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
@@ -2341,7 +2328,7 @@ index dd140b2..ba0cda9 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
-index 86c3a28..9b7ddb1 100644
+index 2e0d3a8..2ee54c4 100644
 --- a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 +++ b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 @@ -38,47 +38,56 @@
@@ -2355,49 +2342,49 @@ index 86c3a28..9b7ddb1 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
@@ -2434,7 +2421,7 @@ index 86c3a28..9b7ddb1 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj b/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
-index 158d633..7acd6f9 100644
+index 158d633..0c3c7ea 100644
 --- a/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
 +++ b/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
 @@ -38,47 +38,56 @@
@@ -2448,49 +2435,49 @@ index 158d633..7acd6f9 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
@@ -2527,37 +2514,37 @@ index 158d633..7acd6f9 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/transform/VSFilter/VSFilter.vcxproj b/src/filters/transform/VSFilter/VSFilter.vcxproj
-index ea2128d..52632ee 100644
+index ea2128d..4440280 100644
 --- a/src/filters/transform/VSFilter/VSFilter.vcxproj
 +++ b/src/filters/transform/VSFilter/VSFilter.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index d467f37..ce14b84 100644
+index 21ca9e3..63978eb 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -39,47 +39,56 @@
@@ -2571,49 +2558,49 @@ index d467f37..ce14b84 100644
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
@@ -2650,7 +2637,7 @@ index d467f37..ce14b84 100644
    </ItemDefinitionGroup>
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">
 diff --git a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
-index 6a04e51..2edfc4e 100644
+index 6a04e51..82143f4 100644
 --- a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 +++ b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 @@ -14,15 +14,18 @@
@@ -2663,20 +2650,20 @@ index 6a04e51..2edfc4e 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpcresources/mpcresources.vcxproj b/src/mpc-hc/mpcresources/mpcresources.vcxproj
-index 49540bd..8e628f3 100644
+index 6f27a44..644eb50 100644
 --- a/src/mpc-hc/mpcresources/mpcresources.vcxproj
 +++ b/src/mpc-hc/mpcresources/mpcresources.vcxproj
-@@ -190,8 +190,12 @@
+@@ -198,8 +198,12 @@
      <ProjectGuid>{A57CBE1A-3703-4237-950A-FC5F594FDB43}</ProjectGuid>
      <RootNamespace>mpcresources</RootNamespace>
      <Keyword>Win32Proj</Keyword>
@@ -2684,13 +2671,13 @@ index 49540bd..8e628f3 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 +  <PropertyGroup Label="Configuration">
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
 +  </PropertyGroup>
    <PropertyGroup>
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
 diff --git a/src/thirdparty/AsyncReader/AsyncReader.vcxproj b/src/thirdparty/AsyncReader/AsyncReader.vcxproj
-index 91131c8..23e3dc2 100644
+index 91131c8..16a5df7 100644
 --- a/src/thirdparty/AsyncReader/AsyncReader.vcxproj
 +++ b/src/thirdparty/AsyncReader/AsyncReader.vcxproj
 @@ -22,23 +22,28 @@
@@ -2703,27 +2690,27 @@ index 91131c8..23e3dc2 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/BaseClasses/BaseClasses.vcxproj b/src/thirdparty/BaseClasses/BaseClasses.vcxproj
-index 04b211e..52d37d6 100644
+index 04b211e..ab7c09e 100644
 --- a/src/thirdparty/BaseClasses/BaseClasses.vcxproj
 +++ b/src/thirdparty/BaseClasses/BaseClasses.vcxproj
 @@ -22,27 +22,32 @@
@@ -2737,30 +2724,30 @@ index 04b211e..52d37d6 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/Bento4/Bento4.vcxproj b/src/thirdparty/Bento4/Bento4.vcxproj
-index c07d965..1044fd8 100644
+index c07d965..1699668 100644
 --- a/src/thirdparty/Bento4/Bento4.vcxproj
 +++ b/src/thirdparty/Bento4/Bento4.vcxproj
 @@ -22,23 +22,28 @@
@@ -2773,27 +2760,27 @@ index c07d965..1044fd8 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/LCDUI/LCDUI.vcxproj b/src/thirdparty/LCDUI/LCDUI.vcxproj
-index 30badf9..38715b3 100644
+index 30badf9..bbb6654 100644
 --- a/src/thirdparty/LCDUI/LCDUI.vcxproj
 +++ b/src/thirdparty/LCDUI/LCDUI.vcxproj
 @@ -22,23 +22,28 @@
@@ -2806,27 +2793,27 @@ index 30badf9..38715b3 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
-index 4243a34..2e40ac0 100644
+index 4243a34..b6faf6e 100644
 --- a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 +++ b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 @@ -22,23 +22,28 @@
@@ -2839,27 +2826,27 @@ index 4243a34..2e40ac0 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ResizableLib/ResizableLib.vcxproj b/src/thirdparty/ResizableLib/ResizableLib.vcxproj
-index 3a34482..8dd912c 100644
+index 3a34482..57d0807 100644
 --- a/src/thirdparty/ResizableLib/ResizableLib.vcxproj
 +++ b/src/thirdparty/ResizableLib/ResizableLib.vcxproj
 @@ -22,27 +22,32 @@
@@ -2873,30 +2860,30 @@ index 3a34482..8dd912c 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/SoundTouch/source/SoundTouch.vcxproj b/src/thirdparty/SoundTouch/source/SoundTouch.vcxproj
-index 30bb0c5..15c54f3 100644
+index 30bb0c5..1d108be 100644
 --- a/src/thirdparty/SoundTouch/source/SoundTouch.vcxproj
 +++ b/src/thirdparty/SoundTouch/source/SoundTouch.vcxproj
 @@ -22,23 +22,28 @@
@@ -2909,27 +2896,27 @@ index 30bb0c5..15c54f3 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj b/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
-index 1e39a88..e7faa17 100644
+index 1e39a88..e0a0a9d 100644
 --- a/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
 +++ b/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
 @@ -22,27 +22,32 @@
@@ -2943,30 +2930,30 @@ index 1e39a88..e7faa17 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj b/src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj
-index 0c47951..ebfe974 100644
+index 0c47951..337a0eb 100644
 --- a/src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj
 +++ b/src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj
 @@ -21,19 +21,24 @@
@@ -2978,24 +2965,24 @@ index 0c47951..ebfe974 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/VirtualDub/system/system.vcxproj b/src/thirdparty/VirtualDub/system/system.vcxproj
-index 5f55e1d..c43380e 100644
+index 5f55e1d..f968567 100644
 --- a/src/thirdparty/VirtualDub/system/system.vcxproj
 +++ b/src/thirdparty/VirtualDub/system/system.vcxproj
 @@ -21,23 +21,28 @@
@@ -3008,27 +2995,27 @@ index 5f55e1d..c43380e 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ZenLib/ZenLib.vcxproj b/src/thirdparty/ZenLib/ZenLib.vcxproj
-index fedf4e4..ab83114 100644
+index fedf4e4..611f533 100644
 --- a/src/thirdparty/ZenLib/ZenLib.vcxproj
 +++ b/src/thirdparty/ZenLib/ZenLib.vcxproj
 @@ -22,23 +22,28 @@
@@ -3041,27 +3028,27 @@ index fedf4e4..ab83114 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index 35cef61..c8f8775 100644
+index dbb0b3c..69ff885 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@
@@ -3073,24 +3060,24 @@ index 35cef61..c8f8775 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>Makefile</ConfigurationType>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>Makefile</ConfigurationType>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>Makefile</ConfigurationType>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>Makefile</ConfigurationType>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/lcms2/lcms2.vcxproj b/src/thirdparty/lcms2/lcms2.vcxproj
-index 92e09ba..12a412c 100644
+index 92e09ba..433ee00 100644
 --- a/src/thirdparty/lcms2/lcms2.vcxproj
 +++ b/src/thirdparty/lcms2/lcms2.vcxproj
 @@ -22,23 +22,28 @@
@@ -3103,27 +3090,27 @@ index 92e09ba..12a412c 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/libflac/src/libFLAC/libflac.vcxproj b/src/thirdparty/libflac/src/libFLAC/libflac.vcxproj
-index ffafd84..2765d92 100644
+index ffafd84..8fdcfd5 100644
 --- a/src/thirdparty/libflac/src/libFLAC/libflac.vcxproj
 +++ b/src/thirdparty/libflac/src/libFLAC/libflac.vcxproj
 @@ -22,23 +22,28 @@
@@ -3136,22 +3123,22 @@ index ffafd84..2765d92 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
@@ -3316,7 +3303,7 @@ index 459a3d2..20807bc 100644
 -	return TRUE;
 -}
 diff --git a/src/thirdparty/mfc/afxglobals.cpp b/src/thirdparty/mfc/afxglobals.cpp
-index 108366c..0fca710 100644
+index 108366c..589027d 100644
 --- a/src/thirdparty/mfc/afxglobals.cpp
 +++ b/src/thirdparty/mfc/afxglobals.cpp
 @@ -41,22 +41,11 @@ extern CObList afxAllToolBars;
@@ -3347,7 +3334,7 @@ index 108366c..0fca710 100644
  
  CMemDC::CMemDC(CDC& dc, CWnd* pWnd) :
  	m_dc(dc), m_bMemDC(FALSE), m_hBufferedPaint(NULL), m_pOldBmp(NULL)
-@@ -68,70 +57,42 @@ CMemDC::CMemDC(CDC& dc, CWnd* pWnd) :
+@@ -68,23 +57,20 @@ CMemDC::CMemDC(CDC& dc, CWnd* pWnd) :
  	m_rect.right += pWnd->GetScrollPos(SB_HORZ);
  	m_rect.bottom += pWnd->GetScrollPos(SB_VERT);
  
@@ -3363,38 +3350,26 @@ index 108366c..0fca710 100644
 -		}
 +	if (!GetGlobalData()->m_bBufferedPaintInited)
 +	{
-+		BufferedPaintInit();
++		_AfxBufferedPaintInit();
 +		GetGlobalData()->m_bBufferedPaintInited = TRUE;
 +	}
  
 -		m_hBufferedPaint = (*afxGlobalData.m_pfBeginBufferedPaint)(dc.GetSafeHdc(), m_rect, AFX_BPBF_TOPDOWNDIB, NULL, &hdcPaint);
-+	m_hBufferedPaint = BeginBufferedPaint(dc.GetSafeHdc(), m_rect, BPBF_TOPDOWNDIB, NULL, &hdcPaint);
++	m_hBufferedPaint = _AfxBeginBufferedPaint(dc.GetSafeHdc(), m_rect, BPBF_TOPDOWNDIB, NULL, &hdcPaint);
  
 -		if (m_hBufferedPaint != NULL && hdcPaint != NULL)
 -		{
 -			m_bMemDC = TRUE;
 -			m_dcMem.Attach(hdcPaint);
 -		}
--	}
--	else
 +	if (m_hBufferedPaint != NULL && hdcPaint != NULL)
- 	{
--		if (m_bUseMemoryDC && m_dcMem.CreateCompatibleDC(&m_dc) && m_bmp.CreateCompatibleBitmap(&m_dc, m_rect.Width(), m_rect.Height()))
--		{
--			//-------------------------------------------------------------
--			// Off-screen DC successfully created. Better paint to it then!
--			//-------------------------------------------------------------
--			m_bMemDC = TRUE;
--			m_pOldBmp = m_dcMem.SelectObject(&m_bmp);
--		}
++	{
 +		m_bMemDC = TRUE;
 +		m_dcMem.Attach(hdcPaint);
-+	}
  	}
--}
- 
- CMemDC::CMemDC(CDC& dc, const CRect& rect) :
- 	m_dc(dc), m_bMemDC(FALSE), m_hBufferedPaint(NULL), m_pOldBmp(NULL), m_rect(rect)
+ 	else
+ 	{
+@@ -104,23 +90,20 @@ CMemDC::CMemDC(CDC& dc, const CRect& rect) :
  {
  	ASSERT(!m_rect.IsRectEmpty());
  
@@ -3410,61 +3385,35 @@ index 108366c..0fca710 100644
 -		}
 +	if (!GetGlobalData()->m_bBufferedPaintInited)
 +	{
-+		BufferedPaintInit();
++		_AfxBufferedPaintInit();
 +		GetGlobalData()->m_bBufferedPaintInited = TRUE;
 +	}
  
 -		m_hBufferedPaint = (*afxGlobalData.m_pfBeginBufferedPaint)(dc.GetSafeHdc(), m_rect, AFX_BPBF_TOPDOWNDIB, NULL, &hdcPaint);
-+	m_hBufferedPaint = BeginBufferedPaint(dc.GetSafeHdc(), m_rect, BPBF_TOPDOWNDIB, NULL, &hdcPaint);
++	m_hBufferedPaint = _AfxBeginBufferedPaint(dc.GetSafeHdc(), m_rect, BPBF_TOPDOWNDIB, NULL, &hdcPaint);
  
 -		if (m_hBufferedPaint != NULL && hdcPaint != NULL)
 -		{
 -			m_bMemDC = TRUE;
 -			m_dcMem.Attach(hdcPaint);
 -		}
--	}
--	else
 +	if (m_hBufferedPaint != NULL && hdcPaint != NULL)
- 	{
--		if (m_bUseMemoryDC && m_dcMem.CreateCompatibleDC(&m_dc) && m_bmp.CreateCompatibleBitmap(&m_dc, m_rect.Width(), m_rect.Height()))
--		{
--			//-------------------------------------------------------------
--			// Off-screen DC successfully created. Better paint to it then!
--			//-------------------------------------------------------------
--			m_bMemDC = TRUE;
--			m_pOldBmp = m_dcMem.SelectObject(&m_bmp);
--		}
++	{
 +		m_bMemDC = TRUE;
 +		m_dcMem.Attach(hdcPaint);
  	}
- }
- 
-@@ -140,31 +101,11 @@ CMemDC::~CMemDC()
+ 	else
+ 	{
+@@ -140,7 +123,7 @@ CMemDC::~CMemDC()
  	if (m_hBufferedPaint != NULL)
  	{
  		m_dcMem.Detach();
 -		(*afxGlobalData.m_pfEndBufferedPaint)(m_hBufferedPaint, TRUE);
--	}
--	else if (m_bMemDC)
--	{
--		//--------------------------------------
--		// Copy the results to the on-screen DC:
--		//--------------------------------------
--		CRect rectClip;
--		int nClipType = m_dc.GetClipBox(rectClip);
--
--		if (nClipType != NULLREGION)
--		{
--			if (nClipType != SIMPLEREGION)
--			{
--				rectClip = m_rect;
--			}
--
--			m_dc.BitBlt(rectClip.left, rectClip.top, rectClip.Width(), rectClip.Height(), &m_dcMem, rectClip.left, rectClip.top, SRCCOPY);
--		}
--
--		m_dcMem.SelectObject(m_pOldBmp);
-+		EndBufferedPaint(m_hBufferedPaint, TRUE);
++		_AfxEndBufferedPaint(m_hBufferedPaint, TRUE);
+ 	}
+ 	else if (m_bMemDC)
+ 	{
+@@ -164,7 +147,7 @@ CMemDC::~CMemDC()
  	}
  }
  
@@ -3473,7 +3422,7 @@ index 108366c..0fca710 100644
  {
  	ENSURE(lplf != NULL);
  	ENSURE(lParam != NULL);
-@@ -174,33 +115,6 @@ static int CALLBACK FontFamalyProcFonts(const LOGFONT FAR* lplf, const TEXTMETRI
+@@ -174,33 +157,6 @@ static int CALLBACK FontFamalyProcFonts(const LOGFONT FAR* lplf, const TEXTMETRI
  }
  
  /////////////////////////////////////////////////////////////////////////////
@@ -3507,11 +3456,15 @@ index 108366c..0fca710 100644
  // Cached system metrics, etc
  AFX_GLOBAL_DATA afxGlobalData;
  
-@@ -209,21 +123,9 @@ AFX_GLOBAL_DATA afxGlobalData;
+@@ -209,21 +165,13 @@ AFX_GLOBAL_DATA afxGlobalData;
  DWORD g_dwAfxGlobalDataRef = 0;
  #endif
  
 -// Initialization code
++// Use a global flag to determine whether IsDwmCompositionEnabled
++// needs to be called, because it is checked very often at runtime.
++static BOOL g_bCheckCompositionEnableSucceeded = FALSE;
++
  AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
  {
 -	// Detect the kind of OS:
@@ -3530,7 +3483,7 @@ index 108366c..0fca710 100644
  	m_bIsRibbonImageScale = TRUE;
  
  	// Cached system values(updated in CWnd::OnSysColorChange)
-@@ -231,46 +133,6 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
+@@ -231,46 +179,6 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
  	hbrBtnHilite = NULL;
  	hbrWindow = NULL;
  
@@ -3577,7 +3530,7 @@ index 108366c..0fca710 100644
  	m_hcurStretch = NULL;
  	m_hcurStretchVert = NULL;
  	m_hcurHand = NULL;
-@@ -282,11 +144,9 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
+@@ -282,11 +190,9 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
  	m_hcurNoMoveTab = NULL;
  
  	m_bUseSystemFont = FALSE;
@@ -3590,7 +3543,7 @@ index 108366c..0fca710 100644
  	m_bIsRTL = FALSE;
  	m_bBufferedPaintInited = FALSE;
  
-@@ -304,12 +164,31 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
+@@ -304,12 +210,31 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
  
  	m_bUseBuiltIn32BitIcons = TRUE;
  
@@ -3609,24 +3562,24 @@ index 108366c..0fca710 100644
 +	}
 +
 +	OSVERSIONINFOEX osvi = { sizeof(osvi), HIBYTE(_WIN32_WINNT_WIN7), LOBYTE(_WIN32_WINNT_WIN7) };
-+
-+	// The condition mask specifies to test for the OS major/minor versions using greater than or equal.
-+	DWORDLONG const dwlConditionMask = VerSetConditionMask(VerSetConditionMask(0, VER_MAJORVERSION, VER_GREATER_EQUAL), VER_MINORVERSION, VER_GREATER_EQUAL);
-+
-+	bIsWindows7 = VerifyVersionInfo(&osvi, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
  
 -	m_pTaskbarList = NULL;
 -	m_pTaskbarList3 = NULL;
 -	m_bTaskBarInterfacesAvailable = TRUE;
-+	bIsRemoteSession = GetSystemMetrics(SM_REMOTESESSION);
++	// The condition mask specifies to test for the OS major/minor versions using greater than or equal.
++	DWORDLONG const dwlConditionMask = VerSetConditionMask(VerSetConditionMask(0, VER_MAJORVERSION, VER_GREATER_EQUAL), VER_MINORVERSION, VER_GREATER_EQUAL);
  
++	bIsWindows7 = VerifyVersionInfo(&osvi, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
++
++	bIsRemoteSession = GetSystemMetrics(SM_REMOTESESSION);
++
 +	UpdateSysColors();
 +	UpdateFonts();
 +	OnSettingChange();
  	EnableAccessibilitySupport();
  }
  
-@@ -401,7 +280,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+@@ -401,7 +326,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
  	{
  		nFontHeight = 11;
  	}
@@ -3635,7 +3588,7 @@ index 108366c..0fca710 100644
  	{
  		nFontHeight--;
  	}
-@@ -415,21 +294,21 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+@@ -415,21 +340,21 @@ void AFX_GLOBAL_DATA::UpdateFonts()
  	if (!fUseSystemFont)
  	{
  		// Check for "Segoe UI" or "Tahoma" font existance:
@@ -3662,7 +3615,7 @@ index 108366c..0fca710 100644
  		}
  	}
  	
-@@ -474,7 +353,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+@@ -474,7 +399,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
  	lf.lfCharSet = SYMBOL_CHARSET;
  	lf.lfWeight = 0;
  	lf.lfHeight = ::GetSystemMetrics(SM_CYMENUCHECK) - 1;
@@ -3671,7 +3624,7 @@ index 108366c..0fca710 100644
  
  	fontMarlett.CreateFontIndirect(&lf);
  	lf.lfCharSet = bCharSet; // Restore charset
-@@ -493,7 +372,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+@@ -493,7 +418,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
  			lf.lfItalic = info.lfMenuFont.lfItalic;
  
  			{
@@ -3680,7 +3633,17 @@ index 108366c..0fca710 100644
  			}
  
  			fontVert.CreateFontIndirect(&lf);
-@@ -819,88 +698,29 @@ HBITMAP AFX_GLOBAL_DATA::CreateDitherBitmap(HDC hDC)
+@@ -567,6 +492,9 @@ void AFX_GLOBAL_DATA::OnSettingChange()
+ 		::SystemParametersInfo(SPI_GETWORKAREA, 0, &m_rectVirtual, 0);
+ 	}
+ 
++	// Reset flag so IsDwmCompositionEnabled is re-checked after setting change.
++	g_bCheckCompositionEnableSucceeded = FALSE;
++
+ 	// Get system menu animation type:
+ 	m_bMenuAnimation = FALSE;
+ 	m_bMenuFadeEffect = FALSE;
+@@ -819,88 +747,29 @@ HBITMAP AFX_GLOBAL_DATA::CreateDitherBitmap(HDC hDC)
  	return hbm;
  }
  
@@ -3727,14 +3690,10 @@ index 108366c..0fca710 100644
 -	HRESULT hr = S_OK;
 -
 -	if (!bIsWindows7 || !m_bTaskBarInterfacesAvailable)
-+	// Backward-compatibility wrapper
-+	CWinApp* pApp = AfxGetApp();
-+	if (pApp != NULL)
- 	{
+-	{
 -		return NULL;
-+		return pApp->GetITaskbarList3();
- 	}
- 
+-	}
+-
 -	if (m_pTaskbarList3 != NULL)
 -	{
 -		return m_pTaskbarList3;
@@ -3763,11 +3722,15 @@ index 108366c..0fca710 100644
 -	m_bTaskBarInterfacesAvailable = FALSE;
 -
 -	if (m_pTaskbarList != NULL)
--	{
++	// Backward-compatibility wrapper
++	CWinApp* pApp = AfxGetApp();
++	if (pApp != NULL)
+ 	{
 -		RELEASE(m_pTaskbarList);
 -		m_pTaskbarList = NULL;
--	}
--
++		return pApp->GetITaskbarList3();
+ 	}
+ 
 -	if (m_pTaskbarList3 != NULL)
 -	{
 -		RELEASE(m_pTaskbarList3);
@@ -3779,7 +3742,7 @@ index 108366c..0fca710 100644
  
  void AFX_GLOBAL_DATA::CleanUp()
  {
-@@ -917,21 +737,12 @@ void AFX_GLOBAL_DATA::CleanUp()
+@@ -917,21 +786,12 @@ void AFX_GLOBAL_DATA::CleanUp()
  	fontVertCaption.DeleteObject();
  	fontTooltip.DeleteObject();
  
@@ -3790,7 +3753,7 @@ index 108366c..0fca710 100644
 +	if (m_bBufferedPaintInited)
  	{
 -		m_pfBufferedPaintUnInit();
-+		BufferedPaintUnInit();
++		_AfxBufferedPaintUnInit();
  		m_bBufferedPaintInited = FALSE;
  	}
  
@@ -3803,7 +3766,7 @@ index 108366c..0fca710 100644
  	if (m_hinstDwmapiDLL != NULL)
  	{
  		::FreeLibrary(m_hinstDwmapiDLL);
-@@ -939,17 +750,14 @@ void AFX_GLOBAL_DATA::CleanUp()
+@@ -939,17 +799,14 @@ void AFX_GLOBAL_DATA::CleanUp()
  	}
  
  	m_bEnableAccessibility = FALSE;
@@ -3825,7 +3788,7 @@ index 108366c..0fca710 100644
  
  //	afxMenuHash.CleanUp();
  
-@@ -971,12 +779,12 @@ void ControlBarCleanUp()
+@@ -971,12 +828,12 @@ void ControlBarCleanUp()
  #ifdef _AFXDLL
  void AfxGlobalsAddRef()
  {
@@ -3840,7 +3803,7 @@ index 108366c..0fca710 100644
  	if (g_dwAfxGlobalDataRef == 0)
  	{
  		ControlBarCleanUp();
-@@ -1003,10 +811,7 @@ BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip
+@@ -1003,10 +860,7 @@ BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip
  
  	// In Windows XP, we need to call DrawThemeParentBackground function to implement
  	// transparent controls
@@ -3852,7 +3815,7 @@ index 108366c..0fca710 100644
  
  	if (!bRes)
  	{
-@@ -1024,7 +829,7 @@ BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip
+@@ -1024,7 +878,7 @@ BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip
  	return bRes;
  }
  
@@ -3861,12 +3824,22 @@ index 108366c..0fca710 100644
  {
  	if (pWnd->GetSafeHwnd() == NULL)
  	{
-@@ -1231,62 +1036,19 @@ BOOL AFX_GLOBAL_DATA::ExcludeTag(CString& strBuffer, LPCTSTR lpszTag, CString& s
+@@ -1037,7 +891,7 @@ CFrameWnd* AFXGetParentFrame(const CWnd* pWnd)
+ 	while (pParentWnd != NULL)
+ 	{
+ //		if (pParentWnd->IsKindOf(RUNTIME_CLASS(CPaneFrameWnd)))
+-////		{
++//		{
+ //			CPaneFrameWnd* pMiniFrame = DYNAMIC_DOWNCAST(CPaneFrameWnd, pParentWnd);
+ //			pParentWnd = pMiniFrame->GetParent();
+ //		}
+@@ -1231,62 +1085,30 @@ BOOL AFX_GLOBAL_DATA::ExcludeTag(CString& strBuffer, LPCTSTR lpszTag, CString& s
  	return TRUE;
  }
  
 -BOOL AFX_GLOBAL_DATA::DwmExtendFrameIntoClientArea(HWND hWnd, AFX_MARGINS* pMargins)
--{
++BOOL AFX_GLOBAL_DATA::IsDwmCompositionEnabled()
+ {
 -	if (m_pfDwmExtendFrameIntoClientArea == NULL)
 -	{
 -		return FALSE;
@@ -3875,15 +3848,20 @@ index 108366c..0fca710 100644
 -	HRESULT hres = (*m_pfDwmExtendFrameIntoClientArea)(hWnd, pMargins);
 -	return hres == S_OK;
 -}
--
++	// It appears that DwmIsCompositionEnabled can fail if called and
++	// then called again after a very short time, so use a static var
++	// so the last obtained value is returned if the method fails.
++	static BOOL bEnabled = FALSE;
+ 
 -LRESULT AFX_GLOBAL_DATA::DwmDefWindowProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp)
-+BOOL AFX_GLOBAL_DATA::IsDwmCompositionEnabled()
- {
+-{
 -	if (m_pfDwmDefWindowProc == NULL)
--	{
++	if (g_bCheckCompositionEnableSucceeded)
+ 	{
 -		return(LRESULT)-1;
--	}
--
++		return bEnabled;
+ 	}
+ 
 -	LRESULT lres = 0;
 -	(*m_pfDwmDefWindowProc)(hWnd, message, wp, lp, &lres);
 -
@@ -3893,18 +3871,16 @@ index 108366c..0fca710 100644
 -BOOL AFX_GLOBAL_DATA::DwmIsCompositionEnabled()
 -{
 -	if (m_pfDwmIsCompositionEnabled == NULL || bDisableAero)
--	{
++	HRESULT hr = _AfxDwmIsCompositionEnabled(&bEnabled);
++	if (hr == S_OK)
+ 	{
 -		return FALSE;
--	}
--
++		g_bCheckCompositionEnableSucceeded = TRUE;
+ 	}
+ 
 -	BOOL bEnabled = FALSE;
 -
 -	(*m_pfDwmIsCompositionEnabled)(&bEnabled);
-+	// It appears that DwmIsCompositionEnabled can fail if called and
-+	// then called again after a very short time, so use a static var
-+	// so the last obtained value is returned if the method fails.
-+	static BOOL bEnabled = FALSE;
-+	DwmIsCompositionEnabled(&bEnabled);
  	return bEnabled;
  }
  
@@ -3931,7 +3907,7 @@ index 108366c..0fca710 100644
  	{
  		pDC->DrawText(strText, rect, dwFlags);
  		return FALSE;
-@@ -1297,24 +1059,24 @@ BOOL AFX_GLOBAL_DATA::DrawTextOnGlass(HTHEME hTheme, CDC* pDC, int iPartId, int
+@@ -1297,24 +1119,24 @@ BOOL AFX_GLOBAL_DATA::DrawTextOnGlass(HTHEME hTheme, CDC* pDC, int iPartId, int
  	wchar_t* wbuf = new wchar_t[bstmp.Length() + 1];
  	wcscpy_s(wbuf, bstmp.Length() + 1, bstmp);
  
@@ -3959,11 +3935,11 @@ index 108366c..0fca710 100644
  	}
  
 -	(*m_pfDrawThemeTextEx)(hTheme, pDC->GetSafeHdc(), iPartId, iStateId, wbuf, -1, dwFlags, rect, &dto);
-+	DrawThemeTextEx(hTheme, pDC->GetSafeHdc(), iPartId, iStateId, wbuf, -1, dwFlags, rect, &dto);
++	_AfxDrawThemeTextEx(hTheme, pDC->GetSafeHdc(), iPartId, iStateId, wbuf, -1, dwFlags, rect, &dto);
  
  	delete [] wbuf;
  
-@@ -1325,7 +1087,10 @@ HCURSOR AFX_GLOBAL_DATA::GetHandCursor()
+@@ -1325,7 +1147,10 @@ HCURSOR AFX_GLOBAL_DATA::GetHandCursor()
  {
  	if (m_hcurHand == NULL)
  	{
@@ -3974,7 +3950,7 @@ index 108366c..0fca710 100644
  	}
  
  	return m_hcurHand;
-@@ -1333,42 +1098,17 @@ HCURSOR AFX_GLOBAL_DATA::GetHandCursor()
+@@ -1333,44 +1158,19 @@ HCURSOR AFX_GLOBAL_DATA::GetHandCursor()
  
  BOOL AFX_GLOBAL_DATA::Resume()
  {
@@ -4010,16 +3986,23 @@ index 108366c..0fca710 100644
  		EnableAccessibilitySupport();
  	}
  
-+//	CMFCVisualManagerOffice2007::Style style = CMFCVisualManagerOffice2007::GetStyle();
- //	CMFCVisualManagerOffice2007::CleanStyle ();
+-//	CMFCVisualManagerOffice2007::CleanStyle ();
++	CMFCVisualManagerOffice2007::Style style = CMFCVisualManagerOffice2007::GetStyle();
++	CMFCVisualManagerOffice2007::CleanStyle ();
  
- //	if (CMFCVisualManager::m_pRTIDefault != NULL)
- //	{
-+//		CMFCVisualManagerOffice2007::SetStyle(style);
- //		CMFCVisualManager::SetDefaultManager (CMFCVisualManager::m_pRTIDefault);
- //	}
+-//	if (CMFCVisualManager::m_pRTIDefault != NULL)
+-//	{
+-//		CMFCVisualManager::SetDefaultManager (CMFCVisualManager::m_pRTIDefault);
+-//	}
++	if (CMFCVisualManager::m_pRTIDefault != NULL)
++	{
++		CMFCVisualManagerOffice2007::SetStyle(style);
++		CMFCVisualManager::SetDefaultManager (CMFCVisualManager::m_pRTIDefault);
++	}
  
-@@ -1396,7 +1136,7 @@ BOOL AFX_GLOBAL_DATA::GetNonClientMetrics (NONCLIENTMETRICS& info)
+ 	return TRUE;
+ }
+@@ -1396,7 +1196,7 @@ BOOL AFX_GLOBAL_DATA::GetNonClientMetrics (NONCLIENTMETRICS& info)
  		LOGFONT lfMessageFont;
  	};
  
@@ -4028,7 +4011,7 @@ index 108366c..0fca710 100644
  	{
  		info.cbSize = sizeof(AFX_OLDNONCLIENTMETRICS);
  	}
-@@ -1446,118 +1186,5 @@ BOOL AFXAPI AfxIsMFCToolBar(CWnd* pWnd)
+@@ -1446,118 +1246,6 @@ BOOL AFXAPI AfxIsMFCToolBar(CWnd* pWnd)
  
  HRESULT AFX_GLOBAL_DATA::ShellCreateItemFromParsingName(PCWSTR pszPath, IBindCtx *pbc, REFIID riid, void **ppv)
  {
@@ -4108,8 +4091,9 @@ index 108366c..0fca710 100644
 -
 -	m_bD2DInitialized = TRUE;
 -	return TRUE;
--}
--
++	return _AfxSHCreateItemFromParsingName(pszPath, pbc, riid, ppv);
+ }
+ 
 -void AFX_GLOBAL_DATA::ReleaseD2DRefs()
 -{
 -	if (!m_bD2DInitialized)
@@ -4146,13 +4130,29 @@ index 108366c..0fca710 100644
 -	}
 -
 -	m_bD2DInitialized = FALSE;
-+	return SHCreateItemFromParsingName(pszPath, pbc, riid, ppv);
- }
+-}
 diff --git a/src/thirdparty/mfc/afxmaskededit.cpp b/src/thirdparty/mfc/afxmaskededit.cpp
-index 433958c..b27d3f9 100644
+index 433958c..7959de0 100644
 --- a/src/thirdparty/mfc/afxmaskededit.cpp
 +++ b/src/thirdparty/mfc/afxmaskededit.cpp
-@@ -27,7 +27,6 @@
+@@ -9,14 +9,10 @@
+ // Microsoft Foundation Classes product.
+ 
+ #include "stdafx.h"
+-
+-#include "afxmaskededit.h"
+-#include "afxctrlcontainer.h"
+-
+-#if 0
+ #include "afxcontrolbarutil.h"
++#include "afxmaskededit.h"
+ #include "afxtagmanager.h"
+-#endif
++#include "afxctrlcontainer.h"
+ 
+ #ifdef _DEBUG
+ #define new DEBUG_NEW
+@@ -27,7 +23,6 @@
  
  IMPLEMENT_DYNAMIC(CMFCMaskedEdit, CEdit)
  
@@ -4160,7 +4160,7 @@ index 433958c..b27d3f9 100644
  BEGIN_MESSAGE_MAP(CMFCMaskedEdit, CEdit)
  	ON_WM_CHAR()
  	ON_WM_KEYDOWN()
-@@ -42,7 +41,6 @@ BEGIN_MESSAGE_MAP(CMFCMaskedEdit, CEdit)
+@@ -42,7 +37,6 @@ BEGIN_MESSAGE_MAP(CMFCMaskedEdit, CEdit)
  	ON_MESSAGE(WM_GETTEXTLENGTH, &CMFCMaskedEdit::OnGetTextLength)
  	ON_MESSAGE(WM_MFC_INITCTRL, &CMFCMaskedEdit::OnInitControl)
  END_MESSAGE_MAP()
@@ -4168,7 +4168,7 @@ index 433958c..b27d3f9 100644
  
  CMFCMaskedEdit::CMFCMaskedEdit()
  {
-@@ -339,7 +337,7 @@ void CMFCMaskedEdit::SetWindowText(LPCTSTR lpszString)
+@@ -339,7 +333,7 @@ void CMFCMaskedEdit::SetWindowText(LPCTSTR lpszString)
  	CEdit::SetWindowText(lpszString);
  }
  
@@ -4177,7 +4177,15 @@ index 433958c..b27d3f9 100644
  {
  	return CEdit::GetWindowText(lpszStringBuf, nMaxCount);
  }
-@@ -1731,7 +1729,7 @@ LRESULT CMFCMaskedEdit::OnInitControl(WPARAM wParam, LPARAM lParam)
+@@ -1721,7 +1715,6 @@ LRESULT CMFCMaskedEdit::OnGetTextLength(WPARAM, LPARAM)
+ 
+ LRESULT CMFCMaskedEdit::OnInitControl(WPARAM wParam, LPARAM lParam)
+ {
+-#if 0
+ 	DWORD dwSize = (DWORD)wParam;
+ 	BYTE* pbInitData = (BYTE*)lParam;
+ 
+@@ -1731,7 +1724,7 @@ LRESULT CMFCMaskedEdit::OnInitControl(WPARAM wParam, LPARAM lParam)
  	CTagManager tagManager(strDst);
  
  	BOOL bSelectByGroup = TRUE;
@@ -4186,11 +4194,33 @@ index 433958c..b27d3f9 100644
  	{
  		EnableSelectByGroup(bSelectByGroup);
  	}
+@@ -1789,6 +1782,6 @@ LRESULT CMFCMaskedEdit::OnInitControl(WPARAM wParam, LPARAM lParam)
+ 	{
+ 		SetValidChars(strValidChars);
+ 	}
+-#endif
++
+ 	return 0;
+-}
+\ No newline at end of file
++}
 diff --git a/src/thirdparty/mfc/afxmaskededit.h b/src/thirdparty/mfc/afxmaskededit.h
-index 555cf89..01d7dfe 100644
+index 555cf89..992cc16 100644
 --- a/src/thirdparty/mfc/afxmaskededit.h
 +++ b/src/thirdparty/mfc/afxmaskededit.h
-@@ -24,7 +24,7 @@
+@@ -10,11 +10,7 @@
+ 
+ #pragma once
+ 
+-#include <afxwin.h>
+-
+-#if 0
+ #include "afxcontrolbarutil.h"
+-#endif
+ 
+ #ifdef _AFX_PACKING
+ #pragma pack(push, _AFX_PACKING)
+@@ -24,7 +20,7 @@
  #pragma component(minrebuild, off)
  #endif
  
@@ -4199,7 +4229,7 @@ index 555cf89..01d7dfe 100644
  // CMFCMaskedEdit window
  
  class CMFCMaskedEdit : public CEdit
-@@ -47,7 +47,7 @@ public:
+@@ -47,7 +43,7 @@ public:
  	void EnableSelectByGroup(BOOL bEnable = TRUE) { m_bSelectByGroup = bEnable; }
  
  	void SetWindowText(LPCTSTR lpszString);
@@ -4208,7 +4238,7 @@ index 555cf89..01d7dfe 100644
  	void GetWindowText(CString& rstrString) const;
  
  protected:
-@@ -80,7 +80,6 @@ private:
+@@ -80,7 +76,6 @@ private:
  	BOOL    m_bSetTextProcessing;
  
  protected:
@@ -4216,7 +4246,7 @@ index 555cf89..01d7dfe 100644
  	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
  	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
  	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-@@ -94,7 +93,6 @@ protected:
+@@ -94,7 +89,6 @@ protected:
  	afx_msg LRESULT OnGetText(WPARAM, LPARAM);
  	afx_msg LRESULT OnGetTextLength(WPARAM, LPARAM);
  	afx_msg LRESULT OnInitControl(WPARAM wParam, LPARAM lParam);
@@ -4225,7 +4255,7 @@ index 555cf89..01d7dfe 100644
  	DECLARE_MESSAGE_MAP()
  };
 diff --git a/src/thirdparty/mfc/winmdi.cpp b/src/thirdparty/mfc/winmdi.cpp
-index 28799e5..2b4a4f5 100644
+index 28799e5..27f4de3 100644
 --- a/src/thirdparty/mfc/winmdi.cpp
 +++ b/src/thirdparty/mfc/winmdi.cpp
 @@ -16,7 +16,6 @@
@@ -4278,17 +4308,19 @@ index 28799e5..2b4a4f5 100644
  END_MESSAGE_MAP()
  
  CMDIChildWnd::CMDIChildWnd()
-@@ -638,8 +634,8 @@ BOOL CMDIChildWnd::UpdateClientEdge(LPRECT lpRect)
+@@ -638,9 +634,9 @@ BOOL CMDIChildWnd::UpdateClientEdge(LPRECT lpRect)
  	// Only adjust for regular MDI child windows, not tabbed windows.  Attempting to set WS_EX_CLIENTEDGE on the tabbed
  	// MDI client area window is subverted by CMDIClientAreaWnd::OnStyleChanging, so we always try to reset the style and
  	// always repaint, none of which is necessary since the tabbed MDI children never change from maximized to restored.
 -	//CMDIChildWndEx* pChildEx = (pChild == NULL) ? NULL : DYNAMIC_DOWNCAST(CMDIChildWndEx, pChild);
 -	//BOOL bIsTabbedMDIChild = (pChildEx == NULL) ? FALSE : pChildEx->GetMDIFrameWndEx() != NULL && pChildEx->GetMDIFrameWndEx()->AreMDITabs();
-+	//BOOL bIsTabbedMDIChild = pChild != NULL && pChild->IsTabbedMDIChild();
+-	if ((pChild == NULL || pChild == this) /*&& !bIsTabbedMDIChild*/)
++	BOOL bIsTabbedMDIChild = pChild != NULL && pChild->IsTabbedMDIChild();
 +
- 	if ((pChild == NULL || pChild == this) /*&& !bIsTabbedMDIChild*/)
++	if ((pChild == NULL || pChild == this) && !bIsTabbedMDIChild)
  	{
  		// need to adjust the client edge style as max/restore happens
+ 		DWORD dwStyle = ::GetWindowLong(pFrameWnd->m_hWndMDIClient, GWL_EXSTYLE);
 @@ -820,6 +816,16 @@ void CMDIChildWnd::SetHandles(HMENU hMenu, HACCEL hAccel)
  	m_hAccelTable = hAccel;
  }
@@ -4316,7 +4348,7 @@ index 28799e5..2b4a4f5 100644
  				Checked::tcscat_s( szText, _countof(szText), szWinNumber ); 
  			}
 diff --git a/src/thirdparty/sizecbar/sizecbar.vcxproj b/src/thirdparty/sizecbar/sizecbar.vcxproj
-index eb34a82..6242302 100644
+index eb34a82..780535e 100644
 --- a/src/thirdparty/sizecbar/sizecbar.vcxproj
 +++ b/src/thirdparty/sizecbar/sizecbar.vcxproj
 @@ -22,27 +22,32 @@
@@ -4330,30 +4362,30 @@ index eb34a82..6242302 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/unrar/unrar.vcxproj b/src/thirdparty/unrar/unrar.vcxproj
-index 3af1868..712411f 100644
+index 3af1868..7f2ad96 100644
 --- a/src/thirdparty/unrar/unrar.vcxproj
 +++ b/src/thirdparty/unrar/unrar.vcxproj
 @@ -22,23 +22,28 @@
@@ -4366,27 +4398,27 @@ index 3af1868..712411f 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/zlib/zlib.vcxproj b/src/thirdparty/zlib/zlib.vcxproj
-index 193aee2..069aeb0 100644
+index 193aee2..e5370c6 100644
 --- a/src/thirdparty/zlib/zlib.vcxproj
 +++ b/src/thirdparty/zlib/zlib.vcxproj
 @@ -22,23 +22,28 @@
@@ -4399,22 +4431,22 @@ index 193aee2..069aeb0 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
++    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
