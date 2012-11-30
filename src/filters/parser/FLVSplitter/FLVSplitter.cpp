@@ -26,6 +26,7 @@
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
+#include <MMReg.h>
 #include "moreuuids.h"
 
 #define FLV_AUDIODATA     8
@@ -325,7 +326,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         name += L" ADPCM";
                         break;
                     case FLV_AUDIO_MP3:
-                        mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
+                        mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MPEGLAYER3);
                         name += L" MP3";
 
                         {

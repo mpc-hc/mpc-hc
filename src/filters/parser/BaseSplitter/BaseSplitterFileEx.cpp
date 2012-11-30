@@ -554,10 +554,10 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
     wfe->cbSize = WORD(size - sizeof(WAVEFORMATEX));
 
     if (h.layer == 3) {
-        wfe->wFormatTag = WAVE_FORMAT_MP3;
+        wfe->wFormatTag = WAVE_FORMAT_MPEGLAYER3;
 
         /*      MPEGLAYER3WAVEFORMAT* f = (MPEGLAYER3WAVEFORMAT*)wfe;
-                f->wfx.wFormatTag = WAVE_FORMAT_MP3;
+                f->wfx.wFormatTag = WAVE_FORMAT_MPEGLAYER3;
                 f->wID = MPEGLAYER3_ID_UNKNOWN;
                 f->fdwFlags = h.padding ? MPEGLAYER3_FLAG_PADDING_ON : MPEGLAYER3_FLAG_PADDING_OFF; // _OFF or _ISO ?
         */

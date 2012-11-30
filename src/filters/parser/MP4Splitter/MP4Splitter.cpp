@@ -702,7 +702,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             break;
                         case AP4_MPEG2_PART3_AUDIO_OTI: // ???
                         case AP4_MPEG1_AUDIO_OTI:
-                            mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
+                            mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MPEGLAYER3);
                             {
                                 m_pFile->Seek(sample.GetOffset());
                                 CBaseSplitterFileEx::mpahdr h;
