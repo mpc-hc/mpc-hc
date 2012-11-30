@@ -311,9 +311,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 32		"报告渲染失败的接口(pin)"
 33		"自动加载外部音轨"
 34		"自动加载字幕"
-35		"Control"
-36		"Volume step:"
-39		"unit(s)"
+35		"控制"
+36		"音量步进:"
+39		"单位(秒)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
