@@ -496,7 +496,7 @@ CMediaType CAudioSwitcherFilter::CreateNewOutputMediaType(CMediaType mt, long& c
 
     int bps = wfe->wBitsPerSample >> 3;
     int len = cbBuffer / (bps * wfe->nChannels);
-    int lenout = len * wfeout->nSamplesPerSec / wfe->nSamplesPerSec;
+    int lenout = (UINT64)len * wfeout->nSamplesPerSec / wfe->nSamplesPerSec;
     cbBuffer = lenout * bps * wfeout->nChannels;
 
     //  mt.lSampleSize = (ULONG)max(mt.lSampleSize, wfe->nAvgBytesPerSec * rtLen / 10000000i64);
