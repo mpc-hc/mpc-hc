@@ -3,22 +3,16 @@ Patches are always welcome. :)
 MPC-HC:
 1) Try to fix all /W3 warnings for Win32 in our code
 2) Run /analyze and fix some of the errors; memory leaks, NULL pointer dereferencing, buffer overruns etc
-3) Try to clean up the includes; there are a lot of unneeded includes, or includes which are
-   inherited from files they shouldn't be and are not included directly in the files that need them
-4) Try to speed up compilation by doing the above and also by optimizing the included headers
-   in stdafx.h for mpc-hc.vcxproj.
-5) Reorganize the player's Options
-6) Remove support for unneeded/obsolete renderers
-7) Update Bento4 library or see if we can use ffmpeg for this job
-8) Use "new" instead of "DNew" and make sure the leak detection works properly or get rid of DNew
-   and use VLD
-9) Replace the default old looking toolbar with a more modern one
-10) Test MSVC 2012 more. With the Beta we got hundreds of redefinitions for the DX headers which
-    is normal since DX is moved into the SDK but we have to use the DX SDK for d3dx9, the MFC
-    bloat workaround does not work as it is and unfortunately it is still needed. Another issue is
-    that subtitles don't show with MSVC 2012 x64 builds
-11) Add a .gitattributes file
-12) Add FFmpeg and lcms2 as submodules
+3) Reorganize the player's Options
+4) Remove support for unneeded/obsolete renderers
+5) Update Bento4 library or see if we can use ffmpeg for this job
+6) Replace the default old looking toolbar with a more modern one
+7) Test MSVC 2012 more. We get hundreds of redefinitions for the DX headers which
+   is normal since DX is moved into the SDK but we have to use the DX SDK for d3dx9, the MFC
+   bloat workaround does not work as it is and unfortunately it is still needed. Another issue is
+   that subtitles don't show with MSVC 2012 Release x64 builds
+8) Add a .gitattributes file
+9) Add FFmpeg and lcms2 as submodules
 
 MPCIconLib:
 1) Replace the file association icons with better looking ones
