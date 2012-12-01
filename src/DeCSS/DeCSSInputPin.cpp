@@ -39,8 +39,8 @@
 
 CDeCSSInputPin::CDeCSSInputPin(TCHAR* pObjectName, CTransformFilter* pFilter, HRESULT* phr, LPWSTR pName)
     : CTransformInputPin(pObjectName, pFilter, phr, pName)
+    , m_varient(-1)
 {
-    m_varient = -1;
     memset(m_Challenge, 0, sizeof(m_Challenge));
     memset(m_KeyCheck, 0, sizeof(m_KeyCheck));
     memset(m_DiscKey, 0, sizeof(m_DiscKey));

@@ -33,11 +33,11 @@
 
 CDVBSub::CDVBSub()
     : CBaseSub(ST_DVB)
+    , m_nBufferReadPos(0)
+    , m_nBufferWritePos(0)
+    , m_nBufferSize(0)
+    , m_pBuffer(NULL)
 {
-    m_nBufferReadPos  = 0;
-    m_nBufferWritePos = 0;
-    m_nBufferSize     = 0;
-    m_pBuffer         = NULL;
 }
 
 CDVBSub::~CDVBSub()
