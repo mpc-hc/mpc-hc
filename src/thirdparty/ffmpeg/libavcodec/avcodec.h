@@ -267,6 +267,7 @@ enum AVCodecID {
     AV_CODEC_ID_MTS2,
     AV_CODEC_ID_CLLC,
     AV_CODEC_ID_MSS2,
+    AV_CODEC_ID_BRENDER_PIX= MKBETAG('B','P','I','X'),
     AV_CODEC_ID_Y41P       = MKBETAG('Y','4','1','P'),
     AV_CODEC_ID_ESCAPE130  = MKBETAG('E','1','3','0'),
     AV_CODEC_ID_EXR        = MKBETAG('0','E','X','R'),
@@ -351,6 +352,8 @@ enum AVCodecID {
     AV_CODEC_ID_ADPCM_G722,
     AV_CODEC_ID_ADPCM_IMA_APC,
     AV_CODEC_ID_VIMA       = MKBETAG('V','I','M','A'),
+    AV_CODEC_ID_ADPCM_AFC  = MKBETAG('A','F','C',' '),
+    AV_CODEC_ID_ADPCM_IMA_OKI = MKBETAG('O','K','I',' '),
 
     /* AMR */
     AV_CODEC_ID_AMR_NB = 0x12000,
@@ -2420,7 +2423,12 @@ typedef struct AVCodecContext {
      *
      * Decoders cannot use the buffer after returning from
      * avcodec_decode_audio4(), so they will not call release_buffer(), as it
-     * is assumed to be released immediately upon return.
+     * is assumed to be released immediately upon return. In some rare cases,
+     * a decoder may need to call get_buffer() more than once in a single
+     * call to avcodec_decode_audio4(). In that case, when get_buffer() is
+     * called again after it has already been called once, the previously
+     * acquired buffer is assumed to be released at that time and may not be
+     * reused by the decoder.
      *
      * As a convenience, av_samples_get_buffer_size() and
      * av_samples_fill_arrays() in libavutil may be used by custom get_buffer()
@@ -4801,7 +4809,9 @@ int avcodec_default_execute2(AVCodecContext *c, int (*func)(AVCodecContext *c2, 
  * @param buf         buffer to use for frame data
  * @param buf_size    size of buffer
  * @param align       plane size sample alignment (0 = default)
- * @return            0 on success, negative error code on failure
+ * @return            >=0 on success, negative error code on failure
+ * @todo return the size of the allocated frame size in case of
+ * success, at the next libavutil bump
  */
 int avcodec_fill_audio_frame(AVFrame *frame, int nb_channels,
                              enum AVSampleFormat sample_fmt, const uint8_t *buf,

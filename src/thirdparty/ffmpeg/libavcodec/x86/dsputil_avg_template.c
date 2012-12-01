@@ -55,57 +55,7 @@ static void DEF(put_pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line_
         :"%"REG_a, "memory");
 }
 
-static void DEF(put_pixels4_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
-{
-    __asm__ volatile(
-        "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
-        "movd   (%1), %%mm0             \n\t"
-        "movd   (%2), %%mm1             \n\t"
-        "add    %4, %1                  \n\t"
-        "add    $4, %2                  \n\t"
-        PAVGB" %%mm1, %%mm0             \n\t"
-        "movd   %%mm0, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        "decl   %0                      \n\t"
-        "1:                             \n\t"
-        "movd   (%1), %%mm0             \n\t"
-        "add    %4, %1                  \n\t"
-        "movd   (%1), %%mm1             \n\t"
-        "movd   (%2), %%mm2             \n\t"
-        "movd   4(%2), %%mm3            \n\t"
-        "add    %4, %1                  \n\t"
-        PAVGB" %%mm2, %%mm0             \n\t"
-        PAVGB" %%mm3, %%mm1             \n\t"
-        "movd   %%mm0, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        "movd   %%mm1, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        "movd   (%1), %%mm0             \n\t"
-        "add    %4, %1                  \n\t"
-        "movd   (%1), %%mm1             \n\t"
-        "movd   8(%2), %%mm2            \n\t"
-        "movd   12(%2), %%mm3           \n\t"
-        "add    %4, %1                  \n\t"
-        PAVGB" %%mm2, %%mm0             \n\t"
-        PAVGB" %%mm3, %%mm1             \n\t"
-        "movd   %%mm0, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        "movd   %%mm1, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        "add    $16, %2                 \n\t"
-        "subl   $4, %0                  \n\t"
-        "jnz    1b                      \n\t"
-#if !HAVE_EBX_AVAILABLE //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
-        :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
-#else
-        :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
-#endif
-        :"S"((x86_reg)src1Stride), "D"((x86_reg)dstStride)
-        :"memory");
-}
-
-
+#ifndef SKIP_FOR_3DNOW
 static void DEF(put_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
 {
     __asm__ volatile(
@@ -226,58 +176,6 @@ static void DEF(put_no_rnd_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src
         :"memory");*/
 }
 
-static void DEF(avg_pixels4_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
-{
-    __asm__ volatile(
-        "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
-        "movd   (%1), %%mm0             \n\t"
-        "movd   (%2), %%mm1             \n\t"
-        "add    %4, %1                  \n\t"
-        "add    $4, %2                  \n\t"
-        PAVGB" %%mm1, %%mm0             \n\t"
-        PAVGB" (%3), %%mm0              \n\t"
-        "movd   %%mm0, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        "decl   %0                      \n\t"
-        "1:                             \n\t"
-        "movd   (%1), %%mm0             \n\t"
-        "add    %4, %1                  \n\t"
-        "movd   (%1), %%mm1             \n\t"
-        "add    %4, %1                  \n\t"
-        PAVGB" (%2), %%mm0              \n\t"
-        PAVGB" 4(%2), %%mm1             \n\t"
-        PAVGB" (%3), %%mm0              \n\t"
-        "movd   %%mm0, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        PAVGB" (%3), %%mm1              \n\t"
-        "movd   %%mm1, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        "movd   (%1), %%mm0             \n\t"
-        "add    %4, %1                  \n\t"
-        "movd   (%1), %%mm1             \n\t"
-        "add    %4, %1                  \n\t"
-        PAVGB" 8(%2), %%mm0             \n\t"
-        PAVGB" 12(%2), %%mm1            \n\t"
-        PAVGB" (%3), %%mm0              \n\t"
-        "movd   %%mm0, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        PAVGB" (%3), %%mm1              \n\t"
-        "movd   %%mm1, (%3)             \n\t"
-        "add    %5, %3                  \n\t"
-        "add    $16, %2                 \n\t"
-        "subl   $4, %0                  \n\t"
-        "jnz    1b                      \n\t"
-#if !HAVE_EBX_AVAILABLE //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
-        :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
-#else
-        :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
-#endif
-        :"S"((x86_reg)src1Stride), "D"((x86_reg)dstStride)
-        :"memory");
-}
-
-
 static void DEF(avg_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
 {
     __asm__ volatile(
@@ -332,6 +230,7 @@ static void DEF(avg_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
         :"r"(src1Stride), "r"(dstStride)
         :"memory");*/
 }
+#endif /* SKIP_FOR_3DNOW */
 
 static void DEF(put_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
@@ -373,6 +272,7 @@ static void DEF(put_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line
         :"%"REG_a, "memory");
 }
 
+#ifndef SKIP_FOR_3DNOW
 static void DEF(put_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
 {
     __asm__ volatile(
@@ -547,6 +447,7 @@ static void DEF(put_no_rnd_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *sr
         :"r"(src1Stride), "r"(dstStride)
         :"memory");*/
 }
+#endif /* SKIP_FOR_3DNOW */
 
 /* GL: this function does incorrect rounding if overflow */
 static void DEF(put_no_rnd_pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
@@ -872,31 +773,6 @@ static void DEF(avg_pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int line
         :"%"REG_a,  "memory");
 }
 
-static void DEF(avg_pixels4)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
-{
-    do {
-        __asm__ volatile(
-            "movd (%1), %%mm0               \n\t"
-            "movd (%1, %2), %%mm1           \n\t"
-            "movd (%1, %2, 2), %%mm2        \n\t"
-            "movd (%1, %3), %%mm3           \n\t"
-            PAVGB" (%0), %%mm0              \n\t"
-            PAVGB" (%0, %2), %%mm1          \n\t"
-            PAVGB" (%0, %2, 2), %%mm2       \n\t"
-            PAVGB" (%0, %3), %%mm3          \n\t"
-            "movd %%mm0, (%1)               \n\t"
-            "movd %%mm1, (%1, %2)           \n\t"
-            "movd %%mm2, (%1, %2, 2)        \n\t"
-            "movd %%mm3, (%1, %3)           \n\t"
-            ::"S"(pixels), "D"(block),
-             "r" ((x86_reg)line_size), "r"((x86_reg)3L*line_size)
-            :"memory");
-        block += 4*line_size;
-        pixels += 4*line_size;
-        h -= 4;
-    } while(h > 0);
-}
-
 //FIXME the following could be optimized too ...
 static void DEF(put_no_rnd_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){
     DEF(put_no_rnd_pixels8_x2)(block  , pixels  , line_size, h);
@@ -968,6 +844,7 @@ static void DEF(OPNAME ## 2tap_qpel8_l3)(uint8_t *dst, uint8_t *src, int stride,
     );\
 }
 
+#ifndef SKIP_FOR_3DNOW
 #define STORE_OP(a,b) PAVGB" "#a","#b" \n\t"
 QPEL_2TAP_L3(avg_)
 #undef STORE_OP
@@ -975,3 +852,4 @@ QPEL_2TAP_L3(avg_)
 QPEL_2TAP_L3(put_)
 #undef STORE_OP
 #undef QPEL_2TAP_L3
+#endif /* SKIP_FOR_3DNOW */

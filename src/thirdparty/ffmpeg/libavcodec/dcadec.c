@@ -1210,7 +1210,7 @@ static void dca_downmix(float **samples, int srcfmt,
     case DCA_STEREO_TOTAL:
     case DCA_STEREO_SUMDIFF:
     case DCA_4F2R:
-        av_log(NULL, 0, "Not implemented!\n");
+        av_log(NULL, AV_LOG_ERROR, "Not implemented!\n");
         break;
     case DCA_STEREO:
         break;
@@ -1440,10 +1440,10 @@ static int dca_filter_channels(DCAContext *s, int block_index)
     for (k = 0; k < s->prim_channels; k++) {
 /*        static float pcm_to_double[8] = { 32768.0, 32768.0, 524288.0, 524288.0,
                                             0, 8388608.0, 8388608.0 };*/
-        if(s->channel_order_tab[k] >= 0)
-        qmf_32_subbands(s, k, subband_samples[k],
-                        s->samples_chanptr[s->channel_order_tab[k]],
-                        M_SQRT1_2 / 32768.0 /* pcm_to_double[s->source_pcm_res] */);
+        if (s->channel_order_tab[k] >= 0)
+            qmf_32_subbands(s, k, subband_samples[k],
+                            s->samples_chanptr[s->channel_order_tab[k]],
+                            M_SQRT1_2 / 32768.0 /* pcm_to_double[s->source_pcm_res] */);
     }
 
     /* Down mixing */

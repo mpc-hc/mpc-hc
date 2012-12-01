@@ -123,7 +123,7 @@ static float gain_tab1[16];
 static float gain_tab2[31];
 
 
-/*
+/**
  * Regular 512 points IMDCT without overlapping, with the exception of the
  * swapping of odd bands caused by the reverse spectra of the QMF.
  *
@@ -202,7 +202,7 @@ static av_cold int atrac3_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-/*
+/**
  * Mantissa decoding
  *
  * @param selector     which table the output values are coded with
@@ -264,7 +264,7 @@ static void read_quant_spectral_coeffs(GetBitContext *gb, int selector,
     }
 }
 
-/*
+/**
  * Restore the quantized band spectrum coefficients
  *
  * @return subband count, fix for broken specification/files
@@ -321,7 +321,7 @@ static int decode_spectrum(GetBitContext *gb, float *output)
     return num_subbands;
 }
 
-/*
+/**
  * Restore the quantized tonal components
  *
  * @param components tonal components
@@ -405,7 +405,7 @@ static int decode_tonal_components(GetBitContext *gb,
     return component_count;
 }
 
-/*
+/**
  * Decode gain parameters for the coded bands
  *
  * @param block      the gainblock for the current band
@@ -440,7 +440,7 @@ static int decode_gain_control(GetBitContext *gb, GainBlock *block,
     return 0;
 }
 
-/*
+/**
  * Apply gain parameters and perform the MDCT overlapping part
  *
  * @param input   input buffer
@@ -497,7 +497,7 @@ static void gain_compensate_and_overlap(float *input, float *prev,
     memcpy(prev, &input[256], 256 * sizeof(*prev));
 }
 
-/*
+/**
  * Combine the tonal band spectrum and regular band spectrum
  *
  * @param spectrum        output spectrum buffer
@@ -624,7 +624,7 @@ static void channel_weighting(float *su1, float *su2, int *p3)
     }
 }
 
-/*
+/**
  * Decode a Sound Unit
  *
  * @param snd           the channel unit to be used
@@ -837,7 +837,7 @@ static int atrac3_decode_frame(AVCodecContext *avctx, void *data,
     return avctx->block_align;
 }
 
-static void atrac3_init_static_data(AVCodec *codec)
+static void atrac3_init_static_data(void)
 {
     int i;
 
@@ -864,6 +864,7 @@ static void atrac3_init_static_data(AVCodec *codec)
 
 static av_cold int atrac3_decode_init(AVCodecContext *avctx)
 {
+    static int static_init_done;
     int i, ret;
     int version, delay, samples_per_frame, frame_factor;
     const uint8_t *edata_ptr = avctx->extradata;
@@ -873,6 +874,10 @@ static av_cold int atrac3_decode_init(AVCodecContext *avctx)
         av_log(avctx, AV_LOG_ERROR, "Channel configuration error!\n");
         return AVERROR(EINVAL);
     }
+
+    if (!static_init_done)
+        atrac3_init_static_data();
+    static_init_done = 1;
 
     /* Take care of the codec-specific extradata. */
     if (avctx->extradata_size == 14) {
@@ -1003,7 +1008,6 @@ AVCodec ff_atrac3_decoder = {
     .id               = AV_CODEC_ID_ATRAC3,
     .priv_data_size   = sizeof(ATRAC3Context),
     .init             = atrac3_decode_init,
-    .init_static_data = atrac3_init_static_data,
     .close            = atrac3_decode_close,
     .decode           = atrac3_decode_frame,
     .capabilities     = CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,

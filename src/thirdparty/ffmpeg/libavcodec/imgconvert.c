@@ -177,13 +177,6 @@ int avcodec_get_pix_fmt_loss(enum AVPixelFormat dst_pix_fmt,
     return loss;
 }
 
-static int avg_bits_per_pixel(enum AVPixelFormat pix_fmt)
-{
-    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(pix_fmt);
-
-    return av_get_padded_bits_per_pixel(desc);
-}
-
 #if FF_API_FIND_BEST_PIX_FMT
 enum AVPixelFormat avcodec_find_best_pix_fmt(int64_t pix_fmt_mask, enum AVPixelFormat src_pix_fmt,
                                             int has_alpha, int *loss_ptr)
@@ -236,8 +229,8 @@ enum AVPixelFormat avcodec_find_best_pix_fmt_of_2(enum AVPixelFormat dst_pix_fmt
         loss_order2 = loss2 & loss_mask_order[i];
 
         if (loss_order1 == 0 && loss_order2 == 0 && dst_pix_fmt2 != AV_PIX_FMT_NONE && dst_pix_fmt1 != AV_PIX_FMT_NONE){ /* use format with smallest depth */
-            if(avg_bits_per_pixel(dst_pix_fmt2) != avg_bits_per_pixel(dst_pix_fmt1)) {
-                dst_pix_fmt = avg_bits_per_pixel(dst_pix_fmt2) < avg_bits_per_pixel(dst_pix_fmt1) ? dst_pix_fmt2 : dst_pix_fmt1;
+            if(av_get_padded_bits_per_pixel(desc2) != av_get_padded_bits_per_pixel(desc1)) {
+                dst_pix_fmt = av_get_padded_bits_per_pixel(desc2) < av_get_padded_bits_per_pixel(desc1) ? dst_pix_fmt2 : dst_pix_fmt1;
             } else {
                 dst_pix_fmt = desc2->nb_components < desc1->nb_components ? dst_pix_fmt2 : dst_pix_fmt1;
             }
@@ -640,13 +633,26 @@ int avpicture_deinterlace(AVPicture *dst, const AVPicture *src,
 
 int main(void){
     int i;
+    int err=0;
+    int skip = 0;
+
     for (i=0; i<AV_PIX_FMT_NB*2; i++) {
         AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(i);
-        if(!desc)
+        if(!desc || !desc->name) {
+            skip ++;
             continue;
-        av_log(0, AV_LOG_INFO, "pix fmt %s yuv_plan:%d avg_bpp:%d colortype:%d\n", desc->name, is_yuv_planar(desc), avg_bits_per_pixel(i), get_color_type(desc));
+        }
+        if (skip) {
+            av_log(NULL, AV_LOG_INFO, "%3d unused pixel format values\n", skip);
+            skip = 0;
+        }
+        av_log(NULL, AV_LOG_INFO, "pix fmt %s yuv_plan:%d avg_bpp:%d colortype:%d\n", desc->name, is_yuv_planar(desc), av_get_padded_bits_per_pixel(desc), get_color_type(desc));
+        if ((!(desc->flags & PIX_FMT_ALPHA)) != (desc->nb_components != 2 && desc->nb_components != 4)) {
+            av_log(NULL, AV_LOG_ERROR, "Alpha flag mismatch\n");
+            err = 1;
+        }
     }
-    return 0;
+    return err;
 }
 
 #endif

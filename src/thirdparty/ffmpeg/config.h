@@ -99,6 +99,7 @@
 #endif
 #define EXTERN_ASM _
 
+#define ARCH_AARCH64 0
 #define ARCH_ALPHA 0
 #define ARCH_ARM 0
 #define ARCH_AVR32 0
@@ -116,6 +117,8 @@
 #define ARCH_SH4 0
 #define ARCH_SPARC 0
 #define ARCH_SPARC64 0
+#define ARCH_TILEGX 0
+#define ARCH_TILEPRO 0
 #define ARCH_TOMI 0
 
 #define HAVE_ALTIVEC 0
@@ -206,6 +209,7 @@
 #define HAVE_SCHED_GETAFFINITY 0
 #define HAVE_SDL 0
 #define HAVE_SDL_VIDEO_SIZE 0
+#define HAVE_SETCONSOLETEXTATTRIBUTE 1
 #define HAVE_SETMODE 1
 #define HAVE_SETRLIMIT 0
 #define HAVE_SLEEP 1
@@ -253,6 +257,7 @@
 #define HAVE_ATTRIBUTE_PACKED 1
 #define HAVE_ATTRIBUTE_MAY_ALIAS 1
 
+#define HAVE_ACCESS 1
 #define HAVE_ATANF 1
 #define HAVE_ATAN2F 1
 #define HAVE_CBRTF 1

@@ -71,6 +71,8 @@ static int read_number(const AVOption *o, void *dst, double *num, int *den, int6
 {
     switch (o->type) {
     case AV_OPT_TYPE_FLAGS:     *intnum = *(unsigned int*)dst;return 0;
+    case AV_OPT_TYPE_PIXEL_FMT:
+    case AV_OPT_TYPE_SAMPLE_FMT:
     case AV_OPT_TYPE_INT:       *intnum = *(int         *)dst;return 0;
     case AV_OPT_TYPE_INT64:     *intnum = *(int64_t     *)dst;return 0;
     case AV_OPT_TYPE_FLOAT:     *num    = *(float       *)dst;return 0;
@@ -402,6 +404,62 @@ int av_opt_set_bin(void *obj, const char *name, const uint8_t *val, int len, int
     return 0;
 }
 
+int av_opt_set_image_size(void *obj, const char *name, int w, int h, int search_flags)
+{
+    void *target_obj;
+    const AVOption *o = av_opt_find2(obj, name, NULL, 0, search_flags, &target_obj);
+
+    if (!o || !target_obj)
+        return AVERROR_OPTION_NOT_FOUND;
+    if (o->type != AV_OPT_TYPE_IMAGE_SIZE) {
+        av_log(obj, AV_LOG_ERROR,
+               "The value set by option '%s' is not an image size.\n", o->name);
+        return AVERROR(EINVAL);
+    }
+    if (w<0 || h<0) {
+        av_log(obj, AV_LOG_ERROR,
+               "Invalid negative size value %dx%d for size '%s'\n", w, h, o->name);
+        return AVERROR(EINVAL);
+    }
+    *(int *)(((uint8_t *)target_obj)             + o->offset) = w;
+    *(int *)(((uint8_t *)target_obj+sizeof(int)) + o->offset) = h;
+    return 0;
+}
+
+static int set_format(void *obj, const char *name, int fmt, int search_flags,
+                      enum AVOptionType type, const char *desc, int max)
+{
+    void *target_obj;
+    const AVOption *o = av_opt_find2(obj, name, NULL, 0,
+                                     search_flags, &target_obj);
+    if (!o || !target_obj)
+        return AVERROR_OPTION_NOT_FOUND;
+    if (o->type != type) {
+        av_log(obj, AV_LOG_ERROR,
+               "The value set by option '%s' is not a %s format", name, desc);
+        return AVERROR(EINVAL);
+    }
+
+    if (fmt < -1 || fmt > max) {
+        av_log(obj, AV_LOG_ERROR,
+               "Value %d for parameter '%s' out of %s format range [-1 - %d]\n",
+               fmt, name, desc, max);
+        return AVERROR(ERANGE);
+    }
+    *(int *)(((uint8_t *)target_obj) + o->offset) = fmt;
+    return 0;
+}
+
+int av_opt_set_pixel_fmt(void *obj, const char *name, enum AVPixelFormat fmt, int search_flags)
+{
+    return set_format(obj, name, fmt, search_flags, AV_OPT_TYPE_PIXEL_FMT, "pixel", AV_PIX_FMT_NB-1);
+}
+
+int av_opt_set_sample_fmt(void *obj, const char *name, enum AVSampleFormat fmt, int search_flags)
+{
+    return set_format(obj, name, fmt, search_flags, AV_OPT_TYPE_SAMPLE_FMT, "sample", AV_SAMPLE_FMT_NB-1);
+}
+
 #if FF_API_OLD_AVOPTIONS
 /**
  *
@@ -596,6 +654,52 @@ int av_opt_get_q(void *obj, const char *name, int search_flags, AVRational *out_
     return 0;
 }
 
+int av_opt_get_image_size(void *obj, const char *name, int search_flags, int *w_out, int *h_out)
+{
+    void *dst, *target_obj;
+    const AVOption *o = av_opt_find2(obj, name, NULL, 0, search_flags, &target_obj);
+    if (!o || !target_obj)
+        return AVERROR_OPTION_NOT_FOUND;
+    if (o->type != AV_OPT_TYPE_IMAGE_SIZE) {
+        av_log(obj, AV_LOG_ERROR,
+               "The value for option '%s' is not an image size.\n", name);
+        return AVERROR(EINVAL);
+    }
+
+    dst = ((uint8_t*)target_obj) + o->offset;
+    if (w_out) *w_out = *(int *)dst;
+    if (h_out) *h_out = *((int *)dst+1);
+    return 0;
+}
+
+static int get_format(void *obj, const char *name, int search_flags, int *out_fmt,
+                      enum AVOptionType type, const char *desc)
+{
+    void *dst, *target_obj;
+    const AVOption *o = av_opt_find2(obj, name, NULL, 0, search_flags, &target_obj);
+    if (!o || !target_obj)
+        return AVERROR_OPTION_NOT_FOUND;
+    if (o->type != type) {
+        av_log(obj, AV_LOG_ERROR,
+               "The value for option '%s' is not a %s format.\n", desc, name);
+        return AVERROR(EINVAL);
+    }
+
+    dst = ((uint8_t*)target_obj) + o->offset;
+    *out_fmt = *(int *)dst;
+    return 0;
+}
+
+int av_opt_get_pixel_fmt(void *obj, const char *name, int search_flags, enum AVPixelFormat *out_fmt)
+{
+    return get_format(obj, name, search_flags, out_fmt, AV_OPT_TYPE_PIXEL_FMT, "pixel");
+}
+
+int av_opt_get_sample_fmt(void *obj, const char *name, int search_flags, enum AVSampleFormat *out_fmt)
+{
+    return get_format(obj, name, search_flags, out_fmt, AV_OPT_TYPE_SAMPLE_FMT, "sample");
+}
+
 int av_opt_flag_is_set(void *obj, const char *field_name, const char *flag_name)
 {
     const AVOption *field = av_opt_find(obj, field_name, NULL, 0, 0);
@@ -709,6 +813,7 @@ void av_opt_set_defaults(void *s)
 void av_opt_set_defaults2(void *s, int mask, int flags)
 {
 #endif
+    const AVClass *class = *(AVClass **)s;
     const AVOption *opt = NULL;
     while ((opt = av_opt_next(s, opt)) != NULL) {
 #if FF_API_OLD_AVOPTIONS
@@ -739,9 +844,23 @@ void av_opt_set_defaults2(void *s, int mask, int flags)
             break;
             case AV_OPT_TYPE_STRING:
             case AV_OPT_TYPE_IMAGE_SIZE:
-            case AV_OPT_TYPE_PIXEL_FMT:
-            case AV_OPT_TYPE_SAMPLE_FMT:
                 av_opt_set(s, opt->name, opt->default_val.str, 0);
+                break;
+            case AV_OPT_TYPE_PIXEL_FMT:
+#if LIBAVUTIL_VERSION_MAJOR < 53
+                if (class->version && class->version < AV_VERSION_INT(52, 10, 100))
+                    av_opt_set(s, opt->name, opt->default_val.str, 0);
+                else
+#endif
+                    av_opt_set_pixel_fmt(s, opt->name, opt->default_val.i64, 0);
+                break;
+            case AV_OPT_TYPE_SAMPLE_FMT:
+#if LIBAVUTIL_VERSION_MAJOR < 53
+                if (class->version && class->version < AV_VERSION_INT(52, 10, 100))
+                    av_opt_set(s, opt->name, opt->default_val.str, 0);
+                else
+#endif
+                    av_opt_set_sample_fmt(s, opt->name, opt->default_val.i64, 0);
                 break;
             case AV_OPT_TYPE_BINARY:
                 /* Cannot set default for binary */
@@ -1060,8 +1179,8 @@ static const AVOption test_options[]= {
 {"lame",     "set lame flag ", 0,                AV_OPT_TYPE_CONST,    {.i64 = TEST_FLAG_LAME}, INT_MIN,  INT_MAX, 0, "flags" },
 {"mu",       "set mu flag ",   0,                AV_OPT_TYPE_CONST,    {.i64 = TEST_FLAG_MU},   INT_MIN,  INT_MAX, 0, "flags" },
 {"size",     "set size",       OFFSET(w),        AV_OPT_TYPE_IMAGE_SIZE,{0},             0,        0                   },
-{"pix_fmt",  "set pixfmt",     OFFSET(pix_fmt),  AV_OPT_TYPE_PIXEL_FMT,{0},              0,        0                   },
-{"sample_fmt", "set samplefmt", OFFSET(sample_fmt), AV_OPT_TYPE_SAMPLE_FMT,{0},          0,        0                   },
+{"pix_fmt",  "set pixfmt",     OFFSET(pix_fmt),  AV_OPT_TYPE_PIXEL_FMT, {.i64 = AV_PIX_FMT_NONE}},
+{"sample_fmt", "set samplefmt", OFFSET(sample_fmt), AV_OPT_TYPE_SAMPLE_FMT, {.i64 = AV_SAMPLE_FMT_NONE}},
 {NULL},
 };
 

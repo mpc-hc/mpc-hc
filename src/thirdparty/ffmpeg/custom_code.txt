@@ -4,8 +4,6 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 * config.h
 * makefile
 
-* libavcodec/aacdec.c
-* libavcodec/aacsbr.c
 * libavcodec/allcodecs.c
 * libavcodec/avcodec.h
 * libavcodec/h263dec.c
