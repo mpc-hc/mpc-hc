@@ -162,7 +162,7 @@ index 57b706e..e2d458b 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/SubPic/SubPic.vcxproj b/src/SubPic/SubPic.vcxproj
-index 09c59cd..d891165 100644
+index 09c59cd..7eb746b 100644
 --- a/src/SubPic/SubPic.vcxproj
 +++ b/src/SubPic/SubPic.vcxproj
 @@ -22,27 +22,32 @@
@@ -188,7 +188,7 @@ index 09c59cd..d891165 100644
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110_xp</PlatformToolset>
++    <PlatformToolset>v110</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -198,6 +198,14 @@ index 09c59cd..d891165 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
+@@ -101,6 +106,7 @@
+     <ClCompile>
+       <AdditionalIncludeDirectories>..\..\include;..\thirdparty;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+     </ClCompile>
+     <Lib>
+       <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/src/Subtitles/Subtitles.vcxproj b/src/Subtitles/Subtitles.vcxproj
 index 944e53d..743a96c 100644
 --- a/src/Subtitles/Subtitles.vcxproj
@@ -2544,7 +2552,7 @@ index ea2128d..4440280 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 21ca9e3..63978eb 100644
+index 21ca9e3..edd23cd 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -39,47 +39,56 @@
@@ -2636,6 +2644,40 @@ index 21ca9e3..63978eb 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">
+@@ -297,10 +310,6 @@
+     </ProjectReference>
+   </ItemDefinitionGroup>
+   <ItemGroup>
+-    <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp" />
+-    <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp" />
+-    <ClCompile Include="..\thirdparty\mfc\afxmaskededit.cpp" />
+-    <ClCompile Include="..\thirdparty\mfc\winmdi.cpp" />
+     <ClCompile Include="AboutDlg.cpp" />
+     <ClCompile Include="AppSettings.cpp" />
+     <ClCompile Include="AuthDlg.cpp" />
+diff --git a/src/mpc-hc/mpc-hc.vcxproj.filters b/src/mpc-hc/mpc-hc.vcxproj.filters
+index 6544739..95996cb 100644
+--- a/src/mpc-hc/mpc-hc.vcxproj.filters
++++ b/src/mpc-hc/mpc-hc.vcxproj.filters
+@@ -342,18 +342,6 @@
+     <ClCompile Include="AboutDlg.cpp">
+       <Filter>Source Files</Filter>
+     </ClCompile>
+-    <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp">
+-      <Filter>Source Files</Filter>
+-    </ClCompile>
+-    <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp">
+-      <Filter>Source Files</Filter>
+-    </ClCompile>
+-    <ClCompile Include="..\thirdparty\mfc\afxmaskededit.cpp">
+-      <Filter>Source Files</Filter>
+-    </ClCompile>
+-    <ClCompile Include="..\thirdparty\mfc\winmdi.cpp">
+-      <Filter>Source Files</Filter>
+-    </ClCompile>
+     <ClCompile Include="MPCPngImage.cpp">
+       <Filter>Source Files</Filter>
+     </ClCompile>
 diff --git a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 index 6a04e51..82143f4 100644
 --- a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
@@ -3048,7 +3090,7 @@ index fedf4e4..611f533 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index dbb0b3c..69ff885 100644
+index c725bcc..5c985f9 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@
@@ -3143,10 +3185,24 @@ index ffafd84..8fdcfd5 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/mfc/afxctrlcontainer.cpp b/src/thirdparty/mfc/afxctrlcontainer.cpp
-index 459a3d2..20807bc 100644
+index 459a3d2..fb43774 100644
 --- a/src/thirdparty/mfc/afxctrlcontainer.cpp
 +++ b/src/thirdparty/mfc/afxctrlcontainer.cpp
-@@ -31,7 +31,7 @@
+@@ -12,9 +12,7 @@
+ //
+ 
+ #include "stdafx.h"
+-#undef SubclassWindow
+ #include "afxctrlcontainer.h"
+-#if 0
+ #include "afxtagmanager.h"
+ #include "afxbutton.h"
+ #include "afxcolorbutton.h"
+@@ -27,11 +25,10 @@
+ #include "afxshelllistctrl.h"
+ #include "afxshelltreectrl.h"
+ #include "afxvslistbox.h"
+-#endif
  
  ////////////////////////////////////////////////////////////////////////////
  
@@ -3155,7 +3211,7 @@ index 459a3d2..20807bc 100644
  {
  	ASSERT(lpszClassName != NULL);
  	ASSERT(lpszBaseClassName != NULL);
-@@ -39,7 +39,7 @@ static void DoRegisterWindowClass(LPCTSTR lpszClassName, LPCTSTR lpszBaseClassNa
+@@ -39,7 +36,7 @@ static void DoRegisterWindowClass(LPCTSTR lpszClassName, LPCTSTR lpszBaseClassNa
  	WNDCLASS wnd = {0};
  
  	HINSTANCE hInst = AfxGetInstanceHandle();
@@ -3164,7 +3220,7 @@ index 459a3d2..20807bc 100644
  	{
  		wnd.style = CS_DBLCLKS;
  		wnd.hInstance = hInst;
-@@ -50,21 +50,6 @@ static void DoRegisterWindowClass(LPCTSTR lpszClassName, LPCTSTR lpszBaseClassNa
+@@ -50,21 +47,6 @@ static void DoRegisterWindowClass(LPCTSTR lpszClassName, LPCTSTR lpszBaseClassNa
  	AfxRegisterClass(&wnd);
  }
  
@@ -3186,7 +3242,7 @@ index 459a3d2..20807bc 100644
  ////////////////////////////////////////////////////////////////////////////
  // CMFCControlContainer
  
-@@ -78,36 +63,6 @@ CMFCControlContainer::~CMFCControlContainer()
+@@ -78,36 +60,6 @@ CMFCControlContainer::~CMFCControlContainer()
  	ClearControlData();
  }
  
@@ -3223,7 +3279,25 @@ index 459a3d2..20807bc 100644
  void CMFCControlContainer::FreeSubclassedControls()
  {
  	// Free subclassed controls: 
-@@ -200,17 +155,6 @@ BOOL CMFCControlContainer::IsSubclassedFeaturePackControl(HWND hWndCtrl)
+@@ -129,7 +81,7 @@ CWnd* CMFCControlContainer::CreateDlgControl(LPCTSTR lpszClassName)
+ 	{
+ 		CString strClass = lpszClassName;
+ 		CWnd* pWndSubclassedCtrl = NULL;
+-#if 0
++
+ 		if (strClass == _T("MFCButton"))
+ 		{
+ 			pWndSubclassedCtrl = new CMFCButton;
+@@ -174,7 +126,7 @@ CWnd* CMFCControlContainer::CreateDlgControl(LPCTSTR lpszClassName)
+ 		{
+ 			pWndSubclassedCtrl = new CVSListBox;
+ 		}
+-#endif
++
+ 		return pWndSubclassedCtrl;
+ 	}
+ 
+@@ -200,17 +152,6 @@ BOOL CMFCControlContainer::IsSubclassedFeaturePackControl(HWND hWndCtrl)
  	return FALSE;
  }
  
@@ -3241,7 +3315,7 @@ index 459a3d2..20807bc 100644
  BOOL CMFCControlContainer::ReSubclassControl(HWND hWndCtrl, WORD nIDC, CWnd& control)
  {
  	if (hWndCtrl == NULL)
-@@ -315,60 +259,3 @@ void CMFCControlContainer::ClearControlData()
+@@ -315,60 +256,3 @@ void CMFCControlContainer::ClearControlData()
  
  	m_mapControlData.RemoveAll();
  }
@@ -3303,10 +3377,34 @@ index 459a3d2..20807bc 100644
 -	return TRUE;
 -}
 diff --git a/src/thirdparty/mfc/afxglobals.cpp b/src/thirdparty/mfc/afxglobals.cpp
-index 108366c..589027d 100644
+index 108366c..8ca0f39 100644
 --- a/src/thirdparty/mfc/afxglobals.cpp
 +++ b/src/thirdparty/mfc/afxglobals.cpp
-@@ -41,22 +41,11 @@ extern CObList afxAllToolBars;
+@@ -10,16 +10,8 @@
+ 
+ #include "stdafx.h"
+ #include "comdef.h"
+-// #include "afxcontrolbarutil.h"
++#include "afxcontrolbarutil.h"
+ #include "afxglobals.h"
+-
+-#pragma warning(disable:4995 4996)
+-
+-#if defined(__INTEL_COMPILER)
+-#pragma warning(disable:810)
+-#endif
+-
+-#if 0
+ #include "afxvisualmanager.h"
+ #include "afxkeyboardmanager.h"
+ #include "afxmenuhash.h"
+@@ -35,28 +27,16 @@
+ #include "afxoleipframewndex.h"
+ #include "afxoledocipframewndex.h"
+ #include "afxmdichildwndex.h"
+-#endif
+ 
+ extern CObList afxAllToolBars;
  
  BOOL CMemDC::m_bUseMemoryDC = TRUE;
  
@@ -3334,7 +3432,7 @@ index 108366c..589027d 100644
  
  CMemDC::CMemDC(CDC& dc, CWnd* pWnd) :
  	m_dc(dc), m_bMemDC(FALSE), m_hBufferedPaint(NULL), m_pOldBmp(NULL)
-@@ -68,23 +57,20 @@ CMemDC::CMemDC(CDC& dc, CWnd* pWnd) :
+@@ -68,23 +48,20 @@ CMemDC::CMemDC(CDC& dc, CWnd* pWnd) :
  	m_rect.right += pWnd->GetScrollPos(SB_HORZ);
  	m_rect.bottom += pWnd->GetScrollPos(SB_VERT);
  
@@ -3369,7 +3467,7 @@ index 108366c..589027d 100644
  	}
  	else
  	{
-@@ -104,23 +90,20 @@ CMemDC::CMemDC(CDC& dc, const CRect& rect) :
+@@ -104,23 +81,20 @@ CMemDC::CMemDC(CDC& dc, const CRect& rect) :
  {
  	ASSERT(!m_rect.IsRectEmpty());
  
@@ -3404,7 +3502,7 @@ index 108366c..589027d 100644
  	}
  	else
  	{
-@@ -140,7 +123,7 @@ CMemDC::~CMemDC()
+@@ -140,7 +114,7 @@ CMemDC::~CMemDC()
  	if (m_hBufferedPaint != NULL)
  	{
  		m_dcMem.Detach();
@@ -3413,7 +3511,7 @@ index 108366c..589027d 100644
  	}
  	else if (m_bMemDC)
  	{
-@@ -164,7 +147,7 @@ CMemDC::~CMemDC()
+@@ -164,7 +138,7 @@ CMemDC::~CMemDC()
  	}
  }
  
@@ -3422,7 +3520,7 @@ index 108366c..589027d 100644
  {
  	ENSURE(lplf != NULL);
  	ENSURE(lParam != NULL);
-@@ -174,33 +157,6 @@ static int CALLBACK FontFamalyProcFonts(const LOGFONT FAR* lplf, const TEXTMETRI
+@@ -174,33 +148,6 @@ static int CALLBACK FontFamalyProcFonts(const LOGFONT FAR* lplf, const TEXTMETRI
  }
  
  /////////////////////////////////////////////////////////////////////////////
@@ -3456,7 +3554,7 @@ index 108366c..589027d 100644
  // Cached system metrics, etc
  AFX_GLOBAL_DATA afxGlobalData;
  
-@@ -209,21 +165,13 @@ AFX_GLOBAL_DATA afxGlobalData;
+@@ -209,21 +156,13 @@ AFX_GLOBAL_DATA afxGlobalData;
  DWORD g_dwAfxGlobalDataRef = 0;
  #endif
  
@@ -3483,7 +3581,7 @@ index 108366c..589027d 100644
  	m_bIsRibbonImageScale = TRUE;
  
  	// Cached system values(updated in CWnd::OnSysColorChange)
-@@ -231,46 +179,6 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
+@@ -231,46 +170,6 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
  	hbrBtnHilite = NULL;
  	hbrWindow = NULL;
  
@@ -3530,7 +3628,7 @@ index 108366c..589027d 100644
  	m_hcurStretch = NULL;
  	m_hcurStretchVert = NULL;
  	m_hcurHand = NULL;
-@@ -282,11 +190,9 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
+@@ -282,11 +181,9 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
  	m_hcurNoMoveTab = NULL;
  
  	m_bUseSystemFont = FALSE;
@@ -3543,7 +3641,7 @@ index 108366c..589027d 100644
  	m_bIsRTL = FALSE;
  	m_bBufferedPaintInited = FALSE;
  
-@@ -304,12 +210,31 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
+@@ -304,12 +201,31 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
  
  	m_bUseBuiltIn32BitIcons = TRUE;
  
@@ -3560,15 +3658,15 @@ index 108366c..589027d 100644
 +	{
 +		return;
 +	}
-+
-+	OSVERSIONINFOEX osvi = { sizeof(osvi), HIBYTE(_WIN32_WINNT_WIN7), LOBYTE(_WIN32_WINNT_WIN7) };
  
 -	m_pTaskbarList = NULL;
 -	m_pTaskbarList3 = NULL;
 -	m_bTaskBarInterfacesAvailable = TRUE;
++	OSVERSIONINFOEX osvi = { sizeof(osvi), HIBYTE(_WIN32_WINNT_WIN7), LOBYTE(_WIN32_WINNT_WIN7) };
+ 
 +	// The condition mask specifies to test for the OS major/minor versions using greater than or equal.
 +	DWORDLONG const dwlConditionMask = VerSetConditionMask(VerSetConditionMask(0, VER_MAJORVERSION, VER_GREATER_EQUAL), VER_MINORVERSION, VER_GREATER_EQUAL);
- 
++
 +	bIsWindows7 = VerifyVersionInfo(&osvi, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
 +
 +	bIsRemoteSession = GetSystemMetrics(SM_REMOTESESSION);
@@ -3579,7 +3677,7 @@ index 108366c..589027d 100644
  	EnableAccessibilitySupport();
  }
  
-@@ -401,7 +326,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+@@ -401,7 +317,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
  	{
  		nFontHeight = 11;
  	}
@@ -3588,7 +3686,7 @@ index 108366c..589027d 100644
  	{
  		nFontHeight--;
  	}
-@@ -415,21 +340,21 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+@@ -415,21 +331,21 @@ void AFX_GLOBAL_DATA::UpdateFonts()
  	if (!fUseSystemFont)
  	{
  		// Check for "Segoe UI" or "Tahoma" font existance:
@@ -3615,7 +3713,7 @@ index 108366c..589027d 100644
  		}
  	}
  	
-@@ -474,7 +399,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+@@ -474,7 +390,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
  	lf.lfCharSet = SYMBOL_CHARSET;
  	lf.lfWeight = 0;
  	lf.lfHeight = ::GetSystemMetrics(SM_CYMENUCHECK) - 1;
@@ -3624,7 +3722,7 @@ index 108366c..589027d 100644
  
  	fontMarlett.CreateFontIndirect(&lf);
  	lf.lfCharSet = bCharSet; // Restore charset
-@@ -493,7 +418,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+@@ -493,7 +409,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
  			lf.lfItalic = info.lfMenuFont.lfItalic;
  
  			{
@@ -3633,7 +3731,23 @@ index 108366c..589027d 100644
  			}
  
  			fontVert.CreateFontIndirect(&lf);
-@@ -567,6 +492,9 @@ void AFX_GLOBAL_DATA::OnSettingChange()
+@@ -517,7 +433,6 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+ 
+ 	UpdateTextMetrics();
+ 
+-#if 0
+ 	// Notify toolbars about font changing:
+ 	for (POSITION posTlb = afxAllToolBars.GetHeadPosition(); posTlb != NULL;)
+ 	{
+@@ -530,7 +445,6 @@ void AFX_GLOBAL_DATA::UpdateFonts()
+ 			pToolBar->OnGlobalFontsChanged();
+ 		}
+ 	}
+-#endif
+ }
+ 
+ static BOOL CALLBACK InfoEnumProc( HMONITOR hMonitor, HDC /*hdcMonitor*/, LPRECT /*lprcMonitor*/, LPARAM dwData)
+@@ -567,6 +481,9 @@ void AFX_GLOBAL_DATA::OnSettingChange()
  		::SystemParametersInfo(SPI_GETWORKAREA, 0, &m_rectVirtual, 0);
  	}
  
@@ -3643,7 +3757,18 @@ index 108366c..589027d 100644
  	// Get system menu animation type:
  	m_bMenuAnimation = FALSE;
  	m_bMenuFadeEffect = FALSE;
-@@ -819,88 +747,29 @@ HBITMAP AFX_GLOBAL_DATA::CreateDitherBitmap(HDC hDC)
+@@ -703,8 +620,8 @@ void AFX_GLOBAL_DATA::UpdateSysColors()
+ 		brLight.CreatePatternBrush(&bmp);
+ 	}
+ 
+-//	CMenuImages::CleanUp();
+-//	CDockingManager::m_bSDParamsModified = TRUE;
++	CMenuImages::CleanUp();
++	CDockingManager::m_bSDParamsModified = TRUE;
+ }
+ 
+ BOOL AFX_GLOBAL_DATA::SetMenuFont(LPLOGFONT lpLogFont, BOOL bHorz)
+@@ -819,88 +736,29 @@ HBITMAP AFX_GLOBAL_DATA::CreateDitherBitmap(HDC hDC)
  	return hbm;
  }
  
@@ -3658,10 +3783,14 @@ index 108366c..589027d 100644
 -	}
 -
 -	if (m_pTaskbarList != NULL)
--	{
++	// Backward-compatibility wrapper
++	CWinApp* pApp = AfxGetApp();
++	if (pApp != NULL)
+ 	{
 -		return m_pTaskbarList;
--	}
--
++		return pApp->GetITaskbarList();
+ 	}
+ 
 -	if (!m_bComInitialized)
 -	{
 -		hr = CoInitialize(NULL);
@@ -3672,14 +3801,10 @@ index 108366c..589027d 100644
 -	}
 -
 -	if (SUCCEEDED(hr))
-+	// Backward-compatibility wrapper
-+	CWinApp* pApp = AfxGetApp();
-+	if (pApp != NULL)
- 	{
+-	{
 -		hr = CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
-+		return pApp->GetITaskbarList();
- 	}
- 
+-	}
+-
 -	ASSERT(SUCCEEDED(hr));
 -	return m_pTaskbarList;
 +	return NULL;
@@ -3695,10 +3820,14 @@ index 108366c..589027d 100644
 -	}
 -
 -	if (m_pTaskbarList3 != NULL)
--	{
++	// Backward-compatibility wrapper
++	CWinApp* pApp = AfxGetApp();
++	if (pApp != NULL)
+ 	{
 -		return m_pTaskbarList3;
--	}
--
++		return pApp->GetITaskbarList3();
+ 	}
+ 
 -	if (!m_bComInitialized)
 -	{
 -		hr = CoInitialize(NULL);
@@ -3722,15 +3851,11 @@ index 108366c..589027d 100644
 -	m_bTaskBarInterfacesAvailable = FALSE;
 -
 -	if (m_pTaskbarList != NULL)
-+	// Backward-compatibility wrapper
-+	CWinApp* pApp = AfxGetApp();
-+	if (pApp != NULL)
- 	{
+-	{
 -		RELEASE(m_pTaskbarList);
 -		m_pTaskbarList = NULL;
-+		return pApp->GetITaskbarList3();
- 	}
- 
+-	}
+-
 -	if (m_pTaskbarList3 != NULL)
 -	{
 -		RELEASE(m_pTaskbarList3);
@@ -3742,7 +3867,7 @@ index 108366c..589027d 100644
  
  void AFX_GLOBAL_DATA::CleanUp()
  {
-@@ -917,21 +786,12 @@ void AFX_GLOBAL_DATA::CleanUp()
+@@ -917,21 +775,12 @@ void AFX_GLOBAL_DATA::CleanUp()
  	fontVertCaption.DeleteObject();
  	fontTooltip.DeleteObject();
  
@@ -3766,7 +3891,7 @@ index 108366c..589027d 100644
  	if (m_hinstDwmapiDLL != NULL)
  	{
  		::FreeLibrary(m_hinstDwmapiDLL);
-@@ -939,17 +799,14 @@ void AFX_GLOBAL_DATA::CleanUp()
+@@ -939,44 +788,41 @@ void AFX_GLOBAL_DATA::CleanUp()
  	}
  
  	m_bEnableAccessibility = FALSE;
@@ -3786,9 +3911,33 @@ index 108366c..589027d 100644
 +		afxGlobalData.CleanUp();
 +	}
  
- //	afxMenuHash.CleanUp();
+-//	afxMenuHash.CleanUp();
++	afxMenuHash.CleanUp();
  
-@@ -971,12 +828,12 @@ void ControlBarCleanUp()
+-//	CMFCToolBar::CleanUpImages();
+-//	CMenuImages::CleanUp();
++	CMFCToolBar::CleanUpImages();
++	CMenuImages::CleanUp();
+ 
+-//	if (GetCmdMgr() != NULL)
+-//	{
+-//		GetCmdMgr()->CleanUp();
+-//	}
++	if (GetCmdMgr() != NULL)
++	{
++		GetCmdMgr()->CleanUp();
++	}
+ 
+-//	CKeyboardManager::CleanUp();
++	CKeyboardManager::CleanUp();
+ 
+ 	// Destroy visualization manager:
+-//	CMFCVisualManager::DestroyInstance(TRUE /* bAutoDestroyOnly */);
+-//	CMFCVisualManagerOffice2007::CleanStyle();
++	CMFCVisualManager::DestroyInstance(TRUE /* bAutoDestroyOnly */);
++	CMFCVisualManagerOffice2007::CleanStyle();
+ }
+ 
  #ifdef _AFXDLL
  void AfxGlobalsAddRef()
  {
@@ -3803,7 +3952,7 @@ index 108366c..589027d 100644
  	if (g_dwAfxGlobalDataRef == 0)
  	{
  		ControlBarCleanUp();
-@@ -1003,10 +860,7 @@ BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip
+@@ -1003,10 +849,7 @@ BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip
  
  	// In Windows XP, we need to call DrawThemeParentBackground function to implement
  	// transparent controls
@@ -3815,7 +3964,7 @@ index 108366c..589027d 100644
  
  	if (!bRes)
  	{
-@@ -1024,7 +878,7 @@ BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip
+@@ -1024,7 +867,7 @@ BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip
  	return bRes;
  }
  
@@ -3824,16 +3973,26 @@ index 108366c..589027d 100644
  {
  	if (pWnd->GetSafeHwnd() == NULL)
  	{
-@@ -1037,7 +891,7 @@ CFrameWnd* AFXGetParentFrame(const CWnd* pWnd)
+@@ -1036,12 +879,12 @@ CFrameWnd* AFXGetParentFrame(const CWnd* pWnd)
+ 
  	while (pParentWnd != NULL)
  	{
- //		if (pParentWnd->IsKindOf(RUNTIME_CLASS(CPaneFrameWnd)))
+-//		if (pParentWnd->IsKindOf(RUNTIME_CLASS(CPaneFrameWnd)))
 -////		{
-+//		{
- //			CPaneFrameWnd* pMiniFrame = DYNAMIC_DOWNCAST(CPaneFrameWnd, pParentWnd);
- //			pParentWnd = pMiniFrame->GetParent();
- //		}
-@@ -1231,62 +1085,30 @@ BOOL AFX_GLOBAL_DATA::ExcludeTag(CString& strBuffer, LPCTSTR lpszTag, CString& s
+-//			CPaneFrameWnd* pMiniFrame = DYNAMIC_DOWNCAST(CPaneFrameWnd, pParentWnd);
+-//			pParentWnd = pMiniFrame->GetParent();
+-//		}
+-//		else
++		if (pParentWnd->IsKindOf(RUNTIME_CLASS(CPaneFrameWnd)))
++		{
++			CPaneFrameWnd* pMiniFrame = DYNAMIC_DOWNCAST(CPaneFrameWnd, pParentWnd);
++			pParentWnd = pMiniFrame->GetParent();
++		}
++		else
+ 		{
+ 			pParentWnd = pParentWnd->GetParent();
+ 		}
+@@ -1231,62 +1074,30 @@ BOOL AFX_GLOBAL_DATA::ExcludeTag(CString& strBuffer, LPCTSTR lpszTag, CString& s
  	return TRUE;
  }
  
@@ -3907,7 +4066,7 @@ index 108366c..589027d 100644
  	{
  		pDC->DrawText(strText, rect, dwFlags);
  		return FALSE;
-@@ -1297,24 +1119,24 @@ BOOL AFX_GLOBAL_DATA::DrawTextOnGlass(HTHEME hTheme, CDC* pDC, int iPartId, int
+@@ -1297,24 +1108,24 @@ BOOL AFX_GLOBAL_DATA::DrawTextOnGlass(HTHEME hTheme, CDC* pDC, int iPartId, int
  	wchar_t* wbuf = new wchar_t[bstmp.Length() + 1];
  	wcscpy_s(wbuf, bstmp.Length() + 1, bstmp);
  
@@ -3939,7 +4098,7 @@ index 108366c..589027d 100644
  
  	delete [] wbuf;
  
-@@ -1325,7 +1147,10 @@ HCURSOR AFX_GLOBAL_DATA::GetHandCursor()
+@@ -1325,7 +1136,10 @@ HCURSOR AFX_GLOBAL_DATA::GetHandCursor()
  {
  	if (m_hcurHand == NULL)
  	{
@@ -3950,7 +4109,7 @@ index 108366c..589027d 100644
  	}
  
  	return m_hcurHand;
-@@ -1333,44 +1158,19 @@ HCURSOR AFX_GLOBAL_DATA::GetHandCursor()
+@@ -1333,44 +1147,19 @@ HCURSOR AFX_GLOBAL_DATA::GetHandCursor()
  
  BOOL AFX_GLOBAL_DATA::Resume()
  {
@@ -4002,7 +4161,7 @@ index 108366c..589027d 100644
  
  	return TRUE;
  }
-@@ -1396,7 +1196,7 @@ BOOL AFX_GLOBAL_DATA::GetNonClientMetrics (NONCLIENTMETRICS& info)
+@@ -1396,7 +1185,7 @@ BOOL AFX_GLOBAL_DATA::GetNonClientMetrics (NONCLIENTMETRICS& info)
  		LOGFONT lfMessageFont;
  	};
  
@@ -4011,10 +4170,35 @@ index 108366c..589027d 100644
  	{
  		info.cbSize = sizeof(AFX_OLDNONCLIENTMETRICS);
  	}
-@@ -1446,118 +1246,6 @@ BOOL AFXAPI AfxIsMFCToolBar(CWnd* pWnd)
- 
- HRESULT AFX_GLOBAL_DATA::ShellCreateItemFromParsingName(PCWSTR pszPath, IBindCtx *pbc, REFIID riid, void **ppv)
+@@ -1408,7 +1197,6 @@ BOOL AFX_GLOBAL_DATA::GetNonClientMetrics (NONCLIENTMETRICS& info)
+ BOOL AFXAPI AfxIsExtendedFrameClass(CWnd* pWnd)
  {
+ 	ENSURE( pWnd );
+-#if 0
+ 	if (pWnd->IsKindOf(RUNTIME_CLASS(CFrameWndEx)))
+ 	{
+ 		return TRUE;
+@@ -1429,7 +1217,6 @@ BOOL AFXAPI AfxIsExtendedFrameClass(CWnd* pWnd)
+ 	{
+ 		return TRUE;
+ 	}
+-#endif
+ 	return FALSE;
+ }
+ 
+@@ -1437,127 +1224,15 @@ BOOL AFXAPI AfxIsExtendedFrameClass(CWnd* pWnd)
+ BOOL AFXAPI AfxIsMFCToolBar(CWnd* pWnd)
+ {
+ 	ENSURE( pWnd );
+-//	if (pWnd->IsKindOf(RUNTIME_CLASS(CMFCToolBar)))
+-//	{
+-//		return TRUE;
+-//	}
+-	return FALSE;
+-}
+-
+-HRESULT AFX_GLOBAL_DATA::ShellCreateItemFromParsingName(PCWSTR pszPath, IBindCtx *pbc, REFIID riid, void **ppv)
+-{
 -	static HMODULE hShellDll = AfxCtxLoadLibrary(_T("Shell32.dll"));
 -	ENSURE(hShellDll != NULL);
 -
@@ -4038,9 +4222,10 @@ index 108366c..589027d 100644
 -BOOL AFX_GLOBAL_DATA::InitD2D(D2D1_FACTORY_TYPE d2dFactoryType, DWRITE_FACTORY_TYPE writeFactoryType)
 -{
 -	if (m_bD2DInitialized)
--	{
--		return TRUE;
--	}
++	if (pWnd->IsKindOf(RUNTIME_CLASS(CMFCToolBar)))
+ 	{
+ 		return TRUE;
+ 	}
 -
 -	HRESULT hr = S_OK;
 -
@@ -4091,11 +4276,12 @@ index 108366c..589027d 100644
 -
 -	m_bD2DInitialized = TRUE;
 -	return TRUE;
-+	return _AfxSHCreateItemFromParsingName(pszPath, pbc, riid, ppv);
++	return FALSE;
  }
  
 -void AFX_GLOBAL_DATA::ReleaseD2DRefs()
--{
++HRESULT AFX_GLOBAL_DATA::ShellCreateItemFromParsingName(PCWSTR pszPath, IBindCtx *pbc, REFIID riid, void **ppv)
+ {
 -	if (!m_bD2DInitialized)
 -	{
 -		return;
@@ -4130,7 +4316,9 @@ index 108366c..589027d 100644
 -	}
 -
 -	m_bD2DInitialized = FALSE;
--}
++	return _AfxSHCreateItemFromParsingName(pszPath, pbc, riid, ppv);
+ }
++
 diff --git a/src/thirdparty/mfc/afxmaskededit.cpp b/src/thirdparty/mfc/afxmaskededit.cpp
 index 433958c..7959de0 100644
 --- a/src/thirdparty/mfc/afxmaskededit.cpp
@@ -4254,11 +4442,29 @@ index 555cf89..992cc16 100644
  
  	DECLARE_MESSAGE_MAP()
  };
+diff --git a/src/thirdparty/mfc/stdafx.h b/src/thirdparty/mfc/stdafx.h
+index 9704393..12da930 100644
+--- a/src/thirdparty/mfc/stdafx.h
++++ b/src/thirdparty/mfc/stdafx.h
+@@ -1,4 +1,6 @@
+ #pragma once
+ 
++/*#define _AFX_NO_MFC_CONTROLS_IN_DIALOGS*/
++
+ #include "../../../include/stdafx_common.h"
+ #include "../../../include/stdafx_common_afx.h"
 diff --git a/src/thirdparty/mfc/winmdi.cpp b/src/thirdparty/mfc/winmdi.cpp
-index 28799e5..27f4de3 100644
+index 28799e5..7b028cd 100644
 --- a/src/thirdparty/mfc/winmdi.cpp
 +++ b/src/thirdparty/mfc/winmdi.cpp
-@@ -16,7 +16,6 @@
+@@ -9,14 +9,11 @@
+ // Microsoft Foundation Classes product.
+ 
+ #include "stdafx.h"
+-//#include "afxmdichildwndex.h"
+-//#include "afxmdiframewndex.h"
+ 
+ /////////////////////////////////////////////////////////////////////////////
  // CMDIFrameWnd
  
  BEGIN_MESSAGE_MAP(CMDIFrameWnd, CFrameWnd)
@@ -4266,7 +4472,7 @@ index 28799e5..27f4de3 100644
  	ON_MESSAGE_VOID(WM_IDLEUPDATECMDUI, CMDIFrameWnd::OnIdleUpdateCmdUI)
  	ON_UPDATE_COMMAND_UI(ID_WINDOW_ARRANGE, &CMDIFrameWnd::OnUpdateMDIWindowCmd)
  	ON_UPDATE_COMMAND_UI(ID_WINDOW_CASCADE, &CMDIFrameWnd::OnUpdateMDIWindowCmd)
-@@ -32,7 +31,6 @@ BEGIN_MESSAGE_MAP(CMDIFrameWnd, CFrameWnd)
+@@ -32,7 +29,6 @@ BEGIN_MESSAGE_MAP(CMDIFrameWnd, CFrameWnd)
  	ON_WM_DESTROY()
  	ON_MESSAGE(WM_COMMANDHELP, &CMDIFrameWnd::OnCommandHelp)
  	ON_WM_MENUCHAR()
@@ -4274,7 +4480,7 @@ index 28799e5..27f4de3 100644
  END_MESSAGE_MAP()
  
  CMDIFrameWnd::CMDIFrameWnd()
-@@ -84,7 +82,7 @@ BOOL CMDIFrameWnd::OnCmdMsg(UINT nID, int nCode, void* pExtra,
+@@ -84,7 +80,7 @@ BOOL CMDIFrameWnd::OnCmdMsg(UINT nID, int nCode, void* pExtra,
  LRESULT CMDIFrameWnd::OnCommandHelp(WPARAM wParam, LPARAM lParam)
  {
  	if (lParam == 0 && IsTracking())
@@ -4283,7 +4489,7 @@ index 28799e5..27f4de3 100644
  
  	CMDIChildWnd* pActiveChild = MDIGetActive();
  	if (pActiveChild != NULL && AfxCallWndProc(pActiveChild,
-@@ -168,7 +166,7 @@ BOOL CMDIFrameWnd::CreateClient(LPCREATESTRUCT lpCreateStruct,
+@@ -168,7 +164,7 @@ BOOL CMDIFrameWnd::CreateClient(LPCREATESTRUCT lpCreateStruct,
  	}
  
  	// Create MDICLIENT control with special IDC
@@ -4292,7 +4498,7 @@ index 28799e5..27f4de3 100644
  		dwStyle, 0, 0, 0, 0, m_hWnd, (HMENU)AFX_IDW_PANE_FIRST,
  		AfxGetInstanceHandle(), (LPVOID)&ccs)) == NULL)
  	{
-@@ -398,7 +396,6 @@ void CMDIFrameWnd::Dump(CDumpContext& dc) const
+@@ -398,7 +394,6 @@ void CMDIFrameWnd::Dump(CDumpContext& dc) const
  // CMDIChildWnd
  
  BEGIN_MESSAGE_MAP(CMDIChildWnd, CFrameWnd)
@@ -4300,7 +4506,7 @@ index 28799e5..27f4de3 100644
  	ON_WM_MOUSEACTIVATE()
  	ON_WM_NCACTIVATE()
  	ON_WM_MDIACTIVATE()
-@@ -409,7 +406,6 @@ BEGIN_MESSAGE_MAP(CMDIChildWnd, CFrameWnd)
+@@ -409,7 +404,6 @@ BEGIN_MESSAGE_MAP(CMDIChildWnd, CFrameWnd)
  	ON_WM_DESTROY()
  	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, &CMDIChildWnd::OnToolTipText)
  	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, &CMDIChildWnd::OnToolTipText)
@@ -4308,7 +4514,7 @@ index 28799e5..27f4de3 100644
  END_MESSAGE_MAP()
  
  CMDIChildWnd::CMDIChildWnd()
-@@ -638,9 +634,9 @@ BOOL CMDIChildWnd::UpdateClientEdge(LPRECT lpRect)
+@@ -638,9 +632,9 @@ BOOL CMDIChildWnd::UpdateClientEdge(LPRECT lpRect)
  	// Only adjust for regular MDI child windows, not tabbed windows.  Attempting to set WS_EX_CLIENTEDGE on the tabbed
  	// MDI client area window is subverted by CMDIClientAreaWnd::OnStyleChanging, so we always try to reset the style and
  	// always repaint, none of which is necessary since the tabbed MDI children never change from maximized to restored.
@@ -4321,7 +4527,7 @@ index 28799e5..27f4de3 100644
  	{
  		// need to adjust the client edge style as max/restore happens
  		DWORD dwStyle = ::GetWindowLong(pFrameWnd->m_hWndMDIClient, GWL_EXSTYLE);
-@@ -820,6 +816,16 @@ void CMDIChildWnd::SetHandles(HMENU hMenu, HACCEL hAccel)
+@@ -820,6 +814,16 @@ void CMDIChildWnd::SetHandles(HMENU hMenu, HACCEL hAccel)
  	m_hAccelTable = hAccel;
  }
  
@@ -4338,7 +4544,7 @@ index 28799e5..27f4de3 100644
  /////////////////////////////////////////////////////////////////////////////
  // CMDIChildWnd Diagnostics
  
-@@ -939,7 +945,7 @@ void CMDIChildWnd::OnUpdateFrameTitle(BOOL bAddToTitle)
+@@ -939,7 +943,7 @@ void CMDIChildWnd::OnUpdateFrameTitle(BOOL bAddToTitle)
  			TCHAR szWinNumber[16+1];
  			_stprintf_s(szWinNumber, _countof(szWinNumber), _T(":%d"), m_nWindow);
  			
