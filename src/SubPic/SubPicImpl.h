@@ -28,39 +28,39 @@ class CSubPicImpl : public CUnknown, public ISubPic
 protected:
     REFERENCE_TIME m_rtStart, m_rtStop;
     REFERENCE_TIME m_rtSegmentStart, m_rtSegmentStop;
-    CRect   m_rcDirty;
-    CSize   m_maxsize;
-    CSize   m_size;
-    CRect   m_vidrect;
-    CSize   m_VirtualTextureSize;
-    CPoint  m_VirtualTextureTopLeft;
+    CRect  m_rcDirty;
+    CSize  m_maxsize;
+    CSize  m_size;
+    CRect  m_vidrect;
+    CSize  m_VirtualTextureSize;
+    CPoint m_VirtualTextureTopLeft;
 
     /*
 
-                              Texture
-            +-------+---------------------------------+
-            |       .                                 |   .
-            |       .             m_maxsize           |       .
-     TextureTopLeft .<=============================== |======>    .           Video
-            | . . . +-------------------------------- | -----+       +-----------------------------------+
-            |       |                         .       |      |       |  m_vidrect                        |
-            |       |                         .       |      |       |                                   |
-            |       |                         .       |      |       |                                   |
-            |       |        +-----------+    .       |      |       |                                   |
-            |       |        | m_rcDirty |    .       |      |       |                                   |
-            |       |        |           |    .       |      |       |                                   |
-            |       |        +-----------+    .       |      |       |                                   |
-            |       +-------------------------------- | -----+       |                                   |
-            |                    m_size               |              |                                   |
-            |       <=========================>       |              |                                   |
-            |                                         |              |                                   |
-            |                                         |              +-----------------------------------+
-            |                                         |          .
-            |                                         |      .
-            |                                         |   .
-            +-----------------------------------------+
-                       m_VirtualTextureSize
-            <=========================================>
+                             Texture
+           +-------+---------------------------------+
+           |       .                                 |   .
+           |       .             m_maxsize           |       .
+    TextureTopLeft .<=============================== |======>    .              Video
+           | . . . +-------------------------------- | -----+       +-----------------------------------+
+           |       |                         .       |      |       |  m_vidrect                        |
+           |       |                         .       |      |       |                                   |
+           |       |                         .       |      |       |                                   |
+           |       |        +-----------+    .       |      |       |                                   |
+           |       |        | m_rcDirty |    .       |      |       |                                   |
+           |       |        |           |    .       |      |       |                                   |
+           |       |        +-----------+    .       |      |       |                                   |
+           |       +-------------------------------- | -----+       |                                   |
+           |                    m_size               |              |                                   |
+           |       <=========================>       |              |                                   |
+           |                                         |              |                                   |
+           |                                         |              +-----------------------------------+
+           |                                         |          .
+           |                                         |      .
+           |                                         |   .
+           +-----------------------------------------+
+                      m_VirtualTextureSize
+           <=========================================>
 
     */
 
@@ -132,7 +132,5 @@ public:
     STDMETHODIMP AllocDynamic(ISubPic** ppSubPic);
     STDMETHODIMP_(bool) IsDynamicWriteOnly();
     STDMETHODIMP ChangeDevice(IUnknown* pDev);
-    STDMETHODIMP SetMaxTextureSize(SIZE MaxTextureSize) {
-        return E_NOTIMPL;
-    };
+    STDMETHODIMP SetMaxTextureSize(SIZE MaxTextureSize) { return E_NOTIMPL; };
 };

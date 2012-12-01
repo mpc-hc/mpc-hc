@@ -34,7 +34,8 @@ static void bswap(BYTE* s, int len)
 
 //
 
-CID::CID(DWORD id) : m_id(id)
+CID::CID(DWORD id)
+    : m_id(id)
 {
 }
 

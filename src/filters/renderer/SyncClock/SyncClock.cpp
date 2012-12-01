@@ -82,7 +82,8 @@ CBasePin* CSyncClockFilter::GetPin(int i)
 // CSyncClock methods
 CSyncClock::CSyncClock(LPUNKNOWN pUnk, HRESULT* phr)
     : CBaseReferenceClock(NAME("SyncClock"), pUnk, phr)
-    , m_pCurrentRefClock(0), m_pPrevRefClock(0)
+    , m_pCurrentRefClock(0)
+    , m_pPrevRefClock(0)
 {
     QueryPerformanceFrequency((LARGE_INTEGER*)&m_llPerfFrequency);
     m_rtPrivateTime = GetTicks100ns();

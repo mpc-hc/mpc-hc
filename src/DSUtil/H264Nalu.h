@@ -56,7 +56,7 @@ private:
     bool   MoveToNextAnnexBStartcode();
     bool   MoveToNextRTPStartcode();
 
-public :
+public:
     CH264Nalu() :
         forbidden_bit(0),
         nal_reference_idc(0),

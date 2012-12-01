@@ -75,7 +75,8 @@ CFilterApp theApp;
 CMatroskaMuxerFilter::CMatroskaMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr)
     : CBaseFilter(NAME("CMatroskaMuxerFilter"), pUnk, this, __uuidof(this))
     , m_rtCurrent(0)
-    , m_fNegative(true), m_fPositive(false)
+    , m_fNegative(true)
+    , m_fPositive(false)
 {
     if (phr) {
         *phr = S_OK;

@@ -75,13 +75,11 @@ protected:
     DECLARE_MESSAGE_MAP()
 };
 
-
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 {
     //{{AFX_DATA_INIT(CAboutDlg)
     //}}AFX_DATA_INIT
 }
-
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -95,7 +93,6 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
     // No message handlers
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -115,7 +112,6 @@ CRegisterCopyDataDlg::CRegisterCopyDataDlg(CWnd* pParent /*=NULL*/)
     // Note that LoadIcon does not require a subsequent DestroyIcon in Win32
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
-
 
 void CRegisterCopyDataDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -195,7 +191,6 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
     return TRUE;  // return TRUE unless you set the focus to a control
 }
 
-
 void CRegisterCopyDataDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
     if ((nID & 0xFFF0) == IDM_ABOUTBOX) {
@@ -232,14 +227,12 @@ void CRegisterCopyDataDlg::OnPaint()
     }
 }
 
-
 // The system calls this to obtain the cursor to display while the user drags
 //  the minimized window.
 HCURSOR CRegisterCopyDataDlg::OnQueryDragIcon()
 {
     return (HCURSOR) m_hIcon;
 }
-
 
 void CRegisterCopyDataDlg::OnButtonFindwindow()
 {
@@ -256,7 +249,6 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     CreateProcess(NULL, (LPTSTR)(LPCTSTR)strExec, NULL, NULL, FALSE, 0, NULL, NULL, &StartupInfo, &ProcessInfo);
 }
 
-
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 {
     if (m_hWndMPC) {
@@ -270,7 +262,6 @@ void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
     }
 }
 
-
 BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
     CString strMsg;
@@ -283,7 +274,6 @@ BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruc
     m_listBox.InsertString(0, strMsg);
     return CDialog::OnCopyData(pWnd, pCopyDataStruct);
 }
-
 
 void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
 {

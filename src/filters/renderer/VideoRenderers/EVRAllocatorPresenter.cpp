@@ -439,26 +439,31 @@ STDMETHODIMP CEVRAllocatorPresenter::get_FramesDroppedInRenderer(int* pcFrames)
     *pcFrames = m_pcFrames;
     return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::get_FramesDrawn(int* pcFramesDrawn)
 {
     *pcFramesDrawn = m_pcFramesDrawn;
     return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::get_AvgFrameRate(int* piAvgFrameRate)
 {
     *piAvgFrameRate = (int)(m_fAvrFps * 100);
     return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::get_Jitter(int* iJitter)
 {
     *iJitter = (int)((m_fJitterStdDev / 10000.0) + 0.5);
     return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::get_AvgSyncOffset(int* piAvg)
 {
     *piAvg = (int)((m_fSyncOffsetAvr / 10000.0) + 0.5);
     return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::get_DevSyncOffset(int* piDev)
 {
     *piDev = (int)((m_fSyncOffsetStdDev / 10000.0) + 0.5);

@@ -28,7 +28,9 @@
 //
 
 CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator* pAllocator, bool bExternalRenderer)
-    : m_pSurface(pSurface), m_pAllocator(pAllocator), m_bExternalRenderer(bExternalRenderer)
+    : m_pSurface(pSurface)
+    , m_pAllocator(pAllocator)
+    , m_bExternalRenderer(bExternalRenderer)
 {
     D3DSURFACE_DESC d3dsd;
     ZeroMemory(&d3dsd, sizeof(d3dsd));

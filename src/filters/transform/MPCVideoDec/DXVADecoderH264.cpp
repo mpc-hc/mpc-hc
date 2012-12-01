@@ -76,7 +76,6 @@ void CDXVADecoderH264::Init()
         m_DXVAPicParams.RefFrameList[i].Index7Bits = 127;
     }
 
-
     m_nNALLength = 4;
     m_nMaxSlices = 0;
 

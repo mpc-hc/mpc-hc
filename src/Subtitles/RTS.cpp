@@ -85,9 +85,9 @@ CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
     }
 
     CMyFont font(m_style);
-    m_ascent = (int)(m_style.fontScaleY / 100 * font.m_ascent);
+    m_ascent  = (int)(m_style.fontScaleY / 100 * font.m_ascent);
     m_descent = (int)(m_style.fontScaleY / 100 * font.m_descent);
-    m_width = 0;
+    m_width   = 0;
 }
 
 CWord::~CWord()
@@ -492,7 +492,9 @@ bool CText::CreatePath()
 
 CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline)
     : CWord(style, str, ktype, kstart, kend)
-    , m_scalex(scalex), m_scaley(scaley), m_baseline(baseline)
+    , m_scalex(scalex)
+    , m_scaley(scaley)
+    , m_baseline(baseline)
 {
     ParseStr();
 }
@@ -1458,7 +1460,9 @@ CRect CScreenLayoutAllocator::AllocRect(CSubtitle* s, int segment, int entry, in
 // CRenderedTextSubtitle
 
 CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock, STSStyle* styleOverride, bool doOverride)
-    : CSubPicProviderImpl(pLock), m_doOverrideStyle(doOverride), m_pStyleOverride(styleOverride)
+    : CSubPicProviderImpl(pLock)
+    , m_doOverrideStyle(doOverride)
+    , m_pStyleOverride(styleOverride)
 {
     m_size = CSize(0, 0);
 

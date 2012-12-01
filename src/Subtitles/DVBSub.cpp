@@ -350,8 +350,8 @@ HRESULT CDVBSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoS
     MaxTextureSize.cx = VideoSize.cx = m_Display.width;
     MaxTextureSize.cy = VideoSize.cy = m_Display.height;
 
-    VideoTopLeft.x  = 0;
-    VideoTopLeft.y  = 0;
+    VideoTopLeft.x = 0;
+    VideoTopLeft.y = 0;
 
     return S_OK;
 }
@@ -537,7 +537,7 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
                 if (!pClut->palette[entry_id].Y) {
                     pClut->palette[entry_id].Cr = 0;
                     pClut->palette[entry_id].Cb = 0;
-                    pClut->palette[entry_id].T = 0;
+                    pClut->palette[entry_id].T  = 0;
                 }
 
                 if (pClut->size <= entry_id) {

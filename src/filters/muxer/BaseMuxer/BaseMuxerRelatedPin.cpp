@@ -26,8 +26,8 @@
 // CBaseMuxerRelatedPin
 //
 
-CBaseMuxerRelatedPin::CBaseMuxerRelatedPin() :
-    m_pRelatedPin(NULL)
+CBaseMuxerRelatedPin::CBaseMuxerRelatedPin()
+    : m_pRelatedPin(NULL)
 {
 }
 
