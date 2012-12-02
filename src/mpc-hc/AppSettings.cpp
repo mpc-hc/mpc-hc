@@ -1242,26 +1242,29 @@ void CAppSettings::LoadSettings()
     CAtlStringMap<UINT> shaders;
 
     shaders[_T("16-235 -> 0-255  [SD][HD]")] = IDF_SHADER_LEVELS;
-    shaders[_T("16-235 -> 0-255  [SD]")] = IDF_SHADER_LEVELS2;
-    shaders[_T("0-255 -> 16-235")] = IDF_SHADER_LEVELS3;
-    shaders[_T("BT.601 -> BT.709")] = IDF_SHADER_BT601_BT709;
-    shaders[_T("contour")] = IDF_SHADER_CONTOUR;
-    shaders[_T("deinterlace (blend)")] = IDF_SHADER_DEINTERLACE;
-    shaders[_T("edge sharpen")] = IDF_SHADER_EDGE_SHARPEN;
-    shaders[_T("emboss")] = IDF_SHADER_EMBOSS;
-    shaders[_T("grayscale")] = IDF_SHADER_GRAYSCALE;
-    shaders[_T("invert")] = IDF_SHADER_INVERT;
-    shaders[_T("letterbox")] = IDF_SHADER_LETTERBOX;
-    shaders[_T("nightvision")] = IDF_SHADER_NIGHTVISION;
-    shaders[_T("procamp")] = IDF_SHADER_PROCAMP;
-    shaders[_T("sharpen")] = IDF_SHADER_SHARPEN;
-    shaders[_T("sharpen complex")] = IDF_SHADER_SHARPEN_COMPLEX;
-    shaders[_T("sharpen complex 2")] = IDF_SHADER_SHARPEN_COMPLEX2;
-    shaders[_T("sphere")] = IDF_SHADER_SPHERE;
-    shaders[_T("spotlight")] = IDF_SHADER_SPOTLIGHT;
-    shaders[_T("wave")] = IDF_SHADER_WAVE;
-    shaders[_T("denoise")] = IDF_SHADER_DENOISE;
-    shaders[_T("YV12 Chroma Upsampling")] = IDF_SHADER_YV12CHROMAUP;
+    shaders[_T("16-235 -> 0-255  [SD]")]     = IDF_SHADER_LEVELS2;
+    shaders[_T("0-255 -> 16-235")]           = IDF_SHADER_LEVELS3;
+    shaders[_T("BT.601 -> BT.709")]          = IDF_SHADER_BT601_BT709;
+    shaders[_T("YV12 Chroma Upsampling")]    = IDF_SHADER_YV12CHROMAUP;
+    shaders[_T("grayscale")]                 = IDF_SHADER_GRAYSCALE;
+
+    shaders[_T("sharpen")]                   = IDF_SHADER_SHARPEN;
+    shaders[_T("sharpen complex")]           = IDF_SHADER_SHARPEN_COMPLEX;
+    shaders[_T("sharpen complex 2")]         = IDF_SHADER_SHARPEN_COMPLEX2;
+    shaders[_T("edge sharpen")]              = IDF_SHADER_EDGE_SHARPEN;
+    shaders[_T("contour")]                   = IDF_SHADER_CONTOUR;
+
+    shaders[_T("deinterlace (blend)")]       = IDF_SHADER_DEINTERLACE;
+    shaders[_T("denoise")]                   = IDF_SHADER_DENOISE;
+    shaders[_T("procamp")]                   = IDF_SHADER_PROCAMP;
+    shaders[_T("invert")]                    = IDF_SHADER_INVERT;
+    shaders[_T("letterbox")]                 = IDF_SHADER_LETTERBOX;
+
+    shaders[_T("nightvision")]               = IDF_SHADER_NIGHTVISION;
+    shaders[_T("emboss")]                    = IDF_SHADER_EMBOSS;
+    shaders[_T("sphere")]                    = IDF_SHADER_SPHERE;
+    shaders[_T("spotlight")]                 = IDF_SHADER_SPOTLIGHT;
+    shaders[_T("wave")]                      = IDF_SHADER_WAVE;
 
     for (int iShader = 0; ; iShader++) {
         CString str2;
