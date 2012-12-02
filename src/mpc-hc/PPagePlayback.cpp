@@ -106,7 +106,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_nVolume = m_oldVolume = s.nVolume;
     m_nBalance = s.nBalance;
     m_nVolumeStep = s.nVolumeStep;
-    m_VolumeStepCtrl.SetRange(1, 25);
+    m_VolumeStepCtrl.SetRange(1, 100);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
     m_nLoops = s.nLoops;
     m_fRewind = s.fRewind;
@@ -141,7 +141,7 @@ BOOL CPPagePlayback::OnApply()
 
     s.nVolume = m_oldVolume = m_nVolume;
     s.nBalance = m_nBalance;
-    s.nVolumeStep = m_nVolumeStep;
+    s.nVolumeStep = min(max(m_nVolumeStep, 1), 100);
     s.fLoopForever = !!m_iLoopForever;
     s.nLoops = m_nLoops;
     s.fRewind = !!m_fRewind;
