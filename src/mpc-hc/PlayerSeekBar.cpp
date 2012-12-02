@@ -253,7 +253,7 @@ void CPlayerSeekBar::OnPaint()
     bool fEnabled = m_fEnabled && m_start < m_stop;
 
     COLORREF
-    dark   = GetSysColor(COLOR_3DDKSHADOW),
+    dark   = GetSysColor(COLOR_GRAYTEXT),
     white  = GetSysColor(COLOR_WINDOW),
     shadow = GetSysColor(COLOR_3DSHADOW),
     light  = GetSysColor(COLOR_3DHILIGHT),
