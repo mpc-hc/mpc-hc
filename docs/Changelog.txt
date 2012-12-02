@@ -33,7 +33,7 @@ Legend:
 * Updated ZenLib to v0.4.28 r411
 * Updated Little CMS to v2.4 (git c606462)
 * Updated SoundTouch to v1.7.0 r160
-* Updated Basque, Czech, French, German, Russian, Simplified Chinese, Slovak
+* Updated Armenian, Basque, Czech, French, German, Russian, Polish, Simplified Chinese, Slovak
   and Ukrainian translations
 * Ticket #2698, Allow the App key to be used as a hotkey which opens the player menu by default
 * Ticket #1004, Allow for smaller increases of playing speed for files, slowing down is unaffected.

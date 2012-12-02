@@ -194,7 +194,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 8		"Par défaut"
 9		"Définir"
 10		"Windows 8"
-11		"&Set default programs"
+11		"&Choisir les programmes par défaut"
 12		"Association"
 13		"&Vidéo"
 14		"&Audio"
@@ -311,9 +311,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 32		"Indiquer les connexions échouées lors du rendu"
 33		"Lecture automatique des fichiers audio"
 34		"Lecture automatique des sous-titres"
-35		"Control"
-36		"Volume step:"
-39		"unit(s)"
+35		"Contrôle"
+36		"Pas du volume :"
+39		"unités"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
