@@ -183,8 +183,8 @@ BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20
 10		"&Priorität setzen:"
 12		"&Hoch"
 13		"&Runter"
-16		"&Medien-Typ hinzu..."
-17		"S&ub-Type hinzu..."
+16		"&Medien-Typ hinzufügen..."
+17		"S&ub-Type hinzufügen..."
 18		"L&öschen"
 19		"Liste zur&ücksetzen"
 END
@@ -194,7 +194,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 8		"&Standard"
 9		"&Übernehmen"
 10		"Windows 8"
-11		"&Set default programs"
+11		"&Standard-Programme festlegen"
 12		"Datei Verknüpfungen"
 13		"V&ideo"
 14		"A&udio"
@@ -252,7 +252,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 9		"Sättigung"
 18		"Zurücksetzen"
 19		"Auf Aktualisierungen prüfen"
-20		"Die automatische Prüfung nach Aktualisierungen aktivieren"
+20		"Automatische Prüfung nach Aktualisierungen aktivieren"
 21		"Intervall zwischen jeder Prüfung:"
 24		"Tage"
 25		"Programm Einstellungen verwalten"
@@ -348,8 +348,8 @@ BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
 7		"Interne Untertitel nicht benutzen"
 8		"Pfade, in denen automatisch nach verfügbaren Untertiteln gesucht werden soll"
 10		"Zurücksetzen"
-11		"Online Untertitel-Datenbank"
-12		"URL zur Online Untertitel-Datenbank:"
+11		"Online-Untertitel Datenbank"
+12		"URL zur Online-Untertitel Datenbank:"
 15		"Testen"
 END
 
@@ -473,8 +473,8 @@ BEGIN DIALOGEX IDD_SHADERCOMBINE_DLG LINES 18
 10		"&Runter"
 11		"&Löschen"
 14		"&Hinzufügen"
-16		"PreResize Pixel Shaders aktivieren"
-17		"PostResize Pixel Shaders aktivieren"
+16		"Pre-Resize Pixel Shaders aktivieren"
+17		"Post-Resize Pixel Shaders aktivieren"
 END
 
 BEGIN DIALOGEX IDD_SHADEREDITOR_DLG LINES 10
