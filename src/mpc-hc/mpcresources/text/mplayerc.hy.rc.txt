@@ -194,7 +194,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 8		"Ըստ ծրագրայինի"
 9		"Տեղակայել"
 10		"Windows 8"
-11		"&Set default programs"
+11		"&Նշել հիմնական ծրագրերը"
 12		"Ասոցիացումներ"
 13		"&Տեսանյութ"
 14		"&Ձայնը"
@@ -206,7 +206,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 20		"QuickTime"
 21		"DirectShow"
 22		"Սկզբում նայել ընդլայնումը"
-23		"Explorer-ի համատեքստային ընտրացանկը"
+23		"Explorer-ի ընտրացանկը"
 24		"Թղթապանակների համար"
 25		"Ֆայլերի համար"
 26		"Ինքնավերարտադրում"
@@ -276,15 +276,15 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 24		"Խառնում YUV-ում"
 25		"EVR կենտրոն."
 27		"DXVA"
-29		"Subtitles *"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Subtitles *"
-39		"Screenshot"
-41		"Subtitles *"
-43		"Screenshot"
-45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
+29		"Տողագրերը *"
+31		"Պատկերը"
+33		"Շեյդերներ"
+35		"Շրջել"
+37		"Տողագրերը *"
+39		"Պատկերը"
+41		"Տողագրերը *"
+43		"Պատկերը"
+45		"* Արտաքին զտիչներ(ինչպես օրինակDirectVobSub) cկարող է ցուցադրել տողագրերը բոլոր ռենդերներում:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
@@ -311,9 +311,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 32		"Հաշվետվություն՝ ցուցադրման հոսքերի սխալների համար"
 33		"Ձայնի ֆայլերի ինքնաբացում"
 34		"Տողագրերի ինքնաբացում"
-35		"Control"
-36		"Volume step:"
-39		"unit(s)"
+35		"Կառավարում"
+36		"Ձայնի քայլը."
+39		"աստիճան"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -420,7 +420,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 17		"Բացել հաջորդ/նախորդ ֆայլը թղթապանակում ""Հետ/Առաջ""-ի միջոցով, եթե խաղացանկում առկա է մեկ ֆայլ։"
 19		"Օգտ. ժամանակի հուշումը"
 21		"OSD տառատեսակ:"
-24		"Enable Logitech LCD support (experimental)"
+24		"Միացնել Logitech LCD-ի աջակցումը (փորձարկվում է)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -438,8 +438,8 @@ END
 
 BEGIN DIALOGEX IDD_SAVESUBTITLESFILEDIALOGTEMPL LINES 11
 5		"Կոդավորում."
-9		"Delay:"
-10		"ms"
+9		"Դադարը."
+10		"մվ"
 END
 
 BEGIN DIALOGEX IDD_SAVETEXTFILEDIALOGTEMPL LINES 7
@@ -1374,9 +1374,9 @@ STRING IDS_GRAPH_INTERFACES_ERROR		"Չհաջողվեց ստանալ պահանջ
 STRING IDS_GRAPH_TARGET_WND_ERROR		"Հնարավոր չէ նշել պատուհանը գրաֆ. տեղեկացման համար"
 STRING IDS_HUE_DEC		"Hue -"
 STRING IDS_HUE_INC		"Hue +"
-STRING IDS_ICONS_REASSOC_DLG_CONTENT		"This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-STRING IDS_ICONS_REASSOC_DLG_INSTR		"Do you want to reassociate the icons?"
-STRING IDS_ICONS_REASSOC_DLG_TITLE		"New version of the icon library"
+STRING IDS_ICONS_REASSOC_DLG_CONTENT		"Սա կուղղի սխալ պատկերվող  պատկերները, ինչը կարող է պատահել խպատկերների շտեմարանը թարմացնելիս:\nՖայլերի ասոցիացումները չեն փոփոխվի, պատկերները պարզապես կթարմացվեն:"
+STRING IDS_ICONS_REASSOC_DLG_INSTR		"Վերասոցիացնե՞լ պատկերները:"
+STRING IDS_ICONS_REASSOC_DLG_TITLE		"Պատկերի շտեմարանի նոր տարբերակը"
 STRING IDS_INFOBAR_AUDIO		"Ձայնը"
 STRING IDS_INFOBAR_AUTHOR		"Հեղինակը"
 STRING IDS_INFOBAR_COPYRIGHT		"Իրավունքներ"
