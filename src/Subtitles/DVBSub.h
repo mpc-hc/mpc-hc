@@ -63,7 +63,7 @@ public:
     enum DVB_PAGE_STATE {
         DPS_NORMAL      = 0x00,
         DPS_ACQUISITION = 0x01,
-        DPS_MODE        = 0x02,
+        DPS_MODE_CHANGE = 0x02,
         DPS_RESERVED    = 0x03
     };
 

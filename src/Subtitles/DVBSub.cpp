@@ -243,7 +243,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                         CAutoPtr<DVB_PAGE> pPage;
                         ParsePage(gb, wSegLength, pPage);
 
-                        if (pPage->pageState == DPS_ACQUISITION) {
+                        if (pPage->pageState == DPS_ACQUISITION || pPage->pageState == DPS_MODE_CHANGE) {
                             if (m_pCurrentPage != NULL) {
                                 TRACE_DVB(_T("DVB - Force End display"));
                                 EnqueuePage(m_rtStart);
@@ -256,14 +256,14 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 
                             TRACE_DVB(_T("DVB - Page started %s, TimeOut = %ds\n"), ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
                         } else {
-                            TRACE_DVB(_T("DVB - Page update %x\n"), pPage->pageState);
+                            TRACE_DVB(_T("DVB - Page update\n"));
 
                             if (m_pCurrentPage && !m_pCurrentPage->regionCount) {
                                 m_pCurrentPage = pPage;
                                 m_pCurrentPage->rtStart = m_rtStart;
                                 m_pCurrentPage->rtStop  = m_pCurrentPage->rtStart + m_pCurrentPage->pageTimeOut * 10000000;
 
-                                TRACE_DVB(_T("DVB - Page started[update] %s, TimeOut = %ds\n"), ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
+                                TRACE_DVB(_T("DVB - Page started [update] %s, TimeOut = %ds\n"), ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
                             }
                         }
                     }
