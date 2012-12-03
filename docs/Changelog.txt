@@ -61,3 +61,4 @@ Legend:
 ! Ticket #2685, FLAC Source: Fix a crash with some corrupted file
 ! Ticket #2699, Avi Splitter: Fix a potential crash with PCM tracks
 ! Ticket #2703, Fix a crash that could happen when auto-loading some subtitles
+! Ticket #2751, Improve DVBSub parsing: some subtitles could have been missing

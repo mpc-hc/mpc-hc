@@ -245,26 +245,25 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 
                         if (pPage->pageState == DPS_ACQUISITION) {
                             if (m_pCurrentPage != NULL) {
-                                TRACE_DVB(_T("DVB - Force End display %s (%s - %s)\n"), ReftimeToString(m_rtStart), ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
-                                m_pCurrentPage->rtStop = max(m_pCurrentPage->rtStop, m_rtStart);
-                                m_Pages.AddTail(m_pCurrentPage.Detach());
+                                TRACE_DVB(_T("DVB - Force End display"));
+                                EnqueuePage(m_rtStart);
                             }
                             UpdateTimeStamp(m_rtStart);
 
                             m_pCurrentPage = pPage;
                             m_pCurrentPage->rtStart = m_rtStart;
-                            m_pCurrentPage->rtStop  = m_pCurrentPage->rtStart + m_pCurrentPage->pageTimeOut * 1000000;
+                            m_pCurrentPage->rtStop  = m_pCurrentPage->rtStart + m_pCurrentPage->pageTimeOut * 10000000;
 
-                            TRACE_DVB(_T("DVB - Page started %s, TimeOut = %d\n"), ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
+                            TRACE_DVB(_T("DVB - Page started %s, TimeOut = %ds\n"), ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
                         } else {
                             TRACE_DVB(_T("DVB - Page update %x\n"), pPage->pageState);
 
                             if (m_pCurrentPage && !m_pCurrentPage->regionCount) {
                                 m_pCurrentPage = pPage;
                                 m_pCurrentPage->rtStart = m_rtStart;
-                                m_pCurrentPage->rtStop  = m_pCurrentPage->rtStart + m_pCurrentPage->pageTimeOut * 1000000;
+                                m_pCurrentPage->rtStop  = m_pCurrentPage->rtStart + m_pCurrentPage->pageTimeOut * 10000000;
 
-                                TRACE_DVB(_T("DVB - Page started[update] %s, TimeOut = %d\n"), ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
+                                TRACE_DVB(_T("DVB - Page started[update] %s, TimeOut = %ds\n"), ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
                             }
                         }
                     }
@@ -287,13 +286,8 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                         break;
                     case END_OF_DISPLAY:
                         if (m_pCurrentPage != NULL) {
-                            if (m_pCurrentPage->rtStart != m_rtStart) {
-                                m_pCurrentPage->rtStop = max(m_pCurrentPage->rtStop, m_rtStart);
-                                TRACE_DVB(_T("DVB - End display %s - %s\n"), ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
-                                m_Pages.AddTail(m_pCurrentPage.Detach());
-                            } else {
-                                TRACE_DVB(_T("DVB - Ignored End display %s (%s - %s)\n"), ReftimeToString(m_rtStart), ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
-                            }
+                            TRACE_DVB(_T("DVB - End display"));
+                            EnqueuePage(m_rtStart);
                         } else {
                             TRACE_DVB(_T("DVB - Ignored End display\n"));
                         }
@@ -584,15 +578,30 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
     return hr;
 }
 
+HRESULT CDVBSub::EnqueuePage(REFERENCE_TIME rtStop)
+{
+    if (m_pCurrentPage->rtStart < rtStop && m_pCurrentPage->rtStop > rtStop) {
+        m_pCurrentPage->rtStop = rtStop;
+    }
+    TRACE_DVB(_T(" %s (%s - %s)\n"), ReftimeToString(rtStop), ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
+    m_Pages.AddTail(m_pCurrentPage.Detach());
+
+    return S_OK;
+}
+
 HRESULT CDVBSub::UpdateTimeStamp(REFERENCE_TIME rtStop)
 {
-    HRESULT hr = E_FAIL;
-    POSITION pos = m_Pages.GetHeadPosition();
+    HRESULT hr = S_FALSE;
+    POSITION pos = m_Pages.GetTailPosition();
     while (pos) {
-        DVB_PAGE* pPage = m_Pages.GetNext(pos);
+        DVB_PAGE* pPage = m_Pages.GetPrev(pos);
         if (pPage->rtStop > rtStop) {
+            TRACE_DVB(_T("DVB - Updated end of display %s - %s --> %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop),
+                                                                                ReftimeToString(pPage->rtStart), ReftimeToString(rtStop));
             pPage->rtStop = rtStop;
             hr = S_OK;
+        } else {
+            break;
         }
     }
 
