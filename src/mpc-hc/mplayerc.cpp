@@ -1030,10 +1030,12 @@ BOOL CMPlayerCApp::InitInstance()
         return FALSE;
     }
 
-    CRegKey key;
-    CString exePath = GetProgramPath(true);
-    if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Media Player Classic"))) {
-        key.SetStringValue(_T("ExePath"), exePath);
+    if (!IsIniValid()) {
+        CRegKey key;
+        CString exePath = GetProgramPath(true);
+        if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Media Player Classic"))) {
+            key.SetStringValue(_T("ExePath"), exePath);
+        }
     }
 
     AfxEnableControlContainer();
