@@ -67,6 +67,14 @@ public:
     void  SetPalette(int nNbEntry, DWORD* dwColors);
     bool  HavePalette() { return m_nColorNumber > 0; };
 
+    CompositionObject* Copy() {
+        CompositionObject* pCompositionObject = DEBUG_NEW CompositionObject(*this);
+        pCompositionObject->m_pRLEData = NULL;
+        pCompositionObject->SetRLEData(m_pRLEData, m_nRLEDataSize, m_nRLEDataSize);
+
+        return pCompositionObject;
+    }
+
 private:
     BYTE* m_pRLEData;
     int   m_nRLEDataSize;
