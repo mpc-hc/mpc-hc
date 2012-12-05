@@ -13196,9 +13196,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGr
         if (lcname.Find(_T(" off")) >= 0) {
             str.LoadString(IDS_AG_DISABLED);
         } else {
-            if (lcid == 0) {
-                str.Format(IDS_AG_UNKNOWN, id - baseid);
-            } else {
+            if (lcid != 0) {
                 int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
                 str.ReleaseBufferSetLength(max(len - 1, 0));
             }
