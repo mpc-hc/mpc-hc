@@ -6975,7 +6975,7 @@ void CMainFrame::OnPlayPlay()
                 CComQIPtr<IBDATuner> pTun = pGB;
                 if (pTun) {
                     pTun->SetChannel(AfxGetAppSettings().nDVBLastChannel);
-                    DisplayCurrentChannelOSD();
+                    CurrentChannelInfo();
                 }
             }
         }
@@ -8373,13 +8373,13 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
                 if (nID == ID_NAVIGATE_SKIPBACK) {
                     pTun->SetChannel(nCurrentChannel - 1);
-                    DisplayCurrentChannelOSD();
+                    CurrentChannelInfo();
                     if (m_wndNavigationBar.IsVisible()) {
                         m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
                     }
                 } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
                     pTun->SetChannel(nCurrentChannel + 1);
-                    DisplayCurrentChannelOSD();
+                    CurrentChannelInfo();
                     if (m_wndNavigationBar.IsVisible()) {
                         m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
                     }
@@ -8627,7 +8627,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             if (pTun) {
                 if (s.nDVBLastChannel != nID) {
                     pTun->SetChannel(nID);
-                    DisplayCurrentChannelOSD();
+                    CurrentChannelInfo();
                     if (m_wndNavigationBar.IsVisible()) {
                         m_wndNavigationBar.m_navdlg.UpdatePos(nID);
                     }
@@ -14511,53 +14511,55 @@ void CMainFrame::StopTunerScan()
     m_bStopTunerScan = true;
 }
 
-void CMainFrame::DisplayCurrentChannelOSD()
+void CMainFrame::CurrentChannelInfo(bool fShowInfoBar)
 {
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+    CString description;
     CString osd;
-    int i = osd.Find(_T("\n"));
     PresentFollowing NowNext;
 
     if (pChannel != NULL) {
         // Get EIT information:
         CComQIPtr<IBDATuner> pTun = pGB;
-        if (pTun) {
+        if (pTun && pChannel->GetNowNextFlag()) {
             pTun->UpdatePSI(NowNext);
+        } else {
+            m_wndInfoBar.RemoveAllLines();
+            m_OSD.DisplayMessage(OSD_TOPLEFT, pChannel->GetName(), 3500);
+            return;
         }
-        NowNext.cPresent.Insert(0, _T(" "));
-        osd = pChannel->GetName() + NowNext.cPresent;
-        if (i > 0) {
-            osd.Delete(i, osd.GetLength() - i);
-        }
+
+        osd = pChannel->GetName();
+        osd += _T(" | ") + NowNext.cPresent + _T(" (") + NowNext.StartTime + _T(" - ") + NowNext.Duration + _T(")");
         m_OSD.DisplayMessage(OSD_TOPLEFT, osd , 3500);
-    }
-}
 
-void CMainFrame::DisplayCurrentChannelInfo()
-{
-    CAppSettings& s = AfxGetAppSettings();
-    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-    CString osd;
-    PresentFollowing NowNext;
+        //Update Info Bar
+        m_wndInfoBar.RemoveAllLines();
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), pChannel->GetName());
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), NowNext.cPresent);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.StartTime + _T(" - ") + NowNext.Duration);
 
-    if (pChannel != NULL) {
-        // Get EIT information:
-        CComQIPtr<IBDATuner> pTun = pGB;
-        if (pTun) {
-            pTun->UpdatePSI(NowNext);
+        for (int i = 0; i < NowNext.ExtendedDescriptorsItems.GetCount(); i++) {
+            m_wndInfoBar.SetLine(NowNext.ExtendedDescriptorsItems.ElementAt(i), NowNext.ExtendedDescriptorsItemsText.ElementAt(i));
         }
 
-        osd = NowNext.cPresent + _T(". ") + NowNext.StartTime + _T(" - ") + NowNext.Duration + _T(". ") + NowNext.SummaryDesc + _T(" ");
-        int i = osd.Find(_T("\n"));
-
-        if (i > 0) {
-            osd.Delete(i, osd.GetLength() - i);
+        description = NowNext.SummaryDesc;
+        if (!NowNext.ExtendedDescriptorsTexts.IsEmpty()) {
+            if (!description.IsEmpty()) {
+                description += _T("; ");
+            }
+            description += NowNext.ExtendedDescriptorsTexts.GetTail();
         }
-        m_OSD.DisplayMessage(OSD_TOPLEFT, osd , 8000, 12);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+
+        RecalcLayout();
+
+        if (fShowInfoBar) {
+            ShowControls(m_nCS | CS_INFOBAR, true);
+        }
     }
 }
-
 
 // ==== Added by CASIMIR666
 void CMainFrame::SetLoadState(MPC_LOADSTATE iState)

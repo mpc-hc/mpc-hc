@@ -26,7 +26,8 @@ typedef struct {
     CString SummaryDesc;
     CString StartTime;
     CString Duration;
-    CMapStringToString ExtendedDescriptorsItems;
+    CArray<CString> ExtendedDescriptorsItems;
+    CArray<CString> ExtendedDescriptorsItemsText;
     CStringList ExtendedDescriptorsTexts;
     CString cFollowing;
 } PresentFollowing;
