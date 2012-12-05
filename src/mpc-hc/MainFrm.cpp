@@ -3491,15 +3491,6 @@ void CMainFrame::OnFilePostOpenmedia()
         wp.length = sizeof(wp);
         GetWindowPlacement(&wp);
 
-        // Workaround to avoid MadVR freezing when switching channels in PM_CAPTURE mode:
-        if (IsWindowVisible() && s.fRememberZoomLevel
-                && !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED)
-                && GetPlaybackMode() == PM_CAPTURE && s.iDSVideoRendererType == VIDRNDT_DS_MADVR) {
-            ShowWindow(SW_MAXIMIZE);
-            wp.showCmd = SW_SHOWMAXIMIZED;
-        }
-
-
         // restore magnification
         if (IsWindowVisible() && s.fRememberZoomLevel
                 && !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED)) {
