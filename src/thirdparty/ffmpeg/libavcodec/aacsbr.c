@@ -76,7 +76,6 @@ enum {
 static VLC vlc_sbr[10];
 static const int8_t vlc_sbr_lav[10] =
     { 60, 60, 24, 24, 31, 31, 12, 12, 31, 12 };
-static const DECLARE_ALIGNED(16, float, zero64)[64];
 
 #define SBR_INIT_VLC_STATIC(num, size) \
     INIT_VLC_STATIC(&vlc_sbr[num], 9, sbr_tmp[num].table_size / sbr_tmp[num].elem_size,     \
@@ -1159,10 +1158,9 @@ static void sbr_dequant(SpectralBandReplication *sbr, int id_aac)
  */
 static void sbr_qmf_analysis(DSPContext *dsp, FFTContext *mdct,
                              SBRDSPContext *sbrdsp, const float *in, float *x,
-                             float z[320], float W[2][32][32][2])
+                             float z[320], float W[2][32][32][2], int buf_idx)
 {
     int i;
-    memcpy(W[0], W[1], sizeof(W[0]));
     memcpy(x    , x+1024, (320-32)*sizeof(x[0]));
     memcpy(x+288, in,         1024*sizeof(x[0]));
     for (i = 0; i < 32; i++) { // numTimeSlots*RATE = 16*2 as 960 sample frames
@@ -1171,7 +1169,7 @@ static void sbr_qmf_analysis(DSPContext *dsp, FFTContext *mdct,
         sbrdsp->sum64x5(z);
         sbrdsp->qmf_pre_shuffle(z);
         mdct->imdct_half(mdct, z, z+64);
-        sbrdsp->qmf_post_shuffle(W[1][i], z);
+        sbrdsp->qmf_post_shuffle(W[buf_idx][i], z);
         x += 32;
     }
 }
@@ -1181,7 +1179,7 @@ static void sbr_qmf_analysis(DSPContext *dsp, FFTContext *mdct,
  * (14496-3 sp04 p206)
  */
 static void sbr_qmf_synthesis(DSPContext *dsp, FFTContext *mdct,
-                              SBRDSPContext *sbrdsp,
+                              SBRDSPContext *sbrdsp, AVFloatDSPContext *fdsp,
                               float *out, float X[2][38][64],
                               float mdct_buf[2][64],
                               float *v0, int *v_off, const unsigned int div)
@@ -1212,7 +1210,7 @@ static void sbr_qmf_synthesis(DSPContext *dsp, FFTContext *mdct,
             mdct->imdct_half(mdct, mdct_buf[1], X[1][i]);
             sbrdsp->qmf_deint_bfly(v, mdct_buf[1], mdct_buf[0]);
         }
-        dsp->vector_fmul_add(out, v                , sbr_qmf_window               , zero64, 64 >> div);
+        fdsp->vector_fmul   (out, v                , sbr_qmf_window                       , 64 >> div);
         dsp->vector_fmul_add(out, v + ( 192 >> div), sbr_qmf_window + ( 64 >> div), out   , 64 >> div);
         dsp->vector_fmul_add(out, v + ( 256 >> div), sbr_qmf_window + (128 >> div), out   , 64 >> div);
         dsp->vector_fmul_add(out, v + ( 448 >> div), sbr_qmf_window + (192 >> div), out   , 64 >> div);
@@ -1307,7 +1305,8 @@ static void sbr_chirp(SpectralBandReplication *sbr, SBRData *ch_data)
 
 /// Generate the subband filtered lowband
 static int sbr_lf_gen(AACContext *ac, SpectralBandReplication *sbr,
-                      float X_low[32][40][2], const float W[2][32][32][2])
+                      float X_low[32][40][2], const float W[2][32][32][2],
+                      int buf_idx)
 {
     int i, k;
     const int t_HFGen = 8;
@@ -1315,14 +1314,15 @@ static int sbr_lf_gen(AACContext *ac, SpectralBandReplication *sbr,
     memset(X_low, 0, 32*sizeof(*X_low));
     for (k = 0; k < sbr->kx[1]; k++) {
         for (i = t_HFGen; i < i_f + t_HFGen; i++) {
-            X_low[k][i][0] = W[1][i - t_HFGen][k][0];
-            X_low[k][i][1] = W[1][i - t_HFGen][k][1];
+            X_low[k][i][0] = W[buf_idx][i - t_HFGen][k][0];
+            X_low[k][i][1] = W[buf_idx][i - t_HFGen][k][1];
         }
     }
+    buf_idx = 1-buf_idx;
     for (k = 0; k < sbr->kx[0]; k++) {
         for (i = 0; i < t_HFGen; i++) {
-            X_low[k][i][0] = W[0][i + i_f - t_HFGen][k][0];
-            X_low[k][i][1] = W[0][i + i_f - t_HFGen][k][1];
+            X_low[k][i][0] = W[buf_idx][i + i_f - t_HFGen][k][0];
+            X_low[k][i][1] = W[buf_idx][i + i_f - t_HFGen][k][1];
         }
     }
     return 0;
@@ -1670,8 +1670,8 @@ void ff_sbr_apply(AACContext *ac, SpectralBandReplication *sbr, int id_aac,
         /* decode channel */
         sbr_qmf_analysis(&ac->dsp, &sbr->mdct_ana, &sbr->dsp, ch ? R : L, sbr->data[ch].analysis_filterbank_samples,
                          (float*)sbr->qmf_filter_scratch,
-                         sbr->data[ch].W);
-        sbr_lf_gen(ac, sbr, sbr->X_low, sbr->data[ch].W);
+                         sbr->data[ch].W, sbr->data[ch].Ypos);
+        sbr_lf_gen(ac, sbr, sbr->X_low, sbr->data[ch].W, sbr->data[ch].Ypos);
         sbr->data[ch].Ypos ^= 1;
         if (sbr->start) {
             sbr_hf_inverse_filter(&sbr->dsp, sbr->alpha0, sbr->alpha1, sbr->X_low, sbr->k[0]);
@@ -1707,12 +1707,14 @@ void ff_sbr_apply(AACContext *ac, SpectralBandReplication *sbr, int id_aac,
         nch = 2;
     }
 
-    sbr_qmf_synthesis(&ac->dsp, &sbr->mdct, &sbr->dsp, L, sbr->X[0], sbr->qmf_filter_scratch,
+    sbr_qmf_synthesis(&ac->dsp, &sbr->mdct, &sbr->dsp, &ac->fdsp,
+                      L, sbr->X[0], sbr->qmf_filter_scratch,
                       sbr->data[0].synthesis_filterbank_samples,
                       &sbr->data[0].synthesis_filterbank_samples_offset,
                       downsampled);
     if (nch == 2)
-        sbr_qmf_synthesis(&ac->dsp, &sbr->mdct, &sbr->dsp, R, sbr->X[1], sbr->qmf_filter_scratch,
+        sbr_qmf_synthesis(&ac->dsp, &sbr->mdct, &sbr->dsp, &ac->fdsp,
+                          R, sbr->X[1], sbr->qmf_filter_scratch,
                           sbr->data[1].synthesis_filterbank_samples,
                           &sbr->data[1].synthesis_filterbank_samples_offset,
                           downsampled);

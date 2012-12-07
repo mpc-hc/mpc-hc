@@ -30,6 +30,7 @@
 #include "libavutil/attributes.h"
 #include "avcodec.h"
 #include "get_bits.h"
+#include "internal.h"
 #include "mathops.h"
 #include "ivi_common.h"
 #include "ivi_dsp.h"
@@ -777,7 +778,7 @@ static int decode_band(IVI45DecContext *ctx,
     return result;
 }
 
-int ff_ivi_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
+int ff_ivi_decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
                         AVPacket *avpkt)
 {
     IVI45DecContext *ctx = avctx->priv_data;
@@ -844,7 +845,7 @@ int ff_ivi_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
 
     ctx->frame.reference = 0;
     avcodec_set_dimensions(avctx, ctx->planes[0].width, ctx->planes[0].height);
-    if ((result = avctx->get_buffer(avctx, &ctx->frame)) < 0) {
+    if ((result = ff_get_buffer(avctx, &ctx->frame)) < 0) {
         av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
         return result;
     }
@@ -861,7 +862,7 @@ int ff_ivi_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     ff_ivi_output_plane(&ctx->planes[2], ctx->frame.data[1], ctx->frame.linesize[1]);
     ff_ivi_output_plane(&ctx->planes[1], ctx->frame.data[2], ctx->frame.linesize[2]);
 
-    *data_size = sizeof(AVFrame);
+    *got_frame = 1;
     *(AVFrame*)data = ctx->frame;
 
     return buf_size;

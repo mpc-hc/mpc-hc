@@ -112,6 +112,7 @@ SRCS_C = \
     libavcodec/adpcm.c \
     libavcodec/adpcm_data.c \
     libavcodec/alac.c \
+    libavcodec/alac_data.c \
     libavcodec/allcodecs.c \
     libavcodec/alsdec.c \
     libavcodec/amrnbdec.c \

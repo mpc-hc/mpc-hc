@@ -162,6 +162,7 @@
     <ClCompile Include="libavcodec\adpcm.c" />
     <ClCompile Include="libavcodec\adpcm_data.c" />
     <ClCompile Include="libavcodec\alac.c" />
+    <ClCompile Include="libavcodec\alac_data.c" />
     <ClCompile Include="libavcodec\allcodecs.c" />
     <ClCompile Include="libavcodec\alsdec.c" />
     <ClCompile Include="libavcodec\amrnbdec.c" />
@@ -441,6 +442,7 @@
     <ClInclude Include="libavcodec\acelp_vectors.h" />
     <ClInclude Include="libavcodec\adpcm.h" />
     <ClInclude Include="libavcodec\adpcm_data.h" />
+    <ClInclude Include="libavcodec\alac_data.h" />
     <ClInclude Include="libavcodec\amr.h" />
     <ClInclude Include="libavcodec\amrnbdata.h" />
     <ClInclude Include="libavcodec\amrwbdata.h" />

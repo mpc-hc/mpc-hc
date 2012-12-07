@@ -31,8 +31,6 @@
 #include "random_seed.h"
 #include "parseutils.h"
 
-#undef time
-
 #ifdef TEST
 
 #define av_get_random_seed av_get_random_seed_deterministic
@@ -454,7 +452,8 @@ char *av_small_strptime(const char *p, const char *fmt, struct tm *dt)
             c = *fmt++;
             switch(c) {
             case 'H':
-                val = date_get_num(&p, 0, 23, 2);
+            case 'J':
+                val = date_get_num(&p, 0, c == 'H' ? 23 : INT_MAX, 2);
                 if (val == -1)
                     return NULL;
                 dt->tm_hour = val;
@@ -581,7 +580,7 @@ int av_parse_time(int64_t *timeval, const char *timestr, int duration)
             ++p;
         }
         /* parse timestr as HH:MM:SS */
-        q = av_small_strptime(p, time_fmt[0], &dt);
+        q = av_small_strptime(p, "%J:%M:%S", &dt);
         if (!q) {
             /* parse timestr as S+ */
             dt.tm_sec = strtol(p, (void *)&q, 10);
@@ -675,14 +674,12 @@ int av_find_info_tag(char *arg, int arg_size, const char *tag1, const char *info
 
 #ifdef TEST
 
-static uint32_t random = MKTAG('L','A','V','U');
+static uint32_t randomv = MKTAG('L','A','V','U');
 
 static uint32_t av_get_random_seed_deterministic(void)
 {
-    return random = random * 1664525 + 1013904223;
+    return randomv = randomv * 1664525 + 1013904223;
 }
-
-#undef printf
 
 int main(void)
 {

@@ -505,6 +505,8 @@ static void svq1_parse_string(GetBitContext *bitbuf, uint8_t *out)
 static int svq1_decode_frame_header(GetBitContext *bitbuf, MpegEncContext *s)
 {
     int frame_size_code;
+    int width  = s->width;
+    int height = s->height;
 
     skip_bits(bitbuf, 8); /* temporal_reference */
 
@@ -544,15 +546,15 @@ static int svq1_decode_frame_header(GetBitContext *bitbuf, MpegEncContext *s)
 
         if (frame_size_code == 7) {
             /* load width, height (12 bits each) */
-            s->width  = get_bits(bitbuf, 12);
-            s->height = get_bits(bitbuf, 12);
+            width  = get_bits(bitbuf, 12);
+            height = get_bits(bitbuf, 12);
 
-            if (!s->width || !s->height)
+            if (!width || !height)
                 return AVERROR_INVALIDDATA;
         } else {
             /* get width, height from table */
-            s->width  = ff_svq1_frame_size_table[frame_size_code].width;
-            s->height = ff_svq1_frame_size_table[frame_size_code].height;
+            width  = ff_svq1_frame_size_table[frame_size_code].width;
+            height = ff_svq1_frame_size_table[frame_size_code].height;
         }
     }
 
@@ -575,11 +577,13 @@ static int svq1_decode_frame_header(GetBitContext *bitbuf, MpegEncContext *s)
             skip_bits(bitbuf, 8);
     }
 
+    s->width  = width;
+    s->height = height;
     return 0;
 }
 
 static int svq1_decode_frame(AVCodecContext *avctx, void *data,
-                             int *data_size, AVPacket *avpkt)
+                             int *got_frame, AVPacket *avpkt)
 {
     const uint8_t *buf = avpkt->data;
     int buf_size       = avpkt->size;
@@ -703,7 +707,7 @@ static int svq1_decode_frame(AVCodecContext *avctx, void *data,
 
     ff_MPV_frame_end(s);
 
-    *data_size = sizeof(AVFrame);
+    *got_frame = 1;
     result     = buf_size;
 
 err:

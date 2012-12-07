@@ -28,7 +28,7 @@ Legend:
 + Ticket #2737, Improve file associations on Windows 8. The system dialog will be used to set
   MPC-HC as default handler since it is not possible anymore to do that programmatically.
 + Ticket #2739, Support custom pixel shaders with madVR v0.85.0
-* Updated FFmpeg (n0.8-16407-g5473f62)
+* Updated FFmpeg (n0.8-16652-g419ade4)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
 * Updated Little CMS to v2.4 (git c606462)

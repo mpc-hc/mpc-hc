@@ -35,6 +35,7 @@
 #include "dsputil.h"
 #include "bytestream.h"
 #include "get_bits.h"
+#include "internal.h"
 
 #include "indeo3data.h"
 
@@ -1053,7 +1054,7 @@ static av_cold int decode_init(AVCodecContext *avctx)
 }
 
 
-static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
+static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
                         AVPacket *avpkt)
 {
     Indeo3DecodeContext *ctx = avctx->priv_data;
@@ -1068,7 +1069,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     /* skip sync(null) frames */
     if (res) {
         // we have processed 16 bytes but no data was decoded
-        *data_size = 0;
+        *got_frame = 0;
         return buf_size;
     }
 
@@ -1088,7 +1089,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
         avctx->release_buffer(avctx, &ctx->frame);
 
     ctx->frame.reference = 0;
-    if ((res = avctx->get_buffer(avctx, &ctx->frame)) < 0) {
+    if ((res = ff_get_buffer(avctx, &ctx->frame)) < 0) {
         av_log(ctx->avctx, AV_LOG_ERROR, "get_buffer() failed\n");
         return res;
     }
@@ -1114,7 +1115,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
                  ctx->frame.data[2], ctx->frame.linesize[2],
                  (avctx->height + 3) >> 2);
 
-    *data_size      = sizeof(AVFrame);
+    *got_frame = 1;
     *(AVFrame*)data = ctx->frame;
 
     return buf_size;

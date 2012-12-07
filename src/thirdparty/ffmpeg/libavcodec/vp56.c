@@ -25,6 +25,7 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
+#include "internal.h"
 
 #include "vp56.h"
 #include "vp56data.h"
@@ -491,7 +492,7 @@ static int vp56_size_changed(VP56Context *s)
 
 static int ff_vp56_decode_mbs(AVCodecContext *avctx, void *, int, int);
 
-int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
+int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
                          AVPacket *avpkt)
 {
     const uint8_t *buf = avpkt->data;
@@ -534,7 +535,7 @@ int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     }
 
     p->reference = 3;
-    if (avctx->get_buffer(avctx, p) < 0) {
+    if (ff_get_buffer(avctx, p) < 0) {
         av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
         return -1;
     }
@@ -547,6 +548,10 @@ int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     }
 
     if (s->has_alpha) {
+        int bak_w = avctx->width;
+        int bak_h = avctx->height;
+        int bak_cw = avctx->coded_width;
+        int bak_ch = avctx->coded_height;
         buf += alpha_offset;
         remaining_buf_size -= alpha_offset;
 
@@ -554,14 +559,12 @@ int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
         if (res != 1) {
             if(res==2) {
                 av_log(avctx, AV_LOG_ERROR, "Alpha reconfiguration\n");
-                for (i = 0; i < 4; i++) {
-                    if (s->frames[i].data[0])
-                        avctx->release_buffer(avctx, &s->frames[i]);
-                    av_assert0(!s->alpha_context->frames[i].data[0]);
-                }
-                vp56_size_changed(s);
-            }else
-                avctx->release_buffer(avctx, p);
+                avctx->width  = bak_w;
+                avctx->height = bak_h;
+                avctx->coded_width  = bak_cw;
+                avctx->coded_height = bak_ch;
+            }
+            avctx->release_buffer(avctx, p);
             return -1;
         }
     }
@@ -583,7 +586,7 @@ int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     p->qscale_table = s->qscale_table;
     p->qscale_type = FF_QSCALE_TYPE_VP56;
     *(AVFrame*)data = *p;
-    *data_size = sizeof(AVFrame);
+    *got_frame = 1;
 
     return avpkt->size;
 }

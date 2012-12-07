@@ -45,6 +45,7 @@
 #include "synth_filter.h"
 #include "dcadsp.h"
 #include "fmtconvert.h"
+#include "internal.h"
 
 #if ARCH_ARM
 #   include "arm/dca.h"
@@ -736,6 +737,12 @@ static int dca_parse_frame_header(DCAContext *s)
     s->aspf              = get_bits(&s->gb, 1);
     s->lfe               = get_bits(&s->gb, 2);
     s->predictor_history = get_bits(&s->gb, 1);
+
+    if (s->lfe == 3) {
+        s->lfe = 0;
+        av_log_ask_for_sample(s->avctx, "LFE is 3\n");
+        return AVERROR_PATCHWELCOME;
+    }
 
     /* TODO: check CRC */
     if (s->crc_present)
@@ -2158,6 +2165,11 @@ static int dca_decode_frame(AVCodecContext *avctx, void *data,
                     continue;
                 }
 
+                if (s->xch_base_channel < 2) {
+                    av_log_ask_for_sample(avctx, "XCh with fewer than 2 base channels is not supported\n");
+                    continue;
+                }
+
                 /* much like core primary audio coding header */
                 dca_parse_audio_coding_header(s, s->xch_base_channel, 0);
 
@@ -2341,7 +2353,7 @@ static int dca_decode_frame(AVCodecContext *avctx, void *data,
 
     /* get output buffer */
     s->frame.nb_samples = 256 * (s->sample_blocks / 8);
-    if ((ret = avctx->get_buffer(avctx, &s->frame)) < 0) {
+    if ((ret = ff_get_buffer(avctx, &s->frame)) < 0) {
         av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
         return ret;
     }
