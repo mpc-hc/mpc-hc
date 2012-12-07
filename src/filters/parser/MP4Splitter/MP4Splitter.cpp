@@ -993,7 +993,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             fourcc = WAVE_FORMAT_MPEGLAYER3;
                         } else if ((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3) || (type == AP4_ATOM_TYPE_EAC3)) {
                             fourcc = 0x2000;
-                            if (type == AP4_ATOM_TYPE_EAC3) {
+                            if (type != AP4_ATOM_TYPE_EAC3) {
                                 SetTrackName(&TrackName, _T("AC-3 Audio"));
                             } else {
                                 SetTrackName(&TrackName, _T("Enhanced AC-3 audio"));
