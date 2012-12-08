@@ -2508,6 +2508,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         break;
                 }
 
+                SetupDVDChapters();
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
 
 #if 0   // UOPs debug traces
@@ -8356,8 +8357,6 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
         }
 
-        SetupDVDChapters();
-
         /*
         if (nID == ID_NAVIGATE_SKIPBACK)
             pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, NULL);
@@ -10907,8 +10906,6 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     }
 
     m_iDVDDomain = DVD_DOMAIN_Stop;
-
-    SetupDVDChapters();
 
     SetPlaybackMode(PM_DVD);
 }
