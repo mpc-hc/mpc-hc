@@ -57,6 +57,8 @@ IF /I "%ARG%" == "?"          GOTO ShowHelp
 FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "help"         GOTO ShowHelp
   IF /I "%%G" == "GetVersion"   ENDLOCAL & CALL :SubGetVersion & EXIT /B
+  IF /I "%%G" == "CopyDXDll"    ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
+  IF /I "%%G" == "CopyDX"       ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
   IF /I "%%G" == "Build"        SET "BUILDTYPE=Build"    & SET /A ARGB+=1
   IF /I "%%G" == "Clean"        SET "BUILDTYPE=Clean"    & SET /A ARGB+=1  & SET /A ARGCL+=1 & SET /A ARGFF+=1
   IF /I "%%G" == "Rebuild"      SET "BUILDTYPE=Rebuild"  & SET /A ARGB+=1  & SET /A ARGRE+=1
