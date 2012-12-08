@@ -72,6 +72,8 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
   IF /I "%%G" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
   IF /I "%%G" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
+  IF /I "%%G" == "MPCIconLib" SET "CONFIG=IconLib"    & SET /A ARGC+=1  & SET /A ARGD+=1
+  IF /I "%%G" == "IconLib"    SET "CONFIG=IconLib"    & SET /A ARGC+=1  & SET /A ARGD+=1
   IF /I "%%G" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%G" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
   IF /I "%%G" == "Packages"   SET "PACKAGES=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
@@ -137,6 +139,11 @@ CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters %PPLATFORM%
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters %PPLATFORM%
+  EXIT /B
+)
+
+IF /I "%CONFIG%" == "IconLib" (
+  CALL :SubMPCIconLib %PPLATFORM%
   EXIT /B
 )
 
@@ -209,15 +216,7 @@ IF /I "%BUILDCFG%" == "Debug" (
   EXIT /B
 )
 
-TITLE Compiling mpciconlib - Release^|%1...
-"%MSBUILD%" mpciconlib.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration=Release;PPLATFORM=%1
-IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!"
-  EXIT /B
-) ELSE (
-  CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
-)
+CALL :SubMPCIconLib %1
 
 IF DEFINED MPCHC_LITE (
   CALL :SubMsg "WARNING" "/lite was used, translations will not be built"
@@ -236,6 +235,19 @@ FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
 )
 EXIT /B
 
+:SubMPCIconLib
+IF %ERRORLEVEL% NEQ 0 EXIT /B
+
+TITLE Compiling mpciconlib - Release^|%1...
+"%MSBUILD%" mpciconlib.sln %MSBUILD_SWITCHES%^
+ /target:%BUILDTYPE% /property:Configuration=Release;PPLATFORM=%1
+IF %ERRORLEVEL% NEQ 0 (
+  CALL :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!"
+  EXIT /B
+) ELSE (
+  CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
+)
+EXIT /B
 
 :SubCopyDXDll
 PUSHD "bin"
