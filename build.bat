@@ -86,6 +86,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1 & SET /A ARGL+=1
   IF /I "%%G" == "FFmpeg"       SET "Rebuild=FFmpeg"     & SET /A VALID+=1 & SET /A ARGFF+=1 & SET /A ARGRE+=1
+  IF /I "%%G" == "Silent"       SET "SILENT=True"
 )
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
@@ -524,8 +525,10 @@ IF /I "%~1" == "ERROR" (
 )
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
-  ECHO Press any key to exit...
-  PAUSE >NUL
+  IF NOT DEFINED SILENT (
+    ECHO Press any key to exit...
+    PAUSE >NUL
+  )
   EXIT /B 1
 ) ELSE (
   EXIT /B 0
