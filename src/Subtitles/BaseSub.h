@@ -37,6 +37,7 @@ public:
     virtual ~CBaseSub();
 
     virtual HRESULT         ParseSample(IMediaSample* pSample) = NULL;
+    virtual void            EndOfStream() { /* Nothing to do */ };
     virtual void            Reset() = NULL;
     virtual POSITION        GetStartPosition(REFERENCE_TIME rt, double fps) = NULL;
     virtual POSITION        GetNext(POSITION pos) = NULL;

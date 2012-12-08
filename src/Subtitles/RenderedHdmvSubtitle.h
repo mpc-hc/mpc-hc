@@ -57,6 +57,7 @@ public:
 
     HRESULT ParseSample(IMediaSample* pSample);
     HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+    void EndOfStream();
 
 private:
     CString         m_name;

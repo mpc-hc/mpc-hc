@@ -34,6 +34,7 @@ public:
     ~CDVBSub();
 
     virtual HRESULT        ParseSample(IMediaSample* pSample);
+    virtual void           EndOfStream();
     virtual void           Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
     virtual HRESULT        GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
     virtual POSITION       GetStartPosition(REFERENCE_TIME rt, double fps);

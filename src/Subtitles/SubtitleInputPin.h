@@ -49,6 +49,7 @@ public:
     STDMETHODIMP ReceiveConnection(IPin* pConnector, const AM_MEDIA_TYPE* pmt);
     STDMETHODIMP NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
     STDMETHODIMP Receive(IMediaSample* pSample);
+    STDMETHODIMP EndOfStream(void);
 
     ISubStream* GetSubStream() { return m_pSubStream; }
 };

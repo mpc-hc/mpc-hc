@@ -296,11 +296,13 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                         TRACE_DVB(_T("DVB - Display\n"));
                         break;
                     case END_OF_DISPLAY:
-                        if (m_pCurrentPage != NULL) {
+                        if (m_pCurrentPage == NULL) {
+                            TRACE_DVB(_T("DVB - Ignored End display %s: no current page\n"), ReftimeToString(m_rtStart));
+                        } else if (m_pCurrentPage->rtStart < m_rtStart) {
                             TRACE_DVB(_T("DVB - End display"));
                             EnqueuePage(m_rtStart);
                         } else {
-                            TRACE_DVB(_T("DVB - Ignored End display\n"));
+                            TRACE_DVB(_T("DVB - Ignored End display %s: no information on page duration\n"), ReftimeToString(m_rtStart));
                         }
                         break;
                     default:
@@ -313,6 +315,18 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
     }
 
     return hr;
+}
+
+void CDVBSub::EndOfStream()
+{
+    // Enqueue the last page if necessary.
+    TRACE_DVB(_T("DVB - EndOfStream"));
+    if (m_pCurrentPage) {
+        TRACE_DVB(_T(": Enqueue last page"));
+        EnqueuePage(INVALID_TIME);
+    } else {
+        TRACE_DVB(_T(" ignored: no page to enqueue\n"));
+    }
 }
 
 void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)

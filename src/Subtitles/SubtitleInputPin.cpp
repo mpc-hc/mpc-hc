@@ -351,6 +351,19 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
     return hr;
 }
 
+STDMETHODIMP CSubtitleInputPin::EndOfStream(void)
+{
+    HRESULT hr = __super::EndOfStream();
+    
+    if (SUCCEEDED(hr) && IsHdmvSub(&m_mt)) {
+        CAutoLock cAutoLock(m_pSubLock);
+        CRenderedHdmvSubtitle* pHdmvSubtitle = (CRenderedHdmvSubtitle*)(ISubStream*)m_pSubStream;
+        pHdmvSubtitle->EndOfStream();
+    }
+
+    return hr;
+}
+
 bool CSubtitleInputPin::IsHdmvSub(const CMediaType* pmt)
 {
     return pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_HDMVSUB ||         // Blu ray presentation graphics
