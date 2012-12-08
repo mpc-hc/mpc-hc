@@ -369,7 +369,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
     localtime_s(&tmTime1, &tTime1);
     _tzset();
     _get_timezone(&timezone); // The difference in seconds between UTC and local time.
-    if (!_get_daylight(&daylight)) {
+    if (tmTime1.tm_isdst && !_get_daylight(&daylight)) {
         timezone -= daylight * 3600;
     }
 

@@ -17,6 +17,7 @@ Legend:
 + Take currently applied delay into account when saving subtitles using File > Save subtitle
 + The volume steps can now be changed on the playback options page
 + Ticket #439, External subtitles: support UTF8 without BOM
++ Ticket #888, Show the informations about the current DVB program in the information bar
 + Ticket #1617, Use MPC-HC's icon when registering the context menu entries
 + Ticket #1673, FLAC Source: Basic support for embedded CUE sheet
 + Ticket #1680, Add Greek translation
@@ -46,6 +47,7 @@ Legend:
 ! VSFilter (auto-loading version) wasn't loading on Windows 7
 ! ISR/VSFilter: Fix high RAM usage with some complex subtitles
 ! VSFilter: Fix and update the blacklist
+! DVB EPG: Fix the start time of the current program being off by one hour because of incorrect DST
 ! Ticket #376, Fix subtitles when switching from animated subs to non-animated subs.
   The subtitles' timings were not correctly respected after switching from an
   animated subtitles track to a non-animated subtitles track.
