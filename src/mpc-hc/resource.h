@@ -572,6 +572,8 @@
 #define IDS_SUBTITLES_DEFAULT_STYLE     14188
 #define IDS_FAVFILES                    14190
 #define IDS_FAVDVDS                     14191
+#define IDS_INFOBAR_CHANNEL             14192
+#define IDS_INFOBAR_TIME                14193
 #define IDD_TUNER_SCAN                  20002
 #define IDS_AG_RESET_STATS              20005
 #define IDD_NAVIGATION_DLG              20005

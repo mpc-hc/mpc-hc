@@ -478,14 +478,14 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
                             nLen = (UINT8)gb.BitRead(8);    // item_description_length
                             gb.ReadBuffer(DescBuffer, nLen);
                             itemDesc = ConvertString(DescBuffer, nLen);
+                            NowNext.ExtendedDescriptorsItems.Add(itemDesc);
                             itemsLength -= nLen + 1;
 
                             nLen = (UINT8)gb.BitRead(8);    // item_length
                             gb.ReadBuffer(DescBuffer, nLen);
                             itemText = ConvertString(DescBuffer, nLen);
+                            NowNext.ExtendedDescriptorsItemsText.Add(itemText);
                             itemsLength -= nLen + 1;
-
-                            NowNext.ExtendedDescriptorsItems.SetAt(itemDesc, itemText);
                         }
 
                         nLen = (UINT8)gb.BitRead(8);    // text_length
@@ -512,7 +512,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
     if (InfoEvent.ServiceId != ulSID) {
         NowNext.StartTime = _T("");
         NowNext.Duration = _T("");
-        NowNext.cPresent = _T(" Info not available.");
+        NowNext.cPresent = _T("Info not available");
         NowNext.SummaryDesc = _T("");
         NowNext.cFollowing = _T("");
     }
