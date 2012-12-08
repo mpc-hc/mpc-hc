@@ -12,9 +12,10 @@ IF EXIST "%ROOT_DIR%\build.user.bat" (
 )
 
 SET PATH=%MPCHC_PERL%\bin;%MPCHC_GIT%\cmd;%PATH%
-FOR %%G IN (git.exe)  DO (SET FOUND=%%~$PATH:G)
-FOR %%G IN (perl.exe) DO (SET FOUND=%%~$PATH:G)
-IF NOT DEFINED FOUND GOTO MissingVar
+FOR %%G IN (git.exe)  DO (SET GIT_PATH=%%~$PATH:G)
+FOR %%G IN (perl.exe) DO (SET PERL_PATH=%%~$PATH:G)
+IF NOT DEFINED GIT_PATH  GOTO MissingVar
+IF NOT DEFINED PERL_PATH GOTO MissingVar
 
 ECHO Backing up current translation files...
 IF NOT EXIST backup MD backup
