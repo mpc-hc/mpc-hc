@@ -101,5 +101,5 @@ public:
 
     static void CheckIconsAssoc();
 
-    static bool ShowWindowsAssocDialog(); 
+    static bool ShowWindowsAssocDialog();
 };

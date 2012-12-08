@@ -196,7 +196,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
 
         key.Attach(HKEY_CLASSES_ROOT);
         key.RecurseDeleteKey(strProgID);
-        
+
         if (ERROR_SUCCESS == key.Open(HKEY_LOCAL_MACHINE, strRegAppFileAssocKey)) {
             key.DeleteValue(ext);
         }
@@ -868,7 +868,7 @@ void CFileAssoc::CheckIconsAssoc()
 
 bool CFileAssoc::ShowWindowsAssocDialog()
 {
-    IApplicationAssociationRegistrationUI *pAARUI;
+    IApplicationAssociationRegistrationUI* pAARUI;
     HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistrationUI,
                                   NULL,
                                   CLSCTX_INPROC,

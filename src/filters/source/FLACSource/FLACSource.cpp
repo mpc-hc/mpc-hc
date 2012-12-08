@@ -377,8 +377,8 @@ void CFLACStream::UpdateFromMetadata(void* pBuffer)
             FLAC__StreamMetadata_CueSheet_Track& track = pMetadata->data.cue_sheet.tracks[i];
             // Ignore non-audio tracks and lead-out track
             if (track.type != 0
-                || (pMetadata->data.cue_sheet.is_cd && track.number == 170)
-                || (!pMetadata->data.cue_sheet.is_cd && track.number == 255)) {
+                    || (pMetadata->data.cue_sheet.is_cd && track.number == 170)
+                    || (!pMetadata->data.cue_sheet.is_cd && track.number == 255)) {
                 continue;
             }
 

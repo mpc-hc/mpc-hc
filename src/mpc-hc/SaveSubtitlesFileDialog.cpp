@@ -115,7 +115,7 @@ BOOL CSaveSubtitlesFileDialog::OnFileNameOK()
 {
     if (SysVersion::IsVistaOrLater()) {
         IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-        WCHAR *strDelay = NULL;
+        WCHAR* strDelay = NULL;
 
         pfdc->GetEditBoxText(IDC_EDIT1, &strDelay);
         if (strDelay) {

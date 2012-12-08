@@ -11925,7 +11925,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
 
         DWORD audstm = SetupAudioStreams();
-		DWORD substm = SetupSubtitleStreams();
+        DWORD substm = SetupSubtitleStreams();
 
         // PostMessage instead of SendMessage because the user might call CloseMedia and then we would deadlock
 
