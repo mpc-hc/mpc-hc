@@ -21,18 +21,6 @@
 
 #pragma once
 
-typedef struct {
-    CString cPresent;
-    CString SummaryDesc;
-    CString StartTime;
-    CString Duration;
-    CArray<CString> ExtendedDescriptorsItems;
-    CArray<CString> ExtendedDescriptorsItemsText;
-    CStringList ExtendedDescriptorsTexts;
-    CString cFollowing;
-} PresentFollowing;
-
-
 interface __declspec(uuid("165BE9D6-0929-4363-9BA3-580D735AA0F6"))
 IGraphBuilder2 :
 public IFilterGraph2 {
@@ -55,6 +43,7 @@ public IUnknown {
     STDMETHOD(GetDeadEnd)(int iIndex, CAtlList<CStringW>& path, CAtlList<CMediaType>& mts) = 0;
 };
 
+struct EventDescriptor;
 
 // private use only
 interface __declspec(uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7"))
@@ -64,6 +53,6 @@ public IUnknown {
     STDMETHOD(SetAudio)(int nAudioIndex) = 0;
     STDMETHOD(SetFrequency)(ULONG ulFrequency) = 0;
     STDMETHOD(Scan)(ULONG ulFrequency, HWND hWnd) = 0;
-    STDMETHOD(GetStats)(BOOLEAN & bPresent, BOOLEAN & bLocked, LONG & lStrength, LONG & lQuality) = 0;
-    STDMETHOD(UpdatePSI)(PresentFollowing & NowNext) = 0;
+    STDMETHOD(GetStats)(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lStrength, LONG& lQuality) = 0;
+    STDMETHOD(UpdatePSI)(EventDescriptor& NowNext) = 0;
 };

@@ -6975,7 +6975,7 @@ void CMainFrame::OnPlayPlay()
                 CComQIPtr<IBDATuner> pTun = pGB;
                 if (pTun) {
                     pTun->SetChannel(AfxGetAppSettings().nDVBLastChannel);
-                    CurrentChannelInfo();
+                    ShowCurrentChannelInfo();
                 }
             }
         }
@@ -8373,13 +8373,13 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
                 if (nID == ID_NAVIGATE_SKIPBACK) {
                     pTun->SetChannel(nCurrentChannel - 1);
-                    CurrentChannelInfo();
+                    ShowCurrentChannelInfo();
                     if (m_wndNavigationBar.IsVisible()) {
                         m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
                     }
                 } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
                     pTun->SetChannel(nCurrentChannel + 1);
-                    CurrentChannelInfo();
+                    ShowCurrentChannelInfo();
                     if (m_wndNavigationBar.IsVisible()) {
                         m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
                     }
@@ -8627,7 +8627,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             if (pTun) {
                 if (s.nDVBLastChannel != nID) {
                     pTun->SetChannel(nID);
-                    CurrentChannelInfo();
+                    ShowCurrentChannelInfo();
                     if (m_wndNavigationBar.IsVisible()) {
                         m_wndNavigationBar.m_navdlg.UpdatePos(nID);
                     }
@@ -14511,13 +14511,13 @@ void CMainFrame::StopTunerScan()
     m_bStopTunerScan = true;
 }
 
-void CMainFrame::CurrentChannelInfo(bool fShowInfoBar)
+void CMainFrame::ShowCurrentChannelInfo(bool fShowInfoBar /*= false*/)
 {
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     CString description;
     CString osd;
-    PresentFollowing NowNext;
+    EventDescriptor NowNext;
 
     if (pChannel != NULL) {
         // Get EIT information:
@@ -14531,25 +14531,25 @@ void CMainFrame::CurrentChannelInfo(bool fShowInfoBar)
         }
 
         osd = pChannel->GetName();
-        osd += _T(" | ") + NowNext.cPresent + _T(" (") + NowNext.StartTime + _T(" - ") + NowNext.Duration + _T(")");
+        osd += _T(" | ") + NowNext.eventName + _T(" (") + NowNext.startTime + _T(" - ") + NowNext.endTime + _T(")");
         m_OSD.DisplayMessage(OSD_TOPLEFT, osd , 3500);
 
-        //Update Info Bar
+        // Update Info Bar
         m_wndInfoBar.RemoveAllLines();
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), pChannel->GetName());
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), NowNext.cPresent);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.StartTime + _T(" - ") + NowNext.Duration);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), NowNext.eventName);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.startTime + _T(" - ") + NowNext.endTime);
 
-        for (int i = 0; i < NowNext.ExtendedDescriptorsItems.GetCount(); i++) {
-            m_wndInfoBar.SetLine(NowNext.ExtendedDescriptorsItems.ElementAt(i), NowNext.ExtendedDescriptorsItemsText.ElementAt(i));
+        for (int i = 0; i < NowNext.extendedDescriptorsItemsDesc.GetCount(); i++) {
+            m_wndInfoBar.SetLine(NowNext.extendedDescriptorsItemsDesc.ElementAt(i), NowNext.extendedDescriptorsItemsContent.ElementAt(i));
         }
 
-        description = NowNext.SummaryDesc;
-        if (!NowNext.ExtendedDescriptorsTexts.IsEmpty()) {
+        description = NowNext.eventDesc;
+        if (!NowNext.extendedDescriptorsTexts.IsEmpty()) {
             if (!description.IsEmpty()) {
                 description += _T("; ");
             }
-            description += NowNext.ExtendedDescriptorsTexts.GetTail();
+            description += NowNext.extendedDescriptorsTexts.GetTail();
         }
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
 

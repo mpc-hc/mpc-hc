@@ -355,7 +355,7 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
     return S_OK;
 }
 
-HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing& NowNext)
+HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 {
     char    descBuffer[10];
     time_t  tTime1, tTime2;
@@ -385,7 +385,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing& NowNext)
     tTime1 = mktime(&tmTime2);
     strftime(descBuffer, 6, "%H:%M", &tmTime2);
     descBuffer[6] = '\0';
-    NowNext.StartTime = descBuffer;
+    NowNext.startTime = descBuffer;
 
     // Duration:
     nDuration = (long)(36000 * gb.BitRead(4));
@@ -399,12 +399,12 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing& NowNext)
     localtime_s(&tmTime2, &tTime2);
     strftime(descBuffer, 6, "%H:%M", &tmTime2);
     descBuffer[6] = '\0';
-    NowNext.Duration = descBuffer;
+    NowNext.endTime = descBuffer;
 
     return S_OK;
 }
 
-HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
+HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
 {
     HRESULT hr;
     CComPtr<ISectionList> pSectionList;
@@ -450,8 +450,9 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
         InfoEvent.RunninStatus = (WORD)gb.BitRead(3);
         InfoEvent.FreeCAMode   = (WORD)gb.BitRead(1);
 
-        NowNext.ExtendedDescriptorsItems.RemoveAll();
-        NowNext.ExtendedDescriptorsTexts.RemoveAll();
+        NowNext.extendedDescriptorsItemsDesc.RemoveAll();
+        NowNext.extendedDescriptorsItemsContent.RemoveAll();
+        NowNext.extendedDescriptorsTexts.RemoveAll();
 
         if ((InfoEvent.ServiceId == ulSID) && (InfoEvent.CurrentNextIndicator == 1) && (InfoEvent.RunninStatus == 4)) {
             //  Descriptors:
@@ -462,11 +463,11 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
 
                         nLen = (UINT8)gb.BitRead(8); // event_name_length
                         gb.ReadBuffer(DescBuffer, nLen);
-                        NowNext.cPresent = ConvertString(DescBuffer, nLen);
+                        NowNext.eventName = ConvertString(DescBuffer, nLen);
 
                         nLen = (UINT8)gb.BitRead(8); // text_length
                         gb.ReadBuffer(DescBuffer, nLen);
-                        NowNext.SummaryDesc = ConvertString(DescBuffer, nLen);
+                        NowNext.eventDesc = ConvertString(DescBuffer, nLen);
                         break;
                     case DT_EXTENDED_EVENT:
                         descriptorNumber = (UINT8)gb.BitRead(4); // descriptor_number
@@ -478,13 +479,13 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
                             nLen = (UINT8)gb.BitRead(8);    // item_description_length
                             gb.ReadBuffer(DescBuffer, nLen);
                             itemDesc = ConvertString(DescBuffer, nLen);
-                            NowNext.ExtendedDescriptorsItems.Add(itemDesc);
+                            NowNext.extendedDescriptorsItemsDesc.Add(itemDesc);
                             itemsLength -= nLen + 1;
 
                             nLen = (UINT8)gb.BitRead(8);    // item_length
                             gb.ReadBuffer(DescBuffer, nLen);
                             itemText = ConvertString(DescBuffer, nLen);
-                            NowNext.ExtendedDescriptorsItemsText.Add(itemText);
+                            NowNext.extendedDescriptorsItemsContent.Add(itemText);
                             itemsLength -= nLen + 1;
                         }
 
@@ -492,9 +493,9 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
                         gb.ReadBuffer(DescBuffer, nLen);
                         text = ConvertString(DescBuffer, nLen);
                         if (descriptorNumber == 0) {    // new descriptor set
-                            NowNext.ExtendedDescriptorsTexts.AddTail(text);
+                            NowNext.extendedDescriptorsTexts.AddTail(text);
                         } else {
-                            NowNext.ExtendedDescriptorsTexts.GetTail().Append(text);
+                            NowNext.extendedDescriptorsTexts.GetTail().Append(text);
                         }
                         break;
                     default:
@@ -510,11 +511,10 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
              (m_Filter.SectionNumber <= 22));
 
     if (InfoEvent.ServiceId != ulSID) {
-        NowNext.StartTime = _T("");
-        NowNext.Duration = _T("");
-        NowNext.cPresent = _T("Info not available");
-        NowNext.SummaryDesc = _T("");
-        NowNext.cFollowing = _T("");
+        NowNext.startTime = _T("");
+        NowNext.endTime = _T("");
+        NowNext.eventName = _T("Info not available");
+        NowNext.eventDesc = _T("");
     }
 
     return S_OK;

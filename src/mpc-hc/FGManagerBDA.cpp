@@ -812,7 +812,7 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE n
     return S_OK;
 }
 
-HRESULT CFGManagerBDA::UpdatePSI(PresentFollowing& NowNext)
+HRESULT CFGManagerBDA::UpdatePSI(EventDescriptor& NowNext)
 {
     HRESULT hr = S_FALSE;
     CAppSettings& s = AfxGetAppSettings();

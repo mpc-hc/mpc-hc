@@ -466,7 +466,7 @@ public:
     virtual void RecalcLayout(BOOL bNotify = TRUE);
 
     // Dvb capture
-    void CurrentChannelInfo(bool fShowInfoBar = false);
+    void ShowCurrentChannelInfo(bool fShowInfoBar = false);
 
     // Implementation
 public:

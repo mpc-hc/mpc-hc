@@ -27,7 +27,17 @@
 #define DVB_MAX_AUDIO    10
 #define DVB_MAX_SUBTITLE 10
 
-typedef enum {
+struct EventDescriptor {
+    CString eventName;
+    CString eventDesc;
+    CString startTime;
+    CString endTime;
+    CArray<CString> extendedDescriptorsItemsDesc;
+    CArray<CString> extendedDescriptorsItemsContent;
+    CStringList extendedDescriptorsTexts;
+};
+
+enum DVB_STREAM_TYPE {
     DVB_MPV      = 0x00,
     DVB_H264     = 0x01,
     DVB_MPA      = 0x02,
@@ -40,16 +50,16 @@ typedef enum {
     DVB_SUB      = 0x83,
     DVB_SUBTITLE = 0xFE,
     DVB_UNKNOWN  = 0xFF
-} DVB_STREAM_TYPE;
+};
 
-typedef struct {
+struct DVBStreamInfo {
     ULONG           PID;
     DVB_STREAM_TYPE Type;
     PES_STREAM_TYPE PesType;
     CString         Language;
 
     LCID GetLCID() { return ISO6392ToLcid(CStringA(Language)); };
-} DVBStreamInfo;
+};
 
 class CDVBChannel
 {

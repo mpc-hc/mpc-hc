@@ -21,11 +21,9 @@
 #pragma once
 
 #include "DVBChannel.h"
-#include "IGraphBuilder2.h"
-
 
 #pragma pack(1)
-typedef struct {
+struct SI_HEADER {
     UINT8       TableID;
     WORD        SectionSyntaxIndicator  : 1;
     WORD        Reserved1               : 3;
@@ -36,9 +34,9 @@ typedef struct {
     UINT8       CurrentNextIndicator    : 1;
     UINT8       SectionNumber;
     UINT8       LastSectionNumber;
-} SI_HEADER;
+};
 
-typedef struct {
+struct EventInformationSection {
     UINT8       TableID;
     WORD        SectionSyntaxIndicator  : 1;
     WORD        Reserved1               : 3;
@@ -61,32 +59,29 @@ typedef struct {
     WORD        FreeCAMode              : 1;
     WORD        DescriptorsLoopLenght   : 12;
 
-} EventInformationSection;
+};
 
 class CMpeg2DataParser
 {
 public:
-
     CMpeg2DataParser(IBaseFilter* pFilter);
 
     HRESULT     ParseSDT(ULONG ulFreq);
     HRESULT     ParsePAT();
     HRESULT     ParseNIT();
-    HRESULT     ParseEIT(ULONG ulSID, PresentFollowing& NowNext);
+    HRESULT     ParseEIT(ULONG ulSID, EventDescriptor& NowNext);
     HRESULT     ParsePMT(CDVBChannel& Channel);
 
     static CString ConvertString(BYTE* pBuffer, int nLength);
 
-    CAtlMap<int, CDVBChannel>    Channels;
+    CAtlMap<int, CDVBChannel>   Channels;
 
 private:
-
     CComQIPtr<IMpeg2Data>       m_pData;
     MPEG2_FILTER                m_Filter;
 
 
     DVB_STREAM_TYPE ConvertToDVBType(PES_STREAM_TYPE nType);
     HRESULT         ParseSIHeader(CGolombBuffer& gb, DVB_SI SIType, WORD& wSectionLength, WORD& wTSID);
-    HRESULT         SetTime(CGolombBuffer& gb, PresentFollowing& NowNext);
-
+    HRESULT         SetTime(CGolombBuffer& gb, EventDescriptor& NowNext);
 };
