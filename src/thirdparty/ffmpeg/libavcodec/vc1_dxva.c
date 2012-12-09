@@ -154,6 +154,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
 
     /* do parse frame header */
     v->pic_header_flag = 0;
+    v->first_pic_header_flag = 1;
 
     if (v->profile < PROFILE_ADVANCED) {
         ff_vc1_parse_frame_header(v, &s->gb);
