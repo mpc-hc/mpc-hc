@@ -1014,9 +1014,11 @@ void CMPCVideoDecFilter::CalcAvgTimePerFrame()
 void CMPCVideoDecFilter::LogLibavcodec(void* par, int level, const char* fmt, va_list valist)
 {
 #if defined(_DEBUG) && 0
-    char Msg [500];
-    vsnprintf_s(Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
-    TRACE(_T("AVLIB : %s"), Msg);
+    if (level <= AV_LOG_VERBOSE) {
+        char Msg [500];
+        vsnprintf_s(Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
+        TRACE(_T("AVLIB : %s"), Msg);
+    }
 #endif
 }
 

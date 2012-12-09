@@ -159,9 +159,11 @@ static DWORD get_lav_channel_layout(uint64_t layout)
 void CFFAudioDecoder::LogLibavcodec(void* par, int level, const char* fmt, va_list valist)
 {
 #if defined(_DEBUG) && 0
-    char Msg [500];
-    vsnprintf_s(Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
-    TRACE(_T("AVLIB : %s"), Msg);
+    if (level <= AV_LOG_VERBOSE) {
+        char Msg [500];
+        vsnprintf_s(Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
+        TRACE(_T("AVLIB : %s\n"), Msg);
+    }
 #endif
 }
 
