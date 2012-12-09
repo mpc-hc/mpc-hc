@@ -139,7 +139,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
         TIMER_FULLSCREENMOUSEHIDER,
         TIMER_STATS,
         TIMER_LEFTCLICK,
-        TIMER_STATUSERASER
+        TIMER_STATUSERASER,
+        TIMER_DVBINFO_UPDATER
     };
     enum {
         SEEK_DIRECTION_NONE,
@@ -465,8 +466,8 @@ public:
     virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
     virtual void RecalcLayout(BOOL bNotify = TRUE);
 
-    // Dvb capture
-    void ShowCurrentChannelInfo(bool fShowInfoBar = false);
+    // DVB capture
+    void ShowCurrentChannelInfo(bool fShowOSD = true, bool fShowInfoBar = false);
 
     // Implementation
 public:

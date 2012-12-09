@@ -209,7 +209,7 @@ void CPlayerNavigationDialog::OnButtonInfo()
 {
     CWnd* TempWnd;
     TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
-    static_cast<CMainFrame*>(TempWnd)->ShowCurrentChannelInfo(true);
+    static_cast<CMainFrame*>(TempWnd)->ShowCurrentChannelInfo(true, true);
 }
 
 void CPlayerNavigationDialog::OnTvRadioStations()

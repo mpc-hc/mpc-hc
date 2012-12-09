@@ -360,7 +360,6 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
     char    descBuffer[10];
     time_t  tTime1, tTime2;
     tm      tmTime1, tmTime2;
-    long    nDuration;
     long    timezone;
     int     daylight;
 
@@ -380,26 +379,26 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
     tmTime1.tm_min  += (int)gb.BitRead(4);
     tmTime1.tm_sec   = (int)(gb.BitRead(4) * 10);
     tmTime1.tm_sec  += (int)gb.BitRead(4);
-    tTime1 = mktime(&tmTime1) - timezone;
+    NowNext.startTime = tTime1 = mktime(&tmTime1) - timezone;
     localtime_s(&tmTime2, &tTime1);
     tTime1 = mktime(&tmTime2);
     strftime(descBuffer, 6, "%H:%M", &tmTime2);
     descBuffer[6] = '\0';
-    NowNext.startTime = descBuffer;
+    NowNext.strStartTime = descBuffer;
 
     // Duration:
-    nDuration = (long)(36000 * gb.BitRead(4));
-    nDuration += (long)(3600 * gb.BitRead(4));
-    nDuration += (long)(600 * gb.BitRead(4));
-    nDuration += (long)(60 * gb.BitRead(4));
-    nDuration += (long)(10 * gb.BitRead(4));
-    nDuration += (long)gb.BitRead(4);
+    NowNext.duration  = (time_t)(36000 * gb.BitRead(4));
+    NowNext.duration += (time_t)(3600 * gb.BitRead(4));
+    NowNext.duration += (time_t)(600 * gb.BitRead(4));
+    NowNext.duration += (time_t)(60 * gb.BitRead(4));
+    NowNext.duration += (time_t)(10 * gb.BitRead(4));
+    NowNext.duration += (time_t)gb.BitRead(4);
 
-    tTime2 = tTime1 + nDuration;
+    tTime2 = tTime1 + NowNext.duration;
     localtime_s(&tmTime2, &tTime2);
     strftime(descBuffer, 6, "%H:%M", &tmTime2);
     descBuffer[6] = '\0';
-    NowNext.endTime = descBuffer;
+    NowNext.strEndTime = descBuffer;
 
     return S_OK;
 }
@@ -511,8 +510,10 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
              (m_Filter.SectionNumber <= 22));
 
     if (InfoEvent.ServiceId != ulSID) {
-        NowNext.startTime = _T("");
-        NowNext.endTime = _T("");
+        NowNext.startTime = 0;
+        NowNext.duration = 0;
+        NowNext.strStartTime = _T("");
+        NowNext.strEndTime = _T("");
         NowNext.eventName = _T("Info not available");
         NowNext.eventDesc = _T("");
     }

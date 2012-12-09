@@ -30,8 +30,10 @@
 struct EventDescriptor {
     CString eventName;
     CString eventDesc;
-    CString startTime;
-    CString endTime;
+    time_t startTime;
+    time_t duration;
+    CString strStartTime;
+    CString strEndTime;
     CArray<CString> extendedDescriptorsItemsDesc;
     CArray<CString> extendedDescriptorsItemsContent;
     CStringList extendedDescriptorsTexts;

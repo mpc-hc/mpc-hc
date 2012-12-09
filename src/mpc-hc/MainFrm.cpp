@@ -2148,6 +2148,10 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             m_playingmsg.Empty();
         }
         break;
+        case TIMER_DVBINFO_UPDATER:
+            KillTimer(TIMER_DVBINFO_UPDATER);
+            ShowCurrentChannelInfo(false, false);
+            break;
     }
 
     __super::OnTimer(nIDEvent);
@@ -7342,6 +7346,7 @@ void CMainFrame::KillTimersStop()
     KillTimer(TIMER_STREAMPOSPOLLER2);
     KillTimer(TIMER_STREAMPOSPOLLER);
     KillTimer(TIMER_STATS);
+    KillTimer(TIMER_DVBINFO_UPDATER);
 }
 
 static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
@@ -14511,7 +14516,7 @@ void CMainFrame::StopTunerScan()
     m_bStopTunerScan = true;
 }
 
-void CMainFrame::ShowCurrentChannelInfo(bool fShowInfoBar /*= false*/)
+void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfoBar /*= false*/)
 {
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
@@ -14524,21 +14529,35 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowInfoBar /*= false*/)
         CComQIPtr<IBDATuner> pTun = pGB;
         if (pTun && pChannel->GetNowNextFlag()) {
             pTun->UpdatePSI(NowNext);
+            // Set a timer to update the infos
+            time_t tNow;
+            time(&tNow);
+            time_t tElapse = NowNext.duration - (tNow - NowNext.startTime);
+            if (tElapse < 0) {
+                tElapse = 0;
+            }
+            // We set a 15s delay to let some room for the program infos to change
+            tElapse += 15;
+            SetTimer(TIMER_DVBINFO_UPDATER, 1000 * (UINT)tElapse, NULL);
         } else {
             m_wndInfoBar.RemoveAllLines();
-            m_OSD.DisplayMessage(OSD_TOPLEFT, pChannel->GetName(), 3500);
+            if (fShowOSD) {
+                m_OSD.DisplayMessage(OSD_TOPLEFT, pChannel->GetName(), 3500);
+            }
             return;
         }
 
-        osd = pChannel->GetName();
-        osd += _T(" | ") + NowNext.eventName + _T(" (") + NowNext.startTime + _T(" - ") + NowNext.endTime + _T(")");
-        m_OSD.DisplayMessage(OSD_TOPLEFT, osd , 3500);
+        if (fShowOSD) {
+            osd = pChannel->GetName();
+            osd += _T(" | ") + NowNext.eventName + _T(" (") + NowNext.strStartTime + _T(" - ") + NowNext.strEndTime + _T(")");
+            m_OSD.DisplayMessage(OSD_TOPLEFT, osd , 3500);
+        }
 
         // Update Info Bar
         m_wndInfoBar.RemoveAllLines();
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), pChannel->GetName());
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), NowNext.eventName);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.startTime + _T(" - ") + NowNext.endTime);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.strStartTime + _T(" - ") + NowNext.strEndTime);
 
         for (int i = 0; i < NowNext.extendedDescriptorsItemsDesc.GetCount(); i++) {
             m_wndInfoBar.SetLine(NowNext.extendedDescriptorsItemsDesc.ElementAt(i), NowNext.extendedDescriptorsItemsContent.ElementAt(i));
