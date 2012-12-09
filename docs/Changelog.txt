@@ -32,7 +32,7 @@ Legend:
 * Updated FFmpeg (n0.8-16738-gcef28b5)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
-* Updated Little CMS to v2.4 (git c606462)
+* Updated Little CMS to v2.4 (git 026ba4f)
 * Updated SoundTouch to v1.7.0 r160
 * Updated Armenian, Basque, Czech, French, German, Russian, Polish, Simplified Chinese, Slovak
   and Ukrainian translations

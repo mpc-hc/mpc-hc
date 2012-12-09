@@ -1077,21 +1077,22 @@ void *Type_Curve_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
 {
     cmsUInt32Number Count;
     cmsToneCurve* NewGamma;
-    cmsUInt16Number Linear[2] = { 0, 0xffff };
-
-
+    
     *nItems = 0;
     if (!_cmsReadUInt32Number(io, &Count)) return NULL;
 
     switch (Count) {
 
            case 0:   // Linear.
+               {
+                   cmsFloat64Number SingleGamma = 1.0;
 
-               NewGamma = cmsBuildTabulatedToneCurve16(self ->ContextID, 2, Linear);
-               if (!NewGamma) return NULL;
-               *nItems = 1;
-               return NewGamma;
-
+                   NewGamma = cmsBuildParametricToneCurve(self ->ContextID, 1, &SingleGamma);
+                   if (!NewGamma) return NULL;
+                   *nItems = 1;
+                   return NewGamma;
+               }
+              
            case 1:  // Specified as the exponent of gamma function
                {
                    cmsUInt16Number SingleGammaFixed;
