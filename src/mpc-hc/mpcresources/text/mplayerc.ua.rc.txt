@@ -194,7 +194,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 8		"Типово"
 9		"Встановити"
 10		"Windows 8"
-11		"&Set default programs"
+11		"&Задати програми типового використання"
 12		"Ассоціації"
 13		"&Відео"
 14		"&Аудіо"
@@ -311,9 +311,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 32		"Звіт про помилки рендерингу потоків"
 33		"Автозавантаження звуку"
 34		"Автозавантаження субтитрів"
-35		"Control"
-36		"Volume step:"
-39		"unit(s)"
+35		"Регулювання"
+36		"Крок зміни гучності:"
+39		"одиниць"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -437,13 +437,13 @@ BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
 END
 
 BEGIN DIALOGEX IDD_SAVESUBTITLESFILEDIALOGTEMPL LINES 11
-5		"Кодування:"
-9		"Delay:"
-10		"ms"
+5		"Набір символів:"
+9		"Затримка:"
+10		"мс"
 END
 
 BEGIN DIALOGEX IDD_SAVETEXTFILEDIALOGTEMPL LINES 7
-5		"Кодування:"
+5		"Набір символів:"
 END
 
 BEGIN DIALOGEX IDD_SAVETHUMBSDIALOGTEMPL LINES 16
@@ -1775,7 +1775,7 @@ STRING IDS_SUBDL_DLG_NOT_FOUND		"Субтитрів не знайдено."
 STRING IDS_SUBDL_DLG_PARSING		"Обробка списку..."
 STRING IDS_SUBDL_DLG_SUBS_AVAIL		" %d субтитрів доступно."
 STRING IDS_SUBDL_DLG_TITLES_COL		"Заголовок"
-STRING IDS_SUBFILE_DELAY		"Delay (ms):"
+STRING IDS_SUBFILE_DELAY		"Затримка (мс):"
 STRING IDS_SUBRESYNC_CAPTION		"Синронізація субтитрів"
 STRING IDS_SUBRESYNC_CLN_ACTOR		"Актор"
 STRING IDS_SUBRESYNC_CLN_CELL_ID		"Cell ID"
