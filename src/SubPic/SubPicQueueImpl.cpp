@@ -461,10 +461,6 @@ DWORD CSubPicQueue::ThreadProc()
 
                         HRESULT hr;
                         if (bIsAnimated) {
-                            if (rtCurrent < m_rtNow + rtTimePerFrame) {
-                                rtCurrent = min(m_rtNow + rtTimePerFrame, rtStop - 1);
-                            }
-
                             REFERENCE_TIME rtEndThis = min(rtCurrent + rtTimePerFrame, rtStop);
                             hr = RenderTo(pStatic, rtCurrent, rtEndThis, fps, bIsAnimated);
                             pStatic->SetSegmentStart(rtStart);
@@ -475,8 +471,6 @@ DWORD CSubPicQueue::ThreadProc()
                             TRACE(_T("Render: %f->%f    %f->%f      %dx%d\n"), double(rtCurrent) / 10000000.0, double(rtEndThis) / 10000000.0, double(rtStart) / 10000000.0, double(rtStop) / 10000000.0, r.Width(), r.Height());
 #endif
                             rtCurrent = rtEndThis;
-
-
                         } else {
                             hr = RenderTo(pStatic, rtStart, rtStop, fps, bIsAnimated);
                             // Non-animated subtitles aren't part of a segment
