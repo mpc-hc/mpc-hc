@@ -136,7 +136,7 @@ GOTO End
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild %PPLATFORM% %BUILDCFG%
-IF %ERRORLEVEL% NEQ 0 EXIT /B
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 
 IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
