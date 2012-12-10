@@ -56,7 +56,7 @@ CMpeg2DataParser::CMpeg2DataParser(IBaseFilter* pFilter)
 CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
 {
     static const UINT16 codepages[0x20] = {
-        28591,  // 00 - ISO 8859-1 Latin I
+        20269,  // 00 - Default ISO/IEC 6937
         28595,  // 01 - ISO 8859-5 Cyrillic
         28596,  // 02 - ISO 8859-6 Arabic
         28597,  // 03 - ISO 8859-7 Greek
@@ -136,6 +136,22 @@ CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
         }
     }
 
+    // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 1/2)...
+    CArray<int> euroSymbolPos;
+    if (cp == 20269) {
+        BYTE tmp;
+        for (int i = 0; i < nLength; i++) {
+            if (pBuffer[i] >= 0xC1 && pBuffer[i] <= 0xCF && pBuffer[i] != 0xC9 && pBuffer[i] != 0xCC && i < nLength - 1) {
+                // Swap the current char with the next one
+                tmp = pBuffer[i];
+                pBuffer[i] = pBuffer[i + 1];
+                pBuffer[++i] = tmp;
+            } else if (pBuffer[i] == 0xA4) { // € was added as 0xA4 in the DVB spec
+                euroSymbolPos.Add(i);
+            }
+        }
+    }
+
     nDestSize = MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, nLength, NULL, 0);
     if (nDestSize < 0) {
         return strResult;
@@ -143,6 +159,36 @@ CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
 
     MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, nLength, strResult.GetBuffer(nLength), nDestSize);
     strResult.ReleaseBuffer();
+
+    // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 2/2)...
+    if (cp == 20269) {
+        for (int i = 0; i < strResult.GetLength(); i++) {
+            switch (strResult[i]) {
+                case 0x60: // grave accent
+                    strResult.SetAt(i, 0x0300);
+                    break;
+                case 0xb4: // acute accent
+                    strResult.SetAt(i, 0x0301);
+                    break;
+                case 0x5e: // circumflex accent
+                    strResult.SetAt(i, 0x0302);
+                    break;
+                case 0x7e: // tilde
+                    strResult.SetAt(i, 0x0303);
+                    break;
+                case 0xaf: // macron
+                    strResult.SetAt(i, 0x0304);
+                    break;
+                case 0xf8f8: // dot
+                    strResult.SetAt(i, 0x0307);
+                    break;
+            }
+        }
+
+        for (int i = 0, len = (int)euroSymbolPos.GetCount(); i < len; i++) {
+            strResult.SetAt(euroSymbolPos[i], _T('€'));
+        }
+    }
 
     return strResult;
 }
