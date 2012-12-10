@@ -722,7 +722,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
         if (types.GetCount() > 0
                 && SUCCEEDED(m_pFM->EnumMatchingFilters(
                                  &pEM, 0, FALSE, MERIT_DO_NOT_USE + 1,
-                                 TRUE, types.GetCount() / 2, types.GetData(), NULL, NULL, FALSE,
+                                 TRUE, (DWORD)types.GetCount() / 2, types.GetData(), NULL, NULL, FALSE,
                                  !!pPinIn, 0, NULL, NULL, NULL))) {
             for (CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, NULL); pMoniker = NULL) {
                 CFGFilterRegistry* pFGF = DEBUG_NEW CFGFilterRegistry(pMoniker);

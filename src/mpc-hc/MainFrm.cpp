@@ -11535,7 +11535,7 @@ DWORD CMainFrame::SetupAudioStreams()
             for (size_t j = 0; j < langs.GetCount(); j++) {
                 int len = langs[j].GetLength();
                 if (name.Left(len) == langs[j]) {
-                    rating = 16 * (langs.GetCount() - j);
+                    rating = 16 * int(langs.GetCount() - j);
                     break;
                 }
             }
@@ -11596,7 +11596,7 @@ DWORD CMainFrame::SetupSubtitleStreams()
             for (size_t j = 0; j < langs.GetCount(); j++) {
                 int len = langs[j].GetLength();
                 if (name.Left(len) == langs[j]) {
-                    rating = 16 * (langs.GetCount() - j);
+                    rating = 16 * int(langs.GetCount() - j);
                     break;
                 }
             }

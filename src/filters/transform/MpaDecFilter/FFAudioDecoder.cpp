@@ -368,7 +368,7 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
             size_t monosize = nSamples * av_get_bytes_per_sample(samplefmt);
             BuffOut.SetCount(monosize * nChannels);
 
-            if (av_sample_fmt_is_planar(samplefmt) && monosize < m_pFrame->linesize[0]) { // sometimes data is smaller than the buffer size
+            if (av_sample_fmt_is_planar(samplefmt) && monosize < (size_t)m_pFrame->linesize[0]) { // sometimes data is smaller than the buffer size
                 BYTE* pOut = BuffOut.GetData();
                 for (int ch = 0; ch < nChannels; ++ch) {
                     memcpy(pOut, m_pFrame->extended_data[ch], monosize);

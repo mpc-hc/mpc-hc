@@ -339,7 +339,7 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
     WORD wTSID;
     WORD wSectionLength;
 
-    CheckNoLog(m_pData->GetSection(Channel.GetPMT(), SI_PMT, &m_Filter, 5000, &pSectionList));
+    CheckNoLog(m_pData->GetSection((PID)Channel.GetPMT(), SI_PMT, &m_Filter, 5000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
 
     CGolombBuffer gb((BYTE*)data, dwLength);

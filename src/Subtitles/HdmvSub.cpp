@@ -238,7 +238,7 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize)  // #
     CLUT.version_number = pGBuffer->ReadByte();
 
     ASSERT((nSize - 2) % sizeof(HDMV_PALETTE) == 0);
-    CLUT.size = (nSize - 2) / sizeof(HDMV_PALETTE);
+    CLUT.size = BYTE((nSize - 2) / sizeof(HDMV_PALETTE));
 
     for (int i = 0; i < CLUT.size; i++) {
         BYTE entry_id = pGBuffer->ReadByte();

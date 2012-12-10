@@ -2784,7 +2784,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, int delay, 
     //  Sort(true);
 
     if (m_mode == FRAME) {
-        delay = delay * fps / 1000;
+        delay = int(delay * fps / 1000);
     }
 
     for (int i = 0, j = (int)GetCount(), k = 0; i < j; i++) {
