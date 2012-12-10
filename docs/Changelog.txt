@@ -58,6 +58,7 @@ Legend:
   and ensure that no item is added to Windows recent documents menu or to the
   "Recent" jump list when the history is disabled
 ! Ticket #1953, DVB EPG: Fix default encoding
+! Ticket #2105, Fix some crashes when opening the Capture option page
 ! Ticket #2326, Fix a crash when closing the player with the player menu open
 ! Ticket #2537, #2554, Fix the "Attempted an unsupported operation" error in the
   Save dialogs on Vista and newer systems
