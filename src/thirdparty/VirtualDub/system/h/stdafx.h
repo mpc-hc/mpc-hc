@@ -1,7 +1,11 @@
 /* MPC-HC comment out
 // Detect the Windows SDK in use and select Windows 2000 baseline
 // if the Vista SDK, else Windows 98 baseline.
+#ifdef _MSC_VER
 #include <ntverp.h>
+#else
+#define VER_PRODUCTBUILD 6001
+#endif
 #if VER_PRODUCTBUILD > 6000
 #define _WIN32_WINNT 0x0500
 #else
