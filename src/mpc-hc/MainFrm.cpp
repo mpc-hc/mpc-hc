@@ -11954,7 +11954,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             OnPlayAudio(ID_AUDIO_SUBITEM_START + audstm);
         }
         if (substm) {
-            OnPlaySubtitles(4 + ID_SUBTITLES_SUBITEM_START + substm);
+            m_iSubtitleSel = substm - 1; // only select, turn on/off in another place
         }
 
         AfxGetAppSettings().nCLSwitches &= ~CLSW_OPEN;
