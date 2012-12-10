@@ -348,27 +348,19 @@ void CPPageCapture::FindAnalogDevices()
         pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
 
         CComVariant var;
-        pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL);
-        int i = m_cbAnalogVideo.AddString(CString(var.bstrVal));
-
-        LPOLESTR strName = NULL;
-        if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
-            m_vidnames.Add(CString(strName));
-            if (s.strAnalogVideo == CString(strName)) {
-                iSel = i;
+        if SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL)) {
+            int i = m_cbAnalogVideo.AddString(CString(var.bstrVal));
+            LPOLESTR strName = NULL;
+            if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+                m_vidnames.Add(CString(strName));
+                if (s.strAnalogVideo == CString(strName)) {
+                    iSel = i;
+                }
+                CoTaskMemFree(strName);
             }
-            CoTaskMemFree(strName);
         }
     }
     EndEnumSysDev;
-
-    {
-        int i = m_cbAnalogAudio.AddString(_T("<Video Capture Device>"));
-        m_audnames.Add(_T(""));
-        if (s.strAnalogAudio.IsEmpty()) {
-            iSel = i;
-        }
-    }
 
     if (m_cbAnalogVideo.GetCount()) {
         m_cbAnalogVideo.SetCurSel(iSel);
@@ -376,21 +368,30 @@ void CPPageCapture::FindAnalogDevices()
 
     // List audio devised
     iSel = 0;
-    BeginEnumSysDev(CLSID_AudioInputDeviceCategory, pMoniker) {
+     {
+        int i = m_cbAnalogAudio.AddString(_T("<Video Capture Device>"));
+        m_audnames.Add(_T(""));
+        if (s.strAnalogAudio.IsEmpty()) {
+            iSel = i;
+        }
+    }
+
+   BeginEnumSysDev(CLSID_AudioInputDeviceCategory, pMoniker) {
         CComPtr<IPropertyBag> pPB;
         pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
 
         CComVariant var;
-        pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL);
-        int i = m_cbAnalogAudio.AddString(CString(var.bstrVal));
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+            int i = m_cbAnalogAudio.AddString(CString(var.bstrVal));
 
-        LPOLESTR strName = NULL;
-        if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
-            m_audnames.Add(CString(strName));
-            if (s.strAnalogAudio == CString(strName)) {
-                iSel = i;
+            LPOLESTR strName = NULL;
+            if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+                m_audnames.Add(CString(strName));
+                if (s.strAnalogAudio == CString(strName)) {
+                    iSel = i;
+                }
+                CoTaskMemFree(strName);
             }
-            CoTaskMemFree(strName);
         }
     }
     EndEnumSysDev;
@@ -490,16 +491,17 @@ void CPPageCapture::FindDigitalDevices()
         pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
 
         CComVariant var;
-        pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL);
-        int i = m_cbDigitalNetworkProvider.AddString(CString(var.bstrVal));
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+            int i = m_cbDigitalNetworkProvider.AddString(CString(var.bstrVal));
 
-        LPOLESTR strName = NULL;
-        if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
-            m_providernames.Add(CString(strName));
-            if (s.strBDANetworkProvider == CString(strName)) {
-                iSel = i;
+            LPOLESTR strName = NULL;
+            if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+                m_providernames.Add(CString(strName));
+                if (s.strBDANetworkProvider == CString(strName)) {
+                    iSel = i;
+                }
+                CoTaskMemFree(strName);
             }
-            CoTaskMemFree(strName);
         }
     }
     EndEnumSysDev;
@@ -514,16 +516,17 @@ void CPPageCapture::FindDigitalDevices()
         pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
 
         CComVariant var;
-        pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL);
-        int i = m_cbDigitalTuner.AddString(CString(var.bstrVal));
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+            int i = m_cbDigitalTuner.AddString(CString(var.bstrVal));
 
-        LPOLESTR strName = NULL;
-        if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
-            m_tunernames.Add(CString(strName));
-            if (s.strBDATuner == CString(strName)) {
-                iSel = i;
+            LPOLESTR strName = NULL;
+            if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+                m_tunernames.Add(CString(strName));
+                if (s.strBDATuner == CString(strName)) {
+                    iSel = i;
+                }
+                CoTaskMemFree(strName);
             }
-            CoTaskMemFree(strName);
         }
     }
     EndEnumSysDev;
@@ -537,16 +540,19 @@ void CPPageCapture::FindDigitalDevices()
         pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
 
         CComVariant var;
-        pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL);
-        int i = m_cbDigitalReceiver.AddString(CString(var.bstrVal));
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+            int i = m_cbDigitalReceiver.AddString(CString(var.bstrVal));
 
-        LPOLESTR strName = NULL;
-        if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
-            m_receivernames.Add(CString(strName));
-            if (s.strBDAReceiver == CString(strName)) {
-                iSel = i;
+            if ((i != CB_ERR) && (i != CB_ERRSPACE)) {
+                LPOLESTR strName = NULL;
+                if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+                    m_receivernames.Add(CString(strName));
+                    if (s.strBDAReceiver == CString(strName)) {
+                        iSel = i;
+                    }
+                    CoTaskMemFree(strName);
+                }
             }
-            CoTaskMemFree(strName);
         }
     }
     EndEnumSysDev;
