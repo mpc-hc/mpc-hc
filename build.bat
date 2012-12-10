@@ -55,31 +55,38 @@ SET VALID=0
 IF /I "%ARG%" == "?"          GOTO ShowHelp
 
 FOR %%G IN (%ARG%) DO (
-  IF /I "%%G" == "help"       GOTO ShowHelp
-  IF /I "%%G" == "GetVersion" ENDLOCAL & CALL :SubGetVersion & EXIT /B
-  IF /I "%%G" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
-  IF /I "%%G" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1  & SET /A ARGCL+=1 & SET /A ARGFF+=1
-  IF /I "%%G" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1  & SET /A ARGRE+=1
-  IF /I "%%G" == "Both"       SET "PPLATFORM=Both"    & SET /A ARGPL+=1
-  IF /I "%%G" == "Win32"      SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
-  IF /I "%%G" == "x86"        SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
-  IF /I "%%G" == "x64"        SET "PPLATFORM=x64"     & SET /A ARGPL+=1
-  IF /I "%%G" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
-  IF /I "%%G" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1  & SET /A ARGM+=1
-  IF /I "%%G" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
-  IF /I "%%G" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
-  IF /I "%%G" == "MPCHC"      SET "CONFIG=MPCHC"      & SET /A ARGC+=1
-  IF /I "%%G" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
-  IF /I "%%G" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
-  IF /I "%%G" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
-  IF /I "%%G" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
-  IF /I "%%G" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
-  IF /I "%%G" == "Packages"   SET "PACKAGES=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "Installer"  SET "INSTALLER=True"    & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "Zip"        SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "7z"         SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "Lite"       SET "MPCHC_LITE=True"   & SET /A VALID+=1 & SET /A ARGL+=1
-  IF /I "%%G" == "FFmpeg"     SET "Rebuild=FFmpeg"    & SET /A VALID+=1 & SET /A ARGFF+=1 & SET /A ARGRE+=1
+  IF /I "%%G" == "help"         GOTO ShowHelp
+  IF /I "%%G" == "GetVersion"   ENDLOCAL & CALL :SubGetVersion & EXIT /B
+  IF /I "%%G" == "CopyDXDll"    ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
+  IF /I "%%G" == "CopyDX"       ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
+  IF /I "%%G" == "Build"        SET "BUILDTYPE=Build"    & SET /A ARGB+=1
+  IF /I "%%G" == "Clean"        SET "BUILDTYPE=Clean"    & SET /A ARGB+=1  & SET /A ARGCL+=1 & SET /A ARGFF+=1
+  IF /I "%%G" == "Rebuild"      SET "BUILDTYPE=Rebuild"  & SET /A ARGB+=1  & SET /A ARGRE+=1
+  IF /I "%%G" == "Both"         SET "PPLATFORM=Both"     & SET /A ARGPL+=1
+  IF /I "%%G" == "Win32"        SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
+  IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
+  IF /I "%%G" == "x64"          SET "PPLATFORM=x64"      & SET /A ARGPL+=1
+  IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1
+  IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET /A ARGM+=1
+  IF /I "%%G" == "Filters"      SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
+  IF /I "%%G" == "Filter"       SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
+  IF /I "%%G" == "MPCHC"        SET "CONFIG=MPCHC"       & SET /A ARGC+=1
+  IF /I "%%G" == "MPC-HC"       SET "CONFIG=MPCHC"       & SET /A ARGC+=1
+  IF /I "%%G" == "Resource"     SET "CONFIG=Resources"   & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Resources"    SET "CONFIG=Resources"   & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "MPCIconLib"   SET "CONFIG=IconLib"     & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "IconLib"      SET "CONFIG=IconLib"     & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Translation"  SET "CONFIG=Translation" & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Translations" SET "CONFIG=Translation" & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET /A ARGD+=1
+  IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
+  IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Zip"          SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1 & SET /A ARGL+=1
+  IF /I "%%G" == "FFmpeg"       SET "Rebuild=FFmpeg"     & SET /A VALID+=1 & SET /A ARGFF+=1 & SET /A ARGRE+=1
+  IF /I "%%G" == "Silent"       SET "SILENT=True"
 )
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
@@ -129,7 +136,7 @@ GOTO End
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild %PPLATFORM% %BUILDCFG%
-IF %ERRORLEVEL% NEQ 0 EXIT /B
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 
 IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
@@ -137,6 +144,16 @@ CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters %PPLATFORM%
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters %PPLATFORM%
+  EXIT /B
+)
+
+IF /I "%CONFIG%" == "IconLib" (
+  CALL :SubMPCIconLib %PPLATFORM%
+  EXIT /B
+)
+
+IF /I "%CONFIG%" == "Translation" (
+  CALL :SubMPCRresources %PPLATFORM%
   EXIT /B
 )
 
@@ -209,6 +226,19 @@ IF /I "%BUILDCFG%" == "Debug" (
   EXIT /B
 )
 
+CALL :SubMPCIconLib %1
+
+IF DEFINED MPCHC_LITE (
+  CALL :SubMsg "WARNING" "/lite was used, translations will not be built"
+  EXIT /B
+)
+
+CALL :SubMPCRresources %1
+EXIT /B
+
+:SubMPCIconLib
+IF %ERRORLEVEL% NEQ 0 EXIT /B
+
 TITLE Compiling mpciconlib - Release^|%1...
 "%MSBUILD%" mpciconlib.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=Release;PPLATFORM=%1
@@ -218,11 +248,11 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
   CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
 )
+EXIT /B
 
-IF DEFINED MPCHC_LITE (
-  CALL :SubMsg "WARNING" "/lite was used, translations will not be built"
-  EXIT /B
-)
+
+:SubMPCRresources
+IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  "Chinese Traditional" "Czech" "Dutch" "French" "German" "Greek" "Hebrew"
@@ -495,8 +525,10 @@ IF /I "%~1" == "ERROR" (
 )
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
-  ECHO Press any key to exit...
-  PAUSE >NUL
+  IF NOT DEFINED SILENT (
+    ECHO Press any key to exit...
+    PAUSE >NUL
+  )
   EXIT /B 1
 ) ELSE (
   EXIT /B 0
