@@ -7607,23 +7607,10 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
                 }
             }
         } else {
-            int percent = (int)(m_dSpeedRate * 100.0);
             if (nID == ID_PLAY_INCRATE) {
-                if (percent >= 150) {
-                    SetPlayingRate(m_dSpeedRate + 0.5);
-                } else if (percent >= 100) {
-                    SetPlayingRate(m_dSpeedRate + 0.1);
-                } else {
-                    SetPlayingRate(m_dSpeedRate * 2.0);
-                }
+                SetPlayingRate(m_dSpeedRate * 2.0);
             } else if (nID == ID_PLAY_DECRATE) {
-                if (percent > 150) {
-                    SetPlayingRate(m_dSpeedRate - 0.5);
-                } else if (percent > 100) {
-                    SetPlayingRate(m_dSpeedRate - 0.1);
-                } else {
-                    SetPlayingRate(m_dSpeedRate / 2.0);
-                }
+                SetPlayingRate(m_dSpeedRate / 2.0);
             }
         }
 

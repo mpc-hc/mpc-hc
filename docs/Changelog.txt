@@ -37,8 +37,6 @@ Legend:
 * Updated VirtualDub to v1.10.3-test11
 * Updated Armenian, Basque, Czech, French, German, Russian, Polish, Simplified Chinese, Slovak
   and Ukrainian translations
-* Ticket #1004, Allow for smaller increases of playing speed for files, slowing down is unaffected.
-  Increases of 0.1 are used until 1.5x after which it will increase by 0.5.
 * Ticket #2698, Allow the App key to be used as a hotkey which opens the player menu by default
 * Removed hotkeys to change the volume by 1%
 * VSFilter: Allow floating-point values for \fscx and \fscy.
