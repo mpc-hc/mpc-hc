@@ -535,12 +535,14 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
                         }
 
                         nLen = (UINT8)gb.BitRead(8);    // text_length
-                        gb.ReadBuffer(DescBuffer, nLen);
-                        text = ConvertString(DescBuffer, nLen);
-                        if (descriptorNumber == 0) {    // new descriptor set
-                            NowNext.extendedDescriptorsTexts.AddTail(text);
-                        } else {
-                            NowNext.extendedDescriptorsTexts.GetTail().Append(text);
+                        if (nLen > 0) {
+                            gb.ReadBuffer(DescBuffer, nLen);
+                            text = ConvertString(DescBuffer, nLen);
+                            if (descriptorNumber == 0) {    // new descriptor set
+                                NowNext.extendedDescriptorsTexts.AddTail(text);
+                            } else {
+                                NowNext.extendedDescriptorsTexts.GetTail().Append(text);
+                            }
                         }
                         break;
                     default:
