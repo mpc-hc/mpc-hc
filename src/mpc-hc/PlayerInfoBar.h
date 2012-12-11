@@ -37,6 +37,8 @@ private:
 
     int m_nFirstColWidth;
 
+    CToolTipCtrl m_tooltip;
+
     void Relayout();
 
 public:
@@ -53,6 +55,7 @@ public:
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz);
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 public:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);

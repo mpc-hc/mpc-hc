@@ -51,6 +51,7 @@ void CPlayerInfoBar::SetLine(CString label, CString info)
             m_info[idx]->GetWindowText(tmp);
             if (info != tmp) {
                 m_info[idx]->SetWindowText(info);
+                m_tooltip.UpdateTipText(info, m_info[idx]);
             }
             return;
         }
@@ -61,7 +62,8 @@ void CPlayerInfoBar::SetLine(CString label, CString info)
     m_label.Add(l);
 
     CAutoPtr<CStatusLabel> i(DEBUG_NEW CStatusLabel(false, true));
-    i->Create(info, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SS_OWNERDRAW, CRect(0, 0, 0, 0), this);
+    i->Create(info, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SS_OWNERDRAW | SS_NOTIFY, CRect(0, 0, 0, 0), this);
+    m_tooltip.AddTool(i, info);
     m_info.Add(i);
 
     Relayout();
@@ -88,6 +90,7 @@ void CPlayerInfoBar::RemoveLine(CString label)
         CString tmp;
         m_label[i]->GetWindowText(tmp);
         if (label == tmp) {
+            m_tooltip.DelTool(m_info[i]);
             m_label.RemoveAt(i);
             m_info.RemoveAt(i);
             break;
@@ -107,7 +110,14 @@ void CPlayerInfoBar::RemoveAllLines()
 
 BOOL CPlayerInfoBar::Create(CWnd* pParentWnd)
 {
-    return CDialogBar::Create(pParentWnd, IDD_PLAYERINFOBAR, WS_CHILD | WS_VISIBLE | CBRS_ALIGN_BOTTOM, IDD_PLAYERINFOBAR);
+    BOOL res = CDialogBar::Create(pParentWnd, IDD_PLAYERINFOBAR, WS_CHILD | WS_VISIBLE | CBRS_ALIGN_BOTTOM, IDD_PLAYERINFOBAR);
+
+    m_tooltip.Create(this);
+    m_tooltip.Activate(TRUE);
+    m_tooltip.SetMaxTipWidth(500);
+    m_tooltip.SetDelayTime(TTDT_AUTOPOP, 10000);
+
+    return res;
 }
 
 BOOL CPlayerInfoBar::PreCreateWindow(CREATESTRUCT& cs)
@@ -157,9 +167,16 @@ BEGIN_MESSAGE_MAP(CPlayerInfoBar, CDialogBar)
     ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
-
-
 // CPlayerInfoBar message handlers
+
+BOOL CPlayerInfoBar::PreTranslateMessage(MSG* pMsg)
+{
+    if (IsWindow(m_tooltip)) {
+         m_tooltip.RelayEvent(pMsg);
+    }
+
+    return __super::PreTranslateMessage(pMsg);
+}
 
 BOOL CPlayerInfoBar::OnEraseBkgnd(CDC* pDC)
 {
