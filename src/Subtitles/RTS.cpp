@@ -65,7 +65,7 @@ CMyFont::CMyFont(STSStyle& style)
 
 // CWord
 
-CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
+CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley)
     : m_style(style)
     , m_str(str)
     , m_width(0)
@@ -79,6 +79,8 @@ CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
     , m_fLineBreak(false)
     , m_fWhiteSpaceChar(false)
     , m_pOpaqueBox(NULL)
+    , m_scalex(scalex)
+    , m_scaley(scaley)
 {
     if (str.IsEmpty()) {
         m_fWhiteSpaceChar = m_fLineBreak = true;
@@ -200,16 +202,19 @@ bool CWord::CreateOpaqueBox()
 
 void CWord::Transform_C(CPoint& org)
 {
-    double scalex = m_style.fontScaleX / 100;
-    double scaley = m_style.fontScaleY / 100;
+    double scalex = m_style.fontScaleX / 100.0;
+    double scaley = m_style.fontScaleY / 100.0;
+    double xzoomf = m_scalex * 20000.0;
+    double yzoomf = m_scaley * 20000.0;
 
-    double caz = cos((3.1415 / 180) * m_style.fontAngleZ);
-    double saz = sin((3.1415 / 180) * m_style.fontAngleZ);
-    double cax = cos((3.1415 / 180) * m_style.fontAngleX);
-    double sax = sin((3.1415 / 180) * m_style.fontAngleX);
-    double cay = cos((3.1415 / 180) * m_style.fontAngleY);
-    double say = sin((3.1415 / 180) * m_style.fontAngleY);
-
+    double caz = cos((M_PI / 180.0) * m_style.fontAngleZ);
+    double saz = sin((M_PI / 180.0) * m_style.fontAngleZ);
+    double cax = cos((M_PI / 180.0) * m_style.fontAngleX);
+    double sax = sin((M_PI / 180.0) * m_style.fontAngleX);
+    double cay = cos((M_PI / 180.0) * m_style.fontAngleY);
+    double say = sin((M_PI / 180.0) * m_style.fontAngleY);
+    
+    double dOrgX = static_cast<double>(org.x), dOrgY = static_cast<double>(org.y);
     for (ptrdiff_t i = 0; i < mPathPoints; i++) {
         double x, y, z, xx, yy, zz;
 
@@ -217,9 +222,9 @@ void CWord::Transform_C(CPoint& org)
         y = mpPathPoints[i].y;
         z = 0;
 
-        double _x = x;
-        x = scalex * (x + m_style.fontShiftX * y) - org.x;
-        y = scaley * (y + m_style.fontShiftY * _x) - org.y;
+        double dPPx = m_style.fontShiftX * y + x;
+        y = scaley * (m_style.fontShiftY * x + y) - dOrgY;
+        x = scalex * dPPx - dOrgX;
 
         xx = x * caz + y * saz;
         yy = -(x * saz - y * caz);
@@ -233,13 +238,14 @@ void CWord::Transform_C(CPoint& org)
         yy = y;
         zz = x * say - z * cay;
 
-        zz = max(zz, -19000);
+        x = xx * xzoomf / (zz + xzoomf);
+        y = yy * yzoomf / (zz + yzoomf);
 
-        x = (xx * 20000) / (zz + 20000);
-        y = (yy * 20000) / (zz + 20000);
-
-        mpPathPoints[i].x = (LONG)(x + org.x + 0.5);
-        mpPathPoints[i].y = (LONG)(y + org.y + 0.5);
+        // round to integer
+        double xro = (x < 0.0) ? -0.5 : 0.5;
+        double yro = (y < 0.0) ? -0.5 : 0.5;
+        mpPathPoints[i].x = static_cast<LONG>(x + xro) + org.x;
+        mpPathPoints[i].y = static_cast<LONG>(y + yro) + org.y;
     }
 }
 
@@ -247,15 +253,17 @@ void CWord::Transform_SSE2(CPoint& org)
 {
     // SSE code
     // speed up ~1.5-1.7x
-    double scalex = m_style.fontScaleX / 100;
-    double scaley = m_style.fontScaleY / 100;
+    double scalex = m_style.fontScaleX / 100.0;
+    double scaley = m_style.fontScaleY / 100.0;
+    double xzoomf = m_scalex * 20000.0;
+    double yzoomf = m_scaley * 20000.0;
 
-    double caz = cos((3.1415 / 180) * m_style.fontAngleZ);
-    double saz = sin((3.1415 / 180) * m_style.fontAngleZ);
-    double cax = cos((3.1415 / 180) * m_style.fontAngleX);
-    double sax = sin((3.1415 / 180) * m_style.fontAngleX);
-    double cay = cos((3.1415 / 180) * m_style.fontAngleY);
-    double say = sin((3.1415 / 180) * m_style.fontAngleY);
+    double caz = cos((M_PI / 180.0) * m_style.fontAngleZ);
+    double saz = sin((M_PI / 180.0) * m_style.fontAngleZ);
+    double cax = cos((M_PI / 180.0) * m_style.fontAngleX);
+    double sax = sin((M_PI / 180.0) * m_style.fontAngleX);
+    double cay = cos((M_PI / 180.0) * m_style.fontAngleY);
+    double say = sin((M_PI / 180.0) * m_style.fontAngleY);
 
     __m128 __xshift = _mm_set_ps1((float)m_style.fontShiftX);
     __m128 __yshift = _mm_set_ps1((float)m_style.fontShiftY);
@@ -265,6 +273,8 @@ void CWord::Transform_SSE2(CPoint& org)
 
     __m128 __xscale = _mm_set_ps1((float)scalex);
     __m128 __yscale = _mm_set_ps1((float)scaley);
+    __m128 __xzoomf = _mm_set_ps1((float)xzoomf);
+    __m128 __yzoomf = _mm_set_ps1((float)yzoomf);
 
     __m128 __caz = _mm_set_ps1((float)caz);
     __m128 __saz = _mm_set_ps1((float)saz);
@@ -358,19 +368,17 @@ void CWord::Transform_SSE2(CPoint& org)
         __zz     = _mm_mul_ps(__zz, __cay);          // z * cay
         __zz     = _mm_sub_ps(__tmpx, __zz);         // zz = x * say - z * cay
 
-        __tmpy   = _mm_set_ps1(-19000);
-        __zz     = _mm_max_ps(__zz, __tmpy);         // zz = max(zz, -19000)
+        // x = (xx * xzoomf) / (zz + xzoomf);
+        // y = (yy * yzoomf) / (zz + yzoomf);
+        __m128 __tmpzz = _mm_add_ps(__zz, __xzoomf); // zz + xzoomf
 
-        // x = (xx * 20000) / (zz + 20000);
-        // y = (yy * 20000) / (zz + 20000);
-        __m128 __20000 = _mm_set_ps1(20000);
-        __zz     = _mm_add_ps(__zz, __20000);        // zz + 20000
+        __xx     = _mm_mul_ps(__xx, __xzoomf);       // xx * xzoomf
+        __pointx = _mm_div_ps(__xx, __tmpzz);        // x = (xx * xzoomf) / (zz + xzoomf)
+        
+        __tmpzz  = _mm_add_ps(__zz, __yzoomf);       // zz + yzoomf
 
-        __xx     = _mm_mul_ps(__xx, __20000);        // xx * 20000
-        __pointx = _mm_div_ps(__xx, __zz);           // x = (xx * 20000) / (zz + 20000)
-
-        __yy     = _mm_mul_ps(__yy, __20000);        // yy * 20000
-        __pointy = _mm_div_ps(__yy, __zz);           // y = (yy * 20000) / (zz + 20000);
+        __yy     = _mm_mul_ps(__yy, __yzoomf);       // yy * yzoomf
+        __pointy = _mm_div_ps(__yy, __tmpzz);        // y = (yy * yzoomf) / (zz + yzoomf);
 
         // mpPathPoints[i].x = (LONG)(x + org.x + 0.5);
         // mpPathPoints[i].y = (LONG)(y + org.y + 0.5);
@@ -398,8 +406,8 @@ void CWord::Transform_SSE2(CPoint& org)
 
 // CText
 
-CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
-    : CWord(style, str, ktype, kstart, kend)
+CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley)
+    : CWord(style, str, ktype, kstart, kend, scalex, scaley)
 {
     if (m_str == L" ") {
         m_fWhiteSpaceChar = true;
@@ -491,18 +499,14 @@ bool CText::CreatePath()
 // CPolygon
 
 CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline)
-    : CWord(style, str, ktype, kstart, kend)
-    , m_scalex(scalex)
-    , m_scaley(scaley)
+    : CWord(style, str, ktype, kstart, kend, scalex, scaley)
     , m_baseline(baseline)
 {
     ParseStr();
 }
 
-CPolygon::CPolygon(CPolygon& src) : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend)
+CPolygon::CPolygon(CPolygon& src) : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend, src.m_scalex, src.m_scaley)
 {
-    m_scalex = src.m_scalex;
-    m_scaley = src.m_scaley;
     m_baseline = src.m_baseline;
     m_width = src.m_width;
     m_ascent = src.m_ascent;
@@ -1627,19 +1631,19 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
         }
 
         if (i < j) {
-            if (CWord* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend)) {
+            if (CWord* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         }
 
         if (c == L'\n') {
-            if (CWord* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend)) {
+            if (CWord* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         } else if (c == L' ' || c == L'\x00A0') {
-            if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend)) {
+            if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }

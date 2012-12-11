@@ -47,6 +47,7 @@ class CWord : public Rasterizer
     bool CreateOpaqueBox();
 
 protected:
+    double m_scalex, m_scaley;
     CStringW m_str;
 
     virtual bool CreatePath() = 0;
@@ -62,7 +63,7 @@ public:
 
     int m_width, m_ascent, m_descent;
 
-    CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend); // str[0] = 0 -> m_fLineBreak = true (in this case we only need and use the height of m_font from the whole class)
+    CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley); // str[0] = 0 -> m_fLineBreak = true (in this case we only need and use the height of m_font from the whole class)
     virtual ~CWord();
 
     virtual CWord* Copy() = 0;
@@ -77,7 +78,7 @@ protected:
     virtual bool CreatePath();
 
 public:
-    CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend);
+    CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley);
 
     virtual CWord* Copy();
     virtual bool Append(CWord* w);
@@ -90,7 +91,6 @@ class CPolygon : public CWord
     bool ParseStr();
 
 protected:
-    double m_scalex, m_scaley;
     int m_baseline;
 
     CAtlArray<BYTE> m_pathTypesOrg;

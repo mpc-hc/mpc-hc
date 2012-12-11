@@ -63,3 +63,4 @@ Legend:
 ! Ticket #2699, AviSplitter: Fix a potential crash with PCM tracks
 ! Ticket #2703, Fix a crash that could happen when auto-loading some subtitles
 ! Ticket #2751, Improve DVBSub parsing: some subtitles could have been missing
+! Internal Subtitle Renderer/VSFilter: Fixed most cases where rotating/shearing is not properly scaled
