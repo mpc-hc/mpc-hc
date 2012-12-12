@@ -52,7 +52,7 @@ protected:
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
 
-    void AlphaBltSubPic(CSize size, SubPicDesc* pTarget = nullptr);
+    void AlphaBltSubPic(const CRect& windowRect, const CRect& videoRect, SubPicDesc* pTarget = nullptr);
 
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);

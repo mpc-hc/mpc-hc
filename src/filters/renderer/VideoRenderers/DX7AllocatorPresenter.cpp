@@ -414,7 +414,7 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
 
         // paint the text on the backbuffer
 
-        AlphaBltSubPic(rSrcPri.Size());
+        AlphaBltSubPic(rDstPri, rDstVid);
     }
 
     // wait vsync

@@ -1344,6 +1344,12 @@ STDMETHODIMP CVobSubFile::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps,
     return __super::Render(spd, bbox);
 }
 
+STDMETHODIMP CVobSubFile::GetRelativeTo(POSITION pos, RelativeTo& relativeTo)
+{
+    relativeTo = VIDEO;
+    return S_OK;
+}
+
 // IPersist
 
 STDMETHODIMP CVobSubFile::GetClassID(CLSID* pClassID)
@@ -2526,6 +2532,12 @@ STDMETHODIMP CVobSubStream::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fp
     }
 
     return E_FAIL;
+}
+
+STDMETHODIMP CVobSubStream::GetRelativeTo(POSITION pos, RelativeTo& relativeTo)
+{
+    relativeTo = VIDEO;
+    return S_OK;
 }
 
 // IPersist

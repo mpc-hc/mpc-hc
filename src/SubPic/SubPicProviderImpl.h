@@ -48,4 +48,5 @@ public:
 
     STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) PURE;
     STDMETHODIMP GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) { return E_NOTIMPL; };
+    STDMETHODIMP GetRelativeTo(POSITION pos, RelativeTo& relativeTo) { relativeTo = WINDOW; return S_OK; };
 };

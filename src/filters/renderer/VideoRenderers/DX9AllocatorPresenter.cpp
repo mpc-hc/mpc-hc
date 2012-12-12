@@ -1400,7 +1400,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     }
 
     // paint the text on the backbuffer
-    AlphaBltSubPic(rSrcPri.Size());
+    AlphaBltSubPic(rDstPri, rDstVid);
 
     // Casimir666 : show OSD
     if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE) {

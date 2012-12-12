@@ -1794,7 +1794,9 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
             }
         }
     }
-    AlphaBltSubPic(rSrcPri.Size());
+
+    AlphaBltSubPic(rDstPri, rDstVid);
+
     if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE) {
         CAutoLock BitMapLock(&m_VMR9AlphaBitmapLock);
         CRect rcSrc(m_VMR9AlphaBitmap.rSrc);

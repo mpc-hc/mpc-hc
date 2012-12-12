@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2012 see Authors.txt
+ * (C) 2008-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,6 +44,7 @@ public:
     STDMETHODIMP_(bool) IsAnimated(POSITION pos);
     STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
     STDMETHODIMP GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
+    STDMETHODIMP GetRelativeTo(POSITION pos, RelativeTo& relativeTo);
 
     // IPersist
     STDMETHODIMP GetClassID(CLSID* pClassID);
@@ -66,4 +67,6 @@ private:
 
     CBaseSub*       m_pSub;
     CCritSec        m_csCritSec;
+
+    RelativeTo      m_relativeTo;
 };

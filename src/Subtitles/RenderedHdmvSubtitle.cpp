@@ -109,7 +109,13 @@ STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize(POSITION pos, SIZE& MaxTextur
     CAutoLock cAutoLock(&m_csCritSec);
     HRESULT hr = m_pSub->GetTextureSize(pos, MaxTextureSize, VideoSize, VideoTopLeft);
     return hr;
-};
+}
+
+STDMETHODIMP CRenderedHdmvSubtitle::GetRelativeTo(POSITION pos, RelativeTo& relativeTo)
+{
+    relativeTo = VIDEO;
+    return S_OK;
+}
 
 // IPersist
 

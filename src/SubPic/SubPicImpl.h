@@ -35,6 +35,7 @@ protected:
     CSize  m_VirtualTextureSize;
     CPoint m_VirtualTextureTopLeft;
     bool   m_invAlpha;
+    RelativeTo m_relativeTo;
 
     /*
 
@@ -95,13 +96,14 @@ public:
     STDMETHODIMP AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget) PURE;
 
     STDMETHODIMP SetVirtualTextureSize(const SIZE pSize, const POINT pTopLeft);
-    STDMETHODIMP GetSourceAndDest(SIZE* pSize, RECT* pRcSource, RECT* pRcDest);
+    STDMETHODIMP GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource, RECT* pRcDest);
+    STDMETHODIMP GetRelativeTo(RelativeTo* pRelativeTo);
+    STDMETHODIMP SetRelativeTo(RelativeTo relativeTo);
 
     STDMETHODIMP_(REFERENCE_TIME) GetSegmentStart();
     STDMETHODIMP_(REFERENCE_TIME) GetSegmentStop();
     STDMETHODIMP_(void) SetSegmentStart(REFERENCE_TIME rtStart);
     STDMETHODIMP_(void) SetSegmentStop(REFERENCE_TIME rtStop);
-
     STDMETHODIMP_(bool) GetInverseAlpha();
     STDMETHODIMP_(void) SetInverseAlpha(bool bInverted);
 };

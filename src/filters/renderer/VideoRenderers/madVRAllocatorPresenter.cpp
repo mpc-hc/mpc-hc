@@ -161,13 +161,15 @@ HRESULT CmadVRAllocatorPresenter::Render(
     REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, REFERENCE_TIME atpf,
     int left, int top, int right, int bottom, int width, int height)
 {
-    __super::SetPosition(CRect(0, 0, width, height), CRect(left, top, right, bottom)); // needed? should be already set by the player
+    CRect wndRect(0, 0, width, height);
+    CRect videoRect(left, top, right, bottom);
+    __super::SetPosition(wndRect, videoRect); // needed? should be already set by the player
     SetTime(rtStart);
     if (atpf > 0 && m_pSubPicQueue) {
         m_fps = (double)(10000000.0 / atpf);
         m_pSubPicQueue->SetFPS(m_fps);
     }
-    AlphaBltSubPic(CSize(width, height));
+    AlphaBltSubPic(wndRect, videoRect);
     return S_OK;
 }
 

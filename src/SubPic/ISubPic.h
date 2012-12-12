@@ -49,6 +49,11 @@ struct SubPicDesc {
 };
 #pragma pack(pop)
 
+enum RelativeTo {
+    WINDOW,
+    VIDEO
+};
+
 //
 // ISubPic
 //
@@ -77,8 +82,10 @@ public IUnknown {
     STDMETHOD(Unlock)(RECT* pDirtyRect /*[in]*/) PURE;
 
     STDMETHOD(AlphaBlt)(RECT * pSrc, RECT * pDst, SubPicDesc* pTarget = nullptr /*[in]*/) PURE;
-    STDMETHOD(GetSourceAndDest)(SIZE* pSize /*[in]*/, RECT* pRcSource /*[out]*/, RECT* pRcDest /*[out]*/) PURE;
+    STDMETHOD(GetSourceAndDest)(RECT rcWindow /*[in]*/, RECT rcVideo /*[in]*/, RECT* pRcSource /*[out]*/, RECT* pRcDest /*[out]*/) PURE;
     STDMETHOD(SetVirtualTextureSize)(const SIZE pSize, const POINT pTopLeft) PURE;
+    STDMETHOD(GetRelativeTo)(RelativeTo* pRelativeTo /*[out]*/) PURE;
+    STDMETHOD(SetRelativeTo)(RelativeTo relativeTo /*[in]*/) PURE;
 
     STDMETHOD_(REFERENCE_TIME, GetSegmentStart)() PURE;
     STDMETHOD_(REFERENCE_TIME, GetSegmentStop)() PURE;
@@ -128,6 +135,7 @@ public IUnknown {
 
     STDMETHOD(Render)(SubPicDesc & spd, REFERENCE_TIME rt, double fps, RECT & bbox) PURE;
     STDMETHOD(GetTextureSize)(POSITION pos, SIZE & MaxTextureSize, SIZE & VirtualSize, POINT & VirtualTopLeft) PURE;
+    STDMETHOD(GetRelativeTo)(POSITION pos, RelativeTo & relativeTo) PURE;
 };
 
 //

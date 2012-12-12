@@ -71,33 +71,14 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::NonDelegatingQueryInterface(REFIID r
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
-void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(CSize size, SubPicDesc* pTarget)
+void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(const CRect& windowRect, const CRect& videoRect, SubPicDesc* pTarget)
 {
     CComPtr<ISubPic> pSubPic;
     if (m_pSubPicQueue->LookupSubPic(m_rtNow, pSubPic)) {
         CRect rcSource, rcDest;
-        if (SUCCEEDED(pSubPic->GetSourceAndDest(&size, rcSource, rcDest))) {
+        if (SUCCEEDED(pSubPic->GetSourceAndDest(windowRect, videoRect, rcSource, rcDest))) {
             pSubPic->AlphaBlt(rcSource, rcDest, pTarget);
         }
-        /*SubPicDesc spd;
-          pSubPic->GetDesc(spd);
-
-          if (spd.w > 0 && spd.h > 0)
-          {
-              CRect r;
-              pSubPic->GetDirtyRect(r);
-
-              // FIXME
-              r.DeflateRect(1, 1);
-
-              CRect rDstText(
-                  r.left * size.cx / spd.w,
-                  r.top * size.cy / spd.h,
-                  r.right * size.cx / spd.w,
-                  r.bottom * size.cy / spd.h);
-
-              pSubPic->AlphaBlt(r, rDstText, pTarget);
-          }*/
     }
 }
 
