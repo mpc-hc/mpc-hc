@@ -194,7 +194,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 8		"По умолчанию"
 9		"Установить"
 10		"Windows 8"
-11		"&Set default programs"
+11		"&Установка программ по умолчанию"
 12		"Ассоциации"
 13		"&Видео"
 14		"&Аудио"
@@ -311,9 +311,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 32		"Отчет об ошибках рендеринга потоков"
 33		"Автозагрузка аудио файлов"
 34		"Автозагрузка субтитров"
-35		"Control"
-36		"Volume step:"
-39		"unit(s)"
+35		"Регулировка"
+36		"Шаг громкости:"
+39		"%"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -438,12 +438,12 @@ END
 
 BEGIN DIALOGEX IDD_SAVESUBTITLESFILEDIALOGTEMPL LINES 11
 5		"Кодирование:"
-9		"Delay:"
-10		"ms"
+9		"Задержка:"
+10		"мс"
 END
 
 BEGIN DIALOGEX IDD_SAVETEXTFILEDIALOGTEMPL LINES 7
-5		"Кодирование:"
+5		"Кодировка:"
 END
 
 BEGIN DIALOGEX IDD_SAVETHUMBSDIALOGTEMPL LINES 16
@@ -1379,14 +1379,14 @@ STRING IDS_ICONS_REASSOC_DLG_INSTR		"Вы хотите обновить икон
 STRING IDS_ICONS_REASSOC_DLG_TITLE		"Новая версия библиотеки иконок"
 STRING IDS_INFOBAR_AUDIO		"Аудио"
 STRING IDS_INFOBAR_AUTHOR		"Автор"
-STRING IDS_INFOBAR_CHANNEL		"Channel"
+STRING IDS_INFOBAR_CHANNEL		"Канал"
 STRING IDS_INFOBAR_COPYRIGHT		"Права"
 STRING IDS_INFOBAR_DESCRIPTION		"Описание"
 STRING IDS_INFOBAR_DOMAIN		"Область"
 STRING IDS_INFOBAR_LOCATION		"Позиция"
 STRING IDS_INFOBAR_RATING		"Рейтинг"
 STRING IDS_INFOBAR_SUBTITLES		"Субтитры"
-STRING IDS_INFOBAR_TIME		"Time"
+STRING IDS_INFOBAR_TIME		"Время"
 STRING IDS_INFOBAR_TITLE		"Название"
 STRING IDS_INFOBAR_VIDEO		"Видео"
 STRING IDS_INVALID_PARAMS_ERROR		"Не удается открыть, неверные входные параметры"
