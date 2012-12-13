@@ -313,7 +313,6 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 34		"Аўтазагр. субтытраў"
 35		"Control"
 36		"Volume step:"
-39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

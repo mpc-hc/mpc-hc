@@ -313,7 +313,6 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 34		"Автозагрузка субтитров"
 35		"Регулировка"
 36		"Шаг громкости:"
-39		"%"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
