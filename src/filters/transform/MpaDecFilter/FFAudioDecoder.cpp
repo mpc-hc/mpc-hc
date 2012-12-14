@@ -251,7 +251,7 @@ bool CFFAudioDecoder::Init(enum AVCodecID nCodecId, CTransformInputPin* pInput)
                     }
                     if (nCodecId == AV_CODEC_ID_SIPR) {
                         if (m_raData.flavor > 3) {
-                            TRACE(_T("CMpaDecFilter::InitFFmpeg() : Invalid SIPR flavor (%d)"), m_raData.flavor);
+                            TRACE(_T("CMpaDecFilter::InitFFmpeg() : Invalid SIPR flavor (%d)\n"), m_raData.flavor);
                             return false;
                         }
                         static BYTE sipr_subpk_size[4] = { 29, 19, 37, 20 };

@@ -414,7 +414,7 @@ HRESULT CAviFile::BuildIndex()
             Seek(offset + idx->aIndex[0].dwOffset);
             Read(id);
             if (id != idx->aIndex[0].dwChunkId) {
-                TRACE(_T("WARNING: CAviFile::Init() detected absolute chunk addressing in \'idx1\'"));
+                TRACE(_T("WARNING: CAviFile::Init() detected absolute chunk addressing in \'idx1\'\n"));
                 offset = 0;
             }
         }

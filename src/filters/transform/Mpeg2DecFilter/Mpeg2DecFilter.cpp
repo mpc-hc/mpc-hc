@@ -122,11 +122,11 @@ LONG WINAPI Mine_ChangeDisplaySettingsEx(LONG ret, DWORD dwFlags, LPVOID lParam)
                 && (vp->dwFlags & VP_FLAGS_COPYPROTECT)) {
             if (vp->dwCommand == VP_COMMAND_GET) {
                 if ((vp->dwTVStandard & VP_TV_STANDARD_WIN_VGA) && vp->dwTVStandard != VP_TV_STANDARD_WIN_VGA) {
-                    TRACE(_T("Ooops, tv-out enabled? macrovision checks suck..."));
+                    TRACE(_T("Ooops, tv-out enabled? macrovision checks suck...\n"));
                     vp->dwTVStandard = VP_TV_STANDARD_WIN_VGA;
                 }
             } else if (vp->dwCommand == VP_COMMAND_SET) {
-                TRACE(_T("Ooops, as I already told ya, no need for any macrovision bs here"));
+                TRACE(_T("Ooops, as I already told ya, no need for any macrovision bs here\n"));
                 return 0;
             }
         }

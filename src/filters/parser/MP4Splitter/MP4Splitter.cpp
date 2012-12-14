@@ -1181,7 +1181,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         mts.Add(mt);
                         break;
                     } else {
-                        TRACE(_T("Unknow MP4 Stream %x") , fourcc);
+                        TRACE(_T("Unknow MP4 Stream %x\n") , fourcc);
                     }
                 }
             }
@@ -1359,7 +1359,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     m_rtNewStop = m_rtStop = m_rtDuration;
 
-    TRACE(_T("CMP4SplitterFilter m_pOutputs.GetCount()  = %d") , m_pOutputs.GetCount());
+    TRACE(_T("CMP4SplitterFilter m_pOutputs.GetCount()  = %d\n") , m_pOutputs.GetCount());
 
     return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
 }
@@ -1502,7 +1502,7 @@ bool CMP4SplitterFilter::DemuxLoop()
                 }
 
                 p->rtStop = p->rtStart;
-                TRACE(_T("track->GetSampleCount() %d %d "), track->GetSampleCount(), pPairNext->m_value.index);
+                TRACE(_T("track->GetSampleCount() %d %d\n"), track->GetSampleCount(), pPairNext->m_value.index);
                 int fFirst = true;
 
                 while (AP4_SUCCEEDED(track->ReadSample(pPairNext->m_value.index, sample, data))) {

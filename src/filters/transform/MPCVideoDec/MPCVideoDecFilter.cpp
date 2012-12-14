@@ -1017,7 +1017,7 @@ void CMPCVideoDecFilter::LogLibavcodec(void* par, int level, const char* fmt, va
     if (level <= AV_LOG_VERBOSE) {
         char Msg [500];
         vsnprintf_s(Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
-        TRACE(_T("AVLIB : %s"), Msg);
+        TRACE(_T("AVLIB : %s\n"), Msg);
     }
 #endif
 }
@@ -1358,7 +1358,7 @@ void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType
 
     BOOL bH264avc = FALSE;
     if (extralen > 0) {
-        TRACE(_T("CMPCVideoDecFilter::AllocExtradata() : processing extradata of %d bytes"), extralen);
+        TRACE(_T("CMPCVideoDecFilter::AllocExtradata() : processing extradata of %d bytes\n"), extralen);
         // Reconstruct AVC1 extradata format
         if (pmt->formattype == FORMAT_MPEG2Video && (m_pAVCtx->codec_tag == MAKEFOURCC('a', 'v', 'c', '1') || m_pAVCtx->codec_tag == MAKEFOURCC('A', 'V', 'C', '1') || m_pAVCtx->codec_tag == MAKEFOURCC('C', 'C', 'V', '1'))) {
             MPEG2VIDEOINFO* mp2vi = (MPEG2VIDEOINFO*)pmt->Format();
@@ -1399,7 +1399,7 @@ void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType
 
             bH264avc = TRUE;
             if (!bSPS) {
-                TRACE(_T("CMPCVideoDecFilter::AllocExtradata() : AVC1 extradata doesn't contain a SPS, setting thread_count = 1"));
+                TRACE(_T("CMPCVideoDecFilter::AllocExtradata() : AVC1 extradata doesn't contain a SPS, setting thread_count = 1\n"));
                 m_pAVCtx->thread_count = 1;
             }
         } else {
