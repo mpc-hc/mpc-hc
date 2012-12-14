@@ -19,6 +19,7 @@ Legend:
 + Ticket #439, External subtitles: support UTF-8 without BOM
 + Ticket #728, Show tooltips in the information panel so that truncated lines can be read completely
 + Ticket #888, Show the information about the current DVB program in the information bar
++ Ticket #1004, The playing speed steps can now be changed on the playback options page
 + Ticket #1617, Use MPC-HC's icon when registering the context menu entries
 + Ticket #1673, FLACSource: Basic support for embedded CUE sheet
 + Ticket #1680, Add Greek translation

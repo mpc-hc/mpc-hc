@@ -287,7 +287,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Արտաքին զտիչներ(ինչպես օրինակDirectVobSub) cկարող է ցուցադրել տողագրերը բոլոր ռենդերներում:"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 5		"Ձայնը"
 6		"Բարձրությունը"
 7		"Min"
@@ -313,6 +313,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 34		"Տողագրերի ինքնաբացում"
 35		"Կառավարում"
 36		"Ձայնի քայլը."
+40		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1757,6 +1758,7 @@ STRING IDS_SIDE_RIGHT		"Կողային աջ"
 STRING IDS_SIZE_UNIT_G		"ԳԲ"
 STRING IDS_SIZE_UNIT_K		"ԿԲ"
 STRING IDS_SIZE_UNIT_M		"ՄԲ"
+STRING IDS_SPEEDSTEP_AUTO		"Auto"
 STRING IDS_SPEED_UNIT_G		"ԳԲ/վ"
 STRING IDS_SPEED_UNIT_K		"ԿԲ/վ"
 STRING IDS_SPEED_UNIT_M		"ՄԲ/վ"

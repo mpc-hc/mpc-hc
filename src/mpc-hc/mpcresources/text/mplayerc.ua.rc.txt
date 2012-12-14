@@ -287,7 +287,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Зовнішні фільтри (як то DirectVobSub) допускають показ субтитрів для всіх рендерерів."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 5		"Аудіо"
 6		"Гучність"
 7		"Мін."
@@ -313,6 +313,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 34		"Автозавантаження субтитрів"
 35		"Регулювання"
 36		"Крок зміни гучності:"
+40		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1757,6 +1758,7 @@ STRING IDS_SIDE_RIGHT		"Бічний правий"
 STRING IDS_SIZE_UNIT_G		"ГБ"
 STRING IDS_SIZE_UNIT_K		"КБ"
 STRING IDS_SIZE_UNIT_M		"МБ"
+STRING IDS_SPEEDSTEP_AUTO		"Auto"
 STRING IDS_SPEED_UNIT_G		"ГБ/с"
 STRING IDS_SPEED_UNIT_K		"КБ/с"
 STRING IDS_SPEED_UNIT_M		"МБ/с"

@@ -466,6 +466,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_VOLUME, nVolume);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_BALANCE, nBalance);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_VOLUMESTEP, nVolumeStep);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPEEDSTEP, nSpeedStep);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MUTE, fMute);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPNUM, nLoops);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP, fLoopForever);
@@ -861,6 +862,7 @@ void CAppSettings::LoadSettings()
     iRMVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT);
     iQTVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT);
     nVolumeStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VOLUMESTEP, 5);
+    nSpeedStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEEDSTEP, 0);
 
     UpdateRenderersData(false);
 

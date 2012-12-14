@@ -43,6 +43,8 @@ public:
     int m_nBalance;
     int m_nVolumeStep;
     CSpinButtonCtrl m_VolumeStepCtrl;
+    int m_nSpeedStep;
+    CSpinButtonCtrl m_SpeedStepCtrl;
     int m_iLoopForever;
     CEdit m_loopnumctrl;
     int m_nLoops;
@@ -73,6 +75,7 @@ public:
     afx_msg void OnBnClickedRadio12(UINT nID);
     afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
     afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateSpeedStep(CCmdUI* pCmdUI);
 
     afx_msg void OnBalanceTextDblClk();
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);

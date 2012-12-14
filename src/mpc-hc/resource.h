@@ -648,6 +648,8 @@
 #define IDC_QTRND_SAVEIMAGE_SUPPORT     22072
 #define IDC_VOLUMESTEP                  22073
 #define IDC_VOLUMESTEP_SPIN             22074
+#define IDC_SPEEDSTEP                   22075
+#define IDC_SPEEDSTEP_SPIN              22076
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1475,6 +1477,7 @@
 #define IDS_VDF_IF_TOP_FIELD_FIRST      41446
 #define IDS_VDF_IF_BOTTOM_FIELD_FIRST   41447
 #define IDS_SUBFILE_DELAY               41448
+#define IDS_SPEEDSTEP_AUTO              41449
 
 // Next default values for new objects
 // 

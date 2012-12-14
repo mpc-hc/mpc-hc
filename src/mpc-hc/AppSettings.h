@@ -419,6 +419,7 @@ public:
     bool            fAutoloadSubtitles;
     bool            fBlockVSFilter;
     int             nVolumeStep;
+    int             nSpeedStep;
 
     // DVD/OGM
     bool            fUseDVDPath;

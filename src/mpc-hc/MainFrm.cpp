@@ -7607,10 +7607,21 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
                 }
             }
         } else {
+            const CAppSettings& s = AfxGetAppSettings();
+            double dSpeedStep = s.nSpeedStep / 100.0;
+
             if (nID == ID_PLAY_INCRATE) {
-                SetPlayingRate(m_dSpeedRate * 2.0);
+                if (s.nSpeedStep > 0) {
+                    SetPlayingRate(m_dSpeedRate + dSpeedStep);
+                } else {
+                    SetPlayingRate(m_dSpeedRate * 2.0);
+                }
             } else if (nID == ID_PLAY_DECRATE) {
-                SetPlayingRate(m_dSpeedRate / 2.0);
+                if (s.nSpeedStep > 0) {
+                    SetPlayingRate(m_dSpeedRate - dSpeedStep);
+                } else {
+                    SetPlayingRate(m_dSpeedRate / 2.0);
+                }
             }
         }
 

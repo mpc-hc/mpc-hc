@@ -75,6 +75,7 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT3, m_audiosLanguageOrder);
     DDX_Text(pDX, IDC_VOLUMESTEP, m_nVolumeStep);
     DDX_Control(pDX, IDC_VOLUMESTEP_SPIN, m_VolumeStepCtrl);
+    DDX_Control(pDX, IDC_SPEEDSTEP_SPIN, m_SpeedStepCtrl);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
@@ -83,6 +84,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateLoopNum)
     ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateLoopNum)
     ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
+    ON_UPDATE_COMMAND_UI(IDC_SPEEDSTEP_SPIN, OnUpdateSpeedStep)
 
     ON_STN_DBLCLK(IDC_STATIC_BALANCE, OnBalanceTextDblClk)
     ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
@@ -107,6 +109,9 @@ BOOL CPPagePlayback::OnInitDialog()
     m_nBalance = s.nBalance;
     m_nVolumeStep = s.nVolumeStep;
     m_VolumeStepCtrl.SetRange(1, 25);
+    m_nSpeedStep = s.nSpeedStep;
+    m_SpeedStepCtrl.SetPos(m_nSpeedStep);
+    m_SpeedStepCtrl.SetRange(0, 100);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
     m_nLoops = s.nLoops;
     m_fRewind = s.fRewind;
@@ -126,6 +131,10 @@ BOOL CPPagePlayback::OnInitDialog()
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT_LARGER));
     CorrectComboListWidth(m_zoomlevelctrl);
 
+    // set the spinner acceleration value
+    UDACCEL accel = { 0, 10 };
+    m_SpeedStepCtrl.SetAccel(1, &accel);
+
     EnableToolTips(TRUE);
     UpdateData(FALSE);
 
@@ -142,6 +151,7 @@ BOOL CPPagePlayback::OnApply()
     s.nVolume = m_oldVolume = m_nVolume;
     s.nBalance = m_nBalance;
     s.nVolumeStep = min(max(m_nVolumeStep, 1), 100);
+    s.nSpeedStep = m_nSpeedStep;
     s.fLoopForever = !!m_iLoopForever;
     s.nLoops = m_nLoops;
     s.fRewind = !!m_fRewind;
@@ -185,6 +195,19 @@ void CPPagePlayback::OnUpdateLoopNum(CCmdUI* pCmdUI)
 void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5));
+}
+
+void CPPagePlayback::OnUpdateSpeedStep(CCmdUI* pCmdUI)
+{
+    // if there is an error retrieving the position, assume the speedstep is set to auto
+    BOOL bError = FALSE;
+    int iPos = m_SpeedStepCtrl.GetPos32(&bError);
+    m_nSpeedStep = bError ? 0 : iPos;
+
+    // set the edit box text to auto if the position is zero
+    if (!bError && iPos == 0) {
+        SetDlgItemText(IDC_SPEEDSTEP, ResStr(IDS_SPEEDSTEP_AUTO));
+    }
 }
 
 void CPPagePlayback::OnBalanceTextDblClk()

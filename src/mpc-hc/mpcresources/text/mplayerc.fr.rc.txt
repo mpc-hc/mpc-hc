@@ -287,7 +287,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Les filtres externes (DirectVobSub par exemple) peuvent afficher les sous-titres pour tous les moteurs de rendu."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 5		"Audio"
 6		"Volume"
 7		"Min"
@@ -313,6 +313,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 34		"Lecture automatique des sous-titres"
 35		"Contrôle"
 36		"Pas du volume :"
+40		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1757,6 +1758,7 @@ STRING IDS_SIDE_RIGHT		"Coté Droite"
 STRING IDS_SIZE_UNIT_G		"Go"
 STRING IDS_SIZE_UNIT_K		"Ko"
 STRING IDS_SIZE_UNIT_M		"Mo"
+STRING IDS_SPEEDSTEP_AUTO		"Auto"
 STRING IDS_SPEED_UNIT_G		"Go/s"
 STRING IDS_SPEED_UNIT_K		"Ko/s"
 STRING IDS_SPEED_UNIT_M		"Mo/s"

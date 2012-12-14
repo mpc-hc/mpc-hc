@@ -57,6 +57,7 @@
 #define IDS_RS_THUMBWIDTH                   _T("ThumbWidth")
 #define IDS_RS_D3DFULLSCREEN                _T("D3DFullScreen")
 #define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
+#define IDS_RS_SPEEDSTEP                    _T("SpeedStep")
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
 #define IDS_RS_MUTE                         _T("Mute")
