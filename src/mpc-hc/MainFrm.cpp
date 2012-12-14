@@ -6978,8 +6978,9 @@ void CMainFrame::OnPlayPlay()
             if (AfxGetAppSettings().iDefaultCaptureDevice == 1) {
                 CComQIPtr<IBDATuner> pTun = pGB;
                 if (pTun) {
-                    pTun->SetChannel(AfxGetAppSettings().nDVBLastChannel);
-                    ShowCurrentChannelInfo();
+                    if (SUCCEEDED(pTun->SetChannel(AfxGetAppSettings().nDVBLastChannel))) {
+                        ShowCurrentChannelInfo();
+                    }
                 }
             }
         }
@@ -8364,16 +8365,18 @@ void CMainFrame::OnNavigateSkip(UINT nID)
                 nCurrentChannel = s.nDVBLastChannel;
 
                 if (nID == ID_NAVIGATE_SKIPBACK) {
-                    pTun->SetChannel(nCurrentChannel - 1);
-                    ShowCurrentChannelInfo();
-                    if (m_wndNavigationBar.IsVisible()) {
-                        m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
+                    if (SUCCEEDED(pTun->SetChannel(nCurrentChannel - 1))) {
+                        ShowCurrentChannelInfo();
+                        if (m_wndNavigationBar.IsVisible()) {
+                            m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
+                        }
                     }
                 } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-                    pTun->SetChannel(nCurrentChannel + 1);
-                    ShowCurrentChannelInfo();
-                    if (m_wndNavigationBar.IsVisible()) {
-                        m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
+                    if (SUCCEEDED(pTun->SetChannel(nCurrentChannel + 1))) {
+                        ShowCurrentChannelInfo();
+                        if (m_wndNavigationBar.IsVisible()) {
+                            m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
+                        }
                     }
                 }
 
@@ -8618,10 +8621,11 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             CComQIPtr<IBDATuner>    pTun = pGB;
             if (pTun) {
                 if (s.nDVBLastChannel != nID) {
-                    pTun->SetChannel(nID);
-                    ShowCurrentChannelInfo();
-                    if (m_wndNavigationBar.IsVisible()) {
-                        m_wndNavigationBar.m_navdlg.UpdatePos(nID);
+                    if (SUCCEEDED(pTun->SetChannel(nID))) {
+                        ShowCurrentChannelInfo();
+                        if (m_wndNavigationBar.IsVisible()) {
+                            m_wndNavigationBar.m_navdlg.UpdatePos(nID);
+                        }
                     }
                 }
             }

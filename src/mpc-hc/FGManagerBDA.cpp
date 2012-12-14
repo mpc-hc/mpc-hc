@@ -266,6 +266,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     m_nCurVideoType = DVB_MPV;
     m_nCurAudioType = DVB_MPA;
     m_fHideWindow = false;
+    m_fSetChannelActive = false;
 
     // Hack : remove audio switcher !
     POSITION pos = m_transform.GetHeadPosition();
@@ -477,16 +478,21 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
 {
     HRESULT hr = E_INVALIDARG;
     CAppSettings& s = AfxGetAppSettings();
-    CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
 
-    LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
-    if (pChannel != NULL) {
-        hr = SetChannelInternal(pChannel);
+    if (!m_fSetChannelActive) {
+        m_fSetChannelActive = true;
+        CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
 
-        if (SUCCEEDED(hr)) {
-            s.nDVBLastChannel = nChannelPrefNumber;
-            LOG(_T("SetChannel %d successful."), nChannelPrefNumber);
+        LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
+        if (pChannel != NULL) {
+            hr = SetChannelInternal(pChannel);
+
+            if (SUCCEEDED(hr)) {
+                s.nDVBLastChannel = nChannelPrefNumber;
+                LOG(_T("SetChannel %d successful."), nChannelPrefNumber);
+            }
         }
+        m_fSetChannelActive = false;
     }
 
     return hr;
@@ -721,13 +727,13 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
 
 HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 {
-    HRESULT hr = S_OK;
+    HRESULT hr = E_ABORT;
     bool fRadioToTV = false;
 
     int nState = GetState();
 
     if (pChannel->GetVideoPID() != 0) {
-        SwitchStream(m_nCurVideoType, pChannel->GetVideoType());
+        CheckNoLog(SwitchStream(m_nCurVideoType, pChannel->GetVideoType()));
         if (m_fHideWindow) {
             fRadioToTV = true;
         }
@@ -757,8 +763,8 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 
     CheckNoLog(m_DVBStreams[m_nCurAudioType].Map(pChannel->GetDefaultAudioPID()));
 
-    if (GetState() == State_Stopped) {
-        hr = ChangeState((FILTER_STATE)nState);
+    if (GetState() != State_Running) {
+        ChangeState(State_Running);      // (FILTER_STATE)nState);
     }
 
     if (fRadioToTV) {
