@@ -142,6 +142,7 @@ private:
     DVB_STREAM_TYPE m_nCurAudioType;
     CString         m_BDANetworkProvider;
     bool            m_fHideWindow;
+    bool            m_fSetChannelActive;
     CComPtr<IPin>   m_pPin_h264;
 
     HRESULT         CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, const CStringW& DisplayName);
