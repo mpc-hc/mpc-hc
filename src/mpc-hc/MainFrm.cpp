@@ -11579,7 +11579,7 @@ DWORD CMainFrame::SetupSubtitleStreams()
 {
     size_t cStreams = m_pSubStreams.GetCount();
     if (cStreams > 0) {
-        bool extproirity = false;
+        bool externalPriority = false;
         CAtlArray<CString> langs;
         int tPos = 0;
         CString lang = AfxGetAppSettings().strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
@@ -11594,7 +11594,7 @@ DWORD CMainFrame::SetupSubtitleStreams()
         POSITION pos = m_pSubStreams.GetHeadPosition();
         while (pos) {
             if (m_posFirstExtSub == pos) {
-                extproirity = AfxGetAppSettings().fPrioritizeExternalSubtitles;
+                externalPriority = AfxGetAppSettings().fPrioritizeExternalSubtitles;
             }
             CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
 
@@ -11615,7 +11615,7 @@ DWORD CMainFrame::SetupSubtitleStreams()
                     break;
                 }
             }
-            if (extproirity) {
+            if (externalPriority) {
                 rating += 8;
             }
             if (name.Find(_T("[forced]")) != -1) {
