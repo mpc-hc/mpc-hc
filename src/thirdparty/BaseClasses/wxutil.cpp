@@ -11,6 +11,7 @@
 #include "streams.h"
 #define STRSAFE_NO_DEPRECATE
 #include <strsafe.h>
+#include <process.h> //MPC-HC patch
 
 
 // --- CAMEvent -----------------------
@@ -110,7 +111,7 @@ CAMThread::~CAMThread() {
 
 // when the thread starts, it calls this function. We unwrap the 'this'
 //pointer and call ThreadProc.
-DWORD WINAPI
+unsigned int WINAPI //MPC-HC patch
 CAMThread::InitialThreadProc(__inout LPVOID pv)
 {
     HRESULT hrCoInit = CAMThread::CoInitializeHelper();
@@ -132,21 +133,20 @@ CAMThread::InitialThreadProc(__inout LPVOID pv)
 BOOL
 CAMThread::Create()
 {
-    DWORD threadid;
-
     CAutoLock lock(&m_AccessLock);
 
     if (ThreadExists()) {
 	return FALSE;
     }
 
-    m_hThread = CreateThread(
-		    NULL,
-		    0,
-		    CAMThread::InitialThreadProc,
-		    this,
-		    0,
-		    &threadid);
+    //MPC-HC patch
+    m_hThread = (HANDLE)_beginthreadex( NULL,                         /* Security */
+                                        0,                            /* Stack Size */
+                                        CAMThread::InitialThreadProc, /* Thread process */
+                                        (LPVOID)this,                 /* Arguments */
+                                        0,                            /* 0 = Start Immediately */
+                                        NULL                          /* Thread Address */
+                                        );
 
     if (!m_hThread) {
 	return FALSE;
