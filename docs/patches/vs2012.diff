@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index a5d416f..284d3d0 100644
+index b4c4465..7e22fc5 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -33,7 +33,7 @@ IF NOT EXIST %MPCHC_MINGW32% GOTO MissingVar
@@ -11,8 +11,8 @@ index a5d416f..284d3d0 100644
  
  SET ARG=/%*
  SET ARG=%ARG:/=%
-@@ -132,7 +132,7 @@ IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild
- IF %ERRORLEVEL% NEQ 0 EXIT /B
+@@ -139,7 +139,7 @@ IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild
+ IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
  
  IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
 -CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
@@ -20,6 +20,45 @@ index a5d416f..284d3d0 100644
  
  IF /I "%CONFIG%" == "Filters" (
    CALL :SubFilters %PPLATFORM%
+diff --git a/mpc-hc.sln b/mpc-hc.sln
+index 8f22b3d..880bcda 100644
+--- a/mpc-hc.sln
++++ b/mpc-hc.sln
+@@ -1,6 +1,5 @@
+-﻿
+-Microsoft Visual Studio Solution File, Format Version 11.00
+-# Visual Studio 2010
++Microsoft Visual Studio Solution File, Format Version 12.00
++# Visual Studio 2012
+ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A21F07E6-A891-479C-98EA-EDB58CE4EFAB}"
+ EndProject
+ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D9A0529B-9EC4-4D30-9E05-A5D533739D95}"
+diff --git a/mpciconlib.sln b/mpciconlib.sln
+index 159f783..36fdf34 100644
+--- a/mpciconlib.sln
++++ b/mpciconlib.sln
+@@ -1,6 +1,5 @@
+-﻿
+-Microsoft Visual Studio Solution File, Format Version 11.00
+-# Visual Studio 2010
++Microsoft Visual Studio Solution File, Format Version 12.00
++# Visual Studio 2012
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpciconlib", "src\mpc-hc\mpciconlib\mpciconlib.vcxproj", "{86251DC4-9298-424C-AE6C-07844F79C0B5}"
+ EndProject
+ Global
+diff --git a/mpcresources.sln b/mpcresources.sln
+index c22f602..d0d2eea 100644
+--- a/mpcresources.sln
++++ b/mpcresources.sln
+@@ -1,6 +1,5 @@
+-﻿
+-Microsoft Visual Studio Solution File, Format Version 11.00
+-# Visual Studio 2010
++Microsoft Visual Studio Solution File, Format Version 12.00
++# Visual Studio 2012
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpcresources", "src\mpc-hc\mpcresources\mpcresources.vcxproj", "{A57CBE1A-3703-4237-950A-FC5F594FDB43}"
+ EndProject
+ Global
 diff --git a/src/CmdUI/CmdUI.vcxproj b/src/CmdUI/CmdUI.vcxproj
 index 6406461..d7a8fcd 100644
 --- a/src/CmdUI/CmdUI.vcxproj
@@ -131,6 +170,19 @@ index 285445e..2a75763 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
+diff --git a/src/MPCTestAPI/MPCTestAPI.sln b/src/MPCTestAPI/MPCTestAPI.sln
+index c49eae6..c8891cb 100644
+--- a/src/MPCTestAPI/MPCTestAPI.sln
++++ b/src/MPCTestAPI/MPCTestAPI.sln
+@@ -1,6 +1,5 @@
+-﻿
+-Microsoft Visual Studio Solution File, Format Version 11.00
+-# Visual Studio 2010
++Microsoft Visual Studio Solution File, Format Version 12.00
++# Visual Studio 2012
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MPCTestAPI", "MPCTestAPI.vcxproj", "{A1F84246-B9A1-455F-97E4-D730AB089947}"
+ EndProject
+ Global
 diff --git a/src/MPCTestAPI/MPCTestAPI.vcxproj b/src/MPCTestAPI/MPCTestAPI.vcxproj
 index 57b706e..e2d458b 100644
 --- a/src/MPCTestAPI/MPCTestAPI.vcxproj
@@ -3090,7 +3142,7 @@ index fedf4e4..611f533 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index c725bcc..5c985f9 100644
+index 229c66a..d4436af 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@
@@ -4320,7 +4372,7 @@ index 108366c..8ca0f39 100644
  }
 +
 diff --git a/src/thirdparty/mfc/afxmaskededit.cpp b/src/thirdparty/mfc/afxmaskededit.cpp
-index 433958c..7959de0 100644
+index 433958c..89a34b9 100644
 --- a/src/thirdparty/mfc/afxmaskededit.cpp
 +++ b/src/thirdparty/mfc/afxmaskededit.cpp
 @@ -9,14 +9,10 @@
@@ -4389,9 +4441,8 @@ index 433958c..7959de0 100644
 -#endif
 +
  	return 0;
--}
+ }
 \ No newline at end of file
-+}
 diff --git a/src/thirdparty/mfc/afxmaskededit.h b/src/thirdparty/mfc/afxmaskededit.h
 index 555cf89..992cc16 100644
 --- a/src/thirdparty/mfc/afxmaskededit.h

@@ -1,8 +1,8 @@
 diff --git a/build.bat b/build.bat
-index a5d416f..1850b01 100644
+index b4c4465..c3ef804 100644
 --- a/build.bat
 +++ b/build.bat
-@@ -292,9 +292,9 @@ IF /I "%~2" == "Win32" (
+@@ -322,9 +322,9 @@ IF /I "%~2" == "Win32" (
  PUSHD "bin"
  
  IF DEFINED MPCHC_LITE (
@@ -2265,7 +2265,7 @@ index dc94009..487070d 100644
  #else
  #error Compiler is not supported!
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 3de32e9..2842896 100644
+index 21ca9e3..5ab88bd 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
@@ -2651,7 +2651,7 @@ index fedf4e4..f5dceb1 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index 213cc63..b528867 100644
+index 33c150d..5462359 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
 @@ -52,7 +52,7 @@ ifeq ($(64BIT),yes)
