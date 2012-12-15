@@ -245,7 +245,8 @@ static CLSID CLSID_BDA_MPEG2_TIF =
 CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     : CFGManagerPlayer(pName, pUnk, hWnd)
 {
-    LOG(_T("\nStarting session ------------------------------------------------->"));
+    LOG(_T("\n"));
+    LOG(_T("Starting session ------------------------------------------------->"));
     m_DVBStreams[DVB_MPV]  = CDVBStream(L"mpv",  &mt_Mpv);
     m_DVBStreams[DVB_H264] = CDVBStream(L"h264", &mt_H264);
     m_DVBStreams[DVB_MPA]  = CDVBStream(L"mpa",  &mt_Mpa);
@@ -265,6 +266,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     m_nCurVideoType = DVB_MPV;
     m_nCurAudioType = DVB_MPA;
     m_fHideWindow = false;
+    m_fSetChannelActive = false;
 
     // Hack : remove audio switcher !
     POSITION pos = m_transform.GetHeadPosition();
@@ -396,22 +398,43 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     CComPtr<IBaseFilter> pTuner;
     CComPtr<IBaseFilter> pReceiver;
 
-    LOG(_T("\nCreating BDA filters..."));
+    LOG(_T("\n"));
+    LOG(_T("Creating BDA filters..."));
     CheckAndLog(CreateKSFilter(&pNetwork, KSCATEGORY_BDA_NETWORK_PROVIDER, s.strBDANetworkProvider), _T("BDA: Network provider creation"));
     if (FAILED(hr = CreateKSFilter(&pTuner, KSCATEGORY_BDA_NETWORK_TUNER, s.strBDATuner))) {
         MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CREATE_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
         TRACE(_T("BDA: Network tuner creation: 0x%08x\n"), hr);
         return hr;
     }
-    if (s.strBDATuner.Right(40) != s.strBDAReceiver.Right(40)) {    // check if filters are the same
+
+    if (FAILED(hr = ConnectFilters(pNetwork, pTuner))) {
+        MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CONNECT_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
+        TRACE(_T("BDA: Network <-> Tuner: 0x%08x\n"), hr);
+        return hr;
+    }
+
+    m_pBDAControl = pTuner;
+    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq))) {
+        AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter topology."), MB_OK);
+        TRACE(_T("BDA : IBDA_FrequencyFilter topology: 0x%08x\n"), hr);
+        return hr;
+    }
+    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAStats))) {
+        AfxMessageBox(_T("BDA Error: IBDA_SignalStatistics topology."), MB_OK);
+        TRACE(_T("BDA : IBDA_SignalStatistics topology: 0x%08x\n"), hr);
+        return hr;
+    }
+
+    CComPtr<IBaseFilter> pMpeg2Demux;
+    if (FAILED(pMpeg2Demux.CoCreateInstance(CLSID_MPEG2Demultiplexer, NULL, CLSCTX_INPROC_SERVER))) {
+        MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
+        TRACE(_T("BDA: Microsoft demux creation: 0x%08x\n"), hr);
+    }
+    CheckNoLog(AddFilter(pMpeg2Demux, _T("MPEG-2 Demultiplexer")));
+    if (FAILED(ConnectFilters(pTuner, pMpeg2Demux))) { // Separate receiver is required
         if (FAILED(hr = CreateKSFilter(&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,  s.strBDAReceiver))) {
             MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CREATE_RECEIVER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
             TRACE(_T("BDA: Receiver creation: 0x%08x\n"), hr);
-            return hr;
-        }
-        if (FAILED(hr = ConnectFilters(pNetwork, pTuner))) {
-            MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CONNECT_NW_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
-            TRACE(_T("BDA: Network <-> Tuner: 0x%08x\n"), hr);
             return hr;
         }
         if (FAILED(hr = ConnectFilters(pTuner, pReceiver))) {
@@ -419,62 +442,27 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
             TRACE(_T("BDA: Tuner <-> Receiver: 0x%08x\n"), hr);
             return hr;
         }
+        if FAILED(ConnectFilters(pReceiver, pMpeg2Demux)) {
+           MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
+           TRACE(_T("BDA: Receiver <-> Demux: 0x%08x\n"), hr);
+           return hr;
+        }
         LOG(_T("Network -> Tuner -> Receiver connected."));
 
-        CComPtr<IBaseFilter>        pMpeg2Demux;
-        m_pBDAControl   = pTuner;
-        if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq))) {
-            AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter topology."), MB_OK);
-            TRACE(_T("BDA: IBDA_FrequencyFilter topology: 0x%08x\n"), hr);
-            return hr;
-        }
-        if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAStats))) {
-            AfxMessageBox(_T("BDA Error: IBDA_SignalStatistics topology."), MB_OK);
-            TRACE(_T("BDA: IBDA_SignalStatistics topology: 0x%08x\n"), hr);
-            return hr;
-        }
-
-        // Create Mpeg2 demux
-        if (FAILED(hr = CreateMicrosoftDemux(pReceiver, pMpeg2Demux))) {
-            MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
-            TRACE(_T("BDA: Microsoft demux creation: 0x%08x\n"), hr);
-            return hr;
-        }
-    } else {    // if same filters, connect pNetwork to pTuner directly
-        if (FAILED(hr = ConnectFilters(pNetwork, pTuner))) {
-            MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CONNECT_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
-            TRACE(_T("BDA: Network <-> Tuner/Receiver: 0x%08x\n"), hr);
-            return hr;
-        }
-
-        CComPtr<IBaseFilter> pMpeg2Demux;
-        m_pBDAControl = pTuner;
-        if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq))) {
-            AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter topology."), MB_OK);
-            TRACE(_T("BDA : IBDA_FrequencyFilter topology: 0x%08x\n"), hr);
-            return hr;
-        }
-        if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAStats))) {
-            AfxMessageBox(_T("BDA Error: IBDA_SignalStatistics topology."), MB_OK);
-            TRACE(_T("BDA : IBDA_SignalStatistics topology: 0x%08x\n"), hr);
-            return hr;
-        }
+    } else { // The selected filter is performing both tuner and receiver functions
         LOG(_T("Network -> Receiver connected."));
-
-        // Create Mpeg2 demux
-        if (FAILED(hr = CreateMicrosoftDemux(pTuner, pMpeg2Demux))) {
-            MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
-            TRACE(_T("BDA: Microsoft demux creation: 0x%08x\n"), hr);
-            return hr;
-        }
     }
 
+    CheckNoLog(CreateMicrosoftDemux(pMpeg2Demux));
+
 #ifdef _DEBUG
-    LOG(_T("\nFilter list:"));
+    LOG(_T("\n"));
+    LOG(_T("Filter list:"));
     BeginEnumFilters(this, pEF, pBF) {
         LOG(GetFilterName(pBF));
     }
     EndEnumFilters;
+    LOG(_T(" "));
 #endif
 
     return S_OK;
@@ -490,14 +478,21 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
 {
     HRESULT hr = E_INVALIDARG;
     CAppSettings& s = AfxGetAppSettings();
-    CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
 
-    if (pChannel != NULL) {
-        hr = SetChannelInternal(pChannel);
+    if (!m_fSetChannelActive) {
+        m_fSetChannelActive = true;
+        CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
 
-        if (SUCCEEDED(hr)) {
-            s.nDVBLastChannel = nChannelPrefNumber;
+        LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
+        if (pChannel != NULL) {
+            hr = SetChannelInternal(pChannel);
+
+            if (SUCCEEDED(hr)) {
+                s.nDVBLastChannel = nChannelPrefNumber;
+                LOG(_T("SetChannel %d successful."), nChannelPrefNumber);
+            }
         }
+        m_fSetChannelActive = false;
     }
 
     return hr;
@@ -512,6 +507,7 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 {
     HRESULT hr;
     const CAppSettings& s = AfxGetAppSettings();
+    LOG(_T("SetFrequency to %d."), freq);
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 
@@ -521,6 +517,7 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
     CheckAndLog(m_pBDAControl->CheckChanges(), _T("BDA: Setfrequency CheckChanges"));
     CheckAndLog(m_pBDAControl->CommitChanges(), _T("BDA: Setfrequency CommitChanges"));
 
+    LOG(_T("Frequency set to %d."), freq);
     return hr;
 }
 
@@ -528,6 +525,7 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
 {
     CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 
+    LOG(_T("Scanning frequency %d."), ulFrequency);
     Parser.ParseSDT(ulFrequency);
     Parser.ParsePAT();
     Parser.ParseNIT();
@@ -552,6 +550,7 @@ STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& 
     CheckNoLog(m_pBDAStats->get_SignalLocked(&bLocked));
     CheckNoLog(m_pBDAStats->get_SignalStrength(&lStrength));
     CheckNoLog(m_pBDAStats->get_SignalQuality(&lQuality));
+    LOG(_T("BDA Get signal stats. Strength %d. Quality %d."), lStrength, lQuality);
 
     return S_OK;
 }
@@ -687,23 +686,12 @@ STDMETHODIMP CFGManagerBDA::NonDelegatingQueryInterface(REFIID riid, void** ppv)
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
-HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBaseFilter>& pMpeg2Demux)
+HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
 {
     CComPtr<IMpeg2Demultiplexer> pDemux;
     HRESULT hr;
 
-    CheckNoLog(pMpeg2Demux.CoCreateInstance(CLSID_MPEG2Demultiplexer, NULL, CLSCTX_INPROC_SERVER));
-    CheckNoLog(AddFilter(pMpeg2Demux, _T("MPEG-2 Demultiplexer")));
-    CheckNoLog(ConnectFilters(pReceiver, pMpeg2Demux));
     CheckNoLog(pMpeg2Demux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux));
-
-    // Cleanup unnecessary pins
-    //for (int i=0; i<6; i++)
-    //{
-    //  CStringW strPin;
-    //  strPin.Format(L"%d", i);
-    //  pDemux->DeleteOutputPin((LPWSTR)(LPCWSTR)strPin);
-    //}
 
     LOG(_T("Receiver -> Demux connected."));
 
@@ -739,13 +727,13 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 
 HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 {
-    HRESULT hr = S_OK;
+    HRESULT hr = E_ABORT;
     bool fRadioToTV = false;
 
     int nState = GetState();
 
     if (pChannel->GetVideoPID() != 0) {
-        SwitchStream(m_nCurVideoType, pChannel->GetVideoType());
+        CheckNoLog(SwitchStream(m_nCurVideoType, pChannel->GetVideoType()));
         if (m_fHideWindow) {
             fRadioToTV = true;
         }
@@ -775,8 +763,8 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 
     CheckNoLog(m_DVBStreams[m_nCurAudioType].Map(pChannel->GetDefaultAudioPID()));
 
-    if (GetState() == State_Stopped) {
-        hr = ChangeState((FILTER_STATE)nState);
+    if (GetState() != State_Running) {
+        ChangeState(State_Running);      // (FILTER_STATE)nState);
     }
 
     if (fRadioToTV) {
@@ -786,7 +774,6 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
     }
 
     // TODO : remove sub later!
-    //  CheckNoLog(m_DVBStreams[DVB_SUB].Map (pChannel->GetDefaultSubtitlePID()));
 
     return hr;
 }
