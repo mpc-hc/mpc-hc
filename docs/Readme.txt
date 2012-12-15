@@ -28,7 +28,7 @@ Main Features:
 System Requirements:
 ---------------------
 * An SSE capable CPU
-* Windows XP SP3, Vista, 7 32-bit/64-bit
+* Windows XP SP3, Vista, 7, 8 32-bit/64-bit
 
 
 Links:

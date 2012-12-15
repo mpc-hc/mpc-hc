@@ -41,7 +41,8 @@ Legend:
   and Ukrainian translations
 * Ticket #2698, Allow the App key to be used as a hotkey which opens the player menu by default
 * Removed hotkeys to change the volume by 1%
-* VSFilter: Allow floating-point values for \fscx and \fscy.
+* VSFilter: Allow floating-point values for \fscx and \fscy
+* Increase default subpic buffer size to 10
 ! API: CMD_PAUSE was acting as CMD_PLAY and vice versa
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks
 ! MPEG Splitter: Fix parsing of some malformed TS files
@@ -49,6 +50,7 @@ Legend:
 ! VSFilter: Fix and update the blacklist
 ! Internal Subtitle Renderer/VSFilter: Fix high RAM usage with some complex subtitles
 ! DVB EPG: Fix the start time of the current program being off by one hour because of incorrect DST
+! Internal Subtitle Renderer/VSFilter: Fixed most cases where rotating/shearing is not properly scaled
 ! Ticket #376, Fix subtitles when switching from animated subs to non-animated subs.
   The subtitles' timings were not correctly respected after switching from an
   animated subtitles track to a non-animated subtitles track.
@@ -66,4 +68,3 @@ Legend:
 ! Ticket #2699, AviSplitter: Fix a potential crash with PCM tracks
 ! Ticket #2703, Fix a crash that could happen when auto-loading some subtitles
 ! Ticket #2751, Improve DVBSub parsing: some subtitles could have been missing
-! Internal Subtitle Renderer/VSFilter: Fixed most cases where rotating/shearing is not properly scaled
