@@ -187,15 +187,15 @@ static void LOG(LPCTSTR fmt, ...)
     TCHAR buff[3000];
     FILE* f;
     _timeb timebuffer;
-   TCHAR time1[8];
-   wchar_t wbuf[26];
+    TCHAR time1[8];
+    wchar_t wbuf[26];
 
-   _ftime_s(&timebuffer);
-   _wctime_s(wbuf, 26, &(timebuffer.time));
+    _ftime_s(&timebuffer);
+    _wctime_s(wbuf, _countof(wbuf), &(timebuffer.time));
 
-   for (int i = 0; i < 8; i++) {
-       time1[i] = wbuf[i + 11];
-   }
+    for (int i = 0; i < _countof(time1); i++) {
+        time1[i] = wbuf[i + 11];
+    }
 
     _vstprintf_s(buff, _countof(buff), fmt, args);
     if (_tfopen_s(&f, LOG_FILE, _T("at")) == 0) {
