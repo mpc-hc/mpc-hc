@@ -136,7 +136,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 
     int video_is_level51 = 0;
     int no_level51_support = 1;
-    int too_much_ref_frames = 0;
+    int too_many_ref_frames = 0;
     int profile_higher_than_high = 0;
     int max_ref_frames_dpb41 = min(11, 8388608 / (nWidth * nHeight));
 
@@ -193,11 +193,11 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 
         // Check maximum allowed number reference frames
         if (cur_sps->ref_frame_count > max_ref_frames) {
-            too_much_ref_frames = 1;
+            too_many_ref_frames = 1;
         }
     }
 
-    return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MANY_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
+    return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_many_ref_frames * DXVA_TOO_MANY_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
 }
 
 void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, PPS* pps, DWORD nPCIVendor)
