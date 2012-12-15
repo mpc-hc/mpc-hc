@@ -72,7 +72,7 @@ public:
     HRESULT     ParseEIT(ULONG ulSID, EventDescriptor& NowNext);
     HRESULT     ParsePMT(CDVBChannel& Channel);
 
-    static CString ConvertString(BYTE* pBuffer, int nLength);
+    static CStringW ConvertString(BYTE* pBuffer, size_t uLenght);
 
     CAtlMap<int, CDVBChannel>   Channels;
 

@@ -53,7 +53,7 @@ CMpeg2DataParser::CMpeg2DataParser(IBaseFilter* pFilter)
     m_Filter.fSpecifySectionNumber = TRUE;
 }
 
-CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
+CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLenght)
 {
     static const UINT16 codepages[0x20] = {
         20269,  // 00 - Default ISO/IEC 6937
@@ -111,14 +111,14 @@ CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
         // 0x10 to 0xFF - reserved for future use
     };
 
-    UINT cp = CP_ACP;
-    int nDestSize;
-    CString strResult;
+    CStringW strResult;
+    if (uLenght > 0) {
+        UINT cp = CP_ACP;
+        int nDestSize;
 
-    if (nLength > 0) {
         if (pBuffer[0] == 0x10) {
             pBuffer++;
-            nLength--;
+            uLenght--;
             if (pBuffer[0] == 0x00) {
                 cp = codepages10[pBuffer[1]];
             } else { // if (pBuffer[0] > 0x00)
@@ -126,67 +126,71 @@ CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
                 cp = codepages[0];
             }
             pBuffer += 2;
-            nLength -= 2;
+            uLenght -= 2;
         } else if (pBuffer[0] < 0x20) {
             cp = codepages[pBuffer[0]];
             pBuffer++;
-            nLength--;
+            uLenght--;
         } else { // No code page indication, use the default
             cp = codepages[0];
         }
-    }
 
-    // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 1/2)...
-    CArray<int> euroSymbolPos;
-    if (cp == 20269) {
-        BYTE tmp;
-        for (int i = 0; i < nLength; i++) {
-            if (pBuffer[i] >= 0xC1 && pBuffer[i] <= 0xCF && pBuffer[i] != 0xC9 && pBuffer[i] != 0xCC && i < nLength - 1) {
-                // Swap the current char with the next one
-                tmp = pBuffer[i];
-                pBuffer[i] = pBuffer[i + 1];
-                pBuffer[++i] = tmp;
-            } else if (pBuffer[i] == 0xA4) { // € was added as 0xA4 in the DVB spec
-                euroSymbolPos.Add(i);
+        // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 1/2)...
+        CArray<size_t> euroSymbolPos;
+        if (cp == 20269) {
+            BYTE tmp;
+            for (size_t i = 0; i < uLenght - 1; i++) {
+                if (pBuffer[i] >= 0xC1 && pBuffer[i] <= 0xCF && pBuffer[i] != 0xC9 && pBuffer[i] != 0xCC) {
+                    // Swap the current char with the next one
+                    tmp = pBuffer[i];
+                    pBuffer[i] = pBuffer[i + 1];
+                    pBuffer[++i] = tmp;
+                } else if (pBuffer[i] == 0xA4) { // € was added as 0xA4 in the DVB spec
+                    euroSymbolPos.Add(i);
+                }
             }
-        }
-    }
-
-    nDestSize = MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, nLength, NULL, 0);
-    if (nDestSize < 0) {
-        return strResult;
-    }
-
-    MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, nLength, strResult.GetBuffer(nLength), nDestSize);
-    strResult.ReleaseBuffer();
-
-    // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 2/2)...
-    if (cp == 20269) {
-        for (int i = 0; i < strResult.GetLength(); i++) {
-            switch (strResult[i]) {
-                case 0x60: // grave accent
-                    strResult.SetAt(i, 0x0300);
-                    break;
-                case 0xb4: // acute accent
-                    strResult.SetAt(i, 0x0301);
-                    break;
-                case 0x5e: // circumflex accent
-                    strResult.SetAt(i, 0x0302);
-                    break;
-                case 0x7e: // tilde
-                    strResult.SetAt(i, 0x0303);
-                    break;
-                case 0xaf: // macron
-                    strResult.SetAt(i, 0x0304);
-                    break;
-                case 0xf8f8: // dot
-                    strResult.SetAt(i, 0x0307);
-                    break;
+            // Handle last symbol if it's a €
+            if (pBuffer[uLenght - 1] == 0xA4) {
+                euroSymbolPos.Add(uLenght - 1);
             }
         }
 
-        for (int i = 0, len = (int)euroSymbolPos.GetCount(); i < len; i++) {
-            strResult.SetAt(euroSymbolPos[i], _T('€'));
+        nDestSize = MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLenght, NULL, 0);
+        if (nDestSize > 0) {
+            LPWSTR strResultBuff = strResult.GetBuffer(nDestSize);
+            MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLenght, strResultBuff, nDestSize);
+
+            // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 2/2)...
+            if (cp == 20269) {
+                for (size_t i = 0, len = (size_t)nDestSize; i < len; i++) {
+                    switch (strResultBuff[i]) {
+                        case 0x60: // grave accent
+                            strResultBuff[i] = 0x0300;
+                            break;
+                        case 0xb4: // acute accent
+                            strResultBuff[i] = 0x0301;
+                            break;
+                        case 0x5e: // circumflex accent
+                            strResultBuff[i] = 0x0302;
+                            break;
+                        case 0x7e: // tilde
+                            strResultBuff[i] = 0x0303;
+                            break;
+                        case 0xaf: // macron
+                            strResultBuff[i] = 0x0304;
+                            break;
+                        case 0xf8f8: // dot
+                            strResultBuff[i] = 0x0307;
+                            break;
+                    }
+                }
+
+                for (INT_PTR i = 0, len = euroSymbolPos.GetCount(); i < len; i++) {
+                    strResultBuff[euroSymbolPos[i]] = _T('€');
+                }
+            }
+
+            strResult.ReleaseBuffer(nDestSize);
         }
     }
 
