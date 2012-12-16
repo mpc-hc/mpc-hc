@@ -37,8 +37,8 @@ Legend:
 * Updated Little CMS to v2.4 (git 026ba4f)
 * Updated SoundTouch to v1.7.0 r160
 * Updated VirtualDub to v1.10.3-test11
-* Updated Armenian, Basque, Czech, French, German, Russian, Polish, Simplified Chinese, Slovak
-  and Ukrainian translations
+* Updated Armenian, Basque, Czech, French, German, Japanese, Russian, Polish, Simplified and Traditional Chinese,
+  Slovak and Ukrainian translations
 * Ticket #2698, Allow the App key to be used as a hotkey which opens the player menu by default
 * Removed hotkeys to change the volume by 1%
 * VSFilter: Allow floating-point values for \fscx and \fscy
