@@ -10,3 +10,4 @@ Legend:
 
 1.6.6 - not released yet
 ========================
+* Updated FFmpeg (n0.8-16973-g55b243c)

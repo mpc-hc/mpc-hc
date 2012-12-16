@@ -80,6 +80,12 @@ enum OutputFormat {
 #define EXT_START_CODE          0x000001b5
 #define USER_START_CODE         0x000001b2
 
+/**
+ * Value of Picture.reference when Picture is not a reference picture, but
+ * is held for delayed output.
+ */
+#define DELAYED_PIC_REF 4
+
 struct MpegEncContext;
 
 /**
@@ -346,7 +352,7 @@ typedef struct MpegEncContext {
     int vbv_delay;
     int last_pict_type; //FIXME removes
     int last_non_b_pict_type;   ///< used for mpeg4 gmc b-frames & ratecontrol
-    int dropable;
+    int droppable;
     int frame_rate_index;
     AVRational mpeg2_frame_rate_ext;
     int last_lambda_for[5];     ///< last lambda for a specific pict type

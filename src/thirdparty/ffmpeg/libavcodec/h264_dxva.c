@@ -284,7 +284,7 @@ static int field_end_noexecute(H264Context *h)
     int err = 0;
     s->mb_y = 0;
 
-    if (!s->dropable) {
+    if (!s->droppable) {
         err = ff_h264_execute_ref_pic_marking(h, h->mmco, h->mmco_index);
         h->prev_poc_msb     = h->poc_msb;
         h->prev_poc_lsb     = h->poc_lsb;
@@ -333,7 +333,7 @@ int decode_slice_header_noexecute(H264Context *h, H264Context *h0)
 
         h0->current_slice = 0;
         if (!s0->first_field) {
-            if (s->current_picture_ptr && !s->dropable &&
+            if (s->current_picture_ptr && !s->droppable &&
                     s->current_picture_ptr->owner2 == s) {
                 ff_thread_report_progress(&s->current_picture_ptr->f, INT_MAX,
                                           s->picture_structure == PICT_BOTTOM_FIELD);
@@ -504,8 +504,8 @@ int decode_slice_header_noexecute(H264Context *h, H264Context *h0)
     h->mb_mbaff        = 0;
     h->mb_aff_frame    = 0;
     last_pic_structure = s0->picture_structure;
-    last_pic_dropable  = s->dropable;
-    s->dropable        = h->nal_ref_idc == 0;
+    last_pic_dropable  = s->droppable;
+    s->droppable        = h->nal_ref_idc == 0;
     if (h->sps.frame_mbs_only_flag) {
         s->picture_structure = PICT_FRAME;
     } else {
@@ -524,12 +524,12 @@ int decode_slice_header_noexecute(H264Context *h, H264Context *h0)
 
     if (h0->current_slice != 0) {
         if (last_pic_structure != s->picture_structure ||
-            last_pic_dropable  != s->dropable) {
+            last_pic_dropable  != s->droppable) {
             av_log(h->s.avctx, AV_LOG_ERROR,
                    "Changing field mode (%d -> %d) between slices is not allowed\n",
                    last_pic_structure, s->picture_structure);
             s->picture_structure = last_pic_structure;
-            s->dropable          = last_pic_dropable;
+            s->droppable          = last_pic_dropable;
             return AVERROR_INVALIDDATA;
         }
     } else {
@@ -595,14 +595,14 @@ int decode_slice_header_noexecute(H264Context *h, H264Context *h0)
                                "Invalid field mode combination %d/%d\n",
                                last_pic_structure, s->picture_structure);
                         s->picture_structure = last_pic_structure;
-                        s->dropable          = last_pic_dropable;
+                        s->droppable          = last_pic_dropable;
                         return AVERROR_INVALIDDATA;
-                    } else if (last_pic_dropable != s->dropable) {
+                    } else if (last_pic_dropable != s->droppable) {
                         av_log(s->avctx, AV_LOG_ERROR,
                                "Cannot combine reference and non-reference fields in the same frame\n");
                         av_log_ask_for_sample(s->avctx, NULL);
                         s->picture_structure = last_pic_structure;
-                        s->dropable          = last_pic_dropable;
+                        s->droppable          = last_pic_dropable;
                         return AVERROR_INVALIDDATA;
                     }
 

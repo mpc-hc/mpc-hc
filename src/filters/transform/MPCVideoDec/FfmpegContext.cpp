@@ -37,7 +37,9 @@ extern "C" {
 #include "ffmpeg/libavcodec/mpegvideo.h"
 #undef class
 
+#define new newC    // hack since "h264.h" is using new as a variable
 #include "ffmpeg/libavcodec/h264.h"
+#undef new
 #include "ffmpeg/libavcodec/vc1.h"
 #include "ffmpeg/libavcodec/mpeg12.h"
 #pragma warning(default: 4244)

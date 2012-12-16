@@ -98,12 +98,6 @@
 #define IS_REF0(a)         ((a) & MB_TYPE_REF0)
 #define IS_8x8DCT(a)       ((a) & MB_TYPE_8x8DCT)
 
-/**
- * Value of Picture.reference when Picture is not a reference picture, but
- * is held for delayed output.
- */
-#define DELAYED_PIC_REF 4
-
 #define QP_MAX_NUM (51 + 6*6)           // The maximum supported qp
 
 /* NAL unit types */
@@ -207,6 +201,7 @@ typedef struct SPS {
     int bit_depth_chroma;                 ///< bit_depth_chroma_minus8 + 8
     int residual_color_transform_flag;    ///< residual_colour_transform_flag
     int constraint_set_flags;             ///< constraint_set[0-3]_flag
+    int new;                              ///< flag to keep track if the decoder context needs re-init due to changed SPS
 } SPS;
 
 /**
@@ -333,6 +328,7 @@ typedef struct H264Context {
     int emu_edge_width;
     int emu_edge_height;
 
+    unsigned current_sps_id; ///< id of the current SPS
     SPS sps; ///< current sps
 
     /**

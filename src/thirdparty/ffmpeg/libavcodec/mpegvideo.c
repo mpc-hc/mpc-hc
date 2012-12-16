@@ -594,7 +594,7 @@ int ff_mpeg_update_thread_context(AVCodecContext *dst,
     // B-frame info
     s->max_b_frames = s1->max_b_frames;
     s->low_delay    = s1->low_delay;
-    s->dropable     = s1->dropable;
+    s->droppable    = s1->droppable;
 
     // DivX handling (doesn't work)
     s->divx_packed  = s1->divx_packed;
@@ -971,9 +971,6 @@ static int free_context_frame(MpegEncContext *s)
     for (i = 0; i < 3; i++)
         av_freep(&s->visualization_buffer[i]);
 
-    if (!(s->avctx->active_thread_type & FF_THREAD_FRAME))
-        avcodec_default_free_buffers(s->avctx);
-
     return 0;
 }
 
@@ -1093,6 +1090,9 @@ void ff_MPV_common_end(MpegEncContext *s)
 
     free_context_frame(s);
 
+    if (!(s->avctx->active_thread_type & FF_THREAD_FRAME))
+        avcodec_default_free_buffers(s->avctx);
+
     s->context_initialized      = 0;
     s->last_picture_ptr         =
     s->next_picture_ptr         =
@@ -1211,7 +1211,7 @@ static inline int pic_is_unused(MpegEncContext *s, Picture *pic)
 {
     if (pic->f.data[0] == NULL)
         return 1;
-    if (pic->needs_realloc)
+    if (pic->needs_realloc && !(pic->f.reference & DELAYED_PIC_REF))
         if (!pic->owner2 || pic->owner2 == s)
             return 1;
     return 0;
@@ -1348,7 +1348,7 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
         }
 
         pic->f.reference = 0;
-        if (!s->dropable) {
+        if (!s->droppable) {
             if (s->codec_id == AV_CODEC_ID_H264)
                 pic->f.reference = s->picture_structure;
             else if (s->pict_type != AV_PICTURE_TYPE_B)
@@ -1383,7 +1383,7 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
 
     if (s->pict_type != AV_PICTURE_TYPE_B) {
         s->last_picture_ptr = s->next_picture_ptr;
-        if (!s->dropable)
+        if (!s->droppable)
             s->next_picture_ptr = s->current_picture_ptr;
     }
     av_dlog(s->avctx, "L%p N%p C%p L%p N%p C%p type:%d drop:%d\n",
@@ -1391,7 +1391,7 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
             s->last_picture_ptr    ? s->last_picture_ptr->f.data[0]    : NULL,
             s->next_picture_ptr    ? s->next_picture_ptr->f.data[0]    : NULL,
             s->current_picture_ptr ? s->current_picture_ptr->f.data[0] : NULL,
-            s->pict_type, s->dropable);
+            s->pict_type, s->droppable);
 
     if (s->codec_id != AV_CODEC_ID_H264) {
         if ((s->last_picture_ptr == NULL ||

@@ -435,7 +435,9 @@ enum AVCodecID {
     AV_CODEC_ID_COMFORT_NOISE,
     AV_CODEC_ID_TAK_DEPRECATED,
     AV_CODEC_ID_FFWAVESYNTH = MKBETAG('F','F','W','S'),
+#if LIBAVCODEC_VERSION_MAJOR <= 54
     AV_CODEC_ID_8SVX_RAW    = MKBETAG('8','S','V','X'),
+#endif
     AV_CODEC_ID_SONIC       = MKBETAG('S','O','N','C'),
     AV_CODEC_ID_SONIC_LS    = MKBETAG('S','O','N','L'),
     AV_CODEC_ID_PAF_AUDIO   = MKBETAG('P','A','F','A'),
@@ -1471,6 +1473,16 @@ typedef struct AVFrame {
      */
     int64_t channels;
 
+    /**
+     * size of the corresponding packet containing the compressed
+     * frame. It must be accessed using av_frame_get_pkt_size() and
+     * av_frame_set_pkt_size().
+     * It is set to a negative value if unknown.
+     * - encoding: unused
+     * - decoding: set by libavcodec, read by user.
+     */
+    int pkt_size;
+
     /* ffdshow custom code (begin) */
     int h264_poc_decoded;
     int h264_poc_outputed;
@@ -1500,6 +1512,8 @@ AVDictionary *av_frame_get_metadata       (const AVFrame *frame);
 void          av_frame_set_metadata       (AVFrame *frame, AVDictionary *val);
 int     av_frame_get_decode_error_flags   (const AVFrame *frame);
 void    av_frame_set_decode_error_flags   (AVFrame *frame, int     val);
+int     av_frame_get_pkt_size(const AVFrame *frame);
+void    av_frame_set_pkt_size(AVFrame *frame, int val);
 
 struct AVCodecInternal;
 

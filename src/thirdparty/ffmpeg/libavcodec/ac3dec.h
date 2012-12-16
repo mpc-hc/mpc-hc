@@ -201,8 +201,11 @@ typedef struct AC3DecodeContext {
     DSPContext dsp;                         ///< for optimization
     AC3DSPContext ac3dsp;
     FmtConvertContext fmt_conv;             ///< optimized conversion functions
-    float mul_bias;                         ///< scaling for float_to_int16 conversion
 ///@}
+
+    float *outptr[AC3_MAX_CHANNELS];
+    float *xcfptr[AC3_MAX_CHANNELS];
+    float *dlyptr[AC3_MAX_CHANNELS];
 
 ///@name Aligned arrays
     DECLARE_ALIGNED(16, int,   fixed_coeffs)[AC3_MAX_CHANNELS][AC3_MAX_COEFS];       ///< fixed-point transform coefficients
