@@ -11898,11 +11898,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             while (pos) {
                 LoadSubtitle(pOMD->subs.GetNext(pos));
             }
-
-            if (AfxGetAppSettings().fEnableSubtitles && m_pSubStreams.GetCount() > 0) {
-                CComPtr<ISubStream> pSub = m_pSubStreams.GetHead();
-                SetSubtitle(pSub);
-            }
         }
 
         if (m_fOpeningAborted) {
@@ -11957,6 +11952,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
         if (substm) {
             m_iSubtitleSel = substm - 1; // only select, turn on/off in another place
+
+            if (AfxGetAppSettings().fEnableSubtitles) {
+                UpdateSubtitle();
+            }
         }
 
         AfxGetAppSettings().nCLSwitches &= ~CLSW_OPEN;
