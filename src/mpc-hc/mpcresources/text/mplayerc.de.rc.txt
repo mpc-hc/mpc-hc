@@ -68,10 +68,10 @@ BEGIN DIALOGEX IDD_FILEPROPCLIP LINES 22
 END
 
 BEGIN DIALOGEX IDD_FILEPROPDETAILS LINES 20
-8		"Typ:"
+8		"Dateityp:"
 10		"Größe:"
-12		"Medien-Länge:"
-14		"Video-Größe:"
+12		"Medienlänge:"
+14		"Videogröße:"
 16		"Erstellt am:"
 END
 
@@ -311,9 +311,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 32		"Fehlerhafte Pins im Graph &melden"
 33		"&Audio-Dateien automatisch laden"
 34		"&Untertitel automatisch laden"
-35		"Lautstärkenregelung anpassen"
-36		"Stufe:"
-40		"Speed step:"
+35		"Wiedergabe anpassen"
+36		"Lautstärkenstufe:"
+40		"Geschwindigkeit:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -673,7 +673,7 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 237		"&Hilfe"
 239		"MPC-HC Ho&mepage"
 240		"Auf Aktualisierungen prüfen"
-241		"&Kommandozeilen Parameter"
+241		"&Kommandozeilen-Parameter"
 243		"Toolbarbilder herunterladen"
 244		"Spenden"
 246		"&Über..."
