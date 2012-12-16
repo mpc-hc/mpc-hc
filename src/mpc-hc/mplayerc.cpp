@@ -781,19 +781,6 @@ BOOL CMPlayerCApp::InitInstance()
 
     long lError;
 
-#ifdef GOTHTRACE
-    // Used for tracing when debugger can't be used, e.g. when using some commercial decoders
-    // Print traces usint _tprintf_s()
-    if (AllocConsole()) {
-        FILE* foo;  // Not used
-        freopen_s(&foo, "conin$", "r", stdin); // Redirect stdin etc. to console
-        freopen_s(&foo, "conout$", "w", stdout);
-        freopen_s(&foo, "conout$", "w", stderr);
-    } else {
-        AfxMessageBox(_T("Could not create console"));
-    }
-#endif
-
     if (SetHeapOptions()) {
         TRACE(_T("Terminate on corruption enabled\n"));
     } else {
