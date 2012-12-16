@@ -150,7 +150,7 @@ private:
     bool isAudioClientStarted;
     DWORD lastBufferTime;
 
-    // AVRT.dll (Vista or greater
+    // avrt.dll (Vista or greater
     typedef HANDLE(__stdcall* PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
     typedef BOOL (__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
