@@ -106,7 +106,7 @@ void CMixer::Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int
             m_matrix_dbl[6] = 0.0;
             m_matrix_dbl[7] = 0.0;
             m_matrix_dbl[8] =  0.6666;
-            m_matrix_dbl[9] =  (-0.2222);
+            m_matrix_dbl[9] = (-0.2222);
             m_matrix_dbl[10] = (-0.2222);
             m_matrix_dbl[11] = 0.6666;
             if (out_layout == AV_CH_LAYOUT_7POINT1) {

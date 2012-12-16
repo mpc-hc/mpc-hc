@@ -172,7 +172,7 @@ END_MESSAGE_MAP()
 BOOL CPlayerInfoBar::PreTranslateMessage(MSG* pMsg)
 {
     if (IsWindow(m_tooltip)) {
-         m_tooltip.RelayEvent(pMsg);
+        m_tooltip.RelayEvent(pMsg);
     }
 
     return __super::PreTranslateMessage(pMsg);

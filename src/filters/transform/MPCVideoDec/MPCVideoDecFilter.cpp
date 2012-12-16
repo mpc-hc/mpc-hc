@@ -36,7 +36,6 @@
 #include "FfmpegContext.h"
 extern "C"
 {
-// use the "extern C" if needed not only defines
 #include "ffmpeg/libavcodec/avcodec.h"
 #include "ffmpeg/libswscale/swscale.h"
 }

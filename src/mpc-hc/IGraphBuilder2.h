@@ -53,6 +53,6 @@ public IUnknown {
     STDMETHOD(SetAudio)(int nAudioIndex) = 0;
     STDMETHOD(SetFrequency)(ULONG ulFrequency) = 0;
     STDMETHOD(Scan)(ULONG ulFrequency, HWND hWnd) = 0;
-    STDMETHOD(GetStats)(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lStrength, LONG& lQuality) = 0;
-    STDMETHOD(UpdatePSI)(EventDescriptor& NowNext) = 0;
+    STDMETHOD(GetStats)(BOOLEAN & bPresent, BOOLEAN & bLocked, LONG & lStrength, LONG & lQuality) = 0;
+    STDMETHOD(UpdatePSI)(EventDescriptor & NowNext) = 0;
 };

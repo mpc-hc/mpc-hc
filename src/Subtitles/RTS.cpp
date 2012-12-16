@@ -213,7 +213,7 @@ void CWord::Transform_C(CPoint& org)
     double sax = sin((M_PI / 180.0) * m_style.fontAngleX);
     double cay = cos((M_PI / 180.0) * m_style.fontAngleY);
     double say = sin((M_PI / 180.0) * m_style.fontAngleY);
-    
+
     double dOrgX = static_cast<double>(org.x), dOrgY = static_cast<double>(org.y);
     for (ptrdiff_t i = 0; i < mPathPoints; i++) {
         double x, y, z, xx, yy, zz;
@@ -374,7 +374,7 @@ void CWord::Transform_SSE2(CPoint& org)
 
         __xx     = _mm_mul_ps(__xx, __xzoomf);       // xx * xzoomf
         __pointx = _mm_div_ps(__xx, __tmpzz);        // x = (xx * xzoomf) / (zz + xzoomf)
-        
+
         __tmpzz  = _mm_add_ps(__zz, __yzoomf);       // zz + yzoomf
 
         __yy     = _mm_mul_ps(__yy, __yzoomf);       // yy * yzoomf

@@ -640,8 +640,11 @@ HRESULT CDVBSub::UpdateTimeStamp(REFERENCE_TIME rtStop)
     while (pos) {
         DVB_PAGE* pPage = m_Pages.GetPrev(pos);
         if (pPage->rtStop > rtStop) {
-            TRACE_DVB(_T("DVB - Updated end of display %s - %s --> %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop),
-                                                                                ReftimeToString(pPage->rtStart), ReftimeToString(rtStop));
+            TRACE_DVB(_T("DVB - Updated end of display %s - %s --> %s - %s\n"),
+                      ReftimeToString(pPage->rtStart),
+                      ReftimeToString(pPage->rtStop),
+                      ReftimeToString(pPage->rtStart),
+                      ReftimeToString(rtStop));
             pPage->rtStop = rtStop;
             hr = S_OK;
         } else {

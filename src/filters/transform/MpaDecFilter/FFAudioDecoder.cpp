@@ -23,7 +23,6 @@
 
 #pragma warning(disable: 4005 4244)
 extern "C" {
-// use the "extern C" if needed not only defines.
 #include "ffmpeg/libavcodec/avcodec.h"
 #include "ffmpeg/libavutil/intreadwrite.h"
 #include "ffmpeg/libavutil/opt.h"

@@ -354,7 +354,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 STDMETHODIMP CSubtitleInputPin::EndOfStream(void)
 {
     HRESULT hr = __super::EndOfStream();
-    
+
     if (SUCCEEDED(hr) && IsHdmvSub(&m_mt)) {
         CAutoLock cAutoLock(m_pSubLock);
         CRenderedHdmvSubtitle* pHdmvSubtitle = (CRenderedHdmvSubtitle*)(ISubStream*)m_pSubStream;
