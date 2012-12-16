@@ -8,7 +8,7 @@ Legend:
 ! Fixed
 
 
-1.6.5 - not released yet
+1.6.5 - 16 December 2012
 ========================
 + Add a hotkey to open the subtitles downloader dialog
 + Web server: various performance improvements
@@ -37,12 +37,12 @@ Legend:
 * Updated Little CMS to v2.4 (git 026ba4f)
 * Updated SoundTouch to v1.7.0 r160
 * Updated VirtualDub to v1.10.3-test11
-* Updated Armenian, Basque, Czech, French, German, Japanese, Russian, Polish, Simplified and Traditional Chinese,
-  Slovak and Ukrainian translations
-* Ticket #2698, Allow the App key to be used as a hotkey which opens the player menu by default
+* Updated Armenian, Basque, Czech, French, German, Japanese, Russian, Polish, Simplified and
+  Traditional Chinese, Slovak and Ukrainian translations
 * Removed hotkeys to change the volume by 1%
 * VSFilter: Allow floating-point values for \fscx and \fscy
 * Increase default subpic buffer size to 10
+* Ticket #2698, Allow the App key to be used as a hotkey which opens the player menu by default
 ! API: CMD_PAUSE was acting as CMD_PLAY and vice versa
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks
 ! MPEG Splitter: Fix parsing of some malformed TS files
@@ -50,7 +50,7 @@ Legend:
 ! VSFilter: Fix and update the blacklist
 ! Internal Subtitle Renderer/VSFilter: Fix high RAM usage with some complex subtitles
 ! DVB EPG: Fix the start time of the current program being off by one hour because of incorrect DST
-! Internal Subtitle Renderer/VSFilter: Fixed most cases where rotating/shearing is not properly scaled
+! Internal Subtitle Renderer/VSFilter: Fix most cases where rotating/shearing is not properly scaled
 ! Ticket #376, Fix subtitles when switching from animated subs to non-animated subs.
   The subtitles' timings were not correctly respected after switching from an
   animated subtitles track to a non-animated subtitles track.
