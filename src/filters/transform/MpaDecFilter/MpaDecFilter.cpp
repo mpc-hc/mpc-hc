@@ -735,11 +735,15 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
         CAtlArray<BYTE> output;
         AVSampleFormat avsamplefmt = AV_SAMPLE_FMT_NONE;
 
-        hr = m_FFAudioDec.Decode(nCodecId, p, int(end - p), size, m_bResync, output, avsamplefmt);
+        hr = m_FFAudioDec.Decode(nCodecId, p, int(end - p), size, output, avsamplefmt);
         if (FAILED(hr)) {
             m_buff.RemoveAll();
             m_bResync = true;
             return S_OK;
+        } else if (hr == S_FALSE) {
+            m_bResync = true;
+            p += size;
+            continue;
         } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
             hr = Deliver(output.GetData(), (int)output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
         } else if (size == 0) { // && pBuffOut.GetCount() == 0
@@ -803,11 +807,15 @@ HRESULT CMpaDecFilter::ProcessAC3()
             CAtlArray<BYTE> output;
             AVSampleFormat avsamplefmt = AV_SAMPLE_FMT_NONE;
 
-            hr = m_FFAudioDec.Decode(ftype, p, size, size, m_bResync, output, avsamplefmt);
+            hr = m_FFAudioDec.Decode(ftype, p, size, size, output, avsamplefmt);
             if (FAILED(hr)) {
                 m_buff.RemoveAll();
                 m_bResync = true;
                 return S_OK;
+            } else if (hr == S_FALSE) {
+                m_bResync = true;
+                p += size;
+                continue;
             } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
                 hr = Deliver(output.GetData(), (int)output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
             } else if (size == 0) { // && pBuffOut.GetCount() == 0

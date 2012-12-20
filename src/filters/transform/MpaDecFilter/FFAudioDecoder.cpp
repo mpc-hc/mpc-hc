@@ -291,7 +291,7 @@ void CFFAudioDecoder::SetDRC(bool fDRC)
     }
 }
 
-HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, int& size, bool& fResync, CAtlArray<BYTE>& BuffOut, enum AVSampleFormat& samplefmt)
+HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, int& size, CAtlArray<BYTE>& BuffOut, enum AVSampleFormat& samplefmt)
 {
 
     if (GetCodecId() == AV_CODEC_ID_NONE) {
@@ -327,7 +327,7 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
             int ret2 = avcodec_decode_audio4(m_pAVCtx, m_pFrame, &got_frame, &avpkt);
             if (ret2 < 0) {
                 TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - decoding failed despite successfull parsing\n"));
-                fResync = true;
+                return S_FALSE;
             }
         }
     } else {
