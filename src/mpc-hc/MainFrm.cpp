@@ -10122,7 +10122,10 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
         return 1.0;
     }
 
+    const CAppSettings& s = AfxGetAppSettings();
+
     CSize arxy = GetVideoSize();
+
     // get the work area
     MONITORINFO mi;
     mi.cbSize = sizeof(MONITORINFO);
@@ -10130,40 +10133,60 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
     GetMonitorInfo(hMonitor, &mi);
     RECT& wa = mi.rcWork;
 
-    // vertical borders
-    arxy.cx += 2 * ::GetSystemMetrics(SM_CXSIZEFRAME);
-    // horizontal border + caption
-    arxy.cy += ::GetSystemMetrics(SM_CYSIZEFRAME) + ::GetSystemMetrics(SM_CYCAPTION);
+    DWORD style = GetStyle();
+    CSize decorationsSize(0, 0);
+    
+    if (style & WS_CAPTION) {
+        // caption
+        decorationsSize.cy += GetSystemMetrics(SM_CYCAPTION);
+        // menu
+        if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
+            decorationsSize.cy += GetSystemMetrics(SM_CYMENU);
+        }
+    }
+
+    if (style & WS_THICKFRAME) {
+        // vertical borders
+        decorationsSize.cx += 2 * ::GetSystemMetrics(SM_CXSIZEFRAME);
+        // horizontal borders
+        decorationsSize.cy += 2 * ::GetSystemMetrics(SM_CYSIZEFRAME);
+        if (!(style & WS_CAPTION)) {
+            decorationsSize.cx -= 2;
+            decorationsSize.cy -= 2;
+        }
+    }
+
     RECT r;
     if (m_wndSeekBar.IsVisible()) {
         m_wndSeekBar.GetWindowRect(&r);
-        arxy.cy += r.bottom - r.top;
+        decorationsSize.cy += r.bottom - r.top;
     }
     if (m_wndToolBar.IsVisible()) {
         m_wndToolBar.GetWindowRect(&r);
-        arxy.cy += r.bottom - r.top;
+        decorationsSize.cy += r.bottom - r.top;
     }
     if (m_wndInfoBar.IsVisible()) {
         m_wndInfoBar.GetWindowRect(&r);
-        arxy.cy += r.bottom - r.top;
+        decorationsSize.cy += r.bottom - r.top;
     }
     if (m_wndStatsBar.IsVisible()) {
         m_wndStatsBar.GetWindowRect(&r);
-        arxy.cy += r.bottom - r.top;
+        decorationsSize.cy += r.bottom - r.top;
     }
     if (m_wndStatusBar.IsVisible()) {
         m_wndStatusBar.GetWindowRect(&r);
-        arxy.cy += r.bottom - r.top;
+        decorationsSize.cy += r.bottom - r.top;
     }
 
     LONG width = wa.right - wa.left;
     LONG height = wa.bottom - wa.top;
-    if (bLargerOnly && (arxy.cx < width && arxy.cy < height)) {
+    if (bLargerOnly && (arxy.cx + decorationsSize.cx < width && arxy.cy + decorationsSize.cy < height)) {
         return 1.0;
     }
 
-    double sx = 2.0 / 3.0 * (double)width / (double)arxy.cx;
-    double sy = 2.0 / 3.0 * (double)height / (double)arxy.cy;
+    // The scaling is computed so that either the width or the height is an integer value
+    double sx = (floor(2.0 / 3.0 * (double)width  + 0.5) - decorationsSize.cx) / (double)arxy.cx;
+    double sy = (floor(2.0 / 3.0 * (double)height + 0.5) - decorationsSize.cy) / (double)arxy.cy;
 
     return sx < sy ? sx : sy;
 }
