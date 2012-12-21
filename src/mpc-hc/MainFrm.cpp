@@ -9919,19 +9919,22 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
                 }
             }
 
-            // either flooring or ceiling is required here, else the left-to-right and top-to-bottom sizes will get distorted through rounding twice each
-            double dPPLeft = floor(m_PosX * (dWRWidth * 3.0 - m_ZoomX * dVRWidth) - dWRWidth);
-            double dPPTop  = floor(m_PosY * (dWRHeight * 3.0 - m_ZoomY * dVRHeight) - dWRHeight);
+            double dScaledVRWidth = m_ZoomX * dVRWidth;
+            double dScaledVRHeight = m_ZoomY * dVRHeight;
+            // Rounding is required here, else the left-to-right and top-to-bottom sizes will get distorted through rounding twice each
+            // Todo: clean this up using decent intrinsic rounding instead of floor(x+.5) and truncation cast to LONG on (y+.5)
+            double dPPLeft = floor(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth + 0.5);
+            double dPPTop  = floor(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + 0.5);
             // left and top parts are allowed to be negative
             vr.left   = (LONG)(dPPLeft);
             vr.top    = (LONG)(dPPTop);
             // right and bottom parts are always at picture center or beyond, so never negative
-            vr.right  = (LONG)(m_ZoomX * dVRWidth + dPPLeft);
-            vr.bottom = (LONG)(m_ZoomY * dVRHeight + dPPTop);
+            vr.right  = (LONG)(dScaledVRWidth + dPPLeft + 0.5);
+            vr.bottom = (LONG)(dScaledVRHeight + dPPTop + 0.5);
 
             if (fShowStats) {
                 CString info;
-                info.Format(_T("Pos %.2f %.2f, Zoom %.2f %.2f, AR %.2f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, (double)(vr.right - vr.left) / (vr.bottom - vr.top));
+                info.Format(_T("Pos %.3f %.3f, Zoom %.3f %.3f, AR %.3f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, dScaledVRWidth / dScaledVRHeight);
                 SendStatusMessage(info, 3000);
             }
         }

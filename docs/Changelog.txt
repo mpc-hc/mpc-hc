@@ -18,3 +18,5 @@ Legend:
   - Ticket #2779, Support MicroDVD tags in MPL2 subtitles files. This is normally not
     supported but MPL2 files that use MicroDVD tags for formating are quite common.
   - Support SRT files with missing millisecond part in the timecodes.
+! Ticket #2423, Fix wrong rounding when resizing the window using the zoom feature.
+  This was mostly visible when using the "auto-fit" zoom.
