@@ -110,6 +110,7 @@ bool CPPageFormats::IsNeededIconsLib()
 
 BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
     ON_NOTIFY(NM_CLICK, IDC_LIST1, OnMediaCategoryClicked)
+    ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, OnMediaCategoryKeyDown)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnMediaCategorySelected)
     ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginEditMediaCategoryEngine)
     ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnEditMediaCategoryEngine)
@@ -342,6 +343,24 @@ void CPPageFormats::OnMediaCategoryClicked(NMHDR* pNMHDR, LRESULT* pResult)
                 m_bFileExtChanged = true;
                 SetModified();
             }
+        }
+    }
+
+    *pResult = 0;
+}
+
+void CPPageFormats::OnMediaCategoryKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LPNMLVKEYDOWN lpkd = (LPNMLVKEYDOWN)pNMHDR;
+
+    if (lpkd->wVKey == VK_SPACE) {
+        if (m_bInsufficientPrivileges) {
+            MessageBox(ResStr(IDS_CANNOT_CHANGE_FORMAT));
+        } else {
+            int iItem = m_list.GetSelectionMark();
+            SetCheckedMediaCategory(iItem, (IsCheckedMediaCategory(iItem) != 1));
+            m_bFileExtChanged = true;
+            SetModified();
         }
     }
 

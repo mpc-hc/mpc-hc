@@ -77,6 +77,7 @@ protected:
     DECLARE_MESSAGE_MAP()
 
     afx_msg void OnMediaCategoryClicked(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnMediaCategoryKeyDown(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnMediaCategorySelected(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnBeginEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult);
