@@ -244,7 +244,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 11		"Procurar..."
 END
 
-BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
+BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 5		"Controles de cor (para VMR-9, EVR e madVR apenas)"
 6		"Brilho"
 7		"Contraste"
@@ -258,6 +258,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 25		"Gerenciamento de opções"
 26		"Resetar"
 27		"Exportar"
+28		"Export keys"
 END
 
 BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46

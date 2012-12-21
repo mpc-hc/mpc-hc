@@ -244,7 +244,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 11		"Ընտրել..."
 END
 
-BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
+BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 5		"Գույների կառավարում (VMR-9, EVR և madVR-ի համար)"
 6		"Վառությունը"
 7		"Կոնտրաստ"
@@ -258,6 +258,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 25		"Կարգավորումների կառավարում"
 26		"Ետարկել"
 27		"Արտածել"
+28		"Export keys"
 END
 
 BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46

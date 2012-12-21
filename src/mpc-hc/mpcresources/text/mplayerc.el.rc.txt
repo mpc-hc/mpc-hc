@@ -244,7 +244,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 11		"Εύρεση..."
 END
 
-BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
+BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 5		"Έλεγχος χρωμάτων (για VMR-9, EVR και madVR)"
 6		"Φωτεινότητα"
 7		"Αντίθεση"
@@ -258,6 +258,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 25		"Διαχείριση ρυθμίσεων"
 26		"Επαναφορά"
 27		"Εξαγωγή"
+28		"Export keys"
 END
 
 BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46

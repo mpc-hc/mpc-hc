@@ -650,6 +650,7 @@
 #define IDC_VOLUMESTEP_SPIN             22074
 #define IDC_SPEEDSTEP                   22075
 #define IDC_SPEEDSTEP_SPIN              22076
+#define IDC_EXPORT_KEYS                 22077
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002

@@ -450,7 +450,7 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     return success;
 }
 
-void CMPlayerCApp::ExportSettings()
+void CMPlayerCApp::ExportSettings(CString subKey)
 {
     CString ext = IsIniValid() ? _T("ini") : _T("reg");
     CFileDialog fileSaveDialog(FALSE, ext, _T("mpc-hc-settings.") + ext);
@@ -465,7 +465,11 @@ void CMPlayerCApp::ExportSettings()
             success = !!CopyFile(GetIniPath(), savePath, FALSE);
         } else {
             CString regKey;
-            regKey.Format(_T("Software\\%s\\%s"), m_pszRegistryKey, m_pszProfileName);
+            if (subKey.IsEmpty()) {
+                regKey.Format(_T("Software\\%s\\%s"), m_pszRegistryKey, m_pszProfileName);
+            } else {
+                regKey.Format(_T("Software\\%s\\%s\\%s"), m_pszRegistryKey, m_pszProfileName, subKey);
+            }
 
             FILE* fStream;
             errno_t error = _tfopen_s(&fStream, savePath, _T("wt,ccs=UNICODE"));

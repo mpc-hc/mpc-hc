@@ -53,6 +53,7 @@ void CPPageMisc::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SLI_CONTRAST, m_SliContrast);
     DDX_Control(pDX, IDC_SLI_HUE, m_SliHue);
     DDX_Control(pDX, IDC_SLI_SATURATION, m_SliSaturation);
+    DDX_Control(pDX, IDC_EXPORT_KEYS, m_ExportKeys);
     DDX_Text(pDX, IDC_STATIC1, m_sBrightness);
     DDX_Text(pDX, IDC_STATIC2, m_sContrast);
     DDX_Text(pDX, IDC_STATIC3, m_sHue);
@@ -77,6 +78,7 @@ BEGIN_MESSAGE_MAP(CPPageMisc, CPPageBase)
     ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
     ON_BN_CLICKED(IDC_RESET_SETTINGS, OnResetSettings)
     ON_BN_CLICKED(IDC_EXPORT_SETTINGS, OnExportSettings)
+    ON_BN_CLICKED(IDC_EXPORT_KEYS, OnExportKeys)
     ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateDelayEditBox)
     ON_UPDATE_COMMAND_UI(IDC_SPIN1, OnUpdateDelayEditBox)
 END_MESSAGE_MAP()
@@ -116,6 +118,8 @@ BOOL CPPageMisc::OnInitDialog()
     m_SliSaturation.SetRange(-100, 100, true);
     m_SliSaturation.SetTic(0);
     m_SliSaturation.SetPos(m_iSaturation);
+
+    if (AfxGetMyApp()->IsIniValid()) { m_ExportKeys.EnableWindow(FALSE); }
 
     m_iBrightness ? m_sBrightness.Format(_T("%+d"), m_iBrightness) : m_sBrightness = _T("0");
     m_iContrast ? m_sContrast.Format(_T("%+d"), m_iContrast) : m_sContrast = _T("0");
@@ -227,6 +231,21 @@ void CPPageMisc::OnExportSettings()
     }
 
     AfxGetMyApp()->ExportSettings();
+}
+
+void CPPageMisc::OnExportKeys()
+{
+    if (GetParent()->GetDlgItem(ID_APPLY_NOW)->IsWindowEnabled()) {
+        int ret = MessageBox(ResStr(IDS_EXPORT_SETTINGS_WARNING), ResStr(IDS_EXPORT_SETTINGS), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
+
+        if (ret == IDCANCEL) {
+            return;
+        } else if (ret == IDYES) {
+            GetParent()->PostMessage(PSM_APPLY);
+        }
+    }
+
+    AfxGetMyApp()->ExportSettings(_T("Commands2"));
 }
 
 void CPPageMisc::OnCancel()
