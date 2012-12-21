@@ -51,6 +51,7 @@
 #define app_name       "MPC-HC"
 #define app_version    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
 #define app_vername    = app_name + " " + app_version
+#define app_verhash    = "(" + str(MPCHC_HASH) + ")"
 #define quick_launch   "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
 
@@ -79,15 +80,15 @@
 
 #ifdef x64Build
   #ifdef MPCHC_LITE
-    #define FullAppNameVer = app_vername + "Lite (64-bit)"
+    #define FullAppNameVer = app_vername + " " + app_verhash + "Lite (64-bit)"
   #else
-    #define FullAppNameVer = app_vername + " (64-bit)"
+    #define FullAppNameVer = app_vername + " " + app_verhash + " (64-bit)"
   #endif
 #else
   #ifdef MPCHC_LITE
-    #define FullAppNameVer = app_vername + " Lite"
+    #define FullAppNameVer = app_vername + " " + app_verhash + " Lite"
   #else
-    #define FullAppNameVer = app_vername
+    #define FullAppNameVer = app_vername + " " + app_verhash
   #endif
 #endif
 
