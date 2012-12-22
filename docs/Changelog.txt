@@ -13,3 +13,4 @@ Legend:
 + Miscellaneous: Added button to export key bindings.
 + Formats: The spacebar can now be used to enable/disable formats.
 * Updated FFmpeg (n0.8-16973-g55b243c)
+* Updated Simplified Chinese translation
