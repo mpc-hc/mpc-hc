@@ -10,10 +10,10 @@ Legend:
 
 1.6.6 - not released yet
 ========================
-+ Miscellaneous: Added button to export key bindings.
-+ Formats: The spacebar can now be used to enable/disable formats.
++ Formats: The spacebar can now be used to enable/disable formats
++ Miscellaneous: Added button to export key bindings
 * Updated FFmpeg (n0.8-16973-g55b243c)
-* Updated Simplified Chinese translation
+* Updated Russian, Simplified Chinese and Ukrainian translations
 * More resilient support for MPL2 and SRT subtitles formats:
   - Ticket #2779, Support MicroDVD tags in MPL2 subtitles files. This is normally not
     supported but MPL2 files that use MicroDVD tags for formating are quite common.
