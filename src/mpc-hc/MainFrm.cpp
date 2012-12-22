@@ -10138,7 +10138,7 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
 
     DWORD style = GetStyle();
     CSize decorationsSize(0, 0);
-    
+
     if (style & WS_CAPTION) {
         // caption
         decorationsSize.cy += GetSystemMetrics(SM_CYCAPTION);

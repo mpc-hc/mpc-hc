@@ -119,7 +119,9 @@ BOOL CPPageMisc::OnInitDialog()
     m_SliSaturation.SetTic(0);
     m_SliSaturation.SetPos(m_iSaturation);
 
-    if (AfxGetMyApp()->IsIniValid()) { m_ExportKeys.EnableWindow(FALSE); }
+    if (AfxGetMyApp()->IsIniValid()) {
+        m_ExportKeys.EnableWindow(FALSE);
+    }
 
     m_iBrightness ? m_sBrightness.Format(_T("%+d"), m_iBrightness) : m_sBrightness = _T("0");
     m_iContrast ? m_sContrast.Format(_T("%+d"), m_iContrast) : m_sContrast = _T("0");
