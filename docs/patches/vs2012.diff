@@ -34,27 +34,27 @@ index 8f22b3d..880bcda 100644
  EndProject
  Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D9A0529B-9EC4-4D30-9E05-A5D533739D95}"
 diff --git a/mpciconlib.sln b/mpciconlib.sln
-index 159f783..36fdf34 100644
+index 159f783..00937c9 100644
 --- a/mpciconlib.sln
 +++ b/mpciconlib.sln
 @@ -1,6 +1,5 @@
 -﻿
 -Microsoft Visual Studio Solution File, Format Version 11.00
 -# Visual Studio 2010
-+Microsoft Visual Studio Solution File, Format Version 12.00
++﻿Microsoft Visual Studio Solution File, Format Version 12.00
 +# Visual Studio 2012
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpciconlib", "src\mpc-hc\mpciconlib\mpciconlib.vcxproj", "{86251DC4-9298-424C-AE6C-07844F79C0B5}"
  EndProject
  Global
 diff --git a/mpcresources.sln b/mpcresources.sln
-index c22f602..d0d2eea 100644
+index c22f602..f02b73b 100644
 --- a/mpcresources.sln
 +++ b/mpcresources.sln
 @@ -1,6 +1,5 @@
 -﻿
 -Microsoft Visual Studio Solution File, Format Version 11.00
 -# Visual Studio 2010
-+Microsoft Visual Studio Solution File, Format Version 12.00
++﻿Microsoft Visual Studio Solution File, Format Version 12.00
 +# Visual Studio 2012
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpcresources", "src\mpc-hc\mpcresources\mpcresources.vcxproj", "{A57CBE1A-3703-4237-950A-FC5F594FDB43}"
  EndProject
@@ -171,14 +171,14 @@ index 285445e..2a75763 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/MPCTestAPI/MPCTestAPI.sln b/src/MPCTestAPI/MPCTestAPI.sln
-index c49eae6..c8891cb 100644
+index c49eae6..91fbd42 100644
 --- a/src/MPCTestAPI/MPCTestAPI.sln
 +++ b/src/MPCTestAPI/MPCTestAPI.sln
 @@ -1,6 +1,5 @@
 -﻿
 -Microsoft Visual Studio Solution File, Format Version 11.00
 -# Visual Studio 2010
-+Microsoft Visual Studio Solution File, Format Version 12.00
++﻿Microsoft Visual Studio Solution File, Format Version 12.00
 +# Visual Studio 2012
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MPCTestAPI", "MPCTestAPI.vcxproj", "{A1F84246-B9A1-455F-97E4-D730AB089947}"
  EndProject
@@ -2604,7 +2604,7 @@ index ea2128d..4440280 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 21ca9e3..edd23cd 100644
+index 7fd17fe..99854d3 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -39,47 +39,56 @@
@@ -2708,7 +2708,7 @@ index 21ca9e3..edd23cd 100644
      <ClCompile Include="AppSettings.cpp" />
      <ClCompile Include="AuthDlg.cpp" />
 diff --git a/src/mpc-hc/mpc-hc.vcxproj.filters b/src/mpc-hc/mpc-hc.vcxproj.filters
-index 6544739..95996cb 100644
+index 12ee911..3d01719 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj.filters
 +++ b/src/mpc-hc/mpc-hc.vcxproj.filters
 @@ -342,18 +342,6 @@
@@ -3142,7 +3142,7 @@ index fedf4e4..611f533 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index 229c66a..d4436af 100644
+index 37ff277..1ae1337 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@

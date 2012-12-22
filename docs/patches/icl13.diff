@@ -15,7 +15,7 @@ index b4c4465..c3ef804 100644
  
  IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index c919f33..7ce836d 100644
+index 7eacd21..aa542b7 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -40,7 +40,7 @@
@@ -27,31 +27,27 @@ index c919f33..7ce836d 100644
  
  
  ; From now on you shouldn't need to change anything
-@@ -81,9 +81,9 @@
- AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
- DefaultGroupName={#app_name} x64
- #if defined(MPCHC_LITE)
--UninstallDisplayName={#app_name} {#app_version} Lite (64-bit)
-+UninstallDisplayName={#app_name} {#app_version} Lite (ICL13, 64-bit)
+@@ -80,15 +80,15 @@
+ 
+ #ifdef x64Build
+   #ifdef MPCHC_LITE
+-    #define FullAppNameVer = app_vername + " " + app_verhash + "Lite (64-bit)"
++    #define FullAppNameVer = app_vername + " " + app_verhash + "Lite (ICL13, 64-bit)"
+   #else
+-    #define FullAppNameVer = app_vername + " " + app_verhash + " (64-bit)"
++    #define FullAppNameVer = app_vername + " " + app_verhash + " (ICL13, 64-bit)"
+   #endif
  #else
--UninstallDisplayName={#app_name} {#app_version} (64-bit)
-+UninstallDisplayName={#app_name} {#app_version} (ICL13, 64-bit)
- #endif
- ArchitecturesAllowed=x64
- ArchitecturesInstallIn64BitMode=x64
-@@ -91,9 +91,9 @@ ArchitecturesInstallIn64BitMode=x64
- AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
- DefaultGroupName={#app_name}
- #if defined(MPCHC_LITE)
--UninstallDisplayName={#app_name} {#app_version} Lite
-+UninstallDisplayName={#app_name} {#app_version} Lite (ICL13)
- #else
--UninstallDisplayName={#app_name} {#app_version}
-+UninstallDisplayName={#app_name} {#app_version} (ICL13)
- #endif
+   #ifdef MPCHC_LITE
+-    #define FullAppNameVer = app_vername + " " + app_verhash + " Lite"
++    #define FullAppNameVer = app_vername + " " + app_verhash + " Lite (ICL13)"
+   #else
+-    #define FullAppNameVer = app_vername + " " + app_verhash
++    #define FullAppNameVer = app_vername + " " + app_verhash + " (ICL13)"
+   #endif
  #endif
  
-@@ -115,7 +115,7 @@ VersionInfoProductTextVersion={#app_version}
+@@ -124,7 +124,7 @@ VersionInfoProductTextVersion={#app_version}
  VersionInfoTextVersion={#app_version}
  VersionInfoVersion={#app_version}
  UninstallDisplayIcon={app}\{#mpchc_exe}
@@ -60,26 +56,6 @@ index c919f33..7ce836d 100644
  DefaultDirName={code:GetInstallFolder}
  LicenseFile=..\COPYING.txt
  OutputDir=.
-@@ -171,15 +171,15 @@ Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
- [Messages]
- #ifdef x64Build
- #ifdef MPCHC_LITE
--BeveledLabel={#app_name} {#app_version} Lite (64-bit)
-+BeveledLabel={#app_name} {#app_version} Lite (ICL13, 64-bit)
- #else
--BeveledLabel={#app_name} {#app_version} (64-bit)
-+BeveledLabel={#app_name} {#app_version} (ICL13, 64-bit)
- #endif
- #else
- #ifdef MPCHC_LITE
--BeveledLabel={#app_name} {#app_version} Lite
-+BeveledLabel={#app_name} {#app_version} Lite (ICL13)
- #else
--BeveledLabel={#app_name} {#app_version}
-+BeveledLabel={#app_name} {#app_version} (ICL13)
- #endif
- #endif
- 
 diff --git a/docs/Readme.txt b/docs/Readme.txt
 index 2b60d0f..a1cb8f1 100644
 --- a/docs/Readme.txt
@@ -2265,7 +2241,7 @@ index dc94009..487070d 100644
  #else
  #error Compiler is not supported!
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 21ca9e3..5ab88bd 100644
+index 7fd17fe..e72ae5f 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
@@ -2651,7 +2627,7 @@ index fedf4e4..f5dceb1 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index 33c150d..5462359 100644
+index 9104a8f..d0c663e 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
 @@ -52,7 +52,7 @@ ifeq ($(64BIT),yes)
