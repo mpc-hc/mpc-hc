@@ -10020,8 +10020,8 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
     if (!m_fAudioOnly) {
         CSize arxy = GetVideoSize();
 
-        long lWidth = int(arxy.cx * scale + 0.5);
-        long lHeight = int(arxy.cy * scale + 0.5);
+        long lWidth  = long(arxy.cx * scale + 0.5);
+        long lHeight = long(arxy.cy * scale + 0.5);
 
         DWORD style = GetStyle();
 
