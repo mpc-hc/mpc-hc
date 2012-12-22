@@ -115,7 +115,8 @@ enum {
     NAL_END_STREAM,
     NAL_FILLER_DATA,
     NAL_SPS_EXT,
-    NAL_AUXILIARY_SLICE = 19
+    NAL_AUXILIARY_SLICE = 19,
+    NAL_FF_IGNORE       = 0xff0f001,
 };
 
 /**
@@ -367,7 +368,7 @@ typedef struct H264Context {
     int direct_spatial_mv_pred;
     int col_parity;
     int col_fieldoff;
-    int dist_scale_factor[16];
+    int dist_scale_factor[32];
     int dist_scale_factor_field[2][32];
     int map_col_to_list0[2][16 + 32];
     int map_col_to_list0_field[2][2][16 + 32];
@@ -443,7 +444,6 @@ typedef struct H264Context {
     int nal_unit_type;
     uint8_t *rbsp_buffer[2];
     unsigned int rbsp_buffer_size[2];
-    int decoding_extradata;
 
     /**
      * Used to parse AVC variant of h264
@@ -451,6 +451,8 @@ typedef struct H264Context {
     int is_avc;           ///< this flag is != 0 if codec is avc1
     int nal_length_size;  ///< Number of bytes used for nal length (1, 2 or 4)
     int got_first;        ///< this flag is != 0 if we've parsed a frame
+
+    int context_reinitialized;
 
     SPS *sps_buffers[MAX_SPS_COUNT];
     PPS *pps_buffers[MAX_PPS_COUNT];

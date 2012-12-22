@@ -12,7 +12,7 @@ Legend:
 ========================
 + Formats: The spacebar can now be used to enable/disable formats
 + Miscellaneous: Added button to export key bindings
-* Updated FFmpeg (n0.8-16973-g55b243c)
+* Updated FFmpeg (n0.8-17176-g985aa0b)
 * Updated Russian, Simplified Chinese and Ukrainian translations
 * More resilient support for MPL2 and SRT subtitles formats:
   - Ticket #2779, Support MicroDVD tags in MPL2 subtitles files. This is normally not

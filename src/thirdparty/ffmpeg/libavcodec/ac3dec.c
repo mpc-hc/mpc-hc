@@ -546,7 +546,7 @@ static void decode_transform_coeffs(AC3DecodeContext *s, int blk)
     for (ch = 1; ch <= s->channels; ch++) {
         /* transform coefficients for full-bandwidth channel */
         decode_transform_coeffs_ch(s, blk, ch, &m);
-        /* tranform coefficients for coupling channel come right after the
+        /* transform coefficients for coupling channel come right after the
            coefficients for the first coupled channel*/
         if (s->channel_in_cpl[ch])  {
             if (!got_cplchan) {
@@ -1402,9 +1402,8 @@ static int ac3_decode_frame(AVCodecContext * avctx, void *data,
                 memcpy(((float*)s->frame.data[ch]) + AC3_BLOCK_SIZE*blk, output[ch], 1024);
         for (ch = 0; ch < s->out_channels; ch++) {
             output[ch] = s->outptr[channel_map[ch]];
-        }
-        for (ch = 0; ch < s->channels; ch++) {
-            s->outptr[ch] += AC3_BLOCK_SIZE;
+            if (!ch || channel_map[ch])
+                s->outptr[channel_map[ch]] += AC3_BLOCK_SIZE;
         }
     }
 

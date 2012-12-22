@@ -136,6 +136,9 @@
     <None Include="libswscale\x86\scale.asm">
       <Filter>libswscale\x86</Filter>
     </None>
+    <None Include="libavcodec\x86\videodsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
@@ -688,6 +691,9 @@
     <ClInclude Include="libavresample\avresample.h">
       <Filter>libavresample</Filter>
     </ClInclude>
+    <ClInclude Include="libavresample\dither.h">
+      <Filter>libavresample</Filter>
+    </ClInclude>
     <ClInclude Include="libavresample\internal.h">
       <Filter>libavresample</Filter>
     </ClInclude>
@@ -864,6 +870,9 @@
     </ClInclude>
     <ClInclude Include="libswscale\version.h">
       <Filter>libswscale</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\videodsp.h">
+      <Filter>libavcodec</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1531,6 +1540,9 @@
     <ClCompile Include="libavresample\audio_mix_matrix.c">
       <Filter>libavresample</Filter>
     </ClCompile>
+    <ClCompile Include="libavresample\dither.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
     <ClCompile Include="libavresample\options.c">
       <Filter>libavresample</Filter>
     </ClCompile>
@@ -1689,6 +1701,15 @@
     </ClCompile>
     <ClCompile Include="libswscale\x86\yuv2rgb_template.c">
       <Filter>libswscale\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\videodsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\videodsp_template.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\videodsp_init.c">
+      <Filter>libavcodec\x86</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

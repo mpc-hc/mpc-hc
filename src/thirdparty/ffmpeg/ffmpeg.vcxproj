@@ -126,6 +126,7 @@
     <None Include="libavcodec\x86\rv40dsp.asm" />
     <None Include="libavcodec\x86\sbrdsp.asm" />
     <None Include="libavcodec\x86\vc1dsp.asm" />
+    <None Include="libavcodec\x86\videodsp.asm" />
     <None Include="libavcodec\x86\vp3dsp.asm" />
     <None Include="libavcodec\x86\vp56dsp.asm" />
     <None Include="libavcodec\x86\vp8dsp.asm" />
@@ -314,6 +315,8 @@
     <ClCompile Include="libavcodec\vc1dec.c" />
     <ClCompile Include="libavcodec\vc1dsp.c" />
     <ClCompile Include="libavcodec\vc1_dxva.c" />
+    <ClCompile Include="libavcodec\videodsp.c" />
+    <ClCompile Include="libavcodec\videodsp_template.c" />
     <ClCompile Include="libavcodec\vorbis.c" />
     <ClCompile Include="libavcodec\vorbisdec.c" />
     <ClCompile Include="libavcodec\vorbis_data.c" />
@@ -354,6 +357,7 @@
     <ClCompile Include="libavcodec\x86\simple_idct.c" />
     <ClCompile Include="libavcodec\x86\vc1dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vc1dsp_mmx.c" />
+    <ClCompile Include="libavcodec\x86\videodsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp3dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp56dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp8dsp_init.c" />
@@ -362,6 +366,7 @@
     <ClCompile Include="libavresample\audio_data.c" />
     <ClCompile Include="libavresample\audio_mix.c" />
     <ClCompile Include="libavresample\audio_mix_matrix.c" />
+    <ClCompile Include="libavresample\dither.c" />
     <ClCompile Include="libavresample\options.c" />
     <ClCompile Include="libavresample\resample.c" />
     <ClCompile Include="libavresample\resample_template.c" />
@@ -574,6 +579,7 @@
     <ClInclude Include="libavcodec\vc1dsp.h" />
     <ClInclude Include="libavcodec\vdpau_internal.h" />
     <ClInclude Include="libavcodec\version.h" />
+    <ClInclude Include="libavcodec\videodsp.h" />
     <ClInclude Include="libavcodec\vorbis.h" />
     <ClInclude Include="libavcodec\vp3data.h" />
     <ClInclude Include="libavcodec\vp3dsp.h" />
@@ -602,6 +608,7 @@
     <ClInclude Include="libavresample\audio_data.h" />
     <ClInclude Include="libavresample\audio_mix.h" />
     <ClInclude Include="libavresample\avresample.h" />
+    <ClInclude Include="libavresample\dither.h" />
     <ClInclude Include="libavresample\internal.h" />
     <ClInclude Include="libavresample\resample.h" />
     <ClInclude Include="libavresample\version.h" />
