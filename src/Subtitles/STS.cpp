@@ -1748,20 +1748,15 @@ static bool OpenUSF(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     return false;
 }
 
-static CStringW MPL22SSA(CStringW str)
+static CStringW MPL22SSA(CStringW str, bool fUnicode, int CharSet)
 {
-    CAtlList<CStringW> sl;
-    Explode(str, sl, '|');
-    POSITION pos = sl.GetHeadPosition();
-    while (pos) {
-        CStringW& s = sl.GetNext(pos);
-        if (s[0] == '/') {
-            s = L"{\\i1}" + s.Mid(1) + L"{\\i0}";
-        }
+    // Convert MPL2 italic tags to MicroDVD italic tags
+    if (str[0] == L'/') {
+        str = L"{y:i}" + str.Mid(1);
     }
-    str = Implode(sl, '\n');
-    str.Replace(L"\n", L"\\N");
-    return str;
+    str.Replace(L"|/", L"|{y:i}");
+
+    return MicroDVD2SSA(str, fUnicode, CharSet);
 }
 
 static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -1778,7 +1773,7 @@ static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
         if (c == 2) {
             ret.Add(
-                MPL22SSA(buff.Mid(buff.Find(']', buff.Find(']') + 1) + 1)),
+                MPL22SSA(buff.Mid(buff.Find(']', buff.Find(']') + 1) + 1), file->IsUnicode(), CharSet),
                 file->IsUnicode(),
                 start * 100, end * 100);
         } else if (c != EOF) { // might be another format
