@@ -19,15 +19,17 @@ We care about keeping an open project open and free for contributions wherever t
 
 Main Features:
 --------------
-* Option to remove tearing
-* Better support for Windows Vista/7, including a 64-bit build
-* Support for EVR/EVR CP (Enhanced Video Renderer)
-* Supports most types of subtitles including BD .sup files
-* Playback and recording of television, if a supported TV tuner is installed
-* OSD info (On Screen Display)
+* Option to remove [tearing](http://en.wikipedia.org/wiki/Screen_tearing)
+* Support for Windows Vista/7, including a 64-bit build
+* Support for [EVR/EVR CP](http://en.wikipedia.org/wiki/Media_Foundation#Enhanced_Video_Renderer) (Enhanced Video Renderer)
+* Supports most types of [subtitles](http://en.wikipedia.org/wiki/Subtitle_%28captioning%29#Subtitle_formats)
+  including [BluRay](http://en.wikipedia.org/wiki/Blu-ray_Disc) .sup files
+* Playback and recording of television programs, if a supported
+  [TV tuner card](http://en.wikipedia.org/wiki/TV_tuner_card) is installed
+* [OSD info (On Screen Display)](http://en.wikipedia.org/wiki/On-screen_display)
 * Multi-Monitor support
-* Various pixel shaders
-* Color management
+* Various [pixel shaders](http://en.wikipedia.org/wiki/Shader#Pixel_shaders)
+* [Color management](http://en.wikipedia.org/wiki/Color_management)
 * 24 translations available
 
 
@@ -43,7 +45,7 @@ Links:
 * [Source code](https://github.com/mpc-hc)
 * [Support Trac](http://sourceforge.net/apps/trac/mpc-hc)
 * IRC Channel: [#mpc-hc](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
-   / [#mpc-hc-dev](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](http://freenode.net/)
+  / [#mpc-hc-dev](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](http://freenode.net/)
 * [Help and Support](http://sourceforge.net/apps/trac/mpc-hc/)
 * [Donations](http://sourceforge.net/donate/index.php?group_id=170561)
 
