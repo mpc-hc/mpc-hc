@@ -183,8 +183,10 @@ public:
 
             if (CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {
                 str.Format(_T("%c%c%c%c"),
-                           (TCHAR)((pmt->subtype.Data1 >> 0) & 0xff), (TCHAR)((pmt->subtype.Data1 >> 8) & 0xff),
-                           (TCHAR)((pmt->subtype.Data1 >> 16) & 0xff), (TCHAR)((pmt->subtype.Data1 >> 24) & 0xff));
+                           (TCHAR)((pmt->subtype.Data1 >> 0) & 0xff),
+                           (TCHAR)((pmt->subtype.Data1 >> 8) & 0xff),
+                           (TCHAR)((pmt->subtype.Data1 >> 16) & 0xff),
+                           (TCHAR)((pmt->subtype.Data1 >> 24) & 0xff));
             }
 
             return str;
