@@ -24,7 +24,6 @@
 #include "resource.h"
 #include "../../../mpc-hc/InternalFiltersConfig.h"
 
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 CAviSplitterSettingsWnd::CAviSplitterSettingsWnd()
 {

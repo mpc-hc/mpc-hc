@@ -263,6 +263,8 @@ public:
 #define SAFE_DELETE_ARRAY(p) { if (p) { delete [] (p);  (p) = NULL; } }
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = NULL; } }
 
+#define ResStr(id)  CString(MAKEINTRESOURCE(id))
+
 template <typename T> __inline void INITDDSTRUCT(T& dd)
 {
     SecureZeroMemory(&dd, sizeof(dd));

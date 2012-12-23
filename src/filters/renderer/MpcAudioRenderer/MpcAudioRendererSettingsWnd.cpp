@@ -25,8 +25,6 @@
 
 #include "../../../mpc-hc/InternalFiltersConfig.h"
 
-// ==>>> Resource identifier from "resource.h" present in MPC-HC project!
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 CMpcAudioRendererSettingsWnd::CMpcAudioRendererSettingsWnd()
 {

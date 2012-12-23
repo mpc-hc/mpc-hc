@@ -26,7 +26,6 @@
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN    // Exclude rarely-used stuff from Windows headers
 #endif
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 #include <afxdisp.h>
 #include <afxole.h>

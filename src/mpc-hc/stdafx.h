@@ -71,8 +71,6 @@
 
 #include "DSUtil.h"
 
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
-
 template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 

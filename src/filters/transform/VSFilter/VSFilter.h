@@ -40,5 +40,3 @@ public:
 };
 
 extern CVSFilterApp theApp;
-
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
