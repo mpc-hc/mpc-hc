@@ -312,7 +312,7 @@ void CLCDStreamingText::SetFontFaceName(LPCTSTR szFontName)
         return;
 
     LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    SecureZeroMemory(&lf, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     DeleteObject(m_hFont);
@@ -333,7 +333,7 @@ void CLCDStreamingText::SetFontFaceName(LPCTSTR szFontName)
 void CLCDStreamingText::SetFontPointSize(int nPointSize)
 {
     LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    SecureZeroMemory(&lf, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     DeleteObject(m_hFont);
@@ -354,7 +354,7 @@ void CLCDStreamingText::SetFontPointSize(int nPointSize)
 void CLCDStreamingText::SetFontWeight(int nWeight)
 {
     LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    SecureZeroMemory(&lf, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     DeleteObject(m_hFont);

@@ -1481,7 +1481,7 @@ HRESULT CDX9RenderingEngine::TextureCopy(IDirect3DTexture9* pTexture)
 bool CDX9RenderingEngine::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 {
     D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
+    SecureZeroMemory(&d3dsd, sizeof(d3dsd));
     if (FAILED(pSurface->GetDesc(&d3dsd))) {
         return false;
     }
@@ -1572,7 +1572,7 @@ HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9*
     HRESULT hr;
 
     D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
+    SecureZeroMemory(&d3dsd, sizeof(d3dsd));
     if (FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
         return E_FAIL;
     }

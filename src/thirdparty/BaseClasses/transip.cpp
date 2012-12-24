@@ -434,7 +434,7 @@ HRESULT CTransInPlaceFilter::DecideBufferSize
         // Propose one byte
         // If this isn't enough then when the other pin does get connected
         // we can revise it.
-        ZeroMemory(&Request, sizeof(Request));
+        SecureZeroMemory(&Request, sizeof(Request));
         Request.cBuffers = 1;
         Request.cbBuffer = 1;
     }

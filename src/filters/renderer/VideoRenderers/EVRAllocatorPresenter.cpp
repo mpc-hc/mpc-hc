@@ -178,7 +178,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     m_LastScheduledUncorrectedSampleTime = -1;
     m_MaxSampleDuration         = 0;
     m_LastSampleOffset          = 0;
-    ZeroMemory(m_VSyncOffsetHistory, sizeof(m_VSyncOffsetHistory));
+    SecureZeroMemory(m_VSyncOffsetHistory, sizeof(m_VSyncOffsetHistory));
     m_VSyncOffsetHistoryPos     = 0;
     m_bLastSampleOffsetValid    = false;
 }
@@ -1243,7 +1243,7 @@ STDMETHODIMP CEVRAllocatorPresenter::GetIdealVideoSize(SIZE* pszMin, SIZE* pszMa
     if (pszMax) {
         D3DDISPLAYMODE d3ddm;
 
-        ZeroMemory(&d3ddm, sizeof(d3ddm));
+        SecureZeroMemory(&d3ddm, sizeof(d3ddm));
         if (SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm))) {
             pszMax->cx = d3ddm.Width;
             pszMax->cy = d3ddm.Height;
@@ -1670,8 +1670,8 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
     if (bReset) {
         m_ModeratedTimeSpeed = 1.0;
         m_ModeratedTimeSpeedPrim = 0.0;
-        ZeroMemory(m_TimeChangeHistory, sizeof(m_TimeChangeHistory));
-        ZeroMemory(m_ClockChangeHistory, sizeof(m_ClockChangeHistory));
+        SecureZeroMemory(m_TimeChangeHistory, sizeof(m_TimeChangeHistory));
+        SecureZeroMemory(m_ClockChangeHistory, sizeof(m_ClockChangeHistory));
         m_ClockTimeChangeHistoryPos = 0;
     }
     if (TimeChangeM) {
@@ -1891,13 +1891,13 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::DisplayChange()
     m_DetectedFrameTime = 0.0;
     m_DetectedFrameTimeStdDev = 0.0;
     m_DetectedLock = false;
-    ZeroMemory(m_DetectedFrameTimeHistory, sizeof(m_DetectedFrameTimeHistory));
-    ZeroMemory(m_DetectedFrameTimeHistoryHistory, sizeof(m_DetectedFrameTimeHistoryHistory));
+    SecureZeroMemory(m_DetectedFrameTimeHistory, sizeof(m_DetectedFrameTimeHistory));
+    SecureZeroMemory(m_DetectedFrameTimeHistoryHistory, sizeof(m_DetectedFrameTimeHistoryHistory));
     m_DetectedFrameTimePos = 0;
-    ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+    SecureZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
-    ZeroMemory(m_ldDetectedRefreshRateList, sizeof(m_ldDetectedRefreshRateList));
-    ZeroMemory(m_ldDetectedScanlineRateList, sizeof(m_ldDetectedScanlineRateList));
+    SecureZeroMemory(m_ldDetectedRefreshRateList, sizeof(m_ldDetectedRefreshRateList));
+    SecureZeroMemory(m_ldDetectedScanlineRateList, sizeof(m_ldDetectedScanlineRateList));
     m_DetectedRefreshRatePos = 0;
     m_DetectedRefreshTimePrim = 0;
     m_DetectedScanlineTime = 0;

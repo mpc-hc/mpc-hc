@@ -31,7 +31,7 @@ CLCDPaginateText::CLCDPaginateText(void)
     m_totalPageNum(0),
     m_iCurPageNum(0)
 {
-    ZeroMemory(&m_origSize, sizeof(m_origSize));
+    SecureZeroMemory(&m_origSize, sizeof(m_origSize));
 }
 
 

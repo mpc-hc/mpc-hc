@@ -129,7 +129,7 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
         if (m_ppRTSurfaceArray == NULL) {
             hr = E_OUTOFMEMORY;
         } else {
-            ZeroMemory(m_ppRTSurfaceArray, sizeof(IDirect3DSurface9*) * m_lCount);
+            SecureZeroMemory(m_ppRTSurfaceArray, sizeof(IDirect3DSurface9*) * m_lCount);
         }
     }
 

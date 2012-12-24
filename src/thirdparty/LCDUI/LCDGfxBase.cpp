@@ -260,7 +260,7 @@ HRESULT CLCDGfxBase::CreateBitmap(WORD wBitCount)
         return E_OUTOFMEMORY;
     }
 
-    ZeroMemory(m_pBitmapInfo, nBMISize);
+    SecureZeroMemory(m_pBitmapInfo, nBMISize);
     m_pBitmapInfo->bmiHeader.biSize = sizeof(m_pBitmapInfo->bmiHeader);
     m_pBitmapInfo->bmiHeader.biWidth = m_nWidth;
     m_pBitmapInfo->bmiHeader.biHeight = -m_nHeight;

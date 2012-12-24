@@ -149,7 +149,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
         m_pD3D = m_pD3DEx;
     }
 
-    ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+    SecureZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
     CRenderersSettings& s = GetRenderersSettings();
     if (s.m_AdvRendSets.iVMRDisableDesktopComposition) {
@@ -412,7 +412,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     }
 
     D3DDISPLAYMODE d3ddm;
-    ZeroMemory(&d3ddm, sizeof(d3ddm));
+    SecureZeroMemory(&d3ddm, sizeof(d3ddm));
     m_CurrentAdapter = GetAdapter(m_pD3D, m_hWnd);
     if (FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))) {
         _Error += L"Can not retrieve display mode data\n";
@@ -436,7 +436,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     }
     m_bCompositionEnabled = bCompositionEnabled != 0;
 
-    ZeroMemory(&pp, sizeof(pp));
+    SecureZeroMemory(&pp, sizeof(pp));
     if (m_bIsFullscreen) { // Exclusive mode fullscreen
         pp.Windowed = FALSE;
         pp.BackBufferWidth = d3ddm.Width;
@@ -463,7 +463,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
         if (m_pD3DEx) {
             D3DDISPLAYMODEEX DisplayMode;
-            ZeroMemory(&DisplayMode, sizeof(DisplayMode));
+            SecureZeroMemory(&DisplayMode, sizeof(DisplayMode));
             DisplayMode.Size = sizeof(DisplayMode);
             m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
 
@@ -672,7 +672,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
 
     // Disconnect all pins to release video memory resources
     if (m_pD3DDev) {
-        ZeroMemory(&filterInfo, sizeof(filterInfo));
+        SecureZeroMemory(&filterInfo, sizeof(filterInfo));
         m_pOuterEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
         if (SUCCEEDED(m_pOuterEVR->EnumPins(&rendererInputEnum))) {
             CComPtr<IPin> input;
@@ -723,7 +723,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     }
 
     D3DDISPLAYMODE d3ddm;
-    ZeroMemory(&d3ddm, sizeof(d3ddm));
+    SecureZeroMemory(&d3ddm, sizeof(d3ddm));
     if (FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))) {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
@@ -735,7 +735,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
 
     D3DPRESENT_PARAMETERS pp;
-    ZeroMemory(&pp, sizeof(pp));
+    SecureZeroMemory(&pp, sizeof(pp));
 
     BOOL bCompositionEnabled = false;
     if (m_pDwmIsCompositionEnabled) {
@@ -758,7 +758,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         }
 
         D3DDISPLAYMODEEX DisplayMode;
-        ZeroMemory(&DisplayMode, sizeof(DisplayMode));
+        SecureZeroMemory(&DisplayMode, sizeof(DisplayMode));
         DisplayMode.Size = sizeof(DisplayMode);
         if (m_pD3DDevEx) {
             m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx, m_hWnd), &DisplayMode, NULL);
@@ -991,7 +991,7 @@ STDMETHODIMP CBaseAP::CreateRenderer(IUnknown** ppRenderer)
 bool CBaseAP::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 {
     D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
+    SecureZeroMemory(&d3dsd, sizeof(d3dsd));
     if (FAILED(pSurface->GetDesc(&d3dsd))) {
         return false;
     }
@@ -1368,7 +1368,7 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 
     do {
         D3DSURFACE_DESC d3dsd;
-        ZeroMemory(&d3dsd, sizeof(d3dsd));
+        SecureZeroMemory(&d3dsd, sizeof(d3dsd));
         if (FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
             break;
         }
@@ -3272,7 +3272,7 @@ STDMETHODIMP CSyncAP::GetIdealVideoSize(SIZE* pszMin, SIZE* pszMax)
     if (pszMax) {
         D3DDISPLAYMODE  d3ddm;
 
-        ZeroMemory(&d3ddm, sizeof(d3ddm));
+        SecureZeroMemory(&d3ddm, sizeof(d3ddm));
         if (SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))) {
             pszMax->cx  = d3ddm.Width;
             pszMax->cy  = d3ddm.Height;
@@ -3897,7 +3897,7 @@ HRESULT CSyncAP::BeginStreaming()
 
     CComPtr<IBaseFilter> pEVR;
     FILTER_INFO filterInfo;
-    ZeroMemory(&filterInfo, sizeof(filterInfo));
+    SecureZeroMemory(&filterInfo, sizeof(filterInfo));
     m_pOuterEVR->QueryInterface(__uuidof(IBaseFilter), (void**)&pEVR);
     pEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
 

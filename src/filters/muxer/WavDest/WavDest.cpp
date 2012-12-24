@@ -297,7 +297,7 @@ HRESULT CWavDestFilter::StopStreaming()
         pRiffWave->fccListType = FCC('WAVE');
 
         LARGE_INTEGER li;
-        ZeroMemory(&li, sizeof(li));
+        SecureZeroMemory(&li, sizeof(li));
 
         hr = pStream->Seek(li, STREAM_SEEK_SET, 0);
         if (SUCCEEDED(hr)) {

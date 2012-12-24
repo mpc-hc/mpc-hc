@@ -265,7 +265,7 @@ public:
 
 template <typename T> __inline void INITDDSTRUCT(T& dd)
 {
-    ZeroMemory(&dd, sizeof(dd));
+    SecureZeroMemory(&dd, sizeof(dd));
     dd.dwSize = sizeof(dd);
 }
 

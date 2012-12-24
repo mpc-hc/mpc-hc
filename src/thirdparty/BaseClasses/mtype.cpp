@@ -293,7 +293,7 @@ CMediaType::ReallocFormatBuffer(ULONG length)
 
 void CMediaType::InitMediaType()
 {
-    ZeroMemory((PVOID)this, sizeof(*this));
+    SecureZeroMemory((PVOID)this, sizeof(*this));
     lSampleSize = 1;
     bFixedSizeSamples = TRUE;
 }

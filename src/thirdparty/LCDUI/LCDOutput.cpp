@@ -38,7 +38,7 @@ CLCDOutput::CLCDOutput(void)
     m_nPriority(LGLCD_PRIORITY_NORMAL),
     m_pGfx(NULL)
 {
-    ZeroMemory(&m_OpenByTypeContext, sizeof(m_OpenByTypeContext));
+    SecureZeroMemory(&m_OpenByTypeContext, sizeof(m_OpenByTypeContext));
 }
 
 

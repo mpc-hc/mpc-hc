@@ -37,7 +37,7 @@ CLCDConnection::CLCDConnection(void)
 {
     m_hConnection = LGLCD_INVALID_CONNECTION;
 
-    ZeroMemory(&m_AppletState, sizeof(m_AppletState));
+    SecureZeroMemory(&m_AppletState, sizeof(m_AppletState));
 
     m_plcdSoftButtonsChangedCtx = NULL;
 

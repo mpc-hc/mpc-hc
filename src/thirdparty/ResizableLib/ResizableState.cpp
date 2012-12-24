@@ -44,7 +44,7 @@ BOOL CResizableState::SaveWindowRect(LPCTSTR pszSection, BOOL bRectOnly)
 	CString data;
 	WINDOWPLACEMENT wp;
 
-	ZeroMemory(&wp, sizeof(WINDOWPLACEMENT));
+	SecureZeroMemory(&wp, sizeof(WINDOWPLACEMENT));
 	wp.length = sizeof(WINDOWPLACEMENT);
 	if (!GetResizableWnd()->GetWindowPlacement(&wp))
 		return FALSE;
@@ -79,7 +79,7 @@ BOOL CResizableState::LoadWindowRect(LPCTSTR pszSection, BOOL bRectOnly)
 	if (data.IsEmpty())	// never saved before
 		return FALSE;
 	
-	ZeroMemory(&wp, sizeof(WINDOWPLACEMENT));
+	SecureZeroMemory(&wp, sizeof(WINDOWPLACEMENT));
 	wp.length = sizeof(WINDOWPLACEMENT);
 	if (!GetResizableWnd()->GetWindowPlacement(&wp))
 		return FALSE;

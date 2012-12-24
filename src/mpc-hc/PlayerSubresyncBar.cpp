@@ -1196,7 +1196,7 @@ void CPlayerSubresyncBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
         int nItem = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 
         LVITEM rItem;
-        ZeroMemory(&rItem, sizeof(LVITEM));
+        SecureZeroMemory(&rItem, sizeof(LVITEM));
         rItem.mask  = LVIF_IMAGE | LVIF_STATE;
         rItem.iItem = nItem;
         rItem.stateMask = LVIS_SELECTED;

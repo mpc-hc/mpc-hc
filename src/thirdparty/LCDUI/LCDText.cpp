@@ -33,10 +33,10 @@ CLCDText::CLCDText(void)
     m_bRecalcExtent(TRUE),
     m_nTextAlignment(DT_LEFT)
 {
-    ZeroMemory(&m_dtp, sizeof(DRAWTEXTPARAMS));
+    SecureZeroMemory(&m_dtp, sizeof(DRAWTEXTPARAMS));
     m_dtp.cbSize = sizeof(DRAWTEXTPARAMS);
-    ZeroMemory(&m_sizeVExtent, sizeof(m_sizeVExtent));
-    ZeroMemory(&m_sizeHExtent, sizeof(m_sizeHExtent));
+    SecureZeroMemory(&m_sizeVExtent, sizeof(m_sizeVExtent));
+    SecureZeroMemory(&m_sizeHExtent, sizeof(m_sizeHExtent));
     SetBackgroundMode(TRANSPARENT);
     Initialize();
 }
@@ -122,7 +122,7 @@ void CLCDText::SetFontFaceName(LPCTSTR szFontName)
     }
 
     LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    SecureZeroMemory(&lf, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     LCDUI_tcsncpy(lf.lfFaceName, szFontName, LF_FACESIZE);
@@ -140,7 +140,7 @@ void CLCDText::SetFontFaceName(LPCTSTR szFontName)
 void CLCDText::SetFontPointSize(int nPointSize)
 {
     LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    SecureZeroMemory(&lf, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     lf.lfHeight = -MulDiv(nPointSize, DEFAULT_DPI, 72);
@@ -158,7 +158,7 @@ void CLCDText::SetFontPointSize(int nPointSize)
 void CLCDText::SetFontWeight(int nWeight)
 {
     LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    SecureZeroMemory(&lf, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     lf.lfWeight = nWeight;

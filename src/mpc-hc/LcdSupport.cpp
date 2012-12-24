@@ -569,7 +569,7 @@ CMPC_Lcd::CMPC_Lcd()
     hLCD_UpdateThread = NULL;
 
     // lcd init
-    ZeroMemory(&m_ConnCtx, sizeof(m_ConnCtx));
+    SecureZeroMemory(&m_ConnCtx, sizeof(m_ConnCtx));
 
     m_ConnCtx.appFriendlyName = _T(LCD_APP_NAME);
     m_ConnCtx.dwAppletCapabilitiesSupported = LGLCD_APPLET_CAP_BW | LGLCD_APPLET_CAP_QVGA;

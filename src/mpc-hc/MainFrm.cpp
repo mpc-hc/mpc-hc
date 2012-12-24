@@ -1036,7 +1036,7 @@ void CMainFrame::ShowTrayIcon(bool fShow)
     BOOL bWasVisible = ShowWindow(SW_HIDE);
     NOTIFYICONDATA tnid;
 
-    ZeroMemory(&tnid, sizeof(NOTIFYICONDATA));
+    SecureZeroMemory(&tnid, sizeof(NOTIFYICONDATA));
     tnid.cbSize = sizeof(NOTIFYICONDATA);
     tnid.hWnd = m_hWnd;
     tnid.uID = IDR_MAINFRAME;
@@ -1423,7 +1423,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
     if (m_pFullscreenWnd && m_pFullscreenWnd->IsWindow()) {
         MONITORINFO MonitorInfo;
         HMONITOR    hMonitor;
-        ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
+        SecureZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
         MonitorInfo.cbSize = sizeof(MonitorInfo);
         hMonitor = MonitorFromWindow(m_pFullscreenWnd->m_hWnd, 0);
         if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
@@ -14641,7 +14641,7 @@ bool CMainFrame::CreateFullScreenWindow()
         m_pFullscreenWnd->DestroyWindow();
     }
 
-    ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
+    SecureZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
     MonitorInfo.cbSize  = sizeof(MonitorInfo);
 
     CMonitors monitors;

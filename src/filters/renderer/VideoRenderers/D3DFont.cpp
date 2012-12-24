@@ -278,7 +278,7 @@ HRESULT CD3DFont::InitDeviceObjects(LPDIRECT3DDEVICE9 pd3dDevice)
     // Prepare to create a bitmap
     DWORD*      pBitmapBits;
     BITMAPINFO bmi;
-    ZeroMemory(&bmi.bmiHeader, sizeof(BITMAPINFOHEADER));
+    SecureZeroMemory(&bmi.bmiHeader, sizeof(BITMAPINFOHEADER));
     bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
     bmi.bmiHeader.biWidth       = (int)m_dwTexWidth;
     bmi.bmiHeader.biHeight      = -(int)m_dwTexHeight;
