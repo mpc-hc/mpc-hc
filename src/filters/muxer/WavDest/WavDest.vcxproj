@@ -37,7 +37,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EB202B68-8029-4985-B914-E94B44D2E230}</ProjectGuid>
     <RootNamespace>WavDest</RootNamespace>
-    <Keyword>Win32Proj</Keyword>
+    <Keyword>MFCProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">

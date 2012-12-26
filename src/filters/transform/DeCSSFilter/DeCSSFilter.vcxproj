@@ -37,7 +37,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F6B06383-3FFD-403B-9867-4AA82A20AA83}</ProjectGuid>
     <RootNamespace>DeCSSFilter</RootNamespace>
-    <Keyword>Win32Proj</Keyword>
+    <Keyword>MFCProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

@@ -37,7 +37,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3F5EA225-F4B7-4413-AEB3-4E4E5751E438}</ProjectGuid>
     <RootNamespace>MatroskaSplitter</RootNamespace>
-    <Keyword>Win32Proj</Keyword>
+    <Keyword>MFCProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">

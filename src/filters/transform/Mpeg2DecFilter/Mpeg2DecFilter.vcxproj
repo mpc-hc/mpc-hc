@@ -37,7 +37,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}</ProjectGuid>
     <RootNamespace>Mpeg2DecFilter</RootNamespace>
-    <Keyword>Win32Proj</Keyword>
+    <Keyword>MFCProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

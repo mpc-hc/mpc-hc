@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}</ProjectGuid>
     <RootNamespace>zlib</RootNamespace>
-    <Keyword>MFCProj</Keyword>
+    <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
