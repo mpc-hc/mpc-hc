@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Audio"
 6		"Volume"
 7		"Min"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"Rewind when done playing"
 20		"Output"
 21		"Auto-zoom:"
-23		"Default track preference"
-24		"Subtitles:"
-26		"Audio:"
-28		"(Example: eng jap swe)"
-29		"Open settings"
-30		"Use worker thread to construct the filter graph"
-32		"Report pins which fail to render"
-33		"Auto-load audio files"
-34		"Auto-load subtitles"
-35		"Control"
-36		"Volume step:"
-40		"Speed step:"
+23		"Auto fit factor:"
+27		"Default track preference"
+28		"Subtitles:"
+30		"Audio:"
+32		"(Example: eng jap swe)"
+33		"Open settings"
+34		"Use worker thread to construct the filter graph"
+36		"Report pins which fail to render"
+37		"Auto-load audio files"
+38		"Auto-load subtitles"
+39		"Control"
+40		"Volume step:"
+44		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

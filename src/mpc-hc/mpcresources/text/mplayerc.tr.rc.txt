@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Ses"
 6		"Ses"
 7		"Alçak"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"Oynatma bitince geri sar"
 20		"Çıkış"
 21		"Otomatik büyütme:"
-23		"Varsayılan parça seçimi"
-24		"Alt Yazı :"
-26		"Ses :"
-28		"(Örnek: tur eng jap)"
-29		"Açık Ayarlar"
-30		"Filtre grafiği kurulumu için oynatıcı önceliğini kullan"
-32		"Çevrilemeyen ilişkilendirmeleri rapor et"
-33		"Ses dosyalarını oto-yükle"
-34		"Alt Yazıları oto-yükle"
-35		"Control"
-36		"Volume step:"
-40		"Speed step:"
+23		"Auto fit factor:"
+27		"Varsayılan parça seçimi"
+28		"Alt Yazı :"
+30		"Ses :"
+32		"(Örnek: tur eng jap)"
+33		"Açık Ayarlar"
+34		"Filtre grafiği kurulumu için oynatıcı önceliğini kullan"
+36		"Çevrilemeyen ilişkilendirmeleri rapor et"
+37		"Ses dosyalarını oto-yükle"
+38		"Alt Yazıları oto-yükle"
+39		"Control"
+40		"Volume step:"
+44		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* 外部篩選器 (例如 DirectVobSub) 可以在任何繪製器中顯示字幕。"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"音訊"
 6		"音量"
 7		"小"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"結束播放時回到開頭"
 20		"輸出"
 21		"自動縮放:"
-23		"預設偏好"
-24		"字幕"
-26		"音訊"
-28		"(範例: eng jap swe)"
-29		"開啟設定"
-30		"使用工作執行緒建立篩選器圖 (Filter Graph)"
-32		"回報繪製失敗的腳位 (Pin)"
-33		"自動載入音訊檔案"
-34		"自動載入字幕"
-35		"控制"
-36		"音量步進:"
-40		"速度步進:"
+23		"Auto fit factor:"
+27		"預設偏好"
+28		"字幕"
+30		"音訊"
+32		"(範例: eng jap swe)"
+33		"開啟設定"
+34		"使用工作執行緒建立篩選器圖 (Filter Graph)"
+36		"回報繪製失敗的腳位 (Pin)"
+37		"自動載入音訊檔案"
+38		"自動載入字幕"
+39		"控制"
+40		"音量步進:"
+44		"速度步進:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

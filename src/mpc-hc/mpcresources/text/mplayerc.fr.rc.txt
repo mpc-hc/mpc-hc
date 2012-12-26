@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Les filtres externes (DirectVobSub par exemple) peuvent afficher les sous-titres pour tous les moteurs de rendu."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Audio"
 6		"Volume"
 7		"Min"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"Rembobiner à la fin"
 20		"Sortie"
 21		"Zoom auto :"
-23		"Ordre préféré des pistes"
-24		"Sous-titres"
-26		"Audio"
-28		"(Exemple : fre eng jap)"
-29		"Paramètres d'ouverture"
-30		"Processus d'aide à la construction des filtres"
-32		"Indiquer les connexions échouées lors du rendu"
-33		"Lecture automatique des fichiers audio"
-34		"Lecture automatique des sous-titres"
-35		"Contrôles"
-36		"Pas du volume :"
-40		"Pas de la vitesse :"
+23		"Auto fit factor:"
+27		"Ordre préféré des pistes"
+28		"Sous-titres"
+30		"Audio"
+32		"(Exemple : fre eng jap)"
+33		"Paramètres d'ouverture"
+34		"Processus d'aide à la construction des filtres"
+36		"Indiquer les connexions échouées lors du rendu"
+37		"Lecture automatique des fichiers audio"
+38		"Lecture automatique des sous-titres"
+39		"Contrôles"
+40		"Pas du volume :"
+44		"Pas de la vitesse :"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

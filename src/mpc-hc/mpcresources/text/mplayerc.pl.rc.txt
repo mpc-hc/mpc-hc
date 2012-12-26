@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Zewnętrzne filtry (takie jak DirectVobSub) mogą wyświetlać napisy przy użyciu dowolnego renderera obrazu."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Dźwięk"
 6		"Głośność"
 7		"Min."
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"Przejście do początku po zakończeniu"
 20		"Strumień wyjściowy"
 21		"Rozmiar okna:"
-23		"Preferowane"
-24		"napisy:"
-26		"audio:"
-28		"(Na przykład: eng jap swe)"
-29		"Otwieranie"
-30		"Osobny wątek programu do utworzenia grafu filtrów"
-32		"Powiadamianie o niepołączonych pinach grafu"
-33		"Wczytywanie ścieżek dźwiękowych"
-34		"Wczytywanie napisów"
-35		"Kontrola"
-36		"Zm. głośności o:"
-40		"Zm. prędkości o:"
+23		"Auto fit factor:"
+27		"Preferowane"
+28		"napisy:"
+30		"audio:"
+32		"(Na przykład: eng jap swe)"
+33		"Otwieranie"
+34		"Osobny wątek programu do utworzenia grafu filtrów"
+36		"Powiadamianie o niepołączonych pinach grafu"
+37		"Wczytywanie ścieżek dźwiękowych"
+38		"Wczytywanie napisów"
+39		"Kontrola"
+40		"Zm. głośności o:"
+44		"Zm. prędkości o:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

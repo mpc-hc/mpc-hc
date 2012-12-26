@@ -12,6 +12,8 @@ Legend:
 ========================
 + Formats: The space key can now be used to enable/disable formats
 + Miscellaneous: Added button to export key bindings
++ Add the ability to choose the scale factor (relative to the screen size) for
+  the auto-fit zoom
 * Updated FFmpeg (n0.8-17442-g7d66bc7)
 * Updated Little CMS to v2.4 (git e4624c8)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)

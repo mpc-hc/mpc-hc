@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* 外部フィルタ (例えば DirectVobSub) は、すべてのレンダラーに字幕を表示できます。"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"音声"
 6		"音量"
 7		"低"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"再生後に巻き戻す"
 20		"出力"
 21		"自動拡大:"
-23		"デフォルト トラックの優先順序"
-24		"字幕"
-26		"音声"
-28		"(例: eng jap swe)"
-29		"開く設定"
-30		"フィルタ グラフの構築にワーカー スレッドを使用する"
-32		"再生に失敗したピンを報告する"
-33		"音声ファイルを自動で読み込む"
-34		"字幕を自動で読み込む"
-35		"コントロール"
-36		"ボリュームステップ:"
-40		"スピードステップ:"
+23		"Auto fit factor:"
+27		"デフォルト トラックの優先順序"
+28		"字幕"
+30		"音声"
+32		"(例: eng jap swe)"
+33		"開く設定"
+34		"フィルタ グラフの構築にワーカー スレッドを使用する"
+36		"再生に失敗したピンを報告する"
+37		"音声ファイルを自動で読み込む"
+38		"字幕を自動で読み込む"
+39		"コントロール"
+40		"ボリュームステップ:"
+44		"スピードステップ:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

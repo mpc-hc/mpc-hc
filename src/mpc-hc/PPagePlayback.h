@@ -51,6 +51,8 @@ public:
     BOOL m_fRewind;
     int m_iZoomLevel;
     BOOL m_iRememberZoomLevel;
+    int m_nAutoFitFactor;
+    CSpinButtonCtrl m_AutoFitFactorCtrl;
     BOOL m_fAutoloadAudio;
     BOOL m_fAutoloadSubtitles;
     BOOL m_fEnableWorkerThreadForOpening;

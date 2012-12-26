@@ -410,6 +410,7 @@ public:
     bool            fLoopForever;
     bool            fRewind;
     bool            fRememberZoomLevel;
+    int             nAutoFitFactor;
     int             iZoomLevel;
     CStringW        strAudiosLanguageOrder;
     CStringW        strSubtitlesLanguageOrder;

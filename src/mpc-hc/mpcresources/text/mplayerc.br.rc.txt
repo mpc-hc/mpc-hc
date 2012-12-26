@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Áudio"
 6		"Volume"
 7		"Mín"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"Voltar ao início quando terminar"
 20		"Saída"
 21		"Zoom automático:"
-23		"Idiomas preferenciais"
-24		"Legenda"
-26		"Áudio"
-28		"(Exemplo: eng jap por)"
-29		"Opções de abertura"
-30		"Usar processo funcional para construir filtro gráfico"
-32		"Reportar conectores que não queiram funcionar"
-33		"Autocarregamento de áudio"
-34		"Autocarregamento de legendas"
-35		"Control"
-36		"Volume step:"
-40		"Speed step:"
+23		"Auto fit factor:"
+27		"Idiomas preferenciais"
+28		"Legenda"
+30		"Áudio"
+32		"(Exemplo: eng jap por)"
+33		"Opções de abertura"
+34		"Usar processo funcional para construir filtro gráfico"
+36		"Reportar conectores que não queiram funcionar"
+37		"Autocarregamento de áudio"
+38		"Autocarregamento de legendas"
+39		"Control"
+40		"Volume step:"
+44		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

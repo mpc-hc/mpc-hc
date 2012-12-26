@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"שמע"
 6		"עצמת קול"
 7		"מינימום"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"החזר אחורה כאשר ניגון מסתיים"
 20		"פלט"
 21		"זום אוטומטי:"
-23		"תעדוף ברירת מחדל"
-24		"כתוביות:"
-26		"שמע:"
-28		"(דוגמה: eng jap swe)"
-29		"פתח הגדרות"
-30		"השתמש בתהליך נפרד בכדי לבנות את גרף הפילטרים"
-32		"דווח על תקעים שלא מתנגנים"
-33		"טען אוטומטית קבצי אודיו"
-34		"טען אוטומטית כתוביות"
-35		"Control"
-36		"Volume step:"
-40		"Speed step:"
+23		"Auto fit factor:"
+27		"תעדוף ברירת מחדל"
+28		"כתוביות:"
+30		"שמע:"
+32		"(דוגמה: eng jap swe)"
+33		"פתח הגדרות"
+34		"השתמש בתהליך נפרד בכדי לבנות את גרף הפילטרים"
+36		"דווח על תקעים שלא מתנגנים"
+37		"טען אוטומטית קבצי אודיו"
+38		"טען אוטומטית כתוביות"
+39		"Control"
+40		"Volume step:"
+44		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

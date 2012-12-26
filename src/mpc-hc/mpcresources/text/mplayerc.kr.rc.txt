@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"오디오"
 6		"볼륨"
 7		"최소"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"재생이 끝나면 처음으로 되감기"
 20		"출력"
 21		"자동 확대:"
-23		"기본 선호 트랙"
-24		"자막언어"
-26		"오디오언어"
-28		"(예: eng kor jap)"
-29		"열기 설정"
-30		"필터그래프를 생성하는 작업자 쓰레드 사용"
-32		"렌더링에 실패하면 pin 보고"
-33		"오디오파일을 자동으로 열기"
-34		"자막파일을 자동으로 열기"
-35		"Control"
-36		"Volume step:"
-40		"Speed step:"
+23		"Auto fit factor:"
+27		"기본 선호 트랙"
+28		"자막언어"
+30		"오디오언어"
+32		"(예: eng kor jap)"
+33		"열기 설정"
+34		"필터그래프를 생성하는 작업자 쓰레드 사용"
+36		"렌더링에 실패하면 pin 보고"
+37		"오디오파일을 자동으로 열기"
+38		"자막파일을 자동으로 열기"
+39		"Control"
+40		"Volume step:"
+44		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

@@ -10195,8 +10195,8 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
     }
 
     // The scaling is computed so that either the width or the height is an integer value
-    double sx = (floor(2.0 / 3.0 * (double)width  + 0.5) - decorationsSize.cx) / (double)arxy.cx;
-    double sy = (floor(2.0 / 3.0 * (double)height + 0.5) - decorationsSize.cy) / (double)arxy.cy;
+    double sx = (floor((double)s.nAutoFitFactor / 100.0 * (double)width  + 0.5) - decorationsSize.cx) / (double)arxy.cx;
+    double sy = (floor((double)s.nAutoFitFactor / 100.0 * (double)height + 0.5) - decorationsSize.cy) / (double)arxy.cy;
 
     return sx < sy ? sx : sy;
 }

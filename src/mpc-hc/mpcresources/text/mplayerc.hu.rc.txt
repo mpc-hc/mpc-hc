@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Audió"
 6		"Hangerő"
 7		"Min"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"Lejátszás után visszatekerés"
 20		"Kép"
 21		"Automatikus nagyítás:"
-23		"Default track preference"
-24		"Subtitles:"
-26		"Audio:"
-28		"(Example: eng jap swe)"
-29		"Megnyitási beállítások"
-30		"Szűrő-Gráf felépítése külön eljárással"
-32		"Hibás, nem átalakítható csatlakozók jelentése"
-33		"Audiófájlok auto betöltése"
-34		"Feliratok auto betöltése"
-35		"Control"
-36		"Volume step:"
-40		"Speed step:"
+23		"Auto fit factor:"
+27		"Default track preference"
+28		"Subtitles:"
+30		"Audio:"
+32		"(Example: eng jap swe)"
+33		"Megnyitási beállítások"
+34		"Szűrő-Gráf felépítése külön eljárással"
+36		"Hibás, nem átalakítható csatlakozók jelentése"
+37		"Audiófájlok auto betöltése"
+38		"Feliratok auto betöltése"
+39		"Control"
+40		"Volume step:"
+44		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

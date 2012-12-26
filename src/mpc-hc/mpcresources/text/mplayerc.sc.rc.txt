@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* 外部滤镜 (例如 DirectVobSub) 能在所有渲染器上显示字幕。"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"音频"
 6		"音量"
 7		"小"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"播放结束时返回至头部"
 20		"输出"
 21		"自动缩放: "
-23		"缺省设置"
-24		"字幕"
-26		"音轨:"
-28		"(例如: eng jap swe)"
-29		"打开设置"
-30		"使用工作线程来创建滤镜图像"
-32		"报告渲染失败的接口(pin)"
-33		"自动加载外部音轨"
-34		"自动加载字幕"
-35		"控制"
-36		"音量步进:"
-40		"速度步进:"
+23		"Auto fit factor:"
+27		"缺省设置"
+28		"字幕"
+30		"音轨:"
+32		"(例如: eng jap swe)"
+33		"打开设置"
+34		"使用工作线程来创建滤镜图像"
+36		"报告渲染失败的接口(pin)"
+37		"自动加载外部音轨"
+38		"自动加载字幕"
+39		"控制"
+40		"音量步进:"
+44		"速度步进:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

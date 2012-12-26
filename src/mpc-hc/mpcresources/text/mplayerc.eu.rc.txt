@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Kanpoko iragazkiek (DirectVobSub bezalakoak) azpidatziak aurkezle guztietan erakutsi ditzakete."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Audioa"
 6		"Bolumena"
 7		"Gutx"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"Atzerabildu irakurketa egindakoan"
 20		"Irteera"
 21		"Berez-zooma:"
-23		"Berezko bide hobespena"
-24		"Azpidatziak:"
-26		"Audioa:"
-28		"(Azpidatziak: eng jap baq)"
-29		"Ireki ezarpenak"
-30		"Erabili langile hariak iragazki grafika eraikitzeko"
-32		"Jakinarazi aurkezlean huts egiten duten pin-ak"
-33		"Berez-gertatu audio agiriak"
-34		"Berez-gertatu azpidatziak"
-35		"Agintea"
-36		"Bolumen urratsa:"
-40		"Speed step:"
+23		"Auto fit factor:"
+27		"Berezko bide hobespena"
+28		"Azpidatziak:"
+30		"Audioa:"
+32		"(Azpidatziak: eng jap baq)"
+33		"Ireki ezarpenak"
+34		"Erabili langile hariak iragazki grafika eraikitzeko"
+36		"Jakinarazi aurkezlean huts egiten duten pin-ak"
+37		"Berez-gertatu audio agiriak"
+38		"Berez-gertatu azpidatziak"
+39		"Agintea"
+40		"Bolumen urratsa:"
+44		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

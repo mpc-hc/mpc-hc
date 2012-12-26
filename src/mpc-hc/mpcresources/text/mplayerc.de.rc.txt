@@ -288,7 +288,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Externe Filter (z.B. DirectVobSub) zeigen Untertitel bei allen Renderern an."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Audio"
 6		"Lautstärke"
 7		"Min"
@@ -303,18 +303,19 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 44
 19		"Am Ende &zurückspulen"
 20		"Video Ausgabe"
 21		"Auto-Z&oom:"
-23		"DVD-Spur Standard Sprache:"
-24		"Untertitel"
-26		"Audio"
-28		"(Beispiel: eng deu swe)"
-29		"Aktionen beim Öffnen einer Datei"
-30		"Filter-Graph in separatem &Thread erstellen"
-32		"Fehlerhafte Pins im Graph &melden"
-33		"&Audio-Dateien automatisch laden"
-34		"&Untertitel automatisch laden"
-35		"Wiedergabe anpassen"
-36		"Lautstärkenstufe:"
-40		"Geschwindigkeit:"
+23		"Auto fit factor:"
+27		"DVD-Spur Standard Sprache:"
+28		"Untertitel"
+30		"Audio"
+32		"(Beispiel: eng deu swe)"
+33		"Aktionen beim Öffnen einer Datei"
+34		"Filter-Graph in separatem &Thread erstellen"
+36		"Fehlerhafte Pins im Graph &melden"
+37		"&Audio-Dateien automatisch laden"
+38		"&Untertitel automatisch laden"
+39		"Wiedergabe anpassen"
+40		"Lautstärkenstufe:"
+44		"Geschwindigkeit:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

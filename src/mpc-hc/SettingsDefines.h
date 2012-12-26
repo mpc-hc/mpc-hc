@@ -96,6 +96,7 @@
 #define IDS_RS_MULTIINST                    _T("AllowMultipleInstances")
 #define IDS_RS_ALWAYSONTOP                  _T("AlwaysOnTop")
 #define IDS_RS_AUTOZOOM                     _T("AutoZoom")
+#define IDS_RS_AUTOFITFACTOR                _T("AutoFitFactor")
 #define IDS_RS_FULLSCREENCTRLS              _T("FullScreenCtrls")
 #define IDS_RS_FULLSCREENCTRLSTIMEOUT       _T("FullScreenCtrlsTimeOut")
 #define IDS_RS_VMRFLIP                      _T("VMRFlip")
