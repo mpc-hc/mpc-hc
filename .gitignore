@@ -18,3 +18,4 @@ ipch
 *.sdf
 *.suo
 *.user
+/.git-rewrite
