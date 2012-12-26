@@ -26,7 +26,6 @@
 #endif // _MSC_VER > 1000
 
 #include "PropPageFrame.h"
-#include <afxcmn.h>
 
 
 namespace TreePropSheet

@@ -27,8 +27,8 @@
 
 #include "PropPageFrame.h"
 #include <afxtempl.h>
-#include <afxdlgs.h>
-#include <afxcmn.h>
+#include <afxdlgs.h>    // Needed for CPropertySheet
+#include <afxcmn.h>     // Needed for CTreeCtrl
 
 namespace TreePropSheet
 {
@@ -76,7 +76,6 @@ via SetEmptyPageText().
 
 @author Sven Wiegand
 */
-
 class /*AFX_EXT_CLASS*/ CTreePropSheet : public CPropertySheet
 {
     DECLARE_DYNAMIC(CTreePropSheet)
