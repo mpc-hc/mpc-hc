@@ -6,7 +6,7 @@
 // (http://www.geocities.com/ppescher - ppescher@yahoo.com)
 //
 // The contents of this file are subject to the Artistic License (the "License").
-// You may not use this file except in compliance with the License. 
+// You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at:
 // http://www.opensource.org/licenses/artistic-license.html
 //
@@ -24,11 +24,11 @@ const UINT WMU_RESIZESUPPORT = ::RegisterWindowMessage(_T("WMU_RESIZESUPPORT"));
 
 // wParam is one of the following RSZSUP_* values, lParam as specified
 
-#define RSZSUP_QUERYPROPERTIES	101	// lParam = LPRESIZEPROPERTIES
+#define RSZSUP_QUERYPROPERTIES  101 // lParam = LPRESIZEPROPERTIES
 
-#define RSZSUP_LIKESCLIPPING	102	// lParam = LPCLIPPINGPROPERTY
+#define RSZSUP_LIKESCLIPPING    102 // lParam = LPCLIPPINGPROPERTY
 
-#define RSZSUP_NEEDSREFRESH		103	// lParam = LPREFRESHPROPERTY
+#define RSZSUP_NEEDSREFRESH     103 // lParam = LPREFRESHPROPERTY
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -36,21 +36,21 @@ const UINT WMU_RESIZESUPPORT = ::RegisterWindowMessage(_T("WMU_RESIZESUPPORT"));
 
 inline BOOL Send_QueryProperties(HWND hWnd, LPRESIZEPROPERTIES pResizeProperties)
 {
-	ASSERT(::IsWindow(hWnd));
-	return (0 != SendMessage(hWnd, WMU_RESIZESUPPORT,
-		RSZSUP_QUERYPROPERTIES, (LPARAM)pResizeProperties));
+    ASSERT(::IsWindow(hWnd));
+    return (0 != SendMessage(hWnd, WMU_RESIZESUPPORT,
+        RSZSUP_QUERYPROPERTIES, (LPARAM)pResizeProperties));
 }
 
 inline BOOL Send_LikesClipping(HWND hWnd, LPCLIPPINGPROPERTY pClippingProperty)
 {
-	ASSERT(::IsWindow(hWnd));
-	return (0 != SendMessage(hWnd, WMU_RESIZESUPPORT,
-		RSZSUP_LIKESCLIPPING, (LPARAM)pClippingProperty));
+    ASSERT(::IsWindow(hWnd));
+    return (0 != SendMessage(hWnd, WMU_RESIZESUPPORT,
+        RSZSUP_LIKESCLIPPING, (LPARAM)pClippingProperty));
 }
 
 inline BOOL Send_NeedsRefresh(HWND hWnd, LPREFRESHPROPERTY pRefreshProperty)
 {
-	ASSERT(::IsWindow(hWnd));
-	return (0 != SendMessage(hWnd, WMU_RESIZESUPPORT,
-		RSZSUP_NEEDSREFRESH, (LPARAM)pRefreshProperty));
+    ASSERT(::IsWindow(hWnd));
+    return (0 != SendMessage(hWnd, WMU_RESIZESUPPORT,
+        RSZSUP_NEEDSREFRESH, (LPARAM)pRefreshProperty));
 }

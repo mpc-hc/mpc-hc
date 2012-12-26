@@ -13,7 +13,7 @@
 // (http://www.geocities.com/ppescher - ppescher@yahoo.com)
 //
 // The contents of this file are subject to the Artistic License (the "License").
-// You may not use this file except in compliance with the License. 
+// You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at:
 // http://www.opensource.org/licenses/artistic-license.html
 //
@@ -29,13 +29,13 @@
 
 class CResizablePage : public CPropertyPage, public CResizableLayout
 {
-	DECLARE_DYNCREATE(CResizablePage)
+    DECLARE_DYNCREATE(CResizablePage)
 
 // Construction
 public:
-	CResizablePage();
-	CResizablePage(UINT nIDTemplate, UINT nIDCaption = 0);
-	CResizablePage(LPCTSTR lpszTemplateName, UINT nIDCaption = 0);
+    CResizablePage();
+    CResizablePage(UINT nIDTemplate, UINT nIDCaption = 0);
+    CResizablePage(LPCTSTR lpszTemplateName, UINT nIDCaption = 0);
 
 // Attributes
 public:
@@ -44,30 +44,30 @@ public:
 public:
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CResizablePage)
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CResizablePage)
+    //}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~CResizablePage();
+    virtual ~CResizablePage();
 
 // callable from derived classes
 protected:
 
-	virtual CWnd* GetResizableWnd()
-	{
-		// make the layout know its parent window
-		return this;
-	};
+    virtual CWnd* GetResizableWnd()
+    {
+        // make the layout know its parent window
+        return this;
+    };
 
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CResizablePage)
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CResizablePage)
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
