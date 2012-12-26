@@ -63,7 +63,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>library\include;library\src</AdditionalIncludeDirectories>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
@@ -72,7 +72,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>library\include;library\src</AdditionalIncludeDirectories>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -80,7 +80,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>library\include;library\src</AdditionalIncludeDirectories>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
@@ -89,43 +89,43 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>library\include;library\src</AdditionalIncludeDirectories>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\lcms2.h" />
-    <ClInclude Include="include\lcms2_plugin.h" />
-    <ClInclude Include="src\lcms2_internal.h" />
+    <ClInclude Include="library\include\lcms2.h" />
+    <ClInclude Include="library\include\lcms2_plugin.h" />
+    <ClInclude Include="library\src\lcms2_internal.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cmscam02.c" />
-    <ClCompile Include="src\cmscgats.c" />
-    <ClCompile Include="src\cmscnvrt.c" />
-    <ClCompile Include="src\cmserr.c" />
-    <ClCompile Include="src\cmsgamma.c" />
-    <ClCompile Include="src\cmsgmt.c" />
-    <ClCompile Include="src\cmshalf.c" />
-    <ClCompile Include="src\cmsintrp.c" />
-    <ClCompile Include="src\cmsio0.c" />
-    <ClCompile Include="src\cmsio1.c" />
-    <ClCompile Include="src\cmslut.c" />
-    <ClCompile Include="src\cmsmd5.c" />
-    <ClCompile Include="src\cmsmtrx.c" />
-    <ClCompile Include="src\cmsnamed.c" />
-    <ClCompile Include="src\cmsopt.c" />
-    <ClCompile Include="src\cmspack.c" />
-    <ClCompile Include="src\cmspcs.c" />
-    <ClCompile Include="src\cmsplugin.c" />
-    <ClCompile Include="src\cmsps2.c" />
-    <ClCompile Include="src\cmssamp.c" />
-    <ClCompile Include="src\cmssm.c" />
-    <ClCompile Include="src\cmstypes.c" />
-    <ClCompile Include="src\cmsvirt.c" />
-    <ClCompile Include="src\cmswtpnt.c" />
-    <ClCompile Include="src\cmsxform.c" />
-    <ClCompile Include="src\precomp.c">
+    <ClCompile Include="library\src\cmscam02.c" />
+    <ClCompile Include="library\src\cmscgats.c" />
+    <ClCompile Include="library\src\cmscnvrt.c" />
+    <ClCompile Include="library\src\cmserr.c" />
+    <ClCompile Include="library\src\cmsgamma.c" />
+    <ClCompile Include="library\src\cmsgmt.c" />
+    <ClCompile Include="library\src\cmshalf.c" />
+    <ClCompile Include="library\src\cmsintrp.c" />
+    <ClCompile Include="library\src\cmsio0.c" />
+    <ClCompile Include="library\src\cmsio1.c" />
+    <ClCompile Include="library\src\cmslut.c" />
+    <ClCompile Include="library\src\cmsmd5.c" />
+    <ClCompile Include="library\src\cmsmtrx.c" />
+    <ClCompile Include="library\src\cmsnamed.c" />
+    <ClCompile Include="library\src\cmsopt.c" />
+    <ClCompile Include="library\src\cmspack.c" />
+    <ClCompile Include="library\src\cmspcs.c" />
+    <ClCompile Include="library\src\cmsplugin.c" />
+    <ClCompile Include="library\src\cmsps2.c" />
+    <ClCompile Include="library\src\cmssamp.c" />
+    <ClCompile Include="library\src\cmssm.c" />
+    <ClCompile Include="library\src\cmstypes.c" />
+    <ClCompile Include="library\src\cmsvirt.c" />
+    <ClCompile Include="library\src\cmswtpnt.c" />
+    <ClCompile Include="library\src\cmsxform.c" />
+    <ClCompile Include="precomp.c">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
