@@ -270,7 +270,7 @@ CString GetProgramPath(bool bWithExecutableName /*= false*/)
 {
     CString path;
 
-    DWORD dwLength = ::GetModuleFileName(NULL, path.GetBuffer(_MAX_PATH), _MAX_PATH);
+    DWORD dwLength = ::GetModuleFileName(NULL, path.GetBuffer(MAX_PATH), MAX_PATH);
     path.ReleaseBuffer((int)dwLength);
 
     if (!bWithExecutableName) {

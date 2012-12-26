@@ -1948,7 +1948,7 @@ HRESULT CRealVideoDecoder::CheckInputType(const CMediaType* mtIn)
             _T("drvc.dll");
 
         CRegKey key;
-        TCHAR buff[_MAX_PATH];
+        TCHAR buff[MAX_PATH];
         ULONG len = sizeof(buff);
         if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Software\\RealNetworks\\Preferences\\DT_Codecs"), KEY_READ)
                 && ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && _tcslen(buff) > 0) {
@@ -2440,7 +2440,7 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
         newdll.Format(_T("%s.dll"), fourcc);
 
         CRegKey key;
-        TCHAR buff[_MAX_PATH];
+        TCHAR buff[MAX_PATH];
         ULONG len = _countof(buff);
         if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Software\\RealNetworks\\Preferences\\DT_Codecs"), KEY_READ)
                 && ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && _tcslen(buff) > 0) {
@@ -2505,8 +2505,8 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
         }
 
         if (m_hDrvDll) {
-            char chbuff[_MAX_PATH];
-            GetModuleFileNameA(m_hDrvDll, chbuff, _MAX_PATH);
+            char chbuff[MAX_PATH];
+            GetModuleFileNameA(m_hDrvDll, chbuff, MAX_PATH);
             CPathA p(chbuff);
             p.RemoveFileSpec();
             p.AddBackslash();

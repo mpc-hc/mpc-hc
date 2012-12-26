@@ -781,8 +781,8 @@ void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)
 
     UINT nFiles = ::DragQueryFile(hDropInfo, (UINT) - 1, NULL, 0);
     for (UINT iFile = 0; iFile < nFiles; iFile++) {
-        TCHAR szFileName[_MAX_PATH];
-        ::DragQueryFile(hDropInfo, iFile, szFileName, _MAX_PATH);
+        TCHAR szFileName[MAX_PATH];
+        ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);
 
         CFilterMapper2 fm2(false);
         fm2.Register(szFileName);

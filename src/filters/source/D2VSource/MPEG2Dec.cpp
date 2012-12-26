@@ -3803,7 +3803,7 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 		BufferOp = (PBufferOp) GetProcAddress(hLibrary, "BufferOp");
 
 	for (i=0; i<MAX_FILE_NUMBER; i++)
-		Infilename[i] = DEBUG_NEW char[_MAX_PATH];
+		Infilename[i] = DEBUG_NEW char[MAX_PATH];
 
 	if(1 != fscanf_s(out->VF_File, "%d", &File_Limit))
 		return 0;

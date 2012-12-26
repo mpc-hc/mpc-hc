@@ -211,7 +211,7 @@ bool CPPageWebServer::PickDir(CString& dir)
             openDlgPtr->Release();
         }
     } else {
-        TCHAR buff[_MAX_PATH];
+        TCHAR buff[MAX_PATH];
 
         BROWSEINFO bi;
         bi.hwndOwner = m_hWnd;

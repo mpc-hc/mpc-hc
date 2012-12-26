@@ -329,10 +329,10 @@ _DllEntryPoint(
             TCHAR szInfo[512];
             extern TCHAR m_ModuleName[];     // Cut down module name
 
-            TCHAR FullName[_MAX_PATH];      // Load the full path and module name
+            TCHAR FullName[MAX_PATH];      // Load the full path and module name
             TCHAR *pName;                   // Searches from the end for a backslash
 
-            GetModuleFileName(NULL,FullName,_MAX_PATH);
+            GetModuleFileName(NULL,FullName,MAX_PATH);
             pName = _tcsrchr(FullName,'\\');
             if (pName == NULL) {
                 pName = FullName;

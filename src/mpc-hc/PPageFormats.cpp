@@ -486,10 +486,10 @@ void CPPageFormats::OnBnClickedSelectAudioFormats()
 
 void CPPageFormats::OnBnVistaModify()
 {
-    TCHAR   strApp[_MAX_PATH];
+    TCHAR   strApp[MAX_PATH];
     CString strCmd;
 
-    GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, _MAX_PATH);
+    GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
     strCmd.Format(_T("/adminoption %d"), IDD);
 
     AfxGetMyApp()->RunAsAdministrator(strApp, strCmd, true);

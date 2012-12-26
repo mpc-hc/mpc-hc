@@ -274,9 +274,9 @@ CMPlayerCApp::CMPlayerCApp() :
     m_fClosingState(false)
     //, m_hMutexOneInstance(NULL)
 {
-    TCHAR strApp[_MAX_PATH];
+    TCHAR strApp[MAX_PATH];
 
-    GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, _MAX_PATH);
+    GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
     m_strVersion = CFileVersionInfo::GetFileVersionStr(strApp);
 
     memset(&m_ColorControl, 0, sizeof(m_ColorControl));
@@ -404,7 +404,7 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
     if (IsIniValid()) { // If settings ini file found, store stuff in the same folder as the exe file
         path = GetProgramPath();
     } else {
-        HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, path.GetBuffer(_MAX_PATH));
+        HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, path.GetBuffer(MAX_PATH));
         path.ReleaseBuffer();
         if (FAILED(hr)) {
             return false;
@@ -686,12 +686,12 @@ HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBU
 BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileSize)
 {
     BOOL  bRet = FALSE;
-    WCHAR szTempPath[_MAX_PATH];
-    WCHAR strFileName[_MAX_PATH];
+    WCHAR szTempPath[MAX_PATH];
+    WCHAR strFileName[MAX_PATH];
     WCHAR strExt[_MAX_EXT];
     CIfo  Ifo;
 
-    if (!GetTempPathW(_MAX_PATH, szTempPath)) {
+    if (!GetTempPathW(MAX_PATH, szTempPath)) {
         return FALSE;
     }
 
@@ -715,7 +715,7 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
     p3 |= FILE_SHARE_WRITE;
 
     if (nLen >= 4 && _wcsicmp(p1 + nLen - 4, L".ifo") == 0) {
-        WCHAR strFakeFile[_MAX_PATH];
+        WCHAR strFakeFile[MAX_PATH];
         if (CreateFakeVideoTS(p1, strFakeFile, _countof(strFakeFile))) {
             hFile = Real_CreateFileW(strFakeFile, p2, p3, p4, p5, p6, p7);
         }

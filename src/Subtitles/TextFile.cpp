@@ -527,8 +527,8 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
             return false;
         }
 
-        TCHAR path[_MAX_PATH];
-        GetTempPath(_MAX_PATH, path);
+        TCHAR path[MAX_PATH];
+        GetTempPath(MAX_PATH, path);
 
         fn = path + fn.Mid(fn.ReverseFind('/') + 1);
         int i = fn.Find(_T("?"));

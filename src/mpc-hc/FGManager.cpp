@@ -2697,7 +2697,7 @@ STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpc
         return E_NOINTERFACE;
     }
 
-    WCHAR buff[_MAX_PATH];
+    WCHAR buff[MAX_PATH];
     ULONG len;
     if ((!fn.IsEmpty()
             && FAILED(hr = pDVDC->SetDVDDirectory(fn))

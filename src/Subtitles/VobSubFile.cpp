@@ -806,7 +806,7 @@ bool CVobSubFile::ReadRar(CString fn)
     memset(&ArchiveDataEx, 0, sizeof(ArchiveDataEx));
     // Are these filename conversions needed??
     ArchiveDataEx.ArcNameW = (LPTSTR)(LPCTSTR)fn;
-    char fnA[_MAX_PATH];
+    char fnA[MAX_PATH];
     size_t size;
     if (wcstombs_s(&size, fnA, fn, fn.GetLength())) {
         fnA[0] = 0;
@@ -1839,8 +1839,8 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
     fn.Replace('\\', '/');
     CString title = fn.Mid(fn.ReverseFind('/') + 1);
 
-    TCHAR buff[_MAX_PATH], * pFilePart = buff;
-    if (GetFullPathName(fn, _MAX_PATH, buff, &pFilePart) == 0) {
+    TCHAR buff[MAX_PATH], * pFilePart = buff;
+    if (GetFullPathName(fn, MAX_PATH, buff, &pFilePart) == 0) {
         return false;
     }
 
@@ -2098,8 +2098,8 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
     fn.Replace('\\', '/');
     CString title = fn.Mid(fn.ReverseFind('/') + 1);
 
-    TCHAR buff[_MAX_PATH], * pFilePart = buff;
-    if (GetFullPathName(fn, _MAX_PATH, buff, &pFilePart) == 0) {
+    TCHAR buff[MAX_PATH], * pFilePart = buff;
+    if (GetFullPathName(fn, MAX_PATH, buff, &pFilePart) == 0) {
         return false;
     }
 

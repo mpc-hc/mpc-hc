@@ -1034,7 +1034,7 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
                 case BN_CLICKED: {
                     switch (LOWORD(wParam)) {
                         case IDC_BROWSE: {
-                            TCHAR pathbuff[_MAX_PATH];
+                            TCHAR pathbuff[MAX_PATH];
 
                             BROWSEINFO bi;
                             bi.hwndOwner = m_Dlg;

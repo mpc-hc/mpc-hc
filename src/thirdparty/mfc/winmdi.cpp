@@ -929,7 +929,7 @@ void CMDIChildWnd::OnUpdateFrameTitle(BOOL bAddToTitle)
 	CDocument* pDocument = GetActiveDocument();
 	if (bAddToTitle)
 	{
-		TCHAR szText[256+_MAX_PATH];
+		TCHAR szText[256+MAX_PATH];
 		if (pDocument == NULL)
 			Checked::tcsncpy_s(szText, _countof(szText), m_strTitle, _TRUNCATE);
 		else

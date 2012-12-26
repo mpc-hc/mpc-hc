@@ -1518,7 +1518,7 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
                 DWORD cbNeeded;
 
                 if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded)) {
-                    module.ReleaseBufferSetLength(GetModuleFileNameEx(hProcess, hMod, module.GetBuffer(_MAX_PATH), _MAX_PATH));
+                    module.ReleaseBufferSetLength(GetModuleFileNameEx(hProcess, hMod, module.GetBuffer(MAX_PATH), MAX_PATH));
                 }
 
                 CloseHandle(hProcess);
@@ -4219,7 +4219,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             GetCDROMType(s.slFiles.GetHead()[0], sl);
         } else {
             CString dir;
-            dir.ReleaseBufferSetLength(GetCurrentDirectory(_MAX_PATH, dir.GetBuffer(_MAX_PATH)));
+            dir.ReleaseBufferSetLength(GetCurrentDirectory(MAX_PATH, dir.GetBuffer(MAX_PATH)));
 
             GetCDROMType(dir[0], sl);
 
@@ -4353,7 +4353,7 @@ void CMainFrame::OnFileOpendvd()
             path = dlg.GetFolderPath();
         }
     } else {
-        TCHAR _path[_MAX_PATH];
+        TCHAR _path[MAX_PATH];
 
         BROWSEINFO bi;
         bi.hwndOwner = m_hWnd;
@@ -4470,7 +4470,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 
     if (nFiles == 1) {
         CString path;
-        path.ReleaseBuffer(::DragQueryFile(hDropInfo, 0, path.GetBuffer(_MAX_PATH), _MAX_PATH));
+        path.ReleaseBuffer(::DragQueryFile(hDropInfo, 0, path.GetBuffer(MAX_PATH), MAX_PATH));
         if (OpenBD(path)) {
             return;
         }
@@ -4478,7 +4478,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 
     for (UINT iFile = 0; iFile < nFiles; iFile++) {
         CString fn;
-        fn.ReleaseBuffer(::DragQueryFile(hDropInfo, iFile, fn.GetBuffer(_MAX_PATH), _MAX_PATH));
+        fn.ReleaseBuffer(::DragQueryFile(hDropInfo, iFile, fn.GetBuffer(MAX_PATH), MAX_PATH));
         sl.AddTail(fn);
     }
 
@@ -8859,9 +8859,9 @@ void CMainFrame::OnFavoritesAdd()
 
         s.AddFav(FAV_FILE, str);
     } else if (GetPlaybackMode() == PM_DVD) {
-        WCHAR path[_MAX_PATH];
+        WCHAR path[MAX_PATH];
         ULONG len = 0;
-        pDVDI->GetDVDDirectory(path, _MAX_PATH, &len);
+        pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
         CString fn = path;
         fn.TrimRight(_T("/\\"));
 
@@ -8993,9 +8993,9 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
         s.AddFav(FAV_FILE, str);
         osdMsg = IDS_FILE_FAV_ADDED;
     } else if (GetPlaybackMode() == PM_DVD) {
-        WCHAR path[_MAX_PATH];
+        WCHAR path[MAX_PATH];
         ULONG len = 0;
-        pDVDI->GetDVDDirectory(path, _MAX_PATH, &len);
+        pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
         CString fn = path;
         fn.TrimRight(_T("/\\"));
 
@@ -10854,7 +10854,7 @@ void CMainFrame::SetupDVDChapters()
     m_pCB.Release();
     m_pCB = DEBUG_NEW CDSMChapterBag(NULL, NULL);
 
-    WCHAR buff[_MAX_PATH];
+    WCHAR buff[MAX_PATH];
     ULONG len = 0;
     DVD_PLAYBACK_LOCATION2 loc;
     if (SUCCEEDED(pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) &&
@@ -10918,7 +10918,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
         throw(UINT)IDS_AG_FAILED;
     }
 
-    WCHAR buff[_MAX_PATH];
+    WCHAR buff[MAX_PATH];
     ULONG len = 0;
     if (SUCCEEDED(hr = pDVDI->GetDVDDirectory(buff, _countof(buff), &len))) {
         pODD->title = CString(CStringW(buff));
@@ -15461,7 +15461,7 @@ void CMainFrame::OnFileOpendirectory()
 
         COpenDirHelper::strLastOpenDir = s.strLastOpenDir;
 
-        TCHAR _path[_MAX_PATH];
+        TCHAR _path[MAX_PATH];
         COpenDirHelper::m_incl_subdir = TRUE;
 
         BROWSEINFO bi;

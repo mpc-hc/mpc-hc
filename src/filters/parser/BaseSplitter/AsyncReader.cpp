@@ -196,9 +196,9 @@ DWORD CAsyncUrlReader::ThreadProc()
         CInternetSession is;
         CAutoPtr<CStdioFile> fin(is.OpenURL(m_url, 1, INTERNET_FLAG_TRANSFER_BINARY | INTERNET_FLAG_EXISTING_CONNECT | INTERNET_FLAG_NO_CACHE_WRITE));
 
-        TCHAR path[_MAX_PATH], fn[_MAX_PATH];
+        TCHAR path[MAX_PATH], fn[MAX_PATH];
         CFile fout;
-        if (GetTempPath(_MAX_PATH, path) && GetTempFileName(path, _T("mpc_http"), 0, fn)
+        if (GetTempPath(MAX_PATH, path) && GetTempFileName(path, _T("mpc_http"), 0, fn)
                 && fout.Open(fn, modeCreate | modeWrite | shareDenyWrite | typeBinary)) {
             m_fn = fn;
 

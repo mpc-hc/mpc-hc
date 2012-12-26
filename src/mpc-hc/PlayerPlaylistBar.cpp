@@ -253,7 +253,7 @@ void CPlayerPlaylistBar::ResolveLinkFiles(CAtlList<CString>& fns)
     POSITION pos = fns.GetHeadPosition();
     while (pSL && pPF && pos) {
         CString& fn = fns.GetNext(pos);
-        TCHAR buff[_MAX_PATH];
+        TCHAR buff[MAX_PATH];
         if (CPath(fn).GetExtension().MakeLower() != _T(".lnk")
                 || FAILED(pPF->Load(CStringW(fn), STGM_READ))
                 || FAILED(pSL->Resolve(NULL, SLR_ANY_MATCH | SLR_NO_UI))
@@ -1057,8 +1057,8 @@ void CPlayerPlaylistBar::OnDropFiles(HDROP hDropInfo)
 
     UINT nFiles = ::DragQueryFile(hDropInfo, (UINT) - 1, NULL, 0);
     for (UINT iFile = 0; iFile < nFiles; iFile++) {
-        TCHAR szFileName[_MAX_PATH];
-        ::DragQueryFile(hDropInfo, iFile, szFileName, _MAX_PATH);
+        TCHAR szFileName[MAX_PATH];
+        ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);
         sl.AddTail(szFileName);
     }
     ::DragFinish(hDropInfo);
@@ -1182,14 +1182,14 @@ void CPlayerPlaylistBar::DropItemOnList()
     m_ptDropPoint.y += 10;
     m_nDropIndex = m_list.HitTest(CPoint(10, m_ptDropPoint.y));
 
-    TCHAR szLabel[_MAX_PATH];
+    TCHAR szLabel[MAX_PATH];
     LV_ITEM lvi;
     SecureZeroMemory(&lvi, sizeof(LV_ITEM));
     lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_STATE | LVIF_PARAM;
     lvi.stateMask = LVIS_DROPHILITED | LVIS_FOCUSED | LVIS_SELECTED;
     lvi.pszText = szLabel;
     lvi.iItem = m_nDragIndex;
-    lvi.cchTextMax = _MAX_PATH;
+    lvi.cchTextMax = MAX_PATH;
     m_list.GetItem(&lvi);
 
     if (m_nDropIndex < 0) {
@@ -1207,7 +1207,7 @@ void CPlayerPlaylistBar::DropItemOnList()
         m_nDragIndex++;
     }
     for (int col = 1; col < nColumnCount; col++) {
-        _tcscpy_s(lvi.pszText, _MAX_PATH, (LPCTSTR)(m_list.GetItemText(m_nDragIndex, col)));
+        _tcscpy_s(lvi.pszText, MAX_PATH, (LPCTSTR)(m_list.GetItemText(m_nDragIndex, col)));
         lvi.iSubItem = col;
         m_list.SetItem(&lvi);
     }

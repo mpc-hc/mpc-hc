@@ -69,7 +69,7 @@ bool CRealMediaPlayer::Init()
         return false;
     }
 
-    TCHAR buff[_MAX_PATH];
+    TCHAR buff[MAX_PATH];
     ULONG len = _countof(buff);
     if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
         return false;
@@ -96,7 +96,7 @@ bool CRealMediaPlayer::Init()
         len = _countof(buff);
         for (int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++, len = _countof(buff)) {
             CRegKey key2;
-            TCHAR buff2[_MAX_PATH];
+            TCHAR buff2[MAX_PATH];
             ULONG len2 = _countof(buff2);
             if (ERROR_SUCCESS != key2.Open(HKEY_CLASSES_ROOT, prefs + _T("\\") + buff, KEY_READ)
                     || ERROR_SUCCESS != key2.QueryStringValue(NULL, buff2, &len2)) {
@@ -687,8 +687,8 @@ STDMETHODIMP CRealMediaGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
 {
     m_fn = lpcwstrFile;
 
-    CHAR buff[_MAX_PATH] = {0};
-    WideCharToMultiByte(GetACP(), 0, lpcwstrFile, -1, buff, _MAX_PATH, 0, 0);
+    CHAR buff[MAX_PATH] = {0};
+    WideCharToMultiByte(GetACP(), 0, lpcwstrFile, -1, buff, MAX_PATH, 0, 0);
 
     CStringA fn(buff);
     if (fn.Find("://") < 0) {

@@ -105,7 +105,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
         MINIDUMPWRITEDUMP pMiniDumpWriteDump = (MINIDUMPWRITEDUMP)::GetProcAddress(hDll, "MiniDumpWriteDump");
         if (pMiniDumpWriteDump != NULL) {
             if (!AfxGetMyApp()->IsIniValid()) {
-                HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, strDumpPath.GetBuffer(_MAX_PATH));
+                HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, strDumpPath.GetBuffer(MAX_PATH));
                 if (FAILED(hr)) {
                     return retval;
                 }

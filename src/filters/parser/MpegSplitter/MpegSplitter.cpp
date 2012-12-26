@@ -611,8 +611,8 @@ void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)
 {
     if (wcslen(pszFileName) > 0) {
         WCHAR Drive[_MAX_DRIVE];
-        WCHAR Dir[_MAX_PATH];
-        WCHAR Filename[_MAX_PATH];
+        WCHAR Dir[MAX_PATH];
+        WCHAR Filename[MAX_PATH];
         WCHAR Ext[_MAX_EXT];
 
         if (_wsplitpath_s(pszFileName, Drive, _countof(Drive), Dir, _countof(Dir), Filename, _countof(Filename), Ext, _countof(Ext)) == 0) {

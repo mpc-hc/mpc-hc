@@ -339,7 +339,7 @@ void CTreePropSheet::RefillPageTree()
 		TCITEM	ti;
 		SecureZeroMemory(&ti, sizeof(ti));
 		ti.mask = TCIF_TEXT|TCIF_IMAGE;
-		ti.cchTextMax = _MAX_PATH;
+		ti.cchTextMax = MAX_PATH;
 		ti.pszText = strPagePath.GetBuffer(ti.cchTextMax);
 		ASSERT(ti.pszText);
 		if (!ti.pszText)

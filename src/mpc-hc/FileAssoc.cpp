@@ -292,7 +292,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
     CString extOldReg, extOldIcon;
     CRegKey key;
     HRESULT hr = S_OK;
-    TCHAR   buff[_MAX_PATH];
+    TCHAR   buff[MAX_PATH];
     ULONG   len = _countof(buff);
     memset(buff, 0, sizeof(buff));
 
@@ -429,7 +429,7 @@ bool CFileAssoc::IsRegistered(CString ext)
     } else {
         // The XP way
         CRegKey key;
-        TCHAR   buff[_MAX_PATH];
+        TCHAR   buff[MAX_PATH];
         ULONG   len = _countof(buff);
         memset(buff, 0, sizeof(buff));
 
@@ -445,7 +445,7 @@ bool CFileAssoc::IsRegistered(CString ext)
     // Check if association is for this instance of MPC-HC
     if (bIsDefault) {
         CRegKey key;
-        TCHAR   buff[_MAX_PATH];
+        TCHAR   buff[MAX_PATH];
         ULONG   len = _countof(buff);
 
         bIsDefault = FALSE;
@@ -462,7 +462,7 @@ bool CFileAssoc::IsRegistered(CString ext)
 bool CFileAssoc::AreRegisteredFileContextMenuEntries(CString strExt)
 {
     CRegKey key;
-    TCHAR   buff[_MAX_PATH];
+    TCHAR   buff[MAX_PATH];
     ULONG   len = _countof(buff);
     CString strProgID = PROGID + strExt;
     bool    registered = false;
@@ -589,7 +589,7 @@ bool CFileAssoc::RegisterFolderContextMenuEntries(bool bRegister)
 bool CFileAssoc::AreRegisteredFolderContextMenuEntries()
 {
     CRegKey key;
-    TCHAR   buff[_MAX_PATH];
+    TCHAR   buff[MAX_PATH];
     ULONG   len = _countof(buff);
     bool    registered = false;
 
@@ -669,7 +669,7 @@ bool CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)
 bool CFileAssoc::IsAutoPlayRegistered(autoplay_t ap)
 {
     ULONG len;
-    TCHAR buff[_MAX_PATH];
+    TCHAR buff[MAX_PATH];
     CString exe = GetProgramPath(true);
 
     int i = (int)ap;
@@ -735,7 +735,7 @@ bool CFileAssoc::GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts)
     LONG ret;
     DWORD i = 0;
     CString keyName, ext;
-    DWORD len = _MAX_PATH;
+    DWORD len = MAX_PATH;
 
     while ((ret = rkHKCR.EnumKey(i, keyName.GetBuffer(len), &len)) != ERROR_NO_MORE_ITEMS) {
         if (ret == ERROR_SUCCESS) {
@@ -750,7 +750,7 @@ bool CFileAssoc::GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts)
             }
 
             i++;
-            len = _MAX_PATH;
+            len = MAX_PATH;
         }
     }
 

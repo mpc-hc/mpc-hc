@@ -305,7 +305,7 @@ void CPPageDVD::OnBnClickedButton1()
             path = dlg.GetFolderPath();
         }
     } else {
-        TCHAR _path[_MAX_PATH];
+        TCHAR _path[MAX_PATH];
 
         BROWSEINFO bi;
         bi.hwndOwner = m_hWnd;

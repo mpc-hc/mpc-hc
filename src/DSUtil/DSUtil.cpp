@@ -891,11 +891,11 @@ CString GetDriveLabel(TCHAR drive)
 
     CString path;
     path.Format(_T("%c:\\"), drive);
-    TCHAR VolumeNameBuffer[_MAX_PATH], FileSystemNameBuffer[_MAX_PATH];
+    TCHAR VolumeNameBuffer[MAX_PATH], FileSystemNameBuffer[MAX_PATH];
     DWORD VolumeSerialNumber, MaximumComponentLength, FileSystemFlags;
     if (GetVolumeInformation(path,
-                             VolumeNameBuffer, _MAX_PATH, &VolumeSerialNumber, &MaximumComponentLength,
-                             &FileSystemFlags, FileSystemNameBuffer, _MAX_PATH)) {
+                             VolumeNameBuffer, MAX_PATH, &VolumeSerialNumber, &MaximumComponentLength,
+                             &FileSystemFlags, FileSystemNameBuffer, MAX_PATH)) {
         label = VolumeNameBuffer;
     }
 
@@ -1447,7 +1447,7 @@ CString MakeFullPath(LPCTSTR path)
     full.Replace('/', '\\');
 
     CString fn;
-    fn.ReleaseBuffer(GetModuleFileName(AfxGetInstanceHandle(), fn.GetBuffer(_MAX_PATH), _MAX_PATH));
+    fn.ReleaseBuffer(GetModuleFileName(AfxGetInstanceHandle(), fn.GetBuffer(MAX_PATH), MAX_PATH));
     CPath p(fn);
 
     if (full.GetLength() >= 2 && full[0] == '\\' && full[1] != '\\') {
