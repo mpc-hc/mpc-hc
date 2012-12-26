@@ -348,7 +348,7 @@ void CPPageCapture::FindAnalogDevices()
         pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
 
         CComVariant var;
-        if SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL)) {
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
             int i = m_cbAnalogVideo.AddString(CString(var.bstrVal));
             LPOLESTR strName = NULL;
             if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {

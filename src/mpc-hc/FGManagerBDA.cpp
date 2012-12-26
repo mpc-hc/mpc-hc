@@ -442,7 +442,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
             TRACE(_T("BDA: Tuner <-> Receiver: 0x%08x\n"), hr);
             return hr;
         }
-        if FAILED(ConnectFilters(pReceiver, pMpeg2Demux)) {
+        if (FAILED(ConnectFilters(pReceiver, pMpeg2Demux))) {
             MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
             TRACE(_T("BDA: Receiver <-> Demux: 0x%08x\n"), hr);
             return hr;
