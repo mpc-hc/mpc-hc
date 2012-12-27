@@ -593,52 +593,59 @@ const TCHAR* GetEventString(LONG evCode)
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
 
-CMainFrame::CMainFrame() :
-    m_iMediaLoadState(MLS_CLOSED),
-    m_iPlaybackMode(PM_NONE),
-    m_dSpeedRate(1.0),
-    m_rtDurationOverride(-1),
-    m_fFullScreen(false),
-    m_fFirstFSAfterLaunchOnFS(false),
-    m_fHideCursor(false),
-    m_lastMouseMove(-1, -1),
-    m_pLastBar(NULL),
-    m_nCS(0),
-    m_nLoops(0),
-    m_posFirstExtSub(NULL),
-    m_iSubtitleSel(-1),
-    m_ZoomX(1), m_ZoomY(1), m_PosX(0.5), m_PosY(0.5),
-    m_AngleX(0), m_AngleY(0), m_AngleZ(0),
-    m_fCustomGraph(false),
-    m_fRealMediaGraph(false), m_fShockwaveGraph(false), m_fQuicktimeGraph(false),
-    m_fFrameSteppingActive(false),
-    m_fEndOfStream(false),
-    m_fCapturing(false),
-    m_fLiveWM(false),
-    m_fOpeningAborted(false),
-    m_fBuffering(false),
-    m_fileDropTarget(this),
-    m_fTrayIcon(false),
-    m_pFullscreenWnd(NULL),
-    m_pVideoWnd(NULL),
-    m_bRemainingTime(false),
-    m_nCurSubtitle(-1),
-    m_lSubtitleShift(0),
-    m_bToggleShader(false),
-    m_nStepForwardCount(0),
-    m_rtStepForwardStart(0),
-    m_bToggleShaderScreenSpace(false),
-    m_bInOptions(false),
-    m_lCurrentChapter(0),
-    m_lChapterStartTime(0xFFFFFFFF),
-    m_pTaskbarList(NULL),
-    m_pGraphThread(NULL),
-    m_bOpenedThruThread(false),
-    m_nMenuHideTick(0),
-    m_bWasSnapped(false),
-    m_nSeekDirection(SEEK_DIRECTION_NONE),
-    m_bIsBDPlay(false),
-    m_LastOpenBDPath(_T(""))
+CMainFrame::CMainFrame()
+    : m_iMediaLoadState(MLS_CLOSED)
+    , m_iPlaybackMode(PM_NONE)
+    , m_dSpeedRate(1.0)
+    , m_rtDurationOverride(-1)
+    , m_fFullScreen(false)
+    , m_fFirstFSAfterLaunchOnFS(false)
+    , m_fHideCursor(false)
+    , m_lastMouseMove(-1, -1)
+    , m_pLastBar(NULL)
+    , m_nCS(0)
+    , m_nLoops(0)
+    , m_posFirstExtSub(NULL)
+    , m_iSubtitleSel(-1)
+    , m_ZoomX(1)
+    , m_ZoomY(1)
+    , m_PosX(0.5)
+    , m_PosY(0.5)
+    , m_AngleX(0)
+    , m_AngleY(0)
+    , m_AngleZ(0)
+    , m_fCustomGraph(false)
+    , m_fRealMediaGraph(false)
+    , m_fShockwaveGraph(false)
+    , m_fQuicktimeGraph(false)
+    , m_fFrameSteppingActive(false)
+    , m_fEndOfStream(false)
+    , m_fCapturing(false)
+    , m_fLiveWM(false)
+    , m_fOpeningAborted(false)
+    , m_fBuffering(false)
+    , m_fileDropTarget(this)
+    , m_fTrayIcon(false)
+    , m_pFullscreenWnd(NULL)
+    , m_pVideoWnd(NULL)
+    , m_bRemainingTime(false)
+    , m_nCurSubtitle(-1)
+    , m_lSubtitleShift(0)
+    , m_bToggleShader(false)
+    , m_nStepForwardCount(0)
+    , m_rtStepForwardStart(0)
+    , m_bToggleShaderScreenSpace(false)
+    , m_bInOptions(false)
+    , m_lCurrentChapter(0)
+    , m_lChapterStartTime(0xFFFFFFFF)
+    , m_pTaskbarList(NULL)
+    , m_pGraphThread(NULL)
+    , m_bOpenedThruThread(false)
+    , m_nMenuHideTick(0)
+    , m_bWasSnapped(false)
+    , m_nSeekDirection(SEEK_DIRECTION_NONE)
+    , m_bIsBDPlay(false)
+    , m_LastOpenBDPath(_T(""))
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
