@@ -3425,7 +3425,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             EndEnumFilters;
         } else if (pAMOP) {
             __int64 t = 0, c = 0;
-            if (SUCCEEDED(pAMOP->QueryProgress(&t, &c)) && t > 0 && c < t) {
+            if (SUCCEEDED(pMS->GetDuration(&t)) && t > 0 && SUCCEEDED(pAMOP->QueryProgress(&t, &c)) && t > 0 && c < t) {
                 msg.Format(IDS_CONTROLS_BUFFERING, c * 100 / t);
             }
 
