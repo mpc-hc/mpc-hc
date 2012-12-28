@@ -64,11 +64,11 @@ typedef enum MPC_PLAYSTATE {
 struct MPC_OSDDATA {
     int nMsgPos;       // screen position constant (see OSD_MESSAGEPOS constants)
     int nDurationMS;   // duration in milliseconds
-    TCHAR strMsg[128]; // message to display thought OSD
+    TCHAR strMsg[128]; // message to display in OSD
 };
+
 //// MPC_OSDDATA.nMsgPos constants (for host side programming):
-//typedef enum
-//{
+//typedef enum {
 //    OSD_NOMESSAGE,
 //    OSD_TOPLEFT,
 //    OSD_TOPRIGHT,
