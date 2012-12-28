@@ -684,7 +684,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                 }
 
                 if (abs(m_rtCurrent - (REFERENCE_TIME)info.Duration * 10000) > 10000000i64) {
-                    info.Duration.Set(m_rtCurrent / 10000 + 1);
+                    info.Duration.Set((float)m_rtCurrent / 10000 + 1);
                 }
 
                 SetStreamPosition(pStream, infopos);
