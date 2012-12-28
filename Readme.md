@@ -77,7 +77,7 @@ MPC-HC makes use of the following third-party code:
     <tr>
         <td>Bento4</td>
         <td>GPLv2</td>
-        <td>http://zebulon.bok.net/trac/Bento4</td>
+        <td>http://www.bok.net/trac/bento4/</td>
     </tr>
     <tr>
         <td>CLineNumberEdit</td>
