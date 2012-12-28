@@ -25,10 +25,10 @@
 #define sse_required
 ;#define x64Build
 
-#ifdef x64_build
-#define bindir    top_dir + "\bin\Filters_x64"
+#ifdef x64Build
+  #define bindir = top_dir + "\bin\Filters_x64"
 #else
-#define bindir    top_dir + "\bin\Filters_x86"
+  #define bindir = top_dir + "\bin\Filters_x86"
 #endif
 
 #ifnexist bindir + "\VSFilter.dll"
@@ -77,7 +77,7 @@ DisableDirPage=auto
 DisableProgramGroupPage=auto
 InfoBeforeFile=InfoBefore.rtf
 MinVersion=5.01.2600sp3
-#ifdef x64_build
+#ifdef x64Build
 AppID=vsfilter64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
@@ -128,7 +128,7 @@ Source: {#top_dir}\docs\Readme.txt;    DestDir: {app}; Flags: ignoreversion
 
 
 [Icons]
-#ifdef x64_build
+#ifdef x64Build
 Name: {group}\Configuration (x64); Filename: {sys}\rundll32.exe; Parameters: VSFilter.dll,DirectVobSub; WorkingDir: {app}; IconFilename: {app}\VSFilter.dll
 Name: {group}\Uninstall (x64);     Filename: {uninstallexe}
 #else

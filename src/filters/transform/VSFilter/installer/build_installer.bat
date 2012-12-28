@@ -26,7 +26,7 @@ IF NOT DEFINED InnoSetupPath SET "InnoSetupPath=H:\progs\thirdparty\isetup"
 
 CALL :SubDetectInnoSetup
 CALL :SubInno
-CALL :SubInno x64_build
+CALL :SubInno x64Build
 
 
 :END
@@ -40,7 +40,7 @@ ECHO.
 TITLE Building VSFilter installer...
 "%InnoSetupPath%\ISCC.exe" /Q "vsfilter_setup.iss" /D%1
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
-IF /I "%1%" == "x64_build" (
+IF /I "%1%" == "x64Build" (
   ECHO Installer x64 compiled successfully!
 ) ELSE (
   ECHO Installer x86 compiled successfully!
