@@ -1,3 +1,4 @@
+/.git-rewrite
 /bin
 /build.user.bat
 /distrib/*.exe
@@ -18,4 +19,3 @@ ipch
 *.sdf
 *.suo
 *.user
-/.git-rewrite
