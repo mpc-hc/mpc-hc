@@ -727,8 +727,7 @@ void CDirectVobSubFilter::UpdatePreferedLanguages(CString l)
 
     // move "Hide subtitles" to the last position if it wasn't our selection
 
-    CString hidesubs;
-    hidesubs.LoadString(IDS_M_HIDESUBTITLES);
+    CString hidesubs = ResStr(IDS_M_HIDESUBTITLES);
 
     for (k = 1; k < j; k++) {
         if (!langs[k].CompareNoCase(hidesubs)) {
