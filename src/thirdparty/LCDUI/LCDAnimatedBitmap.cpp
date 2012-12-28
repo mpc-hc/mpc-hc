@@ -130,9 +130,8 @@ void CLCDAnimatedBitmap::OnUpdate(DWORD dwTimestamp)
     m_dwElapsedTime = (dwTimestamp - m_dwLastUpdate);
 
     // Just update the logical origin
-	int lo_x = (int)(GetZoomLevel() * (-1 * (float)m_dwSubpicWidth * (float)m_dwCurrSubpic));
-    SetLogicalOrigin(lo_x, 0);
-	
+    SetLogicalOrigin(-1 * m_dwSubpicWidth * m_dwCurrSubpic, 0);
+
     DWORD increment = m_dwElapsedTime / m_dwRate;
     if(increment > 0)
     {
