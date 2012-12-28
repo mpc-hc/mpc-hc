@@ -154,7 +154,7 @@
       <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;libgcc.a;libmingwex.a;GdiPlus.lib;Psapi.lib;QTMLClient.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
   </ItemDefinitionGroup>
@@ -172,7 +172,7 @@
     <Link>
       <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;MpcAudioRenderer.lib;ResizableLib.lib;sizecbar.lib;SoundTouch.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;UxTheme.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;QTMLClient.lib;SetupAPI.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -194,7 +194,7 @@
       <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;SetupAPI.lib;strmiids.lib;UxTheme.lib;Uuid.Lib;Vfw32.lib;Version.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
   </ItemDefinitionGroup>
@@ -212,7 +212,7 @@
     <Link>
       <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;MpcAudioRenderer.lib;ResizableLib.lib;sizecbar.lib;SoundTouch.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;UxTheme.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;Version.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -233,7 +233,7 @@
     <Link>
       <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;QTMLClient.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
   </ItemDefinitionGroup>
@@ -251,7 +251,7 @@
     <Link>
       <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;MpcAudioRenderer.lib;ResizableLib.lib;sizecbar.lib;SoundTouch.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;UxTheme.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;QTMLClient.lib;SetupAPI.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
     <ProjectReference>
@@ -271,7 +271,7 @@
     <Link>
       <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;SetupAPI.lib;strmiids.lib;UxTheme.lib;Uuid.Lib;Vfw32.lib;Version.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
   </ItemDefinitionGroup>
@@ -289,7 +289,7 @@
     <Link>
       <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;MpcAudioRenderer.lib;ResizableLib.lib;sizecbar.lib;SoundTouch.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;UxTheme.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;Version.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
     <ProjectReference>
