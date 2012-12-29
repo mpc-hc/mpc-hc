@@ -852,6 +852,8 @@ BOOL CTreePropSheet::OnInitDialog()
         m_pwndPageTree->SetImageList(&m_Images, TVSIL_STATE);
     }
 
+    SetWindowTheme(m_pwndPageTree->GetSafeHwnd(), L"Explorer", NULL);
+
     // Fill the tree ctrl
     RefillPageTree();
 
