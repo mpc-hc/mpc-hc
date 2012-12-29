@@ -279,10 +279,10 @@ void CSubtitleDlDlg::OnOK()
         if (OpenUrl(is, CString(url), str)) {
             CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&pMF->m_csSubLock, &s.subdefstyle, s.fUseDefaultSubtitlesStyle));
             if (pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(sub.name)) && pRTS->GetStreamCount() > 0) {
-                CComPtr<ISubStream> pSubStream = pRTS.Detach();
-                pMF->m_pSubStreams.AddTail(pSubStream);
+                SubtitleInput subElement(pRTS.Detach());
+                pMF->m_pSubStreams.AddTail(subElement);
                 if (!pSubStreamToSet) {
-                    pSubStreamToSet = pSubStream;
+                    pSubStreamToSet = subElement.subStream;
                 }
             }
         }

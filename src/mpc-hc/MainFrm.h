@@ -127,6 +127,15 @@ public:
     HWND  Hwnd;
 };
 
+struct SubtitleInput {
+    CComQIPtr<ISubStream> subStream;
+    CComPtr<IBaseFilter> sourceFilter;
+
+    SubtitleInput() {};
+    SubtitleInput(CComQIPtr<ISubStream> subStream) : subStream(subStream) {};
+    SubtitleInput(CComQIPtr<ISubStream> subStream, CComPtr<IBaseFilter> sourceFilter)
+        : subStream(subStream), sourceFilter(sourceFilter) {};
+};
 
 interface ISubClock;
 
@@ -187,10 +196,13 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     // subtitles
 
     CCritSec m_csSubLock;
-    CInterfaceList<ISubStream> m_pSubStreams;
+
+    CList<SubtitleInput> m_pSubStreams;
     POSITION m_posFirstExtSub;
     int m_iSubtitleSel; // if (m_iSubtitleSel&(1<<31)): disabled
     DWORD_PTR m_nSubtitleId;
+
+    int GetSubtitleInput(int i, SubtitleInput& subElement);
 
     friend class CTextPassThruFilter;
 

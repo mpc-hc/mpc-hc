@@ -14,6 +14,8 @@ Legend:
 + Miscellaneous: Added button to export key bindings
 + Add the ability to choose the scale factor (relative to the screen size) for
   the auto-fit zoom
++ Internal Subtitles Renderer: Show all subtitles tracks in the Play > Subtitles menu.
+  That includes all the embedded tracks exhibited by the source filter and the external tracks.
 * UI: Use a more native look and feel for the options dialog tree
 * UI: Use the new styled radio bullet for menu's items
 * Updated FFmpeg (n0.8-17442-g7d66bc7)
