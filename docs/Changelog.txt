@@ -15,7 +15,7 @@ Legend:
 * Updated FFmpeg (n0.8-17176-g985aa0b)
 * Updated Little CMS to v2.4 (git e4624c8)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)
-* Updated German, Russian, Simplified Chinese and Ukrainian translations
+* Updated Basque, German, Russian, Simplified Chinese and Ukrainian translations
 * More resilient support for MPL2 and SRT subtitles formats:
   - Ticket #2779, Support MicroDVD tags in MPL2 subtitles files. This is normally not
     supported but MPL2 files that use MicroDVD tags for formatting are quite common.
