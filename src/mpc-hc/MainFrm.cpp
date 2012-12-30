@@ -12465,7 +12465,7 @@ void CMainFrame::SetupOpenCDSubMenu()
         }
 
         if (!str.IsEmpty()) {
-            pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, str);
+            pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, str);
         }
     }
 }
@@ -12553,7 +12553,7 @@ void CMainFrame::SetupFiltersSubMenu()
               {
             */
             m_pparray.Add(pBF);
-            pSubSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ids, ResStr(IDS_MAINFRM_116));
+            pSubSub->AppendMenu(MF_STRING | MF_ENABLED, ids, ResStr(IDS_MAINFRM_116));
             /*
             if (caGUID.pElems) CoTaskMemFree(caGUID.pElems);
             */
@@ -12570,7 +12570,7 @@ void CMainFrame::SetupFiltersSubMenu()
                     caGUID.pElems = NULL;
                     if (SUCCEEDED(pSPP->GetPages(&caGUID)) && caGUID.cElems > 0) {
                         m_pparray.Add(pPin);
-                        pSubSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ids + nPPages, name + ResStr(IDS_MAINFRM_117));
+                        pSubSub->AppendMenu(MF_STRING | MF_ENABLED, ids + nPPages, name + ResStr(IDS_MAINFRM_117));
 
                         if (caGUID.pElems) {
                             CoTaskMemFree(caGUID.pElems);
@@ -12626,7 +12626,7 @@ void CMainFrame::SetupFiltersSubMenu()
                     CString name(wname);
                     name.Replace(_T("&"), _T("&&"));
 
-                    pSubSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, idl++, name);
+                    pSubSub->AppendMenu(MF_STRING | MF_ENABLED, idl++, name);
 
                     CoTaskMemFree(wname);
                 }
@@ -12637,9 +12637,9 @@ void CMainFrame::SetupFiltersSubMenu()
             }
 
             if (nPPages == 1 && !pSS) {
-                pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ids, name);
+                pSub->AppendMenu(MF_STRING | MF_ENABLED, ids, name);
             } else {
-                pSub->AppendMenu(MF_BYPOSITION | MF_STRING | MF_DISABLED | MF_GRAYED, idf, name);
+                pSub->AppendMenu(MF_STRING | MF_DISABLED | MF_GRAYED, idf, name);
 
                 if (nPPages > 0 || pSS) {
                     MENUITEMINFO mii;
@@ -12715,7 +12715,7 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
         if (pSS) {
             DWORD cStreams = 0;
             if (SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
-                pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
+                pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
                 pSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
 
                 for (DWORD i = 0; i < cStreams; i++) {
@@ -12727,7 +12727,7 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
                     CString name(pName);
                     name.Replace(_T("&"), _T("&&"));
 
-                    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, name);
+                    pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, name);
 
                     CoTaskMemFree(pName);
                 }
@@ -12757,13 +12757,13 @@ void CMainFrame::SetupSubtitlesSubMenu()
     // Build the static menu's items
     bool bStyleEnabled = false;
     if (pos) {
-        pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
-        pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES));
-        pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD));
+        pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
+        pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES));
+        pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD));
         pSub->AppendMenu(MF_SEPARATOR);
 
-        pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE));
-        pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE));
+        pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE));
+        pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE));
         pSub->AppendMenu(MF_SEPARATOR);
     }
 
@@ -12822,7 +12822,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 }
 
                 str.Replace(_T("&"), _T("&&"));
-                pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, str);
+                pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, str);
                 i++;
             }
         } else {
@@ -12837,10 +12837,10 @@ void CMainFrame::SetupSubtitlesSubMenu()
                     CString name(pName);
                     name.Replace(_T("&"), _T("&&"));
 
-                    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, name);
+                    pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, name);
                     CoTaskMemFree(pName);
                 } else {
-                    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN));
+                    pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN));
                 }
                 i++;
             }
@@ -13003,8 +13003,8 @@ void CMainFrame::SetupNavSubtitleSubMenu()
             return;
         }
 
-        pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | (bIsDisabled ? 0 : MF_CHECKED), id++, ResStr(IDS_AG_ENABLED));
-        pSub->AppendMenu(MF_BYCOMMAND | MF_SEPARATOR | MF_ENABLED);
+        pSub->AppendMenu(MF_STRING | (bIsDisabled ? 0 : MF_CHECKED), id++, ResStr(IDS_AG_ENABLED));
+        pSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
 
         for (ULONG i = 0; i < ulStreamsAvailable; i++) {
             LCID Language;
@@ -13458,7 +13458,7 @@ void CMainFrame::SetupRecentFilesSubMenu()
         }
     }
     if (mru_count) {
-        pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_RECENT_FILES_CLEAR, ResStr(IDS_RECENT_FILES_CLEAR));
+        pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_RECENT_FILES_CLEAR, ResStr(IDS_RECENT_FILES_CLEAR));
         pSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
     }
 
@@ -13483,8 +13483,8 @@ void CMainFrame::SetupFavoritesSubMenu()
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_FAVORITES_ADD, ResStr(IDS_FAVORITES_ADD));
-    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_FAVORITES_ORGANIZE, ResStr(IDS_FAVORITES_ORGANIZE));
+    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_FAVORITES_ADD, ResStr(IDS_FAVORITES_ADD));
+    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_FAVORITES_ORGANIZE, ResStr(IDS_FAVORITES_ORGANIZE));
 
     UINT nLastGroupStart = pSub->GetMenuItemCount();
     UINT id = ID_FAVORITES_FILE_START;
@@ -13612,11 +13612,11 @@ void CMainFrame::SetupShadersSubMenu()
             ;
         }
 
-    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE, ResStr(IDS_SHADERS_TOGGLE));
-    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE_SCREENSPACE, ResStr(IDS_SHADERS_TOGGLE_SCREENSPACE));
-    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT));
+    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE, ResStr(IDS_SHADERS_TOGGLE));
+    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE_SCREENSPACE, ResStr(IDS_SHADERS_TOGGLE_SCREENSPACE));
+    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT));
     pSub->AppendMenu(MF_SEPARATOR);
-    pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_VIEW_SHADEREDITOR, ResStr(IDS_SHADERS_EDIT));
+    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_VIEW_SHADEREDITOR, ResStr(IDS_SHADERS_EDIT));
 }
 
 /////////////
