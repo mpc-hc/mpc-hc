@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -215,9 +215,6 @@ bool IsVideoRenderer(IBaseFilter* pBF)
 
     return (clsid == CLSID_VideoRenderer || clsid == CLSID_VideoRendererDefault);
 }
-
-DEFINE_GUID(CLSID_ReClock,
-            0x9dc15360, 0x914c, 0x46b8, 0xb9, 0xdf, 0xbf, 0xe6, 0x7f, 0xd3, 0x6c, 0x6a);
 
 bool IsAudioWaveRenderer(IBaseFilter* pBF)
 {
