@@ -17,7 +17,7 @@ Legend:
 + Internal Subtitles Renderer: Show all subtitles tracks in the Play > Subtitles menu.
   That includes all the embedded tracks exhibited by the source filter and the external tracks.
 * UI: Use a more native look and feel for the options dialog tree
-* UI: Use the new styled radio bullet for menu's items
+* Ticket #1620, UI: Use the new styled radio bullet for menu's items
 * Updated FFmpeg (n0.8-17442-g7d66bc7)
 * Updated Little CMS to v2.4 (git 310db3d)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)

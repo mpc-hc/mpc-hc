@@ -449,7 +449,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
     ON_UPDATE_COMMAND_UI_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnUpdatePlayAudio)
     ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnUpdatePlaySubtitles)
     ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayLanguage)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnUpdatePlayLanguage)
     ON_COMMAND_RANGE(ID_VOLUME_UP, ID_VOLUME_MUTE, OnPlayVolume)
@@ -649,6 +648,11 @@ CMainFrame::CMainFrame()
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
+    // Don't let CFrameWnd handle automatically the state of the menu items.
+    // This means that menu items without handlers won't be automatically
+    // disabled but it avoids some unwanted cases where programmatically
+    // disabled menu items are always re-enabled by CFrameWnd.
+    m_bAutoMenuEnable = FALSE;
 }
 
 CMainFrame::~CMainFrame()
@@ -7960,39 +7964,6 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
     AfxGetAppSettings().fEnableSubtitles = !(m_iSubtitleSel & 0x80000000);
 }
 
-void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
-{
-    UINT nID = pCmdUI->m_nID;
-    int i = (int)nID - (5 + ID_SUBTITLES_SUBITEM_START); // again, 5 pre-set subtitles options before the actual list
-
-    pCmdUI->Enable(m_pCAP && !m_fAudioOnly);
-
-    if (i == -4) {
-        // styles
-        pCmdUI->Enable(FALSE);
-
-        SubElement subElement;
-        int j = GetSub(m_iSubtitleSel, subElement);
-        CLSID clsid;
-
-        if (j >= 0 && SUCCEEDED(subElement.subStream->GetClassID(&clsid))) {
-            if (clsid == __uuidof(CRenderedTextSubtitle)) {
-                pCmdUI->Enable(TRUE);
-            }
-        }
-    } else if (i == -2) {
-        // enabled
-        pCmdUI->SetCheck(AfxGetAppSettings().fEnableSubtitles);
-    } else if (i == -1) {
-        // override
-        // TODO: foxX - default subtitles style toggle here; still wip
-        pCmdUI->SetCheck(AfxGetAppSettings().fUseDefaultSubtitlesStyle);
-        pCmdUI->Enable(AfxGetAppSettings().fEnableSubtitles);
-    } else if (i >= 0) {
-        pCmdUI->SetRadio(i == abs(m_iSubtitleSel));
-    }
-}
-
 void CMainFrame::OnPlayLanguage(UINT nID)
 {
     nID -= ID_FILTERSTREAMS_SUBITEM_START;
@@ -12783,6 +12754,8 @@ void CMainFrame::SetupSubtitlesSubMenu()
 
     POSITION pos = m_pSubStreams.GetHeadPosition();
 
+    // Build the static menu's items
+    bool bStyleEnabled = false;
     if (pos) {
         pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
         pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES));
@@ -12794,8 +12767,16 @@ void CMainFrame::SetupSubtitlesSubMenu()
         pSub->AppendMenu(MF_SEPARATOR);
     }
 
+    // Build the dynamic menu's items
+    int i = 0;
     while (pos) {
         SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
+
+        CLSID clsid;
+        if (i == m_iSubtitleSel && SUCCEEDED(subElement.subStream->GetClassID(&clsid))
+                && clsid == __uuidof(CRenderedTextSubtitle)) {
+            bStyleEnabled = true;
+        }
 
         if (CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter) {
             DWORD cStreams;
@@ -12803,12 +12784,12 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 continue;
             }
 
-            for (int i = 0, cnt = (int)cStreams; i < cnt; i++) {
-                DWORD dwFlags, dwGroup;
+            for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
+                DWORD dwGroup;
                 LCID lcid;
                 WCHAR* pszName = NULL;
 
-                if (FAILED(pSSF->Info(i, NULL, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL))
+                if (FAILED(pSSF->Info(j, NULL, NULL, &lcid, &dwGroup, &pszName, NULL, NULL))
                         || !pszName) {
                     continue;
                 }
@@ -12840,13 +12821,9 @@ void CMainFrame::SetupSubtitlesSubMenu()
                     }
                 }
 
-                UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
-                if (dwFlags) {
-                    flags |= MF_CHECKED;
-                }
-
                 str.Replace(_T("&"), _T("&&"));
-                pSub->AppendMenu(flags, id++, str);
+                pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, str);
+                i++;
             }
         } else {
             CComPtr<ISubStream> pSubStream = subElement.subStream;
@@ -12854,9 +12831,9 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 continue;
             }
 
-            for (int i = 0, j = pSubStream->GetStreamCount(); i < j; i++) {
+            for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
                 WCHAR* pName = NULL;
-                if (SUCCEEDED(pSubStream->GetStreamInfo(i, &pName, NULL))) {
+                if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, NULL))) {
                     CString name(pName);
                     name.Replace(_T("&"), _T("&&"));
 
@@ -12865,6 +12842,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 } else {
                     pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN));
                 }
+                i++;
             }
         }
         // TODO: find a better way to group these entries
@@ -12878,6 +12856,27 @@ void CMainFrame::SetupSubtitlesSubMenu()
             }
         }*/
     }
+
+    // Set the menu's items' state
+    const CAppSettings& s = AfxGetAppSettings();
+    // Style
+    if (!bStyleEnabled) {
+        pSub->EnableMenuItem(1, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+    }
+    // Enabled
+    if (s.fEnableSubtitles) {
+        pSub->CheckMenuItem(4, MF_BYPOSITION | MF_CHECKED);
+    }
+    // Default style
+    // TODO: foxX - default subtitles style toggle here; still wip
+    if (!s.fEnableSubtitles) {
+        pSub->EnableMenuItem(5, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+    }
+    if (s.fUseDefaultSubtitlesStyle) {
+        pSub->CheckMenuItem(5, MF_BYPOSITION | MF_CHECKED);
+    }
+    // Selected subtitles track
+    pSub->CheckMenuRadioItem(7, 7 + i - 1, 7 + abs(m_iSubtitleSel), MF_BYPOSITION);
 }
 
 void CMainFrame::SetupNavAudioSubMenu()

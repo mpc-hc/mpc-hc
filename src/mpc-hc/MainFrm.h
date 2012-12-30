@@ -811,7 +811,6 @@ public:
     afx_msg void OnPlayAudio(UINT nID);
     afx_msg void OnUpdatePlayAudio(CCmdUI* pCmdUI);
     afx_msg void OnPlaySubtitles(UINT nID);
-    afx_msg void OnUpdatePlaySubtitles(CCmdUI* pCmdUI);
     afx_msg void OnPlayLanguage(UINT nID);
     afx_msg void OnUpdatePlayLanguage(CCmdUI* pCmdUI);
     afx_msg void OnPlayVolume(UINT nID);
