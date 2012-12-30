@@ -1,3 +1,12 @@
+*.a
+*.aps
+*.db
+*.old
+*.opensdf
+*.psess
+*.sdf
+*.suo
+*.user
 /.git-rewrite
 /bin
 /build.user.bat
@@ -9,13 +18,5 @@
 /src/mpc-hc/mpcresources/newrc
 /src/mpc-hc/res/mpc-hc.exe.manifest
 /src/MPCTestAPI/bin
+/src/thirdparty/ffmpeg/obj
 ipch
-*.a
-*.aps
-*.db
-*.old
-*.opensdf
-*.psess
-*.sdf
-*.suo
-*.user
