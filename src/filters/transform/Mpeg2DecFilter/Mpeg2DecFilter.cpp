@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -939,7 +939,7 @@ HRESULT CMpeg2DecFilter::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
                     /*&& clsid != CLSID_OverlayMixer2*/
                     && clsid != CLSID_VideoMixingRenderer
                     && clsid != CLSID_VideoMixingRenderer9
-                    && clsid != GUIDFromCString(_T("{FA10746C-9B63-4b6c-BC49-FC300EA5F256}")) // EVR
+                    && clsid != CLSID_EnhancedVideoRenderer
                     && clsid != GUIDFromCString(_T("{04FE9017-F873-410E-871E-AB91661A4EF7}")) // ffdshow
                     && (clsid != GUIDFromCString(_T("{93A22E7A-5091-45ef-BA61-6DA26156A5D0}")) || ver < 0x0234) // dvobsub
                     && (clsid != GUIDFromCString(_T("{9852A670-F845-491b-9BE6-EBD841B8A613}")) || ver < 0x0234) // dvobsub auto
