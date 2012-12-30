@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -3634,7 +3634,7 @@ void CMainFrame::OnStreamAudio(UINT nID)
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
     if (!pSS) {
-        pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB);    // morgan's switcher
+        pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
     }
 
     DWORD cStreams = 0;
@@ -7791,10 +7791,10 @@ void CMainFrame::OnPlayShaders(UINT nID)
 void CMainFrame::OnPlayAudio(UINT nID)
 {
     int i = (int)nID - (1 + ID_AUDIO_SUBITEM_START);
-    CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
 
+    CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
     if (!pSS) {
-        pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB);
+        pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
     }
 
     if (i == -1) {
@@ -7811,7 +7811,7 @@ void CMainFrame::OnUpdatePlayAudio(CCmdUI* pCmdUI)
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
     if (!pSS) {
-        pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB);
+        pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
     }
 
     /*if (i == -1)
@@ -11559,7 +11559,7 @@ DWORD CMainFrame::SetupAudioStreams()
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
     if (!pSS) {
-        pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB);    // morgan's switcher
+        pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
     }
 
     DWORD cStreams = 0;
@@ -12660,7 +12660,7 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
 
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
         if (!pSS) {
-            pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB);
+            pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
         }
 
         if (pSS) {
@@ -13822,7 +13822,7 @@ void CMainFrame::SetAudioTrackIdx(int index)
     if (m_iMediaLoadState == MLS_LOADED) {
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
         if (!pSS) {
-            pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB);    // morgan's switcher
+            pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
         }
 
         DWORD cStreams = 0;
@@ -15200,7 +15200,7 @@ void CMainFrame::SendAudioTracksToApi()
     if (m_iMediaLoadState == MLS_LOADED) {
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
         if (!pSS) {
-            pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB);    // morgan's switcher
+            pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
         }
 
         DWORD cStreams = 0;
@@ -15350,7 +15350,7 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 //      if (GetPlaybackMode() == PM_FILE)
 //      {
 //          CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
-//          if (!pSS) pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB); // morgan's switcher
+//          if (!pSS) pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
 //
 //          DWORD cStreams = 0;
 //          if (pSS && SUCCEEDED(pSS->Count(&cStreams)))
