@@ -54,8 +54,9 @@ typedef unsigned long   ulong;
 #define SOUNDTOUCH_ALIGN_POINTER_16(x)      ( ( (ulongptr)(x) + 15 ) & ~(ulongptr)15 )
 
 
-#ifdef __GNUC__
-    // In GCC, include soundtouch_config.h made by config scritps
+#if (defined(__GNUC__) && !defined(ANDROID))
+    // In GCC, include soundtouch_config.h made by config scritps.
+    // Skip this in Android compilation that uses GCC but without configure scripts.
     #include "soundtouch_config.h"
 #endif
 
@@ -76,6 +77,13 @@ namespace soundtouch
     /// setting inherited from some other header file:
     //#undef SOUNDTOUCH_INTEGER_SAMPLES
     //#undef SOUNDTOUCH_FLOAT_SAMPLES
+
+    #if (defined(__SOFTFP__))
+        // For Android compilation: Force use of Integer samples in case that
+        // compilation uses soft-floating point emulation - soft-fp is way too slow
+        #undef  SOUNDTOUCH_FLOAT_SAMPLES
+        #define SOUNDTOUCH_INTEGER_SAMPLES      1
+    #endif
 
     #if !(SOUNDTOUCH_INTEGER_SAMPLES || SOUNDTOUCH_FLOAT_SAMPLES)
        

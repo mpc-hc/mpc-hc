@@ -64,7 +64,7 @@ int PeakFinder::findTop(const float *data, int peakpos) const
 
     refvalue = data[peakpos];
 
-    // seek within ±10 points
+    // seek within Â±10 points
     start = peakpos - 10;
     if (start < minPos) start = minPos;
     end = peakpos + 10;
@@ -239,8 +239,6 @@ double PeakFinder::detectPeak(const float *data, int aminPos, int amaxPos)
     // - sometimes the highest peak can be Nth harmonic of the true base peak yet 
     // just a slightly higher than the true base
 
-    int hp = (int)(highPeak + 0.5);
-
     for (i = 3; i < 10; i ++)
     {
         double peaktmp, harmonic;
@@ -257,7 +255,7 @@ double PeakFinder::detectPeak(const float *data, int aminPos, int amaxPos)
 
         // accept harmonic peak if 
         // (a) it is found
-        // (b) is within ±4% of the expected harmonic interval
+        // (b) is within Â±4% of the expected harmonic interval
         // (c) has at least half x-corr value of the max. peak
 
         double diff = harmonic * peaktmp / highPeak;
