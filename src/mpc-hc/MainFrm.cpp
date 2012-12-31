@@ -447,7 +447,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERS_SUBITEM_START, ID_FILTERS_SUBITEM_END, OnUpdatePlayFilters)
     ON_COMMAND_RANGE(ID_SHADERS_START, ID_SHADERS_END, OnPlayShaders)
     ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnUpdatePlayAudio)
     ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
     ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayLanguage)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnUpdatePlayLanguage)
@@ -7856,38 +7855,6 @@ void CMainFrame::OnPlayAudio(UINT nID)
     }
 }
 
-void CMainFrame::OnUpdatePlayAudio(CCmdUI* pCmdUI)
-{
-    UINT nID = pCmdUI->m_nID;
-    int i = (int)nID - (1 + ID_AUDIO_SUBITEM_START);
-
-    CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
-    if (!pSS) {
-        pSS = FindFilter(CLSID_MorganStreamSwitcher, pGB);
-    }
-
-    /*if (i == -1)
-    {
-        // TODO****
-    }
-    else*/
-    if (i >= 0 && pSS) {
-        DWORD flags = 0;
-
-        if (SUCCEEDED(pSS->Info(i, NULL, &flags, NULL, NULL, NULL, NULL, NULL))) {
-            if (flags & AMSTREAMSELECTINFO_EXCLUSIVE) {
-                pCmdUI->SetRadio(TRUE);
-            } else if (flags & AMSTREAMSELECTINFO_ENABLED) {
-                pCmdUI->SetCheck(TRUE);
-            } else {
-                pCmdUI->SetCheck(FALSE);
-            }
-        } else {
-            pCmdUI->Enable(FALSE);
-        }
-    }
-}
-
 void CMainFrame::OnPlaySubtitles(UINT nID)
 {
     // currently the subtitles submenu contains 5 items, apart from the actual subtitles list
@@ -12718,10 +12685,16 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
                 pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
                 pSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
 
-                for (DWORD i = 0; i < cStreams; i++) {
+                long iSel = 0;
+
+                for (long i = 0; i < (long)cStreams; i++) {
+                    DWORD dwFlags;
                     WCHAR* pName = NULL;
-                    if (FAILED(pSS->Info(i, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) { // audio streams are reordered, so find the index from the initial order
+                    if (FAILED(pSS->Info(i, NULL, &dwFlags, NULL, NULL, &pName, NULL, NULL))) {
                         break;
+                    }
+                    if (dwFlags) {
+                        iSel = i;
                     }
 
                     CString name(pName);
@@ -12731,6 +12704,8 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
 
                     CoTaskMemFree(pName);
                 }
+
+                pSub->CheckMenuRadioItem(2, 2 + cStreams - 1, 2 + iSel, MF_BYPOSITION);
             }
         }
     }
