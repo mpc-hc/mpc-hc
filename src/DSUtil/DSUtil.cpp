@@ -77,7 +77,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
                 s.AppendFormat(_T("\tShrinkTaps %d, %d\n"), caps.ShrinkTapsX, caps.ShrinkTapsY);
                 s.AppendFormat(_T("\tFrameInterval %I64d, %I64d (%.4f, %.4f)\n"),
                                caps.MinFrameInterval, caps.MaxFrameInterval,
-                               (float)10000000 / caps.MinFrameInterval, (float)10000000 / caps.MaxFrameInterval);
+                               10000000.0f / caps.MinFrameInterval, 10000000.0f / caps.MaxFrameInterval);
                 s.AppendFormat(_T("\tBitsPerSecond %d - %d\n"), caps.MinBitsPerSecond, caps.MaxBitsPerSecond);
                 f.WriteString(s);
             }
@@ -88,7 +88,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
                 pbh = &vih->bmiHeader;
 
                 s = _T("FORMAT_VideoInfo\n");
-                s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, (float)10000000 / vih->AvgTimePerFrame);
+                s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, 10000000.0f / vih->AvgTimePerFrame);
                 s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource);
                 s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
                 f.WriteString(s);
@@ -97,7 +97,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
                 pbh = &vih->bmiHeader;
 
                 s  = _T("FORMAT_VideoInfo2\n");
-                s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, (float)10000000 / vih->AvgTimePerFrame);
+                s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, 10000000.0f / vih->AvgTimePerFrame);
                 s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource);
                 s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
                 s.AppendFormat(_T("\tdwInterlaceFlags 0x%x\n"), vih->dwInterlaceFlags);

@@ -255,7 +255,7 @@ namespace Plugin
                 dst.pitch = fa->src.pitch;
                 dst.bits = (LPVOID)fa->src.data;
 
-                Render(dst, 10000i64 * fa->pfsi->lSourceFrameMS, (float)1000 / fa->pfsi->lMicrosecsPerFrame);
+                Render(dst, 10000i64 * fa->pfsi->lSourceFrameMS, 1000.0f / fa->pfsi->lMicrosecsPerFrame);
 
                 return 0;
             }
@@ -522,7 +522,7 @@ namespace Plugin
                 dst.pitch = fa->src.pitch;
                 dst.bits = (LPVOID)fa->src.data;
 
-                Render(dst, 10000i64 * fa->pfsi->lSourceFrameMS, (float)1000 / fa->pfsi->lMicrosecsPerFrame);
+                Render(dst, 10000i64 * fa->pfsi->lSourceFrameMS, 1000.0f / fa->pfsi->lMicrosecsPerFrame);
 
                 return 0;
             }
