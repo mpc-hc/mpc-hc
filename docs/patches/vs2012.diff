@@ -21,14 +21,14 @@ index b4c4465..7e22fc5 100644
  IF /I "%CONFIG%" == "Filters" (
    CALL :SubFilters %PPLATFORM%
 diff --git a/mpc-hc.sln b/mpc-hc.sln
-index 8f22b3d..880bcda 100644
+index 8f22b3d..33da3ef 100644
 --- a/mpc-hc.sln
 +++ b/mpc-hc.sln
 @@ -1,6 +1,5 @@
 -﻿
 -Microsoft Visual Studio Solution File, Format Version 11.00
 -# Visual Studio 2010
-+Microsoft Visual Studio Solution File, Format Version 12.00
++﻿Microsoft Visual Studio Solution File, Format Version 12.00
 +# Visual Studio 2012
  Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A21F07E6-A891-479C-98EA-EDB58CE4EFAB}"
  EndProject
@@ -60,13 +60,13 @@ index c22f602..f02b73b 100644
  EndProject
  Global
 diff --git a/src/CmdUI/CmdUI.vcxproj b/src/CmdUI/CmdUI.vcxproj
-index 6406461..d7a8fcd 100644
+index 1d8e4ce..849bff3 100644
 --- a/src/CmdUI/CmdUI.vcxproj
 +++ b/src/CmdUI/CmdUI.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{03208025-D5C2-426A-B0FA-251D4338F30C}</ProjectGuid>
      <RootNamespace>CmdUI</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -97,13 +97,13 @@ index 6406461..d7a8fcd 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/DSUtil/DSUtil.vcxproj b/src/DSUtil/DSUtil.vcxproj
-index fbf737b..5b4db73 100644
+index b8e1956..28cc12f 100644
 --- a/src/DSUtil/DSUtil.vcxproj
 +++ b/src/DSUtil/DSUtil.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{FC70988B-1AE5-4381-866D-4F405E28AC42}</ProjectGuid>
      <RootNamespace>DSUtil</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -134,13 +134,13 @@ index fbf737b..5b4db73 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/DeCSS/DeCSS.vcxproj b/src/DeCSS/DeCSS.vcxproj
-index 285445e..2a75763 100644
+index f05ee84..b056658 100644
 --- a/src/DeCSS/DeCSS.vcxproj
 +++ b/src/DeCSS/DeCSS.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{1A2DFD1A-3C6C-44D1-909D-294AF646B575}</ProjectGuid>
      <RootNamespace>DeCSS</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -214,13 +214,13 @@ index 57b706e..e2d458b 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/SubPic/SubPic.vcxproj b/src/SubPic/SubPic.vcxproj
-index 09c59cd..7eb746b 100644
+index ecf37e8..fb91a85 100644
 --- a/src/SubPic/SubPic.vcxproj
 +++ b/src/SubPic/SubPic.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{D514EA4D-EAFB-47A9-A437-A582CA571251}</ProjectGuid>
      <RootNamespace>SubPic</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -259,13 +259,13 @@ index 09c59cd..7eb746b 100644
      <Lib>
        <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/src/Subtitles/Subtitles.vcxproj b/src/Subtitles/Subtitles.vcxproj
-index 944e53d..743a96c 100644
+index e5b0cb6..8770b0d 100644
 --- a/src/Subtitles/Subtitles.vcxproj
 +++ b/src/Subtitles/Subtitles.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}</ProjectGuid>
      <RootNamespace>Subtitles</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -296,13 +296,13 @@ index 944e53d..743a96c 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/Filters.vcxproj b/src/filters/Filters.vcxproj
-index 781ac11..f8bc05d 100644
+index 7fa9289..eeb75d8 100644
 --- a/src/filters/Filters.vcxproj
 +++ b/src/filters/Filters.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{273B3149-3192-4B75-A791-470320B90812}</ProjectGuid>
      <RootNamespace>Filters</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -333,13 +333,13 @@ index 781ac11..f8bc05d 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj b/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
-index 8105408..9b8ff79 100644
+index f51910a..21e59fd 100644
 --- a/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
 +++ b/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{DB5F93B2-54D0-4474-A588-D259BE36C832}</ProjectGuid>
      <RootNamespace>BaseMuxer</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -431,13 +431,13 @@ index 880dbc5..943f386 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj b/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
-index 378c9d7..5a47624 100644
+index ee3e2d8..0291833 100644
 --- a/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
 +++ b/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{67827491-8162-4039-9132-F934ABC836A0}</ProjectGuid>
      <RootNamespace>MatroskaMuxer</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -492,13 +492,13 @@ index 378c9d7..5a47624 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/WavDest/WavDest.vcxproj b/src/filters/muxer/WavDest/WavDest.vcxproj
-index ac1581e..5992ad1 100644
+index d363cf1..63bfa6e 100644
 --- a/src/filters/muxer/WavDest/WavDest.vcxproj
 +++ b/src/filters/muxer/WavDest/WavDest.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{EB202B68-8029-4985-B914-E94B44D2E230}</ProjectGuid>
      <RootNamespace>WavDest</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -553,13 +553,13 @@ index ac1581e..5992ad1 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/AviSplitter/AviSplitter.vcxproj b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
-index f90c4ec..a17c3fe 100644
+index 2841691..897cbf0 100644
 --- a/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 +++ b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{9738B023-FC46-48A2-953A-0035FD897678}</ProjectGuid>
      <RootNamespace>AviSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -614,13 +614,13 @@ index f90c4ec..a17c3fe 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj b/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
-index 3c1bc6e..0ba22cc 100644
+index a57dbf5..1932f12 100644
 --- a/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
 +++ b/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{37768B3F-89BC-4C16-B2A8-767C5DA84C3F}</ProjectGuid>
      <RootNamespace>BaseSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -651,13 +651,13 @@ index 3c1bc6e..0ba22cc 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj b/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
-index 2470933..63e9973 100644
+index 3939c20..cd72b09 100644
 --- a/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
 +++ b/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{1E91F58C-0BAE-4021-8087-D1864D8EC066}</ProjectGuid>
      <RootNamespace>DSMSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -712,13 +712,13 @@ index 2470933..63e9973 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj b/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
-index 1edeaaf..3645367 100644
+index 8c4ca0e..b7507aa 100644
 --- a/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
 +++ b/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{E62223EF-8263-41EB-8174-CD78BBEEF368}</ProjectGuid>
      <RootNamespace>FLVSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -773,13 +773,13 @@ index 1edeaaf..3645367 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj b/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
-index 2572e39..efa6c9c 100644
+index de903a6..4a21be9 100644
 --- a/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
 +++ b/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{9ED4B036-7399-4128-868D-6E71188E0277}</ProjectGuid>
      <RootNamespace>MP4Splitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -834,13 +834,13 @@ index 2572e39..efa6c9c 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj b/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
-index 44c930a..6b02b22 100644
+index f3710da..28052b2 100644
 --- a/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
 +++ b/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{3F5EA225-F4B7-4413-AEB3-4E4E5751E438}</ProjectGuid>
      <RootNamespace>MatroskaSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -895,13 +895,13 @@ index 44c930a..6b02b22 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj b/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
-index 9d8c571..3224f24 100644
+index 8234107..171716d 100644
 --- a/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
 +++ b/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{C0F7A036-FC2D-40DF-9852-C37518DB6B3E}</ProjectGuid>
      <RootNamespace>MpaSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -956,13 +956,13 @@ index 9d8c571..3224f24 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj b/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
-index b0365f1..734ff64 100644
+index e1f0233..2d80019 100644
 --- a/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
 +++ b/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{4628C665-EDE4-40D2-B525-32BE8B8551C8}</ProjectGuid>
      <RootNamespace>MpegSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1017,13 +1017,13 @@ index b0365f1..734ff64 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/OggSplitter/OggSplitter.vcxproj b/src/filters/parser/OggSplitter/OggSplitter.vcxproj
-index 726f66b..7db7427 100644
+index 32febe6..f5d6c0e 100644
 --- a/src/filters/parser/OggSplitter/OggSplitter.vcxproj
 +++ b/src/filters/parser/OggSplitter/OggSplitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}</ProjectGuid>
      <RootNamespace>OggSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1078,13 +1078,13 @@ index 726f66b..7db7427 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj b/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
-index 94b9a8d..2e941c8 100644
+index 77cd897..db2c310 100644
 --- a/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
 +++ b/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{53CF9195-19DB-457D-8F55-8DB1706DFA84}</ProjectGuid>
      <RootNamespace>RealMediaSplitter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1139,13 +1139,13 @@ index 94b9a8d..2e941c8 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj b/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
-index b23a485..51ae5c5 100644
+index 54b470a..c982886 100644
 --- a/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
 +++ b/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}</ProjectGuid>
      <RootNamespace>streamdrivethru</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1200,13 +1200,13 @@ index b23a485..51ae5c5 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/CDDAReader/CDDAReader.vcxproj b/src/filters/reader/CDDAReader/CDDAReader.vcxproj
-index e15f587..806c752 100644
+index 7e9485e..c33fbdc 100644
 --- a/src/filters/reader/CDDAReader/CDDAReader.vcxproj
 +++ b/src/filters/reader/CDDAReader/CDDAReader.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{543D40E9-8CA6-4E4B-9936-90CBA562B268}</ProjectGuid>
      <RootNamespace>CDDAReader</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1261,13 +1261,13 @@ index e15f587..806c752 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/CDXAReader/CDXAReader.vcxproj b/src/filters/reader/CDXAReader/CDXAReader.vcxproj
-index 42878b8..e739c82 100644
+index 09a0c9d..4408f37 100644
 --- a/src/filters/reader/CDXAReader/CDXAReader.vcxproj
 +++ b/src/filters/reader/CDXAReader/CDXAReader.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{4D3B4FF4-535A-4201-AB7D-9AEC1E737A95}</ProjectGuid>
      <RootNamespace>CDXAReader</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1322,13 +1322,13 @@ index 42878b8..e739c82 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/UDPReader/UDPReader.vcxproj b/src/filters/reader/UDPReader/UDPReader.vcxproj
-index 28a3918..6c7a7df 100644
+index 1ea63c1..d472bd7 100644
 --- a/src/filters/reader/UDPReader/UDPReader.vcxproj
 +++ b/src/filters/reader/UDPReader/UDPReader.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{3020FF9B-8202-488D-B137-11DECC510E6E}</ProjectGuid>
      <RootNamespace>UDPReader</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1383,13 +1383,13 @@ index 28a3918..6c7a7df 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/VTSReader/VTSReader.vcxproj b/src/filters/reader/VTSReader/VTSReader.vcxproj
-index 22e2e19..9cca508 100644
+index 1a52f75..51dca5d 100644
 --- a/src/filters/reader/VTSReader/VTSReader.vcxproj
 +++ b/src/filters/reader/VTSReader/VTSReader.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{664E726B-EEEE-403A-AC15-345D9C9E1375}</ProjectGuid>
      <RootNamespace>VTSReader</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1444,13 +1444,13 @@ index 22e2e19..9cca508 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
-index 5c42304..2efcde2 100644
+index 2c236be..41d1d68 100644
 --- a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 +++ b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{D0620EF4-1313-40D5-9069-A82F6FE26994}</ProjectGuid>
      <RootNamespace>MpcAudioRenderer</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1505,13 +1505,13 @@ index 5c42304..2efcde2 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/renderer/SyncClock/SyncClock.vcxproj b/src/filters/renderer/SyncClock/SyncClock.vcxproj
-index 5ec89b2..a657e8c 100644
+index 2eb0d0f..2de454b 100644
 --- a/src/filters/renderer/SyncClock/SyncClock.vcxproj
 +++ b/src/filters/renderer/SyncClock/SyncClock.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{0B63409D-674D-47F8-A84E-87DBB7783189}</ProjectGuid>
      <RootNamespace>SyncClock</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1579,13 +1579,13 @@ index 1f61125..99ffad3 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/BaseSource/BaseSource.vcxproj b/src/filters/source/BaseSource/BaseSource.vcxproj
-index 90d3824..ddf2549 100644
+index 43c7dc2..7dfa063 100644
 --- a/src/filters/source/BaseSource/BaseSource.vcxproj
 +++ b/src/filters/source/BaseSource/BaseSource.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}</ProjectGuid>
      <RootNamespace>BaseSource</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1616,13 +1616,13 @@ index 90d3824..ddf2549 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/D2VSource/D2VSource.vcxproj b/src/filters/source/D2VSource/D2VSource.vcxproj
-index ebc0936..79aa416 100644
+index b59de25..c6e117a 100644
 --- a/src/filters/source/D2VSource/D2VSource.vcxproj
 +++ b/src/filters/source/D2VSource/D2VSource.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{83CC6B88-A112-4192-BD5A-F2A249AF2277}</ProjectGuid>
      <RootNamespace>D2VSource</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1709,13 +1709,13 @@ index ebc0936..79aa416 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj b/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
-index 7ba8144..face3df 100644
+index a142d64..71f84c9 100644
 --- a/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
 +++ b/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{30D48874-899F-41C6-9B26-A40C96C91102}</ProjectGuid>
      <RootNamespace>DTSAC3Source</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1770,13 +1770,13 @@ index 7ba8144..face3df 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/FLACSource/FLACSource.vcxproj b/src/filters/source/FLACSource/FLACSource.vcxproj
-index 3ce6035..6220dea 100644
+index ba789d0..190450a 100644
 --- a/src/filters/source/FLACSource/FLACSource.vcxproj
 +++ b/src/filters/source/FLACSource/FLACSource.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{916D0FC1-1D86-487A-82DE-37FBEE43FB34}</ProjectGuid>
      <RootNamespace>FLACSource</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1831,13 +1831,13 @@ index 3ce6035..6220dea 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/FLICSource/FLICSource.vcxproj b/src/filters/source/FLICSource/FLICSource.vcxproj
-index 5b746ba..cc0dced 100644
+index 8e8ef54..cb37399 100644
 --- a/src/filters/source/FLICSource/FLICSource.vcxproj
 +++ b/src/filters/source/FLICSource/FLICSource.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{431DD5B6-3F2F-47EE-A23F-514BC044B704}</ProjectGuid>
      <RootNamespace>FLICSource</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1892,13 +1892,13 @@ index 5b746ba..cc0dced 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj b/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
-index abe97f4..3ee74fe 100644
+index 5f17fbd..8415166 100644
 --- a/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
 +++ b/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}</ProjectGuid>
      <RootNamespace>ShoutcastSource</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -1953,13 +1953,13 @@ index abe97f4..3ee74fe 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/SubtitleSource/SubtitleSource.vcxproj b/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
-index 6a28745..0fa0551 100644
+index 4975a9b..ff812fd 100644
 --- a/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
 +++ b/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{8F998497-9C51-4FAA-83E4-1D85B22CBA13}</ProjectGuid>
      <RootNamespace>SubtitleSource</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2014,13 +2014,13 @@ index 6a28745..0fa0551 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj b/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
-index 0532361..39f814f 100644
+index eb715a3..65900cb 100644
 --- a/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
 +++ b/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{D8DB3E7E-D50E-4EC3-A9B9-DAD18F5FE466}</ProjectGuid>
      <RootNamespace>AudioSwitcher</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2075,13 +2075,13 @@ index 0532361..39f814f 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj b/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
-index 5ab3438..8f87a77 100644
+index f033c64..680bda1 100644
 --- a/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
 +++ b/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{339A4575-E25B-45D6-94A1-D835891740B8}</ProjectGuid>
      <RootNamespace>AVI2AC3Filter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2136,13 +2136,13 @@ index 5ab3438..8f87a77 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj b/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
-index e2ac2b1..fb6b08b 100644
+index 9f0f493..fe87a4e 100644
 --- a/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
 +++ b/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{54DDA60F-E528-4D07-A152-960A1E818680}</ProjectGuid>
      <RootNamespace>BaseVideoFilter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2173,13 +2173,13 @@ index e2ac2b1..fb6b08b 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/BufferFilter/BufferFilter.vcxproj b/src/filters/transform/BufferFilter/BufferFilter.vcxproj
-index 36201c9..b054af6 100644
+index ab60135..b3819e2 100644
 --- a/src/filters/transform/BufferFilter/BufferFilter.vcxproj
 +++ b/src/filters/transform/BufferFilter/BufferFilter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{9DCFD02A-16A0-4766-BC18-66163E21929D}</ProjectGuid>
      <RootNamespace>BufferFilter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2234,13 +2234,13 @@ index 36201c9..b054af6 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj b/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
-index 2ea0832..725b9ba 100644
+index 072476c..6b16e02 100644
 --- a/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
 +++ b/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{F6B06383-3FFD-403B-9867-4AA82A20AA83}</ProjectGuid>
      <RootNamespace>DeCSSFilter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2295,13 +2295,13 @@ index 2ea0832..725b9ba 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj b/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
-index dd140b2..13c20cd 100644
+index 5e1c343..4b92d28 100644
 --- a/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
 +++ b/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}</ProjectGuid>
      <RootNamespace>MPCVideoDec</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2388,13 +2388,13 @@ index dd140b2..13c20cd 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
-index 2e0d3a8..2ee54c4 100644
+index 2e41ba5..a45856b 100644
 --- a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 +++ b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{4421516D-10A6-41C1-ADF3-099573BBB0C6}</ProjectGuid>
      <RootNamespace>MpaDecFilter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2481,13 +2481,13 @@ index 2e0d3a8..2ee54c4 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj b/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
-index 158d633..0c3c7ea 100644
+index 282cd19..741e2dc 100644
 --- a/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
 +++ b/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}</ProjectGuid>
      <RootNamespace>Mpeg2DecFilter</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -2574,7 +2574,7 @@ index 158d633..0c3c7ea 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/transform/VSFilter/VSFilter.vcxproj b/src/filters/transform/VSFilter/VSFilter.vcxproj
-index ea2128d..4440280 100644
+index 9231c06..75946e5 100644
 --- a/src/filters/transform/VSFilter/VSFilter.vcxproj
 +++ b/src/filters/transform/VSFilter/VSFilter.vcxproj
 @@ -28,21 +28,25 @@
@@ -2604,7 +2604,7 @@ index ea2128d..4440280 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 7fd17fe..99854d3 100644
+index 379283f..f411b94 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -39,47 +39,56 @@
@@ -2666,7 +2666,7 @@ index 7fd17fe..99854d3 100644
    <ImportGroup Label="ExtensionSettings">
 @@ -156,6 +165,7 @@
        <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+       <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
        <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
 +      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
      </Link>
@@ -2674,7 +2674,7 @@ index 7fd17fe..99854d3 100644
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">
 @@ -196,6 +206,7 @@
        <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+       <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
        <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
 +      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
      </Link>
@@ -2682,7 +2682,7 @@ index 7fd17fe..99854d3 100644
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">
 @@ -235,6 +246,7 @@
        <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+       <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
        <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
 +      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
      </Link>
@@ -2690,7 +2690,7 @@ index 7fd17fe..99854d3 100644
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">
 @@ -273,6 +285,7 @@
        <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+       <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
        <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
 +      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
      </Link>
@@ -2940,35 +2940,35 @@ index 4243a34..b6faf6e 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ResizableLib/ResizableLib.vcxproj b/src/thirdparty/ResizableLib/ResizableLib.vcxproj
-index 3a34482..57d0807 100644
+index 27dcf31..a021eb1 100644
 --- a/src/thirdparty/ResizableLib/ResizableLib.vcxproj
 +++ b/src/thirdparty/ResizableLib/ResizableLib.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}</ProjectGuid>
      <RootNamespace>ResizableLib</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-     <ConfigurationType>StaticLibrary</ConfigurationType>
-     <UseOfMfc>Static</UseOfMfc>
-     <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>v110_xp</PlatformToolset>
-   </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
 +    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
 +    <PlatformToolset>v110_xp</PlatformToolset>
    </PropertyGroup>
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+     <ConfigurationType>StaticLibrary</ConfigurationType>
+     <UseOfMfc>Static</UseOfMfc>
+     <CharacterSet>Unicode</CharacterSet>
++    <PlatformToolset>v110_xp</PlatformToolset>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
@@ -3010,13 +3010,13 @@ index 30bb0c5..1d108be 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj b/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
-index 1e39a88..e0a0a9d 100644
+index 73f04f6..a853f50 100644
 --- a/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
 +++ b/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{AB494732-EF6D-44D0-BCF8-80FF04858D10}</ProjectGuid>
      <RootNamespace>TreePropSheet</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -4505,7 +4505,7 @@ index 9704393..12da930 100644
  #include "../../../include/stdafx_common.h"
  #include "../../../include/stdafx_common_afx.h"
 diff --git a/src/thirdparty/mfc/winmdi.cpp b/src/thirdparty/mfc/winmdi.cpp
-index 28799e5..7b028cd 100644
+index 840e615de..4c54ba9 100644
 --- a/src/thirdparty/mfc/winmdi.cpp
 +++ b/src/thirdparty/mfc/winmdi.cpp
 @@ -9,14 +9,11 @@
@@ -4605,13 +4605,13 @@ index 28799e5..7b028cd 100644
  				Checked::tcscat_s( szText, _countof(szText), szWinNumber ); 
  			}
 diff --git a/src/thirdparty/sizecbar/sizecbar.vcxproj b/src/thirdparty/sizecbar/sizecbar.vcxproj
-index eb34a82..780535e 100644
+index 15fd0c8..4bb241a 100644
 --- a/src/thirdparty/sizecbar/sizecbar.vcxproj
 +++ b/src/thirdparty/sizecbar/sizecbar.vcxproj
 @@ -22,27 +22,32 @@
      <ProjectGuid>{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}</ProjectGuid>
      <RootNamespace>sizecbar</RootNamespace>
-     <Keyword>Win32Proj</Keyword>
+     <Keyword>MFCProj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -4675,13 +4675,13 @@ index 3af1868..7f2ad96 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/zlib/zlib.vcxproj b/src/thirdparty/zlib/zlib.vcxproj
-index 193aee2..e5370c6 100644
+index c0e65f4..2a74308 100644
 --- a/src/thirdparty/zlib/zlib.vcxproj
 +++ b/src/thirdparty/zlib/zlib.vcxproj
 @@ -22,23 +22,28 @@
      <ProjectGuid>{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}</ProjectGuid>
      <RootNamespace>zlib</RootNamespace>
-     <Keyword>MFCProj</Keyword>
+     <Keyword>Win32Proj</Keyword>
 +    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
