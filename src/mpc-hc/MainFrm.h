@@ -810,8 +810,8 @@ public:
     afx_msg void OnPlayShaders(UINT nID);
     afx_msg void OnPlayAudio(UINT nID);
     afx_msg void OnPlaySubtitles(UINT nID);
-    afx_msg void OnPlayLanguage(UINT nID);
-    afx_msg void OnUpdatePlayLanguage(CCmdUI* pCmdUI);
+    afx_msg void OnPlayFiltersStreams(UINT nID);
+    afx_msg void OnUpdatePlayFiltersStreams(CCmdUI* pCmdUI);
     afx_msg void OnPlayVolume(UINT nID);
     afx_msg void OnPlayVolumeBoost(UINT nID);
     afx_msg void OnUpdatePlayVolumeBoost(CCmdUI* pCmdUI);

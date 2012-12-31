@@ -448,8 +448,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_SHADERS_START, ID_SHADERS_END, OnPlayShaders)
     ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
     ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
-    ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayLanguage)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnUpdatePlayLanguage)
+    ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayFiltersStreams)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnUpdatePlayFiltersStreams)
     ON_COMMAND_RANGE(ID_VOLUME_UP, ID_VOLUME_MUTE, OnPlayVolume)
     ON_COMMAND_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnPlayVolumeBoost)
     ON_UPDATE_COMMAND_UI_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnUpdatePlayVolumeBoost)
@@ -4574,7 +4574,7 @@ void CMainFrame::OnFileSaveAs()
     CString ext, in = m_wndPlaylistBar.GetCurFileName(), out = in;
 
     if (out.Find(_T("://")) < 0) {
-        ext = CString(CPath(out).GetExtension()).MakeLower();
+        ext = CPath(out).GetExtension().MakeLower();
         if (ext == _T(".cda")) {
             out = out.Left(out.GetLength() - 4) + _T(".wav");
         } else if (ext == _T(".ifo")) {
@@ -7931,7 +7931,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
     AfxGetAppSettings().fEnableSubtitles = !(m_iSubtitleSel & 0x80000000);
 }
 
-void CMainFrame::OnPlayLanguage(UINT nID)
+void CMainFrame::OnPlayFiltersStreams(UINT nID)
 {
     nID -= ID_FILTERSTREAMS_SUBITEM_START;
     CComPtr<IAMStreamSelect> pAMSS = m_ssarray[nID];
@@ -7948,10 +7948,9 @@ void CMainFrame::OnPlayLanguage(UINT nID)
     OpenSetupStatusBar();
 }
 
-void CMainFrame::OnUpdatePlayLanguage(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdatePlayFiltersStreams(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID;
-    nID -= ID_FILTERSTREAMS_SUBITEM_START;
+    UINT nID = pCmdUI->m_nID - ID_FILTERSTREAMS_SUBITEM_START;
     CComPtr<IAMStreamSelect> pAMSS = m_ssarray[nID];
     UINT i = nID;
 
@@ -12792,7 +12791,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                     if (str.IsEmpty() || lcname.Find(lcstr) >= 0) {
                         str = name;
                     } else if (!name.IsEmpty()) {
-                        str = CString(name) + _T(" (") + str + _T(")");
+                        str = name + _T(" (") + str + _T(")");
                     }
                 }
 
