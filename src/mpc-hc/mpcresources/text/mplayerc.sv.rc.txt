@@ -1,6 +1,6 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Om"
-8		"Upphovsrätt © 2002-2012 se Authors.txt fil"
+8		"Upphovsrätt © 2002-2013 se Authors.txt fil"
 10		"Version :"
 11		"OK"
 12		"This program is freeware and released under the GNU General Public License."

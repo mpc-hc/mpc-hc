@@ -1,6 +1,6 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Пра праграму"
-8		"Copyright © 2002-2012 глядзiце файл Authors.txt"
+8		"Copyright © 2002-2013 глядзiце файл Authors.txt"
 10		"Версія :"
 11		"OK"
 12		"Гэтая праграма бясплатная і распаўсюджваецца пад ліцэнзіяй GNU General Public License."

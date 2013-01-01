@@ -1,4 +1,4 @@
-; (C) 2012 see Authors.txt
+; (C) 2012-2013 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -20,7 +20,7 @@
 
 #define VerMajor  "2"
 #define VerMinor  "41"
-#define copyright "2001-2012"
+#define copyright "2001-2013"
 #define top_dir   "..\..\..\..\.."
 #define sse_required
 ;#define x64Build

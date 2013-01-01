@@ -1,6 +1,6 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"אודות"
-8		"כל הזכויות שמורות © 2002-2012 קרא את קובץ היוצרים (Authors.txt)"
+8		"כל הזכויות שמורות © 2002-2013 קרא את קובץ היוצרים (Authors.txt)"
 10		"Version :"
 11		"אישור"
 12		"תוכנה זו הינה חינמית ומשוחררת תחת הרשיון GNU General Public License."

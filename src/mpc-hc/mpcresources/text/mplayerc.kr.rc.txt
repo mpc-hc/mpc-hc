@@ -1,6 +1,6 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"정보"
-8		"Copyright © 2002-2012 'Authors.txt' 파일 참조"
+8		"Copyright © 2002-2013 'Authors.txt' 파일 참조"
 10		"Version :"
 11		"확인"
 12		"이 프로그램은 프리웨어이며 GNU GPL 라이센스로 릴리즈됩니다."

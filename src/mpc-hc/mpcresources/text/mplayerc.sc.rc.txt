@@ -1,6 +1,6 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"关于"
-8		"版权所有 © 2002-2012 请查看 Authors.txt"
+8		"版权所有 © 2002-2013 请查看 Authors.txt"
 10		"版本 :"
 11		"确定"
 12		"此程序是遵守 GNU 通用公众授权协议发布的自由软件。"

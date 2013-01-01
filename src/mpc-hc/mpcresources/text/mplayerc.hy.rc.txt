@@ -1,6 +1,6 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Ծրագրի մասին"
-8		"Copyright © 2002-2012, կարդացե՛ք Authors.txt ֆայլը"
+8		"Copyright © 2002-2013, կարդացե՛ք Authors.txt ֆայլը"
 10		"Տարբերակը."
 11		"ԼԱՎ"
 12		"Այս ծրագիրը անվճար է և տարածվում է GNU General Public-ի լիցենզիայով։"

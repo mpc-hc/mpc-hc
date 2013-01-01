@@ -1,6 +1,6 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"O programu"
-8		"Copyright © 2002-2012, viz soubor Authors.txt"
+8		"Copyright © 2002-2013, viz soubor Authors.txt"
 10		"Verze :"
 11		"OK"
 12		"Tento program je freeware vydaný pod\nGNU General Public License."

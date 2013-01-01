@@ -1,6 +1,6 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"O programe"
-8		"Copyright © 2002-2012 viď súbor Authors.txt"
+8		"Copyright © 2002-2013 viď súbor Authors.txt"
 10		"Verzia :"
 11		"OK"
 12		"Tento program je šírený ako freeware a bol vydaný pod licenciou GNU General Public."
