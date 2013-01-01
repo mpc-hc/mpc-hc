@@ -1,6 +1,6 @@
 /* This script is a local pre-commit hook script.
  * It's used to check whether the copyright year of modified files has been
- * bumped up to the current (2012) year.
+ * bumped up to the current (2013) year.
  *
  * Taken from TortoiseSVN repository, adapted for MPC-HC by thevbm
  *
@@ -22,9 +22,9 @@ if (num !== 4)
     WScript.Quit(1);
 }
 
-var re = /^(.+)(2006-2012)(.+)/;
+var re = /^(.+)(2006-2013)(.+)/;
 var basere = /^(.+)see\sAuthors.txt/;
-var filere = /(\.cpp$)|(\.h$)/;
+var filere = /(\.cpp$)|(\.h$)|(\.bat$)|(\.iss$)/;
 var found = true;
 var fs, a, rv, r;
 fs = new ActiveXObject("Scripting.FileSystemObject");
