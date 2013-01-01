@@ -2405,6 +2405,12 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .long_name = NULL_IF_CONFIG_SMALL("MicroDVD subtitle"),
     },
     {
+        .id        = AV_CODEC_ID_MPL2,
+        .type      = AVMEDIA_TYPE_SUBTITLE,
+        .name      = "mpl2",
+        .long_name = NULL_IF_CONFIG_SMALL("MPL2 subtitle"),
+    },
+    {
         .id        = AV_CODEC_ID_EIA_608,
         .type      = AVMEDIA_TYPE_SUBTITLE,
         .name      = "eia_608",
@@ -2415,6 +2421,12 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .type      = AVMEDIA_TYPE_SUBTITLE,
         .name      = "jacosub",
         .long_name = NULL_IF_CONFIG_SMALL("JACOsub subtitle"),
+    },
+    {
+        .id        = AV_CODEC_ID_PJS,
+        .type      = AVMEDIA_TYPE_SUBTITLE,
+        .name      = "pjs",
+        .long_name = NULL_IF_CONFIG_SMALL("PJS (Phoenix Japanimation Society) subtitle"),
     },
     {
         .id        = AV_CODEC_ID_SAMI,
@@ -2429,10 +2441,22 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .long_name = NULL_IF_CONFIG_SMALL("RealText subtitle"),
     },
     {
+        .id        = AV_CODEC_ID_SUBVIEWER1,
+        .type      = AVMEDIA_TYPE_SUBTITLE,
+        .name      = "subviewer1",
+        .long_name = NULL_IF_CONFIG_SMALL("SubViewer v1 subtitle"),
+    },
+    {
         .id        = AV_CODEC_ID_SUBVIEWER,
         .type      = AVMEDIA_TYPE_SUBTITLE,
         .name      = "subviewer",
         .long_name = NULL_IF_CONFIG_SMALL("SubViewer subtitle"),
+    },
+    {
+        .id        = AV_CODEC_ID_VPLAYER,
+        .type      = AVMEDIA_TYPE_SUBTITLE,
+        .name      = "vplayer",
+        .long_name = NULL_IF_CONFIG_SMALL("VPlayer subtitle"),
     },
     {
         .id        = AV_CODEC_ID_WEBVTT,

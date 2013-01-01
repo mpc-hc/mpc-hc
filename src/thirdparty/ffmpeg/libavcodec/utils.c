@@ -27,6 +27,7 @@
 
 #include "libavutil/avassert.h"
 #include "libavutil/avstring.h"
+#include "libavutil/bprint.h"
 #include "libavutil/channel_layout.h"
 #include "libavutil/crc.h"
 #include "libavutil/mathematics.h"
@@ -1298,7 +1299,7 @@ int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx,
                                              const short *samples)
 {
     AVPacket pkt;
-    AVFrame frame0 = { 0 };
+    AVFrame frame0 = { { 0 } };
     AVFrame *frame;
     int ret, samples_size, got_packet;
 
@@ -1668,7 +1669,7 @@ int attribute_align_arg avcodec_decode_audio3(AVCodecContext *avctx, int16_t *sa
                                               int *frame_size_ptr,
                                               AVPacket *avpkt)
 {
-    AVFrame frame = {0};
+    AVFrame frame = { { 0 } };
     int ret, got_frame = 0;
 
     if (avctx->get_buffer != avcodec_default_get_buffer) {
@@ -1839,10 +1840,11 @@ int avcodec_decode_subtitle2(AVCodecContext *avctx, AVSubtitle *sub,
 
         avctx->pkt = &tmp;
 
-    if (avctx->pkt_timebase.den && avpkt->pts != AV_NOPTS_VALUE)
-        sub->pts = av_rescale_q(avpkt->pts,
-                                avctx->pkt_timebase, AV_TIME_BASE_Q);
+        if (avctx->pkt_timebase.den && avpkt->pts != AV_NOPTS_VALUE)
+            sub->pts = av_rescale_q(avpkt->pts,
+                                    avctx->pkt_timebase, AV_TIME_BASE_Q);
         ret = avctx->codec->decode(avctx, sub, got_sub_ptr, &tmp);
+        sub->format = sub->num_rects && sub->rects[0]->ass;
 
         avctx->pkt = NULL;
         if (did_split) {
@@ -1851,8 +1853,8 @@ int avcodec_decode_subtitle2(AVCodecContext *avctx, AVSubtitle *sub,
                 ret = avpkt->size;
         }
 
-    if (*got_sub_ptr)
-        avctx->frame_number++;
+        if (*got_sub_ptr)
+            avctx->frame_number++;
     }
 
     return ret;
@@ -2686,4 +2688,22 @@ enum AVMediaType avcodec_get_type(enum AVCodecID codec_id)
 int avcodec_is_open(AVCodecContext *s)
 {
     return !!s->internal;
+}
+
+int avpriv_bprint_to_extradata(AVCodecContext *avctx, struct AVBPrint *buf)
+{
+    int ret;
+    char *str;
+
+    ret = av_bprint_finalize(buf, &str);
+    if (ret < 0)
+        return ret;
+    avctx->extradata = str;
+    /* Note: the string is NUL terminated (so extradata can be read as a
+     * string), but the ending character is not accounted in the size (in
+     * binary formats you are likely not supposed to mux that character). When
+     * extradata is copied, it is also padded with FF_INPUT_BUFFER_PADDING_SIZE
+     * zeros. */
+    avctx->extradata_size = buf->len;
+    return 0;
 }

@@ -770,8 +770,10 @@ static int mpeg_decode_mb(MpegEncContext *s, DCTELEM block[12][64])
                 mb_type = s->current_picture.f.mb_type[s->mb_x + s->mb_y * s->mb_stride - 1];
             else
                 mb_type = s->current_picture.f.mb_type[s->mb_width + (s->mb_y - 1) * s->mb_stride - 1]; // FIXME not sure if this is allowed in MPEG at all
-            if (IS_INTRA(mb_type))
+            if (IS_INTRA(mb_type)) {
+                av_log(s->avctx, AV_LOG_ERROR, "skip with previntra\n");
                 return -1;
+            }
             s->current_picture.f.mb_type[s->mb_x + s->mb_y*s->mb_stride] =
                 mb_type | MB_TYPE_SKIP;
 //            av_assert2(s->current_picture.f.mb_type[s->mb_x + s->mb_y * s->mb_stride - 1] & (MB_TYPE_16x16 | MB_TYPE_16x8));
@@ -876,7 +878,8 @@ static int mpeg_decode_mb(MpegEncContext *s, DCTELEM block[12][64])
 
             s->mv_dir = MV_DIR_FORWARD;
             if (s->picture_structure == PICT_FRAME) {
-                if (!s->frame_pred_frame_dct)
+                if (s->picture_structure == PICT_FRAME
+                    && !s->frame_pred_frame_dct)
                     s->interlaced_dct = get_bits1(&s->gb);
                 s->mv_type = MV_TYPE_16X16;
             } else {
@@ -898,7 +901,7 @@ static int mpeg_decode_mb(MpegEncContext *s, DCTELEM block[12][64])
             av_assert2(mb_type & MB_TYPE_L0L1);
             // FIXME decide if MBs in field pictures are MB_TYPE_INTERLACED
             /* get additional motion vector type */
-            if (s->frame_pred_frame_dct)
+            if (s->picture_structure == PICT_FRAME && s->frame_pred_frame_dct)
                 motion_type = MT_FRAME;
             else {
                 motion_type = get_bits(&s->gb, 2);
@@ -1059,7 +1062,7 @@ static int mpeg_decode_mb(MpegEncContext *s, DCTELEM block[12][64])
                  s->dsp.clear_blocks(s->block[6]);
             }
             if (cbp <= 0) {
-                av_log(s->avctx, AV_LOG_ERROR, "invalid cbp at %d %d\n", s->mb_x, s->mb_y);
+                av_log(s->avctx, AV_LOG_ERROR, "invalid cbp %d at %d %d\n", cbp, s->mb_x, s->mb_y);
                 return -1;
             }
 

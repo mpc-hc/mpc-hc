@@ -12,7 +12,7 @@ Legend:
 ========================
 + Formats: The space key can now be used to enable/disable formats
 + Miscellaneous: Added button to export key bindings
-* Updated FFmpeg (n0.8-17176-g985aa0b)
+* Updated FFmpeg (n0.8-17442-g7d66bc7)
 * Updated Little CMS to v2.4 (git e4624c8)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)
 * Updated SoundTouch to v1.7.1 r170

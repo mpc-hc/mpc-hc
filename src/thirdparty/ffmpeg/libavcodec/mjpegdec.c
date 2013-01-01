@@ -129,10 +129,10 @@ int ff_mjpeg_decode_dqt(MJpegDecodeContext *s)
     len = get_bits(&s->gb, 16) - 2;
 
     while (len >= 65) {
-        /* only 8 bit precision handled */
-        if (get_bits(&s->gb, 4) != 0) {
-            av_log(s->avctx, AV_LOG_ERROR, "dqt: 16bit precision\n");
-            return -1;
+        int pr = get_bits(&s->gb, 4);
+        if (pr > 1) {
+            av_log(s->avctx, AV_LOG_ERROR, "dqt: invalid precision\n");
+            return AVERROR_INVALIDDATA;
         }
         index = get_bits(&s->gb, 4);
         if (index >= 4)
@@ -141,7 +141,7 @@ int ff_mjpeg_decode_dqt(MJpegDecodeContext *s)
         /* read quant table */
         for (i = 0; i < 64; i++) {
             j = s->scantable.permutated[i];
-            s->quant_matrixes[index][j] = get_bits(&s->gb, 8);
+            s->quant_matrixes[index][j] = get_bits(&s->gb, pr ? 16 : 8);
         }
 
         // XXX FIXME finetune, and perhaps add dc too
@@ -727,6 +727,33 @@ static int decode_block_refinement(MJpegDecodeContext *s, DCTELEM *block,
 #undef REFINE_BIT
 #undef ZERO_RUN
 
+static void handle_rstn(MJpegDecodeContext *s, int nb_components)
+{
+    int i;
+    if (s->restart_interval) {
+        s->restart_count--;
+        if(s->restart_count == 0 && s->avctx->codec_id == AV_CODEC_ID_THP){
+            align_get_bits(&s->gb);
+            for (i = 0; i < nb_components; i++) /* reset dc */
+                s->last_dc[i] = 1024;
+        }
+
+        i = 8 + ((-get_bits_count(&s->gb)) & 7);
+        /* skip RSTn */
+        if (s->restart_count == 0 && show_bits(&s->gb, i) == (1 << i) - 1) {
+            int pos = get_bits_count(&s->gb);
+            align_get_bits(&s->gb);
+            while (get_bits_left(&s->gb) >= 8 && show_bits(&s->gb, 8) == 0xFF)
+                skip_bits(&s->gb, 8);
+            if (get_bits_left(&s->gb) >= 8 && (get_bits(&s->gb, 8) & 0xF8) == 0xD0) {
+                for (i = 0; i < nb_components; i++) /* reset dc */
+                    s->last_dc[i] = 1024;
+            } else
+                skip_bits_long(&s->gb, pos - get_bits_count(&s->gb));
+        }
+    }
+}
+
 static int ljpeg_decode_rgb_scan(MJpegDecodeContext *s, int nb_components, int predictor, int point_transform)
 {
     int i, mb_x, mb_y;
@@ -1077,28 +1104,7 @@ static int mjpeg_decode_scan(MJpegDecodeContext *s, int nb_components, int Ah,
                 }
             }
 
-            if (s->restart_interval) {
-                s->restart_count--;
-                if(s->restart_count == 0 && s->avctx->codec_id == AV_CODEC_ID_THP){
-                    align_get_bits(&s->gb);
-                    for (i = 0; i < nb_components; i++) /* reset dc */
-                        s->last_dc[i] = 1024;
-                }
-
-                i = 8 + ((-get_bits_count(&s->gb)) & 7);
-                /* skip RSTn */
-                if (show_bits(&s->gb, i) == (1 << i) - 1) {
-                    int pos = get_bits_count(&s->gb);
-                    align_get_bits(&s->gb);
-                    while (get_bits_left(&s->gb) >= 8 && show_bits(&s->gb, 8) == 0xFF)
-                        skip_bits(&s->gb, 8);
-                    if (get_bits_left(&s->gb) >= 8 && (get_bits(&s->gb, 8) & 0xF8) == 0xD0) {
-                        for (i = 0; i < nb_components; i++) /* reset dc */
-                            s->last_dc[i] = 1024;
-                    } else
-                        skip_bits_long(&s->gb, pos - get_bits_count(&s->gb));
-                }
-            }
+            handle_rstn(s, nb_components);
         }
     }
     return 0;
@@ -1128,6 +1134,8 @@ static int mjpeg_decode_scan_progressive_ac(MJpegDecodeContext *s, int ss,
     if (s->interlaced && s->bottom_field)
         data += linesize >> 1;
 
+    s->restart_count = 0;
+
     for (mb_y = 0; mb_y < s->mb_height; mb_y++) {
         uint8_t *ptr     = data + (mb_y * linesize * 8 >> s->avctx->lowres);
         int block_idx    = mb_y * s->block_stride[c];
@@ -1135,6 +1143,9 @@ static int mjpeg_decode_scan_progressive_ac(MJpegDecodeContext *s, int ss,
         uint8_t *last_nnz    = &s->last_nnz[c][block_idx];
         for (mb_x = 0; mb_x < s->mb_width; mb_x++, block++, last_nnz++) {
                 int ret;
+                if (s->restart_interval && !s->restart_count)
+                    s->restart_count = s->restart_interval;
+
                 if (Ah)
                     ret = decode_block_refinement(s, *block, last_nnz, s->ac_index[0],
                                                   quant_matrix, ss, se, Al, &EOBRUN);
@@ -1151,6 +1162,7 @@ static int mjpeg_decode_scan_progressive_ac(MJpegDecodeContext *s, int ss,
                     s->dsp.idct_put(ptr, linesize, *block);
                     ptr += 8 >> s->avctx->lowres;
             }
+            handle_rstn(s, 0);
         }
     }
     return 0;

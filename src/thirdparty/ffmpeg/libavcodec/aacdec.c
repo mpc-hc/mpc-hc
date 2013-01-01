@@ -80,6 +80,7 @@
  */
 
 #include "libavutil/float_dsp.h"
+#include "libavutil/opt.h"
 #include "avcodec.h"
 #include "internal.h"
 #include "get_bits.h"
@@ -2435,18 +2436,16 @@ static int parse_adts_frame_header(AACContext *ac, GetBitContext *gb)
              * WITHOUT specifying PCE.
              *  thus, set dual mono as default.
              */
-#if 0
-            if (ac->enable_jp_dmono && ac->oc[0].status == OC_NONE) {
+            if (ac->dmono_mode && ac->oc[0].status == OC_NONE) {
                 layout_map_tags = 2;
                 layout_map[0][0] = layout_map[1][0] = TYPE_SCE;
                 layout_map[0][2] = layout_map[1][2] = AAC_CHANNEL_FRONT;
                 layout_map[0][1] = 0;
                 layout_map[1][1] = 1;
                 if (output_configure(ac, layout_map, layout_map_tags,
-                                     OC_TRIAL_FRAME))
+                                     OC_TRIAL_FRAME, 0))
                     return -7;
             }
-#endif
         }
         ac->oc[1].m4ac.sample_rate     = hdr_info.sample_rate;
         ac->oc[1].m4ac.sampling_index  = hdr_info.sampling_index;
@@ -2472,7 +2471,6 @@ static int aac_decode_frame_int(AVCodecContext *avctx, void *data,
     int err, elem_id;
     int samples = 0, multiplier, audio_found = 0, pce_found = 0;
     int is_dmono, sce_count = 0;
-    float *tmp = NULL;
 
     if (show_bits(gb, 12) == 0xfff) {
         if (parse_adts_frame_header(ac, gb) < 0) {
@@ -2590,34 +2588,23 @@ static int aac_decode_frame_int(AVCodecContext *avctx, void *data,
 
     multiplier = (ac->oc[1].m4ac.sbr == 1) ? ac->oc[1].m4ac.ext_sample_rate > ac->oc[1].m4ac.sample_rate : 0;
     samples <<= multiplier;
-#if 0
     /* for dual-mono audio (SCE + SCE) */
-    is_dmono = ac->enable_jp_dmono && sce_count == 2 &&
+    is_dmono = ac->dmono_mode && sce_count == 2 &&
                ac->oc[1].channel_layout == (AV_CH_FRONT_LEFT | AV_CH_FRONT_RIGHT);
 
-    if (is_dmono) {
-        if (ac->dmono_mode == 0) {
-            tmp = ac->output_data[1];
-            ac->output_data[1] = ac->output_data[0];
-        } else if (ac->dmono_mode == 1) {
-            tmp = ac->output_data[0];
-            ac->output_data[0] = ac->output_data[1];
-        }
-    }
-#endif
     if (samples) {
         ac->frame.nb_samples = samples;
         *(AVFrame *)data = ac->frame;
     }
     *got_frame_ptr = !!samples;
-#if 0
+
     if (is_dmono) {
-        if (ac->dmono_mode == 0)
-            ac->output_data[1] = tmp;
-        else if (ac->dmono_mode == 1)
-            ac->output_data[0] = tmp;
+        if (ac->dmono_mode == 1)
+            ((AVFrame *)data)->data[1] =((AVFrame *)data)->data[0];
+        else if (ac->dmono_mode == 2)
+            ((AVFrame *)data)->data[0] =((AVFrame *)data)->data[1];
     }
-#endif
+
     if (ac->oc[1].status && audio_found) {
         avctx->sample_rate = ac->oc[1].m4ac.sample_rate << multiplier;
         avctx->frame_size = samples;
@@ -2672,10 +2659,11 @@ static int aac_decode_frame(AVCodecContext *avctx, void *data,
         }
     }
 
-    ac->enable_jp_dmono = !!jp_dualmono;
     ac->dmono_mode = 0;
     if (jp_dualmono && jp_dualmono_size > 0)
-        ac->dmono_mode = *jp_dualmono;
+        ac->dmono_mode =  1 + *jp_dualmono;
+    if (ac->force_dmono_mode >= 0)
+        ac->dmono_mode = ac->force_dmono_mode;
 
     init_get_bits(&gb, buf, buf_size * 8);
 
@@ -2981,6 +2969,29 @@ static av_cold int latm_decode_init(AVCodecContext *avctx)
     return ret;
 }
 
+/**
+ * AVOptions for Japanese DTV specific extensions (ADTS only)
+ */
+#define AACDEC_FLAGS AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_AUDIO_PARAM
+static const AVOption options[] = {
+    {"dual_mono_mode", "Select the channel to decode for dual mono",
+     offsetof(AACContext, force_dmono_mode), AV_OPT_TYPE_INT, {.i64=-1}, -1, 2,
+     AACDEC_FLAGS, "dual_mono_mode"},
+
+    {"auto", "autoselection",            0, AV_OPT_TYPE_CONST, {.i64=-1}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
+    {"main", "Select Main/Left channel", 0, AV_OPT_TYPE_CONST, {.i64= 1}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
+    {"sub" , "Select Sub/Right channel", 0, AV_OPT_TYPE_CONST, {.i64= 2}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
+    {"both", "Select both channels",     0, AV_OPT_TYPE_CONST, {.i64= 0}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
+
+    {NULL},
+};
+
+static const AVClass aac_decoder_class = {
+    .class_name = "AAC decoder",
+    .item_name  = av_default_item_name,
+    .option     = options,
+    .version    = LIBAVUTIL_VERSION_INT,
+};
 
 AVCodec ff_aac_decoder = {
     .name            = "aac",
@@ -2997,6 +3008,7 @@ AVCodec ff_aac_decoder = {
     .capabilities    = CODEC_CAP_CHANNEL_CONF | CODEC_CAP_DR1,
     .channel_layouts = aac_channel_layout,
     .flush = flush,
+    .priv_class      = &aac_decoder_class,
 };
 
 /*

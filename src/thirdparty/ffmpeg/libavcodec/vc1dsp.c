@@ -562,7 +562,7 @@ static av_always_inline int vc1_mspel_filter(const uint8_t *src, int stride, int
 
 /** Function used to do motion compensation with bicubic interpolation
  */
-#define VC1_MSPEL_MC(OP, OPNAME)\
+#define VC1_MSPEL_MC(OP, OP4, OPNAME)\
 static av_always_inline void OPNAME ## vc1_mspel_mc(uint8_t *dst, const uint8_t *src, int stride, int hmode, int vmode, int rnd)\
 {\
     int     i, j;\
@@ -616,13 +616,24 @@ static av_always_inline void OPNAME ## vc1_mspel_mc(uint8_t *dst, const uint8_t 
         dst += stride;\
         src += stride;\
     }\
+}\
+static void OPNAME ## pixels8x8_c(uint8_t *block, const uint8_t *pixels, int line_size, int rnd){\
+    int i;\
+    for(i=0; i<8; i++){\
+        OP4(*(uint32_t*)(block  ), AV_RN32(pixels  ));\
+        OP4(*(uint32_t*)(block+4), AV_RN32(pixels+4));\
+        pixels+=line_size;\
+        block +=line_size;\
+    }\
 }
 
 #define op_put(a, b) a = av_clip_uint8(b)
 #define op_avg(a, b) a = (a + av_clip_uint8(b) + 1) >> 1
+#define op4_avg(a, b) a = rnd_avg32(a, b)
+#define op4_put(a, b) a = b
 
-VC1_MSPEL_MC(op_put, put_)
-VC1_MSPEL_MC(op_avg, avg_)
+VC1_MSPEL_MC(op_put, op4_put, put_)
+VC1_MSPEL_MC(op_avg, op4_avg, avg_)
 
 /* pixel functions - really are entry points to vc1_mspel_mc */
 
@@ -802,7 +813,7 @@ av_cold void ff_vc1dsp_init(VC1DSPContext* dsp) {
     dsp->vc1_v_loop_filter16 = vc1_v_loop_filter16_c;
     dsp->vc1_h_loop_filter16 = vc1_h_loop_filter16_c;
 
-    dsp->put_vc1_mspel_pixels_tab[ 0] = ff_put_pixels8x8_c;
+    dsp->put_vc1_mspel_pixels_tab[ 0] = put_pixels8x8_c;
     dsp->put_vc1_mspel_pixels_tab[ 1] = put_vc1_mspel_mc10_c;
     dsp->put_vc1_mspel_pixels_tab[ 2] = put_vc1_mspel_mc20_c;
     dsp->put_vc1_mspel_pixels_tab[ 3] = put_vc1_mspel_mc30_c;
@@ -819,7 +830,7 @@ av_cold void ff_vc1dsp_init(VC1DSPContext* dsp) {
     dsp->put_vc1_mspel_pixels_tab[14] = put_vc1_mspel_mc23_c;
     dsp->put_vc1_mspel_pixels_tab[15] = put_vc1_mspel_mc33_c;
 
-    dsp->avg_vc1_mspel_pixels_tab[ 0] = ff_avg_pixels8x8_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 0] = avg_pixels8x8_c;
     dsp->avg_vc1_mspel_pixels_tab[ 1] = avg_vc1_mspel_mc10_c;
     dsp->avg_vc1_mspel_pixels_tab[ 2] = avg_vc1_mspel_mc20_c;
     dsp->avg_vc1_mspel_pixels_tab[ 3] = avg_vc1_mspel_mc30_c;
