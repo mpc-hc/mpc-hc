@@ -15931,6 +15931,13 @@ bool CMainFrame::OpenBD(CString Path)
     CString strPlaylistFile;
     CAtlList<CHdmvClipInfo::PlaylistItem> MainPlaylist;
 
+#if INTERNAL_SOURCEFILTER_MPEG
+    const CAppSettings& s = AfxGetAppSettings();
+    bool InternalMpegSplitter = s.SrcFilters[SRC_MPEG];
+#else
+    bool InternalMpegSplitter = false;
+#endif
+
     m_LastOpenBDPath = Path;
 
     CString ext = CPath(Path).GetExtension();
@@ -15948,13 +15955,24 @@ bool CMainFrame::OpenBD(CString Path)
             Path.Replace(_T("\\BDMV"), _T("\\"));
         }
         if (SUCCEEDED(ClipInfo.FindMainMovie(Path, strPlaylistFile, MainPlaylist, m_MPLSPlaylist))) {
-            m_wndPlaylistBar.Empty();
-            CAtlList<CString> sl;
-            sl.AddTail(CString(strPlaylistFile));
-            m_wndPlaylistBar.Append(sl, false);
             m_bIsBDPlay = true;
-            OpenCurPlaylistItem();
-            return true;
+            
+            if (!InternalMpegSplitter && !ext.IsEmpty() && ext == _T(".bdmv")) {
+                return false;
+            } else {
+                m_wndPlaylistBar.Empty();
+                CAtlList<CString> sl;
+                
+                if (InternalMpegSplitter) {
+                    sl.AddTail(CString(strPlaylistFile));
+                } else {
+                    sl.AddTail(CString(Path + _T("BDMV\\index.bdmv")));
+                }
+                
+                m_wndPlaylistBar.Append(sl, false);
+                OpenCurPlaylistItem();
+                return true;
+            }
         }
     }
 
