@@ -661,8 +661,7 @@
     <CustomBuildStep Include="res\mpc-hc.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="mplayerc.rc">
-    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeCSS\DeCSS.vcxproj">

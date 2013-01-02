@@ -104,17 +104,14 @@
     <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp" />
     <ClCompile Include="..\thirdparty\mfc\winmdi.cpp" />
     <ClCompile Include="HScrollListBox.cpp" />
-    <ClCompile Include="MPCTestAPI.cpp">
-    </ClCompile>
-    <ClCompile Include="MPCTestAPIDlg.cpp">
-    </ClCompile>
+    <ClCompile Include="MPCTestAPI.cpp" />
+    <ClCompile Include="MPCTestAPIDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MPCTestAPI.rc">
-    </ResourceCompile>
+    <ResourceCompile Include="MPCTestAPI.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\mpc-hc\MpcApi.h" />
