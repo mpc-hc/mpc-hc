@@ -52,7 +52,7 @@ SET ARGRE=0
 SET INPUT=0
 SET VALID=0
 
-IF /I "%ARG%" == "?"          GOTO ShowHelp
+IF /I "%ARG%" == "?"            GOTO ShowHelp
 
 FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "help"         GOTO ShowHelp
