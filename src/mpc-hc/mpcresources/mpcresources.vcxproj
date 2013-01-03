@@ -145,6 +145,14 @@
       <Configuration>Release Portuguese (Brazil)</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Romanian|Win32">
+      <Configuration>Release Romanian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Romanian|x64">
+      <Configuration>Release Romanian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Russian|Win32">
       <Configuration>Release Russian</Configuration>
       <Platform>Win32</Platform>
@@ -240,6 +248,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Korean'">$(ProjectName).kr</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Polish'">$(ProjectName).pl</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Portuguese (Brazil)'">$(ProjectName).br</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Romanian'">$(ProjectName).ro</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Russian'">$(ProjectName).ru</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Slovak'">$(ProjectName).sk</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Spanish'">$(ProjectName).es</TargetName>
@@ -309,6 +318,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.pl.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Polish'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.ro.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Romanian'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.ru.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Russian'">true</ExcludedFromBuild>

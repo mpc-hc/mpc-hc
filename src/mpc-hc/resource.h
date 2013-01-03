@@ -709,6 +709,7 @@
 #define ID_LANGUAGE_HEBREW              32809
 #define ID_LANGUAGE_BASQUE              32810
 #define ID_LANGUAGE_GREEK               32811
+#define ID_LANGUAGE_ROMANIAN            32812
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
 #define IDS_SHADEREDITORDLG_0           32831
