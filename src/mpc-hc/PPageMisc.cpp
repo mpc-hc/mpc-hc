@@ -232,7 +232,16 @@ void CPPageMisc::OnExportSettings()
         }
     }
 
-    AfxGetMyApp()->ExportSettings();
+    CString ext = AfxGetMyApp()->IsIniValid() ? _T("ini") : _T("reg");
+    CFileDialog fileSaveDialog(FALSE, ext, _T("mpc-hc-settings.") + ext);
+
+    if (fileSaveDialog.DoModal() == IDOK) {
+        if (AfxGetMyApp()->ExportSettings(fileSaveDialog.GetPathName())) {
+            MessageBox(ResStr(IDS_EXPORT_SETTINGS_SUCCESS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
+        } else {
+            MessageBox(ResStr(IDS_EXPORT_SETTINGS_FAILED), ResStr(IDS_EXPORT_SETTINGS), MB_ICONERROR | MB_OK);
+        }
+    }
 }
 
 void CPPageMisc::OnExportKeys()
@@ -247,7 +256,19 @@ void CPPageMisc::OnExportKeys()
         }
     }
 
-    AfxGetMyApp()->ExportSettings(_T("Commands2"));
+    CFileDialog fileSaveDialog(FALSE, _T("reg"), _T("mpc-hc-keys.reg"));
+
+    if (fileSaveDialog.DoModal() == IDOK) {
+        if (AfxGetMyApp()->ExportSettings(fileSaveDialog.GetPathName(), _T("Commands2"))) {
+            MessageBox(ResStr(IDS_EXPORT_SETTINGS_SUCCESS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
+        } else {
+            if (GetLastError() == ERROR_FILE_NOT_FOUND) {
+                MessageBox(ResStr(IDS_EXPORT_SETTINGS_NO_KEYS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
+            } else {
+                MessageBox(ResStr(IDS_EXPORT_SETTINGS_FAILED), ResStr(IDS_EXPORT_SETTINGS), MB_ICONERROR | MB_OK);
+            }
+        }
+    }
 }
 
 void CPPageMisc::OnCancel()

@@ -76,15 +76,21 @@ CString GetHiveName(HKEY hive)
 
 bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 {
+    // Registry functions don't set GetLastError(), so it needs to be set explicitly
+    LSTATUS errorCode = ERROR_SUCCESS;
+
     HKEY hKey = NULL;
-    if (RegOpenKeyEx(hKeyRoot, keyName, 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
+    errorCode = RegOpenKeyEx(hKeyRoot, keyName, 0, KEY_READ, &hKey);
+    if (errorCode != ERROR_SUCCESS) {
+        SetLastError(errorCode);
         return false;
     }
 
     DWORD subKeysCount = 0, maxSubKeyLen = 0;
     DWORD valuesCount = 0, maxValueNameLen = 0, maxValueDataLen = 0;
-    if (RegQueryInfoKey(hKey, NULL, NULL, NULL, &subKeysCount, &maxSubKeyLen,
-                        NULL, &valuesCount, &maxValueNameLen, &maxValueDataLen, NULL, NULL) != ERROR_SUCCESS) {
+    errorCode = RegQueryInfoKey(hKey, NULL, NULL, NULL, &subKeysCount, &maxSubKeyLen, NULL, &valuesCount, &maxValueNameLen, &maxValueDataLen, NULL, NULL);
+    if (errorCode != ERROR_SUCCESS) {
+        SetLastError(errorCode);
         return false;
     }
     maxSubKeyLen += 1;
@@ -103,8 +109,9 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
         valueNameLen = maxValueNameLen;
         valueDataLen = maxValueDataLen;
 
-        if (RegEnumValue(hKey, indexValue, valueName.GetBuffer(maxValueNameLen),
-                         &valueNameLen, NULL, &type, data, &valueDataLen) != ERROR_SUCCESS) {
+        errorCode = RegEnumValue(hKey, indexValue, valueName.GetBuffer(maxValueNameLen), &valueNameLen, NULL, &type, data, &valueDataLen);
+        if (errorCode != ERROR_SUCCESS) {
+            SetLastError(errorCode);
             return false;
         }
 
@@ -151,20 +158,23 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
     for (DWORD indexSubKey = 0; indexSubKey < subKeysCount; indexSubKey++) {
         subKeyLen = maxSubKeyLen;
 
-        if (RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen),
-                         &subKeyLen, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
+        RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen), &subKeyLen, NULL, NULL, NULL, NULL);
+        if (errorCode != ERROR_SUCCESS) {
+            SetLastError(errorCode);
             return false;
         }
 
         buffer.Format(_T("%s\\%s"), keyName, subKeyName);
 
-        if (!ExportRegistryKey(file, hKeyRoot, buffer)) {
+        errorCode = ExportRegistryKey(file, hKeyRoot, buffer);
+        if (errorCode != ERROR_SUCCESS) {
+            SetLastError(errorCode);
             return false;
         }
     }
 
-    RegCloseKey(hKey);
-
+    errorCode = RegCloseKey(hKey);
+    SetLastError(errorCode);
     return true;
 }
 

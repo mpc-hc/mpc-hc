@@ -132,7 +132,7 @@ public:
     bool IsIniValid() const;
     bool IsIniUTF16LE() const;
     bool ChangeSettingsLocation(bool useIni);
-    void ExportSettings(CString subKey = _T(""));
+    bool ExportSettings(CString savePath, CString subKey = _T(""));
 
     bool GetAppSavePath(CString& path);
 

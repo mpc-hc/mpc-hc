@@ -1479,6 +1479,7 @@
 #define IDS_VDF_IF_BOTTOM_FIELD_FIRST   41447
 #define IDS_SUBFILE_DELAY               41448
 #define IDS_SPEEDSTEP_AUTO              41449
+#define IDS_EXPORT_SETTINGS_NO_KEYS     41450
 
 // Next default values for new objects
 // 
