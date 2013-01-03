@@ -11986,7 +11986,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         if (substm) {
             m_iSubtitleSel = substm - 1; // only select, turn on/off in another place
 
-            if (AfxGetAppSettings().fEnableSubtitles) {
+            if (!AfxGetAppSettings().fEnableSubtitles) {
+                m_iSubtitleSel |= 0x80000000;
+            }else {
                 UpdateSubtitle();
             }
         }
