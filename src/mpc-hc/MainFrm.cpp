@@ -10864,7 +10864,7 @@ void CMainFrame::SetupDVDChapters()
     WCHAR buff[MAX_PATH];
     ULONG len = 0;
     DVD_PLAYBACK_LOCATION2 loc;
-    if (SUCCEEDED(pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) &&
+    if (pDVDI && SUCCEEDED(pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) &&
             SUCCEEDED(pDVDI->GetCurrentLocation(&loc))) {
         CStringW path;
         path.Format(L"%s\\VTS_%02d_0.IFO", buff, loc.TitleNum);
