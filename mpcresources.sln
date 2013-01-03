@@ -39,8 +39,8 @@ Global
 		Release Korean|x64 = Release Korean|x64
 		Release Polish|Win32 = Release Polish|Win32
 		Release Polish|x64 = Release Polish|x64
-		Release Portuguese|Win32 = Release Portuguese|Win32
-		Release Portuguese|x64 = Release Portuguese|x64
+		Release Portuguese (Brazil)|Win32 = Release Portuguese (Brazil)|Win32
+		Release Portuguese (Brazil)|x64 = Release Portuguese (Brazil)|x64
 		Release Russian|Win32 = Release Russian|Win32
 		Release Russian|x64 = Release Russian|x64
 		Release Slovak|Win32 = Release Slovak|Win32
@@ -123,10 +123,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Polish|Win32.Build.0 = Release Polish|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Polish|x64.ActiveCfg = Release Polish|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Polish|x64.Build.0 = Release Polish|x64
-		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Portuguese|Win32.ActiveCfg = Release Portuguese|Win32
-		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Portuguese|Win32.Build.0 = Release Portuguese|Win32
-		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Portuguese|x64.ActiveCfg = Release Portuguese|x64
-		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Portuguese|x64.Build.0 = Release Portuguese|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Portuguese (Brazil)|Win32.ActiveCfg = Release Portuguese (Brazil)|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Portuguese (Brazil)|Win32.Build.0 = Release Portuguese (Brazil)|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Portuguese (Brazil)|x64.ActiveCfg = Release Portuguese (Brazil)|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Portuguese (Brazil)|x64.Build.0 = Release Portuguese (Brazil)|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Russian|Win32.ActiveCfg = Release Russian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Russian|Win32.Build.0 = Release Russian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Russian|x64.ActiveCfg = Release Russian|x64
