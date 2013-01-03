@@ -1404,22 +1404,53 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 
     wsize -= fsize;
 
-    bool fWider = wsize.cy < wsize.cx;
+    bool fWider = vsize.cy < vsize.cx;
 
-    wsize.SetSize(
-        wsize.cy * vsize.cx / vsize.cy,
-        wsize.cx * vsize.cy / vsize.cx);
+    switch (fwSide) {
+        case WMSZ_TOP:
+        case WMSZ_BOTTOM:
+            wsize.cx = long(wsize.cy * vsize.cx / (double)vsize.cy + 0.5);
+            wsize.cy = long(wsize.cx * vsize.cy / (double)vsize.cx + 0.5);
+            break;
+        case WMSZ_TOPLEFT:
+        case WMSZ_TOPRIGHT:
+        case WMSZ_BOTTOMLEFT:
+        case WMSZ_BOTTOMRIGHT:
+            if (!fWider) {
+                wsize.cx = long(wsize.cy * vsize.cx / (double)vsize.cy + 0.5);
+                wsize.cy = long(wsize.cx * vsize.cy / (double)vsize.cx + 0.5);
+                break;
+            }
+        case WMSZ_LEFT:
+        case WMSZ_RIGHT:
+            wsize.cy = long(wsize.cx * vsize.cy / (double)vsize.cx + 0.5);
+            wsize.cx = long(wsize.cy * vsize.cx / (double)vsize.cy + 0.5);
+            break;
+    }
 
     wsize += fsize;
 
-    if (fwSide == WMSZ_TOP || fwSide == WMSZ_BOTTOM || !fWider && (fwSide == WMSZ_TOPRIGHT || fwSide == WMSZ_BOTTOMRIGHT)) {
-        pRect->right = pRect->left + wsize.cx;
-    } else if (fwSide == WMSZ_LEFT || fwSide == WMSZ_RIGHT || fWider && (fwSide == WMSZ_BOTTOMLEFT || fwSide == WMSZ_BOTTOMRIGHT)) {
-        pRect->bottom = pRect->top + wsize.cy;
-    } else if (!fWider && (fwSide == WMSZ_TOPLEFT || fwSide == WMSZ_BOTTOMLEFT)) {
-        pRect->left = pRect->right - wsize.cx;
-    } else if (fWider && (fwSide == WMSZ_TOPLEFT || fwSide == WMSZ_TOPRIGHT)) {
-        pRect->top = pRect->bottom - wsize.cy;
+    switch (fwSide) {
+        case WMSZ_TOPLEFT:
+            pRect->left = pRect->right - wsize.cx;
+            pRect->top = pRect->bottom - wsize.cy;
+            break;
+        case WMSZ_TOP:
+        case WMSZ_TOPRIGHT:
+            pRect->right = pRect->left + wsize.cx;
+            pRect->top = pRect->bottom - wsize.cy;
+            break;
+        case WMSZ_RIGHT:
+        case WMSZ_BOTTOM:
+        case WMSZ_BOTTOMRIGHT:
+            pRect->right = pRect->left + wsize.cx;
+            pRect->bottom = pRect->top + wsize.cy;
+            break;
+        case WMSZ_LEFT:
+        case WMSZ_BOTTOMLEFT:
+            pRect->left = pRect->right - wsize.cx;
+            pRect->bottom = pRect->top + wsize.cy;
+            break;
     }
 }
 
@@ -10199,11 +10230,14 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
         return 1.0;
     }
 
-    // The scaling is computed so that either the width or the height is an integer value
-    double sx = (floor((double)s.nAutoFitFactor / 100.0 * (double)width  + 0.5) - decorationsSize.cx) / (double)arxy.cx;
-    double sy = (floor((double)s.nAutoFitFactor / 100.0 * (double)height + 0.5) - decorationsSize.cy) / (double)arxy.cy;
+    double sx = ((double)s.nAutoFitFactor / 100.0 * (double)width - decorationsSize.cx) / (double)arxy.cx;
+    double sy = ((double)s.nAutoFitFactor / 100.0 * (double)height - decorationsSize.cy) / (double)arxy.cy;
+    sx = sx < sy ? sx : sy;
+    // Take movie aspect ratio into consideration
+    // The scaling is computed so that the height is an integer value
+    sy = floor(arxy.cy * floor(arxy.cx * sx + 0.5) / (double)arxy.cx + 0.5) / (double)arxy.cy;
 
-    return sx < sy ? sx : sy;
+    return sy;
 }
 
 void CMainFrame::RepaintVideo()
