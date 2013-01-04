@@ -1,3 +1,3 @@
 [submodule "lcms2"]
-	path = src/thirdparty/lcms2/library
-	url = https://github.com/mm2/Little-CMS.git
+    path = src/thirdparty/lcms2/library
+    url = https://github.com/mm2/Little-CMS.git
