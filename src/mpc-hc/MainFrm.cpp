@@ -2519,8 +2519,13 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         break;
                 }
 
-                SetupDVDChapters();
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
+
+                if (GetPlaybackMode() == PM_FILE) {
+                    SetupChapters();
+                } else if (GetPlaybackMode() == PM_DVD) {
+                    SetupDVDChapters();
+                }
 
 #if 0   // UOPs debug traces
                 if (hr == VFW_E_DVD_OPERATION_INHIBITED) {

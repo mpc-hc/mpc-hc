@@ -25,3 +25,4 @@ Legend:
   - Support SRT files with missing millisecond part in the timecodes.
 ! Ticket #2423, Fix wrong rounding when resizing the window using the zoom feature.
   This was mostly visible when using the "auto-fit" zoom.
+! Ticket #2783, Fix crash when generating the chapter marks.
