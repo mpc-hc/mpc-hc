@@ -188,7 +188,7 @@ REM Call update_version.bat before building the filters
 CALL "update_version.bat"
 
 MSBuild.exe mpc-hc.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="%BUILDCFG% Filter";PPLATFORM=%1^
+ /target:%BUILDTYPE% /property:Configuration="%BUILDCFG% Filter";Platform=%1^
  /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
@@ -205,7 +205,7 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 TITLE Compiling MPC-HC - %BUILDCFG%^|%1...
 MSBuild.exe mpc-hc.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="%BUILDCFG%";PPLATFORM=%1^
+ /target:%BUILDTYPE% /property:Configuration="%BUILDCFG%";Platform=%1^
  /flp1:LogFile="%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log";errorsonly;Verbosity=diagnostic^
  /flp2:LogFile="%LOG_DIR%\mpc-hc_warnings_%BUILDCFG%_%1.log";warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
@@ -240,7 +240,7 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 TITLE Compiling mpciconlib - Release^|%1...
 MSBuild.exe mpciconlib.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration=Release;PPLATFORM=%1
+ /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!"
   EXIT /B
@@ -260,7 +260,7 @@ FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
 ) DO (
  TITLE Compiling mpcresources - %%~G^|%1...
  MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="Release %%~G";PPLATFORM=%1
+ /target:%BUILDTYPE% /property:Configuration="Release %%~G";Platform=%1
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 )
 EXIT /B
