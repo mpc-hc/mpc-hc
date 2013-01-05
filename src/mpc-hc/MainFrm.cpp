@@ -6650,8 +6650,11 @@ void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
 void CMainFrame::OnUpdateViewDefaultVideoFrame(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+
     int dvs = pCmdUI->m_nID - ID_VIEW_VF_HALF;
-    pCmdUI->SetRadio(AfxGetAppSettings().iDefaultVideoSize == dvs);
+    if (AfxGetAppSettings().iDefaultVideoSize == dvs && pCmdUI->m_pMenu) {
+        pCmdUI->m_pMenu->CheckMenuRadioItem(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, pCmdUI->m_nID, MF_BYCOMMAND);
+    }
 }
 
 void CMainFrame::OnViewSwitchVideoFrame()
@@ -6948,7 +6951,10 @@ void CMainFrame::OnViewAspectRatio(UINT nID)
 
 void CMainFrame::OnUpdateViewAspectRatio(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetRadio(AfxGetAppSettings().sizeAspectRatio == s_ar[pCmdUI->m_nID - ID_ASPECTRATIO_START]);
+    if (AfxGetAppSettings().sizeAspectRatio == s_ar[pCmdUI->m_nID - ID_ASPECTRATIO_START] && pCmdUI->m_pMenu) {
+        pCmdUI->m_pMenu->CheckMenuRadioItem(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, pCmdUI->m_nID, MF_BYCOMMAND);
+    }
+
     pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
 }
 
@@ -6979,7 +6985,9 @@ void CMainFrame::OnViewOntop(UINT nID)
 void CMainFrame::OnUpdateViewOntop(CCmdUI* pCmdUI)
 {
     int onTop = pCmdUI->m_nID - ID_ONTOP_NEVER;
-    pCmdUI->SetRadio(AfxGetAppSettings().iOnTop == onTop);
+    if (AfxGetAppSettings().iOnTop == onTop && pCmdUI->m_pMenu) {
+        pCmdUI->m_pMenu->CheckMenuRadioItem(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYINGVIDEO, pCmdUI->m_nID, MF_BYCOMMAND);
+    }
 }
 
 void CMainFrame::OnViewOptions()
@@ -8293,7 +8301,16 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             break;
     }
 
-    pCmdUI->SetRadio(fChecked);
+    if (fChecked) {
+        if (pCmdUI->m_pMenu) {
+            // To make things simpler we (ab)use the CheckMenuRadioItem function to set the radio bullet
+            // for the selected item and we use an extra call to SetCheck to ensure the mark is cleared
+            // from the other menu's items.
+            pCmdUI->m_pMenu->CheckMenuRadioItem(pCmdUI->m_nID, pCmdUI->m_nID, pCmdUI->m_nID, MF_BYCOMMAND);
+        }
+    } else {
+        pCmdUI->SetCheck(FALSE);
+    }
 }
 
 // navigate
