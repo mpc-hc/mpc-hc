@@ -508,7 +508,7 @@ void CAviSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
         for (unsigned int j = 0; j < m_pFile->m_strms.GetCount(); ++j) {
             CAviFile::strm_t* s = m_pFile->m_strms[j];
 
-            if (s->IsRawSubtitleStream()) {
+            if (s->IsRawSubtitleStream() || s->cs.IsEmpty()) {
                 continue;
             }
 

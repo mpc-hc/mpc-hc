@@ -26,3 +26,4 @@ Legend:
 ! Ticket #2423, Fix wrong rounding leading to small black bars when resizing the window.
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks.
+! Ticket #2805, AviSplitter: Fix a crash when closing the file while re-indexing.
