@@ -40,13 +40,15 @@ else
   else
     # Get where the branch is based on master
     base=$(git merge-base master HEAD)
+    base_ver=$(git rev-list --count $svnhash..$base)
+    base_ver=$((base_ver+svnrev))
 
     version_info="#define MPCHC_BRANCH _T(\"$branch\")"$'\n'
-    ver_full=" ($branch)"
+    ver_full=" ($branch) (master@${base_ver:0:7})"
   fi
 
   # Count how many changesets we have since the last svn changeset
-  ver=$(git rev-list --count $svnhash..$base)
+  ver=$(git rev-list --count $svnhash..HEAD)
   # Now add it with to last svn revision number
   ver=$((ver+svnrev))
 
@@ -69,6 +71,9 @@ if [[ "$branch" ]] && ! git diff-index --quiet HEAD; then
   echo "Revision:  $ver (Local modifications found)"
 else
   echo "Revision:  $ver"
+fi
+if [[ "$branch" ]] && [[ "$branch" != "master" ]]; then
+  echo "Mergebase: master@${base_ver} (${base:0:7})"
 fi
 
 # Update version_rev.h if it does not exist, or if version information.
