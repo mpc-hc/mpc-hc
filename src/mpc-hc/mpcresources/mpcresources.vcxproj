@@ -246,6 +246,7 @@
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <NoEntryPoint>true</NoEntryPoint>
+      <SetChecksum>true</SetChecksum>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
