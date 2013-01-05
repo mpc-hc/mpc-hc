@@ -29,7 +29,7 @@ if [ ! -d ".git" ] || ! command -v git >/dev/null 2>&1 ; then
   VER=0
 else
   # Get the current branch name
-  BRANCH=`git branch | grep "^\*" | awk '{print $2}'`
+  BRANCH=`git branch | grep "^\*" | sed 's/* //'`
   # If we are on the master branch
   if [ "$BRANCH" == "master" ] ; then
     BASE="HEAD"
