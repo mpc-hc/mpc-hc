@@ -11,93 +11,93 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\lcms2.h">
+    <ClInclude Include="library\include\lcms2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\lcms2_plugin.h">
+    <ClInclude Include="library\include\lcms2_plugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\lcms2_internal.h">
+    <ClInclude Include="library\src\lcms2_internal.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cmscam02.c">
+    <ClCompile Include="library\src\cmscam02.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmscgats.c">
+    <ClCompile Include="library\src\cmscgats.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmscnvrt.c">
+    <ClCompile Include="library\src\cmscnvrt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmserr.c">
+    <ClCompile Include="library\src\cmserr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsgamma.c">
+    <ClCompile Include="library\src\cmsgamma.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsgmt.c">
+    <ClCompile Include="library\src\cmsgmt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmshalf.c">
+    <ClCompile Include="library\src\cmshalf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsintrp.c">
+    <ClCompile Include="library\src\cmsintrp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsio0.c">
+    <ClCompile Include="library\src\cmsio0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsio1.c">
+    <ClCompile Include="library\src\cmsio1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmslut.c">
+    <ClCompile Include="library\src\cmslut.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsmd5.c">
+    <ClCompile Include="library\src\cmsmd5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsmtrx.c">
+    <ClCompile Include="library\src\cmsmtrx.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsnamed.c">
+    <ClCompile Include="library\src\cmsnamed.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsopt.c">
+    <ClCompile Include="library\src\cmsopt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmspack.c">
+    <ClCompile Include="library\src\cmspack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmspcs.c">
+    <ClCompile Include="library\src\cmspcs.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsplugin.c">
+    <ClCompile Include="library\src\cmsplugin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsps2.c">
+    <ClCompile Include="library\src\cmsps2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmssamp.c">
+    <ClCompile Include="library\src\cmssamp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmssm.c">
+    <ClCompile Include="library\src\cmssm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmstypes.c">
+    <ClCompile Include="library\src\cmstypes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsvirt.c">
+    <ClCompile Include="library\src\cmsvirt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmswtpnt.c">
+    <ClCompile Include="library\src\cmswtpnt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmsxform.c">
+    <ClCompile Include="library\src\cmsxform.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\precomp.c">
+    <ClCompile Include="precomp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
