@@ -31,6 +31,9 @@
 const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_NUM };
 const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = _T("http://mpc-hc.sourceforge.net/version.txt");
 
+bool UpdateChecker::bIsCheckingForUpdate = false;
+CCritSec UpdateChecker::csIsCheckingForUpdate;
+
 UpdateChecker::UpdateChecker(CString versionFileURL)
     : versionFileURL(versionFileURL)
     , latestVersion()
@@ -217,10 +220,17 @@ static UINT RunCheckForUpdateThread(LPVOID pParam)
         }
     }
 
+    UpdateChecker::bIsCheckingForUpdate = false;
+
     return 0;
 }
 
 void UpdateChecker::CheckForUpdate(bool autoCheck /*= false*/)
 {
-    AfxBeginThread(RunCheckForUpdateThread, (LPVOID)autoCheck);
+    CAutoLock lock(&csIsCheckingForUpdate);
+
+    if (!bIsCheckingForUpdate) {
+        bIsCheckingForUpdate = true;
+        AfxBeginThread(RunCheckForUpdateThread, (LPVOID)autoCheck);
+    }
 }

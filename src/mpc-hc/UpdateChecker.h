@@ -62,9 +62,14 @@ public:
     static void CheckForUpdate(bool autoCheck = false);
 
 private:
+    static bool bIsCheckingForUpdate;
+    static CCritSec csIsCheckingForUpdate;
+
     CString versionFileURL;
     Version latestVersion;
 
     static bool ParseVersion(const CString& versionStr, Version& version);
     static int CompareVersion(const Version& v1, const Version& v2);
+
+    friend static UINT RunCheckForUpdateThread(LPVOID pParam);
 };
