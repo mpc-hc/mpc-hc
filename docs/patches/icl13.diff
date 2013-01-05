@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index b4c4465..c3ef804 100644
+index 8267b6e..f574a1b 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -322,9 +322,9 @@ IF /I "%~2" == "Win32" (
@@ -15,7 +15,7 @@ index b4c4465..c3ef804 100644
  
  IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 7eacd21..aa542b7 100644
+index 8578eb7..8e1617d 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -40,7 +40,7 @@
@@ -2186,12 +2186,12 @@ index 9231c06..b1a71e1 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
-index 71426e6..a9efa1b 100644
+index 3f6ec48..72e3127 100644
 --- a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 +++ b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 @@ -22,7 +22,7 @@
  #define VerMinor  "41"
- #define copyright "2001-2012"
+ #define copyright "2001-2013"
  #define top_dir   "..\..\..\..\.."
 -#define sse_required
 +#define sse2_required
@@ -2241,7 +2241,7 @@ index dc94009..487070d 100644
  #else
  #error Compiler is not supported!
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index a9ce2d3..0e0a150 100644
+index 91605ed..8647645 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
@@ -2640,7 +2640,7 @@ index 9104a8f..d0c663e 100644
  endif
  
 diff --git a/src/thirdparty/lcms2/lcms2.vcxproj b/src/thirdparty/lcms2/lcms2.vcxproj
-index 92e09ba..0864221 100644
+index b64c613..f8d331a 100644
 --- a/src/thirdparty/lcms2/lcms2.vcxproj
 +++ b/src/thirdparty/lcms2/lcms2.vcxproj
 @@ -27,18 +27,22 @@
