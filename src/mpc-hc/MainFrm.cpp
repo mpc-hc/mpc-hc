@@ -10230,12 +10230,12 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
         return 1.0;
     }
 
-    double sx = ((double)s.nAutoFitFactor / 100.0 * (double)width - decorationsSize.cx) / (double)arxy.cx;
-    double sy = ((double)s.nAutoFitFactor / 100.0 * (double)height - decorationsSize.cy) / (double)arxy.cy;
-    sx = sx < sy ? sx : sy;
+    double sx = ((double)width  * s.nAutoFitFactor / 100 - decorationsSize.cx) / arxy.cx;
+    double sy = ((double)height * s.nAutoFitFactor / 100 - decorationsSize.cy) / arxy.cy;
+    sx = min(sx, sy);
     // Take movie aspect ratio into consideration
     // The scaling is computed so that the height is an integer value
-    sy = floor(arxy.cy * floor(arxy.cx * sx + 0.5) / (double)arxy.cx + 0.5) / (double)arxy.cy;
+    sy = floor(arxy.cy * floor(arxy.cx * sx + 0.5) / arxy.cx + 0.5) / arxy.cy;
 
     return sy;
 }
