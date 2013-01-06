@@ -759,7 +759,7 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
         case WM_INITDIALOG: {
-            SetDlgItemText(m_Dlg, IDC_VERSION, _T("DirectVobSub 2.41.") MAKE_STR(MPC_VERSION_REV) _T(" ") MPC_VERSION_ARCH _T("\nCopyright 2001-2012 MPC-HC Team"));
+            SetDlgItemText(m_Dlg, IDC_VERSION, _T("DirectVobSub 2.41.") MAKE_STR(MPC_VERSION_REV) _T(" ") MPC_VERSION_ARCH _T("\nCopyright 2001-2013 MPC-HC Team"));
         }
         break;
         case WM_COMMAND: {

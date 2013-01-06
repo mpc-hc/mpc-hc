@@ -201,7 +201,7 @@ static struct csri_info csri_vsfilter_info = {
     // 2.41 removes SSF support
     "VSFilter/TextSub (MPC-HC)", // longname
     "Gabest", // author
-    "Copyright (c) 2003-2012 by Gabest et al." // copyright
+    "Copyright (C) 2003-2013 by Gabest et al." // copyright
 };
 
 CSRIAPI struct csri_info* csri_renderer_info(csri_rend* rend) {
