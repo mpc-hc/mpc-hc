@@ -12033,7 +12033,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
             if (!AfxGetAppSettings().fEnableSubtitles) {
                 m_iSubtitleSel |= 0x80000000;
-            }else {
+            } else {
                 UpdateSubtitle();
             }
         }
@@ -15962,19 +15962,19 @@ bool CMainFrame::OpenBD(CString Path)
         }
         if (SUCCEEDED(ClipInfo.FindMainMovie(Path, strPlaylistFile, MainPlaylist, m_MPLSPlaylist))) {
             m_bIsBDPlay = true;
-            
+
             if (!InternalMpegSplitter && !ext.IsEmpty() && ext == _T(".bdmv")) {
                 return false;
             } else {
                 m_wndPlaylistBar.Empty();
                 CAtlList<CString> sl;
-                
+
                 if (InternalMpegSplitter) {
                     sl.AddTail(CString(strPlaylistFile));
                 } else {
                     sl.AddTail(CString(Path + _T("BDMV\\index.bdmv")));
                 }
-                
+
                 m_wndPlaylistBar.Append(sl, false);
                 OpenCurPlaylistItem();
                 return true;
