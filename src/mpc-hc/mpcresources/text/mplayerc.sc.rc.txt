@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+﻿BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"关于"
 8		"版权所有 © 2002-2013 请查看 Authors.txt"
 10		"版本 :"
@@ -258,7 +258,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 25		"配置管理"
 26		"重置设置"
 27		"导出"
-28		"导出键值"
+28		"导出按键"
 END
 
 BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
@@ -303,7 +303,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 19		"播放结束时返回至头部"
 20		"输出"
 21		"自动缩放: "
-23		"Auto fit factor:"
+23		"自动缩放的因素:"
 27		"缺省设置"
 28		"字幕"
 30		"音轨:"
@@ -1350,7 +1350,7 @@ STRING IDS_ENABLE_DXVA_FILTERS		"开启 DXVA 功能"
 STRING IDS_ENABLE_FFMPEG_FILTERS		"启用 FFMpeg 滤镜"
 STRING IDS_EXPORT_SETTINGS		"导出设置"
 STRING IDS_EXPORT_SETTINGS_FAILED		"导出失败！可能是你没有正确的权限导致。"
-STRING IDS_EXPORT_SETTINGS_NO_KEYS		"There are no customized keys to export."
+STRING IDS_EXPORT_SETTINGS_NO_KEYS		"没有自定义的按键被导出。"
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"设置导出成功。"
 STRING IDS_EXPORT_SETTINGS_WARNING		"一些改变还没有被保存。\n你想在导出前保存它们吗？"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"此类型已经在列表中！"
