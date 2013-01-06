@@ -98,7 +98,7 @@ STDMETHODIMP CRM9AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
     }
 
     D3DSURFACE_DESC d3dsd;
-    SecureZeroMemory(&d3dsd, sizeof(d3dsd));
+    ZeroMemory(&d3dsd, sizeof(d3dsd));
     if (FAILED(m_pVideoSurfaceOff->GetDesc(&d3dsd))) {
         return E_FAIL;
     }

@@ -132,7 +132,7 @@ BOOL CPPageFullscreen::OnInitDialog()
 
         if (monitor.IsMonitor()) {
             DISPLAY_DEVICE displayDevice;
-            SecureZeroMemory(&displayDevice, sizeof(displayDevice));
+            ZeroMemory(&displayDevice, sizeof(displayDevice));
             displayDevice.cb = sizeof(displayDevice);
             VERIFY(EnumDisplayDevices(str, 0,  &displayDevice, 0));
             if (str == strCurMon) {

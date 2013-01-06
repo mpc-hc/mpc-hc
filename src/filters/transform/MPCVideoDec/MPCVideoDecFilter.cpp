@@ -2200,7 +2200,7 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin* pPin)
     GUID guidDecoder = GUID_NULL;
 
     DXVA2_ConfigPictureDecode config;
-    SecureZeroMemory(&config, sizeof(config));
+    ZeroMemory(&config, sizeof(config));
 
     CComPtr<IMFGetService> pGetService;
     CComPtr<IDirect3DDeviceManager9> pDeviceManager;

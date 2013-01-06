@@ -560,7 +560,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
     HANDLE hChildStdoutRd, hChildStdoutWr, hChildStdoutRdDup = NULL;
 
     SECURITY_ATTRIBUTES saAttr;
-    SecureZeroMemory(&saAttr, sizeof(saAttr));
+    ZeroMemory(&saAttr, sizeof(saAttr));
     saAttr.nLength = sizeof(saAttr);
     saAttr.bInheritHandle = TRUE;
 
@@ -577,7 +577,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
     }
 
     STARTUPINFO siStartInfo;
-    SecureZeroMemory(&siStartInfo, sizeof(siStartInfo));
+    ZeroMemory(&siStartInfo, sizeof(siStartInfo));
     siStartInfo.cb = sizeof(siStartInfo);
     siStartInfo.hStdError = hChildStdoutWr;
     siStartInfo.hStdOutput = hChildStdoutWr;
@@ -586,7 +586,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
     siStartInfo.wShowWindow = SW_HIDE;
 
     PROCESS_INFORMATION piProcInfo;
-    SecureZeroMemory(&piProcInfo, sizeof(piProcInfo));
+    ZeroMemory(&piProcInfo, sizeof(piProcInfo));
 
     CStringA envstr;
 

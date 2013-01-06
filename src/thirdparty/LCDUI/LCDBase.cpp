@@ -34,8 +34,8 @@ CLCDBase::CLCDBase(void)
     m_Origin.y = 0;
     m_bVisible = TRUE;
     m_bInverted = FALSE;
-    SecureZeroMemory(&m_ptLogical, sizeof(m_ptLogical));
-    SecureZeroMemory(&m_sizeLogical, sizeof(m_sizeLogical));
+    ZeroMemory(&m_ptLogical, sizeof(m_ptLogical));
+    ZeroMemory(&m_sizeLogical, sizeof(m_sizeLogical));
     m_nBkMode = TRANSPARENT;
     m_objectType = LG_UNKNOWN;
     m_crBackgroundColor = RGB(0, 0, 0);

@@ -154,11 +154,11 @@ void CNullVideoRendererInputPin::CreateSurface()
     m_hWnd = NULL;  // TODO : put true window
 
     D3DDISPLAYMODE d3ddm;
-    SecureZeroMemory(&d3ddm, sizeof(d3ddm));
+    ZeroMemory(&d3ddm, sizeof(d3ddm));
     m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm);
 
     D3DPRESENT_PARAMETERS pp;
-    SecureZeroMemory(&pp, sizeof(pp));
+    ZeroMemory(&pp, sizeof(pp));
 
     pp.Windowed = TRUE;
     pp.hDeviceWindow = m_hWnd;

@@ -2175,7 +2175,7 @@ HRESULT CImageDisplay::RefreshDisplayType(__in_opt LPSTR szDeviceName)
 
     // Set the preferred format type
 
-    SecureZeroMemory((PVOID)&m_Display,sizeof(VIDEOINFOHEADER)+sizeof(TRUECOLORINFO));
+    ZeroMemory((PVOID)&m_Display,sizeof(VIDEOINFOHEADER)+sizeof(TRUECOLORINFO));
     m_Display.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
     m_Display.bmiHeader.biBitCount = FALSE;
 
@@ -2695,7 +2695,7 @@ STDAPI ConvertVideoInfoToVideoInfo2(__inout AM_MEDIA_TYPE *pmt)
         return E_OUTOFMEMORY;
     }
     CopyMemory(pvNew, pmt->pbFormat, FIELD_OFFSET(VIDEOINFOHEADER, bmiHeader));
-    SecureZeroMemory((PBYTE)pvNew + FIELD_OFFSET(VIDEOINFOHEADER, bmiHeader),
+    ZeroMemory((PBYTE)pvNew + FIELD_OFFSET(VIDEOINFOHEADER, bmiHeader),
                sizeof(VIDEOINFOHEADER2) - sizeof(VIDEOINFOHEADER));
     CopyMemory((PBYTE)pvNew + FIELD_OFFSET(VIDEOINFOHEADER2, bmiHeader),
                pmt->pbFormat + FIELD_OFFSET(VIDEOINFOHEADER, bmiHeader),

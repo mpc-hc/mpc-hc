@@ -35,12 +35,12 @@ CLCDColorText::CLCDColorText(void)
     m_sText.erase(m_sText.begin(), m_sText.end());
     SetForegroundColor(RGB(255, 0, 255));
     m_bRecalcExtent = TRUE;
-    SecureZeroMemory(&m_dtp, sizeof(DRAWTEXTPARAMS));
+    ZeroMemory(&m_dtp, sizeof(DRAWTEXTPARAMS));
     m_dtp.cbSize = sizeof(DRAWTEXTPARAMS);
     m_nTextFormat = m_nTextAlignment = (DT_LEFT | DT_NOPREFIX);
     m_nTextAlignment = DT_LEFT;
-    SecureZeroMemory(&m_sizeVExtent, sizeof(m_sizeVExtent));
-    SecureZeroMemory(&m_sizeHExtent, sizeof(m_sizeHExtent));
+    ZeroMemory(&m_sizeVExtent, sizeof(m_sizeVExtent));
+    ZeroMemory(&m_sizeHExtent, sizeof(m_sizeHExtent));
 
     SetBackgroundMode(TRANSPARENT, RGB(255,255,255));
 

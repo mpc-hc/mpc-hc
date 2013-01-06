@@ -665,8 +665,8 @@ HRESULT CMpcAudioRenderer::CreateDSBuffer()
     DSBCAPS bufferCaps;
     DWORD dwDSBufSize = m_pWaveFileFormat->nAvgBytesPerSec * 4;
 
-    SecureZeroMemory(&bufferCaps, sizeof(bufferCaps));
-    SecureZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
+    ZeroMemory(&bufferCaps, sizeof(bufferCaps));
+    ZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
 
     dsbd.dwSize = sizeof(DSBUFFERDESC);
     dsbd.dwFlags = DSBCAPS_PRIMARYBUFFER;

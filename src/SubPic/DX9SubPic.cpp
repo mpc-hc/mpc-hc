@@ -33,7 +33,7 @@ CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator* pAlloca
     , m_bExternalRenderer(bExternalRenderer)
 {
     D3DSURFACE_DESC d3dsd;
-    SecureZeroMemory(&d3dsd, sizeof(d3dsd));
+    ZeroMemory(&d3dsd, sizeof(d3dsd));
     if (SUCCEEDED(m_pSurface->GetDesc(&d3dsd))) {
         m_maxsize.SetSize(d3dsd.Width, d3dsd.Height);
         m_rcDirty.SetRect(0, 0, d3dsd.Width, d3dsd.Height);
@@ -75,7 +75,7 @@ STDMETHODIMP_(void*) CDX9SubPic::GetObject()
 STDMETHODIMP CDX9SubPic::GetDesc(SubPicDesc& spd)
 {
     D3DSURFACE_DESC d3dsd;
-    SecureZeroMemory(&d3dsd, sizeof(d3dsd));
+    ZeroMemory(&d3dsd, sizeof(d3dsd));
     if (FAILED(m_pSurface->GetDesc(&d3dsd))) {
         return E_FAIL;
     }
@@ -176,13 +176,13 @@ STDMETHODIMP CDX9SubPic::ClearDirtyRect(DWORD color)
 STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
 {
     D3DSURFACE_DESC d3dsd;
-    SecureZeroMemory(&d3dsd, sizeof(d3dsd));
+    ZeroMemory(&d3dsd, sizeof(d3dsd));
     if (FAILED(m_pSurface->GetDesc(&d3dsd))) {
         return E_FAIL;
     }
 
     D3DLOCKED_RECT LockedRect;
-    SecureZeroMemory(&LockedRect, sizeof(LockedRect));
+    ZeroMemory(&LockedRect, sizeof(LockedRect));
     if (FAILED(m_pSurface->LockRect(&LockedRect, NULL, D3DLOCK_NO_DIRTY_UPDATE | D3DLOCK_NOSYSLOCK))) {
         return E_FAIL;
     }
@@ -246,7 +246,7 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
     do {
         D3DSURFACE_DESC d3dsd;
-        SecureZeroMemory(&d3dsd, sizeof(d3dsd));
+        ZeroMemory(&d3dsd, sizeof(d3dsd));
         if (FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
             break;
         }

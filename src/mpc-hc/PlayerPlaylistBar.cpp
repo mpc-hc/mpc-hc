@@ -1184,7 +1184,7 @@ void CPlayerPlaylistBar::DropItemOnList()
 
     TCHAR szLabel[MAX_PATH];
     LV_ITEM lvi;
-    SecureZeroMemory(&lvi, sizeof(LV_ITEM));
+    ZeroMemory(&lvi, sizeof(LV_ITEM));
     lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_STATE | LVIF_PARAM;
     lvi.stateMask = LVIS_DROPHILITED | LVIS_FOCUSED | LVIS_SELECTED;
     lvi.pszText = szLabel;

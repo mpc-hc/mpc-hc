@@ -128,13 +128,13 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     m_DetectedFrameTime = 0.0;
     m_DetectedFrameTimeStdDev = 0.0;
     m_DetectedLock = false;
-    SecureZeroMemory(m_DetectedFrameTimeHistory, sizeof(m_DetectedFrameTimeHistory));
-    SecureZeroMemory(m_DetectedFrameTimeHistoryHistory, sizeof(m_DetectedFrameTimeHistoryHistory));
+    ZeroMemory(m_DetectedFrameTimeHistory, sizeof(m_DetectedFrameTimeHistory));
+    ZeroMemory(m_DetectedFrameTimeHistoryHistory, sizeof(m_DetectedFrameTimeHistoryHistory));
     m_DetectedFrameTimePos = 0;
-    SecureZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+    ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
-    SecureZeroMemory(m_ldDetectedRefreshRateList, sizeof(m_ldDetectedRefreshRateList));
-    SecureZeroMemory(m_ldDetectedScanlineRateList, sizeof(m_ldDetectedScanlineRateList));
+    ZeroMemory(m_ldDetectedRefreshRateList, sizeof(m_ldDetectedRefreshRateList));
+    ZeroMemory(m_ldDetectedScanlineRateList, sizeof(m_ldDetectedScanlineRateList));
     m_DetectedRefreshRatePos = 0;
     m_DetectedRefreshTimePrim = 0;
     m_DetectedScanlineTime = 0;
@@ -697,8 +697,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     m_ModeratedTimeSpeed = 1.0;
     m_ModeratedTimeSpeedDiff = 0.0;
     m_ModeratedTimeSpeedPrim = 0;
-    SecureZeroMemory(m_TimeChangeHistory, sizeof(m_TimeChangeHistory));
-    SecureZeroMemory(m_ClockChangeHistory, sizeof(m_ClockChangeHistory));
+    ZeroMemory(m_TimeChangeHistory, sizeof(m_TimeChangeHistory));
+    ZeroMemory(m_ClockChangeHistory, sizeof(m_ClockChangeHistory));
     m_ClockTimeChangeHistoryPos = 0;
 
     m_pD3DDev = NULL;
@@ -759,7 +759,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 #endif
 
     D3DPRESENT_PARAMETERS pp;
-    SecureZeroMemory(&pp, sizeof(pp));
+    ZeroMemory(&pp, sizeof(pp));
 
     BOOL bCompositionEnabled = false;
     if (m_pDwmIsCompositionEnabled) {
@@ -798,10 +798,10 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     }
 
     D3DDISPLAYMODEEX DisplayMode;
-    SecureZeroMemory(&DisplayMode, sizeof(DisplayMode));
+    ZeroMemory(&DisplayMode, sizeof(DisplayMode));
     DisplayMode.Size = sizeof(DisplayMode);
     D3DDISPLAYMODE d3ddm;
-    SecureZeroMemory(&d3ddm, sizeof(d3ddm));
+    ZeroMemory(&d3ddm, sizeof(d3ddm));
 
     if (m_bIsFullscreen) {
         if (m_bHighColorResolution) {
@@ -933,7 +933,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     }
 
     // Get the device caps
-    SecureZeroMemory(&m_Caps, sizeof(m_Caps));
+    ZeroMemory(&m_Caps, sizeof(m_Caps));
     m_pD3DDev->GetDeviceCaps(&m_Caps);
 
     // Initialize the rendering engine

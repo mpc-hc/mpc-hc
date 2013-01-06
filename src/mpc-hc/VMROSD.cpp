@@ -94,7 +94,7 @@ void CVMROSD::UpdateBitmap()
         BITMAPINFO bmi = {0};
         HBITMAP    hbmpRender;
 
-        SecureZeroMemory(&bmi.bmiHeader, sizeof(BITMAPINFOHEADER));
+        ZeroMemory(&bmi.bmiHeader, sizeof(BITMAPINFOHEADER));
         bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
         bmi.bmiHeader.biWidth = m_rectWnd.Width();
         bmi.bmiHeader.biHeight = - (int) m_rectWnd.Height(); // top-down
@@ -108,7 +108,7 @@ void CVMROSD::UpdateBitmap()
         if (::GetObject(hbmpRender, sizeof(BITMAP), &m_BitmapInfo) != 0) {
             // Configure the VMR's bitmap structure
             if (m_pVMB) {
-                SecureZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+                ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
                 m_VMR9AlphaBitmap.dwFlags       = VMRBITMAP_HDC | VMRBITMAP_SRCCOLORKEY;
                 m_VMR9AlphaBitmap.hdc           = m_MemDC;
                 m_VMR9AlphaBitmap.rSrc          = m_rectWnd;
@@ -119,7 +119,7 @@ void CVMROSD::UpdateBitmap()
                 m_VMR9AlphaBitmap.fAlpha        = 1.0;
                 m_VMR9AlphaBitmap.clrSrcKey     = m_Color[OSD_TRANSPARENT];
             } else if (m_pMFVMB) {
-                SecureZeroMemory(&m_MFVideoAlphaBitmap, sizeof(m_MFVideoAlphaBitmap));
+                ZeroMemory(&m_MFVideoAlphaBitmap, sizeof(m_MFVideoAlphaBitmap));
                 m_MFVideoAlphaBitmap.params.dwFlags         = MFVideoAlphaBitmap_SrcColorKey;
                 m_MFVideoAlphaBitmap.params.clrSrcKey       = m_Color[OSD_TRANSPARENT];
                 m_MFVideoAlphaBitmap.params.rcSrc           = m_rectWnd;
