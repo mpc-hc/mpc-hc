@@ -22,8 +22,10 @@
     <ProjectGuid>{4CEFBC84-C215-11DB-8314-0800200C9A66}</ProjectGuid>
     <RootNamespace>libflac</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>libflac</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>

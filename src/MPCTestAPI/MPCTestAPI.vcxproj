@@ -22,8 +22,10 @@
     <ProjectGuid>{A1F84246-B9A1-455F-97E4-D730AB089947}</ProjectGuid>
     <RootNamespace>MPCTestAPI</RootNamespace>
     <Keyword>MFCProj</Keyword>
+    <ProjectName>MPCTestAPI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>
@@ -74,6 +76,14 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin\$(Configuration)_$(Platform)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\obj\$(Configuration)_$(Platform)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin\obj\$(Configuration)_$(Platform)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\$(Configuration)_$(Platform)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\obj\$(Configuration)_$(Platform)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\obj\$(Configuration)_$(Platform)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\$(Configuration)_$(Platform)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\obj\$(Configuration)_$(Platform)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\obj\$(Configuration)_$(Platform)\</IntDir>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</GenerateManifest>
@@ -81,28 +91,38 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PreprocessorDefinitions Condition="'$(VisualStudioVersion)'=='11.0'">_AFX_NO_MFC_CONTROLS_IN_DIALOGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <PreprocessorDefinitions Condition="'$(VisualStudioVersion)'=='11.0'">_AFX_NO_MFC_CONTROLS_IN_DIALOGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
+      <PreprocessorDefinitions Condition="'$(VisualStudioVersion)'=='11.0'">_AFX_NO_MFC_CONTROLS_IN_DIALOGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <PreprocessorDefinitions Condition="'$(VisualStudioVersion)'=='11.0'">_AFX_NO_MFC_CONTROLS_IN_DIALOGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp" />
-    <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp" />
-    <ClCompile Include="..\thirdparty\mfc\winmdi.cpp" />
+    <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp">
+      <ExcludedFromBuild Condition="'$(VisualStudioVersion)'=='11.0'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp">
+      <ExcludedFromBuild Condition="'$(VisualStudioVersion)'=='11.0'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\mfc\winmdi.cpp">
+      <ExcludedFromBuild Condition="'$(VisualStudioVersion)'=='11.0'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="HScrollListBox.cpp" />
     <ClCompile Include="MPCTestAPI.cpp" />
     <ClCompile Include="MPCTestAPIDlg.cpp" />

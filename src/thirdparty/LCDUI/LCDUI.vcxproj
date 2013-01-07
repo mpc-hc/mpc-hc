@@ -22,8 +22,10 @@
     <ProjectGuid>{476B97B4-F079-4A44-AF89-52CA30C35E28}</ProjectGuid>
     <RootNamespace>LCDUI</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>LCDUI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>

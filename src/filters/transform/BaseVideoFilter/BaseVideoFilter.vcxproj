@@ -22,8 +22,10 @@
     <ProjectGuid>{54DDA60F-E528-4D07-A152-960A1E818680}</ProjectGuid>
     <RootNamespace>BaseVideoFilter</RootNamespace>
     <Keyword>MFCProj</Keyword>
+    <ProjectName>BaseVideoFilter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>

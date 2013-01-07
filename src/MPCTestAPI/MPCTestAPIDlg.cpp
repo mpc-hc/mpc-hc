@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2012 see Authors.txt
+ * (C) 2008-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -166,8 +166,12 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
     SetIcon(m_hIcon, FALSE);        // Set small icon
 
     // TODO: Add extra initialization here
-    m_strMPCPath = _T("..\\..\\..\\..\\bin\\");
 
+#if (_MSC_VER == 1700)
+    m_strMPCPath = _T("..\\..\\..\\..\\bin12\\");
+#else
+    m_strMPCPath = _T("..\\..\\..\\..\\bin\\");
+#endif
 #if defined(_WIN64)
     m_strMPCPath += _T("mpc-hc_x64");
 #else

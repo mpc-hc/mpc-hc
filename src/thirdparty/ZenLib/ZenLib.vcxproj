@@ -22,8 +22,10 @@
     <ProjectGuid>{0DA1DA7D-F393-4E7C-A7CE-CB5C6A67BC94}</ProjectGuid>
     <RootNamespace>ZenLib</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>ZenLib</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
