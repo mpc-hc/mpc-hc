@@ -63,12 +63,6 @@ public IUnknown {
     STDMETHOD(SetDiscardMode(int nValue)) = 0;
     STDMETHOD_(int, GetDiscardMode()) = 0;
 
-    STDMETHOD(SetErrorRecognition(int nValue)) = 0;
-    STDMETHOD_(int, GetErrorRecognition()) = 0;
-
-    STDMETHOD(SetIDCTAlgo(int nValue)) = 0;
-    STDMETHOD_(int, GetIDCTAlgo()) = 0;
-
     STDMETHOD_(GUID*, GetDXVADecoderGuid()) = 0;
 
     STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue)) = 0;

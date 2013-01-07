@@ -34,10 +34,6 @@ class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
     CComboBox   m_cbThreadNumber;
     CStatic     m_txtDiscardMode;
     CComboBox   m_cbDiscardMode;
-    CStatic     m_txtErrorRecognition;
-    CComboBox   m_cbErrorRecognition;
-    CStatic     m_txtIDCTAlgo;
-    CComboBox   m_cbIDCTAlgo;
 
     CButton     m_grpDXVA;
     CStatic     m_txtDXVAMode;

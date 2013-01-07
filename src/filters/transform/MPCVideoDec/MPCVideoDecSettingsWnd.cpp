@@ -102,7 +102,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     GUID* DxvaGui = NULL;
 
 #if HAS_FFMPEG_VIDEO_DECODERS
-    m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 * 5 + h20)), this, (UINT)IDC_STATIC);
+    m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 * 3 + h20)), this, (UINT)IDC_STATIC);
     p.y += h20;
 
     // Decoding threads
@@ -127,24 +127,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_NONKFRM));
     m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_ALL));
 #endif /* INTERNAL_DECODER_H264 */
-    p.y += h25;
-
-    // Error recognition
-    m_txtErrorRecognition.Create(ResStr(IDS_VDF_ERROR_RECOGNITION), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
-    m_cbErrorRecognition.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
-    m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_CAREFUL));
-    m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_COMPLIANT));
-    m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_AGGRESSIVE));
-    p.y += h25;
-
-    // IDCT Algorithm
-    m_txtIDCTAlgo.Create(ResStr(IDS_VDF_IDCT_ALGO), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
-    m_cbIDCTAlgo.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
-    m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_AUTO));
-    m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_LIBMPEG2));
-    m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_SIMPLE_MMX));
-    m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_XVID));
-    m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_SIMPLE));
     p.y += h25;
 
     m_cbARMode.Create(ResStr(IDS_VDF_AR_MODE), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(340), m_fontheight)), this, IDC_PP_AR);
@@ -211,8 +193,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
         m_cbThreadNumber.SetCurSel(m_pMDF->GetThreadNumber());
         m_cbDiscardMode.SetCurSel(FindDiscardIndex(m_pMDF->GetDiscardMode()));
 #endif
-        m_cbErrorRecognition.SetCurSel(FindErrRecognitionIndex(m_pMDF->GetErrorRecognition()));
-        m_cbIDCTAlgo.SetCurSel(m_pMDF->GetIDCTAlgo());
 
         m_cbARMode.SetCheck(m_pMDF->GetARMode());
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
@@ -240,8 +220,6 @@ bool CMPCVideoDecSettingsWnd::OnApply()
         m_pMDF->SetThreadNumber(m_cbThreadNumber.GetCurSel());
         m_pMDF->SetDiscardMode(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
 #endif /* INTERNAL_DECODER_H264 */
-        m_pMDF->SetErrorRecognition(g_AVErrRecognition[m_cbErrorRecognition.GetCurSel()]);
-        m_pMDF->SetIDCTAlgo(m_cbIDCTAlgo.GetCurSel());
 
         m_pMDF->SetARMode(m_cbARMode.GetCheck());
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */

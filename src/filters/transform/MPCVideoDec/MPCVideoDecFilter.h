@@ -99,8 +99,6 @@ protected:
     // === Persistants parameters (registry)
     int m_nThreadNumber;
     int m_nDiscardMode;
-    int m_nErrorRecognition;
-    int m_nIDCTAlgo;
     bool m_bDXVACompatible;
     int m_nActiveCodecs;
     int m_nARMode;
@@ -249,10 +247,6 @@ public:
     STDMETHODIMP_(int) GetThreadNumber();
     STDMETHOD(SetDiscardMode(int nValue));
     STDMETHOD_(int, GetDiscardMode());
-    STDMETHOD(SetErrorRecognition(int nValue));
-    STDMETHOD_(int, GetErrorRecognition());
-    STDMETHOD(SetIDCTAlgo(int nValue));
-    STDMETHOD_(int, GetIDCTAlgo());
     STDMETHOD_(GUID*, GetDXVADecoderGuid());
     STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue));
     STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs());

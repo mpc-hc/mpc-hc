@@ -575,8 +575,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
     m_nThreadNumber = 0;
     m_nDiscardMode = AVDISCARD_DEFAULT;
-    m_nErrorRecognition = AV_EF_CAREFUL;
-    m_nIDCTAlgo = FF_IDCT_AUTO;
     m_bDXVACompatible = true;
     m_pFFBuffer = NULL;
     m_nFFBufferSize = 0;
@@ -623,12 +621,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
             m_nDiscardMode = dw;
         }
 #endif
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorRecognition"), dw)) {
-            m_nErrorRecognition = dw;
-        }
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("IDCTAlgo"), dw)) {
-            m_nIDCTAlgo = dw;
-        }
         if (ERROR_SUCCESS == key.QueryDWORDValue(_T("ActiveCodecs"), dw)) {
             m_nActiveCodecs = dw;
         }
@@ -653,8 +645,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 #if INTERNAL_DECODER_H264
     m_nDiscardMode = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DiscardMode"), m_nDiscardMode);
 #endif
-    m_nErrorRecognition = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ErrorRecognition"), m_nErrorRecognition);
-    m_nIDCTAlgo = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("IDCTAlgo"), m_nIDCTAlgo);
     m_nARMode = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ARMode"), m_nARMode);
 #endif
     m_nDXVACheckCompatibility = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
@@ -663,9 +653,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_interlacedFlag = (MPCVD_INTERLACED_FLAG)AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("InterlacedFlag"), m_interlacedFlag);
 #endif
 
-    if (m_nErrorRecognition != AV_EF_CAREFUL && m_nErrorRecognition != AV_EF_COMPLIANT && m_nErrorRecognition != AV_EF_AGGRESSIVE) {
-        m_nErrorRecognition = AV_EF_CAREFUL;
-    }
     if (m_nDXVACheckCompatibility > 3) {
         m_nDXVACheckCompatibility = 1;    // skip level check by default
     }
@@ -1178,13 +1165,13 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction, const CMediaTy
                 m_bReorderBFrame = false;
             }
 
-            m_pAVCtx->codec_id = m_nCodecId;
-            m_pAVCtx->workaround_bugs = m_nWorkaroundBug;
+            m_pAVCtx->codec_id          = m_nCodecId;
+            m_pAVCtx->workaround_bugs   = m_nWorkaroundBug;
             m_pAVCtx->error_concealment = m_nErrorConcealment;
-            m_pAVCtx->err_recognition = m_nErrorRecognition;
-            m_pAVCtx->idct_algo = m_nIDCTAlgo;
-            m_pAVCtx->skip_loop_filter = (AVDiscard)m_nDiscardMode;
-            m_pAVCtx->dsp_mask = AV_CPU_FLAG_FORCE | m_pCpuId->GetFeatures();
+            m_pAVCtx->err_recognition   = AV_EF_CAREFUL;
+            m_pAVCtx->idct_algo         = FF_IDCT_AUTO;
+            m_pAVCtx->skip_loop_filter  = (AVDiscard)m_nDiscardMode;
+            m_pAVCtx->dsp_mask          = AV_CPU_FLAG_FORCE | m_pCpuId->GetFeatures();
 
             m_pAVCtx->debug_mv = 0;
 
@@ -2517,8 +2504,6 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
     if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"))) {
         key.SetDWORDValue(_T("ThreadNumber"), m_nThreadNumber);
         key.SetDWORDValue(_T("DiscardMode"), m_nDiscardMode);
-        key.SetDWORDValue(_T("ErrorRecognition"), m_nErrorRecognition);
-        key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
         key.SetDWORDValue(_T("ActiveCodecs"), m_nActiveCodecs);
         key.SetDWORDValue(_T("ARMode"), m_nARMode);
         key.SetDWORDValue(_T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
@@ -2528,8 +2513,6 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
 #else
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("ThreadNumber"), m_nThreadNumber);
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("DiscardMode"), m_nDiscardMode);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("ErrorRecognition"), m_nErrorRecognition);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("IDCTAlgo"), m_nIDCTAlgo);
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("ARMode"), m_nARMode);
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("InterlacedFlag"), m_interlacedFlag);
@@ -2564,32 +2547,6 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetDiscardMode()
 {
     CAutoLock cAutoLock(&m_csProps);
     return m_nDiscardMode;
-}
-
-STDMETHODIMP CMPCVideoDecFilter::SetErrorRecognition(int nValue)
-{
-    CAutoLock cAutoLock(&m_csProps);
-    m_nErrorRecognition = nValue;
-    return S_OK;
-}
-
-STDMETHODIMP_(int) CMPCVideoDecFilter::GetErrorRecognition()
-{
-    CAutoLock cAutoLock(&m_csProps);
-    return m_nErrorRecognition;
-}
-
-STDMETHODIMP CMPCVideoDecFilter::SetIDCTAlgo(int nValue)
-{
-    CAutoLock cAutoLock(&m_csProps);
-    m_nIDCTAlgo = nValue;
-    return S_OK;
-}
-
-STDMETHODIMP_(int) CMPCVideoDecFilter::GetIDCTAlgo()
-{
-    CAutoLock cAutoLock(&m_csProps);
-    return m_nIDCTAlgo;
 }
 
 STDMETHODIMP_(GUID*) CMPCVideoDecFilter::GetDXVADecoderGuid()
