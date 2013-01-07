@@ -111,15 +111,11 @@ BEGIN
     IDS_VDF_DBLK_NONKFRM    "Non keyframes"
     IDS_VDF_DBLK_ALL        "All frames"
     IDS_VDF_IDCT_AUTO       "Auto"
-    IDS_VDF_IDCT_LIBMPEG2   "libmpeg2 MMX"
     IDS_VDF_AR_MODE         "Read AR from stream"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_VDF_IDCT_SIMPLE_MMX "Simple MMX"
-    IDS_VDF_IDCT_XVID       "Xvid MMX"
-    IDS_VDF_IDCT_SIMPLE     "Simple"
     IDS_VDF_DXVA_SETTING    "DXVA settings"
     IDS_VDF_DXVA_MODE       "DXVA Mode"
     IDS_VDF_DXVA_SD         "Disable DXVA for SD"
