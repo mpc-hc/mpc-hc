@@ -65,6 +65,35 @@
 #include "os2threads.h"
 #endif
 
+// ==> Start patch MPC
+int ff_pthread_lockmgr_cb(void **mutex, enum AVLockOp op)
+{
+    int ret = 0;
+    av_log(NULL, AV_LOG_DEBUG, "ff_pthread_lockmgr_cb called %d on mutex %p\n", op, *mutex);
+    switch (op) {
+    case AV_LOCK_CREATE:
+        *mutex = av_malloc(sizeof(pthread_mutex_t));
+        if (!mutex)
+            return AVERROR(ENOMEM);
+        ret = pthread_mutex_init(*mutex, NULL);
+        break;
+    case AV_LOCK_OBTAIN:
+        ret = pthread_mutex_lock(*mutex);
+        break;
+    case AV_LOCK_RELEASE:
+        ret = pthread_mutex_unlock(*mutex);
+        break;
+    case AV_LOCK_DESTROY:
+        ret = pthread_mutex_destroy(*mutex);
+        av_freep(mutex);
+        break;
+    default:
+        return AVERROR_BUG;
+    }
+    return AVERROR(ret);
+}
+// ==> End patch MPC
+
 typedef int (action_func)(AVCodecContext *c, void *arg);
 typedef int (action_func2)(AVCodecContext *c, void *arg, int jobnr, int threadnr);
 

@@ -113,6 +113,13 @@ void ff_thread_release_buffer(AVCodecContext *avctx, AVFrame *f);
 int ff_thread_init(AVCodecContext *s);
 void ff_thread_free(AVCodecContext *s);
 
+// ==> Start patch MPC
+/**
+ *  Default lock manager for pthread system
+ */
+int ff_pthread_lockmgr_cb(void **mutex, enum AVLockOp op);
+// ==> End patch MPC
+
 // ffdshow custom code. return pointer to the copied AVCodecContext for thread 0.
 AVCodecContext* get_thread0_avctx(AVCodecContext *avctx);
 

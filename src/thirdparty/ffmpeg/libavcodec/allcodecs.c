@@ -27,6 +27,10 @@
 #include "avcodec.h"
 #include "config.h"
 
+#if HAVE_THREADS
+#include "thread.h"
+#endif
+
 #define REGISTER_ENCODER(X,x) { \
           extern AVCodec ff_##x##_encoder; \
           if(CONFIG_##X##_ENCODER)  avcodec_register(&ff_##x##_encoder); }
@@ -46,6 +50,10 @@ void avcodec_register_all(void)
     if (initialized)
         return;
     initialized = 1;
+
+#if HAVE_THREADS
+    av_lockmgr_register(&ff_pthread_lockmgr_cb);
+#endif
 
     /* video codecs */
     REGISTER_DECODER (AMV, amv);

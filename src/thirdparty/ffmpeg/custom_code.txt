@@ -14,6 +14,7 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 * libavcodec/mpeg12.h
 * libavcodec/mpegvideo.c
 * libavcodec/pthread.c
+* libavcodec/thread.h
 * libavcodec/utils.c
 * libavcodec/vc1dec.c
 
