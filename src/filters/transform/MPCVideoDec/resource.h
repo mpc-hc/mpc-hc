@@ -11,11 +11,6 @@
 #define IDS_VDF_DBLK_BIDIR              33173
 #define IDS_VDF_DBLK_NONKFRM            33174
 #define IDS_VDF_DBLK_ALL                33175
-#define IDS_VDF_ERROR_RECOGNITION       33176
-#define IDS_VDF_ERR_CAREFUL             33177
-#define IDS_VDF_ERR_COMPLIANT           33178
-#define IDS_VDF_ERR_AGGRESSIVE          33179
-#define IDS_VDF_IDCT_ALGO               33181
 #define IDS_VDF_IDCT_AUTO               33182
 #define IDS_VDF_IDCT_LIBMPEG2           33183
 #define IDS_VDF_IDCT_SIMPLE_MMX         33184
