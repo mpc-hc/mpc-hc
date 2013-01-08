@@ -32,8 +32,8 @@ class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
     CButton     m_grpFFMpeg;
     CStatic     m_txtThreadNumber;
     CComboBox   m_cbThreadNumber;
-    CStatic     m_txtDiscardMode;
-    CComboBox   m_cbDiscardMode;
+    CStatic     m_txtSkipDeblock;
+    CComboBox   m_cbSkipDeblock;
 
     CButton     m_grpDXVA;
     CStatic     m_txtDXVAMode;
@@ -53,14 +53,12 @@ class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
     CButton     m_cbDXVA_SD;
 
     enum {
-        IDC_PP_THREAD_NUMBER = 10000,
-        IDC_PP_ENABLE_DEBLOCKING,
-        IDC_PP_DISCARD_MODE,
-        IDC_PP_ERROR_RECOGNITION,
+        IDC_PP_THREAD_COUNT = 10000,
+        IDC_PP_SKIP_DEBLOCK,
         IDC_PP_AR,
+        IDC_PP_INTERLACED_FLAG,
         IDC_PP_DXVA_CHECK,
-        IDC_PP_DXVA_SD,
-        IDC_PP_INTERLACED_FLAG
+        IDC_PP_DXVA_SD
     };
 
 public:

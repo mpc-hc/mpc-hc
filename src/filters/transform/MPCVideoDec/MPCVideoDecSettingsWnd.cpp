@@ -107,7 +107,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
     // Decoding threads
     m_txtThreadNumber.Create(ResStr(IDS_VDF_THREADNUMBER), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
-    m_cbThreadNumber.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_THREAD_NUMBER);
+    m_cbThreadNumber.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_THREAD_COUNT);
     m_cbThreadNumber.AddString(ResStr(IDS_VDF_IDCT_AUTO));
     CString ThreadNumberStr;
     for (int i = 0; i < 16; i++) {
@@ -118,14 +118,14 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
 #if INTERNAL_DECODER_H264
     // H264 deblocking mode
-    m_txtDiscardMode.Create(ResStr(IDS_VDF_SKIPDEBLOCK), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
-    m_cbDiscardMode.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
-    m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_NONE));
-    m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_DEFAULT));
-    m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_NONREF));
-    m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_BIDIR));
-    m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_NONKFRM));
-    m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_ALL));
+    m_txtSkipDeblock.Create(ResStr(IDS_VDF_SKIPDEBLOCK), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_cbSkipDeblock.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_SKIP_DEBLOCK);
+    m_cbSkipDeblock.AddString(ResStr(IDS_VDF_DBLK_NONE));
+    m_cbSkipDeblock.AddString(ResStr(IDS_VDF_DBLK_DEFAULT));
+    m_cbSkipDeblock.AddString(ResStr(IDS_VDF_DBLK_NONREF));
+    m_cbSkipDeblock.AddString(ResStr(IDS_VDF_DBLK_BIDIR));
+    m_cbSkipDeblock.AddString(ResStr(IDS_VDF_DBLK_NONKFRM));
+    m_cbSkipDeblock.AddString(ResStr(IDS_VDF_DBLK_ALL));
 #endif /* INTERNAL_DECODER_H264 */
     p.y += h25;
 
@@ -184,14 +184,14 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
     CorrectComboListWidth(m_cbDXVACompatibilityCheck);
 #if INTERNAL_DECODER_H264
-    CorrectComboListWidth(m_cbDiscardMode);
+    CorrectComboListWidth(m_cbSkipDeblock);
 #endif
 
     if (m_pMDF) {
 #if HAS_FFMPEG_VIDEO_DECODERS
 #if INTERNAL_DECODER_H264
         m_cbThreadNumber.SetCurSel(m_pMDF->GetThreadNumber());
-        m_cbDiscardMode.SetCurSel(FindDiscardIndex(m_pMDF->GetDiscardMode()));
+        m_cbSkipDeblock.SetCurSel(FindDiscardIndex(m_pMDF->GetDiscardMode()));
 #endif
 
         m_cbARMode.SetCheck(m_pMDF->GetARMode());
@@ -218,7 +218,7 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 #if HAS_FFMPEG_VIDEO_DECODERS
 #if INTERNAL_DECODER_H264
         m_pMDF->SetThreadNumber(m_cbThreadNumber.GetCurSel());
-        m_pMDF->SetDiscardMode(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
+        m_pMDF->SetDiscardMode(g_AVDiscard[m_cbSkipDeblock.GetCurSel()]);
 #endif /* INTERNAL_DECODER_H264 */
 
         m_pMDF->SetARMode(m_cbARMode.GetCheck());
