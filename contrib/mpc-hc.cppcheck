@@ -5,7 +5,7 @@
         <dir name="include/"/>
     </includedir>
     <paths>
-        <dir name="../../"/>
+        <dir name="../"/>
     </paths>
     <exclude>
         <path name="src/thirdparty/"/>
