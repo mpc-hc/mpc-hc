@@ -22,8 +22,10 @@
     <ProjectGuid>{9F31D122-E84D-485A-A58D-09DAD01A56CE}</ProjectGuid>
     <RootNamespace>AsyncReader</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>AsyncReader</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>

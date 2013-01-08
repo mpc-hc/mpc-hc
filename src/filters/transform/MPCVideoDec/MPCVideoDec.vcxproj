@@ -38,8 +38,10 @@
     <ProjectGuid>{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}</ProjectGuid>
     <RootNamespace>MPCVideoDec</RootNamespace>
     <Keyword>MFCProj</Keyword>
+    <ProjectName>MPCVideoDec</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>
@@ -118,10 +120,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">$(SolutionDir)bin\Filters_x86_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">$(SolutionDir)bin\Filters_x64_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">$(SolutionDir)bin\Filters_x86\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">$(SolutionDir)bin\Filters_x64\</OutDir>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">.ax</TargetExt>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">.ax</TargetExt>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">.ax</TargetExt>
@@ -135,6 +133,7 @@
       <AdditionalDependencies>libgcc.a;libmingwex.a;d3d9.lib;Vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
+      <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110'">false</ImageHasSafeExceptionHandlers>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -148,6 +147,7 @@
       <AdditionalDependencies>libgcc.a;libmingwex.a;d3d9.lib;Vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
+      <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110'">false</ImageHasSafeExceptionHandlers>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -161,6 +161,7 @@
       <AdditionalDependencies>libgcc.a;libmingwex.a;d3d9.lib;Vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
+      <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110'">false</ImageHasSafeExceptionHandlers>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -174,6 +175,7 @@
       <AdditionalDependencies>libgcc.a;libmingwex.a;d3d9.lib;Vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
+      <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110'">false</ImageHasSafeExceptionHandlers>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -225,13 +227,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release' or '$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release' or '$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release' or '$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="CpuId.cpp" />
     <ClCompile Include="DXVADecoder.cpp" />

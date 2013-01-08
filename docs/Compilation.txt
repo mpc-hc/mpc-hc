@@ -8,7 +8,14 @@ Part A: Preparing the Visual Studio environment
  Visual Studio 2010
   1. Install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine)
   2. Install Visual Studio 2010 Service Pack 1 -> http://www.microsoft.com/downloads/en/details.aspx?FamilyID=75568aa6-8107-475d-948a-ef22627e57a5&displaylang=en
-  3. Install the DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
+  3. Make sure you install all available updates from Microsoft Update
+  4. Install the DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
+
+ Visual Studio 2012
+  1. Install Visual C++ 2012, part of Visual Studio 2012 Professional (Express won't work, other editions work fine)
+  2. Install Visual Studio 2012 Update 1 -> http://www.microsoft.com/visualstudio/eng/downloads#d-visual-studio-2012-update
+  3. Make sure you install all available updates from Microsoft Update
+  4. Install the DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
 
 
 Part B: Preparing the GCC environment
@@ -18,7 +25,7 @@ Part B: Preparing the GCC environment
 
  1. Download and extract MSYS_MinGW-w64_GCC_472_x86-x64.7z to "C:\MSYS" -> http://xhmikosr.1f0.de/tools/MSYS_MinGW-w64_GCC_472_x86-x64.7z
     For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW-w64_GCC_472_x86-x64_components.txt
- 2. Edit the "fstab" file in "C:\MSYS\etc" to specify your MinGW path.
+ 2. Edit the "fstab" file in "C:\MSYS\etc" to specify your MinGW path. This is optional.
     Add this to it: C:\MSYS\mingw	\mingw
     Note the tab-space between "mingw" and "\mingw"
  3. Create a file named "build.user.bat" in "C:\mpc-hc" containing the following entries, adapted for your system:
@@ -27,7 +34,7 @@ Part B: Preparing the GCC environment
 SET "MPCHC_MSYS=C:\MSYS"
 SET "MPCHC_MINGW32=%MPCHC_MSYS%\mingw"
 SET "MPCHC_MINGW64=%MPCHC_MINGW32%"
-REM Git is optional to set if you chose to add git in PATH when installing it
+REM Git is optional to set if you chose to add it in PATH when installing it
 SET "%MPCHC_GIT%=C:\Program Files (x86)\Git"
 
 

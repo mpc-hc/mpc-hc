@@ -1,4 +1,4 @@
-# (C) 2007-2012 see Authors.txt
+# (C) 2007-2013 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -16,7 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CC = gcc.exe
-BIN_DIR  = ../../../bin
+ifeq ($(VS2012),yes)
+    BIN_DIR  = ../../../bin12
+else
+    BIN_DIR  = ../../../bin
+endif
 ZLIB_DIR = ../zlib
 
 ifeq ($(64BIT),yes)

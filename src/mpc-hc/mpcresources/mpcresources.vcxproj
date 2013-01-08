@@ -198,8 +198,10 @@
     <ProjectGuid>{A57CBE1A-3703-4237-950A-FC5F594FDB43}</ProjectGuid>
     <RootNamespace>mpcresources</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>mpcresources</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
   <PropertyGroup>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
@@ -217,6 +219,9 @@
     <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)bin\mpc-hc_x86\Lang\</OutDir>
     <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin\mpc-hc_x64\Lang\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Platform)'=='Win32' And '$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\mpc-hc_x86\Lang\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64' And '$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\mpc-hc_x64\Lang\</OutDir>
+    <IntDir Condition="'$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)'=='Release Armenian'">$(ProjectName).hy</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Basque'">$(ProjectName).eu</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Belarusian'">$(ProjectName).by</TargetName>
