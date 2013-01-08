@@ -22,7 +22,7 @@
 svnrev=5597
 svnhash="f669833b77e6515dc5f0a682c5bf665f9a81b2ec"
 
-if [[ ! -d ".git" ]] || ! command -v git >/dev/null 2>&1 ; then
+if [[ ! -d "../.git" ]] || ! command -v git >/dev/null 2>&1 ; then
   # If the folder ".git" doesn't exist or git isn't available exit the script
   exit
 fi
