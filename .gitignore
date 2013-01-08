@@ -11,6 +11,9 @@
 /bin
 /bin12
 /build.user.bat
+/contrib/cov-int
+/contrib/MPC-HC.tar
+/contrib/MPC-HC.tgz
 /distrib/*.exe
 /docs/[Aa][Ss]tyle.exe
 /include/version_rev.h
