@@ -24,8 +24,8 @@ svnhash="f669833b77e6515dc5f0a682c5bf665f9a81b2ec"
 versionfile="./include/version_rev.h"
 manifestfile="./src/mpc-hc/res/mpc-hc.exe.manifest"
 
-if [[ ! -d ".git" ]] || ! command -v git >/dev/null 2>&1; then
-  # If the folder ".git" doesn't exist or git isn't available we use hardcoded values
+#If the git command isn't available or we are not inside a git repo use hardcoded values
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
   hash=0000000
   ver=0
 else
