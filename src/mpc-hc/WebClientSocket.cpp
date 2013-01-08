@@ -283,7 +283,7 @@ void CWebClientSocket::ParsePostData()
         val.SetString(start, int(end - start));
         start = end + 1;
 
-        m_post[key.MakeLower()] = val;
+        m_post[key.MakeLower()] = UTF8To16(UrlDecode(val));
     }
 
     m_parsingState = PARSING_DONE;

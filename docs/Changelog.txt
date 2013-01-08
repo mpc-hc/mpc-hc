@@ -37,3 +37,4 @@ Legend:
 ! Ticket #2805, AviSplitter: Fix a crash when closing the file while re-indexing.
 ! Ticket #2838, The window wasn't draggable anymore by clicking on the information panel.
 ! Ticket #2839, Post-resize shaders weren't working with VMR-9 (renderless).
+! WebUI: Fix seeking.
