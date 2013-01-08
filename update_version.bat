@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2010-2012 see Authors.txt
+REM (C) 2010-2013 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -29,10 +29,10 @@ IF EXIST "build.user.bat" (
 )
 
 SET PATH=%MPCHC_MSYS%\bin;%MPCHC_GIT%\cmd;%PATH%
-FOR %%G IN (sh.exe) DO (SET FOUND=%%~$PATH:G)
+FOR %%G IN (bash.exe) DO (SET FOUND=%%~$PATH:G)
 IF NOT DEFINED FOUND GOTO MissingVar
 
-sh.exe ./version.sh
+bash.exe ./version.sh
 
 
 :END
