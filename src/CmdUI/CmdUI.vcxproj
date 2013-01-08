@@ -22,8 +22,10 @@
     <ProjectGuid>{03208025-D5C2-426A-B0FA-251D4338F30C}</ProjectGuid>
     <RootNamespace>CmdUI</RootNamespace>
     <Keyword>MFCProj</Keyword>
+    <ProjectName>CmdUI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>

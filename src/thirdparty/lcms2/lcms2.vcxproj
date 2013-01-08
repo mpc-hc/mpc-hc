@@ -22,8 +22,10 @@
     <ProjectGuid>{ACF5C64B-78AA-4730-91A2-24F4910FBAD9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>lcms2</RootNamespace>
+    <ProjectName>lcms2</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>

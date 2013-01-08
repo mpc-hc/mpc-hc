@@ -22,8 +22,10 @@
     <ProjectGuid>{AB494732-EF6D-44D0-BCF8-80FF04858D10}</ProjectGuid>
     <RootNamespace>TreePropSheet</RootNamespace>
     <Keyword>MFCProj</Keyword>
+    <ProjectName>TreePropSheet</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>

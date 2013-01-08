@@ -16,31 +16,49 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build_installer.bat)
+; Requirements:
+; Inno Setup: http://www.jrsoftware.org/isdl.php
+
+
+#if VER < EncodeVer(5,5,2)
+  #error Update your Inno Setup version (5.5.2 or newer)
+#endif
 
 #define VerMajor  "2"
 #define VerMinor  "41"
 #define copyright "2001-2013"
 #define top_dir   "..\..\..\..\.."
+
+#include top_dir + "\include\version.h"
+#define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
+
+; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
+;#define VS2012
 #define sse_required
+;#define VS2012
 ;#define x64Build
 
-#ifdef x64Build
-  #define bindir = top_dir + "\bin\Filters_x64"
+#if defined(VS2012)
+  #define base_bindir = top_dir + "\bin12"
 #else
-  #define bindir = top_dir + "\bin\Filters_x86"
+  #define base_bindir = top_dir + "\bin"
+#endif
+
+#ifdef x64Build
+  #define bindir = base_bindir + "\Filters_x64"
+  #define OutFilename  = "DirectVobSub_" + app_version + "_x64"
+#else
+  #define bindir = base_bindir + "\Filters_x86"
+  #define OutFilename  = "DirectVobSub_" + app_version + "_x86"
 #endif
 
 #ifnexist bindir + "\VSFilter.dll"
   #error Compile VSFilter first
 #endif
 
-#if VER < EncodeVer(5,5,2)
-  #error Update your Inno Setup version (5.5.2 or newer)
+#if defined(VS2012)
+  #define OutFilename  = OutFilename + ".VS2012"
 #endif
-
-#include top_dir + "\include\version.h"
-#define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
 
 
 [Setup]
@@ -66,6 +84,7 @@ DefaultDirName={pf}\DirectVobSub
 DefaultGroupName=DirectVobSub
 LicenseFile={#top_dir}\COPYING.txt
 OutputDir=.
+OutputBaseFilename={#OutFilename}
 AllowNoIcons=yes
 Compression=lzma2/ultra
 SolidCompression=yes
@@ -82,11 +101,9 @@ AppID=vsfilter64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 UninstallDisplayName=DirectVobSub {#app_version} (64-bit)
-OutputBaseFilename=DirectVobSub_{#app_version}_x64
 #else
 AppID=vsfilter
 UninstallDisplayName=DirectVobSub {#app_version}
-OutputBaseFilename=DirectVobSub_{#app_version}_x86
 #endif
 
 

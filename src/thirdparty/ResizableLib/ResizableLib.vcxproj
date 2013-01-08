@@ -22,8 +22,10 @@
     <ProjectGuid>{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}</ProjectGuid>
     <RootNamespace>ResizableLib</RootNamespace>
     <Keyword>MFCProj</Keyword>
+    <ProjectName>ResizableLib</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>
