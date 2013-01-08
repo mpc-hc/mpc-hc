@@ -47,21 +47,21 @@ SET ARGCOMP=0
 SET ARGPL=0
 SET INPUT=0
 
-IF /I "%ARG%" == "?"          GOTO ShowHelp
+IF /I "%ARG%" == "?"        GOTO ShowHelp
 
 FOR %%G IN (%ARG%) DO (
-  IF /I "%%G" == "help"       GOTO ShowHelp
-  IF /I "%%G" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
-  IF /I "%%G" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
-  IF /I "%%G" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
-  IF /I "%%G" == "Both"       SET "ARCH=Both"         & SET /A ARGPL+=1
-  IF /I "%%G" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1
-  IF /I "%%G" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1
-  IF /I "%%G" == "x64"        SET "ARCH=x64"          & SET /A ARGPL+=1
-  IF /I "%%G" == "Debug"      SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
-  IF /I "%%G" == "Release"    SET "DEBUG= "           & SET /A ARGBC+=1
-  IF /I "%%G" == "VS2012"     SET "COMPILER=VS2012"   & SET /A ARGCOMP+=1
-  IF /I "%%G" == "VS2010"     SET "COMPILER=VS2010"   & SET /A ARGCOMP+=1
+  IF /I "%%G" == "help"     GOTO ShowHelp
+  IF /I "%%G" == "Build"    SET "BUILDTYPE=Build"   & SET /A ARGB+=1
+  IF /I "%%G" == "Clean"    SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
+  IF /I "%%G" == "Rebuild"  SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
+  IF /I "%%G" == "Both"     SET "ARCH=Both"         & SET /A ARGPL+=1
+  IF /I "%%G" == "Win32"    SET "ARCH=x86"          & SET /A ARGPL+=1
+  IF /I "%%G" == "x86"      SET "ARCH=x86"          & SET /A ARGPL+=1
+  IF /I "%%G" == "x64"      SET "ARCH=x64"          & SET /A ARGPL+=1
+  IF /I "%%G" == "Debug"    SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
+  IF /I "%%G" == "Release"  SET "DEBUG= "           & SET /A ARGBC+=1
+  IF /I "%%G" == "VS2010"   SET "COMPILER=VS2010"   & SET /A ARGCOMP+=1
+  IF /I "%%G" == "VS2012"   SET "COMPILER=VS2012"   & SET /A ARGCOMP+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
