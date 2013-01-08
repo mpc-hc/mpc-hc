@@ -137,7 +137,8 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild %PPLATFORM% %BUILDCFG%
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 
-IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
+REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
+IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=x86_amd64)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
 
 IF /I "%CONFIG%" == "Filters" (
@@ -410,14 +411,15 @@ EXIT /B
 
 
 :SubDetectWinArch
-IF DEFINED PROGRAMFILES(x86) (SET x64_type=x86_amd64)
+REM If "Program Files (x86)" is present, the system is 64 bit, otherwise it is 32 bit
+IF DEFINED PROGRAMFILES(x86) (SET os_type=Win64) ELSE (SET os_type=Win32)
 EXIT /B
 
 
 :SubDetectInnoSetup
 REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
 REM of Inno Setup accordingly since Inno Setup is a 32-bit application
-IF /I "%x64_type%" == "x86_amd64" (
+IF /I "%os_type%" == "Win64" (
   SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
 ) ELSE (
   SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
@@ -439,7 +441,7 @@ IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 FOR %%G IN (7za.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
 IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 
-IF /I "%x64_type%" == "x86_amd64" (
+IF /I "%os_type%" == "Win64" (
   FOR /F "delims=" %%G IN (
     'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO (
     SET "SEVENZIP_REG=%%G" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
