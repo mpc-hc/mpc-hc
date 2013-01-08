@@ -86,7 +86,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1 & SET /A ARGL+=1
   IF /I "%%G" == "FFmpeg"       SET "Rebuild=FFmpeg"     & SET /A VALID+=1 & SET /A ARGFF+=1 & SET /A ARGRE+=1
-  IF /I "%%G" == "Silent"       SET "SILENT=True"
+  IF /I "%%G" == "Silent"       SET "SILENT=True"        & SET /A VALID+=1
 )
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
