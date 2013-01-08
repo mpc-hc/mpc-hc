@@ -11638,11 +11638,18 @@ DWORD CMainFrame::SetupAudioStreams()
             int rating = 0;
             for (size_t j = 0; j < langs.GetCount(); j++) {
                 int num = _tstoi(langs[j]) - 1;
-                int len = langs[j].GetLength();
-                if (num >= 0 && i == num || num < 0 && name.Left(len) == langs[j]) {
-                    rating = 16 * int(langs.GetCount() - j);
-                    break;
+                if (num >= 0) { // this is track number
+                    if (i != num) {
+                        continue;  // not matched
+                    }
+                } else { // this is lang string
+                    int len = langs[j].GetLength();
+                    if (name.Left(len) != langs[j] && name.Find(_T("[")+ langs[j]) >= 0) {
+                        continue; // not matched
+                    }
                 }
+                rating = 16 * int(langs.GetCount() - j);
+                break;
             }
             if (name.Find(_T("[default,forced]")) != -1) { // for LAV Splitter
                 rating += 4 + 2;
@@ -11703,11 +11710,18 @@ DWORD CMainFrame::SetupSubtitleStreams()
             int rating = 0;
             for (size_t j = 0; j < langs.GetCount(); j++) {
                 int num = _tstoi(langs[j]) - 1;
-                int len = langs[j].GetLength();
-                if (num >= 0 && i == num || num < 0 && name.Left(len) == langs[j]) {
-                    rating = 16 * int(langs.GetCount() - j);
-                    break;
+                if (num >= 0) { // this is track number
+                    if (i != num) {
+                        continue;  // not matched
+                    }
+                } else { // this is lang string
+                    int len = langs[j].GetLength();
+                    if (name.Left(len) != langs[j] && name.Find(_T("[")+ langs[j]) >= 0) {
+                        continue; // not matched
+                    }
                 }
+                rating = 16 * int(langs.GetCount() - j);
+                break;
             }
             if (externalPriority) {
                 rating += 8;
