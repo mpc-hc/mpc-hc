@@ -48,7 +48,7 @@ public:
     CHdmvClipInfo& m_ClipInfo;
     CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv,
                       CHdmvClipInfo& ClipInfo, int guid_flag, bool ForcedSub,
-                      bool TrackPriority, int AC3CoreOnly, bool m_AlternativeDuration);
+                      int AC3CoreOnly, bool m_AlternativeDuration);
 
     REFERENCE_TIME NextPTS(DWORD TrackNum);
 
@@ -63,14 +63,13 @@ public:
     int m_rate; // byte/sec
 
     int m_nVC1_GuidFlag, m_AC3CoreOnly;
-    bool m_ForcedSub, m_TrackPriority, m_AlternativeDuration;
+    bool m_ForcedSub, m_AlternativeDuration;
 
     struct stream {
         CMpegSplitterFile* m_pFile;
         CMediaType mt;
         WORD pid;
         BYTE pesid, ps1id;
-        bool operator < (const stream& _Other) const;
         struct stream()
             : m_pFile(0) {
             pid = pesid = ps1id = 0;
@@ -95,23 +94,12 @@ public:
     public:
         void Insert(stream& s, CMpegSplitterFile* _pFile) {
             s.m_pFile = _pFile;
-            if (_pFile->m_TrackPriority) {
-                for (POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
-                    stream& s2 = GetAt(pos);
-                    if (s < s2) {
-                        InsertBefore(pos, s);
-                        return;
-                    }
-                }
-                AddTail(s);
-            } else {
-                AddTail(s);
-                if (GetCount() > 1) {
-                    for (size_t j = 0; j < GetCount(); j++) {
-                        for (size_t i = 0; i < GetCount() - 1; i++) {
-                            if (GetAt(FindIndex(i)) > GetAt(FindIndex(i + 1))) {
-                                SwapElements(FindIndex(i), FindIndex(i + 1));
-                            }
+            AddTail(s);
+            if (GetCount() > 1) {
+                for (size_t j = 0; j < GetCount(); j++) {
+                    for (size_t i = 0; i < GetCount() - 1; i++) {
+                        if (GetAt(FindIndex(i)) > GetAt(FindIndex(i + 1))) {
+                            SwapElements(FindIndex(i), FindIndex(i + 1));
                         }
                     }
                 }

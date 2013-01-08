@@ -32,7 +32,6 @@ private:
 
     CButton     m_cbFastStreamChange;
     CButton     m_cbForcedSub;
-    CButton     m_cbTrackPriority;
     CButton     m_cbAlternativeDuration;
     CStatic     m_txtAudioLanguageOrder;
     CEdit       m_edtAudioLanguageOrder;
@@ -49,7 +48,6 @@ private:
     enum {
         IDC_PP_FAST_STREAM_SELECT = 10000,
         IDC_PP_SUBTITLE_FORCED,
-        IDC_PP_TRACK_PRIORITY,
         IDC_PP_AUDIO_LANGUAGE_ORDER,
         IDC_PP_SUBTITLES_LANGUAGE_ORDER,
         IDC_PP_VC1_GUIDFLAG,

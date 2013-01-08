@@ -32,7 +32,7 @@
 #define PTS_MAX_BEFORE_WRAP (((1i64 << 33) - 1) * 10000 / 90)
 
 
-CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo& ClipInfo, int guid_flag, bool ForcedSub, bool TrackPriority, int AC3CoreOnly, bool AlternativeDuration)
+CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo& ClipInfo, int guid_flag, bool ForcedSub, int AC3CoreOnly, bool AlternativeDuration)
     : CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
     , m_type(mpeg_us)
     , m_rate(0)
@@ -44,7 +44,6 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
     , m_ClipInfo(ClipInfo)
     , m_nVC1_GuidFlag(guid_flag)
     , m_ForcedSub(ForcedSub)
-    , m_TrackPriority(TrackPriority)
     , m_AC3CoreOnly(AC3CoreOnly)
     , m_AlternativeDuration(AlternativeDuration)
     , m_init(false)
