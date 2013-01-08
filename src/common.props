@@ -2,18 +2,18 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <IntDir Condition="'$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(VisualStudioVersion)'=='10.0'">$(SolutionDir)bin\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir Condition="'$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\lib\$(Configuration)_$(PlatformName)\</OutDir>
-    <OutDir Condition="'$(VisualStudioVersion)'=='10.0'">$(SolutionDir)bin\lib\$(Configuration)_$(PlatformName)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\Filters_x86_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\Filters_x64_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\Filters_x86\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64' And '$(VisualStudioVersion)'=='11.0'">$(SolutionDir)bin12\Filters_x64\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32' And '$(VisualStudioVersion)'=='10.0'">$(SolutionDir)bin\Filters_x86_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64' And '$(VisualStudioVersion)'=='10.0'">$(SolutionDir)bin\Filters_x64_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32' And '$(VisualStudioVersion)'=='10.0'">$(SolutionDir)bin\Filters_x86\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64' And '$(VisualStudioVersion)'=='10.0'">$(SolutionDir)bin\Filters_x64\</OutDir>
+    <IntDir Condition="'$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(PlatformToolsetVersion)'=='100'">$(SolutionDir)bin\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\lib\$(Configuration)_$(PlatformName)\</OutDir>
+    <OutDir Condition="'$(PlatformToolsetVersion)'=='100'">$(SolutionDir)bin\lib\$(Configuration)_$(PlatformName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32' And '$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\Filters_x86_Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64' And '$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\Filters_x64_Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32' And '$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\Filters_x86\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64' And '$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\Filters_x64\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32' And '$(PlatformToolsetVersion)'=='100'">$(SolutionDir)bin\Filters_x86_Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64' And '$(PlatformToolsetVersion)'=='100'">$(SolutionDir)bin\Filters_x64_Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32' And '$(PlatformToolsetVersion)'=='100'">$(SolutionDir)bin\Filters_x86\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64' And '$(PlatformToolsetVersion)'=='100'">$(SolutionDir)bin\Filters_x64\</OutDir>
     <LinkIncremental Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug Filter' Or '$(Configuration)'=='Debug Lite'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release Filter' Or '$(Configuration)'=='Release Lite'">false</LinkIncremental>
   </PropertyGroup>
@@ -29,7 +29,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>WINVER=0x0601;PSAPI_VERSION=1;_WINDOWS;WINDOWS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(VisualStudioVersion)'=='11.0' And ('$(Configuration)'=='Debug Filter' Or '$(Configuration)'=='Release Filter')">_AFX_NO_MFC_CONTROLS_IN_DIALOGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(PlatformToolsetVersion)'=='110' And ('$(Configuration)'=='Debug Filter' Or '$(Configuration)'=='Release Filter')">_AFX_NO_MFC_CONTROLS_IN_DIALOGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug Filter' Or '$(Configuration)'=='Release Filter'">STANDALONE_FILTER;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Platform)'=='Win32'">WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Platform)'=='x64'">_WIN64;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -66,7 +66,7 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <ImageHasSafeExceptionHandlers Condition="'$(VisualStudioVersion)'=='11.0' And '$(Platform)'=='Win32'">false</ImageHasSafeExceptionHandlers>
+      <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110' And '$(Platform)'=='Win32'">false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release Filter' Or '$(Configuration)'=='Release Lite'">
