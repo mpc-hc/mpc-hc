@@ -875,9 +875,8 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
                 }
             }
-            CString str_tmp = str;
-            str_tmp.MakeLower();
             if (i == CMpegSplitterFile::audio) {
+                CString str_tmp = str.Mid(8).MakeLower();
                 if (Idx_audio == 0) {
                     Idx_audio = 1;
                 } else {
@@ -891,7 +890,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         }
                     } else { // this is lang string
                         int len = lang_list_audio[j].GetLength();
-                        if (str_tmp.Left(len) != lang_list_audio[j] && str_tmp.Find(_T("[")+ lang_list_audio[j]) >= 0) {
+                        if (str_tmp.Left(len) != lang_list_audio[j]) {
                             continue; // not matched
                         }
                     }
@@ -900,6 +899,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 }
             }
             if (i == CMpegSplitterFile::subpic) {
+                CString str_tmp = str.Mid(11).MakeLower();
                 if (Idx_subpic == 0) {
                     Idx_subpic = 1;
                 } else {
@@ -913,7 +913,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         }
                     } else { // this is lang string
                         int len = lang_list_subpic[j].GetLength();
-                        if (str_tmp.Left(len) != lang_list_subpic[j] && str_tmp.Find(_T("[")+ lang_list_subpic[j]) >= 0) {
+                        if (str_tmp.Left(len) != lang_list_subpic[j]) {
                             continue; // not matched
                         }
                     }
