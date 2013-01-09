@@ -254,20 +254,23 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         float w = (float)d3dsd.Width;
         float h = (float)d3dsd.Height;
 
+        // Be careful with the code that follows. Some compilers (e.g. Visual Studio 2012) used to miscompile
+        // it in some cases (namely x64 with optimizations /O2 /Ot). This bug leaded pVertices not to be correctly
+        // initialized and thus the subtitles weren't shown.
         struct {
             float x, y, z, rhw;
             float tu, tv;
         }
         pVertices[] = {
-            {(float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h},
-            {(float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
-            {(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
+            {(float)dst.left,  (float)dst.top,    0.5f, 2.0f, (float)src.left  / w, (float)src.top / h},
+            {(float)dst.right, (float)dst.top,    0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
+            {(float)dst.left,  (float)dst.bottom, 0.5f, 2.0f, (float)src.left  / w, (float)src.bottom / h},
             {(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
         };
 
-        for (ptrdiff_t i = 0; i < _countof(pVertices); i++) {
-            pVertices[i].x -= 0.5;
-            pVertices[i].y -= 0.5;
+        for (size_t i = 0; i < _countof(pVertices); i++) {
+            pVertices[i].x -= 0.5f;
+            pVertices[i].y -= 0.5f;
         }
 
         hr = pD3DDev->SetTexture(0, pTexture);

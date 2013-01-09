@@ -6,10 +6,7 @@ MPC-HC:
 3) Remove support for unneeded/obsolete renderers
 4) Update Bento4 library or see if we can use ffmpeg for this job
 5) Replace the default old looking toolbar with a more modern one
-6) MSVC 2012:
-   - Subtitles don't show with Release x64 builds, which is worked around by using /Os for
-     the SubPic project
-7) Add FFmpeg as submodule
+6) Add FFmpeg as submodule
 
 MPCIconLib:
 1) Replace the file association icons with better looking ones

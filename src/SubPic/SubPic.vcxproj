@@ -103,7 +103,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\thirdparty;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <FavorSizeOrSpeed Condition="'$(PlatformToolsetVersion)'=='110'">Size</FavorSizeOrSpeed>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
