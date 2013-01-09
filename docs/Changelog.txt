@@ -16,6 +16,8 @@ Legend:
   the auto-fit zoom
 + Internal Subtitles Renderer: Show all subtitles tracks in the Play > Subtitles menu.
   That includes all the embedded tracks exhibited by the source filter and the external tracks.
++ Tickets #1025, #1054, Add the ability to select the default track directly by its number
+  in MPC-HC and the standalone MPEG Splitter.
 * UI: Use a more native look and feel for the options dialog tree
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
 * Updated FFmpeg (n0.8-17442-g7d66bc7)
