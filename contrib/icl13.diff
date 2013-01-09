@@ -1,21 +1,18 @@
-diff --git a/build_vs2012.bat b/build_vs2012.bat
-index 7752e27..3a08dca 100644
---- a/build_vs2012.bat
-+++ b/build_vs2012.bat
-@@ -321,9 +321,9 @@ IF /I "%~2" == "Win32" (
- PUSHD "bin12"
+diff --git a/build.bat b/build.bat
+index 5fe31ab..0ba6b46 100644
+--- a/build.bat
++++ b/build.bat
+@@ -341,7 +341,7 @@ IF /I "%~2" == "Win32" (
  
- IF DEFINED MPCHC_LITE (
--  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.VS2012.Lite"
-+  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.ICL13.Lite"
- ) ELSE (
--  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.VS2012"
-+  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.ICL13"
- )
+ PUSHD "%BIN_DIR%"
  
- IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
+-SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%"
++SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.ICL13"
+ IF /I "%COMPILER%" == "VS2012" (SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%")
+ IF DEFINED MPCHC_LITE (SET "PCKG_NAME=%PCKG_NAME%.Lite")
+ 
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 2ffe7f8..7d70e9a 100644
+index 2ffe7f8..7ab2881 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -41,7 +41,7 @@
@@ -27,16 +24,16 @@ index 2ffe7f8..7d70e9a 100644
  
  
  ; From now on you shouldn't need to change anything
-@@ -80,7 +80,7 @@
+@@ -73,6 +73,8 @@
+   #define OutFilename  = app_name + "." + app_version + ".x86"
  #endif
  
- #if defined(VS2012)
--  #define OutFilename  = OutFilename + ".VS2012"
-+  #define OutFilename  = OutFilename + ".ICL13"
- #endif
- 
- #ifnexist bindir + "\" + mpchc_exe
-@@ -90,15 +90,15 @@
++#define OutFilename  = OutFilename + ".ICL13"
++
+ #if localize != "true" && defined(MPCHC_LITE)
+   #define OutFilename  = OutFilename + ".Lite"
+ #elif localize != "true"
+@@ -90,15 +92,15 @@
  
  #ifdef x64Build
    #ifdef MPCHC_LITE
@@ -70,7 +67,7 @@ index 7f064df..351fb48 100644
  
  
 diff --git a/src/common.props b/src/common.props
-index acf99eb..1b111ed 100644
+index 9a7e7d3..fbf74d9 100644
 --- a/src/common.props
 +++ b/src/common.props
 @@ -46,11 +46,14 @@
@@ -170,19 +167,20 @@ index 672a59e..44b3004 100644
  SetupAppTitle=Setup - DirectVobSub
  SetupWindowTitle=Setup - DirectVobSub
 diff --git a/src/platform.props b/src/platform.props
-index 09927fd..f28b853 100644
+index 09927fd..26091c9 100644
 --- a/src/platform.props
 +++ b/src/platform.props
 @@ -1,6 +1,6 @@
  <?xml version="1.0" encoding="utf-8"?>
  <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-   <PropertyGroup Label="Configuration" Condition="'$(VisualStudioVersion)'=='11.0'">
+-  <PropertyGroup Label="Configuration" Condition="'$(VisualStudioVersion)'=='11.0'">
 -    <PlatformToolset>v110_xp</PlatformToolset>
++  <PropertyGroup Label="Configuration">
 +    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
  </Project>
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index 22dbf59..05c170e 100644
+index 58b8a8d..ce8d7c7 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
 @@ -56,7 +56,7 @@ ifeq ($(64BIT),yes)
