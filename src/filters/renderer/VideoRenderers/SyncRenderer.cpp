@@ -2784,7 +2784,7 @@ STDMETHODIMP CSyncAP::IsRateSupported(BOOL fThin, float flRate, float* pflNeares
     float fNearestRate = flRate;   // Default.
 
     CheckPointer(pflNearestSupportedRate, E_POINTER);
-    CHECK_HR(hr = CheckShutdown());
+    CHECK_HR(CheckShutdown());
 
     // Find the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
