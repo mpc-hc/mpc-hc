@@ -9,7 +9,6 @@ MPC-HC:
 6) MSVC 2012:
    - Subtitles don't show with Release x64 builds, which is worked around by using /Os for
      the SubPic project
-   - Merge build_vs2012.bat into build.bat
 7) Add FFmpeg as submodule
 
 MPCIconLib:
