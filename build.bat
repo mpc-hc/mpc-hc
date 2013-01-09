@@ -190,7 +190,7 @@ EXIT /B
 :End
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-TITLE Compiling MPC-HC [FINISHED]
+TITLE Compiling MPC-HC %COMPILER% [FINISHED]
 SET END_TIME=%TIME%
 CALL :SubGetDuration
 CALL :SubMsg "INFO" "Compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
@@ -201,7 +201,7 @@ EXIT /B
 :SubFilters
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-TITLE Compiling MPC-HC Filters - %BUILDCFG% Filter^|%1...
+TITLE Compiling MPC-HC Filters %COMPILER% - %BUILDCFG% Filter^|%1...
 REM Call update_version.bat before building the filters
 CALL "update_version.bat"
 
@@ -221,7 +221,7 @@ EXIT /B
 :SubMPCHC
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-TITLE Compiling MPC-HC - %BUILDCFG%^|%1...
+TITLE Compiling MPC-HC %COMPILER% - %BUILDCFG%^|%1...
 MSBuild.exe mpc-hc%SLN_SUFFIX%.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="%BUILDCFG%";Platform=%1^
  /flp1:LogFile="%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log";errorsonly;Verbosity=diagnostic^
@@ -256,7 +256,7 @@ EXIT /B
 :SubMPCIconLib
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-TITLE Compiling mpciconlib - Release^|%1...
+TITLE Compiling mpciconlib %COMPILER% - Release^|%1...
 MSBuild.exe mpciconlib%SLN_SUFFIX%.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1
 IF %ERRORLEVEL% NEQ 0 (
@@ -276,7 +276,7 @@ FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  "Hungarian" "Italian" "Japanese" "Korean" "Polish" "Portuguese" "Russian"
  "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
- TITLE Compiling mpcresources - %%~G^|%1...
+ TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...
  MSBuild.exe mpcresources%SLN_SUFFIX%.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="Release %%~G";Platform=%1
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
@@ -309,7 +309,7 @@ IF NOT DEFINED InnoSetupPath (
   EXIT /B
 )
 
-TITLE Compiling %1 installer...
+TITLE Compiling %1 %COMPILER% installer...
 "%InnoSetupPath%" /Q /O"%BIN_DIR%" "distrib\mpc-hc_setup.iss" %MPCHC_INNO_DEF%
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 CALL :SubMsg "INFO" "%1 installer successfully built"
@@ -500,7 +500,7 @@ EXIT /B
 
 :MissingVar
 COLOR 0C
-TITLE Compiling MPC-HC [ERROR]
+TITLE Compiling MPC-HC %COMPILER% [ERROR]
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "docs\Compilation.txt" for more information.

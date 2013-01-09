@@ -106,7 +106,7 @@ EXIT /B
 
 
 :End
-TITLE Compiling FFmpeg [FINISHED]
+TITLE Compiling FFmpeg %COMPILER% [FINISHED]
 
 SET END_TIME=%TIME%
 CALL :SubGetDuration
