@@ -1357,8 +1357,8 @@ void CAppSettings::LoadSettings()
 
     CAtlStringMap<UINT> shaders;
 
-    shaders[_T("16-235 -> 0-255  [SD][HD]")] = IDF_SHADER_LEVELS;
-    shaders[_T("16-235 -> 0-255  [SD]")]     = IDF_SHADER_LEVELS2;
+    shaders[_T("16-235 -> 0-255 [SD][HD]")]  = IDF_SHADER_LEVELS;
+    shaders[_T("16-235 -> 0-255 [SD]")]      = IDF_SHADER_LEVELS2;
     shaders[_T("0-255 -> 16-235")]           = IDF_SHADER_LEVELS3;
     shaders[_T("BT.601 -> BT.709")]          = IDF_SHADER_BT601_BT709;
     shaders[_T("YV12 Chroma Upsampling")]    = IDF_SHADER_YV12CHROMAUP;
