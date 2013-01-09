@@ -140,81 +140,77 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
     HRESULT hr;
 
-    do {
-        DDSURFACEDESC2 ddsd;
-        INITDDSTRUCT(ddsd);
-        if (FAILED(hr = m_pSurface->GetSurfaceDesc(&ddsd))) {
-            break;
-        }
+    DDSURFACEDESC2 ddsd;
+    INITDDSTRUCT(ddsd);
+    if (FAILED(hr = m_pSurface->GetSurfaceDesc(&ddsd))) {
+        return E_FAIL;
+    }
 
-        float w = (float)ddsd.dwWidth;
-        float h = (float)ddsd.dwHeight;
+    float w = (float)ddsd.dwWidth;
+    float h = (float)ddsd.dwHeight;
 
-        struct {
-            float x, y, z, rhw;
-            float tu, tv;
-        }
-        pVertices[] = {
-            {(float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h},
-            {(float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
-            {(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
-            {(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
-        };
-        /*
-        for (ptrdiff_t i = 0; i < _countof(pVertices); i++)
-        {
-            pVertices[i].x -= 0.5;
-            pVertices[i].y -= 0.5;
-        }
-        */
-        hr = m_pD3DDev->SetTexture(0, m_pSurface);
+    struct {
+        float x, y, z, rhw;
+        float tu, tv;
+    }
+    pVertices[] = {
+        {(float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h},
+        {(float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
+        {(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
+        {(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
+    };
+    /*
+    for (ptrdiff_t i = 0; i < _countof(pVertices); i++)
+    {
+        pVertices[i].x -= 0.5;
+        pVertices[i].y -= 0.5;
+    }
+    */
+    hr = m_pD3DDev->SetTexture(0, m_pSurface);
 
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_BLENDENABLE, TRUE);
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
+    m_pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
+    m_pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
+    m_pD3DDev->SetRenderState(D3DRENDERSTATE_BLENDENABLE, TRUE);
+    m_pD3DDev->SetRenderState(D3DRENDERSTATE_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
+    m_pD3DDev->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
 
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    m_pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    m_pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
+    m_pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
+    m_pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
+    m_pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
 
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
+    m_pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
 
-        /*//
+    /*//
 
-        D3DDEVICEDESC7 d3ddevdesc;
-        m_pD3DDev->GetCaps(&d3ddevdesc);
-        if (d3ddevdesc.dpcTriCaps.dwAlphaCmpCaps & D3DPCMPCAPS_LESS)
-        {
-            m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHAREF, (DWORD)0x000000FE);
-            m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, TRUE);
-            m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHAFUNC, D3DPCMPCAPS_LESS);
-        }
+    D3DDEVICEDESC7 d3ddevdesc;
+    m_pD3DDev->GetCaps(&d3ddevdesc);
+    if (d3ddevdesc.dpcTriCaps.dwAlphaCmpCaps & D3DPCMPCAPS_LESS)
+    {
+        m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHAREF, (DWORD)0x000000FE);
+        m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, TRUE);
+        m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHAFUNC, D3DPCMPCAPS_LESS);
+    }
 
-        *///
+    *///
 
-        if (FAILED(hr = m_pD3DDev->BeginScene())) {
-            break;
-        }
+    if (FAILED(hr = m_pD3DDev->BeginScene())) {
+        return E_FAIL;
+    }
 
-        hr = m_pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-                                      D3DFVF_XYZRHW | D3DFVF_TEX1,
-                                      pVertices, 4, D3DDP_WAIT);
-        m_pD3DDev->EndScene();
+    hr = m_pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
+                                    D3DFVF_XYZRHW | D3DFVF_TEX1,
+                                    pVertices, 4, D3DDP_WAIT);
+    m_pD3DDev->EndScene();
 
-        //
+    //
 
-        m_pD3DDev->SetTexture(0, NULL);
+    m_pD3DDev->SetTexture(0, NULL);
 
-        return S_OK;
-    } while (0);
-
-    return E_FAIL;
+    return S_OK;
 }
 
 //
