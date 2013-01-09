@@ -11644,7 +11644,7 @@ DWORD CMainFrame::SetupAudioStreams()
                     }
                 } else { // this is lang string
                     int len = langs[j].GetLength();
-                    if (name.Left(len) != langs[j] && name.Find(_T("[")+ langs[j]) < 0) {
+                    if (name.Left(len) != langs[j] && name.Find(_T("[") + langs[j]) < 0) {
                         continue; // not matched
                     }
                 }
@@ -11716,7 +11716,7 @@ DWORD CMainFrame::SetupSubtitleStreams()
                     }
                 } else { // this is lang string
                     int len = langs[j].GetLength();
-                    if (name.Left(len) != langs[j] && name.Find(_T("[")+ langs[j]) < 0) {
+                    if (name.Left(len) != langs[j] && name.Find(_T("[") + langs[j]) < 0) {
                         continue; // not matched
                     }
                 }
