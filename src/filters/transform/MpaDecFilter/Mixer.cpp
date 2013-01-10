@@ -184,7 +184,7 @@ int CMixer::Mixing(float* pOutput, int out_samples, BYTE* pInput, int in_samples
     int in_plane_size  = in_samples * in_ch * av_get_bytes_per_sample(m_in_avsf_used);
     int out_plane_size = out_samples * out_ch * sizeof(float);
 
-    out_samples = avresample_convert(m_pAVRCxt, (uint8_t**)&pOutput, in_plane_size, out_samples, (uint8_t**)&pInput, out_plane_size, in_samples);
+    out_samples = avresample_convert(m_pAVRCxt, (uint8_t**)&pOutput, out_plane_size, out_samples, (uint8_t**)&pInput, in_plane_size, in_samples);
     if (buf) {
         delete [] buf;
     }
