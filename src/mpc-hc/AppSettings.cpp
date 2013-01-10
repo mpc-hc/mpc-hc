@@ -1263,6 +1263,7 @@ void CAppSettings::LoadSettings()
     shaders[_T("procamp")]                   = IDF_SHADER_PROCAMP;
     shaders[_T("invert")]                    = IDF_SHADER_INVERT;
     shaders[_T("letterbox")]                 = IDF_SHADER_LETTERBOX;
+    shaders[_T("LCD angle correction")]      = IDF_SHADER_LCD;
 
     shaders[_T("nightvision")]               = IDF_SHADER_NIGHTVISION;
     shaders[_T("emboss")]                    = IDF_SHADER_EMBOSS;

@@ -1000,6 +1000,9 @@
     <None Include="res\tickcross.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\shaders\LCDAngleCorrection.psh">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mplayerc.rc">
