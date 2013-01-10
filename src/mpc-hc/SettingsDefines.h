@@ -41,11 +41,11 @@
 
 #define IDS_RS_FAV_REMEMBERPOS              _T("RememberPosition")
 #define IDS_RS_FAV_RELATIVEDRIVE            _T("RelativeDrive")
-#define IDS_RS_DVDPOS                       _T("Remember DVD Pos")
-#define IDS_RS_FILEPOS                      _T("Remember File Pos")
+#define IDS_RS_DVDPOS                       _T("RememberDVDPos")
+#define IDS_RS_FILEPOS                      _T("RememberFilePos")
 #define IDS_RS_LASTFULLSCREEN               _T("LastFullScreen")
 #define IDS_RS_EVR_BUFFERS                  _T("EVRBuffers")
-#define IDS_RS_SHOWOSD                      _T("Show OSD")
+#define IDS_RS_SHOWOSD                      _T("ShowOSD")
 #define IDS_RS_LANGUAGE                     _T("InterfaceLanguage")
 #define IDS_RS_GLOBALMEDIA                  _T("UseGlobalMedia")
 #define IDS_RS_DXVAFILTERS                  _T("DXVAFilters")
@@ -66,11 +66,13 @@
 #define IDS_RS_D3DFULLSCREEN                _T("D3DFullScreen")
 #define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
 #define IDS_RS_SPEEDSTEP                    _T("SpeedStep")
+
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
 #define IDS_RS_MUTE                         _T("Mute")
 #define IDS_RS_BALANCE                      _T("Balance")
 #define IDS_RS_VOLUMESTEP                   _T("VolumeStep")
+
 // AudioSwitcher
 #define IDS_RS_ENABLEAUDIOSWITCHER          _T("EnableAudioSwitcher")
 #define IDS_RS_AUDIONORMALIZE               _T("AudioNormalize")
@@ -83,11 +85,13 @@
 #define IDS_RS_CUSTOMCHANNELMAPPING         _T("CustomChannelMapping")
 #define IDS_RS_SPEAKERCHANNELS              _T("SpeakerChannels")
 #define IDS_RS_SPEAKERTOCHANNELMAPPING      _T("SpeakerToChannelMapping")
+
 // Video
 #define IDS_RS_COLOR_BRIGHTNESS             _T("VideoBrightness")
 #define IDS_RS_COLOR_CONTRAST               _T("VideoContrast")
 #define IDS_RS_COLOR_HUE                    _T("VideoHue")
 #define IDS_RS_COLOR_SATURATION             _T("VideoSaturation")
+
 // DVD/OGM
 #define IDS_RS_DVDPATH                      _T("DVDPath")
 #define IDS_RS_USEDVDPATH                   _T("UseDVDPath")
@@ -96,8 +100,8 @@
 #define IDS_RS_SUBTITLESLANG                _T("SubtitlesLang")
 #define IDS_RS_AUTOSPEAKERCONF              _T("AutoSpeakerConf")
 #define IDS_RS_CLOSEDCAPTIONS               _T("ClosedCaptions")
-//
-#define IDS_RS_SHADERLIST                   _T("Shaders List")
+
+#define IDS_RS_SHADERLIST                   _T("ShadersList")
 #define IDS_RS_TITLEBARTEXTTITLE            _T("TitleBarTextTitle")
 #define IDS_RS_VMR9MIXERYUV                 _T("VMRMixerYUV")
 #define IDS_RS_REWIND                       _T("Rewind")
@@ -171,9 +175,9 @@
 #define IDS_RS_ONTOP                        _T("OnTop")
 #define IDS_RS_WEBSERVERPRINTDEBUGINFO      _T("WebServerPrintDebugIfo")
 #define IDS_RS_WEBSERVERUSECOMPRESSION      _T("WebServerUseCompression")
-#define IDS_RS_SNAPSHOTPATH                 _T("SnapShotPath")
+#define IDS_RS_SNAPSHOTPATH                 _T("SnapshotPath")
 #define IDS_RS_PRIORITY                     _T("Priority")
-#define IDS_RS_SNAPSHOTEXT                  _T("SnapShotExt")
+#define IDS_RS_SNAPSHOTEXT                  _T("SnapshotExt")
 #define IDS_RS_LAUNCHFULLSCREEN             _T("LaunchFullScreen")
 #define IDS_RS_ISDB                         _T("ISDb")
 #define IDS_RS_POW2TEX                      _T("SPCPow2Tex")
@@ -199,8 +203,8 @@
 #define IDS_RS_SEARCH_IN_FOLDER             _T("UseSearchInFolder")
 #define IDS_RS_USE_TIME_TOOLTIP             _T("UseTimeTooltip")
 #define IDS_RS_TIME_TOOLTIP_POSITION        _T("TimeTooltipPosition")
-#define IDS_RS_MPC_OSD_SIZE                 _T("OSD_Size")
-#define IDS_RS_MPC_OSD_FONT                 _T("OSD_Font")
+#define IDS_RS_MPC_OSD_SIZE                 _T("OSDSize")
+#define IDS_RS_MPC_OSD_FONT                 _T("OSDFont")
 #define IDS_RS_LAST_OPEN_DIR                _T("LastOpenDir")
 #define IDS_RS_ASSOCIATED_WITH_ICON         _T("AssociatedWithIcon")
 #define IDS_RS_ICON_LIB_VERSION             _T("IconLibVersion")
@@ -214,7 +218,7 @@
 #define IDS_RS_AUDIO_DISP_NAME              _T("AudDispName")
 #define IDS_RS_COUNTRY                      _T("Country")
 
-#define IDS_R_DVB                           _T("DVB configuration")
+#define IDS_R_DVB                           _T("DVBConfiguration")
 #define IDS_RS_BDA_NETWORKPROVIDER          _T("BDANetworkProvider")
 #define IDS_RS_BDA_TUNER                    _T("BDATuner")
 #define IDS_RS_BDA_RECEIVER                 _T("BDAReceiver")
@@ -246,8 +250,8 @@
 
 #define IDS_RS_NOTIFY_SKYPE                 _T("NotifySkype")
 
-#define IDS_RS_GOTO_LAST_USED               _T("gotoluf")
-#define IDS_RS_GOTO_FPS                     _T("fps")
+#define IDS_RS_GOTO_LAST_USED               _T("GoToLastUsed")
+#define IDS_RS_GOTO_FPS                     _T("GoToFPS")
 
 #define IDS_RS_SHADERS_INITIALIZED          _T("Initialized")
 
