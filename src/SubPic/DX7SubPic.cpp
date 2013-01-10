@@ -202,8 +202,8 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     }
 
     hr = m_pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-                                    D3DFVF_XYZRHW | D3DFVF_TEX1,
-                                    pVertices, 4, D3DDP_WAIT);
+                                  D3DFVF_XYZRHW | D3DFVF_TEX1,
+                                  pVertices, 4, D3DDP_WAIT);
     m_pD3DDev->EndScene();
 
     //
