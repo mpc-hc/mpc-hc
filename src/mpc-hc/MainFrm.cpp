@@ -9805,9 +9805,9 @@ void CMainFrame::AutoChangeMonitorMode()
         }
     }
 
-    for (int rs = 1; rs < 100 ; rs++) {
-        if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData == true
-                && s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked == 1
+    for (size_t rs = 1; rs < _countof(s.AutoChangeFullscrRes.dmFullscreenRes) ; rs++) {
+        if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData
+                && s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked
                 && MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
                 && MediaFPS <= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_to) {
 
@@ -9815,7 +9815,7 @@ void CMainFrame::AutoChangeMonitorMode()
             return;
         }
     }
-    if (s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
+    if (s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked) {
         SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, mf_hmonitor);
     }
 }
