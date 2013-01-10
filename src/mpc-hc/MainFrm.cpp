@@ -5010,10 +5010,10 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         BITMAPINFO* bi = (BITMAPINFO*)pData;
 
         if (bi->bmiHeader.biBitCount != 32) {
-            delete [] pData;
             CString strTemp;
             strTemp.Format(IDS_MAINFRM_57, bi->bmiHeader.biBitCount);
             AfxMessageBox(strTemp);
+            delete [] pData;
             return;
         }
 
