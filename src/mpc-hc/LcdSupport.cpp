@@ -137,13 +137,13 @@ void CLCDMyProgressBar::SetProgressStyle(ePROGRESS_STYLE eStyle)
 
     //Convert and update the new Style type
     switch (eStyle) {
-        case STYLE_CURSOR:
+        case CLCDProgressBar::STYLE_CURSOR:
             m_eMyStyle = STYLE_CURSOR;
             break;
-        case STYLE_FILLED:
+        case CLCDProgressBar::STYLE_FILLED:
             m_eMyStyle = STYLE_FILLED_H;
             break;
-        case STYLE_DASHED_CURSOR:
+        case CLCDProgressBar::STYLE_DASHED_CURSOR:
             m_eMyStyle = STYLE_DASHED_CURSOR;
             break;
         default:
