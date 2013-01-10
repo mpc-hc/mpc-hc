@@ -76,14 +76,13 @@ if [[ "$branch" ]] && [[ "$branch" != "master" ]]; then
   echo "Mergebase: master@${base_ver} (${base:0:7})"
 fi
 
-# Update version_rev.h if it does not exist, or if version information.
+# Update version_rev.h if it does not exist, or if version information was changed.
 if [[ ! -f "$versionfile" ]] || [[ "$version_info" != "$(<"$versionfile")" ]]; then
   # Write the version information to version_rev.h
   echo "$version_info" > "$versionfile"
 fi
 
-# Update manifest file if it does not exist, if version information changed,
-# or if source manifest.conf was changed.
+# Update manifest file if it does not exist or if source manifest.conf was changed.
 newmanifest="$(sed -e "s/\\\$WCREV\\\$/${ver}/" "$manifestfile.conf")"
 if [[ ! -f "$manifestfile" ]] || [[ "$newmanifest" != "$(<"$manifestfile")" ]]; then
   # Update the revision number in the manifest file
