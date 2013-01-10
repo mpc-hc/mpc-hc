@@ -5062,7 +5062,7 @@ static CString MakeSnapshotFileName(LPCTSTR prefix)
 {
     CTime t = CTime::GetCurrentTime();
     CString fn;
-    fn.Format(_T("%s_[%s]%s"), prefix, t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().strSnapShotExt);
+    fn.Format(_T("%s_[%s]%s"), prefix, t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().strSnapshotExt);
     return fn;
 }
 
@@ -5118,7 +5118,7 @@ void CMainFrame::OnFileSaveImage()
         return;
     }
 
-    CPath psrc(s.strSnapShotPath);
+    CPath psrc(s.strSnapshotPath);
 
     CStringW prefix = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
@@ -5128,17 +5128,17 @@ void CMainFrame::OnFileSaveImage()
     } else if (GetPlaybackMode() == PM_DVD) {
         prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
     }
-    psrc.Combine(s.strSnapShotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
 
     CFileDialog fd(FALSE, 0, (LPCTSTR)psrc,
                    OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
                    _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
 
-    if (s.strSnapShotExt == _T(".bmp")) {
+    if (s.strSnapshotExt == _T(".bmp")) {
         fd.m_pOFN->nFilterIndex = 1;
-    } else if (s.strSnapShotExt == _T(".jpg")) {
+    } else if (s.strSnapshotExt == _T(".jpg")) {
         fd.m_pOFN->nFilterIndex = 2;
-    } else if (s.strSnapShotExt == _T(".png")) {
+    } else if (s.strSnapshotExt == _T(".png")) {
         fd.m_pOFN->nFilterIndex = 3;
     }
 
@@ -5147,27 +5147,27 @@ void CMainFrame::OnFileSaveImage()
     }
 
     if (fd.m_pOFN->nFilterIndex == 1) {
-        s.strSnapShotExt = _T(".bmp");
+        s.strSnapshotExt = _T(".bmp");
     } else if (fd.m_pOFN->nFilterIndex == 2) {
-        s.strSnapShotExt = _T(".jpg");
+        s.strSnapshotExt = _T(".jpg");
     } else {
         fd.m_pOFN->nFilterIndex = 3;
-        s.strSnapShotExt = _T(".png");
+        s.strSnapshotExt = _T(".png");
     }
 
     CPath pdst(fd.GetPathName());
     CString ext(pdst.GetExtension().MakeLower());
-    if (ext != s.strSnapShotExt) {
+    if (ext != s.strSnapshotExt) {
         if (ext == _T(".bmp") || ext == _T(".jpg") || ext == _T(".png")) {
-            ext = s.strSnapShotExt;
+            ext = s.strSnapshotExt;
         } else {
-            ext += s.strSnapShotExt;
+            ext += s.strSnapshotExt;
         }
         pdst.RenameExtension(ext);
     }
     CString path = (LPCTSTR)pdst;
     pdst.RemoveFileSpec();
-    s.strSnapShotPath = (LPCTSTR)pdst;
+    s.strSnapshotPath = (LPCTSTR)pdst;
 
     SaveImage(path);
 }
@@ -5191,7 +5191,7 @@ void CMainFrame::OnFileSaveImageAuto()
     }
 
     CString fn;
-    fn.Format(_T("%s\\%s"), s.strSnapShotPath, MakeSnapshotFileName(prefix));
+    fn.Format(_T("%s\\%s"), s.strSnapshotPath, MakeSnapshotFileName(prefix));
     SaveImage(fn);
 }
 
@@ -5210,25 +5210,25 @@ void CMainFrame::OnFileSaveThumbnails()
         return;
     }
 
-    CPath psrc(s.strSnapShotPath);
+    CPath psrc(s.strSnapshotPath);
     CStringW prefix = _T("thumbs");
     if (GetPlaybackMode() == PM_FILE) {
         CPath path(m_wndPlaylistBar.GetCurFileName());
         path.StripPath();
         prefix.Format(_T("%s_thumbs"), path);
     }
-    psrc.Combine(s.strSnapShotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
 
     CSaveThumbnailsDialog fd(
         s.iThumbRows, s.iThumbCols, s.iThumbWidth,
         0, (LPCTSTR)psrc,
         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
 
-    if (s.strSnapShotExt == _T(".bmp")) {
+    if (s.strSnapshotExt == _T(".bmp")) {
         fd.m_pOFN->nFilterIndex = 1;
-    } else if (s.strSnapShotExt == _T(".jpg")) {
+    } else if (s.strSnapshotExt == _T(".jpg")) {
         fd.m_pOFN->nFilterIndex = 2;
-    } else if (s.strSnapShotExt == _T(".png")) {
+    } else if (s.strSnapshotExt == _T(".png")) {
         fd.m_pOFN->nFilterIndex = 3;
     }
 
@@ -5237,12 +5237,12 @@ void CMainFrame::OnFileSaveThumbnails()
     }
 
     if (fd.m_pOFN->nFilterIndex == 1) {
-        s.strSnapShotExt = _T(".bmp");
+        s.strSnapshotExt = _T(".bmp");
     } else if (fd.m_pOFN->nFilterIndex == 2) {
-        s.strSnapShotExt = _T(".jpg");
+        s.strSnapshotExt = _T(".jpg");
     } else {
         fd.m_pOFN->nFilterIndex = 3;
-        s.strSnapShotExt = _T(".png");
+        s.strSnapshotExt = _T(".png");
     }
 
     s.iThumbRows = fd.m_rows;
@@ -5251,17 +5251,17 @@ void CMainFrame::OnFileSaveThumbnails()
 
     CPath pdst(fd.GetPathName());
     CString ext(pdst.GetExtension().MakeLower());
-    if (ext != s.strSnapShotExt) {
+    if (ext != s.strSnapshotExt) {
         if (ext == _T(".bmp") || ext == _T(".jpg") || ext == _T(".png")) {
-            ext = s.strSnapShotExt;
+            ext = s.strSnapshotExt;
         } else {
-            ext += s.strSnapShotExt;
+            ext += s.strSnapshotExt;
         }
         pdst.RenameExtension(ext);
     }
     CString path = (LPCTSTR)pdst;
     pdst.RemoveFileSpec();
-    s.strSnapShotPath = (LPCTSTR)pdst;
+    s.strSnapshotPath = (LPCTSTR)pdst;
 
     SaveThumbnails(path);
 }

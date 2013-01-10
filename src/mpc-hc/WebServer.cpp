@@ -96,7 +96,7 @@ void CWebServer::Init()
     m_internalpages["/index.html"] = &CWebClientSocket::OnIndex;
     m_internalpages["/info.html"] = &CWebClientSocket::OnInfo;
     m_internalpages["/player.html"] = &CWebClientSocket::OnPlayer;
-    m_internalpages["/snapshot.jpg"] = &CWebClientSocket::OnSnapShotJpeg;
+    m_internalpages["/snapshot.jpg"] = &CWebClientSocket::OnSnapshotJpeg;
     m_internalpages["/status.html"] = &CWebClientSocket::OnStatus;
     m_internalpages["/variables.html"] = &CWebClientSocket::OnVariables;
     m_internalpages["/viewres.html"] = &CWebClientSocket::OnViewRes;

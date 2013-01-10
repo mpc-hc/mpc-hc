@@ -572,7 +572,7 @@ public:
     bool            bFavRememberPos;
     bool            bFavRelativeDrive;
     // Save Image...
-    CString         strSnapShotPath, strSnapShotExt;
+    CString         strSnapshotPath, strSnapshotExt;
     // Save Thumbnails...
     int             iThumbRows, iThumbCols, iThumbWidth;
     // Shader Editor
