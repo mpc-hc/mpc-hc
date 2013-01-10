@@ -59,7 +59,7 @@ STDMETHODIMP CDX7SubPic::GetDesc(SubPicDesc& spd)
     spd.h = m_size.cy;
     spd.bpp = (WORD)ddsd.ddpfPixelFormat.dwRGBBitCount;
     spd.pitch = ddsd.lPitch;
-    spd.bits = ddsd.lpSurface; // should be NULL
+    spd.bits = (BYTE*)ddsd.lpSurface; // should be NULL
     spd.vidrect = m_vidrect;
 
     return S_OK;
@@ -107,7 +107,7 @@ STDMETHODIMP CDX7SubPic::Lock(SubPicDesc& spd)
     spd.h = m_size.cy;
     spd.bpp = (WORD)ddsd.ddpfPixelFormat.dwRGBBitCount;
     spd.pitch = ddsd.lPitch;
-    spd.bits = ddsd.lpSurface;
+    spd.bits = (BYTE*)ddsd.lpSurface;
     spd.vidrect = m_vidrect;
 
     return S_OK;

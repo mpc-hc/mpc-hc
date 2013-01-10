@@ -150,7 +150,7 @@ STDMETHODIMP CMemSubPic::ClearDirtyRect(DWORD color)
         return S_FALSE;
     }
 
-    BYTE* p = (BYTE*)m_spd.bits + m_spd.pitch * m_rcDirty.top + m_rcDirty.left * (m_spd.bpp >> 3);
+    BYTE* p = m_spd.bits + m_spd.pitch * m_rcDirty.top + m_rcDirty.left * (m_spd.bpp >> 3);
     for (ptrdiff_t j = 0, h = m_rcDirty.Height(); j < h; j++, p += m_spd.pitch) {
         int w = m_rcDirty.Width();
 #ifdef _WIN64
@@ -199,7 +199,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
     }
 
     int w = m_rcDirty.Width(), h = m_rcDirty.Height();
-    BYTE* top = (BYTE*)m_spd.bits + m_spd.pitch * m_rcDirty.top + m_rcDirty.left * 4;
+    BYTE* top = m_spd.bits + m_spd.pitch * m_rcDirty.top + m_rcDirty.left * 4;
     BYTE* bottom = top + m_spd.pitch * h;
 
     if (m_spd.type == MSP_RGB16) {
