@@ -158,7 +158,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
     for (DWORD indexSubKey = 0; indexSubKey < subKeysCount; indexSubKey++) {
         subKeyLen = maxSubKeyLen;
 
-        RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen), &subKeyLen, NULL, NULL, NULL, NULL);
+        errorCode = RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen), &subKeyLen, NULL, NULL, NULL, NULL);
         if (errorCode != ERROR_SUCCESS) {
             SetLastError(errorCode);
             return false;
