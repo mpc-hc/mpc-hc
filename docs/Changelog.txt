@@ -33,3 +33,4 @@ Legend:
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks.
 ! Ticket #2805, AviSplitter: Fix a crash when closing the file while re-indexing.
+! Ticket #2838, The window wasn't draggable anymore by clicking on the information panel.
