@@ -37,14 +37,14 @@ bool CFileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
     DWORD dwFileVersionInfoSize = GetFileVersionInfoSize(filePath, NULL);
     if (dwFileVersionInfoSize) {
         // Allocate the buffer
-        LPVOID lpData = (LPVOID)DEBUG_NEW BYTE[dwFileVersionInfoSize];
+        BYTE* lpData = (BYTE*)DEBUG_NEW BYTE[dwFileVersionInfoSize];
         if (lpData) {
             // Load the file-version information
-            if (GetFileVersionInfo(filePath, 0, dwFileVersionInfoSize, lpData)) {
+            if (GetFileVersionInfo(filePath, 0, dwFileVersionInfoSize, (LPVOID)lpData)) {
                 // Parse the version information
                 VS_FIXEDFILEINFO* lpInfo;
                 UINT unInfoLen;
-                if (VerQueryValue(lpData, _T("\\"), (LPVOID*)&lpInfo, &unInfoLen)
+                if (VerQueryValue((LPVOID)lpData, _T("\\"), (LPVOID*)&lpInfo, &unInfoLen)
                         && unInfoLen == sizeof(VS_FIXEDFILEINFO)) {
                     fileInfo = *lpInfo;
                     success = true;
