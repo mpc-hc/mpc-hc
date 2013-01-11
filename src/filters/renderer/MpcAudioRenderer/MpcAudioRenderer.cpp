@@ -113,8 +113,6 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     , hnsActualDuration(0)
     , m_lVolume(DSBVOLUME_MIN)
 {
-    HMODULE hLib;
-
 #ifdef STANDALONE_FILTER
     CRegKey key;
     ULONG   len;
@@ -143,10 +141,10 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
 
 
     // Load Vista specific DLLs
-    hLib = LoadLibrary(L"avrt.dll");
-    if (hLib != NULL) {
-        pfAvSetMmThreadCharacteristicsW   = (PTR_AvSetMmThreadCharacteristicsW)   GetProcAddress(hLib, "AvSetMmThreadCharacteristicsW");
-        pfAvRevertMmThreadCharacteristics = (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(hLib, "AvRevertMmThreadCharacteristics");
+    m_hLibAVRT = LoadLibrary(L"avrt.dll");
+    if (m_hLibAVRT != NULL) {
+        pfAvSetMmThreadCharacteristicsW   = (PTR_AvSetMmThreadCharacteristicsW)   GetProcAddress(m_hLibAVRT, "AvSetMmThreadCharacteristicsW");
+        pfAvRevertMmThreadCharacteristics = (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hLibAVRT, "AvRevertMmThreadCharacteristics");
     } else {
         m_useWASAPI = false;    // Wasapi not available below Vista
     }
@@ -183,6 +181,10 @@ CMpcAudioRenderer::~CMpcAudioRenderer()
 
     if (hTask != NULL && pfAvRevertMmThreadCharacteristics != NULL) {
         pfAvRevertMmThreadCharacteristics(hTask);
+    }
+
+    if (m_hLibAVRT) {
+        FreeLibrary(m_hLibAVRT);
     }
 }
 

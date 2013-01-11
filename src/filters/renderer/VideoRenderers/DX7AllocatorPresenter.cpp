@@ -109,17 +109,17 @@ typedef HRESULT(WINAPI* DirectDrawCreateExPtr)(GUID FAR* lpGuid, LPVOID*  lplpDD
 CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, NULL)
     , m_ScreenSize(0, 0)
+    , m_hDDrawLib(NULL)
 {
     if (FAILED(hr)) {
         return;
     }
 
     DirectDrawCreateExPtr pDirectDrawCreateEx = NULL;
-    HMODULE hDDrawLib = NULL;
 
-    hDDrawLib = LoadLibrary(_T("ddraw.dll"));
-    if (hDDrawLib) {
-        pDirectDrawCreateEx = (DirectDrawCreateExPtr)GetProcAddress(hDDrawLib, "DirectDrawCreateEx");
+    m_hDDrawLib = LoadLibrary(_T("ddraw.dll"));
+    if (m_hDDrawLib) {
+        pDirectDrawCreateEx = (DirectDrawCreateExPtr)GetProcAddress(m_hDDrawLib, "DirectDrawCreateEx");
     }
     if (pDirectDrawCreateEx == NULL) {
         hr = E_FAIL;
@@ -139,6 +139,13 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
     hr = CreateDevice();
     if (FAILED(hr)) {
         TRACE(_T("CreateDevice failed: 0x%08x\n"), (LONG)hr);
+    }
+}
+
+CDX7AllocatorPresenter::~CDX7AllocatorPresenter()
+{
+    if (m_hDDrawLib) {
+        FreeLibrary(m_hDDrawLib);
     }
 }
 

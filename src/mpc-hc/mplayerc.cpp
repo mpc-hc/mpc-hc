@@ -270,8 +270,9 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CMPlayerCApp construction
 
-CMPlayerCApp::CMPlayerCApp() :
-    m_fClosingState(false)
+CMPlayerCApp::CMPlayerCApp()
+    : m_hNTDLL(NULL)
+    , m_fClosingState(false)
     //, m_hMutexOneInstance(NULL)
 {
     TCHAR strApp[MAX_PATH];
@@ -295,6 +296,13 @@ CMPlayerCApp::CMPlayerCApp() :
     memset(&m_EVRColorControl, 0, sizeof(m_EVRColorControl));
 
     GetRemoteControlCode = GetRemoteControlCodeMicrosoft;
+}
+
+CMPlayerCApp::~CMPlayerCApp()
+{
+    if (m_hNTDLL) {
+        FreeLibrary(m_hNTDLL);
+    }
 }
 
 void CMPlayerCApp::ShowCmdlnSwitches() const
@@ -795,10 +803,10 @@ BOOL CMPlayerCApp::InitInstance()
     DetourAttach(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails);
     DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
 
-    HMODULE hNTDLL = LoadLibrary(_T("ntdll.dll"));
+    m_hNTDLL = LoadLibrary(_T("ntdll.dll"));
 #ifndef _DEBUG  // Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
-    if (hNTDLL) {
-        Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress(hNTDLL, "NtQueryInformationProcess");
+    if (m_hNTDLL) {
+        Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress(m_hNTDLL, "NtQueryInformationProcess");
 
         if (Real_NtQueryInformationProcess) {
             DetourAttach(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess);
@@ -1050,9 +1058,9 @@ BOOL CMPlayerCApp::InitInstance()
     pFrame->SetFocus();
 
     // set HIGH I/O Priority for better playback performance
-    if (hNTDLL) {
+    if (m_hNTDLL) {
         typedef NTSTATUS(WINAPI * FUNC_NTSETINFORMATIONPROCESS)(HANDLE, ULONG, PVOID, ULONG);
-        FUNC_NTSETINFORMATIONPROCESS NtSetInformationProcess = (FUNC_NTSETINFORMATIONPROCESS)GetProcAddress(hNTDLL, "NtSetInformationProcess");
+        FUNC_NTSETINFORMATIONPROCESS NtSetInformationProcess = (FUNC_NTSETINFORMATIONPROCESS)GetProcAddress(m_hNTDLL, "NtSetInformationProcess");
 
         if (NtSetInformationProcess && SetPrivilege(SE_INC_BASE_PRIORITY_NAME)) {
             ULONG IoPriority = 3;
@@ -1063,9 +1071,6 @@ BOOL CMPlayerCApp::InitInstance()
             UNREFERENCED_PARAMETER(NtStatus);
 #endif
         }
-
-        FreeLibrary(hNTDLL);
-        hNTDLL = NULL;
     }
 
     m_mutexOneInstance.Release();

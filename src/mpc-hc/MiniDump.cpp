@@ -69,6 +69,7 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 
     void* pOrgEntry = GetProcAddress(hKernel32, "SetUnhandledExceptionFilter");
     if (pOrgEntry == NULL) {
+        FreeLibrary(hKernel32);
         return FALSE;
     }
 
@@ -107,6 +108,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
             if (!AfxGetMyApp()->IsIniValid()) {
                 HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, strDumpPath.GetBuffer(MAX_PATH));
                 if (FAILED(hr)) {
+                    FreeLibrary(hDll);
                     return retval;
                 }
 

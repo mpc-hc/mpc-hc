@@ -187,7 +187,7 @@ bool CPPageWebServer::PickDir(CString& dir)
                 // Typedef for function SHCreateItemFromParsingName
                 typedef HRESULT(STDAPICALLTYPE * PFN_TYPE_SHCreateItemFromParsingName)(PCWSTR /*pszPath*/, IBindCtx* /*pbc*/,  REFIID /*riid*/, void** /*ppv*/);
 
-                // Load Shell32.dll to get pointer to aforementioned function
+                // Load Shell32.dll to get the pointer to the aforementioned function
                 HINSTANCE hDllShell = ::LoadLibrary(_T("Shell32.dll"));
                 PFN_TYPE_SHCreateItemFromParsingName pfnSHCreateItemFromParsingName = NULL;
                 if (hDllShell != NULL) {
@@ -201,6 +201,7 @@ bool CPPageWebServer::PickDir(CString& dir)
                         openDlgPtr->SetFolder(psiFolder);
                     }
                 }
+                FreeLibrary(hDllShell);
             }
 
             if (SUCCEEDED(openDlgPtr->Show(m_hWnd))) {
