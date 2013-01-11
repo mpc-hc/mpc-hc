@@ -1508,7 +1508,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
     if (m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
             || m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
-            || !m_pVideoSurface) {
+            || !m_pVideoSurface[m_nCurSurface]) {
         if (m_OrderedPaint) {
             --m_OrderedPaint;
         } else {
