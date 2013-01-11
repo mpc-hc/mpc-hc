@@ -3630,7 +3630,7 @@ void CSyncAP::RenderThread()
                                 SetEvent(m_hEvtSkip);
                                 m_bEvtSkip = true;
                             }
-                            REFERENCE_TIME rtRefClockTimeNow;
+                            REFERENCE_TIME rtRefClockTimeNow = 0;
                             if (m_pRefClock) {
                                 m_pRefClock->GetTime(&rtRefClockTimeNow);    // Reference clock time now
                             }

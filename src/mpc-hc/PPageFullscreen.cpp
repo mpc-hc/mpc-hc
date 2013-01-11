@@ -381,9 +381,9 @@ void CPPageFullscreen::ModesUpdate()
 
     m_fSetFullscreenRes = m_AutoChangeFullscrRes.bEnabled;
     CString sl2[MAX_FPS_COUNT];
-    dispmode dm,  dmtoset[MAX_FPS_COUNT];
+    dispmode dm, dmtoset[MAX_FPS_COUNT];
 
-    int i0;
+    int i0 = 0;
 
     CString str, strCurMon, strModes;
     CString strCur;
