@@ -14963,7 +14963,7 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName(DVD_AudioAttributes& ATR) const
             return _T("SDDS");
         case DVD_AudioFormat_Other:
         default:
-            return ResStr(IDS_MAINFRM_137);
+            return MAKEINTRESOURCE(IDS_MAINFRM_137);
     }
 }
 
