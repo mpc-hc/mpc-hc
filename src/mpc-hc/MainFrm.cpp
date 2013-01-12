@@ -11640,6 +11640,10 @@ DWORD CMainFrame::SetupSubtitleStreams()
                 DWORD dwGroup = 2;
                 if (pSSF) {
                     hr = pSSF->Info(j, NULL, NULL, NULL, &dwGroup, &pName, NULL, NULL);
+                    if (dwGroup != 2) {
+                        CoTaskMemFree(pName);
+                        continue;
+                    }
                 } else {
                     hr = pSubStream->GetStreamInfo(j, &pName, NULL);
                 }
