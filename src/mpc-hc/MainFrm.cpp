@@ -13883,8 +13883,8 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
                     }
 
                     if (pSubStream == subElement.subStream
-                        && (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
-                            break;
+                            && (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
+                        break;
                     }
 
                     i++;
