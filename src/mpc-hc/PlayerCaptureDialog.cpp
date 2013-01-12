@@ -49,6 +49,7 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
     UINT len;
     if (AfxGetApp()->GetProfileBinary(IDS_RS_CAPTURE _T("\\") + CString(DisplayName), _T("MediaType"), &pData, &len)) {
         if (len != sizeof(AM_MEDIA_TYPE)) {
+            CoTaskMemFree(*ppmt);
             delete [] pData;
             return fRet;
         }
@@ -69,7 +70,6 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
             (*ppmt)->pbFormat = (BYTE*)CoTaskMemAlloc(len);
             memcpy((*ppmt)->pbFormat, pData, len);
             delete [] pData;
-
         }
     }
 
