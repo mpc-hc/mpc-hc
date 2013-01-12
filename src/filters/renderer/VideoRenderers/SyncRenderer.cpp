@@ -2396,8 +2396,8 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
     return S_OK;
 }
 
-CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error): CBaseAP(hWnd, bFullscreen, hr, _Error) 
-    : m_hDXVA2Lib(NULL)
+CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error): CBaseAP(hWnd, bFullscreen, hr, _Error)
+    , m_hDXVA2Lib(NULL)
     , m_hEVRLib(NULL)
     , m_hAVRTLib(NULL)
 {
