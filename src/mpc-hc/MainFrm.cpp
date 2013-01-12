@@ -5484,7 +5484,12 @@ void CMainFrame::OnFileCloseMedia()
 
 void CMainFrame::OnUpdateViewTearingTest(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+    const CAppSettings& s = AfxGetAppSettings();
+    bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
+                      || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                      || s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
+
+    pCmdUI->Enable(supported && m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
     pCmdUI->SetCheck(AfxGetMyApp()->m_Renderers.m_fTearingTest);
 }
 
