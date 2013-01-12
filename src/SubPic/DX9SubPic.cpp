@@ -194,7 +194,7 @@ STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
         d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 :
         d3dsd.Format == D3DFMT_A4R4G4B4 ? 16 : 0;
     spd.pitch = LockedRect.Pitch;
-    spd.bits = LockedRect.pBits;
+    spd.bits = (BYTE*)LockedRect.pBits;
     spd.vidrect = m_vidrect;
 
     return S_OK;
