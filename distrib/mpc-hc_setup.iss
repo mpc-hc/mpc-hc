@@ -29,9 +29,9 @@
 #endif
 
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
-;#define VS2012
-;#define x64Build
-;#define MPCHC_LITE
+#define VS2012
+#define x64Build
+#define MPCHC_LITE
 
 ; Include translations by default. You can bypass this by defining localize=whatever or false etc in build.bat or here
 #if !defined(localize)
