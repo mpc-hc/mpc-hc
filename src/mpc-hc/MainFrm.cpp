@@ -13769,11 +13769,14 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
     if (i >= 0) {
         WCHAR* pName = NULL;
         if (CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter) {
-            pSSF->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
-            if (fDisplayMessage) {
-                if (FAILED(pSSF->Info(i, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) {
-                    pName = NULL;
-                }
+            DWORD dwFlags;
+            if (FAILED(pSSF->Info(i, NULL, &dwFlags, NULL, NULL, &pName, NULL, NULL))) {
+                dwFlags = 0;
+                pName = NULL;
+            }
+            // Enable the track only if it isn't already the only selected track in the group
+            if (!(dwFlags & AMSTREAMSELECTINFO_EXCLUSIVE)) {
+                pSSF->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
             }
             i = 0;
         }
@@ -13790,6 +13793,9 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
                 strMessage.Format(IDS_SUBTITLE_STREAM, pName);
                 m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
             }
+        }
+        if (pName) {
+            CoTaskMemFree(pName);
         }
     } else {
         if (fDisplayMessage && m_iSubtitleSel < 0) {
@@ -13851,52 +13857,51 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
 
             pRTS->Deinit();
         }
-    }
 
-    if (!fApplyDefStyle) {
-        m_iSubtitleSel = -1;
+        int i = 0;
+        bool found = false;
+        POSITION pos = m_pSubStreams.GetHeadPosition();
+        while (pos) {
+            SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
+            CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter;
 
-        if (pSubStream) {
-            int i = 0;
+            if (pSSF) {
+                DWORD cStreams;
+                if (FAILED(pSSF->Count(&cStreams))) {
+                    continue;
+                }
 
-            POSITION pos = m_pSubStreams.GetHeadPosition();
-            while (pos) {
-                SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
-                CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter;
+                for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
+                    DWORD dwFlags, dwGroup;
 
-                if (pSSF) {
-                    DWORD cStreams;
-                    if (FAILED(pSSF->Count(&cStreams))) {
+                    if (FAILED(pSSF->Info(j, NULL, &dwFlags, NULL, &dwGroup, NULL, NULL, NULL))) {
                         continue;
                     }
 
-                    for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
-                        DWORD dwFlags, dwGroup;
-
-                        if (FAILED(pSSF->Info(j, NULL, &dwFlags, NULL, &dwGroup, NULL, NULL, NULL))) {
-                            continue;
-                        }
-
-                        if (dwGroup != 2) {
-                            continue;
-                        }
-
-                        if (pSubStream == subElement.subStream
-                                && (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
-                            break;
-                        }
-
-                        i++;
+                    if (dwGroup != 2) {
+                        continue;
                     }
-                }
 
-                if (pSubStream == subElement.subStream) {
-                    m_iSubtitleSel = i + subElement.subStream->GetStream();
-                    break;
-                } else if (!pSSF) {
-                    i += subElement.subStream->GetStreamCount();
+                    if (pSubStream == subElement.subStream
+                        && (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
+                            break;
+                    }
+
+                    i++;
                 }
             }
+
+            if (pSubStream == subElement.subStream) {
+                m_iSubtitleSel = i + subElement.subStream->GetStream();
+                found = true;
+                break;
+            } else if (!pSSF) {
+                i += subElement.subStream->GetStreamCount();
+            }
+        }
+        // We are trying to set a subtitles stream that isn't in the list so we abort here.
+        if (!found) {
+            return;
         }
     }
 
