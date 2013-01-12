@@ -86,6 +86,7 @@
 #define IDF_SHADER_SPHERE               721
 #define IDF_SHADER_SPOTLIGHT            722
 #define IDF_SHADER_WAVE                 723
+#define IDF_SHADER_LCD                  724
 #define ID_FILE_OPENMEDIA               800
 #define ID_FILE_OPENDVDBD               801
 #define ID_FILE_OPENDEVICE              802

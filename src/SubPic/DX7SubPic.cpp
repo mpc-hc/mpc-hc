@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -59,7 +59,7 @@ STDMETHODIMP CDX7SubPic::GetDesc(SubPicDesc& spd)
     spd.h = m_size.cy;
     spd.bpp = (WORD)ddsd.ddpfPixelFormat.dwRGBBitCount;
     spd.pitch = ddsd.lPitch;
-    spd.bits = ddsd.lpSurface; // should be NULL
+    spd.bits = (BYTE*)ddsd.lpSurface; // should be NULL
     spd.vidrect = m_vidrect;
 
     return S_OK;
@@ -107,7 +107,7 @@ STDMETHODIMP CDX7SubPic::Lock(SubPicDesc& spd)
     spd.h = m_size.cy;
     spd.bpp = (WORD)ddsd.ddpfPixelFormat.dwRGBBitCount;
     spd.pitch = ddsd.lPitch;
-    spd.bits = ddsd.lpSurface;
+    spd.bits = (BYTE*)ddsd.lpSurface;
     spd.vidrect = m_vidrect;
 
     return S_OK;
@@ -202,8 +202,8 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     }
 
     hr = m_pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-                                    D3DFVF_XYZRHW | D3DFVF_TEX1,
-                                    pVertices, 4, D3DDP_WAIT);
+                                  D3DFVF_XYZRHW | D3DFVF_TEX1,
+                                  pVertices, 4, D3DDP_WAIT);
     m_pD3DDev->EndScene();
 
     //

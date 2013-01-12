@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,9 +19,6 @@
  */
 
 #pragma once
-
-// Uncomment the following line to turn off the minidump creation.
-//#define DISABLE_MINIDUMP
 
 class CMiniDump
 {

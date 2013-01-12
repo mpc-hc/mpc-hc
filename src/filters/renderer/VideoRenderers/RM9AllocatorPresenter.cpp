@@ -85,7 +85,7 @@ void CRM9AllocatorPresenter::DeleteSurfaces()
 
 STDMETHODIMP CRM9AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader* pBitmapInfo, REF(PNxRect) inDestRect, REF(PNxRect) inSrcRect)
 {
-    if (!m_pVideoSurface || !m_pVideoSurfaceOff) {
+    if (!m_pVideoSurface[m_nCurSurface] || !m_pVideoSurfaceOff) {
         return E_FAIL;
     }
 

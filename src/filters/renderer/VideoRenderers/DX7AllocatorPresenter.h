@@ -28,13 +28,13 @@
 
 namespace DSObjects
 {
-
     class CDX7AllocatorPresenter
         : public CSubPicAllocatorPresenterImpl
     {
     protected:
         CSize   m_ScreenSize;
 
+        HMODULE m_hDDrawLib;
         CComPtr<IDirectDraw7> m_pDD;
         CComQIPtr<IDirect3D7, &IID_IDirect3D7> m_pD3D;
         CComPtr<IDirect3DDevice7> m_pD3DDev;
@@ -52,6 +52,7 @@ namespace DSObjects
 
     public:
         CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+        ~CDX7AllocatorPresenter();
 
         // ISubPicAllocatorPresenter
         STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
@@ -60,5 +61,4 @@ namespace DSObjects
         STDMETHODIMP_(bool) ResetDevice();
         STDMETHODIMP_(bool) DisplayChange();
     };
-
 }

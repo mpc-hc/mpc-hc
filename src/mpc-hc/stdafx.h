@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -80,6 +80,9 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 #if !defined(USE_MEDIAINFO_STATIC) && !defined(MPCHC_LITE)
 #define USE_MEDIAINFO_STATIC
 #endif
+
+// If you distribute your builds, please disable minidumps by defining DISABLE_MINIDUMP.
+//#define DISABLE_MINIDUMP
 
 #include "resource.h"
 #include "FakeFilterMapper2.h"

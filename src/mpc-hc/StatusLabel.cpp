@@ -58,6 +58,17 @@ END_MESSAGE_MAP()
 
 // CStatusLabel message handlers
 
+BOOL CStatusLabel::PreTranslateMessage(MSG* pMsg)
+{
+    // Notify the parent window if the left button of the mouse is pressed so
+    // that the user can drag the window by clicking on the information panel.
+    if (pMsg->message == WM_LBUTTONDOWN) {
+        GetParent()->SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
+    }
+
+    return __super::PreTranslateMessage(pMsg);
+}
+
 void CStatusLabel::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
     CDC dc;

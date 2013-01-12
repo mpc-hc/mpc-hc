@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2008-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -133,6 +133,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
                     BDVM_SampleRate SampleRate = (BDVM_SampleRate)(Temp & 0xF);
 
                     ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
+                    m_Streams[iStream].m_LanguageCode[3] = '\0';
                     m_Streams[iStream].m_LCID = ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
                     m_Streams[iStream].m_ChannelLayout = ChannelLayout;
                     m_Streams[iStream].m_SampleRate = SampleRate;
@@ -141,12 +142,14 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
                 case PRESENTATION_GRAPHICS_STREAM:
                 case INTERACTIVE_GRAPHICS_STREAM: {
                     ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
+                    m_Streams[iStream].m_LanguageCode[3] = '\0';
                     m_Streams[iStream].m_LCID = ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
                 }
                 break;
                 case SUBTITLE_STREAM: {
                     ReadByte(); // Should this really be here?
                     ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
+                    m_Streams[iStream].m_LanguageCode[3] = '\0';
                     m_Streams[iStream].m_LCID = ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
                 }
                 break;

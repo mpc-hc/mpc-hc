@@ -162,6 +162,7 @@ IDF_SHADER_EMPTY                 SHADER                  "res\\shaders\\empty.ps
 IDF_SHADER_FINAL                 SHADER                  "res\\shaders\\final.psh"
 IDF_SHADER_GRAYSCALE             SHADER                  "res\\shaders\\grayscale.psh"
 IDF_SHADER_INVERT                SHADER                  "res\\shaders\\invert.psh"
+IDF_SHADER_LCD                   SHADER                  "res\\shaders\\LCDAngleCorrection.psh"
 IDF_SHADER_LETTERBOX             SHADER                  "res\\shaders\\letterbox.psh"
 IDF_SHADER_LEVELS                SHADER                  "res\\shaders\\levels.psh"
 IDF_SHADER_LEVELS2               SHADER                  "res\\shaders\\levels2.psh"

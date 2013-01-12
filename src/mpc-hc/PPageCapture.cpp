@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2009-2012 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -18,7 +18,7 @@
  *
  */
 
-// PPageTuner.cpp : implementation file
+// PPageCapture.cpp : implementation file
 //
 
 #include "stdafx.h"

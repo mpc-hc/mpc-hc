@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2008-2012 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -69,6 +69,7 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 
     void* pOrgEntry = GetProcAddress(hKernel32, "SetUnhandledExceptionFilter");
     if (pOrgEntry == NULL) {
+        FreeLibrary(hKernel32);
         return FALSE;
     }
 
@@ -92,6 +93,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
     LONG    retval = EXCEPTION_CONTINUE_SEARCH;
     HMODULE hDll = NULL;
     TCHAR   szResult[800];
+    szResult[0] = _T('\0');
     CString strDumpPath;
 
     if (!m_bMiniDumpEnabled) {
@@ -107,6 +109,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
             if (!AfxGetMyApp()->IsIniValid()) {
                 HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, strDumpPath.GetBuffer(MAX_PATH));
                 if (FAILED(hr)) {
+                    FreeLibrary(hDll);
                     return retval;
                 }
 
@@ -147,7 +150,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
         FreeLibrary(hDll);
     }
 
-    if (szResult) {
+    if (szResult[0]) {
         switch (MessageBox(NULL, szResult, _T("MPC-HC - Mini Dump"), retval ? MB_YESNO : MB_OK)) {
             case IDYES:
                 ShellExecute(NULL, _T("open"), _T("http://sourceforge.net/apps/trac/mpc-hc/wiki/Bugs_-_Reporting"), NULL, NULL, SW_SHOWDEFAULT);

@@ -241,7 +241,7 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
             }
         }
 
-        spd.bits = (void*)m_pTempPicBuff;
+        spd.bits = m_pTempPicBuff;
     }
 
     //
@@ -539,7 +539,7 @@ void CDirectVobSubFilter::InitSubPicQueue()
     m_spd.h = m_h;
     m_spd.bpp = (m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) ? 8 : bihIn.biBitCount;
     m_spd.pitch = m_spd.w * m_spd.bpp >> 3;
-    m_spd.bits = (void*)m_pTempPicBuff;
+    m_spd.bits = m_pTempPicBuff;
 
     CComPtr<ISubPicAllocator> pSubPicAllocator = DEBUG_NEW CMemSubPicAllocator(m_spd.type, CSize(m_w, m_h));
 

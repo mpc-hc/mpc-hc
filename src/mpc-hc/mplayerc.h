@@ -107,6 +107,8 @@ struct LanguageResource {
 
 class CMPlayerCApp : public CWinApp
 {
+    HMODULE m_hNTDLL;
+
     ATL::CMutex m_mutexOneInstance;
 
     CAtlList<CString> m_cmdln;
@@ -123,6 +125,7 @@ class CMPlayerCApp : public CWinApp
 
 public:
     CMPlayerCApp();
+    ~CMPlayerCApp();
 
     void ShowCmdlnSwitches() const;
 

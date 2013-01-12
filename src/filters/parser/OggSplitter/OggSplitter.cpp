@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -855,7 +855,7 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
         }
 
         int cnt = (int)m_initpackets.GetCount();
-        if (cnt <= 3 && (p->GetCount() >= 6 && p->GetAt(0) == 1 + cnt * 2)) {
+        if (cnt < 3 && (p->GetCount() >= 6 && p->GetAt(0) == 1 + cnt * 2)) {
             VORBISFORMAT2* vf2 = (VORBISFORMAT2*)m_mts[0].Format();
             vf2->HeaderSize[cnt] = p->GetCount();
             int len = m_mts[0].FormatLength();

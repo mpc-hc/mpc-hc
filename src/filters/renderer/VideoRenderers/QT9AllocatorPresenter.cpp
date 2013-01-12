@@ -79,7 +79,7 @@ STDMETHODIMP CQT9AllocatorPresenter::BeginBlt(const BITMAP& bm)
 
 STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
 {
-    if (!m_pVideoSurface || !m_pVideoSurfaceOff) {
+    if (!m_pVideoSurface[m_nCurSurface] || !m_pVideoSurfaceOff) {
         return E_FAIL;
     }
 

@@ -1,6 +1,5 @@
 /*
- * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2010-2012 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -527,6 +526,10 @@ namespace GothSync
         HRESULT SetMediaType(IMFMediaType* pType);
 
         // Functions pointers for Vista/.NET3 specific library
+        HMODULE m_hDXVA2Lib;
+        HMODULE m_hEVRLib;
+        HMODULE m_hAVRTLib;
+
         PTR_DXVA2CreateDirect3DDeviceManager9 pfDXVA2CreateDirect3DDeviceManager9;
         PTR_MFCreateDXSurfaceBuffer pfMFCreateDXSurfaceBuffer;
         PTR_MFCreateVideoSampleFromSurface pfMFCreateVideoSampleFromSurface;

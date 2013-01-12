@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -64,8 +64,10 @@ using namespace DSObjects;
 
 CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     : CDX9AllocatorPresenter(hWnd, bFullscreen, hr, true, _Error)
+    , m_hDXVA2Lib(NULL)
+    , m_hEVRLib(NULL)
+    , m_hAVRTLib(NULL)
 {
-    HMODULE hLib;
     CRenderersSettings& s = GetRenderersSettings();
 
     m_nResetToken = 0;
@@ -85,14 +87,14 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     }
 
     // Load EVR specifics DLLs
-    hLib = LoadLibrary(L"dxva2.dll");
-    pfDXVA2CreateDirect3DDeviceManager9 = hLib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(hLib, "DXVA2CreateDirect3DDeviceManager9") : NULL;
+    m_hDXVA2Lib = LoadLibrary(L"dxva2.dll");
+    pfDXVA2CreateDirect3DDeviceManager9 = m_hDXVA2Lib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9") : NULL;
 
     // Load EVR functions
-    hLib = LoadLibrary(L"evr.dll");
-    pfMFCreateDXSurfaceBuffer = hLib ? (PTR_MFCreateDXSurfaceBuffer) GetProcAddress(hLib, "MFCreateDXSurfaceBuffer") : NULL;
-    pfMFCreateVideoSampleFromSurface = hLib ? (PTR_MFCreateVideoSampleFromSurface) GetProcAddress(hLib, "MFCreateVideoSampleFromSurface") : NULL;
-    pfMFCreateVideoMediaType = hLib ? (PTR_MFCreateVideoMediaType) GetProcAddress(hLib, "MFCreateVideoMediaType") : NULL;
+    m_hEVRLib = LoadLibrary(L"evr.dll");
+    pfMFCreateDXSurfaceBuffer = m_hEVRLib ? (PTR_MFCreateDXSurfaceBuffer) GetProcAddress(m_hEVRLib, "MFCreateDXSurfaceBuffer") : NULL;
+    pfMFCreateVideoSampleFromSurface = m_hEVRLib ? (PTR_MFCreateVideoSampleFromSurface) GetProcAddress(m_hEVRLib, "MFCreateVideoSampleFromSurface") : NULL;
+    pfMFCreateVideoMediaType = m_hEVRLib ? (PTR_MFCreateVideoMediaType) GetProcAddress(m_hEVRLib, "MFCreateVideoMediaType") : NULL;
 
     if (!pfDXVA2CreateDirect3DDeviceManager9 || !pfMFCreateDXSurfaceBuffer || !pfMFCreateVideoSampleFromSurface || !pfMFCreateVideoMediaType) {
         if (!pfDXVA2CreateDirect3DDeviceManager9) {
@@ -113,10 +115,10 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
     // Load mfplat fuctions
 #if 0
-    hLib = LoadLibrary(L"mfplat.dll");
-    (FARPROC&)pMFCreateMediaType = GetProcAddress(hLib, "MFCreateMediaType");
-    (FARPROC&)pMFInitMediaTypeFromAMMediaType = GetProcAddress(hLib, "MFInitMediaTypeFromAMMediaType");
-    (FARPROC&)pMFInitAMMediaTypeFromMFMediaType = GetProcAddress(hLib, "MFInitAMMediaTypeFromMFMediaType");
+    m_hMFPlatLib = LoadLibrary(L"mfplat.dll");
+    (FARPROC&)pMFCreateMediaType = GetProcAddress(m_hMFPlatLib, "MFCreateMediaType");
+    (FARPROC&)pMFInitMediaTypeFromAMMediaType = GetProcAddress(m_hMFPlatLib, "MFInitMediaTypeFromAMMediaType");
+    (FARPROC&)pMFInitAMMediaTypeFromMFMediaType = GetProcAddress(m_hMFPlatLib, "MFInitAMMediaTypeFromMFMediaType");
 
     if (!pMFCreateMediaType || !pMFInitMediaTypeFromAMMediaType || !pMFInitAMMediaTypeFromMFMediaType) {
         hr = E_FAIL;
@@ -125,10 +127,10 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 #endif
 
     // Load Vista specifics DLLs
-    hLib = LoadLibrary(L"avrt.dll");
-    pfAvSetMmThreadCharacteristicsW = hLib ? (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(hLib, "AvSetMmThreadCharacteristicsW") : NULL;
-    pfAvSetMmThreadPriority = hLib ? (PTR_AvSetMmThreadPriority) GetProcAddress(hLib, "AvSetMmThreadPriority") : NULL;
-    pfAvRevertMmThreadCharacteristics = hLib ? (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(hLib, "AvRevertMmThreadCharacteristics") : NULL;
+    m_hAVRTLib = LoadLibrary(L"avrt.dll");
+    pfAvSetMmThreadCharacteristicsW = m_hAVRTLib ? (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW") : NULL;
+    pfAvSetMmThreadPriority = m_hAVRTLib ? (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority") : NULL;
+    pfAvRevertMmThreadCharacteristics = m_hAVRTLib ? (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hAVRTLib, "AvRevertMmThreadCharacteristics") : NULL;
 
     // Init DXVA manager
     hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
@@ -189,6 +191,16 @@ CEVRAllocatorPresenter::~CEVRAllocatorPresenter()
     m_pMediaType  = NULL;
     m_pClock      = NULL;
     m_pD3DManager = NULL;
+
+    if (m_hDXVA2Lib) {
+        FreeLibrary(m_hDXVA2Lib);
+    }
+    if (m_hEVRLib) {
+        FreeLibrary(m_hEVRLib);
+    }
+    if (m_hAVRTLib) {
+        FreeLibrary(m_hAVRTLib);
+    }
 }
 
 void CEVRAllocatorPresenter::ResetStats()

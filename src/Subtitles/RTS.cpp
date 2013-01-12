@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -707,11 +707,14 @@ bool CPolygon::CreatePath()
 
     if (mPathPoints != len) {
         BYTE* pNewPathTypes = (BYTE*)realloc(mpPathTypes, len * sizeof(BYTE));
-        POINT* pNewPathPoints = (POINT*)realloc(mpPathPoints, len * sizeof(POINT));
-        if (!pNewPathTypes || !pNewPathPoints) {
+        if (!pNewPathTypes) {
             return false;
         }
         mpPathTypes = pNewPathTypes;
+        POINT* pNewPathPoints = (POINT*)realloc(mpPathPoints, len * sizeof(POINT));
+        if (!pNewPathPoints) {
+            return false;
+        }
         mpPathPoints = pNewPathPoints;
         mPathPoints = len;
     }

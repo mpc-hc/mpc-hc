@@ -140,9 +140,7 @@ bool CFilePositionList::AddEntry(LPCTSTR lpszFileName)
     }
 
     // Add the new position
-    FILE_POSITION filePosition;
-    filePosition.strFile = lpszFileName;
-    filePosition.llPosition = 0;
+    FILE_POSITION filePosition = { lpszFileName, 0 };
     AddHead(filePosition);
 
     // Ensure the list doesn't grow indefinitely
@@ -242,8 +240,7 @@ bool CDVDPositionList::AddEntry(ULONGLONG llDVDGuid)
     }
 
     // Add the new position
-    DVD_POSITION dvdPosition;
-    dvdPosition.llDVDGuid = llDVDGuid;
+    DVD_POSITION dvdPosition = { llDVDGuid, 0, 0 };
     AddHead(dvdPosition);
 
     // Ensure the list doesn't grow indefinitely

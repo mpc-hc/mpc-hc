@@ -4866,11 +4866,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     CSize video, wh(0, 0), arxy(0, 0);
 
-    if (m_pMFVDC) {
-        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);
-    } else if (m_pCAP) {
+    if (m_pCAP) {
         wh = m_pCAP->GetVideoSize(false);
         arxy = m_pCAP->GetVideoSize(true);
+    } else if (m_pMFVDC) {
+        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);
     } else {
         pBV->GetVideoSize(&wh.cx, &wh.cy);
 
@@ -5010,10 +5010,10 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         BITMAPINFO* bi = (BITMAPINFO*)pData;
 
         if (bi->bmiHeader.biBitCount != 32) {
-            delete [] pData;
             CString strTemp;
             strTemp.Format(IDS_MAINFRM_57, bi->bmiHeader.biBitCount);
             AfxMessageBox(strTemp);
+            delete [] pData;
             return;
         }
 
@@ -5449,7 +5449,7 @@ void CMainFrame::OnFileISDBDownload()
     try {
         CStringA url = "http://" + s.strISDb + "/index.php?";
         CStringA args;
-        args.Format("player=mpc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
+        args.Format("player=mpc-hc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
                     UrlEncode(CStringA(fh.name), true), fh.size, fh.mpc_filehash);
         url.Append(args);
 
@@ -9508,11 +9508,11 @@ CSize CMainFrame::GetVideoSize() const
 
     CSize wh(0, 0), arxy(0, 0);
 
-    if (m_pMFVDC) {
-        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);   // TODO : check AR !!
-    } else if (m_pCAP) {
+    if (m_pCAP) {
         wh = m_pCAP->GetVideoSize(false);
         arxy = m_pCAP->GetVideoSize(fKeepAspectRatio);
+    } else if (m_pMFVDC) {
+        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);   // TODO : check AR !!
     } else {
         pBV->GetVideoSize(&wh.cx, &wh.cy);
 
@@ -9805,9 +9805,9 @@ void CMainFrame::AutoChangeMonitorMode()
         }
     }
 
-    for (int rs = 1; rs < 100 ; rs++) {
-        if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData == true
-                && s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked == 1
+    for (size_t rs = 1; rs < MAX_FPS_COUNT ; rs++) {
+        if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData
+                && s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked
                 && MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
                 && MediaFPS <= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_to) {
 
@@ -9815,7 +9815,7 @@ void CMainFrame::AutoChangeMonitorMode()
             return;
         }
     }
-    if (s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
+    if (s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked) {
         SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, mf_hmonitor);
     }
 }
@@ -11640,6 +11640,10 @@ DWORD CMainFrame::SetupSubtitleStreams()
                 DWORD dwGroup = 2;
                 if (pSSF) {
                     hr = pSSF->Info(j, NULL, NULL, NULL, &dwGroup, &pName, NULL, NULL);
+                    if (dwGroup != 2) {
+                        CoTaskMemFree(pName);
+                        continue;
+                    }
                 } else {
                     hr = pSubStream->GetStreamInfo(j, &pName, NULL);
                 }
@@ -11900,10 +11904,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         pGB->FindInterface(__uuidof(IMFVideoDisplayControl), (void**)&m_pMFVDC,  TRUE);
         pGB->FindInterface(__uuidof(IMFVideoProcessor), (void**)&m_pMFVP, TRUE);
         if (m_pMFVDC) {
-            RECT        Rect;
-            ::GetClientRect(m_pVideoWnd->m_hWnd, &Rect);
             m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
-            m_pMFVDC->SetVideoPosition(NULL, &Rect);
         }
 
         //SetupEVRColorControl();
@@ -13768,11 +13769,14 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
     if (i >= 0) {
         WCHAR* pName = NULL;
         if (CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter) {
-            pSSF->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
-            if (fDisplayMessage) {
-                if (FAILED(pSSF->Info(i, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) {
-                    pName = NULL;
-                }
+            DWORD dwFlags;
+            if (FAILED(pSSF->Info(i, NULL, &dwFlags, NULL, NULL, &pName, NULL, NULL))) {
+                dwFlags = 0;
+                pName = NULL;
+            }
+            // Enable the track only if it isn't already the only selected track in the group
+            if (!(dwFlags & AMSTREAMSELECTINFO_EXCLUSIVE)) {
+                pSSF->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
             }
             i = 0;
         }
@@ -13789,6 +13793,9 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
                 strMessage.Format(IDS_SUBTITLE_STREAM, pName);
                 m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
             }
+        }
+        if (pName) {
+            CoTaskMemFree(pName);
         }
     } else {
         if (fDisplayMessage && m_iSubtitleSel < 0) {
@@ -13850,52 +13857,51 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
 
             pRTS->Deinit();
         }
-    }
 
-    if (!fApplyDefStyle) {
-        m_iSubtitleSel = -1;
+        int i = 0;
+        bool found = false;
+        POSITION pos = m_pSubStreams.GetHeadPosition();
+        while (pos) {
+            SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
+            CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter;
 
-        if (pSubStream) {
-            int i = 0;
+            if (pSSF) {
+                DWORD cStreams;
+                if (FAILED(pSSF->Count(&cStreams))) {
+                    continue;
+                }
 
-            POSITION pos = m_pSubStreams.GetHeadPosition();
-            while (pos) {
-                SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
-                CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter;
+                for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
+                    DWORD dwFlags, dwGroup;
 
-                if (pSSF) {
-                    DWORD cStreams;
-                    if (FAILED(pSSF->Count(&cStreams))) {
+                    if (FAILED(pSSF->Info(j, NULL, &dwFlags, NULL, &dwGroup, NULL, NULL, NULL))) {
                         continue;
                     }
 
-                    for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
-                        DWORD dwFlags, dwGroup;
-
-                        if (FAILED(pSSF->Info(j, NULL, &dwFlags, NULL, &dwGroup, NULL, NULL, NULL))) {
-                            continue;
-                        }
-
-                        if (dwGroup != 2) {
-                            continue;
-                        }
-
-                        if (pSubStream == subElement.subStream
-                                && (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
-                            break;
-                        }
-
-                        i++;
+                    if (dwGroup != 2) {
+                        continue;
                     }
-                }
 
-                if (pSubStream == subElement.subStream) {
-                    m_iSubtitleSel = i + subElement.subStream->GetStream();
-                    break;
-                } else if (!pSSF) {
-                    i += subElement.subStream->GetStreamCount();
+                    if (pSubStream == subElement.subStream
+                        && (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
+                            break;
+                    }
+
+                    i++;
                 }
             }
+
+            if (pSubStream == subElement.subStream) {
+                m_iSubtitleSel = i + subElement.subStream->GetStream();
+                found = true;
+                break;
+            } else if (!pSSF) {
+                i += subElement.subStream->GetStreamCount();
+            }
+        }
+        // We are trying to set a subtitles stream that isn't in the list so we abort here.
+        if (!found) {
+            return;
         }
     }
 
@@ -14963,7 +14969,7 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName(DVD_AudioAttributes& ATR) const
             return _T("SDDS");
         case DVD_AudioFormat_Other:
         default:
-            return ResStr(IDS_MAINFRM_137);
+            return MAKEINTRESOURCE(IDS_MAINFRM_137);
     }
 }
 

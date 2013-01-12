@@ -1,6 +1,5 @@
 /*
- * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1551,7 +1550,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 
     if (m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
             || m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
-            || !m_pVideoSurface) {
+            || !m_pVideoSurface[m_nCurSurface]) {
         return false;
     }
 
@@ -2397,8 +2396,10 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 }
 
 CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error): CBaseAP(hWnd, bFullscreen, hr, _Error)
+    , m_hDXVA2Lib(NULL)
+    , m_hEVRLib(NULL)
+    , m_hAVRTLib(NULL)
 {
-    HMODULE     hLib;
     CRenderersSettings& s = GetRenderersSettings();
 
     m_nResetToken = 0;
@@ -2415,15 +2416,15 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error): CBa
         return;
     }
 
-    // Load EVR specifics DLLs
-    hLib = LoadLibrary(L"dxva2.dll");
-    pfDXVA2CreateDirect3DDeviceManager9 = hLib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(hLib, "DXVA2CreateDirect3DDeviceManager9") : NULL;
+    // Load EVR specific DLLs
+    m_hDXVA2Lib = LoadLibrary(L"dxva2.dll");
+    pfDXVA2CreateDirect3DDeviceManager9 = m_hDXVA2Lib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9") : NULL;
 
     // Load EVR functions
-    hLib = LoadLibrary(L"evr.dll");
-    pfMFCreateDXSurfaceBuffer = hLib ? (PTR_MFCreateDXSurfaceBuffer)GetProcAddress(hLib, "MFCreateDXSurfaceBuffer") : NULL;
-    pfMFCreateVideoSampleFromSurface = hLib ? (PTR_MFCreateVideoSampleFromSurface)GetProcAddress(hLib, "MFCreateVideoSampleFromSurface") : NULL;
-    pfMFCreateVideoMediaType = hLib ? (PTR_MFCreateVideoMediaType)GetProcAddress(hLib, "MFCreateVideoMediaType") : NULL;
+    m_hEVRLib = LoadLibrary(L"evr.dll");
+    pfMFCreateDXSurfaceBuffer = m_hEVRLib ? (PTR_MFCreateDXSurfaceBuffer)GetProcAddress(m_hEVRLib, "MFCreateDXSurfaceBuffer") : NULL;
+    pfMFCreateVideoSampleFromSurface = m_hEVRLib ? (PTR_MFCreateVideoSampleFromSurface)GetProcAddress(m_hEVRLib, "MFCreateVideoSampleFromSurface") : NULL;
+    pfMFCreateVideoMediaType = m_hEVRLib ? (PTR_MFCreateVideoMediaType)GetProcAddress(m_hEVRLib, "MFCreateVideoMediaType") : NULL;
 
     if (!pfDXVA2CreateDirect3DDeviceManager9 || !pfMFCreateDXSurfaceBuffer || !pfMFCreateVideoSampleFromSurface || !pfMFCreateVideoMediaType) {
         if (!pfDXVA2CreateDirect3DDeviceManager9) {
@@ -2443,10 +2444,10 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error): CBa
     }
 
     // Load Vista specific DLLs
-    hLib = LoadLibrary(L"avrt.dll");
-    pfAvSetMmThreadCharacteristicsW = hLib ? (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(hLib, "AvSetMmThreadCharacteristicsW") : NULL;
-    pfAvSetMmThreadPriority = hLib ? (PTR_AvSetMmThreadPriority) GetProcAddress(hLib, "AvSetMmThreadPriority") : NULL;
-    pfAvRevertMmThreadCharacteristics = hLib ? (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(hLib, "AvRevertMmThreadCharacteristics") : NULL;
+    m_hAVRTLib = LoadLibrary(L"avrt.dll");
+    pfAvSetMmThreadCharacteristicsW = m_hAVRTLib ? (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW") : NULL;
+    pfAvSetMmThreadPriority = m_hAVRTLib ? (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority") : NULL;
+    pfAvRevertMmThreadCharacteristics = m_hAVRTLib ? (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hAVRTLib, "AvRevertMmThreadCharacteristics") : NULL;
 
     // Init DXVA manager
     hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
@@ -2496,6 +2497,16 @@ CSyncAP::~CSyncAP()
     m_pMediaType = NULL;
     m_pClock = NULL;
     m_pD3DManager = NULL;
+
+    if (m_hDXVA2Lib) {
+        FreeLibrary(m_hDXVA2Lib);
+    }
+    if (m_hEVRLib) {
+        FreeLibrary(m_hEVRLib);
+    }
+    if (m_hAVRTLib) {
+        FreeLibrary(m_hAVRTLib);
+    }
 }
 
 HRESULT CSyncAP::CheckShutdown() const
@@ -3619,7 +3630,7 @@ void CSyncAP::RenderThread()
                                 SetEvent(m_hEvtSkip);
                                 m_bEvtSkip = true;
                             }
-                            REFERENCE_TIME rtRefClockTimeNow;
+                            REFERENCE_TIME rtRefClockTimeNow = 0;
                             if (m_pRefClock) {
                                 m_pRefClock->GetTime(&rtRefClockTimeNow);    // Reference clock time now
                             }
