@@ -8,7 +8,7 @@
 		<link rel="shortcut icon" href="favicon.ico">
 	</head>
 	<body onload="playerInit()">
-		<div align="center">
+		<div>
 			<table id="player" cellpadding="0" cellspacing="0">
 				<tr>
 					<td colspan="3">
@@ -24,7 +24,7 @@
 				<tr>
 					<td id="leftside"></td>
 					<td>
-						<table cellpadding="0" cellspacing="0" id="center">
+						<table id="center" cellpadding="0" cellspacing="0">
 							<tr>
 								<td>
 									<table id="menu" width="100%">
@@ -40,8 +40,8 @@
 								</td>
 							</tr>
 							<tr>
-								<td id="video" align="center" onclick="OnCommand(889)">
-									<img src="snapshot.jpg" alt="snapshot" id="snapshot" onload="OnLoadSnapShot()" onabort="OnAbortErrorSnapShot()" onerror="OnAbortErrorSnapShot()">
+								<td id="video" onclick="OnCommand(889)">
+									<img src="snapshot.jpg" id="snapshot" alt="snapshot" onload="OnLoadSnapShot()" onabort="OnAbortErrorSnapShot()" onerror="OnAbortErrorSnapShot()">
 								</td>
 							</tr>
 							<tr>
