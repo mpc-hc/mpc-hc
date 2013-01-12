@@ -9805,7 +9805,7 @@ void CMainFrame::AutoChangeMonitorMode()
         }
     }
 
-    for (size_t rs = 1; rs < _countof(s.AutoChangeFullscrRes.dmFullscreenRes) ; rs++) {
+    for (size_t rs = 1; rs < MAX_FPS_COUNT ; rs++) {
         if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData
                 && s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked
                 && MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
