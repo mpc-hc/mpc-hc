@@ -815,12 +815,6 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                         m_pUnks.AddTail(pMB);
                     }
 
-                    if (CComQIPtr<IMadVRTextOsd> pMVTO = pBF) {
-                        // without this, m_pUnks would be empty after MainFrm.cpp queried for ISubPicAllocatorPresenter
-                        // adding this allows MainFrm.cpp to successfully query for ISubPicAllocatorPresenter2, too
-                        m_pUnks.AddTail(pMVTO);
-                    }
-
                     if (CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF) {
                         CComPtr<IMFVideoDisplayControl> pMFVDC;
                         CComPtr<IMFVideoMixerBitmap>    pMFMB;

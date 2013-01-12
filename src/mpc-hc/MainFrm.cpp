@@ -4866,11 +4866,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     CSize video, wh(0, 0), arxy(0, 0);
 
-    if (m_pMFVDC) {
-        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);
-    } else if (m_pCAP) {
+    if (m_pCAP) {
         wh = m_pCAP->GetVideoSize(false);
         arxy = m_pCAP->GetVideoSize(true);
+    } else if (m_pMFVDC) {
+        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);
     } else {
         pBV->GetVideoSize(&wh.cx, &wh.cy);
 
@@ -9508,11 +9508,11 @@ CSize CMainFrame::GetVideoSize() const
 
     CSize wh(0, 0), arxy(0, 0);
 
-    if (m_pMFVDC) {
-        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);   // TODO : check AR !!
-    } else if (m_pCAP) {
+    if (m_pCAP) {
         wh = m_pCAP->GetVideoSize(false);
         arxy = m_pCAP->GetVideoSize(fKeepAspectRatio);
+    } else if (m_pMFVDC) {
+        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);   // TODO : check AR !!
     } else {
         pBV->GetVideoSize(&wh.cx, &wh.cy);
 
@@ -11900,10 +11900,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         pGB->FindInterface(__uuidof(IMFVideoDisplayControl), (void**)&m_pMFVDC,  TRUE);
         pGB->FindInterface(__uuidof(IMFVideoProcessor), (void**)&m_pMFVP, TRUE);
         if (m_pMFVDC) {
-            RECT        Rect;
-            ::GetClientRect(m_pVideoWnd->m_hWnd, &Rect);
             m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
-            m_pMFVDC->SetVideoPosition(NULL, &Rect);
         }
 
         //SetupEVRColorControl();
