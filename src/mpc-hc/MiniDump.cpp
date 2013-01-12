@@ -93,6 +93,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
     LONG    retval = EXCEPTION_CONTINUE_SEARCH;
     HMODULE hDll = NULL;
     TCHAR   szResult[800];
+    szResult[0] = _T('\0');
     CString strDumpPath;
 
     if (!m_bMiniDumpEnabled) {
