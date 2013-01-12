@@ -18,6 +18,8 @@ Legend:
   That includes all the embedded tracks exhibited by the source filter and the external tracks.
 + Tickets #1025, #1054, Add the ability to select the default track directly by its number
   in MPC-HC and the standalone MPEG Splitter.
++ Add a new shader that over brightens with gradient from the bottom to the top of the screen.
+  It needs LCD monitors with low viewing angle (~170/160).
 * UI: Use a more native look and feel for the options dialog tree
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
 * Updated FFmpeg (n0.8-17442-g7d66bc7)
