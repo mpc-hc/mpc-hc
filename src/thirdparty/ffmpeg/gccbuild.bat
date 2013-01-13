@@ -108,13 +108,16 @@ EXIT /B
 :End
 TITLE Compiling FFmpeg %COMPILER% [FINISHED]
 
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "FFmpeg compilation failed!" & GOTO :Quit
+
 SET END_TIME=%TIME%
 CALL :SubGetDuration
-ECHO. & ECHO FFmpeg compilation took %DURATION%
+CALL :SubMsg "INFO" "FFmpeg compilation took %DURATION%"
 
+:Quit
 POPD
 ENDLOCAL
-EXIT /B
+EXIT /B %ERRORLEVEL%
 
 
 :SubMake
@@ -173,6 +176,17 @@ ECHO.
 POPD
 ENDLOCAL
 EXIT /B
+
+
+:SubMsg
+ECHO. & ECHO ------------------------------
+ECHO "[%~1] %~2"
+ECHO ------------------------------ & ECHO.
+IF /I "%~1" == "ERROR" (
+  EXIT /B 1
+) ELSE (
+  EXIT /B 0
+)
 
 
 :SubGetDuration
