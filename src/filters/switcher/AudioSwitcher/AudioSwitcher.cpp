@@ -282,7 +282,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 
     if (m_fCustomChannelMapping) {
         size_t channelsCount = m_chs[wfe->nChannels - 1].GetCount();
-        if ((0 < channelsCount && channelsCount <= 18) && wfeout->nChannels <= channelsCount) {
+        if (channelsCount > 0 && wfeout->nChannels <= channelsCount) {
             for (int i = 0; i < wfeout->nChannels; i++) {
                 DWORD mask = m_chs[wfe->nChannels - 1][i].Channel;
 
