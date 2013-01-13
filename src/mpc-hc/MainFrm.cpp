@@ -5485,12 +5485,12 @@ void CMainFrame::OnFileCloseMedia()
 void CMainFrame::OnUpdateViewTearingTest(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                      || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+    bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                      || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                       || s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
 
     pCmdUI->Enable(supported && m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
-    pCmdUI->SetCheck(AfxGetMyApp()->m_Renderers.m_fTearingTest);
+    pCmdUI->SetCheck(supported && AfxGetMyApp()->m_Renderers.m_fTearingTest);
 }
 
 void CMainFrame::OnViewTearingTest()
@@ -5539,8 +5539,8 @@ void CMainFrame::OnUpdateViewVSync(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
     pCmdUI->Enable(supported);
@@ -5551,8 +5551,8 @@ void CMainFrame::OnUpdateViewVSyncOffset(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                      && r.m_AdvRendSets.fVMR9AlterativeVSync;
 
@@ -5566,8 +5566,8 @@ void CMainFrame::OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
     pCmdUI->Enable(supported);
@@ -5609,8 +5609,8 @@ void CMainFrame::OnUpdateViewColorManagementEnable(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     const CRenderersData& rd = AfxGetMyApp()->m_Renderers;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                      && rd.m_bFP16Support;
 
@@ -5623,8 +5623,8 @@ void CMainFrame::OnUpdateViewColorManagementInput(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     const CRenderersData& rd = AfxGetMyApp()->m_Renderers;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                      && rd.m_bFP16Support
                      && r.m_AdvRendSets.iVMR9ColorManagementEnable;
@@ -5655,8 +5655,8 @@ void CMainFrame::OnUpdateViewColorManagementAmbientLight(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     const CRenderersData& rd = AfxGetMyApp()->m_Renderers;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                      && rd.m_bFP16Support &&
                      r.m_AdvRendSets.iVMR9ColorManagementEnable;
@@ -5681,8 +5681,8 @@ void CMainFrame::OnUpdateViewColorManagementIntent(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     const CRenderersData& rd = AfxGetMyApp()->m_Renderers;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                      && rd.m_bFP16Support
                      && r.m_AdvRendSets.iVMR9ColorManagementEnable;
@@ -5726,8 +5726,8 @@ void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
     pCmdUI->Enable(supported);
@@ -5746,8 +5746,8 @@ void CMainFrame::OnUpdateViewD3DFullscreen(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                        || s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
@@ -5759,8 +5759,8 @@ void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                        || s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D
                       && SysVersion::IsVistaOrLater());
@@ -5773,8 +5773,8 @@ void CMainFrame::OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
     pCmdUI->Enable(supported);
@@ -5785,8 +5785,8 @@ void CMainFrame::OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
     pCmdUI->Enable(supported);
@@ -5825,8 +5825,8 @@ void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     const CRenderersData& rd = AfxGetMyApp()->m_Renderers;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                      && rd.m_bFP16Support;
 
@@ -5839,8 +5839,8 @@ void CMainFrame::OnUpdateViewHalfFloatingPointProcessing(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     const CRenderersData& rd = AfxGetMyApp()->m_Renderers;
-    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                       || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+    bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                      && rd.m_bFP16Support;
 
@@ -5864,8 +5864,8 @@ void CMainFrame::OnUpdateViewVSyncOffsetIncrease(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = s.iDSVideoRendererType == VIDRNDT_DS_SYNC
-                     || (((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                           || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+                     || (((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                           || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                           && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                          && r.m_AdvRendSets.fVMR9AlterativeVSync);
 
@@ -5877,8 +5877,8 @@ void CMainFrame::OnUpdateViewVSyncOffsetDecrease(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = s.iDSVideoRendererType == VIDRNDT_DS_SYNC
-                     || (((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                           || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
+                     || (((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                           || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                           && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                          && r.m_AdvRendSets.fVMR9AlterativeVSync);
 
