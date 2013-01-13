@@ -3724,9 +3724,9 @@ void CMainFrame::OnStreamSub(UINT nID)
     int cnt = 0;
     POSITION pos = m_pSubStreams.GetHeadPosition();
     while (pos) {
-        SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
+        SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
 
-        if (CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter) {
+        if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
             DWORD cStreams;
             if (FAILED(pSSF->Count(&cStreams))) {
                 continue;
@@ -3741,7 +3741,7 @@ void CMainFrame::OnStreamSub(UINT nID)
                 }
             }
         } else {
-            cnt += subElement.subStream->GetStreamCount();
+            cnt += subInput.subStream->GetStreamCount();
         }
     }
 
@@ -4557,7 +4557,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
     if (sl.GetCount() == 1 && m_iMediaLoadState == MLS_LOADED && m_pCAP) {
         ISubStream* pSubStream = NULL;
         if (LoadSubtitle(sl.GetHead(), &pSubStream)) {
-            SetSubtitle(pSubStream); // the subtitle at the insert position according to LoadSubtitle()
+            SetSubtitle(pSubStream); // Use the subtitles file that was just added
             CPath p(sl.GetHead());
             p.StripPath();
             SendStatusMessage(CString((LPCTSTR)p) + ResStr(IDS_MAINFRM_47), 3000);
@@ -5343,7 +5343,7 @@ void CMainFrame::OnFileLoadsubtitle()
 
     ISubStream* pSubStream = NULL;
     if (LoadSubtitle(fd.GetPathName(), &pSubStream)) {
-        SetSubtitle(pSubStream);    // the subtitle at the insert position according to LoadSubtitle()
+        SetSubtitle(pSubStream);  // Use the subtitles file that was just added
     }
 }
 
@@ -5354,12 +5354,12 @@ void CMainFrame::OnUpdateFileLoadsubtitle(CCmdUI* pCmdUI)
 
 void CMainFrame::OnFileSavesubtitle()
 {
-    SubtitleInput subElement;
-    int i = GetSubtitleInput(m_iSubtitleSel, subElement);
+    SubtitleInput subInput;
+    int i = GetSubtitleInput(m_iSubtitleSel, subInput);
 
     if (i >= 0) {
         CLSID clsid;
-        if (FAILED(subElement.subStream->GetClassID(&clsid))) {
+        if (FAILED(subInput.subStream->GetClassID(&clsid))) {
             return;
         }
 
@@ -5373,7 +5373,7 @@ void CMainFrame::OnFileSavesubtitle()
         delete pOMD;
 
         if (clsid == __uuidof(CVobSubFile)) {
-            CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)subElement.subStream;
+            CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)subInput.subStream;
 
             // remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
             // and tracks attempts to overwrite in a graceful manner
@@ -5385,7 +5385,7 @@ void CMainFrame::OnFileSavesubtitle()
                 pVSF->Save(fd.GetPathName(), fd.GetDelay());
             }
         } else if (clsid == __uuidof(CRenderedTextSubtitle)) {
-            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)subElement.subStream;
+            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)subInput.subStream;
 
             CString filter;
             // WATCH the order in GFN.h for exttype
@@ -7868,13 +7868,13 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
         ShowOptions(CPPageSubtitles::IDD);
     } else if (i == -4) {
         // styles
-        SubtitleInput subElement;
-        int j = GetSubtitleInput(m_iSubtitleSel, subElement);
+        SubtitleInput subInput;
+        int j = GetSubtitleInput(m_iSubtitleSel, subInput);
         CLSID clsid;
 
-        if (j >= 0 && SUCCEEDED(subElement.subStream->GetClassID(&clsid))) {
+        if (j >= 0 && SUCCEEDED(subInput.subStream->GetClassID(&clsid))) {
             if (clsid == __uuidof(CRenderedTextSubtitle)) {
-                CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)subElement.subStream;
+                CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)subInput.subStream;
 
                 CAutoPtrArray<CPPageSubStyle> pages;
                 CAtlArray<STSStyle*> styles;
@@ -7905,7 +7905,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     for (int l = 0; l < (int)pages.GetCount(); l++) {
                         pages[l]->GetStyle(*styles[l]);
                     }
-                    UpdateSubtitle(false, false);
+                    UpdateSubtitle();
                 }
             }
         }
@@ -11623,9 +11623,9 @@ DWORD CMainFrame::SetupSubtitleStreams()
             if (m_posFirstExtSub == pos) {
                 externalPriority = AfxGetAppSettings().fPrioritizeExternalSubtitles;
             }
-            SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
-            CComPtr<ISubStream> pSubStream = subElement.subStream;
-            CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter;
+            SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
+            CComPtr<ISubStream> pSubStream = subInput.subStream;
+            CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter;
 
             int count = 0;
             if (pSSF) {
@@ -12748,15 +12748,15 @@ void CMainFrame::SetupSubtitlesSubMenu()
     // Build the dynamic menu's items
     int i = 0;
     while (pos) {
-        SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
+        SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
 
         CLSID clsid;
-        if (i == m_iSubtitleSel && SUCCEEDED(subElement.subStream->GetClassID(&clsid))
+        if (i == m_iSubtitleSel && SUCCEEDED(subInput.subStream->GetClassID(&clsid))
                 && clsid == __uuidof(CRenderedTextSubtitle)) {
             bStyleEnabled = true;
         }
 
-        if (CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter) {
+        if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
             DWORD cStreams;
             if (FAILED(pSSF->Count(&cStreams))) {
                 continue;
@@ -12804,7 +12804,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 i++;
             }
         } else {
-            CComPtr<ISubStream> pSubStream = subElement.subStream;
+            CComPtr<ISubStream> pSubStream = subInput.subStream;
             if (!pSubStream) {
                 continue;
             }
@@ -13696,8 +13696,8 @@ void CMainFrame::AddTextPassThruFilter()
                     || FAILED(hr = pGB->ConnectDirect(GetFirstPin(pTPTF, PINDIR_OUTPUT), pPinTo, NULL))) {
                 hr = pGB->ConnectDirect(pPin, pPinTo, NULL);
             } else {
-                SubtitleInput subElement(CComQIPtr<ISubStream>(pTPTF), pBF);
-                m_pSubStreams.AddTail(subElement);
+                SubtitleInput subInput(CComQIPtr<ISubStream>(pTPTF), pBF);
+                m_pSubStreams.AddTail(subInput);
             }
         }
         EndEnumPins;
@@ -13745,8 +13745,8 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
     }
 
     if (pSubStream) {
-        SubtitleInput subElement(pSubStream);
-        m_pSubStreams.AddTail(subElement);
+        SubtitleInput subInput(pSubStream);
+        m_pSubStreams.AddTail(subInput);
 
         if (!m_posFirstExtSub) {
             m_posFirstExtSub = m_pSubStreams.GetTailPosition();
@@ -13766,12 +13766,12 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
         return;
     }
 
-    SubtitleInput subElement;
-    int i = GetSubtitleInput(m_iSubtitleSel, subElement);
+    SubtitleInput subInput;
+    int i = GetSubtitleInput(m_iSubtitleSel, subInput);
 
     if (i >= 0) {
         WCHAR* pName = NULL;
-        if (CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter) {
+        if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
             DWORD dwFlags;
             if (FAILED(pSSF->Info(i, NULL, &dwFlags, NULL, NULL, &pName, NULL, NULL))) {
                 dwFlags = 0;
@@ -13786,12 +13786,12 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
         {
             // m_csSubLock shouldn't be locked when using IAMStreamSelect::Enable
             CAutoLock cAutoLock(&m_csSubLock);
-            subElement.subStream->SetStream(i);
-            SetSubtitle(subElement.subStream, fApplyDefStyle);
+            subInput.subStream->SetStream(i);
+            SetSubtitle(subInput.subStream, fApplyDefStyle);
         }
 
         if (fDisplayMessage) {
-            if (pName || SUCCEEDED(subElement.subStream->GetStreamInfo(0, &pName, NULL))) {
+            if (pName || SUCCEEDED(subInput.subStream->GetStreamInfo(0, &pName, NULL))) {
                 CString strMessage;
                 strMessage.Format(IDS_SUBTITLE_STREAM, pName);
                 m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
@@ -13865,8 +13865,8 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
         bool found = false;
         POSITION pos = m_pSubStreams.GetHeadPosition();
         while (pos) {
-            SubtitleInput& subElement = m_pSubStreams.GetNext(pos);
-            CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter;
+            SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
+            CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter;
 
             if (pSSF) {
                 DWORD cStreams;
@@ -13885,7 +13885,7 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
                         continue;
                     }
 
-                    if (pSubStream == subElement.subStream
+                    if (pSubStream == subInput.subStream
                             && (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
                         break;
                     }
@@ -13894,12 +13894,12 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
                 }
             }
 
-            if (pSubStream == subElement.subStream) {
-                m_iSubtitleSel = i + subElement.subStream->GetStream();
+            if (pSubStream == subInput.subStream) {
+                m_iSubtitleSel = i + subInput.subStream->GetStream();
                 found = true;
                 break;
             } else if (!pSSF) {
-                i += subElement.subStream->GetStreamCount();
+                i += subInput.subStream->GetStreamCount();
             }
         }
         // We are trying to set a subtitles stream that isn't in the list so we abort here.
@@ -13953,8 +13953,8 @@ void CMainFrame::SetSubtitleTrackIdx(int index)
         if (index < 0) {
             m_iSubtitleSel ^= 0x80000000;
         } else {
-            SubtitleInput subElement;
-            int i = GetSubtitleInput(index, subElement);
+            SubtitleInput subInput;
+            int i = GetSubtitleInput(index, subInput);
             if (i >= 0) {
                 m_iSubtitleSel = index;
             }
@@ -16093,17 +16093,17 @@ bool CMainFrame::OpenBD(CString Path)
     return false;
 }
 
-// Returns the local id of the stream and set subElement the corresponding SubElement
+// Returns the local id of the stream and set subInput the corresponding subInput
 // Returns -1 in case of error.
-int CMainFrame::GetSubtitleInput(int i, SubtitleInput& subElement)
+int CMainFrame::GetSubtitleInput(int i, SubtitleInput& subInput)
 {
     POSITION pos = m_pSubStreams.GetHeadPosition();
     bool found = false;
 
     while (pos && i >= 0) {
-        subElement = m_pSubStreams.GetNext(pos);
+        subInput = m_pSubStreams.GetNext(pos);
 
-        if (CComQIPtr<IAMStreamSelect> pSSF = subElement.sourceFilter) {
+        if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
             DWORD cStreams;
             if (FAILED(pSSF->Count(&cStreams))) {
                 continue;
@@ -16127,10 +16127,10 @@ int CMainFrame::GetSubtitleInput(int i, SubtitleInput& subElement)
                 i--;
             }
         } else {
-            if (i < subElement.subStream->GetStreamCount()) {
+            if (i < subInput.subStream->GetStreamCount()) {
                 return i;
             } else {
-                i -= subElement.subStream->GetStreamCount();
+                i -= subInput.subStream->GetStreamCount();
             }
         }
     }
