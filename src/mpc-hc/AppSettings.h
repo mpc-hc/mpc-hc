@@ -28,6 +28,7 @@
 #include "MediaFormats.h"
 #include "DVBChannel.h"
 #include "MediaPositionList.h"
+#include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 
 #include <afxsock.h>
 
@@ -483,7 +484,7 @@ public:
     int             iAudioTimeShift;
     bool            fCustomChannelMapping;
     int             nSpeakerChannels;
-    DWORD           pSpeakerToChannelMap[18][18];
+    DWORD           pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS];
 
     // External Filters
     CAutoPtrList<FilterOverride> m_filters;

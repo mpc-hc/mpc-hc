@@ -24,14 +24,15 @@
 #include "StreamSwitcher.h"
 
 #define AudioSwitcherName L"MPC AudioSwitcher"
+#define AS_MAX_CHANNELS 18
 
 
 interface __declspec(uuid("CEDB2890-53AE-4231-91A3-B0AAFCD1DBDE"))
 IAudioSwitcherFilter :
 public IUnknown {
     STDMETHOD(GetInputSpeakerConfig)(DWORD * pdwChannelMask) = 0;
-    STDMETHOD(GetSpeakerConfig)(bool * pfCustomChannelMapping, DWORD pSpeakerToChannelMap[18][18]) = 0;
-    STDMETHOD(SetSpeakerConfig)(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[18][18]) = 0;
+    STDMETHOD(GetSpeakerConfig)(bool * pfCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) = 0;
+    STDMETHOD(SetSpeakerConfig)(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) = 0;
     STDMETHOD_(int, GetNumberOfInputChannels)() = 0;
     STDMETHOD_(bool, IsDownSamplingTo441Enabled)() = 0;
     STDMETHOD(EnableDownSamplingTo441)(bool fEnable) = 0;
@@ -49,10 +50,10 @@ class __declspec(uuid("18C16B08-6497-420e-AD14-22D21C2CEAB7"))
     typedef struct {
         DWORD Speaker, Channel;
     } ChMap;
-    CAtlArray<ChMap> m_chs[18];
+    CAtlArray<ChMap> m_chs[AS_MAX_CHANNELS];
 
     bool m_fCustomChannelMapping;
-    DWORD m_pSpeakerToChannelMap[18][18];
+    DWORD m_pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS];
     bool m_fDownSampleTo441;
     REFERENCE_TIME m_rtAudioTimeShift;
     CAutoPtrArray<AudioStreamResampler> m_pResamplers;
@@ -78,8 +79,8 @@ public:
 
     // IAudioSwitcherFilter
     STDMETHODIMP GetInputSpeakerConfig(DWORD* pdwChannelMask);
-    STDMETHODIMP GetSpeakerConfig(bool* pfCustomChannelMapping, DWORD pSpeakerToChannelMap[18][18]);
-    STDMETHODIMP SetSpeakerConfig(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[18][18]);
+    STDMETHODIMP GetSpeakerConfig(bool* pfCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]);
+    STDMETHODIMP SetSpeakerConfig(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]);
     STDMETHODIMP_(int) GetNumberOfInputChannels();
     STDMETHODIMP_(bool) IsDownSamplingTo441Enabled();
     STDMETHODIMP EnableDownSamplingTo441(bool fEnable);

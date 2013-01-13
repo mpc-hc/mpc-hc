@@ -124,7 +124,7 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
     }
 
     m_nChannels = s.nSpeakerChannels;
-    m_nChannelsSpinCtrl.SetRange(1, 18);
+    m_nChannelsSpinCtrl.SetRange(1, AS_MAX_CHANNELS);
 
     if (m_pASF) {
         m_nChannels = m_pASF->GetNumberOfInputChannels();
@@ -152,7 +152,7 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
     m_list.InsertItem(18, ResStr(IDS_TOP_BACK_RIGHT));
     m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
 
-    for (int i = 1; i <= 18; i++) {
+    for (int i = 1; i <= AS_MAX_CHANNELS; i++) {
         m_list.InsertColumn(i, _T(""), LVCFMT_CENTER, 16);
         CString n;
         n.Format(_T("%d"), i);

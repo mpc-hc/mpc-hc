@@ -291,7 +291,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 
                 int srcstep = bps * wfe->nChannels;
                 int dststep = bps * wfeout->nChannels;
-                int channels = min(18, wfe->nChannels);
+                int channels = min(AS_MAX_CHANNELS, wfe->nChannels);
                 if (fPCM && wfe->wBitsPerSample == 8) {
                     for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
                         mix<unsigned char, INT64, 0, UCHAR_MAX>(mask, channels, bps, src, dst);
@@ -455,7 +455,7 @@ CMediaType CAudioSwitcherFilter::CreateNewOutputMediaType(CMediaType mt, long& c
         m_chs[wfe->nChannels - 1].RemoveAll();
 
         DWORD mask = DWORD((__int64(1) << wfe->nChannels) - 1);
-        for (int i = 0; i < 18; i++) {
+        for (int i = 0; i < AS_MAX_CHANNELS; i++) {
             if (m_pSpeakerToChannelMap[wfe->nChannels - 1][i]&mask) {
                 ChMap cm = {1 << i, m_pSpeakerToChannelMap[wfe->nChannels - 1][i]};
                 m_chs[wfe->nChannels - 1].Add(cm);
@@ -562,7 +562,7 @@ STDMETHODIMP CAudioSwitcherFilter::GetInputSpeakerConfig(DWORD* pdwChannelMask)
     return S_OK;
 }
 
-STDMETHODIMP CAudioSwitcherFilter::GetSpeakerConfig(bool* pfCustomChannelMapping, DWORD pSpeakerToChannelMap[18][18])
+STDMETHODIMP CAudioSwitcherFilter::GetSpeakerConfig(bool* pfCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS])
 {
     if (pfCustomChannelMapping) {
         *pfCustomChannelMapping = m_fCustomChannelMapping;
@@ -572,7 +572,7 @@ STDMETHODIMP CAudioSwitcherFilter::GetSpeakerConfig(bool* pfCustomChannelMapping
     return S_OK;
 }
 
-STDMETHODIMP CAudioSwitcherFilter::SetSpeakerConfig(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[18][18])
+STDMETHODIMP CAudioSwitcherFilter::SetSpeakerConfig(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS])
 {
     if (m_State == State_Stopped
             || m_fCustomChannelMapping != fCustomChannelMapping
