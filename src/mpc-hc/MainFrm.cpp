@@ -449,7 +449,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
     ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
     ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayFiltersStreams)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnUpdatePlayFiltersStreams)
     ON_COMMAND_RANGE(ID_VOLUME_UP, ID_VOLUME_MUTE, OnPlayVolume)
     ON_COMMAND_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnPlayVolumeBoost)
     ON_UPDATE_COMMAND_UI_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnUpdatePlayVolumeBoost)
@@ -7951,28 +7950,6 @@ void CMainFrame::OnPlayFiltersStreams(UINT nID)
     OpenSetupStatusBar();
 }
 
-void CMainFrame::OnUpdatePlayFiltersStreams(CCmdUI* pCmdUI)
-{
-    UINT nID = pCmdUI->m_nID - ID_FILTERSTREAMS_SUBITEM_START;
-    CComPtr<IAMStreamSelect> pAMSS = m_ssarray[nID];
-    UINT i = nID;
-
-    while (i > 0 && pAMSS == m_ssarray[i - 1]) {
-        i--;
-    }
-
-    DWORD flags = 0;
-    pAMSS->Info(nID - i, NULL, &flags, NULL, NULL, NULL, NULL, NULL);
-
-    if (flags & AMSTREAMSELECTINFO_EXCLUSIVE) {
-        pCmdUI->SetRadio(TRUE);
-    } else if (flags & AMSTREAMSELECTINFO_ENABLED) {
-        pCmdUI->SetCheck(TRUE);
-    } else {
-        pCmdUI->SetCheck(FALSE);
-    }
-}
-
 void CMainFrame::OnPlayVolume(UINT nID)
 {
     if (m_iMediaLoadState == MLS_LOADED) {
@@ -12515,22 +12492,11 @@ void CMainFrame::SetupFiltersSubMenu()
 
             CComQIPtr<ISpecifyPropertyPages> pSPP = pBF;
 
-            /*if (pSPP)
-              {
-                  CAUUID caGUID;
-                  caGUID.pElems = NULL;
-                  if (SUCCEEDED(pSPP->GetPages(&caGUID)) && caGUID.cElems > 0)
-              {
-            */
             m_pparray.Add(pBF);
             pSubSub->AppendMenu(MF_STRING | MF_ENABLED, ids, ResStr(IDS_MAINFRM_116));
-            /*
-            if (caGUID.pElems) CoTaskMemFree(caGUID.pElems);
-            */
+
             nPPages++;
-            /*    }
-              }
-            */
+
             BeginEnumPins(pBF, pEP, pPin) {
                 CString name = GetPinName(pPin);
                 name.Replace(_T("&"), _T("&&"));
@@ -12560,7 +12526,7 @@ void CMainFrame::SetupFiltersSubMenu()
                 DWORD prevgroup = (DWORD) - 1;
                 LCID lcid;
                 WCHAR* wname = NULL;
-                CComPtr<IUnknown> pObj, pUnk;
+                UINT uMenuFlags;
 
                 pSS->Count(&nStreams);
 
@@ -12569,36 +12535,46 @@ void CMainFrame::SetupFiltersSubMenu()
                 }
 
                 UINT idlstart = idl;
+                UINT selectedInGroup = 0;
 
-                for (DWORD i = 0; i < nStreams; i++, pObj = NULL, pUnk = NULL) {
+                for (DWORD i = 0; i < nStreams; i++) {
                     m_ssarray.Add(pSS);
 
                     flags = group = 0;
                     wname = NULL;
-                    pSS->Info(i, NULL, &flags, &lcid, &group, &wname, &pObj, &pUnk);
+                    pSS->Info(i, NULL, &flags, &lcid, &group, &wname, NULL, NULL);
 
                     if (group != prevgroup && idl > idlstart) {
+                        if (selectedInGroup) {
+                            pSubSub->CheckMenuRadioItem(idlstart, idl - 1, selectedInGroup, MF_BYCOMMAND);
+                            selectedInGroup = 0;
+                        }
                         pSubSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
+                        idlstart = idl;
                     }
                     prevgroup = group;
 
+                    uMenuFlags = MF_STRING | MF_ENABLED;
                     if (flags & AMSTREAMSELECTINFO_EXCLUSIVE) {
+                        selectedInGroup = idl;
                     } else if (flags & AMSTREAMSELECTINFO_ENABLED) {
+                        uMenuFlags |= MF_CHECKED;
                     }
 
+                    CString name;
                     if (!wname) {
-                        CStringW stream(ResStr(IDS_AG_UNKNOWN_STREAM));
-                        size_t count = stream.GetLength() + 3 + 1;
-                        wname = (WCHAR*)CoTaskMemAlloc(count * sizeof(WCHAR));
-                        swprintf_s(wname, count, L"%s %d", stream, min(i + 1, 999));
+                        name.LoadString(IDS_AG_UNKNOWN_STREAM);
+                        name.AppendFormat(_T(" %d"), i + 1);
+                    } else {
+                        name = wname;
+                        name.Replace(_T("&"), _T("&&"));
+                        CoTaskMemFree(wname);
                     }
 
-                    CString name(wname);
-                    name.Replace(_T("&"), _T("&&"));
-
-                    pSubSub->AppendMenu(MF_STRING | MF_ENABLED, idl++, name);
-
-                    CoTaskMemFree(wname);
+                    pSubSub->AppendMenu(uMenuFlags, idl++, name);
+                }
+                if (selectedInGroup) {
+                    pSubSub->CheckMenuRadioItem(idlstart, idl - 1, selectedInGroup, MF_BYCOMMAND);
                 }
 
                 if (nStreams == 0) {
