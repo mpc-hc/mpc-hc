@@ -326,11 +326,6 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 }
             }
         } else {
-            BYTE* pDataOut = NULL;
-            HRESULT hr2;
-            if (FAILED(hr2 = pOut->GetPointer(&pDataOut)) || !pDataOut) {
-                return hr2;
-            }
             memset(pDataOut, 0, pOut->GetSize());
         }
     } else {
