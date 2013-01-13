@@ -564,10 +564,10 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 
             files += "<tr class=\"dir\">\r\n";
             files +=
-                "<td class=\"dirname\"><a href=\"[path]?path=" + UrlEncode(drive) + "\">" + drive + "</a></td>"
-                "<td class=\"dirtype\">Directory</td>"
+                "<td class=\"dirname\"><a href=\"[path]?path=" + UrlEncode(drive) + "\">" + drive + "</a></td>\r\n"
+                "<td class=\"dirtype\">Directory</td>\r\n"
                 "<td class=\"dirsize\">&nbsp;</td>\r\n"
-                "<td class=\"dirdate\">&nbsp;</td>";
+                "<td class=\"dirdate\">&nbsp;</td>\r\n";
             files += "</tr>\r\n";
         }
 
@@ -584,10 +584,10 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 
         files += "<tr class=\"dir\">\r\n";
         files +=
-            "<td class=\"dirname\"><a href=\"[path]?path=" + parent + "\">..</a></td>"
-            "<td class=\"dirtype\">Directory</td>"
+            "<td class=\"dirname\"><a href=\"[path]?path=" + parent + "\">..</a></td>\r\n"
+            "<td class=\"dirtype\">Directory</td>\r\n"
             "<td class=\"dirsize\">&nbsp;</td>\r\n"
-            "<td class=\"dirdate\">&nbsp;</td>";
+            "<td class=\"dirdate\">&nbsp;</td>\r\n";
         files += "</tr>\r\n";
 
         WIN32_FIND_DATA fd = {0};
@@ -603,10 +603,10 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 
                 files += "<tr class=\"dir\">\r\n";
                 files +=
-                    "<td class=\"dirname\"><a href=\"[path]?path=" + UTF8Arg(fullpath) + "\">" + UTF8(fd.cFileName) + "</a></td>"
-                    "<td class=\"dirtype\">Directory</td>"
+                    "<td class=\"dirname\"><a href=\"[path]?path=" + UTF8Arg(fullpath) + "\">" + UTF8(fd.cFileName) + "</a></td>\r\n"
+                    "<td class=\"dirtype\">Directory</td>\r\n"
                     "<td class=\"dirsize\">&nbsp;</td>\r\n"
-                    "<td class=\"dirdate\"><span class=\"nobr\">" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</span></td>";
+                    "<td class=\"dirdate\"><span class=\"nobr\">" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</span></td>\r\n";
                 files += "</tr>\r\n";
             } while (FindNextFile(hFind, &fd));
 
@@ -638,10 +638,10 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
                     files += "<tr class=\"noext\">\r\n";
                 }
                 files +=
-                    "<td class=\"filename\"><a href=\"[path]?path=" + UTF8Arg(fullpath) + "\">" + UTF8(fd.cFileName) + "</a></td>"
-                    "<td class=\"filetype\"><span class=\"nobr\">" + UTF8(type) + "</span></td>"
+                    "<td class=\"filename\"><a href=\"[path]?path=" + UTF8Arg(fullpath) + "\">" + UTF8(fd.cFileName) + "</a></td>\r\n"
+                    "<td class=\"filetype\"><span class=\"nobr\">" + UTF8(type) + "</span></td>\r\n"
                     "<td class=\"filesize\" align=\"right\"><span class=\"nobr\">" + size + "</span></td>\r\n"
-                    "<td class=\"filedate\"><span class=\"nobr\">" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</span></td>";
+                    "<td class=\"filedate\"><span class=\"nobr\">" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</span></td>\r\n";
                 files += "</tr>\r\n";
             } while (FindNextFile(hFind, &fd));
 
