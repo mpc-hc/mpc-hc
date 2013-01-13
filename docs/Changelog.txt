@@ -31,8 +31,10 @@ Legend:
   - Ticket #2779, Support MicroDVD tags in MPL2 subtitles files. This is normally not
     supported but MPL2 files that use MicroDVD tags for formatting are quite common.
   - Support SRT files with missing millisecond part in the timecodes.
-! WebUI: Fix seeking
-! WebUI: Fix volume slider going out of bounds with IE in player.html
+! Various WebUI fixes: 
+  - Fix seeking
+  - Fix volume slider going out of bounds with IE in player.html
+  - Fix incorrect encoding of the parent dir's path in browser.html
 ! Ticket #2423, Fix wrong rounding leading to small black bars when resizing the window.
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks.
