@@ -1,181 +1,186 @@
-body,th,td,.sectionInfo {
+body,
+th,
+td,
+.sectionInfo {
+	font-family:Verdana, Arial, Helvetica, Sans-Serif;
 	font-size:.8em;
-	font-family:Verdana, Arial, Helvetica, Sans-Serif
 }
 
 .nobr {
-	white-space:nowrap
+	white-space:nowrap;
 }
 
 img {
 	border:0;
 	margin:0;
-	padding:0
+	padding:0;
 }
 
 #player {
 	margin-left:auto;
-	margin-right:auto
+	margin-right:auto;
 }
 
 #player td {
 	font-family:Sans-Serif;
-	font-size:13px
+	font-size:13px;
 }
 
 #header td {
-	height:30px
+	height:30px;
 }
 
-#headericon {
+#headerIcon {
+	background:url(img/headericon.png) no-repeat;
 	width:22px;
-	background:url(img/headericon.png) no-repeat
 }
 
-#headerback {
-	color:#FFF;
-	font-weight:700;
-	background:url(img/headerback.png) repeat-x
+#headerBack {
+	background:url(img/headerback.png) repeat-x;
+	color:white;
+	font-weight:bold;
 }
 
-#headerclose {
+#headerClose {
+	background:url(img/headerclose.png) no-repeat;
 	width:28px;
-	background:url(img/headerclose.png) no-repeat
 }
 
-#title,#status,#posstr,#durstr {
-	display:inline
+#durstr,
+#posstr,
+#status,
+#title {
+	display:inline;
 }
 
 #menu td {
 	font-family:Sans-Serif;
 	font-size:12px;
-	padding:1px 5px
+	padding:1px 5px;
 }
 
-#menu,#controlbar {
-	background:#ece6d4
+#controlbar,
+#menu {
+	background:#ECE6D4;
 }
 
 #statusbar td {
 	font-family:Sans-Serif;
-	font-size:12px
+	font-size:12px;
 }
 
-#video,#statusbar {
-	color:#FFF;
-	background:#000
+#statusbar,
+#video {
+	background:black;
+	color:white;
 }
 
 #video {
 	cursor:pointer;
-	padding:1px
+	padding:1px;
 }
 
 #controlbar {
+	background:url(img/controlback.png) repeat-x;
 	height:28px;
-	background:url(img/controlback.png) repeat-x
 }
 
 #controlbuttonplay {
+	background:url(img/controlbuttonplay.png) no-repeat;
 	width:25px;
 	height:28px;
-	background:url(img/controlbuttonplay.png) no-repeat
 }
 
 #controlbuttonpause {
+	background:url(img/controlbuttonpause.png) no-repeat;
 	width:23px;
 	height:28px;
-	background:url(img/controlbuttonpause.png) no-repeat
 }
 
 #controlbuttonstop {
+	background:url(img/controlbuttonstop.png) no-repeat;
 	width:25px;
 	height:28px;
-	background:url(img/controlbuttonstop.png) no-repeat
 }
 
 #controlbuttonskipback {
+	background:url(img/controlbuttonskipback.png) no-repeat;
 	width:24px;
 	height:28px;
-	background:url(img/controlbuttonskipback.png) no-repeat
 }
 
 #controlbuttondecrate {
+	background:url(img/controlbuttondecrate.png) no-repeat;
 	width:22px;
 	height:28px;
-	background:url(img/controlbuttondecrate.png) no-repeat
 }
 
 #controlbuttonincrate {
+	background:url(img/controlbuttonincrate.png) no-repeat;
 	width:23px;
 	height:28px;
-	background:url(img/controlbuttonincrate.png) no-repeat
 }
 
 #controlbuttonskipforward {
+	background:url(img/controlbuttonskipforward.png) no-repeat;
 	width:28px;
 	height:28px;
-	background:url(img/controlbuttonskipforward.png) no-repeat
 }
 
 #controlbuttonstep {
+	background:url(img/controlbuttonstep.png) no-repeat;
 	width:31px;
 	height:28px;
-	background:url(img/controlbuttonstep.png) no-repeat
 }
 
 #controlvolumemute {
+	background:url(img/controlvolumeon.png) no-repeat;
 	width:28px;
 	height:28px;
-	background:url(img/controlvolumeon.png) no-repeat
 }
 
 #controlvolumebar {
+	background:url(img/controlvolumebar.png) no-repeat;
 	width:55px;
 	height:28px;
-	background:url(img/controlvolumebar.png) no-repeat
 }
 
 #seekbar {
-	background:url(img/seekbarmid.png) repeat-x
-}
-
-#seekbar td {
-	height:15px
+	background:url(img/seekbarmid.png) repeat-x;
 }
 
 #leftside {
+	background:url(img/leftside.png) repeat-y;
 	width:4px;
-	background:url(img/leftside.png) repeat-y
 }
 
 #rightside {
+	background:url(img/rightside.png) repeat-y;
 	width:4px;
-	background:url(img/rightside.png) repeat-y
 }
 
 #leftbottomside {
+	background:url(img/leftbottomside.png) repeat-x;
 	width:4px;
 	height:4px;
-	background:url(img/leftbottomside.png) repeat-x
 }
 
 #bottomside {
+	background:url(img/bottomside.png) repeat-x;
 	height:4px;
-	background:url(img/bottomside.png) repeat-x
 }
 
 #rightbottomside {
+	background:url(img/rightbottomside.png) repeat-x;
 	width:4px;
 	height:4px;
-	background:url(img/rightbottomside.png) repeat-x
 }
 
-#header,#center {
-	width:100%
+#center,
+#header {
+	width:100%;
 }
 
 #debug {
-	white-space:pre-wrap
+	white-space:pre-wrap;
 }
