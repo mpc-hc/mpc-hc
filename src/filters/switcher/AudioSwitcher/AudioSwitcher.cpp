@@ -280,9 +280,10 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
         return S_OK;
     }
 
-    if (m_fCustomChannelMapping) {
+    if (m_fCustomChannelMapping && wfe->nChannels <= AS_MAX_CHANNELS) {
         size_t channelsCount = m_chs[wfe->nChannels - 1].GetCount();
-        if (channelsCount > 0 && wfeout->nChannels <= channelsCount) {
+        ASSERT(channelsCount == 0 || wfeout->nChannels == channelsCount);
+        if (channelsCount > 0 && wfeout->nChannels == channelsCount) {
             for (int i = 0; i < wfeout->nChannels; i++) {
                 DWORD mask = m_chs[wfe->nChannels - 1][i].Channel;
 
@@ -291,7 +292,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 
                 int srcstep = bps * wfe->nChannels;
                 int dststep = bps * wfeout->nChannels;
-                int channels = min(AS_MAX_CHANNELS, wfe->nChannels);
+                int channels = wfe->nChannels;
                 if (fPCM && wfe->wBitsPerSample == 8) {
                     for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
                         mix<unsigned char, INT64, 0, UCHAR_MAX>(mask, channels, bps, src, dst);
@@ -451,7 +452,7 @@ CMediaType CAudioSwitcherFilter::CreateNewOutputMediaType(CMediaType mt, long& c
 
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)pInPin->CurrentMediaType().pbFormat;
 
-    if (m_fCustomChannelMapping) {
+    if (m_fCustomChannelMapping && wfe->nChannels <= AS_MAX_CHANNELS) {
         m_chs[wfe->nChannels - 1].RemoveAll();
 
         DWORD mask = DWORD((__int64(1) << wfe->nChannels) - 1);
