@@ -5502,13 +5502,12 @@ void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                      || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
-                      || s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
-                     && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D;
+    bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                      || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
+                      || s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
 
     pCmdUI->Enable(supported && m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
-    pCmdUI->SetCheck(supported && (AfxGetMyApp()->m_Renderers.m_fDisplayStats));
+    pCmdUI->SetCheck(supported && AfxGetMyApp()->m_Renderers.m_fDisplayStats);
 }
 
 void CMainFrame::OnViewResetStats()
@@ -5520,14 +5519,13 @@ void CMainFrame::OnViewDisplayStatsSC()
 {
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
-    bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                      || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
-                      || s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
-                     && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D;
+    bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                      || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
+                      || s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
 
     if (supported) {
         if (!AfxGetMyApp()->m_Renderers.m_fDisplayStats) {
-            AfxGetMyApp()->m_Renderers.m_bResetStats = true; // to Reset statictics on first call ...
+            AfxGetMyApp()->m_Renderers.m_bResetStats = true; // to reset statistics on first call ...
         }
 
         ++AfxGetMyApp()->m_Renderers.m_fDisplayStats;
