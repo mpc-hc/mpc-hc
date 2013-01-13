@@ -395,6 +395,10 @@ img {
 	width: 100%;
 }
 
+#seekbar td {
+	font-size:0;
+}
+
 #leftside {
 	background: url(img/leftside.png) repeat-y;
 	width: 4px;
