@@ -108,6 +108,8 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
         pWnd->SetFont(&m_font, FALSE);
     }
 
+    CorrectComboListWidth(m_cbSoundDevice);
+
     return true;
 }
 
