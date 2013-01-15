@@ -26,8 +26,8 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 
 The following files are available only in MPC-HC (compared to FFmpeg):
 
+* mpc_helper.c
 * libavcodec/dxva.h
 * libavcodec/h264_dxva.c
 * libavcodec/h264_recov.c
-* libavcodec/mpc_helper.c
 * libavcodec/vc1_dxva.c
