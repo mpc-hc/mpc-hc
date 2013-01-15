@@ -43,8 +43,8 @@ CPPageSubStyle::CPPageSubStyle()
     , m_linkalphasliders(FALSE)
     , m_relativeTo(FALSE)
     , m_fUseDefaultStyle(true)
+    , m_stss(AfxGetAppSettings().subdefstyle)
 {
-    m_stss = AfxGetAppSettings().subdefstyle;
 }
 
 CPPageSubStyle::~CPPageSubStyle()

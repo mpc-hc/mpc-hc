@@ -69,13 +69,18 @@ public:
     };
 
     struct DVB_CLUT {
-        BYTE         id;
-        BYTE         version_number;
-        BYTE         size;
+        BYTE    id;
+        BYTE    version_number;
+        BYTE    size;
 
         HDMV_PALETTE palette[256];
 
-        DVB_CLUT() { memset(palette, 0, sizeof(palette)); }
+        DVB_CLUT() {
+            id = 0;
+            version_number = 0;
+            size = 0;
+            memset(palette, 0, sizeof(palette));
+        }
     };
 
     struct DVB_DISPLAY {
@@ -147,6 +152,7 @@ public:
             _8_bit_pixel_code      = 0;
             _4_bit_pixel_code      = 0;
             _2_bit_pixel_code      = 0;
+            objectCount            = 0;
         }
     };
 

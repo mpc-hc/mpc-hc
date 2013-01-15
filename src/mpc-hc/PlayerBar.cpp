@@ -25,6 +25,7 @@
 
 IMPLEMENT_DYNAMIC(CPlayerBar, CSizingControlBarG)
 CPlayerBar::CPlayerBar()
+    : m_defDockBarID(0)
 {
 }
 

@@ -47,6 +47,8 @@ CPPagePlayback::CPPagePlayback()
     , m_fReportFailedPins(FALSE)
     , m_subtitlesLanguageOrder(_T(""))
     , m_audiosLanguageOrder(_T(""))
+    , m_nSpeedStep(0)
+    , m_nVolumeStep(0)
 {
 }
 
