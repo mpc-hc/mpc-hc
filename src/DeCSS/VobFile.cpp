@@ -478,9 +478,9 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 
     // Chapters ...
     m_ifoFile.Seek(0xCC, CFile::begin); //Get VTS_PGCI adress
-    WORD pcgITPosition = ReadDword() * 2048;
+    DWORD pcgITPosition = ReadDword() * 2048;
     m_ifoFile.Seek(pcgITPosition + 8 + 4, CFile::begin);
-    WORD chainOffset = ReadDword();
+    DWORD chainOffset = ReadDword();
     m_ifoFile.Seek(pcgITPosition + chainOffset + 2, CFile::begin);
     BYTE programChainPrograms = ReadByte();
     m_ChaptersCount = programChainPrograms;
