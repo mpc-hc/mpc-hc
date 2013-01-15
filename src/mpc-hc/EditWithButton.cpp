@@ -74,8 +74,7 @@ void CEditWithButton_Base::DrawButton(CRect rectButton)
         if (IsThemeBackgroundPartiallyTransparent(hButtonTheme, BP_PUSHBUTTON, ButtonState)) {
             HTHEME hEditTheme = OpenThemeDataEx(m_hWnd, _T("Edit"), OTD_NONCLIENT);
 
-            COLORREF BgColor = RGB(0, 0, 0);
-            BgColor = GetThemeSysColor(hEditTheme, (GetStyle() & (ES_READONLY | WS_DISABLED)) ? COLOR_3DFACE : COLOR_WINDOW);
+            COLORREF BgColor = GetThemeSysColor(hEditTheme, (GetStyle() & (ES_READONLY | WS_DISABLED)) ? COLOR_3DFACE : COLOR_WINDOW);
             dc.FillSolidRect(rectButton, BgColor);
 
             CloseThemeData(hEditTheme);

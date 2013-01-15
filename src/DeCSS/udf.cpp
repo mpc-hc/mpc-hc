@@ -237,8 +237,6 @@ tp_udf_file udf_get_sub(const HANDLE hDrive, tp_udf_file f)
 
 tp_udf_file udf_get_next(const HANDLE hDrive, tp_udf_file f)
 {
-    bool res = true;
-
     if (f->dir_left <= 0) {
         f->fid = NULL;
         return NULL;
@@ -252,6 +250,8 @@ tp_udf_file udf_get_next(const HANDLE hDrive, tp_udf_file f)
     }
 
     if (f->fid == NULL) {
+        bool res = true;
+
         DWORD size = f->sec_size * (f->dir_end_lba - f->dir_lba + 1);
 
         if (!f->sector) {
