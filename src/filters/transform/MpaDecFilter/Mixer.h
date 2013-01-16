@@ -29,7 +29,6 @@ protected:
     double* m_matrix_dbl;
 
     enum AVSampleFormat m_in_avsf;
-    enum AVSampleFormat m_in_avsf_used;
     DWORD   m_in_layout;
     DWORD   m_out_layout;
     int     m_in_samplerate;

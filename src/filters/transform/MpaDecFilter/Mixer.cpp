@@ -34,7 +34,6 @@ CMixer::CMixer()
     : m_pAVRCxt(NULL)
     , m_matrix_dbl(NULL)
     , m_in_avsf(AV_SAMPLE_FMT_NONE)
-    , m_in_avsf_used(AV_SAMPLE_FMT_NONE)
     , m_in_layout(0)
     , m_out_layout(0)
     , m_in_samplerate(0)
@@ -63,15 +62,9 @@ void CMixer::Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int
     // Close Resample Context
     avresample_close(m_pAVRCxt);
 
-    if (in_avsf >= AV_SAMPLE_FMT_U8P && in_avsf <= AV_SAMPLE_FMT_DBLP) { // planar audio is not supported (ffmpeg crashed)
-        m_in_avsf_used = AV_SAMPLE_FMT_FLT; // convert to float
-    } else {
-        m_in_avsf_used = in_avsf;
-    }
-
     int ret = 0;
     // Set options
-    av_opt_set_int(m_pAVRCxt, "in_sample_fmt",      m_in_avsf_used,    0);
+    av_opt_set_int(m_pAVRCxt, "in_sample_fmt",      in_avsf,           0);
     av_opt_set_int(m_pAVRCxt, "out_sample_fmt",     AV_SAMPLE_FMT_FLT, 0); // forced float output
     av_opt_set_int(m_pAVRCxt, "in_channel_layout",  in_layout,         0);
     av_opt_set_int(m_pAVRCxt, "out_channel_layout", out_layout,        0);
@@ -173,21 +166,16 @@ int CMixer::Mixing(float* pOutput, int out_samples, BYTE* pInput, int in_samples
     int in_ch  = av_popcount(m_in_layout);
     int out_ch = av_popcount(m_out_layout);
 
-    float* buf  = NULL;
-    if (m_in_avsf != m_in_avsf_used) { // need convert
-        buf = new float[in_samples * in_ch];
-        convert_to_float(m_in_avsf, (WORD)in_ch, in_samples, pInput, buf); // convert to float
-        pInput = (BYTE*)buf;
+    int in_plane_nb   = av_sample_fmt_is_planar(m_in_avsf) ? in_ch : 1;
+    int in_plane_size = in_samples * (av_sample_fmt_is_planar(m_in_avsf) ? 1 : in_ch) * av_get_bytes_per_sample(m_in_avsf);
+    static BYTE* ppInput[AVRESAMPLE_MAX_CHANNELS];
+    for (int i = 0; i < in_plane_nb; i++) {
+        ppInput[i] = pInput + i * in_plane_size;
     }
 
-    // int in_plane_size  = in_samples * (av_sample_fmt_is_planar(in_avsf) ? 1 : in_ch) * av_get_bytes_per_sample(in_avsf);
-    int in_plane_size  = in_samples * in_ch * av_get_bytes_per_sample(m_in_avsf_used);
     int out_plane_size = out_samples * out_ch * sizeof(float);
 
-    out_samples = avresample_convert(m_pAVRCxt, (uint8_t**)&pOutput, out_plane_size, out_samples, (uint8_t**)&pInput, in_plane_size, in_samples);
-    if (buf) {
-        delete [] buf;
-    }
+    out_samples = avresample_convert(m_pAVRCxt, (uint8_t**)&pOutput, out_plane_size, out_samples, ppInput, in_plane_size, in_samples);
     if (out_samples < 0) {
         TRACE(_T("Mixer: avresample_convert failed\n"));
         return 0;
