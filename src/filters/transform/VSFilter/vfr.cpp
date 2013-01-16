@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -150,7 +150,7 @@ public:
 
         timestamps.reserve(8192); // should be enough for most cases
 
-        while (fgets(buf, 50, vfrfile)) {
+        while (fgets(buf, _countof(buf), vfrfile)) {
             // Comment?
             if (buf[0] == '#') {
                 continue;
@@ -173,7 +173,7 @@ VFRTranslator* GetVFRTranslator(const char* vfrfile)
     FILE* f;
     fopen_s(&f, vfrfile, "r"); // errno_t err = <-- TODO: Check if fopen_s fails
     VFRTranslator* res = 0;
-    if (fgets(buf, 32, f) && buf[0] == '#') {
+    if (fgets(buf, _countof(buf), f) && buf[0] == '#') {
         // So do some really shoddy parsing here, assume the file is good
         if (buf[19] == '1') {
             res = DEBUG_NEW TimecodesV1(f);
