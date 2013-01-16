@@ -91,7 +91,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
     }
 
     // Wait I frame after a flush
-    if (m_bFlushed && ! m_PictureParams.bPicIntra) {
+    if (m_bFlushed && !m_PictureParams.bPicIntra) {
         return S_FALSE;
     }
 

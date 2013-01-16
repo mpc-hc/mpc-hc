@@ -319,7 +319,7 @@ STDMETHODIMP CMpcAudioRenderer::NonDelegatingQueryInterface(REFIID riid, void** 
 
 HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType* pmt)
 {
-    if (! pmt) {
+    if (!pmt) {
         return E_POINTER;
     }
     TRACE(_T("CMpcAudioRenderer::SetMediaType\n"));
@@ -344,7 +344,7 @@ HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType* pmt)
         int size = sizeof(WAVEFORMATEX) + pwf->cbSize;
 
         m_pWaveFileFormat = (WAVEFORMATEX*)DEBUG_NEW BYTE[size];
-        if (! m_pWaveFileFormat) {
+        if (!m_pWaveFileFormat) {
             return E_OUTOFMEMORY;
         }
 
@@ -367,7 +367,7 @@ HRESULT CMpcAudioRenderer::CompleteConnect(IPin* pReceivePin)
     HRESULT hr = S_OK;
     TRACE(_T("CMpcAudioRenderer::CompleteConnect\n"));
 
-    if (!m_useWASAPI && ! m_pDS) {
+    if (!m_useWASAPI && !m_pDS) {
         return E_FAIL;
     }
 
@@ -622,7 +622,7 @@ HRESULT CMpcAudioRenderer::GetReferenceClockInterface(REFIID riid, void** ppv)
     }
 
     m_pReferenceClock = DEBUG_NEW CBaseReferenceClock(NAME("Mpc Audio Clock"), NULL, &hr);
-    if (! m_pReferenceClock) {
+    if (!m_pReferenceClock) {
         return E_OUTOFMEMORY;
     }
 
@@ -656,7 +656,7 @@ HRESULT CMpcAudioRenderer::EndOfStream()
 
 HRESULT CMpcAudioRenderer::CreateDSBuffer()
 {
-    if (! m_pWaveFileFormat) {
+    if (!m_pWaveFileFormat) {
         return E_POINTER;
     }
 
@@ -816,7 +816,7 @@ HRESULT CMpcAudioRenderer::DoRenderSampleDirectSound(IMediaSample* pMediaSample)
 
 HRESULT CMpcAudioRenderer::WriteSampleToDSBuffer(IMediaSample* pMediaSample, bool* looped)
 {
-    if (! m_pDSBuffer) {
+    if (!m_pDSBuffer) {
         return E_POINTER;
     }
 
@@ -1164,7 +1164,7 @@ bool CMpcAudioRenderer::CheckFormatChanged(WAVEFORMATEX* pWaveFormatEx, WAVEFORM
 
     int size = sizeof(WAVEFORMATEX) + pWaveFormatEx->cbSize; // Always true, even for WAVEFORMATEXTENSIBLE and WAVEFORMATEXTENSIBLE_IEC61937
     *ppNewWaveFormatEx = (WAVEFORMATEX*)DEBUG_NEW BYTE[size];
-    if (! *ppNewWaveFormatEx) {
+    if (!*ppNewWaveFormatEx) {
         return false;
     }
     memcpy(*ppNewWaveFormatEx, pWaveFormatEx, size);
