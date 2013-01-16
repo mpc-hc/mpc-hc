@@ -740,14 +740,14 @@ void CDXVADecoder::EndOfStream()
         PICTURE_STORE& pic = m_pPictureStore[nPicIndex];
         if (pic.bInUse && !pic.bDisplayed && pic.rtStart != _I64_MIN) {
             switch (m_nEngine) {
-                // TODO - need check under WinXP on DXVA1
-                /*
-                case ENGINE_DXVA1:
-                    if (SUCCEEDED (GetDeliveryBuffer (pic.rtStart, pic.rtStop, &pSampleToDeliver)) && pSampleToDeliver) {
-                        m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
-                    }
-                    break;
-                */
+                    // TODO - need check under WinXP on DXVA1
+                    /*
+                    case ENGINE_DXVA1:
+                        if (SUCCEEDED (GetDeliveryBuffer (pic.rtStart, pic.rtStop, &pSampleToDeliver)) && pSampleToDeliver) {
+                            m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
+                        }
+                        break;
+                    */
                 case ENGINE_DXVA2:
                     SetTypeSpecificFlags(&pic, pic.pSample);
                     m_pFilter->GetOutputPin()->Deliver(pic.pSample);
