@@ -15,6 +15,7 @@
 /contrib/cov-int
 /contrib/MPC-HC.tar
 /contrib/MPC-HC.tgz
+/contrib/warn-about-64-bit-msbuild.txt
 /distrib/*.exe
 /include/version_rev.h
 /src/filters/transform/VSFilter/installer/*.exe
