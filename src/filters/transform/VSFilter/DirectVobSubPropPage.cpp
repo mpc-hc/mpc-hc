@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -119,11 +119,11 @@ STDMETHODIMP CDVSBasePPage::Activate(HWND hwndParent, LPCRECT pRect, BOOL fModal
 
 /* CDVSBasePPage */
 
-CDVSBasePPage::CDVSBasePPage(TCHAR* pName, LPUNKNOWN lpunk, int DialogId, int TitleId) :
-    CBasePropertyPage(pName, lpunk, DialogId, TitleId),
-    m_bIsInitialized(FALSE),
-    m_fAttached(false),
-    m_fDisableInstantUpdate(false)
+CDVSBasePPage::CDVSBasePPage(TCHAR* pName, LPUNKNOWN lpunk, int DialogId, int TitleId)
+    : CBasePropertyPage(pName, lpunk, DialogId, TitleId)
+    , m_bIsInitialized(FALSE)
+    , m_fAttached(false)
+    , m_fDisableInstantUpdate(false)
 {
 }
 
@@ -291,10 +291,10 @@ void CDVSBasePPage::BindControl(UINT id, CWnd& control)
 
 /* CDVSMainPPage */
 
-CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr) :
-    CDVSBasePPage(NAME("DirectVobSub Property Page (main)"), pUnk, IDD_DVSMAINPAGE, IDD_DVSMAINPAGE),
-    m_nLangs(0),
-    m_ppLangs(NULL)
+CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr)
+    : CDVSBasePPage(NAME("DirectVobSub Property Page (main)"), pUnk, IDD_DVSMAINPAGE, IDD_DVSMAINPAGE)
+    , m_nLangs(0)
+    , m_ppLangs(NULL)
 {
     BindControl(IDC_FILENAME, m_fnedit);
     BindControl(IDC_LANGCOMBO, m_langs);
