@@ -282,59 +282,56 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     CheckPointer(ppRenderer, E_POINTER);
 
     *ppRenderer = NULL;
-    HRESULT hr = E_FAIL;
+    HRESULT hr = S_OK;
 
-    do {
-        CMacrovisionKicker* pMK  = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
-        CComPtr<IUnknown>   pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
+    CMacrovisionKicker* pMK  = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
+    CComPtr<IUnknown>   pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
 
-        COuterEVR* pOuterEVR = DEBUG_NEW COuterEVR(NAME("COuterEVR"), pUnk, hr, &m_VMR9AlphaBitmap, this);
-        m_pOuterEVR = pOuterEVR;
+    COuterEVR* pOuterEVR = DEBUG_NEW COuterEVR(NAME("COuterEVR"), pUnk, hr, &m_VMR9AlphaBitmap, this);
+    m_pOuterEVR = pOuterEVR;
 
-        pMK->SetInner((IUnknown*)(INonDelegatingUnknown*)pOuterEVR);
-        CComQIPtr<IBaseFilter> pBF = pUnk;
+    pMK->SetInner((IUnknown*)(INonDelegatingUnknown*)pOuterEVR);
+    CComQIPtr<IBaseFilter> pBF = pUnk;
 
-        if (FAILED(hr)) {
-            break;
+    if (FAILED(hr)) {
+        return E_FAIL;
+    }
+
+    // Set EVR custom presenter
+    CComPtr<IMFVideoPresenter> pVP;
+    CComPtr<IMFVideoRenderer>  pMFVR;
+    CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF;
+    CComQIPtr<IEVRFilterConfig> pConfig = pBF;
+    if (SUCCEEDED(hr)) {
+        if (FAILED(pConfig->SetNumberOfStreams(3))) { // TODO - maybe need other number of input stream ...
+            return E_FAIL;
         }
+    }
 
-        // Set EVR custom presenter
-        CComPtr<IMFVideoPresenter> pVP;
-        CComPtr<IMFVideoRenderer>  pMFVR;
-        CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF;
-        CComQIPtr<IEVRFilterConfig> pConfig = pBF;
-        if (SUCCEEDED(hr)) {
-            if (FAILED(pConfig->SetNumberOfStreams(3))) { // TODO - maybe need other number of input stream ...
-                break;
-            }
-        }
+    hr = pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_IMFVideoRenderer, (void**)&pMFVR);
 
-        hr = pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_IMFVideoRenderer, (void**)&pMFVR);
-
-        if (SUCCEEDED(hr)) {
-            hr = QueryInterface(__uuidof(IMFVideoPresenter), (void**)&pVP);
-        }
-        if (SUCCEEDED(hr)) {
-            hr = pMFVR->InitializeRenderer(NULL, pVP);
-        }
+    if (SUCCEEDED(hr)) {
+        hr = QueryInterface(__uuidof(IMFVideoPresenter), (void**)&pVP);
+    }
+    if (SUCCEEDED(hr)) {
+        hr = pMFVR->InitializeRenderer(NULL, pVP);
+    }
 
 #if 1
-        CComPtr<IPin> pPin = GetFirstPin(pBF);
-        CComQIPtr<IMemInputPin> pMemInputPin = pPin;
+    CComPtr<IPin> pPin = GetFirstPin(pBF);
+    CComQIPtr<IMemInputPin> pMemInputPin = pPin;
 
-        // No NewSegment : no chocolate :o)
-        m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
+    // No NewSegment : no chocolate :o)
+    m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
 #else
-        m_fUseInternalTimer = false;
+    m_fUseInternalTimer = false;
 #endif
 
-        if (FAILED(hr)) {
-            *ppRenderer = NULL;
-        } else {
-            *ppRenderer = pBF.Detach();
-        }
-
-    } while (0);
+    if (FAILED(hr)) {
+        *ppRenderer = NULL;
+    } else {
+        *ppRenderer = pBF.Detach();
+    }
 
     return hr;
 }

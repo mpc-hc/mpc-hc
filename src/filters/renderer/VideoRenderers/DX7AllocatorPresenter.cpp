@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,66 +37,62 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
     }
 
     ASSERT(pD3DDev);
+
     HRESULT hr;
+    DDSURFACEDESC2 ddsd;
+    INITDDSTRUCT(ddsd);
+    if (FAILED(hr = pTexture->GetSurfaceDesc(&ddsd))) {
+        return E_FAIL;
+    }
 
-    do {
-        DDSURFACEDESC2 ddsd;
-        INITDDSTRUCT(ddsd);
-        if (FAILED(hr = pTexture->GetSurfaceDesc(&ddsd))) {
-            break;
-        }
+    float w = (float)ddsd.dwWidth;
+    float h = (float)ddsd.dwHeight;
 
-        float w = (float)ddsd.dwWidth;
-        float h = (float)ddsd.dwHeight;
+    struct {
+        float x, y, z, rhw;
+        float tu, tv;
+    }
+    pVertices[] = {
+        {(float)dst[0].x, (float)dst[0].y, (float)dst[0].z, 1.0f / (float)dst[0].z, (float)src.left / w, (float)src.top / h},
+        {(float)dst[1].x, (float)dst[1].y, (float)dst[1].z, 1.0f / (float)dst[1].z, (float)src.right / w, (float)src.top / h},
+        {(float)dst[2].x, (float)dst[2].y, (float)dst[2].z, 1.0f / (float)dst[2].z, (float)src.left / w, (float)src.bottom / h},
+        {(float)dst[3].x, (float)dst[3].y, (float)dst[3].z, 1.0f / (float)dst[3].z, (float)src.right / w, (float)src.bottom / h},
+    };
 
-        struct {
-            float x, y, z, rhw;
-            float tu, tv;
-        }
-        pVertices[] = {
-            {(float)dst[0].x, (float)dst[0].y, (float)dst[0].z, 1.0f / (float)dst[0].z, (float)src.left / w, (float)src.top / h},
-            {(float)dst[1].x, (float)dst[1].y, (float)dst[1].z, 1.0f / (float)dst[1].z, (float)src.right / w, (float)src.top / h},
-            {(float)dst[2].x, (float)dst[2].y, (float)dst[2].z, 1.0f / (float)dst[2].z, (float)src.left / w, (float)src.bottom / h},
-            {(float)dst[3].x, (float)dst[3].y, (float)dst[3].z, 1.0f / (float)dst[3].z, (float)src.right / w, (float)src.bottom / h},
-        };
+    for (int i = 0; i < _countof(pVertices); i++) {
+        pVertices[i].x -= 0.5;
+        pVertices[i].y -= 0.5;
+    }
 
-        for (int i = 0; i < _countof(pVertices); i++) {
-            pVertices[i].x -= 0.5;
-            pVertices[i].y -= 0.5;
-        }
+    hr = pD3DDev->SetTexture(0, pTexture);
 
-        hr = pD3DDev->SetTexture(0, pTexture);
+    pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
+    pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
+    pD3DDev->SetRenderState(D3DRENDERSTATE_BLENDENABLE, FALSE);
+    pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, FALSE);
 
-        pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
-        pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
-        pD3DDev->SetRenderState(D3DRENDERSTATE_BLENDENABLE, FALSE);
-        pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, FALSE);
+    pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
+    pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
+    pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
 
-        pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
-        pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
-        pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
+    pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
 
-        pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
+    //
 
-        //
+    if (FAILED(hr = pD3DDev->BeginScene())) {
+        return E_FAIL;
+    }
 
-        if (FAILED(hr = pD3DDev->BeginScene())) {
-            break;
-        }
+    hr = pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
+                                D3DFVF_XYZRHW | D3DFVF_TEX1,
+                                pVertices, 4, D3DDP_WAIT);
+    pD3DDev->EndScene();
 
-        hr = pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-                                    D3DFVF_XYZRHW | D3DFVF_TEX1,
-                                    pVertices, 4, D3DDP_WAIT);
-        pD3DDev->EndScene();
+    //
 
-        //
+    pD3DDev->SetTexture(0, NULL);
 
-        pD3DDev->SetTexture(0, NULL);
-
-        return S_OK;
-    } while (0);
-
-    return E_FAIL;
+    return S_OK;
 }
 
 //

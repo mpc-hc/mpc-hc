@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -96,42 +96,38 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     *ppRenderer = NULL;
     HRESULT hr;
 
-    do {
-        CComPtr<IBaseFilter> pBF;
+    CComPtr<IBaseFilter> pBF;
 
-        if (FAILED(hr = pBF.CoCreateInstance(CLSID_VideoMixingRenderer))) {
-            break;
-        }
+    if (FAILED(hr = pBF.CoCreateInstance(CLSID_VideoMixingRenderer))) {
+        return E_FAIL;
+    }
 
-        CComQIPtr<IVMRFilterConfig> pConfig = pBF;
-        if (!pConfig) {
-            break;
-        }
+    CComQIPtr<IVMRFilterConfig> pConfig = pBF;
+    if (!pConfig) {
+        return E_FAIL;
+    }
 
-        if (FAILED(hr = pConfig->SetRenderingMode(VMRMode_Renderless))) {
-            break;
-        }
+    if (FAILED(hr = pConfig->SetRenderingMode(VMRMode_Renderless))) {
+        return E_FAIL;
+    }
 
-        CComQIPtr<IVMRSurfaceAllocatorNotify> pSAN = pBF;
-        if (!pSAN) {
-            break;
-        }
+    CComQIPtr<IVMRSurfaceAllocatorNotify> pSAN = pBF;
+    if (!pSAN) {
+        return E_FAIL;
+    }
 
-        if (FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator*>(this)))
-                || FAILED(hr = AdviseNotify(pSAN))) {
-            break;
-        }
+    if (FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator*>(this)))
+            || FAILED(hr = AdviseNotify(pSAN))) {
+        return E_FAIL;
+    }
 
-        CComPtr<IPin> pPin = GetFirstPin(pBF);
-        CComQIPtr<IMemInputPin> pMemInputPin = pPin;
-        m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
+    CComPtr<IPin> pPin = GetFirstPin(pBF);
+    CComQIPtr<IMemInputPin> pMemInputPin = pPin;
+    m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
 
-        *ppRenderer = (IUnknown*)pBF.Detach();
+    *ppRenderer = (IUnknown*)pBF.Detach();
 
-        return S_OK;
-    } while (0);
-
-    return E_FAIL;
+    return S_OK;
 }
 
 STDMETHODIMP_(void) CVMR7AllocatorPresenter::SetTime(REFERENCE_TIME rtNow)

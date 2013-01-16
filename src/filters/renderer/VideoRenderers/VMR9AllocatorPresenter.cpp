@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -90,70 +90,66 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     *ppRenderer = NULL;
     HRESULT hr;
 
-    do {
-        CMacrovisionKicker* pMK = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
-        CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
+    CMacrovisionKicker* pMK = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
+    CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
 
-        COuterVMR9* pOuter = DEBUG_NEW COuterVMR9(NAME("COuterVMR9"), pUnk, &m_VMR9AlphaBitmap, this);
+    COuterVMR9* pOuter = DEBUG_NEW COuterVMR9(NAME("COuterVMR9"), pUnk, &m_VMR9AlphaBitmap, this);
 
-        pMK->SetInner((IUnknown*)(INonDelegatingUnknown*)pOuter);
-        CComQIPtr<IBaseFilter> pBF = pUnk;
+    pMK->SetInner((IUnknown*)(INonDelegatingUnknown*)pOuter);
+    CComQIPtr<IBaseFilter> pBF = pUnk;
 
-        CComPtr<IPin> pPin = GetFirstPin(pBF);
-        CComQIPtr<IMemInputPin> pMemInputPin = pPin;
-        m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
+    CComPtr<IPin> pPin = GetFirstPin(pBF);
+    CComQIPtr<IMemInputPin> pMemInputPin = pPin;
+    m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
 
-        if (CComQIPtr<IAMVideoAccelerator> pAMVA = pPin) {
-            HookAMVideoAccelerator((IAMVideoAcceleratorC*)(IAMVideoAccelerator*)pAMVA);
+    if (CComQIPtr<IAMVideoAccelerator> pAMVA = pPin) {
+        HookAMVideoAccelerator((IAMVideoAcceleratorC*)(IAMVideoAccelerator*)pAMVA);
+    }
+
+    CComQIPtr<IVMRFilterConfig9> pConfig = pBF;
+    if (!pConfig) {
+        return E_FAIL;
+    }
+
+    CRenderersSettings& s = GetRenderersSettings();
+
+    if (s.fVMR9MixerMode) {
+        if (FAILED(hr = pConfig->SetNumberOfStreams(1))) {
+            return E_FAIL;
         }
 
-        CComQIPtr<IVMRFilterConfig9> pConfig = pBF;
-        if (!pConfig) {
-            break;
-        }
+        if (CComQIPtr<IVMRMixerControl9> pMC = pBF) {
+            DWORD dwPrefs;
+            pMC->GetMixingPrefs(&dwPrefs);
 
-        CRenderersSettings& s = GetRenderersSettings();
-
-        if (s.fVMR9MixerMode) {
-            if (FAILED(hr = pConfig->SetNumberOfStreams(1))) {
-                break;
+            // See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
+            dwPrefs |= MixerPref9_NonSquareMixing;
+            dwPrefs |= MixerPref9_NoDecimation;
+            if (s.fVMR9MixerYUV && !SysVersion::IsVistaOrLater()) {
+                dwPrefs &= ~MixerPref9_RenderTargetMask;
+                dwPrefs |= MixerPref9_RenderTargetYUV;
             }
-
-            if (CComQIPtr<IVMRMixerControl9> pMC = pBF) {
-                DWORD dwPrefs;
-                pMC->GetMixingPrefs(&dwPrefs);
-
-                // See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
-                dwPrefs |= MixerPref9_NonSquareMixing;
-                dwPrefs |= MixerPref9_NoDecimation;
-                if (s.fVMR9MixerYUV && !SysVersion::IsVistaOrLater()) {
-                    dwPrefs &= ~MixerPref9_RenderTargetMask;
-                    dwPrefs |= MixerPref9_RenderTargetYUV;
-                }
-                pMC->SetMixingPrefs(dwPrefs);
-            }
+            pMC->SetMixingPrefs(dwPrefs);
         }
+    }
 
-        if (FAILED(hr = pConfig->SetRenderingMode(VMR9Mode_Renderless))) {
-            break;
-        }
+    if (FAILED(hr = pConfig->SetRenderingMode(VMR9Mode_Renderless))) {
+        return E_FAIL;
+    }
 
-        CComQIPtr<IVMRSurfaceAllocatorNotify9> pSAN = pBF;
-        if (!pSAN) {
-            break;
-        }
+    CComQIPtr<IVMRSurfaceAllocatorNotify9> pSAN = pBF;
+    if (!pSAN) {
+        return E_FAIL;
+    }
 
-        if (FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator9*>(this)))
-                || FAILED(hr = AdviseNotify(pSAN))) {
-            break;
-        }
+    if (FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator9*>(this)))
+            || FAILED(hr = AdviseNotify(pSAN))) {
+        return E_FAIL;
+    }
 
-        *ppRenderer = (IUnknown*)pBF.Detach();
+    *ppRenderer = (IUnknown*)pBF.Detach();
 
-        return S_OK;
-    } while (0);
-
-    return E_FAIL;
+    return S_OK;
 }
 
 STDMETHODIMP_(void) CVMR9AllocatorPresenter::SetTime(REFERENCE_TIME rtNow)
