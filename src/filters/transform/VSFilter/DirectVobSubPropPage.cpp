@@ -74,7 +74,7 @@ STDMETHODIMP CDVSBasePPage::GetPageInfo(LPPROPPAGEINFO pPageInfo)
     LPOLESTR pszTitle;
     HRESULT hr = AMGetWideString(wszTitle, &pszTitle);
     if (FAILED(hr)) {
-        NOTE("No caption memory");
+        TRACE(_T("No caption memory"));
         return hr;
     }
 
