@@ -1215,7 +1215,9 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
     }
 
     BYTE* pData = NULL;
-    pSample->GetPointer(&pData);
+    if (FAILED(hr = pSample->GetPointer(&pData)) || !pData) {
+        return hr;
+    }
 
     long len = pSample->GetActualDataLength();
 

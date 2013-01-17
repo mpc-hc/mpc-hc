@@ -155,8 +155,12 @@ HRESULT CWavDestFilter::Copy(IMediaSample* pSource, IMediaSample* pDest) const
     ASSERT(lDestSize >= lSourceSize);
 #endif
 
-    pSource->GetPointer(&pSourceBuffer);
-    pDest->GetPointer(&pDestBuffer);
+    if (FAILED(pSource->GetPointer(&pSourceBuffer)) || !pSourceBuffer) {
+        return E_FAIL;
+    }
+    if (FAILED(pDest->GetPointer(&pDestBuffer)) || !pDestBuffer) {
+        return E_FAIL;
+    }
 
     CopyMemory((PVOID)pDestBuffer, (PVOID)pSourceBuffer, lSourceSize);
 

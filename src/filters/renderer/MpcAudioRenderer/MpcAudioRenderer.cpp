@@ -329,7 +329,10 @@ HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType* pmt)
         if (pRenderClient != NULL) {
             WAVEFORMATEX* pNewWf = (WAVEFORMATEX*) pmt->Format();
             TRACE(_T("CMpcAudioRenderer::SetMediaType Render client already initialized. Reinitialization...\n"));
-            CheckAudioClient(pNewWf);
+            if (FAILED(CheckAudioClient(pNewWf))) {
+                TRACE(_T("CMpcAudioRenderer::SetMediaType Error on check audio client\n"));
+                return E_FAIL;
+            }
         }
     }
 

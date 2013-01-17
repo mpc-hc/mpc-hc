@@ -1082,8 +1082,7 @@ bool ExtractAvgTimePerFrame(const AM_MEDIA_TYPE* pmt, REFERENCE_TIME& rtAvgTimeP
 bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih)
 {
     AM_MEDIA_TYPE* pmt = NULL;
-    pMS->GetMediaType(&pmt);
-    if (pmt) {
+    if (SUCCEEDED(pMS->GetMediaType(&pmt)) && pmt) {
         bool fRet = ExtractBIH(pmt, bih);
         DeleteMediaType(pmt);
         return fRet;
