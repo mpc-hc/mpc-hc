@@ -143,7 +143,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 
     if (IsRandomAccess() || IsStreaming()) {
         if (IsStreaming()) {
-            for (int i = 0; i < 20 || i < 50 && S_OK != HasMoreData(1024 * 100, 100); i++) {
+            for (int i = 0; i < 20 || i < 50 && S_OK != HasMoreData(MEGABYTE, 100); i++) {
                 ;
             }
         }
