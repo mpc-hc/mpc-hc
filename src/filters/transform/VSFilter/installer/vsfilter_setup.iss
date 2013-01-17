@@ -33,7 +33,6 @@
 #define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
 
 ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
-;#define VS2012
 #define sse_required
 ;#define VS2012
 ;#define x64Build
