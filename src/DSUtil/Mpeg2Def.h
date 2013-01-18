@@ -145,6 +145,7 @@ enum MPEG2_DESCRIPTOR {
     DT_DATA_BROADCAST_ID        = 0x66,
     DT_AC3_AUDIO                = 0x6a,     // DVB
     DT_EXTENDED_AC3_AUDIO       = 0x7a,
+    DT_AAC_AUDIO                = 0x7c,
     //
     DT_AC3_AUDIO__2             = 0x81,     // DCII ou ATSC
     DT_LOGICAL_CHANNEL          = 0x83,

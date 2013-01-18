@@ -33,7 +33,12 @@ enum TSC_COLUMN {
     TSCC_NAME,
     TSCC_FREQUENCY,
     TSCC_ENCRYPTED,
-    TSCC_CHANNEL
+    TSCC_CHANNEL,
+    TSCC_VIDEO_FORMAT,
+    TSCC_VIDEO_FPS,
+    TSCC_VIDEO_RES,
+    TSCC_VIDEO_AR,
+    TSCC_VIDEO_CHROMA
 };
 
 // CTunerScanDlg dialog
@@ -64,10 +69,15 @@ BOOL CTunerScanDlg::OnInitDialog()
 
     m_OffsetEditBox.EnableWindow(m_bUseOffset);
 
-    m_ChannelList.InsertColumn(TSCC_NUMBER, ResStr(IDS_DVB_CHANNEL_NUMBER), LVCFMT_LEFT, 50);
-    m_ChannelList.InsertColumn(TSCC_NAME, ResStr(IDS_DVB_CHANNEL_NAME), LVCFMT_LEFT, 250);
-    m_ChannelList.InsertColumn(TSCC_FREQUENCY, ResStr(IDS_DVB_CHANNEL_FREQUENCY), LVCFMT_LEFT, 100);
-    m_ChannelList.InsertColumn(TSCC_ENCRYPTED, ResStr(IDS_DVB_CHANNEL_ENCRYPTION), LVCFMT_LEFT, 80);
+    m_ChannelList.InsertColumn(TSCC_NUMBER, ResStr(IDS_DVB_CHANNEL_NUMBER), LVCFMT_LEFT, 35);
+    m_ChannelList.InsertColumn(TSCC_NAME, ResStr(IDS_DVB_CHANNEL_NAME), LVCFMT_LEFT, 190);
+    m_ChannelList.InsertColumn(TSCC_FREQUENCY, ResStr(IDS_DVB_CHANNEL_FREQUENCY), LVCFMT_LEFT, 65);
+    m_ChannelList.InsertColumn(TSCC_ENCRYPTED, ResStr(IDS_DVB_CHANNEL_ENCRYPTION), LVCFMT_LEFT, 55);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_FORMAT, _T("Format"), LVCFMT_LEFT, 55);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_FPS, _T("FPS"), LVCFMT_LEFT, 50);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_RES, _T("Resolution"), LVCFMT_LEFT, 70);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_AR, _T("Aspect Ratio"), LVCFMT_LEFT, 50);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_CHROMA, _T("Chroma"), LVCFMT_LEFT, 45);
     m_ChannelList.InsertColumn(TSCC_CHANNEL, _T("Channel"), LVCFMT_LEFT, 0);
 
     m_Progress.SetRange(0, 100);
@@ -213,7 +223,28 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 
         strTemp = Channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
         m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, strTemp);
-
+        if (Channel.GetVideoType() == DVB_H264) {
+            strTemp = _T(" H.264");
+        } else {
+            strTemp = _T("MPEG-2");
+        }
+        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FORMAT, strTemp);
+        strTemp = Channel.GetVideoFpsDesc();
+        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FPS, strTemp);
+        strTemp.Format(_T("%dx%d"), Channel.GetVideoWidth(), Channel.GetVideoHeight());
+        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_RES, strTemp);
+        strTemp.Format(_T("%d/%d"), Channel.GetVideoARy(), Channel.GetVideoARx());
+        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_AR, strTemp);
+        if (Channel.GetVideoChroma() == DVB_Chroma_4_2_0) {
+            strTemp = _T("4:2:0");
+        } else if (Channel.GetVideoChroma() == DVB_Chroma_4_2_2) {
+            strTemp = _T("4:2:2");
+        } else if (Channel.GetVideoChroma() == DVB_Chroma_4_4_4) {
+            strTemp = _T("4:4:4");
+        } else {
+            strTemp = _T("  -  ");
+        }
+        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_CHROMA, strTemp);
         m_ChannelList.SetItemText(nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
     }
 
