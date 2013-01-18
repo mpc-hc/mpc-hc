@@ -2578,10 +2578,8 @@ static int h264_slice_header_init(H264Context *h, int reinit)
         s->avctx->height -= (1<<s->chroma_y_shift)*FFMIN(h->sps.crop_bottom, (16>>s->chroma_y_shift)-1) * (2 - h->sps.frame_mbs_only_flag);
     }
 
-    // ==> Start patch MPC
-    //s->avctx->sample_aspect_ratio = h->sps.sar;
-    //av_assert0(s->avctx->sample_aspect_ratio.den);
-    // ==> End patch MPC
+    s->avctx->sample_aspect_ratio = h->sps.sar;
+    av_assert0(s->avctx->sample_aspect_ratio.den);
 
     if (h->sps.timing_info_present_flag) {
         int64_t den = h->sps.time_scale;
@@ -2767,10 +2765,8 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
                     (   16*h->sps.mb_width != s->avctx->coded_width
                      || 16*h->sps.mb_height * (2 - h->sps.frame_mbs_only_flag) != s->avctx->coded_height
                      || s->avctx->bits_per_raw_sample != h->sps.bit_depth_luma
-                     || h->cur_chroma_format_idc != h->sps.chroma_format_idc));
-                     // ==> Start patch MPC
-                     /*|| av_cmp_q(h->sps.sar, s->avctx->sample_aspect_ratio)))*/
-                     // ==> End patch MPC
+                     || h->cur_chroma_format_idc != h->sps.chroma_format_idc
+                     || av_cmp_q(h->sps.sar, s->avctx->sample_aspect_ratio)));
 
 
     s->mb_width  = h->sps.mb_width;
@@ -2839,11 +2835,6 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
             return ret;
         }
     }
-
-    // ==> Start patch MPC
-    s->avctx->sample_aspect_ratio = h->sps.sar;
-    av_assert0(s->avctx->sample_aspect_ratio.den);
-    // ==> End patch MPC
 
     if (h == h0 && h->dequant_coeff_pps != pps_id) {
         h->dequant_coeff_pps = pps_id;
