@@ -77,6 +77,61 @@ const byte ZZ_SCAN8[64] = {
     53, 60, 61, 54, 47, 55, 62, 63
 };
 
+static const WORD PCID_NVIDIA_VP5[] = {
+    // http://us.download.nvidia.com/XFree86/Linux-x86_64/304.51/README/supportedchips.html
+    // Nvidia VDPAU Feature Set D
+    0x0FC6, // GeForce GTX 650 
+    0x0FCE, // GeForce GT 640M LE 
+    0x0FD1, // GeForce GT 650M 
+    0x0FD2, // GeForce GT 640M 
+    0x0FD3, // GeForce GT 640M LE 
+    0x0FD4, // GeForce GTX 660M 
+    0x0FD5, // GeForce GT 650M 
+    0x0FD8, // GeForce GT 640M 
+    0x0FD9, // GeForce GT 645M 
+    0x0FE0, // GeForce GTX 660M 
+    0x0FFB, // Quadro K2000M 
+    0x0FFC, // Quadro K1000M 
+    0x0FFD, // NVS 510 
+    0x0FFF, // Quadro 410 
+    0x1042, // GeForce 510 
+    0x1048, // GeForce 605 
+    0x104A, // GeForce GT 610 
+    0x1051, // GeForce GT 520MX 
+    0x1054, // GeForce 410M 
+    0x1055, // GeForce 410M 
+    0x1056, // NVS 4200M 
+    0x1057, // NVS 4200M 
+    0x107D, // NVS 310 
+    0x1180, // GeForce GTX 680 
+    0x1183, // GeForce GTX 660 Ti 
+    0x1185, // GeForce GTX 660 
+    0x1188, // GeForce GTX 690 
+    0x1189, // GeForce GTX 670 
+    0x118F, // Tesla K10 
+    0x11A0, // GeForce GTX 680M 
+    0x11A1, // GeForce GTX 670MX 
+    0x11A7, // GeForce GTX 675MX 
+    0x11BA, // Quadro K5000 
+    0x11BC, // Quadro K5000M 
+    0x11BD, // Quadro K4000M 
+    0x11BE, // Quadro K3000M 
+    0x11C0, // GeForce GTX 660 
+    0x11C6, // GeForce GTX 650 Ti 
+};
+
+bool CheckPCID(WORD pcid, const WORD* pPCIDs, size_t len)
+{
+    for (size_t i = 0; i < len; i++) {
+        if (pcid == pPCIDs[i]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
 inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
 {
     Mpeg1Context* s1;
@@ -793,8 +848,8 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor, DWORD nPCIDevic
     height = (height + 15) & ~15; // (height + 15) / 16 * 16;
 
     if (nPCIVendor == PCIV_nVidia) {
-        if (nPCIDevice == PCID_nVidia_GTX660Ti && width <= 4096 && height <= 4096 && width * height <= 4080 * 4080) {
-            // complete test was performed
+        if (CheckPCID((WORD)nPCIDevice, PCID_NVIDIA_VP5, _countof(PCID_NVIDIA_VP5)) && width <= 4096 && height <= 4096 && width * height <= 4080 * 4080) {
+            // tested H.264 on VP5 (GT 610, GTX 660 Ti)
             // 4080x4080 = 65025 macroblocks
             return TRUE;
         } else if (width <= 2032 && height <= 2032 && width * height <= 8190 * 16 * 16) {
