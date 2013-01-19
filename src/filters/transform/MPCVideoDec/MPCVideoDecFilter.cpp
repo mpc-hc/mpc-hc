@@ -502,9 +502,6 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] = {
 
 const int CMPCVideoDecFilter::sudPinTypesInCount = _countof(CMPCVideoDecFilter::sudPinTypesIn);
 
-const bool* CMPCVideoDecFilter::FFmpegFilters = NULL;
-const bool* CMPCVideoDecFilter::DXVAFilters = NULL;
-
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] = {
     {&MEDIATYPE_Video, &MEDIASUBTYPE_NV12},
     {&MEDIATYPE_Video, &MEDIASUBTYPE_NV24}
@@ -778,36 +775,36 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
             switch (ffCodecs[i].nFFCodec) {
                 case AV_CODEC_ID_H264:
 #if INTERNAL_DECODER_H264_DXVA
-                    m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_H264];
+                    m_bUseDXVA = m_DXVAFilters && m_DXVAFilters[TRA_DXVA_H264];
 #else
                     m_bUseDXVA = false;
 #endif
 #if INTERNAL_DECODER_H264
-                    m_bUseFFmpeg = FFmpegFilters && FFmpegFilters[FFM_H264];
+                    m_bUseFFmpeg = m_FFmpegFilters && m_FFmpegFilters[FFM_H264];
 #else
                     m_bUseFFmpeg = false;
 #endif
                     break;
                 case AV_CODEC_ID_VC1:
 #if INTERNAL_DECODER_VC1_DXVA
-                    m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_VC1];
+                    m_bUseDXVA = m_DXVAFilters && m_DXVAFilters[TRA_DXVA_VC1];
 #else
                     m_bUseDXVA = false;
 #endif
 #if INTERNAL_DECODER_VC1
-                    m_bUseFFmpeg = FFmpegFilters && FFmpegFilters[FFM_VC1];
+                    m_bUseFFmpeg = m_FFmpegFilters && m_FFmpegFilters[FFM_VC1];
 #else
                     m_bUseFFmpeg = false;
 #endif
                     break;
                 case AV_CODEC_ID_WMV3:
 #if INTERNAL_DECODER_WMV3_DXVA
-                    m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_WMV3];
+                    m_bUseDXVA = m_DXVAFilters && m_DXVAFilters[TRA_DXVA_WMV3];
 #else
                     m_bUseDXVA = false;
 #endif
 #if INTERNAL_DECODER_WMV
-                    m_bUseFFmpeg = FFmpegFilters && FFmpegFilters[FFM_WMV];
+                    m_bUseFFmpeg = m_FFmpegFilters && m_FFmpegFilters[FFM_WMV];
 #else
                     m_bUseFFmpeg = false;
 #endif

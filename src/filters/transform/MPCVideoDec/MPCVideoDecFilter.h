@@ -96,6 +96,9 @@ protected:
     CCpuId* m_pCpuId;
     CCritSec m_csProps;
 
+    CAutoPtr<bool> m_DXVAFilters;
+    CAutoPtr<bool> m_FFmpegFilters;
+
     // === Persistants parameters (registry)
     int m_nThreadNumber;
     int m_nDiscardMode;
@@ -207,9 +210,6 @@ public:
     const static AMOVIESETUP_MEDIATYPE sudPinTypesOut[];
     const static int sudPinTypesOutCount;
 
-    static const bool* FFmpegFilters;
-    static const bool* DXVAFilters;
-
     CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
     virtual ~CMPCVideoDecFilter();
 
@@ -221,6 +221,9 @@ public:
 
     void UpdateFrameTime(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop, bool b_repeat_pict = false);
     CString GetFileExtension();
+
+    void SetDXVAFilters(CAutoPtr<bool> DXVAFilters) { m_DXVAFilters = DXVAFilters; };
+    void SetFFmpegFilters(CAutoPtr<bool> FFmpegFilters) {  m_FFmpegFilters = FFmpegFilters; };
 
     // === Overriden DirectShow functions
     HRESULT SetMediaType(PIN_DIRECTION direction, const CMediaType* pmt);

@@ -42,6 +42,35 @@
 #include <ksproxy.h>
 #include "moreuuids.h"
 
+class CFGVideoDecoderInternal : public CFGFilterInternal<CMPCVideoDecFilter>
+{
+    CAutoPtr<bool> m_FFMpegFilters;
+    CAutoPtr<bool> m_DXVAFilters;
+
+public:
+    CFGVideoDecoderInternal(CStringW name = L"", UINT64 merit = MERIT64_DO_USE, CAutoPtr<bool> FFMpegFilters = CAutoPtr<bool>(), CAutoPtr<bool> DXVAFilters = CAutoPtr<bool>())
+        : CFGFilterInternal<CMPCVideoDecFilter>(name, merit)
+        , m_FFMpegFilters(FFMpegFilters)
+        , m_DXVAFilters(DXVAFilters) {}
+
+    HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks) {
+        CheckPointer(ppBF, E_POINTER);
+
+        HRESULT hr = S_OK;
+        CComPtr<CMPCVideoDecFilter> pBF = DEBUG_NEW CMPCVideoDecFilter(NULL, &hr);
+        if (FAILED(hr)) {
+            return hr;
+        }
+
+        pBF->SetFFmpegFilters(m_FFMpegFilters);
+        pBF->SetDXVAFilters(m_DXVAFilters);
+
+        *ppBF = pBF.Detach();
+
+        return hr;
+    }
+};
+
 //
 // CFGManager
 //
@@ -1862,7 +1891,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
     // High merit MPC Video Decoder
 #if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
-    pFGF = DEBUG_NEW CFGFilterInternal<CMPCVideoDecFilter>(MPCVideoDecName, MERIT64_ABOVE_DSHOW);
+    CAutoPtr<bool> autoPtrDXVAFilters(DEBUG_NEW bool[TRA_DXVA_LAST + !TRA_DXVA_LAST]);
+    memcpy(autoPtrDXVAFilters, dxva_filters, TRA_DXVA_LAST + !TRA_DXVA_LAST);
+
+    CAutoPtr<bool> autoPtrFFMpegFilters(DEBUG_NEW bool[FFM_LAST + !FFM_LAST]);
+    memcpy(autoPtrFFMpegFilters, ffmpeg_filters, FFM_LAST + !FFM_LAST);
+
+    pFGF = DEBUG_NEW CFGVideoDecoderInternal(MPCVideoDecName, MERIT64_ABOVE_DSHOW, autoPtrFFMpegFilters, autoPtrDXVAFilters);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
 
 #if INTERNAL_DECODER_FLV
@@ -2071,15 +2106,20 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     m_transform.AddTail(pFGF);
 #endif /* #if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS */
 
-#if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
-    CMPCVideoDecFilter::FFmpegFilters = (HAS_FFMPEG_DECODERS) ? s.FFmpegFilters : NULL;
-    CMPCVideoDecFilter::DXVAFilters = (HAS_DXVA_VIDEO_DECODERS) ? s.DXVAFilters : NULL;
-#endif
-
-#if 0 /* low merit instance doesn't work because the values in array CMPCVideoDecFilter::FFmpegFilters/DXVAFilters are 0 when formats are disabled in normal merit filter */
-#if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
     // Low merit MPC Video Decoder
-    pFGF = DEBUG_NEW CFGFilterInternal<CMPCVideoDecFilter>(LowMerit(MPCVideoDecName), MERIT64_DO_USE);
+#if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
+
+    CAutoPtr<bool> autoPtrDisabledDXVAFilters(DEBUG_NEW bool[TRA_DXVA_LAST + !TRA_DXVA_LAST]);
+    for (size_t i = 0; i < TRA_DXVA_LAST + !TRA_DXVA_LAST; i++) {
+        autoPtrDisabledDXVAFilters[i] = !dxva_filters[i];
+    }
+
+    CAutoPtr<bool> autoPtrDisabledFFMpegFilters(DEBUG_NEW bool[FFM_LAST + !FFM_LAST]);
+    for (size_t i = 0; i < FFM_LAST + !FFM_LAST; i++) {
+        autoPtrDisabledFFMpegFilters[i] = !ffmpeg_filters[i];
+    }
+
+    pFGF = DEBUG_NEW CFGVideoDecoderInternal(LowMerit(MPCVideoDecName), MERIT64_DO_USE, autoPtrDisabledFFMpegFilters, autoPtrDisabledDXVAFilters);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
 #if INTERNAL_DECODER_FLV
     if (!(ffmpeg_filters[FFM_FLV4])) {
@@ -2108,7 +2148,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_H264 | INTERNAL_DECODER_H264_DXVA
-    if (!(ffmpeg_filters[FFM_H264]) && !(dxva_filters[TRA_DXVA_H264])) {
+    if (!(ffmpeg_filters[FFM_H264]) || !(dxva_filters[TRA_DXVA_H264])) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_X264);
@@ -2135,7 +2175,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_VC1 | INTERNAL_DECODER_VC1_DXVA
-    if (!(ffmpeg_filters[FFM_VC1]) && !(dxva_filters[TRA_DXVA_VC1])) {
+    if (!(ffmpeg_filters[FFM_VC1]) || !(dxva_filters[TRA_DXVA_VC1])) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
     }
@@ -2201,7 +2241,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_WMV | INTERNAL_DECODER_WMV3_DXVA
-    if ((ffmpeg_filters[FFM_WMV]) || (dxva_filters[TRA_DXVA_WMV3])) {
+    if (!(ffmpeg_filters[FFM_WMV]) || !(dxva_filters[TRA_DXVA_WMV3])) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv3);
     }
@@ -2267,7 +2307,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_MJPEG
-    if (ffmpeg_filters[FFM_MJPEG]) {
+    if (!ffmpeg_filters[FFM_MJPEG]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPA);
@@ -2275,7 +2315,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_INDEO
-    if (ffmpeg_filters[FFM_INDEO]) {
+    if (!ffmpeg_filters[FFM_INDEO]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV31);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV32);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV41);
@@ -2284,7 +2324,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #endif
     m_transform.AddTail(pFGF);
 #endif /* HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS */
-#endif /* 0 */
 
 #if INTERNAL_DECODER_MPEG2
     // Keep software decoder after DXVA decoder !
