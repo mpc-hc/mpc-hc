@@ -875,7 +875,6 @@ public:
     CComPtr<IMFVideoProcessor>      m_pMFVP;
     CComPtr<IAMLine21Decoder_2>     m_pLN21;
     CVMROSD     m_OSD;
-    bool        m_OpenFile;
     bool        m_bRemainingTime;
     int         m_nCurSubtitle;
     long        m_lSubtitleShift;

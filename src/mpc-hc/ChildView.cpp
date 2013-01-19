@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -153,10 +153,6 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
     ON_WM_PAINT()
     ON_WM_ERASEBKGND()
     ON_WM_SIZE()
-    ON_COMMAND_EX(ID_PLAY_PLAYPAUSE, OnPlayPlayPauseStop)
-    ON_COMMAND_EX(ID_PLAY_PLAY, OnPlayPlayPauseStop)
-    ON_COMMAND_EX(ID_PLAY_PAUSE, OnPlayPlayPauseStop)
-    ON_COMMAND_EX(ID_PLAY_STOP, OnPlayPlayPauseStop)
     ON_WM_SETCURSOR()
     //}}AFX_MSG_MAP
     //  ON_WM_NCHITTEST()
@@ -214,29 +210,6 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
     CWnd::OnSize(nType, cx, cy);
 
     ((CMainFrame*)GetParentFrame())->MoveVideoWindow();
-}
-
-BOOL CChildView::OnPlayPlayPauseStop(UINT nID)
-{
-    if (nID == ID_PLAY_STOP) {
-        SetVideoRect();
-    }
-    CString osd = ResStr(nID);
-    int i = osd.Find(_T("\n"));
-    if (i > 0) {
-        osd.Delete(i, osd.GetLength() - i);
-    }
-
-    CRect r1;
-    ((CMainFrame*)AfxGetMainWnd())->GetClientRect(&r1);
-    if ((!r1.Width()) || (!r1.Height())) {
-        return FALSE;
-    }
-
-    if (!(((CMainFrame*)AfxGetMainWnd())->m_OpenFile)) {
-        ((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, osd, 1500);
-    }
-    return FALSE;
 }
 
 BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
