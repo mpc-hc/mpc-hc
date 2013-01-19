@@ -34,7 +34,6 @@ private:
     int holdover;
     long* filter_bank;
     int filter_width;
-    bool fHighQuality;
 
     enum { BUFFER_SIZE = 512 };
     BYTE cbuffer[4 * BUFFER_SIZE];
