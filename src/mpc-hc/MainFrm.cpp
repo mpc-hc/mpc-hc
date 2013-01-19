@@ -5216,8 +5216,14 @@ void CMainFrame::OnFileSaveImage()
     }
 
     CPath pdst(fd.GetPathName());
-    if (pdst.GetExtension().MakeLower() != s.strSnapShotExt) {
-        pdst.RenameExtension(s.strSnapShotExt);
+    CString ext(pdst.GetExtension().MakeLower());
+    if (ext != s.strSnapShotExt) {
+        if (ext == _T(".bmp") || ext == _T(".jpg") || ext == _T(".png")) {
+            ext = s.strSnapShotExt;
+        } else {
+            ext += s.strSnapShotExt;
+        }
+        pdst.RenameExtension(ext);
     }
     CString path = (LPCTSTR)pdst;
     pdst.RemoveFileSpec();
@@ -5304,8 +5310,14 @@ void CMainFrame::OnFileSaveThumbnails()
     s.iThumbWidth = fd.m_width;
 
     CPath pdst(fd.GetPathName());
-    if (pdst.GetExtension().MakeLower() != s.strSnapShotExt) {
-        pdst.RenameExtension(s.strSnapShotExt);
+    CString ext(pdst.GetExtension().MakeLower());
+    if (ext != s.strSnapShotExt) {
+        if (ext == _T(".bmp") || ext == _T(".jpg") || ext == _T(".png")) {
+            ext = s.strSnapShotExt;
+        } else {
+            ext += s.strSnapShotExt;
+        }
+        pdst.RenameExtension(ext);
     }
     CString path = (LPCTSTR)pdst;
     pdst.RemoveFileSpec();
