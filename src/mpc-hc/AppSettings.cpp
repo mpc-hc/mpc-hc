@@ -893,7 +893,7 @@ void CAppSettings::LoadSettings()
     fExitAfterPlayback = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_EXIT_AFTER_PB, FALSE);
     fNextInDirAfterPlayback = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_NEXT_AFTER_PB, FALSE);
     // TODO: Change IDS_RS_MPC_NO_SEARCH_IN_FOLDER into IDS_RS_SEARCH_IN_FOLDER
-    fUseSearchInFolder = !pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_NO_SEARCH_IN_FOLDER, 0);
+    fUseSearchInFolder = !pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_NO_SEARCH_IN_FOLDER, FALSE);
     fUseTimeTooltip = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, TRUE);
     nTimeTooltipPosition = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, TIME_TOOLTIP_ABOVE_SEEKBAR);
     nOSDSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_OSD_SIZE, SysVersion::IsVistaOrLater() ? 18 : 20);
@@ -1038,7 +1038,7 @@ void CAppSettings::LoadSettings()
 
             CAutoPtr<FilterOverride> f(DEBUG_NEW FilterOverride);
 
-            f->fDisabled = !pApp->GetProfileInt(key, _T("Enabled"), 0);
+            f->fDisabled = !pApp->GetProfileInt(key, _T("Enabled"), FALSE);
 
             UINT j = pApp->GetProfileInt(key, _T("SourceType"), -1);
             if (j == 0) {
@@ -1404,7 +1404,7 @@ void CAppSettings::LoadSettings()
 
 bool CAppSettings::GetAllowMultiInst() const
 {
-    return !!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MULTIINST, 0);
+    return !!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MULTIINST, FALSE);
 }
 
 void CAppSettings::UpdateRenderersData(bool fSave)
