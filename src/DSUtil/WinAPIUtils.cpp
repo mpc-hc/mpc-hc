@@ -166,9 +166,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 
         buffer.Format(_T("%s\\%s"), keyName, subKeyName);
 
-        errorCode = ExportRegistryKey(file, hKeyRoot, buffer);
-        if (errorCode != ERROR_SUCCESS) {
-            SetLastError(errorCode);
+        if (!ExportRegistryKey(file, hKeyRoot, buffer)) {
             return false;
         }
     }
