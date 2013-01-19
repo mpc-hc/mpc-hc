@@ -267,6 +267,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     void AddTextPassThruFilter();
 
     int m_nLoops;
+    UINT m_nLastSkipDirection;
 
     bool m_fCustomGraph;
     bool m_fRealMediaGraph, m_fShockwaveGraph, m_fQuicktimeGraph;
@@ -281,6 +282,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     bool m_fEndOfStream;
 
     LARGE_INTEGER m_liLastSaveTime;
+    DWORD m_dwLastRun;
 
     bool m_fBuffering;
 
@@ -364,6 +366,7 @@ public:
 
 protected:
     MPC_LOADSTATE m_iMediaLoadState;
+    bool m_bFirstPlay;
 
     bool m_fAudioOnly;
     dispmode m_dmBeforeFullscreen;

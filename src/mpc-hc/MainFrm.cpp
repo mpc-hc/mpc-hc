@@ -113,10 +113,6 @@ using namespace MediaInfoLib;
 using namespace MediaInfoDLL;
 #endif
 
-DWORD last_run = 0;
-UINT flast_nID = 0;
-bool b_firstPlay = false;
-
 class CSubClock : public CUnknown, public ISubClock
 {
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
@@ -593,6 +589,8 @@ const TCHAR* GetEventString(LONG evCode)
 CMainFrame::CMainFrame()
     : m_iMediaLoadState(MLS_CLOSED)
     , m_iPlaybackMode(PM_NONE)
+    , m_bFirstPlay(false)
+    , m_dwLastRun(0)
     , m_dSpeedRate(1.0)
     , m_rtDurationOverride(-1)
     , m_fFullScreen(false)
@@ -602,6 +600,7 @@ CMainFrame::CMainFrame()
     , m_pLastBar(NULL)
     , m_nCS(0)
     , m_nLoops(0)
+    , m_nLastSkipDirection(0)
     , m_posFirstExtSub(NULL)
     , m_iSubtitleSel(-1)
     , m_ZoomX(1)
@@ -4320,10 +4319,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             OpenMedia(p);
         } else {
-            if (last_run && ((GetTickCount() - last_run) < 500)) {
+            if (m_dwLastRun && ((GetTickCount() - m_dwLastRun) < 500)) {
                 s.nCLSwitches |= CLSW_ADD;
             }
-            last_run = GetTickCount();
+            m_dwLastRun = GetTickCount();
 
             if ((s.nCLSwitches & CLSW_ADD) && m_wndPlaylistBar.GetCount() > 0) {
                 m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
@@ -7024,7 +7023,7 @@ void CMainFrame::OnViewOptions()
 void CMainFrame::OnPlayPlay()
 {
     if (m_iMediaLoadState == MLS_CLOSED) {
-        b_firstPlay = false;
+        m_bFirstPlay = false;
         OpenCurPlaylistItem();
         return;
     }
@@ -7086,8 +7085,8 @@ void CMainFrame::OnPlayPlay()
         strPlay.Delete(i, strPlay.GetLength() - i);
     }
 
-    if (b_firstPlay) {
-        b_firstPlay = false;
+    if (m_bFirstPlay) {
+        m_bFirstPlay = false;
 
         if (GetPlaybackMode() == PM_FILE) {
             if (!m_LastOpenBDPath.IsEmpty()) {
@@ -8244,7 +8243,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 {
     if (GetPlaybackMode() == PM_FILE) {
         SetupChapters();
-        flast_nID = nID;
+        m_nLastSkipDirection = nID;
 
         if (DWORD nChapters = m_pCB->ChapGetCount()) {
             REFERENCE_TIME rtCur;
@@ -11985,7 +11984,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
 
-        b_firstPlay = true;
+        m_bFirstPlay = true;
 
         if (!(AfxGetAppSettings().nCLSwitches & CLSW_OPEN) && (AfxGetAppSettings().nLoops > 0)) {
             PostMessage(WM_COMMAND, ID_PLAY_PLAY);
@@ -12052,7 +12051,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 if (s.fLoopForever || m_nLoops < s.nLoops) {
                     bool hasValidFile = false;
 
-                    if (flast_nID == ID_NAVIGATE_SKIPBACK) {
+                    if (m_nLastSkipDirection == ID_NAVIGATE_SKIPBACK) {
                         hasValidFile = m_wndPlaylistBar.SetPrev();
                     } else {
                         hasValidFile = m_wndPlaylistBar.SetNext();
@@ -12078,7 +12077,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
     }
 
-    flast_nID = 0;
+    m_nLastSkipDirection = 0;
 
     if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) {
         AutoChangeMonitorMode();
