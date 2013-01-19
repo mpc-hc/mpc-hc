@@ -129,6 +129,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 #endif /* INTERNAL_DECODER_H264 */
     p.y += h25;
 
+    // Read AR from stream
     m_cbARMode.Create(ResStr(IDS_VDF_AR_MODE), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(340), m_fontheight)), this, IDC_PP_AR);
     m_cbARMode.SetCheck(FALSE);
     p.y += h25;
@@ -155,6 +156,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_ALLCHECK));
     p.y += h25;
 
+    // Set DXVA for SD (H.264)
     m_cbDXVA_SD.Create(ResStr(IDS_VDF_DXVA_SD), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(340), m_fontheight)), this, IDC_PP_DXVA_SD);
     m_cbDXVA_SD.SetCheck(FALSE);
     p.y += h20;
