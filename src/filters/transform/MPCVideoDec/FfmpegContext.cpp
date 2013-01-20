@@ -78,46 +78,51 @@ const byte ZZ_SCAN8[64] = {
 };
 
 static const WORD PCID_NVIDIA_VP5[] = {
-    // http://us.download.nvidia.com/XFree86/Linux-x86_64/304.51/README/supportedchips.html
+    // http://us.download.nvidia.com/XFree86/Linux-x86_64/310.19/README/supportedchips.html
     // Nvidia VDPAU Feature Set D
-    0x0FC6, // GeForce GTX 650
-    0x0FCE, // GeForce GT 640M LE
-    0x0FD1, // GeForce GT 650M
-    0x0FD2, // GeForce GT 640M
-    0x0FD3, // GeForce GT 640M LE
-    0x0FD4, // GeForce GTX 660M
-    0x0FD5, // GeForce GT 650M
-    0x0FD8, // GeForce GT 640M
-    0x0FD9, // GeForce GT 645M
-    0x0FE0, // GeForce GTX 660M
-    0x0FFB, // Quadro K2000M
-    0x0FFC, // Quadro K1000M
-    0x0FFD, // NVS 510
-    0x0FFF, // Quadro 410
-    0x1042, // GeForce 510
-    0x1048, // GeForce 605
-    0x104A, // GeForce GT 610
-    0x1051, // GeForce GT 520MX
-    0x1054, // GeForce 410M
-    0x1055, // GeForce 410M
-    0x1056, // NVS 4200M
-    0x1057, // NVS 4200M
-    0x107D, // NVS 310
-    0x1180, // GeForce GTX 680
-    0x1183, // GeForce GTX 660 Ti
-    0x1185, // GeForce GTX 660
-    0x1188, // GeForce GTX 690
-    0x1189, // GeForce GTX 670
-    0x118F, // Tesla K10
-    0x11A0, // GeForce GTX 680M
-    0x11A1, // GeForce GTX 670MX
-    0x11A7, // GeForce GTX 675MX
-    0x11BA, // Quadro K5000
-    0x11BC, // Quadro K5000M
-    0x11BD, // Quadro K4000M
-    0x11BE, // Quadro K3000M
-    0x11C0, // GeForce GTX 660
-    0x11C6, // GeForce GTX 650 Ti
+    0x0FC6 , // GeForce GTX 650
+    0x0FCE , // GeForce GT 640M LE
+    0x0FD1 , // GeForce GT 650M
+    0x0FD2 , // GeForce GT 640M
+    0x0FD3 , // GeForce GT 640M LE
+    0x0FD4 , // GeForce GTX 660M
+    0x0FD5 , // GeForce GT 650M
+    0x0FD8 , // GeForce GT 640M
+    0x0FD9 , // GeForce GT 645M
+    0x0FE0 , // GeForce GTX 660M
+    0x0FF2 , // VGX K1
+    0x0FFB , // Quadro K2000M
+    0x0FFC , // Quadro K1000M
+    0x0FFD , // NVS 510
+    0x0FFF , // Quadro 410
+    0x1022 , // Tesla K20c
+    0x1028 , // Tesla K20m
+    0x1040 , // GeForce GT 520 (not officially supported or typo) (4k tested)
+    0x1042 , // GeForce 510
+    0x1048 , // GeForce 605
+    0x104A , // GeForce GT 610 (fully tested)
+    0x1051 , // GeForce GT 520MX
+    0x1054 , // GeForce 410M
+    0x1055 , // GeForce 410M
+    0x1056 , // NVS 4200M
+    0x1057 , // NVS 4200M
+    0x107D , // NVS 310
+    0x1180 , // GeForce GTX 680
+    0x1183 , // GeForce GTX 660 Ti (fully tested)
+    0x1185 , // GeForce GTX 660
+    0x1188 , // GeForce GTX 690
+    0x1189 , // GeForce GTX 670
+    0x118F , // Tesla K10
+    0x11A0 , // GeForce GTX 680M
+    0x11A1 , // GeForce GTX 670MX
+    0x11A7 , // GeForce GTX 675MX
+    0x11BA , // Quadro K5000
+    0x11BC , // Quadro K5000M
+    0x11BD , // Quadro K4000M
+    0x11BE , // Quadro K3000M
+    0x11BF , // VGX K2
+    0x11C0 , // GeForce GTX 660
+    0x11C6 , // GeForce GTX 650 Ti
 };
 
 bool CheckPCID(WORD pcid, const WORD* pPCIDs, size_t len)
