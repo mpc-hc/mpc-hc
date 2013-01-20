@@ -20,6 +20,7 @@
 
 
 #include "stdafx.h"
+#include "mpc-hc_config.h"
 #include "version.h"
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
@@ -29,7 +30,7 @@
 #include <afxinet.h>
 
 const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_NUM };
-const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = _T("http://www.mpc-hc.org/version.txt");
+const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = UPDATE_URL;
 
 bool UpdateChecker::bIsCheckingForUpdate = false;
 CCritSec UpdateChecker::csIsCheckingForUpdate;

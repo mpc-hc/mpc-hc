@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "AboutDlg.h"
+#include "mpc-hc_config.h"
 #ifndef MPCHC_LITE
 #include "InternalFiltersConfig.h" // needed for HAS_FFMPEG
 #endif
@@ -156,7 +157,7 @@ END_MESSAGE_MAP()
 
 void CAboutDlg::OnHomepage(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    ShellExecute(m_hWnd, _T("open"), _T("http://www.mpc-hc.org/"), NULL, NULL, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), WEBSITE_URL, NULL, NULL, SW_SHOWDEFAULT);
     *pResult = 0;
 }
 

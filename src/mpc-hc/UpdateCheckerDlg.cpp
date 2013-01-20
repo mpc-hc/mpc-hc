@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include "UpdateCheckerDlg.h"
+#include "mpc-hc_config.h"
 #include <afxdialogex.h>
 
 IMPLEMENT_DYNAMIC(UpdateCheckerDlg, CDialog)
@@ -126,7 +127,7 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 
 void UpdateCheckerDlg::OnOpenDownloadPage()
 {
-    ShellExecute(NULL, _T("open"), _T("http://www.mpc-hc.org/downloads/"), NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, _T("open"), DOWNLOAD_URL, NULL, NULL, SW_SHOWNORMAL);
 
     EndDialog(IDC_UPDATE_DL_BUTTON);
 }

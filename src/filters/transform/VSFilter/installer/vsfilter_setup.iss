@@ -29,6 +29,7 @@
 #define copyright "2001-2013"
 #define top_dir   "..\..\..\..\.."
 
+#include top_dir + "\include\mpc-hc_config.h"
 #include top_dir + "\include\version.h"
 #define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
 
@@ -65,10 +66,10 @@ AppName=DirectVobSub
 AppVerName=DirectVobSub {#app_version}
 AppVersion={#app_version}
 AppPublisher=MPC-HC Team
-AppPublisherURL=http://www.mpc-hc.org/
-AppSupportURL=http://www.mpc-hc.org/bug-reports/
-AppUpdatesURL=http://www.mpc-hc.org/
-AppContact=http://www.mpc-hc.org/contact-us/
+AppPublisherURL={#WEBSITE_URL}
+AppSupportURL={#WEBSITE_URL}bug-reports/
+AppUpdatesURL={#WEBSITE_URL}
+AppContact={#WEBSITE_URL}contact-us/
 AppCopyright=Copyright © {#copyright}, see Authors.txt file
 VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright=Copyright © {#copyright}, MPC-HC Team

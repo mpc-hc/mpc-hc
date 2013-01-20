@@ -31,6 +31,7 @@
 #include <atlrx.h>
 #include <atlsync.h>
 
+#include "mpc-hc_config.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
 #include "OpenFileDlg.h"
@@ -9097,7 +9098,7 @@ void CMainFrame::OnUpdateFavoritesDevice(CCmdUI* pCmdUI)
 
 void CMainFrame::OnHelpHomepage()
 {
-    ShellExecute(m_hWnd, _T("open"), _T("http://www.mpc-hc.org/"), NULL, NULL, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), WEBSITE_URL, NULL, NULL, SW_SHOWDEFAULT);
 }
 
 void CMainFrame::OnHelpCheckForUpdate()
@@ -9107,7 +9108,7 @@ void CMainFrame::OnHelpCheckForUpdate()
 
 void CMainFrame::OnHelpToolbarImages()
 {
-    ShellExecute(m_hWnd, _T("open"), _T("http://trac.mpc-hc.org/wiki/Toolbar_images"), NULL, NULL, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), TOOLBARS_URL, NULL, NULL, SW_SHOWDEFAULT);
 }
 
 void CMainFrame::OnHelpDonate()
