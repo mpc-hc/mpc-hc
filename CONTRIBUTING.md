@@ -2,13 +2,14 @@
 
 ## Reporting Issues
 
-1. Make sure you have a [SourceForge account](http://sourceforge.net/account/login.php).
-2. Please search our [Trac](http://sourceforge.net/apps/trac/mpc-hc/report/1)
+1. Make sure you have access to our [Trac](http://trac.mpc-hc.org/login) (note that
+   [OpenID authentification](http://trac.mpc-hc.org/openidlogin) is available).
+2. Please search our [Trac](http://trac.mpc-hc.org/report/1)
    for your problem since there's a good chance that someone has already reported it.
 3. In case you found a match, please try to provide as much info as you can
    so we have better picture about what the real problem is and how to fix it ASAP.
 4. If you didn't find tickets with problem similar to yours then please open a
-   [new ticket](http://sourceforge.net/apps/trac/mpc-hc/ticket/newticket)
+   [new ticket](http://trac.mpc-hc.org/ticket/newticket)
    * Be descriptive as much as you can
    * Provide screenshots, samples, system/hardware information
 

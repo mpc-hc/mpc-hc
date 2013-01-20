@@ -1,6 +1,6 @@
 For up to date instructions on how to compile mpc-hc visit the wiki page:
 
-http://sourceforge.net/apps/trac/mpc-hc/wiki/How_to_compile_the_MPC
+http://trac.mpc-hc.org/wiki/How_to_compile_the_MPC
 
 
 Part A: Preparing the Visual Studio environment

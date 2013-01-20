@@ -9253,7 +9253,7 @@ void CMainFrame::OnHelpDocumentation()
 
 void CMainFrame::OnHelpToolbarImages()
 {
-    ShellExecute(m_hWnd, _T("open"), _T("http://sourceforge.net/apps/trac/mpc-hc/wiki/Toolbar_images"), NULL, NULL, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), _T("http://trac.mpc-hc.org/wiki/Toolbar_images"), NULL, NULL, SW_SHOWDEFAULT);
 }
 
 void CMainFrame::OnHelpDonate()

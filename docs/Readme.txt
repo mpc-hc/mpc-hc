@@ -35,9 +35,9 @@ Links:
 -------
 Website:            http://mpc-hc.sourceforge.net
 Source code:        https://github.com/mpc-hc
-Support Trac:       http://sourceforge.net/apps/trac/mpc-hc
+Support Trac:       http://trac.mpc-hc.org
 IRC Channel:        #mpc-hc / #mpc-hc-dev at Freenode (http://webchat.freenode.net/)
-Help and Support:   http://sourceforge.net/apps/trac/mpc-hc/
+Help and Support:   http://trac.mpc-hc.org
 Donations:          http://sourceforge.net/donate/index.php?group_id=170561
 
 

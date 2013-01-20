@@ -11,7 +11,7 @@ website, please join our IRC channel and talk to us. Any help is always apprecia
 
 Find some easy ticket on our trac page, fix the problem, send a
 [pull request](https://github.com/mpc-hc/mpc-hc/pulls),
-or post the patch on [trac](http://sourceforge.net/apps/trac/mpc-hc)
+or post the patch on [trac](http://trac.mpc-hc.org)
 or come on IRC and we'll review it for you.
 
 We care about keeping an open project open and free for contributions wherever they may come from.
@@ -43,10 +43,10 @@ Links:
 ------
 * [Website](http://mpc-hc.sourceforge.net)
 * [Source code](https://github.com/mpc-hc)
-* [Support Trac](http://sourceforge.net/apps/trac/mpc-hc)
+* [Support Trac](http://trac.mpc-hc.org)
 * IRC Channel: [#mpc-hc](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
   / [#mpc-hc-dev](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](http://freenode.net/)
-* [Help and Support](http://sourceforge.net/apps/trac/mpc-hc/)
+* [Help and Support](http://trac.mpc-hc.org)
 * [Donations](http://sourceforge.net/donate/index.php?group_id=170561)
 
 
