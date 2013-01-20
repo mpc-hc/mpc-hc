@@ -44,3 +44,4 @@ Legend:
 ! Ticket #2839, Post-resize shaders didn't work with VMR-9 (renderless)
 ! Ticket #2855, The filename could be wrong when saving a screenshot or thumbnails.
 ! Ticket #2863, The OSD was incorrect when restarting the playback of a file after it ended.
+! Ticket #2864, VobSub subtitles were autoloaded twice.

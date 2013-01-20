@@ -4551,12 +4551,18 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
     }
 
     if (sl.GetCount() == 1 && m_iMediaLoadState == MLS_LOADED && m_pCAP) {
+        CPath fn(sl.GetHead());
+        // If the user is trying to load VobSub subtitles from the .sub file,
+        // we try to load the subtitles from the corresponding .idx files instead.
+        if (fn.GetExtension().MakeLower() == _T(".sub")) {
+            fn.RenameExtension(_T(".idx"));
+        }
+
         ISubStream* pSubStream = NULL;
-        if (LoadSubtitle(sl.GetHead(), &pSubStream)) {
+        if (LoadSubtitle(fn, &pSubStream)) {
             SetSubtitle(pSubStream); // Use the subtitles file that was just added
-            CPath p(sl.GetHead());
-            p.StripPath();
-            SendStatusMessage(CString((LPCTSTR)p) + ResStr(IDS_MAINFRM_47), 3000);
+            fn.StripPath();
+            SendStatusMessage((CString&)fn + ResStr(IDS_MAINFRM_47), 3000);
             return;
         }
     }
@@ -5349,8 +5355,15 @@ void CMainFrame::OnFileLoadsubtitle()
         return;
     }
 
+    CPath fn(fd.GetPathName());
+    // If the user is trying to load VobSub subtitles from the .sub file,
+    // we try to load the subtitles from the corresponding .idx files instead.
+    if (fn.GetExtension().MakeLower() == _T(".sub")) {
+        fn.RenameExtension(_T(".idx"));
+    }
+
     ISubStream* pSubStream = NULL;
-    if (LoadSubtitle(fd.GetPathName(), &pSubStream)) {
+    if (LoadSubtitle(fn, &pSubStream)) {
         SetSubtitle(pSubStream);  // Use the subtitles file that was just added
     }
 }
@@ -13706,8 +13719,7 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
     try {
         if (!pSubStream) {
             CAutoPtr<CVobSubFile> pVSF(DEBUG_NEW CVobSubFile(&m_csSubLock));
-            CString ext = CPath(fn).GetExtension().MakeLower();
-            if ((ext == _T(".idx") || ext == _T(".sub")) && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
+            if (CPath(fn).GetExtension().MakeLower() == _T(".idx") && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
                 pSubStream = pVSF.Detach();
             }
         }
