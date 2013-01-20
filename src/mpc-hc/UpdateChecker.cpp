@@ -29,7 +29,7 @@
 #include <afxinet.h>
 
 const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_NUM };
-const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = _T("http://mpc-hc.sourceforge.net/version.txt");
+const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = _T("http://www.mpc-hc.org/version.txt");
 
 bool UpdateChecker::bIsCheckingForUpdate = false;
 CCritSec UpdateChecker::csIsCheckingForUpdate;

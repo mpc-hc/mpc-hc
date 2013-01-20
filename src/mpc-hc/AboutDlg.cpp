@@ -156,7 +156,7 @@ END_MESSAGE_MAP()
 
 void CAboutDlg::OnHomepage(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), _T("http://www.mpc-hc.org/"), NULL, NULL, SW_SHOWDEFAULT);
     *pResult = 0;
 }
 

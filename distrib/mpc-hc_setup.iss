@@ -120,10 +120,10 @@ AppName={#app_name}
 AppVersion={#app_version}
 AppVerName={#app_vername}
 AppPublisher=MPC-HC Team
-AppPublisherURL=http://mpc-hc.sourceforge.net/
-AppSupportURL=http://mpc-hc.sourceforge.net/bug-reports/
-AppUpdatesURL=http://mpc-hc.sourceforge.net/
-AppContact=http://mpc-hc.sourceforge.net/contact-us/
+AppPublisherURL=http://www.mpc-hc.org/
+AppSupportURL=http://www.mpc-hc.org/bug-reports/
+AppUpdatesURL=http://www.mpc-hc.org/
+AppContact=http://www.mpc-hc.org/contact-us/
 AppCopyright=Copyright © {#copyright_year} all contributors, see Authors.txt
 VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright=Copyright © {#copyright_year}, MPC-HC Team
@@ -267,7 +267,7 @@ Name: {userdesktop}\{#app_name};                 Filename: {app}\{#mpchc_exe}; C
 Name: {#quick_launch}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_vername}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #endif
 Name: {group}\Changelog;                         Filename: {app}\Changelog.txt; Comment: {cm:ViewChangelog};                WorkingDir: {app}
-Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: http://mpc-hc.sourceforge.net/
+Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: http://www.mpc-hc.org/
 Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe};      Comment: {cm:UninstallProgram,{#app_name}}; WorkingDir: {app}
 
 

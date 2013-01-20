@@ -163,7 +163,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
     }
 #else
     if (MessageBox(NULL, ResStr(IDS_MPC_BUG_REPORT), ResStr(IDS_MPC_BUG_REPORT_TITLE), MB_YESNO) == IDYES) {
-        ShellExecute(NULL, _T("open"), _T("http://mpc-hc.sourceforge.net/downloads/"), NULL, NULL, SW_SHOWDEFAULT);
+        ShellExecute(NULL, _T("open"), _T("http://www.mpc-hc.org/downloads/"), NULL, NULL, SW_SHOWDEFAULT);
     }
 #endif // DISABLE_MINIDUMP
 

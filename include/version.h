@@ -56,7 +56,7 @@
 
 #define MPC_COMP_NAME_STR    _T("MPC-HC Team")
 #define MPC_COPYRIGHT_STR    _T("Copyright © 2002-2013 all contributors, see Authors.txt")
-#define MPC_VERSION_COMMENTS _T("http://sourceforge.net/projects/mpc-hc/")
+#define MPC_VERSION_COMMENTS _T("http://www.mpc-hc.org/")
 
 #ifndef ISPP_INVOKED
 

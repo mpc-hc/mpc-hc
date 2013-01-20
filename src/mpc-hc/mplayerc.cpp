@@ -2138,7 +2138,7 @@ bool CMPlayerCApp::SetLanguage(const LanguageResource& languageResource, bool sh
                     int sel = MessageBox(NULL, _T("Your language pack will not work with this version.\n\nDo you want to visit the download page to get a full package including the translations?"),
                                          _T("Media Player Classic - Home Cinema"), MB_ICONWARNING | MB_YESNO);
                     if (sel == IDYES) {
-                        ShellExecute(NULL, _T("open"), _T("http://mpc-hc.sourceforge.net/downloads/"), NULL, NULL, SW_SHOWDEFAULT);
+                        ShellExecute(NULL, _T("open"), _T("http://www.mpc-hc.org/downloads/"), NULL, NULL, SW_SHOWDEFAULT);
                     }
                 }
                 // Free the loaded resource dll

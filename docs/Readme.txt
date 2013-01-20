@@ -33,9 +33,9 @@ System Requirements:
 
 Links:
 -------
-Website:            http://mpc-hc.sourceforge.net
+Website:            http://www.mpc-hc.org
 Source code:        https://github.com/mpc-hc
-Support Trac:       http://trac.mpc-hc.org
+Support Trac:       https://trac.mpc-hc.org
 IRC Channel:        #mpc-hc / #mpc-hc-dev at Freenode (http://webchat.freenode.net/)
 Donations:          http://sourceforge.net/donate/index.php?group_id=170561
 

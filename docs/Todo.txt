@@ -25,7 +25,7 @@ FLACSource:
 1) Use ffmpeg instead of libflac
 
 Installer:
-1) Add file association tasks, see http://trac.mpc-hc.org/ticket/2207
+1) Add file association tasks, see https://trac.mpc-hc.org/ticket/2207
 
 VSFilter:
 1) Use the defines from version.h for MPC_COPYRIGHT_STR in VSFilter
