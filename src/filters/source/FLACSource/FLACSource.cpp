@@ -28,7 +28,7 @@
 #include "moreuuids.h"
 #include "FLACSource.h"
 #include "../../../DSUtil/DSUtil.h"
-#include "libflac/include/FLAC/stream_decoder.h"
+#include "libflac/src/libflac/include/protected/stream_decoder.h"
 
 #define _DECODER_   (FLAC__StreamDecoder*)m_pDecoder
 
@@ -305,7 +305,11 @@ HRESULT CFLACStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, l
     m_file.Read(pOut, len);
     m_file.Seek(llCurFile, CFile::begin);
 
-    m_AvgTimePerFrame = m_rtDuration * len / (m_llFileSize - m_llOffset);
+    if ((_DECODER_)->protected_->blocksize > 0 && (_DECODER_)->protected_->sample_rate > 0) {
+        m_AvgTimePerFrame = (_DECODER_)->protected_->blocksize * UNITS / (_DECODER_)->protected_->sample_rate;
+    } else {
+        m_AvgTimePerFrame = m_rtDuration * len / (m_llFileSize - m_llOffset);
+    }
 
     return S_OK;
 }

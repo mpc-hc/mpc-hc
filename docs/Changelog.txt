@@ -43,5 +43,7 @@ Legend:
 ! Ticket #2838, The window wasn't draggable anymore by clicking on the information panel
 ! Ticket #2839, Post-resize shaders didn't work with VMR-9 (renderless)
 ! Ticket #2855, The filename could be wrong when saving a screenshot or thumbnails.
+! Ticket #2859, Flac Source: Improve timestamps accuracy. This fixes some cases where the
+  end of the file wasn't played.
 ! Ticket #2863, The OSD was incorrect when restarting the playback of a file after it ended.
 ! Ticket #2864, VobSub subtitles were autoloaded twice.
