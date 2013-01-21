@@ -867,7 +867,8 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor, DWORD nPCIDevic
             return TRUE;
         }
     } else if (nPCIVendor == PCIV_Intel && nPCIDevice == PCID_Intel_HD4000) {
-        if (width <= 4096 && height <= 4096 && width * height <= 56672 * 16 * 16) {
+        //if (width <= 4096 && height <= 4096 && width * height <= 56672 * 16 * 16) {
+        if (width <= 4096 && height <= 4096) { // driver v.9.17.10.2867
             // complete test was performed
             return TRUE;
         }
