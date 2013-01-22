@@ -130,7 +130,7 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcc.a;libmingwex.a;Vfw32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;Vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110'">false</ImageHasSafeExceptionHandlers>
@@ -144,7 +144,7 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcc.a;libmingwex.a;Vfw32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;Vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110'">false</ImageHasSafeExceptionHandlers>
@@ -158,7 +158,7 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcc.a;libmingwex.a;Vfw32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;Vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110'">false</ImageHasSafeExceptionHandlers>
@@ -172,7 +172,7 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcc.a;libmingwex.a;Vfw32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;Vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers Condition="'$(PlatformToolsetVersion)'=='110'">false</ImageHasSafeExceptionHandlers>
