@@ -458,6 +458,8 @@ public:
     void SetAudioTrackIdx(int index);
     void SetSubtitleTrackIdx(int index);
 
+    void AddFavorite(bool fDisplayMessage = false, bool fShowDialog = true);
+
     // shaders
     CAtlList<CString> m_shaderlabels;
     CAtlList<CString> m_shaderlabelsScreenSpace;

@@ -8781,142 +8781,12 @@ public:
     }
 };
 
-void CMainFrame::OnFavoritesAdd()
-{
-    CAppSettings& s = AfxGetAppSettings();
-    bool is_BD = false;
-
-    if (GetPlaybackMode() == PM_FILE) {
-        CString fn =  m_wndPlaylistBar.GetCurFileName();
-        if (fn.IsEmpty()) {
-            BeginEnumFilters(pGB, pEF, pBF) {
-                CComQIPtr<IFileSourceFilter> pFSF = pBF;
-                if (pFSF) {
-                    LPOLESTR pFN = NULL;
-                    AM_MEDIA_TYPE mt;
-                    if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
-                        fn = CStringW(pFN);
-                        CoTaskMemFree(pFN);
-                    }
-                    break;
-                }
-            }
-            EndEnumFilters;
-            if (fn.IsEmpty()) {
-                return;
-            }
-            is_BD = true;
-        }
-
-        CString desc = fn;
-        desc.Replace('\\', '/');
-        int i = desc.Find(_T("://")), j = desc.Find(_T("?")), k = desc.ReverseFind('/');
-        if (i >= 0) {
-            desc = j >= 0 ? desc.Left(j) : desc;
-        } else if (k >= 0) {
-            desc = desc.Mid(k + 1);
-        }
-
-        CFavoriteAddDlg dlg(desc, fn);
-        if (dlg.DoModal() != IDOK) {
-            return;
-        }
-
-        // Name
-        CString str = dlg.m_name;
-        str.Remove(';');
-
-        // RememberPos
-        CString pos(_T("0"));
-        if (dlg.m_bRememberPos) {
-            pos.Format(_T("%I64d"), GetPos());
-        }
-
-        str += ';';
-        str += pos;
-
-        // RelativeDrive
-        CString relativeDrive;
-        relativeDrive.Format(_T("%d"), dlg.m_bRelativeDrive);
-
-        str += ';';
-        str += relativeDrive;
-
-        // Paths
-        if (is_BD) {
-            str += _T(";") + fn;
-        } else {
-            CPlaylistItem pli;
-            if (m_wndPlaylistBar.GetCur(pli)) {
-                POSITION pos = pli.m_fns.GetHeadPosition();
-                while (pos) {
-                    str += _T(";") + pli.m_fns.GetNext(pos);
-                }
-            }
-        }
-
-        s.AddFav(FAV_FILE, str);
-    } else if (GetPlaybackMode() == PM_DVD) {
-        WCHAR path[MAX_PATH];
-        ULONG len = 0;
-        pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
-        CString fn = path;
-        fn.TrimRight(_T("/\\"));
-
-        DVD_PLAYBACK_LOCATION2 Location;
-        pDVDI->GetCurrentLocation(&Location);
-        CString desc;
-        desc.Format(_T("%s - T%02d C%02d - %02d:%02d:%02d"), fn, Location.TitleNum, Location.ChapterNum,
-                    Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds);
-
-        CFavoriteAddDlg dlg(fn, desc);
-        if (dlg.DoModal() != IDOK) {
-            return;
-        }
-
-        // Name
-        CString str = dlg.m_name;
-        str.Remove(';');
-
-        // RememberPos
-        CString pos(_T("0"));
-        if (dlg.m_bRememberPos) {
-            CDVDStateStream stream;
-            stream.AddRef();
-
-            CComPtr<IDvdState> pStateData;
-            CComQIPtr<IPersistStream> pPersistStream;
-            if (SUCCEEDED(pDVDI->GetState(&pStateData))
-                    && (pPersistStream = pStateData)
-                    && SUCCEEDED(OleSaveToStream(pPersistStream, (IStream*)&stream))) {
-                pos = BinToCString(stream.m_data.GetData(), stream.m_data.GetCount());
-            }
-        }
-
-        str += ';';
-        str += pos;
-
-        // Paths
-        str += ';';
-        str += fn;
-
-        s.AddFav(FAV_DVD, str);
-    } else if (GetPlaybackMode() == PM_CAPTURE) {
-        // TODO
-    }
-}
-
-void CMainFrame::OnUpdateFavoritesAdd(CCmdUI* pCmdUI)
-{
-    pCmdUI->Enable(GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_DVD);
-}
-
-// TODO: OnFavoritesAdd and OnFavoritesQuickAddFavorite use nearly the same code, do something about it
-void CMainFrame::OnFavoritesQuickAddFavorite()
+void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
 {
     CAppSettings& s = AfxGetAppSettings();
     bool is_BD = false;
     WORD osdMsg = 0;
+    const TCHAR sep = _T(';');
 
     if (GetPlaybackMode() == PM_FILE) {
         CString fn =  m_wndPlaylistBar.GetCurFileName();
@@ -8943,21 +8813,24 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
         CString desc = fn;
         desc.Replace('\\', '/');
         int i = desc.Find(_T("://")), j = desc.Find(_T("?")), k = desc.ReverseFind('/');
-
         if (i >= 0) {
             desc = j >= 0 ? desc.Left(j) : desc;
         } else if (k >= 0) {
             desc = desc.Mid(k + 1);
         }
 
-        CString fn_with_pos(desc);
-        if (s.bFavRememberPos) {
-            fn_with_pos.Format(_T("%s_%s"), desc, GetVidPos());    // Add file position (time format) so it will be easier to organize later
-        }
-
         // Name
-        CString str = fn_with_pos;
-        str.Remove(';');
+        CString str;
+        if (fShowDialog) {
+            CFavoriteAddDlg dlg(desc, fn);
+            if (dlg.DoModal() != IDOK) {
+                return;
+            }
+            str = dlg.m_name;
+        } else {
+            str = desc;
+        }
+        str.Remove(sep);
 
         // RememberPos
         CString pos(_T("0"));
@@ -8965,25 +8838,25 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
             pos.Format(_T("%I64d"), GetPos());
         }
 
-        str += ';';
+        str += sep;
         str += pos;
 
         // RelativeDrive
         CString relativeDrive;
         relativeDrive.Format(_T("%d"), s.bFavRelativeDrive);
 
-        str += ';';
+        str += sep;
         str += relativeDrive;
 
         // Paths
         if (is_BD) {
-            str += _T(";") + fn;
+            str += sep + fn;
         } else {
             CPlaylistItem pli;
             if (m_wndPlaylistBar.GetCur(pli)) {
                 POSITION pos = pli.m_fns.GetHeadPosition();
                 while (pos) {
-                    str += _T(";") + pli.m_fns.GetNext(pos);
+                    str += sep + pli.m_fns.GetNext(pos);
                 }
             }
         }
@@ -9004,8 +8877,17 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
                     Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds);
 
         // Name
-        CString str = s.bFavRememberPos ? desc : fn;
-        str.Remove(';');
+        CString str;
+        if (fShowDialog) {
+            CFavoriteAddDlg dlg(fn, desc);
+            if (dlg.DoModal() != IDOK) {
+                return;
+            }
+            str = dlg.m_name;
+        } else {
+            str = s.bFavRememberPos ? desc : fn;
+        }
+        str.Remove(sep);
 
         // RememberPos
         CString pos(_T("0"));
@@ -9022,25 +8904,39 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
             }
         }
 
-        str += ';';
+        str += sep;
         str += pos;
 
         // Paths
-        str += ';';
+        str += sep;
         str += fn;
 
         s.AddFav(FAV_DVD, str);
-
         osdMsg = IDS_DVD_FAV_ADDED;
     } else if (GetPlaybackMode() == PM_CAPTURE) {
         // TODO
     }
 
-    if (osdMsg) {
+    if (fDisplayMessage && osdMsg) {
         CString osdMsgStr = ResStr(osdMsg);
         SendStatusMessage(osdMsgStr, 3000);
         m_OSD.DisplayMessage(OSD_TOPLEFT, osdMsgStr, 3000);
     }
+}
+
+void CMainFrame::OnFavoritesAdd()
+{
+    AddFavorite();
+}
+
+void CMainFrame::OnUpdateFavoritesAdd(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_DVD);
+}
+
+void CMainFrame::OnFavoritesQuickAddFavorite()
+{
+    AddFavorite(true, false);
 }
 
 void CMainFrame::OnFavoritesOrganize()
