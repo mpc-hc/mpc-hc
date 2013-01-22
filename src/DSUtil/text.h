@@ -61,12 +61,60 @@ T ExplodeMin(const T& str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 }
 
 template<class T, typename SEP>
+T ExplodeEsc(T str, CAtlList<T>& sl, SEP sep, SEP esc, size_t limit = 0)
+{
+    sl.RemoveAll();
+
+    int split = 0;
+    for (int i = 0, j = 0; ; i = j + 1) {
+        j = str.Find(sep, i);
+        if (j < 0) {
+            break;
+        }
+
+        // Skip this seperator if it is escaped
+        if (str.GetAt(j - 1) == esc) {
+            // Delete the escape character
+            str.Delete(j - 1);
+            continue;
+        }
+
+        if (sl.GetCount() < limit - 1) {
+            sl.AddTail(str.Mid(split, j - split).Trim());
+
+            // Save new splitting position
+            split = j + 1;
+        }
+    }
+    sl.AddTail(str.Mid(split).Trim());
+
+    return sl.GetHead();
+}
+
+template<class T, typename SEP>
 T Implode(const CAtlList<T>& sl, SEP sep)
 {
     T ret;
     POSITION pos = sl.GetHeadPosition();
     while (pos) {
         ret += sl.GetNext(pos);
+        if (pos) {
+            ret += sep;
+        }
+    }
+    return ret;
+}
+
+template<class T, typename SEP>
+T ImplodeEsc(const CAtlList<T>& sl, SEP sep, SEP esc)
+{
+    T ret;
+    T escsep = T(esc) + T(sep);
+    POSITION pos = sl.GetHeadPosition();
+    while (pos) {
+        T str = sl.GetNext(pos);
+        str.Replace(T(sep), escsep);
+        ret += str;
         if (pos) {
             ret += sep;
         }
