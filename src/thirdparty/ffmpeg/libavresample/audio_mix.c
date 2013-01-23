@@ -611,6 +611,14 @@ static void reduce_matrix(AudioMix *am, const double *matrix, int stride)
                 break;
             }
         }
+        /* check if the corresponding input channel makes a contribution to
+           any other output channel */
+        for (i = 0; i < am->out_channels; i++) {
+            if (o != i && matrix[i * stride + o] != 0.0) {
+                skip = 0;
+                break;
+            }
+        }
         if (skip) {
             am->output_skip[o] = 1;
             am->out_matrix_channels--;
