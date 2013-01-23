@@ -186,13 +186,14 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
 
     CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-    CBrush b;
     if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
-        b.CreateSolidBrush(0xf1dacc);
-        pDC->FillRect(rcItem, &b);
-        b.CreateSolidBrush(0xc56a31);
-        pDC->FrameRect(rcItem, &b);
+        CBrush b1, b2;
+        b1.CreateSolidBrush(0xf1dacc);
+        pDC->FillRect(rcItem, &b1);
+        b2.CreateSolidBrush(0xc56a31);
+        pDC->FrameRect(rcItem, &b2);
     } else {
+        CBrush b;
         b.CreateSysColorBrush(COLOR_WINDOW);
         pDC->FillRect(rcItem, &b);
     }
