@@ -45,10 +45,10 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
         CAtlList<CString> sl;
 
         for (int j = 0; j < m_list.GetItemCount(); j++) {
-            CString desc = m_list.GetItemText(j, 0);
-            desc.Remove(';');
-            CString str = m_sl[i].GetAt((POSITION)m_list.GetItemData(j));
-            sl.AddTail(desc + str.Mid(str.Find(';')));
+            CAtlList<CString> args;
+            args.AddTail(m_list.GetItemText(j, 0));
+            args.AddTail(m_sl[i].GetAt((POSITION)m_list.GetItemData(j)));
+            sl.AddTail(ImplodeEsc(args, _T(';'), _T('\\')));
         }
 
         m_sl[i].RemoveAll();
@@ -61,7 +61,7 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
             tmp = pos;
 
             CAtlList<CString> sl;
-            Explode(m_sl[i].GetNext(pos), sl, ';', 3);
+            ExplodeEsc(m_sl[i].GetNext(pos), sl, _T(';'), _T('\\'), 3);
 
             int n = m_list.InsertItem(m_list.GetItemCount(), sl.RemoveHead());
             m_list.SetItemData(n, (DWORD_PTR)tmp);

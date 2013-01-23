@@ -8784,6 +8784,7 @@ public:
 void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
 {
     CAppSettings& s = AfxGetAppSettings();
+    CAtlList<CString> args;
     bool is_BD = false;
     WORD osdMsg = 0;
     const TCHAR sep = _T(';');
@@ -8811,8 +8812,8 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
         }
 
         CString desc = fn;
-        desc.Replace('\\', '/');
-        int i = desc.Find(_T("://")), j = desc.Find(_T("?")), k = desc.ReverseFind('/');
+        desc.Replace(_T('\\'), _T('/'));
+        int i = desc.Find(_T("://")), j = desc.Find(_T('?')), k = desc.ReverseFind(_T('/'));
         if (i >= 0) {
             desc = j >= 0 ? desc.Left(j) : desc;
         } else if (k >= 0) {
@@ -8820,17 +8821,17 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
         }
 
         // Name
-        CString str;
+        CString name;
         if (fShowDialog) {
             CFavoriteAddDlg dlg(desc, fn);
             if (dlg.DoModal() != IDOK) {
                 return;
             }
-            str = dlg.m_name;
+            name = dlg.m_name;
         } else {
-            str = desc;
+            name = desc;
         }
-        str.Remove(sep);
+        args.AddTail(name);
 
         // RememberPos
         CString pos(_T("0"));
@@ -8838,29 +8839,28 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
             pos.Format(_T("%I64d"), GetPos());
         }
 
-        str += sep;
-        str += pos;
+        args.AddTail(pos);
 
         // RelativeDrive
         CString relativeDrive;
         relativeDrive.Format(_T("%d"), s.bFavRelativeDrive);
 
-        str += sep;
-        str += relativeDrive;
+        args.AddTail(relativeDrive);
 
         // Paths
         if (is_BD) {
-            str += sep + fn;
+            args.AddTail(fn);
         } else {
             CPlaylistItem pli;
             if (m_wndPlaylistBar.GetCur(pli)) {
                 POSITION pos = pli.m_fns.GetHeadPosition();
                 while (pos) {
-                    str += sep + pli.m_fns.GetNext(pos);
+                    args.AddTail(pli.m_fns.GetNext(pos));
                 }
             }
         }
 
+        CString str = ImplodeEsc(args, sep, _T('\\'));
         s.AddFav(FAV_FILE, str);
         osdMsg = IDS_FILE_FAV_ADDED;
     } else if (GetPlaybackMode() == PM_DVD) {
@@ -8877,17 +8877,17 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
                     Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds);
 
         // Name
-        CString str;
+        CString name;
         if (fShowDialog) {
             CFavoriteAddDlg dlg(fn, desc);
             if (dlg.DoModal() != IDOK) {
                 return;
             }
-            str = dlg.m_name;
+            name = dlg.m_name;
         } else {
-            str = s.bFavRememberPos ? desc : fn;
+            name = s.bFavRememberPos ? desc : fn;
         }
-        str.Remove(sep);
+        args.AddTail(name);
 
         // RememberPos
         CString pos(_T("0"));
@@ -8904,13 +8904,12 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
             }
         }
 
-        str += sep;
-        str += pos;
+        args.AddTail(pos);
 
         // Paths
-        str += sep;
-        str += fn;
+        args.AddTail(fn);
 
+        CString str = ImplodeEsc(args, sep, _T('\\'));
         s.AddFav(FAV_DVD, str);
         osdMsg = IDS_DVD_FAV_ADDED;
     } else if (GetPlaybackMode() == PM_CAPTURE) {
@@ -9008,24 +9007,15 @@ void CMainFrame::OnFavoritesFile(UINT nID)
 
 void CMainFrame::PlayFavoriteFile(CString fav)
 {
-    CAtlList<CString> fns;
+    CAtlList<CString> args;
     REFERENCE_TIME rtStart = 0;
     BOOL bRelativeDrive = FALSE;
     int i = 0, j = 0;
 
-    for (CString s2 = fav.Tokenize(_T(";"), i);
-            !s2.IsEmpty();
-            s2 = fav.Tokenize(_T(";"), i), j++) {
-        if (j == 0) {
-            ;    // desc / name
-        } else if (j == 1) {
-            _stscanf_s(s2, _T("%I64d"), &rtStart);    // pos
-        } else if (j == 2) {
-            _stscanf_s(s2, _T("%d"), &bRelativeDrive);    // relative drive
-        } else {
-            fns.AddTail(s2);    // paths
-        }
-    }
+    ExplodeEsc(fav, args, _T(';'), _T('\\'), 0);
+    args.RemoveHeadNoReturn(); // desc / name
+    _stscanf_s(args.RemoveHead(), _T("%I64d"), &rtStart);    // pos
+    _stscanf_s(args.RemoveHead(), _T("%d"), &bRelativeDrive);    // relative drive
 
     // NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
     //       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
@@ -9036,10 +9026,10 @@ void CMainFrame::PlayFavoriteFile(CString fav)
         CPath exeDrive(exePath);
 
         if (exeDrive.StripToRoot()) {
-            POSITION pos = fns.GetHeadPosition();
+            POSITION pos = args.GetHeadPosition();
 
             while (pos != NULL) {
-                CString& stringPath = fns.GetNext(pos);
+                CString& stringPath = args.GetNext(pos);
                 CPath path(stringPath);
 
                 int rootLength = path.SkipRoot();
@@ -9058,7 +9048,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
         }
     }
 
-    m_wndPlaylistBar.Open(fns, false);
+    m_wndPlaylistBar.Open(args, false);
     OpenCurPlaylistItem(max(rtStart, 0));
 }
 
@@ -9101,23 +9091,17 @@ void CMainFrame::OnFavoritesDVD(UINT nID)
 
 void CMainFrame::PlayFavoriteDVD(CString fav)
 {
+    CAtlList<CString> args;
     CString fn;
     CDVDStateStream stream;
 
     stream.AddRef();
 
-    int i = 0, j = 0;
-    for (CString s2 = fav.Tokenize(_T(";"), i);
-            !s2.IsEmpty();
-            s2 = fav.Tokenize(_T(";"), i), j++) {
-        if (j == 0) {
-            ;    // desc
-        } else if (j == 1 && s2 != _T("0")) { // state
-            CStringToBin(s2, stream.m_data);
-        } else if (j == 2) {
-            fn = s2;    // path
-        }
-    }
+    ExplodeEsc(fav, args, _T(';'), _T('\\'), 3);
+    args.RemoveHeadNoReturn(); // desc / name
+    CString state = args.RemoveHead(); // state
+    if (state != _T("0")) { CStringToBin(state, stream.m_data); }
+    fn = args.RemoveHead(); // path
 
     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 
@@ -13380,7 +13364,7 @@ void CMainFrame::SetupFavoritesSubMenu()
         f_str.Replace(_T("\t"), _T(" "));
 
         CAtlList<CString> sl;
-        Explode(f_str, sl, ';', 3);
+        ExplodeEsc(f_str, sl, _T(';'), _T('\\'), 3);
 
         f_str = sl.RemoveHead();
 
@@ -13437,7 +13421,7 @@ void CMainFrame::SetupFavoritesSubMenu()
         str.Replace(_T("&"), _T("&&"));
 
         CAtlList<CString> sl;
-        Explode(str, sl, ';', 2);
+        ExplodeEsc(str, sl, _T(';'), _T('\\'), 2);
 
         str = sl.RemoveHead();
 
@@ -13470,7 +13454,7 @@ void CMainFrame::SetupFavoritesSubMenu()
         str.Replace(_T("&"), _T("&&"));
 
         CAtlList<CString> sl;
-        Explode(str, sl, ';', 2);
+        ExplodeEsc(str, sl, _T(';'), _T('\\'), 2);
 
         str = sl.RemoveHead();
 
