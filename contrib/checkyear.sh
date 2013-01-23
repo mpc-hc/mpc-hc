@@ -17,11 +17,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-
 # pre-commit hook to check if all changed and added files
 # have the current year as copyright information.
 
 # to enable the hook, copy this file to .git/hooks/pre-commit (no extension)
+# or run this while in the repo root:
+# cp contrib/checkyear.sh .git/hooks/pre-commit
 
 year=$(date +%Y)
 pattern1='\(C\) ([0-9][0-9][0-9][0-9]-)?[0-9][0-9][0-9][0-9] see Authors.txt'
