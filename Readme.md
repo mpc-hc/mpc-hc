@@ -46,7 +46,6 @@ Links:
 * [Support Trac](http://trac.mpc-hc.org)
 * IRC Channel: [#mpc-hc](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
   / [#mpc-hc-dev](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](http://freenode.net/)
-* [Help and Support](http://trac.mpc-hc.org)
 * [Donations](http://sourceforge.net/donate/index.php?group_id=170561)
 
 
