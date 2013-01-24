@@ -595,7 +595,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_nARMode = 1;
     m_nDXVACheckCompatibility = 1; // skip level check by default
     m_nDXVA_SD = 0;
-    m_sar.SetSize(1, 1);
+    m_par.SetSize(1, 1);
 
     m_interlacedFlag = MPCVC_INTERLACED_AUTO;
 
@@ -1244,14 +1244,14 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction, const CMediaTy
 
     HRESULT hr = __super::SetMediaType(direction, pmt);
 
-    if (dir == PINDIR_INPUT) {
-        // Compute the expected Sample AR
-        m_sar.cx = m_arx * m_h;
-        m_sar.cy = m_ary * m_w;
-        int lnko = LNKO(m_sar.cx, m_sar.cy);
+    if (direction == PINDIR_INPUT) {
+        // Compute the expected Pixel AR
+        m_par.cx = m_arx * m_h;
+        m_par.cy = m_ary * m_w;
+        int lnko = LNKO(m_par.cx, m_par.cy);
         if (lnko > 1) {
-            m_sar.cx /= lnko;
-            m_sar.cy /= lnko;
+            m_par.cx /= lnko;
+            m_par.cy /= lnko;
         }
     }
 
@@ -2073,10 +2073,10 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 void CMPCVideoDecFilter::UpdateAspectRatio()
 {
     if (((m_nARMode) && (m_pAVCtx)) && ((m_pAVCtx->sample_aspect_ratio.num > 0) && (m_pAVCtx->sample_aspect_ratio.den > 0))) {
-        CSize SAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den);
-        if (m_sar != SAR) {
-            m_sar = SAR;
-            CSize aspect(m_nWidth * SAR.cx, m_nHeight * SAR.cy);
+        CSize PAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den);
+        if (m_par != PAR) {
+            m_par = PAR;
+            CSize aspect(m_nWidth * PAR.cx, m_nHeight * PAR.cy);
             int lnko = LNKO(aspect.cx, aspect.cy);
             if (lnko > 1) {
                 aspect.cx /= lnko, aspect.cy /= lnko;

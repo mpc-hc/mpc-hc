@@ -147,7 +147,7 @@ protected:
 
     bool m_bUseDXVA;
     bool m_bUseFFmpeg;
-    CSize m_sar;
+    CSize m_par;
     SwsContext* m_pSwsContext;
     unsigned __int64 m_nOutCsp;
     CSize m_pOutSize;               // Picture size on output pin
