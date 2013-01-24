@@ -6,10 +6,8 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 
 * libavcodec/allcodecs.c
 * libavcodec/avcodec.h
-* libavcodec/h263dec.c
 * libavcodec/h264.c
 * libavcodec/h264.h
-* libavcodec/lsp.c
 * libavcodec/mpeg12.c
 * libavcodec/mpeg12.h
 * libavcodec/mpegvideo.c
@@ -18,10 +16,7 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 * libavcodec/utils.c
 * libavcodec/vc1dec.c
 
-* libavutil/common.h
-* libavutil/log.h
 * libavutil/mem.c
-* libavutil/mem.h
 
 
 The following files are available only in MPC-HC (compared to FFmpeg):

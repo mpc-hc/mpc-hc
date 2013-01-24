@@ -1,5 +1,5 @@
 /*
- * (C) 2007-2012 see Authors.txt
+ * (C) 2007-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,9 @@
 #include <WinNT.h>
 #include <vfwmsgs.h>
 #include <sys/timeb.h>
+#if defined(STANDALONE_FILTER) && defined(_WIN64)
 #include <time.h> // for the _time64 workaround
+#endif
 
 #include "FfmpegContext.h"
 #include "../../../DSUtil/SysVersion.h"
@@ -54,7 +56,9 @@ extern "C" {
 
 #if defined(STANDALONE_FILTER)
 void* __imp_toupper = toupper;
+#if defined(_WIN64)
 void* __imp_time64 = _time64;
+#endif
 #endif
 
 #define CHECK_AVC_L52_SIZE(w, h) ((w) <= 4096 && (h) <= 4096 && (w) * (h) <= 36864 * 16 * 16)

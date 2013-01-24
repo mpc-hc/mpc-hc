@@ -179,12 +179,6 @@ typedef struct AVClass {
  */
 void av_log(void *avcl, int level, const char *fmt, ...) av_printf_format(3, 4);
 
-// ==> Start patch MPC
-#ifdef __cplusplus
-extern "C" {
-#endif
-// <== End patch MPC
-
 void av_vlog(void *avcl, int level, const char *fmt, va_list);
 int av_log_get_level(void);
 void av_log_set_level(int);
@@ -192,12 +186,6 @@ void av_log_set_callback(void (*)(void*, int, const char*, va_list));
 void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl);
 const char* av_default_item_name(void* ctx);
 AVClassCategory av_default_get_category(void *ptr);
-
-// ==> Start patch MPC
-#ifdef __cplusplus
-}
-#endif
-// <== End patch MPC
 
 /**
  * Format a line of log the same way as the default callback.

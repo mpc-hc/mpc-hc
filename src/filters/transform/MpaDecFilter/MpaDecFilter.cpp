@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,7 +33,9 @@
 
 #ifdef STANDALONE_FILTER
 void* __imp_toupper = toupper;
+#if defined(_WIN64)
 void* __imp_time64 = _time64;
+#endif
 
 #include <InitGuid.h>
 

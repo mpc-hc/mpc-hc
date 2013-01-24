@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CC = gcc.exe
+
 ifeq ($(VS2012),yes)
     BIN_DIR  = ../../../bin12
 else
@@ -23,17 +24,18 @@ else
 endif
 ZLIB_DIR = ../zlib
 
+ifeq ($(DEBUG),yes)
+    OUT_DIR_PREFIX = Debug
+else
+    OUT_DIR_PREFIX = Release
+endif
+
 ifeq ($(64BIT),yes)
     MY_ARCH = x64
 else
     MY_ARCH = Win32
 endif
 
-ifeq ($(DEBUG),yes)
-    OUT_DIR_PREFIX = Debug
-else
-    OUT_DIR_PREFIX = Release
-endif
 
 OBJ_DIR     = $(BIN_DIR)/obj/$(OUT_DIR_PREFIX)_$(MY_ARCH)/ffmpeg/
 OUT_LIB_DIR = $(BIN_DIR)/lib/$(OUT_DIR_PREFIX)_$(MY_ARCH)
@@ -41,9 +43,9 @@ OUT_LIB     = $(OUT_LIB_DIR)/ffmpeg.lib
 
 
 # Compiler and yasm flags
-CFLAGS    = -I. -I.. -Ilibavcodec -I$(ZLIB_DIR) -DHAVE_AV_CONFIG_H \
-            -D_ISOC99_SOURCE -D_XOPEN_SOURCE=600 -D_LARGEFILE_SOURCE \
-            -D_FILE_OFFSET_BITS=64 -std=gnu99 -pipe -mthreads
+CFLAGS    = -I. -I.. -I$(ZLIB_DIR) -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE \
+            -D_XOPEN_SOURCE=600 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
+            -std=gnu99 -pipe -mthreads
 OPTFLAGS  = -O2 -fno-common -fno-tree-vectorize -fomit-frame-pointer
 YASMFLAGS = -I. -Pconfig.asm
 

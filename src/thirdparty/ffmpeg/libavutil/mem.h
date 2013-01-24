@@ -72,12 +72,6 @@
     #define av_alloc_size(...)
 #endif
 
-// ==> Start patch MPC
-#ifdef __cplusplus
-extern "C" {
-#endif
-// <== End patch MPC
-
 /**
  * Allocate a block of size bytes with alignment suitable for all
  * memory accesses (including vectors if available on the CPU).
@@ -193,12 +187,6 @@ char *av_strdup(const char *s) av_malloc_attrib;
  * @see av_free()
  */
 void av_freep(void *ptr);
-
-// ==> Start patch MPC
-#ifdef __cplusplus
-}
-#endif
-// <== End patch MPC
 
 /**
  * Add an element to a dynamic array.

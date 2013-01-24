@@ -19,7 +19,7 @@
  */
 
 #include <Windows.h>
-#include "dxva.h"
+#include "libavcodec/dxva.h"
 
 
 static void fill_dxva_slice_long(H264Context *h)

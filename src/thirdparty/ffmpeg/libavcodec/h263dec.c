@@ -381,10 +381,8 @@ uint64_t time= rdtsc();
             next= ff_mpeg4_find_frame_end(&s->parse_context, buf, buf_size);
         }else if(CONFIG_H263_DECODER && s->codec_id==AV_CODEC_ID_H263){
             next= ff_h263_find_frame_end(&s->parse_context, buf, buf_size);
-// ==> Start patch MPC
-/*        }else if(CONFIG_H263P_DECODER && s->codec_id==AV_CODEC_ID_H263P){
-            next= ff_h263_find_frame_end(&s->parse_context, buf, buf_size);*/
-// <== End patch MPC
+        }else if(CONFIG_H263P_DECODER && s->codec_id==AV_CODEC_ID_H263P){
+            next= ff_h263_find_frame_end(&s->parse_context, buf, buf_size);
         }else{
             av_log(s->avctx, AV_LOG_ERROR, "this codec does not support truncated bitstreams\n");
             return AVERROR(EINVAL);

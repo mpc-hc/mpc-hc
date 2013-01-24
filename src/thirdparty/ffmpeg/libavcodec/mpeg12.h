@@ -26,7 +26,7 @@
 
 // ==> Start patch MPC
 #include <windows.h>
-#include "dxva.h"
+#include "libavcodec/dxva.h"
 // <== End patch MPC
 
 #define DC_VLC_BITS 9

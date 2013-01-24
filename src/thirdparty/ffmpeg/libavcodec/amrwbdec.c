@@ -42,9 +42,7 @@
 #include "amr.h"
 
 #include "amrwbdata.h"
-#if HAVE_MIPSFPU // MPC-HC patch
 #include "mips/amrwbdec_mips.h"
-#endif
 
 typedef struct {
     AVFrame                              avframe; ///< AVFrame for decoded samples
