@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -481,7 +481,9 @@ bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
         success = !error && ExportRegistryKey(file, HKEY_CURRENT_USER, regKey);
 
         file.Close();
-        if (!success && !error) { DeleteFile(savePath); }
+        if (!success && !error) {
+            DeleteFile(savePath);
+        }
     }
 
     return success;

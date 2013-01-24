@@ -9100,7 +9100,9 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
     ExplodeEsc(fav, args, _T(';'), _T('\\'), 3);
     args.RemoveHeadNoReturn(); // desc / name
     CString state = args.RemoveHead(); // state
-    if (state != _T("0")) { CStringToBin(state, stream.m_data); }
+    if (state != _T("0")) {
+        CStringToBin(state, stream.m_data);
+    }
     fn = args.RemoveHead(); // path
 
     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
