@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignorer cette mise à jour"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Fichier"
 5		"Ouvrir &rapidement...\tCtrl+Q"
 7		"&Ouvrir un fichier...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Site Web de &MPC Home Cinema"
 240		"Vérifier les &mises à jour"
 241		"Options de la ligne de commandes"
-243		"Télécharger des barres d'outils personnalisées"
-244		"Donations"
-246		"&A propos de MPC Home Cinema..."
+242		"Télécharger des barres d'outils personnalisées"
+243		"Donations"
+245		"&A propos de MPC Home Cinema..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignora questo aggiornamento"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&File"
 5		"Apertura &veloce file...\tCtrl+Q"
 7		"&Apri file...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Home Page"
 240		"Verifica &aggiornamenti"
 241		"Opzioni a riga di comando"
-243		"Scarica immagini barra strumenti"
-244		"Effettua una donazione"
-246		"&Informazioni..."
+242		"Scarica immagini barra strumenti"
+243		"Effettua una donazione"
+245		"&Informazioni..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

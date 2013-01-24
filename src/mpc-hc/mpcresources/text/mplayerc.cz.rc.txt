@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignorovat"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Soubor"
 5		"&Rychle otevřít soubor...\tCtrl+Q"
 7		"&Otevřít soubor...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"&Domovská stránka"
 240		"Vyhledat &aktualizace"
 241		"&Parametry příkazového řádku"
-243		"Vzhledy panelu tlačítek"
-244		"Zaslat dar"
-246		"&O programu..."
+242		"Vzhledy panelu tlačítek"
+243		"Zaslat dar"
+245		"&O programu..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

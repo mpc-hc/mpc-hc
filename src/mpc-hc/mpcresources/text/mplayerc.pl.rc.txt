@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignoruj tę aktualizację"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Plik"
 5		"&Otwórz...\tCtrl+Q"
 7		"Otwórz z &położenia...\tCtrl+O"
@@ -675,9 +675,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"&Strona główna"
 240		"Sprawdź, czy jest &aktualizacja"
 241		"Parametry wiersza &poleceń..."
-243		"Ściągnij o&brazy paska narzędzi"
-244		"&Wspomóż"
-246		"&O programie..."
+242		"Ściągnij o&brazy paska narzędzi"
+243		"&Wspomóż"
+245		"&O programie..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

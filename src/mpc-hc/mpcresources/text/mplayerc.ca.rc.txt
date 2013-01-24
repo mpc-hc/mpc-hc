@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignorar aquesta actualització"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Arxiu"
 5		"Obrir Arxiu &Ràpid...\tCtrl+Q"
 7		"&Obrir Arxiu...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Pàgina del Programa"
 240		"Verificar &actualitzacions"
 241		"Opcions de la Línia de Comandaments"
-243		"Baixar Imatges per la Barra de Control"
-244		"Donació"
-246		"&Quant Al..."
+242		"Baixar Imatges per la Barra de Control"
+243		"Donació"
+245		"&Quant Al..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

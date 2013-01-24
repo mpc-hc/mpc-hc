@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignore this update"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Archivo"
 5		"Abrir Archivo &Rapido...\tCtrl+Q"
 7		"&Abrir Archivo...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Página del Programa"
 240		"Check for &updates"
 241		"Switches de Linea de Comandos"
-243		"Download Toolbar Images"
-244		"Donate"
-246		"&Acerca De..."
+242		"Download Toolbar Images"
+243		"Donate"
+245		"&Acerca De..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

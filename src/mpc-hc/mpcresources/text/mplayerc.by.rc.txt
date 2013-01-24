@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"Ігнараваць гэтае абнаўленне"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Файл"
 5		"&Хутка адкрыць файл...\tCtrl+Q"
 7		"&Адкрыць файл...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Хатняя старонка"
 240		"Check for &updates"
 241		"Параметры каманднага радка"
-243		"Загрузіць малюнкі панелі навігацыі"
-244		"Ахвяраваць"
-246		"&Пра праграму..."
+242		"Загрузіць малюнкі панелі навігацыі"
+243		"Ахвяраваць"
+245		"&Пра праграму..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

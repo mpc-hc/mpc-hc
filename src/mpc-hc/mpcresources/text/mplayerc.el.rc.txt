@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Παράβλεψη ενημέρωσης"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Αρχείο"
 5		"&Γρήγορο άνοιγμα αρχείου...\tCtrl+Q"
 7		"Ά&νοιγμα αρχείου...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"&Ιστοσελίδα"
 240		"Έλεγχος για ενημερώσεις"
 241		"Παράμετροι &γραμμής εντολών"
-243		"&Λήψη εικόνων εργαλειοθήκης"
-244		"&Δωρεά"
-246		"&Περί..."
+242		"&Λήψη εικόνων εργαλειοθήκης"
+243		"&Δωρεά"
+245		"&Περί..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignore this update"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Файл"
 5		"Пр&осто відкрити файл...\tCtrl+Q"
 7		"&Відкрити файл...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"&Домівка"
 240		"Перевірити &оновлення"
 241		"Параметри &запуску"
-243		"Завантажити користувацькі панелі інструментів"
-244		"Допомогти матеріально"
-246		"&Про програму..."
+242		"Завантажити користувацькі панелі інструментів"
+243		"Допомогти матеріально"
+245		"&Про програму..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

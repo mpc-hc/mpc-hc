@@ -492,7 +492,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_COMMAND(ID_HELP_HOMEPAGE, OnHelpHomepage)
     ON_COMMAND(ID_HELP_CHECKFORUPDATE, OnHelpCheckForUpdate)
-    //ON_COMMAND(ID_HELP_DOCUMENTATION, OnHelpDocumentation)
     ON_COMMAND(ID_HELP_TOOLBARIMAGES, OnHelpToolbarImages)
     ON_COMMAND(ID_HELP_DONATE, OnHelpDonate)
 
@@ -9147,13 +9146,6 @@ void CMainFrame::OnHelpCheckForUpdate()
 {
     UpdateChecker::CheckForUpdate();
 }
-
-/*
-void CMainFrame::OnHelpDocumentation()
-{
-    ShellExecute(m_hWnd, _T("open"), _T("http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=144472"), NULL, NULL, SW_SHOWDEFAULT);
-}
-*/
 
 void CMainFrame::OnHelpToolbarImages()
 {

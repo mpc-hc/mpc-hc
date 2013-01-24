@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Անտեսել թարմացումը"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Ֆայլ"
 5		"&Բացել ֆայլ...\tCtrl+Q"
 7		"&Բացեք Ֆայլը...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Վեբ կայքը"
 240		"Ստուգել թարմացումները"
 241		"Հրամաններ"
-243		"Բեռնել վահանակի պատկերներ"
-244		"Աջակցեք!"
-246		"&Ծրագրի մասին..."
+242		"Բեռնել վահանակի պատկերներ"
+243		"Աջակցեք!"
+245		"&Ծրագրի մասին..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

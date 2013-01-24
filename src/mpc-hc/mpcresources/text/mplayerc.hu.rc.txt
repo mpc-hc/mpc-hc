@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignore this update"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Fájl"
 5		"&Gyors fájl megnyitás...\tCtrl+Q"
 7		"&Fájl megnyitása...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Honlap"
 240		"Check for &updates"
 241		"Parancssori kapcsolók"
-243		"Download Toolbar Images"
-244		"Donate"
-246		"&Névjegy..."
+242		"Download Toolbar Images"
+243		"Donate"
+245		"&Névjegy..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

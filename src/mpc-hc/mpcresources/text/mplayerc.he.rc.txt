@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignore this update"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"קובץ"
 5		"פתיחה מהירה של קובץ...\tCtrl+Q"
 7		"פתיחת קובץ...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"אתר הבית"
 240		"Check for &updates"
 241		"פרמטרים שורת פקודה"
-243		"הורדת סקין סרגל כלים"
-244		"תרומה"
-246		"אודות..."
+242		"הורדת סקין סרגל כלים"
+243		"תרומה"
+245		"אודות..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

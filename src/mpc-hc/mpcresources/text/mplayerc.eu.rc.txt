@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ezikusi eguneraketa hau"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Agiria"
 5		"Agiri Irekitze A&zkarra...\tKtrl+Q"
 7		"&Ireki Agiria...\tKtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Etxeko &Orrialdea"
 240		"Egiaztatu &Eguneraketak"
 241		"&Komando Lerro Aldaketak"
-243		"&Jeitsi Tresnabarra Irudiak"
-244		"&Dirulaguntza"
-246		"&Honi buruz..."
+242		"&Jeitsi Tresnabarra Irudiak"
+243		"&Dirulaguntza"
+245		"&Honi buruz..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

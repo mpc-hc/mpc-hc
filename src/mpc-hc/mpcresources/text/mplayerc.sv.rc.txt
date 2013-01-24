@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignore this update"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Arkiv"
 5		"&Snabb Öppna Fil...\tCtrl+Q"
 7		"&Öppna Fil...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Hemsida"
 240		"Check for &updates"
 241		"Kommandolinje parametrar"
-243		"Download Toolbar Images"
-244		"Donate"
-246		"&Om..."
+242		"Download Toolbar Images"
+243		"Donate"
+245		"&Om..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

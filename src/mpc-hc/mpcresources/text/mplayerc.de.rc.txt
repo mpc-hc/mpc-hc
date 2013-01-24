@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Aktualisierung ignorieren"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Datei"
 5		"Datei öff&nen...\tCtrl+Q"
 7		"Datei ö&ffnen (erweitert)...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"MPC-HC Ho&mepage"
 240		"Auf Aktualisierungen prüfen"
 241		"&Kommandozeilen-Parameter"
-243		"Toolbarbilder herunterladen"
-244		"Spenden"
-246		"&Über..."
+242		"Toolbarbilder herunterladen"
+243		"Spenden"
+245		"&Über..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

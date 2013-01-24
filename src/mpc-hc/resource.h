@@ -226,7 +226,6 @@
 #define ID_FAVORITES_ORGANIZE           937
 #define ID_FAVORITES_ADD                938
 #define ID_HELP_HOMEPAGE                939
-//#define ID_HELP_DOCUMENTATION         940
 #define ID_HELP_DONATE                  940
 #define ID_HELP_SHOWCOMMANDLINESWITCHES 941
 #define ID_HELP_TOOLBARIMAGES           942

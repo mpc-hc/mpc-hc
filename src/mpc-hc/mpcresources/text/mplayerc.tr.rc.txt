@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignore this update"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Dosya"
 5		"&Hızlı Dosya Aç...\tCtrl+Q"
 7		"&Dosya Aç...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Ana Sayfa"
 240		"Güncelleştirmelere bak"
 241		"Komut Satırı Anahtarları"
-243		"Araç çubuğu resimlerini innDir"
-244		"Bağış yap"
-246		"&Hakkında..."
+242		"Araç çubuğu resimlerini innDir"
+243		"Bağış yap"
+245		"&Hakkında..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

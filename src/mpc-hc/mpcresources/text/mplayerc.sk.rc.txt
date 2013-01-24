@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"&Ignorovať túto aktualizáciu"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"&Súbor"
 5		"&Rýchle otvorenie súboru...\tCtrl+Q"
 7		"&Otvoriť súbor...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"Domovská stránka"
 240		"Skontrolovať dostupnosť &aktualizácií"
 241		"Premenné príkazového riadka"
-243		"Stiahnuť obrázky pre panel nástrojov"
-244		"Podporiť"
-246		"&O programe..."
+242		"Stiahnuť obrázky pre panel nástrojov"
+243		"Podporiť"
+245		"&O programe..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236

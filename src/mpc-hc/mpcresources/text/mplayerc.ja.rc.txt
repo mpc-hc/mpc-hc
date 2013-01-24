@@ -510,7 +510,7 @@ BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 10		"この更新を無視する(&I)"
 END
 
-BEGIN MENU IDR_MAINFRAME LINES 248
+BEGIN MENU IDR_MAINFRAME LINES 247
 3		"ファイル(&F)"
 5		"クイック再生(&Q)...\tCtrl+Q"
 7		"ファイルを開く(&O)...\tCtrl+O"
@@ -676,9 +676,9 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 239		"ホームページ"
 240		"更新を確認する(&U)"
 241		"コマンドライン スイッチ"
-243		"ツールバー画像をダウンロード"
-244		"寄贈する"
-246		"バージョン情報(&A)..."
+242		"ツールバー画像をダウンロード"
+243		"寄贈する"
+245		"バージョン情報(&A)..."
 END
 
 BEGIN MENU IDR_POPUP LINES 236
