@@ -1,4 +1,6 @@
-The following files have MPC-HC specific custom code (compared to FFmpeg):
+This list is compared against the FFmpeg repository.
+
+The following files have MPC-HC specific custom code:
 
 * config.asm
 * config.h
@@ -16,10 +18,12 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 * libavcodec/utils.c
 * libavcodec/vc1dec.c
 
+* libavresample/audio_mix.c     (Justin Ruggle's patches to fix upmixing)
+
 * libavutil/mem.c
 
 
-The following files are available only in MPC-HC (compared to FFmpeg):
+The following files are available only in MPC-HC:
 
 * mpc_helper.c
 * libavcodec/dxva.h
