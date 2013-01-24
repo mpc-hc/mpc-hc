@@ -22,7 +22,7 @@ Legend:
   It needs LCD monitors with low viewing angle (~170/160).
 * UI: Use a more native look and feel for the options dialog tree
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
-* Updated FFmpeg (n0.8-17442-g7d66bc7)
+* Updated FFmpeg (n0.8-18315-geb567a7)
 * Updated Little CMS to v2.4 (git 310db3d)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)
 * Updated SoundTouch to v1.7.1 r170

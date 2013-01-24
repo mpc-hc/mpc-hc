@@ -471,7 +471,7 @@ retry:
     if(s->xvid_build==-1 && s->divx_version==-1 && s->lavc_build==-1){
         if(s->stream_codec_tag == AV_RL32("XVID") ||
            s->codec_tag == AV_RL32("XVID") || s->codec_tag == AV_RL32("XVIX") ||
-           s->codec_tag == AV_RL32("RMP4") ||
+           s->codec_tag == AV_RL32("RMP4") || s->codec_tag == AV_RL32("ZMP4") ||
            s->codec_tag == AV_RL32("SIPP")
            )
             s->xvid_build= 0;
@@ -645,10 +645,7 @@ retry:
             s->next_p_frame_damaged=0;
     }
 
-    if((s->avctx->flags2 & CODEC_FLAG2_FAST) && s->pict_type==AV_PICTURE_TYPE_B){
-        s->me.qpel_put= s->dsp.put_2tap_qpel_pixels_tab;
-        s->me.qpel_avg= s->dsp.avg_2tap_qpel_pixels_tab;
-    }else if((!s->no_rounding) || s->pict_type==AV_PICTURE_TYPE_B){
+    if((!s->no_rounding) || s->pict_type==AV_PICTURE_TYPE_B){
         s->me.qpel_put= s->dsp.put_qpel_pixels_tab;
         s->me.qpel_avg= s->dsp.avg_qpel_pixels_tab;
     }else{

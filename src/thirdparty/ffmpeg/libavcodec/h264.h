@@ -29,11 +29,11 @@
 #define AVCODEC_H264_H
 
 #include "libavutil/intreadwrite.h"
-#include "dsputil.h"
 #include "cabac.h"
 #include "mpegvideo.h"
 #include "h264dsp.h"
 #include "h264pred.h"
+#include "h264qpel.h"
 #include "rectangle.h"
 
 #define interlaced_dct interlaced_dct_is_a_bad_name
@@ -258,6 +258,7 @@ typedef struct MMCO {
 typedef struct H264Context {
     MpegEncContext s;
     H264DSPContext h264dsp;
+    H264QpelContext h264qpel;
     int pixel_shift;    ///< 0 for 8-bit H264, 1 for high-bit-depth H264
     int chroma_qp[2];   // QPc
 
@@ -390,9 +391,9 @@ typedef struct H264Context {
     GetBitContext *intra_gb_ptr;
     GetBitContext *inter_gb_ptr;
 
-    DECLARE_ALIGNED(16, DCTELEM, mb)[16 * 48 * 2]; ///< as a dct coeffecient is int32_t in high depth, we need to reserve twice the space.
-    DECLARE_ALIGNED(16, DCTELEM, mb_luma_dc)[3][16 * 2];
-    DCTELEM mb_padding[256 * 2];        ///< as mb is addressed by scantable[i] and scantable is uint8_t we can either check that i is not too large or ensure that there is some unused stuff after mb
+    DECLARE_ALIGNED(16, int16_t, mb)[16 * 48 * 2]; ///< as a dct coeffecient is int32_t in high depth, we need to reserve twice the space.
+    DECLARE_ALIGNED(16, int16_t, mb_luma_dc)[3][16 * 2];
+    int16_t mb_padding[256 * 2];        ///< as mb is addressed by scantable[i] and scantable is uint8_t we can either check that i is not too large or ensure that there is some unused stuff after mb
 
     /**
      * Cabac
@@ -485,9 +486,9 @@ typedef struct H264Context {
 
     int redundant_pic_count;
 
+    Picture default_ref_list[2][32]; ///< base reference list for all slices of a coded picture
     Picture *short_ref[32];
     Picture *long_ref[32];
-    Picture default_ref_list[2][32]; ///< base reference list for all slices of a coded picture
     Picture *delayed_pic[MAX_DELAYED_PIC_COUNT + 2]; // FIXME size?
     int last_pocs[MAX_DELAYED_PIC_COUNT];
     Picture *next_output_pic;
@@ -681,9 +682,10 @@ void ff_h264_remove_all_refs(H264Context *h);
  */
 int ff_h264_execute_ref_pic_marking(H264Context *h, MMCO *mmco, int mmco_count);
 
-int ff_h264_decode_ref_pic_marking(H264Context *h, GetBitContext *gb);
+int ff_h264_decode_ref_pic_marking(H264Context *h, GetBitContext *gb,
+                                   int first_slice);
 
-void ff_generate_sliding_window_mmcos(H264Context *h);
+int ff_generate_sliding_window_mmcos(H264Context *h, int first_slice);
 
 /**
  * Check if the top & left blocks are available if needed & change the

@@ -888,8 +888,10 @@ SwsContext *sws_alloc_context(void)
 {
     SwsContext *c = av_mallocz(sizeof(SwsContext));
 
-    c->av_class = &sws_context_class;
-    av_opt_set_defaults(c);
+    if (c) {
+        c->av_class = &sws_context_class;
+        av_opt_set_defaults(c);
+    }
 
     return c;
 }
@@ -997,6 +999,27 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
             c->flags = flags;
         }
     }
+
+    if(dstFormat == AV_PIX_FMT_BGR4_BYTE ||
+       dstFormat == AV_PIX_FMT_RGB4_BYTE ||
+       dstFormat == AV_PIX_FMT_BGR8 ||
+       dstFormat == AV_PIX_FMT_RGB8) {
+        if (flags & SWS_ERROR_DIFFUSION && !(flags & SWS_FULL_CHR_H_INT)) {
+            av_log(c, AV_LOG_DEBUG,
+                "Error diffusion dither is only supported in full chroma interpolation for destination format '%s'\n",
+                av_get_pix_fmt_name(dstFormat));
+            flags   |= SWS_FULL_CHR_H_INT;
+            c->flags = flags;
+        }
+        if (!(flags & SWS_ERROR_DIFFUSION) && (flags & SWS_FULL_CHR_H_INT)) {
+            av_log(c, AV_LOG_DEBUG,
+                "Ordered dither is not supported in full chroma interpolation for destination format '%s'\n",
+                av_get_pix_fmt_name(dstFormat));
+            flags   |= SWS_ERROR_DIFFUSION;
+            c->flags = flags;
+        }
+    }
+
     /* reuse chroma for 2 pixels RGB/BGR unless user wants full
      * chroma interpolation */
     if (flags & SWS_FULL_CHR_H_INT &&
@@ -1006,7 +1029,12 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
         dstFormat != AV_PIX_FMT_BGRA  &&
         dstFormat != AV_PIX_FMT_ABGR  &&
         dstFormat != AV_PIX_FMT_RGB24 &&
-        dstFormat != AV_PIX_FMT_BGR24) {
+        dstFormat != AV_PIX_FMT_BGR24 &&
+        dstFormat != AV_PIX_FMT_BGR4_BYTE &&
+        dstFormat != AV_PIX_FMT_RGB4_BYTE &&
+        dstFormat != AV_PIX_FMT_BGR8 &&
+        dstFormat != AV_PIX_FMT_RGB8
+    ) {
         av_log(c, AV_LOG_WARNING,
                "full chroma interpolation for destination format '%s' not yet implemented\n",
                av_get_pix_fmt_name(dstFormat));
@@ -1244,6 +1272,9 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
             c->vChrBufSize = (nextSlice >> c->chrSrcVSubSample) -
                              c->vChrFilterPos[chrI];
     }
+
+    for (i = 0; i < 4; i++)
+        FF_ALLOCZ_OR_GOTO(c, c->dither_error[i], (c->dstW+2) * sizeof(int), fail);
 
     /* Allocate pixbufs (we use dynamic allocation because otherwise we would
      * need to allocate several megabytes to handle all possible cases) */
@@ -1737,6 +1768,9 @@ void sws_freeContext(SwsContext *c)
             av_freep(&c->alpPixBuf[i]);
         av_freep(&c->alpPixBuf);
     }
+
+    for (i = 0; i < 4; i++)
+        av_freep(&c->dither_error[i]);
 
     av_freep(&c->vLumFilter);
     av_freep(&c->vChrFilter);

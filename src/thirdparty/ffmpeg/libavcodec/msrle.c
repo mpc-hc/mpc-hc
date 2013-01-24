@@ -67,14 +67,14 @@ static av_cold int msrle_decode_init(AVCodecContext *avctx)
         break;
     default:
         av_log(avctx, AV_LOG_ERROR, "unsupported bits per sample\n");
-        return -1;
+        return AVERROR_INVALIDDATA;
     }
 
     avcodec_get_frame_defaults(&s->frame);
     s->frame.data[0] = NULL;
 
-    if (avctx->extradata_size >= AVPALETTE_SIZE)
-        for (i = 0; i < AVPALETTE_SIZE/4; i++)
+    if (avctx->extradata_size >= 4)
+        for (i = 0; i < FFMIN(avctx->extradata_size, AVPALETTE_SIZE)/4; i++)
             s->pal[i] = 0xFFU<<24 | AV_RL32(avctx->extradata+4*i);
 
     return 0;
@@ -88,15 +88,16 @@ static int msrle_decode_frame(AVCodecContext *avctx,
     int buf_size = avpkt->size;
     MsrleContext *s = avctx->priv_data;
     int istride = FFALIGN(avctx->width*avctx->bits_per_coded_sample, 32) / 8;
+    int ret;
 
     s->buf = buf;
     s->size = buf_size;
 
     s->frame.reference = 3;
     s->frame.buffer_hints = FF_BUFFER_HINTS_VALID | FF_BUFFER_HINTS_PRESERVE | FF_BUFFER_HINTS_REUSABLE;
-    if (avctx->reget_buffer(avctx, &s->frame)) {
+    if ((ret = avctx->reget_buffer(avctx, &s->frame)) < 0) {
         av_log(avctx, AV_LOG_ERROR, "reget_buffer() failed\n");
-        return -1;
+        return ret;
     }
 
     if (avctx->bits_per_coded_sample > 1 && avctx->bits_per_coded_sample <= 8) {

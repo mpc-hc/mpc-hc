@@ -43,19 +43,19 @@
 //#include <assert.h>
 
 static void dct_unquantize_mpeg1_intra_c(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale);
+                                   int16_t *block, int n, int qscale);
 static void dct_unquantize_mpeg1_inter_c(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale);
+                                   int16_t *block, int n, int qscale);
 static void dct_unquantize_mpeg2_intra_c(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale);
+                                   int16_t *block, int n, int qscale);
 static void dct_unquantize_mpeg2_intra_bitexact(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale);
+                                   int16_t *block, int n, int qscale);
 static void dct_unquantize_mpeg2_inter_c(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale);
+                                   int16_t *block, int n, int qscale);
 static void dct_unquantize_h263_intra_c(MpegEncContext *s,
-                                  DCTELEM *block, int n, int qscale);
+                                  int16_t *block, int n, int qscale);
 static void dct_unquantize_h263_inter_c(MpegEncContext *s,
-                                  DCTELEM *block, int n, int qscale);
+                                  int16_t *block, int n, int qscale);
 
 
 //#define DEBUG
@@ -131,6 +131,7 @@ const enum AVPixelFormat ff_hwaccel_pixfmt_list_420[] = {
     AV_PIX_FMT_DXVA2_VLD,
     AV_PIX_FMT_VAAPI_VLD,
     AV_PIX_FMT_VDA_VLD,
+    AV_PIX_FMT_VDPAU,
     AV_PIX_FMT_YUV420P,
     AV_PIX_FMT_NONE
 };
@@ -222,6 +223,7 @@ void ff_copy_picture(Picture *dst, Picture *src)
  */
 static void free_frame_buffer(MpegEncContext *s, Picture *pic)
 {
+    pic->period_since_free = 0;
     /* WM Image / Screen codecs allocate internal buffers with different
      * dimensions / colorspaces; ignore user-defined callbacks for these. */
     if (s->codec_id != AV_CODEC_ID_WMV3IMAGE &&
@@ -390,7 +392,7 @@ int ff_alloc_picture(MpegEncContext *s, Picture *pic, int shared)
         }
         if (s->avctx->debug&FF_DEBUG_DCT_COEFF) {
             FF_ALLOCZ_OR_GOTO(s->avctx, pic->f.dct_coeff,
-                              64 * mb_array_size * sizeof(DCTELEM) * 6, fail)
+                              64 * mb_array_size * sizeof(int16_t) * 6, fail)
         }
         pic->f.qstride = s->mb_stride;
         FF_ALLOCZ_OR_GOTO(s->avctx, pic->f.pan_scan,
@@ -467,7 +469,7 @@ static int init_duplicate_context(MpegEncContext *s, MpegEncContext *base)
                               2 * 64 * sizeof(int), fail)
         }
     }
-    FF_ALLOCZ_OR_GOTO(s->avctx, s->blocks, 64 * 12 * 2 * sizeof(DCTELEM), fail)
+    FF_ALLOCZ_OR_GOTO(s->avctx, s->blocks, 64 * 12 * 2 * sizeof(int16_t), fail)
     s->block = s->blocks[0];
 
     for (i = 0; i < 12; i++) {
@@ -582,8 +584,11 @@ int ff_mpeg_update_thread_context(AVCodecContext *dst,
         if (s1->context_initialized){
             s->picture_range_start  += MAX_PICTURE_COUNT;
             s->picture_range_end    += MAX_PICTURE_COUNT;
-            if((err = ff_MPV_common_init(s)) < 0)
+            if((err = ff_MPV_common_init(s)) < 0){
+                memset(s, 0, sizeof(MpegEncContext));
+                s->avctx = dst;
                 return err;
+            }
         }
     }
 
@@ -610,8 +615,10 @@ int ff_mpeg_update_thread_context(AVCodecContext *dst,
            (char *) &s1->last_picture_ptr - (char *) &s1->last_picture);
 
     // reset s->picture[].f.extended_data to s->picture[].f.data
-    for (i = 0; i < s->picture_count; i++)
+    for (i = 0; i < s->picture_count; i++) {
         s->picture[i].f.extended_data = s->picture[i].f.data;
+        s->picture[i].period_since_free ++;
+    }
 
     s->last_picture_ptr    = REBASE_PICTURE(s1->last_picture_ptr,    s, s1);
     s->current_picture_ptr = REBASE_PICTURE(s1->current_picture_ptr, s, s1);
@@ -1257,6 +1264,10 @@ void ff_release_unused_pictures(MpegEncContext*s, int remove_current)
 
 static inline int pic_is_unused(MpegEncContext *s, Picture *pic)
 {
+    if (   (s->avctx->active_thread_type & FF_THREAD_FRAME)
+        && pic->f.qscale_table //check if the frame has anything allocated
+        && pic->period_since_free < s->avctx->thread_count)
+        return 0;
     if (pic->f.data[0] == NULL)
         return 1;
     if (pic->needs_realloc && !(pic->f.reference & DELAYED_PIC_REF))
@@ -1496,6 +1507,8 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
         }
     }
 
+    memset(s->last_picture.f.data, 0, sizeof(s->last_picture.f.data));
+    memset(s->next_picture.f.data, 0, sizeof(s->next_picture.f.data));
     if (s->last_picture_ptr)
         ff_copy_picture(&s->last_picture, s->last_picture_ptr);
     if (s->next_picture_ptr)
@@ -1655,7 +1668,7 @@ static void draw_line(uint8_t *buf, int sx, int sy, int ex, int ey,
         buf += sx + sy * stride;
         ex  -= sx;
         f    = ((ey - sy) << 16) / ex;
-        for(x= 0; x <= ex; x++){
+        for (x = 0; x <= ex; x++) {
             y  = (x * f) >> 16;
             fr = (x * f) & 0xFFFF;
             buf[y * stride + x]       += (color * (0x10000 - fr)) >> 16;
@@ -2423,7 +2436,7 @@ unhandled:
 
 /* put block[] to dest[] */
 static inline void put_dct(MpegEncContext *s,
-                           DCTELEM *block, int i, uint8_t *dest, int line_size, int qscale)
+                           int16_t *block, int i, uint8_t *dest, int line_size, int qscale)
 {
     s->dct_unquantize_intra(s, block, i, qscale);
     s->dsp.idct_put (dest, line_size, block);
@@ -2431,7 +2444,7 @@ static inline void put_dct(MpegEncContext *s,
 
 /* add block[] to dest[] */
 static inline void add_dct(MpegEncContext *s,
-                           DCTELEM *block, int i, uint8_t *dest, int line_size)
+                           int16_t *block, int i, uint8_t *dest, int line_size)
 {
     if (s->block_last_index[i] >= 0) {
         s->dsp.idct_add (dest, line_size, block);
@@ -2439,7 +2452,7 @@ static inline void add_dct(MpegEncContext *s,
 }
 
 static inline void add_dequant_dct(MpegEncContext *s,
-                           DCTELEM *block, int i, uint8_t *dest, int line_size, int qscale)
+                           int16_t *block, int i, uint8_t *dest, int line_size, int qscale)
 {
     if (s->block_last_index[i] >= 0) {
         s->dct_unquantize_inter(s, block, i, qscale);
@@ -2492,7 +2505,7 @@ void ff_clean_intra_table_entries(MpegEncContext *s)
    s->interlaced_dct : true if interlaced dct used (mpeg2)
  */
 static av_always_inline
-void MPV_decode_mb_internal(MpegEncContext *s, DCTELEM block[12][64],
+void MPV_decode_mb_internal(MpegEncContext *s, int16_t block[12][64],
                             int lowres_flag, int is_mpeg12)
 {
     const int mb_xy = s->mb_y * s->mb_stride + s->mb_x;
@@ -2504,7 +2517,7 @@ void MPV_decode_mb_internal(MpegEncContext *s, DCTELEM block[12][64],
     if(s->avctx->debug&FF_DEBUG_DCT_COEFF) {
        /* save DCT coefficients */
        int i,j;
-       DCTELEM *dct = &s->current_picture.f.dct_coeff[mb_xy * 64 * 6];
+       int16_t *dct = &s->current_picture.f.dct_coeff[mb_xy * 64 * 6];
        av_log(s->avctx, AV_LOG_DEBUG, "DCT coeffs of MB at %dx%d:\n", s->mb_x, s->mb_y);
        for(i=0; i<6; i++){
            for(j=0; j<64; j++){
@@ -2735,7 +2748,7 @@ skip_idct:
     }
 }
 
-void ff_MPV_decode_mb(MpegEncContext *s, DCTELEM block[12][64]){
+void ff_MPV_decode_mb(MpegEncContext *s, int16_t block[12][64]){
 #if !CONFIG_SMALL
     if(s->out_format == FMT_MPEG1) {
         if(s->avctx->lowres) MPV_decode_mb_internal(s, block, 1, 1);
@@ -2877,7 +2890,7 @@ void ff_mpeg_flush(AVCodecContext *avctx){
 }
 
 static void dct_unquantize_mpeg1_intra_c(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale)
+                                   int16_t *block, int n, int qscale)
 {
     int i, level, nCoeffs;
     const uint16_t *quant_matrix;
@@ -2906,7 +2919,7 @@ static void dct_unquantize_mpeg1_intra_c(MpegEncContext *s,
 }
 
 static void dct_unquantize_mpeg1_inter_c(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale)
+                                   int16_t *block, int n, int qscale)
 {
     int i, level, nCoeffs;
     const uint16_t *quant_matrix;
@@ -2935,7 +2948,7 @@ static void dct_unquantize_mpeg1_inter_c(MpegEncContext *s,
 }
 
 static void dct_unquantize_mpeg2_intra_c(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale)
+                                   int16_t *block, int n, int qscale)
 {
     int i, level, nCoeffs;
     const uint16_t *quant_matrix;
@@ -2962,7 +2975,7 @@ static void dct_unquantize_mpeg2_intra_c(MpegEncContext *s,
 }
 
 static void dct_unquantize_mpeg2_intra_bitexact(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale)
+                                   int16_t *block, int n, int qscale)
 {
     int i, level, nCoeffs;
     const uint16_t *quant_matrix;
@@ -2993,7 +3006,7 @@ static void dct_unquantize_mpeg2_intra_bitexact(MpegEncContext *s,
 }
 
 static void dct_unquantize_mpeg2_inter_c(MpegEncContext *s,
-                                   DCTELEM *block, int n, int qscale)
+                                   int16_t *block, int n, int qscale)
 {
     int i, level, nCoeffs;
     const uint16_t *quant_matrix;
@@ -3024,7 +3037,7 @@ static void dct_unquantize_mpeg2_inter_c(MpegEncContext *s,
 }
 
 static void dct_unquantize_h263_intra_c(MpegEncContext *s,
-                                  DCTELEM *block, int n, int qscale)
+                                  int16_t *block, int n, int qscale)
 {
     int i, level, qmul, qadd;
     int nCoeffs;
@@ -3058,7 +3071,7 @@ static void dct_unquantize_h263_intra_c(MpegEncContext *s,
 }
 
 static void dct_unquantize_h263_inter_c(MpegEncContext *s,
-                                  DCTELEM *block, int n, int qscale)
+                                  int16_t *block, int n, int qscale)
 {
     int i, level, qmul, qadd;
     int nCoeffs;

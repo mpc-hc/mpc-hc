@@ -149,13 +149,16 @@
     <None Include="libavcodec\x86\sbrdsp.asm" />
     <None Include="libavcodec\x86\vc1dsp.asm" />
     <None Include="libavcodec\x86\videodsp.asm" />
+    <None Include="libavcodec\x86\vorbisdsp.asm" />
     <None Include="libavcodec\x86\vp3dsp.asm" />
     <None Include="libavcodec\x86\vp56dsp.asm" />
     <None Include="libavcodec\x86\vp8dsp.asm" />
     <None Include="libavresample\x86\audio_convert.asm" />
     <None Include="libavresample\x86\audio_mix.asm" />
+    <None Include="libavresample\x86\dither.asm" />
     <None Include="libavresample\x86\util.asm" />
     <None Include="libavutil\x86\cpuid.asm" />
+    <None Include="libavutil\x86\emms.asm" />
     <None Include="libavutil\x86\float_dsp.asm" />
     <None Include="libavutil\x86\x86inc.asm" />
     <None Include="libavutil\x86\x86util.asm" />
@@ -239,6 +242,8 @@
     <ClCompile Include="libavcodec\h264idct_template.c" />
     <ClCompile Include="libavcodec\h264pred.c" />
     <ClCompile Include="libavcodec\h264pred_template.c" />
+    <ClCompile Include="libavcodec\h264qpel.c" />
+    <ClCompile Include="libavcodec\h264qpel_template.c" />
     <ClCompile Include="libavcodec\h264_cabac.c" />
     <ClCompile Include="libavcodec\h264_cavlc.c" />
     <ClCompile Include="libavcodec\h264_direct.c" />
@@ -251,6 +256,7 @@
     <ClCompile Include="libavcodec\h264_recov.c" />
     <ClCompile Include="libavcodec\h264_refs.c" />
     <ClCompile Include="libavcodec\h264_sei.c" />
+    <ClCompile Include="libavcodec\hpel_template.c" />
     <ClCompile Include="libavcodec\huffman.c" />
     <ClCompile Include="libavcodec\imgconvert.c" />
     <ClCompile Include="libavcodec\indeo3.c" />
@@ -341,6 +347,7 @@
     <ClCompile Include="libavcodec\videodsp_template.c" />
     <ClCompile Include="libavcodec\vorbis.c" />
     <ClCompile Include="libavcodec\vorbisdec.c" />
+    <ClCompile Include="libavcodec\vorbisdsp.c" />
     <ClCompile Include="libavcodec\vorbis_data.c" />
     <ClCompile Include="libavcodec\vp3.c" />
     <ClCompile Include="libavcodec\vp3dsp.c" />
@@ -355,6 +362,7 @@
     <ClCompile Include="libavcodec\vp8dsp.c" />
     <ClCompile Include="libavcodec\wmv2.c" />
     <ClCompile Include="libavcodec\wmv2dec.c" />
+    <ClCompile Include="libavcodec\wmv2dsp.c" />
     <ClCompile Include="libavcodec\x86\ac3dsp_init.c" />
     <ClCompile Include="libavcodec\x86\dsputil_avg_template.c" />
     <ClCompile Include="libavcodec\x86\dsputil_mmx.c" />
@@ -380,6 +388,7 @@
     <ClCompile Include="libavcodec\x86\vc1dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vc1dsp_mmx.c" />
     <ClCompile Include="libavcodec\x86\videodsp_init.c" />
+    <ClCompile Include="libavcodec\x86\vorbisdsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp3dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp56dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp8dsp_init.c" />
@@ -395,6 +404,7 @@
     <ClCompile Include="libavresample\utils.c" />
     <ClCompile Include="libavresample\x86\audio_convert_init.c" />
     <ClCompile Include="libavresample\x86\audio_mix_init.c" />
+    <ClCompile Include="libavresample\x86\dither_init.c" />
     <ClCompile Include="libavutil\audio_fifo.c" />
     <ClCompile Include="libavutil\avstring.c" />
     <ClCompile Include="libavutil\bprint.c" />
@@ -423,6 +433,7 @@
     <ClCompile Include="libavutil\rational.c" />
     <ClCompile Include="libavutil\samplefmt.c" />
     <ClCompile Include="libavutil\sha.c" />
+    <ClCompile Include="libavutil\time.c" />
     <ClCompile Include="libavutil\timecode.c" />
     <ClCompile Include="libavutil\utils.c" />
     <ClCompile Include="libavutil\x86\cpu.c" />
@@ -496,7 +507,6 @@
     <ClInclude Include="libavcodec\dct32.h" />
     <ClInclude Include="libavcodec\diracdsp.h" />
     <ClInclude Include="libavcodec\dsputil.h" />
-    <ClInclude Include="libavcodec\dwt.h" />
     <ClInclude Include="libavcodec\dxva.h" />
     <ClInclude Include="libavcodec\eac3_data.h" />
     <ClInclude Include="libavcodec\faandct.h" />
@@ -520,6 +530,7 @@
     <ClInclude Include="libavcodec\h264data.h" />
     <ClInclude Include="libavcodec\h264dsp.h" />
     <ClInclude Include="libavcodec\h264pred.h" />
+    <ClInclude Include="libavcodec\h264qpel.h" />
     <ClInclude Include="libavcodec\h264_mvpred.h" />
     <ClInclude Include="libavcodec\huffman.h" />
     <ClInclude Include="libavcodec\indeo3data.h" />
@@ -603,6 +614,7 @@
     <ClInclude Include="libavcodec\version.h" />
     <ClInclude Include="libavcodec\videodsp.h" />
     <ClInclude Include="libavcodec\vorbis.h" />
+    <ClInclude Include="libavcodec\vorbisdsp.h" />
     <ClInclude Include="libavcodec\vp3data.h" />
     <ClInclude Include="libavcodec\vp3dsp.h" />
     <ClInclude Include="libavcodec\vp56.h" />
@@ -615,6 +627,7 @@
     <ClInclude Include="libavcodec\vp8dsp.h" />
     <ClInclude Include="libavcodec\w32pthreads.h" />
     <ClInclude Include="libavcodec\wmv2.h" />
+    <ClInclude Include="libavcodec\wmv2dsp.h" />
     <ClInclude Include="libavcodec\x86\cabac.h" />
     <ClInclude Include="libavcodec\x86\diracdsp_mmx.h" />
     <ClInclude Include="libavcodec\x86\dsputil_mmx.h" />
@@ -677,12 +690,14 @@
     <ClInclude Include="libavutil\rational.h" />
     <ClInclude Include="libavutil\samplefmt.h" />
     <ClInclude Include="libavutil\sha.h" />
+    <ClInclude Include="libavutil\time.h" />
     <ClInclude Include="libavutil\timecode.h" />
     <ClInclude Include="libavutil\timer.h" />
     <ClInclude Include="libavutil\version.h" />
     <ClInclude Include="libavutil\x86\asm.h" />
     <ClInclude Include="libavutil\x86\bswap.h" />
     <ClInclude Include="libavutil\x86\cpu.h" />
+    <ClInclude Include="libavutil\x86\emms.h" />
     <ClInclude Include="libavutil\x86\intreadwrite.h" />
     <ClInclude Include="libavutil\x86\timer.h" />
     <ClInclude Include="libavutil\x86_cpu.h" />

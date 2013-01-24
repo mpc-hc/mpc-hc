@@ -41,7 +41,7 @@ OUT_LIB     = $(OUT_LIB_DIR)/ffmpeg.lib
 
 
 # Compiler and yasm flags
-CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I$(ZLIB_DIR) -DHAVE_AV_CONFIG_H \
+CFLAGS    = -I. -I.. -Ilibavcodec -I$(ZLIB_DIR) -DHAVE_AV_CONFIG_H \
             -D_ISOC99_SOURCE -D_XOPEN_SOURCE=600 -D_LARGEFILE_SOURCE \
             -D_FILE_OFFSET_BITS=64 -std=gnu99 -pipe -mthreads
 OPTFLAGS  = -O2 -fno-common -fno-tree-vectorize -fomit-frame-pointer
@@ -170,6 +170,7 @@ SRCS_C = \
     libavcodec/h264dsp.c \
     libavcodec/h264idct.c \
     libavcodec/h264pred.c \
+    libavcodec/h264qpel.c \
     libavcodec/huffman.c \
     libavcodec/imgconvert.c \
     libavcodec/indeo3.c \
@@ -256,6 +257,7 @@ SRCS_C = \
     libavcodec/vorbis.c \
     libavcodec/vorbis_data.c \
     libavcodec/vorbisdec.c \
+    libavcodec/vorbisdsp.c \
     libavcodec/vp3.c \
     libavcodec/vp3dsp.c \
     libavcodec/vp5.c \
@@ -269,6 +271,7 @@ SRCS_C = \
     libavcodec/vp8dsp.c \
     libavcodec/wmv2.c \
     libavcodec/wmv2dec.c \
+    libavcodec/wmv2dsp.c \
     libavcodec/xiph.c \
     libavcodec/x86/ac3dsp_init.c \
     libavcodec/x86/dsputil_mmx.c \
@@ -276,6 +279,7 @@ SRCS_C = \
     libavcodec/x86/fft_init.c \
     libavcodec/x86/fmtconvert_init.c \
     libavcodec/x86/h264_intrapred_init.c \
+    libavcodec/x86/h264_qpel.c \
     libavcodec/x86/h264dsp_init.c \
     libavcodec/x86/idct_mmx.c \
     libavcodec/x86/idct_mmx_xvid.c \
@@ -291,6 +295,7 @@ SRCS_C = \
     libavcodec/x86/vc1dsp_init.c \
     libavcodec/x86/vc1dsp_mmx.c \
     libavcodec/x86/videodsp_init.c \
+    libavcodec/x86/vorbisdsp_init.c \
     libavcodec/x86/vp3dsp_init.c \
     libavcodec/x86/vp56dsp_init.c \
     libavcodec/x86/vp8dsp_init.c \
@@ -305,6 +310,7 @@ SRCS_C = \
     libavresample/utils.c \
     libavresample/x86/audio_convert_init.c \
     libavresample/x86/audio_mix_init.c \
+    libavresample/x86/dither_init.c \
 \
     libavutil/audio_fifo.c \
     libavutil/avstring.c \
@@ -331,6 +337,7 @@ SRCS_C = \
     libavutil/rational.c \
     libavutil/samplefmt.c \
     libavutil/sha.c \
+    libavutil/time.c \
     libavutil/timecode.c \
     libavutil/utils.c \
     libavutil/x86/cpu.c \
@@ -374,13 +381,16 @@ SRCS_YASM = \
     libavcodec/x86/sbrdsp.asm \
     libavcodec/x86/vc1dsp.asm \
     libavcodec/x86/videodsp.asm \
+    libavcodec/x86/vorbisdsp.asm \
     libavcodec/x86/vp3dsp.asm \
     libavcodec/x86/vp56dsp.asm \
     libavcodec/x86/vp8dsp.asm \
     libavresample/x86/audio_convert.asm \
     libavresample/x86/audio_mix.asm \
+    libavresample/x86/dither.asm \
     libavresample/x86/util.asm \
     libavutil/x86/cpuid.asm \
+    libavutil/x86/emms.asm \
     libavutil/x86/float_dsp.asm \
     libswscale/x86/input.asm \
     libswscale/x86/output.asm \

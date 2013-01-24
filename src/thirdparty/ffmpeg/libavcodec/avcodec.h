@@ -267,12 +267,14 @@ enum AVCodecID {
     AV_CODEC_ID_MTS2,
     AV_CODEC_ID_CLLC,
     AV_CODEC_ID_MSS2,
+    AV_CODEC_ID_VP9,
     AV_CODEC_ID_BRENDER_PIX= MKBETAG('B','P','I','X'),
     AV_CODEC_ID_Y41P       = MKBETAG('Y','4','1','P'),
     AV_CODEC_ID_ESCAPE130  = MKBETAG('E','1','3','0'),
     AV_CODEC_ID_EXR        = MKBETAG('0','E','X','R'),
     AV_CODEC_ID_AVRP       = MKBETAG('A','V','R','P'),
 
+    AV_CODEC_ID_012V       = MKBETAG('0','1','2','V'),
     AV_CODEC_ID_G2M        = MKBETAG( 0 ,'G','2','M'),
     AV_CODEC_ID_AVUI       = MKBETAG('A','V','U','I'),
     AV_CODEC_ID_AYUV       = MKBETAG('A','Y','U','V'),
@@ -446,6 +448,8 @@ enum AVCodecID {
     AV_CODEC_ID_PAF_AUDIO   = MKBETAG('P','A','F','A'),
     AV_CODEC_ID_OPUS        = MKBETAG('O','P','U','S'),
     AV_CODEC_ID_TAK         = MKBETAG('t','B','a','K'),
+    AV_CODEC_ID_EVRC        = MKBETAG('s','e','v','c'),
+    AV_CODEC_ID_SMV         = MKBETAG('s','s','m','v'),
 
     /* subtitle codecs */
     AV_CODEC_ID_FIRST_SUBTITLE = 0x17000,          ///< A dummy ID pointing at the start of subtitle codecs.
@@ -2906,20 +2910,22 @@ typedef struct AVCodecContext {
 #define FF_IDCT_ALTIVEC       8
 #define FF_IDCT_SH4           9
 #define FF_IDCT_SIMPLEARM     10
-#define FF_IDCT_H264          11
-#define FF_IDCT_VP3           12
 #define FF_IDCT_IPP           13
 #define FF_IDCT_XVIDMMX       14
-#define FF_IDCT_CAVS          15
 #define FF_IDCT_SIMPLEARMV5TE 16
 #define FF_IDCT_SIMPLEARMV6   17
 #define FF_IDCT_SIMPLEVIS     18
-#define FF_IDCT_WMV2          19
 #define FF_IDCT_FAAN          20
-#define FF_IDCT_EA            21
 #define FF_IDCT_SIMPLENEON    22
 #define FF_IDCT_SIMPLEALPHA   23
+#if FF_API_IDCT
+#define FF_IDCT_H264          11
+#define FF_IDCT_VP3           12
+#define FF_IDCT_CAVS          15
+#define FF_IDCT_WMV2          19
+#define FF_IDCT_EA            21
 #define FF_IDCT_BINK          24
+#endif
 
 #if FF_API_DSP_MASK
     /**

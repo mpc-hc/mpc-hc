@@ -39,9 +39,6 @@
 DECLARE_ALIGNED(8,  const uint64_t, ff_bone) = 0x0101010101010101ULL;
 DECLARE_ALIGNED(8,  const uint64_t, ff_wtwo) = 0x0002000200020002ULL;
 
-DECLARE_ALIGNED(16, const uint64_t, ff_pdw_80000000)[2] =
-    { 0x8000000080000000ULL, 0x8000000080000000ULL };
-
 DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_1)    = { 0x0001000100010001ULL, 0x0001000100010001ULL };
 DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_2)    = { 0x0002000200020002ULL, 0x0002000200020002ULL };
 DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_3)    = { 0x0003000300030003ULL, 0x0003000300030003ULL };
@@ -164,6 +161,7 @@ DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
 
 /***********************************/
 /* MMX no rounding */
+#define NO_RND 1
 #define DEF(x, y) x ## _no_rnd_ ## y ## _mmx
 #define SET_RND  MOVQ_WONE
 #define PAVGBP(a, b, c, d, e, f)        PAVGBP_MMX_NO_RND(a, b, c, d, e, f)
@@ -176,6 +174,7 @@ DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
 #undef SET_RND
 #undef PAVGBP
 #undef PAVGB
+#undef NO_RND
 /***********************************/
 /* MMX rounding */
 
@@ -197,14 +196,12 @@ DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
 
 #define DEF(x) x ## _3dnow
 #define PAVGB "pavgusb"
-#define OP_AVG PAVGB
 #define SKIP_FOR_3DNOW
 
 #include "dsputil_avg_template.c"
 
 #undef DEF
 #undef PAVGB
-#undef OP_AVG
 #undef SKIP_FOR_3DNOW
 
 /***********************************/
@@ -214,13 +211,11 @@ DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
 
 /* Introduced only in MMXEXT set */
 #define PAVGB "pavgb"
-#define OP_AVG PAVGB
 
 #include "dsputil_avg_template.c"
 
 #undef DEF
 #undef PAVGB
-#undef OP_AVG
 
 #define put_no_rnd_pixels16_mmx put_pixels16_mmx
 #define put_no_rnd_pixels8_mmx put_pixels8_mmx
@@ -233,10 +228,10 @@ DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
 /***********************************/
 /* standard MMX */
 
-void ff_put_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels,
+void ff_put_pixels_clamped_mmx(const int16_t *block, uint8_t *pixels,
                                int line_size)
 {
-    const DCTELEM *p;
+    const int16_t *p;
     uint8_t *pix;
 
     /* read the pixels */
@@ -308,7 +303,7 @@ void ff_put_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels,
     "movq               %%mm3, (%0, %3, 2)  \n\t"           \
     "movq               %%mm4, (%0, %1)     \n\t"
 
-void ff_put_signed_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels,
+void ff_put_signed_pixels_clamped_mmx(const int16_t *block, uint8_t *pixels,
                                       int line_size)
 {
     x86_reg line_skip = line_size;
@@ -325,10 +320,10 @@ void ff_put_signed_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels,
         : "memory");
 }
 
-void ff_add_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels,
+void ff_add_pixels_clamped_mmx(const int16_t *block, uint8_t *pixels,
                                int line_size)
 {
-    const DCTELEM *p;
+    const int16_t *p;
     uint8_t *pix;
     int i;
 
@@ -430,7 +425,7 @@ static void put_pixels16_mmx(uint8_t *block, const uint8_t *pixels,
 }
 
 #define CLEAR_BLOCKS(name, n)                           \
-static void name(DCTELEM *blocks)                       \
+static void name(int16_t *blocks)                       \
 {                                                       \
     __asm__ volatile (                                  \
         "pxor %%mm7, %%mm7              \n\t"           \
@@ -450,7 +445,7 @@ static void name(DCTELEM *blocks)                       \
 CLEAR_BLOCKS(clear_blocks_mmx, 6)
 CLEAR_BLOCKS(clear_block_mmx, 1)
 
-static void clear_block_sse(DCTELEM *block)
+static void clear_block_sse(int16_t *block)
 {
     __asm__ volatile (
         "xorps  %%xmm0, %%xmm0          \n"
@@ -467,7 +462,7 @@ static void clear_block_sse(DCTELEM *block)
     );
 }
 
-static void clear_blocks_sse(DCTELEM *blocks)
+static void clear_blocks_sse(int16_t *blocks)
 {
     __asm__ volatile (
         "xorps  %%xmm0, %%xmm0              \n"
@@ -1581,63 +1576,6 @@ QPEL_OP(put_,          ff_pw_16, _,        PUT_OP,        mmxext)
 QPEL_OP(avg_,          ff_pw_16, _,        AVG_MMXEXT_OP, mmxext)
 QPEL_OP(put_no_rnd_,   ff_pw_15, _no_rnd_, PUT_OP,        mmxext)
 
-/***********************************/
-/* bilinear qpel: not compliant to any spec, only for -lavdopts fast */
-
-#define QPEL_2TAP_XY(OPNAME, SIZE, MMX, XY, HPEL)                              \
-static void OPNAME ## 2tap_qpel ## SIZE ## _mc ## XY ## _ ## MMX(uint8_t *dst, \
-                                                                 uint8_t *src, \
-                                                                 int stride)   \
-{                                                                              \
-    OPNAME ## pixels ## SIZE ## HPEL(dst, src, stride, SIZE);                  \
-}
-
-#define QPEL_2TAP_L3(OPNAME, SIZE, MMX, XY, S0, S1, S2)                        \
-static void OPNAME ## 2tap_qpel ## SIZE ## _mc ## XY ## _ ## MMX(uint8_t *dst, \
-                                                                 uint8_t *src, \
-                                                                 int stride)   \
-{                                                                              \
-    OPNAME ## 2tap_qpel ## SIZE ## _l3_ ## MMX(dst, src + S0, stride, SIZE,    \
-                                               S1, S2);                        \
-}
-
-#define QPEL_2TAP(OPNAME, SIZE, MMX)                                        \
-QPEL_2TAP_XY(OPNAME, SIZE, MMX, 20, _x2_ ## MMX)                            \
-QPEL_2TAP_XY(OPNAME, SIZE, MMX, 02, _y2_ ## MMX)                            \
-QPEL_2TAP_XY(OPNAME, SIZE, MMX, 22, _xy2_mmx)                               \
-static const qpel_mc_func OPNAME ## 2tap_qpel ## SIZE ## _mc00_ ## MMX =    \
-    OPNAME ## qpel ## SIZE ## _mc00_ ## MMX;                                \
-static const qpel_mc_func OPNAME ## 2tap_qpel ## SIZE ## _mc21_ ## MMX =    \
-    OPNAME ## 2tap_qpel ## SIZE ## _mc20_ ## MMX;                           \
-static const qpel_mc_func OPNAME ## 2tap_qpel ## SIZE ## _mc12_ ## MMX =    \
-    OPNAME ## 2tap_qpel ## SIZE ## _mc02_ ## MMX;                           \
-static void OPNAME ## 2tap_qpel ## SIZE ## _mc32_ ## MMX(uint8_t *dst,      \
-                                                         uint8_t *src,      \
-                                                         int stride)        \
-{                                                                           \
-    OPNAME ## pixels ## SIZE ## _y2_ ## MMX(dst, src + 1, stride, SIZE);    \
-}                                                                           \
-static void OPNAME ## 2tap_qpel ## SIZE ## _mc23_ ## MMX(uint8_t *dst,      \
-                                                         uint8_t *src,      \
-                                                         int stride)        \
-{                                                                           \
-    OPNAME ## pixels ## SIZE ## _x2_ ## MMX(dst, src + stride,              \
-                                            stride, SIZE);                  \
-}                                                                           \
-QPEL_2TAP_L3(OPNAME, SIZE, MMX, 10, 0,           1,       0)                \
-QPEL_2TAP_L3(OPNAME, SIZE, MMX, 30, 1,          -1,       0)                \
-QPEL_2TAP_L3(OPNAME, SIZE, MMX, 01, 0,           stride,  0)                \
-QPEL_2TAP_L3(OPNAME, SIZE, MMX, 03, stride,     -stride,  0)                \
-QPEL_2TAP_L3(OPNAME, SIZE, MMX, 11, 0,           stride,  1)                \
-QPEL_2TAP_L3(OPNAME, SIZE, MMX, 31, 1,           stride, -1)                \
-QPEL_2TAP_L3(OPNAME, SIZE, MMX, 13, stride,     -stride,  1)                \
-QPEL_2TAP_L3(OPNAME, SIZE, MMX, 33, stride + 1, -stride, -1)                \
-
-QPEL_2TAP(put_, 16, mmxext)
-QPEL_2TAP(avg_, 16, mmxext)
-QPEL_2TAP(put_,  8, mmxext)
-QPEL_2TAP(avg_,  8, mmxext)
-
 void ff_put_rv40_qpel8_mc33_mmx(uint8_t *dst, uint8_t *src, int stride)
 {
   put_pixels8_xy2_mmx(dst, src, stride, 8);
@@ -1785,6 +1723,7 @@ static av_always_inline void gmc(uint8_t *dst, uint8_t *src,
     }
 }
 
+#if CONFIG_VIDEODSP
 #if HAVE_YASM
 #if ARCH_X86_32
 static void gmc_mmx(uint8_t *dst, uint8_t *src,
@@ -1814,10 +1753,14 @@ static void gmc_mmx(uint8_t *dst, uint8_t *src,
         width, height, &ff_emulated_edge_mc_8);
 }
 #endif
+#endif
 
 #endif /* HAVE_INLINE_ASM */
 
-#include "h264_qpel.c"
+void ff_put_pixels16_sse2(uint8_t *block, const uint8_t *pixels,
+                          int line_size, int h);
+void ff_avg_pixels16_sse2(uint8_t *block, const uint8_t *pixels,
+                          int line_size, int h);
 
 void ff_put_h264_chroma_mc8_rnd_mmx  (uint8_t *dst, uint8_t *src,
                                       int stride, int h, int x, int y);
@@ -1898,44 +1841,6 @@ void ff_avg_vc1_mspel_mc00_mmxext(uint8_t *dst, const uint8_t *src,
     avg_pixels8_mmxext(dst, src, stride, 8);
 }
 
-/* only used in VP3/5/6 */
-static void put_vp_no_rnd_pixels8_l2_mmx(uint8_t *dst, const uint8_t *a, const uint8_t *b, int stride, int h)
-{
-//    START_TIMER
-    MOVQ_BFE(mm6);
-    __asm__ volatile(
-        "1:                             \n\t"
-        "movq   (%1), %%mm0             \n\t"
-        "movq   (%2), %%mm1             \n\t"
-        "movq   (%1,%4), %%mm2          \n\t"
-        "movq   (%2,%4), %%mm3          \n\t"
-        PAVGBP_MMX_NO_RND(%%mm0, %%mm1, %%mm4,   %%mm2, %%mm3, %%mm5)
-        "movq   %%mm4, (%3)             \n\t"
-        "movq   %%mm5, (%3,%4)          \n\t"
-
-        "movq   (%1,%4,2), %%mm0        \n\t"
-        "movq   (%2,%4,2), %%mm1        \n\t"
-        "movq   (%1,%5), %%mm2          \n\t"
-        "movq   (%2,%5), %%mm3          \n\t"
-        "lea    (%1,%4,4), %1           \n\t"
-        "lea    (%2,%4,4), %2           \n\t"
-        PAVGBP_MMX_NO_RND(%%mm0, %%mm1, %%mm4,   %%mm2, %%mm3, %%mm5)
-        "movq   %%mm4, (%3,%4,2)        \n\t"
-        "movq   %%mm5, (%3,%5)          \n\t"
-        "lea    (%3,%4,4), %3           \n\t"
-        "subl   $4, %0                  \n\t"
-        "jnz    1b                      \n\t"
-        :"+r"(h), "+r"(a), "+r"(b), "+r"(dst)
-        :"r"((x86_reg)stride), "r"((x86_reg)3L*stride)
-        :"memory");
-//    STOP_TIMER("put_vp_no_rnd_pixels8_l2_mmx")
-}
-static void put_vp_no_rnd_pixels16_l2_mmx(uint8_t *dst, const uint8_t *a, const uint8_t *b, int stride, int h)
-{
-    put_vp_no_rnd_pixels8_l2_mmx(dst, a, b, stride, h);
-    put_vp_no_rnd_pixels8_l2_mmx(dst+8, a+8, b+8, stride, h);
-}
-
 #if CONFIG_DIRAC_DECODER
 #define DIRAC_PIXOP(OPNAME, EXT)\
 void ff_ ## OPNAME ## _dirac_pixels8_ ## EXT(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
@@ -1982,158 +1887,33 @@ void ff_avg_dirac_pixels32_sse2(uint8_t *dst, const uint8_t *src[5], int stride,
  * converted. */
 #if CONFIG_GPL
 static void ff_libmpeg2mmx_idct_put(uint8_t *dest, int line_size,
-                                    DCTELEM *block)
+                                    int16_t *block)
 {
     ff_mmx_idct(block);
     ff_put_pixels_clamped_mmx(block, dest, line_size);
 }
 
 static void ff_libmpeg2mmx_idct_add(uint8_t *dest, int line_size,
-                                    DCTELEM *block)
+                                    int16_t *block)
 {
     ff_mmx_idct(block);
     ff_add_pixels_clamped_mmx(block, dest, line_size);
 }
 
 static void ff_libmpeg2mmx2_idct_put(uint8_t *dest, int line_size,
-                                     DCTELEM *block)
+                                     int16_t *block)
 {
     ff_mmxext_idct(block);
     ff_put_pixels_clamped_mmx(block, dest, line_size);
 }
 
 static void ff_libmpeg2mmx2_idct_add(uint8_t *dest, int line_size,
-                                     DCTELEM *block)
+                                     int16_t *block)
 {
     ff_mmxext_idct(block);
     ff_add_pixels_clamped_mmx(block, dest, line_size);
 }
 #endif
-
-static void vorbis_inverse_coupling_3dnow(float *mag, float *ang, int blocksize)
-{
-    int i;
-    __asm__ volatile ("pxor %%mm7, %%mm7":);
-    for (i = 0; i < blocksize; i += 2) {
-        __asm__ volatile (
-            "movq       %0, %%mm0   \n\t"
-            "movq       %1, %%mm1   \n\t"
-            "movq    %%mm0, %%mm2   \n\t"
-            "movq    %%mm1, %%mm3   \n\t"
-            "pfcmpge %%mm7, %%mm2   \n\t" // m <= 0.0
-            "pfcmpge %%mm7, %%mm3   \n\t" // a <= 0.0
-            "pslld     $31, %%mm2   \n\t" // keep only the sign bit
-            "pxor    %%mm2, %%mm1   \n\t"
-            "movq    %%mm3, %%mm4   \n\t"
-            "pand    %%mm1, %%mm3   \n\t"
-            "pandn   %%mm1, %%mm4   \n\t"
-            "pfadd   %%mm0, %%mm3   \n\t" // a = m + ((a < 0) & (a ^ sign(m)))
-            "pfsub   %%mm4, %%mm0   \n\t" // m = m + ((a > 0) & (a ^ sign(m)))
-            "movq    %%mm3, %1      \n\t"
-            "movq    %%mm0, %0      \n\t"
-            : "+m"(mag[i]), "+m"(ang[i])
-            :: "memory"
-        );
-    }
-    __asm__ volatile ("femms");
-}
-
-static void vorbis_inverse_coupling_sse(float *mag, float *ang, int blocksize)
-{
-    int i;
-
-    __asm__ volatile (
-        "movaps  %0, %%xmm5 \n\t"
-        :: "m"(ff_pdw_80000000[0])
-    );
-    for (i = 0; i < blocksize; i += 4) {
-        __asm__ volatile (
-            "movaps      %0, %%xmm0 \n\t"
-            "movaps      %1, %%xmm1 \n\t"
-            "xorps   %%xmm2, %%xmm2 \n\t"
-            "xorps   %%xmm3, %%xmm3 \n\t"
-            "cmpleps %%xmm0, %%xmm2 \n\t" // m <= 0.0
-            "cmpleps %%xmm1, %%xmm3 \n\t" // a <= 0.0
-            "andps   %%xmm5, %%xmm2 \n\t" // keep only the sign bit
-            "xorps   %%xmm2, %%xmm1 \n\t"
-            "movaps  %%xmm3, %%xmm4 \n\t"
-            "andps   %%xmm1, %%xmm3 \n\t"
-            "andnps  %%xmm1, %%xmm4 \n\t"
-            "addps   %%xmm0, %%xmm3 \n\t" // a = m + ((a < 0) & (a ^ sign(m)))
-            "subps   %%xmm4, %%xmm0 \n\t" // m = m + ((a > 0) & (a ^ sign(m)))
-            "movaps  %%xmm3, %1     \n\t"
-            "movaps  %%xmm0, %0     \n\t"
-            : "+m"(mag[i]), "+m"(ang[i])
-            :: "memory"
-        );
-    }
-}
-
-#if HAVE_6REGS
-static void vector_fmul_window_3dnowext(float *dst, const float *src0,
-                                        const float *src1, const float *win,
-                                        int len)
-{
-    x86_reg i = -len * 4;
-    x86_reg j =  len * 4 - 8;
-    __asm__ volatile (
-        "1:                             \n"
-        "pswapd (%5, %1), %%mm1         \n"
-        "movq   (%5, %0), %%mm0         \n"
-        "pswapd (%4, %1), %%mm5         \n"
-        "movq   (%3, %0), %%mm4         \n"
-        "movq      %%mm0, %%mm2         \n"
-        "movq      %%mm1, %%mm3         \n"
-        "pfmul     %%mm4, %%mm2         \n" // src0[len + i] * win[len + i]
-        "pfmul     %%mm5, %%mm3         \n" // src1[j]       * win[len + j]
-        "pfmul     %%mm4, %%mm1         \n" // src0[len + i] * win[len + j]
-        "pfmul     %%mm5, %%mm0         \n" // src1[j]       * win[len + i]
-        "pfadd     %%mm3, %%mm2         \n"
-        "pfsub     %%mm0, %%mm1         \n"
-        "pswapd    %%mm2, %%mm2         \n"
-        "movq      %%mm1, (%2, %0)      \n"
-        "movq      %%mm2, (%2, %1)      \n"
-        "sub          $8, %1            \n"
-        "add          $8, %0            \n"
-        "jl           1b                \n"
-        "femms                          \n"
-        : "+r"(i), "+r"(j)
-        : "r"(dst + len), "r"(src0 + len), "r"(src1), "r"(win + len)
-    );
-}
-
-static void vector_fmul_window_sse(float *dst, const float *src0,
-                                   const float *src1, const float *win, int len)
-{
-    x86_reg i = -len * 4;
-    x86_reg j =  len * 4 - 16;
-    __asm__ volatile (
-        "1:                             \n"
-        "movaps      (%5, %1), %%xmm1   \n"
-        "movaps      (%5, %0), %%xmm0   \n"
-        "movaps      (%4, %1), %%xmm5   \n"
-        "movaps      (%3, %0), %%xmm4   \n"
-        "shufps $0x1b, %%xmm1, %%xmm1   \n"
-        "shufps $0x1b, %%xmm5, %%xmm5   \n"
-        "movaps        %%xmm0, %%xmm2   \n"
-        "movaps        %%xmm1, %%xmm3   \n"
-        "mulps         %%xmm4, %%xmm2   \n" // src0[len + i] * win[len + i]
-        "mulps         %%xmm5, %%xmm3   \n" // src1[j]       * win[len + j]
-        "mulps         %%xmm4, %%xmm1   \n" // src0[len + i] * win[len + j]
-        "mulps         %%xmm5, %%xmm0   \n" // src1[j]       * win[len + i]
-        "addps         %%xmm3, %%xmm2   \n"
-        "subps         %%xmm0, %%xmm1   \n"
-        "shufps $0x1b, %%xmm2, %%xmm2   \n"
-        "movaps        %%xmm1, (%2, %0) \n"
-        "movaps        %%xmm2, (%2, %1) \n"
-        "sub              $16, %1       \n"
-        "add              $16, %0       \n"
-        "jl                1b           \n"
-        : "+r"(i), "+r"(j)
-        : "r"(dst + len), "r"(src0 + len), "r"(src1), "r"(win + len)
-    );
-}
-#endif /* HAVE_6REGS */
 
 static void vector_clipf_sse(float *dst, const float *src,
                              float min, float max, int len)
@@ -2209,18 +1989,6 @@ int  ff_add_hfyu_left_prediction_ssse3(uint8_t *dst, const uint8_t *src,
 int  ff_add_hfyu_left_prediction_sse4(uint8_t *dst, const uint8_t *src,
                                       int w, int left);
 
-float ff_scalarproduct_float_sse(const float *v1, const float *v2, int order);
-
-void ff_vector_fmul_reverse_sse(float *dst, const float *src0,
-                                const float *src1, int len);
-void ff_vector_fmul_reverse_avx(float *dst, const float *src0,
-                                const float *src1, int len);
-
-void ff_vector_fmul_add_sse(float *dst, const float *src0, const float *src1,
-                            const float *src2, int len);
-void ff_vector_fmul_add_avx(float *dst, const float *src0, const float *src1,
-                            const float *src2, int len);
-
 void ff_vector_clip_int32_mmx     (int32_t *dst, const int32_t *src,
                                    int32_t min, int32_t max, unsigned int len);
 void ff_vector_clip_int32_sse2    (int32_t *dst, const int32_t *src,
@@ -2229,11 +1997,6 @@ void ff_vector_clip_int32_int_sse2(int32_t *dst, const int32_t *src,
                                    int32_t min, int32_t max, unsigned int len);
 void ff_vector_clip_int32_sse4    (int32_t *dst, const int32_t *src,
                                    int32_t min, int32_t max, unsigned int len);
-
-extern void ff_butterflies_float_interleave_sse(float *dst, const float *src0,
-                                                const float *src1, int len);
-extern void ff_butterflies_float_interleave_avx(float *dst, const float *src0,
-                                                const float *src1, int len);
 
 #define SET_QPEL_FUNCS(PFX, IDX, SIZE, CPU, PREFIX)                          \
     do {                                                                     \
@@ -2257,26 +2020,10 @@ extern void ff_butterflies_float_interleave_avx(float *dst, const float *src0,
 
 #define SET_HPEL_FUNCS(PFX, IDX, SIZE, CPU)                                     \
     do {                                                                        \
-        c->PFX ## _pixels_tab[IDX][0] = PFX ## _pixels ## SIZE ## _     ## CPU; \
-        c->PFX ## _pixels_tab[IDX][1] = PFX ## _pixels ## SIZE ## _x2_  ## CPU; \
-        c->PFX ## _pixels_tab[IDX][2] = PFX ## _pixels ## SIZE ## _y2_  ## CPU; \
-        c->PFX ## _pixels_tab[IDX][3] = PFX ## _pixels ## SIZE ## _xy2_ ## CPU; \
-    } while (0)
-
-#define H264_QPEL_FUNCS(x, y, CPU)                                                            \
-    do {                                                                                      \
-        c->put_h264_qpel_pixels_tab[0][x + y * 4] = put_h264_qpel16_mc ## x ## y ## _ ## CPU; \
-        c->put_h264_qpel_pixels_tab[1][x + y * 4] = put_h264_qpel8_mc  ## x ## y ## _ ## CPU; \
-        c->avg_h264_qpel_pixels_tab[0][x + y * 4] = avg_h264_qpel16_mc ## x ## y ## _ ## CPU; \
-        c->avg_h264_qpel_pixels_tab[1][x + y * 4] = avg_h264_qpel8_mc  ## x ## y ## _ ## CPU; \
-    } while (0)
-
-#define H264_QPEL_FUNCS_10(x, y, CPU)                                                               \
-    do {                                                                                            \
-        c->put_h264_qpel_pixels_tab[0][x + y * 4] = ff_put_h264_qpel16_mc ## x ## y ## _10_ ## CPU; \
-        c->put_h264_qpel_pixels_tab[1][x + y * 4] = ff_put_h264_qpel8_mc  ## x ## y ## _10_ ## CPU; \
-        c->avg_h264_qpel_pixels_tab[0][x + y * 4] = ff_avg_h264_qpel16_mc ## x ## y ## _10_ ## CPU; \
-        c->avg_h264_qpel_pixels_tab[1][x + y * 4] = ff_avg_h264_qpel8_mc  ## x ## y ## _10_ ## CPU; \
+        c->PFX ## _pixels_tab IDX [0] = PFX ## _pixels ## SIZE ## _     ## CPU; \
+        c->PFX ## _pixels_tab IDX [1] = PFX ## _pixels ## SIZE ## _x2_  ## CPU; \
+        c->PFX ## _pixels_tab IDX [2] = PFX ## _pixels ## SIZE ## _y2_  ## CPU; \
+        c->PFX ## _pixels_tab IDX [3] = PFX ## _pixels ## SIZE ## _xy2_ ## CPU; \
     } while (0)
 
 static void dsputil_init_mmx(DSPContext *c, AVCodecContext *avctx, int mm_flags)
@@ -2293,14 +2040,13 @@ static void dsputil_init_mmx(DSPContext *c, AVCodecContext *avctx, int mm_flags)
         c->clear_blocks = clear_blocks_mmx;
         c->draw_edges   = draw_edges_mmx;
 
-        SET_HPEL_FUNCS(put,        0, 16, mmx);
-        SET_HPEL_FUNCS(put_no_rnd, 0, 16, mmx);
-        SET_HPEL_FUNCS(avg,        0, 16, mmx);
-        SET_HPEL_FUNCS(avg_no_rnd, 0, 16, mmx);
-        SET_HPEL_FUNCS(put,        1,  8, mmx);
-        SET_HPEL_FUNCS(put_no_rnd, 1,  8, mmx);
-        SET_HPEL_FUNCS(avg,        1,  8, mmx);
-        SET_HPEL_FUNCS(avg_no_rnd, 1,  8, mmx);
+        SET_HPEL_FUNCS(put,        [0], 16, mmx);
+        SET_HPEL_FUNCS(put_no_rnd, [0], 16, mmx);
+        SET_HPEL_FUNCS(avg,        [0], 16, mmx);
+        SET_HPEL_FUNCS(avg_no_rnd,    , 16, mmx);
+        SET_HPEL_FUNCS(put,        [1],  8, mmx);
+        SET_HPEL_FUNCS(put_no_rnd, [1],  8, mmx);
+        SET_HPEL_FUNCS(avg,        [1],  8, mmx);
     }
 
 #if ARCH_X86_32 || !HAVE_YASM
@@ -2308,9 +2054,6 @@ static void dsputil_init_mmx(DSPContext *c, AVCodecContext *avctx, int mm_flags)
 #endif
 
     c->add_bytes = add_bytes_mmx;
-
-    c->put_no_rnd_pixels_l2[0]= put_vp_no_rnd_pixels16_l2_mmx;
-    c->put_no_rnd_pixels_l2[1]= put_vp_no_rnd_pixels8_l2_mmx;
 
     if (CONFIG_H263_DECODER || CONFIG_H263_ENCODER) {
         c->h263_v_loop_filter = h263_v_loop_filter_mmx;
@@ -2338,13 +2081,9 @@ static void dsputil_init_mmxext(DSPContext *c, AVCodecContext *avctx,
 #if HAVE_INLINE_ASM
     SET_QPEL_FUNCS(avg_qpel,        0, 16, mmxext, );
     SET_QPEL_FUNCS(avg_qpel,        1,  8, mmxext, );
-    SET_QPEL_FUNCS(avg_2tap_qpel,   0, 16, mmxext, );
-    SET_QPEL_FUNCS(avg_2tap_qpel,   1,  8, mmxext, );
 
     SET_QPEL_FUNCS(put_qpel,        0, 16, mmxext, );
     SET_QPEL_FUNCS(put_qpel,        1,  8, mmxext, );
-    SET_QPEL_FUNCS(put_2tap_qpel,   0, 16, mmxext, );
-    SET_QPEL_FUNCS(put_2tap_qpel,   1,  8, mmxext, );
     SET_QPEL_FUNCS(put_no_rnd_qpel, 0, 16, mmxext, );
     SET_QPEL_FUNCS(put_no_rnd_qpel, 1,  8, mmxext, );
 
@@ -2384,26 +2123,6 @@ static void dsputil_init_mmxext(DSPContext *c, AVCodecContext *avctx,
 #endif /* HAVE_INLINE_ASM */
 
 #if HAVE_MMXEXT_EXTERNAL
-    if (CONFIG_H264QPEL) {
-        if (!high_bit_depth) {
-            SET_QPEL_FUNCS(put_h264_qpel, 0, 16, mmxext, );
-            SET_QPEL_FUNCS(put_h264_qpel, 1,  8, mmxext, );
-            SET_QPEL_FUNCS(put_h264_qpel, 2,  4, mmxext, );
-            SET_QPEL_FUNCS(avg_h264_qpel, 0, 16, mmxext, );
-            SET_QPEL_FUNCS(avg_h264_qpel, 1,  8, mmxext, );
-            SET_QPEL_FUNCS(avg_h264_qpel, 2,  4, mmxext, );
-        } else if (bit_depth == 10) {
-#if !ARCH_X86_64
-            SET_QPEL_FUNCS(avg_h264_qpel, 0, 16, 10_mmxext, ff_);
-            SET_QPEL_FUNCS(put_h264_qpel, 0, 16, 10_mmxext, ff_);
-            SET_QPEL_FUNCS(put_h264_qpel, 1,  8, 10_mmxext, ff_);
-            SET_QPEL_FUNCS(avg_h264_qpel, 1,  8, 10_mmxext, ff_);
-#endif
-            SET_QPEL_FUNCS(put_h264_qpel, 2, 4,  10_mmxext, ff_);
-            SET_QPEL_FUNCS(avg_h264_qpel, 2, 4,  10_mmxext, ff_);
-        }
-    }
-
     if (!high_bit_depth && CONFIG_H264CHROMA) {
         c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_rnd_mmxext;
         c->avg_h264_chroma_pixels_tab[1] = ff_avg_h264_chroma_mc4_mmxext;
@@ -2469,8 +2188,6 @@ static void dsputil_init_3dnow(DSPContext *c, AVCodecContext *avctx,
         c->put_no_rnd_pixels_tab[1][1] = put_no_rnd_pixels8_x2_exact_3dnow;
         c->put_no_rnd_pixels_tab[1][2] = put_no_rnd_pixels8_y2_exact_3dnow;
     }
-
-    c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
 #endif /* HAVE_INLINE_ASM */
 
 #if HAVE_YASM
@@ -2479,14 +2196,6 @@ static void dsputil_init_3dnow(DSPContext *c, AVCodecContext *avctx,
         c->avg_h264_chroma_pixels_tab[1] = ff_avg_h264_chroma_mc4_3dnow;
     }
 #endif /* HAVE_YASM */
-}
-
-static void dsputil_init_3dnowext(DSPContext *c, AVCodecContext *avctx,
-                                  int mm_flags)
-{
-#if HAVE_AMD3DNOWEXT_INLINE && HAVE_6REGS
-    c->vector_fmul_window  = vector_fmul_window_3dnowext;
-#endif
 }
 
 static void dsputil_init_sse(DSPContext *c, AVCodecContext *avctx, int mm_flags)
@@ -2502,23 +2211,11 @@ static void dsputil_init_sse(DSPContext *c, AVCodecContext *avctx, int mm_flags)
         }
     }
 
-    c->vorbis_inverse_coupling = vorbis_inverse_coupling_sse;
-
-#if HAVE_6REGS
-    c->vector_fmul_window = vector_fmul_window_sse;
-#endif
-
     c->vector_clipf = vector_clipf_sse;
 #endif /* HAVE_INLINE_ASM */
 
 #if HAVE_YASM
-    c->vector_fmul_reverse = ff_vector_fmul_reverse_sse;
-    c->vector_fmul_add     = ff_vector_fmul_add_sse;
-
-    c->scalarproduct_float          = ff_scalarproduct_float_sse;
-    c->butterflies_float_interleave = ff_butterflies_float_interleave_sse;
-
-#if HAVE_INLINE_ASM
+#if HAVE_INLINE_ASM && CONFIG_VIDEODSP
     c->gmc = gmc_sse;
 #endif
 #endif /* HAVE_YASM */
@@ -2546,36 +2243,10 @@ static void dsputil_init_sse2(DSPContext *c, AVCodecContext *avctx,
             c->put_pixels_tab[0][0]        = ff_put_pixels16_sse2;
             c->put_no_rnd_pixels_tab[0][0] = ff_put_pixels16_sse2;
             c->avg_pixels_tab[0][0]        = ff_avg_pixels16_sse2;
-            if (CONFIG_H264QPEL)
-                H264_QPEL_FUNCS(0, 0, sse2);
         }
-    }
-
-    if (!high_bit_depth && CONFIG_H264QPEL) {
-        H264_QPEL_FUNCS(0, 1, sse2);
-        H264_QPEL_FUNCS(0, 2, sse2);
-        H264_QPEL_FUNCS(0, 3, sse2);
-        H264_QPEL_FUNCS(1, 1, sse2);
-        H264_QPEL_FUNCS(1, 2, sse2);
-        H264_QPEL_FUNCS(1, 3, sse2);
-        H264_QPEL_FUNCS(2, 1, sse2);
-        H264_QPEL_FUNCS(2, 2, sse2);
-        H264_QPEL_FUNCS(2, 3, sse2);
-        H264_QPEL_FUNCS(3, 1, sse2);
-        H264_QPEL_FUNCS(3, 2, sse2);
-        H264_QPEL_FUNCS(3, 3, sse2);
     }
 
     if (bit_depth == 10) {
-        if (CONFIG_H264QPEL) {
-            SET_QPEL_FUNCS(put_h264_qpel, 0, 16, 10_sse2, ff_);
-            SET_QPEL_FUNCS(put_h264_qpel, 1,  8, 10_sse2, ff_);
-            SET_QPEL_FUNCS(avg_h264_qpel, 0, 16, 10_sse2, ff_);
-            SET_QPEL_FUNCS(avg_h264_qpel, 1,  8, 10_sse2, ff_);
-            H264_QPEL_FUNCS_10(1, 0, sse2_cache64);
-            H264_QPEL_FUNCS_10(2, 0, sse2_cache64);
-            H264_QPEL_FUNCS_10(3, 0, sse2_cache64);
-        }
         if (CONFIG_H264CHROMA) {
             c->put_h264_chroma_pixels_tab[0] = ff_put_h264_chroma_mc8_10_sse2;
             c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_10_sse2;
@@ -2603,27 +2274,7 @@ static void dsputil_init_ssse3(DSPContext *c, AVCodecContext *avctx,
 {
 #if HAVE_SSSE3_EXTERNAL
     const int high_bit_depth = avctx->bits_per_raw_sample > 8;
-    const int bit_depth      = avctx->bits_per_raw_sample;
 
-    if (!high_bit_depth && CONFIG_H264QPEL) {
-        H264_QPEL_FUNCS(1, 0, ssse3);
-        H264_QPEL_FUNCS(1, 1, ssse3);
-        H264_QPEL_FUNCS(1, 2, ssse3);
-        H264_QPEL_FUNCS(1, 3, ssse3);
-        H264_QPEL_FUNCS(2, 0, ssse3);
-        H264_QPEL_FUNCS(2, 1, ssse3);
-        H264_QPEL_FUNCS(2, 2, ssse3);
-        H264_QPEL_FUNCS(2, 3, ssse3);
-        H264_QPEL_FUNCS(3, 0, ssse3);
-        H264_QPEL_FUNCS(3, 1, ssse3);
-        H264_QPEL_FUNCS(3, 2, ssse3);
-        H264_QPEL_FUNCS(3, 3, ssse3);
-    }
-    if (bit_depth == 10 && CONFIG_H264QPEL) {
-        H264_QPEL_FUNCS_10(1, 0, ssse3_cache64);
-        H264_QPEL_FUNCS_10(2, 0, ssse3_cache64);
-        H264_QPEL_FUNCS_10(3, 0, ssse3_cache64);
-    }
     if (!high_bit_depth && CONFIG_H264CHROMA) {
         c->put_h264_chroma_pixels_tab[0] = ff_put_h264_chroma_mc8_rnd_ssse3;
         c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_rnd_ssse3;
@@ -2660,20 +2311,11 @@ static void dsputil_init_avx(DSPContext *c, AVCodecContext *avctx, int mm_flags)
     if (bit_depth == 10) {
         // AVX implies !cache64.
         // TODO: Port cache(32|64) detection from x264.
-        if (CONFIG_H264QPEL) {
-            H264_QPEL_FUNCS_10(1, 0, sse2);
-            H264_QPEL_FUNCS_10(2, 0, sse2);
-            H264_QPEL_FUNCS_10(3, 0, sse2);
-        }
-
         if (CONFIG_H264CHROMA) {
             c->put_h264_chroma_pixels_tab[0] = ff_put_h264_chroma_mc8_10_avx;
             c->avg_h264_chroma_pixels_tab[0] = ff_avg_h264_chroma_mc8_10_avx;
         }
     }
-    c->butterflies_float_interleave = ff_butterflies_float_interleave_avx;
-    c->vector_fmul_reverse = ff_vector_fmul_reverse_avx;
-    c->vector_fmul_add = ff_vector_fmul_add_avx;
 #endif /* HAVE_AVX_EXTERNAL */
 }
 
@@ -2736,9 +2378,6 @@ void ff_dsputil_init_mmx(DSPContext *c, AVCodecContext *avctx)
 
     if (mm_flags & AV_CPU_FLAG_3DNOW)
         dsputil_init_3dnow(c, avctx, mm_flags);
-
-    if (mm_flags & AV_CPU_FLAG_3DNOWEXT)
-        dsputil_init_3dnowext(c, avctx, mm_flags);
 
     if (mm_flags & AV_CPU_FLAG_SSE)
         dsputil_init_sse(c, avctx, mm_flags);

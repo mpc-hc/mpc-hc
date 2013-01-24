@@ -1031,6 +1031,13 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .props     = AV_CODEC_PROP_LOSSY,
     },
     {
+        .id        = AV_CODEC_ID_VP9,
+        .type      = AVMEDIA_TYPE_VIDEO,
+        .name      = "vp9",
+        .long_name = NULL_IF_CONFIG_SMALL("Google VP9"),
+        .props     = AV_CODEC_PROP_LOSSY,
+    },
+    {
         .id        = AV_CODEC_ID_PICTOR,
         .type      = AVMEDIA_TYPE_VIDEO,
         .name      = "pictor",
@@ -1260,6 +1267,13 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .type      = AVMEDIA_TYPE_VIDEO,
         .name      = "avrp",
         .long_name = NULL_IF_CONFIG_SMALL("Avid 1:1 10-bit RGB Packer"),
+        .props     = AV_CODEC_PROP_INTRA_ONLY,
+    },
+    {
+        .id        = AV_CODEC_ID_012V,
+        .type      = AVMEDIA_TYPE_VIDEO,
+        .name      = "012v",
+        .long_name = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
         .props     = AV_CODEC_PROP_INTRA_ONLY,
     },
     {
@@ -2335,6 +2349,20 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .name      = "tak",
         .long_name = NULL_IF_CONFIG_SMALL("TAK (Tom's lossless Audio Kompressor)"),
         .props     = AV_CODEC_PROP_LOSSLESS,
+    },
+    {
+        .id        = AV_CODEC_ID_EVRC,
+        .type      = AVMEDIA_TYPE_AUDIO,
+        .name      = "evrc",
+        .long_name = NULL_IF_CONFIG_SMALL("EVRC (Enhanced Variable Rate Codec)"),
+        .props     = AV_CODEC_PROP_LOSSY,
+    },
+    {
+        .id        = AV_CODEC_ID_SMV,
+        .type      = AVMEDIA_TYPE_AUDIO,
+        .name      = "smv",
+        .long_name = NULL_IF_CONFIG_SMALL("SMV (Selectable Mode Vocoder)"),
+        .props     = AV_CODEC_PROP_LOSSY,
     },
 
     /* subtitle codecs */

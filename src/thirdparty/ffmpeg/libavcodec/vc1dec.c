@@ -1149,8 +1149,12 @@ static av_always_inline void get_mvdata_interlaced(VC1Context *v, int *dmv_x,
         *dmv_x = get_bits(gb, v->k_x);
         *dmv_y = get_bits(gb, v->k_y);
         if (v->numref) {
-            *pred_flag = *dmv_y & 1;
-            *dmv_y     = (*dmv_y + *pred_flag) >> 1;
+            if (pred_flag) {
+                *pred_flag = *dmv_y & 1;
+                *dmv_y     = (*dmv_y + *pred_flag) >> 1;
+            } else {
+                *dmv_y     = (*dmv_y + (*dmv_y & 1)) >> 1;
+            }
         }
     }
     else {
@@ -1177,7 +1181,7 @@ static av_always_inline void get_mvdata_interlaced(VC1Context *v, int *dmv_x,
             *dmv_y = (sign ^ ((val >> 1) + offs_tab[index1 >> v->numref])) - sign;
         } else
             *dmv_y = 0;
-        if (v->numref)
+        if (v->numref && pred_flag)
             *pred_flag = index1 & 1;
     }
 }
@@ -1751,9 +1755,10 @@ static inline void vc1_pred_mv_intfr(VC1Context *v, int n, int dmv_x, int dmv_y,
                 px = mid_pred(A[0], B[0], C[0]);
                 py = mid_pred(A[1], B[1], C[1]);
             } else if (total_valid) {
-                if (a_valid) { px = A[0]; py = A[1]; }
-                if (b_valid) { px = B[0]; py = B[1]; }
-                if (c_valid) { px = C[0]; py = C[1]; }
+                if      (a_valid) { px = A[0]; py = A[1]; }
+                else if (b_valid) { px = B[0]; py = B[1]; }
+                else if (c_valid) { px = C[0]; py = C[1]; }
+                else av_assert2(0);
             } else
                 px = py = 0;
         }
@@ -1962,7 +1967,7 @@ static void vc1_interp_mc(VC1Context *v)
         if (!v->rnd)
             dsp->avg_pixels_tab[0][dxy](s->dest[0] + off, srcY, s->linesize, 16);
         else
-            dsp->avg_no_rnd_pixels_tab[0][dxy](s->dest[0] + off, srcY, s->linesize, 16);
+            dsp->avg_no_rnd_pixels_tab[dxy](s->dest[0] + off, srcY, s->linesize, 16);
     }
 
     if (s->flags & CODEC_FLAG_GRAY) return;
@@ -2551,7 +2556,7 @@ static void vc1_decode_ac_coeff(VC1Context *v, int *last, int *skip,
  * @param coded are AC coeffs present or not
  * @param codingset set of VLC to decode data
  */
-static int vc1_decode_i_block(VC1Context *v, DCTELEM block[64], int n,
+static int vc1_decode_i_block(VC1Context *v, int16_t block[64], int n,
                               int coded, int codingset)
 {
     GetBitContext *gb = &v->s.gb;
@@ -2714,7 +2719,7 @@ not_coded:
  * @param codingset set of VLC to decode data
  * @param mquant quantizer value for this macroblock
  */
-static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n,
+static int vc1_decode_i_block_adv(VC1Context *v, int16_t block[64], int n,
                                   int coded, int codingset, int mquant)
 {
     GetBitContext *gb = &v->s.gb;
@@ -2926,7 +2931,7 @@ static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n,
  * @param mquant block quantizer
  * @param codingset set of VLC to decode data
  */
-static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n,
+static int vc1_decode_intra_block(VC1Context *v, int16_t block[64], int n,
                                   int coded, int mquant, int codingset)
 {
     GetBitContext *gb = &v->s.gb;
@@ -3136,7 +3141,7 @@ static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n,
 
 /** Decode P block
  */
-static int vc1_decode_p_block(VC1Context *v, DCTELEM block[64], int n,
+static int vc1_decode_p_block(VC1Context *v, int16_t block[64], int n,
                               int mquant, int ttmb, int first_block,
                               uint8_t *dst, int linesize, int skip_block,
                               int *ttmb_out)
@@ -4518,7 +4523,7 @@ static void vc1_decode_i_blocks_adv(VC1Context *v)
         s->mb_x = 0;
         ff_init_block_index(s);
         for (;s->mb_x < s->mb_width; s->mb_x++) {
-            DCTELEM (*block)[64] = v->block[v->cur_blk_idx];
+            int16_t (*block)[64] = v->block[v->cur_blk_idx];
             ff_update_block_index(s);
             s->dsp.clear_blocks(block[0]);
             mb_pos = s->mb_x + s->mb_y * s->mb_stride;
@@ -5177,10 +5182,6 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
     avctx->flags |= CODEC_FLAG_EMU_EDGE;
     v->s.flags   |= CODEC_FLAG_EMU_EDGE;
 
-    if (avctx->idct_algo == FF_IDCT_AUTO) {
-        avctx->idct_algo = FF_IDCT_WMV2;
-    }
-
     if (ff_vc1_init_common(v) < 0)
         return -1;
     // ensure static VLC tables are initialized
@@ -5705,6 +5706,10 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
             }
             if (s->end_mb_y <= s->start_mb_y) {
                 av_log(v->s.avctx, AV_LOG_ERROR, "end mb y %d %d invalid\n", s->end_mb_y, s->start_mb_y);
+                continue;
+            }
+            if (!v->p_frame_skipped && s->pict_type != AV_PICTURE_TYPE_I && !v->cbpcy_vlc) {
+                av_log(v->s.avctx, AV_LOG_ERROR, "missing cbpcy_vlc\n");
                 continue;
             }
             ff_vc1_decode_blocks(v);

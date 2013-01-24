@@ -333,6 +333,7 @@ yuv2mono_X_c_template(SwsContext *c, const int16_t *lumFilter,
     const uint8_t * const d128=dither_8x8_220[y&7];
     int i;
     unsigned acc = 0;
+    int err = 0;
 
     for (i = 0; i < dstW; i += 2) {
         int j;
@@ -349,12 +350,25 @@ yuv2mono_X_c_template(SwsContext *c, const int16_t *lumFilter,
             Y1 = av_clip_uint8(Y1);
             Y2 = av_clip_uint8(Y2);
         }
-        accumulate_bit(acc, Y1 + d128[(i + 0) & 7]);
-        accumulate_bit(acc, Y2 + d128[(i + 1) & 7]);
+        if (c->flags & SWS_ERROR_DIFFUSION) {
+            Y1 += (7*err + 1*c->dither_error[0][i] + 5*c->dither_error[0][i+1] + 3*c->dither_error[0][i+2] + 8 - 256)>>4;
+            c->dither_error[0][i] = err;
+            acc = 2*acc + (Y1 >= 128);
+            Y1 -= 220*(acc&1);
+
+            err = Y2 + ((7*Y1 + 1*c->dither_error[0][i+1] + 5*c->dither_error[0][i+2] + 3*c->dither_error[0][i+3] + 8 - 256)>>4);
+            c->dither_error[0][i+1] = Y1;
+            acc = 2*acc + (err >= 128);
+            err -= 220*(acc&1);
+        } else {
+            accumulate_bit(acc, Y1 + d128[(i + 0) & 7]);
+            accumulate_bit(acc, Y2 + d128[(i + 1) & 7]);
+        }
         if ((i & 7) == 6) {
             output_pixel(*dest++, acc);
         }
     }
+    c->dither_error[0][i] = err;
 
     if (i & 6) {
         output_pixel(*dest, acc);
@@ -373,6 +387,29 @@ yuv2mono_2_c_template(SwsContext *c, const int16_t *buf[2],
     int  yalpha1 = 4096 - yalpha;
     int i;
 
+    if (c->flags & SWS_ERROR_DIFFUSION) {
+        int err = 0;
+        int acc = 0;
+        for (i = 0; i < dstW; i +=2) {
+            int Y;
+
+            Y = (buf0[i + 0] * yalpha1 + buf1[i + 0] * yalpha) >> 19;
+            Y += (7*err + 1*c->dither_error[0][i] + 5*c->dither_error[0][i+1] + 3*c->dither_error[0][i+2] + 8 - 256)>>4;
+            c->dither_error[0][i] = err;
+            acc = 2*acc + (Y >= 128);
+            Y -= 220*(acc&1);
+
+            err = (buf0[i + 1] * yalpha1 + buf1[i + 1] * yalpha) >> 19;
+            err += (7*Y + 1*c->dither_error[0][i+1] + 5*c->dither_error[0][i+2] + 3*c->dither_error[0][i+3] + 8 - 256)>>4;
+            c->dither_error[0][i+1] = Y;
+            acc = 2*acc + (err >= 128);
+            err -= 220*(acc&1);
+
+            if ((i & 7) == 6)
+                output_pixel(*dest++, acc);
+        }
+        c->dither_error[0][i] = err;
+    } else {
     for (i = 0; i < dstW; i += 8) {
         int Y, acc = 0;
 
@@ -395,6 +432,7 @@ yuv2mono_2_c_template(SwsContext *c, const int16_t *buf[2],
 
         output_pixel(*dest++, acc);
     }
+    }
 }
 
 static av_always_inline void
@@ -406,9 +444,31 @@ yuv2mono_1_c_template(SwsContext *c, const int16_t *buf0,
     const uint8_t * const d128 = dither_8x8_220[y & 7];
     int i;
 
+    if (c->flags & SWS_ERROR_DIFFUSION) {
+        int err = 0;
+        int acc = 0;
+        for (i = 0; i < dstW; i +=2) {
+            int Y;
+
+            Y = ((buf0[i + 0] + 64) >> 7);
+            Y += (7*err + 1*c->dither_error[0][i] + 5*c->dither_error[0][i+1] + 3*c->dither_error[0][i+2] + 8 - 256)>>4;
+            c->dither_error[0][i] = err;
+            acc = 2*acc + (Y >= 128);
+            Y -= 220*(acc&1);
+
+            err = ((buf0[i + 1] + 64) >> 7);
+            err += (7*Y + 1*c->dither_error[0][i+1] + 5*c->dither_error[0][i+2] + 3*c->dither_error[0][i+3] + 8 - 256)>>4;
+            c->dither_error[0][i+1] = Y;
+            acc = 2*acc + (err >= 128);
+            err -= 220*(acc&1);
+
+            if ((i & 7) == 6)
+                output_pixel(*dest++, acc);
+        }
+        c->dither_error[0][i] = err;
+    } else {
     for (i = 0; i < dstW; i += 8) {
         int acc = 0;
-
         accumulate_bit(acc, ((buf0[i + 0] + 64) >> 7) + d128[0]);
         accumulate_bit(acc, ((buf0[i + 1] + 64) >> 7) + d128[1]);
         accumulate_bit(acc, ((buf0[i + 2] + 64) >> 7) + d128[2]);
@@ -419,6 +479,7 @@ yuv2mono_1_c_template(SwsContext *c, const int16_t *buf0,
         accumulate_bit(acc, ((buf0[i + 7] + 64) >> 7) + d128[7]);
 
         output_pixel(*dest++, acc);
+    }
     }
 }
 
@@ -1166,6 +1227,8 @@ yuv2rgb_full_X_c_template(SwsContext *c, const int16_t *lumFilter,
 {
     int i;
     int step = (target == AV_PIX_FMT_RGB24 || target == AV_PIX_FMT_BGR24) ? 3 : 4;
+    int err[4] = {0};
+    int isrgb8 = target == AV_PIX_FMT_BGR8 || target == AV_PIX_FMT_RGB8;
 
     for (i = 0; i < dstW; i++) {
         int j;
@@ -1240,9 +1303,48 @@ yuv2rgb_full_X_c_template(SwsContext *c, const int16_t *lumFilter,
             dest[2] = R >> 22;
             dest[3] = hasAlpha ? A : 255;
             break;
+        case AV_PIX_FMT_BGR4_BYTE:
+        case AV_PIX_FMT_RGB4_BYTE:
+        case AV_PIX_FMT_BGR8:
+        case AV_PIX_FMT_RGB8:
+        {
+            int r,g,b;
+            R >>= 22;
+            G >>= 22;
+            B >>= 22;
+            R += (7*err[0] + 1*c->dither_error[0][i] + 5*c->dither_error[0][i+1] + 3*c->dither_error[0][i+2])>>4;
+            G += (7*err[1] + 1*c->dither_error[1][i] + 5*c->dither_error[1][i+1] + 3*c->dither_error[1][i+2])>>4;
+            B += (7*err[2] + 1*c->dither_error[2][i] + 5*c->dither_error[2][i+1] + 3*c->dither_error[2][i+2])>>4;
+            c->dither_error[0][i] = err[0];
+            c->dither_error[1][i] = err[1];
+            c->dither_error[2][i] = err[2];
+            r = R >> (isrgb8 ? 5 : 7);
+            g = G >> (isrgb8 ? 5 : 6);
+            b = B >> (isrgb8 ? 6 : 7);
+            r = av_clip(r, 0, isrgb8 ? 7 : 1);
+            g = av_clip(g, 0, isrgb8 ? 7 : 3);
+            b = av_clip(b, 0, isrgb8 ? 3 : 1);
+            err[0] = R - r*(isrgb8 ? 36 : 255);
+            err[1] = G - g*(isrgb8 ? 36 : 85);
+            err[2] = B - b*(isrgb8 ? 85 : 255);
+            if(target == AV_PIX_FMT_BGR4_BYTE) {
+                dest[0] = r + 2*g + 8*b;
+            } else if(target == AV_PIX_FMT_RGB4_BYTE) {
+                dest[0] = b + 2*g + 8*r;
+            } else if(target == AV_PIX_FMT_BGR8) {
+                dest[0] = r + 8*g + 64*b;
+            } else if(target == AV_PIX_FMT_RGB8) {
+                dest[0] = b + 4*g + 32*r;
+            } else
+                av_assert2(0);
+            step = 1;
+            break;}
         }
         dest += step;
     }
+    c->dither_error[0][i] = err[0];
+    c->dither_error[1][i] = err[1];
+    c->dither_error[2][i] = err[2];
 }
 
 #if CONFIG_SMALL
@@ -1264,6 +1366,11 @@ YUV2RGBWRAPPERX(yuv2, rgb_full, xrgb32_full, AV_PIX_FMT_ARGB,  0)
 #endif
 YUV2RGBWRAPPERX(yuv2, rgb_full, bgr24_full,  AV_PIX_FMT_BGR24, 0)
 YUV2RGBWRAPPERX(yuv2, rgb_full, rgb24_full,  AV_PIX_FMT_RGB24, 0)
+
+YUV2RGBWRAPPERX(yuv2, rgb_full, bgr4_byte_full,  AV_PIX_FMT_BGR4_BYTE, 0)
+YUV2RGBWRAPPERX(yuv2, rgb_full, rgb4_byte_full,  AV_PIX_FMT_RGB4_BYTE, 0)
+YUV2RGBWRAPPERX(yuv2, rgb_full, bgr8_full,   AV_PIX_FMT_BGR8,  0)
+YUV2RGBWRAPPERX(yuv2, rgb_full, rgb8_full,   AV_PIX_FMT_RGB8,  0)
 
 av_cold void ff_sws_init_output_funcs(SwsContext *c,
                                       yuv2planar1_fn *yuv2plane1,
@@ -1364,6 +1471,18 @@ av_cold void ff_sws_init_output_funcs(SwsContext *c,
             break;
         case AV_PIX_FMT_BGR24:
             *yuv2packedX = yuv2bgr24_full_X_c;
+            break;
+        case AV_PIX_FMT_BGR4_BYTE:
+            *yuv2packedX = yuv2bgr4_byte_full_X_c;
+            break;
+        case AV_PIX_FMT_RGB4_BYTE:
+            *yuv2packedX = yuv2rgb4_byte_full_X_c;
+            break;
+        case AV_PIX_FMT_BGR8:
+            *yuv2packedX = yuv2bgr8_full_X_c;
+            break;
+        case AV_PIX_FMT_RGB8:
+            *yuv2packedX = yuv2rgb8_full_X_c;
             break;
         }
         if(!*yuv2packedX)
