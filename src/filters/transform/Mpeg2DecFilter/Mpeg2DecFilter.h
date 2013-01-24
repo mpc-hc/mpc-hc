@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -137,6 +137,7 @@ public:
     HRESULT CheckConnect(PIN_DIRECTION dir, IPin* pPin);
     HRESULT CheckInputType(const CMediaType* mtIn);
     HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
+    HRESULT SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt);
 
     HRESULT StartStreaming();
     HRESULT StopStreaming();

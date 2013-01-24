@@ -1020,6 +1020,24 @@ HRESULT CMpeg2DecFilter::CheckTransform(const CMediaType* mtIn, const CMediaType
            : VFW_E_TYPE_NOT_ACCEPTED;
 }
 
+HRESULT CMpeg2DecFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
+{
+    HRESULT hr = __super::SetMediaType(dir, pmt);
+
+    if (dir == PINDIR_INPUT) {
+        // Compute the expected Pixel AR
+        m_par.cx = m_arx * m_h;
+        m_par.cy = m_ary * m_w;
+        int lnko = LNKO(m_par.cx, m_par.cy);
+        if (lnko > 1) {
+            m_par.cx /= lnko;
+            m_par.cy /= lnko;
+        }
+    }
+
+    return hr;
+}
+
 DWORD g_clock;
 
 HRESULT CMpeg2DecFilter::StartStreaming()
