@@ -36,6 +36,7 @@ Legend:
   - Fix volume slider going out of bounds with IE in player.html
   - Fix incorrect encoding of the parent dir's path in browser.html
 ! MPC Video Decoder: Fix low merit internal filter.
+! MPC Video Decoder: The "Read Aspect Ratio from stream" option was sometimes not working correctly.
 ! Ticket #2423, Fix wrong rounding leading to small black bars when resizing the window.
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks

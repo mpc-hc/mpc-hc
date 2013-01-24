@@ -1242,7 +1242,20 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction, const CMediaTy
         }
     }
 
-    return __super::SetMediaType(direction, pmt);
+    HRESULT hr = __super::SetMediaType(direction, pmt);
+
+    if (dir == PINDIR_INPUT) {
+        // Compute the expected Sample AR
+        m_sar.cx = m_arx * m_h;
+        m_sar.cy = m_ary * m_w;
+        int lnko = LNKO(m_sar.cx, m_sar.cy);
+        if (lnko > 1) {
+            m_sar.cx /= lnko;
+            m_sar.cy /= lnko;
+        }
+    }
+
+    return hr;
 }
 
 VIDEO_OUTPUT_FORMATS DXVAFormats[] = { // DXVA2
