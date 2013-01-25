@@ -1248,10 +1248,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction, const CMediaTy
         // Compute the expected Pixel AR
         m_par.cx = m_arx * m_h;
         m_par.cy = m_ary * m_w;
-        int lnko = LNKO(m_par.cx, m_par.cy);
-        if (lnko > 1) {
-            m_par.cx /= lnko;
-            m_par.cy /= lnko;
+        int gcd = GCD(m_par.cx, m_par.cy);
+        if (gcd > 1) {
+            m_par.cx /= gcd;
+            m_par.cy /= gcd;
         }
     }
 
@@ -2077,9 +2077,10 @@ void CMPCVideoDecFilter::UpdateAspectRatio()
         if (m_par != PAR) {
             m_par = PAR;
             CSize aspect(m_nWidth * PAR.cx, m_nHeight * PAR.cy);
-            int lnko = LNKO(aspect.cx, aspect.cy);
-            if (lnko > 1) {
-                aspect.cx /= lnko, aspect.cy /= lnko;
+            int gcd = GCD(aspect.cx, aspect.cy);
+            if (gcd > 1) {
+                aspect.cx /= gcd;
+                aspect.cy /= gcd;
             }
             SetAspect(aspect);
         }

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -853,9 +853,10 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     mvih->hdr.bmiHeader.biBitCount = 24;
 
                     CSize aspect(mvih->hdr.bmiHeader.biWidth * num, mvih->hdr.bmiHeader.biHeight * den);
-                    int lnko = LNKO(aspect.cx, aspect.cy);
-                    if (lnko > 1) {
-                        aspect.cx /= lnko, aspect.cy /= lnko;
+                    int gcd = GCD(aspect.cx, aspect.cy);
+                    if (gcd > 1) {
+                        aspect.cx /= gcd;
+                        aspect.cy /= gcd;
                     }
                     mvih->hdr.dwPictAspectRatioX = aspect.cx;
                     mvih->hdr.dwPictAspectRatioY = aspect.cy;

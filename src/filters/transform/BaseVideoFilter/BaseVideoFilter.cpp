@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -612,14 +612,10 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
         int vsfilter = 0;
         GetOutputSize(m_w, m_h, m_arx, m_ary, RealWidth, RealHeight, vsfilter);
 
-        DWORD a = m_arx, b = m_ary;
-        while (a) {
-            int tmp = a;
-            a = b % tmp;
-            b = tmp;
-        }
-        if (b) {
-            m_arx /= b, m_ary /= b;
+        int gcd = GCD(m_arx, m_ary);
+        if (gcd > 1) {
+            m_arx /= gcd;
+            m_ary /= gcd;
         }
     } else if (dir == PINDIR_OUTPUT) {
         int wout = 0, hout = 0, arxout = 0, aryout = 0;

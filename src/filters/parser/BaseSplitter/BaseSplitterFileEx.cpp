@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -394,14 +394,10 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
     h.ifps = 10 * h.ifps / 27;
     h.bitrate = h.bitrate == (1 << 30) - 1 ? 0 : h.bitrate * 400;
 
-    DWORD a = h.arx, b = h.ary;
-    while (a) {
-        DWORD tmp = a;
-        a = b % tmp;
-        b = tmp;
-    }
-    if (b) {
-        h.arx /= b, h.ary /= b;
+    int gcd = GCD(h.arx, h.ary);
+    if (gcd > 1) {
+        h.arx /= gcd;
+        h.ary /= gcd;
     }
 
     if (!pmt) {
@@ -1708,9 +1704,10 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
             h.sar.den = 1;
         }
         CSize aspect(h.width * h.sar.num, h.height * h.sar.den);
-        int lnko = LNKO(aspect.cx, aspect.cy);
-        if (lnko > 1) {
-            aspect.cx /= lnko, aspect.cy /= lnko;
+        int gcd = GCD(aspect.cx, aspect.cy);
+        if (gcd > 1) {
+            aspect.cx /= gcd;
+            aspect.cy /= gcd;
         }
 
         if (aspect.cx * 2 < aspect.cy) {
@@ -2178,9 +2175,10 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
         if (h.width == h.sar.num && h.height == h.sar.den) {
             aspect = CSize(h.width, h.height);
         }
-        int lnko = LNKO(aspect.cx, aspect.cy);
-        if (lnko > 1) {
-            aspect.cx /= lnko, aspect.cy /= lnko;
+        int gcd = GCD(aspect.cx, aspect.cy);
+        if (gcd > 1) {
+            aspect.cx /= gcd;
+            aspect.cy /= gcd;
         }
 
         vi->dwPictAspectRatioX = aspect.cx;

@@ -638,9 +638,10 @@ void CMpeg2DecFilter::UpdateAspectRatio()
         m_par.cy = m_dec->m_info.m_sequence->pixel_height;
         CSize dar(m_dec->m_info.m_sequence->picture_width * m_par.cx,
                   m_dec->m_info.m_sequence->picture_height * m_par.cy);
-        int lnko = LNKO(dar.cx, dar.cy);
-        if (lnko > 1) {
-            dar.cx /= lnko, dar.cy /= lnko;
+        int gcd = GCD(dar.cx, dar.cy);
+        if (gcd > 1) {
+            dar.cx /= gcd;
+            dar.cy /= gcd;
         }
         SetAspect(dar);
     }
@@ -1028,10 +1029,10 @@ HRESULT CMpeg2DecFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
         // Compute the expected Pixel AR
         m_par.cx = m_arx * m_h;
         m_par.cy = m_ary * m_w;
-        int lnko = LNKO(m_par.cx, m_par.cy);
-        if (lnko > 1) {
-            m_par.cx /= lnko;
-            m_par.cy /= lnko;
+        int gcd = GCD(m_par.cx, m_par.cy);
+        if (gcd > 1) {
+            m_par.cx /= gcd;
+            m_par.cy /= gcd;
         }
     }
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -282,7 +282,7 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
     return punk;
 }
 
-inline int LNKO(int a, int b)
+inline int GCD(int a, int b)
 {
     if (a == 0 || b == 0) {
         return 1;

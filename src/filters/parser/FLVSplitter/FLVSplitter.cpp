@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -638,9 +638,10 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             sar.den = 1;
                         }
                         CSize aspect(Width * sar.num, Height * sar.den);
-                        int lnko = LNKO(aspect.cx, aspect.cy);
-                        if (lnko > 1) {
-                            aspect.cx /= lnko, aspect.cy /= lnko;
+                        int gcd = GCD(aspect.cx, aspect.cy);
+                        if (gcd > 1) {
+                            aspect.cx /= gcd;
+                            aspect.cy /= gcd;
                         }
 
                         vih->hdr.dwPictAspectRatioX = aspect.cx;

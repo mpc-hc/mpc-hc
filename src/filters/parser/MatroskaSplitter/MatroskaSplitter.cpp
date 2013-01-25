@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -564,18 +564,20 @@ avcsuccess:
                             memcpy(mt.Format() + vih2, mts[i].Format() + vih1, bmi);
 
                             CSize aspect((int)pTE->v.DisplayWidth, (int)pTE->v.DisplayHeight);
-                            int lnko = LNKO(aspect.cx, aspect.cy);
-                            if (lnko > 1) {
-                                aspect.cx /= lnko, aspect.cy /= lnko;
+                            int gcd = GCD(aspect.cx, aspect.cy);
+                            if (gcd > 1) {
+                                aspect.cx /= gcd;
+                                aspect.cy /= gcd;
                             }
                             ((VIDEOINFOHEADER2*)mt.Format())->dwPictAspectRatioX = aspect.cx;
                             ((VIDEOINFOHEADER2*)mt.Format())->dwPictAspectRatioY = aspect.cy;
                             mts.InsertAt(i++, mt);
                         } else if (mts[i].formattype == FORMAT_MPEG2Video) {
                             CSize aspect((int)pTE->v.DisplayWidth, (int)pTE->v.DisplayHeight);
-                            int lnko = LNKO(aspect.cx, aspect.cy);
-                            if (lnko > 1) {
-                                aspect.cx /= lnko, aspect.cy /= lnko;
+                            int gcd = GCD(aspect.cx, aspect.cy);
+                            if (gcd > 1) {
+                                aspect.cx /= gcd;
+                                aspect.cy /= gcd;
                             }
                             ((MPEG2VIDEOINFO*)mts[i].Format())->hdr.dwPictAspectRatioX = aspect.cx;
                             ((MPEG2VIDEOINFO*)mts[i].Format())->hdr.dwPictAspectRatioY = aspect.cy;
