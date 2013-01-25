@@ -77,6 +77,7 @@ public:
     afx_msg void OnBnClickedRadio12(UINT nID);
     afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
     afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateAutoZoomFactor(CCmdUI* pCmdUI);
     afx_msg void OnUpdateSpeedStep(CCmdUI* pCmdUI);
 
     afx_msg void OnBalanceTextDblClk();
