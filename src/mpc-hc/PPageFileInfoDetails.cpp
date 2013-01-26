@@ -93,10 +93,10 @@ static CString FormatDateTime(FILETIME tm)
     SYSTEMTIME st;
     FileTimeToSystemTime(&tm, &st);
     TCHAR buff[256];
-    GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, NULL, buff, 256);
+    GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, NULL, buff, _countof(buff));
     CString ret(buff);
     ret += _T(" ");
-    GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, NULL, buff, 256);
+    GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, NULL, buff, _countof(buff));
     ret += buff;
     return ret;
 }

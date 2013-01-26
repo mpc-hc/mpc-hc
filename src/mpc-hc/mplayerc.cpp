@@ -273,7 +273,6 @@ END_MESSAGE_MAP()
 CMPlayerCApp::CMPlayerCApp()
     : m_hNTDLL(NULL)
     , m_fClosingState(false)
-    //, m_hMutexOneInstance(NULL)
 {
     TCHAR strApp[MAX_PATH];
 
@@ -396,7 +395,7 @@ bool CMPlayerCApp::IsIniUTF16LE() const
         // the cases but maybe we could do something better.
 #ifdef _DEBUG
         TCHAR szCause[500];
-        e->GetErrorMessage(szCause, 500);
+        e->GetErrorMessage(szCause, _countof(szCause));
         AfxMessageBox(szCause);
 #endif // _DEBUG
         e->Delete();
