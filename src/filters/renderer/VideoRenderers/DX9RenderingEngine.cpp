@@ -1591,7 +1591,7 @@ HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9*
         {(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
     };
 
-    for (int i = 0; i < _countof(pVertices); i++) {
+    for (size_t i = 0; i < _countof(pVertices); i++) {
         pVertices[i].x -= 0.5;
         pVertices[i].y -= 0.5;
     }

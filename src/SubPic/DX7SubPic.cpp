@@ -159,13 +159,12 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         {(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
         {(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
     };
-    /*
-    for (ptrdiff_t i = 0; i < _countof(pVertices); i++)
-    {
+
+    for (size_t i = 0; i < _countof(pVertices); i++) {
         pVertices[i].x -= 0.5;
         pVertices[i].y -= 0.5;
     }
-    */
+
     hr = m_pD3DDev->SetTexture(0, m_pSurface);
 
     m_pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
