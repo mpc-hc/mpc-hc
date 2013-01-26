@@ -35,19 +35,19 @@ Legend:
   - Fix seeking
   - Fix volume slider going out of bounds with IE in player.html
   - Fix incorrect encoding of the parent dir's path in browser.html
-! MPC Video Decoder: Fix low merit internal filter.
-! MPC Video Decoder: The "Read Aspect Ratio from stream" option was sometimes not working correctly.
-! Ticket #84, WebServer: The filenames weren't correctly URL decoded.
+! MPC Video Decoder: Fix low merit internal filter
+! MPC Video Decoder: The "Read Aspect Ratio from stream" option was sometimes not working correctly
+! Ticket #84, WebServer: The filenames weren't correctly URL decoded
 ! Ticket #2423, Fix wrong rounding leading to small black bars when resizing the window.
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks
 ! Ticket #2805, AviSplitter: Fix a crash when closing the file while re-indexing
 ! Ticket #2838, The window wasn't draggable anymore by clicking on the information panel
 ! Ticket #2839, Post-resize shaders didn't work with VMR-9 (renderless)
-! Ticket #2855, The filename could be wrong when saving a screenshot or thumbnails.
+! Ticket #2855, The filename could be wrong when saving a screenshot or thumbnails
 ! Ticket #2859, Flac Source: Improve timestamps accuracy. This fixes some cases where the
   end of the file wasn't played.
-! Ticket #2863, The OSD was incorrect when restarting the playback of a file after it ended.
+! Ticket #2863, The OSD was incorrect when restarting the playback of a file after it ended
 ! Ticket #2864, VobSub subtitles were autoloaded twice.
-! Ticket #2881, "Auto-fit" and "Auto-fit (Larger Only)" zooms were giving different results depending
-  on if they were used in windowed or fullscreened mode.
+! Ticket #2881, "Auto-fit" and "Auto-fit (Larger Only)" zooms gave different results
+  depending on if they were used in windowed or fullscreened mode.

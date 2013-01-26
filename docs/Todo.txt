@@ -14,10 +14,8 @@ MPCIconLib:
 1) Replace the file association icons with better looking ones
 
 WebServer:
-1) Update the images for player.html using css sprite
+1) Update the images for player.html using a css sprite
 2) Switch to html5
-3) player.html: with IE 9 things don't look the same as Firefox; the volume slider
-   is out of bounds, the status and title text are not aligned to the left
 
 FFmpeg:
 1) Use ffmpeg for MPEG-1 and MPEG-2 decoding (this will remove the dependency on libmpeg2)
