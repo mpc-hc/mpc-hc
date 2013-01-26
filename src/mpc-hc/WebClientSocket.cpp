@@ -130,6 +130,7 @@ void CWebClientSocket::HandleRequest()
             m_query = m_path.Mid(k + 1);
             m_path.Truncate(k);
         }
+        m_path = UrlDecode(m_path);
 
         if (m_query.GetLength() > 0) {
             int k = m_query.Find('#');
