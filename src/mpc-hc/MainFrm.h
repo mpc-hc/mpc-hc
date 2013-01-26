@@ -156,6 +156,11 @@ class CMainFrame : public CFrameWnd, public CDropTarget
         SEEK_DIRECTION_BACKWARD,
         SEEK_DIRECTION_FORWARD
     };
+    enum {
+        ZOOM_DEFAULT_LEVEL = 0,
+        ZOOM_AUTOFIT = -1,
+        ZOOM_AUTOFIT_LARGER = -2
+    };
 
     friend class CPPageFileInfoSheet;
     friend class CPPageLogo;
@@ -217,7 +222,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     void SetDefaultWindowRect(int iMonitor = 0);
     void SetDefaultFullscreenState();
     void RestoreDefaultWindowRect();
-    void ZoomVideoWindow(bool snap = true, double scale = -1);
+    void ZoomVideoWindow(bool snap = true, double scale = ZOOM_DEFAULT_LEVEL);
     double GetZoomAutoFitScale(bool bLargerOnly = false) const;
 
     void SetAlwaysOnTop(int i);

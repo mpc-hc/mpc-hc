@@ -6664,13 +6664,13 @@ void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoomAutoFit()
 {
-    ZoomVideoWindow(true, GetZoomAutoFitScale(false));
+    ZoomVideoWindow(true, ZOOM_AUTOFIT);
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO), 3000);
 }
 
 void CMainFrame::OnViewZoomAutoFitLarger()
 {
-    ZoomVideoWindow(true, GetZoomAutoFitScale(true));
+    ZoomVideoWindow(true, ZOOM_AUTOFIT_LARGER);
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO_LARGER), 3000);
 }
 
@@ -9869,17 +9869,24 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (scale <= 0) {
+    // We must leave fullscreen mode before computing the auto-fit zoom factor
+    if (m_fFullScreen) {
+        OnViewFullscreen();
+    }
+
+    if (scale == ZOOM_DEFAULT_LEVEL) {
         scale =
             s.iZoomLevel == 0 ? 0.5 :
             s.iZoomLevel == 1 ? 1.0 :
             s.iZoomLevel == 2 ? 2.0 :
             s.iZoomLevel == 3 ? GetZoomAutoFitScale(false) :
             s.iZoomLevel == 4 ? GetZoomAutoFitScale(true) : 1.0;
-    }
-
-    if (m_fFullScreen) {
-        OnViewFullscreen();
+    } else if (scale == ZOOM_AUTOFIT) {
+        scale = GetZoomAutoFitScale(false);
+    } else if (scale == ZOOM_AUTOFIT_LARGER) {
+        scale = GetZoomAutoFitScale(true);
+    } else if (scale <= 0.0) {
+        return;
     }
 
     MINMAXINFO mmi;

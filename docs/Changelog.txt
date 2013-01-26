@@ -49,3 +49,5 @@ Legend:
   end of the file wasn't played.
 ! Ticket #2863, The OSD was incorrect when restarting the playback of a file after it ended.
 ! Ticket #2864, VobSub subtitles were autoloaded twice.
+! Ticket #2881, "Auto-fit" and "Auto-fit (Larger Only)" zooms were giving different results depending
+  on if they were used in windowed or fullscreened mode.
