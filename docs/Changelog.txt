@@ -38,6 +38,7 @@ Legend:
 ! MPC Video Decoder: Fix low merit internal filter
 ! MPC Video Decoder: The "Read Aspect Ratio from stream" option was sometimes not working correctly
 ! Ticket #84, WebServer: The filenames weren't correctly URL decoded
+! Ticket #1554, The OSD was looking bad when using EVR Sync renderer
 ! Ticket #2423, Fix wrong rounding leading to small black bars when resizing the window.
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks
