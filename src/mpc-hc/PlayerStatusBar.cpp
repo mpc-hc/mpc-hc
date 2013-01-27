@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -56,8 +56,6 @@ BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
     m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
     m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
 
-    m_time.ModifyStyle(0, SS_NOTIFY);
-
     m_tooltip.AddTool(&m_time, IDS_TOOLTIP_REMAINING_TIME);
 
     return ret;
@@ -90,7 +88,7 @@ int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_status.Create(_T(""), WS_CHILD | WS_VISIBLE | SS_OWNERDRAW,
                     r, this, IDC_PLAYERSTATUS);
 
-    m_time.Create(_T(""), WS_CHILD | WS_VISIBLE | SS_OWNERDRAW,
+    m_time.Create(_T(""), WS_CHILD | WS_VISIBLE | SS_OWNERDRAW | SS_NOTIFY,
                   r, this, IDC_PLAYERTIME);
 
     m_status.SetWindowPos(&m_time, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -282,7 +280,6 @@ BEGIN_MESSAGE_MAP(CPlayerStatusBar, CDialogBar)
     ON_WM_LBUTTONDOWN()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
-    ON_STN_CLICKED(IDC_PLAYERTIME, OnTimeDisplayClicked)
 END_MESSAGE_MAP()
 
 
@@ -363,7 +360,9 @@ void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
     wp.length = sizeof(wp);
     pFrame->GetWindowPlacement(&wp);
 
-    if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
+    if (m_time_rect.PtInRect(point)) {
+        OnTimeDisplayClicked();
+    } else if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
         CRect r;
         GetClientRect(r);
         CPoint p = point;

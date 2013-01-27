@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -63,7 +63,9 @@ BOOL CStatusLabel::PreTranslateMessage(MSG* pMsg)
     // Notify the parent window if the left button of the mouse is pressed so
     // that the user can drag the window by clicking on the information panel.
     if (pMsg->message == WM_LBUTTONDOWN) {
-        GetParent()->SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
+        CPoint p(pMsg->lParam);
+        MapWindowPoints(GetParent(), &p, 1);
+        GetParent()->SendMessage(pMsg->message, pMsg->wParam, MAKELPARAM(p.x, p.y));
     }
 
     return __super::PreTranslateMessage(pMsg);
