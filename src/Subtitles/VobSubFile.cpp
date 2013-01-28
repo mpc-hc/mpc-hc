@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,9 +23,8 @@
 #include <winioctl.h>
 #include "TextFile.h"
 #include "VobSubFile.h"
-#ifndef USE_UNRAR_STATIC
-#define USE_UNRAR_STATIC
-#endif
+#include "mpc-hc_config.h"
+
 #ifndef USE_UNRAR_STATIC
 #include "unrar.h"
 #else

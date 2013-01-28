@@ -38,4 +38,6 @@
 #define BUGS_URL     _T("https://trac.mpc-hc.org/wiki/Bugs_-_Reporting")
 #define TOOLBARS_URL _T("https://trac.mpc-hc.org/wiki/Toolbar_images")
 
+#define USE_UNRAR_STATIC
+
 #endif // MPC_HC_CONFIG_H
