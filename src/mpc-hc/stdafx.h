@@ -26,6 +26,7 @@
 #undef _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
 #include "../../include/stdafx_common_afx2.h"
 #include "../../include/stdafx_common_dshow.h"
+#include "mpc-hc_config.h"
 
 #include <Windows.h>
 #include <algorithm>
@@ -76,13 +77,6 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 
 #define CheckAndLog(x, msg)  hr = ##x; if (FAILED(hr)) { TRACE(msg _T(": 0x%08x\n"), hr); return hr; }
 #define CheckNoLog(x)        hr = ##x; if (FAILED(hr)) { return hr; }
-
-#if !defined(USE_MEDIAINFO_STATIC) && !defined(MPCHC_LITE)
-#define USE_MEDIAINFO_STATIC
-#endif
-
-// If you distribute your builds, please disable minidumps by defining DISABLE_MINIDUMP.
-//#define DISABLE_MINIDUMP
 
 #include "resource.h"
 #include "FakeFilterMapper2.h"

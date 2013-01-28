@@ -40,4 +40,11 @@
 
 #define USE_UNRAR_STATIC
 
+#ifndef MPCHC_LITE
+#define USE_MEDIAINFO_STATIC
+#endif
+
+// If you distribute your builds, please disable minidumps by defining DISABLE_MINIDUMP.
+//#define DISABLE_MINIDUMP
+
 #endif // MPC_HC_CONFIG_H
