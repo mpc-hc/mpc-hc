@@ -1375,6 +1375,9 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
         float w = (float)d3dsd.Width;
         float h = (float)d3dsd.Height;
 
+        // Be careful with the code that follows. Some compilers (e.g. Visual Studio 2012) used to miscompile
+        // it in some cases (namely x64 with optimizations /O2 /Ot). This bug led pVertices not to be correctly
+        // initialized and thus the subtitles weren't shown.
         struct {
             float x, y, z, rhw;
             float tu, tv;
@@ -1387,8 +1390,8 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
         };
 
         for (size_t i = 0; i < _countof(pVertices); i++) {
-            pVertices[i].x -= 0.5;
-            pVertices[i].y -= 0.5;
+            pVertices[i].x -= 0.5f;
+            pVertices[i].y -= 0.5f;
         }
 
         hr = m_pD3DDev->SetTexture(0, pTexture);

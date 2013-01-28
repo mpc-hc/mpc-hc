@@ -48,6 +48,9 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
     float w = (float)ddsd.dwWidth;
     float h = (float)ddsd.dwHeight;
 
+    // Be careful with the code that follows. Some compilers (e.g. Visual Studio 2012) used to miscompile
+    // it in some cases (namely x64 with optimizations /O2 /Ot). This bug led pVertices not to be correctly
+    // initialized and thus the subtitles weren't shown.
     struct {
         float x, y, z, rhw;
         float tu, tv;
@@ -60,8 +63,8 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
     };
 
     for (size_t i = 0; i < _countof(pVertices); i++) {
-        pVertices[i].x -= 0.5;
-        pVertices[i].y -= 0.5;
+        pVertices[i].x -= 0.5f;
+        pVertices[i].y -= 0.5f;
     }
 
     hr = pD3DDev->SetTexture(0, pTexture);
