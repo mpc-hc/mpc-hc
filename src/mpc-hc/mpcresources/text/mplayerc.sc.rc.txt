@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"指定 DVD 驱动器盘符或“VIDEO_TS”文件夹路径"
-6		"默认"
-7		"用户指定的路径: "
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"设置 DVD 导航器和外部 OGM 分离器的首选语言"
 11		"菜单"
 12		"音频"

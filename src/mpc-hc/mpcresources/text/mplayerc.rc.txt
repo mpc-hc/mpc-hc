@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Location of the DVD drive or the ""VIDEO_TS"" folder"
-6		"Default"
-7		"User defined path:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Preferred language for DVD Navigator and the external OGM Splitter"
 11		"Menu"
 12		"Audio"

@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Размяшчэнне DVD-дыскавода або тэчкі ""VIDEO_TS"""
-6		"Стандартна"
-7		"Шлях вызначаны карыстальнікам:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Пераважная мова для навігатара DVD і падзельніка OGM"
 11		"Меню"
 12		"Аўдыё"

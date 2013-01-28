@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Percorso del drive DVD o della cartella ""VIDEO_TS"""
-6		"Predefiniti"
-7		"Percorso scelto dall'utente:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Lingua preferita per il DVD Navigator e lo splitter OGM esterno"
 11		"Menù"
 12		"Audio"

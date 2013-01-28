@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Ubicació de la unitat de DVD o de la carpeta ""Vídeo_TS"""
-6		"Predeterminada"
-7		"Usar camí definit:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Idioma favorit pels menús del DVD i el OGM Splitter extern"
 11		"Menú"
 12		"Àudio"

@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Шлях до DVD-приводу або теки ""VIDEO_TS"""
-6		"Типово"
-7		"Шлях, вказаний користувачем:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Бажана мова для навігатора DVD та відтворення OGM"
 11		"Меню"
 12		"Аудіо"

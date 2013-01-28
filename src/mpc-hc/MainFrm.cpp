@@ -4357,10 +4357,14 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
 {
     switch (uMsg) {
-        case BFFM_INITIALIZED:
+        case BFFM_INITIALIZED: {
             //Initial directory is set here
-            SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)AfxGetAppSettings().strDVDPath);
+            const CAppSettings& s = AfxGetAppSettings();
+            if (!s.strDVDPath.IsEmpty()) {
+                SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)s.strDVDPath);
+            }
             break;
+        }
         default:
             break;
     }
@@ -4373,30 +4377,13 @@ void CMainFrame::OnFileOpendvd()
         return;
     }
 
-    /*
-    SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-    SetForegroundWindow();
-
-    ShowWindow(SW_SHOW);
-
-    CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
-    if (p)
-    {
-        const CAppSettings& s = AfxGetAppSettings();
-        if (s.fUseDVDPath && !s.strDVDPath.IsEmpty())
-        {
-            p->path = s.strDVDPath;
-            p->path.Replace('/', '\\');
-            if (p->path[p->path.GetLength()-1] != '\\') p->path += '\\';
-        }
-    }
-    OpenMedia(p);*/
-
     CAppSettings& s = AfxGetAppSettings();
     CString strTitle = ResStr(IDS_MAINFRM_46);
     CString path;
 
-    if (SysVersion::IsVistaOrLater()) {
+    if (s.fUseDVDPath && !s.strDVDPath.IsEmpty()) {
+        path = s.strDVDPath;
+    } else if (SysVersion::IsVistaOrLater()) {
         CFileDialog dlg(TRUE);
         IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
 

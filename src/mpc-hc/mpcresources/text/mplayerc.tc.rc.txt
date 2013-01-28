@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"DVD 光碟機或是 ""VIDEO_TS"" 資料夾的位置"
-6		"預設值"
-7		"使用者自訂路徑:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"DVD 導覽與外部 OGM 分離器的偏好語言"
 11		"選單"
 12		"發音"

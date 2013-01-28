@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"DVD ドライブまたは ""VIDEO_TS"" フォルダの場所"
-6		"デフォルト"
-7		"ユーザー定義のパス:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"DVD ナビゲータと OGM スプリッタでの優先言語"
 11		"メニュー"
 12		"音声"

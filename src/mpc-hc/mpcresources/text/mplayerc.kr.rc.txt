@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"DVD드라이브의 위치 또는 ""VIDEO_TS"" 폴더의 위치"
-6		"기본값"
-7		"사용자정의 위치:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"DVD메뉴/외부OGM스플리터에서 사용할 언어"
 11		"메뉴"
 12		"오디오"

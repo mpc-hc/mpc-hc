@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Pad naar de DVD-speler of de ""VIDEO_TS""-map"
-6		"Standaard"
-7		"Door gebruiker bepaald:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Voorkeurstaal voor DVD Navigatie en de externe OGM Splitter"
 11		"Menu"
 12		"Audio"

@@ -31,6 +31,8 @@ Legend:
   - Ticket #2779, Support MicroDVD tags in MPL2 subtitles files. This is normally not
     supported but MPL2 files that use MicroDVD tags for formatting are quite common.
   - Support SRT files with missing millisecond part in the timecodes.
+* Re-enable the option to bypass the DVD/BD path selection. The user won't be asked to choose
+  the location of the DVD/BD player (or folder) when this option is enabled.
 ! Various WebUI fixes:
   - Fix seeking
   - Fix volume slider going out of bounds with IE in player.html

@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Umístění DVD mechaniky nebo adresáře ""VIDEO_TS"""
-6		"Standardní"
-7		"Uživatelsky definované:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Upřednostňovaný jazyk u DVD Navigatoru a externího OGM Splitteru"
 11		"Nabídky"
 12		"Zvukové stopy"

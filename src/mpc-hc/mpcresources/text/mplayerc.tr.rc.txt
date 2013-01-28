@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"DVD sürücüsü veya ""VIDEO_TS"" klasörü yolu"
-6		"Varsayılan"
-7		"Kullanıcı tanımlı yol:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"DVD Yöneticisi ve harici OGM Ayırıcısı için tercih edilen dil"
 11		"Menü"
 12		"Ses"

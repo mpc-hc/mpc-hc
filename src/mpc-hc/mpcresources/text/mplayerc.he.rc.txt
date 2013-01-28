@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"מיקום כונן הדי.וי.די או תיקית ה-""VIDEO_TS"""
-6		"ברירת מחדל"
-7		"נתיב שהוגדר ע""י המשתמש:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"שפה מועדפת ע""י סייר הדי.וי.די ומפצל ה-OGM החיצוני"
 11		"תפריט"
 12		"שמע"

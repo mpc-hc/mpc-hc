@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"A DVD meghajtó vagy a ""VIDEO_TS"" mappa elérési útja"
-6		"Alapértelmezés"
-7		"Felhasználó által definiált elérési út:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Preferált nyelv a DVD Navigátorhoz és a külső OGM hasítóhoz"
 11		"Menü"
 12		"Audió"

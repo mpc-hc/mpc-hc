@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Sökväg till DVD-enhet or ""VIDEO_TS"" mappen"
-6		"Standard"
-7		"Användar definierad sökväg:"
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Föredragna språk för DVD Navigator och externa OGM Splitter"
 11		"Meny"
 12		"Ljud"

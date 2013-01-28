@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"DVD սարքի կամ ""VIDEO_TS"" թղթապանակի տեղը"
-6		"Ըստ ծրագրայինի"
-7		"Օգտագործողի կողմից նշված ճանապարհը."
+5		"""Open DVD/BD"" behavior"
+6		"Prompt for location"
+7		"Always open the default location:"
 10		"Նախընտրելի Լեզուն՝ DVD-ի ուղորդման և OGM-ի համար"
 11		"Ընտրացանկ"
 12		"Ձայնը"
