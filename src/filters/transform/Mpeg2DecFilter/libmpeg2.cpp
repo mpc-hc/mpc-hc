@@ -27,6 +27,11 @@
 #include "libmpeg2.h"
 #include "../../../DSUtil/vd.h"
 
+#ifdef _WIN64
+#pragma warning(push)
+#pragma warning(disable:4244)
+#endif
+
 // decode
 
 #define SEQ_EXT 2
@@ -3733,3 +3738,6 @@ void CMpeg2Info::Reset()
     m_user_data_len = 0;
 }
 
+#ifdef _WIN64
+#pragma warning(pop)
+#endif
