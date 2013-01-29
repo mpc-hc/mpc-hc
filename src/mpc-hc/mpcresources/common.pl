@@ -145,7 +145,7 @@ sub readDialog {
 
         my $line = skipNonTranslatedStr($_);
 
-        if ($line=~/("[^"](?:[^"]|"")*")/) {
+        if ($line=~/("(?:[^"]|"")+")/) {
             my $value = $1;
             if ($line =~ /(?:,|\s)(ID[^,]*),/) {
                 my $id = $1;
