@@ -200,7 +200,7 @@ sub mergeDialog {
             my $value = $_->[1];
             my $curline = $contents[--$line];
             $curline = skipNonTranslatedStr($curline);
-            if ($curline =~ /("[^"](?:[^"]|"")*")/) {
+            if ($curline =~ /("(?:[^"]|"")+")/) {
                 $contents[$line] =~ s/\Q$1\E/$value/;
             }
         }
