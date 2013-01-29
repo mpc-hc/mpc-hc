@@ -218,7 +218,7 @@ BOOL CPPageSubStyle::OnApply()
         if (!(stss == m_stss)) {
             stss = m_stss;
             if (CMainFrame* pFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
-                pFrame->UpdateSubtitle(false, true);
+                pFrame->SetSubtitle(0, true, false, true);
             }
         }
     }

@@ -204,10 +204,9 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     CList<SubtitleInput> m_pSubStreams;
     POSITION m_posFirstExtSub;
-    int m_iSubtitleSel; // if (m_iSubtitleSel&(1<<31)): disabled
-    DWORD_PTR m_nSubtitleId;
+    ISubStream* m_pCurrentSubStream;
 
-    int GetSubtitleInput(int i, SubtitleInput& subElement);
+    SubtitleInput* GetSubtitleInput(int &i, bool bIsOffset = false);
 
     friend class CTextPassThruFilter;
 
@@ -452,10 +451,11 @@ public:
 
     DWORD SetupAudioStreams();
     DWORD SetupSubtitleStreams();
-    bool LoadSubtitle(CString fn, ISubStream** actualStream = NULL);
 
-    void UpdateSubtitle(bool fDisplayMessage = false, bool fApplyDefStyle = false);
-    void SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle = false);
+    bool LoadSubtitle(CString fn, ISubStream** actualStream = NULL);
+    bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false, bool bApplyDefStyle = false);
+    void SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle = false);
+    void ToogleSubtitleOnOff(bool bDisplayMessage = false);
     void ReplaceSubtitle(ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = -1, REFERENCE_TIME rtInvalidate = -1);
     void ReloadSubtitle();
