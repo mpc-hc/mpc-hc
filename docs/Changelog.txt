@@ -11,7 +11,7 @@ Legend:
 1.6.6 - not released yet
 ========================
 + Formats: The space key can now be used to enable/disable formats
-+ Miscellaneous: Added button to export key bindings
++ Miscellaneous: Add button to export key bindings
 + Add the ability to choose the scale factor (relative to the screen size) for
   the auto-fit zoom
 + Internal Subtitles Renderer: Show all subtitles tracks in the Play -> Subtitles menu.
@@ -21,26 +21,28 @@ Legend:
 + Add a new shader that over brightens with gradient from the bottom to the top of the screen.
   It needs LCD monitors with low viewing angle (~170/160).
 * UI: Use a more native look and feel for the options dialog tree
-* Ticket #1620, UI: Use the new styled radio bullet for menu's items
-* Updated FFmpeg (n0.8-18417-gc46943e)
-* Updated Little CMS to v2.4 (git ff060c3)
-* Updated Logitech SDK to v3.01 (driver 8.00.100)
-* Updated SoundTouch to v1.7.1 r170
-* Updated Basque, Czech, German, Russian, Simplified Chinese, Slovak and Ukrainian translations
 * More resilient support for MPL2 and SRT subtitles formats:
   - Ticket #2779, Support MicroDVD tags in MPL2 subtitles files. This is normally not
     supported but MPL2 files that use MicroDVD tags for formatting are quite common.
   - Support SRT files with missing millisecond part in the timecodes.
 * Re-enable the option to bypass the DVD/BD path selection. The user won't be asked to choose
   the location of the DVD/BD player (or folder) when this option is enabled.
+* Ticket #1620, UI: Use the new styled radio bullet for menu's items
+* Updated FFmpeg (n0.8-18417-gc46943e)
+* Updated Little CMS to v2.4 (git ff060c3)
+* Updated Logitech SDK to v3.01 (driver 8.00.100)
+* Updated SoundTouch to v1.7.1 r170
+* Updated Basque, Czech, German, Russian, Simplified Chinese, Slovak and Ukrainian translations
+* Re-enable the option to bypass the DVD/BD path selection. The user won't be asked to choose
+  the location of the DVD/BD player (or folder) when this option is enabled.
 ! Various WebUI fixes:
   - Fix seeking
   - Fix volume slider going out of bounds with IE in player.html
   - Fix incorrect encoding of the parent dir's path in browser.html
-! MPC Video Decoder: Fix low merit internal filter
-! MPC Video Decoder: The "Read Aspect Ratio from stream" option was sometimes not working correctly
+! MPCVideoDecoder: Fix low merit internal filter
+! MPCVideoDecoder: The "Read Aspect Ratio from stream" option didn't always work right
 ! Ticket #84, WebServer: The filenames weren't correctly URL decoded
-! Ticket #1554, The OSD was looking bad when using EVR Sync renderer
+! Ticket #1554, The OSD was looking bad when using the EVR Sync renderer
 ! Ticket #2423, Fix wrong rounding leading to small black bars when resizing the window.
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks
@@ -48,10 +50,10 @@ Legend:
 ! Ticket #2838, The window wasn't draggable anymore by clicking on the information panel
 ! Ticket #2839, Post-resize shaders didn't work with VMR-9 (renderless)
 ! Ticket #2855, The filename could be wrong when saving a screenshot or thumbnails
-! Ticket #2859, Flac Source: Improve timestamps accuracy. This fixes some cases where the
+! Ticket #2859, FlacSource: Improve timestamps accuracy. This fixes some cases where the
   end of the file wasn't played.
 ! Ticket #2863, The OSD was incorrect when restarting the playback of a file after it ended
-! Ticket #2864, VobSub subtitles were autoloaded twice.
+! Ticket #2864, VobSub subtitles were autoloaded twice
 ! Ticket #2881, "Auto-fit" and "Auto-fit (Larger Only)" zooms gave different results
   depending on if they were used in windowed or fullscreened mode.
 ! Ticket #2889, Fix incorrectly displayed OSD when using EVR renderer
