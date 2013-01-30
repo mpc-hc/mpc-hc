@@ -303,7 +303,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 19		"Atzerabildu irakurketa egindakoan"
 20		"Irteera"
 21		"Berez-zooma:"
-23		"Auto fit factor:"
+23		"Berez finkatze ezaugarria:"
 27		"Berezko bide hobespena"
 28		"Azpidatziak:"
 30		"Audioa:"
@@ -315,7 +315,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 38		"Berez-gertatu azpidatziak"
 39		"Agintea"
 40		"Bolumen urratsa:"
-44		"Speed step:"
+44		"Abiadura urratsa:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
