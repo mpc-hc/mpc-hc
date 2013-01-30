@@ -1315,8 +1315,6 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
     __super::OnSize(nType, cx, cy);
 
-    m_OSD.OnSize(nType, cx, cy);
-
     if (nType == SIZE_RESTORED && m_fTrayIcon) {
         ShowWindow(SW_SHOW);
     }
@@ -9814,6 +9812,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
         }
 
         m_wndView.SetVideoRect(&wr);
+        m_OSD.SetSize(wr, vr);
     } else {
         m_wndView.SetVideoRect();
     }

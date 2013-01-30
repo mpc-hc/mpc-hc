@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -67,7 +67,7 @@ CVMROSD::~CVMROSD()
     m_MemDC.DeleteDC();
 }
 
-void CVMROSD::OnSize(UINT nType, int cx, int cy)
+void CVMROSD::SetSize(CRect wndRect, CRect videoRect)
 {
     if (m_pWnd && (m_pVMB || m_pMFVMB)) {
         if (m_bSeekBarVisible) {
@@ -75,6 +75,16 @@ void CVMROSD::OnSize(UINT nType, int cx, int cy)
             m_bSeekBarVisible = false;
             Invalidate();
         }
+
+        // Vanilla EVR draws the OSD relative to the video frame
+        m_rectWnd = m_pVMB ? wndRect : videoRect;
+        m_rectWnd.MoveToXY(0, 0);
+
+        m_rectSeekBar.left   = m_rectWnd.left    + 10;
+        m_rectSeekBar.right  = m_rectWnd.right   - 10;
+        m_rectSeekBar.top    = m_rectWnd.bottom  - SEEKBAR_HEIGHT;
+        m_rectSeekBar.bottom = m_rectSeekBar.top + SEEKBAR_HEIGHT;
+
         UpdateBitmap();
     }
 }
@@ -84,8 +94,6 @@ void CVMROSD::UpdateBitmap()
     CAutoLock Lock(&m_Lock);
     CRect rc;
     CWindowDC dc(m_pWnd);
-
-    CalcRect();
 
     m_MemDC.DeleteDC();
     memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
@@ -181,18 +189,6 @@ void CVMROSD::Stop()
         m_pMVTO.Release();
     }
     m_pWnd  = NULL;
-}
-
-void CVMROSD::CalcRect()
-{
-    if (m_pWnd) {
-        m_pWnd->GetClientRect(&m_rectWnd);
-
-        m_rectSeekBar.left   = m_rectWnd.left    + 10;
-        m_rectSeekBar.right  = m_rectWnd.right   - 10;
-        m_rectSeekBar.top    = m_rectWnd.bottom  - SEEKBAR_HEIGHT;
-        m_rectSeekBar.bottom = m_rectSeekBar.top + SEEKBAR_HEIGHT;
-    }
 }
 
 void CVMROSD::DrawRect(CRect* rect, CBrush* pBrush, CPen* pPen)

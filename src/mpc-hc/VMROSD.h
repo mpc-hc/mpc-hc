@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -68,7 +68,7 @@ public:
     void SetRange(__int64 start,  __int64 stop);
     void GetRange(__int64& start, __int64& stop);
 
-    void OnSize(UINT nType, int cx, int cy);
+    void SetSize(CRect wndRect, CRect videoRect);
     bool OnMouseMove(UINT nFlags, CPoint point);
     bool OnLButtonDown(UINT nFlags, CPoint point);
     bool OnLButtonUp(UINT nFlags, CPoint point);
@@ -118,7 +118,6 @@ private:
     CList<CString> m_debugMessages;
 
     void UpdateBitmap();
-    void CalcRect();
     void UpdateSeekBarPos(CPoint point);
     void DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPos);
     void DrawRect(CRect* rect, CBrush* pBrush = NULL, CPen* pPen = NULL);
