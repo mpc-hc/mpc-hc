@@ -8846,7 +8846,7 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
             }
         }
 
-        CString str = ImplodeEsc(args, sep, _T('\\'));
+        CString str = ImplodeEsc(args, sep);
         s.AddFav(FAV_FILE, str);
         osdMsg = IDS_FILE_FAV_ADDED;
     } else if (GetPlaybackMode() == PM_DVD) {
@@ -8895,7 +8895,7 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
         // Paths
         args.AddTail(fn);
 
-        CString str = ImplodeEsc(args, sep, _T('\\'));
+        CString str = ImplodeEsc(args, sep);
         s.AddFav(FAV_DVD, str);
         osdMsg = IDS_DVD_FAV_ADDED;
     } else if (GetPlaybackMode() == PM_CAPTURE) {
@@ -8998,7 +8998,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
     BOOL bRelativeDrive = FALSE;
     int i = 0, j = 0;
 
-    ExplodeEsc(fav, args, _T(';'), _T('\\'), 0);
+    ExplodeEsc(fav, args, _T(';'));
     args.RemoveHeadNoReturn(); // desc / name
     _stscanf_s(args.RemoveHead(), _T("%I64d"), &rtStart);    // pos
     _stscanf_s(args.RemoveHead(), _T("%d"), &bRelativeDrive);    // relative drive
@@ -9083,7 +9083,7 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
 
     stream.AddRef();
 
-    ExplodeEsc(fav, args, _T(';'), _T('\\'), 3);
+    ExplodeEsc(fav, args, _T(';'), 3);
     args.RemoveHeadNoReturn(); // desc / name
     CString state = args.RemoveHead(); // state
     if (state != _T("0")) {
@@ -13352,7 +13352,7 @@ void CMainFrame::SetupFavoritesSubMenu()
         f_str.Replace(_T("\t"), _T(" "));
 
         CAtlList<CString> sl;
-        ExplodeEsc(f_str, sl, _T(';'), _T('\\'), 3);
+        ExplodeEsc(f_str, sl, _T(';'), 3);
 
         f_str = sl.RemoveHead();
 
@@ -13409,7 +13409,7 @@ void CMainFrame::SetupFavoritesSubMenu()
         str.Replace(_T("&"), _T("&&"));
 
         CAtlList<CString> sl;
-        ExplodeEsc(str, sl, _T(';'), _T('\\'), 2);
+        ExplodeEsc(str, sl, _T(';'), 2);
 
         str = sl.RemoveHead();
 
@@ -13442,7 +13442,7 @@ void CMainFrame::SetupFavoritesSubMenu()
         str.Replace(_T("&"), _T("&&"));
 
         CAtlList<CString> sl;
-        ExplodeEsc(str, sl, _T(';'), _T('\\'), 2);
+        ExplodeEsc(str, sl, _T(';'), 2);
 
         str = sl.RemoveHead();
 

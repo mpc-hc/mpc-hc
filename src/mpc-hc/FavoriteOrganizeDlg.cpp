@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -48,7 +48,7 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
             CAtlList<CString> args;
             args.AddTail(m_list.GetItemText(j, 0));
             args.AddTail(m_sl[i].GetAt((POSITION)m_list.GetItemData(j)));
-            sl.AddTail(ImplodeEsc(args, _T(';'), _T('\\')));
+            sl.AddTail(ImplodeEsc(args, _T(';')));
         }
 
         m_sl[i].RemoveAll();
@@ -61,7 +61,7 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
             tmp = pos;
 
             CAtlList<CString> sl;
-            ExplodeEsc(m_sl[i].GetNext(pos), sl, _T(';'), _T('\\'), 3);
+            ExplodeEsc(m_sl[i].GetNext(pos), sl, _T(';'), 3);
 
             int n = m_list.InsertItem(m_list.GetItemCount(), sl.RemoveHead());
             m_list.SetItemData(n, (DWORD_PTR)tmp);
