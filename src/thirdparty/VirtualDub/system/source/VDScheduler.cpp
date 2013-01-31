@@ -266,6 +266,7 @@ void VDSchedulerThread::ThreadRun() {
 VDSchedulerThreadPool::VDSchedulerThreadPool()
 	: mpThreads(NULL)
 	, mThreadCount(0)
+	, mThreadPriority(VDThread::kPriorityDefault)
 {
 }
 
@@ -276,6 +277,20 @@ VDSchedulerThreadPool::~VDSchedulerThreadPool() {
 		}
 
 		delete[] mpThreads;
+	}
+}
+
+void VDSchedulerThreadPool::SetPriority(int priority) {
+	if (mThreadPriority != priority) {
+		mThreadPriority = priority;
+
+		if (mpThreads) {
+			for(uint32 i=0; i<mThreadCount; ++i) {
+				VDSchedulerThread& t = mpThreads[i];
+
+				t.ThreadSetPriority(priority);
+			}
+		}
 	}
 }
 
@@ -291,6 +306,8 @@ bool VDSchedulerThreadPool::Start(VDScheduler *pScheduler, uint32 threadCount) {
 
 	bool success = true;
 	for(uint32 i=0; i<mThreadCount; ++i) {
+		mpThreads[i].ThreadSetPriority(mThreadPriority);
+
 		if (!mpThreads[i].Start(pScheduler)) {
 			// We don't attempt to tear down scheduling threads here. The reason is
 			// that those threads have already entered the scheduler, and it's very

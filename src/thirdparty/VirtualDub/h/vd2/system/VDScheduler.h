@@ -133,12 +133,15 @@ public:
 
 	uint32 GetThreadCount() const { return mThreadCount; }
 
+	void SetPriority(int priority);
+
 	bool Start(VDScheduler *pScheduler);
 	bool Start(VDScheduler *pScheduler, uint32 threadCount);
 
 protected:
 	VDSchedulerThread *mpThreads;
 	uint32 mThreadCount;
+	int mThreadPriority;
 };
 
 #endif

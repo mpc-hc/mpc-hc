@@ -116,6 +116,7 @@
     </ClCompile>
     <ClCompile Include="source\stretchblt_reference.cpp" />
     <ClCompile Include="source\tables.cpp" />
+    <ClCompile Include="source\text.cpp" />
     <ClCompile Include="source\triblt.cpp" />
     <ClCompile Include="source\uberblit.cpp" />
     <ClCompile Include="source\uberblit_16f.cpp" />
@@ -230,6 +231,8 @@
     </YASM>
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\Tuffy.ttf" />
+    <None Include="h\defaultfont.inl" />
     <None Include="source\a_triblt.inc" />
   </ItemGroup>
   <ItemGroup>

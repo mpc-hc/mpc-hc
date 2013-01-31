@@ -99,6 +99,7 @@ VDThread::VDThread(const char *pszDebugName)
 	: mpszDebugName(pszDebugName)
 	, mhThread(0)
 	, mThreadID(0)
+	, mThreadPriority(INT_MIN)
 {
 }
 
@@ -110,8 +111,12 @@ VDThread::~VDThread() throw() {
 bool VDThread::ThreadStart() {
 	VDASSERT(!isThreadAttached());
 
-	if (!isThreadAttached())
+	if (!isThreadAttached()) {
 		mhThread = (void *)_beginthreadex(NULL, 0, StaticThreadStart, this, 0, &mThreadID);
+
+		if (mhThread && mThreadPriority != INT_MIN)
+			::SetThreadPriority(mhThread, mThreadPriority);
+	}
 
 	return mhThread != 0;
 }
@@ -129,6 +134,15 @@ void VDThread::ThreadWait() {
 		WaitForSingleObject((HANDLE)mhThread, INFINITE);
 		ThreadDetach();
 		mThreadID = 0;
+	}
+}
+
+void VDThread::ThreadSetPriority(int priority) {
+	if (mThreadPriority != priority) {
+		mThreadPriority = priority;
+
+		if (mhThread && priority != INT_MIN)
+			::SetThreadPriority(mhThread, priority);
 	}
 }
 

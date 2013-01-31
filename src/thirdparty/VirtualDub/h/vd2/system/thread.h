@@ -84,6 +84,10 @@ void VDThreadSleep(int milliseconds);
 
 class VDThread {
 public:
+	enum {
+		kPriorityDefault = INT_MIN
+	};
+
 	VDThread(const char *pszDebugName = NULL);	// NOTE: pszDebugName must have static duration
 	~VDThread() throw();
 
@@ -92,6 +96,7 @@ public:
 	bool ThreadStart();							// start thread
 	void ThreadDetach();						// detach thread (wait() won't be called)
 	void ThreadWait();							// wait for thread to finish
+	void ThreadSetPriority(int priority);
 
 	bool isThreadActive();
 
@@ -120,6 +125,7 @@ private:
 	const char *mpszDebugName;
 	VDThreadHandle	mhThread;
 	VDThreadID		mThreadID;
+	int				mThreadPriority;
 };
 
 ///////////////////////////////////////////////////////////////////////////
