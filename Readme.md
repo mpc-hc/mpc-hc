@@ -50,12 +50,12 @@ Links:
 
 
 For the people involved in the development, see
-[Authors.txt](https://github.com/mpc-hc/mpc-hc/blob/master/docs/Authors.txt).
+[Authors.txt](docs/Authors.txt).
 
-MPC-HC's code is licensed under [GPL v3](https://raw.github.com/mpc-hc/mpc-hc/master/COPYING.txt).
+MPC-HC's code is licensed under [GPL v3](COPYING.txt).
 
 Translations are done by various translators (see
-[Authors.txt](https://github.com/mpc-hc/mpc-hc/blob/master/docs/Authors.txt)).
+[Authors.txt](docs/Authors.txt)).
 
 Third-party code
 ----------------
