@@ -174,6 +174,7 @@ Name: ja; MessagesFile: compiler:Languages\Japanese.isl
 Name: kr; MessagesFile: Languages\Korean.isl
 Name: nl; MessagesFile: compiler:Languages\Dutch.isl
 Name: pl; MessagesFile: compiler:Languages\Polish.isl
+Name: ro; MessagesFile: Languages\Romanian.isl
 Name: ru; MessagesFile: compiler:Languages\Russian.isl
 Name: sc; MessagesFile: Languages\ChineseSimplified.isl
 Name: sv; MessagesFile: Languages\Swedish.isl
