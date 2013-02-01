@@ -568,10 +568,18 @@ static void reduce_matrix(AudioMix *am, const double *matrix, int stride)
         int skip = 1;
 
         for (o = 0; o < am->out_channels; o++) {
+            int i0;
             if ((o != i && matrix[o * stride + i] != 0.0) ||
                 (o == i && matrix[o * stride + i] != 1.0)) {
                 skip = 0;
                 break;
+            }
+            /* check that no other inputs contribute to this output */
+            for (i0 = 0; i0 < am->in_channels; i0++) {
+                if (i0 != i && matrix[o * stride + i0] != 0.0) {
+                    skip = 0;
+                    break;
+                }
             }
         }
         if (skip) {
