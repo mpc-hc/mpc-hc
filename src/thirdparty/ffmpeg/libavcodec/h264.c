@@ -67,9 +67,18 @@ static const uint8_t div6[QP_MAX_NUM + 1] = {
 };
 
 static const enum AVPixelFormat hwaccel_pixfmt_list_h264_jpeg_420[] = {
+#if CONFIG_H264_DXVA2_HWACCEL
     AV_PIX_FMT_DXVA2_VLD,
+#endif
+#if CONFIG_H264_VAAPI_HWACCEL
     AV_PIX_FMT_VAAPI_VLD,
+#endif
+#if CONFIG_H264_VDA_HWACCEL
     AV_PIX_FMT_VDA_VLD,
+#endif
+#if CONFIG_H264_VDPAU_HWACCEL
+    AV_PIX_FMT_VDPAU,
+#endif
     AV_PIX_FMT_YUVJ420P,
     AV_PIX_FMT_NONE
 };
@@ -1453,7 +1462,6 @@ static void decode_postinit(H264Context *h, int setup_finished)
             cur->f.repeat_pict = 1;
             break;
         case SEI_PIC_STRUCT_FRAME_DOUBLING:
-            // Force progressive here, doubling interlaced frame is a bad idea.
             cur->f.repeat_pict = 2;
             break;
         case SEI_PIC_STRUCT_FRAME_TRIPLING:
@@ -2767,7 +2775,8 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
                      || s->avctx->bits_per_raw_sample != h->sps.bit_depth_luma
                      || h->cur_chroma_format_idc != h->sps.chroma_format_idc
                      || av_cmp_q(h->sps.sar, s->avctx->sample_aspect_ratio)));
-
+    if (h0->s.avctx->pix_fmt != get_pixel_format(h0))
+        must_reinit = 1;
 
     s->mb_width  = h->sps.mb_width;
     s->mb_height = h->sps.mb_height * (2 - h->sps.frame_mbs_only_flag);

@@ -28,7 +28,7 @@ Legend:
 * Re-enable the option to bypass the DVD/BD path selection. The user won't be asked to choose
   the location of the DVD/BD player (or folder) when this option is enabled.
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
-* Updated FFmpeg (n0.8-18417-gc46943e)
+* Updated FFmpeg (n0.8-18583-g911e270)
 * Updated Little CMS to v2.4 (git ff060c3)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)
 * Updated SoundTouch to v1.7.1 r170
@@ -56,5 +56,5 @@ Legend:
 ! Ticket #2863, The OSD was incorrect when restarting the playback of a file after it ended
 ! Ticket #2864, VobSub subtitles were autoloaded twice
 ! Ticket #2881, "Auto-fit" and "Auto-fit (Larger Only)" zooms gave different results
-  depending on if they were used in windowed or fullscreened mode.
+  depending on if they were used in windowed or fullscreen mode.
 ! Ticket #2889, Fix incorrectly displayed OSD when using EVR renderer

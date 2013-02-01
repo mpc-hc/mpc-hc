@@ -250,12 +250,12 @@ typedef void (*yuv2packedX_fn)(struct SwsContext *c, const int16_t *lumFilter,
  *                      or some output formats.
  */
 typedef void (*yuv2anyX_fn)(struct SwsContext *c, const int16_t *lumFilter,
-                               const int16_t **lumSrc, int lumFilterSize,
-                               const int16_t *chrFilter,
-                               const int16_t **chrUSrc,
-                               const int16_t **chrVSrc, int chrFilterSize,
-                               const int16_t **alpSrc, uint8_t **dest,
-                               int dstW, int y);
+                            const int16_t **lumSrc, int lumFilterSize,
+                            const int16_t *chrFilter,
+                            const int16_t **chrUSrc,
+                            const int16_t **chrVSrc, int chrFilterSize,
+                            const int16_t **alpSrc, uint8_t **dest,
+                            int dstW, int y);
 
 /* This struct should be aligned on at least a 32-byte boundary. */
 typedef struct SwsContext {
@@ -716,6 +716,15 @@ static av_always_inline int isRGB(enum AVPixelFormat pix_fmt)
     (           \
           isRGBinInt(x)       ||    \
           isBGRinInt(x)       ||    \
+          isRGB(x)            ||    \
+          (x)==AV_PIX_FMT_GBRP9LE  || \
+          (x)==AV_PIX_FMT_GBRP9BE  || \
+          (x)==AV_PIX_FMT_GBRP10LE || \
+          (x)==AV_PIX_FMT_GBRP10BE || \
+          (x)==AV_PIX_FMT_GBRP12LE || \
+          (x)==AV_PIX_FMT_GBRP12BE || \
+          (x)==AV_PIX_FMT_GBRP14LE || \
+          (x)==AV_PIX_FMT_GBRP14BE || \
           (x)==AV_PIX_FMT_GBR24P     \
     )
 

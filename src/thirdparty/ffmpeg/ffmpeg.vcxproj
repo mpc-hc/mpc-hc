@@ -143,7 +143,9 @@
     <None Include="libavcodec\x86\h264_qpel_10bit.asm" />
     <None Include="libavcodec\x86\h264_weight.asm" />
     <None Include="libavcodec\x86\h264_weight_10bit.asm" />
+    <None Include="libavcodec\x86\hpeldsp.asm" />
     <None Include="libavcodec\x86\imdct36.asm" />
+    <None Include="libavcodec\x86\mpeg4qpel.asm" />
     <None Include="libavcodec\x86\rv34dsp.asm" />
     <None Include="libavcodec\x86\rv40dsp.asm" />
     <None Include="libavcodec\x86\sbrdsp.asm" />

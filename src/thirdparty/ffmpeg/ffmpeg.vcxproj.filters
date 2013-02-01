@@ -148,6 +148,12 @@
     <None Include="libavcodec\x86\vorbisdsp.asm">
       <Filter>libavcodec\x86</Filter>
     </None>
+    <None Include="libavcodec\x86\hpeldsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </None>
+    <None Include="libavcodec\x86\mpeg4qpel.asm">
+      <Filter>libavcodec\x86</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
