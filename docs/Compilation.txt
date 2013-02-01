@@ -42,7 +42,7 @@ Part C: Downloading and compiling the MPC-HC source
 
 1. Use Git to checkout MPC-HC's master branch to "C:\mpc-hc" (or anywhere else you like)
     Repository URL: https://github.com/mpc-hc/mpc-hc.git
-    Grab it from http://msysgit.googlecode.com/files/Git-1.8.0-preview20121022.exe
+    Grab it from http://msysgit.googlecode.com/files/Git-1.8.1.2-preview20130201.exe
 2. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
 3. Press F7 to build the solution.
