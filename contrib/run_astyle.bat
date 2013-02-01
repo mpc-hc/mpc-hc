@@ -20,7 +20,7 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 
 PUSHD %~dp0
-TITLE Running astyle using astyle.ini
+TITLE Running astyle using %~dp0astyle.ini
 
 IF "%~1" == "" (
   astyle -r --options=astyle.ini ..\*.h ..\*.cpp
