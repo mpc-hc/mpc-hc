@@ -36,7 +36,7 @@ public IUnknown {
 
     STDMETHOD(SetSampleFormat(MPCSampleFormat sf, bool enable)) = 0;
     STDMETHOD_(bool, GetSampleFormat(MPCSampleFormat sf)) = 0;
-    STDMETHOD_(MPCSampleFormat, GetSampleFormat2()) = 0;
+    STDMETHOD_(MPCSampleFormat, SelectSampleFormat(MPCSampleFormat sf)) = 0;
     STDMETHOD(SetMixer(bool fMixer)) = 0;
     STDMETHOD_(bool, GetMixer()) = 0;
     STDMETHOD(SetMixerLayout(int sc)) = 0;

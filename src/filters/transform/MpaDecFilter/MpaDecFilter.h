@@ -167,7 +167,7 @@ public:
 
     STDMETHODIMP SetSampleFormat(MPCSampleFormat sf, bool enable);
     STDMETHODIMP_(bool) GetSampleFormat(MPCSampleFormat sf);
-    STDMETHODIMP_(MPCSampleFormat) GetSampleFormat2();
+    STDMETHODIMP_(MPCSampleFormat) SelectSampleFormat(MPCSampleFormat sf);
     STDMETHODIMP SetMixer(bool fMixer);
     STDMETHODIMP_(bool) GetMixer();
     STDMETHODIMP SetMixerLayout(int sc);
