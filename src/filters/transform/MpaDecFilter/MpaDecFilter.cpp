@@ -1408,8 +1408,8 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, 
     }
 
     CMediaType mt;
-    if (isDTSWAV) {
-        mt = CreateMediaTypeSPDIF(sample_rate);
+    if (sample_rate % 11025 == 0) {
+        mt = CreateMediaTypeSPDIF(44100);
     } else {
         mt = CreateMediaTypeSPDIF();
     }
@@ -1667,7 +1667,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
     const GUID& subtype = mt.subtype;
     if (GetSPDIF(ac3) && (subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3) ||
             GetSPDIF(dts) && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
-        if (wfe->nSamplesPerSec == 44100) { // DTS-WAVE
+        if (wfe->nSamplesPerSec % 11025 == 0) {
             *pmt = CreateMediaTypeSPDIF(44100);
         } else {
             *pmt = CreateMediaTypeSPDIF();
