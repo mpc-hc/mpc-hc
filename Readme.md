@@ -30,7 +30,7 @@ Main Features:
 * Multi-Monitor support
 * Various [pixel shaders](http://en.wikipedia.org/wiki/Shader#Pixel_shaders)
 * [Color management](http://en.wikipedia.org/wiki/Color_management)
-* 24 translations available
+* 25 translations available
 
 
 System Requirements:

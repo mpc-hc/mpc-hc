@@ -56,6 +56,8 @@ Polish                  arch__stanton           <arch__stanton@users.sourceforge
 Polish                  Haix                    <haix@users.sourceforge.net>
 Polish                  kasper93                <kasper93@users.sourceforge.net>
 Portuguese (Brazil)     Roger Felipe            <rfrfrfrf@users.sourceforge.net>
+Romanian                Daniel Alămiță
+Romanian                lordkag                 <lordkag@users.sourceforge.net>
 Russian                 YDY                     <ydy@users.sourceforge.net>
 Slovak                  Marián Hikaník          <mhikanik@users.sourceforge.net>
 Spanish                 SquallMX                <squallmx@users.sourceforge.net>
