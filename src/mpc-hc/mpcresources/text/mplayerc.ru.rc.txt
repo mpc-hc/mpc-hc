@@ -1,12 +1,12 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"О программе"
 8		"Copyright © 2002-2013, смотрите файл Authors.txt"
-10		"Version :"
+10		"Версия:"
 11		"OK"
 12		"Эта программа бесплатна и распространяется под лицензией GNU General Public License."
 13		"Компилятор MPC-HC:"
 14		"Компилятор FFmpeg:"
-18		"Локализация: YDY (http://mpc.darkhost.ru)"
+18		"Локализация: v0lt, Aleksoid, YDY"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"""Open DVD/BD"" behavior"
-6		"Prompt for location"
-7		"Always open the default location:"
+5		"Поведение команды ""Открыть DVD/BD..."""
+6		"Выбирать папку"
+7		"Открывать по умолчанию:"
 10		"Предпочтительный язык для навигатора DVD и сплиттера OGM"
 11		"Меню"
 12		"Аудио"
