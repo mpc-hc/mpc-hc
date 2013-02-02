@@ -35,8 +35,6 @@ Legend:
 * Updated SoundTouch to v1.7.1 r170
 * Updated VirtualDub to v1.10.4-test1
 * Updated Basque, Czech, German, Russian, Simplified Chinese, Slovak and Ukrainian translations
-* Re-enable the option to bypass the DVD/BD path selection. The user won't be asked to choose
-  the location of the DVD/BD player (or folder) when this option is enabled.
 ! Various WebUI fixes:
   - Fix seeking
   - Fix volume slider going out of bounds with IE in player.html
