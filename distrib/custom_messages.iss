@@ -517,8 +517,8 @@ ro.tsk_CurrentUser=Doar pentru utilizatorul curent
 ro.tsk_Other=Alte activităţi:
 ro.tsk_ResetSettings=Resetează setările
 ro.types_DefaultInstallation=Instalare implicită
-ro.types_CustomInstallation=Instalare specială
-ro.ViewChangelog=Vezi jurnalul de modificări
+ro.types_CustomInstallation=Instalare personalizată
+ro.ViewChangelog=Vezi istoricul modificărilor
 
 ;Russian
 ru.langid=00001049
