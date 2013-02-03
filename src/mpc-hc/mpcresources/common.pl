@@ -276,12 +276,14 @@ sub Trace {
 
 #--------------------------------------------------------------------------------------------------
 sub readFile {
-    my ($filename, $withBOM) = @_;
+    my ($filename, $encoding) = @_;
 
     open(INPUT, "<$filename") || die "Cannot open $filename to read";
-    if ($withBOM == 0) {
+    if ($encoding == 0) {
+        binmode(INPUT);
+    } elsif ($encoding == 1) {
         binmode(INPUT, ":encoding(UTF8)");
-    } else {
+    } elsif ($encoding == 2) {
         binmode(INPUT, ":encoding(UTF16-LE)");
     }
 

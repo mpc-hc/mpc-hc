@@ -57,11 +57,11 @@ my $DesignInfo = {};
 
 print "Reading rc file...\n";
 my $rcfile = shift(@ARGV);
-my @RcFile = readFile($rcfile, 1);
+my @RcFile = readFile($rcfile, 2);
 analyzeData(\@RcFile, \@Outline, $Dialogs, $Menus, $Strings, \@VersionInfo, $DesignInfo);
 
 print "\nReading string text file...\n";
-my @TxtFile = readFile($TxtFileName, 0);
+my @TxtFile = readFile($TxtFileName, 1);
 analyzeTxt(\@TxtFile, $NewDialogs, $NewMenus, $NewStrings);
 
 print "\nWriting new rc file...\n";

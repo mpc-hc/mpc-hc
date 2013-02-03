@@ -76,8 +76,9 @@ my ($NewDialogs, $NewMenus, $NewStrings, @NewOutline) = ({}, {}, {}, ());
 my ($MenuDiffs, $DialogDiffs) = ({}, {});
 my ($BaseDesignInfo, $NewDesignInfo) = ({}, {});
 
-my @BaseFile = readFile($BaseFileName, 1);
-my @NewFile = readFile($NewFileName, 1);
+# /!\ Note that the English RC file is ASCII encoded
+my @BaseFile = readFile($BaseFileName, 0);
+my @NewFile = readFile($NewFileName, 0);
 print "Scanning changes between baseline file and new version...\n\n";
 getDifference();
 
@@ -103,7 +104,7 @@ if (!-e "newrc") {
 
 foreach my $filename(@FileLists) {
     print "Analyzing locale file: $filename...\n";
-    my @oldrcfile = readFile($filename, 1);
+    my @oldrcfile = readFile($filename, 2);
     my ($curDialogs, $curMenus, $curStrings, @curOutline) = ({}, {}, {}, ());
     my @curVersionInfo = ();
     my $curDesignInfo = {};
