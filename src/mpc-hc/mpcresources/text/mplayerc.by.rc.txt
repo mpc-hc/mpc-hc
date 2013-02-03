@@ -1551,7 +1551,7 @@ STRING IDS_MPEGSPLITTER_LANG_ORDER		"Парадак выбару мовы аўд
 STRING IDS_MPEGSPLITTER_SUB_FORCING		"Прымусовая загрузка ўсіх субтытраў"
 STRING IDS_MPEGSPLITTER_SUB_ORDER		"Парадак выбару мовы субтытраў:"
 STRING IDS_MPEGSPLITTER_THD_NOSPLIT		"Як ёсць"
-STRING IDS_MPEGSPLITTER_TRUEHD_OUTPUT		"TrueHD+AC3 streams output"
+STRING IDS_MPEGSPLITTER_TRUEHD_OUTPUT		"Вывад TrueHD+AC3 струменяў"
 STRING IDS_MPEGSPLITTER_VC1_GUIDFLAG		"Сумяшчальнаць вываду VC-1:"
 STRING IDS_MPLAYERC_0		"Хутка адкрыць файл"
 STRING IDS_MPLAYERC_100		"Перайсці да папярэдніх субтытраў"
