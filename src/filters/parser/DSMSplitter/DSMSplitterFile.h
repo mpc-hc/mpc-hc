@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,8 +45,8 @@ public:
     CStreamInfoMap m_fim;
     CAtlMap<BYTE, CStreamInfoMap> m_sim;
 
-    bool Sync(dsmp_t& type, UINT64& len, __int64 limit = 65536);
-    bool Sync(UINT64& syncpos, dsmp_t& type, UINT64& len, __int64 limit = 65536);
+    bool Sync(dsmp_t& type, UINT64& len, __int64 limit = MAX_PROBE_SIZE);
+    bool Sync(UINT64& syncpos, dsmp_t& type, UINT64& len, __int64 limit = MAX_PROBE_SIZE);
     bool Read(__int64 len, BYTE& id, CMediaType& mt);
     bool Read(__int64 len, Packet* p, bool fData = true);
     bool Read(__int64 len, CAtlArray<SyncPoint>& sps);

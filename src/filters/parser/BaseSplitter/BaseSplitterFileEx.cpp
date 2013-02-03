@@ -1465,7 +1465,7 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
     BitByteAlign();
 
     if (fSync) {
-        for (int i = 0; i < 65536; i++) {
+        for (int i = 0; i < MAX_PROBE_SIZE; i++) {
             if ((BitRead(64, true) & 0xfffffc00ffe00000i64) == 0x4156000055000000i64) {
                 break;
             }

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,8 @@
 #include "stdafx.h"
 #include "UDPReader.h"
 #include "../../../DSUtil/DSUtil.h"
+
+#define SOCKET_BUFF_SIZE 64 * 1024
 
 #ifdef STANDALONE_FILTER
 
@@ -381,7 +383,7 @@ DWORD CUDPStream::ThreadProc()
                 Reply(m_socket != INVALID_SOCKET ? S_OK : E_FAIL);
 
                 {
-                    char buff[65536 * 2];
+                    char buff[SOCKET_BUFF_SIZE * 2];
                     int buffsize = 0;
 
                     for (unsigned int i = 0; ; i++) {
@@ -392,7 +394,7 @@ DWORD CUDPStream::ThreadProc()
                         }
 
                         int fromlen = sizeof(addr);
-                        int len = recvfrom(m_socket, &buff[buffsize], 65536, 0, (SOCKADDR*)&addr, &fromlen);
+                        int len = recvfrom(m_socket, &buff[buffsize], SOCKET_BUFF_SIZE, 0, (SOCKADDR*)&addr, &fromlen);
                         if (len <= 0) {
                             Sleep(1);
                             continue;
@@ -410,7 +412,7 @@ DWORD CUDPStream::ThreadProc()
 
                         buffsize += len;
 
-                        if (buffsize >= 65536 || m_len == 0) {
+                        if (buffsize >= SOCKET_BUFF_SIZE || m_len == 0) {
 #ifdef _DEBUG
                             if (dump) {
                                 fwrite(buff, buffsize, 1, dump);

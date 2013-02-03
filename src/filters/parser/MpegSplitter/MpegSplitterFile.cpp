@@ -107,7 +107,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 
     if (m_type == mpeg_us) {
         BYTE b;
-        for (int i = 0; (i < 4 || GetPos() < 65536) && m_type == mpeg_us && NextMpegStartCode(b); i++) {
+        for (int i = 0; (i < 4 || GetPos() < MAX_PROBE_SIZE) && m_type == mpeg_us && NextMpegStartCode(b); i++) {
             if (b == 0xba) {
                 pshdr h;
                 if (Read(h)) {

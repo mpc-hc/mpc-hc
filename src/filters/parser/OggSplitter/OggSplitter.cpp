@@ -284,7 +284,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     }
 
     if (m_pFile->IsRandomAccess()) {
-        m_pFile->Seek(max(m_pFile->GetLength() - 65536, 0));
+        m_pFile->Seek(max(m_pFile->GetLength() - MAX_PROBE_SIZE, 0));
 
         OggPage ppage;
         while (m_pFile->Read(ppage)) {
@@ -505,7 +505,7 @@ void COggSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
                 if (!(fKeyFrameFound && !fSkipKeyFrame)) {
                     endpos = startpos;
-                    startpos = max(startpos - 10 * 65536, 0);
+                    startpos = max(startpos - 10 * MAX_PROBE_SIZE, 0);
                 }
 
                 m_pFile->Seek(startpos);

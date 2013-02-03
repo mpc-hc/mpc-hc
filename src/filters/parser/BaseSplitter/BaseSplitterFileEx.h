@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,6 +25,7 @@
 #include "../../../DSUtil/Mpeg2Def.h"
 
 #define MAX_SPSPPS  256         // Max size for a SPS/PPS packet
+#define MAX_PROBE_SIZE (64 * 1024)
 
 class CGolombBuffer;
 
@@ -61,7 +62,7 @@ public:
 
     // using CBaseSplitterFile::Read;
 
-    bool NextMpegStartCode(BYTE& b, __int64 len = 65536);
+    bool NextMpegStartCode(BYTE& b, __int64 len = MAX_PROBE_SIZE);
 
 #pragma pack(push, 1)
 

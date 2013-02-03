@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -93,10 +93,9 @@ BOOL CAuthDlg::OnInitDialog()
         }
     } else {
         CAutoVectorPtr<TCHAR> buff;
-        buff.Allocate(32767 / sizeof(TCHAR));
+        buff.Allocate(SHORT_MAX);
 
-        DWORD len = GetPrivateProfileSection(
-                        IDS_R_LOGINS, buff, 32767 / sizeof(TCHAR), pApp->m_pszProfileName);
+        DWORD len = GetPrivateProfileSection(IDS_R_LOGINS, buff, SHORT_MAX, pApp->m_pszProfileName);
 
         TCHAR* p = buff;
         while (*p && len > 0) {

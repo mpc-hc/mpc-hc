@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,6 +24,7 @@
 #include "ISDb.h"
 #include "mplayerc.h"
 
+#define PROBE_SIZE (64 * 1024)
 
 bool mpc_filehash(LPCTSTR fn, filehash& fh)
 {
@@ -40,11 +41,11 @@ bool mpc_filehash(LPCTSTR fn, filehash& fh)
     fh.size = f.GetLength();
 
     fh.mpc_filehash = fh.size;
-    for (UINT64 tmp = 0, i = 0; i < 65536 / sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.mpc_filehash += tmp, i++) {
+    for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.mpc_filehash += tmp, i++) {
         ;
     }
-    f.Seek(max(0, (INT64)fh.size - 65536), CFile::begin);
-    for (UINT64 tmp = 0, i = 0; i < 65536 / sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.mpc_filehash += tmp, i++) {
+    f.Seek(max(0, (INT64)fh.size - PROBE_SIZE), CFile::begin);
+    for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.mpc_filehash += tmp, i++) {
         ;
     }
 

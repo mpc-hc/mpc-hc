@@ -1436,8 +1436,8 @@ void CPlayerCaptureDialog::OnVideoDimension()
         return;
     }
 
-    m_vidhor.SetRange(0, 32767);
-    m_vidver.SetRange(0, 32767);
+    m_vidhor.SetRange(0, UD_MAXVAL);
+    m_vidver.SetRange(0, UD_MAXVAL);
     m_vidhor.SetPos(bih->biWidth);
     m_vidver.SetPos(abs(bih->biHeight));
     CString fps;
