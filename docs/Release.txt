@@ -5,7 +5,8 @@ Here is a quick how-to release a new stable build:
 3) Make sure you have a clean source tree, no modified files included
 4) Compile MPC-HC and the standalone filters:
    a. SET UseLTCG==true
-   b. CALL "build.bat" Rebuild All Both Release Packages
+   b. CALL "build.bat" Clean All Both Release
+   c. CALL "build.bat" Build All Both Release Packages
 5) Keep the PDB files of all the filters and MPC-HC builds
 6) Create a git tag for the new release
 7) Upload the binary packages on SF following the directory and the packages names scheme
