@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -261,14 +261,13 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
                     ASSERT(strm->indx == NULL);
                     AVISUPERINDEX* pSuperIndex;
                     if (size < MAXDWORD - 8) {
-                        // Fix buffer overrun vulnerability : http://www.vulnhunt.com/advisories/CAL-20070912-1_Multiple_vendor_produce_handling_AVI_file_vulnerabilities.txt
-                        TRY {
+                        // Fix buffer overrun vulnerability
+                        try {
                             pSuperIndex = (AVISUPERINDEX*)DEBUG_NEW unsigned char [(size_t)(size + 8)];
-                        }
-                        CATCH(CMemoryException, e) {
+                        } catch (CMemoryException* e) {
                             pSuperIndex = NULL;
+                            e->Delete();
                         }
-                        END_CATCH
                         if (pSuperIndex) {
                             strm->indx.Attach(pSuperIndex);
                             strm->indx->fcc = FCC('indx');
