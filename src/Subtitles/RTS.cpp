@@ -1134,7 +1134,7 @@ int CSubtitle::GetWrapWidth(POSITION pos, int maxwidth)
             if (m_wrapStyle == 3 && width < fullwidth && fullwidth - width + wordwidth < maxwidth) {
                 width -= wordwidth;
             }
-            maxwidth = width
+            maxwidth = width;
         }
     } else if (m_wrapStyle == 1) {
         //      maxwidth = maxwidth;
