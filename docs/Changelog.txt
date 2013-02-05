@@ -43,6 +43,7 @@ Legend:
 ! MPCVideoDecoder: The "Read Aspect Ratio from stream" option didn't always work right
 ! Ticket #84, WebServer: The filenames weren't correctly URL decoded
 ! Ticket #1554, The OSD was looking bad when using the EVR Sync renderer
+! Ticket #1600, Improve the naming of subtitles tracks (avoid showing an useless and ugly comma)
 ! Ticket #2423, Fix wrong rounding leading to small black bars when resizing the window.
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks
