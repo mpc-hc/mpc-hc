@@ -1115,36 +1115,35 @@ int CSubtitle::GetFullLineWidth(POSITION pos)
 
 int CSubtitle::GetWrapWidth(POSITION pos, int maxwidth)
 {
+    int width = 0;
     if (m_wrapStyle == 0 || m_wrapStyle == 3) {
-        if (maxwidth > 0) {
-            //          int fullwidth = GetFullWidth();
+        if (maxwidth > 0 && pos) {
             int fullwidth = GetFullLineWidth(pos);
 
-            int minwidth = fullwidth / ((abs(fullwidth) / maxwidth) + 1);
+            CWord* w = m_words.GetNext(pos);
+            width += w->m_width; // first word width
+            int wordwidth = 0; // for next word widths
 
-            int width = 0, wordwidth = 0;
-
-            while (pos && width < minwidth) {
+            while (pos) {
                 CWord* w = m_words.GetNext(pos);
-                wordwidth = w->m_width;
-                if (abs(width + wordwidth) < abs(maxwidth)) {
-                    width += wordwidth;
+                if (width + w->m_width >= maxwidth) {
+                    break;
                 }
+                wordwidth = w->m_width;
+                width += wordwidth;
             }
 
-            maxwidth = width;
-
-            if (m_wrapStyle == 3 && pos) {
-                maxwidth -= wordwidth;
+            if (m_wrapStyle == 3 && wordwidth > 0 && width < fullwidth && fullwidth - width + wordwidth < maxwidth) {
+                width -= wordwidth;
             }
         }
     } else if (m_wrapStyle == 1) {
-        //      maxwidth = maxwidth;
+        width = maxwidth;
     } else if (m_wrapStyle == 2) {
-        maxwidth = INT_MAX;
+        width = INT_MAX;
     }
 
-    return maxwidth;
+    return width;
 }
 
 CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
