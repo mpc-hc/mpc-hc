@@ -18,6 +18,7 @@
 /contrib/warn-about-64-bit-msbuild.txt
 /distrib/*.exe
 /include/version_rev.h
+/signinfo.txt
 /src/filters/transform/VSFilter/installer/*.exe
 /src/mpc-hc/mpcresources/backup
 /src/mpc-hc/mpcresources/newrc

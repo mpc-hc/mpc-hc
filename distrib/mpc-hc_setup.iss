@@ -151,6 +151,9 @@ DisableDirPage=auto
 DisableProgramGroupPage=auto
 MinVersion=5.01.2600sp3
 AppMutex=MediaPlayerClassicW
+#ifexist "..\signinfo.txt"
+SignTool=MySignTool
+#endif
 
 
 [Languages]
