@@ -1,5 +1,5 @@
 /*
- * (C) 2007-2012 see Authors.txt
+ * (C) 2007-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -38,7 +38,10 @@ public:
         MPC_MM_SSE    = 0x0008, /* SSE functions */
         MPC_MM_SSE2   = 0x0010, /* PIV SSE2 functions */
         MPC_MM_SSE3   = 0x0040, /* AMD64 & PIV SSE3 functions */
-        MPC_MM_SSSE3  = 0x0080  /* PIV Core 2 SSSE3 functions */
+        MPC_MM_SSSE3  = 0x0080, /* PIV Core 2 SSSE3 functions */
+        MPC_MM_SSE4   = 0x0100,
+        MPC_MM_SSE42  = 0x0200,
+        MPC_MM_AVX    = 0x4000
     } PROCESSOR_FEATURES;
 
     CCpuId();
