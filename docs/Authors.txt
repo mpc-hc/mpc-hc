@@ -1,39 +1,42 @@
-People with Git commit rights (sorted by name):
---------
+Active (sorted by name):
+------------------------
 Armada                  <armada651@users.sourceforge.net>       Code
 Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 janwillem32             <janwillem32@users.sourceforge.net>     Code
+JellyFrog               -                                       Server admin, Trac admin
+kasper93                <kasper93@users.sourceforge.net>        Trac moderator, Polish
+namaiki                 <namaiki@users.sourceforge.net>         Trac moderator
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
-Underground78           <underground78@users.sourceforge.net>   Code, French, Admin
+Underground78           <underground78@users.sourceforge.net>   Code, French, Project manager
 v0lt                    <v0lt@users.sourceforge.net>            Code, Russian
-XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Admin
+XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Project manager
 
 
 Inactive:
-----------
+---------
 _xxl                    <drevil_xxl@users.sourceforge.net>      FFmpeg
 Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
 Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code
 Beliyaal                <beliyaal@users.sourceforge.net>        Code
-Casimir666              <casimir666@users.sourceforge.net>      Founder, Code, Admin, French
+Casimir666              <casimir666@users.sourceforge.net>      Project founder, Code, French
 bobdynlan               <bobdynlan@users.sourceforge.net>       Code
 clsid                   <clsid2@users.sourceforge.net>          Code
 demi_alucard            <alysson87@gmail.com>                   Code, Portuguese (Brazil)
 Di Luo                  <sansnom05@users.sourceforge.net>       Code
 jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
 KindDragon              <kinddragon@users.sourceforge.net>      Code
-Martin Panayotov        <mvpsoft@users.sourceforge.net>         Old Website
+Martin Panayotov        <mvpsoft@users.sourceforge.net>         Old website
 MatMaul                 <matmaul@users.sourceforge.net>         Code
 spec-chum               <spec-chum@users.sourceforge.net>       Code
-tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
+tetsuo55                <tetsuo55@users.sourceforge.net>        Project manager
 Tomas Sen               <tomasen@users.sourceforge.net>         Code
 Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code, Russian
 xpc1000                 <xpc1000@users.sourceforge.net>         Code
 
 
 Translators:
--------------
+------------
 Armenian                hrant77                 <hrant77@users.sourceforge.net>
 Basque                  Xabier Aramendi         <azpidatziak@users.sourceforge.net>
 Belarusian              Mister-sh               <mister-sh@users.sourceforge.net>
@@ -54,7 +57,6 @@ Simplified/Traditional  roytam                  <roytam1@users.sourceforge.net>
 Korean                  XNeo                    <xneokr@users.sourceforge.net>
 Polish                  arch__stanton           <arch__stanton@users.sourceforge.net>
 Polish                  Haix                    <haix@users.sourceforge.net>
-Polish                  kasper93                <kasper93@users.sourceforge.net>
 Portuguese (Brazil)     Roger Felipe            <rfrfrfrf@users.sourceforge.net>
 Romanian                Daniel Alămiță
 Romanian                lordkag                 <lordkag@users.sourceforge.net>
@@ -67,16 +69,16 @@ Ukrainian               arestarh                <arestarh1986@users.sourceforge.
 
 
 Contributors:
---------------
-Alexx999, foxx1337, heksesang, judelaw, kasper93, madshi, mtrz, nielsm,
-skaarj1, VSFilterMod Team, X-Dron
+-------------
+Alexx999, foxx1337, heksesang, judelaw, madshi, mtrz, nielsm, skaarj1, VSFilterMod Team, X-Dron
 
 
-Trac moderators:
------------------
-namaiki
+https://github.com/mpc-hc/mpc-hc/graphs/contributors
+http://www.ohloh.net/p/mpc-hc/contributors?query=&sort=commits
 
+
+If you think you should be listed in this document and we don't do it already, please, contact us.
 
 Many thanks to everyone who supported development without having access to the source repository.
 
-Based on the original version (C) 2002-2006 by Gabest (e-mail unknown)
+Based on the original version (C) 2002-2006 by Gabest (e-mail unknown).
