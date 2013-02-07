@@ -31,6 +31,7 @@
 #include "avcodec.h"
 #include "dsputil.h"
 #include "get_bits.h"
+#include "h264chroma.h"
 #include "put_bits.h"
 #include "ratecontrol.h"
 #include "parser.h"
@@ -359,6 +360,7 @@ typedef struct MpegEncContext {
     int h263_long_vectors;      ///< use horrible h263v1 long vector mode
 
     DSPContext dsp;             ///< pointers for accelerated dsp functions
+    H264ChromaContext h264chroma;
     VideoDSPContext vdsp;
     int f_code;                 ///< forward MV resolution
     int b_code;                 ///< backward MV resolution for B Frames (mpeg4)
@@ -724,10 +726,10 @@ typedef struct MpegEncContext {
     int context_reinit;
 } MpegEncContext;
 
-#define REBASE_PICTURE(pic, new_ctx, old_ctx) (pic ? \
-    (pic >= old_ctx->picture && pic < old_ctx->picture+old_ctx->picture_count ?\
-        &new_ctx->picture[pic - old_ctx->picture] : (Picture*) ((uint8_t*)pic - (uint8_t*)old_ctx + (uint8_t*)new_ctx))\
-    : NULL)
+#define REBASE_PICTURE(pic, new_ctx, old_ctx)             \
+    ((pic && pic >= old_ctx->picture &&                   \
+      pic < old_ctx->picture + old_ctx->picture_count) ?  \
+        &new_ctx->picture[pic - old_ctx->picture] : NULL)
 
 /* mpegvideo_enc common options */
 #define FF_MPV_FLAG_SKIP_RD      0x0001

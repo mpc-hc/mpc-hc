@@ -238,6 +238,8 @@
     <ClCompile Include="libavcodec\h263dec.c" />
     <ClCompile Include="libavcodec\h263_parser.c" />
     <ClCompile Include="libavcodec\h264.c" />
+    <ClCompile Include="libavcodec\h264chroma.c" />
+    <ClCompile Include="libavcodec\h264chroma_template.c" />
     <ClCompile Include="libavcodec\h264dsp.c" />
     <ClCompile Include="libavcodec\h264dsp_template.c" />
     <ClCompile Include="libavcodec\h264idct.c" />
@@ -373,6 +375,7 @@
     <ClCompile Include="libavcodec\x86\fdct.c" />
     <ClCompile Include="libavcodec\x86\fft_init.c" />
     <ClCompile Include="libavcodec\x86\fmtconvert_init.c" />
+    <ClCompile Include="libavcodec\x86\h264chroma_init.c" />
     <ClCompile Include="libavcodec\x86\h264dsp_init.c" />
     <ClCompile Include="libavcodec\x86\h264_intrapred_init.c" />
     <ClCompile Include="libavcodec\x86\h264_qpel.c" />
@@ -529,6 +532,7 @@
     <ClInclude Include="libavcodec\h263data.h" />
     <ClInclude Include="libavcodec\h263_parser.h" />
     <ClInclude Include="libavcodec\h264.h" />
+    <ClInclude Include="libavcodec\h264chroma.h" />
     <ClInclude Include="libavcodec\h264data.h" />
     <ClInclude Include="libavcodec\h264dsp.h" />
     <ClInclude Include="libavcodec\h264pred.h" />

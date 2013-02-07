@@ -4,6 +4,7 @@
 ;* Copyright (c)      Nick Kurshev <nickols_k@mail.ru>
 ;* Copyright (c) 2002 Michael Niedermayer <michaelni@gmx.at>
 ;* Copyright (c) 2002 Zdenek Kabelac <kabi@informatics.muni.cz>
+;* Copyright (c) 2013 Daniel Kang
 ;*
 ;* MMX optimized hpel functions
 ;*
@@ -31,10 +32,9 @@ cextern pb_1
 
 SECTION_TEXT
 
-; put_pixels8_x2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; put_pixels8_x2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro PUT_PIXELS8_X2 0
 cglobal put_pixels8_x2, 4,5
-    movsxdifnidn r2, r2d
     lea          r4, [r2*2]
 .loop:
     mova         m0, [r1]
@@ -64,10 +64,9 @@ INIT_MMX 3dnow
 PUT_PIXELS8_X2
 
 
-; put_pixels16_x2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; put_pixels16_x2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro PUT_PIXELS_16 0
 cglobal put_pixels16_x2, 4,5
-    movsxdifnidn r2, r2d
     lea          r4, [r2*2]
 .loop:
     mova         m0, [r1]
@@ -109,11 +108,10 @@ INIT_MMX 3dnow
 PUT_PIXELS_16
 
 
-; put_no_rnd_pixels8_x2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; put_no_rnd_pixels8_x2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro PUT_NO_RND_PIXELS8_X2 0
 cglobal put_no_rnd_pixels8_x2, 4,5
     mova         m6, [pb_1]
-    movsxdifnidn r2, r2d
     lea          r4, [r2*2]
 .loop:
     mova         m0, [r1]
@@ -151,10 +149,9 @@ INIT_MMX 3dnow
 PUT_NO_RND_PIXELS8_X2
 
 
-; put_no_rnd_pixels8_x2_exact(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; put_no_rnd_pixels8_x2_exact(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro PUT_NO_RND_PIXELS8_X2_EXACT 0
 cglobal put_no_rnd_pixels8_x2_exact, 4,5
-    movsxdifnidn r2, r2d
     lea          r4, [r2*3]
     pcmpeqb      m6, m6
 .loop:
@@ -199,10 +196,9 @@ INIT_MMX 3dnow
 PUT_NO_RND_PIXELS8_X2_EXACT
 
 
-; put_pixels8_y2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; put_pixels8_y2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro PUT_PIXELS8_Y2 0
 cglobal put_pixels8_y2, 4,5
-    movsxdifnidn r2, r2d
     lea          r4, [r2*2]
     mova         m0, [r1]
     sub          r0, r2
@@ -234,11 +230,10 @@ INIT_MMX 3dnow
 PUT_PIXELS8_Y2
 
 
-; put_no_rnd_pixels8_y2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; put_no_rnd_pixels8_y2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro PUT_NO_RND_PIXELS8_Y2 0
 cglobal put_no_rnd_pixels8_y2, 4,5
     mova         m6, [pb_1]
-    movsxdifnidn r2, r2d
     lea          r4, [r2+r2]
     mova         m0, [r1]
     sub          r0, r2
@@ -272,10 +267,9 @@ INIT_MMX 3dnow
 PUT_NO_RND_PIXELS8_Y2
 
 
-; put_no_rnd_pixels8_y2_exact(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; put_no_rnd_pixels8_y2_exact(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro PUT_NO_RND_PIXELS8_Y2_EXACT 0
 cglobal put_no_rnd_pixels8_y2_exact, 4,5
-    movsxdifnidn r2, r2d
     lea          r4, [r2*3]
     mova         m0, [r1]
     pcmpeqb      m6, m6
@@ -315,10 +309,9 @@ INIT_MMX 3dnow
 PUT_NO_RND_PIXELS8_Y2_EXACT
 
 
-; avg_pixels8(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; avg_pixels8(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro AVG_PIXELS8 0
 cglobal avg_pixels8, 4,5
-    movsxdifnidn r2, r2d
     lea          r4, [r2*2]
 .loop:
     mova         m0, [r0]
@@ -346,10 +339,9 @@ INIT_MMX 3dnow
 AVG_PIXELS8
 
 
-; avg_pixels8_x2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; avg_pixels8_x2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro AVG_PIXELS8_X2 0
 cglobal avg_pixels8_x2, 4,5
-    movsxdifnidn r2, r2d
     lea          r4, [r2*2]
 .loop:
     mova         m0, [r1]
@@ -383,10 +375,9 @@ INIT_MMX 3dnow
 AVG_PIXELS8_X2
 
 
-; avg_pixels8_y2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; avg_pixels8_y2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro AVG_PIXELS8_Y2 0
 cglobal avg_pixels8_y2, 4,5
-    movsxdifnidn r2, r2d
     lea          r4, [r2*2]
     mova         m0, [r1]
     sub          r0, r2
@@ -426,11 +417,10 @@ INIT_MMX 3dnow
 AVG_PIXELS8_Y2
 
 
-; avg_pixels8_xy2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; avg_pixels8_xy2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 %macro AVG_PIXELS8_XY2 0
 cglobal avg_pixels8_xy2, 4,5
     mova         m6, [pb_1]
-    movsxdifnidn r2, r2d
     lea          r4, [r2*2]
     mova         m0, [r1]
     pavgb        m0, [r1+1]
@@ -471,9 +461,8 @@ INIT_MMX 3dnow
 AVG_PIXELS8_XY2
 
 INIT_XMM sse2
-; void put_pixels16_sse2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; void put_pixels16_sse2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 cglobal put_pixels16, 4,5,4
-    movsxdifnidn r2, r2d
     lea          r4, [r2*3]
 .loop:
     movu         m0, [r1]
@@ -490,9 +479,8 @@ cglobal put_pixels16, 4,5,4
     jnz       .loop
     REP_RET
 
-; void avg_pixels16_sse2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+; void avg_pixels16_sse2(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)
 cglobal avg_pixels16, 4,5,4
-    movsxdifnidn r2, r2d
     lea          r4, [r2*3]
 .loop:
     movu         m0, [r1]

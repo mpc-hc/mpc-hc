@@ -172,19 +172,19 @@ static inline void FUNC(OPNAME ## _no_rnd_pixels16_l2)(uint8_t *dst, const uint8
     FUNC(OPNAME ## _no_rnd_pixels8_l2)(dst+8*sizeof(pixel), src1+8*sizeof(pixel), src2+8*sizeof(pixel), dst_stride, src_stride1, src_stride2, h);\
 }\
 \
-static inline void FUNCC(OPNAME ## _no_rnd_pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
+static inline void FUNCC(OPNAME ## _no_rnd_pixels8_x2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h){\
     FUNC(OPNAME ## _no_rnd_pixels8_l2)(block, pixels, pixels+sizeof(pixel), line_size, line_size, line_size, h);\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
+static inline void FUNCC(OPNAME ## _pixels8_x2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h){\
     FUNC(OPNAME ## _pixels8_l2)(block, pixels, pixels+sizeof(pixel), line_size, line_size, line_size, h);\
 }\
 \
-static inline void FUNCC(OPNAME ## _no_rnd_pixels8_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
+static inline void FUNCC(OPNAME ## _no_rnd_pixels8_y2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h){\
     FUNC(OPNAME ## _no_rnd_pixels8_l2)(block, pixels, pixels+line_size, line_size, line_size, line_size, h);\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels8_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
+static inline void FUNCC(OPNAME ## _pixels8_y2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h){\
     FUNC(OPNAME ## _pixels8_l2)(block, pixels, pixels+line_size, line_size, line_size, line_size, h);\
 }\
 \
@@ -225,19 +225,19 @@ static inline void FUNC(OPNAME ## _pixels8_l4)(uint8_t *dst, const uint8_t *src1
     }\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels4_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
+static inline void FUNCC(OPNAME ## _pixels4_x2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h){\
     FUNC(OPNAME ## _pixels4_l2)(block, pixels, pixels+sizeof(pixel), line_size, line_size, line_size, h);\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels4_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
+static inline void FUNCC(OPNAME ## _pixels4_y2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h){\
     FUNC(OPNAME ## _pixels4_l2)(block, pixels, pixels+line_size, line_size, line_size, line_size, h);\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels2_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
+static inline void FUNCC(OPNAME ## _pixels2_x2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h){\
     FUNC(OPNAME ## _pixels2_l2)(block, pixels, pixels+sizeof(pixel), line_size, line_size, line_size, h);\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels2_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
+static inline void FUNCC(OPNAME ## _pixels2_y2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h){\
     FUNC(OPNAME ## _pixels2_l2)(block, pixels, pixels+line_size, line_size, line_size, line_size, h);\
 }\
 \
@@ -288,11 +288,11 @@ static inline void FUNC(OPNAME ## _no_rnd_pixels16_l4)(uint8_t *dst, const uint8
     FUNC(OPNAME ## _no_rnd_pixels8_l4)(dst+8*sizeof(pixel), src1+8*sizeof(pixel), src2+8*sizeof(pixel), src3+8*sizeof(pixel), src4+8*sizeof(pixel), dst_stride, src_stride1, src_stride2, src_stride3, src_stride4, h);\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels2_xy2)(uint8_t *p_block, const uint8_t *p_pixels, int line_size, int h)\
+static inline void FUNCC(OPNAME ## _pixels2_xy2)(uint8_t *_block, const uint8_t *_pixels, ptrdiff_t line_size, int h)\
 {\
         int i, a0, b0, a1, b1;\
-        pixel *block = (pixel*)p_block;\
-        const pixel *pixels = (const pixel*)p_pixels;\
+        pixel *block = (pixel*)_block;\
+        const pixel *pixels = (const pixel*)_pixels;\
         line_size >>= sizeof(pixel)-1;\
         a0= pixels[0];\
         b0= pixels[1] + 2;\
@@ -324,7 +324,7 @@ static inline void FUNCC(OPNAME ## _pixels2_xy2)(uint8_t *p_block, const uint8_t
         }\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels4_xy2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)\
+static inline void FUNCC(OPNAME ## _pixels4_xy2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)\
 {\
         /* FIXME HIGH BIT DEPTH */\
         int i;\
@@ -361,7 +361,7 @@ static inline void FUNCC(OPNAME ## _pixels4_xy2)(uint8_t *block, const uint8_t *
         }\
 }\
 \
-static inline void FUNCC(OPNAME ## _pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)\
+static inline void FUNCC(OPNAME ## _pixels8_xy2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)\
 {\
     /* FIXME HIGH BIT DEPTH */\
     int j;\
@@ -403,7 +403,7 @@ static inline void FUNCC(OPNAME ## _pixels8_xy2)(uint8_t *block, const uint8_t *
     }\
 }\
 \
-static inline void FUNCC(OPNAME ## _no_rnd_pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)\
+static inline void FUNCC(OPNAME ## _no_rnd_pixels8_xy2)(uint8_t *block, const uint8_t *pixels, ptrdiff_t line_size, int h)\
 {\
     /* FIXME HIGH BIT DEPTH */\
     int j;\
@@ -460,124 +460,6 @@ CALL_2X_PIXELS(FUNCC(OPNAME ## _no_rnd_pixels16_xy2), FUNCC(OPNAME ## _no_rnd_pi
 PIXOP2(avg, op_avg)
 PIXOP2(put, op_put)
 #endif
-#undef op_avg
-#undef op_put
-
-#define H264_CHROMA_MC(OPNAME, OP)\
-static void FUNCC(OPNAME ## h264_chroma_mc2)(uint8_t *p_dst/*align 8*/, uint8_t *p_src/*align 1*/, int stride, int h, int x, int y){\
-    pixel *dst = (pixel*)p_dst;\
-    pixel *src = (pixel*)p_src;\
-    const int A=(8-x)*(8-y);\
-    const int B=(  x)*(8-y);\
-    const int C=(8-x)*(  y);\
-    const int D=(  x)*(  y);\
-    int i;\
-    stride >>= sizeof(pixel)-1;\
-    \
-    av_assert2(x<8 && y<8 && x>=0 && y>=0);\
-\
-    if(D){\
-        for(i=0; i<h; i++){\
-            OP(dst[0], (A*src[0] + B*src[1] + C*src[stride+0] + D*src[stride+1]));\
-            OP(dst[1], (A*src[1] + B*src[2] + C*src[stride+1] + D*src[stride+2]));\
-            dst+= stride;\
-            src+= stride;\
-        }\
-    }else{\
-        const int E= B+C;\
-        const int step= C ? stride : 1;\
-        for(i=0; i<h; i++){\
-            OP(dst[0], (A*src[0] + E*src[step+0]));\
-            OP(dst[1], (A*src[1] + E*src[step+1]));\
-            dst+= stride;\
-            src+= stride;\
-        }\
-    }\
-}\
-\
-static void FUNCC(OPNAME ## h264_chroma_mc4)(uint8_t *p_dst/*align 8*/, uint8_t *p_src/*align 1*/, int stride, int h, int x, int y){\
-    pixel *dst = (pixel*)p_dst;\
-    pixel *src = (pixel*)p_src;\
-    const int A=(8-x)*(8-y);\
-    const int B=(  x)*(8-y);\
-    const int C=(8-x)*(  y);\
-    const int D=(  x)*(  y);\
-    int i;\
-    stride >>= sizeof(pixel)-1;\
-    \
-    av_assert2(x<8 && y<8 && x>=0 && y>=0);\
-\
-    if(D){\
-        for(i=0; i<h; i++){\
-            OP(dst[0], (A*src[0] + B*src[1] + C*src[stride+0] + D*src[stride+1]));\
-            OP(dst[1], (A*src[1] + B*src[2] + C*src[stride+1] + D*src[stride+2]));\
-            OP(dst[2], (A*src[2] + B*src[3] + C*src[stride+2] + D*src[stride+3]));\
-            OP(dst[3], (A*src[3] + B*src[4] + C*src[stride+3] + D*src[stride+4]));\
-            dst+= stride;\
-            src+= stride;\
-        }\
-    }else{\
-        const int E= B+C;\
-        const int step= C ? stride : 1;\
-        for(i=0; i<h; i++){\
-            OP(dst[0], (A*src[0] + E*src[step+0]));\
-            OP(dst[1], (A*src[1] + E*src[step+1]));\
-            OP(dst[2], (A*src[2] + E*src[step+2]));\
-            OP(dst[3], (A*src[3] + E*src[step+3]));\
-            dst+= stride;\
-            src+= stride;\
-        }\
-    }\
-}\
-\
-static void FUNCC(OPNAME ## h264_chroma_mc8)(uint8_t *p_dst/*align 8*/, uint8_t *p_src/*align 1*/, int stride, int h, int x, int y){\
-    pixel *dst = (pixel*)p_dst;\
-    pixel *src = (pixel*)p_src;\
-    const int A=(8-x)*(8-y);\
-    const int B=(  x)*(8-y);\
-    const int C=(8-x)*(  y);\
-    const int D=(  x)*(  y);\
-    int i;\
-    stride >>= sizeof(pixel)-1;\
-    \
-    av_assert2(x<8 && y<8 && x>=0 && y>=0);\
-\
-    if(D){\
-        for(i=0; i<h; i++){\
-            OP(dst[0], (A*src[0] + B*src[1] + C*src[stride+0] + D*src[stride+1]));\
-            OP(dst[1], (A*src[1] + B*src[2] + C*src[stride+1] + D*src[stride+2]));\
-            OP(dst[2], (A*src[2] + B*src[3] + C*src[stride+2] + D*src[stride+3]));\
-            OP(dst[3], (A*src[3] + B*src[4] + C*src[stride+3] + D*src[stride+4]));\
-            OP(dst[4], (A*src[4] + B*src[5] + C*src[stride+4] + D*src[stride+5]));\
-            OP(dst[5], (A*src[5] + B*src[6] + C*src[stride+5] + D*src[stride+6]));\
-            OP(dst[6], (A*src[6] + B*src[7] + C*src[stride+6] + D*src[stride+7]));\
-            OP(dst[7], (A*src[7] + B*src[8] + C*src[stride+7] + D*src[stride+8]));\
-            dst+= stride;\
-            src+= stride;\
-        }\
-    }else{\
-        const int E= B+C;\
-        const int step= C ? stride : 1;\
-        for(i=0; i<h; i++){\
-            OP(dst[0], (A*src[0] + E*src[step+0]));\
-            OP(dst[1], (A*src[1] + E*src[step+1]));\
-            OP(dst[2], (A*src[2] + E*src[step+2]));\
-            OP(dst[3], (A*src[3] + E*src[step+3]));\
-            OP(dst[4], (A*src[4] + E*src[step+4]));\
-            OP(dst[5], (A*src[5] + E*src[step+5]));\
-            OP(dst[6], (A*src[6] + E*src[step+6]));\
-            OP(dst[7], (A*src[7] + E*src[step+7]));\
-            dst+= stride;\
-            src+= stride;\
-        }\
-    }\
-}
-
-#define op_avg(a, b) a = (((a)+(((b) + 32)>>6)+1)>>1)
-#define op_put(a, b) a = (((b) + 32)>>6)
-
-H264_CHROMA_MC(put_       , op_put)
-H264_CHROMA_MC(avg_       , op_avg)
 #undef op_avg
 #undef op_put
 
