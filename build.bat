@@ -154,7 +154,7 @@ GOTO End
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild %PPLATFORM% %BUILDCFG% %COMPILER%
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
+IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
 REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
 IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=x86_amd64)
@@ -195,7 +195,6 @@ EXIT /B
 
 :End
 IF %ERRORLEVEL% NEQ 0 EXIT /B
-
 TITLE Compiling MPC-HC %COMPILER% [FINISHED]
 SET END_TIME=%TIME%
 CALL :SubGetDuration
@@ -534,11 +533,7 @@ TITLE Compiling MPC-HC %COMPILER% [ERROR]
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "docs\Compilation.txt" for more information.
-ECHO. & ECHO.
-ECHO Press any key to exit...
-PAUSE >NUL
-ENDLOCAL
-EXIT /B 1
+CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 
 
 :UnsupportedSwitch
@@ -576,9 +571,10 @@ IF /I "%~1" == "ERROR" (
     ECHO Press any key to exit...
     PAUSE >NUL
   )
+  ENDLOCAL
   EXIT /B 1
 ) ELSE (
-  EXIT /B 0
+  EXIT /B
 )
 
 

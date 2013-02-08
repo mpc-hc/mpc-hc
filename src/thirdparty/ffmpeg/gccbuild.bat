@@ -46,6 +46,7 @@ SET ARGBC=0
 SET ARGCOMP=0
 SET ARGPL=0
 SET INPUT=0
+SET VALID=0
 
 IF /I "%ARG%" == "?"        GOTO ShowHelp
 
@@ -62,10 +63,11 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Release"  SET "DEBUG= "           & SET /A ARGBC+=1
   IF /I "%%G" == "VS2010"   SET "COMPILER=VS2010"   & SET /A ARGCOMP+=1
   IF /I "%%G" == "VS2012"   SET "COMPILER=VS2012"   & SET /A ARGCOMP+=1
+  IF /I "%%G" == "Silent"   SET "SILENT=True"       & SET /A VALID+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
-SET /A VALID=%ARGB%+%ARGPL%+%ARGBC%+%ARGCOMP%
+SET /A VALID+=%ARGB%+%ARGPL%+%ARGBC%+%ARGCOMP%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
@@ -106,31 +108,30 @@ EXIT /B
 
 
 :End
+IF %ERRORLEVEL% NEQ 0 EXIT /B 1
 TITLE Compiling FFmpeg %COMPILER% [FINISHED]
-
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "FFmpeg compilation failed!" & GOTO :Quit
-
 SET END_TIME=%TIME%
 CALL :SubGetDuration
-CALL :SubMsg "INFO" "FFmpeg compilation took %DURATION%"
-
-:Quit
+CALL :SubMsg "INFO" "FFmpeg compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
 POPD
 ENDLOCAL
-EXIT /B %ERRORLEVEL%
+EXIT /B
 
 
 :SubMake
+IF %ERRORLEVEL% NEQ 0 EXIT /B
 IF DEFINED NUMBER_OF_PROCESSORS (SET JOBS=%NUMBER_OF_PROCESSORS%) ELSE (SET JOBS=4)
 IF /I "%BUILDTYPE%" == "Clean"  (SET JOBS=1)
 
 TITLE make -j%JOBS% %*
 ECHO make -j%JOBS% %*
 make.exe -j%JOBS% %*
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "'make -j%JOBS% %*' - failed!"
 EXIT /B
 
 
 :SubCopyLibs
+IF %ERRORLEVEL% NEQ 0 EXIT /B
 REM Set the GCC version
 FOR /F "tokens=1,2 delims= " %%G IN ('gcc -dumpversion') DO (SET "gccver=%%G")
 
@@ -146,8 +147,7 @@ EXIT /B
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "%ROOT_DIR%\docs\Compilation.txt" for more information.
-ENDLOCAL
-EXIT /B 1
+CALL :SubMsg "ERROR" "FFmpeg compilation failed!" & EXIT /B 1
 
 
 :UnsupportedSwitch
@@ -157,8 +157,7 @@ ECHO.
 ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
-ENDLOCAL
-EXIT /B 1
+CALL :SubMsg "ERROR" "FFmpeg compilation failed!" & EXIT /B 1
 
 
 :ShowHelp
@@ -180,13 +179,35 @@ EXIT /B
 
 :SubMsg
 ECHO. & ECHO ------------------------------
-ECHO [%~1] %~2
+IF /I "%~1" == "ERROR" (
+  CALL :SubColorText "0C" "[%~1]" & ECHO  %~2
+) ELSE IF /I "%~1" == "INFO" (
+  CALL :SubColorText "0A" "[%~1]" & ECHO  %~2
+) ELSE IF /I "%~1" == "WARNING" (
+  CALL :SubColorText "0E" "[%~1]" & ECHO  %~2
+)
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
+  IF NOT DEFINED SILENT (
+    ECHO Press any key to exit...
+    PAUSE >NUL
+  )
+  POPD
+  ENDLOCAL
   EXIT /B 1
 ) ELSE (
-  EXIT /B 0
+  EXIT /B
 )
+
+
+:SubColorText
+FOR /F "tokens=1,2 delims=#" %%G IN (
+  '"PROMPT #$H#$E# & ECHO ON & FOR %%H IN (1) DO REM"') DO (
+  SET "DEL=%%G")
+<NUL SET /p ".=%DEL%" > "%~2"
+FINDSTR /v /a:%1 /R ".18" "%~2" NUL
+DEL "%~2" > NUL 2>&1
+EXIT /B
 
 
 :SubGetDuration
