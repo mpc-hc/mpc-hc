@@ -48,13 +48,9 @@ IF %ERRORLEVEL% NEQ 0 (
 
 :END
 IF /I "%SIGN_ERROR%" == "True" (
-  IF "%1" == "" (
-    PAUSE
-    ENDLOCAL
-    EXIT /B 1
-  )
+  IF "%1" == "" PAUSE
   ENDLOCAL
   EXIT /B 1
 )
 ENDLOCAL
-EXIT /B 0
+EXIT /B

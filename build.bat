@@ -56,8 +56,8 @@ IF /I "%ARG%" == "?"            GOTO ShowHelp
 FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "help"         GOTO ShowHelp
   IF /I "%%G" == "GetVersion"   ENDLOCAL & CALL :SubGetVersion & EXIT /B
-  IF /I "%%G" == "CopyDXDll"    ENDLOCAL & CALL :SubPrePackage MPC-HC x86 & CALL :SubPrePackage MPC-HC x64 & EXIT /B
-  IF /I "%%G" == "CopyDX"       ENDLOCAL & CALL :SubPrePackage MPC-HC x86 & CALL :SubPrePackage MPC-HC x64 & EXIT /B
+  IF /I "%%G" == "CopyDXDll"    ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
+  IF /I "%%G" == "CopyDX"       ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
   IF /I "%%G" == "Build"        SET "BUILDTYPE=Build"    & SET /A ARGB+=1
   IF /I "%%G" == "Clean"        SET "BUILDTYPE=Clean"    & SET /A ARGB+=1  & SET /A ARGCL+=1 & SET /A ARGFF+=1
   IF /I "%%G" == "Rebuild"      SET "BUILDTYPE=Rebuild"  & SET /A ARGB+=1  & SET /A ARGRE+=1
@@ -106,10 +106,17 @@ IF %ARGL%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGRE%   GTR 1 (GOTO UnsupportedSwitch)
 
+IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
+
 IF /I "%COMPILER%" == "VS2012" (
   IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
 ) ELSE (
   IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
+)
+
+IF EXIST "%~dp0signinfo.txt" (
+  IF /I "%INSTALLER%" == "True" SET "SIGN=True"
+  IF /I "%ZIP%" == "True"       SET "SIGN=True"
 )
 
 
@@ -125,7 +132,6 @@ REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
 SET "LOG_DIR=%BIN_DIR%\logs"
 IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
 
-IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 IF DEFINED MPCHC_LITE SET "BUILDCFG=%BUILDCFG% Lite"
 
 CALL :SubDetectWinArch
@@ -215,6 +221,8 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
   CALL :SubMsg "INFO" "mpc-hc%SLN_SUFFIX%.sln %BUILDCFG% Filter %1 compiled successfully"
 )
+IF /I "%SIGN%" == "True" CALL :SubSign Filters *.ax
+IF /I "%SIGN%" == "True" CALL :SubSign Filters VSFilter.dll
 EXIT /B
 
 
@@ -232,6 +240,7 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
   CALL :SubMsg "INFO" "mpc-hc%SLN_SUFFIX%.sln %BUILDCFG% %1 compiled successfully"
 )
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpc-hc*.exe
 EXIT /B
 
 
@@ -265,6 +274,7 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
   CALL :SubMsg "INFO" "mpciconlib%SLN_SUFFIX%.sln %1 compiled successfully"
 )
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpciconlib.dll
 EXIT /B
 
 
@@ -281,6 +291,32 @@ FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  /target:%BUILDTYPE% /property:Configuration="Release %%~G";Platform=%1
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 )
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC Lang\mpcresources.??.dll
+EXIT /B
+
+
+:SubSign
+IF %ERRORLEVEL% NEQ 0 EXIT /B
+REM %1 is Filters or MPC-HC
+REM %2 is name of the file to sign
+
+IF /I "%PPLATFORM%" == "Win32" PUSHD "%BIN_DIR%\%~1_x86"
+IF /I "%PPLATFORM%" == "x64"   PUSHD "%BIN_DIR%\%~1_x64"
+CALL "..\..\contrib\sign.bat" "%2"
+IF %ERRORLEVEL% NEQ 0 (
+  CALL :SubMsg "ERROR" "Problem signing %2"
+) ELSE (
+  CALL :SubMsg "INFO" "%2 signed successfully."
+)
+POPD
+EXIT /B
+
+
+:SubCopyDXDll
+PUSHD "%BIN_DIR%"
+EXPAND "%DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~1.cab" -F:D3DCompiler_43.dll mpc-hc_%~1 >NUL
+EXPAND "%DXSDK_DIR%\Redist\Jun2010_d3dx9_43_%~1.cab" -F:d3dx9_43.dll mpc-hc_%~1 >NUL
+POPD
 EXIT /B
 
 
@@ -290,9 +326,8 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 IF DEFINED MPCHC_LITE SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DMPCHC_LITE
 IF /I "%~1" == "x64" (
   SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /Dx64Build
-  CALL :SubPrePackage MPC-HC x64
-) ELSE CALL :SubPrePackage MPC-HC x86
-IF %ERRORLEVEL% NEQ 0 EXIT /B 1
+  CALL :SubCopyDXDll x64
+) ELSE CALL :SubCopyDXDll x86
 
 IF /I "%COMPILER%" == "VS2012" (SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2012)
 
@@ -326,11 +361,11 @@ IF NOT DEFINED SEVENZIP (
 IF /I "%~1" == "Filters" (SET "NAME=MPC-HC_standalone_filters") ELSE (SET "NAME=MPC-HC")
 IF /I "%~2" == "Win32" (
   SET ARCH=x86
+  CALL :SubCopyDXDll x86
 ) ELSE (
   SET ARCH=x64
+  CALL :SubCopyDXDll x64
 )
-CALL :SubPrePackage %~1 %ARCH%
-IF %ERRORLEVEL% NEQ 0 EXIT /B 1
 
 PUSHD "%BIN_DIR%"
 
@@ -391,48 +426,6 @@ IF EXIST "%PCKG_NAME%" RD /Q /S "%PCKG_NAME%"
 
 POPD
 EXIT /B
-
-
-:SubPrePackage
-IF %ERRORLEVEL% NEQ 0 EXIT /B 1
-REM %1 is Filters or MPC-HC
-REM %2 is %ARCH%; x86 or x64
-
-PUSHD "%BIN_DIR%"
-EXPAND "%DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~2.cab" -F:D3DCompiler_43.dll mpc-hc_%~2 >NUL
-EXPAND "%DXSDK_DIR%\Redist\Jun2010_d3dx9_43_%~2.cab" -F:d3dx9_43.dll mpc-hc_%~2 >NUL
-
-IF EXIST "%~dp0signinfo.txt" (
-  IF /I NOT "%SIGNED_BINARIES%" == "true" (
-    PUSHD "%~1_%~2"
-
-    IF /I "%~1" == "MPC-HC" (
-      IF NOT DEFINED MPCHC_LITE (
-        CALL "..\..\contrib\sign.bat" Lang\mpcresources.??.dll
-        IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Problem signing Lang\mpcresources.??.dll" & SET SIGNED_BINARIES=false & EXIT /B 1
-      )
-      IF /I "%~2" == "x64" (
-        CALL "..\..\contrib\sign.bat" mpc-hc64.exe
-        IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Problem signing mpc-hc64.exe" & SET SIGNED_BINARIES=false & EXIT /B 1
-      ) ELSE (
-        CALL "..\..\contrib\sign.bat" mpc-hc.exe
-        IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Problem signing mpc-hc.exe" & SET SIGNED_BINARIES=false & EXIT /B 1
-      )
-      CALL "..\..\contrib\sign.bat" mpciconlib.dll
-      IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Problem signing mpciconlib.dll" & SET SIGNED_BINARIES=false & EXIT /B 1
-    ) ELSE (
-      CALL "..\..\contrib\sign.bat" "*.ax"
-      IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Problem signing *.ax" & SET SIGNED_BINARIES=false & EXIT /B 1
-      CALL "..\..\contrib\sign.bat" "VSFilter.dll"
-      IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Problem signing VSFilter.dll" & SET SIGNED_BINARIES=false & EXIT /B 1
-    )
-  )
-  SET SIGNED_BINARIES=true
-  POPD
-)
-
-POPD
-EXIT /B 0
 
 
 :SubGetVersion
