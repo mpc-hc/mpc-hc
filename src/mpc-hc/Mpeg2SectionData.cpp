@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -188,6 +188,11 @@ CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLenght)
                 for (INT_PTR i = 0, len = euroSymbolPos.GetCount(); i < len; i++) {
                     strResultBuff[euroSymbolPos[i]] = _T('€');
                 }
+            }
+
+            // Some strings seems to be null-terminated, we need to take that into account.
+            while (nDestSize > 0 && strResultBuff[nDestSize - 1] == L'\0') {
+                nDestSize--;
             }
 
             strResult.ReleaseBuffer(nDestSize);

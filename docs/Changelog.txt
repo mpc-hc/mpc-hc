@@ -41,6 +41,7 @@ Legend:
   - Fix incorrect encoding of the parent directory's path in browser.html
 ! MPCVideoDecoder: Fix low merit internal filter
 ! MPCVideoDecoder: The "Read Aspect Ratio from stream" option didn't always work right
+! DVB EPG: Some strings weren't correctly displayed in some cases
 ! Ticket #84, WebServer: The filenames weren't correctly URL decoded
 ! Ticket #1554, The OSD was looking bad when using the EVR Sync renderer
 ! Ticket #1600, Improve the naming of subtitles tracks (avoid showing a useless and ugly comma)
