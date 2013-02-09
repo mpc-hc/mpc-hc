@@ -1916,8 +1916,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 int avg, dev;
                 pQP->get_AvgSyncOffset(&avg);
                 pQP->get_DevSyncOffset(&dev);
-                info.Format(_T("avg: %d ms, dev: %d ms"), avg, dev);
-                m_wndStatsBar.SetLine(_T("Sync Offset"), info);
+                info.Format(ResStr(IDS_STATSBAR_SYNC_OFFSET_FORMAT), avg, dev);
+                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
 
                 int drawn, dropped;
                 pQP->get_FramesDrawn(&drawn);
@@ -1927,7 +1927,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 pQP->get_Jitter(&val);
                 info.Format(_T("%d ms"), val);
-                m_wndStatsBar.SetLine(_T("Jitter"), info);
+                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
             }
 
             if (pBI) {
@@ -1984,7 +1984,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     }
 
                     if (!sl.IsEmpty()) {
-                        m_wndStatsBar.SetLine(_T("Bitrate"), Implode(sl, ' ') + _T(" (avg/cur)"));
+                        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), Implode(sl, ' ') + ResStr(IDS_STATSBAR_BITRATE_AVG_CUR));
                     }
 
                     break;
@@ -2166,8 +2166,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 CString Signal;
 
                 if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lStrength, lQuality)) && bPresent) {
-                    Signal.Format(_T("Strength: %d, Quality: %d%%"), lStrength, lQuality);
-                    m_wndStatsBar.SetLine(_T("Signal"), Signal);
+                    Signal.Format(ResStr(IDS_STATSBAR_SIGNAL_FORMAT), lStrength, lQuality);
+                    m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), Signal);
                 }
             }
 
@@ -11252,25 +11252,24 @@ void CMainFrame::OpenSetupStatsBar()
     BeginEnumFilters(pGB, pEF, pBF) {
         if (!pQP && (pQP = pBF)) {
             m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
-            m_wndStatsBar.SetLine(_T("Sync Offset"), info);
+            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
             m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
-            m_wndStatsBar.SetLine(_T("Jitter"), info);
-
+            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
             if (GetPlaybackMode() == PM_CAPTURE) {
                 // Set Signal line only for BDA devices.
                 if (AfxGetAppSettings().iDefaultCaptureDevice == 1) {
-                    m_wndStatsBar.SetLine(_T("Signal"), info);
+                    m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), info);
                 }
             } else { // Those lines are not needed in capture mode.
                 m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
-                m_wndStatsBar.SetLine(_T("Bitrate"), info);
+                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info);
             }
             RecalcLayout();
         }
 
         if (!pBI && (pBI = pBF)) {
             m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
-            m_wndStatsBar.SetLine(_T("Bitrate"), info); // FIXME: shouldn't be here
+            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info); // FIXME: shouldn't be here
             RecalcLayout();
         }
     }
