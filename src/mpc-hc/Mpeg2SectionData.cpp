@@ -53,7 +53,7 @@ CMpeg2DataParser::CMpeg2DataParser(IBaseFilter* pFilter)
     m_Filter.fSpecifySectionNumber = TRUE;
 }
 
-CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLenght)
+CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLength)
 {
     static const UINT16 codepages[0x20] = {
         20269,  // 00 - Default ISO/IEC 6937
@@ -112,13 +112,13 @@ CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLenght)
     };
 
     CStringW strResult;
-    if (uLenght > 0) {
+    if (uLength > 0) {
         UINT cp = CP_ACP;
         int nDestSize;
 
         if (pBuffer[0] == 0x10) {
             pBuffer++;
-            uLenght--;
+            uLength--;
             if (pBuffer[0] == 0x00) {
                 cp = codepages10[pBuffer[1]];
             } else { // if (pBuffer[0] > 0x00)
@@ -126,11 +126,11 @@ CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLenght)
                 cp = codepages[0];
             }
             pBuffer += 2;
-            uLenght -= 2;
+            uLength -= 2;
         } else if (pBuffer[0] < 0x20) {
             cp = codepages[pBuffer[0]];
             pBuffer++;
-            uLenght--;
+            uLength--;
         } else { // No code page indication, use the default
             cp = codepages[0];
         }
@@ -139,7 +139,7 @@ CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLenght)
         CArray<size_t> euroSymbolPos;
         if (cp == 20269) {
             BYTE tmp;
-            for (size_t i = 0; i < uLenght - 1; i++) {
+            for (size_t i = 0; i < uLength - 1; i++) {
                 if (pBuffer[i] >= 0xC1 && pBuffer[i] <= 0xCF && pBuffer[i] != 0xC9 && pBuffer[i] != 0xCC) {
                     // Swap the current char with the next one
                     tmp = pBuffer[i];
@@ -150,15 +150,15 @@ CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLenght)
                 }
             }
             // Handle last symbol if it's a €
-            if (pBuffer[uLenght - 1] == 0xA4) {
-                euroSymbolPos.Add(uLenght - 1);
+            if (pBuffer[uLength - 1] == 0xA4) {
+                euroSymbolPos.Add(uLength - 1);
             }
         }
 
-        nDestSize = MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLenght, NULL, 0);
+        nDestSize = MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLength, NULL, 0);
         if (nDestSize > 0) {
             LPWSTR strResultBuff = strResult.GetBuffer(nDestSize);
-            MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLenght, strResultBuff, nDestSize);
+            MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLength, strResultBuff, nDestSize);
 
             // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 2/2)...
             if (cp == 20269) {

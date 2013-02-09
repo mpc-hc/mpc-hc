@@ -39,7 +39,7 @@ float4 main(float2 tex : TEXCOORD0) : COLOR {
 	// Computation of the Prewitt operator
 	float value = length(abs(delta1) + abs(delta2) + abs(delta3) + abs(delta4)) / 6;
 
-	// If we have an edge (vector lenght > Edge_threshold) => apply sharpen filter
+	// If we have an edge (vector length > Edge_threshold) => apply sharpen filter
 	if (value > Edge_threshold) {
 		Res = c0 * Sharpen_val0 - (c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8) * Sharpen_val1;
 		// Display edges in red...

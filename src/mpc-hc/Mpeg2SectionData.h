@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -57,7 +57,7 @@ struct EventInformationSection {
     UINT8       Duration[6];
     WORD        RunninStatus            : 3;
     WORD        FreeCAMode              : 1;
-    WORD        DescriptorsLoopLenght   : 12;
+    WORD        DescriptorsLoopLength   : 12;
 
 };
 
@@ -72,7 +72,7 @@ public:
     HRESULT     ParseEIT(ULONG ulSID, EventDescriptor& NowNext);
     HRESULT     ParsePMT(CDVBChannel& Channel);
 
-    static CStringW ConvertString(BYTE* pBuffer, size_t uLenght);
+    static CStringW ConvertString(BYTE* pBuffer, size_t uLength);
 
     CAtlMap<int, CDVBChannel>   Channels;
 
