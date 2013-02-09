@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -204,6 +204,9 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
         GetDlgItem(IDC_BUTTON3)->ShowWindow(SW_HIDE);
         GetDlgItem(IDC_BUTTON4)->ShowWindow(SW_HIDE);
+
+        GetDlgItem(IDC_EDIT1)->EnableWindow(FALSE);
+
         GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK2)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK3)->EnableWindow(FALSE);
