@@ -77,6 +77,8 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Translations" SET "CONFIG=Translation" & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
+  IF /I "%%G" == "VS2010"       SET "COMPILER=VS2010"    & SET /A ARGCOMP+=1
+  IF /I "%%G" == "VS2012"       SET "COMPILER=VS2012"    & SET /A ARGCOMP+=1
   IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Zip"          SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
@@ -84,12 +86,11 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1 & SET /A ARGL+=1
   IF /I "%%G" == "FFmpeg"       SET "Rebuild=FFmpeg"     & SET /A VALID+=1 & SET /A ARGFF+=1 & SET /A ARGRE+=1
   IF /I "%%G" == "Silent"       SET "SILENT=True"        & SET /A VALID+=1
-  IF /I "%%G" == "VS2010"       SET "COMPILER=VS2010"    & SET /A VALID+=1 & SET /A ARGCOMP+=1
-  IF /I "%%G" == "VS2012"       SET "COMPILER=VS2012"    & SET /A VALID+=1 & SET /A ARGCOMP+=1
+  IF /I "%%G" == "Nocolors"     SET "NOCOLORS=True"      & SET /A VALID+=1
 )
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
-SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%
+SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGCOMP%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
@@ -559,11 +560,11 @@ EXIT /B
 :SubMsg
 ECHO. & ECHO ------------------------------
 IF /I "%~1" == "ERROR" (
-  CALL :SubColorText "0C" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0C" "[%~1]" "%~2"
 ) ELSE IF /I "%~1" == "INFO" (
-  CALL :SubColorText "0A" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0A" "[%~1]" "%~2"
 ) ELSE IF /I "%~1" == "WARNING" (
-  CALL :SubColorText "0E" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0E" "[%~1]" "%~2"
 )
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
@@ -579,12 +580,14 @@ IF /I "%~1" == "ERROR" (
 
 
 :SubColorText
+IF DEFINED NOCOLORS ECHO %~2 %~3 & EXIT /B
 FOR /F "tokens=1,2 delims=#" %%G IN (
   '"PROMPT #$H#$E# & ECHO ON & FOR %%H IN (1) DO REM"') DO (
   SET "DEL=%%G")
 <NUL SET /p ".=%DEL%" > "%~2"
 FINDSTR /v /a:%1 /R ".18" "%~2" NUL
 DEL "%~2" > NUL 2>&1
+ECHO  %~3
 EXIT /B
 
 

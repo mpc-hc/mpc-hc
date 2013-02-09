@@ -64,6 +64,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "VS2010"   SET "COMPILER=VS2010"   & SET /A ARGCOMP+=1
   IF /I "%%G" == "VS2012"   SET "COMPILER=VS2012"   & SET /A ARGCOMP+=1
   IF /I "%%G" == "Silent"   SET "SILENT=True"       & SET /A VALID+=1
+  IF /I "%%G" == "Nocolors" SET "NOCOLORS=True"     & SET /A VALID+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -180,11 +181,11 @@ EXIT /B
 :SubMsg
 ECHO. & ECHO ------------------------------
 IF /I "%~1" == "ERROR" (
-  CALL :SubColorText "0C" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0C" "[%~1]" "%~2"
 ) ELSE IF /I "%~1" == "INFO" (
-  CALL :SubColorText "0A" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0A" "[%~1]" "%~2"
 ) ELSE IF /I "%~1" == "WARNING" (
-  CALL :SubColorText "0E" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0E" "[%~1]" "%~2"
 )
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
@@ -201,12 +202,14 @@ IF /I "%~1" == "ERROR" (
 
 
 :SubColorText
+IF DEFINED NOCOLORS ECHO %~2 %~3 & EXIT /B
 FOR /F "tokens=1,2 delims=#" %%G IN (
   '"PROMPT #$H#$E# & ECHO ON & FOR %%H IN (1) DO REM"') DO (
   SET "DEL=%%G")
 <NUL SET /p ".=%DEL%" > "%~2"
 FINDSTR /v /a:%1 /R ".18" "%~2" NUL
 DEL "%~2" > NUL 2>&1
+ECHO  %~3
 EXIT /B
 
 
