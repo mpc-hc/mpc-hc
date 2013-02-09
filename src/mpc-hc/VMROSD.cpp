@@ -79,8 +79,10 @@ void CVMROSD::SetSize(CRect wndRect, CRect videoRect)
             Invalidate();
         }
 
-        // Vanilla EVR draws the OSD relative to the video frame
-        m_rectWnd = m_pVMB ? wndRect : videoRect;
+        // Vanilla VMR9/EVR renderers draw the OSD relative to the video frame
+        const CAppSettings& s = AfxGetAppSettings();
+        m_rectWnd = (s.iDSVideoRendererType != VIDRNDT_DS_VMR9WINDOWED 
+                        && s.iDSVideoRendererType != VIDRNDT_DS_EVR) ? wndRect : videoRect;
         m_rectWnd.MoveToXY(0, 0);
 
         m_rectSeekBar.left   = m_rectWnd.left    + SEEKBAR_MARGIN;
