@@ -16,6 +16,7 @@ Legend:
   the auto-fit zoom
 + Internal Subtitles Renderer: Show all subtitles tracks in the Play -> Subtitles menu.
   That includes all the embedded tracks exhibited by the source filter and the external tracks.
++ Ticket #899, DVB: Add signal statistic to the status bar
 + Tickets #1025, #1054, Add the ability to select the default track directly by its number
   in MPC-HC and the standalone MPEG Splitter.
 + Ticket #2050, Add Romanian translation

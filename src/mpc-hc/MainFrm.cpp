@@ -2157,6 +2157,18 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 }
 
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), Subtitles);
+            } else if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1) {
+                CComQIPtr<IBDATuner> pTun = pGB;
+                BOOLEAN bPresent;
+                BOOLEAN bLocked;
+                LONG lStrength;
+                LONG lQuality;
+                CString Signal;
+
+                if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lStrength, lQuality)) && bPresent) {
+                    Signal.Format(_T("Strength: %d, Quality: %d%%"), lStrength, lQuality);
+                    m_wndStatsBar.SetLine(_T("Signal"), Signal);
+                }
             }
 
             if (GetMediaState() == State_Running && !m_fAudioOnly) {
@@ -11243,8 +11255,16 @@ void CMainFrame::OpenSetupStatsBar()
             m_wndStatsBar.SetLine(_T("Sync Offset"), info);
             m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
             m_wndStatsBar.SetLine(_T("Jitter"), info);
-            m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
-            m_wndStatsBar.SetLine(_T("Bitrate"), info);
+
+            if (GetPlaybackMode() == PM_CAPTURE) {
+                // Set Signal line only for BDA devices.
+                if (AfxGetAppSettings().iDefaultCaptureDevice == 1) {
+                    m_wndStatsBar.SetLine(_T("Signal"), info);
+                }
+            } else { // Those lines are not needed in capture mode.
+                m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
+                m_wndStatsBar.SetLine(_T("Bitrate"), info);
+            }
             RecalcLayout();
         }
 
