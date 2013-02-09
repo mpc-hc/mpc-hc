@@ -3089,7 +3089,6 @@ BEGIN
     IDS_SCREENSHOT_ERROR_QT             "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
     IDS_SCREENSHOT_ERROR_SHOCKWAVE      "The ""Save Image"" and ""Save Thumbnails"" functions do not work for Shockwave files."
     IDS_SCREENSHOT_ERROR_OVERLAY        "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-    IDS_SCREENSHOT_ERROR_MADVR          "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the madVR video renderer.\nChange the video renderer in MPC's output options and reopen the file."
     IDS_MB_SHOW_EDL_EDITOR              "Do you want to activate the EDL editor?"
     IDS_CAPTURE_LIVE                    "Live"
     IDS_CAPTURE_ERROR                   "Capture Error"
