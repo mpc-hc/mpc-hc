@@ -601,6 +601,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_RS_CAPTURE, IDS_RS_COUNTRY,         iAnalogCountry);
 
     // Save digital capture settings (BDA)
+    pApp->WriteProfileString(IDS_RS_DVB, NULL, NULL); // Ensure the section is cleared before saving the new settings
+
     pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_NETWORKPROVIDER, strBDANetworkProvider);
     pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_TUNER, strBDATuner);
     pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_RECEIVER, strBDAReceiver);

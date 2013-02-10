@@ -59,3 +59,4 @@ Legend:
 ! Ticket #2881, "Auto-fit" and "Auto-fit (Larger Only)" zooms gave different results
   depending on if they were used in windowed or fullscreen mode.
 ! Ticket #2889, Fix incorrectly displayed OSD when using EVR and VRM-9 (windowed) renderers
+! Ticket #2902, DVB: Some old channels weren't deleted when redoing the scan
