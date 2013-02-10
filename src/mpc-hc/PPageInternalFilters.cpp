@@ -79,6 +79,9 @@ static filter_t s_filters[] = {
 #if INTERNAL_SOURCEFILTER_SHOUTCAST
     {_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, NULL},
 #endif
+#if INTERNAL_SOURCEFILTER_RFS
+    {_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, NULL},
+#endif
 
 #if INTERNAL_DECODER_AAC
     {_T("AAC"), DECODER, TRA_AAC, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},

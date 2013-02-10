@@ -357,6 +357,7 @@
 #define IDD_PPAGECAPTURE                10054
 #define IDD_PPAGESYNC                   10055
 #define IDD_PPAGEFULLSCREEN             10056
+#define IDD_RFS_FILELIST_EXT            10057
 #define IDC_COMBO1                      11000
 #define IDC_COMBO2                      11001
 #define IDC_COMBO3                      11002
@@ -505,6 +506,7 @@
 #define IDS_SRC_AVI                     14002
 #define IDS_SRC_VTS                     14004
 #define IDS_SRC_REALMEDIA               14009
+#define IDS_SRC_RFS                     14010
 #define IDS_SRC_MPA                     14016
 #define IDS_TRA_RV                      14018
 #define IDS_TRA_RA                      14019
@@ -1477,6 +1479,10 @@
 #define IDS_SUBFILE_DELAY               41448
 #define IDS_SPEEDSTEP_AUTO              41449
 #define IDS_EXPORT_SETTINGS_NO_KEYS     41450
+#define IDS_RFS_NO_FILES                41451
+#define IDS_RFS_COMPRESSED              41452
+#define IDS_RFS_ENCRYPTED               41453
+#define IDS_RFS_MISSING_VOLS            41454
 
 // Next default values for new objects
 // 

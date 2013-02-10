@@ -10443,6 +10443,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
                 switch (hr) {
                     case E_ABORT:
+                    case RFS_E_ABORT:
                         err = IDS_MAINFRM_82;
                         break;
                     case E_FAIL:
@@ -10476,6 +10477,18 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                         break;
                     case VFW_E_UNSUPPORTED_STREAM:
                         err = IDS_MAINFRM_92;
+                        break;
+                    case RFS_E_NO_FILES:
+                        err = IDS_RFS_NO_FILES;
+                        break;
+                    case RFS_E_COMPRESSED:
+                        err = IDS_RFS_COMPRESSED;
+                        break;
+                    case RFS_E_ENCRYPTED:
+                        err = IDS_RFS_ENCRYPTED;
+                        break;
+                    case RFS_E_MISSING_VOLS:
+                        err = IDS_RFS_MISSING_VOLS;
                         break;
                 }
 

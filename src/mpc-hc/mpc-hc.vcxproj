@@ -160,7 +160,7 @@
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;libgcc.a;libmingwex.a;GdiPlus.lib;Psapi.lib;QTMLClient.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MPCVideoDec.lib;RARFileSource.res;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;libgcc.a;libmingwex.a;GdiPlus.lib;Psapi.lib;QTMLClient.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -203,7 +203,7 @@
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;SetupAPI.lib;strmiids.lib;UxTheme.lib;Uuid.Lib;Vfw32.lib;Version.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MPCVideoDec.lib;RARFileSource.res;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;SetupAPI.lib;strmiids.lib;UxTheme.lib;Uuid.Lib;Vfw32.lib;Version.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -246,7 +246,7 @@
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;QTMLClient.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MPCVideoDec.lib;RARFileSource.res;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;QTMLClient.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -287,7 +287,7 @@
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;SetupAPI.lib;strmiids.lib;UxTheme.lib;Uuid.Lib;Vfw32.lib;Version.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MPCVideoDec.lib;RARFileSource.res;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;SetupAPI.lib;strmiids.lib;UxTheme.lib;Uuid.Lib;Vfw32.lib;Version.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'=='110'">$(SolutionDir)bin12\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -842,6 +842,9 @@
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">
       <Project>{20e0f8d6-213c-460b-b361-9c725cb375c7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\RARFileSource\RARFileSource.vcxproj">
+      <Project>{2b7f22d7-1750-47c5-8709-1a3688b62499}</Project>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\SoundTouch\source\SoundTouch.vcxproj">
       <Project>{68a5dd20-7057-448b-8fe0-b6ac8d205509}</Project>

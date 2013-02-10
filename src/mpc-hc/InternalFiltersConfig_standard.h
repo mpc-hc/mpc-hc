@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -40,6 +40,7 @@
 #define INTERNAL_SOURCEFILTER_SHOUTCAST 1
 #define INTERNAL_SOURCEFILTER_UDP       1
 #define INTERNAL_SOURCEFILTER_AVI2AC3   1
+#define INTERNAL_SOURCEFILTER_RFS       1
 
 // Internal audio decoders
 #define INTERNAL_DECODER_LPCM           1
