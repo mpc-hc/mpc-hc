@@ -206,7 +206,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     POSITION m_posFirstExtSub;
     ISubStream* m_pCurrentSubStream;
 
-    SubtitleInput* GetSubtitleInput(int &i, bool bIsOffset = false);
+    SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
 
     friend class CTextPassThruFilter;
 

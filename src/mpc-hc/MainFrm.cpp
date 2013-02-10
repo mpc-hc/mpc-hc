@@ -5338,7 +5338,7 @@ void CMainFrame::OnUpdateFileLoadsubtitle(CCmdUI* pCmdUI)
 void CMainFrame::OnFileSavesubtitle()
 {
     int i = 0;
-    SubtitleInput *pSubInput = GetSubtitleInput(i, true);
+    SubtitleInput* pSubInput = GetSubtitleInput(i, true);
 
     if (pSubInput) {
         CLSID clsid;
@@ -12656,7 +12656,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
             }
 
             if (subInput.subStream == m_pCurrentSubStream) {
-                 iSelected = i + pSubStream->GetStream();
+                iSelected = i + pSubStream->GetStream();
             }
 
             for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
@@ -12676,8 +12676,8 @@ void CMainFrame::SetupSubtitlesSubMenu()
 
         CLSID clsid;
         if (iSelected > 0 && SUCCEEDED(subInput.subStream->GetClassID(&clsid))
-            && clsid == __uuidof(CRenderedTextSubtitle)) {
-                bStyleEnabled = true;
+                && clsid == __uuidof(CRenderedTextSubtitle)) {
+            bStyleEnabled = true;
         }
 
         // TODO: find a better way to group these entries
@@ -13622,7 +13622,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
         return false;
     }
 
-    SubtitleInput *pSubInput = GetSubtitleInput(i, bIsOffset);
+    SubtitleInput* pSubInput = GetSubtitleInput(i, bIsOffset);
     bool success = false;
 
     if (pSubInput) {
@@ -15190,7 +15190,7 @@ void CMainFrame::SendSubtitleTracksToApi()
                     }
 
                     if (subInput.subStream == m_pCurrentSubStream) {
-                         iSelected = i + pSubStream->GetStream();
+                        iSelected = i + pSubStream->GetStream();
                     }
 
                     for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
@@ -15979,7 +15979,7 @@ bool CMainFrame::OpenBD(CString Path)
 
 // Returns the the corresponding subInput or NULL in case of error.
 // i is modified to reflect the locale index of track
-SubtitleInput* CMainFrame::GetSubtitleInput(int &i, bool bIsOffset /*= false*/)
+SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
 {
     // Only 1, 0 and -1 are supported offsets
     if ((bIsOffset && (i < -1 || i > 1)) || (!bIsOffset && i < 0)) {
@@ -15987,12 +15987,12 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int &i, bool bIsOffset /*= false*/)
     }
 
     POSITION pos = m_pSubStreams.GetHeadPosition();
-    SubtitleInput *pSubInput = NULL, *pSubInputPrec = NULL;
+    SubtitleInput* pSubInput = NULL, *pSubInputPrec = NULL;
     int iLocalIdx = -1, iLocalIdxPrec = -1;
     bool bNextTrack = false;
 
     while (pos && !pSubInput) {
-        SubtitleInput &subInput = m_pSubStreams.GetNext(pos);
+        SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
 
         if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
             DWORD cStreams;
@@ -16017,7 +16017,7 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int &i, bool bIsOffset /*= false*/)
                         iLocalIdx = j;
                         break;
                     } else if (subInput.subStream == m_pCurrentSubStream
-                                    && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
+                               && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
                         if (i == 0) {
                             pSubInput = &subInput;
                             iLocalIdx = j;
@@ -16053,19 +16053,19 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int &i, bool bIsOffset /*= false*/)
                     iLocalIdx = 0;
                     break;
                 } else if (subInput.subStream == m_pCurrentSubStream) {
-                        iLocalIdx = subInput.subStream->GetStream() + i;
-                        if (iLocalIdx >= 0 && iLocalIdx < subInput.subStream->GetStreamCount()) {
-                            // The subtitles track we want to select is part of this substream
-                            pSubInput = &subInput;
-                        } else if (i > 0) { // We want to the select the next subtitles track
-                            bNextTrack = true;
-                        } else {
-                            // We want the previous subtitles track and we know which one it is
-                            if (pSubInputPrec) {
-                                pSubInput = pSubInputPrec;
-                                iLocalIdx = iLocalIdxPrec;
-                            }
+                    iLocalIdx = subInput.subStream->GetStream() + i;
+                    if (iLocalIdx >= 0 && iLocalIdx < subInput.subStream->GetStreamCount()) {
+                        // The subtitles track we want to select is part of this substream
+                        pSubInput = &subInput;
+                    } else if (i > 0) { // We want to the select the next subtitles track
+                        bNextTrack = true;
+                    } else {
+                        // We want the previous subtitles track and we know which one it is
+                        if (pSubInputPrec) {
+                            pSubInput = pSubInputPrec;
+                            iLocalIdx = iLocalIdxPrec;
                         }
+                    }
                 } else {
                     pSubInputPrec = &subInput;
                     iLocalIdxPrec = subInput.subStream->GetStreamCount() - 1;
