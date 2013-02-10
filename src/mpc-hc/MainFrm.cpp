@@ -6429,7 +6429,7 @@ void CMainFrame::OnViewSubresync()
 void CMainFrame::OnUpdateViewSubresync(CCmdUI* pCmdUI)
 {
     pCmdUI->SetCheck(m_wndSubresyncBar.IsWindowVisible());
-    pCmdUI->Enable(m_pCAP && !m_pSubStreams.IsEmpty());
+    pCmdUI->Enable(m_pCAP && !m_pSubStreams.IsEmpty() && GetPlaybackMode() != PM_CAPTURE);
 }
 
 void CMainFrame::OnViewPlaylist()
@@ -6536,7 +6536,7 @@ void CMainFrame::OnViewCapture()
 void CMainFrame::OnUpdateViewCapture(CCmdUI* pCmdUI)
 {
     pCmdUI->SetCheck(m_wndCaptureBar.IsWindowVisible());
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() == PM_CAPTURE);
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 0);
 }
 
 void CMainFrame::OnViewShaderEditor()
@@ -6647,7 +6647,7 @@ void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
 
 void CMainFrame::OnUpdateViewDefaultVideoFrame(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && AfxGetAppSettings().iDSVideoRendererType != VIDRNDT_DS_EVR);
 
     int dvs = pCmdUI->m_nID - ID_VIEW_VF_HALF;
     if (AfxGetAppSettings().iDefaultVideoSize == dvs && pCmdUI->m_pMenu) {
@@ -6710,7 +6710,7 @@ void CMainFrame::OnViewCompMonDeskARDiff()
 
 void CMainFrame::OnUpdateViewCompMonDeskARDiff(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && AfxGetAppSettings().iDSVideoRendererType != VIDRNDT_DS_EVR);
     pCmdUI->SetCheck(AfxGetAppSettings().fCompMonDeskARDiff);
 }
 
@@ -6809,7 +6809,7 @@ void CMainFrame::OnViewPanNScan(UINT nID)
 
 void CMainFrame::OnUpdateViewPanNScan(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && AfxGetAppSettings().iDSVideoRendererType != VIDRNDT_DS_EVR);
 }
 
 void CMainFrame::OnViewPanNScanPresets(UINT nID)
@@ -6882,7 +6882,7 @@ void CMainFrame::OnUpdateViewPanNScanPresets(CCmdUI* pCmdUI)
 {
     int nID = pCmdUI->m_nID - ID_PANNSCAN_PRESETS_START;
     const CAppSettings& s = AfxGetAppSettings();
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && nID >= 0 && nID <= s.m_pnspresets.GetCount());
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && nID >= 0 && nID <= s.m_pnspresets.GetCount() && s.iDSVideoRendererType != VIDRNDT_DS_EVR);
 }
 
 void CMainFrame::OnViewRotate(UINT nID)
@@ -6953,7 +6953,7 @@ void CMainFrame::OnUpdateViewAspectRatio(CCmdUI* pCmdUI)
         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, pCmdUI->m_nID, MF_BYCOMMAND);
     }
 
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && AfxGetAppSettings().iDSVideoRendererType != VIDRNDT_DS_EVR);
 }
 
 void CMainFrame::OnViewAspectRatioNext()
