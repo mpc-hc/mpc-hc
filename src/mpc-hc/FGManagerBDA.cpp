@@ -550,7 +550,7 @@ STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& 
     CheckNoLog(m_pBDAStats->get_SignalLocked(&bLocked));
     CheckNoLog(m_pBDAStats->get_SignalStrength(&lDbStrength));
     CheckNoLog(m_pBDAStats->get_SignalQuality(&lPercentQuality));
-    LOG(_T("BDA Get signal stats. Strength %d. Quality %d."), lDbStrength, lPercentQuality);
+    LOG(_T("Get signal stats: Strength %d dB, Quality %d%%"), lDbStrength, lPercentQuality);
 
     return S_OK;
 }

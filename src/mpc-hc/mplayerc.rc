@@ -2067,7 +2067,7 @@ BEGIN
     IDS_STATSBAR_BITRATE               "Bitrate"
     IDS_STATSBAR_BITRATE_AVG_CUR       " (avg/cur)"
     IDS_STATSBAR_SIGNAL                "Signal"
-    IDS_STATSBAR_SIGNAL_FORMAT         "Strength: %d, Quality: %d%%"
+    IDS_STATSBAR_SIGNAL_FORMAT         "Strength: %d dB, Quality: %d%%"
     IDS_CONTROLS_COMPLETING            "Completing..."
     IDS_AUTOPLAY_PLAYVIDEO             "Play Video"
     IDS_AUTOPLAY_PLAYMUSIC             "Play Music"
