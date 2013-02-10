@@ -7246,6 +7246,8 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
                 fEnable = false;
             } else if (m_fLiveWM && pCmdUI->m_nID == ID_PLAY_PAUSE) {
                 fEnable = false;
+            } else if (GetPlaybackMode() == PM_CAPTURE && pCmdUI->m_nID == ID_PLAY_PAUSE && AfxGetAppSettings().iDefaultCaptureDevice == 1) {
+                fEnable = false; // Disable pause for digital capture mode to avoid accidental playback stop. We don't support time shifting yet.
             }
         } else if (GetPlaybackMode() == PM_DVD) {
             fEnable = m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
