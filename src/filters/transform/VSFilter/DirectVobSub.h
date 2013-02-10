@@ -57,6 +57,7 @@ protected:
 
     CComPtr<ISubClock> m_pSubClock;
     bool m_fForced;
+    bool m_subtitleOverlapping;
 
 public:
 
@@ -96,6 +97,8 @@ public:
     STDMETHODIMP put_ZoomRect(NORMALIZEDRECT* rect);
     STDMETHODIMP get_ColorFormat(int* iPosition) { return E_NOTIMPL; }
     STDMETHODIMP put_ColorFormat(int iPosition) { return E_NOTIMPL; }
+    STDMETHODIMP get_SubtitleOverlapping(bool* subtitleOverlapping);
+    STDMETHODIMP put_SubtitleOverlapping(bool subtitleOverlapping);
 
     STDMETHODIMP UpdateRegistry();
 

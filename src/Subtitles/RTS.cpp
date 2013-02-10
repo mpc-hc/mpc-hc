@@ -2573,7 +2573,15 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
     qsort(subs.GetData(), subs.GetCount(), sizeof(LSub), lscomp);
 
-    for (ptrdiff_t i = 0, j = subs.GetCount(); i < j; i++) {
+    int startingSubtitle = 0;
+    int subtitleCount = subs.GetCount();
+
+    // If subtitle overlapping is off, display only the last subtitle
+    if (!m_subtitleOverlapping) {
+        startingSubtitle = subtitleCount - 1;
+    }
+
+    for (ptrdiff_t i = startingSubtitle; i < subtitleCount; i++) {
         int entry = subs[i].idx;
 
         STSEntry stse = GetAt(entry);
@@ -2721,7 +2729,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
             }
         }
 
-        if (!fPosOverride && !fOrgOverride && !s->m_fAnimated) {
+        if (!fPosOverride && !fOrgOverride && !s->m_fAnimated && m_subtitleOverlapping) {
             r = m_sla.AllocRect(s, segment, entry, stse.layer, m_collisions);
         }
 

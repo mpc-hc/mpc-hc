@@ -64,6 +64,7 @@ CDirectVobSub::CDirectVobSub()
     m_ZoomRect.right = m_ZoomRect.bottom = 1;
 
     m_fForced = false;
+    m_subtitleOverlapping = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBTITLEOVERLAPPING), 1);
 }
 
 CDirectVobSub::~CDirectVobSub()
@@ -522,6 +523,26 @@ STDMETHODIMP CDirectVobSub::put_ZoomRect(NORMALIZEDRECT* rect)
     return S_OK;
 }
 
+STDMETHODIMP CDirectVobSub::get_SubtitleOverlapping(bool* subtitleOverlapping)
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    return subtitleOverlapping ? *subtitleOverlapping = m_subtitleOverlapping, S_OK : E_POINTER;
+}
+
+STDMETHODIMP CDirectVobSub::put_SubtitleOverlapping(bool subtitleOverlapping)
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    if (m_subtitleOverlapping == subtitleOverlapping) {
+        return S_FALSE;
+    }
+
+    m_subtitleOverlapping = subtitleOverlapping;
+
+    return S_OK;
+}
+
 STDMETHODIMP CDirectVobSub::UpdateRegistry()
 {
     AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -549,6 +570,7 @@ STDMETHODIMP CDirectVobSub::UpdateRegistry()
     theApp.WriteProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPSENABLED), m_fMediaFPSEnabled);
     theApp.WriteProfileBinary(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPS), (BYTE*)&m_MediaFPS, sizeof(m_MediaFPS));
     theApp.WriteProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_AUTOPARCOMPENSATION), m_ePARCompensationType);
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBTITLEOVERLAPPING), m_subtitleOverlapping);
 
     return S_OK;
 }

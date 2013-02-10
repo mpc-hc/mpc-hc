@@ -607,6 +607,7 @@ CDVSMiscPPage::CDVSMiscPPage(LPUNKNOWN pUnk, HRESULT* phr) :
     BindControl(IDC_AUTORELOAD, m_autoreload);
     BindControl(IDC_SAVEFULLPATH, m_savefullpath);
     BindControl(IDC_INSTANTUPDATE, m_instupd);
+    BindControl(IDC_SUBTITLEOVERLAPPING, m_suboverlapping);
 }
 
 bool CDVSMiscPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -640,6 +641,7 @@ void CDVSMiscPPage::UpdateObjectData(bool fSave)
         m_pDirectVobSub->put_AnimWhenBuffering(m_fAnimWhenBuffering);
         m_pDirectVobSub->put_SubtitleReloader(m_fReloaderDisabled);
         m_pDirectVobSub->put_SaveFullPath(m_fSaveFullPath);
+        m_pDirectVobSub->put_SubtitleOverlapping(m_subtitleOverlapping);
     } else {
         m_pDirectVobSub->get_Flip(&m_fFlipPicture, &m_fFlipSubtitles);
         m_pDirectVobSub->get_HideSubtitles(&m_fHideSubtitles);
@@ -648,6 +650,7 @@ void CDVSMiscPPage::UpdateObjectData(bool fSave)
         m_pDirectVobSub->get_AnimWhenBuffering(&m_fAnimWhenBuffering);
         m_pDirectVobSub->get_SubtitleReloader(&m_fReloaderDisabled);
         m_pDirectVobSub->get_SaveFullPath(&m_fSaveFullPath);
+        m_pDirectVobSub->get_SubtitleOverlapping(&m_subtitleOverlapping);
     }
 }
 
@@ -662,6 +665,7 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_fAnimWhenBuffering = !!m_animwhenbuff.GetCheck();
         m_fOSD = !!m_showosd.GetCheck();
         m_fReloaderDisabled = !m_autoreload.GetCheck();
+        m_subtitleOverlapping = m_suboverlapping.GetCheck();
     } else {
         m_flippic.SetCheck(m_fFlipPicture);
         m_flipsub.SetCheck(m_fFlipSubtitles);
@@ -673,6 +677,7 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_showosd.SetCheck(m_fOSD);
         m_autoreload.SetCheck(!m_fReloaderDisabled);
         m_instupd.SetCheck(!!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1));
+        m_suboverlapping.SetCheck(m_subtitleOverlapping);
     }
 }
 
