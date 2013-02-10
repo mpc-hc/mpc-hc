@@ -35,7 +35,7 @@ Legend:
 * Updated Logitech SDK to v3.01 (driver 8.00.100)
 * Updated SoundTouch to v1.7.1 r170
 * Updated VirtualDub to v1.10.4-test1
-* Updated Basque, Czech, German, Greek, Russian, Simplified Chinese, Slovak and Ukrainian translations
+* Updated Basque, Czech, German, Greek, Polish, Russian, Simplified Chinese, Slovak and Ukrainian translations
 ! Various WebUI fixes:
   - Fix seeking
   - Fix volume slider going out of bounds with IE in player.html
