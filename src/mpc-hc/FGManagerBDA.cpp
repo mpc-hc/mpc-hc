@@ -541,16 +541,16 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
     return S_OK;
 }
 
-STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lStrength, LONG& lQuality)
+STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lDbStrength, LONG& lPercentQuality)
 {
     HRESULT hr;
     CheckPointer(m_pBDAStats, E_UNEXPECTED);
 
     CheckNoLog(m_pBDAStats->get_SignalPresent(&bPresent));
     CheckNoLog(m_pBDAStats->get_SignalLocked(&bLocked));
-    CheckNoLog(m_pBDAStats->get_SignalStrength(&lStrength));
-    CheckNoLog(m_pBDAStats->get_SignalQuality(&lQuality));
-    LOG(_T("BDA Get signal stats. Strength %d. Quality %d."), lStrength, lQuality);
+    CheckNoLog(m_pBDAStats->get_SignalStrength(&lDbStrength));
+    CheckNoLog(m_pBDAStats->get_SignalQuality(&lPercentQuality));
+    LOG(_T("BDA Get signal stats. Strength %d. Quality %d."), lDbStrength, lPercentQuality);
 
     return S_OK;
 }

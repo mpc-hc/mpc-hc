@@ -120,7 +120,7 @@ public:
     STDMETHODIMP SetAudio(int nAudioIndex);
     STDMETHODIMP SetFrequency(ULONG freq);
     STDMETHODIMP Scan(ULONG ulFrequency, HWND hWnd);
-    STDMETHODIMP GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lStrength, LONG& lQuality);
+    STDMETHODIMP GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lDbStrength, LONG& lPercentQuality);
 
     // IAMStreamSelect
     STDMETHODIMP Count(DWORD* pcStreams);
