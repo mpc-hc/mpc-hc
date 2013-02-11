@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -84,7 +84,7 @@ public:
     ULONG GetVideoPID() const { return m_ulVideoPID; };
     DVB_STREAM_TYPE GetVideoType() const { return m_nVideoType; }
     ULONG GetDefaultAudioPID() const { return m_Audios[GetDefaultAudio()].PID; };
-    DVB_STREAM_TYPE GetDefaultAudioType() const { return m_Audios[0].Type; }
+    DVB_STREAM_TYPE GetDefaultAudioType() const { return m_Audios[GetDefaultAudio()].Type; }
     ULONG GetDefaultSubtitlePID() const { return m_Subtitles[0].PID; /* TODO : fa*/ };
     int GetAudioCount() const { return m_nAudioCount; };
     int GetDefaultAudio() const { return m_nDefaultAudio; };
