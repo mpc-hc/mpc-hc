@@ -2262,6 +2262,7 @@ BEGIN
     IDS_SRC_AVI             "Non-interleaved files are not welcome"
     IDS_SRC_VTS             "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
     IDS_SRC_REALMEDIA       "RealMedia format categories must be set to ""DirectShow"" to make it load\nDoesn't support streaming"
+    IDS_SRC_RFS             "Based on RARFileSource, doesn't support compressed files"
 END
 
 STRINGTABLE
@@ -3254,6 +3255,14 @@ END
 STRINGTABLE
 BEGIN
     IDS_AVISPLITTER_NON_INTERLEAVED     "Non interleaved files support"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_RFS_NO_FILES                    "No media files found in the archive"
+    IDS_RFS_COMPRESSED                  "Compressed files are not supported"
+    IDS_RFS_ENCRYPTED                   "Encrypted files are not supported"
+    IDS_RFS_MISSING_VOLS                "Couldn't find all archive volumes"
 END
 
 #endif    // English (United States) resources

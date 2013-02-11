@@ -139,6 +139,11 @@ MPC-HC makes use of the following third-party code:
         <td>http://developer.apple.com/quicktime/</td>
     </tr>
     <tr>
+        <td>RARFileSource</td>
+        <td>GPLv2</td>
+        <td>http://www.v12pwr.com/RARFileSource/</td>
+    </tr>
+    <tr>
         <td>RealMedia SDK</td>
         <td>-</td>
         <td>-</td>
