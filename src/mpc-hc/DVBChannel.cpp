@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,6 +39,7 @@ CDVBChannel::CDVBChannel()
     , m_nAudioCount(0)
     , m_nDefaultAudio(0)
     , m_nSubtitleCount(0)
+    , m_nDefaultSubtitle(0)
 {
 }
 
@@ -74,6 +75,9 @@ void CDVBChannel::FromString(CString strValue)
         m_nDefaultAudio = _tstol(strValue.Tokenize(_T("|"), i));
     }
     m_nSubtitleCount = _tstol(strValue.Tokenize(_T("|"), i));
+    if (nVersion > FORMAT_VERSION_2) {
+        m_nDefaultSubtitle = _tstol(strValue.Tokenize(_T("|"), i));
+    }
 
     for (int j = 0; j < m_nAudioCount; j++) {
         m_Audios[j].PID = _tstol(strValue.Tokenize(_T("|"), i));
@@ -93,7 +97,7 @@ void CDVBChannel::FromString(CString strValue)
 CString CDVBChannel::ToString()
 {
     CString strValue;
-    strValue.AppendFormat(_T("%d|%s|%ld|%d|%d|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%d|%ld"),
+    strValue.AppendFormat(_T("%d|%s|%ld|%d|%d|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%d|%ld|%d"),
                           FORMAT_VERSION_CURRENT,
                           m_strName,
                           m_ulFrequency,
@@ -110,7 +114,8 @@ CString CDVBChannel::ToString()
                           m_nVideoType,
                           m_nAudioCount,
                           m_nDefaultAudio,
-                          m_nSubtitleCount);
+                          m_nSubtitleCount,
+                          m_nDefaultSubtitle);
 
     for (int i = 0; i < m_nAudioCount; i++) {
         strValue.AppendFormat(_T("|%ld|%d|%d|%s"), m_Audios[i].PID, m_Audios[i].Type, m_Audios[i].PesType, m_Audios[i].Language);

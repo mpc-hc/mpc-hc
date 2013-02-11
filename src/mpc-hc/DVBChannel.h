@@ -22,7 +22,8 @@
 
 #define FORMAT_VERSION_0       0
 #define FORMAT_VERSION_1       1
-#define FORMAT_VERSION_CURRENT 2
+#define FORMAT_VERSION_2       2
+#define FORMAT_VERSION_CURRENT 3
 
 #define DVB_MAX_AUDIO    10
 #define DVB_MAX_SUBTITLE 10
@@ -85,10 +86,11 @@ public:
     DVB_STREAM_TYPE GetVideoType() const { return m_nVideoType; }
     ULONG GetDefaultAudioPID() const { return m_Audios[GetDefaultAudio()].PID; };
     DVB_STREAM_TYPE GetDefaultAudioType() const { return m_Audios[GetDefaultAudio()].Type; }
-    ULONG GetDefaultSubtitlePID() const { return m_Subtitles[0].PID; /* TODO : fa*/ };
+    ULONG GetDefaultSubtitlePID() const { return m_Subtitles[GetDefaultSubtitle()].PID; };
     int GetAudioCount() const { return m_nAudioCount; };
     int GetDefaultAudio() const { return m_nDefaultAudio; };
     int GetSubtitleCount() const { return m_nSubtitleCount; };
+    int GetDefaultSubtitle() const { return m_nDefaultSubtitle; };
     DVBStreamInfo* GetAudio(int nIndex) { return &m_Audios[nIndex]; };
     const DVBStreamInfo* GetAudio(int nIndex) const { return &m_Audios[nIndex]; };
     DVBStreamInfo* GetSubtitle(int nIndex) { return &m_Subtitles[nIndex]; };
@@ -111,6 +113,7 @@ public:
     void SetPCR(ULONG Value) { m_ulPCR = Value; };
     void SetVideoPID(ULONG Value) { m_ulVideoPID = Value; };
     void SetDefaultAudio(int Value) { m_nDefaultAudio = Value; }
+    void SetDefaultSubtitle(int Value) { m_nDefaultSubtitle = Value; }
 
     void AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_TYPE nPesType, LPCTSTR strLanguage);
 
@@ -131,6 +134,7 @@ private:
     int m_nAudioCount;
     int m_nDefaultAudio;
     int m_nSubtitleCount;
+    int m_nDefaultSubtitle;
     DVBStreamInfo m_Audios[DVB_MAX_AUDIO];
     DVBStreamInfo m_Subtitles[DVB_MAX_SUBTITLE];
 };

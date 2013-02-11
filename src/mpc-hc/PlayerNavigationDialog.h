@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -43,21 +43,17 @@ public:
     BOOL Create(CWnd* pParent = NULL);
     void UpdateElementList();
     void UpdatePos(int nID);
-    void SetupAudioSwitcherSubMenu(const CDVBChannel* pChannel = NULL);
     int p_nItems[MAX_CHANNELS_ALLOWED];
-    DVBStreamInfo m_audios[DVB_MAX_AUDIO];
     bool m_bTVStations;
 
     // Dialog Data
     enum { IDD = IDD_NAVIGATION_DLG };
 
     CListBox m_ChannelList;
-    CComboBox m_ComboAudio;
     CButton m_ButtonInfo;
     CButton m_ButtonScan;
     CButton m_ButtonFilterStations;
     CWnd* m_pParent;
-    //  CMenu m_subtitles, m_audios;
 
 
 protected:
@@ -71,7 +67,6 @@ public:
     afx_msg void OnDestroy();
     afx_msg void OnChangeChannel();
     afx_msg void OnTunerScan();
-    afx_msg void OnSelChangeComboAudio();
     afx_msg void OnButtonInfo();
     afx_msg void OnTvRadioStations();
 };

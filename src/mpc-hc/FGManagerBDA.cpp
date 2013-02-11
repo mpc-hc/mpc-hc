@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -762,6 +762,10 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
     }
 
     CheckNoLog(m_DVBStreams[m_nCurAudioType].Map(pChannel->GetDefaultAudioPID()));
+
+    if (pChannel->GetSubtitleCount() > 0) {
+        CheckNoLog(m_DVBStreams[DVB_SUB].Map(pChannel->GetDefaultSubtitlePID()));
+    }
 
     if (GetState() != State_Running) {
         ChangeState(State_Running);      // (FILTER_STATE)nState);

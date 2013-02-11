@@ -625,7 +625,6 @@
 #define IDC_CONTROLLIMIT                22038
 #define IDC_SYNCNEAREST                 22040
 #define IDC_D3D9DEVICE                  22041
-#define IDC_NAVIGATION_AUDIO            22042
 #define IDC_NAVIGATION_SCAN             22043
 #define IDC_D3D9DEVICE_COMBO            22045
 #define IDC_NAVIGATION_INFO             22046
