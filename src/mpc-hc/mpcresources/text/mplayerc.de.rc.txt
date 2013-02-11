@@ -163,9 +163,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"""Open DVD/BD"" behavior"
-6		"Prompt for location"
-7		"Always open the default location:"
+5		"Verhalten beim Öffnen einer DVD/BD"
+6		"Immer nach dem DVD/BD Verzeichnis fragen"
+7		"Immer auf das Standard DVD/BD Verzeichnis zugreifen:"
 10		"Bevorzugte Sprache für den DVD-Navigator und den OGM-Splitter"
 11		"&Menü"
 12		"&Audio"
@@ -1571,7 +1571,7 @@ STRING IDS_MPLAYERC_27		"Vorwärts springen (viel)"
 STRING IDS_MPLAYERC_28		"Rückwärts springen (viel)"
 STRING IDS_MPLAYERC_29		"Vorwärts springen (nächstes Keyframe)"
 STRING IDS_MPLAYERC_30		"Rückwärts springen (voriges Keyframe)"
-STRING IDS_MPLAYERC_39		"Vollbild"
+STRING IDS_MPLAYERC_39		"Vollbild (w/o res.change)"
 STRING IDS_MPLAYERC_47		"PnS Inc Höhe"
 STRING IDS_MPLAYERC_50		"PnS Dec Höhe"
 STRING IDS_MPLAYERC_59		"PnS runter/rechts"
