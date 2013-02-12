@@ -111,8 +111,8 @@ void CMixer::Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int
         }
     } else {
         const double center_mix_level   = M_SQRT1_2;
-        const double surround_mix_level = M_SQRT1_2;
-        const double lfe_mix_level      = M_SQRT1_2;
+        const double surround_mix_level = 1.0;
+        const double lfe_mix_level      = 1.0;
         const int normalize = 0;
         ret = avresample_build_matrix(in_layout, out_layout, center_mix_level, surround_mix_level, lfe_mix_level, normalize, m_matrix_dbl, in_ch, AV_MATRIX_ENCODING_NONE);
         if (ret < 0) {
