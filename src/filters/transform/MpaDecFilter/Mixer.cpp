@@ -122,6 +122,23 @@ void CMixer::Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int
         }
     }
 
+/*
+    // if back channels do not have sound, then divide side channels for the back and side
+    if (out_layout == AV_CH_LAYOUT_7POINT1) {
+        bool back_no_sound = true;
+        for (int i = 0; i < in_ch * 2; i++) {
+            if (m_matrix_dbl[4 * in_ch + i] != 0.0) {
+                back_no_sound = false;
+            }
+        }
+        if (back_no_sound) {
+            for (int i = 0; i < in_ch * 2; i++) {
+                m_matrix_dbl[4 * in_ch + i] = (m_matrix_dbl[6 * in_ch + i] *= M_SQRT1_2);
+            }
+        }
+    }
+*/
+
 #ifdef _DEBUG
     CString matrix_str;
     for (int j = 0; j < out_ch; j++) {
