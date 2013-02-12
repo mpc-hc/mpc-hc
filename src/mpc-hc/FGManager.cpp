@@ -913,6 +913,7 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
     m_deadends.RemoveAll();
 
     HRESULT hr;
+    HRESULT hrRFS = S_OK;
 
     /*CComPtr<IBaseFilter> pBF;
     if (FAILED(hr = AddSourceFilter(lpcwstrFile, lpcwstrFile, &pBF)))
@@ -945,12 +946,15 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
             RemoveFilter(pBF);
 
             deadends.Append(m_deadends);
+        } else if (HRESULT_FACILITY(hr) == FACILITY_RFS) {
+            hrRFS = hr;
         }
     }
 
     m_deadends.Copy(deadends);
 
-    return hr;
+    // If RFS was part of the graph, return its error code instead of the last error code.
+    return hrRFS != S_OK ? hrRFS : hr;
 }
 
 STDMETHODIMP CFGManager::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter)
@@ -1369,6 +1373,15 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     const bool* ffmpeg_filters = s.FFmpegFilters;
 
     // Source filters
+
+#if INTERNAL_SOURCEFILTER_RFS
+    if (src[SRC_RFS]) {
+        pFGF = DEBUG_NEW CFGFilterInternal<CRARFileSource>();
+        pFGF->m_chkbytes.AddTail(_T("0,4,,52617221"));
+        pFGF->m_extensions.AddTail(_T(".rar"));
+        m_source.AddTail(pFGF);
+    }
+#endif
 
 #if INTERNAL_SOURCEFILTER_SHOUTCAST
     if (src[SRC_SHOUTCAST]) {
