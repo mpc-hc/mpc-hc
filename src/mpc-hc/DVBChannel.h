@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -119,11 +119,12 @@ public:
     DWORD GetVideoARy();
     DVB_STREAM_TYPE GetVideoType() const { return m_nVideoType; }
     ULONG GetDefaultAudioPID() const { return m_Audios[GetDefaultAudio()].PID; };
-    DVB_STREAM_TYPE GetDefaultAudioType() const { return m_Audios[0].Type; }
-    ULONG GetDefaultSubtitlePID() const { return m_Subtitles[0].PID; /* TODO : fa*/ };
+    DVB_STREAM_TYPE GetDefaultAudioType() const { return m_Audios[GetDefaultAudio()].Type; }
+    ULONG GetDefaultSubtitlePID() const { return m_Subtitles[GetDefaultSubtitle()].PID; };
     int GetAudioCount() const { return m_nAudioCount; };
     int GetDefaultAudio() const { return m_nDefaultAudio; };
     int GetSubtitleCount() const { return m_nSubtitleCount; };
+    int GetDefaultSubtitle() const { return m_nDefaultSubtitle; };
     DVBStreamInfo* GetAudio(int nIndex) { return &m_Audios[nIndex]; };
     const DVBStreamInfo* GetAudio(int nIndex) const { return &m_Audios[nIndex]; };
     DVBStreamInfo* GetSubtitle(int nIndex) { return &m_Subtitles[nIndex]; };
@@ -152,6 +153,7 @@ public:
     void SetVideoHeight(ULONG Value) { m_nVideo_Height = Value; };
     void SetVideoAR(DVB_AspectRatio_TYPE Value) { m_nVideo_AR = Value; };
     void SetDefaultAudio(int Value) { m_nDefaultAudio = Value; }
+    void SetDefaultSubtitle(int Value) { m_nDefaultSubtitle = Value; }
 
     void AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_TYPE nPesType, LPCTSTR strLanguage);
 
@@ -177,6 +179,7 @@ private:
     int m_nAudioCount;
     int m_nDefaultAudio;
     int m_nSubtitleCount;
+    int m_nDefaultSubtitle;
     DVBStreamInfo m_Audios[DVB_MAX_AUDIO];
     DVBStreamInfo m_Subtitles[DVB_MAX_SUBTITLE];
 };

@@ -443,7 +443,9 @@
 #define IDC_STATIC2                     11261
 #define IDC_STATIC3                     11262
 #define IDC_STATIC4                     11263
-#define IDC_STATIC_BALANCE              11264
+#define IDC_STATIC5                     11264
+#define IDC_STATIC6                     11265
+#define IDC_STATIC_BALANCE              11266
 #define IDC_DVDPATH                     12000
 #define IDC_SUBRESYNCLIST               12001
 #define IDC_PLAYLIST                    12002
@@ -625,7 +627,6 @@
 #define IDC_CONTROLLIMIT                22038
 #define IDC_SYNCNEAREST                 22040
 #define IDC_D3D9DEVICE                  22041
-#define IDC_NAVIGATION_AUDIO            22042
 #define IDC_NAVIGATION_SCAN             22043
 #define IDC_D3D9DEVICE_COMBO            22045
 #define IDC_NAVIGATION_INFO             22046

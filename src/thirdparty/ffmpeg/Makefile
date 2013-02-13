@@ -70,7 +70,7 @@ endif
 
 
 # Object directories
-OBJ_DIRS = $(OBJ_DIR) \
+OBJ_DIRS = \
     $(OBJ_DIR)libavcodec \
     $(OBJ_DIR)libavcodec/x86 \
     $(OBJ_DIR)libavresample \
@@ -79,20 +79,21 @@ OBJ_DIRS = $(OBJ_DIR) \
     $(OBJ_DIR)libavutil/x86 \
     $(OBJ_DIR)libswscale \
     $(OBJ_DIR)libswscale/x86 \
-    $(OUT_LIB_DIR)
-
 
 # Targets
-all: make_objdirs $(OUT_LIB)
+all: create_dirs $(OUT_LIB)
 
-make_objdirs: $(OBJ_DIRS)
-$(OBJ_DIRS):
+create_dirs: $(OBJ_DIRS) $(OUT_LIB_DIR)
+$(OBJ_DIRS) $(OUT_LIB_DIR):
 	$(shell test -d $(@) || mkdir -p $(@))
 
 clean:
 	@echo Cleaning ffmpeg...
-	rm -f $(OUT_LIB)
-	rm -rf $(OBJ_DIR)
+	rm -f \
+      $(OUT_LIB) \
+      $(OBJ_DIR)mpc_helper.o \
+      $(OBJ_DIR)mpc_helper.d
+	rm -rf $(OBJ_DIRS)
 
 
 # Objects
@@ -422,4 +423,4 @@ $(OUT_LIB): $(OBJS)
 
 -include $(SRCS_C:%.c=$(OBJ_DIR)%.d)
 
-.PHONY: clean make_objdirs $(OBJ_DIRS)
+.PHONY: clean create_dirs $(OBJ_DIRS) $(OUT_LIB_DIR)

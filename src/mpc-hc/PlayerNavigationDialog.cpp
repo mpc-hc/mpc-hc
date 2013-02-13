@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -53,7 +53,6 @@ void CPlayerNavigationDialog::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_LISTCHANNELS, m_ChannelList);
-    DDX_Control(pDX, IDC_NAVIGATION_AUDIO, m_ComboAudio);
     DDX_Control(pDX, IDC_NAVIGATION_INFO, m_ButtonInfo);
     DDX_Control(pDX, IDC_NAVIGATION_SCAN, m_ButtonScan);
     DDX_Control(pDX, IDC_NAVIGATION_FILTERSTATIONS, m_ButtonFilterStations);
@@ -75,7 +74,6 @@ BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
 BEGIN_MESSAGE_MAP(CPlayerNavigationDialog, CResizableDialog)
     ON_WM_DESTROY()
     ON_LBN_SELCHANGE(IDC_LISTCHANNELS, OnChangeChannel)
-    ON_CBN_SELCHANGE(IDC_NAVIGATION_AUDIO, OnSelChangeComboAudio)
     ON_BN_CLICKED(IDC_NAVIGATION_INFO, OnButtonInfo)
     ON_BN_CLICKED(IDC_NAVIGATION_SCAN, OnTunerScan)
     ON_BN_CLICKED(IDC_NAVIGATION_FILTERSTATIONS, OnTvRadioStations)
@@ -108,38 +106,6 @@ void CPlayerNavigationDialog::OnChangeChannel()
     TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
     nItem = p_nItems[m_ChannelList.GetCurSel()] + ID_NAVIGATE_CHAP_SUBITEM_START;
     static_cast<CMainFrame*>(TempWnd)->OnNavigateChapters(nItem);
-    SetupAudioSwitcherSubMenu();
-}
-
-void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(const CDVBChannel* pChannel)
-{
-    bool bFound = (pChannel != NULL);
-    const CAppSettings& s = AfxGetAppSettings();
-
-    if (!bFound) {
-        int nCurrentChannel = s.nDVBLastChannel;
-        POSITION pos = s.m_DVBChannels.GetHeadPosition();
-        while (pos && !bFound) {
-            pChannel = &s.m_DVBChannels.GetNext(pos);
-            if (nCurrentChannel == pChannel->GetPrefNumber()) {
-                bFound = true;
-            }
-        }
-    }
-
-    if (bFound) {
-        m_ButtonInfo.EnableWindow(pChannel->GetNowNextFlag());
-        m_ComboAudio.ResetContent();
-        for (int i = 0; i < pChannel->GetAudioCount(); i++) {
-            m_ComboAudio.AddString(pChannel->GetAudio(i)->Language);
-            m_audios[i].PID = pChannel->GetAudio(i)-> PID;
-            m_audios[i].Type = pChannel->GetAudio(i)->Type;
-            m_audios[i].PesType = pChannel->GetAudio(i)->PesType;
-            m_audios[i].Language = pChannel->GetAudio(i)->Language;
-        }
-
-        m_ComboAudio.SetCurSel(pChannel->GetDefaultAudio());
-    }
 }
 
 void CPlayerNavigationDialog::UpdateElementList()
@@ -154,15 +120,14 @@ void CPlayerNavigationDialog::UpdateElementList()
 
         while (pos) {
             const CDVBChannel& channel = s.m_DVBChannels.GetNext(pos);
-            if ((m_bTVStations && (channel.GetVideoPID() != 0)) ||
-                    (!m_bTVStations && (channel.GetAudioCount() > 0)) && (channel.GetVideoPID() == 0)) {
+            if (((m_bTVStations && channel.GetVideoPID() != 0) ||
+                    (!m_bTVStations && channel.GetVideoPID() == 0)) && channel.GetAudioCount() > 0) {
                 int nItem = m_ChannelList.AddString(channel.GetName());
                 if (nItem < MAX_CHANNELS_ALLOWED) {
                     p_nItems [nItem] = channel.GetPrefNumber();
                 }
                 if (nCurrentChannel == channel.GetPrefNumber()) {
                     m_ChannelList.SetCurSel(nItem);
-                    SetupAudioSwitcherSubMenu(&channel);
                 }
             }
         }
@@ -187,22 +152,6 @@ void CPlayerNavigationDialog::OnTunerScan()
     TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
     static_cast<CMainFrame*>(TempWnd)->OnTunerScan();
     UpdateElementList();
-}
-
-void CPlayerNavigationDialog::OnSelChangeComboAudio()
-{
-    UINT nID;
-    CWnd* TempWnd;
-    CAppSettings& s = AfxGetAppSettings();
-    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-
-    nID = m_ComboAudio.GetCurSel() + ID_NAVIGATE_AUDIO_SUBITEM_START;
-
-    TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
-    static_cast<CMainFrame*>(TempWnd)->OnNavigateAudio(nID);
-
-    pChannel->SetDefaultAudio(m_ComboAudio.GetCurSel());
-    pChannel->ToString();
 }
 
 void CPlayerNavigationDialog::OnButtonInfo()

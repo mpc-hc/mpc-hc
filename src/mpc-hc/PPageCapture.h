@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,6 +46,7 @@ protected:
 
     void FindAnalogDevices();
     void FindDigitalDevices();
+    void SaveFoundDevices();
 
     DECLARE_MESSAGE_MAP()
 public:
@@ -56,4 +57,8 @@ public:
     CComboBox m_cbDigitalTuner;
     CComboBox m_cbDigitalReceiver;
     int m_iDefaultDevice;
+
+    afx_msg void OnUpdateAnalog(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateDigital(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateDigitalReciver(CCmdUI* pCmdUI);
 };
