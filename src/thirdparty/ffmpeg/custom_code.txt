@@ -18,8 +18,6 @@ The following files have MPC-HC specific custom code:
 * libavcodec/utils.c
 * libavcodec/vc1dec.c
 
-* libavresample/audio_mix.c     (Justin Ruggle's patches to fix upmixing)
-
 * libavutil/mem.c
 
 

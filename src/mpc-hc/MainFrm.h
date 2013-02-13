@@ -430,6 +430,7 @@ public:
     void CloseMedia();
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
     void StopTunerScan();
+    void SetChannel(bool fNewList = true);
 
     void AddCurDevToPlaylist();
 

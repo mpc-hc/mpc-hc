@@ -35,46 +35,6 @@
 
 
 //#define DEBUG
-/* dct code */
-
-void ff_fdct_ifast(int16_t *data);
-void ff_fdct_ifast248(int16_t *data);
-void ff_jpeg_fdct_islow_8(int16_t *data);
-void ff_jpeg_fdct_islow_10(int16_t *data);
-void ff_fdct248_islow_8(int16_t *data);
-void ff_fdct248_islow_10(int16_t *data);
-
-void ff_j_rev_dct(int16_t *data);
-void ff_j_rev_dct4(int16_t *data);
-void ff_j_rev_dct2(int16_t *data);
-void ff_j_rev_dct1(int16_t *data);
-
-void ff_fdct_mmx(int16_t *block);
-void ff_fdct_mmxext(int16_t *block);
-void ff_fdct_sse2(int16_t *block);
-
-#define H264_IDCT(depth) \
-void ff_h264_idct8_add_ ## depth ## _c(uint8_t *dst, int16_t *block, int stride);\
-void ff_h264_idct_add_ ## depth ## _c(uint8_t *dst, int16_t *block, int stride);\
-void ff_h264_idct8_dc_add_ ## depth ## _c(uint8_t *dst, int16_t *block, int stride);\
-void ff_h264_idct_dc_add_ ## depth ## _c(uint8_t *dst, int16_t *block, int stride);\
-void ff_h264_idct_add16_ ## depth ## _c(uint8_t *dst, const int *blockoffset, int16_t *block, int stride, const uint8_t nnzc[6*8]);\
-void ff_h264_idct_add16intra_ ## depth ## _c(uint8_t *dst, const int *blockoffset, int16_t *block, int stride, const uint8_t nnzc[6*8]);\
-void ff_h264_idct8_add4_ ## depth ## _c(uint8_t *dst, const int *blockoffset, int16_t *block, int stride, const uint8_t nnzc[6*8]);\
-void ff_h264_idct_add8_422_ ## depth ## _c(uint8_t **dest, const int *blockoffset, int16_t *block, int stride, const uint8_t nnzc[6*8]);\
-void ff_h264_idct_add8_ ## depth ## _c(uint8_t **dest, const int *blockoffset, int16_t *block, int stride, const uint8_t nnzc[6*8]);\
-void ff_h264_luma_dc_dequant_idct_ ## depth ## _c(int16_t *output, int16_t *input, int qmul);\
-void ff_h264_chroma422_dc_dequant_idct_ ## depth ## _c(int16_t *block, int qmul);\
-void ff_h264_chroma_dc_dequant_idct_ ## depth ## _c(int16_t *block, int qmul);
-
-H264_IDCT( 8)
-H264_IDCT( 9)
-H264_IDCT(10)
-H264_IDCT(12)
-H264_IDCT(14)
-
-void ff_svq3_luma_dc_dequant_idct_c(int16_t *output, int16_t *input, int qp);
-void ff_svq3_add_idct_c(uint8_t *dst, int16_t *block, int stride, int qp, int dc);
 
 /* encoding scans */
 extern const uint8_t ff_alternate_horizontal_scan[64];
@@ -112,11 +72,6 @@ void ff_avg_rv40_qpel16_mc33_c(uint8_t *dst, uint8_t *src, int stride);
 void ff_put_rv40_qpel8_mc33_c(uint8_t *dst, uint8_t *src, int stride);
 void ff_avg_rv40_qpel8_mc33_c(uint8_t *dst, uint8_t *src, int stride);
 
-/* 1/2^n downscaling functions from imgconvert.c */
-void ff_shrink22(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
-void ff_shrink44(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
-void ff_shrink88(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
-
 void ff_gmc_c(uint8_t *dst, uint8_t *src, int stride, int h, int ox, int oy,
               int dxx, int dxy, int dyx, int dyy, int shift, int r, int width, int height);
 
@@ -131,14 +86,6 @@ I (Michael) did not check them, these are just the alignments which I think
 could be reached easily ...
 
 !future video codecs might need functions with less strict alignment
-*/
-
-/*
-void get_pixels_c(int16_t *block, const uint8_t *pixels, int line_size);
-void diff_pixels_c(int16_t *block, const uint8_t *s1, const uint8_t *s2, int stride);
-void put_pixels_clamped_c(const int16_t *block, uint8_t *pixels, int line_size);
-void add_pixels_clamped_c(const int16_t *block, uint8_t *pixels, int line_size);
-void clear_blocks_c(int16_t *blocks);
 */
 
 /* add and put pixel (decoding) */
@@ -192,14 +139,6 @@ void ff_init_scantable(uint8_t *, ScanTable *st, const uint8_t *src_scantable);
 void ff_init_scantable_permutation(uint8_t *idct_permutation,
                                    int idct_permutation_type);
 
-#define EMULATED_EDGE(depth) \
-void ff_emulated_edge_mc_ ## depth (uint8_t *buf, const uint8_t *src, ptrdiff_t linesize,\
-                         int block_w, int block_h,\
-                         int src_x, int src_y, int w, int h);
-
-EMULATED_EDGE(8)
-EMULATED_EDGE(16)
-
 /**
  * DSPContext.
  */
@@ -216,7 +155,6 @@ typedef struct DSPContext {
     void (*put_signed_pixels_clamped)(const int16_t *block/*align 16*/, uint8_t *pixels/*align 8*/, int line_size);
     void (*add_pixels_clamped)(const int16_t *block/*align 16*/, uint8_t *pixels/*align 8*/, int line_size);
     void (*add_pixels8)(uint8_t *pixels, int16_t *block, int line_size);
-    void (*add_pixels4)(uint8_t *pixels, int16_t *block, int line_size);
     int (*sum_abs_dctelem)(int16_t *block/*align 16*/);
     /**
      * translational global motion compensation.
@@ -292,7 +230,7 @@ typedef struct DSPContext {
      * @param line_size number of bytes in a horizontal line of block
      * @param h height
      */
-    op_pixels_func put_no_rnd_pixels_tab[2][4];
+    op_pixels_func put_no_rnd_pixels_tab[4][4];
 
     /**
      * Halfpel motion compensation with no rounding (a+b)>>1.
@@ -454,60 +392,7 @@ attribute_deprecated void dsputil_init(DSPContext* c, AVCodecContext *avctx);
 
 int ff_check_alignment(void);
 
-/**
- * permute block according to permuatation.
- * @param last last non zero element in scantable order
- */
-void ff_block_permute(int16_t *block, uint8_t *permutation, const uint8_t *scantable, int last);
-
 void ff_set_cmp(DSPContext* c, me_cmp_func *cmp, int type);
-
-#define         BYTE_VEC32(c)   ((c)*0x01010101UL)
-#define         BYTE_VEC64(c)   ((c)*0x0001000100010001UL)
-
-static inline uint32_t rnd_avg32(uint32_t a, uint32_t b)
-{
-    return (a | b) - (((a ^ b) & ~BYTE_VEC32(0x01)) >> 1);
-}
-
-static inline uint32_t no_rnd_avg32(uint32_t a, uint32_t b)
-{
-    return (a & b) + (((a ^ b) & ~BYTE_VEC32(0x01)) >> 1);
-}
-
-static inline uint64_t rnd_avg64(uint64_t a, uint64_t b)
-{
-    return (a | b) - (((a ^ b) & ~BYTE_VEC64(0x01)) >> 1);
-}
-
-static inline uint64_t no_rnd_avg64(uint64_t a, uint64_t b)
-{
-    return (a & b) + (((a ^ b) & ~BYTE_VEC64(0x01)) >> 1);
-}
-
-static inline int get_penalty_factor(int lambda, int lambda2, int type){
-    switch(type&0xFF){
-    default:
-    case FF_CMP_SAD:
-        return lambda>>FF_LAMBDA_SHIFT;
-    case FF_CMP_DCT:
-        return (3*lambda)>>(FF_LAMBDA_SHIFT+1);
-    case FF_CMP_W53:
-        return (4*lambda)>>(FF_LAMBDA_SHIFT);
-    case FF_CMP_W97:
-        return (2*lambda)>>(FF_LAMBDA_SHIFT);
-    case FF_CMP_SATD:
-    case FF_CMP_DCT264:
-        return (2*lambda)>>FF_LAMBDA_SHIFT;
-    case FF_CMP_RD:
-    case FF_CMP_PSNR:
-    case FF_CMP_SSE:
-    case FF_CMP_NSSE:
-        return lambda2>>FF_LAMBDA_SHIFT;
-    case FF_CMP_BIT:
-        return 1;
-    }
-}
 
 void ff_dsputil_init_alpha(DSPContext* c, AVCodecContext *avctx);
 void ff_dsputil_init_arm(DSPContext* c, AVCodecContext *avctx);
@@ -524,114 +409,5 @@ void ff_dsputil_init_dwt(DSPContext *c);
 #else
 #   define STRIDE_ALIGN 8
 #endif
-
-// Some broken preprocessors need a second expansion
-// to be forced to tokenize __VA_ARGS__
-#define E(x) x
-
-#define LOCAL_ALIGNED_A(a, t, v, s, o, ...)             \
-    uint8_t la_##v[sizeof(t s o) + (a)];                \
-    t (*v) o = (void *)FFALIGN((uintptr_t)la_##v, a)
-
-#define LOCAL_ALIGNED_D(a, t, v, s, o, ...)             \
-    DECLARE_ALIGNED(a, t, la_##v) s o;                  \
-    t (*v) o = la_##v
-
-#define LOCAL_ALIGNED(a, t, v, ...) E(LOCAL_ALIGNED_A(a, t, v, __VA_ARGS__,,))
-
-#if HAVE_LOCAL_ALIGNED_8
-#   define LOCAL_ALIGNED_8(t, v, ...) E(LOCAL_ALIGNED_D(8, t, v, __VA_ARGS__,,))
-#else
-#   define LOCAL_ALIGNED_8(t, v, ...) LOCAL_ALIGNED(8, t, v, __VA_ARGS__)
-#endif
-
-#if HAVE_LOCAL_ALIGNED_16
-#   define LOCAL_ALIGNED_16(t, v, ...) E(LOCAL_ALIGNED_D(16, t, v, __VA_ARGS__,,))
-#else
-#   define LOCAL_ALIGNED_16(t, v, ...) LOCAL_ALIGNED(16, t, v, __VA_ARGS__)
-#endif
-
-#define WRAPPER8_16_SQ(name8, name16)\
-static int name16(void /*MpegEncContext*/ *s, uint8_t *dst, uint8_t *src, int stride, int h){\
-    int score=0;\
-    score +=name8(s, dst           , src           , stride, 8);\
-    score +=name8(s, dst+8         , src+8         , stride, 8);\
-    if(h==16){\
-        dst += 8*stride;\
-        src += 8*stride;\
-        score +=name8(s, dst           , src           , stride, 8);\
-        score +=name8(s, dst+8         , src+8         , stride, 8);\
-    }\
-    return score;\
-}
-
-
-static inline void copy_block2(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
-{
-    int i;
-    for(i=0; i<h; i++)
-    {
-        AV_COPY16U(dst, src);
-        dst+=dstStride;
-        src+=srcStride;
-    }
-}
-
-static inline void copy_block4(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
-{
-    int i;
-    for(i=0; i<h; i++)
-    {
-        AV_COPY32U(dst, src);
-        dst+=dstStride;
-        src+=srcStride;
-    }
-}
-
-static inline void copy_block8(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
-{
-    int i;
-    for(i=0; i<h; i++)
-    {
-        AV_COPY64U(dst, src);
-        dst+=dstStride;
-        src+=srcStride;
-    }
-}
-
-static inline void copy_block9(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
-{
-    int i;
-    for(i=0; i<h; i++)
-    {
-        AV_COPY64U(dst, src);
-        dst[8]= src[8];
-        dst+=dstStride;
-        src+=srcStride;
-    }
-}
-
-static inline void copy_block16(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
-{
-    int i;
-    for(i=0; i<h; i++)
-    {
-        AV_COPY128U(dst, src);
-        dst+=dstStride;
-        src+=srcStride;
-    }
-}
-
-static inline void copy_block17(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
-{
-    int i;
-    for(i=0; i<h; i++)
-    {
-        AV_COPY128U(dst, src);
-        dst[16]= src[16];
-        dst+=dstStride;
-        src+=srcStride;
-    }
-}
 
 #endif /* AVCODEC_DSPUTIL_H */

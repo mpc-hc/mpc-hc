@@ -531,6 +531,10 @@ static void reduce_matrix(AudioMix *am, const double *matrix, int stride)
 {
     int i, o;
 
+    memset(am->output_zero, 0, sizeof(am->output_zero));
+    memset(am->input_skip,  0, sizeof(am->input_skip));
+    memset(am->output_skip, 0, sizeof(am->output_skip));
+
     /* exclude output channels if they can be zeroed instead of mixed */
     for (o = 0; o < am->out_channels; o++) {
         int zero = 1;
@@ -614,6 +618,7 @@ static void reduce_matrix(AudioMix *am, const double *matrix, int stride)
        corresponding input channel */
     for (o = 0; o < FFMIN(am->in_channels, am->out_channels); o++) {
         int skip = 1;
+        int o0;
 
         for (i = 0; i < am->in_channels; i++) {
             if ((o != i && matrix[o * stride + i] != 0.0) ||
@@ -624,8 +629,9 @@ static void reduce_matrix(AudioMix *am, const double *matrix, int stride)
         }
         /* check if the corresponding input channel makes a contribution to
            any other output channel */
-        for (i = 0; i < am->out_channels; i++) {
-            if (o != i && matrix[i * stride + o] != 0.0) {
+        i = o;
+        for (o0 = 0; o0 < am->out_channels; o0++) {
+            if (o0 != i && matrix[o0 * stride + i] != 0.0) {
                 skip = 0;
                 break;
             }
@@ -658,9 +664,6 @@ int ff_audio_mix_set_matrix(AudioMix *am, const double *matrix, int stride)
         am->matrix = NULL;
     }
 
-    memset(am->output_zero, 0, sizeof(am->output_zero));
-    memset(am->input_skip,  0, sizeof(am->input_skip));
-    memset(am->output_skip, 0, sizeof(am->output_zero));
     am->in_matrix_channels  = am->in_channels;
     am->out_matrix_channels = am->out_channels;
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -747,7 +747,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
         DVB_STREAM_TYPE nType = m_DVBStreams.GetNextKey(pos);
         CDVBStream& Stream = m_DVBStreams[nType];
 
-        if ((nType != DVB_EPG) && (nType != DVB_TIF)) { // DVB_EPG, DVB_TIF not required
+        if (nType != DVB_EPG) { // DVB_EPG not required
             if (!Stream.GetFindExisting() ||
                     (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL) {
                 CheckNoLog(pDemux->CreateOutputPin((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
@@ -806,6 +806,10 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
     }
 
     CheckNoLog(m_DVBStreams[pChannel->GetDefaultAudioType()].Map(pChannel->GetDefaultAudioPID()));
+
+    if (pChannel->GetSubtitleCount() > 0) {
+        CheckNoLog(m_DVBStreams[DVB_SUB].Map(pChannel->GetDefaultSubtitlePID()));
+    }
 
     if (fRadioToTV) {
         m_fHideWindow = false;

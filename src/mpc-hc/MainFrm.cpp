@@ -8386,10 +8386,16 @@ void CMainFrame::OnUpdateNavigateMenu(CCmdUI* pCmdUI)
 
 void CMainFrame::OnNavigateAudio(UINT nID)
 {
+    CAppSettings& s = AfxGetAppSettings();
     nID -= ID_NAVIGATE_AUDIO_SUBITEM_START;
 
-    if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
+    if (GetPlaybackMode() == PM_FILE) {
         OnNavStreamSelectSubMenu(nID, 1);
+    } else if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
+        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+
+        OnNavStreamSelectSubMenu(nID, 1);
+        pChannel->SetDefaultAudio(nID);
     } else if (GetPlaybackMode() == PM_DVD) {
         pDVDC->SelectAudioStream(nID, DVD_CMD_FLAG_Block, NULL);
     }
@@ -8397,10 +8403,18 @@ void CMainFrame::OnNavigateAudio(UINT nID)
 
 void CMainFrame::OnNavigateSubpic(UINT nID)
 {
-    if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
-        OnNavStreamSelectSubMenu(nID - ID_NAVIGATE_SUBP_SUBITEM_START, 2);
+    CAppSettings& s = AfxGetAppSettings();
+    nID -= ID_NAVIGATE_SUBP_SUBITEM_START;
+
+    if (GetPlaybackMode() == PM_FILE) {
+        OnNavStreamSelectSubMenu(nID, 2);
+    } else if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
+        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+
+        OnNavStreamSelectSubMenu(nID, 2);
+        pChannel->SetDefaultSubtitle(nID);
     } else if (GetPlaybackMode() == PM_DVD) {
-        int i = (int)nID - (1 + ID_NAVIGATE_SUBP_SUBITEM_START);
+        int i = (int)nID - 1;
 
         if (i == -1) {
             ULONG ulStreamsAvailable, ulCurrentStream;
@@ -14508,6 +14522,20 @@ void CMainFrame::StopTunerScan()
     m_bStopTunerScan = true;
 }
 
+void CMainFrame::SetChannel(bool fNewList /*= true*/)
+{
+    CAppSettings& s = AfxGetAppSettings();
+    CComQIPtr<IBDATuner> pTun = pGB;
+
+    if (pTun) {
+        if (!fNewList && SUCCEEDED(pTun->SetChannel(s.nDVBLastChannel))) {
+            ShowCurrentChannelInfo();
+        } else if (fNewList && SUCCEEDED(pTun->SetChannel(0))) {
+            ShowCurrentChannelInfo();
+        }
+    }
+}
+
 void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfoBar /*= false*/)
 {
     CAppSettings& s = AfxGetAppSettings();
@@ -14531,8 +14559,11 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
             // We set a 15s delay to let some room for the program infos to change
             tElapse += 15;
             SetTimer(TIMER_DVBINFO_UPDATER, 1000 * (UINT)tElapse, NULL);
+            m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(TRUE);
         } else {
             m_wndInfoBar.RemoveAllLines();
+            m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(FALSE);
+            RecalcLayout();
             if (fShowOSD) {
                 m_OSD.DisplayMessage(OSD_TOPLEFT, pChannel->GetName(), 3500);
             }

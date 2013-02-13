@@ -238,6 +238,7 @@
     <ClCompile Include="libavcodec\h263dec.c" />
     <ClCompile Include="libavcodec\h263_parser.c" />
     <ClCompile Include="libavcodec\h264.c" />
+    <ClCompile Include="libavcodec\h264addpx_template.c" />
     <ClCompile Include="libavcodec\h264chroma.c" />
     <ClCompile Include="libavcodec\h264chroma_template.c" />
     <ClCompile Include="libavcodec\h264dsp.c" />
@@ -503,6 +504,7 @@
     <ClInclude Include="libavcodec\celp_filters.h" />
     <ClInclude Include="libavcodec\celp_math.h" />
     <ClInclude Include="libavcodec\cookdata.h" />
+    <ClInclude Include="libavcodec\copy_block.h" />
     <ClInclude Include="libavcodec\dca.h" />
     <ClInclude Include="libavcodec\dcadata.h" />
     <ClInclude Include="libavcodec\dcadsp.h" />
@@ -535,10 +537,12 @@
     <ClInclude Include="libavcodec\h264chroma.h" />
     <ClInclude Include="libavcodec\h264data.h" />
     <ClInclude Include="libavcodec\h264dsp.h" />
+    <ClInclude Include="libavcodec\h264idct.h" />
     <ClInclude Include="libavcodec\h264pred.h" />
     <ClInclude Include="libavcodec\h264qpel.h" />
     <ClInclude Include="libavcodec\h264_mvpred.h" />
     <ClInclude Include="libavcodec\huffman.h" />
+    <ClInclude Include="libavcodec\imgconvert.h" />
     <ClInclude Include="libavcodec\indeo3data.h" />
     <ClInclude Include="libavcodec\indeo4data.h" />
     <ClInclude Include="libavcodec\indeo5data.h" />
@@ -590,6 +594,7 @@
     <ClInclude Include="libavcodec\rdft.h" />
     <ClInclude Include="libavcodec\rectangle.h" />
     <ClInclude Include="libavcodec\rl.h" />
+    <ClInclude Include="libavcodec\rnd_avg.h" />
     <ClInclude Include="libavcodec\rv30data.h" />
     <ClInclude Include="libavcodec\rv34.h" />
     <ClInclude Include="libavcodec\rv34data.h" />
@@ -609,6 +614,7 @@
     <ClInclude Include="libavcodec\svq1.h" />
     <ClInclude Include="libavcodec\svq1_cb.h" />
     <ClInclude Include="libavcodec\svq1_vlc.h" />
+    <ClInclude Include="libavcodec\svq3.h" />
     <ClInclude Include="libavcodec\synth_filter.h" />
     <ClInclude Include="libavcodec\thread.h" />
     <ClInclude Include="libavcodec\unary.h" />
@@ -667,7 +673,6 @@
     <ClInclude Include="libavutil\common.h" />
     <ClInclude Include="libavutil\cpu.h" />
     <ClInclude Include="libavutil\crc.h" />
-    <ClInclude Include="libavutil\crc_data.h" />
     <ClInclude Include="libavutil\dict.h" />
     <ClInclude Include="libavutil\error.h" />
     <ClInclude Include="libavutil\eval.h" />

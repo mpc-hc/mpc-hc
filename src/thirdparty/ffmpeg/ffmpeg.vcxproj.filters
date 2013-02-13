@@ -757,9 +757,6 @@
     <ClInclude Include="libavutil\crc.h">
       <Filter>libavutil</Filter>
     </ClInclude>
-    <ClInclude Include="libavutil\crc_data.h">
-      <Filter>libavutil</Filter>
-    </ClInclude>
     <ClInclude Include="libavutil\dict.h">
       <Filter>libavutil</Filter>
     </ClInclude>
@@ -902,6 +899,21 @@
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\h264chroma.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\copy_block.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\h264idct.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\imgconvert.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\rnd_avg.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\svq3.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1773,6 +1785,9 @@
     </ClCompile>
     <ClCompile Include="libavcodec\x86\h264chroma_init.c">
       <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\h264addpx_template.c">
+      <Filter>libavcodec</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

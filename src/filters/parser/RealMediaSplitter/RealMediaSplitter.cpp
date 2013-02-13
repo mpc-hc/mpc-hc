@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -493,8 +493,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         && (n = strtol(key.Mid(7), NULL, 10)) > 0) {
                     int h, m, s, ms;
                     char c;
-                    if (7 != sscanf_s(value, "%d%c%d%c%d%c%d", &h, &c, sizeof(CHAR),
-                                      &m, &c, sizeof(CHAR), &s, &c, sizeof(CHAR), &ms)) {
+                    if (7 != sscanf_s(value, "%d%c%d%c%d%c%d", &h, &c, 1, &m, &c, 1, &s, &c, 1, &ms)) {
                         continue;
                     }
 

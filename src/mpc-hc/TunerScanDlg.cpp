@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -131,6 +131,7 @@ void CTunerScanDlg::OnBnClickedSave()
         Channel.SetPrefNumber(i);
         s.m_DVBChannels.AddTail(Channel);
     }
+    ((CMainFrame*)AfxGetMainWnd())->SetChannel();
 
     OnOK();
 }
@@ -161,6 +162,7 @@ void CTunerScanDlg::OnBnClickedCancel()
     if (m_bInProgress) {
         ((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
     }
+    ((CMainFrame*)AfxGetMainWnd())->SetChannel(false);
 
     OnCancel();
 }
