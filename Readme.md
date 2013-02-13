@@ -41,7 +41,7 @@ System Requirements:
 
 Links:
 ------
-* [Website](http://www.mpc-hc.org)
+* [Website](http://mpc-hc.org)
 * [Source code](https://github.com/mpc-hc)
 * [Support Trac](https://trac.mpc-hc.org)
 * IRC Channel: [#mpc-hc](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)

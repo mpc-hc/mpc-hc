@@ -33,7 +33,7 @@ System Requirements:
 
 Links:
 -------
-Website:            http://www.mpc-hc.org
+Website:            http://mpc-hc.org
 Source code:        https://github.com/mpc-hc
 Support Trac:       https://trac.mpc-hc.org
 IRC Channel:        #mpc-hc / #mpc-hc-dev at Freenode (http://webchat.freenode.net/)

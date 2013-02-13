@@ -31,11 +31,11 @@
 #endif
 #endif
 
-#define WEBSITE_URL  _T("http://www.mpc-hc.org/")
-#define DOWNLOAD_URL _T("http://www.mpc-hc.org/downloads/")
-#define UPDATE_URL   _T("http://www.mpc-hc.org/version.txt")
+#define WEBSITE_URL  _T("http://mpc-hc.org/")
+#define DOWNLOAD_URL _T("http://mpc-hc.org/downloads/")
+#define UPDATE_URL   _T("http://mpc-hc.org/version.txt")
 #define TRAC_URL     _T("https://trac.mpc-hc.org/")
-#define BUGS_URL     _T("https://trac.mpc-hc.org/wiki/Bugs_-_Reporting")
+#define BUGS_URL     _T("https://trac.mpc-hc.org/wiki/How_to_Report_Issues")
 #define TOOLBARS_URL _T("https://trac.mpc-hc.org/wiki/Toolbar_images")
 
 #define USE_UNRAR_STATIC
