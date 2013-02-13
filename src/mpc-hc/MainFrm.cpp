@@ -14515,6 +14515,20 @@ void CMainFrame::StopTunerScan()
     m_bStopTunerScan = true;
 }
 
+void CMainFrame::SetChannel(bool fNewList /*= true*/)
+{
+    CAppSettings& s = AfxGetAppSettings();
+    CComQIPtr<IBDATuner> pTun = pGB;
+
+    if (pTun) {
+        if (!fNewList && SUCCEEDED(pTun->SetChannel(s.nDVBLastChannel))) {
+            ShowCurrentChannelInfo();
+        } else if (fNewList && SUCCEEDED(pTun->SetChannel(0))) {
+            ShowCurrentChannelInfo();
+        }
+    }
+}
+
 void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfoBar /*= false*/)
 {
     CAppSettings& s = AfxGetAppSettings();
