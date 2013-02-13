@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -239,8 +239,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
             int vobid, cellid, forced, spnum;
             TCHAR c;
             if (_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d%c%d"), &vobid,
-                           &c, sizeof(TCHAR), &cellid, &c, sizeof(TCHAR), &forced,
-                           &c, sizeof(TCHAR), &spnum) != 7) {
+                           &c, 1, &cellid, &c, 1, &forced, &c, 1, &spnum) != 7) {
                 continue;
             }
             sp[spnum].start = m_sts[i].start;
@@ -412,8 +411,7 @@ void CPlayerSubresyncBar::UpdateStrings()
             int vobid, cellid, forced;
             TCHAR c;
             if (_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d"), &vobid,
-                           &c, sizeof(TCHAR), &cellid,
-                           &c, sizeof(TCHAR), &forced) != 5) {
+                           &c, 1, &cellid, &c, 1, &forced) != 5) {
                 continue;
             }
             if (vobid < 0) {
@@ -581,8 +579,7 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
         sign = -1;
     }
 
-    int n = _stscanf_s(str, _T("%d%c%d%c%d%c%d"), &h, &c, sizeof(TCHAR),
-                       &m, &c, sizeof(TCHAR), &s, &c, sizeof(TCHAR), &ms);
+    int n = _stscanf_s(str, _T("%d%c%d%c%d%c%d"), &h, &c, 1, &m, &c, 1, &s, &c, 1, &ms);
 
     h = abs(h);
 
