@@ -112,6 +112,7 @@ public:
     void SavePlaylist();
 
     bool SelectFileInPlaylist(LPCTSTR filename);
+    bool RemoveFileInPlaylist(LPCTSTR filename);
 
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

@@ -236,6 +236,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_FILE_OPEN_CD_START, ID_FILE_OPEN_CD_END, OnFileOpenCD)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILE_OPEN_CD_START, ID_FILE_OPEN_CD_END, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_REOPEN, OnFileReopen)
+    ON_COMMAND(ID_FILE_DELETE, OnFileDelete)
     ON_WM_DROPFILES()
     ON_COMMAND(ID_FILE_SAVE_COPY, OnFileSaveAs)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_COPY, OnUpdateFileSaveAs)
@@ -314,6 +315,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnViewAspectRatio)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnUpdateViewAspectRatio)
     ON_COMMAND(ID_ASPECTRATIO_NEXT, OnViewAspectRatioNext)
+    ON_COMMAND(ID_PANSCAN_NEXT, OnViewPnSNext)
     ON_COMMAND_RANGE(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYINGVIDEO, OnViewOntop)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYINGVIDEO, OnUpdateViewOntop)
     ON_COMMAND(ID_VIEW_OPTIONS, OnViewOptions)
@@ -590,7 +592,6 @@ CMainFrame::CMainFrame()
     : m_iMediaLoadState(MLS_CLOSED)
     , m_iPlaybackMode(PM_NONE)
     , m_bFirstPlay(false)
-    , m_dwLastRun(0)
     , m_dSpeedRate(1.0)
     , m_rtDurationOverride(-1)
     , m_fFullScreen(false)
@@ -621,6 +622,9 @@ CMainFrame::CMainFrame()
     , m_fBuffering(false)
     , m_fileDropTarget(this)
     , m_fTrayIcon(false)
+    , m_nIPCTick(ULONG_MAX)
+    , m_nIPCTick_COPYDATA(ULONG_MAX)
+    , m_nIPCDelay_COPYDATA(ULONG_MAX)
     , m_pFullscreenWnd(NULL)
     , m_pVideoWnd(NULL)
     , m_bRemainingTime(false)
@@ -637,6 +641,7 @@ CMainFrame::CMainFrame()
     , m_pGraphThread(NULL)
     , m_bOpenedThruThread(false)
     , m_nMenuHideTick(0)
+    , m_iPnS(0)
     , m_bWasSnapped(false)
     , m_nSeekDirection(SEEK_DIRECTION_NONE)
     , m_bIsBDPlay(false)
@@ -4236,10 +4241,9 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             OpenMedia(p);
         } else {
-            if (m_dwLastRun && ((GetTickCount() - m_dwLastRun) < 500)) {
+            if (m_nIPCDelay_COPYDATA < 500) {
                 s.nCLSwitches |= CLSW_ADD;
             }
-            m_dwLastRun = GetTickCount();
 
             if ((s.nCLSwitches & CLSW_ADD) && m_wndPlaylistBar.GetCount() > 0) {
                 m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
@@ -4249,7 +4253,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                     OpenCurPlaylistItem();
                 }
             } else {
-                SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                 fSetForegroundWindow = true;
 
                 m_wndPlaylistBar.Open(sl, fMulti, &s.slSubs);
@@ -4409,6 +4412,23 @@ void CMainFrame::OnFileOpenCD(UINT nID)
             break;
         }
     }
+}
+
+void CMainFrame::OnFileDelete()
+{
+    // check if a file is playing
+    if (GetPlaybackMode() != PM_FILE) {
+        return;
+    }
+    CString file = m_LastOpenFile;
+    // release the file handle by changing to the next file or stopping playback
+    if (!NavigateSkipFile(ID_NAVIGATE_SKIPFORWARDFILE)) {
+        CloseMedia();
+    }
+    if (!SUCCEEDED(DeleteFile(file))) {
+        return;
+    }
+    m_wndPlaylistBar.RemoveFileInPlaylist(file);
 }
 
 void CMainFrame::OnFileReopen()
@@ -6668,12 +6688,17 @@ void CMainFrame::OnViewPanNScan(UINT nID)
 
     int x = 0, y = 0;
     int dx = 0, dy = 0;
+    CString info;
 
     switch (nID) {
         case ID_VIEW_RESET:
             m_ZoomX = m_ZoomY = 1.0;
             m_PosX = m_PosY = 0.5;
             m_AngleX = m_AngleY = m_AngleZ = 0;
+            m_iPnS = 0;
+            info.Format(_T("P & S Reset"));
+            m_OSD.DisplayMessage(OSD_TOPLEFT, info, 3000);
+
             break;
         case ID_VIEW_INCSIZE:
             x = y = 1;
@@ -6807,12 +6832,21 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
             case 4:
                 m_ZoomY = f;
                 break;
+            case 5:
+                m_AngleX = f;
+                break;
+            case 6:
+                m_AngleY = f;
+                break;
+            case 7:
+                m_AngleZ = f;
+                break;
             default:
                 break;
         }
     }
 
-    if (j != 5) {
+    if (j != 8) {
         return;
     }
 
@@ -6822,6 +6856,10 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
     m_ZoomY = min(max(m_ZoomY, 0.2), 3);
 
     MoveVideoWindow(true);
+
+    CString info;
+    info.Format(_T("P & S Preset: %s"), str.Mid(0, str.Find(_T(","))));
+    m_OSD.DisplayMessage(OSD_TOPLEFT, info, 3000);
 }
 
 void CMainFrame::OnUpdateViewPanNScanPresets(CCmdUI* pCmdUI)
@@ -6915,6 +6953,16 @@ void CMainFrame::OnViewAspectRatioNext()
     }
 
     OnViewAspectRatio(nID);
+}
+
+void CMainFrame::OnViewPnSNext()
+{
+    if (m_iPnS == AfxGetAppSettings().m_pnspresets.GetCount()) {
+        OnViewPanNScan(ID_VIEW_RESET);
+    } else {
+        OnViewPanNScanPresets(ID_PANNSCAN_PRESETS_START + m_iPnS);
+        m_iPnS += 1;
+    }
 }
 
 void CMainFrame::OnViewOntop(UINT nID)
@@ -8312,8 +8360,9 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
                        || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing)));
 }
 
-void CMainFrame::OnNavigateSkipFile(UINT nID)
+bool CMainFrame::NavigateSkipFile(UINT nID)
 {
+    bool bRet = false;
     if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_CAPTURE) {
         if (m_wndPlaylistBar.GetCount() == 1) {
             if (GetPlaybackMode() == PM_CAPTURE || !AfxGetAppSettings().fUseSearchInFolder) {
@@ -8324,9 +8373,12 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
                     if (!SearchInDir(false)) {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
                     }
+                    bRet = true;
                 } else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
                     if (!SearchInDir(true)) {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
+                    } else {
+                        bRet = true;
                     }
                 }
             }
@@ -8336,10 +8388,17 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
             } else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
                 m_wndPlaylistBar.SetNext();
             }
-
-            OpenCurPlaylistItem();
+            if (OpenCurPlaylistItem()) {
+                bRet = true;
+            }
         }
     }
+    return bRet;
+}
+
+void CMainFrame::OnNavigateSkipFile(UINT nID)
+{
+    NavigateSkipFile(nID);
 }
 
 void CMainFrame::OnUpdateNavigateSkipFile(CCmdUI* pCmdUI)
@@ -9710,7 +9769,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 
             if (fShowStats) {
                 CString info;
-                info.Format(_T("Pos %.3f %.3f, Zoom %.3f %.3f, AR %.3f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, dScaledVRWidth / dScaledVRHeight);
+                info.Format(_T("Pos %.3f %.3f, Zoom %.3f %.3f, Rotate %d %d %d, AR %.3f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, m_AngleX, m_AngleY, m_AngleZ, dScaledVRWidth / dScaledVRHeight);
                 SendStatusMessage(info, 3000);
             }
         }
@@ -12018,6 +12077,20 @@ void CMainFrame::ParseDirs(CAtlList<CString>& sl)
 static bool SearchInDirCompare(const CString& str1, const CString& str2)
 {
     return (StrCmpLogicalW(str1, str2) < 0);
+}
+
+HRESULT CMainFrame::DeleteFile(CString file)
+{
+    file.AppendChar('\0');
+    SHFILEOPSTRUCT fileOpStruct = {0};
+    fileOpStruct.hwnd = m_hWnd;
+    fileOpStruct.wFunc = FO_DELETE;
+    fileOpStruct.pFrom = file;
+    fileOpStruct.fFlags = FOF_ALLOWUNDO | FOF_WANTNUKEWARNING;
+    int hRes = SHFileOperation(&fileOpStruct);
+    if (fileOpStruct.fAnyOperationsAborted) { hRes = E_ABORT; }
+    TRACE(_T("Delete from Disk hRes=0x%08x, file=%s\n"), hRes, file);
+    return hRes;
 }
 
 bool CMainFrame::SearchInDir(bool bDirForward)
@@ -14339,10 +14412,10 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
     m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
 
-void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
+bool CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
 {
     if (m_wndPlaylistBar.GetCount() == 0) {
-        return;
+        return false;
     }
 
     CPlaylistItem pli;
@@ -14350,13 +14423,15 @@ void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
         m_wndPlaylistBar.SetFirstSelected();
     }
     if (!m_wndPlaylistBar.GetCur(pli)) {
-        return;
+        return false;
     }
 
     CAutoPtr<OpenMediaData> p(m_wndPlaylistBar.GetCurOMD(rtStart));
     if (p) {
         OpenMedia(p);
+        return true;
     }
+    return true;
 }
 
 void CMainFrame::AddCurDevToPlaylist()
@@ -15759,7 +15834,24 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         return 0;
     }
 
-    return __super::WindowProc(message, wParam, lParam);
+    // allow time for WM_COPYDATA IPC, for example recursion through a large directory tree
+    if (message == WM_COPYDATA) {
+        m_nIPCDelay_COPYDATA = GetTickCount() - m_nIPCTick_COPYDATA - (GetTickCount() - m_nIPCTick);
+    }
+    LRESULT lRes = __super::WindowProc(message, wParam, lParam);
+    if (message == WM_COPYDATA) {
+        m_nIPCTick_COPYDATA = GetTickCount();
+    }
+    // avoid variable assignment after ~CMainFrame
+    static bool exist = true;
+    if (message == WM_CLOSE) {
+        exist = false;
+    }
+    if (exist) {
+        m_nIPCTick = GetTickCount();
+    }
+
+    return lRes;
 }
 
 UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)

@@ -234,6 +234,7 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_FILE_OPENDVDBD,                  'D', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DVD));
     ADDCMD((ID_FILE_OPENDEVICE,                 'V', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DEVICE));
     ADDCMD((ID_FILE_REOPEN,                     'E', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_REOPEN));
+    ADDCMD((ID_FILE_DELETE,                       0, FVIRTKEY | FNOINVERT,                    IDS_FILE_DELETE));
 
     ADDCMD((ID_FILE_SAVE_COPY,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_SAVE_AS));
     ADDCMD((ID_FILE_SAVE_IMAGE,                 'I', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_SAVE_IMAGE));
@@ -302,6 +303,7 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_VIEW_VF_FROMOUTSIDE,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_OUTSIDE));
     ADDCMD((ID_VIEW_VF_SWITCHZOOM,              'P', FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_SWITCHZOOM));
     ADDCMD((ID_ONTOP_ALWAYS,                    'A', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_ALWAYS_ON_TOP));
+    ADDCMD((ID_PANSCAN_NEXT,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_PNS_PRESET));
     ADDCMD((ID_VIEW_RESET,               VK_NUMPAD5, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_RESET));
     ADDCMD((ID_VIEW_INCSIZE,             VK_NUMPAD9, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_INC_SIZE));
     ADDCMD((ID_VIEW_INCWIDTH,            VK_NUMPAD6, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_INC_WIDTH));
