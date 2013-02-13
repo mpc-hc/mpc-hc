@@ -32,7 +32,7 @@ Legend:
 * Re-enable the option to bypass the DVD/BD path selection. The user won't be asked to choose
   the location of the DVD/BD player (or folder) when this option is enabled.
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
-* Updated FFmpeg (n0.8-18760-g4e2c636)
+* Updated FFmpeg (n0.8-19006-g15e7533)
 * Updated Little CMS to v2.4 (git ff060c3)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)
 * Updated SoundTouch to v1.7.1 r170

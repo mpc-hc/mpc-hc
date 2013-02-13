@@ -28,11 +28,15 @@
  */
 
 #include "libavutil/imgutils.h"
+#include "libavutil/internal.h"
 #include "avcodec.h"
+#include "copy_block.h"
+#include "dct.h"
 #include "dsputil.h"
 #include "simple_idct.h"
 #include "faandct.h"
 #include "faanidct.h"
+#include "imgconvert.h"
 #include "mathops.h"
 #include "mpegvideo.h"
 #include "config.h"
@@ -438,6 +442,27 @@ static void put_signed_pixels_clamped_c(const int16_t *block,
         pixels += (line_size - 8);
     }
 }
+
+static void add_pixels8_c(uint8_t *av_restrict pixels,
+                          int16_t *block,
+                          int line_size)
+{
+    int i;
+
+    for(i=0;i<8;i++) {
+        pixels[0] += block[0];
+        pixels[1] += block[1];
+        pixels[2] += block[2];
+        pixels[3] += block[3];
+        pixels[4] += block[4];
+        pixels[5] += block[5];
+        pixels[6] += block[6];
+        pixels[7] += block[7];
+        pixels += line_size;
+        block += 8;
+    }
+}
+
 
 static void add_pixels_clamped_c(const int16_t *block, uint8_t *av_restrict pixels,
                                  int line_size)
@@ -1819,35 +1844,6 @@ static void add_8x8basis_c(int16_t rem[64], int16_t basis[64], int scale){
     }
 }
 
-/**
- * Permute an 8x8 block.
- * @param block the block which will be permuted according to the given permutation vector
- * @param permutation the permutation vector
- * @param last the last non zero coefficient in scantable order, used to speed the permutation up
- * @param scantable the used scantable, this is only used to speed the permutation up, the block is not
- *                  (inverse) permutated to scantable order!
- */
-void ff_block_permute(int16_t *block, uint8_t *permutation, const uint8_t *scantable, int last)
-{
-    int i;
-    int16_t temp[64];
-
-    if(last<=0) return;
-    //if(permutation[1]==1) return; //FIXME it is ok but not clean and might fail for some permutations
-
-    for(i=0; i<=last; i++){
-        const int j= scantable[i];
-        temp[j]= block[j];
-        block[j]=0;
-    }
-
-    for(i=0; i<=last; i++){
-        const int j= scantable[i];
-        const int perm_j= permutation[j];
-        block[perm_j]= temp[j];
-    }
-}
-
 static int zero_cmp(void *s, uint8_t *a, uint8_t *b, int stride, int h){
     return 0;
 }
@@ -2465,6 +2461,20 @@ static int ssd_int8_vs_int16_c(const int8_t *pix1, const int16_t *pix2,
     return score;
 }
 
+#define WRAPPER8_16_SQ(name8, name16)\
+static int name16(void /*MpegEncContext*/ *s, uint8_t *dst, uint8_t *src, int stride, int h){\
+    int score=0;\
+    score +=name8(s, dst           , src           , stride, 8);\
+    score +=name8(s, dst+8         , src+8         , stride, 8);\
+    if(h==16){\
+        dst += 8*stride;\
+        src += 8*stride;\
+        score +=name8(s, dst           , src           , stride, 8);\
+        score +=name8(s, dst+8         , src+8         , stride, 8);\
+    }\
+    return score;\
+}
+
 WRAPPER8_16_SQ(hadamard8_diff8x8_c, hadamard8_diff16_c)
 WRAPPER8_16_SQ(hadamard8_intra8x8_c, hadamard8_intra16_c)
 WRAPPER8_16_SQ(dct_sad8x8_c, dct_sad16_c)
@@ -2863,6 +2873,8 @@ av_cold void ff_dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->shrink[2]= ff_shrink44;
     c->shrink[3]= ff_shrink88;
 
+    c->add_pixels8 = add_pixels8_c;
+
 #define hpel_funcs(prefix, idx, num) \
     c->prefix ## _pixels_tab idx [0] = prefix ## _pixels ## num ## _8_c; \
     c->prefix ## _pixels_tab idx [1] = prefix ## _pixels ## num ## _x2_8_c; \
@@ -2890,9 +2902,7 @@ av_cold void ff_dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->get_pixels                    = FUNCC(get_pixels   ## dct   , depth);\
     c->draw_edges                    = FUNCC(draw_edges            , depth);\
     c->clear_block                   = FUNCC(clear_block  ## dct   , depth);\
-    c->clear_blocks                  = FUNCC(clear_blocks ## dct   , depth);\
-    c->add_pixels8                   = FUNCC(add_pixels8  ## dct   , depth);\
-    c->add_pixels4                   = FUNCC(add_pixels4  ## dct   , depth);\
+    c->clear_blocks                  = FUNCC(clear_blocks ## dct   , depth)
 
     switch (avctx->bits_per_raw_sample) {
     case 9:
