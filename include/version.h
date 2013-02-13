@@ -34,6 +34,8 @@
 #ifndef MPC_VERSION_H
 #define MPC_VERSION_H
 
+#include "mpc-hc_config.h"
+
 #ifndef _T
 #if !defined(ISPP_INVOKED) && (defined(UNICODE) || defined(_UNICODE))
 #define _T(text) L##text

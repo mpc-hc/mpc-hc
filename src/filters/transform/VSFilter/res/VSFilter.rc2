@@ -10,7 +10,6 @@
 /////////////////////////////////////////////////////////////////////////////
 // Add manually edited resources here...
 #include "resource.h"
-#include "mpc-hc_config.h"
 #include "version.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
