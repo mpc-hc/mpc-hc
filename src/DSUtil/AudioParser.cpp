@@ -100,6 +100,22 @@ int GetMLPFrameSize(const BYTE* buf)
     return 0;
 }
 
+int GetDTSHDFrameSize(const BYTE *buf)
+{
+    if (*(DWORD*)buf != DTSHD_SYNC_WORD) { // syncword
+        return 0;
+    }
+
+    int frame_size;
+    BYTE isBlownUpHeader = (buf[5] >> 5) & 1;
+    if (isBlownUpHeader) {
+        frame_size = ((buf[6] & 1) << 19 | buf[7] << 11 | buf[8] << 3 | buf[9] >> 5) + 1;
+    } else {
+        frame_size = ((buf[6] & 31) << 11 | buf[7] << 3 | buf[8] >> 5) + 1;
+    }
+
+    return frame_size;
+}
 
 int ParseAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* bitrate)
 {
