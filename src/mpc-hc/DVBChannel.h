@@ -23,7 +23,8 @@
 #define FORMAT_VERSION_0       0
 #define FORMAT_VERSION_1       1
 #define FORMAT_VERSION_2       2
-#define FORMAT_VERSION_CURRENT 3
+#define FORMAT_VERSION_3       3
+#define FORMAT_VERSION_CURRENT 4
 
 #define DVB_MAX_AUDIO    10
 #define DVB_MAX_SUBTITLE 10

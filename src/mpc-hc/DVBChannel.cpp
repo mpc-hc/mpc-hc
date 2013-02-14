@@ -76,7 +76,7 @@ void CDVBChannel::FromString(CString strValue)
     m_ulVideoPID  = _tstol(strValue.Tokenize(_T("|"), i));
     m_nVideoType  = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
 
-    if (nVersion > FORMAT_VERSION_2) {
+    if (nVersion > FORMAT_VERSION_3) {
         m_nVideo_fps  = (DVB_FPS_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
         m_nVideo_Chroma = (DVB_CHROMA_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
         m_nVideo_Width = _tstol(strValue.Tokenize(_T("|"), i));
