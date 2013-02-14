@@ -159,7 +159,7 @@ void CMixer::Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, flo
     }
 
 #ifdef _DEBUG
-    CString matrix_str = _T("matrix:\n");;
+    CString matrix_str = _T("matrix:\n");
     for (int j = 0; j < out_ch; j++) {
         matrix_str.AppendFormat(_T("%d:"), j + 1);
         for (int i = 0; i < in_ch; i++) {
