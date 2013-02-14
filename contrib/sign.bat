@@ -37,7 +37,7 @@ SET /P SIGN_CMD=<%~dp0..\signinfo.txt
 TITLE Signing %1...
 ECHO. & ECHO Signing %1...
 
-signtool /? 2>NUL || CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
+signtool /? 2>NUL || CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
 
 signtool sign %SIGN_CMD% %1
 IF %ERRORLEVEL% NEQ 0 (

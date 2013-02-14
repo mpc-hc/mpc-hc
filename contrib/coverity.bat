@@ -5,7 +5,7 @@ PUSHD %~dp0
 
 SET COVDIR=H:\progs\thirdparty\cov-analysis-win64-6.5.1
 
-CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
+CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86 || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
 SET MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount^
  /nodeReuse:true /target:Rebuild /property:Configuration="Release";Platform=Win32
@@ -20,3 +20,4 @@ IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
 
 ENDLOCAL
 PAUSE
+EXIT /B
