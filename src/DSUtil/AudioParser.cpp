@@ -100,7 +100,7 @@ int GetMLPFrameSize(const BYTE* buf)
     return 0;
 }
 
-int GetDTSHDFrameSize(const BYTE *buf)
+int GetDTSHDFrameSize(const BYTE* buf)
 {
     if (*(DWORD*)buf != DTSHD_SYNC_WORD) { // syncword
         return 0;
