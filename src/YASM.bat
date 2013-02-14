@@ -17,15 +17,11 @@ REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-PUSHD %~dp0
-
-IF EXIST "..\build.user.bat" (
-  CALL "..\build.user.bat"
+IF EXIST "%~dp0..\build.user.bat" (
+  CALL "%~dp0..\build.user.bat"
 ) ELSE (
   IF DEFINED MSYS SET MPCHC_MSYS=%MSYS%
 )
-
-POPD
 
 SET PATH=%PATH%;%MPCHC_MSYS%\bin
 
