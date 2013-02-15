@@ -762,9 +762,6 @@
     <ProjectReference Include="..\filters\source\BaseSource\BaseSource.vcxproj">
       <Project>{f50e74c2-5be7-4c9b-b1e7-6ca19cfad34e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\filters\source\D2VSource\D2VSource.vcxproj">
-      <Project>{83cc6b88-a112-4192-bd5a-f2a249af2277}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\filters\source\SubtitleSource\SubtitleSource.vcxproj">
       <Project>{8f998497-9c51-4faa-83e4-1d85b22cba13}</Project>
     </ProjectReference>

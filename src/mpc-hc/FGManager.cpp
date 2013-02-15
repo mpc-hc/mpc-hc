@@ -1389,20 +1389,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
-#if INTERNAL_SOURCEFILTER_DVSOURCE
-    // TODOX64 : fix DVSource internal filter
-#ifndef _WIN64
-    __if_exists(CD2VSource) {
-        if (src[SRC_D2V]) {
-            pFGF = DEBUG_NEW CFGFilterInternal<CD2VSource>();
-            pFGF->m_chkbytes.AddTail(_T("0,18,,4456443241564950726F6A65637446696C65"));
-            pFGF->m_extensions.AddTail(_T(".d2v"));
-            m_source.AddTail(pFGF);
-        }
-    }
-#endif
-#endif
-
 #if INTERNAL_SOURCEFILTER_DSM
     if (src[SRC_DSM]) {
         pFGF = DEBUG_NEW CFGFilterInternal<CDSMSourceFilter>();

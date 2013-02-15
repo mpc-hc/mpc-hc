@@ -348,9 +348,6 @@ void CPPageInternalFilters::InitFiltersList()
 #if INTERNAL_SOURCEFILTER_VTS
     m_filters.Add(filter_t(_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, nullptr));
 #endif
-#if INTERNAL_SOURCEFILTER_DVSOURCE
-    m_filters.Add(filter_t(_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, nullptr));
-#endif
 #if INTERNAL_SOURCEFILTER_FLIC
     if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));

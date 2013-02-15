@@ -66,9 +66,6 @@
     <None Include="icons\cda.ico">
       <Filter>Resource Files\icons</Filter>
     </None>
-    <None Include="icons\d2v.ico">
-      <Filter>Resource Files\icons</Filter>
-    </None>
     <None Include="icons\dsm.ico">
       <Filter>Resource Files\icons</Filter>
     </None>
