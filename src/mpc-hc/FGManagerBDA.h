@@ -143,15 +143,17 @@ private:
     CString         m_BDANetworkProvider;
     bool            m_fHideWindow;
     bool            m_fSetChannelActive;
-    CComPtr<IPin>   m_pPin_h264;
+    CComPtr<IBaseFilter> m_pDemux;
 
     HRESULT         CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, const CStringW& DisplayName);
     HRESULT         ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFilter);
     HRESULT         CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux);
     HRESULT         SetChannelInternal(CDVBChannel* pChannel);
-    HRESULT         SwitchStream(DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE nNewType);
+    HRESULT         SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nNewType);
     HRESULT         ChangeState(FILTER_STATE nRequested);
+    HRESULT         ClearMaps();
     FILTER_STATE    GetState();
+    void UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChannel* pChannel);
 
     template <class ITF>
     HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, CComPtr<ITF>& pItf) {

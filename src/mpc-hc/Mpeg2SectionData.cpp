@@ -390,12 +390,30 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
                     pes_stream_type = AUDIO_STREAM_AC3_PLUS;
                     SkipDescriptor(gb, nType, nLength);
                     break;
-                case DT_SUBTITLING: {
+                case DT_SUBTITLING: 
                     gb.ReadBuffer(DescBuffer, nLength);
                     strLanguage = ConvertString(DescBuffer, 3);
                     pes_stream_type = SUBTITLE_STREAM;
-                }
-                break;
+                    break;
+                case DT_VIDEO_STREAM: {
+                        gb.BitRead(1);                      // multiple_frame_rate_flag
+                        Channel.SetVideoFps((DVB_FPS_TYPE) gb.BitRead(4));
+                        UINT MPEG_1_only_flag  = (UINT) gb.BitRead(1);
+                        gb.BitRead(1);                      // constrained_parameter_flag
+                        gb.BitRead(1);                      // still_picture_flag
+                        if (!MPEG_1_only_flag) {
+                            gb.BitRead(8);                  // profile_and_level_indicator
+                            Channel.SetVideoChroma((DVB_CHROMA_TYPE) gb.BitRead(2));
+                            gb.BitRead(1);                  // frame_rate_extension_flag
+                            gb.BitRead(5);                  // Reserved
+                        } 
+                    }
+                    break;
+                case DT_TARGET_BACKGROUND_GRID:
+                    Channel.SetVideoWidth((ULONG) gb.BitRead(14));
+                    Channel.SetVideoHeight((ULONG) gb.BitRead(14));
+                    Channel.SetVideoAR((DVB_AspectRatio_TYPE) gb.BitRead(4));
+                    break;
                 default:
                     SkipDescriptor(gb, nType, nLength);
                     break;

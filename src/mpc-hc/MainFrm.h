@@ -894,6 +894,7 @@ public:
     bool        m_bToggleShaderScreenSpace;
     bool        m_bInOptions;
     bool        m_bStopTunerScan;
+    bool        m_fVideoWindowHidden;
 
     void        SetLoadState(MPC_LOADSTATE iState);
     void        SetPlayState(MPC_PLAYSTATE iState);
