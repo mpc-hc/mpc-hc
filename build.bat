@@ -110,8 +110,14 @@ IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
 IF /I "%COMPILER%" == "VS2012" (
   IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
+  SET "TOOLSET=%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
+  SET "BIN_DIR=bin12"
+  SET "SLN_SUFFIX=_vs2012"
 ) ELSE (
   IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
+  SET "TOOLSET=%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
+  SET "BIN_DIR=bin"
+  SET "SLN_SUFFIX="
 )
 
 IF EXIST "%~dp0signinfo.txt" (
@@ -121,13 +127,6 @@ IF EXIST "%~dp0signinfo.txt" (
 
 
 :Start
-IF /I "%COMPILER%" == "VS2012" (
-  SET "BIN_DIR=bin12"
-  SET "SLN_SUFFIX=_vs2012"
-) ELSE (
-  SET "BIN_DIR=bin"
-  SET "SLN_SUFFIX="
-)
 REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
 SET "LOG_DIR=%BIN_DIR%\logs"
 IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
@@ -158,11 +157,7 @@ IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
 REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
 IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=x86_amd64)
-IF /I "%COMPILER%" == "VS2012" (
-  CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
-) ELSE (
-  CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
-)
+CALL "%TOOLSET%" %ARCH%
 
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters %PPLATFORM%
@@ -433,10 +428,12 @@ IF NOT EXIST "include\version_rev.h" SET "FORCE_VER_UPDATE=True"
 IF DEFINED FORCE_VER_UPDATE CALL "update_version.bat" && SET "FORCE_VER_UPDATE="
 
 FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC_VERSION_[M,P]" "include\version.h"') DO (
-  SET %%A=%%B)
+  SET "%%A=%%B"
+)
 
 FOR /F "tokens=2,3,4 delims=(" %%A IN ('FINDSTR /L /C:"define MPC_VERSION_REV_FULL" "include\version_rev.h"') DO (
-  SET "MPC_VERSION_REV=%%A" & SET "MPCHC_HASH=%%B" & SET "MPCHC_BRANCH=%%C")
+  SET "MPC_VERSION_REV=%%A" & SET "MPCHC_HASH=%%B" & SET "MPCHC_BRANCH=%%C"
+)
 
 SET "MPC_VERSION_REV=%MPC_VERSION_REV:~1,-1%"
 IF "%MPCHC_BRANCH%" NEQ "" (
@@ -466,7 +463,8 @@ IF /I "%os_type%" == "Win64" (
 
 FOR /F "delims=" %%G IN (
   'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path" 2^>NUL ^|FIND "REG_SZ"') DO (
-  SET "InnoSetupPath=%%G" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
+  SET "InnoSetupPath=%%G" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%
+)
 EXIT /B
 
 
