@@ -55,7 +55,7 @@ IF /I "%ARG%" == "?"            GOTO ShowHelp
 
 FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "help"         GOTO ShowHelp
-  IF /I "%%G" == "GetVersion"   ENDLOCAL & CALL :SubGetVersion & EXIT /B
+  IF /I "%%G" == "GetVersion"   ENDLOCAL & SET "FORCE_VER_UPDATE=True" & CALL :SubGetVersion & EXIT /B
   IF /I "%%G" == "CopyDXDll"    ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
   IF /I "%%G" == "CopyDX"       ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
   IF /I "%%G" == "Build"        SET "BUILDTYPE=Build"    & SET /A ARGB+=1
@@ -429,29 +429,23 @@ EXIT /B
 
 :SubGetVersion
 REM Get the version
-FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_MAJOR" "include\version.h"') DO (SET "VerMajor=%%G")
-FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_MINOR" "include\version.h"') DO (SET "VerMinor=%%G")
-FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\version.h"') DO (SET "VerPatch=%%G")
+IF NOT EXIST "include\version_rev.h" SET "FORCE_VER_UPDATE=True"
+IF DEFINED FORCE_VER_UPDATE CALL "update_version.bat" && SET "FORCE_VER_UPDATE="
 
-IF NOT EXIST "include\version_rev.h" (
-  CALL :SubMsg "WARNING" "version_rev.h isn't present, calling update_version.bat"
-  CALL "update_version.bat"
-)
-FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_REV " "include\version_rev.h"') DO (SET "VerRev=%%G")
-FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPCHC_HASH " "include\version_rev.h"') DO (SET "MPCHC_HASH=%%G")
-FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPCHC_BRANCH " "include\version_rev.h"') DO (SET "MPCHC_BRANCH=%%G")
+FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC_VERSION_[M,P]" "include\version.h"') DO (
+  SET %%A=%%B)
 
-SET MPCHC_VER=%VerMajor%.%VerMinor%.%VerPatch%.%VerRev%
-IF NOT "x%MPCHC_BRANCH%" == "x" (
-  SET MPCHC_BRANCH=%MPCHC_BRANCH:~4,-2%
+FOR /F "tokens=2,3,4 delims=(" %%A IN ('FINDSTR /L /C:"define MPC_VERSION_REV_FULL" "include\version_rev.h"') DO (
+  SET "MPC_VERSION_REV=%%A" & SET "MPCHC_HASH=%%B" & SET "MPCHC_BRANCH=%%C")
+
+SET "MPC_VERSION_REV=%MPC_VERSION_REV:~1,-1%"
+IF "%MPCHC_BRANCH%" NEQ "" (
+  SET "MPCHC_HASH=%MPCHC_HASH:~0,-2%"
+  SET "MPCHC_BRANCH=%MPCHC_BRANCH:~0,-2%"
+) ELSE (
+  SET "MPCHC_HASH=%MPCHC_HASH:~0,-3%"
 )
-SET MPCHC_HASH=%MPCHC_HASH:~4,-2%
+SET "MPCHC_VER=%MPC_VERSION_MAJOR%.%MPC_VERSION_MINOR%.%MPC_VERSION_PATCH%.%MPC_VERSION_REV%"
 EXIT /B
 
 
