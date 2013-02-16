@@ -539,7 +539,8 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
 
             pClut->size = 0;
             while (gb.GetPos() < nEnd) {
-                BYTE entry_id = gb.ReadByte();
+                pClut->palette[pClut->size].entry_id = gb.ReadByte();
+
                 BYTE _2_bit   = (BYTE)gb.BitRead(1);
                 BYTE _4_bit   = (BYTE)gb.BitRead(1);
                 BYTE _8_bit   = (BYTE)gb.BitRead(1);
@@ -548,27 +549,24 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
                 UNREFERENCED_PARAMETER(_8_bit);
                 gb.BitRead(4);  // Reserved
 
-                pClut->palette[entry_id].entry_id = entry_id;
                 if (gb.BitRead(1)) {
-                    pClut->palette[entry_id].Y  = gb.ReadByte();
-                    pClut->palette[entry_id].Cr = gb.ReadByte();
-                    pClut->palette[entry_id].Cb = gb.ReadByte();
-                    pClut->palette[entry_id].T  = 0xff - gb.ReadByte();
+                    pClut->palette[pClut->size].Y  = gb.ReadByte();
+                    pClut->palette[pClut->size].Cr = gb.ReadByte();
+                    pClut->palette[pClut->size].Cb = gb.ReadByte();
+                    pClut->palette[pClut->size].T  = 0xff - gb.ReadByte();
                 } else {
-                    pClut->palette[entry_id].Y  = (BYTE)gb.BitRead(6) << 2;
-                    pClut->palette[entry_id].Cr = (BYTE)gb.BitRead(4) << 4;
-                    pClut->palette[entry_id].Cb = (BYTE)gb.BitRead(4) << 4;
-                    pClut->palette[entry_id].T  = 0xff - ((BYTE)gb.BitRead(2) << 6);
+                    pClut->palette[pClut->size].Y  = (BYTE)gb.BitRead(6) << 2;
+                    pClut->palette[pClut->size].Cr = (BYTE)gb.BitRead(4) << 4;
+                    pClut->palette[pClut->size].Cb = (BYTE)gb.BitRead(4) << 4;
+                    pClut->palette[pClut->size].T  = 0xff - ((BYTE)gb.BitRead(2) << 6);
                 }
-                if (!pClut->palette[entry_id].Y) {
-                    pClut->palette[entry_id].Cr = 0;
-                    pClut->palette[entry_id].Cb = 0;
-                    pClut->palette[entry_id].T  = 0;
+                if (!pClut->palette[pClut->size].Y) {
+                    pClut->palette[pClut->size].Cr = 0;
+                    pClut->palette[pClut->size].Cb = 0;
+                    pClut->palette[pClut->size].T  = 0;
                 }
 
-                if (pClut->size <= entry_id) {
-                    pClut->size = entry_id + 1;
-                }
+                pClut->size++;
             }
 
             if (bIsNewClut) {
