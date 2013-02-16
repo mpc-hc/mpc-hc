@@ -136,7 +136,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
     // Interlaced flag
-    m_txtInterlacedFlag.Create(ResStr(IDS_VDF_INTERLACED_FLAG), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(120), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_txtInterlacedFlag.Create(ResStr(IDS_VDF_INTERLACED_FLAG), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
     m_cbInterlacedFlag.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -6), CSize(IPP_SCALE(110), 200)), this, IDC_PP_INTERLACED_FLAG);
     m_cbInterlacedFlag.AddString(ResStr(IDS_VDF_IF_AUTO));
     m_cbInterlacedFlag.AddString(ResStr(IDS_VDF_IF_PROGRESSIVE));
