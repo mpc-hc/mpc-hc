@@ -25,6 +25,7 @@
  * utils.
  */
 
+#include "config.h"
 #include "libavutil/avassert.h"
 #include "libavutil/avstring.h"
 #include "libavutil/bprint.h"
@@ -176,6 +177,12 @@ void avcodec_set_dimensions(AVCodecContext *s, int width, int height)
 }
 
 #define INTERNAL_BUFFER_SIZE (32 + 1)
+
+#if (ARCH_ARM && HAVE_NEON) || ARCH_PPC || HAVE_MMX
+#   define STRIDE_ALIGN 16
+#else
+#   define STRIDE_ALIGN 8
+#endif
 
 void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
                                int linesize_align[AV_NUM_DATA_POINTERS])
@@ -460,7 +467,6 @@ static int video_get_buffer(AVCodecContext *s, AVFrame *pic)
             buf->base[i] = av_malloc(size[i] + 16); //FIXME 16
             if (buf->base[i] == NULL)
                 return AVERROR(ENOMEM);
-            memset(buf->base[i], 128, size[i]);
 
             // no edge if EDGE EMU or not planar YUV
             if ((s->flags & CODEC_FLAG_EMU_EDGE) || !size[2])
@@ -492,6 +498,28 @@ static int video_get_buffer(AVCodecContext *s, AVFrame *pic)
                                 "buffers used\n", pic, avci->buffer_count);
 
     return 0;
+}
+
+void avpriv_color_frame(AVFrame *frame, const int c[4])
+{
+    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(frame->format);
+    int p, y, x;
+
+    av_assert0(desc->flags & PIX_FMT_PLANAR);
+
+    for (p = 0; p<desc->nb_components; p++) {
+        uint8_t *dst = frame->data[p];
+        int is_chroma = p == 1 || p == 2;
+        int bytes = -((-frame->width) >> (is_chroma ? desc->log2_chroma_w : 0));
+        for (y = 0; y<-((-frame->height) >> (is_chroma ? desc->log2_chroma_h : 0)); y++){
+            if (desc->comp[0].depth_minus1 >= 8) {
+                for (x = 0; x<bytes; x++)
+                    ((uint16_t*)dst)[x] = c[p];
+            }else
+                memset(dst, c[p], bytes);
+            dst += frame->linesize[p];
+        }
+    }
 }
 
 int avcodec_default_get_buffer(AVCodecContext *avctx, AVFrame *frame)
