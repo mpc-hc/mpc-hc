@@ -46,6 +46,7 @@ Legend:
 ! MPCVideoDecoder: Fix low merit internal filter
 ! MPCVideoDecoder: The "Read Aspect Ratio from stream" option didn't always work right
 ! DVB EPG: Some strings weren't correctly displayed in some cases
+! PGS Subtitles: Some subtitles were displayed with wrong colors or even not displayed at all
 ! Ticket #84, WebServer: The filenames weren't correctly URL decoded
 ! Ticket #890, DVB: Disable pause for capture mode to avoid accidental playback stop.
 ! Ticket #1554, The OSD was looking bad when using the EVR Sync renderer
