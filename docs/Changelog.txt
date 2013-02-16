@@ -34,7 +34,7 @@ Legend:
   the location of the DVD/BD player (or folder) when this option is enabled.
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
 * Updated FFmpeg (n0.8-19080-g2bac153)
-* Updated Little CMS to v2.4 (git ff060c3)
+* Updated Little CMS to v2.4 (git 4ba0259)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)
 * Updated SoundTouch to v1.7.1 r170
 * Updated VirtualDub to v1.10.4-test1
