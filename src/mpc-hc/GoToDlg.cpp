@@ -116,14 +116,14 @@ BOOL CGoToDlg::OnInitDialog()
 
 
 BEGIN_MESSAGE_MAP(CGoToDlg, CDialog)
-    ON_BN_CLICKED(IDC_OK1, OnBnClickedOk1)
-    ON_BN_CLICKED(IDC_OK2, OnBnClickedOk2)
+    ON_BN_CLICKED(IDC_OK1, OnParseTimeCode)
+    ON_BN_CLICKED(IDC_OK2, OnParseFrameCode)
 END_MESSAGE_MAP()
 
 
 // CGoToDlg message handlers
 
-void CGoToDlg::OnBnClickedOk1()
+void CGoToDlg::OnParseTimeCode()
 {
     UpdateData();
 
@@ -131,17 +131,15 @@ void CGoToDlg::OnBnClickedOk1()
 
     unsigned int hh = 0;
     unsigned int mm = 0;
-    float ss = 0.0;
-    wchar_t c1 = L':'; // delimiter character
-    wchar_t c2 = L':'; // delimiter character
-    wchar_t c3[2];     // unnecessary character
+    float ss = 0.0f;
+    wchar_t c[2]; // unnecessary character
 
-    if ((swscanf_s(m_timestr, L"%f%1s", &ss, &c3, _countof(c3)) == 1 || // ss[.ms]
-            swscanf_s(m_timestr, L"%u%c%f%1s", &mm, &c2, 1, &ss, &c3, _countof(c3)) == 3 && ss < 60 || // mm:ss[.ms]
-            swscanf_s(m_timestr, L"%u%c%u%c%f%1s", &hh, &c1, 1, &mm, &c2, 1, &ss, &c3, _countof(c3)) == 5 && mm < 60  && ss < 60) && // hh:mm:ss[.ms]
-            c1 == L':' && c2 == L':' && ss >= 0) {
+    if (((swscanf_s(m_timestr, L"%f%1s", &ss, &c, _countof(c)) == 1) // ss[.ms]
+            || (swscanf_s(m_timestr, L"%u:%f%1s", &mm, &ss, &c, _countof(c)) == 2 && ss < 60.0f) // mm:ss[.ms]
+            || (swscanf_s(m_timestr, L"%u:%u:%f%1s", &hh, &mm, &ss, &c, _countof(c)) == 3 && mm < 60  && ss < 60.0f)) // hh:mm:ss[.ms]
+            && ss >= 0.0f) {
 
-        int time = (int)(1000 * ((hh * 60 + mm) * 60 + ss) + 0.5);
+        int time = (int)(1000.0f * ((hh * 60 + mm) * 60 + ss) + 0.5f);
         m_time = time * 10000i64;
 
         OnOK();
@@ -150,7 +148,7 @@ void CGoToDlg::OnBnClickedOk1()
     }
 }
 
-void CGoToDlg::OnBnClickedOk2()
+void CGoToDlg::OnParseFrameCode()
 {
     UpdateData();
 
@@ -188,9 +186,9 @@ BOOL CGoToDlg::PreTranslateMessage(MSG* pMsg)
 {
     if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN) {
         if (*GetFocus() == m_timeedit) {
-            OnBnClickedOk1();
+            OnParseTimeCode();
         } else if (*GetFocus() == m_frameedit) {
-            OnBnClickedOk2();
+            OnParseFrameCode();
         }
 
         return TRUE;
