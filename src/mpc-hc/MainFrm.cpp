@@ -7970,7 +7970,7 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
             break;
     }
 
-    s.dAudioBoost_dB = i / 10.f;
+    s.dAudioBoost_dB = i / 10.0f;
     SetVolumeBoost(s.dAudioBoost_dB);
 }
 

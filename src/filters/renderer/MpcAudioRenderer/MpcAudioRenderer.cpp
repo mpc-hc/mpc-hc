@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1224,8 +1224,10 @@ HRESULT CMpcAudioRenderer::InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioCl
 
     GetBufferSize(pWaveFormatEx, &hnsPeriod);
 
-    if (SUCCEEDED(hr)) hr = pAudioClient->Initialize(AUDCLNT_SHAREMODE_EXCLUSIVE, 0/*AUDCLNT_STREAMFLAGS_EVENTCALLBACK*/,
-                                hnsPeriod, hnsPeriod, pWaveFormatEx, NULL);
+    if (SUCCEEDED(hr)) {
+        hr = pAudioClient->Initialize(AUDCLNT_SHAREMODE_EXCLUSIVE, 0/*AUDCLNT_STREAMFLAGS_EVENTCALLBACK*/,
+                                      hnsPeriod, hnsPeriod, pWaveFormatEx, NULL);
+    }
     if (FAILED(hr) && hr != AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED) {
         TRACE(_T("CMpcAudioRenderer::InitAudioClient failed (0x%08x)\n"), hr);
         return hr;
@@ -1256,9 +1258,10 @@ HRESULT CMpcAudioRenderer::InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioCl
             hr = CreateAudioClient(pMMDevice, &pAudioClient);
         }
         TRACE(_T("CMpcAudioRenderer::InitAudioClient Trying again with periodicity of %I64u hundred-nanoseconds, or %u frames.\n"), hnsPeriod, nFramesInBuffer);
-        if (SUCCEEDED(hr))
+        if (SUCCEEDED(hr)) {
             hr = pAudioClient->Initialize(AUDCLNT_SHAREMODE_EXCLUSIVE, 0/*AUDCLNT_STREAMFLAGS_EVENTCALLBACK*/,
                                           hnsPeriod, hnsPeriod, pWaveFormatEx, NULL);
+        }
         if (FAILED(hr)) {
             TRACE(_T("CMpcAudioRenderer::InitAudioClient Failed to reinitialize the audio client\n"));
             return hr;
