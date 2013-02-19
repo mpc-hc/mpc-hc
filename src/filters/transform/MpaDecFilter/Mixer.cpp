@@ -151,7 +151,7 @@ void CMixer::Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, flo
             }
         }
         if (max_peak > 1.0) {
-            double g = ((max_peak - 1.0) * matrix_norm + 1.0) / max_peak;
+            double g = ((max_peak - 1.0) * (1.0 - matrix_norm) + 1.0) / max_peak;
             for (int i = 0, n = in_ch * out_ch; i < n; i++) {
                 m_matrix_dbl[i] *= g;
             }
