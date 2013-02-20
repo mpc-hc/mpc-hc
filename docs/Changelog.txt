@@ -33,6 +33,7 @@ Legend:
 * Re-enable the option to bypass the DVD/BD path selection. The user won't be asked to choose
   the location of the DVD/BD player (or folder) when this option is enabled.
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
+* Ticket #2924, Use the current file directory as default folder for the "Load Subtitles" dialog
 * Updated FFmpeg (n0.8-19080-g2bac153)
 * Updated Little CMS to v2.4 (git 4ba0259)
 * Updated Logitech SDK to v3.01 (driver 8.00.100)

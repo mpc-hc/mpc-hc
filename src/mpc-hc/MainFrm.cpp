@@ -5256,9 +5256,49 @@ void CMainFrame::OnFileLoadsubtitle()
     CFileDialog fd(TRUE, NULL, NULL,
                    OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_NOCHANGEDIR,
                    szFilter, GetModalParent(), 0);
+    CComPtr<IFileOpenDialog> openDlgPtr;
 
-    if (fd.DoModal() != IDOK) {
-        return;
+    CString defaultDir;
+    if (GetPlaybackMode() == PM_FILE) {
+        CPath path(m_wndPlaylistBar.GetCurFileName());
+        path.RemoveFileSpec();
+        defaultDir = (CString)path;
+
+        if (SysVersion::IsVistaOrLater()) {
+            openDlgPtr = fd.GetIFileOpenDialog();
+
+            if (openDlgPtr != NULL) {
+                if (!defaultDir.IsEmpty()) {
+                    // Typedef for function SHCreateItemFromParsingName
+                    typedef HRESULT(STDAPICALLTYPE * PFN_TYPE_SHCreateItemFromParsingName)(PCWSTR /*pszPath*/, IBindCtx* /*pbc*/,  REFIID /*riid*/, void** /*ppv*/);
+
+                    // Load Shell32.dll to get the pointer to the aforementioned function
+                    HINSTANCE hDllShell = LoadLibrary(_T("Shell32.dll"));
+                    PFN_TYPE_SHCreateItemFromParsingName pfnSHCreateItemFromParsingName = NULL;
+                    if (hDllShell != NULL) {
+                        // Try to get the pointer to that function
+                        pfnSHCreateItemFromParsingName = reinterpret_cast<PFN_TYPE_SHCreateItemFromParsingName>(::GetProcAddress(hDllShell, "SHCreateItemFromParsingName"));
+                    }
+
+                    if (pfnSHCreateItemFromParsingName != NULL) {
+                        CComPtr<IShellItem> psiFolder;
+                        if (SUCCEEDED(pfnSHCreateItemFromParsingName(defaultDir, NULL, IID_PPV_ARGS(&psiFolder)))) {
+                            openDlgPtr->SetFolder(psiFolder);
+                        }
+                    }
+                    FreeLibrary(hDllShell);
+                }
+
+                if (FAILED(openDlgPtr->Show(m_hWnd))) {
+                    return;
+                }
+            }
+        } else {
+            fd.GetOFN().lpstrInitialDir = defaultDir;
+            if (fd.DoModal() != IDOK) {
+                return;
+            }
+        }
     }
 
     CPath fn(fd.GetPathName());
@@ -5278,7 +5318,7 @@ void CMainFrame::OnFileLoadsubtitle()
 
 void CMainFrame::OnUpdateFileLoadsubtitle(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && /*m_pCAP &&*/ !m_fAudioOnly);
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
 }
 
 void CMainFrame::OnFileSavesubtitle()
