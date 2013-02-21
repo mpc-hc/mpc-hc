@@ -32,6 +32,8 @@
 #define TRACE_EVR   __noop
 #endif
 
+#define MIN_FRAME_TIME 15000
+
 typedef enum {
     MSG_MIXERIN,
     MSG_MIXEROUT
@@ -1814,26 +1816,29 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool fAll, LONGLONG PerformanceCou
     LONGLONG llClockTime;
     LONGLONG nsSampleTime;
     LONGLONG SampleDuration = 0;
+    LONGLONG TimePerFrame = m_rtTimePerFrame;
+    if (!TimePerFrame) {
+        return;
+    }
+
     if (!m_bSignaledStarvation) {
         llClockTime = GetClockTime(PerformanceCounter);
         m_StarvationClock = llClockTime;
     } else {
         llClockTime = m_StarvationClock;
     }
-    if (FAILED(m_pCurrentDisplaydSample->GetSampleDuration(&SampleDuration))) {
-        SampleDuration = 0;
+
+    if (SUCCEEDED(m_pCurrentDisplaydSample->GetSampleDuration(&SampleDuration))) {
+        // Some filters return invalid values, ignore them
+        if (SampleDuration > MIN_FRAME_TIME) {
+            TimePerFrame = SampleDuration;
+        }
     }
 
     if (FAILED(m_pCurrentDisplaydSample->GetSampleTime(&nsSampleTime))) {
         nsSampleTime = llClockTime;
     }
-    LONGLONG TimePerFrame = m_rtTimePerFrame;
-    if (!TimePerFrame) {
-        return;
-    }
-    if (SampleDuration > 1) {
-        TimePerFrame = SampleDuration;
-    }
+
     {
         m_nNextSyncOffset = (m_nNextSyncOffset + 1) % NB_JITTER;
         LONGLONG SyncOffset = nsSampleTime - llClockTime;
@@ -2021,7 +2026,13 @@ void CEVRAllocatorPresenter::RenderThread()
                         }
                         // We assume that all samples have the same duration
                         LONGLONG SampleDuration = 0;
-                        pMFSample->GetSampleDuration(&SampleDuration);
+                        bool bValidSampleDuration = true;
+                        HRESULT hGetSampleDuration = pMFSample->GetSampleDuration(&SampleDuration);
+
+                        // Some filters return invalid values, ignore them
+                        if (hGetSampleTime != S_OK || SampleDuration <= MIN_FRAME_TIME) {
+                            bValidSampleDuration = false;
+                        }
 
                         //TRACE_EVR ("EVR: RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
 
@@ -2126,15 +2137,15 @@ void CEVRAllocatorPresenter::RenderThread()
 
                                 //LONGLONG SyncOffset = nsSampleTime - llClockTime;
                                 TRACE_EVR("EVR: SyncOffset: %I64d SampleFrame: %I64d ClockFrame: %I64d\n", SyncOffset, TimePerFrame != 0 ? nsSampleTime / TimePerFrame : 0, TimePerFrame != 0 ? llClockTime / TimePerFrame : 0);
-                                if (SampleDuration > 1 && !m_DetectedLock) {
+                                if (bValidSampleDuration && !m_DetectedLock) {
                                     TimePerFrame = SampleDuration;
                                 }
 
                                 LONGLONG MinMargin;
                                 if (m_FrameTimeCorrection && 0) {
-                                    MinMargin = 15000;
+                                    MinMargin = MIN_FRAME_TIME;
                                 } else {
-                                    MinMargin = 15000 + min(LONGLONG(m_DetectedFrameTimeStdDev), 20000);
+                                    MinMargin = MIN_FRAME_TIME + min(LONGLONG(m_DetectedFrameTimeStdDev), 20000);
                                 }
                                 LONGLONG TimePerFrameMargin = min(max(TimePerFrame * 2 / 100, MinMargin), TimePerFrame * 11 / 100); // (0.02..0.11)TimePerFrame
                                 LONGLONG TimePerFrameMargin0 = TimePerFrameMargin / 2;
@@ -2518,7 +2529,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
             }
 
             if (m_DetectedFrameTime != 0.0
-                    //&& PredictedDiff > 15000
+                    //&& PredictedDiff > MIN_FRAME_TIME
                     && m_DetectedLock && s.m_AdvRendSets.iEVREnableFrameTimeCorrection) {
                 double CurrentTime = Time / 10000000.0;
                 double LastTime = m_LastScheduledSampleTimeFP;
