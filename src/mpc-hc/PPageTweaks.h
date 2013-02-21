@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,7 +39,6 @@ public:
     int m_nJumpDistS;
     int m_nJumpDistM;
     int m_nJumpDistL;
-    BOOL m_fNotifyMSN;
 
     BOOL m_fPreventMinimize;
     BOOL m_fUseWin7TaskBar;

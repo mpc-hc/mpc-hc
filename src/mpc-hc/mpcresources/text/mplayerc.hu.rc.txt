@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"A módosítások akkor lépnek érvénybe, ha a lejátszót bezárta és újraindította."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Ugrás távolságok (kicsi, közepes, nagy, ezredmásodpercben)"
 9		"Alapértelmezés"
 10		"Fast seek (on keyframe)"
 11		"Show chapter marks in seek bar"
-12		"Jelenleg lejátszott média"" információ küldése az MSN Messenger-nek"
-14		"KIS MÉRET tiltása ha nem az Alapértelmezett monitoron van a Teljes képernyő"
-16		"Windows 7 Tálcafunkciók használata"
-17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-19		"Use time tooltip:"
-21		"OSD betűtípus:"
-24		"Enable Logitech LCD support (experimental)"
+12		"KIS MÉRET tiltása ha nem az Alapértelmezett monitoron van a Teljes képernyő"
+14		"Windows 7 Tálcafunkciók használata"
+15		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+17		"Use time tooltip:"
+19		"OSD betűtípus:"
+22		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

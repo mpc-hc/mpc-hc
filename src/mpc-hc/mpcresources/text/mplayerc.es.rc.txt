@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Los cambios tendrán efecto tras cerrar y reiniciar la reproducción."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Distancias de salto (corto, medio, largo en ms)"
 9		"Original"
 10		"Fast seek (on keyframe)"
 11		"Show chapter marks in seek bar"
-12		"Mandar información de ""Ahora Reproduciendo"" al MSN Messenger"
-14		"Prevenir MINIMIZAR en pantalla completa al utilizar un monitor diferente al por defecto"
-16		"Utilizar características de la barra de tareas de Windows 7"
-17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-19		"Use time tooltip:"
-21		"Fuente OSD:"
-24		"Enable Logitech LCD support (experimental)"
+12		"Prevenir MINIMIZAR en pantalla completa al utilizar un monitor diferente al por defecto"
+14		"Utilizar características de la barra de tareas de Windows 7"
+15		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+17		"Use time tooltip:"
+19		"Fuente OSD:"
+22		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

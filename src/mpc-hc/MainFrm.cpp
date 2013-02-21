@@ -3511,7 +3511,6 @@ void CMainFrame::OnFilePostOpenmedia()
         }
         s.strPnSPreset.Empty();
     }
-    SendNowPlayingToMSN();
     SendNowPlayingToApi();
 }
 
@@ -3573,8 +3572,6 @@ void CMainFrame::OnFilePostClosemedia()
     SetupNavChaptersSubMenu();
     SetupFavoritesSubMenu();
     SetupRecentFilesSubMenu();
-
-    SendNowPlayingToMSN();
 }
 
 void CMainFrame::OnUpdateFilePostClosemedia(CCmdUI* pCmdUI)
@@ -12161,77 +12158,6 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
     }
 }
 
-// msn
-
-void CMainFrame::SendNowPlayingToMSN()
-{
-    if (!AfxGetAppSettings().fNotifyMSN) {
-        return;
-    }
-
-    CString title, author;
-
-    if (m_iMediaLoadState == MLS_LOADED) {
-        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
-        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
-
-        if (title.IsEmpty()) {
-            CPlaylistItem pli;
-            m_wndPlaylistBar.GetCur(pli);
-
-            if (!pli.m_fns.IsEmpty()) {
-                CString label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
-
-                if (GetPlaybackMode() == PM_FILE) {
-                    CString fn = label;
-                    if (fn.Find(_T("://")) >= 0) {
-                        int i = fn.Find('?');
-                        if (i >= 0) {
-                            fn = fn.Left(i);
-                        }
-                    }
-                    CPath path(fn);
-                    path.StripPath();
-                    path.MakePretty();
-                    path.RemoveExtension();
-                    title = (LPCTSTR)path;
-                    author.Empty();
-                } else if (GetPlaybackMode() == PM_CAPTURE) {
-                    title = label != pli.m_fns.GetHead() ? label : ResStr(IDS_CAPTURE_LIVE);
-                    author.Empty();
-                } else if (GetPlaybackMode() == PM_DVD) {
-                    title = _T("DVD");
-                    author.Empty();
-                }
-            }
-        }
-    }
-
-    CStringW buff;
-    buff += L"\\0Music\\0";
-    buff += title.IsEmpty() ? L"0" : L"1";
-    buff += L"\\0";
-    buff += author.IsEmpty() ? L"{0}" : L"{0} - {1}";
-    buff += L"\\0";
-    if (!author.IsEmpty()) {
-        buff += CStringW(author) + L"\\0";
-    }
-    buff += CStringW(title) + L"\\0";
-    buff += L"\\0\\0";
-
-    COPYDATASTRUCT data;
-    data.dwData = 0x0547;
-    data.lpData = (PVOID)(LPCWSTR)buff;
-    data.cbData = buff.GetLength() * 2 + 2;
-
-    HWND hWnd = ::FindWindowEx(NULL, NULL, _T("MsnMsgrUIManager"), NULL);
-    while (hWnd) {
-        ::SendMessage(hWnd, WM_COPYDATA, (WPARAM)NULL, (LPARAM)&data);
-        hWnd = ::FindWindowEx(NULL, hWnd, _T("MsnMsgrUIManager"), NULL);
-    }
-}
-
-
 // dynamic menus
 
 void CMainFrame::SetupOpenCDSubMenu()
@@ -14421,7 +14347,6 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
             m_wndCaptureBar.m_capdlg.SetVideoInput(p->vinput);
             m_wndCaptureBar.m_capdlg.SetVideoChannel(p->vchannel);
             m_wndCaptureBar.m_capdlg.SetAudioInput(p->ainput);
-            SendNowPlayingToMSN();
             return;
         }
     }
