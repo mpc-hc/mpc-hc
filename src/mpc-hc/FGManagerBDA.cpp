@@ -635,7 +635,8 @@ STDMETHODIMP CFGManagerBDA::Count(DWORD* pcStreams)
     *pcStreams = 0;
 
     if (pChannel != 0) {
-        *pcStreams = pChannel->GetAudioCount() + pChannel->GetSubtitleCount();
+        int Streams = pChannel->GetAudioCount() + pChannel->GetSubtitleCount();
+        *pcStreams = pChannel->GetSubtitleCount() ? Streams + 1 : Streams;
     }
 
     return S_OK;
@@ -678,6 +679,9 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
                 m_DVBStreams[DVB_SUB].Map(pStreamInfo->PID);
                 hr = S_OK;
             }
+        } else if (lIndex > 0 && m_DVBStreams[DVB_SUB].GetMappedPID() && lIndex == pChannel->GetAudioCount() + pChannel->GetSubtitleCount()) {
+            m_DVBStreams[DVB_SUB].Unmap(m_DVBStreams[DVB_SUB].GetMappedPID());
+            hr = S_OK;
         }
     }
 
@@ -712,6 +716,30 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
             if (pdwGroup) {
                 *pdwGroup = 2;    // Subtitle group
             }
+        } else if (lIndex > 0 && lIndex == pChannel->GetAudioCount() + pChannel->GetSubtitleCount()) {
+            pCurrentStream = &m_DVBStreams[DVB_SUB];
+
+            if (pdwFlags) {
+                *pdwFlags = (!pCurrentStream->GetMappedPID()) ? AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE : 0;
+            }
+            if (plcid) {
+                *plcid  = (LCID)LCID_NOSUBTITLES;
+            }
+            if (pdwGroup) {
+                *pdwGroup = 2;    // Subtitle group
+            }
+            if (ppszName) {
+                CStringW str;
+                str = _T("No subtitles");
+
+                *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
+                if (*ppszName == NULL) {
+                    return E_OUTOFMEMORY;
+                }
+                wcscpy_s(*ppszName, str.GetLength() + 1, str);
+            }
+
+            hr = S_OK;
         }
 
         if (pStreamInfo && pStream && pCurrentStream) {
@@ -838,7 +866,7 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 
     CheckNoLog(m_DVBStreams[pChannel->GetDefaultAudioType()].Map(pChannel->GetDefaultAudioPID()));
 
-    if (pChannel->GetSubtitleCount() > 0) {
+    if (pChannel->GetSubtitleCount() > 0 && pChannel->GetDefaultSubtitle() != -1 && pChannel->GetDefaultSubtitle() != pChannel->GetSubtitleCount()) {
         CheckNoLog(m_DVBStreams[DVB_SUB].Map(pChannel->GetDefaultSubtitlePID()));
     }
 

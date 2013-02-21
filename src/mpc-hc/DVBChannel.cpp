@@ -44,7 +44,7 @@ CDVBChannel::CDVBChannel()
     , m_nAudioCount(0)
     , m_nDefaultAudio(0)
     , m_nSubtitleCount(0)
-    , m_nDefaultSubtitle(0)
+    , m_nDefaultSubtitle(-1)
 {
 }
 
