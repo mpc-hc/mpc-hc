@@ -5269,24 +5269,10 @@ void CMainFrame::OnFileLoadsubtitle()
 
             if (openDlgPtr != NULL) {
                 if (!defaultDir.IsEmpty()) {
-                    // Typedef for function SHCreateItemFromParsingName
-                    typedef HRESULT(STDAPICALLTYPE * PFN_TYPE_SHCreateItemFromParsingName)(PCWSTR /*pszPath*/, IBindCtx* /*pbc*/,  REFIID /*riid*/, void** /*ppv*/);
-
-                    // Load Shell32.dll to get the pointer to the aforementioned function
-                    HINSTANCE hDllShell = LoadLibrary(_T("Shell32.dll"));
-                    PFN_TYPE_SHCreateItemFromParsingName pfnSHCreateItemFromParsingName = NULL;
-                    if (hDllShell != NULL) {
-                        // Try to get the pointer to that function
-                        pfnSHCreateItemFromParsingName = reinterpret_cast<PFN_TYPE_SHCreateItemFromParsingName>(::GetProcAddress(hDllShell, "SHCreateItemFromParsingName"));
+                    CComPtr<IShellItem> psiFolder;
+                    if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(defaultDir, NULL, IID_PPV_ARGS(&psiFolder)))) {
+                        openDlgPtr->SetFolder(psiFolder);
                     }
-
-                    if (pfnSHCreateItemFromParsingName != NULL) {
-                        CComPtr<IShellItem> psiFolder;
-                        if (SUCCEEDED(pfnSHCreateItemFromParsingName(defaultDir, NULL, IID_PPV_ARGS(&psiFolder)))) {
-                            openDlgPtr->SetFolder(psiFolder);
-                        }
-                    }
-                    FreeLibrary(hDllShell);
                 }
 
                 if (FAILED(openDlgPtr->Show(m_hWnd))) {

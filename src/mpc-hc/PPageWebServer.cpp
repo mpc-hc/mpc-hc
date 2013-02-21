@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -184,24 +184,10 @@ bool CPPageWebServer::PickDir(CString& dir)
             openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
 
             if (!dir.IsEmpty()) {
-                // Typedef for function SHCreateItemFromParsingName
-                typedef HRESULT(STDAPICALLTYPE * PFN_TYPE_SHCreateItemFromParsingName)(PCWSTR /*pszPath*/, IBindCtx* /*pbc*/,  REFIID /*riid*/, void** /*ppv*/);
-
-                // Load Shell32.dll to get the pointer to the aforementioned function
-                HINSTANCE hDllShell = ::LoadLibrary(_T("Shell32.dll"));
-                PFN_TYPE_SHCreateItemFromParsingName pfnSHCreateItemFromParsingName = NULL;
-                if (hDllShell != NULL) {
-                    // Try to get the pointer to that function
-                    pfnSHCreateItemFromParsingName = reinterpret_cast<PFN_TYPE_SHCreateItemFromParsingName>(::GetProcAddress(hDllShell, "SHCreateItemFromParsingName"));
+                CComPtr<IShellItem> psiFolder;
+                if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(dir, NULL, IID_PPV_ARGS(&psiFolder)))) {
+                    openDlgPtr->SetFolder(psiFolder);
                 }
-
-                if (pfnSHCreateItemFromParsingName != NULL) {
-                    CComPtr<IShellItem> psiFolder;
-                    if (SUCCEEDED(pfnSHCreateItemFromParsingName(dir, NULL, IID_PPV_ARGS(&psiFolder)))) {
-                        openDlgPtr->SetFolder(psiFolder);
-                    }
-                }
-                FreeLibrary(hDllShell);
             }
 
             if (SUCCEEDED(openDlgPtr->Show(m_hWnd))) {

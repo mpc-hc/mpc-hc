@@ -20,3 +20,5 @@
 #include "..\src\mfc\oleimpl2.h"
 #include "..\src\mfc\afximpl.h"
 #endif
+
+#include <afxglobals.h>
