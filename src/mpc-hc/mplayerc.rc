@@ -2304,7 +2304,7 @@ END
 STRINGTABLE
 BEGIN
     ID_VOLUME_MUTE          "Mute\nMute"
-    ID_VOLUME_MUTE_ON       "Mute\nMute"
+    ID_VOLUME_MUTE_ON       "Unmute\nUnmute"
     ID_VOLUME_MUTE_DISABLED "No audio\nNo audio"
 END
 

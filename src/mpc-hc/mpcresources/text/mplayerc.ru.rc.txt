@@ -1912,4 +1912,4 @@ STRING ID_PLAY_PLAY		"Воспроизведение\nВоспроизведен
 STRING ID_PLAY_STOP		"Стоп\nСтоп"
 STRING ID_VOLUME_MUTE		"Отключить звук\nОтключить звук"
 STRING ID_VOLUME_MUTE_DISABLED		"Без звука\nБез звука"
-STRING ID_VOLUME_MUTE_ON		"Отключить звук\nОтключить звук"
+STRING ID_VOLUME_MUTE_ON		"Включить звук\nВключить звук"
