@@ -75,6 +75,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     m_nResetToken = 0;
     m_hThread = INVALID_HANDLE_VALUE;
     m_hGetMixerThread = INVALID_HANDLE_VALUE;
+    m_hVSyncThread = INVALID_HANDLE_VALUE;
     m_hEvtFlush = INVALID_HANDLE_VALUE;
     m_hEvtQuit = INVALID_HANDLE_VALUE;
     m_bEvtQuit = 0;
@@ -235,6 +236,8 @@ void CEVRAllocatorPresenter::StartWorkerThreads()
         SetThreadPriority(m_hThread, THREAD_PRIORITY_TIME_CRITICAL);
         m_hGetMixerThread = ::CreateThread(NULL, 0, GetMixerThreadStatic, (LPVOID)this, 0, &dwThreadId);
         SetThreadPriority(m_hGetMixerThread, THREAD_PRIORITY_HIGHEST);
+        m_hVSyncThread = ::CreateThread(NULL, 0, VSyncThreadStatic, (LPVOID)this, 0, &dwThreadId);
+        SetThreadPriority(m_hVSyncThread, THREAD_PRIORITY_HIGHEST);
 
         m_nRenderState = Stopped;
         TRACE_EVR("EVR: Worker threads started...\n");
@@ -256,12 +259,19 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
             ASSERT(FALSE);
             TerminateThread(m_hGetMixerThread, 0xDEAD);
         }
+        if ((m_hVSyncThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject(m_hVSyncThread, 10000) == WAIT_TIMEOUT)) {
+            ASSERT(FALSE);
+            TerminateThread(m_hVSyncThread, 0xDEAD);
+        }
 
         if (m_hThread != INVALID_HANDLE_VALUE) {
             CloseHandle(m_hThread);
         }
         if (m_hGetMixerThread != INVALID_HANDLE_VALUE) {
             CloseHandle(m_hGetMixerThread);
+        }
+        if (m_hVSyncThread != INVALID_HANDLE_VALUE) {
+            CloseHandle(m_hVSyncThread);
         }
         if (m_hEvtFlush != INVALID_HANDLE_VALUE) {
             CloseHandle(m_hEvtFlush);
@@ -2294,6 +2304,179 @@ void CEVRAllocatorPresenter::RenderThread()
     if (pfAvRevertMmThreadCharacteristics) {
         pfAvRevertMmThreadCharacteristics(hAvrt);
     }
+}
+
+void CEVRAllocatorPresenter::VSyncThread()
+{
+    HANDLE   hEvts[] = { m_hEvtQuit};
+    bool     bQuit = false;
+    TIMECAPS tc;
+    DWORD    dwResolution;
+    DWORD    dwUser = 0;
+
+    //DWORD dwTaskIndex = 0;
+    //// Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
+    //if (pfAvSetMmThreadCharacteristicsW)
+    //  hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
+    //if (pfAvSetMmThreadPriority)
+    //  pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
+
+    timeGetDevCaps(&tc, sizeof(TIMECAPS));
+    dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwUser = timeBeginPeriod(dwResolution);
+    CRenderersData* pApp = GetRenderersData();
+    CRenderersSettings& s = GetRenderersSettings();
+
+    while (!bQuit) {
+
+        DWORD dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, 1);
+        switch (dwObject) {
+            case WAIT_OBJECT_0:
+                bQuit = true;
+                break;
+            case WAIT_TIMEOUT: {
+                // Do our stuff
+                if (m_pD3DDev && s.m_AdvRendSets.iVMR9VSync) {
+                    if (m_nRenderState == Started) {
+                        int VSyncPos  = GetVBlackPos();
+                        int WaitRange = max(m_ScreenSize.cy / 40, 5);
+                        int MinRange  = max(min(int(0.003 * double(m_ScreenSize.cy) * double(m_RefreshRate) + 0.5), m_ScreenSize.cy / 3), 5); // 1.8  ms or max 33 % of Time
+
+                        VSyncPos += MinRange + WaitRange;
+
+                        VSyncPos = VSyncPos % m_ScreenSize.cy;
+                        if (VSyncPos < 0) {
+                            VSyncPos += m_ScreenSize.cy;
+                        }
+
+                        int ScanLine = 0;
+                        int StartScanLine = ScanLine;
+                        UNREFERENCED_PARAMETER(StartScanLine);
+                        int LastPos = ScanLine;
+                        UNREFERENCED_PARAMETER(LastPos);
+                        ScanLine = (VSyncPos + 1) % m_ScreenSize.cy;
+                        if (ScanLine < 0) {
+                            ScanLine += m_ScreenSize.cy;
+                        }
+                        int ScanLineMiddle = ScanLine + m_ScreenSize.cy / 2;
+                        ScanLineMiddle = ScanLineMiddle % m_ScreenSize.cy;
+                        if (ScanLineMiddle < 0) {
+                            ScanLineMiddle += m_ScreenSize.cy;
+                        }
+
+                        int ScanlineStart = ScanLine;
+                        bool bTakenLock;
+                        WaitForVBlankRange(ScanlineStart, 5, true, true, false, bTakenLock);
+                        LONGLONG TimeStart = pApp->GetPerfCounter();
+
+                        WaitForVBlankRange(ScanLineMiddle, 5, true, true, false, bTakenLock);
+                        LONGLONG TimeMiddle = pApp->GetPerfCounter();
+
+                        int ScanlineEnd = ScanLine;
+                        WaitForVBlankRange(ScanlineEnd, 5, true, true, false, bTakenLock);
+                        LONGLONG TimeEnd = pApp->GetPerfCounter();
+
+                        double nSeconds = double(TimeEnd - TimeStart) / 10000000.0;
+                        LONGLONG DiffMiddle = TimeMiddle - TimeStart;
+                        LONGLONG DiffEnd = TimeEnd - TimeMiddle;
+                        double DiffDiff;
+                        if (DiffEnd > DiffMiddle) {
+                            DiffDiff = double(DiffEnd) / double(DiffMiddle);
+                        } else {
+                            DiffDiff = double(DiffMiddle) / double(DiffEnd);
+                        }
+                        if (nSeconds > 0.003 && DiffDiff < 1.3) {
+                            double ScanLineSeconds;
+                            double nScanLines;
+                            if (ScanLineMiddle > ScanlineEnd) {
+                                ScanLineSeconds = double(TimeMiddle - TimeStart) / 10000000.0;
+                                nScanLines = ScanLineMiddle - ScanlineStart;
+                            } else {
+                                ScanLineSeconds = double(TimeEnd - TimeMiddle) / 10000000.0;
+                                nScanLines = ScanlineEnd - ScanLineMiddle;
+                            }
+
+                            double ScanLineTime = ScanLineSeconds / nScanLines;
+
+                            int iPos = m_DetectedRefreshRatePos % 100;
+                            m_ldDetectedScanlineRateList[iPos] = ScanLineTime;
+                            if (m_DetectedScanlineTime && ScanlineStart != ScanlineEnd) {
+                                int Diff = ScanlineEnd - ScanlineStart;
+                                nSeconds -= double(Diff) * m_DetectedScanlineTime;
+                            }
+                            m_ldDetectedRefreshRateList[iPos] = nSeconds;
+                            double Average = 0;
+                            double AverageScanline = 0;
+                            int nPos = min(iPos + 1, 100);
+                            for (int i = 0; i < nPos; ++i) {
+                                Average += m_ldDetectedRefreshRateList[i];
+                                AverageScanline += m_ldDetectedScanlineRateList[i];
+                            }
+
+                            if (nPos) {
+                                Average /= double(nPos);
+                                AverageScanline /= double(nPos);
+                            } else {
+                                Average = 0;
+                                AverageScanline = 0;
+                            }
+
+                            double ThisValue = Average;
+
+                            if (Average > 0.0 && AverageScanline > 0.0) {
+                                CAutoLock Lock(&m_RefreshRateLock);
+                                ++m_DetectedRefreshRatePos;
+                                if (m_DetectedRefreshTime == 0 || m_DetectedRefreshTime / ThisValue > 1.01 || m_DetectedRefreshTime / ThisValue < 0.99) {
+                                    m_DetectedRefreshTime = ThisValue;
+                                    m_DetectedRefreshTimePrim = 0;
+                                }
+                                if (_isnan(m_DetectedRefreshTime)) {
+                                    m_DetectedRefreshTime = 0.0;
+                                }
+                                if (_isnan(m_DetectedRefreshTimePrim)) {
+                                    m_DetectedRefreshTimePrim = 0.0;
+                                }
+
+                                ModerateFloat(m_DetectedRefreshTime, ThisValue, m_DetectedRefreshTimePrim, 1.5);
+                                if (m_DetectedRefreshTime > 0.0) {
+                                    m_DetectedRefreshRate = 1.0 / m_DetectedRefreshTime;
+                                } else {
+                                    m_DetectedRefreshRate = 0.0;
+                                }
+
+                                if (m_DetectedScanlineTime == 0 || m_DetectedScanlineTime / AverageScanline > 1.01 || m_DetectedScanlineTime / AverageScanline < 0.99) {
+                                    m_DetectedScanlineTime = AverageScanline;
+                                    m_DetectedScanlineTimePrim = 0;
+                                }
+                                ModerateFloat(m_DetectedScanlineTime, AverageScanline, m_DetectedScanlineTimePrim, 1.5);
+                                if (m_DetectedScanlineTime > 0.0) {
+                                    m_DetectedScanlinesPerFrame = m_DetectedRefreshTime / m_DetectedScanlineTime;
+                                } else {
+                                    m_DetectedScanlinesPerFrame = 0;
+                                }
+                            }
+                            //TRACE(_T("Refresh: %f\n"), RefreshRate);
+                        }
+                    }
+                } else {
+                    m_DetectedRefreshRate = 0.0;
+                    m_DetectedScanlinesPerFrame = 0.0;
+                }
+            }
+            break;
+        }
+    }
+
+    timeEndPeriod(dwResolution);
+    //if (pfAvRevertMmThreadCharacteristics) pfAvRevertMmThreadCharacteristics (hAvrt);
+}
+
+DWORD WINAPI CEVRAllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
+{
+    SetThreadName((DWORD) - 1, "CEVRAllocatorPresenter::VSyncThread");
+    CEVRAllocatorPresenter* pThis = (CEVRAllocatorPresenter*) lpParam;
+    pThis->VSyncThread();
+    return 0;
 }
 
 void CEVRAllocatorPresenter::OnResetDevice()

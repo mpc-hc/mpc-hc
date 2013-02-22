@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -197,6 +197,7 @@ namespace DSObjects
 
         HANDLE                           m_hThread;
         HANDLE                           m_hGetMixerThread;
+        HANDLE                           m_hVSyncThread;
         RENDER_STATE                     m_nRenderState;
 
         CCritSec                         m_SampleQueueLock;
@@ -242,6 +243,8 @@ namespace DSObjects
         HRESULT                          CheckShutdown() const;
         void                             CompleteFrameStep(bool bCancel);
         void                             CheckWaitingSampleFromMixer();
+        static DWORD WINAPI              VSyncThreadStatic(LPVOID lpParam);
+        void                             VSyncThread();
 
         void                             RemoveAllSamples();
         HRESULT                          GetFreeSample(IMFSample** ppSample);

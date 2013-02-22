@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -101,14 +101,6 @@ namespace DSObjects
         virtual HRESULT CreateDevice(CString& _Error);
         virtual HRESULT AllocSurfaces();
         virtual void DeleteSurfaces();
-
-        // Thread stuff
-        HANDLE m_hEvtQuit;         // Stop rendering thread event
-        HANDLE m_hVSyncThread;
-        static DWORD WINAPI VSyncThreadStatic(LPVOID lpParam);
-        void VSyncThread();
-        void StartWorkerThreads();
-        void StopWorkerThreads();
 
         LONGLONG m_LastAdapterCheck;
         UINT GetAdapter(IDirect3D9* pD3D, bool bGetAdapter = true);
