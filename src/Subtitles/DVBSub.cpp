@@ -457,8 +457,8 @@ HRESULT CDVBSub::ParseDisplay(CGolombBuffer& gb, WORD wSegLength)
     m_Display.version_number = (BYTE)gb.BitRead(4);
     m_Display.display_window_flag = (BYTE)gb.BitRead(1);
     gb.BitRead(3);  // reserved
-    m_Display.width = gb.ReadShort();
-    m_Display.height = gb.ReadShort();
+    m_Display.width = gb.ReadShort() + 1;
+    m_Display.height = gb.ReadShort() + 1;
     if (m_Display.display_window_flag) {
         m_Display.horizontal_position_minimun = gb.ReadShort();
         m_Display.horizontal_position_maximum = gb.ReadShort();
