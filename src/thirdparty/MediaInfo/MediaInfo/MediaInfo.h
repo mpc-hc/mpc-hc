@@ -210,7 +210,7 @@ public :
         ///                 Column 1: Unique name ("Bytes", "Title") \n
         ///                 Column 2: translation ("Octets", "Titre") \n
         ///       * "Inform": Configure custom text, See MediaInfoLib::Inform() function; Description of views (format: "Column1;Colum2...) \n
-        ///                 Column 1: code (11 lines: "General", "Video", "Audio", "Text", "Chapters", "Begin", "End", "Page_Begin", "Page_Middle", "Page_End") \n
+        ///                 Column 1: code (11 lines: "General", "Video", "Audio", "Text", "Other", "Begin", "End", "Page_Begin", "Page_Middle", "Page_End") \n
         ///                 Column 2: The text to show (exemple: "Audio: %FileName% is at %BitRate/String%") \n
         ///       * "ParseUnknownExtensions": Configure if MediaInfo parse files with unknown extension\n
         ///       * "ParseUnknownExtensions_Get": Get if MediaInfo parse files with unknown extension\n

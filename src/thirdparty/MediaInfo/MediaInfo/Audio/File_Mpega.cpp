@@ -633,6 +633,10 @@ bool File_Mpega::Synchronize()
                     break;
                 if (File_Offset+Buffer_Offset+Size0!=File_Size-File_EndTagSize)
                 {
+                    //Padding
+                    while (Buffer_Offset+Size0+4<=Buffer_Size && Buffer[Buffer_Offset+Size0]==0x00)
+                        Size0++;
+
                     if (Buffer_Offset+Size0+4>Buffer_Size)
                         return false; //Need more data
 
@@ -686,6 +690,10 @@ bool File_Mpega::Synchronize()
                                 break;
                             if (File_Offset+Buffer_Offset+Size0+Size1!=File_Size-File_EndTagSize)
                             {
+                                //Padding
+                                while (Buffer_Offset+Size0+Size1+4<=Buffer_Size && Buffer[Buffer_Offset+Size0+Size1]==0x00)
+                                    Size0++;
+
                                 if (Buffer_Offset+Size0+Size1+4>Buffer_Size)
                                     return false; //Need more data
 
@@ -720,6 +728,10 @@ bool File_Mpega::Synchronize()
                                             break;
                                         if (File_Offset+Buffer_Offset+Size0+Size1+Size2!=File_Size-File_EndTagSize)
                                         {
+                                            //Padding
+                                            while (Buffer_Offset+Size0+Size1+Size2+4<=Buffer_Size && Buffer[Buffer_Offset+Size0+Size1+Size2]==0x00)
+                                                Size0++;
+
                                             if (Buffer_Offset+Size0+Size1+Size2+4>Buffer_Size)
                                             {
                                                 if (IsSub || File_Offset+Buffer_Offset+Size0+Size1+Size2<File_Size)
@@ -782,6 +794,10 @@ bool File_Mpega::Synched_Test()
     //Tags
     if (!File__Tags_Helper::Synched_Test())
         return false;
+
+    //Padding
+    while (Buffer_Offset<Buffer_Size && Buffer[Buffer_Offset]==0x00)
+        Buffer_Offset++;
 
     //Must have enough buffer for having header
     if (Buffer_Offset+3>Buffer_Size)

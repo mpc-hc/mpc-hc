@@ -302,7 +302,7 @@ void File_Dpx::Streams_Accept()
 
     if (!IsSub)
     {
-        Streams_Accept_TestContinuousFileNames();
+        TestContinuousFileNames();
 
         Stream_Prepare((Config->File_Names.size()>1 || Config->File_IsReferenced_Get())?Stream_Video:Stream_Image);
         Fill(StreamKind_Last, StreamPos_Last, "StreamSize", File_Size);
@@ -432,15 +432,15 @@ void File_Dpx::Data_Parse()
     do
         Sizes_Pos++; //We go automaticly to the next block
     while (Sizes_Pos<Sizes.size() && Sizes[Sizes_Pos]==0);
-    if (Sizes_Pos==Sizes.size())
+    if (Sizes_Pos>=Sizes.size())
     {
         Sizes.clear();
         Sizes_Pos=0;
 
         if (!Status[IsFilled])
             Fill();
-        if (Config->ParseSpeed<1.0)
-            Finish();
+        if (File_Offset+Buffer_Offset+Element_Size<Config->File_Current_Size)
+            GoTo(Config->File_Current_Size);
     }
 }
 
@@ -519,6 +519,8 @@ void File_Dpx::GenericSectionHeader_v1()
 
     FILLING_BEGIN();
         //Coherency tests
+        if (File_Offset+Buffer_Offset+Size_Total>=Config->File_Current_Size)
+            Size_Total=Config->File_Current_Size-(File_Offset+Buffer_Offset); //The total size is bigger than the real size
         if (Size_Generic+Size_Industry+Size_User>Size_Header || Size_Header>Size_Total)
         {
             Reject();
@@ -639,6 +641,8 @@ void File_Dpx::GenericSectionHeader_v2()
 
     FILLING_BEGIN();
         //Coherency tests
+        if (File_Offset+Buffer_Offset+Size_Total!=Config->File_Current_Size)
+            Size_Total=Config->File_Current_Size-(File_Offset+Buffer_Offset); //The total size is bigger than the real size
         if (Size_Generic==(int32u)-1)
             Size_Generic=Element_Size;
         if (Size_Industry==(int32u)-1)

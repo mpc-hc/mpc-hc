@@ -41,6 +41,8 @@
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Events.h"
 #endif //MEDIAINFO_EVENTS
+#include "MediaInfo/Multiple/File_Gxf_TimeCode.h"
+#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 #include <cstring>
 //---------------------------------------------------------------------------
 
@@ -146,17 +148,20 @@ File_Ancillary::File_Ancillary()
 {
     //Configuration
     ParserName=__T("Ancillary");
+    PTS_DTS_Needed=true;
 
     //In
     WithTenBit=false;
     WithChecksum=false;
     HasBFrames=false;
     InDecodingOrder=false;
+    LineNumber_IsSecondField=false;
     AspectRatio=0;
     FrameRate=0;
-
-    //Temp
-    Cdp_Parser=NULL;
+    LineNumber=(int32u)-1;
+    #if defined(MEDIAINFO_CDP_YES)
+        Cdp_Parser=NULL;
+    #endif //defined(MEDIAINFO_CDP_YES)
 }
 
 //---------------------------------------------------------------------------
@@ -266,6 +271,11 @@ void File_Ancillary::Read_Buffer_Continue()
 void File_Ancillary::Read_Buffer_AfterParsing()
 {
     Buffer_Offset=Buffer_Size; //This is per frame
+
+    Frame_Count++;
+    Frame_Count_InThisBlock++;
+    if (Frame_Count_NotParsedIncluded!=(int64u)-1)
+        Frame_Count_NotParsedIncluded++;
 }
 
 //---------------------------------------------------------------------------
@@ -351,6 +361,16 @@ void File_Ancillary::Data_Parse()
     FILLING_BEGIN();
         switch (DataID)
         {
+            case 0x40 :
+                        switch (SecondaryDataID)
+                        {
+                            case 0x01 : // (from SMPTE ST 305)
+                                        // SDTI
+                                        break;
+                            default   : ;
+                            ;
+                        }
+                        break;
             case 0x41 : // (from SMPTE 2016-3)
                         switch (SecondaryDataID)
                         {
@@ -381,6 +401,51 @@ void File_Ancillary::Data_Parse()
                             case 0x07 : //Channel pair 11/12
                             case 0x08 : //Channel pair 13/14
                             case 0x09 : //Channel pair 15/16
+                                        break;
+                            default   : ;
+                            ;
+                        }
+                        break;
+            case 0x60 :
+                        switch (SecondaryDataID)
+                        {
+                            case 0x60 : // (from SMPTE RP 188 / SMPTE ST 12-2)
+                                        // Time code ATC
+                                        {
+                                        File_Gxf_TimeCode Parser;
+                                        Parser.IsAtc=true;
+                                        Open_Buffer_Init(&Parser);
+                                        Open_Buffer_Continue(&Parser, Payload, (size_t)DataCount);
+
+                                        bool Exists=false;
+                                        if (LineNumber!=(int32u)-1)
+                                            for (size_t Pos=0; Pos<Count_Get(Stream_Other); Pos++)
+                                            {
+                                                if (__T("Line")+Ztring::ToZtring(LineNumber)==Retrieve(Stream_Other, Pos, Other_ID)
+                                                 && ((!LineNumber_IsSecondField && Retrieve(Stream_Other, Pos, "IsSecondField").empty()) || (LineNumber_IsSecondField && !Retrieve(Stream_Other, Pos, "IsSecondField").empty()))
+                                                 && Parser.Settings==Retrieve(Stream_Other, Pos, Other_TimeCode_Settings).To_UTF8())
+                                                    Exists=true;
+                                            }
+                                        else
+                                            for (size_t Pos=0; Pos<Count_Get(Stream_Other); Pos++)
+                                            {
+                                                if (Parser.Settings==Retrieve(Stream_Other, Pos, Other_TimeCode_Settings).To_UTF8())
+                                                    Exists=true;
+                                            }
+                                        if (!Exists)
+                                        {
+                                            Stream_Prepare(Stream_Other);
+                                            Fill(Stream_Other, StreamPos_Last, Other_Type, "Time code");
+                                            Fill(Stream_Other, StreamPos_Last, Other_Format, "SMPTE ATC");
+                                            Fill(Stream_Other, StreamPos_Last, Other_TimeCode_FirstFrame, Parser.TimeCode_FirstFrame);
+                                            Fill(Stream_Other, StreamPos_Last, Other_TimeCode_Settings, Parser.Settings);
+                                            Fill(Stream_Other, StreamPos_Last, Other_MuxingMode, "Ancillary data / SMPTE RP 188");
+                                            if (LineNumber!=(int32u)-1)
+                                                Fill(Stream_Other, StreamPos_Last, Other_ID, __T("Line")+Ztring::ToZtring(LineNumber));
+                                            if (LineNumber_IsSecondField)
+                                                Fill(Stream_Other, StreamPos_Last, "IsSecondField", "Yes");
+                                        }
+                                        }
                                         break;
                             default   : ;
                             ;
@@ -445,13 +510,63 @@ void File_Ancillary::Data_Parse()
                             ;
                         }
                         break;
+            case 0x64 :
+                        switch (SecondaryDataID)
+                        {
+                            case 0x64 : // (from SMPTE RP 196)
+                                        // LTC in HANC space
+                                        {
+                                        bool Exists=false;
+                                        if (LineNumber!=(int32u)-1)
+                                            for (size_t Pos=0; Pos<Count_Get(Stream_Other); Pos++)
+                                            {
+                                                if (__T("Line")+Ztring::ToZtring(LineNumber)==Retrieve(Stream_Other, Pos, Other_ID))
+                                                    Exists=true;
+                                            }
+                                        else
+                                            if (Count_Get(Stream_Other)!=0)
+                                                Exists=true;
+                                        if (!Exists)
+                                        {
+                                            Stream_Prepare(Stream_Other);
+                                            Fill(Stream_Other, StreamPos_Last, Other_Type, "Time code");
+                                            Fill(Stream_Other, StreamPos_Last, Other_Format, "LTC");
+                                            Fill(Stream_Other, StreamPos_Last, Other_MuxingMode, "Ancillary data / SMPTE RP 196");
+                                            if (LineNumber!=(int32u)-1)
+                                                Fill(Stream_Other, StreamPos_Last, Other_ID, __T("Line")+Ztring::ToZtring(LineNumber));
+                                        }
+                                        }
+                                        break;
+                            case 0x7F : // (from SMPTE RP 196)
+                                        // VITC in HANC space
+                                        {
+                                        bool Exists=false;
+                                        if (LineNumber!=(int32u)-1)
+                                            for (size_t Pos=0; Pos<Count_Get(Stream_Other); Pos++)
+                                            {
+                                                if (__T("Line")+Ztring::ToZtring(LineNumber)==Retrieve(Stream_Other, Pos, Other_ID))
+                                                    Exists=true;
+                                            }
+                                        else
+                                            if (Count_Get(Stream_Other)!=0)
+                                                Exists=true;
+                                        if (!Exists)
+                                        {
+                                            Stream_Prepare(Stream_Other);
+                                            Fill(Stream_Other, StreamPos_Last, Other_Type, "Time code");
+                                            Fill(Stream_Other, StreamPos_Last, Other_Format, "VITC");
+                                            Fill(Stream_Other, StreamPos_Last, Other_MuxingMode, "Ancillary data / SMPTE RP 196");
+                                            if (LineNumber!=(int32u)-1)
+                                                Fill(Stream_Other, StreamPos_Last, Other_ID, __T("Line")+Ztring::ToZtring(LineNumber));
+                                        }
+                                        }
+                                        break;
+                            default   : ;
+                            ;
+                        }
+                        break;
             default   : ;
         }
-
-        Frame_Count++;
-        Frame_Count_InThisBlock++;
-        if (Frame_Count_NotParsedIncluded!=(int64u)-1)
-            Frame_Count_NotParsedIncluded++;
     FILLING_END();
 
     delete[] Payload; //Payload=NULL

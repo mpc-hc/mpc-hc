@@ -403,6 +403,25 @@ void File_Wm::Header_StreamProperties_Audio_WMA ()
 {
     Element_Info1("WMA");
 
+            //Demux
+            #if MEDIAINFO_DEMUX
+                switch (Config->Demux_InitData_Get())
+                {
+                    case 0 :    //In demux event
+                                Demux_Level=2; //Container
+                                Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_Header);
+                                break;
+                    case 1 :    //In field
+                                {
+                                std::string Data_Raw((const char*)(Buffer+Buffer_Offset+Element_Offset), (size_t)10);//Element_Size-(Element_Offset));
+                                std::string Data_Base64(Base64::encode(Data_Raw));
+                                Fill(Stream_Audio, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                }
+                                break;
+                    default :   ;
+                }
+            #endif //MEDIAINFO_DEMUX
+
     //Parsing
     Skip_L4(                                                    "SamplesPerBlock");
     Skip_L2(                                                    "EncodeOptions");
@@ -1521,21 +1540,29 @@ void File_Wm::Data_Packet()
             return; //problem
         }
 
+        //Demux
+        Element_Code=Stream_Number;
+        Demux(Buffer+(size_t)Element_Offset, (size_t)PayloadLength, ContentType_MainStream);
+
         //Analyzing
         if (Stream[Stream_Number].Parser && Stream[Stream_Number].SearchingPayload)
         {
             //Handling of spanned on multiple chunks
-            bool FrameIsAlwaysComplete=true;
+            #if defined(MEDIAINFO_VC1_YES)
+                bool FrameIsAlwaysComplete=true;
+            #endif
             if (PayloadLength!=SizeOfMediaObject)
             {
                 if (SizeOfMediaObject_BytesAlreadyParsed==0)
                     SizeOfMediaObject_BytesAlreadyParsed=SizeOfMediaObject-PayloadLength;
                 else
                     SizeOfMediaObject_BytesAlreadyParsed-=PayloadLength;
-                if (SizeOfMediaObject_BytesAlreadyParsed!=0)
-                    FrameIsAlwaysComplete=false;
-                else
+                if (SizeOfMediaObject_BytesAlreadyParsed==0)
                     Element_Show_Count++;
+                #if defined(MEDIAINFO_VC1_YES)
+                else
+                    FrameIsAlwaysComplete=false;
+                #endif
             }
             else
                 Element_Show_Count++;
@@ -1545,9 +1572,6 @@ void File_Wm::Data_Packet()
             if (Retrieve(Stream[Stream_Number].StreamKind, Stream[Stream_Number].StreamPos, Fill_Parameter(Stream[Stream_Number].StreamKind, Generic_Format))==__T("VC-1"))
                 ((File_Vc1*)Stream[Stream_Number].Parser)->FrameIsAlwaysComplete=FrameIsAlwaysComplete;
             #endif
-
-            Element_Code=Stream_Number;
-            Demux(Buffer+(size_t)Element_Offset, (size_t)PayloadLength, ContentType_MainStream);
 
             Open_Buffer_Continue(Stream[Stream_Number].Parser, (size_t)PayloadLength);
             if (Stream[Stream_Number].Parser->Status[IsFinished]

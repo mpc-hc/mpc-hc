@@ -182,10 +182,12 @@ ZtringList Dir::GetAllFileNames(const Ztring &Dir_Name_, dirlist_t Options)
                     Ztring File_Name_Complete=Path+__T("\\")+File_Name;
                     if (Exists(File_Name_Complete))
                     {
+                        if (Options&Include_Dirs)
+                            ToReturn.push_back(File_Name_Complete); //A dir
                         if (Options&Parse_SubDirs)
                             ToReturn+=GetAllFileNames(File_Name_Complete, Options); //A SubDir
                     }
-                    else if ((Options&Include_Hidden) || (!File_Name.empty() && File_Name[0]!=__T('.')))
+                    else if ((Options&Include_Files) && ((Options&Include_Hidden) || (!File_Name.empty() && File_Name[0]!=__T('.'))))
                         ToReturn.push_back(File_Name_Complete); //A file
                 }
                 #ifdef UNICODE

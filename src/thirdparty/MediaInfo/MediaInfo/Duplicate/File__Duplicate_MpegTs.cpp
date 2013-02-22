@@ -226,7 +226,7 @@ bool File__Duplicate_MpegTs::Manage_PAT (const int8u* ToAdd, size_t ToAdd_Size)
 
     //Reseting
     std::vector<int16u> StreamID_List;
-    for (std::map<int16u, buffer>::iterator PAT_=PAT.begin(); PAT_!=PAT.end(); PAT_++)
+    for (std::map<int16u, buffer>::iterator PAT_=PAT.begin(); PAT_!=PAT.end(); ++PAT_)
         if (PAT_->first!=StreamID)
             StreamID_List.push_back(PAT_->first);
     for (size_t Pos=0; Pos<StreamID_List.size(); Pos++)

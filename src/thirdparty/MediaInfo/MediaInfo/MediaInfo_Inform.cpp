@@ -123,15 +123,15 @@ Ztring MediaInfo_Internal::Inform()
         }
         if (Count_Get(Stream_Text))
             Retour+=MediaInfoLib::Config.Inform_Get(__T("Text_End"));
-        if (Count_Get(Stream_Chapters))
+        if (Count_Get(Stream_Other))
             Retour+=MediaInfoLib::Config.Inform_Get(__T("Chapters_Begin"));
-        for (size_t I1=0; I1<Count_Get(Stream_Chapters); I1++)
+        for (size_t I1=0; I1<Count_Get(Stream_Other); I1++)
         {
-            Retour+=Inform(Stream_Chapters, I1, false);
-            if (I1!=Count_Get(Stream_Chapters)-1)
+            Retour+=Inform(Stream_Other, I1, false);
+            if (I1!=Count_Get(Stream_Other)-1)
                 Retour+=MediaInfoLib::Config.Inform_Get(__T("Chapters_Middle"));
         }
-        if (Count_Get(Stream_Chapters))
+        if (Count_Get(Stream_Other))
             Retour+=MediaInfoLib::Config.Inform_Get(__T("Chapters_End"));
         if (Count_Get(Stream_Image))
             Retour+=MediaInfoLib::Config.Inform_Get(__T("Image_Begin"));

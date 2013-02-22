@@ -365,6 +365,9 @@
     <ClInclude Include="MediaInfo\Tag\File_VorbisCom.h">
       <Filter>Header Files\Tag</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Text\File_AribStdB24B37.h">
+      <Filter>Header Files\Text</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Text\File_Cdp.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
@@ -405,6 +408,9 @@
       <Filter>Header Files\Text</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_AfdBarData.h">
+      <Filter>Header Files\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Video\File_Aic.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_Avc.h">
@@ -468,9 +474,6 @@
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Adpcm.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Aes3.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Als.h">
@@ -862,6 +865,9 @@
     <ClCompile Include="MediaInfo\Video\File_AfdBarData.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Video\File_Aic.cpp">
+      <Filter>Source Files\Video</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_Avc.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
@@ -909,6 +915,9 @@
     </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_Y4m.cpp">
       <Filter>Source Files\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Text\File_AribStdB24B37.cpp">
+      <Filter>Source Files\Text</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Text\File_Cdp.cpp">
       <Filter>Source Files\Text</Filter>
@@ -1004,9 +1013,6 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Adpcm.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Aes3.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Als.cpp">

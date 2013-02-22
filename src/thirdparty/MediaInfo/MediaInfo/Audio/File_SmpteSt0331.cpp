@@ -39,18 +39,6 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Audio/File_SmpteSt0331.h"
-#if defined(MEDIAINFO_AAC_YES)
-    #include "MediaInfo/Audio/File_Aac.h"
-#endif
-#if defined(MEDIAINFO_AC3_YES)
-    #include "MediaInfo/Audio/File_Ac3.h"
-#endif
-#if defined(MEDIAINFO_DOLBYE_YES)
-    #include "MediaInfo/Audio/File_DolbyE.h"
-#endif
-#if defined(MEDIAINFO_MPEGA_YES)
-    #include "MediaInfo/Audio/File_Mpega.h"
-#endif
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Events.h"
 #endif //MEDIAINFO_EVENTS
@@ -108,7 +96,7 @@ File_SmpteSt0331::File_SmpteSt0331()
     IsRawStream=true;
 
     //In
-    QuantizationBits=24;
+    QuantizationBits=0;
 }
 
 //***************************************************************************
@@ -130,11 +118,12 @@ void File_SmpteSt0331::Streams_Fill()
     Fill(Stream_Audio, 0, Audio_BitRate, 8*32*48000);
     Fill(Stream_Audio, 0, Audio_BitRate_Mode, "CBR");
 
-    Fill(Stream_Audio, 0, Audio_MuxingMode, "AES3");
+    Fill(Stream_Audio, 0, Audio_Format_Settings_Endianness, "Little");
     Fill(Stream_Audio, 0, Audio_Channel_s_, Channels_Count);
     Fill(Stream_Audio, 0, Audio_ChannelPositions, Smpte_St0331_ChannelsPositions(Channels_Count));
     Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, Smpte_St0331_ChannelsPositions2(Channels_Count));
-    Fill(Stream_Audio, 0, Audio_BitDepth, QuantizationBits);
+    if (QuantizationBits)
+        Fill(Stream_Audio, 0, Audio_BitDepth, QuantizationBits);
 }
 
 //***************************************************************************
@@ -156,45 +145,50 @@ void File_SmpteSt0331::Read_Buffer_Continue()
     Skip_L2(                                                "Audio Sample Count");
     Get_B1 (Channels_valid,                                 "Channels valid");
 
-    int8u* Info=new int8u[(size_t)(Element_Size*((QuantizationBits==16)?2:3)/4)];
-    size_t Info_Offset=0;
-
-    while (Element_Offset+8*4<=Element_Size)
+    if (QuantizationBits)
     {
-        for (int8u Pos=0; Pos<8; Pos++)
+        int8u* Info=new int8u[(size_t)(Element_Size*((QuantizationBits==16)?2:3)/4)];
+        size_t Info_Offset=0;
+
+        while (Element_Offset+8*4<=Element_Size)
         {
-            if (Channels_valid&(1<<Pos))
+            for (int8u Pos=0; Pos<8; Pos++)
             {
-                size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
-
-                if (QuantizationBits==16)
+                if (Channels_valid&(1<<Pos))
                 {
-                    Info[Info_Offset+0] = (Buffer[Buffer_Pos+1]>>4) | ((Buffer[Buffer_Pos+2]<<4)&0xF0 );
-                    Info[Info_Offset+1] = (Buffer[Buffer_Pos+2]>>4) | ((Buffer[Buffer_Pos+3]<<4)&0xF0 );
-                }
-                else
-                {
-                    Info[Info_Offset+0] = (Buffer[Buffer_Pos+0]>>4) | ((Buffer[Buffer_Pos+1]<<4)&0xF0 );
-                    Info[Info_Offset+1] = (Buffer[Buffer_Pos+1]>>4) | ((Buffer[Buffer_Pos+2]<<4)&0xF0 );
-                    Info[Info_Offset+2] = (Buffer[Buffer_Pos+2]>>4) | ((Buffer[Buffer_Pos+3]<<4)&0xF0 );
-                }
+                    size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
 
-                Info_Offset+=QuantizationBits==16?2:3;
+                    if (QuantizationBits==16)
+                    {
+                        Info[Info_Offset+0] = (Buffer[Buffer_Pos+1]>>4) | ((Buffer[Buffer_Pos+2]<<4)&0xF0 );
+                        Info[Info_Offset+1] = (Buffer[Buffer_Pos+2]>>4) | ((Buffer[Buffer_Pos+3]<<4)&0xF0 );
+                    }
+                    else
+                    {
+                        Info[Info_Offset+0] = (Buffer[Buffer_Pos+0]>>4) | ((Buffer[Buffer_Pos+1]<<4)&0xF0 );
+                        Info[Info_Offset+1] = (Buffer[Buffer_Pos+1]>>4) | ((Buffer[Buffer_Pos+2]<<4)&0xF0 );
+                        Info[Info_Offset+2] = (Buffer[Buffer_Pos+2]>>4) | ((Buffer[Buffer_Pos+3]<<4)&0xF0 );
+                    }
+
+                    Info_Offset+=QuantizationBits==16?2:3;
+                }
+                Element_Offset+=4;
             }
-            Element_Offset+=4;
         }
+        Element_Offset=4;
+
+        #if MEDIAINFO_DEMUX
+            FrameInfo.PTS=FrameInfo.DTS;
+            FrameInfo.DUR=(Element_Size-4)*1000000000/48000/32; // 48 kHz, 4 bytes per sample
+            Demux_random_access=true;
+            Element_Code=(int64u)-1;
+            Element_Offset=0;
+            Demux(Info, Info_Offset, ContentType_MainStream);
+            Element_Offset=4;
+        #endif //MEDIAINFO_DEMUX
+
+        delete[] Info;
     }
-    Element_Offset=4;
-
-    #if MEDIAINFO_DEMUX
-        FrameInfo.PTS=FrameInfo.DTS;
-        FrameInfo.DUR=(Element_Size-4)*1000000000/48000/32; // 48 kHz, 4 bytes per sample
-        Demux_random_access=true;
-        Element_Code=(int64u)-1;
-        Demux(Info, Info_Offset, ContentType_MainStream);
-    #endif //MEDIAINFO_DEMUX
-
-    delete[] Info;
 
     Skip_XX(Element_Size-4,                             "Data");
 

@@ -271,7 +271,7 @@ void File_DtvccTransport::Read_Buffer_Continue()
                             if (cc_type==3)
                             {
                                 ((File_Eia708*)Streams[2]->Parser)->cc_type=4; //Magic value saying that the buffer must be kept (this is only a point of synchro from the undelying layer)
-                                Streams[2]->Parser->Open_Buffer_Continue(Streams[Parser_Pos]->Parser, Buffer+(size_t)(Buffer_Offset+Element_Offset), 0);
+                                Open_Buffer_Continue(Streams[Parser_Pos]->Parser, Buffer+(size_t)(Buffer_Offset+Element_Offset), 0);
                                 ((File_Eia708*)Streams[2]->Parser)->cc_type=3;
                             }
                         }

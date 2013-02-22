@@ -118,7 +118,6 @@
     <ClInclude Include="MediaInfo\Audio\File_Aac_GeneralAudio_Sbr_Ps.h" />
     <ClInclude Include="MediaInfo\Audio\File_Ac3.h" />
     <ClInclude Include="MediaInfo\Audio\File_Adpcm.h" />
-    <ClInclude Include="MediaInfo\Audio\File_Aes3.h" />
     <ClInclude Include="MediaInfo\Audio\File_Als.h" />
     <ClInclude Include="MediaInfo\Audio\File_Amr.h" />
     <ClInclude Include="MediaInfo\Audio\File_Amv.h" />
@@ -245,6 +244,7 @@
     <ClInclude Include="MediaInfo\Tag\File_Lyrics3v2.h" />
     <ClInclude Include="MediaInfo\Tag\File_VorbisCom.h" />
     <ClInclude Include="MediaInfo\Tag\File__Tags.h" />
+    <ClInclude Include="MediaInfo\Text\File_AribStdB24B37.h" />
     <ClInclude Include="MediaInfo\Text\File_Cdp.h" />
     <ClInclude Include="MediaInfo\Text\File_Cmml.h" />
     <ClInclude Include="MediaInfo\Text\File_DtvccTransport.h" />
@@ -259,6 +259,7 @@
     <ClInclude Include="MediaInfo\Text\File_Scte20.h" />
     <ClInclude Include="MediaInfo\Text\File_Teletext.h" />
     <ClInclude Include="MediaInfo\Video\File_AfdBarData.h" />
+    <ClInclude Include="MediaInfo\Video\File_Aic.h" />
     <ClInclude Include="MediaInfo\Video\File_Avc.h" />
     <ClInclude Include="MediaInfo\Video\File_AvsV.h" />
     <ClInclude Include="MediaInfo\Video\File_Dirac.h" />
@@ -294,7 +295,6 @@
     <ClCompile Include="MediaInfo\Audio\File_Aac_Others.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Ac3.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Adpcm.cpp" />
-    <ClCompile Include="MediaInfo\Audio\File_Aes3.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Als.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Amr.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Amv.cpp" />
@@ -426,6 +426,7 @@
     <ClCompile Include="MediaInfo\Tag\File_Lyrics3v2.cpp" />
     <ClCompile Include="MediaInfo\Tag\File_VorbisCom.cpp" />
     <ClCompile Include="MediaInfo\Tag\File__Tags.cpp" />
+    <ClCompile Include="MediaInfo\Text\File_AribStdB24B37.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Cdp.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Cmml.cpp" />
     <ClCompile Include="MediaInfo\Text\File_DtvccTransport.cpp" />
@@ -440,6 +441,7 @@
     <ClCompile Include="MediaInfo\Text\File_Scte20.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Teletext.cpp" />
     <ClCompile Include="MediaInfo\Video\File_AfdBarData.cpp" />
+    <ClCompile Include="MediaInfo\Video\File_Aic.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Avc.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Avc_Duplicate.cpp" />
     <ClCompile Include="MediaInfo\Video\File_AvsV.cpp" />

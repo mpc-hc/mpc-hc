@@ -66,6 +66,40 @@ TimeCode::TimeCode (int8u Hours_, int8u Minutes_, int8u Seconds_, int8u Frames_,
     IsSecondField=IsSecondField_;
 }
 
+//---------------------------------------------------------------------------
+TimeCode::TimeCode (int64u Frames_, int8u FramesPerSecond_, bool DropFrame_, bool MustUseSecondField_, bool IsSecondField_)
+{
+    int8u Dropped=0;
+    if (DropFrame_)
+    {
+        Dropped=2;
+        if (FramesPerSecond_>30)
+            Dropped+=2;
+        if (FramesPerSecond_>60)
+            Dropped+=2;
+        if (FramesPerSecond_>90)
+            Dropped+=2;
+        if (FramesPerSecond_>120)
+            Dropped+=2;
+    }
+
+    int64u Minutes_Tens = Frames_/(600*FramesPerSecond_-Dropped*9); //Count of 10 minutes
+    int64u Minutes_Units = (Frames_-Minutes_Tens*(600*FramesPerSecond_-Dropped*9))/(60*FramesPerSecond_-Dropped);
+
+    Frames_ += 9*Dropped*Minutes_Tens+Dropped*Minutes_Units;
+    if (Minutes_Units && ((Frames_/FramesPerSecond_)%60)==0 && (Frames_%FramesPerSecond_)<Dropped) // If Minutes_Tens is not 0 (drop) but count of remaining seconds is 0 and count of remaining frames is less than 2, 1 additional drop was actually counted, removing it
+        Frames_-=Dropped;
+
+    Frames  =    Frames_ % FramesPerSecond_;
+    Seconds =   (Frames_ / FramesPerSecond_) % 60;
+    Minutes =  ((Frames_ / FramesPerSecond_) / 60) % 60;
+    Hours   = (((Frames_ / FramesPerSecond_) / 60) / 60) % 24;
+
+    DropFrame=DropFrame_;
+    MustUseSecondField=MustUseSecondField_;
+    IsSecondField=IsSecondField_;
+}
+
 //***************************************************************************
 // Helpers
 //***************************************************************************
@@ -143,6 +177,25 @@ void TimeCode::MinusOne()
         if (MustUseSecondField)
             IsSecondField=true;
     }
+}
+
+//---------------------------------------------------------------------------
+string TimeCode::ToString()
+{
+    string TC;
+    TC+=('0'+Hours/10);
+    TC+=('0'+Hours%10);
+    TC+=':';
+    TC+=('0'+Minutes/10);
+    TC+=('0'+Minutes%10);
+    TC+=':';
+    TC+=('0'+Seconds/10);
+    TC+=('0'+Seconds%10);
+    TC+=DropFrame?';':':';
+    TC+=('0'+Frames/10);
+    TC+=('0'+Frames%10);
+
+    return TC;
 }
 
 //***************************************************************************

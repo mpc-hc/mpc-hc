@@ -64,7 +64,7 @@ public :
     void    Open_Buffer_Init        (File__Analyze* Sub);
     void    Open_Buffer_Init        (File__Analyze* Sub, int64u File_Size);
     void    Open_Buffer_Continue    (                    const int8u* Buffer, size_t Buffer_Size);
-    void    Open_Buffer_Continue    (File__Analyze* Sub, const int8u* Buffer, size_t Buffer_Size, bool IsNewPacket=true);
+    void    Open_Buffer_Continue    (File__Analyze* Sub, const int8u* Buffer, size_t Buffer_Size, bool IsNewPacket=true, float64 Ratio=1.0);
     void    Open_Buffer_Continue    (File__Analyze* Sub, size_t Buffer_Size) {if (Element_Offset+Buffer_Size<=Element_Size) Open_Buffer_Continue(Sub, Buffer+Buffer_Offset+(size_t)Element_Offset, Buffer_Size); Element_Offset+=Buffer_Size;}
     void    Open_Buffer_Continue    (File__Analyze* Sub) {if (Element_Offset<=Element_Size) Open_Buffer_Continue(Sub, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset)); Element_Offset=Element_Size;}
     void    Open_Buffer_Position_Set(int64u File_Offset);
@@ -123,6 +123,9 @@ public :
     std::vector<int64u> Offsets_Stream;
     std::vector<int64u> Offsets_Buffer;
     size_t              Offsets_Pos;
+    int8u*              OriginalBuffer;
+    size_t              OriginalBuffer_Size;
+    size_t              OriginalBuffer_Capacity;
 
     //Out
     int64u PTS_Begin;                  //In nanoseconds
@@ -816,42 +819,26 @@ public :
     bool Get_TB(                             const char* Name)  {bool Temp; Get_TB(Temp, Name); return Temp;}
     void Get_T1 (size_t Bits, int8u   &Info, const char* Name);
     void Get_T2 (size_t Bits, int16u  &Info, const char* Name);
-    void Get_T3 (size_t Bits, int32u  &Info, const char* Name);
     void Get_T4 (size_t Bits, int32u  &Info, const char* Name);
-    void Get_T5 (size_t Bits, int64u  &Info, const char* Name);
-    void Get_T6 (size_t Bits, int64u  &Info, const char* Name);
-    void Get_T7 (size_t Bits, int64u  &Info, const char* Name);
     void Get_T8 (size_t Bits, int64u  &Info, const char* Name);
     void Peek_BT(size_t Bits, int32u  &Info);
     void Peek_TB(              bool    &Info);
     bool Peek_TB()                                              {bool Temp; Peek_TB(Temp); return Temp;}
     void Peek_T1(size_t Bits, int8u   &Info);
     void Peek_T2(size_t Bits, int16u  &Info);
-    void Peek_T3(size_t Bits, int32u  &Info);
     void Peek_T4(size_t Bits, int32u  &Info);
-    void Peek_T5(size_t Bits, int64u  &Info);
-    void Peek_T6(size_t Bits, int64u  &Info);
-    void Peek_T7(size_t Bits, int64u  &Info);
     void Peek_T8(size_t Bits, int64u  &Info);
     void Skip_BT(size_t Bits,                const char* Name);
     void Skip_TB(                            const char* Name);
     void Skip_T1(size_t Bits,                const char* Name);
     void Skip_T2(size_t Bits,                const char* Name);
-    void Skip_T3(size_t Bits,                const char* Name);
     void Skip_T4(size_t Bits,                const char* Name);
-    void Skip_T5(size_t Bits,                const char* Name);
-    void Skip_T6(size_t Bits,                const char* Name);
-    void Skip_T7(size_t Bits,                const char* Name);
     void Skip_T8(size_t Bits,                const char* Name);
     #define Info_BT(_BITS, _INFO, _NAME) int32u  _INFO; Get_BT(_BITS, _INFO, _NAME)
     #define Info_TB(_INFO, _NAME)        bool    _INFO; Get_TB(       _INFO, _NAME)
     #define Info_T1(_BITS, _INFO, _NAME) int8u   _INFO; Get_T1(_BITS, _INFO, _NAME)
     #define Info_T2(_BITS, _INFO, _NAME) int16u  _INFO; Get_T2(_BITS, _INFO, _NAME)
-    #define Info_T3(_BITS, _INFO, _NAME) int32u  _INFO; Get_T4(_BITS, _INFO, _NAME)
     #define Info_T4(_BITS, _INFO, _NAME) int32u  _INFO; Get_T4(_BITS, _INFO, _NAME)
-    #define Info_T5(_BITS, _INFO, _NAME) int64u  _INFO; Get_T5(_BITS, _INFO, _NAME)
-    #define Info_T6(_BITS, _INFO, _NAME) int64u  _INFO; Get_T6(_BITS, _INFO, _NAME)
-    #define Info_T7(_BITS, _INFO, _NAME) int64u  _INFO; Get_T7(_BITS, _INFO, _NAME)
     #define Info_T8(_BITS, _INFO, _NAME) int64u  _INFO; Get_T8(_BITS, _INFO, _NAME)
 
     #define TEST_TB_GET(_CODE, _NAME) \
@@ -1060,7 +1047,7 @@ protected :
     void Streams_Finish_StreamOnly_Video(size_t StreamPos);
     void Streams_Finish_StreamOnly_Audio(size_t StreamPos);
     void Streams_Finish_StreamOnly_Text(size_t StreamPos);
-    void Streams_Finish_StreamOnly_Chapters(size_t StreamPos);
+    void Streams_Finish_StreamOnly_Other(size_t StreamPos);
     void Streams_Finish_StreamOnly_Image(size_t StreamPos);
     void Streams_Finish_StreamOnly_Menu(size_t StreamPos);
     void Streams_Finish_InterStreams();
@@ -1157,9 +1144,7 @@ protected :
     bool FileHeader_Begin_XML(tinyxml2::XMLDocument &Document);
     bool Synchronize_0x000001();
 public:
-    static void Streams_Accept_TestContinuousFileNames_Static(ZtringList &File_Names, bool IsReferenced);
-protected:
-    void Streams_Accept_TestContinuousFileNames();
+    void TestContinuousFileNames();
 
 private :
 

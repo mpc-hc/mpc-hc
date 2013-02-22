@@ -30,9 +30,6 @@ distribution.
 #   include <cstddef>
 #endif
 
-using namespace tinyxml2;
-using namespace std;
-
 static const char LINE_FEED				= (char)0x0a;			// all line endings are normalized to LF
 static const char LF = LINE_FEED;
 static const char CARRIAGE_RETURN		= (char)0x0d;			// CR gets filtered out
@@ -63,6 +60,9 @@ static const unsigned char TIXML_UTF_LEAD_2 = 0xbfU;
             pool->Free( attrib );				\
         }										\
     }
+
+namespace tinyxml2
+{
 
 struct Entity {
     const char* pattern;
@@ -667,6 +667,7 @@ XMLNode* XMLNode::InsertEndChild( XMLNode* addThis )
         addThis->_next = 0;
     }
     addThis->_parent = this;
+    addThis->_memPool->SetTracked();
     return addThis;
 }
 
@@ -691,6 +692,7 @@ XMLNode* XMLNode::InsertFirstChild( XMLNode* addThis )
         addThis->_next = 0;
     }
     addThis->_parent = this;
+    addThis->_memPool->SetTracked();
     return addThis;
 }
 
@@ -711,6 +713,7 @@ XMLNode* XMLNode::InsertAfterChild( XMLNode* afterThis, XMLNode* addThis )
     afterThis->_next->_prev = addThis;
     afterThis->_next = addThis;
     addThis->_parent = this;
+    addThis->_memPool->SetTracked();
     return addThis;
 }
 
@@ -812,6 +815,7 @@ char* XMLNode::ParseDeep( char* p, StrPair* parentEnd )
             if ( parentEnd ) {
                 *parentEnd = static_cast<XMLElement*>(node)->_value;
             }
+			node->_memPool->SetTracked();	// created and then immediately deleted.
             DELETE_NODE( node );
             return p;
         }
@@ -1072,7 +1076,7 @@ void XMLAttribute::SetName( const char* n )
 }
 
 
-int XMLAttribute::QueryIntValue( int* value ) const
+XMLError XMLAttribute::QueryIntValue( int* value ) const
 {
     if ( XMLUtil::ToInt( Value(), value )) {
         return XML_NO_ERROR;
@@ -1081,7 +1085,7 @@ int XMLAttribute::QueryIntValue( int* value ) const
 }
 
 
-int XMLAttribute::QueryUnsignedValue( unsigned int* value ) const
+XMLError XMLAttribute::QueryUnsignedValue( unsigned int* value ) const
 {
     if ( XMLUtil::ToUnsigned( Value(), value )) {
         return XML_NO_ERROR;
@@ -1090,7 +1094,7 @@ int XMLAttribute::QueryUnsignedValue( unsigned int* value ) const
 }
 
 
-int XMLAttribute::QueryBoolValue( bool* value ) const
+XMLError XMLAttribute::QueryBoolValue( bool* value ) const
 {
     if ( XMLUtil::ToBool( Value(), value )) {
         return XML_NO_ERROR;
@@ -1099,7 +1103,7 @@ int XMLAttribute::QueryBoolValue( bool* value ) const
 }
 
 
-int XMLAttribute::QueryFloatValue( float* value ) const
+XMLError XMLAttribute::QueryFloatValue( float* value ) const
 {
     if ( XMLUtil::ToFloat( Value(), value )) {
         return XML_NO_ERROR;
@@ -1108,7 +1112,7 @@ int XMLAttribute::QueryFloatValue( float* value ) const
 }
 
 
-int XMLAttribute::QueryDoubleValue( double* value ) const
+XMLError XMLAttribute::QueryDoubleValue( double* value ) const
 {
     if ( XMLUtil::ToDouble( Value(), value )) {
         return XML_NO_ERROR;
@@ -1225,7 +1229,7 @@ const char* XMLElement::GetText() const
 }
 
 
-int XMLElement::QueryIntText( int* _value ) const
+XMLError XMLElement::QueryIntText( int* _value ) const
 {
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->ToText()->Value();
@@ -1238,7 +1242,7 @@ int XMLElement::QueryIntText( int* _value ) const
 }
 
 
-int XMLElement::QueryUnsignedText( unsigned* _value ) const
+XMLError XMLElement::QueryUnsignedText( unsigned* _value ) const
 {
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->ToText()->Value();
@@ -1251,7 +1255,7 @@ int XMLElement::QueryUnsignedText( unsigned* _value ) const
 }
 
 
-int XMLElement::QueryBoolText( bool* _value ) const
+XMLError XMLElement::QueryBoolText( bool* _value ) const
 {
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->ToText()->Value();
@@ -1264,7 +1268,7 @@ int XMLElement::QueryBoolText( bool* _value ) const
 }
 
 
-int XMLElement::QueryDoubleText( double* _value ) const
+XMLError XMLElement::QueryDoubleText( double* _value ) const
 {
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->ToText()->Value();
@@ -1277,7 +1281,7 @@ int XMLElement::QueryDoubleText( double* _value ) const
 }
 
 
-int XMLElement::QueryFloatText( float* _value ) const
+XMLError XMLElement::QueryFloatText( float* _value ) const
 {
     if ( FirstChild() && FirstChild()->ToText() ) {
         const char* t = FirstChild()->ToText()->Value();
@@ -1312,6 +1316,7 @@ XMLAttribute* XMLElement::FindOrCreateAttribute( const char* name )
             _rootAttribute = attrib;
         }
         attrib->SetName( name );
+        attrib->_memPool->SetTracked(); // always created and linked.
     }
     return attrib;
 }
@@ -1353,6 +1358,7 @@ char* XMLElement::ParseAttributes( char* p )
         if ( XMLUtil::IsAlpha( *p ) ) {
             XMLAttribute* attrib = new (_document->_attributePool.Alloc() ) XMLAttribute();
             attrib->_memPool = &_document->_attributePool;
+			attrib->_memPool->SetTracked();
 
             p = attrib->ParseDeep( p, _document->ProcessEntities() );
             if ( !p || Attribute( attrib->Name() ) ) {
@@ -1484,7 +1490,7 @@ XMLDocument::XMLDocument( bool processEntities, Whitespace whitespace ) :
     XMLNode( 0 ),
     _writeBOM( false ),
     _processEntities( processEntities ),
-    _errorID( 0 ),
+    _errorID( XML_NO_ERROR ),
     _whitespace( whitespace ),
     _errorStr1( 0 ),
     _errorStr2( 0 ),
@@ -1506,10 +1512,14 @@ XMLDocument::~XMLDocument()
     attributePool.Trace( "attribute" );
 #endif
 
-    TIXMLASSERT( _textPool.CurrentAllocs() == 0 );
-    TIXMLASSERT( _elementPool.CurrentAllocs() == 0 );
-    TIXMLASSERT( _commentPool.CurrentAllocs() == 0 );
-    TIXMLASSERT( _attributePool.CurrentAllocs() == 0 );
+#ifdef DEBUG
+	if ( Error() == false ) {
+		TIXMLASSERT( _elementPool.CurrentAllocs()   == _elementPool.Untracked() );
+		TIXMLASSERT( _attributePool.CurrentAllocs() == _attributePool.Untracked() );
+		TIXMLASSERT( _textPool.CurrentAllocs()      == _textPool.Untracked() );
+		TIXMLASSERT( _commentPool.CurrentAllocs()   == _commentPool.Untracked() );
+	}
+#endif
 }
 
 
@@ -1569,7 +1579,7 @@ XMLUnknown* XMLDocument::NewUnknown( const char* str )
 }
 
 
-int XMLDocument::LoadFile( const char* filename )
+XMLError XMLDocument::LoadFile( const char* filename )
 {
     DeleteChildren();
     InitDocument();
@@ -1591,7 +1601,7 @@ int XMLDocument::LoadFile( const char* filename )
 }
 
 
-int XMLDocument::LoadFile( FILE* fp )
+XMLError XMLDocument::LoadFile( FILE* fp )
 {
     DeleteChildren();
     InitDocument();
@@ -1626,7 +1636,7 @@ int XMLDocument::LoadFile( FILE* fp )
 }
 
 
-int XMLDocument::SaveFile( const char* filename, bool compact )
+XMLError XMLDocument::SaveFile( const char* filename, bool compact )
 {
     FILE* fp = 0;
 #if defined(_MSC_VER) && (_MSC_VER >= 1400 )
@@ -1645,7 +1655,7 @@ int XMLDocument::SaveFile( const char* filename, bool compact )
 }
 
 
-int XMLDocument::SaveFile( FILE* fp, bool compact )
+XMLError XMLDocument::SaveFile( FILE* fp, bool compact )
 {
     XMLPrinter stream( fp, compact );
     Print( &stream );
@@ -1653,7 +1663,7 @@ int XMLDocument::SaveFile( FILE* fp, bool compact )
 }
 
 
-int XMLDocument::Parse( const char* p, size_t len )
+XMLError XMLDocument::Parse( const char* p, size_t len )
 {
     DeleteChildren();
     InitDocument();
@@ -1691,7 +1701,7 @@ void XMLDocument::Print( XMLPrinter* streamer )
 }
 
 
-void XMLDocument::SetError( int error, const char* str1, const char* str2 )
+void XMLDocument::SetError( XMLError error, const char* str1, const char* str2 )
 {
     _errorID = error;
     _errorStr1 = str1;
@@ -2084,3 +2094,6 @@ bool XMLPrinter::Visit( const XMLUnknown& unknown )
     PushUnknown( unknown.Value() );
     return true;
 }
+
+}   // namespace tinyxml2
+

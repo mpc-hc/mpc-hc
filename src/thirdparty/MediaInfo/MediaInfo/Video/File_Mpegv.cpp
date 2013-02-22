@@ -1168,6 +1168,9 @@ void File_Mpegv::Streams_Update()
             Update(*Text_Positions[Text_Positions_Pos].Parser);
             for (size_t Pos=0; Pos<(*Text_Positions[Text_Positions_Pos].Parser)->Count_Get(Stream_Text); Pos++)
             {
+                //Saving previous Muxing mode
+                Ztring MuxingMode=Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode");
+
                 bool IsNewStream=false;
                 if (Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, Text_ID)!=(*Text_Positions[Text_Positions_Pos].Parser)->Get(Stream_Text, Pos, Text_ID))
                 {
@@ -1182,19 +1185,14 @@ void File_Mpegv::Streams_Update()
                 {
                     #if defined(MEDIAINFO_DTVCCTRANSPORT_YES)
                         if ((*Text_Positions[Text_Positions_Pos].Parser)==GA94_03_Parser)
-                        {
-                            Ztring MuxingMode=Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode");
-                            Fill(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode", __T("A/53 / ")+MuxingMode, true);
-                        }
+                            MuxingMode=__T("A/53 / ")+Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode");
                     #endif //defined(MEDIAINFO_DTVCCTRANSPORT_YES)
                     #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-                    if ((*Text_Positions[Text_Positions_Pos].Parser)==Cdp_Parser)
-                    {
-                        Ztring MuxingMode=Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode");
-                        Fill(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode", __T("Ancillary data / ")+MuxingMode, true);
-                    }
+                        if ((*Text_Positions[Text_Positions_Pos].Parser)==Cdp_Parser)
+                            MuxingMode=__T("Ancillary data / ")+Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode");
                     #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
                 }
+                Fill(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode", MuxingMode, true);
             }
         }
     }
@@ -1290,13 +1288,12 @@ void File_Mpegv::Streams_Fill()
                 Fill(Stream_Video, 0, Video_Interlacement, Interlaced_Top?"TFF":"BFF");
             }
         }
-        std::string TempRef, CodingType;
+        std::string TempRef;
         for (size_t Pos=0; Pos<TemporalReference.size(); Pos++)
             if (TemporalReference[Pos] && TemporalReference[Pos]->HasPictureCoding)
             {
                 TempRef+=TemporalReference[Pos]->top_field_first?"T":"B";
                 TempRef+=TemporalReference[Pos]->repeat_first_field?"3":"2";
-                CodingType+=Mpegv_picture_coding_type[TemporalReference[Pos]->picture_coding_type];
             }
         if (TempRef.find('3')!=std::string::npos)
         {
@@ -1365,7 +1362,7 @@ void File_Mpegv::Streams_Fill()
     }
 
     //Delay
-    if (group_start_FirstPass && Time_Begin_Seconds!=Error)
+    if (group_start_FirstPass && !TimeCodeIsNotTrustable && Time_Begin_Seconds!=Error)
     {
         float64 Time_Begin=((float64)Time_Begin_Seconds)*1000;
         if (FrameRate)
@@ -1375,6 +1372,11 @@ void File_Mpegv::Streams_Fill()
         Fill(Stream_Video, 0, Video_Delay_Settings, Ztring(__T("closed_gop="))+(group_start_closed_gop?__T("1"):__T("0")));
         Fill(Stream_Video, 0, Video_Delay_Settings, Ztring(__T("broken_link="))+(group_start_broken_link?__T("1"):__T("0")));
         Fill(Stream_Video, 0, Video_Delay_Source, "Stream");
+        Fill(Stream_Video, 0, Video_Delay_DropFrame, group_start_drop_frame_flag?"Yes":"No");
+
+        Fill(Stream_Video, 0, Video_TimeCode_FirstFrame, TimeCode_FirstFrame.c_str());
+        if (IsSub)
+            Fill(Stream_Video, 0, Video_TimeCode_Source, "Group of pictures header");
     }
 
     //BVOP
@@ -1508,7 +1510,7 @@ void File_Mpegv::Streams_Finish()
         int64u MaxCount=0;
         int64u Total=0;
         string MaxCount_type;
-        for (std::map<std::string, int64u>::iterator Temp=picture_coding_types.begin(); Temp!=picture_coding_types.end(); Temp++)
+        for (std::map<std::string, int64u>::iterator Temp=picture_coding_types.begin(); Temp!=picture_coding_types.end(); ++Temp)
         {
             if (Temp->second>MaxCount)
             {
@@ -1521,7 +1523,7 @@ void File_Mpegv::Streams_Finish()
         if (Total>=4)
         {
             int64u Count=0;
-            for (std::map<std::string, int64u>::iterator Temp=picture_coding_types.begin(); Temp!=picture_coding_types.end(); Temp++)
+            for (std::map<std::string, int64u>::iterator Temp=picture_coding_types.begin(); Temp!=picture_coding_types.end(); ++Temp)
                 if (Temp->first!=MaxCount_type)
                     Count+=Temp->second;
 
@@ -2258,14 +2260,14 @@ void File_Mpegv::picture_start()
                     {
                         int64u MaxCount=0;
                         string MaxCount_type;
-                        for (std::map<std::string, int64u>::iterator Temp=picture_coding_types.begin(); Temp!=picture_coding_types.end(); Temp++)
+                        for (std::map<std::string, int64u>::iterator Temp=picture_coding_types.begin(); Temp!=picture_coding_types.end(); ++Temp)
                             if (Temp->second>MaxCount)
                             {
                                 MaxCount=Temp->second;
                                 MaxCount_type=Temp->first;
                             }
                         int64u Count=0;
-                        for (std::map<std::string, int64u>::iterator Temp=picture_coding_types.begin(); Temp!=picture_coding_types.end(); Temp++)
+                        for (std::map<std::string, int64u>::iterator Temp=picture_coding_types.begin(); Temp!=picture_coding_types.end(); ++Temp)
                             if (Temp->first!=MaxCount_type)
                                 Count+=Temp->second;
                         if (Count>=Config_VariableGopDetection_Occurences)
@@ -2488,6 +2490,8 @@ void File_Mpegv::slice_start()
                     (*Ancillary)=new File_Ancillary();
                 (*Ancillary)->AspectRatio=MPEG_Version==1?Mpegv_aspect_ratio1[aspect_ratio_information]:Mpegv_aspect_ratio2[aspect_ratio_information];
                 (*Ancillary)->FrameRate=((float)(Mpegv_frame_rate[frame_rate_code] * (frame_rate_extension_n + 1)) / (float)(frame_rate_extension_d + 1));
+                if ((*Ancillary)->PTS_DTS_Needed)
+                    (*Ancillary)->FrameInfo.DTS=FrameInfo.DTS;
                 if ((*Ancillary)->Status[IsAccepted]) //In order to test if there is a parser using ancillary data
                     Open_Buffer_Continue((*Ancillary), Buffer+Buffer_Offset, 0);
                 Element_Trace_End0();
@@ -2521,7 +2525,7 @@ void File_Mpegv::slice_start()
         #endif //defined(MEDIAINFO_AFDBARDATA_YES)
 
         //Counting
-        if (File_Offset+Buffer_Offset+Element_Size==File_Size)
+        if (!MustExtendParsingDuration && File_Offset+Buffer_Offset+Element_Size==File_Size)
             Frame_Count_Valid=Frame_Count; //Finish frames in case of there are less than Frame_Count_Valid frames
         if (!TimeCodeIsNotTrustable && (picture_coding_type==1 || picture_coding_type==2)) //IFrame or PFrame
         {
@@ -2591,9 +2595,9 @@ void File_Mpegv::slice_start()
         //Filling only if not already done
         if (!Status[IsAccepted])
             Accept("MPEG Video");
-        if (IFrame_Count==8)
+        if (!MustExtendParsingDuration && IFrame_Count==8)
             Frame_Count_Valid=Frame_Count; //We have enough frames
-        if ((!Status[IsFilled] && (!MustExtendParsingDuration && Frame_Count>=Frame_Count_Valid)) || Frame_Count>=512)
+        if (!Status[IsFilled] && Frame_Count>=Frame_Count_Valid)
         {
             Fill("MPEG Video");
             if (File_Size==(int64u)-1)
@@ -3454,6 +3458,10 @@ void File_Mpegv::sequence_header()
 {
     Element_Name("sequence_header");
 
+    //Reset
+    display_horizontal_size=0;
+    display_vertical_size=0;
+
     //Reading
     int32u bit_rate_value_temp;
     BS_Begin();
@@ -3917,6 +3925,7 @@ void File_Mpegv::group_start()
             //Time code is always 0
             TimeCodeIsNotTrustable=true;
             Time_End_Seconds=(size_t)-1;
+            TimeCode_FirstFrame.clear();
             return;
         }
 
@@ -3932,6 +3941,18 @@ void File_Mpegv::group_start()
             group_start_drop_frame_flag=drop_frame_flag;
             group_start_closed_gop=closed_gop;
             group_start_broken_link=broken_link;
+
+            TimeCode_FirstFrame+=('0'+Hours/10);
+            TimeCode_FirstFrame+=('0'+Hours%10);
+            TimeCode_FirstFrame+=':';
+            TimeCode_FirstFrame+=('0'+Minutes/10);
+            TimeCode_FirstFrame+=('0'+Minutes%10);
+            TimeCode_FirstFrame+=':';
+            TimeCode_FirstFrame+=('0'+Seconds/10);
+            TimeCode_FirstFrame+=('0'+Seconds%10);
+            TimeCode_FirstFrame+=drop_frame_flag?';':':';
+            TimeCode_FirstFrame+=('0'+Frames/10);
+            TimeCode_FirstFrame+=('0'+Frames%10);
         }
 
         RefFramesCount=0;

@@ -157,7 +157,7 @@ File_MpegTs::File_MpegTs()
 
     //Data
     MpegTs_JumpTo_Begin=MediaInfoLib::Config.MpegTs_MaximumOffset_Get();
-    MpegTs_JumpTo_End=32*1024*1024;
+    MpegTs_JumpTo_End=MediaInfoLib::Config.MpegTs_MaximumOffset_Get()/4;
     Searching_TimeStamp_Start=true;
     Complete_Stream=NULL;
     Begin_MaxDuration=MediaInfoLib::Config.ParseSpeed_Get()>=0.8?(int64u)-1:MediaInfoLib::Config.MpegTs_MaximumScanDuration_Get()*27/1000;
@@ -408,6 +408,12 @@ void File_MpegTs::Streams_Update_Programs()
                         for (std::map<std::string, ZenLib::Ztring>::iterator Info=Program->second.Infos.begin(); Info!=Program->second.Infos.end(); ++Info)
                             Fill(Stream_Menu, StreamPos_Last, Info->first.c_str(), Info->second, true);
                         Program->second.Infos.clear();
+                        for (std::map<std::string, ZenLib::Ztring>::iterator Info=Program->second.ExtraInfos_Content.begin(); Info!=Program->second.ExtraInfos_Content.end(); ++Info)
+                            Fill(Stream_Menu, StreamPos_Last, Info->first.c_str(), Info->second, true);
+                        Program->second.ExtraInfos_Content.clear();
+                        for (std::map<std::string, ZenLib::Ztring>::iterator Info=Program->second.ExtraInfos_Option.begin(); Info!=Program->second.ExtraInfos_Option.end(); ++Info)
+                            (*Stream_More)[Stream_Menu][StreamPos_Last](Ztring().From_Local(Info->first.c_str()), Info_Options)=Info->second;
+                        Program->second.ExtraInfos_Option.clear();
 
                         if (!Formats.empty())
                             Formats.resize(Formats.size()-3);
@@ -519,7 +525,7 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
         }
 
         //By the descriptors
-        if (StreamKind_Last==Stream_Max && Complete_Stream->transport_stream_id_IsValid && !Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs.empty())
+        if (StreamKind_Last==Stream_Max && Complete_Stream->transport_stream_id_IsValid && !Temp->program_numbers.empty() && !Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs.empty())
         {
             int32u format_identifier=Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[Temp->program_numbers[0]].registration_format_identifier;
             if (Temp->IsRegistered
@@ -581,6 +587,9 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
                     Fill(StreamKind_Last, StreamPos, Info->first.c_str(), Info->second, true);
             }
             Temp->Infos.clear();
+            for (std::map<std::string, ZenLib::Ztring>::iterator Info=Temp->Infos_Option.begin(); Info!=Temp->Infos_Option.end(); ++Info)
+                (*Stream_More)[StreamKind_Last][StreamPos](Ztring().From_Local(Info->first.c_str()), Info_Options)=Info->second;
+            Temp->Infos_Option.clear();
 
             //Common
             if (Temp->SubStream_pid!=0x0000) //Wit a substream
@@ -591,7 +600,7 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
                 if (!Format_Profile.empty() && Complete_Stream->Streams[Temp->SubStream_pid] && Complete_Stream->Streams[Temp->SubStream_pid]->Parser)
                     Fill(Stream_Video, StreamPos, Video_Format_Profile, Complete_Stream->Streams[Temp->SubStream_pid]->Parser->Retrieve(Stream_Video, 0, Video_Format_Profile)+__T(" / ")+Format_Profile, true);
             }
-            else if (Count>1)
+            else if (Count>1 || (StreamKind_Last==Stream_Text && Retrieve(StreamKind_Last, StreamPos, General_ID).find(__T('-'))!=string::npos))
             {
                 Ztring ID=Retrieve(StreamKind_Last, StreamPos, General_ID);
                 size_t ID_Pos=ID.find(__T('-'));
@@ -1495,7 +1504,8 @@ bool File_MpegTs::Synched_Test()
                                         {
                                             //We are already parsing 16 seconds (for all PCRs), we don't hope to have more info
                                             MpegTs_JumpTo_Begin=File_Offset+Buffer_Offset-Buffer_TotalBytes_FirstSynched;
-                                            MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
+                                            if (MpegTs_JumpTo_End>MpegTs_JumpTo_Begin)
+                                                MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
                                         }
                                     }
                                 }
@@ -1519,6 +1529,8 @@ bool File_MpegTs::Synched_Test()
         Buffer_Offset+=TS_Size;
     }
 
+    if (File_Offset+Buffer_Size>=File_Size)
+        Detect_EOF(); //for TRP files
     return false; //Not enough data
 }
 
@@ -1548,7 +1560,7 @@ void File_MpegTs::Synched_Init()
 
     //Temp
     MpegTs_JumpTo_Begin=(File_Offset_FirstSynched==(int64u)-1?0:Buffer_TotalBytes_LastSynched)+MediaInfoLib::Config.MpegTs_MaximumOffset_Get();
-    MpegTs_JumpTo_End=32*1024*1024;
+    MpegTs_JumpTo_End=MediaInfoLib::Config.MpegTs_MaximumOffset_Get()/4;
     Buffer_TotalBytes_LastSynched=Buffer_TotalBytes_FirstSynched;
     if (MpegTs_JumpTo_Begin==(int64u)-1 || MpegTs_JumpTo_Begin+MpegTs_JumpTo_End>=File_Size)
     {
@@ -2226,7 +2238,8 @@ void File_MpegTs::Header_Parse_AdaptationField()
                             {
                                 //We are already parsing 16 seconds (for all PCRs), we don't hope to have more info
                                 MpegTs_JumpTo_Begin=File_Offset+Buffer_Offset-Buffer_TotalBytes_FirstSynched;
-                                MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
+                                if (MpegTs_JumpTo_End>MpegTs_JumpTo_Begin)
+                                    MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
                             }
                         }
                     }
@@ -2451,7 +2464,8 @@ void File_MpegTs::Header_Parse_AdaptationField()
                             {
                                 //We are already parsing 16 seconds (for all PCRs), we don't hope to have more info
                                 MpegTs_JumpTo_Begin=File_Offset+Buffer_Offset-Buffer_TotalBytes_FirstSynched;
-                                MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
+                                if (MpegTs_JumpTo_End>MpegTs_JumpTo_Begin)
+                                    MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
                             }
                         }
                     }
@@ -2775,6 +2789,12 @@ void File_MpegTs::PES_Parse_Finish()
 //---------------------------------------------------------------------------
 void File_MpegTs::PSI()
 {
+//    if (pid!=0 && pid!=0x101/*0x2f0*/)
+    {
+  //      Element_DoNotShow();
+    //    return;
+    }
+
     //Initializing
     if (payload_unit_start_indicator)
     {

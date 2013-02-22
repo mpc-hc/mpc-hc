@@ -81,7 +81,7 @@ protected :
     void Streams_Finish_Essence (int32u EssenceUID, int128u TrackUID);
     void Streams_Finish_Descriptor (int128u DescriptorUID, int128u PackageUID);
     void Streams_Finish_Locator (int128u DescriptorUID, int128u LocatorUID);
-    void Streams_Finish_Component (int128u ComponentUID, float64 EditRate);
+    void Streams_Finish_Component (int128u ComponentUID, float64 EditRate, int32u TrackID);
     void Streams_Finish_Identification (int128u IdentificationUID);
     void Streams_Finish_CommercialNames ();
 
@@ -130,6 +130,7 @@ protected :
     void Track();
     void DMSegment();
     void GenericSoundEssenceDescriptor();
+    void GenericDataEssenceDescriptor();
     void MultipleDescriptor();
     void AES3PCMDescriptor();
     void WaveAudioDescriptor();
@@ -246,6 +247,7 @@ protected :
     void GenericSoundEssenceDescriptor_SoundEssenceCompression(); //3D06
     void GenericSoundEssenceDescriptor_ChannelCount();          //3D07
     void GenericSoundEssenceDescriptor_DialNorm();              //3D0C
+    void GenericDataEssenceDescriptor_DataEssenceCoding();      //3E01
     void GenericTrack_TrackID();                                //4801
     void GenericTrack_TrackName();                              //4802
     void GenericTrack_Sequence();                               //4803
@@ -482,12 +484,13 @@ protected :
     tracks Tracks;
 
     //Essence
+    typedef std::vector<File__Analyze*> parsers;
     struct essence
     {
         stream_t StreamKind;
         size_t   StreamPos;
         size_t   StreamPos_Initial;
-        File__Analyze* Parser;
+        parsers Parsers;
         std::map<std::string, Ztring> Infos;
         int64u Stream_Size;
         int32u TrackID;
@@ -504,7 +507,6 @@ protected :
             StreamKind=Stream_Max;
             StreamPos=(size_t)-1;
             StreamPos_Initial=(size_t)-1;
-            Parser=NULL;
             Stream_Size=(int64u)-1;
             TrackID=(int32u)-1;
             TrackID_WasLookedFor=false;
@@ -518,7 +520,8 @@ protected :
 
         ~essence()
         {
-            delete Parser; //Parser=NULL;
+            for (size_t Pos=0; Pos<Parsers.size(); Pos++)
+                delete Parsers[Pos];
         }
     };
     typedef std::map<int32u, essence> essences; //Key is TrackNumber
@@ -642,10 +645,20 @@ protected :
         int32u  SourceTrackID;
         std::vector<int128u> StructuralComponents; //Sequence from MaterialPackage only
 
+        //Time code component
+        int16u  TimeCode_RoundedTimecodeBase;
+        int64u  TimeCode_StartTimecode;
+        bool    TimeCode_DropFrame;
+
         component()
         {
             Duration=(int64u)-1;
             SourceTrackID=(int32u)-1;
+
+            //Time code component
+            TimeCode_RoundedTimecodeBase=(int16u)-1;
+            TimeCode_StartTimecode=(int64u)-1;
+            TimeCode_DropFrame=false;
         }
 
         void Update (struct component &New)
@@ -709,23 +722,24 @@ protected :
     void           ChooseParser__Aaf_GC_Compound(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser__Avid(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser__Avid_Picture(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser__FromEssenceContainer(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Avc(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_DV(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Mpeg4v(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Mpegv(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Raw(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_RV24(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Vc3(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Aac(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Ac3(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Aes3(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Alaw(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_ChannelGrouping(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Mpega(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Pcm(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
-    File__Analyze* ChooseParser_Jpeg2000(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser__FromEssenceContainer(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Avc(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_DV(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Mpeg4v(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Mpegv(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Raw(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_RV24(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Vc3(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Aac(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Ac3(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Alaw(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_ChannelGrouping(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Mpega(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Pcm(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_SmpteSt0331(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_SmpteSt0337(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_Jpeg2000(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
 
     //Helpers
     void Subsampling_Compute(descriptors::iterator Descriptor);
@@ -742,11 +756,13 @@ protected :
     bool   TimeCode_DropFrame;
     float64 DTS_Delay; //In seconds
     bool   StreamPos_StartAtOne; //information about the base of StreamPos (0 or 1, 1 is found in 1 file)
-    int64u SDTI_TimeCode_StartTimecode;
+    string SDTI_TimeCode_StartTimecode;
+    int64u SDTI_TimeCode_StartTimecode_ms;
     int64u SDTI_SizePerFrame;
     bool   SDTI_IsPresent; //Used to test if SDTI packet is used for Index StreamOffset calculation
     bool   SDTI_IsInIndexStreamOffset; //Used to test if SDTI packet is used for Index StreamOffset calculation
-    int64u SystemScheme1_TimeCodeArray_StartTimecode;
+    string SystemScheme1_TimeCodeArray_StartTimecode;
+    int64u SystemScheme1_TimeCodeArray_StartTimecode_ms;
     int64u SystemScheme1_FrameRateFromDescriptor;
     bool   Essences_FirstEssence_Parsed;
     int32u IndexTable_NSL;

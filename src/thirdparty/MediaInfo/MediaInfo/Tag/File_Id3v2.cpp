@@ -1067,6 +1067,12 @@ void File_Id3v2::TXXX()
 //---------------------------------------------------------------------------
 void File_Id3v2::SYLT()
 {
+    if (Element_Size<6)
+    {
+        Skip_XX(Element_Size,                                   "(Problem)");
+        return;
+    }
+
     int8u Encoding;
     Get_B1 (Encoding,                                           "Text encoding");
     Skip_C3(                                                    "Language");

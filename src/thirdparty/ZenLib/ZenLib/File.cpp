@@ -154,7 +154,7 @@ bool File::Open (const tstring &File_Name_, access_t Access)
             switch (Access)
             {
                 case Access_Read         : mode=ios_base::binary|ios_base::in; break;
-                case Access_Write        : mode=ios_base::binary|ios_base::out; break;
+                case Access_Write        : mode=ios_base::binary|ios_base::in|ios_base::out; break;
                 case Access_Read_Write   : mode=ios_base::binary|ios_base::in|ios_base::out; break;
                 case Access_Write_Append : if (!Exists(File_Name))
                                                 mode=ios_base::binary|ios_base::out;

@@ -393,6 +393,9 @@
 
 //---------------------------------------------------------------------------
 // Video
+#if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_AIC_NO) && !defined(MEDIAINFO_AIC_YES)
+    #define MEDIAINFO_AIC_YES
+#endif
 #if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_AFDBARDATA_NO) && !defined(MEDIAINFO_AFDBARDATA_YES)
     #define MEDIAINFO_AFDBARDATA_YES
 #endif
@@ -458,9 +461,6 @@
 #endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_LATM_NO) && !defined(MEDIAINFO_LATM_YES)
     #define MEDIAINFO_LATM_YES
-#endif
-#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_AES3_NO) && !defined(MEDIAINFO_AES3_YES)
-    #define MEDIAINFO_AES3_YES
 #endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_AMR_NO) && !defined(MEDIAINFO_AMR_YES)
     #define MEDIAINFO_AMR_YES
@@ -561,6 +561,9 @@
 
 //---------------------------------------------------------------------------
 // Text
+#if !defined(MEDIAINFO_TEXT_NO) && !defined(MEDIAINFO_ARIBSTDB24B37_NO) && !defined(MEDIAINFO_ARIBSTDB24B37_YES)
+    #define MEDIAINFO_ARIBSTDB24B37_YES
+#endif
 #if !defined(MEDIAINFO_TEXT_NO) && !defined(MEDIAINFO_CDP_NO) && !defined(MEDIAINFO_CDP_YES)
     #define MEDIAINFO_CDP_YES
 #endif

@@ -55,6 +55,10 @@ private :
     void Streams_Fill();
     void Streams_Finish();
 
+    //Buffer - Synchro
+    bool Synchronize();
+    bool Synched_Test();
+
     //Buffer - Global
     void Read_Buffer_Init();
     void Read_Buffer_Continue();

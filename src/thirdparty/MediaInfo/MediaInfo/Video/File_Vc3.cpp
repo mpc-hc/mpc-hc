@@ -55,6 +55,7 @@ const int32u Vc3_CompressedFrameSize(int32u CompressionID)
         case 1241 : return 917504;
         case 1242 : return 606208;
         case 1243 : return 917504;
+        case 1244 : return 606208;
         case 1250 : return 458752;
         case 1251 : return 458752;
         case 1252 : return 303104;
@@ -261,6 +262,17 @@ void File_Vc3::Data_Parse()
     FILLING_BEGIN();
         Data_ToParse-=Buffer_Size-(size_t)Buffer_Offset;
         Frame_Count++;
+        if (Frame_Count_NotParsedIncluded!=(int64u)-1)
+            Frame_Count_NotParsedIncluded++;
+        if (FrameRate)
+        {
+            FrameInfo.PTS=FrameInfo.DTS+=float64_int64s(1000000000/FrameRate);
+            FrameInfo.DUR=float64_int64s(1000000000/FrameRate);
+        }
+        else
+        {
+            FrameInfo.PTS=FrameInfo.DTS=FrameInfo.DUR=(int64u)-1;
+        }
         if (!Status[IsFinished] && Frame_Count>=Frame_Count_Valid)
             Finish("VC-3");
     FILLING_END();

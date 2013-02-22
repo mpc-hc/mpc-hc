@@ -30,13 +30,16 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#if defined(MEDIAINFO_AES3_YES)
+#if defined(MEDIAINFO_SMPTEST0337_YES)
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Audio/File_ChannelGrouping.h"
-#if defined(MEDIAINFO_AES3_YES)
-    #include "MediaInfo/Audio/File_Aes3.h"
+#if defined(MEDIAINFO_SMPTEST0337_YES)
+    #include "MediaInfo/Audio/File_SmpteSt0337.h"
+#endif
+#if defined(MEDIAINFO_PCM_YES)
+    #include "MediaInfo/Audio/File_Pcm.h"
 #endif
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Events.h"
@@ -67,22 +70,20 @@ File_ChannelGrouping::File_ChannelGrouping()
     IsRawStream=true;
 
     //In
-    ByteDepth=0;
+    BitDepth=0;
+    SamplingRate=0;
+    Endianness=0;
+    CanBePcm=false;
     Common=NULL;
     Channel_Pos=0;
     Channel_Total=1;
-    SampleRate=0;
-    Endianness=0;
-    IsAes3=false;
-
-    //Temp
-    Buffer_Offset_AlreadyInCommon=0;
-    IsPcm_Frame_Count=0;
 }
 
 File_ChannelGrouping::~File_ChannelGrouping()
 {
-    if (Channel_Pos==0)
+    Common->Instances--;
+
+    if (Common->Instances==0)
     {
         for (size_t Pos=0; Pos<Common->Channels.size(); Pos++)
             delete Common->Channels[Pos]; //Common->Channels[Pos]=NULL;
@@ -97,43 +98,34 @@ File_ChannelGrouping::~File_ChannelGrouping()
 //---------------------------------------------------------------------------
 void File_ChannelGrouping::Streams_Fill()
 {
-    if (Common->Parser->Count_Get(Stream_Audio)==0 || Common->Parser->Get(Stream_Audio, 0, Audio_Format)==__T("PCM"))
-    {
-        Fill(Stream_General, 0, General_Format, "PCM");
-        Stream_Prepare(Stream_Audio);
-        Fill(Stream_Audio, 0, Audio_Format, "PCM");
-        Fill(Stream_Audio, 0, Audio_Codec, "PCM");
-        Fill(Stream_Audio, 0, Audio_BitRate_Mode, "CBR");
-        switch (Endianness)
-        {
-            case 'B' : Fill(Stream_Audio, 0, Audio_Format_Settings_Endianness, "Big"); break;
-            case 'L' : Fill(Stream_Audio, 0, Audio_Format_Settings_Endianness, "Little"); break;
-            default  : ;
-        }
-        return;
-    }
-
-    if (!Common->IsAes3)
-        return; //Nothing to do
-
     Fill(Stream_General, 0, General_Format, "ChannelGrouping");
 
-    if (Common->Channel_Master!=Channel_Pos)
+    if (Channel_Pos!=Common->Channels.size()-1)
         return;
-    Fill(Common->Parser);
-    Merge(*Common->Parser);
+
+    if (Common->Parsers.size()!=1 && CanBePcm) // Last parser is PCM, impossible to detect with another method if htere is only one block
+    {
+        for (size_t Pos=0; Pos<Common->Parsers.size()-1; Pos++)
+            delete Common->Parsers[Pos];
+        Common->Parsers.erase(Common->Parsers.begin(), Common->Parsers.begin()+Common->Parsers.size()-1);
+        Common->Parsers[0]->Accept();
+        Common->Parsers[0]->Fill();
+    }
+
+    if (Common->Parsers.size()!=1)
+        return;
+
+    Fill(Common->Parsers[0]);
+    Merge(*Common->Parsers[0]);
 }
 
 //---------------------------------------------------------------------------
 void File_ChannelGrouping::Streams_Finish()
 {
-    if (!Common->IsAes3)
-        return; //Nothing to do
-
-    if (Common->Channel_Master!=Channel_Pos)
+    if (Channel_Pos!=Common->Channels.size()-1 || Common->Parsers.size()!=1)
         return;
-    Finish(Common->Parser);
-    //Merge(*Common->Parser);
+
+    Finish(Common->Parsers[0]);
 }
 
 //***************************************************************************
@@ -145,100 +137,77 @@ void File_ChannelGrouping::Read_Buffer_Init()
 {
     if (Common==NULL)
     {
+        //Common
         Common=new common;
-        Common->Parser=new File_Aes3;
-        ((File_Aes3*)Common->Parser)->SampleRate=SampleRate;
-        ((File_Aes3*)Common->Parser)->ByteSize=ByteDepth*Channel_Total;
-        ((File_Aes3*)Common->Parser)->IsAes3=IsAes3;
         Common->Channels.resize(Channel_Total);
         for (size_t Pos=0; Pos<Common->Channels.size(); Pos++)
             Common->Channels[Pos]=new common::channel;
         Element_Code=(int64u)-1;
-        Open_Buffer_Init(Common->Parser);
-    }
 
-    Accept(); //Forcing acceptance, no possibility to choose something else or detect PCM
-    #if MEDIAINFO_DEMUX
-         Demux_UnpacketizeContainer=Config->Demux_Unpacketize_Get();
-    #endif //MEDIAINFO_DEMUX
+        //SMPTE ST 337
+        {
+            File_SmpteSt0337* Parser=new File_SmpteSt0337;
+            Parser->Container_Bits=BitDepth;
+            Parser->Endianness=Endianness;
+            Common->Parsers.push_back(Parser);
+        }
+
+        //PCM
+        if (CanBePcm)
+        {
+            File_Pcm* Parser=new File_Pcm;
+            Parser->BitDepth=BitDepth;
+            Parser->Channels=Channel_Total;
+            Parser->SamplingRate=SamplingRate;
+            Parser->Endianness=Endianness;
+            Common->Parsers.push_back(Parser);
+        }
+
+        //for all parsers
+        for (size_t Pos=0; Pos<Common->Parsers.size(); Pos++)
+        {
+            #if MEDIAINFO_DEMUX
+                if (Config->Demux_Unpacketize_Get())
+                {
+                    Common->Parsers[Pos]->Demux_UnpacketizeContainer=true;
+                    Common->Parsers[Pos]->Demux_Level=2; //Container
+                    Demux_Level=4; //Intermediate
+                }
+            #endif //MEDIAINFO_DEMUX
+            Open_Buffer_Init(Common->Parsers[Pos]);
+        }
+    }
+    Common->Instances++;
 }
 
 //---------------------------------------------------------------------------
 void File_ChannelGrouping::Read_Buffer_Continue()
 {
     //Handling of multiple frames in one block
-    if (Buffer_Size-Buffer_Offset_AlreadyInCommon==0)
+    if (Buffer_Size==0)
     {
-        if (Common->Parser && Common->Parser->Buffer_Size)
-            Open_Buffer_Continue(Common->Parser, Common->MergedChannel.Buffer+Common->MergedChannel.Buffer_Offset, 0);
-        Element_WaitForMoreData();
+        Offsets_Stream.clear();
+        Offsets_Buffer.clear();
+        for (size_t Pos=0; Pos<Common->Parsers.size(); Pos++)
+            Open_Buffer_Continue(Common->Parsers[Pos], Common->MergedChannel.Buffer+Common->MergedChannel.Buffer_Offset, 0, false);
         return;
     }
-
-    //If basic PCM is already detected
-    if (!IsAes3 && Common->IsPcm)
-    {
-        if (Buffer_Size==Buffer_Offset_AlreadyInCommon)
-        {
-            Element_WaitForMoreData();
-            return;
-        }
-        Buffer_Offset_AlreadyInCommon=0;
-
-        #if MEDIAINFO_DEMUX
-            Demux_Level=2; //Container
-            Demux_Offset=Buffer_Size;
-            FrameInfo.PTS=FrameInfo.DTS;
-            if (FrameInfo.DUR!=(int64u)-1 && IsPcm_Frame_Count)
-                FrameInfo.DUR*=IsPcm_Frame_Count+1;
-            Demux_UnpacketizeContainer_Demux();
-        #endif //MEDIAINFO_DEMUX
-
-        Skip_XX(Element_Size,                                   "Data");
-
-        if (IsPcm_Frame_Count)
-        {
-            Frame_Count+=IsPcm_Frame_Count;
-            Frame_Count_InThisBlock+=IsPcm_Frame_Count;
-            if (Frame_Count_NotParsedIncluded!=(int64u)-1)
-                Frame_Count_NotParsedIncluded+=IsPcm_Frame_Count;
-            IsPcm_Frame_Count=0;
-        }
-        Frame_Count++;
-        Frame_Count_InThisBlock++;
-        if (Frame_Count_NotParsedIncluded!=(int64u)-1)
-            Frame_Count_NotParsedIncluded++;
-
-        if (!Status[IsFilled])
-        {
-            Finish();
-        }
-
-        return;
-    }
-    else if (Buffer_Size && Buffer_Size>Buffer_Offset_AlreadyInCommon && !Common->IsAes3)
-        IsPcm_Frame_Count++;
 
     //Demux
     #if MEDIAINFO_DEMUX
-        if (Demux_UnpacketizeContainer)
-        {
-            Common->Parser->Demux_UnpacketizeContainer=true;
-            Common->Parser->Demux_Level=2; //Container
-            Demux_Level=4; //Intermediate
-        }
         Demux(Common->MergedChannel.Buffer+Common->MergedChannel.Buffer_Offset, Common->MergedChannel.Buffer_Size-Common->MergedChannel.Buffer_Offset, ContentType_MainStream);
     #endif //MEDIAINFO_EVENTS
 
     //Copying to Channel buffer
-    if (Common->Channels[Channel_Pos]->Buffer_Size+Buffer_Size-Buffer_Offset_AlreadyInCommon>Common->Channels[Channel_Pos]->Buffer_Size_Max)
-        Common->Channels[Channel_Pos]->resize(Common->Channels[Channel_Pos]->Buffer_Size+Buffer_Size-Buffer_Offset_AlreadyInCommon);
-    memcpy(Common->Channels[Channel_Pos]->Buffer+Common->Channels[Channel_Pos]->Buffer_Size, Buffer+Buffer_Offset_AlreadyInCommon, Buffer_Size-Buffer_Offset_AlreadyInCommon);
-    Common->Channels[Channel_Pos]->Buffer_Size+=Buffer_Size-Buffer_Offset_AlreadyInCommon;
-    if (!Common->IsAes3 && !(IsAes3 && Common->IsPcm))
-        Buffer_Offset_AlreadyInCommon=Buffer_Size;
-    else
-        Buffer_Offset_AlreadyInCommon=0;
+    if (Common->Channels[Channel_Pos]->Buffer_Size+Buffer_Size>Common->Channels[Channel_Pos]->Buffer_Size_Max)
+        Common->Channels[Channel_Pos]->resize(Common->Channels[Channel_Pos]->Buffer_Size+Buffer_Size);
+    memcpy(Common->Channels[Channel_Pos]->Buffer+Common->Channels[Channel_Pos]->Buffer_Size, Buffer, Buffer_Size);
+    Common->Channels[Channel_Pos]->Buffer_Size+=Buffer_Size;
+    Common->Channels[Channel_Pos]->Offsets_Stream.insert(Common->Channels[Channel_Pos]->Offsets_Stream.begin(), Offsets_Stream.begin(), Offsets_Stream.end());
+    Offsets_Stream.clear();
+    Common->Channels[Channel_Pos]->Offsets_Buffer.insert(Common->Channels[Channel_Pos]->Offsets_Buffer.begin(), Offsets_Buffer.begin(), Offsets_Buffer.end());
+    Offsets_Buffer.clear();
+    Skip_XX(Buffer_Size,                                        "Channel grouping data");
     Common->Channel_Current++;
     if (Common->Channel_Current>=Channel_Total)
         Common->Channel_Current=0;
@@ -248,57 +217,145 @@ void File_ChannelGrouping::Read_Buffer_Continue()
     for (size_t Pos=0; Pos<Common->Channels.size(); Pos++)
         if (Minimum>Common->Channels[Pos]->Buffer_Size-Common->Channels[Pos]->Buffer_Offset)
             Minimum=Common->Channels[Pos]->Buffer_Size-Common->Channels[Pos]->Buffer_Offset;
-    while (Minimum>=ByteDepth)
+    if (Minimum*8>=BitDepth)
     {
         for (size_t Pos=0; Pos<Common->Channels.size(); Pos++)
         {
-            if (Common->MergedChannel.Buffer_Size+Minimum>Common->MergedChannel.Buffer_Size_Max)
-                Common->MergedChannel.resize(Common->MergedChannel.Buffer_Size+Minimum);
-            memcpy(Common->MergedChannel.Buffer+Common->MergedChannel.Buffer_Size, Common->Channels[Pos]->Buffer+Common->Channels[Pos]->Buffer_Offset, ByteDepth);
-            Common->Channels[Pos]->Buffer_Offset+=ByteDepth;
-            Common->MergedChannel.Buffer_Size+=ByteDepth;
+            Common->MergedChannel.Offsets_Stream.insert(Common->MergedChannel.Offsets_Stream.end(), Common->Channels[Pos]->Offsets_Stream.begin(), Common->Channels[Pos]->Offsets_Stream.end());
+            Common->Channels[Pos]->Offsets_Stream.clear();
+            Common->MergedChannel.Offsets_Buffer.insert(Common->MergedChannel.Offsets_Buffer.end(), Common->Channels[Pos]->Offsets_Buffer.begin(), Common->Channels[Pos]->Offsets_Buffer.end());
+            Common->Channels[Pos]->Offsets_Buffer.clear();
         }
-        Minimum-=ByteDepth;
-    }
 
-    if (Common->MergedChannel.Buffer_Size-Common->MergedChannel.Buffer_Offset)
-    {
-        if (FrameInfo_Next.DTS!=(int64u)-1)
-            Common->Parser->FrameInfo=FrameInfo_Next; //AES3 parse has its own buffer management
-        else
-            Common->Parser->FrameInfo=FrameInfo;
-        Open_Buffer_Continue(Common->Parser, Common->MergedChannel.Buffer+Common->MergedChannel.Buffer_Offset, Common->MergedChannel.Buffer_Size-Common->MergedChannel.Buffer_Offset);
-        Common->MergedChannel.Buffer_Offset=Common->MergedChannel.Buffer_Size;
-    }
-
-    if (!Common->IsAes3)
-    {
-        if (!Status[IsFilled] && Common->Parser->Status[IsAccepted])
+        while (Minimum*8>=BitDepth)
         {
-            if (Common->Parser->Get(Stream_Audio, 0, Audio_Format)==__T("PCM"))
-                Common->IsPcm=true;
-            else
+            switch (BitDepth)
             {
-                Common->IsAes3=true;
-                if (Common->Channel_Master==(size_t)-1)
-                    Common->Channel_Master=Channel_Pos;
-                Buffer_Offset_AlreadyInCommon=0;
-                Fill();
+                case 16:
+                    // Source: 16XE / L3L2 L1L0 + R3R2 R1R0
+                    // Dest  : 16XE / L3L2 L1L0 R3R2 R1R0
+                    for (size_t Pos=0; Pos<Common->Channels.size(); Pos++)
+                    {
+                        if (Common->MergedChannel.Buffer_Size+Minimum>Common->MergedChannel.Buffer_Size_Max)
+                            Common->MergedChannel.resize(Common->MergedChannel.Buffer_Size+Minimum);
+                        Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Common->Channels[Pos]->Buffer[Common->Channels[Pos]->Buffer_Offset++];
+                        Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Common->Channels[Pos]->Buffer[Common->Channels[Pos]->Buffer_Offset++];
+                    }
+                    Minimum-=2;
+                    break;
+                case 20:
+                    // Source: 20BE / L4L3 L2L1 L0L4 L3L2 L1L0 + R4R3 R2R1 R0R4 R3R2 R1R0
+                    // Dest  : 20BE / L4L3 L2L1 L0R4 R3R2 R1R0 L4L3 L2L1 L0R4 R2R1 R1R0
+                    if (Endianness=='B')
+                        for (size_t Pos=0; Pos+1<Common->Channels.size(); Pos+=2)
+                        {
+                            if (Common->MergedChannel.Buffer_Size+Minimum*2>Common->MergedChannel.Buffer_Size_Max)
+                                Common->MergedChannel.resize(Common->MergedChannel.Buffer_Size+Minimum*2);
+                            int8u* Channel1=Common->Channels[Pos]->Buffer+Common->Channels[Pos]->Buffer_Offset;
+                            int8u* Channel2=Common->Channels[Pos]->Buffer+Common->Channels[Pos]->Buffer_Offset;
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Channel1[0];
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Channel1[1];
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel1[0]&0xF0) | (Channel2[0]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel2[0]<<4  ) | (Channel2[1]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel2[1]<<4  ) | (Channel2[2]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel1[2]<<4  ) | (Channel1[3]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel1[3]<<4  ) | (Channel1[4]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel1[4]<<4  ) | (Channel2[2]&0x0F);
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Channel2[3];
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Channel2[4];
+                            Common->Channels[Pos]->Buffer_Offset+=5;
+                            Common->Channels[Pos+1]->Buffer_Offset+=5;
+                        }
+                    // Source: 20LE / L1L0 L3L2 L0L4 L2L1 L4L3 + R1R0 R3R2 R0R4 R2R1 R4R3
+                    // Dest  : 20LE / L1L0 L3L2 R0L4 R2R1 R4R3 L1L0 L3L2 R0L4 R2R1 R4R3
+                    else
+                        for (size_t Pos=0; Pos+1<Common->Channels.size(); Pos+=2)
+                        {
+                            if (Common->MergedChannel.Buffer_Size+Minimum*2>Common->MergedChannel.Buffer_Size_Max)
+                                Common->MergedChannel.resize(Common->MergedChannel.Buffer_Size+Minimum*2);
+                            int8u* Channel1=Common->Channels[Pos]->Buffer+Common->Channels[Pos]->Buffer_Offset;
+                            int8u* Channel2=Common->Channels[Pos]->Buffer+Common->Channels[Pos]->Buffer_Offset;
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Channel1[0];
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Channel1[1];
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel2[0]<<4  ) | (Channel1[2]&0x0F);
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel2[1]<<4  ) | (Channel2[0]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel2[2]<<4  ) | (Channel2[1]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel1[3]<<4  ) | (Channel1[2]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel1[4]<<4  ) | (Channel1[3]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]=(Channel2[2]&0xF0) | (Channel1[4]>>4  );
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Channel2[3];
+                            Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Channel2[4];
+                            Common->Channels[Pos]->Buffer_Offset+=5;
+                            Common->Channels[Pos+1]->Buffer_Offset+=5;
+                        }
+                    Minimum-=5; //2.5 twice
+                    break;
+                case 24:
+                    // Source: 24XE / L5L4 L3L2 L1L0 + R5R4 R3R2 R1R0
+                    // Dest  : 24XE / L5L4 L3L2 L1L0 R5R4 R3R2 R1R0
+                    for (size_t Pos=0; Pos<Common->Channels.size(); Pos++)
+                    {
+                        if (Common->MergedChannel.Buffer_Size+Minimum>Common->MergedChannel.Buffer_Size_Max)
+                            Common->MergedChannel.resize(Common->MergedChannel.Buffer_Size+Minimum);
+                        Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Common->Channels[Pos]->Buffer[Common->Channels[Pos]->Buffer_Offset++];
+                        Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Common->Channels[Pos]->Buffer[Common->Channels[Pos]->Buffer_Offset++];
+                        Common->MergedChannel.Buffer[Common->MergedChannel.Buffer_Size++]= Common->Channels[Pos]->Buffer[Common->Channels[Pos]->Buffer_Offset++];
+                    }
+                    Minimum-=3;
+                    break;
+                default: ;
             }
         }
-        else if (Common->MergedChannel.Buffer_Size==0 && IsPcm_Frame_Count>=2)
-            Common->IsPcm=true;
     }
 
-    if (Common->IsAes3 || (IsAes3 && Common->IsPcm))
+    if (Common->MergedChannel.Buffer_Size>Common->MergedChannel.Buffer_Offset)
     {
-        Buffer_Offset=Buffer_Size;
-        Buffer_Offset_AlreadyInCommon=0;
-    }
-    else
-        Element_WaitForMoreData();
+        for (size_t Pos=0; Pos<Common->Parsers.size(); Pos++)
+        {
+            if (FrameInfo_Next.DTS!=(int64u)-1)
+                Common->Parsers[Pos]->FrameInfo=FrameInfo_Next; //AES3 parse has its own buffer management
+            else if (FrameInfo.DTS!=(int64u)-1)
+            {
+                Common->Parsers[Pos]->FrameInfo=FrameInfo;
+                FrameInfo=frame_info();
+            }
+            Common->Parsers[Pos]->Offsets_Stream.insert(Common->Parsers[Pos]->Offsets_Stream.end(), Common->MergedChannel.Offsets_Stream.begin(), Common->MergedChannel.Offsets_Stream.end());
+            Common->Parsers[Pos]->Offsets_Buffer.insert(Common->Parsers[Pos]->Offsets_Buffer.end(), Common->MergedChannel.Offsets_Buffer.begin(), Common->MergedChannel.Offsets_Buffer.end());
+            for (size_t Offsets_Pos_Temp=Common->Parsers[Pos]->Offsets_Buffer.size()-Common->MergedChannel.Offsets_Buffer.size(); Offsets_Pos_Temp<Common->Parsers[Pos]->Offsets_Buffer.size(); Offsets_Pos_Temp++)
+                Common->Parsers[Pos]->Offsets_Buffer[Offsets_Pos_Temp]+=Common->Parsers[Pos]->Buffer_Size/Common->Channels.size();
+            Open_Buffer_Continue(Common->Parsers[Pos], Common->MergedChannel.Buffer+Common->MergedChannel.Buffer_Offset, Common->MergedChannel.Buffer_Size-Common->MergedChannel.Buffer_Offset, false);
 
-    if (Common->Parser->Status[IsFinished])
+            //Multiple parsers
+            if (Common->Parsers.size()>1)
+            {
+                if (!Common->Parsers[Pos]->Status[IsAccepted] && Common->Parsers[Pos]->Status[IsFinished])
+                {
+                    delete *(Common->Parsers.begin()+Pos);
+                    Common->Parsers.erase(Common->Parsers.begin()+Pos);
+                    Pos--;
+                }
+                else if (Common->Parsers.size()>1 && Common->Parsers[Pos]->Status[IsAccepted])
+                {
+                    File__Analyze* Parser=Common->Parsers[Pos];
+                    for (size_t Pos2=0; Pos2<Common->Parsers.size(); Pos2++)
+                    {
+                        if (Pos2!=Pos)
+                            delete *(Common->Parsers.begin()+Pos2);
+                    }
+                    Common->Parsers.clear();
+                    Common->Parsers.push_back(Parser);
+                }
+            }
+        }
+        Common->MergedChannel.Buffer_Offset=Common->MergedChannel.Buffer_Size;
+        Common->MergedChannel.Offsets_Stream.clear();
+        Common->MergedChannel.Offsets_Buffer.clear();
+    }
+    if (!Status[IsAccepted] && Common->Parsers.size()==1 && Common->Parsers[0]->Status[IsAccepted])
+        Accept();
+    if (!Status[IsFilled] && Common->Parsers.size()==1 && Common->Parsers[0]->Status[IsFilled])
+        Fill();
+    if (!Status[IsFinished] && Common->Parsers.size()==1 && Common->Parsers[0]->Status[IsFinished])
         Finish();
 
     //Optimize buffer
@@ -310,10 +367,10 @@ void File_ChannelGrouping::Read_Buffer_Continue()
 //---------------------------------------------------------------------------
 void File_ChannelGrouping::Read_Buffer_Unsynched()
 {
-    if (Common->Parser)
-        Common->Parser->Open_Buffer_Unsynch();
+    for (size_t Pos=0; Pos<Common->Parsers.size(); Pos++)
+        if (Common->Parsers[Pos])
+            Common->Parsers[Pos]->Open_Buffer_Unsynch();
 
-    Buffer_Offset_AlreadyInCommon=0;
     Common->MergedChannel.Buffer_Offset=0;
     Common->MergedChannel.Buffer_Size=0;
     for (size_t Pos=0; Pos<Common->Channels.size(); Pos++)
@@ -329,5 +386,4 @@ void File_ChannelGrouping::Read_Buffer_Unsynched()
 
 } //NameSpace
 
-#endif //MEDIAINFO_AES3_YES
-
+#endif //MEDIAINFO_SMPTEST0337_YES

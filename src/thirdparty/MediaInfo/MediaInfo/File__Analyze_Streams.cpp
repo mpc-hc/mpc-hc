@@ -143,7 +143,7 @@ size_t File__Analyze::Stream_Prepare (stream_t KindOfStream, size_t StreamPos)
             Fill (Stream_General, 0, General_CompleteName, File_Name);
             Fill (Stream_General, 0, General_FolderName, FileName::Path_Get(File_Name));
             Fill (Stream_General, 0, General_FileName, FileName::Name_Get(File_Name));
-            Fill (Stream_General, 0, General_FileExtension, FileName::Extension_Get(File_Name).MakeLowerCase());
+            Fill (Stream_General, 0, General_FileExtension, FileName::Extension_Get(File_Name));
         }
         else
         {
@@ -1368,7 +1368,7 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
         Stream_Prepare(StreamKind);
 
     //Specific stuff
-    Ztring Width_Temp, Height_Temp, PixelAspectRatio_Temp, DisplayAspectRatio_Temp, FrameRate_Temp, FrameRate_Mode_Temp, ScanType_Temp, ScanOrder_Temp, Delay_Temp, Delay_Source_Temp, Delay_Settings_Temp, Source_Temp, Source_Kind_Temp, Source_Info_Temp;
+    Ztring Width_Temp, Height_Temp, PixelAspectRatio_Temp, DisplayAspectRatio_Temp, FrameRate_Temp, FrameRate_Mode_Temp, ScanType_Temp, ScanOrder_Temp, Delay_Temp, Delay_DropFrame_Temp, Delay_Source_Temp, Delay_Settings_Temp, Source_Temp, Source_Kind_Temp, Source_Info_Temp;
     if (StreamKind==Stream_Video)
     {
         Width_Temp=Retrieve(Stream_Video, StreamPos_To, Video_Width);
@@ -1384,6 +1384,8 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
     {
         Fill(StreamKind, StreamPos_To, "Delay_Original", Retrieve(StreamKind, StreamPos_To, "Delay"), true);
         Clear(StreamKind, StreamPos_To, "Delay");
+        Fill(StreamKind, StreamPos_To, "Delay_Original_DropFrame", Retrieve(StreamKind, StreamPos_To, "Delay_DropFrame"), true);
+        Clear(StreamKind, StreamPos_To, "Delay_DropFrame");
         Fill(StreamKind, StreamPos_To, "Delay_Original_Source", Retrieve(StreamKind, StreamPos_To, "Delay_Source"), true);
         Clear(StreamKind, StreamPos_To, "Delay_Source");
         if (!ToAdd.Retrieve(StreamKind, StreamPos_To, "Format").empty()) //Exception: MPEG-4 TimeCode, settings are in the MPEG-4 header
@@ -1396,6 +1398,7 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
     {
         Delay_Temp=Retrieve(StreamKind, StreamPos_To, "Delay"); //We want to keep the Delay from the stream
         Delay_Settings_Temp=Retrieve(StreamKind, StreamPos_To, "Delay_Settings"); //We want to keep the Delay_Settings from the stream
+        Delay_DropFrame_Temp=Retrieve(StreamKind, StreamPos_To, "Delay_DropFrame"); //We want to keep the Delay_Source from the stream
         Delay_Source_Temp=Retrieve(StreamKind, StreamPos_To, "Delay_Source"); //We want to keep the Delay_Source from the stream
     }
     Source_Temp=Retrieve(StreamKind, StreamPos_To, "Source");
@@ -1480,6 +1483,8 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
         Fill(StreamKind, StreamPos_To, "Delay", Delay_Temp, true);
         Fill(StreamKind, StreamPos_To, "Delay_Original_Settings", Retrieve(StreamKind, StreamPos_To, "Delay_Settings"), true);
         Fill(StreamKind, StreamPos_To, "Delay_Settings", Delay_Settings_Temp, true);
+        Fill(StreamKind, StreamPos_To, "Delay_Original_DropFrame", Retrieve(StreamKind, StreamPos_To, "Delay_DropFrame"), true);
+        Fill(StreamKind, StreamPos_To, "Delay_DropFrame", Delay_DropFrame_Temp, true);
         Fill(StreamKind, StreamPos_To, "Delay_Original_Source", Retrieve(StreamKind, StreamPos_To, "Delay_Source"), true);
         Fill(StreamKind, StreamPos_To, "Delay_Source", Delay_Source_Temp, true);
     }
@@ -1987,7 +1992,7 @@ void File__Analyze::Kilo_Kilo123(stream_t StreamKind, size_t StreamPos, size_t P
     //Per value
     for (size_t Pos=0; Pos<List.size(); Pos++)
     {
-        int32u BitRate=List[Pos].To_int32u();
+        int64u BitRate=List[Pos].To_int64u();
 
         //Text
         if (BitRate==0 && (List[Pos].empty() || List[Pos][0]>__T('9')))
@@ -2037,7 +2042,13 @@ void File__Analyze::Kilo_Kilo123(stream_t StreamKind, size_t StreamPos, size_t P
             else
             {
                 //Standard
-                if (BitRate>10000000)
+                if (BitRate>10000000000LL)
+                {
+                    Ztring Measure=MediaInfoLib::Config.Info_Get(StreamKind).Read(Parameter, Info_Measure);
+                    Measure.insert(1, __T("G"));
+                    Fill(StreamKind, StreamPos, Parameter+1, MediaInfoLib::Config.Language_Get(Ztring::ToZtring(((float)BitRate)/1000000000, BitRate>100000000000LL?0:1), Measure, true));
+                }
+                else if (BitRate>10000000)
                 {
                     Ztring Measure=MediaInfoLib::Config.Info_Get(StreamKind).Read(Parameter, Info_Measure);
                     Measure.insert(1, __T("M"));
@@ -2216,6 +2227,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_String3 : return Video_Delay_String3;
                                     case Generic_Delay_String4 : return Video_Delay_String4;
                                     case Generic_Delay_Settings : return Video_Delay_Settings;
+                                    case Generic_Delay_DropFrame : return Video_Delay_DropFrame;
                                     case Generic_Delay_Source : return Video_Delay_Source;
                                     case Generic_Delay_Source_String : return Video_Delay_Source_String;
                                     case Generic_Delay_Original : return Video_Delay_Original;
@@ -2225,6 +2237,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_Original_String3 : return Video_Delay_Original_String3;
                                     case Generic_Delay_Original_String4 : return Video_Delay_Original_String4;
                                     case Generic_Delay_Original_Settings : return Video_Delay_Original_Settings;
+                                    case Generic_Delay_Original_DropFrame : return Video_Delay_Original_DropFrame;
                                     case Generic_Delay_Original_Source : return Video_Delay_Original_Source;
                                     case Generic_StreamSize : return Video_StreamSize;
                                     case Generic_StreamSize_String : return Video_StreamSize_String;
@@ -2321,6 +2334,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_String3 : return Audio_Delay_String3;
                                     case Generic_Delay_String4 : return Audio_Delay_String4;
                                     case Generic_Delay_Settings : return Audio_Delay_Settings;
+                                    case Generic_Delay_DropFrame : return Audio_Delay_DropFrame;
                                     case Generic_Delay_Source : return Audio_Delay_Source;
                                     case Generic_Delay_Source_String : return Audio_Delay_Source_String;
                                     case Generic_Delay_Original : return Audio_Delay_Original;
@@ -2330,6 +2344,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_Original_String3 : return Audio_Delay_Original_String3;
                                     case Generic_Delay_Original_String4 : return Audio_Delay_Original_String4;
                                     case Generic_Delay_Original_Settings : return Audio_Delay_Original_Settings;
+                                    case Generic_Delay_Original_DropFrame : return Audio_Delay_Original_DropFrame;
                                     case Generic_Delay_Original_Source : return Audio_Delay_Original_Source;
                                     case Generic_Video_Delay : return Audio_Video_Delay;
                                     case Generic_Video_Delay_String : return Audio_Video_Delay_String;
@@ -2434,6 +2449,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_String3 : return Text_Delay_String3;
                                     case Generic_Delay_String4 : return Text_Delay_String4;
                                     case Generic_Delay_Settings : return Text_Delay_Settings;
+                                    case Generic_Delay_DropFrame : return Text_Delay_DropFrame;
                                     case Generic_Delay_Source : return Text_Delay_Source;
                                     case Generic_Delay_Source_String : return Text_Delay_Source_String;
                                     case Generic_Delay_Original : return Text_Delay_Original;
@@ -2443,6 +2459,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_Original_String3 : return Text_Delay_Original_String3;
                                     case Generic_Delay_Original_String4 : return Text_Delay_Original_String4;
                                     case Generic_Delay_Original_Settings : return Text_Delay_Original_Settings;
+                                    case Generic_Delay_Original_DropFrame : return Text_Delay_Original_DropFrame;
                                     case Generic_Delay_Original_Source : return Text_Delay_Original_Source;
                                     case Generic_Video_Delay : return Text_Video_Delay;
                                     case Generic_Video_Delay_String : return Text_Video_Delay_String;
@@ -2485,6 +2502,31 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Language : return Text_Language;
                                     default: return (size_t)-1;
                                 }
+        case Stream_Other :
+                                switch (StreamPos)
+                                {
+                                    case Generic_Format : return Other_Format;
+                                    case Generic_Format_Info : return Other_Format_Info;
+                                    case Generic_Format_Url : return Other_Format_Url;
+                                    case Generic_Format_Commercial : return Other_Format_Commercial;
+                                    case Generic_Format_Commercial_IfAny : return Other_Format_Commercial_IfAny;
+                                    case Generic_Format_Version : return Other_Format_Version;
+                                    case Generic_Format_Profile : return Other_Format_Profile;
+                                    case Generic_Format_Settings : return Other_Format_Settings;
+                                    case Generic_CodecID : return Other_CodecID;
+                                    case Generic_CodecID_Info : return Other_CodecID_Info;
+                                    case Generic_CodecID_Hint : return Other_CodecID_Hint;
+                                    case Generic_CodecID_Url : return Other_CodecID_Url;
+                                    case Generic_CodecID_Description : return Other_CodecID_Description;
+                                    case Generic_Duration : return Other_Duration;
+                                    case Generic_Duration_String : return Other_Duration_String;
+                                    case Generic_Duration_String1 : return Other_Duration_String1;
+                                    case Generic_Duration_String2 : return Other_Duration_String2;
+                                    case Generic_Duration_String3 : return Other_Duration_String3;
+                                    case Generic_FrameCount : return Other_FrameCount;
+                                    case Generic_Language : return Other_Language;
+                                    default: return (size_t)-1;
+                                }
         case Stream_Image :
                                 switch (StreamPos)
                                 {
@@ -2525,7 +2567,6 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Language : return Image_Language;
                                     default: return (size_t)-1;
                                 }
-        case Stream_Chapters : return (size_t)-1;
         case Stream_Menu :
                                 switch (StreamPos)
                                 {

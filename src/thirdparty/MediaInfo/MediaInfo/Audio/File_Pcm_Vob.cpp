@@ -194,8 +194,6 @@ void File_Pcm_Vob::Read_Buffer_Continue()
             Demux(Info, Info_Offset, ContentType_MainStream);
 
             delete[] Info;
-
-            Skip_XX(Element_Size-6,                             "Data");
         }
         else
         {

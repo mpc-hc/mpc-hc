@@ -74,7 +74,7 @@ enum stream_t
     Stream_Video,                   ///< StreamKind = Video
     Stream_Audio,                   ///< StreamKind = Audio
     Stream_Text,                    ///< StreamKind = Text
-    Stream_Chapters,                ///< StreamKind = Chapters
+    Stream_Other,                   ///< StreamKind = Chapters
     Stream_Image,                   ///< StreamKind = Image
     Stream_Menu,                    ///< StreamKind = Menu
     Stream_Max

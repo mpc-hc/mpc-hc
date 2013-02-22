@@ -171,9 +171,6 @@ File_Jpeg::File_Jpeg()
     //In
     StreamKind=Stream_Image;
     Interlaced=false;
-
-    //Temp
-    Height_Multiplier=1;
 }
 
 //***************************************************************************
@@ -185,7 +182,7 @@ void File_Jpeg::Streams_Accept()
 {
     if (!IsSub)
     {
-        Streams_Accept_TestContinuousFileNames();
+        TestContinuousFileNames();
 
         Stream_Prepare(Config->File_Names.size()>1?Stream_Video:StreamKind);
         Fill(StreamKind_Last, StreamPos_Last, "StreamSize", File_Size);
@@ -667,7 +664,7 @@ void File_Jpeg::SOF_()
                 Fill(Stream_Video, 0, Video_InternetMediaType, "video/JPEG", Unlimited, true, true);
             Fill(StreamKind_Last, 0, "ColorSpace", "YUV");
             Fill(StreamKind_Last, 0, Fill_Parameter(StreamKind_Last, Generic_BitDepth), Resolution);
-            Fill(StreamKind_Last, 0, "Height", Height*Height_Multiplier);
+            Fill(StreamKind_Last, 0, "Height", Height*(Interlaced?2:1));
             Fill(StreamKind_Last, 0, "Width", Width);
 
             //Chroma subsampling
@@ -762,15 +759,20 @@ void File_Jpeg::APP0_AVI1()
     Element_Begin1("AVI1");
         if (Element_Size==16-4)
         {
-            Get_B1 (FieldOrder,                                     "Field Order");
+            Get_B1 (FieldOrder,                                     "Polarity");
             Skip_XX(7,                                              "Zeroes");
         }
         if (Element_Size==18-4)
         {
+            int32u FieldSizeLessPadding;
             Get_B1 (FieldOrder,                                     "Field Order");
             Skip_B1(                                                "Zero");
-            Skip_B4(                                                "Size of 1st Field");
-            Skip_B4(                                                "Size of 2nd Field");
+            Skip_B4(                                                "FieldSize");
+            Get_B4 (FieldSizeLessPadding,                           "FieldSizeLessPadding");
+
+            //Coherency
+            if (FieldOrder==0 && IsSub && FieldSizeLessPadding!=Buffer_Size)
+                FieldOrder=(int8u)-1; //Not coherant
         }
     Element_End0();
 
@@ -780,8 +782,9 @@ void File_Jpeg::APP0_AVI1()
             switch (FieldOrder)
             {
                 case 0x00 : Fill(Stream_Video, 0, Video_Interlacement, "PPF"); Fill(Stream_Video, 0, Video_ScanType, "Progressive"); break;
-                case 0x01 : Fill(Stream_Video, 0, Video_Interlacement, "TFF"); Fill(Stream_Video, 0, Video_ScanType, "Interlaced"); Fill(Stream_Video, 0, Video_ScanOrder, "TFF"); Height_Multiplier=2; break;
-                case 0x02 : Fill(Stream_Video, 0, Video_Interlacement, "BFF"); Fill(Stream_Video, 0, Video_ScanType, "Interlaced"); Fill(Stream_Video, 0, Video_ScanOrder, "BFF"); Height_Multiplier=2; break;
+                case 0x01 : Fill(Stream_Video, 0, Video_Interlacement, "TFF"); Fill(Stream_Video, 0, Video_ScanType, "Interlaced"); Fill(Stream_Video, 0, Video_ScanOrder, "TFF"); Interlaced=true; break;
+                case 0x02 : Fill(Stream_Video, 0, Video_Interlacement, "BFF"); Fill(Stream_Video, 0, Video_ScanType, "Interlaced"); Fill(Stream_Video, 0, Video_ScanOrder, "BFF"); Interlaced=true; break;
+                case 0xFF : Fill(Stream_Video, 0, Video_ScanType, "Interlaced"); Interlaced=true; break;
                 default   : ;
             }
         }

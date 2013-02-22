@@ -642,4 +642,10 @@ struct MediaInfo_Event_DvDif_Analysis_Frame_0
 
 #define MediaInfo_Parser_Scc            0xF8
 
+/***************************************************************************/
+/* ARIB STD B24/B37                                                        */
+/***************************************************************************/
+
+#define MediaInfo_Parser_AribStdB24B37  0xF9
+
 #endif //MediaInfo_EventsH

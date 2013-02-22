@@ -38,7 +38,8 @@ class TimeCode
 public:
     //constructor/Destructor
     TimeCode ();
-    TimeCode (int8u Hours_, int8u Minutes_, int8u Seconds_, int8u Frames_, int8u FramesPerSecond_, bool DropFrame_, bool MustUseSecondField_=false, bool IsSecondField_=false);
+    TimeCode (int8u Hours, int8u Minutes, int8u Seconds, int8u Frames, int8u FramesPerSecond, bool DropFrame, bool MustUseSecondField=false, bool IsSecondField=false);
+    TimeCode (int64u Frames, int8u FramesPerSecond, bool DropFrame, bool MustUseSecondField=false, bool IsSecondField_=false);
 
     //Operators
     TimeCode &operator ++()
@@ -91,6 +92,7 @@ public:
     }
     void PlusOne();
     void MinusOne();
+    string ToString();
 
 public:
     int8u Hours;

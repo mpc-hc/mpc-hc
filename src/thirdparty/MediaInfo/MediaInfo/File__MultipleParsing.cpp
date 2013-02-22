@@ -156,8 +156,8 @@
 #if defined(MEDIAINFO_AC3_YES)
     #include "MediaInfo/Audio/File_Ac3.h"
 #endif
-#if defined(MEDIAINFO_AES3_YES)
-    #include "MediaInfo/Audio/File_Aes3.h"
+#if defined(MEDIAINFO_SMPTEST0337_YES)
+    #include "MediaInfo/Audio/File_SmpteSt0337.h"
 #endif
 #if defined(MEDIAINFO_ALS_YES)
     #include "MediaInfo/Audio/File_Als.h"
@@ -467,8 +467,8 @@ File__MultipleParsing::File__MultipleParsing()
     #if defined(MEDIAINFO_AC3_YES)
         Temp=new File_Ac3(); Parser.push_back(Temp);
     #endif
-    #if defined(MEDIAINFO_AES3_YES)
-        Temp=new File_Aes3(); Parser.push_back(Temp);
+    #if defined(MEDIAINFO_SMPTEST0337_YES)
+        Temp=new File_SmpteSt0337(); Parser.push_back(Temp);
     #endif
     #if defined(MEDIAINFO_ALS_YES)
         Temp=new File_Als(); Parser.push_back(Temp);

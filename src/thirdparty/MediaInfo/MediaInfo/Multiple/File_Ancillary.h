@@ -46,8 +46,10 @@ public :
     bool    WithChecksum;
     bool    HasBFrames;
     bool    InDecodingOrder;
+    bool    LineNumber_IsSecondField;
     float64 AspectRatio;
     float64 FrameRate;
+    int32u  LineNumber;
 
     //In/Out
     struct buffered_data

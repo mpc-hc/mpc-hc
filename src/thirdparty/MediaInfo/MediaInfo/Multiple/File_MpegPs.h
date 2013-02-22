@@ -253,6 +253,7 @@ private :
     size_t StreamOrder_CountOfPrivateStreams_Minus1;
     size_t StreamOrder_CountOfPrivateStreams_Temp;
     size_t FirstPacketOrder_Last;
+    bool   HasCcis; //For ARIB STD B24/B37;
 
     //Helpers
     bool Header_Parser_QuickSearch();
@@ -271,8 +272,9 @@ private :
     File__Analyze* ChooseParser_SDDS();
     File__Analyze* ChooseParser_AAC();
     File__Analyze* ChooseParser_PCM();
-    File__Analyze* ChooseParser_AES3();
+    File__Analyze* ChooseParser_SmpteSt0302();
     File__Analyze* ChooseParser_RLE();
+    File__Analyze* ChooseParser_AribStdB24B37();
     File__Analyze* ChooseParser_DvbSubtitle();
     File__Analyze* ChooseParser_PGS();
     File__Analyze* ChooseParser_Teletext();

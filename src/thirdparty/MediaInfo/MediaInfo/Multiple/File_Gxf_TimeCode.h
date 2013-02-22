@@ -49,9 +49,12 @@ public :
     //In
     int32u FrameRate_Code;
     int32u FieldsPerFrame_Code;
+    bool   IsAtc; // SMPTE ST 12-2
 
     //Out
-    int64u TimeCode_First;
+    int64u TimeCode_FirstFrame_ms;
+    string TimeCode_FirstFrame;
+    string Settings;
 
     //Constructor/Destructor
     File_Gxf_TimeCode();

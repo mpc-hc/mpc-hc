@@ -606,7 +606,7 @@ void File_Ac3::Streams_Fill()
     }
 
     //AC-3
-    if (bsid<=0x08)
+    if (bsid<=0x09)
     {
         if (Count_Get(Stream_Audio)==0)
             Stream_Prepare(Stream_Audio);
@@ -615,14 +615,16 @@ void File_Ac3::Streams_Fill()
         Fill(Stream_Audio, 0, Audio_Codec, "AC3");
         Fill(Stream_Audio, 0, Audio_BitDepth, 16);
 
-        if (Ztring::ToZtring(AC3_SamplingRate[fscod])!=Retrieve(Stream_Audio, 0, Audio_SamplingRate))
-            Fill(Stream_Audio, 0, Audio_SamplingRate, AC3_SamplingRate[fscod]);
+        int32u Divider=bsid==9?2:1; // Unofficial hack for low sample rate (e.g. 22.05 kHz)
+        if (Ztring::ToZtring(AC3_SamplingRate[fscod]/Divider)!=Retrieve(Stream_Audio, 0, Audio_SamplingRate))
+            Fill(Stream_Audio, 0, Audio_SamplingRate, AC3_SamplingRate[fscod]/Divider);
         if (frmsizecod/2<19)
         {
             if (Frame_Count_HD)
                 Fill(Stream_Audio, 0, Audio_BitRate, "Unknown");
             int32u BitRate=AC3_BitRate[frmsizecod/2]*1000;
-            Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
+            int32u Divider=bsid==9?2:1; // Unofficial hack for low sample rate (e.g. 22.05 kHz)
+            Fill(Stream_Audio, 0, Audio_BitRate, BitRate/Divider);
             if (CalculateDelay && Buffer_TotalBytes_FirstSynched>100 && BitRate>0)
             {
                 Fill(Stream_Audio, 0, Audio_Delay, (float)Buffer_TotalBytes_FirstSynched*8*1000/BitRate, 0);
@@ -870,13 +872,16 @@ void File_Ac3::Streams_Finish()
             Frame_Count_ForDuration=Frame_Count; //We have the exact count of frames
             Fill(Stream_Audio, 0, Audio_StreamSize, File_Offset+Buffer_Offset+Element_Size-File_Offset_FirstSynched);
         }
-        else if (bsid<=8 && frmsizecods.size()==1 && fscods.size()==1 && Frame_Count_HD==0)
+        else if (bsid<=9 && frmsizecods.size()==1 && fscods.size()==1 && Frame_Count_HD==0)
         {
             int16u Size=AC3_FrameSize_Get(frmsizecods.begin()->first, fscods.begin()->first);
-            if (TimeStamp_IsPresent)
-                Size+=16;
-            Frame_Count_ForDuration=(File_Size-File_Offset_FirstSynched)/Size; //Only complete frames
-            Fill(Stream_Audio, 0, Audio_StreamSize, Frame_Count_ForDuration*Size);
+            if (Size)
+            {
+                if (TimeStamp_IsPresent)
+                    Size+=16;
+                Frame_Count_ForDuration=(File_Size-File_Offset_FirstSynched)/Size; //Only complete frames
+                Fill(Stream_Audio, 0, Audio_StreamSize, Frame_Count_ForDuration*Size);
+            }
         }
         if (Frame_Count_ForDuration)
         {
@@ -917,6 +922,8 @@ void File_Ac3::Streams_Finish()
                     float64 FrameDuration;
                     if (bsid<=0x08)
                         FrameDuration=32;
+                    else if (bsid<=0x09)
+                        FrameDuration=16; // Unofficial hack for low sample rate (e.g. 22.05 kHz)
                     else if (bsid>0x0A && bsid<=0x10)
                         FrameDuration=((float64)32)/6;
                     else
@@ -927,7 +934,8 @@ void File_Ac3::Streams_Finish()
                         Fill(Stream_Audio, 0, Audio_SamplingCount, Frame_Count_ForDuration*1536);
                         Fill(Stream_Audio, 0, Audio_Duration, Frame_Count_ForDuration*FrameDuration, 0);
                         int32u BitRate=AC3_BitRate[frmsizecod/2]*1000;
-                        Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
+                        int32u Divider=bsid==9?2:1; // Unofficial hack for low sample rate (e.g. 22.05 kHz)
+                        Fill(Stream_Audio, 0, Audio_BitRate, BitRate/Divider);
                     }
                 }
             }
@@ -939,6 +947,8 @@ void File_Ac3::Streams_Finish()
         float64 FrameDuration;
         if (bsid<=0x08)
             FrameDuration=32;
+        else if (bsid<=0x09)
+            FrameDuration=16; // Unofficial hack for low sample rate (e.g. 22.05 kHz)
         else if (bsid>0x0A && bsid<=0x10)
             FrameDuration=((float64)32)/6;
         else
@@ -1075,7 +1085,6 @@ bool File_Ac3::Synchronize()
     }
 
     //Synched
-    Data_Accept("AC-3");
     return true;
 }
 
@@ -1203,7 +1212,17 @@ bool File_Ac3::Demux_UnpacketizeContainer_Test()
 
     if (Buffer[Buffer_Offset]==0x0B && Buffer[Buffer_Offset+1]==0x77)
     {
-        FrameInfo.DUR=32000000;
+        bsid=Buffer[Buffer_Offset+5]>>3;
+        if (bsid<=0x08)
+            FrameInfo.DUR=32000000;
+        else if (bsid<=0x09)
+            FrameInfo.DUR=16000000; // Unofficial hack for low sample rate (e.g. 22.05 kHz)
+        else if (bsid>0x0A && bsid<=0x10)
+        {
+            numblkscod=(Buffer[Buffer_Offset+4]>>4)&0x3;
+            int8u numblks=numblkscod==3?6:numblkscod+1;
+            FrameInfo.DUR=32000000*numblks/6;
+        }
 
         Demux_Offset=Buffer_Offset+Core_Size_Get();
 
@@ -1404,7 +1423,7 @@ void File_Ac3::Core()
     //Parsing
     int8u  dialnorm=(int8u)-1, dialnorm2=(int8u)-1, compr=(int8u)-1, compr2=(int8u)-1, dynrng=(int8u)-1, dynrng2=(int8u)-1;
     bool   compre=false, compr2e=false, dynrnge=false, dynrng2e=false;
-    if (bsid<=0x08)
+    if (bsid<=0x09)
     {
         Element_Begin1("synchinfo");
             Skip_B2(                                                "syncword");
@@ -1601,8 +1620,13 @@ void File_Ac3::Core()
             Frame_Count_NotParsedIncluded++;
         if (bsid<=0x08)
             FrameInfo.DUR=32000000;
+        else if (bsid<=0x09)
+            FrameInfo.DUR=16000000; // Unofficial hack for low sample rate (e.g. 22.05 kHz)
         else if (bsid>0x0A && bsid<=0x10)
-            FrameInfo.DUR=5333333;
+        {
+            int8u numblks=numblkscod==3?6:numblkscod+1;
+            FrameInfo.DUR=32000000*numblks/6;
+        }
         if (fscod && AC3_SamplingRate[fscod])
         {
             FrameInfo.DUR*=48000;
@@ -1617,6 +1641,8 @@ void File_Ac3::Core()
             Frame_Count_Valid=Frame_Count; //Finish frames in case of there are less than Frame_Count_Valid frames
 
         //Filling
+        if (!Status[IsAccepted])
+            Accept("AC-3");
         if (!Status[IsFilled] && Frame_Count>=Frame_Count_Valid)
         {
             Fill("AC-3");
@@ -1808,6 +1834,8 @@ void File_Ac3::HD()
             FrameInfo.PTS=FrameInfo.DTS;
 
         //Filling
+        if (!Status[IsAccepted])
+            Accept("AC-3");
         if (!Status[IsFilled] && !Core_IsPresent && Frame_Count>=Frame_Count_Valid*32)
         {
             Fill("AC-3");
@@ -1945,7 +1973,7 @@ bool File_Ac3::FrameSynchPoint_Test()
     {
         int8u bsid=CC1(Buffer+Buffer_Offset+5)>>3;
         int16u  Size=0;
-        if (bsid<=0x08)
+        if (bsid<=0x09)
         {
             int8u fscod     =(CC1(Buffer+Buffer_Offset+4)>>6)&0x03;
             int8u frmsizecod=(CC1(Buffer+Buffer_Offset+4)   )&0x3F;
@@ -1973,7 +2001,7 @@ bool File_Ac3::FrameSynchPoint_Test()
     {
         int8u bsid=CC1(Buffer+Buffer_Offset+4)>>3;
         int16u  Size=0;
-        if (bsid<=0x08)
+        if (bsid<=0x09)
         {
             int8u fscod     =(CC1(Buffer+Buffer_Offset+5)>>6)&0x03;
             int8u frmsizecod=(CC1(Buffer+Buffer_Offset+5)   )&0x3F;
@@ -2068,7 +2096,7 @@ bool File_Ac3::CRC_Compute(size_t Size)
         }
 
         //5/8 intermediate test
-        if (CRC_16_Buffer==CRC_16_Buffer_5_8 && bsid<=0x08 && CRC_16!=0x0000)
+        if (CRC_16_Buffer==CRC_16_Buffer_5_8 && bsid<=0x09 && CRC_16!=0x0000)
             break;
     }
 
@@ -2080,7 +2108,7 @@ size_t File_Ac3::Core_Size_Get()
 {
     int16u Size=(int16u)-1;
     bsid=(Buffer[(size_t)(Buffer_Offset+5)]&0xF8)>>3;
-    if (bsid<=0x08)
+    if (bsid<=0x09)
     {
         fscod     =(Buffer[(size_t)(Buffer_Offset+4)]&0xC0)>>6;
         frmsizecod= Buffer[(size_t)(Buffer_Offset+4)]&0x3F;

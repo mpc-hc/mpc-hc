@@ -63,11 +63,15 @@ File__ReferenceFilesHelper::File__ReferenceFilesHelper(File__Analyze* MI_, Media
     Reference=References.end();
     Init_Done=false;
     TestContinuousFileNames=false;
+    ContainerHasNoId=false;
     FrameRate=0;
     Duration=0;
     #if MEDIAINFO_NEXTPACKET
         DTS_Interval=(int64u)-1;
     #endif //MEDIAINFO_NEXTPACKET
+    #if MEDIAINFO_EVENTS
+        StreamID_Previous=(int64u)-1;
+    #endif //MEDIAINFO_EVENTS
 }
 
 //---------------------------------------------------------------------------
@@ -89,13 +93,23 @@ void File__ReferenceFilesHelper::ParseReferences()
 {
     if (!Init_Done)
     {
+        #if MEDIAINFO_FILTER
+            if (MI->Config->File_Filter_Audio_Get())
+                for (size_t Pos=0; Pos<References.size(); Pos++)
+                    if (References[Pos].StreamKind!=Stream_Audio)
+                    {
+                        References.erase(References.begin()+Pos);
+                        Pos--;
+                    }
+        #endif //MEDIAINFO_FILTER
+
         //Testing IDs
         std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo1);
         std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo2);
         std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo3);
         std::set<int64u> StreamList;
         bool StreamList_DuplicatedIds=false;
-        for (Reference=References.begin(); Reference<References.end(); Reference++)
+        for (Reference=References.begin(); Reference<References.end(); ++Reference)
             if (StreamList.find((*Reference).StreamID)==StreamList.end())
                 StreamList.insert((*Reference).StreamID);
             else
@@ -104,7 +118,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                 break;
             }
         if (StreamList_DuplicatedIds)
-            for (Reference=References.begin(); Reference<References.end(); Reference++)
+            for (Reference=References.begin(); Reference<References.end(); ++Reference)
                 (*Reference).StreamID=Reference-References.begin()+1;
 
         //Configuring file names
@@ -258,10 +272,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                 MI->Fill(Reference->StreamKind, Reference->StreamPos, "Source_Info", "Missing");
             }
 
-            if (TestContinuousFileNames)
-                File__Analyze::Streams_Accept_TestContinuousFileNames_Static(Reference->FileNames, true);
-
-            Reference++;
+            ++Reference;
         }
 
         #if MEDIAINFO_DEMUX
@@ -321,19 +332,6 @@ void File__ReferenceFilesHelper::ParseReferences()
         FileSize_Compute();
         Reference=References.begin();
         Init_Done=true;
-        #if MEDIAINFO_EVENTS
-            if (Reference!=References.end())
-            {
-                struct MediaInfo_Event_General_SubFile_Start_0 Event;
-                MI->Event_Prepare((struct MediaInfo_Event_Generic*)&Event);
-                Event.EventCode=MediaInfo_EventCode_Create(0, MediaInfo_Event_General_SubFile_Start, 0);
-                Event.EventSize=sizeof(struct MediaInfo_Event_General_SubFile_Start_0);
-
-                Event.FileName_Relative_Unicode=Reference->Source.c_str();
-
-                MI->Config->Event_Send(NULL, (const int8u*)&Event, Event.EventSize, MI->File_Name);
-            }
-        #endif //MEDIAINFO_EVENTS
 
         #if MEDIAINFO_DEMUX
             if (Config->NextPacket_Get() && MI->Demux_EventWasSent_Accept_Specific)
@@ -398,20 +396,6 @@ void File__ReferenceFilesHelper::ParseReferences()
                 else
                     Reference=Reference_Next;
 
-                #if MEDIAINFO_EVENTS
-                    if (Reference_Next!=References.end())
-                    {
-                        struct MediaInfo_Event_General_SubFile_Start_0 Event;
-                        MI->Event_Prepare((struct MediaInfo_Event_Generic*)&Event);
-                        Event.EventCode=MediaInfo_EventCode_Create(0, MediaInfo_Event_General_SubFile_Start, 0);
-                        Event.EventSize=sizeof(struct MediaInfo_Event_General_SubFile_Start_0);
-
-                        Event.FileName_Relative_Unicode=Reference->Source.c_str();
-
-                        MI->Config->Event_Send(NULL, (const int8u*)&Event, Event.EventSize, MI->File_Name);
-                    }
-                #endif //MEDIAINFO_EVENTS
-
                 if (Config->Demux_EventWasSent)
                     return;
             }
@@ -423,22 +407,8 @@ void File__ReferenceFilesHelper::ParseReferences()
                 Reference++;
             }
         #else //MEDIAINFO_DEMUX
-            Reference++;
+            ++Reference;
         #endif //MEDIAINFO_DEMUX
-
-        #if MEDIAINFO_EVENTS
-            if (Reference!=References.end())
-            {
-                struct MediaInfo_Event_General_SubFile_Start_0 Event;
-                MI->Event_Prepare((struct MediaInfo_Event_Generic*)&Event);
-                Event.EventCode=MediaInfo_EventCode_Create(0, MediaInfo_Event_General_SubFile_Start, 0);
-                Event.EventSize=sizeof(struct MediaInfo_Event_General_SubFile_Start_0);
-
-                Event.FileName_Relative_Unicode=Reference->Source.c_str();
-
-                MI->Config->Event_Send(NULL, (const int8u*)&Event, Event.EventSize, MI->File_Name);
-            }
-        #endif //MEDIAINFO_EVENTS
     }
 
     //File size handling
@@ -471,6 +441,9 @@ void File__ReferenceFilesHelper::ParseReference()
         #if MEDIAINFO_EVENTS
             if (Config->Event_CallBackFunction_IsSet())
                 Reference->MI->Option(__T("File_Event_CallBackFunction"), Config->Event_CallBackFunction_Get());
+            Reference->MI->Config.File_Names_RootDirectory=FileName(MI->File_Name).Path_Get();
+            if (Reference->FileNames.size()>1)
+                Reference->MI->Option(__T("File_TestContinuousFileNames"), __T("0"));
             ZtringListList SubFile_IDs;
             for (size_t Pos=0; Pos<MI->StreamIDs_Size; Pos++)
             {
@@ -537,6 +510,9 @@ void File__ReferenceFilesHelper::ParseReference()
         else
         {
             //Run
+            #if MEDIAINFO_EVENTS
+                SubFile_Start();
+            #endif //MEDIAINFO_EVENTS
             if (!Reference->MI->Open(Reference->FileNames.Read()))
             {
                 MI->Fill(Reference->StreamKind, Reference->StreamPos, "Source_Info", "Missing");
@@ -569,6 +545,7 @@ void File__ReferenceFilesHelper::ParseReference()
             if (Config->Event_CallBackFunction_IsSet() && !Reference->Status[File__Analyze::IsFinished])
             {
                 #if MEDIAINFO_DEMUX
+                    SubFile_Start();
                     while ((Reference->Status=Reference->MI->Open_NextPacket())[8])
                     {
                             if (Config->Event_CallBackFunction_IsSet())
@@ -695,7 +672,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
             MI->Fill(Stream_Menu, Reference->MenuPos, Menu_List_String, List_String);
         }
     }
-    if ((!Config->File_ID_OnlyRoot_Get() || Reference->MI->Count_Get(Stream_Video)+Reference->MI->Count_Get(Stream_Audio)>1) && !MI->Retrieve(StreamKind_Last, StreamPos_To, General_ID).empty())
+    if ((ContainerHasNoId || !Config->File_ID_OnlyRoot_Get() || Reference->MI->Count_Get(Stream_Video)+Reference->MI->Count_Get(Stream_Audio)>1) && !MI->Retrieve(StreamKind_Last, StreamPos_To, General_ID).empty())
     {
         if (!ID.empty())
             ID+=__T('-');
@@ -972,6 +949,26 @@ void File__ReferenceFilesHelper::FileSize_Compute ()
                 MI->Config->File_Size+=File::Size_Get(Reference->FileNames[Pos]);
     }
 }
+
+//---------------------------------------------------------------------------
+#if MEDIAINFO_EVENTS
+void File__ReferenceFilesHelper::SubFile_Start()
+{
+    if (Reference->StreamID!=StreamID_Previous)
+    {
+        Ztring FileName_Absolute, FileName_Relative;
+        if (Reference->MI && Reference->MI->Config.File_Names_Pos && Reference->MI->Config.File_Names_Pos<Reference->MI->Config.File_Names.size())
+            FileName_Absolute=Reference->MI->Config.File_Names[Reference->MI->Config.File_Names_Pos-1];
+        else if (!Reference->FileNames.empty())
+            FileName_Absolute=Reference->FileNames[0];
+        else
+            FileName_Absolute=Reference->Source.c_str();
+
+        Reference->MI->Config.Event_SubFile_Start(FileName_Absolute);
+        StreamID_Previous=Reference->StreamID;
+    }
+}
+#endif //MEDIAINFO_EVENTS
 
 } //NameSpace
 

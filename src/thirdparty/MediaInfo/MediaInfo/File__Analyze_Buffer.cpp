@@ -1812,10 +1812,9 @@ void File__Analyze::Skip_PA(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(1);
     int8u Size=Buffer[Buffer_Offset+(size_t)Element_Offset];
-    int8u Pad=(Size%2)?0:1;
-    INTEGRITY_SIZE_ATLEAST(1+Size+Pad);
+    INTEGRITY_SIZE_ATLEAST(1+Size);
     if (Trace_Activated && Size) Param(Name, Ztring().From_Local((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset+1), (size_t)Size));
-    Element_Offset+=1+Size+Pad;
+    Element_Offset+=1+Size;
 }
 
 //***************************************************************************
@@ -2234,42 +2233,10 @@ void File__Analyze::Get_T2(size_t Bits, int16u &Info, const char* Name)
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::Get_T3(size_t Bits, int32u &Info, const char* Name)
-{
-    INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    Info=BT->Get4(Bits);
-    if (Trace_Activated) Param(Name, Info);
-}
-
-//---------------------------------------------------------------------------
 void File__Analyze::Get_T4(size_t Bits, int32u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
     Info=BT->Get4(Bits);
-    if (Trace_Activated) Param(Name, Info);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Get_T5(size_t Bits, int64u &Info, const char* Name)
-{
-    INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    Info=BT->Get8(Bits);
-    if (Trace_Activated) Param(Name, Info);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Get_T6(size_t Bits, int64u &Info, const char* Name)
-{
-    INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    Info=BT->Get8(Bits);
-    if (Trace_Activated) Param(Name, Info);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Get_T7(size_t Bits, int64u &Info, const char* Name)
-{
-    INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    Info=BT->Get8(Bits);
     if (Trace_Activated) Param(Name, Info);
 }
 
@@ -2310,38 +2277,10 @@ void File__Analyze::Peek_T2(size_t Bits, int16u &Info)
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::Peek_T3(size_t Bits, int32u &Info)
-{
-    INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    Info=BT->Peek4(Bits);
-}
-
-//---------------------------------------------------------------------------
 void File__Analyze::Peek_T4(size_t Bits, int32u &Info)
 {
     INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
     Info=BT->Peek4(Bits);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Peek_T5(size_t Bits, int64u &Info)
-{
-    INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    Info=BT->Peek8(Bits);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Peek_T6(size_t Bits, int64u &Info)
-{
-    INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    Info=BT->Peek8(Bits);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Peek_T7(size_t Bits, int64u &Info)
-{
-    INTEGRITY_INT(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    Info=BT->Peek8(Bits);
 }
 
 //---------------------------------------------------------------------------
@@ -2403,16 +2342,6 @@ void File__Analyze::Skip_T2(size_t Bits, const char* Name)
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::Skip_T3(size_t Bits, const char* Name)
-{
-    INTEGRITY(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    if (Trace_Activated)
-        Param(Name, BT->Get4(Bits));
-    else
-        BT->Skip4(Bits);
-}
-
-//---------------------------------------------------------------------------
 void File__Analyze::Skip_T4(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
@@ -2420,36 +2349,6 @@ void File__Analyze::Skip_T4(size_t Bits, const char* Name)
         Param(Name, BT->Get4(Bits));
     else
         BT->Skip4(Bits);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Skip_T5(size_t Bits, const char* Name)
-{
-    INTEGRITY(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    if (Trace_Activated)
-        Param(Name, BT->Get8(Bits));
-    else
-        BT->Skip8(Bits);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Skip_T6(size_t Bits, const char* Name)
-{
-    INTEGRITY(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    if (Trace_Activated)
-        Param(Name, BT->Get8(Bits));
-    else
-        BT->Skip8(Bits);
-}
-
-//---------------------------------------------------------------------------
-void File__Analyze::Skip_T7(size_t Bits, const char* Name)
-{
-    INTEGRITY(Bits<=BT->Remain(), "Size is wrong", BT->Offset_Get())
-    if (Trace_Activated)
-        Param(Name, BT->Get8(Bits));
-    else
-        BT->Skip8(Bits);
 }
 
 //---------------------------------------------------------------------------

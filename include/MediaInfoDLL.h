@@ -1,5 +1,5 @@
 /* MediaInfoDLL - All info about media files, for DLL
-// Copyright (C) 2002-2012 Jerome Martinez, Zen@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Library General Public License as published by
@@ -192,7 +192,7 @@ typedef enum MediaInfo_stream_t {
     MediaInfo_Stream_Video,
     MediaInfo_Stream_Audio,
     MediaInfo_Stream_Text,
-    MediaInfo_Stream_Chapters,
+    MediaInfo_Stream_Other,
     MediaInfo_Stream_Image,
     MediaInfo_Stream_Menu,
     MediaInfo_Stream_Max
@@ -476,7 +476,7 @@ namespace MediaInfoDLL
         Stream_Video,                   ///< StreamKind = Video
         Stream_Audio,                   ///< StreamKind = Audio
         Stream_Text,                    ///< StreamKind = Text
-        Stream_Chapters,                ///< StreamKind = Chapters
+        Stream_Other,                   ///< StreamKind = Other
         Stream_Image,                   ///< StreamKind = Image
         Stream_Menu,                    ///< StreamKind = Menu
         Stream_Max

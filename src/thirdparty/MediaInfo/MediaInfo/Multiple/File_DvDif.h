@@ -123,8 +123,9 @@ protected :
     Ztring Recorded_Date_Date;
     Ztring Recorded_Date_Time;
     Ztring Encoded_Library_Settings;
+    string TimeCode_FirstFrame;
     int64u Duration;
-    int64u TimeCode_First;
+    int64u TimeCode_FirstFrame_ms;
     int64u FrameSize_Theory; //The size of a frame
     int8u  SCT;
     int8u  SCT_Old;

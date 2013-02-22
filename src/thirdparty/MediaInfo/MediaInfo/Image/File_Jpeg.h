@@ -167,7 +167,6 @@ private :
     void COM () {Skip_XX(Element_Size, "Data");}
 
     //Temp
-    int8u Height_Multiplier;
     bool  SOS_SOD_Parsed;
 };
 

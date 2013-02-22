@@ -1099,7 +1099,7 @@ void File_Mpeg_Psi::Table_00()
 
     //Reseting
     std::vector<int16u> Table_ID_Extension_List;
-    for (complete_stream::stream::table_id::table_id_extensions::iterator Table_ID_Extension=Complete_Stream->Streams[0x0000]->Table_IDs[0x00]->Table_ID_Extensions.begin(); Table_ID_Extension!=Complete_Stream->Streams[0x0000]->Table_IDs[0x00]->Table_ID_Extensions.end(); Table_ID_Extension++)
+    for (complete_stream::stream::table_id::table_id_extensions::iterator Table_ID_Extension=Complete_Stream->Streams[0x0000]->Table_IDs[0x00]->Table_ID_Extensions.begin(); Table_ID_Extension!=Complete_Stream->Streams[0x0000]->Table_IDs[0x00]->Table_ID_Extensions.end(); ++Table_ID_Extension)
         if (Table_ID_Extension->first!=table_id_extension)
             Table_ID_Extension_List.push_back(Table_ID_Extension->first);
     for (size_t Pos=0; Pos<Table_ID_Extension_List.size(); Pos++)
@@ -1135,7 +1135,7 @@ void File_Mpeg_Psi::Table_00()
 
     FILLING_BEGIN();
         //Removing previous elementary_PIDs no more used
-        for (std::map<int16u, complete_stream::transport_stream::program>::iterator program_number_Previous=program_numbers_Previous.begin(); program_number_Previous!=program_numbers_Previous.end(); program_number_Previous++)
+        for (std::map<int16u, complete_stream::transport_stream::program>::iterator program_number_Previous=program_numbers_Previous.begin(); program_number_Previous!=program_numbers_Previous.end(); ++program_number_Previous)
         {
             program_number=program_number_Previous->first;
             program_number_Remove();
@@ -1381,6 +1381,14 @@ void File_Mpeg_Psi::Table_02()
                 }
             #endif //MEDIAINFO_MPEGTS_ALLSTREAMS_YES
         }
+
+        if (Buffer_Offset>=4)
+        {
+            Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[program_number].ExtraInfos_Content["pointer_field"].From_Number(Buffer_Offset-4);
+            Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[program_number].ExtraInfos_Option["pointer_field"]=__T("N NT");
+        }
+        Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[program_number].ExtraInfos_Content["section_length"].From_Number(Element_Size+4);
+        Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[program_number].ExtraInfos_Option["section_length"]=__T("N NT");
     FILLING_END();
 }
 

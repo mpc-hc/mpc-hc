@@ -51,6 +51,7 @@ public :
 
 private :
     //Buffer - Global
+    void Read_Buffer_Init();
     void Read_Buffer_Unsynched();
     #if MEDIAINFO_SEEK
     size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
@@ -160,8 +161,11 @@ private :
     void moov_trak_mdia_minf_stbl_stsd_xxxxStream();
     void moov_trak_mdia_minf_stbl_stsd_xxxxText();
     void moov_trak_mdia_minf_stbl_stsd_xxxxVideo();
-    void moov_trak_mdia_minf_stbl_stsd_xxxx_avcC();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_alac();
+    void moov_trak_mdia_minf_stbl_stsd_xxxx_ACLR();
+    void moov_trak_mdia_minf_stbl_stsd_xxxx_APRG();
+    void moov_trak_mdia_minf_stbl_stsd_xxxx_ARES();
+    void moov_trak_mdia_minf_stbl_stsd_xxxx_avcC();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_bitr();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_btrt();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_chan();
@@ -318,6 +322,7 @@ private :
     int64u                                  LastMdatPos; //This is the position of the byte after the last byte of mdat
     int64u                                  FirstMoovPos;
     int64u                                  moof_base_data_offset;
+    int64u                                  FrameCount_MaxPerStream;
     bool                                    data_offset_present;
     int64u                                  moof_traf_base_data_offset;
     int32u                                  moof_traf_default_sample_duration;
@@ -331,7 +336,7 @@ private :
     struct stream
     {
         Ztring                  File_Name;
-        File__Analyze*          Parser;
+        std::vector<File__Analyze*> Parsers;
         MediaInfo_Internal*     MI;
         struct timecode
         {
@@ -385,6 +390,7 @@ private :
         int32u                  mvex_trex_default_sample_size;
         int32u                  TimeCode_TrackID;
         bool                    TimeCode_IsVisual;
+        bool                    IsPcm;
         bool                    IsPcmMono;
         bool                    IsPriorityStream;
         bool                    IsFilled;
@@ -393,6 +399,7 @@ private :
         float32                 CleanAperture_PixelAspectRatio;
         #if MEDIAINFO_DEMUX || MEDIAINFO_SEEK
             int8u               Demux_Level;
+            int64u              Demux_Offset;
 
             struct stts_duration
             {
@@ -413,7 +420,6 @@ private :
 
         stream()
         {
-            Parser=NULL;
             MI=NULL;
             TimeCode=NULL;
             StreamKind=Stream_Max;
@@ -435,6 +441,7 @@ private :
             mvex_trex_default_sample_size=0;
             TimeCode_TrackID=(int32u)-1;
             TimeCode_IsVisual=false;
+            IsPcm=false;
             IsPcmMono=false;
             IsPriorityStream=false;
             IsFilled=false;
@@ -443,6 +450,7 @@ private :
             CleanAperture_PixelAspectRatio=0;
             #if MEDIAINFO_DEMUX
                 Demux_Level=2; //Container
+                Demux_Offset=0;
                 stts_Durations_Pos=0;
                 stts_FramePos=0;
             #endif //MEDIAINFO_DEMUX
@@ -453,7 +461,8 @@ private :
 
         ~stream()
         {
-            delete Parser; //Parser=NULL;
+            for (size_t Pos=0; Pos<Parsers.size(); Pos++)
+                delete Parsers[Pos];
             delete MI; //MI=NULL;
             delete TimeCode; //TimeCode=NULL;
         }

@@ -76,6 +76,9 @@ public :
     void          File_IsReferenced_Set (bool NewValue);
     bool          File_IsReferenced_Get ();
 
+    void          File_TestContinuousFileNames_Set (bool NewValue);
+    bool          File_TestContinuousFileNames_Get ();
+
     void          File_KeepInfo_Set (bool NewValue);
     bool          File_KeepInfo_Get ();
 
@@ -123,6 +126,8 @@ public :
     void          File_Filter_Set     (int64u NewValue);
     bool          File_Filter_Get     (const int16u  Value);
     bool          File_Filter_Get     ();
+    void          File_Filter_Audio_Set (bool NewValue);
+    bool          File_Filter_Audio_Get ();
     bool          File_Filter_HasChanged();
     #endif //MEDIAINFO_FILTER
 
@@ -156,6 +161,7 @@ public :
     Ztring        Event_CallBackFunction_Get ();
     void          Event_Send(File__Analyze* Source, const int8u* Data_Content, size_t Data_Size, const Ztring &File_Name=Ztring());
     void          Event_Accepted(File__Analyze* Source);
+    void          Event_SubFile_Start(const Ztring &FileName_Absolute);
     #endif //MEDIAINFO_EVENTS
 
     #if MEDIAINFO_DEMUX
@@ -163,6 +169,10 @@ public :
     bool          Demux_ForceIds_Get ();
     void          Demux_PCM_20bitTo16bit_Set (bool NewValue);
     bool          Demux_PCM_20bitTo16bit_Get ();
+    void          Demux_PCM_20bitTo24bit_Set (bool NewValue);
+    bool          Demux_PCM_20bitTo24bit_Get ();
+    void          Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Set (bool NewValue);
+    bool          Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Get ();
     void          Demux_Unpacketize_Set (bool NewValue);
     bool          Demux_Unpacketize_Get ();
     void          Demux_Rate_Set (float64 NewValue);
@@ -247,6 +257,9 @@ public :
     int64u        File_Current_Size;
     int64u        File_Size;
     float32       ParseSpeed;
+    #if MEDIAINFO_EVENTS
+    Ztring        File_Names_RootDirectory;
+    #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX
     bool          Demux_EventWasSent;
         #if MEDIAINFO_SEEK
@@ -259,6 +272,7 @@ private :
     bool                    FileIsSub;
     bool                    FileIsDetectingDuration;
     bool                    FileIsReferenced;
+    bool                    FileTestContinuousFileNames;
     bool                    FileKeepInfo;
     bool                    FileStopAfterFilled;
     bool                    FileStopSubStreamAfterFilled;
@@ -280,6 +294,7 @@ private :
 
     #if MEDIAINFO_FILTER
     std::map<int16u, bool>  File_Filter_16;
+    bool                    File_Filter_Audio;
     bool                    File_Filter_HasChanged_;
     #endif //MEDIAINFO_FILTER
 
@@ -322,6 +337,8 @@ private :
     #if MEDIAINFO_DEMUX
     bool                    Demux_ForceIds;
     bool                    Demux_PCM_20bitTo16bit;
+    bool                    Demux_PCM_20bitTo24bit;
+    bool                    Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10;
     bool                    Demux_Unpacketize;
     float64                 Demux_Rate;
     int64u                  Demux_FirstDts;

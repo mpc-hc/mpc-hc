@@ -44,7 +44,11 @@ class File_ChannelGrouping : public File__Analyze
 {
 public :
     //In
-    size_t  ByteDepth;
+    size_t  BitDepth;
+    int64u  SamplingRate;
+    int8u   Endianness;
+    bool    CanBePcm;
+
     struct common
     {
         struct channel
@@ -53,6 +57,8 @@ public :
             size_t          Buffer_Offset;
             size_t          Buffer_Size;
             size_t          Buffer_Size_Max;
+            std::vector<int64u> Offsets_Stream;
+            std::vector<int64u> Offsets_Buffer;
 
             channel()
             {
@@ -94,32 +100,25 @@ public :
         vector<channel*>    Channels;
         channel             MergedChannel;
         size_t              Channel_Current;
-        size_t              Channel_Master;
-        File__Analyze*      Parser;
-        bool                IsPcm;
-        bool                IsAes3;
+        std::vector<File__Analyze*> Parsers;
+        size_t              Instances;
 
         common()
         {
             Channel_Current=0;
-            Channel_Master=(size_t)-1;
-            Parser=NULL;
-            IsPcm=false;
-            IsAes3=false;
+            Instances=0;
         }
 
         ~common()
         {
-            delete Parser; //Parser=NULL;
+            for (size_t Pos=0; Pos<Parsers.size(); Pos++)
+                delete Parsers[Pos];
         }
     };
     int64u  StreamID;
     common* Common;
     size_t  Channel_Pos;
     size_t  Channel_Total;
-    int64u  SampleRate;
-    int8u   Endianness;
-    bool    IsAes3;
 
     //Constructor/Destructor
     File_ChannelGrouping();
@@ -134,10 +133,6 @@ private :
     void Read_Buffer_Init ();
     void Read_Buffer_Continue ();
     void Read_Buffer_Unsynched ();
-
-    //Temp
-    size_t  Buffer_Offset_AlreadyInCommon;
-    int64u  IsPcm_Frame_Count;
 };
 
 } //NameSpace

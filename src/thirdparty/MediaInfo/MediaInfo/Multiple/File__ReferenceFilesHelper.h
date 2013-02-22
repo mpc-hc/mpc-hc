@@ -84,6 +84,7 @@ public :
     typedef std::vector<reference>  references;
     references                      References;
     bool                            TestContinuousFileNames;
+    bool                            ContainerHasNoId;
 
     //Streams management
     void ParseReferences();
@@ -126,6 +127,10 @@ private :
     //Helpers
     size_t Stream_Prepare(stream_t StreamKind, size_t StreamPos=(size_t)-1);
     void   FileSize_Compute();
+    #if MEDIAINFO_EVENTS
+    void SubFile_Start();
+    int64u                          StreamID_Previous;
+    #endif //MEDIAINFO_EVENTS
 };
 
 } //NameSpace

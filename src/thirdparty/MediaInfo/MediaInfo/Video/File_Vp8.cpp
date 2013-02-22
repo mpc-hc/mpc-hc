@@ -106,7 +106,7 @@ void File_Vp8::Read_Buffer_Continue()
     Get_TB (    frame_type,                                     "frame type");
     Skip_T1( 3,                                                 "version number");
     Skip_TB(                                                    "show_frame flag");
-    Skip_T3(19,                                                 "size of the first data partition");
+    Skip_T4(19,                                                 "size of the first data partition");
     BS_End();
 
     if (!frame_type) //I-Frame

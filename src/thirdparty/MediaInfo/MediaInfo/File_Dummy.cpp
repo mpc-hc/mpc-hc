@@ -108,9 +108,9 @@ void File_Dummy::FileHeader_Parse()
         Fill(Stream_Text, 0, Text_Codec_Url, "http://mediainfo.sourceforge.net");
         Fill(Stream_Text, 0, Text_Language, "en");
         Fill(Stream_Text, 0, Text_Language_More, "Forced");
-        Stream_Prepare(Stream_Chapters);
-        Fill(Stream_Chapters, 0, Chapters_Total, "16");
-        Fill(Stream_Chapters, 0, Chapters_Language, "en");
+        Stream_Prepare(Stream_Other);
+        Fill(Stream_Other, 0, Chapters_Total, "16");
+        Fill(Stream_Other, 0, Chapters_Language, "en");
     }
 
     Accept();
@@ -313,12 +313,12 @@ void File_Dummy::Fill_Dummy_Text()
 //---------------------------------------------------------------------------
 void File_Dummy::Fill_Dummy_Chapters()
 {
-    Stream_Prepare(Stream_Chapters);
-    Fill(Stream_Chapters, 0, Chapters_ID, "ID");
-    Fill(Stream_Chapters, 0, Chapters_UniqueID, "UniqueID");
-    Fill(Stream_Chapters, 0, Chapters_Title, "Title");
-    Fill(Stream_Chapters, 0, Chapters_Total, "Total");
-    Fill(Stream_Chapters, 0, Chapters_Language, "de");
+    Stream_Prepare(Stream_Other);
+    Fill(Stream_Other, 0, Chapters_ID, "ID");
+    Fill(Stream_Other, 0, Chapters_UniqueID, "UniqueID");
+    Fill(Stream_Other, 0, Chapters_Title, "Title");
+    Fill(Stream_Other, 0, Chapters_Total, "Total");
+    Fill(Stream_Other, 0, Chapters_Language, "de");
 }
 
 } //NameSpace

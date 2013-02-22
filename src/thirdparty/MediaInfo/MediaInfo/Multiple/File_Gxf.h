@@ -85,7 +85,17 @@ private :
     int32u Material_Fields_FieldsPerFrame;
     int8u  Parsers_Count;
     int8u  AncillaryData_StreamID;
-    std::map<int8u, int64u> TimeCodes; //Key is StreamID
+    struct tc
+    {
+        int64u Milliseconds;
+        string String;
+
+        tc()
+        {
+            Milliseconds=(int64u)-1;
+        }
+    };
+    std::map<int8u, tc> TimeCodes; //Key is StreamID
     bool   Material_Fields_First_IsValid;
     bool   Material_Fields_Last_IsValid;
     bool   Material_File_Size_IsValid;
@@ -93,7 +103,7 @@ private :
     //Temp - Stream
     struct stream
     {
-        File__Analyze* Parser;
+        std::vector<File__Analyze*> Parsers;
         int64u FirstFrameDuration; //In case of audio, indicates the duration of the first frame
         stream_t StreamKind;
         size_t StreamPos;
@@ -114,7 +124,6 @@ private :
 
         stream()
         {
-            Parser=NULL;
             FirstFrameDuration=0;
             StreamKind=Stream_Max;
             StreamPos=(size_t)-1;
@@ -131,7 +140,8 @@ private :
         }
         ~stream()
         {
-            delete Parser; //Parser=NULL
+            for (size_t Pos=0; Pos<Parsers.size(); Pos++)
+                delete Parsers[Pos];
         }
     };
     std::vector<stream> Streams;

@@ -24,7 +24,7 @@ distribution.
 #ifndef TINYXML2_INCLUDED
 #define TINYXML2_INCLUDED
 
-#ifdef ANDROID_NDK
+#if defined(ANDROID_NDK) || defined(__BORLANDC__)
 #   include <ctype.h>
 #   include <limits.h>
 #   include <stdio.h>
@@ -45,7 +45,7 @@ distribution.
 */
 /*
 	gcc:
-        g++ -Wall tinyxml2.cpp xmltest.cpp -o gccxmltest.exe
+        g++ -Wall -DDEBUG tinyxml2.cpp xmltest.cpp -o gccxmltest.exe
     
     Formatting, Artistic Style:
         AStyle.exe --style=1tbs --indent-switches --break-closing-brackets --indent-preprocessor tinyxml2.cpp tinyxml2.h
@@ -100,7 +100,7 @@ inline int TIXML_SNPRINTF( char* buffer, size_t size, const char* format, ... )
 
 static const int TIXML2_MAJOR_VERSION = 1;
 static const int TIXML2_MINOR_VERSION = 0;
-static const int TIXML2_PATCH_VERSION = 8;
+static const int TIXML2_PATCH_VERSION = 9;
 
 namespace tinyxml2
 {
@@ -285,6 +285,7 @@ public:
     virtual int ItemSize() const = 0;
     virtual void* Alloc() = 0;
     virtual void Free( void* ) = 0;
+    virtual void SetTracked() = 0;
 };
 
 
@@ -295,7 +296,7 @@ template< int SIZE >
 class MemPoolT : public MemPool
 {
 public:
-    MemPoolT() : _root(0), _currentAllocs(0), _nAllocs(0), _maxAllocs(0)	{}
+    MemPoolT() : _root(0), _currentAllocs(0), _nAllocs(0), _maxAllocs(0), _nUntracked(0)	{}
     ~MemPoolT() {
         // Delete the blocks.
         for( int i=0; i<_blockPtrs.Size(); ++i ) {
@@ -330,6 +331,7 @@ public:
             _maxAllocs = _currentAllocs;
         }
         _nAllocs++;
+        _nUntracked++;
         return result;
     }
     virtual void Free( void* mem ) {
@@ -349,14 +351,23 @@ public:
                 name, _maxAllocs, _maxAllocs*SIZE/1024, _currentAllocs, SIZE, _nAllocs, _blockPtrs.Size() );
     }
 
+    void SetTracked() {
+        _nUntracked--;
+    }
+
+    int Untracked() const {
+        return _nUntracked;
+    }
+
+    enum { COUNT = 1024/SIZE }; // Some compilers do not accept to use COUNT in private part if COUNT is private
+
 private:
-    enum { COUNT = 1024/SIZE };
     union Chunk {
         Chunk*  next;
         char    mem[SIZE];
     };
     struct Block {
-        Chunk chunk[1024/SIZE];
+        Chunk chunk[COUNT];
     };
     DynArray< Block*, 10 > _blockPtrs;
     Chunk* _root;
@@ -364,6 +375,7 @@ private:
     int _currentAllocs;
     int _nAllocs;
     int _maxAllocs;
+    int _nUntracked;
 };
 
 
@@ -438,19 +450,19 @@ public:
     // Anything in the high order range of UTF-8 is assumed to not be whitespace. This isn't
     // correct, but simple, and usually works.
     static const char* SkipWhiteSpace( const char* p )	{
-        while( !IsUTF8Continuation(*p) && std::isspace( *reinterpret_cast<const unsigned char*>(p) ) ) {
+        while( !IsUTF8Continuation(*p) && isspace( *reinterpret_cast<const unsigned char*>(p) ) ) {
             ++p;
         }
         return p;
     }
     static char* SkipWhiteSpace( char* p )				{
-        while( !IsUTF8Continuation(*p) && std::isspace( *reinterpret_cast<unsigned char*>(p) ) )		{
+        while( !IsUTF8Continuation(*p) && isspace( *reinterpret_cast<unsigned char*>(p) ) )		{
             ++p;
         }
         return p;
     }
     static bool IsWhiteSpace( char p )					{
-        return !IsUTF8Continuation(p) && std::isspace( static_cast<unsigned char>(p) );
+        return !IsUTF8Continuation(p) && isspace( static_cast<unsigned char>(p) );
     }
 
     inline static bool StringEqual( const char* p, const char* q, int nChar=INT_MAX )  {
@@ -472,10 +484,10 @@ public:
         return p & 0x80;
     }
     inline static int IsAlphaNum( unsigned char anyByte )	{
-        return ( anyByte < 128 ) ? std::isalnum( anyByte ) : 1;
+        return ( anyByte < 128 ) ? isalnum( anyByte ) : 1;
     }
     inline static int IsAlpha( unsigned char anyByte )		{
-        return ( anyByte < 128 ) ? std::isalpha( anyByte ) : 1;
+        return ( anyByte < 128 ) ? isalpha( anyByte ) : 1;
     }
 
     static const char* ReadBOM( const char* p, bool* hasBOM );
@@ -540,23 +552,29 @@ public:
         return _document;
     }
 
+    /// Safely cast to an Element, or null.
     virtual XMLElement*		ToElement()		{
-        return 0;    ///< Safely cast to an Element, or null.
+        return 0;    
     }
+    /// Safely cast to Text, or null.
     virtual XMLText*		ToText()		{
-        return 0;    ///< Safely cast to Text, or null.
+        return 0;    
     }
+    /// Safely cast to a Comment, or null.
     virtual XMLComment*		ToComment()		{
-        return 0;    ///< Safely cast to a Comment, or null.
+        return 0;    
     }
+    /// Safely cast to a Document, or null.
     virtual XMLDocument*	ToDocument()	{
-        return 0;    ///< Safely cast to a Document, or null.
+        return 0;    
     }
+    /// Safely cast to a Declaration, or null.
     virtual XMLDeclaration*	ToDeclaration()	{
-        return 0;    ///< Safely cast to a Declaration, or null.
+        return 0;    
     }
+    /// Safely cast to an Unknown, or null.
     virtual XMLUnknown*		ToUnknown()		{
-        return 0;    ///< Safely cast to an Unknown, or null.
+        return 0;    
     }
 
     virtual const XMLElement*		ToElement() const		{
@@ -919,7 +937,7 @@ protected:
 };
 
 
-enum {
+enum XMLError {
     XML_NO_ERROR = 0,
     XML_SUCCESS = 0,
 
@@ -957,14 +975,17 @@ class XMLAttribute
 {
     friend class XMLElement;
 public:
+    /// The name of the attribute.
     const char* Name() const {
-        return _name.GetStr();    ///< The name of the attribute.
+        return _name.GetStr();    
     }
+    /// The value of the attribute.
     const char* Value() const {
-        return _value.GetStr();    ///< The value of the attribute.
+        return _value.GetStr();    
     }
+    /// The next attribute in the list.
     const XMLAttribute* Next() const {
-        return _next;    ///< The next attribute in the list.
+        return _next;    
     }
 
     /** IntAttribute interprets the attribute as an integer, and returns the value.
@@ -1005,15 +1026,15 @@ public:
     	in the provided paremeter. The function will return XML_NO_ERROR on success,
     	and XML_WRONG_ATTRIBUTE_TYPE if the conversion is not successful.
     */
-    int QueryIntValue( int* value ) const;
+    XMLError QueryIntValue( int* value ) const;
     /// See QueryIntAttribute
-    int QueryUnsignedValue( unsigned int* value ) const;
+    XMLError QueryUnsignedValue( unsigned int* value ) const;
     /// See QueryIntAttribute
-    int QueryBoolValue( bool* value ) const;
+    XMLError QueryBoolValue( bool* value ) const;
     /// See QueryIntAttribute
-    int QueryDoubleValue( double* value ) const;
+    XMLError QueryDoubleValue( double* value ) const;
     /// See QueryIntAttribute
-    int QueryFloatValue( float* value ) const;
+    XMLError QueryFloatValue( float* value ) const;
 
     /// Set the attribute to a string value.
     void SetAttribute( const char* value );
@@ -1146,7 +1167,7 @@ public:
     	QueryIntAttribute( "foo", &value );		// if "foo" isn't found, value will still be 10
     	@endverbatim
     */
-    int QueryIntAttribute( const char* name, int* value ) const				{
+    XMLError QueryIntAttribute( const char* name, int* value ) const				{
         const XMLAttribute* a = FindAttribute( name );
         if ( !a ) {
             return XML_NO_ATTRIBUTE;
@@ -1154,7 +1175,7 @@ public:
         return a->QueryIntValue( value );
     }
     /// See QueryIntAttribute()
-    int QueryUnsignedAttribute( const char* name, unsigned int* value ) const	{
+    XMLError QueryUnsignedAttribute( const char* name, unsigned int* value ) const	{
         const XMLAttribute* a = FindAttribute( name );
         if ( !a ) {
             return XML_NO_ATTRIBUTE;
@@ -1162,7 +1183,7 @@ public:
         return a->QueryUnsignedValue( value );
     }
     /// See QueryIntAttribute()
-    int QueryBoolAttribute( const char* name, bool* value ) const				{
+    XMLError QueryBoolAttribute( const char* name, bool* value ) const				{
         const XMLAttribute* a = FindAttribute( name );
         if ( !a ) {
             return XML_NO_ATTRIBUTE;
@@ -1170,7 +1191,7 @@ public:
         return a->QueryBoolValue( value );
     }
     /// See QueryIntAttribute()
-    int QueryDoubleAttribute( const char* name, double* value ) const			{
+    XMLError QueryDoubleAttribute( const char* name, double* value ) const			{
         const XMLAttribute* a = FindAttribute( name );
         if ( !a ) {
             return XML_NO_ATTRIBUTE;
@@ -1178,7 +1199,7 @@ public:
         return a->QueryDoubleValue( value );
     }
     /// See QueryIntAttribute()
-    int QueryFloatAttribute( const char* name, float* value ) const			{
+    XMLError QueryFloatAttribute( const char* name, float* value ) const			{
         const XMLAttribute* a = FindAttribute( name );
         if ( !a ) {
             return XML_NO_ATTRIBUTE;
@@ -1280,15 +1301,15 @@ public:
     			 to the requested type, and XML_NO_TEXT_NODE if there is no child text to query.
 
     */
-    int QueryIntText( int* _value ) const;
+    XMLError QueryIntText( int* _value ) const;
     /// See QueryIntText()
-    int QueryUnsignedText( unsigned* _value ) const;
+    XMLError QueryUnsignedText( unsigned* _value ) const;
     /// See QueryIntText()
-    int QueryBoolText( bool* _value ) const;
+    XMLError QueryBoolText( bool* _value ) const;
     /// See QueryIntText()
-    int QueryDoubleText( double* _value ) const;
+    XMLError QueryDoubleText( double* _value ) const;
     /// See QueryIntText()
-    int QueryFloatText( float* _value ) const;
+    XMLError QueryFloatText( float* _value ) const;
 
     // internal:
     enum {
@@ -1358,14 +1379,14 @@ public:
     	specified, TinyXML will assume 'xml' points to a
     	null terminated string.
     */
-    int Parse( const char* xml, size_t nBytes=(size_t)(-1) );
+    XMLError Parse( const char* xml, size_t nBytes=(size_t)(-1) );
 
     /**
     	Load an XML file from disk.
     	Returns XML_NO_ERROR (0) on success, or
     	an errorID.
     */
-    int LoadFile( const char* filename );
+    XMLError LoadFile( const char* filename );
 
     /**
     	Load an XML file from disk. You are responsible
@@ -1374,14 +1395,14 @@ public:
     	Returns XML_NO_ERROR (0) on success, or
     	an errorID.
     */
-    int LoadFile( std::FILE* );
+    XMLError LoadFile( FILE* );
 
     /**
     	Save the XML file to disk.
     	Returns XML_NO_ERROR (0) on success, or
     	an errorID.
     */
-    int SaveFile( const char* filename, bool compact = false );
+    XMLError SaveFile( const char* filename, bool compact = false );
 
     /**
     	Save the XML file to disk. You are responsible
@@ -1390,7 +1411,7 @@ public:
     	Returns XML_NO_ERROR (0) on success, or
     	an errorID.
     */
-    int SaveFile( std::FILE* fp, bool compact = false );
+    XMLError SaveFile( FILE* fp, bool compact = false );
 
     bool ProcessEntities() const		{
         return _processEntities;
@@ -1483,14 +1504,14 @@ public:
         node->_parent->DeleteChild( node );
     }
 
-    void SetError( int error, const char* str1, const char* str2 );
+    void SetError( XMLError error, const char* str1, const char* str2 );
 
     /// Return true if there was an error parsing the document.
     bool Error() const {
         return _errorID != XML_NO_ERROR;
     }
     /// Return the errorID.
-    int  ErrorID() const {
+    XMLError  ErrorID() const {
         return _errorID;
     }
     /// Return a possibly helpful diagnostic location or string.
@@ -1519,13 +1540,13 @@ private:
     void operator=( const XMLDocument& );	// not supported
     void InitDocument();
 
-    bool _writeBOM;
-    bool _processEntities;
-    int  _errorID;
-    Whitespace _whitespace;
+    bool        _writeBOM;
+    bool        _processEntities;
+    XMLError    _errorID;
+    Whitespace  _whitespace;
     const char* _errorStr1;
     const char* _errorStr2;
-    char* _charBuffer;
+    char*       _charBuffer;
 
     MemPoolT< sizeof(XMLElement) >	 _elementPool;
     MemPoolT< sizeof(XMLAttribute) > _attributePool;
@@ -1789,7 +1810,7 @@ public:
     	If 'compact' is set to true, then output is created
     	with only required whitespace and newlines.
     */
-    XMLPrinter( std::FILE* file=0, bool compact = false );
+    XMLPrinter( FILE* file=0, bool compact = false );
     ~XMLPrinter()	{}
 
     /** If streaming, write the BOM and declaration. */
@@ -1863,7 +1884,7 @@ private:
 
     bool _elementJustOpened;
     bool _firstElement;
-    std::FILE* _fp;
+    FILE* _fp;
     int _depth;
     int _textDepth;
     bool _processEntities;

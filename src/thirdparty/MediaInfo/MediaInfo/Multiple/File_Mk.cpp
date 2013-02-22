@@ -1583,6 +1583,8 @@ void File_Mk::Segment_Cluster_BlockGroup_Block()
 
                 if (Stream[TrackNumber].Searching_Payload)
                 {
+                    Element_Code=TrackNumber;
+
                     //Content compression
                     if (Stream[TrackNumber].ContentCompAlgo==3) //Header Stripping
                     {

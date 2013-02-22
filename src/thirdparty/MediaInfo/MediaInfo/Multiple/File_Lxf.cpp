@@ -35,14 +35,41 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Multiple/File_Lxf.h"
-#if defined(MEDIAINFO_DVDIF_YES)
-    #include "MediaInfo/Multiple/File_DvDif.h"
-#endif
 #if defined(MEDIAINFO_AVC_YES)
     #include "MediaInfo/Video/File_Avc.h"
 #endif
+#if defined(MEDIAINFO_DVDIF_YES)
+    #include "MediaInfo/Multiple/File_DvDif.h"
+#endif
+#if defined(MEDIAINFO_VC3_YES)
+    #include "MediaInfo/Video/File_Vc3.h"
+#endif
 #if defined(MEDIAINFO_MPEGV_YES)
     #include "MediaInfo/Video/File_Mpegv.h"
+#endif
+#if defined(MEDIAINFO_AAC_YES)
+    #include "MediaInfo/Audio/File_Aac.h"
+#endif
+#if defined(MEDIAINFO_AC3_YES)
+    #include "MediaInfo/Audio/File_Ac3.h"
+#endif
+#if defined(MEDIAINFO_DTS_YES)
+    #include "MediaInfo/Audio/File_Dts.h"
+#endif
+#if defined(MEDIAINFO_SMPTEST0337_YES)
+    #include "MediaInfo/Audio/File_ChannelGrouping.h"
+#endif
+#if defined(MEDIAINFO_DOLBYE_YES)
+    #include "MediaInfo/Audio/File_DolbyE.h"
+#endif
+#if defined(MEDIAINFO_MPEGA_YES)
+    #include "MediaInfo/Audio/File_Mpega.h"
+#endif
+#if defined(MEDIAINFO_PCM_YES)
+    #include "MediaInfo/Audio/File_Pcm.h"
+#endif
+#if defined(MEDIAINFO_SMPTEST0337_YES)
+    #include "MediaInfo/Audio/File_SmpteSt0337.h"
 #endif
 #if defined(MEDIAINFO_ANCILLARY_YES)
     #include "MediaInfo/Multiple/File_Ancillary.h"
@@ -59,6 +86,7 @@ using namespace std;
 namespace MediaInfoLib
 {
 
+//---------------------------------------------------------------------------
 const char* Lxf_Format_Video[16]=
 {
     "JPEG",
@@ -79,6 +107,7 @@ const char* Lxf_Format_Video[16]=
     "",
 };
 
+//---------------------------------------------------------------------------
 const char* Lxf_PictureType[4]=
 {
     "I", //Closed
@@ -87,6 +116,7 @@ const char* Lxf_PictureType[4]=
     "B",
 };
 
+//---------------------------------------------------------------------------
 extern const float32 Mpegv_frame_rate[]; //In Video/File_Mpegv.cpp
 
 //***************************************************************************
@@ -119,6 +149,11 @@ File_Lxf::File_Lxf()
     Video_Sizes_Pos=(size_t)-1;
     Audio_Sizes_Pos=(size_t)-1;
 
+    //Demux
+    #if MEDIAINFO_DEMUX
+        DemuxParser=NULL;
+    #endif //MEDIAINFO_DEMUX
+
     //Seek
     #if MEDIAINFO_SEEK
         SeekRequest=(int64u)-1;
@@ -127,6 +162,17 @@ File_Lxf::File_Lxf()
     TimeStamp_Rate=720000;
     Duration_Detected=false;
     LastAudio_BufferOffset=(int64u)-1;
+}
+
+//---------------------------------------------------------------------------
+File_Lxf::~File_Lxf()
+{
+    for (size_t Pos=0; Pos<Videos.size(); Pos++)
+        for (size_t Pos2=0; Pos2<Videos[Pos].Parsers.size(); Pos2++)
+            delete Videos[Pos].Parsers[Pos2];
+    for (size_t Pos=0; Pos<Audios.size(); Pos++)
+        for (size_t Pos2=0; Pos2<Audios[Pos].Parsers.size(); Pos2++)
+            delete Audios[Pos].Parsers[Pos2];
 }
 
 //***************************************************************************
@@ -138,23 +184,26 @@ void File_Lxf::Streams_Fill()
 {
     Fill(Stream_General, 0, General_Format_Version, __T("Version "+Ztring::ToZtring(Version)));
 
-    for (size_t Pos=0; Pos<Videos.size(); Pos++)
-        Streams_Fill_PerStream(Videos[Pos].Parser, 1, Pos);
+    for (size_t Pos=2; Pos<Videos.size(); Pos++) //TODO: better handling of fill/finish for Ancillary data
+        if (Videos[Pos].Parsers.size()==1)
+            Streams_Fill_PerStream(Videos[Pos].Parsers[0], Stream_Video, Pos, Videos[Pos].Format);
     for (size_t Pos=0; Pos<Audios.size(); Pos++)
-        Streams_Fill_PerStream(Audios[Pos].Parser, 2, Pos);
+        if (Audios[Pos].Parsers.size()==1)
+            Streams_Fill_PerStream(Audios[Pos].Parsers[0], Stream_Audio, Pos, Audios[Pos].Format);
 
-    if (!Videos.empty())
-        Fill(Stream_Video, 0, Video_CodecID, VideoFormat);
+    //FrameRate
+    if (FrameRate && Retrieve(Stream_Video, 0, Video_FrameRate).empty())
+        Fill(Stream_Video, 0, Video_FrameRate, FrameRate, 3);
 }
 
 //---------------------------------------------------------------------------
-void File_Lxf::Streams_Fill_PerStream(File__Analyze* Parser, size_t Container_StreamKind, size_t Parser_Pos)
+void File_Lxf::Streams_Fill_PerStream(File__Analyze* Parser, stream_t Container_StreamKind, size_t Parser_Pos, int8u Format)
 {
     if (Parser==NULL)
         return;
 
     Fill(Parser);
-    if (Parser->Count_Get(Stream_Audio) && Config->File_Audio_MergeMonoStreams_Get())
+    if (Parser->Count_Get(Stream_Audio) && Config->File_Audio_MergeMonoStreams_Get() && Parser->Retrieve(Stream_Audio, 0, Audio_Format)==__T("PCM"))
     {
         if (Count_Get(Stream_Audio)==0)
         {
@@ -179,27 +228,35 @@ void File_Lxf::Streams_Fill_PerStream(File__Analyze* Parser, size_t Container_St
                 for (size_t StreamKind=Stream_General+1; StreamKind<Stream_Max; StreamKind++)
                     for (size_t StreamPos=0; StreamPos<Parser->Count_Get((stream_t)StreamKind); StreamPos++)
                     {
-                        Ztring ID=Ztring::ToZtring(0x100*Container_StreamKind+Parser_Pos);
+                        Ztring ID;
+                        if (Parser->Count_Get(Stream_Audio) && Parser->Retrieve(Stream_Audio, 0, Audio_MuxingMode)==__T("AES3") && Parser_Pos%2)
+                            ID+=Ztring::ToZtring(0x100*Container_StreamKind+Parser_Pos-1)+__T(" / ");
+                        ID+=Ztring::ToZtring(0x100*Container_StreamKind+Parser_Pos);
                         if (!Parser->Retrieve((stream_t)StreamKind, StreamPos, General_ID).empty())
                             ID+=__T('-')+Parser->Retrieve((stream_t)StreamKind, StreamPos, General_ID);
                         Fill((stream_t)StreamKind, Count_Get((stream_t)StreamKind)-Parser->Count_Get((stream_t)StreamKind)+StreamPos, General_ID, ID, true);
                     }
         #endif //MEDIAINFO_DEMUX
     }
+    if (Format!=(int8u)-1)
+        Fill(Container_StreamKind, Container_StreamKind==Stream_Video?0:Parser_Pos, Fill_Parameter(Container_StreamKind, Generic_CodecID), Format);
+    if (Container_StreamKind==Stream_Video)
+        for (size_t Pos=Count_Get(Stream_Audio)-Parser->Count_Get(Stream_Audio); Pos<Count_Get(Stream_Audio); Pos++)
+            Fill(Stream_Audio, Pos, Audio_MuxingMode, Parser->Retrieve(Stream_General, 0, General_Format));
 }
 
 //---------------------------------------------------------------------------
 void File_Lxf::Streams_Finish()
 {
-    if (Videos[1].Parser && Count_Get(Stream_Text)==0) //TODO: better handling of fill/finish
+    if (Videos.size()>1 && Videos[1].Parsers.size()==1) //TODO: better handling of fill/finish for Ancillary data
     {
-        Finish(Videos[1].Parser);
-        Streams_Fill_PerStream(Videos[1].Parser, Stream_Video, 1);
+        Finish(Videos[1].Parsers[0]);
+        Streams_Fill_PerStream(Videos[1].Parsers[0], Stream_Video, 1);
     }
-    if (Videos[2].Parser)
+    if (Videos.size()>2 && Videos[2].Parsers.size()==1)
     {
-        Finish(Videos[2].Parser);
-        Merge(*Videos[2].Parser, Stream_Video, 0, 0);
+        Finish(Videos[2].Parsers[0]);
+        Merge(*Videos[2].Parsers[0], Stream_Video, 0, 0);
     }
 
     if (Audios_Header.TimeStamp_End!=(int64u)-1 && Audios_Header.TimeStamp_Begin!=(int64u)-1 && Audios_Header.Duration_First!=(int64u)-1)
@@ -208,8 +265,10 @@ void File_Lxf::Streams_Finish()
         int64u FrameCount=float64_int64s(((float64)(Audios_Header.TimeStamp_End-Audios_Header.TimeStamp_Begin))/Audios_Header.Duration_First);
         for (size_t Pos=0; Pos<Count_Get(Stream_Audio); Pos++)
         {
-            Fill(Stream_Audio, Pos, Audio_Duration, Duration);
-            Fill(Stream_Audio, Pos, Audio_FrameCount, FrameCount);
+            if (Retrieve(Stream_Audio, Pos, Audio_Duration).empty())
+                Fill(Stream_Audio, Pos, Audio_Duration, Duration);
+            if (Retrieve(Stream_Audio, Pos, Audio_FrameCount).empty())
+                Fill(Stream_Audio, Pos, Audio_FrameCount, FrameCount);
         }
         Info_General_StreamSize+=FrameCount*0x48;
     }
@@ -253,9 +312,6 @@ bool File_Lxf::Synchronize()
                                           ||  Buffer[Buffer_Offset+ 5]!=0x48
                                           ||  Buffer[Buffer_Offset+ 6]!=0x00
                                           ||  Buffer[Buffer_Offset+ 7]!=0x00
-    #if MEDIAINFO_SEEK
-                                          || (Buffer[Buffer_Offset+16]!=0x02 && Buffer[Buffer_Offset+16]!=0x00)
-    #endif //MEDIAINFO_SEEK
                                          ))
     {
         Buffer_Offset+=6+2;
@@ -374,12 +430,25 @@ void File_Lxf::Read_Buffer_Unsynched()
     Videos_Header.TimeStamp_End=(int64u)-1;
     Audios_Header.TimeStamp_End=(int64u)-1;
 
-    for (size_t Pos=0; Pos<Audios.size(); Pos++)
-        if (Audios[Pos].Parser)
-            Audios[Pos].Parser->Open_Buffer_Unsynch();
     for (size_t Pos=0; Pos<Videos.size(); Pos++)
-        if (Videos[Pos].Parser)
-            Videos[Pos].Parser->Open_Buffer_Unsynch();
+        for (size_t Pos2=0; Pos2<Videos[Pos].Parsers.size(); Pos2++)
+            Videos[Pos].Parsers[Pos2]->Open_Buffer_Unsynch();
+    for (size_t Pos=0; Pos<Audios.size(); Pos++)
+        for (size_t Pos2=0; Pos2<Audios[Pos].Parsers.size(); Pos2++)
+            Audios[Pos].Parsers[Pos2]->Open_Buffer_Unsynch();
+}
+
+//---------------------------------------------------------------------------
+void File_Lxf::Read_Buffer_Continue()
+{
+    #if MEDIAINFO_DEMUX
+        if (DemuxParser)
+        {
+            Open_Buffer_Continue(DemuxParser, Buffer+Buffer_Offset, 0);
+            if (!Config->Demux_EventWasSent)
+                DemuxParser=NULL; //No more need of it
+        }
+    #endif //MEDIAINFO_DEMUX
 }
 
 //---------------------------------------------------------------------------
@@ -461,8 +530,8 @@ size_t File_Lxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
                             if (Value==0)
                             {
                                 for (size_t Pos=0; Pos<Videos.size(); Pos++)
-                                    if (Videos[Pos].Parser)
-                                        Videos[Pos].Parser->Unsynch_Frame_Count=0;
+                                    for (size_t Pos2=0; Pos2<Videos[Pos].Parsers.size(); Pos2++)
+                                        Videos[Pos].Parsers[Pos2]->Unsynch_Frame_Count=0;
                             }
                             Open_Buffer_Unsynch();
                             GoTo(TimeOffset->first);
@@ -519,7 +588,7 @@ void File_Lxf::Header_Parse()
     if (Video_Sizes_Pos<Video_Sizes.size())
     {
         //Filling
-        Header_Fill_Code(0x010100+Video_Sizes_Pos, __T("Stream"));
+        Header_Fill_Code(0x100+Video_Sizes_Pos, __T("Stream"));
         Header_Fill_Size(Video_Sizes[Video_Sizes_Pos]);
         Video_Sizes_Pos++;
         return;
@@ -529,7 +598,7 @@ void File_Lxf::Header_Parse()
     if (Audio_Sizes_Pos<Audio_Sizes.size())
     {
         //Filling
-        Header_Fill_Code(0x010200+Audio_Sizes_Pos, __T("Stream"));
+        Header_Fill_Code(0x200+Audio_Sizes_Pos, __T("Stream"));
         Header_Fill_Size(Audio_Sizes[Audio_Sizes_Pos]);
         Audio_Sizes_Pos++;
         return;
@@ -564,7 +633,7 @@ void File_Lxf::Header_Parse()
                     Get_L4 (TimeStamp4,                         "TimeStamp");
                     TimeStamp=TimeStamp4;
                     Param_Info3(((float64)TimeStamp4)/TimeStamp_Rate, 3, " s");
-                    FrameInfo.DTS=float64_int64s(((float64)TimeStamp)*1000000000/TimeStamp_Rate);
+                    FrameInfo.DTS=FrameInfo.PTS=float64_int64s(((float64)TimeStamp)*1000000000/TimeStamp_Rate);
                     Get_L4 (Duration4,                          "Duration");
                     Duration=Duration4;
                     Param_Info3(((float64)Duration)/TimeStamp_Rate, 3, " s");
@@ -572,7 +641,7 @@ void File_Lxf::Header_Parse()
                     }
                     break;
         case 1 :
-                    Get_L8 (TimeStamp,                          "TimeStamp"); Param_Info3(((float64)TimeStamp)/720000, 3, " s"); FrameInfo.DTS=float64_int64s(((float64)TimeStamp)*1000000/720);
+                    Get_L8 (TimeStamp,                          "TimeStamp"); Param_Info3(((float64)TimeStamp)/720000, 3, " s"); FrameInfo.DTS=FrameInfo.PTS=float64_int64s(((float64)TimeStamp)*1000000/720);
                     Get_L8 (Duration,                           "Duration"); Param_Info3(((float64)Duration)/720000, 3, " s"); FrameInfo.DUR=float64_int64s(((float64)Duration)*1000000/720);
                     break;
         default:    ;
@@ -583,25 +652,28 @@ void File_Lxf::Header_Parse()
                     {
                     Video_Sizes.resize(3);
                     int32u Size;
-                    int8u GOP_M, PictureType;
+                    int8u VideoFormat, GOP_M, PictureType;
                     BS_Begin_LE();
                     Get_T1 (4, VideoFormat,                     "Format"); Param_Info1(Lxf_Format_Video[VideoFormat]);
                     Skip_T1(7,                                  "GOP (N)");
                     Get_T1 (3, GOP_M,                           "GOP (M)");
-                    Info_T1(8, BitRate,                         "Bit rate"); Param_Info2(BitRate*1000000, " bps");
+                    Info_T1(8, BitRate,                         "Bit rate"); Param_Info2((BitRate*(BitRate>60?10:(BitRate>50?5:1))-(BitRate>60?500:(BitRate>50?200:0)))*1000000, " bps");
                     Get_T1 (2, PictureType,                     "Picture type"); Param_Info1(Lxf_PictureType[PictureType]);
                     BS_End_LE();
                     Skip_L1(                                    "Reserved");
                     Get_L4(Size,                                "Video data size");
                     Skip_L4(                                    "Zero");
-                    Video_Sizes[2]=Size;
+                    if (!Video_Sizes.empty())
+                        Video_Sizes[2]=Size;
                     BlockSize+=Size;
                     Get_L4(Size,                                "VBI data size");
-                    Video_Sizes[1]=Size;
+                    if (!Video_Sizes.empty())
+                        Video_Sizes[1]=Size;
                     BlockSize+=Size;
                     Skip_L4(                                    "Zero");
                     Get_L4(Size,                                "Meta data size");
-                    Video_Sizes[0]=Size;
+                    if (!Video_Sizes.empty())
+                        Video_Sizes[0]=Size;
                     BlockSize+=Size;
                     if (Videos_Header.TimeStamp_Begin==(int64u)-1)
                         Videos_Header.TimeStamp_Begin=TimeStamp;
@@ -620,6 +692,10 @@ void File_Lxf::Header_Parse()
                             default: Demux_random_access=true ;        //I-Frame
                         }
                     #endif //MEDIAINFO_DEMUX
+                    if (2>Videos.size())
+                        Videos.resize(2+1);
+                    if (!Video_Sizes.empty())
+                        Videos[2].Format=VideoFormat;
                     if (GOP_M>1) //With B-frames
                     {
                         switch (PictureType)
@@ -745,6 +821,26 @@ void File_Lxf::Data_Parse()
                     else
                         Skip_XX(Element_Size,                   "Unknown");
     }
+
+    FILLING_BEGIN();
+        if (Element_Code&0x000100 && (Element_Code&0xFF)==2) //Checking Video stream 2
+        {
+            Frame_Count++;
+            if (!Status[IsFilled] && ((Frame_Count>6 && Stream_Count==0) || Frame_Count>300)) //5 video frames for 1 Audio frame
+            {
+                Fill("LXF");
+                if (MediaInfoLib::Config.ParseSpeed_Get()<1)
+                {
+                    LookingForLastFrame=true;
+                    if (3*(File_Offset+Buffer_Offset)<=File_Size)
+                    {
+                        GoToFromEnd((File_Offset+Buffer_Offset)*2*6/Frame_Count);
+                        Open_Buffer_Unsynch();
+                    }
+                }
+            }
+        }
+    FILLING_END();
 }
 
 //***************************************************************************
@@ -788,33 +884,37 @@ void File_Lxf::Header_Info()
         Skip_L4(                                                "next");
         Skip_L4(                                                "videoClusters");
         Skip_L4(                                                "audioClusters");
-        Element_Begin1("id");
-            Skip_C8(                                            "code");
-            Skip_L4(                                            "minFrame");
-            Skip_L4(                                            "start");
-            Skip_L4(                                            "duration");
-            Skip_L4(                                            "tcOffset");
-            BS_Begin_LE();
-            Skip_T1(4,                                          "Format");
-            Skip_T1(7,                                          "GOP (N)");
-            Skip_T1(3,                                          "GOP (M)");
-            Skip_T1(8,                                          "Bit rate");
-            Skip_TB(                                            "VBI present");
-            Skip_TB(                                            "Aspect Ratio");
-            BS_End_LE();
-            Skip_L1(                                            "reserved");
-            Skip_L4(                                            "base");
-            Skip_L4(                                            "prev");
-            Skip_L4(                                            "next");
-            Skip_L2(                                            "recordDate");
-            Skip_L2(                                            "killDate");
-            Skip_L1(                                            "tc_type");
-            Skip_L1(                                            "status");
-            Skip_L1(                                            "disk");
-            Skip_String(26,                                     "description");
-            Skip_String(16,                                     "agency");
-            Skip_String( 6,                                     "description");
-        Element_End0();
+        Skip_C8(                                                "ID");
+        Skip_L4(                                                "minFrame");
+        Skip_L4(                                                "start");
+        Skip_L4(                                                "duration");
+        Skip_L4(                                                "tcOffset");
+        BS_Begin_LE();
+        Skip_T1(4,                                              "Format");
+        Skip_T1(7,                                              "GOP (N)");
+        Skip_T1(3,                                              "GOP (M)");
+        Skip_T1(8,                                              "Bit rate");
+        Skip_TB(                                                "VBI present");
+        Skip_TB(                                                "Aspect Ratio");
+        BS_End_LE();
+        Skip_L1(                                                "reserved");
+        Skip_L4(                                                "base");
+        Skip_L4(                                                "prev");
+        Skip_L4(                                                "next");
+        BS_Begin_LE();
+        Skip_T1(7,                                              "recordDate - Year");
+        Skip_T1(4,                                              "recordDate - Month");
+        Skip_T1(5,                                              "recordDate - Day");
+        Skip_T1(7,                                              "killDate - Year");
+        Skip_T1(4,                                              "killDate - Month");
+        Skip_T1(5,                                              "killDate - Day");
+        BS_End_LE();
+        Skip_L1(                                                "tc_type");
+        Skip_L1(                                                "status");
+        Skip_L1(                                                "disk");
+        Skip_String(26,                                         "description");
+        Skip_String(16,                                         "agency");
+        Skip_String( 6,                                         "description");
         Skip_L1(                                                "videoGain");
         Skip_L1(                                                "videoSetup");
         Skip_L1(                                                "chromaGain");
@@ -867,10 +967,10 @@ void File_Lxf::Header_Meta()
                             Skip_XX(Size,                       "Record Date/Time");
                             }
                             break;
-                case  1 :   //Library
+                case  1 :   //Codec Where Recorded
                             {
                             Ztring Library;
-                            Get_UTF8(Size, Library,             "Library");
+                            Get_UTF8(Size, Library,             "Codec Where Recorded");
                             Fill(Stream_General, 0, General_Encoded_Library, Library);
                             }
                             break;
@@ -925,6 +1025,7 @@ void File_Lxf::Header_Meta()
                                     Element_End0();
                                     Skip_TB(                    "field");
                                     Skip_TB(                    "interlaced");
+                                    Skip_TB(                    "progressive");
                                     Skip_TB(                    "pulldown");
                                     Skip_TB(                    "chroma 420");
                                     Skip_TB(                    "chroma 422");
@@ -949,11 +1050,11 @@ void File_Lxf::Header_Meta()
                             Skip_XX(Size,                       "GUID");
                             }
                             break;
-                case  7 :   //Channel?
+                case  7 :   //User Name
                             {
                             Ztring Channel;
-                            Get_UTF16L(Size, Channel,           "Channel?");
-                            Fill(Stream_General, 0, General_ServiceName, Channel);
+                            Get_UTF16L(Size, Channel,           "User Name");
+                            Fill(Stream_General, 0, General_EncodedBy, Channel);
                             }
                             break;
                 case  8 :   //Department
@@ -961,10 +1062,21 @@ void File_Lxf::Header_Meta()
                             Skip_UTF16L(Size,                   "Department");
                             }
                             break;
-                case 12 :   //Title
+                case  9 :   //Reserved
+                case 10 :   //Reserved
+                            {
+                            Skip_XX(Size,                       "Reserved");
+                            }
+                            break;
+                case 11 :   //Link
+                            {
+                            Skip_XX(Size,                       "Link");
+                            }
+                            break;
+                case 12 :   //Extended Description
                             {
                             Ztring Title;
-                            Get_UTF16L(Size, Title,             "Title");
+                            Get_UTF16L(Size, Title,             "Extended Description");
                             Fill(Stream_General, 0, General_Title, Title);
                             }
                             break;
@@ -972,7 +1084,7 @@ void File_Lxf::Header_Meta()
                             {
                             Ztring Title;
                             Get_UTF16L(Size, Title,             "Extended Agency");
-                            Fill(Stream_General, 0, General_Title, Title); //Note: not sure
+                            Fill(Stream_General, 0, General_EncodedBy, Title);
                             }
                             break;
                 case 14 :   //User-definable Field
@@ -985,9 +1097,53 @@ void File_Lxf::Header_Meta()
                             Fill(Stream_General, 0, General_Comment, Comment);
                             }
                             break;
+                case 18 :   //External Controller UID
+                            {
+                            Skip_XX(Size,                       "External Controller UID");
+                            }
+                            break;
+                case 19 :   //Video ARC
+                            {
+                            Skip_XX(Size,                       "Video ARC");
+                            }
+                            break;
                 case 20 :   //Modified Timestamp
                             {
-                            Skip_XX(Size,                         "Modified Timestamp");
+                            Skip_XX(Size,                       "Modified Timestamp");
+                            }
+                            break;
+                case 21 :   //Video QA Status
+                            {
+                            Skip_XX(Size,                       "Video QA Status");
+                            }
+                            break;
+                case 22 :   //User Segments In Use (bitmask)
+                            {
+                            Skip_XX(Size,                       "User Segments In Use");
+                            }
+                            break;
+                case 23 :   //Audio Track Info
+                            {
+                                BS_Begin_LE();
+                                for (int8u Pos=0; Pos<Size; Pos++)
+                                {
+                                    int8u Format;
+                                    Skip_TB(                    "Group / AES pair");
+                                    Skip_T1(3,                  "Channels (modulo 8)");
+                                    Get_T1 (3, Format,          "Audio format");
+                                    Skip_TB(                    "Metadata in ANC");
+
+                                    if (Pos>=Audios.size())
+                                        Audios.resize(Pos+1);
+                                    Audios[Pos].Format=Format;
+                                }
+                                BS_End_LE();
+                            }
+                            break;
+                case 24 :   //Audio Tag Info
+                            {
+                                for (int8u Pos=0; Pos<Size; Pos++)
+                                    Skip_L1(                    "Language");
                             }
                             break;
                 default : Skip_XX(Size,                         "Data");
@@ -1017,14 +1173,261 @@ void File_Lxf::Audio()
 //---------------------------------------------------------------------------
 void File_Lxf::Audio_Stream(size_t Pos)
 {
-    Element_Begin1("Stream");
+    if (LookingForLastFrame || (Config->ParseSpeed<1 && Pos<Audios.size() && Audios[Pos].IsFilled))
+    {
+        Skip_XX(Element_Size,                                   "Data");
+        return;
+    }
 
+    if (Pos>=Audios.size())
+        Audios.resize(Pos+1);
+    if (Audios[Pos].Parsers.empty())
+    {
+        //Trying to detect if this is PCM
+        /*
+        switch (Audios[Pos].Format)
+        {
+            case (int8u)-1 : //PCM without codec identifier (default)
+            case  0 : //PCM
+                    {
+                        #ifdef MEDIAINFO_SMPTEST0337_YES
+                        {
+                            File_ChannelGrouping* Parser=new File_ChannelGrouping;
+                            if (Pos%2 && !Audios[Pos-1].Parsers.empty())
+                            {
+                                Parser->Channel_Pos=1;
+                                Parser->Common=((File_ChannelGrouping*)Audios[Pos-1].Parsers[0])->Common;
+                                Parser->StreamID=Pos-1;
+                                Element_Code--;
+                            }
+                            else
+                            {
+                                Parser->Channel_Pos=0;
+                                Parser->SampleRate=48000;
+                            }
+                            Parser->Channel_Total=2;
+                            Parser->ByteDepth=SampleSize/8;
+
+                            Open_Buffer_Init(Parser);
+                            Audios[Pos].Parsers.push_back(Parser);
+                        }
+                        #endif //MEDIAINFO_SMPTEST0337_YES
+
+                        Audios[Pos].BytesPerFrame=Audio_Sizes[Pos];
+
+                        #ifdef MEDIAINFO_PCM_YES
+                            File_Pcm* Parser=new File_Pcm;
+                            Parser->SamplingRate=48000;
+                            Parser->Channels=1;
+                            Parser->BitDepth=SampleSize;
+                            Parser->Endianness='L';
+                            #if !defined(MEDIAINFO_MPEGA_YES) && !defined(MEDIAINFO_SMPTEST0337_YES)
+                                Parser->Frame_Count_Valid=1;
+                            #else
+                                Parser->Frame_Count_Valid=2;
+                            #endif
+                        #else //MEDIAINFO_PCM_YES
+                            File__Analyze* Parser=new File__Analyze;
+                        #endif //MEDIAINFO_PCM_YES
+                        Open_Buffer_Init(Parser);
+                        #ifndef MEDIAINFO_PCM_YES
+                            Parser->Accept();
+                            Parser->Stream_Prepare(Stream_Audio);
+                            int64u BitRate=float64_int64s(Audio_Sizes[Pos]*TimeStamp_Rate*8/(Audios_Header.TimeStamp_End-Audios_Header.TimeStamp_Begin));
+                            Parser->Fill(Stream_Audio, StreamPos_Last, Audio_BitRate, BitRate);
+                            Parser->Fill(Stream_Audio, 0, Audio_BitRate_Mode, "CBR");
+                            Parser->Fill(Stream_Audio, StreamPos_Last, Audio_Format, "PCM");
+                            Parser->Fill(Stream_Audio, StreamPos_Last, Audio_SamplingRate, 48000);
+                            Parser->Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, 1);
+                            Parser->Fill(Stream_Audio, StreamPos_Last, Audio_BitDepth, SampleSize);
+                            Parser->Fill();
+                        #endif //MEDIAINFO_PCM_YES
+                        Audios[Pos].Parsers.push_back(Parser);
+
+                        #ifdef MEDIAINFO_MPEGA_YES
+                        {
+                            File_Mpega* Parser=new File_Mpega();
+                            Open_Buffer_Init(Parser);
+                            Audios[Pos].Parsers.push_back(Parser);
+                        }
+                        #endif //MEDIAINFO_MPEGA_YES
+                    }
+                    break;
+            case  1 : //DTS
+                    {
+                        #ifdef MEDIAINFO_DTS_YES
+                            File_Dts* Parser=new File_Dts();
+                        #else //MEDIAINFO_DTS_YES
+                            File__Analyze* Parser=new File__Analyze;
+                        #endif //MEDIAINFO_DTS_YES
+                        Open_Buffer_Init(Parser);
+                        Audios[Pos].Parsers.push_back(Parser);
+                    }
+                    break;
+            case  2 : //AC-3
+            case  5 : //E-AC-3
+                    {
+                        #ifdef MEDIAINFO_AC3_YES
+                            File_Ac3* Parser=new File_Ac3;
+                        #else //MEDIAINFO_AAC_YES
+                            File__Analyze* Parser=new File__Analyze;
+                        #endif //MEDIAINFO_AAC_YES
+                        Open_Buffer_Init(Parser);
+                        Audios[Pos].Parsers.push_back(Parser);
+                    }
+                    break;
+            case  3 : //Dolby E
+                    {
+                        #ifdef MEDIAINFO_SMPTEST0337_YES
+                        {
+                            File_ChannelGrouping* Parser=new File_ChannelGrouping;
+                            if (Pos%2 && !Audios[Pos-1].Parsers.empty())
+                            {
+                                Parser->Channel_Pos=1;
+                                Parser->Common=((File_ChannelGrouping*)Audios[Pos-1].Parsers[0])->Common;
+                                Parser->StreamID=Pos-1;
+                                Element_Code--;
+                            }
+                            else
+                            {
+                                Parser->Channel_Pos=0;
+                                Parser->SampleRate=48000;
+                            }
+                            Parser->Channel_Total=2;
+                            Parser->ByteDepth=SampleSize/8;
+
+                            Open_Buffer_Init(Parser);
+                            Audios[Pos].Parsers.push_back(Parser);
+                        }
+                        #endif //MEDIAINFO_SMPTEST0337_YES
+
+                        #ifdef MEDIAINFO_DOLBYE_YES
+                            File_DolbyE* Parser=new File_DolbyE();
+                        #else //MEDIAINFO_DOLBYE_YES
+                            File__Analyze* Parser=new File__Analyze;
+                        #endif //MEDIAINFO_DOLBYE_YES
+                        Open_Buffer_Init(Parser);
+                        Audios[Pos].Parsers.push_back(Parser);
+                    }
+            case  4 :
+                    {
+                        #ifdef MEDIAINFO_MPEGA_YES
+                            File_Mpega* Parser=new File_Mpega();
+                        #else //MEDIAINFO_MPEGA_YES
+                            File__Analyze* Parser=new File__Analyze;
+                        #endif //MEDIAINFO_MPEGA_YES
+                        Open_Buffer_Init(Parser);
+                        Audios[Pos].Parsers.push_back(Parser);
+                    }
+                    break;
+            case  6 :
+                    {
+                        #ifdef MEDIAINFO_AAC_YES
+                            File_Aac* Parser=new File_Aac();
+                            Parser->Mode=File_Aac::Mode_ADTS;
+                        #else //MEDIAINFO_AAC_YES
+                            File__Analyze* Parser=new File__Analyze;
+                        #endif //MEDIAINFO_AAC_YES
+                        Open_Buffer_Init(Parser);
+                        Audios[Pos].Parsers.push_back(Parser);
+                    }
+                    break;
+            default :
+                    {
+                        File__Analyze* Parser=new File__Analyze;
+                        Open_Buffer_Init(Parser);
+                        Audios[Pos].Parsers.push_back(Parser);
+                    }
+        }
+        */
+
+        #ifdef MEDIAINFO_SMPTEST0337_YES
+        if (!(Pos%2 && Audios[Pos-1].Parsers.size()<=1)) //If the first half-stream was already rejected, don't try this one
+        {
+            File_ChannelGrouping* Parser=new File_ChannelGrouping;
+            if (Pos%2 && !Audios[Pos-1].Parsers.empty())
+            {
+                Parser->Channel_Pos=1;
+                Parser->Common=((File_ChannelGrouping*)Audios[Pos-1].Parsers[0])->Common;
+                Parser->StreamID=Pos-1;
+            }
+            else
+                Parser->Channel_Pos=0;
+            Parser->BitDepth=SampleSize;
+            Parser->Channel_Total=2;
+            Parser->SamplingRate=48000;
+            Parser->Endianness='L';
+
+            Audios[Pos].Parsers.push_back(Parser);
+        }
+        #endif //MEDIAINFO_SMPTEST0337_YES
+        #ifdef MEDIAINFO_SMPTEST0337_YES
+        {
+            File_SmpteSt0337* Parser=new File_SmpteSt0337;
+            Parser->Container_Bits=SampleSize;
+            Parser->Endianness='L';
+
+            Audios[Pos].Parsers.push_back(Parser);
+        }
+        #endif //MEDIAINFO_SMPTEST0337_YES
+        #ifdef MEDIAINFO_AC3_YES
+            Audios[Pos].Parsers.push_back(new File_Ac3());
+        #endif //MEDIAINFO_AC3_YES
+        #ifdef MEDIAINFO_DTS_YES
+            Audios[Pos].Parsers.push_back(new File_Dts());
+        #endif //MEDIAINFO_DTS_YES
+        #ifdef MEDIAINFO_MPEGA_YES
+            Audios[Pos].Parsers.push_back(new File_Mpega());
+        #endif //MEDIAINFO_MPEGA_YES
+        #ifdef MEDIAINFO_AAC_YES
+        {
+            File_Aac* Parser=new File_Aac;
+            Parser->Mode=File_Aac::Mode_ADTS;
+
+            Audios[Pos].Parsers.push_back(Parser);
+        }
+        #endif //MEDIAINFO_AAC_YES
+        #ifdef MEDIAINFO_PCM_YES
+        {
+            File_Pcm* Parser=new File_Pcm;
+            Parser->SamplingRate=48000;
+            Parser->Channels=1;
+            Parser->BitDepth=SampleSize;
+            Parser->Endianness='L';
+            #if !defined(MEDIAINFO_SMPTEST0337_YES) && !defined(MEDIAINFO_MPEGA_YES)
+                Parser->Frame_Count_Valid=1;
+            #else
+                Parser->Frame_Count_Valid=2;
+            #endif
+
+            Audios[Pos].Parsers.push_back(Parser);
+        }
+        #endif //MEDIAINFO_PCM_YES
+
+        for (size_t Pos2=0; Pos2<Audios[Pos].Parsers.size(); Pos2++)
+        {
+            Open_Buffer_Init(Audios[Pos].Parsers[Pos2]);
+
+            #if MEDIAINFO_DEMUX
+                //There are several frames in 1 block, we must rely on the stream parser
+                if (Config->Demux_Unpacketize_Get())
+                {
+                    Audios[Pos].Parsers[Pos2]->Demux_Level=2; //Container
+                    Audios[Pos].Parsers[Pos2]->Demux_UnpacketizeContainer=true;
+                }
+            #endif //MEDIAINFO_DEMUX
+        }
+
+        Stream_Count++;
+    }
+
+    /*
     #if MEDIAINFO_DEMUX
         #if MEDIAINFO_SEEK
             if (SeekRequest==(int64u)-1)
         #endif //MEDIAINFO_SEEK
         {
-            Element_Code=0x0200+Pos;
+            Element_Code=0x200+Pos;
             Frame_Count_NotParsedIncluded=float64_int64s(((float64)(Audios_Header.TimeStamp_End-Audios_Header.Duration))/TimeStamp_Rate*FrameRate);
             if (SampleSize==20 && Config->Demux_PCM_20bitTo16bit_Get())
             {
@@ -1044,36 +1447,81 @@ void File_Lxf::Audio_Stream(size_t Pos)
                 }
 
                 Demux(SixteenBit, SixteenBit_Pos, ContentType_MainStream);
+
+                delete[] SixteenBit;
+            }
+            else if (SampleSize==20 && Config->Demux_PCM_20bitTo24bit_Get())
+            {
+                //Padding bits 3-0 (Little endian)
+                int8u* Output=new int8u[(size_t)Audio_Sizes[Pos]*24/20];
+                size_t Output_Pos=0;
+                size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
+                size_t Buffer_Max=Buffer_Offset+(size_t)(Element_Offset+Audio_Sizes[Pos]);
+
+                while (Buffer_Pos+5<=Buffer_Max)
+                {
+                    Output[Output_Pos  ] =  Buffer[Buffer_Pos+0]<<4                                 ;
+                    Output[Output_Pos+1] = (Buffer[Buffer_Pos+1]<<4  ) | (Buffer[Buffer_Pos+0]>>4  );
+                    Output[Output_Pos+2] = (Buffer[Buffer_Pos+2]<<4  ) | (Buffer[Buffer_Pos+1]>>4  );
+                    Output[Output_Pos+3] =  Buffer[Buffer_Pos+2]&0xF0                               ;
+                    Output[Output_Pos+4] =  Buffer[Buffer_Pos+3]                                    ;
+                    Output[Output_Pos+5] =  Buffer[Buffer_Pos+4]                                    ;
+
+                    Buffer_Pos+=5;
+                    Output_Pos+=6;
+                }
+
+                Demux(Output, Output_Pos, ContentType_MainStream);
+
+                delete[] Output;
             }
             else
                 Demux(Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)Audio_Sizes[Pos], ContentType_MainStream);
         }
     #endif //MEDIAINFO_DEMUX
+    */
 
-    Skip_XX(Audio_Sizes[Pos],                                   Audio_Sizes.size()==2?"PCM":"Unknown format");
-
-    if (Pos>=Audios.size())
-        Audios.resize(Pos+1);
-    if (Audios[Pos].Parser==NULL)
+    //Parsing
+    for (size_t Pos2=0; Pos2<Audios[Pos].Parsers.size(); Pos2++)
     {
-        //Trying to detect if this is PCM
-        int64u BitRate=float64_int64s(Audio_Sizes[Pos]*TimeStamp_Rate*8/(Audios_Header.TimeStamp_End-Audios_Header.TimeStamp_Begin));
-        Audios[Pos].BytesPerFrame=Audio_Sizes[Pos];
+        if (Audios[Pos].Parsers[Pos2]->FrameInfo.DTS==(int64u)-1 || !((FrameInfo.DUR/2>FrameInfo.DTS || Audios[Pos].Parsers[Pos2]->FrameInfo.DTS>=FrameInfo.DTS-FrameInfo.DUR/2) && Audios[Pos].Parsers[Pos2]->FrameInfo.DTS<FrameInfo.DTS+FrameInfo.DUR/2))
+            Audios[Pos].Parsers[Pos2]->FrameInfo=FrameInfo;
+        Open_Buffer_Continue(Audios[Pos].Parsers[Pos2], Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)Audio_Sizes[Pos]);
 
-        Audios[Pos].Parser=new File__Analyze;
-        Open_Buffer_Init(Audios[Pos].Parser);
-        Audios[Pos].Parser->Accept();
-        Audios[Pos].Parser->Stream_Prepare(Stream_Audio);
-        Audios[Pos].Parser->Fill(Stream_Audio, StreamPos_Last, Audio_BitRate, BitRate);
-        Audios[Pos].Parser->Fill(Stream_Audio, 0, Audio_BitRate_Mode, "CBR");
-        Audios[Pos].Parser->Fill(Stream_Audio, StreamPos_Last, Audio_Format, "PCM");
-        Audios[Pos].Parser->Fill(Stream_Audio, StreamPos_Last, Audio_SamplingRate, 48000);
-        Audios[Pos].Parser->Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, 1);
-        Audios[Pos].Parser->Fill(Stream_Audio, StreamPos_Last, Audio_BitDepth, SampleSize);
-        Audios[Pos].Parser->Fill();
+        if (Audios[Pos].Parsers.size()>1)
+        {
+            if (!Audios[Pos].Parsers[Pos2]->Status[IsAccepted] && Audios[Pos].Parsers[Pos2]->Status[IsFinished])
+            {
+                delete *(Audios[Pos].Parsers.begin()+Pos2);
+                Audios[Pos].Parsers.erase(Audios[Pos].Parsers.begin()+Pos2);
+                Pos2--;
+            }
+            else if (Audios[Pos].Parsers.size()>1 && Audios[Pos].Parsers[Pos2]->Status[IsAccepted])
+            {
+                File__Analyze* Parser=Audios[Pos].Parsers[Pos2];
+                for (size_t Pos3=0; Pos3<Audios[Pos].Parsers.size(); Pos3++)
+                {
+                    if (Pos3!=Pos2)
+                        delete *(Audios[Pos].Parsers.begin()+Pos3);
+                }
+                Audios[Pos].Parsers.clear();
+                Audios[Pos].Parsers.push_back(Parser);
+            }
+        }
+
+        if (Audios[Pos].Parsers.size()==1 && !Audios[Pos].IsFilled && Audios[Pos].Parsers[0]->Status[IsFilled])
+        {
+            if (Stream_Count>0)
+                Stream_Count--;
+            Audios[Pos].IsFilled=true;
+        }
+
+        #if MEDIAINFO_DEMUX
+            if (Config->Demux_EventWasSent)
+                DemuxParser=Audios[Pos].Parsers[0];
+        #endif //MEDIAINFO_DEMUX
     }
-
-    Element_End0();
+    Element_Offset+=Audio_Sizes[Pos];
 }
 
 //---------------------------------------------------------------------------
@@ -1093,20 +1541,18 @@ void File_Lxf::Video()
 //---------------------------------------------------------------------------
 void File_Lxf::Video_Stream(size_t Pos)
 {
-    if (LookingForLastFrame)
+    if (LookingForLastFrame || (Config->ParseSpeed<1 && Pos<Videos.size() && Videos[Pos].IsFilled && Pos!=1)) //Hint: trying to catch VBI/VANC at the end of the file
     {
         Skip_XX(Element_Size,                                   "Data");
         return;
     }
-
-    Element_Begin1("Stream");
 
     #if MEDIAINFO_DEMUX
         #if MEDIAINFO_SEEK
             if (SeekRequest==(int64u)-1)
         #endif //MEDIAINFO_SEEK
         {
-            Element_Code=0x0100+Pos;
+            Element_Code=0x100+Pos;
             Frame_Count_NotParsedIncluded=float64_int64s(((float64)(Videos_Header.TimeStamp_End-Videos_Header.Duration))/TimeStamp_Rate*FrameRate);
             Demux(Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)Video_Sizes[Pos], ContentType_MainStream);
         }
@@ -1121,199 +1567,239 @@ void File_Lxf::Video_Stream(size_t Pos)
         case 2 : Video_Stream_2(); break;
         default: ;
     }
-
-    Element_End0();
-
-    FILLING_BEGIN();
-        if (Pos==2)
-        {
-            Frame_Count++;
-            if (Frame_Count>6 && Stream_Count==0 && !Status[IsFilled]) //5 video frames for 1 Audio frame
-            {
-                Fill("LXF");
-                if (MediaInfoLib::Config.ParseSpeed_Get()<1)
-                {
-                    LookingForLastFrame=true;
-                    if (3*(File_Offset+Buffer_Offset)<=File_Size)
-                    {
-                        GoToFromEnd((File_Offset+Buffer_Offset)*2);
-                        Open_Buffer_Unsynch();
-                    }
-                }
-            }
-        }
-    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
 void File_Lxf::Video_Stream_1()
 {
-    Videos[1].BytesPerFrame=Video_Sizes[1];
+    if (Video_Sizes[1]<2)
+    {
+        Skip_XX(Video_Sizes[1],                         "Unknown");
+        return;
+    }
 
-    int8u Lines_Allocated, Lines_Used, FieldNumber;
+    int8u Lines_Allocated, Lines_Used;
     Get_L1 (Lines_Allocated,                            "Lines allocated");
     Get_L1 (Lines_Used,                                 "Lines used");
-    Get_L1 (FieldNumber,                                "Field number");
 
-    #if defined(MEDIAINFO_CDP_YES)
-        if (Videos[1].Parser==NULL)
+    if (Lines_Allocated==0 || Lines_Used>Lines_Allocated || Video_Sizes[1]<2+Lines_Used)
+    {
+        Skip_XX(Video_Sizes[1]-2,                       "Unknown");
+        return;
+    }
+
+    Videos[1].BytesPerFrame=Video_Sizes[1]-(2+Lines_Allocated);
+    int64u BytesPerLine=Videos[1].BytesPerFrame/Lines_Allocated;
+
+    std::vector<int8u> FieldNumbers;
+    std::vector<bool>  FieldNumbers_IsSecondField;
+    BS_Begin_LE();
+    for (int8u Pos=0; Pos<Lines_Allocated; Pos++)
+    {
+        int8u FieldNumber;
+        bool  FieldNumber_IsSecondField;
+        Get_T1 (7, FieldNumber,                             "Field line");
+        Get_TB (   FieldNumber_IsSecondField,               "Field");
+
+        if (Pos<Lines_Used)
         {
-            Videos[1].Parser=new File_Ancillary;
-            ((File_Ancillary*)Videos[1].Parser)->InDecodingOrder=true;
-            ((File_Ancillary*)Videos[1].Parser)->WithChecksum=true;
-            Videos[1].Parser->MustSynchronize=true;
-            Open_Buffer_Init(Videos[1].Parser);
-            Stream_Count++;
+            FieldNumbers.push_back(FieldNumber);
+            FieldNumbers_IsSecondField.push_back(FieldNumber_IsSecondField);
         }
-        Videos[1].Parser->FrameInfo=FrameInfo;
-        Open_Buffer_Continue(Videos[1].Parser);
-        if (Videos[1].Parser->Status[IsFilled])
-        {
-            if (Stream_Count>0)
-                Stream_Count--;
-        }
-    #else
-        Skip_XX(Video_Sizes[1],                         "VBI data");
-    #endif
+    }
+    BS_End_LE();
+
+    for (int8u Pos=0; Pos<Lines_Used; Pos++)
+    {
+        #if defined(MEDIAINFO_CDP_YES)
+            Element_Begin1("VANC line");
+            if (Videos[1].Parsers.empty())
+            {
+                File_Ancillary* Parser=new File_Ancillary;
+                Parser->InDecodingOrder=true;
+                Parser->WithChecksum=true;
+                Parser->MustSynchronize=true;
+                Open_Buffer_Init(Parser);
+                Videos[1].Parsers.push_back(Parser);
+                Stream_Count++;
+            }
+            Videos[1].Parsers[0]->FrameInfo=FrameInfo;
+            ((File_Ancillary*)Videos[1].Parsers[0])->LineNumber=FieldNumbers[Pos];
+            ((File_Ancillary*)Videos[1].Parsers[0])->LineNumber_IsSecondField=FieldNumbers_IsSecondField[Pos];
+            Open_Buffer_Continue(Videos[1].Parsers[0], Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)BytesPerLine);
+            if (Videos[1].Parsers[0]->Status[IsFilled])
+            {
+                if (Stream_Count>0)
+                    Stream_Count--;
+                Videos[1].IsFilled=true;
+            }
+            Element_Offset+=BytesPerLine;
+            Element_End0();
+        #else
+            Skip_XX(BytesPerLine,                               "VBI/VANC data");
+        #endif
+    }
+    Skip_XX((Lines_Allocated-Lines_Used)*BytesPerLine,          "Unused lines");
 }
 
 //---------------------------------------------------------------------------
 void File_Lxf::Video_Stream_2()
 {
-    switch (VideoFormat)
+    if (Videos[2].Parsers.empty())
     {
-        case 0x01 :
-        case 0x02 :
-        case 0x03 :
-        case 0x09 :
-                    Video_Stream_2_Mpegv();
-                    break;
-        case 0x04 :
-        case 0x05 :
-        case 0x06 :
-                    Video_Stream_2_DvDif();
-                    break;
-        case 0x0A :
-        case 0x0B :
-        case 0x0C :
-        case 0x0D :
-                    Video_Stream_2_Avc();
-                    break;
-        default   :
-                    Skip_XX(Element_Size,               "Unknown");
+        /*
+        //Trying to detect if this is PCM
+        switch (Videos[2].Format)
+        {
+            case 0x01 :
+            case 0x02 :
+            case 0x03 :
+            case 0x09 :
+                        {
+                            #ifdef MEDIAINFO_MPEGV_YES
+                                File_Mpegv* Parser=new File_Mpegv();
+                            #else //MEDIAINFO_MPEGV_YES
+                                File__Analyze* Parser=new File__Analyze;
+                            #endif //MEDIAINFO_MPEGV_YES
+                            Open_Buffer_Init(Parser);
+                            #ifndef MEDIAINFO_MPEGV_YES
+                                Parser->Stream_Prepare(Stream_Video);
+                                Parser->Fill(Stream_Video, 0, Video_Format, "MPEG Video");
+                                if (Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin)
+                                {
+                                    FrameRate=((float64)1)*TimeStamp_Rate/(Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin);
+                                    if (FrameRate)
+                                        Parser->Fill(Stream_Video, 0, Video_FrameRate, FrameRate);
+                                }
+                            #endif //MEDIAINFO_MPEGV_YES
+                            Videos[2].Parsers.push_back(Parser);
+                        }
+                        break;
+            case 0x04 :
+            case 0x05 :
+            case 0x06 :
+                        {
+                            #ifdef MEDIAINFO_DVDIF_YES
+                                File_DvDif* Parser=new File_DvDif();
+                            #else //MEDIAINFO_DVDIF_YES
+                                File__Analyze* Parser=new File__Analyze;
+                            #endif //MEDIAINFO_DVDIF_YES
+                            Open_Buffer_Init(Parser);
+                            #ifndef MEDIAINFO_DVDIF_YES
+                                Parser->Stream_Prepare(Stream_Video);
+                                Parser->Fill(Stream_Video, 0, Video_Format, "DV");
+                                if (Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin)
+                                {
+                                    FrameRate=((float64)1)*TimeStamp_Rate/(Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin);
+                                    if (FrameRate)
+                                        Parser->Fill(Stream_Video, 0, Video_FrameRate, FrameRate);
+                                    int64u BitRate=float64_int64s(((float64)Video_Sizes[1])*TimeStamp_Rate*8/(Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin));
+                                    if (BitRate)
+                                        Parser->Fill(Stream_Video, 0, Video_BitRate, BitRate);
+                                    Parser->Fill(Stream_Video, 0, Video_BitRate_Mode, "CBR");
+                                }
+                            #endif //MEDIAINFO_DVDIF_YES
+                            Videos[2].Parsers.push_back(Parser);
+                        }
+                        #ifdef MEDIAINFO_VC3_YES
+                        if (Videos[2].Format==0x06) // One file with VideoFormat = 6 has VC-3
+                        {
+                            File_Vc3* Parser=new File_Vc3();
+                            Open_Buffer_Init(Parser);
+                            Videos[2].Parsers.push_back(Parser);
+                        }
+                        #endif //MEDIAINFO_VC3_YES
+                        break;
+            case 0x0A :
+            case 0x0B :
+            case 0x0C :
+            case 0x0D :
+                        {
+                            #ifdef MEDIAINFO_AVC_YES
+                                File_Avc* Parser=new File_Avc();
+                            #else //MEDIAINFO_AVC_YES
+                                File__Analyze* Parser=new File__Analyze;
+                            #endif //MEDIAINFO_AVC_YES
+                            Open_Buffer_Init(Parser);
+                            #ifndef MEDIAINFO_AVC_YES
+                                Parser->Accept();
+                                Parser->Stream_Prepare(Stream_Video);
+                                Parser->Fill(Stream_Video, 0, Video_Format, "AVC");
+                                if (Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin)
+                                {
+                                    FrameRate=((float64)1)*TimeStamp_Rate/(Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin);
+                                    if (FrameRate)
+                                        Parser->Fill(Stream_Video, 0, Video_FrameRate, FrameRate);
+                                }
+                            #endif //MEDIAINFO_AVC_YES
+                            Videos[2].Parsers.push_back(Parser);
+                        }
+                        break;
+            default :
+                    {
+                        File__Analyze* Parser=new File__Analyze;
+                        Open_Buffer_Init(Parser);
+                        Videos[2].Parsers.push_back(Parser);
+                    }
+        }
+        */
+
+        #ifdef MEDIAINFO_DVDIF_YES
+            Videos[2].Parsers.push_back(new File_DvDif());
+        #endif //MEDIAINFO_DVDIF_YES
+        #ifdef MEDIAINFO_MPEGV_YES
+            Videos[2].Parsers.push_back(new File_Mpegv());
+        #endif //MEDIAINFO_MPEGV_YES
+        #ifdef MEDIAINFO_AVC_YES
+            Videos[2].Parsers.push_back(new File_Avc());
+        #endif //MEDIAINFO_AVC_YES
+        #ifdef MEDIAINFO_VC3_YES
+            Videos[2].Parsers.push_back(new File_Vc3());
+        #endif //MEDIAINFO_VC3_YES
+        for (size_t Pos2=0; Pos2<Videos[2].Parsers.size(); Pos2++)
+            Open_Buffer_Init(Videos[2].Parsers[Pos2]);
+
+        Stream_Count++;
     }
-}
 
-//---------------------------------------------------------------------------
-void File_Lxf::Video_Stream_2_Mpegv()
-{
-    #if defined(MEDIAINFO_MPEGV_YES)
-        if (Videos[2].Parser==NULL)
-        {
-            Videos[2].Parser=new File_Mpegv;
-            ((File_Mpegv*)Videos[2].Parser)->FrameIsAlwaysComplete=true;
-            Open_Buffer_Init(Videos[2].Parser);
-            Stream_Count++;
-        }
-        Open_Buffer_Continue(Videos[2].Parser, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)Video_Sizes[2]);
-        if (Videos[2].Parser->Status[IsFilled])
-        {
-            if (Stream_Count>0)
-                Stream_Count--;
-        }
-    #else
-        Skip_XX(Video_Sizes[1],                       "MPEG Video");
+    //Parsing
+    for (size_t Pos2=0; Pos2<Videos[2].Parsers.size(); Pos2++)
+    {
+        Videos[2].Parsers[Pos2]->FrameInfo=FrameInfo;
+        Open_Buffer_Continue(Videos[2].Parsers[Pos2], Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)Video_Sizes[2]);
+        Element_Show();
 
-        if (Videos[2].Parser==NULL)
+        if (Videos[2].Parsers.size()>1)
         {
-            if (FrameRate==0 && Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin)
-                FrameRate=((float64)1)*TimeStamp_Rate/(Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin);
-
-            Videos[2].Parser=new File__Analyze;
-            Open_Buffer_Init(Videos[2].Parser);
-            Videos[2].Parser->Stream_Prepare(Stream_Video);
-            Videos[2].Parser->Fill(Stream_Video, 0, Video_Format, "MPEG Video");
-            if (FrameRate)
-                Videos[2].Parser->Fill(Stream_Video, 0, Video_FrameRate, FrameRate);
+            if (!Videos[2].Parsers[Pos2]->Status[IsAccepted] && Videos[2].Parsers[Pos2]->Status[IsFinished])
+            {
+                delete *(Videos[2].Parsers.begin()+Pos2);
+                Videos[2].Parsers.erase(Videos[2].Parsers.begin()+Pos2);
+                Pos2--;
+            }
+            else if (Videos[2].Parsers.size()>1 && Videos[2].Parsers[Pos2]->Status[IsAccepted])
+            {
+                File__Analyze* Parser=Videos[2].Parsers[Pos2];
+                for (size_t Pos3=0; Pos3<Videos[2].Parsers.size(); Pos3++)
+                {
+                    if (Pos3!=Pos2)
+                        delete *(Videos[2].Parsers.begin()+Pos3);
+                }
+                Videos[2].Parsers.clear();
+                Videos[2].Parsers.push_back(Parser);
+            }
         }
-    #endif
-}
 
-//---------------------------------------------------------------------------
-void File_Lxf::Video_Stream_2_DvDif()
-{
-    #if defined(MEDIAINFO_DVDIF_YES)
-        if (Videos[2].Parser==NULL)
-        {
-            Videos[2].Parser=new File_DvDif;
-            ((File_DvDif*)Videos[2].Parser)->IgnoreAudio=true;
-            Open_Buffer_Init(Videos[2].Parser);
-            Stream_Count++;
-        }
-        Open_Buffer_Continue(Videos[2].Parser, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)Video_Sizes[2]);
-        if (Videos[2].Parser->Status[IsFilled])
+        if (Videos[2].Parsers.size()==1 && !Videos[2].IsFilled && Videos[2].Parsers[0]->Status[IsFilled])
         {
             if (Stream_Count>0)
                 Stream_Count--;
+            Videos[2].IsFilled=true;
         }
-    #else
-        Skip_XX(Video_Sizes[1],                           "DV");
-
-        if (Videos[2].Parser==NULL)
-        {
-            int64u BitRate=float64_int64s(((float64)Video_Sizes[1])*TimeStamp_Rate*8/(Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin));
-            if (FrameRate==0 && Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin)
-                FrameRate=((float64)1)*TimeStamp_Rate/(Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin);
-
-            Videos[2].Parser=new File__Analyze;
-            Open_Buffer_Init(Videos[2].Parser);
-            Videos[2].Parser->Accept();
-            Videos[2].Parser->Stream_Prepare(Stream_Video);
-            Videos[2].Parser->Fill(Stream_Video, 0, Video_Format, "DV");
-            Videos[2].Parser->Fill(Stream_Video, 0, Video_BitRate, BitRate);
-            Videos[2].Parser->Fill(Stream_Video, 0, Video_BitRate_Mode, "CBR");
-            if (FrameRate)
-                Videos[2].Parser->Fill(Stream_Video, 0, Video_FrameRate, FrameRate);
-            Videos[2].Parser->Fill();
-        }
-    #endif
-}
-
-//---------------------------------------------------------------------------
-void File_Lxf::Video_Stream_2_Avc()
-{
-    #if defined(MEDIAINFO_AVC_YES)
-        if (Videos[2].Parser==NULL)
-        {
-            Videos[2].Parser=new File_Avc;
-            ((File_Avc*)Videos[2].Parser)->FrameIsAlwaysComplete=true;
-            Open_Buffer_Init(Videos[2].Parser);
-            Stream_Count++;
-        }
-        Open_Buffer_Continue(Videos[2].Parser, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)Video_Sizes[2]);
-        if (Videos[2].Parser->Status[IsFilled])
-        {
-            if (Stream_Count>0)
-                Stream_Count--;
-        }
-    #else
-        Skip_XX(Video_Sizes[1],                       "AVC");
-
-        if (Videos[2].Parser==NULL)
-        {
-            if (FrameRate==0 && Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin)
-                FrameRate=((float64)1)*TimeStamp_Rate/(Videos_Header.TimeStamp_End-Videos_Header.TimeStamp_Begin);
-
-            Videos[2].Parser=new File__Analyze;
-            Open_Buffer_Init(Videos[2].Parser);
-            Videos[2].Parser->Stream_Prepare(Stream_Video);
-            Videos[2].Parser->Fill(Stream_Video, 0, Video_Format, "AVC");
-            if (FrameRate)
-                Videos[2].Parser->Fill(Stream_Video, 0, Video_FrameRate, FrameRate);
-        }
-    #endif
+    }
+    Element_Offset+=Video_Sizes[2];
 }
 
 } //NameSpace
 
-#endif //MEDIAINFO_LXF_*
+#endif //MEDIAINFO_LXF_YES

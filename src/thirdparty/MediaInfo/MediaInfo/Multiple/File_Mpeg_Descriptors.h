@@ -60,6 +60,8 @@ struct complete_stream
         {
             bool HasChanged;
             std::map<std::string, Ztring> Infos;
+            std::map<std::string, Ztring> ExtraInfos_Content;
+            std::map<std::string, Ztring> ExtraInfos_Option;
             std::map<Ztring, Ztring> EPGs;
             std::vector<int16u> elementary_PIDs;
             size_t StreamPos; //Stream_Menu
@@ -234,6 +236,7 @@ struct complete_stream
         typedef std::vector<table_id*>              table_ids;
         table_ids                                   Table_IDs; //Key is table_id
         std::map<std::string, Ztring>               Infos;
+        std::map<std::string, Ztring>               Infos_Option;
         std::map<int8u, Ztring>                     Languages; //Key is caption_service_number or 128+line21_field
         struct teletext
         {
@@ -513,7 +516,7 @@ struct complete_stream
         while (Duplicates_Temp!=Duplicates.end())
         {
             delete Duplicates_Temp->second; //Duplicates_Temp->second=NULL
-            Duplicates_Temp++;
+            ++Duplicates_Temp;
         }
     }
 };
@@ -682,6 +685,11 @@ private :
     void Descriptor_A9() {Skip_XX(Element_Size, "Data");};
     void Descriptor_AA();
     void Descriptor_AB() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_C1();
+    void Descriptor_C8();
+    void Descriptor_DE();
+    void Descriptor_FC();
+    void Descriptor_FD();
 
     //SCTE 35
     void CUEI_00();

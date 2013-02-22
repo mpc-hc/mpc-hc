@@ -101,7 +101,6 @@ File_Riff::File_Riff()
     #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX
         Demux_Level=2; //Container
-        Demux_EventWasSent_Accept_Specific=true;
     #endif //MEDIAINFO_DEMUX
     DataMustAlwaysBeComplete=false;
 
@@ -144,6 +143,9 @@ File_Riff::File_Riff()
     SecondPass=false;
     DV_FromHeader=NULL;
     Kind=Kind_None;
+    #if MEDIAINFO_DEMUX
+    Demux_Parser=NULL;
+    #endif //MEDIAINFO_DEMUX
 
     //Pointers
     Stream_Structure_Temp=Stream_Structure.end();
@@ -168,6 +170,7 @@ void File_Riff::Streams_Finish ()
     #if defined(MEDIAINFO_ANCILLARY_YES)
         if (Ancillary && (*Ancillary))
         {
+            Clear();
             Finish(*Ancillary);
             Merge(**Ancillary);
             return;
@@ -190,6 +193,19 @@ void File_Riff::Streams_Finish ()
         if (Temp->second.StreamSize>0)
             Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_StreamSize), Temp->second.StreamSize);
 
+        //When there are few frames, difficult to detect PCM
+        if (Temp->second.IsPcm && !Temp->second.Parsers.empty() && !Temp->second.Parsers[0]->Status[IsAccepted])
+        {
+            for (size_t Pos=0; Pos<Temp->second.Parsers.size()-1; Pos++)
+                delete Temp->second.Parsers[Pos];
+            Temp->second.Parsers.erase(Temp->second.Parsers.begin(), Temp->second.Parsers.begin()+Temp->second.Parsers.size()-1);
+            Temp->second.Parsers[0]->Accept();
+        }
+
+        Ztring ID;
+        if (Temp->first!=(int32u)-1)
+            ID.From_Number(((Temp->first>>24)-'0')*10+(((Temp->first>>16)&0xFF)-'0'));
+
         //Parser specific
         if (Temp->second.Parsers.size()==1)
         {
@@ -209,9 +225,30 @@ void File_Riff::Streams_Finish ()
                 Temp->second.Parsers[0]->Open_Buffer_Unsynch();
             }
             Finish(Temp->second.Parsers[0]);
-            Merge(*Temp->second.Parsers[0], StreamKind_Last, 0, StreamPos_Last);
-            Fill(StreamKind_Last, StreamPos_Last, General_ID, ((Temp->first>>24)-'0')*10+(((Temp->first>>16)&0xFF)-'0'));
-            Fill(StreamKind_Last, StreamPos_Last, General_StreamOrder, ((Temp->first>>24)-'0')*10+(((Temp->first>>16)&0xFF)-'0'));
+            if (!Temp->second.Parsers.empty() && Temp->second.Parsers[0]->Count_Get(StreamKind_Last))
+                for (size_t Pos=0; Pos<Temp->second.Parsers[0]->Count_Get(StreamKind_Last); Pos++)
+                {
+                    Ztring Temp_ID=ID;
+                    Ztring Temp_ID_String=ID;
+                    Merge(*Temp->second.Parsers[0], StreamKind_Last, Pos, StreamPos_Last+Pos);
+                    if (!Retrieve(StreamKind_Last, StreamPos_Last, General_ID).empty())
+                    {
+                        if (!Temp_ID.empty())
+                        {
+                            Temp_ID+=__T('-');
+                            Temp_ID_String+=__T('-');
+                        }
+                        Temp_ID+=Retrieve(StreamKind_Last, StreamPos_Last, General_ID);
+                        Temp_ID_String+=Retrieve(StreamKind_Last, StreamPos_Last, General_ID);
+                    }
+                    Fill(StreamKind_Last, StreamPos_Last, General_ID, Temp_ID, true);
+                    Fill(StreamKind_Last, StreamPos_Last, General_StreamOrder, Temp_ID_String, true);
+                }
+            else
+            {
+                Fill(StreamKind_Last, StreamPos_Last, General_ID, ID, true);
+                Fill(StreamKind_Last, StreamPos_Last, General_StreamOrder, ID, true);
+            }
 
             //Hacks - After
             Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_StreamSize), StreamSize, true);
@@ -230,6 +267,10 @@ void File_Riff::Streams_Finish ()
                     Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, "VFR");
                 }
             }
+
+            //Hack - SMPTE ST 337, RIFF channels count is wrong
+            if (StreamKind_Last==Stream_Audio && Retrieve(Stream_Audio, StreamPos_Last, Audio_MuxingMode)==__T("AES3") && Temp->second.Parsers[0]->Get(Stream_Audio, 0, Audio_Channel_s_).empty())
+                Clear(Stream_Audio, StreamPos_Last, Audio_Channel_s_);
 
             //Alignment
             if (StreamKind_Last==Stream_Audio && Count_Get(Stream_Video)>0) //Only if this is not a WAV file
@@ -313,7 +354,7 @@ void File_Riff::Streams_Finish ()
             #endif
         }
         else if (StreamKind_Last!=Stream_General)
-            Fill(StreamKind_Last, StreamPos_Last, General_ID, ((Temp->first>>24)-'0')*10+(((Temp->first>>16)&0xFF)-'0'));
+            Fill(StreamKind_Last, StreamPos_Last, General_ID, ID);
 
         //Duration
         if (Temp->second.PacketCount>0)
@@ -597,6 +638,20 @@ void File_Riff::Read_Buffer_Unsynched()
     }
 }
 
+//---------------------------------------------------------------------------
+#if MEDIAINFO_DEMUX
+void File_Riff::Read_Buffer_Continue()
+{
+    if (Demux_Parser)
+    {
+        Open_Buffer_Continue(Demux_Parser, Buffer+Buffer_Offset, 0, false);
+        Demux_Parser=NULL;
+        //if (Config->Demux_EventWasSent)
+        //    return;
+    }
+}
+#endif //MEDIAINFO_DEMUX
+
 //***************************************************************************
 // Buffer
 //***************************************************************************
@@ -636,7 +691,12 @@ bool File_Riff::Header_Begin()
         if (Buffer_Offset+(size_t)Element_Size>Buffer_Size)
             return false;
 
+        // Fake header
         Element_Begin0();
+        Element_Begin0();
+        Header_Fill_Size(Buffer_DataToParse_End-(File_Offset+Buffer_Offset));
+        Element_End();
+
         switch (Kind)
         {
             case Kind_Wave : WAVE_data_Continue(); break;
@@ -658,6 +718,13 @@ bool File_Riff::Header_Begin()
         }
         Element_Offset=0;
         Element_End0();
+
+        if (Status[IsFinished] || (File_GoTo!=(int64u)-1 && (File_GoTo<=Buffer_DataToParse_Begin || File_GoTo>=Buffer_DataToParse_End)))
+        {
+            Buffer_DataToParse_Begin=(int64u)-1;
+            Buffer_DataToParse_End=0;
+            return false;
+        }
 
         if (Buffer_Offset>=Buffer_Size)
             return false;
@@ -849,7 +916,10 @@ void File_Riff::Header_Parse()
     if ((Name==Elements::WAVE_data || Name==Elements::AIFF_SSND))
     {
         Buffer_DataToParse_Begin=File_Offset+Buffer_Offset+8;
-        Buffer_DataToParse_End=File_Offset+Buffer_Offset+8+Size_Complete;
+        if (Size_Complete)
+            Buffer_DataToParse_End=File_Offset+Buffer_Offset+8+Size_Complete;
+        else
+            Buffer_DataToParse_End=File_Size; //Found one file with 0 as size of data part
         Size_Complete=0;
     }
 

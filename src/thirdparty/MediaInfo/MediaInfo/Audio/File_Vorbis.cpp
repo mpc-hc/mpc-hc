@@ -145,7 +145,7 @@ void File_Vorbis::Setup()
     for (int Pos=0; Pos<vorbis_codebook_count; Pos++)
     {
         Element_Begin1("codebook");
-        Get_T3 (24, codebook,                                   "codebook");
+        Get_T4 (24, codebook,                                   "codebook");
         if (codebook!=0x564342)
             return;
         Get_BT (16, codebook_dimensions,                        "codebook_dimensions");

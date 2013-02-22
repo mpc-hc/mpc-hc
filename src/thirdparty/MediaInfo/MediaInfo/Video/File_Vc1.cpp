@@ -304,7 +304,7 @@ void File_Vc1::Streams_Fill()
     if (Frame_Count>0 && interlace)
         Fill(Stream_Video, 0, Video_ScanOrder, Interlaced_Bottom?"BFF":"TFF");
     std::string TempRef;
-    for (std::map<int16u, temporalreference>::iterator Temp=TemporalReference.begin(); Temp!=TemporalReference.end(); Temp++)
+    for (std::map<int16u, temporalreference>::iterator Temp=TemporalReference.begin(); Temp!=TemporalReference.end(); ++Temp)
     {
         TempRef+=Temp->second.top_field_first?"T":"B";
         TempRef+=Temp->second.repeat_first_field?"3":"2";

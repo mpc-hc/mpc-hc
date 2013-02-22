@@ -44,7 +44,6 @@ public :
 
     //Constructor/Destructor
     File_Dts();
-    ~File_Dts();
 
 private :
     //Streams management
@@ -57,14 +56,12 @@ private :
     //Buffer - Synchro
     bool Synchronize();
     bool Synched_Test();
+    void Read_Buffer_Unsynched();
 
     //Buffer - Demux
     #if MEDIAINFO_DEMUX
     bool Demux_UnpacketizeContainer_Test();
     #endif //MEDIAINFO_DEMUX
-
-    //Buffer - Global
-    void Read_Buffer_Continue ();
 
     //Buffer - Per element
     void Header_Parse();
@@ -83,11 +80,16 @@ private :
     void HD_XBR(int64u Size);
     void HD_XSA(int64u Size);
 
+    //Buffer
+    bool FrameSynchPoint_Test();
+    const int8u* Save_Buffer;
+    size_t Save_Buffer_Offset;
+    size_t Save_Buffer_Size;
+
     //Temp
-    std::map<int32u, int64u> HD_Sizes;
     std::vector<ZenLib::int32u> Asset_Sizes;
     Ztring Profile;
-    File__Analyze* Parser; //14 bits or Little Endian
+    int32u Original_Size;
     int32u HD_size;
     int16u Primary_Frame_Byte_Size;
     int16u Number_Of_PCM_Sample_Blocks;
