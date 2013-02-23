@@ -1484,6 +1484,7 @@
 #define IDS_RFS_COMPRESSED              41452
 #define IDS_RFS_ENCRYPTED               41453
 #define IDS_RFS_MISSING_VOLS            41454
+#define IDS_OSD_D3DFS_REMINDER          41455
 
 // Next default values for new objects
 // 

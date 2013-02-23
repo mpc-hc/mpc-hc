@@ -1102,6 +1102,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
         */
         if (pMsg->wParam == VK_ESCAPE) {
             bool fEscapeNotAssigned = !AssignedToCmd(VK_ESCAPE, m_fFullScreen, false);
+            const CAppSettings& s = AfxGetAppSettings();
 
             if (fEscapeNotAssigned) {
                 if (m_fFullScreen) {
@@ -1113,6 +1114,8 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
                 } else if (IsCaptionHidden()) {
                     PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
                     return TRUE;
+                } else if (s.IsD3DFullscreen()) {
+                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_D3DFS_REMINDER));
                 }
             }
         } else if (pMsg->wParam == VK_LEFT && pAMTuner) {

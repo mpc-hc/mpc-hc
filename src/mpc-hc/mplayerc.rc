@@ -3049,6 +3049,7 @@ BEGIN
     IDS_OSD_ZOOM                        "Zoom: %.0lf%%"
     IDS_OSD_ZOOM_AUTO                   "Zoom: Auto"
     IDS_OSD_ZOOM_AUTO_LARGER            "Zoom: Auto (Larger Only)"
+    IDS_OSD_D3DFS_REMINDER              "D3D Fullscreen is on, press Ctrl+C to stop"
 END
 
 STRINGTABLE
