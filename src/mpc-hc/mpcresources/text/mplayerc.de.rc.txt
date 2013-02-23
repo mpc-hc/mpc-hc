@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Die Änderungen werden erst nach Neustart der Wiedergabe wirksam."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Sprung-Intervalle (klein, mittel, groß) - in Millisekunden"
 9		"Standard"
 10		"Schnelle Suche (bei Keyframes)"
 11		"Kapitel-Marker in der Suchleiste anzeigen"
-12		"Info über gerade laufende Datei an den MSN-Messenger senden"
-14		"Minimieren des Fensters bei Vollbild-Ausgabe auf Nicht-Standardmonitor verhindern."
-16		"Windows 7 Taskbar Funktionen aktivieren"
-17		"Die Nächste/Vorige Datei eines Ordners beim Vor- und Zurückspulen öffnen, wenn nur eine Datei in der Wiedergabeliste ist"
-19		"Zeit Tooltip verwenden:"
-21		"OSD Schrift:"
-24		"Logitech LCD Unterstützung (experimentell)"
+12		"Minimieren des Fensters bei Vollbild-Ausgabe auf Nicht-Standardmonitor verhindern."
+14		"Windows 7 Taskbar Funktionen aktivieren"
+15		"Die Nächste/Vorige Datei eines Ordners beim Vor- und Zurückspulen öffnen, wenn nur eine Datei in der Wiedergabeliste ist"
+17		"Zeit Tooltip verwenden:"
+19		"OSD Schrift:"
+22		"Logitech LCD Unterstützung (experimentell)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

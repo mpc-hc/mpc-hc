@@ -388,8 +388,6 @@ protected:
     void CloseMediaPrivate();
     void DoTunerScan(TunerScanData* pTSD);
 
-    void SendNowPlayingToMSN();
-
     CWnd* GetModalParent();
 
     void OpenCreateGraphObject(OpenMediaData* pOMD);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -35,7 +35,6 @@ CPPageTweaks::CPPageTweaks()
     , m_nJumpDistM(0)
     , m_nJumpDistL(0)
     , m_OSD_Size(0)
-    , m_fNotifyMSN(TRUE)
     , m_fPreventMinimize(FALSE)
     , m_fUseWin7TaskBar(TRUE)
     , m_fUseSearchInFolder(FALSE)
@@ -56,7 +55,6 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT1, m_nJumpDistS);
     DDX_Text(pDX, IDC_EDIT2, m_nJumpDistM);
     DDX_Text(pDX, IDC_EDIT3, m_nJumpDistL);
-    DDX_Check(pDX, IDC_CHECK4, m_fNotifyMSN);
     DDX_Check(pDX, IDC_CHECK6, m_fPreventMinimize);
     DDX_Check(pDX, IDC_CHECK_WIN7, m_fUseWin7TaskBar);
     DDX_Check(pDX, IDC_CHECK7, m_fUseSearchInFolder);
@@ -89,7 +87,6 @@ BOOL CPPageTweaks::OnInitDialog()
     m_nJumpDistS = s.nJumpDistS;
     m_nJumpDistM = s.nJumpDistM;
     m_nJumpDistL = s.nJumpDistL;
-    m_fNotifyMSN = s.fNotifyMSN;
 
     m_fPreventMinimize = s.fPreventMinimize;
 
@@ -160,7 +157,6 @@ BOOL CPPageTweaks::OnApply()
     s.nJumpDistS = m_nJumpDistS;
     s.nJumpDistM = m_nJumpDistM;
     s.nJumpDistL = m_nJumpDistL;
-    s.fNotifyMSN = !!m_fNotifyMSN;
 
     s.fPreventMinimize = !!m_fPreventMinimize;
     s.fUseWin7TaskBar = !!m_fUseWin7TaskBar;

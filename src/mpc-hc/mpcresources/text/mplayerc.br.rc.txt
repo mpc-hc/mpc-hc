@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"As mudanças apenas terão efeito após o fechamento do vídeo."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Distâncias para pulos (curto, médio, longo em ms)"
 9		"Padrão"
 10		"Pular diretamente para quadros-chave"
 11		"Show chapter marks in seek bar"
-12		"Mostrar o que estou tocando no Windows Live Messenger"
-14		"Evitar MINIMIZAR quando estiver em tela cheia ou em monitor não-padrão"
-16		"Usar os recursos do Windows 7 na barra de tarefas"
-17		"Ir para o próximo arquivo ao clicar nos botões de Pular mesmo quando houver apenas um item na lista de reprodução"
-19		"Mostrar tempo na barra de progresso:"
-21		"Fonte do OSD:"
-24		"Enable Logitech LCD support (experimental)"
+12		"Evitar MINIMIZAR quando estiver em tela cheia ou em monitor não-padrão"
+14		"Usar os recursos do Windows 7 na barra de tarefas"
+15		"Ir para o próximo arquivo ao clicar nos botões de Pular mesmo quando houver apenas um item na lista de reprodução"
+17		"Mostrar tempo na barra de progresso:"
+19		"Fonte do OSD:"
+22		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

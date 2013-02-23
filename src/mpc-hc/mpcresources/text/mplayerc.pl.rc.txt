@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Zmiany zostaną wprowadzone po ponownym uruchomieniu programu."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Odstępy przejść (mały, średni, duży w ms)"
 9		"Domyślne"
 10		"Szybkie przewijanie (na klatkę)"
 11		"Pokazywanie znaczników rozdziałów na pasku postępu"
-12		"Wysyłanie informacji o odtwarzanym pliku do programu MSN Messenger"
-14		"Zapobieganie minimalizacji w trybie pełnoekranowym na dodatkowych wyświetlaczach"
-16		"Użycie możliwości paska zadań systemu Windows 7"
-17		"Otwieranie plików z folderu podczas zmiany odtwarzanego pliku, gdy na liście odtwarzania znajduje się tylko jeden element."
-19		"Użycie dymka z czasem:"
-21		"Czcionka OSD:"
-24		"Włącz obsługę wyświetlacza LCD Logitech (eksperymentalna)"
+12		"Zapobieganie minimalizacji w trybie pełnoekranowym na dodatkowych wyświetlaczach"
+14		"Użycie możliwości paska zadań systemu Windows 7"
+15		"Otwieranie plików z folderu podczas zmiany odtwarzanego pliku, gdy na liście odtwarzania znajduje się tylko jeden element."
+17		"Użycie dymka z czasem:"
+19		"Czcionka OSD:"
+22		"Włącz obsługę wyświetlacza LCD Logitech (eksperymentalna)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

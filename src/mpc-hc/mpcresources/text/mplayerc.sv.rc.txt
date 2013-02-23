@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Ändring slår igenom efter omstart av uppspelning."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Hopp avstånd (liten, medel, stor i ms)"
 9		"Standard"
 10		"Fast seek (on keyframe)"
 11		"Show chapter marks in seek bar"
-12		"Skickar ""Vad jag lyssnar på"" information till MSN Messenger"
-14		"Förhindra minimering när i helskärmsläge på sekundära bildskärmen"
-16		"Använd Windows 7 nya aktivitetsfält funktioner"
-17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-19		"Use time tooltip:"
-21		"OSD font:"
-24		"Enable Logitech LCD support (experimental)"
+12		"Förhindra minimering när i helskärmsläge på sekundära bildskärmen"
+14		"Använd Windows 7 nya aktivitetsfält funktioner"
+15		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+17		"Use time tooltip:"
+19		"OSD font:"
+22		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
