@@ -73,3 +73,4 @@ Legend:
 ! Ticket #2889, Fix incorrectly displayed OSD when using EVR and VRM-9 (windowed) renderers
 ! Ticket #2902, DVB: Some old channels weren't deleted when redoing the scan
 ! Ticket #2931, DVB Subtitles: Fix a crash with some subtitles streams
+! Ticket #2934, MPEG Splitter: Some files couldn't be opened

@@ -427,7 +427,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
                     }
 
                     if (h2.fpts && CalcDuration && (m_AlternativeDuration || (GetMasterStream() && GetMasterStream()->GetHead() == h.pid))) {
-                        if (m_rtPrec != _I64_MIN && abs(h2.pts - m_rtPrec) >= PTS_MAX_BEFORE_WRAP * 9 / 10) {
+                        if (m_rtPrec != _I64_MIN && abs(h2.pts - m_rtPrec) >= PTS_MAX_BEFORE_WRAP / 2) {
                             m_bPTSWrap = true;
                             m_rtMax = h2.pts;
                             m_posMax = GetPos();
