@@ -411,17 +411,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Modificările vor avea efect după ce redarea a fost închisă și repornită."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"Intervale de sărire (mic, mediu, mare în ms)"
 9		"Implicit"
 10		"Căutare rapidă (la cadru cheie)"
 11		"Arată semne pentru capitole în bara de căutare"
-12		"Prevină minimizarea playerului din ecran complet pe un monitor care nu este implicit"
-14		"Folosește facilitățile barei de activități Windows 7"
-15		"Deschide următorul/precedentul fişier din dosar la comenzile ""Sari înapoi/înainte"" când este un singur element în lista de redare"
-17		"Folosește indiciu de timp:"
-19		"Fontul OSD:"
-22		"Activează suportul pentru Logitech LCD (experimental)"
+12		"Display ""Now Playing"" information in Skype's mood message"
+14		"Prevină minimizarea playerului din ecran complet pe un monitor care nu este implicit"
+16		"Folosește facilitățile barei de activități Windows 7"
+17		"Deschide următorul/precedentul fişier din dosar la comenzile ""Sari înapoi/înainte"" când este un singur element în lista de redare"
+19		"Folosește indiciu de timp:"
+21		"Fontul OSD:"
+24		"Activează suportul pentru Logitech LCD (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

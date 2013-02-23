@@ -411,17 +411,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Els canvis tindran efecte després de tencar i reiniciar la reproducció."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"Distàncies de salt (curt, mig, llarg en ms)"
 9		"Original"
 10		"Desplaçament Ràpid(al fotograma clau)"
 11		"Show chapter marks in seek bar"
-12		"Prevenir MINIMITZAR des de pantalla completa al monitor secundari"
-14		"Usar caract. de la barra de tasques del Win7"
-15		"Obrir el fitxer de la carpeta següent/anterior amb ""Skip back/forward"" quan només hi ha un element de llista de reproducció"
-17		"Usar la descripció emergent de temps:"
-19		"Estil del OSD:"
-22		"Enable Logitech LCD support (experimental)"
+12		"Display ""Now Playing"" information in Skype's mood message"
+14		"Prevenir MINIMITZAR des de pantalla completa al monitor secundari"
+16		"Usar caract. de la barra de tasques del Win7"
+17		"Obrir el fitxer de la carpeta següent/anterior amb ""Skip back/forward"" quan només hi ha un element de llista de reproducció"
+19		"Usar la descripció emergent de temps:"
+21		"Estil del OSD:"
+24		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

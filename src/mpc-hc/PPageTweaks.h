@@ -39,6 +39,7 @@ public:
     int m_nJumpDistS;
     int m_nJumpDistM;
     int m_nJumpDistL;
+    BOOL m_fNotifySkype;
 
     BOOL m_fPreventMinimize;
     BOOL m_fUseWin7TaskBar;

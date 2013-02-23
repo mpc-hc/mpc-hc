@@ -411,17 +411,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"현재 파일을 닫고 다시 시작해야만 설정이 적용됩니다."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"이동 간격 (최소/중간/최대 간격을 밀리초 단위로 입력)"
 9		"기본값"
 10		"빠른 탐색 (키프레임)"
 11		"Show chapter marks in seek bar"
-12		"전체화면시 최소화 예방 (기본 모니터가 없을시)"
-14		"Windows 7 작업표시줄기능 사용(작업표시줄에서 컨트롤가능)"
-15		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-17		"시간 툴팁 사용:"
-19		"OSD 글꼴:"
-22		"Enable Logitech LCD support (experimental)"
+12		"Display ""Now Playing"" information in Skype's mood message"
+14		"전체화면시 최소화 예방 (기본 모니터가 없을시)"
+16		"Windows 7 작업표시줄기능 사용(작업표시줄에서 컨트롤가능)"
+17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+19		"시간 툴팁 사용:"
+21		"OSD 글꼴:"
+24		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

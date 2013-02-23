@@ -67,6 +67,7 @@
 #include "../filters/renderer/SyncClock/SyncClock.h"
 #include "sizecbar/scbarg.h"
 #include "DSMPropertyBag.h"
+#include "SkypeMoodMsgHandler.h"
 
 
 class CFullscreenWnd;
@@ -322,6 +323,9 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     ULONG m_lCurrentChapter;
     ULONG m_lChapterStartTime;
 
+    CAutoPtr<SkypeMoodMsgHandler> m_pSkypeMoodMsgHandler;
+    void SendNowPlayingToSkype();
+
 public:
     void StartWebServer(int nPort);
     void StopWebServer();
@@ -547,6 +551,8 @@ public:
     afx_msg LRESULT OnTaskBarRestart(WPARAM, LPARAM);
     afx_msg LRESULT OnNotifyIcon(WPARAM, LPARAM);
     afx_msg LRESULT OnTaskBarThumbnailsCreate(WPARAM, LPARAM);
+
+    afx_msg LRESULT OnSkypeAttach(WPARAM wParam, LPARAM lParam);
 
     afx_msg void OnSetFocus(CWnd* pOldWnd);
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);

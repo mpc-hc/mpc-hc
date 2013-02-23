@@ -369,6 +369,9 @@
     <ClCompile Include="SaveSubtitlesFileDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SkypeMoodMsgHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -729,6 +732,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SaveSubtitlesFileDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkypeMoodMsgHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

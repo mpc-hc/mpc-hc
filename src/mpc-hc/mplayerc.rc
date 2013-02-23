@@ -385,18 +385,20 @@ BEGIN
     PUSHBUTTON      "Default",IDC_BUTTON1,150,17,54,14
     CONTROL         "Fast seek (on keyframe)",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,42,286,8
     CONTROL         "Show chapter marks in seek bar",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,54,286,8
+    CONTROL         "Display ""Now Playing"" information in Skype's mood message",IDC_CHECK4,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,66,286,8
     CONTROL         "Prevent minimizing the player when in fullscreen on a non default monitor",IDC_CHECK6,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,66,290,8
-    CONTROL         "Use Windows 7 Taskbar features",IDC_CHECK_WIN7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,78,286,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,78,290,8
+    CONTROL         "Use Windows 7 Taskbar features",IDC_CHECK_WIN7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,90,286,8
     CONTROL         "Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist",IDC_CHECK7,
-                    "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,5,101,290,18
-    CONTROL         "Use time tooltip:",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,122,135,8
-    COMBOBOX        IDC_COMBO3,145,119,113,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "OSD font:",IDC_STATIC,5,139,82,8
-    COMBOBOX        IDC_COMBO1,89,137,140,64,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO2,233,137,25,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,5,113,290,18
+    CONTROL         "Use time tooltip:",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,134,135,8
+    COMBOBOX        IDC_COMBO3,145,131,113,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "OSD font:",IDC_STATIC,5,151,82,8
+    COMBOBOX        IDC_COMBO1,89,149,140,64,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO2,233,149,25,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Enable Logitech LCD support (experimental)",IDC_CHECK_LCD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,90,286,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,102,286,10
 END
 
 IDD_PPAGEEXTERNALFILTERS DIALOGEX 0, 0, 296, 241

@@ -509,6 +509,7 @@ public:
     int             nJumpDistL;
     bool            fFastSeek;
     bool            fShowChapters;
+    bool            bNotifySkype;
     bool            fPreventMinimize;
     bool            fUseWin7TaskBar;
     bool            fLCDSupport;

@@ -411,17 +411,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Vereist heropening van de video."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"Verspring intervallen (kort, middel, lang in ms)"
 9		"Standaard"
 10		"Snel zoeken (op keyframe)"
 11		"Show chapter marks in seek bar"
-12		"Verhinder minimalizeren bij volledig scherm op niet-standaard monitor"
-14		"Gebruik mogelijkheden van Windows 7 Taakbalk "
-15		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-17		"Use time tooltip:"
-19		"OSD lettertype:"
-22		"Enable Logitech LCD support (experimental)"
+12		"Display ""Now Playing"" information in Skype's mood message"
+14		"Verhinder minimalizeren bij volledig scherm op niet-standaard monitor"
+16		"Gebruik mogelijkheden van Windows 7 Taakbalk "
+17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+19		"Use time tooltip:"
+21		"OSD lettertype:"
+24		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

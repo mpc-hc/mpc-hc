@@ -156,6 +156,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_REGISTERED_MESSAGE(s_uTBBC, OnTaskBarThumbnailsCreate)
 
+    ON_REGISTERED_MESSAGE(SkypeMoodMsgHandler::uSkypeControlAPIAttach, OnSkypeAttach)
+
     ON_WM_SETFOCUS()
     ON_WM_GETMINMAXINFO()
     ON_WM_MOVE()
@@ -817,6 +819,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     WTSRegisterSessionNotification();
 
+    if (s.bNotifySkype) {
+        m_pSkypeMoodMsgHandler.Attach(new SkypeMoodMsgHandler());
+        m_pSkypeMoodMsgHandler->Connect(m_hWnd);
+    }
+
     return 0;
 }
 
@@ -1034,6 +1041,11 @@ LRESULT CMainFrame::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 LRESULT CMainFrame::OnTaskBarThumbnailsCreate(WPARAM, LPARAM)
 {
     return CreateThumbnailToolbar();
+}
+
+LRESULT CMainFrame::OnSkypeAttach(WPARAM wParam, LPARAM lParam)
+{
+    return m_pSkypeMoodMsgHandler ? m_pSkypeMoodMsgHandler->HandleAttach(wParam, lParam) : FALSE;
 }
 
 void CMainFrame::ShowTrayIcon(bool fShow)
@@ -3514,6 +3526,7 @@ void CMainFrame::OnFilePostOpenmedia()
         }
         s.strPnSPreset.Empty();
     }
+    SendNowPlayingToSkype();
     SendNowPlayingToApi();
 }
 
@@ -3575,6 +3588,8 @@ void CMainFrame::OnFilePostClosemedia()
     SetupNavChaptersSubMenu();
     SetupFavoritesSubMenu();
     SetupRecentFilesSubMenu();
+
+    SendNowPlayingToSkype();
 }
 
 void CMainFrame::OnUpdateFilePostClosemedia(CCmdUI* pCmdUI)
@@ -4095,7 +4110,9 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     CAppSettings& s = AfxGetAppSettings();
 
-    if (pCDS->dwData != 0x6ABE51 || pCDS->cbData < sizeof(DWORD)) {
+    if (m_pSkypeMoodMsgHandler && m_pSkypeMoodMsgHandler->HandleMessage(pWnd->GetSafeHwnd(), pCDS)) {
+        return TRUE;
+    } else if (pCDS->dwData != 0x6ABE51 || pCDS->cbData < sizeof(DWORD)) {
         if (s.hMasterWnd) {
             ProcessAPICommand(pCDS);
             return TRUE;
@@ -12161,6 +12178,64 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
     }
 }
 
+// Skype
+
+void CMainFrame::SendNowPlayingToSkype()
+{
+    if (!m_pSkypeMoodMsgHandler) {
+        return;
+    }
+
+    CString msg;
+
+    if (m_iMediaLoadState == MLS_LOADED) {
+        CString title, author;
+
+        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
+        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+
+        if (title.IsEmpty()) {
+            CPlaylistItem pli;
+            m_wndPlaylistBar.GetCur(pli);
+
+            if (!pli.m_fns.IsEmpty()) {
+                CString label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
+
+                if (GetPlaybackMode() == PM_FILE) {
+                    CString fn = label;
+                    if (fn.Find(_T("://")) >= 0) {
+                        int i = fn.Find('?');
+                        if (i >= 0) {
+                            fn = fn.Left(i);
+                        }
+                    }
+                    CPath path(fn);
+                    path.StripPath();
+                    path.MakePretty();
+                    path.RemoveExtension();
+                    title = (LPCTSTR)path;
+                    author.Empty();
+                } else if (GetPlaybackMode() == PM_CAPTURE) {
+                    title = label != pli.m_fns.GetHead() ? label : ResStr(IDS_CAPTURE_LIVE);
+                    author.Empty();
+                } else if (GetPlaybackMode() == PM_DVD) {
+                    title = _T("DVD");
+                    author.Empty();
+                }
+            }
+        }
+
+        if (!author.IsEmpty()) {
+            msg.Format(_T("%s - %s"), author, title);
+        } else {
+            msg = title;
+        }
+    }
+
+    m_pSkypeMoodMsgHandler->SendMoodMessage(msg);
+}
+
+
 // dynamic menus
 
 void CMainFrame::SetupOpenCDSubMenu()
@@ -14268,6 +14343,12 @@ void CMainFrame::ShowOptions(int idPage)
         m_wndView.LoadLogo();
         s.SaveSettings();
 
+        if (s.bNotifySkype && !m_pSkypeMoodMsgHandler) {
+            m_pSkypeMoodMsgHandler.Attach(new SkypeMoodMsgHandler());
+            m_pSkypeMoodMsgHandler->Connect(m_hWnd);
+        } else if (!s.bNotifySkype && m_pSkypeMoodMsgHandler) {
+            m_pSkypeMoodMsgHandler.Free();
+        }
     }
     Invalidate();
     m_bInOptions = false;
@@ -14350,6 +14431,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
             m_wndCaptureBar.m_capdlg.SetVideoInput(p->vinput);
             m_wndCaptureBar.m_capdlg.SetVideoChannel(p->vchannel);
             m_wndCaptureBar.m_capdlg.SetAudioInput(p->ainput);
+            SendNowPlayingToSkype();
             return;
         }
     }

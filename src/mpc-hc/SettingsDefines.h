@@ -252,6 +252,8 @@
 #define IDS_RS_UPDATER_DELAY                _T("UpdaterDelay")
 #define IDS_RS_UPDATER_IGNORE_VERSION       _T("UpdaterIgnoreVersion")
 
+#define IDS_RS_NOTIFY_SKYPE                 _T("NotifySkype")
+
 #define IDS_RS_GOTO_LAST_USED               _T("gotoluf")
 #define IDS_RS_GOTO_FPS                     _T("fps")
 
