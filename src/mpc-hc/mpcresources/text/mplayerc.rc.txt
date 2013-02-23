@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Changes take effect after the playback has been closed and restarted."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Jump distances (small, medium, large in ms)"
 9		"Default"
 10		"Fast seek (on keyframe)"
 11		"Show chapter marks in seek bar"
-12		"Send ""Now Playing"" information to MSN Messenger"
-14		"Prevent minimizing the player when in fullscreen on a non default monitor"
-16		"Use Windows 7 Taskbar features"
-17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-19		"Use time tooltip:"
-21		"OSD font:"
-24		"Enable Logitech LCD support (experimental)"
+12		"Prevent minimizing the player when in fullscreen on a non default monitor"
+14		"Use Windows 7 Taskbar features"
+15		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+17		"Use time tooltip:"
+19		"OSD font:"
+22		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

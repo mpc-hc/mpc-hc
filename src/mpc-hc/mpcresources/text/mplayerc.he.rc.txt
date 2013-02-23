@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"השינויים נכנסים לתוקף רק לאחר שהניגון הופסק והופעל מחדש."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"מרחקי קפיצה (קטנה, בינונית וגדולה במילישניות)"
 9		"ברירת מחדל"
 10		"קפיצות מהירות (לפריים מפתח)"
 11		"Show chapter marks in seek bar"
-12		"שלח מידע ""עכשיו מתנגן"" ל-Windows Live Messenger"
-14		"חסום הקטנת החלון כאשר מנגן במסך מלא על מסך שאינו ברירת המחדל"
-16		"אפשר שליטה ותצוגה מתקדמת בשורת המשימות של Windows 7"
-17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-19		"השתמש בתיבת זמן מרחפת:"
-21		"גופן תצוגת מידע בוידאו:"
-24		"Enable Logitech LCD support (experimental)"
+12		"חסום הקטנת החלון כאשר מנגן במסך מלא על מסך שאינו ברירת המחדל"
+14		"אפשר שליטה ותצוגה מתקדמת בשורת המשימות של Windows 7"
+15		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+17		"השתמש בתיבת זמן מרחפת:"
+19		"גופן תצוגת מידע בוידאו:"
+22		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

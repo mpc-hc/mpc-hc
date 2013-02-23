@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Změny se projeví až po zastavení a opětovném spuštění přehrávání."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Velikosti skoků  [malý | střední | velký]  (ms)"
 9		"Výchozí"
 10		"Rychlé procházení (po klíčových snímcích)"
 11		"V panelu procházení zobrazit značky kapitol"
-12		"Odesílat informace o přehrávaných souborech do MSN Messengeru"
-14		"Zabránit minimalizaci z Fullscreen při běhu na nevýchozím monitoru"
-16		"Aktivovat funkce pro panel úloh Windows 7"
-17		"Pokud je v playlistu jen jen jedna položka, otevřít pomocí příkazů 'Skočit zpět/vpřed' předchozí/následující soubor v adresáři"
-19		"Zobrazit v popisku čas:"
-21		"Písmo pro OSD:"
-24		"Povolit podporu pro Logitech LCD (experimentální)"
+12		"Zabránit minimalizaci z Fullscreen při běhu na nevýchozím monitoru"
+14		"Aktivovat funkce pro panel úloh Windows 7"
+15		"Pokud je v playlistu jen jen jedna položka, otevřít pomocí příkazů 'Skočit zpět/vpřed' předchozí/následující soubor v adresáři"
+17		"Zobrazit v popisku čas:"
+19		"Písmo pro OSD:"
+22		"Povolit podporu pro Logitech LCD (experimentální)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

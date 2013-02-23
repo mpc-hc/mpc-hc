@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -196,7 +196,6 @@
 #define IDS_RS_WEBSERVERCGI                 _T("WebServerCGI")
 #define IDS_RS_WEBDEFINDEX                  _T("WebDefIndex")
 #define IDS_RS_LIMITWINDOWPROPORTIONS       _T("LimitWindowProportions")
-#define IDS_RS_NOTIFYMSN                    _T("NotifyMSN2")
 #define IDS_RS_LASTUSEDPAGE                 _T("LastUsedPage")
 #define IDS_RS_VMR9MIXERMODE                _T("VMR9MixerMode")
 #define IDS_RS_THUMBROWS                    _T("ThumbRows")

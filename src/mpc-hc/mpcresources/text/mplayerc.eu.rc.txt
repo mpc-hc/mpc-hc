@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Aldaketek eragina dute irakurketa itxi eta berrabiarazi ondoren."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"Jauzi hurruntasunak (txikia, ertaina, luzea sm-tan)"
 9		"Berezkoa"
 10		"Bilaketa azkarra (giltza-framean)"
 11		"Erakutsi atal markak bilaketa barran"
-12		"Bidali ""Orain Irakurtzen"" argibidea MSN Messengerrera"
-14		"Saihestu TXIKIENTZEA Ikusleiho-osoa berezko monitorea ez denean"
-16		"Erabili Windows 7 Eginkizun-barra ezaugarriak"
-17		"Ireki agiritegiko hurrengo/aurreko agiria 'Jauzi atzera/aurrera' irakur-zerrendan gai bakarra dagoenean"
-19		"Denbora tresnaburua:"
-21		"IGE hizkia:"
-24		"Gaitu Logitech LCD sostengua (esperimentala)"
+12		"Saihestu TXIKIENTZEA Ikusleiho-osoa berezko monitorea ez denean"
+14		"Erabili Windows 7 Eginkizun-barra ezaugarriak"
+15		"Ireki agiritegiko hurrengo/aurreko agiria 'Jauzi atzera/aurrera' irakur-zerrendan gai bakarra dagoenean"
+17		"Denbora tresnaburua:"
+19		"IGE hizkia:"
+22		"Gaitu Logitech LCD sostengua (esperimentala)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

@@ -411,18 +411,17 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"要關閉或是重新啟動播放後, 變更才會有效。"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 24
 5		"跳躍距離 (分別為小, 中, 大, 以毫秒為單位)"
 9		"預設值"
 10		"快速搜尋 (於關鍵影格)"
 11		"在搜尋列中顯示章節標記"
-12		"傳送 ""Now Playing"" 的訊息給 MSN Messenger"
-14		"避免在非預設顯示器全螢幕時最小化"
-16		"使用 Windows 7 工作列功能"
-17		"當播放清單中只有一個項目時執行 ""前一段/後一段"" 時開啟前/後一個檔案"
-19		"使用時間工具提示:"
-21		"OSD 字型:"
-24		"啟用 Logitech LCD 支援 (實驗性)"
+12		"避免在非預設顯示器全螢幕時最小化"
+14		"使用 Windows 7 工作列功能"
+15		"當播放清單中只有一個項目時執行 ""前一段/後一段"" 時開啟前/後一個檔案"
+17		"使用時間工具提示:"
+19		"OSD 字型:"
+22		"啟用 Logitech LCD 支援 (實驗性)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
