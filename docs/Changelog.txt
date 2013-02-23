@@ -33,6 +33,8 @@ Legend:
   - Support SRT files with missing millisecond part in the timecodes.
 * Re-enable the option to bypass the DVD/BD path selection. The user won't be asked to choose
   the location of the DVD/BD player (or folder) when this option is enabled.
+* Changed default D3D Fullscreen hotkey to Ctrl+Alt+F
+* Disabled Frame Time Correction hotkey by default
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
 * Ticket #2878, Removed obsolete MSN Messenger support
 * Ticket #2924, Use the current file directory as default folder for the "Load Subtitles" dialog
