@@ -23,10 +23,10 @@ Legend:
 + Ticket #649, Add RARFileSource as an internal filter. Allows rar files without compression to
   be played without unpacking them.
 + Ticket #899, DVB: Add signal statistic to the status bar
-+ Tickets #1025, #1054, Add the ability to select the default track directly by its number
++ Ticket #1025/#1054, Add the ability to select the default track directly by its number
   in MPC-HC and the standalone MPEG Splitter.
 + Ticket #2050, Add Romanian translation
-+ Ticket #2935, Add support for sending "Now playing" information to Skype 
++ Ticket #2935, Add support for sending "Now playing" information to Skype
 * UI: Use a more native look and feel for the options dialog tree
 * More resilient support for MPL2 and SRT subtitles formats:
   - Ticket #2779, Support MicroDVD tags in MPL2 subtitles files. This is normally not
@@ -46,7 +46,8 @@ Legend:
 * Updated VirtualDub to v1.10.4-test1
 * Updated MediaInfoLib to v0.7.62
 * Updated ZenLib to v0.4.28 r430
-* Updated Basque, Czech, German, Greek, Polish, Russian, Simplified Chinese, Slovak and Ukrainian translations
+* Updated Basque, Czech, German, Greek, Polish, Russian, Simplified Chinese, Slovak and
+  Ukrainian translations
 ! Various WebUI fixes:
   - Fix seeking
   - Fix volume slider going out of bounds with IE in player.html
@@ -61,7 +62,8 @@ Legend:
 ! Ticket #890, DVB: Disable pause for capture mode to avoid accidental playback stop.
 ! Ticket #1554, The OSD was looking bad when using the EVR Sync renderer
 ! Ticket #1600, Improve the naming of subtitles tracks (avoid showing a useless and ugly comma)
-! Ticket #2396, DVB: Fix default audio track selection when its type is different than first audio track.
+! Ticket #2396, DVB: Fix default audio track selection when its type is different than
+  the first audio track
 ! Ticket #2423, Fix wrong rounding leading to small black bars when resizing the window.
   This was mostly visible when using the "auto-fit" zoom or when resizing manually.
 ! Ticket #2783, Fix crash when generating the chapter marks
