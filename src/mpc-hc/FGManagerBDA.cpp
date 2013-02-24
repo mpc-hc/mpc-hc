@@ -31,6 +31,7 @@
 #include "DSUtil.h"
 #include "GolombBuffer.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
+#include "../filters/transform/MPCVideoDec/MPCVideoDecFilter.h"
 #include "moreuuids.h"
 #include "mplayerc.h"
 #include "FGManagerBDA.h"
@@ -268,17 +269,19 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     m_fHideWindow = false;
     m_fSetChannelActive = false;
 
-    // Hack : remove audio switcher !
-    POSITION pos = m_transform.GetHeadPosition();
-    while (pos) {
-        CFGFilter* pFGF = m_transform.GetAt(pos);
-        if (pFGF->GetCLSID() == __uuidof(CAudioSwitcherFilter)) {
-            m_transform.RemoveAt(pos);
-            delete pFGF;
-            break;
-        }
-        m_transform.GetNext(pos);
-    }
+    // Blacklist some unsupported filters (AddHead must be used to ensure higher priority):
+    //  - audio switcher
+    m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(__uuidof(CAudioSwitcherFilter), MERIT64_DO_NOT_USE));
+    //  - internal video decoder and ffdshow DXVA video decoder (cf ticket #730)
+    m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(__uuidof(CMPCVideoDecFilter), MERIT64_DO_NOT_USE));
+    m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(CLSID_FFDShowDXVADecoder, MERIT64_DO_NOT_USE));
+    //  - Microsoft DTV-DVD Audio Decoder
+    m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(CLSID_MSDVTDVDAudioDecoder, MERIT64_DO_NOT_USE));
+    //  - ACM Wrapper
+    m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(CLSID_ACMWrapper, MERIT64_DO_NOT_USE));
+    //  - ReClock
+    m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(CLSID_ReClock, MERIT64_DO_NOT_USE));
+
     LOG(_T("CFGManagerBDA object created."));
 }
 
