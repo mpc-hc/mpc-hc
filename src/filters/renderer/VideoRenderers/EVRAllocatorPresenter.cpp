@@ -1629,7 +1629,7 @@ void CEVRAllocatorPresenter::GetMixerThread()
 
                     // Update internal subtitle clock
                     if (m_fUseInternalTimer && m_pSubPicQueue) {
-                        m_fps = (float)(10000000.0 / m_rtTimePerFrame);
+                        m_fps = 10000000.0 / m_rtTimePerFrame;
                         m_pSubPicQueue->SetFPS(m_fps);
                     }
 
