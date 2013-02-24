@@ -13,8 +13,11 @@ Legend:
 + Ticket #2987, Playlist improvements:
   - Scroll and select the first newly added item
   - Put MPC-HC on top and give the focus to the playlist after a drag and drop
-* Updated Catalan and Greek translations
+* Updated Catalan, Czech, German and Greek translations
 * Updated Little CMS to v2.5 (git b58cb85)
+* Ticket #2689,  Replace "On top > Never" by "On top > Default". In most of the
+  cases "On top > Default" will have the exact same behavior than "On top > Never"
+  but it won't try to override the "on top" flag if an external tool sets it
 ! Fix a crash when VMR-7 (renderless) renderer failed to load
 ! SSA subtitles rendering: Improve error checking to avoid possible crashes when
   the SSA script was using obviously wrong values

@@ -225,7 +225,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     void ZoomVideoWindow(bool snap = true, double scale = ZOOM_DEFAULT_LEVEL);
     double GetZoomAutoFitScale(bool bLargerOnly = false) const;
 
-    void SetAlwaysOnTop(int i);
+    void SetAlwaysOnTop(int iOnTop);
 
     // dynamic menus
 

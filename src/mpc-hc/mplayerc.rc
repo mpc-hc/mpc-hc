@@ -1412,7 +1412,7 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "On &Top"
         BEGIN
-            MENUITEM "&Never",                       ID_ONTOP_NEVER
+            MENUITEM "&Default",                     ID_ONTOP_DEFAULT
             MENUITEM "&Always",                      ID_ONTOP_ALWAYS
             MENUITEM "While &Playing",               ID_ONTOP_WHILEPLAYING
             MENUITEM "While Playing &Video",         ID_ONTOP_WHILEPLAYINGVIDEO
@@ -1625,7 +1625,7 @@ BEGIN
         BEGIN
             POPUP "On &Top"
             BEGIN
-                MENUITEM "&Never",                       ID_ONTOP_NEVER
+                MENUITEM "&Default",                     ID_ONTOP_DEFAULT
                 MENUITEM "&Always",                      ID_ONTOP_ALWAYS
                 MENUITEM "While &Playing",               ID_ONTOP_WHILEPLAYING
                 MENUITEM "While Playing &Video",         ID_ONTOP_WHILEPLAYINGVIDEO
@@ -1896,7 +1896,7 @@ BEGIN
             MENUITEM SEPARATOR
             POPUP "On &Top"
             BEGIN
-                MENUITEM "&Never",                       ID_ONTOP_NEVER
+                MENUITEM "&Default",                     ID_ONTOP_DEFAULT
                 MENUITEM "&Always",                      ID_ONTOP_ALWAYS
                 MENUITEM "While &Playing",               ID_ONTOP_WHILEPLAYING
                 MENUITEM "While Playing &Video",         ID_ONTOP_WHILEPLAYINGVIDEO
