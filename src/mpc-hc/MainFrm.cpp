@@ -2214,6 +2214,10 @@ bool CMainFrame::GraphEventComplete()
     }
 
     if (m_wndPlaylistBar.GetCount() <= 1) {
+        if (s.fNextInDirAfterPlayback && SearchInDir(true)) {
+            return false;
+        }
+
         m_nLoops++;
 
         if (DoAfterPlaybackEvent()) {
@@ -2221,7 +2225,9 @@ bool CMainFrame::GraphEventComplete()
         }
 
         if (s.fLoopForever || m_nLoops < s.nLoops) {
-            if (GetMediaState() == State_Stopped) {
+            if (s.fNextInDirAfterPlayback) {
+                SearchInDir(true, true);
+            } else if (GetMediaState() == State_Stopped) {
                 SendMessage(WM_COMMAND, ID_PLAY_PLAY);
             } else {
                 LONGLONG pos = 0;
@@ -2232,27 +2238,21 @@ bool CMainFrame::GraphEventComplete()
                 }
             }
         } else {
-            bool bNextMediaExist = false;
-            if (s.fNextInDirAfterPlayback) {
-                bNextMediaExist = SearchInDir(true);
+            if (s.fRewind) {
+                SendMessage(WM_COMMAND, ID_PLAY_STOP);
+            } else {
+                m_fEndOfStream = true;
+                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
             }
-            if (!bNextMediaExist) {
-                if (s.fRewind) {
-                    SendMessage(WM_COMMAND, ID_PLAY_STOP);
-                } else {
-                    m_fEndOfStream = true;
-                    SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-                }
-                m_OSD.ClearMessage();
+            m_OSD.ClearMessage();
 
-                if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
-                    OnViewFullscreen();
-                }
+            if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
+                OnViewFullscreen();
+            }
 
-                if (s.fNextInDirAfterPlayback) {
-                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
-                    // Don't move it. Else OSD message "Pause" will rewrite this message.
-                }
+            if (s.fNextInDirAfterPlayback) {
+                // Don't move this line or OSD message "Pause" will overwrite this message.
+                m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
             }
         }
     } else if (m_wndPlaylistBar.GetCount() > 1) {
@@ -12077,7 +12077,7 @@ static bool SearchInDirCompare(const CString& str1, const CString& str2)
     return (StrCmpLogicalW(str1, str2) < 0);
 }
 
-bool CMainFrame::SearchInDir(bool bDirForward)
+bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
 {
     CStringArray files;
     CMediaFormats& mf = AfxGetAppSettings().m_Formats;
@@ -12121,12 +12121,20 @@ bool CMainFrame::SearchInDir(bool bDirForward)
     if (bDirForward) {
         current++;
         if (current >= files.GetCount()) {
-            return false;
+            if (bLoop) {
+                current = 0;
+            } else {
+                return false;
+            }
         }
     } else {
         current--;
         if (current < 0) {
-            return false;
+            if (bLoop) {
+                current = files.GetCount() - 1;
+            } else {
+                return false;
+            }
         }
     }
 
