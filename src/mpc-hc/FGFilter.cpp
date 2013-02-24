@@ -519,53 +519,52 @@ void CFGFilterList::RemoveAll()
 
 void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool autodelete)
 {
-    if (CFGFilterRegistry* f1r = dynamic_cast<CFGFilterRegistry*>(pFGF)) {
-        POSITION pos = m_filters.GetHeadPosition();
-        while (pos) {
-            filter_t& f2 = m_filters.GetNext(pos);
+    bool bInsert = true;
 
-            if (group != f2.group) {
-                continue;
-            }
+    TRACE(_T("FGM: Inserting %d %d %016I64x '%s' --> "), group, exactmatch, pFGF->GetMerit(),
+        /*pFGF->GetName().IsEmpty() ?*/ CStringFromGUID(pFGF->GetCLSID()) + " " + CString(pFGF->GetName()));
 
-            if (CFGFilterRegistry* f2r = dynamic_cast<CFGFilterRegistry*>(f2.pFGF)) {
-                if (f1r->GetMoniker() && f2r->GetMoniker() && S_OK == f1r->GetMoniker()->IsEqual(f2r->GetMoniker())
-                        || f1r->GetCLSID() != GUID_NULL && f1r->GetCLSID() == f2r->GetCLSID()) {
-                    TRACE(_T("FGM: Inserting %d %d %016I64x '%s' NOT!\n"),
-                          group, exactmatch, pFGF->GetMerit(),
-                          pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()) : CString(pFGF->GetName()));
-
-                    if (autodelete) {
-                        delete pFGF;
-                    }
-                    return;
-                }
-            }
-        }
-    }
+    CFGFilterRegistry* pFGFR = dynamic_cast<CFGFilterRegistry*>(pFGF);
 
     POSITION pos = m_filters.GetHeadPosition();
     while (pos) {
-        if (m_filters.GetNext(pos).pFGF == pFGF) {
-            TRACE(_T("FGM: Inserting %d %d %016I64x '%s' DUP!\n"),
-                  group, exactmatch, pFGF->GetMerit(),
-                  pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()) : CString(pFGF->GetName()));
+        filter_t& f = m_filters.GetNext(pos);
 
-            if (autodelete) {
-                delete pFGF;
+        if (pFGF == f.pFGF) {
+            TRACE(_T("Rejected (exact duplicate)\n"));
+            bInsert = false;
+            break;
+        }
+
+        if (group != f.group) {
+            continue;
+        }
+
+        if (pFGF->GetCLSID() != GUID_NULL && pFGF->GetCLSID() == f.pFGF->GetCLSID()) {
+            TRACE(_T("Rejected (duplicated CLSID)\n"));
+            bInsert = false;
+            break;
+        }
+        
+        if (CFGFilterRegistry* pFGFR2 = dynamic_cast<CFGFilterRegistry*>(f.pFGF)) {
+            if (pFGFR && pFGFR->GetMoniker() && pFGFR2->GetMoniker() && S_OK == pFGFR->GetMoniker()->IsEqual(pFGFR2->GetMoniker())) {
+                TRACE(_T("Rejected (duplicated moniker)\n"));
+                bInsert = false;
+                break;
             }
-            return;
         }
     }
 
-    TRACE(_T("FGM: Inserting %d %d %016I64x '%s'\n"),
-          group, exactmatch, pFGF->GetMerit(),
-          pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()) : CString(pFGF->GetName()));
+    if (bInsert) {
+        TRACE(_T("Success\n"));
 
-    filter_t f = {(int)m_filters.GetCount(), pFGF, group, exactmatch, autodelete};
-    m_filters.AddTail(f);
+        filter_t f = {(int)m_filters.GetCount(), pFGF, group, exactmatch, autodelete};
+        m_filters.AddTail(f);
 
-    m_sortedfilters.RemoveAll();
+        m_sortedfilters.RemoveAll();
+    } else if (autodelete) {
+        delete pFGF;
+    }
 }
 
 POSITION CFGFilterList::GetHeadPosition()
