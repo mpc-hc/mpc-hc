@@ -158,6 +158,10 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
         }
     }
 
+    if (pli.m_fns.IsEmpty()) {
+        return;
+    }
+
     if (subs) {
         POSITION posSub = subs->GetHeadPosition();
         while (posSub) {
