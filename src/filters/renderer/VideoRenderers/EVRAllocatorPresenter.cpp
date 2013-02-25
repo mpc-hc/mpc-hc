@@ -1886,6 +1886,8 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool fAll, LONGLONG PerformanceCou
 
 STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
 {
+    StopWorkerThreads();
+
     CAutoLock lock(this);
     CAutoLock lock2(&m_ImageProcessingLock);
     CAutoLock cRenderLock(&m_RenderLock);
@@ -1904,6 +1906,9 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
         }
         ASSERT(SUCCEEDED(hr));
     }
+
+    StartWorkerThreads();
+
     return bResult;
 }
 
