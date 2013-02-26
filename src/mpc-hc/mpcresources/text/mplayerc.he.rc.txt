@@ -82,7 +82,7 @@ END
 
 BEGIN DIALOGEX IDD_GOTO_DLG LINES 14
 3		"קפוץ אל..."
-6		"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitely."
+6		"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
 7		"זמן"
 9		"קפוץ!"
 10		"הקלד שני מספרים בכדי לקפוץ לפריים ספציפי, הראשון הוא מספר הפריים והשני הוא קצב ניגון הפריימים."
@@ -254,7 +254,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 19		"Update check"
 20		"Enable automatic update check"
 21		"Delay between each check:"
-24		"days"
+24		"day(s)"
 25		"ניהול הגדרות"
 26		"איפוס"
 27		"יצוא"

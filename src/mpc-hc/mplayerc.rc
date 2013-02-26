@@ -139,7 +139,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Go To..."
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitely.",IDC_STATIC,5,5,173,27
+    LTEXT           "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly.",IDC_STATIC,5,5,173,27
     LTEXT           "Time",IDC_STATIC,10,42,35,8
     CONTROL         "00:00:00.000",IDC_EDIT1,"MfcMaskedEdit",WS_BORDER | WS_TABSTOP | 0x80,47,39,80,14
     DEFPUSHBUTTON   "Go!",IDC_OK1,131,39,50,14
@@ -878,7 +878,7 @@ BEGIN
     LTEXT           "Delay between each check:",IDC_STATIC,10,131,110,8
     EDITTEXT        IDC_EDIT1,120,129,30,13,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,150,129,13,14
-    LTEXT           "days",IDC_STATIC,155,131,50,8
+    LTEXT           "day(s)",IDC_STATIC,155,131,50,8
     GROUPBOX        "Settings management",IDC_STATIC,5,151,286,28
     PUSHBUTTON      "Reset",IDC_RESET_SETTINGS,10,161,75,14
     PUSHBUTTON      "Export",IDC_EXPORT_SETTINGS,95,161,75,14

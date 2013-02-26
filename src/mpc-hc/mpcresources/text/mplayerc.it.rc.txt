@@ -254,7 +254,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 19		"Update check"
 20		"Enable automatic update check"
 21		"Delay between each check:"
-24		"days"
+24		"day(s)"
 25		"Gestione impostazioni"
 26		"Reimposta"
 27		"Esporta"
