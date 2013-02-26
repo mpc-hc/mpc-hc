@@ -2411,6 +2411,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         }
     }
 
+    // Blacklist Accusoft PICVideo M-JPEG Codec 2.1 since causes a DEP crash
+    m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{4C4CD9E1-F876-11D2-962F-00500471FDDC}")), MERIT64_DO_NOT_USE));
+
     // Overrides
 
     WORD merit_low = 1;
