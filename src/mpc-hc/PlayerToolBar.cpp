@@ -370,15 +370,17 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     bi.dwMask = TBIF_IMAGE;
     tb.GetButtonInfo(ID_VOLUME_MUTE, &bi);
 
+    static CString strTipText;
     if (bi.iImage == 12) {
-        pTTT->lpszText = (LPWSTR)ID_VOLUME_MUTE;
+        strTipText.LoadString(ID_VOLUME_MUTE);
     } else if (bi.iImage == 13) {
-        pTTT->lpszText = (LPWSTR)ID_VOLUME_MUTE_ON;
+        strTipText.LoadString(ID_VOLUME_MUTE_ON);
     } else if (bi.iImage == 14) {
-        pTTT->lpszText = (LPWSTR)ID_VOLUME_MUTE_DISABLED;
+        strTipText.LoadString(ID_VOLUME_MUTE_DISABLED);
     } else {
         return FALSE;
     }
+    pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
 
     *pResult = 0;
 
