@@ -522,7 +522,7 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
     bool bInsert = true;
 
     TRACE(_T("FGM: Inserting %d %d %016I64x '%s' --> "), group, exactmatch, pFGF->GetMerit(),
-        /*pFGF->GetName().IsEmpty() ?*/ CStringFromGUID(pFGF->GetCLSID()) + " " + CString(pFGF->GetName()));
+          pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()) : CString(pFGF->GetName()));
 
     CFGFilterRegistry* pFGFR = dynamic_cast<CFGFilterRegistry*>(pFGF);
 

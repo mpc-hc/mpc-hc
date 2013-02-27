@@ -775,11 +775,12 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 pFGF = pMadVRAllocatorPresenter;
             }
 
-            TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName());
+            TRACE(_T("FGM: Connecting '%s' --> "), pFGF->GetName());
 
             CComPtr<IBaseFilter> pBF;
             CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
             if (FAILED(pFGF->Create(&pBF, pUnks))) {
+                TRACE(_T("Filter creation failed\n"));
                 continue;
             }
 
@@ -867,12 +868,14 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
                     }
 
+                    TRACE(_T("Success\n"));
+
                     return hr;
                 }
             }
 
             EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
-            TRACE(_T("FGM: Connecting '%s' FAILED!\n"), pFGF->GetName());
+            TRACE(_T("Failed to connect\n"));
             pUnks.RemoveAll();
             pBF.Release();
         }
