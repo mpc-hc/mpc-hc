@@ -217,6 +217,29 @@ CFilterApp theApp;
 
 #endif
 
+enum {
+    IEC61937_AC3                = 0x01,          ///< AC-3 data
+    IEC61937_MPEG1_LAYER1       = 0x04,          ///< MPEG-1 layer 1
+    IEC61937_MPEG1_LAYER23      = 0x05,          ///< MPEG-1 layer 2 or 3 data or MPEG-2 without extension
+    IEC61937_MPEG2_EXT          = 0x06,          ///< MPEG-2 data with extension
+    IEC61937_MPEG2_AAC          = 0x07,          ///< MPEG-2 AAC ADTS
+    IEC61937_MPEG2_LAYER1_LSF   = 0x08,          ///< MPEG-2, layer-1 low sampling frequency
+    IEC61937_MPEG2_LAYER2_LSF   = 0x09,          ///< MPEG-2, layer-2 low sampling frequency
+    IEC61937_MPEG2_LAYER3_LSF   = 0x0A,          ///< MPEG-2, layer-3 low sampling frequency
+    IEC61937_DTS1               = 0x0B,          ///< DTS type I   (512 samples)
+    IEC61937_DTS2               = 0x0C,          ///< DTS type II  (1024 samples)
+    IEC61937_DTS3               = 0x0D,          ///< DTS type III (2048 samples)
+    IEC61937_ATRAC              = 0x0E,          ///< Atrac data
+    IEC61937_ATRAC3             = 0x0F,          ///< Atrac 3 data
+    IEC61937_ATRACX             = 0x10,          ///< Atrac 3 plus data
+    IEC61937_DTSHD              = 0x11,          ///< DTS HD data
+    IEC61937_WMAPRO             = 0x12,          ///< WMA 9 Professional data
+    IEC61937_MPEG2_AAC_LSF_2048 = 0x13,          ///< MPEG-2 AAC ADTS half-rate low sampling frequency
+    IEC61937_MPEG2_AAC_LSF_4096 = 0x13 | 0x20,   ///< MPEG-2 AAC ADTS quarter-rate low sampling frequency
+    IEC61937_EAC3               = 0x15,          ///< E-AC-3 data
+    IEC61937_TRUEHD             = 0x16,          ///< TrueHD data
+};
+
 #pragma warning(disable : 4245)
 static struct scmap_t {
     WORD nChannels;
@@ -853,7 +876,7 @@ HRESULT CMpaDecFilter::ProcessAC3_SPDIF()
             break;
         }
 
-        if (FAILED(hr = DeliverBitstream(p, size, samplerate, 1536, 0x0001))) {
+        if (FAILED(hr = DeliverBitstream(p, size, IEC61937_AC3, samplerate, 1536))) {
             return hr;
         }
 
@@ -888,7 +911,21 @@ HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
             break;
         }
 
-        if (FAILED(hr = DeliverBitstream(p, size, samplerate, framelength, 0x000b))) {
+        BYTE type;
+        switch (framelength) {
+            case  512:
+                type = IEC61937_DTS1;
+                break;
+            case 1024:
+                type = IEC61937_DTS2;
+                break;
+            case 2048:
+                type = IEC61937_DTS3;
+                break;
+            default:
+                return E_FAIL;
+        }
+        if (FAILED(hr = DeliverBitstream(p, size, type, samplerate, framelength))) {
             return hr;
         }
 
@@ -1389,22 +1426,28 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
     return m_pOutput->Deliver(pOut);
 }
 
-HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, int samples, BYTE type)
+HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, BYTE type, int sample_rate, int samples)
 {
     HRESULT hr;
     bool isDTSWAV = false;
 
     int length = 0;
 
-    if (type == 0x0b) { // DTS
-        if (size == 4096 && sample_rate == 44100 && samples == 1024) { // DTSWAV
-            length = size;
-            isDTSWAV = true;
-        } else while (length < size + 16) {
+    switch (type) {
+        case IEC61937_AC3:
+            length = samples * 4;
+            break;
+        case IEC61937_DTS1:
+        case IEC61937_DTS2:
+        case IEC61937_DTS3:
+            if (size == 4096 && sample_rate == 44100 && samples == 1024) { // DTSWAV
+                length = size;
+                isDTSWAV = true;
+            } else while (length < size + 16) {
                 length += 2048;
             }
-    } else { //if (type == 0x01) { // AC3
-        length = samples * 4;
+        default:
+            return E_FAIL;
     }
 
     CMediaType mt;
