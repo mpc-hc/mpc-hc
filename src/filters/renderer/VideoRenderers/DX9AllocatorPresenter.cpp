@@ -1718,11 +1718,11 @@ void CDX9AllocatorPresenter::ResetStats()
     LONGLONG Time = pApp->GetPerfCounter();
 
     m_PaintTime = 0;
-    m_PaintTimeMin = 0;
+    m_PaintTimeMin = 3000000000;
     m_PaintTimeMax = 0;
 
     m_RasterStatusWaitTime = 0;
-    m_RasterStatusWaitTimeMin = 0;
+    m_RasterStatusWaitTimeMin = 3000000000;
     m_RasterStatusWaitTimeMax = 0;
 
     m_MinSyncOffset = 0;
