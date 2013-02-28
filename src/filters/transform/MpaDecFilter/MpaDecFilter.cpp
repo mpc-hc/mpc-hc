@@ -1426,7 +1426,7 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
     return m_pOutput->Deliver(pOut);
 }
 
-HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, BYTE type, int sample_rate, int samples)
+HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sample_rate, int samples)
 {
     HRESULT hr;
     bool isDTSWAV = false;
@@ -1446,8 +1446,19 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, BYTE type, int sa
             } else while (length < size + 16) {
                 length += 2048;
             }
+            break;
+        /*case IEC61937_DTSHD:
+            type |= (4 << 8);
+            length = 32768;
+            break;
+        case IEC61937_EAC3:
+            length = 24576; // 6144 for DD Plus * 4 for IEC 60958 frames
+            break;
+        case IEC61937_TRUEHD:
+            length = 61440; // max length of MAT data: 61424 bytes (total=61432+8 header bytes)
+            break;*/
         default:
-            return E_FAIL;
+            return E_INVALIDARG;
     }
 
     CMediaType mt;
