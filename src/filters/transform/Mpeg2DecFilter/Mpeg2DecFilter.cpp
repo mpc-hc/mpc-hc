@@ -2293,7 +2293,7 @@ bool CSubpicInputPin::svcdspu::Parse()
 
     bool duration = !!(*p++ & 0x04);
 
-    *p++; // unknown
+    p++; // unknown
 
     if (duration) {
         m_rtStop = m_rtStart + 10000i64 * ((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3]) / 90;
