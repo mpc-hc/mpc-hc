@@ -923,6 +923,7 @@ HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
                 type = IEC61937_DTS3;
                 break;
             default:
+                TRACE(_T("CMpaDecFilter:ProcessDTS_SPDIF() - framelength is not supported\n"));
                 return E_FAIL;
         }
         if (FAILED(hr = DeliverBitstream(p, size, type, samplerate, framelength))) {
@@ -1458,6 +1459,7 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sa
             length = 61440; // max length of MAT data: 61424 bytes (total=61432+8 header bytes)
             break;*/
         default:
+            TRACE(_T("CMpaDecFilter::DeliverBitstream() - type is not supported\n"));
             return E_INVALIDARG;
     }
 
@@ -1481,12 +1483,19 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sa
     if (isDTSWAV) {
         memcpy(pDataOut, pBuff, size);
     } else {
+        memset(pDataOut + 8 + size, 0, length - (8 + size)); // Fill after the input buffer with zeros if any extra bytes
+
+        // Fill the 8 bytes (4 words) of IEC header
         WORD* pDataOutW = (WORD*)pDataOut;
         pDataOutW[0] = 0xf872;
         pDataOutW[1] = 0x4e1f;
         pDataOutW[2] = type;
         pDataOutW[3] = size * 8;
-        _swab((char*)pBuff, (char*)&pDataOutW[4], size + 1); //if the size is odd, the function "_swab" lose the last byte. need add one.
+        _swab((char*)pBuff, (char*)&pDataOutW[4], size & ~1);
+        if (size & 1) { // _swab doesn't like odd number.
+            pDataOut[8 + size - 1] = 0;
+            pDataOut[8 + size] = pBuff[size - 1];
+        }
     }
 
     REFERENCE_TIME rtDur;
