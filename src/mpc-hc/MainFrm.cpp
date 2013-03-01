@@ -456,6 +456,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnNormalizeRegainVolume)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnUpdateNormalizeRegainVolume)
     ON_COMMAND_RANGE(ID_COLOR_BRIGHTNESS_INC, ID_COLOR_RESET, OnPlayColor)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_ONCE, ID_AFTERPLAYBACK_EVERYTIME, OnUpdateAfterplayback)
     ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnAfterplayback)
     ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnUpdateAfterplayback)
     ON_COMMAND_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_NEXT, OnAfterplayback)
@@ -8153,39 +8154,45 @@ void CMainFrame::OnAfterplayback(UINT nID)
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    bool fChecked = false;
+    bool bEnabled = true, bChecked = false;
 
     switch (pCmdUI->m_nID) {
+        case ID_AFTERPLAYBACK_ONCE:
+        case ID_AFTERPLAYBACK_EVERYTIME:
+            bEnabled = false;
+            break;
         case ID_AFTERPLAYBACK_EXIT:
-            fChecked = !!s.fExitAfterPlayback;
+            bChecked = !!s.fExitAfterPlayback;
             break;
         case ID_AFTERPLAYBACK_NEXT:
-            fChecked = !!s.fNextInDirAfterPlayback;
+            bChecked = !!s.fNextInDirAfterPlayback;
             break;
         case ID_AFTERPLAYBACK_CLOSE:
-            fChecked = !!(s.nCLSwitches & CLSW_CLOSE);
+            bChecked = !!(s.nCLSwitches & CLSW_CLOSE);
             break;
         case ID_AFTERPLAYBACK_STANDBY:
-            fChecked = !!(s.nCLSwitches & CLSW_STANDBY);
+            bChecked = !!(s.nCLSwitches & CLSW_STANDBY);
             break;
         case ID_AFTERPLAYBACK_HIBERNATE:
-            fChecked = !!(s.nCLSwitches & CLSW_HIBERNATE);
+            bChecked = !!(s.nCLSwitches & CLSW_HIBERNATE);
             break;
         case ID_AFTERPLAYBACK_SHUTDOWN:
-            fChecked = !!(s.nCLSwitches & CLSW_SHUTDOWN);
+            bChecked = !!(s.nCLSwitches & CLSW_SHUTDOWN);
             break;
         case ID_AFTERPLAYBACK_LOGOFF:
-            fChecked = !!(s.nCLSwitches & CLSW_LOGOFF);
+            bChecked = !!(s.nCLSwitches & CLSW_LOGOFF);
             break;
         case ID_AFTERPLAYBACK_LOCK:
-            fChecked = !!(s.nCLSwitches & CLSW_LOCK);
+            bChecked = !!(s.nCLSwitches & CLSW_LOCK);
             break;
         case ID_AFTERPLAYBACK_DONOTHING:
-            fChecked = (!s.fExitAfterPlayback) && (!s.fNextInDirAfterPlayback);
+            bChecked = (!s.fExitAfterPlayback && !s.fNextInDirAfterPlayback);
             break;
     }
 
-    if (fChecked) {
+    pCmdUI->Enable(bEnabled);
+
+    if (bChecked) {
         if (pCmdUI->m_pMenu) {
             // To make things simpler we (ab)use the CheckMenuRadioItem function to set the radio bullet
             // for the selected item and we use an extra call to SetCheck to ensure the mark is cleared
