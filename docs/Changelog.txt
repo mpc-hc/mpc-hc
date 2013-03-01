@@ -49,7 +49,7 @@ Legend:
 * Updated VirtualDub to v1.10.4-test1
 * Updated MediaInfoLib to v0.7.62
 * Updated ZenLib to v0.4.28 r430
-* Updated Basque, Czech, German, French, Greek, Japanese, Polish, Russian,
+* Updated Basque, Catalan, Czech, German, French, Greek, Japanese, Polish, Russian,
   Traditional and Simplified Chinese, Slovak and Ukrainian translations
 ! Various WebUI fixes:
   - Fix seeking
