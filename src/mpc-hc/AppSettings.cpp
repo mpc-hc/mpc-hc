@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "AppSettings.h"
+#include "FGFilter.h"
 #include "FileAssoc.h"
 #include "MiniDump.h"
 #include "SysVersion.h"
@@ -764,38 +765,137 @@ void CAppSettings::SaveSettings()
     }
 }
 
-void CAppSettings::SaveExternalFilters()
+void CAppSettings::LoadExternalFilters(CAutoPtrList<FilterOverride>& filters, LPCTSTR baseKey /*= IDS_R_EXTERNAL_FILTERS*/)
 {
-    // External Filter settings are saved for a long time. Use only when really necessary.
     CWinApp* pApp = AfxGetApp();
     ASSERT(pApp);
 
-    if (!fInitialized) {
-        return;
-    }
-
     for (unsigned int i = 0; ; i++) {
         CString key;
-        key.Format(_T("%s\\%04u"), IDS_R_FILTERS, i);
+        key.Format(_T("%s\\%04u"), baseKey, i);
+
+        CAutoPtr<FilterOverride> f(DEBUG_NEW FilterOverride);
+
+        f->fDisabled = !pApp->GetProfileInt(key, _T("Enabled"), FALSE);
+
+        UINT j = pApp->GetProfileInt(key, _T("SourceType"), -1);
+        if (j == 0) {
+            f->type = FilterOverride::REGISTERED;
+            f->dispname = CStringW(pApp->GetProfileString(key, _T("DisplayName"), _T("")));
+            f->name = pApp->GetProfileString(key, _T("Name"), _T(""));
+        } else if (j == 1) {
+            f->type = FilterOverride::EXTERNAL;
+            f->path = pApp->GetProfileString(key, _T("Path"), _T(""));
+            f->name = pApp->GetProfileString(key, _T("Name"), _T(""));
+            f->clsid = GUIDFromCString(pApp->GetProfileString(key, _T("CLSID"), _T("")));
+        } else {
+            pApp->WriteProfileString(key, NULL, 0);
+            break;
+        }
+
+        f->backup.RemoveAll();
+        for (unsigned int k = 0; ; k++) {
+            CString val;
+            val.Format(_T("org%04u"), k);
+            CString guid = pApp->GetProfileString(key, val, _T(""));
+            if (guid.IsEmpty()) {
+                break;
+            }
+            f->backup.AddTail(GUIDFromCString(guid));
+        }
+
+        f->guids.RemoveAll();
+        for (unsigned int k = 0; ; k++) {
+            CString val;
+            val.Format(_T("mod%04u"), k);
+            CString guid = pApp->GetProfileString(key, val, _T(""));
+            if (guid.IsEmpty()) {
+                break;
+            }
+            f->guids.AddTail(GUIDFromCString(guid));
+        }
+
+        f->iLoadType = (int)pApp->GetProfileInt(key, _T("LoadType"), -1);
+        if (f->iLoadType < 0) {
+            break;
+        }
+
+        f->dwMerit = pApp->GetProfileInt(key, _T("Merit"), MERIT_DO_NOT_USE + 1);
+
+        filters.AddTail(f);
+    }
+}
+
+void CAppSettings::ConvertOldExternalFiltersList()
+{
+    CAutoPtrList<FilterOverride> filters, succeededFilters, failedFilters;
+    // Load the old filters list
+    LoadExternalFilters(filters, IDS_R_FILTERS);
+    if (!filters.IsEmpty()) {
+        POSITION pos = filters.GetHeadPosition();
+        while (pos) {
+            CAutoPtr<FilterOverride>& fo = filters.GetNext(pos);
+
+            CAutoPtr<CFGFilter> pFGF;
+            if (fo->type == FilterOverride::REGISTERED) {
+                pFGF.Attach(DEBUG_NEW CFGFilterRegistry(fo->dispname));
+            } else if (fo->type == FilterOverride::EXTERNAL) {
+                pFGF.Attach(DEBUG_NEW CFGFilterFile(fo->clsid, fo->path, CStringW(fo->name)));
+            }
+            if (!pFGF) {
+                continue;
+            }
+
+            CComPtr<IBaseFilter> pBF;
+            CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
+            if (SUCCEEDED(pFGF->Create(&pBF, pUnks))) {
+                succeededFilters.AddTail(fo);
+            } else {
+                failedFilters.AddTail(fo);
+            }
+        }
+        // Clear the old filters list
+        filters.RemoveAll();
+        SaveExternalFilters(filters, IDS_R_FILTERS);
+        // Save the new filters lists
+#ifndef _WIN64
+        SaveExternalFilters(succeededFilters, IDS_R_EXTERNAL_FILTERS_x86);
+        SaveExternalFilters(failedFilters, IDS_R_EXTERNAL_FILTERS_x64);
+#else
+        SaveExternalFilters(succeededFilters, IDS_R_EXTERNAL_FILTERS_x64);
+        SaveExternalFilters(failedFilters, IDS_R_EXTERNAL_FILTERS_x86);
+#endif
+    }
+}
+
+void CAppSettings::SaveExternalFilters(CAutoPtrList<FilterOverride>& filters, LPCTSTR baseKey /*= IDS_R_EXTERNAL_FILTERS*/)
+{
+    // Saving External Filter settings takes a long time. Use only when really necessary.
+    CWinApp* pApp = AfxGetApp();
+    ASSERT(pApp);
+
+    // Remove the old keys
+    for (unsigned int i = 0; ; i++) {
+        CString key;
+        key.Format(_T("%s\\%04u"), baseKey, i);
         int j = pApp->GetProfileInt(key, _T("Enabled"), -1);
         pApp->WriteProfileString(key, NULL, NULL);
         if (j < 0) {
             break;
         }
     }
-    pApp->WriteProfileString(IDS_R_FILTERS, NULL, NULL);
 
     unsigned int k = 0;
-    POSITION pos = m_filters.GetHeadPosition();
+    POSITION pos = filters.GetHeadPosition();
     while (pos) {
-        FilterOverride* f = m_filters.GetNext(pos);
+        FilterOverride* f = filters.GetNext(pos);
 
         if (f->fTemporary) {
             continue;
         }
 
         CString key;
-        key.Format(_T("%s\\%04u"), IDS_R_FILTERS, k);
+        key.Format(_T("%s\\%04u"), baseKey, k);
 
         pApp->WriteProfileInt(key, _T("SourceType"), (int)f->type);
         pApp->WriteProfileInt(key, _T("Enabled"), (int)!f->fDisabled);
@@ -1037,62 +1137,9 @@ void CAppSettings::LoadSettings()
 
     nSpeakerChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
-    {
-        for (unsigned int i = 0; ; i++) {
-            CString key;
-            key.Format(_T("%s\\%04u"), IDS_R_FILTERS, i);
-
-            CAutoPtr<FilterOverride> f(DEBUG_NEW FilterOverride);
-
-            f->fDisabled = !pApp->GetProfileInt(key, _T("Enabled"), FALSE);
-
-            UINT j = pApp->GetProfileInt(key, _T("SourceType"), -1);
-            if (j == 0) {
-                f->type = FilterOverride::REGISTERED;
-                f->dispname = CStringW(pApp->GetProfileString(key, _T("DisplayName"), _T("")));
-                f->name = pApp->GetProfileString(key, _T("Name"), _T(""));
-            } else if (j == 1) {
-                f->type = FilterOverride::EXTERNAL;
-                f->path = pApp->GetProfileString(key, _T("Path"), _T(""));
-                f->name = pApp->GetProfileString(key, _T("Name"), _T(""));
-                f->clsid = GUIDFromCString(pApp->GetProfileString(key, _T("CLSID"), _T("")));
-            } else {
-                pApp->WriteProfileString(key, NULL, 0);
-                break;
-            }
-
-            f->backup.RemoveAll();
-            for (unsigned int k = 0; ; k++) {
-                CString val;
-                val.Format(_T("org%04u"), k);
-                CString guid = pApp->GetProfileString(key, val, _T(""));
-                if (guid.IsEmpty()) {
-                    break;
-                }
-                f->backup.AddTail(GUIDFromCString(guid));
-            }
-
-            f->guids.RemoveAll();
-            for (unsigned int k = 0; ; k++) {
-                CString val;
-                val.Format(_T("mod%04u"), k);
-                CString guid = pApp->GetProfileString(key, val, _T(""));
-                if (guid.IsEmpty()) {
-                    break;
-                }
-                f->guids.AddTail(GUIDFromCString(guid));
-            }
-
-            f->iLoadType = (int)pApp->GetProfileInt(key, _T("LoadType"), -1);
-            if (f->iLoadType < 0) {
-                break;
-            }
-
-            f->dwMerit = pApp->GetProfileInt(key, _T("Merit"), MERIT_DO_NOT_USE + 1);
-
-            m_filters.AddTail(f);
-        }
-    }
+    // External filters
+    ConvertOldExternalFiltersList(); // Here for backward compatibility
+    LoadExternalFilters(m_filters);
 
     fIntRealMedia = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_INTREALMEDIA, FALSE);
     //fRealMediaRenderless = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIARENDERLESS, FALSE);

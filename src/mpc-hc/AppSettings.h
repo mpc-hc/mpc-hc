@@ -596,7 +596,6 @@ public:
     CString         SelectedAudioRenderer() const;
 
 private:
-
     CString         SrcFiltersKeys[SRC_LAST + !SRC_LAST];
     CString         TraFiltersKeys[TRA_LAST + !TRA_LAST];
     CString         DXVAFiltersKeys[TRA_DXVA_LAST + !TRA_DXVA_LAST];
@@ -607,22 +606,29 @@ private:
 
     void            CreateCommands();
 
+    void            SaveExternalFilters(CAutoPtrList<FilterOverride>& filters, LPCTSTR baseKey = IDS_R_EXTERNAL_FILTERS);
+    void            LoadExternalFilters(CAutoPtrList<FilterOverride>& filters, LPCTSTR baseKey = IDS_R_EXTERNAL_FILTERS);
+    void            ConvertOldExternalFiltersList();
+
+    void            UpdateRenderersData(bool fSave);
+    friend void     CRenderersSettings::UpdateData(bool bSave);
+
 public:
     CAppSettings();
     virtual ~CAppSettings();
+
     void            SaveSettings();
-    void            SaveExternalFilters();
     void            LoadSettings();
+    void            SaveExternalFilters() { if (fInitialized) { SaveExternalFilters(m_filters); } };
 
     void            GetFav(favtype ft, CAtlList<CString>& sl) const;
     void            SetFav(favtype ft, CAtlList<CString>& sl);
     void            AddFav(favtype ft, CString s);
+
     CDVBChannel*    FindChannelByPref(int nPrefNumber);
 
     bool            GetAllowMultiInst() const;
+
     static bool     IsVSFilterInstalled();
     static bool     HasEVR();
-private:
-    void            UpdateRenderersData(bool fSave);
-    friend void     CRenderersSettings::UpdateData(bool bSave);
 };
