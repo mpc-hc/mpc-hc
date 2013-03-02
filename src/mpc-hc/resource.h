@@ -562,6 +562,7 @@
 #define IDC_MIEDIT                      12137
 #define IDC_LISTCHANNELS                12138
 #define IDC_STATUSBAR                   12139
+#define IDC_PPAGECAPTURE_DESC1          12140
 #define IDS_SRC_CDDA                    14001
 #define IDS_SRC_AVI                     14002
 #define IDS_SRC_VTS                     14004
@@ -717,6 +718,9 @@
 #define IDC_SPEEDSTEP                   22075
 #define IDC_SPEEDSTEP_SPIN              22076
 #define IDC_EXPORT_KEYS                 22077
+#define IDC_PPAGECAPTURE_ST10           22078
+#define IDC_PPAGECAPTURE_ST11           22079
+#define IDC_PPAGECAPTURE_ST12           22080
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1144,7 +1148,6 @@
 #define IDS_THUMB_THUMBNAILS            33446
 #define IDS_THUMB_PIXELS                33447
 #define IDS_TEXTFILE_ENC                33448
-//
 #define IDS_MFMT_AVI                    39001
 #define IDS_MFMT_MPEG                   39002
 #define IDS_MFMT_MPEGTS                 39003
@@ -1489,6 +1492,15 @@
 #define IDS_RFS_ENCRYPTED               41453
 #define IDS_RFS_MISSING_VOLS            41454
 #define IDS_OSD_D3DFS_REMINDER          41455
+#define IDS_PPAGE_CAPTURE_FG0           57345
+#define IDS_PPAGE_CAPTURE_FG1           57346
+#define IDS_PPAGE_CAPTURE_FG2           57347
+#define IDS_PPAGE_CAPTURE_FGDESC0       57348
+#define IDS_PPAGE_CAPTURE_FGDESC1       57349
+#define IDS_PPAGE_CAPTURE_FGDESC2       57350
+#define IDS_PPAGE_CAPTURE_SFG0          57351
+#define IDS_PPAGE_CAPTURE_SFG1          57352
+#define IDS_PPAGE_CAPTURE_SFG2          57353
 
 // Next default values for new objects
 // 
@@ -1496,7 +1508,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20013
 #define _APS_NEXT_COMMAND_VALUE         33449
-#define _APS_NEXT_CONTROL_VALUE         22073
+#define _APS_NEXT_CONTROL_VALUE         22078
 #define _APS_NEXT_SYMED_VALUE           24044
 #endif
 #endif

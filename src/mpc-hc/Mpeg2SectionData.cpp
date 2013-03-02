@@ -216,6 +216,8 @@ DVB_STREAM_TYPE CMpeg2DataParser::ConvertToDVBType(PES_STREAM_TYPE nType)
             return DVB_AC3;
         case AUDIO_STREAM_AC3_PLUS:
             return DVB_EAC3;
+        case AUDIO_STREAM_AAC_LATM:
+            return DVB_LATM;
         case SUBTITLE_STREAM:
             return DVB_SUBTITLE;
     }
@@ -390,6 +392,10 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
                     break;
                 case DT_EXTENDED_AC3_AUDIO:
                     pes_stream_type = AUDIO_STREAM_AC3_PLUS;
+                    SkipDescriptor(gb, nType, nLength);
+                    break;
+                case DT_AAC_AUDIO:
+                    pes_stream_type = AUDIO_STREAM_AAC_LATM;
                     SkipDescriptor(gb, nType, nLength);
                     break;
                 case DT_SUBTITLING:

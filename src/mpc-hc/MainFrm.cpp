@@ -7023,7 +7023,11 @@ void CMainFrame::OnPlayPlay()
             if (s.iDefaultCaptureDevice == 1) {
                 CComQIPtr<IBDATuner> pTun = m_pGB;
                 if (pTun) {
+                    m_fSetChannelActive = false;
                     SetChannel(s.nDVBLastChannel);
+                    if (s.nDVBStopFilterGraph != DVB_STOP_FG_ALWAYS) {
+                        SetTimersPlay();
+                    }
                 }
             } else {
                 SetTimersPlay();
@@ -7080,7 +7084,9 @@ void CMainFrame::OnPlayPlay()
     if (strOSD.IsEmpty()) {
         strOSD = strPlay;
     }
-    m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+    if (GetPlaybackMode() != PM_CAPTURE) {
+        m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+    }
 }
 
 void CMainFrame::OnPlayPauseI()
@@ -10862,7 +10868,7 @@ HRESULT CMainFrame::OpenBDAGraph()
 {
     HRESULT hr = m_pGB->RenderFile(L"", L"");
     if (SUCCEEDED(hr)) {
-        AddTextPassThruFilter();
+        //        AddTextPassThruFilter();
         SetPlaybackMode(PM_CAPTURE);
     }
     return hr;
@@ -13629,29 +13635,34 @@ void CMainFrame::AddTextPassThruFilter()
                 continue;
             }
 
-            CComQIPtr<IBaseFilter> pTPTF = DEBUG_NEW CTextPassThruFilter(this);
-            CStringW name;
-            name.Format(L"TextPassThru%p", pTPTF);
-            if (FAILED(m_pGB->AddFilter(pTPTF, name))) {
-                continue;
-            }
-
-            HRESULT hr;
-
-            hr = pPinTo->Disconnect();
-            hr = pPin->Disconnect();
-
-            if (FAILED(hr = m_pGB->ConnectDirect(pPin, GetFirstPin(pTPTF, PINDIR_INPUT), nullptr))
-                    || FAILED(hr = m_pGB->ConnectDirect(GetFirstPin(pTPTF, PINDIR_OUTPUT), pPinTo, nullptr))) {
-                hr = m_pGB->ConnectDirect(pPin, pPinTo, nullptr);
-            } else {
-                SubtitleInput subInput(CComQIPtr<ISubStream>(pTPTF), pBF);
-                m_pSubStreams.AddTail(subInput);
-            }
+            InsertTextPassThruFilter(pBF, pPin, pPinTo);
         }
         EndEnumPins;
     }
     EndEnumFilters;
+}
+
+HRESULT CMainFrame::InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin* pPinTo)
+{
+    HRESULT hr;
+    CComQIPtr<IBaseFilter> pTPTF = DEBUG_NEW CTextPassThruFilter(this);
+    CStringW name;
+    name.Format(L"TextPassThru%p", pTPTF);
+    if (FAILED(hr = m_pGB->AddFilter(pTPTF, name))) {
+        return hr;
+    }
+
+    hr = pPinTo->Disconnect();
+    hr = pPin->Disconnect();
+
+    if (FAILED(hr = m_pGB->ConnectDirect(pPin, GetFirstPin(pTPTF, PINDIR_INPUT), nullptr))
+            || FAILED(hr = m_pGB->ConnectDirect(GetFirstPin(pTPTF, PINDIR_OUTPUT), pPinTo, nullptr))) {
+        hr = m_pGB->ConnectDirect(pPin, pPinTo, nullptr);
+    } else {
+        SubtitleInput subInput(CComQIPtr<ISubStream>(pTPTF), pBF);
+        m_pSubStreams.AddTail(subInput);
+    }
+    return hr;
 }
 
 bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= nullptr*/, bool bAutoLoad /*= false*/)
@@ -14651,22 +14662,37 @@ HRESULT CMainFrame::SetChannel(int nChannel)
     HRESULT hr = S_OK;
     CComQIPtr<IBDATuner> pTun = m_pGB;
 
-    if (pTun) {
-        // Skip n intermediate ZoomVideoWindow() calls while the new size is stabilized:
-        switch (s.iDSVideoRendererType) {
-            case VIDRNDT_DS_MADVR:
-                m_nLockedZoomVideoWindow = 3;
-                break;
-            case VIDRNDT_DS_EVR_CUSTOM:
-                m_nLockedZoomVideoWindow = 0;
-                break;
-            default:
-                m_nLockedZoomVideoWindow = 0;
+    if (!m_fSetChannelActive) {
+        m_fSetChannelActive = true;
+
+        if (pTun) {
+            // Skip n intermediate ZoomVideoWindow() calls while the new size is stabilized:
+            switch (s.iDSVideoRendererType) {
+                case VIDRNDT_DS_MADVR:
+                    if (s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) {
+                        m_nLockedZoomVideoWindow = 3;
+                    } else {
+                        m_nLockedZoomVideoWindow = 0;
+                    }
+                    break;
+                case VIDRNDT_DS_EVR_CUSTOM:
+                    m_nLockedZoomVideoWindow = 0;
+                    break;
+                default:
+                    m_nLockedZoomVideoWindow = 0;
+            }
+            if (SUCCEEDED(hr = pTun->SetChannel(nChannel))) {
+                if (hr == S_FALSE) {
+                    // Re-create all
+                    m_nLockedZoomVideoWindow = 0;
+                    PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
+                    return hr;
+                }
+                ShowCurrentChannelInfo();
+            }
+            ZoomVideoWindow();
         }
-        if (SUCCEEDED(hr = pTun->SetChannel(nChannel))) {
-            ShowCurrentChannelInfo();
-        }
-        ZoomVideoWindow();
+        m_fSetChannelActive = false;
     }
     return hr;
 }

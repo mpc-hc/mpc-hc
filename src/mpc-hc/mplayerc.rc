@@ -939,13 +939,19 @@ BEGIN
     COMBOBOX        IDC_COMBO2,84,60,202,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Country",IDC_STATIC3,10,77,70,8
     COMBOBOX        IDC_COMBO9,84,75,202,102,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Digital settings (BDA)",IDC_STATIC,5,96,286,59
+    GROUPBOX        "Digital settings (BDA)",IDC_STATIC,5,96,286,141
     LTEXT           "Network Provider",IDC_STATIC4,10,110,70,8
     COMBOBOX        IDC_COMBO4,84,108,202,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Tuner",IDC_STATIC5,10,125,70,8
     COMBOBOX        IDC_COMBO5,84,123,202,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Receiver",IDC_STATIC6,10,140,70,8
     COMBOBOX        IDC_COMBO3,84,138,202,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Channel switching approach:",IDC_PPAGECAPTURE_ST10,11,158,93,8
+    COMBOBOX        IDC_COMBO6,84,170,201,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Rebuild filter graph",IDC_PPAGECAPTURE_ST11,12,172,62,8
+    EDITTEXT        IDC_PPAGECAPTURE_DESC1,84,184,202,20,ES_MULTILINE | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Stop filter graph",IDC_PPAGECAPTURE_ST12,12,206,66,8
+    COMBOBOX        IDC_COMBO7,84,204,201,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_PPAGESYNC DIALOGEX 0, 0, 296, 241
@@ -2142,6 +2148,17 @@ END
 STRINGTABLE
 BEGIN
     AFX_IDS_APP_TITLE       "Media Player Classic"
+    IDS_PPAGE_CAPTURE_FG0   "Never (fastest approach)"
+    IDS_PPAGE_CAPTURE_FG1   "Only when switching different video types (default)"
+    IDS_PPAGE_CAPTURE_FG2   "Always (slowest option)"
+    IDS_PPAGE_CAPTURE_FGDESC0 
+                            "Not supported by some devices. Two video decoders always present in the filter graph."
+    IDS_PPAGE_CAPTURE_FGDESC1 
+                            "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
+    IDS_PPAGE_CAPTURE_FGDESC2 "Not recommended. Only for testing purposes."
+    IDS_PPAGE_CAPTURE_SFG0  "Never if possible (fastest, but not supported by most filters)"
+    IDS_PPAGE_CAPTURE_SFG1  "Only when switching different video types (default)"
+    IDS_PPAGE_CAPTURE_SFG2  "Always (may be required by some devices)"
 END
 
 STRINGTABLE
