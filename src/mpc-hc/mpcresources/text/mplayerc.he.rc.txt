@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Remember last Pan-n-Scan Zoom"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"העדף כתוביות חיצוניות אם קיימות"
-7		"אל תטען כתוביות מובנות מהקונטיינר"
-8		"נתיבים לטעינה אוטומטית"
-10		"אפס"
-11		"מסד נתונים ברשת"
-12		"כתובת למסד נתונים ברשת:"
-15		"בדוק"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"העדף כתוביות חיצוניות אם קיימות"
+9		"אל תטען כתוביות מובנות מהקונטיינר"
+10		"Allow overriding external splitter choice"
+11		"נתיבים לטעינה אוטומטית"
+13		"אפס"
+14		"מסד נתונים ברשת"
+15		"כתובת למסד נתונים ברשת:"
+18		"בדוק"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

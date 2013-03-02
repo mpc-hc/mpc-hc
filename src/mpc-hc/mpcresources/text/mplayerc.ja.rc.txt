@@ -344,14 +344,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"最近使った PnS 拡大率を記憶"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 17
 5		"外部字幕ファイルを優先する"
 7		"内蔵された字幕を読み込まない"
-8		"字幕ファイルパス指定"
-10		"リセット"
-11		"オンラインデータベース"
-12		"オンライン字幕データベースの基本 URL:"
-15		"テスト"
+8		"Allow overriding external splitter choice"
+9		"字幕ファイルパス指定"
+11		"リセット"
+12		"オンラインデータベース"
+13		"オンライン字幕データベースの基本 URL:"
+16		"テスト"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

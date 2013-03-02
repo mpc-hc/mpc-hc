@@ -1002,17 +1002,20 @@ IDD_PPAGESUBMISC DIALOGEX 0, 0, 296, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Prefer external subtitles over embedded subtitles",IDC_CHECK1,
+    CONTROL         "Prefer forced and/or default subtitles tracks",IDC_CHECK1,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,5,285,8
-    CONTROL         "Ignore embedded subtitles",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,17,285,8
-    GROUPBOX        "Autoload paths",IDC_STATIC,5,29,287,31
-    EDITTEXT        IDC_EDIT1,10,41,224,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Reset",IDC_BUTTON1,237,41,50,14
-    GROUPBOX        "Online database",IDC_STATIC,6,66,286,45
-    LTEXT           "Base URL of the online subtitle database:",IDC_STATIC,10,77,222,8
-    LTEXT           "http://",IDC_STATIC,10,91,22,8
-    COMBOBOX        IDC_COMBO1,35,89,199,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Test",IDC_BUTTON2,237,88,50,14
+    CONTROL         "Prefer external subtitles over embedded subtitles",IDC_CHECK2,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,17,285,8
+    CONTROL         "Ignore embedded subtitles",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,29,285,8
+    CONTROL         "Allow overriding external splitter choice",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,41,285,8
+    GROUPBOX        "Autoload paths",IDC_STATIC,5,53,287,31
+    EDITTEXT        IDC_EDIT1,10,65,224,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Reset",IDC_BUTTON1,237,65,50,14
+    GROUPBOX        "Online database",IDC_STATIC,6,90,286,45
+    LTEXT           "Base URL of the online subtitle database:",IDC_STATIC,10,101,222,8
+    LTEXT           "http://",IDC_STATIC,10,115,22,8
+    COMBOBOX        IDC_COMBO1,35,113,199,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Test",IDC_BUTTON2,237,112,50,14
 END
 
 IDD_UPDATE_DIALOG DIALOGEX 0, 0, 300, 60

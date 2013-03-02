@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Запоминать зум Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Всегда использовать внешние субтитры как основные"
-7		"Не использовать встроенные субтитры"
-8		"Путь для внешних субтитров"
-10		"Сброс"
-11		"База данных в интернете"
-12		"URL базы данных субтитров:"
-15		"Тест"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Всегда использовать внешние субтитры как основные"
+9		"Не использовать встроенные субтитры"
+10		"Allow overriding external splitter choice"
+11		"Путь для внешних субтитров"
+13		"Сброс"
+14		"База данных в интернете"
+15		"URL базы данных субтитров:"
+18		"Тест"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

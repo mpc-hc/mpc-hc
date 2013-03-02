@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Հիշել վերջին Pan-n-Scan չափը"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Միշտ օգտագործել արտաքին տողագրերը որպես հիմնական"
-7		"Չօգտագործել ներքին տողագրերը"
-8		"Տողագրերի ճանապարհը"
-10		"Ետարկել"
-11		"Ցանցային տվյալներ"
-12		"Տողագրերի ցանցային բազայի URL-ն."
-15		"Թեստ"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Միշտ օգտագործել արտաքին տողագրերը որպես հիմնական"
+9		"Չօգտագործել ներքին տողագրերը"
+10		"Allow overriding external splitter choice"
+11		"Տողագրերի ճանապարհը"
+13		"Ետարկել"
+14		"Ցանցային տվյալներ"
+15		"Տողագրերի ցանցային բազայի URL-ն."
+18		"Թեստ"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

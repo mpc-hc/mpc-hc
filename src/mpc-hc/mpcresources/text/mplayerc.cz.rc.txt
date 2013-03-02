@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Papamatovat si zvětšení Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Pokud jsou dostupné, upřednostňovat externí titulky"
-7		"Nenačítat vložené titulky"
-8		"Místa pro automatické načítání"
-10		"Výchozí"
-11		"Online databáze"
-12		"Adresa online databáze titulků:"
-15		"Otestovat"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Pokud jsou dostupné, upřednostňovat externí titulky"
+9		"Nenačítat vložené titulky"
+10		"Allow overriding external splitter choice"
+11		"Místa pro automatické načítání"
+13		"Výchozí"
+14		"Online databáze"
+15		"Adresa online databáze titulků:"
+18		"Otestovat"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Son büyütme ayarlarını hatırla"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Her zaman harici alt yazıları tercih et"
-7		"Gömülü alt yazıları yükleme"
-8		"Yükleme konumları"
-10		"Sıfırla"
-11		"Çevrimiçi veritabanı"
-12		"Çevrimiçi alt yazı veritabanı adresi:"
-15		"Dene"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Her zaman harici alt yazıları tercih et"
+9		"Gömülü alt yazıları yükleme"
+10		"Allow overriding external splitter choice"
+11		"Yükleme konumları"
+13		"Sıfırla"
+14		"Çevrimiçi veritabanı"
+15		"Çevrimiçi alt yazı veritabanı adresi:"
+18		"Dene"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

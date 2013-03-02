@@ -344,14 +344,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"记忆上次的平移和扫描缩放"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 17
 5		"当外部字幕存在时优先使用外部字幕"
 7		"不载入内嵌字幕"
-8		"自动载入路径"
-10		"重置"
-11		"在线数据库"
-12		"在线字幕数据库的地址: "
-15		"测试"
+8		"Allow overriding external splitter choice"
+9		"自动载入路径"
+11		"重置"
+12		"在线数据库"
+13		"在线字幕数据库的地址: "
+16		"测试"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

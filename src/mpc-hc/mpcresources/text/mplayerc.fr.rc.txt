@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Se souvenir du recadrage (Pan && Scan)"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Préférer les sous-titres externes aux sous-titres internes"
-7		"Ignorer les sous-titres internes"
-8		"Dossiers à utiliser pour le chargement automatique"
-10		"Reset"
-11		"Base de données en ligne"
-12		"Racine du site de la base de données de sous-titres :"
-15		"Tester"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Préférer les sous-titres externes aux sous-titres internes"
+9		"Ignorer les sous-titres internes"
+10		"Allow overriding external splitter choice"
+11		"Dossiers à utiliser pour le chargement automatique"
+13		"Reset"
+14		"Base de données en ligne"
+15		"Racine du site de la base de données de sous-titres :"
+18		"Tester"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

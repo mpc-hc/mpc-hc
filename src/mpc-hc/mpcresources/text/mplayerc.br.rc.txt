@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Lembrar o zoom de Pan && Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Preferir legendas externas às internas"
-7		"Ignorar legendas internas"
-8		"Pastas para autocarregamento de legendas"
-10		"Resetar"
-11		"Banco de dados online"
-12		"Digite a URL do banco de dados de legendas:"
-15		"Testar"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Preferir legendas externas às internas"
+9		"Ignorar legendas internas"
+10		"Allow overriding external splitter choice"
+11		"Pastas para autocarregamento de legendas"
+13		"Resetar"
+14		"Banco de dados online"
+15		"Digite a URL do banco de dados de legendas:"
+18		"Testar"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

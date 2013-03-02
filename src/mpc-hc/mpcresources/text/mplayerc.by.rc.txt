@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Памятаць апошні Pan-n-Scan Zoom"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Заўсёды выкарыстоўваць знешнія субтытры як асноўныя"
-7		"Не загружаць убудаваныя субтытры"
-8		"Шлях да знешніх субтытраў"
-10		"Скід"
-11		"Online База"
-12		"URL анлайнавай базы субтытраў:"
-15		"Тэст"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Заўсёды выкарыстоўваць знешнія субтытры як асноўныя"
+9		"Не загружаць убудаваныя субтытры"
+10		"Allow overriding external splitter choice"
+11		"Шлях да знешніх субтытраў"
+13		"Скід"
+14		"Online База"
+15		"URL анлайнавай базы субтытраў:"
+18		"Тэст"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

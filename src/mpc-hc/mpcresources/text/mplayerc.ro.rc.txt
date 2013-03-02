@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Ține minte ultima focalizare a Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Preferă subtitrările externe în locul celor integrate"
-7		"Ignoră subtitrările integrate"
-8		"Căi de încărcare automată"
-10		"Resetează"
-11		"Bază de date online"
-12		"URL de bază pentru baza de date cu subtitrări online:"
-15		"Testează"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Preferă subtitrările externe în locul celor integrate"
+9		"Ignoră subtitrările integrate"
+10		"Allow overriding external splitter choice"
+11		"Căi de încărcare automată"
+13		"Resetează"
+14		"Bază de date online"
+15		"URL de bază pentru baza de date cu subtitrări online:"
+18		"Testează"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

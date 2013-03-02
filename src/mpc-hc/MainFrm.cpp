@@ -11485,28 +11485,38 @@ DWORD CMainFrame::SetupAudioStreams()
 
 DWORD CMainFrame::SetupSubtitleStreams()
 {
+    const CAppSettings& s = AfxGetAppSettings();
+
     size_t cStreams = m_pSubStreams.GetCount();
     if (cStreams > 0) {
         bool externalPriority = false;
         CAtlArray<CString> langs;
         int tPos = 0;
-        CString lang = AfxGetAppSettings().strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
+        CString lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         while (tPos != -1) {
             langs.Add(lang.MakeLower());
-            lang = AfxGetAppSettings().strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
+            lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         }
 
-        DWORD selected = 1;
+        DWORD selected = 0;
         DWORD i = 0;
         int  maxrating = 0;
         POSITION pos = m_pSubStreams.GetHeadPosition();
         while (pos) {
             if (m_posFirstExtSub == pos) {
-                externalPriority = AfxGetAppSettings().fPrioritizeExternalSubtitles;
+                externalPriority = s.fPrioritizeExternalSubtitles;
             }
             SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
             CComPtr<ISubStream> pSubStream = subInput.subStream;
             CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter;
+
+            bool bAllowOverridingSplitterChoice = s.bAllowOverridingExternalSplitterChoice;
+            CLSID clsid;
+            if (!bAllowOverridingSplitterChoice && pSSF && SUCCEEDED(subInput.sourceFilter->GetClassID(&clsid))) {
+                // We always allow overriding the splitter choice for our splitters that
+                // support the IAMStreamSelect interface and thus would have been ignored.
+                bAllowOverridingSplitterChoice = !!(clsid == __uuidof(CMpegSplitterFilter));
+            }
 
             int count = 0;
             if (pSSF) {
@@ -11521,11 +11531,17 @@ DWORD CMainFrame::SetupSubtitleStreams()
             for (int j = 0; j < count; j++) {
                 WCHAR* pName;
                 HRESULT hr;
-                DWORD dwGroup = 2;
                 if (pSSF) {
-                    hr = pSSF->Info(j, NULL, NULL, NULL, &dwGroup, &pName, NULL, NULL);
+                    DWORD dwFlags, dwGroup = 2;
+                    hr = pSSF->Info(j, NULL, &dwFlags, NULL, &dwGroup, &pName, NULL, NULL);
                     if (dwGroup != 2) {
                         CoTaskMemFree(pName);
+                        continue;
+                    } else if (!bAllowOverridingSplitterChoice && !(dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
+                        // If we aren't allowed to modify the splitter choice and the current
+                        // track isn't already selected at splitter level we need to skip it.
+                        CoTaskMemFree(pName);
+                        i++;
                         continue;
                     }
                 } else {
@@ -11555,27 +11571,26 @@ DWORD CMainFrame::SetupSubtitleStreams()
                 if (externalPriority) {
                     rating += 8;
                 }
-                if (name.Find(_T("[default,forced]")) != -1) { // for LAV Splitter
-                    rating += 4 + 2;
-                }
-                if (name.Find(_T("[forced]")) != -1) {
-                    rating += 4;
-                }
-                if (name.Find(_T("[default]")) != -1) {
-                    rating += 2;
-                }
-                if (i == 0) {
-                    rating += 1;
+                if (s.bPreferDefaultForcedSubtitles) {
+                    if (name.Find(_T("[default,forced]")) != -1) { // for LAV Splitter
+                        rating += 4 + 2;
+                    }
+                    if (name.Find(_T("[forced]")) != -1) {
+                        rating += 4;
+                    }
+                    if (name.Find(_T("[default]")) != -1) {
+                        rating += 2;
+                    }
                 }
 
-                if (rating > maxrating) {
+                if (rating > maxrating || !selected) {
                     maxrating = rating;
-                    selected = i;
+                    selected = i + 1;
                 }
                 i++;
             }
         }
-        return selected + 1;
+        return selected;
     }
 
     return 0;

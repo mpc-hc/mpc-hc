@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Remember last Pan-n-Scan Zoom"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"항상 외부 자막보기(사용가능한경우)"
-7		"내장 자막 불러오지않음"
-8		"자동 불러오기 경로"
-10		"초기화"
-11		"온라인 데이터베이스"
-12		"온라인 자막 데이터베이스 URL:"
-15		"테스트"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"항상 외부 자막보기(사용가능한경우)"
+9		"내장 자막 불러오지않음"
+10		"Allow overriding external splitter choice"
+11		"자동 불러오기 경로"
+13		"초기화"
+14		"온라인 데이터베이스"
+15		"온라인 자막 데이터베이스 URL:"
+18		"테스트"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

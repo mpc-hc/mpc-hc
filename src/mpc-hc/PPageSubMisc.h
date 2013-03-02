@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,8 +37,10 @@ public:
     enum { IDD = IDD_PPAGESUBMISC };
 
 protected:
+    BOOL m_fPreferDefaultForcedSubtitles;
     BOOL m_fPrioritizeExternalSubtitles;
     BOOL m_fDisableInternalSubtitles;
+    BOOL m_fAllowOverridingExternalSplitterChoice;
     CString m_szAutoloadPaths;
     CComboBox m_ISDbCombo;
     CString m_ISDb;

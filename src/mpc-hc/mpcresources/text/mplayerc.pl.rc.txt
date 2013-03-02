@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Pamiętanie ustawień skalowania i kadrowania"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Wczytywanie zewnętrznych napisów zamiast zawartych w kontenerze"
-7		"Zaniechanie wczytywania napisów zawartych w kontenerze"
-8		"Położenia napisów"
-10		"Domyślne"
-11		"Internetowa baza napisów"
-12		"Adres internetowej bazy napisów:"
-15		"Przetestuj"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Wczytywanie zewnętrznych napisów zamiast zawartych w kontenerze"
+9		"Zaniechanie wczytywania napisów zawartych w kontenerze"
+10		"Allow overriding external splitter choice"
+11		"Położenia napisów"
+13		"Domyślne"
+14		"Internetowa baza napisów"
+15		"Adres internetowej bazy napisów:"
+18		"Przetestuj"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

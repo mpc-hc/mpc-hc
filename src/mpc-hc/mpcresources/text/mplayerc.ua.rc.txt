@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Запам'ятов. останнє значення Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Завжди, якщо можливо, робити типовими зовнішні субтитри"
-7		"Не завантажувати вбудовані субтитри"
-8		"Шлях автозавантаження зовнішніх субтитрів"
-10		"Скинути"
-11		"Онлайн база"
-12		"URL онлайн бази субтитрів:"
-15		"Тест"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Завжди, якщо можливо, робити типовими зовнішні субтитри"
+9		"Не завантажувати вбудовані субтитри"
+10		"Allow overriding external splitter choice"
+11		"Шлях автозавантаження зовнішніх субтитрів"
+13		"Скинути"
+14		"Онлайн база"
+15		"URL онлайн бази субтитрів:"
+18		"Тест"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

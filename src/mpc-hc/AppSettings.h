@@ -498,8 +498,10 @@ public:
     STSStyle        subdefstyle;
 
     // Misc
+    bool            bPreferDefaultForcedSubtitles;
     bool            fPrioritizeExternalSubtitles;
     bool            fDisableInternalSubtitles;
+    bool            bAllowOverridingExternalSplitterChoice;
     CString         strSubtitlePaths;
     CString         strISDb;
 

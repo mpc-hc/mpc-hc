@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Remember last Pan-n-Scan Zoom"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Always default to external subtitles if available"
-7		"Do not load embedded subtitles"
-8		"Autoload paths"
-10		"Reset"
-11		"Online database"
-12		"Bas webbadressen till online undertext databasen:"
-15		"Testa"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Always default to external subtitles if available"
+9		"Do not load embedded subtitles"
+10		"Allow overriding external splitter choice"
+11		"Autoload paths"
+13		"Reset"
+14		"Online database"
+15		"Bas webbadressen till online undertext databasen:"
+18		"Testa"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

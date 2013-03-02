@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Ricorda l'ultimo zoom Pan&&Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Usa sempre i sottotitoli esterni se disponibili"
-7		"Non caricare i sottotitoli interni al video"
-8		"Percorsi di caricamento automatico"
-10		"Reimposta"
-11		"Database online"
-12		"Indirizzo del database di sottotitoli online:"
-15		"Prova"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Usa sempre i sottotitoli esterni se disponibili"
+9		"Non caricare i sottotitoli interni al video"
+10		"Allow overriding external splitter choice"
+11		"Percorsi di caricamento automatico"
+13		"Reimposta"
+14		"Database online"
+15		"Indirizzo del database di sottotitoli online:"
+18		"Prova"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

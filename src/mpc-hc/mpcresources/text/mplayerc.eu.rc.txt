@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Gogoratu azken Pan-eta-Scan Zooma"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Hobetsi kanpoko azpidatziak barneko azpidatziei"
-7		"Ezikusi barneratutako azpidatziak"
-8		"Berez-gertatu helburuak"
-10		"Berrezarri"
-11		"Online datubasea"
-12		"Onlineko azpidatzi datubaseko URL-a:"
-15		"Azterketa"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Hobetsi kanpoko azpidatziak barneko azpidatziei"
+9		"Ezikusi barneratutako azpidatziak"
+10		"Allow overriding external splitter choice"
+11		"Berez-gertatu helburuak"
+13		"Berrezarri"
+14		"Online datubasea"
+15		"Onlineko azpidatzi datubaseko URL-a:"
+18		"Azterketa"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

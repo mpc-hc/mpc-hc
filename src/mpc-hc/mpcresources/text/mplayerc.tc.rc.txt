@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"記憶上次的平移掃描縮放"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"外部字幕較內嵌字幕優先"
-7		"忽略內嵌字幕"
-8		"自動載入路徑"
-10		"重設"
-11		"線上資料庫"
-12		"線上字幕資料庫的基礎網址:"
-15		"測試"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"外部字幕較內嵌字幕優先"
+9		"忽略內嵌字幕"
+10		"Allow overriding external splitter choice"
+11		"自動載入路徑"
+13		"重設"
+14		"線上資料庫"
+15		"線上字幕資料庫的基礎網址:"
+18		"測試"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

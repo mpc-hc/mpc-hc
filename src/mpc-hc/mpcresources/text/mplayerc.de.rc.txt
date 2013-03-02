@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Letzten Pan && Scan Zoom merken"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Externe Untertitel bevorzugen (wenn verfügbar)"
-7		"Interne Untertitel nicht benutzen"
-8		"Pfade, in denen automatisch nach verfügbaren Untertiteln gesucht werden soll"
-10		"Zurücksetzen"
-11		"Online-Untertitel Datenbank"
-12		"URL zur Online-Untertitel Datenbank:"
-15		"Testen"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Externe Untertitel bevorzugen (wenn verfügbar)"
+9		"Interne Untertitel nicht benutzen"
+10		"Allow overriding external splitter choice"
+11		"Pfade, in denen automatisch nach verfügbaren Untertiteln gesucht werden soll"
+13		"Zurücksetzen"
+14		"Online-Untertitel Datenbank"
+15		"URL zur Online-Untertitel Datenbank:"
+18		"Testen"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69

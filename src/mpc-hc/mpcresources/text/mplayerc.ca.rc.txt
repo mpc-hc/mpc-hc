@@ -344,14 +344,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Recordar l'últim Zoom de Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Subtítols externs per defecte si hi són"
-7		"No carregar subtítols encastats"
-8		"Camí de càrrega automàtica"
-10		"Reiniciar"
-11		"Base de dades en línia"
-12		"La URL de la base de dades de subtítols en línia"
-15		"Provar"
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+5		"Prefer forced and/or default subtitles tracks"
+7		"Subtítols externs per defecte si hi són"
+9		"No carregar subtítols encastats"
+10		"Allow overriding external splitter choice"
+11		"Camí de càrrega automàtica"
+13		"Reiniciar"
+14		"Base de dades en línia"
+15		"La URL de la base de dades de subtítols en línia"
+18		"Provar"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
