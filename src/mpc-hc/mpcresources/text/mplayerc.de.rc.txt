@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"Über Media Player Classic - Home Cinema"
 8		"Copyright © 2002-2013 MPC-HC Team, siehe Authors.txt Datei"
 10		"Version :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Tastenkürzel exp."
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow Video"
 7		"RealMedia Video"
 9		"QuickTime Video"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Resizer:"
 18		"D3D9 Render Device auswählen"
 20		"Bei Displayänderung erneut initialisieren"
-21		"Direct3D Vollbildmodus (verhindert Tearing)"
-22		"Alternativer VSync"
-23		"VMR-9 Mixer Modus"
-24		"YUV Mixing"
-25		"EVR Buffer:"
-27		"DXVA"
-29		"Untertitel *"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Untertitel *"
-39		"Screenshot"
-41		"Untertitel *"
-43		"Screenshot"
-45		"* Externe Filter (z.B. DirectVobSub) zeigen Untertitel bei allen Renderern an."
+22		"Direct3D Vollbildmodus (verhindert Tearing)"
+23		"Alternativer VSync"
+24		"VMR-9 Mixer Modus"
+25		"YUV Mixing"
+26		"EVR Buffer:"
+28		"DXVA"
+30		"Untertitel *"
+32		"Screenshot"
+34		"Shaders"
+36		"Rotation"
+38		"Untertitel *"
+40		"Screenshot"
+42		"Untertitel *"
+44		"Screenshot"
+46		"* Externe Filter (z.B. DirectVobSub) zeigen Untertitel bei allen Renderern an."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

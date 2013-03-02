@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"バージョン情報"
 8		"Copyright © 2002-2013 (Authors.txt ファイルを参照)"
 10		"バージョン :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"キーをエクスポートする"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow ビデオ"
 7		"RealMedia ビデオ"
 9		"QuickTime ビデオ"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"補間方法:"
 18		"D3D9 レンダラ デバイスの選択"
 20		"表示変更時に再初期化"
-21		"Direct3D フルスクリーン"
-22		"代替の垂直同期"
-23		"VMR-9 ミキサ モード"
-24		"YUV ミキシング"
-25		"EVR バッファ:"
-27		"DXVA"
-29		"字幕 *"
-31		"スクリーンショット"
-33		"シェーダ"
-35		"回転"
-37		"字幕 *"
-39		"スクリーンショット"
-41		"字幕 *"
-43		"スクリーンショット"
-45		"* 外部フィルタ (例えば DirectVobSub) は、すべてのレンダラーに字幕を表示できます。"
+22		"Direct3D フルスクリーン"
+23		"代替の垂直同期"
+24		"VMR-9 ミキサ モード"
+25		"YUV ミキシング"
+26		"EVR バッファ:"
+28		"DXVA"
+30		"字幕 *"
+32		"スクリーンショット"
+34		"シェーダ"
+36		"回転"
+38		"字幕 *"
+40		"スクリーンショット"
+42		"字幕 *"
+44		"スクリーンショット"
+46		"* 外部フィルタ (例えば DirectVobSub) は、すべてのレンダラーに字幕を表示できます。"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

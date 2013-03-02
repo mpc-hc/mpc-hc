@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"Despre"
 8		"Drepturi de autor © 2002-2013 vedeți Authors.txt"
 10		"Versiune :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Exportă chei"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"Video DirectShow"
 7		"Video RealMedia"
 9		"Video QuickTime"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Redimensionare:"
 18		"Selectați dispozitivul de randare D3D9"
 20		"Reinițializează la schimbarea ecranului"
-21		"Ecran complet D3D"
-22		"VSync alternativ"
-23		"VMR-9 în mod mixare"
-24		"Mixare YUV"
-25		"Preîncărcări EVR:"
-27		"DXVA"
-29		"Subtitrări *"
-31		"Captură ecran"
-33		"Shadere"
-35		"Rotaţie"
-37		"Subtitrări *"
-39		"Captură ecran"
-41		"Subtitrări *"
-43		"Captură ecran"
-45		"* Filtrele externe (cum ar fi DirectVobSub) pot afişa subtitrări pe orice randor."
+22		"Ecran complet D3D"
+23		"VSync alternativ"
+24		"VMR-9 în mod mixare"
+25		"Mixare YUV"
+26		"Preîncărcări EVR:"
+28		"DXVA"
+30		"Subtitrări *"
+32		"Captură ecran"
+34		"Shadere"
+36		"Rotaţie"
+38		"Subtitrări *"
+40		"Captură ecran"
+42		"Subtitrări *"
+44		"Captură ecran"
+46		"* Filtrele externe (cum ar fi DirectVobSub) pot afişa subtitrări pe orice randor."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

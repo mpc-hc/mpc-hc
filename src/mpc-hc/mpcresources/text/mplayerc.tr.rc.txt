@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"Hakkında"
 8		"Telif Hakkı © 2002-2013, Authors.txt dosyasına bakınız"
 10		"Version :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export keys"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow Video'su"
 7		"RealMedia Video'su"
 9		"QuickTime Video'su"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Yakınlaştırma:"
 18		"D3D9 Karıştırıcı aygıtı seçimi"
 20		"Görüntüyü değiştirirken yeniden başlat"
-21		"Tam Ekran Direct3D (kopuklukları sil)"
-22		"Değişken Eşzam."
-23		"VMR-9 karıştırıcısı kipi"
-24		"YUV karıştırması"
-25		"EVR Tamponları:"
-27		"DXVA"
-29		"Subtitles*"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Subtitles*"
-39		"Screenshot"
-41		"Subtitles*"
-43		"Screenshot"
-45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
+22		"Tam Ekran Direct3D (kopuklukları sil)"
+23		"Değişken Eşzam."
+24		"VMR-9 karıştırıcısı kipi"
+25		"YUV karıştırması"
+26		"EVR Tamponları:"
+28		"DXVA"
+30		"Subtitles*"
+32		"Screenshot"
+34		"Shaders"
+36		"Rotation"
+38		"Subtitles*"
+40		"Screenshot"
+42		"Subtitles*"
+44		"Screenshot"
+46		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

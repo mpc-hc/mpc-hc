@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"O programu"
 8		"Copyright © 2002-2013, viz soubor Authors.txt"
 10		"Verze :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export. kláv. zkratky"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow video"
 7		"RealMedia video"
 9		"QuickTime video"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Změna velikosti:"
 18		"Výběr D3D9 zařízení"
 20		"Reinicializovat po přesunu na jiný monitor"
-21		"Direct3D Fullscreen (odstraní trhání)"
-22		"Alternativní VSync"
-23		"VMR-9 mixer režim"
-24		"YUV mixing"
-25		"EVR buffery:"
-27		"DXVA"
-29		"Titulky *"
-31		"Uložení obr."
-33		"Shadery"
-35		"Natáčení obr."
-37		"Titulky *"
-39		"Uložení obr."
-41		"Titulky *"
-43		"Uložení obr."
-45		"* Externí filtry (např. DirectVobSub) mohou titulky zobrazovat na všech rendererech."
+22		"Direct3D Fullscreen (odstraní trhání)"
+23		"Alternativní VSync"
+24		"VMR-9 mixer režim"
+25		"YUV mixing"
+26		"EVR buffery:"
+28		"DXVA"
+30		"Titulky *"
+32		"Uložení obr."
+34		"Shadery"
+36		"Natáčení obr."
+38		"Titulky *"
+40		"Uložení obr."
+42		"Titulky *"
+44		"Uložení obr."
+46		"* Externí filtry (např. DirectVobSub) mohou titulky zobrazovat na všech rendererech."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

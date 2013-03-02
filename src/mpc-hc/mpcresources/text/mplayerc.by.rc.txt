@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"Пра праграму"
 8		"Copyright © 2002-2013 глядзiце файл Authors.txt"
 10		"Версія :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export keys"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow відэа"
 7		"RealMedia відэа"
 9		"QuickTime відэа"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Інтэрпаляцыя:"
 18		"Выбар прылады D3D9 рэндэрэнгу"
 20		"Рэініцыалізацыя пры змене манітора"
-21		"Поўнаэкранны Direct3D (ухіляе дрыгаценне)"
-22		"Альтэрнатыўны VSync"
-23		"Рэжым VMR-9 Mixer"
-24		"Змешванне ў YUV"
-25		"Буферы EVR:"
-27		"DXVA"
-29		"Subtitles *"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Subtitles *"
-39		"Screenshot"
-41		"Subtitles *"
-43		"Screenshot"
-45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
+22		"Поўнаэкранны Direct3D (ухіляе дрыгаценне)"
+23		"Альтэрнатыўны VSync"
+24		"Рэжым VMR-9 Mixer"
+25		"Змешванне ў YUV"
+26		"Буферы EVR:"
+28		"DXVA"
+30		"Subtitles *"
+32		"Screenshot"
+34		"Shaders"
+36		"Rotation"
+38		"Subtitles *"
+40		"Screenshot"
+42		"Subtitles *"
+44		"Screenshot"
+46		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

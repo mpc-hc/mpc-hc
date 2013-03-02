@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"關於"
 8		"Copyright © 2002-2013 請見 Authors.txt 檔案"
 10		"版本 :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"匯出按建"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow 視訊"
 7		"RealMedia 視訊"
 9		"QuickTime 視訊"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"變更大小:"
 18		"選擇 D3D9 繪製裝置"
 20		"變更顯示時重新初始化"
-21		"Direct3D 全螢幕"
-22		"替代式垂直同步"
-23		"VMR-9 合成模式"
-24		"YUV 合成"
-25		"EVR 緩衝區:"
-27		"DXVA"
-29		"字幕 *"
-31		"螢幕截圖"
-33		"Shaders"
-35		"旋轉"
-37		"字幕 *"
-39		"螢幕截圖"
-41		"字幕 *"
-43		"螢幕截圖"
-45		"* 外部篩選器 (例如 DirectVobSub) 可以在任何繪製器中顯示字幕。"
+22		"Direct3D 全螢幕"
+23		"替代式垂直同步"
+24		"VMR-9 合成模式"
+25		"YUV 合成"
+26		"EVR 緩衝區:"
+28		"DXVA"
+30		"字幕 *"
+32		"螢幕截圖"
+34		"Shaders"
+36		"旋轉"
+38		"字幕 *"
+40		"螢幕截圖"
+42		"字幕 *"
+44		"螢幕截圖"
+46		"* 外部篩選器 (例如 DirectVobSub) 可以在任何繪製器中顯示字幕。"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

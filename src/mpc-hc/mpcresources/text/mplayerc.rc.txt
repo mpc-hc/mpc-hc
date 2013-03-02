@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"About"
 8		"Copyright © 2002-2013 see Authors.txt"
 10		"Version :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export keys"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow Video"
 7		"RealMedia Video"
 9		"QuickTime Video"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Resizer:"
 18		"Select D3D9 Render Device"
 20		"Reinitialize when changing display"
-21		"D3D Fullscreen"
-22		"Alternative VSync"
-23		"VMR-9 Mixer Mode"
-24		"YUV Mixing"
-25		"EVR Buffers:"
-27		"DXVA"
-29		"Subtitles *"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Subtitles *"
-39		"Screenshot"
-41		"Subtitles *"
-43		"Screenshot"
-45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
+22		"D3D Fullscreen"
+23		"Alternative VSync"
+24		"VMR-9 Mixer Mode"
+25		"YUV Mixing"
+26		"EVR Buffers:"
+28		"DXVA"
+30		"Subtitles *"
+32		"Screenshot"
+34		"Shaders"
+36		"Rotation"
+38		"Subtitles *"
+40		"Screenshot"
+42		"Subtitles *"
+44		"Screenshot"
+46		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

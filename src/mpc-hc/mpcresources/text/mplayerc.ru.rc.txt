@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"О программе"
 8		"Copyright © 2002-2013, смотрите файл Authors.txt"
 10		"Версия:"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Экспорт клавиш"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow видео"
 7		"RealMedia видео"
 9		"QuickTime видео"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Интерполяция:"
 18		"Выбрать устройство D3D9-рендеринга"
 20		"Реинициализация при смене монитора"
-21		"Полноэкранный Direct3D (устраняет дрожание)"
-22		"Альт. VSync"
-23		"Режим VMR-9 Mixer"
-24		"Смешение в YUV"
-25		"Буферы EVR:"
-27		"DXVA"
-29		"Субтитры *"
-31		"Снимок экрана"
-33		"Шейдеры"
-35		"Поворот"
-37		"Субтитры *"
-39		"Снимок экрана"
-41		"Субтитры *"
-43		"Снимок экрана"
-45		"* Внешние фильтры (например DirectVobSub) могут отображать субтитры на всех рендерерах."
+22		"Полноэкранный Direct3D (устраняет дрожание)"
+23		"Альт. VSync"
+24		"Режим VMR-9 Mixer"
+25		"Смешение в YUV"
+26		"Буферы EVR:"
+28		"DXVA"
+30		"Субтитры *"
+32		"Снимок экрана"
+34		"Шейдеры"
+36		"Поворот"
+38		"Субтитры *"
+40		"Снимок экрана"
+42		"Субтитры *"
+44		"Снимок экрана"
+46		"* Внешние фильтры (например DirectVobSub) могут отображать субтитры на всех рендерерах."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

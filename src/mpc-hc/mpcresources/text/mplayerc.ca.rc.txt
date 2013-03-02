@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"En quant a"
 8		"Copyright © 2002-2013 veure l'arxiu Authors.txt"
 10		"Compilació nº :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Exportar Accessos Directes"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"Vídeo DirectShow"
 7		"Vídeo RealMedia"
 9		"Vídeo QuickTime"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Canvi de mida:"
 18		"Seleccionar dispositiu de renderitzat D3D9"
 20		"Reiniciar quant canviï la pantalla"
-21		"Pantalla completa amb D3D"
-22		"VSync alternatiu"
-23		"VMR-9 en mode mesclador"
-24		"Mesclador YUV"
-25		"Memòria cau de l'EVR:"
-27		"DXVA"
-29		"Subtítols *"
-31		"Captura de pantalla"
-33		"Shaders"
-35		"Rotació"
-37		"Subtítols *"
-39		"Captura de pantalla"
-41		"Subtítols *"
-43		"Captura de pantalla"
-45		"* Filtres externs (com DirectVobSub) pot mostrar subtítols en tots els renderitzadors."
+22		"Pantalla completa amb D3D"
+23		"VSync alternatiu"
+24		"VMR-9 en mode mesclador"
+25		"Mesclador YUV"
+26		"Memòria cau de l'EVR:"
+28		"DXVA"
+30		"Subtítols *"
+32		"Captura de pantalla"
+34		"Shaders"
+36		"Rotació"
+38		"Subtítols *"
+40		"Captura de pantalla"
+42		"Subtítols *"
+44		"Captura de pantalla"
+46		"* Filtres externs (com DirectVobSub) pot mostrar subtítols en tots els renderitzadors."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

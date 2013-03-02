@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"Om"
 8		"Upphovsrätt © 2002-2013 se Authors.txt fil"
 10		"Version :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export keys"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow Video"
 7		"RealMedia Video"
 9		"QuickTime Video"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Storleksändrare:"
 18		"Select D3D9 Render device"
 20		"Reinitialisera när skärmen förändras"
-21		"D3D Helskärm"
-22		"Alternativ VSync"
-23		"VMR-9 bland läge"
-24		"YUV blandning"
-25		"EVR Buffertar:"
-27		"DXVA"
-29		"Subtitles *"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Subtitles *"
-39		"Screenshot"
-41		"Subtitles *"
-43		"Screenshot"
-45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
+22		"D3D Helskärm"
+23		"Alternativ VSync"
+24		"VMR-9 bland läge"
+25		"YUV blandning"
+26		"EVR Buffertar:"
+28		"DXVA"
+30		"Subtitles *"
+32		"Screenshot"
+34		"Shaders"
+36		"Rotation"
+38		"Subtitles *"
+40		"Screenshot"
+42		"Subtitles *"
+44		"Screenshot"
+46		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

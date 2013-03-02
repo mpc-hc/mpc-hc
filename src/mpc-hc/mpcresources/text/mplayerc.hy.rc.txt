@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"Ծրագրի մասին"
 8		"Copyright © 2002-2013, կարդացե՛ք Authors.txt ֆայլը"
 10		"Տարբերակը."
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export keys"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow Տեսանյութ"
 7		"RealMedia տեսանյութ"
 9		"QuickTime տեսանյութ"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Ընդմիջարկում."
 18		"Ընտրել D3D9 ցուցադրման սարքը"
 20		"Նորից որոշել՝ էկրանի չափը փոխելիս"
-21		"D3D Ամբողջ էկրանով"
-22		"Այլընտրանքային VSync"
-23		"VMR-9 Mixer եղանակ"
-24		"Խառնում YUV-ում"
-25		"EVR կենտրոն."
-27		"DXVA"
-29		"Տողագրերը *"
-31		"Պատկերը"
-33		"Շեյդերներ"
-35		"Շրջել"
-37		"Տողագրերը *"
-39		"Պատկերը"
-41		"Տողագրերը *"
-43		"Պատկերը"
-45		"* Արտաքին զտիչներ(ինչպես օրինակDirectVobSub) cկարող է ցուցադրել տողագրերը բոլոր ռենդերներում:"
+22		"D3D Ամբողջ էկրանով"
+23		"Այլընտրանքային VSync"
+24		"VMR-9 Mixer եղանակ"
+25		"Խառնում YUV-ում"
+26		"EVR կենտրոն."
+28		"DXVA"
+30		"Տողագրերը *"
+32		"Պատկերը"
+34		"Շեյդերներ"
+36		"Շրջել"
+38		"Տողագրերը *"
+40		"Պատկերը"
+42		"Տողագրերը *"
+44		"Պատկերը"
+46		"* Արտաքին զտիչներ(ինչպես օրինակDirectVobSub) cկարող է ցուցադրել տողագրերը բոլոր ռենդերներում:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

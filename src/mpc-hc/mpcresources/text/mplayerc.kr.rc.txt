@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"정보"
 8		"Copyright © 2002-2013 'Authors.txt' 파일 참조"
 10		"Version :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export keys"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow 비디오"
 7		"RealMedia 비디오"
 9		"QuickTime 비디오"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"리사이즈:"
 18		"D3D9 렌더링장치 설정"
 20		"디스플레이변경시 다시로드"
-21		"Direct3D 전체화면 (잔상제거)"
-22		"대체 VSync"
-23		"VMR-9 혼합 모드"
-24		"YUV 혼합"
-25		"EVR 버퍼:"
-27		"DXVA"
-29		"Subtitles *"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Subtitles *"
-39		"Screenshot"
-41		"Subtitles *"
-43		"Screenshot"
-45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
+22		"Direct3D 전체화면 (잔상제거)"
+23		"대체 VSync"
+24		"VMR-9 혼합 모드"
+25		"YUV 혼합"
+26		"EVR 버퍼:"
+28		"DXVA"
+30		"Subtitles *"
+32		"Screenshot"
+34		"Shaders"
+36		"Rotation"
+38		"Subtitles *"
+40		"Screenshot"
+42		"Subtitles *"
+44		"Screenshot"
+46		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

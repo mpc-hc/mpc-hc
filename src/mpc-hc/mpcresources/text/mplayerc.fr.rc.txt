@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"A propos"
 8		"Copyright © 2002-2013 voir le fichier Authors.txt"
 10		"Version :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export des raccourcis"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"Vidéos DirectShow"
 7		"Vidéos RealMedia"
 9		"Vidéos QuickTime"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Algorithme :"
 18		"Sélection du dispositif du rendu D3D9"
 20		"Réinitialiser lors d'un changement d'écran"
-21		"Direct3D plein écran (réduction du ""Tearing"")"
-22		"VSync alternative"
-23		"Mixeur Mode VMR-9"
-24		"Mixeur YUV"
-25		"Tampons EVR :"
-27		"DXVA"
-29		"Sous-titres *"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Sous-titres *"
-39		"Screenshot"
-41		"Sous-titres *"
-43		"Screenshot"
-45		"* Les filtres externes (DirectVobSub par exemple) peuvent afficher les sous-titres pour tous les moteurs de rendu."
+22		"Direct3D plein écran (réduction du ""Tearing"")"
+23		"VSync alternative"
+24		"Mixeur Mode VMR-9"
+25		"Mixeur YUV"
+26		"Tampons EVR :"
+28		"DXVA"
+30		"Sous-titres *"
+32		"Screenshot"
+34		"Shaders"
+36		"Rotation"
+38		"Sous-titres *"
+40		"Screenshot"
+42		"Sous-titres *"
+44		"Screenshot"
+46		"* Les filtres externes (DirectVobSub par exemple) peuvent afficher les sous-titres pour tous les moteurs de rendu."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

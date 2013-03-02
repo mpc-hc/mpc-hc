@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"Névjegy"
 8		"Szerzői jog © 2002-2013 lásd Authors.txt fájl"
 10		"Version :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Export keys"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow Videó"
 7		"RealMedia Videó"
 9		"QuickTime Videó"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Átméretező:"
 18		"D3D9 Átalakító eszköz kiválasztása"
 20		"Újrainicializálás képernyők közötti váltáskor"
-21		"Direct3D Teljes képernyő\n(megszünteti a képszétválást - page tearing)"
-22		"Alternatív VSync"
-23		"VMR-9 keverő mód"
-24		"YUV keverés"
-25		"EVR Pufferek:"
-27		"DXVA"
-29		"Subtitles *"
-31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Subtitles *"
-39		"Screenshot"
-41		"Subtitles *"
-43		"Screenshot"
-45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
+22		"Direct3D Teljes képernyő\n(megszünteti a képszétválást - page tearing)"
+23		"Alternatív VSync"
+24		"VMR-9 keverő mód"
+25		"YUV keverés"
+26		"EVR Pufferek:"
+28		"DXVA"
+30		"Subtitles *"
+32		"Screenshot"
+34		"Shaders"
+36		"Rotation"
+38		"Subtitles *"
+40		"Screenshot"
+42		"Subtitles *"
+44		"Screenshot"
+46		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

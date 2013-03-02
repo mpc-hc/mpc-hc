@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"Honi buruz"
 8		"Copyrighta © 2002-2013 ikusi Authors.txt"
 10		"Bertsioa :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Esportatu giltzak"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow Bideoa"
 7		"RealMedia Bideoa"
 9		"QuickTime Bideoa"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Birneurrriratzailea:"
 18		"Hautatu D3D9 Aurkezle gailua"
 20		"Berrabiarazi erakuspena aldatutakoan"
-21		"D3D Ikusleiho-osoa"
-22		"Aukerazko ZAldb"
-23		"VMR-9 nahastz. modua"
-24		"YUV nahasketa"
-25		"EVR Bufferrak:"
-27		"DXVA"
-29		"Azpidatziak *"
-31		"Ikusl.-argzk."
-33		"Itzalak"
-35		"Itzulikapena"
-37		"Azpidatziak *"
-39		"Ikusl.-argzk."
-41		"Azpidatziak *"
-43		"Ikusl.-argzk."
-45		"* Kanpoko iragazkiek (DirectVobSub bezalakoak) azpidatziak aurkezle guztietan erakutsi ditzakete."
+22		"D3D Ikusleiho-osoa"
+23		"Aukerazko ZAldb"
+24		"VMR-9 nahastz. modua"
+25		"YUV nahasketa"
+26		"EVR Bufferrak:"
+28		"DXVA"
+30		"Azpidatziak *"
+32		"Ikusl.-argzk."
+34		"Itzalak"
+36		"Itzulikapena"
+38		"Azpidatziak *"
+40		"Ikusl.-argzk."
+42		"Azpidatziak *"
+44		"Ikusl.-argzk."
+46		"* Kanpoko iragazkiek (DirectVobSub bezalakoak) azpidatziak aurkezle guztietan erakutsi ditzakete."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

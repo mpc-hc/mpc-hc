@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"关于"
 8		"版权所有 © 2002-2013 请查看 Authors.txt"
 10		"版本 :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"导出按键"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"DirectShow 视频"
 7		"RealMedia 视频"
 9		"QuickTime 视频"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"缩放:"
 18		"选择 D3D9 渲染设备"
 20		"当改变显示时重置"
-21		"D3D 全屏"
-22		"其他垂直同步"
-23		"VMR-9 混合模式"
-24		"YUV 混合"
-25		"EVR 缓存:"
-27		"DXVA"
-29		"字幕 *"
-31		"截屏"
-33		"着色"
-35		"旋转"
-37		"字幕 *"
-39		"截屏"
-41		"字幕 *"
-43		"截屏"
-45		"* 外部滤镜 (例如 DirectVobSub) 能在所有渲染器上显示字幕。"
+22		"D3D 全屏"
+23		"其他垂直同步"
+24		"VMR-9 混合模式"
+25		"YUV 混合"
+26		"EVR 缓存:"
+28		"DXVA"
+30		"字幕 *"
+32		"截屏"
+34		"着色"
+36		"旋转"
+38		"字幕 *"
+40		"截屏"
+42		"字幕 *"
+44		"截屏"
+46		"* 外部滤镜 (例如 DirectVobSub) 能在所有渲染器上显示字幕。"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"O programe"
 8		"Copyright © 2002-2013 viď súbor Authors.txt"
 10		"Verzia :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Exportovať kľúče"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"Vykresľovanie DirectShow"
 7		"RealMedia Video"
 9		"QuickTime Video"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Menič veľkosti:"
 18		"Vybrať vykresľ. zariadenie D3D9"
 20		"Po zmene displeja opäť inicializovať"
-21		"Direct3D - celá obrazovka bez trhania"
-22		"Alternatívne VSync"
-23		"Mixovací mód VMR-9"
-24		"YUV mixovanie"
-25		"Vyr. pamäte EVR:"
-27		"DXVA"
-29		"Titulky *"
-31		"Screenshot"
-33		"Shadery"
-35		"Otočenie"
-37		"Titulky *"
-39		"Screenshot"
-41		"Titulky *"
-43		"Screenshot"
-45		"* Externé filtre (ako napr. DirectVobSub) dokážu zobrazovať titulky pri všetkých vykresľovačoch."
+22		"Direct3D - celá obrazovka bez trhania"
+23		"Alternatívne VSync"
+24		"Mixovací mód VMR-9"
+25		"YUV mixovanie"
+26		"Vyr. pamäte EVR:"
+28		"DXVA"
+30		"Titulky *"
+32		"Screenshot"
+34		"Shadery"
+36		"Otočenie"
+38		"Titulky *"
+40		"Screenshot"
+42		"Titulky *"
+44		"Screenshot"
+46		"* Externé filtre (ako napr. DirectVobSub) dokážu zobrazovať titulky pri všetkých vykresľovačoch."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

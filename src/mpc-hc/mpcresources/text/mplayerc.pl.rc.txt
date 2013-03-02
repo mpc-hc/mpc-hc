@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
 3		"O programie"
 8		"Copyright © 2002-2013 szczegóły w pliku Authors.txt"
 10		"Wersja :"
@@ -260,7 +260,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 29
 28		"Eksportuj klawisze"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 5		"Obraz DirectShow"
 7		"Obraz RealMedia"
 9		"Obraz QuickTime"
@@ -270,21 +270,21 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 16		"Skalowanie:"
 18		"Wybór urządzenia renderującego D3D9"
 20		"Ponowne inicjowanie po zmianie wyświetlacza"
-21		"Pełny ekran Direct3D"
-22		"Alternatywny VSync"
-23		"Tryb nakładki VMR-9"
-24		"Nakładka YUV"
-25		"Bufory EVR:"
-27		"DXVA"
-29		"Napisy *"
-31		"Zapis obrazu"
-33		"Shadery"
-35		"Obracanie"
-37		"Napisy *"
-39		"Zapis obrazu"
-41		"Napisy *"
-43		"Zapis obrazu"
-45		"* Zewnętrzne filtry (takie jak DirectVobSub) mogą wyświetlać napisy przy użyciu dowolnego renderera obrazu."
+22		"Pełny ekran Direct3D"
+23		"Alternatywny VSync"
+24		"Tryb nakładki VMR-9"
+25		"Nakładka YUV"
+26		"Bufory EVR:"
+28		"DXVA"
+30		"Napisy *"
+32		"Zapis obrazu"
+34		"Shadery"
+36		"Obracanie"
+38		"Napisy *"
+40		"Zapis obrazu"
+42		"Napisy *"
+44		"Zapis obrazu"
+46		"* Zewnętrzne filtry (takie jak DirectVobSub) mogą wyświetlać napisy przy użyciu dowolnego renderera obrazu."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
