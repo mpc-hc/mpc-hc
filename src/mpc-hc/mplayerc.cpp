@@ -432,9 +432,9 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 
     // Load favorites so that they can be correctly saved to the new location
     CAtlList<CString> filesFav, DVDsFav, devicesFav;
-    AfxGetAppSettings().GetFav(FAV_FILE, filesFav);
-    AfxGetAppSettings().GetFav(FAV_DVD, DVDsFav);
-    AfxGetAppSettings().GetFav(FAV_DEVICE, devicesFav);
+    m_s.GetFav(FAV_FILE, filesFav);
+    m_s.GetFav(FAV_DVD, DVDsFav);
+    m_s.GetFav(FAV_DEVICE, devicesFav);
 
     // In case an ini file is present, we remove it so that it will be recreated
     _tremove(GetIniPath());
@@ -446,18 +446,18 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     }
 
     // Ensure the shaders are properly saved
-    AfxGetAppSettings().fShaderEditorWasOpened = true;
+    m_s.fShaderEditorWasOpened = true;
 
     // Ensure the external filters are properly saved
-    AfxGetAppSettings().SaveExternalFilters();
+    m_s.SaveExternalFilters();
 
     // Write settings immediately
     m_s.SaveSettings();
 
     // Save favorites to the new location
-    AfxGetAppSettings().SetFav(FAV_FILE, filesFav);
-    AfxGetAppSettings().SetFav(FAV_DVD, DVDsFav);
-    AfxGetAppSettings().SetFav(FAV_DEVICE, devicesFav);
+    m_s.SetFav(FAV_FILE, filesFav);
+    m_s.SetFav(FAV_DVD, DVDsFav);
+    m_s.SetFav(FAV_DEVICE, devicesFav);
 
     return success;
 }
@@ -465,7 +465,7 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
 {
     bool success = false;
-    AfxGetAppSettings().SaveSettings();
+    m_s.SaveSettings();
 
     if (IsIniValid()) {
         success = !!CopyFile(GetIniPath(), savePath, FALSE);
