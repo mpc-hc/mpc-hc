@@ -109,6 +109,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_FLAC
     SrcFiltersKeys[SRC_FLAC] = _T("SRC_FLAC");
 #endif
+#if INTERNAL_SOURCEFILTER_RFS
+    SrcFiltersKeys[SRC_RFS] = _T("SRC_RFS");
+#endif
 
     // Internal decoders
 #if INTERNAL_DECODER_MPEG1
