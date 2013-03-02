@@ -84,49 +84,49 @@ const byte ZZ_SCAN8[64] = {
 static const WORD PCID_NVIDIA_VP5[] = {
     // http://us.download.nvidia.com/XFree86/Linux-x86_64/310.19/README/supportedchips.html
     // Nvidia VDPAU Feature Set D
-    0x0FC6 , // GeForce GTX 650
-    0x0FCE , // GeForce GT 640M LE
-    0x0FD1 , // GeForce GT 650M
-    0x0FD2 , // GeForce GT 640M
-    0x0FD3 , // GeForce GT 640M LE
-    0x0FD4 , // GeForce GTX 660M
-    0x0FD5 , // GeForce GT 650M
-    0x0FD8 , // GeForce GT 640M
-    0x0FD9 , // GeForce GT 645M
-    0x0FE0 , // GeForce GTX 660M
-    0x0FF2 , // VGX K1
-    0x0FFB , // Quadro K2000M
-    0x0FFC , // Quadro K1000M
-    0x0FFD , // NVS 510
-    0x0FFF , // Quadro 410
-    0x1022 , // Tesla K20c
-    0x1028 , // Tesla K20m
-    0x1040 , // GeForce GT 520 (not officially supported or typo) (4k tested)
-    0x1042 , // GeForce 510
-    0x1048 , // GeForce 605
-    0x104A , // GeForce GT 610 (fully tested)
-    0x1051 , // GeForce GT 520MX
-    0x1054 , // GeForce 410M
-    0x1055 , // GeForce 410M
-    0x1056 , // NVS 4200M
-    0x1057 , // NVS 4200M
-    0x107D , // NVS 310
-    0x1180 , // GeForce GTX 680
-    0x1183 , // GeForce GTX 660 Ti (fully tested)
-    0x1185 , // GeForce GTX 660
-    0x1188 , // GeForce GTX 690
-    0x1189 , // GeForce GTX 670
-    0x118F , // Tesla K10
-    0x11A0 , // GeForce GTX 680M
-    0x11A1 , // GeForce GTX 670MX
-    0x11A7 , // GeForce GTX 675MX
-    0x11BA , // Quadro K5000
-    0x11BC , // Quadro K5000M
-    0x11BD , // Quadro K4000M
-    0x11BE , // Quadro K3000M
-    0x11BF , // VGX K2
-    0x11C0 , // GeForce GTX 660
-    0x11C6 , // GeForce GTX 650 Ti
+    0x0FC6, // GeForce GTX 650
+    0x0FCE, // GeForce GT 640M LE
+    0x0FD1, // GeForce GT 650M
+    0x0FD2, // GeForce GT 640M
+    0x0FD3, // GeForce GT 640M LE
+    0x0FD4, // GeForce GTX 660M
+    0x0FD5, // GeForce GT 650M
+    0x0FD8, // GeForce GT 640M
+    0x0FD9, // GeForce GT 645M
+    0x0FE0, // GeForce GTX 660M
+    0x0FF2, // VGX K1
+    0x0FFB, // Quadro K2000M
+    0x0FFC, // Quadro K1000M
+    0x0FFD, // NVS 510
+    0x0FFF, // Quadro 410
+    0x1022, // Tesla K20c
+    0x1028, // Tesla K20m
+    0x1040, // GeForce GT 520 (not officially supported or typo) (4k tested)
+    0x1042, // GeForce 510
+    0x1048, // GeForce 605
+    0x104A, // GeForce GT 610 (fully tested)
+    0x1051, // GeForce GT 520MX
+    0x1054, // GeForce 410M
+    0x1055, // GeForce 410M
+    0x1056, // NVS 4200M
+    0x1057, // NVS 4200M
+    0x107D, // NVS 310
+    0x1180, // GeForce GTX 680
+    0x1183, // GeForce GTX 660 Ti (fully tested)
+    0x1185, // GeForce GTX 660
+    0x1188, // GeForce GTX 690
+    0x1189, // GeForce GTX 670
+    0x118F, // Tesla K10
+    0x11A0, // GeForce GTX 680M
+    0x11A1, // GeForce GTX 670MX
+    0x11A7, // GeForce GTX 675MX
+    0x11BA, // Quadro K5000
+    0x11BC, // Quadro K5000M
+    0x11BD, // Quadro K4000M
+    0x11BE, // Quadro K3000M
+    0x11BF, // VGX K2
+    0x11C0, // GeForce GTX 660
+    0x11C6, // GeForce GTX 650 Ti
 };
 
 bool CheckPCID(WORD pcid, const WORD* pPCIDs, size_t len)
@@ -158,7 +158,12 @@ inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
     return s;
 }
 
-int FFH264DecodeBuffer(struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart)
+int FFH264DecodeBuffer(struct AVCodecContext* pAVCtx,
+                       BYTE* pBuffer,
+                       UINT nSize,
+                       int* pFramePOC,
+                       int* pOutPOC,
+                       REFERENCE_TIME* pOutrtStart)
 {
     int result = -1;
     if (pBuffer != NULL) {
@@ -193,7 +198,14 @@ BOOL DriverVersionCheck(LARGE_INTEGER VideoDriverVersion, int A, int B, int C, i
     return FALSE;
 }
 
-int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, DWORD nPCIVendor, DWORD nPCIDevice, LARGE_INTEGER VideoDriverVersion)
+int FFH264CheckCompatibility(int nWidth,
+                             int nHeight,
+                             struct AVCodecContext* pAVCtx,
+                             BYTE* pBuffer,
+                             UINT nSize,
+                             DWORD nPCIVendor,
+                             DWORD nPCIDevice,
+                             LARGE_INTEGER VideoDriverVersion)
 {
     H264Context* pContext = (H264Context*) pAVCtx->priv_data;
     SPS* cur_sps;
@@ -262,7 +274,9 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
         }
     }
 
-    return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_many_ref_frames * DXVA_TOO_MANY_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
+    return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) +
+           (too_many_ref_frames * DXVA_TOO_MANY_REF_FRAMES) +
+           (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
 }
 
 void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, PPS* pps, DWORD nPCIVendor)
@@ -304,7 +318,12 @@ unsigned short FFH264FindRefFrameIndex(unsigned short num_frame, DXVA_PicParams_
     return 127;
 }
 
-HRESULT FFH264BuildPicParams(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, int* nFieldType, int* nSliceType, struct AVCodecContext* pAVCtx, DWORD nPCIVendor)
+HRESULT FFH264BuildPicParams(DXVA_PicParams_H264* pDXVAPicParams,
+                             DXVA_Qmatrix_H264* pDXVAScalingMatrix,
+                             int* nFieldType,
+                             int* nSliceType,
+                             struct AVCodecContext* pAVCtx,
+                             DWORD nPCIVendor)
 {
     H264Context* h = (H264Context*) pAVCtx->priv_data;
     SPS* cur_sps;
@@ -379,7 +398,7 @@ HRESULT FFH264BuildPicParams(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H
         pDXVAPicParams->log2_max_frame_num_minus4               = cur_sps->log2_max_frame_num - 4;                  // log2_max_frame_num_minus4;
         pDXVAPicParams->pic_order_cnt_type                      = cur_sps->poc_type;                                // pic_order_cnt_type;
         if (cur_sps->poc_type == 0) {
-            pDXVAPicParams->log2_max_pic_order_cnt_lsb_minus4 = cur_sps->log2_max_poc_lsb - 4;    // log2_max_pic_order_cnt_lsb_minus4;
+            pDXVAPicParams->log2_max_pic_order_cnt_lsb_minus4 = cur_sps->log2_max_poc_lsb - 4;                      // log2_max_pic_order_cnt_lsb_minus4;
         } else if (cur_sps->poc_type == 1) {
             pDXVAPicParams->delta_pic_order_always_zero_flag  = cur_sps->delta_pic_order_always_zero_flag;
         }
@@ -496,7 +515,9 @@ BOOL FFH264IsRefFrameInUse(int nFrameNum, struct AVCodecContext* pAVCtx)
     return FALSE;
 }
 
-void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slice_H264_Long* pSlice, struct AVCodecContext* pAVCtx)
+void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams,
+                                  DXVA_Slice_H264_Long* pSlice,
+                                  struct AVCodecContext* pAVCtx)
 {
     H264Context* h = (H264Context*) pAVCtx->priv_data;
     MpegEncContext* const s = &h->s;
@@ -528,7 +549,15 @@ void FFH264SetDxvaSliceLong(struct AVCodecContext* pAVCtx, void* pSliceLong)
     h->dxva_slice_long = pSliceLong;
 }
 
-HRESULT FFVC1UpdatePictureParam(DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize, UINT* nFrameSize, BOOL b_SecondField, BOOL* b_repeat_pict)
+HRESULT FFVC1UpdatePictureParam(DXVA_PictureParameters* pPicParams,
+                                struct AVCodecContext* pAVCtx,
+                                int* nFieldType,
+                                int* nSliceType,
+                                BYTE* pBuffer,
+                                UINT nSize,
+                                UINT* nFrameSize,
+                                BOOL b_SecondField,
+                                BOOL* b_repeat_pict)
 {
     VC1Context* vc1 = (VC1Context*) pAVCtx->priv_data;
     int out_nFrameSize = 0;
@@ -669,8 +698,17 @@ int MPEG2CheckCompatibility(struct AVCodecContext* pAVCtx, struct AVFrame* pFram
     return (s->chroma_format < 2);
 }
 
-HRESULT FFMpeg2DecodeFrame(DXVA_PictureParameters* pPicParams, DXVA_QmatrixData* pQMatrixData, DXVA_SliceInfo* pSliceInfo, int* nSliceCount,
-                           struct AVCodecContext* pAVCtx, struct AVFrame* pFrame, int* nNextCodecIndex, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize)
+HRESULT FFMpeg2DecodeFrame(DXVA_PictureParameters* pPicParams,
+                           DXVA_QmatrixData* pQMatrixData,
+                           DXVA_SliceInfo* pSliceInfo,
+                           int* nSliceCount,
+                           struct AVCodecContext* pAVCtx,
+                           struct AVFrame* pFrame,
+                           int* nNextCodecIndex,
+                           int* nFieldType,
+                           int* nSliceType,
+                           BYTE* pBuffer,
+                           UINT nSize)
 {
     int i;
     int got_picture = 0;
