@@ -35,21 +35,22 @@ public:
 
     // Dialog Data
     enum { IDD = IDD_PPAGESUBMISC };
+
+protected:
     BOOL m_fPrioritizeExternalSubtitles;
     BOOL m_fDisableInternalSubtitles;
     CString m_szAutoloadPaths;
     CComboBox m_ISDbCombo;
     CString m_ISDb;
 
-protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();
 
     DECLARE_MESSAGE_MAP()
-public:
-    afx_msg void OnBnClickedButton1();
-    afx_msg void OnBnClickedButton2();
-    afx_msg void OnUpdateButton2(CCmdUI* pCmdUI);
+
+    afx_msg void OnBnClickedResetSubsPath();
+    afx_msg void OnBnClickedTestSubsDB();
+    afx_msg void OnUpdateButtonTestSubsDB(CCmdUI* pCmdUI);
     afx_msg void OnURLModified();
 };
