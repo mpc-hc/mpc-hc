@@ -184,35 +184,35 @@ IDF_SHADER_YV12CHROMAUP          SHADER                  "res\\shaders\\YV12Chro
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MPC_VERSION_NUM
+ FILEVERSION    MPC_VERSION_NUM
  PRODUCTVERSION MPC_VERSION_NUM
- FILEFLAGSMASK 0x1fL
+ FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
- FILEFLAGS 0x1L
+ FILEFLAGS      VS_FF_DEBUG
 #else
- FILEFLAGS 0x0L
+ FILEFLAGS      0x0L
 #endif
- FILEOS 0x4L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
+ FILEOS         VOS_NT_WINDOWS32
+ FILETYPE       VFT_APP
+ FILESUBTYPE    VFT2_UNKNOWN
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "Based on the original Media Player Classic v6.4.9.0 © Gabest"
-            VALUE "CompanyName", MPC_COMP_NAME_STR
-            VALUE "FileDescription", "Media Player Classic - Home Cinema"
-            VALUE "FileVersion", MPC_VERSION_STR_FULL
-            VALUE "InternalName", "mpc-hc"
-            VALUE "LegalCopyright", MPC_COPYRIGHT_STR
+            VALUE "Comments",         "Based on the original Media Player Classic v6.4.9.0 © Gabest"
+            VALUE "CompanyName",      MPC_COMP_NAME_STR
+            VALUE "FileDescription",  "Media Player Classic - Home Cinema"
+            VALUE "FileVersion",      MPC_VERSION_STR_FULL
+            VALUE "InternalName",     "mpc-hc"
+            VALUE "LegalCopyright",   MPC_COPYRIGHT_STR
 #ifdef _WIN64
             VALUE "OriginalFilename", "mpc-hc64.exe"
 #else
             VALUE "OriginalFilename", "mpc-hc.exe"
 #endif
-            VALUE "ProductName", "Media Player Classic - Home Cinema"
-            VALUE "ProductVersion", MPC_VERSION_STR_FULL
+            VALUE "ProductName",      "Media Player Classic - Home Cinema"
+            VALUE "ProductVersion",   MPC_VERSION_STR_FULL
         END
     END
     BLOCK "VarFileInfo"
