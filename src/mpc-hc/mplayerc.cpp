@@ -448,6 +448,9 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     // Ensure the shaders are properly saved
     AfxGetAppSettings().fShaderEditorWasOpened = true;
 
+    // Ensure the external filters are properly saved
+    AfxGetAppSettings().SaveExternalFilters();
+
     // Write settings immediately
     m_s.SaveSettings();
 

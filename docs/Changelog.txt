@@ -60,6 +60,7 @@ Legend:
 ! DVB EPG: Some strings weren't correctly displayed in some cases
 ! PGS Subtitles: Some subtitles were displayed with wrong colors or even not displayed at all
 ! EVR-CP renderer: Fix some cases where VSync breaks smooth playback
+! The external filters list was lost when switching from registry to ini or vice-versa
 ! Ticket #84, WebServer: The filenames weren't correctly URL decoded
 ! Ticket #593, Fixed EVR-CP using the CPU while the player is paused when VSync is on
 ! Ticket #890, DVB: Disable pause for capture mode to avoid accidental playback stop.
