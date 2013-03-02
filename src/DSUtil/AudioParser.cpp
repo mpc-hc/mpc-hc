@@ -100,6 +100,36 @@ int GetMLPFrameSize(const BYTE* buf)
     return 0;
 }
 
+int GetDTSFrameSize(const BYTE* buf)
+{
+    int frame_size;
+    DWORD sync = *(DWORD*)buf;
+    switch (sync) {
+        case 0x0180fe7f:    // '7FFE8001' 16 bits and big endian bitstream
+            frame_size = ((buf[5] & 3) << 12 | buf[6] << 4 | (buf[7] & 0xf0) >> 4) + 1;
+            break;
+        case 0x80017ffe:    // 'FE7F0180' 16 bits and little endian bitstream
+            frame_size = ((buf[4] & 3) << 12 | buf[7] << 4 | (buf[6] & 0xf0) >> 4) + 1;
+            break;
+        case 0x00e8ff1f:    // '1FFFE800' 14 bits and big endian bitstream
+            frame_size = ((buf[6] & 3) << 12 | buf[7] << 4 | (buf[8] & 0x3C) >> 2) + 1;
+            frame_size = frame_size * 16 / 14;
+            break;
+        case 0xe8001fff:    // 'FF1F00E8' 14 bits and little endian bitstream
+            frame_size = ((buf[7] & 3) << 12 | buf[6] << 4 | (buf[9] & 0x3C) >> 2) + 1;
+            frame_size = frame_size * 16 / 14;
+            break;
+        default:
+            return 0;
+    }
+
+    if (frame_size < 96) {
+        return 0;
+    }
+
+    return frame_size;
+}
+
 int GetDTSHDFrameSize(const BYTE* buf)
 {
     if (*(DWORD*)buf != DTSHD_SYNC_WORD) { // syncword
@@ -395,7 +425,7 @@ int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
         return 0;
     }
     if (isDTS14) {
-        frame_size = frame_size * 8 / 14 * 2;
+        frame_size = frame_size * 16 / 14;
     }
 
     tmp = (hdr[7] & 0x0f) << 2 | (hdr[8] & 0xc0) >> 6;

@@ -42,6 +42,7 @@
 int GetAC3FrameSize(const BYTE* buf);   // AC3
 int GetEAC3FrameSize(const BYTE* buf);  // E-AC3
 int GetMLPFrameSize(const BYTE* buf);   // TrueHD and MLP
+int GetDTSFrameSize(const BYTE* buf);   // DTS
 int GetDTSHDFrameSize(const BYTE* buf); // DTS-HD
 
 int ParseAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* bitrate);
