@@ -83,6 +83,7 @@ Legend:
   depending on if they were used in windowed or fullscreen mode.
 ! Ticket #2889, Fix incorrectly displayed OSD when using EVR and VRM-9 (windowed) renderers
 ! Ticket #2902, DVB: Some old channels weren't deleted when redoing the scan
+! Ticket #2913, Fixed DXVA1 MPEG2 decoder
 ! Ticket #2931, DVB Subtitles: Fix a crash with some subtitles streams
 ! Ticket #2934, MPEG Splitter: Some files couldn't be opened
 ! Ticket #2939, Some fields of the renderer statistics were wrong
