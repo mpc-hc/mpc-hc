@@ -125,6 +125,8 @@ BOOL CAboutDlg::OnInitDialog()
         m_credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
     }
 
+    m_homepage.Format(_T("<a>%s</a>"), WEBSITE_URL);
+
     UpdateData(FALSE);
 
     GetDlgItem(IDOK)->SetFocus();
@@ -145,6 +147,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
 #endif
     DDX_Text(pDX, IDC_AUTHORS_LINK, m_credits);
+    DDX_Text(pDX, IDC_HOMEPAGE_LINK, m_homepage);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
