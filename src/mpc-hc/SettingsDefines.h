@@ -28,7 +28,7 @@
 #define IDS_R_EXTERNAL_FILTERS              IDS_R_EXTERNAL_FILTERS_x86
 #else
 #define IDS_R_EXTERNAL_FILTERS              IDS_R_EXTERNAL_FILTERS_x64
-#endif           
+#endif
 #define IDS_R_INTERNAL_FILTERS              _T("Internal Filters")
 #define IDS_R_FAVFILES                      _T("Favorites\\Files")
 #define IDS_R_FAVDVDS                       _T("Favorites\\DVDs")

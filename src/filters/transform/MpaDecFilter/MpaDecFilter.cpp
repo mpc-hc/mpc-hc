@@ -393,7 +393,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SPDIF_dtshd, dw)) {
             m_fSPDIF[dtshd] = !!dw;
         }
-   }
+    }
 #else
     m_fSampleFmt[SF_PCM16] = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i16, m_fSampleFmt[SF_PCM16]);
     m_fSampleFmt[SF_PCM24] = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i24, m_fSampleFmt[SF_PCM24]);
@@ -1471,22 +1471,22 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sa
                 length = size;
                 isDTSWAV = true;
             } else while (length < size + 16) {
-                length += 2048;
-            }
+                    length += 2048;
+                }
             break;
         case IEC61937_DTSHD:
             length  = 32768;
             subtype = 4;
             isDTSHD = true;
             break;
-        /*case IEC61937_EAC3:
-            length = 24576; // 6144 for DD Plus * 4 for IEC 60958 frames
-            isHDMI = true;
-            break;
-        case IEC61937_TRUEHD:
-            length = 61440; // max length of MAT data: 61424 bytes (total=61432+8 header bytes)
-            isHDMI = true;
-            break;*/
+            /*case IEC61937_EAC3:
+                length = 24576; // 6144 for DD Plus * 4 for IEC 60958 frames
+                isHDMI = true;
+                break;
+            case IEC61937_TRUEHD:
+                length = 61440; // max length of MAT data: 61424 bytes (total=61432+8 header bytes)
+                isHDMI = true;
+                break;*/
         default:
             TRACE(_T("CMpaDecFilter::DeliverBitstream() - type is not supported\n"));
             return E_INVALIDARG;
@@ -1692,25 +1692,25 @@ CMediaType CMpaDecFilter::CreateMediaTypeHDMI(WORD type)
 
     GUID subtype = GUID_NULL;
 
-    switch(type) {
-    case IEC61937_DTSHD:
-        wfex.Format.nChannels = 8;
-        wfex.dwChannelMask    = KSAUDIO_SPEAKER_7POINT1_SURROUND;
-        subtype = KSDATAFORMAT_SUBTYPE_IEC61937_DTS_HD;
-        break;
-    case IEC61937_EAC3:
-        wfex.Format.nChannels = 2;
-        wfex.dwChannelMask    = KSAUDIO_SPEAKER_5POINT1_SURROUND;
-        subtype = KSDATAFORMAT_SUBTYPE_IEC61937_DOLBY_DIGITAL_PLUS;
-        break;
-    case IEC61937_TRUEHD:
-        wfex.Format.nChannels = 8;
-        wfex.dwChannelMask    = KSAUDIO_SPEAKER_7POINT1_SURROUND;
-        subtype = KSDATAFORMAT_SUBTYPE_IEC61937_DOLBY_MLP;
-        break;
-    default:
-        ASSERT(0);
-        break;
+    switch (type) {
+        case IEC61937_DTSHD:
+            wfex.Format.nChannels = 8;
+            wfex.dwChannelMask    = KSAUDIO_SPEAKER_7POINT1_SURROUND;
+            subtype = KSDATAFORMAT_SUBTYPE_IEC61937_DTS_HD;
+            break;
+        case IEC61937_EAC3:
+            wfex.Format.nChannels = 2;
+            wfex.dwChannelMask    = KSAUDIO_SPEAKER_5POINT1_SURROUND;
+            subtype = KSDATAFORMAT_SUBTYPE_IEC61937_DOLBY_DIGITAL_PLUS;
+            break;
+        case IEC61937_TRUEHD:
+            wfex.Format.nChannels = 8;
+            wfex.dwChannelMask    = KSAUDIO_SPEAKER_7POINT1_SURROUND;
+            subtype = KSDATAFORMAT_SUBTYPE_IEC61937_DOLBY_MLP;
+            break;
+        default:
+            ASSERT(0);
+            break;
     }
 
     if (subtype != GUID_NULL) {
