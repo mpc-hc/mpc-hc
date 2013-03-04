@@ -98,6 +98,7 @@ protected:
 
     ps2_state_t     m_ps2_state;
     DD_stats_t      m_DDstats;
+//  BYTE            m_dtshd_state;
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     CFFAudioDecoder m_FFAudioDec;
@@ -134,6 +135,7 @@ protected:
     HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
     CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
     CMediaType CreateMediaTypeSPDIF(DWORD nSamplesPerSec = 48000);
+    CMediaType CreateMediaTypeHDMI(WORD type);
 
 public:
     CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr);

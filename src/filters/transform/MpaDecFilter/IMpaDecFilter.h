@@ -32,7 +32,12 @@ enum MPCSampleFormat {
 interface __declspec(uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C"))
 IMpaDecFilter :
 public IUnknown {
-    enum enctype { ac3, dts, etcount };
+    enum enctype {
+        ac3 = 0,
+        dts,
+        dtshd,
+        etcount
+    };
 
     STDMETHOD(SetSampleFormat(MPCSampleFormat sf, bool enable)) = 0;
     STDMETHOD_(bool, GetSampleFormat(MPCSampleFormat sf)) = 0;
