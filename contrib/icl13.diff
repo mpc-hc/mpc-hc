@@ -1,8 +1,8 @@
 diff --git a/build.bat b/build.bat
-index b38de6a..c895501 100644
+index fd206f9..5ceed1c 100644
 --- a/build.bat
 +++ b/build.bat
-@@ -339,7 +339,7 @@ IF /I "%~2" == "Win32" (
+@@ -363,7 +363,7 @@ IF /I "%~2" == "Win32" (
  
  PUSHD "%BIN_DIR%"
  
@@ -12,7 +12,7 @@ index b38de6a..c895501 100644
  IF DEFINED MPCHC_LITE (SET "PCKG_NAME=%PCKG_NAME%.Lite")
  
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 2ffe7f8..7ab2881 100644
+index 4e33881..a4bbeb8 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -41,7 +41,7 @@
@@ -24,7 +24,7 @@ index 2ffe7f8..7ab2881 100644
  
  
  ; From now on you shouldn't need to change anything
-@@ -73,6 +73,8 @@
+@@ -74,6 +74,8 @@
    #define OutFilename  = app_name + "." + app_version + ".x86"
  #endif
  
@@ -33,7 +33,7 @@ index 2ffe7f8..7ab2881 100644
  #if localize != "true" && defined(MPCHC_LITE)
    #define OutFilename  = OutFilename + ".Lite"
  #elif localize != "true"
-@@ -90,15 +92,15 @@
+@@ -91,15 +93,15 @@
  
  #ifdef x64Build
    #ifdef MPCHC_LITE
@@ -54,7 +54,7 @@ index 2ffe7f8..7ab2881 100644
  #endif
  
 diff --git a/docs/Readme.txt b/docs/Readme.txt
-index 7f064df..351fb48 100644
+index d1da4ec..66bafe4 100644
 --- a/docs/Readme.txt
 +++ b/docs/Readme.txt
 @@ -27,7 +27,7 @@ Main Features:
@@ -119,10 +119,10 @@ index d1ae499..910b23b 100644
        <OptimizeReferences>true</OptimizeReferences>
        <SetChecksum>true</SetChecksum>
 diff --git a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
-index 869bbc3..44b3004 100644
+index 9f6e097..d647503 100644
 --- a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 +++ b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
-@@ -33,7 +33,7 @@
+@@ -34,7 +34,7 @@
  #define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
  
  ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
@@ -131,7 +131,7 @@ index 869bbc3..44b3004 100644
  ;#define VS2012
  ;#define x64Build
  
-@@ -56,7 +56,7 @@
+@@ -57,7 +57,7 @@
  #endif
  
  #if defined(VS2012)
@@ -140,7 +140,7 @@ index 869bbc3..44b3004 100644
  #endif
  
  
-@@ -99,10 +99,10 @@ MinVersion=5.01.2600sp3
+@@ -100,10 +100,10 @@ MinVersion=5.01.2600sp3
  AppID=vsfilter64
  ArchitecturesAllowed=x64
  ArchitecturesInstallIn64BitMode=x64
@@ -153,7 +153,7 @@ index 869bbc3..44b3004 100644
  #endif
  
  
-@@ -112,9 +112,9 @@ Name: en; MessagesFile: compiler:Default.isl
+@@ -113,9 +113,9 @@ Name: en; MessagesFile: compiler:Default.isl
  
  [Messages]
  #ifdef x64Build
@@ -179,10 +179,10 @@ index 09927fd..26091c9 100644
    </PropertyGroup>
  </Project>
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index 58b8a8d..ce8d7c7 100644
+index b684c3d..e644447 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
-@@ -56,7 +56,7 @@ ifeq ($(64BIT),yes)
+@@ -58,7 +58,7 @@ ifeq ($(64BIT),yes)
  else
      TARGET_OS  = i686-w64-mingw32
      CFLAGS    += -DWIN32 -D_WIN32 -DARCH_X86_32
