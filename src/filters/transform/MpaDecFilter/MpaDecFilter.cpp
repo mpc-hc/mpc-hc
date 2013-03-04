@@ -320,7 +320,6 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     , m_fDiscontinuity(false)
     , m_bResync(false)
     , m_buff(PADDING_SIZE)
-//  , m_dtshd_state(0)
 {
     if (phr) {
         *phr = S_OK;
@@ -391,7 +390,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SPDIF_dts, dw)) {
             m_fSPDIF[dts] = !!dw;
         }
-         if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SPDIF_dtshd, dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SPDIF_dtshd, dw)) {
             m_fSPDIF[dtshd] = !!dw;
         }
    }
@@ -459,7 +458,6 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 {
     CAutoLock cAutoLock(&m_csReceive);
     m_ps2_state.sync = false;
-//  m_dtshd_state = 0;
     m_bResync = true;
 
     return __super::NewSegment(tStart, tStop, dRate);

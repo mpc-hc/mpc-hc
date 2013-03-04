@@ -122,7 +122,6 @@ bool CMpaDecSettingsWnd::OnActivate()
     m_spdif_ac3_check.SetCheck(m_spdif_ac3);
     m_spdif_dts_check.SetCheck(m_spdif_dts);
     m_spdif_dtshd_check.SetCheck(m_spdif_dtshd);
-
     OnDTSCheck();
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
