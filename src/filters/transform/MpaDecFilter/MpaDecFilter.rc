@@ -99,7 +99,7 @@ BEGIN
     IDS_MPADEC_MIX_SPEAKERS "Output speakers:"
     IDS_MPADEC_MONO         "Mono"
     IDS_MPADEC_STEREO       "Stereo"
-    IDS_MPADEC_SPDIF        "S/PDIF passthrough:"
+    IDS_MPADEC_SPDIF        "Pass-through (S/PDIF, HDMI)"
 END
 
 #endif    // English (United States) resources

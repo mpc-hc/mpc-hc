@@ -2763,7 +2763,7 @@ BEGIN
     IDS_MPADEC_MIX_SPEAKERS "Output speakers:"
     IDS_MPADEC_MONO         "Mono"
     IDS_MPADEC_STEREO       "Stereo"
-    IDS_MPADEC_SPDIF        "S/PDIF passthrough:"
+    IDS_MPADEC_SPDIF        "Pass-through (S/PDIF, HDMI)"
     IDS_AG_SETTINGS         "Settings"
     IDS_MPEG2DECSETTINGSWND_0
                             "Enable planar YUV media types (VY12, I420, IYUY)"
