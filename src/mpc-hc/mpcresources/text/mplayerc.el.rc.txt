@@ -1217,7 +1217,6 @@ STRING IDS_AG_RESET_STATS		"Μηδενισμός στατιστικών συγχ
 STRING IDS_AG_SAVE_AS		"Αποθήκευση ως"
 STRING IDS_AG_SAVE_IMAGE		"Αποθήκευση εικόνας"
 STRING IDS_AG_SAVE_SUBTITLE		"Αποθήκευση υποτίτλων"
-STRING IDS_AG_SETTINGS		"Ρυθμίσεις"
 STRING IDS_AG_SHADER		"Shader: "
 STRING IDS_AG_SOUND		"Ήχος"
 STRING IDS_AG_STOP		"Διακοπή"

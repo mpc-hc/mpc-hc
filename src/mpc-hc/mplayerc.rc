@@ -2764,7 +2764,6 @@ BEGIN
     IDS_MPADEC_MONO         "Mono"
     IDS_MPADEC_STEREO       "Stereo"
     IDS_MPADEC_SPDIF        "Pass-through (S/PDIF, HDMI)"
-    IDS_AG_SETTINGS         "Settings"
     IDS_MPEG2DECSETTINGSWND_0
                             "Enable planar YUV media types (VY12, I420, IYUY)"
     IDS_MPEG2DECSETTINGSWND_1 "Set interlaced flag in output media type"

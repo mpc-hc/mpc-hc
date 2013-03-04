@@ -944,7 +944,6 @@
 #define IDS_MPADEC_MONO                 33139
 #define IDS_MPADEC_STEREO               33140
 #define IDS_MPADEC_SPDIF                33141
-#define IDS_AG_SETTINGS                 33143
 #define IDS_MPEG2DECSETTINGSWND_0       33144
 #define IDS_MPEG2DECSETTINGSWND_1       33145
 #define IDS_MPEG2DECSETTINGSWND_2       33146
