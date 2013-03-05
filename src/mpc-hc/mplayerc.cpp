@@ -531,7 +531,7 @@ void CMPlayerCApp::FlushProfile()
         FILE* fp;
         int fpStatus;
         do { // Open mpc-hc.ini, retry if it is already being used by another process
-            fp = _tfsopen(m_pszProfileName, _T("w, ccs=UNICODE"), _SH_SECURE);
+            fp = _tfsopen(m_pszProfileName, _T("w, ccs=UTF-8"), _SH_SECURE);
             if (!fp && (GetLastError() == ERROR_SHARING_VIOLATION)) {
                 Sleep(100);
                 continue;
