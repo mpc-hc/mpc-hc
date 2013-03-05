@@ -94,7 +94,7 @@ public:
         short       vertical_position_maximum;
 
         DVB_DISPLAY() {
-            // Default value (§5.1.3)
+            // Default value (section 5.1.3)
             version_number = 0;
             width          = 720;
             height         = 576;
