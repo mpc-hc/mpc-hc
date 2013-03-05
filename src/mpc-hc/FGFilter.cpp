@@ -540,8 +540,9 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
             continue;
         }
 
-        if (pFGF->GetCLSID() != GUID_NULL && pFGF->GetCLSID() == f.pFGF->GetCLSID()) {
-            TRACE(_T("Rejected (duplicated CLSID)\n"));
+        if (pFGF->GetCLSID() != GUID_NULL && pFGF->GetCLSID() == f.pFGF->GetCLSID()
+                && f.pFGF->GetMerit() == MERIT64_DO_NOT_USE) {
+            TRACE(_T("Rejected (same filter with merit DO_NOT_USE already in the list)\n"));
             bInsert = false;
             break;
         }
