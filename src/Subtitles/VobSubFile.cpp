@@ -1354,10 +1354,11 @@ STDMETHODIMP CVobSubFile::GetClassID(CLSID* pClassID)
 STDMETHODIMP_(int) CVobSubFile::GetStreamCount()
 {
     int iStreamCount = 0;
-    for (size_t i = 0; i < 32; i++)
+    for (size_t i = 0; i < 32; i++) {
         if (m_langs[i].subpos.GetCount()) {
             iStreamCount++;
         }
+    }
     return iStreamCount;
 }
 
@@ -1393,10 +1394,11 @@ STDMETHODIMP_(int) CVobSubFile::GetStream()
 {
     int iStream = 0;
 
-    for (ptrdiff_t i = 0; i < m_iLang; i++)
+    for (ptrdiff_t i = 0; i < m_iLang; i++) {
         if (!m_langs[i].subpos.IsEmpty()) {
             iStream++;
         }
+    }
 
     return iStream;
 }

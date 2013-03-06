@@ -404,10 +404,11 @@ const TcspInfo* csp_getInfoFcc(FOURCC fcccsp)
     if (fcccsp == FOURCC_IYUV || fcccsp == FOURCC_I420) {
         return &cspInfoIYUV;
     } else {
-        for (int i = 0; i < FF_CSPS_NUM; i++)
+        for (int i = 0; i < FF_CSPS_NUM; i++) {
             if (cspInfos[i].fcccsp == fcccsp) {
                 return cspInfos + i;
             }
+        }
         return NULL;
     }
 }

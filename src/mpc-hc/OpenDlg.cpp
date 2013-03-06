@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -77,19 +77,21 @@ BOOL COpenDlg::OnInitDialog()
     CRecentFileList& MRU = AfxGetAppSettings().MRU;
     MRU.ReadList();
     m_mrucombo.ResetContent();
-    for (int i = 0; i < MRU.GetSize(); i++)
+    for (int i = 0; i < MRU.GetSize(); i++) {
         if (!MRU[i].IsEmpty()) {
             m_mrucombo.AddString(MRU[i]);
         }
+    }
     CorrectComboListWidth(m_mrucombo);
 
     CRecentFileList& MRUDub = AfxGetAppSettings().MRUDub;
     MRUDub.ReadList();
     m_mrucombo2.ResetContent();
-    for (int i = 0; i < MRUDub.GetSize(); i++)
+    for (int i = 0; i < MRUDub.GetSize(); i++) {
         if (!MRUDub[i].IsEmpty()) {
             m_mrucombo2.AddString(MRUDub[i]);
         }
+    }
     CorrectComboListWidth(m_mrucombo2);
 
     if (m_mrucombo.GetCount() > 0) {

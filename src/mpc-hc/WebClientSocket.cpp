@@ -476,11 +476,11 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
 bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 {
     CAtlList<CStringA> rootdrives;
-    for (TCHAR drive[] = _T("A:"); drive[0] <= 'Z'; drive[0]++)
+    for (TCHAR drive[] = _T("A:"); drive[0] <= 'Z'; drive[0]++) {
         if (GetDriveType(drive) != DRIVE_NO_ROOT_DIR) {
             rootdrives.AddTail(CStringA(drive) + '\\');
         }
-
+    }
     // process GET
 
     CString path;

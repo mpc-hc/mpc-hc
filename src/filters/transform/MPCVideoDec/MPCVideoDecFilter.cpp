@@ -769,7 +769,7 @@ int CMPCVideoDecFilter::PictHeightRounded()
 
 int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 {
-    for (int i = 0; i < _countof(ffCodecs); i++)
+    for (int i = 0; i < _countof(ffCodecs); i++) {
         if (mtIn->subtype == *ffCodecs[i].clsMinorType) {
 #ifndef STANDALONE_FILTER
             switch (ffCodecs[i].nFFCodec) {
@@ -910,6 +910,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
             return (bCodecActivated ? i : -1);
 #endif
         }
+    }
 
     return -1;
 }
@@ -2408,10 +2409,11 @@ HRESULT CMPCVideoDecFilter::FindDXVA1DecoderConfiguration(IAMVideoAccelerator* p
 HRESULT CMPCVideoDecFilter::CheckDXVA1Decoder(const GUID* pGuid)
 {
     if (m_nCodecNb != -1) {
-        for (int i = 0; i < MAX_SUPPORTED_MODE; i++)
+        for (int i = 0; i < MAX_SUPPORTED_MODE; i++) {
             if (*ffCodecs[m_nCodecNb].DXVAModes->Decoder[i] == *pGuid) {
                 return S_OK;
             }
+        }
     }
 
     return E_INVALIDARG;
@@ -2426,10 +2428,11 @@ void CMPCVideoDecFilter::SetDXVA1Params(const GUID* pGuid, DDPIXELFORMAT* pPixel
 WORD CMPCVideoDecFilter::GetDXVA1RestrictedMode()
 {
     if (m_nCodecNb != -1) {
-        for (int i = 0; i < MAX_SUPPORTED_MODE; i++)
+        for (int i = 0; i < MAX_SUPPORTED_MODE; i++) {
             if (*ffCodecs[m_nCodecNb].DXVAModes->Decoder[i] == m_DXVADecoderGUID) {
                 return ffCodecs[m_nCodecNb].DXVAModes->RestrictedMode [i];
             }
+        }
     }
 
     return DXVA_RESTRICTED_MODE_UNRESTRICTED;

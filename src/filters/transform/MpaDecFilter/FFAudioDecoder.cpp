@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -124,10 +124,11 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
 
 enum AVCodecID FindCodec(const GUID subtype)
 {
-    for (int i = 0; i < _countof(ffAudioCodecs); i++)
+    for (int i = 0; i < _countof(ffAudioCodecs); i++) {
         if (subtype == *ffAudioCodecs[i].clsMinorType) {
             return ffAudioCodecs[i].nFFCodec;
         }
+    }
 
     return AV_CODEC_ID_NONE;
 }

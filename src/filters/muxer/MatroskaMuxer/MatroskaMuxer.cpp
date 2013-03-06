@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1095,10 +1095,11 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
             BYTE* dst = m_pTE->CodecPrivate.GetData();
 
             *dst++ = 2;
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 2; i++) {
                 for (int len2 = pvf2->HeaderSize[i]; len2 >= 0; len2 -= 255) {
                     *dst++ = min(len2, 255);
                 }
+            }
 
             memcpy(dst, src, pvf2->HeaderSize[0]);
             dst += pvf2->HeaderSize[0];
@@ -1260,10 +1261,11 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
             BYTE* dst = m_pTE->CodecPrivate.GetData();
 
             *dst++ = 2;
-            for (size_t i = 0; i < 2; i++)
+            for (size_t i = 0; i < 2; i++) {
                 for (INT_PTR len = m_pVorbisHdrs[i]->GetCount(); len >= 0; len -= 255) {
                     *dst++ = (BYTE)min(len, 255);
                 }
+            }
 
             for (size_t i = 0; i < 3; i++) {
                 memcpy(dst, m_pVorbisHdrs[i]->GetData(), m_pVorbisHdrs[i]->GetCount());

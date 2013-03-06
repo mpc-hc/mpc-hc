@@ -578,10 +578,11 @@ POSITION CFGFilterList::GetHeadPosition()
             sort[i] = m_filters.GetNext(pos);
         }
         qsort(&sort[0], sort.GetCount(), sizeof(sort[0]), filter_cmp);
-        for (size_t i = 0; i < sort.GetCount(); i++)
+        for (size_t i = 0; i < sort.GetCount(); i++) {
             if (sort[i].pFGF->GetMerit() >= MERIT64_DO_USE) {
                 m_sortedfilters.AddTail(sort[i].pFGF);
             }
+        }
     }
 
 #ifdef _DEBUG

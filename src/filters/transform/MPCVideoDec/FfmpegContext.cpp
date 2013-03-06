@@ -284,21 +284,21 @@ void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, PPS* pps, DWORD nPCIVendor)
     int i, j;
     memset(pDest, 0, sizeof(DXVA_Qmatrix_H264));
     if (nPCIVendor == PCIV_ATI) {
-        for (i = 0; i < 6; i++)
+        for (i = 0; i < 6; i++) {
             for (j = 0; j < 16; j++) {
                 pDest->bScalingLists4x4[i][j] = pps->scaling_matrix4[i][j];
             }
-
+        }
         for (i = 0; i < 64; i++) {
             pDest->bScalingLists8x8[0][i] = pps->scaling_matrix8[0][i];
             pDest->bScalingLists8x8[1][i] = pps->scaling_matrix8[3][i];
         }
     } else {
-        for (i = 0; i < 6; i++)
+        for (i = 0; i < 6; i++) {
             for (j = 0; j < 16; j++) {
                 pDest->bScalingLists4x4[i][j] = pps->scaling_matrix4[i][ZZ_SCAN[j]];
             }
-
+        }
         for (i = 0; i < 64; i++) {
             pDest->bScalingLists8x8[0][i] = pps->scaling_matrix8[0][ZZ_SCAN8[i]];
             pDest->bScalingLists8x8[1][i] = pps->scaling_matrix8[3][ZZ_SCAN8[i]];

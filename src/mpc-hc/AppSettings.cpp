@@ -1106,10 +1106,11 @@ void CAppSettings::LoadSettings()
         memcpy(pSpeakerToChannelMap, ptr, sizeof(pSpeakerToChannelMap));
     } else {
         memset(pSpeakerToChannelMap, 0, sizeof(pSpeakerToChannelMap));
-        for (int j = 0; j < 18; j++)
+        for (int j = 0; j < 18; j++) {
             for (int i = 0; i <= j; i++) {
                 pSpeakerToChannelMap[j][i] = 1 << i;
             }
+        }
 
         pSpeakerToChannelMap[0][0] = 1 << 0;
         pSpeakerToChannelMap[0][1] = 1 << 0;

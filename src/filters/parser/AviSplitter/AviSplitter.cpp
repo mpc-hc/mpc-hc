@@ -192,10 +192,11 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     bool fHasIndex = false;
 
-    for (unsigned int i = 0; !fHasIndex && i < m_pFile->m_strms.GetCount(); ++i)
+    for (unsigned int i = 0; !fHasIndex && i < m_pFile->m_strms.GetCount(); ++i) {
         if (m_pFile->m_strms[i]->cs.GetCount() > 0) {
             fHasIndex = true;
         }
+    }
 
     for (unsigned int i = 0; i < m_pFile->m_strms.GetCount(); ++i) {
         CAviFile::strm_t* s = m_pFile->m_strms[i];

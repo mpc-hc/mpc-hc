@@ -1635,10 +1635,11 @@ void CDirectVobSubFilter::AddSubStream(ISubStream* pSubStream)
     }
 
     size_t len = m_pTextInput.GetCount();
-    for (size_t i = 0; i < m_pTextInput.GetCount(); i++)
+    for (size_t i = 0; i < m_pTextInput.GetCount(); i++) {
         if (m_pTextInput[i]->IsConnected()) {
             len--;
         }
+    }
 
     if (len == 0) {
         HRESULT hr = S_OK;

@@ -398,7 +398,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SPDIF_dtshd, dw)) {
             m_fSPDIF[dtshd] = !!dw;
         }
-   }
+    }
 #else
     m_fSampleFmt[SF_PCM16] = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i16, m_fSampleFmt[SF_PCM16]);
     m_fSampleFmt[SF_PCM24] = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i24, m_fSampleFmt[SF_PCM24]);
@@ -1514,8 +1514,10 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sa
             if (size == 4096 && sample_rate == 44100 && samples == 1024) { // DTSWAV
                 length = size;
                 isDTSWAV = true;
-            } else while (length < size + 16) {
-                length += 2048;
+            } else {
+                while (length < size + 16) {
+                    length += 2048;
+                }
             }
             break;
         case IEC61937_DTSHD:

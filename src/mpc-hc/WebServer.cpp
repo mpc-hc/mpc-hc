@@ -666,10 +666,11 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
             DWORD dwRead, dwWritten = 0;
 
             int i = 0, len = pClient->m_data.GetLength();
-            for (; i < len; i += dwWritten)
+            for (; i < len; i += dwWritten) {
                 if (!WriteFile(hChildStdinWrDup, (LPCSTR)pClient->m_data + i, min(len - i, BUFFSIZE), &dwWritten, NULL)) {
                     break;
                 }
+            }
 
             CloseHandle(hChildStdinWrDup);
             CloseHandle(hChildStdoutWr);

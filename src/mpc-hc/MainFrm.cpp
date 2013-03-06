@@ -4860,10 +4860,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     {
         BYTE* p = (BYTE*)spd.bits;
-        for (int y = 0; y < spd.h; y++, p += spd.pitch)
+        for (int y = 0; y < spd.h; y++, p += spd.pitch) {
             for (int x = 0; x < spd.w; x++) {
                 ((DWORD*)p)[x] = 0x010101 * (0xe0 + 0x08 * y / spd.h + 0x18 * (spd.w - x) / spd.w);
             }
+        }
     }
 
     CCritSec csSubLock;

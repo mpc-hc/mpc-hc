@@ -557,12 +557,15 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             m_pFile->UExpGolombRead(); // bit_depth_luma_minus8
                             m_pFile->UExpGolombRead(); // bit_depth_chroma_minus8
                             m_pFile->BitRead(1); // qpprime_y_zero_transform_bypass_flag
-                            if (m_pFile->BitRead(1)) // seq_scaling_matrix_present_flag
-                                for (int k = 0; k < 8; k++)
-                                    if (m_pFile->BitRead(1)) // seq_scaling_list_present_flag
+                            if (m_pFile->BitRead(1)) { // seq_scaling_matrix_present_flag
+                                for (int k = 0; k < 8; k++) {
+                                    if (m_pFile->BitRead(1)) { // seq_scaling_list_present_flag
                                         for (int j = 0, size = (k < 6) ? 16 : 64, next = 8; j < size && next != 0; ++j) {
                                             next = (next + m_pFile->SExpGolombRead() + 256) & 255;
                                         }
+                                    }
+                                }
+                            }
                         }
                         m_pFile->UExpGolombRead(); // log2_max_frame_num_minus4
                         UINT64 pic_order_cnt_type = m_pFile->UExpGolombRead();
