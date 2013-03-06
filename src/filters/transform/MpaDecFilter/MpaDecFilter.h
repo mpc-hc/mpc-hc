@@ -112,6 +112,7 @@ protected:
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
     HRESULT ProcessAC3();
     HRESULT ProcessAC3_SPDIF();
+    HRESULT ProcessEAC3_SPDIF();
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
     HRESULT ProcessDTS_SPDIF();
