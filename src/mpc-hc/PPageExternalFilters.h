@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,6 +24,23 @@
 #include "PPageBase.h"
 #include "FloatEdit.h"
 #include "mplayerc.h"
+
+
+class CPPageExternalFiltersListBox : public CCheckListBox
+{
+    DECLARE_DYNAMIC(CPPageExternalFiltersListBox)
+
+public:
+    CPPageExternalFiltersListBox();
+
+protected:
+    virtual void PreSubclassWindow();
+    virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
+
+    DECLARE_MESSAGE_MAP()
+
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+};
 
 
 // CPPageExternalFilters dialog
@@ -50,7 +67,7 @@ public:
     // Dialog Data
     enum { IDD = IDD_PPAGEEXTERNALFILTERS };
 
-    CCheckListBox m_filters;
+    CPPageExternalFiltersListBox m_filters;
     int m_iLoadType;
     CHexEdit m_dwMerit;
     CTreeCtrl m_tree;
@@ -86,4 +103,5 @@ public:
     afx_msg void OnNMDblclkTree2(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTVNKeyDownTree2(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDropFiles(HDROP hDropInfo);
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 };

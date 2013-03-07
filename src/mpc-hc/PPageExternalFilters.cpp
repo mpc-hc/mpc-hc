@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,6 +30,52 @@
 #include "SelectMediaType.h"
 #include "FGFilter.h"
 #include "moreuuids.h"
+
+
+IMPLEMENT_DYNAMIC(CPPageExternalFiltersListBox, CCheckListBox)
+CPPageExternalFiltersListBox::CPPageExternalFiltersListBox()
+    : CCheckListBox()
+{
+}
+
+void CPPageExternalFiltersListBox::PreSubclassWindow()
+{
+    __super::PreSubclassWindow();
+    EnableToolTips(TRUE);
+}
+
+INT_PTR CPPageExternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
+{
+    BOOL b = FALSE;
+    int row = ItemFromPoint(point, b);
+    if (row < 0) {
+        return -1;
+    }
+
+    CRect r;
+    GetItemRect(row, r);
+    pTI->rect = r;
+    pTI->hwnd = m_hWnd;
+    pTI->uId = (UINT)row;
+    pTI->lpszText = LPSTR_TEXTCALLBACK;
+    pTI->uFlags |= TTF_ALWAYSTIP;
+
+    return pTI->uId;
+}
+
+BEGIN_MESSAGE_MAP(CPPageExternalFiltersListBox, CCheckListBox)
+    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
+END_MESSAGE_MAP()
+
+BOOL CPPageExternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
+{
+    // Forward the tooltip request to the list's parent
+    GetParent()->SendMessage(WM_NOTIFY, (WPARAM)m_hWnd, (LPARAM)pNMHDR);
+
+    *pResult = 0;
+
+    return TRUE; // message was handled
+}
 
 
 // CPPageExternalFilters dialog
@@ -282,6 +328,7 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
     ON_NOTIFY(NM_DBLCLK, IDC_TREE2, OnNMDblclkTree2)
     ON_NOTIFY(TVN_KEYDOWN, IDC_TREE2, OnTVNKeyDownTree2)
     ON_WM_DROPFILES()
+    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -324,6 +371,8 @@ BOOL CPPageExternalFilters::OnInitDialog()
     }
 
     UpdateData(FALSE);
+
+    EnableToolTips(TRUE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -804,4 +853,22 @@ void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)
         }
     }
     ::DragFinish(hDropInfo);
+}
+
+BOOL CPPageExternalFilters::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
+{
+    TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
+
+    int nIndex = (int)pNMHDR->idFrom;
+    if (0 <= nIndex && nIndex < m_filters.GetCount()) {
+        if (POSITION pos = (POSITION)m_filters.GetItemData(nIndex)) {
+            CAutoPtr<FilterOverride>& f = m_pFilters.GetAt(pos);
+
+            pTTT->lpszText = (f->type == FilterOverride::EXTERNAL) ? (LPTSTR)(LPCTSTR)f->path : _T("Registered filter");
+        }
+    }
+
+    *pResult = 0;
+
+    return TRUE; // message was handled
 }
