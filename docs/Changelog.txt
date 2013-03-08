@@ -26,6 +26,7 @@ Legend:
 + Ticket #1025/#1054, Add the ability to select the default track directly by its number
   in MPC-HC and the standalone MPEG Splitter.
 + Ticket #2050, Add Romanian translation
++ Ticket #2905, Support DTS-HD and E-AC3 passthrough
 + Ticket #2935, Add support for sending "Now playing" information to Skype
 * UI: Use a more native look and feel for the options dialog tree
 * More resilient support for MPL2 and SRT subtitles formats:
