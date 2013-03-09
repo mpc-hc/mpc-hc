@@ -1874,9 +1874,12 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3 || INTERNAL_DECODER_DTS
     const GUID& subtype = mt.subtype;
     if (GetSPDIF(ac3) && (subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3) ||
-            GetSPDIF(eac3) && subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
             GetSPDIF(dts) && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
         *pmt = CreateMediaTypeSPDIF(wfe->nSamplesPerSec);
+        return S_OK;
+    }
+    if (GetSPDIF(eac3) && subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
+        *pmt = CreateMediaTypeHDMI(IEC61937_EAC3);
         return S_OK;
     }
 #endif
