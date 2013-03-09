@@ -1730,6 +1730,7 @@ CMediaType CMpaDecFilter::CreateMediaTypeSPDIF(DWORD nSamplesPerSec)
 
 CMediaType CMpaDecFilter::CreateMediaTypeHDMI(WORD type)
 {
+    // some info here - http://msdn.microsoft.com/en-us/library/windows/desktop/dd316761%28v=vs.85%29.aspx
     CMediaType mt;
     mt.majortype  = MEDIATYPE_Audio;
     mt.subtype    = MEDIASUBTYPE_PCM;
@@ -1748,12 +1749,12 @@ CMediaType CMpaDecFilter::CreateMediaTypeHDMI(WORD type)
             break;
         case IEC61937_EAC3:
             wfex.Format.nChannels = 2;
-            wfex.dwChannelMask    = KSAUDIO_SPEAKER_5POINT1_SURROUND;
+            wfex.dwChannelMask    = KSAUDIO_SPEAKER_5POINT1;
             subtype = KSDATAFORMAT_SUBTYPE_IEC61937_DOLBY_DIGITAL_PLUS;
             break;
         case IEC61937_TRUEHD:
             wfex.Format.nChannels = 8;
-            wfex.dwChannelMask    = KSAUDIO_SPEAKER_7POINT1_SURROUND;
+            wfex.dwChannelMask    = KSAUDIO_SPEAKER_7POINT1;
             subtype = KSDATAFORMAT_SUBTYPE_IEC61937_DOLBY_MLP;
             break;
         default:
