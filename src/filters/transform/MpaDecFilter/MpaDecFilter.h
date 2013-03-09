@@ -99,6 +99,10 @@ protected:
     ps2_state_t     m_ps2_state;
     DD_stats_t      m_DDstats;
 
+    BYTE            m_hdmibuff[24576];
+    int             m_hdmicount;
+    int             m_hdmisize;
+
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     CFFAudioDecoder m_FFAudioDec;
 
