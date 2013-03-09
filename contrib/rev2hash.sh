@@ -19,15 +19,17 @@
 OPTIND=1
 fullhash=0
 hashlength=7
+log=0
 
 show_help() {
   echo "Syntax: $0 [options] <rev>"
   echo "Options:"
   echo "  -f    show full hash instead of abbreviation"
   echo "  -h    show this help"
+  echo "  -l    show the log associated with the hash"
 }
 
-while getopts "hf" opt; do
+while getopts "hfl" opt; do
   case "$opt" in
     h)
       show_help
@@ -35,6 +37,9 @@ while getopts "hf" opt; do
       ;;
     f)
       fullhash=1
+      ;;
+    l)
+      log=1
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -70,4 +75,8 @@ else
 fi
 
 [[ $fullhash == 0 ]] && hash="${hash:0:7}"
-echo "$hash"
+if (($log)); then
+  git log -1 $hash
+else
+  echo "$hash"
+fi
