@@ -26,6 +26,7 @@
 #include "UpdateCheckerDlg.h"
 #include "SettingsDefines.h"
 #include "mplayerc.h"
+#include "SysVersion.h"
 
 #include <afxinet.h>
 
@@ -51,11 +52,31 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
 
     try {
         CInternetSession internet;
+
+        OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
+        CString osVersionStr;
+        osVersionStr.Format(_T("Windows %1d.%1d"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
+        if (SysVersion::Is64Bit()) {
+            osVersionStr += _T(" x64");
+        }
+
+        LPCTSTR headersFmt = _T("User-Agent: MPC-HC")
+#ifdef _WIN64
+                             _T(" (64-bit)")
+#endif
+#ifdef MPCHC_LITE
+                             _T(" Lite")
+#endif
+                             _T(" (%s)/") MPC_VERSION_STR_FULL _T("\r\n");
+
+        CString headers;
+        headers.Format(headersFmt, osVersionStr);
+
         CHttpFile* versionFile = (CHttpFile*) internet.OpenURL(versionFileURL,
                                  1,
                                  INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
-                                 NULL,
-                                 0);
+                                 headers,
+                                 -1);
 
         if (versionFile) {
             CString latestVersionStr;
