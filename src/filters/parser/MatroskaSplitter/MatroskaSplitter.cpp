@@ -781,6 +781,18 @@ avcsuccess:
                         memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
                         mts.Add(mt);
                     }
+                } else if (CodecID == "A_ALAC") {
+                    mt.subtype = MEDIASUBTYPE_ALAC;
+                    WORD cbSize = (WORD)pTE->CodecPrivate.GetCount() + 12;
+                    wfe->cbSize = cbSize;
+                    wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + cbSize);
+                    BYTE* p = (BYTE*)(wfe + 1);
+
+                    memset(p, 0, cbSize);
+                    memcpy(p + 3,  &cbSize, 1);
+                    memcpy(p + 4, (const unsigned char*)"alac", 4);
+                    memcpy(p + 12, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
+                    mts.Add(mt);
                 }
             } else if (pTE->TrackType == TrackEntry::TypeSubtitle) {
                 if (iSubtitle == 1) {
