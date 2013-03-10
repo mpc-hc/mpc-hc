@@ -229,12 +229,12 @@
 #define IDS_RS_TOGGLESHADERSSCREENSPACE     _T("ToggleShaderScreenSpace")
 
 #define IDS_RS_DEFAULT_CAPTURE              _T("DefaultCapture")
-#define IDS_RS_CAPTURE                      _T("Capture")
+#define IDS_R_CAPTURE                       _T("Capture")
 #define IDS_RS_VIDEO_DISP_NAME              _T("VidDispName")
 #define IDS_RS_AUDIO_DISP_NAME              _T("AudDispName")
 #define IDS_RS_COUNTRY                      _T("Country")
 
-#define IDS_RS_DVB                          _T("DVB configuration")
+#define IDS_R_DVB                           _T("DVB configuration")
 #define IDS_RS_BDA_NETWORKPROVIDER          _T("BDANetworkProvider")
 #define IDS_RS_BDA_TUNER                    _T("BDATuner")
 #define IDS_RS_BDA_RECEIVER                 _T("BDAReceiver")
@@ -247,14 +247,14 @@
 #define IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS _T("BDAIgnoreEncryptedChannels")
 #define IDS_RS_DVB_LAST_CHANNEL             _T("LastChannel")
 
-#define IDS_D3D9RENDERDEVICE                _T("D3D9RenderDevice")
+#define IDS_RS_D3D9RENDERDEVICE             _T("D3D9RenderDevice")
 
-#define IDS_FASTSEEK_KEYFRAME               _T("FastSeek")
-#define IDS_SHOW_CHAPTERS                   _T("ShowChapters")
+#define IDS_RS_FASTSEEK_KEYFRAME            _T("FastSeek")
+#define IDS_RS_SHOW_CHAPTERS                _T("ShowChapters")
 
-#define IDS_LCD_SUPPORT                     _T("LcdSupport")
+#define IDS_RS_LCD_SUPPORT                  _T("LcdSupport")
 
-#define IDS_REMAINING_TIME                  _T("RemainingTime")
+#define IDS_RS_REMAINING_TIME               _T("RemainingTime")
 
 #define IDS_RS_UPDATER_AUTO_CHECK           _T("UpdaterAutoCheck")
 #define IDS_RS_UPDATER_LAST_CHECK           _T("UpdaterLastCheck")
@@ -266,7 +266,7 @@
 #define IDS_RS_GOTO_LAST_USED               _T("gotoluf")
 #define IDS_RS_GOTO_FPS                     _T("fps")
 
-#define IDS_R_SHADERS_INITIALIZED           _T("Initialized")
+#define IDS_RS_SHADERS_INITIALIZED          _T("Initialized")
 
 #define IDS_R_DLG_SUBTITLEDL                _T("Dialogs\\SubtitleDl")
 #define IDS_RS_DLG_SUBTITLEDL_COLWIDTH      _T("ColWidth")

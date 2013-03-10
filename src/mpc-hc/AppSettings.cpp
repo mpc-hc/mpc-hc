@@ -594,32 +594,32 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, (int)fShowOSD);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, (int)fEnableEDLEditor);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, language);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_FASTSEEK_KEYFRAME, (int)fFastSeek);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_SHOW_CHAPTERS, (int)fShowChapters);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK_KEYFRAME, (int)fFastSeek);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CHAPTERS, (int)fShowChapters);
 
 
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_LCD_SUPPORT, (int)fLCDSupport);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LCD_SUPPORT, (int)fLCDSupport);
 
     // Save analog capture settings
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULT_CAPTURE, iDefaultCaptureDevice);
-    pApp->WriteProfileString(IDS_RS_CAPTURE, IDS_RS_VIDEO_DISP_NAME, strAnalogVideo);
-    pApp->WriteProfileString(IDS_RS_CAPTURE, IDS_RS_AUDIO_DISP_NAME, strAnalogAudio);
-    pApp->WriteProfileInt(IDS_RS_CAPTURE, IDS_RS_COUNTRY,         iAnalogCountry);
+    pApp->WriteProfileString(IDS_R_CAPTURE, IDS_RS_VIDEO_DISP_NAME, strAnalogVideo);
+    pApp->WriteProfileString(IDS_R_CAPTURE, IDS_RS_AUDIO_DISP_NAME, strAnalogAudio);
+    pApp->WriteProfileInt(IDS_R_CAPTURE, IDS_RS_COUNTRY,         iAnalogCountry);
 
     // Save digital capture settings (BDA)
-    pApp->WriteProfileString(IDS_RS_DVB, NULL, NULL); // Ensure the section is cleared before saving the new settings
+    pApp->WriteProfileString(IDS_R_DVB, NULL, NULL); // Ensure the section is cleared before saving the new settings
 
-    pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_NETWORKPROVIDER, strBDANetworkProvider);
-    pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_TUNER, strBDATuner);
-    pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_RECEIVER, strBDAReceiver);
-    //pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_STANDARD, strBDAStandard);
-    pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_SCAN_FREQ_START, iBDAScanFreqStart);
-    pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_SCAN_FREQ_END, iBDAScanFreqEnd);
-    pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_BANDWIDTH, iBDABandwidth);
-    pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_USE_OFFSET, fBDAUseOffset);
-    pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_OFFSET, iBDAOffset);
-    pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, fBDAIgnoreEncryptedChannels);
-    pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, nDVBLastChannel);
+    pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_NETWORKPROVIDER, strBDANetworkProvider);
+    pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_TUNER, strBDATuner);
+    pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_RECEIVER, strBDAReceiver);
+    //pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_STANDARD, strBDAStandard);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_START, iBDAScanFreqStart);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_END, iBDAScanFreqEnd);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_BANDWIDTH, iBDABandwidth);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_USE_OFFSET, fBDAUseOffset);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_OFFSET, iBDAOffset);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, fBDAIgnoreEncryptedChannels);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_LAST_CHANNEL, nDVBLastChannel);
 
     int iChannel = 0;
     POSITION pos = m_DVBChannels.GetHeadPosition();
@@ -628,7 +628,7 @@ void CAppSettings::SaveSettings()
         CString strChannel;
         CDVBChannel& Channel = m_DVBChannels.GetNext(pos);
         strTemp2.Format(_T("%d"), iChannel);
-        pApp->WriteProfileString(IDS_RS_DVB, strTemp2, Channel.ToString());
+        pApp->WriteProfileString(IDS_R_DVB, strTemp2, Channel.ToString());
         iChannel++;
     }
 
@@ -734,7 +734,7 @@ void CAppSettings::SaveSettings()
     if (fShaderEditorWasOpened) { // This is a large data block. Save it only when really necessary.
         // Erase the currently saved shaders
         pApp->WriteProfileString(IDS_R_SHADERS, NULL, NULL);
-        pApp->WriteProfileInt(IDS_R_SHADERS, IDS_R_SHADERS_INITIALIZED, 1);
+        pApp->WriteProfileInt(IDS_R_SHADERS, IDS_RS_SHADERS_INITIALIZED, 1);
 
         pos = m_shaders.GetHeadPosition();
         for (int i = 0; pos; i++) {
@@ -754,7 +754,7 @@ void CAppSettings::SaveSettings()
         fShaderEditorWasOpened = false;
     }
 
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, fRemainingTime);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, fRemainingTime);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, nUpdaterAutoCheck);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_DELAY, nUpdaterDelay);
@@ -1395,36 +1395,36 @@ void CAppSettings::LoadSettings()
 
     fShowOSD              = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, TRUE);
     fEnableEDLEditor      = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
-    fFastSeek             = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_FASTSEEK_KEYFRAME, FALSE);
-    fShowChapters         = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_SHOW_CHAPTERS, TRUE);
+    fFastSeek             = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK_KEYFRAME, FALSE);
+    fShowChapters         = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CHAPTERS, TRUE);
 
 
-    fLCDSupport = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_LCD_SUPPORT, FALSE);
+    fLCDSupport = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LCD_SUPPORT, FALSE);
 
     // Save analog capture settings
     iDefaultCaptureDevice = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULT_CAPTURE, 0);
-    strAnalogVideo        = pApp->GetProfileString(IDS_RS_CAPTURE, IDS_RS_VIDEO_DISP_NAME, _T("dummy"));
-    strAnalogAudio        = pApp->GetProfileString(IDS_RS_CAPTURE, IDS_RS_AUDIO_DISP_NAME, _T("dummy"));
-    iAnalogCountry        = pApp->GetProfileInt(IDS_RS_CAPTURE, IDS_RS_COUNTRY, 1);
+    strAnalogVideo        = pApp->GetProfileString(IDS_R_CAPTURE, IDS_RS_VIDEO_DISP_NAME, _T("dummy"));
+    strAnalogAudio        = pApp->GetProfileString(IDS_R_CAPTURE, IDS_RS_AUDIO_DISP_NAME, _T("dummy"));
+    iAnalogCountry        = pApp->GetProfileInt(IDS_R_CAPTURE, IDS_RS_COUNTRY, 1);
 
-    strBDANetworkProvider = pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_NETWORKPROVIDER, _T(""));
-    strBDATuner           = pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_TUNER, _T(""));
-    strBDAReceiver        = pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_RECEIVER, _T(""));
-    //sBDAStandard        = pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_STANDARD, _T(""));
-    iBDAScanFreqStart     = pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_SCAN_FREQ_START, 474000);
-    iBDAScanFreqEnd       = pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_SCAN_FREQ_END, 858000);
-    iBDABandwidth         = pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_BANDWIDTH, 8);
-    fBDAUseOffset         = !!pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_USE_OFFSET, FALSE);
-    iBDAOffset            = pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_OFFSET, 166);
-    fBDAIgnoreEncryptedChannels = !!pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, FALSE);
-    nDVBLastChannel       = pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, 1);
+    strBDANetworkProvider = pApp->GetProfileString(IDS_R_DVB, IDS_RS_BDA_NETWORKPROVIDER, _T(""));
+    strBDATuner           = pApp->GetProfileString(IDS_R_DVB, IDS_RS_BDA_TUNER, _T(""));
+    strBDAReceiver        = pApp->GetProfileString(IDS_R_DVB, IDS_RS_BDA_RECEIVER, _T(""));
+    //sBDAStandard        = pApp->GetProfileString(IDS_R_DVB, IDS_RS_BDA_STANDARD, _T(""));
+    iBDAScanFreqStart     = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_START, 474000);
+    iBDAScanFreqEnd       = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_END, 858000);
+    iBDABandwidth         = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_BANDWIDTH, 8);
+    fBDAUseOffset         = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_USE_OFFSET, FALSE);
+    iBDAOffset            = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_OFFSET, 166);
+    fBDAIgnoreEncryptedChannels = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, FALSE);
+    nDVBLastChannel       = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_LAST_CHANNEL, 1);
 
     for (int iChannel = 0; ; iChannel++) {
         CString strTemp;
         CString strChannel;
         CDVBChannel Channel;
         strTemp.Format(_T("%d"), iChannel);
-        strChannel = pApp->GetProfileString(IDS_RS_DVB, strTemp, _T(""));
+        strChannel = pApp->GetProfileString(IDS_R_DVB, strTemp, _T(""));
         if (strChannel.IsEmpty()) {
             break;
         }
@@ -1444,7 +1444,7 @@ void CAppSettings::LoadSettings()
 
     // TODO: sort shaders by label
 
-    fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, FALSE);
+    fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, FALSE);
 
     nUpdaterAutoCheck = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, AUTOUPDATE_UNKNOWN);
     nUpdaterDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_DELAY, 7);
@@ -1520,7 +1520,7 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, r.iEvrBuffers);
 
-        pApp->WriteProfileString(IDS_R_SETTINGS, IDS_D3D9RENDERDEVICE, r.D3D9RenderDevice);
+        pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_D3D9RENDERDEVICE, r.D3D9RenderDevice);
     } else {
         r.iAPSurfaceUsage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_APSURACEFUSAGE, (SysVersion::IsVistaOrLater() ? VIDRNDT_AP_TEXTURE3D : VIDRNDT_AP_TEXTURE2D));
         r.iDX9Resizer = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DX9_RESIZER, 1);
@@ -1581,7 +1581,7 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         r.fSPCAllowAnimationWhenBuffering = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), TRUE);
 
         r.iEvrBuffers = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, 5);
-        r.D3D9RenderDevice = pApp->GetProfileString(IDS_R_SETTINGS, IDS_D3D9RENDERDEVICE, _T(""));
+        r.D3D9RenderDevice = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_D3D9RENDERDEVICE, _T(""));
     }
 }
 
