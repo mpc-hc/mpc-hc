@@ -99,7 +99,7 @@ protected:
     ps2_state_t     m_ps2_state;
     DD_stats_t      m_DDstats;
 
-    BYTE            m_hdmibuff[24576];
+    BYTE            m_hdmibuff[61440];
     int             m_hdmicount;
     int             m_hdmisize;
 
