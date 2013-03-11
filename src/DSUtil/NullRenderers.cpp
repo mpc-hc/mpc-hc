@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -372,7 +372,7 @@ HRESULT CNullUAudioRenderer::DoRenderSample(IMediaSample* pSample)
         BYTE* pMediaBuffer = NULL;
         HRESULT hr = pSample->GetPointer(&pMediaBuffer);
         char strFile[MAX_PATH];
-    
+
         sprintf_s(strFile, "AudioData%02d.bin", nNb++);
         FILE* hFile = fopen(strFile, "wb");
         if (hFile) {
