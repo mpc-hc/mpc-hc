@@ -363,6 +363,31 @@ HRESULT CNullUAudioRenderer::CheckMediaType(const CMediaType* pmt)
            : E_FAIL;
 }
 
+HRESULT CNullUAudioRenderer::DoRenderSample(IMediaSample* pSample)
+{
+#if _DEBUG && 0
+    static int nNb = 1;
+    if (nNb < 100) {
+        const long lSize = pSample->GetActualDataLength();
+        BYTE* pMediaBuffer = NULL;
+        HRESULT hr = pSample->GetPointer(&pMediaBuffer);
+        char strFile[MAX_PATH];
+    
+        sprintf_s(strFile, "AudioData%02d.bin", nNb++);
+        FILE* hFile = fopen(strFile, "wb");
+        if (hFile) {
+            fwrite(pMediaBuffer,
+                   1,
+                   lSize,
+                   hFile);
+            fclose(hFile);
+        }
+    }
+#endif
+
+    return S_OK;
+}
+
 //
 // CNullTextRenderer
 //

@@ -69,6 +69,7 @@ class __declspec(uuid("64A45125-7343-4772-9DA4-179FAC9D462C"))
 {
 protected:
     HRESULT CheckMediaType(const CMediaType* pmt);
+    virtual HRESULT DoRenderSample(IMediaSample* pSample);
 
 public:
     CNullUAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr);
