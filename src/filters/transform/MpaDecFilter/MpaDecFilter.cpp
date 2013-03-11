@@ -899,26 +899,11 @@ HRESULT CMpaDecFilter::ProcessAC3_SPDIF()
             break;
         }
 
-        static const uint8_t eac3_repeat[4] = {6, 3, 2, 1};
-        int repeat = 1;
-        if ((p[4] & 0xc0) != 0xc0) { /* fscod */
-            repeat = eac3_repeat[(p[4] & 0x30) >> 4]; /* numblkscod */
-        }
-        if (m_hdmicount < repeat && m_hdmisize + size < 24576) {
-            memcpy(m_hdmibuff + m_hdmisize, p, size);
-            m_hdmicount++;
-            m_hdmisize += size;
-            p += size;
-            break;
-        }
-
-        if (FAILED(hr = DeliverBitstream(m_hdmibuff, m_hdmisize, IEC61937_EAC3, samplerate, framelength))) {
+        if (FAILED(hr = DeliverBitstream(p, size, IEC61937_AC3, samplerate, 1536))) {
             return hr;
         }
-        m_hdmicount = 0;
-        m_hdmisize  = 0;
 
-        //p += size;
+        p += size;
     }
 
     memmove(base, p, end - p);
@@ -947,11 +932,26 @@ HRESULT CMpaDecFilter::ProcessEAC3_SPDIF()
             break;
         }
 
-        if (FAILED(hr = DeliverBitstream(p, size, IEC61937_EAC3, samplerate, framelength))) {
-            return hr;
+        static const uint8_t eac3_repeat[4] = {6, 3, 2, 1};
+        int repeat = 1;
+        if ((p[4] & 0xc0) != 0xc0) { /* fscod */
+            repeat = eac3_repeat[(p[4] & 0x30) >> 4]; /* numblkscod */
+        }
+        if (m_hdmicount < repeat && m_hdmisize + size < 24576) {
+            memcpy(m_hdmibuff + m_hdmisize, p, size);
+            m_hdmicount++;
+            m_hdmisize += size;
+            p += size;
+            break;
         }
 
-        p += size;
+        if (FAILED(hr = DeliverBitstream(m_hdmibuff, m_hdmisize, IEC61937_EAC3, samplerate, framelength))) {
+            return hr;
+        }
+        m_hdmicount = 0;
+        m_hdmisize  = 0;
+
+        //p += size;
     }
 
     memmove(base, p, end - p);
