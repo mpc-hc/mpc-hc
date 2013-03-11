@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,6 +25,8 @@
 const OSVERSIONINFOEX SysVersion::fullVersion = InitFullVersion();
 const DWORD SysVersion::version = MAKEWORD(fullVersion.dwMinorVersion, fullVersion.dwMajorVersion);
 
+const bool SysVersion::is64Bit = InitIs64Bit();
+
 OSVERSIONINFOEX SysVersion::InitFullVersion()
 {
     OSVERSIONINFOEX fullVersion = {0};
@@ -32,4 +34,16 @@ OSVERSIONINFOEX SysVersion::InitFullVersion()
     GetVersionEx((LPOSVERSIONINFO)&fullVersion);
 
     return fullVersion;
+}
+
+bool SysVersion::InitIs64Bit()
+{
+#if defined(_WIN64)
+    return true;  // 64-bit programs run only on Win64
+#else
+    // 32-bit programs run on both 32-bit and 64-bit Windows
+    // so must sniff
+    BOOL f64 = FALSE;
+    return (IsWow64Process(GetCurrentProcess(), &f64) && f64);
+#endif
 }
