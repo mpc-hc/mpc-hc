@@ -2015,6 +2015,9 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
         *pmt = CreateMediaTypeHDMI(IEC61937_EAC3);
         return S_OK;
     }
+    if (GetSPDIF(truehd) && subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+        *pmt = CreateMediaTypeHDMI(IEC61937_TRUEHD);
+    }
 #endif
 
     if (GetMixer()) {
