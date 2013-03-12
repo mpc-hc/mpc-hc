@@ -64,6 +64,7 @@ extern "C" {
 #define OPTION_DRC          _T("DRC")
 #define OPTION_SPDIF_ac3    _T("SPDIF_ac3")
 #define OPTION_SPDIF_eac3   _T("HDMI_eac3")
+#define OPTION_SPDIF_truehd _T("HDMI_truehd")
 #define OPTION_SPDIF_dts    _T("SPDIF_dts")
 #define OPTION_SPDIF_dtshd  _T("HDMI_dtshd")
 
@@ -71,10 +72,12 @@ extern "C" {
 
 #define PADDING_SIZE        FF_INPUT_BUFFER_PADDING_SIZE
 
-#define BS_HEADER_SIZE         8
-#define BS_AC3_SIZE         6144
+#define BS_HEADER_SIZE          8
+#define BS_AC3_SIZE          6144
 #define BS_EAC3_SIZE        24576 // 6144 for DD Plus * 4 for IEC 60958 frames
-#define BS_MAT_SIZE         61440 // max length of MAT data: 61424 bytes (total=61432+8 header bytes)
+#define BS_MAT_SIZE         61424 // max length of MAT data
+#define BS_MAT_OFFSET        2560
+#define BS_TRUEHD_SIZE      61440 // 8 header bytes + 61424 of MAT data + 8 zero byte
 #define BS_DTSHD_SIZE       32768
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
@@ -329,6 +332,8 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     , m_buff(PADDING_SIZE)
     , m_hdmicount(0)
     , m_hdmisize(0)
+    , m_truehd_samplerate(0)
+    , m_truehd_framelength(0)
 {
     if (phr) {
         *phr = S_OK;
@@ -363,6 +368,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_fDRC                 = false;
     m_fSPDIF[ac3]          = false;
     m_fSPDIF[eac3]         = false;
+    m_fSPDIF[truehd]       = false;
     m_fSPDIF[dts]          = false;
     m_fSPDIF[dtshd]        = false;
 
@@ -400,6 +406,9 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SPDIF_eac3, dw)) {
             m_fSPDIF[eac3] = !!dw;
         }
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SPDIF_truehd, dw)) {
+            m_fSPDIF[truehd] = !!dw;
+        }
         if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SPDIF_dts, dw)) {
             m_fSPDIF[dts] = !!dw;
         }
@@ -417,6 +426,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_fDRC                 = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_DRC, m_fDRC);
     m_fSPDIF[ac3]          = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_ac3, m_fSPDIF[ac3]);
     m_fSPDIF[eac3]         = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_eac3, m_fSPDIF[eac3]);
+    m_fSPDIF[truehd]       = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_truehd, m_fSPDIF[truehd]);
     m_fSPDIF[dts]          = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_dts, m_fSPDIF[dts]);
     m_fSPDIF[dtshd]        = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_dtshd, m_fSPDIF[dtshd]);
 #endif
@@ -474,6 +484,8 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
     m_ps2_state.sync = false;
     m_hdmicount = 0;
     m_hdmisize  = 0;
+    m_truehd_samplerate  = 0;
+    m_truehd_framelength = 0;
     m_bResync = true;
 
     return __super::NewSegment(tStart, tStop, dRate);
@@ -561,6 +573,9 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
     }
     if (GetSPDIF(eac3) && subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
         return ProcessEAC3_SPDIF();
+    }
+    if (GetSPDIF(truehd) && subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+        return ProcessTrueHD_SPDIF();
     }
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
@@ -955,6 +970,95 @@ HRESULT CMpaDecFilter::ProcessEAC3_SPDIF()
         }
 
         hr = DeliverBitstream(m_hdmibuff, m_hdmisize, IEC61937_EAC3, samplerate, framelength * repeat);
+        m_hdmicount = 0;
+        m_hdmisize  = 0;
+        if (FAILED(hr)) {
+            return hr;
+        }
+    }
+
+    memmove(base, p, end - p);
+    m_buff.SetCount(end - p);
+
+    return S_OK;
+}
+
+HRESULT CMpaDecFilter::ProcessTrueHD_SPDIF()
+{
+    const BYTE mat_start_code[20]  = { 0x07, 0x9E, 0x00, 0x03, 0x84, 0x01, 0x01, 0x01, 0x80, 0x00, 0x56, 0xA5, 0x3B, 0xF4, 0x81, 0x83, 0x49, 0x80, 0x77, 0xE0 };
+    const BYTE mat_middle_code[12] = { 0xC3, 0xC1, 0x42, 0x49, 0x3B, 0xFA, 0x82, 0x83, 0x49, 0x80, 0x77, 0xE0 };
+    const BYTE mat_end_code[16]    = { 0xC3, 0xC2, 0xC0, 0xC4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x97, 0x11 };
+
+    HRESULT hr;
+    BYTE* const base = m_buff.GetData();
+    BYTE* const end = base + m_buff.GetCount();
+    BYTE* p = base;
+
+    while (p + 16 <= end) {
+        int samplerate, channels, framelength;
+        WORD bitdepth;
+        bool isTrueHD;
+
+        int size = ParseMLPHeader(p, &samplerate, &channels, &framelength, &bitdepth, &isTrueHD);
+        if (size > 0) {
+            // sync frame
+            m_truehd_samplerate  = samplerate;
+            m_truehd_framelength = framelength;
+        } else {
+            int ac3size = GetAC3FrameSize(p);
+            if (ac3size == 0) {
+                ac3size = GetEAC3FrameSize(p);
+            }
+            if (ac3size > 0) {
+                if (p + ac3size > end) {
+                    break;
+                }
+                p += ac3size;
+                continue; // skip ac3 frames
+            }
+        }
+
+        if (size == 0 && m_truehd_framelength > 0) {
+            // get not sync frame size
+            size = ((p[0] << 8 | p[1]) & 0xfff) * 2;
+        }
+
+        if (size < 8) {
+            p++;
+            continue;
+        }
+        if (p + size > end) {
+            break;
+        }
+
+        m_hdmicount++;
+        if (m_hdmicount == 1) {
+            // skip 8 header bytes and write MAT start code
+            memcpy(m_hdmibuff + BS_HEADER_SIZE, mat_start_code, sizeof(mat_start_code));
+            m_hdmisize = BS_HEADER_SIZE + sizeof(mat_start_code);
+        } else if (m_hdmicount == 13) {
+            memcpy(m_hdmibuff + (BS_HEADER_SIZE + BS_MAT_SIZE) / 2, mat_middle_code, sizeof(mat_middle_code));
+            m_hdmisize = (BS_HEADER_SIZE + BS_MAT_SIZE) / 2 + sizeof(mat_middle_code);
+        }
+
+        if (m_hdmisize + size <= m_hdmicount * BS_MAT_OFFSET) {
+            memcpy(m_hdmibuff + m_hdmisize, p, size);
+            m_hdmisize += size;
+            memset(m_hdmibuff + m_hdmisize, 0, m_hdmicount * BS_MAT_OFFSET - m_hdmisize);
+            m_hdmisize = m_hdmicount * BS_MAT_OFFSET;
+        } else {
+            ASSERT(0);
+        }
+        p += size;
+
+        if (m_hdmicount < 24) {
+            break;
+        }
+
+        memcpy(m_hdmibuff + (BS_HEADER_SIZE + BS_MAT_SIZE) - sizeof(mat_end_code), mat_end_code, sizeof(mat_end_code));
+        m_hdmisize = (BS_HEADER_SIZE + BS_MAT_SIZE);
+
+        hr = DeliverBitstream(m_hdmibuff + BS_HEADER_SIZE, m_hdmisize - BS_HEADER_SIZE, IEC61937_TRUEHD, m_truehd_samplerate, m_truehd_framelength * 24);
         m_hdmicount = 0;
         m_hdmisize  = 0;
         if (FAILED(hr)) {
@@ -1557,8 +1661,8 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sa
             isHDMI = true;
             break;
         case IEC61937_TRUEHD:
-                length = BS_MAT_SIZE;
-                isHDMI = true;
+            length = BS_TRUEHD_SIZE;
+            isHDMI = true;
             break;
         default:
             TRACE(_T("CMpaDecFilter::DeliverBitstream() - type is not supported\n"));
@@ -2152,6 +2256,7 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
         key.SetDWORDValue(OPTION_DRC, m_fDRC);
         key.SetDWORDValue(OPTION_SPDIF_ac3, m_fSPDIF[ac3]);
         key.SetDWORDValue(OPTION_SPDIF_eac3, m_fSPDIF[eac3]);
+        key.SetDWORDValue(OPTION_SPDIF_truehd, m_fSPDIF[truehd]);
         key.SetDWORDValue(OPTION_SPDIF_dts, m_fSPDIF[dts]);
         key.SetDWORDValue(OPTION_SPDIF_dtshd, m_fSPDIF[dtshd]);
     }
@@ -2165,6 +2270,7 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
     AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_DRC, m_fDRC);
     AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_ac3, m_fSPDIF[ac3]);
     AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_eac3, m_fSPDIF[eac3]);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_truehd, m_fSPDIF[truehd]);
     AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_dts, m_fSPDIF[dts]);
     AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_dtshd, m_fSPDIF[dtshd]);
 #endif

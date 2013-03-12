@@ -102,6 +102,8 @@ protected:
     BYTE            m_hdmibuff[61440];
     int             m_hdmicount;
     int             m_hdmisize;
+    int             m_truehd_samplerate;
+    int             m_truehd_framelength;
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     CFFAudioDecoder m_FFAudioDec;
@@ -117,6 +119,7 @@ protected:
     HRESULT ProcessAC3();
     HRESULT ProcessAC3_SPDIF();
     HRESULT ProcessEAC3_SPDIF();
+    HRESULT ProcessTrueHD_SPDIF();
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
     HRESULT ProcessDTS_SPDIF();

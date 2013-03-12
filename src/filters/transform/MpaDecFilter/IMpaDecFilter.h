@@ -35,6 +35,7 @@ public IUnknown {
     enum enctype {
         ac3 = 0,
         eac3,
+        truehd,
         dts,
         dtshd,
         etcount

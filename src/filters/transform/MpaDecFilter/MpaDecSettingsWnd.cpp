@@ -57,6 +57,7 @@ bool CMpaDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>
     m_drc          = m_pMDF->GetDynamicRangeControl();
     m_spdif_ac3    = m_pMDF->GetSPDIF(IMpaDecFilter::ac3);
     m_spdif_eac3   = m_pMDF->GetSPDIF(IMpaDecFilter::eac3);
+    m_spdif_truehd = m_pMDF->GetSPDIF(IMpaDecFilter::truehd);
     m_spdif_dts    = m_pMDF->GetSPDIF(IMpaDecFilter::dts);
     m_spdif_dtshd  = m_pMDF->GetSPDIF(IMpaDecFilter::dtshd);
 
@@ -115,15 +116,18 @@ bool CMpaDecSettingsWnd::OnActivate()
     ScreenToClient(r);
     p.y += h30;
 
-    m_spdif_group.Create(ResStr(IDS_MPADEC_SPDIF), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), h20 + h20 * 2)), this, (UINT)IDC_STATIC);
+    m_spdif_group.Create(ResStr(IDS_MPADEC_SPDIF), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), h20 + h20 * 3)), this, (UINT)IDC_STATIC);
     p.y += h20;
     m_spdif_ac3_check.Create(_T("AC-3"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK_SPDIF_AC3);
     m_spdif_dts_check.Create(_T("DTS"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(IPP_SCALE(100), 0), CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK_SPDIF_DTS);
     p.y += h20;
     m_spdif_eac3_check.Create(_T("E-AC3"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(50), m_fontheight)), this, IDC_PP_CHECK_SPDIF_EAC3);
     m_spdif_dtshd_check.Create(_T("DTS-HD"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(IPP_SCALE(100), 0), CSize(IPP_SCALE(60), m_fontheight)), this, IDC_PP_CHECK_SPDIF_DTSHD);
+    p.y += h20;
+    m_spdif_truehd_check.Create(_T("TrueHD"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(55), m_fontheight)), this, IDC_PP_CHECK_SPDIF_TRUEHD);
     m_spdif_ac3_check.SetCheck(m_spdif_ac3);
     m_spdif_eac3_check.SetCheck(m_spdif_eac3);
+    m_spdif_truehd_check.SetCheck(m_spdif_truehd);
     m_spdif_dts_check.SetCheck(m_spdif_dts);
     m_spdif_dtshd_check.SetCheck(m_spdif_dtshd);
     OnDTSCheck();
@@ -146,6 +150,7 @@ void CMpaDecSettingsWnd::OnDeactivate()
     m_drc          = !!m_drc_check.GetCheck();
     m_spdif_ac3    = !!m_spdif_ac3_check.GetCheck();
     m_spdif_eac3   = !!m_spdif_eac3_check.GetCheck();
+    m_spdif_truehd = !!m_spdif_truehd_check.GetCheck();
     m_spdif_dts    = !!m_spdif_dts_check.GetCheck();
     m_spdif_dtshd  = !!m_spdif_dtshd_check.GetCheck();
 }
@@ -164,6 +169,7 @@ bool CMpaDecSettingsWnd::OnApply()
         m_pMDF->SetDynamicRangeControl(m_drc);
         m_pMDF->SetSPDIF(IMpaDecFilter::ac3, m_spdif_ac3);
         m_pMDF->SetSPDIF(IMpaDecFilter::eac3, m_spdif_eac3);
+        m_pMDF->SetSPDIF(IMpaDecFilter::truehd, m_spdif_truehd);
         m_pMDF->SetSPDIF(IMpaDecFilter::dts, m_spdif_dts);
         m_pMDF->SetSPDIF(IMpaDecFilter::dtshd, m_spdif_dtshd);
 
