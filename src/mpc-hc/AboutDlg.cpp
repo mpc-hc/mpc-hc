@@ -111,7 +111,7 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 
 #if defined(HAS_FFMPEG) && !defined(MPCHC_LITE)
-    m_FFmpegCompiler.Format(CA2W(GetFFmpegCompiler()));
+    m_FFmpegCompiler.Format(CA2CT(GetFFmpegCompiler()));
 #else
     GetDlgItem(IDC_FFMPEG_TEXT)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_FFMPEG_COMPILER)->ShowWindow(SW_HIDE);
