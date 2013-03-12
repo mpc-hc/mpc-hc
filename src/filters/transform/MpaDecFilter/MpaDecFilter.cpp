@@ -559,8 +559,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
             return ProcessAC3();
         }
     }
-#endif
-#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
     if (GetSPDIF(eac3) && subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
         return ProcessEAC3_SPDIF();
     }
@@ -947,21 +945,21 @@ HRESULT CMpaDecFilter::ProcessEAC3_SPDIF()
         if (m_hdmisize + size <= BS_EAC3_SIZE - BS_HEADER_SIZE) {
             memcpy(m_hdmibuff + m_hdmisize, p, size);
             m_hdmisize += size;
-            p += size;
         } else {
             ASSERT(0);
         }
+        p += size;
+
         if (m_hdmicount < repeat) {
             break;
         }
 
-        if (FAILED(hr = DeliverBitstream(m_hdmibuff, m_hdmisize, IEC61937_EAC3, samplerate, framelength))) {
-            return hr;
-        }
+        hr = DeliverBitstream(m_hdmibuff, m_hdmisize, IEC61937_EAC3, samplerate, framelength * repeat);
         m_hdmicount = 0;
         m_hdmisize  = 0;
-
-        //p += size;
+        if (FAILED(hr)) {
+            return hr;
+        }
     }
 
     memmove(base, p, end - p);
