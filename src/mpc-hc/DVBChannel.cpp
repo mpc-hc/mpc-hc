@@ -128,11 +128,6 @@ CString CDVBChannel::ToString()
     return strValue;
 }
 
-void CDVBChannel::SetName(BYTE* Value)
-{
-    m_strName = CA2W((LPCSTR)Value);
-}
-
 void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_TYPE nPesType, LPCTSTR strLanguage)
 {
     switch (nType) {

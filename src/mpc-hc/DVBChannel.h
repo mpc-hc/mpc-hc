@@ -99,7 +99,6 @@ public:
     bool IsEncrypted() const { return m_bEncrypted; };
     bool GetNowNextFlag() const { return m_bNowNextFlag; };
 
-    void SetName(BYTE* Value);
     void SetName(LPCTSTR Value) { m_strName = Value; };
     void SetFrequency(ULONG Value) { m_ulFrequency = Value; };
     void SetPrefNumber(int Value) { m_nPrefNumber = Value; };
