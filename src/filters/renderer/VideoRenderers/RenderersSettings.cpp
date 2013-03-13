@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,9 +34,9 @@ void CRenderersSettings::CAdvRendererSettings::SetDefault()
 {
     fVMR9AlterativeVSync              = 0;
     iVMR9VSyncOffset                  = 0;
-    iVMR9VSyncAccurate                = 1;
+    iVMR9VSyncAccurate                = 0;
     iVMR9FullscreenGUISupport         = 0;
-    iVMR9VSync                        = 1;
+    iVMR9VSync                        = 0;
     iVMR9FullFloatingPointProcessing  = 0;
     iVMR9HalfFloatingPointProcessing  = 0;
     iVMR9ColorManagementEnable        = 0;
