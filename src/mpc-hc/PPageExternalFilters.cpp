@@ -313,20 +313,20 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON2, OnRemoveFilter)
     ON_BN_CLICKED(IDC_BUTTON3, OnMoveFilterUp)
     ON_BN_CLICKED(IDC_BUTTON4, OnMoveFilterDown)
-    ON_LBN_DBLCLK(IDC_LIST1, OnLbnDblclkFilter)
+    ON_LBN_DBLCLK(IDC_LIST1, OnDoubleClickFilter)
     ON_WM_VKEYTOITEM()
     ON_BN_CLICKED(IDC_BUTTON5, OnAddMajorType)
     ON_BN_CLICKED(IDC_BUTTON6, OnAddSubType)
     ON_BN_CLICKED(IDC_BUTTON7, OnDeleteType)
     ON_BN_CLICKED(IDC_BUTTON8, OnResetTypes)
-    ON_LBN_SELCHANGE(IDC_LIST1, OnLbnSelchangeList1)
-    ON_CLBN_CHKCHANGE(IDC_LIST1, OnCheckChangeList1)
-    ON_BN_CLICKED(IDC_RADIO1, OnBnClickedRadio)
-    ON_BN_CLICKED(IDC_RADIO2, OnBnClickedRadio)
-    ON_BN_CLICKED(IDC_RADIO3, OnBnClickedRadio)
-    ON_EN_CHANGE(IDC_EDIT1, OnEnChangeEdit1)
-    ON_NOTIFY(NM_DBLCLK, IDC_TREE2, OnNMDblclkTree2)
-    ON_NOTIFY(TVN_KEYDOWN, IDC_TREE2, OnTVNKeyDownTree2)
+    ON_LBN_SELCHANGE(IDC_LIST1, OnFilterSelectionChange)
+    ON_CLBN_CHKCHANGE(IDC_LIST1, OnFilterCheckChange)
+    ON_BN_CLICKED(IDC_RADIO1, OnClickedMeritRadioButton)
+    ON_BN_CLICKED(IDC_RADIO2, OnClickedMeritRadioButton)
+    ON_BN_CLICKED(IDC_RADIO3, OnClickedMeritRadioButton)
+    ON_EN_CHANGE(IDC_EDIT1, OnChangeMerit)
+    ON_NOTIFY(NM_DBLCLK, IDC_TREE2, OnDoubleClickType)
+    ON_NOTIFY(TVN_KEYDOWN, IDC_TREE2, OnKeyDownType)
     ON_WM_DROPFILES()
     ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
@@ -455,7 +455,7 @@ void CPPageExternalFilters::OnAddRegistered()
 
                 if (dlg.m_filters.IsEmpty()) {
                     m_filters.SetCurSel(i);
-                    OnLbnSelchangeList1();
+                    OnFilterSelectionChange();
                 }
 
                 SetModified();
@@ -474,7 +474,7 @@ void CPPageExternalFilters::OnRemoveFilter()
         i--;
     }
     m_filters.SetCurSel(i);
-    OnLbnSelchangeList1();
+    OnFilterSelectionChange();
 
     SetModified();
 }
@@ -489,7 +489,7 @@ void CPPageExternalFilters::OnMoveFilterDown()
     StepDown(m_filters);
 }
 
-void CPPageExternalFilters::OnLbnDblclkFilter()
+void CPPageExternalFilters::OnDoubleClickFilter()
 {
     if (FilterOverride* f = GetCurFilter()) {
         CComPtr<IBaseFilter> pBF;
@@ -684,13 +684,13 @@ void CPPageExternalFilters::OnResetTypes()
         }
 
         m_pLastSelFilter = NULL;
-        OnLbnSelchangeList1();
+        OnFilterSelectionChange();
 
         SetModified();
     }
 }
 
-void CPPageExternalFilters::OnLbnSelchangeList1()
+void CPPageExternalFilters::OnFilterSelectionChange()
 {
     if (FilterOverride* f = GetCurFilter()) {
         if (m_pLastSelFilter == f) {
@@ -748,12 +748,12 @@ void CPPageExternalFilters::OnLbnSelchangeList1()
     }
 }
 
-void CPPageExternalFilters::OnCheckChangeList1()
+void CPPageExternalFilters::OnFilterCheckChange()
 {
     SetModified();
 }
 
-void CPPageExternalFilters::OnBnClickedRadio()
+void CPPageExternalFilters::OnClickedMeritRadioButton()
 {
     UpdateData();
 
@@ -765,7 +765,7 @@ void CPPageExternalFilters::OnBnClickedRadio()
     }
 }
 
-void CPPageExternalFilters::OnEnChangeEdit1()
+void CPPageExternalFilters::OnChangeMerit()
 {
     UpdateData();
     if (FilterOverride* f = GetCurFilter()) {
@@ -778,7 +778,7 @@ void CPPageExternalFilters::OnEnChangeEdit1()
     }
 }
 
-void CPPageExternalFilters::OnNMDblclkTree2(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageExternalFilters::OnDoubleClickType(NMHDR* pNMHDR, LRESULT* pResult)
 {
     *pResult = 0;
 
@@ -811,7 +811,7 @@ void CPPageExternalFilters::OnNMDblclkTree2(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-void CPPageExternalFilters::OnTVNKeyDownTree2(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageExternalFilters::OnKeyDownType(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LPNMTVKEYDOWN pTVKeyDown = reinterpret_cast<LPNMTVKEYDOWN>(pNMHDR);
 
@@ -843,7 +843,7 @@ void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)
 
                 if (fm2.m_filters.IsEmpty()) {
                     m_filters.SetCurSel(i);
-                    OnLbnSelchangeList1();
+                    OnFilterSelectionChange();
                 }
 
                 SetModified();
