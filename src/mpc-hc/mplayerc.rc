@@ -2118,7 +2118,7 @@ BEGIN
     IDS_SUBRESYNC_CLN_TEXT          "Text"
     IDS_SUBRESYNC_CLN_STYLE         "Style"
     IDS_SUBRESYNC_CLN_FONT          "Font"
-    IDS_SUBRESYNC_CLN_CHARTSET      "CharSet"
+    IDS_SUBRESYNC_CLN_CHARSET       "CharSet"
     IDS_SUBRESYNC_CLN_UNICODE       "Unicode"
     IDS_SUBRESYNC_CLN_LAYER         "Layer"
     IDS_SUBRESYNC_CLN_ACTOR         "Actor"

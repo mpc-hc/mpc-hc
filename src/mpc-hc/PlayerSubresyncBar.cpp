@@ -162,7 +162,7 @@ void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
         m_list.InsertColumn(COL_TEXT, ResStr(IDS_SUBRESYNC_CLN_TEXT), LVCFMT_LEFT, 275);
         m_list.InsertColumn(COL_STYLE, ResStr(IDS_SUBRESYNC_CLN_STYLE), LVCFMT_LEFT, 80);
         m_list.InsertColumn(COL_FONT, ResStr(IDS_SUBRESYNC_CLN_FONT), LVCFMT_LEFT, 60);
-        m_list.InsertColumn(COL_CHARSET, ResStr(IDS_SUBRESYNC_CLN_CHARTSET), LVCFMT_CENTER, 20);
+        m_list.InsertColumn(COL_CHARSET, ResStr(IDS_SUBRESYNC_CLN_CHARSET), LVCFMT_CENTER, 20);
         m_list.InsertColumn(COL_UNICODE, ResStr(IDS_SUBRESYNC_CLN_UNICODE), LVCFMT_CENTER, 40);
         m_list.InsertColumn(COL_LAYER, ResStr(IDS_SUBRESYNC_CLN_LAYER), LVCFMT_CENTER, 50);
         m_list.InsertColumn(COL_ACTOR, ResStr(IDS_SUBRESYNC_CLN_ACTOR), LVCFMT_LEFT, 80);
