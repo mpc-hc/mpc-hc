@@ -2022,11 +2022,15 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 
     if (GetMixer()) {
         DWORD in_layout;
+#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
         if (m_FFAudioDec.GetCodecId() != AV_CODEC_ID_NONE) {
             in_layout = m_FFAudioDec.GetChannelMask();
         } else {
             in_layout = GetDefChannelMask(wfe->nChannels);
         }
+#else
+        in_layout = GetDefChannelMask(wfe->nChannels);
+#endif
 
         int sc = GetMixerLayout();
         if (in_layout != channel_mode[sc].ch_layout) {
