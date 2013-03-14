@@ -372,8 +372,6 @@ BOOL CPPageExternalFilters::OnInitDialog()
 
     UpdateData(FALSE);
 
-    EnableToolTips(TRUE);
-
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -865,7 +863,11 @@ BOOL CPPageExternalFilters::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pRe
             CAutoPtr<FilterOverride>& f = m_pFilters.GetAt(pos);
 
             pTTT->lpszText = (f->type == FilterOverride::EXTERNAL) ? (LPTSTR)(LPCTSTR)f->path : _T("Registered filter");
+        } else {
+            ASSERT(FALSE);
         }
+    } else {
+        ASSERT(FALSE);
     }
 
     *pResult = 0;
