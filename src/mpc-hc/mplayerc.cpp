@@ -1171,9 +1171,9 @@ UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawIn
 
 void CMPlayerCApp::RegisterHotkeys()
 {
-    RAWINPUTDEVICELIST InputDeviceList[50];
-    UINT nInputDeviceCount = _countof(InputDeviceList);
-    RID_DEVICE_INFO DevInfo;
+    CAutoVectorPtr<RAWINPUTDEVICELIST> inputDeviceList;
+    UINT nInputDeviceCount = 0, nErrCode;
+    RID_DEVICE_INFO deviceInfo;
     RAWINPUTDEVICE MCEInputDevice[] = {
         // usUsagePage     usUsage         dwFlags     hwndTarget
         {  0xFFBC,         0x88,           0,          NULL},
@@ -1186,23 +1186,34 @@ void CMPlayerCApp::RegisterHotkeys()
         MCEInputDevice[i].hwndTarget = m_pMainWnd->m_hWnd;
     }
 
-    nInputDeviceCount = GetRawInputDeviceList(InputDeviceList, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
-    for (UINT i = 0; i < nInputDeviceCount; i++) {
-        UINT nTemp = sizeof(DevInfo);
+    // Get the size of the device list
+    nErrCode = GetRawInputDeviceList(NULL, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
+    inputDeviceList.Attach(new RAWINPUTDEVICELIST[nInputDeviceCount]);
+    if (nErrCode == UINT(-1) || !nInputDeviceCount || !inputDeviceList) {
+        ASSERT(nErrCode != UINT(-1));
+        return;
+    }
 
-        if (GetRawInputDeviceInfo(InputDeviceList[i].hDevice, RIDI_DEVICEINFO, &DevInfo, &nTemp) > 0) {
-            if (DevInfo.hid.dwVendorId == 0x00000471 &&         // Philips HID vendor id
-                    DevInfo.hid.dwProductId == 0x00000617) {    // IEEE802.15.4 RF Dongle (SRM 7500)
-                MCEInputDevice[0].usUsagePage = DevInfo.hid.usUsagePage;
-                MCEInputDevice[0].usUsage = DevInfo.hid.usUsage;
+    nErrCode = GetRawInputDeviceList(inputDeviceList, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
+    if (nErrCode == UINT(-1)) {
+        ASSERT(FALSE);
+        return;
+    }
+
+    for (UINT i = 0; i < nInputDeviceCount; i++) {
+        UINT nTemp = deviceInfo.cbSize = sizeof(deviceInfo);
+
+        if (GetRawInputDeviceInfo(inputDeviceList[i].hDevice, RIDI_DEVICEINFO, &deviceInfo, &nTemp) > 0) {
+            if (deviceInfo.hid.dwVendorId == 0x00000471 &&         // Philips HID vendor id
+                    deviceInfo.hid.dwProductId == 0x00000617) {    // IEEE802.15.4 RF Dongle (SRM 7500)
+                MCEInputDevice[0].usUsagePage = deviceInfo.hid.usUsagePage;
+                MCEInputDevice[0].usUsage = deviceInfo.hid.usUsage;
                 GetRemoteControlCode = GetRemoteControlCodeSRM7500;
             }
         }
     }
 
-
     RegisterRawInputDevices(MCEInputDevice, _countof(MCEInputDevice), sizeof(RAWINPUTDEVICE));
-
 
     if (m_s.fGlobalMedia) {
         POSITION pos = m_s.wmcmds.GetHeadPosition();
