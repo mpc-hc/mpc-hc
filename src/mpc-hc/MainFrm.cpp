@@ -12708,10 +12708,12 @@ void CMainFrame::SetupSubtitlesSubMenu()
             }
         }
 
-        CLSID clsid;
-        if (iSelected > 0 && SUCCEEDED(subInput.subStream->GetClassID(&clsid))
-                && clsid == __uuidof(CRenderedTextSubtitle)) {
-            bStyleEnabled = true;
+        if (subInput.subStream == m_pCurrentSubStream) {
+            CLSID clsid;
+            if (SUCCEEDED(subInput.subStream->GetClassID(&clsid))
+                    && clsid == __uuidof(CRenderedTextSubtitle)) {
+                bStyleEnabled = true;
+            }
         }
 
         // TODO: find a better way to group these entries
