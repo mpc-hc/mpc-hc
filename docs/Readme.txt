@@ -64,7 +64,7 @@ Logitech SDK        -                           -
 MediaInfoLib        LGPLv2+                     http://mediainfo.sourceforge.net/
 MultiMon            CPOL                        http://www.codeproject.com/KB/GDI/multimon.aspx
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
-RARFileSource       GPLv2                       http://www.v12pwr.com/RARFileSource/
+RARFileSource       GPLv2+                      http://www.v12pwr.com/RARFileSource/
 RealMedia SDK       -                           -
 ResizableLib        Artistic License            http://sourceforge.net/projects/resizablelib/
 Silk Icons          CC Attribution 2.5          http://www.famfamfam.com/lab/icons/silk/
