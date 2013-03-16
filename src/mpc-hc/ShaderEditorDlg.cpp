@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -316,27 +316,15 @@ void CShaderEditorDlg::OnCbnSelchangeCombo1()
 {
     int i = m_labels.GetCurSel();
 
-
-    CString label;
     if (i < 0) {
+        CString label;
         m_labels.GetWindowText(label);
-        //label.Trim();
-        FixFilename(label);
+        label.Trim();
 
         if (label.IsEmpty()) {
             return;
         }
 
-        for (int k = 0; k < m_labels.GetCount(); k++) {
-            if (label.CompareNoCase(((CAppSettings::Shader*)m_labels.GetItemDataPtr(k))->label) == 0) {
-                m_labels.SetCurSel(k);
-                i = k;
-                break;
-            }
-        }
-    }
-
-    if (i < 0) {
         CStringA srcdata;
         if (!LoadResource(IDF_SHADER_EMPTY, srcdata, _T("SHADER"))) {
             return;
@@ -379,12 +367,6 @@ void CShaderEditorDlg::OnBnClickedButton2()
 
     for (POSITION pos = s.m_shaders.GetHeadPosition(); pos; s.m_shaders.GetNext(pos)) {
         if (m_pShader == &s.m_shaders.GetAt(pos)) {
-            CString strShaderPath;
-            if (AfxGetMyApp()->GetAppSavePath(strShaderPath)) {
-                strShaderPath += _T("\\Shaders\\") + m_pShader->label + _T(".psh");
-                DeleteFile(strShaderPath);
-            }
-
             m_pShader = NULL;
             s.m_shaders.RemoveAt(pos);
             int i = m_labels.GetCurSel();
