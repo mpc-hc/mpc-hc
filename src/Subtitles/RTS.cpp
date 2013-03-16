@@ -188,14 +188,15 @@ bool CWord::CreateOpaqueBox()
     int w = (int)(m_style.outlineWidthX + 0.5);
     int h = (int)(m_style.outlineWidthY + 0.5);
 
+    // Convert to pixels rounding to nearest
     CStringW str;
     str.Format(L"m %d %d l %d %d %d %d %d %d",
-               -w, -h,
-               m_width + w, -h,
-               m_width + w, m_ascent + m_descent + h,
-               -w, m_ascent + m_descent + h);
+               -(w + 4) / 8, -(h + 4) / 8,
+               (m_width + w + 4) / 8, -(h + 4) / 8,
+               (m_width + w + 4) / 8, (m_ascent + m_descent + h + 4) / 8,
+               -(w + 4) / 8, (m_ascent + m_descent + h + 4) / 8);
 
-    m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0 / 8, 1.0 / 8, 0);
+    m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0);
 
     return !!m_pOpaqueBox;
 }

@@ -91,4 +91,5 @@ Legend:
 ! Ticket #2934, MPEG Splitter: Some files couldn't be opened
 ! Ticket #2939, Some fields of the renderer statistics were wrong
 ! Ticket #2971, Fix a rare crash on startup
+! Ticket #2984, SSA subtitles: Fix outline background with \frx or \fry tags
 ! Ticket #2985, Prevent the volume OSD message from erasing the filename OSD message on startup
