@@ -139,7 +139,6 @@ SelectDirDesc=Unde doriþi sã instalaþi [name]?
 SelectDirLabel3=Instalatorul va pune [name] în dosarul specificat mai jos.
 SelectDirBrowseLabel=Pentru a avansa cu instalarea, clicaþi Continuã. Dacã doriþi sã selectaþi un alt dosar, clicaþi Exploreazã.
 DiskSpaceMBLabel=Este necesar un spaþiu liber de stocare de cel puþin [mb] MB.
-ToUNCPathname=Instalatorul nu poate realiza instalarea pe o cale în format UNC. Dacã încercaþi sã instalaþi într-o reþea, va trebui sã mapaþi un dispozitiv de reþea.
 InvalidPath=Trebuie sã introduceþi o cale completã, inclusiv litera dispozitivului; de exemplu:%n%nC:\APP%n%nsau o cale UNC de forma:%n%n\\server\share
 InvalidDrive=Dispozitivul sau partajul UNC pe care l-aþi selectat nu existã sau nu este accesibil. Selectaþi altul.
 DiskSpaceWarningTitle=Spaþiu de Stocare Insuficient
