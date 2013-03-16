@@ -53,7 +53,7 @@ Legend:
 * Updated MediaInfoLib to v0.7.62
 * Updated ZenLib to v0.4.28 r430
 * Updated Basque, Catalan, Czech, German, French, Greek, Japanese, Polish, Russian,
-  Traditional and Simplified Chinese, Slovak and Ukrainian translations
+  Traditional and Simplified Chinese, Slovak, Swedish and Ukrainian translations
 ! Various WebUI fixes:
   - Fix seeking
   - Fix volume slider going out of bounds with IE in player.html

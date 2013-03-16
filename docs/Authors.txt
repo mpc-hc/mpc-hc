@@ -3,7 +3,7 @@ Active (sorted by name):
 Armada                  <armada651@users.sourceforge.net>       Code
 Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 janwillem32             <janwillem32@users.sourceforge.net>     Code
-JellyFrog               -                                       Server admin, Trac admin
+JellyFrog               -                                       Server admin, Trac admin, Swedish
 kasper93                <kasper93@users.sourceforge.net>        Trac moderator, Polish, Code
 namaiki                 <namaiki@users.sourceforge.net>         Trac moderator
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
