@@ -140,7 +140,7 @@ MPC-HC makes use of the following third-party code:
     </tr>
     <tr>
         <td>RARFileSource</td>
-        <td>GPLv2</td>
+        <td>GPLv2+</td>
         <td>http://www.v12pwr.com/RARFileSource/</td>
     </tr>
     <tr>
