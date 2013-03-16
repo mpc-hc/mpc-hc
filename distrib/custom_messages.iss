@@ -1,4 +1,4 @@
-﻿; (C) 2009-2012 see Authors.txt
+﻿; (C) 2009-2013 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
