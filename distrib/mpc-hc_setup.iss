@@ -74,10 +74,12 @@
   #define OutFilename  = app_name + "." + app_version + ".x86"
 #endif
 
-#if localize != "true" && defined(MPCHC_LITE)
-  #define OutFilename  = OutFilename + ".Lite"
-#elif localize != "true"
-  #define OutFilename  = OutFilename + ".en"
+#if localize != "true"
+  #if defined(MPCHC_LITE)
+    #define OutFilename  = OutFilename + ".Lite"
+  #else
+    #define OutFilename  = OutFilename + ".en"
+  #endif
 #endif
 
 #if defined(VS2012)
@@ -214,36 +216,12 @@ Name: desktopicon;        Description: {cm:CreateDesktopIcon};     GroupDescript
 Name: desktopicon\user;   Description: {cm:tsk_CurrentUser};       GroupDescription: {cm:AdditionalIcons}; Flags: exclusive
 Name: desktopicon\common; Description: {cm:tsk_AllUsers};          GroupDescription: {cm:AdditionalIcons}; Flags: unchecked exclusive
 Name: quicklaunchicon;    Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked;             OnlyBelowVersion: 6.01
-Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescription: {cm:tsk_Other};       Flags: checkedonce unchecked; Check: SettingsExistCheck()
+Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescription: {cm:tsk_Other};       Flags: checkedonce unchecked; Check: SettingsExist()
 
 
 [Files]
 #if localize == "true"
-Source: {#bindir}\Lang\mpcresources.br.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.by.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.ca.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.cz.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.de.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.el.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.es.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.eu.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.fr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.he.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.hu.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.hy.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.it.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.ja.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.kr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.nl.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.pl.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.ro.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.ru.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.sc.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.sk.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.sv.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.tc.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.tr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.ua.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.??.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
 Source: {#bindir}\D3DCompiler_{#MPC_DX_SDK_NUMBER}.dll; DestDir: {app}; Components: main;  Flags: ignoreversion
 Source: {#bindir}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;       DestDir: {app}; Components: main;  Flags: ignoreversion
@@ -281,21 +259,21 @@ Filename: {app}\Changelog.txt;                   Description: {cm:ViewChangelog}
 Type: files; Name: {userdesktop}\{#app_name}.lnk;   Check: not IsTaskSelected('desktopicon\user')   and IsUpgrade()
 Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: not IsTaskSelected('desktopicon\common') and IsUpgrade()
 Type: files; Name: {#quick_launch}\{#app_name}.lnk; Check: not IsTaskSelected('quicklaunchicon')    and IsUpgrade(); OnlyBelowVersion: 6.01
-Type: files; Name: {app}\AUTHORS
-Type: files; Name: {app}\ChangeLog
-Type: files; Name: {app}\COPYING
+Type: files; Name: {app}\AUTHORS;                   Check: IsUpgrade()
+Type: files; Name: {app}\ChangeLog;                 Check: IsUpgrade()
+Type: files; Name: {app}\COPYING;                   Check: IsUpgrade()
 
 ; old shortcuts
 #ifdef x64Build
-Type: files; Name: {group}\Media Player Classic - Home Cinema x64.lnk;               Check: IsUpgrade()
-Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema x64.lnk;       Check: IsUpgrade()
-Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema x64.lnk;         Check: IsUpgrade()
-Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema x64.lnk;       Check: IsUpgrade()
+Type: files; Name: {group}\Media Player Classic - Home Cinema x64.lnk;                   Check: IsUpgrade()
+Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema x64.lnk;           Check: IsUpgrade()
+Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema x64.lnk;             Check: IsUpgrade()
+Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema x64.lnk;           Check: IsUpgrade()
 #else
-Type: files; Name: {group}\Media Player Classic - Home Cinema.lnk;                   Check: IsUpgrade()
-Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema.lnk;           Check: IsUpgrade()
-Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema.lnk;             Check: IsUpgrade()
-Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema.lnk;           Check: IsUpgrade()
+Type: files; Name: {group}\Media Player Classic - Home Cinema.lnk;                       Check: IsUpgrade()
+Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema.lnk;               Check: IsUpgrade()
+Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema.lnk;                 Check: IsUpgrade()
+Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema.lnk;               Check: IsUpgrade()
 #endif
 Type: files; Name: {group}\{cm:ProgramOnTheWeb,Media Player Classic - Home Cinema}.url;  Check: IsUpgrade()
 Type: files; Name: {group}\{cm:UninstallProgram,Media Player Classic - Home Cinema}.lnk; Check: IsUpgrade()
@@ -386,7 +364,7 @@ end;
 
 
 // Check if MPC-HC's settings exist
-function SettingsExistCheck(): Boolean;
+function SettingsExist(): Boolean;
 begin
   if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') or
   FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
@@ -443,7 +421,7 @@ end;
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   // When uninstalling, ask the user to delete MPC-HC settings
-  if (CurUninstallStep = usUninstall) and SettingsExistCheck() then begin
+  if (CurUninstallStep = usUninstall) and SettingsExist() then begin
     if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
       CleanUpSettingsAndFiles();
 
