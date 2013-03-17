@@ -53,7 +53,7 @@
 
 #define MPC_VERSION_MAJOR 1
 #define MPC_VERSION_MINOR 6
-#define MPC_VERSION_PATCH 6
+#define MPC_VERSION_PATCH 7
 
 
 #define MPC_COMP_NAME_STR    _T("MPC-HC Team")
