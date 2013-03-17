@@ -8,6 +8,11 @@ Legend:
 ! Fixed
 
 
+1.6.7 - not released yet
+========================
+* Updated Greek translation
+
+
 1.6.6 - 17 March 2013
 =====================
 + Formats: The space key can now be used to enable/disable formats
