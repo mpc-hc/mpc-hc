@@ -1,9 +1,9 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
-3		"Περί"
+3  	"Περί"
 8		"Copyright © 2002-2013 βλέπε Authors.txt"
 10		"Έκδοση :"
 11		"Εντάξει"
-12		"Αυτό το πρόγραμμα είναι ελεύθερο και κυκλοφορεί υπό τη Γενική Δημόσια Άδεια GNU."
+12		"Αυτό το πρόγραμμα είναι δωρεάν και κυκλοφορεί υπό τους όρους της Γενικής Δημόσιας Άδειας GNU."
 13		"MPC-HC Compiler :"
 14		"FFmpeg Compiler :"
 18		"Ελληνική μετάφραση : geogeo.gr && Λάμπρος Ζουλούμης"
@@ -345,10 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
-5		"Prefer forced and/or default subtitles tracks"
+5		"Προτίμηση αναγκαστικών και/ή προεπιλεγμένων καναλιών υποτίτλων"
 7		"Προτίμηση εξωτερικών υπότιτλων πάνω στους ενσωματωμένους υπότιτλους"
 9		"Παράβλεψη ενσωματωμένων υπότιτλων"
-10		"Allow overriding external splitter choice"
+10		"Επιτρέπεται η παράκαμψη της επιλογής εξωτερικού διαχωριστή"
 11		"Κατάλογοι αυτόματης φόρτωσης"
 13		"Επαναφορά"
 14		"Βάση δεδομένων σε σύνδεση"
@@ -1527,7 +1527,7 @@ STRING IDS_MPADEC_MIXER		"Μείκτης"
 STRING IDS_MPADEC_MIX_SPEAKERS		"Ηχεία εξόδου:"
 STRING IDS_MPADEC_MONO		"Μονοφωνικά"
 STRING IDS_MPADEC_SAMPLE_FMT		"Μορφή δείγμ. εξόδου:"
-STRING IDS_MPADEC_SPDIF		"Pass-through (S/PDIF, HDMI)"
+STRING IDS_MPADEC_SPDIF		"Διαβίβαση (S/PDIF, HDMI)"
 STRING IDS_MPADEC_STEREO		"Στερεοφωνικά"
 STRING IDS_MPC_BUG_REPORT		"Το MPC-HC μόλις κατέρρευσε αλλά αυτή η έκδοση καταρτίστηκε χωρίς πληροφορίες αποσφαλμάτωσης.\nΕάν θέλετε να αναφέρετε αυτό το σφάλμα, θα πρέπει πρώτα να προσπαθήσετε με μια επίσημη έκδοση.\n\nΘέλετε να επισκεφθείτε τη σελίδα λήψης τώρα;"
 STRING IDS_MPC_BUG_REPORT_TITLE		"MPC-HC - Αναφορά σφάλματος"
