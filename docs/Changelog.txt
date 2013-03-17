@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-1.6.6 - not released yet
-========================
+1.6.6 - 17 March 2013
+=====================
 + Formats: The space key can now be used to enable/disable formats
 + Miscellaneous: Add button to export key bindings
 + Add the ability to choose the scale factor (relative to the screen size) for
@@ -39,7 +39,7 @@ Legend:
 * Disabled Frame Time Correction hotkey by default
 * DVB: Some filters that are known to be incompatible with the BDA source filters are now blacklisted
 * External filters: Use two separated lists for x86 and x64 since x86 filters only work with MPC-HC x86
-  and vice-versa
+  and vice versa
 * Ticket #978, Apply the "Repeat" option after "Play next in the folder": the option will now take
   effect after the next file in the folder was played (similarly to what happens for playlist items)
 * Ticket #1620, UI: Use the new styled radio bullet for menu's items
@@ -66,7 +66,7 @@ Legend:
 ! The external filters list was lost when switching from registry to ini or vice-versa
 ! Ticket #84, WebServer: The filenames weren't correctly URL decoded
 ! Ticket #593, Fixed EVR-CP using the CPU while the player is paused when VSync is on
-! Ticket #890, DVB: Disable pause for capture mode to avoid accidental playback stop.
+! Ticket #890, DVB: Disable pause for capture mode to avoid accidental playback stop
 ! Ticket #1554, The OSD was looking bad when using the EVR Sync renderer
 ! Ticket #1600, Improve the naming of subtitles tracks (avoid showing a useless and ugly comma)
 ! Ticket #2396, DVB: Fix default audio track selection when its type is different than
@@ -81,9 +81,9 @@ Legend:
 ! Ticket #2859, FLACSource: Improve timestamps accuracy. This fixes some cases where the
   end of the file wasn't played.
 ! Ticket #2863, The OSD was incorrect when restarting the playback of a file after it ended
-! Ticket #2864, VobSub subtitles were autoloaded twice
+! Ticket #2864, VobSub subtitles were auto-loaded twice
 ! Ticket #2881, "Auto-fit" and "Auto-fit (Larger Only)" zooms gave different results
-  depending on if they were used in windowed or fullscreen mode.
+  depending on if they were used in windowed or fullscreen mode
 ! Ticket #2889, Fix incorrectly displayed OSD when using EVR and VRM-9 (windowed) renderers
 ! Ticket #2902, DVB: Some old channels weren't deleted when redoing the scan
 ! Ticket #2913, Fixed DXVA1 MPEG2 decoder
