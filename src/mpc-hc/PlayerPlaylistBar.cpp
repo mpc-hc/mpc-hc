@@ -517,6 +517,8 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
     }
 
     Refresh();
+    EnsureVisible(m_pl.GetTailPosition());
+    m_list.SetItemState(m_pl.GetCount() - 1, LVIS_SELECTED, LVIS_SELECTED);
     SavePlaylist();
 }
 
@@ -550,6 +552,8 @@ void CPlayerPlaylistBar::Append(CStringW vdn, CStringW adn, int vinput, int vcha
     m_pl.AddTail(pli);
 
     Refresh();
+    EnsureVisible(m_pl.GetTailPosition());
+    m_list.SetItemState(m_pl.GetCount() - 1, LVIS_SELECTED, LVIS_SELECTED);
     SavePlaylist();
 }
 
@@ -580,7 +584,7 @@ void CPlayerPlaylistBar::UpdateList()
 
 void CPlayerPlaylistBar::EnsureVisible(POSITION pos)
 {
-    int i = FindItem(m_pl.GetPos());
+    int i = FindItem(pos);
     if (i < 0) {
         return;
     }
