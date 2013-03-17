@@ -10,6 +10,9 @@ Legend:
 
 1.6.7 - not released yet
 ========================
++ Ticket #2987, Playlist improvements:
+  - Scroll and select the last added item.
+  - Put MPC-HC on top and give the focus to the playlist after a drag-and drop.
 * Updated Catalan and Greek translations
 * Updated Little CMS to v2.5 (git d504603)
 ! Ticket #2991, Fix loading of MicroDVD subtitles

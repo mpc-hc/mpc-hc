@@ -1060,7 +1060,8 @@ BOOL CPlayerPlaylistBar::OnPlayPlay(UINT nID)
 
 void CPlayerPlaylistBar::OnDropFiles(HDROP hDropInfo)
 {
-    SetActiveWindow();
+    SetForegroundWindow();
+    m_list.SetFocus();
 
     CAtlList<CString> sl;
 
