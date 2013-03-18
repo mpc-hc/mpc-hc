@@ -455,7 +455,7 @@ public:
     DWORD SetupAudioStreams();
     DWORD SetupSubtitleStreams();
 
-    bool LoadSubtitle(CString fn, ISubStream** actualStream = NULL);
+    bool LoadSubtitle(CString fn, ISubStream** actualStream = NULL, bool bAutoLoad = false);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false, bool bApplyDefStyle = false);
     void SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle = false);
     void ToogleSubtitleOnOff(bool bDisplayMessage = false);

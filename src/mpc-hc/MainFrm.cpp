@@ -4474,13 +4474,8 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 
     if (sl.GetCount() == 1 && m_iMediaLoadState == MLS_LOADED && m_pCAP) {
         CPath fn(sl.GetHead());
-        // If the user is trying to load VobSub subtitles from the .sub file,
-        // we try to load the subtitles from the corresponding .idx files instead.
-        if (fn.GetExtension().MakeLower() == _T(".sub")) {
-            fn.RenameExtension(_T(".idx"));
-        }
-
         ISubStream* pSubStream = NULL;
+
         if (LoadSubtitle(fn, &pSubStream)) {
             // Use the subtitles file that was just added
             AfxGetAppSettings().fEnableSubtitles = true;
@@ -5306,15 +5301,8 @@ void CMainFrame::OnFileLoadsubtitle()
         }
     }
 
-    CPath fn(fd.GetPathName());
-    // If the user is trying to load VobSub subtitles from the .sub file,
-    // we try to load the subtitles from the corresponding .idx files instead.
-    if (fn.GetExtension().MakeLower() == _T(".sub")) {
-        fn.RenameExtension(_T(".idx"));
-    }
-
     ISubStream* pSubStream = NULL;
-    if (LoadSubtitle(fn, &pSubStream)) {
+    if (LoadSubtitle(fd.GetPathName(), &pSubStream)) {
         // Use the subtitles file that was just added
         AfxGetAppSettings().fEnableSubtitles = true;
         SetSubtitle(pSubStream);
@@ -11850,7 +11838,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             m_posFirstExtSub = NULL;
             POSITION pos = pOMD->subs.GetHeadPosition();
             while (pos) {
-                LoadSubtitle(pOMD->subs.GetNext(pos));
+                LoadSubtitle(pOMD->subs.GetNext(pos), NULL, true);
             }
         }
 
@@ -13598,7 +13586,7 @@ void CMainFrame::AddTextPassThruFilter()
     EndEnumFilters;
 }
 
-bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
+bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= NULL*/, bool bAutoLoad /*= false*/)
 {
     CComQIPtr<ISubStream> pSubStream;
 
@@ -13606,7 +13594,10 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
     try {
         if (!pSubStream) {
             CAutoPtr<CVobSubFile> pVSF(DEBUG_NEW CVobSubFile(&m_csSubLock));
-            if (CPath(fn).GetExtension().MakeLower() == _T(".idx") && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
+            CString ext = CPath(fn).GetExtension().MakeLower();
+            // To avoid loading the same subtitles file twice, we ignore .sub file when auto-loading
+            if ((ext == _T(".idx") || (!bAutoLoad && ext == _T(".sub")))
+                    && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
                 pSubStream = pVSF.Detach();
             }
         }
