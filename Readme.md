@@ -1,24 +1,23 @@
 # Media Player Classic - Home Cinema
 
-Media Player Classic - Home Cinema (MPC-HC) is a free and open source audio
-and video player for Windows. MPC-HC is based on the original Guliverkli project
+Media Player Classic - Home Cinema (MPC-HC) is a free and open source (OSS) video
+and audio player for Windows. MPC-HC is based on the original Guliverkli project
 and contains a lot of additional features and bug fixes.
 
 We are in dire need of new developers of any kind. If you can code a little, or you can create
 logos for the player and images for the file associations, or you can create/maintain the main
 website, please join our IRC channel and talk to us. Any help is always appreciated.
 
-Find some easy ticket on our trac page, fix the problem, send a
-[pull request](https://github.com/mpc-hc/mpc-hc/pulls),
-or post the patch on [trac](https://trac.mpc-hc.org)
-or come on IRC and we'll review it for you.
+Find some easy ticket on our trac page, fix the problem, send a [pull request](https://github.com/mpc-hc/mpc-hc/pulls),
+or post the patch on [trac](https://trac.mpc-hc.org) or come on IRC and we'll review it for you.
+See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
-We care about keeping an open project open and free for contributions wherever they may come from.
+*We care about keeping an open project open and free for contributions wherever they may come from.*
 
 
 ## Main Features:
 * Option to remove [tearing](http://en.wikipedia.org/wiki/Screen_tearing)
-* Support for Windows Vista/7, including a 64-bit build
+* Support for Windows Vista/7/8, including a 64-bit build
 * Support for [EVR/EVR CP](http://en.wikipedia.org/wiki/Media_Foundation#Enhanced_Video_Renderer) (Enhanced Video Renderer)
 * Supports most types of [subtitles](http://en.wikipedia.org/wiki/Subtitle_%28captioning%29#Subtitle_formats)
   including [BluRay](http://en.wikipedia.org/wiki/Blu-ray_Disc) .sup files
@@ -46,12 +45,12 @@ We care about keeping an open project open and free for contributions wherever t
 
 
 For the people involved in the development, see
-[Authors.txt](docs/Authors.txt).
+[Authors.txt](/docs/Authors.txt).
 
-MPC-HC's code is licensed under [GPL v3](COPYING.txt).
+MPC-HC's code is licensed under [GPL v3](/COPYING.txt).
 
 Translations are done by various translators (see
-[Authors.txt](docs/Authors.txt)).
+[Authors.txt](/docs/Authors.txt)).
 
 
 ## Third-party code
