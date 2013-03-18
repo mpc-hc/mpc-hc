@@ -2227,7 +2227,7 @@ STDMETHODIMP_(bool) CMpaDecFilter::GetDynamicRangeControl()
 STDMETHODIMP CMpaDecFilter::SetSPDIF(enctype et, bool fSPDIF)
 {
     CAutoLock cAutoLock(&m_csProps);
-    if (et < 0 && et >= etcount) {
+    if (et < 0 || et >= etcount) {
         return E_INVALIDARG;
     }
 
@@ -2238,7 +2238,7 @@ STDMETHODIMP CMpaDecFilter::SetSPDIF(enctype et, bool fSPDIF)
 STDMETHODIMP_(bool) CMpaDecFilter::GetSPDIF(enctype et)
 {
     CAutoLock cAutoLock(&m_csProps);
-    if (et < 0 && et >= etcount) {
+    if (et < 0 || et >= etcount) {
         return false;
     }
     if (et == dtshd && !m_fSPDIF[dts]) {
