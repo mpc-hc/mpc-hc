@@ -11,6 +11,7 @@ Legend:
 1.6.7 - not released yet
 ========================
 * Updated Greek translation
+* Updated Little CMS to v2.5 (git d504603)
 
 
 1.6.6 - 17 March 2013
