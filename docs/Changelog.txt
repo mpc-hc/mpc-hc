@@ -10,7 +10,7 @@ Legend:
 
 1.6.7 - not released yet
 ========================
-* Updated Greek translation
+* Updated Catalan and Greek translations
 * Updated Little CMS to v2.5 (git d504603)
 
 
