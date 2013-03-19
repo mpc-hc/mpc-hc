@@ -145,6 +145,7 @@ private:
     std::map<CString, std::map<CString, CString, CStringIgnoreCaseLess>, CStringIgnoreCaseLess> m_ProfileMap;
     bool m_fProfileInitialized;
     void InitProfile();
+    CCriticalSection m_ProfileCriticalSection;
 public:
     void FlushProfile();
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes);

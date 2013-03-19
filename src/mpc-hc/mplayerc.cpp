@@ -454,8 +454,15 @@ bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
 
 void CMPlayerCApp::InitProfile()
 {
-    ASSERT(!m_fProfileInitialized);
+    // Calls to CMPlayerCApp::InitProfile() are not serialized,
+    // so we serialize its internals
+    m_ProfileCriticalSection.Enter();
+    if (m_fProfileInitialized) {
+        m_ProfileCriticalSection.Leave();
+        return;
+    }
     m_fProfileInitialized = true;
+    m_ProfileCriticalSection.Leave();
 
     if (!m_pszRegistryKey) {
         ASSERT(m_pszProfileName);
@@ -495,6 +502,7 @@ void CMPlayerCApp::InitProfile()
 
         CStdioFile file(fp);
         CString line, section, var, val;
+        m_ProfileCriticalSection.Enter();
         while (file.ReadString(line)) {
             int pos = 0;
             if (line[0] == _T('[')) {
@@ -507,6 +515,7 @@ void CMPlayerCApp::InitProfile()
                 }
             }
         }
+        m_ProfileCriticalSection.Leave();
         fpStatus = fclose(fp);
         ASSERT(fpStatus == 0);
     }
@@ -534,6 +543,7 @@ void CMPlayerCApp::FlushProfile()
         }
         CStdioFile file(fp);
         CString line;
+        m_ProfileCriticalSection.Enter();
         try {
             file.WriteString(_T("; Media Player Classic - Home Cinema\n"));
             for (auto it1 = m_ProfileMap.begin(); it1 != m_ProfileMap.end(); ++it1) {
@@ -549,6 +559,7 @@ void CMPlayerCApp::FlushProfile()
             UNREFERENCED_PARAMETER(e);
             ASSERT(FALSE);
         }
+        m_ProfileCriticalSection.Leave();
         fpStatus = fclose(fp);
         ASSERT(fpStatus == 0);
     }
@@ -576,6 +587,7 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
         }
         CString valueStr;
 
+        m_ProfileCriticalSection.Enter();
         auto it1 = m_ProfileMap.find(sectionStr);
         if (it1 != m_ProfileMap.end()) {
             auto it2 = it1->second.find(keyStr);
@@ -583,6 +595,7 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
                 valueStr = it2->second;
             }
         }
+        m_ProfileCriticalSection.Leave();
         if (valueStr.IsEmpty()) {
             return FALSE;
         }
@@ -633,6 +646,7 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
             return res;
         }
 
+        m_ProfileCriticalSection.Enter();
         auto it1 = m_ProfileMap.find(sectionStr);
         if (it1 != m_ProfileMap.end()) {
             auto it2 = it1->second.find(keyStr);
@@ -640,6 +654,7 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
                 res = _ttoi(it2->second);
             }
         }
+        m_ProfileCriticalSection.Leave();
     }
     return res;
 }
@@ -669,6 +684,7 @@ CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, L
             res = lpszDefault;
         }
 
+        m_ProfileCriticalSection.Enter();
         auto it1 = m_ProfileMap.find(sectionStr);
         if (it1 != m_ProfileMap.end()) {
             auto it2 = it1->second.find(keyStr);
@@ -676,6 +692,7 @@ CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, L
                 res = it2->second;
             }
         }
+        m_ProfileCriticalSection.Leave();
     }
     return res;
 }
@@ -709,7 +726,9 @@ BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
             buffer[i * 2 + 1] = 'A' + (pData[i] >> 4 & 0xf);
         }
         valueStr.ReleaseBufferSetLength(nBytes * 2);
+        m_ProfileCriticalSection.Enter();
         m_ProfileMap[sectionStr][keyStr] = valueStr;
+        m_ProfileCriticalSection.Leave();
         return TRUE;
     }
 }
@@ -737,7 +756,9 @@ BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int n
         CString valueStr;
 
         valueStr.Format(_T("%d"), nValue);
+        m_ProfileCriticalSection.Enter();
         m_ProfileMap[sectionStr][keyStr] = valueStr;
+        m_ProfileCriticalSection.Leave();
         return TRUE;
     }
 }
@@ -770,6 +791,7 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
                 return FALSE;
             }
 
+            m_ProfileCriticalSection.Enter();
             if (lpszValue) {
                 m_ProfileMap[sectionStr][keyStr] = lpszValue;
             } else { // Delete key
@@ -778,8 +800,11 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
                     it->second.erase(keyStr);
                 }
             }
+            m_ProfileCriticalSection.Leave();
         } else { // Delete section
+            m_ProfileCriticalSection.Enter();
             m_ProfileMap.erase(sectionStr);
+            m_ProfileCriticalSection.Leave();
         }
         return TRUE;
     }
