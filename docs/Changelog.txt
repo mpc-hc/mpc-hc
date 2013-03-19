@@ -16,6 +16,7 @@ Legend:
 * Updated Catalan and Greek translations
 * Updated Little CMS to v2.5 (git d504603)
 ! Ticket #2991, Fix loading of MicroDVD subtitles
+! Fix a crash when VMR-7 (renderless) renderer failed loading
 
 
 1.6.6 - 17 March 2013

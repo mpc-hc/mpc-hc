@@ -143,6 +143,14 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
 CDX7AllocatorPresenter::~CDX7AllocatorPresenter()
 {
+    // Release the interfaces before releasing the library
+    m_pPrimary = NULL;
+    m_pBackBuffer = NULL;
+    m_pVideoTexture = NULL;
+    m_pVideoSurface = NULL;
+    m_pD3DDev = NULL;
+    m_pD3D.Release();
+    m_pDD = NULL;
     if (m_hDDrawLib) {
         FreeLibrary(m_hDDrawLib);
     }
