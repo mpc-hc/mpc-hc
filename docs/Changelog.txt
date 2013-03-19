@@ -14,7 +14,7 @@ Legend:
   - Scroll and select the last added item.
   - Put MPC-HC on top and give the focus to the playlist after a drag-and drop.
 * Updated Catalan and Greek translations
-* Updated Little CMS to v2.5 (git d504603)
+* Updated Little CMS to v2.5 (git b58cb85)
 ! Ticket #2991, Fix loading of MicroDVD subtitles
 ! Fix a crash when VMR-7 (renderless) renderer failed loading
 
