@@ -1414,9 +1414,8 @@ HRESULT CBaseSplitterFilter::SetPositionsInternal(void* id, LONGLONG* pCurrent, 
         return S_OK;
     }
 
-    REFERENCE_TIME
-    rtCurrent = m_rtCurrent,
-    rtStop = m_rtStop;
+    REFERENCE_TIME rtCurrent = m_rtCurrent;
+    REFERENCE_TIME rtStop = m_rtStop;
 
     if (pCurrent)
         switch (dwCurrentFlags & AM_SEEKING_PositioningBitsMask) {

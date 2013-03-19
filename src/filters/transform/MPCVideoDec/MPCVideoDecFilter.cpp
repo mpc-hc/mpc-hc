@@ -1112,7 +1112,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction, const CMediaTy
             }
 
             m_pFrame = avcodec_alloc_frame();
-            CheckPointer(m_pFrame,   E_POINTER);
+            CheckPointer(m_pFrame, E_POINTER);
 
             m_h264RandomAccess.flush(m_pAVCtx->thread_count);
 
