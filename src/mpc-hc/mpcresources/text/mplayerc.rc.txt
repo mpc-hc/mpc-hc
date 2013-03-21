@@ -232,7 +232,7 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 END
 
 BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"If you would like to use the stand-alone version from these filters or a some other replacement, disable them here. Filters written in bold can be double-clicked to show their property pages."
+5		"If you would like to use the stand-alone versions of these filters or another replacement, disable them here. Filters written in bold can be double-clicked to show their property pages."
 6		"Source Filters"
 8		"Transform Filters"
 END

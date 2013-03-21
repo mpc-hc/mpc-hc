@@ -691,7 +691,7 @@ IDD_PPAGEINTERNALFILTERS DIALOGEX 0, 0, 296, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "If you would like to use the stand-alone version from these filters or a some other replacement, disable them here. Filters written in bold can be double-clicked to show their property pages.",IDC_STATIC,5,5,285,27
+    LTEXT           "If you would like to use the stand-alone versions of these filters or another replacement, disable them here. Filters written in bold can be double-clicked to show their property pages.",IDC_STATIC,5,5,285,27
     GROUPBOX        "Source Filters",IDC_STATIC,5,36,141,200
     LISTBOX         IDC_LIST1,10,48,131,182,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Transform Filters",IDC_STATIC,150,36,141,200
