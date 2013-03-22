@@ -1,3 +1,5 @@
+// $ShaderVersion: ps_2_0
+
 // (C) 2011 Jan-Willem Krans (janwillem32 <at> hotmail.com) released under GPL v2; see COPYING.txt
 
 // Brightness, contrast and gamma controls for RGB, linearly scaled from top to bottom.

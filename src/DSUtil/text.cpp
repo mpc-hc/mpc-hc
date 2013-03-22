@@ -219,3 +219,38 @@ CString FormatNumber(CString szNumber, bool bNoFractionalDigits /*= true*/)
 
     return ret;
 }
+
+void FixFilename(CString& str)
+{
+    str.Trim();
+
+    for (int i = 0, l = str.GetLength(); i < l; i++) {
+        switch (str[i]) {
+            case '?':
+            case '"':
+            case '/':
+            case '\\':
+            case '<':
+            case '>':
+            case '*':
+            case '|':
+            case ':':
+                str.SetAt(i, '_');
+        }
+    }
+
+    CString tmp;
+    if (str.GetLength() == 3 || str.Find('.') == 3) {
+        tmp = str.Left(3).MakeUpper();
+        if (tmp == _T("CON") || tmp == _T("AUX") || tmp == _T("PRN") || tmp == _T("NUL")) {
+            str = _T("___") + str.Mid(3);
+        }
+    }
+    if (str.GetLength() == 4 || str.Find('.') == 4) {
+        tmp = str.Left(4).MakeUpper();
+        if (tmp == _T("COM1") || tmp == _T("COM2") || tmp == _T("COM3") || tmp == _T("COM4") ||
+                tmp == _T("LPT1") || tmp == _T("LPT2") || tmp == _T("LPT3")) {
+            str = _T("____") + str.Mid(4);
+        }
+    }
+}
