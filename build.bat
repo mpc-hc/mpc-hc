@@ -409,8 +409,6 @@ COPY /Y /V "..\COPYING.txt"         "%PCKG_NAME%" >NUL
 COPY /Y /V "..\docs\Authors.txt"    "%PCKG_NAME%" >NUL
 COPY /Y /V "..\docs\Changelog.txt"  "%PCKG_NAME%" >NUL
 COPY /Y /V "..\docs\Readme.txt"     "%PCKG_NAME%" >NUL
-IF NOT EXIST "%PCKG_NAME%\Shaders" MD "%PCKG_NAME%\Shaders"
-COPY /Y /V "..\distrib\Shaders\*.psh" "%PCKG_NAME%\Shaders\*.psh" >NUL
 
 TITLE Creating archive %PCKG_NAME%.7z...
 START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.7z" "%PCKG_NAME%"^

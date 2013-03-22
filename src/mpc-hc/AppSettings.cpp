@@ -55,7 +55,7 @@ CAppSettings::CAppSettings()
     , fRemainingTime(FALSE)
     , nUpdaterAutoCheck(-1)
     , nUpdaterDelay(7)
-    , fShadersNeedSave(false)
+    , fShaderEditorWasOpened(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -731,6 +731,29 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
 
+    if (fShaderEditorWasOpened) { // This is a large data block. Save it only when really necessary.
+        // Erase the currently saved shaders
+        pApp->WriteProfileString(IDS_R_SHADERS, NULL, NULL);
+        pApp->WriteProfileInt(IDS_R_SHADERS, IDS_RS_SHADERS_INITIALIZED, 1);
+
+        pos = m_shaders.GetHeadPosition();
+        for (int i = 0; pos; i++) {
+            const Shader& s = m_shaders.GetNext(pos);
+
+            if (!s.label.IsEmpty()) {
+                CString index;
+                index.Format(_T("%d"), i);
+                CString srcdata = s.srcdata;
+                srcdata.Replace(_T("\r"), _T(""));
+                srcdata.Replace(_T("\n"), _T("\\n"));
+                srcdata.Replace(_T("\t"), _T("\\t"));
+                pApp->WriteProfileString(IDS_R_SHADERS, index, s.label + _T("|") + s.target + _T("|") + srcdata);
+            }
+        }
+
+        fShaderEditorWasOpened = false;
+    }
+
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, fRemainingTime);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, nUpdaterAutoCheck);
@@ -741,11 +764,6 @@ void CAppSettings::SaveSettings()
     if (pApp->m_pszRegistryKey) {
         // WINBUG: on win2k this would crash WritePrivateProfileString
         pApp->WriteProfileInt(_T(""), _T(""), pApp->GetProfileInt(_T(""), _T(""), 0) ? 0 : 1);
-    }
-
-    if (fShadersNeedSave) { // This is a large data block. Save it only when really necessary.
-        SaveShaders();
-        fShadersNeedSave = false;
     }
 }
 
@@ -1280,7 +1298,86 @@ void CAppSettings::LoadSettings()
     nLastUsedPage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTUSEDPAGE, 0);
     //
 
-    LoadShaders();
+    m_shaders.RemoveAll();
+
+    CAtlStringMap<UINT> shaders;
+
+    shaders[_T("16-235 -> 0-255  [SD][HD]")] = IDF_SHADER_LEVELS;
+    shaders[_T("16-235 -> 0-255  [SD]")]     = IDF_SHADER_LEVELS2;
+    shaders[_T("0-255 -> 16-235")]           = IDF_SHADER_LEVELS3;
+    shaders[_T("BT.601 -> BT.709")]          = IDF_SHADER_BT601_BT709;
+    shaders[_T("YV12 Chroma Upsampling")]    = IDF_SHADER_YV12CHROMAUP;
+    shaders[_T("grayscale")]                 = IDF_SHADER_GRAYSCALE;
+
+    shaders[_T("sharpen")]                   = IDF_SHADER_SHARPEN;
+    shaders[_T("sharpen complex")]           = IDF_SHADER_SHARPEN_COMPLEX;
+    shaders[_T("sharpen complex 2")]         = IDF_SHADER_SHARPEN_COMPLEX2;
+    shaders[_T("edge sharpen")]              = IDF_SHADER_EDGE_SHARPEN;
+    shaders[_T("contour")]                   = IDF_SHADER_CONTOUR;
+
+    shaders[_T("deinterlace (blend)")]       = IDF_SHADER_DEINTERLACE;
+    shaders[_T("denoise")]                   = IDF_SHADER_DENOISE;
+    shaders[_T("procamp")]                   = IDF_SHADER_PROCAMP;
+    shaders[_T("invert")]                    = IDF_SHADER_INVERT;
+    shaders[_T("letterbox")]                 = IDF_SHADER_LETTERBOX;
+    shaders[_T("LCD angle correction")]      = IDF_SHADER_LCD;
+
+    shaders[_T("nightvision")]               = IDF_SHADER_NIGHTVISION;
+    shaders[_T("emboss")]                    = IDF_SHADER_EMBOSS;
+    shaders[_T("sphere")]                    = IDF_SHADER_SPHERE;
+    shaders[_T("spotlight")]                 = IDF_SHADER_SPOTLIGHT;
+    shaders[_T("wave")]                      = IDF_SHADER_WAVE;
+
+    for (int iShader = 0; ; iShader++) {
+        CString str2;
+        str2.Format(_T("%d"), iShader);
+        str2 = pApp->GetProfileString(IDS_R_SHADERS, str2);
+
+        CAtlList<CString> sl;
+        CString label = Explode(str2, sl, '|');
+        if (label.IsEmpty()) {
+            break;
+        }
+        if (sl.GetCount() < 3) {
+            continue;
+        }
+
+        Shader s;
+        s.label = sl.RemoveHead();
+        s.target = sl.RemoveHead();
+        s.srcdata = sl.RemoveHead();
+        s.srcdata.Replace(_T("\\n"), _T("\n"));
+        s.srcdata.Replace(_T("\\t"), _T("\t"));
+        m_shaders.AddTail(s);
+
+        shaders.RemoveKey(s.label);
+    }
+
+    pos = shaders.GetStartPosition();
+    while (pos) {
+        CAtlStringMap<UINT>::CPair* pPair = shaders.GetNext(pos);
+
+        CStringA srcdata;
+        if (LoadResource(pPair->m_value, srcdata, _T("SHADER"))) {
+            Shader s;
+            s.label = pPair->m_key;
+
+            // Select minimum version for each shader!
+            switch (pPair->m_value) {
+                case IDF_SHADER_DENOISE:
+                    s.target = _T("ps_3_0");
+                    break;
+                case IDF_SHADER_SHARPEN_COMPLEX2:
+                    s.target = _T("ps_2_a");
+                    break;
+                default:
+                    s.target = _T("ps_2_0");
+                    break;
+            }
+            s.srcdata = CString(srcdata);
+            m_shaders.AddTail(s);
+        }
+    }
 
     // CASIMIR666 : new settings
     fD3DFullscreen          = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, FALSE);
@@ -1367,87 +1464,6 @@ void CAppSettings::LoadSettings()
 bool CAppSettings::GetAllowMultiInst() const
 {
     return !!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MULTIINST, FALSE);
-}
-
-void CAppSettings::SaveShaders()
-{
-    if (m_shaders.GetCount() > 0) {
-        CString path;
-        if (AfxGetMyApp()->GetAppSavePath(path)) {
-            path += _T("\\Shaders\\");
-            // Only create this folder when needed
-            if (!::PathFileExists(path)) {
-                ::CreateDirectory(path, NULL);
-            }
-
-            POSITION pos = m_shaders.GetHeadPosition();
-            while (pos) {
-                const Shader& s = m_shaders.GetNext(pos);
-                if (!s.label.IsEmpty()) {
-                    CString shname = s.label + _T(".psh");
-                    CStdioFile shfile;
-                    if (shfile.Open(path + shname, CFile::modeCreate | CFile::modeWrite | CFile::shareDenyNone | CFile::typeText)) {
-                        shfile.WriteString(_T("// $ShaderVersion: ") + s.target + _T("\n"));
-                        shfile.WriteString(s.srcdata);
-
-                        shfile.Close();
-                    }
-                }
-            }
-        }
-    }
-}
-
-void CAppSettings::LoadShaders()
-{
-    m_shaders.RemoveAll();
-
-    CString path;
-    if (AfxGetMyApp()->GetAppSavePath(path)) {
-        path += _T("\\Shaders\\");
-        if (!::PathFileExists(path) && !AfxGetMyApp()->IsIniValid()) {
-            // profile does not contain "Shaders" folder. try to take shaders from program folder
-            GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
-            path.ReleaseBuffer();
-            path.Truncate(path.ReverseFind('\\'));
-            path += _T("\\Shaders\\");
-            fShadersNeedSave = true;
-        }
-
-        WIN32_FIND_DATA wfd;
-        HANDLE hFile = FindFirstFile(path + _T("*.psh"), &wfd);
-        if (hFile != INVALID_HANDLE_VALUE) {
-            do {
-                CString shname = wfd.cFileName;
-                CStdioFile shfile;
-
-                if (shfile.Open(path + shname, CFile::modeRead | CFile::shareDenyWrite | CFile::typeText)) {
-
-                    Shader s;
-                    s.label = shname.Left(shname.GetLength() - 4); // filename without extension (.psh)
-
-                    CString str;
-                    shfile.ReadString(str); // read first string
-                    if (str.Left(18) == _T("// $ShaderVersion:")) {
-                        s.target = str.Mid(18).Trim(); // shader version property
-                    } else {
-                        shfile.SeekToBegin();
-                    }
-                    if (s.target != _T("ps_2_0") && s.target != _T("ps_2_a") && s.target != _T("ps_2_sw") && s.target != _T("ps_3_0") && s.target != _T("ps_3_sw")) {
-                        s.target = _T("ps_2_0");
-                    }
-
-                    while (shfile.ReadString(str)) {
-                        s.srcdata += str + _T("\n");
-                    }
-                    shfile.Close();
-
-                    m_shaders.AddTail(s);
-                }
-            } while (FindNextFile(hFile, &wfd));
-            FindClose(hFile);
-        }
-    }
 }
 
 void CAppSettings::UpdateRenderersData(bool fSave)

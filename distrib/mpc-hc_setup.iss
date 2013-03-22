@@ -231,50 +231,6 @@ Source: ..\COPYING.txt;                     DestDir: {app};      Components: mai
 Source: ..\docs\Authors.txt;                DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;              DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                 DestDir: {app};      Components: main;         Flags: ignoreversion
-Source: "Shaders\0-255 to 16-235.psh";          DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\16-235 to 0-255 [SD].psh";     DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\16-235 to 0-255 [SD][HD].psh"; DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\BT.601 to BT.709.psh";         DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\contour.psh";                  DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\deinterlace (blend).psh";      DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\denoise.psh";                  DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\edge sharpen.psh";             DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\emboss.psh";                   DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\grayscale.psh";                DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\invert.psh";                   DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\LCD angle correction.psh";     DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\letterbox.psh";                DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\nightvision.psh";              DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\procamp.psh";                  DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\sharpen.psh";                  DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\sharpen complex.psh";          DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\sharpen complex 2.psh";        DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\sphere.psh";                   DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\spotlight.psh";                DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\wave.psh";                     DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\YV12 Chroma Upsampling.psh";   DestDir: "{userappdata}\Media Player Classic\Shaders"; Components: main; Flags: ignoreversion; Check: NOT IniUsed()
-Source: "Shaders\0-255 to 16-235.psh";          DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\16-235 to 0-255 [SD].psh";     DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\16-235 to 0-255 [SD][HD].psh"; DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\BT.601 to BT.709.psh";         DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\contour.psh";                  DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\deinterlace (blend).psh";      DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\denoise.psh";                  DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\edge sharpen.psh";             DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\emboss.psh";                   DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\grayscale.psh";                DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\invert.psh";                   DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\LCD angle correction.psh";     DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\letterbox.psh";                DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\nightvision.psh";              DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\procamp.psh";                  DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\sharpen.psh";                  DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\sharpen complex.psh";          DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\sharpen complex 2.psh";        DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\sphere.psh";                   DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\spotlight.psh";                DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\wave.psh";                     DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
-Source: "Shaders\YV12 Chroma Upsampling.psh";   DestDir: "{app}\Shaders"; Components: main; Flags: ignoreversion; Check: IniUsed()
 
 
 [Icons]
@@ -407,12 +363,6 @@ begin
 end;
 
 
-function IniUsed(): Boolean;
-begin
-  Result := FileExists(ExpandConstant('{app}\{#mpchc_ini}'));
-end;
-
-
 // Check if MPC-HC's settings exist
 function SettingsExist(): Boolean;
 begin
@@ -443,8 +393,6 @@ begin
   //DelTree('{app}\Matrix*.bin', False, True, False);
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
   DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
-  DelTree(ExpandConstant('{userappdata}\{#app_name}\Shaders\*.psh'), False, True, False);
-  RemoveDir(ExpandConstant('{userappdata}\{#app_name}\Shaders'));
   RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
   RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Filters');
   RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Media Player Classic');

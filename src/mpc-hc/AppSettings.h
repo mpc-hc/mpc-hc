@@ -322,7 +322,7 @@ class CAppSettings
     };
 
 public:
-    bool fShadersNeedSave;
+    bool fShaderEditorWasOpened;
 
     // cmdline params
     UINT nCLSwitches;
@@ -622,8 +622,6 @@ public:
     void            SaveSettings();
     void            LoadSettings();
     void            SaveExternalFilters() { if (fInitialized) { SaveExternalFilters(m_filters); } };
-    void            SaveShaders();
-    void            LoadShaders();
 
     void            GetFav(favtype ft, CAtlList<CString>& sl) const;
     void            SetFav(favtype ft, CAtlList<CString>& sl);
