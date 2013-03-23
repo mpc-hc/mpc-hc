@@ -2215,15 +2215,15 @@ bool CMainFrame::GraphEventComplete()
     }
 
     if (m_wndPlaylistBar.GetCount() <= 1) {
+        if (DoAfterPlaybackEvent()) {
+            return false;
+        }
+
         if (s.fNextInDirAfterPlayback && SearchInDir(true)) {
             return false;
         }
 
         m_nLoops++;
-
-        if (DoAfterPlaybackEvent()) {
-            return false;
-        }
 
         if (s.fLoopForever || m_nLoops < s.nLoops) {
             if (s.fNextInDirAfterPlayback) {
