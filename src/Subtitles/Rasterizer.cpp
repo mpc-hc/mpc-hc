@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -438,6 +438,12 @@ bool Rasterizer::ScanConvert()
     mWidth  = maxx + 1 - minx;
     mHeight = maxy + 1 - miny;
 
+    // Check that the size isn't completely crazy
+    if (mWidth * mHeight > 8000000) {
+        TRACE(_T("Error in Rasterizer::ScanConvert: size (%dx%d) is too big"), mHeight, mWidth);
+        return false;
+    }
+
     mPathOffsetX = minx;
     mPathOffsetY = miny;
 
@@ -446,10 +452,18 @@ bool Rasterizer::ScanConvert()
     mEdgeNext = 1;
     mEdgeHeapSize = 2048;
     mpEdgeBuffer = (Edge*)malloc(sizeof(Edge) * mEdgeHeapSize);
+    if (!mpEdgeBuffer) {
+        TRACE(_T("Error in Rasterizer::ScanConvert: mpEdgeBuffer is NULL"));
+        return false;
+    }
 
     // Initialize scanline list.
 
     mpScanBuffer = DEBUG_NEW unsigned int[mHeight];
+    if (!mpScanBuffer) {
+        TRACE(_T("Error in Rasterizer::ScanConvert: mpScanBuffer is NULL"));
+        return false;
+    }
     memset(mpScanBuffer, 0, mHeight * sizeof(unsigned int));
 
     // Scan convert the outline.  Yuck, Bezier curves....
