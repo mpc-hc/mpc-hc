@@ -454,7 +454,7 @@ CString CAppSettings::SelectedAudioRenderer() const
 
 void CAppSettings::SaveSettings()
 {
-    CWinApp* pApp = AfxGetApp();
+    CMPlayerCApp* pApp = AfxGetMyApp();
     ASSERT(pApp);
 
     if (!fInitialized) {
@@ -761,10 +761,7 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_NOTIFY_SKYPE, bNotifySkype);
 
-    if (pApp->m_pszRegistryKey) {
-        // WINBUG: on win2k this would crash WritePrivateProfileString
-        pApp->WriteProfileInt(_T(""), _T(""), pApp->GetProfileInt(_T(""), _T(""), 0) ? 0 : 1);
-    }
+    pApp->FlushProfile();
 }
 
 void CAppSettings::LoadExternalFilters(CAutoPtrList<FilterOverride>& filters, LPCTSTR baseKey /*= IDS_R_EXTERNAL_FILTERS*/)
