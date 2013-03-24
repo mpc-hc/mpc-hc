@@ -13,7 +13,7 @@ Legend:
 + Ticket #2987, Playlist improvements:
   - Scroll and select the first newly added item
   - Put MPC-HC on top and give the focus to the playlist after a drag and drop
-* Updated Catalan, Czech, German, Greek and Turkish translations
+* Updated Catalan, Czech, German, Greek, Simplified Chinese and Turkish translations
 * Updated Little CMS to v2.5 (git d2d902b)
 * Ticket #2689,  Replace "On top > Never" by "On top > Default". In most of the
   cases "On top > Default" will have the exact same behavior than "On top > Never"
