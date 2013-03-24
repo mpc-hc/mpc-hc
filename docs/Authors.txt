@@ -47,6 +47,7 @@ Czech                   khagaroth               <khagaroth@users.sourceforge.net
 Dutch                   Paul Tjepkema           <pietpuk123@users.sourceforge.net>
 French                  Sebastiii               <sebastiii@users.sourceforge.net>
 German                  Markus Gaugg            <markusgaugg@users.sourceforge.net>
+German                  Luan
 Greek                   geogeo.gr               <geogeo64@users.sourceforge.net>
 Greek                   Zouloumis               <zouloumis@users.sourceforge.net>
 Hebrew                  Superb                  <superbsubs@users.sourceforge.net>
