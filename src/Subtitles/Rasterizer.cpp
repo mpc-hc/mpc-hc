@@ -35,6 +35,9 @@
 #define _MAX    (std::max)
 #endif
 
+#define MAX_DIMENSION 4000 // Maximum width or height supported
+#define SUBPIXEL_MULTIPLIER 8
+
 // Statics constants for use by alpha_blend_sse2
 static __m128i low_mask = _mm_set1_epi16(0xFF);
 static __m128i red_mask = _mm_set1_epi32(0xFF);
@@ -438,9 +441,12 @@ bool Rasterizer::ScanConvert()
     mWidth  = maxx + 1 - minx;
     mHeight = maxy + 1 - miny;
 
-    // Check that the size isn't completely crazy
-    if (mWidth * mHeight > 8000000) {
-        TRACE(_T("Error in Rasterizer::ScanConvert: size (%dx%d) is too big"), mHeight, mWidth);
+    // Check that the size isn't completely crazy.
+    // Note that mWidth and mHeight are in 1/8 pixels.
+    if (mWidth > MAX_DIMENSION * SUBPIXEL_MULTIPLIER
+            || mHeight > MAX_DIMENSION * SUBPIXEL_MULTIPLIER) {
+        TRACE(_T("Error in Rasterizer::ScanConvert: size (%dx%d) is too big"),
+              mWidth / SUBPIXEL_MULTIPLIER, mHeight / SUBPIXEL_MULTIPLIER);
         return false;
     }
 
