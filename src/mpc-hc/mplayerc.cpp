@@ -40,6 +40,7 @@
 #include <atlsync.h>
 #include <atlutil.h>
 #include <atlrx.h>
+#include <share.h>
 #include "mpc-hc_config.h"
 
 
@@ -275,6 +276,7 @@ END_MESSAGE_MAP()
 CMPlayerCApp::CMPlayerCApp()
     : m_hNTDLL(NULL)
     , m_fClosingState(false)
+    , m_fProfileInitialized(false)
 {
     TCHAR strApp[MAX_PATH];
 
@@ -338,21 +340,6 @@ bool CMPlayerCApp::StoreSettingsToIni()
     free((void*)m_pszProfileName);
     m_pszProfileName = _tcsdup(ini);
 
-    // We can only use UTF16-LE for unicode ini files in windows. UTF8/UTF16-BE do not work.
-    // So to ensure we have correct encoding for ini files, create a file with right BOM first,
-    // then add some comments in first line to make sure it's not empty.
-    if (!::PathFileExists(m_pszProfileName)) { // don't overwrite existing ini file
-        HANDLE hFile = ::CreateFile(m_pszProfileName, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
-        if (hFile != INVALID_HANDLE_VALUE) {
-            const TCHAR pszComments[] = _T("; Media Player Classic - Home Cinema");
-            WORD wBOM = 0xFEFF; // UTF16-LE BOM (FFFE)
-            DWORD nBytes;
-            ::WriteFile(hFile, &wBOM, sizeof(WORD), &nBytes, NULL);
-            ::WriteFile(hFile, pszComments, sizeof(pszComments), &nBytes, NULL);
-            ::CloseHandle(hFile);
-        }
-    }
-
     return true;
 }
 
@@ -376,34 +363,6 @@ CString CMPlayerCApp::GetIniPath() const
 bool CMPlayerCApp::IsIniValid() const
 {
     return FileExists(GetIniPath());
-}
-
-bool CMPlayerCApp::IsIniUTF16LE() const
-{
-    bool isUTF16LE = false;
-
-    try {
-        CFile f(GetIniPath(), CFile::modeRead);
-
-        if (f) {
-            WORD bom;
-            if (f.Read(&bom, sizeof(bom)) == sizeof(bom)) {
-                isUTF16LE = (bom == 0xFEFF);
-            }
-        }
-    } catch (CFileException* e) {
-        // If something goes wrong, we try to recreate the ini file
-        // instead of crashing because it seems to work in most of
-        // the cases but maybe we could do something better.
-#ifdef _DEBUG
-        TCHAR szCause[500];
-        e->GetErrorMessage(szCause, _countof(szCause));
-        AfxMessageBox(szCause);
-#endif // _DEBUG
-        e->Delete();
-    }
-
-    return isUTF16LE;
 }
 
 bool CMPlayerCApp::GetAppSavePath(CString& path)
@@ -436,28 +395,28 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     m_s.GetFav(FAV_DVD, DVDsFav);
     m_s.GetFav(FAV_DEVICE, devicesFav);
 
-    // In case an ini file is present, we remove it so that it will be recreated
-    _tremove(GetIniPath());
-
     if (useIni) {
         success = StoreSettingsToIni();
+        // No need to delete old mpc-hc.ini,
+        // as it will be overwritten during CAppSettings::SaveSettings()
     } else {
         success = StoreSettingsToRegistry();
+        _tremove(GetIniPath());
     }
-
-    // Ensure the shaders are properly saved
-    m_s.fShaderEditorWasOpened = true;
-
-    // Ensure the external filters are properly saved
-    m_s.SaveExternalFilters();
-
-    // Write settings immediately
-    m_s.SaveSettings();
 
     // Save favorites to the new location
     m_s.SetFav(FAV_FILE, filesFav);
     m_s.SetFav(FAV_DVD, DVDsFav);
     m_s.SetFav(FAV_DEVICE, devicesFav);
+
+    // Save external filters to the new location
+    m_s.SaveExternalFilters();
+
+    // Ensure the shaders are properly saved
+    m_s.fShaderEditorWasOpened = true;
+
+    // Write settings immediately
+    m_s.SaveSettings();
 
     return success;
 }
@@ -491,6 +450,364 @@ bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
     }
 
     return success;
+}
+
+void CMPlayerCApp::InitProfile()
+{
+    // Calls to CMPlayerCApp::InitProfile() are not serialized,
+    // so we serialize its internals
+    m_ProfileCriticalSection.Enter();
+    if (m_fProfileInitialized) {
+        m_ProfileCriticalSection.Leave();
+        return;
+    }
+    m_fProfileInitialized = true;
+    m_ProfileCriticalSection.Leave();
+
+    if (!m_pszRegistryKey) {
+        ASSERT(m_pszProfileName);
+        if (!FileExists(m_pszProfileName)) {
+            return;
+        }
+
+        FILE* fp;
+        int fpStatus;
+        do { // Open mpc-hc.ini in UNICODE mode, retry if it is already being used by another process
+            fp = _tfsopen(m_pszProfileName, _T("r, ccs=UNICODE"), _SH_SECURE);
+            if (!fp && (GetLastError() == ERROR_SHARING_VIOLATION)) {
+                Sleep(100);
+                continue;
+            }
+        } while (false);
+        if (!fp) {
+            ASSERT(FALSE);
+            return;
+        }
+        if (_ftell_nolock(fp) == 0L) {
+            // No BOM was consumed, assume mpc-hc.ini is ANSI encoded
+            fpStatus = fclose(fp);
+            ASSERT(fpStatus == 0);
+            do { // Reopen mpc-hc.ini in ANSI mode, retry if it is already being used by another process
+                fp = _tfsopen(m_pszProfileName, _T("r"), _SH_SECURE);
+                if (!fp && (GetLastError() == ERROR_SHARING_VIOLATION)) {
+                    Sleep(100);
+                    continue;
+                }
+            } while (false);
+            if (!fp) {
+                ASSERT(FALSE);
+                return;
+            }
+        }
+
+        CStdioFile file(fp);
+        CString line, section, var, val;
+        m_ProfileCriticalSection.Enter();
+        while (file.ReadString(line)) {
+            int pos = 0;
+            if (line[0] == _T('[')) {
+                section = line.Tokenize(_T("[]"), pos);
+            } else if (line[0] != _T(';')) {
+                var = line.Tokenize(_T("="), pos);
+                val = line.Tokenize(_T(""), pos);
+                if (!section.IsEmpty() && !var.IsEmpty()) {
+                    m_ProfileMap[section][var] = val;
+                }
+            }
+        }
+        m_ProfileCriticalSection.Leave();
+        fpStatus = fclose(fp);
+        ASSERT(fpStatus == 0);
+    }
+}
+
+void CMPlayerCApp::FlushProfile()
+{
+    ASSERT(m_fProfileInitialized);
+
+    if (!m_pszRegistryKey) {
+        ASSERT(m_pszProfileName);
+
+        FILE* fp;
+        int fpStatus;
+        do { // Open mpc-hc.ini, retry if it is already being used by another process
+            fp = _tfsopen(m_pszProfileName, _T("w, ccs=UTF-8"), _SH_SECURE);
+            if (!fp && (GetLastError() == ERROR_SHARING_VIOLATION)) {
+                Sleep(100);
+                continue;
+            }
+        } while (false);
+        if (!fp) {
+            ASSERT(FALSE);
+            return;
+        }
+        CStdioFile file(fp);
+        CString line;
+        m_ProfileCriticalSection.Enter();
+        try {
+            file.WriteString(_T("; Media Player Classic - Home Cinema\n"));
+            for (auto it1 = m_ProfileMap.begin(); it1 != m_ProfileMap.end(); ++it1) {
+                line.Format(_T("[%s]\n"), it1->first);
+                file.WriteString(line);
+                for (auto it2 = it1->second.begin(); it2 != it1->second.end(); ++it2) {
+                    line.Format(_T("%s=%s\n"), it2->first, it2->second);
+                    file.WriteString(line);
+                }
+            }
+        } catch (CFileException& e) {
+            // Fail silently if disk is full
+            UNREFERENCED_PARAMETER(e);
+            ASSERT(FALSE);
+        }
+        m_ProfileCriticalSection.Leave();
+        fpStatus = fclose(fp);
+        ASSERT(fpStatus == 0);
+    }
+}
+
+BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes)
+{
+    if (!m_fProfileInitialized) {
+        InitProfile();
+        ASSERT(m_fProfileInitialized);
+    }
+
+    if (m_pszRegistryKey) {
+        return CWinApp::GetProfileBinary(lpszSection, lpszEntry, ppData, pBytes);
+    } else {
+        if (!lpszSection || !lpszEntry || !ppData || !pBytes) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString valueStr;
+
+        m_ProfileCriticalSection.Enter();
+        auto it1 = m_ProfileMap.find(sectionStr);
+        if (it1 != m_ProfileMap.end()) {
+            auto it2 = it1->second.find(keyStr);
+            if (it2 != it1->second.end()) {
+                valueStr = it2->second;
+            }
+        }
+        m_ProfileCriticalSection.Leave();
+        if (valueStr.IsEmpty()) {
+            return FALSE;
+        }
+        int length = valueStr.GetLength();
+        // Encoding: each 4-bit sequence is coded in one character, from 'A' for 0x0 to 'P' for 0xf
+        if (length % 2) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        for (int i = 0; i < length; i++) {
+            if (valueStr[i] < 'A' || valueStr[i] > 'P') {
+                ASSERT(FALSE);
+                return FALSE;
+            }
+        }
+        *pBytes = length / 2;
+        *ppData = new(std::nothrow) BYTE[*pBytes];
+        if (!(*ppData)) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        for (UINT i = 0; i < *pBytes; i++) {
+            (*ppData)[i] = (valueStr[i * 2] - 'A') | ((valueStr[i * 2 + 1] - 'A') << 4);
+        }
+        return TRUE;
+    }
+}
+
+UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault)
+{
+    if (!m_fProfileInitialized) {
+        InitProfile();
+        ASSERT(m_fProfileInitialized);
+    }
+
+    int res = nDefault;
+    if (m_pszRegistryKey) {
+        res = CWinApp::GetProfileInt(lpszSection, lpszEntry, nDefault);
+    } else {
+        if (!lpszSection || !lpszEntry) {
+            ASSERT(FALSE);
+            return res;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return res;
+        }
+
+        m_ProfileCriticalSection.Enter();
+        auto it1 = m_ProfileMap.find(sectionStr);
+        if (it1 != m_ProfileMap.end()) {
+            auto it2 = it1->second.find(keyStr);
+            if (it2 != it1->second.end()) {
+                res = _ttoi(it2->second);
+            }
+        }
+        m_ProfileCriticalSection.Leave();
+    }
+    return res;
+}
+
+CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault)
+{
+    if (!m_fProfileInitialized) {
+        InitProfile();
+        ASSERT(m_fProfileInitialized);
+    }
+
+    CString res;
+    if (m_pszRegistryKey) {
+        res = CWinApp::GetProfileString(lpszSection, lpszEntry, lpszDefault);
+    } else {
+        if (!lpszSection || !lpszEntry) {
+            ASSERT(FALSE);
+            return res;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return res;
+        }
+        if (lpszDefault) {
+            res = lpszDefault;
+        }
+
+        m_ProfileCriticalSection.Enter();
+        auto it1 = m_ProfileMap.find(sectionStr);
+        if (it1 != m_ProfileMap.end()) {
+            auto it2 = it1->second.find(keyStr);
+            if (it2 != it1->second.end()) {
+                res = it2->second;
+            }
+        }
+        m_ProfileCriticalSection.Leave();
+    }
+    return res;
+}
+
+BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE pData, UINT nBytes)
+{
+    if (!m_fProfileInitialized) {
+        InitProfile();
+        ASSERT(m_fProfileInitialized);
+    }
+
+    if (m_pszRegistryKey) {
+        return CWinApp::WriteProfileBinary(lpszSection, lpszEntry, pData, nBytes);
+    } else {
+        if (!lpszSection || !lpszEntry || !pData || !nBytes) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString valueStr;
+
+        TCHAR* buffer = valueStr.GetBufferSetLength(nBytes * 2);
+        // Encoding: each 4-bit sequence is coded in one character, from 'A' for 0x0 to 'P' for 0xf
+        for (UINT i = 0; i < nBytes; i++) {
+            buffer[i * 2] = 'A' + (pData[i] & 0xf);
+            buffer[i * 2 + 1] = 'A' + (pData[i] >> 4 & 0xf);
+        }
+        valueStr.ReleaseBufferSetLength(nBytes * 2);
+        m_ProfileCriticalSection.Enter();
+        m_ProfileMap[sectionStr][keyStr] = valueStr;
+        m_ProfileCriticalSection.Leave();
+        return TRUE;
+    }
+}
+
+BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue)
+{
+    if (!m_fProfileInitialized) {
+        InitProfile();
+        ASSERT(m_fProfileInitialized);
+    }
+
+    if (m_pszRegistryKey) {
+        return CWinApp::WriteProfileInt(lpszSection, lpszEntry, nValue);
+    } else {
+        if (!lpszSection || !lpszEntry) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString valueStr;
+
+        valueStr.Format(_T("%d"), nValue);
+        m_ProfileCriticalSection.Enter();
+        m_ProfileMap[sectionStr][keyStr] = valueStr;
+        m_ProfileCriticalSection.Leave();
+        return TRUE;
+    }
+}
+
+BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue)
+{
+    if (!m_fProfileInitialized) {
+        InitProfile();
+        ASSERT(m_fProfileInitialized);
+    }
+
+    if (m_pszRegistryKey) {
+        return CWinApp::WriteProfileString(lpszSection, lpszEntry, lpszValue);
+    } else {
+        if (!lpszSection) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString sectionStr(lpszSection);
+        if (sectionStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+
+        // Mimic CWinApp::WriteProfileString() behavior
+        if (lpszEntry) {
+            CString keyStr(lpszEntry);
+            if (keyStr.IsEmpty()) {
+                ASSERT(FALSE);
+                return FALSE;
+            }
+
+            m_ProfileCriticalSection.Enter();
+            if (lpszValue) {
+                m_ProfileMap[sectionStr][keyStr] = lpszValue;
+            } else { // Delete key
+                auto it = m_ProfileMap.find(sectionStr);
+                if (it != m_ProfileMap.end()) {
+                    it->second.erase(keyStr);
+                }
+            }
+            m_ProfileCriticalSection.Leave();
+        } else { // Delete section
+            m_ProfileCriticalSection.Enter();
+            m_ProfileMap.erase(sectionStr);
+            m_ProfileCriticalSection.Leave();
+        }
+        return TRUE;
+    }
 }
 
 void CMPlayerCApp::PreProcessCommandLine()
@@ -886,6 +1203,9 @@ BOOL CMPlayerCApp::InitInstance()
             }
         }
 
+        // If the profile was already cached, it should be cleared here
+        ASSERT(!m_fProfileInitialized);
+
         // Remove the settings
         if (IsIniValid()) {
             CFile::Remove(GetIniPath());
@@ -1012,11 +1332,6 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     m_s.LoadSettings(); // read settings
-
-    // If we use an ASCII ini file, let's recreate it to switch to UTF-16LE
-    if (IsIniValid() && !IsIniUTF16LE()) {
-        ChangeSettingsLocation(true);
-    }
 
     AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
 
