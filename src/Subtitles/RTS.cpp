@@ -1677,11 +1677,13 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 
     int nTags = 0, nUnrecognizedTags = 0;
 
-    for (int i = 0, j; (j = str.Find('\\', i)) >= 0; i = j) {
-        CStringW cmd;
-        for (WCHAR c = str[++j]; c && c != '(' && c != '\\'; cmd += c, c = str[++j]) {
+    for (int i = 0, j; (j = str.Find(L'\\', i)) >= 0; i = j) {
+        int jOld;
+        // find the end of the current tag or the start of its parameters
+        for (jOld = ++j; str[j] && str[j] != L'(' && str[j] != L'\\'; ++j) {
             ;
         }
+        CStringW cmd = str.Mid(jOld, j - jOld);
         cmd.Trim();
         if (cmd.IsEmpty()) {
             continue;
@@ -1689,25 +1691,25 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 
         CAtlArray<CStringW> params;
 
-        if (str[j] == '(') {
-            CStringW param;
+        if (str[j] == L'(') {
             // complex tags search
             int br = 1; // 1 bracket
-            for (WCHAR c = str[++j]; c && br > 0; param += c, c = str[++j]) {
-                if (c == '(') {
+            // find the end of the parameters
+            for (jOld = ++j; str[j] && br > 0; ++j) {
+                if (str[j] == L'(') {
                     br++;
-                }
-                if (c == ')') {
+                } else if (str[j] == L')') {
                     br--;
                 }
                 if (br == 0) {
                     break;
                 }
             }
+            CStringW param = str.Mid(jOld, j - jOld);
             param.Trim();
 
             while (!param.IsEmpty()) {
-                int k = param.Find(','), l = param.Find('\\');
+                int k = param.Find(L','), l = param.Find(L'\\');
 
                 if (k >= 0 && (l < 0 || k < l)) {
                     CStringW s = param.Left(k).Trim();
@@ -1815,7 +1817,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 
         CStringW p = params.GetCount() > 0 ? params[0] : L"";
 
-        if (cmd == "1c" || cmd == L"2c" || cmd == L"3c" || cmd == L"4c") {
+        if (cmd == L"1c" || cmd == L"2c" || cmd == L"3c" || cmd == L"4c") {
             int k = cmd[0] - '1';
 
             DWORD c = wcstol(p, NULL, 16);
