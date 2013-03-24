@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -552,25 +552,18 @@ void CPlayerSeekBar::UpdateToolTipText()
         time.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
     }
 
-    CString chapterName;
+    CComBSTR chapterName;
     {
         // Start of critical section
         CAutoLock lock(&m_CBLock);
 
-        if (m_pChapterBag && m_pChapterBag->ChapGetCount() > 1) {
-            REFERENCE_TIME rt;
-            CComBSTR name;
-            for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
-                if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
-                    if (m_tooltipPos >= rt) {
-                        chapterName = name;
-                    }
-                }
-            }
+        if (m_pChapterBag) {
+            REFERENCE_TIME rt = m_tooltipPos;
+            m_pChapterBag->ChapLookup(&rt, &chapterName);
         }
     } // End of critical section
 
-    if (chapterName.IsEmpty()) {
+    if (chapterName.Length() == 0) {
         m_tooltipText = time;
     } else {
         m_tooltipText.Format(_T("%s - %s"), time, chapterName);
