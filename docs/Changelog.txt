@@ -10,6 +10,7 @@ Legend:
 
 1.6.7 - not released yet
 ========================
++ Ticket #2144, Subtitles downloader: Sort by language and then by filename by default
 + Ticket #2987, Playlist improvements:
   - Scroll and select the first newly added item
   - Put MPC-HC on top and give the focus to the playlist after a drag and drop

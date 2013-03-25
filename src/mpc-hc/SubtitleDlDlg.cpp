@@ -28,9 +28,10 @@
 #define UWM_PARSE  (WM_USER + 100)
 #define UWM_FAILED (WM_USER + 101)
 
-CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url)
+CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParent)
     , m_url(url)
+    , m_filename(filename)
     , ps(m_list.GetSafeHwnd(), 0, TRUE)
     , m_status()
     , m_pTA(NULL)
@@ -49,6 +50,53 @@ void CSubtitleDlDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
+int CSubtitleDlDlg::StrMatch(LPCTSTR a, LPCTSTR b)
+{
+    size_t count = 0, alen = _tcslen(a), blen = _tcslen(b);
+
+    for (size_t i = 0; i < alen && i < blen; i++) {
+        if (_totlower(a[i]) != _totlower(b[i])) {
+            break;
+        } else {
+            count++;
+        }
+    }
+    return count;
+}
+
+int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+    PPARAMSORT ps = reinterpret_cast<PPARAMSORT>(lParamSort);
+    TCHAR left[256] = _T(""), right[256] = _T("");
+
+    // sort by language first
+    ListView_GetItemText(ps->m_hWnd, lParam1, COL_LANGUAGE, left, sizeof(left));
+    ListView_GetItemText(ps->m_hWnd, lParam2, COL_LANGUAGE, right, sizeof(right));
+    int res = _tcscmp(left, right);
+    if (res != 0) {
+        return res;
+    }
+
+    // sort by filename
+    ListView_GetItemText(ps->m_hWnd, lParam1, COL_FILENAME, left, sizeof(left));
+    ListView_GetItemText(ps->m_hWnd, lParam2, COL_FILENAME, right, sizeof(right));
+    int lmatch = StrMatch(ps->m_filename, left);
+    int rmatch = StrMatch(ps->m_filename, right);
+    // sort by matching character number
+    if (lmatch > rmatch) {
+        return -1;
+    } else if (lmatch < rmatch) {
+        return 1;
+    }
+    // prefer shorter names
+    if (_tcslen(left) < _tcslen(right)) {
+        return -1;
+    } else if (_tcslen(left) > _tcslen(right)) {
+        return 1;
+    }
+    return 0;
+}
+
 void CSubtitleDlDlg::LoadList()
 {
     m_list.SetRedraw(FALSE);
@@ -64,6 +112,11 @@ void CSubtitleDlDlg::LoadList()
         m_list.SetItemText(iItem, COL_TITLES, m.titles);
         m_list.SetCheck(iItem, m.checked);
     }
+
+    // sort by language and filename
+    ps.m_hWnd = m_list.GetSafeHwnd();
+    ps.m_filename = m_filename;
+    ListView_SortItemsEx(m_list.GetSafeHwnd(), DefSortCompare, &ps);
 
     m_list.SetRedraw(TRUE);
     m_list.Invalidate();
