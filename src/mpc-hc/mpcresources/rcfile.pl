@@ -172,7 +172,7 @@ sub writeData {
             if ($idx == $headsection) {
                 push(@{$newrc}, @{$curOutline->[0][1]});            # use old language rc file head section
             } elsif ($idx == $tailsection) {
-                writeVersionInfo($newrc, $curVersionInfo);          # TODO: write current version info to it's original place, now just above end section
+                writeVersionInfo($newrc, $curVersionInfo);          # TODO: write current version info to its original place, now just above end section
                 push(@{$newrc}, @{$curOutline->[$oldtail][1]});     # use old language rc file head section
             } else {
                 my @_text = ();
