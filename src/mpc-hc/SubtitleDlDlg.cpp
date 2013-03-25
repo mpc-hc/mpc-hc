@@ -65,6 +65,12 @@ void CSubtitleDlDlg::LoadList()
         m_list.SetCheck(iItem, m.checked);
     }
 
+    // sort by language
+    ps.m_ascending = true;
+    ps.m_colIndex = COL_LANGUAGE;
+    ps.m_hWnd = m_list.GetSafeHwnd();
+    ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, &ps);
+
     m_list.SetRedraw(TRUE);
     m_list.Invalidate();
     m_list.UpdateWindow();
