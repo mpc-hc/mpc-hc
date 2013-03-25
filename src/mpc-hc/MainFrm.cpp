@@ -5415,7 +5415,7 @@ void CMainFrame::OnFileISDBDownload()
                     UrlEncode(CStringA(fh.name), true), fh.size, fh.mpc_filehash);
         url.Append(args);
 
-        CSubtitleDlDlg dlg(GetModalParent(), url);
+        CSubtitleDlDlg dlg(GetModalParent(), url, fh.name);
         dlg.DoModal();
     } catch (CInternetException* ie) {
         ie->Delete();
