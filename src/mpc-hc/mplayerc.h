@@ -34,6 +34,7 @@
 #include <vmr9.h>
 #include <dxva2api.h> //#include <evr9.h>
 #include <map>
+#include <afxmt.h>
 
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
 
@@ -145,7 +146,7 @@ private:
     std::map<CString, std::map<CString, CString, CStringIgnoreCaseLess>, CStringIgnoreCaseLess> m_ProfileMap;
     bool m_fProfileInitialized;
     void InitProfile();
-    CCriticalSection m_ProfileCriticalSection;
+    ::CCriticalSection m_ProfileCriticalSection;
 public:
     void FlushProfile();
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes);
