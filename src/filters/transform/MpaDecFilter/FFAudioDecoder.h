@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,10 +19,6 @@
  */
 
 #pragma once
-
-#pragma warning(disable: 4005)
-#include "ffmpeg/libavutil/samplefmt.h"
-#pragma warning(default: 4005)
 
 #include <atlcoll.h>
 #include "PaddedArray.h"
