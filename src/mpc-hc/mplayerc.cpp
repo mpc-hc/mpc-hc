@@ -502,12 +502,25 @@ void CMPlayerCApp::InitProfile()
         CStdioFile file(fp);
         CString line, section, var, val;
         while (file.ReadString(line)) {
+            // Parse mpc-hc.ini file, this parser:
+            //  - doesn't trim whitespaces
+            //  - doesn't remove quotation marks
+            //  - omits keys with empty names
+            //  - omits unnamed sections
             int pos = 0;
             if (line[0] == _T('[')) {
-                section = line.Tokenize(_T("[]"), pos);
+                pos = line.Find(_T(']'));
+                if (pos == -1) {
+                    continue;
+                }
+                section = line.Mid(1, pos - 1);
             } else if (line[0] != _T(';')) {
-                var = line.Tokenize(_T("="), pos);
-                val = line.Tokenize(_T(""), pos);
+                pos = line.Find(_T('='));
+                if (pos == -1) {
+                    continue;
+                }
+                var = line.Mid(0, pos);
+                val = line.Mid(pos + 1);
                 if (!section.IsEmpty() && !var.IsEmpty()) {
                     m_ProfileMap[section][var] = val;
                 }
