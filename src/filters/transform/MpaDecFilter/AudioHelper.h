@@ -20,11 +20,9 @@
 
 #pragma once
 
-#pragma warning(disable: 4005 4244)
-extern "C" {
+#pragma warning(disable: 4005)
 #include "ffmpeg/libavutil/samplefmt.h"
-}
-#pragma warning(default: 4005 4244)
+#pragma warning(default: 4005)
 
 #ifdef _MSC_VER
 #define bswap_16(x) _byteswap_ushort((unsigned short)(x))

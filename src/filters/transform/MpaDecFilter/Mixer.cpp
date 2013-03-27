@@ -21,13 +21,10 @@
 #include "stdafx.h"
 #include "Mixer.h"
 
-#pragma warning(disable: 4005)
 extern "C" {
 #include "ffmpeg/libavresample/avresample.h"
-#include "ffmpeg/libavutil/samplefmt.h"
 #include "ffmpeg/libavutil/opt.h"
 }
-#pragma warning(default: 4005)
 #include "AudioHelper.h"
 
 CMixer::CMixer()
