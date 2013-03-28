@@ -13,7 +13,7 @@ Legend:
 + Ticket #2987, Playlist improvements:
   - Scroll and select the first newly added item
   - Put MPC-HC on top and give the focus to the playlist after a drag and drop
-* Updated Catalan, Czech, German, Greek, Simplified Chinese and Turkish translations
+* Updated Basque, Catalan, Czech, German, Greek, Simplified Chinese and Turkish translations
 * Updated Little CMS to v2.5 (git d2d902b)
 * Ticket #2689,  Replace "On top > Never" by "On top > Default". In most of the
   cases "On top > Default" will have the exact same behavior than "On top > Never"
@@ -21,6 +21,8 @@ Legend:
 ! Fix a crash when VMR-7 (renderless) renderer failed to load
 ! SSA subtitles rendering: Improve error checking to avoid possible crashes when
   the SSA script was using obviously wrong values
+! Ticket #1392, DVD subtitles: Improve rendering in case of overlap. Ensure that both subtitles
+  will be shown.
 ! Ticket #2991, Fix loading of MicroDVD subtitles
 ! Ticket #3001, "After Playback": Always give "Once" events a higher priority
   than "Always" events
