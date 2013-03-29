@@ -246,7 +246,7 @@ void CMixer::FlushBuffers()
         }
 
         // Set Matrix on the context
-        ret = avresample_set_matrix(m_pAVRCxt, m_matrix_dbl, m_in_layout);
+        ret = avresample_set_matrix(m_pAVRCxt, m_matrix_dbl, av_popcount(m_in_layout));
         if (ret < 0) {
             TRACE(_T("Mixer: avresample_set_matrix failed\n"));
             return;
