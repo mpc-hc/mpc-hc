@@ -294,7 +294,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 pwfe->nBlockAlign = pwfe->nChannels * pwfe->wBitsPerSample >> 3;
             }
             if (pwfe->wFormatTag == WAVE_FORMAT_EXTENSIBLE) {
-                mt.subtype = FOURCCMap(WAVE_FORMAT_PCM);    // audio renderer doesn't accept fffe in the subtype
+                mt.subtype = ((WAVEFORMATEXTENSIBLE*)pwfe)->SubFormat;
             }
             mt.SetSampleSize(s->strh.dwSuggestedBufferSize > 0
                              ? s->strh.dwSuggestedBufferSize * 3 / 2
