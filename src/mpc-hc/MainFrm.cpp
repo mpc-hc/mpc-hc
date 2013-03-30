@@ -3705,7 +3705,7 @@ void CMainFrame::OnStreamSubOnOff()
     }
 
     if (!m_pSubStreams.IsEmpty()) {
-        ToogleSubtitleOnOff(true);
+        ToggleSubtitleOnOff(true);
         SetFocus();
     } else if (GetPlaybackMode() == PM_DVD) {
         SendMessage(WM_COMMAND, ID_DVD_SUB_ONOFF);
@@ -7890,7 +7890,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
         ReloadSubtitle();
     } else if (i == -2) {
         // enable
-        ToogleSubtitleOnOff();
+        ToggleSubtitleOnOff();
     } else if (i == -1) {
         // override default style
         // TODO: default subtitles style toggle here
@@ -13778,7 +13778,7 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle /*= fal
     }
 }
 
-void CMainFrame::ToogleSubtitleOnOff(bool bDisplayMessage /*= false*/)
+void CMainFrame::ToggleSubtitleOnOff( bool bDisplayMessage /*= false*/ )
 {
     CAppSettings& s = AfxGetAppSettings();
     s.fEnableSubtitles = !s.fEnableSubtitles;
@@ -13834,7 +13834,7 @@ void CMainFrame::SetSubtitleTrackIdx(int index)
     if (m_iMediaLoadState == MLS_LOADED) {
         // Check if we want to change the enable/disable state
         if (s.fEnableSubtitles != (index >= 0)) {
-            ToogleSubtitleOnOff();
+            ToggleSubtitleOnOff();
         }
         // Set the new subtitles track if needed
         if (AfxGetAppSettings().fEnableSubtitles) {
