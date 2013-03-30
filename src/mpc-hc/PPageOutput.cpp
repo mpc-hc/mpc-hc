@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,6 +46,8 @@ CPPageOutput::CPPageOutput()
     , m_fD3DFullscreen(FALSE)
     , m_fD3D9RenderDevice(FALSE)
     , m_iD3D9RenderDevice(-1)
+    , m_tick(NULL)
+    , m_cross(NULL)
 {
 }
 
@@ -134,7 +136,7 @@ BOOL CPPageOutput::OnInitDialog()
     m_fVMR9AlterativeVSync  = renderersSettings.m_AdvRendSets.fVMR9AlterativeVSync;
     m_fD3DFullscreen        = s.fD3DFullscreen;
 
-    int EVRBuffers[] = {4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30, 35, 40, 45, 50, 55, 60};
+    int EVRBuffers[] = { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30, 35, 40, 45, 50, 55, 60 };
     CString EVRBuffer;
     for (size_t i = 0; i < _countof(EVRBuffers); i++) {
         EVRBuffer.Format(_T("%d"), EVRBuffers[i]);
@@ -236,7 +238,7 @@ BOOL CPPageOutput::OnInitDialog()
                 }
                 if ((cstrGUID != _T(""))) {
                     boolean m_find = false;
-                    for (INT_PTR i = 0; (!m_find) && (i < m_D3D9GUIDNames.GetCount()); i++) {
+                    for (INT_PTR i = 0; !m_find && (i < m_D3D9GUIDNames.GetCount()); i++) {
                         if (m_D3D9GUIDNames.GetAt(i) == cstrGUID) {
                             m_find = true;
                         }

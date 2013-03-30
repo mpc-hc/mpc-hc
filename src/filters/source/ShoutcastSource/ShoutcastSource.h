@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -120,7 +120,7 @@ class CShoutcastStream : public CSourceStream
         DWORD m_nBytesRead;
 
     public:
-        CShoutcastSocket() { m_metaint = m_bitrate = m_freq = m_channels = 0; }
+        CShoutcastSocket() { m_nBytesRead = m_metaint = m_bitrate = m_freq = m_channels = 0; }
         int Receive(void* lpBuf, int nBufLen, int nFlags = 0);
 
         DWORD m_metaint, m_bitrate, m_freq, m_channels;
