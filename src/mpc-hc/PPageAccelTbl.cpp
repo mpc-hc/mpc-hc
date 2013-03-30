@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -165,10 +165,9 @@ void CPPageAccelTbl::SetupList()
         m_list.SetItemText(row, COL_RMREPCNT, repcnt);
     }
 
-    int contentSize;
     for (int nCol = COL_CMD; nCol <= COL_RMREPCNT; nCol++) {
         m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
-        contentSize = m_list.GetColumnWidth(nCol);
+        int contentSize = m_list.GetColumnWidth(nCol);
         m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE_USEHEADER);
         if (contentSize > m_list.GetColumnWidth(nCol)) {
             m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);

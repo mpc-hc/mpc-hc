@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -134,7 +134,7 @@ static int permute_index(int a, int b)
 
 static void make_downsample_filter(long* filter_bank, int filter_width, long samp_frac)
 {
-    int i, j, v;
+    int i, j;
     double filt_max;
     double filtwidth_frac;
 
@@ -160,7 +160,7 @@ static void make_downsample_filter(long* filter_bank, int filter_width, long sam
     // Normalize the filter to correct for integer roundoff errors
 
     for (i = 0; i < 256 * filter_width; i += filter_width) {
-        v = 0;
+        int v = 0;
         for (j = 0; j < filter_width; j++) {
             v += filter_bank[i + j];
         }

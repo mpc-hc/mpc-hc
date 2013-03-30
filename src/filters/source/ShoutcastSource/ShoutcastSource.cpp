@@ -352,10 +352,8 @@ HRESULT CShoutcastStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROP
 
 HRESULT CShoutcastStream::FillBuffer(IMediaSample* pSample)
 {
-    HRESULT hr;
-
     BYTE* pData = NULL;
-    if (FAILED(hr = pSample->GetPointer(&pData)) || !pData) {
+    if (FAILED(pSample->GetPointer(&pData)) || !pData) {
         return S_FALSE;
     }
 

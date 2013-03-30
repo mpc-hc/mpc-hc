@@ -532,7 +532,6 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams,
 {
     H264Context* h = (H264Context*) pAVCtx->priv_data;
     MpegEncContext* const s = &h->s;
-    HRESULT hr = E_FAIL;
     unsigned i, list;
 
     for (list = 0; list < 2; list++) {

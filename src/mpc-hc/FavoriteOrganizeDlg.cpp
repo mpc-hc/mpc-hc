@@ -337,10 +337,9 @@ void CFavoriteOrganizeDlg::MoveItem(int nItem, int offset)
 void CFavoriteOrganizeDlg::OnUpBnClicked()
 {
     POSITION pos = m_list.GetFirstSelectedItemPosition();
-    int nItem;
 
     while (pos) {
-        nItem = m_list.GetNextSelectedItem(pos);
+        int nItem = m_list.GetNextSelectedItem(pos);
         if (nItem <= 0 || nItem >= m_list.GetItemCount()) {
             return;
         }

@@ -1152,8 +1152,7 @@ BOOL CMPlayerCApp::InitInstance()
     lError = DetourTransactionCommit();
     ASSERT(lError == NOERROR);
 
-    HRESULT hr;
-    if (FAILED(hr = OleInitialize(0))) {
+    if (FAILED(OleInitialize(0))) {
         AfxMessageBox(_T("OleInitialize failed!"));
         return FALSE;
     }

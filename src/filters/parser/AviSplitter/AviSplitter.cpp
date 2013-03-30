@@ -588,10 +588,9 @@ bool CAviSplitterFilter::DemuxLoop()
                     break;
                 }
 
-                UINT64 expectedsize = (UINT64) - 1;
-                expectedsize = f < (DWORD)s->cs.GetCount() - 1
-                               ? s->cs[f + 1].size - s->cs[f].size
-                               : s->totalsize - s->cs[f].size;
+                UINT64 expectedsize = f < (DWORD)s->cs.GetCount() - 1
+                                      ? s->cs[f + 1].size - s->cs[f].size
+                                      : s->totalsize - s->cs[f].size;
 
                 if (expectedsize != s->GetChunkSize(size)) {
                     fDiscontinuity[minTrack] = true;
