@@ -386,7 +386,7 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Fijar ubicación"
 7		"Horizontal:"
 11		"Vertical:"
-15		"Intervalo de Retrazo"
+15		"Intervalo de Retraso"
 17		"ms"
 18		"Opciones de textura (es necesario re-abrir el archivo para notar los cambios)"
 19		"Numero de subtítulos para almacenar previamente:"
