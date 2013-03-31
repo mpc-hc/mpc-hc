@@ -97,7 +97,10 @@ public:
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
     virtual void OnOK();
+
+    void DownloadSelectedSubtitles();
 
     DECLARE_MESSAGE_MAP()
 
@@ -108,4 +111,6 @@ protected:
     afx_msg void OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDestroy();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg void OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult);
 };

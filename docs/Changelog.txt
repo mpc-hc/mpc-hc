@@ -10,7 +10,9 @@ Legend:
 
 1.6.7 - not released yet
 ========================
-+ Ticket #2144, Subtitles downloader: Sort by language and then by filename by default
++ Subtitles downloader improvements:
+  - Ticket #2144, Sort by language and then by filename by default
+  - Ticket #2926, Double-clicking or pressing Enter will download the selected subtitle file(s)
 + Ticket #2837, New INI parser: the accesses are now cached for faster settings loading/saving.
   Using the INI file should now be as fast as using the registry
 + Ticket #2987, Playlist improvements:

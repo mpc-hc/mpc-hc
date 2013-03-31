@@ -299,6 +299,17 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     return TRUE;
 }
 
+BOOL CSubtitleDlDlg::PreTranslateMessage(MSG* pMsg)
+{
+    // Inhibit default handling for the Enter key when the list has the focus and an item is selected.
+    if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
+        && pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
+            return FALSE;
+    }
+
+    return __super::PreTranslateMessage(pMsg);
+}
+
 void CSubtitleDlDlg::OnOK()
 {
     SetStatus(ResStr(IDS_SUBDL_DLG_DOWNLOADING));
@@ -427,6 +438,18 @@ BOOL CSubtitleDlDlg::OnEraseBkgnd(CDC* pDC)
     return TRUE;
 }
 
+void CSubtitleDlDlg::DownloadSelectedSubtitles()
+{
+    POSITION pos = m_list.GetFirstSelectedItemPosition();
+    while (pos) {
+        int nItem = m_list.GetNextSelectedItem(pos);
+        if (nItem >= 0 && nItem < m_list.GetItemCount()) {
+            ListView_SetCheckState(m_list.GetSafeHwnd(), nItem, TRUE);
+        }
+    }
+    OnOK();
+}
+
 BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CResizableDialog)
     ON_WM_ERASEBKGND()
     ON_WM_SIZE()
@@ -435,4 +458,25 @@ BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CResizableDialog)
     ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
     ON_NOTIFY(HDN_ITEMCLICK, 0, OnColumnClick)
     ON_WM_DESTROY()
+    ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDoubleClickSubtitle)
+    ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, OnKeyPressedSubtitle)
 END_MESSAGE_MAP()
+
+void CSubtitleDlDlg::OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LPNMITEMACTIVATE pItemActivate = (LPNMITEMACTIVATE)(pNMHDR);
+
+    if (pItemActivate->iItem >= 0) {
+        DownloadSelectedSubtitles();
+    }
+}
+
+void CSubtitleDlDlg::OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
+
+    if (pLVKeyDow->wVKey == VK_RETURN) {
+        DownloadSelectedSubtitles();
+        *pResult = TRUE;
+    }
+}
