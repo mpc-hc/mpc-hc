@@ -87,7 +87,7 @@ private:
     static UINT RunThread(LPVOID pParam);
     static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
     static int CALLBACK DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
-    static int StrMatch(LPCTSTR a, LPCTSTR b);
+    static size_t StrMatch(LPCTSTR a, LPCTSTR b);
 public:
     explicit CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename);
     virtual ~CSubtitleDlDlg();

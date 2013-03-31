@@ -50,7 +50,7 @@ void CSubtitleDlDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
-int CSubtitleDlDlg::StrMatch(LPCTSTR a, LPCTSTR b)
+size_t CSubtitleDlDlg::StrMatch(LPCTSTR a, LPCTSTR b)
 {
     size_t count = 0, alen = _tcslen(a), blen = _tcslen(b);
 
@@ -80,8 +80,8 @@ int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPAR
     // sort by filename
     ListView_GetItemText(ps->m_hWnd, lParam1, COL_FILENAME, left, sizeof(left));
     ListView_GetItemText(ps->m_hWnd, lParam2, COL_FILENAME, right, sizeof(right));
-    int lmatch = StrMatch(ps->m_filename, left);
-    int rmatch = StrMatch(ps->m_filename, right);
+    size_t lmatch = StrMatch(ps->m_filename, left);
+    size_t rmatch = StrMatch(ps->m_filename, right);
     // sort by matching character number
     if (lmatch > rmatch) {
         return -1;
