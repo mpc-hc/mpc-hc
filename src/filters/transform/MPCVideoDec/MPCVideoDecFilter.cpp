@@ -2363,6 +2363,10 @@ HRESULT CMPCVideoDecFilter::CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3D
             pDecoderRenderTargets, nNumRenderTargets, &pDirectXVideoDec);
 
     if (SUCCEEDED(hr)) {
+        if (m_nPCIVendor == PCIV_Intel) {
+            // need recreate dxva decoder after "stop" on Intel HD Graphics 
+            SAFE_DELETE (m_pDXVADecoder);
+        }
         if (!m_pDXVADecoder) {
             m_pDXVADecoder  = CDXVADecoder::CreateDecoder(this, pDirectXVideoDec, &m_DXVADecoderGUID, GetPicEntryNumber(), &m_DXVA2Config);
             if (m_pDXVADecoder) {
