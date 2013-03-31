@@ -13778,7 +13778,7 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle /*= fal
     }
 }
 
-void CMainFrame::ToggleSubtitleOnOff( bool bDisplayMessage /*= false*/ )
+void CMainFrame::ToggleSubtitleOnOff(bool bDisplayMessage /*= false*/)
 {
     CAppSettings& s = AfxGetAppSettings();
     s.fEnableSubtitles = !s.fEnableSubtitles;
