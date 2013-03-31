@@ -67,7 +67,7 @@ size_t CSubtitleDlDlg::StrMatch(LPCTSTR a, LPCTSTR b)
 int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     PPARAMSORT ps = reinterpret_cast<PPARAMSORT>(lParamSort);
-    TCHAR left[256] = _T(""), right[256] = _T("");
+    TCHAR left[MAX_PATH] = _T(""), right[MAX_PATH] = _T("");
 
     // sort by language first
     ListView_GetItemText(ps->m_hWnd, lParam1, COL_LANGUAGE, left, sizeof(left));
@@ -89,9 +89,11 @@ int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPAR
         return 1;
     }
     // prefer shorter names
-    if (_tcslen(left) < _tcslen(right)) {
+    size_t llen = _tcslen(left);
+    size_t rlen = _tcslen(right);
+    if (llen < rlen) {
         return -1;
-    } else if (_tcslen(left) > _tcslen(right)) {
+    } else if (llen > rlen) {
         return 1;
     }
     return 0;
@@ -227,7 +229,7 @@ UINT CSubtitleDlDlg::RunThread(LPVOID pParam)
 int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     PPARAMSORT ps = reinterpret_cast<PPARAMSORT>(lParamSort);
-    TCHAR left[256] = _T(""), right[256] = _T("");
+    TCHAR left[MAX_PATH] = _T(""), right[MAX_PATH] = _T("");
 
     ListView_GetItemText(ps->m_hWnd, lParam1, ps->m_colIndex, left, sizeof(left));
     ListView_GetItemText(ps->m_hWnd, lParam2, ps->m_colIndex, right, sizeof(right));
