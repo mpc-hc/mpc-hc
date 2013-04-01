@@ -134,7 +134,9 @@ private:
 
     CComQIPtr<IBDA_DeviceControl>        m_pBDAControl;
     CComPtr<IBDA_FrequencyFilter>        m_pBDAFreq;
-    CComPtr<IBDA_SignalStatistics>       m_pBDAStats;
+    CComPtr<IBDA_SignalStatistics>       m_pBDATunerStats;
+    CComPtr<IBDA_DigitalDemodulator>     m_pBDADemodulator;
+    CComPtr<IBDA_SignalStatistics>       m_pBDADemodStats;
     CAtlMap<DVB_STREAM_TYPE, CDVBStream> m_DVBStreams;
 
     DVB_STREAM_TYPE m_nCurVideoType;
@@ -154,18 +156,23 @@ private:
     FILTER_STATE    GetState();
     void UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChannel* pChannel);
 
-    template <class ITF>
-    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, CComPtr<ITF>& pItf) {
-        CComPtr<IUnknown> pUnk;
-        HRESULT hr = SearchIBDATopology(pTuner, __uuidof(ITF), pUnk);
+    template <class ITF, class ITFStat>
+    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, CComPtr<ITF>& pItf, CComPtr<ITFStat>& pItfStat) {
+        CComPtr<IUnknown> pUnk, pUnkStat;
+        HRESULT hr = SearchIBDATopology(pTuner, __uuidof(ITF), pUnk, __uuidof(ITFStat), pUnkStat);
 
         if (SUCCEEDED(hr)) {
             hr = pUnk.QueryInterface(&pItf);
+            if (SUCCEEDED(hr)) {
+                hr = pUnkStat.QueryInterface(&pItfStat);
+            }
         }
-        return !pItf ? E_NOINTERFACE : hr;
+
+        return hr;
     }
 
-    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
+    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner,
+                               REFIID iid, CComPtr<IUnknown>& pUnk, REFIID iidStat, CComPtr<IUnknown>& pUnkStat);
 
     void Sleep(unsigned int mseconds) {
         clock_t goal = mseconds + clock();

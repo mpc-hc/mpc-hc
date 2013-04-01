@@ -337,7 +337,8 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
     return hr;
 }
 
-HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk)
+HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner,
+                                          REFIID iid, CComPtr<IUnknown>& pUnk, REFIID iidStat, CComPtr<IUnknown>& pUnkStat)
 {
     CComQIPtr<IBDA_Topology> pTop(pTuner);
     CheckPointer(pTop, E_NOINTERFACE);
@@ -361,14 +362,29 @@ HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, RE
             continue;
         }
 
+        pUnk = NULL;
+        pUnkStat = NULL;
+
         for (ULONG j = 0; j < nInterfaces; j++) {
             if (aInterface[j] == iid) {
-                return pTop->GetControlNode(0, 1, NodeType[i], &pUnk);
+                hr = pTop->GetControlNode(0, 1, NodeType[i], &pUnk);
+                if (FAILED(hr)) {
+                    break;
+                }
+            } else if (aInterface[j] == iidStat) {
+                hr = pTop->GetControlNode(0, 1, NodeType[i], &pUnkStat);
+                if (FAILED(hr)) {
+                    break;
+                }
             }
+        }
+
+        if (pUnk && pUnkStat) {
+            break;
         }
     }
 
-    return hr;
+    return (pUnk && pUnkStat) ? hr : E_NOINTERFACE;
 }
 
 HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInFilter)
@@ -432,14 +448,14 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     }
 
     m_pBDAControl = pTuner;
-    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq))) {
+    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq, m_pBDATunerStats))) {
         AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter topology."), MB_OK);
         TRACE(_T("BDA : IBDA_FrequencyFilter topology: 0x%08x\n"), hr);
         return hr;
     }
-    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAStats))) {
-        AfxMessageBox(_T("BDA Error: IBDA_SignalStatistics topology."), MB_OK);
-        TRACE(_T("BDA : IBDA_SignalStatistics topology: 0x%08x\n"), hr);
+    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDADemodulator, m_pBDADemodStats))) {
+        AfxMessageBox(_T("BDA Error: IBDA_DigitalDemodulator topology."), MB_OK);
+        TRACE(_T("BDA : IBDA_DigitalDemodulator topology: 0x%08x\n"), hr);
         return hr;
     }
 
@@ -597,12 +613,13 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
 STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lDbStrength, LONG& lPercentQuality)
 {
     HRESULT hr;
-    CheckPointer(m_pBDAStats, E_UNEXPECTED);
+    CheckPointer(m_pBDATunerStats, E_UNEXPECTED);
+    CheckPointer(m_pBDADemodStats, E_UNEXPECTED);
 
-    CheckNoLog(m_pBDAStats->get_SignalPresent(&bPresent));
-    CheckNoLog(m_pBDAStats->get_SignalLocked(&bLocked));
-    CheckNoLog(m_pBDAStats->get_SignalStrength(&lDbStrength));
-    CheckNoLog(m_pBDAStats->get_SignalQuality(&lPercentQuality));
+    CheckNoLog(m_pBDATunerStats->get_SignalPresent(&bPresent));
+    CheckNoLog(m_pBDADemodStats->get_SignalLocked(&bLocked));
+    CheckNoLog(m_pBDATunerStats->get_SignalStrength(&lDbStrength));
+    CheckNoLog(m_pBDADemodStats->get_SignalQuality(&lPercentQuality));
     LOG(_T("Get signal stats: Strength %d dB, Quality %d%%"), lDbStrength, lPercentQuality);
 
     return S_OK;
