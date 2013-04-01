@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -131,7 +131,7 @@ public:
         InvokeHelper(0x6b, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
         return result;
     }
-    void put_FrameNum(long newValue) {
+    void put_FrameNum(LONGLONG newValue) {
         static BYTE parms[] = VTS_I4;
         InvokeHelper(0x6b, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
