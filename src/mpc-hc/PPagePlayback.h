@@ -48,7 +48,7 @@ public:
     int m_iLoopForever;
     CEdit m_loopnumctrl;
     int m_nLoops;
-    BOOL m_fRewind;
+    int m_iWhenDone;
     int m_iZoomLevel;
     BOOL m_iRememberZoomLevel;
     int m_nAutoFitFactor;
@@ -60,6 +60,7 @@ public:
     CString m_subtitlesLanguageOrder;
     CString m_audiosLanguageOrder;
 
+    CComboBox m_whenDoneCtrl;
     CComboBox m_zoomlevelctrl;
 
     // Dialog Data

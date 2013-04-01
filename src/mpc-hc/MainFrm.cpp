@@ -2247,11 +2247,18 @@ bool CMainFrame::GraphEventComplete()
                 }
             }
         } else {
-            if (s.fRewind) {
-                SendMessage(WM_COMMAND, ID_PLAY_STOP);
-            } else {
-                m_fEndOfStream = true;
-                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+            switch (s.iWhenDone) {
+                default:
+                case WHEN_DONE_PAUSE:
+                    m_fEndOfStream = true;
+                    SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+                    break;
+                case WHEN_DONE_STOP:
+                    SendMessage(WM_COMMAND, ID_PLAY_STOP);
+                    break;
+                case WHEN_DONE_CLOSE:
+                    SendMessage(WM_COMMAND, ID_FILE_CLOSEPLAYLIST);
+                    break;
             }
             m_OSD.ClearMessage();
 
@@ -2281,13 +2288,19 @@ bool CMainFrame::GraphEventComplete()
             if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
                 OnViewFullscreen();
             }
-
-            if (s.fRewind) {
-                s.nCLSwitches |= CLSW_OPEN; // HACK
-                PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
-            } else {
-                m_fEndOfStream = true;
-                PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
+            switch (s.iWhenDone) {
+                default:
+                case WHEN_DONE_PAUSE:
+                    m_fEndOfStream = true;
+                    SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+                    break;
+                case WHEN_DONE_STOP:
+                    s.nCLSwitches |= CLSW_OPEN; // HACK
+                    PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+                    break;
+                case WHEN_DONE_CLOSE:
+                    SendMessage(WM_COMMAND, ID_FILE_CLOSEPLAYLIST);
+                    break;
             }
         }
     }

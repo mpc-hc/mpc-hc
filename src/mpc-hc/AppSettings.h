@@ -163,6 +163,12 @@ enum {
     TIME_TOOLTIP_BELOW_SEEKBAR
 };
 
+enum {
+    WHEN_DONE_PAUSE,
+    WHEN_DONE_STOP,
+    WHEN_DONE_CLOSE
+};
+
 #pragma pack(push, 1)
 typedef struct {
     bool fValid;
@@ -409,7 +415,7 @@ public:
     int             nBalance;
     int             nLoops;
     bool            fLoopForever;
-    bool            fRewind;
+    int             iWhenDone;
     bool            fRememberZoomLevel;
     int             nAutoFitFactor;
     int             iZoomLevel;

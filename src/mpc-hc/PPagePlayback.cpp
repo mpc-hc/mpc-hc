@@ -34,7 +34,7 @@ CPPagePlayback::CPPagePlayback()
     : CPPageBase(CPPagePlayback::IDD, CPPagePlayback::IDD)
     , m_iLoopForever(0)
     , m_nLoops(0)
-    , m_fRewind(FALSE)
+    , m_iWhenDone(WHEN_DONE_PAUSE)
     , m_iZoomLevel(0)
     , m_iRememberZoomLevel(FALSE)
     , m_nAutoFitFactor(75)
@@ -61,13 +61,14 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     __super::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_SLIDER1, m_volumectrl);
     DDX_Control(pDX, IDC_SLIDER2, m_balancectrl);
+    DDX_Control(pDX, IDC_COMBO2, m_whenDoneCtrl);
     DDX_Control(pDX, IDC_COMBO1, m_zoomlevelctrl);
     DDX_Slider(pDX, IDC_SLIDER1, m_nVolume);
     DDX_Slider(pDX, IDC_SLIDER2, m_nBalance);
     DDX_Radio(pDX, IDC_RADIO1, m_iLoopForever);
     DDX_Control(pDX, IDC_EDIT1, m_loopnumctrl);
     DDX_Text(pDX, IDC_EDIT1, m_nLoops);
-    DDX_Check(pDX, IDC_CHECK1, m_fRewind);
+    DDX_CBIndex(pDX, IDC_COMBO2, m_iWhenDone);
     DDX_CBIndex(pDX, IDC_COMBO1, m_iZoomLevel);
     DDX_Check(pDX, IDC_CHECK5, m_iRememberZoomLevel);
     DDX_Check(pDX, IDC_CHECK2, m_fAutoloadAudio);
@@ -106,6 +107,7 @@ BOOL CPPagePlayback::OnInitDialog()
     __super::OnInitDialog();
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
+    SetHandCursor(m_hWnd, IDC_COMBO2);
 
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -122,7 +124,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_SpeedStepCtrl.SetRange(0, 100);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
     m_nLoops = s.nLoops;
-    m_fRewind = s.fRewind;
+    m_iWhenDone = s.iWhenDone;
     m_iZoomLevel = s.iZoomLevel;
     m_iRememberZoomLevel = s.fRememberZoomLevel;
     m_nAutoFitFactor = s.nAutoFitFactor;
@@ -134,6 +136,11 @@ BOOL CPPagePlayback::OnInitDialog()
     m_fReportFailedPins = s.fReportFailedPins;
     m_subtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
     m_audiosLanguageOrder = s.strAudiosLanguageOrder;
+
+    m_whenDoneCtrl.AddString(_T("Pause"));
+    m_whenDoneCtrl.AddString(_T("Stop"));
+    m_whenDoneCtrl.AddString(_T("Close the media"));
+    CorrectComboListWidth(m_whenDoneCtrl);
 
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_50));
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_100));
@@ -165,7 +172,7 @@ BOOL CPPagePlayback::OnApply()
     s.nSpeedStep = m_nSpeedStep;
     s.fLoopForever = !!m_iLoopForever;
     s.nLoops = m_nLoops;
-    s.fRewind = !!m_fRewind;
+    s.iWhenDone = m_iWhenDone;
     s.iZoomLevel = m_iZoomLevel;
     s.fRememberZoomLevel = !!m_iRememberZoomLevel;
     s.nAutoFitFactor = m_nAutoFitFactor = min(max(m_nAutoFitFactor, 25), 100);
