@@ -31,3 +31,4 @@ Legend:
 ! Ticket #2991, Fix loading of MicroDVD subtitles
 ! Ticket #3001, "After Playback": Always give "Once" events a higher priority
   than "Always" events
+! Ticket #3023, "File > Load Subtitle" wasn't working anymore for DVD

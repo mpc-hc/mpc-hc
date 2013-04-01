@@ -5272,32 +5272,29 @@ void CMainFrame::OnFileLoadsubtitle()
                    szFilter, GetModalParent(), 0);
     CComPtr<IFileOpenDialog> openDlgPtr;
 
-    CString defaultDir;
-    if (GetPlaybackMode() == PM_FILE) {
-        CPath path(m_wndPlaylistBar.GetCurFileName());
-        path.RemoveFileSpec();
-        defaultDir = (CString)path;
+    CPath path(m_wndPlaylistBar.GetCurFileName());
+    path.RemoveFileSpec();
+    CString defaultDir = (CString)path;
 
-        if (SysVersion::IsVistaOrLater()) {
-            openDlgPtr = fd.GetIFileOpenDialog();
+    if (SysVersion::IsVistaOrLater()) {
+        openDlgPtr = fd.GetIFileOpenDialog();
 
-            if (openDlgPtr != NULL) {
-                if (!defaultDir.IsEmpty()) {
-                    CComPtr<IShellItem> psiFolder;
-                    if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(defaultDir, NULL, IID_PPV_ARGS(&psiFolder)))) {
-                        openDlgPtr->SetFolder(psiFolder);
-                    }
-                }
-
-                if (FAILED(openDlgPtr->Show(m_hWnd))) {
-                    return;
+        if (openDlgPtr != NULL) {
+            if (!defaultDir.IsEmpty()) {
+                CComPtr<IShellItem> psiFolder;
+                if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(defaultDir, NULL, IID_PPV_ARGS(&psiFolder)))) {
+                    openDlgPtr->SetFolder(psiFolder);
                 }
             }
-        } else {
-            fd.GetOFN().lpstrInitialDir = defaultDir;
-            if (fd.DoModal() != IDOK) {
+
+            if (FAILED(openDlgPtr->Show(m_hWnd))) {
                 return;
             }
+        }
+    } else {
+        fd.GetOFN().lpstrInitialDir = defaultDir;
+        if (fd.DoModal() != IDOK) {
+            return;
         }
     }
 
