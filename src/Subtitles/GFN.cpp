@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -72,11 +72,10 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
         }
     }
 
-    int l = fn.GetLength(), l2 = l;
-    l2 = fn.ReverseFind('.');
-    l = fn.ReverseFind('/') + 1;
-    if (l2 < l) {
-        l2 = l;
+    int l  = fn.ReverseFind('/') + 1;
+    int l2 = fn.ReverseFind('.');
+    if (l2 < l) { // no extension, read to the end
+        l2 = fn.GetLength();
     }
 
     CString orgpath = fn.Left(l);
