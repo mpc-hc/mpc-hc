@@ -58,8 +58,17 @@ private:
         HWND m_hWnd;
         int m_colIndex;
         bool m_ascending;
-        CString m_filename;
     } PARAMSORT, *PPARAMSORT;
+
+    typedef struct DEFPARAMSORT {
+        DEFPARAMSORT(HWND hWnd, CString filename) :
+            m_hWnd(hWnd),
+            m_filename(filename)
+        {}
+        HWND m_hWnd;
+        CString m_filename;
+        CMap <CString, LPCTSTR, int, int> m_langPos;
+    } DEFPARAMSORT, *PDEFPARAMSORT;
 
     enum {
         COL_FILENAME,
@@ -69,11 +78,11 @@ private:
         COL_TITLES
     };
     PARAMSORT ps;
+    DEFPARAMSORT defps;
     PTHREADSTRUCT m_pTA;
 
     CArray<isdb_movie_parsed> m_parsed_movies;
     CString m_url;
-    CString m_filename;
     bool m_fReplaceSubs;
 
     CListCtrl m_list;
@@ -88,6 +97,7 @@ private:
     static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
     static int CALLBACK DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
     static size_t StrMatch(LPCTSTR a, LPCTSTR b);
+    static CString LangCodeToName(LPCSTR code);
 public:
     explicit CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename);
     virtual ~CSubtitleDlDlg();

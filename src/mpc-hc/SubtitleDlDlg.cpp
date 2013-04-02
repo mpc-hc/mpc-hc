@@ -23,6 +23,7 @@
 #include <afxwin.h>
 #include "SubtitleDlDlg.h"
 #include "MainFrm.h"
+#include "DSUtil.h"
 
 // User Defined Window Messages
 #define UWM_PARSE  (WM_USER + 100)
@@ -31,8 +32,8 @@
 CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParent)
     , m_url(url)
-    , m_filename(filename)
     , ps(m_list.GetSafeHwnd(), 0, TRUE)
+    , defps(m_list.GetSafeHwnd(), filename)
     , m_status()
     , m_pTA(NULL)
     , m_fReplaceSubs(false)
@@ -64,24 +65,82 @@ size_t CSubtitleDlDlg::StrMatch(LPCTSTR a, LPCTSTR b)
     return count;
 }
 
+CString CSubtitleDlDlg::LangCodeToName(LPCSTR code)
+{
+    // accept only three-letter language codes
+    size_t codeLen = strlen(code);
+    if (codeLen != 3) {
+        return _T("");
+    }
+
+    CString name = ISO6392ToLanguage(code);
+    if (!name.IsEmpty()) {
+        // workaround for ISO6392ToLanguage function behaivior
+        // for unknown language code it returns the code parameter back
+        if (code != name) {
+            return name;
+        }
+    }
+
+    // support abbreviations loosely based on first letters of language name
+
+    // this list is limited to upload-enabled languages
+    // retrieved with:
+    // wget -q -O- http://www.opensubtitles.org/addons/export_languages.php | \
+    // awk 'NR > 1 { if ($(NF-1) == "1") print ("\"" $(NF-2)  "\",")}'
+    static LPCSTR ltable[] = {
+        "Albanian",  "Arabic",    "Armenian",  "Basque",     "Bengali",       "Bosnian",    "Breton",    "Bulgarian",
+        "Burmese",   "Catalan",   "Chinese",   "Czech",      "Danish",        "Dutch",      "English",   "Esperanto",
+        "Estonian",  "Finnish",   "French",    "Georgian",   "German",        "Galician",   "Greek",     "Hebrew",
+        "Hindi",     "Croatian",  "Hungarian", "Icelandic",  "Indonesian",    "Italian",    "Japanese",  "Kazakh",
+        "Khmer",     "Korean",    "Latvian",   "Lithuanian", "Luxembourgish", "Macedonian", "Malayalam", "Malay",
+        "Mongolian", "Norwegian", "Occitan",   "Persian",    "Polish",        "Portuguese", "Russian",   "Serbian",
+        "Sinhalese", "Slovak",    "Slovenian", "Spanish",    "Swahili",       "Swedish",    "Syriac",    "Telugu",
+        "Tagalog",   "Thai",      "Turkish",   "Ukrainian",  "Urdu",          "Vietnamese", "Romanian",  "Brazilian",
+    };
+
+    for (size_t i = 0; i < _countof(ltable); ++i) {
+        CString name = ltable[i];
+        if (StrMatch(name, CString(code)) == codeLen) {
+            return name;
+        }
+    }
+    return _T("");
+}
+
 int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-    PPARAMSORT ps = reinterpret_cast<PPARAMSORT>(lParamSort);
+    PDEFPARAMSORT defps = reinterpret_cast<PDEFPARAMSORT>(lParamSort);
     TCHAR left[MAX_PATH] = _T(""), right[MAX_PATH] = _T("");
 
     // sort by language first
-    ListView_GetItemText(ps->m_hWnd, lParam1, COL_LANGUAGE, left, sizeof(left));
-    ListView_GetItemText(ps->m_hWnd, lParam2, COL_LANGUAGE, right, sizeof(right));
-    int res = _tcscmp(left, right);
-    if (res != 0) {
-        return res;
+    ListView_GetItemText(defps->m_hWnd, lParam1, COL_LANGUAGE, left, sizeof(left));
+    ListView_GetItemText(defps->m_hWnd, lParam2, COL_LANGUAGE, right, sizeof(right));
+    // user-provided sort order
+    int lpos, rpos;
+    if (!defps->m_langPos.Lookup(left, lpos)) {
+        lpos = INT_MAX;
+    }
+    if (!defps->m_langPos.Lookup(right, rpos)) {
+        rpos = INT_MAX;
+    }
+    if (lpos < rpos) {
+        return -1;
+    } else if (lpos > rpos) {
+        return 1;
+    } else if (lpos == INT_MAX && rpos == INT_MAX) {
+        // lexicographical order
+        int res = _tcscmp(left, right);
+        if (res != 0) {
+            return res;
+        }
     }
 
     // sort by filename
-    ListView_GetItemText(ps->m_hWnd, lParam1, COL_FILENAME, left, sizeof(left));
-    ListView_GetItemText(ps->m_hWnd, lParam2, COL_FILENAME, right, sizeof(right));
-    size_t lmatch = StrMatch(ps->m_filename, left);
-    size_t rmatch = StrMatch(ps->m_filename, right);
+    ListView_GetItemText(defps->m_hWnd, lParam1, COL_FILENAME, left, sizeof(left));
+    ListView_GetItemText(defps->m_hWnd, lParam2, COL_FILENAME, right, sizeof(right));
+    size_t lmatch = StrMatch(defps->m_filename, left);
+    size_t rmatch = StrMatch(defps->m_filename, right);
     // sort by matching character number
     if (lmatch > rmatch) {
         return -1;
@@ -116,9 +175,8 @@ void CSubtitleDlDlg::LoadList()
     }
 
     // sort by language and filename
-    ps.m_hWnd = m_list.GetSafeHwnd();
-    ps.m_filename = m_filename;
-    ListView_SortItemsEx(m_list.GetSafeHwnd(), DefSortCompare, &ps);
+    defps.m_hWnd = m_list.GetSafeHwnd();
+    ListView_SortItemsEx(m_list.GetSafeHwnd(), DefSortCompare, &defps);
 
     m_list.SetRedraw(TRUE);
     m_list.Invalidate();
@@ -289,6 +347,24 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     const CSize s(420, 200);
     SetMinTrackSize(s);
     EnableSaveRestore(IDS_R_DLG_SUBTITLEDL);
+
+    // set language sorting order
+    const CAppSettings& settings = AfxGetAppSettings();
+    CString order = settings.strSubtitlesLanguageOrder;
+    // fill language->position map
+    int listPos = 0;
+    int tPos = 0;
+    CString langCode = order.Tokenize(_T(",; "), tPos);
+    while (tPos != -1) {
+        CString langName = LangCodeToName(CStringA(langCode));
+        if (!langName.IsEmpty()) {
+            int pos;
+            if (!defps.m_langPos.Lookup(langName, pos)) {
+                defps.m_langPos[langName] = listPos++;
+            }
+        }
+        langCode = order.Tokenize(_T(",; "), tPos);
+    }
 
     // start new worker thread to download the list of subtitles
     m_pTA = DEBUG_NEW THREADSTRUCT;
