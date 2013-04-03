@@ -18,17 +18,11 @@
  *
  */
 
-/*
-YV12 chroma upsampling fixer
-by Kurt Bernhard 'Leak' Pruenner
+// YV12 chroma upsampling fixer by Kurt Bernhard 'Leak' Pruenner
 
-Use with YV12 output if the half-resolution chroma
-gets upsampled in hardware by doubling the values
-instead of interpolating between them.
-
-(i.e. if you're getting blocky red edges on dark
-backgrounds...)
-*/
+// Use with YV12 output if the half-resolution chroma gets upsampled
+// in hardware by doubling the values instead of interpolating between them
+// (i.e. if you're getting blocky red edges on dark backgrounds...)
 
 sampler s0 : register(s0);
 float4 p0 :  register(c0);
@@ -37,16 +31,14 @@ float4 p1 :  register(c1);
 #define width  (p0[0])
 #define height (p0[1])
 
-float4 getPixel(float2 tex, float dx, float dy)
-{
+float4 getPixel(float2 tex, float dx, float dy) {
 	tex.x += dx;
 	tex.y += dy;
 
 	return tex2D(s0, tex);
 }
 
-float4 rgb2yuv(float4 rgb)
-{
+float4 rgb2yuv(float4 rgb) {
 	float4x4 coeffs = {
 		 0.299,  0.587,  0.114, 0.000,
 		-0.147, -0.289,  0.436, 0.000,
@@ -57,8 +49,7 @@ float4 rgb2yuv(float4 rgb)
 	return mul(coeffs, rgb);
 }
 
-float4 yuv2rgb(float4 yuv)
-{
+float4 yuv2rgb(float4 yuv) {
 	float4x4 coeffs = {
 		1.000,  0.000,  1.140, 0.000,
 		1.000, -0.395, -0.581, 0.000,

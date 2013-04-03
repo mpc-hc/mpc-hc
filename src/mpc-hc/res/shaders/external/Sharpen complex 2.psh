@@ -18,7 +18,7 @@
  *
  */
 
-/* Sharpen complex v2 (requires ps >= 2a) */
+// Sharpen complex v2 (requires ps >= 2a)
 
 sampler s0 : register(s0);
 float4 p0 :  register(c0);
@@ -31,7 +31,7 @@ float4 p1 :  register(c1);
 #define px (p1[0])
 #define py (p1[1])
 
-/* Parameters */
+// Parameters
 
 // for the blur filter
 #define mean 0.6
