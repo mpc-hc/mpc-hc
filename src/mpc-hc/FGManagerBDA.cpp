@@ -171,6 +171,19 @@ static const AM_MEDIA_TYPE mt_Eac3 = {
     (LPBYTE)& wf_Audio,             // pbFormat
 };
 
+/// Media type, Audio AAC LATM
+static const AM_MEDIA_TYPE mt_latm = {
+    MEDIATYPE_Audio,                // majortype
+    MEDIASUBTYPE_LATM_AAC,          // subtype
+    TRUE,                           // bFixedSizeSamples
+    FALSE,                          // bTemporalCompression
+    0,                              // lSampleSize
+    FORMAT_WaveFormatEx,            // formattype
+    NULL,                           // pUnk
+    sizeof(wf_Audio),               // cbFormat
+    (LPBYTE)& wf_Audio,             // pbFormat
+};
+
 /// Media type, PSI
 static const AM_MEDIA_TYPE mt_Psi = {
     MEDIATYPE_MPEG2_SECTIONS,       // majortype
@@ -262,6 +275,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     m_DVBStreams[DVB_MPA]  = CDVBStream(L"mpa",  &mt_Mpa);
     m_DVBStreams[DVB_AC3]  = CDVBStream(L"ac3",  &mt_Ac3);
     m_DVBStreams[DVB_EAC3] = CDVBStream(L"eac3", &mt_Eac3);
+    m_DVBStreams[DVB_LATM] = CDVBStream(L"latm", &mt_latm);
     m_DVBStreams[DVB_PSI]  = CDVBStream(L"psi",  &mt_Psi, true, MEDIA_MPEG2_PSI);
     m_DVBStreams[DVB_TIF]  = CDVBStream(L"tif",  &mt_Tif, true);
     m_DVBStreams[DVB_EPG]  = CDVBStream(L"epg",  &mt_Epg);
