@@ -25,7 +25,8 @@ float4 p1 :  register(c1);
 #define dx (p1[0])
 #define dy (p1[1])
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	// Pixels definition: original, blurred, corrected, final
 	float4 orig;
 	float4 blurred;

@@ -26,7 +26,8 @@ float4 p0 :  register(c0);
 #define height (p0[1])
 #define clock  (p0[3])
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	float4 c0 = 0;
 
 	tex.x += sin(tex.x + clock / 0.3) / 20;

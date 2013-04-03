@@ -68,7 +68,8 @@ static float2x2 HueMatrix = {
 	-sin(Hue * PI / 180), cos(Hue * PI / 180)
 };
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	float4 c0 = tex2D(s0, tex);
 	c0 = mul(r2y, c0);
 	c0.r = Contrast * (c0.r - ymin) + ymin + Brightness;

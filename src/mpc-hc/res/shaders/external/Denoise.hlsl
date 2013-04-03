@@ -27,7 +27,8 @@ float4 p0 :  register(c0);
 #define val1 (0.125)
 #define effect_width (0.1)
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	float dx = 0.0f;
 	float dy = 0.0f;
 	float fTap = effect_width;

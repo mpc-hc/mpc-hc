@@ -30,7 +30,8 @@ float4 p1 :  register(c1);
 #define val1 (-0.125)
 #define effect_width (1.6)
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	float dx = effect_width / width;
 	float dy = effect_width / height;
 

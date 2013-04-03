@@ -53,7 +53,8 @@
 
 sampler s0;
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	float3 s1 = tex2D(s0, tex).rgb;
 	// original pixel
 	float texyi = 1.0 - tex.y;

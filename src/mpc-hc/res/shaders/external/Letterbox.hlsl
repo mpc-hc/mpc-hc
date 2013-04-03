@@ -25,7 +25,8 @@ float4 p0 :  register(c0);
 #define width  (p0[0])
 #define height (p0[1])
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	float4 c0 = 0;
 
 	float2 ar = float2(16, 9);

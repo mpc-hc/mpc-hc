@@ -30,7 +30,8 @@ float4 p0 :  register(c0);
 #define Sharpen_val0    2.0
 #define Sharpen_val1    0.125
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	// size of NbPixel pixels
 	float dx = NbPixel / width;
 	float dy = NbPixel / height;

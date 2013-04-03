@@ -25,7 +25,8 @@
 sampler s0;
 float2  c0;
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	float4 si = tex2D(s0, tex); // original pixel
 	if (c0.x < 1120 && c0.y < 630) {
 		return si; // this shader does not alter SD video

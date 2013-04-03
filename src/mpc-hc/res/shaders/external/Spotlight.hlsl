@@ -28,7 +28,8 @@ float4 p0 :  register(c0);
 
 #define PI acos(-1)
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	float4 c0 = tex2D(s0, tex);
 	float3 lightsrc = float3(sin(clock * PI / 1.5) / 2 + 0.5, cos(clock * PI) / 2 + 0.5, 1);
 	float3 light = normalize(lightsrc - float3(tex.x, tex.y, 0));

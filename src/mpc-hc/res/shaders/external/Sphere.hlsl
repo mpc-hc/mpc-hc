@@ -25,7 +25,8 @@ float4 p0 :  register(c0);
 #define clock (p0[3])
 #define PI acos(-1)
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	// - this is a very simple raytracer, one sphere only
 	// - no reflection or refraction, yet (my ati 9800 has a 64 + 32 instruction limit...)
 

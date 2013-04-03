@@ -18,8 +18,6 @@
  *
  */
 
-/* Sharpen complex v2 (requires ps >= 2) */
-
 sampler s0 : register(s0);
 float4 p0 :  register(c0);
 float4 p1 :  register(c1);
@@ -31,7 +29,7 @@ float4 p1 :  register(c1);
 #define px (p1[0])
 #define py (p1[1])
 
-/* Parameters */
+// Parameters
 
 // for the blur filter
 #define mean 0.6
@@ -46,7 +44,8 @@ float4 p1 :  register(c1);
 #define Sharpen_val0 2
 #define Sharpen_val1 ((Sharpen_val0 - 1) / 8.0)
 
-float4 main(float2 tex : TEXCOORD0) : COLOR {
+float4 main(float2 tex : TEXCOORD0) : COLOR
+{
 	// get original pixel
 	float4 orig = tex2D(s0, tex);
 
@@ -92,20 +91,18 @@ float4 main(float2 tex : TEXCOORD0) : COLOR {
 	// [ -1, 0, 1 ]
 	float delta1 = (c3 + 2 * c5 + c8) - (c1 + 2 * c4 + c6);
 
-	// Save some arithmetic operations to ensure PS2 compatibility
-	c1 += c3;
-	c6 += c8;
 	// vertical gradient
 	// [ -1, - 2, -1 ]
 	// [  0,   0,  0 ]
 	// [  1,   2,  1 ]
-	float delta2 = (c6 + 2 * c7 /*+ c8*/) - (c1 + 2 * c2 /*+ c3*/);
+	c1 += c3;
+	c6 += c8;
+	float delta2 = (c6 + 2 * c7) - (c1 + 2 * c2);
 
 	// computation
 	if (sqrt(mul(delta1, delta1) + mul(delta2, delta2)) > SharpenEdge) {
 		// if we have an edge, use sharpen
-		//return  float4(1,0,0,0);
-		return orig * Sharpen_val0 - (c1 + c2 /*+ c3*/ + c4 + c5 + c6 + c7 /*+ c8*/) * Sharpen_val1;
+		return orig * Sharpen_val0 - (c1 + c2 + c4 + c5 + c6 + c7) * Sharpen_val1;
 	} else {
 		// else return corrected image
 		return corrected;
