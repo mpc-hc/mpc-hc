@@ -348,6 +348,9 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
     WORD wTSID;
     WORD wSectionLength;
 
+    Channel.SetVideoFps(DVB_FPS_NONE);
+    Channel.SetVideoChroma(DVB_Chroma_NONE);
+
     CheckNoLog(m_pData->GetSection((PID)Channel.GetPMT(), SI_PMT, &m_Filter, 5000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
 
@@ -390,12 +393,30 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
                     pes_stream_type = AUDIO_STREAM_AC3_PLUS;
                     SkipDescriptor(gb, nType, nLength);
                     break;
-                case DT_SUBTITLING: {
+                case DT_SUBTITLING:
                     gb.ReadBuffer(DescBuffer, nLength);
                     strLanguage = ConvertString(DescBuffer, 3);
                     pes_stream_type = SUBTITLE_STREAM;
+                    break;
+                case DT_VIDEO_STREAM: {
+                    gb.BitRead(1);                      // multiple_frame_rate_flag
+                    Channel.SetVideoFps((DVB_FPS_TYPE) gb.BitRead(4));
+                    UINT MPEG_1_only_flag  = (UINT) gb.BitRead(1);
+                    gb.BitRead(1);                      // constrained_parameter_flag
+                    gb.BitRead(1);                      // still_picture_flag
+                    if (!MPEG_1_only_flag) {
+                        gb.BitRead(8);                  // profile_and_level_indicator
+                        Channel.SetVideoChroma((DVB_CHROMA_TYPE) gb.BitRead(2));
+                        gb.BitRead(1);                  // frame_rate_extension_flag
+                        gb.BitRead(5);                  // Reserved
+                    }
                 }
                 break;
+                case DT_TARGET_BACKGROUND_GRID:
+                    Channel.SetVideoWidth((ULONG) gb.BitRead(14));
+                    Channel.SetVideoHeight((ULONG) gb.BitRead(14));
+                    Channel.SetVideoAR((DVB_AspectRatio_TYPE) gb.BitRead(4));
+                    break;
                 default:
                     SkipDescriptor(gb, nType, nLength);
                     break;
@@ -406,6 +427,20 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
             Channel.AddStreamInfo(wPID, dvb_stream_type, pes_stream_type, strLanguage);
         }
     }
+    if ((Channel.GetVideoType() == DVB_MPV) && (Channel.GetVideoPID())) {
+        if (Channel.GetVideoFps() == DVB_FPS_NONE) {
+            Channel.SetVideoFps(DVB_FPS_25_0);
+        }
+        if ((Channel.GetVideoWidth() == 0) && (Channel.GetVideoHeight() == 0)) {
+            Channel.SetVideoWidth(720);
+            Channel.SetVideoHeight(576);
+        }
+    } else if ((Channel.GetVideoType() == DVB_H264) && (Channel.GetVideoPID())) {
+        if (Channel.GetVideoFps() == DVB_FPS_NONE) {
+            Channel.SetVideoFps(DVB_FPS_25_0);
+        }
+    }
+
 
     return S_OK;
 }
