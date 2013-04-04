@@ -10,6 +10,7 @@ Legend:
 
 1.6.7 - not released yet
 ========================
++ DVB capture: Improve channel switching
 + Subtitle downloader improvements:
   - Ticket #2144, Sort by language and then by filename by default
   - Ticket #2926, Double-clicking or pressing the "Enter" key will download the selected subtitle(s)
