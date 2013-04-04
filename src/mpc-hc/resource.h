@@ -169,7 +169,7 @@
 #define ID_PANSCAN_ROTATEYM             880
 #define ID_PANSCAN_ROTATEZP             881
 #define ID_PANSCAN_ROTATEZM             882
-#define ID_ONTOP_NEVER                  883
+#define ID_ONTOP_DEFAULT                883
 #define ID_ONTOP_ALWAYS                 884
 #define ID_ONTOP_WHILEPLAYING           885
 #define ID_ONTOP_WHILEPLAYINGVIDEO      886

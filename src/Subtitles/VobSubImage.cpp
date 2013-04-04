@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -402,7 +402,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
             break;
         }
 
-        int prevdir, dir = UP;
+        int dir = UP;
 
         int ox = x, oy = y, odir = dir;
 
@@ -417,7 +417,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
             BYTE fr = 0;
             BYTE br = 0;
 
-            prevdir = dir;
+            int prevdir = dir;
 
             switch (prevdir) {
                 case UP:

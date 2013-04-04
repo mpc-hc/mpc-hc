@@ -294,7 +294,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 pwfe->nBlockAlign = pwfe->nChannels * pwfe->wBitsPerSample >> 3;
             }
             if (pwfe->wFormatTag == WAVE_FORMAT_EXTENSIBLE) {
-                mt.subtype = FOURCCMap(WAVE_FORMAT_PCM);    // audio renderer doesn't accept fffe in the subtype
+                mt.subtype = ((WAVEFORMATEXTENSIBLE*)pwfe)->SubFormat;
             }
             mt.SetSampleSize(s->strh.dwSuggestedBufferSize > 0
                              ? s->strh.dwSuggestedBufferSize * 3 / 2
@@ -588,10 +588,9 @@ bool CAviSplitterFilter::DemuxLoop()
                     break;
                 }
 
-                UINT64 expectedsize = (UINT64) - 1;
-                expectedsize = f < (DWORD)s->cs.GetCount() - 1
-                               ? s->cs[f + 1].size - s->cs[f].size
-                               : s->totalsize - s->cs[f].size;
+                UINT64 expectedsize = f < (DWORD)s->cs.GetCount() - 1
+                                      ? s->cs[f + 1].size - s->cs[f].size
+                                      : s->totalsize - s->cs[f].size;
 
                 if (expectedsize != s->GetChunkSize(size)) {
                     fDiscontinuity[minTrack] = true;

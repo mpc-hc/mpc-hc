@@ -225,7 +225,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     void ZoomVideoWindow(bool snap = true, double scale = ZOOM_DEFAULT_LEVEL);
     double GetZoomAutoFitScale(bool bLargerOnly = false) const;
 
-    void SetAlwaysOnTop(int i);
+    void SetAlwaysOnTop(int iOnTop);
 
     // dynamic menus
 
@@ -458,7 +458,7 @@ public:
     bool LoadSubtitle(CString fn, ISubStream** actualStream = NULL, bool bAutoLoad = false);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false, bool bApplyDefStyle = false);
     void SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle = false);
-    void ToogleSubtitleOnOff(bool bDisplayMessage = false);
+    void ToggleSubtitleOnOff(bool bDisplayMessage = false);
     void ReplaceSubtitle(ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = -1, REFERENCE_TIME rtInvalidate = -1);
     void ReloadSubtitle();

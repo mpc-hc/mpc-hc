@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -141,9 +141,8 @@ HRESULT CBaseStream::OnThreadCreate()
 
 HRESULT CBaseStream::FillBuffer(IMediaSample* pSample)
 {
-    HRESULT hr;
-
     {
+        HRESULT hr;
         CAutoLock cAutoLockShared(&m_cSharedState);
 
         if (m_rtPosition >= m_rtStop) {

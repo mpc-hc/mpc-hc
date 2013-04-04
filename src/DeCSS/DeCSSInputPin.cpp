@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -170,7 +170,7 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
             }
 
             if (expected > 0) {
-                expected -= (p - p0);
+                expected -= (int)(p - p0);
                 len = min(expected, len);
             }
         }

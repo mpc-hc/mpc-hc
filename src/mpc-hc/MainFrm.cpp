@@ -316,8 +316,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnViewAspectRatio)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnUpdateViewAspectRatio)
     ON_COMMAND(ID_ASPECTRATIO_NEXT, OnViewAspectRatioNext)
-    ON_COMMAND_RANGE(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYINGVIDEO, OnViewOntop)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYINGVIDEO, OnUpdateViewOntop)
+    ON_COMMAND_RANGE(ID_ONTOP_DEFAULT, ID_ONTOP_WHILEPLAYINGVIDEO, OnViewOntop)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_ONTOP_DEFAULT, ID_ONTOP_WHILEPLAYINGVIDEO, OnUpdateViewOntop)
     ON_COMMAND(ID_VIEW_OPTIONS, OnViewOptions)
 
     // Casimir666
@@ -2134,16 +2134,16 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             }
 
             if (GetMediaState() == State_Running && !m_fAudioOnly) {
-                UINT fSaverActive = 0;
-                if (SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0, (PVOID)&fSaverActive, 0)) {
-                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, 0, 0, SPIF_SENDWININICHANGE); // this might not be needed at all...
-                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, fSaverActive, 0, SPIF_SENDWININICHANGE);
+                BOOL fActive = FALSE;
+                if (SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0,       &fActive, 0)) {
+                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, FALSE,   NULL,     SPIF_SENDWININICHANGE); // this might not be needed at all...
+                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, fActive, NULL,     SPIF_SENDWININICHANGE);
                 }
 
-                fSaverActive = 0;
-                if (SystemParametersInfo(SPI_GETPOWEROFFACTIVE, 0, (PVOID)&fSaverActive, 0)) {
-                    SystemParametersInfo(SPI_SETPOWEROFFACTIVE, 0, 0, SPIF_SENDWININICHANGE); // this might not be needed at all...
-                    SystemParametersInfo(SPI_SETPOWEROFFACTIVE, fSaverActive, 0, SPIF_SENDWININICHANGE);
+                fActive = FALSE;
+                if (SystemParametersInfo(SPI_GETPOWEROFFACTIVE, 0,       &fActive, 0)) {
+                    SystemParametersInfo(SPI_SETPOWEROFFACTIVE, FALSE,   NULL,     SPIF_SENDWININICHANGE); // this might not be needed at all...
+                    SystemParametersInfo(SPI_SETPOWEROFFACTIVE, fActive, NULL,     SPIF_SENDWININICHANGE);
                 }
                 // prevent screensaver activate, monitor sleep/turn off after playback
                 SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
@@ -2215,15 +2215,15 @@ bool CMainFrame::GraphEventComplete()
     }
 
     if (m_wndPlaylistBar.GetCount() <= 1) {
+        if (DoAfterPlaybackEvent()) {
+            return false;
+        }
+
         if (s.fNextInDirAfterPlayback && SearchInDir(true)) {
             return false;
         }
 
         m_nLoops++;
-
-        if (DoAfterPlaybackEvent()) {
-            return false;
-        }
 
         if (s.fLoopForever || m_nLoops < s.nLoops) {
             if (s.fNextInDirAfterPlayback) {
@@ -3705,7 +3705,7 @@ void CMainFrame::OnStreamSubOnOff()
     }
 
     if (!m_pSubStreams.IsEmpty()) {
-        ToogleSubtitleOnOff(true);
+        ToggleSubtitleOnOff(true);
         SetFocus();
     } else if (GetPlaybackMode() == PM_DVD) {
         SendMessage(WM_COMMAND, ID_DVD_SUB_ONOFF);
@@ -5272,32 +5272,29 @@ void CMainFrame::OnFileLoadsubtitle()
                    szFilter, GetModalParent(), 0);
     CComPtr<IFileOpenDialog> openDlgPtr;
 
-    CString defaultDir;
-    if (GetPlaybackMode() == PM_FILE) {
-        CPath path(m_wndPlaylistBar.GetCurFileName());
-        path.RemoveFileSpec();
-        defaultDir = (CString)path;
+    CPath path(m_wndPlaylistBar.GetCurFileName());
+    path.RemoveFileSpec();
+    CString defaultDir = (CString)path;
 
-        if (SysVersion::IsVistaOrLater()) {
-            openDlgPtr = fd.GetIFileOpenDialog();
+    if (SysVersion::IsVistaOrLater()) {
+        openDlgPtr = fd.GetIFileOpenDialog();
 
-            if (openDlgPtr != NULL) {
-                if (!defaultDir.IsEmpty()) {
-                    CComPtr<IShellItem> psiFolder;
-                    if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(defaultDir, NULL, IID_PPV_ARGS(&psiFolder)))) {
-                        openDlgPtr->SetFolder(psiFolder);
-                    }
-                }
-
-                if (FAILED(openDlgPtr->Show(m_hWnd))) {
-                    return;
+        if (openDlgPtr != NULL) {
+            if (!defaultDir.IsEmpty()) {
+                CComPtr<IShellItem> psiFolder;
+                if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(defaultDir, NULL, IID_PPV_ARGS(&psiFolder)))) {
+                    openDlgPtr->SetFolder(psiFolder);
                 }
             }
-        } else {
-            fd.GetOFN().lpstrInitialDir = defaultDir;
-            if (fd.DoModal() != IDOK) {
+
+            if (FAILED(openDlgPtr->Show(m_hWnd))) {
                 return;
             }
+        }
+    } else {
+        fd.GetOFN().lpstrInitialDir = defaultDir;
+        if (fd.DoModal() != IDOK) {
+            return;
         }
     }
 
@@ -5415,7 +5412,7 @@ void CMainFrame::OnFileISDBDownload()
                     UrlEncode(CStringA(fh.name), true), fh.size, fh.mpc_filehash);
         url.Append(args);
 
-        CSubtitleDlDlg dlg(GetModalParent(), url);
+        CSubtitleDlDlg dlg(GetModalParent(), url, fh.name);
         dlg.DoModal();
     } catch (CInternetException* ie) {
         ie->Delete();
@@ -6952,7 +6949,7 @@ void CMainFrame::OnViewAspectRatioNext()
 
 void CMainFrame::OnViewOntop(UINT nID)
 {
-    nID -= ID_ONTOP_NEVER;
+    nID -= ID_ONTOP_DEFAULT;
     if (AfxGetAppSettings().iOnTop == (int)nID) {
         nID = !nID;
     }
@@ -6961,9 +6958,9 @@ void CMainFrame::OnViewOntop(UINT nID)
 
 void CMainFrame::OnUpdateViewOntop(CCmdUI* pCmdUI)
 {
-    int onTop = pCmdUI->m_nID - ID_ONTOP_NEVER;
+    int onTop = pCmdUI->m_nID - ID_ONTOP_DEFAULT;
     if (AfxGetAppSettings().iOnTop == onTop && pCmdUI->m_pMenu) {
-        pCmdUI->m_pMenu->CheckMenuRadioItem(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYINGVIDEO, pCmdUI->m_nID, MF_BYCOMMAND);
+        pCmdUI->m_pMenu->CheckMenuRadioItem(ID_ONTOP_DEFAULT, ID_ONTOP_WHILEPLAYINGVIDEO, pCmdUI->m_nID, MF_BYCOMMAND);
     }
 }
 
@@ -7890,7 +7887,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
         ReloadSubtitle();
     } else if (i == -2) {
         // enable
-        ToogleSubtitleOnOff();
+        ToggleSubtitleOnOff();
     } else if (i == -1) {
         // override default style
         // TODO: default subtitles style toggle here
@@ -9111,7 +9108,7 @@ void CMainFrame::OnHelpToolbarImages()
 
 void CMainFrame::OnHelpDonate()
 {
-    ShellExecute(m_hWnd, _T("open"), _T("http://sourceforge.net/donate/index.php?group_id=170561"), NULL, NULL, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.org/donate/"), NULL, NULL, SW_SHOWDEFAULT);
 }
 
 //////////////////////////////////
@@ -9432,6 +9429,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     CMonitors monitors;
 
+    static bool bExtOnTop; // True if the "on top" flag was set by an external tool
+
     if (!m_fFullScreen) {
         if (s.bHidePlaylistFullScreen && m_wndPlaylistBar.IsVisible()) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
@@ -9545,6 +9544,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                 ModifyStyle(WS_MINIMIZEBOX, 0, SWP_NOZORDER);
             }
         }
+
+        bExtOnTop = (!s.iOnTop && (GetExStyle() & WS_EX_TOPMOST));
+        SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     } else {
         ModifyStyle(0, WS_MINIMIZEBOX, SWP_NOZORDER);
         KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
@@ -9553,6 +9555,13 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         ShowControls(m_nCS);
         if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
             ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
+        }
+
+        // If MPC-HC wasn't previously set "on top" by an external tool,
+        // we restore the current internal on top state.
+        if (!bExtOnTop) {
+            SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            SetAlwaysOnTop(s.iOnTop);
         }
     }
 
@@ -9599,8 +9608,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     } else {
         SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
     }
-
-    SetAlwaysOnTop(s.iOnTop);
 
     MoveVideoWindow();
 
@@ -13520,29 +13527,33 @@ void CMainFrame::ShowControls(int nCS, bool fSave /*= false*/)
     RecalcLayout();
 }
 
-void CMainFrame::SetAlwaysOnTop(int i)
+void CMainFrame::SetAlwaysOnTop(int iOnTop)
 {
-    AfxGetAppSettings().iOnTop = i;
+    CAppSettings& s = AfxGetAppSettings();
 
     if (!m_fFullScreen) {
         const CWnd* pInsertAfter = NULL;
 
-        if (i == 0) {
-            pInsertAfter = &wndNoTopMost;
-        } else if (i == 1) {
+        if (iOnTop == 0) {
+            // We only want to disable "On Top" once so that
+            // we don't interfere with other window manager
+            if (s.iOnTop) {
+                pInsertAfter = &wndNoTopMost;
+            }
+        } else if (iOnTop == 1) {
             pInsertAfter = &wndTopMost;
-        } else if (i == 2) {
-            pInsertAfter = GetMediaState() == State_Running ? &wndTopMost : &wndNoTopMost;
-        } else { // if (i == 3)
+        } else if (iOnTop == 2) {
+            pInsertAfter = (GetMediaState() == State_Running) ? &wndTopMost : &wndNoTopMost;
+        } else { // if (iOnTop == 3)
             pInsertAfter = (GetMediaState() == State_Running && !m_fAudioOnly) ? &wndTopMost : &wndNoTopMost;
         }
 
-        SetWindowPos(pInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-    } else if (!(GetWindowLongPtr(m_hWnd, GWL_EXSTYLE)&WS_EX_TOPMOST)) {
-        if (!AfxGetAppSettings().IsD3DFullscreen()) {
-            SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        if (pInsertAfter) {
+            SetWindowPos(pInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
     }
+
+    s.iOnTop = iOnTop;
 }
 
 void CMainFrame::AddTextPassThruFilter()
@@ -13764,7 +13775,7 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle /*= fal
     }
 }
 
-void CMainFrame::ToogleSubtitleOnOff(bool bDisplayMessage /*= false*/)
+void CMainFrame::ToggleSubtitleOnOff(bool bDisplayMessage /*= false*/)
 {
     CAppSettings& s = AfxGetAppSettings();
     s.fEnableSubtitles = !s.fEnableSubtitles;
@@ -13820,7 +13831,7 @@ void CMainFrame::SetSubtitleTrackIdx(int index)
     if (m_iMediaLoadState == MLS_LOADED) {
         // Check if we want to change the enable/disable state
         if (s.fEnableSubtitles != (index >= 0)) {
-            ToogleSubtitleOnOff();
+            ToggleSubtitleOnOff();
         }
         // Set the new subtitles track if needed
         if (AfxGetAppSettings().fEnableSubtitles) {

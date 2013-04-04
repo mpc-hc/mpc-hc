@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -267,8 +267,8 @@ HRESULT WINAPI Mine_CoCreateInstance(IN REFCLSID rclsid, IN LPUNKNOWN pUnkOuter,
             CMacrovisionKicker* pMK = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
             CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
             CComPtr<IUnknown> pInner;
-            HRESULT hr;
-            if (SUCCEEDED(hr = Real_CoCreateInstance(rclsid, pUnk, dwClsContext, __uuidof(IUnknown), (void**)&pInner))) {
+
+            if (SUCCEEDED(Real_CoCreateInstance(rclsid, pUnk, dwClsContext, __uuidof(IUnknown), (void**)&pInner))) {
                 pMK->SetInner(pInner);
                 return pUnk->QueryInterface(riid, ppv);
             }

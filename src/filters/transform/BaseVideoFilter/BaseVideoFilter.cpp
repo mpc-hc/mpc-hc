@@ -224,12 +224,10 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 
         hr = m_pOutput->GetConnected()->QueryAccept(&mt);
         ASSERT(SUCCEEDED(hr)); // should better not fail, after all "mt" is the current media type, just with a different resolution
-        HRESULT hr1 = 0;
         CComPtr<IMediaSample> pOut;
-        if (SUCCEEDED(hr1 = m_pOutput->GetConnected()->ReceiveConnection(m_pOutput, &mt))) {
+        if (SUCCEEDED(m_pOutput->GetConnected()->ReceiveConnection(m_pOutput, &mt))) {
             if (bSendSample) {
-                HRESULT hr2 = 0;
-                if (SUCCEEDED(hr2 = m_pOutput->GetDeliveryBuffer(&pOut, NULL, NULL, 0))) {
+                if (SUCCEEDED(m_pOutput->GetDeliveryBuffer(&pOut, NULL, NULL, 0))) {
                     AM_MEDIA_TYPE* pmt;
                     if (SUCCEEDED(pOut->GetMediaType(&pmt)) && pmt) {
                         CMediaType mt2 = *pmt;

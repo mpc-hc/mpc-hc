@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -415,13 +415,11 @@ HRESULT CSubtitleStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPE
 
 HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 {
-    HRESULT hr;
-
     {
         CAutoLock cAutoLockShared(&m_cSharedState);
 
         BYTE* pData = NULL;
-        if (FAILED(hr = pSample->GetPointer(&pData)) || !pData) {
+        if (FAILED(pSample->GetPointer(&pData)) || !pData) {
             return S_FALSE;
         }
 

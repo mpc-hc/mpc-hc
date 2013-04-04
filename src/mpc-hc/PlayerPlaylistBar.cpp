@@ -507,7 +507,7 @@ void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CStr
 void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs)
 {
     POSITION posFirstAdded = m_pl.GetTailPosition();
-    int iFirstAdded = m_pl.GetCount();
+    int iFirstAdded = (int)m_pl.GetCount();
 
     if (fMulti) {
         ASSERT(subs == NULL || subs->GetCount() == 0);
@@ -566,7 +566,7 @@ void CPlayerPlaylistBar::Append(CStringW vdn, CStringW adn, int vinput, int vcha
 
     Refresh();
     EnsureVisible(m_pl.GetTailPosition());
-    m_list.SetItemState(m_pl.GetCount() - 1, LVIS_SELECTED, LVIS_SELECTED);
+    m_list.SetItemState((int)m_pl.GetCount() - 1, LVIS_SELECTED, LVIS_SELECTED);
     SavePlaylist();
 }
 

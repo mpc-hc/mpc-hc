@@ -772,7 +772,6 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
 HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
 {
-    HRESULT hr;
     BYTE* const base = m_buff.GetData();
     BYTE* end = base + m_buff.GetCount();
     BYTE* p = base;
@@ -798,6 +797,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
 #endif
 
     while (p < end) {
+        HRESULT hr;
         int size = 0;
         CAtlArray<BYTE> output;
         AVSampleFormat avsamplefmt = AV_SAMPLE_FMT_NONE;

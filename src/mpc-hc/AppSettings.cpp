@@ -56,6 +56,58 @@ CAppSettings::CAppSettings()
     , nUpdaterAutoCheck(-1)
     , nUpdaterDelay(7)
     , fShaderEditorWasOpened(false)
+    , fBDAUseOffset(0)
+    , iBDAOffset(166)
+    , fBDAIgnoreEncryptedChannels(0)
+    , nDVBLastChannel(1)
+    , fEnableAudioSwitcher(TRUE)
+    , fAudioNormalize(FALSE)
+    , fAudioNormalizeRecover(TRUE)
+    , fDownSampleTo441(0)
+    , fAudioTimeShift(0)
+    , iAudioTimeShift(0)
+    , fCustomChannelMapping(0)
+    , fOverridePlacement(0)
+    , nHorPos(50)
+    , nVerPos(90)
+    , nSubDelayInterval(500)
+    , fPrioritizeExternalSubtitles(TRUE)
+    , fDisableInternalSubtitles(FALSE)
+    , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
+    , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
+    , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
+    , fFastSeek(FALSE)
+    , fShowChapters(TRUE)
+    , fLCDSupport(FALSE)
+    , iBrightness(0)
+    , iContrast(0)
+    , iHue(0)
+    , iSaturation(0)
+    , iCaptionMenuMode(MODE_SHOWCAPTIONMENU)
+    , fHideNavigation(0)
+    , nCS(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR)
+    , language(-1)
+    , fEnableSubtitles(TRUE)
+    , fUseDefaultSubtitlesStyle(FALSE)
+    , iDefaultVideoSize(DVS_FROMINSIDE)
+    , fKeepAspectRatio(TRUE)
+    , fCompMonDeskARDiff(FALSE)
+    , iOnTop(0)
+    , bFavRememberPos(TRUE)
+    , bFavRelativeDrive(FALSE)
+    , iThumbRows(4)
+    , iThumbCols(4)
+    , iThumbWidth(1024)
+    , fToggleShader(0)
+    , fToggleShaderScreenSpace(0)
+    , bShufflePlaylistItems(FALSE)
+    , bHidePlaylistFullScreen(FALSE)
+    , nLastWindowType(SIZE_RESTORED)
+    , nLastUsedPage(0)
+    , fLastFullScreen(0)
+    , fIntRealMedia(0)
+    , fEnableEDLEditor(false)
+    , bNotifySkype(FALSE)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -454,7 +506,7 @@ CString CAppSettings::SelectedAudioRenderer() const
 
 void CAppSettings::SaveSettings()
 {
-    CWinApp* pApp = AfxGetApp();
+    CMPlayerCApp* pApp = AfxGetMyApp();
     ASSERT(pApp);
 
     if (!fInitialized) {
@@ -761,10 +813,7 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_NOTIFY_SKYPE, bNotifySkype);
 
-    if (pApp->m_pszRegistryKey) {
-        // WINBUG: on win2k this would crash WritePrivateProfileString
-        pApp->WriteProfileInt(_T(""), _T(""), pApp->GetProfileInt(_T(""), _T(""), 0) ? 0 : 1);
-    }
+    pApp->FlushProfile();
 }
 
 void CAppSettings::LoadExternalFilters(CAutoPtrList<FilterOverride>& filters, LPCTSTR baseKey /*= IDS_R_EXTERNAL_FILTERS*/)

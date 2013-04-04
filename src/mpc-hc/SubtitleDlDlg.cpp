@@ -28,9 +28,10 @@
 #define UWM_PARSE  (WM_USER + 100)
 #define UWM_FAILED (WM_USER + 101)
 
-CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url)
+CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParent)
     , m_url(url)
+    , m_filename(filename)
     , ps(m_list.GetSafeHwnd(), 0, TRUE)
     , m_status()
     , m_pTA(NULL)
@@ -49,6 +50,55 @@ void CSubtitleDlDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
+size_t CSubtitleDlDlg::StrMatch(LPCTSTR a, LPCTSTR b)
+{
+    size_t count = 0, alen = _tcslen(a), blen = _tcslen(b);
+
+    for (size_t i = 0; i < alen && i < blen; i++) {
+        if (_totlower(a[i]) != _totlower(b[i])) {
+            break;
+        } else {
+            count++;
+        }
+    }
+    return count;
+}
+
+int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+    PPARAMSORT ps = reinterpret_cast<PPARAMSORT>(lParamSort);
+    TCHAR left[MAX_PATH] = _T(""), right[MAX_PATH] = _T("");
+
+    // sort by language first
+    ListView_GetItemText(ps->m_hWnd, lParam1, COL_LANGUAGE, left, sizeof(left));
+    ListView_GetItemText(ps->m_hWnd, lParam2, COL_LANGUAGE, right, sizeof(right));
+    int res = _tcscmp(left, right);
+    if (res != 0) {
+        return res;
+    }
+
+    // sort by filename
+    ListView_GetItemText(ps->m_hWnd, lParam1, COL_FILENAME, left, sizeof(left));
+    ListView_GetItemText(ps->m_hWnd, lParam2, COL_FILENAME, right, sizeof(right));
+    size_t lmatch = StrMatch(ps->m_filename, left);
+    size_t rmatch = StrMatch(ps->m_filename, right);
+    // sort by matching character number
+    if (lmatch > rmatch) {
+        return -1;
+    } else if (lmatch < rmatch) {
+        return 1;
+    }
+    // prefer shorter names
+    size_t llen = _tcslen(left);
+    size_t rlen = _tcslen(right);
+    if (llen < rlen) {
+        return -1;
+    } else if (llen > rlen) {
+        return 1;
+    }
+    return 0;
+}
+
 void CSubtitleDlDlg::LoadList()
 {
     m_list.SetRedraw(FALSE);
@@ -64,6 +114,11 @@ void CSubtitleDlDlg::LoadList()
         m_list.SetItemText(iItem, COL_TITLES, m.titles);
         m_list.SetCheck(iItem, m.checked);
     }
+
+    // sort by language and filename
+    ps.m_hWnd = m_list.GetSafeHwnd();
+    ps.m_filename = m_filename;
+    ListView_SortItemsEx(m_list.GetSafeHwnd(), DefSortCompare, &ps);
 
     m_list.SetRedraw(TRUE);
     m_list.Invalidate();
@@ -174,7 +229,7 @@ UINT CSubtitleDlDlg::RunThread(LPVOID pParam)
 int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     PPARAMSORT ps = reinterpret_cast<PPARAMSORT>(lParamSort);
-    TCHAR left[256] = _T(""), right[256] = _T("");
+    TCHAR left[MAX_PATH] = _T(""), right[MAX_PATH] = _T("");
 
     ListView_GetItemText(ps->m_hWnd, lParam1, ps->m_colIndex, left, sizeof(left));
     ListView_GetItemText(ps->m_hWnd, lParam2, ps->m_colIndex, right, sizeof(right));
@@ -244,6 +299,17 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     AfxBeginThread(RunThread, static_cast<LPVOID>(m_pTA));
 
     return TRUE;
+}
+
+BOOL CSubtitleDlDlg::PreTranslateMessage(MSG* pMsg)
+{
+    // Inhibit default handling for the Enter key when the list has the focus and an item is selected.
+    if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
+        && pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
+            return FALSE;
+    }
+
+    return __super::PreTranslateMessage(pMsg);
 }
 
 void CSubtitleDlDlg::OnOK()
@@ -374,6 +440,18 @@ BOOL CSubtitleDlDlg::OnEraseBkgnd(CDC* pDC)
     return TRUE;
 }
 
+void CSubtitleDlDlg::DownloadSelectedSubtitles()
+{
+    POSITION pos = m_list.GetFirstSelectedItemPosition();
+    while (pos) {
+        int nItem = m_list.GetNextSelectedItem(pos);
+        if (nItem >= 0 && nItem < m_list.GetItemCount()) {
+            ListView_SetCheckState(m_list.GetSafeHwnd(), nItem, TRUE);
+        }
+    }
+    OnOK();
+}
+
 BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CResizableDialog)
     ON_WM_ERASEBKGND()
     ON_WM_SIZE()
@@ -382,4 +460,25 @@ BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CResizableDialog)
     ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
     ON_NOTIFY(HDN_ITEMCLICK, 0, OnColumnClick)
     ON_WM_DESTROY()
+    ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDoubleClickSubtitle)
+    ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, OnKeyPressedSubtitle)
 END_MESSAGE_MAP()
+
+void CSubtitleDlDlg::OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LPNMITEMACTIVATE pItemActivate = (LPNMITEMACTIVATE)(pNMHDR);
+
+    if (pItemActivate->iItem >= 0) {
+        DownloadSelectedSubtitles();
+    }
+}
+
+void CSubtitleDlDlg::OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
+
+    if (pLVKeyDow->wVKey == VK_RETURN) {
+        DownloadSelectedSubtitles();
+        *pResult = TRUE;
+    }
+}

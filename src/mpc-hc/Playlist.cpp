@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -190,19 +190,20 @@ void CPlaylistItem::AutoLoadFiles()
         int pos = 0;
         do {
             CString path = pathList.Tokenize(_T(";"), pos);
-            paths.Add(path);
+            if (!path.IsEmpty()) {
+                paths.Add(path);
+            }
         } while (pos != -1);
 
         CString dir = fn;
         dir.Replace('\\', '/');
-        int l = fn.GetLength(), l2 = l;
-        l2 = dir.ReverseFind('.');
-        l = dir.ReverseFind('/') + 1;
-        if (l2 < l) {
-            l2 = l;
+        int l  = dir.ReverseFind('/') + 1;
+        int l2 = dir.ReverseFind('.');
+        if (l2 < l) { // no extension, read to the end
+            l2 = fn.GetLength();
         }
         CString title = dir.Mid(l, l2 - l);
-        paths.Add(title.GetString());
+        paths.Add(title);
 
         CAtlArray<SubFile> ret;
         GetSubFileNames(fn, paths, ret);

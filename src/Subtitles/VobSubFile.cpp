@@ -2420,6 +2420,16 @@ void CVobSubStream::Add(REFERENCE_TIME tStart, REFERENCE_TIME tStop, BYTE* pData
         m_subpics.RemoveTail();
         m_img.iIdx = -1;
     }
+
+    // We can only render one subpicture at a time, thus if there is overlap
+    // we have to fix it. tStop = tStart seems to work.
+    if (m_subpics.GetCount() && m_subpics.GetTail()->tStop > p->tStart) {
+        TRACE(_T("[CVobSubStream::Add] Vobsub timestamp overlap detected! ")
+              _T("Subpicture #%d, StopTime %I64d > %I64d (Next StartTime), making them equal!\n"),
+              m_subpics.GetCount(), m_subpics.GetTail()->tStop, p->tStart);
+        m_subpics.GetTail()->tStop = p->tStart;
+    }
+
     m_subpics.AddTail(p);
 }
 

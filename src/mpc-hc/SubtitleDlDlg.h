@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -58,6 +58,7 @@ private:
         HWND m_hWnd;
         int m_colIndex;
         bool m_ascending;
+        CString m_filename;
     } PARAMSORT, *PPARAMSORT;
 
     enum {
@@ -72,6 +73,7 @@ private:
 
     CArray<isdb_movie_parsed> m_parsed_movies;
     CString m_url;
+    CString m_filename;
     bool m_fReplaceSubs;
 
     CListCtrl m_list;
@@ -84,8 +86,10 @@ private:
 
     static UINT RunThread(LPVOID pParam);
     static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
+    static int CALLBACK DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
+    static size_t StrMatch(LPCTSTR a, LPCTSTR b);
 public:
-    explicit CSubtitleDlDlg(CWnd* pParent, const CStringA& url);
+    explicit CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename);
     virtual ~CSubtitleDlDlg();
 
     enum { IDD = IDD_SUBTITLEDL_DLG };
@@ -93,7 +97,10 @@ public:
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
     virtual void OnOK();
+
+    void DownloadSelectedSubtitles();
 
     DECLARE_MESSAGE_MAP()
 
@@ -104,4 +111,6 @@ protected:
     afx_msg void OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDestroy();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg void OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult);
 };

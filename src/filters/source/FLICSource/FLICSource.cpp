@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -403,8 +403,6 @@ HRESULT CFLICStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIE
 
 HRESULT CFLICStream::FillBuffer(IMediaSample* pSample)
 {
-    HRESULT hr;
-
     {
         CAutoLock cAutoLockShared(&m_cSharedState);
 
@@ -414,7 +412,7 @@ HRESULT CFLICStream::FillBuffer(IMediaSample* pSample)
 
         BYTE* pDataIn = m_pFrameBuffer;
         BYTE* pDataOut = NULL;
-        if (!pDataIn || FAILED(hr = pSample->GetPointer(&pDataOut)) || !pDataOut) {
+        if (!pDataIn || FAILED(pSample->GetPointer(&pDataOut)) || !pDataOut) {
             return S_FALSE;
         }
 

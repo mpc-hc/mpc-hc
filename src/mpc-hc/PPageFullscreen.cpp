@@ -419,8 +419,8 @@ void CPPageFullscreen::ModesUpdate()
         if (!ModeExist) {
             break;
         }
-        if (dm.bpp != 32) {
-            continue;    // skip non 32bpp mode
+        if (dm.bpp != 32 || dm.size.cx < 640) {
+            continue; // skip low resolution and non 32bpp mode
         }
 
         int j = 0;

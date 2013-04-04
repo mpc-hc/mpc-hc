@@ -367,6 +367,8 @@ CStringW GetFilterName(IBaseFilter* pBF)
             name = _T("WM ASF Reader");
         } else if (clsid == CLSID_StreamBufferSource) {
             name = _T("StreamBufferSource");
+        } else if (clsid == CLSID_AVIDoc) {
+            name = _T("AVI/WAV File Source");
             // third-party actual filters
         } else if (clsid == GUIDFromCString(_T("{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}"))) {
             name = _T("AV Source");
@@ -793,9 +795,10 @@ void CStringToBin(CString str, CAtlArray<BYTE>& data)
 CString BinToCString(const BYTE* ptr, size_t len)
 {
     CString ret;
-    TCHAR high, low;
 
     while (len-- > 0) {
+        TCHAR high, low;
+
         high = (*ptr >> 4) >= 10 ? (*ptr >> 4) - 10 + _T('A') : (*ptr >> 4) + _T('0');
         low = (*ptr & 0xf) >= 10 ? (*ptr & 0xf) - 10 + _T('A') : (*ptr & 0xf) + _T('0');
 
@@ -2754,10 +2757,10 @@ void HexDump(CString fileName, BYTE* buf, int size)
 
     CString dump_str;
     dump_str.Format(_T("Dump size = %d\n"), size);
-    int len, i, j, c;
+    int i, j, c;
 
     for (i = 0; i < size; i += 16) {
-        len = size - i;
+        int len = size - i;
         if (len > 16) {
             len = 16;
         }

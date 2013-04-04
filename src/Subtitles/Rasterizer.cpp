@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,6 +34,9 @@
 #ifndef _MAX    /* avoid collision with common (nonconforming) macros */
 #define _MAX    (std::max)
 #endif
+
+#define MAX_DIMENSION 4000 // Maximum width or height supported
+#define SUBPIXEL_MULTIPLIER 8
 
 // Statics constants for use by alpha_blend_sse2
 static __m128i low_mask = _mm_set1_epi16(0xFF);
@@ -438,6 +441,15 @@ bool Rasterizer::ScanConvert()
     mWidth  = maxx + 1 - minx;
     mHeight = maxy + 1 - miny;
 
+    // Check that the size isn't completely crazy.
+    // Note that mWidth and mHeight are in 1/8 pixels.
+    if (mWidth > MAX_DIMENSION * SUBPIXEL_MULTIPLIER
+            || mHeight > MAX_DIMENSION * SUBPIXEL_MULTIPLIER) {
+        TRACE(_T("Error in Rasterizer::ScanConvert: size (%dx%d) is too big"),
+              mWidth / SUBPIXEL_MULTIPLIER, mHeight / SUBPIXEL_MULTIPLIER);
+        return false;
+    }
+
     mPathOffsetX = minx;
     mPathOffsetY = miny;
 
@@ -446,10 +458,18 @@ bool Rasterizer::ScanConvert()
     mEdgeNext = 1;
     mEdgeHeapSize = 2048;
     mpEdgeBuffer = (Edge*)malloc(sizeof(Edge) * mEdgeHeapSize);
+    if (!mpEdgeBuffer) {
+        TRACE(_T("Error in Rasterizer::ScanConvert: mpEdgeBuffer is NULL"));
+        return false;
+    }
 
     // Initialize scanline list.
 
     mpScanBuffer = DEBUG_NEW unsigned int[mHeight];
+    if (!mpScanBuffer) {
+        TRACE(_T("Error in Rasterizer::ScanConvert: mpScanBuffer is NULL"));
+        return false;
+    }
     memset(mpScanBuffer, 0, mHeight * sizeof(unsigned int));
 
     // Scan convert the outline.  Yuck, Bezier curves....
