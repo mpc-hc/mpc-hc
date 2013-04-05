@@ -101,6 +101,8 @@ END
 
 STRINGTABLE
 BEGIN
+
+    IDS_FILTER_SETTINGS_CAPTION     "Settings"
     IDS_VDF_FFSETTINGS      "FFmpeg settings"
     IDS_VDF_THREADNUMBER    "Decoding thread number"
     IDS_VDF_SKIPDEBLOCK     "H264 skip deblocking mode"

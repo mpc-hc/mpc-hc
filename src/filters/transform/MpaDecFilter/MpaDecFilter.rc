@@ -93,6 +93,7 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_FILTER_SETTINGS_CAPTION     "Settings"
     IDS_MPADEC_SAMPLE_FMT   "Output sample format:"
     IDS_MPADEC_DRC          "Apply DRC for AC-3 and E-AC3"
     IDS_MPADEC_MIXER        "Mixer"

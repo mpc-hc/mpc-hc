@@ -3256,6 +3256,7 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_FILTER_SETTINGS_CAPTION         "Settings"
     IDS_AVISPLITTER_NON_INTERLEAVED     "Non interleaved files support"
 END
 

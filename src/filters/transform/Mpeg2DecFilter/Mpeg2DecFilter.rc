@@ -93,6 +93,7 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_FILTER_SETTINGS_CAPTION     "Settings"
     IDS_MPEG2DECSETTINGSWND_0 
                             "Enable planar YUV media types (VY12, I420, IYUY)"
     IDS_MPEG2DECSETTINGSWND_1 "Set interlaced flag in output media type"
