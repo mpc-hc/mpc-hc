@@ -81,7 +81,7 @@ T *vdmove_backward(T *src1, T *src2, T *dst) {
 ///////////////////////////////////////////////////////////////////////////
 class vdallocator_base {
 protected:
-	void VDNORETURN throw_oom();
+	void VDNORETURN throw_oom(size_t n, size_t elsize);
 };
 
 template<class T>
@@ -101,10 +101,13 @@ public:
 	const_pointer	address(const_reference x) const	{ return &x; }
 
 	pointer allocate(size_type n, void *p_close = 0) {
+		if (n > ((~(size_type)0) >> 1) / sizeof(T))
+			throw_oom(n, sizeof(T));
+		
 		pointer p = (pointer)malloc(n*sizeof(T));
 
 		if (!p)
-			throw_oom();
+			throw_oom(n, sizeof(T));
 
 		return p;
 	}
@@ -285,10 +288,11 @@ public:
 			if (mpBlock) {
 				A::deallocate(mpBlock, mSize);
 				mpBlock = NULL;
+				mSize = 0;
 			}
-			mSize = s;
 			if (s)
-				mpBlock = A::allocate(mSize, 0);
+				mpBlock = A::allocate(s, 0);
+			mSize = s;
 		}
 	}
 
@@ -297,12 +301,13 @@ public:
 			if (mpBlock) {
 				A::deallocate(mpBlock, mSize);
 				mpBlock = NULL;
+				mSize = 0;
 			}
-			mSize = s;
 			if (s) {
-				mpBlock = A::allocate(mSize, 0);
+				mpBlock = A::allocate(s, 0);
 				std::fill(mpBlock, mpBlock+s, value);
 			}
+			mSize = s;
 		}
 	}
 
