@@ -2968,19 +2968,23 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_DVB_CHANNEL_NUMBER      "N"
-    IDS_DVB_CHANNEL_NAME        "Name"
-    IDS_DVB_CHANNEL_FREQUENCY   "Frequency"
-    IDS_DVB_CHANNEL_ENCRYPTION  "Encrypted"
-    IDS_DVB_CHANNEL_ENCRYPTED   "Yes"
+    IDS_DVB_CHANNEL_NUMBER        "N"
+    IDS_DVB_CHANNEL_NAME          "Name"
+    IDS_DVB_CHANNEL_FREQUENCY     "Frequency"
+    IDS_DVB_CHANNEL_ENCRYPTION    "Encrypted"
+    IDS_DVB_CHANNEL_ENCRYPTED     "Yes"
     IDS_DVB_CHANNEL_NOT_ENCRYPTED "No"
-    IDS_DVB_CHANNEL_START_SCAN  "Start"
-    IDS_DVB_CHANNEL_STOP_SCAN   "Stop"
-    IDS_DVB_TVNAV_SEERADIO      "Radio stations"
-    IDS_DVB_TVNAV_SEETV         "TV stations"
-    IDS_ARS_WASAPI_MODE         "Use WASAPI (restart playback)"
-    IDS_ARS_MUTE_FAST_FORWARD   "Mute on fast forward"
-    IDS_ARS_SOUND_DEVICE        "Sound Device:"
+    IDS_DVB_CHANNEL_FORMAT        "Format"
+    IDS_DVB_CHANNEL_FPS           "FPS"
+    IDS_DVB_CHANNEL_RESOLUTION    "Resolution"
+    IDS_DVB_CHANNEL_ASPECT_RATIO  "Aspect Ratio"
+    IDS_DVB_CHANNEL_START_SCAN    "Start"
+    IDS_DVB_CHANNEL_STOP_SCAN     "Stop"
+    IDS_DVB_TVNAV_SEERADIO        "Radio stations"
+    IDS_DVB_TVNAV_SEETV           "TV stations"
+    IDS_ARS_WASAPI_MODE           "Use WASAPI (restart playback)"
+    IDS_ARS_MUTE_FAST_FORWARD     "Mute on fast forward"
+    IDS_ARS_SOUND_DEVICE          "Sound Device:"
 END
 
 STRINGTABLE

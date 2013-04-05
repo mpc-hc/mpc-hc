@@ -33,11 +33,11 @@ enum TSC_COLUMN {
     TSCC_NAME,
     TSCC_FREQUENCY,
     TSCC_ENCRYPTED,
-    TSCC_CHANNEL,
     TSCC_VIDEO_FORMAT,
     TSCC_VIDEO_FPS,
     TSCC_VIDEO_RES,
-    TSCC_VIDEO_AR
+    TSCC_VIDEO_AR,
+    TSCC_CHANNEL
 };
 
 // CTunerScanDlg dialog
@@ -72,10 +72,10 @@ BOOL CTunerScanDlg::OnInitDialog()
     m_ChannelList.InsertColumn(TSCC_NAME, ResStr(IDS_DVB_CHANNEL_NAME), LVCFMT_LEFT, 190);
     m_ChannelList.InsertColumn(TSCC_FREQUENCY, ResStr(IDS_DVB_CHANNEL_FREQUENCY), LVCFMT_LEFT, 65);
     m_ChannelList.InsertColumn(TSCC_ENCRYPTED, ResStr(IDS_DVB_CHANNEL_ENCRYPTION), LVCFMT_LEFT, 55);
-    m_ChannelList.InsertColumn(TSCC_VIDEO_FORMAT, _T("Format"), LVCFMT_LEFT, 55);
-    m_ChannelList.InsertColumn(TSCC_VIDEO_FPS, _T("FPS"), LVCFMT_LEFT, 50);
-    m_ChannelList.InsertColumn(TSCC_VIDEO_RES, _T("Resolution"), LVCFMT_LEFT, 70);
-    m_ChannelList.InsertColumn(TSCC_VIDEO_AR, _T("Aspect Ratio"), LVCFMT_LEFT, 50);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_FORMAT, ResStr(IDS_DVB_CHANNEL_FORMAT), LVCFMT_LEFT, 55);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_FPS, ResStr(IDS_DVB_CHANNEL_FPS), LVCFMT_LEFT, 50);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_RES, ResStr(IDS_DVB_CHANNEL_RESOLUTION), LVCFMT_LEFT, 70);
+    m_ChannelList.InsertColumn(TSCC_VIDEO_AR, ResStr(IDS_DVB_CHANNEL_ASPECT_RATIO), LVCFMT_LEFT, 50);
     m_ChannelList.InsertColumn(TSCC_CHANNEL, _T("Channel"), LVCFMT_LEFT, 0);
 
     m_Progress.SetRange(0, 100);
