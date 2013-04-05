@@ -22,6 +22,7 @@
 
 #include "../../InternalPropertyPage.h"
 #include "IMPCVideoDecFilter.h"
+#include "resource.h"
 #include <afxcmn.h>
 
 class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
@@ -70,8 +71,8 @@ public:
     void OnDeactivate();
     bool OnApply();
 
-    static LPCTSTR GetWindowTitle() { return _T("Settings"); }
-    static CSize GetWindowSize() { return CSize(350, 325); }
+    static LPCTSTR GetWindowTitle() { return MAKEINTRESOURCE(IDS_FILTER_SETTINGS_CAPTION); }
+    static CSize GetWindowSize() { return CSize(360, 258); }
 
     DECLARE_MESSAGE_MAP()
 };
