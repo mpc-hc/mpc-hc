@@ -251,10 +251,10 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 void CTunerScanDlg::SetProgress(bool bState)
 {
     if (bState) {
-        m_btnStart.SetWindowTextW(_T("Stop"));
+        m_btnStart.SetWindowTextW(ResStr(IDS_DVB_CHANNEL_STOP_SCAN));
         m_btnSave.EnableWindow(FALSE);
     } else {
-        m_btnStart.SetWindowTextW(_T("Start"));
+        m_btnStart.SetWindowTextW(ResStr(IDS_DVB_CHANNEL_START_SCAN));
         m_Progress.SetPos(0);
         m_btnSave.EnableWindow(TRUE);
     }
