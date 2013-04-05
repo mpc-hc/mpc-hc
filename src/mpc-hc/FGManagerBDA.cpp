@@ -448,15 +448,24 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     }
 
     m_pBDAControl = pTuner;
-    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq, m_pBDATunerStats))) {
-        AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter topology."), MB_OK);
-        TRACE(_T("BDA : IBDA_FrequencyFilter topology: 0x%08x\n"), hr);
-        return hr;
-    }
-    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDADemodulator, m_pBDADemodStats))) {
-        AfxMessageBox(_T("BDA Error: IBDA_DigitalDemodulator topology."), MB_OK);
-        TRACE(_T("BDA : IBDA_DigitalDemodulator topology: 0x%08x\n"), hr);
-        return hr;
+
+    HRESULT hrBDAFreq = SearchIBDATopology(pTuner, m_pBDAFreq, m_pBDATunerStats);
+    HRESULT hrBDDemodulator = SearchIBDATopology(pTuner, m_pBDADemodulator, m_pBDADemodStats);
+
+    if (FAILED(hrBDAFreq) || FAILED(hrBDDemodulator)) {
+        if (SUCCEEDED(hrBDAFreq)) {
+            TRACE(_T("BDA : IBDA_DigitalDemodulator topology failed: 0x%08x --> using the statistics from the RF node only\n"), hrBDDemodulator);
+            LOG(_T("IBDA_DigitalDemodulator topology failed --> using the statistics from the RF node only\n"));
+            m_pBDADemodStats = m_pBDATunerStats;
+        } else if (SUCCEEDED(hrBDDemodulator)) {
+            TRACE(_T("BDA : IBDA_FrequencyFilter topology failed: 0x%08x --> using the statistics from the demodulator node only\n"), hrBDAFreq);
+            LOG(_T("IBDA_FrequencyFilter topology failed --> using the statistics from the demodulator node only\n"));
+            m_pBDATunerStats = m_pBDADemodStats;
+        } else { // if (FAILED(hrBDAFreq) && FAILED(hrBDDemodulator))
+            AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter and IBDA_DigitalDemodulator topologies failed."), MB_OK);
+            TRACE(_T("BDA : IBDA_FrequencyFilter and IBDA_DigitalDemodulator topologies failed: 0x%08x and 0x%08x\n"), hrBDAFreq, hrBDDemodulator);
+            return hrBDAFreq;
+        }
     }
 
     //    CComPtr<IBaseFilter> pMpeg2Demux;
