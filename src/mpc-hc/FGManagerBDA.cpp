@@ -338,7 +338,7 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
 }
 
 HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner,
-                                          REFIID iid, CComPtr<IUnknown>& pUnk, REFIID iidStat, CComPtr<IUnknown>& pUnkStat)
+        REFIID iid, CComPtr<IUnknown>& pUnk, REFIID iidStat, CComPtr<IUnknown>& pUnkStat)
 {
     CComQIPtr<IBDA_Topology> pTop(pTuner);
     CheckPointer(pTop, E_NOINTERFACE);
