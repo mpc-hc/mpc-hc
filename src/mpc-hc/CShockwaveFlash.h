@@ -131,7 +131,7 @@ public:
         InvokeHelper(0x6b, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
         return result;
     }
-    void put_FrameNum(LONGLONG newValue) {
+    void put_FrameNum(long newValue) {
         static BYTE parms[] = VTS_I4;
         InvokeHelper(0x6b, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }

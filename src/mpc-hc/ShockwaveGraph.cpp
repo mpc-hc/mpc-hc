@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -177,7 +177,7 @@ STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
 STDMETHODIMP CShockwaveGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
     if (dwCurrentFlags & AM_SEEKING_AbsolutePositioning) {
-        m_wndDestFrame.put_FrameNum(*pCurrent);
+        m_wndDestFrame.put_FrameNum((long)*pCurrent);
 
         if (m_fs == State_Running && !m_wndDestFrame.IsPlaying()) {
             m_wndDestFrame.Play();
