@@ -83,19 +83,19 @@ bool CMpeg2DecSettingsWnd::OnActivate()
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
 
-    m_planaryuv_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_0), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK1);
+    m_planaryuv_check.Create(ResStr(IDS_MPEG2_ENABLE_PLANAR), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK1);
     m_planaryuv_check.SetCheck(m_planaryuv ? BST_CHECKED : BST_UNCHECKED);
     p.y += h20;
 
-    m_interlaced_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_1), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK2);
+    m_interlaced_check.Create(ResStr(IDS_MPEG2_INTERLACE_FLAG), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK2);
     m_interlaced_check.SetCheck(m_interlaced ? BST_CHECKED : BST_UNCHECKED);
     p.y += h20;
 
-    m_forcedsubs_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_2), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK3);
+    m_forcedsubs_check.Create(ResStr(IDS_MPEG2_FORCED_SUBS), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK3);
     m_forcedsubs_check.SetCheck(m_forcedsubs ? BST_CHECKED : BST_UNCHECKED);
     p.y += h20;
 
-    m_readARFromStream_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_3), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK4);
+    m_readARFromStream_check.Create(ResStr(IDS_MPEG2_READ_AR), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK4);
     m_readARFromStream_check.SetCheck(m_readARFromStream ? BST_CHECKED : BST_UNCHECKED);
     p.y += h25;
 
@@ -145,8 +145,8 @@ bool CMpeg2DecSettingsWnd::OnActivate()
     }
 
     m_note_static.Create(
-        ResStr(IDS_MPEG2DECSETTINGSWND_7) +
-        ResStr(IDS_MPEG2DECSETTINGSWND_8),
+        ResStr(IDS_MPEG2_NOTE1) +
+        ResStr(IDS_MPEG2_NOTE2),
         WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(320), m_fontheight * 4)), this);
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {

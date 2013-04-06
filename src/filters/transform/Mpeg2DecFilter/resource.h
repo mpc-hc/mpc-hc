@@ -3,18 +3,18 @@
 // Used by Mpeg2DecFilter.rc
 //
 #define IDS_FILTER_SETTINGS_CAPTION     7000
-#define IDS_MPEG2DECSETTINGSWND_0       7500
-#define IDS_MPEG2DECSETTINGSWND_1       7501
-#define IDS_MPEG2DECSETTINGSWND_2       7502
+#define IDS_MPEG2_ENABLE_PLANAR         7500
+#define IDS_MPEG2_INTERLACE_FLAG        7501
+#define IDS_MPEG2_FORCED_SUBS           7502
 #define IDS_MPEG2_DEINTERLACING         7503
 #define IDS_MPEG2_BRIGHTNESS            7504
 #define IDS_MPEG2_RESET                 7505
-#define IDS_MPEG2DECSETTINGSWND_7       7506
+#define IDS_MPEG2_NOTE1                 7506
 #define IDS_MPEG2_CONTRAST              7507
 #define IDS_MPEG2_HUE                   7508
 #define IDS_MPEG2_SATURATION            7509
-#define IDS_MPEG2DECSETTINGSWND_8       7510
-#define IDS_MPEG2DECSETTINGSWND_3       7511
+#define IDS_MPEG2_NOTE2                 7510
+#define IDS_MPEG2_READ_AR               7511
 
 // Next default values for new objects
 // 
