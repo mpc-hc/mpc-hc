@@ -440,7 +440,7 @@ public:
     void ShowTrayIcon(bool fShow);
     void SetTrayTip(CString str);
 
-    CSize GetVideoSize(CRect &cropping) const;
+    CSize GetVideoSize(CRect& cropping) const;
     CSize CMainFrame::GetVideoSize() const;
     void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
     void MoveVideoWindow(bool fShowStats = false);

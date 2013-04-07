@@ -9339,7 +9339,7 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
     }
 }
 
-CSize CMainFrame::GetVideoSize(CRect &cropping) const
+CSize CMainFrame::GetVideoSize(CRect& cropping) const
 {
     bool fKeepAspectRatio = AfxGetAppSettings().fKeepAspectRatio;
     bool fCompMonDeskARDiff = AfxGetAppSettings().fCompMonDeskARDiff;
@@ -9784,10 +9784,10 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
             double dScaledVRWidth = m_ZoomX * dVRWidth;
             double dScaledVRHeight = m_ZoomY * dVRHeight;
 
-            double dVRCropTop = cropping.top * dScaledVRHeight/dARy;
-            double dVRCropLeft = cropping.left * dScaledVRWidth/dARx;
-            double dVRCropBottom = cropping.bottom * dScaledVRHeight/dARy;
-            double dVRCropRight = cropping.right * dScaledVRWidth/dARx;
+            double dVRCropTop = cropping.top * dScaledVRHeight / dARy;
+            double dVRCropLeft = cropping.left * dScaledVRWidth / dARx;
+            double dVRCropBottom = cropping.bottom * dScaledVRHeight / dARy;
+            double dVRCropRight = cropping.right * dScaledVRWidth / dARx;
 
             // Rounding is required here, else the left-to-right and top-to-bottom sizes will get distorted through rounding twice each
             // Todo: clean this up using decent intrinsic rounding instead of floor(x+.5) and truncation cast to LONG on (y+.5)
@@ -11760,7 +11760,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         if (strCropT) {
             m_VideoCropping.top = _ttol(strCropT);
         }
-        CString strCropB = MI.Get(Stream_Video, 0, _T("PixelCropBottom"), Info_Text).c_str();	
+        CString strCropB = MI.Get(Stream_Video, 0, _T("PixelCropBottom"), Info_Text).c_str();
         if (strCropB) {
             m_VideoCropping.bottom = _ttol(strCropB);
         }
@@ -11774,9 +11774,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
 
         if (strFPS == _T("29.970") && (strSO == _T("2:3 Pulldown")
-                                        || strST == _T("Progressive") && (strSO == _T("TFF")
-                                                || strSO  == _T("BFF")
-                                                || strSO  == _T("2:3 Pulldown")))) {
+                                       || strST == _T("Progressive") && (strSO == _T("TFF")
+                                               || strSO  == _T("BFF")
+                                               || strSO  == _T("2:3 Pulldown")))) {
 
             strFPS = _T("23.976");
         }
