@@ -2881,7 +2881,7 @@ void File_Mk::Segment_Tracks_TrackEntry_Video_FrameRate()
     Element_Name("FrameRate");
 
     //Parsing
-   float64 Value=Float_Get();
+    float64 Value=Float_Get();
 
     //Filling
     FILLING_BEGIN();
@@ -2895,7 +2895,12 @@ void File_Mk::Segment_Tracks_TrackEntry_Video_PixelCropBottom()
     Element_Name("PixelCropBottom");
 
     //Parsing
-    UInteger_Info();
+    int64u UInteger=UInteger_Get();
+
+    //Filling
+    FILLING_BEGIN();
+        Fill(Stream_Video, 0, "PixelCropBottom", UInteger, 10, true);
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -2904,7 +2909,12 @@ void File_Mk::Segment_Tracks_TrackEntry_Video_PixelCropLeft()
     Element_Name("PixelCropLeft");
 
     //Parsing
-    UInteger_Info();
+    int64u UInteger=UInteger_Get();
+
+    //Filling
+    FILLING_BEGIN();
+        Fill(Stream_Video, 0, "PixelCropLeft", UInteger, 10, true);
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -2913,7 +2923,12 @@ void File_Mk::Segment_Tracks_TrackEntry_Video_PixelCropRight()
     Element_Name("PixelCropRight");
 
     //Parsing
-    UInteger_Info();
+    int64u UInteger=UInteger_Get();
+
+    //Filling
+    FILLING_BEGIN();
+        Fill(Stream_Video, 0, "PixelCropRight", UInteger, 10, true);
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -2922,7 +2937,12 @@ void File_Mk::Segment_Tracks_TrackEntry_Video_PixelCropTop()
     Element_Name("PixelCropTop");
 
     //Parsing
-    UInteger_Info();
+    int64u UInteger=UInteger_Get();
+
+    //Filling
+    FILLING_BEGIN();
+        Fill(Stream_Video, 0, "PixelCropTop", UInteger, 10, true);
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -3485,4 +3505,3 @@ void File_Mk::CodecPrivate_Manage()
 } //NameSpace
 
 #endif //MEDIAINFO_MK_YES
-

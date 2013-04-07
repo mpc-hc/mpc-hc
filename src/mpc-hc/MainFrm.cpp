@@ -9339,7 +9339,7 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
     }
 }
 
-CSize CMainFrame::GetVideoSize() const
+CSize CMainFrame::GetVideoSize(CRect &cropping) const
 {
     bool fKeepAspectRatio = AfxGetAppSettings().fKeepAspectRatio;
     bool fCompMonDeskARDiff = AfxGetAppSettings().fCompMonDeskARDiff;
@@ -9383,11 +9383,20 @@ CSize CMainFrame::GetVideoSize() const
         arxy = ar;
     }
 
-    ret = (!fKeepAspectRatio || arxy.cx <= 0 || arxy.cy <= 0)
-          ? wh
-          : CSize(MulDiv(wh.cy, arxy.cx, arxy.cy), wh.cy);
+    if (!fKeepAspectRatio || arxy.cx <= 0 || arxy.cy <= 0) {
+        ret.cx = wh.cx - m_VideoCropping.left - m_VideoCropping.right;
+        ret.cy = wh.cy - m_VideoCropping.top - m_VideoCropping.bottom;
+    } else {
+        ret.cx = MulDiv(wh.cy, arxy.cx, arxy.cy);
+        ret.cy = wh.cy;
+    }
 
-    if (fCompMonDeskARDiff)
+    cropping.top = MulDiv(m_VideoCropping.top, ret.cy, wh.cy);
+    cropping.bottom = MulDiv(m_VideoCropping.bottom, ret.cy, wh.cy);
+    cropping.left = MulDiv(m_VideoCropping.left, ret.cx, wh.cx);
+    cropping.right = MulDiv(m_VideoCropping.right, ret.cx, wh.cx);
+
+    if (fCompMonDeskARDiff) {
         if (HDC hDC = ::GetDC(0)) {
             int _HORZSIZE = GetDeviceCaps(hDC, HORZSIZE);
             int _VERTSIZE = GetDeviceCaps(hDC, VERTSIZE);
@@ -9400,16 +9409,28 @@ CSize CMainFrame::GetVideoSize() const
 
                 if (b < a) {
                     ret.cy = (DWORD)(1.0 * ret.cy * a / b);
+                    cropping.top = (LONG)(1.0 * cropping.top * a / b);
+                    cropping.bottom = (LONG)(1.0 * cropping.bottom * b / a);
                 } else if (a < b) {
                     ret.cx = (DWORD)(1.0 * ret.cx * b / a);
+                    cropping.left = (LONG)(1.0 * cropping.left * b / a);
+                    cropping.right = (LONG)(1.0 * cropping.right * b / a);
                 }
             }
 
             ::ReleaseDC(0, hDC);
         }
+    }
 
     return ret;
 }
+
+CSize CMainFrame::GetVideoSize() const
+{
+    CRect dummy;
+    return GetVideoSize(dummy);
+}
+
 
 void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo)
 {
@@ -9703,12 +9724,15 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 
         OAFilterState fs = GetMediaState();
         if ((fs == State_Paused) || (fs == State_Running) || (fs == State_Stopped) && (m_fShockwaveGraph || m_fQuicktimeGraph)) {
-            SIZE arxy = GetVideoSize();
+            CRect cropping;
+            CSize arxy = GetVideoSize(cropping);
+
             double dARx = (double)(arxy.cx);
             double dARy = (double)(arxy.cy);
 
             dvstype iDefaultVideoSize = static_cast<dvstype>(AfxGetAppSettings().iDefaultVideoSize);
             double dVRWidth, dVRHeight;
+
             if (iDefaultVideoSize == DVS_HALF) {
                 dVRWidth  = dARx * 0.5;
                 dVRHeight = dARy * 0.5;
@@ -9718,6 +9742,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
             } else if (iDefaultVideoSize == DVS_DOUBLE) {
                 dVRWidth  = dARx * 2.0;
                 dVRHeight = dARy * 2.0;
+
             } else {
                 dVRWidth  = dWRWidth;
                 dVRHeight = dWRHeight;
@@ -9758,16 +9783,22 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 
             double dScaledVRWidth = m_ZoomX * dVRWidth;
             double dScaledVRHeight = m_ZoomY * dVRHeight;
+
+            double dVRCropTop = cropping.top * dScaledVRHeight/dARy;
+            double dVRCropLeft = cropping.left * dScaledVRWidth/dARx;
+            double dVRCropBottom = cropping.bottom * dScaledVRHeight/dARy;
+            double dVRCropRight = cropping.right * dScaledVRWidth/dARx;
+
             // Rounding is required here, else the left-to-right and top-to-bottom sizes will get distorted through rounding twice each
             // Todo: clean this up using decent intrinsic rounding instead of floor(x+.5) and truncation cast to LONG on (y+.5)
             double dPPLeft = floor(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth + 0.5);
             double dPPTop  = floor(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + 0.5);
             // left and top parts are allowed to be negative
-            vr.left   = (LONG)(dPPLeft);
-            vr.top    = (LONG)(dPPTop);
+            vr.left   = (LONG)(dPPLeft - dVRCropLeft);
+            vr.top    = (LONG)(dPPTop - dVRCropTop);
             // right and bottom parts are always at picture center or beyond, so never negative
-            vr.right  = (LONG)(dScaledVRWidth + dPPLeft + 0.5);
-            vr.bottom = (LONG)(dScaledVRHeight + dPPTop + 0.5);
+            vr.right  = (LONG)(dScaledVRWidth + dPPLeft + dVRCropRight + 0.5);
+            vr.bottom = (LONG)(dScaledVRHeight + dPPTop + dVRCropBottom + 0.5);
 
             if (fShowStats) {
                 CString info;
@@ -11701,34 +11732,57 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 }
             }
         }
+    }
 
-        // Get FPS
-        miFPS = 0.0;
+    // Get FPS
+    miFPS = 0.0;
 
 #ifdef USE_MEDIAINFO_STATIC
-        MediaInfoLib::MediaInfo MI;
+    MediaInfoLib::MediaInfo MI;
 #else
-        MediaInfo MI;
+    MediaInfo MI;
 #endif
 
-        if (MI.Open(mi_fn.GetString())) {
-            CString strFPS =  MI.Get(Stream_Video, 0, _T("FrameRate"), Info_Text, Info_Name).c_str();
+    m_VideoCropping.top = 0;
+    m_VideoCropping.bottom = 0;
+    m_VideoCropping.left = 0;
+    m_VideoCropping.right = 0;
 
-            // 3:2 pulldown ???
-            CString strST = MI.Get(Stream_Video, 0, _T("ScanType"), Info_Text, Info_Name).c_str();
-            CString strSO = MI.Get(Stream_Video, 0, _T("ScanOrder"), Info_Text, Info_Name).c_str();
+    if (MI.Open(mi_fn.GetString())) {
+        CString strFPS =  MI.Get(Stream_Video, 0, _T("FrameRate"), Info_Text, Info_Name).c_str();
 
-            if (strFPS == _T("29.970") && (strSO == _T("2:3 Pulldown")
-                                           || strST == _T("Progressive") && (strSO == _T("TFF")
-                                                   || strSO  == _T("BFF")
-                                                   || strSO  == _T("2:3 Pulldown")))) {
+        // 3:2 pulldown ???
+        CString strST = MI.Get(Stream_Video, 0, _T("ScanType"), Info_Text, Info_Name).c_str();
+        CString strSO = MI.Get(Stream_Video, 0, _T("ScanOrder"), Info_Text, Info_Name).c_str();
 
-                strFPS = _T("23.976");
-            }
-            miFPS = wcstod(strFPS, NULL);
 
-            AutoChangeMonitorMode();
+        CString strCropT = MI.Get(Stream_Video, 0, _T("PixelCropTop"), Info_Text).c_str();
+        if (strCropT) {
+            m_VideoCropping.top = _ttol(strCropT);
         }
+        CString strCropB = MI.Get(Stream_Video, 0, _T("PixelCropBottom"), Info_Text).c_str();	
+        if (strCropB) {
+            m_VideoCropping.bottom = _ttol(strCropB);
+        }
+        CString strCropL = MI.Get(Stream_Video, 0, _T("PixelCropLeft"), Info_Text).c_str();
+        if (strCropL) {
+            m_VideoCropping.left = _ttol(strCropL);
+        }
+        CString strCropR = MI.Get(Stream_Video, 0, _T("PixelCropRight"), Info_Text).c_str();
+        if (strCropR) {
+            m_VideoCropping.right = _ttol(strCropR);
+        }
+
+        if (strFPS == _T("29.970") && (strSO == _T("2:3 Pulldown")
+                                        || strST == _T("Progressive") && (strSO == _T("TFF")
+                                                || strSO  == _T("BFF")
+                                                || strSO  == _T("2:3 Pulldown")))) {
+
+            strFPS = _T("23.976");
+        }
+        miFPS = wcstod(strFPS, NULL);
+
+        AutoChangeMonitorMode();
     }
 
     SetLoadState(MLS_LOADING);

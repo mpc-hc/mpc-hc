@@ -440,7 +440,8 @@ public:
     void ShowTrayIcon(bool fShow);
     void SetTrayTip(CString str);
 
-    CSize GetVideoSize() const;
+    CSize GetVideoSize(CRect &cropping) const;
+    CSize CMainFrame::GetVideoSize() const;
     void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
     void MoveVideoWindow(bool fShowStats = false);
     void RepaintVideo();
@@ -900,6 +901,8 @@ public:
     bool        m_bStopTunerScan;
     bool        m_bLockedZoomVideoWindow;
     int         m_nLockedZoomVideoWindow;
+
+    RECT        m_VideoCropping;
 
     void        SetLoadState(MPC_LOADSTATE iState);
     void        SetPlayState(MPC_PLAYSTATE iState);
