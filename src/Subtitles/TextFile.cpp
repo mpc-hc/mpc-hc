@@ -269,6 +269,7 @@ BOOL CTextFile::ReadString(CStringA& str)
             char c = '?';
 
             if (Utf8::isSingleByte(buffer[0])) { // 0xxxxxxx
+                bValid = true;
                 c = buffer[0] & 0x7f;
             } else if (Utf8::isFirstOfMultibyte(buffer[0])) {
                 int nContinuationBytes = Utf8::continuationBytes(buffer[0]);
@@ -310,7 +311,7 @@ BOOL CTextFile::ReadString(CStringA& str)
                     break;
                 }
                 str += c;
-            } else {
+            } else if (!m_offset) {
                 // Switch to text and read again
                 m_encoding = DEFAULT_ENCODING;
                 // Rewind to the end of the line and save the position
@@ -409,6 +410,7 @@ BOOL CTextFile::ReadString(CStringW& str)
             WCHAR c = L'?';
 
             if (Utf8::isSingleByte(buffer[0])) { // 0xxxxxxx
+                bValid = true;
                 c = buffer[0] & 0x7f;
             } else if (Utf8::isFirstOfMultibyte(buffer[0])) {
                 int nContinuationBytes = Utf8::continuationBytes(buffer[0]);
@@ -452,7 +454,7 @@ BOOL CTextFile::ReadString(CStringW& str)
                     break;
                 }
                 str += c;
-            } else {
+            } else if (!m_offset) {
                 // Switch to text and read again
                 m_encoding = DEFAULT_ENCODING;
                 // Rewind to the end of the line and save the position
