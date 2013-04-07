@@ -19,7 +19,7 @@ Legend:
 + Ticket #2987, Playlist improvements:
   - Scroll and select the first newly added item
   - Put MPC-HC on top and give the focus to the playlist after a drag and drop
-* Updated Basque, Catalan, Czech, German, Greek, Simplified Chinese and Turkish translations
+* Updated Basque, Catalan, Czech, German, Greek, Simplified Chinese, Turkish and Ukrainian translations
 * Updated Little CMS to v2.5 (git cde00fd)
 * Updated VirtualDub to v1.10.4-test6
 * Ticket #2689,  Replace "On top > Never" by "On top > Default". In most of the
