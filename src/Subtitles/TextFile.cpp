@@ -310,7 +310,7 @@ BOOL CTextFile::ReadString(CStringA& str)
                     break;
                 }
                 str += c;
-            } else {
+            } else if (!m_offset) {
                 // Switch to text and read again
                 m_encoding = DEFAULT_ENCODING;
                 // Rewind to the end of the line and save the position
@@ -452,7 +452,7 @@ BOOL CTextFile::ReadString(CStringW& str)
                     break;
                 }
                 str += c;
-            } else {
+            } else if (!m_offset) {
                 // Switch to text and read again
                 m_encoding = DEFAULT_ENCODING;
                 // Rewind to the end of the line and save the position
