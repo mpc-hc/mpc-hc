@@ -23,6 +23,7 @@
 
 #include "../../InternalPropertyPage.h"
 #include "MpaDecFilter.h"
+#include "resource.h"
 #include <afxcmn.h>
 
 class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
@@ -87,8 +88,8 @@ public:
     void OnDeactivate();
     bool OnApply();
 
-    static LPCTSTR GetWindowTitle() { return _T("Settings"); }
-    static CSize GetWindowSize() { return CSize(225, 156); }
+    static LPCTSTR GetWindowTitle() { return MAKEINTRESOURCE(IDS_FILTER_SETTINGS_CAPTION); }
+    static CSize GetWindowSize() { return CSize(225, 220); }
 
     DECLARE_MESSAGE_MAP()
 

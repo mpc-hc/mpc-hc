@@ -134,7 +134,9 @@ private:
 
     CComQIPtr<IBDA_DeviceControl>        m_pBDAControl;
     CComPtr<IBDA_FrequencyFilter>        m_pBDAFreq;
-    CComPtr<IBDA_SignalStatistics>       m_pBDAStats;
+    CComPtr<IBDA_SignalStatistics>       m_pBDATunerStats;
+    CComPtr<IBDA_DigitalDemodulator>     m_pBDADemodulator;
+    CComPtr<IBDA_SignalStatistics>       m_pBDADemodStats;
     CAtlMap<DVB_STREAM_TYPE, CDVBStream> m_DVBStreams;
 
     DVB_STREAM_TYPE m_nCurVideoType;
@@ -142,28 +144,35 @@ private:
     CString         m_BDANetworkProvider;
     bool            m_fHideWindow;
     bool            m_fSetChannelActive;
-    CComPtr<IPin>   m_pPin_h264;
+    CComPtr<IBaseFilter> m_pDemux;
 
     HRESULT         CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, const CStringW& DisplayName);
     HRESULT         ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFilter);
     HRESULT         CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux);
     HRESULT         SetChannelInternal(CDVBChannel* pChannel);
-    HRESULT         SwitchStream(DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE nNewType);
+    HRESULT         SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nNewType);
     HRESULT         ChangeState(FILTER_STATE nRequested);
+    HRESULT         ClearMaps();
     FILTER_STATE    GetState();
+    void UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChannel* pChannel);
 
-    template <class ITF>
-    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, CComPtr<ITF>& pItf) {
-        CComPtr<IUnknown> pUnk;
-        HRESULT hr = SearchIBDATopology(pTuner, __uuidof(ITF), pUnk);
+    template <class ITF, class ITFStat>
+    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, CComPtr<ITF>& pItf, CComPtr<ITFStat>& pItfStat) {
+        CComPtr<IUnknown> pUnk, pUnkStat;
+        HRESULT hr = SearchIBDATopology(pTuner, __uuidof(ITF), pUnk, __uuidof(ITFStat), pUnkStat);
 
         if (SUCCEEDED(hr)) {
             hr = pUnk.QueryInterface(&pItf);
+            if (SUCCEEDED(hr)) {
+                hr = pUnkStat.QueryInterface(&pItfStat);
+            }
         }
-        return !pItf ? E_NOINTERFACE : hr;
+
+        return hr;
     }
 
-    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
+    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner,
+                               REFIID iid, CComPtr<IUnknown>& pUnk, REFIID iidStat, CComPtr<IUnknown>& pUnkStat);
 
     void Sleep(unsigned int mseconds) {
         clock_t goal = mseconds + clock();

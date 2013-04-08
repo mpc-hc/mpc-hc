@@ -2,13 +2,14 @@
 // Microsoft Visual C++ generated include file.
 // Used by MpaDecFilter.rc
 //
-#define IDS_MPADEC_SAMPLE_FMT           33135
-#define IDS_MPADEC_DRC                  33136
-#define IDS_MPADEC_MIXER                33137
-#define IDS_MPADEC_MIX_SPEAKERS         33138
-#define IDS_MPADEC_MONO                 33139
-#define IDS_MPADEC_STEREO               33140
-#define IDS_MPADEC_SPDIF                33141
+#define IDS_FILTER_SETTINGS_CAPTION     7000
+#define IDS_MPADEC_SAMPLE_FMT           7300
+#define IDS_MPADEC_DRC                  7301
+#define IDS_MPADEC_MIXER                7302
+#define IDS_MPADEC_MIX_SPEAKERS         7303
+#define IDS_MPADEC_MONO                 7304
+#define IDS_MPADEC_STEREO               7305
+#define IDS_MPADEC_SPDIF                7306
 
 // Next default values for new objects
 // 

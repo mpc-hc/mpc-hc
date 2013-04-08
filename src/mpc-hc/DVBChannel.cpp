@@ -36,10 +36,15 @@ CDVBChannel::CDVBChannel()
     , m_ulPCR(0)
     , m_ulVideoPID(0)
     , m_nVideoType(DVB_MPV)
+    , m_nVideoFps(DVB_FPS_25_0)
+    , m_nVideoChroma(DVB_Chroma_4_2_0)
+    , m_nVideoWidth(0)
+    , m_nVideoHeight(0)
+    , m_nVideoAR(DVB_AR_NULL)
     , m_nAudioCount(0)
     , m_nDefaultAudio(0)
     , m_nSubtitleCount(0)
-    , m_nDefaultSubtitle(0)
+    , m_nDefaultSubtitle(-1)
 {
 }
 
@@ -69,7 +74,7 @@ void CDVBChannel::FromString(CString strValue)
     m_ulPMT       = _tstol(strValue.Tokenize(_T("|"), i));
     m_ulPCR       = _tstol(strValue.Tokenize(_T("|"), i));
     m_ulVideoPID  = _tstol(strValue.Tokenize(_T("|"), i));
-    m_nVideoType  = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+    m_nVideoType  = (DVB_STREAM_TYPE) _tstol(strValue.Tokenize(_T("|"), i));
     m_nAudioCount = _tstol(strValue.Tokenize(_T("|"), i));
     if (nVersion > FORMAT_VERSION_1) {
         m_nDefaultAudio = _tstol(strValue.Tokenize(_T("|"), i));
@@ -92,12 +97,20 @@ void CDVBChannel::FromString(CString strValue)
         m_Subtitles[j].PesType = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
         m_Subtitles[j].Language = strValue.Tokenize(_T("|"), i);
     }
+    if (nVersion > FORMAT_VERSION_3) {
+        m_nVideoFps  = (DVB_FPS_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_nVideoChroma = (DVB_CHROMA_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_nVideoWidth = _tstol(strValue.Tokenize(_T("|"), i));
+        m_nVideoHeight = _tstol(strValue.Tokenize(_T("|"), i));
+        m_nVideoAR = (DVB_AspectRatio_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+    }
+
 }
 
 CString CDVBChannel::ToString()
 {
     CString strValue;
-    strValue.AppendFormat(_T("%d|%s|%ld|%d|%d|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%d|%ld|%d"),
+    strValue.AppendFormat(_T("%d|%s|%ld|%d|%d|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%d|%d"),
                           FORMAT_VERSION_CURRENT,
                           m_strName,
                           m_ulFrequency,
@@ -118,13 +131,25 @@ CString CDVBChannel::ToString()
                           m_nDefaultSubtitle);
 
     for (int i = 0; i < m_nAudioCount; i++) {
+        if (m_Audios[i].Language.GetLength() == 0) {
+            m_Audios[i].Language = " ";
+        }
         strValue.AppendFormat(_T("|%ld|%d|%d|%s"), m_Audios[i].PID, m_Audios[i].Type, m_Audios[i].PesType, m_Audios[i].Language);
     }
 
     for (int i = 0; i < m_nSubtitleCount; i++) {
+        if (m_Subtitles[i].Language.GetLength() == 0) {
+            m_Subtitles[i].Language = " ";
+        }
         strValue.AppendFormat(_T("|%ld|%d|%d|%s"), m_Subtitles[i].PID, m_Subtitles[i].Type, m_Subtitles[i].PesType, m_Subtitles[i].Language);
     }
 
+    strValue.AppendFormat(_T("|%d|%d|%ld|%ld|%d"),
+                          m_nVideoFps,
+                          m_nVideoChroma,
+                          m_nVideoWidth,
+                          m_nVideoHeight,
+                          m_nVideoAR);
     return strValue;
 }
 
@@ -132,6 +157,9 @@ void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_T
 {
     switch (nType) {
         case DVB_MPV:
+            m_ulVideoPID = ulPID;
+            m_nVideoType = nType;
+            break;
         case DVB_H264:
             m_ulVideoPID = ulPID;
             m_nVideoType = nType;
@@ -139,6 +167,15 @@ void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_T
         case DVB_MPA:
         case DVB_AC3:
         case DVB_EAC3:
+            if (m_nAudioCount < DVB_MAX_AUDIO) {
+                m_Audios[m_nAudioCount].PID = ulPID;
+                m_Audios[m_nAudioCount].Type = nType;
+                m_Audios[m_nAudioCount].PesType = nPesType;
+                m_Audios[m_nAudioCount].Language = strLanguage;
+                m_nAudioCount++;
+            }
+            break;
+        case DVB_LATM:
             if (m_nAudioCount < DVB_MAX_AUDIO) {
                 m_Audios[m_nAudioCount].PID = ulPID;
                 m_Audios[m_nAudioCount].Type = nType;
@@ -157,4 +194,121 @@ void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_T
             }
             break;
     }
+}
+
+REFERENCE_TIME CDVBChannel::GetAvgTimePerFrame()
+{
+    REFERENCE_TIME Value;
+    switch (m_nVideoFps) {
+        case DVB_FPS_23_976:
+            Value = 417084;
+            break;
+        case DVB_FPS_24_0:
+            Value = 416667;
+            break;
+        case DVB_FPS_25_0:
+            Value = 400000;
+            break;
+        case DVB_FPS_29_97:
+            Value = 333667;
+            break;
+        case DVB_FPS_30_0:
+            Value = 333333;
+            break;
+        case DVB_FPS_50_0:
+            Value = 200000;
+            break;
+        case DVB_FPS_59_94:
+            Value = 166834;
+            break;
+        case DVB_FPS_60_0:
+            Value = 166667;
+            break;
+        default:
+            Value = 0;
+            break;
+    }
+    return Value;
+}
+
+CString CDVBChannel::GetVideoFpsDesc()
+{
+    CString strValue;
+    switch (m_nVideoFps) {
+        case DVB_FPS_23_976:
+            strValue = _T("23.976");
+            break;
+        case DVB_FPS_24_0:
+            strValue = _T("24.000");
+            break;
+        case DVB_FPS_25_0:
+            strValue = _T("25.000");
+            break;
+        case DVB_FPS_29_97:
+            strValue = _T("29.970");
+            break;
+        case DVB_FPS_30_0:
+            strValue = _T("30.000");
+            break;
+        case DVB_FPS_50_0:
+            strValue = _T("50.000");
+            break;
+        case DVB_FPS_59_94:
+            strValue = _T("59.940");
+            break;
+        case DVB_FPS_60_0:
+            strValue = _T("60.000");
+            break;
+        default:
+            strValue = _T("     -");
+            break;
+    }
+    return strValue;
+
+}
+
+DWORD CDVBChannel::GetVideoARx()
+{
+    DWORD Value;
+    switch (GetVideoAR()) {
+        case DVB_AR_1:
+            Value = 1;
+            break;
+        case DVB_AR_3_4:
+            Value = 4;
+            break;
+        case DVB_AR_9_16:
+            Value = 16;
+            break;
+        case DVB_AR_1_2_21:
+            Value = 221;
+            break;
+        default:
+            Value = 0;
+            break;
+    }
+    return Value;
+}
+
+DWORD CDVBChannel::GetVideoARy()
+{
+    DWORD Value;
+    switch (GetVideoAR()) {
+        case DVB_AR_1:
+            Value = 1;
+            break;
+        case DVB_AR_3_4:
+            Value = 3;
+            break;
+        case DVB_AR_9_16:
+            Value = 9;
+            break;
+        case DVB_AR_1_2_21:
+            Value = 100;
+            break;
+        default:
+            Value = 0;
+            break;
+    }
+    return Value;
 }

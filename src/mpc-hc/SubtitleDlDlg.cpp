@@ -305,8 +305,8 @@ BOOL CSubtitleDlDlg::PreTranslateMessage(MSG* pMsg)
 {
     // Inhibit default handling for the Enter key when the list has the focus and an item is selected.
     if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
-        && pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
-            return FALSE;
+            && pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
+        return FALSE;
     }
 
     return __super::PreTranslateMessage(pMsg);

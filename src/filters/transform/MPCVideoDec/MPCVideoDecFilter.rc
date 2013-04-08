@@ -101,6 +101,8 @@ END
 
 STRINGTABLE
 BEGIN
+
+    IDS_FILTER_SETTINGS_CAPTION     "Settings"
     IDS_VDF_FFSETTINGS      "FFmpeg settings"
     IDS_VDF_THREADNUMBER    "Decoding thread number"
     IDS_VDF_SKIPDEBLOCK     "H264 skip deblocking mode"
@@ -110,7 +112,7 @@ BEGIN
     IDS_VDF_DBLK_BIDIR      "Bidirectional"
     IDS_VDF_DBLK_NONKFRM    "Non keyframes"
     IDS_VDF_DBLK_ALL        "All frames"
-    IDS_VDF_IDCT_AUTO       "Auto"
+    IDS_VDF_AUTO            "Auto"
     IDS_VDF_AR_MODE         "Read AR from stream"
 END
 
@@ -134,7 +136,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_VDF_INTERLACED_FLAG         "Force the interlaced flag"
-    IDS_VDF_IF_AUTO                 "Auto"
     IDS_VDF_IF_PROGRESSIVE          "Progressive"
     IDS_VDF_IF_TOP_FIELD_FIRST      "Top field first"
     IDS_VDF_IF_BOTTOM_FIELD_FIRST   "Bottom field first"

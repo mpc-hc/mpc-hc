@@ -2,34 +2,31 @@
 // Microsoft Visual C++ generated include file.
 // Used by MPCVideoDecFilter.rc
 //
-#define IDS_VDF_FFSETTINGS              33167
-#define IDS_VDF_THREADNUMBER            33168
-#define IDS_VDF_SKIPDEBLOCK             33169
-#define IDS_VDF_DBLK_NONE               33170
-#define IDS_VDF_DBLK_DEFAULT            33171
-#define IDS_VDF_DBLK_NONREF             33172
-#define IDS_VDF_DBLK_BIDIR              33173
-#define IDS_VDF_DBLK_NONKFRM            33174
-#define IDS_VDF_DBLK_ALL                33175
-#define IDS_VDF_IDCT_AUTO               33182
-#define IDS_VDF_DXVA_SETTING            33187
-#define IDS_VDF_DXVA_MODE               33189
-#define IDS_VDF_VIDEOCARD               33194
-#define IDS_VDF_AR_MODE                 33211
-
-#define IDS_VDF_DXVACOMPATIBILITY       41100
-#define IDS_VDF_DXVA_FULLCHECK          41101
-#define IDS_VDF_DXVA_SKIP_LEVELCHECK    41102
-#define IDS_VDF_DXVA_SKIP_REFCHECK      41103
-#define IDS_VDF_DXVA_SKIP_ALLCHECK      41104
-
-#define IDS_VDF_DXVA_SD                 41106
-
-#define IDS_VDF_INTERLACED_FLAG         41443
-#define IDS_VDF_IF_AUTO                 41444
-#define IDS_VDF_IF_PROGRESSIVE          41445
-#define IDS_VDF_IF_TOP_FIELD_FIRST      41446
-#define IDS_VDF_IF_BOTTOM_FIELD_FIRST   41447
+#define IDS_FILTER_SETTINGS_CAPTION     7000
+#define IDS_VDF_FFSETTINGS              7400
+#define IDS_VDF_AUTO                    7401
+#define IDS_VDF_THREADNUMBER            7402
+#define IDS_VDF_SKIPDEBLOCK             7403
+#define IDS_VDF_DBLK_NONE               7404
+#define IDS_VDF_DBLK_DEFAULT            7405
+#define IDS_VDF_DBLK_NONREF             7406
+#define IDS_VDF_DBLK_BIDIR              7407
+#define IDS_VDF_DBLK_NONKFRM            7408
+#define IDS_VDF_DBLK_ALL                7409
+#define IDS_VDF_AR_MODE                 7410
+#define IDS_VDF_INTERLACED_FLAG         7411
+#define IDS_VDF_IF_PROGRESSIVE          7412
+#define IDS_VDF_IF_TOP_FIELD_FIRST      7413
+#define IDS_VDF_IF_BOTTOM_FIELD_FIRST   7414
+#define IDS_VDF_DXVA_SETTING            7415
+#define IDS_VDF_DXVACOMPATIBILITY       7416
+#define IDS_VDF_DXVA_FULLCHECK          7417
+#define IDS_VDF_DXVA_SKIP_LEVELCHECK    7418
+#define IDS_VDF_DXVA_SKIP_REFCHECK      7419
+#define IDS_VDF_DXVA_SKIP_ALLCHECK      7420
+#define IDS_VDF_DXVA_SD                 7421
+#define IDS_VDF_VIDEOCARD               7422
+#define IDS_VDF_DXVA_MODE               7423
 
 // Next default values for new objects
 // 

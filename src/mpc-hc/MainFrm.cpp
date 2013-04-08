@@ -643,6 +643,8 @@ CMainFrame::CMainFrame()
     , m_bWasSnapped(false)
     , m_nSeekDirection(SEEK_DIRECTION_NONE)
     , m_bIsBDPlay(false)
+    , m_bLockedZoomVideoWindow(false)
+    , m_nLockedZoomVideoWindow(0)
     , m_LastOpenBDPath(_T(""))
 {
     m_Lcd.SetVolumeRange(0, 100);
@@ -7003,14 +7005,16 @@ void CMainFrame::OnPlayPlay()
             if (AfxGetAppSettings().iDefaultCaptureDevice == 1) {
                 CComQIPtr<IBDATuner> pTun = pGB;
                 if (pTun) {
-                    if (SUCCEEDED(pTun->SetChannel(AfxGetAppSettings().nDVBLastChannel))) {
-                        ShowCurrentChannelInfo();
-                    }
+                    SetChannel(AfxGetAppSettings().nDVBLastChannel);
                 }
+            } else {
+                SetTimersPlay();
             }
         }
 
-        SetTimersPlay();
+        if (GetPlaybackMode() != PM_CAPTURE) {
+            SetTimersPlay();
+        }
         if (m_fFrameSteppingActive) { // FIXME
             m_fFrameSteppingActive = false;
             pBA->put_Volume(m_VolumeBeforeFrameStepping);
@@ -8313,15 +8317,13 @@ void CMainFrame::OnNavigateSkip(UINT nID)
                 nCurrentChannel = s.nDVBLastChannel;
 
                 if (nID == ID_NAVIGATE_SKIPBACK) {
-                    if (SUCCEEDED(pTun->SetChannel(nCurrentChannel - 1))) {
-                        ShowCurrentChannelInfo();
+                    if (SUCCEEDED(SetChannel(nCurrentChannel - 1))) {
                         if (m_wndNavigationBar.IsVisible()) {
                             m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
                         }
                     }
                 } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-                    if (SUCCEEDED(pTun->SetChannel(nCurrentChannel + 1))) {
-                        ShowCurrentChannelInfo();
+                    if (SUCCEEDED(SetChannel(nCurrentChannel + 1))) {
                         if (m_wndNavigationBar.IsVisible()) {
                             m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
                         }
@@ -8583,8 +8585,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             CComQIPtr<IBDATuner>    pTun = pGB;
             if (pTun) {
                 if (s.nDVBLastChannel != nID) {
-                    if (SUCCEEDED(pTun->SetChannel(nID))) {
-                        ShowCurrentChannelInfo();
+                    if (SUCCEEDED(SetChannel(nID))) {
                         if (m_wndNavigationBar.IsVisible()) {
                             m_wndNavigationBar.m_navdlg.UpdatePos(nID);
                         }
@@ -9818,17 +9819,21 @@ void CMainFrame::HideVideoWindow(bool fHide)
     CRect vr = CRect(0, 0, 0, 0);
     if (m_pCAP) {
         if (fHide) {
-            m_pCAP->SetPosition(wr, vr);    // hide
+            m_pCAP->SetPosition(vr, vr);    // hide
         } else {
             m_pCAP->SetPosition(wr, wr);    // show
         }
     }
-
+    m_bLockedZoomVideoWindow = fHide;
 }
 
 void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 {
-    if (m_iMediaLoadState != MLS_LOADED) {
+    if ((m_iMediaLoadState != MLS_LOADED) ||
+            (m_nLockedZoomVideoWindow > 0) || (m_bLockedZoomVideoWindow)) {
+        if (m_nLockedZoomVideoWindow > 0) {
+            m_nLockedZoomVideoWindow--;
+        }
         return;
     }
 
@@ -12177,6 +12182,7 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
             LONG lOffsets[3] = {0, pTSD->Offset, -pTSD->Offset};
             bool bSucceeded;
             m_bStopTunerScan = false;
+            pTun->Scan(0, 0);  // Clear maps
 
             for (ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency <= pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth) {
                 bSucceeded = false;
@@ -14586,17 +14592,30 @@ void CMainFrame::StopTunerScan()
     m_bStopTunerScan = true;
 }
 
-void CMainFrame::SetChannel(bool bNewList /*= true*/)
+HRESULT CMainFrame::SetChannel(int nChannel)
 {
     CAppSettings& s = AfxGetAppSettings();
+    HRESULT hr = S_OK;
     CComQIPtr<IBDATuner> pTun = pGB;
 
     if (pTun) {
-        if ((!bNewList && SUCCEEDED(pTun->SetChannel(s.nDVBLastChannel)))
-                || (bNewList && SUCCEEDED(pTun->SetChannel(0)))) {
+        // Skip n intermediate ZoomVideoWindow() calls while the new size is stabilized:
+        switch (s.iDSVideoRendererType) {
+            case VIDRNDT_DS_MADVR:
+                m_nLockedZoomVideoWindow = 3;
+                break;
+            case VIDRNDT_DS_EVR_CUSTOM:
+                m_nLockedZoomVideoWindow = 0;
+                break;
+            default:
+                m_nLockedZoomVideoWindow = 0;
+        }
+        if (SUCCEEDED(hr = pTun->SetChannel(nChannel))) {
             ShowCurrentChannelInfo();
         }
+        ZoomVideoWindow();
     }
+    return hr;
 }
 
 void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfoBar /*= false*/)

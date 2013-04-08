@@ -432,7 +432,7 @@ public:
     void CloseMedia();
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
     void StopTunerScan();
-    void SetChannel(bool bNewList = true);
+    HRESULT SetChannel(int nChannel);
 
     void AddCurDevToPlaylist();
 
@@ -898,6 +898,8 @@ public:
     bool        m_bToggleShaderScreenSpace;
     bool        m_bInOptions;
     bool        m_bStopTunerScan;
+    bool        m_bLockedZoomVideoWindow;
+    int         m_nLockedZoomVideoWindow;
 
     void        SetLoadState(MPC_LOADSTATE iState);
     void        SetPlayState(MPC_PLAYSTATE iState);

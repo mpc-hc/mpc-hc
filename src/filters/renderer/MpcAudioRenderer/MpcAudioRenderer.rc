@@ -87,6 +87,7 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_FILTER_SETTINGS_CAPTION     "Settings"
     IDS_ARS_WASAPI_MODE "Use WASAPI (restart playback)"
     IDS_ARS_MUTE_FAST_FORWARD "Mute on fast forward"
     IDS_ARS_SOUND_DEVICE "Sound Device:"

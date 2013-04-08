@@ -2569,7 +2569,7 @@ BEGIN
     IDS_VDF_DXVA_SKIP_ALLCHECK "Skip all checks"
     IDS_FAVORITES_QUICKADDFAVORITE "Quick add favorite"
     IDS_VDF_DXVA_SD         "Disable DXVA for SD (H.264)"
-    IDS_MPEG2DECSETTINGSWND_3 "Read AR from stream"
+    IDS_MPEG2_READ_AR       "Read AR from stream"
 END
 
 STRINGTABLE
@@ -2591,8 +2591,7 @@ BEGIN
     IDS_MPEG2_CONTRAST      "Contrast"
     IDS_MPEG2_HUE           "Hue"
     IDS_MPEG2_SATURATION    "Saturation"
-    IDS_MPEG2DECSETTINGSWND_8
-                            "can degrade performance. ""Auto"" deinterlacer will switch to ""Blend"" when necessary."
+    IDS_MPEG2_NOTE2         "can degrade performance. ""Auto"" deinterlacer will switch to ""Blend"" when necessary."
     IDS_ADD_TO_PLAYLIST     "Add to MPC-HC Playlist"
     IDS_OPEN_WITH_MPC       "Play with MPC-HC"
     IDS_CANNOT_CHANGE_FORMAT
@@ -2764,15 +2763,13 @@ BEGIN
     IDS_MPADEC_MONO         "Mono"
     IDS_MPADEC_STEREO       "Stereo"
     IDS_MPADEC_SPDIF        "Pass-through (S/PDIF, HDMI)"
-    IDS_MPEG2DECSETTINGSWND_0
-                            "Enable planar YUV media types (VY12, I420, IYUY)"
-    IDS_MPEG2DECSETTINGSWND_1 "Set interlaced flag in output media type"
-    IDS_MPEG2DECSETTINGSWND_2 "Always display forced subtitles"
+    IDS_MPEG2_ENABLE_PLANAR "Enable planar YUV media types (VY12, I420, IYUY)"
+    IDS_MPEG2_INTERLACE_FLAG "Set interlaced flag in output media type"
+    IDS_MPEG2_FORCED_SUBS   "Always display forced subtitles"
     IDS_MPEG2_DEINTERLACING "Deinterlacing"
     IDS_MPEG2_BRIGHTNESS    "Brightness"
     IDS_MPEG2_RESET         "Reset"
-    IDS_MPEG2DECSETTINGSWND_7
-                            "Note: Using a non-planar output format, bob deinterlacer, or adjusting color properies "
+    IDS_MPEG2_NOTE1         "Note: Using a non-planar output format, bob deinterlacer, or adjusting color properies "
 END
 
 STRINGTABLE
@@ -2785,13 +2782,12 @@ BEGIN
     IDS_VDF_DBLK_BIDIR      "Bidirectional"
     IDS_VDF_DBLK_NONKFRM    "Non keyframes"
     IDS_VDF_DBLK_ALL        "All frames"
-    IDS_VDF_IDCT_AUTO       "Auto"
+    IDS_VDF_AUTO            "Auto"
 END
 
 STRINGTABLE
 BEGIN
     IDS_VDF_INTERLACED_FLAG         "Force the interlaced flag"
-    IDS_VDF_IF_AUTO                 "Auto"
     IDS_VDF_IF_PROGRESSIVE          "Progressive"
     IDS_VDF_IF_TOP_FIELD_FIRST      "Top field first"
     IDS_VDF_IF_BOTTOM_FIELD_FIRST   "Bottom field first"
@@ -2968,19 +2964,23 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_DVB_CHANNEL_NUMBER      "N"
-    IDS_DVB_CHANNEL_NAME        "Name"
-    IDS_DVB_CHANNEL_FREQUENCY   "Frequency"
-    IDS_DVB_CHANNEL_ENCRYPTION  "Encrypted"
-    IDS_DVB_CHANNEL_ENCRYPTED   "Yes"
+    IDS_DVB_CHANNEL_NUMBER        "N"
+    IDS_DVB_CHANNEL_NAME          "Name"
+    IDS_DVB_CHANNEL_FREQUENCY     "Frequency"
+    IDS_DVB_CHANNEL_ENCRYPTION    "Encrypted"
+    IDS_DVB_CHANNEL_ENCRYPTED     "Yes"
     IDS_DVB_CHANNEL_NOT_ENCRYPTED "No"
-    IDS_DVB_CHANNEL_START_SCAN  "Start"
-    IDS_DVB_CHANNEL_STOP_SCAN   "Stop"
-    IDS_DVB_TVNAV_SEERADIO      "Radio stations"
-    IDS_DVB_TVNAV_SEETV         "TV stations"
-    IDS_ARS_WASAPI_MODE         "Use WASAPI (restart playback)"
-    IDS_ARS_MUTE_FAST_FORWARD   "Mute on fast forward"
-    IDS_ARS_SOUND_DEVICE        "Sound Device:"
+    IDS_DVB_CHANNEL_FORMAT        "Format"
+    IDS_DVB_CHANNEL_FPS           "FPS"
+    IDS_DVB_CHANNEL_RESOLUTION    "Resolution"
+    IDS_DVB_CHANNEL_ASPECT_RATIO  "Aspect Ratio"
+    IDS_DVB_CHANNEL_START_SCAN    "Start"
+    IDS_DVB_CHANNEL_STOP_SCAN     "Stop"
+    IDS_DVB_TVNAV_SEERADIO        "Radio stations"
+    IDS_DVB_TVNAV_SEETV           "TV stations"
+    IDS_ARS_WASAPI_MODE           "Use WASAPI (restart playback)"
+    IDS_ARS_MUTE_FAST_FORWARD     "Mute on fast forward"
+    IDS_ARS_SOUND_DEVICE          "Sound Device:"
 END
 
 STRINGTABLE
@@ -3256,6 +3256,7 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_FILTER_SETTINGS_CAPTION         "Settings"
     IDS_AVISPLITTER_NON_INTERLEAVED     "Non interleaved files support"
 END
 

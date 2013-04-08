@@ -22,6 +22,7 @@
 
 #include "../../InternalPropertyPage.h"
 #include "IAviSplitterFilter.h"
+#include "resource.h"
 #include <afxcmn.h>
 
 class __declspec(uuid("A008C72A-0D51-461D-9043-C823B3A7D4CC"))
@@ -45,8 +46,8 @@ public:
     void OnDeactivate();
     bool OnApply();
 
-    static LPCTSTR GetWindowTitle() { return _T("Settings"); }
-    static CSize GetWindowSize() { return CSize(280, 60); }
+    static LPCTSTR GetWindowTitle() { return MAKEINTRESOURCE(IDS_FILTER_SETTINGS_CAPTION); }
+    static CSize GetWindowSize() { return CSize(280, 33); }
 
     DECLARE_MESSAGE_MAP()
 };

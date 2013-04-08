@@ -74,7 +74,11 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 #elif defined(_MSC_VER)
 #if (_MSC_VER == 1700) // 2012
-#if (_MSC_FULL_VER < 170050727)
+#if (_MSC_FULL_VER == 170060315)
+    m_MPCCompiler = _T("MSVC 2012 Update 2");
+#elif (_MSC_FULL_VER == 170051106)
+    m_MPCCompiler = _T("MSVC 2012 Update 1");
+#elif (_MSC_FULL_VER < 170050727)
     m_MPCCompiler = _T("MSVC 2012 Beta/RC/PR");
 #else
     m_MPCCompiler = _T("MSVC 2012");
