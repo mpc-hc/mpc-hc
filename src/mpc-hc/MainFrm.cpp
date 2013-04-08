@@ -92,6 +92,12 @@
 #include "MPCPngImage.h"
 #include "DSMPropertyBag.h"
 
+template<typename T>
+bool NEARLY_EQ(T a, T b, T tol)
+{
+    return (abs(a - b) < tol);
+}
+
 #define DEFCLIENTW 292
 #define DEFCLIENTH 200
 
@@ -7495,17 +7501,15 @@ void CMainFrame::OnPlayGoto()
         return;
     }
 
-    REFTIME atpf = 0;
-    if (FAILED(pBV->get_AvgTimePerFrame(&atpf)) || atpf < 0) {
-        atpf = 0;
-
+    REFTIME atpf = 0.0;
+    if (FAILED(pBV->get_AvgTimePerFrame(&atpf)) || atpf <= 0.0) {
         BeginEnumFilters(pGB, pEF, pBF) {
-            if (atpf > 0) {
+            if (atpf > 0.0) {
                 break;
             }
 
             BeginEnumPins(pBF, pEP, pPin) {
-                if (atpf > 0) {
+                if (atpf > 0.0) {
                     break;
                 }
 
@@ -7521,6 +7525,26 @@ void CMainFrame::OnPlayGoto()
             EndEnumPins;
         }
         EndEnumFilters;
+    }
+
+    // Double-check that the detection is correct for DVDs
+    DVD_VideoAttributes VATR;
+    if (pDVDI && SUCCEEDED(pDVDI->GetCurrentVideoAttributes(&VATR))) {
+        double ratio;
+        if (VATR.ulFrameRate == 50) {
+            ratio = 25.0 * atpf;
+            // Accept 25 or 50 fps
+            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)) {
+                atpf = 1.0 / 25.0;
+            }
+        } else {
+            ratio = 29.97 * atpf;
+            // Accept 29,97, 59.94, 23.976 or 47.952 fps
+            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)
+                    && !NEARLY_EQ(ratio, 1.25, 1e-2)  && !NEARLY_EQ(ratio, 2.5, 1e-2)) {
+                atpf = 1.0 / 29.97;
+            }
+        }
     }
 
     REFERENCE_TIME start, dur = -1;
