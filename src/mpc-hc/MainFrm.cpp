@@ -6520,7 +6520,7 @@ void CMainFrame::OnUpdateViewCapture(CCmdUI* pCmdUI)
 void CMainFrame::OnViewShaderEditor()
 {
     ShowControlBar(&m_wndShaderEditorBar, !m_wndShaderEditorBar.IsWindowVisible(), TRUE);
-    AfxGetAppSettings().fShaderEditorWasOpened = true;
+    AfxGetAppSettings().fShadersNeedSave = true;
 }
 
 void CMainFrame::OnUpdateViewShaderEditor(CCmdUI* pCmdUI)
@@ -7006,7 +7006,7 @@ void CMainFrame::OnPlayPlay()
                 CComQIPtr<IBDATuner> pTun = pGB;
                 if (pTun) {
                     SetChannel(AfxGetAppSettings().nDVBLastChannel);
-                }
+                    }
             } else {
                 SetTimersPlay();
             }
@@ -13544,7 +13544,7 @@ void CMainFrame::SetAlwaysOnTop(int iOnTop)
             // We only want to disable "On Top" once so that
             // we don't interfere with other window manager
             if (s.iOnTop) {
-                pInsertAfter = &wndNoTopMost;
+            pInsertAfter = &wndNoTopMost;
             }
         } else if (iOnTop == 1) {
             pInsertAfter = &wndTopMost;
@@ -13555,7 +13555,7 @@ void CMainFrame::SetAlwaysOnTop(int iOnTop)
         }
 
         if (pInsertAfter) {
-            SetWindowPos(pInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        SetWindowPos(pInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
     }
 

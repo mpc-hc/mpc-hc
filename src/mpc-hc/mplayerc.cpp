@@ -389,6 +389,9 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 {
     bool success;
 
+    CString oldpath;
+    AfxGetMyApp()->GetAppSavePath(oldpath);
+
     // Load favorites so that they can be correctly saved to the new location
     CAtlList<CString> filesFav, DVDsFav, devicesFav;
     m_s.GetFav(FAV_FILE, filesFav);
@@ -412,8 +415,21 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     // Save external filters to the new location
     m_s.SaveExternalFilters();
 
+    if (success && oldpath.GetLength() > 0) {
+        DeleteFile(oldpath + _T("\\default.mpcpl"));
+
+        WIN32_FIND_DATA wfd;
+        HANDLE hFile = FindFirstFile(oldpath + _T("\\Shaders\\*.psh"), &wfd);
+        if (hFile != INVALID_HANDLE_VALUE) {
+            do {
+                DeleteFile(oldpath + _T("\\Shaders\\") + wfd.cFileName);
+            } while (FindNextFile(hFile, &wfd));
+            FindClose(hFile);
+        }
+        ::RemoveDirectory(oldpath + _T("\\Shaders"));
+    }
     // Ensure the shaders are properly saved
-    m_s.fShaderEditorWasOpened = true;
+    m_s.fShadersNeedSave = true;
 
     // Write settings immediately
     m_s.SaveSettings();
