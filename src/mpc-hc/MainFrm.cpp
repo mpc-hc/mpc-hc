@@ -9344,85 +9344,76 @@ CSize CMainFrame::GetVideoSize(CRect& cropping) const
     bool fKeepAspectRatio = AfxGetAppSettings().fKeepAspectRatio;
     bool fCompMonDeskARDiff = AfxGetAppSettings().fCompMonDeskARDiff;
 
-    CSize ret(0, 0);
-    if (m_iMediaLoadState != MLS_LOADED || m_fAudioOnly) {
-        return ret;
-    }
+    // Physical size of the encoded frame
+    CSize physicalSize(0, 0);
+    // Aspect ratio of the frame as specified in the video
+    CSize videoAR;
+    // Resulting size when the physicalSize is stretched to the videoAR (also the basis for cropping)
+    CSize videoSize;
+    // Aspect ratio at which the video should be actually displayed (can be overridden by user)
+    CSize displayAR;
+    // Final size at which video is displayed, accounting for displayAR and desktop ar compensation
+    CSize displaySize;
 
-    CSize wh(0, 0), arxy(0, 0);
+    cropping.top = 0;
+    cropping.bottom = 0;
+    cropping.left = 0;
+    cropping.right = 0;
 
-    if (m_pCAP) {
-        wh = m_pCAP->GetVideoSize(false);
-        arxy = m_pCAP->GetVideoSize(fKeepAspectRatio);
-    } else if (m_pMFVDC) {
-        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);   // TODO : check AR !!
-    } else {
-        pBV->GetVideoSize(&wh.cx, &wh.cy);
+    if (m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly) {
 
-        long arx = 0, ary = 0;
-        CComQIPtr<IBasicVideo2> pBV2 = pBV;
-        // FIXME: It can hang here, for few seconds (CPU goes to 100%), after the window have been moving over to another screen,
-        // due to GetPreferredAspectRatio, if it happens before CAudioSwitcherFilter::DeliverEndFlush, it seems.
-        if (pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0) {
-            arxy.SetSize(arx, ary);
-        }
-    }
+        if (m_pCAP) {
+            physicalSize = m_pCAP->GetVideoSize(false);
+            videoAR = m_pCAP->GetVideoSize(true);
+        } else if (m_pMFVDC) {
+            m_pMFVDC->GetNativeVideoSize(&physicalSize, &videoAR);   // TODO : check AR !!
+        } else {
+            pBV->GetVideoSize(&physicalSize.cx, &physicalSize.cy); 
 
-    if (wh.cx <= 0 || wh.cy <= 0) {
-        return ret;
-    }
-
-    // with the overlay mixer IBasicVideo2 won't tell the new AR when changed dynamically
-    DVD_VideoAttributes VATR;
-    if (GetPlaybackMode() == PM_DVD && SUCCEEDED(pDVDI->GetCurrentVideoAttributes(&VATR))) {
-        arxy.SetSize(VATR.ulAspectX, VATR.ulAspectY);
-    }
-
-    CSize& ar = AfxGetAppSettings().sizeAspectRatio;
-    if (ar.cx && ar.cy) {
-        arxy = ar;
-    }
-
-    if (!fKeepAspectRatio || arxy.cx <= 0 || arxy.cy <= 0) {
-        ret.cx = wh.cx - m_VideoCropping.left - m_VideoCropping.right;
-        ret.cy = wh.cy - m_VideoCropping.top - m_VideoCropping.bottom;
-    } else {
-        ret.cx = MulDiv(wh.cy, arxy.cx, arxy.cy);
-        ret.cy = wh.cy;
-    }
-
-    cropping.top = MulDiv(m_VideoCropping.top, ret.cy, wh.cy);
-    cropping.bottom = MulDiv(m_VideoCropping.bottom, ret.cy, wh.cy);
-    cropping.left = MulDiv(m_VideoCropping.left, ret.cx, wh.cx);
-    cropping.right = MulDiv(m_VideoCropping.right, ret.cx, wh.cx);
-
-    if (fCompMonDeskARDiff) {
-        if (HDC hDC = ::GetDC(0)) {
-            int _HORZSIZE = GetDeviceCaps(hDC, HORZSIZE);
-            int _VERTSIZE = GetDeviceCaps(hDC, VERTSIZE);
-            int _HORZRES = GetDeviceCaps(hDC, HORZRES);
-            int _VERTRES = GetDeviceCaps(hDC, VERTRES);
-
-            if (_HORZSIZE > 0 && _VERTSIZE > 0 && _HORZRES > 0 && _VERTRES > 0) {
-                double a = 1.0 * _HORZSIZE / _VERTSIZE;
-                double b = 1.0 * _HORZRES / _VERTRES;
-
-                if (b < a) {
-                    ret.cy = (DWORD)(1.0 * ret.cy * a / b);
-                    cropping.top = (LONG)(1.0 * cropping.top * a / b);
-                    cropping.bottom = (LONG)(1.0 * cropping.bottom * b / a);
-                } else if (a < b) {
-                    ret.cx = (DWORD)(1.0 * ret.cx * b / a);
-                    cropping.left = (LONG)(1.0 * cropping.left * b / a);
-                    cropping.right = (LONG)(1.0 * cropping.right * b / a);
-                }
+            long arx = 0, ary = 0;
+            CComQIPtr<IBasicVideo2> pBV2 = pBV;
+            // FIXME: It can hang here, for few seconds (CPU goes to 100%), after the window have been moving over to another screen,
+            // due to GetPreferredAspectRatio, if it happens before CAudioSwitcherFilter::DeliverEndFlush, it seems.
+            if (pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0) {
+                videoAR.SetSize(arx, ary);
             }
-
-            ::ReleaseDC(0, hDC);
         }
+
+        // with the overlay mixer IBasicVideo2 won't tell the new AR when changed dynamically
+        DVD_VideoAttributes VATR;
+        if (GetPlaybackMode() == PM_DVD && SUCCEEDED(pDVDI->GetCurrentVideoAttributes(&VATR))) {
+            videoAR.SetSize(VATR.ulAspectX, VATR.ulAspectY);
+        }
+
+        if (videoAR.cx && videoAR.cy) {
+            videoSize.cy = physicalSize.cy;
+            videoSize.cx = MulDiv(physicalSize.cy, videoAR.cx, videoAR.cy);
+        } else {
+            videoSize = physicalSize;
+        }
+
+        displayAR = AfxGetAppSettings().sizeAspectRatio;
+        if (!displayAR.cx || !displayAR.cy) {
+            displayAR = videoSize;
+        }
+
+        if (fKeepAspectRatio) {
+            displaySize.cy = physicalSize.cy;
+            displaySize.cx = MulDiv(physicalSize.cy, displayAR.cx, displayAR.cy);
+        } else {
+			displaySize = physicalSize;
+		}
+
+        cropping.top = MulDiv(m_VideoCropping.top, displaySize.cy, videoSize.cy);
+        cropping.bottom = MulDiv(m_VideoCropping.bottom, displaySize.cy, videoSize.cy);
+        cropping.left = MulDiv(m_VideoCropping.left, displaySize.cx, videoSize.cx);
+        cropping.right = MulDiv(m_VideoCropping.right, displaySize.cx, videoSize.cx);
+
+        displaySize.cy = displaySize.cy - cropping.top - cropping.bottom;
+        displaySize.cx = displaySize.cx - cropping.left - cropping.right;
     }
 
-    return ret;
+    return displaySize;
 }
 
 CSize CMainFrame::GetVideoSize() const
@@ -9711,13 +9702,13 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
             GetWindowRect(&wr);
             RECT r;
             m_wndView.GetWindowRect(&r);
-            wr.left   -= r.left;
-            wr.right  -= r.left;
-            wr.top    -= r.top;
+            wr.left -= r.left;
+            wr.right -= r.left;
+            wr.top -= r.top;
             wr.bottom -= r.top;
         }
 
-        double dWRWidth  = (double)(wr.right - wr.left);
+        double dWRWidth = (double)(wr.right - wr.left);
         double dWRHeight = (double)(wr.bottom - wr.top);
 
         RECT vr = {0, 0, 0, 0};
@@ -9734,17 +9725,17 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
             double dVRWidth, dVRHeight;
 
             if (iDefaultVideoSize == DVS_HALF) {
-                dVRWidth  = dARx * 0.5;
+                dVRWidth = dARx * 0.5;
                 dVRHeight = dARy * 0.5;
             } else if (iDefaultVideoSize == DVS_NORMAL) {
-                dVRWidth  = dARx;
+                dVRWidth = dARx;
                 dVRHeight = dARy;
             } else if (iDefaultVideoSize == DVS_DOUBLE) {
-                dVRWidth  = dARx * 2.0;
+                dVRWidth = dARx * 2.0;
                 dVRHeight = dARy * 2.0;
 
             } else {
-                dVRWidth  = dWRWidth;
+                dVRWidth = dWRWidth;
                 dVRHeight = dWRHeight;
             }
 
@@ -9776,7 +9767,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
                     double scale = (iDefaultVideoSize == DVS_ZOOM1) ?
                                    1.0 / 3.0 :
                                    2.0 / 3.0;
-                    dVRWidth  = minw + (maxw - minw) * scale;
+                    dVRWidth = minw + (maxw - minw) * scale;
                     dVRHeight = dVRWidth * dARy / dARx;
                 }
             }
@@ -9792,12 +9783,12 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
             // Rounding is required here, else the left-to-right and top-to-bottom sizes will get distorted through rounding twice each
             // Todo: clean this up using decent intrinsic rounding instead of floor(x+.5) and truncation cast to LONG on (y+.5)
             double dPPLeft = floor(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth + 0.5);
-            double dPPTop  = floor(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + 0.5);
+            double dPPTop = floor(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + 0.5);
             // left and top parts are allowed to be negative
-            vr.left   = (LONG)(dPPLeft - dVRCropLeft);
-            vr.top    = (LONG)(dPPTop - dVRCropTop);
+            vr.left = (LONG)(dPPLeft - dVRCropLeft);
+            vr.top = (LONG)(dPPTop - dVRCropTop);
             // right and bottom parts are always at picture center or beyond, so never negative
-            vr.right  = (LONG)(dScaledVRWidth + dPPLeft + dVRCropRight + 0.5);
+            vr.right = (LONG)(dScaledVRWidth + dPPLeft + dVRCropRight + 0.5);
             vr.bottom = (LONG)(dScaledVRHeight + dPPTop + dVRCropBottom + 0.5);
 
             if (fShowStats) {
