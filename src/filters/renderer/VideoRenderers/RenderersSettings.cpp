@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "RenderersSettings.h"
 #include "../../../mpc-hc/mplayerc.h"
+#include "../../../DSUtil/SysVersion.h"
 #include "version.h"
 #include <d3dx9.h>
 
@@ -36,7 +37,7 @@ void CRenderersSettings::CAdvRendererSettings::SetDefault()
     iVMR9VSyncOffset                  = 0;
     iVMR9VSyncAccurate                = 0;
     iVMR9FullscreenGUISupport         = 0;
-    iVMR9VSync                        = 0;
+    iVMR9VSync                        = !SysVersion::IsVistaOrLater();
     iVMR9FullFloatingPointProcessing  = 0;
     iVMR9HalfFloatingPointProcessing  = 0;
     iVMR9ColorManagementEnable        = 0;

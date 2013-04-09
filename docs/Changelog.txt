@@ -27,6 +27,7 @@ Legend:
 * Ticket #2689,  Replace "On top > Never" by "On top > Default". In most of the
   cases "On top > Default" will have the exact same behavior than "On top > Never"
   but it won't try to override the "On top" flag if an external tool sets it
+* Ticket #3049, Re-enable VSync by default for Windows XP users
 ! Fix a crash when VMR-7 (renderless) renderer failed to load
 ! SSA subtitles rendering: Improve error checking to avoid possible crashes when the SSA script
   was using obviously wrong values
