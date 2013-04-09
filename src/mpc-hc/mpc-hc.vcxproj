@@ -346,6 +346,7 @@
     <ClCompile Include="FavoriteAddDlg.cpp" />
     <ClCompile Include="FavoriteOrganizeDlg.cpp" />
     <ClCompile Include="FGFilter.cpp" />
+    <ClCompile Include="FGFilterLAV.cpp" />
     <ClCompile Include="FGManager.cpp" />
     <ClCompile Include="FGManagerBDA.cpp" />
     <ClCompile Include="FileAssoc.cpp" />
@@ -468,6 +469,7 @@
     <ClInclude Include="FavoriteAddDlg.h" />
     <ClInclude Include="FavoriteOrganizeDlg.h" />
     <ClInclude Include="FGFilter.h" />
+    <ClInclude Include="FGFilterLAV.h" />
     <ClInclude Include="FGManager.h" />
     <ClInclude Include="FGManagerBDA.h" />
     <ClInclude Include="FileAssoc.h" />

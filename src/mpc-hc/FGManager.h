@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,9 +23,6 @@
 
 #include "FGFilter.h"
 #include "IGraphBuilder2.h"
-
-#define LowMeritSuffix L" (low merit)"
-#define LowMerit(x)    (CStringW(x) + LowMeritSuffix)
 
 class CFGManager
     : public CUnknown

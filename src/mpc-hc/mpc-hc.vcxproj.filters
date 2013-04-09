@@ -375,6 +375,9 @@
     <ClCompile Include="FreeviewEPGDecode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FGFilterLAV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -741,6 +744,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FreeviewEPGDecode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FGFilterLAV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

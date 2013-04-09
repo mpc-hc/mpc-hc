@@ -29,6 +29,9 @@
 #define MERIT64_PREFERRED   (MERIT64(MERIT_PREFERRED))
 #define MERIT64_ABOVE_DSHOW (MERIT64(1) << 32)
 
+#define LowMeritSuffix L" (low merit)"
+#define LowMerit(x)    (CStringW(x) + LowMeritSuffix)
+
 
 class CFGFilter
 {
