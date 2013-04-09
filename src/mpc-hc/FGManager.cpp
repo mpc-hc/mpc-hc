@@ -937,7 +937,7 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
         CComPtr<IBaseFilter> pBF;
         CFGFilter* pFG = fl.GetNext(pos);
 
-        if (SUCCEEDED(hr = AddSourceFilter(pFG, lpcwstrFileName, lpcwstrFileName, &pBF))) {
+        if (SUCCEEDED(hr = AddSourceFilter(pFG, lpcwstrFileName, pFG->GetName(), &pBF))) {
             m_streampath.RemoveAll();
             m_deadends.RemoveAll();
 
