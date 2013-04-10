@@ -1664,6 +1664,7 @@ static struct {
     {"Bokmål, Norwegian; Norwegian Bokmål", "nob", "nb"},
     {"Bosnian", "bos", "bs"},
     {"Braj", "bra", ""},
+    {"Brazilian", "pob", "pb"},                 // unofficial codes for Brazilian Portuguese language
     {"Breton", "bre", "br",                     MAKELCID(MAKELANGID(LANG_BRETON, SUBLANG_DEFAULT), SORT_DEFAULT)},
     {"Buginese", "bug", ""},
     {"Bulgarian", "bul", "bg",                  MAKELCID(MAKELANGID(LANG_BULGARIAN, SUBLANG_DEFAULT), SORT_DEFAULT)},
