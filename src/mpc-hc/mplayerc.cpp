@@ -412,9 +412,6 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     // Save external filters to the new location
     m_s.SaveExternalFilters();
 
-    // Ensure the shaders are properly saved
-    m_s.fShaderEditorWasOpened = true;
-
     // Write settings immediately
     m_s.SaveSettings();
 

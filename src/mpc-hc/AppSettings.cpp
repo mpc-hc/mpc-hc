@@ -29,6 +29,7 @@
 #include "WinAPIUtils.h"
 #include "UpdateChecker.h"
 
+#include <share.h>
 
 CAppSettings::CAppSettings()
     : fInitialized(false)
@@ -55,7 +56,6 @@ CAppSettings::CAppSettings()
     , fRemainingTime(FALSE)
     , nUpdaterAutoCheck(-1)
     , nUpdaterDelay(7)
-    , fShaderEditorWasOpened(false)
     , fBDAUseOffset(0)
     , iBDAOffset(166)
     , fBDAIgnoreEncryptedChannels(0)
@@ -98,8 +98,6 @@ CAppSettings::CAppSettings()
     , iThumbRows(4)
     , iThumbCols(4)
     , iThumbWidth(1024)
-    , fToggleShader(0)
-    , fToggleShaderScreenSpace(0)
     , bShufflePlaylistItems(FALSE)
     , bHidePlaylistFullScreen(FALSE)
     , nLastWindowType(SIZE_RESTORED)
@@ -336,7 +334,7 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_VIEW_SUBRESYNC,                  '6', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SUBRESYNC));
     ADDCMD((ID_VIEW_PLAYLIST,                   '7', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_PLAYLIST));
     ADDCMD((ID_VIEW_CAPTURE,                    '8', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CAPTURE));
-    ADDCMD((ID_VIEW_SHADEREDITOR,               '9', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SHADER));
+    //ADDCMD((ID_VIEW_SHADEREDITOR,               '9', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SHADER));
     ADDCMD((ID_VIEW_PRESETS_MINIMAL,            '1', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_MINIMAL));
     ADDCMD((ID_VIEW_PRESETS_COMPACT,            '2', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_COMPACT));
     ADDCMD((ID_VIEW_PRESETS_NORMAL,             '3', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_NORMAL));
@@ -435,8 +433,8 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_DVD_SUB_ONOFF,                     0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_97));
     ADDCMD((ID_VIEW_TEARING_TEST,               'T', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TEARING_TEST));
     ADDCMD((ID_VIEW_REMAINING_TIME,             'I', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_98));
-    ADDCMD((ID_SHADERS_TOGGLE,                  'P', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AT_TOGGLE_SHADER));
-    ADDCMD((ID_SHADERS_TOGGLE_SCREENSPACE,      'P', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AT_TOGGLE_SHADERSCREENSPACE));
+    //ADDCMD((ID_SHADERS_TOGGLE,                  'P', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AT_TOGGLE_SHADER));
+    //ADDCMD((ID_SHADERS_TOGGLE_SCREENSPACE,      'P', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AT_TOGGLE_SHADERSCREENSPACE));
     ADDCMD((ID_D3DFULLSCREEN_TOGGLE,            'F', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_MPLAYERC_99));
     ADDCMD((ID_GOTO_PREV_SUB,                   'Y', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_100,  APPCOMMAND_BROWSER_BACKWARD));
     ADDCMD((ID_GOTO_NEXT_SUB,                   'U', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_101,  APPCOMMAND_BROWSER_FORWARD));
@@ -638,11 +636,6 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, iHue);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, iSaturation);
 
-    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLIST, strShaderList);
-    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLISTSCREENSPACE, strShaderListScreenSpace);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADER, (int)fToggleShader);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADERSSCREENSPACE, (int)fToggleShaderScreenSpace);
-
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, (int)fShowOSD);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, (int)fEnableEDLEditor);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, language);
@@ -783,27 +776,33 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
 
-    if (fShaderEditorWasOpened) { // This is a large data block. Save it only when really necessary.
-        // Erase the currently saved shaders
-        pApp->WriteProfileString(IDS_R_SHADERS, NULL, NULL);
-        pApp->WriteProfileInt(IDS_R_SHADERS, IDS_RS_SHADERS_INITIALIZED, 1);
-
-        pos = m_shaders.GetHeadPosition();
-        for (int i = 0; pos; i++) {
-            const Shader& s = m_shaders.GetNext(pos);
-
-            if (!s.label.IsEmpty()) {
-                CString index;
-                index.Format(_T("%d"), i);
-                CString srcdata = s.srcdata;
-                srcdata.Replace(_T("\r"), _T(""));
-                srcdata.Replace(_T("\n"), _T("\\n"));
-                srcdata.Replace(_T("\t"), _T("\\t"));
-                pApp->WriteProfileString(IDS_R_SHADERS, index, s.label + _T("|") + s.target + _T("|") + srcdata);
-            }
+    {
+        // Save the list of extra shader files
+        CString str;
+        ShaderList::StringFromList(m_ShadersExtra, str);
+        pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_EXTRA, str);
+    }
+    {
+        // Save shader selection
+        CString str;
+        ShaderList::StringFromList(m_ShadersSelected.preResize, str);
+        pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_PRERESIZE, str);
+        ShaderList::StringFromList(m_ShadersSelected.postResize, str);
+        pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_POSTRESIZE, str);
+    }
+    {
+        // Save shader presets
+        int i = 0;
+        CString iStr, str;
+        pApp->WriteProfileString(IDS_R_SHADER_PRESETS, NULL, NULL);
+        for (auto it = m_ShaderPresets.cbegin(); it != m_ShaderPresets.cend(); ++it) {
+            iStr.Format(_T("%d"), i++);
+            pApp->WriteProfileString(IDS_R_SHADER_PRESETS, iStr, it->first);
+            ShaderList::StringFromList(it->second.preResize, str);
+            pApp->WriteProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_PRERESIZE + iStr, str);
+            ShaderList::StringFromList(it->second.postResize, str);
+            pApp->WriteProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_POSTRESIZE + iStr, str);
         }
-
-        fShaderEditorWasOpened = false;
     }
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, fRemainingTime);
@@ -977,6 +976,35 @@ void CAppSettings::SaveExternalFilters(CAutoPtrList<FilterOverride>& filters, LP
     }
 }
 
+void CAppSettings::MigrateDeprecated()
+{
+    CWinApp* pApp = AfxGetApp();
+    ASSERT(pApp);
+
+    {
+        // Deprecated as of XX.XX.2013 (and/or version/revision?), edit when merged
+        CString key, val;
+        int i = 0;
+        do { // Remove shader code from config
+            key.Format(_T("%d"), i++);
+            val = pApp->GetProfileString(IDS_R_SHADERS, key);
+            if (val.IsEmpty()) {
+                break;
+            }
+            pApp->WriteProfileString(IDS_R_SHADERS, key, NULL);
+        } while (true);
+        pApp->WriteProfileString(IDS_R_SHADERS, _T("Initialized"), NULL);
+
+        pApp->WriteProfileString(IDS_R_SETTINGS, _T("ShaderListScreenSpace"), NULL);
+        pApp->WriteProfileString(IDS_R_SETTINGS, _T("Shaders List"), NULL);
+        pApp->WriteProfileString(IDS_R_SETTINGS, _T("ToggleShader"), NULL);
+        pApp->WriteProfileString(IDS_R_SETTINGS, _T("ToggleShaderScreenSpace"), NULL);
+
+        pApp->WriteProfileString(_T("ToolBars\\Shader Editor"), NULL, NULL);
+        pApp->WriteProfileString(_T("ToolBars\\Shader Editor\\State-SCBar-826"), NULL, NULL);
+    }
+}
+
 void CAppSettings::LoadSettings()
 {
     CWinApp* pApp = AfxGetApp();
@@ -1002,6 +1030,9 @@ void CAppSettings::LoadSettings()
     }
 
     CreateCommands();
+
+    // Convert and remove deprecated options
+    MigrateDeprecated();
 
     iCaptionMenuMode = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECAPTIONMENU, MODE_SHOWCAPTIONMENU);
     fHideNavigation = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDENAVIGATION, FALSE);
@@ -1345,87 +1376,39 @@ void CAppSettings::LoadSettings()
     strISDb = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, _T("www.opensubtitles.org/isdb"));
 
     nLastUsedPage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTUSEDPAGE, 0);
-    //
 
-    m_shaders.RemoveAll();
-
-    CAtlStringMap<UINT> shaders;
-
-    shaders[_T("16-235 -> 0-255  [SD][HD]")] = IDF_SHADER_LEVELS;
-    shaders[_T("16-235 -> 0-255  [SD]")]     = IDF_SHADER_LEVELS2;
-    shaders[_T("0-255 -> 16-235")]           = IDF_SHADER_LEVELS3;
-    shaders[_T("BT.601 -> BT.709")]          = IDF_SHADER_BT601_BT709;
-    shaders[_T("YV12 Chroma Upsampling")]    = IDF_SHADER_YV12CHROMAUP;
-    shaders[_T("grayscale")]                 = IDF_SHADER_GRAYSCALE;
-
-    shaders[_T("sharpen")]                   = IDF_SHADER_SHARPEN;
-    shaders[_T("sharpen complex")]           = IDF_SHADER_SHARPEN_COMPLEX;
-    shaders[_T("sharpen complex 2")]         = IDF_SHADER_SHARPEN_COMPLEX2;
-    shaders[_T("edge sharpen")]              = IDF_SHADER_EDGE_SHARPEN;
-    shaders[_T("contour")]                   = IDF_SHADER_CONTOUR;
-
-    shaders[_T("deinterlace (blend)")]       = IDF_SHADER_DEINTERLACE;
-    shaders[_T("denoise")]                   = IDF_SHADER_DENOISE;
-    shaders[_T("procamp")]                   = IDF_SHADER_PROCAMP;
-    shaders[_T("invert")]                    = IDF_SHADER_INVERT;
-    shaders[_T("letterbox")]                 = IDF_SHADER_LETTERBOX;
-    shaders[_T("LCD angle correction")]      = IDF_SHADER_LCD;
-
-    shaders[_T("nightvision")]               = IDF_SHADER_NIGHTVISION;
-    shaders[_T("emboss")]                    = IDF_SHADER_EMBOSS;
-    shaders[_T("sphere")]                    = IDF_SHADER_SPHERE;
-    shaders[_T("spotlight")]                 = IDF_SHADER_SPOTLIGHT;
-    shaders[_T("wave")]                      = IDF_SHADER_WAVE;
-
-    for (int iShader = 0; ; iShader++) {
-        CString str2;
-        str2.Format(_T("%d"), iShader);
-        str2 = pApp->GetProfileString(IDS_R_SHADERS, str2);
-
-        CAtlList<CString> sl;
-        CString label = Explode(str2, sl, '|');
-        if (label.IsEmpty()) {
-            break;
-        }
-        if (sl.GetCount() < 3) {
-            continue;
-        }
-
-        Shader s;
-        s.label = sl.RemoveHead();
-        s.target = sl.RemoveHead();
-        s.srcdata = sl.RemoveHead();
-        s.srcdata.Replace(_T("\\n"), _T("\n"));
-        s.srcdata.Replace(_T("\\t"), _T("\t"));
-        m_shaders.AddTail(s);
-
-        shaders.RemoveKey(s.label);
+    {
+        // load the list of extra shader files
+        CString toParse;
+        toParse = pApp->GetProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_EXTRA);
+        ShaderList::ListFromString(toParse, m_ShadersExtra);
     }
-
-    pos = shaders.GetStartPosition();
-    while (pos) {
-        CAtlStringMap<UINT>::CPair* pPair = shaders.GetNext(pos);
-
-        CStringA srcdata;
-        if (LoadResource(pPair->m_value, srcdata, _T("SHADER"))) {
-            Shader s;
-            s.label = pPair->m_key;
-
-            // Select minimum version for each shader!
-            switch (pPair->m_value) {
-                case IDF_SHADER_DENOISE:
-                    s.target = _T("ps_3_0");
-                    break;
-                case IDF_SHADER_SHARPEN_COMPLEX2:
-                    s.target = _T("ps_2_a");
-                    break;
-                default:
-                    s.target = _T("ps_2_0");
-                    break;
+    {
+        // load shader selection
+        CString toParse;
+        toParse = pApp->GetProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_PRERESIZE);
+        ShaderList::ListFromString(toParse, m_ShadersSelected.preResize);
+        toParse = pApp->GetProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_POSTRESIZE);
+        ShaderList::ListFromString(toParse, m_ShadersSelected.postResize);
+    }
+    {
+        // load shader presets
+        int i = 0;
+        CString iStr, name, toParse;
+        ShaderPreset preset;
+        m_ShaderPresets.clear();
+        do {
+            iStr.Format(_T("%d"), i++);
+            name = pApp->GetProfileString(IDS_R_SHADER_PRESETS, iStr);
+            if (name.IsEmpty()) {
+                break;
             }
-            s.srcdata = CString(srcdata);
-            m_shaders.AddTail(s);
-        }
+            toParse = pApp->GetProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_PRERESIZE + iStr);
+            ShaderList::ListFromString(toParse, preset.preResize);
+            toParse = pApp->GetProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_POSTRESIZE + iStr);
+            ShaderList::ListFromString(toParse, preset.postResize);
+            m_ShaderPresets.insert(std::make_pair(name, preset));
+        } while (true);
     }
 
     // CASIMIR666 : new settings
@@ -1436,11 +1419,6 @@ void CAppSettings::LoadSettings()
     iContrast   = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, 0);
     iHue        = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, 0);
     iSaturation = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, 0);
-
-    strShaderList   = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLIST, _T(""));
-    strShaderListScreenSpace = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLISTSCREENSPACE, _T(""));
-    fToggleShader = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADER, FALSE);
-    fToggleShaderScreenSpace = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADERSSCREENSPACE, FALSE);
 
     fShowOSD              = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, TRUE);
     fEnableEDLEditor      = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
@@ -1490,8 +1468,6 @@ void CAppSettings::LoadSettings()
     dvdPositions.Load();
 
     fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, FALSE);
-
-    // TODO: sort shaders by label
 
     fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, FALSE);
 
@@ -1984,4 +1960,130 @@ bool CAppSettings::IsVSFilterInstalled()
 bool CAppSettings::HasEVR()
 {
     return IsCLSIDRegistered(CLSID_EnhancedVideoRenderer);
+}
+
+bool CAppSettings::Shader::operator==(const Shader& rhs) const
+{
+    return filePath == rhs.filePath;
+}
+
+bool CAppSettings::Shader::IsDefault() const
+{
+    static CString dir, vlDir;
+    if (dir.IsEmpty() || vlDir.IsEmpty()) {
+        dir = ShaderList::GetShadersDir();
+        vlDir = dir;
+        ShaderList::ToVeryLongPath(vlDir);
+    }
+    ASSERT(!dir.IsEmpty() && !vlDir.IsEmpty());
+    return (filePath.Left(dir.GetLength()) == dir) || (filePath.Left(vlDir.GetLength()) == vlDir);
+}
+
+CStringA CAppSettings::Shader::GetCode() const
+{
+    CStringA code;
+    if (FILE* fp = _tfsopen(filePath, _T("rb"), _SH_SECURE)) {
+        fseek(fp, 0, SEEK_END);
+        size_t codeSize = ftell(fp);
+        rewind(fp);
+        // TODO: max file size check
+        if (fread(code.GetBufferSetLength(codeSize), 1, codeSize, fp) == codeSize) {
+            code.ReleaseBuffer(codeSize);
+        } else {
+            code.ReleaseBuffer(0);
+        }
+        VERIFY(fclose(fp) == 0);
+    }
+    return code;
+}
+
+void CAppSettings::ShaderList::ToVeryLongPath(CString& path)
+{
+    const CString normalPrefix = _T(":\\"), uncPrefix = _T("\\\\");
+    const CString vlPrefix = _T("\\\\?\\"), vlUncPrefix = _T("\\\\?\\UNC\\");
+    if (path.Left(vlPrefix.GetLength()) != vlPrefix) {
+        if (path.Left(normalPrefix.GetLength() + 1).Find(normalPrefix) == 1) { // c:\file\path
+            path = vlPrefix + path;
+        } else if (path.Left(uncPrefix.GetLength()) == uncPrefix) { // \\host\file\path
+            path = vlUncPrefix + path.Right(path.GetLength() - uncPrefix.GetLength());
+        } else {
+            // This function is not supposed to be used with relative paths
+            ASSERT(FALSE);
+        }
+    }
+}
+
+CString CAppSettings::ShaderList::GetShadersDir()
+{
+    static CString dir;
+    if (dir.IsEmpty()) {
+        TCHAR* pgmptr;
+        VERIFY(_get_tpgmptr(&pgmptr) == 0);
+        int pos, len = MAX_PATH - 1;
+        CString exe;
+        do {
+            pos = GetFullPathName(pgmptr, len, exe.GetBuffer(len), NULL);
+            if (pos > len) {
+                // buffer was too small, enlarge it and try again
+                len = pos - 1;
+                exe.ReleaseBuffer(0);
+                continue;
+            }
+            exe.ReleaseBuffer(pos);
+        } while (false);
+        pos = exe.ReverseFind(_T('\\'));
+        if (pos > 0) {
+            // TODO: externalize shaders' dir name
+            dir = exe.Left(pos + 1) + _T("shaders\\");
+            if (dir.GetLength() >= MAX_PATH) {
+                ToVeryLongPath(dir);
+            }
+        }
+    }
+    ASSERT(!dir.IsEmpty());
+    return dir;
+}
+
+void CAppSettings::ShaderList::ListFromString(const CString& src, ShaderList& out)
+{
+    CString tok, dir = GetShadersDir();
+    int pos = 0;
+    out.clear();
+    do {
+        tok = src.Tokenize(_T(";"), pos);
+        if (!tok.IsEmpty()) {
+            Shader shader;
+            if (PathIsRelative(tok)) {
+                // path is relative, convert it to absolute
+                shader.filePath = dir + tok;
+                if (shader.filePath.GetLength() >= MAX_PATH) {
+                    ToVeryLongPath(shader.filePath);
+                }
+            } else {
+                shader.filePath = tok;
+            }
+            out.push_back(shader);
+        }
+    } while (pos != -1);
+}
+
+void CAppSettings::ShaderList::StringFromList(const ShaderList& src, CString& out)
+{
+    CString tok, dir = GetShadersDir(), vlDir;
+    vlDir = dir;
+    ToVeryLongPath(vlDir);
+    out.Empty();
+    for (auto it = src.cbegin(); it != src.cend(); ++it) {
+        tok = it->filePath;
+        // convert path to relative when possible
+        if (tok.Left(dir.GetLength()) == dir) {
+            tok = tok.Right(tok.GetLength() - dir.GetLength());
+        } else if (tok.Left(vlDir.GetLength()) == vlDir) {
+            tok = tok.Right(tok.GetLength() - vlDir.GetLength());
+        }
+        if (!out.IsEmpty()) {
+            out.AppendChar(_T(';'));
+        }
+        out.Append(tok);
+    }
 }

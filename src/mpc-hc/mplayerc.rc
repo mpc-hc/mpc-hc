@@ -1030,6 +1030,32 @@ BEGIN
     PUSHBUTTON      "&Ignore this update",IDC_UPDATE_IGNORE_BUTTON,202,40,90,14
 END
 
+IDD_PPAGESHADERS DIALOGEX 0, 0, 296, 241
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Selected pre-resize shaders",IDC_STATIC,6,132,138,84
+    LISTBOX         IDC_LIST1,6,6,174,105,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Add to pre-resize",IDC_BUTTON1,186,6,104,14
+    PUSHBUTTON      "Add to post-resize",IDC_BUTTON2,186,24,104,14
+    GROUPBOX        "Shader presets",IDC_STATIC,186,42,104,86
+    COMBOBOX        IDC_COMBO1,194,54,88,16,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Load",IDC_BUTTON3,194,72,54,14
+    PUSHBUTTON      "Save",IDC_BUTTON4,194,90,54,14
+    PUSHBUTTON      "Delete",IDC_BUTTON5,194,108,54,14
+    LISTBOX         IDC_LIST2,12,144,112,67,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "up",IDC_BUTTON6,127,144,12,12
+    PUSHBUTTON      "dn",IDC_BUTTON7,127,159,12,12
+    PUSHBUTTON      "×",IDC_BUTTON8,127,174,12,12
+    GROUPBOX        "Selected post-resize shaders",IDC_STATIC,150,132,140,84
+    LISTBOX         IDC_LIST3,156,144,114,67,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "up",IDC_BUTTON9,273,144,12,12
+    PUSHBUTTON      "dn",IDC_BUTTON10,273,159,12,12
+    PUSHBUTTON      "×",IDC_BUTTON11,273,174,12,12
+    PUSHBUTTON      "Add shader file",IDC_BUTTON12,6,114,86,14
+    PUSHBUTTON      "Remove",IDC_BUTTON13,96,114,84,14
+    LTEXT           "A warning about what this shader crap is doing and that a normal user shouldn't need it. Don't know how exactly I will phrase it.",IDC_STATIC,8,219,282,21
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1197,6 +1223,15 @@ BEGIN
     IDD_PPAGEFULLSCREEN, DIALOG
     BEGIN
         VERTGUIDE, 10
+    END
+
+    IDD_PPAGESHADERS, DIALOG
+    BEGIN
+        VERTGUIDE, 133
+        VERTGUIDE, 194
+        VERTGUIDE, 279
+        VERTGUIDE, 290
+        HORZGUIDE, 128
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -2180,6 +2215,7 @@ BEGIN
     IDD_PPAGECAPTURE        "Playback::Capture"
     IDD_PPAGESYNC           "Playback::Sync Renderer Settings"
     IDD_PPAGEFULLSCREEN     "Playback::Fullscreen"
+    IDD_PPAGESHADERS        "Playback::Shaders"
 END
 
 STRINGTABLE

@@ -96,9 +96,6 @@
     <ClCompile Include="LcdSupport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LineNumberEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainFrm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -154,9 +151,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayerSeekBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerShaderEditorBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayerStatusBar.cpp">
@@ -276,15 +270,6 @@
     <ClCompile Include="SelectMediaType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderAutoCompleteDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderCombineDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderEditorDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ShockwaveGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -372,6 +357,9 @@
     <ClCompile Include="SkypeMoodMsgHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PPageShaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -455,9 +443,6 @@
     <ClInclude Include="LcdSupport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LineNumberEdit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MainFrm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -516,9 +501,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerSeekBar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerShaderEditorBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerStatusBar.h">
@@ -644,15 +626,6 @@
     <ClInclude Include="SettingsDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderAutoCompleteDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderCombineDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderEditorDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ShockwaveGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -735,6 +708,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SkypeMoodMsgHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPageShaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

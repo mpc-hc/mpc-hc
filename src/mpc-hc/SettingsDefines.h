@@ -36,8 +36,6 @@
 #define IDS_R_COMMANDS                      _T("Commands2")
 #define IDS_R_LOGINS                        _T("Logins")
 #define IDS_R_FAVORITES                     _T("Favorites")
-#define IDS_R_SHADERS                       _T("Shaders")
-
 
 #define IDS_RS_FAV_REMEMBERPOS              _T("RememberPosition")
 #define IDS_RS_FAV_RELATIVEDRIVE            _T("RelativeDrive")
@@ -97,7 +95,6 @@
 #define IDS_RS_AUTOSPEAKERCONF              _T("AutoSpeakerConf")
 #define IDS_RS_CLOSEDCAPTIONS               _T("ClosedCaptions")
 //
-#define IDS_RS_SHADERLIST                   _T("Shaders List")
 #define IDS_RS_TITLEBARTEXTTITLE            _T("TitleBarTextTitle")
 #define IDS_RS_VMR9MIXERYUV                 _T("VMRMixerYUV")
 #define IDS_RS_REWIND                       _T("Rewind")
@@ -210,7 +207,6 @@
 #define IDS_RS_THUMBROWS                    _T("ThumbRows")
 #define IDS_RS_THUMBCOLS                    _T("ThumbCols")
 #define IDS_RS_ENABLEEDLEDITOR              _T("EnableEDLEditor")
-#define IDS_RS_SHADERLISTSCREENSPACE        _T("ShaderListScreenSpace")
 #define IDS_RS_FULLSCREENMONITOR            _T("FullScreenMonitor")
 #define IDS_RS_MPC_PREVENT_MINIMIZE         _T("PreventMinimize")
 #define IDS_RS_MPC_WIN7TASKBAR              _T("UseWin7TaskBar")
@@ -224,9 +220,6 @@
 #define IDS_RS_LAST_OPEN_DIR                _T("LastOpenDir")
 #define IDS_RS_ASSOCIATED_WITH_ICON         _T("AssociatedWithIcon")
 #define IDS_RS_ICON_LIB_VERSION             _T("IconLibVersion")
-
-#define IDS_RS_TOGGLESHADER                 _T("ToggleShader")
-#define IDS_RS_TOGGLESHADERSSCREENSPACE     _T("ToggleShaderScreenSpace")
 
 #define IDS_RS_DEFAULT_CAPTURE              _T("DefaultCapture")
 #define IDS_R_CAPTURE                       _T("Capture")
@@ -266,9 +259,13 @@
 #define IDS_RS_GOTO_LAST_USED               _T("gotoluf")
 #define IDS_RS_GOTO_FPS                     _T("fps")
 
-#define IDS_RS_SHADERS_INITIALIZED          _T("Initialized")
-
 #define IDS_R_DLG_SUBTITLEDL                _T("Dialogs\\SubtitleDl")
 #define IDS_RS_DLG_SUBTITLEDL_COLWIDTH      _T("ColWidth")
 
 #define IDS_R_DLG_ORGANIZE_FAV              _T("Dialogs\\OrganizeFavorites")
+
+#define IDS_R_SHADERS                       _T("Shaders")
+#define IDS_RS_SHADERS_EXTRA                _T("Extra")
+#define IDS_RS_SHADERS_PRERESIZE            _T("PreResize")
+#define IDS_RS_SHADERS_POSTRESIZE           _T("PostResize")
+#define IDS_R_SHADER_PRESETS                _T("Shaders\\Presets")

@@ -32,7 +32,7 @@
 #include "PlayerPlaylistBar.h"
 #include "PlayerCaptureBar.h"
 #include "PlayerNavigationBar.h"
-#include "PlayerShaderEditorBar.h"
+//#include "PlayerShaderEditorBar.h"
 #include "EditListEditor.h"
 #include "PPageSheet.h"
 #include "PPageFileInfoSheet.h"
@@ -518,7 +518,7 @@ protected:  // control bar embedded members
     CPlayerPlaylistBar m_wndPlaylistBar;
     CPlayerCaptureBar m_wndCaptureBar;
     CPlayerNavigationBar m_wndNavigationBar;
-    CPlayerShaderEditorBar m_wndShaderEditorBar;
+    //CPlayerShaderEditorBar m_wndShaderEditorBar;
     CEditListEditor m_wndEditListEditor;
     CList<CSizingControlBar*> m_dockingbars;
 

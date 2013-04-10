@@ -45,7 +45,7 @@
 #include "SaveThumbnailsDialog.h"
 #include "FavoriteAddDlg.h"
 #include "FavoriteOrganizeDlg.h"
-#include "ShaderCombineDlg.h"
+//#include "ShaderCombineDlg.h"
 #include "FullscreenWnd.h"
 #include "TunerScanDlg.h"
 #include "OpenDirHelper.h"
@@ -751,10 +751,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_wndNavigationBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
     m_dockingbars.AddTail(&m_wndNavigationBar);
 
-    m_wndShaderEditorBar.Create(this, AFX_IDW_DOCKBAR_TOP);
-    m_wndShaderEditorBar.SetBarStyle(m_wndShaderEditorBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-    m_wndShaderEditorBar.EnableDocking(CBRS_ALIGN_ANY);
-    m_dockingbars.AddTail(&m_wndShaderEditorBar);
+    //m_wndShaderEditorBar.Create(this, AFX_IDW_DOCKBAR_TOP);
+    //m_wndShaderEditorBar.SetBarStyle(m_wndShaderEditorBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+    //m_wndShaderEditorBar.EnableDocking(CBRS_ALIGN_ANY);
+    //m_dockingbars.AddTail(&m_wndShaderEditorBar);
 
     // Hide all dockable bars by default
     POSITION pos = m_dockingbars.GetHeadPosition();
@@ -789,7 +789,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
             StartWebServer(s.nWebServerPort);
         }
     }
-
+    /*
     // Casimir666 : reload Shaders
     {
         CString strList = s.strShaderList;
@@ -816,7 +816,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_bToggleShader = s.fToggleShader;
     m_bToggleShaderScreenSpace = s.fToggleShaderScreenSpace;
-
+    */
     m_strTitle.LoadString(IDR_MAINFRAME);
 
 #ifdef MPCHC_LITE
@@ -864,6 +864,7 @@ void CMainFrame::OnDestroy()
 void CMainFrame::OnClose()
 {
     CAppSettings& s = AfxGetAppSettings();
+    /*
     // Casimir666 : save shaders list
     {
         POSITION pos;
@@ -890,7 +891,7 @@ void CMainFrame::OnClose()
 
     s.fToggleShader = m_bToggleShader;
     s.fToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
-
+    */
     s.dZoomX = m_ZoomX;
     s.dZoomY = m_ZoomY;
 
@@ -6525,14 +6526,14 @@ void CMainFrame::OnUpdateViewCapture(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewShaderEditor()
 {
-    ShowControlBar(&m_wndShaderEditorBar, !m_wndShaderEditorBar.IsWindowVisible(), TRUE);
-    AfxGetAppSettings().fShaderEditorWasOpened = true;
+    //ShowControlBar(&m_wndShaderEditorBar, !m_wndShaderEditorBar.IsWindowVisible(), TRUE);
+    //AfxGetAppSettings().fShaderEditorWasOpened = true;
 }
 
 void CMainFrame::OnUpdateViewShaderEditor(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(m_wndShaderEditorBar.IsWindowVisible());
-    pCmdUI->Enable(TRUE);
+    //pCmdUI->SetCheck(m_wndShaderEditorBar.IsWindowVisible());
+    //pCmdUI->Enable(TRUE);
 }
 
 void CMainFrame::OnViewMinimal()
@@ -7834,13 +7835,13 @@ enum {
 
 void CMainFrame::OnPlayShaders(UINT nID)
 {
-    if (nID == ID_SHADERS_SELECT) {
-        if (IDOK != CShaderCombineDlg(m_shaderlabels, m_shaderlabelsScreenSpace, GetModalParent()).DoModal()) {
-            return;
-        }
-    }
-
-    SetShaders();
+    //if (nID == ID_SHADERS_SELECT) {
+    //    if (IDOK != CShaderCombineDlg(m_shaderlabels, m_shaderlabelsScreenSpace, GetModalParent()).DoModal()) {
+    //        return;
+    //    }
+    //}
+    //
+    //SetShaders();
 }
 
 void CMainFrame::OnPlayAudio(UINT nID)
@@ -10081,6 +10082,50 @@ void CMainFrame::RepaintVideo()
 
 void CMainFrame::SetShaders()
 {
+    const CAppSettings& s = AfxGetAppSettings();
+
+    // TODO: select the latest available shader profile
+    CStringA profile = "ps_4_0";
+
+    if (m_pCAP2) {
+        m_pCAP2->SetPixelShader2(NULL, NULL, false);
+        auto& list1 = s.m_ShadersSelected.preResize;
+        for (auto it = list1.cbegin(); it != list1.cend(); ++it) {
+            if (FAILED(m_pCAP2->SetPixelShader2(it->GetCode(), profile, false))) {
+                ASSERT(FALSE);
+                // TODO: find out in what state we're here
+                // TODO: scream
+                m_pCAP2->SetPixelShader2(NULL, NULL, false);
+                break;
+            }
+        }
+
+        m_pCAP2->SetPixelShader2(NULL, NULL, true);
+        auto& list2 = s.m_ShadersSelected.postResize;
+        for (auto it = list2.cbegin(); it != list2.cend(); ++it) {
+            if (FAILED(m_pCAP2->SetPixelShader2(it->GetCode(), profile, true))) {
+                ASSERT(FALSE);
+                // TODO: find out in what state we're here
+                // TODO: scream
+                m_pCAP2->SetPixelShader2(NULL, NULL, true);
+                break;
+            }
+        }
+    } else if (m_pCAP) {
+        m_pCAP->SetPixelShader(NULL, NULL);
+        auto& list = s.m_ShadersSelected.preResize;
+        for (auto it = list.cbegin(); it != list.cend(); ++it) {
+            if (FAILED(m_pCAP->SetPixelShader(it->GetCode(), profile))) {
+                ASSERT(FALSE);
+                // TODO: find out in what state we're here
+                // TODO: scream
+                m_pCAP->SetPixelShader(NULL, NULL);
+                break;
+            }
+        }
+    }
+
+    /*
     if (!m_pCAP) {
         return;
     }
@@ -10152,10 +10197,12 @@ void CMainFrame::SetShaders()
             SendStatusMessage(ResStr(IDS_AG_SHADER) + str, 3000);
         }
     }
+    */
 }
 
 void CMainFrame::UpdateShaders(CString label)
 {
+    /*
     if (!m_pCAP) {
         return;
     }
@@ -10181,7 +10228,7 @@ void CMainFrame::UpdateShaders(CString label)
     if (fUpdate) {
         SetShaders();
     }
-
+    */
 }
 
 void CMainFrame::SetBalance(int balance)

@@ -31,6 +31,8 @@
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 
 #include <afxsock.h>
+#include <vector>
+#include <map>
 
 // flags for CAppSettings::nCS
 enum {
@@ -322,8 +324,6 @@ class CAppSettings
     };
 
 public:
-    bool fShaderEditorWasOpened;
-
     // cmdline params
     UINT nCLSwitches;
     CAtlList<CString>   slFiles, slDubs, slSubs, slFilters;
@@ -561,18 +561,26 @@ public:
     CString         strSnapShotPath, strSnapShotExt;
     // Save Thumbnails...
     int             iThumbRows, iThumbCols, iThumbWidth;
-    // Shader Editor
+    // Shaders
     struct Shader {
-        CString     label;
-        CString     target;
-        CString     srcdata;
+        CString filePath;
+        // TODO: minimum shader profile?
+        bool operator==(const Shader& rhs) const;
+        bool IsDefault() const;
+        CStringA GetCode() const;
     };
-    CAtlList<Shader> m_shaders;
-    // Shader Combiner
-    bool            fToggleShader;
-    bool            fToggleShaderScreenSpace;
-    CString         strShaderList;
-    CString         strShaderListScreenSpace;
+    struct ShaderList : public std::vector<Shader> {
+        static void ToVeryLongPath(CString& path);
+        static CString GetShadersDir();
+        static void ListFromString(const CString& src, ShaderList& out);
+        static void StringFromList(const ShaderList& src, CString& out);
+    };
+    struct ShaderPreset {
+        ShaderList preResize, postResize;
+    };
+    ShaderList m_ShadersExtra;
+    ShaderPreset m_ShadersSelected;
+    std::map<CString, ShaderPreset> m_ShaderPresets;
     // Playlist (contex menu)
     bool            bShufflePlaylistItems;
     bool            bHidePlaylistFullScreen;
@@ -614,6 +622,7 @@ private:
 
     void            UpdateRenderersData(bool fSave);
     friend void     CRenderersSettings::UpdateData(bool bSave);
+    void            MigrateDeprecated();
 
 public:
     CAppSettings();
