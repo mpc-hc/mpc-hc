@@ -25,5 +25,5 @@ If you want to help, here's what you need to do:
 6. Make sure that your changes adhere to the current coding conventions used
    throughout the project - indentation, accurate comments, etc.
    For the style part we use [AStyle](http://astyle.sourceforge.net/),
-   so please **run `docs/run_astyle.bat`** before you push your changes.
+   so please **run `contrib/run_astyle.bat`** before you push your changes.
 7. [Open a Pull Request](https://github.com/mpc-hc/mpc-hc/pulls) with a clear title and description.
