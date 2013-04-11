@@ -296,12 +296,13 @@ REM %2 is name of the file to sign
 
 IF /I "%PPLATFORM%" == "Win32" PUSHD "%BIN_DIR%\%~1_x86"
 IF /I "%PPLATFORM%" == "x64"   PUSHD "%BIN_DIR%\%~1_x64"
-CALL "..\..\contrib\sign.bat" "%2"
-IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "Problem signing %2"
-) ELSE (
-  CALL :SubMsg "INFO" "%2 signed successfully."
+
+FOR /F "delims=" %%A IN ('DIR "%2" /b') DO (
+  CALL "..\..\contrib\sign.bat" "%%A" || (CALL :SubMsg "ERROR" "Problem signing %%A" & GOTO Break)
 )
+CALL :SubMsg "INFO" "%2 signed successfully."
+
+:Break
 POPD
 EXIT /B
 
