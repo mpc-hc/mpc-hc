@@ -1341,8 +1341,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
     const bool* src = s.SrcFilters;
     const bool* tra = s.TraFilters;
-    const bool* dxva_filters = s.DXVAFilters;
-    const bool* ffmpeg_filters = s.FFmpegFilters;
 
     // Source filters
 
@@ -1838,7 +1836,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF = DEBUG_NEW CFGFilterLAVVideo(MERIT64_ABOVE_DSHOW);
 
 #if INTERNAL_DECODER_FLV
-    if (ffmpeg_filters[FFM_FLV4]) {
+    if (tra[TRA_FLV4]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_flv1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV4);
@@ -1846,7 +1844,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_VP356
-    if (ffmpeg_filters[FFM_VP356]) {
+    if (tra[TRA_VP356]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP30);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP31);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP50);
@@ -1864,7 +1862,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_H264 | INTERNAL_DECODER_H264_DXVA
-    if ((ffmpeg_filters[FFM_H264]) || (dxva_filters[TRA_DXVA_H264])) {
+    if (tra[TRA_H264]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_X264);
@@ -1881,23 +1879,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_CCV1);
     }
 #endif
-#if INTERNAL_DECODER_MPEG2_DXVA
-    if (dxva_filters[TRA_DXVA_MPEG2]) {
-        pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPG2);
-    }
-#endif
 #if INTERNAL_DECODER_VC1 | INTERNAL_DECODER_VC1_DXVA
-    if ((ffmpeg_filters[FFM_VC1]) || (dxva_filters[TRA_DXVA_VC1])) {
+    if (tra[TRA_VC1]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
     }
 #endif
 #if INTERNAL_DECODER_XVID
-    if (ffmpeg_filters[FFM_XVID]) {
+    if (tra[TRA_XVID]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_XVID);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_xvid);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_XVIX);
@@ -1941,7 +1930,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_DIVX
-    if (ffmpeg_filters[FFM_DIVX]) {
+    if (tra[TRA_DIVX]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DIVX);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_divx);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DX50);
@@ -1949,7 +1938,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_WMV
-    if (ffmpeg_filters[FFM_WMV]) {
+    if (tra[TRA_WMV]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV2);
@@ -1957,13 +1946,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_WMV || INTERNAL_DECODER_WMV3_DXVA
-    if ((ffmpeg_filters[FFM_WMV]) || (dxva_filters[TRA_DXVA_WMV3])) {
+    if (tra[TRA_WMV]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv3);
     }
 #endif
 #if INTERNAL_DECODER_MSMPEG4
-    if (ffmpeg_filters[FFM_MSMPEG4]) {
+    if (tra[TRA_MSMPEG4]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DIV3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_div3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DVX3);
@@ -1995,13 +1984,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_SVQ
-    if (ffmpeg_filters[FFM_SVQ3]) {
+    if (tra[TRA_SVQ3]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_SVQ3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_SVQ1);
     }
 #endif
 #if INTERNAL_DECODER_H263
-    if (ffmpeg_filters[FFM_H263]) {
+    if (tra[TRA_H263]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H263);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h263);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_S263);
@@ -2009,23 +1998,23 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_THEORA
-    if (ffmpeg_filters[FFM_THEORA]) {
+    if (tra[TRA_THEORA]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_THEORA);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_theora);
     }
 #endif
 #if INTERNAL_DECODER_AMVV
-    if (ffmpeg_filters[FFM_AMVV]) {
+    if (tra[TRA_AMVV]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AMVV);
     }
 #endif
 #if INTERNAL_DECODER_VP8
-    if (ffmpeg_filters[FFM_VP8]) {
+    if (tra[TRA_VP8]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
     }
 #endif
 #if INTERNAL_DECODER_MJPEG
-    if (ffmpeg_filters[FFM_MJPEG]) {
+    if (tra[TRA_MJPEG]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPA);
@@ -2033,7 +2022,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_INDEO
-    if (ffmpeg_filters[FFM_INDEO]) {
+    if (tra[TRA_INDEO]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV31);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV32);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV41);
@@ -2041,7 +2030,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_SCREEN
-    if (ffmpeg_filters[FFM_SCREEN]) {
+    if (tra[TRA_SCREEN]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VMnc);
     }
@@ -2055,7 +2044,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF = DEBUG_NEW CFGFilterLAVVideo(MERIT64_DO_USE, true);
 
 #if INTERNAL_DECODER_FLV
-    if (!(ffmpeg_filters[FFM_FLV4])) {
+    if (!tra[TRA_FLV4]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_flv1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV4);
@@ -2063,7 +2052,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_VP356
-    if (!(ffmpeg_filters[FFM_VP356])) {
+    if (!tra[TRA_VP356]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP30);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP31);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP50);
@@ -2081,7 +2070,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_H264 | INTERNAL_DECODER_H264_DXVA
-    if (!(ffmpeg_filters[FFM_H264]) || !(dxva_filters[TRA_DXVA_H264])) {
+    if (!tra[TRA_H264]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_X264);
@@ -2098,23 +2087,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_CCV1);
     }
 #endif
-#if INTERNAL_DECODER_MPEG2_DXVA
-    if (!(dxva_filters[TRA_DXVA_MPEG2])) {
-        pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPG2);
-    }
-#endif
 #if INTERNAL_DECODER_VC1 | INTERNAL_DECODER_VC1_DXVA
-    if (!(ffmpeg_filters[FFM_VC1]) || !(dxva_filters[TRA_DXVA_VC1])) {
+    if (!tra[TRA_VC1]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
     }
 #endif
 #if INTERNAL_DECODER_XVID
-    if (!(ffmpeg_filters[FFM_XVID])) {
+    if (!tra[TRA_XVID]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_XVID);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_xvid);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_XVIX);
@@ -2158,7 +2138,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_DIVX
-    if (!(ffmpeg_filters[FFM_DIVX])) {
+    if (!tra[TRA_DIVX]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DIVX);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_divx);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DX50);
@@ -2166,7 +2146,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_WMV
-    if (!(ffmpeg_filters[FFM_WMV])) {
+    if (!tra[TRA_WMV]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv1);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV2);
@@ -2174,13 +2154,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_WMV | INTERNAL_DECODER_WMV3_DXVA
-    if (!(ffmpeg_filters[FFM_WMV]) || !(dxva_filters[TRA_DXVA_WMV3])) {
+    if (!tra[TRA_WMV]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv3);
     }
 #endif
 #if INTERNAL_DECODER_MSMPEG4
-    if (!(ffmpeg_filters[FFM_MSMPEG4])) {
+    if (!tra[TRA_MSMPEG4]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DIV3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_div3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DVX3);
@@ -2212,35 +2192,35 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_SVQ
-    if (!(ffmpeg_filters[FFM_SVQ3])) {
+    if (!tra[TRA_SVQ3]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_SVQ3);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_SVQ1);
     }
 #endif
 #if INTERNAL_DECODER_H263
-    if (!(ffmpeg_filters[FFM_H263])) {
+    if (!tra[TRA_H263]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H263);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h263);
     }
 #endif
 #if INTERNAL_DECODER_THEORA
-    if (!(ffmpeg_filters[FFM_THEORA])) {
+    if (!tra[TRA_THEORA]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_THEORA);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_theora);
     }
 #endif
 #if INTERNAL_DECODER_AMVV
-    if (!(ffmpeg_filters[FFM_AMVV])) {
+    if (!tra[TRA_AMVV]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AMVV);
     }
 #endif
 #if INTERNAL_DECODER_VP8
-    if (!(ffmpeg_filters[FFM_VP8])) {
+    if (!tra[TRA_VP8]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
     }
 #endif
 #if INTERNAL_DECODER_MJPEG
-    if (!ffmpeg_filters[FFM_MJPEG]) {
+    if (!tra[TRA_MJPEG]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPA);
@@ -2248,7 +2228,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_INDEO
-    if (!ffmpeg_filters[FFM_INDEO]) {
+    if (!tra[TRA_INDEO]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV31);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV32);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV41);
@@ -2256,7 +2236,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_SCREEN
-    if (!ffmpeg_filters[FFM_SCREEN]) {
+    if (!tra[TRA_SCREEN]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VMnc);
     }
@@ -2266,7 +2246,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #endif /* HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS */
 
 #if INTERNAL_DECODER_MPEG2
-    // Keep software decoder after DXVA decoder !
     pFGF = DEBUG_NEW CFGFilterLAVVideo(
                (tra[TRA_MPEG2]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE, !tra[TRA_MPEG2]);
     pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);

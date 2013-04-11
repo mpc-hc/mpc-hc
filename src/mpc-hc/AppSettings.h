@@ -485,8 +485,6 @@ public:
     // Internal Filters
     bool            SrcFilters[SRC_LAST + !SRC_LAST];
     bool            TraFilters[TRA_LAST + !TRA_LAST];
-    bool            DXVAFilters[TRA_DXVA_LAST + !TRA_DXVA_LAST];
-    bool            FFmpegFilters[FFM_LAST + !FFM_LAST];
 
     // Audio Switcher
     bool            fEnableAudioSwitcher;
@@ -615,8 +613,6 @@ public:
 private:
     CString         SrcFiltersKeys[SRC_LAST + !SRC_LAST];
     CString         TraFiltersKeys[TRA_LAST + !TRA_LAST];
-    CString         DXVAFiltersKeys[TRA_DXVA_LAST + !TRA_DXVA_LAST];
-    CString         FFMFiltersKeys[FFM_LAST + !FFM_LAST];
 
     __int64         ConvertTimeToMSec(const CString& time) const;
     void            ExtractDVDStartPos(CString& strParam);

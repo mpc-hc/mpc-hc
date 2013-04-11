@@ -219,69 +219,53 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_PCM
     TraFiltersKeys[TRA_PCM] = _T("TRA_PCM");
 #endif
-
-    // Internal DXVA decoders
-#if INTERNAL_DECODER_H264_DXVA
-    DXVAFiltersKeys[TRA_DXVA_H264] = _T("TRA_DXVA_H264");
-#endif
-#if INTERNAL_DECODER_VC1_DXVA
-    DXVAFiltersKeys[TRA_DXVA_VC1] = _T("TRA_DXVA_VC1");
-#endif
-#if INTERNAL_DECODER_WMV3_DXVA
-    DXVAFiltersKeys[TRA_DXVA_WMV3] = _T("TRA_DXVA_WMV3");
-#endif
-#if INTERNAL_DECODER_MPEG2_DXVA
-    DXVAFiltersKeys[TRA_DXVA_MPEG2] = _T("TRA_DXVA_MPEG2");
-#endif
-
-    // Internal FFmpeg decoders
 #if INTERNAL_DECODER_H264
-    FFMFiltersKeys[FFM_H264] = _T("FFM_H264");
+    TraFiltersKeys[TRA_H264] = _T("TRA_H264");
 #endif
 #if INTERNAL_DECODER_VC1
-    FFMFiltersKeys[FFM_VC1] = _T("FFM_VC1");
+    TraFiltersKeys[TRA_VC1] = _T("TRA_VC1");
 #endif
 #if INTERNAL_DECODER_FLV
-    FFMFiltersKeys[FFM_FLV4] = _T("FFM_FLV4");
+    TraFiltersKeys[TRA_FLV4] = _T("TRA_FLV4");
 #endif
 #if INTERNAL_DECODER_VP356
-    FFMFiltersKeys[FFM_VP356] = _T("FFM_VP356");
+    TraFiltersKeys[TRA_VP356] = _T("TRA_VP356");
 #endif
 #if INTERNAL_DECODER_VP8
-    FFMFiltersKeys[FFM_VP8] = _T("FFM_VP8");
+    TraFiltersKeys[TRA_VP8] = _T("TRA_VP8");
 #endif
 #if INTERNAL_DECODER_XVID
-    FFMFiltersKeys[FFM_XVID] = _T("FFM_XVID");
+    TraFiltersKeys[TRA_XVID] = _T("TRA_XVID");
 #endif
 #if INTERNAL_DECODER_DIVX
-    FFMFiltersKeys[FFM_DIVX] = _T("FFM_DIVX");
+    TraFiltersKeys[TRA_DIVX] = _T("TRA_DIVX");
 #endif
 #if INTERNAL_DECODER_MSMPEG4
-    FFMFiltersKeys[FFM_MSMPEG4] = _T("FFM_MSMPEG4");
+    TraFiltersKeys[TRA_MSMPEG4] = _T("TRA_MSMPEG4");
 #endif
 #if INTERNAL_DECODER_WMV
-    FFMFiltersKeys[FFM_WMV] = _T("FFM_WMV");
+    TraFiltersKeys[TRA_WMV] = _T("TRA_WMV");
 #endif
 #if INTERNAL_DECODER_SVQ
-    FFMFiltersKeys[FFM_SVQ3] = _T("FFM_SVQ3");
+    TraFiltersKeys[TRA_SVQ3] = _T("TRA_SVQ3");
 #endif
 #if INTERNAL_DECODER_H263
-    FFMFiltersKeys[FFM_H263] = _T("FFM_H263");
+    TraFiltersKeys[TRA_H263] = _T("TRA_H263");
 #endif
 #if INTERNAL_DECODER_THEORA
-    FFMFiltersKeys[FFM_THEORA] = _T("FFM_THEORA");
+    TraFiltersKeys[TRA_THEORA] = _T("TRA_THEORA");
 #endif
 #if INTERNAL_DECODER_AMVV
-    FFMFiltersKeys[FFM_AMVV] = _T("FFM_AMVV");
+    TraFiltersKeys[TRA_AMVV] = _T("TRA_AMVV");
 #endif
 #if INTERNAL_DECODER_MJPEG
-    FFMFiltersKeys[FFM_MJPEG] = _T("FFM_MJPEG");
+    TraFiltersKeys[TRA_MJPEG] = _T("TRA_MJPEG");
 #endif
 #if INTERNAL_DECODER_INDEO
-    FFMFiltersKeys[FFM_INDEO] = _T("FFM_INDEO");
+    TraFiltersKeys[TRA_INDEO] = _T("TRA_INDEO");
 #endif
 #if INTERNAL_DECODER_SCREEN
-    FFMFiltersKeys[FFM_SCREEN] = _T("FFM_SCREEN");
+    TraFiltersKeys[TRA_SCREEN] = _T("TRA_SCREEN");
 #endif
 }
 
@@ -748,12 +732,6 @@ void CAppSettings::SaveSettings()
     }
     for (int f = 0; f < TRA_LAST; f++) {
         pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], TraFilters[f]);
-    }
-    for (int f = 0; f < TRA_DXVA_LAST; f++) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, DXVAFiltersKeys[f], DXVAFilters[f]);
-    }
-    for (int f = 0; f < FFM_LAST; f++) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], FFmpegFilters[f]);
     }
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, strLogoFileName);
@@ -1301,18 +1279,6 @@ void CAppSettings::LoadSettings()
     }
     for (int f = 0; f < TRA_LAST; f++) {
         TraFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], TRUE);
-    }
-    for (int f = 0; f < TRA_DXVA_LAST; f++) {
-        DXVAFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, DXVAFiltersKeys[f], TRUE);
-    }
-    for (int f = 0; f < FFM_LAST; f++) {
-        FFmpegFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], TRUE);
-    }
-    if (!TRA_DXVA_LAST) {
-        DXVAFilters[0] = FALSE;
-    }
-    if (!FFM_LAST) {
-        FFmpegFilters[0] = FALSE;
     }
 
     strLogoFileName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, _T(""));

@@ -2294,10 +2294,9 @@ END
 STRINGTABLE
 BEGIN
     IDS_SRC_CDDA            "Windows XP only"
-    IDS_SRC_AVI             "Non-interleaved files are not welcome"
     IDS_SRC_VTS             "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
-    IDS_SRC_REALMEDIA       "RealMedia format categories must be set to ""DirectShow"" to make it load\nDoesn't support streaming"
     IDS_SRC_RFS             "Based on RARFileSource, doesn't support compressed files"
+    IDS_INTERNAL_LAVF       "Uses LAV Filters"
 END
 
 STRINGTABLE
@@ -2305,17 +2304,6 @@ BEGIN
     IDS_SHADERS_TOGGLE_SCREENSPACE "Enable Post-Resize Pixel Shaders"
     IDS_AT_TOGGLE_SHADERSCREENSPACE "Toggle Screen Space Pixel Shaders"
     IDS_AG_VSYNCACCURATE    "Accurate VSync"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_SRC_MPA             "Source filter for MP3 and AAC"
-    IDS_TRA_RV              "Requires RealVideo decoder dlls, RV10 also works with ffdshow"
-    IDS_TRA_RA              "Requires RealAudio decoder dlls, DNET also works with AC3Filter"
-    IDS_TRA_MPEG1           "Based on libmpeg2 (mpeg1 video decoding is bogus)"
-    IDS_TRA_MPEG2           "Based on libmpeg2"
-    IDS_TRA_PS2AUD          "Decodes audio streams of PSS files"
-    IDS_TRA_FFMPEG          "Based on FFmpeg, http://ffmpeg.org/"
 END
 
 STRINGTABLE

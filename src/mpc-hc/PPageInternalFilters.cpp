@@ -29,7 +29,7 @@
 
 static filter_t s_filters[] = {
 #if INTERNAL_SOURCEFILTER_AVI
-    {_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_SRC_AVI, CreateInstance<CAviSplitterFilter>},
+    {_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_CDDA
     {_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, nullptr},
@@ -41,7 +41,7 @@ static filter_t s_filters[] = {
     {_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_DTSAC3
-    {_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, 0, nullptr},
+    {_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_VTS
     {_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, nullptr},
@@ -50,31 +50,31 @@ static filter_t s_filters[] = {
     {_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_FLIC
-    {_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, 0, nullptr},
+    {_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_FLAC
-    {_T("FLAC"), SOURCE_FILTER, SRC_FLAC, 0, nullptr},
+    {_T("FLAC"), SOURCE_FILTER, SRC_FLAC, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_FLV
-    {_T("FLV"), SOURCE_FILTER, SRC_FLV, 0, nullptr},
+    {_T("FLV"), SOURCE_FILTER, SRC_FLV, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_MATROSKA
-    {_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, 0, nullptr},
+    {_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_MP4
-    {_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, 0, nullptr},
+    {_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
-    {_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_SRC_MPA, nullptr},
+    {_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_MPEG
-    {_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, 0, CreateInstance<CMpegSplitterFilter>},
+    {_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
-    {_T("Ogg"), SOURCE_FILTER, SRC_OGG, 0, nullptr},
+    {_T("Ogg"), SOURCE_FILTER, SRC_OGG, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_REALMEDIA
-    {_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_SRC_REALMEDIA, nullptr},
+    {_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_SHOUTCAST
     {_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, nullptr},
@@ -84,118 +84,103 @@ static filter_t s_filters[] = {
 #endif
 
 #if INTERNAL_DECODER_AAC
-    {_T("AAC"), DECODER, TRA_AAC, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("AAC"), DECODER, TRA_AAC, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_AC3
-    {_T("AC3/E-AC3/TrueHD/MLP"), DECODER, TRA_AC3, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("AC3/E-AC3/TrueHD/MLP"), DECODER, TRA_AC3, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_DTS
-    {_T("DTS"), DECODER, TRA_DTS, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("DTS"), DECODER, TRA_DTS, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_LPCM
-    {_T("LPCM"), DECODER, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
+    {_T("LPCM"), DECODER, TRA_LPCM, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_MPEGAUDIO
-    {_T("MPEG Audio"), DECODER, TRA_MPA, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("MPEG Audio"), DECODER, TRA_MPA, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_VORBIS
-    {_T("Vorbis"), DECODER, TRA_VORBIS, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("Vorbis"), DECODER, TRA_VORBIS, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_FLAC
-    {_T("FLAC"), DECODER, TRA_FLAC, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("FLAC"), DECODER, TRA_FLAC, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_NELLYMOSER
-    {_T("Nellymoser"), DECODER, TRA_NELLY, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("Nellymoser"), DECODER, TRA_NELLY, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_ALAC
-    {_T("ALAC"), DECODER, TRA_ALAC, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("ALAC"), DECODER, TRA_ALAC, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_ALS
-    {_T("ALS"), DECODER, TRA_ALS, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("ALS"), DECODER, TRA_ALS, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_AMR
-    {_T("AMR"), DECODER, TRA_AMR, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("AMR"), DECODER, TRA_AMR, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_REALAUDIO
-    {_T("RealAudio"), DECODER, TRA_RA, IDS_TRA_RA, nullptr},
+    {_T("RealAudio"), DECODER, TRA_RA, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_PS2AUDIO
-    {_T("PS2 Audio (PCM/ADPCM)"), DECODER, TRA_PS2AUD, IDS_TRA_PS2AUD, CreateInstance<CMpaDecFilter>},
+    {_T("PS2 Audio (PCM/ADPCM)"), DECODER, TRA_PS2AUD, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_PCM
-    {_T("Other PCM/ADPCM"), DECODER, TRA_PCM, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+    {_T("Other PCM/ADPCM"), DECODER, TRA_PCM, IDS_INTERNAL_LAVF, nullptr},
 #endif
-
-#if INTERNAL_DECODER_H264_DXVA
-    {_T("H264/AVC (DXVA)"), DXVA_DECODER, TRA_DXVA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
-#if INTERNAL_DECODER_VC1_DXVA
-    {_T("VC1 (DXVA)"), DXVA_DECODER, TRA_DXVA_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
-#if INTERNAL_DECODER_WMV3_DXVA
-    {_T("WMV3 (DXVA)"), DXVA_DECODER, TRA_DXVA_WMV3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
-#if INTERNAL_DECODER_MPEG2_DXVA
-    {_T("MPEG-2 Video (DXVA)"), DXVA_DECODER, TRA_DXVA_MPEG2, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
-
 #if INTERNAL_DECODER_MPEG1
-    {_T("MPEG-1 Video"), DECODER, TRA_MPEG1, IDS_TRA_MPEG1, CreateInstance<CMpeg2DecFilter>},
+    {_T("MPEG-1 Video"), DECODER, TRA_MPEG1, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_MPEG2
-    {_T("MPEG-2 Video"), DECODER, TRA_MPEG2, IDS_TRA_MPEG2, CreateInstance<CMpeg2DecFilter>},
+    {_T("MPEG-2 Video"), DECODER, TRA_MPEG2, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_REALVIDEO
-    {_T("RealVideo"), DECODER, TRA_RV, IDS_TRA_RV, nullptr},
+    {_T("RealVideo"), DECODER, TRA_RV, IDS_INTERNAL_LAVF, nullptr},
 #endif
-
 #if INTERNAL_DECODER_H264
-    {_T("H264/AVC (FFmpeg)"), FFMPEG_DECODER, FFM_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("H264/AVC"), DECODER, TRA_H264, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_VC1
-    {_T("VC1 (FFmpeg)"), FFMPEG_DECODER, FFM_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("VC1"), DECODER, TRA_VC1, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_XVID
-    {_T("Xvid/MPEG-4"), FFMPEG_DECODER, FFM_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("Xvid/MPEG-4"), DECODER, TRA_XVID, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_DIVX
-    {_T("DivX"), FFMPEG_DECODER, FFM_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("DivX"), DECODER, TRA_DIVX, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_MSMPEG4
-    {_T("MS MPEG-4"), FFMPEG_DECODER, FFM_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("MS MPEG-4"), DECODER, TRA_MSMPEG4, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_FLV
-    {_T("FLV1/4"), FFMPEG_DECODER, FFM_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("FLV1/4"), DECODER, TRA_FLV4, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_VP356
-    {_T("VP3/5/6"), FFMPEG_DECODER, FFM_VP356, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("VP3/5/6"), DECODER, TRA_VP356, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_VP8
-    {_T("VP8"), FFMPEG_DECODER, FFM_VP8, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("VP8"), DECODER, TRA_VP8, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_WMV
-    {_T("WMV1/2/3"), FFMPEG_DECODER, FFM_WMV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("WMV1/2/3"), DECODER, TRA_WMV, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_SVQ
-    {_T("SVQ1/3"), FFMPEG_DECODER, FFM_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("SVQ1/3"), DECODER, TRA_SVQ3, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_H263
-    {_T("H263"), FFMPEG_DECODER, FFM_H263, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("H263"), DECODER, TRA_H263, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_AMVV
-    {_T("AMV video"), FFMPEG_DECODER, FFM_AMVV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("AMV video"), DECODER, TRA_AMVV, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_THEORA
-    {_T("Theora"), FFMPEG_DECODER, FFM_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("Theora"), DECODER, TRA_THEORA, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_MJPEG
-    {_T("MJPEG"), FFMPEG_DECODER, FFM_MJPEG, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("MJPEG"), DECODER, TRA_MJPEG, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_INDEO
-    {_T("Indeo 3/4/5"), FFMPEG_DECODER, FFM_INDEO, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("Indeo 3/4/5"), DECODER, TRA_INDEO, IDS_INTERNAL_LAVF, nullptr},
 #endif
 #if INTERNAL_DECODER_SCREEN
-    {_T("Screen Capture (TSCC, VMnc)"), FFMPEG_DECODER, FFM_SCREEN, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+    {_T("Screen Capture (TSCC, VMnc)"), DECODER, TRA_SCREEN, IDS_INTERNAL_LAVF, nullptr},
 #endif
 
     {nullptr, 0, 0, 0, nullptr}
@@ -326,11 +311,7 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 
     enum {
         ENABLE_ALL = 1,
-        DISABLE_ALL,
-        ENABLE_FFMPEG,
-        DISABLE_FFMPEG,
-        ENABLE_DXVA,
-        DISABLE_DXVA
+        DISABLE_ALL
     };
 
     int totalFilters = 0, totalChecked = 0;
@@ -343,24 +324,6 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
     m.AppendMenu(MF_STRING | state, ENABLE_ALL, ResStr(IDS_ENABLE_ALL_FILTERS));
     state = (totalChecked != 0) ? MF_ENABLED : MF_GRAYED;
     m.AppendMenu(MF_STRING | state, DISABLE_ALL, ResStr(IDS_DISABLE_ALL_FILTERS));
-
-    if (m_n == 1) {
-#if HAS_FFMPEG_DECODERS
-        m.AppendMenu(MF_SEPARATOR);
-        state = (m_nbChecked[FFMPEG_DECODER] != m_nbFiltersPerType[FFMPEG_DECODER]) ? MF_ENABLED : MF_GRAYED;
-        m.AppendMenu(MF_STRING | state, ENABLE_FFMPEG, ResStr(IDS_ENABLE_FFMPEG_FILTERS));
-        state = (m_nbChecked[FFMPEG_DECODER] != 0) ? MF_ENABLED : MF_GRAYED;
-        m.AppendMenu(MF_STRING | state, DISABLE_FFMPEG, ResStr(IDS_DISABLE_FFMPEG_FILTERS));
-
-#endif
-#if HAS_DXVA_VIDEO_DECODERS
-        m.AppendMenu(MF_SEPARATOR);
-        state = (m_nbChecked[DXVA_DECODER] != m_nbFiltersPerType[DXVA_DECODER]) ? MF_ENABLED : MF_GRAYED;
-        m.AppendMenu(MF_STRING | state, ENABLE_DXVA, ResStr(IDS_ENABLE_DXVA_FILTERS));
-        state = (m_nbChecked[DXVA_DECODER] != 0) ? MF_ENABLED : MF_GRAYED;
-        m.AppendMenu(MF_STRING | state, DISABLE_DXVA, ResStr(IDS_DISABLE_DXVA_FILTERS));
-#endif
-    }
 
     CPoint p = point;
     ::MapWindowPoints(m_hWnd, HWND_DESKTOP, &p, 1);
@@ -380,8 +343,6 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
                 }
                 break;
             case DECODER:
-            case DXVA_DECODER:
-            case FFMPEG_DECODER:
                 if (m_n == 0) {
                     continue;
                 }
@@ -396,26 +357,6 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
                 break;
             case DISABLE_ALL:
                 SetCheck(index, FALSE);
-                break;
-            case ENABLE_FFMPEG:
-                if (s_filters[i].type == FFMPEG_DECODER) {
-                    SetCheck(index, TRUE);
-                }
-                break;
-            case DISABLE_FFMPEG:
-                if (s_filters[i].type == FFMPEG_DECODER) {
-                    SetCheck(index, FALSE);
-                }
-                break;
-            case ENABLE_DXVA:
-                if (s_filters[i].type == DXVA_DECODER) {
-                    SetCheck(index, TRUE);
-                }
-                break;
-            case DISABLE_DXVA:
-                if (s_filters[i].type == DXVA_DECODER) {
-                    SetCheck(index, FALSE);
-                }
                 break;
         }
         index++;
@@ -475,14 +416,6 @@ BOOL CPPageInternalFilters::OnInitDialog()
                 l = &m_listTra;
                 checked = s.TraFilters[s_filters[i].flag];
                 break;
-            case DXVA_DECODER:
-                l = &m_listTra;
-                checked = s.DXVAFilters[s_filters[i].flag];
-                break;
-            case FFMPEG_DECODER:
-                l = &m_listTra;
-                checked = s.FFmpegFilters[s_filters[i].flag];
-                break;
             default:
                 l = nullptr;
                 checked = false;
@@ -519,12 +452,6 @@ BOOL CPPageInternalFilters::OnApply()
                     break;
                 case DECODER:
                     s.TraFilters[f->flag] = !!list->GetCheck(i);
-                    break;
-                case DXVA_DECODER:
-                    s.DXVAFilters[f->flag] = !!list->GetCheck(i);
-                    break;
-                case FFMPEG_DECODER:
-                    s.FFmpegFilters[f->flag] = !!list->GetCheck(i);
                     break;
             }
         }

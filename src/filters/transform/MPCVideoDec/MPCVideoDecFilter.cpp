@@ -785,6 +785,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
     for (int i = 0; i < _countof(ffCodecs); i++) {
         if (mtIn->subtype == *ffCodecs[i].clsMinorType) {
 #ifndef STANDALONE_FILTER
+/*
             switch (ffCodecs[i].nFFCodec) {
                 case AV_CODEC_ID_H264:
 #if INTERNAL_DECODER_H264_DXVA
@@ -833,6 +834,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
             }
 
             return ((m_bUseDXVA || m_bUseFFmpeg) ? i : -1);
+*/
 #else
             bool bCodecActivated = false;
             switch (ffCodecs[i].nFFCodec) {
