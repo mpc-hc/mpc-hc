@@ -22,6 +22,7 @@
 #pragma once
 
 #include "FGFilter.h"
+#include "FGFilterLAV.h"
 #include "IGraphBuilder2.h"
 
 class CFGManager
