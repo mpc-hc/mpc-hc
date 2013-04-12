@@ -25,7 +25,8 @@
 
 enum {
     SOURCE_FILTER,
-    DECODER,
+    AUDIO_DECODER,
+    VIDEO_DECODER,
     FILTER_TYPE_NB
 };
 

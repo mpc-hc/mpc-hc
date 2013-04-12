@@ -2903,19 +2903,19 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_DISABLE_ALL_FILTERS     "&Disable all filters"
-    IDS_ENABLE_FFMPEG_FILTERS   "Enable FFmpeg filters"
-    IDS_DISABLE_FFMPEG_FILTERS  "Disable FFmpeg filters"
-    IDS_ENABLE_DXVA_FILTERS     "Enable DXVA filters"
-    IDS_DISABLE_DXVA_FILTERS    "Disable DXVA filters"
-    IDS_STRETCH_TO_WINDOW       "Stretch To Window"
-    IDS_TOUCH_WINDOW_FROM_INSIDE "Touch Window From Inside"
-    IDS_ZOOM1                   "Zoom 1"
-    IDS_ZOOM2                   "Zoom 2"
+    IDS_DISABLE_ALL_FILTERS       "&Disable all filters"
+    IDS_ENABLE_AUDIO_FILTERS      "Enable all audio decoders"
+    IDS_DISABLE_AUDIO_FILTERS     "Disable all audio decoders"
+    IDS_ENABLE_VIDEO_FILTERS      "Enable all video decoders"
+    IDS_DISABLE_VIDEO_FILTERS     "Disable all video decoders"
+    IDS_STRETCH_TO_WINDOW         "Stretch To Window"
+    IDS_TOUCH_WINDOW_FROM_INSIDE  "Touch Window From Inside"
+    IDS_ZOOM1                     "Zoom 1"
+    IDS_ZOOM2                     "Zoom 2"
     IDS_TOUCH_WINDOW_FROM_OUTSIDE "Touch Window From Outside"
-    IDS_AUDIO_STREAM            "Audio: %s"
-    IDS_VIDEO_STREAM            "Video: %s"
-    IDS_AG_REOPEN               "Reopen File"
+    IDS_AUDIO_STREAM              "Audio: %s"
+    IDS_VIDEO_STREAM              "Video: %s"
+    IDS_AG_REOPEN                 "Reopen File"
 END
 
 STRINGTABLE
