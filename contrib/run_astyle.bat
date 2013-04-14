@@ -20,6 +20,13 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 
 PUSHD %~dp0
+
+SET "AStyleVerMin=2.03"
+astyle --version 2>NUL || (ECHO. & ECHO ERROR: AStyle not found & GOTO End)
+CALL :SubCheckVer || GOTO End
+
+
+:Start
 TITLE Running astyle using %~dp0astyle.ini
 
 IF "%~1" == "" (
@@ -29,10 +36,24 @@ IF "%~1" == "" (
 )
 
 IF %ERRORLEVEL% NEQ 0 ECHO. & ECHO ERROR: Something went wrong!
-POPD
 
-:END
-ECHO Press any key to close this window...
+
+:End
+POPD
+ECHO. & ECHO Press any key to close this window...
 PAUSE >NUL
 ENDLOCAL
+EXIT /B
+
+
+:SubCheckVer
+TITLE Checking astyle version
+FOR /F "tokens=4 delims= " %%A IN ('astyle --version 2^>^&1 NUL') DO (
+  SET "AStyleVer=%%A"
+)
+
+IF %AStyleVer% LSS %AStyleVerMin% (
+  ECHO. & ECHO ERROR: AStyle v%AStyleVer% is too old, please update AStyle to v%AStyleVerMin% or newer.
+  EXIT /B 1
+)
 EXIT /B
