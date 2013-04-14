@@ -204,7 +204,8 @@ static struct csri_info csri_vsfilter_info = {
     "Copyright (C) 2003-2013 by Gabest et al." // copyright
 };
 
-CSRIAPI struct csri_info* csri_renderer_info(csri_rend* rend) {
+CSRIAPI struct csri_info* csri_renderer_info(csri_rend* rend)
+{
     return &csri_vsfilter_info;
 }
 
