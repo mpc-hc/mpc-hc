@@ -369,54 +369,54 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         // names[] = _T("");
     }
 
-    if (!names.Lookup(wFormatTag, str)) {
-        // for wFormatTag equal to WAVE_FORMAT_UNKNOWN, WAVE_FORMAT_PCM, WAVE_FORMAT_EXTENSIBLE and other.
-        if (subtype == MEDIASUBTYPE_PCM) {
-            str = _T("PCM");
-        } else if (subtype == MEDIASUBTYPE_IEEE_FLOAT) {
-            str = _T("IEEE Float");
-        } else if (subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO || subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
-            str = _T("LPCM");
-        } else if (subtype == MEDIASUBTYPE_Vorbis) {
-            str = _T("Vorbis (deprecated)");
-        } else if (subtype == MEDIASUBTYPE_Vorbis2) {
-            str = _T("Vorbis");
-        } else if (subtype == MEDIASUBTYPE_MP4A) {
-            str = _T("MPEG4 Audio");
-        } else if (subtype == MEDIASUBTYPE_FLAC_FRAMED) {
-            str = _T("FLAC (framed)");
-        } else if (subtype == MEDIASUBTYPE_DOLBY_AC3) {
-            str = _T("Dolby AC3");
-        } else if (subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
-            str = _T("DD+");
-        } else if (subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
-            str = _T("TrueHD");
-        } else if (subtype == MEDIASUBTYPE_DTS) {
-            str = _T("DTS");
-        } else if (subtype == MEDIASUBTYPE_MLP) {
-            str = _T("MLP");
-        } else if (subtype == MEDIASUBTYPE_PCM_NONE || subtype == MEDIASUBTYPE_PCM_RAW ||
-                   subtype == MEDIASUBTYPE_PCM_TWOS || subtype == MEDIASUBTYPE_PCM_SOWT ||
-                   subtype == MEDIASUBTYPE_PCM_IN24 || subtype == MEDIASUBTYPE_PCM_IN32 ||
-                   subtype == MEDIASUBTYPE_PCM_FL32 || subtype == MEDIASUBTYPE_PCM_FL64) {
-            str = _T("QT PCM");
-        } else if (subtype == MEDIASUBTYPE_IMA4      ||
-                   subtype == MEDIASUBTYPE_ADPCM_SWF ||
-                   subtype == MEDIASUBTYPE_ADPCM_AMV) {
-            str = _T("ADPCM");
-        } else if (subtype == MEDIASUBTYPE_ALAC) {
-            str = _T("Alac");
-        } else if (subtype == MEDIASUBTYPE_ALS) {
-            str = _T("ALS");
-        } else if (subtype == MEDIASUBTYPE_QDM2) {
-            str = _T("QDM2");
-        } else if (subtype == MEDIASUBTYPE_AMR  ||
-                   subtype == MEDIASUBTYPE_SAMR ||
-                   subtype == MEDIASUBTYPE_SAWB) {
-            str = _T("AMR");
-        } else {
-            str.Format(_T("0x%04x"), wFormatTag);
-        }
+    // Check the subtype first
+    if (subtype == MEDIASUBTYPE_PCM) {
+        str = _T("PCM");
+    } else if (subtype == MEDIASUBTYPE_IEEE_FLOAT) {
+        str = _T("IEEE Float");
+    } else if (subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO || subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
+        str = _T("LPCM");
+    } else if (subtype == MEDIASUBTYPE_Vorbis) {
+        str = _T("Vorbis (deprecated)");
+    } else if (subtype == MEDIASUBTYPE_Vorbis2) {
+        str = _T("Vorbis");
+    } else if (subtype == MEDIASUBTYPE_MP4A) {
+        str = _T("MPEG4 Audio");
+    } else if (subtype == MEDIASUBTYPE_FLAC_FRAMED) {
+        str = _T("FLAC (framed)");
+    } else if (subtype == MEDIASUBTYPE_DOLBY_AC3) {
+        str = _T("Dolby AC3");
+    } else if (subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
+        str = _T("DD+");
+    } else if (subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+        str = _T("TrueHD");
+    } else if (subtype == MEDIASUBTYPE_DTS) {
+        str = _T("DTS");
+    } else if (subtype == MEDIASUBTYPE_MLP) {
+        str = _T("MLP");
+    } else if (subtype == MEDIASUBTYPE_PCM_NONE || subtype == MEDIASUBTYPE_PCM_RAW ||
+               subtype == MEDIASUBTYPE_PCM_TWOS || subtype == MEDIASUBTYPE_PCM_SOWT ||
+               subtype == MEDIASUBTYPE_PCM_IN24 || subtype == MEDIASUBTYPE_PCM_IN32 ||
+               subtype == MEDIASUBTYPE_PCM_FL32 || subtype == MEDIASUBTYPE_PCM_FL64) {
+        str = _T("QT PCM");
+    } else if (subtype == MEDIASUBTYPE_IMA4      ||
+               subtype == MEDIASUBTYPE_ADPCM_SWF ||
+               subtype == MEDIASUBTYPE_ADPCM_AMV) {
+        str = _T("ADPCM");
+    } else if (subtype == MEDIASUBTYPE_ALAC) {
+        str = _T("Alac");
+    } else if (subtype == MEDIASUBTYPE_ALS) {
+        str = _T("ALS");
+    } else if (subtype == MEDIASUBTYPE_QDM2) {
+        str = _T("QDM2");
+    } else if (subtype == MEDIASUBTYPE_AMR  ||
+               subtype == MEDIASUBTYPE_SAMR ||
+               subtype == MEDIASUBTYPE_SAWB) {
+        str = _T("AMR");
+    } // If the subtype wasn't enough to find the codec name, we try the format tag
+    else if (!names.Lookup(wFormatTag, str)) {
+        // If that fails, we have an unknown audio codec
+        str.Format(_T("0x%04x"), wFormatTag);
     }
 
     return str;
