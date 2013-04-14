@@ -285,7 +285,7 @@ FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  /target:%BUILDTYPE% /property:Configuration="Release %%~G";Platform=%1
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 )
-IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC Lang\mpcresources.??.dll
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??.dll Lang
 EXIT /B
 
 
@@ -293,12 +293,13 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 REM %1 is Filters or MPC-HC
 REM %2 is name of the file to sign
+REM %3 is the subfolder
 
-IF /I "%PPLATFORM%" == "Win32" PUSHD "%BIN_DIR%\%~1_x86"
-IF /I "%PPLATFORM%" == "x64"   PUSHD "%BIN_DIR%\%~1_x64"
+IF /I "%PPLATFORM%" == "Win32" PUSHD "%BIN_DIR%\%~1_x86\%3"
+IF /I "%PPLATFORM%" == "x64"   PUSHD "%BIN_DIR%\%~1_x64\%3"
 
 FOR /F "delims=" %%A IN ('DIR "%2" /b') DO (
-  CALL "..\..\contrib\sign.bat" "%%A" || (CALL :SubMsg "ERROR" "Problem signing %%A" & GOTO Break)
+  CALL "%~dp0contrib\sign.bat" "%%A" || (CALL :SubMsg "ERROR" "Problem signing %%A" & GOTO Break)
 )
 CALL :SubMsg "INFO" "%2 signed successfully."
 
