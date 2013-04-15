@@ -1125,7 +1125,7 @@ void CVobSubImage::AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray
 bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pathPoints, bool fSmooth, int scale)
 {
     CPoint topleft;
-    CAutoPtr<CAutoPtrList<COutline> > ol(GetOutlineList(topleft));
+    CAutoPtr<CAutoPtrList<COutline>> ol(GetOutlineList(topleft));
     if (!ol) {
         return false;
     }

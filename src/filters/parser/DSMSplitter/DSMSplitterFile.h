@@ -41,7 +41,7 @@ public:
     };
     CAtlArray<SyncPoint> m_sps;
 
-    typedef CAtlMap<CStringA, CStringW, CStringElementTraits<CStringA>, CStringElementTraits<CStringW> > CStreamInfoMap;
+    typedef CAtlMap<CStringA, CStringW, CStringElementTraits<CStringA>, CStringElementTraits<CStringW>> CStreamInfoMap;
     CStreamInfoMap m_fim;
     CAtlMap<BYTE, CStreamInfoMap> m_sim;
 

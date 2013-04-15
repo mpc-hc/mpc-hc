@@ -72,7 +72,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 
 CFactoryTemplate g_Templates[] = {
     {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMpeg2DecFilter>, NULL, &sudFilter[0]},
-    {L"CMpeg2DecPropertyPage", &__uuidof(CMpeg2DecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpeg2DecSettingsWnd> >},
+    {L"CMpeg2DecPropertyPage", &__uuidof(CMpeg2DecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpeg2DecSettingsWnd>>},
 };
 
 int g_cTemplates = _countof(g_Templates);

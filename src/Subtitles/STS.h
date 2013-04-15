@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -69,7 +69,7 @@ public:
     friend STSStyle& operator <<= (STSStyle& s, CString& style);
 };
 
-class CSTSStyleMap : public CAtlMap<CString, STSStyle*, CStringElementTraits<CString> >
+class CSTSStyleMap : public CAtlMap<CString, STSStyle*, CStringElementTraits<CString>>
 {
 public:
     CSTSStyleMap() {}
@@ -206,7 +206,7 @@ extern BYTE CharSetList[];
 extern TCHAR* CharSetNames[];
 extern int CharSetLen;
 
-class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString> >
+class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString>>
 {
 public:
     CHtmlColorMap();

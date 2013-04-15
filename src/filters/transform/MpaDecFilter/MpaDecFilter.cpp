@@ -207,7 +207,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 
 CFactoryTemplate g_Templates[] = {
     {sudFilter[0].strName, &__uuidof(CMpaDecFilter), CreateInstance<CMpaDecFilter>, NULL, &sudFilter[0]},
-    {L"CMpaDecPropertyPage", &__uuidof(CMpaDecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpaDecSettingsWnd> >},
+    {L"CMpaDecPropertyPage", &__uuidof(CMpaDecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpaDecSettingsWnd>>},
 };
 
 int g_cTemplates = _countof(g_Templates);

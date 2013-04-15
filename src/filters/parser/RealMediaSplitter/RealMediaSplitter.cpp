@@ -437,7 +437,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 }
             }
         } else if (pmp->mime == "logical-fileinfo") {
-            CAtlMap<CStringA, CStringA, CStringElementTraits<CStringA> > lfi;
+            CAtlMap<CStringA, CStringA, CStringElementTraits<CStringA>> lfi;
             CStringA key, value;
 
             BYTE* p = pmp->typeSpecData.GetData();

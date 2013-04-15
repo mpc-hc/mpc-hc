@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -88,7 +88,7 @@ protected:
     HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
     CAtlMap<DWORD, MatroskaReader::TrackEntry*> m_pTrackEntryMap;
-    CAtlArray<MatroskaReader::TrackEntry* > m_pOrderedTrackArray;
+    CAtlArray<MatroskaReader::TrackEntry*> m_pOrderedTrackArray;
     MatroskaReader::TrackEntry* GetTrackEntryAt(UINT aTrackIdx);
 
     bool DemuxInit();

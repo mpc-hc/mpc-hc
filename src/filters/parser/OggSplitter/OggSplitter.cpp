@@ -303,7 +303,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     // comments
 
     {
-        CAtlMap<CStringW, CStringW, CStringElementTraits<CStringW> > tagmap;
+        CAtlMap<CStringW, CStringW, CStringElementTraits<CStringW>> tagmap;
         tagmap[L"TITLE"] = L"TITL";
         tagmap[L"ARTIST"] = L"AUTH"; // not quite
         tagmap[L"COPYRIGHT"] = L"CPYR";

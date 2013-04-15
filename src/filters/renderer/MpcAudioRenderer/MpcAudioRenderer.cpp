@@ -47,7 +47,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 
 CFactoryTemplate g_Templates[] = {
     {sudFilter[0].strName, &__uuidof(CMpcAudioRenderer), CreateInstance<CMpcAudioRenderer>, NULL, &sudFilter[0]},
-    {L"CMpcAudioRendererPropertyPage", &__uuidof(CMpcAudioRendererSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpcAudioRendererSettingsWnd> >},
+    {L"CMpcAudioRendererPropertyPage", &__uuidof(CMpcAudioRendererSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpcAudioRendererSettingsWnd>>},
 };
 
 int g_cTemplates = _countof(g_Templates);

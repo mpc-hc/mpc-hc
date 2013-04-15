@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -40,7 +40,7 @@ public:
 };
 
 template<class T>
-class CFormat : public CAutoPtrArray<CFormatElem<T> >
+class CFormat : public CAutoPtrArray<CFormatElem<T>>
 {
 public:
     CString name;
@@ -51,7 +51,7 @@ public:
 };
 
 template<class T>
-class CFormatArray : public CAutoPtrArray<CFormat<T> >
+class CFormatArray : public CAutoPtrArray<CFormat<T>>
 {
 public:
     virtual ~CFormatArray() {}
@@ -64,7 +64,7 @@ public:
         }
 
         if (fCreate) {
-            CAutoPtr<CFormat<T> > pf(DEBUG_NEW CFormat<T>(name));
+            CAutoPtr<CFormat<T>> pf(DEBUG_NEW CFormat<T>(name));
             CFormat<T>* tmp = pf;
             Add(pf);
             return tmp;
@@ -135,7 +135,7 @@ public:
             return false;
         }
 
-        CAutoPtr<CFormatElem<T> > pfe(DEBUG_NEW CFormatElem<T>());
+        CAutoPtr<CFormatElem<T>> pfe(DEBUG_NEW CFormatElem<T>());
         pfe->mt = *pmt;
         pfe->caps = caps;
         pf->Add(pfe);

@@ -2055,7 +2055,7 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 
 void CSimpleTextSubtitle::ChangeUnknownStylesToDefault()
 {
-    CAtlMap<CString, STSStyle*, CStringElementTraits<CString> > unknown;
+    CAtlMap<CString, STSStyle*, CStringElementTraits<CString>> unknown;
     bool fReport = true;
 
     for (size_t i = 0; i < GetCount(); i++) {
