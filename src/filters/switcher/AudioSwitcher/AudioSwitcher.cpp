@@ -35,6 +35,10 @@
 #define INT24_MAX       8388607
 #define INT24_MIN     (-8388608)
 
+#define MAX_NORMALIZATION_FACTOR       10.0
+#define NORMALIZATION_REGAIN_STEP      0.06 // +6%/s
+#define NORMALIZATION_REGAIN_THRESHOLD 0.75
+
 #ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
@@ -89,8 +93,8 @@ CAudioSwitcherFilter::CAudioSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr)
     , m_rtNextStop(1)
     , m_fNormalize(false)
     , m_fNormalizeRecover(false)
-    , m_boost_mul(1)
-    , m_sample_max(0.1f)
+    , m_boostFactor(1.0)
+    , m_normalizeFactor(MAX_NORMALIZATION_FACTOR)
 {
     memset(m_pSpeakerToChannelMap, 0, sizeof(m_pSpeakerToChannelMap));
 
@@ -201,10 +205,10 @@ __forceinline void mix4(DWORD mask, BYTE* src, BYTE* dst)
 template<class T>
 T clamp(double s, T smin, T smax)
 {
-    if (s < -1) {
-        s = -1;
-    } else if (s > 1) {
-        s = 1;
+    if (s < -1.0) {
+        s = -1.0;
+    } else if (s > 1.0) {
+        s = 1.0;
     }
     T t = (T)(s * smax);
     if (t < smin) {
@@ -250,7 +254,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     m_rtNextStop += rtDur;
 
     if (pIn->IsDiscontinuity() == S_OK) {
-        m_sample_max = 0.1f;
+        m_normalizeFactor = 10.0;
     }
 
     WORD tag = wfe->wFormatTag;
@@ -357,7 +361,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
         }
     }
 
-    if (m_fNormalize || m_boost_mul > 1) {
+    if (m_fNormalize || m_boostFactor > 1) {
         int samples = lenout * wfeout->nChannels;
 
         if (double* buff = DEBUG_NEW double[samples]) {
@@ -379,34 +383,40 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 }
             }
 
-            double sample_mul = 1;
+            double sample_mul = 1.0;
 
             if (m_fNormalize) {
+                double sampleMax = 0.0;
                 for (int i = 0; i < samples; i++) {
                     double s = buff[i];
-                    if (s < 0) {
+                    if (s < 0.0) {
                         s = -s;
                     }
-                    if (s > 1) {
-                        s = 1;
+                    if (s > 1.0) {
+                        s = 1.0;
                     }
-                    if (m_sample_max < s) {
-                        m_sample_max = s;
+                    if (sampleMax < s) {
+                        sampleMax = s;
                     }
                 }
 
-                sample_mul = 1.0f / m_sample_max;
+                double normFact = 1.0 / sampleMax;
+                if (m_normalizeFactor > normFact) {
+                    m_normalizeFactor = normFact;
+                } else if (m_fNormalizeRecover
+                           && sampleMax * m_normalizeFactor < NORMALIZATION_REGAIN_THRESHOLD) { // we don't regain if we are too close of the maximum
+                    m_normalizeFactor += NORMALIZATION_REGAIN_STEP * rtDur / 10000000; // the step is per second so we weight it with the duration
+                }
 
-                if (m_fNormalizeRecover) {
-                    m_sample_max -= 1.0 * rtDur / 200000000; // -5%/sec
+                if (m_normalizeFactor > MAX_NORMALIZATION_FACTOR) {
+                    m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
                 }
-                if (m_sample_max < 0.1) {
-                    m_sample_max = 0.1;
-                }
+
+                sample_mul = m_normalizeFactor;
             }
 
-            if (m_boost_mul > 1) {
-                sample_mul *= m_boost_mul;
+            if (m_boostFactor > 1.0) {
+                sample_mul *= m_boostFactor;
             }
 
             for (int i = 0; i < samples; i++) {
@@ -514,20 +524,20 @@ void CAudioSwitcherFilter::OnNewOutputMediaType(const CMediaType& mtIn, const CM
     }
 
     TRACE(_T("CAudioSwitcherFilter::OnNewOutputMediaType\n"));
-    m_sample_max = 0.1f;
+    m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
 }
 
 HRESULT CAudioSwitcherFilter::DeliverEndFlush()
 {
     TRACE(_T("CAudioSwitcherFilter::DeliverEndFlush\n"));
-    m_sample_max = 0.1f;
+    m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
     return __super::DeliverEndFlush();
 }
 
 HRESULT CAudioSwitcherFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
     TRACE(_T("CAudioSwitcherFilter::DeliverNewSegment\n"));
-    m_sample_max = 0.1f;
+    m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
     return __super::DeliverNewSegment(tStart, tStop, dRate);
 }
 
@@ -627,18 +637,18 @@ STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost(bool& fNormalize, bool& fNo
 {
     fNormalize = m_fNormalize;
     fNormalizeRecover = m_fNormalizeRecover;
-    boost_dB = 20 * log10(m_boost_mul);
+    boost_dB = float(20.0 * log10(m_boostFactor));
     return S_OK;
 }
 
 STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost(bool fNormalize, bool fNormalizeRecover, float boost_dB)
 {
     if (m_fNormalize != fNormalize) {
-        m_sample_max = 0.1f;
+        m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
     }
     m_fNormalize = fNormalize;
     m_fNormalizeRecover = fNormalizeRecover;
-    m_boost_mul = pow(10.0f, boost_dB / 20);
+    m_boostFactor = pow(10.0, boost_dB / 20.0);
     return S_OK;
 }
 
@@ -648,7 +658,7 @@ STDMETHODIMP CAudioSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
 {
     HRESULT hr = __super::Enable(lIndex, dwFlags);
     if (S_OK == hr) {
-        m_sample_max = 0.1f;
+        m_normalizeFactor = MAX_NORMALIZATION_FACTOR;;
     }
     return hr;
 }
