@@ -31,33 +31,49 @@ class CFGFilterLAV : public CFGFilterFile
 {
 protected:
     CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
+
+public:
+    enum LAVFILTER_TYPE {
+        SPLITTER,
+        SPLITTER_SOURCE,
+        VIDEO_DECODER,
+        AUDIO_DECODER
+    };
+
+    static CString GetFilterPath(LAVFILTER_TYPE filterType);
+
+    static CFGFilterLAV* CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 };
 
 class CFGFilterLAVSplitterBase : public CFGFilterLAV
 {
 protected:
-    CFGFilterLAVSplitterBase(const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
+    CFGFilterLAVSplitterBase(CString path, const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
 
 public:
+    static const CString filename;
+
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };
 
 class CFGFilterLAVSplitter : public CFGFilterLAVSplitterBase
 {
 public:
-    CFGFilterLAVSplitter(UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    CFGFilterLAVSplitter(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 };
 
 class CFGFilterLAVSplitterSource : public CFGFilterLAVSplitterBase
 {
 public:
-    CFGFilterLAVSplitterSource(UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    CFGFilterLAVSplitterSource(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 };
 
 class CFGFilterLAVVideo : public CFGFilterLAV
 {
 public:
-    CFGFilterLAVVideo(UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    static const CString filename;
+
+    CFGFilterLAVVideo(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };
@@ -65,7 +81,9 @@ public:
 class CFGFilterLAVAudio : public CFGFilterLAV
 {
 public:
-    CFGFilterLAVAudio(UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    static const CString filename;
+
+    CFGFilterLAVAudio(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };

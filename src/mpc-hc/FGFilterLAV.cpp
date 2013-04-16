@@ -23,6 +23,7 @@
 #include "FGFilterLAV.h"
 #include "MainFrm.h"
 #include "DSUtil.h"
+#include "WinAPIUtils.h"
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
@@ -41,12 +42,77 @@ CFGFilterLAV::CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool
 {
 }
 
+CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
+{
+    // Default path
+    CString filterPath = GetProgramPath() + _T("LAVFilters\\");
+    CLSID filterCLSID;
+
+    switch (filterType) {
+        case SPLITTER:
+        case SPLITTER_SOURCE:
+            filterPath += CFGFilterLAVSplitterBase::filename;
+            filterCLSID = GUID_LAVSplitter;
+            break;
+        case VIDEO_DECODER:
+            filterPath += CFGFilterLAVVideo::filename;
+            filterCLSID = GUID_LAVVideo;
+            break;
+        case AUDIO_DECODER:
+            filterPath += CFGFilterLAVAudio::filename;
+            filterCLSID = GUID_LAVAudio;
+            break;
+        default:
+            ASSERT(FALSE); // This should never happen
+            break;
+    }
+
+#if ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL
+    // Check that the filter exists
+    if (!FileExists(filterPath)) {
+        // If not, check if a registered version of the filter is available.
+        filterPath = ::GetFilterPath(filterCLSID);
+    }
+#endif
+
+    return filterPath;
+}
+
+CFGFilterLAV* CFGFilterLAV::CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
+{
+    CFGFilterLAV* filter = nullptr;
+
+    CString filterPath = GetFilterPath(filterType);
+
+    switch (filterType) {
+        case SPLITTER:
+            filter = DEBUG_NEW CFGFilterLAVSplitter(filterPath, merit, bAddLowMeritSuffix);
+            break;
+        case SPLITTER_SOURCE:
+            filter = DEBUG_NEW CFGFilterLAVSplitterSource(filterPath, merit, bAddLowMeritSuffix);
+            break;
+        case VIDEO_DECODER:
+            filter = DEBUG_NEW CFGFilterLAVVideo(filterPath, merit, bAddLowMeritSuffix);
+            break;
+        case AUDIO_DECODER:
+            filter = DEBUG_NEW CFGFilterLAVAudio(filterPath, merit, bAddLowMeritSuffix);
+            break;
+        default:
+            ASSERT(FALSE); // This should never happen
+            break;
+    }
+
+    return filter;
+}
+
 //
 // CFGFilterLAVSplitterBase
 //
 
-CFGFilterLAVSplitterBase::CFGFilterLAVSplitterBase(const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit)
-    : CFGFilterLAV(clsid, _T(".\\LAVFilters\\x86\\LAVSplitter.ax"), name, bAddLowMeritSuffix, merit)
+const CString CFGFilterLAVSplitterBase::filename = _T("LAVSplitter.ax");
+
+CFGFilterLAVSplitterBase::CFGFilterLAVSplitterBase(CString path, const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit)
+    : CFGFilterLAV(clsid, path, name, bAddLowMeritSuffix, merit)
 {
 }
 
@@ -69,8 +135,8 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
 // CFGFilterLAVSplitter
 //
 
-CFGFilterLAVSplitter::CFGFilterLAVSplitter(UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
-    : CFGFilterLAVSplitterBase(GUID_LAVSplitter, L"LAV Splitter (internal)", bAddLowMeritSuffix, merit)
+CFGFilterLAVSplitter::CFGFilterLAVSplitter(CString path, UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
+    : CFGFilterLAVSplitterBase(path, GUID_LAVSplitter, L"LAV Splitter (internal)", bAddLowMeritSuffix, merit)
 {
 }
 
@@ -78,8 +144,8 @@ CFGFilterLAVSplitter::CFGFilterLAVSplitter(UINT64 merit /*= MERIT64_DO_USE*/, bo
 // CFGFilterLAVSplitterSource
 //
 
-CFGFilterLAVSplitterSource::CFGFilterLAVSplitterSource(UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
-    : CFGFilterLAVSplitterBase(GUID_LAVSplitterSource, L"LAV Splitter Source (internal)", bAddLowMeritSuffix, merit)
+CFGFilterLAVSplitterSource::CFGFilterLAVSplitterSource(CString path, UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
+    : CFGFilterLAVSplitterBase(path, GUID_LAVSplitterSource, L"LAV Splitter Source (internal)", bAddLowMeritSuffix, merit)
 {
 }
 
@@ -87,8 +153,10 @@ CFGFilterLAVSplitterSource::CFGFilterLAVSplitterSource(UINT64 merit /*= MERIT64_
 // CFGFilterLAVVideo
 //
 
-CFGFilterLAVVideo::CFGFilterLAVVideo(UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
-    : CFGFilterLAV(GUID_LAVVideo, _T(".\\LAVFilters\\x86\\LAVVideo.ax"), L"LAV Video Decoder (internal)", bAddLowMeritSuffix, merit)
+const CString CFGFilterLAVVideo::filename = _T("LAVVideo.ax");
+
+CFGFilterLAVVideo::CFGFilterLAVVideo(CString path, UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
+    : CFGFilterLAV(GUID_LAVVideo, path, L"LAV Video Decoder (internal)", bAddLowMeritSuffix, merit)
 {
 }
 
@@ -111,8 +179,10 @@ HRESULT CFGFilterLAVVideo::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
 // CFGFilterLAVAudio
 //
 
-CFGFilterLAVAudio::CFGFilterLAVAudio(UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
-    : CFGFilterLAV(GUID_LAVAudio, _T(".\\LAVFilters\\x86\\LAVAudio.ax"), L"LAV Audio Decoder (internal)", bAddLowMeritSuffix, merit)
+const CString CFGFilterLAVAudio::filename = _T("LAVAudio.ax");
+
+CFGFilterLAVAudio::CFGFilterLAVAudio(CString path, UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
+    : CFGFilterLAV(GUID_LAVAudio, path, L"LAV Audio Decoder (internal)", bAddLowMeritSuffix, merit)
 {
 }
 

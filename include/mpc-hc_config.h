@@ -47,4 +47,7 @@
 // If you distribute your builds, please disable minidumps by defining ENABLE_MINIDUMP 0.
 #define ENABLE_MINIDUMP 1
 
+// If this is enabled, the registered LAV Filters can be loaded as internal filters
+#define ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL 0
+
 #endif // MPC_HC_CONFIG_H
