@@ -337,8 +337,7 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
     return hr;
 }
 
-HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner,
-        REFIID iid, CComPtr<IUnknown>& pUnk, REFIID iidStat, CComPtr<IUnknown>& pUnkStat)
+HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk)
 {
     CComQIPtr<IBDA_Topology> pTop(pTuner);
     CheckPointer(pTop, E_NOINTERFACE);
@@ -362,31 +361,15 @@ HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner,
             continue;
         }
 
-        pUnk = NULL;
-        pUnkStat = NULL;
-
         for (ULONG j = 0; j < nInterfaces; j++) {
             if (aInterface[j] == iid) {
-                hr = pTop->GetControlNode(0, 1, NodeType[i], &pUnk);
-                if (FAILED(hr)) {
-                    break;
-                }
-            } else if (aInterface[j] == iidStat) {
-                hr = pTop->GetControlNode(0, 1, NodeType[i], &pUnkStat);
-                if (FAILED(hr)) {
-                    break;
-                }
+                return pTop->GetControlNode(0, 1, NodeType[i], &pUnk);
             }
-        }
-
-        if (pUnk && pUnkStat) {
-            break;
         }
     }
 
-    return (pUnk && pUnkStat) ? hr : E_NOINTERFACE;
+    return FAILED(hr) ? hr : E_NOINTERFACE;
 }
-
 HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInFilter)
 {
     HRESULT hr = VFW_E_CANNOT_CONNECT;
@@ -449,22 +432,31 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 
     m_pBDAControl = pTuner;
 
-    HRESULT hrBDAFreq = SearchIBDATopology(pTuner, m_pBDAFreq, m_pBDATunerStats);
-    HRESULT hrBDDemodulator = SearchIBDATopology(pTuner, m_pBDADemodulator, m_pBDADemodStats);
+    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq))) {
+        AfxMessageBox(_T("BDA : IBDA_FrequencyFilter topology failed: 0x%08x\n"), hr);
+        LOG(_T("IBDA_FrequencyFilter topology failed\n"));
+        return hr;
+    }
+    m_pBDATunerStats = m_pBDAFreq;
+    if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDADemodulator))) {
+        TRACE(_T("BDA : IBDA_DigitalDemodulator topology failed: 0x%08x\n"), hr);
+        LOG(_T("IBDA_DigitalDemodulator topology failed\n"));
+    }
+    m_pBDADemodStats = m_pBDADemodulator;
 
-    if (FAILED(hrBDAFreq) || FAILED(hrBDDemodulator)) {
-        if (SUCCEEDED(hrBDAFreq)) {
-            TRACE(_T("BDA : IBDA_DigitalDemodulator topology failed: 0x%08x --> using the statistics from the RF node only\n"), hrBDDemodulator);
-            LOG(_T("IBDA_DigitalDemodulator topology failed --> using the statistics from the RF node only\n"));
+    if (!m_pBDATunerStats || !m_pBDADemodStats) {
+        if (m_pBDATunerStats) {
+            TRACE(_T("BDA : no statistics interface on the demodulator node --> using the statistics from the RF node only\n"));
+            LOG(_T("No statistics interface on the demodulator node --> using the statistics from the RF node only\n"));
             m_pBDADemodStats = m_pBDATunerStats;
-        } else if (SUCCEEDED(hrBDDemodulator)) {
-            TRACE(_T("BDA : IBDA_FrequencyFilter topology failed: 0x%08x --> using the statistics from the demodulator node only\n"), hrBDAFreq);
-            LOG(_T("IBDA_FrequencyFilter topology failed --> using the statistics from the demodulator node only\n"));
+        } else if (m_pBDADemodStats) {
+            TRACE(_T("BDA : no statistics interface on the RF node --> using the statistics from the demodulator node only\n"));
+            LOG(_T("No statistics interface on the RF node --> using the statistics from the demodulator node only\n"));
             m_pBDATunerStats = m_pBDADemodStats;
-        } else { // if (FAILED(hrBDAFreq) && FAILED(hrBDDemodulator))
-            AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter and IBDA_DigitalDemodulator topologies failed."), MB_OK);
-            TRACE(_T("BDA : IBDA_FrequencyFilter and IBDA_DigitalDemodulator topologies failed: 0x%08x and 0x%08x\n"), hrBDAFreq, hrBDDemodulator);
-            return hrBDAFreq;
+        } else { // if (!m_pBDATunerStats && !m_pBDADemodStats)
+            AfxMessageBox(_T("BDA Error: No statistics interface available."), MB_OK);
+            TRACE(_T("BDA : Not statistics interface available\n"));
+            return E_NOINTERFACE;
         }
     }
 
