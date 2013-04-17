@@ -9581,16 +9581,18 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
             ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
         }
-
-        // If MPC-HC wasn't previously set "on top" by an external tool,
-        // we restore the current internal on top state.
-        if (!bExtOnTop) {
-            SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-            SetAlwaysOnTop(s.iOnTop);
-        }
     }
 
     m_fAudioOnly = fAudioOnly;
+
+    // If MPC-HC wasn't previously set "on top" by an external tool,
+    // we restore the current internal on top state.
+    // Note that this should be called after m_fAudioOnly is restored
+    // to its initial value.
+    if (!m_fFullScreen && !bExtOnTop) {
+        SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        SetAlwaysOnTop(s.iOnTop);
+    }
 
     // Temporarily hide the OSD message if there is one, it will
     // be restored after. This avoid positioning problems.
