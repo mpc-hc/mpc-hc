@@ -111,6 +111,7 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
                 }
             }
 
+            versionFile->Close(); // Close() isn't called by the destructor
             delete versionFile;
         } else {
             updateAvailable = UPDATER_ERROR;
