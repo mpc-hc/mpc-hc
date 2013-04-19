@@ -23,6 +23,7 @@
 #include "FGFilterLAV.h"
 #include "MainFrm.h"
 #include "DSUtil.h"
+#include "FileVersionInfo.h"
 #include "WinAPIUtils.h"
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
@@ -32,6 +33,11 @@
 #include "LAVFilters/LAVSplitterSettings.h"
 #include "LAVFilters/LAVVideoSettings.h"
 #include "LAVFilters/LAVAudioSettings.h"
+
+#define LAV_FILTERS_VERSION_MAJOR    0
+#define LAV_FILTERS_VERSION_MINOR    56
+#define LAV_FILTERS_VERSION_REVISION 2
+#define LAV_FILTERS_VERSION ((QWORD)LAV_FILTERS_VERSION_MAJOR << 48 | (QWORD)LAV_FILTERS_VERSION_MINOR << 32 | (QWORD)LAV_FILTERS_VERSION_REVISION << 16)
 
 //
 // CFGFilterLAV
@@ -68,14 +74,25 @@ CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
     }
 
 #if ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL
-    // Check that the filter exists
-    if (!FileExists(filterPath)) {
+    // Check that the filter's version is correct
+    if (!CheckVersion(filterPath)) {
         // If not, check if a registered version of the filter is available.
         filterPath = ::GetFilterPath(filterCLSID);
+        // and if it can be used
+        if (!CheckVersion(filterPath)) {
+            filterPath = _T("");
+        }
     }
 #endif
 
     return filterPath;
+}
+
+bool CFGFilterLAV::CheckVersion(CString filterPath)
+{
+    QWORD version = CFileVersionInfo::GetFileVersionNum(filterPath);
+
+    return (version >= LAV_FILTERS_VERSION);
 }
 
 CFGFilterLAV* CFGFilterLAV::CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
@@ -121,7 +138,9 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
     HRESULT hr = __super::Create(ppBF, pUnks);
 
     if (SUCCEEDED(hr)) {
-        if (CComQIPtr<ILAVFSettings> pSettings = *ppBF) {
+        if (!CheckVersion(m_path)) {
+            hr = E_FAIL;
+        } else if (CComQIPtr<ILAVFSettings> pSettings = *ppBF) {
             hr = pSettings->SetRuntimeConfig(TRUE);
         } else {
             hr = E_NOINTERFACE;
@@ -165,7 +184,9 @@ HRESULT CFGFilterLAVVideo::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
     HRESULT hr = __super::Create(ppBF, pUnks);
 
     if (SUCCEEDED(hr)) {
-        if (CComQIPtr<ILAVVideoSettings> pSettings = *ppBF) {
+        if (!CheckVersion(m_path)) {
+            hr = E_FAIL;
+        } else if (CComQIPtr<ILAVVideoSettings> pSettings = *ppBF) {
             hr = pSettings->SetRuntimeConfig(TRUE);
         } else {
             hr = E_NOINTERFACE;
@@ -191,7 +212,9 @@ HRESULT CFGFilterLAVAudio::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
     HRESULT hr = __super::Create(ppBF, pUnks);
 
     if (SUCCEEDED(hr)) {
-        if (CComQIPtr<ILAVAudioSettings> pSettings = *ppBF) {
+        if (!CheckVersion(m_path)) {
+            hr = E_FAIL;
+        } else if (CComQIPtr<ILAVAudioSettings> pSettings = *ppBF) {
             hr = pSettings->SetRuntimeConfig(TRUE);
         } else {
             hr = E_NOINTERFACE;
@@ -200,3 +223,4 @@ HRESULT CFGFilterLAVAudio::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
 
     return hr;
 }
+
