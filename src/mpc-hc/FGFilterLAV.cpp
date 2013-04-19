@@ -28,6 +28,9 @@
 #include "SyncAllocatorPresenter.h"
 #include "moreuuids.h"
 
+#include "LAVFilters/LAVSplitterSettings.h"
+#include "LAVFilters/LAVVideoSettings.h"
+#include "LAVFilters/LAVAudioSettings.h"
 
 //
 // CFGFilterLAV
@@ -39,11 +42,35 @@ CFGFilterLAV::CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool
 }
 
 //
+// CFGFilterLAVSplitterBase
+//
+
+CFGFilterLAVSplitterBase::CFGFilterLAVSplitterBase(const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit)
+    : CFGFilterLAV(clsid, _T(".\\LAVFilters\\x86\\LAVSplitter.ax"), name, bAddLowMeritSuffix, merit)
+{
+}
+
+HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
+{
+    HRESULT hr = __super::Create(ppBF, pUnks);
+
+    if (SUCCEEDED(hr)) {
+        if (CComQIPtr<ILAVFSettings> pSettings = *ppBF) {
+            hr = pSettings->SetRuntimeConfig(TRUE);
+        } else {
+            hr = E_NOINTERFACE;
+        }
+    }
+
+    return hr;
+}
+
+//
 // CFGFilterLAVSplitter
 //
 
 CFGFilterLAVSplitter::CFGFilterLAVSplitter(UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
-    : CFGFilterLAV(GUID_LAVSplitter, _T(".\\LAVFilters\\x86\\LAVSplitter.ax"), L"LAV Splitter (internal)", bAddLowMeritSuffix, merit)
+    : CFGFilterLAVSplitterBase(GUID_LAVSplitter, L"LAV Splitter (internal)", bAddLowMeritSuffix, merit)
 {
 }
 
@@ -52,7 +79,7 @@ CFGFilterLAVSplitter::CFGFilterLAVSplitter(UINT64 merit /*= MERIT64_DO_USE*/, bo
 //
 
 CFGFilterLAVSplitterSource::CFGFilterLAVSplitterSource(UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
-    : CFGFilterLAV(GUID_LAVSplitterSource, _T(".\\LAVFilters\\x86\\LAVSplitter.ax"), L"LAV Splitter Source (internal)", bAddLowMeritSuffix, merit)
+    : CFGFilterLAVSplitterBase(GUID_LAVSplitterSource, L"LAV Splitter Source (internal)", bAddLowMeritSuffix, merit)
 {
 }
 
@@ -65,6 +92,21 @@ CFGFilterLAVVideo::CFGFilterLAVVideo(UINT64 merit /*= MERIT64_DO_USE*/, bool bAd
 {
 }
 
+HRESULT CFGFilterLAVVideo::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
+{
+    HRESULT hr = __super::Create(ppBF, pUnks);
+
+    if (SUCCEEDED(hr)) {
+        if (CComQIPtr<ILAVVideoSettings> pSettings = *ppBF) {
+            hr = pSettings->SetRuntimeConfig(TRUE);
+        } else {
+            hr = E_NOINTERFACE;
+        }
+    }
+
+    return hr;
+}
+
 //
 // CFGFilterLAVAudio
 //
@@ -72,4 +114,19 @@ CFGFilterLAVVideo::CFGFilterLAVVideo(UINT64 merit /*= MERIT64_DO_USE*/, bool bAd
 CFGFilterLAVAudio::CFGFilterLAVAudio(UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
     : CFGFilterLAV(GUID_LAVAudio, _T(".\\LAVFilters\\x86\\LAVAudio.ax"), L"LAV Audio Decoder (internal)", bAddLowMeritSuffix, merit)
 {
+}
+
+HRESULT CFGFilterLAVAudio::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
+{
+    HRESULT hr = __super::Create(ppBF, pUnks);
+
+    if (SUCCEEDED(hr)) {
+        if (CComQIPtr<ILAVAudioSettings> pSettings = *ppBF) {
+            hr = pSettings->SetRuntimeConfig(TRUE);
+        } else {
+            hr = E_NOINTERFACE;
+        }
+    }
+
+    return hr;
 }

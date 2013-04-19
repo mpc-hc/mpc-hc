@@ -450,6 +450,9 @@
     <ClCompile Include="WinHotkeyCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\thirdparty\LAVFilters\LAVAudioSettings.h" />
+    <ClInclude Include="..\thirdparty\LAVFilters\LAVSplitterSettings.h" />
+    <ClInclude Include="..\thirdparty\LAVFilters\LAVVideoSettings.h" />
     <ClInclude Include="..\thirdparty\mfc\afxmaskededit.h">
       <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
     </ClInclude>

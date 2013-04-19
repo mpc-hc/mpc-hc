@@ -33,13 +33,22 @@ protected:
     CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
 };
 
-class CFGFilterLAVSplitter : public CFGFilterLAV
+class CFGFilterLAVSplitterBase : public CFGFilterLAV
+{
+protected:
+    CFGFilterLAVSplitterBase(const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
+
+public:
+    virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+};
+
+class CFGFilterLAVSplitter : public CFGFilterLAVSplitterBase
 {
 public:
     CFGFilterLAVSplitter(UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 };
 
-class CFGFilterLAVSplitterSource : public CFGFilterLAV
+class CFGFilterLAVSplitterSource : public CFGFilterLAVSplitterBase
 {
 public:
     CFGFilterLAVSplitterSource(UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
@@ -49,10 +58,14 @@ class CFGFilterLAVVideo : public CFGFilterLAV
 {
 public:
     CFGFilterLAVVideo(UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+
+    virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };
 
 class CFGFilterLAVAudio : public CFGFilterLAV
 {
 public:
     CFGFilterLAVAudio(UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+
+    virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };
