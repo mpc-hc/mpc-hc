@@ -383,6 +383,8 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 }
             }
 
+            static CStdioFile dump(L"output.txt", CFile::modeCreate | CFile::modeWrite);
+
             double sample_mul = 1.0;
 
             if (m_fNormalize) {
@@ -418,6 +420,9 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
             if (m_boostFactor > 1.0) {
                 sample_mul *= m_boostFactor;
             }
+
+            CString m; m.Format(L"%s\t%f\n", ReftimeToString(m_rtNextStart), sample_mul);
+            dump.WriteString(m);
 
             for (int i = 0; i < samples; i++) {
                 double s = buff[i] * sample_mul;
