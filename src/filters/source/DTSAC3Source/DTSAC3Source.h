@@ -51,7 +51,7 @@ class CDTSAC3Stream : public CBaseStream
     int  m_bitrate;        // bits per second
     int  m_framesize;      // bytes per frame
     bool m_fixedframesize; // constant frame size
-    int  m_framelength;    // sample per frame
+    int  m_framelength;    // samples per frame
     WORD m_bitdepth;       // bits per sample
     BYTE m_streamtype;
 

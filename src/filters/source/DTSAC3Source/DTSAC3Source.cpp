@@ -274,14 +274,14 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             m_file.Seek(m_dataOffset, CFile::begin);
 
             BYTE* buf = new BYTE[buflen];
-            int len = m_file.Read(buf, buflen);
+            UINT len = m_file.Read(buf, buflen);
             if (len < 100) {
                 break;    // file is very small
             }
 
-            for (int i = 1; i < len - 8; i++) { // looking for DTS or AC3 sync
+            for (UINT i = 1; i + 8 < len; i++) { // looking for DTS or AC3 sync
                 id = *(DWORD*)(buf + i);
-                if (isDTSSync(id) || (WORD)id == AC3_SYNC_WORD && (GetAC3FrameSize(buf) > 0 || GetEAC3FrameSize(buf) > 0)) {
+                if (isDTSSync(id) || (WORD)id == AC3_SYNC_WORD && (GetAC3FrameSize(buf + i) > 0 || GetEAC3FrameSize(buf + i) > 0)) {
                     isFound = true;
                     m_dataOffset += i;
                     break;
