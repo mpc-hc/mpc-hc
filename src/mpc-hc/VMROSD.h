@@ -73,6 +73,8 @@ public:
     bool OnLButtonDown(UINT nFlags, CPoint point);
     bool OnLButtonUp(UINT nFlags, CPoint point);
 
+    void EnableShowSeekBar(bool enabled = true);
+    void SetVideoWindow(CWnd* pWnd);
 private:
     CComPtr<IVMRMixerBitmap9>    m_pVMB;
     CComPtr<IMFVideoMixerBitmap> m_pMFVMB;
