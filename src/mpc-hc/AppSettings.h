@@ -163,12 +163,6 @@ enum {
     TIME_TOOLTIP_BELOW_SEEKBAR
 };
 
-enum {
-    WHEN_DONE_PAUSE,
-    WHEN_DONE_STOP,
-    WHEN_DONE_CLOSE
-};
-
 #pragma pack(push, 1)
 typedef struct {
     bool fValid;
@@ -415,7 +409,7 @@ public:
     int             nBalance;
     int             nLoops;
     bool            fLoopForever;
-    int             iWhenDone;
+    bool            fRewind;
     bool            fRememberZoomLevel;
     int             nAutoFitFactor;
     int             iZoomLevel;
@@ -483,9 +477,8 @@ public:
     // Audio Switcher
     bool            fEnableAudioSwitcher;
     bool            fAudioNormalize;
-    UINT            nAudioMaxNormFactor;
     bool            fAudioNormalizeRecover;
-    UINT            nAudioBoost;
+    float           dAudioBoost_dB;
     bool            fDownSampleTo441;
     bool            fAudioTimeShift;
     int             iAudioTimeShift;

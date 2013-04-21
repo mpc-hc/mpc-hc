@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Δεν ήταν δυνατή η σύν�
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Δεν ήταν δυνατή η δημιουργία της συσκευής λήψης."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Δεν ήταν δυνατή η δημιουργία του δέκτη."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Δεν ήταν δυνατή η δημιουργία διαχωρισμού της πολύπλεξης."
-STRING IDS_BOOST_OSD		"Ώθηση: +%u%%"
+STRING IDS_BOOST_OSD		"Ώθηση: +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"Μείωση φωτεινότητας"
 STRING IDS_BRIGHTNESS_INC		"Αύξηση φωτεινότητας"
 STRING IDS_CANCEL		"Άκυρο"

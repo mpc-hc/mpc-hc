@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Невозможно подключит
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Невозможно создать приемник."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Невозможно создать тюнер."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Невозможно создать демультиплексор."
-STRING IDS_BOOST_OSD		"Усиление: +%u%%"
+STRING IDS_BOOST_OSD		"Усиление: +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"Яркость уменьшить"
 STRING IDS_BRIGHTNESS_INC		"Яркость увеличить"
 STRING IDS_CANCEL		"Отменить"

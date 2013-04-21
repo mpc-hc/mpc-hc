@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Could not connect the tuner and the rec
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Could not create the receiver."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Could not create the tuner."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Could not create the demultiplexer."
-STRING IDS_BOOST_OSD		"המרצה: +%u%%"
+STRING IDS_BOOST_OSD		"המרצה: +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"הפחתת בהירות"
 STRING IDS_BRIGHTNESS_INC		"הגברת בהירות"
 STRING IDS_CANCEL		"Cancel"

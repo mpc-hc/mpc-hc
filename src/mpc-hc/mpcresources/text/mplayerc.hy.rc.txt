@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Հնարավոր չէ միանալ թյ
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Հնարավոր չէ ստեղծել ստացող։"
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Հնարավոր չէ ստեղծել թյուներ։"
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Հնարավոր չէ ստեղծել demultiplexer։"
-STRING IDS_BOOST_OSD		"Boost-ը. +%u%%"
+STRING IDS_BOOST_OSD		"Boost-ը. +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"Բացության նվազեցում"
 STRING IDS_BRIGHTNESS_INC		"Բացության ուժեղացում"
 STRING IDS_CANCEL		"Չեղարկել"

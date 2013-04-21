@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Impossibile collegarsi al sintonizzator
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Impossibile collegarsi al ricevitore."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Impossibile creare il sintonizzatore."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Impossibile creare il demultiplexer."
-STRING IDS_BOOST_OSD		"Aumento: +%u%%"
+STRING IDS_BOOST_OSD		"Aumento: +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"Incremento luminosità"
 STRING IDS_BRIGHTNESS_INC		"Decremento luminosità"
 STRING IDS_CANCEL		"Annulla"

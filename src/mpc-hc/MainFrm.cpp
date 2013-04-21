@@ -2247,18 +2247,11 @@ bool CMainFrame::GraphEventComplete()
                 }
             }
         } else {
-            switch (s.iWhenDone) {
-                default:
-                case WHEN_DONE_PAUSE:
-                    m_fEndOfStream = true;
-                    SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-                    break;
-                case WHEN_DONE_STOP:
-                    SendMessage(WM_COMMAND, ID_PLAY_STOP);
-                    break;
-                case WHEN_DONE_CLOSE:
-                    SendMessage(WM_COMMAND, ID_FILE_CLOSEPLAYLIST);
-                    break;
+            if (s.fRewind) {
+                SendMessage(WM_COMMAND, ID_PLAY_STOP);
+            } else {
+                m_fEndOfStream = true;
+                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
             }
             m_OSD.ClearMessage();
 
@@ -2288,19 +2281,13 @@ bool CMainFrame::GraphEventComplete()
             if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
                 OnViewFullscreen();
             }
-            switch (s.iWhenDone) {
-                default:
-                case WHEN_DONE_PAUSE:
-                    m_fEndOfStream = true;
-                    SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-                    break;
-                case WHEN_DONE_STOP:
-                    s.nCLSwitches |= CLSW_OPEN; // HACK
-                    PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
-                    break;
-                case WHEN_DONE_CLOSE:
-                    SendMessage(WM_COMMAND, ID_FILE_CLOSEPLAYLIST);
-                    break;
+
+            if (s.fRewind) {
+                s.nCLSwitches |= CLSW_OPEN; // HACK
+                PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+            } else {
+                m_fEndOfStream = true;
+                PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
             }
         }
     }
@@ -7980,43 +7967,37 @@ void CMainFrame::OnPlayVolume(UINT nID)
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
 {
     CAppSettings& s = AfxGetAppSettings();
+    int i = (int)(s.dAudioBoost_dB * 10 + 0.1);
 
     switch (nID) {
         case ID_VOLUME_BOOST_INC:
-            s.nAudioBoost += 5;
-            if (s.nAudioBoost > 300) {
-                s.nAudioBoost = 300;
-            }
+            i = min(i + 10, 100);
             break;
         case ID_VOLUME_BOOST_DEC:
-            if (s.nAudioBoost > 5) {
-                s.nAudioBoost -= 5;
-            } else {
-                s.nAudioBoost = 0;
-            }
+            i = max(i - 10, 0);
             break;
         case ID_VOLUME_BOOST_MIN:
-            s.nAudioBoost = 0;
+            i = 0;
             break;
         case ID_VOLUME_BOOST_MAX:
-            s.nAudioBoost = 300;
+            i = 100;
             break;
     }
 
-    SetVolumeBoost(s.nAudioBoost);
+    s.dAudioBoost_dB = i / 10.0f;
+    SetVolumeBoost(s.dAudioBoost_dB);
 }
 
-void CMainFrame::SetVolumeBoost(UINT nAudioBoost)
+void CMainFrame::SetVolumeBoost(float fAudioBoost_dB)
 {
+    CString strBoost;
+    strBoost.Format(IDS_BOOST_OSD, fAudioBoost_dB);
+
     if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
         bool fNormalize, fNormalizeRecover;
-        UINT nMaxNormFactor, nBoost;
-        pASF->GetNormalizeBoost2(fNormalize, nMaxNormFactor, fNormalizeRecover, nBoost);
-
-
-        CString strBoost;
-        strBoost.Format(IDS_BOOST_OSD, nAudioBoost);
-        pASF->SetNormalizeBoost2(fNormalize, nMaxNormFactor, fNormalizeRecover, nAudioBoost);
+        float boost;
+        pASF->GetNormalizeBoost(fNormalize, fNormalizeRecover, boost);
+        pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, fAudioBoost_dB);
         m_OSD.DisplayMessage(OSD_TOPLEFT, strBoost);
     }
 }
@@ -8059,7 +8040,7 @@ void CMainFrame::OnNormalizeRegainVolume(UINT nID)
                 break;
         }
 
-        pASF->SetNormalizeBoost2(s.fAudioNormalize, s.nAudioMaxNormFactor, s.fAudioNormalizeRecover, s.nAudioBoost);
+        pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost_dB);
         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMessage));
     }
 }

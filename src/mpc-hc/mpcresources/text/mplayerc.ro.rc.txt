@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Tunerul și receptorul nu pot fi conect
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Receptorul nu poate fi creat."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Tunerul nu  poate fi creat."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Demultiplexorul nu poate fi creat."
-STRING IDS_BOOST_OSD		"Amplificare: +%u%%"
+STRING IDS_BOOST_OSD		"Amplificare: +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"Micșorare luminozitate"
 STRING IDS_BRIGHTNESS_INC		"Mărire luminozitate"
 STRING IDS_CANCEL		"Renunță"

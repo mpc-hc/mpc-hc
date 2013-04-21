@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Неможливо з'єднатися 
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Неможливо створити рісівер."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Неможливо створити тюнер."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Неможливо створити демультиплексер."
-STRING IDS_BOOST_OSD		"Підсилення: +%u%%"
+STRING IDS_BOOST_OSD		"Підсилення: +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"Зменшення яскравості"
 STRING IDS_BRIGHTNESS_INC		"Збільшення яскравості"
 STRING IDS_CANCEL		"Відмінити"

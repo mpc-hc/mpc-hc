@@ -57,7 +57,6 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
     DDX_Check(pDX, IDC_CHECK5, m_fAudioNormalize);
-    DDX_Text(pDX, IDC_EDIT3, m_nAudioMaxNormFactor);
     DDX_Check(pDX, IDC_CHECK6, m_fAudioNormalizeRecover);
     DDX_Slider(pDX, IDC_SLIDER1, m_AudioBoostPos);
     DDX_Control(pDX, IDC_SLIDER1, m_AudioBoostCtrl);
@@ -81,13 +80,9 @@ BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CPPageBase)
     ON_NOTIFY(NM_CLICK, IDC_LIST1, OnNMClickList1)
     ON_WM_DRAWITEM()
     ON_EN_CHANGE(IDC_EDIT1, OnEnChangeEdit1)
-    ON_UPDATE_COMMAND_UI(IDC_STATIC6, OnUpdateAudioSwitcher)
     ON_UPDATE_COMMAND_UI(IDC_SLIDER1, OnUpdateAudioSwitcher)
     ON_UPDATE_COMMAND_UI(IDC_CHECK5, OnUpdateAudioSwitcher)
-    ON_UPDATE_COMMAND_UI(IDC_STATIC4, OnUpdateNormalize)
-    ON_UPDATE_COMMAND_UI(IDC_STATIC5, OnUpdateNormalize)
-    ON_UPDATE_COMMAND_UI(IDC_EDIT3, OnUpdateNormalize)
-    ON_UPDATE_COMMAND_UI(IDC_CHECK6, OnUpdateNormalize)
+    ON_UPDATE_COMMAND_UI(IDC_CHECK6, OnUpdateAudioSwitcher)
     ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateAudioSwitcher)
     ON_UPDATE_COMMAND_UI(IDC_CHECK4, OnUpdateAudioSwitcher)
     ON_UPDATE_COMMAND_UI(IDC_EDIT2, OnUpdateAudioSwitcher)
@@ -114,11 +109,9 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 
     m_fEnableAudioSwitcher = s.fEnableAudioSwitcher;
     m_fAudioNormalize = s.fAudioNormalize;
-    m_nAudioMaxNormFactor = s.nAudioMaxNormFactor;
     m_fAudioNormalizeRecover = s.fAudioNormalizeRecover;
-    m_AudioBoostCtrl.SetRange(0, 300);
-    m_AudioBoostCtrl.SetPageSize(10);
-    m_AudioBoostPos = s.nAudioBoost;
+    m_AudioBoostPos = (int)(s.dAudioBoost_dB * 10 + 0.1);
+    m_AudioBoostCtrl.SetRange(0, 100);
     m_fDownSampleTo441 = s.fDownSampleTo441;
     m_fAudioTimeShift = s.fAudioTimeShift;
     m_tAudioTimeShift = s.iAudioTimeShift;
@@ -185,14 +178,8 @@ BOOL CPPageAudioSwitcher::OnApply()
 
     s.fEnableAudioSwitcher = !!m_fEnableAudioSwitcher;
     s.fAudioNormalize = !!m_fAudioNormalize;
-    if (m_nAudioMaxNormFactor > 1000) {
-        m_nAudioMaxNormFactor = 1000;
-    } else if (m_nAudioMaxNormFactor < 100) {
-        m_nAudioMaxNormFactor = 100;
-    }
-    s.nAudioMaxNormFactor = m_nAudioMaxNormFactor;
     s.fAudioNormalizeRecover = !!m_fAudioNormalizeRecover;
-    s.nAudioBoost = m_AudioBoostPos;
+    s.dAudioBoost_dB = (float)m_AudioBoostPos / 10;
     s.fDownSampleTo441 = !!m_fDownSampleTo441;
     s.fAudioTimeShift = !!m_fAudioTimeShift;
     s.iAudioTimeShift = m_tAudioTimeShift;
@@ -203,7 +190,7 @@ BOOL CPPageAudioSwitcher::OnApply()
         m_pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
         m_pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
         m_pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64 * s.iAudioTimeShift : 0);
-        m_pASF->SetNormalizeBoost2(s.fAudioNormalize, s.nAudioMaxNormFactor, s.fAudioNormalizeRecover, s.nAudioBoost);
+        m_pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost_dB);
     }
 
     s.nSpeakerChannels = m_nChannels;
@@ -331,13 +318,6 @@ void CPPageAudioSwitcher::OnUpdateAudioSwitcher(CCmdUI* pCmdUI)
     pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK2)/*m_fEnableAudioSwitcher*/);
 }
 
-void CPPageAudioSwitcher::OnUpdateNormalize(CCmdUI* pCmdUI)
-{
-    //  UpdateData();
-    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK2)/*m_fEnableAudioSwitcher*/
-        && IsDlgButtonChecked(IDC_CHECK5)/*m_fNormalize*/);
-}
-
 void CPPageAudioSwitcher::OnUpdateChannelMapping(CCmdUI* pCmdUI)
 {
     //  UpdateData();
@@ -349,7 +329,7 @@ void CPPageAudioSwitcher::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScroll
 {
     if (*pScrollBar == m_AudioBoostCtrl) {
         UpdateData();
-        ((CMainFrame*)GetParentFrame())->SetVolumeBoost(m_AudioBoostPos); // nice shortcut...
+        ((CMainFrame*)GetParentFrame())->SetVolumeBoost((float)m_AudioBoostPos / 10); // nice shortcut...
     }
 
     SetModified();
@@ -372,7 +352,7 @@ BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResu
 
     static CString strTipText; // static string
 
-    strTipText.Format(_T("+%u%%"), m_AudioBoostCtrl.GetPos());
+    strTipText.Format(_T("+%.1f dB"), m_AudioBoostCtrl.GetPos() / 10.0);
 
     pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
 
@@ -385,8 +365,8 @@ void CPPageAudioSwitcher::OnCancel()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (m_AudioBoostPos != s.nAudioBoost) {
-        ((CMainFrame*)GetParentFrame())->SetVolumeBoost(s.nAudioBoost);
+    if (m_AudioBoostPos != (int)(s.dAudioBoost_dB * 10 + 0.1)) {
+        ((CMainFrame*)GetParentFrame())->SetVolumeBoost(s.dAudioBoost_dB);
     }
 
     __super::OnCancel();

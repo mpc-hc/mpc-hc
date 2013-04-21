@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Nepodařilo se připojit tuner a přij�
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Nepodařilo se vytvořit přijímač."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Nepodařilo se vytvořit tuner."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Nepodařilo se vytvořit demultiplexor."
-STRING IDS_BOOST_OSD		"Zesílení: +%u%%"
+STRING IDS_BOOST_OSD		"Zesílení: +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"Snížení jasu"
 STRING IDS_BRIGHTNESS_INC		"Zvýšení jasu"
 STRING IDS_CANCEL		"Storno"

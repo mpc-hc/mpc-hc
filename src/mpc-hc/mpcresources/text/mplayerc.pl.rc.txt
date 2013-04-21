@@ -1285,7 +1285,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Nie można połączyć tunera oraz odbi
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Nie można utworzyć odbiornika."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Nie można utworzyć tunera."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Nie można utworzyć demultipleksera."
-STRING IDS_BOOST_OSD		"Wzmocnienie: +%u%%"
+STRING IDS_BOOST_OSD		"Wzmocnienie: +%.1f dB"
 STRING IDS_BRIGHTNESS_DEC		"Zmniejszono jasność"
 STRING IDS_BRIGHTNESS_INC		"Zwiększono jasność"
 STRING IDS_CANCEL		"Anuluj"
