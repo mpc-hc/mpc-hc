@@ -42,8 +42,8 @@ public IUnknown {
     STDMETHOD(GetNormalizeBoost)(bool & fNormalize, bool & fNormalizeRecover, float & boost_dB) = 0;
     // Deprecated
     STDMETHOD(SetNormalizeBoost)(bool fNormalize, bool fNormalizeRecover, float boost_dB) = 0;
-    STDMETHOD(GetNormalizeBoost2)(bool & fNormalize, bool & fNormalizeRecover, UINT & boost) = 0;
-    STDMETHOD(SetNormalizeBoost2)(bool fNormalize, bool fNormalizeRecover, UINT boost) = 0;
+    STDMETHOD(GetNormalizeBoost2)(bool & fNormalize, UINT & nMaxNormFactor, bool & fNormalizeRecover, UINT & nBoost) = 0;
+    STDMETHOD(SetNormalizeBoost2)(bool fNormalize, UINT nMaxNormFactor, bool fNormalizeRecover, UINT nBoost) = 0;
 };
 
 class AudioStreamResampler;
@@ -63,7 +63,7 @@ class __declspec(uuid("18C16B08-6497-420e-AD14-22D21C2CEAB7"))
     CAutoPtrArray<AudioStreamResampler> m_pResamplers;
     double m_normalizeFactor;
     bool m_fNormalize, m_fNormalizeRecover;
-    double m_boostFactor;
+    double m_nMaxNormFactor, m_boostFactor;
 
     REFERENCE_TIME m_rtNextStart, m_rtNextStop;
 
@@ -94,8 +94,8 @@ public:
     STDMETHODIMP GetNormalizeBoost(bool& fNormalize, bool& fNormalizeRecover, float& boost_dB);
     // Deprecated
     STDMETHODIMP SetNormalizeBoost(bool fNormalize, bool fNormalizeRecover, float boost_dB);
-    STDMETHODIMP GetNormalizeBoost2(bool& fNormalize, bool& fNormalizeRecover, UINT& boost);
-    STDMETHODIMP SetNormalizeBoost2(bool fNormalize, bool fNormalizeRecover, UINT boost);
+    STDMETHODIMP GetNormalizeBoost2(bool& fNormalize, UINT& nMaxNormFactor, bool& fNormalizeRecover, UINT& nBoost);
+    STDMETHODIMP SetNormalizeBoost2(bool fNormalize, UINT nMaxNormFactor, bool fNormalizeRecover, UINT nBoost);
 
     // IAMStreamSelect
     STDMETHODIMP Enable(long lIndex, DWORD dwFlags);

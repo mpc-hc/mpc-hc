@@ -75,6 +75,7 @@
 // AudioSwitcher
 #define IDS_RS_ENABLEAUDIOSWITCHER          _T("EnableAudioSwitcher")
 #define IDS_RS_AUDIONORMALIZE               _T("AudioNormalize")
+#define IDS_RS_AUDIOMAXNORMFACTOR           _T("AudioMaxNormFactor")
 #define IDS_RS_AUDIONORMALIZERECOVER        _T("AudioNormalizeRecover")
 #define IDS_RS_AUDIOBOOST                   _T("AudioBoost")
 #define IDS_RS_DOWNSAMPLETO441              _T("DownSampleTo441")

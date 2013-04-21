@@ -35,7 +35,6 @@
 #define INT24_MAX       8388607
 #define INT24_MIN     (-8388608)
 
-#define MAX_NORMALIZATION_FACTOR       10.0
 #define NORMALIZATION_REGAIN_STEP      0.06 // +6%/s
 #define NORMALIZATION_REGAIN_THRESHOLD 0.75
 
@@ -93,8 +92,9 @@ CAudioSwitcherFilter::CAudioSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr)
     , m_rtNextStop(1)
     , m_fNormalize(false)
     , m_fNormalizeRecover(false)
+    , m_nMaxNormFactor(4.0)
     , m_boostFactor(1.0)
-    , m_normalizeFactor(MAX_NORMALIZATION_FACTOR)
+    , m_normalizeFactor(m_nMaxNormFactor)
 {
     memset(m_pSpeakerToChannelMap, 0, sizeof(m_pSpeakerToChannelMap));
 
@@ -408,8 +408,8 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                     m_normalizeFactor += NORMALIZATION_REGAIN_STEP * rtDur / 10000000; // the step is per second so we weight it with the duration
                 }
 
-                if (m_normalizeFactor > MAX_NORMALIZATION_FACTOR) {
-                    m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
+                if (m_normalizeFactor > m_nMaxNormFactor) {
+                    m_normalizeFactor = m_nMaxNormFactor;
                 }
 
                 sample_mul = m_normalizeFactor;
@@ -524,20 +524,20 @@ void CAudioSwitcherFilter::OnNewOutputMediaType(const CMediaType& mtIn, const CM
     }
 
     TRACE(_T("CAudioSwitcherFilter::OnNewOutputMediaType\n"));
-    m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
+    m_normalizeFactor = m_nMaxNormFactor;
 }
 
 HRESULT CAudioSwitcherFilter::DeliverEndFlush()
 {
     TRACE(_T("CAudioSwitcherFilter::DeliverEndFlush\n"));
-    m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
+    m_normalizeFactor = m_nMaxNormFactor;
     return __super::DeliverEndFlush();
 }
 
 HRESULT CAudioSwitcherFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
     TRACE(_T("CAudioSwitcherFilter::DeliverNewSegment\n"));
-    m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
+    m_normalizeFactor = m_nMaxNormFactor;
     return __super::DeliverNewSegment(tStart, tStop, dRate);
 }
 
@@ -646,7 +646,7 @@ STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost(bool& fNormalize, bool& fNo
 STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost(bool fNormalize, bool fNormalizeRecover, float boost_dB)
 {
     if (m_fNormalize != fNormalize) {
-        m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
+        m_normalizeFactor = m_nMaxNormFactor;
     }
     m_fNormalize = fNormalize;
     m_fNormalizeRecover = fNormalizeRecover;
@@ -654,22 +654,24 @@ STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost(bool fNormalize, bool fNorm
     return S_OK;
 }
 
-STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost2(bool& fNormalize, bool& fNormalizeRecover, UINT& boost)
+STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost2(bool& fNormalize, UINT& nMaxNormFactor, bool& fNormalizeRecover, UINT& boost)
 {
     fNormalize = m_fNormalize;
+    nMaxNormFactor = UINT(100.0 * m_nMaxNormFactor + 0.5);
     fNormalizeRecover = m_fNormalizeRecover;
     boost = UINT(100.0 * m_boostFactor + 0.5) - 100;
     return S_OK;
 }
 
-STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost2(bool fNormalize, bool fNormalizeRecover, UINT boost)
+STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost2(bool fNormalize, UINT nMaxNormFactor, bool fNormalizeRecover, UINT boost)
 {
-    if (m_fNormalize != fNormalize) {
-        m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
-    }
     m_fNormalize = fNormalize;
+    m_nMaxNormFactor = nMaxNormFactor / 100.0;
     m_fNormalizeRecover = fNormalizeRecover;
     m_boostFactor = 1.0 + boost / 100.0;
+    if (m_fNormalize != fNormalize) {
+        m_normalizeFactor = m_nMaxNormFactor;
+    }
     return S_OK;
 }
 
@@ -679,7 +681,7 @@ STDMETHODIMP CAudioSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
 {
     HRESULT hr = __super::Enable(lIndex, dwFlags);
     if (S_OK == hr) {
-        m_normalizeFactor = MAX_NORMALIZATION_FACTOR;;
+        m_normalizeFactor = m_nMaxNormFactor;;
     }
     return hr;
 }

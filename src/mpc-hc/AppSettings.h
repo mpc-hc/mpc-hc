@@ -483,6 +483,7 @@ public:
     // Audio Switcher
     bool            fEnableAudioSwitcher;
     bool            fAudioNormalize;
+    UINT            nAudioMaxNormFactor;
     bool            fAudioNormalizeRecover;
     UINT            nAudioBoost;
     bool            fDownSampleTo441;
