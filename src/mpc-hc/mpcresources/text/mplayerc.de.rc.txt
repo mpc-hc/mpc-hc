@@ -11,7 +11,7 @@ END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
 3		"Filter auswählen"
-7		"&Durchsuchen..."
+7		"&Durchsuchen"
 8		"&OK"
 9		"&Abbrechen"
 END
@@ -152,9 +152,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 6		"Analog"
 7		"Digital"
 8		"Analog-Einstellungen"
-9		"Video"
-11		"Audio"
-13		"Land"
+9		"Video:"
+11		"Audio:"
+13		"Land:"
 15		"Digital-Einstellungen (BDA)"
 16		"Netzanbieter:"
 18		"Tuner:"
@@ -329,7 +329,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 17		"Weitere Einstellungen"
 18		"&Taskleistensymbol anzeigen"
 19		"OSD anzeigen (Neustart notwendig)"
-20		"Seitenverhältnis des Fensters autom. begrenzen"
+20		"Fenster-Seitenverhältnis autom. begrenzen"
 21		"Am Desktoprand einrasten"
 22		"&Einstellungen als Datei (*.ini) speichern"
 23		"&CD-ROM Menü ausblenden"
@@ -436,7 +436,7 @@ BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
 15		"Auswählen..."
 16		"Anlegen..."
 17		"Startseite:"
-19		"CGI-Handler (.ext1=Pfad1;.ext2=Pfad2;...) :"
+19		"CGI-Handler (.ext1=Pfad1;.ext2=Pfad2;...):"
 END
 
 BEGIN DIALOGEX IDD_SAVESUBTITLESFILEDIALOGTEMPL LINES 11
