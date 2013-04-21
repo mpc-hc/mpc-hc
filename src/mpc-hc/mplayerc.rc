@@ -2675,7 +2675,7 @@ BEGIN
     IDS_PPSDB_BADURL        "Bad URL, could not locate subtitle database there!"
     IDS_AG_CHAPTER2         "Chapter: "
     IDS_VOLUME_OSD          "Vol: %d%%"
-    IDS_BOOST_OSD           "Boost: +%.1f dB"
+    IDS_BOOST_OSD           "Boost: +%u%%"
     IDS_BALANCE_OSD         "Balance: %s"
     IDS_FULLSCREENMONITOR_CURRENT "Current"
     IDS_MPC_CRASH           "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file ""%s"" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"

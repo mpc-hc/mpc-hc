@@ -196,7 +196,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
     CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
 
-    void SetVolumeBoost(float fAudioBoost_dB);
+    void SetVolumeBoost(UINT nAudioBoost);
     void SetBalance(int balance);
 
     // subtitles

@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Impossible de connecter le tuner et le 
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Impossible de créer le récepteur."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Impossible de créer le tuner."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Impossible de créer le démultiplexeur."
-STRING IDS_BOOST_OSD		"Boost : +%.1f dB"
+STRING IDS_BOOST_OSD		"Boost : +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Diminuer la luminosité"
 STRING IDS_BRIGHTNESS_INC		"Augmenter la luminosité"
 STRING IDS_CANCEL		"Annuler"

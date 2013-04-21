@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Ezin da elkarketatu sintonizagailua eta
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Ezin da sortu hargailua."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Ezin da sortu sintonizagailua."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Ezin da sortu desmultiplexatzailea."
-STRING IDS_BOOST_OSD		"Bultzada: +%.1f dB"
+STRING IDS_BOOST_OSD		"Bultzada: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Gutxitu dizdira"
 STRING IDS_BRIGHTNESS_INC		"Gehitu dizdira"
 STRING IDS_CANCEL		"Ezeztatu"

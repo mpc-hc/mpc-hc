@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Немагчыма падлучыцца
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Немагчыма падлучыцца да рэсівера."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Немагчыма стварыць т'юнер."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Немагчыма стварыць дэмультыплексар."
-STRING IDS_BOOST_OSD		"Узмацненне: +%.1f dB"
+STRING IDS_BOOST_OSD		"Узмацненне: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Яркасць паменьшыць"
 STRING IDS_BRIGHTNESS_INC		"Яркасць павялічыць"
 STRING IDS_CANCEL		"Адмена"
