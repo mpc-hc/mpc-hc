@@ -473,11 +473,11 @@ void CMPlayerCApp::InitProfile()
         int fpStatus;
         do { // Open mpc-hc.ini in UNICODE mode, retry if it is already being used by another process
             fp = _tfsopen(m_pszProfileName, _T("r, ccs=UNICODE"), _SH_SECURE);
-            if (!fp && (GetLastError() == ERROR_SHARING_VIOLATION)) {
-                Sleep(100);
-                continue;
+            if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
+                break;
             }
-        } while (false);
+            Sleep(100);
+        } while (true);
         if (!fp) {
             ASSERT(FALSE);
             return;
@@ -488,11 +488,11 @@ void CMPlayerCApp::InitProfile()
             ASSERT(fpStatus == 0);
             do { // Reopen mpc-hc.ini in ANSI mode, retry if it is already being used by another process
                 fp = _tfsopen(m_pszProfileName, _T("r"), _SH_SECURE);
-                if (!fp && (GetLastError() == ERROR_SHARING_VIOLATION)) {
-                    Sleep(100);
-                    continue;
+                if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
+                    break;
                 }
-            } while (false);
+                Sleep(100);
+            } while (true);
             if (!fp) {
                 ASSERT(FALSE);
                 return;
@@ -542,11 +542,11 @@ void CMPlayerCApp::FlushProfile()
         int fpStatus;
         do { // Open mpc-hc.ini, retry if it is already being used by another process
             fp = _tfsopen(m_pszProfileName, _T("w, ccs=UTF-8"), _SH_SECURE);
-            if (!fp && (GetLastError() == ERROR_SHARING_VIOLATION)) {
-                Sleep(100);
-                continue;
+            if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
+                break;
             }
-        } while (false);
+            Sleep(100);
+        } while (true);
         if (!fp) {
             ASSERT(FALSE);
             return;
