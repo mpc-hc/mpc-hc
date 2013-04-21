@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Inicialitzar Selecció"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Activar interruptor del filtre d'àudio intern (requereix inicialitzar)"
-8		"Normalitzar"
-9		"Guany de volum"
-10		"Augment:"
-12		"Resamplejar a 44100 Hz"
-13		"Desplaçament de l'àudio (ms):"
-16		"Activar assignació de canal personalitzat"
-17		"Configuració dels altaveus"
-20		"Canals d'entrada:"
-22		"Prem la tecla ""shift"" per aplicar els canvis al moment"
+9		"Normalitzar"
+10		"Max amplification:"
+14		"Guany de volum"
+15		"Augment:"
+17		"Resamplejar a 44100 Hz"
+18		"Desplaçament de l'àudio (ms):"
+21		"Activar assignació de canal personalitzat"
+22		"Configuració dels altaveus"
+25		"Canals d'entrada:"
+27		"Prem la tecla ""shift"" per aplicar els canvis al moment"
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

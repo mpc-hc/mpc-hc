@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Reiniciar Sel."
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Activar filtro interno para cambiar pistas de audio (requiere reinicio)"
-8		"Normalizar"
-9		"Ganancia de volumen"
-10		"Aumento:"
-12		"Re-samplear a 44100 Hz"
-13		"Desplazamiento del audio (ms):"
-16		"Activar mapeo de canales editable"
-17		"Config. de bocinas (altavoces) para"
-20		"canales de entrada:"
-22		"Presiona la tecla ""shift"" para aplicar los cambios de inmediato "
+9		"Normalizar"
+10		"Max amplification:"
+14		"Ganancia de volumen"
+15		"Aumento:"
+17		"Re-samplear a 44100 Hz"
+18		"Desplazamiento del audio (ms):"
+21		"Activar mapeo de canales editable"
+22		"Config. de bocinas (altavoces) para"
+25		"canales de entrada:"
+27		"Presiona la tecla ""shift"" para aplicar los cambios de inmediato "
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

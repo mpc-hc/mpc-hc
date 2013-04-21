@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Reimposta selezionati"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Attiva il filtro audio switcher interno (richiede riavvio)"
-8		"Normalizza"
-9		"Riguadagno volume"
-10		"Aumenta:"
-12		"Riduci la frequenza di campionamento a 44100 Hz"
-13		"Spostamento audio (ms):"
-16		"Attiva la mappatura personalizzata dei canali"
-17		"Configura altoparlanti per "
-20		"canali di input:"
-22		"Premi Shift per applicare immediatamente i cambiamenti cliccando su un elemento"
+9		"Normalizza"
+10		"Max amplification:"
+14		"Riguadagno volume"
+15		"Aumenta:"
+17		"Riduci la frequenza di campionamento a 44100 Hz"
+18		"Spostamento audio (ms):"
+21		"Attiva la mappatura personalizzata dei canali"
+22		"Configura altoparlanti per "
+25		"canali di input:"
+27		"Premi Shift per applicare immediatamente i cambiamenti cliccando su un elemento"
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

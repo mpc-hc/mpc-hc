@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Výchozí (označené)"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Povolit vestavěný audio switcher (vyžaduje restart)"
-8		"Normalizace"
-9		"Obnovit hlasitost"
-10		"Zesílení:"
-12		"Snížit vzorkovací frekvenci na 44100 Hz"
-13		"Posunout zvukovou stopu (ms):"
-16		"Povolit vlastní přiřazení zvukových kanálů"
-17		"Nastavení reproduktorů pro "
-20		"vstupní kanály:"
-22		"Pokud při kliknutí myší podržíte Shift, změny se projeví okamžitě "
+9		"Normalizace"
+10		"Max amplification:"
+14		"Obnovit hlasitost"
+15		"Zesílení:"
+17		"Snížit vzorkovací frekvenci na 44100 Hz"
+18		"Posunout zvukovou stopu (ms):"
+21		"Povolit vlastní přiřazení zvukových kanálů"
+22		"Nastavení reproduktorů pro "
+25		"vstupní kanály:"
+27		"Pokud při kliknutí myší podržíte Shift, změny se projeví okamžitě "
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

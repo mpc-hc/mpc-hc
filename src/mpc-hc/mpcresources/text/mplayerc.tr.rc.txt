@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Seçimi Sıfırla"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Dahili ses dönüştürücü filtresini kullan (yeniden başlatma gerektirir)"
-8		"Normale getir"
-9		"Sesi arttır"
-10		"Yükseltme:"
-12		"44100 Hz örneklemesine dönüştür"
-13		"Ses süresi değişimi (ms):"
-16		"Özel kanal adreslemesini kullan"
-17		"Hoparlör sayısını ve çıkışını :"
-20		"kanallı olarak ayarla"
-22		"Ayarların hemen geçerli olabilmesi için tıklarken Shift tuşuna basınız"
+9		"Normale getir"
+10		"Max amplification:"
+14		"Sesi arttır"
+15		"Yükseltme:"
+17		"44100 Hz örneklemesine dönüştür"
+18		"Ses süresi değişimi (ms):"
+21		"Özel kanal adreslemesini kullan"
+22		"Hoparlör sayısını ve çıkışını :"
+25		"kanallı olarak ayarla"
+27		"Ayarların hemen geçerli olabilmesi için tıklarken Shift tuşuna basınız"
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

@@ -36,15 +36,10 @@ private:
     DWORD m_pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS];
     DWORD m_dwChannelMask;
 
-public:
-    CPPageAudioSwitcher(IFilterGraph* pFG);
-    virtual ~CPPageAudioSwitcher();
-
-    // Dialog Data
-    enum { IDD = IDD_PPAGEAUDIOSWITCHER };
-
     BOOL m_fEnableAudioSwitcher;
     BOOL m_fAudioNormalize;
+    UINT m_nAudioMaxNormFactor;
+    CSpinButtonCtrl m_AudioMaxNormFactorSpin;
     BOOL m_fAudioNormalizeRecover;
     int m_AudioBoostPos;
     CSliderCtrl m_AudioBoostCtrl;
@@ -65,6 +60,13 @@ public:
     // tooltip for slidercontrol
     CToolTipCtrl m_tooltip;
 
+public:
+    CPPageAudioSwitcher(IFilterGraph* pFG);
+    virtual ~CPPageAudioSwitcher();
+
+    // Dialog Data
+    enum { IDD = IDD_PPAGEAUDIOSWITCHER };
+
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
@@ -72,13 +74,13 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
-public:
     afx_msg void OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
     afx_msg void OnEnChangeEdit1();
     afx_msg void OnUpdateAudioSwitcher(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateNormalize(CCmdUI* pCmdUI);
     afx_msg void OnUpdateChannelMapping(CCmdUI* pCmdUI);
-public:
+
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     virtual void OnCancel();

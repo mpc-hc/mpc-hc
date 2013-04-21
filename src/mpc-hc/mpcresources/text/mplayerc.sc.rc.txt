@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"重置已选项"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"开启内建的音频切换滤镜 (需要重新启动)"
-8		"规格化"
-9		"重新定义音量"
-10		"增益:"
-12		"降低采样率至44100 Hz"
-13		"音频延迟时间 (毫秒):"
-16		"开启自定义声道映射"
-17		"扬声器设置 "
-20		"输入声道:"
-22		"当点击任意项目时按下 shift 键可使其立即生效 "
+9		"规格化"
+10		"Max amplification:"
+14		"重新定义音量"
+15		"增益:"
+17		"降低采样率至44100 Hz"
+18		"音频延迟时间 (毫秒):"
+21		"开启自定义声道映射"
+22		"扬声器设置 "
+25		"输入声道:"
+27		"当点击任意项目时按下 shift 键可使其立即生效 "
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

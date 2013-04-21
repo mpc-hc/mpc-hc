@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Resetar Selecionados"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Ativar o trocador de áudio interno (necessário reiniciar)"
-8		"Normalizar"
-9		"Restaurar volume"
-10		"Amplificar:"
-12		"Converter frequência para 44100 Hz"
-13		"Atraso de áudio (ms):"
-16		"Ativar o mapeamento de canais customizado"
-17		"Ajustes dos alto-falantes p/"
-20		"canais de entrada"
-22		"Pressione ""Shift"" ao clicar em algo para aplicar as alterações imediatamente."
+9		"Normalizar"
+10		"Max amplification:"
+14		"Restaurar volume"
+15		"Amplificar:"
+17		"Converter frequência para 44100 Hz"
+18		"Atraso de áudio (ms):"
+21		"Ativar o mapeamento de canais customizado"
+22		"Ajustes dos alto-falantes p/"
+25		"canais de entrada"
+27		"Pressione ""Shift"" ao clicar em algo para aplicar as alterações imediatamente."
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

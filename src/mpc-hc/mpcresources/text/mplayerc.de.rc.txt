@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Ausgewählte &zurücksetzen"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Internen Audio-Umschalter verwenden (Neustart notwendig)"
-8		"Normalisieren"
-9		"Lautstärke zurücksetzen"
-10		"Klangverstärker:"
-12		"Auf 44.100 Hz umrechnen"
-13		"Audio-Verzögerung (ms):"
-16		"Benutzerdefiniertes Kanal-Setup verwenden"
-17		"Lautsprecher-Konfiguration für "
-20		"Eingangskanäle:"
-22		"Bei der Auswahl 'Shift' drücken, um die Änderung sofort zu übernehmen."
+9		"Normalisieren"
+10		"Max amplification:"
+14		"Lautstärke zurücksetzen"
+15		"Klangverstärker:"
+17		"Auf 44.100 Hz umrechnen"
+18		"Audio-Verzögerung (ms):"
+21		"Benutzerdefiniertes Kanal-Setup verwenden"
+22		"Lautsprecher-Konfiguration für "
+25		"Eingangskanäle:"
+27		"Bei der Auswahl 'Shift' drücken, um die Änderung sofort zu übernehmen."
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

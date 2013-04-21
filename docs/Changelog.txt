@@ -14,6 +14,8 @@ Legend:
 * Audio Switcher improvements: 
   - Ticket #1936, Improve the normalization algorithm to avoid huge volume variations
   - Use percentage for the boost setting since it is easier to understand for most people
+  - Add a setting to change the max normalization factor and use a max normalization factor
+    of 4 by default instead of 10
 
 
 1.6.7 - 25 April 2013

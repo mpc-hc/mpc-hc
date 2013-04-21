@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Återställ markerade"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Aktivera inbyggt ljudväxelfilter (omstart krävs)"
-8		"Normalisera"
-9		"Återvinn volym"
-10		"Förstärkning:"
-12		"Nedsampla till 44100 Hz"
-13		"Ljud tidsförskjutning (ms):"
-16		"Aktivera anpassad kanal kartläggning"
-17		"Högtalar konfigurationen för "
-20		"ingångskanaler:"
-22		"Håll in skift för omedelbara förändringar när du klickar på något "
+9		"Normalisera"
+10		"Max amplification:"
+14		"Återvinn volym"
+15		"Förstärkning:"
+17		"Nedsampla till 44100 Hz"
+18		"Ljud tidsförskjutning (ms):"
+21		"Aktivera anpassad kanal kartläggning"
+22		"Högtalar konfigurationen för "
+25		"ingångskanaler:"
+27		"Håll in skift för omedelbara förändringar när du klickar på något "
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

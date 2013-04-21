@@ -7997,13 +7997,13 @@ void CMainFrame::SetVolumeBoost(UINT nAudioBoost)
 {
     if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
         bool fNormalize, fNormalizeRecover;
-        UINT boost;
-        pASF->GetNormalizeBoost2(fNormalize, fNormalizeRecover, boost);
+        UINT nMaxNormFactor, nBoost;
+        pASF->GetNormalizeBoost2(fNormalize, nMaxNormFactor, fNormalizeRecover, nBoost);
 
 
         CString strBoost;
         strBoost.Format(IDS_BOOST_OSD, nAudioBoost);
-        pASF->SetNormalizeBoost2(fNormalize, fNormalizeRecover, nAudioBoost);
+        pASF->SetNormalizeBoost2(fNormalize, nMaxNormFactor, fNormalizeRecover, nAudioBoost);
         m_OSD.DisplayMessage(OSD_TOPLEFT, strBoost);
     }
 }
@@ -8046,7 +8046,7 @@ void CMainFrame::OnNormalizeRegainVolume(UINT nID)
                 break;
         }
 
-        pASF->SetNormalizeBoost2(s.fAudioNormalize, s.fAudioNormalizeRecover, s.nAudioBoost);
+        pASF->SetNormalizeBoost2(s.fAudioNormalize, s.nAudioMaxNormFactor, s.fAudioNormalizeRecover, s.nAudioBoost);
         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMessage));
     }
 }

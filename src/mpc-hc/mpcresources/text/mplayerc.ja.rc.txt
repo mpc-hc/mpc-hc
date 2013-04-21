@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"選択アイテムをリセット"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"内蔵の音声切り替えフィルタを使用 (ファイルの開き直しが必要)"
-8		"ノーマライズ"
-9		"音量回復"
-10		"ブースト:"
-12		"44100 Hz にダウン サンプリングする"
-13		"音声のタイム シフト [ms]:"
-16		"チャンネル マッピングを有効にする"
-17		"入力スピーカー設定:"
-20		"チャンネル"
-22		"Shift を押したままクリックすると即座に変更されます"
+9		"ノーマライズ"
+10		"Max amplification:"
+14		"音量回復"
+15		"ブースト:"
+17		"44100 Hz にダウン サンプリングする"
+18		"音声のタイム シフト [ms]:"
+21		"チャンネル マッピングを有効にする"
+22		"入力スピーカー設定:"
+25		"チャンネル"
+27		"Shift を押したままクリックすると即座に変更されます"
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

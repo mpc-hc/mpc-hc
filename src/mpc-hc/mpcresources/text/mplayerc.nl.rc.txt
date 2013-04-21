@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Reset selectie"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Intern Audio-switcherfilter toepassen (vereist herstart)"
-8		"Normaliseer"
-9		"Herstel volume"
-10		"Boost:"
-12		"Resample naar 44100 Hz"
-13		"Audio tijdsverschuiving (ms):"
-16		"Door gebruiker bepaalde kanaal-setup toepassen"
-17		"Luidspreker-configuratie voor "
-20		"ingangskanalen:"
-22		"Druk op shift tijdens het klikken om de veranderingen direkt door te voeren "
+9		"Normaliseer"
+10		"Max amplification:"
+14		"Herstel volume"
+15		"Boost:"
+17		"Resample naar 44100 Hz"
+18		"Audio tijdsverschuiving (ms):"
+21		"Door gebruiker bepaalde kanaal-setup toepassen"
+22		"Luidspreker-configuratie voor "
+25		"ingangskanalen:"
+27		"Druk op shift tijdens het klikken om de veranderingen direkt door te voeren "
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

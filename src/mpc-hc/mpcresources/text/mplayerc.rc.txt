@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Reset Selected"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Enable built-in audio switcher filter (requires restart)"
-8		"Normalize"
-9		"Regain volume"
-10		"Boost:"
-12		"Down-sample to 44100 Hz"
-13		"Audio time shift (ms):"
-16		"Enable custom channel mapping"
-17		"Speaker configuration for "
-20		"input channels:"
-22		"Hold shift for immediate changes when clicking something "
+9		"Normalize"
+10		"Max amplification:"
+14		"Regain volume"
+15		"Boost:"
+17		"Down-sample to 44100 Hz"
+18		"Audio time shift (ms):"
+21		"Enable custom channel mapping"
+22		"Speaker configuration for "
+25		"input channels:"
+27		"Hold shift for immediate changes when clicking something "
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

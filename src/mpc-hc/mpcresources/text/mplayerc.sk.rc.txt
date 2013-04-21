@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Obnoviť vybrané"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Zapnúť vstavaný filter zvuku (vyžaduje reštart)"
-8		"Normalizovať"
-9		"Obnoviť pôvodnú hlasitosť"
-10		"Zvýšenie:"
-12		"Znížiť vzork. frekvenciu na 44100 Hz"
-13		"Čas. posun zvuku (ms):"
-16		"Zapnúť mapovanie kanálov používateľom"
-17		"Konfig. reproduktory na: "
-20		"vstupné kanály:"
-22		"Ak chcete zmeny uplatniť okamžite, pridržte klávesu Shift "
+9		"Normalizovať"
+10		"Max amplification:"
+14		"Obnoviť pôvodnú hlasitosť"
+15		"Zvýšenie:"
+17		"Znížiť vzork. frekvenciu na 44100 Hz"
+18		"Čas. posun zvuku (ms):"
+21		"Zapnúť mapovanie kanálov používateľom"
+22		"Konfig. reproduktory na: "
+25		"vstupné kanály:"
+27		"Ak chcete zmeny uplatniť okamžite, pridržte klávesu Shift "
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22

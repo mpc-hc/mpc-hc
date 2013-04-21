@@ -134,17 +134,18 @@ BEGIN DIALOGEX IDD_PPAGEACCELTBL LINES 15
 14		"Resetuj wybrane"
 END
 
-BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
+BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"Włącz wbudowany filtr przetwarzający dźwięk (wymagany restart)"
-8		"Normalizuj"
-9		"Utrzymuj głośność (regain)"
-10		"Wzmocnienie:"
-12		"Zmniejsz częstotliwość próbkowania do 44100 Hz"
-13		"Przesunięcie dźwięku (ms):"
-16		"Własne mapowanie kanałów"
-17		"Konfiguracja dla "
-20		"kanałów wejściowych:"
-22		"Aby natychmiastowo wprowadzać zmiany, należy przytrzymać klawisz Shift."
+9		"Normalizuj"
+10		"Max amplification:"
+14		"Utrzymuj głośność (regain)"
+15		"Wzmocnienie:"
+17		"Zmniejsz częstotliwość próbkowania do 44100 Hz"
+18		"Przesunięcie dźwięku (ms):"
+21		"Własne mapowanie kanałów"
+22		"Konfiguracja dla "
+25		"kanałów wejściowych:"
+27		"Aby natychmiastowo wprowadzać zmiany, należy przytrzymać klawisz Shift."
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
