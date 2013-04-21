@@ -401,8 +401,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
         m_fps = 10000000.0 / m_rtTimePerFrame;
     }
 
-    HRESULT hr;
-
     if (!lpPresInfo || !lpPresInfo->lpSurf) {
         return E_POINTER;
     }
@@ -443,7 +441,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
                 m_pVideoTexture[m_nCurSurface] = pTexture;
             }
         } else {
-            hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, D3DTEXF_NONE);
+            m_pD3DDev->StretchRect(lpPresInfo->lpSurf, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, D3DTEXF_NONE);
         }
 
         // Tear test bars
