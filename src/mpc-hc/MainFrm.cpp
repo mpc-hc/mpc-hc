@@ -7967,37 +7967,43 @@ void CMainFrame::OnPlayVolume(UINT nID)
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
 {
     CAppSettings& s = AfxGetAppSettings();
-    int i = (int)(s.dAudioBoost_dB * 10 + 0.1);
 
     switch (nID) {
         case ID_VOLUME_BOOST_INC:
-            i = min(i + 10, 100);
+            s.nAudioBoost += 5;
+            if (s.nAudioBoost > 300) {
+                s.nAudioBoost = 300;
+            }
             break;
         case ID_VOLUME_BOOST_DEC:
-            i = max(i - 10, 0);
+            if (s.nAudioBoost > 5) {
+                s.nAudioBoost -= 5;
+            } else {
+                s.nAudioBoost = 0;
+            }
             break;
         case ID_VOLUME_BOOST_MIN:
-            i = 0;
+            s.nAudioBoost = 0;
             break;
         case ID_VOLUME_BOOST_MAX:
-            i = 100;
+            s.nAudioBoost = 300;
             break;
     }
 
-    s.dAudioBoost_dB = i / 10.0f;
-    SetVolumeBoost(s.dAudioBoost_dB);
+    SetVolumeBoost(s.nAudioBoost);
 }
 
-void CMainFrame::SetVolumeBoost(float fAudioBoost_dB)
+void CMainFrame::SetVolumeBoost(UINT nAudioBoost)
 {
-    CString strBoost;
-    strBoost.Format(IDS_BOOST_OSD, fAudioBoost_dB);
-
     if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
         bool fNormalize, fNormalizeRecover;
-        float boost;
-        pASF->GetNormalizeBoost(fNormalize, fNormalizeRecover, boost);
-        pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, fAudioBoost_dB);
+        UINT boost;
+        pASF->GetNormalizeBoost2(fNormalize, fNormalizeRecover, boost);
+
+
+        CString strBoost;
+        strBoost.Format(IDS_BOOST_OSD, nAudioBoost);
+        pASF->SetNormalizeBoost2(fNormalize, fNormalizeRecover, nAudioBoost);
         m_OSD.DisplayMessage(OSD_TOPLEFT, strBoost);
     }
 }
@@ -8040,7 +8046,7 @@ void CMainFrame::OnNormalizeRegainVolume(UINT nID)
                 break;
         }
 
-        pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost_dB);
+        pASF->SetNormalizeBoost2(s.fAudioNormalize, s.fAudioNormalizeRecover, s.nAudioBoost);
         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMessage));
     }
 }

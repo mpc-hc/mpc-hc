@@ -1285,7 +1285,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"Es konnte keine Verbindung mit dem Tune
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"Der Empfänger konnte nicht erstellt werden."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"Der Tuner konnte nicht erstellt werden."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"Der Demultiplexer konnte nicht erstellt werden."
-STRING IDS_BOOST_OSD		"Klangverstärker: +%.1f dB"
+STRING IDS_BOOST_OSD		"Klangverstärker: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Helligkeit verringern"
 STRING IDS_BRIGHTNESS_INC		"Helligkeit erhöhen"
 STRING IDS_CANCEL		"Abbrechen"

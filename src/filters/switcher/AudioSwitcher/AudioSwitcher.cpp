@@ -633,6 +633,7 @@ STDMETHODIMP CAudioSwitcherFilter::SetAudioTimeShift(REFERENCE_TIME rtAudioTimeS
     return S_OK;
 }
 
+// Deprecated
 STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost(bool& fNormalize, bool& fNormalizeRecover, float& boost_dB)
 {
     fNormalize = m_fNormalize;
@@ -641,6 +642,7 @@ STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost(bool& fNormalize, bool& fNo
     return S_OK;
 }
 
+// Deprecated
 STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost(bool fNormalize, bool fNormalizeRecover, float boost_dB)
 {
     if (m_fNormalize != fNormalize) {
@@ -649,6 +651,25 @@ STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost(bool fNormalize, bool fNorm
     m_fNormalize = fNormalize;
     m_fNormalizeRecover = fNormalizeRecover;
     m_boostFactor = pow(10.0, boost_dB / 20.0);
+    return S_OK;
+}
+
+STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost2(bool& fNormalize, bool& fNormalizeRecover, UINT& boost)
+{
+    fNormalize = m_fNormalize;
+    fNormalizeRecover = m_fNormalizeRecover;
+    boost = UINT(100.0 * m_boostFactor + 0.5) - 100;
+    return S_OK;
+}
+
+STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost2(bool fNormalize, bool fNormalizeRecover, UINT boost)
+{
+    if (m_fNormalize != fNormalize) {
+        m_normalizeFactor = MAX_NORMALIZATION_FACTOR;
+    }
+    m_fNormalize = fNormalize;
+    m_fNormalizeRecover = fNormalizeRecover;
+    m_boostFactor = 1.0 + boost / 100.0;
     return S_OK;
 }
 

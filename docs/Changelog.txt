@@ -11,7 +11,9 @@ Legend:
 1.6.8 - not released yet
 ========================
 * Updated Greek translation
-* Ticket #1936, Audio Switcher: Improve the normalization algorithm to avoid huge volume variations
+* Audio Switcher improvements: 
+  - Ticket #1936, Improve the normalization algorithm to avoid huge volume variations
+  - Use percentage for the boost setting since it is easier to understand for most people
 
 
 1.6.7 - 25 April 2013

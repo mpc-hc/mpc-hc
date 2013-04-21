@@ -478,7 +478,7 @@ public:
     bool            fEnableAudioSwitcher;
     bool            fAudioNormalize;
     bool            fAudioNormalizeRecover;
-    float           dAudioBoost_dB;
+    UINT            nAudioBoost;
     bool            fDownSampleTo441;
     bool            fAudioTimeShift;
     int             iAudioTimeShift;

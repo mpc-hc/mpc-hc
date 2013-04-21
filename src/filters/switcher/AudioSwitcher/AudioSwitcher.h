@@ -38,8 +38,12 @@ public IUnknown {
     STDMETHOD(EnableDownSamplingTo441)(bool fEnable) = 0;
     STDMETHOD_(REFERENCE_TIME, GetAudioTimeShift)() = 0;
     STDMETHOD(SetAudioTimeShift)(REFERENCE_TIME rtAudioTimeShift) = 0;
-    STDMETHOD(GetNormalizeBoost)(bool & fNormalize, bool & fNormalizeRecover, float & boost) = 0;
-    STDMETHOD(SetNormalizeBoost)(bool fNormalize, bool fNormalizeRecover, float boost) = 0;
+    // Deprecated
+    STDMETHOD(GetNormalizeBoost)(bool & fNormalize, bool & fNormalizeRecover, float & boost_dB) = 0;
+    // Deprecated
+    STDMETHOD(SetNormalizeBoost)(bool fNormalize, bool fNormalizeRecover, float boost_dB) = 0;
+    STDMETHOD(GetNormalizeBoost2)(bool & fNormalize, bool & fNormalizeRecover, UINT & boost) = 0;
+    STDMETHOD(SetNormalizeBoost2)(bool fNormalize, bool fNormalizeRecover, UINT boost) = 0;
 };
 
 class AudioStreamResampler;
@@ -86,8 +90,12 @@ public:
     STDMETHODIMP EnableDownSamplingTo441(bool fEnable);
     STDMETHODIMP_(REFERENCE_TIME) GetAudioTimeShift();
     STDMETHODIMP SetAudioTimeShift(REFERENCE_TIME rtAudioTimeShift);
-    STDMETHODIMP GetNormalizeBoost(bool& fNormalize, bool& fNormalizeRecover, float& boost);
-    STDMETHODIMP SetNormalizeBoost(bool fNormalize, bool fNormalizeRecover, float boost);
+    // Deprecated
+    STDMETHODIMP GetNormalizeBoost(bool& fNormalize, bool& fNormalizeRecover, float& boost_dB);
+    // Deprecated
+    STDMETHODIMP SetNormalizeBoost(bool fNormalize, bool fNormalizeRecover, float boost_dB);
+    STDMETHODIMP GetNormalizeBoost2(bool& fNormalize, bool& fNormalizeRecover, UINT& boost);
+    STDMETHODIMP SetNormalizeBoost2(bool fNormalize, bool fNormalizeRecover, UINT boost);
 
     // IAMStreamSelect
     STDMETHODIMP Enable(long lIndex, DWORD dwFlags);

@@ -1286,7 +1286,7 @@ STRING IDS_BDA_ERROR_CONNECT_TUNER_REC		"No s'ha pogut connectar al sintonitzado
 STRING IDS_BDA_ERROR_CREATE_RECEIVER		"No s'ha pogut crear el receptor."
 STRING IDS_BDA_ERROR_CREATE_TUNER		"No s'ha pogut crear el sintonitzador."
 STRING IDS_BDA_ERROR_DEMULTIPLEXER		"No s'ha pogut crear el demultiplexer."
-STRING IDS_BOOST_OSD		"Augmentar : +%.1f dB"
+STRING IDS_BOOST_OSD		"Augmentar : +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Disminuir la Brillantor"
 STRING IDS_BRIGHTNESS_INC		"Augmentar la Brillantor"
 STRING IDS_CANCEL		"Cancel.lar"
