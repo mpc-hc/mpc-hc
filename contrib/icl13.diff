@@ -1,8 +1,8 @@
 diff --git a/build.bat b/build.bat
-index fd206f9..5ceed1c 100644
+index 4063729..a44d682 100644
 --- a/build.bat
 +++ b/build.bat
-@@ -363,7 +363,7 @@ IF /I "%~2" == "Win32" (
+@@ -365,7 +365,7 @@ IF /I "%~2" == "Win32" (
  
  PUSHD "%BIN_DIR%"
  
@@ -12,7 +12,7 @@ index fd206f9..5ceed1c 100644
  IF DEFINED MPCHC_LITE (SET "PCKG_NAME=%PCKG_NAME%.Lite")
  
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 4e33881..a4bbeb8 100644
+index 58a9fc9..dafda76 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -41,7 +41,7 @@
@@ -30,10 +30,10 @@ index 4e33881..a4bbeb8 100644
  
 +#define OutFilename  = OutFilename + ".ICL13"
 +
- #if localize != "true" && defined(MPCHC_LITE)
-   #define OutFilename  = OutFilename + ".Lite"
- #elif localize != "true"
-@@ -91,15 +93,15 @@
+ #if localize != "true"
+   #if defined(MPCHC_LITE)
+     #define OutFilename  = OutFilename + ".Lite"
+@@ -93,15 +95,15 @@
  
  #ifdef x64Build
    #ifdef MPCHC_LITE
@@ -54,7 +54,7 @@ index 4e33881..a4bbeb8 100644
  #endif
  
 diff --git a/docs/Readme.txt b/docs/Readme.txt
-index d1da4ec..66bafe4 100644
+index 8e4ed5e..5c47921 100644
 --- a/docs/Readme.txt
 +++ b/docs/Readme.txt
 @@ -27,7 +27,7 @@ Main Features:
@@ -119,7 +119,7 @@ index d1ae499..910b23b 100644
        <OptimizeReferences>true</OptimizeReferences>
        <SetChecksum>true</SetChecksum>
 diff --git a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
-index 9f6e097..d647503 100644
+index 9f6e097..4d16f2e 100644
 --- a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 +++ b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 @@ -34,7 +34,7 @@
@@ -131,16 +131,16 @@ index 9f6e097..d647503 100644
  ;#define VS2012
  ;#define x64Build
  
-@@ -57,7 +57,7 @@
+@@ -56,6 +56,8 @@
+   #error Compile VSFilter first
  #endif
  
++#define OutFilename  = OutFilename + ".ICL13"
++
  #if defined(VS2012)
--  #define OutFilename  = OutFilename + ".VS2012"
-+  #define OutFilename  = OutFilename + ".ICL13"
+   #define OutFilename  = OutFilename + ".VS2012"
  #endif
- 
- 
-@@ -100,10 +100,10 @@ MinVersion=5.01.2600sp3
+@@ -100,10 +102,10 @@ MinVersion=5.01.2600sp3
  AppID=vsfilter64
  ArchitecturesAllowed=x64
  ArchitecturesInstallIn64BitMode=x64
@@ -153,7 +153,7 @@ index 9f6e097..d647503 100644
  #endif
  
  
-@@ -113,9 +113,9 @@ Name: en; MessagesFile: compiler:Default.isl
+@@ -113,9 +115,9 @@ Name: en; MessagesFile: compiler:Default.isl
  
  [Messages]
  #ifdef x64Build
@@ -179,7 +179,7 @@ index 09927fd..26091c9 100644
    </PropertyGroup>
  </Project>
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index b684c3d..e644447 100644
+index b684c3d..abe7607 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
 @@ -58,7 +58,7 @@ ifeq ($(64BIT),yes)
