@@ -44,6 +44,9 @@
 #define USE_MEDIAINFO_STATIC
 #endif
 
+#define SHADERS_DIR  _T("shaders")
+#define SHADERS_EXT  _T(".psh")
+
 // If you distribute your builds, please disable minidumps by defining DISABLE_MINIDUMP.
 //#define DISABLE_MINIDUMP
 

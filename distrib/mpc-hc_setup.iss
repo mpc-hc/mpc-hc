@@ -231,6 +231,7 @@ Source: ..\COPYING.txt;                     DestDir: {app};      Components: mai
 Source: ..\docs\Authors.txt;                DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;              DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                 DestDir: {app};      Components: main;         Flags: ignoreversion
+Source: ..\src\mpc-hc\res\shaders\external\*{#SHADERS_EXT}; DestDir: {app}\{#SHADERS_DIR}; Components: main; Flags: ignoreversion
 
 
 [Icons]
