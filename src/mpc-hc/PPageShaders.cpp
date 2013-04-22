@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 #include "PPageShaders.h"
-#include "mplayerc.h"
+#include "MainFrm.h"
 
 // TODO: externalize this string???
 const CString ext = _T(".psh");
@@ -257,17 +257,19 @@ BOOL CPPageShaders::OnInitDialog()
 BOOL CPPageShaders::OnApply()
 {
     CAppSettings& s = AfxGetAppSettings();
-    bool recompile = false;
+    bool updatePre = false, updatePost = false;
 
     if (m_PreResize.GetList() != s.m_ShadersSelected.preResize) {
         s.m_ShadersSelected.preResize = m_PreResize.GetList();
-        recompile = true;
+        updatePre = true;
     }
 
     if (m_PostResize.GetList() != s.m_ShadersSelected.postResize) {
         s.m_ShadersSelected.postResize = m_PostResize.GetList();
-        recompile = true;
+        updatePost = true;
     }
+
+    ((CMainFrame*)AfxGetMainWnd())->SetShaders(updatePre, updatePost);
 
     s.m_ShadersExtra.clear();
     auto list = m_Shaders.GetList();
@@ -275,10 +277,6 @@ BOOL CPPageShaders::OnApply()
         if (!it->IsDefault()) {
             s.m_ShadersExtra.push_back(*it);
         }
-    }
-
-    if (recompile) {
-        // TODO: trigger shaders' recompilation
     }
 
     return CPPageBase::OnApply();

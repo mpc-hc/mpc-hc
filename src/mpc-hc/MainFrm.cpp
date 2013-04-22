@@ -9974,47 +9974,52 @@ void CMainFrame::RepaintVideo()
     }
 }
 
-void CMainFrame::SetShaders()
+void CMainFrame::SetShaders(bool bSetPreResize, bool bSetPostResize)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
     // TODO: select the latest available shader profile
-    CStringA profile = "ps_4_0";
+    CStringA profile = "ps_3_0";
 
     if (m_pCAP2) {
-        m_pCAP2->SetPixelShader2(NULL, NULL, false);
-        auto& list1 = s.m_ShadersSelected.preResize;
-        for (auto it = list1.cbegin(); it != list1.cend(); ++it) {
-            if (FAILED(m_pCAP2->SetPixelShader2(it->GetCode(), profile, false))) {
-                ASSERT(FALSE);
-                // TODO: find out in what state we're here
-                // TODO: scream
-                m_pCAP2->SetPixelShader2(NULL, NULL, false);
-                break;
+        if (bSetPreResize) {
+            m_pCAP2->SetPixelShader2(NULL, NULL, false);
+            auto& list = s.m_ShadersSelected.preResize;
+            for (auto it = list.cbegin(); it != list.cend(); ++it) {
+                if (FAILED(m_pCAP2->SetPixelShader2(it->GetCode(), profile, false))) {
+                    ASSERT(FALSE);
+                    // TODO: find out in what state we're here
+                    // TODO: scream
+                    m_pCAP2->SetPixelShader2(NULL, NULL, false);
+                    break;
+                }
             }
         }
-
-        m_pCAP2->SetPixelShader2(NULL, NULL, true);
-        auto& list2 = s.m_ShadersSelected.postResize;
-        for (auto it = list2.cbegin(); it != list2.cend(); ++it) {
-            if (FAILED(m_pCAP2->SetPixelShader2(it->GetCode(), profile, true))) {
-                ASSERT(FALSE);
-                // TODO: find out in what state we're here
-                // TODO: scream
-                m_pCAP2->SetPixelShader2(NULL, NULL, true);
-                break;
+        if (bSetPostResize) {
+            m_pCAP2->SetPixelShader2(NULL, NULL, true);
+            auto& list = s.m_ShadersSelected.postResize;
+            for (auto it = list.cbegin(); it != list.cend(); ++it) {
+                if (FAILED(m_pCAP2->SetPixelShader2(it->GetCode(), profile, true))) {
+                    ASSERT(FALSE);
+                    // TODO: find out in what state we're here
+                    // TODO: scream
+                    m_pCAP2->SetPixelShader2(NULL, NULL, true);
+                    break;
+                }
             }
         }
     } else if (m_pCAP) {
-        m_pCAP->SetPixelShader(NULL, NULL);
-        auto& list = s.m_ShadersSelected.preResize;
-        for (auto it = list.cbegin(); it != list.cend(); ++it) {
-            if (FAILED(m_pCAP->SetPixelShader(it->GetCode(), profile))) {
-                ASSERT(FALSE);
-                // TODO: find out in what state we're here
-                // TODO: scream
-                m_pCAP->SetPixelShader(NULL, NULL);
-                break;
+        if (bSetPreResize) {
+            m_pCAP->SetPixelShader(NULL, NULL);
+            auto& list = s.m_ShadersSelected.preResize;
+            for (auto it = list.cbegin(); it != list.cend(); ++it) {
+                if (FAILED(m_pCAP->SetPixelShader(it->GetCode(), profile))) {
+                    ASSERT(FALSE);
+                    // TODO: find out in what state we're here
+                    // TODO: scream
+                    m_pCAP->SetPixelShader(NULL, NULL);
+                    break;
+                }
             }
         }
     }

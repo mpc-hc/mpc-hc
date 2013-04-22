@@ -468,7 +468,7 @@ public:
     void AddFavorite(bool fDisplayMessage = false, bool fShowDialog = true);
 
     // shaders
-    void SetShaders();
+    void SetShaders(bool bSetPreResize = true, bool bSetPostResize = true);
 
     // capturing
     bool m_fCapturing;
