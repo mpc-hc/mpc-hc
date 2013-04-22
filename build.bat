@@ -434,6 +434,8 @@ IF /I "%NAME%" == "MPC-HC" (
   )
   COPY /Y /V "%VS_OUT_DIR%\D3DCompiler_43.dll"            "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
   COPY /Y /V "%VS_OUT_DIR%\d3dx9_43.dll"                  "%PCKG_NAME%\d3dx9_43.dll" >NUL
+  IF NOT EXIST "%PCKG_NAME%\Shaders" MD "%PCKG_NAME%\Shaders"
+  COPY /Y /V "..\src\mpc-hc\res\shaders\external\*.hlsl" "%PCKG_NAME%\Shaders" >NUL
 ) ELSE (
   COPY /Y /V "%VS_OUT_DIR%\*.ax"           "%PCKG_NAME%\*.ax" >NUL
   COPY /Y /V "%VS_OUT_DIR%\VSFilter.dll"   "%PCKG_NAME%\VSFilter.dll" >NUL
