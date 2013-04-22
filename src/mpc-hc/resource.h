@@ -91,7 +91,7 @@
 #define ID_VIEW_SUBRESYNC               823
 #define ID_VIEW_PLAYLIST                824
 #define ID_VIEW_CAPTURE                 825
-#define ID_VIEW_SHADEREDITOR            826
+//#define ID_VIEW_SHADEREDITOR            826
 #define ID_VIEW_PRESETS_MINIMAL         827
 #define ID_VIEW_PRESETS_COMPACT         828
 #define ID_VIEW_PRESETS_NORMAL          829
@@ -284,8 +284,8 @@
 #define ID_FILE_OPEN_CD_END             4099
 #define ID_PANNSCAN_PRESETS_START       4100
 #define ID_PANNSCAN_PRESETS_END         4199
-#define ID_SHADERS_START                4200
-#define ID_SHADERS_END                  4299
+//#define ID_SHADERS_START                4200
+//#define ID_SHADERS_END                  4299
 #define ID_NAVIGATE_CHAP_SUBITEM_START  4300
 #define ID_NAVIGATE_CHAP_SUBITEM_END    4499
 #define ID_VIEW_ZOOM_AUTOFIT_LARGER     4500
@@ -354,9 +354,9 @@
 #define IDD_SUBTITLEDL_DLG              10005
 #define IDD_FILEPROPDETAILS             10010
 #define IDD_FILEPROPCLIP                10011
-#define IDD_SHADEREDITOR_DLG            10012
-#define IDD_SHADERAUTOCOMPLETE_DLG      10013
-#define IDD_SHADERCOMBINE_DLG           10014
+//#define IDD_SHADEREDITOR_DLG            10012
+//#define IDD_SHADERAUTOCOMPLETE_DLG      10013
+//#define IDD_SHADERCOMBINE_DLG           10014
 #define IDD_PNSPRESET_DLG               10015
 #define IDD_GOTO_DLG                    10016
 #define IDD_FAVADD                      10017
@@ -582,7 +582,7 @@
 #define IDS_SUBRESYNC_DECREASE          14133
 #define IDS_SUBRESYNC_INCREASE          14134
 #define IDS_OPTIONS_CAPTION             14135
-#define IDS_SHADERS_SELECT              14136
+//#define IDS_SHADERS_SELECT              14136
 #define IDS_FAVORITES_ADD               14153
 #define IDS_FAVORITES_ORGANIZE          14154
 #define IDS_PLAYLIST_SHUFFLE            14155
@@ -615,7 +615,7 @@
 #define IDS_AUTOPLAY_PLAYAUDIOCD        14183
 #define IDS_AUTOPLAY_PLAYDVDMOVIE       14184
 #define IDS_PROPSHEET_PROPERTIES        14185
-#define IDS_SHADERS_EDIT                14187
+//#define IDS_SHADERS_EDIT                14187
 #define IDS_SUBTITLES_DEFAULT_STYLE     14188
 #define IDS_FAVFILES                    14190
 #define IDS_FAVDVDS                     14191
@@ -725,8 +725,8 @@
 #define ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC 24042
 #define ID_VIEW_HALFFLOATINGPOINTPROCESSING 24043
 #define ID_VIEW_TEARING_TEST            32769
-#define ID_SHADERS_TOGGLE               32770
-#define IDS_SHADERS_TOGGLE              32771
+//#define ID_SHADERS_TOGGLE               32770
+//#define IDS_SHADERS_TOGGLE              32771
 #define ID_FILE_OPENDISC32774           32774
 #define ID_SHADERS                      32775
 #define ID_VIEW_REMAINING_TIME          32778
@@ -765,7 +765,7 @@
 #define ID_LANGUAGE_ROMANIAN            32812
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
-#define IDS_SHADEREDITORDLG_0           32831
+//#define IDS_SHADEREDITORDLG_0           32831
 #define IDS_AG_NONE                     32832
 #define IDS_AG_COMMAND                  32833
 #define IDS_AG_KEY                      32834
@@ -933,7 +933,7 @@
 #define IDS_MAINFRM_70                  33077
 #define IDS_AG_CHAPTER                  33078
 #define IDS_MAINFRM_73                  33079
-#define IDS_AG_SHADER                   33080
+//#define IDS_AG_SHADER                   33080
 #define IDS_AG_OUT_OF_MEMORY            33081
 #define IDS_MAINFRM_77                  33082
 #define IDS_MAINFRM_78                  33083
@@ -1016,7 +1016,6 @@
 #define IDS_AG_TOGGLE_SUBRESYNC         33219
 #define IDS_AG_TOGGLE_PLAYLIST          33220
 #define IDS_AG_TOGGLE_CAPTURE           33221
-#define IDS_AG_TOGGLE_SHADER            33222
 #define IDS_AG_ZOOM_50                  33223
 #define IDS_AG_ZOOM_100                 33224
 #define IDS_AG_ZOOM_200                 33225
@@ -1032,7 +1031,6 @@
 #define IDS_AG_PNS_ROTATEZ_P            33235
 #define IDS_AG_PNS_ROTATEZ_M            33236
 #define IDS_AG_TEARING_TEST             33237
-#define IDS_AT_TOGGLE_SHADER            33238
 #define IDS_SCALE_16_9                  33239
 #define IDS_SCALE_WIDESCREEN            33240
 #define IDS_SCALE_ULTRAWIDE             33241
@@ -1048,11 +1046,11 @@
 #define ID__AUDIO                       33251
 #define ID__FILTERS33252                33252
 #define ID__SUBTITLES33253              33253
-#define ID_SHADERS_TOGGLE_SCREENSPACE   33254
-#define IDS_SHADERS_TOGGLE_SCREENSPACE  33255
+//#define ID_SHADERS_TOGGLE_SCREENSPACE   33254
+//#define IDS_SHADERS_TOGGLE_SCREENSPACE  33255
 #define IDS_MAINFRM_PPONSCR             33257
 #define IDS_MAINFRM_PPOFFSCR            33258
-#define IDS_AT_TOGGLE_SHADERSCREENSPACE 33259
+//#define IDS_AT_TOGGLE_SHADERSCREENSPACE 33259
 #define ID_VIEW_VSYNCACCURATE           33260
 #define IDS_AG_VSYNCACCURATE            33261
 #define ID_VIEW_FULLSCREENGUISUPPORT    33263
@@ -1375,7 +1373,7 @@
 #define IDS_DVD_FAV_ADDED               41346
 #define IDS_CAPTURE_SETTINGS            41347
 #define IDS_NAVIGATION_BAR              41348
-#define IDS_SHADER_EDITOR               41349
+//#define IDS_SHADER_EDITOR               41349
 #define IDS_SUBRESYNC_CAPTION           41350
 #define IDS_SUBRESYNC_CLN_TIME          41351
 #define IDS_SUBRESYNC_CLN_END           41352

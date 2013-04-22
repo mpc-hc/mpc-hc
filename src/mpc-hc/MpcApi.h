@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -250,7 +250,7 @@ unsigned int {
     CMD_DECREASEVOLUME      = 0xA0004004,
 
     // Shader toggle
-    CMD_SHADER_TOGGLE       = 0xA0004005,
+    //CMD_SHADER_TOGGLE       = 0xA0004005,
 
     // Close App
     CMD_CLOSEAPP            = 0xA0004006,

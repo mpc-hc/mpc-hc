@@ -32,7 +32,6 @@
 #include "PlayerPlaylistBar.h"
 #include "PlayerCaptureBar.h"
 #include "PlayerNavigationBar.h"
-//#include "PlayerShaderEditorBar.h"
 #include "EditListEditor.h"
 #include "PPageSheet.h"
 #include "PPageFileInfoSheet.h"
@@ -469,10 +468,7 @@ public:
     void AddFavorite(bool fDisplayMessage = false, bool fShowDialog = true);
 
     // shaders
-    CAtlList<CString> m_shaderlabels;
-    CAtlList<CString> m_shaderlabelsScreenSpace;
     void SetShaders();
-    void UpdateShaders(CString label);
 
     // capturing
     bool m_fCapturing;
@@ -518,7 +514,6 @@ protected:  // control bar embedded members
     CPlayerPlaylistBar m_wndPlaylistBar;
     CPlayerCaptureBar m_wndCaptureBar;
     CPlayerNavigationBar m_wndNavigationBar;
-    //CPlayerShaderEditorBar m_wndShaderEditorBar;
     CEditListEditor m_wndEditListEditor;
     CList<CSizingControlBar*> m_dockingbars;
 
@@ -680,8 +675,6 @@ public:
     afx_msg void OnUpdateEDLSave(CCmdUI* pCmdUI);
     afx_msg void OnViewCapture();
     afx_msg void OnUpdateViewCapture(CCmdUI* pCmdUI);
-    afx_msg void OnViewShaderEditor();
-    afx_msg void OnUpdateViewShaderEditor(CCmdUI* pCmdUI);
     afx_msg void OnViewMinimal();
     afx_msg void OnUpdateViewMinimal(CCmdUI* pCmdUI);
     afx_msg void OnViewCompact();
@@ -788,10 +781,6 @@ public:
     afx_msg void OnViewEnableFrameTimeCorrection();
     afx_msg void OnViewVSyncOffsetIncrease();
     afx_msg void OnViewVSyncOffsetDecrease();
-    afx_msg void OnUpdateShaderToggle(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateShaderToggleScreenSpace(CCmdUI* pCmdUI);
-    afx_msg void OnShaderToggle();
-    afx_msg void OnShaderToggleScreenSpace();
     afx_msg void OnUpdateViewRemainingTime(CCmdUI* pCmdUI);
     afx_msg void OnViewRemainingTime();
     afx_msg void OnD3DFullscreenToggle();
@@ -822,7 +811,6 @@ public:
     afx_msg void OnUpdatePlayChangeAudDelay(CCmdUI* pCmdUI);
     afx_msg void OnPlayFilters(UINT nID);
     afx_msg void OnUpdatePlayFilters(CCmdUI* pCmdUI);
-    afx_msg void OnPlayShaders(UINT nID);
     afx_msg void OnPlayAudio(UINT nID);
     afx_msg void OnPlaySubtitles(UINT nID);
     afx_msg void OnPlayFiltersStreams(UINT nID);
@@ -894,8 +882,6 @@ public:
     long        m_lSubtitleShift;
     __int64     m_rtCurSubPos;
     CString     m_strTitle;
-    bool        m_bToggleShader;
-    bool        m_bToggleShaderScreenSpace;
     bool        m_bInOptions;
     bool        m_bStopTunerScan;
     bool        m_bLockedZoomVideoWindow;
@@ -949,9 +935,6 @@ protected:
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
     afx_msg void OnSessionChange(UINT nSessionState, UINT nId);
-
-    void EnableShaders1(bool enable);
-    void EnableShaders2(bool enable);
 
     CAtlList<CHdmvClipInfo::PlaylistItem> m_MPLSPlaylist;
     bool m_bIsBDPlay;
