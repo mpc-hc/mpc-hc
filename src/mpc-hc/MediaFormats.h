@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,15 +32,16 @@ protected:
     CAtlList<CString> m_exts, m_backupexts;
     bool m_fAudioOnly;
     engine_t m_engine;
+    bool m_fAssoc;
 
 public:
     CMediaFormatCategory();
     CMediaFormatCategory(
         CString label, CString description, CAtlList<CString>& exts, bool fAudioOnly = false,
-        CString specreqnote =  _T(""), engine_t e = DirectShow);
+        CString specreqnote =  _T(""), engine_t e = DirectShow, bool fAssoc = true);
     CMediaFormatCategory(
         CString label, CString description, CString exts, bool fAudioOnly = false,
-        CString specreqnote =  _T(""), engine_t e = DirectShow);
+        CString specreqnote =  _T(""), engine_t e = DirectShow, bool fAssoc = true);
     virtual ~CMediaFormatCategory();
 
     void UpdateData(bool fSave);
@@ -65,6 +66,7 @@ public:
     CString GetBackupExtsWithPeriod(bool fAppendEngine = false) const;
     CString GetSpecReqNote() const { return m_specreqnote; }
     bool IsAudioOnly() const { return m_fAudioOnly; }
+    bool IsAssoc() const { return m_fAssoc; }
     engine_t GetEngineType() const { return m_engine; }
     void SetEngineType(engine_t e) { m_engine = e; }
 };

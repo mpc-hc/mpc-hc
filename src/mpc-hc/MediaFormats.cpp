@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,13 +30,13 @@
 //
 
 CMediaFormatCategory::CMediaFormatCategory()
-    : m_fAudioOnly(false)
+    : m_fAudioOnly(false), m_fAssoc(true)
 {
 }
 
 CMediaFormatCategory::CMediaFormatCategory(
     CString label, CString description, CAtlList<CString>& exts, bool fAudioOnly,
-    CString specreqnote, engine_t engine)
+    CString specreqnote, engine_t engine, bool fAssoc)
 {
     m_label = label;
     m_description = description;
@@ -45,11 +45,12 @@ CMediaFormatCategory::CMediaFormatCategory(
     m_specreqnote = specreqnote;
     m_fAudioOnly = fAudioOnly;
     m_engine = engine;
+    m_fAssoc = fAssoc;
 }
 
 CMediaFormatCategory::CMediaFormatCategory(
     CString label, CString description, CString exts, bool fAudioOnly,
-    CString specreqnote, engine_t engine)
+    CString specreqnote, engine_t engine, bool fAssoc)
 {
     m_label = label;
     m_description = description;
@@ -63,6 +64,7 @@ CMediaFormatCategory::CMediaFormatCategory(
     m_specreqnote = specreqnote;
     m_fAudioOnly = fAudioOnly;
     m_engine = engine;
+    m_fAssoc = fAssoc;
 }
 
 CMediaFormatCategory::~CMediaFormatCategory()
@@ -95,6 +97,7 @@ CMediaFormatCategory& CMediaFormatCategory::operator = (const CMediaFormatCatego
         m_backupexts.AddTailList(&mfc.m_backupexts);
         m_fAudioOnly = mfc.m_fAudioOnly;
         m_engine = mfc.m_engine;
+        m_fAssoc = mfc.m_fAssoc;
     }
     return *this;
 }

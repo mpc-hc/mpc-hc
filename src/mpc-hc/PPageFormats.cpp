@@ -157,6 +157,8 @@ BOOL CPPageFormats::OnInitDialog()
     m_mf = s.m_Formats;
 
     for (int i = 0, cnt = (int)m_mf.GetCount(); i < cnt; i++) {
+        if (!m_mf[i].IsAssoc()) { continue; }
+
         CString label;
         label.Format(_T("%s (%s)"), m_mf[i].GetDescription(), m_mf[i].GetExts());
 
