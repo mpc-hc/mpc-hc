@@ -1195,6 +1195,7 @@
 #define IDS_MFMT_OPUS                   39523
 #define IDS_MFMT_PLS                    39901
 #define IDS_MFMT_BDPLS                  39902
+#define IDS_MFMT_RAR                    39903
 #define IDTB_BUTTON1                    40001
 #define IDTB_BUTTON2                    40002
 #define IDTB_BUTTON3                    40003
