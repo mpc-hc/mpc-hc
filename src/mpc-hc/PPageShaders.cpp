@@ -22,9 +22,6 @@
 #include "PPageShaders.h"
 #include "MainFrm.h"
 
-// TODO: externalize this string???
-const CString ext = _T(".psh");
-
 CShaderListBox::CShaderListBox()
     : CListBox()
 {
@@ -232,7 +229,8 @@ BOOL CPPageShaders::OnInitDialog()
     m_Shaders.ResetContent();
     CFileFind finder;
     ASSERT(CAppSettings::ShaderList::GetShadersDir().Right(1) == _T('\\'));
-    if (finder.FindFile(CAppSettings::ShaderList::GetShadersDir() + _T('*') + ext)) {
+    ASSERT(CString(SHADERS_EXT).Left(1) == _T('.'));
+    if (finder.FindFile(CAppSettings::ShaderList::GetShadersDir() + _T('*') + SHADERS_EXT)) {
         while (finder.FindNextFile()) {
             CAppSettings::Shader shader;
             shader.filePath = finder.GetFilePath();
@@ -401,9 +399,8 @@ void CPPageShaders::OnRemovePostResize()
 
 void CPPageShaders::OnAddShaderFile()
 {
-    ASSERT(ext.GetAt(0) == _T('.'));
-    // TODO: externalize this string???
-    CString dlgFilter = _T("Pixel Shader Files (*") + ext + _T(")|*") + ext + _T("|");
+    ASSERT(CString(SHADERS_EXT).Left(1) == _T('.'));
+    CString dlgFilter = CString(_T("Pixel Shader Files (*")) + SHADERS_EXT + _T(")|*") + SHADERS_EXT + _T("|");
     DWORD dlgFlags = OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
     CFileDialog dlg(TRUE, NULL, NULL, dlgFlags, dlgFilter, this);
 

@@ -2033,8 +2033,7 @@ CString CAppSettings::ShaderList::GetShadersDir()
         } while (false);
         pos = exe.ReverseFind(_T('\\'));
         if (pos > 0) {
-            // TODO: externalize shaders' dir name
-            dir = exe.Left(pos + 1) + _T("shaders\\");
+            dir = exe.Left(pos + 1) + SHADERS_DIR + _T("\\");
             if (dir.GetLength() >= MAX_PATH) {
                 ToVeryLongPath(dir);
             }
