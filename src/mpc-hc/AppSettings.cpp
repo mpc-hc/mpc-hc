@@ -1407,7 +1407,9 @@ void CAppSettings::LoadSettings()
             ShaderList::ListFromString(toParse, preset.preResize);
             toParse = pApp->GetProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_POSTRESIZE + iStr);
             ShaderList::ListFromString(toParse, preset.postResize);
-            m_ShaderPresets.insert(std::make_pair(name, preset));
+            if (!name.IsEmpty()) { // ignore presets with empty names
+                m_ShaderPresets.insert(std::make_pair(name, preset));
+            }
         } while (true);
     }
 
@@ -2085,4 +2087,9 @@ void CAppSettings::ShaderList::StringFromList(const ShaderList& src, CString& ou
         }
         out.Append(tok);
     }
+}
+
+bool CAppSettings::ShaderPreset::operator==(const ShaderPreset& rhs) const
+{
+    return (preResize == rhs.preResize) && (postResize == rhs.postResize);
 }

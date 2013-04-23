@@ -576,6 +576,7 @@ public:
         static void StringFromList(const ShaderList& src, CString& out);
     };
     struct ShaderPreset {
+        bool operator==(const ShaderPreset& rhs) const;
         ShaderList preResize, postResize;
     };
     ShaderList m_ShadersExtra;

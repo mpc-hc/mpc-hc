@@ -284,6 +284,9 @@
 #define ID_FILE_OPEN_CD_END             4099
 #define ID_PANNSCAN_PRESETS_START       4100
 #define ID_PANNSCAN_PRESETS_END         4199
+#define ID_SHADERS_SELECT               4200
+#define ID_SHADERS_PRESETS_START        4201
+#define ID_SHADERS_PRESETS_END          4299
 //#define ID_SHADERS_START                4200
 //#define ID_SHADERS_END                  4299
 #define ID_NAVIGATE_CHAP_SUBITEM_START  4300
@@ -582,7 +585,7 @@
 #define IDS_SUBRESYNC_DECREASE          14133
 #define IDS_SUBRESYNC_INCREASE          14134
 #define IDS_OPTIONS_CAPTION             14135
-//#define IDS_SHADERS_SELECT              14136
+#define IDS_SHADERS_SELECT              14136
 #define IDS_FAVORITES_ADD               14153
 #define IDS_FAVORITES_ORGANIZE          14154
 #define IDS_PLAYLIST_SHUFFLE            14155

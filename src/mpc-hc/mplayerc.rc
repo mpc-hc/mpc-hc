@@ -2351,6 +2351,7 @@ BEGIN
     IDS_SUBRESYNC_DECREASE  "&Decrease"
     IDS_SUBRESYNC_INCREASE  "&Increase"
     IDS_OPTIONS_CAPTION     "Options"
+    IDS_SHADERS_SELECT      "&Select Shaders..."
 END
 
 STRINGTABLE

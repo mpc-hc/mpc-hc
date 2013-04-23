@@ -219,6 +219,7 @@ void CPPageShaders::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_Shaders);
     DDX_Control(pDX, IDC_LIST2, m_PreResize);
     DDX_Control(pDX, IDC_LIST3, m_PostResize);
+    DDX_Control(pDX, IDC_COMBO1, m_Presets);
 }
 
 BOOL CPPageShaders::OnInitDialog()
@@ -246,6 +247,12 @@ BOOL CPPageShaders::OnInitDialog()
 
     m_PreResize.SetList(s.m_ShadersSelected.preResize);
     m_PostResize.SetList(s.m_ShadersSelected.postResize);
+
+    m_Presets.Clear();
+    auto& presets = s.m_ShaderPresets;
+    for (auto it = presets.cbegin(); it != presets.cend(); ++it) {
+        VERIFY(m_Presets.AddString(it->first) >= 0);
+    }
 
     UpdateState();
 
@@ -282,11 +289,13 @@ BOOL CPPageShaders::OnApply()
 
 void CPPageShaders::UpdateState()
 {
+    const CAppSettings& s = AfxGetAppSettings();
+    CString text;
     BOOL state;
     int sel;
 
     sel = m_Shaders.GetCurSel();
-    state = (sel != LB_ERR) ? TRUE : FALSE;
+    state = (sel != LB_ERR);
     GetDlgItem(IDC_BUTTON1)->EnableWindow(state); // "add to pre-resize" button
     GetDlgItem(IDC_BUTTON2)->EnableWindow(state); // "add to post-resize" button
     if (state) {
@@ -299,9 +308,12 @@ void CPPageShaders::UpdateState()
     GetDlgItem(IDC_BUTTON13)->EnableWindow(state); // "remove shader" button
     // "add shader file" button is always enabled
 
-    // TODO: "load preset" button
-    // TODO: "save preset" button
-    // TODO: "delete preset" button
+    state = (m_Presets.GetCurSel() != CB_ERR);
+    GetDlgItem(IDC_BUTTON3)->EnableWindow(state); // "load preset" button
+    GetDlgItem(IDC_BUTTON5)->EnableWindow(state); // "delete preset" button
+    m_Presets.GetWindowText(text);
+    state = (state || !text.IsEmpty());
+    GetDlgItem(IDC_BUTTON4)->EnableWindow(state); // "save preset" button
 
     sel = m_PreResize.GetCurSel();
     state = (sel != LB_ERR) && (sel > 0) ? TRUE : FALSE;
@@ -322,17 +334,72 @@ void CPPageShaders::UpdateState()
 
 void CPPageShaders::OnLoadShaderPreset()
 {
-    // TODO: write me
+    const CAppSettings& s = AfxGetAppSettings();
+    int sel = m_Presets.GetCurSel();
+    if (sel != CB_ERR) {
+        CString name;
+        m_Presets.GetLBText(sel, name);
+        if (!name.IsEmpty()) {
+            auto it = s.m_ShaderPresets.find(name);
+            if (it != s.m_ShaderPresets.cend()) {
+                m_PreResize.SetList(it->second.preResize);
+                m_PostResize.SetList(it->second.postResize);
+            } else {
+                ASSERT(FALSE);
+            }
+        } else {
+            ASSERT(FALSE);
+        }
+    } else {
+        ASSERT(FALSE);
+    }
+    UpdateState();
+    SetModified();
 }
 
 void CPPageShaders::OnSaveShaderPreset()
 {
-    // TODO: write me
+    CAppSettings& s = AfxGetAppSettings();
+    CString name;
+    m_Presets.GetWindowText(name);
+    if (!name.IsEmpty()) {
+        CAppSettings::ShaderPreset preset;
+        preset.preResize = m_PreResize.GetList();
+        preset.postResize = m_PostResize.GetList();
+        s.m_ShaderPresets[name] = preset;
+        if (m_Presets.GetCurSel() == CB_ERR) {
+            VERIFY(m_Presets.SetCurSel(m_Presets.AddString(name)) != CB_ERR);
+        }
+    } else {
+        ASSERT(FALSE);
+    }
+    UpdateState();
 }
 
 void CPPageShaders::OnDeleteShaderPreset()
 {
-    // TODO: write me
+    CAppSettings& s = AfxGetAppSettings();
+    int sel = m_Presets.GetCurSel();
+    if (sel != CB_ERR) {
+        CString name;
+        m_Presets.GetLBText(sel, name);
+        VERIFY(m_Presets.DeleteString(sel) != CB_ERR);
+        VERIFY(s.m_ShaderPresets.erase(name) > 0);
+    } else {
+        ASSERT(FALSE);
+    }
+    UpdateState();
+}
+
+void CPPageShaders::OnChangeShaderPresetText()
+{
+    CString text;
+    m_Presets.GetWindowText(text);
+    int sel = m_Presets.FindStringExact(-1, text);
+    if (sel != CB_ERR) {
+        VERIFY(m_Presets.SetCurSel(sel) != CB_ERR);
+    }
+    UpdateState();
 }
 
 void CPPageShaders::OnAddToPreResize()
@@ -439,17 +506,19 @@ BEGIN_MESSAGE_MAP(CPPageShaders, CPPageBase)
     ON_LBN_SELCHANGE(IDC_LIST1, UpdateState)
     ON_LBN_SELCHANGE(IDC_LIST2, UpdateState)
     ON_LBN_SELCHANGE(IDC_LIST3, UpdateState)
-    ON_BN_CLICKED(IDC_BUTTON1,  OnAddToPreResize)
-    ON_BN_CLICKED(IDC_BUTTON2,  OnAddToPostResize)
-    ON_BN_CLICKED(IDC_BUTTON3,  OnLoadShaderPreset)
-    ON_BN_CLICKED(IDC_BUTTON4,  OnSaveShaderPreset)
-    ON_BN_CLICKED(IDC_BUTTON5,  OnDeleteShaderPreset)
-    ON_BN_CLICKED(IDC_BUTTON6,  OnUpPreResize)
-    ON_BN_CLICKED(IDC_BUTTON7,  OnDownPreResize)
-    ON_BN_CLICKED(IDC_BUTTON8,  OnRemovePreResize)
-    ON_BN_CLICKED(IDC_BUTTON9,  OnUpPostResize)
+    ON_BN_CLICKED(IDC_BUTTON1, OnAddToPreResize)
+    ON_BN_CLICKED(IDC_BUTTON2, OnAddToPostResize)
+    ON_BN_CLICKED(IDC_BUTTON3, OnLoadShaderPreset)
+    ON_BN_CLICKED(IDC_BUTTON4, OnSaveShaderPreset)
+    ON_BN_CLICKED(IDC_BUTTON5, OnDeleteShaderPreset)
+    ON_BN_CLICKED(IDC_BUTTON6, OnUpPreResize)
+    ON_BN_CLICKED(IDC_BUTTON7, OnDownPreResize)
+    ON_BN_CLICKED(IDC_BUTTON8, OnRemovePreResize)
+    ON_BN_CLICKED(IDC_BUTTON9, OnUpPostResize)
     ON_BN_CLICKED(IDC_BUTTON10, OnDownPostResize)
     ON_BN_CLICKED(IDC_BUTTON11, OnRemovePostResize)
     ON_BN_CLICKED(IDC_BUTTON12, OnAddShaderFile)
     ON_BN_CLICKED(IDC_BUTTON13, OnRemoveShader)
+    ON_CBN_EDITCHANGE(IDC_COMBO1, OnChangeShaderPresetText)
+    ON_CBN_SELCHANGE(IDC_COMBO1, UpdateState)
 END_MESSAGE_MAP()

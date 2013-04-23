@@ -64,6 +64,7 @@ public:
 
 protected:
     CShaderListBox m_Shaders, m_PreResize, m_PostResize;
+    CComboBox m_Presets;
 
     virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
@@ -74,6 +75,7 @@ protected:
     void OnLoadShaderPreset();
     void OnSaveShaderPreset();
     void OnDeleteShaderPreset();
+    void OnChangeShaderPresetText();
 
     void OnAddToPreResize();
     void OnAddToPostResize();

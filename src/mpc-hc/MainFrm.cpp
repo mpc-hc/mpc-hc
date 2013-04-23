@@ -45,7 +45,6 @@
 #include "SaveThumbnailsDialog.h"
 #include "FavoriteAddDlg.h"
 #include "FavoriteOrganizeDlg.h"
-//#include "ShaderCombineDlg.h"
 #include "FullscreenWnd.h"
 #include "TunerScanDlg.h"
 #include "OpenDirHelper.h"
@@ -444,6 +443,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_INCAUDDELAY, ID_PLAY_DECAUDDELAY, OnUpdatePlayChangeAudDelay)
     ON_COMMAND_RANGE(ID_FILTERS_SUBITEM_START, ID_FILTERS_SUBITEM_END, OnPlayFilters)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERS_SUBITEM_START, ID_FILTERS_SUBITEM_END, OnUpdatePlayFilters)
+    ON_COMMAND(ID_SHADERS_SELECT, OnPlayShadersSelect)
+    ON_COMMAND_RANGE(ID_SHADERS_PRESETS_START, ID_SHADERS_PRESETS_END, OnPlayShadersPresets)
     ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
     ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
     ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayFiltersStreams)
@@ -742,11 +743,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_wndNavigationBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
     m_dockingbars.AddTail(&m_wndNavigationBar);
 
-    //m_wndShaderEditorBar.Create(this, AFX_IDW_DOCKBAR_TOP);
-    //m_wndShaderEditorBar.SetBarStyle(m_wndShaderEditorBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-    //m_wndShaderEditorBar.EnableDocking(CBRS_ALIGN_ANY);
-    //m_dockingbars.AddTail(&m_wndShaderEditorBar);
-
     // Hide all dockable bars by default
     POSITION pos = m_dockingbars.GetHeadPosition();
     while (pos) {
@@ -780,34 +776,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
             StartWebServer(s.nWebServerPort);
         }
     }
-    /*
-    // Casimir666 : reload Shaders
-    {
-        CString strList = s.strShaderList;
-        CString strRes;
-        int curPos = 0;
 
-        strRes = strList.Tokenize(_T("|"), curPos);
-        while (strRes != _T("")) {
-            m_shaderlabels.AddTail(strRes);
-            strRes = strList.Tokenize(_T("|"), curPos);
-        }
-    }
-    {
-        CString strList = s.strShaderListScreenSpace;
-        CString strRes;
-        int curPos = 0;
-
-        strRes = strList.Tokenize(_T("|"), curPos);
-        while (strRes != _T("")) {
-            m_shaderlabelsScreenSpace.AddTail(strRes);
-            strRes = strList.Tokenize(_T("|"), curPos);
-        }
-    }
-
-    m_bToggleShader = s.fToggleShader;
-    m_bToggleShaderScreenSpace = s.fToggleShaderScreenSpace;
-    */
     m_strTitle.LoadString(IDR_MAINFRAME);
 
 #ifdef MPCHC_LITE
@@ -855,34 +824,7 @@ void CMainFrame::OnDestroy()
 void CMainFrame::OnClose()
 {
     CAppSettings& s = AfxGetAppSettings();
-    /*
-    // Casimir666 : save shaders list
-    {
-        POSITION pos;
-        CString strList = "";
 
-        pos = m_shaderlabels.GetHeadPosition();
-        while (pos) {
-            strList += m_shaderlabels.GetAt(pos) + "|";
-            m_dockingbars.GetNext(pos);
-        }
-        s.strShaderList = strList;
-    }
-    {
-        POSITION pos;
-        CString  strList = "";
-
-        pos = m_shaderlabelsScreenSpace.GetHeadPosition();
-        while (pos) {
-            strList += m_shaderlabelsScreenSpace.GetAt(pos) + "|";
-            m_dockingbars.GetNext(pos);
-        }
-        s.strShaderListScreenSpace = strList;
-    }
-
-    s.fToggleShader = m_bToggleShader;
-    s.fToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
-    */
     s.dZoomX = m_ZoomX;
     s.dZoomY = m_ZoomY;
 
@@ -7755,6 +7697,35 @@ void CMainFrame::OnUpdatePlayFilters(CCmdUI* pCmdUI)
     pCmdUI->Enable(!m_fCapturing);
 }
 
+void CMainFrame::OnPlayShadersSelect()
+{
+    ShowOptions(IDD_PPAGESHADERS);
+}
+
+void CMainFrame::OnPlayShadersPresets(UINT nID)
+{
+    ASSERT((nID >= ID_SHADERS_PRESETS_START) && (nID <= ID_SHADERS_PRESETS_END));
+    CAppSettings& s = AfxGetAppSettings();
+    int num = (int)nID - ID_SHADERS_PRESETS_START;
+    auto& presets = s.m_ShaderPresets;
+    auto& current = s.m_ShadersSelected;
+    ASSERT(num < (int)presets.size());
+    for (auto it = presets.cbegin(); it != presets.cend(); ++it) {
+        if (num-- == 0) {
+            bool updatePre = false, updatePost = false;
+            if (it->second.preResize != current.preResize) {
+                updatePre = true;
+            }
+            if (it->second.postResize != current.postResize) {
+                updatePost = true;
+            }
+            current = it->second;
+            SetShaders(updatePre, updatePost);
+            break;
+        }
+    }
+}
+
 void CMainFrame::OnPlayAudio(UINT nID)
 {
     int i = (int)nID - (1 + ID_AUDIO_SUBITEM_START);
@@ -13417,22 +13388,32 @@ void CMainFrame::SetupFavoritesSubMenu()
 
 void CMainFrame::SetupShadersSubMenu()
 {
-    CMenu* pSub = &m_shaders;
+    const CAppSettings& s = AfxGetAppSettings();
+    CMenu* pSubMenu = &m_shaders;
 
-    if (!IsMenu(pSub->m_hMenu)) {
-        pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
+    if (!IsMenu(pSubMenu->m_hMenu)) {
+        VERIFY(pSubMenu->CreatePopupMenu());
+    } else while (pSubMenu->RemoveMenu(0, MF_BYPOSITION));
+
+    pSubMenu->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT));
+
+    auto& presets = s.m_ShaderPresets;
+    if (!presets.empty()) {
+        pSubMenu->AppendMenu(MF_SEPARATOR);
+        UINT nID = ID_SHADERS_PRESETS_START;
+        for (auto it = presets.cbegin(); it != presets.cend(); ++it, nID++) {
+            if (nID > ID_SHADERS_PRESETS_END) {
+                // too many presets
+                ASSERT(FALSE);
+                break;
+            }
+            pSubMenu->AppendMenu(MF_STRING | MF_ENABLED, nID, it->first);
+            if (it->second == s.m_ShadersSelected) {
+                VERIFY(pSubMenu->CheckMenuRadioItem(nID, nID, nID, MF_BYCOMMAND));
+            }
         }
-
-    //pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE, ResStr(IDS_SHADERS_TOGGLE));
-    //pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE_SCREENSPACE, ResStr(IDS_SHADERS_TOGGLE_SCREENSPACE));
-    //pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT));
-    pSub->AppendMenu(MF_SEPARATOR);
-    //pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_VIEW_SHADEREDITOR, ResStr(IDS_SHADERS_EDIT));
+    }
 }
-
-/////////////
 
 void CMainFrame::ShowControls(int nCS, bool fSave /*= false*/)
 {
