@@ -13,7 +13,7 @@ Legend:
 + DVB capture: Improve channel switching
 + Subtitle downloader improvements:
   - Ticket #2144, Sort by language and then by filename by default. Subtitles matching a language
-    set as prefered in the options are now displayed first in the result list
+    set as preferred in the options are now displayed first in the result list
   - Ticket #2926, Double-clicking or pressing the "Enter" key will download the selected subtitle(s)
 + Ticket #2837, New INI parser: the accesses are now cached for faster settings loading/saving.
   Using the INI file should now be as fast as using the registry
