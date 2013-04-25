@@ -268,7 +268,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("other_audio"), ResStr(IDS_MFMT_OTHER_AUDIO), _T("aob mlp"), true));
         ADDFMT((_T("pls"),         ResStr(IDS_MFMT_PLS),         _T("asx m3u m3u8 pls wvx wax wmx mpcpl")));
         ADDFMT((_T("bdpls"),       ResStr(IDS_MFMT_BDPLS),       _T("mpls bdmv")));
-        ADDFMT((_T("rar"),         ResStr(IDS_MFMT_RAR),         _T("rar"), true, _T("RARFileSource"), DirectShow, false));
+        ADDFMT((_T("rar"),         ResStr(IDS_MFMT_RAR),         _T("rar"), false, _T("RARFileSource"), DirectShow, false));
 #undef ADDFMT
 
         m_iRtspHandler = (engine_t)AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspHandler"), (int)RealMedia);
