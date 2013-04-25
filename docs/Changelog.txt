@@ -8,6 +8,11 @@ Legend:
 ! Fixed
 
 
+1.6.8 - not released yet
+========================
+* Updated Greek translation
+
+
 1.6.7 - 25 April 2013
 =====================
 + DVB capture: Improve channel switching
