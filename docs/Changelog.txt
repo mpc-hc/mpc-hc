@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-1.6.7 - not released yet
-========================
+1.6.7 - 25 April 2013
+=====================
 + DVB capture: Improve channel switching
 + Subtitle downloader improvements:
   - Ticket #2144, Sort by language and then by filename by default. Subtitles matching a language
@@ -24,8 +24,8 @@ Legend:
   Turkish and Ukrainian translations
 * Updated Little CMS to v2.5 (git cde00fd)
 * Updated VirtualDub to v1.10.4-test6
-* Ticket #2689,  Replace "On top > Never" by "On top > Default". In most of the
-  cases "On top > Default" will have the exact same behavior than "On top > Never"
+* Ticket #2689, Replace "On top -> Never" by "On top -> Default". In most of the
+  cases "On top -> Default" will have the exact same behavior than "On top -> Never"
   but it won't try to override the "On top" flag if an external tool sets it
 * Ticket #3049, Re-enable VSync by default for Windows XP users
 ! Fix a crash when VMR-7 (renderless) renderer failed to load

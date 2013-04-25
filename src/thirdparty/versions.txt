@@ -9,7 +9,7 @@ FFmpeg              n0.8-19080-g2bac153 git
 libflac             1.2.1
 libmpeg2            0.3.2 (modified)
 libogg              1.3.0
-Little CMS          v2.4 git 4ba0259
+Little CMS          v2.5 git cde00fd
 Logitech SDK        3.01 (driver 8.00.100)
 MediaInfoLib        0.7.62
 MultiMon            28 Aug '03 (modified)
@@ -20,6 +20,6 @@ ResizableLib        1.3
 SoundTouch          1.7.1 r170
 TreePropSheet       7 Mar '03 (modified)
 UnRAR               4.20
-VirtualDub          1.10.4-test1
+VirtualDub          1.10.4-test6
 ZenLib              0.4.28 r430
 zlib                1.2.7
