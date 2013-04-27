@@ -137,7 +137,7 @@ END
 BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 5		"开启内建的音频切换滤镜 (需要重新启动)"
 9		"规格化"
-10		"Max amplification:"
+10		"最大放大:"
 14		"重新定义音量"
 15		"增益:"
 17		"降低采样率至44100 Hz"
