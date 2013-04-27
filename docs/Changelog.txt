@@ -11,7 +11,8 @@ Legend:
 1.6.8 - not released yet
 ========================
 * Updated Greek translation
-* Audio Switcher improvements: 
+* Updated Little CMS to v2.5 (git 5bf9e43)
+* Audio Switcher improvements:
   - Ticket #1936, Improve the normalization algorithm to avoid huge volume variations
   - Use percentage for the boost setting since it is easier to understand for most people
   - Add a setting to change the max normalization factor and use a max normalization factor
