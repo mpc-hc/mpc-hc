@@ -337,7 +337,7 @@ void CPPageAudioSwitcher::OnUpdateNormalize(CCmdUI* pCmdUI)
 {
     //  UpdateData();
     pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK2)/*m_fEnableAudioSwitcher*/
-        && IsDlgButtonChecked(IDC_CHECK5)/*m_fNormalize*/);
+                   && IsDlgButtonChecked(IDC_CHECK5)/*m_fNormalize*/);
 }
 
 void CPPageAudioSwitcher::OnUpdateChannelMapping(CCmdUI* pCmdUI)
