@@ -198,6 +198,7 @@ void CVMROSD::SetVideoWindow(CWnd* pWnd)
         m_pWnd->KillTimer((UINT_PTR)this);
     }
     m_pWnd = pWnd;
+    UpdateBitmap();
 }
 
 void CVMROSD::DrawRect(CRect* rect, CBrush* pBrush, CPen* pPen)
