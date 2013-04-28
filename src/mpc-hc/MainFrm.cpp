@@ -1135,7 +1135,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
                 } else if (IsCaptionHidden()) {
                     PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
                     return TRUE;
-                } else if (s.IsD3DFullscreen()) {
+                } else if (IsD3DFullScreenMode()) {
                     ToggleD3DFullscreen();
                     return TRUE;
                 }
@@ -3623,11 +3623,6 @@ void CMainFrame::OnUpdateFilePostClosemedia(CCmdUI* pCmdUI)
 
 void CMainFrame::OnBossKey()
 {
-    // Disable the boss key when using D3D fullscreen
-    if (IsD3DFullScreenMode()) {
-        return;
-    }
-
     // Disable animation
     ANIMATIONINFO AnimationInfo;
     AnimationInfo.cbSize = sizeof(ANIMATIONINFO);
@@ -3637,7 +3632,7 @@ void CMainFrame::OnBossKey()
     ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
 
     SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-    if (m_fFullScreen) {
+    if (m_fFullScreen || IsD3DFullScreenMode()) {
         SendMessage(WM_COMMAND, ID_VIEW_FULLSCREEN);
     }
     SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, -1);
@@ -6592,12 +6587,22 @@ void CMainFrame::SetUIPreset(int iCaptionMenuMode, UINT nCS)
 
 void CMainFrame::OnViewFullscreen()
 {
-    ToggleFullscreen(true, true);
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.IsD3DFullscreen()) {
+        ToggleD3DFullscreen();
+    } else {
+        ToggleFullscreen(true, true);
+    }
 }
 
 void CMainFrame::OnViewFullscreenSecondary()
 {
-    ToggleFullscreen(true, false);
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.IsD3DFullscreen()) {
+        ToggleD3DFullscreen();
+    } else {
+        ToggleFullscreen(true, false);
+    }
 }
 
 void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
@@ -9698,7 +9703,6 @@ void CMainFrame::ToggleD3DFullscreen()
         // be restored after. This avoid positioning problems.
         m_OSD.HideMessage(true);
 
-        SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         if (bIsFullscreen) {
             // Turn off D3D Fullscreen
             m_OSD.EnableShowSeekBar(false);
@@ -9709,7 +9713,7 @@ void CMainFrame::ToggleD3DFullscreen()
             m_OSD.SetVideoWindow(m_pVideoWnd);
             m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
 
-            // Destroy the D3D Fullscreen window and zoom the window
+            // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
             ZoomVideoWindow();
 
@@ -9730,6 +9734,8 @@ void CMainFrame::ToggleD3DFullscreen()
             m_OSD.SetVideoWindow(m_pFullscreenWnd);
             m_pMFVDC->SetVideoWindow(m_pFullscreenWnd->m_hWnd);
         }
+
+        MoveVideoWindow();
 
         m_OSD.HideMessage(false);
     }
