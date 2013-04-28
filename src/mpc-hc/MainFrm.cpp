@@ -9712,6 +9712,11 @@ void CMainFrame::ToggleD3DFullscreen()
             // Destroy the D3D Fullscreen window and zoom the window
             m_pFullscreenWnd->DestroyWindow();
             ZoomVideoWindow();
+
+            // Show the cursor
+            KillTimer(TIMER_FULLSCREENMOUSEHIDER);
+            KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
+            m_fHideCursor = false;
         } else {
             // Create a new D3D Fullscreen window
             CreateFullScreenWindow();
