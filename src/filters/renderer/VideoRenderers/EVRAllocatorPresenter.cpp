@@ -1315,8 +1315,8 @@ STDMETHODIMP CEVRAllocatorPresenter::GetAspectRatioMode(DWORD* pdwAspectRatioMod
 
 STDMETHODIMP CEVRAllocatorPresenter::SetVideoWindow(HWND hwndVideo)
 {
-    ASSERT(m_hWnd == hwndVideo);    // What if not ??
-    //m_hWnd = hwndVideo;
+    m_hWnd = hwndVideo;
+    SendResetRequest();
     return S_OK;
 }
 
@@ -1367,14 +1367,14 @@ STDMETHODIMP CEVRAllocatorPresenter::GetRenderingPrefs(DWORD* pdwRenderFlags)
 
 STDMETHODIMP CEVRAllocatorPresenter::SetFullscreen(BOOL fFullscreen)
 {
-    ASSERT(FALSE);
-    return E_NOTIMPL;
+    m_bIsFullscreen = !!fFullscreen;
+    return S_OK;
 }
 
 STDMETHODIMP CEVRAllocatorPresenter::GetFullscreen(BOOL* pfFullscreen)
 {
-    ASSERT(FALSE);
-    return E_NOTIMPL;
+    *pfFullscreen = m_bIsFullscreen;
+    return S_OK;
 }
 
 

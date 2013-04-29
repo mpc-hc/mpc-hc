@@ -444,6 +444,7 @@ public:
 
     CSize GetVideoSize() const;
     void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
+    void ToggleD3DFullscreen();
     void MoveVideoWindow(bool fShowStats = false);
     void RepaintVideo();
     void HideVideoWindow(bool fHide);

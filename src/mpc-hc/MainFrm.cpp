@@ -1136,7 +1136,8 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
                     PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
                     return TRUE;
                 } else if (s.IsD3DFullscreen()) {
-                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_D3DFS_REMINDER));
+                    ToggleD3DFullscreen();
+                    return TRUE;
                 }
             }
         } else if (pMsg->wParam == VK_LEFT && m_pAMTuner) {
@@ -9684,6 +9685,48 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     if (m_Change_Monitor && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
         SetShaders();
+    }
+}
+
+void CMainFrame::ToggleD3DFullscreen()
+{
+    if (m_pMFVDC) {
+        BOOL bIsFullscreen = false;
+        m_pMFVDC->GetFullscreen(&bIsFullscreen);
+
+        // Temporarily hide the OSD message if there is one, it will
+        // be restored after. This avoid positioning problems.
+        m_OSD.HideMessage(true);
+
+        SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+        if (bIsFullscreen) {
+            // Turn off D3D Fullscreen
+            m_OSD.EnableShowSeekBar(false);
+            m_pMFVDC->SetFullscreen(false);
+
+            // Assign the windowed video frame and pass it to the relevant classes.
+            m_pVideoWnd = &m_wndView;
+            m_OSD.SetVideoWindow(m_pVideoWnd);
+            m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
+
+            // Destroy the D3D Fullscreen window and zoom the window
+            m_pFullscreenWnd->DestroyWindow();
+            ZoomVideoWindow();
+        } else {
+            // Create a new D3D Fullscreen window
+            CreateFullScreenWindow();
+
+            // Turn on D3D Fullscreen
+            m_OSD.EnableShowSeekBar(true);
+            m_pMFVDC->SetFullscreen(true);
+
+            // Assign the windowed video frame and pass it to the relevant classes.
+            m_pVideoWnd = m_pFullscreenWnd;
+            m_OSD.SetVideoWindow(m_pFullscreenWnd);
+            m_pMFVDC->SetVideoWindow(m_pFullscreenWnd->m_hWnd);
+        }
+
+        m_OSD.HideMessage(false);
     }
 }
 
