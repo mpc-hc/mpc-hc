@@ -221,8 +221,6 @@ extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
         iconIndex = IDI_RT_ICON;
     } else if (_tcsicmp(ext, _T(".rt")) == 0) {
         iconIndex = IDI_RT_ICON;
-    } else if (_tcsicmp(ext, _T(".smi")) == 0) {
-        iconIndex = IDI_RT_ICON;
     } else if (_tcsicmp(ext, _T(".smil")) == 0) {
         iconIndex = IDI_RT_ICON;
     } else if (_tcsicmp(ext, _T(".smk")) == 0) {

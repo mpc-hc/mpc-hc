@@ -224,7 +224,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt rp smi smil")));
 #else
         ADDFMT((_T("rm"),          ResStr(IDS_MFMT_RM),          _T("rm ram rmm"), false, _T("RealPlayer or Real Alternative"), RealMedia));
-        ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
+        ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt rp smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
 #endif
         ADDFMT((_T("wmv"),         ResStr(IDS_MFMT_WMV),         _T("wmv wmp wm asf")));
         ADDFMT((_T("bink"),        ResStr(IDS_MFMT_BINK),        _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
