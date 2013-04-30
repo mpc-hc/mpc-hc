@@ -2485,7 +2485,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                                 }
                             }
 
-                            if (s.fRememberZoomLevel && !m_fFullScreen && !s.IsD3DFullscreen()) { // Hack to the normal initial zoom for DVD + DXVA ...
+                            if (s.fRememberZoomLevel && !m_fFullScreen && !IsD3DFullScreenMode()) { // Hack to the normal initial zoom for DVD + DXVA ...
                                 ZoomVideoWindow();
                             }
                         }
@@ -11916,9 +11916,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
             if (pVMB) {
-                m_OSD.Start(m_pVideoWnd, pVMB, s.IsD3DFullscreen());
+                m_OSD.Start(m_pVideoWnd, pVMB, IsD3DFullScreenMode());
             } else if (pMFVMB) {
-                m_OSD.Start(m_pVideoWnd, pMFVMB, s.IsD3DFullscreen());
+                m_OSD.Start(m_pVideoWnd, pMFVMB, IsD3DFullScreenMode());
             } else if (pMVTO) {
                 m_OSD.Start(m_pVideoWnd, pMVTO);
             }
