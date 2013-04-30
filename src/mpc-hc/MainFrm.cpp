@@ -7970,14 +7970,14 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 
     switch (nID) {
         case ID_VOLUME_BOOST_INC:
-            s.nAudioBoost += 5;
+            s.nAudioBoost += s.nVolumeStep;
             if (s.nAudioBoost > 300) {
                 s.nAudioBoost = 300;
             }
             break;
         case ID_VOLUME_BOOST_DEC:
-            if (s.nAudioBoost > 5) {
-                s.nAudioBoost -= 5;
+            if (s.nAudioBoost > s.nVolumeStep) {
+                s.nAudioBoost -= s.nVolumeStep;
             } else {
                 s.nAudioBoost = 0;
             }
