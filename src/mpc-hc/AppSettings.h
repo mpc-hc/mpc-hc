@@ -420,8 +420,8 @@ public:
     bool            fAutoloadAudio;
     bool            fAutoloadSubtitles;
     bool            fBlockVSFilter;
-    int             nVolumeStep;
-    int             nSpeedStep;
+    UINT            nVolumeStep;
+    UINT            nSpeedStep;
 
     // DVD/OGM
     bool            fUseDVDPath;
