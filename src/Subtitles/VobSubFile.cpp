@@ -749,7 +749,6 @@ bool CVobSubFile::ReadSub(CString fn)
     return true;
 }
 
-// Do we really need MyProcessDataProc??
 static unsigned char* RARbuff = NULL;
 static unsigned int RARpos = 0;
 
@@ -775,9 +774,6 @@ bool CVobSubFile::ReadRar(CString fn)
         return false;
     }
 
-#endif /* USE_UNRAR_STATIC */
-
-#ifndef USE_UNRAR_STATIC
     RAROpenArchiveEx OpenArchiveEx = (RAROpenArchiveEx)GetProcAddress(h, "RAROpenArchiveEx");
     RARCloseArchive  CloseArchive  = (RARCloseArchive)GetProcAddress(h, "RARCloseArchive");
     RARReadHeaderEx  ReadHeaderEx  = (RARReadHeaderEx)GetProcAddress(h, "RARReadHeaderEx");
@@ -790,47 +786,46 @@ bool CVobSubFile::ReadRar(CString fn)
     }
 
 #else
+
 #define OpenArchiveEx      RAROpenArchiveEx
 #define CloseArchive       RARCloseArchive
 #define ReadHeaderEx       RARReadHeaderEx
 #define ProcessFile        RARProcessFile
 #define SetProcessDataProc RARSetProcessDataProc
-#endif
-    // TODO: struct here is not needed
-    struct RAROpenArchiveDataEx ArchiveDataEx;
-    //RAROpenArchiveDataEx ArchiveDataEx = { 0 };
-    memset(&ArchiveDataEx, 0, sizeof(ArchiveDataEx));
-    // Are these filename conversions needed??
-    ArchiveDataEx.ArcNameW = (LPTSTR)(LPCTSTR)fn;
+#endif /* USE_UNRAR_STATIC */
+
+    RAROpenArchiveDataEx OpenArchiveData;
+    memset(&OpenArchiveData, 0, sizeof(OpenArchiveData));
+
+    OpenArchiveData.ArcNameW = (LPTSTR)(LPCTSTR)fn;
     char fnA[MAX_PATH];
     size_t size;
     if (wcstombs_s(&size, fnA, fn, fn.GetLength())) {
         fnA[0] = 0;
     }
-    ArchiveDataEx.ArcName = fnA;
-    ArchiveDataEx.OpenMode = RAR_OM_EXTRACT;
-    ArchiveDataEx.CmtBuf = 0;
-    HANDLE hrar = OpenArchiveEx(&ArchiveDataEx);
-    if (!hrar) {
+    OpenArchiveData.ArcName = fnA;
+    OpenArchiveData.OpenMode = RAR_OM_EXTRACT;
+    OpenArchiveData.CmtBuf = 0;
+    HANDLE hArcData = OpenArchiveEx(&OpenArchiveData);
+    if (!hArcData) {
 #ifndef USE_UNRAR_STATIC
         FreeLibrary(h);
 #endif
         return false;
     }
 
-    SetProcessDataProc(hrar, MyProcessDataProc);
+    SetProcessDataProc(hArcData, MyProcessDataProc);
 
-    // TODO: struct here is not needed
-    struct RARHeaderDataEx HeaderDataEx;
+    RARHeaderDataEx HeaderDataEx;
     HeaderDataEx.CmtBuf = NULL;
 
-    while (ReadHeaderEx(hrar, &HeaderDataEx) == 0) {
+    while (ReadHeaderEx(hArcData, &HeaderDataEx) == 0) {
         CString subfn(HeaderDataEx.FileNameW);
 
         if (!subfn.Right(4).CompareNoCase(_T(".sub"))) {
             CAutoVectorPtr<BYTE> buff;
             if (!buff.Allocate(HeaderDataEx.UnpSize)) {
-                CloseArchive(hrar);
+                CloseArchive(hArcData);
 #ifndef USE_UNRAR_STATIC
                 FreeLibrary(h);
 #endif
@@ -840,8 +835,8 @@ bool CVobSubFile::ReadRar(CString fn)
             RARbuff = buff;
             RARpos = 0;
 
-            if (ProcessFile(hrar, RAR_TEST, NULL, NULL)) {
-                CloseArchive(hrar);
+            if (ProcessFile(hArcData, RAR_TEST, NULL, NULL)) {
+                CloseArchive(hArcData);
 #ifndef USE_UNRAR_STATIC
                 FreeLibrary(h);
 #endif
@@ -860,10 +855,10 @@ bool CVobSubFile::ReadRar(CString fn)
             break;
         }
 
-        ProcessFile(hrar, RAR_SKIP, NULL, NULL);
+        ProcessFile(hArcData, RAR_SKIP, NULL, NULL);
     }
 
-    CloseArchive(hrar);
+    CloseArchive(hArcData);
 #ifndef USE_UNRAR_STATIC
     FreeLibrary(h);
 #endif
