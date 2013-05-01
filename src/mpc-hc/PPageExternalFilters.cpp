@@ -47,17 +47,16 @@ void CPPageExternalFiltersListBox::PreSubclassWindow()
 INT_PTR CPPageExternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 {
     BOOL out = FALSE;
-    pTI->uId = ItemFromPoint(point, out);
+    UINT item = ItemFromPoint(point, out);
     if (out) {
         return -1;
     }
 
-    CRect r;
-    VERIFY(GetItemRect(pTI->uId, r) != LB_ERR);
-    pTI->rect = r;
-    pTI->hwnd = m_hWnd;
-    pTI->lpszText = LPSTR_TEXTCALLBACK;
     pTI->uFlags |= TTF_ALWAYSTIP;
+    pTI->hwnd = m_hWnd;
+    pTI->uId = item;
+    VERIFY(GetItemRect(item, &pTI->rect) != LB_ERR);
+    pTI->lpszText = LPSTR_TEXTCALLBACK;
 
     return pTI->uId;
 }
