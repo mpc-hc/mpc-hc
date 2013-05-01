@@ -31,7 +31,9 @@
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
+#if defined(HAS_FFMPEG) && !defined(MPCHC_LITE)
 extern "C" char* GetFFmpegCompiler();
+#endif
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
     , m_appname(_T(""))
