@@ -256,9 +256,9 @@ sub skipNonTranslatedStr {
                     |\\000|(LANGUAGE.+)?\\r\\n|\+\/-												#skip \r\n  \000 +- etc
                     |<a>http.+<\/a>|http:\/\/														#skip http links
                     |Media\sPlayer\sClassic\s-?\sHome\sCinema|mpc-hc|MPC-HC\sTeam					#skip app names
-            |Comments|CompanyName|FileDescription|FileVersion|InternalName|VarFileInfo|StringFileInfo|Translation
-            |LegalCopyright|OriginalFilename|ProductName|ProductVersion								#skip versioninfo for locale rc not in mplayerc.rc
-                |[-&\/\d\s\.:,%]+(Hz)?																#skip any thing like 6.4.0.0, 100%, 23.976Hz
+                    |Comments|CompanyName|FileDescription|FileVersion|InternalName|VarFileInfo|StringFileInfo|Translation
+                    |LegalCopyright|OriginalFilename|ProductName|ProductVersion								#skip versioninfo for locale rc not in mplayerc.rc
+                    |(&)?(\d+[-&\/\s\.:,]*|%|\.\.\.)+(Hz)?												#skip any thing like 6.4.0.0, 100%, 23.976Hz
                 )
                 "//gx;
     $line;
