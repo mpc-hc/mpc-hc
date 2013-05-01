@@ -1315,8 +1315,14 @@ STDMETHODIMP CEVRAllocatorPresenter::GetAspectRatioMode(DWORD* pdwAspectRatioMod
 
 STDMETHODIMP CEVRAllocatorPresenter::SetVideoWindow(HWND hwndVideo)
 {
-    m_hWnd = hwndVideo;
-    SendResetRequest();
+    if (m_hWnd != hwndVideo) {
+        CAutoLock lock(this);
+        CAutoLock lock2(&m_ImageProcessingLock);
+        CAutoLock cRenderLock(&m_RenderLock);
+
+        m_hWnd = hwndVideo;
+        SendResetRequest();
+    }
     return S_OK;
 }
 
