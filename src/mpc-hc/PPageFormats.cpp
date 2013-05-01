@@ -517,6 +517,10 @@ void CPPageFormats::OnBnClickedResetExtensionsList()
         mfc.RestoreDefaultExts();
         m_exts = mfc.GetExtsWithPeriod();
 
+        CString label;
+        label.Format(_T("%s (%s)"), mfc.GetDescription(), mfc.GetExts());
+        m_list.SetItemText(i, COL_CATEGORY, label);
+
         UpdateMediaCategoryState(iItem);
         UpdateData(FALSE);
 
@@ -536,6 +540,10 @@ void CPPageFormats::OnBnClickedSetExtensionsList()
 
         mfc.SetExts(m_exts);
         m_exts = mfc.GetExtsWithPeriod();
+
+        CString label;
+        label.Format(_T("%s (%s)"), mfc.GetDescription(), mfc.GetExts());
+        m_list.SetItemText(i, COL_CATEGORY, label);
 
         UpdateMediaCategoryState(iItem);
         UpdateData(FALSE);
