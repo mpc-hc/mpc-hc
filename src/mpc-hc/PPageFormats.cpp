@@ -519,7 +519,7 @@ void CPPageFormats::OnBnClickedResetExtensionsList()
 
         CString label;
         label.Format(_T("%s (%s)"), mfc.GetDescription(), mfc.GetExts());
-        m_list.SetItemText(i, COL_CATEGORY, label);
+        m_list.SetItemText(iItem, COL_CATEGORY, label);
 
         UpdateMediaCategoryState(iItem);
         UpdateData(FALSE);
@@ -543,7 +543,7 @@ void CPPageFormats::OnBnClickedSetExtensionsList()
 
         CString label;
         label.Format(_T("%s (%s)"), mfc.GetDescription(), mfc.GetExts());
-        m_list.SetItemText(i, COL_CATEGORY, label);
+        m_list.SetItemText(iItem, COL_CATEGORY, label);
 
         UpdateMediaCategoryState(iItem);
         UpdateData(FALSE);
