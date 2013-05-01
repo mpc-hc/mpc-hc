@@ -225,4 +225,6 @@ private:
 
     HRESULT             EnqueuePage(REFERENCE_TIME rtStop);
     HRESULT             UpdateTimeStamp(REFERENCE_TIME rtStop);
+
+    void                RemoveOldPages(REFERENCE_TIME rt);
 };

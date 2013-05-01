@@ -331,6 +331,8 @@ void CDVBSub::EndOfStream()
 
 void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 {
+    RemoveOldPages(rt);
+
     DVB_PAGE* pPage = FindPage(rt);
 
     if (pPage != NULL) {
@@ -377,23 +379,17 @@ HRESULT CDVBSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoS
 
 POSITION CDVBSub::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
-    DVB_PAGE* pPage;
-
-    // Cleanup old PG
-    while (m_Pages.GetCount() > 0) {
-        pPage = m_Pages.GetHead();
+    POSITION pos = m_Pages.GetHeadPosition();
+    while (pos) {
+        DVB_PAGE* pPage = m_Pages.GetAt(pos);
         if (pPage->rtStop < rt) {
-            if (!pPage->rendered) {
-                TRACE_DVB(_T("DVB - remove unrendered object, %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
-            }
-            m_Pages.RemoveHead();
-            delete pPage;
+            m_Pages.GetNext(pos);
         } else {
             break;
         }
     }
 
-    return m_Pages.GetHeadPosition();
+    return pos;
 }
 
 POSITION CDVBSub::GetNext(POSITION pos)
@@ -423,6 +419,19 @@ void CDVBSub::Reset()
     DVB_PAGE* pPage;
     while (m_Pages.GetCount() > 0) {
         pPage = m_Pages.RemoveHead();
+        delete pPage;
+    }
+}
+
+void CDVBSub::RemoveOldPages(REFERENCE_TIME rt)
+{
+    // Cleanup the old pages. We keep a 2 min buffer to play nice with the queue.
+    while (m_Pages.GetCount() > 0 && m_Pages.GetHead()->rtStop + 120 * 10000000i64 < rt) {
+        DVB_PAGE* pPage = m_Pages.GetHead();
+        if (!pPage->rendered) {
+            TRACE_DVB(_T("DVB - remove unrendered object, %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
+        }
+        m_Pages.RemoveHead();
         delete pPage;
     }
 }

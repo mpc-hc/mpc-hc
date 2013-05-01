@@ -18,6 +18,8 @@ Legend:
   - Use percentage for the boost setting since it is easier to understand for most people
   - Add a setting to change the max normalization factor and use a max normalization factor
     of 4 by default instead of 10
+! PGS and DVB subtitles: Fix missing subtitles after resizing the window when using
+  the subpicture queue.
 
 
 1.6.7 - 25 April 2013

@@ -62,22 +62,17 @@ void CHdmvSub::AllocSegment(int nSize)
 
 POSITION CHdmvSub::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
-    HDMV_PRESENTATION_SEGMENT* pPresentationSegment;
-
-    // Cleanup old PG
-    while (m_pPresentationSegments.GetCount() > 0) {
-        pPresentationSegment = m_pPresentationSegments.GetHead();
+    POSITION pos = m_pPresentationSegments.GetHeadPosition();
+    while (pos) {
+        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(pos);
         if (pPresentationSegment->rtStop < rt) {
-            TRACE_HDMVSUB(_T("CHdmvSub:HDMV Remove Presentation segment %d  %s => %s (rt=%s)\n"), pPresentationSegment->composition_descriptor.nNumber,
-                          ReftimeToString(pPresentationSegment->rtStart), ReftimeToString(pPresentationSegment->rtStop), ReftimeToString(rt));
-            m_pPresentationSegments.RemoveHead();
-            delete pPresentationSegment;
+            m_pPresentationSegments.GetNext(pos);
         } else {
             break;
         }
     }
 
-    return m_pPresentationSegments.GetHeadPosition();
+    return pos;
 }
 
 HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
@@ -308,6 +303,8 @@ void CHdmvSub::ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_D
 
 void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 {
+    RemoveOldSegments(rt);
+
     HDMV_PRESENTATION_SEGMENT* pPresentationSegment = FindPresentationSegment(rt);
 
     bbox.left   = LONG_MAX;
@@ -366,6 +363,18 @@ void CHdmvSub::Reset()
     HDMV_PRESENTATION_SEGMENT* pPresentationSegment;
     while (m_pPresentationSegments.GetCount() > 0) {
         pPresentationSegment = m_pPresentationSegments.RemoveHead();
+        delete pPresentationSegment;
+    }
+}
+
+void CHdmvSub::RemoveOldSegments(REFERENCE_TIME rt)
+{
+    // Cleanup the old presentation segments. We keep a 2 min buffer to play nice with the queue.
+    while (m_pPresentationSegments.GetCount() > 0 && m_pPresentationSegments.GetHead()->rtStop + 120 * 10000000i64 < rt) {
+        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.RemoveHead();
+        TRACE_HDMVSUB(_T("CHdmvSub::RemoveOldSegments Remove presentation segment %d %s => %s (rt=%s)\n"),
+                      pPresentationSegment->composition_descriptor.nNumber,
+                      ReftimeToString(pPresentationSegment->rtStart), ReftimeToString(pPresentationSegment->rtStop), ReftimeToString(rt));
         delete pPresentationSegment;
     }
 }
