@@ -19,7 +19,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalOptions>/w34706 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/w34701 /w34706 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(ANALYZE)'=='true'">/wd4244 /wd4996 /wd6031 /wd6309 /wd6387 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(ANALYZE)'=='true' And '$(PlatformToolsetVersion)'=='110'">/wd4005 /wd28204 %(AdditionalOptions)</AdditionalOptions>
       <EnablePREfast Condition="('$(Platform)'=='Win32' Or '$(PlatformToolsetVersion)'=='110') And '$(ANALYZE)'=='true'">true</EnablePREfast>
