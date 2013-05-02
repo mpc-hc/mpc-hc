@@ -5468,7 +5468,6 @@ void CMainFrame::OnViewTearingTest()
 void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    const CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                       || s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
@@ -5485,7 +5484,6 @@ void CMainFrame::OnViewResetStats()
 void CMainFrame::OnViewDisplayStatsSC()
 {
     const CAppSettings& s = AfxGetAppSettings();
-    const CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                       || s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
@@ -9011,7 +9009,6 @@ void CMainFrame::PlayFavoriteFile(CString fav)
     CAtlList<CString> args;
     REFERENCE_TIME rtStart = 0;
     BOOL bRelativeDrive = FALSE;
-    int i = 0, j = 0;
 
     ExplodeEsc(fav, args, _T(';'));
     args.RemoveHeadNoReturn(); // desc / name
@@ -13249,8 +13246,6 @@ IBaseFilter* CMainFrame::FindSourceSelectableFilter()
 
 void CMainFrame::SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGroup)
 {
-    UINT baseid = id;
-
     CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
     if (!pSS) {
         pSS = pGB;
