@@ -374,16 +374,12 @@ bool CVobSubFile::Save(CString fn, int delay, SubFormat sf)
     switch (sf) {
         case VobSub:
             return vsf.SaveVobSub(fn, delay);
-            break;
         case WinSubMux:
             return vsf.SaveWinSubMux(fn, delay);
-            break;
         case Scenarist:
             return vsf.SaveScenarist(fn, delay);
-            break;
         case Maestro:
             return vsf.SaveMaestro(fn, delay);
-            break;
         default:
             break;
     }
