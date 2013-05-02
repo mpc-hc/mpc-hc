@@ -736,6 +736,37 @@ bool IsCLSIDRegistered(const CLSID& clsid)
     return fRet;
 }
 
+CString GetFilterPath(LPCTSTR clsid)
+{
+    CString rootkey1(_T("CLSID\\"));
+    CString rootkey2(_T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance\\"));
+
+    CRegKey key;
+    CString path;
+
+    if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, rootkey1 + clsid + _T("\\InprocServer32"), KEY_READ)
+            || ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, rootkey2 + clsid + _T("\\InprocServer32"), KEY_READ)) {
+        ULONG nCount = MAX_PATH;
+        key.QueryStringValue(NULL, path.GetBuffer(nCount), &nCount);
+        path.ReleaseBuffer(nCount);
+    }
+
+    return path;
+}
+
+CString GetFilterPath(const CLSID& clsid)
+{
+    CString path;
+
+    LPOLESTR pStr = NULL;
+    if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
+        path = GetFilterPath(CString(pStr));
+        CoTaskMemFree(pStr);
+    }
+
+    return path;
+}
+
 void CStringToBin(CString str, CAtlArray<BYTE>& data)
 {
     str.Trim();

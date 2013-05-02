@@ -62,6 +62,8 @@ extern CLSID GetCLSID(IBaseFilter* pBF);
 extern CLSID GetCLSID(IPin* pPin);
 extern bool  IsCLSIDRegistered(LPCTSTR clsid);
 extern bool  IsCLSIDRegistered(const CLSID& clsid);
+extern CString GetFilterPath(LPCTSTR clsid);
+extern CString GetFilterPath(const CLSID& clsid);
 extern void  CStringToBin(CString str, CAtlArray<BYTE>& data);
 extern CString BinToCString(const BYTE* ptr, size_t len);
 typedef enum {
