@@ -617,10 +617,18 @@ STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& 
     CheckPointer(m_pBDATunerStats, E_UNEXPECTED);
     CheckPointer(m_pBDADemodStats, E_UNEXPECTED);
 
-    CheckNoLog(m_pBDATunerStats->get_SignalPresent(&bPresent));
-    CheckNoLog(m_pBDADemodStats->get_SignalLocked(&bLocked));
-    CheckNoLog(m_pBDATunerStats->get_SignalStrength(&lDbStrength));
-    CheckNoLog(m_pBDADemodStats->get_SignalQuality(&lPercentQuality));
+    if (FAILED(hr = m_pBDATunerStats->get_SignalPresent(&bPresent)) && FAILED(hr = m_pBDADemodStats->get_SignalPresent(&bPresent))) {
+        return hr;
+    }
+    if (FAILED(hr = m_pBDADemodStats->get_SignalLocked(&bLocked)) && FAILED(hr = m_pBDATunerStats->get_SignalLocked(&bLocked))) {
+        return hr;
+    }
+    if (FAILED(hr = m_pBDATunerStats->get_SignalStrength(&lDbStrength)) && FAILED(hr = m_pBDADemodStats->get_SignalStrength(&lDbStrength))) {
+        return hr;
+    }
+    if (FAILED(hr = m_pBDADemodStats->get_SignalQuality(&lPercentQuality)) && FAILED(hr = m_pBDATunerStats->get_SignalQuality(&lPercentQuality))) {
+        return hr;
+    }
     LOG(_T("Get signal stats: Strength %d dB, Quality %d%%"), lDbStrength, lPercentQuality);
 
     return S_OK;

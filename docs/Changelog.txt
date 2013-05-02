@@ -20,6 +20,8 @@ Legend:
     of 4 by default instead of 10
 ! PGS and DVB subtitles: Fix missing subtitles after resizing the window when using
   the subpicture queue.
+! Ticket #3110, DVB: Improve the compatibility with some drivers for which MPC-HC failed to find
+  any channel during the scan
 
 
 1.6.7 - 25 April 2013
