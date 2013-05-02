@@ -63,10 +63,6 @@
 #define app_vername     = app_name + " " + app_ver
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
-#if MPC_BETA_RELEASE
-  #define ver_suffix    str(MPC_VERSION_BETA)
-#endif
-
 #if defined(VS2012)
   #define base_bindir   = "..\bin12"
 #else
@@ -87,10 +83,6 @@
 
 #ifnexist bindir + "\" + mpchc_exe
   #error Compile MPC-HC first
-#endif
-
-#if MPC_BETA_RELEASE
-  #define OutFilename   = OutFilename + "." + ver_suffix
 #endif
 
 #if localize != "true"

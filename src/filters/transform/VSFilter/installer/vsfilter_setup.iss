@@ -62,10 +62,6 @@
   #error Compile VSFilter first
 #endif
 
-#if MPC_BETA_RELEASE
-  #define OutFilename   = OutFilename + "." + str(MPC_VERSION_BETA)
-#endif
-
 #if defined(VS2012)
   #define OutFilename   = OutFilename + ".VS2012"
 #endif
@@ -77,7 +73,7 @@
 #endif
 
 #if MPC_BETA_RELEASE
-  #define FullAppNameVer = FullAppNameVer + " " + "Beta"
+  #define FullAppNameVer = FullAppNameVer + " " + str(MPC_VERSION_BETA)
 #endif
 #ifdef x64Build
   #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
