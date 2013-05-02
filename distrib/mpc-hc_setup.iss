@@ -49,7 +49,7 @@
 #include "..\include\mpc-hc_config.h"
 #include "..\include\version.h"
 
-#define copyright_year  "2002-2013"
+#define copyright_str   str(MPC_COPYRIGHT_STR)
 #define app_name        "MPC-HC"
 
 #define app_ver_full    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
@@ -141,9 +141,9 @@ AppPublisherURL={#WEBSITE_URL}
 AppSupportURL={#TRAC_URL}
 AppUpdatesURL={#WEBSITE_URL}
 AppContact={#WEBSITE_URL}contact-us/
-AppCopyright=Copyright © {#copyright_year} all contributors, see Authors.txt
+AppCopyright={#copyright_str}
 VersionInfoCompany=MPC-HC Team
-VersionInfoCopyright=Copyright © {#copyright_year}, MPC-HC Team
+VersionInfoCopyright={#copyright_str}
 VersionInfoDescription={#app_name} Setup
 VersionInfoProductName={#app_name}
 VersionInfoProductVersion={#app_ver_full}
