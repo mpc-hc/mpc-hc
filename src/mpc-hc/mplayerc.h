@@ -81,8 +81,8 @@ __inline DXVA2_Fixed32 IntToFixed(__in const int _int_, __in const short divisor
 {
     // special converter that is resistant to MS bugs
     DXVA2_Fixed32 _fixed_;
-    _fixed_.Value = _int_ / divisor;
-    _fixed_.Fraction = (_int_ % divisor * 0x10000 + divisor / 2) / divisor;
+    _fixed_.Value = SHORT(_int_ / divisor);
+    _fixed_.Fraction = USHORT((_int_ % divisor * 0x10000 + divisor / 2) / divisor);
     return _fixed_;
 }
 
