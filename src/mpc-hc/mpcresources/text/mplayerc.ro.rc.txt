@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 3		"Despre"
 8		"Drepturi de autor © 2002-2013 vedeți Authors.txt"
 11		"Acesta program este gratuit și distribuit sub licența GNU General Public License."
@@ -6,14 +6,12 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"Informaţii despre versiunea compilată"
 14		"Versiune:"
 16		"Compilator MPC-HC:"
-18		"Compilator FFmpeg:"
-19		"Nu s-a folosit"
-20		"Data compilării:"
-22		"Sistem de operare"
-23		"Nume:"
-25		"Versiune:"
-27		"Copiază în clipboard"
-28		"OK"
+18		"Data compilării:"
+20		"Sistem de operare"
+21		"Nume:"
+23		"Versiune:"
+25		"Copiază în clipboard"
+26		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

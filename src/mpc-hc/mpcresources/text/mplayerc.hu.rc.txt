@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 3		"Névjegy"
 8		"Szerzői jog © 2002-2013 lásd Authors.txt fájl"
 11		"Ez a program freeware és a GNU General Public License alatt lett kiadva."
@@ -6,14 +6,12 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"Build information"
 14		"Version :"
 16		"MPC-HC Fordítóprogram :"
-18		"FFmpeg Fordítóprogram :"
-19		"Not used"
-20		"Build date:"
-22		"Operating system"
-23		"Name:"
-25		"Version:"
-27		"Copy to clipboard"
-28		"OK"
+18		"Build date:"
+20		"Operating system"
+21		"Name:"
+23		"Version:"
+25		"Copy to clipboard"
+26		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

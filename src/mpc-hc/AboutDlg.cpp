@@ -21,9 +21,6 @@
 #include "stdafx.h"
 #include "AboutDlg.h"
 #include "mpc-hc_config.h"
-#ifndef MPCHC_LITE
-#include "InternalFiltersConfig.h" // needed for HAS_FFMPEG
-#endif
 #include "mplayerc.h"
 #include "version.h"
 #include "SysVersion.h"
@@ -32,17 +29,10 @@
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
-#if HAS_FFMPEG && !defined(MPCHC_LITE)
-extern "C" char* GetFFmpegCompiler();
-#endif
-
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
     , m_appname(_T(""))
     , m_strBuildNumber(_T(""))
     , m_MPCCompiler(_T(""))
-#ifndef MPCHC_LITE
-    , m_FFmpegCompiler(_T(""))
-#endif
 {
     //{{AFX_DATA_INIT(CAboutDlg)
     //}}AFX_DATA_INIT
@@ -145,10 +135,6 @@ BOOL CAboutDlg::OnInitDialog()
     m_MPCCompiler += _T(" Debug");
 #endif
 
-#if HAS_FFMPEG && !defined(MPCHC_LITE)
-    m_FFmpegCompiler = CA2CT(GetFFmpegCompiler());
-#endif
-
     m_buildDate = _T(__DATE__) _T(" ") _T(__TIME__);
 
     OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
@@ -182,9 +168,6 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_HOMEPAGE_LINK, m_homepage);
     DDX_Text(pDX, IDC_VERSION, m_strBuildNumber);
     DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
-#ifndef MPCHC_LITE
-    DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
-#endif
     DDX_Text(pDX, IDC_STATIC2, m_buildDate);
     DDX_Text(pDX, IDC_STATIC3, m_OSName);
     DDX_Text(pDX, IDC_STATIC4, m_OSVersion);
@@ -218,9 +201,6 @@ void CAboutDlg::OnCopyToClipboard()
     info += _T("Build information:\n");
     info += _T("    Version:            ") + m_strBuildNumber + _T("\n");
     info += _T("    MPC-HC compiler:    ") + m_MPCCompiler + _T("\n");
-#ifndef MPCHC_LITE
-    info += _T("    FFmpeg compiler:    ") + m_FFmpegCompiler + _T("\n");
-#endif
     info += _T("    Build date:         ") + m_buildDate + _T("\n\n");
     info += _T("Operating system:\n");
     info += _T("    Name:               ") + m_OSName + _T("\n");

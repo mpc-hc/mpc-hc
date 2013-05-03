@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 3		"バージョン情報"
 8		"Copyright © 2002-2013 (Authors.txt ファイルを参照)"
 11		"このプログラムはフリーウェアであり、GNU 一般公衆利用許諾書 (GPL) に基づいて配布されます。"
@@ -6,14 +6,12 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"ビルド情報"
 14		"バージョン :"
 16		"MPC-HC コンパイラ :"
-18		"FFmpeg コンパイラ :"
-19		"使用されていません"
-20		"ビルド日付:"
-22		"オペレーティングシステム"
-23		"ネーム:"
-25		"バージョン:"
-27		"クリップボードにコピー"
-28		"OK"
+18		"ビルド日付:"
+20		"オペレーティングシステム"
+21		"ネーム:"
+23		"バージョン:"
+25		"クリップボードにコピー"
+26		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

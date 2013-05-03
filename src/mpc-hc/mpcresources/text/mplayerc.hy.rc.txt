@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 3		"Ծրագրի մասին"
 8		"Copyright © 2002-2013, կարդացե՛ք Authors.txt ֆայլը"
 11		"Այս ծրագիրը անվճար է և տարածվում է GNU General Public-ի լիցենզիայով։"
@@ -6,14 +6,12 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"Build information"
 14		"Տարբերակը."
 16		"MPC-HC կազմարկիչ."
-18		"FFmpeg կազմարկիչ."
-19		"Not used"
-20		"Build date:"
-22		"Operating system"
-23		"Name:"
-25		"Version:"
-27		"Copy to clipboard"
-28		"OK"
+18		"Build date:"
+20		"Operating system"
+21		"Name:"
+23		"Version:"
+25		"Copy to clipboard"
+26		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

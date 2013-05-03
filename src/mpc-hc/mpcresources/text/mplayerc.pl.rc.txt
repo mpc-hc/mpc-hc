@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 3		"O programie"
 8		"Copyright © 2002-2013 szczegóły w pliku Authors.txt"
 11		"Ten program został opublikowany na zasadach Powszechnej Licencji Publicznej GNU."
@@ -6,14 +6,12 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"Informacje o kompilacji"
 14		"Wersja:"
 16		"Kompilator MPC-HC:"
-18		"Kompilator FFmpeg:"
-19		"Nie zastosowano"
-20		"Data kompilacji:"
-22		"System operacyjny"
-23		"Nazwa:"
-25		"Wersja:"
-27		"Kopiuj do schowka"
-28		"OK"
+18		"Data kompilacji:"
+20		"System operacyjny"
+21		"Nazwa:"
+23		"Wersja:"
+25		"Kopiuj do schowka"
+26		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

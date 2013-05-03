@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 3		"Quant a"
 8		"Copyright © 2002-2013 veure l'arxiu Authors.txt"
 11		"Aquet programa és gratuït i distribuït sota la Llicència Pública General de GNU."
@@ -6,14 +6,12 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"Build information"
 14		"Compilació nº :"
 16		"Compilador MPC-HC :"
-18		"Compilador FFmpeg :"
-19		"Not used"
-20		"Build date:"
-22		"Operating system"
-23		"Name:"
-25		"Version:"
-27		"Copy to clipboard"
-28		"OK"
+18		"Build date:"
+20		"Operating system"
+21		"Name:"
+23		"Version:"
+25		"Copy to clipboard"
+26		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

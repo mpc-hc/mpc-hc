@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 3		"关于"
 8		"版权所有 © 2002-2013 请查看 Authors.txt"
 11		"此程序是遵守 GNU 通用公众授权协议发布的自由软件。"
@@ -6,14 +6,12 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"编译信息"
 14		"版本:"
 16		"MPC-HC 编译器:"
-18		"FFmpeg 编译器:"
-19		"不使用"
-20		"编译日期:"
-22		"操作系统"
-23		"名称:"
-25		"版本:"
-27		"复制到剪贴板"
-28		"确定"
+18		"编译日期:"
+20		"操作系统"
+21		"名称:"
+23		"版本:"
+25		"复制到剪贴板"
+26		"确定"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

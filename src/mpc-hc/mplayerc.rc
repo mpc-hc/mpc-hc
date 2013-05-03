@@ -172,7 +172,7 @@ BEGIN
     CONTROL         "Add to playlist without opening",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,84,235,8
 END
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 260, 206
+IDD_ABOUTBOX DIALOGEX 0, 0, 260, 194
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -184,22 +184,20 @@ BEGIN
     CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,200,8
     LTEXT           "This program is freeware and released under the GNU General Public License.",IDC_STATIC,7,46,246,18
     LTEXT           "English translation made by MPC-HC Team",IDC_STATIC,7,66,246,8
-    GROUPBOX        "Build information",IDC_STATIC,7,80,246,60
+    GROUPBOX        "Build information",IDC_STATIC,7,80,246,48
     LTEXT           "Version:",IDC_STATIC,13,92,85,8
     LTEXT           "",IDC_VERSION,95,92,155,8
     LTEXT           "MPC-HC compiler:",IDC_STATIC,13,104,85,8
     LTEXT           "",IDC_MPC_COMPILER,95,104,155,8
-    LTEXT           "FFmpeg compiler:",IDC_STATIC,13,116,85,8
-    LTEXT           "Not used",IDC_FFMPEG_COMPILER,95,116,155,8
-    LTEXT           "Build date:",IDC_STATIC,13,128,85,8
-    LTEXT           "",IDC_STATIC2,95,128,155,8
-    GROUPBOX        "Operating system",IDC_STATIC,7,146,246,36
-    LTEXT           "Name:",IDC_STATIC,13,158,85,8
-    LTEXT           "",IDC_STATIC3,95,158,155,8
-    LTEXT           "Version:",IDC_STATIC,13,170,85,8
-    LTEXT           "",IDC_STATIC4,95,170,155,8
-    PUSHBUTTON      "Copy to clipboard",IDC_BUTTON1,7,186,110,14,WS_GROUP
-    DEFPUSHBUTTON   "OK",IDOK,204,186,50,14,WS_GROUP
+    LTEXT           "Build date:",IDC_STATIC,13,116,85,8
+    LTEXT           "",IDC_STATIC2,95,116,155,8
+    GROUPBOX        "Operating system",IDC_STATIC,7,134,246,36
+    LTEXT           "Name:",IDC_STATIC,13,146,85,8
+    LTEXT           "",IDC_STATIC3,95,146,155,8
+    LTEXT           "Version:",IDC_STATIC,13,158,85,8
+    LTEXT           "",IDC_STATIC4,95,158,155,8
+    PUSHBUTTON      "Copy to clipboard",IDC_BUTTON1,7,174,110,14,WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,204,174,50,14,WS_GROUP
 END
 
 IDD_PLAYERSTATUSBAR DIALOGEX 0, 0, 183, 15
