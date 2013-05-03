@@ -674,7 +674,7 @@ HRESULT CEVRAllocatorPresenter::IsMediaTypeSupported(IMFMediaType* pMixerType)
     }
 
     // We support only progressive formats
-    MFVideoInterlaceMode InterlaceMode;
+    MFVideoInterlaceMode InterlaceMode = MFVideoInterlace_Unknown;
 
     if (SUCCEEDED(hr)) {
         hr = pMixerType->GetUINT32(MF_MT_INTERLACE_MODE, (UINT32*)&InterlaceMode);

@@ -68,8 +68,8 @@ tp_udf_file udf_get_root(const HANDLE hDrive, const WORD partition_number)
     tp_udf_tag tag = (tp_udf_tag)sector;
     DWORD sec_size, max_sec, i, j;
     DWORD MVDS_lba, MVDS_lba_end, MVDS_back_lba, MVDS_back_lba_end;
-    DWORD FileDescriptorSequence_lba, FileDescriptorSequence_lba_end;
-    DWORD partition_lba, parent_icb;
+    DWORD FileDescriptorSequence_lba = 0, FileDescriptorSequence_lba_end;
+    DWORD partition_lba = 0, parent_icb;
     tp_udf_AnchorVolumeDescriptorPointer avd;
     bool res, part_valid, vol_valid;
 
