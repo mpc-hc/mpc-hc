@@ -1344,34 +1344,49 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
         return E_FAIL;
     }
 
-    // Create the 3D LUT input
-    unsigned short* lut3DOutput = DEBUG_NEW unsigned short[m_Lut3DEntryCount * 3];
-    unsigned short* lut3DInput  = DEBUG_NEW unsigned short[m_Lut3DEntryCount * 3];
+    unsigned short* lut3DOutput = nullptr;
+    unsigned short* lut3DInput  = nullptr;
 
-    unsigned short* lut3DInputIterator = lut3DInput;
+    try {
+        // Create the 3D LUT input
+        lut3DOutput = DEBUG_NEW unsigned short[m_Lut3DEntryCount * 3];
+        lut3DInput  = DEBUG_NEW unsigned short[m_Lut3DEntryCount * 3];
 
-    for (int b = 0; b < m_Lut3DSize; b++) {
-        for (int g = 0; g < m_Lut3DSize; g++) {
-            for (int r = 0; r < m_Lut3DSize; r++) {
-                *lut3DInputIterator++ = r * 65535 / (m_Lut3DSize - 1);
-                *lut3DInputIterator++ = g * 65535 / (m_Lut3DSize - 1);
-                *lut3DInputIterator++ = b * 65535 / (m_Lut3DSize - 1);
+        unsigned short* lut3DInputIterator = lut3DInput;
+
+        for (int b = 0; b < m_Lut3DSize; b++) {
+            for (int g = 0; g < m_Lut3DSize; g++) {
+                for (int r = 0; r < m_Lut3DSize; r++) {
+                    *lut3DInputIterator++ = r * 65535 / (m_Lut3DSize - 1);
+                    *lut3DInputIterator++ = g * 65535 / (m_Lut3DSize - 1);
+                    *lut3DInputIterator++ = b * 65535 / (m_Lut3DSize - 1);
+                }
             }
         }
+
+        // Do the transform
+        cmsDoTransform(hTransform, lut3DInput, lut3DOutput, m_Lut3DEntryCount);
+
+        // Convert the output to floating point
+        for (int i = 0; i < m_Lut3DEntryCount * 3; i++) {
+            lut3D[i] = static_cast<float>(lut3DOutput[i]) * (1.0f / 65535.0f);
+        }
+
+        // Cleanup
+        delete [] lut3DOutput;
+        delete [] lut3DInput;
+        cmsDeleteTransform(hTransform);
+
+        return S_OK;
+
+    } catch (...) {
+        // Cleanup
+        delete [] lut3DOutput;
+        delete [] lut3DInput;
+        cmsDeleteTransform(hTransform);
+
+        return E_FAIL;
     }
-
-    // Do the transform
-    cmsDoTransform(hTransform, lut3DInput, lut3DOutput, m_Lut3DEntryCount);
-
-    // Convert the output to floating point
-    for (int i = 0; i < m_Lut3DEntryCount * 3; i++) {
-        lut3D[i] = static_cast<float>(lut3DOutput[i]) * (1.0f / 65535.0f);
-    }
-
-    // Cleanup
-    delete [] lut3DOutput;
-    delete [] lut3DInput;
-    cmsDeleteTransform(hTransform);
 
     return S_OK;
 }
