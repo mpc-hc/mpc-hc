@@ -49,29 +49,40 @@
 #include "..\include\mpc-hc_config.h"
 #include "..\include\version.h"
 
-#define copyright_year "2002-2013"
-#define app_name       "MPC-HC"
-#define app_version    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
-#define app_vername    = app_name + " " + app_version
-#define app_verhash    = "(" + str(MPCHC_HASH) + ")"
-#define quick_launch   "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
+#define copyright_str   str(MPC_COPYRIGHT_STR)
+#define app_name        "MPC-HC"
+
+#define app_ver_full    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
+
+#if MPC_BETA_RELEASE
+  #define app_ver       app_ver_full
+#else
+  #define app_ver       str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH)
+#endif
+
+#define app_vername     = app_name + " " + app_ver
+#define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
 #if defined(VS2012)
-  #define base_bindir = "..\bin12"
+  #define base_bindir   = "..\bin12"
 #else
-  #define base_bindir = "..\bin"
+  #define base_bindir   = "..\bin"
 #endif
 
 #ifdef x64Build
-  #define bindir       = base_bindir + "\mpc-hc_x64"
-  #define mpchc_exe    = "mpc-hc64.exe"
-  #define mpchc_ini    = "mpc-hc64.ini"
-  #define OutFilename  = app_name + "." + app_version + ".x64"
+  #define bindir        = base_bindir + "\mpc-hc_x64"
+  #define mpchc_exe     = "mpc-hc64.exe"
+  #define mpchc_ini     = "mpc-hc64.ini"
+  #define OutFilename   = app_name + "." + app_ver + ".x64"
 #else
-  #define bindir       = base_bindir + "\mpc-hc_x86"
-  #define mpchc_exe    = "mpc-hc.exe"
-  #define mpchc_ini    = "mpc-hc.ini"
-  #define OutFilename  = app_name + "." + app_version + ".x86"
+  #define bindir        = base_bindir + "\mpc-hc_x86"
+  #define mpchc_exe     = "mpc-hc.exe"
+  #define mpchc_ini     = "mpc-hc.ini"
+  #define OutFilename   = app_name + "." + app_ver + ".x86"
+#endif
+
+#ifnexist bindir + "\" + mpchc_exe
+  #error Compile MPC-HC first
 #endif
 
 #if localize != "true"
@@ -83,26 +94,23 @@
 #endif
 
 #if defined(VS2012)
-  #define OutFilename  = OutFilename + ".VS2012"
+  #define OutFilename    = OutFilename + ".VS2012"
 #endif
 
-#ifnexist bindir + "\" + mpchc_exe
-  #error Compile MPC-HC first
-#endif
-
-
-#ifdef x64Build
-  #ifdef MPCHC_LITE
-    #define FullAppNameVer = app_vername + " " + app_verhash + "Lite (64-bit)"
-  #else
-    #define FullAppNameVer = app_vername + " " + app_verhash + " (64-bit)"
-  #endif
+#if MPC_BETA_RELEASE
+  #define FullAppNameVer = app_vername + " " + "(" + str(MPCHC_HASH) + ")"
 #else
-  #ifdef MPCHC_LITE
-    #define FullAppNameVer = app_vername + " " + app_verhash + " Lite"
-  #else
-    #define FullAppNameVer = app_vername + " " + app_verhash
-  #endif
+  #define FullAppNameVer = app_vername
+#endif
+
+#if MPC_BETA_RELEASE
+  #define FullAppNameVer = FullAppNameVer + " " + "Beta"
+#endif
+#ifdef MPCHC_LITE
+  #define FullAppNameVer = FullAppNameVer + " " + "Lite"
+#endif
+#ifdef x64Build
+  #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
 #endif
 
 
@@ -110,33 +118,32 @@
 #ifdef x64Build
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 DefaultGroupName={#app_name} x64
-UninstallDisplayName={#FullAppNameVer}
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 #else
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 DefaultGroupName={#app_name}
-UninstallDisplayName={#FullAppNameVer}
 #endif
 
 AppName={#app_name}
-AppVersion={#app_version}
+AppVersion={#app_ver_full}
 AppVerName={#app_vername}
 AppPublisher=MPC-HC Team
 AppPublisherURL={#WEBSITE_URL}
 AppSupportURL={#TRAC_URL}
 AppUpdatesURL={#WEBSITE_URL}
 AppContact={#WEBSITE_URL}contact-us/
-AppCopyright=Copyright © {#copyright_year} all contributors, see Authors.txt
+AppCopyright={#copyright_str}
 VersionInfoCompany=MPC-HC Team
-VersionInfoCopyright=Copyright © {#copyright_year}, MPC-HC Team
+VersionInfoCopyright={#copyright_str}
 VersionInfoDescription={#app_name} Setup
 VersionInfoProductName={#app_name}
-VersionInfoProductVersion={#app_version}
-VersionInfoProductTextVersion={#app_version}
-VersionInfoTextVersion={#app_version}
-VersionInfoVersion={#app_version}
+VersionInfoProductVersion={#app_ver_full}
+VersionInfoProductTextVersion={#app_ver_full}
+VersionInfoTextVersion={#app_ver_full}
+VersionInfoVersion={#app_ver_full}
 UninstallDisplayIcon={app}\{#mpchc_exe}
+UninstallDisplayName={#FullAppNameVer}
 OutputBaseFilename={#OutFilename}
 DefaultDirName={code:GetInstallFolder}
 LicenseFile=..\COPYING.txt

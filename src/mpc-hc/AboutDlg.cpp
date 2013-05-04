@@ -58,8 +58,24 @@ BOOL CAboutDlg::OnInitDialog()
     // Because we set LR_SHARED, there is no need to explicitly destroy the icon
     m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
 
+#if MPC_BETA_RELEASE || _WIN64
+    m_appname += _T(" (");
+#endif
+
+#if MPC_BETA_RELEASE
+    m_appname += MPC_VERSION_BETA;
+#endif
+
+#if MPC_BETA_RELEASE && _WIN64
+    m_appname += _T(", ");
+#endif
+
 #ifdef _WIN64
-    m_appname += _T(" (64-bit)");
+    m_appname += _T("64-bit");
+#endif
+
+#if MPC_BETA_RELEASE || _WIN64
+    m_appname += _T(")");
 #endif
 
 #ifdef MPCHC_LITE
