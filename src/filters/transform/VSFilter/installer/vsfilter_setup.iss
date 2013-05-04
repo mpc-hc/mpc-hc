@@ -24,32 +24,38 @@
   #error Update your Inno Setup version (5.5.3 or newer)
 #endif
 
-#define VerMajor  "2"
-#define VerMinor  "41"
-#define copyright "2001-2013"
-#define top_dir   "..\..\..\..\.."
-
-#include top_dir + "\include\mpc-hc_config.h"
-#include top_dir + "\include\version.h"
-#define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
-
 ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
 #define sse_required
 ;#define VS2012
 ;#define x64Build
 
+
+#define VerMajor  "2"
+#define VerMinor  "41"
+#define top_dir   "..\..\..\..\.."
+
+#include top_dir + "\include\mpc-hc_config.h"
+#include top_dir + "\include\version.h"
+
+#define copyright_str   "2001-2013"
+#define app_name        "DirectVobSub"
+
+#define app_version     str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
+#define app_vername     = app_name + " " + app_version
+#define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
+
 #if defined(VS2012)
-  #define base_bindir = top_dir + "\bin12"
+  #define base_bindir   = top_dir + "\bin12"
 #else
-  #define base_bindir = top_dir + "\bin"
+  #define base_bindir   = top_dir + "\bin"
 #endif
 
 #ifdef x64Build
-  #define bindir = base_bindir + "\Filters_x64"
-  #define OutFilename  = "DirectVobSub_" + app_version + "_x64"
+  #define bindir        = base_bindir + "\Filters_x64"
+  #define OutFilename   = app_name + "_" + app_version + "_x64"
 #else
-  #define bindir = base_bindir + "\Filters_x86"
-  #define OutFilename  = "DirectVobSub_" + app_version + "_x86"
+  #define bindir        = base_bindir + "\Filters_x86"
+  #define OutFilename   = app_name + "_" + app_version + "_x86"
 #endif
 
 #ifnexist bindir + "\VSFilter.dll"
@@ -57,31 +63,45 @@
 #endif
 
 #if defined(VS2012)
-  #define OutFilename  = OutFilename + ".VS2012"
+  #define OutFilename   = OutFilename + ".VS2012"
+#endif
+
+#if MPC_BETA_RELEASE
+  #define FullAppNameVer = app_vername + " " + "(" + str(MPCHC_HASH) + ")"
+#else
+  #define FullAppNameVer = app_vername
+#endif
+
+#if MPC_BETA_RELEASE
+  #define FullAppNameVer = FullAppNameVer + " " + str(MPC_VERSION_BETA)
+#endif
+#ifdef x64Build
+  #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
 #endif
 
 
 [Setup]
-AppName=DirectVobSub
-AppVerName=DirectVobSub {#app_version}
+AppName={#app_name}
+AppVerName={#app_vername}
 AppVersion={#app_version}
 AppPublisher=MPC-HC Team
 AppPublisherURL={#WEBSITE_URL}
 AppSupportURL={#TRAC_URL}
 AppUpdatesURL={#WEBSITE_URL}
 AppContact={#WEBSITE_URL}contact-us/
-AppCopyright=Copyright © {#copyright}, see Authors.txt file
+AppCopyright=Copyright © {#copyright_str}, see Authors.txt file
 VersionInfoCompany=MPC-HC Team
-VersionInfoCopyright=Copyright © {#copyright}, MPC-HC Team
-VersionInfoDescription=DirectVobSub {#app_version} Setup
+VersionInfoCopyright=Copyright © {#copyright_str}, MPC-HC Team
+VersionInfoDescription={#app_name} {#app_version} Setup
 VersionInfoTextVersion={#app_version}
 VersionInfoVersion={#app_version}
-VersionInfoProductName=DirectVobSub
+VersionInfoProductName={#app_name}
 VersionInfoProductVersion={#app_version}
 VersionInfoProductTextVersion={#app_version}
 UninstallDisplayIcon={app}\VSFilter.dll
-DefaultDirName={pf}\DirectVobSub
-DefaultGroupName=DirectVobSub
+UninstallDisplayName={#FullAppNameVer}
+DefaultDirName={pf}\{#app_name}
+DefaultGroupName={#app_name}
 LicenseFile={#top_dir}\COPYING.txt
 OutputDir=.
 OutputBaseFilename={#OutFilename}
@@ -100,10 +120,8 @@ MinVersion=5.01.2600sp3
 AppID=vsfilter64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
-UninstallDisplayName=DirectVobSub {#app_version} (64-bit)
 #else
 AppID=vsfilter
-UninstallDisplayName=DirectVobSub {#app_version}
 #endif
 
 
@@ -112,24 +130,20 @@ Name: en; MessagesFile: compiler:Default.isl
 
 
 [Messages]
-#ifdef x64Build
-BeveledLabel=DirectVobSub {#app_version} (64-bit)
-#else
-BeveledLabel=DirectVobSub {#app_version}
-#endif
-SetupAppTitle=Setup - DirectVobSub
-SetupWindowTitle=Setup - DirectVobSub
+BeveledLabel={#FullAppNameVer}
+SetupAppTitle=Setup - {#app_name}
+SetupWindowTitle=Setup - {#app_name}
 
 
 [CustomMessages]
-en.msg_DeleteSettings=Do you also want to delete DirectVobSub's settings?%n%nIf you plan on installing DirectVobSub again then you do not have to delete them.
-en.msg_SetupIsRunningWarning=DirectVobSub setup is already running!
+en.msg_DeleteSettings=Do you also want to delete {#app_name}'s settings?%n%nIf you plan on installing {#app_name} again then you do not have to delete them.
+en.msg_SetupIsRunningWarning={#app_name} setup is already running!
 #if defined(sse_required)
-en.msg_simd_sse=This build of DirectVobSub requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
+en.msg_simd_sse=This build of {#app_name} requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
 #elif defined(sse2_required)
-en.msg_simd_sse2=This build of DirectVobSub requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
+en.msg_simd_sse2=This build of {#app_name} requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
 #endif
-en.tsk_ResetSettings=Reset DirectVobSub's settings
+en.tsk_ResetSettings=Reset {#app_name}'s settings
 
 
 [Tasks]
