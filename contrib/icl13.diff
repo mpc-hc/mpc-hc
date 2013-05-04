@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index 4063729..a44d682 100644
+index 50ad683..ddf5e4d 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -365,7 +365,7 @@ IF /I "%~2" == "Win32" (
@@ -8,11 +8,11 @@ index 4063729..a44d682 100644
  
 -SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%"
 +SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.ICL13"
- IF /I "%COMPILER%" == "VS2012" (SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%")
  IF DEFINED MPCHC_LITE (SET "PCKG_NAME=%PCKG_NAME%.Lite")
+ IF /I "%COMPILER%" == "VS2012" (SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%")
  
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 58a9fc9..dafda76 100644
+index aa1cc36..620ee16 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -41,7 +41,7 @@
@@ -24,35 +24,25 @@ index 58a9fc9..dafda76 100644
  
  
  ; From now on you shouldn't need to change anything
-@@ -74,6 +74,8 @@
-   #define OutFilename  = app_name + "." + app_version + ".x86"
+@@ -81,6 +81,8 @@
+   #define OutFilename   = app_name + "." + app_ver + ".x86"
  #endif
  
-+#define OutFilename  = OutFilename + ".ICL13"
++#define OutFilename     = OutFilename + ".ICL13"
 +
- #if localize != "true"
-   #if defined(MPCHC_LITE)
-     #define OutFilename  = OutFilename + ".Lite"
-@@ -93,15 +95,15 @@
- 
- #ifdef x64Build
-   #ifdef MPCHC_LITE
--    #define FullAppNameVer = app_vername + " " + app_verhash + "Lite (64-bit)"
-+    #define FullAppNameVer = app_vername + " " + app_verhash + "Lite (ICL13, 64-bit)"
-   #else
--    #define FullAppNameVer = app_vername + " " + app_verhash + " (64-bit)"
-+    #define FullAppNameVer = app_vername + " " + app_verhash + " (ICL13, 64-bit)"
-   #endif
- #else
-   #ifdef MPCHC_LITE
--    #define FullAppNameVer = app_vername + " " + app_verhash + " Lite"
-+    #define FullAppNameVer = app_vername + " " + app_verhash + " Lite (ICL13)"
-   #else
--    #define FullAppNameVer = app_vername + " " + app_verhash
-+    #define FullAppNameVer = app_vername + " " + app_verhash + " (ICL13)"
-   #endif
+ #ifnexist bindir + "\" + mpchc_exe
+   #error Compile MPC-HC first
  #endif
- 
+@@ -109,6 +111,9 @@
+ #ifdef MPCHC_LITE
+   #define FullAppNameVer = FullAppNameVer + " " + "Lite"
+ #endif
++
++#define FullAppNameVer = FullAppNameVer + " " + "ICL13"
++
+ #ifdef x64Build
+   #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
+ #endif
 diff --git a/docs/Readme.txt b/docs/Readme.txt
 index 8e4ed5e..5c47921 100644
 --- a/docs/Readme.txt
@@ -119,11 +109,11 @@ index d1ae499..910b23b 100644
        <OptimizeReferences>true</OptimizeReferences>
        <SetChecksum>true</SetChecksum>
 diff --git a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
-index 9f6e097..4d16f2e 100644
+index 16d9cc7..2f9cf41 100644
 --- a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 +++ b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
-@@ -34,7 +34,7 @@
- #define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
+@@ -25,7 +25,7 @@
+ #endif
  
  ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
 -#define sse_required
@@ -131,40 +121,25 @@ index 9f6e097..4d16f2e 100644
  ;#define VS2012
  ;#define x64Build
  
-@@ -56,6 +56,8 @@
+@@ -58,6 +58,8 @@
+   #define OutFilename   = app_name + "_" + app_version + "_x86"
+ #endif
+ 
++#define OutFilename     = OutFilename + ".ICL13"
++
+ #ifnexist bindir + "\VSFilter.dll"
    #error Compile VSFilter first
  #endif
- 
-+#define OutFilename  = OutFilename + ".ICL13"
+@@ -75,6 +77,9 @@
+ #if MPC_BETA_RELEASE
+   #define FullAppNameVer = FullAppNameVer + " " + str(MPC_VERSION_BETA)
+ #endif
 +
- #if defined(VS2012)
-   #define OutFilename  = OutFilename + ".VS2012"
- #endif
-@@ -100,10 +102,10 @@ MinVersion=5.01.2600sp3
- AppID=vsfilter64
- ArchitecturesAllowed=x64
- ArchitecturesInstallIn64BitMode=x64
--UninstallDisplayName=DirectVobSub {#app_version} (64-bit)
-+UninstallDisplayName=DirectVobSub {#app_version} (ICL13, 64-bit)
- #else
- AppID=vsfilter
--UninstallDisplayName=DirectVobSub {#app_version}
-+UninstallDisplayName=DirectVobSub {#app_version} (ICL13)
- #endif
- 
- 
-@@ -113,9 +115,9 @@ Name: en; MessagesFile: compiler:Default.isl
- 
- [Messages]
++#define FullAppNameVer = FullAppNameVer + " " + "ICL13"
++
  #ifdef x64Build
--BeveledLabel=DirectVobSub {#app_version} (64-bit)
-+BeveledLabel=DirectVobSub {#app_version} (ICL13, 64-bit)
- #else
--BeveledLabel=DirectVobSub {#app_version}
-+BeveledLabel=DirectVobSub {#app_version} (ICL13)
+   #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
  #endif
- SetupAppTitle=Setup - DirectVobSub
- SetupWindowTitle=Setup - DirectVobSub
 diff --git a/src/platform.props b/src/platform.props
 index 09927fd..26091c9 100644
 --- a/src/platform.props
