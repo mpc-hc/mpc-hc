@@ -22,3 +22,4 @@ Legend:
   the subpicture queue
 ! Ticket #3110, DVB: Improve compatibility with some drivers for which MPC-HC failed to find
   any channel during the channel scan
+! Ticket #3113, MPC-HC was sometimes slow to close (audio kept playing for a few seconds)

@@ -3566,7 +3566,7 @@ void CMainFrame::OnFilePostClosemedia()
 
     if (IsWindow(m_wndSubresyncBar.m_hWnd)) {
         ShowControlBar(&m_wndSubresyncBar, FALSE, TRUE);
-        SetSubtitle(NULL);
+        SetSubtitle((ISubStream*)NULL); // NULL should be handled like a pointer, not an integer.
     }
 
     if (IsWindow(m_wndCaptureBar.m_hWnd)) {
