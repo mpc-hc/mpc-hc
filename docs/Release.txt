@@ -1,16 +1,17 @@
 Here is a quick how-to release a new stable build:
 
-1) Update "thirdparty/versions.txt" and the the date in "Changelog.txt"
-2) Commit the changes
-3) Make sure you have a clean source tree, no modified files, or unpushed commits
-4) Compile MPC-HC and the standalone filters:
+1) Update "thirdparty/versions.txt" and the release date in "Changelog.txt"
+2) Set the MPC_BETA_RELEASE define to 0 in "include/version.h"
+3) Commit the changes
+4) Make sure you have a clean source tree, no modified files, or unpushed commits
+5) Compile MPC-HC and the standalone filters:
    a. CALL "build.bat" Clean All Both Release
    b. CALL "build.bat" Build All Both Release Packages
-5) Keep the PDB files of all the filters and MPC-HC builds
-6) Create a git tag for the new release
-7) Upload the binary packages on SF following the directory and the packages names scheme
+6) Keep the PDB files of all the filters and MPC-HC builds
+7) Create a git tag for the new release
+8) Upload the binary packages on SF following the directory and the packages names scheme
    (upload the PDB files too, use 7zip for creating the 7z packages)
-8) Update the website with the new download links, changelog and version.txt with
+9) Update the website with the new download links, changelog and version.txt with
    the new version number
 
 
@@ -18,3 +19,5 @@ In the next commit, bump the version:
 
 1) In "include/version.h"
 2) In "src/mpc-hc/res/mpc-hc.exe.manifest.conf"
+
+and set the MPC_BETA_RELEASE define to 1 in "include/version.h"
