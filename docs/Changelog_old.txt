@@ -4,6 +4,37 @@ Legend:
 ! Fixed
 
 
+1.6.7 - 25 April 2013
+=====================
++ DVB capture: Improve channel switching
++ Subtitle downloader improvements:
+  - Ticket #2144, Sort by language and then by filename by default. Subtitles matching a language
+    set as preferred in the options are now displayed first in the result list
+  - Ticket #2926, Double-clicking or pressing the "Enter" key will download the selected subtitle(s)
++ Ticket #2837, New INI parser: the accesses are now cached for faster settings loading/saving.
+  Using the INI file should now be as fast as using the registry
++ Ticket #2987, Playlist improvements:
+  - Scroll and select the first newly added item
+  - Put MPC-HC on top and give the focus to the playlist after a drag and drop
+* Updated Basque, Catalan, Czech, French, German, Greek, Simplified Chinese, Slovak,
+  Turkish and Ukrainian translations
+* Updated Little CMS to v2.5 (git cde00fd)
+* Updated VirtualDub to v1.10.4-test6
+* Ticket #2689, Replace "On top -> Never" by "On top -> Default". In most of the
+  cases "On top -> Default" will have the exact same behavior than "On top -> Never"
+  but it won't try to override the "On top" flag if an external tool sets it
+* Ticket #3049, Re-enable VSync by default for Windows XP users
+! Fix a crash when VMR-7 (renderless) renderer failed to load
+! SSA subtitles rendering: Improve error checking to avoid possible crashes when the SSA script
+  was using obviously wrong values
+! Ticket #1392, DVD subtitles: Improve rendering in case of overlapping. Ensure that both subtitles
+  will be shown.
+! Ticket #2991, Fix loading of MicroDVD subtitles
+! Ticket #3001, "After Playback": Always give "Once" events a higher priority than "Always" events
+! Ticket #3023, "File -> Load Subtitle" didn't work anymore for DVD
+! Ticket #3045, Go to dialog: Fix frame rate detection for DVDs
+
+
 1.6.6 - 17 March 2013
 =====================
 + Formats: The space key can now be used to enable/disable formats
