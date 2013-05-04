@@ -581,7 +581,7 @@ CMPC_Lcd::CMPC_Lcd()
     m_ConnCtx.onNotify.notifyContext = NULL;
     m_ConnCtx.connection = LGLCD_INVALID_CONNECTION; // the "connection" member will be returned upon return
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
     if (!s.fLCDSupport) {
         return;
     }

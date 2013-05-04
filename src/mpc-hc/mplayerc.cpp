@@ -1737,7 +1737,7 @@ void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
     }
     cmd.Replace(' ', '_');
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos) {

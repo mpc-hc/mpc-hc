@@ -42,7 +42,7 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
         return false;
     }
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
     EnableToolTips(TRUE);
     SetRange(0, 100);
     SetPos(s.nVolume);
