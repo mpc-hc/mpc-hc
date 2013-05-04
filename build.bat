@@ -392,7 +392,8 @@ IF NOT EXIST "%PCKG_NAME%" MD "%PCKG_NAME%"
 
 IF /I "%NAME%" == "MPC-HC" (
   IF NOT DEFINED MPCHC_LITE (
-    IF NOT EXIST "%PCKG_NAME%\Lang" MD "%PCKG_NAME%\Lang"
+    IF NOT EXIST "%PCKG_NAME%\Lang"       MD "%PCKG_NAME%\Lang"
+    IF NOT EXIST "%PCKG_NAME%\LAVFilters" MD "%PCKG_NAME%\LAVFilters"
   )
   IF /I "%ARCH%" == "x64" (
     COPY /Y /V "%~1_%ARCH%\mpc-hc64.exe" "%PCKG_NAME%\mpc-hc64.exe" >NUL
@@ -402,6 +403,8 @@ IF /I "%NAME%" == "MPC-HC" (
   COPY /Y /V "%~1_%ARCH%\mpciconlib.dll"             "%PCKG_NAME%\*.dll" >NUL
   IF NOT DEFINED MPCHC_LITE (
     COPY /Y /V "%~1_%ARCH%\Lang\mpcresources.??.dll" "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
+    COPY /Y /V "%~1_%ARCH%\LAVFilters\*.ax"          "%PCKG_NAME%\LAVFilters" >NUL
+    COPY /Y /V "%~1_%ARCH%\LAVFilters\*.dll"         "%PCKG_NAME%\LAVFilters" >NUL
   )
   COPY /Y /V "%~1_%ARCH%\D3DCompiler_43.dll"         "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
   COPY /Y /V "%~1_%ARCH%\d3dx9_43.dll"               "%PCKG_NAME%\d3dx9_43.dll" >NUL

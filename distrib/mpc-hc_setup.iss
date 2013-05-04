@@ -230,6 +230,10 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 #if localize == "true"
 Source: {#bindir}\Lang\mpcresources.??.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
+#ifndef MPCHC_LITE
+Source: {#bindir}\LAVFilters\*.dll;         DestDir: {app}\LAVFilters;  Components: main;  Flags: ignoreversion
+Source: {#bindir}\LAVFilters\*.ax;          DestDir: {app}\LAVFilters;  Components: main;  Flags: ignoreversion
+#endif
 Source: {#bindir}\D3DCompiler_{#MPC_DX_SDK_NUMBER}.dll; DestDir: {app}; Components: main;  Flags: ignoreversion
 Source: {#bindir}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;       DestDir: {app}; Components: main;  Flags: ignoreversion
 Source: {#bindir}\mpciconlib.dll;           DestDir: {app};      Components: mpciconlib;   Flags: ignoreversion
