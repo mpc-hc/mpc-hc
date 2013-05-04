@@ -4,3 +4,6 @@
 [submodule "RARFileSource"]
     path = src/thirdparty/RARFileSource/library
     url = https://github.com/mpc-hc/rarfilesource.git
+[submodule "src/thirdparty/LAVFilters/src"]
+	path = src/thirdparty/LAVFilters/src
+	url = https://code.google.com/p/lavfilters/

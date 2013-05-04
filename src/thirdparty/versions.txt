@@ -6,6 +6,7 @@ CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
 Detours             3.0 build 316
 FFmpeg              n0.8-19080-g2bac153 git
+LAV Filters         0.56.2-11-g34569a5 git
 libflac             1.2.1
 libmpeg2            0.3.2 (modified)
 libogg              1.3.0

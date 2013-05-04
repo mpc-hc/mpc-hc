@@ -27,4 +27,5 @@
 /src/MPCTestAPI/bin
 /src/MPCTestAPI/bin12
 /src/thirdparty/ffmpeg/obj
+/src/thirdparty/LAVFilters/obj
 ipch

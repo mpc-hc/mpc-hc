@@ -94,6 +94,11 @@ MPC-HC makes use of the following third-party code:
         <td>http://www.ffmpeg.org/</td>
     </tr>
     <tr>
+        <td>LAV Filters</td>
+        <td>GPLv2</td>
+        <td>http://code.google.com/p/lavfilters/</td>
+    </tr>
+    <tr>
         <td>libflac</td>
         <td>GPLv2 / New BSD License</td>
         <td>http://flac.sourceforge.net/</td>

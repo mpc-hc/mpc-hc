@@ -30,9 +30,9 @@
 #include "SyncAllocatorPresenter.h"
 #include "moreuuids.h"
 
-#include "LAVFilters/LAVSplitterSettings.h"
-#include "LAVFilters/LAVVideoSettings.h"
-#include "LAVFilters/LAVAudioSettings.h"
+#include "LAVFilters/src/developer_info/LAVSplitterSettings.h"
+#include "LAVFilters/src/developer_info/LAVVideoSettings.h"
+#include "LAVFilters/src/developer_info/LAVAudioSettings.h"
 
 #define LAV_FILTERS_VERSION_MAJOR    0
 #define LAV_FILTERS_VERSION_MINOR    56

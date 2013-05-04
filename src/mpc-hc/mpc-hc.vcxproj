@@ -792,6 +792,9 @@
     <ProjectReference Include="..\Subtitles\Subtitles.vcxproj">
       <Project>{5e56335f-0fb1-4eea-b240-d8dc5e0608e4}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\thirdparty\LAVFilters\LAVFilters.vcxproj">
+      <Project>{ed257874-e12e-4143-af0a-0676da3bb18c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\thirdparty\lcms2\lcms2.vcxproj">
       <Project>{acf5c64b-78aa-4730-91a2-24f4910fbad9}</Project>
     </ProjectReference>

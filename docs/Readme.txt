@@ -56,6 +56,7 @@ CLineNumberEdit     -                           http://www.codeproject.com/Artic
 CSizingControlBar   GPLv2                       http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                    http://research.microsoft.com/en-us/projects/detours/
 FFmpeg              GPLv2                       http://www.ffmpeg.org/
+LAV Filters         GPLv2                       http://code.google.com/p/lavfilters/
 libflac             GPLv2 / New BSD License     http://flac.sourceforge.net/
 libmpeg2            GPLv2                       http://libmpeg2.sourceforge.net/
 libogg              New BSD License             http://www.xiph.org/
