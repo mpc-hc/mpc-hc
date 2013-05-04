@@ -9,6 +9,9 @@
       <UniqueIdentifier>{2b09c18b-87fc-47da-a366-3e14c0b9d40f}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
+    <Filter Include="VS2012u2-fix">
+      <UniqueIdentifier>{e36bc2f5-e726-4b84-813a-8e871c7a01bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="deinterlace.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="FileVersionInfo.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\xpsupportvc11upd2\xpatl.cpp">
+      <Filter>VS2012u2-fix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,5 +133,18 @@
     <ClInclude Include="FileVersionInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="..\thirdparty\xpsupportvc11upd2\xpatlwrap.asm">
+      <Filter>VS2012u2-fix</Filter>
+    </MASM>
+    <MASM Include="..\thirdparty\xpsupportvc11upd2\xpatlwrap64.asm">
+      <Filter>VS2012u2-fix</Filter>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\thirdparty\xpsupportvc11upd2\Readme.txt">
+      <Filter>VS2012u2-fix</Filter>
+    </Text>
   </ItemGroup>
 </Project>
