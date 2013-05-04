@@ -13872,7 +13872,7 @@ void CMainFrame::SetSubtitleTrackIdx(int index)
             ToggleSubtitleOnOff();
         }
         // Set the new subtitles track if needed
-        if (AfxGetAppSettings().fEnableSubtitles) {
+        if (s.fEnableSubtitles) {
             SetSubtitle(index);
         }
     }
