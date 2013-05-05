@@ -13,6 +13,7 @@ Legend:
 * Updated Basque, German, Greek, Japanese, Simplified and Traditional Chinese translations
 * Updated Little CMS to v2.5 (git 61d73f8)
 * Updated zlib to v1.2.8
+* Updated Unrar to v5.0.2
 * Audio Switcher improvements:
   - Ticket #1936, Improve the normalization algorithm to avoid huge volume variations
   - Use percentage for the boost setting since it is easier to understand for most people
