@@ -752,12 +752,14 @@ bool CVobSubFile::ReadSub(CString fn)
 static unsigned char* RARbuff = NULL;
 static unsigned int RARpos = 0;
 
-static int PASCAL MyProcessDataProc(unsigned char* Addr, int Size)
+static int CALLBACK MyCallbackProc(UINT msg, LPARAM UserData, LPARAM P1, LPARAM P2)
 {
-    ASSERT(RARbuff);
+    if (msg == UCM_PROCESSDATA) {
+        ASSERT(RARbuff);
 
-    memcpy(&RARbuff[RARpos], Addr, Size);
-    RARpos += Size;
+        memcpy(&RARbuff[RARpos], (char*)P1, (size_t)P2);
+        RARpos += (unsigned int)P2;
+    }
 
     return 1;
 }
@@ -778,9 +780,9 @@ bool CVobSubFile::ReadRar(CString fn)
     RARCloseArchive  CloseArchive  = (RARCloseArchive)GetProcAddress(h, "RARCloseArchive");
     RARReadHeaderEx  ReadHeaderEx  = (RARReadHeaderEx)GetProcAddress(h, "RARReadHeaderEx");
     RARProcessFile   ProcessFile   = (RARProcessFile)GetProcAddress(h, "RARProcessFile");
-    RARSetProcessDataProc SetProcessDataProc = (RARSetProcessDataProc)GetProcAddress(h, "RARSetProcessDataProc");
+    RARSetCallback   SetCallback   = (RARSetCallback)GetProcAddress(h, "RARSetCallback");
 
-    if (!(OpenArchiveEx && CloseArchive && ReadHeaderEx && ProcessFile && SetProcessDataProc)) {
+    if (!(OpenArchiveEx && CloseArchive && ReadHeaderEx && ProcessFile && SetCallback)) {
         FreeLibrary(h);
         return false;
     }
@@ -791,7 +793,7 @@ bool CVobSubFile::ReadRar(CString fn)
 #define CloseArchive       RARCloseArchive
 #define ReadHeaderEx       RARReadHeaderEx
 #define ProcessFile        RARProcessFile
-#define SetProcessDataProc RARSetProcessDataProc
+#define SetCallback        RARSetCallback
 #endif /* USE_UNRAR_STATIC */
 
     RAROpenArchiveDataEx OpenArchiveData;
@@ -806,6 +808,7 @@ bool CVobSubFile::ReadRar(CString fn)
     OpenArchiveData.ArcName = fnA;
     OpenArchiveData.OpenMode = RAR_OM_EXTRACT;
     OpenArchiveData.CmtBuf = 0;
+    OpenArchiveData.Callback = MyCallbackProc;
     HANDLE hArcData = OpenArchiveEx(&OpenArchiveData);
     if (!hArcData) {
 #ifndef USE_UNRAR_STATIC
@@ -813,8 +816,6 @@ bool CVobSubFile::ReadRar(CString fn)
 #endif
         return false;
     }
-
-    SetProcessDataProc(hArcData, MyProcessDataProc);
 
     RARHeaderDataEx HeaderDataEx;
     HeaderDataEx.CmtBuf = NULL;
