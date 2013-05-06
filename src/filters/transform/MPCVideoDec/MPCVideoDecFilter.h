@@ -35,6 +35,13 @@
 #include "H264RandomAccess.h"
 #include <atlpath.h>
 
+// TODO: remove this when it's fixed in MSVC
+// Work around warning C4005: 'XXXX' : macro redefinition
+#pragma warning(disable: 4005)
+#include <stdint.h>
+#pragma warning(default: 4005)
+
+
 #define MPCVideoDecName L"MPC Video Decoder"
 
 #define MAX_BUFF_TIME   20
@@ -73,9 +80,9 @@ typedef struct {
 } BUFFER_TIME;
 
 typedef struct {
-    bool video_after_seek;
-    __int32 kf_pts;     ///< timestamp of next video keyframe
-    __int64 kf_base;    ///< timestamp of the prev. video keyframe
+    bool    video_after_seek;
+    int     kf_pts;     ///< timestamp of next video keyframe
+    int64_t kf_base;    ///< timestamp of the previous video keyframe
 } RMDemuxContext;
 
 class __declspec(uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4"))
