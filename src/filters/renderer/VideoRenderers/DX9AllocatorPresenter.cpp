@@ -138,7 +138,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     m_DetectedScanlineTime = 0;
     m_DetectedScanlineTimePrim = 0;
     m_DetectedRefreshRate = 0;
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
 
     if (s.m_AdvRendSets.iVMRDisableDesktopComposition) {
         m_bDesktopCompositionDisabled = true;
@@ -447,7 +447,7 @@ bool CDX9AllocatorPresenter::SettingsNeedResetDevice()
 
 HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     CRenderersData* renderersData = GetRenderersData();
 
     m_VBlankEndWait = 0;
@@ -847,7 +847,7 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 
     m_D3D9Device = _T("");
 
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     if (bGetAdapter && (pD3D->GetAdapterCount() > 1) && (s.D3D9RenderDevice != _T(""))) {
         TCHAR strGUID[50];
         D3DADAPTER_IDENTIFIER9 adapterIdentifier;
@@ -1184,7 +1184,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
 
 int CDX9AllocatorPresenter::GetVBlackPos()
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     BOOL bCompositionEnabled = m_bCompositionEnabled;
 
     int WaitRange = max(m_ScreenSize.cy / 40, 5);
@@ -1204,7 +1204,7 @@ int CDX9AllocatorPresenter::GetVBlackPos()
 
 bool CDX9AllocatorPresenter::WaitForVBlank(bool& _Waited, bool& _bTakenLock)
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     if (!s.m_AdvRendSets.iVMR9VSync) {
         _Waited = true;
         m_VBlankWaitTime = 0;
@@ -1265,7 +1265,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         return false;
     }
 
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
 
     //TRACE(_T("Thread: %d\n"), (LONG)((CRITICAL_SECTION &)m_RenderLock).OwningThread);
 
@@ -1735,7 +1735,7 @@ void CDX9AllocatorPresenter::ResetStats()
 
 void CDX9AllocatorPresenter::DrawStats()
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     CRenderersData* pApp = GetRenderersData();
     int bDetailedStats = 2;
     switch (pApp->m_fDisplayStats) {

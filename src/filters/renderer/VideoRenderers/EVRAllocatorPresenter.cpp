@@ -70,7 +70,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_hEVRLib(NULL)
     , m_hAVRTLib(NULL)
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
 
     m_nResetToken = 0;
     m_hThread = INVALID_HANDLE_VALUE;
@@ -747,7 +747,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
         m_pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
 
-        CRenderersSettings& s = GetRenderersSettings();
+        const CRenderersSettings& s = GetRenderersSettings();
 
 #if 1
         if (s.m_AdvRendSets.iEVROutputRange == 1) {
@@ -1975,7 +1975,7 @@ void CEVRAllocatorPresenter::RenderThread()
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
 
     int NextSleepTime = 1;
     while (!bQuit) {
@@ -2334,7 +2334,7 @@ void CEVRAllocatorPresenter::VSyncThread()
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
     CRenderersData* pApp = GetRenderersData();
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
 
     while (!bQuit) {
 
@@ -2588,7 +2588,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
         CAutoLock lock(&m_SampleQueueLock);
 
-        CRenderersSettings& s = GetRenderersSettings();
+        const CRenderersSettings& s = GetRenderersSettings();
         double ForceFPS = 0.0;
         //double ForceFPS = 59.94;
         //double ForceFPS = 23.976;

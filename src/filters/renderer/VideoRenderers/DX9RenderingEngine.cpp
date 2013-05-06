@@ -198,7 +198,7 @@ void CDX9RenderingEngine::CleanupRenderingEngine()
 HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
 {
     HRESULT hr;
-    CRenderersSettings& settings = GetRenderersSettings();
+    const CRenderersSettings& settings = GetRenderersSettings();
 
     // Free previously allocated video surfaces
     FreeVideoSurfaces();
@@ -283,7 +283,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
         return S_OK;
     }
 
-    CRenderersSettings& settings = GetRenderersSettings();
+    const CRenderersSettings& settings = GetRenderersSettings();
 
     // Initialize the processing pipeline
     bool bCustomPixelShaders;
@@ -930,7 +930,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 {
     HRESULT hr;
 
-    CRenderersSettings& settings = GetRenderersSettings();
+    const CRenderersSettings& settings = GetRenderersSettings();
     CRenderersData* data = GetRenderersData();
 
     // Check whether the final pass must be initialized

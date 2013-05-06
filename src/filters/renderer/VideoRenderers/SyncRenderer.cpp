@@ -150,7 +150,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
 
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     if (s.m_AdvRendSets.iVMRDisableDesktopComposition) {
         m_bDesktopCompositionDisabled = true;
         if (m_pDwmEnableComposition) {
@@ -377,7 +377,7 @@ bool CBaseAP::SettingsNeedResetDevice()
 HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 {
     TRACE(_T("--> CBaseAP::CreateDXDevice on thread: %d\n"), GetCurrentThreadId());
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     m_LastRendererSettings = s.m_AdvRendSets;
     HRESULT hr = E_FAIL;
 
@@ -653,7 +653,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
 HRESULT CBaseAP::ResetDXDevice(CString& _Error)
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     m_LastRendererSettings = s.m_AdvRendSets;
     HRESULT hr = E_FAIL;
 
@@ -922,7 +922,7 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_allocatorLock);
 
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
 
     for (int i = 0; i < m_nDXSurface + 2; i++) {
         m_pVideoTexture[i] = NULL;
@@ -1533,7 +1533,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
         return false;
     }
 
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     CRenderersData* pApp = GetRenderersData();
     D3DRASTER_STATUS rasterStatus;
     REFERENCE_TIME llCurRefTime = 0;
@@ -1972,7 +1972,7 @@ void CBaseAP::DrawText(const RECT& rc, const CString& strText, int _Priority)
 
 void CBaseAP::DrawStats()
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     CRenderersData* pApp = GetRenderersData();
 
     LONGLONG llMaxJitter = m_MaxJitter;
@@ -2409,7 +2409,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_hEVRLib(NULL)
     , m_hAVRTLib(NULL)
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
 
     m_nResetToken = 0;
     m_hRenderThread  = INVALID_HANDLE_VALUE;
@@ -2956,7 +2956,7 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
         i64Size.LowPart  = VideoFormat->videoInfo.dwHeight;
         m_pMediaType->SetUINT64(MF_MT_FRAME_SIZE, i64Size.QuadPart);
         m_pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
-        CRenderersSettings& s = GetRenderersSettings();
+        const CRenderersSettings& s = GetRenderersSettings();
 
         if (s.m_AdvRendSets.iEVROutputRange == 1) {
             m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
@@ -3615,7 +3615,7 @@ void CSyncAP::RenderThread()
         LONG lDisplayCycle2 = (LONG)(GetDisplayCycle() / 2.0); // These are a couple of empirically determined constants used the control the "snap" function
         LONG lDisplayCycle4 = (LONG)(GetDisplayCycle() / 4.0);
 
-        CRenderersSettings& s = GetRenderersSettings();
+        const CRenderersSettings& s = GetRenderersSettings();
         dTargetSyncOffset = s.m_AdvRendSets.fTargetSyncOffset;
 
         if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) {  // If either streaming or the pre-roll sample and no sample yet fetched
@@ -4422,7 +4422,7 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
     WPARAM wParam = monitor;
     ATOM setTiming;
 
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     targetSyncOffset = s.m_AdvRendSets.fTargetSyncOffset;
     lowSyncOffset = targetSyncOffset - s.m_AdvRendSets.fControlLimit;
     highSyncOffset = targetSyncOffset + s.m_AdvRendSets.fControlLimit;
@@ -4484,7 +4484,7 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
 // Todo: check so that we don't have a live source
 HRESULT CGenlock::ControlClock(double syncOffset, double frameCycle)
 {
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
     targetSyncOffset = s.m_AdvRendSets.fTargetSyncOffset;
     lowSyncOffset = targetSyncOffset - s.m_AdvRendSets.fControlLimit;
     highSyncOffset = targetSyncOffset + s.m_AdvRendSets.fControlLimit;

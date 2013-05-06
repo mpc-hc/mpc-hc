@@ -111,7 +111,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_FAIL;
     }
 
-    CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& s = GetRenderersSettings();
 
     if (s.fVMR9MixerMode) {
         if (FAILED(hr = pConfig->SetNumberOfStreams(1))) {
