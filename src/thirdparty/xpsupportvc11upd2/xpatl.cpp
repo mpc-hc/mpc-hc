@@ -25,15 +25,16 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 // 2013-04-17 1.02 cleaned up Vista check (was triggering RTCs)
 
 #include "stdafx.h"
+#include "SysVersion.h"
 
 // ATL stuff
 
-bool Is_VistaOrLater() {
+/*bool Is_VistaOrLater() {
     DWORD version = ::GetVersion();
     DWORD major = (DWORD) (LOBYTE(LOWORD(version)));
 
     return (major >= 6);
-}
+}*/
 
 typedef BOOL (WINAPI *pInitializeCriticalSectionEx)(__out LPCRITICAL_SECTION lpCriticalSection, __in DWORD dwSpinCount, __in DWORD Flags);
 
@@ -41,7 +42,7 @@ extern "C" BOOL WINAPI VC11Update2InitializeCriticalSectionEx(__out LPCRITICAL_S
 {
     static pInitializeCriticalSectionEx InitializeCriticalSectionEx_p = NULL;
 
-    if (Is_VistaOrLater()) {    // Vista or higher
+    if (SysVersion::IsVistaOrLater()) {    // Vista or higher
         if (!InitializeCriticalSectionEx_p) {
             HMODULE mod = GetModuleHandle( _T("kernel32.dll"));
             if (mod) {

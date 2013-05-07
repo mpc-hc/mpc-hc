@@ -111,7 +111,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\thirdparty\xpsupportvc11upd2\xpatl.cpp" />
+    <ClCompile Include="..\thirdparty\xpsupportvc11upd2\xpatl.cpp">
+      <AdditionalIncludeDirectories>..\DSUtil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="AudioParser.cpp" />
     <ClCompile Include="deinterlace.cpp" />
     <ClCompile Include="DSMPropertyBag.cpp" />
