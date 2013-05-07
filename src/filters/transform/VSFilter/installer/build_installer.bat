@@ -25,8 +25,8 @@ REM installed and you want to use the ANSI Inno Setup which is in another locati
 IF NOT DEFINED InnoSetupPath SET "InnoSetupPath=H:\progs\thirdparty\isetup"
 
 CALL :SubDetectInnoSetup
-CALL :SubInno
-CALL :SubInno x64Build
+CALL :SubInno vs2012
+CALL :SubInno x64Build vs2012
 
 
 :END
@@ -38,7 +38,7 @@ EXIT /B
 :SubInno
 ECHO.
 TITLE Building VSFilter installer...
-"%InnoSetupPath%\ISCC.exe" /Q "vsfilter_setup.iss" /D%1
+"%InnoSetupPath%\ISCC.exe" /Q "vsfilter_setup.iss" /D%1 /D%2
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 IF /I "%1%" == "x64Build" (
   ECHO Installer x64 compiled successfully!
