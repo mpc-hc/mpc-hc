@@ -149,7 +149,7 @@ HRESULT CBaseStream::FillBuffer(IMediaSample* pSample)
             return S_FALSE;
         }
 
-        BYTE* pOut = NULL;
+        BYTE* pOut = nullptr;
         if (FAILED(hr = pSample->GetPointer(&pOut)) || !pOut) {
             return S_FALSE;
         }

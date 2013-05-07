@@ -154,7 +154,7 @@ bool CheckPCID(WORD pcid, const WORD* pPCIDs, size_t len)
 inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
 {
     Mpeg1Context* s1;
-    MpegEncContext* s = NULL;
+    MpegEncContext* s = nullptr;
 
     switch (pAVCtx->codec_id) {
         case AV_CODEC_ID_VC1:
@@ -177,11 +177,11 @@ int FFH264DecodeBuffer(struct AVCodecContext* pAVCtx,
                        REFERENCE_TIME* pOutrtStart)
 {
     int result = -1;
-    if (pBuffer != NULL) {
+    if (pBuffer != nullptr) {
         H264Context* h = (H264Context*) pAVCtx->priv_data;
         result = av_h264_decode_frame(pAVCtx, pOutPOC, pOutrtStart, pBuffer, nSize);
 
-        if (result != -1 && h->s.current_picture_ptr != NULL && pFramePOC) {
+        if (result != -1 && h->s.current_picture_ptr != nullptr && pFramePOC) {
             *pFramePOC = h->s.current_picture_ptr->poc;
         }
     }
@@ -228,14 +228,14 @@ int FFH264CheckCompatibility(int nWidth,
     int profile_higher_than_high = 0;
     int max_ref_frames_dpb41 = min(11, 8388608 / (nWidth * nHeight));
 
-    if (pBuffer != NULL) {
-        av_h264_decode_frame(pAVCtx, NULL, NULL, pBuffer, nSize);
+    if (pBuffer != nullptr) {
+        av_h264_decode_frame(pAVCtx, nullptr, nullptr, pBuffer, nSize);
     }
 
     cur_sps = pContext->sps_buffers[0];
     cur_pps = pContext->pps_buffers[0];
 
-    if (cur_sps != NULL) {
+    if (cur_sps != nullptr) {
         int max_ref_frames = 0;
 
         if (cur_sps->bit_depth_luma > 8 || cur_sps->chroma_format_idc > 1) {
@@ -470,14 +470,14 @@ void FFH264UpdateRefFramesList(DXVA_PicParams_H264* pDXVAPicParams, struct AVCod
             AssociatedFlag = pic->long_ref != 0;
         } else {
             // Long list reference frames
-            pic = NULL;
+            pic = nullptr;
             while (!pic && j < h->short_ref_count + 16) {
                 pic = h->long_ref[j++ - h->short_ref_count];
             }
             AssociatedFlag = 1;
         }
 
-        if (pic != NULL) {
+        if (pic != nullptr) {
             pDXVAPicParams->FrameNumList[i] = pic->long_ref ? pic->pic_id : pic->frame_num;
             pDXVAPicParams->FieldOrderCntList[i][0] = 0;
             pDXVAPicParams->FieldOrderCntList[i][1] = 0;
@@ -833,7 +833,7 @@ unsigned long FFGetMBNumber(struct AVCodecContext* pAVCtx)
 {
     MpegEncContext* s = GetMpegEncContext(pAVCtx);
 
-    return (s != NULL) ? s->mb_num : 0;
+    return (s != nullptr) ? s->mb_num : 0;
 }
 
 int FFIsSkipped(struct AVCodecContext* pAVCtx)
@@ -888,14 +888,14 @@ int FFGetCodedPicture(struct AVCodecContext* pAVCtx)
 {
     MpegEncContext* s = GetMpegEncContext(pAVCtx);
 
-    return (s != NULL) ? s->current_picture.f.coded_picture_number : 0;
+    return (s != nullptr) ? s->current_picture.f.coded_picture_number : 0;
 }
 
 BOOL FFGetAlternateScan(struct AVCodecContext* pAVCtx)
 {
     MpegEncContext* s = GetMpegEncContext(pAVCtx);
 
-    return (s != NULL) ? s->alternate_scan : 0;
+    return (s != nullptr) ? s->alternate_scan : 0;
 }
 
 BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor, DWORD nPCIDevice)

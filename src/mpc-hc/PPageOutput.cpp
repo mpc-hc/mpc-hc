@@ -46,8 +46,8 @@ CPPageOutput::CPPageOutput()
     , m_fD3DFullscreen(FALSE)
     , m_fD3D9RenderDevice(FALSE)
     , m_iD3D9RenderDevice(-1)
-    , m_tick(NULL)
-    , m_cross(NULL)
+    , m_tick(nullptr)
+    , m_cross(nullptr)
 {
 }
 
@@ -154,7 +154,7 @@ BOOL CPPageOutput::OnInitDialog()
     CString Cbstr;
 
     BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
-        LPOLESTR olestr = NULL;
+        LPOLESTR olestr = nullptr;
         if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
             continue;
         }
@@ -167,12 +167,12 @@ BOOL CPPageOutput::OnInitDialog()
         CComPtr<IPropertyBag> pPB;
         if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
             CComVariant var;
-            pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL);
+            pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr);
 
             CString fstr(var.bstrVal);
 
             var.Clear();
-            if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, NULL))) {
+            if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, nullptr))) {
                 BSTR* pbstr;
                 if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pbstr))) {
                     fstr.Format(_T("%s (%08x)"), CString(fstr), *((DWORD*)pbstr + 1));
@@ -326,7 +326,7 @@ BOOL CPPageOutput::OnInitDialog()
     m_tickcross.Create(16, 16, ILC_COLOR32, 2, 0);
     CMPCPngImage tickcross;
     tickcross.Load(IDF_TICKCROSS);
-    m_tickcross.Add(&tickcross, (CBitmap*)NULL);
+    m_tickcross.Add(&tickcross, (CBitmap*)nullptr);
     m_tick = m_tickcross.ExtractIcon(0);
     m_cross = m_tickcross.ExtractIcon(1);
 
@@ -689,7 +689,7 @@ void CPPageOutput::OnFullscreenCheck()
 {
     UpdateData();
     if (m_fD3DFullscreen &&
-            (MessageBox(ResStr(IDS_D3DFS_WARNING), NULL, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDNO)) {
+            (MessageBox(ResStr(IDS_D3DFS_WARNING), nullptr, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDNO)) {
         m_fD3DFullscreen = false;
         UpdateData(FALSE);
     } else {

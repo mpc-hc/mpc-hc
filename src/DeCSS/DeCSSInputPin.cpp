@@ -62,7 +62,7 @@ STDMETHODIMP CDeCSSInputPin::Receive(IMediaSample* pSample)
 {
     long len = pSample->GetActualDataLength();
 
-    BYTE* p = NULL;
+    BYTE* p = nullptr;
     if (SUCCEEDED(pSample->GetPointer(&p)) && len > 0) {
         if (m_mt.majortype == MEDIATYPE_DVD_ENCRYPTED_PACK && len == 2048 && (p[0x14] & 0x30)) {
             CSSdescramble(p, m_TitleKey);

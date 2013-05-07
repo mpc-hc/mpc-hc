@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,9 +31,9 @@
 //
 
 CAsyncFileReader::CAsyncFileReader(CString fn, HRESULT& hr)
-    : CUnknown(NAME("CAsyncFileReader"), NULL, &hr)
+    : CUnknown(NAME("CAsyncFileReader"), nullptr, &hr)
     , m_len((ULONGLONG) - 1)
-    , m_hBreakEvent(NULL)
+    , m_hBreakEvent(nullptr)
     , m_lOsError(0)
 {
     hr = Open(fn, modeRead | shareDenyNone | typeBinary | osSequentialScan) ? S_OK : E_FAIL;
@@ -43,9 +43,9 @@ CAsyncFileReader::CAsyncFileReader(CString fn, HRESULT& hr)
 }
 
 CAsyncFileReader::CAsyncFileReader(CAtlList<CHdmvClipInfo::PlaylistItem>& Items, HRESULT& hr)
-    : CUnknown(NAME("CAsyncFileReader"), NULL, &hr)
+    : CUnknown(NAME("CAsyncFileReader"), nullptr, &hr)
     , m_len((ULONGLONG) - 1)
-    , m_hBreakEvent(NULL)
+    , m_hBreakEvent(nullptr)
     , m_lOsError(0)
 {
     hr = OpenFiles(Items, modeRead | shareDenyNone | typeBinary | osSequentialScan) ? S_OK : E_FAIL;
@@ -177,14 +177,14 @@ STDMETHODIMP CAsyncUrlReader::Length(LONGLONG* pTotal, LONGLONG* pAvailable)
     if (pTotal) {
         *pTotal = 0;
     }
-    return __super::Length(NULL, pAvailable);
+    return __super::Length(nullptr, pAvailable);
 }
 
 // CAMThread
 
 DWORD CAsyncUrlReader::ThreadProc()
 {
-    AfxSocketInit(NULL);
+    AfxSocketInit(nullptr);
 
     DWORD cmd = GetRequest();
     if (cmd != CMD_INIT) {
@@ -234,7 +234,7 @@ DWORD CAsyncUrlReader::ThreadProc()
 
     //
 
-    m_hThread = NULL;
+    m_hThread = nullptr;
 
     return S_OK;
 }

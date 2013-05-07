@@ -49,22 +49,22 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, 0, nullptr}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
     {&__uuidof(CMP4SplitterFilter), MP4SplitterName, MERIT_NORMAL, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CMP4SourceFilter), MP4SourceName, MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CMP4SourceFilter), MP4SourceName, MERIT_NORMAL, 0, nullptr, CLSID_LegacyAmFilterCategory},
     {&__uuidof(CMPEG4VideoSplitterFilter), L"MPC MPEG4 Video Splitter", MERIT_NORMAL, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CMPEG4VideoSourceFilter), L"MPC MPEG4 Video Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CMPEG4VideoSourceFilter), L"MPC MPEG4 Video Source", MERIT_NORMAL, 0, nullptr, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMP4SplitterFilter>, NULL, &sudFilter[0]},
-    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CMP4SourceFilter>, NULL, &sudFilter[1]},
-    {sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CMPEG4VideoSplitterFilter>, NULL, &sudFilter[2]},
-    {sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CMPEG4VideoSourceFilter>, NULL, &sudFilter[3]},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMP4SplitterFilter>, nullptr, &sudFilter[0]},
+    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CMP4SourceFilter>, nullptr, &sudFilter[1]},
+    {sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CMPEG4VideoSplitterFilter>, nullptr, &sudFilter[2]},
+    {sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CMPEG4VideoSourceFilter>, nullptr, &sudFilter[3]},
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -86,7 +86,7 @@ STDAPI DllRegisterServer()
     // mpeg4 video
     chkbytes.AddTail(_T("3,3,,000001"));
 
-    RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MP4, chkbytes, NULL);
+    RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MP4, chkbytes, nullptr);
 
     return AMovieDllRegisterServer2(TRUE);
 }
@@ -523,13 +523,13 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             CMediaType mt;
             mt.SetSampleSize(1);
 
-            VIDEOINFOHEADER* vih = NULL;
-            WAVEFORMATEX* wfe = NULL;
+            VIDEOINFOHEADER* vih = nullptr;
+            WAVEFORMATEX* wfe = nullptr;
 
             AP4_DataBuffer empty;
 
             if (AP4_SampleDescription* desc = track->GetSampleDescription(sample.GetDescriptionIndex())) {
-                AP4_MpegSampleDescription* mpeg_desc = NULL;
+                AP4_MpegSampleDescription* mpeg_desc = nullptr;
 
                 if (desc->GetType() == AP4_SampleDescription::TYPE_MPEG) {
                     mpeg_desc = dynamic_cast<AP4_MpegSampleDescription*>(desc);
@@ -1108,7 +1108,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             static ADPCMCOEFSET coef[] = { {256, 0}, {512, -256}, {0, 0}, {192, 64}, {240, 0}, {460, -208}, {392, -232} };
                             const ULONG size = sizeof(ADPCMWAVEFORMAT) + (numcoef * sizeof(ADPCMCOEFSET));
                             ADPCMWAVEFORMAT* format = (ADPCMWAVEFORMAT*)mt.ReallocFormatBuffer(size);
-                            if (format != NULL) {
+                            if (format != nullptr) {
                                 format->wfx.wFormatTag = WAVE_FORMAT_ADPCM;
                                 format->wfx.wBitsPerSample = 4;
                                 format->wfx.cbSize = (WORD)(size - sizeof(WAVEFORMATEX));
@@ -1118,7 +1118,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             }
                         } else if (type == AP4_ATOM_TYPE('m', 's', 0x00, 0x11)) {
                             IMAADPCMWAVEFORMAT* format = (IMAADPCMWAVEFORMAT*)mt.ReallocFormatBuffer(sizeof(IMAADPCMWAVEFORMAT));
-                            if (format != NULL) {
+                            if (format != nullptr) {
                                 format->wfx.wFormatTag = WAVE_FORMAT_IMA_ADPCM;
                                 format->wfx.wBitsPerSample = 4;
                                 format->wfx.cbSize = (WORD)(sizeof(IMAADPCMWAVEFORMAT) - sizeof(WAVEFORMATEX));
@@ -1147,7 +1147,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             mt.SetSampleSize(wfe->nBlockAlign);
                             if (channels > 2 || bitspersample > 16) {
                                 WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
-                                if (wfex != NULL) {
+                                if (wfex != nullptr) {
                                     wfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
                                     wfex->Format.cbSize = 22;
                                     wfex->Samples.wValidBitsPerSample = bitspersample;
@@ -1159,7 +1159,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             mt.SetSampleSize(wfe->nBlockAlign);
                             if (channels > 2) {
                                 WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
-                                if (wfex != NULL) {
+                                if (wfex != nullptr) {
                                     wfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
                                     wfex->Format.cbSize = 22;
                                     wfex->Samples.wValidBitsPerSample = bitspersample;
@@ -1429,8 +1429,8 @@ bool CMP4SplitterFilter::DemuxLoop()
 
     AP4_Movie* movie = (AP4_Movie*)m_pFile->GetMovie();
 
-    while (SUCCEEDED(hr) && !CheckRequest(NULL)) {
-        CAtlMap<DWORD, trackpos>::CPair* pPairNext = NULL;
+    while (SUCCEEDED(hr) && !CheckRequest(nullptr)) {
+        CAtlMap<DWORD, trackpos>::CPair* pPairNext = nullptr;
         REFERENCE_TIME rtNext = 0;
 
         POSITION pos = m_trackpos.GetStartPosition();
@@ -2039,7 +2039,7 @@ bool CMPEG4VideoSplitterFilter::DemuxLoop()
 
     DWORD sync = ~0;
 
-    while (SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
+    while (SUCCEEDED(hr) && !CheckRequest(nullptr) && m_pFile->GetRemaining()) {
         for (int i = 0; i < 65536; ++i) { // don't call CheckRequest so often
             bool eof = !m_pFile->GetRemaining();
 

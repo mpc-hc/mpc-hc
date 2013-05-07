@@ -34,18 +34,18 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, 0, nullptr}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
     {&__uuidof(CAviSplitterFilter), AviSplitterName, MERIT_NORMAL + 1, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CAviSourceFilter), AviSourceName, MERIT_NORMAL + 1, 0, NULL, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CAviSourceFilter), AviSourceName, MERIT_NORMAL + 1, 0, nullptr, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CAviSplitterFilter>, NULL, &sudFilter[0]},
-    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CAviSourceFilter>, NULL, &sudFilter[1]},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CAviSplitterFilter>, nullptr, &sudFilter[0]},
+    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CAviSourceFilter>, nullptr, &sudFilter[1]},
     {L"CAviSplitterPropertyPage", &__uuidof(CAviSplitterSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CAviSplitterSettingsWnd>>},
 };
 
@@ -62,7 +62,7 @@ STDAPI DllRegisterServer()
         CLSID_AsyncReader,
         MEDIASUBTYPE_Avi,
         chkbytes,
-        _T(".avi"), _T(".divx"), _T(".vp6"), _T(".amv"), NULL);
+        _T(".avi"), _T(".divx"), _T(".vp6"), _T(".amv"), nullptr);
 
     return AMovieDllRegisterServer2(TRUE);
 }
@@ -137,7 +137,7 @@ STDMETHODIMP CAviSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void**
 {
     CheckPointer(ppv, E_POINTER);
 
-    *ppv = NULL;
+    *ppv = nullptr;
 
     return
         QI(IAviSplitterFilter)
@@ -282,7 +282,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 mt.subtype = FOURCCMap(pwfe->wFormatTag);
             }
             mt.formattype = FORMAT_WaveFormatEx;
-            if (NULL == mt.AllocFormatBuffer(max((ULONG)s->strf.GetCount(), sizeof(WAVEFORMATEX)))) {
+            if (nullptr == mt.AllocFormatBuffer(max((ULONG)s->strf.GetCount(), sizeof(WAVEFORMATEX)))) {
                 continue;
             }
             memcpy(mt.Format(), s->strf.GetData(), s->strf.GetCount());
@@ -543,7 +543,7 @@ bool CAviSplitterFilter::DemuxLoop()
     fDiscontinuity.SetCount(nTracks);
     memset(fDiscontinuity.GetData(), 0, nTracks * sizeof(bool));
 
-    while (SUCCEEDED(hr) && !CheckRequest(NULL)) {
+    while (SUCCEEDED(hr) && !CheckRequest(nullptr)) {
         size_t minTrack = nTracks;
         UINT64 minFilePos = _I64_MAX;
 
@@ -911,7 +911,7 @@ STDMETHODIMP CAviSplitterFilter::GetPages(CAUUID* pPages)
 
     pPages->cElems = 1;
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
-    if (pPages->pElems != NULL) {
+    if (pPages->pElems != nullptr) {
         pPages->pElems[0] = __uuidof(CAviSplitterSettingsWnd);
     } else {
         hr = E_OUTOFMEMORY;
@@ -924,14 +924,14 @@ STDMETHODIMP CAviSplitterFilter::CreatePage(const GUID& guid, IPropertyPage** pp
 {
     CheckPointer(ppPage, E_POINTER);
 
-    if (*ppPage != NULL) {
+    if (*ppPage != nullptr) {
         return E_INVALIDARG;
     }
 
     HRESULT hr;
 
     if (guid == __uuidof(CAviSplitterSettingsWnd)) {
-        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CAviSplitterSettingsWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CAviSplitterSettingsWnd>(nullptr, &hr))->AddRef();
     }
 
     return *ppPage ? S_OK : E_FAIL;

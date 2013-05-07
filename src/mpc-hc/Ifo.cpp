@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2012 see Authors.txt
+ * (C) 2008-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -85,9 +85,9 @@ unsigned __int32 get4bytes(const BYTE* buf)
 
 
 CIfo::CIfo()
-    : m_pBuffer(NULL)
-    , m_pPGCI(NULL)
-    , m_pPGCIT(NULL)
+    : m_pBuffer(nullptr)
+    , m_pPGCI(nullptr)
+    , m_pPGCIT(nullptr)
     , m_dwSize(0)
 {
 }
@@ -141,7 +141,7 @@ CIfo::pgc_t* CIfo::GetFirstPGC()
     if (m_pBuffer) {
         return (pgc_t*)(m_pBuffer + 0x0400);
     } else {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -159,7 +159,7 @@ CIfo::pgc_t* CIfo::GetPGCI(const int title, const ifo_hdr_t* hdr)
 
     /* jdw */
     if (ptr >= ((uint8_t*) hdr + be2me_32(hdr->len))) {
-        return NULL;
+        return nullptr;
     }
     /* /jdw */
 
@@ -190,13 +190,13 @@ bool CIfo::OpenFile(LPCTSTR strFile)
     HANDLE hFile;
     LARGE_INTEGER size;
 
-    hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
     ASSERT(hFile != INVALID_HANDLE_VALUE);
 
     if (hFile != INVALID_HANDLE_VALUE && GetFileSizeEx(hFile, &size) &&
             size.QuadPart <= 0x800000) { // max size of the ifo file = 8 MB (taken with reserve. need a more correct info)
         m_pBuffer = DEBUG_NEW BYTE [size.QuadPart];
-        ReadFile(hFile, m_pBuffer, size.QuadPart, &m_dwSize, NULL);
+        ReadFile(hFile, m_pBuffer, size.QuadPart, &m_dwSize, nullptr);
         CloseHandle(hFile);
 
         if (IsVTS() && (OFF_VTSM_PGCI_UT(m_pBuffer) != 0)) {
@@ -206,7 +206,7 @@ bool CIfo::OpenFile(LPCTSTR strFile)
             m_pPGCI = (ifo_hdr_t*)(m_pBuffer + OFF_VMGM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
         }
 
-        bRet = (m_pPGCI != NULL);
+        bRet = (m_pPGCI != nullptr);
     }
 
     return bRet;
@@ -244,12 +244,12 @@ bool CIfo::SaveFile(LPCTSTR strFile)
 
     if (m_pBuffer) {
         HANDLE m_hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-                                          NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                                          nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
         ASSERT(m_hFile != INVALID_HANDLE_VALUE);
 
         if (m_hFile != INVALID_HANDLE_VALUE) {
             DWORD dwSize;
-            WriteFile(m_hFile, m_pBuffer, m_dwSize, &dwSize, NULL);
+            WriteFile(m_hFile, m_pBuffer, m_dwSize, &dwSize, nullptr);
             CloseHandle(m_hFile);
             bRet = true;
         }

@@ -196,7 +196,7 @@ AudioStreamResampler::AudioStreamResampler(int bps, long orig_rate, long new_rat
     samp_frac = MulDiv(orig_rate, 0x80000, new_rate);
 
     holdover = 0;
-    filter_bank = NULL;
+    filter_bank = nullptr;
     filter_width = 1;
     accum = 0;
 

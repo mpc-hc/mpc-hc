@@ -47,7 +47,7 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
     cs.style &= ~WS_BORDER;
     cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,
-                                       ::LoadCursor(NULL, IDC_ARROW), HBRUSH(COLOR_WINDOW + 1), NULL);
+                                       ::LoadCursor(nullptr, IDC_ARROW), HBRUSH(COLOR_WINDOW + 1), nullptr);
 
     return TRUE;
 }
@@ -215,7 +215,7 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
     if (((CMainFrame*)GetParentFrame())->m_fHideCursor) {
-        SetCursor(NULL);
+        SetCursor(nullptr);
         return TRUE;
     }
     if (((CMainFrame*)GetParentFrame())->IsSomethingLoaded() && (nHitTest == HTCLIENT)) {

@@ -98,13 +98,13 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CRegisterCopyDataDlg dialog
 
-CRegisterCopyDataDlg::CRegisterCopyDataDlg(CWnd* pParent /*=NULL*/)
+CRegisterCopyDataDlg::CRegisterCopyDataDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CRegisterCopyDataDlg::IDD, pParent)
     , m_strMPCPath(_T(""))
     , m_txtCommand(_T(""))
     , m_nCommandType(0)
-    , m_hWndMPC(NULL)
-    , m_RemoteWindow(NULL)
+    , m_hWndMPC(nullptr)
+    , m_RemoteWindow(nullptr)
 {
     //{{AFX_DATA_INIT(CRegisterCopyDataDlg)
     // NOTE: the ClassWizard will add member initialization here
@@ -151,7 +151,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
     ASSERT(IDM_ABOUTBOX < 0xF000);
 
     CMenu* pSysMenu = GetSystemMenu(FALSE);
-    if (pSysMenu != NULL) {
+    if (pSysMenu != nullptr) {
         CString strAboutMenu;
         strAboutMenu.LoadString(IDS_ABOUTBOX);
         if (!strAboutMenu.IsEmpty()) {
@@ -250,7 +250,7 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     memset(&StartupInfo, 0, sizeof(StartupInfo));
     StartupInfo.cb = sizeof(StartupInfo);
     GetStartupInfo(&StartupInfo);
-    CreateProcess(NULL, (LPTSTR)(LPCTSTR)strExec, NULL, NULL, FALSE, 0, NULL, NULL, &StartupInfo, &ProcessInfo);
+    CreateProcess(nullptr, (LPTSTR)(LPCTSTR)strExec, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo);
 }
 
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)

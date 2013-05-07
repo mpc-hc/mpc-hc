@@ -123,7 +123,7 @@ void CMediaFormatCategory::SetExts(CString exts)
         POSITION cur = pos;
         CString& ext = m_exts.GetNext(pos);
         if (ext[0] == '\\') {
-            m_engine = (engine_t)_tcstol(ext.TrimLeft('\\'), NULL, 10);
+            m_engine = (engine_t)_tcstol(ext.TrimLeft('\\'), nullptr, 10);
             m_exts.RemoveAt(cur);
         } else {
             ext.TrimLeft('.');
@@ -194,7 +194,7 @@ CMediaFormats::~CMediaFormats()
 void CMediaFormats::UpdateData(bool fSave)
 {
     if (fSave) {
-        AfxGetApp()->WriteProfileString(_T("FileFormats"), NULL, NULL);
+        AfxGetApp()->WriteProfileString(_T("FileFormats"), nullptr, nullptr);
 
         AfxGetApp()->WriteProfileInt(_T("FileFormats"), _T("RtspHandler"), m_iRtspHandler);
         AfxGetApp()->WriteProfileInt(_T("FileFormats"), _T("RtspFileExtFirst"), m_fRtspFileExtFirst);
@@ -334,7 +334,7 @@ engine_t CMediaFormats::GetEngine(CString path) const
 
 bool CMediaFormats::FindExt(CString ext, bool fAudioOnly, bool fAssociableOnly) const
 {
-    return (FindMediaByExt(ext, fAudioOnly, fAssociableOnly) != NULL);
+    return (FindMediaByExt(ext, fAudioOnly, fAssociableOnly) != nullptr);
 }
 
 const CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly, bool fAssociableOnly) const
@@ -350,7 +350,7 @@ const CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAud
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask) const

@@ -328,7 +328,7 @@ BOOL CPPageFormats::OnApply()
         s.m_Formats = m_mf;
         s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
 
-        SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
+        SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
     }
 
     return __super::OnApply();

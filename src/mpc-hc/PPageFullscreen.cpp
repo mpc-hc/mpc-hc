@@ -208,8 +208,8 @@ BOOL CPPageFullscreen::OnApply()
                 m_AutoChangeFullscrRes.dmFullscreenRes[i].vfr_from = 0;
                 m_AutoChangeFullscrRes.dmFullscreenRes[i].vfr_to = 0;
             } else {
-                m_AutoChangeFullscrRes.dmFullscreenRes[i].vfr_from = wcstod(m_list.GetItemText(i, COL_VFR_F), NULL);
-                m_AutoChangeFullscrRes.dmFullscreenRes[i].vfr_to = wcstod(m_list.GetItemText(i, COL_VFR_T), NULL);
+                m_AutoChangeFullscrRes.dmFullscreenRes[i].vfr_from = wcstod(m_list.GetItemText(i, COL_VFR_F), nullptr);
+                m_AutoChangeFullscrRes.dmFullscreenRes[i].vfr_to = wcstod(m_list.GetItemText(i, COL_VFR_T), nullptr);
             }
         } else {
             m_AutoChangeFullscrRes.dmFullscreenRes[i].fIsData = false;
@@ -595,7 +595,7 @@ void CPPageFullscreen::OnUpdateRemove(CCmdUI* pCmdUI)
 {
     POSITION pos = m_list.GetFirstSelectedItemPosition();
     int i = m_list.GetNextSelectedItem(pos);
-    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && (i > 0 || pos != NULL));
+    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && (i > 0 || pos != nullptr));
 }
 
 void CPPageFullscreen::OnAdd()
@@ -700,7 +700,7 @@ void CPPageFullscreen::OnUpdateUp(CCmdUI* pCmdUI)
 {
     POSITION pos = m_list.GetFirstSelectedItemPosition();
     int i = m_list.GetNextSelectedItem(pos);
-    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && (i > 1 || pos != NULL));
+    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && (i > 1 || pos != nullptr));
 }
 
 void CPPageFullscreen::OnUpdateDown(CCmdUI* pCmdUI)

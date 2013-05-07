@@ -28,7 +28,7 @@
 // CAuthDlg dialog
 
 IMPLEMENT_DYNAMIC(CAuthDlg, CDialog)
-CAuthDlg::CAuthDlg(CWnd* pParent /*=NULL*/)
+CAuthDlg::CAuthDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CAuthDlg::IDD, pParent)
     , m_username(_T(""))
     , m_password(_T(""))

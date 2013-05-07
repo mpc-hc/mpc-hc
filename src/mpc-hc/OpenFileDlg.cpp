@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,7 +27,7 @@
 #define __DUMMY__ _T("*.*")
 
 bool COpenFileDlg::m_fAllowDirSelection = false;
-WNDPROC COpenFileDlg::m_wndProc = NULL;
+WNDPROC COpenFileDlg::m_wndProc = nullptr;
 
 
 // COpenFileDlg
@@ -96,7 +96,7 @@ void COpenFileDlg::OnDestroy()
 
 BOOL COpenFileDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-    ASSERT(pResult != NULL);
+    ASSERT(pResult != nullptr);
 
     OFNOTIFY* pNotify = (OFNOTIFY*)lParam;
     // allow message map to override

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,7 +36,7 @@ END_MESSAGE_MAP()
 // CStyleEditorDialog dialog
 
 IMPLEMENT_DYNAMIC(CStyleEditorDialog, CDialog)
-CStyleEditorDialog::CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pParent /*=NULL*/)
+CStyleEditorDialog::CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pParent /*=nullptr*/)
     : CDialog(CStyleEditorDialog::IDD, pParent)
     , m_title(title)
     , m_stss(*pstss)

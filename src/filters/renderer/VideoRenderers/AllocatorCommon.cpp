@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,7 +46,7 @@ HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
 {
     CheckPointer(ppAP, E_POINTER);
 
-    *ppAP = NULL;
+    *ppAP = nullptr;
 
     using namespace DSObjects;
 
@@ -67,7 +67,7 @@ HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
         return E_FAIL;
     }
 
-    if (*ppAP == NULL) {
+    if (*ppAP == nullptr) {
         return E_OUTOFMEMORY;
     }
 
@@ -75,11 +75,11 @@ HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
 
     if (FAILED(hr)) {
         Error += L"\n";
-        Error += GetWindowsErrorMessage(hr, NULL);
+        Error += GetWindowsErrorMessage(hr, nullptr);
 
         MessageBox(hWnd, Error, L"Error creating DX9 allocation presenter", MB_OK | MB_ICONERROR);
         (*ppAP)->Release();
-        *ppAP = NULL;
+        *ppAP = nullptr;
     } else if (!Error.IsEmpty()) {
         MessageBox(hWnd, Error, L"Warning creating DX9 allocation presenter", MB_OK | MB_ICONWARNING);
     }
@@ -97,10 +97,10 @@ HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
 
         if (FAILED(hr)) {
             Error += L"\n";
-            Error += GetWindowsErrorMessage(hr, NULL);
+            Error += GetWindowsErrorMessage(hr, nullptr);
             MessageBox(hWnd, Error, L"Error creating EVR Custom renderer", MB_OK | MB_ICONERROR);
             (*ppAP)->Release();
-            *ppAP = NULL;
+            *ppAP = nullptr;
         } else if (!Error.IsEmpty()) {
             MessageBox(hWnd, Error, L"Warning creating EVR Custom renderer", MB_OK | MB_ICONWARNING);
         }
@@ -178,7 +178,7 @@ CString GetWindowsErrorMessage(HRESULT _Error, HMODULE _Module)
     CString errmsg;
     LPVOID lpMsgBuf;
     if (FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_HMODULE,
-                      _Module, _Error, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL)) {
+                      _Module, _Error, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, nullptr)) {
         errmsg = (LPCTSTR)lpMsgBuf;
         LocalFree(lpMsgBuf);
     }

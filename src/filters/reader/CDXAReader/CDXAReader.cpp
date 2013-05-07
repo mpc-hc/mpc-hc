@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -118,7 +118,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudOpPin[] = {
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut}
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -126,7 +126,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CCDXAReader>, NULL, &sudFilter[0]}
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CCDXAReader>, nullptr, &sudFilter[0]}
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -242,15 +242,15 @@ bool CCDXAStream::Load(const WCHAR* fnw)
         m_hFile = INVALID_HANDLE_VALUE;
     }
 
-    m_hFile = CreateFile(CString(fnw), GENERIC_READ, FILE_SHARE_READ, NULL,
-                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)NULL);
+    m_hFile = CreateFile(CString(fnw), GENERIC_READ, FILE_SHARE_READ, nullptr,
+                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)nullptr);
     if (m_hFile == INVALID_HANDLE_VALUE) {
         return false;
     }
 
     BYTE hdr[RIFFCDXA_HEADER_SIZE];
     DWORD NumberOfBytesRead;
-    if (!ReadFile(m_hFile, (LPVOID)hdr, RIFFCDXA_HEADER_SIZE, &NumberOfBytesRead, NULL)
+    if (!ReadFile(m_hFile, (LPVOID)hdr, RIFFCDXA_HEADER_SIZE, &NumberOfBytesRead, nullptr)
             || *((DWORD*)&hdr[0]) != 'FFIR' || *((DWORD*)&hdr[8]) != 'AXDC'
             || *((DWORD*)&hdr[4]) != (*((DWORD*)&hdr[0x28]) + 0x24)) {
         CloseHandle(m_hFile);
@@ -305,7 +305,7 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
             int nRetries = 3;
             while (nRetries--) {
                 NumberOfBytesRead = 0;
-                if (!ReadFile(m_hFile, m_sector, RAW_SECTOR_SIZE, &NumberOfBytesRead, NULL)
+                if (!ReadFile(m_hFile, m_sector, RAW_SECTOR_SIZE, &NumberOfBytesRead, nullptr)
                         || NumberOfBytesRead != RAW_SECTOR_SIZE) {
                     break;
                 }
@@ -378,7 +378,7 @@ bool CCDXAStream::LookForMediaSubType()
     m_llPosition = 0;
 
     for (int iSectorsRead = 0;
-            Read(buff, RAW_DATA_SIZE, 1, NULL) == S_OK && iSectorsRead < 1000;
+            Read(buff, RAW_DATA_SIZE, 1, nullptr) == S_OK && iSectorsRead < 1000;
             iSectorsRead++) {
         if (*((DWORD*)&buff[0]) == 0xba010000) {
             m_llPosition = 0;
@@ -472,7 +472,7 @@ bool CCDXAStream::LookForMediaSubType()
                     CString s = p.Mid(k, l - k);
                     TRACE(s + '\n');
 
-                    TCHAR* end = NULL;
+                    TCHAR* end = nullptr;
 
                     switch (nTries & 3) {
                         case 0:

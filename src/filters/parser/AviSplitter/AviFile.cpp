@@ -258,14 +258,14 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
                     if (!strm) {
                         strm.Attach(DEBUG_NEW strm_t());
                     }
-                    ASSERT(strm->indx == NULL);
+                    ASSERT(strm->indx == nullptr);
                     AVISUPERINDEX* pSuperIndex;
                     if (size < MAXDWORD - 8) {
                         // Fix buffer overrun vulnerability
                         try {
                             pSuperIndex = (AVISUPERINDEX*)DEBUG_NEW unsigned char [(size_t)(size + 8)];
                         } catch (CMemoryException* e) {
-                            pSuperIndex = NULL;
+                            pSuperIndex = nullptr;
                             e->Delete();
                         }
                         if (pSuperIndex) {
@@ -288,7 +288,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
                     //if (S_OK != Read(m_vprp)) return E_FAIL;
                     break;
                 case FCC('idx1'):
-                    ASSERT(m_idx1 == NULL);
+                    ASSERT(m_idx1 == nullptr);
                     m_idx1.Attach((AVIOLDINDEX*)DEBUG_NEW BYTE[size + 8]);
                     m_idx1->fcc = FCC('idx1');
                     m_idx1->cb = size;

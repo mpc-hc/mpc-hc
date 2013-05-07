@@ -365,7 +365,7 @@ bool CVobSubFile::Save(CString fn, int delay, SubFormat sf)
 {
     TrimExtension(fn);
 
-    CVobSubFile vsf(NULL);
+    CVobSubFile vsf(nullptr);
     if (!vsf.Copy(*this)) {
         return false;
     }
@@ -749,7 +749,7 @@ bool CVobSubFile::ReadSub(CString fn)
     return true;
 }
 
-static unsigned char* RARbuff = NULL;
+static unsigned char* RARbuff = nullptr;
 static unsigned int RARpos = 0;
 
 static int CALLBACK MyCallbackProc(UINT msg, LPARAM UserData, LPARAM P1, LPARAM P2)
@@ -818,7 +818,7 @@ bool CVobSubFile::ReadRar(CString fn)
     }
 
     RARHeaderDataEx HeaderDataEx;
-    HeaderDataEx.CmtBuf = NULL;
+    HeaderDataEx.CmtBuf = nullptr;
 
     while (ReadHeaderEx(hArcData, &HeaderDataEx) == 0) {
         CString subfn(HeaderDataEx.FileNameW);
@@ -836,7 +836,7 @@ bool CVobSubFile::ReadRar(CString fn)
             RARbuff = buff;
             RARpos = 0;
 
-            if (ProcessFile(hArcData, RAR_TEST, NULL, NULL)) {
+            if (ProcessFile(hArcData, RAR_TEST, nullptr, nullptr)) {
                 CloseArchive(hArcData);
 #ifndef USE_UNRAR_STATIC
                 FreeLibrary(h);
@@ -850,13 +850,13 @@ bool CVobSubFile::ReadRar(CString fn)
             m_sub.Write(buff, HeaderDataEx.UnpSize);
             m_sub.SeekToBegin();
 
-            RARbuff = NULL;
+            RARbuff = nullptr;
             RARpos = 0;
 
             break;
         }
 
-        ProcessFile(hArcData, RAR_SKIP, NULL, NULL);
+        ProcessFile(hArcData, RAR_SKIP, nullptr, nullptr);
     }
 
     CloseArchive(hArcData);
@@ -1112,7 +1112,7 @@ bool CVobSubFile::WriteSub(CString fn)
 
 BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
 {
-    BYTE* ret = NULL;
+    BYTE* ret = nullptr;
 
     if (iLang < 0 || iLang >= 32) {
         iLang = m_iLang;
@@ -1167,7 +1167,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
         }
 
         if (i != packetsize || sizeleft > 0) {
-            delete [] ret, ret = NULL;
+            delete [] ret, ret = nullptr;
         }
     } while (false);
 
@@ -1264,7 +1264,7 @@ int CVobSubFile::GetFrameIdxByTimeStamp(__int64 time)
 STDMETHODIMP CVobSubFile::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     CheckPointer(ppv, E_POINTER);
-    *ppv = NULL;
+    *ppv = nullptr;
 
     return
         QI(IPersist)
@@ -1284,12 +1284,12 @@ STDMETHODIMP_(POSITION) CVobSubFile::GetStartPosition(REFERENCE_TIME rt, double 
     int i = GetFrameIdxByTimeStamp(rt);
 
     if (!GetFrame(i)) {
-        return NULL;
+        return nullptr;
     }
 
     if (rt >= (m_img.start + m_img.delay)) {
         if (!GetFrame(++i)) {
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -1299,7 +1299,7 @@ STDMETHODIMP_(POSITION) CVobSubFile::GetStartPosition(REFERENCE_TIME rt, double 
 STDMETHODIMP_(POSITION) CVobSubFile::GetNext(POSITION pos)
 {
     int i = (int)pos;
-    return (GetFrame(i) ? (POSITION)(i + 1) : NULL);
+    return (GetFrame(i) ? (POSITION)(i + 1) : nullptr);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CVobSubFile::GetStart(POSITION pos, double fps)
@@ -1652,7 +1652,7 @@ HRESULT CVobSubSettings::Render(SubPicDesc& spd, RECT& bbox)
     GetDestrect(r, spd.w, spd.h);
     StretchBlt(spd, r, m_img);
     /*
-        CRenderedTextSubtitle rts(NULL);
+        CRenderedTextSubtitle rts(nullptr);
         rts.CreateDefaultStyle(DEFAULT_CHARSET);
         rts.m_dstScreenSize.SetSize(m_size.cx, m_size.cy);
         CStringW assstr;
@@ -1676,7 +1676,7 @@ static bool CompressFile(CString fn)
     if (h != INVALID_HANDLE_VALUE) {
         unsigned short us = COMPRESSION_FORMAT_DEFAULT;
         DWORD nBytesReturned;
-        b = DeviceIoControl(h, FSCTL_SET_COMPRESSION, (LPVOID)&us, 2, NULL, 0, (LPDWORD)&nBytesReturned, NULL);
+        b = DeviceIoControl(h, FSCTL_SET_COMPRESSION, (LPVOID)&us, 2, nullptr, 0, (LPDWORD)&nBytesReturned, nullptr);
         CloseHandle(h);
     }
 
@@ -2363,13 +2363,13 @@ void CVobSubStream::Open(CString name, BYTE* pData, int len)
         } else if (key == _T("fade in/out")) {
             _stscanf_s(value, _T("%d%, %d%"), &m_fadein, &m_fadeout);
         } else if (key == _T("time offset")) {
-            m_toff = _tcstol(value, NULL, 10);
+            m_toff = _tcstol(value, nullptr, 10);
         } else if (key == _T("forced subs")) {
             m_fOnlyShowForcedSubs = value == _T("1") || value == _T("ON");
         } else if (key == _T("palette")) {
             Explode(value, sl, ',', 16);
             for (size_t i = 0; i < 16 && sl.GetCount(); i++) {
-                *(DWORD*)&m_orgpal[i] = _tcstol(sl.RemoveHead(), NULL, 16);
+                *(DWORD*)&m_orgpal[i] = _tcstol(sl.RemoveHead(), nullptr, 16);
             }
         } else if (key == _T("custom colors")) {
             m_fCustomPal = Explode(value, sl, ',', 3) == _T("ON");
@@ -2388,7 +2388,7 @@ void CVobSubStream::Open(CString name, BYTE* pData, int len)
                 if (colors.RemoveHead() == _T("colors")) {
                     Explode(colors.RemoveHead(), colors, ',', 4);
                     for (size_t i = 0; i < 4 && colors.GetCount(); i++) {
-                        *(DWORD*)&m_cuspal[i] = _tcstol(colors.RemoveHead(), NULL, 16);
+                        *(DWORD*)&m_cuspal[i] = _tcstol(colors.RemoveHead(), nullptr, 16);
                     }
                 }
             }
@@ -2439,7 +2439,7 @@ void CVobSubStream::RemoveAll()
 STDMETHODIMP CVobSubStream::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     CheckPointer(ppv, E_POINTER);
-    *ppv = NULL;
+    *ppv = nullptr;
 
     return
         QI(IPersist)

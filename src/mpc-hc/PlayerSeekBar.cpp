@@ -40,7 +40,7 @@ CPlayerSeekBar::CPlayerSeekBar()
     , m_tooltipState(TOOLTIP_HIDDEN)
     , m_tooltipLastPos(-1)
     , m_tooltipTimer(1)
-    , m_pChapterBag(NULL)
+    , m_pChapterBag(nullptr)
 {
 }
 
@@ -70,7 +70,7 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
     m_ti.uFlags = TTF_IDISHWND | TTF_TRACK | TTF_ABSOLUTE;
     m_ti.hwnd = m_hWnd;
     m_ti.hinst = AfxGetInstanceHandle();
-    m_ti.lpszText = NULL;
+    m_ti.lpszText = nullptr;
     m_ti.uId = (UINT_PTR)m_hWnd;
 
     m_tooltip.SendMessage(TTM_ADDTOOL, 0, (LPARAM)&m_ti);
@@ -407,7 +407,7 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
             TrackMouseEvent(&tme);
 
             m_tooltipState = TOOLTIP_TRIGGERED;
-            m_tooltipTimer = SetTimer(m_tooltipTimer, SHOW_DELAY, NULL);
+            m_tooltipTimer = SetTimer(m_tooltipTimer, SHOW_DELAY, nullptr);
         }
     } else {
         HideToolTip();
@@ -417,7 +417,7 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
         UpdateToolTipText();
         UpdateToolTipPosition(point);
         // Reset the timer
-        m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
+        m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, nullptr);
     }
 }
 
@@ -492,7 +492,7 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
                 GetClientRect(&r);
 
                 if (m_fEnabled && m_start < m_stop && r.PtInRect(point)) {
-                    m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
+                    m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, nullptr);
                     m_tooltipPos = CalculatePosition(point);
                     UpdateToolTipText();
                     m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -35,18 +35,18 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, 0, nullptr}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
     {&__uuidof(CMpaSplitterFilter), MpaSplitterName, MERIT_NORMAL + 1, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CMpaSourceFilter), MpaSourceName, MERIT_NORMAL + 1, 0, NULL, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CMpaSourceFilter), MpaSourceName, MERIT_NORMAL + 1, 0, nullptr, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMpaSplitterFilter>, NULL, &sudFilter[0]},
-    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CMpaSourceFilter>, NULL, &sudFilter[1]},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMpaSplitterFilter>, nullptr, &sudFilter[0]},
+    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CMpaSourceFilter>, nullptr, &sudFilter[1]},
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -56,7 +56,7 @@ STDAPI DllRegisterServer()
     CAtlList<CString> chkbytes;
     chkbytes.AddTail(_T("0,2,FFE0,FFE0"));
     chkbytes.AddTail(_T("0,10,FFFFFF00000080808080,49443300000000000000"));
-    RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MPEG1Audio, chkbytes, NULL);
+    RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MPEG1Audio, chkbytes, nullptr);
 
     return AMovieDllRegisterServer2(TRUE);
 }
@@ -200,7 +200,7 @@ bool CMpaSplitterFilter::DemuxLoop()
     int FrameSize;
     REFERENCE_TIME rtDuration;
 
-    while (SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetPos() < m_pFile->GetEndPos() - 9) {
+    while (SUCCEEDED(hr) && !CheckRequest(nullptr) && m_pFile->GetPos() < m_pFile->GetEndPos() - 9) {
         if (!m_pFile->Sync(FrameSize, rtDuration)) {
             Sleep(1);
             continue;

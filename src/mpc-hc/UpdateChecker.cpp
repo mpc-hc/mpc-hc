@@ -91,7 +91,7 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
             if (!ParseVersion(latestVersionStr, latestVersion)) {
                 updateAvailable = UPDATER_ERROR;
             } else {
-                time_t lastCheck = time(NULL);
+                time_t lastCheck = time(nullptr);
                 AfxGetApp()->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_UPDATER_LAST_CHECK, (LPBYTE)&lastCheck, sizeof(time_t));
 
                 int comp = CompareVersion(currentVersion, latestVersion);
@@ -207,7 +207,7 @@ bool UpdateChecker::IsAutoUpdateEnabled()
 
 bool UpdateChecker::IsTimeToAutoUpdate()
 {
-    time_t* lastCheck = NULL;
+    time_t* lastCheck = nullptr;
     UINT nRead;
 
     if (!AfxGetApp()->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_UPDATER_LAST_CHECK, (LPBYTE*)&lastCheck, &nRead) || nRead != sizeof(time_t)) {
@@ -218,7 +218,7 @@ bool UpdateChecker::IsTimeToAutoUpdate()
         return true;
     }
 
-    bool isTimeToAutoUpdate = (time(NULL) >= *lastCheck + AfxGetAppSettings().nUpdaterDelay * 24 * 3600);
+    bool isTimeToAutoUpdate = (time(nullptr) >= *lastCheck + AfxGetAppSettings().nUpdaterDelay * 24 * 3600);
 
     delete [] lastCheck;
 

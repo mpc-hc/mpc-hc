@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,7 +25,7 @@
 
 CMP4SplitterFile::CMP4SplitterFile(IAsyncReader* pReader, HRESULT& hr)
     : CBaseSplitterFileEx(pReader, hr, DEFAULT_CACHE_LENGTH, false)
-    , m_pAp4File(NULL)
+    , m_pAp4File(nullptr)
 {
     if (FAILED(hr)) {
         return;
@@ -42,7 +42,7 @@ CMP4SplitterFile::~CMP4SplitterFile()
 void* /* AP4_Movie* */ CMP4SplitterFile::GetMovie()
 {
     ASSERT(m_pAp4File);
-    return m_pAp4File ? ((AP4_File*)m_pAp4File)->GetMovie() : NULL;
+    return m_pAp4File ? ((AP4_File*)m_pAp4File)->GetMovie() : nullptr;
 }
 
 HRESULT CMP4SplitterFile::Init()

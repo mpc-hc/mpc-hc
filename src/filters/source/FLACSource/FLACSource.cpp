@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,7 +39,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudOpPin[] = {
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut}
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -47,7 +47,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CFLACSource>, NULL, &sudFilter[0]}
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CFLACSource>, nullptr, &sudFilter[0]}
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -193,7 +193,7 @@ STDMETHODIMP CFLACSource::get_Copyright(BSTR* pbstrCopyright)
 CFLACStream::CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
     : CBaseStream(NAME("CFLACStream"), pParent, phr)
     , m_bIsEOF(false)
-    , m_pDecoder(NULL)
+    , m_pDecoder(nullptr)
 {
     CAutoLock cAutoLock(&m_cSharedState);
     CString fn(wfn);
@@ -248,7 +248,7 @@ CFLACStream::~CFLACStream()
 {
     if (m_pDecoder) {
         FLAC__stream_decoder_delete(_DECODER_);
-        m_pDecoder = NULL;
+        m_pDecoder = nullptr;
     }
 }
 
@@ -457,7 +457,7 @@ FLAC__StreamDecoderLengthStatus StreamDecoderLength(const FLAC__StreamDecoder* d
     CFLACStream* pThis = static_cast<CFLACStream*>(client_data);
     CFile* pFile = pThis->GetFile();
 
-    if (pFile == NULL) {
+    if (pFile == nullptr) {
         return FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED;
     } else {
         *stream_length = pFile->GetLength();

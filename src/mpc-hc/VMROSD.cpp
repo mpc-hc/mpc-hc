@@ -31,7 +31,7 @@
 
 
 CVMROSD::CVMROSD()
-    : m_pWnd(NULL)
+    : m_pWnd(nullptr)
     , m_llSeekMin(0)
     , m_llSeekMax(0)
     , m_llSeekPos(0)
@@ -39,9 +39,9 @@ CVMROSD::CVMROSD()
     , m_bShowSeekBar(false)
     , m_bSeekBarVisible(false)
     , m_bCursorMoving(false)
-    , m_pMFVMB(NULL)
-    , m_pVMB(NULL)
-    , m_pMVTO(NULL)
+    , m_pMFVMB(nullptr)
+    , m_pVMB(nullptr)
+    , m_pMVTO(nullptr)
     , m_iFontSize(0)
     , m_fontName(_T(""))
     , m_bShowMessage(true)
@@ -115,7 +115,7 @@ void CVMROSD::UpdateBitmap()
         bmi.bmiHeader.biBitCount = 32;
         bmi.bmiHeader.biCompression = BI_RGB;
 
-        hbmpRender = CreateDIBSection(m_memDC, &bmi, DIB_RGB_COLORS, NULL, NULL, NULL);
+        hbmpRender = CreateDIBSection(m_memDC, &bmi, DIB_RGB_COLORS, nullptr, nullptr, 0);
         m_memDC.SelectObject(hbmpRender);
 
         if (::GetObject(hbmpRender, sizeof(BITMAP), &m_bitmapInfo) != 0) {
@@ -156,8 +156,8 @@ void CVMROSD::UpdateBitmap()
 void CVMROSD::Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB, bool bShowSeekBar)
 {
     m_pVMB   = pVMB;
-    m_pMFVMB = NULL;
-    m_pMVTO  = NULL;
+    m_pMFVMB = nullptr;
+    m_pMVTO  = nullptr;
     m_pWnd   = pWnd;
     m_bShowSeekBar = bShowSeekBar;
     UpdateBitmap();
@@ -166,8 +166,8 @@ void CVMROSD::Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB, bool bShowSeekBar)
 void CVMROSD::Start(CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB, bool bShowSeekBar)
 {
     m_pMFVMB = pMFVMB;
-    m_pVMB   = NULL;
-    m_pMVTO  = NULL;
+    m_pVMB   = nullptr;
+    m_pMVTO  = nullptr;
     m_pWnd   = pWnd;
     m_bShowSeekBar = bShowSeekBar;
     UpdateBitmap();
@@ -175,8 +175,8 @@ void CVMROSD::Start(CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB, bool bShowSeekBar)
 
 void CVMROSD::Start(CWnd* pWnd, IMadVRTextOsd* pMVTO)
 {
-    m_pMFVMB = NULL;
-    m_pVMB   = NULL;
+    m_pMFVMB = nullptr;
+    m_pVMB   = nullptr;
     m_pMVTO  = pMVTO;
     m_pWnd   = pWnd;
 }
@@ -188,7 +188,7 @@ void CVMROSD::Stop()
     m_pMVTO.Release();
     if (m_pWnd) {
         m_pWnd->KillTimer((UINT_PTR)this);
-        m_pWnd = NULL;
+        m_pWnd = nullptr;
     }
 }
 
@@ -227,7 +227,7 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
 
     DrawRect(rect, &m_brushBack, &m_penBorder);
     DrawRect(&m_rectBar, &m_brushBar);
-    DrawRect(&m_rectCursor, NULL, &m_penCursor);
+    DrawRect(&m_rectCursor, nullptr, &m_penCursor);
 }
 
 void CVMROSD::DrawMessage()

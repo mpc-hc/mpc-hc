@@ -87,7 +87,7 @@ STDMETHODIMP CDX7SubPic::ClearDirtyRect(DWORD color)
     DDBLTFX fx;
     INITDDSTRUCT(fx);
     fx.dwFillColor = color;
-    m_pSurface->Blt(&m_rcDirty, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
+    m_pSurface->Blt(&m_rcDirty, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
     m_rcDirty.SetRectEmpty();
 
@@ -98,7 +98,7 @@ STDMETHODIMP CDX7SubPic::Lock(SubPicDesc& spd)
 {
     DDSURFACEDESC2 ddsd;
     INITDDSTRUCT(ddsd);
-    if (FAILED(m_pSurface->Lock(NULL, &ddsd, DDLOCK_SURFACEMEMORYPTR | DDLOCK_WAIT, NULL))) {
+    if (FAILED(m_pSurface->Lock(nullptr, &ddsd, DDLOCK_SURFACEMEMORYPTR | DDLOCK_WAIT, nullptr))) {
         return E_FAIL;
     }
 
@@ -115,7 +115,7 @@ STDMETHODIMP CDX7SubPic::Lock(SubPicDesc& spd)
 
 STDMETHODIMP CDX7SubPic::Unlock(RECT* pDirtyRect)
 {
-    m_pSurface->Unlock(NULL);
+    m_pSurface->Unlock(nullptr);
 
     if (pDirtyRect) {
         m_rcDirty = *pDirtyRect;
@@ -130,7 +130,7 @@ STDMETHODIMP CDX7SubPic::Unlock(RECT* pDirtyRect)
 
 STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 {
-    ASSERT(pTarget == NULL);
+    ASSERT(pTarget == nullptr);
 
     if (!m_pD3DDev || !m_pSurface || !pSrc || !pDst) {
         return E_POINTER;
@@ -210,7 +210,7 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
     //
 
-    m_pD3DDev->SetTexture(0, NULL);
+    m_pD3DDev->SetTexture(0, nullptr);
 
     return S_OK;
 }
@@ -291,7 +291,7 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     }
 
     CComPtr<IDirectDrawSurface7> pSurface;
-    if (FAILED(pDD->CreateSurface(&ddsd, &pSurface, NULL))) {
+    if (FAILED(pDD->CreateSurface(&ddsd, &pSurface, nullptr))) {
         return false;
     }
 

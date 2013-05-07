@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,7 +30,7 @@ IMPLEMENT_DYNAMIC(CPPageFileInfoRes, CPPageBase)
 CPPageFileInfoRes::CPPageFileInfoRes(CString fn, IFilterGraph* pFG)
     : CPPageBase(CPPageFileInfoRes::IDD, CPPageFileInfoRes::IDD)
     , m_fn(fn)
-    , m_hIcon(NULL)
+    , m_hIcon(nullptr)
     , m_pFG(pFG)
 {
 }
@@ -83,9 +83,9 @@ BOOL CPPageFileInfoRes::OnInitDialog()
             if (pRB && pRB->ResGetCount() > 0) {
                 for (DWORD j = 0; j < pRB->ResGetCount(); j++) {
                     CComBSTR name, desc, mime;
-                    BYTE* pData = NULL;
+                    BYTE* pData = nullptr;
                     DWORD len = 0;
-                    if (SUCCEEDED(pRB->ResGet(j, &name, &desc, &mime, &pData, &len, NULL))) {
+                    if (SUCCEEDED(pRB->ResGet(j, &name, &desc, &mime, &pData, &len, nullptr))) {
                         CDSMResource r;
                         r.name = name;
                         r.desc = desc;
@@ -118,11 +118,11 @@ void CPPageFileInfoRes::OnSaveAs()
 
     CDSMResource& r = m_res.GetAt((POSITION)m_list.GetItemData(i));
 
-    CFileDialog fd(FALSE, NULL, CString(r.name),
+    CFileDialog fd(FALSE, nullptr, CString(r.name),
                    OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR,
                    _T("All files|*.*||"), this, 0);
     if (fd.DoModal() == IDOK) {
-        FILE* f = NULL;
+        FILE* f = nullptr;
         if (!_tfopen_s(&f, fd.GetPathName(), _T("wb"))) {
             fwrite(r.data.GetData(), 1, r.data.GetCount(), f);
             fclose(f);
@@ -149,7 +149,7 @@ void CPPageFileInfoRes::OnOpenEmbeddedResInBrowser(NMHDR* pNMHDR, LRESULT* pResu
 
         CString url;
         url.Format(_T("http://localhost:%d/viewres.html?id=%Ix"), s.nWebServerPort, reinterpret_cast<uintptr_t>(&r));
-        ShellExecute(NULL, _T("open"), url, NULL, NULL, SW_SHOWDEFAULT);
+        ShellExecute(nullptr, _T("open"), url, nullptr, nullptr, SW_SHOWDEFAULT);
     } else {
         AfxMessageBox(IDS_EMB_RESOURCES_VIEWER_INFO, MB_ICONINFORMATION);
     }

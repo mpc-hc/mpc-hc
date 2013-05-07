@@ -179,13 +179,13 @@ bool CPPageWebServer::PickDir(CString& dir)
         CFileDialog dlg(TRUE);
         IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
 
-        if (openDlgPtr != NULL) {
+        if (openDlgPtr != nullptr) {
             openDlgPtr->SetTitle(strTitle);
             openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
 
             if (!dir.IsEmpty()) {
                 CComPtr<IShellItem> psiFolder;
-                if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(dir, NULL, IID_PPV_ARGS(&psiFolder)))) {
+                if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(dir, nullptr, IID_PPV_ARGS(&psiFolder)))) {
                     openDlgPtr->SetFolder(psiFolder);
                 }
             }
@@ -202,7 +202,7 @@ bool CPPageWebServer::PickDir(CString& dir)
 
         BROWSEINFO bi;
         bi.hwndOwner = m_hWnd;
-        bi.pidlRoot = NULL;
+        bi.pidlRoot = nullptr;
         bi.pszDisplayName = buff;
         bi.lpszTitle = strTitle;
         bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI;

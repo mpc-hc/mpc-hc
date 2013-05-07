@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,7 +30,7 @@
 // CRegFilterChooserDlg dialog
 
 //IMPLEMENT_DYNAMIC(CRegFilterChooserDlg, CResizableDialog)
-CRegFilterChooserDlg::CRegFilterChooserDlg(CWnd* pParent /*=NULL*/)
+CRegFilterChooserDlg::CRegFilterChooserDlg(CWnd* pParent /*=nullptr*/)
     : CResizableDialog(CRegFilterChooserDlg::IDD, pParent)
 {
 }
@@ -54,7 +54,7 @@ void CRegFilterChooserDlg::AddToList(IMoniker* pMoniker)
     CComPtr<IPropertyBag> pPB;
     if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             m_list.SetItemData(
                 m_list.InsertItem(-1, CString(CStringW(var.bstrVal))),
                 (DWORD_PTR)m_monikers.AddTail(pMoniker));
@@ -145,7 +145,7 @@ void CRegFilterChooserDlg::OnBnClickedOk()
 
 void CRegFilterChooserDlg::OnBnClickedButton1()
 {
-    CFileDialog dlg(TRUE, NULL, NULL,
+    CFileDialog dlg(TRUE, nullptr, nullptr,
                     OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_NOCHANGEDIR,
                     _T("DirectShow Filters (*.ax,*.dll)|*.ax;*.dll|"), this, 0);
 

@@ -60,7 +60,7 @@ BYTE CHdmvClipInfo::ReadByte()
 {
     BYTE  bVal;
     DWORD dwRead;
-    ReadFile(m_hFile, &bVal, sizeof(bVal), &dwRead, NULL);
+    ReadFile(m_hFile, &bVal, sizeof(bVal), &dwRead, nullptr);
 
     return bVal;
 }
@@ -68,7 +68,7 @@ BYTE CHdmvClipInfo::ReadByte()
 void CHdmvClipInfo::ReadBuffer(BYTE* pBuff, DWORD nLen)
 {
     DWORD dwRead;
-    ReadFile(m_hFile, pBuff, nLen, &dwRead, NULL);
+    ReadFile(m_hFile, pBuff, nLen, &dwRead, nullptr);
 }
 
 HRESULT CHdmvClipInfo::ReadProgramInfo()
@@ -79,7 +79,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 
     m_Streams.RemoveAll();
     Pos.QuadPart = ProgramInfo_start_address;
-    SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
+    SetFilePointerEx(m_hFile, Pos, nullptr, FILE_BEGIN);
 
     ReadDword();    //length
     ReadByte();     //reserved_for_word_align
@@ -158,7 +158,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
             }
 
             iStream++;
-            SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
+            SetFilePointerEx(m_hFile, Pos, nullptr, FILE_BEGIN);
         }
     }
     return S_OK;
@@ -167,8 +167,8 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 {
     m_bIsHdmv = false;
-    m_hFile = CreateFile(strFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    m_hFile = CreateFile(strFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, nullptr);
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
         BYTE Buff[100];
@@ -204,7 +204,7 @@ CHdmvClipInfo::Stream* CHdmvClipInfo::FindStream(short wPID)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 LPCTSTR CHdmvClipInfo::Stream::Format()
@@ -260,8 +260,8 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
     Path.RemoveFileSpec();
     Path.RemoveFileSpec();
 
-    m_hFile = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    m_hFile = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, nullptr);
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
         BYTE Buff[100];
@@ -284,7 +284,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
         ReadDword();                // PlayListMark_start_address
 
         // PlayList()
-        SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
+        SetFilePointerEx(m_hFile, Pos, nullptr, FILE_BEGIN);
         ReadDword();                   // length
         ReadShort();                   // reserved_for_future_use
         nPlaylistItems = ReadShort();  // number_of_PlayItems
@@ -293,7 +293,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
         Pos.QuadPart += 10;
         for (size_t i = 0; i < nPlaylistItems; i++) {
             PlaylistItem Item;
-            SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
+            SetFilePointerEx(m_hFile, Pos, nullptr, FILE_BEGIN);
             Pos.QuadPart += ReadShort() + 2;
             ReadBuffer(Buff, 5);
             Item.m_strFileName.Format(_T("%s\\STREAM\\%c%c%c%c%c.M2TS"), Path, Buff[0], Buff[1], Buff[2], Buff[3], Buff[4]);
@@ -312,7 +312,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 
             rtDuration += (Item.m_rtOut - Item.m_rtIn);
 
-            if (Playlist.Find(Item) != NULL) {
+            if (Playlist.Find(Item) != nullptr) {
                 bDuplicate = true;
             }
             Playlist.AddTail(Item);
@@ -335,8 +335,8 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
     Path.RemoveFileSpec();
     Path.RemoveFileSpec();
 
-    m_hFile = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    m_hFile = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, nullptr);
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
         REFERENCE_TIME* rtOffset = DEBUG_NEW REFERENCE_TIME[PlaylistItems.GetCount()];
@@ -373,7 +373,7 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         Pos.QuadPart = ReadDword(); // PlayListMark_start_address
 
         // PlayListMark()
-        SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
+        SetFilePointerEx(m_hFile, Pos, nullptr, FILE_BEGIN);
         ReadDword();                // length
         nMarkCount = ReadShort();   // number_of_PlayList_marks
         for (size_t i = 0; i < nMarkCount; i++) {

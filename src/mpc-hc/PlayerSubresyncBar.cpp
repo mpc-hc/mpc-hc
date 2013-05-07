@@ -29,7 +29,7 @@
 
 IMPLEMENT_DYNAMIC(CPlayerSubresyncBar, CPlayerBar)
 CPlayerSubresyncBar::CPlayerSubresyncBar()
-    : m_pSubLock(NULL)
+    : m_pSubLock(nullptr)
     , m_mode(0)
     , m_rt(0)
     , m_fUnlink(false)
@@ -839,7 +839,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     CMapStringToPtr actormap;
 
                     for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
-                        actormap[m_sts[i].actor] = NULL;
+                        actormap[m_sts[i].actor] = nullptr;
                     }
 
                     actormap.RemoveKey(_T(""));
@@ -867,7 +867,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     CMapStringToPtr effectmap;
 
                     for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
-                        effectmap[m_sts[i].effect] = NULL;
+                        effectmap[m_sts[i].effect] = nullptr;
                     }
 
                     effectmap.RemoveKey(_T(""));

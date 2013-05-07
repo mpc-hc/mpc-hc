@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,7 +25,7 @@
 #include <math.h>
 
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
-    : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), NULL)
+    : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)
     , m_hWnd(hWnd)
     , m_NativeVideoSize(0, 0)
     , m_AspectRatio(0, 0)

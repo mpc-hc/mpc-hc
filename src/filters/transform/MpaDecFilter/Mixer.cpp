@@ -31,8 +31,8 @@ extern "C" {
 #include "AudioHelper.h"
 
 CMixer::CMixer()
-    : m_pAVRCxt(NULL)
-    , m_matrix_dbl(NULL)
+    : m_pAVRCxt(nullptr)
+    , m_matrix_dbl(nullptr)
     , m_in_avsf(AV_SAMPLE_FMT_NONE)
     , m_in_layout(0)
     , m_out_layout(0)

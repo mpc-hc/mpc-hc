@@ -48,9 +48,9 @@ const CString CFileAssoc::strEnqueueCommand = CFileAssoc::GetEnqueueCommand();
 CComPtr<IApplicationAssociationRegistration> CFileAssoc::m_pAAR;
 
 CString CFileAssoc::m_iconLibPath;
-HMODULE CFileAssoc::m_hIconLib = NULL;
-CFileAssoc::GetIconIndexFunc CFileAssoc::GetIconIndex = NULL;
-CFileAssoc::GetIconLibVersionFunc CFileAssoc::GetIconLibVersion = NULL;
+HMODULE CFileAssoc::m_hIconLib = nullptr;
+CFileAssoc::GetIconIndexFunc CFileAssoc::GetIconIndex = nullptr;
+CFileAssoc::GetIconLibVersionFunc CFileAssoc::GetIconLibVersion = nullptr;
 
 CString CFileAssoc::GetOpenCommand()
 {
@@ -64,11 +64,11 @@ CString CFileAssoc::GetEnqueueCommand()
 
 IApplicationAssociationRegistration* CFileAssoc::CreateRegistrationManager()
 {
-    IApplicationAssociationRegistration* pAAR = NULL;
+    IApplicationAssociationRegistration* pAAR = nullptr;
 
     // Default manager (requires at least Vista)
     HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
-                                  NULL,
+                                  nullptr,
                                   CLSCTX_INPROC,
                                   IID_IApplicationAssociationRegistration,
                                   (LPVOID*)&pAAR);
@@ -106,9 +106,9 @@ bool CFileAssoc::FreeIconLib()
     if (m_hIconLib && FreeLibrary(m_hIconLib)) {
         unloaded = true;
         m_iconLibPath.Empty();
-        m_hIconLib = NULL;
-        GetIconIndex = NULL;
-        GetIconLibVersion = NULL;
+        m_hIconLib = nullptr;
+        GetIconIndex = nullptr;
+        GetIconLibVersion = nullptr;
     }
 
     return unloaded;
@@ -205,7 +205,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
     } else {
         // Create ProgID for this file type
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)
-                || ERROR_SUCCESS != key.SetStringValue(NULL, strLabel)) {
+                || ERROR_SUCCESS != key.SetStringValue(nullptr, strLabel)) {
             return false;
         }
 
@@ -220,10 +220,10 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
         // Add to playlist option
         if (bRegisterContextMenuEntries) {
             if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue"))
-                    || ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST))
+                    || ERROR_SUCCESS != key.SetStringValue(nullptr, ResStr(IDS_ADD_TO_PLAYLIST))
                     || ERROR_SUCCESS != key.SetStringValue(_T("Icon"), appIcon)
                     || ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue\\command"))
-                    || ERROR_SUCCESS != key.SetStringValue(NULL, strEnqueueCommand)) {
+                    || ERROR_SUCCESS != key.SetStringValue(nullptr, strEnqueueCommand)) {
                 return false;
             }
         } else {
@@ -237,19 +237,19 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
             return false;
         }
         if (bRegisterContextMenuEntries) {
-            if (ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC))
+            if (ERROR_SUCCESS != key.SetStringValue(nullptr, ResStr(IDS_OPEN_WITH_MPC))
                     || ERROR_SUCCESS != key.SetStringValue(_T("Icon"), appIcon)) {
                 return false;
             }
         } else {
-            if (ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))
+            if (ERROR_SUCCESS != key.SetStringValue(nullptr, _T(""))
                     || ERROR_SUCCESS != key.SetStringValue(_T("Icon"), _T(""))) {
                 return false;
             }
         }
 
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"))
-                || ERROR_SUCCESS != key.SetStringValue(NULL, strOpenCommand)) {
+                || ERROR_SUCCESS != key.SetStringValue(nullptr, strOpenCommand)) {
             return false;
         }
 
@@ -269,7 +269,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
             }
 
             if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))
-                    || ERROR_SUCCESS != key.SetStringValue(NULL, appIcon)) {
+                    || ERROR_SUCCESS != key.SetStringValue(nullptr, appIcon)) {
                 return false;
             }
         } else {
@@ -325,10 +325,10 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                 {
                     len = sizeof(buff);
                     memset(buff, 0, len);
-                    if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty())
+                    if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len) && !CString(buff).Trim().IsEmpty())
                     {
                         if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon")))
-                            key.SetStringValue (NULL, buff);
+                            key.SetStringValue (nullptr, buff);
                     }
                 }
                 */
@@ -358,10 +358,10 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
 
             len = _countof(buff);
             memset(buff, 0, sizeof(buff));
-            if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty()) {
+            if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len) && !CString(buff).Trim().IsEmpty()) {
                 extOldReg = buff;
             }
-            if (ERROR_SUCCESS != key.SetStringValue(NULL, strProgID)) {
+            if (ERROR_SUCCESS != key.SetStringValue(nullptr, strProgID)) {
                 return false;
             }
 
@@ -373,7 +373,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                 {
                     len = sizeof(buff);
                     memset(buff, 0, len);
-                    if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty())
+                    if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len) && !CString(buff).Trim().IsEmpty())
                         extOldIcon = buff;
                 }
             }
@@ -387,7 +387,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
 
             /*
             if (!extOldIcon.IsEmpty() && (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))))
-                key.SetStringValue(NULL, extOldIcon);
+                key.SetStringValue(nullptr, extOldIcon);
             */
         } else {
             // Get previous association
@@ -404,7 +404,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
             if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strExt)) {
                 return false;
             }
-            key.SetStringValue(NULL, extOldReg);
+            key.SetStringValue(nullptr, extOldReg);
         }
     }
 
@@ -434,7 +434,7 @@ bool CFileAssoc::IsRegistered(CString ext)
         memset(buff, 0, sizeof(buff));
 
         if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext, KEY_READ)
-                || ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)
+                || ERROR_SUCCESS != key.QueryStringValue(nullptr, buff, &len)
                 || CString(buff).Trim().IsEmpty()) {
             return false;
         }
@@ -450,7 +450,7 @@ bool CFileAssoc::IsRegistered(CString ext)
 
         bIsDefault = FALSE;
         if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ)) {
-            if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len)) {
+            if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len)) {
                 bIsDefault = (strOpenCommand.CompareNoCase(CString(buff)) == 0);
             }
         }
@@ -469,7 +469,7 @@ bool CFileAssoc::AreRegisteredFileContextMenuEntries(CString strExt)
 
     if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"), KEY_READ)) {
         CString strCommand = ResStr(IDS_OPEN_WITH_MPC);
-        if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len)) {
+        if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len)) {
             registered = (strCommand.CompareNoCase(CString(buff)) == 0);
         }
     }
@@ -561,11 +561,11 @@ bool CFileAssoc::RegisterFolderContextMenuEntries(bool bRegister)
         CString appIcon = "\"" + GetProgramPath(true) + "\",0";
 
         if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue"))) {
-            key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST));
+            key.SetStringValue(nullptr, ResStr(IDS_ADD_TO_PLAYLIST));
             key.SetStringValue(_T("Icon"), appIcon);
 
             if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue\\command"))) {
-                key.SetStringValue(NULL, strEnqueueCommand);
+                key.SetStringValue(nullptr, strEnqueueCommand);
                 success = true;
             }
         }
@@ -573,11 +573,11 @@ bool CFileAssoc::RegisterFolderContextMenuEntries(bool bRegister)
         if (success && ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play"))) {
             success = false;
 
-            key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC));
+            key.SetStringValue(nullptr, ResStr(IDS_OPEN_WITH_MPC));
             key.SetStringValue(_T("Icon"), appIcon);
 
             if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play\\command"))) {
-                key.SetStringValue(NULL, strOpenCommand);
+                key.SetStringValue(nullptr, strOpenCommand);
                 success = true;
             }
         }
@@ -599,7 +599,7 @@ bool CFileAssoc::AreRegisteredFolderContextMenuEntries()
     bool    registered = false;
 
     if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play\\command"), KEY_READ)) {
-        if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len)) {
+        if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len)) {
             registered = (strOpenCommand.CompareNoCase(CString(buff)) == 0);
         }
     }
@@ -639,7 +639,7 @@ bool CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)
                                         _T("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + _T("\\Command"))) {
             return false;
         }
-        key.SetStringValue(NULL, _T("\"") + exe + _T("\"") + handlers[i].cmd);
+        key.SetStringValue(nullptr, _T("\"") + exe + _T("\"") + handlers[i].cmd);
         key.Close();
 
         if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
@@ -701,7 +701,7 @@ bool CFileAssoc::IsAutoPlayRegistered(autoplay_t ap)
         return false;
     }
     len = _countof(buff);
-    if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
+    if (ERROR_SUCCESS != key.QueryStringValue(nullptr, buff, &len)) {
         return false;
     }
     if (_tcsnicmp(_T("\"") + exe, buff, exe.GetLength() + 1)) {
@@ -792,7 +792,7 @@ bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
         }
 
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))
-                || ERROR_SUCCESS != key.SetStringValue(NULL, appIcon)) {
+                || ERROR_SUCCESS != key.SetStringValue(nullptr, appIcon)) {
             return false;
         }
 
@@ -844,7 +844,7 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID /*pParam*/)
 
                     if (TaskDialogIndirect) {
                         int nButtonPressed = 0;
-                        TaskDialogIndirect(&config, &nButtonPressed, NULL, NULL);
+                        TaskDialogIndirect(&config, &nButtonPressed, nullptr, nullptr);
 
                         if (IDYES == nButtonPressed) {
                             AfxGetMyApp()->RunAsAdministrator(GetProgramPath(true), _T("/iconsassoc"), true);
@@ -856,7 +856,7 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID /*pParam*/)
             } else {
                 ReAssocIcons(registeredExts);
 
-                SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
+                SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
             }
         }
 
@@ -868,19 +868,19 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID /*pParam*/)
 
 void CFileAssoc::CheckIconsAssoc()
 {
-    AfxBeginThread(RunCheckIconsAssocThread, NULL);
+    AfxBeginThread(RunCheckIconsAssocThread, nullptr);
 }
 
 bool CFileAssoc::ShowWindowsAssocDialog()
 {
     IApplicationAssociationRegistrationUI* pAARUI;
     HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistrationUI,
-                                  NULL,
+                                  nullptr,
                                   CLSCTX_INPROC,
                                   IID_IApplicationAssociationRegistrationUI,
                                   (LPVOID*)&pAARUI);
 
-    bool success = (SUCCEEDED(hr) && pAARUI != NULL);
+    bool success = (SUCCEEDED(hr) && pAARUI != nullptr);
 
     if (success) {
         pAARUI->LaunchAdvancedAssociationUI(strRegisteredAppName);

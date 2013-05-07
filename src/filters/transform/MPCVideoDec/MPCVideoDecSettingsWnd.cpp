@@ -101,7 +101,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     const int h25 = IPP_SCALE(25);
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
-    GUID* DxvaGui = NULL;
+    GUID* DxvaGui = nullptr;
 
 #if HAS_FFMPEG_VIDEO_DECODERS
     m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 * 3 + h20)), this, (UINT)IDC_STATIC);
@@ -174,7 +174,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     m_edtVideoCardDescription.SetWindowText(m_pMDF->GetVideoCardDescription());
 
     DxvaGui = m_pMDF->GetDXVADecoderGuid();
-    if (DxvaGui != NULL) {
+    if (DxvaGui != nullptr) {
         CString DXVAMode = GetDXVAMode(DxvaGui);
         m_edtDXVAMode.SetWindowText(DXVAMode);
     } else {

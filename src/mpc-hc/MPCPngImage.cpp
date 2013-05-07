@@ -30,27 +30,27 @@ BOOL CMPCPngImage::Load(UINT uiResID, HINSTANCE hinstRes)
 
 BOOL CMPCPngImage::Load(LPCTSTR lpszResourceName, HINSTANCE hinstRes)
 {
-    if (hinstRes == NULL) {
+    if (hinstRes == nullptr) {
         hinstRes = AfxFindResourceHandle(lpszResourceName, _T("PNG"));
     }
 
     HRSRC hRsrc = ::FindResource(hinstRes, lpszResourceName, _T("PNG"));
-    if (hRsrc == NULL) {
+    if (hRsrc == nullptr) {
         // Fallback to the instance handle
         hinstRes = AfxGetInstanceHandle();
         hRsrc = ::FindResource(hinstRes, lpszResourceName, _T("PNG"));
-        if (hRsrc == NULL) {
+        if (hRsrc == nullptr) {
             return FALSE;
         }
     }
 
     HGLOBAL hGlobal = LoadResource(hinstRes, hRsrc);
-    if (hGlobal == NULL) {
+    if (hGlobal == nullptr) {
         return FALSE;
     }
 
     LPVOID lpBuffer = ::LockResource(hGlobal);
-    if (lpBuffer == NULL) {
+    if (lpBuffer == nullptr) {
         FreeResource(hGlobal);
         return FALSE;
     }
@@ -67,9 +67,9 @@ BOOL CMPCPngImage::LoadFromFile(LPCTSTR lpszPath)
 {
     BOOL bRes = FALSE;
 
-    if (m_pImage == NULL) {
+    if (m_pImage == nullptr) {
         m_pImage = new CImage;
-        ENSURE(m_pImage != NULL);
+        ENSURE(m_pImage != nullptr);
     }
 
     if (m_pImage->Load(lpszPath) == S_OK) {
@@ -81,16 +81,16 @@ BOOL CMPCPngImage::LoadFromFile(LPCTSTR lpszPath)
 //*******************************************************************************
 BOOL CMPCPngImage::LoadFromBuffer(LPBYTE lpBuffer, UINT uiSize)
 {
-    ASSERT(lpBuffer != NULL);
+    ASSERT(lpBuffer != nullptr);
 
     HGLOBAL hRes = ::GlobalAlloc(GMEM_MOVEABLE, uiSize);
-    if (hRes == NULL) {
+    if (hRes == nullptr) {
         return FALSE;
     }
 
-    IStream* pStream = NULL;
+    IStream* pStream = nullptr;
     LPVOID lpResBuffer = ::GlobalLock(hRes);
-    ASSERT(lpResBuffer != NULL);
+    ASSERT(lpResBuffer != nullptr);
 
     memcpy(lpResBuffer, lpBuffer, uiSize);
 
@@ -100,9 +100,9 @@ BOOL CMPCPngImage::LoadFromBuffer(LPBYTE lpBuffer, UINT uiSize)
         return FALSE;
     }
 
-    if (m_pImage == NULL) {
+    if (m_pImage == nullptr) {
         m_pImage = new CImage;
-        ENSURE(m_pImage != NULL);
+        ENSURE(m_pImage != nullptr);
     }
 
     m_pImage->Load(pStream);

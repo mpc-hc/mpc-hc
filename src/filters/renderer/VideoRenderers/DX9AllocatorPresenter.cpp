@@ -61,7 +61,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_TextScale(1.0)
     , m_MainThreadId(0)
     , m_bNeedCheckSample(true)
-    , m_pDirectDraw(NULL)
+    , m_pDirectDraw(nullptr)
     , m_bIsFullscreen(bFullscreen)
     , m_Decoder(_T(""))
     , m_nFrameType(PICT_NONE)
@@ -73,11 +73,11 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         return;
     }
 
-    m_pD3DXLoadSurfaceFromMemory  = NULL;
-    m_pD3DXLoadSurfaceFromSurface = NULL;
-    m_pD3DXCreateLine             = NULL;
-    m_pD3DXCreateFont             = NULL;
-    m_pD3DXCreateSprite           = NULL;
+    m_pD3DXLoadSurfaceFromMemory  = nullptr;
+    m_pD3DXLoadSurfaceFromSurface = nullptr;
+    m_pD3DXCreateLine             = nullptr;
+    m_pD3DXCreateFont             = nullptr;
+    m_pD3DXCreateSprite           = nullptr;
     hDll                          = GetRenderersData()->GetD3X9Dll();
     if (hDll) {
         (FARPROC&)m_pD3DXLoadSurfaceFromMemory  = GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
@@ -91,15 +91,15 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         _Error += _T(" release or newer in order for MPC-HC to function properly.\n");
     }
 
-    m_pDwmIsCompositionEnabled = NULL;
-    m_pDwmEnableComposition = NULL;
+    m_pDwmIsCompositionEnabled = nullptr;
+    m_pDwmEnableComposition = nullptr;
     m_hDWMAPI = LoadLibrary(L"dwmapi.dll");
     if (m_hDWMAPI) {
         (FARPROC&)m_pDwmIsCompositionEnabled = GetProcAddress(m_hDWMAPI, "DwmIsCompositionEnabled");
         (FARPROC&)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-    m_pDirect3DCreate9Ex = NULL;
+    m_pDirect3DCreate9Ex = nullptr;
     m_hD3D9 = LoadLibrary(L"d3d9.dll");
 #ifndef DISABLE_USING_D3D9EX
     if (m_hD3D9) {
@@ -172,22 +172,22 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
         }
     }
 
-    m_pFont     = NULL;
-    m_pLine     = NULL;
-    m_pD3DDev   = NULL;
-    m_pD3DDevEx = NULL;
+    m_pFont     = nullptr;
+    m_pLine     = nullptr;
+    m_pD3DDev   = nullptr;
+    m_pD3DDevEx = nullptr;
 
     CleanupRenderingEngine();
 
-    m_pD3D   = NULL;
-    m_pD3DEx = NULL;
+    m_pD3D   = nullptr;
+    m_pD3DEx = nullptr;
     if (m_hDWMAPI) {
         FreeLibrary(m_hDWMAPI);
-        m_hDWMAPI = NULL;
+        m_hDWMAPI = nullptr;
     }
     if (m_hD3D9) {
         FreeLibrary(m_hD3D9);
-        m_hD3D9 = NULL;
+        m_hD3D9 = nullptr;
     }
 }
 
@@ -487,9 +487,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     ZeroMemory(m_ClockChangeHistory, sizeof(m_ClockChangeHistory));
     m_ClockTimeChangeHistoryPos = 0;
 
-    m_pD3DDev = NULL;
-    m_pD3DDevEx = NULL;
-    m_pDirectDraw = NULL;
+    m_pD3DDev = nullptr;
+    m_pD3DDevEx = nullptr;
+    m_pDirectDraw = nullptr;
 
     CleanupRenderingEngine();
 
@@ -538,7 +538,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     //#define ENABLE_DDRAWSYNC
 #ifdef ENABLE_DDRAWSYNC
-    hr = DirectDrawCreate(NULL, &m_pDirectDraw, NULL);
+    hr = DirectDrawCreate(nullptr, &m_pDirectDraw, nullptr);
     if (hr == S_OK) {
         hr = m_pDirectDraw->SetCooperativeLevel(m_hWnd, DDSCL_NORMAL);
     }
@@ -601,7 +601,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         }
         m_D3DDevExError = L"No m_pD3DEx";
         if (m_pD3DEx) {
-            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
+            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
 
             DisplayMode.Format = pp.BackBufferFormat;
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
@@ -653,7 +653,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         }
 
         if (m_pD3DEx) {
-            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
+            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
             m_RefreshRate = DisplayMode.RefreshRate;
             pp.BackBufferWidth = m_ScreenSize.cx;
@@ -664,7 +664,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             hr = m_pD3DEx->CreateDeviceEx(
                      m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                      GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
-                     &pp, NULL, &m_pD3DDevEx);
+                     &pp, nullptr, &m_pD3DDevEx);
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_DisplayType = DisplayMode.Format;
@@ -785,7 +785,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
     }
 
-    m_pFont = NULL;
+    m_pFont = nullptr;
     if (m_pD3DXCreateFont) {
         int MinSize = 1600;
         int CurrentSize = min(m_ScreenSize.cx, MinSize);
@@ -806,14 +806,14 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     }
 
 
-    m_pSprite = NULL;
+    m_pSprite = nullptr;
 
     if (m_pD3DXCreateSprite) {
         m_pD3DXCreateSprite(m_pD3DDev,                 // D3D device
                             &m_pSprite);
     }
 
-    m_pLine = NULL;
+    m_pLine = nullptr;
     if (m_pD3DXCreateLine) {
         m_pD3DXCreateLine(m_pD3DDev, &m_pLine);
     }
@@ -841,7 +841,7 @@ void CDX9AllocatorPresenter::DeleteSurfaces()
 
 UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 {
-    if (m_hWnd == NULL || pD3D == NULL) {
+    if (m_hWnd == nullptr || pD3D == nullptr) {
         return D3DADAPTER_DEFAULT;
     }
 
@@ -863,7 +863,7 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
     }
 
     HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-    if (hMonitor == NULL) {
+    if (hMonitor == nullptr) {
         return D3DADAPTER_DEFAULT;
     }
 
@@ -1304,7 +1304,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
     // Clear the backbuffer
     m_pD3DDev->SetRenderTarget(0, pBackBuffer);
-    hr = m_pD3DDev->Clear(0, NULL, D3DCLEAR_TARGET, 0, 1.0f, 0);
+    hr = m_pD3DDev->Clear(0, nullptr, D3DCLEAR_TARGET, 0, 1.0f, 0);
 
     CRect rSrcVid(CPoint(0, 0), GetVisibleVideoSize());
     CRect rDstVid(m_VideoRect);
@@ -1337,28 +1337,28 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE) {
         CAutoLock BitMapLock(&m_VMR9AlphaBitmapLock);
         CRect rcSrc(m_VMR9AlphaBitmap.rSrc);
-        m_pOSDTexture = NULL;
-        m_pOSDSurface = NULL;
+        m_pOSDTexture = nullptr;
+        m_pOSDSurface = nullptr;
         if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE*)m_VMR9AlphaBitmapData) {
-            if ((m_pD3DXLoadSurfaceFromMemory != NULL) &&
+            if ((m_pD3DXLoadSurfaceFromMemory != nullptr) &&
                     SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1,
                                    D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-                                   D3DPOOL_DEFAULT, &m_pOSDTexture, NULL))) {
+                                   D3DPOOL_DEFAULT, &m_pOSDTexture, nullptr))) {
                 if (SUCCEEDED(hr = m_pOSDTexture->GetSurfaceLevel(0, &m_pOSDSurface))) {
                     hr = m_pD3DXLoadSurfaceFromMemory(m_pOSDSurface,
-                                                      NULL,
-                                                      NULL,
+                                                      nullptr,
+                                                      nullptr,
                                                       (BYTE*)m_VMR9AlphaBitmapData,
                                                       D3DFMT_A8R8G8B8,
                                                       m_VMR9AlphaBitmapWidthBytes,
-                                                      NULL,
+                                                      nullptr,
                                                       &m_VMR9AlphaBitmapRect,
                                                       D3DX_FILTER_NONE,
                                                       m_VMR9AlphaBitmap.clrSrcKey);
                 }
                 if (FAILED(hr)) {
-                    m_pOSDTexture = NULL;
-                    m_pOSDSurface = NULL;
+                    m_pOSDTexture = nullptr;
+                    m_pOSDSurface = nullptr;
                 }
             }
         }
@@ -1448,15 +1448,15 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         LONGLONG llPerf = pApp->GetPerfCounter();
         if (m_pD3DDevEx) {
             if (m_bIsFullscreen) {
-                hr = m_pD3DDevEx->PresentEx(NULL, NULL, NULL, NULL, NULL);
+                hr = m_pD3DDevEx->PresentEx(nullptr, nullptr, nullptr, nullptr, 0);
             } else {
-                hr = m_pD3DDevEx->PresentEx(rSrcPri, rDstPri, NULL, NULL, NULL);
+                hr = m_pD3DDevEx->PresentEx(rSrcPri, rDstPri, nullptr, nullptr, 0);
             }
         } else {
             if (m_bIsFullscreen) {
-                hr = m_pD3DDev->Present(NULL, NULL, NULL, NULL);
+                hr = m_pD3DDev->Present(nullptr, nullptr, nullptr, nullptr);
             } else {
-                hr = m_pD3DDev->Present(rSrcPri, rDstPri, NULL, NULL);
+                hr = m_pD3DDev->Present(rSrcPri, rDstPri, nullptr, nullptr);
             }
         }
         // Issue an End event
@@ -1644,7 +1644,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
     if (FAILED(hr = CreateDevice(Error)) || FAILED(hr = AllocSurfaces())) {
         // TODO: We should probably pause player
 #ifdef _DEBUG
-        Error += GetWindowsErrorMessage(hr, NULL);
+        Error += GetWindowsErrorMessage(hr, nullptr);
         TRACE(_T("D3D Reset Error\n%ws\n\n"), Error.GetBuffer());
 #endif
         m_bDeviceResetRequested = false;
@@ -2119,26 +2119,26 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     CComPtr<IDirect3DSurface9> pSurface;
     if (m_bFullFloatingPointProcessing || m_bHalfFloatingPointProcessing || m_bHighColorResolution) {
         CComPtr<IDirect3DSurface9> fSurface = m_pVideoSurface[m_nCurSurface];
-        if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &fSurface, NULL))
-                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(fSurface, NULL, NULL, m_pVideoSurface[m_nCurSurface], NULL, NULL, D3DX_DEFAULT, 0))) {
+        if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &fSurface, nullptr))
+                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(fSurface, nullptr, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, nullptr, D3DX_DEFAULT, 0))) {
             return hr;
         }
         pSurface = fSurface;
-        if (FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
-            pSurface = NULL;
-            if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
+        if (FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
+            pSurface = nullptr;
+            if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, nullptr))
                     || FAILED(hr = m_pD3DDev->GetRenderTargetData(fSurface, pSurface))
-                    || FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
+                    || FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
                 return hr;
             }
         }
     } else {
         pSurface = m_pVideoSurface[m_nCurSurface];
-        if (FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
-            pSurface = NULL;
-            if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
+        if (FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
+            pSurface = nullptr;
+            if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, nullptr))
                     || FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
-                    || FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
+                    || FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
                 return hr;
             }
         }

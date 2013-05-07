@@ -58,18 +58,18 @@ CMiniDump::~CMiniDump()
 
 LPTOP_LEVEL_EXCEPTION_FILTER WINAPI MyDummySetUnhandledExceptionFilter(LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter)
 {
-    return NULL;
+    return nullptr;
 }
 
 BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 {
     HMODULE hKernel32 = LoadLibrary(_T("kernel32.dll"));
-    if (hKernel32 == NULL) {
+    if (hKernel32 == nullptr) {
         return FALSE;
     }
 
     void* pOrgEntry = GetProcAddress(hKernel32, "SetUnhandledExceptionFilter");
-    if (pOrgEntry == NULL) {
+    if (pOrgEntry == nullptr) {
         FreeLibrary(hKernel32);
         return FALSE;
     }
@@ -92,7 +92,7 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelExceptionFilter)
 {
     LONG    retval = EXCEPTION_CONTINUE_SEARCH;
-    HMODULE hDll = NULL;
+    HMODULE hDll = nullptr;
     TCHAR   szResult[800];
     szResult[0] = _T('\0');
     CString strDumpPath;
@@ -104,11 +104,11 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
 #ifndef DISABLE_MINIDUMP
     hDll = ::LoadLibrary(_T("dbghelp.dll"));
 
-    if (hDll != NULL) {
+    if (hDll != nullptr) {
         MINIDUMPWRITEDUMP pMiniDumpWriteDump = (MINIDUMPWRITEDUMP)::GetProcAddress(hDll, "MiniDumpWriteDump");
-        if (pMiniDumpWriteDump != NULL) {
+        if (pMiniDumpWriteDump != nullptr) {
             if (!AfxGetMyApp()->IsIniValid()) {
-                HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, strDumpPath.GetBuffer(MAX_PATH));
+                HRESULT hr = SHGetFolderPath(nullptr, CSIDL_APPDATA, nullptr, 0, strDumpPath.GetBuffer(MAX_PATH));
                 if (FAILED(hr)) {
                     FreeLibrary(hDll);
                     return retval;
@@ -124,18 +124,18 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
             strDumpPath.AppendFormat(_T(".%d.%d.%d.%d.dmp"), MPC_VERSION_NUM);
 
             // create the file
-            HANDLE hFile = ::CreateFile(strDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
-                                        FILE_ATTRIBUTE_NORMAL, NULL);
+            HANDLE hFile = ::CreateFile(strDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS,
+                                        FILE_ATTRIBUTE_NORMAL, nullptr);
 
             if (hFile != INVALID_HANDLE_VALUE) {
                 _MINIDUMP_EXCEPTION_INFORMATION ExInfo;
 
                 ExInfo.ThreadId = ::GetCurrentThreadId();
                 ExInfo.ExceptionPointers = lpTopLevelExceptionFilter;
-                ExInfo.ClientPointers = NULL;
+                ExInfo.ClientPointers = FALSE;
 
                 // write the dump
-                BOOL bOK = pMiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL);
+                BOOL bOK = pMiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, nullptr, nullptr);
                 if (bOK) {
                     _stprintf_s(szResult, _countof(szResult), ResStr(IDS_MPC_CRASH), strDumpPath);
                     retval = EXCEPTION_EXECUTE_HANDLER;
@@ -152,9 +152,9 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
     }
 
     if (szResult[0]) {
-        switch (MessageBox(NULL, szResult, _T("MPC-HC - Mini Dump"), retval ? MB_YESNO : MB_OK)) {
+        switch (MessageBox(nullptr, szResult, _T("MPC-HC - Mini Dump"), retval ? MB_YESNO : MB_OK)) {
             case IDYES:
-                ShellExecute(NULL, _T("open"), BUGS_URL, NULL, NULL, SW_SHOWDEFAULT);
+                ShellExecute(nullptr, _T("open"), BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
                 ExploreToFile(strDumpPath);
                 break;
             case IDNO:
@@ -163,8 +163,8 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
         }
     }
 #else
-    if (MessageBox(NULL, ResStr(IDS_MPC_BUG_REPORT), ResStr(IDS_MPC_BUG_REPORT_TITLE), MB_YESNO) == IDYES) {
-        ShellExecute(NULL, _T("open"), DOWNLOAD_URL, NULL, NULL, SW_SHOWDEFAULT);
+    if (MessageBox(nullptr, ResStr(IDS_MPC_BUG_REPORT), ResStr(IDS_MPC_BUG_REPORT_TITLE), MB_YESNO) == IDYES) {
+        ShellExecute(nullptr, _T("open"), DOWNLOAD_URL, nullptr, nullptr, SW_SHOWDEFAULT);
     }
 #endif // DISABLE_MINIDUMP
 

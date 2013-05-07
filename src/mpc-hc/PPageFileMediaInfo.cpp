@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -42,14 +42,14 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString fn, IFilterGraph* pFG)
     : CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
     , m_fn(fn)
     , m_pFG(pFG)
-    , m_pCFont(NULL)
+    , m_pCFont(nullptr)
 {
 }
 
 CPPageFileMediaInfo::~CPPageFileMediaInfo()
 {
     delete m_pCFont;
-    m_pCFont = NULL;
+    m_pCFont = nullptr;
 }
 
 void CPPageFileMediaInfo::DoDataExchange(CDataExchange* pDX)
@@ -95,7 +95,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
         BeginEnumFilters(m_pFG, pEF, pBF) {
             CComQIPtr<IFileSourceFilter> pFSF = pBF;
             if (pFSF) {
-                LPOLESTR pFN = NULL;
+                LPOLESTR pFN = nullptr;
                 AM_MEDIA_TYPE mt;
                 if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
                     m_fn = CStringW(pFN);

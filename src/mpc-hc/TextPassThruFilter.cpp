@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,7 +44,7 @@ protected:
             if (pSubStream) {
                 m_pTPTFilter->m_pMainFrame->ReplaceSubtitle(m_pSubStreamOld, pSubStream);
             }
-            m_pSubStreamOld = NULL;
+            m_pSubStreamOld = nullptr;
         }
     }
 
@@ -212,7 +212,7 @@ HRESULT CTextPassThruOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 //
 
 CTextPassThruFilter::CTextPassThruFilter(CMainFrame* pMainFrame)
-    : CBaseFilter(NAME("CTextPassThruFilter"), NULL, this, __uuidof(this))
+    : CBaseFilter(NAME("CTextPassThruFilter"), nullptr, this, __uuidof(this))
     , m_pMainFrame(pMainFrame)
 {
     HRESULT hr;
@@ -223,9 +223,9 @@ CTextPassThruFilter::CTextPassThruFilter(CMainFrame* pMainFrame)
 CTextPassThruFilter::~CTextPassThruFilter()
 {
     delete m_pInput;
-    m_pInput = NULL;
+    m_pInput = nullptr;
     delete m_pOutput;
-    m_pOutput = NULL;
+    m_pOutput = nullptr;
 }
 
 STDMETHODIMP CTextPassThruFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -252,5 +252,5 @@ CBasePin* CTextPassThruFilter::GetPin(int n)
     } else if (n == 1) {
         return m_pOutput;
     }
-    return NULL;
+    return nullptr;
 }

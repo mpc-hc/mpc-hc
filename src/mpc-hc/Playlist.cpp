@@ -80,7 +80,7 @@ POSITION CPlaylistItem::FindFile(LPCTSTR path)
         }
         m_fns.GetNext(pos);
     }
-    return NULL;
+    return nullptr;
 }
 
 static CString StripPath(CString path)
@@ -221,7 +221,7 @@ void CPlaylistItem::AutoLoadFiles()
 //
 
 CPlaylist::CPlaylist()
-    : m_pos(NULL)
+    : m_pos(nullptr)
 {
 }
 
@@ -232,8 +232,8 @@ CPlaylist::~CPlaylist()
 bool CPlaylist::RemoveAll()
 {
     __super::RemoveAll();
-    bool bWasPlaying = (m_pos != NULL);
-    m_pos = NULL;
+    bool bWasPlaying = (m_pos != nullptr);
+    m_pos = nullptr;
     return bWasPlaying;
 }
 
@@ -242,7 +242,7 @@ bool CPlaylist::RemoveAt(POSITION pos)
     if (pos) {
         __super::RemoveAt(pos);
         if (m_pos == pos) {
-            m_pos = NULL;
+            m_pos = nullptr;
             return true;
         }
     }
@@ -332,7 +332,7 @@ void CPlaylist::Randomize()
 {
     CAtlArray<plsort_t> a;
     a.SetCount(GetCount());
-    srand((unsigned int)time(NULL));
+    srand((unsigned int)time(nullptr));
     POSITION pos = GetHeadPosition();
     for (int i = 0; pos; i++, GetNext(pos)) {
         a[i].n = rand(), a[i].pos = pos;
@@ -377,7 +377,7 @@ POSITION CPlaylist::Shuffle()
         }
 
         //Use Fisher-Yates shuffle algorithm
-        srand((unsigned)time(NULL));
+        srand((unsigned)time(nullptr));
         for (INT_PTR i = 0; i < (count - 1); i++) {
             INT_PTR r = i + (rand() % (count - i));
             POSITION temp = a[i].pos;

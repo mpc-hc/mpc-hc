@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,7 +28,7 @@
 // CSaveDlg dialog
 
 IMPLEMENT_DYNAMIC(CSaveDlg, CCmdUIDialog)
-CSaveDlg::CSaveDlg(CString in, CString out, CWnd* pParent /*=NULL*/)
+CSaveDlg::CSaveDlg(CString in, CString out, CWnd* pParent /*=nullptr*/)
     : CCmdUIDialog(CSaveDlg::IDD, pParent)
     , m_in(in)
     , m_out(out)
@@ -93,8 +93,8 @@ BOOL CSaveDlg::OnInitDialog()
 #if INTERNAL_SOURCEFILTER_CDDA
     if (!pReader && m_in.Mid(m_in.ReverseFind('.') + 1).MakeLower() == _T("cda")) {
         hr = S_OK;
-        CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW CCDDAReader(NULL, &hr);
-        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
+        CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW CCDDAReader(nullptr, &hr);
+        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, nullptr))) {
             pReader.Release();
         }
     }
@@ -103,8 +103,8 @@ BOOL CSaveDlg::OnInitDialog()
 #if INTERNAL_SOURCEFILTER_CDXA
     if (!pReader) {
         hr = S_OK;
-        CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW CCDXAReader(NULL, &hr);
-        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
+        CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW CCDXAReader(nullptr, &hr);
+        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, nullptr))) {
             pReader.Release();
         }
     }
@@ -113,8 +113,8 @@ BOOL CSaveDlg::OnInitDialog()
 #if INTERNAL_SOURCEFILTER_VTS
     if (!pReader /*&& ext == _T("ifo")*/) {
         hr = S_OK;
-        CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW CVTSReader(NULL, &hr);
-        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
+        CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW CVTSReader(nullptr, &hr);
+        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, nullptr))) {
             pReader.Release();
         } else {
             CPath pout(m_out);
@@ -128,7 +128,7 @@ BOOL CSaveDlg::OnInitDialog()
         hr = S_OK;
         CComPtr<IUnknown> pUnk;
         hr = pUnk.CoCreateInstance(CLSID_AsyncReader);
-        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
+        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, nullptr))) {
             pReader.Release();
         }
     }
@@ -139,7 +139,7 @@ BOOL CSaveDlg::OnInitDialog()
         hr = pUnk.CoCreateInstance(CLSID_URLReader);
         if (CComQIPtr<IBaseFilter> pSrc = pUnk) { // url reader has to be in the graph to load the file
             hr = pGB->AddFilter(pSrc, fnw);
-            if (FAILED(hr) || !(pReader = pUnk) || FAILED(hr = pReader->Load(fnw, NULL))) {
+            if (FAILED(hr) || !(pReader = pUnk) || FAILED(hr = pReader->Load(fnw, nullptr))) {
                 pReader.Release();
                 pGB->RemoveFilter(pSrc);
             }
@@ -152,7 +152,7 @@ BOOL CSaveDlg::OnInitDialog()
         return FALSE;
     }
 
-    CComQIPtr<IBaseFilter> pMid = DEBUG_NEW CStreamDriveThruFilter(NULL, &hr);
+    CComQIPtr<IBaseFilter> pMid = DEBUG_NEW CStreamDriveThruFilter(nullptr, &hr);
     if (FAILED(pGB->AddFilter(pMid, L"StreamDriveThru"))) {
         m_report.SetWindowText(_T("Error"));
         return FALSE;
@@ -161,7 +161,7 @@ BOOL CSaveDlg::OnInitDialog()
     CComQIPtr<IBaseFilter> pDst;
     pDst.CoCreateInstance(CLSID_FileWriter);
     CComQIPtr<IFileSinkFilter2> pFSF = pDst;
-    pFSF->SetFileName(CStringW(m_out), NULL);
+    pFSF->SetFileName(CStringW(m_out), nullptr);
     pFSF->SetMode(AM_FILE_OVERWRITE);
     if (FAILED(pGB->AddFilter(pDst, L"File Writer"))) {
         m_report.SetWindowText(_T("Error"));
@@ -189,7 +189,7 @@ BOOL CSaveDlg::OnInitDialog()
 
     pMC->Run();
 
-    m_nIDTimerEvent = SetTimer(1, 500, NULL);
+    m_nIDTimerEvent = SetTimer(1, 500, nullptr);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

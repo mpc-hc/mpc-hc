@@ -29,7 +29,7 @@
 // COpenDlg dialog
 
 //IMPLEMENT_DYNAMIC(COpenDlg, CResizableDialog)
-COpenDlg::COpenDlg(CWnd* pParent /*=NULL*/)
+COpenDlg::COpenDlg(CWnd* pParent /*=nullptr*/)
     : CResizableDialog(COpenDlg::IDD, pParent)
     , m_path(_T(""))
     , m_path2(_T(""))
@@ -145,7 +145,7 @@ void COpenDlg::OnBnClickedBrowsebutton()
         dwFlags |= OFN_DONTADDTORECENT;
     }
 
-    COpenFileDlg fd(mask, true, NULL, m_path, dwFlags, filter, this);
+    COpenFileDlg fd(mask, true, nullptr, m_path, dwFlags, filter, this);
     if (fd.DoModal() != IDOK) {
         return;
     }
@@ -192,7 +192,7 @@ void COpenDlg::OnBnClickedBrowsebutton2()
         dwFlags |= OFN_DONTADDTORECENT;
     }
 
-    COpenFileDlg fd(mask, false, NULL, m_path2, dwFlags, filter, this);
+    COpenFileDlg fd(mask, false, nullptr, m_path2, dwFlags, filter, this);
 
     if (fd.DoModal() != IDOK) {
         return;

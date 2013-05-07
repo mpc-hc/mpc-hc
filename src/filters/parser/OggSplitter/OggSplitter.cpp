@@ -41,18 +41,18 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, 0, nullptr}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
     {&__uuidof(COggSplitterFilter), OggSplitterName, MERIT_NORMAL + 1, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(COggSourceFilter), OggSourceName, MERIT_NORMAL + 1, 0, NULL, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(COggSourceFilter), OggSourceName, MERIT_NORMAL + 1, 0, nullptr, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<COggSplitterFilter>, NULL, &sudFilter[0]},
-    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<COggSourceFilter>, NULL, &sudFilter[1]},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<COggSplitterFilter>, nullptr, &sudFilter[0]},
+    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<COggSourceFilter>, nullptr, &sudFilter[1]},
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -63,7 +63,7 @@ STDAPI DllRegisterServer()
         CLSID_AsyncReader,
         MEDIASUBTYPE_Ogg,
         _T("0,4,,4F676753"), // OggS
-        _T(".ogg"), _T(".ogm"), NULL);
+        _T(".ogg"), _T(".ogm"), nullptr);
 
     return AMovieDllRegisterServer2(TRUE);
 }
@@ -557,7 +557,7 @@ bool COggSplitterFilter::DemuxLoop()
     HRESULT hr = S_OK;
 
     OggPage page;
-    while (SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->Read(page, true, GetRequestHandle())) {
+    while (SUCCEEDED(hr) && !CheckRequest(nullptr) && m_pFile->Read(page, true, GetRequestHandle())) {
         COggSplitterOutputPin* pOggPin = dynamic_cast<COggSplitterOutputPin*>(GetOutputPin(page.m_hdr.bitstream_serial_number));
         if (!pOggPin) {
             ASSERT(0);
@@ -571,7 +571,7 @@ bool COggSplitterFilter::DemuxLoop()
             break;
         }
         CAutoPtr<OggPacket> p;
-        while (!CheckRequest(NULL) && SUCCEEDED(hr) && (p = pOggPin->GetPacket())) {
+        while (!CheckRequest(nullptr) && SUCCEEDED(hr) && (p = pOggPin->GetPacket())) {
             if (!p->fSkip) {
                 hr = DeliverPacket(p);
             }
@@ -1191,7 +1191,7 @@ COggAudioOutputPin::COggAudioOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseF
 
     CMediaType mt;
     mt.majortype = MEDIATYPE_Audio;
-    mt.subtype = FOURCCMap(strtol(CStringA(h->subtype, 4), NULL, 16));
+    mt.subtype = FOURCCMap(strtol(CStringA(h->subtype, 4), nullptr, 16));
     mt.formattype = FORMAT_WaveFormatEx;
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + extra);
     memset(mt.Format(), 0, mt.FormatLength());

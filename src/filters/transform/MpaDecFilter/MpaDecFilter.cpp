@@ -197,8 +197,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -206,7 +206,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, &__uuidof(CMpaDecFilter), CreateInstance<CMpaDecFilter>, NULL, &sudFilter[0]},
+    {sudFilter[0].strName, &__uuidof(CMpaDecFilter), CreateInstance<CMpaDecFilter>, nullptr, &sudFilter[0]},
     {L"CMpaDecPropertyPage", &__uuidof(CMpaDecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpaDecSettingsWnd>>},
 };
 
@@ -352,7 +352,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         *phr = E_OUTOFMEMORY;
     }
     if (FAILED(*phr))  {
-        delete m_pInput, m_pInput = NULL;
+        delete m_pInput, m_pInput = nullptr;
         return;
     }
 
@@ -507,10 +507,10 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
         CMediaType mt(*pmt);
         m_pInput->SetMediaType(&mt);
         DeleteMediaType(pmt);
-        pmt = NULL;
+        pmt = nullptr;
     }
 
-    BYTE* pDataIn = NULL;
+    BYTE* pDataIn = nullptr;
     if (FAILED(hr = pIn->GetPointer(&pDataIn))) {
         return hr;
     }
@@ -1494,19 +1494,19 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
 {
     HRESULT hr;
-    *pData = NULL;
+    *pData = nullptr;
 
-    if (FAILED(hr = m_pOutput->GetDeliveryBuffer(pSample, NULL, NULL, 0))
+    if (FAILED(hr = m_pOutput->GetDeliveryBuffer(pSample, nullptr, nullptr, 0))
             || FAILED(hr = (*pSample)->GetPointer(pData))) {
         return hr;
     }
 
-    AM_MEDIA_TYPE* pmt = NULL;
+    AM_MEDIA_TYPE* pmt = nullptr;
     if (SUCCEEDED((*pSample)->GetMediaType(&pmt)) && pmt) {
         CMediaType mt = *pmt;
         m_pOutput->SetMediaType(&mt);
         DeleteMediaType(pmt);
-        pmt = NULL;
+        pmt = nullptr;
     }
 
     return S_OK;
@@ -1584,7 +1584,7 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
     }
 
     CComPtr<IMediaSample> pOut;
-    BYTE* pDataOut = NULL;
+    BYTE* pDataOut = nullptr;
     if (FAILED(GetDeliveryBuffer(&pOut, &pDataOut))) {
         return E_FAIL;
     }
@@ -1595,7 +1595,7 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
     }
 
     pOut->SetTime(&rtStart, &rtStop);
-    pOut->SetMediaTime(NULL, NULL);
+    pOut->SetMediaTime(nullptr, nullptr);
 
     pOut->SetPreroll(FALSE);
     pOut->SetDiscontinuity(m_fDiscontinuity);
@@ -1681,7 +1681,7 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sa
     }
 
     CComPtr<IMediaSample> pOut;
-    BYTE* pDataOut = NULL;
+    BYTE* pDataOut = nullptr;
     if (FAILED(GetDeliveryBuffer(&pOut, &pDataOut))) {
         return E_FAIL;
     }
@@ -1734,7 +1734,7 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sa
     }
 
     pOut->SetTime(&rtStart, &rtStop);
-    pOut->SetMediaTime(NULL, NULL);
+    pOut->SetMediaTime(nullptr, nullptr);
 
     pOut->SetPreroll(FALSE);
     pOut->SetDiscontinuity(m_fDiscontinuity);
@@ -2000,7 +2000,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 
     CMediaType mt = m_pInput->CurrentMediaType();
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
-    if (wfe == NULL) {
+    if (wfe == nullptr) {
         return E_INVALIDARG;
     }
 
@@ -2296,7 +2296,7 @@ STDMETHODIMP CMpaDecFilter::GetPages(CAUUID* pPages)
 
     pPages->cElems = 1;
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
-    if (pPages->pElems != NULL) {
+    if (pPages->pElems != nullptr) {
         pPages->pElems[0] = __uuidof(CMpaDecSettingsWnd);
     } else {
         hr = E_OUTOFMEMORY;
@@ -2309,14 +2309,14 @@ STDMETHODIMP CMpaDecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)
 {
     CheckPointer(ppPage, E_POINTER);
 
-    if (*ppPage != NULL) {
+    if (*ppPage != nullptr) {
         return E_INVALIDARG;
     }
 
     HRESULT hr;
 
     if (guid == __uuidof(CMpaDecSettingsWnd)) {
-        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMpaDecSettingsWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMpaDecSettingsWnd>(nullptr, &hr))->AddRef();
     }
 
     return *ppPage ? S_OK : E_FAIL;

@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,7 @@
 #include "SyncClock.h"
 
 CSyncClockFilter::CSyncClockFilter(LPUNKNOWN pUnk, HRESULT* phr)
-    : CBaseFilter(NAME("SyncClock"), NULL, &m_Lock, CLSID_NULL)
+    : CBaseFilter(NAME("SyncClock"), nullptr, &m_Lock, CLSID_NULL)
     , m_Clock(static_cast<IBaseFilter*>(this), phr)
 {
 }
@@ -76,7 +76,7 @@ int CSyncClockFilter::GetPinCount()
 CBasePin* CSyncClockFilter::GetPin(int i)
 {
     UNREFERENCED_PARAMETER(i);
-    return NULL;
+    return nullptr;
 }
 
 // CSyncClock methods

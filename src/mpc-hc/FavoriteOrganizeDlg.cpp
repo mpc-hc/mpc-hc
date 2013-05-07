@@ -28,7 +28,7 @@
 // CFavoriteOrganizeDlg dialog
 
 //IMPLEMENT_DYNAMIC(CFavoriteOrganizeDlg, CResizableDialog)
-CFavoriteOrganizeDlg::CFavoriteOrganizeDlg(CWnd* pParent /*=NULL*/)
+CFavoriteOrganizeDlg::CFavoriteOrganizeDlg(CWnd* pParent /*=nullptr*/)
     : CResizableDialog(CFavoriteOrganizeDlg::IDD, pParent)
 {
 }
@@ -300,7 +300,7 @@ void CFavoriteOrganizeDlg::OnDeleteBnClicked()
     POSITION pos;
     int nItem = -1;
 
-    while ((pos = m_list.GetFirstSelectedItemPosition()) != NULL) {
+    while ((pos = m_list.GetFirstSelectedItemPosition()) != nullptr) {
         nItem = m_list.GetNextSelectedItem(pos);
         if (nItem < 0 || nItem >= m_list.GetItemCount()) {
             return;

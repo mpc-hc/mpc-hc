@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -65,13 +65,13 @@ CmadVRAllocatorPresenter::~CmadVRAllocatorPresenter()
 {
     if (m_pSRCB) {
         // nasty, but we have to let it know about our death somehow
-        ((CSubRenderCallback*)(ISubRenderCallback2*)m_pSRCB)->SetDXRAP(NULL);
+        ((CSubRenderCallback*)(ISubRenderCallback2*)m_pSRCB)->SetDXRAP(nullptr);
     }
 
     // the order is important here
-    m_pSubPicQueue = NULL;
-    m_pAllocator = NULL;
-    m_pDXR = NULL;
+    m_pSubPicQueue = nullptr;
+    m_pAllocator = nullptr;
+    m_pDXR = nullptr;
 }
 
 STDMETHODIMP CmadVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -102,8 +102,8 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 {
     if (!pD3DDev) {
         // release all resources
-        m_pSubPicQueue = NULL;
-        m_pAllocator = NULL;
+        m_pSubPicQueue = nullptr;
+        m_pAllocator = nullptr;
         return S_OK;
     }
 
@@ -197,13 +197,13 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 
     CComQIPtr<ISubRender> pSR = m_pDXR;
     if (!pSR) {
-        m_pDXR = NULL;
+        m_pDXR = nullptr;
         return E_FAIL;
     }
 
     m_pSRCB = DEBUG_NEW CSubRenderCallback(this);
     if (FAILED(pSR->SetCallback(m_pSRCB))) {
-        m_pDXR = NULL;
+        m_pDXR = nullptr;
         return E_FAIL;
     }
 
@@ -268,7 +268,7 @@ STDMETHODIMP CmadVRAllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pT
         if ((!pSrcData) && (!pTarget)) {
             hr = pEPS->ClearPixelShaders(false);
         } else {
-            hr = pEPS->AddPixelShader(pSrcData, pTarget, ShaderStage_PreScale, NULL);
+            hr = pEPS->AddPixelShader(pSrcData, pTarget, ShaderStage_PreScale, nullptr);
         }
     }
     return hr;
@@ -281,7 +281,7 @@ STDMETHODIMP CmadVRAllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR p
         if ((!pSrcData) && (!pTarget)) {
             hr = pEPS->ClearPixelShaders(bScreenSpace);
         } else {
-            hr = pEPS->AddPixelShader(pSrcData, pTarget, bScreenSpace ? ShaderStage_PostScale : ShaderStage_PreScale, NULL);
+            hr = pEPS->AddPixelShader(pSrcData, pTarget, bScreenSpace ? ShaderStage_PostScale : ShaderStage_PreScale, nullptr);
         }
     }
     return hr;

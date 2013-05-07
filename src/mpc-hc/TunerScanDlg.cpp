@@ -44,7 +44,7 @@ enum TSC_COLUMN {
 
 IMPLEMENT_DYNAMIC(CTunerScanDlg, CDialog)
 
-CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=NULL*/)
+CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CTunerScanDlg::IDD, pParent)
     , m_bInProgress(false)
 {

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -67,7 +67,7 @@ void CFontInstaller::UninstallFonts()
             CString fn = m_files.GetNext(pos);
             pRemoveFontResourceEx(fn, FR_PRIVATE, 0);
             if (!DeleteFile(fn) && pMoveFileEx) {
-                pMoveFileEx(fn, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+                pMoveFileEx(fn, nullptr, MOVEFILE_DELAY_UNTIL_REBOOT);
             }
         }
 
@@ -82,7 +82,7 @@ bool CFontInstaller::InstallFontMemory(const void* pData, UINT len)
     }
 
     DWORD nFonts = 0;
-    HANDLE hFont = pAddFontMemResourceEx((PVOID)pData, len, NULL, &nFonts);
+    HANDLE hFont = pAddFontMemResourceEx((PVOID)pData, len, nullptr, &nFonts);
     if (hFont && nFonts > 0) {
         m_fonts.AddTail(hFont);
     }

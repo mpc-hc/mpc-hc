@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,7 +28,7 @@
 // CFavoriteAddDlg dialog
 
 IMPLEMENT_DYNAMIC(CFavoriteAddDlg, CCmdUIDialog)
-CFavoriteAddDlg::CFavoriteAddDlg(CString shortname, CString fullname, CWnd* pParent /*=NULL*/)
+CFavoriteAddDlg::CFavoriteAddDlg(CString shortname, CString fullname, CWnd* pParent /*=nullptr*/)
     : CCmdUIDialog(CFavoriteAddDlg::IDD, pParent)
     , m_shortname(shortname)
     , m_fullname(fullname)

@@ -33,13 +33,13 @@ CStatusLabel::CStatusLabel(bool fRightAlign, bool fAddEllipses)
     : m_fRightAlign(fRightAlign)
     , m_fAddEllipses(fAddEllipses)
 {
-    m_font.m_hObject = NULL;
+    m_font.m_hObject = nullptr;
     if (SysVersion::IsVistaOrLater()) {
         LOGFONT lf;
         GetStatusFont(&lf);
         VERIFY(m_font.CreateFontIndirect(&lf));
     } else {
-        HDC hdc = ::GetDC(NULL);
+        HDC hdc = ::GetDC(nullptr);
         double scale = 1.0 * GetDeviceCaps(hdc, LOGPIXELSY) / 96.0;
         ::ReleaseDC(0, hdc);
         VERIFY(m_font.CreateFont(int(14 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,

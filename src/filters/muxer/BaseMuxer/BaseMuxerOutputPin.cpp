@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -51,7 +51,7 @@ IBitStream* CBaseMuxerOutputPin::GetBitStream()
 
 HRESULT CBaseMuxerOutputPin::BreakConnect()
 {
-    m_pBitStream = NULL;
+    m_pBitStream = nullptr;
 
     return __super::BreakConnect();
 }
@@ -108,7 +108,7 @@ HRESULT CBaseMuxerOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 
 HRESULT CBaseMuxerOutputPin::DeliverEndOfStream()
 {
-    m_pBitStream = NULL;
+    m_pBitStream = nullptr;
 
     return __super::DeliverEndOfStream();
 }
@@ -444,8 +444,8 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
         pBitStream->ByteWrite(&size, 4);
     } else if (mt.subtype == MEDIASUBTYPE_VOBSUB) {
         if (CComQIPtr<IFileSinkFilter> pFSF = GetFilterFromPin(GetConnected())) {
-            WCHAR* fn = NULL;
-            if (SUCCEEDED(pFSF->GetCurFile(&fn, NULL))) {
+            WCHAR* fn = nullptr;
+            if (SUCCEEDED(pFSF->GetCurFile(&fn, nullptr))) {
                 CPathW p(fn);
                 p.RenameExtension(L".idx");
                 CoTaskMemFree(fn);

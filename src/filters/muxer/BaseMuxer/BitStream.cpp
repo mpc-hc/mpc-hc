@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,7 +27,7 @@
 //
 
 CBitStream::CBitStream(IStream* pStream, bool fThrowError)
-    : CUnknown(_T("CBitStream"), NULL)
+    : CUnknown(_T("CBitStream"), nullptr)
     , m_pStream(pStream)
     , m_fThrowError(fThrowError)
     , m_bitlen(0)
@@ -35,7 +35,7 @@ CBitStream::CBitStream(IStream* pStream, bool fThrowError)
     ASSERT(m_pStream);
 
     LARGE_INTEGER li = {0};
-    m_pStream->Seek(li, STREAM_SEEK_SET, NULL);
+    m_pStream->Seek(li, STREAM_SEEK_SET, nullptr);
 
     ULARGE_INTEGER uli = {0};
     m_pStream->SetSize(uli); // not that it worked...
@@ -52,7 +52,7 @@ STDMETHODIMP CBitStream::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     CheckPointer(ppv, E_POINTER);
 
-    *ppv = NULL;
+    *ppv = nullptr;
 
     return
         QI(IBitStream)
@@ -117,7 +117,7 @@ STDMETHODIMP CBitStream::BitWrite(UINT64 data, int len)
 
     while (m_bitlen >= 8) {
         BYTE b = (BYTE)(m_bitbuff >> (m_bitlen - 8));
-        hr = m_pStream->Write(&b, 1, NULL);
+        hr = m_pStream->Write(&b, 1, nullptr);
         m_bitlen -= 8;
 
         ASSERT(SUCCEEDED(hr));
@@ -136,7 +136,7 @@ STDMETHODIMP CBitStream::BitFlush()
     if (m_bitlen > 0) {
         ASSERT(m_bitlen < 8);
         BYTE b = (BYTE)(m_bitbuff << (8 - m_bitlen));
-        hr = m_pStream->Write(&b, 1, NULL);
+        hr = m_pStream->Write(&b, 1, nullptr);
         m_bitlen = 0;
 
         ASSERT(SUCCEEDED(hr));

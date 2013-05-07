@@ -74,7 +74,7 @@ static AM_MEDIA_TYPE mt_Mpv = {
     TRUE,                           // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_MPEG2Video,              // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     sizeof(sMpv_fmt),               // cbFormat
     (LPBYTE)& sMpv_fmt              // pbFormat
 };
@@ -116,7 +116,7 @@ static AM_MEDIA_TYPE mt_H264 = {
     TRUE,                           // bTemporalCompression
     1,                              // lSampleSize
     FORMAT_VideoInfo2,              // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     sizeof(vih2_H264),              // cbFormat
     (LPBYTE)& vih2_H264             // pbFormat
 };
@@ -140,7 +140,7 @@ static const AM_MEDIA_TYPE mt_Mpa = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     sizeof(wf_Audio),               // cbFormat
     (LPBYTE)& wf_Audio              // pbFormat
 };
@@ -153,7 +153,7 @@ static const AM_MEDIA_TYPE mt_Ac3 = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     sizeof(wf_Audio),               // cbFormat
     (LPBYTE)& wf_Audio,             // pbFormat
 };
@@ -166,7 +166,7 @@ static const AM_MEDIA_TYPE mt_Eac3 = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     sizeof(wf_Audio),               // cbFormat
     (LPBYTE)& wf_Audio,             // pbFormat
 };
@@ -179,9 +179,9 @@ static const AM_MEDIA_TYPE mt_Psi = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     0,                              // cbFormat
-    NULL                            // pbFormat
+    nullptr                            // pbFormat
 };
 
 /// Media type, TIF
@@ -192,9 +192,9 @@ static const AM_MEDIA_TYPE mt_Tif = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     0,                              // cbFormat
-    NULL                            // pbFormat
+    nullptr                            // pbFormat
 };
 
 /// Media type, EPG
@@ -205,9 +205,9 @@ static const AM_MEDIA_TYPE mt_Epg = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     0,                              // cbFormat
-    NULL,                           // pbFormat
+    nullptr,                           // pbFormat
 };
 
 /// Media type, PMT
@@ -218,9 +218,9 @@ static const AM_MEDIA_TYPE mt_Pmt = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     0,                              // cbFormat
-    NULL                            // pbFormat
+    nullptr                            // pbFormat
 };
 
 static const SUBTITLEINFO SubFormat = { 0, "", L"" };
@@ -233,7 +233,7 @@ static const AM_MEDIA_TYPE mt_Subtitle = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    NULL,                           // pUnk
+    nullptr,                           // pUnk
     sizeof(SubFormat),              // cbFormat
     (LPBYTE)& SubFormat             // pbFormat
 };
@@ -312,16 +312,16 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
     BeginEnumSysDev(KSCategory, pMoniker) {
         CComPtr<IPropertyBag> pPB;
         CComVariant var;
-        LPOLESTR strName = NULL;
+        LPOLESTR strName = nullptr;
         if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB)) &&
-                SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName)) &&
-                SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+                SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName)) &&
+                SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             CStringW Name = CStringW(strName);
             if (Name != DisplayName) {
                 continue;
             }
 
-            hr = pMoniker->BindToObject(NULL, NULL, IID_IBaseFilter, (void**)ppBF);
+            hr = pMoniker->BindToObject(nullptr, nullptr, IID_IBaseFilter, (void**)ppBF);
             if (SUCCEEDED(hr)) {
                 hr = AddFilter(*ppBF, CStringW(var.bstrVal));
             }
@@ -379,7 +379,7 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
             BeginEnumPins(pInFilter, pEP, pInPin) {
                 if (S_OK == IsPinDirection(pInPin, PINDIR_INPUT)
                         && S_OK != IsPinConnected(pInPin)) {
-                    hr = this->ConnectDirect(pOutPin, pInPin, NULL);
+                    hr = this->ConnectDirect(pOutPin, pInPin, nullptr);
 
                     /*#ifdef _DEBUG
                     PIN_INFO InfoPinIn, InfoPinOut;
@@ -461,7 +461,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     }
 
     //    CComPtr<IBaseFilter> pMpeg2Demux;
-    if (FAILED(m_pDemux.CoCreateInstance(CLSID_MPEG2Demultiplexer, NULL, CLSCTX_INPROC_SERVER))) {
+    if (FAILED(m_pDemux.CoCreateInstance(CLSID_MPEG2Demultiplexer, nullptr, CLSCTX_INPROC_SERVER))) {
         MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
         TRACE(_T("BDA: Microsoft demux creation: 0x%08x\n"), hr);
     }
@@ -519,7 +519,7 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
         CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
 
         LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
-        if (pChannel != NULL) {
+        if (pChannel != nullptr) {
             hr = SetChannelInternal(pChannel);
 
             if (SUCCEEDED(hr)) {
@@ -656,8 +656,8 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
     HRESULT hr = E_INVALIDARG;
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-    DVBStreamInfo* pStreamInfo = NULL;
-    CDVBStream* pStream = NULL;
+    DVBStreamInfo* pStreamInfo = nullptr;
+    CDVBStream* pStream = nullptr;
     FILTER_STATE nState;
 
     if (pChannel) {
@@ -702,9 +702,9 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
     HRESULT hr = E_INVALIDARG;
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-    DVBStreamInfo* pStreamInfo = NULL;
-    CDVBStream* pStream = NULL;
-    CDVBStream* pCurrentStream = NULL;
+    DVBStreamInfo* pStreamInfo = nullptr;
+    CDVBStream* pStream = nullptr;
+    CDVBStream* pCurrentStream = nullptr;
 
     if (pChannel) {
         if (lIndex >= 0 && lIndex < pChannel->GetAudioCount()) {
@@ -742,7 +742,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
                 str = _T("No subtitles");
 
                 *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
-                if (*ppszName == NULL) {
+                if (*ppszName == nullptr) {
                     return E_OUTOFMEMORY;
                 }
                 wcscpy_s(*ppszName, str.GetLength() + 1, str);
@@ -762,10 +762,10 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
                 *plcid = pStreamInfo->GetLCID();
             }
             if (ppObject) {
-                *ppObject = NULL;
+                *ppObject = nullptr;
             }
             if (ppUnk) {
-                *ppUnk = NULL;
+                *ppUnk = nullptr;
             }
             if (ppszName) {
                 CStringW str;
@@ -777,7 +777,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
                 }
 
                 *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
-                if (*ppszName == NULL) {
+                if (*ppszName == nullptr) {
                     return E_OUTOFMEMORY;
                 }
                 wcscpy_s(*ppszName, str.GetLength() + 1, str);
@@ -817,16 +817,16 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
 
         if (nType != DVB_EPG) { // DVB_EPG not required
             if (!Stream.GetFindExisting() ||
-                    (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL) {
+                    (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == nullptr) {
                 CheckNoLog(pDemux->CreateOutputPin((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
             }
 
             if (nType == m_nCurVideoType || nType == m_nCurAudioType) {
-                CheckNoLog(Connect(pPin, NULL, true));
+                CheckNoLog(Connect(pPin, nullptr, true));
                 Stream.SetPin(pPin);
                 LOG(_T("Graph completed for stream type %d."), nType);
             } else {
-                CheckNoLog(Connect(pPin, NULL, false));
+                CheckNoLog(Connect(pPin, nullptr, false));
                 Stream.SetPin(pPin);
                 LOG(_T("Filter connected to Demux for media type %d."), nType);
             }
@@ -909,13 +909,13 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nN
         } else {
             hr = pDemux->SetOutputPinMediaType(L"mpv", const_cast<AM_MEDIA_TYPE*>(&mt_Mpv));
         }
-        hr = ConnectDirect(pNewOut, pInPin, NULL);
+        hr = ConnectDirect(pNewOut, pInPin, nullptr);
         //        nOldType = nNewType;
 
     } else if (nNewType != nOldType) {
         Disconnect(pOldOut);
         Disconnect(pInPin);
-        hr = ConnectDirect(pNewOut, pInPin, NULL);
+        hr = ConnectDirect(pNewOut, pInPin, nullptr);
         //        nOldType = nNewType;
     }
     return hr;

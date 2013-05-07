@@ -1,5 +1,5 @@
 /*
- * (C) 2007-2012 see Authors.txt
+ * (C) 2007-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,7 +28,7 @@ CVideoDecOutputPin::CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFi
     : CBaseVideoOutputPin(pObjectName, pFilter, phr, pName)
 {
     m_pVideoDecFilter = static_cast<CMPCVideoDecFilter*>(pFilter);
-    m_pDXVA2Allocator = NULL;
+    m_pDXVA2Allocator = nullptr;
     m_dwDXVA1SurfaceCount = 0;
     m_GuidDecoderDXVA1 = GUID_NULL;
     memset(&m_ddUncompPixelFormat, 0, sizeof(m_ddUncompPixelFormat));
@@ -115,7 +115,7 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID* pGuid
                 m_pVideoDecFilter->SetDXVA1Params(&m_GuidDecoderDXVA1, &m_ddUncompPixelFormat);
 
                 pConnectMode = (DXVA_ConnectMode*)CoTaskMemAlloc(sizeof(DXVA_ConnectMode));
-                if (pConnectMode != NULL) {
+                if (pConnectMode != nullptr) {
                     pConnectMode->guidMode = m_GuidDecoderDXVA1;
                     pConnectMode->wRestrictedMode = m_pVideoDecFilter->GetDXVA1RestrictedMode();
                     *pdwSizeMiscData = sizeof(DXVA_ConnectMode);

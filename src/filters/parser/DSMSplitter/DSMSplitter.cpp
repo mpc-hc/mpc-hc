@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,18 +36,18 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, 0, nullptr}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
     {&__uuidof(CDSMSplitterFilter), DSMSplitterName, MERIT_NORMAL, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CDSMSourceFilter), DSMSourceName, MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CDSMSourceFilter), DSMSourceName, MERIT_NORMAL, 0, nullptr, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CDSMSplitterFilter>, NULL, &sudFilter[0]},
-    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CDSMSourceFilter>, NULL, &sudFilter[1]},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CDSMSplitterFilter>, nullptr, &sudFilter[0]},
+    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CDSMSourceFilter>, nullptr, &sudFilter[1]},
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -61,7 +61,7 @@ STDAPI DllRegisterServer()
     RegisterSourceFilter(
         CLSID_AsyncReader,
         MEDIASUBTYPE_DirectShowMedia,
-        str, NULL);
+        str, nullptr);
 
     return AMovieDllRegisterServer2(TRUE);
 }
@@ -225,7 +225,7 @@ bool CDSMSplitterFilter::DemuxLoop()
 {
     HRESULT hr = S_OK;
 
-    while (SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
+    while (SUCCEEDED(hr) && !CheckRequest(nullptr) && m_pFile->GetRemaining()) {
         dsmp_t type;
         UINT64 len;
 

@@ -32,11 +32,11 @@
 CHdmvSub::CHdmvSub()
     : CBaseSub(ST_HDMV)
     , m_nCurSegment(NO_SEGMENT)
-    , m_pSegBuffer(NULL)
+    , m_pSegBuffer(nullptr)
     , m_nTotalSegBuffer(0)
     , m_nSegBufferPos(0)
     , m_nSegSize(0)
-    , m_pCurrentPresentationSegment(NULL)
+    , m_pCurrentPresentationSegment(nullptr)
 {
 }
 
@@ -80,11 +80,11 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
     CheckPointer(pSample, E_POINTER);
     HRESULT hr;
     REFERENCE_TIME rtStart = INVALID_TIME, rtStop = INVALID_TIME;
-    BYTE* pData = NULL;
+    BYTE* pData = nullptr;
     int lSampleLen;
 
     hr = pSample->GetPointer(&pData);
-    if (FAILED(hr) || pData == NULL) {
+    if (FAILED(hr) || pData == nullptr) {
         return hr;
     }
     lSampleLen = pSample->GetActualDataLength();
@@ -220,7 +220,7 @@ void CHdmvSub::EnqueuePresentationSegment(REFERENCE_TIME rt)
             delete m_pCurrentPresentationSegment;
         }
 
-        m_pCurrentPresentationSegment = NULL;
+        m_pCurrentPresentationSegment = nullptr;
     }
 }
 
@@ -391,7 +391,7 @@ CHdmvSub::HDMV_PRESENTATION_SEGMENT* CHdmvSub::FindPresentationSegment(REFERENCE
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 CompositionObject* CHdmvSub::FindObject(HDMV_PRESENTATION_SEGMENT* pPresentationSegment, short sObjectId)
@@ -406,5 +406,5 @@ CompositionObject* CHdmvSub::FindObject(HDMV_PRESENTATION_SEGMENT* pPresentation
         }
     }
 
-    return NULL;
+    return nullptr;
 }

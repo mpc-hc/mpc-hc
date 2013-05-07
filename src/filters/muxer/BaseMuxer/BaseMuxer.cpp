@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,7 +45,7 @@ STDMETHODIMP CBaseMuxerFilter::NonDelegatingQueryInterface(REFIID riid, void** p
 {
     CheckPointer(ppv, E_POINTER);
 
-    *ppv = NULL;
+    *ppv = nullptr;
 
     return
         QI(IMediaSeeking)
@@ -73,7 +73,7 @@ void CBaseMuxerFilter::AddInput()
 
     name.Format(L"Input %d", m_pInputs.GetCount() + 1);
 
-    CBaseMuxerInputPin* pInputPin = NULL;
+    CBaseMuxerInputPin* pInputPin = nullptr;
     if (FAILED(CreateInput(name, &pInputPin)) || !pInputPin) {
         ASSERT(0);
         return;
@@ -82,7 +82,7 @@ void CBaseMuxerFilter::AddInput()
 
     name.Format(L"~Output %d", m_pRawOutputs.GetCount() + 1);
 
-    CBaseMuxerRawOutputPin* pRawOutputPin = NULL;
+    CBaseMuxerRawOutputPin* pRawOutputPin = nullptr;
     if (FAILED(CreateRawOutput(name, &pRawOutputPin)) || !pRawOutputPin) {
         ASSERT(0);
         return;
@@ -126,7 +126,7 @@ DWORD CBaseMuxerFilter::ThreadProc()
         switch (cmd) {
             default:
             case CMD_EXIT:
-                CAMThread::m_hThread = NULL;
+                CAMThread::m_hThread = nullptr;
                 Reply(S_OK);
                 return 0;
 
@@ -152,7 +152,7 @@ DWORD CBaseMuxerFilter::ThreadProc()
                 try {
                     MuxHeaderInternal();
 
-                    while (!CheckRequest(NULL) && m_pActivePins.GetCount()) {
+                    while (!CheckRequest(nullptr) && m_pActivePins.GetCount()) {
                         if (m_State == State_Paused) {
                             Sleep(10);
                             continue;
@@ -196,7 +196,7 @@ DWORD CBaseMuxerFilter::ThreadProc()
 
     ASSERT(0); // this function should only return via CMD_EXIT
 
-    CAMThread::m_hThread = NULL;
+    CAMThread::m_hThread = nullptr;
     return 0;
 }
 
@@ -267,7 +267,7 @@ void CBaseMuxerFilter::MuxFooterInternal()
 CAutoPtr<MuxerPacket> CBaseMuxerFilter::GetPacket()
 {
     REFERENCE_TIME rtMin = _I64_MAX;
-    CBaseMuxerInputPin* pPinMin = NULL;
+    CBaseMuxerInputPin* pPinMin = nullptr;
     int i = int(m_pActivePins.GetCount());
 
     POSITION pos = m_pActivePins.GetHeadPosition();
@@ -342,7 +342,7 @@ CBasePin* CBaseMuxerFilter::GetPin(int n)
 
     n -= int(m_pRawOutputs.GetCount());
 
-    return NULL;
+    return nullptr;
 }
 
 STDMETHODIMP CBaseMuxerFilter::Stop()

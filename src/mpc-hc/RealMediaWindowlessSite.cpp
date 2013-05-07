@@ -34,7 +34,7 @@ void DSObjects::ExtractRects(REGION* pRegion)
 {
     LPRGNDATA lpRgnData;
 
-    DWORD sizeNeeed = GetRegionData((HRGN)pRegion->pOSRegion, 0, NULL);
+    DWORD sizeNeeed = GetRegionData((HRGN)pRegion->pOSRegion, 0, nullptr);
 
     lpRgnData = (LPRGNDATA)DEBUG_NEW char[sizeNeeed];
     DWORD returnValue = GetRegionData((HRGN)pRegion->pOSRegion, sizeNeeed, lpRgnData);
@@ -124,8 +124,8 @@ CRealMediaWindowlessSite::CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pConte
     , m_fInRedraw(false)
     , m_fIsVisible(true)
     , m_lZOrder(0)
-    , m_pRegion(NULL)
-    , m_pRegionWithoutChildren(NULL)
+    , m_pRegion(nullptr)
+    , m_pRegionWithoutChildren(nullptr)
 {
     m_size.cx = m_size.cy = 0;
     m_position.x = m_position.y = 0;
@@ -207,7 +207,7 @@ void CRealMediaWindowlessSite::InternalRecomputeRegion()
 
 void CRealMediaWindowlessSite::ComputeRegion()
 {
-    REGION* pTempRegion = NULL;
+    REGION* pTempRegion = nullptr;
 
     if (m_pRegion) {
         pTempRegion = RMACreateRegion();
@@ -315,7 +315,7 @@ STDMETHODIMP CRealMediaWindowlessSite::EventOccurred(PNxEvent* /*IN*/ pEvent)
 
 STDMETHODIMP_(PNxWindow*) CRealMediaWindowlessSite::GetParentWindow()
 {
-    return NULL;
+    return nullptr;
 }
 
 // IRMASite
@@ -350,7 +350,7 @@ STDMETHODIMP CRealMediaWindowlessSite::DetachUser()
     hr = m_pUser->DetachSite();
 
     if (PNR_OK == hr) {
-        m_pUser = NULL;
+        m_pUser = nullptr;
     }
 
     return hr;
@@ -417,7 +417,7 @@ STDMETHODIMP CRealMediaWindowlessSite::DetachWatcher()
     }
 
     m_pWatcher->DetachSite();
-    m_pWatcher = NULL;
+    m_pWatcher = nullptr;
 
     return PNR_OK;
 }
@@ -496,7 +496,7 @@ STDMETHODIMP CRealMediaWindowlessSite::ForceRedraw()
     if (!m_fInRedraw && m_fDamaged && m_fIsVisible) {
         m_fInRedraw = TRUE;
 
-        PNxEvent event = {RMA_SURFACE_UPDATE, NULL, (IRMAVideoSurface*)this, NULL, 0, 0};
+        PNxEvent event = {RMA_SURFACE_UPDATE, nullptr, (IRMAVideoSurface*)this, nullptr, 0, 0};
         m_pUser->HandleEvent(&event);
 
         m_fInRedraw = FALSE;

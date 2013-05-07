@@ -464,7 +464,7 @@ STDMETHODIMP IDSMChapterBagImpl::ChapSort()
 //
 
 CDSMChapterBag::CDSMChapterBag(LPUNKNOWN pUnk, HRESULT* phr)
-    : CUnknown(_T("CDSMChapterBag"), NULL)
+    : CUnknown(_T("CDSMChapterBag"), nullptr)
 {
 }
 

@@ -121,7 +121,7 @@ void CLCDMyProgressBar::OnDraw(CLCDGfxBase& rGfx)
             FillRect(rGfx.GetHDC(), &r, m_hBrush);
             HPEN hOldPen = (HPEN)::SelectObject(rGfx.GetHDC(), m_hPen);
 
-            ::MoveToEx(rGfx.GetHDC(), 0, (r.bottom - r.top) / 2, NULL);
+            ::MoveToEx(rGfx.GetHDC(), 0, (r.bottom - r.top) / 2, nullptr);
             ::LineTo(rGfx.GetHDC(), nCursorPos, (r.bottom - r.top) / 2);
             ::SelectObject(rGfx.GetHDC(), hOldPen);
         }
@@ -566,7 +566,7 @@ void CLCDMyColorPage::SetPlayState(PlayState ps)
 CMPC_Lcd::CMPC_Lcd()
 {
     InitializeCriticalSection(&cs);
-    hLCD_UpdateThread = NULL;
+    hLCD_UpdateThread = nullptr;
 
     // lcd init
     ZeroMemory(&m_ConnCtx, sizeof(m_ConnCtx));
@@ -575,10 +575,10 @@ CMPC_Lcd::CMPC_Lcd()
     m_ConnCtx.dwAppletCapabilitiesSupported = LGLCD_APPLET_CAP_BW | LGLCD_APPLET_CAP_QVGA;
     m_ConnCtx.isAutostartable = FALSE;
     m_ConnCtx.isPersistent = FALSE;
-    m_ConnCtx.onConfigure.configCallback = NULL;     // we don't have a configuration screen
-    m_ConnCtx.onConfigure.configContext = NULL;
-    m_ConnCtx.onNotify.notificationCallback = NULL;
-    m_ConnCtx.onNotify.notifyContext = NULL;
+    m_ConnCtx.onConfigure.configCallback = nullptr;     // we don't have a configuration screen
+    m_ConnCtx.onConfigure.configContext = nullptr;
+    m_ConnCtx.onNotify.notificationCallback = nullptr;
+    m_ConnCtx.onNotify.notifyContext = nullptr;
     m_ConnCtx.connection = LGLCD_INVALID_CONNECTION; // the "connection" member will be returned upon return
 
     const CAppSettings& s = AfxGetAppSettings();
@@ -614,7 +614,7 @@ CMPC_Lcd::~CMPC_Lcd()
     if (m_Connection.IsConnected()) {
         Thread_Loop = false;
         WaitForSingleObject(hLCD_UpdateThread, LCD_UPD_TIMER * 2 /* timeout */);
-        hLCD_UpdateThread = NULL;
+        hLCD_UpdateThread = nullptr;
     }
 
     DeleteCriticalSection(&cs);
@@ -730,11 +730,11 @@ void CMPC_Lcd::SetPlayState(CMPC_Lcd::PlayState ps)
 
 HRESULT CMPC_Lcd::SetAsForeground(BOOL setAsForeground)
 {
-    if (NULL != m_Connection.MonoOutput()) {
+    if (nullptr != m_Connection.MonoOutput()) {
         m_Connection.MonoOutput()->SetAsForeground(setAsForeground);
     }
 
-    if (NULL != m_Connection.ColorOutput()) {
+    if (nullptr != m_Connection.ColorOutput()) {
         m_Connection.ColorOutput()->SetAsForeground(setAsForeground);
     }
 

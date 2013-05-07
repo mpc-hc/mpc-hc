@@ -41,7 +41,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudOpPin[] = {
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut},
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -55,13 +55,13 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CSubtitleSourceASCII>, NULL, &sudFilter[0]},
-    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CSubtitleSourceUTF8>, NULL, &sudFilter[1]},
-    {sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CSubtitleSourceSSA>, NULL, &sudFilter[2]},
-    {sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CSubtitleSourceASS>, NULL, &sudFilter[3]},
-    //  {sudFilter[4].strName, sudFilter[4].clsID, CreateInstance<CSubtitleSourceUSF>, NULL, &sudFilter[4]},
-    {sudFilter[5].strName, sudFilter[5].clsID, CreateInstance<CSubtitleSourcePreview>, NULL, &sudFilter[5]},
-    {sudFilter[6].strName, sudFilter[6].clsID, CreateInstance<CSubtitleSourceARGB>, NULL, &sudFilter[6]},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CSubtitleSourceASCII>, nullptr, &sudFilter[0]},
+    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CSubtitleSourceUTF8>, nullptr, &sudFilter[1]},
+    {sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CSubtitleSourceSSA>, nullptr, &sudFilter[2]},
+    {sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CSubtitleSourceASS>, nullptr, &sudFilter[3]},
+    //  {sudFilter[4].strName, sudFilter[4].clsID, CreateInstance<CSubtitleSourceUSF>, nullptr, &sudFilter[4]},
+    {sudFilter[5].strName, sudFilter[5].clsID, CreateInstance<CSubtitleSourcePreview>, nullptr, &sudFilter[5]},
+    {sudFilter[6].strName, sudFilter[6].clsID, CreateInstance<CSubtitleSourceARGB>, nullptr, &sudFilter[6]},
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -231,7 +231,7 @@ CSubtitleStream::CSubtitleStream(const WCHAR* wfn, CSubtitleSource* pParent, HRE
     , CSourceSeeking(NAME("SubtitleStream"), (IPin*)this, phr, &m_cSharedState)
     , m_bDiscontinuity(FALSE), m_bFlushing(FALSE)
     , m_nPosition(0)
-    , m_rts(NULL)
+    , m_rts(nullptr)
 {
     CAutoLock cAutoLock(&m_cSharedState);
 
@@ -418,7 +418,7 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
     {
         CAutoLock cAutoLockShared(&m_cSharedState);
 
-        BYTE* pData = NULL;
+        BYTE* pData = nullptr;
         if (FAILED(pSample->GetPointer(&pData)) || !pData) {
             return S_FALSE;
         }

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -74,7 +74,7 @@ HBRUSH CStaticLink::CtlColor(CDC* pDC, UINT nCtlColor)
     ASSERT(nCtlColor == CTLCOLOR_STATIC);
     DWORD dwStyle = GetStyle();
 
-    HBRUSH hbr = NULL;
+    HBRUSH hbr = nullptr;
     if ((dwStyle & 0xFF) <= SS_RIGHT) {
 
         // this is a text control: set up font and colors

@@ -64,8 +64,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, 0, nullptr}
 };
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut2[] = {
@@ -74,12 +74,12 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut2[] = {
 
 const AMOVIESETUP_FILTER sudFilter[] = {
     {&__uuidof(CFLVSplitterFilter), FlvSplitterName, MERIT_NORMAL, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CFLVSourceFilter), FlvSourceName, MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CFLVSourceFilter), FlvSourceName, MERIT_NORMAL, 0, nullptr, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CFLVSplitterFilter>, NULL, &sudFilter[0]},
-    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CFLVSourceFilter>, NULL, &sudFilter[1]},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CFLVSplitterFilter>, nullptr, &sudFilter[0]},
+    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CFLVSourceFilter>, nullptr, &sudFilter[1]},
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -88,7 +88,7 @@ STDAPI DllRegisterServer()
 {
     DeleteRegKey(_T("Media Type\\Extensions\\"), _T(".flv"));
 
-    RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_FLV, _T("0,4,,464C5601"), NULL);
+    RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_FLV, _T("0,4,,464C5601"), nullptr);
 
     return AMovieDllRegisterServer2(TRUE);
 }
@@ -860,7 +860,7 @@ bool CFLVSplitterFilter::DemuxLoop()
     AudioTag at = {};
     VideoTag vt = {};
 
-    while (SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
+    while (SUCCEEDED(hr) && !CheckRequest(nullptr) && m_pFile->GetRemaining()) {
         if (!ReadTag(t)) {
             break;
         }

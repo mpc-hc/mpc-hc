@@ -1,5 +1,5 @@
 /*
- * (C) 2007-2012 see Authors.txt
+ * (C) 2007-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -335,7 +335,7 @@ void CDXVADecoderH264::SetExtraData(BYTE* pDataIn, UINT nSize)
     AVCodecContext* pAVCtx = m_pFilter->GetAVCtx();
     m_nNALLength = pAVCtx->nal_length_size;
 
-    FFH264DecodeBuffer(pAVCtx, pDataIn, nSize, NULL, NULL, NULL);
+    FFH264DecodeBuffer(pAVCtx, pDataIn, nSize, nullptr, nullptr, nullptr);
     FFH264SetDxvaSliceLong(pAVCtx, m_pSliceLong);
 }
 

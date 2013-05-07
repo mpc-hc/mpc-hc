@@ -303,7 +303,7 @@ static CStringW ToMBCS(CStringW str, DWORD CharSet)
         char c[8];
 
         int len;
-        if ((len = WideCharToMultiByte(cp, 0, &wc, 1, c, 8, NULL, NULL)) > 0) {
+        if ((len = WideCharToMultiByte(cp, 0, &wc, 1, c, 8, nullptr, nullptr)) > 0) {
             for (ptrdiff_t k = 0; k < len; k++) {
                 ret += (WCHAR)(BYTE)c[k];
             }
@@ -676,7 +676,7 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 {
     STSStyle* ret = DEBUG_NEW STSStyle();
     if (!ret) {
-        return NULL;
+        return nullptr;
     }
 
     for (int i = 0, len = str.GetLength(); i < len; i++) {
@@ -1039,7 +1039,7 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
                     DWORD val;
                     if (g_colors.Lookup(CString(arg), val)) {
                         color = (DWORD)val;
-                    } else if ((color = wcstol(arg, NULL, 16)) == 0) {
+                    } else if ((color = wcstol(arg, nullptr, 16)) == 0) {
                         color = 0x00ffffff;    // default is white
                     }
 
@@ -1265,7 +1265,7 @@ static bool LoadFont(CString& font)
         typedef HANDLE(WINAPI * PAddFontMemResourceEx)(IN PVOID, IN DWORD, IN PVOID , IN DWORD*);
         if (PAddFontMemResourceEx f = (PAddFontMemResourceEx)GetProcAddress(hModule, "AddFontMemResourceEx")) {
             DWORD cFonts;
-            hFont = f(pData, datalen, NULL, &cFonts);
+            hFont = f(pData, datalen, nullptr, &cFonts);
         }
 
         FreeLibrary(hModule);
@@ -2037,7 +2037,7 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 {
     CString def(_T("Default"));
 
-    STSStyle* ret = NULL;
+    STSStyle* ret = nullptr;
 
     if (!m_styles.Lookup(def, ret)) {
         STSStyle* style = DEBUG_NEW STSStyle();
@@ -2067,12 +2067,12 @@ void CSimpleTextSubtitle::ChangeUnknownStylesToDefault()
                 if (fReport) {
                     CString msg;
                     msg.Format(_T("Unknown style found: \"%s\", changed to \"Default\"!\n\nPress Cancel to ignore further warnings."), stse.style);
-                    if (MessageBox(NULL, msg, _T("Warning"), MB_OKCANCEL | MB_ICONWARNING) != IDOK) {
+                    if (MessageBox(nullptr, msg, _T("Warning"), MB_OKCANCEL | MB_ICONWARNING) != IDOK) {
                         fReport = false;
                     }
                 }
 
-                unknown[stse.style] = NULL;
+                unknown[stse.style] = nullptr;
             }
 
             stse.style = _T("Default");
@@ -2243,7 +2243,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
         if (iSegment) {
             *iSegment = j + 1;
         }
-        return NULL;
+        return nullptr;
     }
 
     // before first segment
@@ -2251,7 +2251,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
         if (iSegment) {
             *iSegment = -1;
         }
-        return NULL;
+        return nullptr;
     }
 
     while (i < j) {
@@ -2289,7 +2289,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
         return &m_segments[ret];
     }
 
-    return NULL;
+    return nullptr;
 }
 
 int CSimpleTextSubtitle::TranslateStart(int i, double fps)
@@ -2328,10 +2328,10 @@ STSStyle* CSimpleTextSubtitle::GetStyle(int i)
 {
     CString def = _T("Default");
 
-    STSStyle* style = NULL;
+    STSStyle* style = nullptr;
     m_styles.Lookup(GetAt(i).style, style);
 
-    STSStyle* defstyle = NULL;
+    STSStyle* defstyle = nullptr;
     m_styles.Lookup(def, defstyle);
 
     if (!style) {
@@ -2347,10 +2347,10 @@ bool CSimpleTextSubtitle::GetStyle(int i, STSStyle& stss)
 {
     CString def = _T("Default");
 
-    STSStyle* style = NULL;
+    STSStyle* style = nullptr;
     m_styles.Lookup(GetAt(i).style, style);
 
-    STSStyle* defstyle = NULL;
+    STSStyle* defstyle = nullptr;
     m_styles.Lookup(def, defstyle);
 
     if (!style) {
@@ -2506,7 +2506,7 @@ void CSimpleTextSubtitle::CreateSegments()
 
     qsort(breakpoints.GetData(), breakpoints.GetCount(), sizeof(int), intcomp);
 
-    int* ptr = breakpoints.GetData(), prev = ptr ? *ptr : NULL;
+    int* ptr = breakpoints.GetData(), prev = ptr ? *ptr : 0;
 
     for (i = breakpoints.GetCount(); i > 0; i--, ptr++) {
         if (*ptr != prev) {
@@ -2638,7 +2638,7 @@ bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
         return false;
     }
 
-    FILE* tmp = NULL;
+    FILE* tmp = nullptr;
     if (_tfopen_s(&tmp, fn, _T("wb"))) {
         return false;
     }

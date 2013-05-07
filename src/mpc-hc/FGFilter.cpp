@@ -103,12 +103,12 @@ CFGFilterRegistry::CFGFilterRegistry(IMoniker* pMoniker, UINT64 merit)
         return;
     }
 
-    LPOLESTR str = NULL;
+    LPOLESTR str = nullptr;
     if (FAILED(m_pMoniker->GetDisplayName(0, 0, &str))) {
         return;
     }
     m_DisplayName = m_name = str;
-    CoTaskMemFree(str), str = NULL;
+    CoTaskMemFree(str), str = nullptr;
 
     QueryProperties();
 
@@ -146,17 +146,17 @@ void CFGFilterRegistry::QueryProperties()
     CComPtr<IPropertyBag> pPB;
     if (SUCCEEDED(m_pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             m_name = var.bstrVal;
             var.Clear();
         }
 
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("CLSID")), &var, NULL))) {
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("CLSID")), &var, nullptr))) {
             CLSIDFromString(var.bstrVal, &m_clsid);
             var.Clear();
         }
 
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, NULL))) {
+        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, nullptr))) {
             BSTR* pstr;
             if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pstr))) {
                 ExtractFilterData((BYTE*)pstr, var.parray->cbElements * (var.parray->rgsabound[0].cElements));
@@ -181,9 +181,9 @@ CFGFilterRegistry::CFGFilterRegistry(const CLSID& clsid, UINT64 merit)
 
     if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\") + guid, KEY_READ)) {
         ULONG nChars = 0;
-        if (ERROR_SUCCESS == key.QueryStringValue(NULL, NULL, &nChars)) {
+        if (ERROR_SUCCESS == key.QueryStringValue(nullptr, nullptr, &nChars)) {
             CString name;
-            if (ERROR_SUCCESS == key.QueryStringValue(NULL, name.GetBuffer(nChars), &nChars)) {
+            if (ERROR_SUCCESS == key.QueryStringValue(nullptr, name.GetBuffer(nChars), &nChars)) {
                 name.ReleaseBuffer(nChars);
                 m_name = name;
             }
@@ -216,7 +216,7 @@ CFGFilterRegistry::CFGFilterRegistry(const CLSID& clsid, UINT64 merit)
 
         if (key) {
             ULONG nChars = 0;
-            if (ERROR_SUCCESS == key.QueryStringValue(_T("FriendlyName"), NULL, &nChars)) {
+            if (ERROR_SUCCESS == key.QueryStringValue(_T("FriendlyName"), nullptr, &nChars)) {
                 CString name;
                 if (ERROR_SUCCESS == key.QueryStringValue(_T("FriendlyName"), name.GetBuffer(nChars), &nChars)) {
                     name.ReleaseBuffer(nChars);
@@ -225,7 +225,7 @@ CFGFilterRegistry::CFGFilterRegistry(const CLSID& clsid, UINT64 merit)
             }
 
             ULONG nBytes = 0;
-            if (ERROR_SUCCESS == key.QueryBinaryValue(_T("FilterData"), NULL, &nBytes)) {
+            if (ERROR_SUCCESS == key.QueryBinaryValue(_T("FilterData"), nullptr, &nBytes)) {
                 CAutoVectorPtr<BYTE> buff;
                 if (buff.Allocate(nBytes) && ERROR_SUCCESS == key.QueryBinaryValue(_T("FilterData"), buff, &nBytes)) {
                     ExtractFilterData(buff, nBytes);
@@ -276,7 +276,7 @@ public IUnknown {
 void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 {
     CComPtr<IAMFilterData> pFD;
-    BYTE* ptr = NULL;
+    BYTE* ptr = nullptr;
 
     if (SUCCEEDED(pFD.CoCreateInstance(CLSID_FilterMapper2))
             && SUCCEEDED(pFD->ParseFilterData(p, len, (BYTE**)&ptr))) {
@@ -408,7 +408,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 CFGFilterFile::CFGFilterFile(const CLSID& clsid, CString path, CStringW name, UINT64 merit)
     : CFGFilter(clsid, name, merit)
     , m_path(path)
-    , m_hInst(NULL)
+    , m_hInst(nullptr)
 {
 }
 
@@ -445,7 +445,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
             || m_clsid == CLSID_madVRAllocatorPresenter
             || m_clsid == CLSID_EVRAllocatorPresenter
             || m_clsid == CLSID_SyncAllocatorPresenter) {
-        bool bFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
+        bool bFullscreen = (AfxGetApp()->m_pMainWnd != nullptr) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
         if (SUCCEEDED(CreateAP7(m_clsid, m_hWnd, &pCAP))
                 || SUCCEEDED(CreateAP9(m_clsid, m_hWnd, bFullscreen, &pCAP))
                 || SUCCEEDED(CreateEVR(m_clsid, m_hWnd, bFullscreen, &pCAP))

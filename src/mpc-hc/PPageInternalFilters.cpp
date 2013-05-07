@@ -32,55 +32,55 @@ static filter_t s_filters[] = {
     {_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_SRC_AVI, CreateInstance<CAviSplitterFilter>},
 #endif
 #if INTERNAL_SOURCEFILTER_CDDA
-    {_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, NULL},
+    {_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_CDXA
-    {_T("CDXA (VCD/SVCD/XCD)"), SOURCE_FILTER, SRC_CDXA, 0, NULL},
+    {_T("CDXA (VCD/SVCD/XCD)"), SOURCE_FILTER, SRC_CDXA, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_DSM
-    {_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0, NULL},
+    {_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_DTSAC3
-    {_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, 0, NULL},
+    {_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_VTS
-    {_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, NULL},
+    {_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_DVSOURCE
-    {_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, NULL},
+    {_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_FLIC
-    {_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, 0, NULL},
+    {_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_FLAC
-    {_T("FLAC"), SOURCE_FILTER, SRC_FLAC, 0, NULL},
+    {_T("FLAC"), SOURCE_FILTER, SRC_FLAC, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_FLV
-    {_T("FLV"), SOURCE_FILTER, SRC_FLV, 0, NULL},
+    {_T("FLV"), SOURCE_FILTER, SRC_FLV, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_MATROSKA
-    {_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, 0, NULL},
+    {_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_MP4
-    {_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, 0, NULL},
+    {_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
-    {_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_SRC_MPA, NULL},
+    {_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_SRC_MPA, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_MPEG
     {_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, 0, CreateInstance<CMpegSplitterFilter>},
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
-    {_T("Ogg"), SOURCE_FILTER, SRC_OGG, 0, NULL},
+    {_T("Ogg"), SOURCE_FILTER, SRC_OGG, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_REALMEDIA
-    {_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_SRC_REALMEDIA, NULL},
+    {_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_SRC_REALMEDIA, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_SHOUTCAST
-    {_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, NULL},
+    {_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_RFS
-    {_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, NULL},
+    {_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, nullptr},
 #endif
 
 #if INTERNAL_DECODER_AAC
@@ -117,7 +117,7 @@ static filter_t s_filters[] = {
     {_T("AMR"), DECODER, TRA_AMR, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_REALAUDIO
-    {_T("RealAudio"), DECODER, TRA_RA, IDS_TRA_RA, NULL},
+    {_T("RealAudio"), DECODER, TRA_RA, IDS_TRA_RA, nullptr},
 #endif
 #if INTERNAL_DECODER_PS2AUDIO
     {_T("PS2 Audio (PCM/ADPCM)"), DECODER, TRA_PS2AUD, IDS_TRA_PS2AUD, CreateInstance<CMpaDecFilter>},
@@ -146,7 +146,7 @@ static filter_t s_filters[] = {
     {_T("MPEG-2 Video"), DECODER, TRA_MPEG2, IDS_TRA_MPEG2, CreateInstance<CMpeg2DecFilter>},
 #endif
 #if INTERNAL_DECODER_REALVIDEO
-    {_T("RealVideo"), DECODER, TRA_RV, IDS_TRA_RV, NULL},
+    {_T("RealVideo"), DECODER, TRA_RV, IDS_TRA_RV, nullptr},
 #endif
 
 #if INTERNAL_DECODER_H264
@@ -195,7 +195,7 @@ static filter_t s_filters[] = {
     {_T("Indeo 3/4/5"), FFMPEG_DECODER, FFM_INDEO, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 
-    {NULL, 0, 0, 0, NULL}
+    {nullptr, 0, 0, 0, nullptr}
 };
 
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)
@@ -262,7 +262,7 @@ void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
     CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-    CFont* pOldFont = NULL;
+    CFont* pOldFont = nullptr;
 
     if ((lpDrawItemStruct->itemData != 0) && ((filter_t*)lpDrawItemStruct->itemData)->CreateInstance) {
         if (!(HFONT)m_bold) {
@@ -481,7 +481,7 @@ BOOL CPPageInternalFilters::OnInitDialog()
                 checked = s.FFmpegFilters[s_filters[i].flag];
                 break;
             default:
-                l = NULL;
+                l = nullptr;
                 checked = false;
         }
 
@@ -544,7 +544,7 @@ void CPPageInternalFilters::ShowPPage(CPPageInternalFiltersListBox& l)
     }
 
     HRESULT hr;
-    CUnknown* pObj = f->CreateInstance(NULL, &hr);
+    CUnknown* pObj = f->CreateInstance(nullptr, &hr);
     if (!pObj) {
         return;
     }

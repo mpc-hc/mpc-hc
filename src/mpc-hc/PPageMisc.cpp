@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -216,7 +216,7 @@ void CPPageMisc::OnResetSettings()
     if (MessageBox(ResStr(IDS_RESET_SETTINGS_WARNING), ResStr(IDS_RESET_SETTINGS), MB_ICONEXCLAMATION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
         ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SendMessage(WM_CLOSE);
 
-        ShellExecute(NULL, _T("open"), GetProgramPath(true), _T("/reset"), NULL, SW_SHOWNORMAL);
+        ShellExecute(nullptr, _T("open"), GetProgramPath(true), _T("/reset"), nullptr, SW_SHOWNORMAL);
     }
 }
 

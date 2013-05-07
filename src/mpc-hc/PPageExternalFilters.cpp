@@ -82,7 +82,7 @@ IMPLEMENT_DYNAMIC(CPPageExternalFilters, CPPageBase)
 CPPageExternalFilters::CPPageExternalFilters()
     : CPPageBase(CPPageExternalFilters::IDD, CPPageExternalFilters::IDD)
     , m_iLoadType(FilterOverride::PREFERRED)
-    , m_pLastSelFilter(NULL)
+    , m_pLastSelFilter(nullptr)
 {
 }
 
@@ -144,7 +144,7 @@ void CPPageExternalFilters::StepDown(CCheckListBox& list)
 FilterOverride* CPPageExternalFilters::GetCurFilter()
 {
     int i = m_filters.GetCurSel();
-    return i >= 0 ? (FilterOverride*)m_pFilters.GetAt((POSITION)m_filters.GetItemDataPtr(i)) : (FilterOverride*)NULL;
+    return i >= 0 ? (FilterOverride*)m_pFilters.GetAt((POSITION)m_filters.GetItemDataPtr(i)) : (FilterOverride*)nullptr;
 }
 
 void CPPageExternalFilters::SetupMajorTypes(CAtlArray<GUID>& guids)
@@ -423,7 +423,7 @@ void CPPageExternalFilters::OnUpdateFilterMerit(CCmdUI* pCmdUI)
 void CPPageExternalFilters::OnUpdateSubType(CCmdUI* pCmdUI)
 {
     HTREEITEM node = m_tree.GetSelectedItem();
-    pCmdUI->Enable(node != NULL && m_tree.GetItemData(node) == NULL);
+    pCmdUI->Enable(node != nullptr && m_tree.GetItemData(node) == NULL);
 }
 
 void CPPageExternalFilters::OnUpdateDeleteType(CCmdUI* pCmdUI)
@@ -623,7 +623,7 @@ void CPPageExternalFilters::OnDeleteType()
 
         POSITION pos = (POSITION)m_tree.GetItemData(node);
 
-        if (pos == NULL) {
+        if (pos == nullptr) {
             for (HTREEITEM child = m_tree.GetChildItem(node); child; child = m_tree.GetNextSiblingItem(child)) {
                 pos = (POSITION)m_tree.GetItemData(child);
 
@@ -681,7 +681,7 @@ void CPPageExternalFilters::OnResetTypes()
             f->guids.AddTailList(&f->backup);
         }
 
-        m_pLastSelFilter = NULL;
+        m_pLastSelFilter = nullptr;
         OnFilterSelectionChange();
 
         SetModified();
@@ -700,7 +700,7 @@ void CPPageExternalFilters::OnFilterSelectionChange()
         UpdateData(FALSE);
         m_dwMerit = f->dwMerit;
 
-        HTREEITEM dummy_item = m_tree.InsertItem(_T(""), 0, 0, NULL, TVI_FIRST);
+        HTREEITEM dummy_item = m_tree.InsertItem(_T(""), 0, 0, nullptr, TVI_FIRST);
         if (dummy_item)
             for (HTREEITEM item = m_tree.GetNextVisibleItem(dummy_item); item; item = m_tree.GetNextVisibleItem(dummy_item)) {
                 m_tree.DeleteItem(item);
@@ -714,9 +714,9 @@ void CPPageExternalFilters::OnFilterSelectionChange()
             CString major = GetMediaTypeName(f->guids.GetNext(pos));
             CString sub = GetMediaTypeName(f->guids.GetNext(pos));
 
-            HTREEITEM node = NULL;
+            HTREEITEM node = nullptr;
 
-            void* val = NULL;
+            void* val = nullptr;
             if (map.Lookup(major, val)) {
                 node = (HTREEITEM)val;
             } else {
@@ -736,7 +736,7 @@ void CPPageExternalFilters::OnFilterSelectionChange()
 
         m_tree.EnsureVisible(m_tree.GetRootItem());
     } else {
-        m_pLastSelFilter = NULL;
+        m_pLastSelFilter = nullptr;
 
         m_iLoadType = FilterOverride::PREFERRED;
         UpdateData(FALSE);
@@ -824,7 +824,7 @@ void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)
 {
     SetActiveWindow();
 
-    UINT nFiles = ::DragQueryFile(hDropInfo, (UINT) - 1, NULL, 0);
+    UINT nFiles = ::DragQueryFile(hDropInfo, (UINT) - 1, nullptr, 0);
     for (UINT iFile = 0; iFile < nFiles; iFile++) {
         TCHAR szFileName[MAX_PATH];
         ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);

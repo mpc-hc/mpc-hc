@@ -52,10 +52,10 @@ public:
                 m_pD3DDeviceManager->CloseDeviceHandle(m_hDevice);
                 m_hDevice = INVALID_HANDLE_VALUE;
             }
-            m_pD3DDeviceManager = NULL;
+            m_pD3DDeviceManager = nullptr;
         }
         if (m_pD3DDev) {
-            m_pD3DDev = NULL;
+            m_pD3DDev = nullptr;
         }
         if (m_hDXVA2Lib) {
             FreeLibrary(m_hDXVA2Lib);
@@ -123,9 +123,9 @@ private:
 
 CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer, HRESULT* phr, LPCWSTR Name)
     : CRendererInputPin(pRenderer, phr, Name)
-    , m_hDXVA2Lib(NULL)
-    , m_pD3DDev(NULL)
-    , m_pD3DDeviceManager(NULL)
+    , m_hDXVA2Lib(nullptr)
+    , m_pD3DDev(nullptr)
+    , m_pD3DDeviceManager(nullptr)
     , m_hDevice(INVALID_HANDLE_VALUE)
 {
     CreateSurface();
@@ -151,7 +151,7 @@ void CNullVideoRendererInputPin::CreateSurface()
         m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
     }
 
-    m_hWnd = NULL;  // TODO : put true window
+    m_hWnd = nullptr;  // TODO : put true window
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
@@ -186,7 +186,7 @@ STDMETHODIMP CNullVideoRendererInputPin::NonDelegatingQueryInterface(REFIID riid
 
 STDMETHODIMP CNullVideoRendererInputPin::GetService(REFGUID guidService, REFIID riid, LPVOID* ppvObject)
 {
-    if (m_pD3DDeviceManager != NULL && guidService == MR_VIDEO_ACCELERATION_SERVICE) {
+    if (m_pD3DDeviceManager != nullptr && guidService == MR_VIDEO_ACCELERATION_SERVICE) {
         if (riid == __uuidof(IDirect3DDeviceManager9)) {
             return m_pD3DDeviceManager->QueryInterface(riid, ppvObject);
         } else if (riid == __uuidof(IDirectXVideoDecoderService) || riid == __uuidof(IDirectXVideoProcessorService)) {
@@ -306,7 +306,7 @@ HRESULT CNullUVideoRenderer::DoRenderSample(IMediaSample* pSample)
 {
 #ifdef USE_DXVA
     CComQIPtr<IMFGetService> pService = pSample;
-    if (pService != NULL) {
+    if (pService != nullptr) {
         CComPtr<IDirect3DSurface9>  pSurface;
         if (SUCCEEDED(pService->GetService(MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**)&pSurface))) {
             // TODO : render surface...
@@ -369,7 +369,7 @@ HRESULT CNullUAudioRenderer::DoRenderSample(IMediaSample* pSample)
     static int nNb = 1;
     if (nNb < 100) {
         const long lSize = pSample->GetActualDataLength();
-        BYTE* pMediaBuffer = NULL;
+        BYTE* pMediaBuffer = nullptr;
         HRESULT hr = pSample->GetPointer(&pMediaBuffer);
         char strFile[MAX_PATH];
 

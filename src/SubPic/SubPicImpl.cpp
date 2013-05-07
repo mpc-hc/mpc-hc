@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,7 +28,7 @@
 //
 
 CSubPicImpl::CSubPicImpl()
-    : CUnknown(NAME("CSubPicImpl"), NULL)
+    : CUnknown(NAME("CSubPicImpl"), nullptr)
     , m_rtStart(0)
     , m_rtStop(0)
     , m_rtSegmentStart(0)
@@ -187,7 +187,7 @@ STDMETHODIMP CSubPicImpl::SetVirtualTextureSize(const SIZE pSize, const POINT pT
 //
 
 CSubPicAllocatorImpl::CSubPicAllocatorImpl(SIZE cursize, bool fDynamicWriteOnly, bool fPow2Textures)
-    : CUnknown(NAME("ISubPicAllocatorImpl"), NULL)
+    : CUnknown(NAME("ISubPicAllocatorImpl"), nullptr)
     , m_cursize(cursize)
     , m_fDynamicWriteOnly(fDynamicWriteOnly)
     , m_fPow2Textures(fPow2Textures)
@@ -225,7 +225,7 @@ STDMETHODIMP CSubPicAllocatorImpl::GetStatic(ISubPic** ppSubPic)
     SIZE maxSize;
     if (m_pStatic && (FAILED(m_pStatic->GetMaxSize(&maxSize)) || maxSize.cx < m_cursize.cx || maxSize.cy < m_cursize.cy)) {
         m_pStatic.Release();
-        m_pStatic = NULL;
+        m_pStatic = nullptr;
     }
 
     if (!m_pStatic) {
@@ -263,6 +263,6 @@ STDMETHODIMP_(bool) CSubPicAllocatorImpl::IsDynamicWriteOnly()
 
 STDMETHODIMP CSubPicAllocatorImpl::ChangeDevice(IUnknown* pDev)
 {
-    m_pStatic = NULL;
+    m_pStatic = nullptr;
     return S_OK;
 }

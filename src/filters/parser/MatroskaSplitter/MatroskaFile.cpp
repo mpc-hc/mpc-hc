@@ -296,7 +296,7 @@ ChapterAtom* ChapterAtom::FindChapterAtom(UINT64 id)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 ChapterAtom* Segment::FindChapterAtom(UINT64 id, int nEditionEntry)
@@ -315,7 +315,7 @@ ChapterAtom* Segment::FindChapterAtom(UINT64 id, int nEditionEntry)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 HRESULT Info::Parse(CMatroskaNode* pMN0)
@@ -1038,8 +1038,8 @@ bool CBinary::Compress(ContentCompression& cc)
         c_stream.next_in = GetData();
         c_stream.avail_in = (uInt)GetCount();
 
-        BYTE* dst = NULL;
-        BYTE* newDst = NULL;
+        BYTE* dst = nullptr;
+        BYTE* newDst = nullptr;
         int n = 0;
         do {
             newDst = (BYTE*)realloc(dst, ++n * 10);
@@ -1084,8 +1084,8 @@ bool CBinary::Decompress(ContentCompression& cc)
         d_stream.next_in = GetData();
         d_stream.avail_in = (uInt)GetCount();
 
-        BYTE* dst = NULL;
-        BYTE* newDst = NULL;
+        BYTE* dst = nullptr;
+        BYTE* newDst = nullptr;
         int n = 0;
         do {
             newDst = (BYTE*)realloc(dst, ++n * 1000);
@@ -1387,7 +1387,7 @@ HRESULT CSimpleBlockNode::Parse(CMatroskaNode* pMN, bool fFull)
 
 CMatroskaNode::CMatroskaNode(CMatroskaFile* pMF)
     : m_pMF(pMF)
-    , m_pParent(NULL)
+    , m_pParent(nullptr)
 {
     ASSERT(m_pMF);
     m_start = m_filepos = 0;

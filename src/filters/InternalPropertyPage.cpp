@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -108,7 +108,7 @@ END_MESSAGE_MAP()
 
 CInternalPropertyPage::CInternalPropertyPage(LPUNKNOWN lpunk, HRESULT* phr)
     : CUnknown(_T("CInternalPropertyPage"), lpunk)
-    , m_pWnd(NULL)
+    , m_pWnd(nullptr)
 {
     if (phr) {
         *phr = S_OK;
@@ -123,7 +123,7 @@ CInternalPropertyPage::~CInternalPropertyPage()
             m_pWnd->DestroyWindow();
         }
         delete m_pWnd;
-        m_pWnd = NULL;
+        m_pWnd = nullptr;
     }
 }
 
@@ -208,8 +208,8 @@ STDMETHODIMP CInternalPropertyPage::GetPageInfo(PROPPAGEINFO* pPageInfo)
 
     pPageInfo->cb = sizeof(PROPPAGEINFO);
     pPageInfo->pszTitle = pszTitle;
-    pPageInfo->pszDocString = NULL;
-    pPageInfo->pszHelpFile = NULL;
+    pPageInfo->pszDocString = nullptr;
+    pPageInfo->pszHelpFile = nullptr;
     pPageInfo->dwHelpContext = 0;
     pPageInfo->size = GetWindowSize();
 
@@ -240,7 +240,7 @@ STDMETHODIMP CInternalPropertyPage::SetObjects(ULONG cObjects, LPUNKNOWN* ppUnk)
 
         if (!m_pWnd->OnConnect(m_pUnks)) {
             delete m_pWnd;
-            m_pWnd = NULL;
+            m_pWnd = nullptr;
 
             return E_FAIL;
         }
@@ -249,7 +249,7 @@ STDMETHODIMP CInternalPropertyPage::SetObjects(ULONG cObjects, LPUNKNOWN* ppUnk)
 
         m_pWnd->DestroyWindow();
         delete m_pWnd;
-        m_pWnd = NULL;
+        m_pWnd = nullptr;
     }
 
     return S_OK;

@@ -106,7 +106,7 @@ CBaseSplitterInputPin::~CBaseSplitterInputPin()
 HRESULT CBaseSplitterInputPin::GetAsyncReader(IAsyncReader** ppAsyncReader)
 {
     CheckPointer(ppAsyncReader, E_POINTER);
-    *ppAsyncReader = NULL;
+    *ppAsyncReader = nullptr;
     CheckPointer(m_pAsyncReader, VFW_E_NOT_CONNECTED);
     (*ppAsyncReader = m_pAsyncReader)->AddRef();
     return S_OK;
@@ -447,7 +447,7 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
     bool iHaaliRenderConnect = false;
     CComPtr<IPin> pPinTo = this, pTmp;
     while (pPinTo && SUCCEEDED(pPinTo->ConnectedTo(&pTmp)) && (pPinTo = pTmp)) {
-        pTmp = NULL;
+        pTmp = nullptr;
         CComPtr<IBaseFilter> pBF = GetFilterFromPin(pPinTo);
         if (GetCLSID(pBF) == CLSID_DXR) { // Haali Renderer
             iHaaliRenderConnect = true;
@@ -465,7 +465,7 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
 
         DWORD cmd;
         if (CheckRequest(&cmd)) {
-            m_hThread = NULL;
+            m_hThread = nullptr;
             cmd = GetRequest();
             Reply(S_OK);
             ASSERT(cmd == CMD_EXIT);
@@ -559,7 +559,7 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
     do {
         CComPtr<IMediaSample> pSample;
-        if (S_OK != (hr = GetDeliveryBuffer(&pSample, NULL, NULL, 0))) {
+        if (S_OK != (hr = GetDeliveryBuffer(&pSample, nullptr, nullptr, 0))) {
             break;
         }
 
@@ -590,7 +590,7 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
             if (S_OK != (hr = m_pAllocator->Commit())) {
                 break;
             }
-            if (S_OK != (hr = GetDeliveryBuffer(&pSample, NULL, NULL, 0))) {
+            if (S_OK != (hr = GetDeliveryBuffer(&pSample, nullptr, nullptr, 0))) {
                 break;
             }
         }
@@ -615,7 +615,7 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
         ASSERT(!p->bSyncPoint || fTimeValid);
 
-        BYTE* pData = NULL;
+        BYTE* pData = nullptr;
         if (S_OK != (hr = pSample->GetPointer(&pData)) || !pData) {
             break;
         }
@@ -623,10 +623,10 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         if (S_OK != (hr = pSample->SetActualDataLength(nBytes))) {
             break;
         }
-        if (S_OK != (hr = pSample->SetTime(fTimeValid ? &p->rtStart : NULL, fTimeValid ? &p->rtStop : NULL))) {
+        if (S_OK != (hr = pSample->SetTime(fTimeValid ? &p->rtStart : nullptr, fTimeValid ? &p->rtStop : nullptr))) {
             break;
         }
-        if (S_OK != (hr = pSample->SetMediaTime(NULL, NULL))) {
+        if (S_OK != (hr = pSample->SetMediaTime(nullptr, nullptr))) {
             break;
         }
         if (S_OK != (hr = pSample->SetDiscontinuity(p->bDiscontinuity))) {
@@ -650,7 +650,7 @@ void CBaseSplitterOutputPin::MakeISCRHappy()
 {
     CComPtr<IPin> pPinTo = this, pTmp;
     while (pPinTo && SUCCEEDED(pPinTo->ConnectedTo(&pTmp)) && (pPinTo = pTmp)) {
-        pTmp = NULL;
+        pTmp = nullptr;
 
         CComPtr<IBaseFilter> pBF = GetFilterFromPin(pPinTo);
 
@@ -800,7 +800,7 @@ STDMETHODIMP CBaseSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void*
 {
     CheckPointer(ppv, E_POINTER);
 
-    *ppv = NULL;
+    *ppv = nullptr;
 
     if (m_pInput && riid == __uuidof(IFileSourceFilter)) {
         return E_NOINTERFACE;
@@ -826,7 +826,7 @@ CBaseSplitterOutputPin* CBaseSplitterFilter::GetOutputPin(DWORD TrackNum)
 {
     CAutoLock cAutoLock(&m_csPinMap);
 
-    CBaseSplitterOutputPin* pPin = NULL;
+    CBaseSplitterOutputPin* pPin = nullptr;
     m_pPinMap.Lookup(TrackNum, pPin);
     return pPin;
 }
@@ -953,7 +953,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
         for (;;) {
             DWORD cmd = GetRequest();
             if (cmd == CMD_EXIT) {
-                CAMThread::m_hThread = NULL;
+                CAMThread::m_hThread = nullptr;
             }
             Reply(S_OK);
             if (cmd == CMD_EXIT) {
@@ -967,7 +967,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 
     for (DWORD cmd = (DWORD) - 1; ; cmd = GetRequest()) {
         if (cmd == CMD_EXIT) {
-            m_hThread = NULL;
+            m_hThread = nullptr;
             Reply(S_OK);
             return 0;
         }
@@ -1008,7 +1008,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 
     ASSERT(0); // we should only exit via CMD_EXIT
 
-    m_hThread = NULL;
+    m_hThread = nullptr;
     return 0;
 }
 
@@ -1177,7 +1177,7 @@ CBasePin* CBaseSplitterFilter::GetPin(int n)
         return m_pInput;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 STDMETHODIMP CBaseSplitterFilter::Stop()
@@ -1567,7 +1567,7 @@ STDMETHODIMP CBaseSplitterFilter::GetMarkerTime(long MarkerNum, double* pMarkerT
 
 STDMETHODIMP CBaseSplitterFilter::GetMarkerName(long MarkerNum, BSTR* pbstrMarkerName)
 {
-    return ChapGet((int)MarkerNum - 1, NULL, pbstrMarkerName);
+    return ChapGet((int)MarkerNum - 1, nullptr, pbstrMarkerName);
 }
 
 // IKeyFrameInfo

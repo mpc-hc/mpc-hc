@@ -35,7 +35,7 @@ CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString
     , ps(m_list.GetSafeHwnd(), 0, TRUE)
     , defps(m_list.GetSafeHwnd(), filename)
     , m_status()
-    , m_pTA(NULL)
+    , m_pTA(nullptr)
     , m_fReplaceSubs(false)
 {
 }

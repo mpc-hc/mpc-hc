@@ -690,7 +690,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
                 int iProgram;
                 const CHdmvClipInfo::Stream* pClipInfo;
                 const program* pProgram = FindProgram(s.pid, iProgram, pClipInfo);
-                if ((type == unknown) && (pProgram != NULL)) {
+                if ((type == unknown) && (pProgram != nullptr)) {
                     PES_STREAM_TYPE StreamType = INVALID;
 
                     Seek(start);
@@ -706,7 +706,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
                         break;
                         case PRESENTATION_GRAPHICS_STREAM: {
                             CMpegSplitterFile::hdmvsubhdr h;
-                            if (!m_streams[subpic].Find(s) && Read(h, &s.mt, pClipInfo ? pClipInfo->m_LanguageCode : NULL)) {
+                            if (!m_streams[subpic].Find(s) && Read(h, &s.mt, pClipInfo ? pClipInfo->m_LanguageCode : nullptr)) {
                                 m_bIsHdmv = true;
                                 type = subpic;
                             }
@@ -718,7 +718,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
                 int iProgram;
                 const CHdmvClipInfo::Stream* pClipInfo;
                 const program* pProgram = FindProgram(s.pid, iProgram, pClipInfo);
-                if ((type == unknown) && (pProgram != NULL) && AUDIO_STREAM_AC3_TRUE_HD == pProgram->streams[iProgram].type) {
+                if ((type == unknown) && (pProgram != nullptr) && AUDIO_STREAM_AC3_TRUE_HD == pProgram->streams[iProgram].type) {
                     const stream* source = m_streams[audio].FindStream(s.pid);
                     if (source && source->mt.subtype == MEDIASUBTYPE_DOLBY_AC3) {
                         CMpegSplitterFile::ac3hdr h;
@@ -911,7 +911,7 @@ CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
 #if defined(MVC_SUPPORT)
         !m_streams[stereo].IsEmpty() ? &m_streams[stereo] :
 #endif
-        NULL;
+        nullptr;
 }
 
 void CMpegSplitterFile::UpdatePrograms(const tshdr& h, bool UpdateLang)
@@ -1025,7 +1025,7 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
                     stream s;
                     s.pid = pid;
                     CMpegSplitterFile::hdmvsubhdr hdr;
-                    if (Read(hdr, &s.mt, NULL)) {
+                    if (Read(hdr, &s.mt, nullptr)) {
                         if (!m_streams[subpic].Find(s)) {
                             m_streams[subpic].Insert(s, this);
                         }
@@ -1114,7 +1114,7 @@ const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid, int& 
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool CMpegSplitterFile::GetStreamType(WORD pid, PES_STREAM_TYPE& stream_type)

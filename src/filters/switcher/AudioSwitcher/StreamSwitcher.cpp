@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -43,7 +43,7 @@ CStreamSwitcherPassThru::CStreamSwitcherPassThru(LPUNKNOWN pUnk, HRESULT* phr, C
 STDMETHODIMP CStreamSwitcherPassThru::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     CheckPointer(ppv, E_POINTER);
-    *ppv = NULL;
+    *ppv = nullptr;
 
     return
         QI(IMediaSeeking)
@@ -53,7 +53,7 @@ STDMETHODIMP CStreamSwitcherPassThru::NonDelegatingQueryInterface(REFIID riid, v
 template<class T>
 HRESULT GetPeer(CStreamSwitcherFilter* pFilter, T** ppT)
 {
-    *ppT = NULL;
+    *ppT = nullptr;
 
     CBasePin* pPin = pFilter->GetInputPin();
     if (!pPin) {
@@ -278,7 +278,7 @@ STDMETHODIMP CStreamSwitcherPassThru::CanSeekBackward(LONG* pCanSeekBackward)
 //
 
 CStreamSwitcherAllocator::CStreamSwitcherAllocator(CStreamSwitcherInputPin* pPin, HRESULT* phr)
-    : CMemAllocator(NAME("CStreamSwitcherAllocator"), NULL, phr)
+    : CMemAllocator(NAME("CStreamSwitcherAllocator"), nullptr, phr)
     , m_pPin(pPin)
     , m_fMediaTypeChanged(false)
 {
@@ -383,7 +383,7 @@ CStreamSwitcherInputPin::CStreamSwitcherInputPin(CStreamSwitcherFilter* pFilter,
     , m_bUsingOwnAllocator(FALSE)
     , m_evBlock(TRUE)
     , m_fCanBlock(false)
-    , m_hNotifyEvent(NULL)
+    , m_hNotifyEvent(nullptr)
 {
     m_bCanReconnectWhenActive = TRUE;
 }
@@ -484,8 +484,8 @@ HRESULT CStreamSwitcherInputPin::InitializeOutputSample(IMediaSample* pInSample,
     }
 
     HRESULT hr = pOut->GetDeliveryBuffer(&pOutSample
-                                         , m_SampleProps.dwSampleFlags & AM_SAMPLE_TIMEVALID ? &m_SampleProps.tStart : NULL
-                                         , m_SampleProps.dwSampleFlags & AM_SAMPLE_STOPVALID ? &m_SampleProps.tStop : NULL
+                                         , m_SampleProps.dwSampleFlags & AM_SAMPLE_TIMEVALID ? &m_SampleProps.tStart : nullptr
+                                         , m_SampleProps.dwSampleFlags & AM_SAMPLE_STOPVALID ? &m_SampleProps.tStop : nullptr
                                          , dwFlags);
 
     if (FAILED(hr)) {
@@ -590,7 +590,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
         fForkedSomewhere = fForkedSomewhere || nIn > 1 || nOut > 1;
 
         if (CComQIPtr<IFileSourceFilter> pFSF = pBF) {
-            WCHAR* pszName = NULL;
+            WCHAR* pszName = nullptr;
             AM_MEDIA_TYPE mt;
             if (SUCCEEDED(pFSF->GetCurFile(&pszName, &mt)) && pszName) {
                 fileName = pszName;
@@ -633,7 +633,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
         m_fCanBlock = true;
     }
 
-    m_hNotifyEvent = NULL;
+    m_hNotifyEvent = nullptr;
 
     return S_OK;
 }
@@ -687,7 +687,7 @@ STDMETHODIMP CStreamSwitcherInputPin::GetAllocator(IMemAllocator** ppAllocator)
 {
     CheckPointer(ppAllocator, E_POINTER);
 
-    if (m_pAllocator == NULL) {
+    if (m_pAllocator == nullptr) {
         (m_pAllocator = &m_Allocator)->AddRef();
     }
 
@@ -760,7 +760,7 @@ STDMETHODIMP CStreamSwitcherInputPin::EndOfStream()
     }
 
     if (m_hNotifyEvent) {
-        SetEvent(m_hNotifyEvent), m_hNotifyEvent = NULL;
+        SetEvent(m_hNotifyEvent), m_hNotifyEvent = nullptr;
         return S_OK;
     }
 
@@ -771,10 +771,10 @@ STDMETHODIMP CStreamSwitcherInputPin::EndOfStream()
 
 STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 {
-    AM_MEDIA_TYPE* pmt = NULL;
+    AM_MEDIA_TYPE* pmt = nullptr;
     if (SUCCEEDED(pSample->GetMediaType(&pmt)) && pmt) {
         const CMediaType mt(*pmt);
-        DeleteMediaType(pmt), pmt = NULL;
+        DeleteMediaType(pmt), pmt = nullptr;
         SetMediaType(&mt);
     }
 
@@ -841,7 +841,7 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
         /*
                 if (CComQIPtr<IPinConnection> pPC = pOut->CurrentPinConnection())
                 {
-                    HANDLE hEOS = CreateEvent(NULL, FALSE, FALSE, NULL);
+                    HANDLE hEOS = CreateEvent(nullptr, FALSE, FALSE, nullptr);
                     hr = pPC->NotifyEndOfStream(hEOS);
                     hr = pOut->DeliverEndOfStream();
                     WaitForSingleObject(hEOS, 3000);
@@ -874,10 +874,10 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
         return E_FAIL;
     }
 
-    pmt = NULL;
+    pmt = nullptr;
     if (SUCCEEDED(pOutSample->GetMediaType(&pmt)) && pmt) {
         const CMediaType mt(*pmt);
-        DeleteMediaType(pmt), pmt = NULL;
+        DeleteMediaType(pmt), pmt = nullptr;
         // TODO
         ASSERT(0);
     }
@@ -905,7 +905,7 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
         */
     } else if (S_FALSE == hr) {
         hr = S_OK;
-        pOutSample = NULL;
+        pOutSample = nullptr;
         m_bSampleSkipped = TRUE;
 
         if (!m_bQualityChanged) {
@@ -949,10 +949,10 @@ STDMETHODIMP CStreamSwitcherOutputPin::NonDelegatingQueryInterface(REFIID riid, 
 {
     CheckPointer(ppv, E_POINTER);
     ValidateReadWritePtr(ppv, sizeof(PVOID));
-    *ppv = NULL;
+    *ppv = nullptr;
 
     if (riid == IID_IMediaPosition || riid == IID_IMediaSeeking) {
-        if (m_pStreamSwitcherPassThru == NULL) {
+        if (m_pStreamSwitcherPassThru == nullptr) {
             HRESULT hr = S_OK;
             m_pStreamSwitcherPassThru = (IUnknown*)(INonDelegatingUnknown*)
                                         DEBUG_NEW CStreamSwitcherPassThru(GetOwner(), &hr, static_cast<CStreamSwitcherFilter*>(m_pFilter));
@@ -1049,7 +1049,7 @@ HRESULT CStreamSwitcherOutputPin::CheckConnect(IPin* pPin)
 
 HRESULT CStreamSwitcherOutputPin::BreakConnect()
 {
-    m_pPinConnection = NULL;
+    m_pPinConnection = nullptr;
     return __super::BreakConnect();
 }
 
@@ -1080,8 +1080,8 @@ HRESULT CStreamSwitcherOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
         return VFW_S_NO_MORE_ITEMS;
     }
 
-    AM_MEDIA_TYPE* tmp = NULL;
-    if (S_OK != pEM->Next(1, &tmp, NULL) || !tmp) {
+    AM_MEDIA_TYPE* tmp = nullptr;
+    if (S_OK != pEM->Next(1, &tmp, nullptr) || !tmp) {
         return VFW_S_NO_MORE_ITEMS;
     }
 
@@ -1129,7 +1129,7 @@ STDMETHODIMP CStreamSwitcherOutputPin::Render(IPin* ppinOut, IGraphBuilder* pGra
         return E_FAIL;
     }
 
-    if (FAILED(pGraph->ConnectDirect(ppinOut, GetFirstDisconnectedPin(pBF, PINDIR_INPUT), NULL))) {
+    if (FAILED(pGraph->ConnectDirect(ppinOut, GetFirstDisconnectedPin(pBF, PINDIR_INPUT), nullptr))) {
         pGraph->RemoveFilter(pBF);
         return E_FAIL;
     }
@@ -1193,10 +1193,10 @@ CStreamSwitcherFilter::~CStreamSwitcherFilter()
         delete m_pInputs.GetNext(pos);
     }
     m_pInputs.RemoveAll();
-    m_pInput = NULL;
+    m_pInput = nullptr;
 
     delete m_pOutput;
-    m_pOutput = NULL;
+    m_pOutput = nullptr;
 }
 
 STDMETHODIMP CStreamSwitcherFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -1220,7 +1220,7 @@ CBasePin* CStreamSwitcherFilter::GetPin(int n)
     CAutoLock cAutoLock(&m_csPins);
 
     if (n < 0 || n >= GetPinCount()) {
-        return NULL;
+        return nullptr;
     } else if (n == 0) {
         return m_pOutput;
     } else {
@@ -1259,7 +1259,7 @@ CStreamSwitcherInputPin* CStreamSwitcherFilter::GetConnectedInputPin(int n)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 CStreamSwitcherInputPin* CStreamSwitcherFilter::GetInputPin()
@@ -1307,14 +1307,14 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
 void CStreamSwitcherFilter::SelectInput(CStreamSwitcherInputPin* pInput)
 {
     // make sure no input thinks it is active
-    m_pInput = NULL;
+    m_pInput = nullptr;
 
     // release blocked GetBuffer in our own allocator & block all Receive
     POSITION pos = m_pInputs.GetHeadPosition();
     while (pos) {
         CStreamSwitcherInputPin* pPin = m_pInputs.GetNext(pos);
         pPin->Block(false);
-        // a few Receive calls can arrive here, but since m_pInput == NULL neighter of them gets delivered
+        // a few Receive calls can arrive here, but since m_pInput == nullptr neighter of them gets delivered
         pPin->Block(true);
     }
 
@@ -1339,8 +1339,8 @@ void CStreamSwitcherFilter::SelectInput(CStreamSwitcherInputPin* pInput)
 
 HRESULT CStreamSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 {
-    BYTE* pDataIn  = NULL;
-    BYTE* pDataOut = NULL;
+    BYTE* pDataIn  = nullptr;
+    BYTE* pDataOut = nullptr;
 
     HRESULT hr;
     if (FAILED(hr = pIn->GetPointer(&pDataIn))) {
@@ -1436,11 +1436,11 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
     }
 
     if (ppObject) {
-        *ppObject = NULL;
+        *ppObject = nullptr;
     }
 
     if (ppUnk) {
-        *ppUnk = NULL;
+        *ppUnk = nullptr;
     }
 
     return S_OK;

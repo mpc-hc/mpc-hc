@@ -80,7 +80,7 @@ void CEditWithButton_Base::DrawButton(CRect rectButton)
             CloseThemeData(hEditTheme);
         }
 
-        DrawThemeBackground(hButtonTheme, dc, BP_PUSHBUTTON, ButtonState, rectButton, NULL);
+        DrawThemeBackground(hButtonTheme, dc, BP_PUSHBUTTON, ButtonState, rectButton, nullptr);
 
         DrawButtonContent(dc, rectButton, hButtonTheme);
 
@@ -99,7 +99,7 @@ void CEditWithButton_Base::DrawButton(CRect rectButton)
             rectButton.OffsetRect(1, 1);
         }
 
-        DrawButtonContent(dc, rectButton, NULL);
+        DrawButtonContent(dc, rectButton, nullptr);
     }
 }
 
@@ -151,7 +151,7 @@ void CEditWithButton_Base::OnNcLButtonDown(UINT nHitTest, CPoint point)
             m_IsMouseActive = true;
 
             // Redraw the button to reflect the change
-            SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+            SetWindowPos(nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
         }
     }
 
@@ -173,7 +173,7 @@ void CEditWithButton_Base::OnMouseMove(UINT nFlags, CPoint point)
 
         // If the button state has changed, redraw it to reflect the change
         if (OldState != m_IsButtonPressed) {
-            SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+            SetWindowPos(nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
         }
     }
 
@@ -190,7 +190,7 @@ void CEditWithButton_Base::OnNcMouseMove(UINT nHitTest, CPoint point)
     m_IsButtonHot = rectButton.PtInRect(point) != FALSE;
     // If the button state has changed, redraw it to reflect the change
     if (OldState != m_IsButtonHot) {
-        SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+        SetWindowPos(nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 
         // If the state has changed to hot, register to get the WM_NCMOUSELEAVE notification.
         if (m_IsButtonHot) {
@@ -221,7 +221,7 @@ void CEditWithButton_Base::OnNcMouseLeave()
     // state and prompt a redraw of the button.
     if (!rectButton.PtInRect(point)) {
         m_IsButtonHot = false;
-        SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+        SetWindowPos(nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
     }
 
     CEdit::OnNcMouseLeave();
@@ -244,7 +244,7 @@ void CEditWithButton_Base::OnLButtonUp(UINT nFlags, CPoint point)
         m_IsMouseActive = false;
 
         // Redraw the button to reflect the changes.
-        SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+        SetWindowPos(nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 
         // Run the on-click logic if appropriate.
         if (rectButton.PtInRect(point)) {
@@ -279,7 +279,7 @@ void CEditWithButton_Base::PreSubclassWindow()
 LRESULT CEditWithButton_Base::OnRecalcNcSize(WPARAM wParam, LPARAM lParam)
 {
     // Prompt a WM_NCCALCSIZE to be issued
-    SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+    SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 
     return 0;
 }
@@ -290,7 +290,7 @@ void CEditWithButton_Base::OnEnable(BOOL bEnable)
     CEdit::OnEnable(bEnable);
 
     // Prompt the button area to redraw.
-    SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+    SetWindowPos(nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 LRESULT CEditWithButton_Base::OnSetReadOnly(WPARAM wParam, LPARAM lParam)
@@ -299,7 +299,7 @@ LRESULT CEditWithButton_Base::OnSetReadOnly(WPARAM wParam, LPARAM lParam)
     LRESULT r = DefWindowProc(EM_SETREADONLY, wParam, lParam);
 
     // Prompt the button area to redraw.
-    SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+    SetWindowPos(nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 
     return r;
 }
@@ -329,7 +329,7 @@ void CEditWithButton::SetButtonText(LPCTSTR buttonText)
 
     // If this is a live window, then prompt the button area to redraw.
     if (IsWindow(m_hWnd)) {
-        SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+        SetWindowPos(nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
     }
 }
 

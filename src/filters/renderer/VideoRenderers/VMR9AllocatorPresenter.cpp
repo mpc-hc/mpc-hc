@@ -87,10 +87,10 @@ void CVMR9AllocatorPresenter::DeleteSurfaces()
 STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
     CheckPointer(ppRenderer, E_POINTER);
-    *ppRenderer = NULL;
+    *ppRenderer = nullptr;
     HRESULT hr;
 
-    CMacrovisionKicker* pMK = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
+    CMacrovisionKicker* pMK = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), nullptr);
     CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
 
     COuterVMR9* pOuter = DEBUG_NEW COuterVMR9(NAME("COuterVMR9"), pUnk, &m_VMR9AlphaBitmap, this);
@@ -227,13 +227,13 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 
     if (!(lpAllocInfo->dwFlags & VMR9AllocFlag_TextureSurface)) {
         // test if the colorspace is acceptable
-        if (FAILED(hr = m_pD3DDev->StretchRect(m_pSurfaces[0], NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE))) {
+        if (FAILED(hr = m_pD3DDev->StretchRect(m_pSurfaces[0], nullptr, m_pVideoSurface[m_nCurSurface], nullptr, D3DTEXF_NONE))) {
             DeleteSurfaces();
             return E_FAIL;
         }
     }
 
-    hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], NULL, 0);
+    hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], nullptr, 0);
 
     if (m_nVMR9Surfaces && m_nVMR9Surfaces != (int)*lpNumBuffers) {
         m_nVMR9Surfaces = *lpNumBuffers;
@@ -443,7 +443,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
                 m_pVideoTexture[m_nCurSurface] = pTexture;
             }
         } else {
-            hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE);
+            hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, D3DTEXF_NONE);
         }
 
         // Tear test bars

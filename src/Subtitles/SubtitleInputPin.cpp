@@ -83,7 +83,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
         CString name;
         LCID    lcid = 0;
 
-        if (psi != NULL) {
+        if (psi != nullptr) {
             dwOffset = psi->dwOffset;
 
             name = ISO6392ToLanguage(psi->IsoLang);
@@ -156,7 +156,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 HRESULT CSubtitleInputPin::BreakConnect()
 {
     RemoveSubStream(m_pSubStream);
-    m_pSubStream = NULL;
+    m_pSubStream = nullptr;
 
     ASSERT(IsStopped());
 
@@ -167,10 +167,10 @@ STDMETHODIMP CSubtitleInputPin::ReceiveConnection(IPin* pConnector, const AM_MED
 {
     if (m_Connected) {
         RemoveSubStream(m_pSubStream);
-        m_pSubStream = NULL;
+        m_pSubStream = nullptr;
 
         m_Connected->Release();
-        m_Connected = NULL;
+        m_Connected = nullptr;
     }
 
     return __super::ReceiveConnection(pConnector, pmt);
@@ -207,8 +207,8 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
 interface __declspec(uuid("D3D92BC3-713B-451B-9122-320095D51EA5"))
 IMpeg2DemultiplexerTesting :
 public IUnknown {
-    STDMETHOD(GetMpeg2StreamType)(ULONG * plType) = NULL;
-    STDMETHOD(toto)() = NULL;
+    STDMETHOD(GetMpeg2StreamType)(ULONG * plType) = 0;
+    STDMETHOD(toto)() = 0;
 };
 
 STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
@@ -227,9 +227,9 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
     tStart += m_tStart;
     tStop += m_tStart;
 
-    BYTE* pData = NULL;
+    BYTE* pData = nullptr;
     hr = pSample->GetPointer(&pData);
-    if (FAILED(hr) || pData == NULL) {
+    if (FAILED(hr) || pData == nullptr) {
         return hr;
     }
 
@@ -318,15 +318,15 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
                 CAtlList<CStringW> sl;
                 Explode(str, sl, ',', fields);
                 if (sl.GetCount() == (size_t)fields) {
-                    stse.readorder = wcstol(sl.RemoveHead(), NULL, 10);
-                    stse.layer = wcstol(sl.RemoveHead(), NULL, 10);
+                    stse.readorder = wcstol(sl.RemoveHead(), nullptr, 10);
+                    stse.layer = wcstol(sl.RemoveHead(), nullptr, 10);
                     stse.style = sl.RemoveHead();
                     stse.actor = sl.RemoveHead();
-                    stse.marginRect.left = wcstol(sl.RemoveHead(), NULL, 10);
-                    stse.marginRect.right = wcstol(sl.RemoveHead(), NULL, 10);
-                    stse.marginRect.top = stse.marginRect.bottom = wcstol(sl.RemoveHead(), NULL, 10);
+                    stse.marginRect.left = wcstol(sl.RemoveHead(), nullptr, 10);
+                    stse.marginRect.right = wcstol(sl.RemoveHead(), nullptr, 10);
+                    stse.marginRect.top = stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
                     if (fields == 10) {
-                        stse.marginRect.bottom = wcstol(sl.RemoveHead(), NULL, 10);
+                        stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
                     }
                     stse.effect = sl.RemoveHead();
                     stse.str = sl.RemoveHead();

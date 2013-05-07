@@ -155,7 +155,7 @@ CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLength)
             }
         }
 
-        nDestSize = MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLength, NULL, 0);
+        nDestSize = MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLength, nullptr, 0);
         if (nDestSize > 0) {
             LPWSTR strResultBuff = strResult.GetBuffer(nDestSize);
             MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLength, strResultBuff, nDestSize);
@@ -508,7 +508,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
     CString text;
 
     do {
-        CheckNoLog(m_pData->GetSection(PID_EIT, SI_EIT_act, NULL, 5000, &pSectionList));
+        CheckNoLog(m_pData->GetSection(PID_EIT, SI_EIT_act, nullptr, 5000, &pSectionList));
 
         CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
         CGolombBuffer gb((BYTE*)data, dwLength);

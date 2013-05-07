@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -251,7 +251,7 @@ LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
                 DWORD flags, group, prevgroup = (DWORD) - 1;
 
                 for (UINT i = 0; i < cStreams; i++) {
-                    WCHAR* pName = NULL;
+                    WCHAR* pName = nullptr;
 
                     if (S_OK == pStreams[j]->Info(i, 0, &flags, 0, &group, &pName, 0, 0)) {
                         if (prevgroup != group && i > 1) {
@@ -324,14 +324,14 @@ DWORD CALLBACK SystrayThreadProc(void* pParam)
     AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
     CSystrayWindow wnd((SystrayIconData*)pParam);
-    if (!wnd.CreateEx(0, AfxRegisterWndClass(0), _T("DVSWND"), WS_OVERLAPPED, CRect(0, 0, 0, 0), NULL, 0, NULL)) {
+    if (!wnd.CreateEx(0, AfxRegisterWndClass(0), _T("DVSWND"), WS_OVERLAPPED, CRect(0, 0, 0, 0), nullptr, 0, nullptr)) {
         return (DWORD) - 1;
     }
 
     ((SystrayIconData*)pParam)->hSystrayWnd = wnd.m_hWnd;
 
     MSG msg;
-    while (GetMessage(&msg, NULL/*wnd.m_hWnd*/, 0, 0)) {
+    while (GetMessage(&msg, nullptr/*wnd.m_hWnd*/, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
@@ -345,10 +345,10 @@ DWORD CALLBACK SystrayThreadProc(void* pParam)
 static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 {
     int i = 0;
-    WCHAR* wstr = NULL;
+    WCHAR* wstr = nullptr;
     CComPtr<IBaseFilter> pFilter;
     CAUUID caGUID;
-    caGUID.pElems = NULL;
+    caGUID.pElems = nullptr;
 
     BeginEnumFilters(pGraph, pEF, pBF) {
         CComQIPtr<ISpecifyPropertyPages> pSPS = pBF;
@@ -368,7 +368,7 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
     }
     EndEnumFilters;
 
-    TCHAR* ret = NULL;
+    TCHAR* ret = nullptr;
 
     if (pFilter) {
         if (hWnd != INVALID_HANDLE_VALUE) {

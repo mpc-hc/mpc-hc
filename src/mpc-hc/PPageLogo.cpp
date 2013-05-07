@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -162,7 +162,7 @@ void CPPageLogo::OnDeltaposSpin1(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPPageLogo::OnBnClickedButton2()
 {
-    CFileDialog dlg(TRUE, NULL, m_logofn,
+    CFileDialog dlg(TRUE, nullptr, m_logofn,
                     OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_NOCHANGEDIR,
                     _T("Images (*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All files (*.*)|*.*||"),
                     this, 0);

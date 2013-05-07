@@ -163,7 +163,7 @@ BOOL CPPagePlayer::OnApply()
 
         // Empty the "Recent" jump list
         CComPtr<IApplicationDestinations> pDests;
-        HRESULT hr = pDests.CoCreateInstance(CLSID_ApplicationDestinations, NULL, CLSCTX_INPROC_SERVER);
+        HRESULT hr = pDests.CoCreateInstance(CLSID_ApplicationDestinations, nullptr, CLSCTX_INPROC_SERVER);
         if (SUCCEEDED(hr)) {
             pDests->RemoveAllDestinations();
         }

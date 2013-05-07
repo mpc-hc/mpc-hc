@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,7 +46,7 @@ HRESULT CQT7AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
 
-    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceOff = nullptr;
 
     DDSURFACEDESC2 ddsd;
     INITDDSTRUCT(ddsd);
@@ -62,7 +62,7 @@ HRESULT CQT7AllocatorPresenter::AllocSurfaces()
     ddsd.ddpfPixelFormat.dwGBitMask         = 0x0000FF00;
     ddsd.ddpfPixelFormat.dwBBitMask         = 0x000000FF;
 
-    HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceOff, NULL);
+    HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceOff, nullptr);
     if (FAILED(hr)) {
         return E_FAIL;
     }
@@ -70,7 +70,7 @@ HRESULT CQT7AllocatorPresenter::AllocSurfaces()
     DDBLTFX fx;
     INITDDSTRUCT(fx);
     fx.dwFillColor = 0;
-    m_pVideoSurfaceOff->Blt(NULL, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
+    m_pVideoSurfaceOff->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
     return __super::AllocSurfaces();
 }
@@ -79,7 +79,7 @@ void CQT7AllocatorPresenter::DeleteSurfaces()
 {
     CAutoLock cAutoLock(this);
 
-    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceOff = nullptr;
 
     __super::DeleteSurfaces();
 }
@@ -122,12 +122,12 @@ STDMETHODIMP CQT7AllocatorPresenter::DoBlt(const BITMAP& bm)
 
     if ((bpp == 16 || bpp == 24 || bpp == 32) && w == ddsd.dwWidth && h == ddsd.dwHeight) {
         INITDDSTRUCT(ddsd);
-        if (SUCCEEDED(m_pVideoSurfaceOff->Lock(NULL, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_WRITEONLY, NULL))) {
+        if (SUCCEEDED(m_pVideoSurfaceOff->Lock(nullptr, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_WRITEONLY, nullptr))) {
             BitBltFromRGBToRGB(
                 w, h,
                 (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount,
                 (BYTE*)bm.bmBits, bm.bmWidthBytes, bm.bmBitsPixel);
-            m_pVideoSurfaceOff->Unlock(NULL);
+            m_pVideoSurfaceOff->Unlock(nullptr);
             fOk = true;
         }
     }
@@ -136,7 +136,7 @@ STDMETHODIMP CQT7AllocatorPresenter::DoBlt(const BITMAP& bm)
         DDBLTFX fx;
         INITDDSTRUCT(fx);
         fx.dwFillColor = 0;
-        m_pVideoSurfaceOff->Blt(NULL, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
+        m_pVideoSurfaceOff->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
         HDC hDC;
         if (SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC))) {
@@ -151,7 +151,7 @@ STDMETHODIMP CQT7AllocatorPresenter::DoBlt(const BITMAP& bm)
         }
     }
 
-    m_pVideoSurface->Blt(NULL, m_pVideoSurfaceOff, NULL, DDBLT_WAIT, NULL);
+    m_pVideoSurface->Blt(nullptr, m_pVideoSurfaceOff, nullptr, DDBLT_WAIT, nullptr);
 
     Paint(true);
 

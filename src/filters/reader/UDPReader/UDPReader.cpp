@@ -32,7 +32,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudOpPin[] = {
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut}
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -40,7 +40,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CUDPReader>, NULL, &sudFilter[0]}
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CUDPReader>, nullptr, &sudFilter[0]}
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -352,9 +352,9 @@ DWORD CUDPStream::ThreadProc()
     SetThreadPriority(m_hThread, THREAD_PRIORITY_TIME_CRITICAL);
 
 #ifdef _DEBUG
-    FILE* dump = NULL;
+    FILE* dump = nullptr;
     //  dump = _tfopen(_T("c:\\udp.ts"), _T("wb"));
-    FILE* log = NULL;
+    FILE* log = nullptr;
     //  log = _tfopen(_T("c:\\udp.txt"), _T("wt"));
 #endif
 
@@ -388,7 +388,7 @@ DWORD CUDPStream::ThreadProc()
 
                     for (unsigned int i = 0; ; i++) {
                         if (!(i & 0xff)) {
-                            if (CheckRequest(NULL)) {
+                            if (CheckRequest(nullptr)) {
                                 break;
                             }
                         }

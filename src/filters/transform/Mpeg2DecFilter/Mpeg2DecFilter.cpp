@@ -62,8 +62,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -71,7 +71,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMpeg2DecFilter>, NULL, &sudFilter[0]},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMpeg2DecFilter>, nullptr, &sudFilter[0]},
     {L"CMpeg2DecPropertyPage", &__uuidof(CMpeg2DecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpeg2DecSettingsWnd>>},
 };
 
@@ -359,7 +359,7 @@ CBasePin* CMpeg2DecFilter::GetPin(int n)
         case 3:
             return m_pClosedCaptionOutput;
     }
-    return NULL;
+    return nullptr;
 }
 
 HRESULT CMpeg2DecFilter::EndOfStream()
@@ -403,7 +403,7 @@ void CMpeg2DecFilter::InputTypeChanged()
 
     const CMediaType& mt = m_pInput->CurrentMediaType();
 
-    BYTE* pSequenceHeader = NULL;
+    BYTE* pSequenceHeader = nullptr;
     DWORD cbSequenceHeader = 0;
 
     if (mt.formattype == FORMAT_MPEGVideo) {
@@ -516,7 +516,7 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 {
     HRESULT hr;
 
-    BYTE* pDataIn = NULL;
+    BYTE* pDataIn = nullptr;
     if (FAILED(hr = pIn->GetPointer(&pDataIn))) {
         return hr;
     }
@@ -685,7 +685,7 @@ HRESULT CMpeg2DecFilter::DeliverFast()
     }
 
     CComPtr<IMediaSample> pOut;
-    BYTE* pDataOut = NULL;
+    BYTE* pDataOut = nullptr;
     if (FAILED(hr = GetDeliveryBuffer(m_fb.w, m_fb.h, &pOut))
             || FAILED(hr = pOut->GetPointer(&pDataOut))) {
         return hr;
@@ -745,7 +745,7 @@ HRESULT CMpeg2DecFilter::DeliverFast()
     rtStop = m_rate.StartTime + (rtStop - m_rate.StartTime) * m_rate.Rate / 10000;
 
     pOut->SetTime(&rtStart, &rtStop);
-    pOut->SetMediaTime(NULL, NULL);
+    pOut->SetMediaTime(nullptr, nullptr);
 
     //
 
@@ -866,7 +866,7 @@ HRESULT CMpeg2DecFilter::Deliver(bool fRepeatLast)
     HRESULT hr;
 
     CComPtr<IMediaSample> pOut;
-    BYTE* pDataOut = NULL;
+    BYTE* pDataOut = nullptr;
     if (FAILED(hr = GetDeliveryBuffer(m_fb.w, m_fb.h, &pOut))
             || FAILED(hr = pOut->GetPointer(&pDataOut))) {
         return hr;
@@ -910,7 +910,7 @@ HRESULT CMpeg2DecFilter::Deliver(bool fRepeatLast)
     rtStop = m_rate.StartTime + (rtStop - m_rate.StartTime) * m_rate.Rate / 10000;
 
     pOut->SetTime(&rtStart, &rtStop);
-    pOut->SetMediaTime(NULL, NULL);
+    pOut->SetMediaTime(nullptr, nullptr);
 
     //
 
@@ -1094,7 +1094,7 @@ STDMETHODIMP CMpeg2DecFilter::GetPages(CAUUID* pPages)
 
     pPages->cElems = 1;
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
-    if (pPages->pElems != NULL) {
+    if (pPages->pElems != nullptr) {
         pPages->pElems[0] = __uuidof(CMpeg2DecSettingsWnd);
     } else {
         hr = E_OUTOFMEMORY;
@@ -1107,14 +1107,14 @@ STDMETHODIMP CMpeg2DecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPag
 {
     CheckPointer(ppPage, E_POINTER);
 
-    if (*ppPage != NULL) {
+    if (*ppPage != nullptr) {
         return E_INVALIDARG;
     }
 
     HRESULT hr;
 
     if (guid == __uuidof(CMpeg2DecSettingsWnd)) {
-        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMpeg2DecSettingsWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMpeg2DecSettingsWnd>(nullptr, &hr))->AddRef();
     }
 
     return *ppPage ? S_OK : E_FAIL;
@@ -1694,7 +1694,7 @@ HRESULT CSubpicInputPin::Transform(IMediaSample* pSample)
         DeleteMediaType(pmt);
     }
 
-    BYTE* pDataIn = NULL;
+    BYTE* pDataIn = nullptr;
     if (FAILED(hr = pSample->GetPointer(&pDataIn))) {
         return hr;
     }
@@ -2426,8 +2426,8 @@ HRESULT CClosedCaptionOutputPin::Deliver(const void* ptr, int len)
 
     if (len > 4 && ptr && *(DWORD*)ptr == 0xf8014343 && IsConnected()) {
         CComPtr<IMediaSample> pSample;
-        GetDeliveryBuffer(&pSample, NULL, NULL, 0);
-        BYTE* pData = NULL;
+        GetDeliveryBuffer(&pSample, nullptr, nullptr, 0);
+        BYTE* pData = nullptr;
         pSample->GetPointer(&pData);
         *(DWORD*)pData = 0xb2010000;
         memcpy(pData + 4, ptr, len);

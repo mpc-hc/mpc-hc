@@ -58,8 +58,8 @@ CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet)
               len,
               mbcs,
               str.GetLength() * 6,
-              NULL,
-              NULL);
+              nullptr,
+              nullptr);
 
     str = mbcs;
 
@@ -204,14 +204,14 @@ CString FormatNumber(CString szNumber, bool bNoFractionalDigits /*= true*/)
 {
     CString ret;
 
-    int nChars = GetNumberFormat(LOCALE_USER_DEFAULT, 0, szNumber, NULL, NULL, 0);
-    GetNumberFormat(LOCALE_USER_DEFAULT, 0, szNumber, NULL, ret.GetBuffer(nChars), nChars);
+    int nChars = GetNumberFormat(LOCALE_USER_DEFAULT, 0, szNumber, nullptr, nullptr, 0);
+    GetNumberFormat(LOCALE_USER_DEFAULT, 0, szNumber, nullptr, ret.GetBuffer(nChars), nChars);
     ret.ReleaseBuffer();
 
     if (bNoFractionalDigits) {
         TCHAR szNumberFractionalDigits[2] = {0};
         GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_IDIGITS, szNumberFractionalDigits, _countof(szNumberFractionalDigits));
-        int nNumberFractionalDigits = _tcstol(szNumberFractionalDigits, NULL, 10);
+        int nNumberFractionalDigits = _tcstol(szNumberFractionalDigits, nullptr, 10);
         if (nNumberFractionalDigits) {
             ret.Truncate(ret.GetLength() - nNumberFractionalDigits - 1);
         }

@@ -582,7 +582,7 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 
         sl.AddTail(_T(""));
     } else if (formattype == FORMAT_WaveFormatEx || formattype == FORMAT_WaveFormatExFFMPEG) {
-        WAVEFORMATEX* pWfe = NULL;
+        WAVEFORMATEX* pWfe = nullptr;
         if (formattype == FORMAT_WaveFormatExFFMPEG) {
             fmtsize = sizeof(WAVEFORMATEXFFMPEG);
 

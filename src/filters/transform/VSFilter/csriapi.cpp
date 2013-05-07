@@ -50,7 +50,7 @@ CSRIAPI csri_inst* csri_open_file(csri_rend* renderer, const char* filename, str
     int namesize;
     wchar_t* namebuf;
 
-    namesize = MultiByteToWideChar(CP_UTF8, 0, filename, -1, NULL, 0);
+    namesize = MultiByteToWideChar(CP_UTF8, 0, filename, -1, nullptr, 0);
     if (!namesize) {
         return 0;
     }

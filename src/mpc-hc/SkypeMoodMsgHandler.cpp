@@ -27,8 +27,8 @@ const UINT SkypeMoodMsgHandler::uSkypeControlAPIDiscover = RegisterWindowMessage
 const UINT SkypeMoodMsgHandler::uSkypeControlAPIAttach = RegisterWindowMessage(_T("SkypeControlAPIAttach"));
 
 SkypeMoodMsgHandler::SkypeMoodMsgHandler()
-    : m_hWnd(NULL)
-    , m_hWndSkype(NULL)
+    : m_hWnd(nullptr)
+    , m_hWndSkype(nullptr)
 {
 }
 
@@ -41,7 +41,7 @@ void SkypeMoodMsgHandler::Connect(HWND hWnd)
 
 LRESULT SkypeMoodMsgHandler::HandleAttach(WPARAM wParam, LPARAM lParam)
 {
-    m_hWndSkype = NULL;
+    m_hWndSkype = nullptr;
 
     switch (lParam) {
         case SKYPECONTROLAPI_ATTACH_SUCCESS:

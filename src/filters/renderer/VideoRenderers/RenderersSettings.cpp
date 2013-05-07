@@ -101,7 +101,7 @@ CRenderersData::CRenderersData()
     m_fTearingTest  = false;
     m_fDisplayStats = false;
     m_bResetStats   = false;
-    m_hD3DX9Dll     = NULL;
+    m_hD3DX9Dll     = nullptr;
     m_nDXSdkRelease = 0;
 
     // Don't disable hardware features before initializing a renderer
@@ -130,7 +130,7 @@ HINSTANCE CRenderersData::GetD3X9Dll()
 #pragma message("ERROR: DirectX SDK " MPC_DX_SDK_MONTH " " MAKE_STR(MPC_DX_SDK_YEAR) " (v" MAKE_STR(MPC_DX_SDK_NUMBER) ") or newer is required to build MPC-HC")
 #endif
 
-    if (m_hD3DX9Dll == NULL) {
+    if (m_hD3DX9Dll == nullptr) {
         m_nDXSdkRelease = 0;
 
         // load latest compatible version of the DLL that is available

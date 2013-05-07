@@ -116,9 +116,9 @@ BOOL CPPageTweaks::OnInitDialog()
 
     m_FontType.Clear();
     m_FontSize.Clear();
-    HDC dc = CreateDC(_T("DISPLAY"), NULL, NULL, NULL);
+    HDC dc = CreateDC(_T("DISPLAY"), nullptr, nullptr, nullptr);
     CAtlArray<CString> fntl;
-    EnumFontFamilies(dc, NULL, (FONTENUMPROC)EnumFontProc, (LPARAM)&fntl);
+    EnumFontFamilies(dc, nullptr, (FONTENUMPROC)EnumFontProc, (LPARAM)&fntl);
     DeleteDC(dc);
     for (size_t i = 0; i < fntl.GetCount(); ++i) {
         if (i > 0 && fntl[i - 1] == fntl[i]) {
@@ -250,7 +250,7 @@ BOOL CPPageTweaks::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult)
         str = str.Left(_countof(pTTT->szText));
         if (sz.cx > rc.Width()) {
             _tcscpy_s(pTTT->szText, str);
-            pTTT->hinst = NULL;
+            pTTT->hinst = nullptr;
         }
 
         return TRUE;

@@ -202,7 +202,7 @@ BOOL CVolumeCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     CString str;
     str.Format(_T("%d%%"), GetPos());
     _tcscpy_s(pTTT->szText, str);
-    pTTT->hinst = NULL;
+    pTTT->hinst = nullptr;
 
     *pResult = 0;
 

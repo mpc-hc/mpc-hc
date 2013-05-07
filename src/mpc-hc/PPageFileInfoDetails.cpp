@@ -38,7 +38,7 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString fn, IFilterGraph* pFG, ISub
     , m_fn(fn)
     , m_pFG(pFG)
     , m_pCAP(pCAP)
-    , m_hIcon(NULL)
+    , m_hIcon(nullptr)
     , m_type(ResStr(IDS_AG_NOT_KNOWN))
     , m_size(ResStr(IDS_AG_NOT_KNOWN))
     , m_time(ResStr(IDS_AG_NOT_KNOWN))
@@ -79,7 +79,7 @@ static bool GetProperty(IFilterGraph* pFG, LPCOLESTR propName, VARIANT* vt)
 {
     BeginEnumFilters(pFG, pEF, pBF) {
         if (CComQIPtr<IPropertyBag> pPB = pBF)
-            if (SUCCEEDED(pPB->Read(propName, vt, NULL))) {
+            if (SUCCEEDED(pPB->Read(propName, vt, nullptr))) {
                 return true;
             }
     }
@@ -93,10 +93,10 @@ static CString FormatDateTime(FILETIME tm)
     SYSTEMTIME st;
     FileTimeToSystemTime(&tm, &st);
     TCHAR buff[256];
-    GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, NULL, buff, _countof(buff));
+    GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, nullptr, buff, _countof(buff));
     CString ret(buff);
     ret += _T(" ");
-    GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, NULL, buff, _countof(buff));
+    GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, nullptr, buff, _countof(buff));
     ret += buff;
     return ret;
 }
@@ -109,7 +109,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
         BeginEnumFilters(m_pFG, pEF, pBF) {
             CComQIPtr<IFileSourceFilter> pFSF = pBF;
             if (pFSF) {
-                LPOLESTR pFN = NULL;
+                LPOLESTR pFN = nullptr;
                 AM_MEDIA_TYPE mt;
                 if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
                     m_fn = CStringW(pFN);
@@ -233,8 +233,8 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 
     InitEncoding();
 
-    m_pFG = NULL;
-    m_pCAP = NULL;
+    m_pFG = nullptr;
+    m_pCAP = nullptr;
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

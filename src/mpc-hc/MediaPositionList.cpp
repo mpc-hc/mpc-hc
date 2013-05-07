@@ -108,9 +108,9 @@ void CFilePositionList::Empty()
 
     for (int i = 0, len = (int)GetCount(); i < len; i++) {
         strFilePos.Format(_T("File Name %d"), i);
-        m_pApp->WriteProfileString(m_lpszSection, strFilePos, NULL);
+        m_pApp->WriteProfileString(m_lpszSection, strFilePos, nullptr);
         strFilePos.Format(_T("File Position %d"), i);
-        m_pApp->WriteProfileString(m_lpszSection, strFilePos, NULL);
+        m_pApp->WriteProfileString(m_lpszSection, strFilePos, nullptr);
     }
 
     RemoveAll();
@@ -210,7 +210,7 @@ void CDVDPositionList::Empty()
 
     for (int i = 0, len = (int)GetCount(); i < len; i++) {
         strDVDPos.Format(_T("DVD Position %d"), i);
-        m_pApp->WriteProfileString(m_lpszSection, strDVDPos, NULL);
+        m_pApp->WriteProfileString(m_lpszSection, strDVDPos, nullptr);
     }
 
     RemoveAll();

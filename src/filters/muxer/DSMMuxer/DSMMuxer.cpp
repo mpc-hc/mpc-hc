@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,8 +37,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, TRUE, &CLSID_NULL, NULL, 0, NULL},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut}
+    {L"Input", FALSE, FALSE, FALSE, TRUE, &CLSID_NULL, nullptr, 0, nullptr},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -46,7 +46,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CDSMMuxerFilter>, NULL, &sudFilter[0]}
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CDSMMuxerFilter>, nullptr, &sudFilter[0]}
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -103,7 +103,7 @@ STDMETHODIMP CDSMMuxerFilter::NonDelegatingQueryInterface(REFIID riid, void** pp
 {
     CheckPointer(ppv, E_POINTER);
 
-    *ppv = NULL;
+    *ppv = nullptr;
 
     return
         __super::NonDelegatingQueryInterface(riid, ppv);
@@ -240,9 +240,9 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 
         for (DWORD i = 0, j = pRB->ResGetCount(); i < j; i++) {
             CComBSTR name, desc, mime;
-            BYTE* pData = NULL;
+            BYTE* pData = nullptr;
             DWORD len = 0;
-            if (SUCCEEDED(pRB->ResGet(i, &name, &desc, &mime, &pData, &len, NULL))) {
+            if (SUCCEEDED(pRB->ResGet(i, &name, &desc, &mime, &pData, &len, nullptr))) {
                 CStringA utf8_name = UTF16To8(name);
                 CStringA utf8_desc = UTF16To8(desc);
                 CStringA utf8_mime = UTF16To8(mime);

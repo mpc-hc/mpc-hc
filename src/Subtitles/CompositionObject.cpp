@@ -24,7 +24,7 @@
 
 
 CompositionObject::CompositionObject()
-    : m_pRLEData(NULL)
+    : m_pRLEData(nullptr)
     , m_nRLEDataSize(0)
     , m_nRLEPos(0)
     , m_nColorNumber(0)

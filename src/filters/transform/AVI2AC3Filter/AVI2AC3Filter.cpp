@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -41,8 +41,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -50,7 +50,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 };
 
 CFactoryTemplate g_Templates[] = {
-    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CAVI2AC3Filter>, NULL, &sudFilter[0]}
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CAVI2AC3Filter>, nullptr, &sudFilter[0]}
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -91,7 +91,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 {
     HRESULT hr;
 
-    BYTE* pIn = NULL;
+    BYTE* pIn = nullptr;
     if (FAILED(hr = pSample->GetPointer(&pIn))) {
         return hr;
     }
@@ -102,7 +102,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
         return S_FALSE;
     }
 
-    BYTE* pOut = NULL;
+    BYTE* pOut = nullptr;
     if (FAILED(hr = pOutSample->GetPointer(&pOut))) {
         return hr;
     }
@@ -154,11 +154,11 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 
                     fDiscontinuity = false;
                 } else {
-                    pOutSample->SetTime(NULL, NULL);
+                    pOutSample->SetTime(nullptr, nullptr);
                     pOutSample->SetDiscontinuity(FALSE);
                 }
 
-                BYTE* pOut = NULL;
+                BYTE* pOut = nullptr;
                 if (FAILED(hr = pOutSample->GetPointer(&pOut))) {
                     return hr;
                 }

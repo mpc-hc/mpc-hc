@@ -29,7 +29,7 @@
 
 IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CPlayerBar)
 CPlayerNavigationBar::CPlayerNavigationBar()
-    : m_pParent(NULL)
+    : m_pParent(nullptr)
 {
 }
 
@@ -97,9 +97,9 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
         if (separation < 0) {
             separation = 0;
         }
-        m_navdlg.m_ButtonInfo.SetWindowPos(NULL, r.left, r.bottom + 8, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-        m_navdlg.m_ButtonScan.SetWindowPos(NULL, r.left + sizeButtonInfo + separation, r.bottom + 8, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-        m_navdlg.m_ButtonFilterStations.SetWindowPos(NULL, r.left, r.bottom + 35, totalsize, 21, SWP_NOZORDER);
+        m_navdlg.m_ButtonInfo.SetWindowPos(nullptr, r.left, r.bottom + 8, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+        m_navdlg.m_ButtonScan.SetWindowPos(nullptr, r.left + sizeButtonInfo + separation, r.bottom + 8, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+        m_navdlg.m_ButtonFilterStations.SetWindowPos(nullptr, r.left, r.bottom + 35, totalsize, 21, SWP_NOZORDER);
     }
 
 }

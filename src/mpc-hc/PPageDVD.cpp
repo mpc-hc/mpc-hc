@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -293,7 +293,7 @@ void CPPageDVD::OnBnClickedButton1()
         CFileDialog dlg(TRUE);
         IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
 
-        if (openDlgPtr != NULL) {
+        if (openDlgPtr != nullptr) {
             openDlgPtr->SetTitle(strTitle);
             openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
             if (FAILED(openDlgPtr->Show(m_hWnd))) {
@@ -309,11 +309,11 @@ void CPPageDVD::OnBnClickedButton1()
 
         BROWSEINFO bi;
         bi.hwndOwner = m_hWnd;
-        bi.pidlRoot = NULL;
+        bi.pidlRoot = nullptr;
         bi.pszDisplayName = _path;
         bi.lpszTitle = strTitle;
         bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
-        bi.lpfn = NULL;
+        bi.lpfn = nullptr;
         bi.lParam = 0;
         bi.iImage = 0;
 

@@ -45,11 +45,11 @@ HRESULT CQT9AllocatorPresenter::AllocSurfaces()
 {
     HRESULT hr;
 
-    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceOff = nullptr;
 
     if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
                         m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_X8R8G8B8,
-                        D3DPOOL_DEFAULT, &m_pVideoSurfaceOff, NULL))) {
+                        D3DPOOL_DEFAULT, &m_pVideoSurfaceOff, nullptr))) {
         return hr;
     }
 
@@ -58,7 +58,7 @@ HRESULT CQT9AllocatorPresenter::AllocSurfaces()
 
 void CQT9AllocatorPresenter::DeleteSurfaces()
 {
-    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceOff = nullptr;
 
     __super::DeleteSurfaces();
 }
@@ -100,7 +100,7 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
 
     if ((bpp == 16 || bpp == 24 || bpp == 32) && w == d3dsd.Width && h == d3dsd.Height) {
         D3DLOCKED_RECT r;
-        if (SUCCEEDED(m_pVideoSurfaceOff->LockRect(&r, NULL, 0))) {
+        if (SUCCEEDED(m_pVideoSurfaceOff->LockRect(&r, nullptr, 0))) {
             BitBltFromRGBToRGB(
                 w, h,
                 (BYTE*)r.pBits, r.Pitch, dbpp,
@@ -111,7 +111,7 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
     }
 
     if (!fOk) {
-        m_pD3DDev->ColorFill(m_pVideoSurfaceOff, NULL, 0);
+        m_pD3DDev->ColorFill(m_pVideoSurfaceOff, nullptr, 0);
 
         HDC hDC;
         if (SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC))) {
@@ -126,7 +126,7 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
         }
     }
 
-    m_pD3DDev->StretchRect(m_pVideoSurfaceOff, NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE);
+    m_pD3DDev->StretchRect(m_pVideoSurfaceOff, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, D3DTEXF_NONE);
 
     Paint(true);
 

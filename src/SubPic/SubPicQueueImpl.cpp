@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,7 +28,7 @@
 //
 
 CSubPicQueueImpl::CSubPicQueueImpl(ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CUnknown(NAME("CSubPicQueueImpl"), NULL)
+    : CUnknown(NAME("CSubPicQueueImpl"), nullptr)
     , m_pAllocator(pAllocator)
     , m_rtNow(0)
     , m_rtNowLast(0)
@@ -160,7 +160,7 @@ CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* 
 
     m_fBreakBuffering = false;
     for (ptrdiff_t i = 0; i < EVENT_COUNT; i++) {
-        m_ThreadEvents[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
+        m_ThreadEvents[i] = CreateEvent(nullptr, FALSE, FALSE, nullptr);
     }
     CAMThread::Create();
 }
@@ -575,7 +575,7 @@ STDMETHODIMP CSubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate)
 {
     CAutoLock cQueueLock(&m_csLock);
 
-    m_pSubPic = NULL;
+    m_pSubPic = nullptr;
 
     return S_OK;
 }

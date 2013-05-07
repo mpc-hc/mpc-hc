@@ -34,7 +34,7 @@ bool CFileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
     bool success = false;
 
     // Get the buffer size required for the version information
-    DWORD dwFileVersionInfoSize = GetFileVersionInfoSize(filePath, NULL);
+    DWORD dwFileVersionInfoSize = GetFileVersionInfoSize(filePath, nullptr);
     if (dwFileVersionInfoSize) {
         // Allocate the buffer
         BYTE* lpData = (BYTE*)DEBUG_NEW BYTE[dwFileVersionInfoSize];

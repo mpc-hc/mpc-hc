@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,10 +33,10 @@
 #define BeginEnumAttribs(pNode, pChild)                                                           \
     {                                                                                             \
         CComPtr<IXMLDOMNamedNodeMap> pAttribs;                                                    \
-        if (SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != NULL)                      \
+        if (SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != nullptr)                      \
         {                                                                                         \
             CComPtr<IXMLDOMNode> pChild;                                                          \
-            for (pAttribs->nextNode(&pChild); pChild; pChild = NULL, pAttribs->nextNode(&pChild)) \
+            for (pAttribs->nextNode(&pChild); pChild; pChild = nullptr, pAttribs->nextNode(&pChild)) \
             {
 
 #define EndEnumAttribs }}}
@@ -44,7 +44,7 @@
 #define BeginEnumChildren(pNode, pChild)                                                                            \
     {                                                                                                               \
         CComPtr<IXMLDOMNode> pChild, pNext;                                                                         \
-        for (pNode->get_firstChild(&pChild); pChild; pNext = NULL, pChild->get_nextSibling(&pNext), pChild = pNext) \
+        for (pNode->get_firstChild(&pChild); pChild; pNext = nullptr, pChild->get_nextSibling(&pNext), pChild = pNext) \
         {
 
 #define EndEnumChildren }}
@@ -108,7 +108,7 @@ static int TimeToInt(CStringW str)
 
     for (i = 0; pos; i++) {
         const WCHAR* s = sl.GetNext(pos);
-        WCHAR* tmp = NULL;
+        WCHAR* tmp = nullptr;
         int t = wcstol(s, &tmp, 10);
         if (s >= tmp) {
             return -1;
@@ -125,9 +125,9 @@ static DWORD StringToDWORD(CStringW str)
         return 0;
     }
     if (str[0] == '#') {
-        return (DWORD)wcstol(str, NULL, 16);
+        return (DWORD)wcstol(str, nullptr, 16);
     } else {
-        return (DWORD)wcstol(str, NULL, 10);
+        return (DWORD)wcstol(str, nullptr, 10);
     }
 }
 
@@ -140,7 +140,7 @@ static DWORD ColorToDWORD(CStringW str)
     DWORD ret = 0;
 
     if (str[0] == '#') {
-        ret = (DWORD)wcstol(str.TrimLeft('#'), NULL, 16);
+        ret = (DWORD)wcstol(str.TrimLeft('#'), nullptr, 16);
     } else {
         g_colors.Lookup(CString(str), ret);
     }
@@ -170,7 +170,7 @@ static int TranslateMargin(CStringW margin, int wndsize)
     int ret = 0;
 
     if (!margin.IsEmpty()) {
-        ret = wcstol(margin, NULL, 10);
+        ret = wcstol(margin, nullptr, 10);
         if (margin.Find('%') >= 0) {
             ret = wndsize * ret / 100;
         }
@@ -342,15 +342,15 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 
         stss->borderStyle = 0;
         if (!s->fontstyle.outline.IsEmpty()) {
-            stss->outlineWidthX = stss->outlineWidthY = wcstol(s->fontstyle.outline, NULL, 10);
+            stss->outlineWidthX = stss->outlineWidthY = wcstol(s->fontstyle.outline, nullptr, 10);
         }
         if (!s->fontstyle.shadow.IsEmpty()) {
-            stss->shadowDepthX = stss->shadowDepthY = wcstol(s->fontstyle.shadow, NULL, 10);
+            stss->shadowDepthX = stss->shadowDepthY = wcstol(s->fontstyle.shadow, nullptr, 10);
         }
 
         for (size_t i = 0; i < 4; i++) {
             DWORD color = ColorToDWORD(s->fontstyle.color[i]);
-            int alpha = (BYTE)wcstol(s->fontstyle.alpha, NULL, 10);
+            int alpha = (BYTE)wcstol(s->fontstyle.alpha, nullptr, 10);
 
             stss->colors[i] = color & 0xffffff;
             stss->alpha[i] = (BYTE)(color >> 24);
@@ -362,14 +362,14 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
             stss->fontName = s->fontstyle.face;
         }
         if (!s->fontstyle.size.IsEmpty()) {
-            stss->fontSize = wcstol(s->fontstyle.size, NULL, 10);
+            stss->fontSize = wcstol(s->fontstyle.size, nullptr, 10);
         }
         if (!s->fontstyle.weight.IsEmpty()) stss->fontWeight =
                 !s->fontstyle.weight.CompareNoCase(L"normal") ? FW_NORMAL :
                 !s->fontstyle.weight.CompareNoCase(L"bold") ? FW_BOLD :
                 !s->fontstyle.weight.CompareNoCase(L"lighter") ? FW_LIGHT :
                 !s->fontstyle.weight.CompareNoCase(L"bolder") ? FW_SEMIBOLD :
-                wcstol(s->fontstyle.weight, NULL, 10);
+                wcstol(s->fontstyle.weight, nullptr, 10);
         if (stss->fontWeight == 0) {
             stss->fontWeight = FW_NORMAL;
         }
@@ -380,13 +380,13 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
             stss->fUnderline = s->fontstyle.underline.CompareNoCase(L"yes") == 0;
         }
         if (!s->pal.rotate[0].IsEmpty()) {
-            stss->fontAngleZ = wcstol(s->pal.rotate[0], NULL, 10);
+            stss->fontAngleZ = wcstol(s->pal.rotate[0], nullptr, 10);
         }
         if (!s->pal.rotate[1].IsEmpty()) {
-            stss->fontAngleX = wcstol(s->pal.rotate[1], NULL, 10);
+            stss->fontAngleX = wcstol(s->pal.rotate[1], nullptr, 10);
         }
         if (!s->pal.rotate[2].IsEmpty()) {
-            stss->fontAngleY = wcstol(s->pal.rotate[2], NULL, 10);
+            stss->fontAngleY = wcstol(s->pal.rotate[2], nullptr, 10);
         }
 
         stss->charSet = charSet;
@@ -416,7 +416,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 
         WCHAR rtags[3][8] = {L"{\\rz%d}", L"{\\rx%d}", L"{\\ry%d}"};
         for (size_t i = 0; i < 3; i++) {
-            if (int angle = wcstol(t->pal.rotate[i], NULL, 10)) {
+            if (int angle = wcstol(t->pal.rotate[i], nullptr, 10)) {
                 CStringW str;
                 str.Format(rtags[i], angle);
                 t->str = str + t->str;
@@ -756,7 +756,7 @@ void CUSFSubtitles::ParseText(CComPtr<IXMLDOMNode> pNode, CStringW& str)
             }
         }
     } else if (name == L"k") {
-        int t = wcstol(GetAttrib(L"t", pNode), NULL, 10);
+        int t = wcstol(GetAttrib(L"t", pNode), nullptr, 10);
         CStringW s;
         s.Format(L"{\\kf%d}", t / 10);
         str += s;

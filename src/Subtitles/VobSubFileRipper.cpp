@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,7 +30,7 @@
 //
 
 CVobSubFileRipper::CVobSubFileRipper()
-    : CVobSubFile(NULL)
+    : CVobSubFile(nullptr)
     , m_fThreadActive(false)
     , m_fBreakThread(false)
     , m_fIndexing(false)
@@ -952,7 +952,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
             }
             phase = P_PGC;
         } else if (phase == P_PGC) {
-            m_rd.iSelPGC = _tcstol(line, NULL, 10) - 1;
+            m_rd.iSelPGC = _tcstol(line, nullptr, 10) - 1;
             if (m_rd.iSelPGC < 0 || (size_t)m_rd.iSelPGC >= m_rd.pgcs.GetCount()) {
                 break;
             }
@@ -960,7 +960,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
         } else if (phase == 3) {
             PGC& pgc = m_rd.pgcs[m_rd.iSelPGC];
 
-            pgc.iSelAngle = _tcstol(line, NULL, 10);
+            pgc.iSelAngle = _tcstol(line, nullptr, 10);
             if (pgc.iSelAngle < 0 || pgc.iSelAngle > max(1, pgc.nAngles) || pgc.iSelAngle > 9) {
                 break;
             }

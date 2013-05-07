@@ -33,8 +33,8 @@ bool CDVDSession::Open(LPCTSTR path)
     CString fn = path;
     CString drive = _T("\\\\.\\") + fn.Left(fn.Find(':') + 1);
 
-    m_hDrive = CreateFile(drive, GENERIC_READ, FILE_SHARE_READ, NULL,
-                          OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)NULL);
+    m_hDrive = CreateFile(drive, GENERIC_READ, FILE_SHARE_READ, nullptr,
+                          OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)nullptr);
     if (m_hDrive == INVALID_HANDLE_VALUE) {
         return false;
     }
@@ -59,10 +59,10 @@ bool CDVDSession::BeginSession()
     }
 
     DWORD BytesReturned;
-    if (!DeviceIoControl(m_hDrive, IOCTL_DVD_START_SESSION, NULL, 0, &m_session, sizeof(m_session), &BytesReturned, NULL)) {
+    if (!DeviceIoControl(m_hDrive, IOCTL_DVD_START_SESSION, nullptr, 0, &m_session, sizeof(m_session), &BytesReturned, nullptr)) {
         m_session = DVD_END_ALL_SESSIONS;
-        if (!DeviceIoControl(m_hDrive, IOCTL_DVD_END_SESSION, &m_session, sizeof(m_session), NULL, 0, &BytesReturned, NULL)
-                || !DeviceIoControl(m_hDrive, IOCTL_DVD_START_SESSION, NULL, 0, &m_session, sizeof(m_session), &BytesReturned, NULL)) {
+        if (!DeviceIoControl(m_hDrive, IOCTL_DVD_END_SESSION, &m_session, sizeof(m_session), nullptr, 0, &BytesReturned, nullptr)
+                || !DeviceIoControl(m_hDrive, IOCTL_DVD_START_SESSION, nullptr, 0, &m_session, sizeof(m_session), &BytesReturned, nullptr)) {
             Close();
             DWORD err = GetLastError();
             UNREFERENCED_PARAMETER(err);
@@ -77,7 +77,7 @@ void CDVDSession::EndSession()
 {
     if (m_session != DVD_END_ALL_SESSIONS) {
         DWORD BytesReturned;
-        DeviceIoControl(m_hDrive, IOCTL_DVD_END_SESSION, &m_session, sizeof(m_session), NULL, 0, &BytesReturned, NULL);
+        DeviceIoControl(m_hDrive, IOCTL_DVD_END_SESSION, &m_session, sizeof(m_session), nullptr, 0, &BytesReturned, nullptr);
         m_session = DVD_END_ALL_SESSIONS;
     }
 }
@@ -224,7 +224,7 @@ bool CDVDSession::SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData)
     key->KeyFlags = 0;
 
     DWORD BytesReturned;
-    return !!DeviceIoControl(m_hDrive, IOCTL_DVD_SEND_KEY, key, key->KeyLength, NULL, 0, &BytesReturned, NULL);
+    return !!DeviceIoControl(m_hDrive, IOCTL_DVD_SEND_KEY, key, key->KeyLength, nullptr, 0, &BytesReturned, nullptr);
 }
 
 bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
@@ -265,7 +265,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
     key->KeyFlags = 0;
 
     DWORD BytesReturned;
-    if (!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, key, key->KeyLength, key, key->KeyLength, &BytesReturned, NULL)) {
+    if (!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, key, key->KeyLength, key, key->KeyLength, &BytesReturned, nullptr)) {
         DWORD err = GetLastError();
         UNREFERENCED_PARAMETER(err);
         return false;

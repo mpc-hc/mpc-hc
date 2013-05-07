@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -60,10 +60,10 @@ bool CALLBACK DSEnumProc(LPGUID lpGUID,
 {
     CComboBox* pCombo = (CComboBox*)lpContext;
     ASSERT(pCombo);
-    LPGUID lpTemp = NULL;
+    LPGUID lpTemp = nullptr;
 
-    if (lpGUID != NULL) { // NULL only for "Primary Sound Driver".
-        if ((lpTemp = (LPGUID)malloc(sizeof(GUID))) == NULL) {
+    if (lpGUID != nullptr) { // NULL only for "Primary Sound Driver".
+        if ((lpTemp = (LPGUID)malloc(sizeof(GUID))) == nullptr) {
             return TRUE;
         }
         memcpy(lpTemp, lpGUID, sizeof(GUID));

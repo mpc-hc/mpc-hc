@@ -52,7 +52,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 
     if (size == sizeof(VIDEO_STREAM_CONFIG_CAPS)) {
         for (int i = 0; i < cnt; i++) {
-            AM_MEDIA_TYPE* pmt = NULL;
+            AM_MEDIA_TYPE* pmt = nullptr;
 
             VIDEO_STREAM_CONFIG_CAPS caps;
             memset(&caps, 0, sizeof(caps));
@@ -267,13 +267,13 @@ IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin)
     }
     EndEnumPins;
 
-    return NULL;
+    return nullptr;
 }
 
 IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 {
     if (!pBF) {
-        return NULL;
+        return nullptr;
     }
 
     BeginEnumPins(pBF, pEP, pPin) {
@@ -287,13 +287,13 @@ IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir)
     }
     EndEnumPins;
 
-    return NULL;
+    return nullptr;
 }
 
 IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 {
     if (!pBF) {
-        return NULL;
+        return nullptr;
     }
 
     BeginEnumPins(pBF, pEP, pPin) {
@@ -308,7 +308,7 @@ IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir)
     }
     EndEnumPins;
 
-    return NULL;
+    return nullptr;
 }
 
 IBaseFilter* FindFilter(LPCWSTR clsid, IFilterGraph* pFG)
@@ -328,7 +328,7 @@ IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG)
     }
     EndEnumFilters;
 
-    return NULL;
+    return nullptr;
 }
 
 IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pRequestedMT)
@@ -349,7 +349,7 @@ IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pR
         }
     }
     EndEnumPins;
-    return NULL;
+    return nullptr;
 }
 
 CStringW GetFilterName(IBaseFilter* pBF)
@@ -380,9 +380,9 @@ CStringW GetPinName(IPin* pPin)
 IFilterGraph* GetGraphFromFilter(IBaseFilter* pBF)
 {
     if (!pBF) {
-        return NULL;
+        return nullptr;
     }
-    IFilterGraph* pGraph = NULL;
+    IFilterGraph* pGraph = nullptr;
     CFilterInfo fi;
     if (pBF && SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
         pGraph = fi.pGraph;
@@ -393,9 +393,9 @@ IFilterGraph* GetGraphFromFilter(IBaseFilter* pBF)
 IBaseFilter* GetFilterFromPin(IPin* pPin)
 {
     if (!pPin) {
-        return NULL;
+        return nullptr;
     }
-    IBaseFilter* pBF = NULL;
+    IBaseFilter* pBF = nullptr;
     CPinInfo pi;
     if (pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
         pBF = pi.pFilter;
@@ -440,7 +440,7 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             break;
         }
 
@@ -466,7 +466,7 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
         }
 
         HRESULT hr;
-        if (FAILED(hr = pGB->ConnectDirect(pPin, pPinTo, NULL))) {
+        if (FAILED(hr = pGB->ConnectDirect(pPin, pPinTo, nullptr))) {
             hr = pGB->Connect(pPin, pPinTo);
             pGB->RemoveFilter(pBF);
             break;
@@ -535,7 +535,7 @@ IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             break;
         }
 
@@ -551,27 +551,27 @@ IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 
         if (FAILED(pGB->Disconnect(pFrom)) || FAILED(pGB->Disconnect(pTo))) {
             pGB->RemoveFilter(pBF);
-            pGB->ConnectDirect(pFrom, pTo, NULL);
+            pGB->ConnectDirect(pFrom, pTo, nullptr);
             break;
         }
 
         HRESULT hr;
-        if (FAILED(hr = pGB->ConnectDirect(pFrom, pFromTo, NULL))) {
+        if (FAILED(hr = pGB->ConnectDirect(pFrom, pFromTo, nullptr))) {
             pGB->RemoveFilter(pBF);
-            pGB->ConnectDirect(pFrom, pTo, NULL);
+            pGB->ConnectDirect(pFrom, pTo, nullptr);
             break;
         }
 
         CComPtr<IPin> pToFrom = GetFirstPin(pBF, PINDIR_OUTPUT);
         if (!pToFrom) {
             pGB->RemoveFilter(pBF);
-            pGB->ConnectDirect(pFrom, pTo, NULL);
+            pGB->ConnectDirect(pFrom, pTo, nullptr);
             break;
         }
 
-        if (FAILED(pGB->ConnectDirect(pToFrom, pTo, NULL))) {
+        if (FAILED(pGB->ConnectDirect(pToFrom, pTo, nullptr))) {
             pGB->RemoveFilter(pBF);
-            pGB->ConnectDirect(pFrom, pTo, NULL);
+            pGB->ConnectDirect(pFrom, pTo, nullptr);
             break;
         }
 
@@ -681,15 +681,15 @@ void ShowPPage(IUnknown* pUnk, HWND hParentWnd)
     }
 
     CAUUID caGUID;
-    caGUID.pElems = NULL;
+    caGUID.pElems = nullptr;
     if (SUCCEEDED(pSPP->GetPages(&caGUID))) {
-        IUnknown* lpUnk = NULL;
+        IUnknown* lpUnk = nullptr;
         pSPP.QueryInterface(&lpUnk);
         MyOleCreatePropertyFrame(
             hParentWnd, 0, 0, CStringW(str),
             1, (IUnknown**)&lpUnk,
             caGUID.cElems, caGUID.pElems,
-            0, 0, NULL);
+            0, 0, nullptr);
         lpUnk->Release();
 
         if (caGUID.pElems) {
@@ -725,7 +725,7 @@ bool IsCLSIDRegistered(const CLSID& clsid)
 {
     bool fRet = false;
 
-    LPOLESTR pStr = NULL;
+    LPOLESTR pStr = nullptr;
     if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
         fRet = IsCLSIDRegistered(CString(pStr));
         CoTaskMemFree(pStr);
@@ -831,12 +831,12 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
         }
 
         // CDROM_Audio
-        HANDLE hDrive = CreateFile(CString(_T("\\\\.\\")) + path, GENERIC_READ, FILE_SHARE_READ, NULL,
-                                   OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
+        HANDLE hDrive = CreateFile(CString(_T("\\\\.\\")) + path, GENERIC_READ, FILE_SHARE_READ, nullptr,
+                                   OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)nullptr);
         if (hDrive != INVALID_HANDLE_VALUE) {
             DWORD BytesReturned;
             CDROM_TOC TOC;
-            if (DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, NULL, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
+            if (DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, nullptr, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
                 for (ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++) {
                     // MMC-3 Draft Revision 10g: Table 222 - Q Sub-channel control field
                     TOC.TrackData[i - 1].Control &= 5;
@@ -1060,7 +1060,7 @@ bool ExtractAvgTimePerFrame(const AM_MEDIA_TYPE* pmt, REFERENCE_TIME& rtAvgTimeP
 
 bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih)
 {
-    AM_MEDIA_TYPE* pmt = NULL;
+    AM_MEDIA_TYPE* pmt = nullptr;
     if (SUCCEEDED(pMS->GetMediaType(&pmt)) && pmt) {
         bool fRet = ExtractBIH(pmt, bih);
         DeleteMediaType(pmt);
@@ -1091,7 +1091,7 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
     }
 
     if (!arx || !ary) {
-        BYTE* ptr = NULL;
+        BYTE* ptr = nullptr;
         DWORD len = 0;
 
         if (pmt->formattype == FORMAT_MPEGVideo) {
@@ -1165,7 +1165,7 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
         return true;
     }
 
-    BYTE* seqhdr_ext = NULL;
+    BYTE* seqhdr_ext = nullptr;
 
     BYTE* seqhdr_end = seqhdr + 7;
 
@@ -1221,7 +1221,7 @@ bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyNa
         return false;
     }
 
-    *ppBF = NULL;
+    *ppBF = nullptr;
     FriendlyName.Empty();
 
     CComPtr<IBindCtx> pBindCtx;
@@ -1240,7 +1240,7 @@ bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyNa
     CComPtr<IPropertyBag> pPB;
     CComVariant var;
     if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))
-            && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+            && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
         FriendlyName = var.bstrVal;
     }
 
@@ -1269,7 +1269,7 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             break;
         }
 
@@ -1288,7 +1288,7 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
                 continue;
             }
 
-            if (SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo, NULL))) {
+            if (SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo, nullptr))) {
                 return pBF;
             }
         }
@@ -1297,7 +1297,7 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
         pGB->RemoveFilter(pBF);
     } while (false);
 
-    return NULL;
+    return nullptr;
 }
 
 CStringW GetFriendlyName(CStringW DisplayName)
@@ -1316,7 +1316,7 @@ CStringW GetFriendlyName(CStringW DisplayName)
     CComPtr<IPropertyBag> pPB;
     CComVariant var;
     if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))
-            && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+            && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
         FriendlyName = var.bstrVal;
     }
 
@@ -1337,7 +1337,7 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
 
     CString fullpath = MakeFullPath(path);
 
-    HINSTANCE hInst = NULL;
+    HINSTANCE hInst = nullptr;
     bool fFound = false;
 
     POSITION pos = s_extobjs.GetHeadPosition();
@@ -1362,7 +1362,7 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
         if (p && FAILED(hr = p(clsid, iid, ppv))) {
             CComPtr<IClassFactory> pCF;
             if (SUCCEEDED(hr = p(clsid, __uuidof(IClassFactory), (void**)&pCF))) {
-                hr = pCF->CreateInstance(NULL, iid, ppv);
+                hr = pCF->CreateInstance(nullptr, iid, ppv);
             }
         }
     }
@@ -1489,7 +1489,7 @@ CString CStringFromGUID(const GUID& guid)
 CStringW UTF8To16(LPCSTR utf8)
 {
     CStringW str;
-    int n = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, NULL, 0) - 1;
+    int n = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, nullptr, 0) - 1;
     if (n < 0) {
         return str;
     }
@@ -1500,18 +1500,18 @@ CStringW UTF8To16(LPCSTR utf8)
 CStringA UTF16To8(LPCWSTR utf16)
 {
     CStringA str;
-    int n = WideCharToMultiByte(CP_UTF8, 0, utf16, -1, NULL, 0, NULL, NULL) - 1;
+    int n = WideCharToMultiByte(CP_UTF8, 0, utf16, -1, nullptr, 0, nullptr, nullptr) - 1;
     if (n < 0) {
         return str;
     }
-    str.ReleaseBuffer(WideCharToMultiByte(CP_UTF8, 0, utf16, -1, str.GetBuffer(n), n + 1, NULL, NULL) - 1);
+    str.ReleaseBuffer(WideCharToMultiByte(CP_UTF8, 0, utf16, -1, str.GetBuffer(n), n + 1, nullptr, nullptr) - 1);
     return str;
 }
 
 CStringW UTF8ToStringW(const char* S)
 {
     CStringW str;
-    if (S == NULL) {
+    if (S == nullptr) {
         return str;
     }
 
@@ -1563,11 +1563,11 @@ CStringW UTF8ToStringW(const char* S)
 CStringW LocalToStringW(const char* S)
 {
     CStringW str;
-    if (S == NULL) {
+    if (S == nullptr) {
         return str;
     }
 
-    int Size = MultiByteToWideChar(CP_ACP, 0, S, -1, NULL, 0);
+    int Size = MultiByteToWideChar(CP_ACP, 0, S, -1, nullptr, 0);
     if (Size != 0) {
         str.ReleaseBuffer(MultiByteToWideChar(CP_ACP, 0, S, -1, str.GetBuffer(Size), Size + 1) - 1);
     }
@@ -2699,7 +2699,7 @@ const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type)
         case VIDEO_STREAM_VC1:
                 return L"VC-1";
     }
-    return NULL;
+    return nullptr;
 }
 
 //
@@ -2835,7 +2835,7 @@ unsigned int lav_xiphlacing(unsigned char* s, unsigned int v)
 void getExtraData(const BYTE* format, const GUID* formattype, const size_t formatlen, BYTE* extra, unsigned int* extralen)
 {
     // code from LAV ...
-    const BYTE* extraposition = NULL;
+    const BYTE* extraposition = nullptr;
     size_t extralength = 0;
     if (*formattype == FORMAT_WaveFormatEx) {
         //WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;

@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2012 see Authors.txt
+ * (C) 2011-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,8 +27,8 @@
 
 // CWinHotkeyCtrl
 
-HHOOK CWinHotkeyCtrl::sm_hhookKb = NULL;
-CWinHotkeyCtrl* CWinHotkeyCtrl::sm_pwhcFocus = NULL;
+HHOOK CWinHotkeyCtrl::sm_hhookKb = nullptr;
+CWinHotkeyCtrl* CWinHotkeyCtrl::sm_pwhcFocus = nullptr;
 
 
 IMPLEMENT_DYNAMIC(CWinHotkeyCtrl, CEdit)
@@ -83,9 +83,9 @@ BOOL CWinHotkeyCtrl::InstallKbHook()
     }
     sm_pwhcFocus = this;
 
-    sm_hhookKb = ::SetWindowsHookEx(WH_KEYBOARD_LL, (HOOKPROC)LowLevelKeyboardProc, GetModuleHandle(NULL), NULL);
+    sm_hhookKb = ::SetWindowsHookEx(WH_KEYBOARD_LL, (HOOKPROC)LowLevelKeyboardProc, GetModuleHandle(nullptr), 0);
 
-    return (sm_hhookKb != NULL);
+    return (sm_hhookKb != nullptr);
 }
 
 BOOL CWinHotkeyCtrl::UninstallKbHook()
@@ -93,9 +93,9 @@ BOOL CWinHotkeyCtrl::UninstallKbHook()
     BOOL fOk = FALSE;
     if (sm_hhookKb) {
         fOk = ::UnhookWindowsHookEx(sm_hhookKb);
-        sm_hhookKb = NULL;
+        sm_hhookKb = nullptr;
     }
-    sm_pwhcFocus = NULL;
+    sm_pwhcFocus = nullptr;
     return fOk;
 }
 
@@ -253,7 +253,7 @@ void CWinHotkeyCtrl::OnContextMenu(CWnd*, CPoint pt)
 
     UINT uMenuID = TrackPopupMenu(hmenu,
                                   TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_VERPOSANIMATION | TPM_NONOTIFY | TPM_RETURNCMD,
-                                  pt.x, pt.y, 0, GetSafeHwnd(), NULL);
+                                  pt.x, pt.y, 0, GetSafeHwnd(), nullptr);
 
     if (uMenuID) {
         switch (uMenuID) {

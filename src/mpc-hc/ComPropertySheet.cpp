@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,7 +33,7 @@ class CComPropertyPageSite : public CUnknown, public IPropertyPageSite
     IComPropertyPageDirty* m_pPPD;
 
 public:
-    CComPropertyPageSite(IComPropertyPageDirty* pPPD) : CUnknown(NAME("CComPropertyPageSite"), NULL), m_pPPD(pPPD) {}
+    CComPropertyPageSite(IComPropertyPageDirty* pPPD) : CUnknown(NAME("CComPropertyPageSite"), nullptr), m_pPPD(pPPD) {}
 
     DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
@@ -95,12 +95,12 @@ int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
     }
 
     CAUUID caGUID;
-    caGUID.pElems = NULL;
-    if (FAILED(pSPP->GetPages(&caGUID)) || caGUID.pElems == NULL) {
+    caGUID.pElems = nullptr;
+    if (FAILED(pSPP->GetPages(&caGUID)) || caGUID.pElems == nullptr) {
         return 0;
     }
 
-    IUnknown* lpUnk = NULL;
+    IUnknown* lpUnk = nullptr;
     if (FAILED(pSPP->QueryInterface(&lpUnk))) {
         return 0;
     }

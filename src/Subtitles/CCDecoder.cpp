@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -110,7 +110,7 @@ void CCDecoder::SaveDisp(__int64 time)
 void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 {
     if (!m_rawfn.IsEmpty()) {
-        FILE* f = NULL;
+        FILE* f = nullptr;
         if (!_tfopen_s(&f, m_rawfn, _T("at"))) {
             _ftprintf_s(f, _T("%02d:%02d:%02d.%03d\n"),
                         (int)(time / 1000 / 60 / 60),

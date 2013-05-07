@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,7 +29,7 @@ CMultiFiles::CMultiFiles()
     : m_hFile(INVALID_HANDLE_VALUE)
     , m_llTotalLength(0)
     , m_nCurPart(-1)
-    , m_pCurrentPTSOffset(NULL)
+    , m_pCurrentPTSOffset(nullptr)
 {
 }
 
@@ -141,7 +141,7 @@ UINT CMultiFiles::Read(void* lpBuf, UINT nCount)
 {
     DWORD dwRead;
     do {
-        if (!ReadFile(m_hFile, lpBuf, nCount, &dwRead, NULL)) {
+        if (!ReadFile(m_hFile, lpBuf, nCount, &dwRead, nullptr)) {
             break;
         }
 
@@ -175,11 +175,11 @@ BOOL CMultiFiles::OpenPart(int nPart)
         ClosePart();
 
         fn = m_strFiles.GetAt(nPart);
-        m_hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+        m_hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 0, nullptr);
 
         if (m_hFile != INVALID_HANDLE_VALUE) {
             m_nCurPart = nPart;
-            if (m_pCurrentPTSOffset != NULL) {
+            if (m_pCurrentPTSOffset != nullptr) {
                 *m_pCurrentPTSOffset = m_rtPtsOffsets[nPart];
             }
         }

@@ -46,27 +46,27 @@ HRESULT CRM9AllocatorPresenter::AllocSurfaces()
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
 
-    m_pVideoSurfaceOff  = NULL;
-    m_pVideoSurfaceYUY2 = NULL;
+    m_pVideoSurfaceOff  = nullptr;
+    m_pVideoSurfaceYUY2 = nullptr;
 
     HRESULT hr;
 
     if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
                         m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_X8R8G8B8,
-                        D3DPOOL_DEFAULT, &m_pVideoSurfaceOff, NULL))) {
+                        D3DPOOL_DEFAULT, &m_pVideoSurfaceOff, nullptr))) {
         return hr;
     }
 
-    m_pD3DDev->ColorFill(m_pVideoSurfaceOff, NULL, 0);
+    m_pD3DDev->ColorFill(m_pVideoSurfaceOff, nullptr, 0);
 
     if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
                         m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_YUY2,
-                        D3DPOOL_DEFAULT, &m_pVideoSurfaceYUY2, NULL))) {
-        m_pVideoSurfaceYUY2 = NULL;
+                        D3DPOOL_DEFAULT, &m_pVideoSurfaceYUY2, nullptr))) {
+        m_pVideoSurfaceYUY2 = nullptr;
     }
 
     if (m_pVideoSurfaceYUY2) {
-        m_pD3DDev->ColorFill(m_pVideoSurfaceOff, NULL, 0x80108010);
+        m_pD3DDev->ColorFill(m_pVideoSurfaceOff, nullptr, 0x80108010);
     }
 
     return __super::AllocSurfaces();
@@ -76,8 +76,8 @@ void CRM9AllocatorPresenter::DeleteSurfaces()
 {
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
-    m_pVideoSurfaceOff = NULL;
-    m_pVideoSurfaceYUY2 = NULL;
+    m_pVideoSurfaceOff = nullptr;
+    m_pVideoSurfaceYUY2 = nullptr;
     __super::DeleteSurfaces();
 }
 
@@ -178,7 +178,7 @@ STDMETHODIMP CRM9AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
     }
 
     if (!fRGB && !fYUY2) {
-        m_pD3DDev->ColorFill(m_pVideoSurfaceOff, NULL, 0);
+        m_pD3DDev->ColorFill(m_pVideoSurfaceOff, nullptr, 0);
 
         HDC hDC;
         if (SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC))) {

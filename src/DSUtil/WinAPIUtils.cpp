@@ -37,13 +37,13 @@ bool SetPrivilege(LPCTSTR privilege, bool bEnable)
     }
 
     // Get the LUID for the privilege.
-    LookupPrivilegeValue(NULL, privilege, &tkp.Privileges[0].Luid);
+    LookupPrivilegeValue(nullptr, privilege, &tkp.Privileges[0].Luid);
 
     tkp.PrivilegeCount = 1;  // one privilege to set
     tkp.Privileges[0].Attributes = bEnable ? SE_PRIVILEGE_ENABLED : 0;
 
     // Set the privilege for this process.
-    AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
+    AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)nullptr, 0);
 
     return (GetLastError() == ERROR_SUCCESS);
 }
@@ -79,7 +79,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
     // Registry functions don't set GetLastError(), so it needs to be set explicitly
     LSTATUS errorCode = ERROR_SUCCESS;
 
-    HKEY hKey = NULL;
+    HKEY hKey = nullptr;
     errorCode = RegOpenKeyEx(hKeyRoot, keyName, 0, KEY_READ, &hKey);
     if (errorCode != ERROR_SUCCESS) {
         SetLastError(errorCode);
@@ -88,7 +88,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 
     DWORD subKeysCount = 0, maxSubKeyLen = 0;
     DWORD valuesCount = 0, maxValueNameLen = 0, maxValueDataLen = 0;
-    errorCode = RegQueryInfoKey(hKey, NULL, NULL, NULL, &subKeysCount, &maxSubKeyLen, NULL, &valuesCount, &maxValueNameLen, &maxValueDataLen, NULL, NULL);
+    errorCode = RegQueryInfoKey(hKey, nullptr, nullptr, nullptr, &subKeysCount, &maxSubKeyLen, nullptr, &valuesCount, &maxValueNameLen, &maxValueDataLen, nullptr, nullptr);
     if (errorCode != ERROR_SUCCESS) {
         SetLastError(errorCode);
         return false;
@@ -109,7 +109,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
         valueNameLen = maxValueNameLen;
         valueDataLen = maxValueDataLen;
 
-        errorCode = RegEnumValue(hKey, indexValue, valueName.GetBuffer(maxValueNameLen), &valueNameLen, NULL, &type, data, &valueDataLen);
+        errorCode = RegEnumValue(hKey, indexValue, valueName.GetBuffer(maxValueNameLen), &valueNameLen, nullptr, &type, data, &valueDataLen);
         if (errorCode != ERROR_SUCCESS) {
             SetLastError(errorCode);
             return false;
@@ -158,7 +158,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
     for (DWORD indexSubKey = 0; indexSubKey < subKeysCount; indexSubKey++) {
         subKeyLen = maxSubKeyLen;
 
-        errorCode = RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen), &subKeyLen, NULL, NULL, NULL, NULL);
+        errorCode = RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen), &subKeyLen, nullptr, nullptr, nullptr, nullptr);
         if (errorCode != ERROR_SUCCESS) {
             SetLastError(errorCode);
             return false;
@@ -178,12 +178,12 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 
 UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd)
 {
-    if (hWnd == NULL || pD3D == NULL) {
+    if (hWnd == nullptr || pD3D == nullptr) {
         return D3DADAPTER_DEFAULT;
     }
 
     HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
-    if (hMonitor == NULL) {
+    if (hMonitor == nullptr) {
         return D3DADAPTER_DEFAULT;
     }
 
@@ -234,7 +234,7 @@ bool IsFontInstalled(LPCTSTR lpszFont)
 {
     // Get the screen DC
     CDC dc;
-    if (!dc.CreateCompatibleDC(NULL)) {
+    if (!dc.CreateCompatibleDC(nullptr)) {
         return false;
     }
 
@@ -253,13 +253,13 @@ bool IsFontInstalled(LPCTSTR lpszFont)
 bool ExploreToFile(LPCTSTR path)
 {
     bool success = false;
-    HRESULT res = CoInitialize(NULL);
+    HRESULT res = CoInitialize(nullptr);
 
     if (res == S_OK || res == S_FALSE) {
         PIDLIST_ABSOLUTE pidl;
 
-        if (SHParseDisplayName(path, NULL, &pidl, 0, NULL) == S_OK) {
-            success = SUCCEEDED(SHOpenFolderAndSelectItems(pidl, 0, NULL, 0));
+        if (SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
+            success = SUCCEEDED(SHOpenFolderAndSelectItems(pidl, 0, nullptr, 0));
             CoTaskMemFree(pidl);
         }
 
@@ -278,7 +278,7 @@ CString GetProgramPath(bool bWithExecutableName /*= false*/)
 {
     CString path;
 
-    DWORD dwLength = ::GetModuleFileName(NULL, path.GetBuffer(MAX_PATH), MAX_PATH);
+    DWORD dwLength = ::GetModuleFileName(nullptr, path.GetBuffer(MAX_PATH), MAX_PATH);
     path.ReleaseBuffer((int)dwLength);
 
     if (!bWithExecutableName) {

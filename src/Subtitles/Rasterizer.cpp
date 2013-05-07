@@ -54,10 +54,10 @@ int Rasterizer::getOverlayWidth()
 }
 
 Rasterizer::Rasterizer() :
-    mpPathTypes(NULL),
-    mpPathPoints(NULL),
+    mpPathTypes(nullptr),
+    mpPathPoints(nullptr),
     mPathPoints(0),
-    mpOverlayBuffer(NULL)
+    mpOverlayBuffer(nullptr)
 {
     mOverlayWidth = mOverlayHeight = 0;
     mPathOffsetX = mPathOffsetY = 0;
@@ -76,8 +76,8 @@ void Rasterizer::_TrashPath()
 {
     delete [] mpPathTypes;
     delete [] mpPathPoints;
-    mpPathTypes = NULL;
-    mpPathPoints = NULL;
+    mpPathTypes = nullptr;
+    mpPathPoints = nullptr;
     mPathPoints = 0;
 }
 
@@ -86,7 +86,7 @@ void Rasterizer::_TrashOverlay()
     if (mpOverlayBuffer) {
         _aligned_free(mpOverlayBuffer);
     }
-    mpOverlayBuffer = NULL;
+    mpOverlayBuffer = nullptr;
 }
 
 void Rasterizer::_ReallocEdgeBuffer(int edges)
@@ -297,7 +297,7 @@ bool Rasterizer::EndPath(HDC hdc)
     ::CloseFigure(hdc);
 
     if (::EndPath(hdc)) {
-        mPathPoints = GetPath(hdc, NULL, NULL, 0);
+        mPathPoints = GetPath(hdc, nullptr, nullptr, 0);
 
         if (!mPathPoints) {
             return true;
@@ -334,7 +334,7 @@ bool Rasterizer::PartialEndPath(HDC hdc, long dx, long dy)
         BYTE* pNewTypes;
         POINT* pNewPoints;
 
-        nPoints = GetPath(hdc, NULL, NULL, 0);
+        nPoints = GetPath(hdc, nullptr, nullptr, 0);
 
         if (!nPoints) {
             return true;
@@ -1639,9 +1639,9 @@ RasterizerNfo::RasterizerNfo()
 
     xo = 0;
 
-    sw = NULL;
-    s = NULL;
-    src = NULL;
-    dst = NULL;
+    sw = nullptr;
+    s = nullptr;
+    src = nullptr;
+    dst = nullptr;
     */
 }

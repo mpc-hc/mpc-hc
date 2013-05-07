@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,7 +30,7 @@
 IMPLEMENT_DYNAMIC(CFullscreenWnd, CWnd)
 CFullscreenWnd::CFullscreenWnd(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
-    , m_hCursor(::LoadCursor(NULL, IDC_ARROW))
+    , m_hCursor(::LoadCursor(nullptr, IDC_ARROW))
     , m_bCursorVisible(false)
 {
 }
@@ -95,7 +95,7 @@ BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
     }
 
     cs.style &= ~WS_BORDER;
-    cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS, m_hCursor, HBRUSH(COLOR_WINDOW + 1), NULL);
+    cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS, m_hCursor, HBRUSH(COLOR_WINDOW + 1), nullptr);
 
     return TRUE;
 }
@@ -112,7 +112,7 @@ BOOL CFullscreenWnd::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
     if (m_bCursorVisible) {
         ::SetCursor(m_hCursor);
     } else {
-        ::SetCursor(NULL);
+        ::SetCursor(nullptr);
     }
     return FALSE;
 }
@@ -127,5 +127,5 @@ void CFullscreenWnd::ShowCursor(bool bVisible)
 
 bool CFullscreenWnd::IsWindow()
 {
-    return (m_hWnd != NULL);
+    return (m_hWnd != nullptr);
 }

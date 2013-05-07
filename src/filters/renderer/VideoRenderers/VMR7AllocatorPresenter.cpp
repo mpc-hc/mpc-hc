@@ -93,7 +93,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
     CheckPointer(ppRenderer, E_POINTER);
 
-    *ppRenderer = NULL;
+    *ppRenderer = nullptr;
     HRESULT hr;
 
     CComPtr<IBaseFilter> pBF;
@@ -178,7 +178,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::AllocateSurface(DWORD_PTR dwUserID, VMRALL
     }
 
     // test if the colorspace is acceptable
-    if (FAILED(hr = m_pVideoSurface->Blt(NULL, *lplpSurface, NULL, DDBLT_WAIT, NULL))) {
+    if (FAILED(hr = m_pVideoSurface->Blt(nullptr, *lplpSurface, nullptr, DDBLT_WAIT, nullptr))) {
         DeleteSurfaces();
         return hr;
     }
@@ -186,7 +186,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::AllocateSurface(DWORD_PTR dwUserID, VMRALL
     DDBLTFX fx;
     INITDDSTRUCT(fx);
     fx.dwFillColor = 0;
-    m_pVideoSurface->Blt(NULL, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
+    m_pVideoSurface->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
     return hr;
 }
@@ -256,7 +256,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESEN
     CAutoLock cAutoLock(this);
 
     if (!m_bPendingResetDevice) {
-        m_pVideoSurface->Blt(NULL, lpPresInfo->lpSurf, NULL, DDBLT_WAIT, NULL);
+        m_pVideoSurface->Blt(nullptr, lpPresInfo->lpSurf, nullptr, DDBLT_WAIT, nullptr);
     }
 
     if (lpPresInfo->rtEnd > lpPresInfo->rtStart) {
@@ -333,7 +333,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::GetVideoPosition(LPRECT lpSRCRect, LPRECT 
     CopyRect(lpSRCRect, CRect(CPoint(0, 0), m_NativeVideoSize));
     CopyRect(lpDSTRect, &m_VideoRect);
     // DVD Nav. bug workaround fix
-    GetNativeVideoSize(&lpSRCRect->right, &lpSRCRect->bottom, NULL, NULL);
+    GetNativeVideoSize(&lpSRCRect->right, &lpSRCRect->bottom, nullptr, nullptr);
     return S_OK;
 }
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -115,11 +115,11 @@ BOOL CSaveSubtitlesFileDialog::OnFileNameOK()
 {
     if (SysVersion::IsVistaOrLater()) {
         IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-        WCHAR* strDelay = NULL;
+        WCHAR* strDelay = nullptr;
 
         pfdc->GetEditBoxText(IDC_EDIT1, &strDelay);
         if (strDelay) {
-            m_delay = _tcstol(strDelay, NULL, 10);
+            m_delay = _tcstol(strDelay, nullptr, 10);
             CoTaskMemFree(strDelay);
         }
 

@@ -26,7 +26,7 @@
 
 IMPLEMENT_DYNAMIC(UpdateCheckerDlg, CDialog)
 
-UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, const Version& latestVersion, CWnd* pParent /*=NULL*/)
+UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, const Version& latestVersion, CWnd* pParent /*=nullptr*/)
     : CDialog(UpdateCheckerDlg::IDD, pParent)
     , m_updateStatus(updateStatus)
 {
@@ -93,12 +93,12 @@ BOOL UpdateCheckerDlg::OnInitDialog()
     switch (m_updateStatus) {
         case UPDATER_UPDATE_AVAILABLE:
         case UPDATER_UPDATE_AVAILABLE_IGNORED:
-            m_icon.SetIcon(LoadIcon(NULL, IDI_QUESTION));
+            m_icon.SetIcon(LoadIcon(nullptr, IDI_QUESTION));
             break;
         case UPDATER_LATEST_STABLE:
         case UPDATER_NEWER_VERSION:
         case UPDATER_ERROR: {
-            m_icon.SetIcon(LoadIcon(NULL, (m_updateStatus == UPDATER_ERROR) ? IDI_WARNING : IDI_INFORMATION));
+            m_icon.SetIcon(LoadIcon(nullptr, (m_updateStatus == UPDATER_ERROR) ? IDI_WARNING : IDI_INFORMATION));
             m_dlButton.ShowWindow(SW_HIDE);
             m_laterButton.ShowWindow(SW_HIDE);
             m_ignoreButton.SetWindowText(ResStr(IDS_UPDATE_CLOSE));
@@ -127,7 +127,7 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 
 void UpdateCheckerDlg::OnOpenDownloadPage()
 {
-    ShellExecute(NULL, _T("open"), DOWNLOAD_URL, NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(nullptr, _T("open"), DOWNLOAD_URL, nullptr, nullptr, SW_SHOWNORMAL);
 
     EndDialog(IDC_UPDATE_DL_BUTTON);
 }

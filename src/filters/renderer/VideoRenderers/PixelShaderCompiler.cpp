@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,8 +27,8 @@
 
 CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent)
     : m_pD3DDev(pD3DDev)
-    , m_pD3DXCompileShader(NULL)
-    , m_pD3DXDisassembleShader(NULL)
+    , m_pD3DXCompileShader(nullptr)
+    , m_pD3DXDisassembleShader(nullptr)
 {
     HINSTANCE hDll;
     hDll = GetRenderersData()->GetD3X9Dll();
@@ -67,7 +67,7 @@ HRESULT CPixelShaderCompiler::CompileShader(
     HRESULT hr;
 
     CComPtr<ID3DXBuffer> pShader, pDisAsm, pErrorMsgs;
-    hr = m_pD3DXCompileShader(pSrcData, (UINT)strlen(pSrcData), NULL, NULL, pFunctionName, pProfile, Flags, &pShader, &pErrorMsgs, NULL);
+    hr = m_pD3DXCompileShader(pSrcData, (UINT)strlen(pSrcData), nullptr, nullptr, pFunctionName, pProfile, Flags, &pShader, &pErrorMsgs, nullptr);
 
     if (FAILED(hr)) {
         if (errmsg) {
@@ -95,7 +95,7 @@ HRESULT CPixelShaderCompiler::CompileShader(
     }
 
     if (disasm) {
-        hr = m_pD3DXDisassembleShader((DWORD*)pShader->GetBufferPointer(), FALSE, NULL, &pDisAsm);
+        hr = m_pD3DXDisassembleShader((DWORD*)pShader->GetBufferPointer(), FALSE, nullptr, &pDisAsm);
         if (SUCCEEDED(hr) && pDisAsm) {
             *disasm = CStringA((const char*)pDisAsm->GetBufferPointer());
         }

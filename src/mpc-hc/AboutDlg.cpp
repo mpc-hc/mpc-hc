@@ -182,12 +182,12 @@ END_MESSAGE_MAP()
 
 void CAboutDlg::OnHomepage(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    ShellExecute(m_hWnd, _T("open"), WEBSITE_URL, NULL, NULL, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), WEBSITE_URL, nullptr, nullptr, SW_SHOWDEFAULT);
     *pResult = 0;
 }
 
 void CAboutDlg::OnAuthors(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    ShellExecute(m_hWnd, _T("open"), m_AuthorsPath, NULL, NULL, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), m_AuthorsPath, nullptr, nullptr, SW_SHOWDEFAULT);
     *pResult = 0;
 }

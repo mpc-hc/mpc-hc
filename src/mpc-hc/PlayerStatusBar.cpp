@@ -339,7 +339,7 @@ void CPlayerStatusBar::OnPaint()
     if (m_hIcon) {
         GetClientRect(&r);
         r.SetRect(6, r.top+4, 22-1, r.bottom-4-1);
-        DrawIconEx(dc, r.left, r.top, m_hIcon, r.Width(), r.Height(), 0, NULL, DI_NORMAL|DI_COMPAT);
+        DrawIconEx(dc, r.left, r.top, m_hIcon, r.Width(), r.Height(), 0, nullptr, DI_NORMAL|DI_COMPAT);
     }
     */
     // Do not call CDialogBar::OnPaint() for painting messages
@@ -389,7 +389,7 @@ BOOL CPlayerStatusBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
     ScreenToClient(&p);
 
     if (m_time_rect.PtInRect(p)) {
-        SetCursor(LoadCursor(NULL, IDC_HAND));
+        SetCursor(LoadCursor(nullptr, IDC_HAND));
         return TRUE;
     }
 
@@ -397,7 +397,7 @@ BOOL CPlayerStatusBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
         CRect r;
         GetClientRect(r);
         if (p.x >= r.Width() - r.Height() && !pFrame->IsCaptionHidden()) {
-            SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
+            SetCursor(LoadCursor(nullptr, IDC_SIZENWSE));
             return TRUE;
         }
     }

@@ -36,10 +36,10 @@ CAppSettings::CAppSettings()
     , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), 20)
     , filePositions(AfxGetApp(), IDS_R_SETTINGS, MAX_FILE_POSITION)
     , dvdPositions(AfxGetApp(), IDS_R_SETTINGS, MAX_DVD_POSITION)
-    , hAccel(NULL)
+    , hAccel(nullptr)
     , nCmdlnWebServerPort(-1)
     , fShowDebugInfo(false)
-    , hMasterWnd(NULL)
+    , hMasterWnd(nullptr)
     , nCLSwitches(0)
     , iMonitor(0)
     , fMute(0)
@@ -547,7 +547,7 @@ void CAppSettings::SaveSettings()
         str.Format(_T("%.3f,%.3f"), dZoomX, dZoomY);
         pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_PANSCANZOOM, str);
     } else {
-        pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_PANSCANZOOM, NULL);
+        pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_PANSCANZOOM, nullptr);
     }
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPTODESKTOPEDGES, fSnapToDesktopEdges);
     pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, (BYTE*)&rcLastWindowPos, sizeof(rcLastWindowPos));
@@ -658,7 +658,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_CAPTURE, IDS_RS_COUNTRY,         iAnalogCountry);
 
     // Save digital capture settings (BDA)
-    pApp->WriteProfileString(IDS_R_DVB, NULL, NULL); // Ensure the section is cleared before saving the new settings
+    pApp->WriteProfileString(IDS_R_DVB, nullptr, nullptr); // Ensure the section is cleared before saving the new settings
 
     pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_NETWORKPROVIDER, strBDANetworkProvider);
     pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_TUNER, strBDATuner);
@@ -702,14 +702,14 @@ void CAppSettings::SaveSettings()
     //pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QUICKTIMERENDERER, iQuickTimeRenderer);
     //pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIAFPS, *((DWORD*)&dRealMediaQuickTimeFPS));
 
-    pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, NULL, NULL);
+    pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, nullptr, nullptr);
     for (INT_PTR i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
         CString str;
         str.Format(_T("Preset%Id"), i);
         pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, str, m_pnspresets[i]);
     }
 
-    pApp->WriteProfileString(IDS_R_COMMANDS, NULL, NULL);
+    pApp->WriteProfileString(IDS_R_COMMANDS, nullptr, nullptr);
     pos = wmcmds.GetHeadPosition();
     for (int i = 0; pos;) {
         wmcmd& wc = wmcmds.GetNext(pos);
@@ -784,7 +784,7 @@ void CAppSettings::SaveSettings()
 
     if (fShaderEditorWasOpened) { // This is a large data block. Save it only when really necessary.
         // Erase the currently saved shaders
-        pApp->WriteProfileString(IDS_R_SHADERS, NULL, NULL);
+        pApp->WriteProfileString(IDS_R_SHADERS, nullptr, nullptr);
         pApp->WriteProfileInt(IDS_R_SHADERS, IDS_RS_SHADERS_INITIALIZED, 1);
 
         pos = m_shaders.GetHeadPosition();
@@ -839,7 +839,7 @@ void CAppSettings::LoadExternalFilters(CAutoPtrList<FilterOverride>& filters, LP
             f->name = pApp->GetProfileString(key, _T("Name"), _T(""));
             f->clsid = GUIDFromCString(pApp->GetProfileString(key, _T("CLSID"), _T("")));
         } else {
-            pApp->WriteProfileString(key, NULL, 0);
+            pApp->WriteProfileString(key, nullptr, 0);
             break;
         }
 
@@ -929,7 +929,7 @@ void CAppSettings::SaveExternalFilters(CAutoPtrList<FilterOverride>& filters, LP
         CString key;
         key.Format(_T("%s\\%04u"), baseKey, i);
         int j = pApp->GetProfileInt(key, _T("Enabled"), -1);
-        pApp->WriteProfileString(key, NULL, NULL);
+        pApp->WriteProfileString(key, nullptr, nullptr);
         if (j < 0) {
             break;
         }
@@ -982,7 +982,7 @@ void CAppSettings::LoadSettings()
     ASSERT(pApp);
 
     UINT  len;
-    BYTE* ptr = NULL;
+    BYTE* ptr = nullptr;
 
     if (fInitialized) {
         return;
@@ -1332,7 +1332,7 @@ void CAppSettings::LoadSettings()
 
     CRegKey key;
     // grrrrr
-    // if (!SHGetSpecialFolderPath(NULL, MyPictures.GetBufferSetLength(MAX_PATH), CSIDL_MYPICTURES, TRUE)) MyPictures.Empty();
+    // if (!SHGetSpecialFolderPath(nullptr, MyPictures.GetBufferSetLength(MAX_PATH), CSIDL_MYPICTURES, TRUE)) MyPictures.Empty();
     // else MyPictures.ReleaseBuffer();
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ)) {
         ULONG len = MAX_PATH;
@@ -1701,7 +1701,7 @@ CString CAppSettings::ParseFileName(CString const& param)
 
     // Try to transform relative pathname into full pathname
     if (param.Find(_T(":")) < 0) {
-        fullPathName.ReleaseBuffer(GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), NULL));
+        fullPathName.ReleaseBuffer(GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr));
 
         if (!fullPathName.IsEmpty() && FileExists(fullPathName)) {
             return fullPathName;
@@ -1787,7 +1787,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             } else if (sw == _T("iconsassoc")) {
                 nCLSwitches |= CLSW_ICONSASSOC;
             } else if (sw == _T("start") && pos) {
-                rtStart = 10000i64 * _tcstol(cmdln.GetNext(pos), NULL, 10);
+                rtStart = 10000i64 * _tcstol(cmdln.GetNext(pos), nullptr, 10);
                 nCLSwitches |= CLSW_STARTVALID;
             } else if (sw == _T("startpos") && pos) {
                 rtStart = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
@@ -1824,12 +1824,12 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                     }
                 }
             } else if (sw == _T("monitor") && pos) {
-                iMonitor = _tcstol(cmdln.GetNext(pos), NULL, 10);
+                iMonitor = _tcstol(cmdln.GetNext(pos), nullptr, 10);
                 nCLSwitches |= CLSW_MONITOR;
             } else if (sw == _T("pns") && pos) {
                 strPnSPreset = cmdln.GetNext(pos);
             } else if (sw == _T("webport") && pos) {
-                int tmpport = _tcstol(cmdln.GetNext(pos), NULL, 10);
+                int tmpport = _tcstol(cmdln.GetNext(pos), nullptr, 10);
                 if (tmpport >= 0 && tmpport <= 65535) {
                     nCmdlnWebServerPort = tmpport;
                 }
@@ -1873,7 +1873,7 @@ void CAppSettings::GetFav(favtype ft, CAtlList<CString>& sl) const
     for (int i = 0; ; i++) {
         CString s;
         s.Format(_T("Name%d"), i);
-        s = AfxGetApp()->GetProfileString(root, s, NULL);
+        s = AfxGetApp()->GetProfileString(root, s, nullptr);
         if (s.IsEmpty()) {
             break;
         }
@@ -1899,7 +1899,7 @@ void CAppSettings::SetFav(favtype ft, CAtlList<CString>& sl)
             return;
     }
 
-    AfxGetApp()->WriteProfileString(root, NULL, NULL);
+    AfxGetApp()->WriteProfileString(root, nullptr, nullptr);
 
     int i = 0;
     POSITION pos = sl.GetHeadPosition();
@@ -1931,7 +1931,7 @@ CDVBChannel* CAppSettings::FindChannelByPref(int nPrefNumber)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 // Settings::CRecentFileAndURLList
@@ -1947,8 +1947,8 @@ extern BOOL AFXAPI AfxComparePath(LPCTSTR lpszPath1, LPCTSTR lpszPath2);
 
 void CAppSettings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
 {
-    ASSERT(m_arrNames != NULL);
-    ASSERT(lpszPathName != NULL);
+    ASSERT(m_arrNames != nullptr);
+    ASSERT(lpszPathName != nullptr);
     ASSERT(AfxIsValidString(lpszPathName));
 
     if (CString(lpszPathName).MakeLower().Find(_T("@device:")) >= 0) {
