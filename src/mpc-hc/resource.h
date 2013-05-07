@@ -1123,7 +1123,6 @@
 #define IDS_THUMB_THUMBNAILS            33446
 #define IDS_THUMB_PIXELS                33447
 #define IDS_TEXTFILE_ENC                33448
-//
 #define IDS_MFMT_AVI                    39001
 #define IDS_MFMT_MPEG                   39002
 #define IDS_MFMT_MPEGTS                 39003

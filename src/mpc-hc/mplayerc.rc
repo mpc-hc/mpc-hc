@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -25,17 +24,17 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -154,7 +153,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Open"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDR_MAINFRAME,5,5,21,20
+    ICON            128,IDR_MAINFRAME,5,5,21,20
     LTEXT           "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you.",IDC_STATIC,35,5,213,25
     LTEXT           "Open:",IDC_STATIC,10,32,245,8
     COMBOBOX        IDC_COMBO1,10,42,188,65,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
@@ -172,7 +171,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDR_MAINFRAME,5,5,21,20
+    ICON            128,IDR_MAINFRAME,5,5,21,20
     LTEXT           "Media Player Classic - Home Cinema",IDC_STATIC1,30,5,195,8,SS_NOPREFIX
     CONTROL         "Copyright © 2002-2013 see Authors.txt",IDC_AUTHORS_LINK,
                     "SysLink",WS_TABSTOP,30,17,195,8
@@ -185,8 +184,7 @@ BEGIN
     EDITTEXT        IDC_MPC_COMPILER,130,50,100,13,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_FFMPEG_COMPILER,130,67,100,13,ES_AUTOHSCROLL | ES_READONLY
     LTEXT           "English translation made by MPC-HC Team",IDC_STATIC,30,122,195,8
-    CONTROL         "<a>http://mpc-hc.org/</a>",IDC_HOMEPAGE_LINK,
-                    "SysLink",WS_TABSTOP,30,84,200,8
+    CONTROL         "<a>http://mpc-hc.org/</a>",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,30,84,200,8
 END
 
 IDD_PLAYERSTATUSBAR DIALOGEX 0, 0, 183, 15
@@ -214,10 +212,10 @@ BEGIN
     GROUPBOX        "Open options",IDC_STATIC,5,5,115,120
     CONTROL         "Use the same player for each media file",IDC_RADIO1,
                     "Button",BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE | WS_GROUP,10,17,105,27
-    ICON            IDI_SINGLE,IDI_SINGLE,51,48,32,32
+    ICON            300,IDI_SINGLE,51,48,32,32
     CONTROL         "Open a new player for each media file played",IDC_RADIO2,
                     "Button",BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE,10,72,105,27
-    ICON            IDI_MULTI,IDI_MULTI,51,103,32,32
+    ICON            301,IDI_MULTI,51,103,32,32
     GROUPBOX        "Title bar",IDC_STATIC,5,129,115,98
     CONTROL         "Display full path",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,141,105,8
     CONTROL         "File name only",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,10,153,105,8
@@ -731,7 +729,8 @@ BEGIN
     COMBOBOX        IDC_DX9RESIZER_COMBO,181,179,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Select D3D9 Render Device",IDC_D3D9DEVICE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,144,137,10
     COMBOBOX        IDC_D3D9DEVICE_COMBO,147,143,139,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Reinitialize when changing display",IDC_RESETDEVICE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,204,171,10
+    CONTROL         "Reinitialize when changing display",IDC_RESETDEVICE,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,204,171,10
     CONTROL         "D3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,192,171,10
     CONTROL         "Alternative VSync",IDC_DSVMR9ALTERNATIVEVSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,180,108,10
     CONTROL         "VMR-9 Mixer Mode",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,156,108,10
@@ -2055,29 +2054,33 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_INFOBAR_LOCATION               "Location"
-    IDS_INFOBAR_VIDEO                  "Video"
-    IDS_INFOBAR_AUDIO                  "Audio"
-    IDS_INFOBAR_SUBTITLES              "Subtitles"
-    IDS_INFOBAR_CHANNEL                "Channel"
-    IDS_INFOBAR_TIME                   "Time"
-    IDS_STATSBAR_SYNC_OFFSET           "Sync Offset"
-    IDS_STATSBAR_SYNC_OFFSET_FORMAT    "avg: %d ms, dev: %d ms"
-    IDS_STATSBAR_JITTER                "Jitter"
-    IDS_STATSBAR_BITRATE               "Bitrate"
-    IDS_STATSBAR_BITRATE_AVG_CUR       " (avg/cur)"
-    IDS_STATSBAR_SIGNAL                "Signal"
-    IDS_STATSBAR_SIGNAL_FORMAT         "Strength: %d dB, Quality: %d%%"
-    IDS_CONTROLS_COMPLETING            "Completing..."
-    IDS_AUTOPLAY_PLAYVIDEO             "Play Video"
-    IDS_AUTOPLAY_PLAYMUSIC             "Play Music"
-    IDS_AUTOPLAY_PLAYAUDIOCD           "Play Audio CD"
-    IDS_AUTOPLAY_PLAYDVDMOVIE          "Play DVD Movie"
-    IDS_PROPSHEET_PROPERTIES           "Properties"
-    IDS_SHADERS_EDIT                   "&Edit shaders..."
-    IDS_SUBTITLES_DEFAULT_STYLE        "&Default Style"
-    IDS_FAVFILES                       "Files"
-    IDS_FAVDVDS                        "DVDs"
+    IDS_INFOBAR_LOCATION    "Location"
+    IDS_INFOBAR_VIDEO       "Video"
+    IDS_INFOBAR_AUDIO       "Audio"
+    IDS_INFOBAR_SUBTITLES   "Subtitles"
+    IDS_CONTROLS_COMPLETING "Completing..."
+    IDS_AUTOPLAY_PLAYVIDEO  "Play Video"
+    IDS_AUTOPLAY_PLAYMUSIC  "Play Music"
+    IDS_AUTOPLAY_PLAYAUDIOCD "Play Audio CD"
+    IDS_AUTOPLAY_PLAYDVDMOVIE "Play DVD Movie"
+    IDS_PROPSHEET_PROPERTIES "Properties"
+    IDS_SHADERS_EDIT        "&Edit shaders..."
+    IDS_SUBTITLES_DEFAULT_STYLE "&Default Style"
+    IDS_FAVFILES            "Files"
+    IDS_FAVDVDS             "DVDs"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_INFOBAR_CHANNEL     "Channel"
+    IDS_INFOBAR_TIME        "Time"
+    IDS_STATSBAR_SYNC_OFFSET "Sync Offset"
+    IDS_STATSBAR_SYNC_OFFSET_FORMAT "avg: %d ms, dev: %d ms"
+    IDS_STATSBAR_JITTER     "Jitter"
+    IDS_STATSBAR_BITRATE    "Bitrate"
+    IDS_STATSBAR_BITRATE_AVG_CUR " (avg/cur)"
+    IDS_STATSBAR_SIGNAL     "Signal"
+    IDS_STATSBAR_SIGNAL_FORMAT "Strength: %d dB, Quality: %d%%"
 END
 
 STRINGTABLE
@@ -2087,40 +2090,85 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CAPTURE_SETTINGS            "Capture Settings"
-    IDS_EDIT_LIST_EDITOR            "Edit List Editor"
-    IDS_NAVIGATION_BAR              "Navigation Bar"
-    IDS_PLAYLIST_CAPTION            "Playlist"
-    IDS_PLAYLIST_OPEN               "&Open"
-    IDS_PLAYLIST_ADD                "A&dd"
-    IDS_PLAYLIST_REMOVE             "&Remove"
-    IDS_PLAYLIST_CLEAR              "C&lear"
-    IDS_PLAYLIST_COPYTOCLIPBOARD    "&Copy to clipboard"
-    IDS_PLAYLIST_SAVEAS             "&Save As..."
-    IDS_PLAYLIST_SORTBYLABEL        "Sort by &label"
-    IDS_PLAYLIST_SORTBYPATH         "Sort by &path"
-    IDS_PLAYLIST_RANDOMIZE          "R&andomize"
-    IDS_PLAYLIST_RESTORE            "R&estore"
-    IDS_SHADER_EDITOR               "Shader Editor"
-    IDS_SUBRESYNC_CAPTION           "Subresync"
-    IDS_SUBRESYNC_SEPARATOR         "&Separator"
-    IDS_SUBRESYNC_DELETE            "&Delete"
-    IDS_SUBRESYNC_DUPLICATE         "D&uplicate"
-    IDS_SUBRESYNC_RESET             "&Reset"
-    IDS_SUBRESYNC_CLN_TIME          "Time"
-    IDS_SUBRESYNC_CLN_END           "End"
-    IDS_SUBRESYNC_CLN_PREVIEW       "Preview"
-    IDS_SUBRESYNC_CLN_VOB_ID        "Vob ID"
-    IDS_SUBRESYNC_CLN_CELL_ID       "Cell ID"
-    IDS_SUBRESYNC_CLN_FORCED        "Forced"
-    IDS_SUBRESYNC_CLN_TEXT          "Text"
-    IDS_SUBRESYNC_CLN_STYLE         "Style"
-    IDS_SUBRESYNC_CLN_FONT          "Font"
-    IDS_SUBRESYNC_CLN_CHARTSET      "CharSet"
-    IDS_SUBRESYNC_CLN_UNICODE       "Unicode"
-    IDS_SUBRESYNC_CLN_LAYER         "Layer"
-    IDS_SUBRESYNC_CLN_ACTOR         "Actor"
-    IDS_SUBRESYNC_CLN_EFFECT        "Effect"
+    IDS_SPEED_UNIT_G        "GB/s"
+    IDS_FILE_FAV_ADDED      "File added to favorites"
+    IDS_DVD_FAV_ADDED       "DVD added to favorites"
+    IDS_CAPTURE_SETTINGS    "Capture Settings"
+    IDS_NAVIGATION_BAR      "Navigation Bar"
+    IDS_SHADER_EDITOR       "Shader Editor"
+    IDS_SUBRESYNC_CAPTION   "Subresync"
+    IDS_SUBRESYNC_CLN_TIME  "Time"
+    IDS_SUBRESYNC_CLN_END   "End"
+    IDS_SUBRESYNC_CLN_PREVIEW "Preview"
+    IDS_SUBRESYNC_CLN_VOB_ID "Vob ID"
+    IDS_SUBRESYNC_CLN_CELL_ID "Cell ID"
+    IDS_SUBRESYNC_CLN_FORCED "Forced"
+    IDS_SUBRESYNC_CLN_TEXT  "Text"
+    IDS_SUBRESYNC_CLN_STYLE "Style"
+    IDS_SUBRESYNC_CLN_FONT  "Font"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DVD_NAV_SOME_PINS_ERROR 
+                            "Failed to render some of the pins of the DVD Navigator filter"
+    IDS_DVD_INTERFACES_ERROR 
+                            "Failed to query the needed interfaces for DVD playback"
+    IDS_CAPTURE_LIVE        "Live"
+    IDS_CAPTURE_ERROR_VID_FILTER "Can't add video capture filter to the graph"
+    IDS_CAPTURE_ERROR_AUD_FILTER "Can't add audio capture filter to the graph"
+    IDS_CAPTURE_ERROR_DEVICE "Could not open capture device."
+    IDS_INVALID_PARAMS_ERROR "Can't open, invalid input parameters"
+    IDS_EDIT_LIST_EDITOR    "Edit List Editor"
+    IDS_GOTO_ERROR_INVALID_TIME 
+                            "The entered time is greater than the file duration."
+    IDS_MISSING_ICONS_LIB   "The icons library ""mpciconlib.dll"" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get ""mpciconlib.dll""."
+    IDS_SUBDL_DLG_FILENAME_COL "File"
+    IDS_SUBDL_DLG_LANGUAGE_COL "Language"
+    IDS_SUBDL_DLG_FORMAT_COL "Format"
+    IDS_SUBDL_DLG_DISC_COL  "Disc"
+    IDS_SUBDL_DLG_TITLES_COL "Title(s)"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBRESYNC_CLN_CHARTSET "CharSet"
+    IDS_SUBRESYNC_CLN_UNICODE "Unicode"
+    IDS_SUBRESYNC_CLN_LAYER "Layer"
+    IDS_SUBRESYNC_CLN_ACTOR "Actor"
+    IDS_SUBRESYNC_CLN_EFFECT "Effect"
+    IDS_PLAYLIST_CAPTION    "Playlist"
+    IDS_PPAGE_FS_CLN_ON_OFF "On/Off"
+    IDS_PPAGE_FS_CLN_FROM_FPS "From fps"
+    IDS_PPAGE_FS_CLN_TO_FPS "To fps"
+    IDS_PPAGE_FS_CLN_DISPLAY_MODE "Display mode (Hz)"
+    IDS_PPAGE_FS_DEFAULT    "Default"
+    IDS_PPAGE_FS_OTHER      "Other"
+    IDS_PPAGE_OUTPUT_SYS_DEF "System Default"
+    IDS_GRAPH_INTERFACES_ERROR 
+                            "Failed to query the needed interfaces for playback"
+    IDS_GRAPH_TARGET_WND_ERROR 
+                            "Could not set target window for graph notification"
+    IDS_DVD_NAV_ALL_PINS_ERROR 
+                            "Failed to render all pins of the DVD Navigator filter"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PLAYLIST_OPEN       "&Open"
+    IDS_PLAYLIST_ADD        "A&dd"
+    IDS_PLAYLIST_REMOVE     "&Remove"
+    IDS_PLAYLIST_CLEAR      "C&lear"
+    IDS_PLAYLIST_COPYTOCLIPBOARD "&Copy to clipboard"
+    IDS_PLAYLIST_SAVEAS     "&Save As..."
+    IDS_PLAYLIST_SORTBYLABEL "Sort by &label"
+    IDS_PLAYLIST_SORTBYPATH "Sort by &path"
+    IDS_PLAYLIST_RANDOMIZE  "R&andomize"
+    IDS_PLAYLIST_RESTORE    "R&estore"
+    IDS_SUBRESYNC_SEPARATOR "&Separator"
+    IDS_SUBRESYNC_DELETE    "&Delete"
+    IDS_SUBRESYNC_DUPLICATE "D&uplicate"
+    IDS_SUBRESYNC_RESET     "&Reset"
 END
 
 STRINGTABLE
@@ -2144,8 +2192,28 @@ BEGIN
     IDD_PPAGEFORMATS        "Player::Formats"
     IDD_PPAGETWEAKS         "Tweaks"
     IDD_PPAGEAUDIOSWITCHER  "Internal Filters::Audio Switcher"
-    IDS_AUDIOSWITCHER       "Audio Switcher"
     IDD_PPAGEEXTERNALFILTERS "External Filters"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_AUDIOSWITCHER       "Audio Switcher"
+    IDS_ICONS_REASSOC_DLG_TITLE "New version of the icon library"
+    IDS_ICONS_REASSOC_DLG_INSTR "Do you want to reassociate the icons?"
+    IDS_ICONS_REASSOC_DLG_CONTENT 
+                            "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
+    IDS_PPAGE_OUTPUT_OLDRENDERER "Old Video Renderer"
+    IDS_PPAGE_OUTPUT_OVERLAYMIXER "Overlay Mixer Renderer"
+    IDS_PPAGE_OUTPUT_VMR7WINDOWED "Video Mixing Renderer 7 (windowed)"
+    IDS_PPAGE_OUTPUT_VMR9WINDOWED "Video Mixing Renderer 9 (windowed)"
+    IDS_PPAGE_OUTPUT_VMR7RENDERLESS "Video Mixing Renderer 7 (renderless)"
+    IDS_PPAGE_OUTPUT_VMR9RENDERLESS "Video Mixing Renderer 9 (renderless)"
+    IDS_PPAGE_OUTPUT_EVR    "Enhanced Video Renderer"
+    IDS_PPAGE_OUTPUT_EVR_CUSTOM "Enhanced Video Renderer (custom presenter)"
+    IDS_PPAGE_OUTPUT_DXR    "Haali Video Renderer"
+    IDS_PPAGE_OUTPUT_NULL_COMP "Null (anything)"
+    IDS_PPAGE_OUTPUT_NULL_UNCOMP "Null (uncompressed)"
+    IDS_PPAGE_OUTPUT_MADVR  "madVR"
 END
 
 STRINGTABLE
@@ -2195,65 +2263,71 @@ BEGIN
     IDC_DSVMR9WIN           "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
     IDC_DSVMR7REN           "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. ""True Color"" desktop color space recommended."
     IDC_DSVMR9REN           "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. ""True Color"" desktop color space recommended. Recommended for Windows XP."
+    IDC_DSDXR               "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
     IDC_DSNULL_COMP         "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
     IDC_DSNULL_UNCOMP       "Same as the normal Null renderer, but this will only connect to uncompressed types."
     IDC_DSEVR               "Only available on Vista or later or on XP with at least .Net 3.5 installed."
     IDC_DSEVR_CUSTOM        "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-    IDC_DSDXR               "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-    IDC_DSSYNC              "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-    IDC_DSMADVR             "High-quality renderer, requires a GPU that supports D3D9 or later."
 END
 
 STRINGTABLE
 BEGIN
+    IDC_DSMADVR             "High-quality renderer, requires a GPU that supports D3D9 or later."
+    IDC_DSSYNC              "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
     IDC_RMSYSDEF            "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
     IDC_RMDX7               "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
     IDC_RMDX9               "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
     IDC_QTSYSDEF            "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
     IDC_QTDX7               "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
     IDC_QTDX9               "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+    IDC_REGULARSURF         "Video surface will be allocated as a regular offscreen surface."
 END
 
 STRINGTABLE
 BEGIN
-    IDC_VIDRND_COMBO                "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
-    IDC_AUDRND_COMBO                "MPC Audio Renderer is broken, do not use."
-    IDS_PPAGE_OUTPUT_OLDRENDERER    "Old Video Renderer"
-    IDS_PPAGE_OUTPUT_OVERLAYMIXER   "Overlay Mixer Renderer"
-    IDS_PPAGE_OUTPUT_VMR7WINDOWED   "Video Mixing Renderer 7 (windowed)"
-    IDS_PPAGE_OUTPUT_VMR9WINDOWED   "Video Mixing Renderer 9 (windowed)"
-    IDS_PPAGE_OUTPUT_VMR7RENDERLESS "Video Mixing Renderer 7 (renderless)"
-    IDS_PPAGE_OUTPUT_VMR9RENDERLESS "Video Mixing Renderer 9 (renderless)"
-    IDS_PPAGE_OUTPUT_EVR            "Enhanced Video Renderer"
-    IDS_PPAGE_OUTPUT_EVR_CUSTOM     "Enhanced Video Renderer (custom presenter)"
-    IDS_PPAGE_OUTPUT_DXR            "Haali Video Renderer"
-    IDS_PPAGE_OUTPUT_NULL_COMP      "Null (anything)"
-    IDS_PPAGE_OUTPUT_NULL_UNCOMP    "Null (uncompressed)"
-    IDS_PPAGE_OUTPUT_MADVR          "madVR"
-    IDS_PPAGE_OUTPUT_SYNC           "Sync Renderer"
+    IDC_VIDRND_COMBO        "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
+    IDC_AUDRND_COMBO        "MPC Audio Renderer is broken, do not use."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PPAGE_OUTPUT_SYNC   "Sync Renderer"
+    IDS_MPC_BUG_REPORT_TITLE "MPC-HC - Reporting a bug"
+    IDS_MPC_BUG_REPORT      "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
     IDS_PPAGE_OUTPUT_SURF_OFFSCREEN "Regular offscreen plain surface"
-    IDS_PPAGE_OUTPUT_SURF_2D        "2D surfaces"
-    IDS_PPAGE_OUTPUT_SURF_3D        "3D surfaces (recommended)"
-    IDS_PPAGE_OUTPUT_RESIZE_NN      "Nearest neighbor"
-    IDS_PPAGE_OUTPUT_RESIZER_BILIN  "Bilinear"
+    IDS_PPAGE_OUTPUT_SURF_2D "2D surfaces"
+    IDS_PPAGE_OUTPUT_SURF_3D "3D surfaces (recommended)"
+    IDS_PPAGE_OUTPUT_RESIZE_NN "Nearest neighbor"
+    IDS_PPAGE_OUTPUT_RESIZER_BILIN "Bilinear"
     IDS_PPAGE_OUTPUT_RESIZER_BIL_PS "Bilinear (PS 2.0)"
     IDS_PPAGE_OUTPUT_RESIZER_BICUB1 "Bicubic A=-0.60 (PS 2.0)"
     IDS_PPAGE_OUTPUT_RESIZER_BICUB2 "Bicubic A=-0.75 (PS 2.0)"
     IDS_PPAGE_OUTPUT_RESIZER_BICUB3 "Bicubic A=-1.00 (PS 2.0)"
-    IDS_PPAGE_OUTPUT_UNAVAILABLE    "**unavailable**"
+    IDS_PPAGE_OUTPUT_UNAVAILABLE "**unavailable**"
     IDS_PPAGE_OUTPUT_UNAVAILABLEMSG "The selected renderer is not installed."
+    IDS_EMB_RESOURCES_VIEWER_NAME "Name"
+    IDS_EMB_RESOURCES_VIEWER_TYPE "MIME Type"
 END
 
 STRINGTABLE
 BEGIN
-    IDC_REGULARSURF                 "Video surface will be allocated as a regular offscreen surface."
-    IDC_TEXTURESURF2D               "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-    IDC_TEXTURESURF3D               "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-    IDC_DX9RESIZER_COMBO            "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-    IDC_DSVMR9LOADMIXER             "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-    IDC_DSVMR9YUVMIXER              "Improves performance at the cost of some compatability of the renderer."
-    IDC_FULLSCREEN_MONITOR_CHECK    "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
-    IDC_DSVMR9ALTERNATIVEVSYNC      "Reduces tearing by bypassing the default VSync built into D3D."
+    IDC_TEXTURESURF2D       "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+    IDC_TEXTURESURF3D       "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+    IDC_DX9RESIZER_COMBO    "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+    IDC_DSVMR9LOADMIXER     "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+    IDC_DSVMR9YUVMIXER      "Improves performance at the cost of some compatability of the renderer."
+END
+
+STRINGTABLE
+BEGIN
+    IDC_FULLSCREEN_MONITOR_CHECK 
+                            "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
+END
+
+STRINGTABLE
+BEGIN
+    IDC_DSVMR9ALTERNATIVEVSYNC 
+                            "Reduces tearing by bypassing the default VSync built into D3D."
 END
 
 STRINGTABLE
@@ -2268,6 +2342,8 @@ END
 STRINGTABLE
 BEGIN
     IDS_SHADERS_TOGGLE_SCREENSPACE "Enable Post-Resize Pixel Shaders"
+    IDS_MAINFRM_PPONSCR     "Post-Resize Pixel Shaders: on"
+    IDS_MAINFRM_PPOFFSCR    "Post-Resize Pixel Shaders: off"
     IDS_AT_TOGGLE_SHADERSCREENSPACE "Toggle Screen Space Pixel Shaders"
     IDS_AG_VSYNCACCURATE    "Accurate VSync"
 END
@@ -2287,7 +2363,7 @@ STRINGTABLE
 BEGIN
     IDC_CHECK_RELATIVETO    "Default state gets inherited to other styles where it is still undefined"
     IDC_CHECK_SPCPOW2TEX    "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
-    IDC_CHECK_SPCANIMWITHBUFFER
+    IDC_CHECK_SPCANIMWITHBUFFER 
                             "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
     IDC_BUTTON_EXT_SET      "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
 END
@@ -2332,8 +2408,6 @@ STRINGTABLE
 BEGIN
     IDS_FAVORITES_ADD       "&Add to Favorites..."
     IDS_FAVORITES_ORGANIZE  "&Organize Favorites..."
-    IDS_FILE_FAV_ADDED      "File added to favorites"
-    IDS_DVD_FAV_ADDED       "DVD added to favorites"
     IDS_PLAYLIST_SHUFFLE    "Shuffle"
     IDS_CONTROLS_CLOSING    "Closing..."
     IDS_CONTROLS_PLAYING    "Playing"
@@ -2345,7 +2419,7 @@ BEGIN
     IDS_AG_EDL_NEW_CLIP     "EDL new clip"
     IDS_RECENT_FILES_CLEAR  "Clear list"
     IDS_RECENT_FILES        "Recent Files"
-    IDS_RECENT_FILES_QUESTION
+    IDS_RECENT_FILES_QUESTION 
                             "Are you sure that you want to delete recent files list?"
     IDS_AG_EDL_SAVE         "EDL save"
 END
@@ -2414,25 +2488,43 @@ BEGIN
     IDS_AG_MEDIAFILES       "Media files (all types)|"
     IDS_AG_ALLFILES         "All files (*.*)|*.*|"
     IDS_AG_AUDIOFILES       "Audio files (all types)|"
-    IDS_PIXELSHADERCOMPILER_0
+    IDS_PIXELSHADERCOMPILER_0 
                             "Cannot load D3DX9_xx.dll, pixel shaders will not work."
-    IDS_PIXELSHADERCOMPILER_1
+    IDS_PIXELSHADERCOMPILER_1 
                             "Cannot find necessary function entry points in D3DX9_xx.dll, pixel shaders will not work."
     IDS_AG_NOT_KNOWN        "Not known"
-    IDS_UNDETERMINED        "Undetermined"
     IDS_MPLAYERC_0          "Quick Open File"
     IDS_AG_OPEN_FILE        "Open File"
+    IDS_AG_OPEN_DVD         "Open DVD/BD"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_AG_OPEN_DVD         "Open DVD/BD"
+    IDS_OSD_ZOOM_AUTO       "Zoom: Auto"
+    IDS_CUSTOM_CHANNEL_MAPPING "Toggle custom channel mapping"
+    IDS_OSD_CUSTOM_CH_MAPPING_ON "Custom channel mapping: On"
+    IDS_OSD_CUSTOM_CH_MAPPING_OFF "Custom channel mapping: Off"
+    IDS_NORMALIZE           "Toggle normalization"
+    IDS_OSD_NORMALIZE_ON    "Normalization: On"
+    IDS_OSD_NORMALIZE_OFF   "Normalization: Off"
+    IDS_REGAIN_VOLUME       "Toggle regain volume"
+    IDS_OSD_REGAIN_VOLUME_ON "Regain volume: On"
+    IDS_OSD_REGAIN_VOLUME_OFF "Regain volume: Off"
+    IDS_UNDETERMINED        "Undetermined"
+    IDS_SIZE_UNIT_K         "KB"
+    IDS_SIZE_UNIT_M         "MB"
+    IDS_SIZE_UNIT_G         "GB"
+    IDS_SPEED_UNIT_K        "KB/s"
+    IDS_SPEED_UNIT_M        "MB/s"
+END
+
+STRINGTABLE
+BEGIN
     IDS_AG_OPEN_DEVICE      "Open Device"
     IDS_AG_SAVE_AS          "Save As"
     IDS_AG_SAVE_IMAGE       "Save Image"
     IDS_MPLAYERC_6          "Save Image (auto)"
     IDS_OSD_IMAGE_SAVED     "Image saved successfully"
-    IDS_OSD_THUMBS_SAVED    "Thumbnails saved successfully"
     IDS_AG_LOAD_SUBTITLE    "Load Subtitle"
     IDS_AG_SAVE_SUBTITLE    "Save Subtitle"
     IDS_AG_PROPERTIES       "Properties"
@@ -2444,6 +2536,31 @@ BEGIN
     IDS_MPLAYERC_16         "Framestep back"
     IDS_AG_GO_TO            "Go To"
     IDS_AG_INCREASE_RATE    "Increase Rate"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OSD_RS_FT_CORRECTION_ON "Frame Time Correction: On"
+    IDS_OSD_RS_FT_CORRECTION_OFF "Frame Time Correction: Off"
+    IDS_OSD_RS_TARGET_VSYNC_OFFSET "Target VSync Offset: %.1f"
+    IDS_OSD_RS_VSYNC_OFFSET "VSync Offset: %d"
+    IDS_OSD_SPEED           "Speed: %.2lfx"
+    IDS_OSD_THUMBS_SAVED    "Thumbnails saved successfully"
+    IDS_MENU_VIDEO_STREAM   "Video S&tream"
+    IDS_MENU_VIDEO_ANGLE    "Video Ang&le"
+    IDS_RESET_SETTINGS      "Reset settings"
+    IDS_RESET_SETTINGS_WARNING 
+                            "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
+    IDS_RESET_SETTINGS_MUTEX 
+                            "Please close all instances of MPC-HC so that the default settings can be restored."
+    IDS_EXPORT_SETTINGS     "Export settings"
+    IDS_EXPORT_SETTINGS_WARNING 
+                            "Some changes have not been saved yet.\nDo you want to save them before exporting?"
+    IDS_EXPORT_SETTINGS_SUCCESS 
+                            "The settings have been successfully exported."
+    IDS_EXPORT_SETTINGS_FAILED 
+                            "The export failed! This can happen when you don't have the correct rights."
+    IDS_BDA_ERROR           "BDA Error"
 END
 
 STRINGTABLE
@@ -2474,7 +2591,6 @@ BEGIN
     IDS_AG_FULLSCREEN       "Fullscreen"
     IDS_MPLAYERC_39         "Fullscreen (w/o res.change)"
     IDS_AG_ZOOM_AUTO_FIT    "Zoom Auto Fit"
-    IDS_AG_ZOOM_AUTO_FIT_LARGER "Zoom Auto Fit (Larger Only)"
     IDS_AG_VIDFRM_HALF      "VidFrm Half"
     IDS_AG_VIDFRM_NORMAL    "VidFrm Normal"
     IDS_AG_VIDFRM_DOUBLE    "VidFrm Double"
@@ -2485,6 +2601,27 @@ BEGIN
     IDS_AG_PNS_DEC_SIZE     "PnS Dec Size"
     IDS_AG_PNS_DEC_WIDTH    "PnS Dec Width"
     IDS_MPLAYERC_50         "PnS Dec Height"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBDL_DLG_DOWNLOADING "Downloading subtitle(s), please wait."
+    IDS_SUBDL_DLG_PARSING   "Parsing list..."
+    IDS_SUBDL_DLG_NOT_FOUND "No subtitles found."
+    IDS_SUBDL_DLG_SUBS_AVAIL " %d subtitle(s) available."
+    IDS_UPDATE_CONFIG_AUTO_CHECK 
+                            "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
+    IDS_ZOOM_50             "50%"
+    IDS_ZOOM_100            "100%"
+    IDS_ZOOM_200            "200%"
+    IDS_ZOOM_AUTOFIT        "Auto Fit"
+    IDS_ZOOM_AUTOFIT_LARGER "Auto Fit (Larger Only)"
+    IDS_AG_ZOOM_AUTO_FIT_LARGER "Zoom Auto Fit (Larger Only)"
+    IDS_OSD_ZOOM_AUTO_LARGER "Zoom: Auto (Larger Only)"
+    IDS_TOOLTIP_EXPLORE_TO_FILE "Double click to open file location"
+    IDS_TOOLTIP_REMAINING_TIME "Toggle between elapsed and remaining time"
+    IDS_UPDATE_DELAY_ERROR_TITLE "Invalid delay"
+    IDS_UPDATE_DELAY_ERROR_MSG "Please enter a number between 1 and 365."
 END
 
 STRINGTABLE
@@ -2568,6 +2705,16 @@ BEGIN
     IDS_FAVORITES_QUICKADDFAVORITE "Quick add favorite"
     IDS_VDF_DXVA_SD         "Disable DXVA for SD (H.264)"
     IDS_MPEG2DECSETTINGSWND_3 "Read AR from stream"
+    IDS_DVB_CHANNEL_NUMBER  "N"
+    IDS_DVB_CHANNEL_NAME    "Name"
+    IDS_DVB_CHANNEL_FREQUENCY "Frequency"
+    IDS_DVB_CHANNEL_ENCRYPTION "Encrypted"
+    IDS_DVB_CHANNEL_ENCRYPTED "Yes"
+    IDS_DVB_CHANNEL_NOT_ENCRYPTED "No"
+    IDS_DVB_CHANNEL_START_SCAN "Start"
+    IDS_DVB_CHANNEL_STOP_SCAN "Stop"
+    IDS_DVB_TVNAV_SEERADIO  "Radio stations"
+    IDS_DVB_TVNAV_SEETV     "TV stations"
 END
 
 STRINGTABLE
@@ -2589,13 +2736,12 @@ BEGIN
     IDS_MPEG2_CONTRAST      "Contrast"
     IDS_MPEG2_HUE           "Hue"
     IDS_MPEG2_SATURATION    "Saturation"
-    IDS_MPEG2DECSETTINGSWND_8
+    IDS_MPEG2DECSETTINGSWND_8 
                             "can degrade performance. ""Auto"" deinterlacer will switch to ""Blend"" when necessary."
     IDS_ADD_TO_PLAYLIST     "Add to MPC-HC Playlist"
     IDS_OPEN_WITH_MPC       "Play with MPC-HC"
-    IDS_CANNOT_CHANGE_FORMAT
+    IDS_CANNOT_CHANGE_FORMAT 
                             "Media Player Classic - Home Cinema has not enough privileges to change files formats associations. Please click on ""Modify"" button to get administrator rights."
-    IDS_MISSING_ICONS_LIB   "The icons library ""mpciconlib.dll"" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get ""mpciconlib.dll""."
     IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system. Originaly made by a Hungarian developer known as Gabest, this version has additional features such as Direct 3D fullscreen mode and better support for Windows Vista/7."
     IDS_MAINFRM_12          "channel"
     IDS_MAINFRM_13          "channels"
@@ -2605,7 +2751,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_AG_TITLE            "Title %d"
-    IDS_AG_TITLE2           "Title: %02d/%02d"
     IDS_MAINFRM_16          "DVD: Unexpected error"
     IDS_MAINFRM_17          "DVD: Copy-Protect Fail"
     IDS_MAINFRM_18          "DVD: Invalid DVD 1.x Disc"
@@ -2614,6 +2759,23 @@ BEGIN
     IDS_MAINFRM_21          "DVD: Macrovision Fail"
     IDS_MAINFRM_22          "DVD: Incompatible System And Decoder Regions"
     IDS_MAINFRM_23          "DVD: Incompatible Disc And Decoder Regions"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_VDF_DXVA_SETTING    "DXVA settings"
+    IDS_VDF_DXVA_MODE       "DXVA Mode"
+    IDS_D3DFS_WARNING       "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nTo exit Direct3D fullscreen and stop playback, you must press: Ctrl + C.\n\nDo you really want to activate this option?"
+    IDS_MAINFRM_139         "Sub delay: %ld ms"
+    IDS_AG_TITLE2           "Title: %02d/%02d"
+    IDS_REALVIDEO_INCOMPATIBLE 
+                            "Filename contains unsupported characters (use only A-Z, 0-9)"
+    IDS_VDF_VIDEOCARD       "Video card"
+    IDS_THUMB_ROWNUMBER     "Rows:"
+    IDS_THUMB_COLNUMBER     "Columns:"
+    IDS_THUMB_IMAGE_WIDTH   "Image width"
+    IDS_PPSDB_URLCORRECT    "The URL appears to be correct!"
+    IDS_PPSDB_PROTOCOLERR   "Protocol version mismatch, please upgrade your player or choose a different address!"
 END
 
 STRINGTABLE
@@ -2651,8 +2813,6 @@ STRINGTABLE
 BEGIN
     IDS_MAINFRM_65          "Pre-Resize Pixel Shaders: on"
     IDS_MAINFRM_66          "Pre-Resize Pixel Shaders: off"
-    IDS_MAINFRM_PPONSCR     "Post-Resize Pixel Shaders: on"
-    IDS_MAINFRM_PPOFFSCR    "Post-Resize Pixel Shaders: off"
     IDS_MAINFRM_68          "Aspect Ratio: %d:%d"
     IDS_MAINFRM_69          "Aspect Ratio: Default"
     IDS_MAINFRM_70          "Audio Delay: %I64dms"
@@ -2678,8 +2838,6 @@ BEGIN
     IDS_FULLSCREENMONITOR_CURRENT "Current"
     IDS_MPC_CRASH           "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file ""%s"" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
     IDS_MPC_MINIDUMP_FAIL   "Failed to create dump file to ""%s"" (error %d)"
-    IDS_MPC_BUG_REPORT_TITLE "MPC-HC - Reporting a bug"
-    IDS_MPC_BUG_REPORT      "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
     IDS_MAINFRM_DIR_TITLE   "Select Directory"
     IDS_MAINFRM_DIR_CHECK   "Include subdirectories"
     IDS_VDF_AR_MODE         "Read AR from stream"
@@ -2743,19 +2901,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_VDF_DXVA_SETTING    "DXVA settings"
-    IDS_VDF_DXVA_MODE       "DXVA Mode"
-    IDS_D3DFS_WARNING       "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nTo exit Direct3D fullscreen and stop playback, you must press: Ctrl + C.\n\nDo you really want to activate this option?"
-    IDS_MAINFRM_139         "Sub delay: %ld ms"
-    IDS_REALVIDEO_INCOMPATIBLE
-                            "Filename contains unsupported characters (use only A-Z, 0-9)"
-    IDS_VDF_VIDEOCARD       "Video card"
-    IDS_PPSDB_URLCORRECT    "The URL appears to be correct!"
-    IDS_PPSDB_PROTOCOLERR   "Protocol version mismatch, please upgrade your player or choose a different address!"
-END
-
-STRINGTABLE
-BEGIN
     IDS_MPADEC_DRC          "Apply DRC for AC-3 and E-AC3"
     IDS_MPADEC_MIXER        "Mixer"
     IDS_MPADEC_MIX_SPEAKERS "Output speakers:"
@@ -2763,14 +2908,14 @@ BEGIN
     IDS_MPADEC_STEREO       "Stereo"
     IDS_MPADEC_SPDIF        "S/PDIF passthrough:"
     IDS_AG_SETTINGS         "Settings"
-    IDS_MPEG2DECSETTINGSWND_0
+    IDS_MPEG2DECSETTINGSWND_0 
                             "Enable planar YUV media types (VY12, I420, IYUY)"
     IDS_MPEG2DECSETTINGSWND_1 "Set interlaced flag in output media type"
     IDS_MPEG2DECSETTINGSWND_2 "Always display forced subtitles"
     IDS_MPEG2_DEINTERLACING "Deinterlacing"
     IDS_MPEG2_BRIGHTNESS    "Brightness"
     IDS_MPEG2_RESET         "Reset"
-    IDS_MPEG2DECSETTINGSWND_7
+    IDS_MPEG2DECSETTINGSWND_7 
                             "Note: Using a non-planar output format, bob deinterlacer, or adjusting color properies "
 END
 
@@ -2789,11 +2934,22 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_VDF_INTERLACED_FLAG         "Force the interlaced flag"
-    IDS_VDF_IF_AUTO                 "Auto"
-    IDS_VDF_IF_PROGRESSIVE          "Progressive"
-    IDS_VDF_IF_TOP_FIELD_FIRST      "Top field first"
-    IDS_VDF_IF_BOTTOM_FIELD_FIRST   "Bottom field first"
+    IDS_EMB_RESOURCES_VIEWER_INFO 
+                            "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the ""Save As"" button if you only want to save the information."
+    IDS_AVISPLITTER_NON_INTERLEAVED "Non interleaved files support"
+    IDS_DOWNLOAD_SUBS       "Download subtitles"
+    IDS_VDF_INTERLACED_FLAG "Force the interlaced flag"
+    IDS_VDF_IF_AUTO         "Auto"
+    IDS_VDF_IF_PROGRESSIVE  "Progressive"
+    IDS_VDF_IF_TOP_FIELD_FIRST "Top field first"
+    IDS_VDF_IF_BOTTOM_FIELD_FIRST "Bottom field first"
+    IDS_SUBFILE_DELAY       "Delay (ms):"
+    IDS_SPEEDSTEP_AUTO      "Auto"
+    IDS_EXPORT_SETTINGS_NO_KEYS "There are no customized keys to export."
+    IDS_RFS_NO_FILES        "No media files found in the archive"
+    IDS_RFS_COMPRESSED      "Compressed files are not supported"
+    IDS_RFS_ENCRYPTED       "Encrypted files are not supported"
+    IDS_RFS_MISSING_VOLS    "Couldn't find all archive volumes"
 END
 
 STRINGTABLE
@@ -2880,389 +3036,280 @@ BEGIN
     IDS_VIEW_FRAMEONLY      "Frame Only\tCtrl+0"
     IDS_VIEW_CAPTIONMENU    "Show Caption&&Menu\tCtrl+0"
     IDS_VIEW_HIDEMENU       "Hide Menu\tCtrl+0"
+END
+
+STRINGTABLE
+BEGIN
     IDS_TIME_TOOLTIP_ABOVE  "Above seekbar"
     IDS_TIME_TOOLTIP_BELOW  "Below seekbar"
+    IDS_VIDEO_STREAM        "Video: %s"
+    IDS_APPLY               "Apply"
+    IDS_CLEAR               "Clear"
+    IDS_CANCEL              "Cancel"
+    IDS_THUMB_THUMBNAILS    "Layout"
+    IDS_THUMB_PIXELS        "Pixels:"
+    IDS_TEXTFILE_ENC        "Encoding:"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_DISABLE_ALL_FILTERS     "&Disable all filters"
-    IDS_ENABLE_FFMPEG_FILTERS   "Enable FFmpeg filters"
-    IDS_DISABLE_FFMPEG_FILTERS  "Disable FFmpeg filters"
-    IDS_ENABLE_DXVA_FILTERS     "Enable DXVA filters"
-    IDS_DISABLE_DXVA_FILTERS    "Disable DXVA filters"
-    IDS_STRETCH_TO_WINDOW       "Stretch To Window"
+    IDS_DISABLE_ALL_FILTERS "&Disable all filters"
+    IDS_ENABLE_FFMPEG_FILTERS "Enable FFmpeg filters"
+    IDS_DISABLE_FFMPEG_FILTERS "Disable FFmpeg filters"
+    IDS_ENABLE_DXVA_FILTERS "Enable DXVA filters"
+    IDS_DISABLE_DXVA_FILTERS "Disable DXVA filters"
+    IDS_STRETCH_TO_WINDOW   "Stretch To Window"
     IDS_TOUCH_WINDOW_FROM_INSIDE "Touch Window From Inside"
-    IDS_ZOOM1                   "Zoom 1"
-    IDS_ZOOM2                   "Zoom 2"
+    IDS_ZOOM1               "Zoom 1"
+    IDS_ZOOM2               "Zoom 2"
     IDS_TOUCH_WINDOW_FROM_OUTSIDE "Touch Window From Outside"
-    IDS_AUDIO_STREAM            "Audio: %s"
-    IDS_VIDEO_STREAM            "Video: %s"
-    IDS_AG_REOPEN               "Reopen File"
+    IDS_AUDIO_STREAM        "Audio: %s"
+    IDS_AG_REOPEN           "Reopen File"
+    IDS_ARS_WASAPI_MODE     "Use WASAPI (restart playback)"
+    IDS_ARS_MUTE_FAST_FORWARD "Mute on fast forward"
+    IDS_ARS_SOUND_DEVICE    "Sound Device:"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_MFMT_AVI                "AVI"
-    IDS_MFMT_MPEG               "MPEG"
-    IDS_MFMT_MPEGTS             "MPEG-TS"
-    IDS_MFMT_DVDVIDEO           "DVD-Video"
-    IDS_MFMT_MKV                "Matroska"
-    IDS_MFMT_WEBM               "WebM"
-    IDS_MFMT_MP4                "MP4"
-    IDS_MFMT_MOV                "QuickTime Movie"
-    IDS_MFMT_3GP                "3GP"
-    IDS_MFMT_3G2                "3G2"
-    IDS_MFMT_FLV                "Flash Video"
-    IDS_MFMT_OGM                "Ogg Media"
-    IDS_MFMT_RM                 "Real Media"
-    IDS_MFMT_RT                 "Real Script"
-    IDS_MFMT_WMV                "Windows Media Video"
-    IDS_MFMT_BINK               "Smacker/Bink Video"
-    IDS_MFMT_FLIC               "FLIC Animation"
-    IDS_MFMT_DSM                "DirectShow Media"
-    IDS_MFMT_IVF                "Indeo Video Format"
+    IDS_MFMT_AVI            "AVI"
+    IDS_MFMT_MPEG           "MPEG"
+    IDS_MFMT_MPEGTS         "MPEG-TS"
+    IDS_MFMT_DVDVIDEO       "DVD-Video"
+    IDS_MFMT_MKV            "Matroska"
+    IDS_MFMT_WEBM           "WebM"
+    IDS_MFMT_MP4            "MP4"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_MFMT_OTHER              "Other"
-    IDS_MFMT_D2V                "DVD2AVI File"
-    IDS_MFMT_SWF                "Shockwave Flash"
-    IDS_MFMT_OTHER_AUDIO        "Other Audio"
+    IDS_MFMT_MOV            "QuickTime Movie"
+    IDS_MFMT_3GP            "3GP"
+    IDS_MFMT_3G2            "3G2"
+    IDS_MFMT_FLV            "Flash Video"
+    IDS_MFMT_OGM            "Ogg Media"
+    IDS_MFMT_RM             "Real Media"
+    IDS_MFMT_RT             "Real Script"
+    IDS_MFMT_WMV            "Windows Media Video"
+    IDS_MFMT_BINK           "Smacker/Bink Video"
+    IDS_MFMT_FLIC           "FLIC Animation"
+    IDS_MFMT_DSM            "DirectShow Media"
+    IDS_MFMT_IVF            "Indeo Video Format"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_MFMT_AC3                "AC-3/DTS"
-    IDS_MFMT_AIFF               "AIFF"
-    IDS_MFMT_ALAC               "Apple Lossless"
-    IDS_MFMT_AMR                "AMR"
-    IDS_MFMT_APE                "Monkey's Audio"
-    IDS_MFMT_AU                 "AU/SND"
-    IDS_MFMT_CDA                "Audio CD track"
-    IDS_MFMT_FLAC               "FLAC"
-    IDS_MFMT_M4A                "MPEG-4 Audio"
-    IDS_MFMT_MIDI               "MIDI"
-    IDS_MFMT_MKA                "Matroska audio"
-    IDS_MFMT_MP3                "MP3"
-    IDS_MFMT_MPA                "MPEG audio"
-    IDS_MFMT_MPC                "Musepack"
-    IDS_MFMT_OFR                "OptimFROG"
-    IDS_MFMT_OGG                "Ogg Vorbis"
-    IDS_MFMT_OPUS               "Opus Audio Codec"
-    IDS_MFMT_RA                 "Real Audio"
-    IDS_MFMT_TAK                "TAK"
-    IDS_MFMT_TTA                "True Audio"
-    IDS_MFMT_WAV                "WAV"
-    IDS_MFMT_WMA                "Windows Media Audio"
-    IDS_MFMT_WV                 "WavPack"
+    IDS_MFMT_OTHER          "Other"
+    IDS_MFMT_D2V            "DVD2AVI File"
+    IDS_MFMT_SWF            "Shockwave Flash"
+    IDS_MFMT_OTHER_AUDIO    "Other Audio"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_MFMT_PLS                "Playlist"
-    IDS_MFMT_BDPLS              "Blu-ray playlist"
+    IDS_MFMT_AC3            "AC-3/DTS"
+    IDS_MFMT_AIFF           "AIFF"
+    IDS_MFMT_ALAC           "Apple Lossless"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_DVB_CHANNEL_NUMBER      "N"
-    IDS_DVB_CHANNEL_NAME        "Name"
-    IDS_DVB_CHANNEL_FREQUENCY   "Frequency"
-    IDS_DVB_CHANNEL_ENCRYPTION  "Encrypted"
-    IDS_DVB_CHANNEL_ENCRYPTED   "Yes"
-    IDS_DVB_CHANNEL_NOT_ENCRYPTED "No"
-    IDS_DVB_CHANNEL_START_SCAN  "Start"
-    IDS_DVB_CHANNEL_STOP_SCAN   "Stop"
-    IDS_DVB_TVNAV_SEERADIO      "Radio stations"
-    IDS_DVB_TVNAV_SEETV         "TV stations"
-    IDS_ARS_WASAPI_MODE         "Use WASAPI (restart playback)"
-    IDS_ARS_MUTE_FAST_FORWARD   "Mute on fast forward"
-    IDS_ARS_SOUND_DEVICE        "Sound Device:"
+    IDS_MFMT_AMR            "AMR"
+    IDS_MFMT_APE            "Monkey's Audio"
+    IDS_MFMT_AU             "AU/SND"
+    IDS_MFMT_CDA            "Audio CD track"
+    IDS_MFMT_FLAC           "FLAC"
+    IDS_MFMT_M4A            "MPEG-4 Audio"
+    IDS_MFMT_MIDI           "MIDI"
+    IDS_MFMT_MKA            "Matroska audio"
+    IDS_MFMT_MP3            "MP3"
+    IDS_MFMT_MPA            "MPEG audio"
+    IDS_MFMT_MPC            "Musepack"
+    IDS_MFMT_OFR            "OptimFROG"
+    IDS_MFMT_OGG            "Ogg Vorbis"
+    IDS_MFMT_RA             "Real Audio"
+    IDS_MFMT_TAK            "TAK"
+    IDS_MFMT_TTA            "True Audio"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MFMT_WAV            "WAV"
+    IDS_MFMT_WMA            "Windows Media Audio"
+    IDS_MFMT_WV             "WavPack"
+    IDS_MFMT_OPUS           "Opus Audio Codec"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MFMT_PLS            "Playlist"
+    IDS_MFMT_BDPLS          "Blu-ray playlist"
 END
 
 STRINGTABLE
 BEGIN
     IDS_MPEGSPLITTER_FSTREAM_CHANGE "Fast stream change"
-    IDS_MPEGSPLITTER_LANG_ORDER     "Audio language order:"
-    IDS_MPEGSPLITTER_SUB_ORDER      "Subtitles language order:"
-    IDS_MPEGSPLITTER_VC1_GUIDFLAG   "VC-1 Output compatibility:"
-    IDS_MPEGSPLITTER_SUB_FORCING    "Force load all subtitles"
-    IDS_MPEGSPLITTER_TRUEHD_OUTPUT  "TrueHD+AC3 streams output"
-    IDS_MPEGSPLITTER_THD_NOSPLIT    "As is"
-    IDS_MPEGSPLITTER_ALT_DUR_CALC   "Alternative method calculation of duration"
+    IDS_MPEGSPLITTER_LANG_ORDER "Audio language order:"
+    IDS_MPEGSPLITTER_SUB_ORDER "Subtitles language order:"
+    IDS_MPEGSPLITTER_VC1_GUIDFLAG "VC-1 Output compatibility:"
+    IDS_MPEGSPLITTER_SUB_FORCING "Force load all subtitles"
+    IDS_MPEGSPLITTER_TRUEHD_OUTPUT "TrueHD+AC3 streams output"
+    IDS_MPEGSPLITTER_THD_NOSPLIT "As is"
+    IDS_MPEGSPLITTER_ALT_DUR_CALC "Alternative method calculation of duration"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_OSD_RS_VSYNC_ON                 "VSync: On"
-    IDS_OSD_RS_VSYNC_OFF                "VSync: Off"
-    IDS_OSD_RS_ACCURATE_VSYNC_ON        "Accurate VSync: On"
-    IDS_OSD_RS_ACCURATE_VSYNC_OFF       "Accurate VSync: Off"
-    IDS_OSD_RS_SYNC_TO_DISPLAY_ON       "Synchronize Video to Display: On"
-    IDS_OSD_RS_SYNC_TO_DISPLAY_OFF      "Synchronize Video to Display: Off"
-    IDS_OSD_RS_SYNC_TO_VIDEO_ON         "Synchronize Display to Video: On"
-    IDS_OSD_RS_SYNC_TO_VIDEO_OFF        "Synchronize Display to Video: Off"
-    IDS_OSD_RS_PRESENT_NEAREST_ON       "Present at Nearest VSync: On"
-    IDS_OSD_RS_PRESENT_NEAREST_OFF      "Present at Nearest VSync: Off"
-    IDS_OSD_RS_COLOR_MANAGEMENT_ON      "Color Management: On"
-    IDS_OSD_RS_COLOR_MANAGEMENT_OFF     "Color Management: Off"
-    IDS_OSD_RS_INPUT_TYPE_AUTO          "Input Type: Auto-Detect"
-    IDS_OSD_RS_INPUT_TYPE_HDTV          "Input Type: HDTV"
-    IDS_OSD_RS_INPUT_TYPE_SD_NTSC       "Input Type: SDTV NTSC"
-    IDS_OSD_RS_INPUT_TYPE_SD_PAL        "Input Type: SDTV PAL"
-    IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT     "Ambient Light: Bright (2.2 Gamma)"
-    IDS_OSD_RS_AMBIENT_LIGHT_DIM        "Ambient Light: Dim (2.35 Gamma)"
-    IDS_OSD_RS_AMBIENT_LIGHT_DARK       "Ambient Light: Dark (2.4 Gamma)"
-    IDS_OSD_RS_REND_INTENT_PERCEPT      "Rendering Intent: Perceptual"
-    IDS_OSD_RS_REND_INTENT_RELATIVE     "Rendering Intent: Relative Colorimetric"
-    IDS_OSD_RS_REND_INTENT_SATUR        "Rendering Intent: Saturation"
-    IDS_OSD_RS_REND_INTENT_ABSOLUTE     "Rendering Intent: Absolute Colorimetric"
-    IDS_OSD_RS_OUTPUT_RANGE             "Output Range: %s"
-    IDS_OSD_RS_FLUSH_BEF_VSYNC_ON       "Flush GPU before VSync: On"
-    IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF      "Flush GPU before VSync: Off"
-    IDS_OSD_RS_FLUSH_AFT_PRES_ON        "Flush GPU after Present: On"
-    IDS_OSD_RS_FLUSH_AFT_PRES_OFF       "Flush GPU after Present: Off"
-    IDS_OSD_RS_WAIT_ON                  "Wait for GPU Flush: On"
-    IDS_OSD_RS_WAIT_OFF                 "Wait for GPU Flush: Off"
-    IDS_OSD_RS_D3D_FULLSCREEN_ON        "D3D Fullscreen (requires restart): On"
-    IDS_OSD_RS_D3D_FULLSCREEN_OFF       "D3D Fullscreen (requires restart): Off"
-    IDS_OSD_RS_NO_DESKTOP_COMP_ON       "Disable desktop composition: On"
-    IDS_OSD_RS_NO_DESKTOP_COMP_OFF      "Disable desktop composition: Off"
-    IDS_OSD_RS_ALT_VSYNC_ON             "Alternative VSync: On"
-    IDS_OSD_RS_ALT_VSYNC_OFF            "Alternative VSync: Off"
-    IDS_OSD_RS_RESET_DEFAULT            "Renderer settings reset to default"
-    IDS_OSD_RS_RESET_OPTIMAL            "Renderer settings reset to optimal"
-    IDS_OSD_RS_D3D_FS_GUI_SUPP_ON       "D3D Fullscreen GUI Support: On"
-    IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF      "D3D Fullscreen GUI Support: Off"
-    IDS_OSD_RS_10BIT_RBG_OUT_ON         "10-bit RGB Output: On"
-    IDS_OSD_RS_10BIT_RBG_OUT_OFF        "10-bit RGB Output: Off"
-    IDS_OSD_RS_10BIT_RBG_IN_ON          "Force 10-bit RGB Input: On"
-    IDS_OSD_RS_10BIT_RBG_IN_OFF         "Force 10-bit RGB Input: Off"
-    IDS_OSD_RS_FULL_FP_PROCESS_ON       "Full Floating Point Processing: On"
-    IDS_OSD_RS_FULL_FP_PROCESS_OFF      "Full Floating Point Processing: Off"
-    IDS_OSD_RS_HALF_FP_PROCESS_ON       "Half Floating Point Processing: On"
-    IDS_OSD_RS_HALF_FP_PROCESS_OFF      "Half Floating Point Processing: Off"
-    IDS_OSD_RS_FT_CORRECTION_ON         "Frame Time Correction: On"
-    IDS_OSD_RS_FT_CORRECTION_OFF        "Frame Time Correction: Off"
-    IDS_OSD_RS_TARGET_VSYNC_OFFSET      "Target VSync Offset: %.1f"
-    IDS_OSD_RS_VSYNC_OFFSET             "VSync Offset: %d"
-    IDS_OSD_SPEED                       "Speed: %.2lfx"
-    IDS_OSD_ZOOM                        "Zoom: %.0lf%%"
-    IDS_OSD_ZOOM_AUTO                   "Zoom: Auto"
-    IDS_OSD_ZOOM_AUTO_LARGER            "Zoom: Auto (Larger Only)"
+    IDS_OSD_RS_VSYNC_ON     "VSync: On"
+    IDS_OSD_RS_VSYNC_OFF    "VSync: Off"
+    IDS_OSD_RS_ACCURATE_VSYNC_ON "Accurate VSync: On"
+    IDS_OSD_RS_ACCURATE_VSYNC_OFF "Accurate VSync: Off"
+    IDS_OSD_RS_SYNC_TO_DISPLAY_ON "Synchronize Video to Display: On"
+    IDS_OSD_RS_SYNC_TO_DISPLAY_OFF "Synchronize Video to Display: Off"
+    IDS_OSD_RS_SYNC_TO_VIDEO_ON "Synchronize Display to Video: On"
+    IDS_OSD_RS_SYNC_TO_VIDEO_OFF "Synchronize Display to Video: Off"
+    IDS_OSD_RS_PRESENT_NEAREST_ON "Present at Nearest VSync: On"
+    IDS_OSD_RS_PRESENT_NEAREST_OFF "Present at Nearest VSync: Off"
+    IDS_OSD_RS_COLOR_MANAGEMENT_ON "Color Management: On"
+    IDS_OSD_RS_COLOR_MANAGEMENT_OFF "Color Management: Off"
+    IDS_OSD_RS_INPUT_TYPE_AUTO "Input Type: Auto-Detect"
+    IDS_OSD_RS_INPUT_TYPE_HDTV "Input Type: HDTV"
+    IDS_OSD_RS_INPUT_TYPE_SD_NTSC "Input Type: SDTV NTSC"
+    IDS_OSD_RS_INPUT_TYPE_SD_PAL "Input Type: SDTV PAL"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_MENU_VIDEO_STREAM               "Video S&tream"
-    IDS_MENU_VIDEO_ANGLE                "Video Ang&le"
+    IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT "Ambient Light: Bright (2.2 Gamma)"
+    IDS_OSD_RS_AMBIENT_LIGHT_DIM "Ambient Light: Dim (2.35 Gamma)"
+    IDS_OSD_RS_AMBIENT_LIGHT_DARK "Ambient Light: Dark (2.4 Gamma)"
+    IDS_OSD_RS_REND_INTENT_PERCEPT "Rendering Intent: Perceptual"
+    IDS_OSD_RS_REND_INTENT_RELATIVE "Rendering Intent: Relative Colorimetric"
+    IDS_OSD_RS_REND_INTENT_SATUR "Rendering Intent: Saturation"
+    IDS_OSD_RS_REND_INTENT_ABSOLUTE "Rendering Intent: Absolute Colorimetric"
+    IDS_OSD_RS_OUTPUT_RANGE "Output Range: %s"
+    IDS_OSD_RS_FLUSH_BEF_VSYNC_ON "Flush GPU before VSync: On"
+    IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF "Flush GPU before VSync: Off"
+    IDS_OSD_RS_FLUSH_AFT_PRES_ON "Flush GPU after Present: On"
+    IDS_OSD_RS_FLUSH_AFT_PRES_OFF "Flush GPU after Present: Off"
+    IDS_OSD_RS_WAIT_ON      "Wait for GPU Flush: On"
+    IDS_OSD_RS_WAIT_OFF     "Wait for GPU Flush: Off"
+    IDS_OSD_RS_D3D_FULLSCREEN_ON "D3D Fullscreen (requires restart): On"
+    IDS_OSD_RS_D3D_FULLSCREEN_OFF "D3D Fullscreen (requires restart): Off"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_RESET_SETTINGS                  "Reset settings"
-    IDS_RESET_SETTINGS_WARNING          "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-    IDS_RESET_SETTINGS_MUTEX            "Please close all instances of MPC-HC so that the default settings can be restored."
-    IDS_EXPORT_SETTINGS                 "Export settings"
-    IDS_EXPORT_SETTINGS_WARNING         "Some changes have not been saved yet.\nDo you want to save them before exporting?"
-    IDS_EXPORT_SETTINGS_SUCCESS         "The settings have been successfully exported."
-    IDS_EXPORT_SETTINGS_FAILED          "The export failed! This can happen when you don't have the correct rights."
-    IDS_EXPORT_SETTINGS_NO_KEYS         "There are no customized keys to export."
+    IDS_OSD_RS_NO_DESKTOP_COMP_ON "Disable desktop composition: On"
+    IDS_OSD_RS_NO_DESKTOP_COMP_OFF "Disable desktop composition: Off"
+    IDS_OSD_RS_ALT_VSYNC_ON "Alternative VSync: On"
+    IDS_OSD_RS_ALT_VSYNC_OFF "Alternative VSync: Off"
+    IDS_OSD_RS_RESET_DEFAULT "Renderer settings reset to default"
+    IDS_OSD_RS_RESET_OPTIMAL "Renderer settings reset to optimal"
+    IDS_OSD_RS_D3D_FS_GUI_SUPP_ON "D3D Fullscreen GUI Support: On"
+    IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF "D3D Fullscreen GUI Support: Off"
+    IDS_OSD_RS_10BIT_RBG_OUT_ON "10-bit RGB Output: On"
+    IDS_OSD_RS_10BIT_RBG_OUT_OFF "10-bit RGB Output: Off"
+    IDS_OSD_RS_10BIT_RBG_IN_ON "Force 10-bit RGB Input: On"
+    IDS_OSD_RS_10BIT_RBG_IN_OFF "Force 10-bit RGB Input: Off"
+    IDS_OSD_RS_FULL_FP_PROCESS_ON "Full Floating Point Processing: On"
+    IDS_OSD_RS_FULL_FP_PROCESS_OFF "Full Floating Point Processing: Off"
+    IDS_OSD_RS_HALF_FP_PROCESS_ON "Half Floating Point Processing: On"
+    IDS_OSD_RS_HALF_FP_PROCESS_OFF "Half Floating Point Processing: Off"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_BDA_ERROR                       "BDA Error"
-    IDS_BDA_ERROR_CREATE_TUNER          "Could not create the tuner."
-    IDS_BDA_ERROR_CREATE_RECEIVER       "Could not create the receiver."
-    IDS_BDA_ERROR_CONNECT_NW_TUNER      "Could not connect the network and the tuner."
-    IDS_BDA_ERROR_CONNECT_TUNER_REC     "Could not connect the tuner and the receiver."
-    IDS_BDA_ERROR_CONNECT_TUNER         "Could not connect the tuner."
-    IDS_BDA_ERROR_DEMULTIPLEXER         "Could not create the demultiplexer."
-    IDS_GOTO_ERROR_PARSING_TIME         "Error parsing the entered time!"
-    IDS_GOTO_ERROR_PARSING_TEXT         "Error parsing the entered text!"
-    IDS_GOTO_ERROR_PARSING_FPS          "Error parsing the entered frame rate!"
-    IDS_GOTO_ERROR_INVALID_TIME         "The entered time is greater than the file duration."
-    IDS_FRAME_STEP_ERROR_RENDERER       "Cannot frame step, try a different video renderer."
-    IDS_SCREENSHOT_ERROR_REAL           "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-    IDS_SCREENSHOT_ERROR_QT             "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-    IDS_SCREENSHOT_ERROR_SHOCKWAVE      "The ""Save Image"" and ""Save Thumbnails"" functions do not work for Shockwave files."
-    IDS_SCREENSHOT_ERROR_OVERLAY        "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-    IDS_MB_SHOW_EDL_EDITOR              "Do you want to activate the EDL editor?"
-    IDS_CAPTURE_LIVE                    "Live"
-    IDS_CAPTURE_ERROR                   "Capture Error"
-    IDS_CAPTURE_ERROR_VIDEO             "video"
-    IDS_CAPTURE_ERROR_AUDIO             "audio"
-    IDS_CAPTURE_ERROR_ADD_BUFFER        "Can't add the %s buffer filter to the graph."
-    IDS_CAPTURE_ERROR_CONNECT_BUFF      "Can't connect the %s buffer filter to the graph."
-    IDS_CAPTURE_ERROR_ADD_ENCODER       "Can't add the %s encoder filter to the graph."
-    IDS_CAPTURE_ERROR_CONNECT_ENC       "Can't connect the %s encoder filter to the graph."
-    IDS_CAPTURE_ERROR_COMPRESSION       "Can't set the compression format on the %s encoder filter."
-    IDS_CAPTURE_ERROR_MULTIPLEXER       "Can't connect the %s stream to the multiplexer filter."
-    IDS_CAPTURE_ERROR_VID_CAPT_PIN      "No video capture pin was found."
-    IDS_CAPTURE_ERROR_AUD_CAPT_PIN      "No audio capture pin was found."
-    IDS_CAPTURE_ERROR_OUT_FILE          "Error initializing the output file."
-    IDS_CAPTURE_ERROR_AUD_OUT_FILE      "Error initializing the audio output file."
-    IDS_CAPTURE_ERROR_VID_FILTER        "Can't add video capture filter to the graph"
-    IDS_CAPTURE_ERROR_AUD_FILTER        "Can't add audio capture filter to the graph"
-    IDS_CAPTURE_ERROR_DEVICE            "Could not open capture device."
-    IDS_SUBRESYNC_TIME_FORMAT           "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
-    IDS_EXTERNAL_FILTERS_ERROR_MT       "This type is already in the list!"
-    IDS_WEBSERVER_ERROR_TEST            "You need to apply the new settings before testing them."
-    IDS_GRAPH_INTERFACES_ERROR          "Failed to query the needed interfaces for playback"
-    IDS_GRAPH_TARGET_WND_ERROR          "Could not set target window for graph notification"
-    IDS_DVD_NAV_ALL_PINS_ERROR          "Failed to render all pins of the DVD Navigator filter"
-    IDS_DVD_NAV_SOME_PINS_ERROR         "Failed to render some of the pins of the DVD Navigator filter"
-    IDS_DVD_INTERFACES_ERROR            "Failed to query the needed interfaces for DVD playback"
-    IDS_INVALID_PARAMS_ERROR            "Can't open, invalid input parameters"
+    IDS_BRIGHTNESS_DEC      "Brightness decrease"
+    IDS_CONTRAST_INC        "Contrast increase"
+    IDS_CONTRAST_DEC        "Contrast decrease"
+    IDS_HUE_INC             "Hue +"
+    IDS_HUE_DEC             "Hue -"
+    IDS_SATURATION_INC      "Saturation increase"
+    IDS_SATURATION_DEC      "Saturation decrease"
+    IDS_RESET_COLOR         "Reset color settings"
+    IDS_USING_LATEST_STABLE "\nYou are already using the latest stable version."
+    IDS_USING_NEWER_VERSION "Your current version is v%u.%u.%u.%u.\n\nThe latest stable version is v%u.%u.%u.%u."
+    IDS_NEW_UPDATE_AVAILABLE 
+                            "MPC-HC v%u.%u.%u.%u is now available. You are using v%u.%u.%u.%u.\n\nDo you want to visit MPC-HC's website to download it?"
+    IDS_UPDATE_ERROR        "Update server not found.\n\nPlease check your internet connection or try again later."
+    IDS_UPDATE_CLOSE        "&Close"
+    IDS_OSD_ZOOM            "Zoom: %.0lf%%"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_AFTERPLAYBACK_CLOSE             "After Playback: Exit"
-    IDS_AFTERPLAYBACK_STANDBY           "After Playback: Stand By"
-    IDS_AFTERPLAYBACK_HIBERNATE         "After Playback: Hibernate"
-    IDS_AFTERPLAYBACK_SHUTDOWN          "After Playback: Shutdown"
-    IDS_AFTERPLAYBACK_LOGOFF            "After Playback: Log Off"
-    IDS_AFTERPLAYBACK_LOCK              "After Playback: Lock"
-    IDS_AFTERPLAYBACK_EXIT              "After Playback: Always exit"
-    IDS_AFTERPLAYBACK_DONOTHING         "After Playback: Do Nothing"
-    IDS_AFTERPLAYBACK_NEXT              "After Playback: Play next in the folder"
-    IDS_OSD_BRIGHTNESS                  "Brightness: %s"
-    IDS_OSD_CONTRAST                    "Contrast: %s"
-    IDS_OSD_HUE                         "Hue: %s°"
-    IDS_OSD_SATURATION                  "Saturation: %s"
-    IDS_OSD_RESET_COLOR                 "Color settings restored"
-    IDS_OSD_NO_COLORCONTROL             "Color control is not supported"
-    IDS_BRIGHTNESS_INC                  "Brightness increase"
-    IDS_BRIGHTNESS_DEC                  "Brightness decrease"
-    IDS_CONTRAST_INC                    "Contrast increase"
-    IDS_CONTRAST_DEC                    "Contrast decrease"
-    IDS_HUE_INC                         "Hue +"
-    IDS_HUE_DEC                         "Hue -"
-    IDS_SATURATION_INC                  "Saturation increase"
-    IDS_SATURATION_DEC                  "Saturation decrease"
-    IDS_RESET_COLOR                     "Reset color settings"
-    IDS_CUSTOM_CHANNEL_MAPPING          "Toggle custom channel mapping"
-    IDS_OSD_CUSTOM_CH_MAPPING_ON        "Custom channel mapping: On"
-    IDS_OSD_CUSTOM_CH_MAPPING_OFF       "Custom channel mapping: Off"
-    IDS_NORMALIZE                       "Toggle normalization"
-    IDS_OSD_NORMALIZE_ON                "Normalization: On"
-    IDS_OSD_NORMALIZE_OFF               "Normalization: Off"
-    IDS_REGAIN_VOLUME                   "Toggle regain volume"
-    IDS_OSD_REGAIN_VOLUME_ON            "Regain volume: On"
-    IDS_OSD_REGAIN_VOLUME_OFF           "Regain volume: Off"
+    IDS_BDA_ERROR_CREATE_TUNER "Could not create the tuner."
+    IDS_BDA_ERROR_CREATE_RECEIVER "Could not create the receiver."
+    IDS_BDA_ERROR_CONNECT_NW_TUNER 
+                            "Could not connect the network and the tuner."
+    IDS_BDA_ERROR_CONNECT_TUNER_REC 
+                            "Could not connect the tuner and the receiver."
+    IDS_BDA_ERROR_CONNECT_TUNER "Could not connect the tuner."
+    IDS_BDA_ERROR_DEMULTIPLEXER "Could not create the demultiplexer."
+    IDS_GOTO_ERROR_PARSING_TIME "Error parsing the entered time!"
+    IDS_GOTO_ERROR_PARSING_TEXT "Error parsing the entered text!"
+    IDS_GOTO_ERROR_PARSING_FPS "Error parsing the entered frame rate!"
+    IDS_FRAME_STEP_ERROR_RENDERER 
+                            "Cannot frame step, try a different video renderer."
+    IDS_SCREENSHOT_ERROR_REAL 
+                            "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
+    IDS_SCREENSHOT_ERROR_QT "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
+    IDS_SCREENSHOT_ERROR_SHOCKWAVE 
+                            "The ""Save Image"" and ""Save Thumbnails"" functions do not work for Shockwave files."
+    IDS_SCREENSHOT_ERROR_OVERLAY 
+                            "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
+    IDS_SUBDL_DLG_CONNECT_ERROR 
+                            "Cannot connect to the online subtitles database."
+    IDS_MB_SHOW_EDL_EDITOR  "Do you want to activate the EDL editor?"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_APPLY                           "Apply"
-    IDS_CLEAR                           "Clear"
-    IDS_CANCEL                          "Cancel"
+    IDS_CAPTURE_ERROR       "Capture Error"
+    IDS_CAPTURE_ERROR_VIDEO "video"
+    IDS_CAPTURE_ERROR_AUDIO "audio"
+    IDS_CAPTURE_ERROR_ADD_BUFFER 
+                            "Can't add the %s buffer filter to the graph."
+    IDS_CAPTURE_ERROR_CONNECT_BUFF 
+                            "Can't connect the %s buffer filter to the graph."
+    IDS_CAPTURE_ERROR_ADD_ENCODER 
+                            "Can't add the %s encoder filter to the graph."
+    IDS_CAPTURE_ERROR_CONNECT_ENC 
+                            "Can't connect the %s encoder filter to the graph."
+    IDS_CAPTURE_ERROR_COMPRESSION 
+                            "Can't set the compression format on the %s encoder filter."
+    IDS_CAPTURE_ERROR_MULTIPLEXER 
+                            "Can't connect the %s stream to the multiplexer filter."
+    IDS_CAPTURE_ERROR_VID_CAPT_PIN "No video capture pin was found."
+    IDS_CAPTURE_ERROR_AUD_CAPT_PIN "No audio capture pin was found."
+    IDS_CAPTURE_ERROR_OUT_FILE "Error initializing the output file."
+    IDS_CAPTURE_ERROR_AUD_OUT_FILE "Error initializing the audio output file."
+    IDS_SUBRESYNC_TIME_FORMAT 
+                            "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
+    IDS_EXTERNAL_FILTERS_ERROR_MT "This type is already in the list!"
+    IDS_WEBSERVER_ERROR_TEST 
+                            "You need to apply the new settings before testing them."
 END
 
 STRINGTABLE
 BEGIN
-    IDS_USING_LATEST_STABLE             "\nYou are already using the latest stable version."
-    IDS_USING_NEWER_VERSION             "Your current version is v%u.%u.%u.%u.\n\nThe latest stable version is v%u.%u.%u.%u."
-    IDS_NEW_UPDATE_AVAILABLE            "MPC-HC v%u.%u.%u.%u is now available. You are using v%u.%u.%u.%u.\n\nDo you want to visit MPC-HC's website to download it?"
-    IDS_UPDATE_ERROR                    "Update server not found.\n\nPlease check your internet connection or try again later."
-    IDS_UPDATE_CLOSE                    "&Close"
-    IDS_UPDATE_CONFIG_AUTO_CHECK        "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-    IDS_UPDATE_DELAY_ERROR_TITLE        "Invalid delay"
-    IDS_UPDATE_DELAY_ERROR_MSG          "Please enter a number between 1 and 365."
-END
-
-STRINGTABLE
-BEGIN
-    IDS_SIZE_UNIT_K                     "KB"
-    IDS_SIZE_UNIT_M                     "MB"
-    IDS_SIZE_UNIT_G                     "GB"
-    IDS_SPEED_UNIT_K                    "KB/s"
-    IDS_SPEED_UNIT_M                    "MB/s"
-    IDS_SPEED_UNIT_G                    "GB/s"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_PPAGE_FS_CLN_ON_OFF             "On/Off"
-    IDS_PPAGE_FS_CLN_FROM_FPS           "From fps"
-    IDS_PPAGE_FS_CLN_TO_FPS             "To fps"
-    IDS_PPAGE_FS_CLN_DISPLAY_MODE       "Display mode (Hz)"
-    IDS_PPAGE_FS_DEFAULT                "Default"
-    IDS_PPAGE_FS_OTHER                  "Other"
-    IDS_PPAGE_OUTPUT_SYS_DEF            "System Default"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_SUBDL_DLG_CONNECT_ERROR         "Cannot connect to the online subtitles database."
-    IDS_SUBDL_DLG_FILENAME_COL          "File"
-    IDS_SUBDL_DLG_LANGUAGE_COL          "Language"
-    IDS_SUBDL_DLG_FORMAT_COL            "Format"
-    IDS_SUBDL_DLG_DISC_COL              "Disc"
-    IDS_SUBDL_DLG_TITLES_COL            "Title(s)"
-    IDS_SUBDL_DLG_DOWNLOADING           "Downloading subtitle(s), please wait."
-    IDS_SUBDL_DLG_PARSING               "Parsing list..."
-    IDS_SUBDL_DLG_NOT_FOUND             "No subtitles found."
-    IDS_SUBDL_DLG_SUBS_AVAIL            " %d subtitle(s) available."
-    IDS_DOWNLOAD_SUBS                   "Download subtitles"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_ZOOM_50                         "50%"
-    IDS_ZOOM_100                        "100%"
-    IDS_ZOOM_200                        "200%"
-    IDS_ZOOM_AUTOFIT                    "Auto Fit"
-    IDS_ZOOM_AUTOFIT_LARGER             "Auto Fit (Larger Only)"
-    IDS_SPEEDSTEP_AUTO                  "Auto"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_TOOLTIP_EXPLORE_TO_FILE         "Double click to open file location"
-    IDS_TOOLTIP_REMAINING_TIME          "Toggle between elapsed and remaining time"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_THUMB_ROWNUMBER                 "Rows:"
-    IDS_THUMB_COLNUMBER                 "Columns:"
-    IDS_THUMB_IMAGE_WIDTH               "Image width"
-    IDS_THUMB_THUMBNAILS                "Layout"
-    IDS_THUMB_PIXELS                    "Pixels:"
-    IDS_TEXTFILE_ENC                    "Encoding:"
-    IDS_SUBFILE_DELAY                   "Delay (ms):"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_ICONS_REASSOC_DLG_TITLE         "New version of the icon library"
-    IDS_ICONS_REASSOC_DLG_INSTR         "Do you want to reassociate the icons?"
-    IDS_ICONS_REASSOC_DLG_CONTENT       "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-END
-
-STRINGTABLE
-BEGIN
-    IDS_EMB_RESOURCES_VIEWER_NAME       "Name"
-    IDS_EMB_RESOURCES_VIEWER_TYPE       "MIME Type"
-    IDS_EMB_RESOURCES_VIEWER_INFO       "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the ""Save As"" button if you only want to save the information."
-END
-
-STRINGTABLE
-BEGIN
-    IDS_AVISPLITTER_NON_INTERLEAVED     "Non interleaved files support"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_RFS_NO_FILES                    "No media files found in the archive"
-    IDS_RFS_COMPRESSED                  "Compressed files are not supported"
-    IDS_RFS_ENCRYPTED                   "Encrypted files are not supported"
-    IDS_RFS_MISSING_VOLS                "Couldn't find all archive volumes"
+    IDS_AFTERPLAYBACK_CLOSE "After Playback: Exit"
+    IDS_AFTERPLAYBACK_STANDBY "After Playback: Stand By"
+    IDS_AFTERPLAYBACK_HIBERNATE "After Playback: Hibernate"
+    IDS_AFTERPLAYBACK_SHUTDOWN "After Playback: Shutdown"
+    IDS_AFTERPLAYBACK_LOGOFF "After Playback: Log Off"
+    IDS_AFTERPLAYBACK_LOCK  "After Playback: Lock"
+    IDS_AFTERPLAYBACK_EXIT  "After Playback: Always exit"
+    IDS_AFTERPLAYBACK_DONOTHING "After Playback: Do Nothing"
+    IDS_AFTERPLAYBACK_NEXT  "After Playback: Play next in the folder"
+    IDS_OSD_BRIGHTNESS      "Brightness: %s"
+    IDS_OSD_CONTRAST        "Contrast: %s"
+    IDS_OSD_HUE             "Hue: %s°"
+    IDS_OSD_SATURATION      "Saturation: %s"
+    IDS_OSD_RESET_COLOR     "Color settings restored"
+    IDS_OSD_NO_COLORCONTROL "Color control is not supported"
+    IDS_BRIGHTNESS_INC      "Brightness increase"
 END
 
 #endif    // English (United States) resources
@@ -3284,7 +3331,7 @@ END
 LANGUAGE 9, 1
 #pragma code_page(1252)
 #include "afxres.rc"     // Standard components
-#include "res\\mplayerc.rc2"  // non-Microsoft Visual C++ edited resources
+#include "res\mplayerc.rc2"  // non-Microsoft Visual C++ edited resources
 #endif
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
