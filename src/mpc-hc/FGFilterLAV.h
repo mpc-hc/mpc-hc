@@ -27,6 +27,10 @@ DEFINE_GUID(GUID_LAVAudio, 0xE8E73B6B, 0x4CB3, 0x44A4, 0xBE, 0x99, 0x4F, 0x7B, 0
 
 #include "FGFilter.h"
 
+#include "LAVFilters/src/developer_info/LAVSplitterSettings.h"
+#include "LAVFilters/src/developer_info/LAVVideoSettings.h"
+#include "LAVFilters/src/developer_info/LAVAudioSettings.h"
+
 class CFGFilterLAV : public CFGFilterFile
 {
 protected:
@@ -52,6 +56,31 @@ protected:
     CFGFilterLAVSplitterBase(CString path, const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
 
 public:
+    struct Settings {
+        BOOL bTrayIcon;
+        std::wstring prefAudioLangs;
+        std::wstring prefSubLangs;
+        std::wstring subtitleAdvanced;
+        LAVSubtitleMode subtitleMode;
+        BOOL bPGSForcedStream;
+        BOOL bPGSOnlyForced;
+        int iVC1Mode;
+        BOOL bSubstreams;
+
+        BOOL bMatroskaExternalSegments;
+
+        BOOL bStreamSwitchRemoveAudio;
+        BOOL bImpairedAudio;
+        BOOL bPreferHighQualityAudio;
+        DWORD dwQueueMaxSize;
+
+        void LoadSettings();
+        void SaveSettings();
+
+        bool GetSettings(CComQIPtr<ILAVFSettings> pLAVFSettings);
+        bool SetSettings(CComQIPtr<ILAVFSettings> pLAVFSettings);
+    };
+
     static const CString filename;
 
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
@@ -72,6 +101,31 @@ public:
 class CFGFilterLAVVideo : public CFGFilterLAV
 {
 public:
+    struct Settings {
+        BOOL bTrayIcon;
+        DWORD dwStreamAR;
+        DWORD dwNumThreads;
+        BOOL bPixFmts[LAVOutPixFmt_NB];
+        DWORD dwRGBRange;
+        DWORD dwHWAccel;
+        BOOL bHWFormats[HWCodec_NB];
+        DWORD dwHWAccelResFlags;
+        DWORD dwHWDeintMode;
+        DWORD dwHWDeintOutput;
+        BOOL bHWDeintHQ;
+        DWORD dwDeintFieldOrder;
+        LAVDeintMode deintMode;
+        DWORD dwSWDeintMode;
+        DWORD dwSWDeintOutput;
+        DWORD dwDitherMode;
+
+        void LoadSettings();
+        void SaveSettings();
+
+        bool GetSettings(CComQIPtr<ILAVVideoSettings> pLAVFSettings);
+        bool SetSettings(CComQIPtr<ILAVVideoSettings> pLAVFSettings);
+    };
+
     static const CString filename;
 
     CFGFilterLAVVideo(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
@@ -82,6 +136,37 @@ public:
 class CFGFilterLAVAudio : public CFGFilterLAV
 {
 public:
+    struct Settings {
+        BOOL bTrayIcon;
+        BOOL bDRCEnabled;
+        int iDRCLevel;
+        BOOL bBitstream[Bitstream_NB];
+        BOOL bDTSHDFraming;
+        BOOL bAutoAVSync;
+        BOOL bExpandMono;
+        BOOL bExpand61;
+        BOOL bOutputStandardLayout;
+        BOOL bAllowRawSPDIF;
+        BOOL bSampleFormats[SampleFormat_NB];
+        BOOL bSampleConvertDither;
+        BOOL bAudioDelayEnabled;
+        int  iAudioDelay;
+
+        BOOL bMixingEnabled;
+        DWORD dwMixingLayout;
+        DWORD dwMixingFlags;
+        DWORD dwMixingMode;
+        DWORD dwMixingCenterLevel;
+        DWORD dwMixingSurroundLevel;
+        DWORD dwMixingLFELevel;
+
+        void LoadSettings();
+        void SaveSettings();
+
+        bool GetSettings(CComQIPtr<ILAVAudioSettings> pLAVFSettings);
+        bool SetSettings(CComQIPtr<ILAVAudioSettings> pLAVFSettings);
+    };
+
     static const CString filename;
 
     CFGFilterLAVAudio(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
