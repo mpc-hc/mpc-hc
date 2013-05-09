@@ -66,8 +66,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_Decoder(_T(""))
     , m_nFrameType(PICT_NONE)
 {
-    HINSTANCE       hDll;
-
     if (FAILED(hr)) {
         _Error += _T("ISubPicAllocatorPresenterImpl failed\n");
         return;
@@ -78,7 +76,8 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     m_pD3DXCreateLine             = nullptr;
     m_pD3DXCreateFont             = nullptr;
     m_pD3DXCreateSprite           = nullptr;
-    hDll                          = GetRenderersData()->GetD3X9Dll();
+    HINSTANCE hDll                = GetRenderersData()->GetD3X9Dll();
+
     if (hDll) {
         (FARPROC&)m_pD3DXLoadSurfaceFromMemory  = GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
         (FARPROC&)m_pD3DXLoadSurfaceFromSurface = GetProcAddress(hDll, "D3DXLoadSurfaceFromSurface");

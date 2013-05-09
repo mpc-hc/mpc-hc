@@ -96,12 +96,12 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
         return;
     }
 
-    HINSTANCE hDll;
     m_pD3DXLoadSurfaceFromMemory = nullptr;
     m_pD3DXCreateLine = nullptr;
     m_pD3DXCreateFont = nullptr;
     m_pD3DXCreateSprite = nullptr;
-    hDll = GetRenderersData()->GetD3X9Dll();
+    HINSTANCE hDll = GetRenderersData()->GetD3X9Dll();
+
     if (hDll) {
         (FARPROC&)m_pD3DXLoadSurfaceFromMemory = GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
         (FARPROC&)m_pD3DXCreateLine = GetProcAddress(hDll, "D3DXCreateLine");
