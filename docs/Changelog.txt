@@ -12,7 +12,7 @@ Legend:
 ========================
 * Updated Basque, German, Greek, Japanese, Russian, Simplified / Traditional Chinese
   and Turkish translations
-* Updated Little CMS to v2.5 (git 61d73f8)
+* Updated Little CMS to v2.5 (git d0d5b51)
 * Updated zlib to v1.2.8
 * Updated Unrar to v5.0.2
 * Audio Switcher improvements:
