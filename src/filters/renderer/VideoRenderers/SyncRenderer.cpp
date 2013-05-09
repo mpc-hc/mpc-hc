@@ -1973,7 +1973,7 @@ void CBaseAP::DrawText(const RECT& rc, const CString& strText, int _Priority)
 void CBaseAP::DrawStats()
 {
     const CRenderersSettings& s = GetRenderersSettings();
-    CRenderersData* pApp = GetRenderersData();
+    const CRenderersData* pApp = GetRenderersData();
 
     LONGLONG llMaxJitter = m_MaxJitter;
     LONGLONG llMinJitter = m_MinJitter;
@@ -2243,7 +2243,7 @@ double CBaseAP::GetCycleDifference()
 void CBaseAP::EstimateRefreshTimings()
 {
     if (m_pD3DDev) {
-        CRenderersData* pApp = GetRenderersData();
+        const CRenderersData* pApp = GetRenderersData();
         D3DRASTER_STATUS rasterStatus;
         m_pD3DDev->GetRasterStatus(0, &rasterStatus);
         while (rasterStatus.ScanLine != 0) {

@@ -1736,7 +1736,7 @@ void CDX9AllocatorPresenter::ResetStats()
 void CDX9AllocatorPresenter::DrawStats()
 {
     const CRenderersSettings& s = GetRenderersSettings();
-    CRenderersData* pApp = GetRenderersData();
+    const CRenderersData* pApp = GetRenderersData();
     int bDetailedStats = 2;
     switch (pApp->m_fDisplayStats) {
         case 1:

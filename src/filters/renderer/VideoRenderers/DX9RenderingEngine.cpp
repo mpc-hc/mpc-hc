@@ -931,7 +931,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
     HRESULT hr;
 
     const CRenderersSettings& settings = GetRenderersSettings();
-    CRenderersData* data = GetRenderersData();
+    const CRenderersData* data = GetRenderersData();
 
     // Check whether the final pass must be initialized
     bool bColorManagement = settings.m_AdvRendSets.iVMR9ColorManagementEnable;

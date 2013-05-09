@@ -2333,7 +2333,7 @@ void CEVRAllocatorPresenter::VSyncThread()
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
-    CRenderersData* pApp = GetRenderersData();
+    const CRenderersData* pApp = GetRenderersData();
     const CRenderersSettings& s = GetRenderersSettings();
 
     while (!bQuit) {
