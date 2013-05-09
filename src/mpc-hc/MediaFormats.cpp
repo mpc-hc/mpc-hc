@@ -30,13 +30,13 @@
 //
 
 CMediaFormatCategory::CMediaFormatCategory()
-    : m_fAudioOnly(false), m_fAssoc(true)
+    : m_fAudioOnly(false), m_fAssociable(true)
 {
 }
 
 CMediaFormatCategory::CMediaFormatCategory(
     CString label, CString description, CAtlList<CString>& exts, bool fAudioOnly,
-    CString specreqnote, engine_t engine, bool fAssoc)
+    CString specreqnote, engine_t engine, bool fAssociable)
 {
     m_label = label;
     m_description = description;
@@ -45,12 +45,12 @@ CMediaFormatCategory::CMediaFormatCategory(
     m_specreqnote = specreqnote;
     m_fAudioOnly = fAudioOnly;
     m_engine = engine;
-    m_fAssoc = fAssoc;
+    m_fAssociable = fAssociable;
 }
 
 CMediaFormatCategory::CMediaFormatCategory(
     CString label, CString description, CString exts, bool fAudioOnly,
-    CString specreqnote, engine_t engine, bool fAssoc)
+    CString specreqnote, engine_t engine, bool fAssociable)
 {
     m_label = label;
     m_description = description;
@@ -64,7 +64,7 @@ CMediaFormatCategory::CMediaFormatCategory(
     m_specreqnote = specreqnote;
     m_fAudioOnly = fAudioOnly;
     m_engine = engine;
-    m_fAssoc = fAssoc;
+    m_fAssociable = fAssociable;
 }
 
 CMediaFormatCategory::~CMediaFormatCategory()
@@ -97,7 +97,7 @@ CMediaFormatCategory& CMediaFormatCategory::operator = (const CMediaFormatCatego
         m_backupexts.AddTailList(&mfc.m_backupexts);
         m_fAudioOnly = mfc.m_fAudioOnly;
         m_engine = mfc.m_engine;
-        m_fAssoc = mfc.m_fAssoc;
+        m_fAssociable = mfc.m_fAssociable;
     }
     return *this;
 }
@@ -332,19 +332,19 @@ engine_t CMediaFormats::GetEngine(CString path) const
     return DirectShow;
 }
 
-bool CMediaFormats::FindExt(CString ext, bool fAudioOnly, bool fAssocOnly) const
+bool CMediaFormats::FindExt(CString ext, bool fAudioOnly, bool fAssociableOnly) const
 {
-    return (FindMediaByExt(ext, fAudioOnly, fAssocOnly) != NULL);
+    return (FindMediaByExt(ext, fAudioOnly, fAssociableOnly) != NULL);
 }
 
-const CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly, bool fAssocOnly) const
+const CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly, bool fAssociableOnly) const
 {
     ext.TrimLeft(_T('.'));
 
     if (!ext.IsEmpty()) {
         for (size_t i = 0; i < GetCount(); i++) {
             const CMediaFormatCategory& mfc = GetAt(i);
-            if ((!fAudioOnly || mfc.IsAudioOnly()) && (!fAssocOnly || mfc.IsAssoc()) && mfc.FindExt(ext)) {
+            if ((!fAudioOnly || mfc.IsAudioOnly()) && (!fAssociableOnly || mfc.IsAssociable()) && mfc.FindExt(ext)) {
                 return &mfc;
             }
         }

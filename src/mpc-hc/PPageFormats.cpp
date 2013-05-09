@@ -157,7 +157,7 @@ BOOL CPPageFormats::OnInitDialog()
     m_mf = s.m_Formats;
 
     for (int i = 0, cnt = (int)m_mf.GetCount(); i < cnt; i++) {
-        if (!m_mf[i].IsAssoc()) {
+        if (!m_mf[i].IsAssociable()) {
             continue;
         }
 
