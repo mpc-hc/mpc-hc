@@ -126,6 +126,30 @@ CFGFilterLAV* CFGFilterLAV::CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit
     return filter;
 }
 
+bool CFGFilterLAV::IsInternalInstance(IBaseFilter* pBF, LAVFILTER_TYPE* pLAVFilterType /*= nullptr*/)
+{
+    bool bIsInternalInstance = (s_instances.Find(pBF) != nullptr);
+
+    if (bIsInternalInstance && pLAVFilterType) {
+        CLSID clsid;
+        *pLAVFilterType = INVALID;
+
+        if (SUCCEEDED(pBF->GetClassID(&clsid))) {
+            if (clsid == GUID_LAVSplitter) {
+                *pLAVFilterType = SPLITTER;
+            } else if (clsid == GUID_LAVSplitterSource) {
+                *pLAVFilterType = SPLITTER_SOURCE;
+            } else if (clsid == GUID_LAVVideo) {
+                *pLAVFilterType = VIDEO_DECODER;
+            } else if (clsid == GUID_LAVAudio) {
+                *pLAVFilterType = AUDIO_DECODER;
+            }
+        }
+    }
+
+    return bIsInternalInstance;
+}
+
 //
 // CFGFilterLAVSplitterBase
 //

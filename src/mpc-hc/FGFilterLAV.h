@@ -40,6 +40,7 @@ protected:
 
 public:
     enum LAVFILTER_TYPE {
+        INVALID = -1,
         SPLITTER,
         SPLITTER_SOURCE,
         VIDEO_DECODER,
@@ -51,9 +52,7 @@ public:
 
     static CFGFilterLAV* CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 
-    static bool IsInternalInstance(const IBaseFilter* pBF) {
-        return (s_instances.Find(pBF) != nullptr);
-    };
+    static bool IsInternalInstance(IBaseFilter* pBF, LAVFILTER_TYPE* pLAVFilterType = nullptr);
     static void ResetInternalInstances() {
         s_instances.RemoveAll();
     }

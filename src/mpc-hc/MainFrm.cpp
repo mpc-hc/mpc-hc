@@ -7856,17 +7856,27 @@ void CMainFrame::OnPlayFilters(UINT nID)
 
     CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), GetModalParent());
 
-    if (CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk) {
-        ps.AddPages(pSPP);
+    // Find out if we are opening the property page for an internal filter
+    CComQIPtr<IBaseFilter> pBF = pUnk;
+    bool bIsInternalFilter = false;
+    CFGFilterLAV::LAVFILTER_TYPE LAVFilterType;
+    if (pBF) {
+        bIsInternalFilter = CFGFilterLAV::IsInternalInstance(pBF, &LAVFilterType);
     }
 
-    bool bIsInternalFilter = false;
-    if (CComQIPtr<IBaseFilter> pBF = pUnk) {
+    if (CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk) {
+        ULONG uIgnoredPage = ULONG(-1);
+        // If we are dealing with an internal filter, we want to ignore the "Formats" page.
+        if (bIsInternalFilter) {
+            uIgnoredPage = (LAVFilterType != CFGFilterLAV::AUDIO_DECODER) ? 1 : 2;
+        }
+        ps.AddPages(pSPP, uIgnoredPage);
+    }
+
+    if (pBF) {
         HRESULT hr;
         CComPtr<IPropertyPage> pPP = DEBUG_NEW CInternalPropertyPageTempl<CPinInfoWnd>(nullptr, &hr);
         ps.AddPage(pPP, pBF);
-
-        bIsInternalFilter = CFGFilterLAV::IsInternalInstance(pBF);
     }
 
     if (ps.GetPageCount() > 0) {
@@ -7874,17 +7884,17 @@ void CMainFrame::OnPlayFilters(UINT nID)
         OpenSetupStatusBar();
 
         if (bIsInternalFilter) {
-            if (CComQIPtr<ILAVFSettings> pLAVFSettings = pUnk) {
+            if (CComQIPtr<ILAVFSettings> pLAVFSettings = pBF) {
                 CFGFilterLAVSplitterBase::Settings settings;
                 if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVSplitter
                     settings.SaveSettings(); // Save them to the registry/ini
                 }
-            } else if (CComQIPtr<ILAVVideoSettings> pLAVFSettings = pUnk) {
+            } else if (CComQIPtr<ILAVVideoSettings> pLAVFSettings = pBF) {
                 CFGFilterLAVVideo::Settings settings;
                 if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVVideo
                     settings.SaveSettings(); // Save them to the registry/ini
                 }
-            } else if (CComQIPtr<ILAVAudioSettings> pLAVFSettings = pUnk) {
+            } else if (CComQIPtr<ILAVAudioSettings> pLAVFSettings = pBF) {
                 CFGFilterLAVAudio::Settings settings;
                 if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVAudio
                     settings.SaveSettings(); // Save them to the registry/ini
