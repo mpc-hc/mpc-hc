@@ -224,11 +224,11 @@ bool CSubtitleDlDlg::Parse()
             sub.nick = value;
         } else if (param == "email") {
             sub.email = value;
-        } else if (param == "" && value == "endsubtitle") {
+        } else if (param.IsEmpty() && value == "endsubtitle") {
             m.subs.AddTail(sub);
-        } else if (param == "" && value == "endmovie") {
+        } else if (param.IsEmpty() && value == "endmovie") {
             m_pTA->raw_movies.AddTail(m);
-        } else if (param == "" && value == "end") {
+        } else if (param.IsEmpty() && value == "end") {
             break;
         }
     }

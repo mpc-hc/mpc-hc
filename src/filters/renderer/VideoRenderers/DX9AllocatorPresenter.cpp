@@ -848,7 +848,7 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
     m_D3D9Device = _T("");
 
     const CRenderersSettings& s = GetRenderersSettings();
-    if (bGetAdapter && (pD3D->GetAdapterCount() > 1) && (s.D3D9RenderDevice != _T(""))) {
+    if (bGetAdapter && (pD3D->GetAdapterCount() > 1) && !s.D3D9RenderDevice.IsEmpty()) {
         TCHAR strGUID[50];
         D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 
@@ -2006,13 +2006,13 @@ void CDX9AllocatorPresenter::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            if (m_D3D9Device != _T("")) {
+            if (!m_D3D9Device.IsEmpty()) {
                 strText = "Render device: " + m_D3D9Device;
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);
             }
 
-            if (m_Decoder != _T("")) {
+            if (!m_Decoder.IsEmpty()) {
                 strText = "Decoder      : " + m_Decoder;
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);

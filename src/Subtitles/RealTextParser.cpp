@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2012 see Authors.txt
+ * (C) 2008-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -117,7 +117,7 @@ bool CRealTextParser::ParseRealText(wstring p_szFile)
                 m_RealText.m_bCenter = true;
             } else if (oTag.m_szName == L"required") {
                 // Ignore
-            } else if (oTag.m_szName == L"") {
+            } else if (oTag.m_szName.empty()) {
                 // Ignore
             } else {
                 // assume formating tag (handled later)

@@ -797,7 +797,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         int curPos = 0;
 
         strRes = strList.Tokenize(_T("|"), curPos);
-        while (strRes != _T("")) {
+        while (!strRes.IsEmpty()) {
             m_shaderlabels.AddTail(strRes);
             strRes = strList.Tokenize(_T("|"), curPos);
         }
@@ -808,7 +808,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         int curPos = 0;
 
         strRes = strList.Tokenize(_T("|"), curPos);
-        while (strRes != _T("")) {
+        while (!strRes.IsEmpty()) {
             m_shaderlabelsScreenSpace.AddTail(strRes);
             strRes = strList.Tokenize(_T("|"), curPos);
         }
@@ -11708,7 +11708,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             mi_fn = pDVDData->path;
             CPath path(mi_fn);
             CString ext = path.GetExtension();
-            if (ext == _T("")) {
+            if (ext.IsEmpty()) {
                 if (mi_fn.Right(10) == _T("\\VIDEO_TS\\")) {
                     mi_fn = mi_fn + _T("VTS_01_1.VOB");
                 } else {

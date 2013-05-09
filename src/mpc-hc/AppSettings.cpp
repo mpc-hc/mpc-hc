@@ -495,7 +495,7 @@ bool CAppSettings::IsD3DFullscreen() const
 CString CAppSettings::SelectedAudioRenderer() const
 {
     CString strResult;
-    if (AfxGetMyApp()->m_AudioRendererDisplayName_CL != _T("")) {
+    if (!AfxGetMyApp()->m_AudioRendererDisplayName_CL.IsEmpty()) {
         strResult = AfxGetMyApp()->m_AudioRendererDisplayName_CL;
     } else {
         strResult = AfxGetAppSettings().strAudioRendererDisplayName;
@@ -1127,8 +1127,8 @@ void CAppSettings::LoadSettings()
     {
         CString temp = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SPLOGFONT, _T(""));
         subdefstyle <<= temp;
-        if (temp == _T("")) {
-            subdefstyle.relativeTo = 1;    //default "Position subtitles relative to the video frame" option is checked
+        if (temp.IsEmpty()) {
+            subdefstyle.relativeTo = 1; // default "Position subtitles relative to the video frame" option is checked
         }
     }
     fOverridePlacement = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPOVERRIDEPLACEMENT, FALSE);

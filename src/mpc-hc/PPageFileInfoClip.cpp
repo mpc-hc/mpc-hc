@@ -97,7 +97,7 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    if (m_fn == _T("")) {
+    if (m_fn.IsEmpty()) {
         BeginEnumFilters(m_pFG, pEF, pBF) {
             CComQIPtr<IFileSourceFilter> pFSF = pBF;
             if (pFSF) {

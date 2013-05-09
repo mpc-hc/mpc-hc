@@ -236,7 +236,7 @@ BOOL CPPageOutput::OnInitDialog()
                 if (::StringFromGUID2(adapterIdentifier.DeviceIdentifier, strGUID, 50) > 0) {
                     cstrGUID = strGUID;
                 }
-                if ((cstrGUID != _T(""))) {
+                if (!cstrGUID.IsEmpty()) {
                     boolean m_find = false;
                     for (INT_PTR i = 0; !m_find && (i < m_D3D9GUIDNames.GetCount()); i++) {
                         if (m_D3D9GUIDNames.GetAt(i) == cstrGUID) {
