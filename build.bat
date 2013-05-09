@@ -36,6 +36,7 @@ IF NOT EXIST %MPCHC_MSYS%    GOTO MissingVar
 SET ARG=/%*
 SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
+SET ARGANL=1
 SET ARGB=0
 SET ARGBC=0
 SET ARGC=0
@@ -62,8 +63,8 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Clean"        SET "BUILDTYPE=Clean"    & SET /A ARGB+=1  & SET /A ARGCL+=1 & SET /A ARGFF+=1
   IF /I "%%G" == "Rebuild"      SET "BUILDTYPE=Rebuild"  & SET /A ARGB+=1  & SET /A ARGRE+=1
   IF /I "%%G" == "Both"         SET "PPLATFORM=Both"     & SET /A ARGPL+=1
-  IF /I "%%G" == "Win32"        SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
-  IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
+  IF /I "%%G" == "Win32"        SET "PPLATFORM=Win32"    & SET /A ARGPL+=1 & SET /A ARGANL-=1
+  IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1 & SET /A ARGANL-=1
   IF /I "%%G" == "x64"          SET "PPLATFORM=x64"      & SET /A ARGPL+=1
   IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1
   IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET /A ARGM+=1
@@ -78,7 +79,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
   IF /I "%%G" == "VS2010"       SET "COMPILER=VS2010"    & SET /A ARGCOMP+=1
-  IF /I "%%G" == "VS2012"       SET "COMPILER=VS2012"    & SET /A ARGCOMP+=1
+  IF /I "%%G" == "VS2012"       SET "COMPILER=VS2012"    & SET /A ARGCOMP+=1 & SET /A ARGANL-=1
   IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
@@ -86,6 +87,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "FFmpeg"       SET "Rebuild=FFmpeg"     & SET /A VALID+=1 & SET /A ARGFF+=1 & SET /A ARGRE+=1
   IF /I "%%G" == "Silent"       SET "SILENT=True"        & SET /A VALID+=1
   IF /I "%%G" == "Nocolors"     SET "NOCOLORS=True"      & SET /A VALID+=1
+  IF /I "%%G" == "Analyze"      SET "ANALYZE=True"       & SET /A VALID+=1 & SET /A ARGANL+=1
 )
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
@@ -105,6 +107,7 @@ IF %ARGFF%   GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGL%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGRE%   GTR 1 (GOTO UnsupportedSwitch)
+IF %ARGANL%  GTR 1 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
@@ -507,7 +510,7 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [FFmpeg] [VS2010^|VS2012]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [FFmpeg] [VS2010^|VS2012] [Analyze]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.
