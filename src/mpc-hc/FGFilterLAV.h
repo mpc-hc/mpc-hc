@@ -34,6 +34,8 @@ DEFINE_GUID(GUID_LAVAudio, 0xE8E73B6B, 0x4CB3, 0x44A4, 0xBE, 0x99, 0x4F, 0x7B, 0
 class CFGFilterLAV : public CFGFilterFile
 {
 protected:
+    static CList<const IBaseFilter*> s_instances;
+
     CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
 
 public:
@@ -48,6 +50,13 @@ public:
     static bool CheckVersion(CString filtersPath);
 
     static CFGFilterLAV* CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+
+    static bool IsInternalInstance(const IBaseFilter* pBF) {
+        return (s_instances.Find(pBF) != nullptr);
+    };
+    static void ResetInternalInstances() {
+        s_instances.RemoveAll();
+    }
 };
 
 class CFGFilterLAVSplitterBase : public CFGFilterLAV

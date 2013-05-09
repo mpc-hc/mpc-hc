@@ -1342,6 +1342,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     const bool* src = s.SrcFilters;
     const bool* tra = s.TraFilters;
 
+    // Reset LAVFilters internal instances
+    CFGFilterLAV::ResetInternalInstances();
+
     // Source filters
 
 #if INTERNAL_SOURCEFILTER_RFS

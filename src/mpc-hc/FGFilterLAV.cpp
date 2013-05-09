@@ -45,6 +45,8 @@
 // CFGFilterLAV
 //
 
+CList<const IBaseFilter*> CFGFilterLAV::s_instances;
+
 CFGFilterLAV::CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit)
     : CFGFilterFile(clsid, path, name + (bAddLowMeritSuffix ? LowMeritSuffix : L""), merit)
 {
@@ -152,6 +154,9 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
                     settings.LoadSettings(); // Load our current settings from registry/ini
                     settings.SetSettings(pLAVFSettings); // Set our settings in LAVSplitter
                 }
+
+                // Keep track of LAVFilters instances in runtime mode
+                s_instances.AddTail(*ppBF);
             }
         } else {
             hr = E_NOINTERFACE;
@@ -357,6 +362,9 @@ HRESULT CFGFilterLAVVideo::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
                     settings.LoadSettings(); // Load our current settings from registry/ini
                     settings.SetSettings(pLAVFSettings); // Set our settings in LAVVideo
                 }
+
+                // Keep track of LAVFilters instances in runtime mode
+                s_instances.AddTail(*ppBF);
             }
         } else {
             hr = E_NOINTERFACE;
@@ -588,6 +596,9 @@ HRESULT CFGFilterLAVAudio::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
                     settings.LoadSettings(); // Load our current settings from registry/ini
                     settings.SetSettings(pLAVFSettings); // Set our settings in LAVAudio
                 }
+
+                // Keep track of LAVFilters instances in runtime mode
+                s_instances.AddTail(*ppBF);
             }
         } else {
             hr = E_NOINTERFACE;
