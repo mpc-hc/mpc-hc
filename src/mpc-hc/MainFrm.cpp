@@ -9753,7 +9753,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
         RECT vr = {0, 0, 0, 0};
 
         OAFilterState fs = GetMediaState();
-        if ((fs == State_Paused) || (fs == State_Running) || (fs == State_Stopped) && (m_fShockwaveGraph || m_fQuicktimeGraph)) {
+        if ((fs == State_Paused) || (fs == State_Running) || ((fs == State_Stopped) && (m_fShockwaveGraph || m_fQuicktimeGraph))) {
             SIZE arxy = GetVideoSize();
             double dARx = (double)(arxy.cx);
             double dARy = (double)(arxy.cy);
