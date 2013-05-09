@@ -7860,15 +7860,37 @@ void CMainFrame::OnPlayFilters(UINT nID)
         ps.AddPages(pSPP);
     }
 
+    bool bIsInternalFilter = false;
     if (CComQIPtr<IBaseFilter> pBF = pUnk) {
         HRESULT hr;
         CComPtr<IPropertyPage> pPP = DEBUG_NEW CInternalPropertyPageTempl<CPinInfoWnd>(nullptr, &hr);
         ps.AddPage(pPP, pBF);
+
+        bIsInternalFilter = CFGFilterLAV::IsInternalInstance(pBF);
     }
 
     if (ps.GetPageCount() > 0) {
         ps.DoModal();
         OpenSetupStatusBar();
+
+        if (bIsInternalFilter) {
+            if (CComQIPtr<ILAVFSettings> pLAVFSettings = pUnk) {
+                CFGFilterLAVSplitterBase::Settings settings;
+                if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVSplitter
+                    settings.SaveSettings(); // Save them to the registry/ini
+                }
+            } else if (CComQIPtr<ILAVVideoSettings> pLAVFSettings = pUnk) {
+                CFGFilterLAVVideo::Settings settings;
+                if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVVideo
+                    settings.SaveSettings(); // Save them to the registry/ini
+                }
+            } else if (CComQIPtr<ILAVAudioSettings> pLAVFSettings = pUnk) {
+                CFGFilterLAVAudio::Settings settings;
+                if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVAudio
+                    settings.SaveSettings(); // Save them to the registry/ini
+                }
+            }
+        }
     }
 }
 
