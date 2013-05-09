@@ -146,12 +146,14 @@ void CPlaylistItem::AutoLoadFiles()
         return;
     }
 
+    const CAppSettings& s = AfxGetAppSettings();
+
     CString fn = m_fns.GetHead();
 
-    if (AfxGetAppSettings().fAutoloadAudio && fn.Find(_T("://")) < 0) {
+    if (s.fAutoloadAudio && fn.Find(_T("://")) < 0) {
         int i = fn.ReverseFind('.');
         if (i > 0) {
-            CMediaFormats& mf = AfxGetAppSettings().m_Formats;
+            const CMediaFormats& mf = s.m_Formats;
 
             CString ext = fn.Mid(i + 1).MakeLower();
 
@@ -182,8 +184,8 @@ void CPlaylistItem::AutoLoadFiles()
         }
     }
 
-    if (AfxGetAppSettings().fAutoloadSubtitles) {
-        CString& pathList = AfxGetAppSettings().strSubtitlePaths;
+    if (s.fAutoloadSubtitles) {
+        const CString& pathList = s.strSubtitlePaths;
 
         CAtlArray<CString> paths;
 

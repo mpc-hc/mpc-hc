@@ -427,8 +427,9 @@ BOOL CPlayerStatusBar::PreTranslateMessage(MSG* pMsg)
 void CPlayerStatusBar::OnTimeDisplayClicked()
 {
     CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+    CAppSettings& s = AfxGetAppSettings();
 
-    AfxGetAppSettings().fRemainingTime = !AfxGetAppSettings().fRemainingTime;
+    s.fRemainingTime = !s.fRemainingTime;
     // This isn't particularly nice...
     pFrame->OnTimer(2);
 }

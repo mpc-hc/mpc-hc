@@ -42,8 +42,9 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     , m_nPort(nPort)
 {
     m_webroot = CPath(GetProgramPath());
+    const CAppSettings& s = AfxGetAppSettings();
 
-    CString WebRoot = AfxGetAppSettings().strWebRoot;
+    CString WebRoot = s.strWebRoot;
     WebRoot.Replace('/', '\\');
     WebRoot.Trim();
     CPath p(WebRoot);
@@ -59,7 +60,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     }
 
     CAtlList<CString> sl;
-    Explode(AfxGetAppSettings().strWebServerCGI, sl, ';');
+    Explode(s.strWebServerCGI, sl, ';');
     POSITION pos = sl.GetHeadPosition();
     while (pos) {
         CAtlList<CString> sl2;
@@ -319,6 +320,8 @@ void CWebServer::OnClose(CWebClientSocket* pClient)
 
 void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& body)
 {
+    const CAppSettings& s = AfxGetAppSettings();
+
     CPath p(AToT(pClient->m_path));
     CStringA ext = p.GetExtension().MakeLower();
     CStringA mime;
@@ -411,7 +414,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
                 "Pragma: no-cache\r\n";
 
             CStringA debug;
-            if (AfxGetAppSettings().fWebServerPrintDebugInfo) {
+            if (s.fWebServerPrintDebugInfo) {
                 debug += "<br><hr>\r\n";
                 debug += "<div id=\"debug\">";
 
@@ -472,7 +475,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
     }
 
     // gzip
-    if (AfxGetAppSettings().fWebServerUseCompression && !body.IsEmpty()
+    if (s.fWebServerUseCompression && !body.IsEmpty()
             && hdr.Find("Content-Encoding:") < 0 && ext != ".png" && ext != ".jpeg" && ext != ".gif")
         do {
             CStringA accept_encoding;

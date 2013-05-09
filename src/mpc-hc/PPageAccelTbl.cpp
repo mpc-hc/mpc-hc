@@ -1766,10 +1766,12 @@ void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
 {
     UpdateData();
 
+    CAppSettings& s = AfxGetAppSettings();
+
     if (m_fWinLirc) {
         CString addr;
         m_WinLircEdit.GetWindowText(addr);
-        AfxGetAppSettings().WinLircClient.Connect(addr);
+        s.WinLircClient.Connect(addr);
     }
 
     m_WinLircEdit.Invalidate();
@@ -1777,7 +1779,7 @@ void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
     if (m_fUIce) {
         CString addr;
         m_UIceEdit.GetWindowText(addr);
-        AfxGetAppSettings().UIceClient.Connect(addr);
+        s.UIceClient.Connect(addr);
     }
 
     m_UIceEdit.Invalidate();
@@ -1791,12 +1793,13 @@ HBRUSH CPPageAccelTbl::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
     HBRUSH hbr = __super::OnCtlColor(pDC, pWnd, nCtlColor);
 
+    const CAppSettings& s = AfxGetAppSettings();
     int status = -1;
 
     if (*pWnd == m_WinLircEdit) {
-        status = AfxGetAppSettings().WinLircClient.GetStatus();
+        status = s.WinLircClient.GetStatus();
     } else if (*pWnd == m_UIceEdit) {
-        status = AfxGetAppSettings().UIceClient.GetStatus();
+        status = s.UIceClient.GetStatus();
     }
 
     if (status == 0 || status == 2 && (m_counter & 1)) {

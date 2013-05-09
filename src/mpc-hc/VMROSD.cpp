@@ -454,9 +454,10 @@ void CVMROSD::DisplayMessage(OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration,
 
         int iOldFontSize = m_iFontSize;
         CString oldFontName = m_fontName;
+        const CAppSettings& s = AfxGetAppSettings();
 
         if (iFontSize == 0) {
-            m_iFontSize = AfxGetAppSettings().nOSDSize;
+            m_iFontSize = s.nOSDSize;
         } else {
             m_iFontSize = iFontSize;
         }
@@ -464,7 +465,7 @@ void CVMROSD::DisplayMessage(OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration,
             m_iFontSize = 20;
         }
         if (fontName.IsEmpty()) {
-            m_fontName = AfxGetAppSettings().strOSDFont;
+            m_fontName = s.strOSDFont;
         } else {
             m_fontName = fontName;
         }

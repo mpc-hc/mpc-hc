@@ -6631,17 +6631,21 @@ void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
 
 void CMainFrame::OnUpdateViewDefaultVideoFrame(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && AfxGetAppSettings().iDSVideoRendererType != VIDRNDT_DS_EVR);
+    const CAppSettings& s = AfxGetAppSettings();
+
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && s.iDSVideoRendererType != VIDRNDT_DS_EVR);
 
     int dvs = pCmdUI->m_nID - ID_VIEW_VF_HALF;
-    if (AfxGetAppSettings().iDefaultVideoSize == dvs && pCmdUI->m_pMenu) {
+    if (s.iDefaultVideoSize == dvs && pCmdUI->m_pMenu) {
         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, pCmdUI->m_nID, MF_BYCOMMAND);
     }
 }
 
 void CMainFrame::OnViewSwitchVideoFrame()
 {
-    int vs = AfxGetAppSettings().iDefaultVideoSize;
+    CAppSettings& s = AfxGetAppSettings();
+
+    int vs = s.iDefaultVideoSize;
     if (vs <= DVS_DOUBLE || vs == DVS_FROMOUTSIDE) {
         vs = DVS_STRETCH;
     } else if (vs == DVS_FROMINSIDE) {
@@ -6668,7 +6672,7 @@ void CMainFrame::OnViewSwitchVideoFrame()
             m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_TOUCH_WINDOW_FROM_OUTSIDE));
             break;
     }
-    AfxGetAppSettings().iDefaultVideoSize = vs;
+    s.iDefaultVideoSize = vs;
     m_ZoomX = m_ZoomY = 1;
     m_PosX = m_PosY = 0.5;
     MoveVideoWindow();
@@ -6676,7 +6680,9 @@ void CMainFrame::OnViewSwitchVideoFrame()
 
 void CMainFrame::OnViewKeepaspectratio()
 {
-    AfxGetAppSettings().fKeepAspectRatio = !AfxGetAppSettings().fKeepAspectRatio;
+    CAppSettings& s = AfxGetAppSettings();
+
+    s.fKeepAspectRatio = !s.fKeepAspectRatio;
     MoveVideoWindow();
 }
 
@@ -6688,14 +6694,18 @@ void CMainFrame::OnUpdateViewKeepaspectratio(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewCompMonDeskARDiff()
 {
-    AfxGetAppSettings().fCompMonDeskARDiff = !AfxGetAppSettings().fCompMonDeskARDiff;
+    CAppSettings& s = AfxGetAppSettings();
+
+    s.fCompMonDeskARDiff = !s.fCompMonDeskARDiff;
     MoveVideoWindow();
 }
 
 void CMainFrame::OnUpdateViewCompMonDeskARDiff(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && AfxGetAppSettings().iDSVideoRendererType != VIDRNDT_DS_EVR);
-    pCmdUI->SetCheck(AfxGetAppSettings().fCompMonDeskARDiff);
+    const CAppSettings& s = AfxGetAppSettings();
+
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && s.iDSVideoRendererType != VIDRNDT_DS_EVR);
+    pCmdUI->SetCheck(s.fCompMonDeskARDiff);
 }
 
 void CMainFrame::OnViewPanNScan(UINT nID)
@@ -6933,11 +6943,13 @@ void CMainFrame::OnViewAspectRatio(UINT nID)
 
 void CMainFrame::OnUpdateViewAspectRatio(CCmdUI* pCmdUI)
 {
-    if (AfxGetAppSettings().sizeAspectRatio == s_ar[pCmdUI->m_nID - ID_ASPECTRATIO_START] && pCmdUI->m_pMenu) {
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (s.sizeAspectRatio == s_ar[pCmdUI->m_nID - ID_ASPECTRATIO_START] && pCmdUI->m_pMenu) {
         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, pCmdUI->m_nID, MF_BYCOMMAND);
     }
 
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && AfxGetAppSettings().iDSVideoRendererType != VIDRNDT_DS_EVR);
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && s.iDSVideoRendererType != VIDRNDT_DS_EVR);
 }
 
 void CMainFrame::OnViewAspectRatioNext()
@@ -6981,6 +6993,8 @@ void CMainFrame::OnViewOptions()
 
 void CMainFrame::OnPlayPlay()
 {
+    const CAppSettings& s = AfxGetAppSettings();
+
     if (m_iMediaLoadState == MLS_CLOSED) {
         m_bFirstPlay = false;
         OpenCurPlaylistItem();
@@ -7008,10 +7022,10 @@ void CMainFrame::OnPlayPlay()
         } else if (GetPlaybackMode() == PM_CAPTURE) {
             pMC->Stop(); // audio preview won't be in sync if we run it from paused state
             pMC->Run();
-            if (AfxGetAppSettings().iDefaultCaptureDevice == 1) {
+            if (s.iDefaultCaptureDevice == 1) {
                 CComQIPtr<IBDATuner> pTun = pGB;
                 if (pTun) {
-                    SetChannel(AfxGetAppSettings().nDVBLastChannel);
+                    SetChannel(s.nDVBLastChannel);
                 }
             } else {
                 SetTimersPlay();
@@ -7028,7 +7042,7 @@ void CMainFrame::OnPlayPlay()
             pBA->put_Volume(m_wndToolBar.Volume);
         }
 
-        SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
+        SetAlwaysOnTop(s.iOnTop);
     }
 
     MoveVideoWindow();
@@ -7861,6 +7875,7 @@ void CMainFrame::OnPlayAudio(UINT nID)
 
 void CMainFrame::OnPlaySubtitles(UINT nID)
 {
+    CAppSettings& s = AfxGetAppSettings();
     // currently the subtitles submenu contains 5 items, apart from the actual subtitles list
     int i = (int)nID - (5 + ID_SUBTITLES_SUBITEM_START);
 
@@ -7919,11 +7934,11 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
     } else if (i == -1) {
         // override default style
         // TODO: default subtitles style toggle here
-        AfxGetAppSettings().fUseDefaultSubtitlesStyle = !AfxGetAppSettings().fUseDefaultSubtitlesStyle;
+        s.fUseDefaultSubtitlesStyle = !s.fUseDefaultSubtitlesStyle;
         SetSubtitle(0, true);
     } else if (i >= 0) {
         // this is an actual item from the subtitles list
-        AfxGetAppSettings().fEnableSubtitles = true;
+        s.fEnableSubtitles = true;
         SetSubtitle(i);
     }
 }
@@ -8371,12 +8386,14 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
     // moved to the timer callback function, that runs less frequent
     //if (GetPlaybackMode() == PM_FILE) SetupChapters();
 
+    const CAppSettings& s = AfxGetAppSettings();
+
     pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED
                    && ((GetPlaybackMode() == PM_DVD
                         && m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
                         && m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
-                       || (GetPlaybackMode() == PM_FILE  && AfxGetAppSettings().fUseSearchInFolder)
-                       || (GetPlaybackMode() == PM_FILE  && !AfxGetAppSettings().fUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
+                       || (GetPlaybackMode() == PM_FILE  && s.fUseSearchInFolder)
+                       || (GetPlaybackMode() == PM_FILE  && !s.fUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
                        || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing)));
 }
 
@@ -9371,8 +9388,10 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
 
 CSize CMainFrame::GetVideoSize() const
 {
-    bool fKeepAspectRatio = AfxGetAppSettings().fKeepAspectRatio;
-    bool fCompMonDeskARDiff = AfxGetAppSettings().fCompMonDeskARDiff;
+    const CAppSettings& s = AfxGetAppSettings();
+
+    bool fKeepAspectRatio = s.fKeepAspectRatio;
+    bool fCompMonDeskARDiff = s.fCompMonDeskARDiff;
 
     CSize ret(0, 0);
     if (m_iMediaLoadState != MLS_LOADED || m_fAudioOnly) {
@@ -9408,7 +9427,7 @@ CSize CMainFrame::GetVideoSize() const
         arxy.SetSize(VATR.ulAspectX, VATR.ulAspectY);
     }
 
-    CSize& ar = AfxGetAppSettings().sizeAspectRatio;
+    const CSize& ar = s.sizeAspectRatio;
     if (ar.cx && ar.cy) {
         arxy = ar;
     }
@@ -10220,13 +10239,15 @@ void CMainFrame::SetBalance(int balance)
 
 void CMainFrame::SetupIViAudReg()
 {
-    if (!AfxGetAppSettings().fAutoSpeakerConf) {
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (!s.fAutoSpeakerConf) {
         return;
     }
 
     DWORD spc = 0, defchnum = 0;
 
-    if (AfxGetAppSettings().fAutoSpeakerConf) {
+    if (s.fAutoSpeakerConf) {
         CComPtr<IDirectSound> pDS;
         if (SUCCEEDED(DirectSoundCreate(nullptr, &pDS, nullptr))
                 && SUCCEEDED(pDS->SetCooperativeLevel(m_hWnd, DSSCL_NORMAL))) {
@@ -11456,12 +11477,14 @@ DWORD CMainFrame::SetupAudioStreams()
 
     DWORD cStreams = 0;
     if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
+        const CAppSettings& s = AfxGetAppSettings();
+
         CAtlArray<CString> langs;
         int tPos = 0;
-        CString lang = AfxGetAppSettings().strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
+        CString lang = s.strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
         while (tPos != -1) {
             langs.Add(lang.MakeLower());
-            lang = AfxGetAppSettings().strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
+            lang = s.strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
         }
 
         DWORD selected = 1;
@@ -11917,7 +11940,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         m_bFirstPlay = true;
 
-        if (!(AfxGetAppSettings().nCLSwitches & CLSW_OPEN) && (AfxGetAppSettings().nLoops > 0)) {
+        if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
             PostMessage(WM_COMMAND, ID_PLAY_PLAY);
         } else {
             // If we don't start playing immediately, we need to initialize
@@ -11936,7 +11959,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             SetSubtitle(substm - 1);
         }
 
-        AfxGetAppSettings().nCLSwitches &= ~CLSW_OPEN;
+        s.nCLSwitches &= ~CLSW_OPEN;
 
         if (pFileData) {
             if (pFileData->rtStart > 0) {
@@ -12004,10 +12027,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
     m_nLastSkipDirection = 0;
 
-    if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) {
+    if (s.AutoChangeFullscrRes.bEnabled && m_fFullScreen) {
         AutoChangeMonitorMode();
     }
-    if (m_fFullScreen && AfxGetAppSettings().fRememberZoomLevel) {
+    if (m_fFullScreen && s.fRememberZoomLevel) {
         m_fFirstFSAfterLaunchOnFS = true;
     }
 
@@ -13652,7 +13675,9 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= nullptr*
         }
 
         if (!pSubStream) {
-            CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, &AfxGetAppSettings().subdefstyle, AfxGetAppSettings().fUseDefaultSubtitlesStyle));
+            CAppSettings& s = AfxGetAppSettings();
+
+            CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, &s.subdefstyle, s.fUseDefaultSubtitlesStyle));
 
             // The filename of the video file
             CString videoName = m_wndPlaylistBar.GetCurFileName();
@@ -14517,9 +14542,9 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    bool fUseThread = m_pGraphThread && AfxGetAppSettings().fEnableWorkerThreadForOpening
+    bool fUseThread = m_pGraphThread && s.fEnableWorkerThreadForOpening
                       // don't use a worker thread in D3DFullscreen mode except madVR
-                      && (!AfxGetAppSettings().IsD3DFullscreen() || AfxGetAppSettings().iDSVideoRendererType == VIDRNDT_DS_MADVR);
+                      && (!s.IsD3DFullscreen() || s.iDSVideoRendererType == VIDRNDT_DS_MADVR);
 
     if (OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p)) {
         if (p->fns.GetCount() > 0) {
@@ -14812,68 +14837,75 @@ bool CMainFrame::IsD3DFullScreenMode() const
 void CMainFrame::SetupEVRColorControl()
 {
     if (m_pMFVP) {
-        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Brightness, AfxGetMyApp()->GetEVRColorControl(ProcAmp_Brightness)))) {
+        CMPlayerCApp* pApp = AfxGetMyApp();
+        CAppSettings& s = AfxGetAppSettings();
+
+        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Brightness, pApp->GetEVRColorControl(ProcAmp_Brightness)))) {
             return;
         }
-        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Contrast,   AfxGetMyApp()->GetEVRColorControl(ProcAmp_Contrast)))) {
+        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Contrast,   pApp->GetEVRColorControl(ProcAmp_Contrast)))) {
             return;
         }
-        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Hue,        AfxGetMyApp()->GetEVRColorControl(ProcAmp_Hue)))) {
+        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Hue,        pApp->GetEVRColorControl(ProcAmp_Hue)))) {
             return;
         }
-        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Saturation, AfxGetMyApp()->GetEVRColorControl(ProcAmp_Saturation)))) {
+        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Saturation, pApp->GetEVRColorControl(ProcAmp_Saturation)))) {
             return;
         }
 
-        AfxGetMyApp()->UpdateColorControlRange(true);
-        SetColorControl(ProcAmp_All, AfxGetAppSettings().iBrightness, AfxGetAppSettings().iContrast, AfxGetAppSettings().iHue, AfxGetAppSettings().iSaturation);
+        pApp->UpdateColorControlRange(true);
+        SetColorControl(ProcAmp_All, s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
     }
 }
 
 void CMainFrame::SetupVMR9ColorControl()
 {
     if (m_pMC) {
-        if (FAILED(m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Brightness)))) {
+        CMPlayerCApp* pApp = AfxGetMyApp();
+        CAppSettings& s = AfxGetAppSettings();
+
+        if (FAILED(m_pMC->GetProcAmpControlRange(0, pApp->GetVMR9ColorControl(ProcAmp_Brightness)))) {
             return;
         }
-        if (FAILED(m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Contrast)))) {
+        if (FAILED(m_pMC->GetProcAmpControlRange(0, pApp->GetVMR9ColorControl(ProcAmp_Contrast)))) {
             return;
         }
-        if (FAILED(m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Hue)))) {
+        if (FAILED(m_pMC->GetProcAmpControlRange(0, pApp->GetVMR9ColorControl(ProcAmp_Hue)))) {
             return;
         }
-        if (FAILED(m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Saturation)))) {
+        if (FAILED(m_pMC->GetProcAmpControlRange(0, pApp->GetVMR9ColorControl(ProcAmp_Saturation)))) {
             return;
         }
 
-        AfxGetMyApp()->UpdateColorControlRange(false);
-        SetColorControl(ProcAmp_All, AfxGetAppSettings().iBrightness, AfxGetAppSettings().iContrast, AfxGetAppSettings().iHue, AfxGetAppSettings().iSaturation);
+        pApp->UpdateColorControlRange(false);
+        SetColorControl(ProcAmp_All, s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
     }
 }
 
 void CMainFrame::SetColorControl(DWORD flags, int& brightness, int& contrast, int& hue, int& saturation)
 {
+    CMPlayerCApp* pApp = AfxGetMyApp();
+
     static VMR9ProcAmpControl  ClrControl;
     static DXVA2_ProcAmpValues ClrValues;
 
     COLORPROPERTY_RANGE* cr;
     if (flags & ProcAmp_Brightness) {
-        cr = AfxGetMyApp()->GetColorControl(ProcAmp_Brightness);
+        cr = pApp->GetColorControl(ProcAmp_Brightness);
         brightness = min(max(brightness, cr->MinValue), cr->MaxValue);
     }
     if (flags & ProcAmp_Contrast) {
-        cr = AfxGetMyApp()->GetColorControl(ProcAmp_Contrast);
+        cr = pApp->GetColorControl(ProcAmp_Contrast);
         contrast = min(max(contrast, cr->MinValue), cr->MaxValue);
     }
     if (flags & ProcAmp_Hue) {
-        cr = AfxGetMyApp()->GetColorControl(ProcAmp_Hue);
+        cr = pApp->GetColorControl(ProcAmp_Hue);
         hue = min(max(hue, cr->MinValue), cr->MaxValue);
     }
     if (flags & ProcAmp_Saturation) {
-        cr = AfxGetMyApp()->GetColorControl(ProcAmp_Saturation);
+        cr = pApp->GetColorControl(ProcAmp_Saturation);
         saturation = min(max(saturation, cr->MinValue), cr->MaxValue);
     }
-
 
     if (m_pMC) {
         ClrControl.dwSize     = sizeof(ClrControl);
@@ -14964,11 +14996,12 @@ afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 
         int newDelay;
         int oldDelay = m_pCAP->GetSubtitleDelay();
+        int nDelayStep = AfxGetAppSettings().nSubDelayInterval;
 
         if (nID == ID_SUB_DELAY_DOWN) {
-            newDelay = oldDelay - AfxGetAppSettings().nSubDelayInterval;
+            newDelay = oldDelay - nDelayStep;
         } else {
-            newDelay = oldDelay + AfxGetAppSettings().nSubDelayInterval;
+            newDelay = oldDelay + nDelayStep;
         }
 
         SetSubtitleDelay(newDelay);
@@ -15737,7 +15770,9 @@ HRESULT CMainFrame::UpdateThumbarButton()
         return E_FAIL;
     }
 
-    if (!AfxGetAppSettings().fUseWin7TaskBar) {
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (!s.fUseWin7TaskBar) {
         m_pTaskbarList->SetOverlayIcon(m_hWnd, nullptr, L"");
         m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
 
@@ -15770,7 +15805,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
     THUMBBUTTON buttons[5] = {};
 
     buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-    buttons[0].dwFlags = (!AfxGetAppSettings().fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
+    buttons[0].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
     buttons[0].iId = IDTB_BUTTON3;
     buttons[0].iBitmap = 0;
     StringCchCopy(buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS));
@@ -15786,7 +15821,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
     StringCchCopy(buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE));
 
     buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-    buttons[3].dwFlags = (!AfxGetAppSettings().fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
+    buttons[3].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
     buttons[3].iId = IDTB_BUTTON4;
     buttons[3].iBitmap = 4;
     StringCchCopy(buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_AG_NEXT));
@@ -15863,7 +15898,9 @@ HRESULT CMainFrame::UpdateThumbnailClip()
         return E_FAIL;
     }
 
-    if ((!AfxGetAppSettings().fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen) {
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if ((!s.fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen) {
         return m_pTaskbarList->SetThumbnailClip(m_hWnd, nullptr);
     }
 
@@ -15873,7 +15910,7 @@ HRESULT CMainFrame::UpdateThumbnailClip()
     // Remove the menu from thumbnail clip preview if it displayed
     result_rect.left = 2;
     result_rect.right = result_rect.left + (vid_rect.right - vid_rect.left) - 4;
-    result_rect.top = (AfxGetAppSettings().iCaptionMenuMode == MODE_SHOWCAPTIONMENU) ? 22 : 2;
+    result_rect.top = (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) ? 22 : 2;
     result_rect.bottom = result_rect.top + (vid_rect.bottom - vid_rect.top) - 4;
 
     return m_pTaskbarList->SetThumbnailClip(m_hWnd, &result_rect);

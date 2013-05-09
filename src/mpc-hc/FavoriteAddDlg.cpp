@@ -64,8 +64,10 @@ BOOL CFavoriteAddDlg::OnInitDialog()
 
     ::CorrectComboListWidth(m_namectrl);
 
-    m_bRememberPos = AfxGetAppSettings().bFavRememberPos;
-    m_bRelativeDrive = AfxGetAppSettings().bFavRelativeDrive;
+    const CAppSettings& s = AfxGetAppSettings();
+
+    m_bRememberPos = s.bFavRememberPos;
+    m_bRelativeDrive = s.bFavRelativeDrive;
 
     UpdateData(FALSE); // Update UI
 
@@ -95,8 +97,10 @@ void CFavoriteAddDlg::OnOK()
     UpdateData(); // Retrieve UI values
 
     // Remember settings
-    AfxGetAppSettings().bFavRememberPos = !!m_bRememberPos;
-    AfxGetAppSettings().bFavRelativeDrive = !!m_bRelativeDrive;
+    CAppSettings& s = AfxGetAppSettings();
+
+    s.bFavRememberPos = !!m_bRememberPos;
+    s.bFavRelativeDrive = !!m_bRelativeDrive;
 
     CCmdUIDialog::OnOK();
 }

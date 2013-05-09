@@ -136,9 +136,10 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
     m_list.InsertColumn(1, _T(""));
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
-    AfxGetAppSettings().GetFav(FAV_FILE, m_sl[0]);
-    AfxGetAppSettings().GetFav(FAV_DVD, m_sl[1]);
-    AfxGetAppSettings().GetFav(FAV_DEVICE, m_sl[2]);
+    const CAppSettings& s = AfxGetAppSettings();
+    s.GetFav(FAV_FILE, m_sl[0]);
+    s.GetFav(FAV_DVD, m_sl[1]);
+    s.GetFav(FAV_DEVICE, m_sl[2]);
 
     SetupList(false);
 
@@ -389,9 +390,10 @@ void CFavoriteOrganizeDlg::OnBnClickedOk()
 {
     SetupList(true);
 
-    AfxGetAppSettings().SetFav(FAV_FILE, m_sl[0]);
-    AfxGetAppSettings().SetFav(FAV_DVD, m_sl[1]);
-    AfxGetAppSettings().SetFav(FAV_DEVICE, m_sl[2]);
+    CAppSettings& s = AfxGetAppSettings();
+    s.SetFav(FAV_FILE, m_sl[0]);
+    s.SetFav(FAV_DVD, m_sl[1]);
+    s.SetFav(FAV_DEVICE, m_sl[2]);
 
     OnOK();
 }

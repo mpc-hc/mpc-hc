@@ -242,10 +242,11 @@ BOOL CShaderEditorDlg::Create(CWnd* pParent)
     m_targets.AddString(_T("ps_3_0"));
     m_targets.AddString(_T("ps_3_sw"));
 
-    POSITION pos = AfxGetAppSettings().m_shaders.GetHeadPosition();
+    const CAppSettings& s = AfxGetAppSettings();
+    POSITION pos = s.m_shaders.GetHeadPosition();
     while (pos) {
-        const CAppSettings::Shader& s = AfxGetAppSettings().m_shaders.GetNext(pos);
-        m_labels.SetItemDataPtr(m_labels.AddString(s.label), (void*)&s);
+        const CAppSettings::Shader& shader = s.m_shaders.GetNext(pos);
+        m_labels.SetItemDataPtr(m_labels.AddString(shader.label), (void*)&shader);
     }
     CorrectComboListWidth(m_labels);
 
@@ -330,16 +331,17 @@ void CShaderEditorDlg::OnCbnSelchangeCombo1()
             return;
         }
 
-        CAppSettings::Shader s;
-        s.label = label;
-        s.target = _T("ps_2_0");
-        s.srcdata = CString(srcdata);
+        CAppSettings::Shader shader;
+        shader.label = label;
+        shader.target = _T("ps_2_0");
+        shader.srcdata = CString(srcdata);
 
-        POSITION pos = AfxGetAppSettings().m_shaders.AddTail(s);
+        CAppSettings& s = AfxGetAppSettings();
+        POSITION pos = s.m_shaders.AddTail(shader);
 
-        i = m_labels.AddString(s.label);
+        i = m_labels.AddString(shader.label);
         m_labels.SetCurSel(i);
-        m_labels.SetItemDataPtr(i, (void*)&AfxGetAppSettings().m_shaders.GetAt(pos));
+        m_labels.SetItemDataPtr(i, (void*)&s.m_shaders.GetAt(pos));
     }
 
     m_pShader = (CAppSettings::Shader*)m_labels.GetItemDataPtr(i);
