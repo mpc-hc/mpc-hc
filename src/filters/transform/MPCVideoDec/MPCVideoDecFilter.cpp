@@ -2073,7 +2073,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 void CMPCVideoDecFilter::UpdateAspectRatio()
 {
-    if (((m_nARMode) && (m_pAVCtx)) && ((m_pAVCtx->sample_aspect_ratio.num > 0) && (m_pAVCtx->sample_aspect_ratio.den > 0))) {
+    if (m_nARMode && m_pAVCtx && (m_pAVCtx->sample_aspect_ratio.num > 0) && (m_pAVCtx->sample_aspect_ratio.den > 0)) {
         CSize PAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den);
         if (m_par != PAR) {
             m_par = PAR;

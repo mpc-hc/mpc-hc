@@ -265,7 +265,7 @@ STDMETHODIMP CmadVRAllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pT
 {
     HRESULT hr = E_NOTIMPL;
     if (CComQIPtr<IMadVRExternalPixelShaders> pEPS = m_pDXR) {
-        if ((!pSrcData) && (!pTarget)) {
+        if (!pSrcData && !pTarget) {
             hr = pEPS->ClearPixelShaders(false);
         } else {
             hr = pEPS->AddPixelShader(pSrcData, pTarget, ShaderStage_PreScale, nullptr);
@@ -278,7 +278,7 @@ STDMETHODIMP CmadVRAllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR p
 {
     HRESULT hr = E_NOTIMPL;
     if (CComQIPtr<IMadVRExternalPixelShaders> pEPS = m_pDXR) {
-        if ((!pSrcData) && (!pTarget)) {
+        if (!pSrcData && !pTarget) {
             hr = pEPS->ClearPixelShaders(bScreenSpace);
         } else {
             hr = pEPS->AddPixelShader(pSrcData, pTarget, bScreenSpace ? ShaderStage_PostScale : ShaderStage_PreScale, nullptr);

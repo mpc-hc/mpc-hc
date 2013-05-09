@@ -3350,7 +3350,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 {
     if (m_iMediaLoadState == MLS_LOADING) {
         pCmdUI->SetText(ResStr(IDS_CONTROLS_OPENING));
-        if ((AfxGetAppSettings().fUseWin7TaskBar) && (m_pTaskbarList)) {
+        if (AfxGetAppSettings().fUseWin7TaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
     } else if (m_iMediaLoadState == MLS_LOADED) {
@@ -3461,7 +3461,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             (fs == State_Paused || m_fFrameSteppingActive) ? ResStr(IDS_CONTROLS_PAUSED) :
             fs == State_Running ? ResStr(IDS_CONTROLS_PLAYING) :
             _T("");
-        if ((!m_fAudioOnly) && (UI_Text == ResStr(IDS_CONTROLS_PAUSED) || UI_Text == ResStr(IDS_CONTROLS_PLAYING))) {
+        if (!m_fAudioOnly && (UI_Text == ResStr(IDS_CONTROLS_PAUSED) || UI_Text == ResStr(IDS_CONTROLS_PLAYING))) {
             CString DXVA_Text = GetDXVADecoderDescription();
             if (!(_T("Not using DXVA") == DXVA_Text) || (_T("Unknown") == DXVA_Text)) {
                 UI_Text += _T(" [DXVA]");
@@ -3470,7 +3470,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
         pCmdUI->SetText(UI_Text);
     } else if (m_iMediaLoadState == MLS_CLOSING) {
         pCmdUI->SetText(ResStr(IDS_CONTROLS_CLOSING));
-        if ((AfxGetAppSettings().fUseWin7TaskBar) && (m_pTaskbarList)) {
+        if (AfxGetAppSettings().fUseWin7TaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
     } else {
@@ -5511,7 +5511,7 @@ void CMainFrame::OnUpdateViewVSync(CCmdUI* pCmdUI)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
     pCmdUI->Enable(supported);
-    pCmdUI->SetCheck(!supported || (r.m_AdvRendSets.iVMR9VSync));
+    pCmdUI->SetCheck(!supported || r.m_AdvRendSets.iVMR9VSync);
 }
 
 void CMainFrame::OnUpdateViewVSyncOffset(CCmdUI* pCmdUI)
@@ -5520,8 +5520,8 @@ void CMainFrame::OnUpdateViewVSyncOffset(CCmdUI* pCmdUI)
     const CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
                        || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
-                      && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-                     && r.m_AdvRendSets.fVMR9AlterativeVSync;
+                      && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D
+                      && r.m_AdvRendSets.fVMR9AlterativeVSync);
 
     pCmdUI->Enable(supported);
     CString Temp;
@@ -9554,7 +9554,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     // try disable shader when move from one monitor to other ...
     if (m_fFullScreen) {
         m_Change_Monitor = (hm != hm_cur);
-        if ((m_Change_Monitor) && (!m_bToggleShader)) {
+        if (m_Change_Monitor && !m_bToggleShader) {
             if (m_pCAP) {
                 m_pCAP->SetPixelShader(nullptr, nullptr);
             }
@@ -9665,7 +9665,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     m_OSD.HideMessage(false);
 
-    if ((m_Change_Monitor) && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
+    if (m_Change_Monitor && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
         SetShaders();
     }
 }
@@ -9881,7 +9881,7 @@ void CMainFrame::HideVideoWindow(bool fHide)
 void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 {
     if ((m_iMediaLoadState != MLS_LOADED) ||
-            (m_nLockedZoomVideoWindow > 0) || (m_bLockedZoomVideoWindow)) {
+            (m_nLockedZoomVideoWindow > 0) || m_bLockedZoomVideoWindow) {
         if (m_nLockedZoomVideoWindow > 0) {
             m_nLockedZoomVideoWindow--;
         }
@@ -15900,7 +15900,7 @@ HRESULT CMainFrame::UpdateThumbnailClip()
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    if ((!s.fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen) {
+    if (!s.fUseWin7TaskBar || (m_iMediaLoadState != MLS_LOADED) || m_fAudioOnly || m_fFullScreen) {
         return m_pTaskbarList->SetThumbnailClip(m_hWnd, nullptr);
     }
 

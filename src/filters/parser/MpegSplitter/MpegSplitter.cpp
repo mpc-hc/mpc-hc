@@ -970,7 +970,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
             if (i == CMpegSplitterFile::audio) {
                 if (!cs_audioProgram.IsEmpty()) {
-                    if ((!cs_audioProgram.Compare(str)) && (S_OK == AddOutputPin(s, pPinOut))) {
+                    if (!cs_audioProgram.Compare(str) && (S_OK == AddOutputPin(s, pPinOut))) {
                         break;
                     }
                 } else {
@@ -980,7 +980,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 }
             } else if (i == CMpegSplitterFile::subpic) {
                 if (!cs_subpicProgram.IsEmpty()) {
-                    if ((!cs_subpicProgram.Compare(str)) && (S_OK == AddOutputPin(s, pPinOut))) {
+                    if (!cs_subpicProgram.Compare(str) && (S_OK == AddOutputPin(s, pPinOut))) {
                         break;
                     }
                 } else {

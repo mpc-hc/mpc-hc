@@ -326,7 +326,7 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
     hr = pD3DDev->SetPixelShader(nullptr);
 
-    if ((m_bExternalRenderer) && (FAILED(hr = pD3DDev->BeginScene()))) {
+    if (m_bExternalRenderer && FAILED(hr = pD3DDev->BeginScene())) {
         return E_FAIL;
     }
 

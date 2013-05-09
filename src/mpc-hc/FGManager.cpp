@@ -767,11 +767,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 continue;
             }
 
-            if ((pMadVRAllocatorPresenter) && (pFGF->GetCLSID() == CLSID_madVR))
+            if (pMadVRAllocatorPresenter && (pFGF->GetCLSID() == CLSID_madVR)) {
                 // the pure madVR filter was selected (without the allocator presenter)
-                // subtitles, OSD etc don't work correcty without the allocator presenter
+                // subtitles, OSD etc don't work correctly without the allocator presenter
                 // so we prefer the allocator presenter over the pure filter
-            {
                 pFGF = pMadVRAllocatorPresenter;
             }
 
