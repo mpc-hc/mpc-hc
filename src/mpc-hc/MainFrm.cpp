@@ -9369,77 +9369,89 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
     }
 }
 
-CSize CMainFrame::GetVideoSize() const
+CSize CMainFrame::GetVideoSize(CRect& cropping) const
 {
     bool fKeepAspectRatio = AfxGetAppSettings().fKeepAspectRatio;
     bool fCompMonDeskARDiff = AfxGetAppSettings().fCompMonDeskARDiff;
 
-    CSize ret(0, 0);
-    if (m_iMediaLoadState != MLS_LOADED || m_fAudioOnly) {
-        return ret;
-    }
+    // Physical size of the encoded frame
+    CSize physicalSize(0, 0);
+    // Aspect ratio of the frame as specified in the video
+    CSize videoAR;
+    // Resulting size when the physicalSize is stretched to the videoAR (also the basis for cropping)
+    CSize videoSize;
+    // Aspect ratio at which the video should be actually displayed (can be overridden by user)
+    CSize displayAR;
+    // Final size at which video is displayed, accounting for displayAR and desktop ar compensation
+    CSize displaySize;
 
-    CSize wh(0, 0), arxy(0, 0);
+    cropping.top = 0;
+    cropping.bottom = 0;
+    cropping.left = 0;
+    cropping.right = 0;
 
-    if (m_pCAP) {
-        wh = m_pCAP->GetVideoSize(false);
-        arxy = m_pCAP->GetVideoSize(fKeepAspectRatio);
-    } else if (m_pMFVDC) {
-        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);   // TODO : check AR !!
-    } else {
-        pBV->GetVideoSize(&wh.cx, &wh.cy);
+    if (m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly) {
 
-        long arx = 0, ary = 0;
-        CComQIPtr<IBasicVideo2> pBV2 = pBV;
-        // FIXME: It can hang here, for few seconds (CPU goes to 100%), after the window have been moving over to another screen,
-        // due to GetPreferredAspectRatio, if it happens before CAudioSwitcherFilter::DeliverEndFlush, it seems.
-        if (pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0) {
-            arxy.SetSize(arx, ary);
-        }
-    }
+        if (m_pCAP) {
+            physicalSize = m_pCAP->GetVideoSize(false);
+            videoAR = m_pCAP->GetVideoSize(true);
+        } else if (m_pMFVDC) {
+            m_pMFVDC->GetNativeVideoSize(&physicalSize, &videoAR);   // TODO : check AR !!
+        } else {
+            pBV->GetVideoSize(&physicalSize.cx, &physicalSize.cy); 
 
-    if (wh.cx <= 0 || wh.cy <= 0) {
-        return ret;
-    }
-
-    // with the overlay mixer IBasicVideo2 won't tell the new AR when changed dynamically
-    DVD_VideoAttributes VATR;
-    if (GetPlaybackMode() == PM_DVD && SUCCEEDED(pDVDI->GetCurrentVideoAttributes(&VATR))) {
-        arxy.SetSize(VATR.ulAspectX, VATR.ulAspectY);
-    }
-
-    CSize& ar = AfxGetAppSettings().sizeAspectRatio;
-    if (ar.cx && ar.cy) {
-        arxy = ar;
-    }
-
-    ret = (!fKeepAspectRatio || arxy.cx <= 0 || arxy.cy <= 0)
-          ? wh
-          : CSize(MulDiv(wh.cy, arxy.cx, arxy.cy), wh.cy);
-
-    if (fCompMonDeskARDiff)
-        if (HDC hDC = ::GetDC(0)) {
-            int _HORZSIZE = GetDeviceCaps(hDC, HORZSIZE);
-            int _VERTSIZE = GetDeviceCaps(hDC, VERTSIZE);
-            int _HORZRES = GetDeviceCaps(hDC, HORZRES);
-            int _VERTRES = GetDeviceCaps(hDC, VERTRES);
-
-            if (_HORZSIZE > 0 && _VERTSIZE > 0 && _HORZRES > 0 && _VERTRES > 0) {
-                double a = 1.0 * _HORZSIZE / _VERTSIZE;
-                double b = 1.0 * _HORZRES / _VERTRES;
-
-                if (b < a) {
-                    ret.cy = (DWORD)(1.0 * ret.cy * a / b);
-                } else if (a < b) {
-                    ret.cx = (DWORD)(1.0 * ret.cx * b / a);
-                }
+            long arx = 0, ary = 0;
+            CComQIPtr<IBasicVideo2> pBV2 = pBV;
+            // FIXME: It can hang here, for few seconds (CPU goes to 100%), after the window have been moving over to another screen,
+            // due to GetPreferredAspectRatio, if it happens before CAudioSwitcherFilter::DeliverEndFlush, it seems.
+            if (pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0) {
+                videoAR.SetSize(arx, ary);
             }
-
-            ::ReleaseDC(0, hDC);
         }
 
-    return ret;
+        // with the overlay mixer IBasicVideo2 won't tell the new AR when changed dynamically
+        DVD_VideoAttributes VATR;
+        if (GetPlaybackMode() == PM_DVD && SUCCEEDED(pDVDI->GetCurrentVideoAttributes(&VATR))) {
+            videoAR.SetSize(VATR.ulAspectX, VATR.ulAspectY);
+        }
+
+        if (videoAR.cx && videoAR.cy) {
+            videoSize.cy = physicalSize.cy;
+            videoSize.cx = MulDiv(physicalSize.cy, videoAR.cx, videoAR.cy);
+        } else {
+            videoSize = physicalSize;
+        }
+
+        displayAR = AfxGetAppSettings().sizeAspectRatio;
+        if (!displayAR.cx || !displayAR.cy) {
+            displayAR = videoSize;
+        }
+
+        if (fKeepAspectRatio) {
+            displaySize.cy = physicalSize.cy;
+            displaySize.cx = MulDiv(physicalSize.cy, displayAR.cx, displayAR.cy);
+        } else {
+			displaySize = physicalSize;
+		}
+
+        cropping.top = MulDiv(m_VideoCropping.top, displaySize.cy, videoSize.cy);
+        cropping.bottom = MulDiv(m_VideoCropping.bottom, displaySize.cy, videoSize.cy);
+        cropping.left = MulDiv(m_VideoCropping.left, displaySize.cx, videoSize.cx);
+        cropping.right = MulDiv(m_VideoCropping.right, displaySize.cx, videoSize.cx);
+
+        displaySize.cy = displaySize.cy - cropping.top - cropping.bottom;
+        displaySize.cx = displaySize.cx - cropping.left - cropping.right;
+    }
+
+    return displaySize;
 }
+
+CSize CMainFrame::GetVideoSize() const
+{
+    CRect dummy;
+    return GetVideoSize(dummy);
+}
+
 
 void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo)
 {
@@ -9722,36 +9734,40 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
             GetWindowRect(&wr);
             RECT r;
             m_wndView.GetWindowRect(&r);
-            wr.left   -= r.left;
-            wr.right  -= r.left;
-            wr.top    -= r.top;
+            wr.left -= r.left;
+            wr.right -= r.left;
+            wr.top -= r.top;
             wr.bottom -= r.top;
         }
 
-        double dWRWidth  = (double)(wr.right - wr.left);
+        double dWRWidth = (double)(wr.right - wr.left);
         double dWRHeight = (double)(wr.bottom - wr.top);
 
         RECT vr = {0, 0, 0, 0};
 
         OAFilterState fs = GetMediaState();
         if ((fs == State_Paused) || (fs == State_Running) || (fs == State_Stopped) && (m_fShockwaveGraph || m_fQuicktimeGraph)) {
-            SIZE arxy = GetVideoSize();
+            CRect cropping;
+            CSize arxy = GetVideoSize(cropping);
+
             double dARx = (double)(arxy.cx);
             double dARy = (double)(arxy.cy);
 
             dvstype iDefaultVideoSize = static_cast<dvstype>(AfxGetAppSettings().iDefaultVideoSize);
             double dVRWidth, dVRHeight;
+
             if (iDefaultVideoSize == DVS_HALF) {
-                dVRWidth  = dARx * 0.5;
+                dVRWidth = dARx * 0.5;
                 dVRHeight = dARy * 0.5;
             } else if (iDefaultVideoSize == DVS_NORMAL) {
-                dVRWidth  = dARx;
+                dVRWidth = dARx;
                 dVRHeight = dARy;
             } else if (iDefaultVideoSize == DVS_DOUBLE) {
-                dVRWidth  = dARx * 2.0;
+                dVRWidth = dARx * 2.0;
                 dVRHeight = dARy * 2.0;
+
             } else {
-                dVRWidth  = dWRWidth;
+                dVRWidth = dWRWidth;
                 dVRHeight = dWRHeight;
             }
 
@@ -9783,23 +9799,29 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
                     double scale = (iDefaultVideoSize == DVS_ZOOM1) ?
                                    1.0 / 3.0 :
                                    2.0 / 3.0;
-                    dVRWidth  = minw + (maxw - minw) * scale;
+                    dVRWidth = minw + (maxw - minw) * scale;
                     dVRHeight = dVRWidth * dARy / dARx;
                 }
             }
 
             double dScaledVRWidth = m_ZoomX * dVRWidth;
             double dScaledVRHeight = m_ZoomY * dVRHeight;
+
+            double dVRCropTop = cropping.top * dScaledVRHeight / dARy;
+            double dVRCropLeft = cropping.left * dScaledVRWidth / dARx;
+            double dVRCropBottom = cropping.bottom * dScaledVRHeight / dARy;
+            double dVRCropRight = cropping.right * dScaledVRWidth / dARx;
+
             // Rounding is required here, else the left-to-right and top-to-bottom sizes will get distorted through rounding twice each
             // Todo: clean this up using decent intrinsic rounding instead of floor(x+.5) and truncation cast to LONG on (y+.5)
             double dPPLeft = floor(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth + 0.5);
-            double dPPTop  = floor(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + 0.5);
+            double dPPTop = floor(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + 0.5);
             // left and top parts are allowed to be negative
-            vr.left   = (LONG)(dPPLeft);
-            vr.top    = (LONG)(dPPTop);
+            vr.left = (LONG)(dPPLeft - dVRCropLeft);
+            vr.top = (LONG)(dPPTop - dVRCropTop);
             // right and bottom parts are always at picture center or beyond, so never negative
-            vr.right  = (LONG)(dScaledVRWidth + dPPLeft + 0.5);
-            vr.bottom = (LONG)(dScaledVRHeight + dPPTop + 0.5);
+            vr.right = (LONG)(dScaledVRWidth + dPPLeft + dVRCropRight + 0.5);
+            vr.bottom = (LONG)(dScaledVRHeight + dPPTop + dVRCropBottom + 0.5);
 
             if (fShowStats) {
                 CString info;
@@ -11733,34 +11755,57 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 }
             }
         }
+    }
 
-        // Get FPS
-        miFPS = 0.0;
+    // Get FPS
+    miFPS = 0.0;
 
 #ifdef USE_MEDIAINFO_STATIC
-        MediaInfoLib::MediaInfo MI;
+    MediaInfoLib::MediaInfo MI;
 #else
-        MediaInfo MI;
+    MediaInfo MI;
 #endif
 
-        if (MI.Open(mi_fn.GetString())) {
-            CString strFPS =  MI.Get(Stream_Video, 0, _T("FrameRate"), Info_Text, Info_Name).c_str();
+    m_VideoCropping.top = 0;
+    m_VideoCropping.bottom = 0;
+    m_VideoCropping.left = 0;
+    m_VideoCropping.right = 0;
 
-            // 3:2 pulldown ???
-            CString strST = MI.Get(Stream_Video, 0, _T("ScanType"), Info_Text, Info_Name).c_str();
-            CString strSO = MI.Get(Stream_Video, 0, _T("ScanOrder"), Info_Text, Info_Name).c_str();
+    if (MI.Open(mi_fn.GetString())) {
+        CString strFPS =  MI.Get(Stream_Video, 0, _T("FrameRate"), Info_Text, Info_Name).c_str();
 
-            if (strFPS == _T("29.970") && (strSO == _T("2:3 Pulldown")
-                                           || strST == _T("Progressive") && (strSO == _T("TFF")
-                                                   || strSO  == _T("BFF")
-                                                   || strSO  == _T("2:3 Pulldown")))) {
+        // 3:2 pulldown ???
+        CString strST = MI.Get(Stream_Video, 0, _T("ScanType"), Info_Text, Info_Name).c_str();
+        CString strSO = MI.Get(Stream_Video, 0, _T("ScanOrder"), Info_Text, Info_Name).c_str();
 
-                strFPS = _T("23.976");
-            }
-            miFPS = wcstod(strFPS, NULL);
 
-            AutoChangeMonitorMode();
+        CString strCropT = MI.Get(Stream_Video, 0, _T("PixelCropTop"), Info_Text).c_str();
+        if (strCropT) {
+            m_VideoCropping.top = _ttol(strCropT);
         }
+        CString strCropB = MI.Get(Stream_Video, 0, _T("PixelCropBottom"), Info_Text).c_str();
+        if (strCropB) {
+            m_VideoCropping.bottom = _ttol(strCropB);
+        }
+        CString strCropL = MI.Get(Stream_Video, 0, _T("PixelCropLeft"), Info_Text).c_str();
+        if (strCropL) {
+            m_VideoCropping.left = _ttol(strCropL);
+        }
+        CString strCropR = MI.Get(Stream_Video, 0, _T("PixelCropRight"), Info_Text).c_str();
+        if (strCropR) {
+            m_VideoCropping.right = _ttol(strCropR);
+        }
+
+        if (strFPS == _T("29.970") && (strSO == _T("2:3 Pulldown")
+                                       || strST == _T("Progressive") && (strSO == _T("TFF")
+                                               || strSO  == _T("BFF")
+                                               || strSO  == _T("2:3 Pulldown")))) {
+
+            strFPS = _T("23.976");
+        }
+        miFPS = wcstod(strFPS, NULL);
+
+        AutoChangeMonitorMode();
     }
 
     SetLoadState(MLS_LOADING);
