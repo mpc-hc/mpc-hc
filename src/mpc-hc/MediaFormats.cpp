@@ -332,19 +332,19 @@ engine_t CMediaFormats::GetEngine(CString path) const
     return DirectShow;
 }
 
-bool CMediaFormats::FindExt(CString ext, bool fAudioOnly) const
+bool CMediaFormats::FindExt(CString ext, bool fAudioOnly, bool fAssocOnly) const
 {
-    return (FindMediaByExt(ext, fAudioOnly) != NULL);
+    return (FindMediaByExt(ext, fAudioOnly, fAssocOnly) != NULL);
 }
 
-const CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly) const
+const CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly, bool fAssocOnly) const
 {
     ext.TrimLeft(_T('.'));
 
     if (!ext.IsEmpty()) {
         for (size_t i = 0; i < GetCount(); i++) {
             const CMediaFormatCategory& mfc = GetAt(i);
-            if ((!fAudioOnly || mfc.IsAudioOnly()) && mfc.FindExt(ext)) {
+            if ((!fAudioOnly || mfc.IsAudioOnly()) && (!fAssocOnly || mfc.IsAssoc()) && mfc.FindExt(ext)) {
                 return &mfc;
             }
         }

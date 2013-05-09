@@ -99,8 +99,8 @@ public:
     bool IsUsingEngine(CString path, engine_t e) const;
     engine_t GetEngine(CString path) const;
 
-    bool FindExt(CString ext, bool fAudioOnly = false) const;
-    const CMediaFormatCategory* FindMediaByExt(CString ext, bool fAudioOnly = false) const;
+    bool FindExt(CString ext, bool fAudioOnly = false, bool fAssocOnly = true) const;
+    const CMediaFormatCategory* FindMediaByExt(CString ext, bool fAudioOnly = false, bool fAssocOnly = true) const;
 
     void GetFilter(CString& filter, CAtlArray<CString>& mask) const;
     void GetAudioFilter(CString& filter, CAtlArray<CString>& mask) const;
