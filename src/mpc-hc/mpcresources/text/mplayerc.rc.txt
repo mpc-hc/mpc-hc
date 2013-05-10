@@ -205,7 +205,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 19		"RealMedia"
 20		"QuickTime"
 21		"DirectShow"
-22		"Look file extension first"
+22		"Check file extension first"
 23		"Explorer Context Menu"
 24		"Directory"
 25		"File(s)"
