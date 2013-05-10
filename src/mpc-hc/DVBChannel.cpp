@@ -131,14 +131,14 @@ CString CDVBChannel::ToString()
                           m_nDefaultSubtitle);
 
     for (int i = 0; i < m_nAudioCount; i++) {
-        if (m_Audios[i].Language.GetLength() == 0) {
+        if (m_Audios[i].Language.IsEmpty()) {
             m_Audios[i].Language = " ";
         }
         strValue.AppendFormat(_T("|%ld|%d|%d|%s"), m_Audios[i].PID, m_Audios[i].Type, m_Audios[i].PesType, m_Audios[i].Language);
     }
 
     for (int i = 0; i < m_nSubtitleCount; i++) {
-        if (m_Subtitles[i].Language.GetLength() == 0) {
+        if (m_Subtitles[i].Language.IsEmpty()) {
             m_Subtitles[i].Language = " ";
         }
         strValue.AppendFormat(_T("|%ld|%d|%d|%s"), m_Subtitles[i].PID, m_Subtitles[i].Type, m_Subtitles[i].PesType, m_Subtitles[i].Language);

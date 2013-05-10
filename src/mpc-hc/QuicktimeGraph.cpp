@@ -482,7 +482,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
             return false;
         }
     } else {
-        if (!(fn.GetLength() > 0 && fn.GetLength() < 255)) {
+        if (fn.IsEmpty() || fn.GetLength() >= 255) {
             return false;
         }
 

@@ -575,7 +575,7 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
     TCHAR c;
 
     str.Trim();
-    if (str.GetLength() > 0 && str[0] == '-') {
+    if (!str.IsEmpty() && str[0] == '-') {
         sign = -1;
     }
 

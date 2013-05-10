@@ -1018,7 +1018,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
             } else {
                 line += ' ';
 
-                while (line.GetLength() > 0) {
+                while (!line.IsEmpty()) {
                     int n = line.Find(_T(" "));
 
                     CString lang = line.Left(n);

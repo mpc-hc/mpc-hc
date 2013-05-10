@@ -91,7 +91,7 @@ HRESULT CBinary::Write(IStream* pStream)
 
 MatroskaWriter::QWORD CANSI::Size(bool fWithHeader)
 {
-    if (GetLength() == 0) {
+    if (IsEmpty()) {
         return 0;
     }
 
@@ -105,7 +105,7 @@ MatroskaWriter::QWORD CANSI::Size(bool fWithHeader)
 
 HRESULT CANSI::Write(IStream* pStream)
 {
-    if (GetLength() == 0) {
+    if (IsEmpty()) {
         return S_OK;
     }
 
@@ -115,7 +115,7 @@ HRESULT CANSI::Write(IStream* pStream)
 
 MatroskaWriter::QWORD CUTF8::Size(bool fWithHeader)
 {
-    if (GetLength() == 0) {
+    if (IsEmpty()) {
         return 0;
     }
 
@@ -129,7 +129,7 @@ MatroskaWriter::QWORD CUTF8::Size(bool fWithHeader)
 
 HRESULT CUTF8::Write(IStream* pStream)
 {
-    if (GetLength() == 0) {
+    if (IsEmpty()) {
         return S_OK;
     }
 

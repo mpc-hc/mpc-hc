@@ -383,7 +383,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
             if (pDesc->CharacterPosition == 0) {
                 str[pDesc->PackType][pDesc->TrackNumber] = text;
             } else if (pDesc->CharacterPosition <= 0xf) {
-                if (pDesc->CharacterPosition < 0xf && last.GetLength() > 0) {
+                if (pDesc->CharacterPosition < 0xf && !last.IsEmpty()) {
                     str[pDesc->PackType][pDesc->TrackNumber] = last + text;
                 } else {
                     str[pDesc->PackType][pDesc->TrackNumber] += text;
