@@ -57,10 +57,10 @@ index 8e4ed5e..5c47921 100644
  
  
 diff --git a/src/common.props b/src/common.props
-index d1ae499..910b23b 100644
+index c6ba69d..57047a3 100644
 --- a/src/common.props
 +++ b/src/common.props
-@@ -46,11 +46,14 @@
+@@ -47,11 +47,14 @@
        <SubSystem>Windows</SubSystem>
        <TargetMachine Condition="'$(Platform)'=='Win32'">MachineX86</TargetMachine>
        <TargetMachine Condition="'$(Platform)'=='x64'">MachineX64</TargetMachine>
@@ -75,7 +75,7 @@ index d1ae499..910b23b 100644
      </ResourceCompile>
    </ItemDefinitionGroup>
    <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug Filter' Or '$(Configuration)'=='Debug Lite'">
-@@ -72,24 +75,27 @@
+@@ -73,24 +76,27 @@
    <ItemDefinitionGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release Filter' Or '$(Configuration)'=='Release Lite'">
      <ClCompile>
        <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -141,16 +141,16 @@ index 16d9cc7..2f9cf41 100644
    #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
  #endif
 diff --git a/src/platform.props b/src/platform.props
-index 09927fd..26091c9 100644
+index 7da55ea..dd03fbf 100644
 --- a/src/platform.props
 +++ b/src/platform.props
-@@ -1,6 +1,6 @@
+@@ -1,7 +1,7 @@
  <?xml version="1.0" encoding="utf-8"?>
  <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
--  <PropertyGroup Label="Configuration" Condition="'$(VisualStudioVersion)'=='11.0'">
--    <PlatformToolset>v110_xp</PlatformToolset>
-+  <PropertyGroup Label="Configuration">
-+    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
+   <PropertyGroup Label="Configuration">
+-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0' And '$(ANALYZE)'!='true'">v110_xp</PlatformToolset>
++    <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0' And '$(ANALYZE)'!='true'">Intel C++ Compiler XE 13.0</PlatformToolset>
+     <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0' And '$(ANALYZE)'=='true'">v110</PlatformToolset>
    </PropertyGroup>
  </Project>
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
