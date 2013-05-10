@@ -287,7 +287,7 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
 
-    const CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
     m_pVideoTexture = nullptr;
     m_pVideoSurface = nullptr;
@@ -305,7 +305,7 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
     ddsd.ddpfPixelFormat.dwGBitMask = 0x0000FF00;
     ddsd.ddpfPixelFormat.dwBBitMask = 0x000000FF;
 
-    if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
+    if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
         ddsd.ddsCaps.dwCaps |= DDSCAPS_TEXTURE;
         //ddsd.ddpfPixelFormat.dwFlags |= DDPF_ALPHAPIXELS;
         //ddsd.ddpfPixelFormat.dwRGBAlphaBitMask  = 0xFF000000;
@@ -316,7 +316,7 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
         // FIXME: eh, dx9 has no problem creating a 32bpp surface under a 16bpp desktop, but dx7 fails here (textures are ok)
         DDSURFACEDESC2 ddsd2;
         INITDDSTRUCT(ddsd2);
-        if (!(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
+        if (!(r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                 && SUCCEEDED(m_pDD->GetDisplayMode(&ddsd2))
                 && ddsd2.ddpfPixelFormat.dwRGBBitCount == 16) {
             ddsd.ddpfPixelFormat.dwRGBBitCount = 16;
@@ -331,7 +331,7 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
         }
     }
 
-    if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
+    if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
         m_pVideoTexture = m_pVideoSurface;
     }
 

@@ -5854,181 +5854,181 @@ void CMainFrame::OnUpdateViewVSyncOffsetDecrease(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewVSync()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9VSync = !s.m_AdvRendSets.iVMR9VSync;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMR9VSync
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9VSync = !r.m_AdvRendSets.iVMR9VSync;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMR9VSync
                          ? ResStr(IDS_OSD_RS_VSYNC_ON)
                          : ResStr(IDS_OSD_RS_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewVSyncAccurate()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9VSyncAccurate = !s.m_AdvRendSets.iVMR9VSyncAccurate;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMR9VSyncAccurate
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9VSyncAccurate = !r.m_AdvRendSets.iVMR9VSyncAccurate;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMR9VSyncAccurate
                          ? ResStr(IDS_OSD_RS_ACCURATE_VSYNC_ON)
                          : ResStr(IDS_OSD_RS_ACCURATE_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewSynchronizeVideo()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.bSynchronizeVideo = !s.m_AdvRendSets.bSynchronizeVideo;
-    if (s.m_AdvRendSets.bSynchronizeVideo) {
-        s.m_AdvRendSets.bSynchronizeDisplay = false;
-        s.m_AdvRendSets.bSynchronizeNearest = false;
-        s.m_AdvRendSets.iVMR9VSync = false;
-        s.m_AdvRendSets.iVMR9VSyncAccurate = false;
-        s.m_AdvRendSets.fVMR9AlterativeVSync = false;
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.bSynchronizeVideo = !r.m_AdvRendSets.bSynchronizeVideo;
+    if (r.m_AdvRendSets.bSynchronizeVideo) {
+        r.m_AdvRendSets.bSynchronizeDisplay = false;
+        r.m_AdvRendSets.bSynchronizeNearest = false;
+        r.m_AdvRendSets.iVMR9VSync = false;
+        r.m_AdvRendSets.iVMR9VSyncAccurate = false;
+        r.m_AdvRendSets.fVMR9AlterativeVSync = false;
     }
 
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.bSynchronizeVideo
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bSynchronizeVideo
                          ? ResStr(IDS_OSD_RS_SYNC_TO_DISPLAY_ON)
                          : ResStr(IDS_OSD_RS_SYNC_TO_DISPLAY_ON));
 }
 
 void CMainFrame::OnViewSynchronizeDisplay()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.bSynchronizeDisplay = !s.m_AdvRendSets.bSynchronizeDisplay;
-    if (s.m_AdvRendSets.bSynchronizeDisplay) {
-        s.m_AdvRendSets.bSynchronizeVideo = false;
-        s.m_AdvRendSets.bSynchronizeNearest = false;
-        s.m_AdvRendSets.iVMR9VSync = false;
-        s.m_AdvRendSets.iVMR9VSyncAccurate = false;
-        s.m_AdvRendSets.fVMR9AlterativeVSync = false;
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.bSynchronizeDisplay = !r.m_AdvRendSets.bSynchronizeDisplay;
+    if (r.m_AdvRendSets.bSynchronizeDisplay) {
+        r.m_AdvRendSets.bSynchronizeVideo = false;
+        r.m_AdvRendSets.bSynchronizeNearest = false;
+        r.m_AdvRendSets.iVMR9VSync = false;
+        r.m_AdvRendSets.iVMR9VSyncAccurate = false;
+        r.m_AdvRendSets.fVMR9AlterativeVSync = false;
     }
 
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.bSynchronizeDisplay
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bSynchronizeDisplay
                          ? ResStr(IDS_OSD_RS_SYNC_TO_VIDEO_ON)
                          : ResStr(IDS_OSD_RS_SYNC_TO_VIDEO_ON));
 }
 
 void CMainFrame::OnViewSynchronizeNearest()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.bSynchronizeNearest = !s.m_AdvRendSets.bSynchronizeNearest;
-    if (s.m_AdvRendSets.bSynchronizeNearest) {
-        s.m_AdvRendSets.bSynchronizeVideo = false;
-        s.m_AdvRendSets.bSynchronizeDisplay = false;
-        s.m_AdvRendSets.iVMR9VSync = false;
-        s.m_AdvRendSets.iVMR9VSyncAccurate = false;
-        s.m_AdvRendSets.fVMR9AlterativeVSync = false;
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.bSynchronizeNearest = !r.m_AdvRendSets.bSynchronizeNearest;
+    if (r.m_AdvRendSets.bSynchronizeNearest) {
+        r.m_AdvRendSets.bSynchronizeVideo = false;
+        r.m_AdvRendSets.bSynchronizeDisplay = false;
+        r.m_AdvRendSets.iVMR9VSync = false;
+        r.m_AdvRendSets.iVMR9VSyncAccurate = false;
+        r.m_AdvRendSets.fVMR9AlterativeVSync = false;
     }
 
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.bSynchronizeNearest
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bSynchronizeNearest
                          ? ResStr(IDS_OSD_RS_PRESENT_NEAREST_ON)
                          : ResStr(IDS_OSD_RS_PRESENT_NEAREST_OFF));
 }
 
 void CMainFrame::OnViewColorManagementEnable()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementEnable = !s.m_AdvRendSets.iVMR9ColorManagementEnable;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMR9ColorManagementEnable
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementEnable = !r.m_AdvRendSets.iVMR9ColorManagementEnable;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMR9ColorManagementEnable
                          ? ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON)
                          : ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_OFF));
 }
 
 void CMainFrame::OnViewColorManagementInputAuto()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_INPUT_TYPE_AUTO));
 }
 
 void CMainFrame::OnViewColorManagementInputHDTV()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementInput = VIDEO_SYSTEM_HDTV;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementInput = VIDEO_SYSTEM_HDTV;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_INPUT_TYPE_HDTV));
 }
 
 void CMainFrame::OnViewColorManagementInputSDTV_NTSC()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementInput = VIDEO_SYSTEM_SDTV_NTSC;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementInput = VIDEO_SYSTEM_SDTV_NTSC;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_INPUT_TYPE_SD_NTSC));
 }
 
 void CMainFrame::OnViewColorManagementInputSDTV_PAL()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementInput = VIDEO_SYSTEM_SDTV_PAL;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementInput = VIDEO_SYSTEM_SDTV_PAL;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_INPUT_TYPE_SD_PAL));
 }
 
 void CMainFrame::OnViewColorManagementAmbientLightBright()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT));
 }
 
 void CMainFrame::OnViewColorManagementAmbientLightDim()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DIM;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DIM;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_AMBIENT_LIGHT_DIM));
 }
 
 void CMainFrame::OnViewColorManagementAmbientLightDark()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DARK;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DARK;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_AMBIENT_LIGHT_DARK));
 }
 
 void CMainFrame::OnViewColorManagementIntentPerceptual()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_REND_INTENT_PERCEPT));
 }
 
 void CMainFrame::OnViewColorManagementIntentRelativeColorimetric()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_RELATIVE_COLORIMETRIC;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_RELATIVE_COLORIMETRIC;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_REND_INTENT_RELATIVE));
 }
 
 void CMainFrame::OnViewColorManagementIntentSaturation()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_SATURATION;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_SATURATION;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_REND_INTENT_SATUR));
 }
 
 void CMainFrame::OnViewColorManagementIntentAbsoluteColorimetric()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_ABSOLUTE_COLORIMETRIC;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_ABSOLUTE_COLORIMETRIC;
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_REND_INTENT_ABSOLUTE));
 }
 
 void CMainFrame::OnViewEVROutputRange_0_255()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iEVROutputRange = 0;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iEVROutputRange = 0;
+    r.UpdateData(true);
     CString strOSD;
     strOSD.Format(IDS_OSD_RS_OUTPUT_RANGE, _T("0 - 255"));
     m_OSD.DisplayMessage(OSD_TOPRIGHT, strOSD);
@@ -6036,9 +6036,9 @@ void CMainFrame::OnViewEVROutputRange_0_255()
 
 void CMainFrame::OnViewEVROutputRange_16_235()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iEVROutputRange = 1;
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iEVROutputRange = 1;
+    r.UpdateData(true);
     CString strOSD;
     strOSD.Format(IDS_OSD_RS_OUTPUT_RANGE, _T("16 - 235"));
     m_OSD.DisplayMessage(OSD_TOPRIGHT, strOSD);
@@ -6046,142 +6046,142 @@ void CMainFrame::OnViewEVROutputRange_16_235()
 
 void CMainFrame::OnViewFlushGPUBeforeVSync()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMRFlushGPUBeforeVSync = !s.m_AdvRendSets.iVMRFlushGPUBeforeVSync;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMRFlushGPUBeforeVSync
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMRFlushGPUBeforeVSync = !r.m_AdvRendSets.iVMRFlushGPUBeforeVSync;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMRFlushGPUBeforeVSync
                          ? ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_ON)
                          : ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewFlushGPUAfterVSync()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMRFlushGPUAfterPresent = !s.m_AdvRendSets.iVMRFlushGPUAfterPresent;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMRFlushGPUAfterPresent
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMRFlushGPUAfterPresent = !r.m_AdvRendSets.iVMRFlushGPUAfterPresent;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMRFlushGPUAfterPresent
                          ? ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_ON)
                          : ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_OFF));
 }
 
 void CMainFrame::OnViewFlushGPUWait()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMRFlushGPUWait = !s.m_AdvRendSets.iVMRFlushGPUWait;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMRFlushGPUWait
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMRFlushGPUWait = !r.m_AdvRendSets.iVMRFlushGPUWait;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMRFlushGPUWait
                          ? ResStr(IDS_OSD_RS_WAIT_ON)
                          : ResStr(IDS_OSD_RS_WAIT_OFF));
 }
 
 void CMainFrame::OnViewD3DFullScreen()
 {
-    CAppSettings& s = AfxGetAppSettings();
-    s.fD3DFullscreen = !s.fD3DFullscreen;
-    s.SaveSettings();
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.fD3DFullscreen
+    CAppSettings& r = AfxGetAppSettings();
+    r.fD3DFullscreen = !r.fD3DFullscreen;
+    r.SaveSettings();
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.fD3DFullscreen
                          ? ResStr(IDS_OSD_RS_D3D_FULLSCREEN_ON)
                          : ResStr(IDS_OSD_RS_D3D_FULLSCREEN_OFF));
 }
 
 void CMainFrame::OnViewDisableDesktopComposition()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMRDisableDesktopComposition = !s.m_AdvRendSets.iVMRDisableDesktopComposition;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMRDisableDesktopComposition
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMRDisableDesktopComposition = !r.m_AdvRendSets.iVMRDisableDesktopComposition;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMRDisableDesktopComposition
                          ? ResStr(IDS_OSD_RS_NO_DESKTOP_COMP_ON)
                          : ResStr(IDS_OSD_RS_NO_DESKTOP_COMP_OFF));
 }
 
 void CMainFrame::OnViewAlternativeVSync()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.fVMR9AlterativeVSync = !s.m_AdvRendSets.fVMR9AlterativeVSync;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.fVMR9AlterativeVSync
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.fVMR9AlterativeVSync = !r.m_AdvRendSets.fVMR9AlterativeVSync;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.fVMR9AlterativeVSync
                          ? ResStr(IDS_OSD_RS_ALT_VSYNC_ON)
                          : ResStr(IDS_OSD_RS_ALT_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewResetDefault()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.SetDefault();
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.SetDefault();
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_RESET_DEFAULT));
 }
 
 void CMainFrame::OnViewResetOptimal()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.SetOptimal();
-    s.UpdateData(true);
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.SetOptimal();
+    r.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_OSD_RS_RESET_OPTIMAL));
 }
 
 void CMainFrame::OnViewFullscreenGUISupport()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9FullscreenGUISupport = !s.m_AdvRendSets.iVMR9FullscreenGUISupport;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMR9FullscreenGUISupport
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9FullscreenGUISupport = !r.m_AdvRendSets.iVMR9FullscreenGUISupport;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMR9FullscreenGUISupport
                          ? ResStr(IDS_OSD_RS_D3D_FS_GUI_SUPP_ON)
                          : ResStr(IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF));
 }
 
 void CMainFrame::OnViewHighColorResolution()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iEVRHighColorResolution = !s.m_AdvRendSets.iEVRHighColorResolution;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iEVRHighColorResolution
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iEVRHighColorResolution = !r.m_AdvRendSets.iEVRHighColorResolution;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iEVRHighColorResolution
                          ? ResStr(IDS_OSD_RS_10BIT_RBG_OUT_ON)
                          : ResStr(IDS_OSD_RS_10BIT_RBG_OUT_OFF));
 }
 
 void CMainFrame::OnViewForceInputHighColorResolution()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iEVRForceInputHighColorResolution = !s.m_AdvRendSets.iEVRForceInputHighColorResolution;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iEVRForceInputHighColorResolution
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iEVRForceInputHighColorResolution = !r.m_AdvRendSets.iEVRForceInputHighColorResolution;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iEVRForceInputHighColorResolution
                          ? ResStr(IDS_OSD_RS_10BIT_RBG_IN_ON)
                          : ResStr(IDS_OSD_RS_10BIT_RBG_IN_OFF));
 }
 
 void CMainFrame::OnViewFullFloatingPointProcessing()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9FullFloatingPointProcessing = !s.m_AdvRendSets.iVMR9FullFloatingPointProcessing;
-    if (s.m_AdvRendSets.iVMR9FullFloatingPointProcessing) {
-        s.m_AdvRendSets.iVMR9HalfFloatingPointProcessing = false;
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9FullFloatingPointProcessing = !r.m_AdvRendSets.iVMR9FullFloatingPointProcessing;
+    if (r.m_AdvRendSets.iVMR9FullFloatingPointProcessing) {
+        r.m_AdvRendSets.iVMR9HalfFloatingPointProcessing = false;
     }
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMR9FullFloatingPointProcessing
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMR9FullFloatingPointProcessing
                          ? ResStr(IDS_OSD_RS_FULL_FP_PROCESS_ON)
                          : ResStr(IDS_OSD_RS_FULL_FP_PROCESS_OFF));
 }
 
 void CMainFrame::OnViewHalfFloatingPointProcessing()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iVMR9HalfFloatingPointProcessing = !s.m_AdvRendSets.iVMR9HalfFloatingPointProcessing;
-    if (s.m_AdvRendSets.iVMR9HalfFloatingPointProcessing) {
-        s.m_AdvRendSets.iVMR9FullFloatingPointProcessing = false;
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iVMR9HalfFloatingPointProcessing = !r.m_AdvRendSets.iVMR9HalfFloatingPointProcessing;
+    if (r.m_AdvRendSets.iVMR9HalfFloatingPointProcessing) {
+        r.m_AdvRendSets.iVMR9FullFloatingPointProcessing = false;
     }
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iVMR9HalfFloatingPointProcessing
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMR9HalfFloatingPointProcessing
                          ? ResStr(IDS_OSD_RS_HALF_FP_PROCESS_ON)
                          : ResStr(IDS_OSD_RS_HALF_FP_PROCESS_OFF));
 }
 
 void CMainFrame::OnViewEnableFrameTimeCorrection()
 {
-    CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-    s.m_AdvRendSets.iEVREnableFrameTimeCorrection = !s.m_AdvRendSets.iEVREnableFrameTimeCorrection;
-    s.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, s.m_AdvRendSets.iEVREnableFrameTimeCorrection
+    CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    r.m_AdvRendSets.iEVREnableFrameTimeCorrection = !r.m_AdvRendSets.iEVREnableFrameTimeCorrection;
+    r.UpdateData(true);
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iEVREnableFrameTimeCorrection
                          ? ResStr(IDS_OSD_RS_FT_CORRECTION_ON)
                          : ResStr(IDS_OSD_RS_FT_CORRECTION_OFF));
 }

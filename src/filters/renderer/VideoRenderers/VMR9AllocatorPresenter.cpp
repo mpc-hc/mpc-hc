@@ -111,9 +111,9 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_FAIL;
     }
 
-    const CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
-    if (s.fVMR9MixerMode) {
+    if (r.fVMR9MixerMode) {
         if (FAILED(hr = pConfig->SetNumberOfStreams(1))) {
             return E_FAIL;
         }
@@ -125,7 +125,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
             // See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
             dwPrefs |= MixerPref9_NonSquareMixing;
             dwPrefs |= MixerPref9_NoDecimation;
-            if (s.fVMR9MixerYUV && !SysVersion::IsVistaOrLater()) {
+            if (r.fVMR9MixerYUV && !SysVersion::IsVistaOrLater()) {
                 dwPrefs &= ~MixerPref9_RenderTargetMask;
                 dwPrefs |= MixerPref9_RenderTargetYUV;
             }

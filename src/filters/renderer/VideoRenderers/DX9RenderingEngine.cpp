@@ -198,7 +198,7 @@ void CDX9RenderingEngine::CleanupRenderingEngine()
 HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
 {
     HRESULT hr;
-    const CRenderersSettings& settings = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
     // Free previously allocated video surfaces
     FreeVideoSurfaces();
@@ -208,8 +208,8 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
         m_pTemporaryVideoTextures[i] = nullptr;
     }
 
-    if (settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
-        int nTexturesNeeded = settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nNbDXSurface : 1;
+    if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
+        int nTexturesNeeded = r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nNbDXSurface : 1;
 
         for (int i = 0; i < nTexturesNeeded; i++) {
             if (FAILED(hr = m_pD3DDev->CreateTexture(
@@ -228,7 +228,7 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
             }
         }
 
-        if (settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D) {
+        if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D) {
             m_RenderingPath = RENDERING_PATH_STRETCHRECT;
 
             for (int i = 0; i < m_nNbDXSurface; i++) {
@@ -283,7 +283,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
         return S_OK;
     }
 
-    const CRenderersSettings& settings = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
     // Initialize the processing pipeline
     bool bCustomPixelShaders;
@@ -292,7 +292,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
     bool bFinalPass;
 
     int screenSpacePassCount = 0;
-    DWORD iDX9Resizer = settings.iDX9Resizer;
+    DWORD iDX9Resizer = r.iDX9Resizer;
 
     if (m_bD3DX) {
         // Final pass. Must be initialized first!
@@ -930,14 +930,14 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 {
     HRESULT hr;
 
-    const CRenderersSettings& settings = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
     const CRenderersData* data = GetRenderersData();
 
     // Check whether the final pass must be initialized
-    bool bColorManagement = settings.m_AdvRendSets.iVMR9ColorManagementEnable;
-    VideoSystem inputVideoSystem = static_cast<VideoSystem>(settings.m_AdvRendSets.iVMR9ColorManagementInput);
-    AmbientLight ambientLight = static_cast<AmbientLight>(settings.m_AdvRendSets.iVMR9ColorManagementAmbientLight);
-    ColorRenderingIntent renderingIntent = static_cast<ColorRenderingIntent>(settings.m_AdvRendSets.iVMR9ColorManagementIntent);
+    bool bColorManagement = r.m_AdvRendSets.iVMR9ColorManagementEnable;
+    VideoSystem inputVideoSystem = static_cast<VideoSystem>(r.m_AdvRendSets.iVMR9ColorManagementInput);
+    AmbientLight ambientLight = static_cast<AmbientLight>(r.m_AdvRendSets.iVMR9ColorManagementAmbientLight);
+    ColorRenderingIntent renderingIntent = static_cast<ColorRenderingIntent>(r.m_AdvRendSets.iVMR9ColorManagementIntent);
 
     bool bInitRequired = false;
 

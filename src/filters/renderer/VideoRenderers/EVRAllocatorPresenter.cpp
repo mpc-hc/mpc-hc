@@ -70,7 +70,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_hEVRLib(nullptr)
     , m_hAVRTLib(nullptr)
 {
-    const CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
     m_nResetToken = 0;
     m_hThread = INVALID_HANDLE_VALUE;
@@ -158,8 +158,8 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
 
     // Bufferize frame only with 3D texture!
-    if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
-        m_nNbDXSurface  = max(min(s.iEvrBuffers, MAX_VIDEO_SURFACES), 4);
+    if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
+        m_nNbDXSurface  = max(min(r.iEvrBuffers, MAX_VIDEO_SURFACES), 4);
     } else {
         m_nNbDXSurface = 1;
     }
@@ -747,10 +747,10 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
         m_pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
 
-        const CRenderersSettings& s = GetRenderersSettings();
+        const CRenderersSettings& r = GetRenderersSettings();
 
 #if 1
-        if (s.m_AdvRendSets.iEVROutputRange == 1) {
+        if (r.m_AdvRendSets.iEVROutputRange == 1) {
             m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
         } else {
             m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
@@ -760,7 +760,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 #else
 
         m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
-        if (s.iEVROutputRange == 1) {
+        if (r.iEVROutputRange == 1) {
             m_pMediaType->SetUINT32(MF_MT_YUV_MATRIX, MFVideoTransferMatrix_BT601);
         } else {
             m_pMediaType->SetUINT32(MF_MT_YUV_MATRIX, MFVideoTransferMatrix_BT709);
@@ -768,7 +768,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 #endif
 
 
-        m_LastSetOutputRange = s.m_AdvRendSets.iEVROutputRange;
+        m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
 
         i64Size.HighPart = m_AspectRatio.cx;
         i64Size.LowPart  = m_AspectRatio.cy;
@@ -1975,13 +1975,13 @@ void CEVRAllocatorPresenter::RenderThread()
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
-    const CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
     int NextSleepTime = 1;
     while (!bQuit) {
         LONGLONG llPerf = GetRenderersData()->GetPerfCounter();
         UNREFERENCED_PARAMETER(llPerf);
-        if (!s.m_AdvRendSets.iVMR9VSyncAccurate && NextSleepTime == 0) {
+        if (!r.m_AdvRendSets.iVMR9VSyncAccurate && NextSleepTime == 0) {
             NextSleepTime = 1;
         }
         dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
@@ -2011,7 +2011,7 @@ void CEVRAllocatorPresenter::RenderThread()
 
             case WAIT_TIMEOUT:
 
-                if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != s.m_AdvRendSets.iEVROutputRange || m_bPendingRenegotiate) {
+                if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != r.m_AdvRendSets.iEVROutputRange || m_bPendingRenegotiate) {
                     FlushSamples();
                     RenegotiateMediaType();
                     m_bPendingRenegotiate = false;
@@ -2094,7 +2094,7 @@ void CEVRAllocatorPresenter::RenderThread()
                             } else {
                                 LONGLONG TimePerFrame = (LONGLONG)(GetFrameTime() * 10000000.0);
                                 LONGLONG DrawTime = m_PaintTime * 9 / 10 - 20000; // 2 ms offset (= m_PaintTime * 0.9 - 20000)
-                                //if (!s.iVMR9VSync)
+                                //if (!r.iVMR9VSync)
                                 DrawTime = 0;
 
                                 LONGLONG SyncOffset = 0;
@@ -2119,7 +2119,7 @@ void CEVRAllocatorPresenter::RenderThread()
                                     DetectedScanlineTime = DetectedRefreshTime / double(m_ScreenSize.cy);
                                 }
 
-                                if (s.m_AdvRendSets.iVMR9VSync) {
+                                if (r.m_AdvRendSets.iVMR9VSync) {
                                     bVSyncCorrection = true;
                                     double TargetVSyncPos = GetVBlackPos();
                                     double RefreshLines = DetectedScanlinesPerFrame;
@@ -2334,7 +2334,7 @@ void CEVRAllocatorPresenter::VSyncThread()
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
     const CRenderersData* pApp = GetRenderersData();
-    const CRenderersSettings& s = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
     while (!bQuit) {
 
@@ -2345,7 +2345,7 @@ void CEVRAllocatorPresenter::VSyncThread()
                 break;
             case WAIT_TIMEOUT: {
                 // Do our stuff
-                if (m_pD3DDev && s.m_AdvRendSets.iVMR9VSync) {
+                if (m_pD3DDev && r.m_AdvRendSets.iVMR9VSync) {
                     if (m_nRenderState == Started) {
                         int VSyncPos  = GetVBlackPos();
                         int WaitRange = max(m_ScreenSize.cy / 40, 5);
@@ -2588,7 +2588,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
         CAutoLock lock(&m_SampleQueueLock);
 
-        const CRenderersSettings& s = GetRenderersSettings();
+        const CRenderersSettings& r = GetRenderersSettings();
         double ForceFPS = 0.0;
         //double ForceFPS = 59.94;
         //double ForceFPS = 23.976;
@@ -2722,7 +2722,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
             if (m_DetectedFrameTime != 0.0
                     //&& PredictedDiff > MIN_FRAME_TIME
-                    && m_DetectedLock && s.m_AdvRendSets.iEVREnableFrameTimeCorrection) {
+                    && m_DetectedLock && r.m_AdvRendSets.iEVREnableFrameTimeCorrection) {
                 double CurrentTime = Time / 10000000.0;
                 double LastTime = m_LastScheduledSampleTimeFP;
                 double PredictedTime = LastTime + m_DetectedFrameTime;
