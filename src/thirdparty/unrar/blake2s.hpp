@@ -2,12 +2,6 @@
 #ifndef _RAR_BLAKE2_
 #define _RAR_BLAKE2_
 
-#if defined(_MSC_VER)
-#define BLAKE_ALIGN(x) __declspec(align(x))
-#else
-#define BLAKE_ALIGN(x) __attribute__((aligned(x)))
-#endif
-
 #define BLAKE2_DIGEST_SIZE 32
 
 enum blake2s_constant
@@ -17,18 +11,33 @@ enum blake2s_constant
 };
 
 
-// Alignment improves performance of non-SSE version a little
-// and is required for SSE version.
-BLAKE_ALIGN( 64 )
-typedef struct __blake2s_state
+// Alignment to 64 improves performance of both SSE and non-SSE versions.
+// Alignment to n*16 is required for SSE version, so we selected 64.
+// We use the custom alignment scheme instead of __declspec(align(x)),
+// because it is less compiler dependent. Also the compiler directive
+// does not help if structure is a member of class allocated through
+// 'new' operator.
+struct blake2s_state
 {
-  uint32 h[8];
-  uint32 t[2];
-  uint32 f[2];
-  byte  buf[2 * BLAKE2S_BLOCKBYTES];
+  enum { BLAKE_ALIGNMENT = 64 };
+
+  byte ubuf[48 + 2 * BLAKE2S_BLOCKBYTES + BLAKE_ALIGNMENT];
+
+  byte   *buf;       // byte   buf[2 * BLAKE2S_BLOCKBYTES].
+  uint32 *h, *t, *f; // uint32 h[8], t[2], f[2].
+
   size_t   buflen;
   byte  last_node;
-} blake2s_state ;
+
+  void init()
+  {
+    memset( this, 0, sizeof( blake2s_state ) );
+    buf = (byte *) ALIGN_VALUE(ubuf, BLAKE_ALIGNMENT);
+    h   = (uint32 *) (buf + 2 * BLAKE2S_BLOCKBYTES);
+    t   = h + 8;
+    f   = t + 2;
+  }
+};
 
 
 #ifdef RAR_SMP

@@ -4,7 +4,7 @@ MKDIR_CODE MakeDir(const wchar *Name,bool SetAttr,uint Attr)
 {
 #ifdef _WIN_ALL
   BOOL RetCode=CreateDirectory(Name,NULL);
-  if (RetCode==0)
+  if (RetCode==0 && !FileExist(Name))
   {
     wchar LongName[NM];
     if (GetWinLongPath(Name,LongName,ASIZE(LongName)))
@@ -57,6 +57,13 @@ bool CreatePath(const wchar *Path,bool SkipLastName)
     // path in Windows or Windows in Unix.
     if (IsPathDiv(*s))
     {
+#ifdef _WIN_ALL
+      // We must not attempt to create "D:" directory, because first
+      // CreateDirectory will fail, so we'll use \\?\D:, which forces Wine
+      // to create "D:" directory.
+      if (s==Path+2 && Path[1]==':')
+        continue;
+#endif
       wcsncpy(DirName,Path,s-Path);
       DirName[s-Path]=0;
 

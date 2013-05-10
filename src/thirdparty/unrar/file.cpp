@@ -57,14 +57,21 @@ bool File::Open(const wchar *Name,uint Mode)
   uint Flags=NoSequentialRead ? 0:FILE_FLAG_SEQUENTIAL_SCAN;
   hNewFile=CreateFile(Name,Access,ShareMode,NULL,OPEN_EXISTING,Flags,NULL);
 
+  DWORD LastError;
   if (hNewFile==BAD_HANDLE)
   {
+    // Following CreateFile("\\?\path") call can change the last error code
+    // from "not found" to "access denied" for relative paths like "..\path".
+    // But we need the correct "not found" code to create a new archive
+    // if existing one is not found. So we preserve the code here.
+    LastError=GetLastError();
+
     wchar LongName[NM];
     if (GetWinLongPath(Name,LongName,ASIZE(LongName)))
       hNewFile=CreateFile(LongName,Access,ShareMode,NULL,OPEN_EXISTING,Flags,NULL);
   }
 
-  if (hNewFile==BAD_HANDLE && GetLastError()==ERROR_FILE_NOT_FOUND)
+  if (hNewFile==BAD_HANDLE && LastError==ERROR_FILE_NOT_FOUND)
     ErrorType=FILE_NOTFOUND;
 #else
   int flags=UpdateMode ? O_RDWR:(WriteMode ? O_WRONLY:O_RDONLY);

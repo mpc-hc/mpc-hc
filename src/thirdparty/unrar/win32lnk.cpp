@@ -36,8 +36,8 @@ void GetReparsePoint(const wchar *Name,FileHeader *hd)
     PrivSet=true;
   }
 
-  WIN32_FIND_DATAW FindData;
-  HANDLE hFind=FindFirstFileW(Name,&FindData);
+  WIN32_FIND_DATA FindData;
+  HANDLE hFind=FindFirstFile(Name,&FindData);
   if (hFind==INVALID_HANDLE_VALUE)
     return;
   FindClose(hFind);
@@ -47,7 +47,7 @@ void GetReparsePoint(const wchar *Name,FileHeader *hd)
       FindData.dwReserved0!=IO_REPARSE_TAG_SYMLINK)
     return;
 
-  HANDLE hFile=CreateFileW(
+  HANDLE hFile=CreateFile(
     Name,FILE_READ_EA,FILE_SHARE_READ,NULL,OPEN_EXISTING,
     FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,NULL);
   if (hFile==INVALID_HANDLE_VALUE)
@@ -109,6 +109,8 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
   if (!PrivSet)
   {
     SetPrivilege(SE_RESTORE_NAME);
+    // Not sure if we really need it, but let's request anyway.
+    SetPrivilege(SE_CREATE_SYMBOLIC_LINK_NAME);
     PrivSet=true;
   }
 
@@ -118,12 +120,12 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
   // Unix symlinks do not have their own 'directory' attribute.
   if (hd->Dir || hd->DirTarget)
   {
-    if (!CreateDirectoryW(Name,NULL))
+    if (!CreateDirectory(Name,NULL))
       return false;
   }
   else
   {
-    HANDLE hFile=CreateFileW(Name,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+    HANDLE hFile=CreateFile(Name,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
     if (hFile == INVALID_HANDLE_VALUE)
       return false;
     CloseHandle(hFile);
@@ -209,14 +211,16 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
       rdb->ReparseDataLength,NULL,0,&Returned,NULL))
   { 
     CloseHandle(hFile);
-    ErrHandler.CreateErrorMsg(Name);
+    Log(NULL,St(MErrCreateLnkS),Name);
+    if (GetLastError()==ERROR_PRIVILEGE_NOT_HELD)
+      Log(NULL,St(MNeedAdmin));
     ErrHandler.SysErrMsg();
     ErrHandler.SetErrorCode(RARX_CREATE);
 
     if (hd->Dir)
-      RemoveDirectoryW(Name);
+      RemoveDirectory(Name);
     else
-      DeleteFileW(Name);
+      DeleteFile(Name);
     return false;
   }
   File LinkFile;

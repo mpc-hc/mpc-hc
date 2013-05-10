@@ -344,7 +344,7 @@ bool RSCoder16::SSE_UpdateECC(uint DataNum, uint ECCNum, const byte *Data, byte 
   __m128i Low4Mask=_mm_set1_epi8(0xf);          // 0f0f0f0f...0f0f
   __m128i High4Mask=_mm_slli_epi16(Low4Mask,4); // f0f0f0f0...f0f0
 
-  for (; Pos<=BlockSize-2*sizeof(__m128i); Pos+=2*sizeof(__m128i))
+  for (; Pos+2*sizeof(__m128i)<=BlockSize; Pos+=2*sizeof(__m128i))
   {
     // We process two 128 bit chunks of source data at once.
     __m128i *D=(__m128i *)(Data+Pos);

@@ -8,7 +8,7 @@ bool ExtractHardlink(wchar *NameNew,wchar *NameExisting,size_t NameExistingSize)
   bool Success=CreateHardLink(NameNew,NameExisting,NULL)!=0;
   if (!Success)
   {
-    ErrHandler.CreateErrorMsg(NameNew);
+    Log(NULL,St(MErrCreateLnkH),NameNew);
     ErrHandler.SysErrMsg();
     ErrHandler.SetErrorCode(RARX_CREATE);
   }
@@ -22,7 +22,7 @@ bool ExtractHardlink(wchar *NameNew,wchar *NameExisting,size_t NameExistingSize)
   bool Success=link(NameExistingA,NameNewA)==0;
   if (!Success)
   {
-    ErrHandler.CreateErrorMsg(NameNew);
+    Log(NULL,St(MErrCreateLnkH),NameNew);
     ErrHandler.SysErrMsg();
     ErrHandler.SetErrorCode(RARX_CREATE);
   }

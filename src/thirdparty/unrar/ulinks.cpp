@@ -12,7 +12,7 @@ static bool UnixSymlink(const char *Target,const wchar *LinkName)
       Log(NULL,St(MSymLinkExists),LinkName);
     else
     {
-      Log(NULL,St(MErrCreateLnk),LinkName);
+      Log(NULL,St(MErrCreateLnkS),LinkName);
       ErrHandler.SetErrorCode(RARX_WARNING);
     }
     mprintf(L"     "); // Provide space for "OK" message.
