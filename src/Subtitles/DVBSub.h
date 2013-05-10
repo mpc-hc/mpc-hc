@@ -185,13 +185,13 @@ public:
 
         ~DVB_PAGE() {
             CompositionObject* pObject;
-            while (objects.GetCount() > 0) {
+            while (!objects.IsEmpty()) {
                 pObject = objects.RemoveHead();
                 delete pObject;
             }
 
             DVB_CLUT* pCLUT;
-            while (CLUTs.GetCount() > 0) {
+            while (!CLUTs.IsEmpty()) {
                 pCLUT = CLUTs.RemoveHead();
                 delete pCLUT;
             }

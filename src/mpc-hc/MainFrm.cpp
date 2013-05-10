@@ -3122,7 +3122,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
         if (firstSubItemID == ID_NAVIGATE_SKIPBACK) { // is "Navigate" submenu {
             UINT fState = (m_iMediaLoadState == MLS_LOADED
-                           && (1/*GetPlaybackMode() == PM_DVD *//*|| (GetPlaybackMode() == PM_FILE && m_PlayList.GetCount() > 0)*/))
+                           && (1/*GetPlaybackMode() == PM_DVD *//*|| (GetPlaybackMode() == PM_FILE && !m_PlayList.IsEmpty())*/))
                           ? MF_ENABLED
                           : (MF_DISABLED | MF_GRAYED);
             pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
@@ -4075,7 +4075,7 @@ void CMainFrame::OnFileOpenmedia()
         dlg.SetForegroundWindow();
         return;
     }
-    if (dlg.DoModal() != IDOK || dlg.m_fns.GetCount() == 0) {
+    if (dlg.DoModal() != IDOK || dlg.m_fns.IsEmpty()) {
         return;
     }
 
@@ -7447,7 +7447,7 @@ static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
 
 void CMainFrame::OnPlaySeekKey(UINT nID)
 {
-    if (m_kfs.GetCount() > 0) {
+    if (!m_kfs.IsEmpty()) {
 
         if (GetMediaState() == State_Stopped) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
@@ -14547,7 +14547,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
                       && (!s.IsD3DFullscreen() || s.iDSVideoRendererType == VIDRNDT_DS_MADVR);
 
     if (OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p)) {
-        if (p->fns.GetCount() > 0) {
+        if (!p->fns.IsEmpty()) {
             engine_t e = s.m_Formats.GetEngine(p->fns.GetHead());
             if (e != DirectShow /*&& e != RealMedia && e != QuickTime*/) {
                 fUseThread = false;

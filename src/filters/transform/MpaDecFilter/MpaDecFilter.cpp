@@ -811,9 +811,9 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
             m_bResync = true;
             p += size;
             continue;
-        } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
+        } else if (!output.IsEmpty()) { // && SUCCEEDED(hr)
             hr = Deliver(output.GetData(), (int)output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
-        } else if (size == 0) { // && pBuffOut.GetCount() == 0
+        } else if (size == 0) { // && pBuffOut.IsEmpty()
             break;
         }
 
@@ -883,9 +883,9 @@ HRESULT CMpaDecFilter::ProcessAC3()
                 m_bResync = true;
                 p += size;
                 continue;
-            } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
+            } else if (!output.IsEmpty()) { // && SUCCEEDED(hr)
                 hr = Deliver(output.GetData(), (int)output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
-            } else if (size == 0) { // && pBuffOut.GetCount() == 0
+            } else if (size == 0) { // && pBuffOut.IsEmpty()
                 break;
             }
         }

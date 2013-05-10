@@ -166,7 +166,7 @@ void CEditListEditor::ResizeListColumn()
 
 void CEditListEditor::SaveEditListToFile()
 {
-    if ((m_bFileOpen || m_EditList.GetCount() > 0) && !m_strFileName.IsEmpty()) {
+    if ((m_bFileOpen || !m_EditList.IsEmpty()) && !m_strFileName.IsEmpty()) {
         CStdioFile EditListFile;
         if (EditListFile.Open(m_strFileName, CFile::modeCreate | CFile::modeWrite)) {
             CString strLine;
@@ -255,7 +255,7 @@ void CEditListEditor::OpenFile(LPCTSTR lpFileName)
         m_bFileOpen = false;
     }
 
-    if (m_NameList.GetCount() == 0) {
+    if (m_NameList.IsEmpty()) {
         CStdioFile NameFile;
         CString str;
         if (NameFile.Open(_T("EditListNames.txt"), CFile::modeRead)) {

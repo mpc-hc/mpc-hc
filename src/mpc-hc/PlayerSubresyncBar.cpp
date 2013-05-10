@@ -287,7 +287,7 @@ void CPlayerSubresyncBar::UpdatePreview()
                     }
                 }
 
-                if (schk.GetCount() == 0) {
+                if (schk.IsEmpty()) {
                     for (; start < end; start++) {
                         m_sts[start].start = m_subtimes[start].orgstart;
                         m_sts[start].end = m_subtimes[start].orgend;
@@ -844,7 +844,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 
                     actormap.RemoveKey(_T(""));
 
-                    if (actormap.GetCount() > 0) {
+                    if (!actormap.IsEmpty()) {
                         m.AppendMenu(MF_SEPARATOR);
 
                         int id = ACTORFIRST;
@@ -872,7 +872,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 
                     effectmap.RemoveKey(_T(""));
 
-                    if (effectmap.GetCount() > 0) {
+                    if (!effectmap.IsEmpty()) {
                         m.AppendMenu(MF_SEPARATOR);
 
                         int id = EFFECTFIRST;
@@ -1301,7 +1301,7 @@ int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
 {
     int lCurTime = (int)(rtPos / 10000) + (bForward ? 1 : -1);
 
-    if (m_subtimes.GetCount() == 0) {
+    if (m_subtimes.IsEmpty()) {
         rtPos = max(0, rtPos + (bForward ? 1 : -1) * 50000000);
         return -2;
     }

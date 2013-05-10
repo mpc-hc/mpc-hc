@@ -361,7 +361,7 @@ HRESULT CHdmvSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& Video
 void CHdmvSub::Reset()
 {
     HDMV_PRESENTATION_SEGMENT* pPresentationSegment;
-    while (m_pPresentationSegments.GetCount() > 0) {
+    while (!m_pPresentationSegments.IsEmpty()) {
         pPresentationSegment = m_pPresentationSegments.RemoveHead();
         delete pPresentationSegment;
     }
@@ -370,7 +370,7 @@ void CHdmvSub::Reset()
 void CHdmvSub::RemoveOldSegments(REFERENCE_TIME rt)
 {
     // Cleanup the old presentation segments. We keep a 2 min buffer to play nice with the queue.
-    while (m_pPresentationSegments.GetCount() > 0 && m_pPresentationSegments.GetHead()->rtStop + 120 * 10000000i64 < rt) {
+    while (!m_pPresentationSegments.IsEmpty() && m_pPresentationSegments.GetHead()->rtStop + 120 * 10000000i64 < rt) {
         HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.RemoveHead();
         TRACE_HDMVSUB(_T("CHdmvSub::RemoveOldSegments Remove presentation segment %d %s => %s (rt=%s)\n"),
                       pPresentationSegment->composition_descriptor.nNumber,

@@ -503,7 +503,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 
                         CAutoLock cAutoLock(&pTmp->m_csQueue);
 
-                        if (pTmp->m_blocks.GetCount() == 0 && pTmp->m_fEndOfStreamReceived) {
+                        if (pTmp->m_blocks.IsEmpty() && pTmp->m_fEndOfStreamReceived) {
                             pActivePins.RemoveAt(pActivePins.Find(pTmp));
                             continue;
                         }
@@ -512,12 +512,12 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                             nPinsNeeded++;
                         }
 
-                        if (pTmp->m_blocks.GetCount() > 0) {
+                        if (!pTmp->m_blocks.IsEmpty()) {
                             if (pTmp->GetTrackEntry()->TrackType != TrackEntry::TypeSubtitle) {
                                 nPinsGotSomething++;
                             }
 
-                            if (pTmp->m_blocks.GetCount() > 0) {
+                            if (!pTmp->m_blocks.IsEmpty()) {
                                 REFERENCE_TIME rt = pTmp->m_blocks.GetHead()->Block.TimeCode;
                                 if (rt < rtMin) {
                                     rtMin = rt;
@@ -527,7 +527,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                         }
                     }
 
-                    if (pActivePins.GetCount() == 0) {
+                    if (pActivePins.IsEmpty()) {
                         break;
                     }
 
@@ -617,7 +617,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                                 CAutoPtr<CueTrackPosition> ctp(DEBUG_NEW CueTrackPosition());
                                 ctp->CueTrack.Set(b->Block.TrackNumber);
                                 ctp->CueClusterPosition.Set(clusterpos);
-                                if (c.BlockGroups.GetCount() > 0) {
+                                if (!c.BlockGroups.IsEmpty()) {
                                     ctp->CueBlockNumber.Set(nBlocksInCueTrack);
                                 }
                                 CAutoPtr<CuePoint> cp(DEBUG_NEW CuePoint());

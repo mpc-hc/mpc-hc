@@ -493,7 +493,7 @@ bool CCDXAStream::LookForMediaSubType()
                     }
 
                     if (nTries >= 0 && (nTries & 3) == 3) {
-                        if (cb > 0 && val.GetCount() > 0 && cb == val.GetCount()) {
+                        if (cb > 0 && !val.IsEmpty() && cb == val.GetCount()) {
                             if (offset >= 0 && S_OK == SetPointer(offset)
                                     || S_OK == SetPointer(m_llLength + offset)) {
                                 CAutoVectorPtr<BYTE> pData;

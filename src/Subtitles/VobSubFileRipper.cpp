@@ -472,19 +472,19 @@ bool CVobSubFileRipper::Create()
 
     PGC& pgc = m_rd.pgcs[m_rd.iSelPGC];
 
-    if (pgc.iSelAngle < 0 || pgc.iSelAngle > 9 || pgc.angles[pgc.iSelAngle].GetCount() == 0) {
+    if (pgc.iSelAngle < 0 || pgc.iSelAngle > 9 || pgc.angles[pgc.iSelAngle].IsEmpty()) {
         Log(LOG_ERROR, _T("Invalid angle number (%d)!"), pgc.iSelAngle);
         return false;
     }
 
     CAtlArray<vc_t>& angle = pgc.angles[pgc.iSelAngle];
 
-    if (m_rd.selids.GetCount() == 0 && !m_rd.fClosedCaption) {
+    if (m_rd.selids.IsEmpty() && !m_rd.fClosedCaption) {
         Log(LOG_ERROR, _T("No valid stream set to be extacted!"));
         return false;
     }
 
-    if (m_rd.selvcs.GetCount() == 0) {
+    if (m_rd.selvcs.IsEmpty()) {
         Log(LOG_ERROR, _T("No valid vob/cell id set to be extacted!"));
         return false;
     }
@@ -771,7 +771,7 @@ bool CVobSubFileRipper::Create()
     Progress(1);
 
     for (ptrdiff_t i = 0; i < 32; i++) {
-        if (m_iLang == -1 && m_langs[i].subpos.GetCount() > 0) {
+        if (m_iLang == -1 && !m_langs[i].subpos.IsEmpty()) {
             m_iLang = (int)i;
         }
         m_langs[i].id = pgc.ids[i];
@@ -811,7 +811,7 @@ bool CVobSubFileRipper::Create()
 
     Log(LOG_INFO, _T("Subtitles saved"));
 
-    if (!m_vob.IsDVD() && loadedchunks.GetCount() == 0) {
+    if (!m_vob.IsDVD() && loadedchunks.IsEmpty()) {
         if (SaveChunks(foundchunks)) {
             Log(LOG_INFO, _T(".chunk file saved"));
         }
@@ -1059,7 +1059,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
                     }
                 }
 
-                if ((m_rd.selids.GetCount() > 0 || m_rd.fClosedCaption) && line.IsEmpty()) {
+                if ((!m_rd.selids.IsEmpty() || m_rd.fClosedCaption) && line.IsEmpty()) {
                     phase = P_OPTIONS;
                 }
             }

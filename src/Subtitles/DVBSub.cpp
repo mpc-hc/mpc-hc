@@ -417,7 +417,7 @@ void CDVBSub::Reset()
     m_pCurrentPage.Free();
 
     DVB_PAGE* pPage;
-    while (m_Pages.GetCount() > 0) {
+    while (!m_Pages.IsEmpty()) {
         pPage = m_Pages.RemoveHead();
         delete pPage;
     }
@@ -426,7 +426,7 @@ void CDVBSub::Reset()
 void CDVBSub::RemoveOldPages(REFERENCE_TIME rt)
 {
     // Cleanup the old pages. We keep a 2 min buffer to play nice with the queue.
-    while (m_Pages.GetCount() > 0 && m_Pages.GetHead()->rtStop + 120 * 10000000i64 < rt) {
+    while (!m_Pages.IsEmpty() && m_Pages.GetHead()->rtStop + 120 * 10000000i64 < rt) {
         DVB_PAGE* pPage = m_Pages.GetHead();
         if (!pPage->rendered) {
             TRACE_DVB(_T("DVB - remove unrendered object, %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));

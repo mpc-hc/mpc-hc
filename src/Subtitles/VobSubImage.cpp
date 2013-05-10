@@ -516,7 +516,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
             }
         } while (!(x == ox && y == oy && dir == odir));
 
-        if (o->pa.GetCount() > 0 && (x == ox && y == oy && dir == odir)) {
+        if (!o->pa.IsEmpty() && (x == ox && y == oy && dir == odir)) {
             ol->AddTail(o);
         } else {
             ASSERT(0);

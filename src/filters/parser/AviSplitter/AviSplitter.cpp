@@ -193,7 +193,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     bool fHasIndex = false;
 
     for (unsigned int i = 0; !fHasIndex && i < m_pFile->m_strms.GetCount(); ++i) {
-        if (m_pFile->m_strms[i]->cs.GetCount() > 0) {
+        if (!m_pFile->m_strms[i]->cs.IsEmpty()) {
             fHasIndex = true;
         }
     }
@@ -201,7 +201,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     for (unsigned int i = 0; i < m_pFile->m_strms.GetCount(); ++i) {
         CAviFile::strm_t* s = m_pFile->m_strms[i];
 
-        if (fHasIndex && s->cs.GetCount() == 0) {
+        if (fHasIndex && s->cs.IsEmpty()) {
             continue;
         }
 
@@ -379,7 +379,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     m_tFrame.Attach(DEBUG_NEW DWORD[m_pFile->m_avih.dwStreams]);
 
-    return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
+    return !m_pOutputs.IsEmpty() ? S_OK : E_FAIL;
 }
 
 bool CAviSplitterFilter::DemuxInit()
@@ -395,7 +395,7 @@ bool CAviSplitterFilter::DemuxInit()
     bool fReIndex = false;
 
     for (DWORD i = 0; i < m_pFile->m_avih.dwStreams && !fReIndex; ++i) {
-        if (m_pFile->m_strms[i]->cs.GetCount() == 0 && GetOutputPin(i)) {
+        if (m_pFile->m_strms[i]->cs.IsEmpty() && GetOutputPin(i)) {
             fReIndex = true;
         }
     }

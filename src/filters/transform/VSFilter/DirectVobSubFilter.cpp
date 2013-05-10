@@ -1499,7 +1499,7 @@ bool CDirectVobSubFilter::Open()
 
     m_frd.RefreshEvent.Set();
 
-    return (m_pSubStreams.GetCount() > 0);
+    return !m_pSubStreams.IsEmpty();
 }
 
 void CDirectVobSubFilter::UpdateSubtitle(bool fApplyDefStyle)

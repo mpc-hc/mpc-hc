@@ -1954,7 +1954,7 @@ bool FindRedir(CUrl& src, CString ct, CString& body, CAtlList<CString>& urls, CA
         }
     }
 
-    return urls.GetCount() > 0;
+    return !urls.IsEmpty();
 }
 
 bool FindRedir(CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrList<CAtlRegExpT>& res)
@@ -2005,7 +2005,7 @@ bool FindRedir(CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrList<CAt
         }
     }
 
-    return fns.GetCount() > 0;
+    return !fns.IsEmpty();
 }
 
 CStringA GetContentType(CString fn, CAtlList<CString>* redir)

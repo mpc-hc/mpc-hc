@@ -578,7 +578,7 @@ bool CVobFile::Open(CAtlList<CString>& vobs, int offset)
 {
     Close();
 
-    if (vobs.GetCount() == 0) {
+    if (vobs.IsEmpty()) {
         return false;
     }
 
@@ -608,7 +608,7 @@ bool CVobFile::Open(CAtlList<CString>& vobs, int offset)
         m_size += f.size;
     }
 
-    if (m_files.GetCount() > 0 && CDVDSession::Open(m_files[0].fn)) {
+    if (!m_files.IsEmpty() && CDVDSession::Open(m_files[0].fn)) {
         for (size_t i = 0; !m_fHasTitleKey && i < m_files.GetCount(); i++) {
             if (BeginSession()) {
                 m_fDVD = true;
@@ -673,7 +673,7 @@ bool CVobFile::Open(CAtlList<CString>& vobs, int offset)
         }
     }
     /*
-        if(m_files.GetCount() > 0 && !m_fDVD)
+        if(!m_files.IsEmpty() && !m_fDVD)
         {
             CString fn = m_files[0].fn;
             fn.MakeLower();

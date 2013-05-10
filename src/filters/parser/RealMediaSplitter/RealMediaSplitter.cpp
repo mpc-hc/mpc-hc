@@ -554,7 +554,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     SetProperty(L"CPYR", CStringW(m_pFile->m_cd.copyright));
     SetProperty(L"DESC", CStringW(m_pFile->m_cd.comment));
 
-    return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
+    return !m_pOutputs.IsEmpty() ? S_OK : E_FAIL;
 }
 
 bool CRealMediaSplitterFilter::DemuxInit()
@@ -567,7 +567,7 @@ bool CRealMediaSplitterFilter::DemuxInit()
 
     // reindex if needed
 
-    if (m_pFile->m_irs.GetCount() == 0) {
+    if (m_pFile->m_irs.IsEmpty()) {
         m_nOpenProgress = 0;
         m_rtDuration = 0;
 
@@ -841,7 +841,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverSegments()
 {
     HRESULT hr;
 
-    if (m_segments.GetCount() == 0) {
+    if (m_segments.IsEmpty()) {
         m_segments.Clear();
         return S_OK;
     }

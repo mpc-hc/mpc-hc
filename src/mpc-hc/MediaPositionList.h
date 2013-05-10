@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,13 +54,13 @@ public:
     virtual void Empty() = 0;
 
     T* GetLatestEntry() {
-        return (GetCount() > 0) ? &GetHead() : NULL;
+        return !IsEmpty() ? &GetHead() : NULL;
     };
 };
 
 struct FILE_POSITION {
-    CString             strFile;
-    LONGLONG            llPosition;
+    CString     strFile;
+    LONGLONG    llPosition;
 };
 
 class CFilePositionList : public CMediaPositionList<FILE_POSITION>

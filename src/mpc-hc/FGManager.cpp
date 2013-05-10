@@ -732,7 +732,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
         }
 
         CComPtr<IEnumMoniker> pEM;
-        if (types.GetCount() > 0
+        if (!types.IsEmpty()
                 && SUCCEEDED(m_pFM->EnumMatchingFilters(
                                  &pEM, 0, FALSE, MERIT_DO_NOT_USE + 1,
                                  TRUE, (DWORD)types.GetCount() / 2, types.GetData(), nullptr, nullptr, FALSE,

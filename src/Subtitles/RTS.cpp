@@ -554,7 +554,7 @@ bool CPolygon::GetPOINT(CStringW& str, POINT& ret)
 
 bool CPolygon::ParseStr()
 {
-    if (m_pathTypesOrg.GetCount() > 0) {
+    if (!m_pathTypesOrg.IsEmpty()) {
         return true;
     }
 
@@ -1815,7 +1815,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 
         // TODO: call ParseStyleModifier(cmd, params, ..) and move the rest there
 
-        CStringW p = params.GetCount() > 0 ? params[0] : L"";
+        CStringW p = !params.IsEmpty() ? params[0] : L"";
 
         if (cmd == L"1c" || cmd == L"2c" || cmd == L"3c" || cmd == L"4c") {
             int k = cmd[0] - '1';
@@ -2494,7 +2494,7 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
     int iSegment = (int)pos;
 
     const STSSegment* stss = GetSegment(iSegment);
-    while (stss && stss->subs.GetCount() == 0) {
+    while (stss && stss->subs.IsEmpty()) {
         iSegment++;
         stss = GetSegment(iSegment);
     }

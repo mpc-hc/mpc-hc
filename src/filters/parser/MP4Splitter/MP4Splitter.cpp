@@ -1362,7 +1362,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     TRACE(_T("CMP4SplitterFilter m_pOutputs.GetCount()  = %d\n") , m_pOutputs.GetCount());
 
-    return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
+    return !m_pOutputs.IsEmpty() ? S_OK : E_FAIL;
 }
 
 bool CMP4SplitterFilter::DemuxInit()
@@ -2013,7 +2013,7 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     m_rtNewStop = m_rtStop = m_rtDuration;
 
-    return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
+    return !m_pOutputs.IsEmpty() ? S_OK : E_FAIL;
 }
 
 bool CMPEG4VideoSplitterFilter::DemuxInit()

@@ -226,7 +226,7 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 
             FindClose(h);
 
-            if (sl.GetCount() == 0 && mask.Find(_T(":\\")) == 1) {
+            if (sl.IsEmpty() && mask.Find(_T(":\\")) == 1) {
                 if (CDROM_VideoCD == GetCDROMType(mask[0], sl)) {
                     sl.RemoveAll(); // need to open VideoCD as disk
                 }
@@ -346,7 +346,7 @@ bool CPlayerPlaylistBar::ParseBDMVPlayList(CString fn)
         Append(strFiles, MainPlaylist.GetCount() > 1, nullptr);
     }
 
-    return m_pl.GetCount() > 0;
+    return !m_pl.IsEmpty();
 }
 
 bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
@@ -416,7 +416,7 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
         m_pl.AddTail(pli[idx[i]]);
     }
 
-    return pli.GetCount() > 0;
+    return !pli.IsEmpty();
 }
 
 bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRemovePath)
@@ -510,7 +510,7 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
     int iFirstAdded = (int)m_pl.GetCount();
 
     if (fMulti) {
-        ASSERT(subs == nullptr || subs->GetCount() == 0);
+        ASSERT(subs == nullptr || subs->IsEmpty());
         POSITION pos = fns.GetHeadPosition();
         while (pos) {
             ParsePlayList(fns.GetNext(pos), nullptr);
@@ -920,7 +920,7 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
         items.AddHead(m_list.GetNextSelectedItem(pos));
     }
 
-    if (pLVKeyDown->wVKey == VK_DELETE && items.GetCount() > 0) {
+    if (pLVKeyDown->wVKey == VK_DELETE && !items.IsEmpty()) {
         pos = items.GetHeadPosition();
         while (pos) {
             int i = items.GetNext(pos);

@@ -949,7 +949,7 @@ avcsuccess:
         SetupChapters(ChapLanguage, caroot);
     }
 
-    return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
+    return !m_pOutputs.IsEmpty() ? S_OK : E_FAIL;
 }
 
 void CMatroskaSplitterFilter::SetupChapters(LPCSTR lng, ChapterAtom* parent, int level)
@@ -1040,7 +1040,7 @@ void CMatroskaSplitterFilter::SendVorbisHeaderSample()
         }
 
         if (pTE->CodecID.ToString() == "A_VORBIS" && pPin->CurrentMediaType().subtype == MEDIASUBTYPE_Vorbis
-                && pTE->CodecPrivate.GetCount() > 0) {
+                && !pTE->CodecPrivate.IsEmpty()) {
             BYTE* ptr = pTE->CodecPrivate.GetData();
 
             CAtlList<int> sizes;
@@ -1093,7 +1093,7 @@ bool CMatroskaSplitterFilter::DemuxInit()
 
     // reindex if needed
 
-    if (m_pFile->IsRandomAccess() && m_pFile->m_segment.Cues.GetCount() == 0) {
+    if (m_pFile->IsRandomAccess() && m_pFile->m_segment.Cues.IsEmpty()) {
         m_nOpenProgress = 0;
         m_pFile->m_segment.SegmentInfo.Duration.Set(0);
 
@@ -1420,7 +1420,7 @@ HRESULT CMatroskaSplitterOutputPin::DeliverEndOfStream()
         MatroskaPacket* mp = m_rob.RemoveHead();
         if (m_rob.GetCount() && !mp->bg->BlockDuration.IsValid()) {
             mp->rtStop = m_rob.GetHead()->rtStart;
-        } else if (m_rob.GetCount() == 0 && m_rtDefaultDuration > 0) {
+        } else if (m_rob.IsEmpty() && m_rtDefaultDuration > 0) {
             mp->rtStop = mp->rtStart + m_rtDefaultDuration;
         }
 

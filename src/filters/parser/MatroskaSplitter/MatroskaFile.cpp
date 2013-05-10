@@ -483,7 +483,7 @@ static int cesort(const void* a, const void* b)
 
 bool TrackEntry::Expand(CBinary& data, UINT64 Scope)
 {
-    if (ces.ce.GetCount() == 0) {
+    if (ces.ce.IsEmpty()) {
         return true;
     }
 

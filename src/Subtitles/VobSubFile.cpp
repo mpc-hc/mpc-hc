@@ -712,7 +712,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
                 continue;
             }
 
-            if (delay < 0 && m_langs[id].subpos.GetCount() > 0) {
+            if (delay < 0 && !m_langs[id].subpos.IsEmpty()) {
                 __int64 ts = m_langs[id].subpos[m_langs[id].subpos.GetCount() - 1].start;
 
                 if (sb.start < ts) {

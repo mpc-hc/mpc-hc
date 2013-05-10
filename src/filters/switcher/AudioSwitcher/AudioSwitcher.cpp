@@ -468,7 +468,7 @@ CMediaType CAudioSwitcherFilter::CreateNewOutputMediaType(CMediaType mt, long& c
             }
         }
 
-        if (m_chs[wfe->nChannels - 1].GetCount() > 0) {
+        if (!m_chs[wfe->nChannels - 1].IsEmpty()) {
             mt.ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
             WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.pbFormat;
             wfex->Format.cbSize = sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);

@@ -49,11 +49,11 @@ HRESULT CAviFile::Init()
     Seek(0);
     HRESULT hr = Parse(0, GetLength());
     UNREFERENCED_PARAMETER(hr);
-    if (m_movis.GetCount() == 0) { // FAILED(hr) is allowed as long as there was a movi chunk found
+    if (m_movis.IsEmpty()) { // FAILED(hr) is allowed as long as there was a movi chunk found
         return E_FAIL;
     }
 
-    if (m_avih.dwStreams == 0 && m_strms.GetCount() > 0) {
+    if (m_avih.dwStreams == 0 && !m_strms.IsEmpty()) {
         m_avih.dwStreams = (DWORD)m_strms.GetCount();
     }
 
@@ -220,7 +220,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
                     }
                     if (m_isamv) {
                         // First alway video, second always audio
-                        strm->strh.fccType = m_strms.GetCount() == 0 ? FCC('vids') : FCC('amva');
+                        strm->strh.fccType = m_strms.IsEmpty() ? FCC('vids') : FCC('amva');
                         strm->strh.dwRate  = m_avih.dwReserved[0] * 1000; // dwReserved[0] = fps!
                         strm->strh.dwScale = 1000;
                     }
@@ -597,7 +597,7 @@ DWORD CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
 {
     DWORD frame;
 
-    if (strh.dwScale == 0 || rt <= 0 || cs.GetCount() == 0) {
+    if (strh.dwScale == 0 || rt <= 0 || cs.IsEmpty()) {
         frame = 0;
     } else if (strh.fccType == FCC('auds')) {
         WAVEFORMATEX* wfe = (WAVEFORMATEX*)strf.GetData();

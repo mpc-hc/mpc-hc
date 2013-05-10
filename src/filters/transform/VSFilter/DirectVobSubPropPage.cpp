@@ -1061,7 +1061,7 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
                             if (i >= 0) {
                                 m_pathlist.DeleteString(i);
                                 i = min(i, m_pathlist.GetCount() - 1);
-                                if (i >= 0 && m_pathlist.GetCount() > 0) {
+                                if (i >= 0 && !m_pathlist.IsEmpty()) {
                                     m_pathlist.SetCurSel(i);
                                     m_remove.EnableWindow(i >= 3 ? TRUE : FALSE);
                                 }

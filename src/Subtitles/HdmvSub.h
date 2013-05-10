@@ -88,7 +88,7 @@ public:
 
         ~HDMV_PRESENTATION_SEGMENT() {
             CompositionObject* pObject;
-            while (objects.GetCount() > 0) {
+            while (!objects.IsEmpty()) {
                 pObject = objects.RemoveHead();
                 delete pObject;
             }

@@ -2802,7 +2802,7 @@ void CEVRAllocatorPresenter::FlushSamples()
 
 void CEVRAllocatorPresenter::FlushSamplesInternal()
 {
-    while (m_ScheduledSamples.GetCount() > 0) {
+    while (!m_ScheduledSamples.IsEmpty()) {
         CComPtr<IMFSample> pMFSample;
 
         pMFSample = m_ScheduledSamples.RemoveHead();

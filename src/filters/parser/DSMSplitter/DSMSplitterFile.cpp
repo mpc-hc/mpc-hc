@@ -129,7 +129,7 @@ HRESULT CDSMSplitterFile::Init(IDSMResourceBagImpl& res, IDSMChapterBagImpl& cha
         m_rtFirst = 0;
     }
 
-    return m_mts.GetCount() > 0 ? S_OK : E_FAIL;
+    return !m_mts.IsEmpty() ? S_OK : E_FAIL;
 }
 
 bool CDSMSplitterFile::Sync(dsmp_t& type, UINT64& len, __int64 limit)

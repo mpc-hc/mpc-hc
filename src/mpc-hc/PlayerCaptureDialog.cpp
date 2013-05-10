@@ -321,7 +321,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
         }
     }
 
-    if (tfa.GetCount() == 0) {
+    if (tfa.IsEmpty()) {
         if (pcurmt && (pcurmt->majortype == MEDIATYPE_Video || pcurmt->majortype == MEDIATYPE_Audio)) {
             AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
             CopyMediaType(pmt, pcurmt);
@@ -1133,7 +1133,7 @@ void CPlayerCaptureDialog::SetupAudioControls(
 
     // input selection
 
-    if (pAMAIM.GetCount() > 0) {
+    if (!pAMAIM.IsEmpty()) {
         m_pAMAIM.Copy(pAMAIM);
 
         size_t iSel = -1;
@@ -1174,7 +1174,7 @@ void CPlayerCaptureDialog::SetupAudioControls(
         SetupMediaTypes(pAMSC, m_afa, m_audtype, m_auddimension, m_mta);
     }
 
-    //  if (m_audtype.GetCount() > 0)
+    //if (!m_audtype.IsEmpty())
     {
         m_audoutput.EnableWindow(TRUE);
         m_audpreview.EnableWindow(TRUE);

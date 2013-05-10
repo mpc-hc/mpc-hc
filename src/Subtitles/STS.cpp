@@ -526,7 +526,7 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
         }
     }
 
-    return (ret.GetCount() > 0);
+    return !ret.IsEmpty();
 }
 
 static bool OpenOldSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -559,7 +559,7 @@ static bool OpenOldSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int Char
         }
     }
 
-    return (ret.GetCount() > 0);
+    return !ret.IsEmpty();
 }
 
 static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -669,7 +669,7 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
         }
     }
 
-    return (ret.GetCount() > 0);
+    return !ret.IsEmpty();
 }
 
 static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
@@ -957,7 +957,7 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         }
     }
 
-    return (ret.GetCount() > 0);
+    return !ret.IsEmpty();
 }
 
 static void ReplaceNoCase(CStringW& str, CStringW from, CStringW to)
@@ -1172,7 +1172,7 @@ static bool OpenVPlayer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         }
     }
 
-    return (ret.GetCount() > 0);
+    return !ret.IsEmpty();
 }
 
 CStringW GetStr(CStringW& buff, char sep = ',') //throw(...)
@@ -1726,7 +1726,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
         }
     }
 
-    return (ret.GetCount() > 0);
+    return !ret.IsEmpty();
 }
 
 static bool OpenUSF(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -1779,7 +1779,7 @@ static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         }
     }
 
-    return (ret.GetCount() > 0);
+    return !ret.IsEmpty();
 }
 
 typedef bool (*STSOpenFunct)(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet);
@@ -1865,7 +1865,7 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
 void CSimpleTextSubtitle::Append(CSimpleTextSubtitle& sts, int timeoff)
 {
     if (timeoff < 0) {
-        timeoff = GetCount() > 0 ? GetAt(GetCount() - 1).end : 0;
+        timeoff = !IsEmpty() ? GetAt(GetCount() - 1).end : 0;
     }
 
     for (size_t i = 0, j = GetCount(); i < j; i++) {
@@ -2284,7 +2284,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
     }
 
     if (0 <= ret && (size_t)ret < m_segments.GetCount()
-            && m_segments[ret].subs.GetCount() > 0
+            && !m_segments[ret].subs.IsEmpty()
             && TranslateSegmentStart(ret, fps) <= t && t < TranslateSegmentEnd(ret, fps)) {
         return &m_segments[ret];
     }
@@ -3115,5 +3115,5 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
             i->first.second);
     }
 
-    return (ret.GetCount() > 0);
+    return !ret.IsEmpty();
 }

@@ -820,13 +820,13 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
         FindFiles(path + _T("\\mpegav\\music??.mpg"), files);
         FindFiles(path + _T("\\mpeg2\\music??.dat"), files);
         FindFiles(path + _T("\\mpeg2\\music??.mpg"), files);
-        if (files.GetCount() > 0) {
+        if (!files.IsEmpty()) {
             return CDROM_VideoCD;
         }
 
         // CDROM_DVDVideo
         FindFiles(path + _T("\\VIDEO_TS\\video_ts.ifo"), files);
-        if (files.GetCount() > 0) {
+        if (!files.IsEmpty()) {
             return CDROM_DVDVideo;
         }
 
@@ -850,7 +850,7 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
 
             CloseHandle(hDrive);
         }
-        if (files.GetCount() > 0) {
+        if (!files.IsEmpty()) {
             return CDROM_Audio;
         }
 
@@ -905,13 +905,13 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
                 } else {
                     for (LONG kf = 0; ; kf++) {
                         kf = pavi->FindSample(kf, FIND_KEY | FIND_NEXT);
-                        if (kf < 0 || kfs.GetCount() > 0 && kfs[kfs.GetCount() - 1] >= (UINT)kf) {
+                        if (kf < 0 || !kfs.IsEmpty() && kfs[kfs.GetCount() - 1] >= (UINT)kf) {
                             break;
                         }
                         kfs.Add(kf);
                     }
 
-                    if (kfs.GetCount() > 0 && kfs[kfs.GetCount() - 1] < si.dwLength - 1) {
+                    if (!kfs.IsEmpty() && kfs[kfs.GetCount() - 1] < si.dwLength - 1) {
                         kfs.Add(si.dwLength - 1);
                     }
                 }
@@ -923,7 +923,7 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
         AVIFileExit();
     }
 
-    return (kfs.GetCount() > 0);
+    return !kfs.IsEmpty();
 }
 
 DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps) // use to remember the current position
