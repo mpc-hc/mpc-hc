@@ -65,6 +65,7 @@ bool CAviSplitterSettingsWnd::OnActivate()
     if (m_pASF) {
         m_cbNonInterleavedFilesSupport.SetCheck(m_pASF->GetNonInterleavedFilesSupport());
     }
+    m_cbNonInterleavedFilesSupport.EnableWindow(FALSE);
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
         pWnd->SetFont(&m_font, FALSE);
