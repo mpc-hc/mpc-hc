@@ -362,7 +362,7 @@ public:
     bool IsSomethingLoaded() const {
         return ((m_iMediaLoadState == MLS_LOADING || m_iMediaLoadState == MLS_LOADED) && !IsD3DFullScreenMode());
     }
-    bool IsPlaylistEmpty() {
+    bool IsPlaylistEmpty() const {
         return (m_wndPlaylistBar.GetCount() == 0);
     }
     bool IsInteractiveVideo() const {
