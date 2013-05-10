@@ -258,7 +258,7 @@ bool CSubtitleDlDlg::Parse()
     }
 
     bool ret = true;
-    if (m_parsed_movies.GetCount() == 0) {
+    if (m_parsed_movies.IsEmpty()) {
         ret = false;
     }
 

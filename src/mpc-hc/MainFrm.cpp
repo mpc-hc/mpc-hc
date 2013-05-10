@@ -4267,7 +4267,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             m_dwLastRun = GetTickCount();
 
-            if ((s.nCLSwitches & CLSW_ADD) && m_wndPlaylistBar.GetCount() > 0) {
+            if ((s.nCLSwitches & CLSW_ADD) && !IsPlaylistEmpty()) {
                 m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
 
                 if (s.nCLSwitches & (CLSW_OPEN | CLSW_PLAY)) {
@@ -5401,7 +5401,7 @@ void CMainFrame::OnFileISDBUpload()
 
 void CMainFrame::OnUpdateFileISDBUpload(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_wndPlaylistBar.GetCount() > 0);
+    pCmdUI->Enable(!IsPlaylistEmpty());
 }
 
 void CMainFrame::OnFileISDBDownload()
@@ -7257,7 +7257,7 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
                 fEnable = false;
             }
         }
-    } else if (pCmdUI->m_nID == ID_PLAY_PLAY && m_wndPlaylistBar.GetCount() > 0) {
+    } else if (pCmdUI->m_nID == ID_PLAY_PLAY && !IsPlaylistEmpty()) {
         fEnable = true;
     }
 
@@ -14489,7 +14489,7 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 
 void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
 {
-    if (m_wndPlaylistBar.GetCount() == 0) {
+    if (IsPlaylistEmpty()) {
         return;
     }
 

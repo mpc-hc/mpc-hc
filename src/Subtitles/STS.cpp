@@ -2585,7 +2585,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 
     for (ptrdiff_t i = 0; i < nOpenFuncts; i++) {
         if (!OpenFuncts[i].open(f, *this, CharSet) /*|| !GetCount()*/) {
-            if (GetCount() > 0) {
+            if (!IsEmpty()) {
                 int n = CountLines(f, pos, f->GetPosition());
                 CString s;
                 s.Format(_T("Syntax error at line %d!\t"), n + 1);
@@ -2766,7 +2766,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, int delay, 
             }
         }
 
-        if (GetCount() > 0) {
+        if (!IsEmpty()) {
             str  = _T("\n");
             str += _T("[Events]\n");
             str += (et == EXTSSA)

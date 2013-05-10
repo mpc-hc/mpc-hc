@@ -67,7 +67,7 @@ HRESULT CID::HeaderWrite(IStream* pStream)
 
 MatroskaWriter::QWORD CBinary::Size(bool fWithHeader)
 {
-    if (GetCount() == 0) {
+    if (IsEmpty()) {
         return 0;
     }
 
@@ -81,7 +81,7 @@ MatroskaWriter::QWORD CBinary::Size(bool fWithHeader)
 
 HRESULT CBinary::Write(IStream* pStream)
 {
-    if (GetCount() == 0) {
+    if (IsEmpty()) {
         return S_OK;
     }
 
