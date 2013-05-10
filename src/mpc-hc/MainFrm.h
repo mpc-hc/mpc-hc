@@ -169,32 +169,38 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     // TODO: wrap these graph objects into a class to make it look cleaner
 
-    CComPtr<IGraphBuilder2> pGB;
-    CComQIPtr<IMediaControl> pMC;
-    CComQIPtr<IMediaEventEx> pME;
-    CComQIPtr<IVideoWindow> pVW;
-    CComQIPtr<IBasicVideo> pBV;
-    CComQIPtr<IBasicAudio> pBA;
-    CComQIPtr<IMediaSeeking> pMS;
-    CComQIPtr<IVideoFrameStep> pFS;
-    CComQIPtr<IQualProp, &IID_IQualProp> pQP;
-    CComQIPtr<IBufferInfo> pBI;
-    CComQIPtr<IAMOpenProgress> pAMOP;
-
-    CComQIPtr<IDvdControl2> pDVDC;
-    CComQIPtr<IDvdInfo2> pDVDI;
-
-    CComPtr<ICaptureGraphBuilder2> pCGB;
-    CStringW m_VidDispName, m_AudDispName;
-    CComPtr<IBaseFilter> pVidCap, pAudCap;
-    CComPtr<IAMVideoCompression> pAMVCCap, pAMVCPrev;
-    CComPtr<IAMStreamConfig> pAMVSCCap, pAMVSCPrev, pAMASC;
-    CComPtr<IAMCrossbar> pAMXBar;
-    CComPtr<IAMTVTuner> pAMTuner;
-    CComPtr<IAMDroppedFrames> pAMDF;
+    CComPtr<IGraphBuilder2> m_pGB;
+    CComQIPtr<IMediaControl> m_pMC;
+    CComQIPtr<IMediaEventEx> m_pME;
+    CComQIPtr<IVideoWindow> m_pVW;
+    CComQIPtr<IBasicVideo> m_pBV;
+    CComQIPtr<IBasicAudio> m_pBA;
+    CComQIPtr<IMediaSeeking> m_pMS;
+    CComQIPtr<IVideoFrameStep> m_pFS;
+    CComQIPtr<IQualProp, &IID_IQualProp> m_pQP;
+    CComQIPtr<IBufferInfo> m_pBI;
+    CComQIPtr<IAMOpenProgress> m_pAMOP;
+    CComPtr<IVMRMixerControl9> m_pVMRMC;
+    CComPtr<IMFVideoDisplayControl> m_pMFVDC;
+    CComPtr<IMFVideoProcessor> m_pMFVP;
 
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
     CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
+
+    CComQIPtr<IDvdControl2> m_pDVDC;
+    CComQIPtr<IDvdInfo2> m_pDVDI;
+    CComPtr<IAMLine21Decoder_2> m_pLN21;
+
+    CComPtr<ICaptureGraphBuilder2> m_pCGB;
+    CStringW m_VidDispName, m_AudDispName;
+    CComPtr<IBaseFilter> m_pVidCap, m_pAudCap;
+    CComPtr<IAMVideoCompression> m_pAMVCCap, m_pAMVCPrev;
+    CComPtr<IAMStreamConfig> m_pAMVSCCap, m_pAMVSCPrev, m_pAMASC;
+    CComPtr<IAMCrossbar> m_pAMXBar;
+    CComPtr<IAMTVTuner> m_pAMTuner;
+    CComPtr<IAMDroppedFrames> m_pAMDF;
+
+    CComPtr<IUnknown> m_pProv;
 
     void SetVolumeBoost(UINT nAudioBoost);
     void SetBalance(int balance);
@@ -300,11 +306,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     REFERENCE_TIME m_rtDurationOverride;
 
-    CComPtr<IUnknown> m_pProv;
-
     void CleanGraph();
-
-    CComPtr<IBaseFilter> pAudioDubSrc;
 
     void ShowOptions(int idPage = 0);
 
@@ -884,10 +886,6 @@ public:
     CWnd*           m_pVideoWnd;            // Current Video (main display screen or 2nd)
     SIZE            m_fullWndSize;
     CFullscreenWnd* m_pFullscreenWnd;
-    CComPtr<IVMRMixerControl9>      m_pMC;
-    CComPtr<IMFVideoDisplayControl> m_pMFVDC;
-    CComPtr<IMFVideoProcessor>      m_pMFVP;
-    CComPtr<IAMLine21Decoder_2>     m_pLN21;
     CVMROSD     m_OSD;
     bool        m_bRemainingTime;
     int         m_nCurSubtitle;

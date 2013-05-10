@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,16 +31,16 @@
 IMPLEMENT_DYNAMIC(CPPageFileInfoSheet, CPropertySheet)
 CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWnd* pParentWnd)
     : CPropertySheet(ResStr(IDS_PROPSHEET_PROPERTIES), pParentWnd, 0)
-    , m_clip(fn, pMainFrame->pGB)
-    , m_details(fn, pMainFrame->pGB, pMainFrame->m_pCAP)
-    , m_res(fn, pMainFrame->pGB)
-    , m_mi(fn, pMainFrame->pGB)
+    , m_clip(fn, pMainFrame->m_pGB)
+    , m_details(fn, pMainFrame->m_pGB, pMainFrame->m_pCAP)
+    , m_res(fn, pMainFrame->m_pGB)
+    , m_mi(fn, pMainFrame->m_pGB)
     , m_fn(fn)
 {
     AddPage(&m_details);
     AddPage(&m_clip);
 
-    BeginEnumFilters(pMainFrame->pGB, pEF, pBF) {
+    BeginEnumFilters(pMainFrame->m_pGB, pEF, pBF) {
         if (CComQIPtr<IDSMResourceBag> pRB = pBF)
             if (pRB && pRB->ResGetCount() > 0) {
                 AddPage(&m_res);
