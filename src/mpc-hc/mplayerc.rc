@@ -367,7 +367,7 @@ BEGIN
     CONTROL         "RealMedia",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,198,50,8
     CONTROL         "QuickTime",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,64,198,50,8
     CONTROL         "DirectShow",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,118,198,50,8
-    CONTROL         "Look file extension first",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,173,198,115,8
+    CONTROL         "Check file extension first",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,173,198,115,8
     GROUPBOX        "Explorer Context Menu",IDC_STATIC,5,213,118,24
     CONTROL         "Directory",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,225,50,8
     CONTROL         "File(s)",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,64,225,55,8
