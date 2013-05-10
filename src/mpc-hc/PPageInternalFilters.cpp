@@ -21,15 +21,14 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "FGFilterLAV.h"
 #include "PPageInternalFilters.h"
-#include "ComPropertySheet.h"
 #include "../filters/Filters.h"
 #include "InternalFiltersConfig.h"
 
-
 static filter_t s_filters[] = {
 #if INTERNAL_SOURCEFILTER_AVI
-    {_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_INTERNAL_LAVF, nullptr},
+    {_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_CDDA
     {_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, nullptr},
@@ -41,7 +40,7 @@ static filter_t s_filters[] = {
     {_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_DTSAC3
-    {_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, IDS_INTERNAL_LAVF, nullptr},
+    {_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_VTS
     {_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, nullptr},
@@ -50,31 +49,31 @@ static filter_t s_filters[] = {
     {_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, nullptr},
 #endif
 #if INTERNAL_SOURCEFILTER_FLIC
-    {_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, IDS_INTERNAL_LAVF, nullptr},
+    {_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_FLAC
-    {_T("FLAC"), SOURCE_FILTER, SRC_FLAC, IDS_INTERNAL_LAVF, nullptr},
+    {_T("FLAC"), SOURCE_FILTER, SRC_FLAC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_FLV
-    {_T("FLV"), SOURCE_FILTER, SRC_FLV, IDS_INTERNAL_LAVF, nullptr},
+    {_T("FLV"), SOURCE_FILTER, SRC_FLV, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_MATROSKA
-    {_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_MP4
-    {_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, IDS_INTERNAL_LAVF, nullptr},
+    {_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
-    {_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_INTERNAL_LAVF, nullptr},
+    {_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_MPEG
-    {_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, IDS_INTERNAL_LAVF, nullptr},
+    {_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
-    {_T("Ogg"), SOURCE_FILTER, SRC_OGG, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Ogg"), SOURCE_FILTER, SRC_OGG, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_REALMEDIA
-    {_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_INTERNAL_LAVF, nullptr},
+    {_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
 #endif
 #if INTERNAL_SOURCEFILTER_SHOUTCAST
     {_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, nullptr},
@@ -84,103 +83,103 @@ static filter_t s_filters[] = {
 #endif
 
 #if INTERNAL_DECODER_AAC
-    {_T("AAC"), AUDIO_DECODER, TRA_AAC, IDS_INTERNAL_LAVF, nullptr},
+    {_T("AAC"), AUDIO_DECODER, TRA_AAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_AC3
-    {_T("AC3/E-AC3/TrueHD/MLP"), AUDIO_DECODER, TRA_AC3, IDS_INTERNAL_LAVF, nullptr},
+    {_T("AC3/E-AC3/TrueHD/MLP"), AUDIO_DECODER, TRA_AC3, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_DTS
-    {_T("DTS"), AUDIO_DECODER, TRA_DTS, IDS_INTERNAL_LAVF, nullptr},
+    {_T("DTS"), AUDIO_DECODER, TRA_DTS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_LPCM
-    {_T("LPCM"), AUDIO_DECODER, TRA_LPCM, IDS_INTERNAL_LAVF, nullptr},
+    {_T("LPCM"), AUDIO_DECODER, TRA_LPCM, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_MPEGAUDIO
-    {_T("MPEG Audio"), AUDIO_DECODER, TRA_MPA, IDS_INTERNAL_LAVF, nullptr},
+    {_T("MPEG Audio"), AUDIO_DECODER, TRA_MPA, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_VORBIS
-    {_T("Vorbis"), AUDIO_DECODER, TRA_VORBIS, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Vorbis"), AUDIO_DECODER, TRA_VORBIS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_FLAC
-    {_T("FLAC"), AUDIO_DECODER, TRA_FLAC, IDS_INTERNAL_LAVF, nullptr},
+    {_T("FLAC"), AUDIO_DECODER, TRA_FLAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_NELLYMOSER
-    {_T("Nellymoser"), AUDIO_DECODER, TRA_NELLY, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Nellymoser"), AUDIO_DECODER, TRA_NELLY, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_ALAC
-    {_T("ALAC"), AUDIO_DECODER, TRA_ALAC, IDS_INTERNAL_LAVF, nullptr},
+    {_T("ALAC"), AUDIO_DECODER, TRA_ALAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_ALS
-    {_T("ALS"), AUDIO_DECODER, TRA_ALS, IDS_INTERNAL_LAVF, nullptr},
+    {_T("ALS"), AUDIO_DECODER, TRA_ALS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_AMR
-    {_T("AMR"), AUDIO_DECODER, TRA_AMR, IDS_INTERNAL_LAVF, nullptr},
+    {_T("AMR"), AUDIO_DECODER, TRA_AMR, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_REALAUDIO
-    {_T("RealAudio"), AUDIO_DECODER, TRA_RA, IDS_INTERNAL_LAVF, nullptr},
+    {_T("RealAudio"), AUDIO_DECODER, TRA_RA, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_PS2AUDIO
-    {_T("PS2 Audio (PCM/ADPCM)"), AUDIO_DECODER, TRA_PS2AUD, IDS_INTERNAL_LAVF, nullptr},
+    {_T("PS2 Audio (PCM/ADPCM)"), AUDIO_DECODER, TRA_PS2AUD, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_PCM
-    {_T("Other PCM/ADPCM"), AUDIO_DECODER, TRA_PCM, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Other PCM/ADPCM"), AUDIO_DECODER, TRA_PCM, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_MPEG1
-    {_T("MPEG-1 Video"), VIDEO_DECODER, TRA_MPEG1, IDS_INTERNAL_LAVF, nullptr},
+    {_T("MPEG-1 Video"), VIDEO_DECODER, TRA_MPEG1, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_MPEG2
-    {_T("MPEG-2 Video"), VIDEO_DECODER, TRA_MPEG2, IDS_INTERNAL_LAVF, nullptr},
+    {_T("MPEG-2 Video"), VIDEO_DECODER, TRA_MPEG2, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_REALVIDEO
-    {_T("RealVideo"), VIDEO_DECODER, TRA_RV, IDS_INTERNAL_LAVF, nullptr},
+    {_T("RealVideo"), VIDEO_DECODER, TRA_RV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_H264
-    {_T("H264/AVC"), VIDEO_DECODER, TRA_H264, IDS_INTERNAL_LAVF, nullptr},
+    {_T("H264/AVC"), VIDEO_DECODER, TRA_H264, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_VC1
-    {_T("VC1"), VIDEO_DECODER, TRA_VC1, IDS_INTERNAL_LAVF, nullptr},
+    {_T("VC1"), VIDEO_DECODER, TRA_VC1, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_XVID
-    {_T("Xvid/MPEG-4"), VIDEO_DECODER, TRA_XVID, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Xvid/MPEG-4"), VIDEO_DECODER, TRA_XVID, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_DIVX
-    {_T("DivX"), VIDEO_DECODER, TRA_DIVX, IDS_INTERNAL_LAVF, nullptr},
+    {_T("DivX"), VIDEO_DECODER, TRA_DIVX, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_MSMPEG4
-    {_T("MS MPEG-4"), VIDEO_DECODER, TRA_MSMPEG4, IDS_INTERNAL_LAVF, nullptr},
+    {_T("MS MPEG-4"), VIDEO_DECODER, TRA_MSMPEG4, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_FLV
-    {_T("FLV1/4"), VIDEO_DECODER, TRA_FLV4, IDS_INTERNAL_LAVF, nullptr},
+    {_T("FLV1/4"), VIDEO_DECODER, TRA_FLV4, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_VP356
-    {_T("VP3/5/6"), VIDEO_DECODER, TRA_VP356, IDS_INTERNAL_LAVF, nullptr},
+    {_T("VP3/5/6"), VIDEO_DECODER, TRA_VP356, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_VP8
-    {_T("VP8"), VIDEO_DECODER, TRA_VP8, IDS_INTERNAL_LAVF, nullptr},
+    {_T("VP8"), VIDEO_DECODER, TRA_VP8, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_WMV
-    {_T("WMV1/2/3"), VIDEO_DECODER, TRA_WMV, IDS_INTERNAL_LAVF, nullptr},
+    {_T("WMV1/2/3"), VIDEO_DECODER, TRA_WMV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_SVQ
-    {_T("SVQ1/3"), VIDEO_DECODER, TRA_SVQ3, IDS_INTERNAL_LAVF, nullptr},
+    {_T("SVQ1/3"), VIDEO_DECODER, TRA_SVQ3, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_H263
-    {_T("H263"), VIDEO_DECODER, TRA_H263, IDS_INTERNAL_LAVF, nullptr},
+    {_T("H263"), VIDEO_DECODER, TRA_H263, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_AMVV
-    {_T("AMV video"), VIDEO_DECODER, TRA_AMVV, IDS_INTERNAL_LAVF, nullptr},
+    {_T("AMV video"), VIDEO_DECODER, TRA_AMVV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_THEORA
-    {_T("Theora"), VIDEO_DECODER, TRA_THEORA, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Theora"), VIDEO_DECODER, TRA_THEORA, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_MJPEG
-    {_T("MJPEG"), VIDEO_DECODER, TRA_MJPEG, IDS_INTERNAL_LAVF, nullptr},
+    {_T("MJPEG"), VIDEO_DECODER, TRA_MJPEG, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_INDEO
-    {_T("Indeo 3/4/5"), VIDEO_DECODER, TRA_INDEO, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Indeo 3/4/5"), VIDEO_DECODER, TRA_INDEO, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 #if INTERNAL_DECODER_SCREEN
-    {_T("Screen Capture (TSCC, VMnc)"), VIDEO_DECODER, TRA_SCREEN, IDS_INTERNAL_LAVF, nullptr},
+    {_T("Screen Capture (TSCC, VMnc)"), VIDEO_DECODER, TRA_SCREEN, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
 
     {nullptr, 0, 0, 0, nullptr}
@@ -252,7 +251,7 @@ void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
     CFont* pOldFont = nullptr;
 
-    if ((lpDrawItemStruct->itemData != 0) && ((filter_t*)lpDrawItemStruct->itemData)->CreateInstance) {
+    if ((lpDrawItemStruct->itemData != 0) && ((filter_t*)lpDrawItemStruct->itemData)->ShowPropertyPages) {
         if (!(HFONT)m_bold) {
             CFont* pFont = pDC->GetCurrentFont();
 
@@ -510,24 +509,8 @@ void CPPageInternalFilters::ShowPPage(CPPageInternalFiltersListBox& l)
     }
 
     filter_t* f = (filter_t*)l.GetItemDataPtr(i);
-    if (!f || !f->CreateInstance) {
-        return;
-    }
-
-    HRESULT hr;
-    CUnknown* pObj = f->CreateInstance(nullptr, &hr);
-    if (!pObj) {
-        return;
-    }
-
-    CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pObj;
-
-    if (SUCCEEDED(hr)) {
-        if (CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk) {
-            CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), this);
-            ps.AddPages(pSPP);
-            ps.DoModal();
-        }
+    if (f && f->ShowPropertyPages) {
+        f->ShowPropertyPages(this);
     }
 }
 

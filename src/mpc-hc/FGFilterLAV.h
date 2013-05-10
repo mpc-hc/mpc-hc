@@ -26,6 +26,7 @@ DEFINE_GUID(GUID_LAVVideo, 0xEE30215D, 0x164F, 0x4A92, 0xA4, 0xEB, 0x9D, 0x4C, 0
 DEFINE_GUID(GUID_LAVAudio, 0xE8E73B6B, 0x4CB3, 0x44A4, 0xBE, 0x99, 0x4F, 0x7B, 0xCB, 0x96, 0xE4, 0x91);
 
 #include "FGFilter.h"
+#include "ComPropertySheet.h"
 
 #include "LAVFilters/src/developer_info/LAVSplitterSettings.h"
 #include "LAVFilters/src/developer_info/LAVVideoSettings.h"
@@ -55,6 +56,31 @@ public:
     static bool IsInternalInstance(IBaseFilter* pBF, LAVFILTER_TYPE* pLAVFilterType = nullptr);
     static void ResetInternalInstances() {
         s_instances.RemoveAll();
+    }
+
+    template<LAVFILTER_TYPE filterType, typename filterClass, typename filterInterface, int iIgnoredPage>
+    static void ShowPropertyPages(CWnd* pParendWnd) {
+        CAutoPtr<CFGFilterLAV> pLAVFilter(CFGFilterLAV::CreateFilter(filterType));
+
+        if (pLAVFilter) {
+            CComPtr<IBaseFilter> pBF;
+            CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
+
+            if (SUCCEEDED(pLAVFilter->Create(&pBF, pUnks))) {
+                if (CComQIPtr<ISpecifyPropertyPages> pSPP = pBF) {
+                    CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), pParendWnd);
+                    ps.AddPages(pSPP, iIgnoredPage);
+                    ps.DoModal();
+
+                    if (CComQIPtr<filterInterface> pLAVFSettings = pBF) {
+                        filterClass::Settings settings;
+                        if (settings.GetSettings(pLAVFSettings)) { // Get current settings
+                            settings.SaveSettings(); // Save them to the registry/ini
+                        }
+                    }
+                }
+            }
+        }
     }
 };
 
@@ -92,6 +118,8 @@ public:
     static const CString filename;
 
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+
+    static void ShowPropertyPages(CWnd* pParendWnd);
 };
 
 class CFGFilterLAVSplitter : public CFGFilterLAVSplitterBase
@@ -139,6 +167,8 @@ public:
     CFGFilterLAVVideo(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+
+    static void ShowPropertyPages(CWnd* pParendWnd);
 };
 
 class CFGFilterLAVAudio : public CFGFilterLAV
@@ -180,4 +210,6 @@ public:
     CFGFilterLAVAudio(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+
+    static void ShowPropertyPages(CWnd* pParendWnd);
 };

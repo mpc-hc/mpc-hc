@@ -190,6 +190,11 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
     return hr;
 }
 
+void CFGFilterLAVSplitterBase::ShowPropertyPages(CWnd* pParendWnd)
+{
+    CFGFilterLAV::ShowPropertyPages<SPLITTER, CFGFilterLAVSplitterBase, ILAVFSettings, 1>(pParendWnd);
+}
+
 void CFGFilterLAVSplitterBase::Settings::LoadSettings()
 {
     CMPlayerCApp* pApp = AfxGetMyApp();
@@ -396,6 +401,11 @@ HRESULT CFGFilterLAVVideo::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
     }
 
     return hr;
+}
+
+void CFGFilterLAVVideo::ShowPropertyPages(CWnd* pParendWnd)
+{
+    CFGFilterLAV::ShowPropertyPages<VIDEO_DECODER, CFGFilterLAVVideo, ILAVVideoSettings, 1>(pParendWnd);
 }
 
 static LPCTSTR pixFmtSettingsMap[LAVOutPixFmt_NB] = {
@@ -630,6 +640,11 @@ HRESULT CFGFilterLAVAudio::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
     }
 
     return hr;
+}
+
+void CFGFilterLAVAudio::ShowPropertyPages(CWnd* pParendWnd)
+{
+    CFGFilterLAV::ShowPropertyPages<AUDIO_DECODER, CFGFilterLAVAudio, ILAVAudioSettings, 2>(pParendWnd);
 }
 
 static LPCTSTR bitstreamingCodecs[Bitstream_NB] = {
