@@ -566,11 +566,8 @@ bool CAviSplitterFilter::DemuxLoop()
                     break;
                 }
 
-                UINT64 expectedsize = f < (DWORD)s->cs.GetCount() - 1
-                                      ? s->cs[f + 1].size - s->cs[f].size
-                                      : s->totalsize - s->cs[f].size;
-
-                if (expectedsize != s->GetChunkSize(size)) {
+                if (size != s->cs[f].orgsize) {
+                    TRACE(_T("WARNING: CAviFile::DemuxLoop() incorrect chunk size. By index: %d, by header: %d\n"), s->cs[f].orgsize, size);
                     fDiscontinuity[curTrack] = true;
                     //ASSERT(0);
                     break;
