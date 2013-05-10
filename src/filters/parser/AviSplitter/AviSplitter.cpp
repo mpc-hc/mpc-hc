@@ -24,7 +24,7 @@
 #include "AviFile.h"
 #include "AviSplitter.h"
 
-#define MAXPACKETS_AVI  100
+#define MAXPACKETS_AVI 200
 
 #ifdef STANDALONE_FILTER
 
