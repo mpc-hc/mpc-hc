@@ -184,15 +184,13 @@ public:
         }
 
         ~DVB_PAGE() {
-            CompositionObject* pObject;
             while (!objects.IsEmpty()) {
-                pObject = objects.RemoveHead();
+                CompositionObject* pObject = objects.RemoveHead();
                 delete pObject;
             }
 
-            DVB_CLUT* pCLUT;
             while (!CLUTs.IsEmpty()) {
-                pCLUT = CLUTs.RemoveHead();
+                DVB_CLUT* pCLUT = CLUTs.RemoveHead();
                 delete pCLUT;
             }
         }

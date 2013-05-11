@@ -55,7 +55,6 @@ HRESULT CDSMSplitterFile::Init(IDSMResourceBagImpl& res, IDSMChapterBagImpl& cha
 
     dsmp_t type;
     UINT64 len;
-    int limit = MAX_PROBE_SIZE;
 
     // examine the beginning of the file ...
 
@@ -98,7 +97,9 @@ HRESULT CDSMSplitterFile::Init(IDSMResourceBagImpl& res, IDSMChapterBagImpl& cha
 
     // ... and the end
 
-    if (IsRandomAccess())
+    if (IsRandomAccess()) {
+        int limit = MAX_PROBE_SIZE;
+
         for (int i = 1, j = (int)((GetLength() + limit / 2) / limit); i <= j; i++) {
             __int64 seekpos = max(0, (__int64)GetLength() - i * limit);
             Seek(seekpos);
@@ -123,6 +124,7 @@ HRESULT CDSMSplitterFile::Init(IDSMResourceBagImpl& res, IDSMChapterBagImpl& cha
                 Seek(pos + len);
             }
         }
+    }
 
     if (m_rtFirst < 0) {
         m_rtDuration += m_rtFirst;

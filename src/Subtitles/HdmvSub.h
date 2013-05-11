@@ -87,9 +87,8 @@ public:
         CAtlList<CompositionObject*> objects;
 
         ~HDMV_PRESENTATION_SEGMENT() {
-            CompositionObject* pObject;
             while (!objects.IsEmpty()) {
-                pObject = objects.RemoveHead();
+                CompositionObject* pObject = objects.RemoveHead();
                 delete pObject;
             }
         }

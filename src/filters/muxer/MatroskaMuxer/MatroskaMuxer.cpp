@@ -928,13 +928,12 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
             int profile = (p[0] >> 3) - 1;
             int rate1 = ((p[0] & 7) << 1) | (p[1] >> 7);
             int channels = ((p[1] >> 3) & 15);
-            int exttype = 0;
             int rate2 = rate1;
 
             if (wfe->cbSize >= 5) {
                 profile = 4;
 
-                exttype = (p[2] << 3) | (p[3] >> 5);
+                int exttype = (p[2] << 3) | (p[3] >> 5);
                 ASSERT(exttype == 0x2B7);
                 ASSERT((p[3] & 31) == 5);
                 ASSERT((p[4] >> 7) == 1);

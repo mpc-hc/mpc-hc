@@ -416,9 +416,8 @@ void CDVBSub::Reset()
     m_nBufferWritePos = 0;
     m_pCurrentPage.Free();
 
-    DVB_PAGE* pPage;
     while (!m_Pages.IsEmpty()) {
-        pPage = m_Pages.RemoveHead();
+        DVB_PAGE* pPage = m_Pages.RemoveHead();
         delete pPage;
     }
 }

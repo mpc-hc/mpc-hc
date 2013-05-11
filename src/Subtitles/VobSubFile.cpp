@@ -187,10 +187,11 @@ struct lang_type {
 
 int find_lang(unsigned short id)
 {
-    int mid, lo = 0, hi = _countof(lang_tbl) - 1;
+    int lo = 0, hi = _countof(lang_tbl) - 1;
 
     while (lo < hi) {
-        mid = (lo + hi) >> 1;
+        int mid = (lo + hi) >> 1;
+
         if (id < lang_tbl[mid].id) {
             hi = mid;
         } else if (id > lang_tbl[mid].id) {

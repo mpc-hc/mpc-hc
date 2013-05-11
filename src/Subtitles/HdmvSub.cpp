@@ -360,9 +360,8 @@ HRESULT CHdmvSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& Video
 
 void CHdmvSub::Reset()
 {
-    HDMV_PRESENTATION_SEGMENT* pPresentationSegment;
     while (!m_pPresentationSegments.IsEmpty()) {
-        pPresentationSegment = m_pPresentationSegments.RemoveHead();
+        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.RemoveHead();
         delete pPresentationSegment;
     }
 }
