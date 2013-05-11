@@ -67,11 +67,13 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
             {
                 s = _T("VIDEO_STREAM_CONFIG_CAPS\n");
                 s.AppendFormat(_T("\tVideoStandard 0x%08x\n"), caps.VideoStandard);
-                s.AppendFormat(_T("\tInputSize %dx%d\n"), caps.InputSize);
-                s.AppendFormat(_T("\tCroppingSize %dx%d - %dx%d\n"), caps.MinCroppingSize, caps.MaxCroppingSize);
+                s.AppendFormat(_T("\tInputSize %dx%d\n"), caps.InputSize.cx, caps.InputSize.cy);
+                s.AppendFormat(_T("\tCroppingSize %dx%d - %dx%d\n"), caps.MinCroppingSize.cx, caps.MinCroppingSize.cy,
+                               caps.MaxCroppingSize.cx, caps.MaxCroppingSize.cy);
                 s.AppendFormat(_T("\tCropGranularity %d, %d\n"), caps.CropGranularityX, caps.CropGranularityY);
                 s.AppendFormat(_T("\tCropAlign %d, %d\n"), caps.CropAlignX, caps.CropAlignY);
-                s.AppendFormat(_T("\tOutputSize %dx%d - %dx%d\n"), caps.MinOutputSize, caps.MaxOutputSize);
+                s.AppendFormat(_T("\tOutputSize %dx%d - %dx%d\n"), caps.MinOutputSize.cx, caps.MinOutputSize.cy,
+                               caps.MaxOutputSize.cx, caps.MaxOutputSize.cy);
                 s.AppendFormat(_T("\tOutputGranularity %d, %d\n"), caps.OutputGranularityX, caps.OutputGranularityY);
                 s.AppendFormat(_T("\tStretchTaps %d, %d\n"), caps.StretchTapsX, caps.StretchTapsY);
                 s.AppendFormat(_T("\tShrinkTaps %d, %d\n"), caps.ShrinkTapsX, caps.ShrinkTapsY);
@@ -89,8 +91,8 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 
                 s = _T("FORMAT_VideoInfo\n");
                 s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, 10000000.0f / vih->AvgTimePerFrame);
-                s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource);
-                s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
+                s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource.left, vih->rcSource.top, vih->rcSource.right, vih->rcSource.bottom);
+                s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget.left, vih->rcTarget.top, vih->rcTarget.right, vih->rcTarget.bottom);
                 f.WriteString(s);
             } else if (pmt->formattype == FORMAT_VideoInfo2) {
                 VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->pbFormat;
@@ -98,8 +100,8 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 
                 s  = _T("FORMAT_VideoInfo2\n");
                 s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, 10000000.0f / vih->AvgTimePerFrame);
-                s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource);
-                s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
+                s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource.left, vih->rcSource.top, vih->rcSource.right, vih->rcSource.bottom);
+                s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget.left, vih->rcTarget.top, vih->rcTarget.right, vih->rcTarget.bottom);
                 s.AppendFormat(_T("\tdwInterlaceFlags 0x%x\n"), vih->dwInterlaceFlags);
                 s.AppendFormat(_T("\tdwPictAspectRatio %d:%d\n"), vih->dwPictAspectRatioX, vih->dwPictAspectRatioY);
                 f.WriteString(s);
