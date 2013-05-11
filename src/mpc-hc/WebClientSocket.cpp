@@ -125,17 +125,17 @@ void CWebClientSocket::HandleRequest()
     CStringA reshdr, resbody;
 
     if (m_cmd == _T("GET") || m_cmd == _T("HEAD") || m_cmd == _T("POST")) {
-        int k = m_path.Find('?');
-        if (k >= 0) {
-            m_query = m_path.Mid(k + 1);
-            m_path.Truncate(k);
+        int i = m_path.Find('?');
+        if (i >= 0) {
+            m_query = m_path.Mid(i + 1);
+            m_path.Truncate(i);
         }
         m_path = UrlDecode(m_path);
 
         if (!m_query.IsEmpty()) {
-            int k = m_query.Find('#');
-            if (k >= 0) {
-                m_query.Truncate(k);
+            int j = m_query.Find('#');
+            if (j >= 0) {
+                m_query.Truncate(j);
             }
 
             CAtlList<CStringA> sl;

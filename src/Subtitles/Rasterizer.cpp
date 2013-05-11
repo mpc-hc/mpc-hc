@@ -1018,7 +1018,7 @@ static __forceinline void pixmix_sse2(DWORD* dst, DWORD color, DWORD alpha)
     alpha = (((alpha) * (color >> 24)) >> 6) & 0xff;
     color &= 0xffffff;
 
-    __m128i zero = _mm_setzero_si128();
+    //__m128i zero = _mm_setzero_si128();
     __m128i a = _mm_set1_epi32(((alpha + 1) << 16) | (0x100 - alpha));
     __m128i d = _mm_unpacklo_epi8(_mm_cvtsi32_si128(*dst), zero);
     __m128i s = _mm_unpacklo_epi8(_mm_cvtsi32_si128(color), zero);
@@ -1037,7 +1037,7 @@ static __forceinline void pixmix2_sse2(DWORD* dst, DWORD color, DWORD shapealpha
     DWORD alpha = (((shapealpha) * (clipalpha) * (color >> 24)) >> 12) & 0xff;
     color &= 0xffffff;
 
-    __m128i zero = _mm_setzero_si128();
+    //__m128i zero = _mm_setzero_si128();
     __m128i a = _mm_set1_epi32(((alpha + 1) << 16) | (0x100 - alpha));
     __m128i d = _mm_unpacklo_epi8(_mm_cvtsi32_si128(*dst), zero);
     __m128i s = _mm_unpacklo_epi8(_mm_cvtsi32_si128(color), zero);

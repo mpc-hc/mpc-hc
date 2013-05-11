@@ -1094,9 +1094,9 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
             for (int g = 0; g < m_Lut3DSize; g++) {
                 D3DXFLOAT16* outputIterator = reinterpret_cast<D3DXFLOAT16*>(outputRowIterator);
 
-                for (int r = 0; r < m_Lut3DSize; r++) {
+                for (int i = 0; i < m_Lut3DSize; i++) {
                     // R, G, B
-                    for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
                         *outputIterator++ = *lut3DFloat16Iterator++;
                     }
 

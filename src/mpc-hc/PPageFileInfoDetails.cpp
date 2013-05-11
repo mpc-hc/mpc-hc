@@ -200,8 +200,8 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
                 } else if (CComQIPtr<IVMRWindowlessControl> pWC = pBF) {
                     pWC->GetNativeVideoSize(&wh.cx, &wh.cy, &arxy.cx, &arxy.cy);
                     break;
-                } else if (CComQIPtr<IVMRWindowlessControl9> pWC = pBF) {
-                    pWC->GetNativeVideoSize(&wh.cx, &wh.cy, &arxy.cx, &arxy.cy);
+                } else if (CComQIPtr<IVMRWindowlessControl9> pWC9 = pBF) {
+                    pWC9->GetNativeVideoSize(&wh.cx, &wh.cy, &arxy.cx, &arxy.cy);
                     break;
                 }
             }

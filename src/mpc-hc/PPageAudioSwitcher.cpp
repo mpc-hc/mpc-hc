@@ -303,8 +303,8 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
                         pDC->SetTextColor(0xe0e0e0);
                         CFont f;
                         f.CreatePointFont(MulDiv(100, 96, pDC->GetDeviceCaps(LOGPIXELSX)), _T("Marlett"));
-                        CFont* old = pDC->SelectObject(&f);
-                        UNREFERENCED_PARAMETER(old);
+                        CFont* old2 = pDC->SelectObject(&f);
+                        UNREFERENCED_PARAMETER(old2);
                         s = pDC->GetTextExtent(_T("g"));
                         pDC->TextOut((r.left + r.right - s.cx) / 2, (r.top + r.bottom - s.cy) / 2, _T("g"));
 
@@ -315,10 +315,10 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
                 if (m_pSpeakerToChannelMap[m_nChannels - 1][lpDrawItemStruct->itemID - 1] & (1 << (i - 1))) {
                     CFont f;
                     f.CreatePointFont(MulDiv(100, 96, pDC->GetDeviceCaps(LOGPIXELSX)), _T("Marlett"));
-                    CFont* old = pDC->SelectObject(&f);
+                    CFont* old2 = pDC->SelectObject(&f);
                     s = pDC->GetTextExtent(_T("a"));
                     pDC->TextOut((r.left + r.right - s.cx) / 2, (r.top + r.bottom - s.cy) / 2, _T("a"));
-                    pDC->SelectObject(old);
+                    pDC->SelectObject(old2);
                 }
             }
         }

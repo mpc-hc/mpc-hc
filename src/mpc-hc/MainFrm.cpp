@@ -11606,19 +11606,19 @@ DWORD CMainFrame::SetupSubtitleStreams()
                 name.MakeLower();
 
                 int rating = 0;
-                for (size_t j = 0; j < langs.GetCount(); j++) {
-                    int num = _tstoi(langs[j]) - 1;
+                for (size_t k = 0; k < langs.GetCount(); k++) {
+                    int num = _tstoi(langs[k]) - 1;
                     if (num >= 0) { // this is track number
                         if (i != num) {
                             continue;  // not matched
                         }
                     } else { // this is lang string
-                        int len = langs[j].GetLength();
-                        if (name.Left(len) != langs[j] && name.Find(_T("[") + langs[j]) < 0) {
+                        int len = langs[k].GetLength();
+                        if (name.Left(len) != langs[k] && name.Find(_T("[") + langs[k]) < 0) {
                             continue; // not matched
                         }
                     }
-                    rating = 16 * int(langs.GetCount() - j);
+                    rating = 16 * int(langs.GetCount() - k);
                     break;
                 }
                 if (externalPriority) {

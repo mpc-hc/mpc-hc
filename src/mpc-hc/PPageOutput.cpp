@@ -238,8 +238,8 @@ BOOL CPPageOutput::OnInitDialog()
                 }
                 if (!cstrGUID.IsEmpty()) {
                     boolean m_find = false;
-                    for (INT_PTR i = 0; !m_find && (i < m_D3D9GUIDNames.GetCount()); i++) {
-                        if (m_D3D9GUIDNames.GetAt(i) == cstrGUID) {
+                    for (INT_PTR j = 0; !m_find && (j < m_D3D9GUIDNames.GetCount()); j++) {
+                        if (m_D3D9GUIDNames.GetAt(j) == cstrGUID) {
                             m_find = true;
                         }
                     }
@@ -296,9 +296,9 @@ BOOL CPPageOutput::OnInitDialog()
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_MADVR);
     }
 
-    for (int i = 0; i < m_iDSVRTC.GetCount(); ++i) {
-        if (m_iDSVideoRendererType == m_iDSVRTC.GetItemData(i)) {
-            m_iDSVRTC.SetCurSel(i);
+    for (int j = 0; j < m_iDSVRTC.GetCount(); ++j) {
+        if (m_iDSVideoRendererType == m_iDSVRTC.GetItemData(j)) {
+            m_iDSVRTC.SetCurSel(j);
             break;
         }
     }

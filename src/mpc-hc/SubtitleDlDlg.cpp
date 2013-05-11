@@ -102,9 +102,9 @@ CString CSubtitleDlDlg::LangCodeToName(LPCSTR code)
     };
 
     for (size_t i = 0; i < _countof(ltable); ++i) {
-        CString name = ltable[i];
-        if (StrMatch(name, CString(code)) == codeLen) {
-            return name;
+        CString name2 = ltable[i];
+        if (StrMatch(name2, CString(code)) == codeLen) {
+            return name2;
         }
     }
     return _T("");
