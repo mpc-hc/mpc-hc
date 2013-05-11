@@ -52,6 +52,10 @@ cz.WinVersionTooLowError=[name] vyžaduje Windows XP Service Pack 3 nebo nověj�
 de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wird empfohlen, alle laufenden Programme zu beenden, bevor Sie mit der Installation fortfahren.
 de.WinVersionTooLowError=[name] benötigt Windows XP Service Pack 3 oder höher.
 
+;Indonesia
+id.WelcomeLabel2=Ini akan menginstal [name] di komputer Anda.%n%nAnda disarankan menutup aplikasi lain sebelum meneruskan.
+id.WinVersionTooLowError=[name] membutuhkan Windows XP Service Pack 3 atau diatasnya.
+
 ;Greek
 el.WelcomeLabel2=Θα γίνει εγκατάσταση του [name] στον υπολογιστή σας.%n%nΣας συνιστούμε να κλείσετε κάθε άλλη εφαρμογή πριν συνεχίσετε.
 el.WinVersionTooLowError=Το [name] χρειάζεται Windows XP Service Pack 3 ή νεότερο για να λειτουργήσει.
@@ -260,6 +264,26 @@ de.tsk_ResetSettings=Einstellungen zurücksetzen
 de.types_DefaultInstallation=Standard Installation
 de.types_CustomInstallation=Benutzerdefinierte Installation
 de.ViewChangelog=Zeige Änderungsprotokoll
+
+
+;Indonesia
+id.langid=00001057
+id.comp_mpciconlib=Icon Library
+id.comp_mpcresources=Terjemahan
+id.msg_DeleteSettings=Hapus pengaturan MPC-HC?%n%nIni tidak perlu kalau Anda hendak menginstal MPC-HC lagi.
+id.msg_SetupIsRunningWarning=Instalasi MPC-HC sedang berjalan!
+#if defined(sse_required)
+id.msg_simd_sse=MPC-HC ini membutuhkan CPU yang mendukung SSE.%n%nCPU Anda tidak mendukung.
+#elif defined(sse2_required)
+id.msg_simd_sse2=MPC-HC ini membutuhkan CPU yang mendukung SSE2.%n%nCPU Anda tidak mendukung.
+#endif
+id.tsk_AllUsers=Untuk semua pengguna
+id.tsk_CurrentUser=Untuk pengguna ini saja
+id.tsk_Other=Pilihan lain:
+id.tsk_ResetSettings=Kembalikan pengaturan
+id.types_DefaultInstallation=Instalasi standar
+id.types_CustomInstallation=Instalasi manual
+id.ViewChangelog=Lihat Daftar Perubahan
 
 
 ;Greek
