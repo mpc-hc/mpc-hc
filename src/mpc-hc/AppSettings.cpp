@@ -717,7 +717,7 @@ void CAppSettings::SaveSettings()
             CString str;
             str.Format(_T("CommandMod%d"), i);
             CString str2;
-            str2.Format(_T("%d %x %x %s %d %u %u %u"),
+            str2.Format(_T("%u %x %x %s %d %u %u %u"),
                         wc.cmd, wc.fVirt, wc.key,
                         _T("\"") + CString(wc.rmcmd) +  _T("\""), wc.rmrepcnt,
                         wc.mouse, wc.appcmd, wc.mouseFS);

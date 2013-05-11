@@ -749,9 +749,9 @@ void CUSFSubtitles::ParseText(CComPtr<IXMLDOMNode> pNode, CStringW& str)
         for (size_t i = 0; i < 4; i++) {
             if (!fs.color[i].IsEmpty()) {
                 CStringW s;
-                s.Format(L"{\\%dc&H%06x&}", i + 1, ColorToDWORD(fs.color[i]));
+                s.Format(L"{\\%uc&H%06x&}", i + 1, ColorToDWORD(fs.color[i]));
                 prefix += s;
-                s.Format(L"{\\%dc}", i + 1);
+                s.Format(L"{\\%uc}", i + 1);
                 postfix += s;
             }
         }

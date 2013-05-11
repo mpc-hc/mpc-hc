@@ -64,7 +64,7 @@ CString CFileVersionInfo::GetFileVersionStr(LPCTSTR filePath)
     CString strFileVersion;
 
     if (LoadInfo(filePath, fileInfo)) {
-        strFileVersion.Format(_T("%d.%d.%d.%d"),
+        strFileVersion.Format(_T("%u.%u.%u.%u"),
                               (fileInfo.dwFileVersionMS & 0xFFFF0000) >> 16,
                               (fileInfo.dwFileVersionMS & 0x0000FFFF),
                               (fileInfo.dwFileVersionLS & 0xFFFF0000) >> 16,

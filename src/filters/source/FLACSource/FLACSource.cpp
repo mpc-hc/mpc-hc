@@ -386,13 +386,13 @@ void CFLACStream::UpdateFromMetadata(void* pBuffer)
             }
 
             rt = MILLISECONDS_TO_100NS_UNITS(1000 * track.offset / m_nSamplesPerSec);
-            s.Format(_T("Track %02d"), i + 1);
+            s.Format(_T("Track %02u"), i + 1);
             ((CFLACSource*)m_pFilter)->ChapAppend(rt, s);
 
             if (track.num_indices > 1) {
                 for (int j = 0; j < track.num_indices; ++j) {
                     FLAC__StreamMetadata_CueSheet_Index& index = track.indices[j];
-                    s.Format(_T("+ INDEX %02d"), index.number);
+                    s.Format(_T("+ INDEX %02u"), index.number);
                     REFERENCE_TIME r = rt + MILLISECONDS_TO_100NS_UNITS(1000 * index.offset / m_nSamplesPerSec);
                     ((CFLACSource*)m_pFilter)->ChapAppend(r, s);
                 }

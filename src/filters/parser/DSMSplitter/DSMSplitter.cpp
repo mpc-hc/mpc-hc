@@ -151,7 +151,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         CMediaType& mt = m_pFile->m_mts[id];
 
         CStringW name, lang;
-        name.Format(L"Output %02d", id);
+        name.Format(L"Output %02u", id);
 
         CAtlArray<CMediaType> mts;
         mts.Add(mt);

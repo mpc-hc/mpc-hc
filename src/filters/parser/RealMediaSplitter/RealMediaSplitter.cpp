@@ -245,7 +245,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         MediaProperies* pmp = m_pFile->m_mps.GetNext(pos);
 
         CStringW name;
-        name.Format(L"Output %02d", pmp->stream);
+        name.Format(L"Output %02u", pmp->stream);
         if (!pmp->name.IsEmpty()) {
             name += L" (" + CStringW(pmp->name) + L")";
         }
@@ -529,7 +529,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         CRMFile::subtitle& s = m_pFile->m_subs.GetNext(pos);
 
         CStringW name;
-        name.Format(L"Subtitle %02d", stream);
+        name.Format(L"Subtitle %02u", stream);
         if (!s.name.IsEmpty()) {
             name += L" (" + CStringW(CString(s.name)) + L")";
         }

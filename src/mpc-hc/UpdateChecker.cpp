@@ -55,7 +55,7 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
 
         OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
         CString osVersionStr;
-        osVersionStr.Format(_T("Windows %1d.%1d"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
+        osVersionStr.Format(_T("Windows %1u.%1u"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
         if (SysVersion::Is64Bit()) {
             osVersionStr += _T(" x64");
         }

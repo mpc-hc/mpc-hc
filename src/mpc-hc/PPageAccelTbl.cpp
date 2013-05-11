@@ -149,7 +149,7 @@ void CPPageAccelTbl::SetupList()
         m_list.SetItemText(row, COL_KEY, hotkey);
 
         CString id;
-        id.Format(_T("%d"), wc.cmd);
+        id.Format(_T("%u"), wc.cmd);
         m_list.SetItemText(row, COL_ID, id);
 
         m_list.SetItemText(row, COL_MOUSE, MakeMouseButtonLabel(wc.mouse));

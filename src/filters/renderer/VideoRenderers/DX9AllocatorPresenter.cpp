@@ -1868,7 +1868,7 @@ void CDX9AllocatorPresenter::DrawStats()
             OffsetRect(&rc, 0, TextHeight);
 
             if (m_bIsEVR) {
-                strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3d Hz)      Last Duration: %10.6f      Corrected Frame Time: %s", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_RefreshRate, double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
+                strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      Last Duration: %10.6f      Corrected Frame Time: %s", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_RefreshRate, double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);
             }
@@ -1990,7 +1990,7 @@ void CDX9AllocatorPresenter::DrawStats()
                 }
 
                 if (desc.Width != (UINT)m_NativeVideoSize.cx || desc.Height != (UINT)m_NativeVideoSize.cy) {
-                    strText.Format(L"Texture size : %d x %d", desc.Width, desc.Height);
+                    strText.Format(L"Texture size : %u x %u", desc.Width, desc.Height);
                     DrawText(rc, strText, 1);
                     OffsetRect(&rc, 0, TextHeight);
                 }

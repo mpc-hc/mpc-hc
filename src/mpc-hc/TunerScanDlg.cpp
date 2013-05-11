@@ -219,7 +219,7 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 
         m_ChannelList.SetItemText(nItem, TSCC_NAME, Channel.GetName());
 
-        strTemp.Format(_T("%d"), Channel.GetFrequency());
+        strTemp.Format(_T("%u"), Channel.GetFrequency());
         m_ChannelList.SetItemText(nItem, TSCC_FREQUENCY, strTemp);
 
         strTemp = Channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
@@ -235,12 +235,12 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
         strTemp = Channel.GetVideoFpsDesc();
         m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FPS, strTemp);
         if (Channel.GetVideoWidth() || Channel.GetVideoHeight()) {
-            strTemp.Format(_T("%dx%d"), Channel.GetVideoWidth(), Channel.GetVideoHeight());
+            strTemp.Format(_T("%ux%u"), Channel.GetVideoWidth(), Channel.GetVideoHeight());
         } else {
             strTemp = _T("   -   ");
         }
         m_ChannelList.SetItemText(nItem, TSCC_VIDEO_RES, strTemp);
-        strTemp.Format(_T("%d/%d"), Channel.GetVideoARy(), Channel.GetVideoARx());
+        strTemp.Format(_T("%u/%u"), Channel.GetVideoARy(), Channel.GetVideoARx());
         m_ChannelList.SetItemText(nItem, TSCC_VIDEO_AR, strTemp);
         m_ChannelList.SetItemText(nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
     }

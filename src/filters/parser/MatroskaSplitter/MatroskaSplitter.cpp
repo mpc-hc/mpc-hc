@@ -165,7 +165,7 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             CStringA CodecID = pTE->CodecID.ToString();
 
             CStringW Name;
-            Name.Format(L"Output %I64d", (UINT64)pTE->TrackNumber);
+            Name.Format(L"Output %I64u", (UINT64)pTE->TrackNumber);
 
             CMediaType mt;
             CAtlArray<CMediaType> mts;

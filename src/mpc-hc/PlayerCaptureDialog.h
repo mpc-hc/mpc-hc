@@ -194,7 +194,7 @@ public:
 
         switch (bih->biCompression) {
             case BI_RGB:
-                str.Format(_T("RGB%d"), bih->biBitCount);
+                str.Format(_T("RGB%u"), bih->biBitCount);
                 break;
             case BI_RLE8:
                 str = _T("RLE8");
@@ -203,7 +203,7 @@ public:
                 str = _T("RLE4");
                 break;
             case BI_BITFIELDS:
-                str.Format(_T("BITF%d"), bih->biBitCount);
+                str.Format(_T("BITF%u"), bih->biBitCount);
                 break;
             case BI_JPEG:
                 str = _T("JPEG");
@@ -245,7 +245,7 @@ public:
         if (pfe->mt.formattype == FORMAT_VideoInfo2) {
             VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)pfe->mt.pbFormat;
             CString str2;
-            str2.Format(_T(" i%02x %d:%d"), vih2->dwInterlaceFlags, vih2->dwPictAspectRatioX, vih2->dwPictAspectRatioY);
+            str2.Format(_T(" i%02x %u:%u"), vih2->dwInterlaceFlags, vih2->dwPictAspectRatioX, vih2->dwPictAspectRatioY);
             str += str2;
         }
 
@@ -312,10 +312,10 @@ public:
         str.Empty();
         CString str2;
 
-        str2.Format(_T("%6dKHz "), wfe->nSamplesPerSec);
+        str2.Format(_T("%6uKHz "), wfe->nSamplesPerSec);
         str += str2;
 
-        str2.Format(_T("%dbps "), wfe->wBitsPerSample);
+        str2.Format(_T("%ubps "), wfe->wBitsPerSample);
         str += str2;
 
         switch (wfe->nChannels) {
@@ -326,12 +326,12 @@ public:
                 str += _T("stereo ");
                 break;
             default:
-                str2.Format(_T("%d channels "), wfe->nChannels);
+                str2.Format(_T("%u channels "), wfe->nChannels);
                 str += str2;
                 break;
         }
 
-        str2.Format(_T("%3dkbps "), wfe->nAvgBytesPerSec * 8 / 1000);
+        str2.Format(_T("%3ukbps "), wfe->nAvgBytesPerSec * 8 / 1000);
         str += str2;
 
         return str;

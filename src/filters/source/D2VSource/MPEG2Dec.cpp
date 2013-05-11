@@ -3811,7 +3811,7 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 	i = File_Limit;
 	while (i)
 	{
-		if(1 != fscanf_s(out->VF_File, "%d ", &j)) {
+		if(1 != fscanf_s(out->VF_File, "%u ", &j)) {
 			File_Limit = File_Limit - i;
 			return 0;
 		}
@@ -3899,7 +3899,7 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 		auxframe[i] = DEBUG_NEW unsigned char[size];
 	}
 
-	if(1 != sscanf_s(myfgets(buffer, sizeof(buffer), out->VF_File), "YUVRGB_Scale=%d\n", &i))
+	if(1 != sscanf_s(myfgets(buffer, sizeof(buffer), out->VF_File), "YUVRGB_Scale=%u\n", &i))
 		return 0;
 
 	if (i)
@@ -3920,9 +3920,9 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 	}
 
 	char* tmp = myfgets(buffer, sizeof(buffer), out->VF_File);
-	if(2 != sscanf_s(tmp, "Luminance=%d,%d\n", &i, &j))
+	if(2 != sscanf_s(tmp, "Luminance=%u,%u\n", &i, &j))
 	{
-		if(2 != sscanf_s(tmp, "Luminance_Filter=%d,%d\n", &i, &j))
+		if(2 != sscanf_s(tmp, "Luminance_Filter=%u,%u\n", &i, &j))
 			return 0;
 		i=128; j=0;
 	}
@@ -3985,12 +3985,12 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 		return 0;
 	if(1 != sscanf_s(myfgets(buffer, sizeof(buffer), out->VF_File), "Frame_Rate=%d\n", &(out->VF_FrameRate)))
 		return 0;
-	if(4 != sscanf_s(myfgets(buffer, sizeof(buffer), out->VF_File), "Location=%d,%X,%d,%X\n", &i, &j, &i, &j))
+	if(4 != sscanf_s(myfgets(buffer, sizeof(buffer), out->VF_File), "Location=%u,%X,%u,%X\n", &i, &j, &i, &j))
 		return 0;
 
 	ntsc = film = top = bottom = gop = mapping = repeat_on = repeat_off = repeat_init = 0;
 
-	while (1 == fscanf_s(out->VF_File, "%d", &type) && type<9)
+	while (1 == fscanf_s(out->VF_File, "%u", &type) && type<9)
 	{
 		if (type==7)	// I frame
 		{
@@ -4002,7 +4002,7 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 			GOPList[gop]->position = (__int64)j*BUFFER_SIZE;
 			gop ++;
 
-			if(1 != fscanf_s(out->VF_File, "%d", &j))
+			if(1 != fscanf_s(out->VF_File, "%u", &j))
 				break;
 
 			tff = j>>1;

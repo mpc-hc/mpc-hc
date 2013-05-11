@@ -374,7 +374,7 @@ BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResu
 
     static CString strTipText; // static string
 
-    strTipText.Format(_T("+%u%%"), m_AudioBoostCtrl.GetPos());
+    strTipText.Format(_T("+%d%%"), m_AudioBoostCtrl.GetPos());
 
     pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
 

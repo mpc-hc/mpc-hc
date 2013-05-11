@@ -73,7 +73,7 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
                     DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
 
                     CString str;
-                    str.Format(_T("[%02d:%02d:%02d]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+                    str.Format(_T("[%02u:%02u:%02u]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
                     m_list.SetItemText(n, 1, str);
                 }
             }

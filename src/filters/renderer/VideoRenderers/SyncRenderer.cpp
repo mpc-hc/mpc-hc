@@ -1985,7 +1985,7 @@ void CBaseAP::DrawStats()
         CString strText;
         int TextHeight = (int)(25.0 * m_TextScale + 0.5);
 
-        strText.Format(L"Frames drawn from stream start: %d | Sample time stamp: %d ms", m_pcFramesDrawn, (LONG)(m_llSampleTime / 10000));
+        strText.Format(L"Frames drawn from stream start: %u | Sample time stamp: %d ms", m_pcFramesDrawn, (LONG)(m_llSampleTime / 10000));
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
 
@@ -2002,7 +2002,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %d Hz", m_dD3DRefreshCycle, m_uD3DRefreshRate);
+            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %u Hz", m_dD3DRefreshCycle, m_uD3DRefreshRate);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -2062,7 +2062,7 @@ void CBaseAP::DrawStats()
                     DrawText(rc, strText, 1);
                     OffsetRect(&rc, 0, TextHeight);
                 } else {
-                    strText.Format(L"Sync adjust  : %d | # of adjustments: %d", m_pGenlock->adjDelta, (m_pGenlock->clockAdjustmentsMade + m_pGenlock->displayAdjustmentsMade) / 2);
+                    strText.Format(L"Sync adjust  : %d | # of adjustments: %u", m_pGenlock->adjDelta, (m_pGenlock->clockAdjustmentsMade + m_pGenlock->displayAdjustmentsMade) / 2);
                     DrawText(rc, strText, 1);
                     OffsetRect(&rc, 0, TextHeight);
                 }
@@ -2073,13 +2073,13 @@ void CBaseAP::DrawStats()
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
 
-        strText.Format(L"Sync status  : glitches %d,  display-frame cycle mismatch: %7.3f %%,  dropped frames %d", m_uSyncGlitches, 100 * m_dCycleDifference, m_pcFramesDropped);
+        strText.Format(L"Sync status  : glitches %u,  display-frame cycle mismatch: %7.3f %%,  dropped frames %u", m_uSyncGlitches, 100 * m_dCycleDifference, m_pcFramesDropped);
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
 
         if (pApp->m_fDisplayStats == 1) {
             if (m_pAudioStats && r.m_AdvRendSets.bSynchronizeVideo) {
-                strText.Format(L"Audio lag   : %3d ms [%d ms, %d ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
+                strText.Format(L"Audio lag   : %3u ms [%d ms, %d ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);
             }
@@ -4260,7 +4260,7 @@ HRESULT CGenlock::GetTiming()
     // The display update frequency is controlled by adding and subtracting pixels form the
     // image. This is done by either subtracting columns or rows or both. Some displays like
     // row adjustments and some column adjustments. One should probably not do both.
-    StringCchPrintf(faster, MAX_LOADSTRING, _T("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\0"),
+    StringCchPrintf(faster, MAX_LOADSTRING, _T("%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\0"),
                     displayTiming[0],
                     displayTiming[HFRONTPORCH] - columnDelta,
                     displayTiming[2],
@@ -4274,7 +4274,7 @@ HRESULT CGenlock::GetTiming()
                    );
 
     // Nominal update frequency
-    StringCchPrintf(cruise, MAX_LOADSTRING, _T("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\0"),
+    StringCchPrintf(cruise, MAX_LOADSTRING, _T("%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\0"),
                     displayTiming[0],
                     displayTiming[HFRONTPORCH],
                     displayTiming[2],
@@ -4288,7 +4288,7 @@ HRESULT CGenlock::GetTiming()
                    );
 
     // Lower than nominal update frequency
-    StringCchPrintf(slower, MAX_LOADSTRING, _T("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\0"),
+    StringCchPrintf(slower, MAX_LOADSTRING, _T("%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\0"),
                     displayTiming[0],
                     displayTiming[HFRONTPORCH] + columnDelta,
                     displayTiming[2],

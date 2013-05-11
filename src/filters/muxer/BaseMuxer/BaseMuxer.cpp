@@ -71,7 +71,7 @@ void CBaseMuxerFilter::AddInput()
 
     CStringW name;
 
-    name.Format(L"Input %d", m_pInputs.GetCount() + 1);
+    name.Format(L"Input %u", m_pInputs.GetCount() + 1);
 
     CBaseMuxerInputPin* pInputPin = nullptr;
     if (FAILED(CreateInput(name, &pInputPin)) || !pInputPin) {
@@ -80,7 +80,7 @@ void CBaseMuxerFilter::AddInput()
     }
     CAutoPtr<CBaseMuxerInputPin> pAutoPtrInputPin(pInputPin);
 
-    name.Format(L"~Output %d", m_pRawOutputs.GetCount() + 1);
+    name.Format(L"~Output %u", m_pRawOutputs.GetCount() + 1);
 
     CBaseMuxerRawOutputPin* pRawOutputPin = nullptr;
     if (FAILED(CreateRawOutput(name, &pRawOutputPin)) || !pRawOutputPin) {

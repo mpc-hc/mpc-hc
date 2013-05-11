@@ -103,7 +103,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
                 s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource.left, vih->rcSource.top, vih->rcSource.right, vih->rcSource.bottom);
                 s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget.left, vih->rcTarget.top, vih->rcTarget.right, vih->rcTarget.bottom);
                 s.AppendFormat(_T("\tdwInterlaceFlags 0x%x\n"), vih->dwInterlaceFlags);
-                s.AppendFormat(_T("\tdwPictAspectRatio %d:%d\n"), vih->dwPictAspectRatioX, vih->dwPictAspectRatioY);
+                s.AppendFormat(_T("\tdwPictAspectRatio %u:%u\n"), vih->dwPictAspectRatioX, vih->dwPictAspectRatioY);
                 f.WriteString(s);
             } else {
                 DeleteMediaType(pmt);
@@ -114,9 +114,9 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
             s.AppendFormat(_T("\tbiCompression %x\n"), pbh->biCompression);
             s.AppendFormat(_T("\tbiWidth %d\n"), pbh->biWidth);
             s.AppendFormat(_T("\tbiHeight %d\n"), pbh->biHeight);
-            s.AppendFormat(_T("\tbiBitCount %d\n"), pbh->biBitCount);
-            s.AppendFormat(_T("\tbiPlanes %d\n"), pbh->biPlanes);
-            s.AppendFormat(_T("\tbiSizeImage %d\n"), pbh->biSizeImage);
+            s.AppendFormat(_T("\tbiBitCount %u\n"), pbh->biBitCount);
+            s.AppendFormat(_T("\tbiPlanes %u\n"), pbh->biPlanes);
+            s.AppendFormat(_T("\tbiSizeImage %u\n"), pbh->biSizeImage);
             f.WriteString(s);
 
             DeleteMediaType(pmt);
@@ -2552,9 +2552,9 @@ CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours)
 {
     CString strTemp;
     if (rtVal.bHours > 0 || bAlwaysShowHours) {
-        strTemp.Format(_T("%02d:%02d:%02d"), rtVal.bHours, rtVal.bMinutes, rtVal.bSeconds);
+        strTemp.Format(_T("%02u:%02u:%02u"), rtVal.bHours, rtVal.bMinutes, rtVal.bSeconds);
     } else {
-        strTemp.Format(_T("%02d:%02d"), rtVal.bMinutes, rtVal.bSeconds);
+        strTemp.Format(_T("%02u:%02u"), rtVal.bMinutes, rtVal.bSeconds);
     }
     return strTemp;
 }

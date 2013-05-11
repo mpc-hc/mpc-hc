@@ -427,7 +427,7 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
     while (pos) {
         const wmcmd& wc = s.wmcmds.GetNext(pos);
         CStringA str;
-        str.Format("%d", wc.cmd);
+        str.Format("%u", wc.cmd);
         CStringA valueName(UTF8(wc.GetName()));
         valueName.Replace("&", "&amp;");
         wmcoptions += "<option value=\"" + str + "\">" + valueName + "</option>\r\n";
@@ -627,7 +627,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
                 }
 
                 CStringA size;
-                size.Format("%I64dK", ((UINT64)fd.nFileSizeHigh << 22) | (fd.nFileSizeLow >> 10));
+                size.Format("%I64uK", ((UINT64)fd.nFileSizeHigh << 22) | (fd.nFileSizeLow >> 10));
 
                 CString type(_T("&nbsp;"));
                 LoadType(fullpath, type);

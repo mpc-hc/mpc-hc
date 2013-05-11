@@ -174,7 +174,7 @@ static CStringW ConvertTX3GToSSA(
     str.Format(L"%s{\\2c%02x%02x%02x\\2a%02x}", CString(str), fclr[2], fclr[1], fclr[0], 255 - fclr[3]);
 
     CStringW font_size;
-    font_size.Format(L"{\\fs%d}", desc.Style.Font.Size);
+    font_size.Format(L"{\\fs%u}", desc.Style.Font.Size);
     str = font_size + str;
 
     CStringW font_flags;
@@ -227,7 +227,7 @@ static CStringW ConvertTX3GToSSA(
                     chars[start].pre += s;
                     chars[end - 1].post += font_color;
 
-                    s.Format(L"{\\fs%d}", size);
+                    s.Format(L"{\\fs%u}", size);
                     chars[start].pre += s;
                     chars[end - 1].post += font_size;
 
@@ -309,7 +309,7 @@ static CStringW ConvertTX3GToSSA(
                 if (start < end) {
                     CStringW s;
 
-                    s.Format(L"{\\kt%d\\kf%d}", start_time / 10, (end_time - start_time) / 10);
+                    s.Format(L"{\\kt%u\\kf%u}", start_time / 10, (end_time - start_time) / 10);
                     chars[start].pre += s;
                     s.Format(L"{\\1c%02x%02x%02x\\1a%02x}", hclr[2], hclr[1], hclr[0], 255 - hclr[3]);
                     chars[start].pre += s;
@@ -1202,7 +1202,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             DWORD id = track->GetId();
 
             CStringW name, lang;
-            name.Format(L"Output %d", id);
+            name.Format(L"Output %u", id);
 
             if (!TrackName.IsEmpty()) {
                 name = TrackName;
@@ -1283,9 +1283,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             if (db->GetDataSize() >= 4) {
                                 unsigned short n = (db->GetData()[2] << 8) | db->GetData()[3];
                                 if (n > 0 && n < 100) {
-                                    track.Format(L"%02d", n);
+                                    track.Format(L"%02u", n);
                                 } else if (n >= 100) {
-                                    track.Format(L"%d", n);
+                                    track.Format(L"%u", n);
                                 }
                             }
                         } else {

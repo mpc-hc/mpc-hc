@@ -972,7 +972,7 @@ bool CVobSubFile::WriteIdx(CString fn, int delay)
 
     f.WriteString(_T("# For correcting non-progressive desync. (in millisecs or hh:mm:ss:ms)\n"));
     f.WriteString(_T("# Note: Not effective in DirectVobSub, use \"delay: ... \" instead.\n"));
-    str.Format(_T("time offset: %d\n\n"), m_toff);
+    str.Format(_T("time offset: %u\n\n"), m_toff);
     f.WriteString(str);
 
     f.WriteString(_T("# ON: displays only forced subtitles, OFF: shows everything\n"));
@@ -1042,7 +1042,7 @@ bool CVobSubFile::WriteIdx(CString fn, int delay)
         if (!sl.id) {
             sl.id = '--';
         }
-        str.Format(_T("id: %c%c, index: %d\n"), sl.id >> 8, sl.id & 0xff, i);
+        str.Format(_T("id: %c%c, index: %u\n"), sl.id >> 8, sl.id & 0xff, i);
         f.WriteString(str);
 
         str = _T("# Uncomment next line to activate alternative name in DirectVobSub / Windows Media Player 6.x\n");
@@ -1775,7 +1775,7 @@ bool CVobSubFile::SaveWinSubMux(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%06d.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%06u.bmp"), fn, i + 1);
 
         CString str;
         str.Format(_T("%s\t%02d:%02d:%02d:%02d %02d:%02d:%02d:%02d\t%03d %03d %03d %03d %d %d %d %d\n"),
@@ -1968,7 +1968,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%04d.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%04u.bmp"), fn, i + 1);
         title = bmpfn.Mid(bmpfn.ReverseFind('/') + 1);
 
         // E1, E2, P, Bg
@@ -2050,7 +2050,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
             continue;
         }
 
-        str.Format(_T("%04d\t%02d:%02d:%02d:%02d\t%02d:%02d:%02d:%02d\t%s\n"),
+        str.Format(_T("%04u\t%02d:%02d:%02d:%02d\t%02d:%02d:%02d:%02d\t%s\n"),
                    ++k,
                    h1, m1, s1, f1,
                    h2, m2, s2, f2,
@@ -2198,7 +2198,7 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%04d.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%04u.bmp"), fn, i + 1);
         title = bmpfn.Mid(bmpfn.ReverseFind('/') + 1);
 
         // E1, E2, P, Bg
@@ -2278,7 +2278,7 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
             continue;
         }
 
-        str.Format(_T("%04d\t%02d:%02d:%02d:%02d\t%02d:%02d:%02d:%02d\t%s\n"),
+        str.Format(_T("%04u\t%02d:%02d:%02d:%02d\t%02d:%02d:%02d:%02d\t%s\n"),
                    ++k,
                    h1, m1, s1, f1,
                    h2, m2, s2, f2,

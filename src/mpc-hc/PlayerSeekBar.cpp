@@ -547,9 +547,9 @@ void CPlayerSeekBar::UpdateToolTipText()
 
     CString time;
     if (tcNow.bHours > 0) {
-        time.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+        time.Format(_T("%02u:%02u:%02u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
     } else {
-        time.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
+        time.Format(_T("%02u:%02u"), tcNow.bMinutes, tcNow.bSeconds);
     }
 
     CComBSTR chapterName;

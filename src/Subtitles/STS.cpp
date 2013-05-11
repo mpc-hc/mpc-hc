@@ -3020,7 +3020,7 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 
 CString& operator <<= (CString& style, STSStyle& s)
 {
-    style.Format(_T("%d;%d;%d;%d;%d;%d;%f;%f;%f;%f;0x%06x;0x%06x;0x%06x;0x%06x;0x%02x;0x%02x;0x%02x;0x%02x;%d;%s;%f;%f;%f;%f;%d;%d;%d;%d;%d;%f;%f;%f;%f;%d"),
+    style.Format(_T("%d;%d;%d;%d;%d;%d;%f;%f;%f;%f;0x%06x;0x%06x;0x%06x;0x%06x;0x%02x;0x%02x;0x%02x;0x%02x;%d;%s;%f;%f;%f;%f;%d;%u;%u;%u;%d;%f;%f;%f;%f;%d"),
                  s.marginRect.left, s.marginRect.right, s.marginRect.top, s.marginRect.bottom,
                  s.scrAlignment, s.borderStyle,
                  s.outlineWidthX, s.outlineWidthY, s.shadowDepthX, s.shadowDepthY,

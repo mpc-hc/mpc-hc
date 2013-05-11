@@ -1120,7 +1120,7 @@ BOOL CMPlayerCApp::InitInstance()
         TRACE(_T("Terminate on corruption enabled\n"));
     } else {
         CString heap_err;
-        heap_err.Format(_T("Terminate on corruption error = %d\n"), GetLastError());
+        heap_err.Format(_T("Terminate on corruption error = %u\n"), GetLastError());
         TRACE(heap_err);
     }
 

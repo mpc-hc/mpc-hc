@@ -138,7 +138,7 @@ BOOL CPPageSubStyle::OnInitDialog()
     m_iCharset = -1;
     for (int i = 0; i < CharSetLen; i++) {
         CString str;
-        str.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
+        str.Format(_T("%s (%u)"), CharSetNames[i], CharSetList[i]);
         m_charset.AddString(str);
         m_charset.SetItemData(i, CharSetList[i]);
         if (m_stss.charSet == CharSetList[i]) {

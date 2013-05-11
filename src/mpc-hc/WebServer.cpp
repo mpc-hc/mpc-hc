@@ -634,14 +634,14 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
         UINT port;
 
         if (pClient->GetPeerName(name, port)) {
-            str.Format(_T("%d"), port);
+            str.Format(_T("%u"), port);
             env.AddTail(_T("REMOTE_ADDR=") + name);
             env.AddTail(_T("REMOTE_HOST=") + name);
             env.AddTail(_T("REMOTE_PORT=") + str);
         }
 
         if (pClient->GetSockName(name, port)) {
-            str.Format(_T("%d"), port);
+            str.Format(_T("%u"), port);
             env.AddTail(_T("SERVER_NAME=") + name);
             env.AddTail(_T("SERVER_PORT=") + str);
         }

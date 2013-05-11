@@ -133,7 +133,7 @@ void CMatroskaMuxerFilter::AddInput()
     }
 
     CStringW name;
-    name.Format(L"Track %d", m_pInputs.GetCount() + 1);
+    name.Format(L"Track %u", m_pInputs.GetCount() + 1);
 
     HRESULT hr;
     CAutoPtr<CMatroskaMuxerInputPin> pPin(DEBUG_NEW CMatroskaMuxerInputPin(name, this, this, &hr));

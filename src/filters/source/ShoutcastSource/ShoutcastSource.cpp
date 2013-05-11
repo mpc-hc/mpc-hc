@@ -659,7 +659,7 @@ bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
                 str.MakeLower();
                 if (str.Find("icy 200 ok") >= 0) {
                     fOK = true;
-                } else if (1 == sscanf_s(str, "icy-br:%d", &m_bitrate)) {
+                } else if (1 == sscanf_s(str, "icy-br:%u", &m_bitrate)) {
                     m_bitrate *= 1000;
                 } else if (1 == sscanf_s(str, "icy-metaint:%d", &metaint)) {
                     m_metaint = metaint;
