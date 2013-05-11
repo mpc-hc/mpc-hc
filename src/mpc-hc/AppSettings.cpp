@@ -1684,9 +1684,14 @@ void CAppSettings::ExtractDVDStartPos(CString& strParam)
                 break;
             case 1:
                 if (token.Find(':') > 0) {
-                    _stscanf_s(token, _T("%02d:%02d:%02d.%03d"), &DVDPosition.bHours, &DVDPosition.bMinutes, &DVDPosition.bSeconds, &DVDPosition.bFrames);
-                    /* Hack by Ron.  If bFrames >= 30, PlayTime commands fail due to invalid arg */
-                    DVDPosition.bFrames = 0;
+                    UINT h = 0, m = 0, s = 0, f = 0;
+                    int nRead = _stscanf_s(token, _T("%02u:%02u:%02u.%03u"), &h, &m, &s, &f);
+                    if (nRead >= 3) {
+                        DVDPosition.bHours   = (BYTE)h;
+                        DVDPosition.bMinutes = (BYTE)m;
+                        DVDPosition.bSeconds = (BYTE)s;
+                        DVDPosition.bFrames  = (BYTE)f;
+                    }
                 } else {
                     lDVDChapter = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
                 }
