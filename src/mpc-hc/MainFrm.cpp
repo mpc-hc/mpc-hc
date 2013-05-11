@@ -12056,22 +12056,28 @@ void CMainFrame::CloseMediaPrivate()
     m_fEndOfStream = false;
     m_rtDurationOverride = -1;
     m_kfs.RemoveAll();
-    m_pCB = nullptr;
+    m_pCB.Release();
+
+    {
+        CAutoLock cAutoLock(&m_csSubLock);
+        m_pSubStreams.RemoveAll();
+    }
+    m_pSubClock.Release();
 
     //if (m_pVW) m_pVW->put_Visible(OAFALSE);
     //if (m_pVW) m_pVW->put_MessageDrain((OAHWND)NULL), m_pVW->put_Owner((OAHWND)NULL);
 
-    m_pCAP = nullptr; // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
-    m_pCAP2 = nullptr;
-    m_pVMRMC = nullptr;
-    m_pMFVP = nullptr;
-    m_pMFVDC = nullptr;
-    m_pLN21 = nullptr;
-    m_pSyncClock = nullptr;
+    // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
+    m_pCAP2.Release();
+    m_pCAP.Release();
+    m_pVMRMC.Release();
+    m_pMFVP.Release();
+    m_pMFVDC.Release();
+    m_pLN21.Release();
+    m_pSyncClock.Release();
 
     m_pAMXBar.Release();
-    m_pAMTuner.Release();
     m_pAMDF.Release();
     m_pAMVCCap.Release();
     m_pAMVCPrev.Release();
@@ -12080,39 +12086,34 @@ void CMainFrame::CloseMediaPrivate()
     m_pAMASC.Release();
     m_pVidCap.Release();
     m_pAudCap.Release();
+    m_pAMTuner.Release();
     m_pCGB.Release();
+
     m_pDVDC.Release();
     m_pDVDI.Release();
-    m_pQP.Release();
-    m_pBI.Release();
     m_pAMOP.Release();
+    m_pBI.Release();
+    m_pQP.Release();
     m_pFS.Release();
-    m_pMC.Release();
-    m_pME.Release();
     m_pMS.Release();
-    m_pVW.Release();
-    m_pBV.Release();
     m_pBA.Release();
+    m_pBV.Release();
+    m_pVW.Release();
+    m_pME.Release();
+    m_pMC.Release();
 
     if (m_pGB) {
         m_pGB->RemoveFromROT();
         m_pGB.Release();
     }
 
+    m_pProv.Release();
+
     if (m_pFullscreenWnd->IsWindow()) {
         m_pFullscreenWnd->DestroyWindow();    // TODO : still freezing sometimes...
     }
 
     m_fRealMediaGraph = m_fShockwaveGraph = m_fQuicktimeGraph = false;
-
-    m_pSubClock = nullptr;
-
-    m_pProv.Release();
-
-    {
-        CAutoLock cAutoLock(&m_csSubLock);
-        m_pSubStreams.RemoveAll();
-    }
 
     m_VidDispName.Empty();
     m_AudDispName.Empty();
