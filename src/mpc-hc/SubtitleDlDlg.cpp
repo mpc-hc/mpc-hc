@@ -53,7 +53,9 @@ void CSubtitleDlDlg::DoDataExchange(CDataExchange* pDX)
 
 size_t CSubtitleDlDlg::StrMatch(LPCTSTR a, LPCTSTR b)
 {
-    size_t count = 0, alen = _tcslen(a), blen = _tcslen(b);
+    size_t count = 0;
+    size_t alen = _tcslen(a);
+    size_t blen = _tcslen(b);
 
     for (size_t i = 0; i < alen && i < blen; i++) {
         if (_totlower(a[i]) != _totlower(b[i])) {
@@ -111,7 +113,8 @@ CString CSubtitleDlDlg::LangCodeToName(LPCSTR code)
 int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     PDEFPARAMSORT defps = reinterpret_cast<PDEFPARAMSORT>(lParamSort);
-    TCHAR left[MAX_PATH] = _T(""), right[MAX_PATH] = _T("");
+    TCHAR left[MAX_PATH] = _T("");
+    TCHAR right[MAX_PATH] = _T("");
 
     // sort by language first
     ListView_GetItemText(defps->m_hWnd, lParam1, COL_LANGUAGE, left, sizeof(left));
@@ -141,12 +144,14 @@ int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPAR
     ListView_GetItemText(defps->m_hWnd, lParam2, COL_FILENAME, right, sizeof(right));
     size_t lmatch = StrMatch(defps->m_filename, left);
     size_t rmatch = StrMatch(defps->m_filename, right);
+
     // sort by matching character number
     if (lmatch > rmatch) {
         return -1;
     } else if (lmatch < rmatch) {
         return 1;
     }
+
     // prefer shorter names
     size_t llen = _tcslen(left);
     size_t rlen = _tcslen(right);

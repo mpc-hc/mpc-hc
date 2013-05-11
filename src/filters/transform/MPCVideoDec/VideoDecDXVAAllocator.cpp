@@ -94,7 +94,7 @@ STDMETHODIMP_(int) CDXVA2Sample::GetDXSurfaceId()
     return m_dwSurfaceId;
 }
 
-CVideoDecDXVAAllocator::CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter,  HRESULT* phr)
+CVideoDecDXVAAllocator::CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter, HRESULT* phr)
     : CBaseAllocator(NAME("CVideoDecDXVAAllocator"), nullptr, phr)
     , m_pVideoDecFilter(pVideoDecFilter)
     , m_ppRTSurfaceArray(nullptr)

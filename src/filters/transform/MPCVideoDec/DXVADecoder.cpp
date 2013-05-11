@@ -31,16 +31,19 @@
 #include "FfmpegContext.h"
 
 #define MAX_RETRY_ON_PENDING 50
-#define DO_DXVA_PENDING_LOOP(x)                           \
-    nTry = 0;                                             \
-    while (FAILED(hr = x) && nTry < MAX_RETRY_ON_PENDING) \
-    {                                                     \
-        if (hr != E_PENDING) break;                       \
-        Sleep(3);                                         \
-        nTry++;                                           \
+#define DO_DXVA_PENDING_LOOP(x)                             \
+    nTry = 0;                                               \
+    while (FAILED(hr = x) && nTry < MAX_RETRY_ON_PENDING) { \
+        if (hr != E_PENDING)                                \
+            break;                                          \
+        Sleep(3);                                           \
+        nTry++;                                             \
     }
 
-CDXVADecoder::CDXVADecoder(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator* pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
+CDXVADecoder::CDXVADecoder(CMPCVideoDecFilter* pFilter,
+                           IAMVideoAccelerator* pAMVideoAccelerator,
+                           DXVAMode nMode,
+                           int nPicEntryNumber)
 {
     m_nEngine             = ENGINE_DXVA1;
     m_pAMVideoAccelerator = pAMVideoAccelerator;
@@ -50,7 +53,11 @@ CDXVADecoder::CDXVADecoder(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator* pAM
     Init(pFilter, nMode, nPicEntryNumber);
 }
 
-CDXVADecoder::CDXVADecoder(CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
+CDXVADecoder::CDXVADecoder(CMPCVideoDecFilter* pFilter,
+                           IDirectXVideoDecoder* pDirectXVideoDec,
+                           DXVAMode nMode,
+                           int nPicEntryNumber,
+                           DXVA2_ConfigPictureDecode* pDXVA2Config)
 {
     m_nEngine          = ENGINE_DXVA2;
     m_pDirectXVideoDec = pDirectXVideoDec;
@@ -484,9 +491,15 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 }
 
 // === Picture store functions
-bool CDXVADecoder::AddToStore(int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture,
-                              REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField,
-                              FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific)
+bool CDXVADecoder::AddToStore(int nSurfaceIndex,
+                              IMediaSample* pSample,
+                              bool bRefPicture,
+                              REFERENCE_TIME rtStart,
+                              REFERENCE_TIME rtStop,
+                              bool bIsField,
+                              FF_FIELD_TYPE nFieldType,
+                              FF_SLICE_TYPE nSliceType,
+                              int nCodecSpecific)
 {
     if (bIsField && (m_nFieldSurface == -1)) {
         m_nFieldSurface = nSurfaceIndex;
@@ -736,7 +749,7 @@ BYTE CDXVADecoder::GetConfigIntraResidUnsigned()
 
 void CDXVADecoder::EndOfStream()
 {
-    CComPtr<IMediaSample>   pSampleToDeliver;
+    CComPtr<IMediaSample> pSampleToDeliver;
 
     for (int nPicIndex = 0; nPicIndex < m_nPicEntryNumber; nPicIndex++) {
         PICTURE_STORE& pic = m_pPictureStore[nPicIndex];

@@ -26,18 +26,17 @@
 #include "Mpeg2SectionData.h"
 
 
-#define BeginEnumDescriptors(gb, nType, nLength)                   \
-{                                                                  \
-    BYTE DescBuffer[256];                                          \
-    int nLimit = ((int)gb.BitRead(12)) + gb.GetPos();              \
-    while (gb.GetPos() < nLimit)                                   \
-    {                                                              \
-        MPEG2_DESCRIPTOR nType = (MPEG2_DESCRIPTOR)gb.BitRead(8);  \
+#define BeginEnumDescriptors(gb, nType, nLength)                    \
+{                                                                   \
+    BYTE DescBuffer[256];                                           \
+    int nLimit = (int)gb.BitRead(12) + gb.GetPos();                 \
+    while (gb.GetPos() < nLimit) {                                  \
+        MPEG2_DESCRIPTOR nType = (MPEG2_DESCRIPTOR)gb.BitRead(8);   \
         WORD nLength = (WORD)gb.BitRead(8);
 
-#define SkipDescriptor(gb, nType, nLength)                         \
-    gb.ReadBuffer(DescBuffer, nLength);                            \
-    TRACE(_T("Skipped descriptor : 0x%02x\n"), nType);             \
+#define SkipDescriptor(gb, nType, nLength)                          \
+    gb.ReadBuffer(DescBuffer, nLength);                             \
+    TRACE(_T("Skipped descriptor : 0x%02x\n"), nType);              \
     UNREFERENCED_PARAMETER(nType);
 
 #define EndEnumDescriptors }}
@@ -135,7 +134,7 @@ CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLength)
             cp = codepages[0];
         }
 
-        // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 1/2)...
+        // Work around a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 1/2)...
         CArray<size_t> euroSymbolPos;
         if (cp == 20269) {
             BYTE tmp;
@@ -160,7 +159,7 @@ CStringW CMpeg2DataParser::ConvertString(BYTE* pBuffer, size_t uLength)
             LPWSTR strResultBuff = strResult.GetBuffer(nDestSize);
             MultiByteToWideChar(cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, (int)uLength, strResultBuff, nDestSize);
 
-            // Workaround a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 2/2)...
+            // Work around a bug in MS MultiByteToWideChar with ISO/IEC 6937 and take care of the Euro symbol special case (step 2/2)...
             if (cp == 20269) {
                 for (size_t i = 0, len = (size_t)nDestSize; i < len; i++) {
                     switch (strResultBuff[i]) {
@@ -326,7 +325,7 @@ HRESULT CMpeg2DataParser::ParsePAT()
         WORD program_number = (WORD)gb.BitRead(16);         // program_number
         gb.BitRead(3);                                      // reserved
         if (program_number == 0) {
-            gb.BitRead(13);    // network_PID
+            gb.BitRead(13);                                 // network_PID
         } else {
             WORD program_map_PID = (WORD)gb.BitRead(13);    // program_map_PID
             if (Channels.Lookup(program_number)) {
@@ -548,41 +547,41 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
             BeginEnumDescriptors(gb, nType, nLength) {
                 switch (nType) {
                     case DT_SHORT_EVENT:
-                        gb.BitRead(24); // ISO_639_language_code
+                        gb.BitRead(24);                         // ISO_639_language_code
 
-                        nLen = (UINT8)gb.BitRead(8); // event_name_length
+                        nLen = (UINT8)gb.BitRead(8);            // event_name_length
                         gb.ReadBuffer(DescBuffer, nLen);
                         NowNext.eventName = ConvertString(DescBuffer, nLen);
 
-                        nLen = (UINT8)gb.BitRead(8); // text_length
+                        nLen = (UINT8)gb.BitRead(8);            // text_length
                         gb.ReadBuffer(DescBuffer, nLen);
                         NowNext.eventDesc = ConvertString(DescBuffer, nLen);
                         break;
                     case DT_EXTENDED_EVENT:
                         descriptorNumber = (UINT8)gb.BitRead(4); // descriptor_number
-                        gb.BitRead(4);  // last_descriptor_number
-                        gb.BitRead(24); // ISO_639_language_code
+                        gb.BitRead(4);                          // last_descriptor_number
+                        gb.BitRead(24);                         // ISO_639_language_code
 
-                        itemsLength = (UINT8)gb.BitRead(8); // length_of_items
+                        itemsLength = (UINT8)gb.BitRead(8);     // length_of_items
                         while (itemsLength > 0) {
-                            nLen = (UINT8)gb.BitRead(8);    // item_description_length
+                            nLen = (UINT8)gb.BitRead(8);        // item_description_length
                             gb.ReadBuffer(DescBuffer, nLen);
                             itemDesc = ConvertString(DescBuffer, nLen);
                             NowNext.extendedDescriptorsItemsDesc.Add(itemDesc);
                             itemsLength -= nLen + 1;
 
-                            nLen = (UINT8)gb.BitRead(8);    // item_length
+                            nLen = (UINT8)gb.BitRead(8);        // item_length
                             gb.ReadBuffer(DescBuffer, nLen);
                             itemText = ConvertString(DescBuffer, nLen);
                             NowNext.extendedDescriptorsItemsContent.Add(itemText);
                             itemsLength -= nLen + 1;
                         }
 
-                        nLen = (UINT8)gb.BitRead(8);    // text_length
+                        nLen = (UINT8)gb.BitRead(8);            // text_length
                         if (nLen > 0) {
                             gb.ReadBuffer(DescBuffer, nLen);
                             text = ConvertString(DescBuffer, nLen);
-                            if (descriptorNumber == 0) {    // new descriptor set
+                            if (descriptorNumber == 0) {        // new descriptor set
                                 NowNext.extendedDescriptorsTexts.AddTail(text);
                             } else {
                                 NowNext.extendedDescriptorsTexts.GetTail().Append(text);
