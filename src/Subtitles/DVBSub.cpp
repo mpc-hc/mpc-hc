@@ -630,6 +630,7 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
 
 HRESULT CDVBSub::EnqueuePage(REFERENCE_TIME rtStop)
 {
+    ASSERT(m_pCurrentPage != nullptr);
     if (m_pCurrentPage->rtStart < rtStop && m_pCurrentPage->rtStop > rtStop) {
         m_pCurrentPage->rtStop = rtStop;
     }
