@@ -154,7 +154,7 @@ inline CAtlFileMappingBase* CPerfMon::_OpenNextBlock(CAtlFileMappingBase* pPrev)
 	_ATLTRY
 	{
 		CString strName;
-		strName.Format(_T("Global\\ATLPERF_%s_%3.3d"), GetAppName(), dwNextBlockIndex);
+		strName.Format(_T("Global\\ATLPERF_%s_%3.3u"), GetAppName(), dwNextBlockIndex);
 
 		HRESULT hr = spMem->OpenMapping(strName, m_nAllocSize, 0, FILE_MAP_READ);
 		if (FAILED(hr))
@@ -204,7 +204,7 @@ inline CAtlFileMappingBase* CPerfMon::_AllocNewBlock(CAtlFileMappingBase* pPrev,
 
 		BOOL bExisted = FALSE;
 		CString strName;
-		strName.Format(_T("Global\\ATLPERF_%s_%3.3d"), GetAppName(), dwNextBlockIndex);
+		strName.Format(_T("Global\\ATLPERF_%s_%3.3u"), GetAppName(), dwNextBlockIndex);
 
 		HRESULT hr = spMem->MapSharedMem(m_nAllocSize, strName, &bExisted, &sa);
 		if (FAILED(hr))
@@ -2428,8 +2428,8 @@ ATL_NOINLINE inline HRESULT CPerfMon::PersistToXML(IStream *pStream, BOOL bFirst
 		CAtlFileMappingBase *pCurrentBlock = _GetNextBlock(NULL);
 		CPerfObject *pInstance = _GetFirstInstance(pCurrentBlock);
 
-		strXML.Format("\t\t<perfObject perfid=\"%d\">\r\n", 
-			pCategoryInfo->m_dwCategoryId, pCategoryInfo->m_nNameId, pCategoryInfo->m_nHelpId);
+		strXML.Format("\t\t<perfObject perfid=\"%u\">\r\n", 
+			pCategoryInfo->m_dwCategoryId);
 
 		hr = pStream->Write(strXML, strXML.GetLength(), &nLen);
 		if (hr != S_OK)
@@ -2453,7 +2453,7 @@ ATL_NOINLINE inline HRESULT CPerfMon::PersistToXML(IStream *pStream, BOOL bFirst
 					nLength = AtlUnicodeToUTF8(wszInstNameSrc, nInstLen, szUTF8, nLength);
 					szUTF8[nLength] = '\0';
 
-					strXML.Format("\t\t\t<instance name=\"%s\" id=\"%d\">\r\n", szUTF8, pInstance->m_dwInstance);
+					strXML.Format("\t\t\t<instance name=\"%s\" id=\"%u\">\r\n", szUTF8, pInstance->m_dwInstance);
 					hr = pStream->Write(strXML, strXML.GetLength(), &nLen);
 					if (hr != S_OK)
 						return hr;
@@ -2466,14 +2466,14 @@ ATL_NOINLINE inline HRESULT CPerfMon::PersistToXML(IStream *pStream, BOOL bFirst
 					{
 						case PERF_SIZE_DWORD:
 						{
-							strXML.Format("\t\t\t\t<counter type=\"perf_size_dword\" value=\"%d\" offset=\"%d\"/>\r\n",
+							strXML.Format("\t\t\t\t<counter type=\"perf_size_dword\" value=\"%u\" offset=\"%u\"/>\r\n",
 								*LPDWORD(LPBYTE(pInstance)+pCounterInfo->m_nDataOffset), 
 								pCounterInfo->m_nDataOffset);
 							break;
 						}
 						case PERF_SIZE_LARGE:
 						{
-							strXML.Format("\t\t\t\t<counter type=\"perf_size_large\" value=\"%d\" offset=\"%d\"/>\r\n",
+							strXML.Format("\t\t\t\t<counter type=\"perf_size_large\" value=\"%u\" offset=\"%u\"/>\r\n",
 								*PULONGLONG(LPBYTE(pInstance)+pCounterInfo->m_nDataOffset),
 								pCounterInfo->m_nDataOffset);
 							break;
@@ -2492,7 +2492,7 @@ ATL_NOINLINE inline HRESULT CPerfMon::PersistToXML(IStream *pStream, BOOL bFirst
 
 								nLen = AtlUnicodeToUTF8(LPCWSTR(pSrc), nTextLen, szUTF8, nLen);	
 								szUTF8[nLen] = '\0';
-								strXML.Format("\t\t\t\t<counter type=\"perf_size_variable_len_unicode\" value=\"%s\" offset=\"%d\"/>\r\n",
+								strXML.Format("\t\t\t\t<counter type=\"perf_size_variable_len_unicode\" value=\"%s\" offset=\"%u\"/>\r\n",
 										szUTF8,
 										pCounterInfo->m_nDataOffset);
 							}
@@ -2502,7 +2502,7 @@ ATL_NOINLINE inline HRESULT CPerfMon::PersistToXML(IStream *pStream, BOOL bFirst
 								if (!szUTF8.Allocate(nTextLen+1))
 									return E_OUTOFMEMORY;
 								Checked::strcpy_s(szUTF8, nTextLen+1, LPCSTR(pSrc));
-								strXML.Format("\t\t\t\t<counter type=\"perf_size_variable_len_ansi\" value=\"%s\" offset=\"%d\"/>\r\n",
+								strXML.Format("\t\t\t\t<counter type=\"perf_size_variable_len_ansi\" value=\"%s\" offset=\"%u\"/>\r\n",
 										szUTF8,
 										pCounterInfo->m_nDataOffset);
 							}
