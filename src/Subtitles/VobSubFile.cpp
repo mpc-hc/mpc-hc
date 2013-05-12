@@ -441,7 +441,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 
             int i = str.Find(buff);
             if (i >= 0) {
-                _stscanf_s(&s[i + _tcslen(buff)], _T("%d, %d (PTS: %d)"), &vobid, &cellid, &celltimestamp);
+                _stscanf_s(&s[i + _tcslen(buff)], _T("%d, %d (PTS: %I64d)"), &vobid, &cellid, &celltimestamp);
             }
 
             continue;
