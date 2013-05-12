@@ -13630,7 +13630,7 @@ void CMainFrame::AddTextPassThruFilter()
 
             CComQIPtr<IBaseFilter> pTPTF = DEBUG_NEW CTextPassThruFilter(this);
             CStringW name;
-            name.Format(L"TextPassThru%08x", pTPTF);
+            name.Format(L"TextPassThru%p", pTPTF);
             if (FAILED(pGB->AddFilter(pTPTF, name))) {
                 continue;
             }
