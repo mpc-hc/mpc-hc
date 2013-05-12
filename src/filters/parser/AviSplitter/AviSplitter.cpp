@@ -530,7 +530,7 @@ bool CAviSplitterFilter::DemuxLoop()
     memset(fDiscontinuity.GetData(), 0, nTracks * sizeof(BOOL));
 
     while (SUCCEEDED(hr) && !CheckRequest(nullptr)) {
-        DWORD curTrack;
+        DWORD curTrack = DWORD_MAX;
 
         REFERENCE_TIME minTime = INT64_MAX;
         for (size_t j = 0; j < nTracks; ++j) {
@@ -544,14 +544,14 @@ bool CAviSplitterFilter::DemuxLoop()
             if (s->IsRawSubtitleStream()) {
                 // TODO: get subtitle time from index
                 minTime = 0;
-                curTrack = j;
+                curTrack = (DWORD)j;
                 break; // read all subtitles at once
             }
 
             REFERENCE_TIME start = s->GetRefTime(f, s->cs[f].size);
             if (start < minTime) {
                 minTime = start;
-                curTrack = j;
+                curTrack = (DWORD)j;
             }
         }
 
