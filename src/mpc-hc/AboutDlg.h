@@ -39,6 +39,9 @@ class CAboutDlg : public CDialog
 #endif
     CString m_buildDate;
 
+    CString m_OSName;
+    CString m_OSVersion;
+
 public:
     CAboutDlg();
 

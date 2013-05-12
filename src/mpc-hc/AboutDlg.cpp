@@ -26,6 +26,7 @@
 #endif
 #include "mplayerc.h"
 #include "version.h"
+#include "SysVersion.h"
 #include "WinAPIUtils.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -56,6 +57,8 @@ BOOL CAboutDlg::OnInitDialog()
     GetDlgItem(IDC_MPC_COMPILER)->GetWindowText(m_MPCCompiler);
     GetDlgItem(IDC_FFMPEG_COMPILER)->GetWindowText(m_FFmpegCompiler);
     GetDlgItem(IDC_STATIC2)->GetWindowText(m_buildDate);
+    GetDlgItem(IDC_STATIC3)->GetWindowText(m_OSName);
+    GetDlgItem(IDC_STATIC4)->GetWindowText(m_OSVersion);
 
     __super::OnInitDialog();
 
@@ -155,6 +158,19 @@ BOOL CAboutDlg::OnInitDialog()
 
     m_buildDate += _T(" ") _T(__DATE__) _T(" ") _T(__TIME__);
 
+    OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
+    m_OSName.AppendFormat(_T(" Windows NT %1u.%1u (build %u"),
+                          osVersion.dwMajorVersion, osVersion.dwMinorVersion, osVersion.dwBuildNumber);
+    if (osVersion.szCSDVersion[0]) {
+        m_OSName.AppendFormat(_T(", %s)"), osVersion.szCSDVersion);
+    } else {
+        m_OSName += _T(")");
+    }
+    m_OSVersion.AppendFormat(_T(" %1u.%1u"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
+    if (SysVersion::Is64Bit()) {
+        m_OSVersion += _T(" (64-bit)");
+    }
+
     UpdateData(FALSE);
 
     GetDlgItem(IDOK)->SetFocus();
@@ -177,6 +193,8 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
 #endif
     DDX_Text(pDX, IDC_STATIC2, m_buildDate);
+    DDX_Text(pDX, IDC_STATIC3, m_OSName);
+    DDX_Text(pDX, IDC_STATIC4, m_OSVersion);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)

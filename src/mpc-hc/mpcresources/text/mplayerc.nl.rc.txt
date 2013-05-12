@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 22
 3		"Info"
 8		"Copyright © 2002-2013 zie Authors.txt bestand"
 11		"Dit programma is gratis en uitgegeven onder de GNU General Public License."
@@ -8,7 +8,10 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 15		"MPC-HC Compiler :"
 16		"FFmpeg Compiler :"
 17		"Build date:"
-18		"OK"
+18		"Operating system"
+19		"Name:"
+20		"Version:"
+21		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
