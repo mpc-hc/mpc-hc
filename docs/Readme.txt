@@ -53,11 +53,11 @@ Project             License                     Website
 ATL Server          Ms-LPL                      http://atlserver.codeplex.com/
 CLineNumberEdit     -                           http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
 CSizingControlBar   GPLv2                       http://www.datamekanix.com/sizecbar/
-Detours             MSR-SSLA                    http://research.microsoft.com/en-us/projects/detours/
 LAV Filters         GPLv2                       http://code.google.com/p/lavfilters/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
 MediaInfoLib        Simplified BSD License      http://mediaarea.net/MediaInfo
+Mhook               MIT License                 http://codefromthe70s.org/mhook23.aspx
 MultiMon            CPOL                        http://www.codeproject.com/KB/GDI/multimon.aspx
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
 RARFileSource       GPLv2+                      http://www.v12pwr.com/RARFileSource/
