@@ -124,7 +124,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
 
     m_PictureParams.bPicScanMethod++;       // Use for status reporting sections 3.8.1 and 3.8.2
 
-    TRACE_VC1("CDXVADecoderVC1::DecodeFrame() : Decode frame %i\n", m_PictureParams.bPicScanMethod);
+    TRACE_VC1("CDXVADecoderVC1::DecodeFrame() : Decode frame %d\n", m_PictureParams.bPicScanMethod);
 
     // Send picture params to accelerator
     CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));

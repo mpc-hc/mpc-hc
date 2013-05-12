@@ -112,7 +112,7 @@ CLineNumberEdit::CLineNumberEdit()
 	m_line.m_hWnd = NULL;
 	m_zero.cx = 0;
 	m_zero.cy = 0;
-	m_format = _T( "%03i" );
+	m_format = _T( "%03d" );
 	m_LineDelta = 1;
 
 	// Could default m_maxval to 99,999, but may cause problems
@@ -724,7 +724,7 @@ CLineNumberStatic::CLineNumberStatic()
 
 	m_bgcol = RGB( 255, 255, 248 );
 	m_fgcol = RGB( 0, 0, 0 );
-	m_format = _T( "%05i" );
+	m_format = _T( "%05d" );
 	m_topline = 0;
 	m_bottomline = 0;
 }

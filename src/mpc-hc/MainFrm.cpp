@@ -15350,7 +15350,7 @@ void CMainFrame::SendSubtitleTracksToApi()
 
             }
             if (AfxGetAppSettings().fEnableSubtitles) {
-                strSubs.AppendFormat(L"|%i", iSelected);
+                strSubs.AppendFormat(L"|%d", iSelected);
             } else {
                 strSubs.Append(L"|-1");
             }
@@ -15401,7 +15401,7 @@ void CMainFrame::SendAudioTracksToApi()
                     CoTaskMemFree(pszName);
                 }
             }
-            strAudios.AppendFormat(L"|%i", currentStream);
+            strAudios.AppendFormat(L"|%d", currentStream);
 
         } else {
             strAudios.Append(L"-1");
@@ -15438,7 +15438,7 @@ void CMainFrame::SendPlaylistToApi()
     if (strPlaylist.IsEmpty()) {
         strPlaylist.Append(L"-1");
     } else {
-        strPlaylist.AppendFormat(L"|%i", index);
+        strPlaylist.AppendFormat(L"|%d", index);
     }
     SendAPICommand(CMD_PLAYLIST, strPlaylist);
 }
