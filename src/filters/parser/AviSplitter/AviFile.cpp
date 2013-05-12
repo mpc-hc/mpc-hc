@@ -324,6 +324,11 @@ REFERENCE_TIME CAviFile::GetTotalTime()
 
     for (DWORD i = 0; i < m_avih.dwStreams; ++i) {
         strm_t* s = m_strms[i];
+
+        if (s->IsRawSubtitleStream()) {
+            continue;
+        }
+
         REFERENCE_TIME t2 = s->GetRefTime((DWORD)s->cs.GetCount(), s->totalsize);
         t = max(t, t2);
     }
