@@ -192,6 +192,7 @@ BEGIN
     GROUPBOX        "Operating system",IDC_STATIC,7,146,226,36
     LTEXT           "Name:",IDC_STATIC3,13,158,210,8
     LTEXT           "Version:",IDC_STATIC4,13,170,210,8
+    PUSHBUTTON      "Copy to clipboard",IDC_BUTTON1,7,186,100,14,WS_GROUP
     DEFPUSHBUTTON   "OK",IDOK,184,186,50,14,WS_GROUP
 END
 

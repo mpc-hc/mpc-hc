@@ -67,4 +67,6 @@ protected:
     // No message handlers
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
+
+    afx_msg void OnCopyToClipboard();
 };

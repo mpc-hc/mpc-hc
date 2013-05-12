@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 22
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
 3		"Ծրագրի մասին"
 8		"Copyright © 2002-2013, կարդացե՛ք Authors.txt ֆայլը"
 11		"Այս ծրագիրը անվճար է և տարածվում է GNU General Public-ի լիցենզիայով։"
@@ -11,7 +11,8 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 22
 18		"Operating system"
 19		"Name:"
 20		"Version:"
-21		"OK"
+21		"Copy to clipboard"
+22		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

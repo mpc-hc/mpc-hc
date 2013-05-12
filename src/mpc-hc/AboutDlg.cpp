@@ -203,6 +203,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
     //}}AFX_MSG_MAP
     ON_NOTIFY(NM_CLICK, IDC_HOMEPAGE_LINK, OnHomepage)
     ON_NOTIFY(NM_CLICK, IDC_AUTHORS_LINK, OnAuthors)
+    ON_BN_CLICKED(IDC_BUTTON1, OnCopyToClipboard)
 END_MESSAGE_MAP()
 
 void CAboutDlg::OnHomepage(NMHDR* pNMHDR, LRESULT* pResult)
@@ -215,4 +216,38 @@ void CAboutDlg::OnAuthors(NMHDR* pNMHDR, LRESULT* pResult)
 {
     ShellExecute(m_hWnd, _T("open"), m_AuthorsPath, nullptr, nullptr, SW_SHOWDEFAULT);
     *pResult = 0;
+}
+
+void CAboutDlg::OnCopyToClipboard()
+{
+    CStringW info = m_appname;
+    info += _T("\n----------------------------------\n\n");
+    info += _T("Build information:\n");
+    info += _T("\t") + m_strBuildNumber + _T("\n");
+    info += _T("\t") + m_MPCCompiler + _T("\n");
+#ifndef MPCHC_LITE
+    info += _T("\t") + m_FFmpegCompiler + _T("\n");
+#endif
+    info += _T("\t") + m_buildDate + _T("\n\n");
+    info += _T("Operating system:\n");
+    info += _T("\t") + m_OSName + _T("\n");
+    info += _T("\t") + m_OSVersion + _T("\n");
+
+    COleDataSource* pData = DEBUG_NEW COleDataSource();
+
+    int len = info.GetLength() + 1;
+    HGLOBAL hGlob = GlobalAlloc(GMEM_FIXED, len * sizeof(WCHAR));
+
+    if (pData && hGlob) {
+        wcscpy_s((WCHAR*)hGlob, len, (LPCWSTR)info);
+
+        pData->CacheGlobalData(CF_UNICODETEXT, hGlob);
+
+        // The system will take care of removing the allocated memory
+        pData->SetClipboard();
+    } else if (pData) {
+        delete pData;
+    } else if (hGlob) {
+        GlobalFree(hGlob);
+    }
 }

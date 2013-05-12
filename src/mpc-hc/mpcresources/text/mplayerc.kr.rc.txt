@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 22
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
 3		"정보"
 8		"Copyright © 2002-2013 'Authors.txt' 파일 참조"
 11		"이 프로그램은 프리웨어이며 GNU GPL 라이센스로 릴리즈됩니다."
@@ -11,7 +11,8 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 22
 18		"Operating system"
 19		"Name:"
 20		"Version:"
-21		"OK"
+21		"Copy to clipboard"
+22		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

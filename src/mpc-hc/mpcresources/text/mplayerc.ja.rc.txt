@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 22
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
 3		"バージョン情報"
 8		"Copyright © 2002-2013 (Authors.txt ファイルを参照)"
 11		"このプログラムはフリーウェアであり、GNU 一般公衆利用許諾書 (GPL) に基づいて配布されます。"
@@ -11,7 +11,8 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 22
 18		"Operating system"
 19		"Name:"
 20		"Version:"
-21		"OK"
+21		"Copy to clipboard"
+22		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
