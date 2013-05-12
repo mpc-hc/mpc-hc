@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"Ծրագրի մասին"
 8		"Copyright © 2002-2013, կարդացե՛ք Authors.txt ֆայլը"
-10		"Տարբերակը."
-11		"ԼԱՎ"
-12		"Այս ծրագիրը անվճար է և տարածվում է GNU General Public-ի լիցենզիայով։"
-13		"MPC-HC կազմարկիչ."
-14		"FFmpeg կազմարկիչ."
-18		"Թարգմանեց Հրանտ Օհանյանը »»» http://haysoft.org"
+11		"Այս ծրագիրը անվճար է և տարածվում է GNU General Public-ի լիցենզիայով։"
+12		"Թարգմանեց Հրանտ Օհանյանը »»» http://haysoft.org"
+13		"Build information"
+14		"Տարբերակը."
+15		"MPC-HC կազմարկիչ."
+16		"FFmpeg կազմարկիչ."
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"Пра праграму"
 8		"Copyright © 2002-2013 глядзiце файл Authors.txt"
-10		"Версія :"
-11		"OK"
-12		"Гэтая праграма бясплатная і распаўсюджваецца пад ліцэнзіяй GNU General Public License."
-13		"Кампiлятар MPC-HC :"
-14		"Кампiлятар FFmpeg :"
-18		"Лакалізацыя: Містэр Ш"
+11		"Гэтая праграма бясплатная і распаўсюджваецца пад ліцэнзіяй GNU General Public License."
+12		"Лакалізацыя: Містэр Ш"
+13		"Build information"
+14		"Версія :"
+15		"Кампiлятар MPC-HC :"
+16		"Кампiлятар FFmpeg :"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

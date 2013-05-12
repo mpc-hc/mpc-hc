@@ -172,25 +172,24 @@ BEGIN
     CONTROL         "Add to playlist without opening",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,84,235,8
 END
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 240, 153
+IDD_ABOUTBOX DIALOGEX 0, 0, 240, 164
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDR_MAINFRAME,5,5,21,20
-    LTEXT           "Media Player Classic - Home Cinema",IDC_STATIC1,30,5,195,8,SS_NOPREFIX
+    ICON            IDR_MAINFRAME,IDR_MAINFRAME,14,10,48,48
+    LTEXT           "Media Player Classic - Home Cinema",IDC_STATIC1,60,8,180,8
     CONTROL         "Copyright © 2002-2013 see Authors.txt",IDC_AUTHORS_LINK,
-                    "SysLink",WS_TABSTOP,30,17,195,8
-    LTEXT           "Version :",IDC_VERSION,30,35,96,8
-    DEFPUSHBUTTON   "OK",IDOK,185,134,50,14,WS_GROUP
-    LTEXT           "This program is freeware and released under the GNU General Public License.",IDC_STATIC,30,96,195,18
-    LTEXT           "MPC-HC Compiler :",IDC_STATIC,30,52,96,8
-    LTEXT           "FFmpeg Compiler :",IDC_FFMPEG_TEXT,30,69,96,8
-    EDITTEXT        IDC_BUILD_NUMBER,130,33,100,13,ES_AUTOHSCROLL | ES_READONLY
-    EDITTEXT        IDC_MPC_COMPILER,130,50,100,13,ES_AUTOHSCROLL | ES_READONLY
-    EDITTEXT        IDC_FFMPEG_COMPILER,130,67,100,13,ES_AUTOHSCROLL | ES_READONLY
-    LTEXT           "English translation made by MPC-HC Team",IDC_STATIC,30,122,195,8
-    CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,30,84,200,8
+                    "SysLink",WS_TABSTOP,60,20,180,8
+    CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,180,8
+    LTEXT           "This program is freeware and released under the GNU General Public License.",IDC_STATIC,7,46,226,18
+    LTEXT           "English translation made by MPC-HC Team",IDC_STATIC,7,66,226,8
+    GROUPBOX        "Build information",IDC_STATIC,7,80,226,60
+    LTEXT           "Version:",IDC_VERSION,13,92,210,8
+    LTEXT           "MPC-HC Compiler:",IDC_MPC_COMPILER,13,104,210,8
+    LTEXT           "FFmpeg Compiler:",IDC_FFMPEG_COMPILER,13,116,210,8
+    LTEXT           "Build date:",IDC_STATIC2,13,128,210,8
+    DEFPUSHBUTTON   "OK",IDOK,184,144,50,14,WS_GROUP
 END
 
 IDD_PLAYERSTATUSBAR DIALOGEX 0, 0, 183, 15

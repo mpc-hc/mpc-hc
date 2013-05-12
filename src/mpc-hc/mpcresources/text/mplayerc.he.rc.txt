@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"אודות"
 8		"כל הזכויות שמורות © 2002-2013 קרא את קובץ היוצרים (Authors.txt)"
-10		"Version :"
-11		"אישור"
-12		"תוכנה זו הינה חינמית ומשוחררת תחת הרשיון GNU General Public License."
-13		"מהדר MPC-HC :"
-14		"מהדר FFmpeg :"
-18		"תרגום עברי ע""י Superb"
+11		"תוכנה זו הינה חינמית ומשוחררת תחת הרשיון GNU General Public License."
+12		"תרגום עברי ע""י Superb"
+13		"Build information"
+14		"Version :"
+15		"מהדר MPC-HC :"
+16		"מהדר FFmpeg :"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

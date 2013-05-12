@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"O programu"
 8		"Copyright © 2002-2013, viz soubor Authors.txt"
-10		"Verze :"
-11		"OK"
-12		"Tento program je freeware vydaný pod\nGNU General Public License."
-13		"MPC-HC zkompilován :"
-14		"FFmpeg zkompilován :"
-18		"Překlad: khagaroth"
+11		"Tento program je freeware vydaný pod\nGNU General Public License."
+12		"Překlad: khagaroth"
+13		"Build information"
+14		"Verze :"
+15		"MPC-HC zkompilován :"
+16		"FFmpeg zkompilován :"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

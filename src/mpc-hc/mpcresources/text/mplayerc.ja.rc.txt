@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"バージョン情報"
 8		"Copyright © 2002-2013 (Authors.txt ファイルを参照)"
-10		"バージョン :"
-11		"OK"
-12		"このプログラムはフリーウェアであり、GNU 一般公衆利用許諾書 (GPL) に基づいて配布されます。"
-13		"MPC-HC コンパイラ :"
-14		"FFmpeg コンパイラ :"
-18		"Japanese translation made by Anonymous@2ch"
+11		"このプログラムはフリーウェアであり、GNU 一般公衆利用許諾書 (GPL) に基づいて配布されます。"
+12		"Japanese translation made by Anonymous@2ch"
+13		"Build information"
+14		"バージョン :"
+15		"MPC-HC コンパイラ :"
+16		"FFmpeg コンパイラ :"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

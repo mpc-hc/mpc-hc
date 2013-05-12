@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"關於"
 8		"Copyright © 2002-2013 請見 Authors.txt 檔案"
-10		"版本 :"
-11		"確認"
-12		"本程式是自由軟體, 並依 GNU General Public License 發行。"
-13		"MPC-HC 編譯器 :"
-14		"FFmpeg 編譯器 :"
-18		"譯者: Kene Lin"
+11		"本程式是自由軟體, 並依 GNU General Public License 發行。"
+12		"譯者: Kene Lin"
+13		"Build information"
+14		"版本 :"
+15		"MPC-HC 編譯器 :"
+16		"FFmpeg 編譯器 :"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

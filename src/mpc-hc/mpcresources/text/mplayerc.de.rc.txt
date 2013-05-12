@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"Über Media Player Classic - Home Cinema"
 8		"Copyright © 2002-2013 siehe Authors.txt"
-10		"Version :"
-11		"OK"
-12		"Dieses Programm ist Freeware und steht unter der ""GNU General Public License""."
-13		"MPC-HC-Compiler :"
-14		"FFmpeg-Compiler :"
-18		"Übersetzung : alexW, Markus Gaugg und Luan"
+11		"Dieses Programm ist Freeware und steht unter der ""GNU General Public License""."
+12		"Übersetzung : alexW, Markus Gaugg und Luan"
+13		"Build information"
+14		"Version :"
+15		"MPC-HC-Compiler :"
+16		"FFmpeg-Compiler :"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"Про програму"
 8		"Copyright © 2002-2013, див. файл Authors.txt"
-10		"Версія :"
-11		"Гаразд"
-12		"Ця програма безкоштовна та розповсюджується за ліцензією GNU General Public License.\n"
-13		"MPC-HC Компілятор :"
-14		"FFmpeg Компілятор :"
-18		"Локалізація: Ihor Bobalo (http://www.eleks.com)"
+11		"Ця програма безкоштовна та розповсюджується за ліцензією GNU General Public License.\n"
+12		"Локалізація: Ihor Bobalo (http://www.eleks.com)"
+13		"Build information"
+14		"Версія :"
+15		"MPC-HC Компілятор :"
+16		"FFmpeg Компілятор :"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

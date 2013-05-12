@@ -28,14 +28,16 @@ class CAboutDlg : public CDialog
     CStatic m_icon;
 
     CString m_appname;
+    CString m_credits;
+    CString m_AuthorsPath;
+    CString m_homepage;
+
     CString m_strBuildNumber;
     CString m_MPCCompiler;
 #ifndef MPCHC_LITE
     CString m_FFmpegCompiler;
 #endif
-    CString m_credits;
-    CString m_AuthorsPath;
-    CString m_homepage;
+    CString m_buildDate;
 
 public:
     CAboutDlg();

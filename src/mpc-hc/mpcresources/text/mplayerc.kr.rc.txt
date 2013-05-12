@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"정보"
 8		"Copyright © 2002-2013 'Authors.txt' 파일 참조"
-10		"Version :"
-11		"확인"
-12		"이 프로그램은 프리웨어이며 GNU GPL 라이센스로 릴리즈됩니다."
-13		"MPC-HC 컴파일러 :"
-14		"FFmpeg 컴파일러 :"
-18		"한글번역제공: XNeo(xneokr@naver.com)"
+11		"이 프로그램은 프리웨어이며 GNU GPL 라이센스로 릴리즈됩니다."
+12		"한글번역제공: XNeo(xneokr@naver.com)"
+13		"Build information"
+14		"Version :"
+15		"MPC-HC 컴파일러 :"
+16		"FFmpeg 컴파일러 :"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

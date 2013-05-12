@@ -52,11 +52,15 @@ BOOL CAboutDlg::OnInitDialog()
     // Get the default text before it is overwritten by the call to __super::OnInitDialog()
     GetDlgItem(IDC_STATIC1)->GetWindowText(m_appname);
     GetDlgItem(IDC_AUTHORS_LINK)->GetWindowText(m_credits);
+    GetDlgItem(IDC_VERSION)->GetWindowText(m_strBuildNumber);
+    GetDlgItem(IDC_MPC_COMPILER)->GetWindowText(m_MPCCompiler);
+    GetDlgItem(IDC_FFMPEG_COMPILER)->GetWindowText(m_FFmpegCompiler);
+    GetDlgItem(IDC_STATIC2)->GetWindowText(m_buildDate);
 
     __super::OnInitDialog();
 
     // Because we set LR_SHARED, there is no need to explicitly destroy the icon
-    m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
+    m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 48, 48, LR_SHARED));
 
 #if MPC_BETA_RELEASE || _WIN64
     m_appname += _T(" (");
@@ -82,30 +86,40 @@ BOOL CAboutDlg::OnInitDialog()
     m_appname += _T(" Lite");
 #endif
 
-    m_strBuildNumber = MPC_VERSION_STR_FULL;
+    // Build the path to Authors.txt
+    m_AuthorsPath = GetProgramPath() + _T("Authors.txt");
+    // Check if the file exists
+    if (FileExists(m_AuthorsPath)) {
+        // If it does, we make the filename clickable
+        m_credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
+    }
+
+    m_homepage.Format(_T("<a>%s</a>"), WEBSITE_URL);
+
+    m_strBuildNumber += _T(" ") MPC_VERSION_STR_FULL;
 
 #if defined(__INTEL_COMPILER)
 #if (__INTEL_COMPILER >= 1210)
-    m_MPCCompiler = _T("ICL ") MAKE_STR(__INTEL_COMPILER) _T(" Build ") MAKE_STR(__INTEL_COMPILER_BUILD_DATE);
+    m_MPCCompiler += _T(" ICL ") MAKE_STR(__INTEL_COMPILER) _T(" Build ") MAKE_STR(__INTEL_COMPILER_BUILD_DATE);
 #else
 #error Compiler is not supported!
 #endif
 #elif defined(_MSC_VER)
 #if (_MSC_VER == 1700) // 2012
 #if (_MSC_FULL_VER == 170060315)
-    m_MPCCompiler = _T("MSVC 2012 Update 2");
+    m_MPCCompiler += _T(" MSVC 2012 Update 2");
 #elif (_MSC_FULL_VER == 170051106)
-    m_MPCCompiler = _T("MSVC 2012 Update 1");
+    m_MPCCompiler += _T(" MSVC 2012 Update 1");
 #elif (_MSC_FULL_VER < 170050727)
-    m_MPCCompiler = _T("MSVC 2012 Beta/RC/PR");
+    m_MPCCompiler += _T(" MSVC 2012 Beta/RC/PR");
 #else
-    m_MPCCompiler = _T("MSVC 2012");
+    m_MPCCompiler += _T(" MSVC 2012");
 #endif
 #elif (_MSC_VER == 1600) // 2010
 #if (_MSC_FULL_VER >= 160040219)
-    m_MPCCompiler = _T("MSVC 2010 SP1");
+    m_MPCCompiler += _T(" MSVC 2010 SP1");
 #else
-    m_MPCCompiler = _T("MSVC 2010");
+    m_MPCCompiler += _T(" MSVC 2010");
 #endif
 #elif (_MSC_VER < 1600)
 #error Compiler is not supported!
@@ -133,21 +147,13 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 
 #if defined(HAS_FFMPEG) && !defined(MPCHC_LITE)
-    m_FFmpegCompiler.Format(CA2CT(GetFFmpegCompiler()));
+    m_FFmpegCompiler += CString(_T(" ")) + CA2CT(GetFFmpegCompiler());
 #else
     GetDlgItem(IDC_FFMPEG_TEXT)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_FFMPEG_COMPILER)->ShowWindow(SW_HIDE);
 #endif
 
-    // Build the path to Authors.txt
-    m_AuthorsPath = GetProgramPath() + _T("Authors.txt");
-    // Check if the file exists
-    if (FileExists(m_AuthorsPath)) {
-        // If it does, we make the filename clickable
-        m_credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
-    }
-
-    m_homepage.Format(_T("<a>%s</a>"), WEBSITE_URL);
+    m_buildDate += _T(" ") _T(__DATE__) _T(" ") _T(__TIME__);
 
     UpdateData(FALSE);
 
@@ -163,13 +169,14 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
     //}}AFX_DATA_MAP
     DDX_Control(pDX, IDR_MAINFRAME, m_icon);
     DDX_Text(pDX, IDC_STATIC1, m_appname);
-    DDX_Text(pDX, IDC_BUILD_NUMBER, m_strBuildNumber);
+    DDX_Text(pDX, IDC_AUTHORS_LINK, m_credits);
+    DDX_Text(pDX, IDC_HOMEPAGE_LINK, m_homepage);
+    DDX_Text(pDX, IDC_VERSION, m_strBuildNumber);
     DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
 #ifndef MPCHC_LITE
     DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
 #endif
-    DDX_Text(pDX, IDC_AUTHORS_LINK, m_credits);
-    DDX_Text(pDX, IDC_HOMEPAGE_LINK, m_homepage);
+    DDX_Text(pDX, IDC_STATIC2, m_buildDate);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)

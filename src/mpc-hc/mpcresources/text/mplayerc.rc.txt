@@ -1,12 +1,14 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 20
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 19
 3		"About"
 8		"Copyright © 2002-2013 see Authors.txt"
-10		"Version :"
-11		"OK"
-12		"This program is freeware and released under the GNU General Public License."
-13		"MPC-HC Compiler :"
-14		"FFmpeg Compiler :"
-18		"English translation made by MPC-HC Team"
+11		"This program is freeware and released under the GNU General Public License."
+12		"English translation made by MPC-HC Team"
+13		"Build information"
+14		"Version:"
+15		"MPC-HC Compiler:"
+16		"FFmpeg Compiler:"
+17		"Build date:"
+18		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
