@@ -136,9 +136,9 @@ void CGoToDlg::OnParseTimeCode()
     float ss = 0.0f;
     wchar_t c[2]; // unnecessary character
 
-    if (((swscanf_s(m_timestr, L"%f%1s", &ss, &c, _countof(c)) == 1) // ss[.ms]
-            || (swscanf_s(m_timestr, L"%u:%f%1s", &mm, &ss, &c, _countof(c)) == 2 && ss < 60.0f) // mm:ss[.ms]
-            || (swscanf_s(m_timestr, L"%u:%u:%f%1s", &hh, &mm, &ss, &c, _countof(c)) == 3 && mm < 60  && ss < 60.0f)) // hh:mm:ss[.ms]
+    if (((swscanf_s(m_timestr, L"%f%1s", &ss, c, _countof(c)) == 1) // ss[.ms]
+            || (swscanf_s(m_timestr, L"%u:%f%1s", &mm, &ss, c, _countof(c)) == 2 && ss < 60.0f) // mm:ss[.ms]
+            || (swscanf_s(m_timestr, L"%u:%u:%f%1s", &hh, &mm, &ss, c, _countof(c)) == 3 && mm < 60  && ss < 60.0f)) // hh:mm:ss[.ms]
             && ss >= 0.0f) {
 
         int time = (int)(1000.0f * ((hh * 60 + mm) * 60 + ss) + 0.5f);
@@ -161,7 +161,7 @@ void CGoToDlg::OnParseFrameCode()
     wchar_t c1[2]; // delimiter character
     wchar_t c2[2]; // unnecessary character
 
-    int result = swscanf_s(m_framestr, L"%u%1s%f%1s", &frame, &c1, _countof(c1), &fps, &c2, _countof(c2));
+    int result = swscanf_s(m_framestr, L"%u%1s%f%1s", &frame, c1, _countof(c1), &fps, c2, _countof(c2));
     if (result == 1) {
         m_time = (REFERENCE_TIME)ceil(10000000.0 * frame / m_fps);
         OnOK();
