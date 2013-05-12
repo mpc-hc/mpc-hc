@@ -115,6 +115,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
     MediaInfo MI;
 #endif
 
+    MI.Option(_T("ParseSpeed"), _T("0"));
     MI.Open(f_name);
     MI.Option(_T("Complete"));
     MI.Option(_T("Language"), _T("  Config_Text_ColumnSize;30"));
