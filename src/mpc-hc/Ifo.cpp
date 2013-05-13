@@ -265,17 +265,17 @@ bool CIfo::SaveFile(LPCTSTR strFile)
     bool bRet = false;
 
     if (m_pBuffer) {
-        HANDLE m_hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-                                          nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-        ASSERT(m_hFile != INVALID_HANDLE_VALUE);
-
-        if (m_hFile != INVALID_HANDLE_VALUE) {
-            DWORD dwSize;
-            WriteFile(m_hFile, m_pBuffer, m_dwSize, &dwSize, nullptr);
-            CloseHandle(m_hFile);
-            bRet = true;
+        HANDLE hFile = Real_CreateFileW(strFile, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                                        nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+        if (hFile != INVALID_HANDLE_VALUE) {
+            if (WriteFile(hFile, m_pBuffer, m_dwSize, nullptr, nullptr)) {
+                bRet = true;
+            }
+            CloseHandle(hFile);
         }
     }
+
+    ASSERT(bRet);
 
     return bRet;
 }
