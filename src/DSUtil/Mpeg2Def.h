@@ -74,12 +74,12 @@ enum MPEG2_PID {
     PID_CAT     = 0x001,    // Conditional Access Table
     PID_TSDT    = 0x002,    // Transport Stream Description Table
     PID_NIT     = 0x010,    // Network Identification Table
-    PID_BAT     = 0x011,    // Bouquet Association Table ou ...
-    PID_SDT     = 0x011,    // Service Description Table
+    PID_BAT     = 0x011,    // Bouquet Association Table or ...
+    PID_SDT     = 0x011,    // ... Service Description Table
     PID_EIT     = 0x012,    // Event Information Table
-    PID_RST     = 0x013,    // Running Status Tection
-    PID_TDT     = 0x014,    // Time and Date Table ou ...
-    PID_TOT     = 0x014,    // Time Offset Table
+    PID_RST     = 0x013,    // Running Status Table
+    PID_TDT     = 0x014,    // Time and Date Table or ...
+    PID_TOT     = 0x014,    // ... Time Offset Table
     PID_SFN     = 0x015,    // SFN/MIP synchronization
     PID_DIT     = 0x01e,
     PID_SIT     = 0x01f,
@@ -141,13 +141,13 @@ enum MPEG2_DESCRIPTOR {
     DT_SUBTITLING               = 0x59,
     DT_TERRESTRIAL_DELIV_SYS    = 0x5a,
     DT_PRIVATE_DATA             = 0x5f,
-    //
+
     DT_DATA_BROADCAST_ID        = 0x66,
     DT_AC3_AUDIO                = 0x6a,     // DVB
     DT_EXTENDED_AC3_AUDIO       = 0x7a,
     DT_AAC_AUDIO                = 0x7c,
-    //
-    DT_AC3_AUDIO__2             = 0x81,     // DCII ou ATSC
+
+    DT_AC3_AUDIO__2             = 0x81,     // DCII or ATSC
     DT_LOGICAL_CHANNEL          = 0x83,
     DT_HD_SIMCAST_LOG_CHANNEL   = 0x88
 };
