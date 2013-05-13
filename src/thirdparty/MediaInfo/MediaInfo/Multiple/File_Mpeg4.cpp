@@ -1,20 +1,9 @@
-// File_Mpeg4 - Info for MPEG-4 files
-// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Main part
@@ -181,7 +170,9 @@ File_Mpeg4::File_Mpeg4()
     IsParsing_mdat=false;
     IsFragmented=false;
     moov_trak_tkhd_TrackID=(int32u)-1;
-    ReferenceFiles=NULL;
+    #if defined(MEDIAINFO_REFERENCES_YES)
+        ReferenceFiles=NULL;
+    #endif //defined(MEDIAINFO_REFERENCES_YES)
     mdat_Pos_NormalParsing=false;
     moof_traf_base_data_offset=(int64u)-1;
     data_offset_present=true;
@@ -304,7 +295,7 @@ void File_Mpeg4::Streams_Finish()
                     if (Temp->second.edts[0].Delay==(int32u)-1 && Temp->second.edts[0].Duration+Temp->second.edts[1].Duration==Temp->second.tkhd_Duration && Temp->second.edts[0].Rate==0x00010000 && Temp->second.edts[1].Rate==0x00010000)
                     {
                         Delay=Temp->second.edts[0].Duration;
-                        Temp->second.tkhd_Duration-=Delay;
+                        Temp->second.tkhd_Duration-=float64_int64s(Delay);
                         Delay/=TimeScale; //In seconds
                     }
                     break;
@@ -930,14 +921,18 @@ void File_Mpeg4::Read_Buffer_Unsynched()
     #if MEDIAINFO_SEEK
         //Searching the ID of the first stream to be demuxed
         std::map<int32u, stream>::iterator Next_Stream=Streams.end();
-        size_t Next_Stream_Stco=(size_t)-1;
+        #if MEDIAINFO_DEMUX
+            size_t Next_Stream_Stco=(size_t)-1;
+        #endif //MEDIAINFO_DEMUX
         for (std::map<int32u, stream>::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
         {
             for (size_t Stco_Pos=0; Stco_Pos<Stream->second.stco.size(); Stco_Pos++)
                 if (Stream->second.stco[Stco_Pos]==mdat_Pos_Temp->first)
                 {
                     Next_Stream=Stream;
-                    Next_Stream_Stco=Stco_Pos;
+                    #if MEDIAINFO_DEMUX
+                        Next_Stream_Stco=Stco_Pos;
+                    #endif //MEDIAINFO_DEMUX
                     break;
                 }
             if (Next_Stream!=Streams.end())
@@ -950,7 +945,7 @@ void File_Mpeg4::Read_Buffer_Unsynched()
         for (size_t Pos=0; Pos<Stream->second.Parsers.size(); Pos++)
             Stream->second.Parsers[Pos]->Open_Buffer_Unsynch();
 
-        #if MEDIAINFO_SEEK
+        #if MEDIAINFO_SEEK && MEDIAINFO_DEMUX
             //Searching the next position for this stream
             int64u StreamOffset=(int64u)-1;
             if (StreamOffset_Jump.empty() || File_GoTo==mdat_Pos.begin()->first)
@@ -1024,7 +1019,7 @@ void File_Mpeg4::Read_Buffer_Unsynched()
 
                         break;
                     }
-        #endif //MEDIAINFO_SEEK
+        #endif //MEDIAINFO_SEEK && MEDIAINFO_DEMUX
     }
 }
 
@@ -1032,8 +1027,10 @@ void File_Mpeg4::Read_Buffer_Unsynched()
 #if MEDIAINFO_SEEK
 size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 {
-    if (ReferenceFiles)
-        return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    #if defined(MEDIAINFO_REFERENCES_YES)
+        if (ReferenceFiles)
+            return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    #endif //defined(MEDIAINFO_REFERENCES_YES)
     if (!IsSub && MajorBrand==0x6A703220) //"jp2 "
         return Read_Buffer_Seek_OneFramePerFile(Method, Value, ID);
 
@@ -1097,6 +1094,7 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 
                     return Read_Buffer_Seek(0, FirstMdatPos+(LastMdatPos-FirstMdatPos)*Value/10000, ID);
         case 2  :   //Timestamp
+                    #if MEDIAINFO_DEMUX
                     {
                         //Searching time stamp offset due to Time code offset
                         for (std::map<int32u, stream>::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
@@ -1172,8 +1170,12 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                         Open_Buffer_Unsynch();
                         return 1;
                     }
+                    #else //MEDIAINFO_DEMUX
+                        return (size_t)-1; //Not supported
+                    #endif //MEDIAINFO_DEMUX
         case 3  :
                     //FrameNumber
+                    #if MEDIAINFO_DEMUX
                     {
                         //Looking for video stream
                         std::map<int32u, stream>::iterator Stream;
@@ -1244,6 +1246,9 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 
                         return 2; //Invalid value
                     }
+                    #else //MEDIAINFO_DEMUX
+                        return (size_t)-1; //Not supported
+                    #endif //MEDIAINFO_DEMUX
         default :   return 0;
     }
 }
@@ -1259,9 +1264,9 @@ void File_Mpeg4::Read_Buffer_Init()
     if (MediaInfoLib::Config.ParseSpeed_Get()==1.00)
         FrameCount_MaxPerStream=(int64u)-1;
     else if (MediaInfoLib::Config.ParseSpeed_Get()<=0.3)
-        FrameCount_MaxPerStream=512;
+        FrameCount_MaxPerStream=128;
     else
-        FrameCount_MaxPerStream=2048;
+        FrameCount_MaxPerStream=512;
 }
 
 //***************************************************************************
@@ -1618,7 +1623,7 @@ bool File_Mpeg4::BookMark_Needed()
         mdat_Pos_ToParseInPriority_StreamIDs.erase(mdat_Pos_ToParseInPriority_StreamIDs.begin());
     }
 
-    if (File_GoTo==(int64u)-1 && !mdat_Pos_NormalParsing)
+    if (File_GoTo==(int64u)-1 && !mdat_Pos_NormalParsing && !mdat_Pos.empty() && mdat_Pos.begin()->first<File_Size)  //Skipping data not in a truncated file
     {
         Element_Show();
         while (Element_Level>0)

@@ -1,21 +1,8 @@
-// File_Ibi_Creation - Creation of Ibi files
-// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -36,12 +23,26 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Multiple/File_Ibi_Creation.h"
 #include <cstring>
+#include <ctime>
 #include <zlib.h>
 #include "base64.h"
+#include "ZenLib/File.h"
+#include "ZenLib/OS_Utils.h"
+#ifdef WINDOWS
+    #undef __TEXT
+    #include <windows.h>
+#endif
+using namespace std;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
+
+//***************************************************************************
+// Info
+//***************************************************************************
+
+extern const Char*  MediaInfo_Version;
 
 //***************************************************************************
 // Ibi structure
@@ -287,7 +288,8 @@ size_t EbmlBlock(int8u* List, size_t List_MaxSize, int64u Code, int8u* Content, 
     {
         List+=int64u2Ebml(List, Code);
         List+=int64u2Ebml(List, Content_Size);
-        std::memcpy(List, Content, Content_Size); List+=Content_Size;//Content
+        std::memcpy(List, Content, Content_Size);
+        //List+=Content_Size; //Content
     }
 
     return Code_EbmlSize+Content_EbmlSize+Content_Size;
@@ -317,6 +319,100 @@ File_Ibi_Creation::~File_Ibi_Creation()
 //---------------------------------------------------------------------------
 void File_Ibi_Creation::Set(const ibi &Ibi)
 {
+    //Source information
+    if (!Ibi.FileName.empty())
+    {
+        int64s CurrentDate=(int64s)time(NULL)*1000000000LL; //From seconds to nanoseconds
+        CurrentDate-=978307200000000000LL; //Count of nanoseconds between January 1, 1970 (time_t base) and January 1, 2001 (EBML base)
+
+        int64s LastModifiedDate=0;
+        bool   LastModifiedDate_IsValid=false;
+        int64s FileSize=0;
+        bool   FileSize_IsValid=false;
+
+        #if defined WINDOWS
+            HANDLE File_Handle;
+            #ifdef UNICODE
+                File_Handle=CreateFileW(Ibi.FileName.c_str(), 0, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+            #else
+                File_Handle=CreateFile(File_Name.c_str(), 0, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+            #endif //UNICODE
+            if (File_Handle!=INVALID_HANDLE_VALUE)
+            {
+                FILETIME TimeFT;
+                if (GetFileTime(File_Handle, NULL, NULL, &TimeFT))
+                {
+                    LastModifiedDate=(0x100000000LL*TimeFT.dwHighDateTime+TimeFT.dwLowDateTime)*100; //From 100-nanoseconds to nanoseconds
+                    LastModifiedDate-=12622780800000000LL; //Count of nanoseconds between January 1, 1601 (Windows base) and January 1, 2001 (EBML base)
+                    LastModifiedDate_IsValid=true;
+                }
+
+                DWORD High; DWORD Low=GetFileSize(File_Handle, &High);
+                if (Low!=INVALID_FILE_SIZE)
+                {
+                    FileSize=0x100000000ULL*High+Low;
+                    FileSize_IsValid=true;
+                }
+            }
+        #endif //WINDOWS
+
+        size_t BlockSizeWithoutHeader=1+1+8; //Index creation date + Source file size
+        if (LastModifiedDate_IsValid)
+            BlockSizeWithoutHeader+=1+1+8; //Source file modification date
+        if (FileSize_IsValid)
+            BlockSizeWithoutHeader+=1+1+8; //Source file size
+
+        buffer* Buffer=new buffer;
+        Buffer->Content=new int8u[1+int64u2Ebml(NULL, 1+int64u2Ebml(NULL, BlockSizeWithoutHeader))+BlockSizeWithoutHeader];
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 0x05);                                                  //Source information
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, BlockSizeWithoutHeader);                                //Size
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 0x01);                                                  //Index creation date
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 8);                                                     //Size
+        int64u2BigEndian(Buffer->Content+Buffer->Size, (int64u)CurrentDate); Buffer->Size+=8;                           //Content
+        if (LastModifiedDate_IsValid)
+        {
+            Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 0x02);                                              //Source file modification date
+            Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 8);                                                 //Size
+            int64u2BigEndian(Buffer->Content+Buffer->Size, (int64u)LastModifiedDate); Buffer->Size+=8;                  //Content
+        }
+        if (FileSize_IsValid)
+        {
+            Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 0x03);                                              //Source file size
+            Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 8);                                                 //Size
+            int64u2BigEndian(Buffer->Content+Buffer->Size, (int64u)CurrentDate); Buffer->Size+=8;                       //Content
+        }
+        Buffers.push_back(Buffer);
+    }
+
+    //Writing application
+    {
+        string Version=Ztring(MediaInfo_Version).SubString(__T(" - v"), Ztring()).To_UTF8();
+        buffer* Buffer=new buffer;
+        Buffer->Content=new int8u[1+int64u2Ebml(NULL, 1+1+9+1+int64u2Ebml(NULL, Version.size())+Version.size())+1+1+9+1+int64u2Ebml(NULL, Version.size())+Version.size()];
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 0x03);                       //Writing application
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 1+1+9+1+1+Version.size());   //Size
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 0x01);                       //Writing application name
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 9);                          //Size
+        std::memcpy(Buffer->Content+Buffer->Size, "MediaInfo", 9); Buffer->Size+=9;          //Content
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 0x02);                       //Writing application version
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, Version.size());             //Size
+        std::memcpy(Buffer->Content+Buffer->Size, Version.c_str(), Version.size()); Buffer->Size+=Version.size(); //Content
+        Buffers.push_back(Buffer);
+    }
+
+    //InformData
+    if (!Ibi.Inform_Data.empty())
+    {
+        string Content(Ibi.Inform_Data.To_UTF8());
+        buffer* Buffer=new buffer;
+        Buffer->Content=new int8u[1+int64u2Ebml(NULL, Content.size())+Content.size()];
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, 0x04);                                              //InformData
+        Buffer->Size+=int64u2Ebml(Buffer->Content+Buffer->Size, Content.size());                                    //Size
+        std::memcpy(Buffer->Content+Buffer->Size, Content.c_str(), Content.size()); Buffer->Size+=Content.size();   //Content
+        Buffers.push_back(Buffer);
+    }
+
+    //Streams
     for (ibi::streams::const_iterator IbiStream_Temp=Ibi.Streams.begin(); IbiStream_Temp!=Ibi.Streams.end(); ++IbiStream_Temp)
         Add(IbiStream_Temp->first, *IbiStream_Temp->second);
 }
@@ -396,8 +492,9 @@ Ztring File_Ibi_Creation::Finish()
     size_t Main_Offset=0;
 
     //Header
+    size_t Header_Offset=4+1+2+1+15+2+1+1;                                  //Size (Code + Size + Content, twice)
     Main_Offset+=int64u2Ebml(Main+Main_Offset, 0x0A45DFA3);                 //EBML
-    Main_Offset+=int64u2Ebml(Main+Main_Offset, 2+1+15+2+1+1);               //Size (Code + Size + Content, twice)
+    Main_Offset+=int64u2Ebml(Main+Main_Offset, Header_Offset-(4+1));        //Size (Complete header size minus header header size)
     Main_Offset+=int64u2Ebml(Main+Main_Offset, 0x0282);                     //DocType
     Main_Offset+=int64u2Ebml(Main+Main_Offset, 15);                         //Size
     std::memcpy(Main+Main_Offset, "MediaInfo Index", 15); Main_Offset+=15;  //Content
@@ -412,24 +509,23 @@ Ztring File_Ibi_Creation::Finish()
         Main_Offset+=Buffers[Pos]->Size;
     }
 
-
-
     //Compressed
     buffer Buffer;
-    int8u* Compressed=new int8u[Main_Offset];
-    unsigned long Compressed_OffsetWihtoutHeader=(unsigned long)Main_Offset;
-    if (compress2(Compressed, &Compressed_OffsetWihtoutHeader, Main, (unsigned long)Main_Offset, Z_BEST_COMPRESSION)==Z_OK && Compressed_OffsetWihtoutHeader+100<Main_Offset)
+    size_t UncompressedSize=Main_Offset-Header_Offset;
+    int8u* Compressed=new int8u[UncompressedSize];
+    unsigned long CompressedSize=(unsigned long)Main_Offset;
+    if (compress2(Compressed, &CompressedSize, Main+Header_Offset, (unsigned long)UncompressedSize, Z_BEST_COMPRESSION)==Z_OK && CompressedSize<UncompressedSize)
     {
-        size_t Header_Offset=4+1+2+1+15+2+1+1; //Same header
-        Header_Offset+=int64u2Ebml(Main+Header_Offset, 0x02);                   //Compressed index
-        Header_Offset+=int64u2Ebml(Main+Header_Offset, int64u2Ebml(NULL, Main_Offset)+Compressed_OffsetWihtoutHeader); //Size
-        Header_Offset+=int64u2Ebml(Main+Header_Offset, Main_Offset);            //Uncompressed size
+        Main_Offset=Header_Offset; //Removing uncompressed content
+        Main_Offset+=int64u2Ebml(Main+Main_Offset, 0x02);                                                               //Compressed index
+        Main_Offset+=int64u2Ebml(Main+Main_Offset, int64u2Ebml(NULL, UncompressedSize)+CompressedSize);                 //Size
+        Main_Offset+=int64u2Ebml(Main+Main_Offset, UncompressedSize);                                                   //Uncompressed size
 
         //Filling
-        Buffer.Size=Header_Offset+Compressed_OffsetWihtoutHeader;
+        Buffer.Size=Main_Offset+CompressedSize;
         Buffer.Content=new int8u[Buffer.Size];
-        std::memcpy(Buffer.Content, Main, Header_Offset); //Same header + Compressed index header
-        std::memcpy(Buffer.Content+Header_Offset, Compressed, Compressed_OffsetWihtoutHeader); //Same header
+        std::memcpy(Buffer.Content, Main, Main_Offset);                                                                 //File header + compressed data header
+        std::memcpy(Buffer.Content+Main_Offset, Compressed, CompressedSize);                                            //Compressed data
     }
     else
     {
@@ -441,6 +537,8 @@ Ztring File_Ibi_Creation::Finish()
 
     std::string Data_Raw((const char*)Buffer.Content, Buffer.Size);
     std::string Data_Base64(Base64::encode(Data_Raw));
+
+    delete[] Main; //Main=NULL;
 
     return Ztring().From_UTF8(Data_Base64);
 }

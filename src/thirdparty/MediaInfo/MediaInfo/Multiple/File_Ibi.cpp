@@ -1,21 +1,8 @@
-// File_Mk - Info for Ibi files
-// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -118,11 +105,12 @@ void File_Ibi::Streams_Finish()
 {
     Config->File_KeepInfo_Set(true); //In order to let Get() available
 
-    for (ibi::streams::iterator IbiStream_Temp=Ibi->Streams.begin(); IbiStream_Temp!=Ibi->Streams.end(); ++IbiStream_Temp)
-    {
-        Stream_Prepare(Stream_Video);
-        Fill(Stream_Video, StreamPos_Last, General_ID, IbiStream_Temp->first);
-    }
+    if (Count_Get(Stream_Video)==0) //If not yet done by Inform part
+        for (ibi::streams::iterator IbiStream_Temp=Ibi->Streams.begin(); IbiStream_Temp!=Ibi->Streams.end(); ++IbiStream_Temp)
+        {
+            Stream_Prepare(Stream_Video);
+            Fill(Stream_Video, StreamPos_Last, General_ID, IbiStream_Temp->first);
+        }
 }
 
 //***************************************************************************
@@ -172,12 +160,20 @@ namespace Elements
     const int64u Ebml_DocTypeReadVersion=0x285;
 
     //Segment
-    const int64u Stream=0x01;
-    const int64u Stream_Header=0x01;
-    const int64u Stream_ByteOffset=0x02;
-    const int64u Stream_FrameNumber=0x03;
-    const int64u Stream_Dts=0x04;
-    const int64u CompressedIndex=0x02;
+    const int64u Stream=1;
+    const int64u Stream_Header=1;
+    const int64u Stream_ByteOffset=2;
+    const int64u Stream_FrameNumber=3;
+    const int64u Stream_Dts=4;
+    const int64u CompressedIndex=2;
+    const int64u WritingApplication=3;
+    const int64u WritingApplication_Name=1;
+    const int64u WritingApplication_Version=2;
+    const int64u InformData=4;
+    const int64u SourceInfo=5;
+    const int64u SourceInfo_IndexCreationDate=1;
+    const int64u SourceInfo_SourceModificationDate=2;
+    const int64u SourceInfo_SourceSize=3;
 }
 
 //---------------------------------------------------------------------------
@@ -235,8 +231,18 @@ void File_Ibi::Data_Parse()
             ATOM(Stream_Dts)
         ATOM_END_MK
     ATOM(CompressedIndex)
-    DATA_DEFAULT
-        Finish("Ibi");
+    LIST(WritingApplication)
+        ATOM_BEGIN
+            ATOM(WritingApplication_Name)
+            ATOM(WritingApplication_Version)
+        ATOM_END_MK
+    LIST(SourceInfo)
+        ATOM_BEGIN
+            ATOM(SourceInfo_IndexCreationDate)
+            ATOM(SourceInfo_SourceModificationDate)
+            ATOM(SourceInfo_SourceSize)
+        ATOM_END_MK
+    ATOM(InformData)
     DATA_END_DEFAULT
 }
 
@@ -577,6 +583,111 @@ void File_Ibi::CompressedIndex()
     Buffer_Offset_Temp=Buffer_Offset_Temp_Sav;
 }
 
+//---------------------------------------------------------------------------
+void File_Ibi::WritingApplication()
+{
+    Element_Name("WritingApplication");
+}
+
+//---------------------------------------------------------------------------
+void File_Ibi::WritingApplication_Name()
+{
+    Element_Name("Name");
+
+    //Parsing
+    Skip_UTF8(Element_Size,                                     "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_Ibi::WritingApplication_Version()
+{
+    Element_Name("Version");
+
+    //Parsing
+    Skip_UTF8(Element_Size,                                     "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_Ibi::SourceInfo()
+{
+    Element_Name("Source Information");
+}
+
+//---------------------------------------------------------------------------
+void File_Ibi::SourceInfo_IndexCreationDate()
+{
+    Element_Name("Index Creation Date");
+
+    //Parsing
+    Skip_B8(                                                    "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_Ibi::SourceInfo_SourceModificationDate()
+{
+    Element_Name("Source Modification Date");
+
+    //Parsing
+    Skip_B8(                                                    "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_Ibi::SourceInfo_SourceSize()
+{
+    Element_Name("Source Size");
+
+    //Parsing
+    Skip_B8(                                                    "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_Ibi::InformData()
+{
+    Element_Name("InformData");
+
+    //Parsing
+    Ztring InformData_FromFile;
+    Get_UTF8 (Element_Size, InformData_FromFile,                "Data");
+
+    //Filling
+    ZtringListList Fields(InformData_FromFile);
+    if (Config->Ibi_UseIbiInfoIfAvailable_Get())
+    {
+        for (size_t Pos=0; Pos<Fields.size(); Pos++)
+        {
+            if (Pos==0 || Fields[Pos].size()<2)
+            {
+                if (Pos)
+                    Pos++;
+                if (Pos>Fields.size() || Fields[Pos].size()<1)
+                    break; //End or problem
+
+                if (Fields[Pos][0]==__T("General"))
+                    ; //Nothing to do
+                else if (Fields[Pos][0]==__T("Video"))
+                    Stream_Prepare(Stream_Video);
+                else if (Fields[Pos][0]==__T("Audio"))
+                    Stream_Prepare(Stream_Audio);
+                else if (Fields[Pos][0]==__T("Text"))
+                    Stream_Prepare(Stream_Text);
+                else if (Fields[Pos][0]==__T("Other"))
+                    Stream_Prepare(Stream_Other);
+                else if (Fields[Pos][0]==__T("Image"))
+                    Stream_Prepare(Stream_Image);
+                else if (Fields[Pos][0]==__T("Menu"))
+                    Stream_Prepare(Stream_Menu);
+                else
+                    break; //Problem
+                Pos++;
+            }
+
+            Fill(StreamKind_Last, StreamPos_Last, Fields[Pos][0].To_UTF8().c_str(), Fields[Pos][1], true);
+            if (Info_Options<Fields[Pos].size())
+                (*Stream_More)[StreamKind_Last][StreamPos_Last](Fields[Pos][0].To_UTF8().c_str(), Info_Options)=Fields[Pos][Info_Options];
+        }
+    }
+}
+
 //***************************************************************************
 // Data
 //***************************************************************************
@@ -760,4 +871,3 @@ int128u File_Ibi::UInteger16_Get()
 } //NameSpace
 
 #endif //MEDIAINFO_IBI_YES
-

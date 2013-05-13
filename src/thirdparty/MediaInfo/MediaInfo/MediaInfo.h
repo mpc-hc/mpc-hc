@@ -1,20 +1,5 @@
 // MediaInfo - All information about media files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Give information about a lot of media files
@@ -55,8 +40,7 @@
 namespace MediaInfoLib
 {
 
-class File__Analyze;
-class Internet__Base;
+class MediaInfo_Internal;
 
 //***************************************************************************
 /// @brief MediaInfo
@@ -90,6 +74,8 @@ public :
         /// @brief Open a stream (Init)
         /// @param File_Size Estimated file size
         /// @param File_Offset Offset of the file (if we don't have the beginning of the file)
+        /// @retval 0 File not opened
+        /// @retval 1 File opened
     size_t Open_Buffer_Init (ZenLib::int64u File_Size=(ZenLib::int64u)-1, ZenLib::int64u File_Offset=0);
         /// Open a stream and collect information about it (technical information and tags)
         /// @brief Open a stream (Continue)
@@ -110,6 +96,8 @@ public :
     ZenLib::int64u Open_Buffer_Continue_GoTo_Get ();
         /// Open a stream and collect information about it (technical information and tags)
         /// @brief Open a stream (Finalize)
+        /// @retval 0 failed
+        /// @retval 1 succeed
     size_t Open_Buffer_Finalize ();
         /// If Open() is used in "PerPacket" mode, parse only one packet and return
         /// @brief Read one packet (if "PerPacket" mode is set)
@@ -129,7 +117,9 @@ public :
     //General information
         /// Get all details about a file in one string
         /// @brief Get all details about a file
+        /// @param Reserved Reserved, do not use
         /// @pre You can change default presentation with Inform_Set()
+        /// @return Text with information about the file
     String Inform (size_t Reserved=0);
 
     //Get
@@ -186,7 +176,7 @@ public :
     size_t Output_Buffer_Get (const String &Value);
         /// Output the written size when "File_Duplicate" option is used.
         /// @brief Output the written size when "File_Duplicate" option is used.
-        /// @param Value The order of calling
+        /// @param Pos The order of calling
         /// @return The size of the used buffer
     size_t Output_Buffer_Get (size_t Pos);
 
@@ -247,10 +237,15 @@ public :
         /// @brief Count of streams of a stream kind (StreamNumber not filled), or count of piece of information in this stream
         /// @param StreamKind Kind of stream (general, video, audio...)
         /// @param StreamNumber Stream number in this kind of stream (first, second...)
+        /// @return The count of fields for this stream kind / stream number if stream number is provided, else the count of streams for this stream kind
     size_t                  Count_Get (stream_t StreamKind, size_t StreamNumber=(size_t)-1);
 
 private :
-    void* Internal;
+    MediaInfo_Internal* Internal;
+
+    //Constructor
+    MediaInfo (const MediaInfo&);                           // Prevent copy-construction
+    MediaInfo& operator=(const MediaInfo&);                 // Prevent assignment
 };
 
 } //NameSpace

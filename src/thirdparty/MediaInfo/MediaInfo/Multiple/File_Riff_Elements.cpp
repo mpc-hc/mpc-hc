@@ -1,25 +1,14 @@
-// File_Riff - Info for RIFF files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-// Contributor: Lionel Duchateau, kurtnoise@free.fr
 //
 // Elements part
+//
+// Contributor: Lionel Duchateau, kurtnoise@free.fr
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -685,7 +674,7 @@ void File_Riff::AIFF_COMM()
         Parser->Codec=Retrieve(Stream_Audio, StreamPos_Last, Audio_CodecID);
         if (Parser->Codec.empty() || Parser->Codec==__T("NONE"))
             Parser->Endianness='B';
-        Parser->BitDepth=sampleSize;
+        Parser->BitDepth=(int8u)sampleSize;
         #if MEDIAINFO_DEMUX
             if (Config->Demux_Unpacketize_Get())
             {
@@ -700,7 +689,7 @@ void File_Riff::AIFF_COMM()
     #endif
     #if MEDIAINFO_DEMUX
         BlockAlign=numChannels*sampleSize/8;
-        AvgBytesPerSec=(int32u)float64_int64s(BlockAlign*sampleRate);
+        AvgBytesPerSec=(int32u)float64_int64s(BlockAlign*(float64)sampleRate);
     #endif //MEDIAINFO_DEMUX
 
     Element_Code=(int64u)-1;
@@ -1224,7 +1213,7 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
         #if defined(MEDIAINFO_SMPTEST0337_YES)
         {
             File_SmpteSt0337* Parser=new File_SmpteSt0337;
-            Parser->Container_Bits=AvgBytesPerSec*8/SamplesPerSec/Channels;
+            Parser->Container_Bits=(int8u)(AvgBytesPerSec*8/SamplesPerSec/Channels);
             Parser->ShouldContinueParsing=true;
             #if MEDIAINFO_DEMUX
                 if (Config->Demux_Unpacketize_Get() && Retrieve(Stream_General, 0, General_Format)==__T("Wave"))
@@ -1286,7 +1275,7 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
         File_Pcm* Parser=new File_Pcm;
         Parser->Codec=Codec;
         Parser->Endianness='L';
-        Parser->BitDepth=BitsPerSample;
+        Parser->BitDepth=(int8u)BitsPerSample;
         #if MEDIAINFO_DEMUX
             if (Config->Demux_Unpacketize_Get() && Retrieve(Stream_General, 0, General_Format)==__T("Wave"))
             {
@@ -1480,20 +1469,26 @@ void File_Riff::AVI__hdlr_strl_strf_auds_ExtensibleWave()
             else if (MediaInfoLib::Config.CodecID_Get(Stream_Audio, InfoCodecID_Format_Riff, Ztring().From_Number((int16u)SubFormat.hi, 16))==__T("PCM"))
             {
                 //Creating the parser
-                File_Pcm MI;
-                MI.Frame_Count_Valid=0;
-                MI.Codec=Ztring().From_Number((int16u)SubFormat.hi, 16);
-                MI.BitDepth=BitsPerSample;
-
-                //Parsing
-                Open_Buffer_Init(&MI);
-                Open_Buffer_Continue(&MI, 0);
-
-                //Filling
-                Finish(&MI);
-                Merge(MI, StreamKind_Last, 0, StreamPos_Last);
+                File_Pcm* Parser=new File_Pcm;
+                Parser->Codec=Ztring().From_GUID(SubFormat);
+                Parser->Endianness='L';
+                Parser->Sign='S';
+                Parser->BitDepth=(int8u)BitsPerSample;
+                #if MEDIAINFO_DEMUX
+                    if (Config->Demux_Unpacketize_Get() && Retrieve(Stream_General, 0, General_Format)==__T("Wave"))
+                    {
+                        Parser->Demux_Level=2; //Container
+                        Parser->Demux_UnpacketizeContainer=true;
+                        Demux_Level=4; //Intermediate
+                    }
+                #endif //MEDIAINFO_DEMUX
+                Stream[Stream_ID].Parsers.push_back(Parser);
+                Stream[Stream_ID].IsPcm=true;
             }
             #endif
+
+            for (size_t Pos=0; Pos<Stream[Stream_ID].Parsers.size(); Pos++)
+                Open_Buffer_Init(Stream[Stream_ID].Parsers[Pos]);
         }
         else
         {
@@ -2423,6 +2418,11 @@ void File_Riff::AVI__movi_xxxx()
     for (size_t Pos=0; Pos<Stream[Stream_ID].Parsers.size(); Pos++)
         if (Stream[Stream_ID].Parsers[Pos])
         {
+            if (FrameInfo.PTS!=(int64u)-1)
+                Stream[Stream_ID].Parsers[Pos]->FrameInfo.PTS=FrameInfo.PTS;
+            if (FrameInfo.DTS!=(int64u)-1)
+                Stream[Stream_ID].Parsers[Pos]->FrameInfo.DTS=FrameInfo.DTS;
+
             Open_Buffer_Continue(Stream[Stream_ID].Parsers[Pos], Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset));
             Element_Show();
             if (Stream[Stream_ID].Parsers.size()==1 && Stream[Stream_ID].Parsers[Pos]->Buffer_Size>0)
@@ -2586,11 +2586,29 @@ void File_Riff::AVI__PrmA()
     Element_Name("Adobe Premiere PrmA");
 
     //Parsing
-    Skip_C4(                                                    "FourCC");
-    Skip_B4(                                                    "Size");
-    Skip_B4(                                                    "Unknown");
-    Skip_B4(                                                    "Width");
-    Skip_B4(                                                    "Height");
+    int32u FourCC, Size;
+    Get_C4 (FourCC,                                             "FourCC");
+    Get_B4 (Size,                                               "Size");
+    switch (FourCC)
+    {
+        case 0x50415266:
+                        if (Size==20)
+                        {
+                        int32u PAR_X, PAR_Y;
+                        Skip_B4(                                                    "Unknown");
+                        Get_B4 (PAR_X,                                              "PAR_X");
+                        Get_B4 (PAR_Y,                                              "PAR_Y");
+
+                        if (PAR_Y)
+                            PAR=((float64)PAR_X)/PAR_Y;
+                        }
+                        else
+                            Skip_XX(Element_Size-Element_Offset,                    "Unknown");
+                        break;
+        default:
+                        for (int32u Pos=8; Pos<Size; Pos++)
+                            Skip_B4(                                                "Unknown");
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -3173,9 +3191,10 @@ void File_Riff::RMP3_data()
         Parser->CalculateDelay=true;
         Parser->ShouldContinueParsing=true;
         Open_Buffer_Init(Parser);
-        Stream[(int64u)-1].StreamKind=Stream_Audio;
-        Stream[(int64u)-1].StreamPos=0;
-        Stream[(int64u)-1].Parsers.push_back(Parser);
+        stream& StreamItem=Stream[(int32u)-1];
+        StreamItem.StreamKind=Stream_Audio;
+        StreamItem.StreamPos=0;
+        StreamItem.Parsers.push_back(Parser);
     #else //MEDIAINFO_MPEG4_YES
         Fill(Stream_Audio, 0, Audio_Format, "MPEG Audio");
         Skip_XX(Buffer_DataToParse_End-Buffer_DataToParse_Begin, "Data");
@@ -3512,7 +3531,7 @@ void File_Riff::WAVE_fmt_()
     Stream_ID=(int32u)-1;
     stream_Count=1;
 
-    Stream[(int64u)-1].fccType=Elements::AVI__hdlr_strl_strh_auds;
+    Stream[(int32u)-1].fccType=Elements::AVI__hdlr_strl_strh_auds;
     AVI__hdlr_strl_strf();
 }
 

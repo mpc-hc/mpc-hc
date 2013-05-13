@@ -1,21 +1,8 @@
-// File_Mpegts - Info for MPEG Transport Stream files
-// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -51,7 +38,6 @@
     #if MEDIAINFO_SEEK
         #include "MediaInfo/Multiple/File_Ibi.h"
     #endif //MEDIAINFO_SEEK
-    #include "MediaInfo/Multiple/File_Ibi_Creation.h"
 #endif //MEDIAINFO_IBI
 using namespace std;
 //---------------------------------------------------------------------------
@@ -185,10 +171,10 @@ void File_MpegTs::Streams_Accept()
 {
     Fill(Stream_General, 0, General_Format, BDAV_Size?"BDAV":(TSP_Size?"MPEG-TS 188+16":"MPEG-TS"), Unlimited, true, true);
 
-    #if MEDIAINFO_DEMUX
+    #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
         if (Config->NextPacket_Get() && Config->Event_CallBackFunction_IsSet())
             Config->Demux_EventWasSent=true;
-    #endif //MEDIAINFO_DEMUX
+    #endif //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
 }
 
 //---------------------------------------------------------------------------
@@ -537,6 +523,16 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
                 Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec), Mpeg_Descriptors_registration_format_identifier_Format(format_identifier));
                 Count=1;
             }
+        }
+
+        //By registration_format_identifier
+        if (StreamKind_Last==Stream_Max && Temp->registration_format_identifier && Temp->IsRegistered && Mpeg_Descriptors_registration_format_identifier_StreamKind(Temp->registration_format_identifier)!=Stream_Max)
+        {
+            StreamKind_Last=Mpeg_Descriptors_registration_format_identifier_StreamKind(Temp->registration_format_identifier);
+            Stream_Prepare(StreamKind_Last);
+            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Format), Mpeg_Descriptors_registration_format_identifier_Format(Temp->registration_format_identifier));
+            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec), Mpeg_Descriptors_registration_format_identifier_Format(Temp->registration_format_identifier));
+            Count=1;
         }
 
         //By the stream_type
@@ -918,7 +914,7 @@ void File_MpegTs::Streams_Update_Duration_Update()
         int64u  TimeStamp_Distance_Min=(int64u)-1;
         int64u  TimeStamp_Distance_Max=0;
         int64u  TimeStamp_Distance_Total=0;
-        size_t  TimeStamp_Distance_Count=0;
+        int64u  TimeStamp_Distance_Count=0;
         int64u  TimeStamp_HasProblems=0;
     #endif // MEDIAINFO_ADVANCED
 
@@ -956,7 +952,7 @@ void File_MpegTs::Streams_Update_Duration_Update()
                 }
 
                 (*Stream)->TimeStamp_End_IsUpdated=false;
-                (*Stream)->IsPCR_Duration=Duration;
+                (*Stream)->IsPCR_Duration=(float64)Duration;
 
                 //Filling menu duration
                 if (Count_Get(Stream_Menu))
@@ -1075,13 +1071,9 @@ void File_MpegTs::Streams_Finish()
     #endif //MEDIAINFO_DUPLICATE
 
     #if MEDIAINFO_IBI
-        if (Config_Ibi_Create)
+        if (!IsSub && Config_Ibi_Create)
         {
-            ibi Ibi_Temp;
             for (ibi::streams::iterator IbiStream_Temp=Ibi.Streams.begin(); IbiStream_Temp!=Ibi.Streams.end(); ++IbiStream_Temp)
-                Ibi_Temp.Streams[IbiStream_Temp->first]=new ibi::stream(*IbiStream_Temp->second);
-
-            for (ibi::streams::iterator IbiStream_Temp=Ibi_Temp.Streams.begin(); IbiStream_Temp!=Ibi_Temp.Streams.end(); ++IbiStream_Temp)
             {
                 if (IbiStream_Temp->second && IbiStream_Temp->second->DtsFrequencyNumerator==1000000000 && IbiStream_Temp->second->DtsFrequencyDenominator==1)
                 {
@@ -1100,12 +1092,6 @@ void File_MpegTs::Streams_Finish()
                     }
                 }
             }
-
-            //IBI Creation
-            File_Ibi_Creation IbiCreation(Ibi_Temp);
-            Ztring IbiText=IbiCreation.Finish();
-            if (!IbiText.empty())
-                Fill(Stream_General, 0, "IBI", IbiText, true);
         }
     #endif //MEDIAINFO_IBI
 }
@@ -1437,7 +1423,7 @@ bool File_MpegTs::Synched_Test()
                                                         Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Min_Raw=TimeStamp_InstantaneousBitRate_Current_Raw;
                                                     if (Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Max_Raw<TimeStamp_InstantaneousBitRate_Current_Raw)
                                                         Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Max_Raw=TimeStamp_InstantaneousBitRate_Current_Raw;
-                                                    float64 Distance=(float64)(program_clock_reference-Complete_Stream->Streams[pid]->TimeStamp_End);
+                                                    int64u Distance=program_clock_reference-Complete_Stream->Streams[pid]->TimeStamp_End;
                                                     if (Complete_Stream->Streams[pid]->TimeStamp_Distance_Min>Distance)
                                                         Complete_Stream->Streams[pid]->TimeStamp_Distance_Min=Distance;
                                                     if (Complete_Stream->Streams[pid]->TimeStamp_Distance_Max<Distance)
@@ -1759,54 +1745,58 @@ size_t File_MpegTs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     Seek_Value=(int64u)-1;
     Seek_ID=(int64u)-1;
     InfiniteLoop_Detect=0;
-    Config->Demux_IsSeeking=false;
+    #if MEDIAINFO_DEMUX
+        Config->Demux_IsSeeking=false;
+    #endif //MEDIAINFO_DEMUX
 
     //Init
     if (!Duration_Detected)
     {
         //External IBI
-        std::string IbiFile=Config->Ibi_Get();
-        if (!IbiFile.empty())
-        {
-            Ibi.Streams.clear(); //TODO: support IBI data from different inputs
-
-            File_Ibi MI;
-            Open_Buffer_Init(&MI, IbiFile.size());
-            MI.Ibi=&Ibi;
-            MI.Open_Buffer_Continue((const int8u*)IbiFile.c_str(), IbiFile.size());
-        }
-        //Creating base IBI from a quick analysis of the file
-        else
-        {
-            MediaInfo_Internal MI;
-            MI.Option(__T("File_KeepInfo"), __T("1"));
-            Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
-            Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
-            MI.Option(__T("ParseSpeed"), __T("0"));
-            MI.Option(__T("Demux"), Ztring());
-            Ztring File_Names=Config->File_Names.Read();
-            MI.Option(__T("File_FileNameFormat"), __T("CSV"));
-            size_t MiOpenResult=MI.Open(File_Names);
-            MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-            MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
-            if (!MiOpenResult)
-                return 0;
-            for (ibi::streams::iterator IbiStream_Temp=((File_MpegTs*)MI.Info)->Ibi.Streams.begin(); IbiStream_Temp!=((File_MpegTs*)MI.Info)->Ibi.Streams.end(); ++IbiStream_Temp)
+        #if MEDIAINFO_IBI
+            std::string IbiFile=Config->Ibi_Get();
+            if (!IbiFile.empty())
             {
-                if (Ibi.Streams[IbiStream_Temp->first]==NULL)
-                    Ibi.Streams[IbiStream_Temp->first]=new ibi::stream(*IbiStream_Temp->second);
-                Ibi.Streams[IbiStream_Temp->first]->Unsynch();
-                for (size_t Pos=0; Pos<IbiStream_Temp->second->Infos.size(); Pos++)
-                {
-                    Ibi.Streams[IbiStream_Temp->first]->Add(IbiStream_Temp->second->Infos[Pos]);
-                    if (!IbiStream_Temp->second->Infos[Pos].IsContinuous)
-                        Ibi.Streams[IbiStream_Temp->first]->Unsynch();
-                }
-                Ibi.Streams[IbiStream_Temp->first]->Unsynch();
+                Ibi.Streams.clear(); //TODO: support IBI data from different inputs
+
+                File_Ibi MI;
+                Open_Buffer_Init(&MI, IbiFile.size());
+                MI.Ibi=&Ibi;
+                MI.Open_Buffer_Continue((const int8u*)IbiFile.c_str(), IbiFile.size());
             }
-            if (Ibi.Streams.empty())
-                return 4; //Problem during IBI file parsing
-        }
+            //Creating base IBI from a quick analysis of the file
+            else
+            {
+                MediaInfo_Internal MI;
+                MI.Option(__T("File_KeepInfo"), __T("1"));
+                Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
+                Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
+                MI.Option(__T("ParseSpeed"), __T("0"));
+                MI.Option(__T("Demux"), Ztring());
+                Ztring File_Names=Config->File_Names.Read();
+                MI.Option(__T("File_FileNameFormat"), __T("CSV"));
+                size_t MiOpenResult=MI.Open(File_Names);
+                MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+                MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+                if (!MiOpenResult)
+                    return 0;
+                for (ibi::streams::iterator IbiStream_Temp=((File_MpegTs*)MI.Info)->Ibi.Streams.begin(); IbiStream_Temp!=((File_MpegTs*)MI.Info)->Ibi.Streams.end(); ++IbiStream_Temp)
+                {
+                    if (Ibi.Streams[IbiStream_Temp->first]==NULL)
+                        Ibi.Streams[IbiStream_Temp->first]=new ibi::stream(*IbiStream_Temp->second);
+                    Ibi.Streams[IbiStream_Temp->first]->Unsynch();
+                    for (size_t Pos=0; Pos<IbiStream_Temp->second->Infos.size(); Pos++)
+                    {
+                        Ibi.Streams[IbiStream_Temp->first]->Add(IbiStream_Temp->second->Infos[Pos]);
+                        if (!IbiStream_Temp->second->Infos[Pos].IsContinuous)
+                            Ibi.Streams[IbiStream_Temp->first]->Unsynch();
+                    }
+                    Ibi.Streams[IbiStream_Temp->first]->Unsynch();
+                }
+                if (Ibi.Streams.empty())
+                    return 4; //Problem during IBI file parsing
+            }
+        #endif //#if MEDIAINFO_IBI
 
         Duration_Detected=true;
     }
@@ -2171,7 +2161,7 @@ void File_MpegTs::Header_Parse_AdaptationField()
                                             Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Min_Raw=TimeStamp_InstantaneousBitRate_Current_Raw;
                                         if (Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Max_Raw<TimeStamp_InstantaneousBitRate_Current_Raw)
                                             Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Max_Raw=TimeStamp_InstantaneousBitRate_Current_Raw;
-                                        float64 Distance=(float64)(program_clock_reference-Complete_Stream->Streams[pid]->TimeStamp_End);
+                                        int64u Distance=program_clock_reference-Complete_Stream->Streams[pid]->TimeStamp_End;
                                         if (Complete_Stream->Streams[pid]->TimeStamp_Distance_Min>Distance)
                                             Complete_Stream->Streams[pid]->TimeStamp_Distance_Min=Distance;
                                         if (Complete_Stream->Streams[pid]->TimeStamp_Distance_Max<Distance)
@@ -2397,7 +2387,7 @@ void File_MpegTs::Header_Parse_AdaptationField()
                                             Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Min_Raw=InstantaneousBitRate_Raw;
                                         if (Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Max_Raw<InstantaneousBitRate_Raw)
                                             Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Max_Raw=InstantaneousBitRate_Raw;
-                                        float64 Distance=(float64)(program_clock_reference-Complete_Stream->Streams[pid]->TimeStamp_End);
+                                        int64u Distance=program_clock_reference-Complete_Stream->Streams[pid]->TimeStamp_End;
                                         if (Complete_Stream->Streams[pid]->TimeStamp_Distance_Min>Distance)
                                             Complete_Stream->Streams[pid]->TimeStamp_Distance_Min=Distance;
                                         if (Complete_Stream->Streams[pid]->TimeStamp_Distance_Max<Distance)
@@ -2757,7 +2747,7 @@ void File_MpegTs::PES_Parse_Finish()
         #endif //MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
     }
 
-    #if MEDIAINFO_SEEK
+    #if MEDIAINFO_SEEK && MEDIAINFO_IBI
         if (Seek_ID!=(int64u)-1)
         {
             if (Ibi.Streams[Seek_ID]->IsModified)
@@ -2783,7 +2773,7 @@ void File_MpegTs::PES_Parse_Finish()
                 }
             }
         }
-    #endif //MEDIAINFO_SEEK
+    #endif //MEDIAINFO_SEEK && MEDIAINFO_IBI
 }
 
 //---------------------------------------------------------------------------

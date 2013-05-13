@@ -15,6 +15,7 @@ Legend:
 * Updated Little CMS to v2.5 (git c0d4611)
 * Updated zlib to v1.2.8
 * Updated Unrar to v5.0.3
+* Updated MediaInfoLib to v0.7.63
 * Audio Switcher improvements:
   - Ticket #1936, Improve the normalization algorithm to avoid huge volume variations
   - Use percentage for the boost setting since it is easier to understand for most people

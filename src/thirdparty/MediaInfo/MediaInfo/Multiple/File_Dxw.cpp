@@ -1,21 +1,8 @@
-// File_Dxw - Info for DXW files
-// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -153,6 +140,14 @@ bool File_Dxw::FileHeader_Begin()
                                  ReferenceFile.StreamKind=Stream_Text; //Not sure this is a right mapping, but this is only used when file is missing
                         }
 
+                        Attribute=Track->Attribute("source");
+                        if (Attribute)
+                        {
+                            Ztring StreamKind; StreamKind.From_UTF8(Attribute);
+                            if (StreamKind==__T("main"))
+                                 ReferenceFile.IsMain=true;
+                        }
+
                         ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
                     }
 
@@ -200,6 +195,8 @@ bool File_Dxw::FileHeader_Begin()
             return false;
         }
     }
+
+    Element_Offset=File_Size;
 
     //All should be OK...
     return true;

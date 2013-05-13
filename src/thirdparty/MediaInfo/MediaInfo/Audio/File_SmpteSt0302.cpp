@@ -1,21 +1,8 @@
-// File_SmpteSt0302 - Info for SMPTE ST0302
-// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -137,7 +124,6 @@ void File_SmpteSt0302::Streams_Fill()
 
     if (Count_Get(Stream_Audio)==1)
     {
-        Fill(Stream_Audio, 0, Audio_BitRate_Encoded, (5+bits_per_sample)*(1+number_channels)*8*48000);
         if (Retrieve(Stream_Audio, 0, Audio_BitRate).empty())
            Fill(Stream_Audio, 0, Audio_BitRate, (4+bits_per_sample)*(1+number_channels)*8*48000);
         if (Retrieve(Stream_Audio, 0, Audio_Format)==__T("PCM"))
@@ -147,6 +133,10 @@ void File_SmpteSt0302::Streams_Fill()
             Clear(Stream_Audio, 0, Audio_Codec_Family);
         }
     }
+
+    Fill(Stream_Audio, 0, Audio_BitRate_Encoded, (5+bits_per_sample)*(1+number_channels)*8*48000);
+    for (size_t Pos=1; Pos<Count_Get(Stream_Audio); Pos++)
+        Fill(Stream_Audio, Pos, Audio_BitRate_Encoded, 0);
 }
 
 //***************************************************************************

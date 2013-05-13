@@ -1,20 +1,9 @@
-// File_DolbyE - Info Info for Dolby E
-// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Information about Dolby E files
@@ -40,15 +29,16 @@ namespace MediaInfoLib
 class File_DolbyE : public File__Analyze
 {
 public :
+    //In
+    int64u GuardBand_Before;
+    int64u GuardBand_After;
+
     //Constructor/Destructor
     File_DolbyE();
 
 private :
     //Streams management
     void Streams_Fill();
-
-    //Buffer - File header
-    bool FileHeader_Begin();
 
     //Buffer - Synchro
     bool Synchronize();
@@ -57,6 +47,23 @@ private :
     //Buffer - Per element
     void Header_Parse();
     void Data_Parse();
+
+    //Elements
+    void Block();
+
+    //Helpers
+    bool Descramble_16bit();
+    bool Descramble_20bit();
+
+    //Temp
+    int64u  SMPTE_time_code_StartTimecode;
+    int8u   ProgramConfiguration;
+    int8u   FrameRate;
+    int8u   BitDepth;
+    bool    ScrambledBitStream;
+    int8u*  Descrambled_Buffer; //Used in case of scrambled bitstream
+    int64u  GuardBand_Before_Initial;
+    int64u  GuardBand_After_Initial;
 };
 
 } //NameSpace

@@ -1,21 +1,8 @@
-// File__Analyze - Base for analyze files
-// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -107,28 +94,28 @@ extern MediaInfo_Config Config;
 //---------------------------------------------------------------------------
 void File__Analyze::BS_Begin()
 {
-    if (Element_Offset>Element_Size)
-        return; //There is a problem
-
     size_t BS_Size;
     if (Buffer_Offset+Element_Size<=Buffer_Size)
         BS_Size=(size_t)(Element_Size-Element_Offset);
-    else
+    else if (Buffer_Offset+Element_Offset<=Buffer_Size)
         BS_Size=Buffer_Size-(size_t)(Buffer_Offset+Element_Offset);
+    else
+        BS_Size=0;
+
     BS->Attach(Buffer+Buffer_Offset+(size_t)Element_Offset, BS_Size);
 }
 
 //---------------------------------------------------------------------------
 void File__Analyze::BS_Begin_LE()
 {
-    if (Element_Offset>Element_Size)
-        return; //There is a problem
-
     size_t BS_Size;
     if (Buffer_Offset+Element_Size<=Buffer_Size)
         BS_Size=(size_t)(Element_Size-Element_Offset);
-    else
+    else if (Buffer_Offset+Element_Offset<=Buffer_Size)
         BS_Size=Buffer_Size-(size_t)(Buffer_Offset+Element_Offset);
+    else
+        BS_Size=0;
+
     BT->Attach(Buffer+Buffer_Offset+(size_t)Element_Offset, BS_Size);
 }
 

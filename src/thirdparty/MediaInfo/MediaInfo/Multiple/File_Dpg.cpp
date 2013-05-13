@@ -1,20 +1,9 @@
-// File_Dpg - Info for DPG files
-// Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Format:
@@ -147,40 +136,42 @@ void File_Dpg::Read_Buffer_Continue()
     if (!Parser)
         return; //Not ready
 
-    if (Audio_Size)
-    {
-        #if defined(MEDIAINFO_MPEGA_YES)
-            Open_Buffer_Continue(Parser, (size_t)((File_Offset+Buffer_Size<Audio_Offset+Audio_Size)?Buffer_Size:(Audio_Offset+Audio_Size-File_Offset)));
-            if (Parser->Status[IsAccepted])
-            {
-                Finish(Parser);
-                Merge(*Parser, Stream_Audio, 0, 0);
-                #if defined(MEDIAINFO_MPEGV_YES)
-                    Audio_Size=0;
-                    Open_Buffer_Unsynch();
-                    Data_GoTo(Video_Offset, "DPG");
-                    delete Parser; Parser=new File_Mpegv();
-                    Open_Buffer_Init(Parser);
-                #else
-                    Finish("DPG");
-                #endif
-            }
-        #endif
-    }
-    else
-    {
-        #if defined(MEDIAINFO_MPEGV_YES)
-            Open_Buffer_Continue(Parser, (size_t)((File_Offset+Buffer_Size<Video_Offset+Video_Size)?Buffer_Size:(Video_Offset+Video_Size-File_Offset)));
-            if (Parser->Status[IsAccepted])
-            {
-                //Merging
-                Finish(Parser);
-                Merge(*Parser, Stream_Video, 0, 0);
+    #if defined(MEDIAINFO_MPEGA_YES) || defined(MEDIAINFO_MPEGV_YES)
+        if (Audio_Size)
+        {
+            #if defined(MEDIAINFO_MPEGA_YES)
+                Open_Buffer_Continue(Parser, (size_t)((File_Offset+Buffer_Size<Audio_Offset+Audio_Size)?Buffer_Size:(Audio_Offset+Audio_Size-File_Offset)));
+                if (Parser->Status[IsAccepted])
+                {
+                    Finish(Parser);
+                    Merge(*Parser, Stream_Audio, 0, 0);
+                    #if defined(MEDIAINFO_MPEGV_YES)
+                        Audio_Size=0;
+                        Open_Buffer_Unsynch();
+                        Data_GoTo(Video_Offset, "DPG");
+                        delete Parser; Parser=new File_Mpegv();
+                        Open_Buffer_Init(Parser);
+                    #else
+                        Finish("DPG");
+                    #endif
+                }
+            #endif
+        }
+        else
+        {
+            #if defined(MEDIAINFO_MPEGV_YES)
+                Open_Buffer_Continue(Parser, (size_t)((File_Offset+Buffer_Size<Video_Offset+Video_Size)?Buffer_Size:(Video_Offset+Video_Size-File_Offset)));
+                if (Parser->Status[IsAccepted])
+                {
+                    //Merging
+                    Finish(Parser);
+                    Merge(*Parser, Stream_Video, 0, 0);
 
-                Finish("DPG");
-            }
-        #endif
-    }
+                    Finish("DPG");
+                }
+            #endif
+        }
+    #endif //defined(MEDIAINFO_MPEGA_YES) || defined(MEDIAINFO_MPEGV_YES)
 
     //Positioning
     Buffer_Offset=Buffer_Size; //We have already parsed this data

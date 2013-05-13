@@ -1,21 +1,8 @@
-// File_Lxf - Info for LXF files
-// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -141,6 +128,11 @@ File_Lxf::File_Lxf()
     #if MEDIAINFO_DEMUX
         Demux_EventWasSent_Accept_Specific=true;
     #endif //MEDIAINFO_DEMUX
+
+    //Streams
+    #if defined(MEDIAINFO_ANCILLARY_YES)
+        Ancillary=NULL;
+    #endif //defined(MEDIAINFO_ANCILLARY_YES)
 
     //Temp
     LookingForLastFrame=false;
@@ -712,7 +704,6 @@ void File_Lxf::Header_Parse()
                     {
                     int32u Size;
                     int8u Channels_Count=0;
-                    bitset<32> Channels;
 
                     if (Version==0)
                     {
@@ -730,7 +721,6 @@ void File_Lxf::Header_Parse()
                         {
                             bool Channel;
                             Get_TB(Channel,                     "Channel");
-                            Channels[Pos]=Channel;
                             if (Channel)
                                 Channels_Count++;
                         }
@@ -826,7 +816,7 @@ void File_Lxf::Data_Parse()
         if (Element_Code&0x000100 && (Element_Code&0xFF)==2) //Checking Video stream 2
         {
             Frame_Count++;
-            if (!Status[IsFilled] && ((Frame_Count>6 && Stream_Count==0) || Frame_Count>300)) //5 video frames for 1 Audio frame
+            if (!Status[IsFilled] && ((Frame_Count>6 && (Stream_Count==0 ||Config->ParseSpeed==0.0)) || Frame_Count>512)) //5 video frames for 1 Audio frame
             {
                 Fill("LXF");
                 if (MediaInfoLib::Config.ParseSpeed_Get()<1)
@@ -1482,6 +1472,7 @@ void File_Lxf::Audio_Stream(size_t Pos)
     */
 
     //Parsing
+    Frame_Count_NotParsedIncluded=float64_int64s(((float64)(Audios_Header.TimeStamp_End-Audios_Header.Duration))/TimeStamp_Rate*FrameRate);
     for (size_t Pos2=0; Pos2<Audios[Pos].Parsers.size(); Pos2++)
     {
         if (Audios[Pos].Parsers[Pos2]->FrameInfo.DTS==(int64u)-1 || !((FrameInfo.DUR/2>FrameInfo.DTS || Audios[Pos].Parsers[Pos2]->FrameInfo.DTS>=FrameInfo.DTS-FrameInfo.DUR/2) && Audios[Pos].Parsers[Pos2]->FrameInfo.DTS<FrameInfo.DTS+FrameInfo.DUR/2))
@@ -1615,12 +1606,12 @@ void File_Lxf::Video_Stream_1()
             Element_Begin1("VANC line");
             if (Videos[1].Parsers.empty())
             {
-                File_Ancillary* Parser=new File_Ancillary;
-                Parser->InDecodingOrder=true;
-                Parser->WithChecksum=true;
-                Parser->MustSynchronize=true;
-                Open_Buffer_Init(Parser);
-                Videos[1].Parsers.push_back(Parser);
+                Ancillary=new File_Ancillary;
+                Ancillary->InDecodingOrder=true;
+                Ancillary->WithChecksum=true;
+                Ancillary->MustSynchronize=true;
+                Open_Buffer_Init(Ancillary);
+                Videos[1].Parsers.push_back(Ancillary);
                 Stream_Count++;
             }
             Videos[1].Parsers[0]->FrameInfo=FrameInfo;
@@ -1748,7 +1739,13 @@ void File_Lxf::Video_Stream_2()
             Videos[2].Parsers.push_back(new File_DvDif());
         #endif //MEDIAINFO_DVDIF_YES
         #ifdef MEDIAINFO_MPEGV_YES
-            Videos[2].Parsers.push_back(new File_Mpegv());
+        {
+            File_Mpegv* Parser=new File_Mpegv();
+            #if defined(MEDIAINFO_ANCILLARY_YES)
+                Parser->Ancillary=&Ancillary;
+            #endif //defined(MEDIAINFO_ANCILLARY_YES)
+            Videos[2].Parsers.push_back(Parser);
+        }
         #endif //MEDIAINFO_MPEGV_YES
         #ifdef MEDIAINFO_AVC_YES
             Videos[2].Parsers.push_back(new File_Avc());

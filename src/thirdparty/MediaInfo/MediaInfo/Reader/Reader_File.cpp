@@ -1,21 +1,8 @@
-// MediaInfo_Internal - All info about media files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // For user: you can disable or enable it
@@ -61,7 +48,7 @@ namespace MediaInfoLib
 const size_t Buffer_NoJump=128*1024;
 
 //---------------------------------------------------------------------------
-size_t Reader_File::Format_Test(MediaInfo_Internal* MI, const String &File_Name)
+size_t Reader_File::Format_Test(MediaInfo_Internal* MI, String File_Name)
 {
     //std::cout<<Ztring(File_Name).To_Local().c_str()<<std::endl;
     #if MEDIAINFO_EVENTS
@@ -140,7 +127,11 @@ size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &
     MI->Config.File_Current_Size=MI->Config.File_Size;
     MI->Config.File_Sizes.clear();
     MI->Config.File_Sizes.push_back(MI->Config.File_Size);
-    if (MI->Config.File_Names.size()>1)
+    if (MI->Config.File_Names.size()>1
+        #if MEDIAINFO_ADVANCED
+            && !MI->Config.File_IgnoreSequenceFileSize_Get()
+        #endif //MEDIAINFO_ADVANCED
+            )
     {
         for (size_t Pos=1; Pos<MI->Config.File_Names.size(); Pos++)
         {
@@ -356,8 +347,7 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                 {
                     if (MI->Config.File_Names.size()==1)
                     {
-                        if (Growing_Temp==(int64u)-1)
-                            Growing_Temp=F.Size_Get();
+                        Growing_Temp=F.Size_Get();
                         if (MI->Config.File_Size!=Growing_Temp)
                         {
                             MI->Config.File_Current_Size=MI->Config.File_Size=Growing_Temp;
@@ -367,11 +357,8 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                     }
                     else
                     {
-                        if (Growing_Temp==(int64u)-1)
-                        {
-                            Growing_Temp=MI->Config.File_Names.size();
-                            MI->TestContinuousFileNames();
-                        }
+                        Growing_Temp=MI->Config.File_Names.size();
+                        MI->TestContinuousFileNames();
                         if (MI->Config.File_Names.size()!=Growing_Temp)
                         {
                             MI->Open_Buffer_Init(MI->Config.File_Size, MI->Config.File_Current_Offset+F.Position_Get()-MI->Config.File_Buffer_Size);

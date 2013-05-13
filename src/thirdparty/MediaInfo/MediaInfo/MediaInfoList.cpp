@@ -1,21 +1,8 @@
-// MediaInfoList - A list of MediaInfo
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // For user: you can disable or enable it
@@ -117,7 +104,7 @@ MediaInfoList::MediaInfoList(size_t Count_Init)
 MediaInfoList::~MediaInfoList()
 {
     MEDIAINFO_DEBUG(Debug+="Destruction";)
-    delete (MediaInfoList_Internal*)Internal; //Internal=NULL;
+    delete Internal; //Internal=NULL;
 }
 
 //***************************************************************************
@@ -128,31 +115,31 @@ MediaInfoList::~MediaInfoList()
 size_t MediaInfoList::Open(const String &File, const fileoptions_t Options)
 {
     MEDIAINFO_DEBUG(Debug+="Open, File=";Debug+=Ztring(File).To_Local().c_str();)
-    return ((MediaInfoList_Internal*)Internal)->Open(File, Options);
+    return Internal->Open(File, Options);
 }
 
 //---------------------------------------------------------------------------
 size_t MediaInfoList::Open_Buffer_Init (int64u File_Size_, int64u File_Offset_)
 {
-    return ((MediaInfoList_Internal*)Internal)->Open_Buffer_Init(File_Size_, File_Offset_);
+    return Internal->Open_Buffer_Init(File_Size_, File_Offset_);
 }
 
 //---------------------------------------------------------------------------
 size_t MediaInfoList::Open_Buffer_Continue (size_t FilePos, const int8u* ToAdd, size_t ToAdd_Size)
 {
-    return ((MediaInfoList_Internal*)Internal)->Open_Buffer_Continue(FilePos, ToAdd, ToAdd_Size);
+    return Internal->Open_Buffer_Continue(FilePos, ToAdd, ToAdd_Size);
 }
 
 //---------------------------------------------------------------------------
 int64u MediaInfoList::Open_Buffer_Continue_GoTo_Get (size_t FilePos)
 {
-    return ((MediaInfoList_Internal*)Internal)->Open_Buffer_Continue_GoTo_Get(FilePos);
+    return Internal->Open_Buffer_Continue_GoTo_Get(FilePos);
 }
 
 //---------------------------------------------------------------------------
 size_t MediaInfoList::Open_Buffer_Finalize (size_t FilePos)
 {
-    return ((MediaInfoList_Internal*)Internal)->Open_Buffer_Finalize(FilePos);
+    return Internal->Open_Buffer_Finalize(FilePos);
 }
 
 //---------------------------------------------------------------------------
@@ -164,7 +151,7 @@ size_t MediaInfoList::Save(size_t)
 //---------------------------------------------------------------------------
 void MediaInfoList::Close(size_t FilePos)
 {
-    ((MediaInfoList_Internal*)Internal)->Close(FilePos);
+    Internal->Close(FilePos);
 }
 
 //***************************************************************************
@@ -174,13 +161,13 @@ void MediaInfoList::Close(size_t FilePos)
 //---------------------------------------------------------------------------
 String MediaInfoList::Inform(size_t FilePos, size_t)
 {
-    return ((MediaInfoList_Internal*)Internal)->Inform(FilePos);
+    return Internal->Inform(FilePos);
 }
 
 //---------------------------------------------------------------------------
 String MediaInfoList::Get(size_t FilePos, stream_t KindOfStream, size_t StreamNumber, size_t Parameter, info_t KindOfInfo)
 {
-    return ((MediaInfoList_Internal*)Internal)->Get(FilePos, KindOfStream, StreamNumber, Parameter, KindOfInfo);
+    return Internal->Get(FilePos, KindOfStream, StreamNumber, Parameter, KindOfInfo);
 }
 
 //---------------------------------------------------------------------------
@@ -190,7 +177,7 @@ String MediaInfoList::Get(size_t FilePos, stream_t KindOfStream, size_t StreamNu
     //TRACE(Trace+=__T("Get(L), StreamKind=");Trace+=ZenLib::Ztring::ToZtring((int8u)KindOfStream);Trace+=__T(", StreamNumber=");Trace+=ZenLib::Ztring::ToZtring((int8u)StreamNumber);Trace+=__T(", Parameter=");Trace+=ZenLib::Ztring(Parameter);Trace+=__T(", KindOfInfo=");Trace+=ZenLib::Ztring::ToZtring((int8u)KindOfInfo);Trace+=__T(", KindOfSearch=");Trace+=ZenLib::Ztring::ToZtring((int8u)KindOfSearch);)
     //TRACE(Trace+=__T("Get(L), will return ");Trace+=Info[FilePos].Get(KindOfStream, StreamNumber, Parameter, KindOfInfo, KindOfSearch).c_str();)
 
-    return ((MediaInfoList_Internal*)Internal)->Get(FilePos, KindOfStream, StreamNumber, Parameter, KindOfInfo, KindOfSearch);
+    return Internal->Get(FilePos, KindOfStream, StreamNumber, Parameter, KindOfInfo, KindOfSearch);
 }
 
 //***************************************************************************
@@ -200,13 +187,13 @@ String MediaInfoList::Get(size_t FilePos, stream_t KindOfStream, size_t StreamNu
 //---------------------------------------------------------------------------
 size_t MediaInfoList::Set(const String &ToSet, size_t FilePos, stream_t StreamKind, size_t StreamNumber, size_t Parameter, const String &OldValue)
 {
-    return ((MediaInfoList_Internal*)Internal)->Set(ToSet, FilePos, StreamKind, StreamNumber, Parameter, OldValue);
+    return Internal->Set(ToSet, FilePos, StreamKind, StreamNumber, Parameter, OldValue);
 }
 
 //---------------------------------------------------------------------------
 size_t MediaInfoList::Set(const String &ToSet, size_t FilePos, stream_t StreamKind, size_t StreamNumber, const String &Parameter, const String &OldValue)
 {
-    return ((MediaInfoList_Internal*)Internal)->Set(ToSet, FilePos, StreamKind, StreamNumber, Parameter, OldValue);
+    return Internal->Set(ToSet, FilePos, StreamKind, StreamNumber, Parameter, OldValue);
 }
 
 //***************************************************************************
@@ -217,7 +204,7 @@ size_t MediaInfoList::Set(const String &ToSet, size_t FilePos, stream_t StreamKi
 //---------------------------------------------------------------------------
 char* MediaInfoList::Output_Buffer_Get (size_t FilePos, size_t &Output_Buffer_Size)
 {
-    return ((MediaInfoList_Internal*)Internal)->Output_Buffer_Get(FilePos, Output_Buffer_Size);
+    return Internal->Output_Buffer_Get(FilePos, Output_Buffer_Size);
 }
 */
 
@@ -228,7 +215,7 @@ char* MediaInfoList::Output_Buffer_Get (size_t FilePos, size_t &Output_Buffer_Si
 //---------------------------------------------------------------------------
 String MediaInfoList::Option (const String &Option, const String &Value)
 {
-    return ((MediaInfoList_Internal*)Internal)->Option(Option, Value);
+    return Internal->Option(Option, Value);
 
 }
 
@@ -241,19 +228,19 @@ String MediaInfoList::Option_Static (const String &Option, const String &Value)
 //---------------------------------------------------------------------------
 size_t MediaInfoList::State_Get()
 {
-    return ((MediaInfoList_Internal*)Internal)->State_Get();
+    return Internal->State_Get();
 }
 
 //---------------------------------------------------------------------------
 size_t MediaInfoList::Count_Get (size_t FilePos, stream_t StreamKind, size_t StreamNumber)
 {
-    return ((MediaInfoList_Internal*)Internal)->Count_Get(FilePos, StreamKind, StreamNumber);
+    return Internal->Count_Get(FilePos, StreamKind, StreamNumber);
 }
 
 //---------------------------------------------------------------------------
 size_t MediaInfoList::Count_Get()
 {
-    return ((MediaInfoList_Internal*)Internal)->Count_Get();
+    return Internal->Count_Get();
 }
 
 } //NameSpace

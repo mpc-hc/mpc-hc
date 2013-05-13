@@ -1,20 +1,9 @@
-// File_Dvdv - Info for DVD objects (IFO) files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Information about DVD objects
@@ -40,9 +29,6 @@
 
 //---------------------------------------------------------------------------
 #include <vector>
-#ifdef SS
-   #undef SS //Solaris defines this somewhere
-#endif
 using namespace std;
 //---------------------------------------------------------------------------
 
@@ -1169,11 +1155,11 @@ Ztring File_Dvdv::Time_ADT(int32u)
 void File_Dvdv::Get_Duration(int64u  &Duration, const Ztring &Name)
 {
     int32u FrameRate, FF;
-    int8u HH, MM, SS;
+    int8u HH, MM, Sec;
     Element_Begin1(Name);
         Get_B1 (HH,                                     "Hours (BCD)");
         Get_B1 (MM,                                     "Minutes (BCD)");
-        Get_B1 (SS,                                     "Seconds (BCD)");
+        Get_B1 (Sec,                                     "Seconds (BCD)");
         BS_Begin();
         Get_BS (2, FrameRate,                           "Frame rate"); Param_Info2(IFO_PlaybackTime_FrameRate[FrameRate], " fps");
         Get_BS (6, FF,                                  "Frames (BCD)");
@@ -1181,7 +1167,7 @@ void File_Dvdv::Get_Duration(int64u  &Duration, const Ztring &Name)
 
         Duration= Ztring::ToZtring(HH, 16).To_int64u() * 60 * 60 * 1000 //BCD
                 + Ztring::ToZtring(MM, 16).To_int64u()      * 60 * 1000 //BCD
-                + Ztring::ToZtring(SS, 16).To_int64u()           * 1000 //BCD
+                + Ztring::ToZtring(Sec, 16).To_int64u()          * 1000 //BCD
                 + Ztring::ToZtring(FF, 16).To_int64u()           * 1000/IFO_PlaybackTime_FrameRate[FrameRate]; //BCD
 
         Element_Info1(Ztring::ToZtring(Duration));

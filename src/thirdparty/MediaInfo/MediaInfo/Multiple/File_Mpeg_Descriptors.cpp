@@ -1,21 +1,8 @@
-// File_Mpeg_Descriptors - Info for MPEG files
-// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -60,6 +47,7 @@ namespace Elements
     const int32u DTS3=0x44545333; //DTS
     const int32u GA94=0x47413934; //ATSC - Terrestrial
     const int32u HDMV=0x48444D56; //BluRay
+    const int32u HEVC=0x48455643; //HEVC
     const int32u KLVA=0x4B4C5641; //KLV Packets
     const int32u S14A=0x53313441; //ATSC - Satellite
     const int32u SCTE=0x53435445; //SCTE
@@ -629,6 +617,7 @@ const char* Mpeg_Descriptors_registration_format_identifier_Format(int32u format
         case Elements::DTS3 : return "DTS"; //2048
         case Elements::GA94 : return "ATSC - Terrestrial";
         case Elements::HDMV : return "Blu-ray";
+        case Elements::HEVC : return "HEVC";
         case Elements::KLVA : return "KLV";
         case Elements::S14A : return "ATSC - Satellite";
         case Elements::SCTE : return "SCTE 54 2003 - DV Service Multiplex and Transport System for Cable Television";
@@ -648,6 +637,7 @@ stream_t Mpeg_Descriptors_registration_format_identifier_StreamKind(int32u forma
         case Elements::DTS1 : return Stream_Audio;
         case Elements::DTS2 : return Stream_Audio;
         case Elements::DTS3 : return Stream_Audio;
+        case Elements::HEVC : return Stream_Video;
         case Elements::VC_1 : return Stream_Video;
         default :             return Stream_Max;
     }
@@ -681,6 +671,7 @@ const char* Mpeg_Descriptors_stream_Format(int8u descriptor_tag, int32u format_i
                 case Elements::DTS2 : return "DTS";
                 case Elements::DTS3 : return "DTS";
                 case Elements::KLVA : return "KLV";
+                case Elements::HEVC : return "HEVC";
                 case Elements::VC_1 : return "VC-1";
                 case Elements::drac : return "Dirac";
                 default                     :
@@ -727,6 +718,7 @@ const char* Mpeg_Descriptors_stream_Codec(int8u descriptor_tag, int32u format_id
                 case Elements::DTS2 : return "DTS";
                 case Elements::DTS3 : return "DTS";
                 case Elements::KLVA : return "KLV";
+                case Elements::HEVC : return "HEVC";
                 case Elements::VC_1 : return "VC-1";
                 case Elements::drac : return "Dirac";
                 default                     :
@@ -772,6 +764,7 @@ stream_t Mpeg_Descriptors_stream_Kind(int8u descriptor_tag, int32u format_identi
                 case Elements::DTS1 : return Stream_Audio;
                 case Elements::DTS2 : return Stream_Audio;
                 case Elements::DTS3 : return Stream_Audio;
+                case Elements::HEVC : return Stream_Video;
                 case Elements::VC_1 : return Stream_Video;
                 case Elements::drac : return Stream_Video;
                 default                     :
@@ -1299,6 +1292,18 @@ void File_Mpeg_Descriptors::Data_Parse()
             ELEMENT_CASE(2D, "MPEG-4_text");
             ELEMENT_CASE(2E, "MPEG-4_audio_extension");
             ELEMENT_CASE(2F, "Auxiliary_video_data");
+            ELEMENT_CASE(30, "SVC extension");
+            ELEMENT_CASE(31, "MVC extension");
+            ELEMENT_CASE(32, "J2K video");
+            ELEMENT_CASE(33, "MVC operation point");
+            ELEMENT_CASE(34, "MPEG2_stereoscopic_video_format");
+            ELEMENT_CASE(35, "Stereoscopic_program_info");
+            ELEMENT_CASE(36, "Stereoscopic_video_info");
+            ELEMENT_CASE(37, "ODUpdate");
+            ELEMENT_CASE(38, "Transport_profile");
+            ELEMENT_CASE(39, "HEVC video");
+            ELEMENT_CASE(3A, "HEVC timing and HRD");
+            ELEMENT_CASE(3F, "Extension");
 
             //Following is in private sections, in case there is not network type detected
             ELEMENT_CASE(40, "DVB - network_name_descriptor");

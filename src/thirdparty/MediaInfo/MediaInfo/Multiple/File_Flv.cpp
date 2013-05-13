@@ -1,21 +1,8 @@
-// File_Flv - Info for Flash files
-// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 //
@@ -89,7 +76,7 @@ const int16u Flv_SamplingRate[]=
     8000, //Special case for Nellymoser 8kHz mono
 };
 
-const char* Flv_Format_Audio[]=
+const char* Flv_Format_Audio[16]=
 {
     "PCM",
     "ADPCM",
@@ -109,7 +96,7 @@ const char* Flv_Format_Audio[]=
     "",
 };
 
-const char* Flv_Format_Profile_Audio[]=
+const char* Flv_Format_Profile_Audio[16]=
 {
     "",
     "",
@@ -129,7 +116,7 @@ const char* Flv_Format_Profile_Audio[]=
     "",
 };
 
-const char* Flv_Codec_Audio[]=
+const char* Flv_Codec_Audio[16]=
 {
     "Uncompressed",
     "ADPCM",
@@ -149,7 +136,7 @@ const char* Flv_Codec_Audio[]=
     "",
 };
 
-const char* Flv_CodecID_Hint_Audio[]=
+const char* Flv_CodecID_Hint_Audio[16]=
 {
     "",
     "",
@@ -169,7 +156,7 @@ const char* Flv_CodecID_Hint_Audio[]=
     "",
 };
 
-const char* Flv_Format_Video[]=
+const char* Flv_Format_Video[16]=
 {
     "",
     "",
@@ -183,13 +170,13 @@ const char* Flv_Format_Video[]=
     "",
     "",
     "",
-    "",
+    "HEVC",
     "",
     "",
     "",
 };
 
-const char* Flv_Format_Profile_Video[]=
+const char* Flv_Format_Profile_Video[16]=
 {
     "",
     "",
@@ -209,7 +196,7 @@ const char* Flv_Format_Profile_Video[]=
     "",
 };
 
-const char* Flv_Codec_Video[]=
+const char* Flv_Codec_Video[16]=
 {
     "",
     "",
@@ -223,13 +210,13 @@ const char* Flv_Codec_Video[]=
     "",
     "",
     "",
-    "",
+    "HEVC",
     "",
     "",
     "",
 };
 
-const char* Flv_CodecID_Hint_Video[]=
+const char* Flv_CodecID_Hint_Video[16]=
 {
     "",
     "",
@@ -658,22 +645,22 @@ void File_Flv::FileHeader_Parse()
 //---------------------------------------------------------------------------
 bool File_Flv::Synchronize()
 {
+    if (File_Offset+Buffer_Offset+4==File_Size)
+        return true; // Used by seek from end
+
     //Synchronizing
     while (Buffer_Offset+15<=Buffer_Size)
     {
-        if (Buffer[Buffer_Offset+4]==0x08 || Buffer[Buffer_Offset+4]==0x09)
+        int32u BodyLength=BigEndian2int24u(Buffer+Buffer_Offset+5);
+        if (File_Offset+Buffer_Offset+15+BodyLength==File_Size)
+            break; //Last block
+        if (File_Offset+Buffer_Offset+15+BodyLength<File_Size)
         {
-            int32u BodyLength=BigEndian2int24u(Buffer+Buffer_Offset+5);
-            if (File_Offset+Buffer_Offset+15+BodyLength==File_Size)
-                break; //Last block
-            if (File_Offset+Buffer_Offset+15+BodyLength<File_Size)
-            {
-                if (Buffer_Offset+15+BodyLength+15>Buffer_Size)
-                    return false; //Need more data
+            if (Buffer_Offset+15+BodyLength+15>Buffer_Size)
+                return false; //Need more data
 
-                if (Buffer[Buffer_Offset+15+BodyLength+4]==0x08 || Buffer[Buffer_Offset+15+BodyLength+4]==0x09)
-                    break;
-            }
+            if (BigEndian2int32u(Buffer+Buffer_Offset+15+BodyLength)==11+BodyLength) // PreviousTagSize
+                break;
         }
 
         Buffer_Offset++;
@@ -684,6 +671,31 @@ bool File_Flv::Synchronize()
         return false;
 
     //Synched
+    return true;
+}
+
+//---------------------------------------------------------------------------
+bool File_Flv::Synched_Test()
+{
+    if (File_Offset+Buffer_Offset+4==File_Size)
+        return true; // Used by seek from end
+
+    //Must have enough buffer for having header
+    if (Buffer_Offset+15>Buffer_Size)
+        return false;
+
+    //Quick test of synchro
+    if (Buffer[Buffer_Offset  ]==0
+     && Buffer[Buffer_Offset+1]==0
+     && Buffer[Buffer_Offset+2]==0
+     && Buffer[Buffer_Offset+3]<11
+     && File_Offset+Buffer_Offset>9)
+    {
+        Synched=false;
+        return true;
+    }
+
+    //We continue
     return true;
 }
 
@@ -717,7 +729,7 @@ void File_Flv::Header_Parse()
         Get_B4 (PreviousTagSize,                                "PreviousTagSize");
 
         //Filling
-        Header_Fill_Code((int64u)-1, "End");
+        Header_Fill_Code((int64u)-1, "End Of File");
         Header_Fill_Size(4);
         return;
     }
@@ -759,6 +771,9 @@ void File_Flv::Header_Parse()
             if (!Searching_Duration || Stream[StreamKind].TimeStamp==(int32u)-1)
                 Stream[StreamKind].TimeStamp=Time;
         }
+
+        if (Type==0)
+            Trusted_IsNot("Wrong type");
     }
     else
     {
@@ -782,14 +797,11 @@ void File_Flv::Data_Parse()
         case 0x12 : meta(); break;
         case 0xFA : Rm(); break;
         case (int64u)-1 :   //When searching the last frame
-                            if (PreviousTagSize>File_Size)
+                            if (8+PreviousTagSize>File_Size)
                             {
-                                //There is a problem, trying to sync
                                 Searching_Duration=false;
-                                MustSynchronize=true;
-                                Buffer_TotalBytes_FirstSynched_Max=File_Size;
-                                GoToFromEnd(65536);
-                                return;
+                                Open_Buffer_Unsynch(); //There is a problem, trying to sync
+                                PreviousTagSize=65536;
                             }
                             GoTo(File_Size-PreviousTagSize-8, "FLV");
                             return;
@@ -801,7 +813,7 @@ void File_Flv::Data_Parse()
 
     }
 
-    if (Searching_Duration && !MustSynchronize)
+    if (Searching_Duration)
     {
         if ((((Count_Get(Stream_Video)==0 || Stream[Stream_Video].TimeStamp!=(int32u)-1)
            && (Count_Get(Stream_Audio)==0 || Stream[Stream_Audio].TimeStamp!=(int32u)-1))
@@ -812,8 +824,7 @@ void File_Flv::Data_Parse()
         {
             //Trying to sync
             Searching_Duration=false;
-            MustSynchronize=true;
-            Buffer_TotalBytes_FirstSynched_Max=File_Size;
+            Open_Buffer_Unsynch(); //There is a problem, trying to sync
             GoToFromEnd(Header_Size+Element_Size+65536);
             return;
         }
@@ -878,15 +889,14 @@ void File_Flv::video()
         {
             if (Count_Get(Stream_Video)==0)
                 Stream_Prepare(Stream_Video);
-            if (Codec<8)
-            {
-                Fill(Stream_Video, 0, Video_Format, Flv_Format_Video[Codec]);
-                Fill(Stream_Video, 0, Video_Format_Profile, Flv_Format_Profile_Video[Codec]);
-                Fill(Stream_Video, 0, Video_Codec, Flv_Codec_Video[Codec]);
-                Fill(Stream_Video, 0, Video_CodecID, Codec);
-                Fill(Stream_Video, 0, Video_CodecID_Hint, Flv_CodecID_Hint_Video[Codec]);
-                Fill(Stream_Video, 0, Video_BitDepth, 8); //FLV is not known to support another bit depth
-            }
+            Fill(Stream_Video, 0, Video_Format, Flv_Format_Video[Codec]);
+            Fill(Stream_Video, 0, Video_Format_Profile, Flv_Format_Profile_Video[Codec]);
+            Fill(Stream_Video, 0, Video_Codec, Flv_Codec_Video[Codec]);
+            Fill(Stream_Video, 0, Video_CodecID, Codec);
+            Fill(Stream_Video, 0, Video_CodecID_Hint, Flv_CodecID_Hint_Video[Codec]);
+            Fill(Stream_Video, 0, Video_BitDepth, 8); //FLV is not known to support another bit depth
+
+            MustSynchronize=true; // Now, synchronization test is possible
         }
 
         //Parsing video data
@@ -1140,6 +1150,8 @@ void File_Flv::audio()
                 Fill(Stream_Audio, 0, Audio_Codec_Settings_Firm, "SWF");
 
             }
+
+            MustSynchronize=true; // Now, synchronization test is possible
         }
 
         //Parsing audio data

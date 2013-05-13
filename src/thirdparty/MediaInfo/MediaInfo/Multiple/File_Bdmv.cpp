@@ -1,21 +1,8 @@
-// File_Mpls - Info for Blu-ray Movie files
-// Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -1597,12 +1584,13 @@ void File_Bdmv::StreamCodingInfo_Video()
 void File_Bdmv::StreamCodingInfo_Audio()
 {
     //Parsing
+    Ztring Language;
     int8u Channels, SamplingRate;
     BS_Begin();
     Get_S1 (4, Channels,                                        "Channel layout"); Param_Info1(Clpi_Audio_Channels[Channels]);
     Get_S1 (4, SamplingRate,                                    "Sampling Rate"); Param_Info1(Clpi_Audio_SamplingRate[SamplingRate]);
     BS_End();
-    Info_Local(3, Language,                                     "Language"); Element_Info1(Language);
+    Get_Local(3, Language,                                      "Language"); Element_Info1(Language);
 
     FILLING_BEGIN();
         if (StreamKind_Last==Stream_Max)
@@ -1623,9 +1611,10 @@ void File_Bdmv::StreamCodingInfo_Audio()
 void File_Bdmv::StreamCodingInfo_Text()
 {
     //Parsing
+    Ztring Language;
     if (stream_type==0x92) //Subtitle
         Skip_B1(                                                "Unknown");
-    Info_Local(3, Language,                                     "Language"); Element_Info1(Language);
+    Get_Local(3, Language,                                      "Language"); Element_Info1(Language);
 
     FILLING_BEGIN();
         if (StreamKind_Last==Stream_Max)

@@ -1,21 +1,8 @@
-// File_Riff - Info for RIFF files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -201,6 +188,10 @@ void File_Riff::Streams_Finish ()
             Temp->second.Parsers.erase(Temp->second.Parsers.begin(), Temp->second.Parsers.begin()+Temp->second.Parsers.size()-1);
             Temp->second.Parsers[0]->Accept();
         }
+
+        //PAR
+        if (PAR && StreamKind_Last==Stream_Video)
+            Fill(Stream_Video, StreamPos_Last, Video_PixelAspectRatio, PAR);
 
         Ztring ID;
         if (Temp->first!=(int32u)-1)
@@ -448,7 +439,7 @@ void File_Riff::Streams_Finish ()
                         if (Stream_Structure_Temp->second.Name==Temp->first)
                             Audio_FirstBytes+=Stream_Structure_Temp->second.Size;
                     }
-                    if (Audio_FirstBytes && Retrieve(Stream_Audio, StreamPos_Last, Audio_BitRate).To_int32u())
+                    if (Audio_FirstBytes && Temp->second.AvgBytesPerSec)
                     {
                         Fill(Stream_Audio, StreamPos_Last, "Interleave_Preload", Audio_FirstBytes*1000/Temp->second.AvgBytesPerSec);
                         Fill(Stream_Audio, StreamPos_Last, "Interleave_Preload/String", Retrieve(Stream_Audio, StreamPos_Last, "Interleave_Preload")+__T(" ")+MediaInfoLib::Config.Language_Get(__T("ms")));
@@ -510,14 +501,6 @@ void File_Riff::Streams_Finish ()
                 Pos++;
             }
 
-    //Purge what is not needed anymore
-    if (!File_Name.empty()) //Only if this is not a buffer, with buffer we can have more data
-    {
-        Stream.clear();
-        Stream_Structure.clear();
-        delete DV_FromHeader; DV_FromHeader=NULL;
-    }
-
     //Commercial names
     if (Count_Get(Stream_Video)==1)
     {
@@ -563,6 +546,8 @@ void File_Riff::Read_Buffer_Init()
          if (Demux_Rate==0)
              Demux_Rate=25; //Default value
     #endif //MEDIAINFO_DEMUX
+
+    PAR=0;
 }
 
 //---------------------------------------------------------------------------
@@ -625,6 +610,10 @@ size_t File_Riff::Read_Buffer_Seek (size_t Method, int64u Value, int64u /*ID*/)
 //---------------------------------------------------------------------------
 void File_Riff::Read_Buffer_Unsynched()
 {
+    for (std::map<int32u, stream>::iterator Stream_Item=Stream.begin(); Stream_Item!=Stream.end(); ++Stream_Item)
+        for (size_t Pos=0; Pos<Stream_Item->second.Parsers.size(); Pos++)
+            Stream_Item->second.Parsers[Pos]->Open_Buffer_Unsynch();
+
     if (IsSub)
     {
         while(Element_Level)

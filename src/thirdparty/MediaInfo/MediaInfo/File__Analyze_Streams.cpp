@@ -1,21 +1,8 @@
-// File__Analyze - Base for analyze files
-// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -37,9 +24,6 @@
 #include "ZenLib/FileName.h"
 #include "ZenLib/BitStream_LE.h"
 #include <cmath>
-#ifdef SS
-   #undef SS //Solaris defines this somewhere
-#endif
 using namespace std;
 //---------------------------------------------------------------------------
 
@@ -164,7 +148,11 @@ size_t File__Analyze::Stream_Prepare (stream_t KindOfStream, size_t StreamPos)
     }
 
     //File size
-    if ((!IsSub || !File_Name.empty()) && KindOfStream==Stream_General && File_Size!=(int64u)-1)
+    if (((!IsSub || !File_Name.empty()) && KindOfStream==Stream_General && File_Size!=(int64u)-1)
+        #if MEDIAINFO_ADVANCED
+            && !Config->File_IgnoreSequenceFileSize_Get()
+        #endif //MEDIAINFO_ADVANCED
+                )
         Fill (Stream_General, 0, General_FileSize, File_Size);
 
     //Fill with already ready data
@@ -908,6 +896,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
                  if (F1>=(float)1.23 && F1<(float)1.27) C1=__T("5:4");
             else if (F1>=(float)1.30 && F1<(float)1.37) C1=__T("4:3");
             else if (F1>=(float)1.45 && F1<(float)1.55) C1=__T("3:2");
+            else if (F1>=(float)1.55 && F1<(float)1.65) C1=__T("16:10");
             else if (F1>=(float)1.74 && F1<(float)1.82) C1=__T("16:9");
             else if (F1>=(float)1.82 && F1<(float)1.88) C1=__T("1.85:1");
             else if (F1>=(float)2.15 && F1<(float)2.22) C1=__T("2.2:1");
@@ -929,6 +918,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
                  if (F1>=(float)1.23 && F1<(float)1.27) C1=__T("5:4");
             else if (F1>=(float)1.30 && F1<(float)1.37) C1=__T("4:3");
             else if (F1>=(float)1.45 && F1<(float)1.55) C1=__T("3:2");
+            else if (F1>=(float)1.55 && F1<(float)1.65) C1=__T("16:10");
             else if (F1>=(float)1.74 && F1<(float)1.82) C1=__T("16:9");
             else if (F1>=(float)1.82 && F1<(float)1.88) C1=__T("1.85:1");
             else if (F1>=(float)2.15 && F1<(float)2.22) C1=__T("2.2:1");
@@ -950,6 +940,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
                  if (F1>=(float)1.23 && F1<(float)1.27) C1=__T("5:4");
             else if (F1>=(float)1.30 && F1<(float)1.37) C1=__T("4:3");
             else if (F1>=(float)1.45 && F1<(float)1.55) C1=__T("3:2");
+            else if (F1>=(float)1.55 && F1<(float)1.65) C1=__T("16:10");
             else if (F1>=(float)1.74 && F1<(float)1.82) C1=__T("16:9");
             else if (F1>=(float)1.82 && F1<(float)1.88) C1=__T("1.85:1");
             else if (F1>=(float)2.15 && F1<(float)2.22) C1=__T("2.2:1");
@@ -971,6 +962,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
                  if (F1>=(float)1.23 && F1<(float)1.27) C1=__T("5:4");
             else if (F1>=(float)1.30 && F1<(float)1.37) C1=__T("4:3");
             else if (F1>=(float)1.45 && F1<(float)1.55) C1=__T("3:2");
+            else if (F1>=(float)1.55 && F1<(float)1.65) C1=__T("16:10");
             else if (F1>=(float)1.74 && F1<(float)1.82) C1=__T("16:9");
             else if (F1>=(float)1.82 && F1<(float)1.88) C1=__T("1.85:1");
             else if (F1>=(float)2.15 && F1<(float)2.22) C1=__T("2.2:1");
@@ -1779,7 +1771,7 @@ void File__Analyze::Duration_Duration123(stream_t StreamKind, size_t StreamPos, 
     //Per value
     for (size_t Pos=0; Pos<List.size(); Pos++)
     {
-        int32s HH, MM, SS, MS;
+        int32s HH, MM, Sec, MS;
         Ztring DurationString1, DurationString2, DurationString3;
         bool Negative=false;
         MS=List[Pos].To_int32s(); //in ms
@@ -1832,25 +1824,25 @@ void File__Analyze::Duration_Duration123(stream_t StreamKind, size_t StreamPos, 
         }
 
         //Seconds
-        SS=MS/1000; //s
-        if (SS>0 || MM>0 || HH>0)
+        Sec=MS/1000; //s
+        if (Sec>0 || MM>0 || HH>0)
         {
             if (DurationString1.size()>0)
                 DurationString1+=__T(" ");
-            DurationString1+=Ztring::ToZtring(SS)+MediaInfoLib::Config.Language_Get(__T("s"));
+            DurationString1+=Ztring::ToZtring(Sec)+MediaInfoLib::Config.Language_Get(__T("s"));
             if (DurationString2.size()<5)
             {
                 if (DurationString2.size()>0)
                     DurationString2+=__T(" ");
-                DurationString2+=Ztring::ToZtring(SS)+MediaInfoLib::Config.Language_Get(__T("s"));
+                DurationString2+=Ztring::ToZtring(Sec)+MediaInfoLib::Config.Language_Get(__T("s"));
             }
             else if (DurationString2.size()==0)
-                DurationString2+=Ztring::ToZtring(SS)+MediaInfoLib::Config.Language_Get(__T("s"));
-            if (SS<10)
-                DurationString3+=Ztring(__T("0"))+Ztring::ToZtring(SS)+__T(".");
+                DurationString2+=Ztring::ToZtring(Sec)+MediaInfoLib::Config.Language_Get(__T("s"));
+            if (Sec<10)
+                DurationString3+=Ztring(__T("0"))+Ztring::ToZtring(Sec)+__T(".");
             else
-                DurationString3+=Ztring::ToZtring(SS)+__T(".");
-            MS-=SS*1000;
+                DurationString3+=Ztring::ToZtring(Sec)+__T(".");
+            MS-=Sec*1000;
         }
         else
         {
@@ -1858,7 +1850,7 @@ void File__Analyze::Duration_Duration123(stream_t StreamKind, size_t StreamPos, 
         }
 
         //Milliseconds
-        if (MS>0 || SS>0 || MM>0 || HH>0)
+        if (MS>0 || Sec>0 || MM>0 || HH>0)
         {
             if (DurationString1.size()>0)
                 DurationString1+=__T(" ");

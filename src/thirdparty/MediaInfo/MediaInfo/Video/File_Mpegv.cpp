@@ -1,21 +1,8 @@
-// File_Mpegv - Info for MPEG Video files
-// Copyright (C) 2004-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -54,6 +41,7 @@ extern const char* Mpegv_colour_primaries(int8u colour_primaries)
         case  6 : return "BT.601 NTSC";
         case  7 : return "SMPTE 240M"; //Same as BT.601 NTSC
         case  8 : return "Generic film";
+        case  9 : return "BT.2020";                                     //Added in HEVC
         default : return "";
     }
 }
@@ -73,6 +61,9 @@ extern const char* Mpegv_transfer_characteristics(int8u transfer_characteristics
         case 10 : return "Logarithmic (316.22777:1)";                   //Added in MPEG-4 Visual
         case 11 : return "IEC 61966-2-4";                               //Added in AVC
         case 12 : return "BT.1361 extended colour gamut system";        //Added in AVC
+        case 13 : return "sYCC";                                        //Added in HEVC
+        case 14 : return "BT.2020";                                     //Added in HEVC
+        case 15 : return "BT.2020";                                     //Added in HEVC
         default : return "";
     }
 }
@@ -89,6 +80,8 @@ extern const char* Mpegv_matrix_coefficients(int8u matrix_coefficients)
         case  6 : return "BT.601";
         case  7 : return "SMPTE 240M";
         case  8 : return "YCgCo";                                       //Added in AVC
+        case  9 : return "BT.2020 non-constant";                        //Added in HEVC
+        case 10 : return "BT.2020 constant";                            //Added in HEVC
         default : return "";
     }
 }
@@ -1187,6 +1180,10 @@ void File_Mpegv::Streams_Update()
                         if ((*Text_Positions[Text_Positions_Pos].Parser)==GA94_03_Parser)
                             MuxingMode=__T("A/53 / ")+Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode");
                     #endif //defined(MEDIAINFO_DTVCCTRANSPORT_YES)
+                    #if defined(MEDIAINFO_SCTE20_YES)
+                        if ((*Text_Positions[Text_Positions_Pos].Parser)==Scte_Parser)
+                            MuxingMode=Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode");
+                    #endif //defined(MEDIAINFO_DTVCCTRANSPORT_YES)
                     #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
                         if ((*Text_Positions[Text_Positions_Pos].Parser)==Cdp_Parser)
                             MuxingMode=__T("Ancillary data / ")+Retrieve(Stream_Text, Text_Positions[Text_Positions_Pos].StreamPos+Pos, "MuxingMode");
@@ -1645,16 +1642,14 @@ bool File_Mpegv::Synched_Test()
         return false;
 
     #if MEDIAINFO_IBI
-        if (Ibi_SliceParsed)
+        if ((Ibi_SliceParsed && (Buffer[Buffer_Offset+3]==0x00)) || Buffer[Buffer_Offset+3]==0xB3) // picture_start without sequence_header or sequence_header
         {
-            if (Buffer[Buffer_Offset+3]==0x00)
-            {
-                if (Buffer_Offset+6>Buffer_Size)
-                    return false;
-                bool RandomAccess=(Buffer[Buffer_Offset+5]&0x38)==0x08 || Buffer[Buffer_Offset+3]==0xB3; //picture_start with I-Frame || sequence_header
-                if (RandomAccess)
-                    Ibi_Add();
-            }
+            if (Buffer_Offset+6>Buffer_Size)
+                return false;
+            bool RandomAccess=(Buffer[Buffer_Offset+5]&0x38)==0x08 || Buffer[Buffer_Offset+3]==0xB3; //picture_start with I-Frame || sequence_header
+            if (RandomAccess)
+                Ibi_Add();
+
             Ibi_SliceParsed=false;
         }
     #endif //MEDIAINFO_IBI
@@ -2453,9 +2448,9 @@ void File_Mpegv::slice_start()
                     Element_Info1(__T("DTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.DTS)/1000000)));
                 if (Time_End_Seconds!=Error)
                 {
-                    int32u Time_End  =Time_End_Seconds  *1000;
+                    int64u Time_End  =Time_End_Seconds  *1000;
                     if (FrameRate)
-                        Time_End  +=(int32u)float32_int32s((Time_Current_Frames+temporal_reference)*1000/FrameRate);
+                        Time_End  +=float32_int32s((Time_Current_Frames+temporal_reference)*1000/FrameRate);
                     size_t Hours  = Time_End/60/60/1000;
                     size_t Minutes=(Time_End-(Hours*60*60*1000))/60/1000;
                     size_t Seconds=(Time_End-(Hours*60*60*1000)-(Minutes*60*1000))/1000;

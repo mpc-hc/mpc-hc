@@ -1,20 +1,9 @@
-// File_Mxf - Info for MXF files
-// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Information about Mxf files
@@ -81,7 +70,7 @@ protected :
     void Streams_Finish_Essence (int32u EssenceUID, int128u TrackUID);
     void Streams_Finish_Descriptor (int128u DescriptorUID, int128u PackageUID);
     void Streams_Finish_Locator (int128u DescriptorUID, int128u LocatorUID);
-    void Streams_Finish_Component (int128u ComponentUID, float64 EditRate, int32u TrackID);
+    void Streams_Finish_Component (int128u ComponentUID, float64 EditRate, int32u TrackID, int64u Origin);
     void Streams_Finish_Identification (int128u IdentificationUID);
     void Streams_Finish_CommercialNames ();
 
@@ -389,6 +378,7 @@ protected :
     int128u InstanceUID;
     int64u Buffer_Begin;
     int64u Buffer_End;
+    bool   Buffer_End_Unlimited;
     int64u Buffer_Header_Size;
     int16u Code2;
     int16u Length2;
@@ -469,6 +459,7 @@ protected :
         Ztring TrackName;
         int32u TrackNumber;
         float64 EditRate;
+        int64u  Origin;
         bool   Stream_Finish_Done;
 
         track()
@@ -477,6 +468,7 @@ protected :
             TrackID=(int32u)-1;
             TrackNumber=(int32u)-1;
             EditRate=(float64)0;
+            Origin=0;
             Stream_Finish_Done=false;
         }
     };
@@ -596,7 +588,7 @@ protected :
             SubSampling_Vertical=(int32u)-1;
             ChannelCount=(int32u)-1;
             BlockAlign=(int16u)-1;
-            QuantizationBits=(int8u)-1;
+            QuantizationBits=(int32u)-1;
             Duration=(int64u)-1;
             ActiveFormat=(int8u)-1;
             FieldTopness=(int8u)-1; //Field x is upper field
@@ -671,6 +663,13 @@ protected :
                 SourceTrackID=New.SourceTrackID;
             if (!New.StructuralComponents.empty())
                 StructuralComponents=New.StructuralComponents;
+            if (New.TimeCode_StartTimecode!=(int64u)-1)
+                TimeCode_StartTimecode=New.TimeCode_StartTimecode;
+            if (New.TimeCode_RoundedTimecodeBase!=(int16u)-1)
+            {
+                TimeCode_RoundedTimecodeBase=New.TimeCode_RoundedTimecodeBase;
+                TimeCode_DropFrame=New.TimeCode_DropFrame;
+            }
         }
     };
     typedef std::map<int128u, component> components; //Key is InstanceUID of the component

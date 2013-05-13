@@ -1,21 +1,8 @@
-// File_Pcm - Info for PCM files
-// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -89,7 +76,7 @@ File_Pcm::File_Pcm()
     PTS_DTS_Needed=true;
 
     //In
-    Frame_Count_Valid=2;
+    Frame_Count_Valid=4;
     BitDepth=0;
     Channels=0;
     SamplingRate=0;
@@ -266,19 +253,6 @@ bool File_Pcm::FileHeader_Begin()
 }
 
 //***************************************************************************
-// Buffer - Global
-//***************************************************************************
-
-//---------------------------------------------------------------------------
-#if MEDIAINFO_DEMUX
-void File_Pcm::Read_Buffer_Continue()
-{
-    if (Demux_UnpacketizeContainer && !Status[IsAccepted] && Buffer_Size && Frame_Count_Valid && Frame_Count+1>=Frame_Count_Valid)
-        Accept();
-}
-#endif //MEDIAINFO_DEMUX
-
-//***************************************************************************
 // Buffer - Per element
 //***************************************************************************
 
@@ -375,6 +349,13 @@ void File_Pcm::Data_Parse()
     Skip_XX(Element_Size,                                       "Data"); //It is impossible to detect... Default is no detection, only filling
 
     Frame_Count++;
+    if (Frame_Count_NotParsedIncluded!=(int64u)-1)
+        Frame_Count_NotParsedIncluded++;
+    if (FrameInfo.DTS!=(int64u)-1 && FrameInfo.DUR!=(int64u)-1)
+    {
+        FrameInfo.DTS+=FrameInfo.DUR;
+        FrameInfo.PTS=FrameInfo.DTS;
+    }
     if ((!Status[IsAccepted] && Frame_Count>=Frame_Count_Valid) || File_Offset+Buffer_Size>=File_Size)
     {
         Accept();

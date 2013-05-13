@@ -1,21 +1,8 @@
-// File_Mpeg4 - Info for MPEG-4 files
-// Copyright (C) 2004-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 #ifndef MediaInfo_File_Mpeg4H
@@ -173,12 +160,14 @@ private :
     void moov_trak_mdia_minf_stbl_stsd_xxxx_colr();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_d263();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_dac3();
+    void moov_trak_mdia_minf_stbl_stsd_xxxx_damr();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_dec3();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_ddts();
-    void moov_trak_mdia_minf_stbl_stsd_xxxx_damr();
+    void moov_trak_mdia_minf_stbl_stsd_xxxx_dvc1();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_esds();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_fiel();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_glbl();
+    void moov_trak_mdia_minf_stbl_stsd_xxxx_hvcC();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_idfm();
     void moov_trak_mdia_minf_stbl_stsd_xxxx_jp2h() {jp2h();}
     void moov_trak_mdia_minf_stbl_stsd_xxxx_jp2h_colr() {jp2h_colr();}
@@ -219,10 +208,16 @@ private :
     void moov_trak_tapt_enof();
     void moov_trak_tkhd();
     void moov_trak_tref();
+    void moov_trak_tref_chap();
+    void moov_trak_tref_clcp();
     void moov_trak_tref_dpnd();
+    void moov_trak_tref_fall();
+    void moov_trak_tref_folw();
+    void moov_trak_tref_forc();
     void moov_trak_tref_ipir();
     void moov_trak_tref_hint();
     void moov_trak_tref_mpod();
+    void moov_trak_tref_scpt();
     void moov_trak_tref_ssrc();
     void moov_trak_tref_sync();
     void moov_trak_tref_tmcd();
@@ -394,6 +389,7 @@ private :
         bool                    IsPcmMono;
         bool                    IsPriorityStream;
         bool                    IsFilled;
+        bool                    IsChapter;
         float32                 CleanAperture_Width;
         float32                 CleanAperture_Height;
         float32                 CleanAperture_PixelAspectRatio;
@@ -445,6 +441,7 @@ private :
             IsPcmMono=false;
             IsPriorityStream=false;
             IsFilled=false;
+            IsChapter=false;
             CleanAperture_Width=0;
             CleanAperture_Height=0;
             CleanAperture_PixelAspectRatio=0;
@@ -470,7 +467,9 @@ private :
     typedef std::map<int32u, stream> streams;
     streams             Streams;
     streams::iterator   Stream;
-    File__ReferenceFilesHelper* ReferenceFiles;
+    #if defined(MEDIAINFO_REFERENCES_YES)
+        File__ReferenceFilesHelper* ReferenceFiles;
+    #endif //defined(MEDIAINFO_REFERENCES_YES)
     #if MEDIAINFO_NEXTPACKET
         bool                    ReferenceFiles_IsParsing;
     #endif //MEDIAINFO_NEXTPACKET

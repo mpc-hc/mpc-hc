@@ -1,21 +1,8 @@
-// File_Avc - Info for AVC Video files
-// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -108,8 +95,8 @@ namespace MediaInfoLib
 const size_t Avc_Errors_MaxCount=32;
 
 //---------------------------------------------------------------------------
-const int8u Avc_PixelAspectRatio_Size=17;
-const float32 Avc_PixelAspectRatio[]=
+extern const int8u Avc_PixelAspectRatio_Size=17;
+extern const float32 Avc_PixelAspectRatio[]=
 {
     (float32)1, //Reserved
     (float32)1,
@@ -131,7 +118,7 @@ const float32 Avc_PixelAspectRatio[]=
 };
 
 //---------------------------------------------------------------------------
-const char* Avc_video_format[]=
+extern const char* Avc_video_format[]=
 {
     "Component",
     "PAL",
@@ -1240,7 +1227,7 @@ bool File_Avc::Header_Parser_QuickSearch()
         else
             start_code=CC1(Buffer+Buffer_Offset+3)&0x1F;
 
-        //Searching start33
+        //Searching start
         if (Streams[start_code].Searching_Payload
          || Streams[start_code].ShouldDuplicate)
             return true;
@@ -1750,13 +1737,13 @@ void File_Avc::slice_header()
                     TemporalReferences_Min=(size_t)(TemporalReferences_Offset+pic_order_cnt);
             }
 
-            if (pic_order_cnt<0 && TemporalReferences_Offset<-pic_order_cnt) //Found in playreadyEncryptedBlowUp.ts without encryption test
+            if (pic_order_cnt<0 && TemporalReferences_Offset<(size_t)(-pic_order_cnt)) //Found in playreadyEncryptedBlowUp.ts without encryption test
             {
                 Trusted_IsNot("Problem in temporal references");
                 return;
             }
 
-            if ((int64s)(TemporalReferences_Offset+pic_order_cnt)>=3*TemporalReferences_Reserved)
+            if ((size_t)(TemporalReferences_Offset+pic_order_cnt)>=3*TemporalReferences_Reserved)
             {
                 size_t Offset=TemporalReferences_Max-TemporalReferences_Offset;
                 if (Offset%2)
@@ -1867,7 +1854,7 @@ void File_Avc::slice_header()
         }
         else if (first_mb_in_slice==0)
         {
-            if ((*seq_parameter_set_Item)->pic_order_cnt_type!=1 && first_mb_in_slice==0 && (Element_Code!=0x14 || seq_parameter_sets.empty())) //Not slice_layer_extension except if MVC only
+            if ((*seq_parameter_set_Item)->pic_order_cnt_type!=1 && (Element_Code!=0x14 || seq_parameter_sets.empty())) //Not slice_layer_extension except if MVC only
             {
                 if ((!IsSub || Frame_Count_InThisBlock) && TemporalReferences_Offset_pic_order_cnt_lsb_Diff && TemporalReferences_Offset_pic_order_cnt_lsb_Diff!=2)
                     FrameInfo.PTS+=(TemporalReferences_Offset_pic_order_cnt_lsb_Diff-(field_pic_flag?1:2))/((!(*seq_parameter_set_Item)->frame_mbs_only_flag && field_pic_flag)?1:2)*(int64s)tc;
@@ -2470,7 +2457,7 @@ void File_Avc::sei_message_user_data_registered_itu_t_t35_GA94_03_Delayed(int32u
             Element_End0();
         #endif //defined(MEDIAINFO_DTVCCTRANSPORT_YES)
 
-        TemporalReferences_Min+=(seq_parameter_sets[seq_parameter_set_id]->frame_mbs_only_flag?2:1);
+        TemporalReferences_Min+=((seq_parameter_sets[seq_parameter_set_id]->frame_mbs_only_flag | !TemporalReferences[TemporalReferences_Min]->IsField)?2:1);
     }
 }
 
@@ -2564,23 +2551,21 @@ void File_Avc::sei_message_user_data_unregistered_x264(int32u payloadSize)
         Skip_XX(payloadSize,                                    "Unknown");
         return; //This is not a text string
     }
-    size_t Data_Pos;
     size_t Data_Pos_Before=0;
     size_t Loop=0;
     do
     {
-        Data_Pos=Data.find(__T(" - "), Data_Pos_Before);
+        size_t Data_Pos=Data.find(__T(" - "), Data_Pos_Before);
         if (Data_Pos==std::string::npos)
             Data_Pos=Data.size();
         if (Data.find(__T("options: "), Data_Pos_Before)==Data_Pos_Before)
         {
             Element_Begin1("options");
-            size_t Options_Pos;
             size_t Options_Pos_Before=Data_Pos_Before;
             Encoded_Library_Settings.clear();
             do
             {
-                Options_Pos=Data.find(__T(" "), Options_Pos_Before);
+                size_t Options_Pos=Data.find(__T(" "), Options_Pos_Before);
                 if (Options_Pos==std::string::npos)
                     Options_Pos=Data.size();
                 Ztring option;

@@ -1,20 +1,9 @@
-// MediaInfo_Config_MediaInfo - Configuration class
-// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Configuration of MediaInfo (per MediaInfo block)
@@ -96,6 +85,26 @@ public :
 
     void          File_ID_OnlyRoot_Set (bool NewValue);
     bool          File_ID_OnlyRoot_Get ();
+
+    #if MEDIAINFO_ADVANCED
+        void          File_IgnoreSequenceFileSize_Set (bool NewValue);
+        bool          File_IgnoreSequenceFileSize_Get ();
+    #endif //MEDIAINFO_ADVANCED
+
+    #if MEDIAINFO_ADVANCED
+        void          File_Source_List_Set (bool NewValue);
+        bool          File_Source_List_Get ();
+    #endif //MEDIAINFO_ADVANCED
+
+    #if MEDIAINFO_MD5
+        void          File_Md5_Set (bool NewValue);
+        bool          File_Md5_Get ();
+    #endif //MEDIAINFO_MD5
+
+    #if defined(MEDIAINFO_REFERENCES_YES)
+        void          File_CheckSideCarFiles_Set (bool NewValue);
+        bool          File_CheckSideCarFiles_Get ();
+    #endif //defined(MEDIAINFO_REFERENCES_YES)
 
     void          File_FileName_Set (const Ztring &NewValue);
     Ztring        File_FileName_Get ();
@@ -190,6 +199,8 @@ public :
     std::string   Ibi_Get ();
     void          Ibi_Create_Set (bool NewValue);
     bool          Ibi_Create_Get ();
+    void          Ibi_UseIbiInfoIfAvailable_Set (bool NewValue);
+    bool          Ibi_UseIbiInfoIfAvailable_Get ();
     #endif //MEDIAINFO_IBI
 
     //Specific
@@ -262,6 +273,7 @@ public :
     #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX
     bool          Demux_EventWasSent;
+    File__Analyze*  Events_Delayed_CurrentSource;
         #if MEDIAINFO_SEEK
         bool      Demux_IsSeeking;
         #endif //MEDIAINFO_SEEK
@@ -279,6 +291,16 @@ private :
     bool                    Audio_MergeMonoStreams;
     bool                    File_Demux_Interleave;
     bool                    File_ID_OnlyRoot;
+    #if MEDIAINFO_ADVANCED
+        bool                File_IgnoreSequenceFileSize;
+        bool                File_Source_List;
+    #endif //MEDIAINFO_ADVANCED
+    #if MEDIAINFO_MD5
+        bool                File_Md5;
+    #endif //MEDIAINFO_MD5
+    #if defined(MEDIAINFO_REFERENCES_YES)
+        bool                File_CheckSideCarFiles;
+    #endif //defined(MEDIAINFO_REFERENCES_YES)
     Ztring                  File_FileName;
     Ztring                  File_FileNameFormat;
     float64                 File_TimeToLive;
@@ -349,6 +371,7 @@ private :
     #if MEDIAINFO_IBI
     std::string             Ibi;
     bool                    Ibi_Create;
+    bool                    Ibi_UseIbiInfoIfAvailable;
     #endif //MEDIAINFO_IBI
 
     //Specific
@@ -386,6 +409,10 @@ private :
     #endif //defined(MEDIAINFO_LIBCURL_YES)
 
     ZenLib::CriticalSection CS;
+
+    //Constructor
+    MediaInfo_Config_MediaInfo (const MediaInfo_Config_MediaInfo&);             // Prevent copy-construction
+    MediaInfo_Config_MediaInfo& operator=(const MediaInfo_Config_MediaInfo&);   // Prevent assignment
 };
 
 } //NameSpace

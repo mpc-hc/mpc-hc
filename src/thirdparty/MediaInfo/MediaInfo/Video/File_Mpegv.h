@@ -1,20 +1,9 @@
-// File_Mpegv - Info for MPEG Video files
-// Copyright (C) 2004-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Information about MPEG Video files
@@ -225,11 +214,11 @@ private :
         File__Analyze*              DTG1_Parser;
         File__Analyze*              GA94_06_Parser;
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
+    #if defined(MEDIAINFO_CDP_YES)
         File__Analyze*              Cdp_Parser;
         bool                        Cdp_IsPresent;
     #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #if defined(MEDIAINFO_AFDBARDATA_YES)
         File__Analyze*              AfdBarData_Parser;
     #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
 

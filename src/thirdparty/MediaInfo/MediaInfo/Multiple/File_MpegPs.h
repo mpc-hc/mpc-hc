@@ -1,20 +1,9 @@
-// File_Mpeg - Info for MPEG files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Information about MPEG files
@@ -262,6 +251,7 @@ private :
     File__Analyze* ChooseParser_Mpegv();
     File__Analyze* ChooseParser_Mpeg4v();
     File__Analyze* ChooseParser_Avc();
+    File__Analyze* ChooseParser_Hevc();
     File__Analyze* ChooseParser_VC1();
     File__Analyze* ChooseParser_Dirac();
     File__Analyze* ChooseParser_Mpega();
@@ -303,9 +293,6 @@ private :
         int64u                      Seek_ID;
         bool                        Duration_Detected;
     #endif //MEDIAINFO_SEEK
-    #if MEDIAINFO_SEEK && MEDIAINFO_IBI
-        ibi Ibi;
-    #endif //MEDIAINFO_SEEK && MEDIAINFO_IBI
 };
 
 } //NameSpace

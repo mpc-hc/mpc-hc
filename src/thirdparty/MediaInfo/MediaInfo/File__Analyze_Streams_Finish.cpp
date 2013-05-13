@@ -1,20 +1,9 @@
-// File__Analyze_Inform - Base for other files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Init and Finalize part
@@ -141,20 +130,43 @@ void File__Analyze::TestContinuousFileNames()
     if (Config->File_Names.size()==Pos)
         return;
 
-    for (; Pos<Config->File_Names.size(); Pos++)
+    #if MEDIAINFO_ADVANCED
+        if (!Config->File_IgnoreSequenceFileSize_Get())
+    #endif //MEDIAINFO_ADVANCED
     {
-        int64u Size=File::Size_Get(Config->File_Names[Pos]);
-        Config->File_Sizes.push_back(Size);
-        Config->File_Size+=Size;
+        for (; Pos<Config->File_Names.size(); Pos++)
+        {
+            int64u Size=File::Size_Get(Config->File_Names[Pos]);
+            Config->File_Sizes.push_back(Size);
+            Config->File_Size+=Size;
+        }
     }
 
     File_Size=Config->File_Size;
     Element[0].Next=File_Size;
-    Fill (Stream_General, 0, General_FileSize, File_Size, 10, true);
+    #if MEDIAINFO_ADVANCED
+        if (!Config->File_IgnoreSequenceFileSize_Get())
+    #endif //MEDIAINFO_ADVANCED
+        Fill (Stream_General, 0, General_FileSize, File_Size, 10, true);
     Fill (Stream_General, 0, General_CompleteName_Last, Config->File_Names[Config->File_Names.size()-1], true);
     Fill (Stream_General, 0, General_FolderName_Last, FileName::Path_Get(Config->File_Names[Config->File_Names.size()-1]), true);
     Fill (Stream_General, 0, General_FileName_Last, FileName::Name_Get(Config->File_Names[Config->File_Names.size()-1]), true);
     Fill (Stream_General, 0, General_FileExtension_Last, FileName::Extension_Get(Config->File_Names[Config->File_Names.size()-1]), true);
+
+    #if MEDIAINFO_ADVANCED
+        if (Config->File_Source_List_Get())
+        {
+            Ztring SourcePath=FileName::Path_Get(Retrieve(Stream_General, 0, General_CompleteName));
+            size_t SourcePath_Size=SourcePath.size()+1; //Path size + path separator size
+            for (size_t Pos=0; Pos<Config->File_Names.size(); Pos++)
+            {
+                Ztring Temp=Config->File_Names[Pos];
+                Temp.erase(0, SourcePath_Size);
+                Fill(Stream_General, 0, "Source_List", Temp);
+            }
+            (*Stream_More)[Stream_General][0](Ztring().From_Local("Source_List"), Info_Options)=__T("N NT");
+        }
+    #endif //MEDIAINFO_ADVANCED
 }
 
 //---------------------------------------------------------------------------
@@ -527,6 +539,17 @@ void File__Analyze::Streams_Finish_InterStreams()
             AudioBitRate_Minus  =0;
             TextBitRate_Ratio   =0.99;
             TextBitRate_Minus   =0;
+        }
+        if (Get(Stream_General, 0, __T("Format"))==__T("MXF"))
+        {
+            GeneralBitRate_Ratio=1;
+            GeneralBitRate_Minus=1000;
+            VideoBitRate_Ratio  =1.00;
+            VideoBitRate_Minus  =1000;
+            AudioBitRate_Ratio  =1.00;
+            AudioBitRate_Minus  =1000;
+            TextBitRate_Ratio   =1.00;
+            TextBitRate_Minus   =1000;
         }
 
         //Testing

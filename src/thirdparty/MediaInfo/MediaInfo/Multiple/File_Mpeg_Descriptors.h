@@ -1,20 +1,9 @@
-// File_Mpeg_Descriptors - Info for MPEG files
-// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Information about MPEG files, Descriptors
@@ -609,6 +598,18 @@ private :
     void Descriptor_2D() {Skip_XX(Element_Size, "Data");};
     void Descriptor_2E() {Skip_XX(Element_Size, "Data");};
     void Descriptor_2F();
+    void Descriptor_30() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_31() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_32() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_33() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_34() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_35() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_36() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_37() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_38() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_39() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_3A() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_3F() {Skip_XX(Element_Size, "Data");};
     void Descriptor_40();
     void Descriptor_41();
     void Descriptor_42() {Skip_XX(Element_Size, "Data");};

@@ -1,22 +1,9 @@
-// MediaInfoList - A list of MediaInfo
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// MediaInfoList
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Give information about a lot of media files
@@ -56,6 +43,8 @@
 namespace MediaInfoLib
 {
 
+class MediaInfoList_Internal;
+
 //***************************************************************************
 /// @brief MediaInfoList
 /// @version 0.7
@@ -78,18 +67,22 @@ public :
         ///             (if multiple names, names must be separated by "|")
         /// @param Options: FileOption_Recursive = Recursive mode for folders \n
         ///                  FileOption_Close = Close all already opened files before
-        /// @retval Number of files successfuly added
+        /// @return Number of files successfuly added
     size_t Open (const String &File, const fileoptions_t Options=FileOption_Nothing);
         /// Open a stream and collect information about it (technical information and tags)
         /// @brief Open a stream (Init)
         /// @param File_Size Estimated file size
         /// @param File_Offset Offset of the file (if we don't have the beginning of the file)
+        /// @retval 0 failed
+        /// @retval 1 succeed
     size_t Open_Buffer_Init (ZenLib::int64u File_Size=(ZenLib::int64u)-1, ZenLib::int64u File_Offset=0);
         /// Open a stream and collect information about it (technical information and tags)
         /// @brief Open a stream (Continue)
         /// @param FilePos File position
         /// @param Buffer pointer to the stream
         /// @param Buffer_Size Count of bytes to read
+        /// @retval 0 failed
+        /// @retval 1 succeed
     size_t Open_Buffer_Continue (size_t FilePos, const ZenLib::int8u* Buffer, size_t Buffer_Size);
         /// Open a stream and collect information about it (technical information and tags)
         /// @brief Open a stream (Get the needed file Offset)
@@ -100,13 +93,15 @@ public :
         /// Open a stream and collect information about it (technical information and tags)
         /// @brief Open a stream (Finalize)
         /// @param FilePos File position
+        /// @retval 0 failed
+        /// @retval 1 succeed
     size_t Open_Buffer_Finalize (size_t FilePos);
         /// Save the file opened before with Open() (modifications of tags)
         /// @brief Save the file
         /// @param FilePos File position \n
         ///        (you can know the position in searching the filename with MediaInfoList::Get(FilePos, 0, 0, "CompleteName") )
         /// @retval 0 failed
-        /// @retval 1 suceed
+        /// @retval 1 succeed
     size_t Save (size_t FilePos);
         /// (NOT IMPLEMENTED YET) Save all files opened before with Open() (modifications of tags)
         /// @brief (NOT IMPLEMENTED YET) Save all files
@@ -121,6 +116,7 @@ public :
         ///        (you can know the position in searching the filename with MediaInfoList::Get(FilePos, 0, 0, "CompleteName") )
         /// @param Reserved Deprecated, do not use it anymore
         /// @pre You can change default presentation with Inform_Set()
+        /// @return Text with information about the file
     String Inform (size_t FilePos=(size_t)-1, size_t Reserved=0);
 
     //Get
@@ -212,13 +208,18 @@ public :
         ///        (you can know the position in searching the filename with MediaInfoList::Get(FilePos, 0, 0, "CompleteName") )
         /// @param StreamKind Kind of stream (general, video, audio...)
         /// @param StreamNumber Stream number in this kind of stream (first, second...)
+        /// @return The count of fields for this stream kind / stream number if stream number is provided, else the count of streams for this stream kind
     size_t                  Count_Get (size_t FilePos, stream_t StreamKind, size_t StreamNumber=(size_t)-1);
         /// @brief Get the count of opened files
         /// @return Count of files opened
     size_t                  Count_Get ();
 
 private :
-    void* Internal;
+    MediaInfoList_Internal* Internal;
+
+    //Constructor
+    MediaInfoList (const MediaInfoList&);                   // Prevent copy-construction
+    MediaInfoList& operator=(const MediaInfoList&);         // Prevent assignment
 };
 
 } //NameSpace

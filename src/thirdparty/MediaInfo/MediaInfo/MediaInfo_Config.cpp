@@ -1,20 +1,9 @@
-// MediaInfo_Config - Configuration class
-// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Global configuration of MediaInfo
@@ -45,7 +34,7 @@ namespace MediaInfoLib
 {
 
 //---------------------------------------------------------------------------
-const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.62");
+const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.63");
 const Char*  MediaInfo_Url=__T("http://mediainfo.sourceforge.net");
       Ztring EmptyZtring;       //Use it when we can't return a reference to a true Ztring
 const Ztring EmptyZtring_Const; //Use it when we can't return a reference to a true Ztring, const version
@@ -115,7 +104,7 @@ void MediaInfo_Config::Init()
         InitDataNotRepeated_GiveUp=false;
     #endif //MEDIAINFO_ADVANCED
     MpegTs_MaximumOffset=64*1024*1024;
-    MpegTs_MaximumScanDuration=15000000000LL;
+    MpegTs_MaximumScanDuration=30000000000LL;
     MpegTs_ForceStreamDisplay=false;
     #if MEDIAINFO_ADVANCED
         MpegTs_VbrDetection_Delta=0;
@@ -568,7 +557,7 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
     }
     else if (Option_Lower==__T("info_parameters_csv"))
     {
-        return Info_Parameters_Get();
+        return Info_Parameters_Get(Value==__T("Complete"));
     }
     else if (Option_Lower==__T("info_codecs"))
     {
@@ -1796,7 +1785,7 @@ const ZtringListList &MediaInfo_Config::Info_Get(stream_t KindOfStream)
 }
 
 //---------------------------------------------------------------------------
-Ztring MediaInfo_Config::Info_Parameters_Get ()
+Ztring MediaInfo_Config::Info_Parameters_Get (bool Complete)
 {
     CriticalSectionLocker CSL(CS);
 
@@ -1820,8 +1809,13 @@ Ztring MediaInfo_Config::Info_Parameters_Get ()
         for (size_t Pos=0; Pos<Info[StreamKind].size(); Pos++)
             if (!Info[StreamKind].Read(Pos, Info_Name).empty())
             {
-                ToReturn(ToReturn_Pos, 0)=Info[StreamKind].Read(Pos, Info_Name);
-                ToReturn(ToReturn_Pos, 1)=Info[StreamKind].Read(Pos, Info_Info);
+                if (Complete)
+                    ToReturn.push_back(Info[StreamKind].Read(Pos));
+                else
+                {
+                    ToReturn(ToReturn_Pos, 0)=Info[StreamKind].Read(Pos, Info_Name);
+                    ToReturn(ToReturn_Pos, 1)=Info[StreamKind].Read(Pos, Info_Info);
+                }
                 ToReturn_Pos++;
             }
         ToReturn_Pos++;

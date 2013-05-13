@@ -1,21 +1,8 @@
-// File_MpegPs - Info for MPEG files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -38,6 +25,9 @@
 #include "MediaInfo/Multiple/File_Mpeg_Psi.h"
 #if defined(MEDIAINFO_AVC_YES)
     #include "MediaInfo/Video/File_Avc.h"
+#endif
+#if defined(MEDIAINFO_HEVC_YES)
+    #include "MediaInfo/Video/File_Hevc.h"
 #endif
 #if defined(MEDIAINFO_MPEG4V_YES)
     #include "MediaInfo/Video/File_Mpeg4v.h"
@@ -104,7 +94,6 @@
     #if MEDIAINFO_SEEK
         #include "MediaInfo/Multiple/File_Ibi.h"
     #endif //MEDIAINFO_SEEK
-    #include "MediaInfo/Multiple/File_Ibi_Creation.h"
 #endif //MEDIAINFO_IBI
 using namespace ZenLib;
 using namespace std;
@@ -539,13 +528,9 @@ void File_MpegPs::Streams_Finish()
     }
 
     #if MEDIAINFO_IBI
-        if (Config_Ibi_Create)
+        if (!IsSub && Config_Ibi_Create)
         {
-            ibi Ibi_Temp;
             for (ibi::streams::iterator IbiStream_Temp=Ibi.Streams.begin(); IbiStream_Temp!=Ibi.Streams.end(); ++IbiStream_Temp)
-                Ibi_Temp.Streams[IbiStream_Temp->first]=new ibi::stream(*IbiStream_Temp->second);
-
-            for (ibi::streams::iterator IbiStream_Temp=Ibi_Temp.Streams.begin(); IbiStream_Temp!=Ibi_Temp.Streams.end(); ++IbiStream_Temp)
             {
                 if (IbiStream_Temp->second && IbiStream_Temp->second->DtsFrequencyNumerator==1000000000 && IbiStream_Temp->second->DtsFrequencyDenominator==1)
                 {
@@ -564,12 +549,6 @@ void File_MpegPs::Streams_Finish()
                     }
                 }
             }
-
-            //IBI Creation
-            File_Ibi_Creation IbiCreation(Ibi_Temp);
-            Ztring IbiText=IbiCreation.Finish();
-            if (!IbiText.empty())
-                Fill(Stream_General, 0, "IBI", IbiText, true);
         }
     #endif //MEDIAINFO_IBI
 }
@@ -847,7 +826,7 @@ void File_MpegPs::Synched_Init()
     FirstPacketOrder_Last=0;
 
     //Case of extraction from MPEG-TS files
-    if (File_Offset==0 && Buffer_Size>=4 && ((CC4(Buffer)&0xFFFFFFF0)==0x000001E0 || (CC4(Buffer)&0xFFFFFFE0)==0x000001C0 || CC4(Buffer)==0x000001BD || CC4(Buffer)==0x000001FA || CC4(Buffer)==0x000001FD))
+    if (File_Offset==0 && Buffer_Size>=4 && ((CC4(Buffer)&0xFFFFFFF0)==0x000001E0 || (CC4(Buffer)&0xFFFFFFE0)==0x000001C0 || CC4(Buffer)==0x000001BD || CC4(Buffer)==0x000001FA || CC4(Buffer)==0x000001FD || CC4(Buffer)==0x000001FE))
     {
         FromTS=true; //We want to anlyze this kind of file
         MPEG_Version=2; //By default, MPEG-TS is version 2
@@ -875,6 +854,9 @@ void File_MpegPs::Synched_Init()
         Streams[0xFD].Searching_Payload=true;            //extension_stream
         Streams[0xFD].Searching_TimeStamp_Start=true;    //extension_stream
         Streams[0xFD].Searching_TimeStamp_End=true;      //extension_stream
+        Streams[0xFE].Searching_Payload=true;            //extension_stream?
+        Streams[0xFE].Searching_TimeStamp_Start=true;    //extension_stream?
+        Streams[0xFE].Searching_TimeStamp_End=true;      //extension_stream?
     }
 }
 
@@ -966,46 +948,48 @@ size_t File_MpegPs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (!Duration_Detected)
     {
         //External IBI
-        std::string IbiFile=Config->Ibi_Get();
-        if (!IbiFile.empty())
-        {
-            Ibi.Streams.clear(); //TODO: support IBI data from different inputs
-
-            File_Ibi MI;
-            Open_Buffer_Init(&MI, IbiFile.size());
-            MI.Ibi=&Ibi;
-            MI.Open_Buffer_Continue((const int8u*)IbiFile.c_str(), IbiFile.size());
-        }
-        //Creating base IBI from a quick analysis of the file
-        else
-        {
-            MediaInfo_Internal MI;
-            MI.Option(__T("File_KeepInfo"), __T("1"));
-            Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
-            Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
-            MI.Option(__T("ParseSpeed"), __T("0"));
-            MI.Option(__T("Demux"), Ztring());
-            size_t MiOpenResult=MI.Open(File_Name);
-            MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-            MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
-            if (!MiOpenResult)
-                return 0;
-            for (ibi::streams::iterator IbiStream_Temp=((File_MpegPs*)MI.Info)->Ibi.Streams.begin(); IbiStream_Temp!=((File_MpegPs*)MI.Info)->Ibi.Streams.end(); ++IbiStream_Temp)
+        #if MEDIAINFO_IBI
+            std::string IbiFile=Config->Ibi_Get();
+            if (!IbiFile.empty())
             {
-                if (Ibi.Streams[IbiStream_Temp->first]==NULL)
-                    Ibi.Streams[IbiStream_Temp->first]=new ibi::stream(*IbiStream_Temp->second);
-                Ibi.Streams[IbiStream_Temp->first]->Unsynch();
-                for (size_t Pos=0; Pos<IbiStream_Temp->second->Infos.size(); Pos++)
-                {
-                    Ibi.Streams[IbiStream_Temp->first]->Add(IbiStream_Temp->second->Infos[Pos]);
-                    if (!IbiStream_Temp->second->Infos[Pos].IsContinuous)
-                        Ibi.Streams[IbiStream_Temp->first]->Unsynch();
-                }
-                Ibi.Streams[IbiStream_Temp->first]->Unsynch();
+                Ibi.Streams.clear(); //TODO: support IBI data from different inputs
+
+                File_Ibi MI;
+                Open_Buffer_Init(&MI, IbiFile.size());
+                MI.Ibi=&Ibi;
+                MI.Open_Buffer_Continue((const int8u*)IbiFile.c_str(), IbiFile.size());
             }
-            if (Ibi.Streams.empty())
-                return 4; //Problem during IBI file parsing
-        }
+            //Creating base IBI from a quick analysis of the file
+            else
+            {
+                MediaInfo_Internal MI;
+                MI.Option(__T("File_KeepInfo"), __T("1"));
+                Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
+                Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
+                MI.Option(__T("ParseSpeed"), __T("0"));
+                MI.Option(__T("Demux"), Ztring());
+                size_t MiOpenResult=MI.Open(File_Name);
+                MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+                MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+                if (!MiOpenResult)
+                    return 0;
+                for (ibi::streams::iterator IbiStream_Temp=((File_MpegPs*)MI.Info)->Ibi.Streams.begin(); IbiStream_Temp!=((File_MpegPs*)MI.Info)->Ibi.Streams.end(); ++IbiStream_Temp)
+                {
+                    if (Ibi.Streams[IbiStream_Temp->first]==NULL)
+                        Ibi.Streams[IbiStream_Temp->first]=new ibi::stream(*IbiStream_Temp->second);
+                    Ibi.Streams[IbiStream_Temp->first]->Unsynch();
+                    for (size_t Pos=0; Pos<IbiStream_Temp->second->Infos.size(); Pos++)
+                    {
+                        Ibi.Streams[IbiStream_Temp->first]->Add(IbiStream_Temp->second->Infos[Pos]);
+                        if (!IbiStream_Temp->second->Infos[Pos].IsContinuous)
+                            Ibi.Streams[IbiStream_Temp->first]->Unsynch();
+                    }
+                    Ibi.Streams[IbiStream_Temp->first]->Unsynch();
+                }
+                if (Ibi.Streams.empty())
+                    return 4; //Problem during IBI file parsing
+            }
+        #endif //#if MEDIAINFO_IBI
 
         Duration_Detected=true;
     }
@@ -1980,9 +1964,9 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG2(int8u stream_id)
         Skip_B2(                                                "previous_PES_packet_CRC");
         Element_End0();
     }
-    bool PES_private_data_flag=false, pack_header_field_flag=false, program_packet_sequence_counter_flag=false, p_STD_buffer_flag=false, PES_extension_flag_2=false; //Need it for DCA event
     if (PES_extension_flag && Element_Offset<Element_Pos_After_Data)
     {
+        bool PES_private_data_flag=false, pack_header_field_flag=false, program_packet_sequence_counter_flag=false, p_STD_buffer_flag=false, PES_extension_flag_2=false;
         Element_Begin1("PES_extension_flag");
         BS_Begin();
         Get_SB (PES_private_data_flag,                          "PES_private_data_flag");
@@ -2131,6 +2115,7 @@ void File_MpegPs::Data_Parse()
         case 0xFB : Element_Name("FlexMux_stream"); Skip_XX(Element_Size, "Data"); break;
         case 0xFC : Element_Name("descriptive data stream"); Skip_XX(Element_Size, "Data"); break;
         case 0xFD : extension_stream(); break;
+        case 0xFE : video_stream(); break;
         case 0xFF : Element_Name("program_stream_directory"); Skip_XX(Element_Size, "Data"); break;
         default:
                  if ((stream_id&0xE0)==0xC0) audio_stream();
@@ -3267,6 +3252,7 @@ void File_MpegPs::video_stream()
         {
             case 0x10 : Streams[stream_id].Parsers.push_back(ChooseParser_Mpeg4v()); break;
             case 0x1B : Streams[stream_id].Parsers.push_back(ChooseParser_Avc()   ); break;
+            case 0x27 : Streams[stream_id].Parsers.push_back(ChooseParser_Hevc()  ); break;
             case 0x01 :
             case 0x02 :
             case 0x80 : Streams[stream_id].Parsers.push_back(ChooseParser_Mpegv() ); break;
@@ -3276,6 +3262,9 @@ void File_MpegPs::video_stream()
                         #endif
                         #if defined(MEDIAINFO_AVC_YES)
                             Streams[stream_id].Parsers.push_back(ChooseParser_Avc());
+                        #endif
+                        #if defined(MEDIAINFO_HEVC_YES)
+                            Streams[stream_id].Parsers.push_back(ChooseParser_Hevc());
                         #endif
                         #if defined(MEDIAINFO_MPEG4V_YES)
                             Streams[stream_id].Parsers.push_back(ChooseParser_Mpeg4v());
@@ -3416,14 +3405,11 @@ void File_MpegPs::SL_packetized_stream()
         {
             BS_Begin();
             int8u paddingBits=0;
-            bool paddingFlag=false, idleFlag=false, DegPrioflag=false, OCRflag=false,
-                 accessUnitStartFlag=false, accessUnitEndFlag=false,
-                 decodingTimeStampFlag=false, compositionTimeStampFlag=false,
-                 instantBitrateFlag=false;
+            bool paddingFlag=false, idleFlag=false, OCRflag=false, accessUnitStartFlag=false;
             if (SLConfig->useAccessUnitStartFlag)
                 Get_SB (accessUnitStartFlag,                        "accessUnitStartFlag");
             if (SLConfig->useAccessUnitEndFlag)
-                Get_SB (accessUnitEndFlag,                          "accessUnitEndFlag");
+                Skip_SB(                                            "accessUnitEndFlag");
             if (SLConfig->OCRLength>0)
                 Get_SB (OCRflag,                                    "OCRflag");
             if (SLConfig->useIdleFlag)
@@ -3434,6 +3420,7 @@ void File_MpegPs::SL_packetized_stream()
                 Get_S1(3, paddingBits,                              "paddingBits");
             if (!idleFlag && (!paddingFlag || paddingBits!=0))
             {
+                bool DegPrioflag=false;
                 if (SLConfig->packetSeqNumLength>0)
                     Skip_S2(SLConfig->packetSeqNumLength,           "packetSequenceNumber");
                 if (SLConfig->degradationPriorityLength>0)
@@ -3444,6 +3431,7 @@ void File_MpegPs::SL_packetized_stream()
                     Skip_S8(SLConfig->OCRLength,                    "objectClockReference");
                 if (accessUnitStartFlag)
                 {
+                    bool decodingTimeStampFlag=false, compositionTimeStampFlag=false, instantBitrateFlag=false;
                     if (SLConfig->useRandomAccessPointFlag)
                         Skip_SB(                                    "randomAccessPointFlag");
                     if (SLConfig->AU_seqNumLength >0)
@@ -3962,7 +3950,7 @@ void File_MpegPs::xxx_stream_Parse(ps_stream &Temp, int8u &stream_Count)
         #endif //MEDIAINFO_DEMUX
     #endif //MEDIAINFO_EVENTS
 
-    #if MEDIAINFO_SEEK
+    #if MEDIAINFO_SEEK && MEDIAINFO_IBI
         if (Seek_ID!=(int64u)-1)
         {
             if (Ibi.Streams[Seek_ID]->IsModified)
@@ -3991,7 +3979,7 @@ void File_MpegPs::xxx_stream_Parse(ps_stream &Temp, int8u &stream_Count)
                     }
             }
         }
-    #endif //MEDIAINFO_SEEK
+    #endif //MEDIAINFO_SEEK && MEDIAINFO_IBI
 }
 
 //***************************************************************************
@@ -4248,6 +4236,31 @@ File__Analyze* File_MpegPs::ChooseParser_Avc()
     return Parser;
 }
 
+//---------------------------------------------------------------------------
+File__Analyze* File_MpegPs::ChooseParser_Hevc()
+{
+    //Filling
+    #if defined(MEDIAINFO_HEVC_YES)
+        File_Hevc* Parser=new File_Hevc;
+        #if MEDIAINFO_DEMUX
+            if (Config->Demux_Unpacketize_Get())
+            {
+                Demux_UnpacketizeContainer=false; //No demux from this parser
+                Demux_Level=4; //Intermediate
+                Parser->Demux_Level=2; //Container
+                Parser->Demux_UnpacketizeContainer=true;
+            }
+        #endif //MEDIAINFO_DEMUX
+    #else
+        //Filling
+        File__Analyze* Parser=new File_Unknown();
+        Open_Buffer_Init(Parser);
+        Parser->Stream_Prepare(Stream_Video);
+        Parser->Fill(Stream_Video, 0, Video_Codec,  "HEVC");
+        Parser->Fill(Stream_Video, 0, Video_Format, "HEVC");
+    #endif
+    return Parser;
+}
 //---------------------------------------------------------------------------
 File__Analyze* File_MpegPs::ChooseParser_VC1()
 {

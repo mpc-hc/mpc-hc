@@ -1,20 +1,9 @@
-// File_ChannelGrouping - Regrouping PCM streams
-// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Some containers use mono stream for AES3 (Stereo) grouping
@@ -44,8 +33,8 @@ class File_ChannelGrouping : public File__Analyze
 {
 public :
     //In
-    size_t  BitDepth;
-    int64u  SamplingRate;
+    int8u   BitDepth;
+    int16u  SamplingRate;
     int8u   Endianness;
     bool    CanBePcm;
 
@@ -102,11 +91,13 @@ public :
         size_t              Channel_Current;
         std::vector<File__Analyze*> Parsers;
         size_t              Instances;
+        size_t              Instances_Max;
 
         common()
         {
             Channel_Current=0;
             Instances=0;
+            Instances_Max=0;
         }
 
         ~common()
@@ -117,8 +108,8 @@ public :
     };
     int64u  StreamID;
     common* Common;
-    size_t  Channel_Pos;
-    size_t  Channel_Total;
+    int8u   Channel_Pos;
+    int8u   Channel_Total;
 
     //Constructor/Destructor
     File_ChannelGrouping();

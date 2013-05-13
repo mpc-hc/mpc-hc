@@ -1,21 +1,8 @@
-// MediaInfo_Internal - All info about media files
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -36,6 +23,7 @@
 #include "MediaInfo/File__MultipleParsing.h"
 #include "ZenLib/Dir.h"
 #include "ZenLib/File.h"
+#include "ZenLib/FileName.h"
 #if defined(MEDIAINFO_DIRECTORY_YES)
     #include "MediaInfo/Reader/Reader_Directory.h"
 #endif
@@ -48,6 +36,10 @@
 #if defined(MEDIAINFO_LIBMMS_YES)
     #include "MediaInfo/Reader/Reader_libmms.h"
 #endif
+#if defined(MEDIAINFO_IBI_YES)
+    #include "MediaInfo/Multiple/File_Ibi.h"
+#endif
+#include "MediaInfo/Multiple/File_Dxw.h"
 #include <cmath>
 #ifdef MEDIAINFO_DEBUG_WARNING_GET
     #include <iostream>
@@ -334,6 +326,27 @@ size_t MediaInfo_Internal::Open(const String &File_Name_)
 {
     Close();
 
+    //External IBI
+    #if defined(MEDIAINFO_IBI_YES)
+        if (Config.Ibi_UseIbiInfoIfAvailable_Get())
+        {
+            std::string IbiFile=Config.Ibi_Get();
+            if (!IbiFile.empty())
+            {
+                Info=new File_Ibi();
+                Open_Buffer_Init(IbiFile.size(), File_Name_);
+                Open_Buffer_Continue((const int8u*)IbiFile.c_str(), IbiFile.size());
+                Open_Buffer_Finalize();
+
+                if (!Get(Stream_General, 0, __T("Format")).empty() && Get(Stream_General, 0, __T("Format"))!=__T("Ibi"))
+                    return 1;
+
+                //Nothing interesting
+                delete Info; Info=NULL;
+            }
+        }
+    #endif //MEDIAINFO_IBI_YES
+
     CS.Enter();
     MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Open, File=");Debug+=Ztring(File_Name_).c_str();)
     Config.File_Names.clear();
@@ -451,16 +464,116 @@ void MediaInfo_Internal::Entry()
     #if defined(MEDIAINFO_FILE_YES)
         else if (File::Exists(Config.File_Names[0]))
         {
-            CS.Enter();
-            if (Reader)
+            string Dxw;
+            if (Config.File_CheckSideCarFiles_Get() && !Config.File_IsReferenced_Get())
             {
-                CS.Leave();
-                return; //There is a problem
-            }
-            Reader=new Reader_File();
-            CS.Leave();
+                FileName Test(Config.File_Names[0]);
+                Ztring FileExtension=Test.Extension_Get();
+                FileExtension.MakeLowerCase();
 
-            Reader->Format_Test(this, Config.File_Names[0]);
+                if (FileExtension!=__T("dfxp"))
+                {
+                    Test.Extension_Set(__T("dfxp"));
+                    if (File::Exists(Test))
+                        Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".dfxp\" />\r\n";
+                }
+                if (FileExtension!=__T("sami"))
+                {
+                    Test.Extension_Set(__T("sami"));
+                    if (File::Exists(Test))
+                        Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".sami\" />\r\n";
+                }
+                if (FileExtension!=__T("sc2"))
+                {
+                    Test.Extension_Set(__T("sc2"));
+                    if (File::Exists(Test))
+                        Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".sc2\" />\r\n";
+                }
+                if (FileExtension!=__T("scc"))
+                {
+                    Test.Extension_Set(__T("scc"));
+                    if (File::Exists(Test))
+                        Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".scc\" />\r\n";
+                }
+                if (FileExtension!=__T("smi"))
+                {
+                    Test.Extension_Set(__T("smi"));
+                    if (File::Exists(Test))
+                        Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".smi\" />\r\n";
+                }
+                if (FileExtension!=__T("srt"))
+                {
+                    Test.Extension_Set(__T("srt"));
+                    if (File::Exists(Test))
+                        Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".srt\" />\r\n";
+                }
+                if (FileExtension!=__T("stl"))
+                {
+                    Test.Extension_Set(__T("stl"));
+                    if (File::Exists(Test))
+                        Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".stl\" />\r\n";
+                }
+
+                Ztring Name=Test.Name_Get();
+                Ztring BaseName=Name.SubString(Ztring(), __T("_"));
+                if (!BaseName.empty())
+                {
+                    ZtringList List;
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_audio.mp4"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_sub.dfxp"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_sub.sami"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_sub.sc2"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_sub.scc"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_sub.smi"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_sub.srt"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_sub.stl"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_forcesub.dfxp"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_forcesub.sami"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_forcesub.sc2"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_forcesub.scc"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_forcesub.smi"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_forcesub.srt"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_forcesub.stl"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_cc.dfxp"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_cc.sami"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_cc.sc2"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_cc.scc"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_cc.smi"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_cc.srt"), Dir::Include_Files);
+                    List+=Dir::GetAllFileNames(Test.Path_Get()+PathSeparator+BaseName+__T("_*_cc.stl"), Dir::Include_Files);
+                    for (size_t Pos=0; Pos<List.size(); Pos++)
+                        Dxw+=" <clip file=\""+List[Pos].To_UTF8()+"\" />\r\n";
+                }
+
+                if (!Dxw.empty())
+                {
+                    Dxw.insert(0, "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n"
+                            "<indexFile xmlns=\"urn:digimetrics-xml-wrapper\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"urn:digimetrics-xml-wrapper DMSCLIP.XSD\">\r\n"
+                            " <clip source=\"main\" file=\""+FileName(Config.File_Names[0]).Name_Get().To_UTF8()+"."+FileName(Config.File_Names[0]).Extension_Get().To_UTF8()+"\" />\r\n");
+                    Dxw.append("</indexFile>\r\n");
+                    Config.File_FileNameFormat_Set(__T("Dxw"));
+                }
+            }
+
+            if (Dxw.empty())
+            {
+                CS.Enter();
+                if (Reader)
+                {
+                    CS.Leave();
+                    return; //There is a problem
+                }
+                Reader=new Reader_File();
+                CS.Leave();
+
+                Reader->Format_Test(this, Config.File_Names[0]);
+            }
+            else
+            {
+                Open_Buffer_Init(Dxw.size(), FileName(Config.File_Names[0]).Path_Get()+PathSeparator+FileName(Config.File_Names[0]).Name_Get());
+                Open_Buffer_Continue((const int8u*)Dxw.c_str(), Dxw.size());
+                Open_Buffer_Finalize();
+            }
 
             #if MEDIAINFO_NEXTPACKET
                 if (Config.NextPacket_Get())
@@ -493,6 +606,13 @@ size_t MediaInfo_Internal::Open (const int8u* Begin, size_t Begin_Size, const in
 size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, const String &File_Name)
 {
     CriticalSectionLocker CSL(CS);
+
+    if (Config.File_Names.size()<=1) //If analyzing multiple files, theses members are adapted in File_Reader.cpp
+    {
+        if (File_Size_!=(int64u)-1)
+            Config.File_Size=Config.File_Current_Size=File_Size_;
+    }
+
     if (Info==NULL)
     {
         if (!Config.File_ForceParser_Get().empty())
@@ -516,6 +636,20 @@ size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, const String &Fi
         Info->File_Name=File_Name;
     Info->Open_Buffer_Init(File_Size_);
 
+    #if MEDIAINFO_EVENTS
+        {
+            struct MediaInfo_Event_General_Start_0 Event;
+            memset(&Event, 0xFF, sizeof(struct MediaInfo_Event_Generic));
+            Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Start, 0);
+            Event.EventSize=sizeof(struct MediaInfo_Event_General_Start_0);
+            Event.StreamIDs_Size=0;
+            Event.Stream_Size=File_Size_;
+            Event.FileName=NULL;
+            Event.FileName_Unicode=File_Name.c_str();
+            Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
+        }
+    #endif //MEDIAINFO_EVENTS
+
     return 1;
 }
 
@@ -533,6 +667,12 @@ size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, int64u File_Offs
             delete[] Temp;
         }
     #endif //MEDIAINFO_DEBUG_BUFFER
+
+    if (Config.File_Names.size()<=1) //If analyzing multiple files, theses members are adapted in File_Reader.cpp
+    {
+        if (File_Size_!=(int64u)-1)
+            Config.File_Size=Config.File_Current_Size=File_Size_;
+    }
 
     if (Info==NULL || File_Size_!=(int64u)-1)
         Open_Buffer_Init(File_Size_);
@@ -559,9 +699,11 @@ size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, int64u File_Offs
             struct MediaInfo_Event_General_Start_0 Event;
             memset(&Event, 0xFF, sizeof(struct MediaInfo_Event_Generic));
             Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Start, 0);
-            Event.EventSize=sizeof(struct MediaInfo_Event_General_Move_Done_0);
+            Event.EventSize=sizeof(struct MediaInfo_Event_General_Start_0);
             Event.StreamIDs_Size=0;
             Event.Stream_Size=File_Size_;
+            Event.FileName=NULL;
+            Event.FileName_Unicode=NULL;
             Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
         }
     #endif //MEDIAINFO_EVENTS

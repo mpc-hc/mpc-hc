@@ -1,21 +1,8 @@
-// File__Analyze - Base for analyze files
-// Copyright (C) 2009-2012 Jerome Martinez, Zen@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -33,9 +20,6 @@
 #include "MediaInfo/Export/Export_Mpeg7.h"
 #include "MediaInfo/File__Analyse_Automatic.h"
 #include <ctime>
-#ifdef SS
-   #undef SS //Solaris defines this somewhere
-#endif
 using namespace std;
 //---------------------------------------------------------------------------
 
@@ -893,7 +877,7 @@ Ztring Mpeg7_MediaTimePoint(MediaInfo_Internal &MI)
         Delay=Delay%(60*60*Rate);
         int64u MM=Delay/(60*Rate);
         Delay=Delay%(60*Rate);
-        int64u SS=Delay/Rate;
+        int64u Sec=Delay/Rate;
         Delay=Delay%Rate;
         Ztring ToReturn;
         if (DD)
@@ -901,7 +885,7 @@ Ztring Mpeg7_MediaTimePoint(MediaInfo_Internal &MI)
         ToReturn+=__T('T');
         ToReturn+=(HH<10?__T("0"):__T(""))+Ztring::ToZtring(HH)+__T(':');
         ToReturn+=(MM<10?__T("0"):__T(""))+Ztring::ToZtring(MM)+__T(':');
-        ToReturn+=(SS<10?__T("0"):__T(""))+Ztring::ToZtring(SS)+__T(':');
+        ToReturn+=(Sec<10?__T("0"):__T(""))+Ztring::ToZtring(Sec)+__T(':');
         ToReturn+=Ztring::ToZtring(Delay)+__T('F');
         ToReturn+=Ztring::ToZtring(Rate);
         return ToReturn;
@@ -915,7 +899,7 @@ Ztring Mpeg7_MediaTimePoint(MediaInfo_Internal &MI)
     Milliseconds=Milliseconds%(60*60*1000);
     int64u MM=Milliseconds/(60*1000);
     Milliseconds=Milliseconds%(60*1000);
-    int64u SS=Milliseconds/1000;
+    int64u Sec=Milliseconds/1000;
     int64u NN=Milliseconds%1000;
     int64u FF=1000;
     Ztring ToReturn;
@@ -924,7 +908,7 @@ Ztring Mpeg7_MediaTimePoint(MediaInfo_Internal &MI)
     ToReturn+=__T('T');
     ToReturn+=(HH<10?__T("0"):__T(""))+Ztring::ToZtring(HH)+__T(':');
     ToReturn+=(MM<10?__T("0"):__T(""))+Ztring::ToZtring(MM)+__T(':');
-    ToReturn+=(SS<10?__T("0"):__T(""))+Ztring::ToZtring(SS)+__T(':');
+    ToReturn+=(Sec<10?__T("0"):__T(""))+Ztring::ToZtring(Sec)+__T(':');
     ToReturn+=Ztring::ToZtring(NN)+__T('F');
     ToReturn+=Ztring::ToZtring(FF);
     return ToReturn;
@@ -945,7 +929,7 @@ Ztring Mpeg7_MediaDuration(MediaInfo_Internal &MI)
         FrameCount=FrameCount%(60*60*FrameRate);
         int64u MM=FrameCount/(60*FrameRate);
         FrameCount=FrameCount%(60*FrameRate);
-        int64u SS=FrameCount/FrameRate;
+        int64u Sec=FrameCount/FrameRate;
         FrameCount=FrameCount%FrameRate;
         Ztring ToReturn;
         ToReturn+=__T('P');
@@ -954,7 +938,7 @@ Ztring Mpeg7_MediaDuration(MediaInfo_Internal &MI)
         ToReturn+=__T('T');
         ToReturn+=Ztring::ToZtring(HH)+__T('H');
         ToReturn+=Ztring::ToZtring(MM)+__T('M');
-        ToReturn+=Ztring::ToZtring(SS)+__T('S');
+        ToReturn+=Ztring::ToZtring(Sec)+__T('S');
         ToReturn+=Ztring::ToZtring(FrameCount)+__T('N');
         ToReturn+=Ztring::ToZtring(FrameRate)+__T('F');
         return ToReturn;
@@ -972,7 +956,7 @@ Ztring Mpeg7_MediaDuration(MediaInfo_Internal &MI)
         SamplingCount=SamplingCount%(60*60*SamplingRate);
         int64u MM=SamplingCount/(60*SamplingRate);
         SamplingCount=SamplingCount%(60*SamplingRate);
-        int64u SS=SamplingCount/SamplingRate;
+        int64u Sec=SamplingCount/SamplingRate;
         SamplingCount=SamplingCount%SamplingRate;
         Ztring ToReturn;
         ToReturn+=__T('P');
@@ -981,7 +965,7 @@ Ztring Mpeg7_MediaDuration(MediaInfo_Internal &MI)
         ToReturn+=__T('T');
         ToReturn+=Ztring::ToZtring(HH)+__T('H');
         ToReturn+=Ztring::ToZtring(MM)+__T('M');
-        ToReturn+=Ztring::ToZtring(SS)+__T('S');
+        ToReturn+=Ztring::ToZtring(Sec)+__T('S');
         ToReturn+=Ztring::ToZtring(SamplingCount)+__T('N');
         ToReturn+=Ztring::ToZtring(SamplingRate)+__T('F');
         return ToReturn;
@@ -995,7 +979,7 @@ Ztring Mpeg7_MediaDuration(MediaInfo_Internal &MI)
     Milliseconds=Milliseconds%(60*60*1000);
     int64u MM=Milliseconds/(60*1000);
     Milliseconds=Milliseconds%(60*1000);
-    int64u SS=Milliseconds/1000;
+    int64u Sec=Milliseconds/1000;
     int64u NN=Milliseconds%1000;
     int64u FF=1000;
     Ztring ToReturn;
@@ -1005,7 +989,7 @@ Ztring Mpeg7_MediaDuration(MediaInfo_Internal &MI)
     ToReturn+=__T('T');
     ToReturn+=Ztring::ToZtring(HH)+__T('H');
     ToReturn+=Ztring::ToZtring(MM)+__T('M');
-    ToReturn+=Ztring::ToZtring(SS)+__T('S');
+    ToReturn+=Ztring::ToZtring(Sec)+__T('S');
     ToReturn+=Ztring::ToZtring(NN)+__T('N');
     ToReturn+=Ztring::ToZtring(FF)+__T('F');
     return ToReturn;

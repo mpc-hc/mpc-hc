@@ -1,21 +1,8 @@
-// MediaInfo_Config_MediaInfo - Configuration class
-// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 // Pre-compilation
@@ -68,6 +55,16 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     Audio_MergeMonoStreams=false;
     File_Demux_Interleave=false;
     File_ID_OnlyRoot=false;
+    #if MEDIAINFO_ADVANCED
+        File_IgnoreSequenceFileSize=false;
+        File_Source_List=false;
+    #endif //MEDIAINFO_ADVANCED
+    #if MEDIAINFO_MD5
+        File_Md5=false;
+    #endif //MEDIAINFO_MD5
+    #if defined(MEDIAINFO_REFERENCES_YES)
+        File_CheckSideCarFiles=false;
+    #endif //defined(MEDIAINFO_REFERENCES_YES)
     File_TimeToLive=0;
     File_Buffer_Size_Hint_Pointer=NULL;
     #if MEDIAINFO_NEXTPACKET
@@ -96,6 +93,7 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     #endif //MEDIAINFO_DEMUX
     #if MEDIAINFO_IBI
         Ibi_Create=false;
+        Ibi_UseIbiInfoIfAvailable=false;
     #endif //MEDIAINFO_IBI
 
     //Specific
@@ -135,10 +133,13 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     File_Buffer_Repeat_IsSupported=false;
     File_IsGrowing=false;
     File_IsNotGrowingAnymore=false;
+    File_Current_Offset=0;
+    File_Current_Size=(int64u)-1;
     File_Size=(int64u)-1;
     ParseSpeed=MediaInfoLib::Config.ParseSpeed_Get();
     #if MEDIAINFO_DEMUX
         Demux_EventWasSent=false;
+        Events_Delayed_CurrentSource=NULL;
         #if MEDIAINFO_SEEK
            Demux_IsSeeking=false;
         #endif //MEDIAINFO_SEEK
@@ -270,6 +271,42 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     else if (Option_Lower==__T("file_id_onlyroot_get"))
     {
         return File_ID_OnlyRoot_Get()?"1":"0";
+    }
+    else if (Option_Lower==__T("file_ignoresequencefilesize"))
+    {
+        #if MEDIAINFO_MD5
+            File_IgnoreSequenceFileSize_Set(!(Value==__T("0") || Value.empty()));
+            return Ztring();
+        #else //MEDIAINFO_MD5
+            return __T("Disabled due to compilation options");
+        #endif //MEDIAINFO_MD5
+    }
+    else if (Option_Lower==__T("file_source_list"))
+    {
+        #if MEDIAINFO_MD5
+            File_Source_List_Set(!(Value==__T("0") || Value.empty()));
+            return Ztring();
+        #else //MEDIAINFO_MD5
+            return __T("MD5 is disabled due to compilation options");
+        #endif //MEDIAINFO_MD5
+    }
+    else if (Option_Lower==__T("file_md5"))
+    {
+        #if MEDIAINFO_MD5
+            File_Md5_Set(!(Value==__T("0") || Value.empty()));
+            return Ztring();
+        #else //MEDIAINFO_MD5
+            return __T("MD5 is disabled due to compilation options");
+        #endif //MEDIAINFO_MD5
+    }
+    else if (Option_Lower==__T("file_checksidecarfiles"))
+    {
+        #if defined(MEDIAINFO_REFERENCES_YES)
+            File_CheckSideCarFiles_Set(!(Value==__T("0") || Value.empty()));
+            return Ztring();
+        #else //defined(MEDIAINFO_REFERENCES_YES)
+            return __T("Disabled due to compilation options");
+        #endif //defined(MEDIAINFO_REFERENCES_YES)
     }
     else if (Option_Lower==__T("file_filename"))
     {
@@ -514,6 +551,18 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
                 Ibi_Create_Set(false);
             else
                 Ibi_Create_Set(true);
+            return Ztring();
+        #else //MEDIAINFO_IBI
+            return __T("IBI support is disabled due to compilation options");
+        #endif //MEDIAINFO_IBI
+    }
+    else if (Option_Lower==__T("file_ibi_useibiinfoifavailable"))
+    {
+        #if MEDIAINFO_IBI
+            if (Value.empty())
+                Ibi_UseIbiInfoIfAvailable_Set(false);
+            else
+                Ibi_UseIbiInfoIfAvailable_Set(true);
             return Ztring();
         #else //MEDIAINFO_IBI
             return __T("IBI support is disabled due to compilation options");
@@ -941,6 +990,66 @@ bool MediaInfo_Config_MediaInfo::File_ID_OnlyRoot_Get ()
     return File_ID_OnlyRoot;
 }
 
+//---------------------------------------------------------------------------
+#if MEDIAINFO_MD5
+void MediaInfo_Config_MediaInfo::File_Md5_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Md5=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_Md5_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return File_Md5;
+}
+#endif //MEDIAINFO_MD5
+
+//---------------------------------------------------------------------------
+#if defined(MEDIAINFO_REFERENCES_YES)
+void MediaInfo_Config_MediaInfo::File_CheckSideCarFiles_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_CheckSideCarFiles=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_CheckSideCarFiles_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return File_CheckSideCarFiles;
+}
+#endif //defined(MEDIAINFO_REFERENCES_YES)
+
+//---------------------------------------------------------------------------
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config_MediaInfo::File_IgnoreSequenceFileSize_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_IgnoreSequenceFileSize=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_IgnoreSequenceFileSize_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return File_IgnoreSequenceFileSize;
+}
+#endif //MEDIAINFO_ADVANCED
+
+//---------------------------------------------------------------------------
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config_MediaInfo::File_Source_List_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Source_List=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_Source_List_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return File_Source_List;
+}
+#endif //MEDIAINFO_ADVANCED
+
 //***************************************************************************
 // File name from somewhere else
 //***************************************************************************
@@ -1040,7 +1149,11 @@ Ztring MediaInfo_Config_MediaInfo::File_ForceParser_Get ()
 }
 
 //***************************************************************************
-// File_Buffer_Size_Hint_Pointer
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
 //***************************************************************************
 
 //---------------------------------------------------------------------------
@@ -1352,6 +1465,7 @@ string MediaInfo_Config_MediaInfo::Ibi_Get ()
     CriticalSectionLocker CSL(CS);
     return Ibi;
 }
+
 //---------------------------------------------------------------------------
 void MediaInfo_Config_MediaInfo::Ibi_Create_Set (bool NewValue)
 {
@@ -1363,6 +1477,19 @@ bool MediaInfo_Config_MediaInfo::Ibi_Create_Get ()
 {
     CriticalSectionLocker CSL(CS);
     return Ibi_Create;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::Ibi_UseIbiInfoIfAvailable_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    Ibi_UseIbiInfoIfAvailable=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::Ibi_UseIbiInfoIfAvailable_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return Ibi_UseIbiInfoIfAvailable;
 }
 #endif //MEDIAINFO_IBI
 
@@ -1520,7 +1647,11 @@ void MediaInfo_Config_MediaInfo::Event_Send (File__Analyze* Source, const int8u*
 
         // Copying buffers
         int32u* EventCode=(int32u*)Data_Content;
-        if (((*EventCode)&0x00FFFFFF)==((MediaInfo_Event_Global_Demux<<8)|4) && Data_Size==sizeof(MediaInfo_Event_Global_Demux_4)) // MediaInfo_Event_Global_Demux_4
+        if (((*EventCode)&0x00FFFFFF)==((MediaInfo_Event_Global_Demux<<8)|4) && Data_Size==sizeof(MediaInfo_Event_Global_Demux_4)) /*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
         {
             MediaInfo_Event_Global_Demux_4* Old=(MediaInfo_Event_Global_Demux_4*)Data_Content;
             MediaInfo_Event_Global_Demux_4* New=(MediaInfo_Event_Global_Demux_4*)Event->Data_Content;
@@ -1593,19 +1724,51 @@ void MediaInfo_Config_MediaInfo::Event_Send (File__Analyze* Source, const int8u*
 
 void MediaInfo_Config_MediaInfo::Event_Accepted (File__Analyze* Source)
 {
+    #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
+        if (Demux_EventWasSent && NextPacket_Get())
+        {
+            Events_Delayed_CurrentSource=Source;
+            return;
+        }
+    #endif //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
+
     for (events_delayed::iterator Event=Events_Delayed.begin(); Event!=Events_Delayed.end(); ++Event)
         if (Event->first==Source)
         {
             for (size_t Pos=0; Pos<Event->second.size(); Pos++)
-            {
-                Event_Send(NULL, Event->second[Pos]->Data_Content, Event->second[Pos]->Data_Size, Event->second[Pos]->File_Name);
+                if (Event->second[Pos])
+                {
+                    Event_Send(NULL, Event->second[Pos]->Data_Content, Event->second[Pos]->Data_Size, Event->second[Pos]->File_Name);
 
-                int32u EventCode=*((int32u*)Event->second[Pos]->Data_Content);
-                if ((EventCode&0x00FFFF00)==(MediaInfo_Event_Global_Demux<<8) && NextPacket_Get())
-                    Demux_EventWasSent=true;
+                    int32u EventCode=*((int32u*)Event->second[Pos]->Data_Content);
+                    bool IsDemux=(EventCode&0x00FFFF00)==(MediaInfo_Event_Global_Demux<<8);
 
-                delete Event->second[Pos]; //Event->second[Pos]=NULL;
-            }
+                    if (IsDemux)
+                    {
+                        MediaInfo_Event_Global_Demux_4* Old=(MediaInfo_Event_Global_Demux_4*)Event->second[Pos]->Data_Content;
+                        delete[] Old->Content; Old->Content=NULL;
+                        if (Old->Offsets_Size)
+                        {
+                            delete[] Old->Offsets_Content; Old->Offsets_Content=NULL;
+                        }
+                        if (Old->Offsets_Size)
+                        {
+                            delete[] Old->OriginalContent; Old->OriginalContent=NULL;
+                        }
+                    }
+
+                    delete Event->second[Pos]; Event->second[Pos]=NULL;
+
+                    #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
+                        if (IsDemux && NextPacket_Get())
+                        {
+                            Demux_EventWasSent=true;
+                            Event->second.erase(Event->second.begin(), Event->second.begin()+Pos);
+                            Events_Delayed_CurrentSource=Source;
+                            return;
+                        }
+                    #endif //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
+                }
 
             Events_Delayed.erase(Event->first);
             return;
