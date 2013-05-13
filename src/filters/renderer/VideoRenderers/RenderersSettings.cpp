@@ -120,7 +120,7 @@ LONGLONG CRenderersData::GetPerfCounter() const
         return llMulDiv(i64Ticks100ns.QuadPart, 10000000, llPerfFrequency.QuadPart, 0);
     } else {
         // ms to 100ns units
-        return timeGetTime() * 10000;
+        return LONGLONG(timeGetTime()) * 10000;
     }
 }
 

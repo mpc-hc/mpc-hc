@@ -901,7 +901,7 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
                         if (SUCCEEDED(pStream->Seek(lnOffset, STREAM_SEEK_SET, 0))) {
                             ULONG ulBytesRead;
                             ba.SetSize((INT_PTR)ulnSize.QuadPart);
-                            pStream->Read(ba.GetData(), (INT_PTR)ulnSize.QuadPart, &ulBytesRead);
+                            pStream->Read(ba.GetData(), (ULONG)ulnSize.QuadPart, &ulBytesRead);
                         }
                     }
                 }

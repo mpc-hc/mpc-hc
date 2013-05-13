@@ -77,11 +77,11 @@ uint32_t get4bytes(const BYTE* buf)
 
 
 // VMG files
-#define OFF_VMGM_PGCI_UT(buf)   get4bytes (buf + 200)
+#define OFF_VMGM_PGCI_UT(buf)   get4bytes (buf + 0xC8)
 
 // VTS files
-#define OFF_VTSM_PGCI_UT(buf)   get4bytes (buf + 208)
-#define OFF_VTS_PGCIT(buf)      get4bytes (buf + 204)
+#define OFF_VTSM_PGCI_UT(buf)   get4bytes (buf + 0xD0)
+#define OFF_VTS_PGCIT(buf)      get4bytes (buf + 0xCC)
 
 
 CIfo::CIfo()
@@ -187,26 +187,48 @@ bool CIfo::IsVMG()
 bool CIfo::OpenFile(LPCTSTR strFile)
 {
     bool bRet = false;
-    HANDLE hFile;
-    LARGE_INTEGER size;
 
-    hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    ASSERT(hFile != INVALID_HANDLE_VALUE);
-
-    if (hFile != INVALID_HANDLE_VALUE && GetFileSizeEx(hFile, &size) &&
-            size.QuadPart <= 0x800000) { // max size of the ifo file = 8 MB (taken with reserve. need a more correct info)
-        m_pBuffer = DEBUG_NEW BYTE [size.QuadPart];
-        ReadFile(hFile, m_pBuffer, size.QuadPart, &m_dwSize, nullptr);
-        CloseHandle(hFile);
-
-        if (IsVTS() && (OFF_VTSM_PGCI_UT(m_pBuffer) != 0)) {
-            m_pPGCI  = (ifo_hdr_t*)(m_pBuffer + OFF_VTSM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
-            m_pPGCIT = (ifo_hdr_t*)(m_pBuffer + OFF_VTS_PGCIT(m_pBuffer)    * DVD_VIDEO_LB_LEN);
-        } else if (IsVMG() && (OFF_VMGM_PGCI_UT(m_pBuffer) != 0)) {
-            m_pPGCI = (ifo_hdr_t*)(m_pBuffer + OFF_VMGM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
+    HANDLE hFile = Real_CreateFileW(strFile, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile != INVALID_HANDLE_VALUE) {
+        LARGE_INTEGER size;
+        // min size of the ifo file comes from dvd sector size,
+        // max size we allow is 8 MB (taken with reserve),
+        // also the file size must a multiple of dvd sector size
+        if (GetFileSizeEx(hFile, &size) && (size.QuadPart >= DVD_VIDEO_LB_LEN) &&
+                (size.QuadPart <= 0x800000) && !(size.QuadPart % DVD_VIDEO_LB_LEN)) {
+            ASSERT(!m_pBuffer);
+            m_pBuffer = DEBUG_NEW BYTE [(size_t)size.QuadPart];
+            if (ReadFile(hFile, m_pBuffer, (DWORD)size.QuadPart, &m_dwSize, nullptr)) {
+                ASSERT(!m_pPGCI);
+                ASSERT(!m_pPGCIT);
+                uint32_t sector, sectorCount = (uint32_t)size.QuadPart / DVD_VIDEO_LB_LEN;
+                if (IsVTS()) {
+                    sector = OFF_VTSM_PGCI_UT(m_pBuffer);
+                    if (sector && (sector < sectorCount)) {
+                        m_pPGCI = (ifo_hdr_t*)(m_pBuffer + sector * DVD_VIDEO_LB_LEN);
+                    } else {
+                        TRACE(_T("IFO: Missing or invalid VTSM_PGCI_UT sector"));
+                    }
+                    sector = OFF_VTS_PGCIT(m_pBuffer);
+                    if (sector && (sector < sectorCount)) {
+                        m_pPGCIT = (ifo_hdr_t*)(m_pBuffer + sector * DVD_VIDEO_LB_LEN);
+                    } else {
+                        TRACE(_T("IFO: Missing or invalid VTS_PGCI sector"));
+                    }
+                } else if (IsVMG()) {
+                    sector = OFF_VMGM_PGCI_UT(m_pBuffer);
+                    if (sector && (sector < sectorCount)) {
+                        m_pPGCI = (ifo_hdr_t*)(m_pBuffer + sector * DVD_VIDEO_LB_LEN);
+                    } else {
+                        TRACE(_T("IFO: Missing or invalid VTSM_PGCI_UT sector"));
+                    }
+                }
+                bRet = (m_pPGCI != nullptr);
+            }
         }
-
-        bRet = (m_pPGCI != nullptr);
+        CloseHandle(hFile);
+    } else {
+        ASSERT(FALSE);
     }
 
     return bRet;
@@ -243,17 +265,17 @@ bool CIfo::SaveFile(LPCTSTR strFile)
     bool bRet = false;
 
     if (m_pBuffer) {
-        HANDLE m_hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-                                          nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-        ASSERT(m_hFile != INVALID_HANDLE_VALUE);
-
-        if (m_hFile != INVALID_HANDLE_VALUE) {
-            DWORD dwSize;
-            WriteFile(m_hFile, m_pBuffer, m_dwSize, &dwSize, nullptr);
-            CloseHandle(m_hFile);
-            bRet = true;
+        HANDLE hFile = Real_CreateFileW(strFile, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                                        nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+        if (hFile != INVALID_HANDLE_VALUE) {
+            if (WriteFile(hFile, m_pBuffer, m_dwSize, nullptr, nullptr)) {
+                bRet = true;
+            }
+            CloseHandle(hFile);
         }
     }
+
+    ASSERT(bRet);
 
     return bRet;
 }
