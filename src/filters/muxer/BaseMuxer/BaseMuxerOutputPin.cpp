@@ -164,7 +164,7 @@ void CBaseMuxerRawOutputPin::MuxHeader(const CMediaType& mt)
             pBitStream->ByteWrite(utf8bom, sizeof(utf8bom));
         }
 
-        CStringA str((char*)p, mt.FormatLength() - (p - mt.Format()));
+        CStringA str((char*)p, mt.FormatLength() - (ULONG)(p - mt.Format()));
         pBitStream->StrWrite(str + '\n', true);
 
         if (str.Find("[Events]") < 0) {
