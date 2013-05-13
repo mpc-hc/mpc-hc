@@ -1,18 +1,18 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"O programe"
 8		"Copyright © 2002-2013 viď súbor Authors.txt"
 11		"Tento program je šírený ako freeware a bol vydaný pod licenciou GNU General Public."
 12		"Preložil: Marián Hikaník"
 13		"Build information"
 14		"Verzia :"
-15		"Kompilátor MPC-HC :"
-16		"Kompilátor FFmpeg :"
-17		"Build date:"
-18		"Operating system"
-19		"Name:"
-20		"Version:"
-21		"Copy to clipboard"
-22		"OK"
+16		"Kompilátor MPC-HC :"
+18		"Kompilátor FFmpeg :"
+20		"Build date:"
+22		"Operating system"
+23		"Name:"
+25		"Version:"
+27		"Copy to clipboard"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

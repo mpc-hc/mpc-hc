@@ -1,18 +1,18 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"О программе"
 8		"Copyright © 2002-2013, смотрите файл Authors.txt"
 11		"Эта программа бесплатна и распространяется под лицензией GNU General Public License."
 12		"Локализация: v0lt, Aleksoid, YDY"
 13		"Build information"
 14		"Версия:"
-15		"Компилятор MPC-HC:"
-16		"Компилятор FFmpeg:"
-17		"Build date:"
-18		"Operating system"
-19		"Name:"
-20		"Version:"
-21		"Copy to clipboard"
-22		"OK"
+16		"Компилятор MPC-HC:"
+18		"Компилятор FFmpeg:"
+20		"Build date:"
+22		"Operating system"
+23		"Name:"
+25		"Version:"
+27		"Copy to clipboard"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

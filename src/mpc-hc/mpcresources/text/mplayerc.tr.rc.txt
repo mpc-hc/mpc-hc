@@ -1,18 +1,18 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Hakkında"
 8		"Telif Hakkı © 2002-2013, Authors.txt dosyasına bakınız"
 11		"Bu program ücretsiz olup Genel Kamusal GNU Lisansı altında sunulmaktadır."
 12		"bosluk (Sinan Hunerel) tarafından Türkçeleştirilmiştir"
 13		"Build information"
 14		"MPC-HC Sürümü :"
-15		"MPC-HC Derlemesi :"
-16		"FFmpeg Derlemesi :"
-17		"Build date:"
-18		"Operating system"
-19		"Name:"
-20		"Version:"
-21		"Copy to clipboard"
-22		"OK"
+16		"MPC-HC Derlemesi :"
+18		"FFmpeg Derlemesi :"
+20		"Build date:"
+22		"Operating system"
+23		"Name:"
+25		"Version:"
+27		"Copy to clipboard"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

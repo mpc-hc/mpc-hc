@@ -1,18 +1,18 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Honi buruz"
 8		"Copyrighta © 2002-2013 ikusi Authors.txt"
 11		"Programa hau askea da eta GNU Baimen Publiko Orokorrarekin argitaratzen da."
 12		"Euskarazko itzulpena: Xabier Aramendi"
 13		"Build date:"
 14		"Bertsioa :"
-15		"MPC-HC Biltzailea :"
-16		"FFmpeg Biltzailea :"
-17		"Build date:"
-18		"Operating system"
-19		"Name:"
-20		"Version:"
-21		"Copy to clipboard"
-22		"OK"
+16		"MPC-HC Biltzailea :"
+18		"FFmpeg Biltzailea :"
+20		"Build date:"
+22		"Operating system"
+23		"Name:"
+25		"Version:"
+27		"Copy to clipboard"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

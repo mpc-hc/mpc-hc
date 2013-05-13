@@ -1,18 +1,18 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"关于"
 8		"版权所有 © 2002-2013 请查看 Authors.txt"
 11		"此程序是遵守 GNU 通用公众授权协议发布的自由软件。"
 12		"简体中文翻译由风影幻想和酷剑菲心制作"
 13		"Build information"
 14		"版本 :"
-15		"MPC-HC 编译器: "
-16		"FFmpeg 编译器: "
-17		"Build date:"
-18		"Operating system"
-19		"Name:"
-20		"Version:"
-21		"Copy to clipboard"
-22		"OK"
+16		"MPC-HC 编译器: "
+18		"FFmpeg 编译器: "
+20		"Build date:"
+22		"Operating system"
+23		"Name:"
+25		"Version:"
+27		"Copy to clipboard"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

@@ -22,6 +22,8 @@ Legend:
   - Use percentage for the boost setting since it is easier to understand for most people
   - Add a setting to change the max normalization factor and use a default max normalization
     factor of 4 instead of 10
+* Ticket #2567, New About dialog with more detailed information and a "Copy to clipboard" feature
+  to ease support
 ! PGS and DVB subtitles: Fix missing subtitles after resizing the window when using
   the subpicture queue
 ! Ticket #3110, DVB: Improve compatibility with some drivers for which MPC-HC failed to find

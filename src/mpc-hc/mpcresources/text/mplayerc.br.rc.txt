@@ -1,18 +1,18 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 23
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Sobre"
 8		"Copyright © 2002-2013 - veja o arquivo Authors.txt"
 11		"Este programa é gratuito e foi licenciado sob os termos da Licença Geral Pública do GNU."
 12		"Traduzido para o Português por Roger Filipe (2010)"
 13		"Build information"
 14		"Versão :"
-15		"Compilador do MPC-HC :"
-16		"Compilador do FFmpeg :"
-17		"Build date:"
-18		"Operating system"
-19		"Name:"
-20		"Version:"
-21		"Copy to clipboard"
-22		"OK"
+16		"Compilador do MPC-HC :"
+18		"Compilador do FFmpeg :"
+20		"Build date:"
+22		"Operating system"
+23		"Name:"
+25		"Version:"
+27		"Copy to clipboard"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

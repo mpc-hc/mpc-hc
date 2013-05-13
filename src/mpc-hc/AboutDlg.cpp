@@ -53,12 +53,6 @@ BOOL CAboutDlg::OnInitDialog()
     // Get the default text before it is overwritten by the call to __super::OnInitDialog()
     GetDlgItem(IDC_STATIC1)->GetWindowText(m_appname);
     GetDlgItem(IDC_AUTHORS_LINK)->GetWindowText(m_credits);
-    GetDlgItem(IDC_VERSION)->GetWindowText(m_strBuildNumber);
-    GetDlgItem(IDC_MPC_COMPILER)->GetWindowText(m_MPCCompiler);
-    GetDlgItem(IDC_FFMPEG_COMPILER)->GetWindowText(m_FFmpegCompiler);
-    GetDlgItem(IDC_STATIC2)->GetWindowText(m_buildDate);
-    GetDlgItem(IDC_STATIC3)->GetWindowText(m_OSName);
-    GetDlgItem(IDC_STATIC4)->GetWindowText(m_OSVersion);
 
     __super::OnInitDialog();
 
@@ -99,30 +93,30 @@ BOOL CAboutDlg::OnInitDialog()
 
     m_homepage.Format(_T("<a>%s</a>"), WEBSITE_URL);
 
-    m_strBuildNumber += _T(" ") MPC_VERSION_STR_FULL;
+    m_strBuildNumber = MPC_VERSION_STR_FULL;
 
 #if defined(__INTEL_COMPILER)
 #if (__INTEL_COMPILER >= 1210)
-    m_MPCCompiler += _T(" ICL ") MAKE_STR(__INTEL_COMPILER) _T(" Build ") MAKE_STR(__INTEL_COMPILER_BUILD_DATE);
+    m_MPCCompiler = _T("ICL ") MAKE_STR(__INTEL_COMPILER) _T(" Build ") MAKE_STR(__INTEL_COMPILER_BUILD_DATE);
 #else
 #error Compiler is not supported!
 #endif
 #elif defined(_MSC_VER)
 #if (_MSC_VER == 1700) // 2012
 #if (_MSC_FULL_VER == 170060315)
-    m_MPCCompiler += _T(" MSVC 2012 Update 2");
+    m_MPCCompiler = _T("MSVC 2012 Update 2");
 #elif (_MSC_FULL_VER == 170051106)
-    m_MPCCompiler += _T(" MSVC 2012 Update 1");
+    m_MPCCompiler = _T("MSVC 2012 Update 1");
 #elif (_MSC_FULL_VER < 170050727)
-    m_MPCCompiler += _T(" MSVC 2012 Beta/RC/PR");
+    m_MPCCompiler = _T("MSVC 2012 Beta/RC/PR");
 #else
-    m_MPCCompiler += _T(" MSVC 2012");
+    m_MPCCompiler = _T("MSVC 2012");
 #endif
 #elif (_MSC_VER == 1600) // 2010
 #if (_MSC_FULL_VER >= 160040219)
-    m_MPCCompiler += _T(" MSVC 2010 SP1");
+    m_MPCCompiler = _T("MSVC 2010 SP1");
 #else
-    m_MPCCompiler += _T(" MSVC 2010");
+    m_MPCCompiler = _T("MSVC 2010");
 #endif
 #elif (_MSC_VER < 1600)
 #error Compiler is not supported!
@@ -150,23 +144,23 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 
 #if defined(HAS_FFMPEG) && !defined(MPCHC_LITE)
-    m_FFmpegCompiler += CString(_T(" ")) + CA2CT(GetFFmpegCompiler());
+    m_FFmpegCompiler = CA2CT(GetFFmpegCompiler());
 #else
     GetDlgItem(IDC_FFMPEG_TEXT)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_FFMPEG_COMPILER)->ShowWindow(SW_HIDE);
 #endif
 
-    m_buildDate += _T(" ") _T(__DATE__) _T(" ") _T(__TIME__);
+    m_buildDate = _T(__DATE__) _T(" ") _T(__TIME__);
 
     OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
-    m_OSName.AppendFormat(_T(" Windows NT %1u.%1u (build %u"),
-                          osVersion.dwMajorVersion, osVersion.dwMinorVersion, osVersion.dwBuildNumber);
+    m_OSName.Format(_T("Windows NT %1u.%1u (build %u"),
+                    osVersion.dwMajorVersion, osVersion.dwMinorVersion, osVersion.dwBuildNumber);
     if (osVersion.szCSDVersion[0]) {
         m_OSName.AppendFormat(_T(", %s)"), osVersion.szCSDVersion);
     } else {
         m_OSName += _T(")");
     }
-    m_OSVersion.AppendFormat(_T(" %1u.%1u"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
+    m_OSVersion.Format(_T("%1u.%1u"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
     if (SysVersion::Is64Bit()) {
         m_OSVersion += _T(" (64-bit)");
     }
@@ -223,15 +217,15 @@ void CAboutDlg::OnCopyToClipboard()
     CStringW info = m_appname;
     info += _T("\n----------------------------------\n\n");
     info += _T("Build information:\n");
-    info += _T("\t") + m_strBuildNumber + _T("\n");
-    info += _T("\t") + m_MPCCompiler + _T("\n");
+    info += _T("    Version:            ") + m_strBuildNumber + _T("\n");
+    info += _T("    MPC-HC Compiler:    ") + m_MPCCompiler + _T("\n");
 #ifndef MPCHC_LITE
-    info += _T("\t") + m_FFmpegCompiler + _T("\n");
+    info += _T("    FFmpeg Compiler:    ") + m_FFmpegCompiler + _T("\n");
 #endif
-    info += _T("\t") + m_buildDate + _T("\n\n");
+    info += _T("    Build date:         ") + m_buildDate + _T("\n\n");
     info += _T("Operating system:\n");
-    info += _T("\t") + m_OSName + _T("\n");
-    info += _T("\t") + m_OSVersion + _T("\n");
+    info += _T("    Version:            ") + m_OSName + _T("\n");
+    info += _T("    Name:               ") + m_OSVersion + _T("\n");
 
     COleDataSource* pData = DEBUG_NEW COleDataSource();
 
