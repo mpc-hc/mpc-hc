@@ -1,24 +1,8 @@
-// ZenLib::File - File functions
-// Copyright (C) 2002-2010 MediaArea.net SARL, Info@MediaArea.net
-//
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//    claim that you wrote the original software. If you use this software
-//    in a product, an acknowledgment in the product documentation would be
-//    appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-//    misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a zlib-style license that can
+ *  be found in the License.txt file in the root of the source tree.
+ */
 
 //---------------------------------------------------------------------------
 #include "ZenLib/PreComp.h"
@@ -836,14 +820,13 @@ Ztring File::Modified_Get(const Ztring &File_Name)
 //---------------------------------------------------------------------------
 bool File::Exists(const Ztring &File_Name)
 {
-    if (File_Name.find(__T('*'))!=std::string::npos || File_Name.find(__T('?'))!=std::string::npos)
-        return false;
-
     #ifdef ZENLIB_USEWX
         wxFileName FN(File_Name.c_str());
         return FN.FileExists();
     #else //ZENLIB_USEWX
         #ifdef ZENLIB_STANDARD
+            if (File_Name.find(__T('*'))!=std::string::npos || File_Name.find(__T('?'))!=std::string::npos)
+                return false;
             struct stat buffer;
             int         status;
             #ifdef UNICODE
@@ -853,6 +836,8 @@ bool File::Exists(const Ztring &File_Name)
             #endif //UNICODE
             return status==0 && S_ISREG(buffer.st_mode);
         #elif defined WINDOWS
+            if (File_Name.find(__T('*'))!=std::string::npos || (File_Name.find(__T("\\\\?\\"))!=0 && File_Name.find(__T('?'))!=std::string::npos) || (File_Name.find(__T("\\\\?\\"))==0 && File_Name.find(__T('?'), 4)!=std::string::npos))
+                return false;
             #ifdef UNICODE
                 DWORD FileAttributes;
                 #ifndef ZENLIB_NO_WIN9X_SUPPORT
