@@ -1,8 +1,8 @@
 diff --git a/build.bat b/build.bat
-index 50ad683..ddf5e4d 100644
+index 4f98b01..7df3048 100644
 --- a/build.bat
 +++ b/build.bat
-@@ -365,7 +365,7 @@ IF /I "%~2" == "Win32" (
+@@ -368,7 +368,7 @@ IF /I "%~2" == "Win32" (
  
  PUSHD "%BIN_DIR%"
  
@@ -57,7 +57,7 @@ index 8e4ed5e..5c47921 100644
  
  
 diff --git a/src/common.props b/src/common.props
-index c6ba69d..57047a3 100644
+index 9411fe4..a371d72 100644
 --- a/src/common.props
 +++ b/src/common.props
 @@ -47,11 +47,14 @@
@@ -141,7 +141,7 @@ index 16d9cc7..2f9cf41 100644
    #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
  #endif
 diff --git a/src/platform.props b/src/platform.props
-index 7da55ea..dd03fbf 100644
+index 7da55ea..c4127a7 100644
 --- a/src/platform.props
 +++ b/src/platform.props
 @@ -1,7 +1,7 @@
@@ -149,7 +149,7 @@ index 7da55ea..dd03fbf 100644
  <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
    <PropertyGroup Label="Configuration">
 -    <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0' And '$(ANALYZE)'!='true'">v110_xp</PlatformToolset>
-+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0' And '$(ANALYZE)'!='true'">Intel C++ Compiler XE 13.0</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
      <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0' And '$(ANALYZE)'=='true'">v110</PlatformToolset>
    </PropertyGroup>
  </Project>
