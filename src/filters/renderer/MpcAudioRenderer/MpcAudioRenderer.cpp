@@ -262,7 +262,7 @@ BOOL CMpcAudioRenderer::ScheduleSample(IMediaSample* pMediaSample)
 
     // If we don't have a reference clock then we cannot set up the advise
     // time so we simply set the event indicating an image to render. This
-    // will cause us to run flat out without any timing or synchronisation
+    // will cause us to run flat out without any timing or synchronization
     if (hr == S_OK) {
         EXECUTE_ASSERT(SetEvent((HANDLE) m_RenderEvent));
         return TRUE;

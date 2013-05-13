@@ -19,7 +19,7 @@
  *
  */
 
-// CmdUIDialog.cpp : implementation file
+// CmdUI.cpp : implementation file
 //
 
 #include "stdafx.h"

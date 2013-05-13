@@ -80,7 +80,7 @@ enum MPEG2_PID {
     PID_RST     = 0x013,    // Running Status Tection
     PID_TDT     = 0x014,    // Time and Date Table ou ...
     PID_TOT     = 0x014,    // Time Offset Table
-    PID_SFN     = 0x015,    // SFN/MIP synchronisation
+    PID_SFN     = 0x015,    // SFN/MIP synchronization
     PID_DIT     = 0x01e,
     PID_SIT     = 0x01f,
     PID_NULL    = 0x1fff    // Null packet
