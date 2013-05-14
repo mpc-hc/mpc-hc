@@ -444,8 +444,8 @@ avcsuccess:
                     m_pCluster = m_pSegment->Child(0x1F43B675);
 
                     MatroskaReader::QWORD lastCueClusterPosition = (MatroskaReader::QWORD) - 1;
-                    UINT64 timecode1 = -1;
-                    UINT64 timecode2 = -1;
+                    UINT64 timecode1 = 0;
+                    UINT64 timecode2 = 0;
                     unsigned int framecount = 0;
                     bool readmore = true;
 
@@ -495,31 +495,32 @@ avcsuccess:
                                                 continue;
                                             }
                                             UINT64 tc = c.TimeCode + bg->Block.TimeCode;
-                                            if (tc == timecode2) {
-                                                continue;
-                                            }
+                                            TRACE(_T("Frame: %d, TimeCode %I64d\n"), framecount, tc);
 
-                                            if (timecode1 == -1) {
+                                            if (framecount == 0) {
                                                 timecode1 = tc;
-                                            } else {
                                                 timecode2 = tc;
-                                                ++framecount;
-                                            }
+                                            } else if (tc == timecode2) { // hmm
+                                                continue;
+                                            } else if (tc > timecode2) { // I and P frames
+                                                if (framecount >= 24) {
+                                                    // good for 23.976, 24, 25, 30, 50, 60 fps.
+                                                    // for 29.97 and 59,94 can give a small inaccuracy
+                                                    readmore = false;
+                                                    break;
+                                                }
+                                                timecode2 = tc;
+                                            } //else if (tc < timecode2) {} // B-Frames
 
-                                            if (framecount >= 24) {
-                                                // good for 23.976, 24, 25, 30, 50, 60 fps.
-                                                // for 29.97 and 59,94 can give a small inaccuracy
-                                                readmore = false;
-                                                break;
-                                            }
+                                            framecount++;
                                         }
                                     } while (readmore && pBlock->NextBlock());
                                 }
                             }
                         }
                     }
-                    if (framecount) {
-                        AvgTimePerFrame = m_pFile->m_segment.SegmentInfo.TimeCodeScale * (timecode2 - timecode1) / (100 * framecount);
+                    if (framecount > 1) {
+                        AvgTimePerFrame = m_pFile->m_segment.SegmentInfo.TimeCodeScale * (timecode2 - timecode1) / (100 * (framecount - 1));
                     }
 
                     m_pCluster.Free();
