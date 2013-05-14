@@ -1423,9 +1423,6 @@ void CAppSettings::LoadSettings()
                 case IDF_SHADER_DENOISE:
                     s.target = _T("ps_3_0");
                     break;
-                case IDF_SHADER_SHARPEN_COMPLEX2:
-                    s.target = _T("ps_2_a");
-                    break;
                 default:
                     s.target = _T("ps_2_0");
                     break;
