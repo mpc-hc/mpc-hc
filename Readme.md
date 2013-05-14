@@ -120,7 +120,7 @@ MPC-HC makes use of the following third-party code:
     </tr>
     <tr>
         <td>MediaInfoLib</td>
-        <td>LGPLv2+</td>
+        <td>BSD</td>
         <td>http://mediainfo.sourceforge.net/</td>
     </tr>
     <tr>
