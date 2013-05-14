@@ -503,7 +503,7 @@ avcsuccess:
                                             } else if (tc == timecode2) { // hmm
                                                 continue;
                                             } else if (tc > timecode2) { // I and P frames
-                                                if (framecount >= 24) {
+                                                if (framecount > 24) {
                                                     // good for 23.976, 24, 25, 30, 50, 60 fps.
                                                     // for 29.97 and 59,94 can give a small inaccuracy
                                                     readmore = false;
