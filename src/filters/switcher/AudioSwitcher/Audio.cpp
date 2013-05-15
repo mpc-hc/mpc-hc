@@ -303,7 +303,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesIn, void* output,
 
         nhold = - (accum >> 19);
 
-        //_ASSERT(nhold<=(filter_width/2));
+        //ASSERT(nhold <= (filter_width / 2));
 
         if (nhold > 0) {
             memmove(cbuffer, (char*)cbuffer + bps * (srcSamples + holdover - nhold), bps * nhold);
@@ -313,7 +313,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesIn, void* output,
             holdover = 0;
         }
 
-        //_ASSERT(accum>=0);
+        //ASSERT(accum >= 0);
     }
 
     int Bytes = lActualSamples * bps;

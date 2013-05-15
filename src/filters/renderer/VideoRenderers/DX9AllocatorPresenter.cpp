@@ -1626,7 +1626,7 @@ void CDX9AllocatorPresenter::SendResetRequest()
 STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
 {
     TRACE(_T("ResetDevice\n"));
-    _ASSERT(m_MainThreadId == GetCurrentThreadId());
+    ASSERT(m_MainThreadId == GetCurrentThreadId());
 
     // In VMR-9 deleting the surfaces before we are told to is bad !
     // Can't comment out this because CDX9AllocatorPresenter is used by EVR Custom

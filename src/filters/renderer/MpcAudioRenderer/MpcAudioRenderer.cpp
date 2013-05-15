@@ -679,7 +679,7 @@ HRESULT CMpcAudioRenderer::CreateDSBuffer()
     dsbd.lpwfxFormat = nullptr;
     if (SUCCEEDED(hr = m_pDS->CreateSoundBuffer(&dsbd, &pDSBPrimary, nullptr))) {
         hr = pDSBPrimary->SetFormat(m_pWaveFileFormat);
-        _ASSERTE(SUCCEEDED(hr));
+        ASSERT(SUCCEEDED(hr));
         SAFE_RELEASE(pDSBPrimary);
     }
 
@@ -745,7 +745,7 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
         hWnd = GetTopWindow(nullptr);
     }
 
-    _ASSERTE(hWnd != nullptr);
+    ASSERT(hWnd != nullptr);
     if (!m_useWASAPI) {
         hr = m_pDS->SetCooperativeLevel(hWnd, DSSCL_PRIORITY);
     } else if (hTask == nullptr) {
@@ -782,7 +782,7 @@ HRESULT CMpcAudioRenderer::DoRenderSampleDirectSound(IMediaSample* pMediaSample)
 
     if ((SUCCEEDED(hr)) && ((dwStatus & DSBSTATUS_PLAYING) != DSBSTATUS_PLAYING)) {
         hr = m_pDSBuffer->Play(0, 0, DSBPLAY_LOOPING);
-        _ASSERTE(SUCCEEDED(hr));
+        ASSERT(SUCCEEDED(hr));
     }
 
     if (SUCCEEDED(hr)) {
@@ -867,7 +867,7 @@ HRESULT CMpcAudioRenderer::WriteSampleToDSBuffer(IMediaSample* pMediaSample, boo
         }
 
         hr = m_pDSBuffer->Unlock(pDSLockedBuffers[0], dwDSLockedSize[0], pDSLockedBuffers[1], dwDSLockedSize[1]);
-        _ASSERTE(dwDSLockedSize [0] + dwDSLockedSize [1] == (DWORD)lSize);
+        ASSERT(dwDSLockedSize [0] + dwDSLockedSize [1] == (DWORD)lSize);
     }
 
     if (SUCCEEDED(hr) && looped) {

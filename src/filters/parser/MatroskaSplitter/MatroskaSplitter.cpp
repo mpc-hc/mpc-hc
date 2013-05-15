@@ -1462,7 +1462,7 @@ HRESULT CMatroskaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
     m_packets.AddTail(p2);
 
     POSITION pos = m_rob.GetTailPosition();
-    _ASSERTE(m_nMinCache > 0);
+    ASSERT(m_nMinCache > 0);
     for (int i = m_nMinCache - 1; i > 0 && pos && mp->bg->ReferencePriority < m_rob.GetAt(pos)->bg->ReferencePriority; --i) {
         m_rob.GetPrev(pos);
     }
