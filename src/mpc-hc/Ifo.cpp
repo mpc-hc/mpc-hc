@@ -268,7 +268,8 @@ bool CIfo::SaveFile(LPCTSTR strFile)
         HANDLE hFile = Real_CreateFileW(strFile, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
                                         nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
         if (hFile != INVALID_HANDLE_VALUE) {
-            if (WriteFile(hFile, m_pBuffer, m_dwSize, nullptr, nullptr)) {
+            DWORD written;
+            if (WriteFile(hFile, m_pBuffer, m_dwSize, &written, nullptr)) {
                 bRet = true;
             }
             CloseHandle(hFile);
