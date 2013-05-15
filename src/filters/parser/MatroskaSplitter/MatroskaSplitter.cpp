@@ -1135,6 +1135,12 @@ bool CMatroskaSplitterFilter::DemuxInit()
         }
 
         m_fAbort = false;
+
+        if (m_pFile->m_segment.Cues.GetCount()) {
+            Info& info   = m_pFile->m_segment.SegmentInfo;
+            m_rtDuration = (REFERENCE_TIME)(info.Duration * info.TimeCodeScale / 100);
+            m_rtNewStop  = m_rtStop = m_rtDuration;
+        }
     }
 
     m_pCluster.Free();
