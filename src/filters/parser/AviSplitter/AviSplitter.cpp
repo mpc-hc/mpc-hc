@@ -498,23 +498,21 @@ HRESULT CAviSplitterFilter::ReIndex(__int64 end, UINT64* pSize)
 
 void CAviSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
-    size_t nTracks =  m_pFile->m_strms.GetCount();
-
-    memset((DWORD*)m_tFrame, 0, nTracks * sizeof(DWORD));
+    memset((DWORD*)m_tFrame, 0, m_pFile->m_avih.dwStreams * sizeof(DWORD));
     m_pFile->Seek(0);
 
     DbgLog((LOG_TRACE, 0, _T("Seek: %I64d"), rt / 10000));
 
     if (rt > 0) {
-        for (size_t j = 0; j < nTracks; ++j) {
-            CAviFile::strm_t* s = m_pFile->m_strms[j];
+        for (DWORD track = 0; track < m_pFile->m_avih.dwStreams; track++) {
+            CAviFile::strm_t* s = m_pFile->m_strms[track];
 
             if (s->IsRawSubtitleStream() || s->cs.IsEmpty()) {
                 continue;
             }
 
             //ASSERT(s->GetFrame(rt) == s->GetKeyFrame(rt)); // fast seek test
-            m_tFrame[j] = s->GetKeyFrame(rt);
+            m_tFrame[track] = s->GetKeyFrame(rt);
         }
     }
 }
@@ -523,19 +521,18 @@ bool CAviSplitterFilter::DemuxLoop()
 {
     HRESULT hr = S_OK;
 
-    size_t nTracks = m_pFile->m_strms.GetCount();
-
     CAtlArray<BOOL> fDiscontinuity;
-    fDiscontinuity.SetCount(nTracks);
-    memset(fDiscontinuity.GetData(), 0, nTracks * sizeof(BOOL));
+    fDiscontinuity.SetCount(m_pFile->m_avih.dwStreams);
+    memset(fDiscontinuity.GetData(), 0, m_pFile->m_avih.dwStreams * sizeof(BOOL));
 
     while (SUCCEEDED(hr) && !CheckRequest(nullptr)) {
         DWORD curTrack = DWORD_MAX;
 
         REFERENCE_TIME minTime = INT64_MAX;
-        for (size_t j = 0; j < nTracks; ++j) {
-            CAviFile::strm_t* s = m_pFile->m_strms[j];
-            DWORD f = m_tFrame[j];
+        UINT64 minpos = INT64_MAX;
+        for (DWORD track = 0; track < m_pFile->m_avih.dwStreams; track++) {
+            CAviFile::strm_t* s = m_pFile->m_strms[track];
+            DWORD f = m_tFrame[track];
 
             if (f >= (DWORD)s->cs.GetCount()) {
                 continue;
@@ -543,15 +540,16 @@ bool CAviSplitterFilter::DemuxLoop()
 
             if (s->IsRawSubtitleStream()) {
                 // TODO: get subtitle time from index
-                minTime = 0;
-                curTrack = (DWORD)j;
+                minTime  = 0;
+                curTrack = track;
                 break; // read all subtitles at once
             }
 
             REFERENCE_TIME start = s->GetRefTime(f, s->cs[f].size);
-            if (start < minTime) {
-                minTime = start;
-                curTrack = (DWORD)j;
+            if (start < minTime || (start == minTime && s->cs[f].filepos < minpos)) {
+                minTime  = start;
+                curTrack = track;
+                minpos   = s->cs[f].filepos;
             }
         }
 
@@ -562,6 +560,7 @@ bool CAviSplitterFilter::DemuxLoop()
         do {
             CAviFile::strm_t* s = m_pFile->m_strms[curTrack];
             DWORD f = m_tFrame[curTrack];
+            //TRACE(_T("CAviFile::DemuxLoop(): track %d, time %I64d, pos %I64d\n"), curTrack, minTime, s->cs[f].filepos);
 
             m_pFile->Seek(s->cs[f].filepos);
             DWORD size = 0;
