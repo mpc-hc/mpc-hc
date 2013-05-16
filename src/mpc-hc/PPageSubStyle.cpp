@@ -228,8 +228,13 @@ BOOL CPPageSubStyle::OnApply()
 
 void CPPageSubStyle::OnBnClickedButton1()
 {
+    UpdateData();
+
     LOGFONT lf;
     lf <<= m_stss;
+    if (m_iCharset >= 0) {
+        lf.lfCharSet = (BYTE)m_charset.GetItemData(m_iCharset);
+    }
 
     CFontDialog dlg(&lf, CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT | CF_FORCEFONTEXIST | CF_SCALABLEONLY);
     if (dlg.DoModal() == IDOK) {
