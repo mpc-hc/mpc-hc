@@ -697,7 +697,6 @@
 #define IDC_UPDATE_LATER_BUTTON         22054
 #define IDC_UPDATE_IGNORE_BUTTON        22055
 #define IDC_AUTHORS_LINK                22056
-#define IDC_FFMPEG_TEXT                 22057
 #define IDC_LCDSUPPORT                  22058
 #define IDC_CHECK_LCD                   22059
 #define IDC_VIDRND_COMBO                22060

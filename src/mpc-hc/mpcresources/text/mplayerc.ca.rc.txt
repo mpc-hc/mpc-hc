@@ -7,6 +7,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 14		"Compilació nº :"
 16		"Compilador MPC-HC :"
 18		"Compilador FFmpeg :"
+19		"Not used"
 20		"Build date:"
 22		"Operating system"
 23		"Name:"

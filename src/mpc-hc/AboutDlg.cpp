@@ -145,9 +145,6 @@ BOOL CAboutDlg::OnInitDialog()
 
 #if defined(HAS_FFMPEG) && !defined(MPCHC_LITE)
     m_FFmpegCompiler = CA2CT(GetFFmpegCompiler());
-#else
-    GetDlgItem(IDC_FFMPEG_TEXT)->ShowWindow(SW_HIDE);
-    GetDlgItem(IDC_FFMPEG_COMPILER)->ShowWindow(SW_HIDE);
 #endif
 
     m_buildDate = _T(__DATE__) _T(" ") _T(__TIME__);

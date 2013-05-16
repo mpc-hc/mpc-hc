@@ -7,6 +7,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 14		"バージョン :"
 16		"MPC-HC コンパイラ :"
 18		"FFmpeg コンパイラ :"
+19		"Not used"
 20		"Build date:"
 22		"Operating system"
 23		"Name:"
