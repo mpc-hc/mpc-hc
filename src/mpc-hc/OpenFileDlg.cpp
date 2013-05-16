@@ -38,8 +38,11 @@ COpenFileDlg::COpenFileDlg(CAtlArray<CString>& mask, bool fAllowDirSelection, LP
     : CFileDialog(TRUE, lpszDefExt, lpszFileName, dwFlags | OFN_NOVALIDATE, lpszFilter, pParentWnd, 0)
     , m_mask(mask)
 {
+    m_defaultDir = lpszFileName;
+    m_defaultDir.RemoveFileSpec();
+
     m_fAllowDirSelection = fAllowDirSelection;
-    m_pOFN->lpstrInitialDir = lpszFileName;
+    m_pOFN->lpstrInitialDir = m_defaultDir.FileExists() ? m_defaultDir : nullptr;
 
     m_buff = DEBUG_NEW TCHAR[10000];
     m_buff[0] = 0;

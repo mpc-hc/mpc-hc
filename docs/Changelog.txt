@@ -26,6 +26,8 @@ Legend:
   to ease support
 ! PGS and DVB subtitles: Fix missing subtitles after resizing the window when using
   the subpicture queue
+! Open dialog: if an URL was previously enterer in the "Open" or "Dub" fields an error message
+  was shown when clicking on the "Browse" button 
 ! Ticket #3110, DVB: Improve compatibility with some drivers for which MPC-HC failed to find
   any channel during the channel scan
 ! Ticket #3113, MPC-HC was sometimes slow to close (audio kept playing for a few seconds)
