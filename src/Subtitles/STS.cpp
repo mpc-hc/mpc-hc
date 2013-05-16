@@ -3086,7 +3086,7 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 
 static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
-    wstring szFile;
+    std::wstring szFile;
     CStringW buff;
 
     while (file->ReadString(buff)) {
@@ -3105,7 +3105,7 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
     CRealTextParser::Subtitles crRealText = RealTextParser.GetParsedSubtitles();
 
-    for (map<pair<int, int>, wstring>::const_iterator i = crRealText.m_mapLines.begin();
+    for (std::map<std::pair<int, int>, std::wstring>::const_iterator i = crRealText.m_mapLines.begin();
             i != crRealText.m_mapLines.end();
             ++i) {
         ret.Add(
