@@ -224,8 +224,8 @@ void CAboutDlg::OnCopyToClipboard()
 #endif
     info += _T("    Build date:         ") + m_buildDate + _T("\n\n");
     info += _T("Operating system:\n");
-    info += _T("    Version:            ") + m_OSName + _T("\n");
-    info += _T("    Name:               ") + m_OSVersion + _T("\n");
+    info += _T("    Name:               ") + m_OSName + _T("\n");
+    info += _T("    Version:            ") + m_OSVersion + _T("\n");
 
     COleDataSource* pData = DEBUG_NEW COleDataSource();
 
