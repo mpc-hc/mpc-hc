@@ -553,10 +553,8 @@
 #define IDC_TEXTURESURF3D               12129
 #define IDC_DX9RESIZER_COMBO            12130
 #define IDC_DSVMR9LOADMIXER             12131
-#define IDC_CHECK_MPEGINTERLACED        12132
 #define IDC_DX_SURFACE                  12133
 #define IDC_DSVMR9YUVMIXER              12134
-#define IDC_DSVMR9LOADMIXER2            12135
 #define IDC_BUTTON_MI                   12136
 #define IDC_MIEDIT                      12137
 #define IDC_LISTCHANNELS                12138
@@ -697,7 +695,6 @@
 #define IDC_UPDATE_LATER_BUTTON         22054
 #define IDC_UPDATE_IGNORE_BUTTON        22055
 #define IDC_AUTHORS_LINK                22056
-#define IDC_LCDSUPPORT                  22058
 #define IDC_CHECK_LCD                   22059
 #define IDC_VIDRND_COMBO                22060
 #define IDC_RMRND_COMBO                 22061
@@ -752,7 +749,6 @@
 #define ID_SHIFT_SUB_DOWN               32782
 #define ID_SHIFT_SUB_UP                 32783
 #define ID_VIEW_DISPLAYSTATS            32784
-#define ID_VIEW_LANGUAGE                32786
 #define ID_LANGUAGE_ENGLISH             32787
 #define ID_LANGUAGE_FRENCH              32788
 #define ID_LANGUAGE_GERMAN              32789
@@ -1054,16 +1050,9 @@
 #define IDS_SCALE_ULTRAWIDE             33241
 #define IDS_PLAYLIST_HIDEFS             33242
 #define ID_VIEW_VSYNC                   33243
-#define ID_VSYNCOFFSET                  33244
 #define ID_VIEW_VSYNCOFFSET             33245
 #define ID_VIEW_VSYNCOFFSET_DECREASE    33246
 #define ID_VIEW_VSYNCOFFSET_INCREASE    33247
-#define ID__FILTERS                     33248
-#define ID_Menu33249                    33249
-#define ID__SUBTITLES                   33250
-#define ID__AUDIO                       33251
-#define ID__FILTERS33252                33252
-#define ID__SUBTITLES33253              33253
 #define ID_SHADERS_TOGGLE_SCREENSPACE   33254
 #define IDS_SHADERS_TOGGLE_SCREENSPACE  33255
 #define IDS_MAINFRM_PPONSCR             33257
@@ -1074,12 +1063,7 @@
 #define ID_VIEW_FULLSCREENGUISUPPORT    33263
 #define ID_VIEW_HIGHCOLORRESOLUTION     33264
 #define ID_VIEW_ENABLEFRAMETIMECORRECTION 33265
-#define IDS_AG_FULLSCREENGUISUPPORT     33266
-#define ID_RENDERERSETTINGS_OUTPUTRANGE 33268
 #define ID_VIEW_EVROUTPUTRANGE          33269
-#define ID_OUTPUTRANGE_0                33270
-#define ID_OUTPUTRANGE_16               33271
-#define ID_OUTPUTRANGE_48               33272
 #define ID_VIEW_EVROUTPUTRANGE_0_255    33273
 #define ID_VIEW_EVROUTPUTRANGE_16_235   33274
 #define IDS_AG_ENABLEFRAMETIMECORRECTION 33275
@@ -1107,10 +1091,7 @@
 #define IDS_NAVIGATE_TUNERSCAN          33401
 #define IDS_SUBTITLES_ERROR             33402
 #define IDC_CHECK_WIN7                  33403
-#define ID_RENDERERSETTINGS_RESETSTATS  33404
 #define ID_VIEW_RESETSTATS              33405
-#define ID_VSYNC_SYNCHRONIZEVIDEO       33406
-#define ID_VSYNC_SYNCHRONIZEDISPLAY     33407
 #define ID_VIEW_SYNCHRONIZEVIDEO        33408
 #define ID_VIEW_SYNCHRONIZEDISPLAY      33409
 #define ID_VIEW_SYNCHRONIZENEAREST      33410
@@ -1119,9 +1100,6 @@
 #define ID_AFTERPLAYBACK_ONCE           33413
 #define ID_AFTERPLAYBACK_EVERYTIME      33414
 #define ID_VIEW_NAVIGATION              33415
-#define ID_NAVIGATE_JUMPTO              33416
-#define ID_NAVIGATE_AUDIOLANGUAGE       33417
-#define ID_NAVIGATE_SUBTITLELANGUAGE    33418
 #define IDS_AG_VIDFRM_ZOOM1             33419
 #define IDS_AG_VIDFRM_ZOOM2             33420
 #define IDS_AG_VIDFRM_SWITCHZOOM        33422
