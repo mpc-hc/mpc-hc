@@ -92,6 +92,7 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelExceptionFilter)
 {
     LONG    retval = EXCEPTION_CONTINUE_SEARCH;
+    BOOL    bDumpCreated = FALSE;
     HMODULE hDll = nullptr;
     TCHAR   szResult[800];
     szResult[0] = _T('\0');
@@ -135,8 +136,8 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
                 ExInfo.ClientPointers = FALSE;
 
                 // write the dump
-                BOOL bOK = pMiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, nullptr, nullptr);
-                if (bOK) {
+                bDumpCreated = pMiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, nullptr, nullptr);
+                if (bDumpCreated) {
                     _stprintf_s(szResult, _countof(szResult), ResStr(IDS_MPC_CRASH), strDumpPath);
                     retval = EXCEPTION_EXECUTE_HANDLER;
                 } else {
@@ -152,7 +153,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
     }
 
     if (szResult[0]) {
-        switch (MessageBox(nullptr, szResult, _T("MPC-HC - Mini Dump"), retval ? MB_YESNO : MB_OK)) {
+        switch (MessageBox(nullptr, szResult, _T("MPC-HC - Mini Dump"), bDumpCreated ? MB_YESNO : MB_OK)) {
             case IDYES:
                 ShellExecute(nullptr, _T("open"), BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
                 ExploreToFile(strDumpPath);
