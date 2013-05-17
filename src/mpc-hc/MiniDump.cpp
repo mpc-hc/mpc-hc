@@ -117,6 +117,12 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
 
                 strDumpPath.ReleaseBuffer();
                 strDumpPath.Append(_T("\\Media Player Classic\\"));
+
+                // Check that the folder actually exists
+                if (!FileExists(strDumpPath)) {
+                    VERIFY(CreateDirectory(strDumpPath, nullptr));
+                }
+
                 strDumpPath.Append(AfxGetApp()->m_pszExeName);
                 strDumpPath.Append(_T(".exe"));
             } else {
