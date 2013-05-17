@@ -27,7 +27,7 @@
 year=$(date +%Y)
 pattern1='\(C\) ([0-9][0-9][0-9][0-9]-)?[0-9][0-9][0-9][0-9] see Authors.txt'
 pattern2='\(C\) ([0-9][0-9][0-9][0-9]-)?'"$year"' see Authors.txt'
-extensions=(bat cpp h iss)
+extensions=(bat cpp h iss pl)
 
 valid_extension() {
   for e in "${extensions[@]}"; do
