@@ -215,9 +215,9 @@ void CAboutDlg::OnCopyToClipboard()
     info += _T("\n----------------------------------\n\n");
     info += _T("Build information:\n");
     info += _T("    Version:            ") + m_strBuildNumber + _T("\n");
-    info += _T("    MPC-HC Compiler:    ") + m_MPCCompiler + _T("\n");
+    info += _T("    MPC-HC compiler:    ") + m_MPCCompiler + _T("\n");
 #ifndef MPCHC_LITE
-    info += _T("    FFmpeg Compiler:    ") + m_FFmpegCompiler + _T("\n");
+    info += _T("    FFmpeg compiler:    ") + m_FFmpegCompiler + _T("\n");
 #endif
     info += _T("    Build date:         ") + m_buildDate + _T("\n\n");
     info += _T("Operating system:\n");

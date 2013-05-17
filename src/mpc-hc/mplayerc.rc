@@ -187,9 +187,9 @@ BEGIN
     GROUPBOX        "Build information",IDC_STATIC,7,80,246,60
     LTEXT           "Version:",IDC_STATIC,13,92,85,8
     LTEXT           "",IDC_VERSION,95,92,155,8
-    LTEXT           "MPC-HC Compiler:",IDC_STATIC,13,104,85,8
+    LTEXT           "MPC-HC compiler:",IDC_STATIC,13,104,85,8
     LTEXT           "",IDC_MPC_COMPILER,95,104,155,8
-    LTEXT           "FFmpeg Compiler:",IDC_STATIC,13,116,85,8
+    LTEXT           "FFmpeg compiler:",IDC_STATIC,13,116,85,8
     LTEXT           "Not used",IDC_FFMPEG_COMPILER,95,116,155,8
     LTEXT           "Build date:",IDC_STATIC,13,128,85,8
     LTEXT           "",IDC_STATIC2,95,128,155,8
