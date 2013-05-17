@@ -374,8 +374,8 @@ STDMETHODIMP CSubtitleInputPin::EndOfStream(void)
 bool CSubtitleInputPin::IsHdmvSub(const CMediaType* pmt)
 {
     return pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_HDMVSUB ||         // Blu ray presentation graphics
-            pmt->subtype == MEDIASUBTYPE_DVB_SUBTITLES ||   // DVB subtitles
-            (pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_SubtitleInfo)) // Workaround : support for Haali PGS
+            pmt->subtype == MEDIASUBTYPE_DVB_SUBTITLES ||                                           // DVB subtitles
+            (pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_SubtitleInfo))          // Workaround : support for Haali PGS
            ? true
            : false;
 }
