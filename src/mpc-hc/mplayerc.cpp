@@ -280,7 +280,7 @@ CMPlayerCApp::CMPlayerCApp()
 {
     TCHAR strApp[MAX_PATH];
 
-    GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
+    GetModuleFileNameEx(GetCurrentProcess(), m_hInstance, strApp, MAX_PATH);
     m_strVersion = CFileVersionInfo::GetFileVersionStr(strApp);
 
     memset(&m_ColorControl, 0, sizeof(m_ColorControl));
@@ -1226,7 +1226,7 @@ BOOL CMPlayerCApp::InitInstance()
 
         // Remove the current playlist if it exists
         CString strSavePath;
-        if (AfxGetMyApp()->GetAppSavePath(strSavePath)) {
+        if (GetAppSavePath(strSavePath)) {
             CPath playlistPath;
             playlistPath.Combine(strSavePath, _T("default.mpcpl"));
 
@@ -1342,7 +1342,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_s.LoadSettings(); // read settings
 
-    AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
+    m_AudioRendererDisplayName_CL = _T("");
 
     if (!__super::InitInstance()) {
         AfxMessageBox(_T("InitInstance failed!"));
