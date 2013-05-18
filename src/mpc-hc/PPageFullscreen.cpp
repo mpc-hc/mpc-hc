@@ -273,7 +273,7 @@ void CPPageFullscreen::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
     }
     CAtlList<CString> sl1;
     CMonitors monitors;
-    CString strModes;
+
     switch (pItem->iSubItem) {
         case COL_SRR:
             sl1.RemoveAll();
@@ -385,7 +385,7 @@ void CPPageFullscreen::ModesUpdate()
 
     int i0 = 0;
 
-    CString str, strCurMon, strModes;
+    CString strModes;
     CString strCur;
     GetCurDispModeString(strCur);
 

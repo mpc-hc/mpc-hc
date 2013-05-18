@@ -340,7 +340,7 @@ void CPlaylist::Randomize()
         a[i].n = rand(), a[i].pos = pos;
     }
     qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
-    CList<CPlaylistItem> pl;
+
     for (size_t i = 0; i < a.GetCount(); i++) {
         AddTail(GetAt(a[i].pos));
         __super::RemoveAt(a[i].pos);

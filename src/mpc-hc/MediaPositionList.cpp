@@ -164,8 +164,6 @@ CDVDPositionList::CDVDPositionList(CWinApp* pApp, LPCTSTR lpszSection, int nMaxS
 void CDVDPositionList::Load()
 {
     bool hasNextEntry = true;
-    CString strFilePos;
-    CString strValue;
 
     for (int i = 0; i < m_nMaxSize && hasNextEntry; i++) {
         CString strDVDPos;

@@ -678,7 +678,6 @@ void CAppSettings::SaveSettings()
     POSITION pos = m_DVBChannels.GetHeadPosition();
     while (pos) {
         CString strTemp2;
-        CString strChannel;
         CDVBChannel& Channel = m_DVBChannels.GetNext(pos);
         strTemp2.Format(_T("%d"), iChannel);
         pApp->WriteProfileString(IDS_R_DVB, strTemp2, Channel.ToString());

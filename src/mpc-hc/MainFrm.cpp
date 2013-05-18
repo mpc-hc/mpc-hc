@@ -4557,7 +4557,6 @@ void CMainFrame::OnUpdateFileSaveAs(CCmdUI* pCmdUI)
     }
 
     CString fn = m_wndPlaylistBar.GetCurFileName();
-    CString ext = fn.Mid(fn.ReverseFind('.') + 1).MakeLower();
 
     if (fn.Find(_T("://")) >= 0) {
         pCmdUI->Enable(FALSE);

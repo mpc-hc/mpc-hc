@@ -107,8 +107,6 @@ void CVobSubFileRipper::Finished(bool fSucceeded)
 
 bool CVobSubFileRipper::LoadIfo(CString fn)
 {
-    CString str;
-
     CFileStatus status;
     if (!CFileGetStatus(fn, status) || !status.m_size) {
         Log(LOG_ERROR, _T("Invalid ifo"));

@@ -734,7 +734,6 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
     HRESULT hr = S_OK;
     IVideoWindow* pVideoWindow = nullptr;
     HWND hWnd = nullptr;
-    CComBSTR bstrCaption;
 
     hr = m_pGraph->QueryInterface(__uuidof(IVideoWindow), (void**) &pVideoWindow);
     if (SUCCEEDED(hr)) {

@@ -171,13 +171,13 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
     CRect wr, cr;
     GetWindowRect(wr);
     GetClientRect(cr);
-    CSize ws = wr.Size(), cs = cr.Size();
+    CSize ws = wr.Size();
 
     CRect twr, tcr;
     CTabCtrl* pTC = (CTabCtrl*)GetDlgItem(AFX_IDC_TAB_CONTROL);
     pTC->GetWindowRect(twr);
     pTC->GetClientRect(tcr);
-    CSize tws = twr.Size(), tcs = tcr.Size();
+    CSize tws = twr.Size();
 
     if (CWnd* pChild = pPage->GetWindow(GW_CHILD)) {
         pChild->ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0);

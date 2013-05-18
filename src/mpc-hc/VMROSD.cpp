@@ -97,7 +97,6 @@ void CVMROSD::SetSize(const CRect& wndRect, const CRect& videoRect)
 void CVMROSD::UpdateBitmap()
 {
     CAutoLock lock(&m_csLock);
-    CRect rc;
     CWindowDC dc(m_pWnd);
 
     m_memDC.DeleteDC();

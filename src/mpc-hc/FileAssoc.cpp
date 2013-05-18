@@ -289,7 +289,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
 
 bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bRegister)
 {
-    CString extOldReg, extOldIcon;
+    CString extOldReg/*, extOldIcon*/;
     CRegKey key;
     HRESULT hr = S_OK;
     TCHAR   buff[MAX_PATH];

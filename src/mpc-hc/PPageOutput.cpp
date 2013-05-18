@@ -223,7 +223,6 @@ BOOL CPPageOutput::OnInitDialog()
         TCHAR strGUID[50];
         CString cstrGUID;
         CString d3ddevice_str = _T("");
-        CStringArray adapterList;
 
         D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 
