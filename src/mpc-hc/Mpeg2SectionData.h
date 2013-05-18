@@ -22,7 +22,7 @@
 
 #include "DVBChannel.h"
 
-#pragma pack(1)
+#pragma pack(push, 1)
 struct SI_HEADER {
     UINT8       TableID;
     WORD        SectionSyntaxIndicator  : 1;
@@ -85,3 +85,4 @@ private:
     HRESULT         ParseSIHeader(CGolombBuffer& gb, DVB_SI SIType, WORD& wSectionLength, WORD& wTSID);
     HRESULT         SetTime(CGolombBuffer& gb, EventDescriptor& NowNext);
 };
+#pragma pack(pop)

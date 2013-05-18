@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,9 +26,7 @@
 #include "../DSUtil/DSUtil.h"
 #include "VobSubFile.h"
 
-#pragma pack(push)
-#pragma pack(1)
-
+#pragma pack(push, 1)
 typedef struct {
     WORD perm_displ  : 2;
     WORD ratio       : 2;

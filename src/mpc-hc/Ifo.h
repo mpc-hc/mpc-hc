@@ -27,7 +27,7 @@
 #include <stdint.h>
 #pragma warning(pop)
 
-#pragma pack(1)
+#pragma pack(push, 1)
 
 
 class CIfo
@@ -55,7 +55,7 @@ private:
         uint8_t frame_u;        // The two high bits are the frame rate.
     } dvd_time_t;
 
-    typedef uint8_t  command_data_t[8];
+    typedef uint8_t command_data_t[8];
 #define COMMAND_DATA_SIZE 8
 
     typedef struct {            // PGC Command Table
@@ -101,7 +101,7 @@ private:
     } clut_t;
 #endif
 
-    typedef struct {        // Audio Status
+    typedef struct {            // Audio Status
 #if BYTE_ORDER == BIG_ENDIAN
         uint8_t available   : 1;
         uint8_t link        : 7;
@@ -109,11 +109,11 @@ private:
         uint8_t link        : 7;
         uint8_t available   : 1;
 #endif
-        uint8_t foo     : 8; // UNKNOWN
+        uint8_t foo     : 8;    // UNKNOWN
     } audio_status_t;
 
 
-    typedef struct {        // Subpicture status
+    typedef struct {            // Subpicture status
 #if BYTE_ORDER == BIG_ENDIAN
         uint8_t available   : 1;
         uint8_t format4_3   : 7;
@@ -127,7 +127,7 @@ private:
     } subp_status_t;
 
 
-    typedef struct {        // Program Chain Information
+    typedef struct {            // Program Chain Information
         uint16_t        zero_1;
         uint8_t         nr_of_programs;
         uint8_t         nr_of_cells;
@@ -162,10 +162,10 @@ private:
 #if BYTE_ORDER == BIG_ENDIAN
         uint16_t foo1   : 4;    // don't know
         uint8_t menu_id : 4;    // 0=off, 3=root, 4=spu,
-        // 5=audio, 6=angle, 7=ptt
+                                // 5=audio, 6=angle, 7=ptt
 #else
         uint8_t menu_id : 4;    // 0=off, 3=root, 4=spu,
-        // 5=audio, 6=angle, 7=ptt
+                                // 5=audio, 6=angle, 7=ptt
         uint16_t foo1   : 4;    // don't know
 #endif
         uint16_t foo2   : 8;    // don't know
@@ -188,3 +188,4 @@ private:
     int         GetMiscPGCI(ifo_hdr_t* hdr, int title, uint8_t** ptr);
     void        RemovePgciUOPs(uint8_t* ptr);
 };
+#pragma pack(pop)
