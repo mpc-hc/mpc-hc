@@ -10,7 +10,7 @@ Legend:
 
 1.6.8 - not released yet
 ========================
-* Updated Basque, German, Greek, Japanese, Russian, Simplified / Traditional Chinese
+* Updated Basque, French, German, Greek, Japanese, Russian, Simplified / Traditional Chinese
   and Turkish translations
 * Updated Little CMS to v2.5 (git dd44baf)
 * Updated zlib to v1.2.8
