@@ -38,13 +38,13 @@
 #define BUGS_URL     _T("https://trac.mpc-hc.org/wiki/How_to_Report_Issues")
 #define TOOLBARS_URL _T("https://trac.mpc-hc.org/wiki/Toolbar_images")
 
-#define USE_UNRAR_STATIC
+#define USE_STATIC_UNRAR 1
 
 #ifndef MPCHC_LITE
-#define USE_MEDIAINFO_STATIC
+#define USE_STATIC_MEDIAINFO 1
 #endif
 
-// If you distribute your builds, please disable minidumps by defining DISABLE_MINIDUMP.
-//#define DISABLE_MINIDUMP
+// If you distribute your builds, please disable minidumps by defining ENABLE_MINIDUMP 0.
+#define ENABLE_MINIDUMP 1
 
 #endif // MPC_HC_CONFIG_H

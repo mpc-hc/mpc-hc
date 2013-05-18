@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -41,7 +41,7 @@ public:
     CFont* m_pCFont;
     CString MI_Text;
 
-#ifndef USE_MEDIAINFO_STATIC
+#if !USE_STATIC_MEDIAINFO
     static bool HasMediaInfo();
 #endif
 protected:

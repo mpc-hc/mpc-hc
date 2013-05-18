@@ -102,7 +102,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
         return retval;
     }
 
-#ifndef DISABLE_MINIDUMP
+#if ENABLE_MINIDUMP
     hDll = ::LoadLibrary(_T("dbghelp.dll"));
 
     if (hDll != nullptr) {

@@ -112,7 +112,7 @@ static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
 #include "Monitors.h"
 #include "MultiMonitor.h"
 
-#ifdef USE_MEDIAINFO_STATIC
+#if USE_STATIC_MEDIAINFO
 #include "MediaInfo/MediaInfo.h"
 using namespace MediaInfoLib;
 #else
@@ -11757,7 +11757,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         // Get FPS
         miFPS = 0.0;
 
-#ifdef USE_MEDIAINFO_STATIC
+#if USE_STATIC_MEDIAINFO
         MediaInfoLib::MediaInfo MI;
 #else
         MediaInfo MI;

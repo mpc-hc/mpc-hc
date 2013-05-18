@@ -32,7 +32,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
-#if defined(HAS_FFMPEG) && !defined(MPCHC_LITE)
+#if HAS_FFMPEG && !defined(MPCHC_LITE)
 extern "C" char* GetFFmpegCompiler();
 #endif
 
@@ -143,7 +143,7 @@ BOOL CAboutDlg::OnInitDialog()
     m_MPCCompiler += _T(" Debug");
 #endif
 
-#if defined(HAS_FFMPEG) && !defined(MPCHC_LITE)
+#if HAS_FFMPEG && !defined(MPCHC_LITE)
     m_FFmpegCompiler = CA2CT(GetFFmpegCompiler());
 #endif
 

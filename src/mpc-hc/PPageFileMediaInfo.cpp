@@ -26,7 +26,7 @@
 #include "PPageFileMediaInfo.h"
 #include "WinAPIUtils.h"
 
-#ifdef USE_MEDIAINFO_STATIC
+#if USE_STATIC_MEDIAINFO
 #include "MediaInfo/MediaInfo.h"
 using namespace MediaInfoLib;
 #else
@@ -107,7 +107,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
         EndEnumFilters;
     }
 
-#ifdef USE_MEDIAINFO_STATIC
+#if USE_STATIC_MEDIAINFO
     MediaInfoLib::String f_name = m_fn;
     MediaInfoLib::MediaInfo MI;
 #else
@@ -160,7 +160,7 @@ void CPPageFileMediaInfo::OnShowWindow(BOOL bShow, UINT nStatus)
     }
 }
 
-#ifndef USE_MEDIAINFO_STATIC
+#if !USE_STATIC_MEDIAINFO
 bool CPPageFileMediaInfo::HasMediaInfo()
 {
     MediaInfo MI;

@@ -25,7 +25,7 @@
 #include "VobSubFile.h"
 #include "mpc-hc_config.h"
 
-#ifndef USE_UNRAR_STATIC
+#if !USE_STATIC_UNRAR
 #include "unrar.h"
 #else
 #include "unrar/dll.hpp"
@@ -763,7 +763,7 @@ static int CALLBACK MyCallbackProc(UINT msg, LPARAM UserData, LPARAM P1, LPARAM 
 
 bool CVobSubFile::ReadRar(CString fn)
 {
-#ifndef USE_UNRAR_STATIC
+#if !USE_STATIC_UNRAR
 #ifdef _WIN64
     HMODULE h = LoadLibrary(_T("unrar64.dll"));
 #else
@@ -791,7 +791,7 @@ bool CVobSubFile::ReadRar(CString fn)
 #define ReadHeaderEx       RARReadHeaderEx
 #define ProcessFile        RARProcessFile
 #define SetCallback        RARSetCallback
-#endif /* USE_UNRAR_STATIC */
+#endif /* USE_STATIC_UNRAR */
 
     RAROpenArchiveDataEx OpenArchiveData;
     memset(&OpenArchiveData, 0, sizeof(OpenArchiveData));
@@ -808,7 +808,7 @@ bool CVobSubFile::ReadRar(CString fn)
     OpenArchiveData.Callback = MyCallbackProc;
     HANDLE hArcData = OpenArchiveEx(&OpenArchiveData);
     if (!hArcData) {
-#ifndef USE_UNRAR_STATIC
+#if !USE_STATIC_UNRAR
         FreeLibrary(h);
 #endif
         return false;
@@ -824,7 +824,7 @@ bool CVobSubFile::ReadRar(CString fn)
             CAutoVectorPtr<BYTE> buff;
             if (!buff.Allocate(HeaderDataEx.UnpSize)) {
                 CloseArchive(hArcData);
-#ifndef USE_UNRAR_STATIC
+#if !USE_STATIC_UNRAR
                 FreeLibrary(h);
 #endif
                 return false;
@@ -835,7 +835,7 @@ bool CVobSubFile::ReadRar(CString fn)
 
             if (ProcessFile(hArcData, RAR_TEST, nullptr, nullptr)) {
                 CloseArchive(hArcData);
-#ifndef USE_UNRAR_STATIC
+#if !USE_STATIC_UNRAR
                 FreeLibrary(h);
 #endif
 
@@ -857,7 +857,7 @@ bool CVobSubFile::ReadRar(CString fn)
     }
 
     CloseArchive(hArcData);
-#ifndef USE_UNRAR_STATIC
+#if !USE_STATIC_UNRAR
     FreeLibrary(h);
 #endif
 
