@@ -1,5 +1,6 @@
 Active (sorted by name):
 ------------------------
+alexmarsev              <alexmarsev@users.sourceforge.net>      Code
 Armada                  <armada651@users.sourceforge.net>       Code
 Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 janwillem32             <janwillem32@users.sourceforge.net>     Code
@@ -71,8 +72,7 @@ Ukrainian               arestarh                <arestarh1986@users.sourceforge.
 
 Contributors:
 -------------
-alexmarsev, Alexx999, foxx1337, heksesang, judelaw,
-madshi, mtrz, nielsm, skaarj1, VSFilterMod Team, X-Dron
+Alexx999, foxx1337, heksesang, judelaw, madshi, mtrz, nielsm, skaarj1, VSFilterMod Team, X-Dron
 
 
 https://github.com/mpc-hc/mpc-hc/graphs/contributors
