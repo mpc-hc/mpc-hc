@@ -404,7 +404,7 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
                subtype == MEDIASUBTYPE_ADPCM_AMV) {
         str = _T("ADPCM");
     } else if (subtype == MEDIASUBTYPE_ALAC) {
-        str = _T("Alac");
+        str = _T("ALAC");
     } else if (subtype == MEDIASUBTYPE_ALS) {
         str = _T("ALS");
     } else if (subtype == MEDIASUBTYPE_QDM2) {
