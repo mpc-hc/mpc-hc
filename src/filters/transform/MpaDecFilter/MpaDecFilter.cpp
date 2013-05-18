@@ -253,6 +253,7 @@ enum {
     IEC61937_TRUEHD             = 0x16,          ///< TrueHD data
 };
 
+#pragma warning(push)
 #pragma warning(disable : 4245)
 static struct scmap_t {
     WORD nChannels;
@@ -277,7 +278,7 @@ s_scmap_hdmv[] = {
     {8, { 0, 1, 2, 3, 6, 4, 5, -1 }, SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER | SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT | SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT}, // 3/4  FL, FR, FC, BL, Bls, Brs, BR
     {8, { 0, 1, 2, 7, 4, 5, 3, 6 }, SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER | SPEAKER_LOW_FREQUENCY | SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT | SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT}, // 3/4+LFe  FL, FR, FC, BL, Bls, Brs, BR, LFe
 };
-#pragma warning(default : 4245)
+#pragma warning(pop)
 
 static struct channel_mode_t {
     WORD channels;
