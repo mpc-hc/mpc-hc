@@ -1266,7 +1266,7 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() // 'sowt', little-endian 'in24' and 'in
             out_avsf = AV_SAMPLE_FMT_S16;
             memcpy(outBuff.GetData(), m_buff.GetData(), outSize);
             break;
-        case 24: // signed little-endian 32-bit
+        case 24: // signed little-endian 24-bit
             out_avsf = AV_SAMPLE_FMT_S32;
             convert_int24_to_int32(nSamples, (uint8_t*)m_buff.GetData(), (int32_t*)outBuff.GetData());
             break;
