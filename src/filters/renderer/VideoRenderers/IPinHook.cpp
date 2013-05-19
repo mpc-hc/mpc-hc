@@ -1487,7 +1487,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
     // Casimir666 : unhook previous VTables
     if (g_pIDirectXVideoDecoderServiceCVtbl) {
-        res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(g_pIDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
+        res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
         if (g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder == CreateVideoDecoderMine) {
             g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder = CreateVideoDecoderOrg;
         }
@@ -1501,7 +1501,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
         //  g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsOrg;
 #endif
 
-        res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(g_pIDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
+        res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
         g_pIDirectXVideoDecoderServiceCVtbl = nullptr;
         CreateVideoDecoderOrg = nullptr;
