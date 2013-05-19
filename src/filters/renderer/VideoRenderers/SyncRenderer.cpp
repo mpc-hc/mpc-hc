@@ -3340,7 +3340,14 @@ STDMETHODIMP CSyncAP::GetAspectRatioMode(DWORD* pdwAspectRatioMode)
 
 STDMETHODIMP CSyncAP::SetVideoWindow(HWND hwndVideo)
 {
-    ASSERT(m_hWnd == hwndVideo);
+    if (m_hWnd != hwndVideo) {
+        CAutoLock lock(this);
+        CAutoLock lock2(&m_ImageProcessingLock);
+        CAutoLock cRenderLock(&m_allocatorLock);
+
+        m_hWnd = hwndVideo;
+        SendResetRequest();
+    }
     return S_OK;
 }
 
@@ -3391,14 +3398,14 @@ STDMETHODIMP CSyncAP::GetRenderingPrefs(DWORD* pdwRenderFlags)
 
 STDMETHODIMP CSyncAP::SetFullscreen(BOOL fFullscreen)
 {
-    ASSERT(FALSE);
-    return E_NOTIMPL;
+    m_bIsFullscreen = !!fFullscreen;
+    return S_OK;
 }
 
 STDMETHODIMP CSyncAP::GetFullscreen(BOOL* pfFullscreen)
 {
-    ASSERT(FALSE);
-    return E_NOTIMPL;
+    *pfFullscreen = m_bIsFullscreen;
+    return S_OK;
 }
 
 // IEVRTrustedVideoPlugin
