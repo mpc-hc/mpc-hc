@@ -663,23 +663,29 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
     if (pChannel) {
         if (lIndex >= 0 && lIndex < pChannel->GetAudioCount()) {
             pStreamInfo = pChannel->GetAudio(lIndex);
-            pStream = &m_DVBStreams[pStreamInfo->Type];
-            if (pStream && pStreamInfo) {
-                if (pStream->GetMappedPID()) {
-                    pStream->Unmap(pStream->GetMappedPID());
-                }
-                nState = GetState();
-                if (m_nCurAudioType != pStreamInfo->Type) {
-                    if (GetState() != State_Stopped) {
-                        ChangeState(State_Stopped);
+            if (pStreamInfo) {
+                pStream = &m_DVBStreams[pStreamInfo->Type];
+                if (pStream) {
+                    if (pStream->GetMappedPID()) {
+                        pStream->Unmap(pStream->GetMappedPID());
                     }
-                    SwitchStream(m_nCurAudioType, pStreamInfo->Type);
-                    m_nCurAudioType = pStreamInfo->Type;
-                }
-                pStream->Map(pStreamInfo->PID);
-                ChangeState((FILTER_STATE)nState);
+                    nState = GetState();
+                    if (m_nCurAudioType != pStreamInfo->Type) {
+                        if (GetState() != State_Stopped) {
+                            ChangeState(State_Stopped);
+                        }
+                        SwitchStream(m_nCurAudioType, pStreamInfo->Type);
+                        m_nCurAudioType = pStreamInfo->Type;
+                    }
+                    pStream->Map(pStreamInfo->PID);
+                    ChangeState((FILTER_STATE)nState);
 
-                hr = S_OK;
+                    hr = S_OK;
+                } else {
+                    ASSERT(FALSE);
+                }
+            } else {
+                ASSERT(FALSE);
             }
         } else if (lIndex > 0 && lIndex < pChannel->GetAudioCount() + pChannel->GetSubtitleCount()) {
             pStreamInfo = pChannel->GetSubtitle(lIndex - pChannel->GetAudioCount());
@@ -692,6 +698,8 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
             m_DVBStreams[DVB_SUB].Unmap(m_DVBStreams[DVB_SUB].GetMappedPID());
             hr = S_OK;
         }
+    } else {
+        ASSERT(FALSE);
     }
 
     return hr;
