@@ -1126,7 +1126,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
             const CAppSettings& s = AfxGetAppSettings();
 
             if (fEscapeNotAssigned) {
-                if (m_fFullScreen) {
+                if (m_fFullScreen || IsD3DFullScreenMode()) {
                     OnViewFullscreen();
                     if (m_iMediaLoadState == MLS_LOADED) {
                         PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
@@ -1134,9 +1134,6 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
                     return TRUE;
                 } else if (IsCaptionHidden()) {
                     PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-                    return TRUE;
-                } else if (IsD3DFullScreenMode()) {
-                    ToggleD3DFullscreen();
                     return TRUE;
                 }
             }
