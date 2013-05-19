@@ -1382,6 +1382,10 @@ BOOL CMPlayerCApp::InitInstance()
         m_s.UIceClient.Connect(m_s.strUIceAddr);
     }
 
+    if (UpdateChecker::IsAutoUpdateEnabled()) {
+        UpdateChecker::CheckForUpdate(true);
+    }
+
     SendCommandLine(m_pMainWnd->m_hWnd);
     RegisterHotkeys();
 
@@ -1406,10 +1410,6 @@ BOOL CMPlayerCApp::InitInstance()
     m_mutexOneInstance.Release();
 
     CWebServer::Init();
-
-    if (UpdateChecker::IsAutoUpdateEnabled()) {
-        UpdateChecker::CheckForUpdate(true);
-    }
 
     if (m_s.fAssociatedWithIcons) {
         CFileAssoc::CheckIconsAssoc();
