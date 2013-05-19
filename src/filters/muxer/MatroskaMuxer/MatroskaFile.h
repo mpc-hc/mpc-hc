@@ -26,8 +26,6 @@
 
 namespace MatroskaWriter
 {
-    typedef unsigned __int64 QWORD;
-
     class CID
     {
     protected:

@@ -443,7 +443,7 @@ avcsuccess:
                     m_pSegment = Root.Child(0x18538067);
                     m_pCluster = m_pSegment->Child(0x1F43B675);
 
-                    MatroskaReader::QWORD lastCueClusterPosition = (MatroskaReader::QWORD) - 1;
+                    QWORD lastCueClusterPosition = (QWORD) - 1;
                     UINT64 timecode1 = 0;
                     UINT64 timecode2 = 0;
                     unsigned int framecount = 0;
@@ -1157,7 +1157,7 @@ void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
     if (rt > 0) {
         rt += m_pFile->m_rtOffset;
 
-        MatroskaReader::QWORD lastCueClusterPosition = (MatroskaReader::QWORD) - 1;
+        QWORD lastCueClusterPosition = (QWORD) - 1;
 
         Segment& s = m_pFile->m_segment;
 

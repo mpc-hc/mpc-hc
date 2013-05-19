@@ -4,7 +4,6 @@
   vStrip by [maven] (maven@maven.de)
 *************************************************************************/
 
-typedef unsigned __int64 QWORD;
 #define fio_SECTOR_SIZE 2048
 
 typedef char dstring; // last BYTE of string indicates encoding/length

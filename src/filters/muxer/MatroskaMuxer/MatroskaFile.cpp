@@ -39,21 +39,21 @@ CID::CID(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD CID::Size(bool fWithHeader)
+QWORD CID::Size(bool fWithHeader)
 {
     return CUInt(0, m_id).Size(false);
 }
 
 HRESULT CID::Write(IStream* pStream)
 {
-    MatroskaWriter::QWORD len = CID::Size();
+    QWORD len = CID::Size();
     DWORD id = m_id;
     bswap((BYTE*)&id, (int)len);
     *(BYTE*)&id = ((*(BYTE*)&id) & (1 << (8 - len)) - 1) | (1 << (8 - len));
     return pStream->Write(&id, (ULONG)len, nullptr);
 }
 
-MatroskaWriter::QWORD CID::HeaderSize(MatroskaWriter::QWORD len)
+QWORD CID::HeaderSize(QWORD len)
 {
     return CID::Size() + CLength(len).Size();
 }
@@ -65,13 +65,13 @@ HRESULT CID::HeaderWrite(IStream* pStream)
     return S_OK;
 }
 
-MatroskaWriter::QWORD CBinary::Size(bool fWithHeader)
+QWORD CBinary::Size(bool fWithHeader)
 {
     if (IsEmpty()) {
         return 0;
     }
 
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += GetCount();
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -89,13 +89,13 @@ HRESULT CBinary::Write(IStream* pStream)
     return pStream->Write(GetData(), GetCount(), nullptr);
 }
 
-MatroskaWriter::QWORD CANSI::Size(bool fWithHeader)
+QWORD CANSI::Size(bool fWithHeader)
 {
     if (IsEmpty()) {
         return 0;
     }
 
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += GetLength();
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -113,13 +113,13 @@ HRESULT CANSI::Write(IStream* pStream)
     return pStream->Write((LPCSTR) * this, GetLength(), nullptr);
 }
 
-MatroskaWriter::QWORD CUTF8::Size(bool fWithHeader)
+QWORD CUTF8::Size(bool fWithHeader)
 {
     if (IsEmpty()) {
         return 0;
     }
 
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += UTF16To8(*this).GetLength();
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -139,13 +139,13 @@ HRESULT CUTF8::Write(IStream* pStream)
 }
 
 template<class T, class BASE>
-MatroskaWriter::QWORD CSimpleVar<T, BASE>::Size(bool fWithHeader)
+QWORD CSimpleVar<T, BASE>::Size(bool fWithHeader)
 {
     if (!m_fSet) {
         return 0;
     }
 
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += sizeof(T);
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -166,13 +166,13 @@ HRESULT CSimpleVar<T, BASE>::Write(IStream* pStream)
     return pStream->Write(&val, sizeof(T), nullptr);
 }
 
-MatroskaWriter::QWORD CUInt::Size(bool fWithHeader)
+QWORD CUInt::Size(bool fWithHeader)
 {
     if (!m_fSet) {
         return 0;
     }
 
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
 
     if (m_val == 0) {
         len++;
@@ -204,13 +204,13 @@ HRESULT CUInt::Write(IStream* pStream)
     return pStream->Write(&val, (ULONG)l, nullptr);
 }
 
-MatroskaWriter::QWORD CInt::Size(bool fWithHeader)
+QWORD CInt::Size(bool fWithHeader)
 {
     if (!m_fSet) {
         return 0;
     }
 
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
 
     if (m_val == 0) {
         len++;
@@ -246,13 +246,13 @@ HRESULT CInt::Write(IStream* pStream)
     return pStream->Write(&val, (ULONG)l, nullptr);
 }
 
-MatroskaWriter::QWORD CLength::Size(bool fWithHeader)
+QWORD CLength::Size(bool fWithHeader)
 {
     if (m_len == 0x00FFFFFFFFFFFFFFi64) {
         return 8;
     }
 
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     for (int i = 1; i <= 8; i++) {
         if (!(m_len & (~((1i64 << (7 * i)) - 1))) && (m_len & ((1i64 << (7 * i)) - 1)) != ((1i64 << (7 * i)) - 1)) {
             len += i;
@@ -264,7 +264,7 @@ MatroskaWriter::QWORD CLength::Size(bool fWithHeader)
 
 HRESULT CLength::Write(IStream* pStream)
 {
-    MatroskaWriter::QWORD len = Size(false);
+    QWORD len = Size(false);
     UINT64 val = m_len;
     bswap((BYTE*)&val, (int)len);
     *(BYTE*)&val = ((*(BYTE*)&val) & (1 << (8 - len)) - 1) | (1 << (8 - len));
@@ -285,9 +285,9 @@ EBML::EBML(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD EBML::Size(bool fWithHeader)
+QWORD EBML::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += EBMLVersion.Size();
     len += EBMLReadVersion.Size();
     len += EBMLMaxIDLength.Size();
@@ -331,9 +331,9 @@ Info::Info(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Info::Size(bool fWithHeader)
+QWORD Info::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += SegmentUID.Size();
     len += PrevUID.Size();
     len += NextUID.Size();
@@ -375,11 +375,11 @@ Segment::Segment(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Segment::Size(bool fWithHeader)
+QWORD Segment::Size(bool fWithHeader)
 {
     return 0x00FFFFFFFFFFFFFFi64;
     /*
-        MatroskaWriter::QWORD len = 0;
+        QWORD len = 0;
         if (fWithHeader) len += HeaderSize(len);
         return len;
     */
@@ -396,9 +396,9 @@ Track::Track(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Track::Size(bool fWithHeader)
+QWORD Track::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += TrackEntries.Size();
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -440,9 +440,9 @@ TrackEntry::TrackEntry(DWORD id)
     DescType = NoDesc;
 }
 
-MatroskaWriter::QWORD TrackEntry::Size(bool fWithHeader)
+QWORD TrackEntry::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += TrackNumber.Size();
     len += TrackUID.Size();
     len += TrackType.Size();
@@ -521,9 +521,9 @@ Video::Video(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Video::Size(bool fWithHeader)
+QWORD Video::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += FlagInterlaced.Size();
     len += StereoMode.Size();
     len += PixelWidth.Size();
@@ -568,9 +568,9 @@ Audio::Audio(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Audio::Size(bool fWithHeader)
+QWORD Audio::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += SamplingFrequency.Size();
     len += OutputSamplingFrequency.Size();
     len += Channels.Size();
@@ -601,9 +601,9 @@ Cluster::Cluster(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Cluster::Size(bool fWithHeader)
+QWORD Cluster::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += TimeCode.Size();
     len += Position.Size();
     len += PrevSize.Size();
@@ -634,9 +634,9 @@ BlockGroup::BlockGroup(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD BlockGroup::Size(bool fWithHeader)
+QWORD BlockGroup::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += BlockDuration.Size();
     len += ReferencePriority.Size();
     len += ReferenceBlock.Size();
@@ -667,9 +667,9 @@ CBlock::CBlock(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD CBlock::Size(bool fWithHeader)
+QWORD CBlock::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += TrackNumber.Size() + 2 + 1; // TrackNumber + TimeCode + Lacing
     if (BlockData.GetCount() > 1) {
         len += 1; // nBlockData
@@ -733,9 +733,9 @@ Cue::Cue(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Cue::Size(bool fWithHeader)
+QWORD Cue::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += CuePoints.Size();
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -756,9 +756,9 @@ CuePoint::CuePoint(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD CuePoint::Size(bool fWithHeader)
+QWORD CuePoint::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += CueTime.Size();
     len += CueTrackPositions.Size();
     if (fWithHeader) {
@@ -784,9 +784,9 @@ CueTrackPosition::CueTrackPosition(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD CueTrackPosition::Size(bool fWithHeader)
+QWORD CueTrackPosition::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += CueTrack.Size();
     len += CueClusterPosition.Size();
     len += CueBlockNumber.Size();
@@ -814,9 +814,9 @@ Seek::Seek(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Seek::Size(bool fWithHeader)
+QWORD Seek::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += SeekHeads.Size();
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -837,9 +837,9 @@ SeekID::SeekID(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD SeekID::Size(bool fWithHeader)
+QWORD SeekID::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += m_id.Size();
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -860,9 +860,9 @@ SeekHead::SeekHead(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD SeekHead::Size(bool fWithHeader)
+QWORD SeekHead::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += ID.Size();
     len += Position.Size();
     if (fWithHeader) {
@@ -884,9 +884,9 @@ Tags::Tags(DWORD id)
 {
 }
 
-MatroskaWriter::QWORD Tags::Size(bool fWithHeader)
+QWORD Tags::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     //  len += .Size();
     if (fWithHeader) {
         len += HeaderSize(len);
@@ -901,15 +901,15 @@ HRESULT Tags::Write(IStream* pStream)
     return S_OK;
 }
 
-Void::Void(MatroskaWriter::QWORD len, DWORD id)
+Void::Void(QWORD len, DWORD id)
     : CID(id)
     , m_len(len)
 {
 }
 
-MatroskaWriter::QWORD Void::Size(bool fWithHeader)
+QWORD Void::Size(bool fWithHeader)
 {
-    MatroskaWriter::QWORD len = 0;
+    QWORD len = 0;
     len += m_len;
     if (fWithHeader) {
         len += HeaderSize(len);
