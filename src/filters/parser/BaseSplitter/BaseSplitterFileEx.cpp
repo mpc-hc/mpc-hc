@@ -492,8 +492,8 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
     }
 
     if (h.version == 3 && h.layer == 2) {
-        if ((h.bitrate == 1 || h.bitrate == 2 || h.bitrate == 3 || h.bitrate == 5) && h.channels != 3
-                && (h.bitrate >= 11 && h.bitrate <= 14) && h.channels == 3) {
+        if (((h.bitrate == 1 || h.bitrate == 2 || h.bitrate == 3 || h.bitrate == 5) && h.channels != 3)
+                || (h.bitrate >= 11 && h.bitrate <= 14 && h.channels == 3)) {
             return false;
         }
     }
