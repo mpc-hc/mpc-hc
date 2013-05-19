@@ -135,9 +135,7 @@ int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
         }
     }
 
-    if (caGUID.pElems) {
-        CoTaskMemFree(caGUID.pElems);
-    }
+    CoTaskMemFree(caGUID.pElems);
     lpUnk->Release();
 
     return nPages;
