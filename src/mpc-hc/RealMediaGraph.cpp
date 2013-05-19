@@ -678,7 +678,7 @@ STDMETHODIMP CRealMediaGraph::NonDelegatingQueryInterface(REFIID riid, void** pp
     CheckPointer(ppv, E_POINTER);
 
     return
-        (m_pRMP && (riid == __uuidof(ISubPicAllocatorPresenter) || riid == __uuidof(ISubPicAllocatorPresenter))) ? m_pRMP->QueryInterface(riid, ppv) :
+        (m_pRMP && (riid == __uuidof(ISubPicAllocatorPresenter) || riid == __uuidof(ISubPicAllocatorPresenter2))) ? m_pRMP->QueryInterface(riid, ppv) :
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
