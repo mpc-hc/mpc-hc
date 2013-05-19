@@ -42,7 +42,7 @@ COpenFileDlg::COpenFileDlg(CAtlArray<CString>& mask, bool fAllowDirSelection, LP
     m_defaultDir.RemoveFileSpec();
 
     m_fAllowDirSelection = fAllowDirSelection;
-    m_pOFN->lpstrInitialDir = m_defaultDir.FileExists() ? m_defaultDir : nullptr;
+    m_pOFN->lpstrInitialDir = m_defaultDir.FileExists() ? (LPCTSTR)m_defaultDir : nullptr;
 
     m_buff = DEBUG_NEW TCHAR[10000];
     m_buff[0] = 0;
