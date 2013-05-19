@@ -147,6 +147,11 @@ STDMETHODIMP CBufferFilter::SetPriority(DWORD dwPriority)
 
 HRESULT CBufferFilter::Receive(IMediaSample* pSample)
 {
+    ASSERT(pSample);
+    CheckPointer(pSample, E_POINTER);
+    ASSERT(m_pOutput);
+    CheckPointer(m_pOutput, E_POINTER);
+
     /*  Check for other streams and pass them on */
     AM_SAMPLE2_PROPERTIES* const pProps = m_pInput->SampleProps();
     if (pProps->dwStreamId != AM_STREAM_MEDIA) {
@@ -154,10 +159,7 @@ HRESULT CBufferFilter::Receive(IMediaSample* pSample)
     }
 
     HRESULT hr;
-    ASSERT(pSample);
     IMediaSample* pOutSample;
-
-    ASSERT(m_pOutput != nullptr);
 
     // Set up the output sample
     hr = InitializeOutputSample(pSample, &pOutSample);
