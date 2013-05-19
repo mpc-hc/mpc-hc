@@ -804,7 +804,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     // Create
     if (m_ClipInfo.IsHdmv()) {
         for (size_t i = 0; i < m_ClipInfo.GetStreamNumber(); i++) {
-            CHdmvClipInfo::Stream* stream = m_ClipInfo.GetStreamByIndex(i);
+            const CHdmvClipInfo::Stream* stream = m_ClipInfo.GetStreamByIndex(i);
             if (stream->m_Type == PRESENTATION_GRAPHICS_STREAM) {
                 m_pFile->AddHdmvPGStream(stream->m_PID, stream->m_LanguageCode);
             }
@@ -1302,8 +1302,8 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
                 return E_UNEXPECTED;
             }
 
-            CMpegSplitterFile::stream&  s = m_pFile->m_streams[i].GetAt(pos);
-            CHdmvClipInfo::Stream*      pStream = m_ClipInfo.FindStream(s.pid);
+            CMpegSplitterFile::stream&   s = m_pFile->m_streams[i].GetAt(pos);
+            const CHdmvClipInfo::Stream* pStream = m_ClipInfo.FindStream(s.pid);
 
             if (ppmt) {
                 *ppmt = CreateMediaType(&s.mt);
