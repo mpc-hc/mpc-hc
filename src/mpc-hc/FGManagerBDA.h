@@ -137,13 +137,13 @@ private:
     CComQIPtr<IBDA_SignalStatistics>     m_pBDATunerStats;
     CComPtr<IBDA_DigitalDemodulator>     m_pBDADemodulator;
     CComQIPtr<IBDA_SignalStatistics>     m_pBDADemodStats;
+    CComPtr<IBDA_AutoDemodulate>         m_pBDAAutoDemulate;
+    DVB_RebuildFilterGraph m_nDVBRebuildFilterGraph;
     CAtlMap<DVB_STREAM_TYPE, CDVBStream> m_DVBStreams;
 
     DVB_STREAM_TYPE m_nCurVideoType;
     DVB_STREAM_TYPE m_nCurAudioType;
-    CString         m_BDANetworkProvider;
     bool            m_fHideWindow;
-    bool            m_fSetChannelActive;
     CComPtr<IBaseFilter> m_pDemux;
 
     HRESULT         CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, const CStringW& DisplayName);
@@ -155,6 +155,7 @@ private:
     HRESULT         ClearMaps();
     FILTER_STATE    GetState();
     void UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChannel* pChannel);
+    HRESULT Flush(DVB_STREAM_TYPE nVideoType, DVB_STREAM_TYPE nAudioType);
 
     template <class ITF>
     HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, CComPtr<ITF>& pItf) {

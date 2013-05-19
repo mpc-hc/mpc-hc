@@ -57,8 +57,13 @@ public:
     CComboBox m_cbDigitalTuner;
     CComboBox m_cbDigitalReceiver;
     int m_iDefaultDevice;
+    CComboBox m_cbRebuildFilterGraph;
+    CComboBox m_cbStopFilterGraph;
 
     afx_msg void OnUpdateAnalog(CCmdUI* pCmdUI);
     afx_msg void OnUpdateDigital(CCmdUI* pCmdUI);
     afx_msg void OnUpdateDigitalReciver(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateDigitalStopFilterGraph(CCmdUI* pCmdUI);
+    afx_msg void OnCbnSelchangeRebuildFilterGraph();
+    afx_msg void OnCbnSelchangeStopFilterGraph();
 };

@@ -464,6 +464,7 @@ public:
     void ReplaceSubtitle(ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = -1, REFERENCE_TIME rtInvalidate = -1);
     void ReloadSubtitle();
+    HRESULT InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin* pPinto);
 
     void SetAudioTrackIdx(int index);
     void SetSubtitleTrackIdx(int index);
@@ -898,6 +899,7 @@ public:
     bool        m_bStopTunerScan;
     bool        m_bLockedZoomVideoWindow;
     int         m_nLockedZoomVideoWindow;
+    bool        m_fSetChannelActive;
 
     void        SetLoadState(MPC_LOADSTATE iState);
     void        SetPlayState(MPC_PLAYSTATE iState);
