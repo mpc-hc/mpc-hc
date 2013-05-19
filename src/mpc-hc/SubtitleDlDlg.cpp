@@ -32,8 +32,8 @@
 CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParent)
     , m_url(url)
-    , ps(m_list.GetSafeHwnd(), 0, TRUE)
-    , defps(m_list.GetSafeHwnd(), filename)
+    , m_ps(nullptr, 0, TRUE)
+    , m_defps(nullptr, filename)
     , m_status()
     , m_pTA(nullptr)
     , m_fReplaceSubs(false)
@@ -180,8 +180,8 @@ void CSubtitleDlDlg::LoadList()
     }
 
     // sort by language and filename
-    defps.m_hWnd = m_list.GetSafeHwnd();
-    ListView_SortItemsEx(m_list.GetSafeHwnd(), DefSortCompare, &defps);
+    m_defps.m_hWnd = m_list.GetSafeHwnd();
+    ListView_SortItemsEx(m_list.GetSafeHwnd(), DefSortCompare, &m_defps);
 
     m_list.SetRedraw(TRUE);
     m_list.Invalidate();
@@ -364,8 +364,8 @@ BOOL CSubtitleDlDlg::OnInitDialog()
         CString langName = LangCodeToName(CStringA(langCode));
         if (!langName.IsEmpty()) {
             int pos;
-            if (!defps.m_langPos.Lookup(langName, pos)) {
-                defps.m_langPos[langName] = listPos++;
+            if (!m_defps.m_langPos.Lookup(langName, pos)) {
+                m_defps.m_langPos[langName] = listPos++;
             }
         }
         langCode = order.Tokenize(_T(",; "), tPos);
@@ -476,16 +476,16 @@ void CSubtitleDlDlg::OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
     *pResult = 0;
 
-    if (phdr->iItem == ps.m_colIndex) {
-        ps.m_ascending = !ps.m_ascending;
+    if (phdr->iItem == m_ps.m_colIndex) {
+        m_ps.m_ascending = !m_ps.m_ascending;
     } else {
-        ps.m_ascending = true;
+        m_ps.m_ascending = true;
     }
-    ps.m_colIndex = phdr->iItem;
-    ps.m_hWnd = m_list.GetSafeHwnd();
+    m_ps.m_colIndex = phdr->iItem;
+    m_ps.m_hWnd = m_list.GetSafeHwnd();
 
     SetRedraw(FALSE);
-    ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, &ps);
+    ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, &m_ps);
     SetRedraw(TRUE);
     m_list.Invalidate();
     m_list.UpdateWindow();

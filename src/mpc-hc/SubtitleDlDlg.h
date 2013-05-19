@@ -77,8 +77,8 @@ private:
         COL_DISC,
         COL_TITLES
     };
-    PARAMSORT ps;
-    DEFPARAMSORT defps;
+    PARAMSORT m_ps;
+    DEFPARAMSORT m_defps;
     PTHREADSTRUCT m_pTA;
 
     CArray<isdb_movie_parsed> m_parsed_movies;
@@ -98,6 +98,7 @@ private:
     static int CALLBACK DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
     static size_t StrMatch(LPCTSTR a, LPCTSTR b);
     static CString LangCodeToName(LPCSTR code);
+
 public:
     explicit CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename);
     virtual ~CSubtitleDlDlg();
