@@ -134,23 +134,23 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     BeginEnumFilters(m_pFG, pEF, pBF) {
         if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
             CComBSTR bstr;
-            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && wcslen(bstr.m_str) > 0) {
+            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
                 m_clip = bstr.m_str;
                 fEmpty = false;
             }
-            if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && wcslen(bstr.m_str) > 0) {
+            if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
                 m_author = bstr.m_str;
                 fEmpty = false;
             }
-            if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && wcslen(bstr.m_str) > 0) {
+            if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
                 m_copyright = bstr.m_str;
                 fEmpty = false;
             }
-            if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && wcslen(bstr.m_str) > 0) {
+            if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
                 m_rating = bstr.m_str;
                 fEmpty = false;
             }
-            if (SUCCEEDED(pAMMC->get_Description(&bstr)) && wcslen(bstr.m_str) > 0) {
+            if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
                 m_desc.SetWindowText(CString(bstr.m_str));
                 fEmpty = false;
             }
