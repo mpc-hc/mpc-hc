@@ -254,7 +254,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     m_rtNextStop += rtDur;
 
     if (pIn->IsDiscontinuity() == S_OK) {
-        m_normalizeFactor = 10.0;
+        m_normalizeFactor = m_nMaxNormFactor;
     }
 
     WORD tag = wfe->wFormatTag;

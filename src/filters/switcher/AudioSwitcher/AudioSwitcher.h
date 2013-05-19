@@ -61,9 +61,9 @@ class __declspec(uuid("18C16B08-6497-420e-AD14-22D21C2CEAB7"))
     bool m_fDownSampleTo441;
     REFERENCE_TIME m_rtAudioTimeShift;
     CAutoPtrArray<AudioStreamResampler> m_pResamplers;
-    double m_normalizeFactor;
     bool m_fNormalize, m_fNormalizeRecover;
     double m_nMaxNormFactor, m_boostFactor;
+    double m_normalizeFactor;
 
     REFERENCE_TIME m_rtNextStart, m_rtNextStop;
 
