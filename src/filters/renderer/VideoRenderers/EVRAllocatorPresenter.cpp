@@ -384,6 +384,8 @@ STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
         //      hr = GetInterface((IDirect3DDeviceManager9*)this, ppv);
     {
         hr = m_pD3DManager->QueryInterface(__uuidof(IDirect3DDeviceManager9), (void**) ppv);
+    } else if (riid == __uuidof(ID3DFullscreenControl)) {
+        hr = GetInterface((ID3DFullscreenControl*)this, ppv);
     } else {
         hr = __super::NonDelegatingQueryInterface(riid, ppv);
     }

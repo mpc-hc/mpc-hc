@@ -2171,3 +2171,16 @@ STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTa
 
     return SetCustomPixelShader(pSrcData, pTarget, bScreenSpace);
 }
+
+STDMETHODIMP CDX9AllocatorPresenter::SetD3DFullscreen(bool fEnabled)
+{
+    m_bIsFullscreen = fEnabled;
+    return S_OK;
+}
+
+STDMETHODIMP CDX9AllocatorPresenter::GetD3DFullscreen(bool* pfEnabled)
+{
+    CheckPointer(pfEnabled, E_POINTER);
+    *pfEnabled = m_bIsFullscreen;
+    return S_OK;
+}

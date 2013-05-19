@@ -72,3 +72,11 @@ public IUnknown {
 public:
     STDMETHOD(support_ffdshow()) PURE;
 };
+
+// Set and query D3DFullscreen mode.
+interface __declspec(uuid("8EA1E899-B77D-4777-9F0E-66421BEA50F8"))
+ID3DFullscreenControl :
+public IUnknown {
+    STDMETHOD(SetD3DFullscreen)(bool fEnabled) PURE;
+    STDMETHOD(GetD3DFullscreen)(bool * pfEnabled) PURE;
+};

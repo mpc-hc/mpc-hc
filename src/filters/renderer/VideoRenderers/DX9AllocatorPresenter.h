@@ -34,6 +34,7 @@ namespace DSObjects
 
     class CDX9AllocatorPresenter
         : public CDX9RenderingEngine
+        , public ID3DFullscreenControl
     {
     public:
         CCritSec m_VMR9AlphaBitmapLock;
@@ -296,5 +297,9 @@ namespace DSObjects
         STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
         STDMETHODIMP_(bool) ResetDevice();
         STDMETHODIMP_(bool) DisplayChange();
+
+        // ID3DFullscreenControl
+        STDMETHODIMP SetD3DFullscreen(bool fEnabled);
+        STDMETHODIMP GetD3DFullscreen(bool* pfEnabled);
     };
 }

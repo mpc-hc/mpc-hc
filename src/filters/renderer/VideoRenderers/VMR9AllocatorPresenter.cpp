@@ -53,6 +53,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, v
         QI(IVMRSurfaceAllocator9)
         QI(IVMRImagePresenter9)
         QI(IVMRWindowlessControl9)
+        QI(ID3DFullscreenControl)
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
