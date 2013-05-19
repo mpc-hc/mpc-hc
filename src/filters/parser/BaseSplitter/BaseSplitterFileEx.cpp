@@ -1086,7 +1086,7 @@ bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
 
     if (h.channels == 0 || h.channels == 2 ||
             (h.samplerate != 1 && h.samplerate != 4  && h.samplerate != 5) ||
-            h.bitpersample < 0 || h.bitpersample > 3) {
+            h.bitpersample > 3) {
         return false;
     }
 
