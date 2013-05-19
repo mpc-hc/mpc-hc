@@ -373,7 +373,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 } else if (fPCM && wfe->wBitsPerSample == 24) {
                     int tmp;
                     memcpy(((BYTE*)&tmp) + 1, &pDataOut[i * 3], 3);
-                    buff[i] = (float)(tmp >> 8) / ((1 << 23) - 1);
+                    buff[i] = (float)(tmp >> 8) / INT24_MAX;
                 } else if (fPCM && wfe->wBitsPerSample == 32) {
                     buff[i] = (double)((int*)pDataOut)[i] / INT_MAX;
                 } else if (fFloat && wfe->wBitsPerSample == 32) {
@@ -427,7 +427,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 } else if (fPCM && wfe->wBitsPerSample == 16) {
                     ((short*)pDataOut)[i] = clamp<short>(s, SHRT_MIN, SHRT_MAX);
                 } else if (fPCM && wfe->wBitsPerSample == 24)  {
-                    int tmp = clamp<int>(s, -1 << 23, (1 << 23) - 1);
+                    int tmp = clamp<int>(s, INT24_MIN, INT24_MAX);
                     memcpy(&pDataOut[i * 3], &tmp, 3);
                 } else if (fPCM && wfe->wBitsPerSample == 32) {
                     ((int*)pDataOut)[i] = clamp<int>(s, INT_MIN, INT_MAX);
