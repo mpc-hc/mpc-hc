@@ -1379,6 +1379,7 @@ STDMETHODIMP CEVRAllocatorPresenter::SetFullscreen(BOOL fFullscreen)
 
 STDMETHODIMP CEVRAllocatorPresenter::GetFullscreen(BOOL* pfFullscreen)
 {
+    CheckPointer(pfFullscreen, E_POINTER);
     *pfFullscreen = m_bIsFullscreen;
     return S_OK;
 }

@@ -3404,6 +3404,7 @@ STDMETHODIMP CSyncAP::SetFullscreen(BOOL fFullscreen)
 
 STDMETHODIMP CSyncAP::GetFullscreen(BOOL* pfFullscreen)
 {
+    CheckPointer(pfFullscreen, E_POINTER);
     *pfFullscreen = m_bIsFullscreen;
     return S_OK;
 }
