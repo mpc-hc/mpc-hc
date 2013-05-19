@@ -6588,7 +6588,8 @@ void CMainFrame::SetUIPreset(int iCaptionMenuMode, UINT nCS)
 void CMainFrame::OnViewFullscreen()
 {
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.IsD3DFullscreen()) {
+
+    if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
         ToggleD3DFullscreen();
     } else {
         ToggleFullscreen(true, true);
@@ -6598,7 +6599,8 @@ void CMainFrame::OnViewFullscreen()
 void CMainFrame::OnViewFullscreenSecondary()
 {
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.IsD3DFullscreen()) {
+
+    if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
         ToggleD3DFullscreen();
     } else {
         ToggleFullscreen(true, false);
