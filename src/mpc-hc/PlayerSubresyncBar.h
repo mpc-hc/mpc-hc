@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -43,7 +43,7 @@ private:
     CComPtr<ISubStream> m_pSubStream;
 
     int m_lastSegment;
-    __int64 m_rt;
+    REFERENCE_TIME m_rt;
 
     enum {
         // TEXTSUB
@@ -110,14 +110,14 @@ public:
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* pSubLock);
 
-    void SetTime(__int64 rt);
+    void SetTime(REFERENCE_TIME rt);
 
     void SetSubtitle(ISubStream* pSubStream, double fps);
     void ResetSubtitle();
     void SaveSubtitle();
 
-    int FindNearestSub(__int64& rtPos, bool bForward);
-    bool ShiftSubtitle(int nItem, long lValue, __int64& rtPos);
+    int FindNearestSub(REFERENCE_TIME& rtPos, bool bForward);
+    bool ShiftSubtitle(int nItem, long lValue, REFERENCE_TIME& rtPos);
     bool SaveToDisk();
 
 

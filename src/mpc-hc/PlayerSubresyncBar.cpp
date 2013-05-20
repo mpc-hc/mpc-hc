@@ -84,7 +84,7 @@ BOOL CPlayerSubresyncBar::PreTranslateMessage(MSG* pMsg)
     return CSizingControlBarG::PreTranslateMessage(pMsg);
 }
 
-void CPlayerSubresyncBar::SetTime(__int64 rt)
+void CPlayerSubresyncBar::SetTime(REFERENCE_TIME rt)
 {
     m_rt = rt;
     int curSegment;
@@ -1297,7 +1297,7 @@ bool CPlayerSubresyncBar::IsShortCut(MSG* pMsg)
     return false;
 }
 
-int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
+int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)
 {
     int lCurTime = (int)(rtPos / 10000) + (bForward ? 1 : -1);
 
@@ -1313,7 +1313,7 @@ int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
 
     for (int i = 1, j = (int)m_sts.GetCount(); i < j; i++) {
         if ((lCurTime >= m_subtimes[i - 1].newstart) && (lCurTime < m_subtimes[i].newstart)) {
-            rtPos = bForward ? (__int64)m_subtimes[i].newstart * 10000 : (__int64)m_subtimes[i - 1].newstart * 10000;
+            rtPos = bForward ? (REFERENCE_TIME)m_subtimes[i].newstart * 10000 : (REFERENCE_TIME)m_subtimes[i - 1].newstart * 10000;
             return bForward ? i : i - 1;
         }
     }
@@ -1321,7 +1321,7 @@ int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
     return -1;
 }
 
-bool CPlayerSubresyncBar::ShiftSubtitle(int nItem, long lValue, __int64& rtPos)
+bool CPlayerSubresyncBar::ShiftSubtitle(int nItem, long lValue, REFERENCE_TIME& rtPos)
 {
     bool bRet = false;
 
@@ -1335,7 +1335,7 @@ bool CPlayerSubresyncBar::ShiftSubtitle(int nItem, long lValue, __int64& rtPos)
         UpdatePreview();
         SaveSubtitle();
         bRet = true;
-        rtPos = (__int64)m_subtimes[nItem].newstart * 10000;
+        rtPos = (REFERENCE_TIME)m_subtimes[nItem].newstart * 10000;
     }
     return bRet;
 }
