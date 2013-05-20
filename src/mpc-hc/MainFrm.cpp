@@ -9694,9 +9694,16 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 void CMainFrame::ToggleD3DFullscreen()
 {
+    CComQIPtr<ID3DFullscreenControl> pD3DFS;
     if (m_pMFVDC) {
-        BOOL bIsFullscreen = false;
-        m_pMFVDC->GetFullscreen(&bIsFullscreen);
+        pD3DFS = m_pMFVDC;
+    } else {
+        pD3DFS = m_pVMRWC;
+    }
+
+    if (pD3DFS) {
+        bool bIsFullscreen = false;
+        pD3DFS->GetD3DFullscreen(&bIsFullscreen);
 
         // Temporarily hide the OSD message if there is one, it will
         // be restored after. This avoid positioning problems.
@@ -9705,12 +9712,16 @@ void CMainFrame::ToggleD3DFullscreen()
         if (bIsFullscreen) {
             // Turn off D3D Fullscreen
             m_OSD.EnableShowSeekBar(false);
-            m_pMFVDC->SetFullscreen(false);
+            pD3DFS->SetD3DFullscreen(false);
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = &m_wndView;
             m_OSD.SetVideoWindow(m_pVideoWnd);
-            m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
+            if (m_pMFVDC) {
+                m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
+            } else {
+                m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
+            }
 
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
@@ -9726,12 +9737,16 @@ void CMainFrame::ToggleD3DFullscreen()
 
             // Turn on D3D Fullscreen
             m_OSD.EnableShowSeekBar(true);
-            m_pMFVDC->SetFullscreen(true);
+            pD3DFS->SetD3DFullscreen(true);
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = m_pFullscreenWnd;
-            m_OSD.SetVideoWindow(m_pFullscreenWnd);
-            m_pMFVDC->SetVideoWindow(m_pFullscreenWnd->m_hWnd);
+            m_OSD.SetVideoWindow(m_pVideoWnd);
+            if (m_pMFVDC) {
+                m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
+            } else {
+                m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
+            }
         }
 
         MoveVideoWindow();
@@ -11908,6 +11923,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         m_pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter), (void**)&m_pCAP, TRUE);
         m_pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter2), (void**)&m_pCAP2, TRUE);
+        m_pGB->FindInterface(__uuidof(IVMRWindowlessControl9), (void**)&m_pVMRWC, FALSE); // might have IVMRMixerBitmap9, but not IVMRWindowlessControl9
         m_pGB->FindInterface(__uuidof(IVMRMixerControl9), (void**)&m_pVMRMC, TRUE);
         m_pGB->FindInterface(__uuidof(IVMRMixerBitmap9), (void**)&pVMB, TRUE);
         m_pGB->FindInterface(__uuidof(IMFVideoMixerBitmap), (void**)&pMFVMB, TRUE);
@@ -12144,6 +12160,7 @@ void CMainFrame::CloseMediaPrivate()
     m_OSD.Stop();
     m_pCAP2.Release();
     m_pCAP.Release();
+    m_pVMRWC.Release();
     m_pVMRMC.Release();
     m_pMFVP.Release();
     m_pMFVDC.Release();
