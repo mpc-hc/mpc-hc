@@ -1492,8 +1492,8 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                 style->shadowDepthY = max(style->shadowDepthY, 0);
                 if (sver <= 4) {
                     style->scrAlignment = (style->scrAlignment & 4) ? ((style->scrAlignment & 3) + 6) // top
-                                                          : (style->scrAlignment & 8) ? ((style->scrAlignment & 3) + 3) // mid
-                                                          : (style->scrAlignment & 3); // bottom
+                                          : (style->scrAlignment & 8) ? ((style->scrAlignment & 3) + 3) // mid
+                                          : (style->scrAlignment & 3); // bottom
                 }
 
                 StyleName.TrimLeft('*');

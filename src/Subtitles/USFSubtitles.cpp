@@ -30,20 +30,20 @@
     CComVariant val;                          \
     pNode->get_nodeValue(&val);
 
-#define BeginEnumAttribs(pNode, pChild)                                                           \
-    {                                                                                             \
-        CComPtr<IXMLDOMNamedNodeMap> pAttribs;                                                    \
+#define BeginEnumAttribs(pNode, pChild)                                                              \
+    {                                                                                                \
+        CComPtr<IXMLDOMNamedNodeMap> pAttribs;                                                       \
         if (SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != nullptr)                      \
-        {                                                                                         \
-            CComPtr<IXMLDOMNode> pChild;                                                          \
+        {                                                                                            \
+            CComPtr<IXMLDOMNode> pChild;                                                             \
             for (pAttribs->nextNode(&pChild); pChild; pChild = nullptr, pAttribs->nextNode(&pChild)) \
             {
 
 #define EndEnumAttribs }}}
 
-#define BeginEnumChildren(pNode, pChild)                                                                            \
-    {                                                                                                               \
-        CComPtr<IXMLDOMNode> pChild, pNext;                                                                         \
+#define BeginEnumChildren(pNode, pChild)                                                                               \
+    {                                                                                                                  \
+        CComPtr<IXMLDOMNode> pChild, pNext;                                                                            \
         for (pNode->get_firstChild(&pChild); pChild; pNext = nullptr, pChild->get_nextSibling(&pNext), pChild = pNext) \
         {
 

@@ -77,11 +77,11 @@ private:
         uint8_t still_time;
         uint8_t cell_cmd;
 
-        dvd_time_t playback_time;
-        uint32_t vobu_start;    // 1st vobu start
-        uint32_t ilvu_end;
-        uint32_t vobu_last_start;
-        uint32_t vobu_last_end;
+        dvd_time_t  playback_time;
+        uint32_t    vobu_start;    // 1st vobu start
+        uint32_t    ilvu_end;
+        uint32_t    vobu_last_start;
+        uint32_t    vobu_last_end;
     } ifo_pgci_caddr_t;
 
     typedef struct {                // Cell Position Information
@@ -128,23 +128,23 @@ private:
 
 
     typedef struct {        // Program Chain Information
-        uint16_t zero_1;
-        uint8_t  nr_of_programs;
-        uint8_t  nr_of_cells;
-        dvd_time_t playback_time;
-        uint32_t prohibited_ops;    // New type?
-        audio_status_t audio_status[8];
-        subp_status_t subp_status[32];
-        uint16_t next_pgc_nr;
-        uint16_t prev_pgc_nr;
-        uint16_t goup_pgc_nr;
-        uint8_t  still_time;
-        uint8_t  pg_playback_mode;
-        clut_t   clut[16];
-        uint16_t pgc_command_tbl_offset;
-        uint16_t pgc_program_map_offset;
-        uint16_t cell_playback_tbl_offset;
-        uint16_t cell_position_tbl_offset;
+        uint16_t        zero_1;
+        uint8_t         nr_of_programs;
+        uint8_t         nr_of_cells;
+        dvd_time_t      playback_time;
+        uint32_t        prohibited_ops;    // New type?
+        audio_status_t  audio_status[8];
+        subp_status_t   subp_status[32];
+        uint16_t        next_pgc_nr;
+        uint16_t        prev_pgc_nr;
+        uint16_t        goup_pgc_nr;
+        uint8_t         still_time;
+        uint8_t         pg_playback_mode;
+        clut_t          clut[16];
+        uint16_t        pgc_command_tbl_offset;
+        uint16_t        pgc_program_map_offset;
+        uint16_t        cell_playback_tbl_offset;
+        uint16_t        cell_position_tbl_offset;
         pgc_command_tbl_t* pgc_command_tbl;
         pgc_program_map_t* pgc_program_map;
         ifo_pgci_caddr_t*  cell_playback_tbl;

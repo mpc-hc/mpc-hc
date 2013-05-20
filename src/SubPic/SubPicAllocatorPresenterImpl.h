@@ -81,22 +81,14 @@ public:
     STDMETHODIMP_(void) SetSubPicProvider(ISubPicProvider* pSubPicProvider);
     STDMETHODIMP_(void) Invalidate(REFERENCE_TIME rtInvalidate = -1);
 
-    STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size) {
-        return E_NOTIMPL;
-    }
+    STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size) { return E_NOTIMPL; }
 
-    STDMETHODIMP_(bool) ResetDevice() {
-        return false;
-    }
+    STDMETHODIMP_(bool) ResetDevice() { return false; }
 
-    STDMETHODIMP_(bool) DisplayChange() {
-        return false;
-    }
+    STDMETHODIMP_(bool) DisplayChange() { return false; }
 
     STDMETHODIMP SetVideoAngle(Vector v, bool fRepaint = true);
-    STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) {
-        return E_NOTIMPL;
-    }
+    STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) { return E_NOTIMPL; }
     STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) {
         if (!bScreenSpace) {
             return SetPixelShader(pSrcData, pTarget);

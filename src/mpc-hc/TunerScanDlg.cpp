@@ -124,7 +124,7 @@ void CTunerScanDlg::OnBnClickedSave()
     s.m_DVBChannels.RemoveAll();
 
     for (int i = 0; i < m_ChannelList.GetItemCount(); i++) {
-        CDVBChannel     Channel;
+        CDVBChannel Channel;
         Channel.FromString(m_ChannelList.GetItemText(i, TSCC_CHANNEL));
         Channel.SetPrefNumber(i);
         s.m_DVBChannels.AddTail(Channel);

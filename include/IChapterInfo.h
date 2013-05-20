@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,17 +22,17 @@
 #pragma once
 
 typedef enum ChapterType {
-    AtomicChapter   = 0, // only contain one element
-    SubChapter      = 1, // contain a list of elements
+    AtomicChapter   = 0,        // only contain one element
+    SubChapter      = 1         // contain a list of elements
 };
 
 #pragma pack(push, 1)
 struct ChapterElement {
-    WORD Size;              // size of this structure
-    BYTE Type;              // see ChapterType
-    UINT ChapterId;         // unique identifier for this element
-    REFERENCE_TIME rtStart; // REFERENCE_TIME in 100ns
-    REFERENCE_TIME rtStop;  // REFERENCE_TIME in 100ns
+    WORD Size;                  // size of this structure
+    BYTE Type;                  // see ChapterType
+    UINT ChapterId;             // unique identifier for this element
+    REFERENCE_TIME rtStart;     // REFERENCE_TIME in 100ns
+    REFERENCE_TIME rtStop;      // REFERENCE_TIME in 100ns
     struct ChapterElement() {
         Size = sizeof(*this);
     }
@@ -54,7 +54,7 @@ public IUnknown {
     //  \param aChapterID is 0 for the top level one
     STDMETHOD_(UINT, GetChapterCount)(UINT aChapterID) = 0;
 
-    //  \param aIndex start from 1 to GetChapterCount( aParentChapterId )
+    //  \param aIndex start from 1 to GetChapterCount(aParentChapterId)
     STDMETHOD_(UINT, GetChapterId)(UINT aParentChapterId, UINT aIndex) = 0;
 
     STDMETHOD_(UINT, GetChapterCurrentId)() = 0;
