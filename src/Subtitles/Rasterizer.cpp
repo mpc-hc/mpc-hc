@@ -559,8 +559,8 @@ bool Rasterizer::ScanConvert()
         // Process edges and add spans.  Since we only check for a non-zero
         // winding number, it doesn't matter which way the outlines go!
 
-        std::vector<int>::iterator itX1 = heap.begin();
-        std::vector<int>::iterator itX2 = heap.end(); // begin() + heap.size();
+        auto itX1 = heap.cbegin();
+        auto itX2 = heap.cend(); // begin() + heap.size();
 
         size_t x1 = 0;
         size_t x2;
@@ -608,10 +608,10 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int 
 
     dst.swap(temp);
 
-    tSpanBuffer::iterator itA = temp.begin();
-    tSpanBuffer::iterator itAE = temp.end();
-    tSpanBuffer::iterator itB = src.begin();
-    tSpanBuffer::iterator itBE = src.end();
+    auto itA = temp.cbegin();
+    auto itAE = temp.cend();
+    auto itB = src.cbegin();
+    auto itBE = src.cend();
 
     // Don't worry -- even if dy<0 this will still work! // G: hehe, the evil twin :)
 
@@ -804,8 +804,8 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
     tSpanBuffer* pOutline[2] = {&mOutline, &mWideOutline};
 
     for (ptrdiff_t i = _countof(pOutline) - 1; i >= 0; i--) {
-        tSpanBuffer::iterator it = pOutline[i]->begin();
-        tSpanBuffer::iterator itEnd = pOutline[i]->end();
+        auto it = pOutline[i]->cbegin();
+        auto itEnd = pOutline[i]->cend();
 
         for (; it != itEnd; ++it) {
             unsigned __int64 f = (*it).first;

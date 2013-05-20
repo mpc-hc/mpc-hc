@@ -464,7 +464,7 @@ std::wstring CRealTextParser::RenderTags(const std::list<Tag>& p_crlTags)
     bool bEmpty(true);
     std::wstring szString;
 
-    for (std::list<Tag>::const_iterator iter = p_crlTags.begin(); iter != p_crlTags.end(); ++iter) {
+    for (auto iter = p_crlTags.cbegin(); iter != p_crlTags.cend(); ++iter) {
         Tag oTag(*iter);
 
         if (oTag.m_szName == L"br") {
@@ -548,9 +548,7 @@ std::wstring CRealTextParser::RenderTags(const std::list<Tag>& p_crlTags)
 bool CRealTextParser::OutputSRT(std::wostream& p_rOutput)
 {
     int iCounter(1);
-    for (std::map<std::pair<int, int>, std::wstring>::const_iterator i = m_RealText.m_mapLines.begin();
-            i != m_RealText.m_mapLines.end();
-            ++i) {
+    for (auto i = m_RealText.m_mapLines.cbegin(); i != m_RealText.m_mapLines.cend(); ++i) {
         p_rOutput << iCounter++;
         p_rOutput << std::endl;
 
@@ -569,7 +567,7 @@ bool CRealTextParser::OutputSRT(std::wostream& p_rOutput)
 
 void CRealTextParser::PopTag(std::list<Tag>& p_rlistTags, const std::wstring& p_crszTagName)
 {
-    for (std::list<Tag>::reverse_iterator riter = p_rlistTags.rbegin(); riter != p_rlistTags.rend(); ++riter) {
+    for (auto riter = p_rlistTags.crbegin(); riter != p_rlistTags.crend(); ++riter) {
         if (riter->m_szName == p_crszTagName) {
             p_rlistTags.erase((++riter).base());
             return;

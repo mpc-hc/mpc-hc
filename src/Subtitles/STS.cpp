@@ -3091,9 +3091,7 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
     CRealTextParser::Subtitles crRealText = RealTextParser.GetParsedSubtitles();
 
-    for (std::map<std::pair<int, int>, std::wstring>::const_iterator i = crRealText.m_mapLines.begin();
-            i != crRealText.m_mapLines.end();
-            ++i) {
+    for (auto i = crRealText.m_mapLines.cbegin(); i != crRealText.m_mapLines.cend(); ++i) {
         ret.Add(
             SubRipper2SSA(i->second.c_str(), CharSet),
             file->IsUnicode(),
