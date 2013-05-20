@@ -33,15 +33,13 @@ struct ChapterElement {
     UINT ChapterId;             // unique identifier for this element
     REFERENCE_TIME rtStart;     // REFERENCE_TIME in 100ns
     REFERENCE_TIME rtStop;      // REFERENCE_TIME in 100ns
-    struct ChapterElement() {
-        Size = sizeof(*this);
-    }
-};
-struct ChapterElement2 : ChapterElement {
-    BOOL bDisabled;
-    struct ChapterElement2() {
-        Size = sizeof(*this);
-    }
+    ChapterElement()
+        : Size(sizeof(ChapterElement))
+        , Type(0)
+        , ChapterId(0)
+        , rtStart(0)
+        , rtStop(0)
+    {}
 };
 #pragma pack(pop)
 
