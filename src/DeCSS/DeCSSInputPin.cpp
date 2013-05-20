@@ -110,7 +110,6 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
             p += hdrlen;
         }
 
-    if (majortype == MEDIATYPE_MPEG2_PES)
         if (len > 0
                 && ((*(DWORD*)p & 0xf0ffffff) == 0xe0010000
                     || (*(DWORD*)p & 0xe0ffffff) == 0xc0010000
