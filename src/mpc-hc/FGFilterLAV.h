@@ -50,6 +50,7 @@ public:
 
     static CString GetFilterPath(LAVFILTER_TYPE filterType);
     static bool CheckVersion(CString filtersPath);
+    static CString GetVersion(LAVFILTER_TYPE filterType = INVALID);
 
     static CFGFilterLAV* CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 

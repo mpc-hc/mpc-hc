@@ -21,6 +21,9 @@
 #include "stdafx.h"
 #include "AboutDlg.h"
 #include "mpc-hc_config.h"
+#ifndef MPCHC_LITE
+#include "FGFilterLAV.h"
+#endif
 #include "mplayerc.h"
 #include "version.h"
 #include "SysVersion.h"
@@ -33,6 +36,9 @@ CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
     , m_appname(_T(""))
     , m_strBuildNumber(_T(""))
     , m_MPCCompiler(_T(""))
+#ifndef MPCHC_LITE
+    , m_LAVFiltersVersion(_T(""))
+#endif
 {
     //{{AFX_DATA_INIT(CAboutDlg)
     //}}AFX_DATA_INIT
@@ -43,6 +49,7 @@ BOOL CAboutDlg::OnInitDialog()
     // Get the default text before it is overwritten by the call to __super::OnInitDialog()
     GetDlgItem(IDC_STATIC1)->GetWindowText(m_appname);
     GetDlgItem(IDC_AUTHORS_LINK)->GetWindowText(m_credits);
+    GetDlgItem(IDC_LAVFILTERS_VERSION)->GetWindowText(m_LAVFiltersVersion);
 
     __super::OnInitDialog();
 
@@ -135,6 +142,13 @@ BOOL CAboutDlg::OnInitDialog()
     m_MPCCompiler += _T(" Debug");
 #endif
 
+#if !defined(MPCHC_LITE)
+    CString LAVFiltersVersion = CFGFilterLAV::GetVersion();
+    if (!LAVFiltersVersion.IsEmpty()) {
+        m_LAVFiltersVersion = LAVFiltersVersion;
+    }
+#endif
+
     m_buildDate = _T(__DATE__) _T(" ") _T(__TIME__);
 
     OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
@@ -168,6 +182,9 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_HOMEPAGE_LINK, m_homepage);
     DDX_Text(pDX, IDC_VERSION, m_strBuildNumber);
     DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
+#ifndef MPCHC_LITE
+    DDX_Text(pDX, IDC_LAVFILTERS_VERSION, m_LAVFiltersVersion);
+#endif
     DDX_Text(pDX, IDC_STATIC2, m_buildDate);
     DDX_Text(pDX, IDC_STATIC3, m_OSName);
     DDX_Text(pDX, IDC_STATIC4, m_OSVersion);
@@ -202,6 +219,12 @@ void CAboutDlg::OnCopyToClipboard()
     info += _T("    Version:            ") + m_strBuildNumber + _T("\n");
     info += _T("    MPC-HC compiler:    ") + m_MPCCompiler + _T("\n");
     info += _T("    Build date:         ") + m_buildDate + _T("\n\n");
+#ifndef MPCHC_LITE
+    info += _T("LAV Filters:\n");
+    info += _T("    LAV Splitter:       ") + CFGFilterLAV::GetVersion(CFGFilterLAV::SPLITTER) + _T("\n");
+    info += _T("    LAV Video:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::VIDEO_DECODER) + _T("\n");
+    info += _T("    LAV Audio:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::AUDIO_DECODER) + _T("\n\n");
+#endif
     info += _T("Operating system:\n");
     info += _T("    Name:               ") + m_OSName + _T("\n");
     info += _T("    Version:            ") + m_OSVersion + _T("\n");

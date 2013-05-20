@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Honi buruz"
 8		"Copyrighta © 2002-2013 ikusi Authors.txt"
 11		"Programa hau askea da eta GNU Baimen Publiko Orokorraz argitaratzen da."
@@ -6,12 +6,14 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 13		"Eraiketa eguna:"
 14		"Bertsioa :"
 16		"MPC-HC Biltzailea :"
-18		"Eraiketa eguna:"
-20		"Sistema eragilea"
-21		"Izena:"
-23		"Bertsioa:"
-25		"Kopiatu gakora"
-26		"Ongi"
+18		"LAV Filters :"
+19		"Ez erabilia"
+20		"Eraiketa eguna:"
+22		"Sistema eragilea"
+23		"Izena:"
+25		"Bertsioa:"
+27		"Kopiatu gakora"
+28		"Ongi"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

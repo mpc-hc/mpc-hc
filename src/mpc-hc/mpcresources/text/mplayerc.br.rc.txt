@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Sobre"
 8		"Copyright © 2002-2013 - veja o arquivo Authors.txt"
 11		"Este programa é gratuito e foi licenciado sob os termos da Licença Geral Pública do GNU."
@@ -6,12 +6,14 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 13		"Build information"
 14		"Versão :"
 16		"Compilador do MPC-HC :"
-18		"Build date:"
-20		"Operating system"
-21		"Name:"
-23		"Version:"
-25		"Copy to clipboard"
-26		"OK"
+18		"LAV Filters:"
+19		"Not used"
+20		"Build date:"
+22		"Operating system"
+23		"Name:"
+25		"Version:"
+27		"Copy to clipboard"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

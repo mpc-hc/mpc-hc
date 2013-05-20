@@ -35,7 +35,7 @@ class CAboutDlg : public CDialog
     CString m_strBuildNumber;
     CString m_MPCCompiler;
 #ifndef MPCHC_LITE
-    CString m_FFmpegCompiler;
+    CString m_LAVFiltersVersion;
 #endif
     CString m_buildDate;
 

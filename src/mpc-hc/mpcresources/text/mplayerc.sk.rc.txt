@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"O programe"
 8		"Copyright © 2002-2013 viď súbor Authors.txt"
 11		"Tento program je šírený ako freeware a bol vydaný pod licenciou GNU General Public."
@@ -6,12 +6,14 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 13		"Informácia o zostavení"
 14		"Verzia:"
 16		"Kompilátor MPC-HC:"
-18		"Dátum zostavenia:"
-20		"Operačný systém"
-21		"Meno:"
-23		"Verzia:"
-25		"Kopírovať do schránky"
-26		"OK"
+18		"LAV Filters:"
+19		"Nevyužité"
+20		"Dátum zostavenia:"
+22		"Operačný systém"
+23		"Meno:"
+25		"Verzia:"
+27		"Kopírovať do schránky"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

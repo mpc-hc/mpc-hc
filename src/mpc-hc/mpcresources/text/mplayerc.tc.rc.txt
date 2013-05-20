@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"關於"
 8		"Copyright © 2002-2013 請見 Authors.txt 檔案"
 11		"本程式是自由軟體, 並依 GNU General Public License 發行。"
@@ -6,12 +6,14 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 13		"編譯訊息"
 14		"版本 :"
 16		"MPC-HC 編譯器 :"
-18		"編譯日期:"
-20		"作業系統"
-21		"名稱:"
-23		"版本:"
-25		"複製到剪貼板"
-26		"確定"
+18		"LAV Filters:"
+19		"未使用"
+20		"編譯日期:"
+22		"作業系統"
+23		"名稱:"
+25		"版本:"
+27		"複製到剪貼板"
+28		"確定"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10

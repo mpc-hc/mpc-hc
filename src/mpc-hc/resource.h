@@ -652,6 +652,7 @@
 #define IDC_SHOW_OSD                    22013
 #define IDC_EVR_BUFFERS_TXT             22014
 #define IDC_MPC_COMPILER                22016
+#define IDC_LAVFILTERS_VERSION          22017
 #define IDC_DSVMR9ALTERNATIVEVSYNC      22018
 #define IDC_HOMEPAGE_LINK               22018
 #define IDC_QUALITY                     22019

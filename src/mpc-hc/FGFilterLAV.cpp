@@ -99,6 +99,49 @@ bool CFGFilterLAV::CheckVersion(CString filterPath)
     return (version >= LAV_FILTERS_VERSION);
 }
 
+CString CFGFilterLAV::GetVersion(LAVFILTER_TYPE filterType /*= INVALID*/)
+{
+    CStringList paths;
+
+    if (filterType == INVALID) {
+        paths.AddTail(GetFilterPath(SPLITTER));
+        paths.AddTail(GetFilterPath(VIDEO_DECODER));
+        paths.AddTail(GetFilterPath(AUDIO_DECODER));
+    } else {
+        paths.AddTail(GetFilterPath(filterType));
+    }
+
+    QWORD uiVersionMin = UINT64_MAX;
+    QWORD uiVersionMax = 0ui64;
+    CString strVersionMin, strVersionMax;
+    POSITION pos = paths.GetHeadPosition();
+    while (pos) {
+        CString& path = paths.GetNext(pos);
+
+        QWORD version = CFileVersionInfo::GetFileVersionNum(path);
+        if (version) {
+            if (version < uiVersionMin) {
+                uiVersionMin = version;
+                strVersionMin = CFileVersionInfo::GetFileVersionStr(path);
+            }
+            if (version > uiVersionMax) {
+                uiVersionMax = version;
+                strVersionMax = CFileVersionInfo::GetFileVersionStr(path);
+            }
+        }
+    }
+
+    CString version;
+    if (uiVersionMin != UINT64_MAX) {
+        version = strVersionMin;
+        if (uiVersionMax != uiVersionMin) {
+            version.AppendFormat(_T(" - %s"), strVersionMax);
+        }
+    }
+
+    return version;
+}
+
 CFGFilterLAV* CFGFilterLAV::CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit /*= MERIT64_DO_USE*/, bool bAddLowMeritSuffix /*= false*/)
 {
     CFGFilterLAV* filter = nullptr;

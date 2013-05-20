@@ -1,4 +1,4 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Про програму"
 8		"Copyright © 2002-2013, див. файл Authors.txt"
 11		"Ця програма безкоштовна та розповсюджується за ліцензією GNU General Public License."
@@ -6,12 +6,14 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 27
 13		"Інформація про збірку"
 14		"Версія :"
 16		"MPC-HC Компілятор :"
-18		"Зібрано:"
-20		"Операційна система"
-21		"Назва:"
-23		"Версія:"
-25		"Копіювати до буферу обміну"
-26		"OK"
+18		"LAV Filters:"
+19		"Не використовується"
+20		"Зібрано:"
+22		"Операційна система"
+23		"Назва:"
+25		"Версія:"
+27		"Копіювати до буферу обміну"
+28		"OK"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
