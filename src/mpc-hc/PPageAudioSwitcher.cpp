@@ -45,6 +45,7 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
     , m_tAudioTimeShift(0)
     , m_fAudioTimeShift(FALSE)
     , m_AudioBoostPos(0)
+    , m_nAudioMaxNormFactor(400)
 {
     m_pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pFG);
 }

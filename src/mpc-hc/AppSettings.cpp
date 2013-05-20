@@ -108,6 +108,7 @@ CAppSettings::CAppSettings()
     , fIntRealMedia(0)
     , fEnableEDLEditor(false)
     , bNotifySkype(FALSE)
+    , nAudioMaxNormFactor(400)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -657,7 +658,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULT_CAPTURE, iDefaultCaptureDevice);
     pApp->WriteProfileString(IDS_R_CAPTURE, IDS_RS_VIDEO_DISP_NAME, strAnalogVideo);
     pApp->WriteProfileString(IDS_R_CAPTURE, IDS_RS_AUDIO_DISP_NAME, strAnalogAudio);
-    pApp->WriteProfileInt(IDS_R_CAPTURE, IDS_RS_COUNTRY,         iAnalogCountry);
+    pApp->WriteProfileInt(IDS_R_CAPTURE, IDS_RS_COUNTRY, iAnalogCountry);
 
     // Save digital capture settings (BDA)
     pApp->WriteProfileString(IDS_R_DVB, nullptr, nullptr); // Ensure the section is cleared before saving the new settings
