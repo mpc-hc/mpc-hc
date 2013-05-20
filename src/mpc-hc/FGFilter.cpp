@@ -615,6 +615,13 @@ int CFGFilterList::filter_cmp(const void* a, const void* b)
         return +1;
     }
 
+    if (fa->pFGF->GetMerit() > fb->pFGF->GetMerit()) {
+        return -1;
+    }
+    if (fa->pFGF->GetMerit() < fb->pFGF->GetMerit()) {
+        return +1;
+    }
+
     if (fa->pFGF->GetCLSID() == fb->pFGF->GetCLSID()) {
         CFGFilterFile* fgfa = dynamic_cast<CFGFilterFile*>(fa->pFGF);
         CFGFilterFile* fgfb = dynamic_cast<CFGFilterFile*>(fb->pFGF);
@@ -625,13 +632,6 @@ int CFGFilterList::filter_cmp(const void* a, const void* b)
         if (!fgfa && fgfb) {
             return +1;
         }
-    }
-
-    if (fa->pFGF->GetMerit() > fb->pFGF->GetMerit()) {
-        return -1;
-    }
-    if (fa->pFGF->GetMerit() < fb->pFGF->GetMerit()) {
-        return +1;
     }
 
     if (fa->exactmatch && !fb->exactmatch) {
