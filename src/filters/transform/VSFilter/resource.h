@@ -86,17 +86,12 @@
 #define IDC_FLIP                        203
 #define IDC_HIDE                        204
 #define IDC_FLIPSUB                     205
-#define IDC_CACHESUB                    206
 #define IDC_ONLYSHOWFORCEDSUBS          207
-#define IDC_POLYGONIZE                  208
 #define IDC_FONT                        212
 #define IDC_BUGREPORTBTN                212
-#define IDC_CONFIGDLG                   213
-#define IDC_SHADOW                      214
 #define IDI_ICON1                       214
 #define IDC_LANGCOMBO                   215
 #define IDD_DVSCOLORPAGE                218
-#define IDC_OUTLINE                     220
 #define IDD_DVSGENERALPAGE              220
 #define IDC_MOD32FIX                    221
 #define IDD_DVSTIMINGPAGE               221
@@ -118,7 +113,6 @@
 #define IDC_SPIN7                       233
 #define IDC_MODFPS                      233
 #define IDC_EDIT8                       234
-#define IDC_ADVANCEDRENDERER            234
 #define IDC_SPIN8                       235
 #define IDC_EXTLOAD                     235
 #define IDC_WEBLOAD                     236
