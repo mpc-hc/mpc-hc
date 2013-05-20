@@ -52,7 +52,10 @@ void Unpack::Unpack5(bool Solid)
     uint MainSlot=DecodeNumber(Inp,&BlockTables.LD);
     if (MainSlot<256)
     {
-      Window[UnpPtr++]=(byte)MainSlot;
+      if (Fragmented)
+        FragWindow[UnpPtr++]=(byte)MainSlot;
+      else
+        Window[UnpPtr++]=(byte)MainSlot;
       continue;
     }
     if (MainSlot>=262)
@@ -103,7 +106,10 @@ void Unpack::Unpack5(bool Solid)
 
       InsertOldDist(Distance);
       LastLength=Length;
-      CopyString(Length,Distance);
+      if (Fragmented)
+        FragWindow.CopyString(Length,Distance,UnpPtr,MaxWinMask);
+      else
+        CopyString(Length,Distance);
       continue;
     }
     if (MainSlot==256)
@@ -116,7 +122,10 @@ void Unpack::Unpack5(bool Solid)
     if (MainSlot==257)
     {
       if (LastLength!=0)
-        CopyString(LastLength,OldDist[0]);
+        if (Fragmented)
+          FragWindow.CopyString(LastLength,OldDist[0],UnpPtr,MaxWinMask);
+        else
+          CopyString(LastLength,OldDist[0]);
       continue;
     }
     if (MainSlot<262)
@@ -130,7 +139,10 @@ void Unpack::Unpack5(bool Solid)
       uint LengthSlot=DecodeNumber(Inp,&BlockTables.RD);
       uint Length=SlotToLength(Inp,LengthSlot);
       LastLength=Length;
-      CopyString(Length,Distance);
+      if (Fragmented)
+        FragWindow.CopyString(Length,Distance,UnpPtr,MaxWinMask);
+      else
+        CopyString(Length,Distance);
       continue;
     }
   }
@@ -286,12 +298,25 @@ void Unpack::UnpWriteBuf()
           FilterSrcMemory.Alloc(BlockLength);
           byte *Mem=&FilterSrcMemory[0];
           if (BlockStart<BlockEnd || BlockEnd==0)
-            memcpy(Mem,Window+BlockStart,BlockLength);
+          {
+            if (Fragmented)
+              FragWindow.CopyData(Mem,BlockStart,BlockLength);
+            else
+              memcpy(Mem,Window+BlockStart,BlockLength);
+          }
           else
           {
             size_t FirstPartLength=size_t(MaxWinSize-BlockStart);
-            memcpy(Mem,Window+BlockStart,FirstPartLength);
-            memcpy(Mem+FirstPartLength,Window,BlockEnd);
+            if (Fragmented)
+            {
+              FragWindow.CopyData(Mem,BlockStart,FirstPartLength);
+              FragWindow.CopyData(Mem+FirstPartLength,0,BlockEnd);
+            }
+            else
+            {
+              memcpy(Mem,Window+BlockStart,FirstPartLength);
+              memcpy(Mem+FirstPartLength,Window,BlockEnd);
+            }
           }
 
           byte *OutMem=ApplyFilter(Mem,BlockLength,flt);
@@ -652,13 +677,27 @@ void Unpack::UnpWriteArea(size_t StartPtr,size_t EndPtr)
   if (EndPtr!=StartPtr)
     UnpSomeRead=true;
   if (EndPtr<StartPtr)
-  {
-    UnpWriteData(&Window[StartPtr],-(int)StartPtr & MaxWinMask);
-    UnpWriteData(Window,EndPtr);
     UnpAllBuf=true;
+
+  if (Fragmented)
+  {
+    size_t SizeToWrite=(EndPtr-StartPtr) & MaxWinMask;
+    while (SizeToWrite>0)
+    {
+      size_t BlockSize=FragWindow.GetBlockSize(StartPtr,SizeToWrite);
+      UnpWriteData(&FragWindow[StartPtr],BlockSize);
+      SizeToWrite-=BlockSize;
+      StartPtr=(StartPtr+BlockSize) & MaxWinMask;
+    }
   }
   else
-    UnpWriteData(&Window[StartPtr],EndPtr-StartPtr);
+    if (EndPtr<StartPtr)
+    {
+      UnpWriteData(Window+StartPtr,MaxWinSize-StartPtr);
+      UnpWriteData(Window,EndPtr);
+    }
+    else
+      UnpWriteData(Window+StartPtr,EndPtr-StartPtr);
 }
 
 

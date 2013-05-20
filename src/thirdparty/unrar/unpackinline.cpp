@@ -64,9 +64,11 @@ _forceinline void Unpack::CopyString(uint Length,uint Distance)
     if (Length>6) { Dest[6]=Src[6]; } } } } } } } // Close all nested "if"s.
   }
   else
-    while (Length--) // Slow copying with all possible precautions.
+    while (Length-- > 0) // Slow copying with all possible precautions.
     {
       Window[UnpPtr]=Window[SrcPtr++ & MaxWinMask];
+      // We need to have masked UnpPtr after quit from loop, so it must not
+      // be replaced with 'Window[UnpPtr++ & MaxWinMask]'
       UnpPtr=(UnpPtr+1) & MaxWinMask;
     }
 }

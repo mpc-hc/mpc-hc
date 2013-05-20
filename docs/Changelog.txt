@@ -14,7 +14,7 @@ Legend:
   and Turkish translations
 * Updated Little CMS to v2.5 (git dd44baf)
 * Updated zlib to v1.2.8
-* Updated Unrar to v5.0.3
+* Updated Unrar to v5.0.4
 * Updated MediaInfoLib to v0.7.63
 * Updated ZenLib to v0.4.29
 * Audio Switcher improvements:

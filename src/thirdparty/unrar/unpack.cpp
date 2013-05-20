@@ -13,12 +13,14 @@
 #endif
 #include "unpack30.cpp"
 #include "unpack50.cpp"
+#include "unpack50frag.cpp"
 
 Unpack::Unpack(ComprDataIO *DataIO)
 :Inp(true),VMCodeInp(true)
 {
   UnpIO=DataIO;
   Window=NULL;
+  Fragmented=false;
   Suspended=false;
   UnpAllBuf=false;
   UnpSomeRead=false;
@@ -30,6 +32,16 @@ Unpack::Unpack(ComprDataIO *DataIO)
 #endif
   MaxWinSize=0;
   MaxWinMask=0;
+
+  // Perform initialization, which should be done only once for all files.
+  // It prevents crash if first DoUnpack call is later made with wrong
+  // (true) 'Solid' value.
+  UnpInitData(false);
+#ifndef SFX_MODULE
+  // RAR 1.5 decompression initialization
+  UnpInitData15(false);
+  InitHuff();
+#endif
 }
 
 
@@ -37,7 +49,8 @@ Unpack::~Unpack()
 {
   InitFilters30();
 
-  delete[] Window;
+  if (Window!=NULL)
+    free(Window);
 #ifdef RAR_SMP
   DestroyThreadPool(UnpThreadPool);
   delete[] ReadBufMT;
@@ -48,17 +61,6 @@ Unpack::~Unpack()
 
 void Unpack::Init(size_t WinSize,bool Solid)
 {
-  if (Window==NULL) // Perform initialization, which should be done only once for all files.
-  {
-    // Prevent crash if DoUnpack is later called with wrong 'Solid' value.
-    UnpInitData(false);
-#ifndef SFX_MODULE
-    // RAR 1.5 decompression initialization
-    UnpInitData15(false);
-    InitHuff();
-#endif
-  }
-
   // If 32-bit RAR unpacks an archive with 4 GB dictionary, the window size
   // will be 0 because of size_t overflow. Let's issue the memory error.
   if (WinSize==0)
@@ -83,23 +85,41 @@ void Unpack::Init(size_t WinSize,bool Solid)
   // or increasing the size of non-solid window. So we could safely reject
   // current window data without copying them to a new window, though being
   // extra cautious, we still handle the solid window grow case below.
+  bool Grow=Solid && (Window!=NULL || Fragmented);
 
-  byte *NewWindow=new byte[WinSize];
+  byte *NewWindow=(byte *)malloc(WinSize);
 
-  // Clean the window to generate the same output when unpacking corrupt
-  // RAR files, which may access to unused areas of sliding dictionary.
-  memset(NewWindow,0,WinSize);
+  // We do not handle growth for fragmented window now.
+  if (Grow && (NewWindow==NULL || Fragmented))
+    throw std::bad_alloc();
 
-  // If Window is not NULL, it means that window size has grown.
-  // In solid streams we need to copy data to a new window in such case.
-  // RAR archiving code does not allow it in solid streams now,
-  // but let's implement it anyway just in case we'll change it sometimes.
-  if (Solid && Window!=NULL)
-    for (size_t I=1;I<MaxWinSize;I++)
-      NewWindow[(UnpPtr-I)&(WinSize-1)]=Window[(UnpPtr-I)&(MaxWinSize-1)];
+  if (NewWindow==NULL)
+    if (WinSize<0x1000000) // Exclude RAR4 and small dictionaries.
+      throw std::bad_alloc();
+    else
+    {
+      FragWindow.Init(WinSize);
+      Fragmented=true;
+    }
 
-  delete Window;
-  Window=NewWindow;
+  if (!Fragmented)
+  {
+    // Clean the window to generate the same output when unpacking corrupt
+    // RAR files, which may access to unused areas of sliding dictionary.
+    memset(NewWindow,0,WinSize);
+
+    // If Window is not NULL, it means that window size has grown.
+    // In solid streams we need to copy data to a new window in such case.
+    // RAR archiving code does not allow it in solid streams now,
+    // but let's implement it anyway just in case we'll change it sometimes.
+    if (Grow)
+      for (size_t I=1;I<MaxWinSize;I++)
+        NewWindow[(UnpPtr-I)&(WinSize-1)]=Window[(UnpPtr-I)&(MaxWinSize-1)];
+
+    if (Window!=NULL)
+      free(Window);
+    Window=NewWindow;
+  }
 
   MaxWinSize=WinSize;
   MaxWinMask=MaxWinSize-1;

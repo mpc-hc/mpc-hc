@@ -165,6 +165,25 @@ struct AudioVariables // For RAR 2.0 archives only.
 };
 
 
+// We can use the fragmented dictionary in case heap does not have the single
+// large enough memory block. It is slower than normal dictionary.
+class FragmentedWindow
+{
+  private:
+    enum {MAX_MEM_BLOCKS=32};
+    byte *Mem[MAX_MEM_BLOCKS];
+    size_t MemSize[MAX_MEM_BLOCKS];
+  public:
+    FragmentedWindow();
+    ~FragmentedWindow();
+    void Init(size_t WinSize);
+    byte& operator [](size_t Item);
+    void CopyString(uint Length,uint Distance,size_t &UnpPtr,size_t MaxWinMask);
+    void CopyData(byte *Dest,size_t WinPos,size_t Size);
+    size_t GetBlockSize(size_t StartPos,size_t RequiredSize);
+};
+
+
 class Unpack
 {
   private:
@@ -236,6 +255,9 @@ class Unpack
     size_t WriteBorder;
 
     byte *Window;
+
+    FragmentedWindow FragWindow;
+    bool Fragmented;
 
 
     int64 DestUnpSize;

@@ -384,3 +384,5 @@
 #define   MErrCreateLnkS     "\nCannot create symbolic link %s"
 #define   MErrCreateLnkH     "\nCannot create hard link %s"
 #define   MNeedAdmin         "\nYou may need to run RAR as administrator"
+#define   MDictOutMem        "\nNot enough memory for %d MB compression dictionary, changed to %d MB."
+#define   MUseSmalllerDict   "\nPlease use a smaller compression dictionary."
