@@ -41,7 +41,7 @@ CPPageSubStyle::CPPageSubStyle()
     , m_screenalignment(0)
     , m_margin(0, 0, 0, 0)
     , m_linkalphasliders(FALSE)
-    , m_relativeTo(FALSE)
+    , m_iRelativeTo(0)
     , m_fUseDefaultStyle(true)
     , m_stss(AfxGetAppSettings().subdefstyle)
 {
@@ -111,7 +111,7 @@ void CPPageSubStyle::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SLIDER3, m_alphasliders[2]);
     DDX_Control(pDX, IDC_SLIDER4, m_alphasliders[3]);
     DDX_Check(pDX, IDC_CHECK1, m_linkalphasliders);
-    DDX_Check(pDX, IDC_CHECK_RELATIVETO, m_relativeTo);
+    DDX_Check(pDX, IDC_CHECK_RELATIVETO, m_iRelativeTo);
 }
 
 
@@ -171,7 +171,7 @@ BOOL CPPageSubStyle::OnInitDialog()
     m_marginrightspin.SetRange32(-10000, 10000);
     m_margintopspin.SetRange32(-10000, 10000);
     m_marginbottomspin.SetRange32(-10000, 10000);
-    m_relativeTo = m_stss.relativeTo;
+    m_iRelativeTo = m_stss.relativeTo;
 
     for (int i = 0; i < 4; i++) {
         m_color[i].SetColorPtr(&m_stss.colors[i]);
@@ -207,7 +207,7 @@ BOOL CPPageSubStyle::OnApply()
 
     m_stss.scrAlignment = m_screenalignment + 1;
     m_stss.marginRect = m_margin;
-    m_stss.relativeTo = m_relativeTo;
+    m_stss.relativeTo = m_iRelativeTo;
 
     for (int i = 0; i < 4; i++) {
         m_stss.alpha[i] = 255 - m_alpha[i];
