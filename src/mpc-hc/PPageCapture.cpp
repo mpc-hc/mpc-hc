@@ -310,6 +310,8 @@ void CPPageCapture::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO5, m_cbDigitalTuner);
     DDX_Control(pDX, IDC_COMBO3, m_cbDigitalReceiver);
     DDX_Radio(pDX, IDC_RADIO1, m_iDefaultDevice);
+    DDX_Control(pDX, IDC_COMBO6, m_cbRebuildFilterGraph);
+    DDX_Control(pDX, IDC_COMBO7, m_cbStopFilterGraph);
 }
 
 
@@ -326,6 +328,15 @@ BEGIN_MESSAGE_MAP(CPPageCapture, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_STATIC5, OnUpdateDigital)
     ON_UPDATE_COMMAND_UI(IDC_COMBO3, OnUpdateDigitalReciver)
     ON_UPDATE_COMMAND_UI(IDC_STATIC6, OnUpdateDigitalReciver)
+    ON_UPDATE_COMMAND_UI(IDC_COMBO6, OnUpdateDigital)
+    ON_UPDATE_COMMAND_UI(IDC_COMBO7, OnUpdateDigitalStopFilterGraph)
+    ON_UPDATE_COMMAND_UI(IDC_CHECK1, OnUpdateDigital)
+    ON_UPDATE_COMMAND_UI(IDC_PPAGECAPTURE_ST10, OnUpdateDigital)
+    ON_UPDATE_COMMAND_UI(IDC_PPAGECAPTURE_ST11, OnUpdateDigital)
+    ON_UPDATE_COMMAND_UI(IDC_PPAGECAPTURE_ST12, OnUpdateDigitalStopFilterGraph)
+    ON_UPDATE_COMMAND_UI(IDC_PPAGECAPTURE_DESC1, OnUpdateDigital)
+    ON_CBN_SELCHANGE(IDC_COMBO6, &CPPageCapture::OnCbnSelchangeRebuildFilterGraph)
+    ON_CBN_SELCHANGE(IDC_COMBO7, &CPPageCapture::OnCbnSelchangeStopFilterGraph)
 END_MESSAGE_MAP()
 
 
@@ -355,6 +366,16 @@ BOOL CPPageCapture::OnInitDialog()
         GetDlgItem(IDC_RADIO2)->EnableWindow(FALSE);
         GetDlgItem(IDC_RADIO1)->EnableWindow(FALSE);
     }
+    m_cbRebuildFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_FG0));
+    m_cbRebuildFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_FG1));
+    m_cbRebuildFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_FG2));
+    m_cbRebuildFilterGraph.SetCurSel(s.nDVBRebuildFilterGraph);
+    m_cbStopFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_SFG0));
+    m_cbStopFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_SFG1));
+    m_cbStopFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_SFG2));
+    m_cbStopFilterGraph.SetCurSel(s.nDVBStopFilterGraph);
+    OnCbnSelchangeRebuildFilterGraph();
+    OnCbnSelchangeStopFilterGraph();
     UpdateData(FALSE);
     SaveFoundDevices(); // Save (new) devices to ensure that comboboxes reflect actual settings.
 
@@ -374,6 +395,32 @@ void CPPageCapture::OnUpdateDigital(CCmdUI* pCmdUI)
 void CPPageCapture::OnUpdateDigitalReciver(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(IsDlgButtonChecked(IDC_RADIO2) && m_cbDigitalReceiver.GetCount());
+}
+
+void CPPageCapture::OnUpdateDigitalStopFilterGraph(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_RADIO2) && m_cbDigitalTuner.GetCount() &&
+                   (m_cbRebuildFilterGraph.GetCurSel() != 2));
+}
+
+void CPPageCapture::OnCbnSelchangeRebuildFilterGraph()
+{
+    if (m_cbRebuildFilterGraph.GetCurSel() == 0) {
+        GetDlgItem(IDC_PPAGECAPTURE_DESC1)->SetWindowText(ResStr(IDS_PPAGE_CAPTURE_FGDESC0));
+    } else if (m_cbRebuildFilterGraph.GetCurSel() == 1) {
+        GetDlgItem(IDC_PPAGECAPTURE_DESC1)->SetWindowText(ResStr(IDS_PPAGE_CAPTURE_FGDESC1));
+    } else if (m_cbRebuildFilterGraph.GetCurSel() == 2) {
+        GetDlgItem(IDC_PPAGECAPTURE_DESC1)->SetWindowText(ResStr(IDS_PPAGE_CAPTURE_FGDESC2));
+    } else {
+        GetDlgItem(IDC_PPAGECAPTURE_DESC1)->SetWindowText(_T(""));
+    }
+    SetModified();
+}
+
+
+void CPPageCapture::OnCbnSelchangeStopFilterGraph()
+{
+    SetModified();
 }
 
 void CPPageCapture::FindAnalogDevices()
@@ -633,6 +680,9 @@ void CPPageCapture::SaveFoundDevices()
     if (m_cbDigitalReceiver.GetCurSel() >= 0) {
         s.strBDAReceiver = m_receivernames[m_cbDigitalReceiver.GetCurSel()];
     }
+    s.nDVBRebuildFilterGraph = (DVB_RebuildFilterGraph) m_cbRebuildFilterGraph.GetCurSel();
+    s.nDVBStopFilterGraph = (DVB_StopFilterGraph) m_cbStopFilterGraph.GetCurSel();
+
 }
 
 BOOL CPPageCapture::OnApply()

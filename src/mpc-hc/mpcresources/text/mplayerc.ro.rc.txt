@@ -155,7 +155,7 @@ BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 28
 27		"Țineți Shift apăsat pentru aplicarea imediată a schimbărilor când dați clic pe ceva"
 END
 
-BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
+BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 5		"Dispozitiv implicit"
 6		"Analog"
 7		"Digital"
@@ -167,6 +167,9 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 16		"Furnizor rețea"
 18		"Tuner"
 20		"Receptor"
+22		"Channel switching approach:"
+24		"Rebuild filter graph"
+26		"Stop filter graph"
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
@@ -1710,6 +1713,15 @@ STRING IDS_PLAYLIST_SHUFFLE		"Amestecă"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Sortează după &etichetă"
 STRING IDS_PLAYLIST_SORTBYPATH		"Sortează după &cale"
 STRING IDS_PPAGEWEBSERVER_0		"Selectare director"
+STRING IDS_PPAGE_CAPTURE_FG0		"Never (fastest approach)"
+STRING IDS_PPAGE_CAPTURE_FG1		"Only when switching different video types (default)"
+STRING IDS_PPAGE_CAPTURE_FG2		"Always (slowest option)"
+STRING IDS_PPAGE_CAPTURE_FGDESC0		"Not supported by some devices. Two video decoders always present in the filter graph."
+STRING IDS_PPAGE_CAPTURE_FGDESC1		"Fast except when switching between different video streams. Only one video decoder present in the filter graph."
+STRING IDS_PPAGE_CAPTURE_FGDESC2		"Not recommended. Only for testing purposes."
+STRING IDS_PPAGE_CAPTURE_SFG0		"Never if possible (fastest, but not supported by most filters)"
+STRING IDS_PPAGE_CAPTURE_SFG1		"Only when switching different video types (default)"
+STRING IDS_PPAGE_CAPTURE_SFG2		"Always (may be required by some devices)"
 STRING IDS_PPAGE_FS_CLN_DISPLAY_MODE		"Mod afişare (Hz)"
 STRING IDS_PPAGE_FS_CLN_FROM_FPS		"De la fps"
 STRING IDS_PPAGE_FS_CLN_ON_OFF		"Pornit/Oprit"

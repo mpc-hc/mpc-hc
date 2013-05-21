@@ -157,9 +157,6 @@ void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_T
 {
     switch (nType) {
         case DVB_MPV:
-            m_ulVideoPID = ulPID;
-            m_nVideoType = nType;
-            break;
         case DVB_H264:
             m_ulVideoPID = ulPID;
             m_nVideoType = nType;
@@ -167,14 +164,6 @@ void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_T
         case DVB_MPA:
         case DVB_AC3:
         case DVB_EAC3:
-            if (m_nAudioCount < DVB_MAX_AUDIO) {
-                m_Audios[m_nAudioCount].PID = ulPID;
-                m_Audios[m_nAudioCount].Type = nType;
-                m_Audios[m_nAudioCount].PesType = nPesType;
-                m_Audios[m_nAudioCount].Language = strLanguage;
-                m_nAudioCount++;
-            }
-            break;
         case DVB_LATM:
             if (m_nAudioCount < DVB_MAX_AUDIO) {
                 m_Audios[m_nAudioCount].PID = ulPID;

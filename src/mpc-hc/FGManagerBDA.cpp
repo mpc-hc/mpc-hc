@@ -42,28 +42,28 @@
 
 
 /// Format, Video MPEG2
-static MPEG2VIDEOINFO sMpv_fmt = {
+static VIDEOINFOHEADER2 sMpv_fmt = {
+    {0, 0, 720, 576},           // rcSource
+    {0, 0, 0, 0},               // rcTarget
+    0,                          // dwBitRate
+    0,                          // dwBitErrorRate
+    400000,                     // AvgTimePerFrame
+    0,                          // dwInterlaceFlags
+    0,                          // dwCopyProtectFlags
+    0,                          // dwPictAspectRatioX
+    0,                          // dwPictAspectRatioY
+    {0},                        // dwControlFlag & dwReserved1
+    0,                          // dwReserved2
     {
-        // hdr
-        {0, 0, 720, 576},           // rcSource
-        {0, 0, 0, 0},               // rcTarget
-        0,                          // dwBitRate
-        0,                          // dwBitErrorRate
-        400000,                     // AvgTimePerFrame
-        0,                          // dwInterlaceFlags
-        0,                          // dwCopyProtectFlags
-        0,                          // dwPictAspectRatioX
-        0,                          // dwPictAspectRatioY
-        {0},                        // dwControlFlag & dwReserved1
-        0,                          // dwReserved2
-        {
-            // bmiHeader
-            sizeof(BITMAPINFOHEADER),// biSize
-            720,                    // biWidth
-            576                     // biHeight
-        }
-        // implicitly sets the others fields to 0
+        // bmiHeader
+        sizeof(BITMAPINFOHEADER),// biSize
+        720,                    // biWidth
+        576,                    // biHeight
+        0,                    // biPlanes
+        0,                    // biBitCount
+        0                     // biCompression
     }
+    // implicitly sets the others fields to 0
 };
 
 /// Media type, Video MPEG2
@@ -73,7 +73,7 @@ static AM_MEDIA_TYPE mt_Mpv = {
     FALSE,                          // bFixedSizeSamples
     TRUE,                           // bTemporalCompression
     0,                              // lSampleSize
-    FORMAT_MPEG2Video,              // formattype
+    FORMAT_VideoInfo2,              // formattype
     nullptr,                           // pUnk
     sizeof(sMpv_fmt),               // cbFormat
     (LPBYTE)& sMpv_fmt              // pbFormat
@@ -101,7 +101,7 @@ static VIDEOINFOHEADER2 vih2_H264 = {
         //576,                        // biHeight
         1920,                       // biWidth
         1080,                       // biHeight
-        0,                          // biPlanes
+        1,                          // biPlanes
         0,                          // biBitCount
         FCC_h264                    // biCompression
     }
@@ -114,9 +114,9 @@ static AM_MEDIA_TYPE mt_H264 = {
     MEDIASUBTYPE_H264,              // subtype
     FALSE,                          // bFixedSizeSamples
     TRUE,                           // bTemporalCompression
-    1,                              // lSampleSize
+    0,                              // lSampleSize
     FORMAT_VideoInfo2,              // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     sizeof(vih2_H264),              // cbFormat
     (LPBYTE)& vih2_H264             // pbFormat
 };
@@ -162,6 +162,19 @@ static const AM_MEDIA_TYPE mt_Ac3 = {
 static const AM_MEDIA_TYPE mt_Eac3 = {
     MEDIATYPE_Audio,                // majortype
     MEDIASUBTYPE_DOLBY_DDPLUS,      // subtype
+    TRUE,                           // bFixedSizeSamples
+    FALSE,                          // bTemporalCompression
+    0,                              // lSampleSize
+    FORMAT_WaveFormatEx,            // formattype
+    nullptr,                           // pUnk
+    sizeof(wf_Audio),               // cbFormat
+    (LPBYTE)& wf_Audio,             // pbFormat
+};
+
+/// Media type, Audio AAC LATM
+static const AM_MEDIA_TYPE mt_latm = {
+    MEDIATYPE_Audio,                // majortype
+    MEDIASUBTYPE_LATM_AAC,          // subtype
     TRUE,                           // bFixedSizeSamples
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
@@ -254,7 +267,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
         if (pChannel->GetVideoType() == DVB_H264) {
             UpdateMediaType(&vih2_H264, pChannel);
         } else if (pChannel->GetVideoType() == DVB_MPV) {
-            UpdateMediaType(&sMpv_fmt.hdr, pChannel);
+            UpdateMediaType(&sMpv_fmt, pChannel);
         }
     }
     m_DVBStreams[DVB_MPV]  = CDVBStream(L"mpv",  &mt_Mpv);
@@ -262,6 +275,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     m_DVBStreams[DVB_MPA]  = CDVBStream(L"mpa",  &mt_Mpa);
     m_DVBStreams[DVB_AC3]  = CDVBStream(L"ac3",  &mt_Ac3);
     m_DVBStreams[DVB_EAC3] = CDVBStream(L"eac3", &mt_Eac3);
+    m_DVBStreams[DVB_LATM] = CDVBStream(L"latm", &mt_latm);
     m_DVBStreams[DVB_PSI]  = CDVBStream(L"psi",  &mt_Psi, true, MEDIA_MPEG2_PSI);
     m_DVBStreams[DVB_TIF]  = CDVBStream(L"tif",  &mt_Tif, true);
     m_DVBStreams[DVB_EPG]  = CDVBStream(L"epg",  &mt_Epg);
@@ -281,7 +295,6 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
         m_nCurAudioType = DVB_MPA;
     }
     m_fHideWindow = false;
-    m_fSetChannelActive = false;
 
     // Blacklist some unsupported filters (AddHead must be used to ensure higher priority):
     //  - audio switcher
@@ -415,6 +428,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     CComPtr<IBaseFilter> pTuner;
     CComPtr<IBaseFilter> pReceiver;
 
+    m_nDVBRebuildFilterGraph = s.nDVBRebuildFilterGraph;
     LOG(_T("\n"));
     LOG(_T("Creating BDA filters..."));
     CheckAndLog(CreateKSFilter(&pNetwork, KSCATEGORY_BDA_NETWORK_PROVIDER, s.strBDANetworkProvider), _T("BDA: Network provider creation"));
@@ -429,7 +443,6 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
         TRACE(_T("BDA: Network <-> Tuner: 0x%08x\n"), hr);
         return hr;
     }
-
     m_pBDAControl = pTuner;
 
     if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq))) {
@@ -460,8 +473,19 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
         }
     }
 
+    if (SUCCEEDED(hr = SearchIBDATopology(pTuner, m_pBDAAutoDemulate))) {
+        if (SUCCEEDED(hr = m_pBDAAutoDemulate->put_AutoDemodulate())) {
+            LOG(_T("Auto Demulate is on."));
+        } else {
+            LOG(_T("Auto Demulate could not be switched: 0x%08x."), hr);
+        }
+    } else {
+        LOG(_T("AutoDemulate topology not found."));
+        TRACE(_T("BDA : AutoDemulate topology not found: 0x%08x\n"), hr);
+    }
+
     //    CComPtr<IBaseFilter> pMpeg2Demux;
-    if (FAILED(m_pDemux.CoCreateInstance(CLSID_MPEG2Demultiplexer, nullptr, CLSCTX_INPROC_SERVER))) {
+    if (FAILED(hr = m_pDemux.CoCreateInstance(CLSID_MPEG2Demultiplexer, nullptr, CLSCTX_INPROC_SERVER))) {
         MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
         TRACE(_T("BDA: Microsoft demux creation: 0x%08x\n"), hr);
     }
@@ -514,24 +538,25 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
     HRESULT hr = E_INVALIDARG;
     CAppSettings& s = AfxGetAppSettings();
 
-    if (!m_fSetChannelActive) {
-        m_fSetChannelActive = true;
-        CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
-
-        LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
-        if (pChannel != nullptr) {
+    CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
+    LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
+    if (pChannel != nullptr) {
+        if ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER) ||
+                ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_WHEN_SWITCHING) && (m_nCurVideoType == pChannel->GetVideoType())) ||
+                ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS) && (s.nDVBLastChannel == nChannelPrefNumber))) {
             hr = SetChannelInternal(pChannel);
-
-            if (SUCCEEDED(hr)) {
-                s.nDVBLastChannel = nChannelPrefNumber;
-                m_nCurVideoType = pChannel->GetVideoType();
-                m_nCurAudioType = pChannel->GetDefaultAudioType();
-                LOG(_T("SetChannel %d successful."), nChannelPrefNumber);
-            }
+        } else {
+            s.nDVBLastChannel = nChannelPrefNumber;
+            return S_FALSE;
         }
-        m_fSetChannelActive = false;
-    }
 
+        if (SUCCEEDED(hr)) {
+            s.nDVBLastChannel = nChannelPrefNumber;
+            m_nCurVideoType = pChannel->GetVideoType();
+            m_nCurAudioType = pChannel->GetDefaultAudioType();
+            LOG(_T("SetChannel %d successful."), nChannelPrefNumber);
+        }
+    }
     return hr;
 }
 
@@ -544,18 +569,29 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 {
     HRESULT hr;
     const CAppSettings& s = AfxGetAppSettings();
-    LOG(_T("Mapped PID MPEG-2: %d, Mapped PID H.264: %d."), m_DVBStreams[DVB_MPV].GetMappedPID(), m_DVBStreams[DVB_H264].GetMappedPID());
     LOG(_T("SetFrequency to %d."), freq);
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 
     CheckAndLog(m_pBDAControl->StartChanges(), _T("BDA: Setfrequency StartChanges"));
+    m_pBDAFreq->put_FrequencyMultiplier(1000);
     CheckAndLog(m_pBDAFreq->put_Bandwidth(s.iBDABandwidth), _T("BDA: Setfrequency put_Bandwidth"));
     CheckAndLog(m_pBDAFreq->put_Frequency(freq), _T("BDA: Setfrequency put_Frequency"));
     CheckAndLog(m_pBDAControl->CheckChanges(), _T("BDA: Setfrequency CheckChanges"));
     CheckAndLog(m_pBDAControl->CommitChanges(), _T("BDA: Setfrequency CommitChanges"));
 
+    int i = 50;
+    ULONG pState = BDA_CHANGES_PENDING;
+    while ((pState == BDA_CHANGES_PENDING) && (i > 0)) {
+        Sleep(50);
+        hr = m_pBDAControl->GetChangeState(&pState);
+        i--;
+    }
+    if (pState == BDA_CHANGES_PENDING) {
+        LOG(_T("BDA: Setfrequency changes pending (timeout error----)"));
+    }
     LOG(_T("Frequency set to %d."), freq);
+
     return hr;
 }
 
@@ -594,7 +630,7 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
     } else {
         CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 
-        LOG(_T("Scanning frequency %d."), ulFrequency);
+        LOG(_T("Scanning frequency %d.........."), ulFrequency);
         Parser.ParseSDT(ulFrequency);
         Parser.ParsePAT();
         Parser.ParseNIT();
@@ -671,11 +707,12 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
                     }
                     nState = GetState();
                     if (m_nCurAudioType != pStreamInfo->Type) {
-                        if (GetState() != State_Stopped) {
+                        if ((s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) && (GetState() != State_Stopped)) {
                             ChangeState(State_Stopped);
                         }
                         SwitchStream(m_nCurAudioType, pStreamInfo->Type);
                         m_nCurAudioType = pStreamInfo->Type;
+                        Flush(m_nCurVideoType, m_nCurAudioType);
                     }
                     pStream->Map(pStreamInfo->PID);
                     ChangeState((FILTER_STATE)nState);
@@ -812,10 +849,39 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
 {
     CComPtr<IMpeg2Demultiplexer> pDemux;
     HRESULT hr;
+    bool bAudioMPA = false;
+    bool bAudioAC3 = false;
+    bool bAudioEAC3 = false;
+    bool bAudioLATM = false;
 
     CheckNoLog(pMpeg2Demux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux));
 
     LOG(_T("Receiver -> Demux connected."));
+    CAppSettings& s = AfxGetAppSettings();
+    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+    if (pChannel && (m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS)) {
+        for (int i = 0; i < pChannel->GetAudioCount(); i++) {
+            switch ((pChannel->GetAudio(i))->Type) {
+                case DVB_MPA:
+                    bAudioMPA = true;
+                    break;
+                case DVB_AC3:
+                    bAudioAC3 = true;
+                    break;
+                case DVB_EAC3:
+                    bAudioEAC3 = true;
+                    break;
+                case DVB_LATM:
+                    bAudioLATM = true;
+                    break;
+            }
+        }
+    } else {  // All the possible audio filters will be present in the filter graph
+        bAudioMPA = true;
+        bAudioAC3 = true;
+        bAudioEAC3 = true;
+        bAudioLATM = true;
+    }
 
     POSITION pos = m_DVBStreams.GetStartPosition();
     while (pos) {
@@ -823,21 +889,74 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
         DVB_STREAM_TYPE nType = m_DVBStreams.GetNextKey(pos);
         CDVBStream& Stream = m_DVBStreams[nType];
 
-        if (nType != DVB_EPG) { // DVB_EPG not required
-            if (!Stream.GetFindExisting() ||
-                    (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == nullptr) {
-                CheckNoLog(pDemux->CreateOutputPin((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
-            }
-
-            if (nType == m_nCurVideoType || nType == m_nCurAudioType) {
-                CheckNoLog(Connect(pPin, nullptr, true));
-                Stream.SetPin(pPin);
-                LOG(_T("Graph completed for stream type %d."), nType);
-            } else {
+        switch (nType) {
+            case DVB_TIF:
+            case DVB_PSI:
+                if (!Stream.GetFindExisting() ||
+                        (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == nullptr) {
+                    CheckNoLog(pDemux->CreateOutputPin((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
+                }
                 CheckNoLog(Connect(pPin, nullptr, false));
                 Stream.SetPin(pPin);
                 LOG(_T("Filter connected to Demux for media type %d."), nType);
-            }
+                break;
+
+            case DVB_MPV:
+            case DVB_H264:
+                if ((nType == m_nCurVideoType) || (m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER)) {
+                    if (!Stream.GetFindExisting() ||
+                            (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == nullptr) {
+                        CheckNoLog(pDemux->CreateOutputPin((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
+                    }
+                    if (m_nCurVideoType == nType) {
+                        CheckNoLog(Connect(pPin, nullptr, true));
+                        Stream.SetPin(pPin);
+                        LOG(_T("Graph completed for stream type %d."), nType);
+                    } else {
+                        CheckNoLog(Connect(pPin, nullptr, false));
+                        Stream.SetPin(pPin);
+                        LOG(_T("Filter connected to Demux for media type %d."), nType);
+                    }
+                }
+                break;
+
+            case DVB_MPA:
+            case DVB_AC3:
+            case DVB_EAC3:
+            case DVB_LATM:
+                if ((bAudioMPA && (nType == DVB_MPA)) || (bAudioAC3 && (nType == DVB_AC3)) ||
+                        (bAudioEAC3 && (nType == DVB_EAC3)) || (bAudioLATM && (nType == DVB_LATM))) {
+                    if (!Stream.GetFindExisting() ||
+                            (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == nullptr) {
+                        CheckNoLog(pDemux->CreateOutputPin((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
+                    }
+                    if (m_nCurAudioType == nType) {
+                        CheckNoLog(Connect(pPin, nullptr, true));
+                        Stream.SetPin(pPin);
+                        LOG(_T("Graph completed for stream type %d."), nType);
+                    } else {
+                        CheckNoLog(Connect(pPin, nullptr, false));
+                        Stream.SetPin(pPin);
+                        LOG(_T("Filter connected to Demux for media type %d."), nType);
+                    }
+                }
+                break;
+
+            case DVB_SUB:
+                if (!Stream.GetFindExisting() ||
+                        (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == nullptr) {
+                    CheckNoLog(pDemux->CreateOutputPin((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
+                }
+                CheckNoLog(Connect(pPin, nullptr, false));
+                CComPtr<IPin> pPinTo;
+                pPin->ConnectedTo(&pPinTo);
+                if (SUCCEEDED(hr = ((CMainFrame*)AfxGetMainWnd())->InsertTextPassThruFilter(pMpeg2Demux, pPin, pPinTo))) {
+                    Stream.SetPin(pPin);
+                    LOG(_T("Filter connected to Demux for media type %d."), nType);
+                } else {
+                    LOG(_T("DVB_SUB Filter connection failed. Error 0x%08x."), hr);
+                }
+                break;
         }
     }
 
@@ -848,20 +967,34 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 {
     HRESULT hr = E_ABORT;
     bool fRadioToTV = false;
-
+    const CAppSettings& s = AfxGetAppSettings();
     ClearMaps();
-    if (GetState() != State_Stopped) {
+
+    if ((s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) && (GetState() != State_Stopped)) {
         ChangeState(State_Stopped);
     }
 
     if (pChannel->GetVideoPID() != 0) {
+        CComPtr<IMpeg2Demultiplexer> pDemux;
+        m_pDemux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux);
+
         if (pChannel->GetVideoType() == DVB_H264) {
             UpdateMediaType(&vih2_H264, pChannel);
+            hr = pDemux->SetOutputPinMediaType(L"h264", const_cast<AM_MEDIA_TYPE*>(&mt_H264));
         } else {
-            UpdateMediaType(&sMpv_fmt.hdr, pChannel);
+            UpdateMediaType(&sMpv_fmt, pChannel);
+            hr = pDemux->SetOutputPinMediaType(L"mpv", const_cast<AM_MEDIA_TYPE*>(&mt_Mpv));
+        }
+        if ((m_nCurVideoType != pChannel->GetVideoType()) || (s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS)) {
+            if ((s.nDVBStopFilterGraph == DVB_STOP_FG_WHEN_SWITCHING) && (GetState() != State_Stopped)) {
+                ChangeState(State_Stopped);
+            }
+            if (FAILED(hr = SwitchStream(m_nCurVideoType, pChannel->GetVideoType()))) {
+                LOG(_T("Video switchStream failed. Result: 0x%08x"), hr);
+                return hr;
+            }
         }
 
-        CheckNoLog(SwitchStream(m_nCurVideoType, pChannel->GetVideoType()));
         if (m_fHideWindow) {
             fRadioToTV = true;
         }
@@ -870,13 +1003,22 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         ((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
     }
 
-    SwitchStream(m_nCurAudioType, pChannel->GetDefaultAudioType());
+    if (m_nCurAudioType != pChannel->GetDefaultAudioType()) {
+        if (FAILED(hr = SwitchStream(m_nCurAudioType, pChannel->GetDefaultAudioType()))) {
+            LOG(_T("Audio switchStream failed. Result: 0x%08x"), hr);
+            return hr;
+        }
+
+    }
 
     if (GetState() == State_Stopped) {
-        ChangeState(State_Running);
+        CheckNoLog(ChangeState(State_Running));
     }
 
     CheckNoLog(SetFrequency(pChannel->GetFrequency()));
+
+    Flush(pChannel->GetVideoType(), pChannel->GetDefaultAudioType());
+
     if (pChannel->GetVideoPID() != 0) {
         CheckNoLog(m_DVBStreams[pChannel->GetVideoType()].Map(pChannel->GetVideoPID()));
     }
@@ -886,6 +1028,11 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
     if (pChannel->GetSubtitleCount() > 0 && pChannel->GetDefaultSubtitle() != -1 && pChannel->GetDefaultSubtitle() != pChannel->GetSubtitleCount()) {
         CheckNoLog(m_DVBStreams[DVB_SUB].Map(pChannel->GetDefaultSubtitlePID()));
     }
+    LOG(_T("Stream maps:"));
+    LOG(_T("Mapped PID MPEG-2: %d, Mapped PID H.264: %d."), m_DVBStreams[DVB_MPV].GetMappedPID(), m_DVBStreams[DVB_H264].GetMappedPID());
+    LOG(_T("Mapped PID MPA: %d, Mapped PID AC3: %d, Mapped PID EAC3: %d, Mapped PID AAC-LATM: %d."), m_DVBStreams[DVB_MPA].GetMappedPID(),
+        m_DVBStreams[DVB_AC3].GetMappedPID(), m_DVBStreams[DVB_EAC3].GetMappedPID(), m_DVBStreams[DVB_LATM].GetMappedPID());
+    LOG(_T("Mapped PID Subtitles: %d."), m_DVBStreams[DVB_SUB].GetMappedPID());
 
     if (fRadioToTV) {
         m_fHideWindow = false;
@@ -898,6 +1045,34 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
     return hr;
 }
 
+HRESULT CFGManagerBDA::Flush(DVB_STREAM_TYPE nVideoType, DVB_STREAM_TYPE nAudioType)
+{
+    HRESULT hr = S_OK;
+
+    CComPtr<IBaseFilter> pFilterSub = m_DVBStreams[DVB_SUB].GetFilter();
+    if (pFilterSub) {
+        CComPtr<IPin> pSubPinIn = GetFirstPin(pFilterSub, PINDIR_INPUT);
+        hr = pSubPinIn->BeginFlush();
+        hr = pSubPinIn->EndFlush();
+        hr = pSubPinIn->NewSegment(0, MAXLONG, 1);
+    }
+    CComPtr<IBaseFilter> pFilterAudio = m_DVBStreams[nAudioType].GetFilter();
+    if (pFilterAudio) {
+        CComPtr<IPin> pAudPinIn = GetFirstPin(pFilterAudio, PINDIR_INPUT);
+        hr = pAudPinIn->BeginFlush();
+        hr = pAudPinIn->EndFlush();
+        hr = pAudPinIn->NewSegment(0, MAXLONG, 1);
+    }
+    CComPtr<IBaseFilter> pFilterVideo = m_DVBStreams[nVideoType].GetFilter();
+    if (pFilterVideo) {
+        CComPtr<IPin> pVidPinIn = GetFirstPin(pFilterVideo, PINDIR_INPUT);
+        hr = pVidPinIn->BeginFlush();
+        hr = pVidPinIn->EndFlush();
+        hr = pVidPinIn->NewSegment(0, MAXLONG, 1);
+    }
+    return hr;
+}
+
 HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nNewType)
 {
     HRESULT hr = S_OK;
@@ -905,27 +1080,74 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nN
     CComPtr<IBaseFilter> pFGNew = m_DVBStreams[nNewType].GetFilter();
     CComPtr<IPin> pOldOut = GetFirstPin(pFGOld, PINDIR_OUTPUT);
     CComPtr<IPin> pInPin;
-    pOldOut->ConnectedTo(&pInPin);
-    CComPtr<IPin> pNewOut = GetFirstPin(pFGNew,  PINDIR_OUTPUT);
-    if ((nNewType == DVB_H264) || (nNewType == DVB_MPV)) {
-        CComPtr<IMpeg2Demultiplexer> pDemux;
-        m_pDemux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux);
-        hr = Disconnect(pOldOut);
-        hr = Disconnect(pInPin);
-        if (nNewType == DVB_H264) {
-            hr = pDemux->SetOutputPinMediaType(L"h264", const_cast<AM_MEDIA_TYPE*>(&mt_H264));
-        } else {
-            hr = pDemux->SetOutputPinMediaType(L"mpv", const_cast<AM_MEDIA_TYPE*>(&mt_Mpv));
-        }
-        hr = ConnectDirect(pNewOut, pInPin, nullptr);
-        //        nOldType = nNewType;
+    if (pOldOut && pFGNew) {
+        pOldOut->ConnectedTo(&pInPin);
+        CComPtr<IPin> pNewOut = GetFirstPin(pFGNew,  PINDIR_OUTPUT);
+        CComPtr<IPinConnection> pNewOutDynamic;
 
-    } else if (nNewType != nOldType) {
-        Disconnect(pOldOut);
-        Disconnect(pInPin);
-        hr = ConnectDirect(pNewOut, pInPin, nullptr);
-        //        nOldType = nNewType;
+        if ((nNewType != DVB_H264) && (nNewType != DVB_MPV) && GetState() != State_Stopped) {
+            CComPtr<IMpeg2Demultiplexer> pDemux;
+            m_pDemux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux);
+
+            switch (nNewType) {
+                case DVB_MPA:
+                    hr = pDemux->SetOutputPinMediaType(L"mpa", const_cast<AM_MEDIA_TYPE*>(&mt_Mpa));
+                    break;
+                case DVB_AC3:
+                    hr = pDemux->SetOutputPinMediaType(L"ac3", const_cast<AM_MEDIA_TYPE*>(&mt_Ac3));
+                    break;
+                case DVB_EAC3:
+                    hr = pDemux->SetOutputPinMediaType(L"eac3", const_cast<AM_MEDIA_TYPE*>(&mt_Eac3));
+                    break;
+                case DVB_LATM:
+                    hr = pDemux->SetOutputPinMediaType(L"latm", const_cast<AM_MEDIA_TYPE*>(&mt_latm));
+                    break;
+            }
+        }
+
+        CComPtr<IPinConnection> pOldOutDynamic;
+        pOldOut->QueryInterface(__uuidof(IPinConnection), (void**) &pOldOutDynamic);
+        CComPtr<IPinConnection> pInPinDynamic;
+        pInPin->QueryInterface(__uuidof(IPinConnection), (void**) &pInPinDynamic);
+        CComPtr<IPinFlowControl> pOldOutControl;
+        if ((GetState() != State_Stopped) && pInPinDynamic && pOldOutDynamic) {       // Try dynamic switch
+            pOldOut->QueryInterface(__uuidof(IPinFlowControl), (void**) &pOldOutControl);
+            pOldOutControl->Block(AM_PIN_FLOW_CONTROL_BLOCK, nullptr);
+            CComPtr<IGraphConfig> pGraph;
+            QueryInterface(__uuidof(IGraphConfig), (void**) &pGraph);
+            hr = pGraph->Reconnect(pNewOut, pInPin, nullptr, nullptr, nullptr, AM_GRAPH_CONFIG_RECONNECT_DIRECTCONNECT);
+            pOldOutControl->Block(0, nullptr);
+        } else {                                     // Dynamic pins not supported
+            LOG(_T("Dynamic pin interface not supported"));
+            hr = Disconnect(pOldOut);
+            if (FAILED(hr) && (GetState() != State_Stopped)) {
+                ChangeState(State_Stopped);
+                hr = Disconnect(pOldOut);
+            }
+            if (SUCCEEDED(hr)) {
+                hr = Disconnect(pInPin);
+                if (FAILED(hr) && (GetState() != State_Stopped)) {
+                    ChangeState(State_Stopped);
+                    hr = Disconnect(pInPin);
+                }
+            }
+            if (SUCCEEDED(hr)) {
+                hr = ConnectDirect(pNewOut, pInPin, nullptr);
+                if (FAILED(hr) && (GetState() != State_Stopped)) {
+                    ChangeState(State_Stopped);
+                    hr = ConnectDirect(pNewOut, pInPin, nullptr);
+                }
+                if (FAILED(hr)) {
+                    hr = E_UNEXPECTED;
+                }
+            }
+        }
+    } else {
+        hr = E_POINTER;
     }
+
+    LOG(_T("SwitchStream - Stream type: %d. Result: 0x%08x"), nNewType, hr);
+
     return hr;
 }
 
@@ -935,7 +1157,7 @@ void CFGManagerBDA::UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChanne
     if ((pChannel->GetVideoFps() == DVB_FPS_25_0) ||
             (pChannel->GetVideoFps() == DVB_FPS_29_97) ||
             (pChannel->GetVideoFps() == DVB_FPS_30_0)) {
-        NewVideoHeader->dwInterlaceFlags = AMINTERLACE_IsInterlaced;
+        NewVideoHeader->dwInterlaceFlags = AMINTERLACE_IsInterlaced | AMINTERLACE_DisplayModeBobOrWeave;
     } else {
         NewVideoHeader->dwInterlaceFlags = 0;
     }
@@ -1001,7 +1223,7 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
                 if (SUCCEEDED(hr = pMC->Stop())) {
                     ((CMainFrame*)AfxGetMainWnd())->KillTimersStop();
                 }
-                LOG(_T("IMediaControl stop: %d."), hr);
+                LOG(_T("IMediaControl stop: 0x%08x."), hr);
                 return hr;
             }
             case State_Paused: {
@@ -1020,7 +1242,7 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
                 if (SUCCEEDED(hr)) {
                     ((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
                 }
-                LOG(_T("IMediaControl play: %d."), hr);
+                LOG(_T("IMediaControl play: 0x%08x."), hr);
                 return hr;
             }
         }

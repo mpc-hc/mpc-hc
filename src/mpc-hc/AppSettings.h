@@ -163,6 +163,18 @@ enum {
     TIME_TOOLTIP_BELOW_SEEKBAR
 };
 
+enum DVB_RebuildFilterGraph {
+    DVB_REBUILD_FG_NEVER = 0,
+    DVB_REBUILD_FG_WHEN_SWITCHING,
+    DVB_REBUILD_FG_ALWAYS
+};
+
+enum DVB_StopFilterGraph {
+    DVB_STOP_FG_NEVER = 0,
+    DVB_STOP_FG_WHEN_SWITCHING,
+    DVB_STOP_FG_ALWAYS
+};
+
 #pragma pack(push, 1)
 typedef struct {
     bool fValid;
@@ -467,6 +479,8 @@ public:
     bool            fBDAIgnoreEncryptedChannels;
     UINT            nDVBLastChannel;
     CAtlList<CDVBChannel> m_DVBChannels;
+    DVB_RebuildFilterGraph nDVBRebuildFilterGraph;
+    DVB_StopFilterGraph nDVBStopFilterGraph;
 
     // Internal Filters
     bool            SrcFilters[SRC_LAST + !SRC_LAST];
