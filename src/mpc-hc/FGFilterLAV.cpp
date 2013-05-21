@@ -31,8 +31,8 @@
 #include "moreuuids.h"
 
 #define LAV_FILTERS_VERSION_MAJOR    0
-#define LAV_FILTERS_VERSION_MINOR    56
-#define LAV_FILTERS_VERSION_REVISION 2
+#define LAV_FILTERS_VERSION_MINOR    57
+#define LAV_FILTERS_VERSION_REVISION 0
 #define LAV_FILTERS_VERSION ((QWORD)LAV_FILTERS_VERSION_MAJOR << 48 | (QWORD)LAV_FILTERS_VERSION_MINOR << 32 | (QWORD)LAV_FILTERS_VERSION_REVISION << 16)
 
 #define IDS_R_INTERNAL_LAVSPLITTER           IDS_R_INTERNAL_FILTERS  _T("\\LAVSplitter")
@@ -318,9 +318,9 @@ bool CFGFilterLAVSplitterBase::Settings::SetSettings(CComQIPtr<ILAVFSettings> pL
 
     pLAVFSettings->SetTrayIcon(bTrayIcon);
 
-    pLAVFSettings->SetPreferredLanguages(const_cast<WCHAR*>(prefAudioLangs.c_str()));
-    pLAVFSettings->SetPreferredSubtitleLanguages(const_cast<WCHAR*>(prefSubLangs.c_str()));
-    pLAVFSettings->SetAdvancedSubtitleConfig(const_cast<WCHAR*>(subtitleAdvanced.c_str()));
+    pLAVFSettings->SetPreferredLanguages(prefAudioLangs.c_str());
+    pLAVFSettings->SetPreferredSubtitleLanguages(prefSubLangs.c_str());
+    pLAVFSettings->SetAdvancedSubtitleConfig(subtitleAdvanced.c_str());
 
     pLAVFSettings->SetSubtitleMode(subtitleMode);
 
