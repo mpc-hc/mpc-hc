@@ -2542,6 +2542,8 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 
         m_vrmerit += 0x100;
 
+        pEM.Release();
+
         GUID guidsAudio[] = {MEDIATYPE_Audio, MEDIASUBTYPE_NULL};
 
         if (SUCCEEDED(m_pFM->EnumMatchingFilters(&pEM, 0, FALSE, MERIT_DO_NOT_USE + 1,
