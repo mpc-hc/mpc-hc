@@ -14705,11 +14705,10 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
     CString osd;
     EventDescriptor NowNext;
 
-    if (pChannel != nullptr) {
+    if (pChannel) {
         // Get EIT information:
         CComQIPtr<IBDATuner> pTun = m_pGB;
-        if (pTun && pChannel->GetNowNextFlag()) {
-            pTun->UpdatePSI(NowNext);
+        if (pTun && pTun->UpdatePSI(NowNext) == S_OK) {
             // Set a timer to update the infos
             time_t tNow;
             time(&tNow);
@@ -14761,6 +14760,8 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
         if (fShowInfoBar) {
             ShowControls(m_nCS | CS_INFOBAR, true);
         }
+    } else {
+        ASSERT(FALSE);
     }
 }
 
