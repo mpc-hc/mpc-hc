@@ -57,21 +57,24 @@ namespace DSObjects
 
             hr = m_pVMR ? m_pVMR->QueryInterface(riid, ppv) : E_NOINTERFACE;
             if (m_pVMR && FAILED(hr)) {
-                if (riid == __uuidof(IVideoWindow)) {
-                    return GetInterface((IVideoWindow*)this, ppv);
+                hr = m_pAllocatorPresenter ? m_pAllocatorPresenter->QueryInterface(riid, ppv) : E_NOINTERFACE;
+                if (FAILED(hr)) {
+                    if (riid == __uuidof(IVideoWindow)) {
+                        return GetInterface((IVideoWindow*)this, ppv);
+                    }
+                    if (riid == __uuidof(IBasicVideo)) {
+                        return GetInterface((IBasicVideo*)this, ppv);
+                    }
+                    if (riid == __uuidof(IBasicVideo2)) {
+                        return GetInterface((IBasicVideo2*)this, ppv);
+                    }
+                    if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
+                        return GetInterface((IVMRffdshow9*)this, ppv);
+                    }
+                    /*if (riid == __uuidof(IVMRWindowlessControl))
+                    return GetInterface((IVMRWindowlessControl*)this, ppv);
+                    */
                 }
-                if (riid == __uuidof(IBasicVideo)) {
-                    return GetInterface((IBasicVideo*)this, ppv);
-                }
-                if (riid == __uuidof(IBasicVideo2)) {
-                    return GetInterface((IBasicVideo2*)this, ppv);
-                }
-                if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
-                    return GetInterface((IVMRffdshow9*)this, ppv);
-                }
-                /*if (riid == __uuidof(IVMRWindowlessControl))
-                return GetInterface((IVMRWindowlessControl*)this, ppv);
-                */
             }
 
             return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
