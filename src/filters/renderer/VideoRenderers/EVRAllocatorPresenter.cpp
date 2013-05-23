@@ -1323,6 +1323,7 @@ STDMETHODIMP CEVRAllocatorPresenter::SetVideoWindow(HWND hwndVideo)
         CAutoLock cRenderLock(&m_RenderLock);
 
         m_hWnd = hwndVideo;
+        m_bPendingResetDevice = true;
         SendResetRequest();
     }
     return S_OK;

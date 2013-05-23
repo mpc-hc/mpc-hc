@@ -3346,6 +3346,7 @@ STDMETHODIMP CSyncAP::SetVideoWindow(HWND hwndVideo)
         CAutoLock cRenderLock(&m_allocatorLock);
 
         m_hWnd = hwndVideo;
+        m_bPendingResetDevice = true;
         SendResetRequest();
     }
     return S_OK;

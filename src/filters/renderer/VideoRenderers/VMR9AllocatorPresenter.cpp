@@ -533,6 +533,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::SetVideoClippingWindow(HWND hwnd)
         CAutoLock cRenderLock(&m_RenderLock);
 
         m_hWnd = hwnd;
+        m_bPendingResetDevice = true;
         SendResetRequest();
     }
     return S_OK;
