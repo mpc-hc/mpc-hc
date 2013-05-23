@@ -254,7 +254,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
     WORD wONID;
     WORD wSectionLength;
 
-    CheckNoLog(m_pData->GetSection(PID_SDT, SI_SDT, &m_Filter, 5000, &pSectionList));
+    CheckNoLog(m_pData->GetSection(PID_SDT, SI_SDT, &m_Filter, 15000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
 
     CGolombBuffer gb((BYTE*)data, dwLength);
@@ -316,7 +316,7 @@ HRESULT CMpeg2DataParser::ParsePAT()
     WORD wTSID;
     WORD wSectionLength;
 
-    CheckNoLog(m_pData->GetSection(PID_PAT, SI_PAT, &m_Filter, 5000, &pSectionList));
+    CheckNoLog(m_pData->GetSection(PID_PAT, SI_PAT, &m_Filter, 15000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
 
     CGolombBuffer gb((BYTE*)data, dwLength);
@@ -352,7 +352,7 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
     Channel.SetVideoFps(DVB_FPS_NONE);
     Channel.SetVideoChroma(DVB_Chroma_NONE);
 
-    CheckNoLog(m_pData->GetSection((PID)Channel.GetPMT(), SI_PMT, &m_Filter, 5000, &pSectionList));
+    CheckNoLog(m_pData->GetSection((PID)Channel.GetPMT(), SI_PMT, &m_Filter, 15000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
 
     CGolombBuffer gb((BYTE*)data, dwLength);
@@ -628,7 +628,7 @@ HRESULT CMpeg2DataParser::ParseNIT()
     WORD wSectionLength;
     WORD transport_stream_loop_length;
 
-    CheckNoLog(m_pData->GetSection(PID_NIT, SI_NIT, &m_Filter, 5000, &pSectionList));
+    CheckNoLog(m_pData->GetSection(PID_NIT, SI_NIT, &m_Filter, 15000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
 
     CGolombBuffer gb((BYTE*)data, dwLength);

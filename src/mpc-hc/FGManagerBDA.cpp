@@ -654,9 +654,14 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
         CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 
         LOG(_T("Scanning frequency %d.........."), ulFrequency);
-        Parser.ParseSDT(ulFrequency);
-        Parser.ParsePAT();
-        Parser.ParseNIT();
+
+        if (FAILED(hr = Parser.ParseSDT(ulFrequency))) {
+            LOG(_T("ParseSDT failed. Result: 0x%08x."), hr);
+        } else if (FAILED(hr = Parser.ParsePAT())) {
+            LOG(_T("ParsePAT failed. Result: 0x%08x."), hr);
+        } else if (FAILED(hr = Parser.ParseNIT())) {
+            LOG(_T("ParseNIT failed. Result: 0x%08x."), hr);
+        }
 
         POSITION pos = Parser.Channels.GetStartPosition();
         while (pos) {
@@ -665,6 +670,7 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
                 ::SendMessage(hWnd, WM_TUNER_NEW_CHANNEL, 0, (LPARAM)(LPCTSTR)Channel.ToString());
             }
         }
+        LOG(_T("Scanning frequency %d done."), ulFrequency);
     }
 
     return hr;
