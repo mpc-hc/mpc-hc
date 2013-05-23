@@ -412,7 +412,6 @@ protected:
     void OpenSetupCaptureBar();
     void OpenSetupWindowTitle(CString fn = _T(""));
     void AutoChangeMonitorMode();
-    double miFPS;
 
     bool GraphEventComplete();
 
@@ -445,7 +444,7 @@ public:
 
     CSize GetVideoSize() const;
     void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
-    void ToggleD3DFullscreen();
+    void ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo);
     void MoveVideoWindow(bool fShowStats = false);
     void RepaintVideo();
     void HideVideoWindow(bool fHide);

@@ -2669,7 +2669,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 break;
             case EC_DVD_PLAYBACK_RATE_CHANGE:
                 if (m_fCustomGraph && s.AutoChangeFullscrRes.bEnabled &&
-                        m_fFullScreen && m_iDVDDomain == DVD_DOMAIN_Title) {
+                        (m_fFullScreen || IsD3DFullScreenMode()) && m_iDVDDomain == DVD_DOMAIN_Title) {
                     AutoChangeMonitorMode();
                 }
                 break;
@@ -6587,7 +6587,7 @@ void CMainFrame::OnViewFullscreen()
     const CAppSettings& s = AfxGetAppSettings();
 
     if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
-        ToggleD3DFullscreen();
+        ToggleD3DFullscreen(true);
     } else {
         ToggleFullscreen(true, true);
     }
@@ -6598,7 +6598,7 @@ void CMainFrame::OnViewFullscreenSecondary()
     const CAppSettings& s = AfxGetAppSettings();
 
     if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
-        ToggleD3DFullscreen();
+        ToggleD3DFullscreen(false);
     } else {
         ToggleFullscreen(true, false);
     }
@@ -9692,7 +9692,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     }
 }
 
-void CMainFrame::ToggleD3DFullscreen()
+void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 {
     CComQIPtr<ID3DFullscreenControl> pD3DFS;
     if (m_pMFVDC) {
@@ -9702,6 +9702,8 @@ void CMainFrame::ToggleD3DFullscreen()
     }
 
     if (pD3DFS) {
+        CAppSettings& s = AfxGetAppSettings();
+
         bool bIsFullscreen = false;
         pD3DFS->GetD3DFullscreen(&bIsFullscreen);
 
@@ -9710,6 +9712,11 @@ void CMainFrame::ToggleD3DFullscreen()
         m_OSD.HideMessage(true);
 
         if (bIsFullscreen) {
+            // Restore the default display mode
+            if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault && s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
+                SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, s.strFullScreenMonitor);
+            }
+
             // Turn off D3D Fullscreen
             m_OSD.EnableShowSeekBar(false);
             pD3DFS->SetD3DFullscreen(false);
@@ -9732,6 +9739,11 @@ void CMainFrame::ToggleD3DFullscreen()
             KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
             m_fHideCursor = false;
         } else {
+            // Set the fullscreen display mode
+            if (s.AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo) {
+                AutoChangeMonitorMode();
+            }
+
             // Create a new D3D Fullscreen window
             CreateFullScreenWindow();
 
@@ -9761,9 +9773,7 @@ void CMainFrame::AutoChangeMonitorMode()
     CStringW mf_hmonitor = s.strFullScreenMonitor;
     double MediaFPS = 0.0;
 
-    if (s.IsD3DFullscreen() && miFPS > 0.9) {
-        MediaFPS = miFPS;
-    } else if (GetPlaybackMode() == PM_FILE) {
+    if (GetPlaybackMode() == PM_FILE) {
         REFERENCE_TIME m_rtTimePerFrame = 1;
         // if ExtractAvgTimePerFrame isn't executed then MediaFPS=10000000.0,
         // (int)(MediaFPS + 0.5)=10000000 and SetDispMode is executed to Default.
@@ -10413,6 +10423,9 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
              || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
              || (s.iDSVideoRendererType == VIDRNDT_DS_MADVR)
              || (s.iDSVideoRendererType == VIDRNDT_DS_SYNC))) {
+        if (s.AutoChangeFullscrRes.bEnabled) {
+            AutoChangeMonitorMode();
+        }
         CreateFullScreenWindow();
         m_pVideoWnd = m_pFullscreenWnd;
     } else {
@@ -11810,67 +11823,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
     }
 
-    if (s.AutoChangeFullscrRes.bEnabled && s.IsD3DFullscreen()) {
-        // DVD
-        if (pDVDData) {
-            mi_fn = pDVDData->path;
-            CPath path(mi_fn);
-            CString ext = path.GetExtension();
-            if (ext.IsEmpty()) {
-                if (mi_fn.Right(10) == _T("\\VIDEO_TS\\")) {
-                    mi_fn = mi_fn + _T("VTS_01_1.VOB");
-                } else {
-                    mi_fn = mi_fn + _T("\\VIDEO_TS\\VTS_01_1.VOB");
-                }
-            } else if (ext == _T(".IFO")) {
-                path.RemoveFileSpec();
-                mi_fn = path + _T("\\VTS_01_1.VOB");
-            }
-        } else {
-            CPath path(mi_fn);
-            CString ext = path.GetExtension();
-            // BD
-            if (ext == _T(".mpls")) {
-                CHdmvClipInfo ClipInfo;
-                CAtlList<CHdmvClipInfo::PlaylistItem> CurPlaylist;
-                CHdmvClipInfo::PlaylistItem Item;
-                REFERENCE_TIME rtDuration;
-                if (SUCCEEDED(ClipInfo.ReadPlaylist(mi_fn, rtDuration, CurPlaylist))) {
-                    Item = CurPlaylist.GetHead();
-                    mi_fn = Item.m_strFileName;
-                }
-            }
-        }
-
-        // Get FPS
-        miFPS = 0.0;
-
-#if USE_STATIC_MEDIAINFO
-        MediaInfoLib::MediaInfo MI;
-#else
-        MediaInfo MI;
-#endif
-
-        if (MI.Open(mi_fn.GetString())) {
-            CString strFPS =  MI.Get(Stream_Video, 0, _T("FrameRate"), Info_Text, Info_Name).c_str();
-
-            // 3:2 pulldown ???
-            CString strST = MI.Get(Stream_Video, 0, _T("ScanType"), Info_Text, Info_Name).c_str();
-            CString strSO = MI.Get(Stream_Video, 0, _T("ScanOrder"), Info_Text, Info_Name).c_str();
-
-            if (strFPS == _T("29.970") && (strSO == _T("2:3 Pulldown")
-                                           || strST == _T("Progressive") && (strSO == _T("TFF")
-                                                   || strSO  == _T("BFF")
-                                                   || strSO  == _T("2:3 Pulldown")))) {
-
-                strFPS = _T("23.976");
-            }
-            miFPS = wcstod(strFPS, nullptr);
-
-            AutoChangeMonitorMode();
-        }
-    }
-
     SetLoadState(MLS_LOADING);
 
     // FIXME: Don't show "Closed" initially
@@ -12113,7 +12065,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
     m_nLastSkipDirection = 0;
 
-    if (s.AutoChangeFullscrRes.bEnabled && m_fFullScreen) {
+    if (s.AutoChangeFullscrRes.bEnabled && (m_fFullScreen || IsD3DFullScreenMode())) {
         AutoChangeMonitorMode();
     }
     if (m_fFullScreen && s.fRememberZoomLevel) {
