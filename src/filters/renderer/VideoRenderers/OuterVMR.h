@@ -32,14 +32,14 @@ namespace DSObjects
     {
         CComPtr<IUnknown> m_pVMR;
         VMR9AlphaBitmap* m_pVMR9AlphaBitmap;
-        CDX9AllocatorPresenter* m_pAllocatorPresenter;
+        CVMR9AllocatorPresenter* m_pAllocatorPresenter;
 
     public:
 
-        COuterVMR9(const TCHAR* pName, LPUNKNOWN pUnk, VMR9AlphaBitmap* pVMR9AlphaBitmap, CDX9AllocatorPresenter* _pAllocatorPresenter) : CUnknown(pName, pUnk) {
+        COuterVMR9(const TCHAR* pName, LPUNKNOWN pUnk, VMR9AlphaBitmap* pVMR9AlphaBitmap, CVMR9AllocatorPresenter* pAllocatorPresenter) : CUnknown(pName, pUnk) {
             m_pVMR.CoCreateInstance(CLSID_VideoMixingRenderer9, GetOwner());
             m_pVMR9AlphaBitmap = pVMR9AlphaBitmap;
-            m_pAllocatorPresenter = _pAllocatorPresenter;
+            m_pAllocatorPresenter = pAllocatorPresenter;
         }
 
         ~COuterVMR9() {
