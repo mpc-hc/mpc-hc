@@ -16,7 +16,7 @@ WebServer:
 2) Switch to html5
 
 Decoders:
-1) Drop all internal decoders and filters and integrate LAVFilters, but keep DXVA1.
+1) Drop all internal decoders and filters and integrate LAVFilters
 
 Installer:
 1) Add file association tasks, see https://trac.mpc-hc.org/ticket/2207
@@ -24,6 +24,5 @@ Installer:
 VSFilter:
 1) Use the defines from version.h for MPC_COPYRIGHT_STR in VSFilter
 2) Define VSFilter's version numbers in a place accessible by its installer and VSFilter itself
-3) Do we need the ISOLATION_AWARE_ENABLED define?
-4) Backport a few useful patches from those VSFilter forks;  we need individual patches for that
+3) Backport a few useful patches from those VSFilter forks;  we need individual patches for that
    and we have to make sure that everything works right for mpc-hc itself
