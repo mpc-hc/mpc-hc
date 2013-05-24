@@ -1061,7 +1061,7 @@ bool CVobSubFile::WriteIdx(CString fn, int delay)
             }
 
             if (sp[j].vobid != vobid || sp[j].cellid != cellid) {
-                str.Format(_T("# Vob/Cell ID: %d, %d (PTS: %d)\n"), sp[j].vobid, sp[j].cellid, sp[j].celltimestamp);
+                str.Format(_T("# Vob/Cell ID: %d, %d (PTS: %I64d)\n"), sp[j].vobid, sp[j].cellid, sp[j].celltimestamp);
                 f.WriteString(str);
                 vobid = sp[j].vobid;
                 cellid = sp[j].cellid;

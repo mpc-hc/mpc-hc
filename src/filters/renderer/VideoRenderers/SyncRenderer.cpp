@@ -2086,7 +2086,7 @@ void CBaseAP::DrawStats()
             strText.Format(L"Sample time  : waiting %3d ms", m_lNextSampleWait);
             if (r.m_AdvRendSets.bSynchronizeNearest) {
                 CString temp;
-                temp.Format(L"  paint time correction: %3d ms  Hysteresis: %d", m_lShiftToNearest, m_llHysteresis / 10000);
+                temp.Format(L"  paint time correction: %3d ms  Hysteresis: %I64d", m_lShiftToNearest, m_llHysteresis / 10000);
                 strText += temp;
             }
             DrawText(rc, strText, 1);
