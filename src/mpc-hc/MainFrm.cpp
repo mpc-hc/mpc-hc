@@ -9712,6 +9712,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
         bool bIsFullscreen = false;
         pD3DFS->GetD3DFullscreen(&bIsFullscreen);
+        s.fLastFullScreen = bIsFullscreen;
 
         // Temporarily hide the OSD message if there is one, it will
         // be restored after. This avoid positioning problems.
