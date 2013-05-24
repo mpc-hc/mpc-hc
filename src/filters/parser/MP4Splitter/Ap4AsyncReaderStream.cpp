@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -52,7 +52,7 @@ AP4_Result AP4_AsyncReaderStream::Read(void* buffer, AP4_Size bytesToRead, AP4_S
 {
     __int64 bytesAvail = m_pFile->GetRemaining();
 
-    if (bytesAvail < (LONGLONG)bytesToRead) {
+    if (bytesAvail < (__int64)bytesToRead) {
         if (bytesRead) {
             *bytesRead = bytesAvail;
         }
