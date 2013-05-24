@@ -9316,13 +9316,18 @@ void CMainFrame::SetDefaultFullscreenState()
 
     // Waffs : fullscreen command line
     if (!(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN) && !s.slFiles.IsEmpty()) {
-        ToggleFullscreen(true, true);
-        SetCursor(nullptr);
+        if (!s.IsD3DFullscreen()) {
+            ToggleFullscreen(true, true);
+            SetCursor(nullptr);
+        }
         s.nCLSwitches &= ~CLSW_FULLSCREEN;
         m_fFirstFSAfterLaunchOnFS = true;
     } else if (s.fRememberWindowSize && s.fRememberWindowPos && !m_fFullScreen && s.fLastFullScreen) {
         // Casimir666 : if fullscreen was on, put it on back
-        ToggleFullscreen(true, true);
+        if (!s.IsD3DFullscreen()) {
+            ToggleFullscreen(true, true);
+        }
+        m_fFirstFSAfterLaunchOnFS = true;
     }
 }
 
