@@ -1380,7 +1380,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_SOURCEFILTER_RFS
     if (src[SRC_RFS]) {
         pFGF = DEBUG_NEW CFGFilterInternal<CRARFileSource>();
-        pFGF->m_chkbytes.AddTail(_T("0,4,,52617221"));
+        pFGF->m_chkbytes.AddTail(_T("0,7,,526172211A0700"));
         pFGF->m_extensions.AddTail(_T(".rar"));
         m_source.AddTail(pFGF);
     }
