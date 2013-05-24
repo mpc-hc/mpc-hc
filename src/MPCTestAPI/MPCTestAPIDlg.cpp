@@ -161,7 +161,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
     }
 
     // Set the icon for this dialog.  The framework does this automatically
-    //  when the application's main window is not a dialog
+    // when the application's main window is not a dialog
     SetIcon(m_hIcon, TRUE);         // Set big icon
     SetIcon(m_hIcon, FALSE);        // Set small icon
 
@@ -250,7 +250,10 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     memset(&StartupInfo, 0, sizeof(StartupInfo));
     StartupInfo.cb = sizeof(StartupInfo);
     GetStartupInfo(&StartupInfo);
-    CreateProcess(nullptr, (LPTSTR)(LPCTSTR)strExec, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo);
+    if (CreateProcess(nullptr, (LPTSTR)(LPCTSTR)strExec, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo)) {
+        CloseHandle(ProcessInfo.hProcess);
+        CloseHandle(ProcessInfo.hThread);
+    }
 }
 
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
