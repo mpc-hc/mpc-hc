@@ -198,6 +198,7 @@ void CVMROSD::SetVideoWindow(CWnd* pWnd)
         m_pWnd->KillTimer((UINT_PTR)this);
     }
     m_pWnd = pWnd;
+    m_pWnd->SetTimer((UINT_PTR)this, 1000, (TIMERPROC)TimerFunc);
     UpdateBitmap();
 }
 
