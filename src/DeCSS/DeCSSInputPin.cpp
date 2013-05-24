@@ -90,7 +90,7 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
 {
     GUID majortype = m_mt.majortype;
 
-    if (majortype == MEDIATYPE_MPEG2_PACK || majortype == MEDIATYPE_DVD_ENCRYPTED_PACK)
+    if (majortype == MEDIATYPE_MPEG2_PACK || majortype == MEDIATYPE_DVD_ENCRYPTED_PACK) {
         if (len > 0 && *(DWORD*)p == 0xba010000) { // MEDIATYPE_*_PACK
             len -= 14;
             p += 14;
@@ -100,8 +100,9 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
             }
             majortype = MEDIATYPE_MPEG2_PES;
         }
+    }
 
-    if (majortype == MEDIATYPE_MPEG2_PES)
+    if (majortype == MEDIATYPE_MPEG2_PES) {
         if (len > 0 && *(DWORD*)p == 0xbb010000) {
             len -= 4;
             p += 4;
@@ -173,6 +174,7 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
                 len = min(expected, len);
             }
         }
+    }
 
     if (len < 0) {
         ASSERT(0);

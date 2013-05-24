@@ -92,7 +92,7 @@ public:
 
     BSTR GetTrackName(UINT aTrackIdx);
 
-    int GetChaptersCount() {return m_ChaptersCount;}
+    int GetChaptersCount() { return m_ChaptersCount; }
     LONGLONG GetChapterOffset(UINT ChapterNumber);
 
 private:
