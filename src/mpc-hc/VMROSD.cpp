@@ -194,6 +194,8 @@ void CVMROSD::Stop()
 
 void CVMROSD::SetVideoWindow(CWnd* pWnd)
 {
+    CAutoLock lock(&m_csLock);
+
     if (m_pWnd) {
         m_pWnd->KillTimer((UINT_PTR)this);
     }
