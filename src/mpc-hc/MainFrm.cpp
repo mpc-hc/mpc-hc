@@ -9326,6 +9326,7 @@ void CMainFrame::SetDefaultFullscreenState()
         // Casimir666 : if fullscreen was on, put it on back
         if (!s.IsD3DFullscreen()) {
             ToggleFullscreen(true, true);
+            SetCursor(nullptr);
         }
         m_fFirstFSAfterLaunchOnFS = true;
     }
