@@ -244,7 +244,7 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     STARTUPINFO         StartupInfo;
     PROCESS_INFORMATION ProcessInfo;
 
-    strExec.Format(_T("%s /slave %d"), m_strMPCPath, GetSafeHwnd());
+    strExec.Format(_T("%s /slave %d"), m_strMPCPath, PtrToInt(GetSafeHwnd()));
     UpdateData(TRUE);
 
     memset(&StartupInfo, 0, sizeof(StartupInfo));
@@ -274,7 +274,7 @@ BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruc
     CString strMsg;
 
     if (pCopyDataStruct->dwData == CMD_CONNECT) {
-        m_hWndMPC = (HWND)_wtol((LPCTSTR)pCopyDataStruct->lpData);
+        m_hWndMPC = (HWND)IntToPtr(_ttoi((LPCTSTR)pCopyDataStruct->lpData));
     }
 
     strMsg.Format(_T("%s : %s"), GetMPCCommandName((MPCAPI_COMMAND)pCopyDataStruct->dwData), (LPCTSTR)pCopyDataStruct->lpData);

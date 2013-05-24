@@ -1819,7 +1819,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 iAdminOption = _ttoi(cmdln.GetNext(pos));
             } else if (sw == _T("slave") && pos) {
                 nCLSwitches |= CLSW_SLAVE;
-                hMasterWnd = (HWND)_ttol(cmdln.GetNext(pos));
+                hMasterWnd = (HWND)IntToPtr(_ttoi(cmdln.GetNext(pos)));
             } else if (sw == _T("fixedsize") && pos) {
                 CAtlList<CString> sl;
                 Explode(cmdln.GetNext(pos), sl, ',', 2);

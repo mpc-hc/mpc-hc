@@ -4151,7 +4151,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
     s.ParseCommandLine(cmdln);
 
     if (s.nCLSwitches & CLSW_SLAVE) {
-        SendAPICommand(CMD_CONNECT, L"%d", GetSafeHwnd());
+        SendAPICommand(CMD_CONNECT, L"%d", PtrToInt(GetSafeHwnd()));
     }
 
     POSITION pos = s.slFilters.GetHeadPosition();
