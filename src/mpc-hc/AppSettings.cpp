@@ -483,13 +483,11 @@ CAppSettings::~CAppSettings()
 
 bool CAppSettings::IsD3DFullscreen() const
 {
-    if (nCLSwitches & CLSW_D3DFULLSCREEN) {
-        return true;
-    } else if (iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
-               iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
-               iDSVideoRendererType == VIDRNDT_DS_MADVR ||
-               iDSVideoRendererType == VIDRNDT_DS_SYNC) {
-        return fD3DFullscreen;
+    if (iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
+            iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+            iDSVideoRendererType == VIDRNDT_DS_MADVR ||
+            iDSVideoRendererType == VIDRNDT_DS_SYNC) {
+        return fD3DFullscreen || (nCLSwitches & CLSW_D3DFULLSCREEN);
     } else {
         return false;
     }

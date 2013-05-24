@@ -10417,12 +10417,8 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    // CASIMIR666 todo
-    if (s.IsD3DFullscreen() &&
-            ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
-             || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
-             || (s.iDSVideoRendererType == VIDRNDT_DS_MADVR)
-             || (s.iDSVideoRendererType == VIDRNDT_DS_SYNC))) {
+    // Create D3DFullscreen window if launched in fullscreen
+    if (s.IsD3DFullscreen()) {
         if (s.AutoChangeFullscrRes.bEnabled) {
             AutoChangeMonitorMode();
         }
