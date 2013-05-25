@@ -829,7 +829,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     WTSRegisterSessionNotification();
 
     if (s.bNotifySkype) {
-        m_pSkypeMoodMsgHandler.Attach(new SkypeMoodMsgHandler());
+        m_pSkypeMoodMsgHandler.Attach(DEBUG_NEW SkypeMoodMsgHandler());
         m_pSkypeMoodMsgHandler->Connect(m_hWnd);
     }
 
@@ -14448,7 +14448,7 @@ void CMainFrame::ShowOptions(int idPage)
         s.SaveSettings();
 
         if (s.bNotifySkype && !m_pSkypeMoodMsgHandler) {
-            m_pSkypeMoodMsgHandler.Attach(new SkypeMoodMsgHandler());
+            m_pSkypeMoodMsgHandler.Attach(DEBUG_NEW SkypeMoodMsgHandler());
             m_pSkypeMoodMsgHandler->Connect(m_hWnd);
         } else if (!s.bNotifySkype && m_pSkypeMoodMsgHandler) {
             m_pSkypeMoodMsgHandler.Free();

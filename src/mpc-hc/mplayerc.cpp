@@ -1512,7 +1512,7 @@ void CMPlayerCApp::RegisterHotkeys()
 
     // Get the size of the device list
     nErrCode = GetRawInputDeviceList(nullptr, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
-    inputDeviceList.Attach(new RAWINPUTDEVICELIST[nInputDeviceCount]);
+    inputDeviceList.Attach(DEBUG_NEW RAWINPUTDEVICELIST[nInputDeviceCount]);
     if (nErrCode == UINT(-1) || !nInputDeviceCount || !inputDeviceList) {
         ASSERT(nErrCode != UINT(-1));
         return;
