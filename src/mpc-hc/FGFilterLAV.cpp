@@ -641,6 +641,9 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     pLAVFSettings->SetHWAccelDeintHQ(bHWDeintHQ);
 
+    // Force RV1/2 enabled, the user can control it from our own options
+    pLAVFSettings->SetFormatConfiguration(Codec_RV12, TRUE);
+
     return true;
 }
 
