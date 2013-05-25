@@ -36,7 +36,7 @@
 #define round_f(x) ((x) > 0 ? (x) + 0.5f : (x) - 0.5f)
 #define round_d(x) ((x) > 0 ? (x) + 0.5  : (x) - 0.5)
 
-#define limit(a, x, b) if (x < a) { x = a; } else if (x > b) { x = b;}
+#define limit(a, x, b) if ((x) < (a)) { x = a; } else if ((x) > (b)) { x = b;}
 
 HRESULT convert_to_int16(enum AVSampleFormat avsf, WORD nChannels, DWORD nSamples, BYTE* pIn, int16_t* pOut)
 {

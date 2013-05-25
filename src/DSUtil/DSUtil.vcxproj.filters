@@ -62,6 +62,9 @@
     <ClCompile Include="AudioParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AudioTools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="WinAPIUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -125,6 +128,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AudioParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioTools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WinAPIUtils.h">
