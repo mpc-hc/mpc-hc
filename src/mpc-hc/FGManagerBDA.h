@@ -169,13 +169,6 @@ private:
     }
 
     HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
-
-    void Sleep(unsigned int mseconds) {
-        clock_t goal = mseconds + clock();
-        while (goal > clock()) {
-            ;
-        }
-    }
 };
 
 #define LOG_FILE _T("bda.log")
