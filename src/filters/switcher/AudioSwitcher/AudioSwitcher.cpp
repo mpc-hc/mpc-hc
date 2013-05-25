@@ -380,9 +380,9 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                     } else if(wfe->wBitsPerSample == 24) {
                         int32_t i32 = 0;
                         BYTE* p = (BYTE*)(&i32);
-                        *(p + 1) = pDataOut[i * 3];
-                        *(p + 2) = pDataOut[i * 3 + 1];
-                        *(p + 3) = pDataOut[i * 3 + 2];
+                        p[1] = pDataOut[i * 3];
+                        p[2] = pDataOut[i * 3 + 1];
+                        p[3] = pDataOut[i * 3 + 2];
                         sample = (double)i32 / INT32_MAX;
                     } else if(wfe->wBitsPerSample == 32) {
                         sample = (double)((int32_t*)pDataOut)[i] / INT32_MAX;

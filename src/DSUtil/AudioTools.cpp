@@ -49,15 +49,15 @@ void gain_int24(const double factor, const size_t allsamples, BYTE* pData)
     while (pData < end) {
         int32_t i32 = 0;
         BYTE* p = (BYTE*)(&i32);
-        *(p + 1) = *(pData);
-        *(p + 2) = *(pData + 1);
-        *(p + 3) = *(pData + 2);
+        p[1] = *(pData);
+        p[2] = *(pData + 1);
+        p[3] = *(pData + 2);
         double d = factor * i32;
         limit(INT32_MIN, d, INT32_MAX);
         i32 = (int32_t)d;
-        *pData++ = *(p + 1);
-        *pData++ = *(p + 2);
-        *pData++ = *(p + 3);
+        *pData++ = p[1];
+        *pData++ = p[2];
+        *pData++ = p[3];
     }
 }
 
