@@ -465,37 +465,49 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 
     int syncbits = fAllowV25 ? 11 : 12;
 
-    for (; len >= 4 && BitRead(syncbits, true) != (1 << syncbits) - 1; len--) {
-        BitRead(8);
+    while(len >= 4) {
+        __int64 pos = GetPos();
+
+        if (BitRead(syncbits, true) != (1 << syncbits) - 1) {
+            BitRead(8);
+            len--;
+            continue;
+        }
+
+        h.sync       = BitRead(11);
+        h.version    = BitRead(2);
+        h.layer      = BitRead(2);
+        h.crc        = BitRead(1);
+        h.bitrate    = BitRead(4);
+        h.freq       = BitRead(2);
+        h.padding    = BitRead(1);
+        h.privatebit = BitRead(1);
+        h.channels   = BitRead(2);
+        h.modeext    = BitRead(2);
+        h.copyright  = BitRead(1);
+        h.original   = BitRead(1);
+        h.emphasis   = BitRead(2);
+
+        if (h.version == 1 || h.layer == 0 || h.freq == 3 || h.bitrate == 15) {
+            Seek(pos + 1);
+            len--;
+            continue;
+        }
+
+        if (h.version == 3 && h.layer == 2) {
+            if (h.channels != 3 && (h.bitrate == 1 || h.bitrate == 2 || h.bitrate == 3 || h.bitrate == 5) ||
+                h.channels == 3 && h.bitrate >= 11) {
+                Seek(pos + 1);
+                len--;
+                continue;
+            }
+        }
+
+        break;
     }
 
     if (len < 4) {
         return false;
-    }
-
-    h.sync = BitRead(11);
-    h.version = BitRead(2);
-    h.layer = BitRead(2);
-    h.crc = BitRead(1);
-    h.bitrate = BitRead(4);
-    h.freq = BitRead(2);
-    h.padding = BitRead(1);
-    h.privatebit = BitRead(1);
-    h.channels = BitRead(2);
-    h.modeext = BitRead(2);
-    h.copyright = BitRead(1);
-    h.original = BitRead(1);
-    h.emphasis = BitRead(2);
-
-    if (h.version == 1 || h.layer == 0 || h.freq == 3 || h.bitrate == 15 || h.emphasis == 2) {
-        return false;
-    }
-
-    if (h.version == 3 && h.layer == 2) {
-        if (((h.bitrate == 1 || h.bitrate == 2 || h.bitrate == 3 || h.bitrate == 5) && h.channels != 3)
-                || (h.bitrate >= 11 && h.bitrate <= 14 && h.channels == 3)) {
-            return false;
-        }
     }
 
     h.layer = 4 - h.layer;
