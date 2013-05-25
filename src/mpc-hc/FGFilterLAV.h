@@ -28,9 +28,9 @@ DEFINE_GUID(GUID_LAVAudio, 0xE8E73B6B, 0x4CB3, 0x44A4, 0xBE, 0x99, 0x4F, 0x7B, 0
 #include "FGFilter.h"
 #include "ComPropertySheet.h"
 
-#include "LAVFilters/src/developer_info/LAVSplitterSettings.h"
-#include "LAVFilters/src/developer_info/LAVVideoSettings.h"
-#include "LAVFilters/src/developer_info/LAVAudioSettings.h"
+#include "LAVFilters/src/common/includes/LAVSplitterSettings.h"
+#include "LAVFilters/src/decoder/LAVVideo/LAVVideoSettings.h"
+#include "LAVFilters/src/decoder/LAVAudio/LAVAudioSettings.h"
 
 class CFGFilterLAV : public CFGFilterFile
 {
