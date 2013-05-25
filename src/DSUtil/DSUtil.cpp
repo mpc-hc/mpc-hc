@@ -1302,27 +1302,25 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
     return nullptr;
 }
 
-CStringW GetFriendlyName(CStringW DisplayName)
+CStringW GetFriendlyName(CStringW displayName)
 {
-    CStringW FriendlyName;
+    CStringW friendlyName;
 
     CComPtr<IBindCtx> pBindCtx;
     CreateBindCtx(0, &pBindCtx);
 
     CComPtr<IMoniker> pMoniker;
     ULONG chEaten;
-    if (S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
-        return false;
+    if (S_OK == MkParseDisplayName(pBindCtx, CComBSTR(displayName), &chEaten, &pMoniker)) {
+        CComPtr<IPropertyBag> pPB;
+        CComVariant var;
+        if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))
+                && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+            friendlyName = var.bstrVal;
+        }
     }
 
-    CComPtr<IPropertyBag> pPB;
-    CComVariant var;
-    if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))
-            && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
-        FriendlyName = var.bstrVal;
-    }
-
-    return FriendlyName;
+    return friendlyName;
 }
 
 typedef struct {
