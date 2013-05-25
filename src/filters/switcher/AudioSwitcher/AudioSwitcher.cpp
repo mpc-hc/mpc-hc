@@ -295,35 +295,39 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 int srcstep = bps * wfe->nChannels;
                 int dststep = bps * wfeout->nChannels;
                 int channels = wfe->nChannels;
-                if (fPCM && wfe->wBitsPerSample == 8) {
-                    for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
-                        mix<unsigned char, INT64, 0, UCHAR_MAX>(mask, channels, bps, src, dst);
-                    }
-                } else if (fPCM && wfe->wBitsPerSample == 16) {
-                    if (wfe->nChannels != 4 || wfeout->nChannels != 4) {
+                if (fPCM) {
+                    if (wfe->wBitsPerSample == 8) {
                         for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
-                            mix<short, INT64, SHRT_MIN, SHRT_MAX>(mask, channels, bps, src, dst);
+                            mix<unsigned char, INT64, 0, UCHAR_MAX>(mask, channels, bps, src, dst);
                         }
-                    } else { // most popular channels count
+                    } else if (wfe->wBitsPerSample == 16) {
+                        if (wfe->nChannels != 4 || wfeout->nChannels != 4) {
+                            for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
+                                mix<short, INT64, SHRT_MIN, SHRT_MAX>(mask, channels, bps, src, dst);
+                            }
+                        } else { // most popular channels count
+                            for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
+                                mix4<short, INT64, SHRT_MIN, SHRT_MAX>(mask, src, dst);
+                            }
+                        }
+                    } else if (wfe->wBitsPerSample == 24) {
                         for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
-                            mix4<short, INT64, SHRT_MIN, SHRT_MAX>(mask, src, dst);
+                            mix<int, INT64, INT24_MIN, INT24_MAX>(mask, channels, bps, src, dst);
+                        }
+                    } else if (wfe->wBitsPerSample == 32) {
+                        for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
+                            mix<int, __int64, INT_MIN, INT_MAX>(mask, channels, bps, src, dst);
                         }
                     }
-                } else if (fPCM && wfe->wBitsPerSample == 24) {
-                    for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
-                        mix<int, INT64, INT24_MIN, INT24_MAX>(mask, channels, bps, src, dst);
-                    }
-                } else if (fPCM && wfe->wBitsPerSample == 32) {
-                    for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
-                        mix<int, __int64, INT_MIN, INT_MAX>(mask, channels, bps, src, dst);
-                    }
-                } else if (fFloat && wfe->wBitsPerSample == 32) {
-                    for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
-                        mix < float, double, -1, 1 > (mask, channels, bps, src, dst);
-                    }
-                } else if (fFloat && wfe->wBitsPerSample == 64) {
-                    for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
-                        mix < double, double, -1, 1 > (mask, channels, bps, src, dst);
+                } else if (fFloat) {
+                    if (wfe->wBitsPerSample == 32) {
+                        for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
+                            mix < float, double, -1, 1 > (mask, channels, bps, src, dst);
+                        }
+                    } else if (wfe->wBitsPerSample == 64) {
+                        for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
+                            mix < double, double, -1, 1 > (mask, channels, bps, src, dst);
+                        }
                     }
                 }
             }
