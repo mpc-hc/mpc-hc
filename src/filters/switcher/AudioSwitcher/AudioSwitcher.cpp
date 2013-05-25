@@ -26,14 +26,12 @@
 #include "AudioSwitcher.h"
 #include "Audio.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/AudioTools.h"
 
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
-
-#define INT24_MAX       8388607
-#define INT24_MIN     (-8388608)
 
 #define NORMALIZATION_REGAIN_STEP      0.06 // +6%/s
 #define NORMALIZATION_REGAIN_THRESHOLD 0.75
@@ -362,83 +360,80 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     }
 
     if (m_fNormalize || m_boostFactor > 1) {
-        int samples = lenout * wfeout->nChannels;
+        size_t samples = lenout * wfeout->nChannels;
+        double sample_mul = 1.0;
 
-        if (double* buff = DEBUG_NEW double[samples]) {
-            for (int i = 0; i < samples; i++) {
-                if (fPCM && wfe->wBitsPerSample == 8) {
-                    buff[i] = (double)((BYTE*)pDataOut)[i] / UCHAR_MAX;
-                } else if (fPCM && wfe->wBitsPerSample == 16) {
-                    buff[i] = (double)((short*)pDataOut)[i] / SHRT_MAX;
-                } else if (fPCM && wfe->wBitsPerSample == 24) {
-                    int tmp;
-                    memcpy(((BYTE*)&tmp) + 1, &pDataOut[i * 3], 3);
-                    buff[i] = (float)(tmp >> 8) / INT24_MAX;
-                } else if (fPCM && wfe->wBitsPerSample == 32) {
-                    buff[i] = (double)((int*)pDataOut)[i] / INT_MAX;
-                } else if (fFloat && wfe->wBitsPerSample == 32) {
-                    buff[i] = (double)((float*)pDataOut)[i];
-                } else if (fFloat && wfe->wBitsPerSample == 64) {
-                    buff[i] = ((double*)pDataOut)[i];
-                }
-            }
-
-            double sample_mul = 1.0;
-
-            if (m_fNormalize) {
-                double sampleMax = 0.0;
-                for (int i = 0; i < samples; i++) {
-                    double s = buff[i];
-                    if (s < 0.0) {
-                        s = -s;
+        if (m_fNormalize) {
+            // calculate max peak
+            double sample_max = 0;
+            for (size_t i = 0; i < samples; i++) {
+                double sample = 0;
+                if (fPCM) {
+                    if (wfe->wBitsPerSample == 8) {
+                        sample = (double)(int8_t)(pDataOut[i] ^ 0x80) / INT8_MAX;
+                    } else if(wfe->wBitsPerSample == 16) {
+                        sample = (double)((int16_t*)pDataOut)[i] / INT16_MAX;
+                    } else if(wfe->wBitsPerSample == 24) {
+                        int32_t i32 = 0;
+                        BYTE* p = (BYTE*)(&i32);
+                        *(p + 1) = pDataOut[i * 3];
+                        *(p + 2) = pDataOut[i * 3 + 1];
+                        *(p + 3) = pDataOut[i * 3 + 2];
+                        sample = (double)i32 / INT32_MAX;
+                    } else if(wfe->wBitsPerSample == 32) {
+                        sample = (double)((int32_t*)pDataOut)[i] / INT32_MAX;
                     }
-                    if (s > 1.0) {
-                        s = 1.0;
-                    }
-                    if (sampleMax < s) {
-                        sampleMax = s;
+                } else if (fFloat) {
+                    if (wfe->wBitsPerSample == 32) {
+                        sample = (double)((float*)pDataOut)[i];
+                    } else if(wfe->wBitsPerSample == 64) {
+                        sample = ((double*)pDataOut)[i];
                     }
                 }
 
-                double normFact = 1.0 / sampleMax;
-                if (m_normalizeFactor > normFact) {
-                    m_normalizeFactor = normFact;
-                } else if (m_fNormalizeRecover
-                           && sampleMax * m_normalizeFactor < NORMALIZATION_REGAIN_THRESHOLD) { // we don't regain if we are too close of the maximum
-                    m_normalizeFactor += NORMALIZATION_REGAIN_STEP * rtDur / 10000000; // the step is per second so we weight it with the duration
-                }
-
-                if (m_normalizeFactor > m_nMaxNormFactor) {
-                    m_normalizeFactor = m_nMaxNormFactor;
-                }
-
-                sample_mul = m_normalizeFactor;
-            }
-
-            if (m_boostFactor > 1.0) {
-                sample_mul *= m_boostFactor;
-            }
-
-            for (int i = 0; i < samples; i++) {
-                double s = buff[i] * sample_mul;
-
-                if (fPCM && wfe->wBitsPerSample == 8) {
-                    ((BYTE*)pDataOut)[i] = clamp<BYTE>(s, 0, UCHAR_MAX);
-                } else if (fPCM && wfe->wBitsPerSample == 16) {
-                    ((short*)pDataOut)[i] = clamp<short>(s, SHRT_MIN, SHRT_MAX);
-                } else if (fPCM && wfe->wBitsPerSample == 24)  {
-                    int tmp = clamp<int>(s, INT24_MIN, INT24_MAX);
-                    memcpy(&pDataOut[i * 3], &tmp, 3);
-                } else if (fPCM && wfe->wBitsPerSample == 32) {
-                    ((int*)pDataOut)[i] = clamp<int>(s, INT_MIN, INT_MAX);
-                } else if (fFloat && wfe->wBitsPerSample == 32) {
-                    ((float*)pDataOut)[i] = clamp<float>(s, -1, +1);
-                } else if (fFloat && wfe->wBitsPerSample == 64) {
-                    ((double*)pDataOut)[i] = clamp<double>(s, -1, +1);
+                sample = abs(sample);
+                if (sample > sample_max) {
+                    sample_max = sample;
                 }
             }
 
-            delete [] buff;
+            double normFact = 1.0 / sample_max;
+            if (m_normalizeFactor > normFact) {
+                m_normalizeFactor = normFact;
+            } else if (m_fNormalizeRecover
+                       && sample_max * m_normalizeFactor < NORMALIZATION_REGAIN_THRESHOLD) { // we don't regain if we are too close of the maximum
+                m_normalizeFactor += NORMALIZATION_REGAIN_STEP * rtDur / 10000000; // the step is per second so we weight it with the duration
+            }
+
+            if (m_normalizeFactor > m_nMaxNormFactor) {
+                m_normalizeFactor = m_nMaxNormFactor;
+            }
+
+            sample_mul = m_normalizeFactor;
+        }
+
+        if (m_boostFactor > 1.0) {
+            sample_mul *= m_boostFactor;
+        }
+
+        if (sample_mul != 1.0) {
+            if (fPCM) {
+                if (wfe->wBitsPerSample == 8) {
+                    gain_uint8(sample_mul, samples, (uint8_t*)pDataOut);
+                } else if(wfe->wBitsPerSample == 16) {
+                    gain_int16(sample_mul, samples, (int16_t*)pDataOut);
+                } else if(wfe->wBitsPerSample == 24) {
+                    gain_int24(sample_mul, samples, pDataOut);
+                } else if(wfe->wBitsPerSample == 32) {
+                    gain_int32(sample_mul, samples, (int32_t*)pDataOut);
+                }
+            } else if (fFloat) {
+                if (wfe->wBitsPerSample == 32) {
+                    gain_float(sample_mul, samples, (float*)pDataOut);
+                } else if(wfe->wBitsPerSample == 64) {
+                    gain_double(sample_mul, samples, (double*)pDataOut);
+                }
+            }
         }
     }
 
