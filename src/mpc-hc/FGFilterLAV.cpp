@@ -453,7 +453,8 @@ void CFGFilterLAVVideo::ShowPropertyPages(CWnd* pParendWnd)
 
 static LPCTSTR pixFmtSettingsMap[LAVOutPixFmt_NB] = {
     _T("yv12"), _T("nv12"), _T("yuy2"), _T("uyvy"), _T("ayuv"), _T("p010"), _T("p210"), _T("y410"),
-    _T("p016"), _T("p216"), _T("y416"), _T("rgb32"), _T("rgb24"), _T("v210"), _T("v410"), _T("yv16"), _T("yv24")
+    _T("p016"), _T("p216"), _T("y416"), _T("rgb32"), _T("rgb24"), _T("v210"), _T("v410"), _T("yv16"),
+    _T("yv24"), _T("rgb48")
 };
 
 void CFGFilterLAVVideo::Settings::LoadSettings()
