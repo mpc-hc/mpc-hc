@@ -1549,7 +1549,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
     }
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Matroska);
-    pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
     m_transform.AddTail(pFGF);
 #endif
 
@@ -1560,7 +1559,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
     }
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RealMedia);
-    pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
     m_transform.AddTail(pFGF);
 #endif
 
@@ -1571,7 +1569,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
     }
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
-    pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
     m_transform.AddTail(pFGF);
 #endif
 
@@ -1582,7 +1579,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
     }
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
-    pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
     m_transform.AddTail(pFGF);
 #endif
 
@@ -1596,7 +1592,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
-    pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
     m_transform.AddTail(pFGF);
 #endif
 
@@ -1607,7 +1602,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
     }
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
-    pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
     m_transform.AddTail(pFGF);
 #endif
 
@@ -1629,7 +1623,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
     }
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
-    pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
     m_transform.AddTail(pFGF);
 #endif
 
@@ -1640,7 +1633,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
     }
     pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_FLV);
-    pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
     m_transform.AddTail(pFGF);
 #endif
 
