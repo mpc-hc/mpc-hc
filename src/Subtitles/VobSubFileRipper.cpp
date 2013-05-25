@@ -209,8 +209,6 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
             for (size_t j = 0; j < 32; j++) {
                 if (splinfo[j].id1 || splinfo[i].id2) {
-                    WORD tmpids[32];
-                    memset(tmpids, 0, sizeof(tmpids));
 
                     for (j = 0; j < 32; j++) {
                         if (!(splinfo[j].res1 & 0x80)) {
