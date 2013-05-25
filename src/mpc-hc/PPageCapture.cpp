@@ -370,10 +370,12 @@ BOOL CPPageCapture::OnInitDialog()
     m_cbRebuildFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_FG1));
     m_cbRebuildFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_FG2));
     m_cbRebuildFilterGraph.SetCurSel(s.nDVBRebuildFilterGraph);
+    CorrectComboListWidth(m_cbRebuildFilterGraph);
     m_cbStopFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_SFG0));
     m_cbStopFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_SFG1));
     m_cbStopFilterGraph.AddString(ResStr(IDS_PPAGE_CAPTURE_SFG2));
     m_cbStopFilterGraph.SetCurSel(s.nDVBStopFilterGraph);
+    CorrectComboListWidth(m_cbStopFilterGraph);
     OnCbnSelchangeRebuildFilterGraph();
     OnCbnSelchangeStopFilterGraph();
     UpdateData(FALSE);
