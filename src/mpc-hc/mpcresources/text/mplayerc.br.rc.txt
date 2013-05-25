@@ -2,7 +2,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Sobre"
 8		"Copyright © 2002-2013 - veja o arquivo Authors.txt"
 11		"Este programa é gratuito e foi licenciado sob os termos da Licença Geral Pública do GNU."
-12		"Traduzido para o Português por Roger Filipe (2010)"
+12		"Traduzido para o Português por Roger Filipe"
 13		"Build information"
 14		"Versão :"
 16		"Compilador do MPC-HC :"
