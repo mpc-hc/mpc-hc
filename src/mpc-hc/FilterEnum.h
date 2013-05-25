@@ -189,6 +189,8 @@ enum DECODER {
 #if INTERNAL_DECODER_SCREEN
     TRA_SCREEN,
 #endif
-
-    TRA_LAST,
+#if INTERNAL_DECODER_FLIC
+    TRA_FLIC,
+#endif
+    TRA_LAST
 };

@@ -2038,6 +2038,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VMnc);
     }
 #endif
+#if INTERNAL_DECODER_FLIC
+    if (tra[TRA_FLIC]) {
+        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLIC);
+    }
+#endif
 
     m_transform.AddTail(pFGF);
 #endif /* #if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS */
@@ -2242,6 +2247,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (!tra[TRA_SCREEN]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VMnc);
+    }
+#endif
+#if INTERNAL_DECODER_FLIC
+    if (!tra[TRA_FLIC]) {
+        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLIC);
     }
 #endif
 

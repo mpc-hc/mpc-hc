@@ -267,6 +267,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_SCREEN
     TraFiltersKeys[TRA_SCREEN] = _T("TRA_SCREEN");
 #endif
+#if INTERNAL_DECODER_FLIC
+    TraFiltersKeys[TRA_FLIC] = _T("TRA_FLIC");
+#endif
 }
 
 void CAppSettings::CreateCommands()

@@ -181,6 +181,9 @@ static filter_t s_filters[] = {
 #if INTERNAL_DECODER_SCREEN
     {_T("Screen Capture (TSCC, VMnc)"), VIDEO_DECODER, TRA_SCREEN, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
 #endif
+#if INTERNAL_DECODER_FLIC
+    {_T("FLIC"), VIDEO_DECODER, TRA_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
+#endif
 
     {nullptr, 0, 0, 0, nullptr}
 };
