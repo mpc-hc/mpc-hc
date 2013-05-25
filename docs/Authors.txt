@@ -65,7 +65,7 @@ Russian                 YDY                     <ydy@users.sourceforge.net>
 Slovak                  Marián Hikaník          <mhikanik@users.sourceforge.net>
 Spanish                 SquallMX                <squallmx@users.sourceforge.net>
 Turkish                 Bosluk                  <bosluk@users.sourceforge.net>
-Ukrainian               Ihor Bobalo             <ibobalo@users.sourceforge.net>
+Ukrainian               Ihor Bobalo             <ibobalo@users.sourceforge.net> (http://www.eleks.com)
 Ukrainian               arestarh                <arestarh1986@users.sourceforge.net>
 
 

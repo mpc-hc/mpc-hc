@@ -1,8 +1,8 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Про програму"
 8		"Copyright © 2002-2013, див. файл Authors.txt"
-11		"Ця програма безкоштовна та розповсюджується за ліцензією GNU General Public License.\n"
-12		"Локалізація: Ihor Bobalo (http://www.eleks.com)"
+11		"Ця програма безкоштовна та розповсюджується за ліцензією GNU General Public License."
+12		"Локалізація: Ihor Bobalo"
 13		"Інформація про збірку"
 14		"Версія :"
 16		"MPC-HC Компілятор :"
