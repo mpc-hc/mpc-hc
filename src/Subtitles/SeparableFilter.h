@@ -78,7 +78,7 @@ void SeparableFilterY(unsigned char* src, unsigned char* dst, int width, int hei
 #ifdef _OPENMP
     #pragma omp parallel for
 #endif
-    for (int  x = 0; x < width; x += PixelDist) {
+    for (int x = 0; x < width; x += PixelDist) {
         unsigned char* in = src + x;
         unsigned char* out = dst + x;
         for (int y = 0; y < height; y++) {
@@ -115,7 +115,7 @@ static inline double NormalDist(double sigma, double x)
     } else if (sigma <= 0) {
         return 0;
     } else {
-        return exp(-(x * x) / (2 * sigma * sigma)) / (sigma * sqrt(2 * 3.1415926535));
+        return exp(-(x * x) / (2 * sigma * sigma)) / (sigma * sqrt(2 * M_PI));
     }
 }
 

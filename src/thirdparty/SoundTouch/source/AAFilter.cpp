@@ -49,10 +49,8 @@
 
 using namespace soundtouch;
 
-#ifndef M_PI
-#define M_PI      3.14159265358979323846
-#endif
-#define TWOPI    (2 * M_PI)
+#define PI        M_PI  // MPC-HC custom: define PI to M_PI from math.h
+#define TWOPI    (2 * PI)
 
 /*****************************************************************************
  *
@@ -115,7 +113,7 @@ void AAFilter::calculateCoeffs()
     coeffs = new SAMPLETYPE[length];
 
     fc2 = 2.0 * cutoffFreq; 
-    wc = M_PI * fc2;
+    wc = PI * fc2;
     tempCoeff = TWOPI / (double)length;
 
     sum = 0;

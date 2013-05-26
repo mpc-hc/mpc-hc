@@ -26,10 +26,8 @@
    vary a little */
 
 #include <math.h>
+#define PI M_PI
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
 const static double HALF = 0.5;
 
 /* private data */
@@ -49,7 +47,7 @@ void Initialize_REF_IDCT()
   {
     scale = (freq == 0) ? sqrt(0.125) : 0.5;
     for (time=0; time<8; time++)
-      c[freq][time] = scale*cos((M_PI/8.0)*freq*(time + 0.5));
+      c[freq][time] = scale*cos((PI/8.0)*freq*(time + 0.5));
   }
 
 #ifdef ModelX

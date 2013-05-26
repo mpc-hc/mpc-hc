@@ -29,9 +29,7 @@
 /////////////////////////////////////////////////////
 
 #include <math.h>
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+#define PI M_PI
 #define FLOAT double
 
 const static double RC = 1.0*1024*1024*1024*1024*256*16 + 1024; // magic + clip center
@@ -81,19 +79,19 @@ void Initialize_FPU_IDCT()
 {
   int i;
 
-  S2 = sqrt(0.5); // 1.0/sqrt(2);
+  S2 = M_SQRT1_2; // 1.0/sqrt(2);
 
-  W1 = sqrt(2.0)*cos(M_PI*(1.0/16)); 
+  W1 = sqrt(2.0)*cos(PI*(1.0/16)); 
 	W1_8 = W1/8;
-  W2 = sqrt(2.0)*cos(M_PI*(2.0/16)); 
+  W2 = sqrt(2.0)*cos(PI*(2.0/16)); 
 	W2_8 = W2/8;
-  W3 = sqrt(2.0)*cos(M_PI*(3.0/16)); 
+  W3 = sqrt(2.0)*cos(PI*(3.0/16)); 
 	W3_8 = W3/8;
-  W5 = sqrt(2.0)*cos(M_PI*(5.0/16)); 
+  W5 = sqrt(2.0)*cos(PI*(5.0/16)); 
 	W5_8 = W5/8;
-  W6 = sqrt(2.0)*cos(M_PI*(6.0/16)); 
+  W6 = sqrt(2.0)*cos(PI*(6.0/16)); 
 	W6_8 = W6/8;
-  W7 = sqrt(2.0)*cos(M_PI*(7.0/16));
+  W7 = sqrt(2.0)*cos(PI*(7.0/16));
 	W7_8 = W7/8;
 
   W1mW7 = W1-W7;  W1mW7_8 = W1mW7/8;

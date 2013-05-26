@@ -23,10 +23,6 @@
 
 #include <math.h>
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 #define EPSILON      (1e-7)
 #define BIGNUMBER    (1e+9)
 #define IsZero(d)    (fabs(d) < EPSILON)

@@ -1150,7 +1150,7 @@ void CMpeg2DecFilter::CalcBrCont(BYTE* YTbl, float bright, float cont)
 void CMpeg2DecFilter::CalcHueSat(BYTE* UTbl, BYTE* VTbl, float hue, float sat)
 {
     int Sat = (int)(sat * 512);
-    double Hue = (hue * 3.1415926) / 180.0;
+    double Hue = (hue * M_PI) / 180.0;
     int Sin = (int)(sin(Hue) * 4096);
     int Cos = (int)(cos(Hue) * 4096);
 
