@@ -18,6 +18,13 @@
  *
  */
 
+// Fail early with ps_2_0 and ps_2_b shader profiles
+#ifdef MPC_HC_SHADER_PROFILE
+#	if MPC_HC_SHADER_PROFILE < 2
+#		error Usupported shader profile
+#	endif
+#endif
+
 sampler s0 : register(s0);
 float4 p0 :  register(c0);
 
