@@ -311,9 +311,8 @@ void CPlayerSeekBar::OnPaint()
         if (m_pChapterBag && m_pChapterBag->ChapGetCount() > 1) {
             CRect cr = GetChannelRect();
             REFERENCE_TIME rt;
-            CComBSTR name;
             for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
-                if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
+                if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, nullptr))) {
                     __int64 pos = CalculatePosition(rt);
                     if (pos < 0) {
                         continue;
