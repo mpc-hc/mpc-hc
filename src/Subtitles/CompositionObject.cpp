@@ -249,8 +249,8 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
             nPaletteIndex = bTemp;
             nCount = 1;
         } else {
-            if (gb.BitRead(1) == 0) {                           // switch_1
-                nCount = (short)gb.BitRead(3);                  // run_length_3-9
+            if (gb.BitRead(1) == 0) {                               // switch_1
+                nCount = (short)gb.BitRead(3);                      // run_length_3-9
                 if (nCount != 0) {
                     nCount += 2;
                 } else {

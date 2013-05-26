@@ -30,21 +30,21 @@
 LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
 {
     switch (nCmd) {
-        case CMD_CONNECT :
+        case CMD_CONNECT:
             return _T("CMD_CONNECT");
-        case CMD_STATE :
+        case CMD_STATE:
             return _T("CMD_STATE");
-        case CMD_PLAYMODE :
+        case CMD_PLAYMODE:
             return _T("CMD_PLAYMODE");
-        case CMD_NOWPLAYING :
+        case CMD_NOWPLAYING:
             return _T("CMD_NOWPLAYING");
-        case CMD_LISTSUBTITLETRACKS :
+        case CMD_LISTSUBTITLETRACKS:
             return _T("CMD_LISTSUBTITLETRACKS");
-        case CMD_LISTAUDIOTRACKS :
+        case CMD_LISTAUDIOTRACKS:
             return _T("CMD_LISTAUDIOTRACKS");
-        case CMD_PLAYLIST :
+        case CMD_PLAYLIST:
             return _T("CMD_PLAYLIST");
-        default :
+        default:
             return _T("CMD_UNK");
     }
 }
@@ -288,73 +288,73 @@ void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
     UpdateData(TRUE);
 
     switch (m_nCommandType) {
-        case 0 :
+        case 0:
             Senddata(CMD_OPENFILE, m_txtCommand);
             break;
-        case 1 :
+        case 1:
             Senddata(CMD_STOP, strEmpty);
             break;
-        case 2 :
+        case 2:
             Senddata(CMD_CLOSEFILE, strEmpty);
             break;
-        case 3 :
+        case 3:
             Senddata(CMD_PLAYPAUSE, strEmpty);
             break;
-        case 4 :
+        case 4:
             Senddata(CMD_ADDTOPLAYLIST, m_txtCommand);
             break;
-        case 5 :
+        case 5:
             Senddata(CMD_STARTPLAYLIST, strEmpty);
             break;
-        case 6 :
+        case 6:
             Senddata(CMD_CLEARPLAYLIST, strEmpty);
             break;
-        case 7 :
+        case 7:
             Senddata(CMD_SETPOSITION, m_txtCommand);
             break;
-        case 8 :
+        case 8:
             Senddata(CMD_SETAUDIODELAY, m_txtCommand);
             break;
-        case 9 :
+        case 9:
             Senddata(CMD_SETSUBTITLEDELAY, m_txtCommand);
             break;
-        case 10 :
+        case 10:
             Senddata(CMD_GETAUDIOTRACKS, strEmpty);
             break;
-        case 11 :
+        case 11:
             Senddata(CMD_GETSUBTITLETRACKS, strEmpty);
             break;
-        case 12 :
+        case 12:
             Senddata(CMD_GETPLAYLIST, strEmpty);
             break;
-        case 13 :
+        case 13:
             Senddata(CMD_SETINDEXPLAYLIST, m_txtCommand);
             break;
-        case 14 :
+        case 14:
             Senddata(CMD_SETAUDIOTRACK, m_txtCommand);
             break;
-        case 15 :
+        case 15:
             Senddata(CMD_SETSUBTITLETRACK, m_txtCommand);
             break;
-        case 16 :
+        case 16:
             Senddata(CMD_TOGGLEFULLSCREEN, m_txtCommand);
             break;
-        case 17 :
+        case 17:
             Senddata(CMD_JUMPFORWARDMED, m_txtCommand);
             break;
-        case 18 :
+        case 18:
             Senddata(CMD_JUMPBACKWARDMED, m_txtCommand);
             break;
-        case 19 :
+        case 19:
             Senddata(CMD_INCREASEVOLUME, m_txtCommand);
             break;
-        case 20 :
+        case 20:
             Senddata(CMD_DECREASEVOLUME, m_txtCommand);
             break;
-        case 21 :
+        case 21:
             Senddata(CMD_SHADER_TOGGLE, m_txtCommand);
             break;
-        case 22 :
+        case 22:
             Senddata(CMD_CLOSEAPP, m_txtCommand);
             break;
     }

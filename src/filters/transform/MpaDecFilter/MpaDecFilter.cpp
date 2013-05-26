@@ -1085,7 +1085,7 @@ HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
     while (p + 16 <= end) {
         int samplerate, channels, framelength, bitrate;
 
-        int size  = GetDTSFrameSize(p);
+        int size = GetDTSFrameSize(p);
         if (size > 0) {
             size = ParseDTSHeader(p, &samplerate, &channels, &framelength, &bitrate);
         }
@@ -1113,7 +1113,7 @@ HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
         } else {
             BYTE type;
             switch (framelength) {
-                case  512:
+                case 512:
                     type = IEC61937_DTS1;
                     break;
                 case 1024:
