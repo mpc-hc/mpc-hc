@@ -222,6 +222,8 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
                     settings.SetSettings(pLAVFSettings); // Set our settings in LAVSplitter
                 }
 
+                SetEnabledFormats(pLAVFSettings);
+
                 // Keep track of LAVFilters instances in runtime mode
                 s_instances.AddTail(*ppBF);
             }
@@ -231,6 +233,27 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
     }
 
     return hr;
+}
+
+void CFGFilterLAVSplitterBase::SetEnabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings)
+{
+    // We turn off all formats by default to ensure that we won't hijack other filters
+    LPSTR* formats;
+    UINT nFormats;
+    if (SUCCEEDED(pLAVFSettings->GetFormats(&formats, &nFormats))) {
+        for (UINT i = 0; i < nFormats; i++) {
+            pLAVFSettings->SetFormatEnabled(formats[i], FALSE);
+            // Free the memory immediately since we won't need it later
+            CoTaskMemFree(formats[i]);
+        }
+        CoTaskMemFree(formats);
+    }
+    // We turn on only the formats specified explicitly
+    POSITION pos = m_formats.GetHeadPosition();
+    while (pos) {
+        const CStringA& format = m_formats.GetNext(pos);
+        pLAVFSettings->SetFormatEnabled(format, TRUE);
+    }
 }
 
 void CFGFilterLAVSplitterBase::ShowPropertyPages(CWnd* pParendWnd)

@@ -1346,13 +1346,15 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     CFGFilterLAV::ResetInternalInstances();
 
     // Prepare LAVFilters wrappers
-    CAutoPtr<CFGFilterLAV> pFGLAVSplitterSource(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER_SOURCE));
-    CAutoPtr<CFGFilterLAV> pFGLAVSplitter(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_ABOVE_DSHOW));
-    CAutoPtr<CFGFilterLAV> pFGLAVSplitterLM(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true));
+    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterSource(static_cast<CFGFilterLAVSplitterBase*>(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER_SOURCE)));
+    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitter(static_cast<CFGFilterLAVSplitterBase*>(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_ABOVE_DSHOW)));
+    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterLM(static_cast<CFGFilterLAVSplitterBase*>(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true)));
     CAutoPtr<CFGFilterLAV> pFGLAVVideo(CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_ABOVE_DSHOW));
     CAutoPtr<CFGFilterLAV> pFGLAVVideoLM(CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_DO_USE, true));
     CAutoPtr<CFGFilterLAV> pFGLAVAudio(CFGFilterLAV::CreateFilter(CFGFilterLAV::AUDIO_DECODER, MERIT64_ABOVE_DSHOW));
     CAutoPtr<CFGFilterLAV> pFGLAVAudioLM(CFGFilterLAV::CreateFilter(CFGFilterLAV::AUDIO_DECODER, MERIT64_DO_USE, true));
+
+    CFGFilterLAVSplitterBase* pFGLAVSplitterBase;
 
     // Source filters
 
@@ -1432,6 +1434,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (src[SRC_AVI]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,52494646,8,4,,41564920"));
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,52494646,8,4,,41564958"));
+        pFGLAVSplitterSource->AddFormat("avi");
     }
 #endif
 
@@ -1444,24 +1447,28 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,12,ffffffff00000000ffffffff,77696465027fe3706d646174")); // wide ? mdat
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("3,3,,000001")); // raw mpeg4 video
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".mov"));
+        pFGLAVSplitterSource->AddFormat("mp4");
     }
 #endif
 
 #if INTERNAL_SOURCEFILTER_FLV
     if (src[SRC_FLV]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,464C5601")); // FLV (v1)
+        pFGLAVSplitterSource->AddFormat("flv");
     }
 #endif
 
 #if INTERNAL_SOURCEFILTER_MATROSKA
     if (src[SRC_MATROSKA]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,1A45DFA3"));
+        pFGLAVSplitterSource->AddFormat("matroska");
     }
 #endif
 
 #if INTERNAL_SOURCEFILTER_REALMEDIA
     if (src[SRC_REALMEDIA]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,2E524D46"));
+        pFGLAVSplitterSource->AddFormat("rm");
     }
 #endif
 
@@ -1471,6 +1478,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,2,,12AF"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".fli"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".flc"));
+        pFGLAVSplitterSource->AddFormat("flic");
     }
 #endif
 
@@ -1478,12 +1486,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (src[SRC_FLAC]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,664C6143"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".flac"));
+        pFGLAVSplitterSource->AddFormat("flac");
     }
 #endif
 
 #if INTERNAL_SOURCEFILTER_OGG
     if (src[SRC_OGG]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,4F676753"));
+        pFGLAVSplitterSource->AddFormat("ogg");
     }
 #endif
 
@@ -1498,6 +1508,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,8,,4D504C5330323030"));  // MPLS0200
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,8,,4D504C5330313030"));  // MPLS0100
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".ts")); // for some broken .ts
+        pFGLAVSplitterSource->AddFormat("mpeg");
+        pFGLAVSplitterSource->AddFormat("mpegts");
+        pFGLAVSplitterSource->AddFormat("mpegraw");
     }
 #endif
 
@@ -1511,6 +1524,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".ac3"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".dts"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".eac3"));
+        pFGLAVSplitterSource->AddFormat("ac3");
+        pFGLAVSplitterSource->AddFormat("dts");
+        pFGLAVSplitterSource->AddFormat("dtshd");
+        pFGLAVSplitterSource->AddFormat("eac3");
     }
 #endif
 
@@ -1518,6 +1535,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (src[SRC_MPA]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,2,FFE0,FFE0"));
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,10,FFFFFF00000080808080,49443300000000000000"));
+        pFGLAVSplitterSource->AddFormat("mp3");
     }
 #endif
 
@@ -1548,46 +1566,56 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #endif
 
 #if INTERNAL_SOURCEFILTER_MATROSKA
-    pFGF = src[SRC_MATROSKA] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Matroska);
+    pFGLAVSplitterBase = src[SRC_MATROSKA] ? pFGLAVSplitter : pFGLAVSplitterLM;
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Matroska);
+    pFGLAVSplitterBase->AddFormat("matroska");
 #endif
 
 #if INTERNAL_SOURCEFILTER_REALMEDIA
-    pFGF = src[SRC_REALMEDIA] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RealMedia);
+    pFGLAVSplitterBase = src[SRC_REALMEDIA] ? pFGLAVSplitter : pFGLAVSplitterLM;
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RealMedia);
+    pFGLAVSplitterBase->AddFormat("rm");
 #endif
 
 #if INTERNAL_SOURCEFILTER_AVI
-    pFGF = src[SRC_AVI] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
+    pFGLAVSplitterBase = src[SRC_AVI] ? pFGLAVSplitter : pFGLAVSplitterLM;
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
+    pFGLAVSplitterBase->AddFormat("avi");
 #endif
 
 #if INTERNAL_SOURCEFILTER_OGG
-    pFGF = src[SRC_OGG] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
+    pFGLAVSplitterBase = src[SRC_OGG] ? pFGLAVSplitter : pFGLAVSplitterLM;
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
+    pFGLAVSplitterBase->AddFormat("ogg");
 #endif
 
 #if INTERNAL_SOURCEFILTER_MPEG
-    pFGF = src[SRC_MPEG] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1System);
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
+    pFGLAVSplitterBase = src[SRC_MPEG] ? pFGLAVSplitter : pFGLAVSplitterLM;
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1System);
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
+    pFGLAVSplitterBase->AddFormat("mpeg");
+    pFGLAVSplitterBase->AddFormat("mpegts");
+    pFGLAVSplitterBase->AddFormat("mpegraw");
 #endif
 
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
-    pFGF = src[SRC_MPA] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
+    pFGLAVSplitterBase = src[SRC_MPA] ? pFGLAVSplitter : pFGLAVSplitterLM;
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
+    pFGLAVSplitterBase->AddFormat("mp3");
 #endif
 
 #if INTERNAL_SOURCEFILTER_MP4
-    pFGF = src[SRC_MP4] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
+    pFGLAVSplitterBase = src[SRC_MP4] ? pFGLAVSplitter : pFGLAVSplitterLM;
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
+    pFGLAVSplitterBase->AddFormat("mp4");
 #endif
 
 #if INTERNAL_SOURCEFILTER_FLV
-    pFGF = src[SRC_FLV] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_FLV);
+    pFGLAVSplitterBase = src[SRC_FLV] ? pFGLAVSplitter : pFGLAVSplitterLM;
+    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_FLV);
+    pFGLAVSplitterBase->AddFormat("flv");
 #endif
 
     // Add LAV Splitter if needed

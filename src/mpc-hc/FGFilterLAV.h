@@ -88,7 +88,11 @@ public:
 class CFGFilterLAVSplitterBase : public CFGFilterLAV
 {
 protected:
+    CAtlList<CStringA> m_formats;
+
     CFGFilterLAVSplitterBase(CString path, const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
+
+    void SetEnabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings);
 
 public:
     struct Settings {
@@ -121,6 +125,10 @@ public:
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 
     static void ShowPropertyPages(CWnd* pParendWnd);
+
+    void AddFormat(CStringA format) {
+        m_formats.AddTail(format);
+    }
 };
 
 class CFGFilterLAVSplitter : public CFGFilterLAVSplitterBase
