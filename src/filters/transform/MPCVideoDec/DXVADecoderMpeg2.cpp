@@ -49,9 +49,9 @@ CDXVADecoderMpeg2::~CDXVADecoderMpeg2()
 
 void CDXVADecoderMpeg2::Init()
 {
-    memset(&m_PictureParams, 0, sizeof(m_PictureParams));
-    memset(&m_SliceInfo,     0, sizeof(m_SliceInfo));
-    memset(&m_QMatrixData,   0, sizeof(m_QMatrixData));
+    ZeroMemory(&m_PictureParams, sizeof(m_PictureParams));
+    ZeroMemory(&m_SliceInfo, sizeof(m_SliceInfo));
+    ZeroMemory(&m_QMatrixData, sizeof(m_QMatrixData));
 
     m_nMaxWaiting           = 5;
     m_wRefPictureIndex[0]   = NO_REF_FRAME;

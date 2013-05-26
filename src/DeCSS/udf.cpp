@@ -218,7 +218,7 @@ tp_udf_file udf_get_sub(const HANDLE hDrive, tp_udf_file f)
                     return nullptr;
                 }
 
-                memset(newf, 0, sizeof(*newf));
+                ZeroMemory(newf, sizeof(*newf));
                 strcpy_s(newf->name, f->name); // maybe just ""?
                 newf->sec_size = f->sec_size;
                 newf->partition_lba = f->partition_lba;

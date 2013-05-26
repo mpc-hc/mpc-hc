@@ -563,7 +563,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
             // PPS and SPS can be present on differents packets
             // and can also be split into multiple packets
             if (!avch.Lookup(pid)) {
-                memset(&avch[pid], 0, sizeof(CMpegSplitterFile::avchdr));
+                ZeroMemory(&avch[pid], sizeof(CMpegSplitterFile::avchdr));
             }
 #if defined(MVC_SUPPORT)
             if (!m_streams[video].Find(s) && !m_streams[stereo].Find(s) && Read(avch[pid], len, &s.mt)) {
@@ -959,7 +959,7 @@ void CMpegSplitterFile::UpdatePrograms(const tshdr& h, bool UpdateLang)
                 int max_len = h.bytes - 9;
 
                 if (len > max_len) {
-                    memset(pPair->m_value.ts_buffer, 0, sizeof(pPair->m_value.ts_buffer));
+                    ZeroMemory(pPair->m_value.ts_buffer, sizeof(pPair->m_value.ts_buffer));
                     pPair->m_value.ts_len_cur = max_len;
                     pPair->m_value.ts_len_packet = len;
                     memcpy(pPair->m_value.ts_buffer, buffer, max_len);
@@ -987,7 +987,7 @@ void CMpegSplitterFile::UpdatePrograms(const tshdr& h, bool UpdateLang)
 void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLang)
 {
     if (CAtlMap<WORD, program>::CPair* pPair = m_programs.Lookup(pid)) {
-        memset(pPair->m_value.streams, 0, sizeof(pPair->m_value.streams));
+        ZeroMemory(pPair->m_value.streams, sizeof(pPair->m_value.streams));
 
         int len = gb.GetSize();
 

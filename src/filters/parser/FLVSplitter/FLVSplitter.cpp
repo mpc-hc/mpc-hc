@@ -308,7 +308,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 mt.majortype = MEDIATYPE_Audio;
                 mt.formattype = FORMAT_WaveFormatEx;
                 WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX));
-                memset(wfe, 0, sizeof(WAVEFORMATEX));
+                ZeroMemory(wfe, sizeof(WAVEFORMATEX));
                 wfe->nSamplesPerSec = 44100 * (1 << at.SoundRate) / 8;
                 wfe->wBitsPerSample = 8 * (at.SoundSize + 1);
                 wfe->nChannels = at.SoundType + 1;
@@ -382,7 +382,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         };
 
                         wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + configSize);
-                        memset(wfe, 0, mt.FormatLength());
+                        ZeroMemory(wfe, mt.FormatLength());
                         wfe->nSamplesPerSec = sampleRates[iSampleRate];
                         wfe->wBitsPerSample = 16;
                         wfe->nChannels      = channels[iChannels];
@@ -406,7 +406,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 mt.majortype = MEDIATYPE_Video;
                 mt.formattype = FORMAT_VideoInfo;
                 VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-                memset(vih, 0, sizeof(VIDEOINFOHEADER));
+                ZeroMemory(vih, sizeof(VIDEOINFOHEADER));
 
                 BITMAPINFOHEADER* bih = &vih->bmiHeader;
 
@@ -500,7 +500,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
                         if (arx && arx != w || ary && ary != h) {
                             VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
-                            memset(vih2, 0, sizeof(VIDEOINFOHEADER2));
+                            ZeroMemory(vih2, sizeof(VIDEOINFOHEADER2));
                             vih2->dwPictAspectRatioX = arx;
                             vih2->dwPictAspectRatioY = ary;
                             bih = &vih2->bmiHeader;
@@ -537,7 +537,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
                         mt.formattype = FORMAT_MPEG2Video;
                         MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + headerSize);
-                        memset(vih, 0, mt.FormatLength());
+                        ZeroMemory(vih, mt.FormatLength());
                         vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
                         vih->hdr.bmiHeader.biPlanes = 1;
                         vih->hdr.bmiHeader.biBitCount = 24;

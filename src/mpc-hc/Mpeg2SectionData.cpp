@@ -47,7 +47,7 @@ CMpeg2DataParser::CMpeg2DataParser(IBaseFilter* pFilter)
 {
     m_pData = pFilter;
 
-    memset(&m_Filter, 0, sizeof(m_Filter));
+    ZeroMemory(&m_Filter, sizeof(m_Filter));
     m_Filter.bVersionNumber = 1;
     m_Filter.wFilterSize = MPEG2_FILTER_VERSION_1_SIZE;
     m_Filter.fSpecifySectionNumber = TRUE;

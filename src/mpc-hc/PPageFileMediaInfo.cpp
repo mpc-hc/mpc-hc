@@ -126,7 +126,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
     }
 
     LOGFONT lf;
-    memset(&lf, 0, sizeof(lf));
+    ZeroMemory(&lf, sizeof(lf));
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
     // The empty string will fallback to the first font that matches the other specified attributes.
     LPCTSTR fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };

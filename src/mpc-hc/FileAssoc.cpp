@@ -294,7 +294,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
     HRESULT hr = S_OK;
     TCHAR   buff[MAX_PATH];
     ULONG   len = _countof(buff);
-    memset(buff, 0, sizeof(buff));
+    ZeroMemory(buff, sizeof(buff));
 
     if (!m_pAAR) {
         m_pAAR = CFileAssoc::CreateRegistrationManager();
@@ -324,7 +324,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                 if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, CString(pszCurrentAssociation) + _T("\\DefaultIcon")))
                 {
                     len = sizeof(buff);
-                    memset(buff, 0, len);
+                    ZeroMemory(buff, sizeof(buff));
                     if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len) && !CString(buff).Trim().IsEmpty())
                     {
                         if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon")))
@@ -357,7 +357,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
             }
 
             len = _countof(buff);
-            memset(buff, 0, sizeof(buff));
+            ZeroMemory(buff, sizeof(buff));
             if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len) && !CString(buff).Trim().IsEmpty()) {
                 extOldReg = buff;
             }
@@ -372,7 +372,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                 if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, extoldreg + _T("\\DefaultIcon")))
                 {
                     len = sizeof(buff);
-                    memset(buff, 0, len);
+                    ZeroMemory(buff, sizeof(buff));
                     if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len) && !CString(buff).Trim().IsEmpty())
                         extOldIcon = buff;
                 }
@@ -392,7 +392,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
         } else {
             // Get previous association
             len = _countof(buff);
-            memset(buff, 0, sizeof(buff));
+            ZeroMemory(buff, sizeof(buff));
             if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
                 return false;
             }
@@ -431,7 +431,7 @@ bool CFileAssoc::IsRegistered(CString ext)
         CRegKey key;
         TCHAR   buff[MAX_PATH];
         ULONG   len = _countof(buff);
-        memset(buff, 0, sizeof(buff));
+        ZeroMemory(buff, sizeof(buff));
 
         if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext, KEY_READ)
                 || ERROR_SUCCESS != key.QueryStringValue(nullptr, buff, &len)

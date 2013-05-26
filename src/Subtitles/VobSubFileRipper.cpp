@@ -134,7 +134,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
     f.Seek(0x254, CFile::begin);
 
     WORD ids[32];
-    memset(ids, 0, sizeof(ids));
+    ZeroMemory(ids, sizeof(ids));
 
     int len = 0;
     ReadBEw(len);
@@ -1140,7 +1140,7 @@ STDMETHODIMP CVobSubFileRipper::Abort(bool fSavePartial)
 void VSFRipperData::Reset()
 {
     vidsize.SetSize(0, 0);
-    memset(&vidinfo, 0, sizeof(vidinfo));
+    ZeroMemory(&vidinfo, sizeof(vidinfo));
     pgcs.RemoveAll();
     iSelPGC = -1;
     fResetTime = fClosedCaption = true;

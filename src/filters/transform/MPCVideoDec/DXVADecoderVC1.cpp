@@ -57,8 +57,8 @@ CDXVADecoderVC1::~CDXVADecoderVC1()
 
 void CDXVADecoderVC1::Init()
 {
-    memset(&m_PictureParams, 0, sizeof(m_PictureParams));
-    memset(&m_SliceInfo, 0, sizeof(m_SliceInfo));
+    ZeroMemory(&m_PictureParams, sizeof(m_PictureParams));
+    ZeroMemory(&m_SliceInfo, sizeof(m_SliceInfo));
 
     m_nMaxWaiting = 5;
     m_wRefPictureIndex[0] = NO_REF_FRAME;
@@ -286,7 +286,7 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
     // Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
     nDummy  = 128 - (nSize % 128);
 
-    memset(pDXVABuffer + nSize, 0, nDummy);
+    ZeroMemory(pDXVABuffer + nSize, nDummy);
     nSize  += nDummy;
 }
 
@@ -314,7 +314,7 @@ HRESULT CDXVADecoderVC1::DisplayStatus()
     HRESULT hr = E_INVALIDARG;
     DXVA_Status_VC1 Status;
 
-    memset(&Status, 0, sizeof(Status));
+    ZeroMemory(&Status, sizeof(Status));
 
     if (SUCCEEDED(hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)))) {
         Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;

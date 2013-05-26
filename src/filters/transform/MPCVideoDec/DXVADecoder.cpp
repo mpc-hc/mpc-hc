@@ -83,15 +83,15 @@ void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEnt
     m_dwNumBuffersInfo  = 0;
     m_bNeedChangeAspect = true;
 
-    memset(&m_DXVA1Config, 0, sizeof(m_DXVA1Config));
-    memset(&m_DXVA1BufferDesc, 0, sizeof(m_DXVA1BufferDesc));
+    ZeroMemory(&m_DXVA1Config, sizeof(m_DXVA1Config));
+    ZeroMemory(&m_DXVA1BufferDesc, sizeof(m_DXVA1BufferDesc));
     m_DXVA1Config.guidConfigBitstreamEncryption = DXVA_NoEncrypt;
     m_DXVA1Config.guidConfigMBcontrolEncryption = DXVA_NoEncrypt;
     m_DXVA1Config.guidConfigResidDiffEncryption = DXVA_NoEncrypt;
     m_DXVA1Config.bConfigBitstreamRaw           = 2;
 
-    memset(&m_DXVA1BufferInfo, 0, sizeof(m_DXVA1BufferInfo));
-    memset(&m_ExecuteParams, 0, sizeof(m_ExecuteParams));
+    ZeroMemory(&m_DXVA1BufferInfo, sizeof(m_DXVA1BufferInfo));
+    ZeroMemory(&m_ExecuteParams, sizeof(m_ExecuteParams));
     Flush();
 }
 
@@ -101,7 +101,7 @@ void CDXVADecoder::AllocExecuteParams(int nSize)
     m_ExecuteParams.pCompressedBuffers = DEBUG_NEW DXVA2_DecodeBufferDesc[nSize];
 
     for (int i = 0; i < nSize; i++) {
-        memset(&m_ExecuteParams.pCompressedBuffers[i], 0, sizeof(DXVA2_DecodeBufferDesc));
+        ZeroMemory(&m_ExecuteParams.pCompressedBuffers[i], sizeof(DXVA2_DecodeBufferDesc));
     }
 }
 
@@ -142,7 +142,7 @@ HRESULT CDXVADecoder::ConfigureDXVA1()
     DXVA_ConfigPictureDecode ConfigRequested;
 
     if (m_pAMVideoAccelerator) {
-        memset(&ConfigRequested, 0, sizeof(ConfigRequested));
+        ZeroMemory(&ConfigRequested, sizeof(ConfigRequested));
         ConfigRequested.guidConfigBitstreamEncryption = DXVA_NoEncrypt;
         ConfigRequested.guidConfigMBcontrolEncryption = DXVA_NoEncrypt;
         ConfigRequested.guidConfigResidDiffEncryption = DXVA_NoEncrypt;
@@ -367,8 +367,8 @@ HRESULT CDXVADecoder::QueryStatus(PVOID LPDXVAStatus, UINT nSize)
             break;
 
         case ENGINE_DXVA2:
-            memset(&ExecuteParams, 0, sizeof(ExecuteParams));
-            memset(&ExtensionData, 0, sizeof(ExtensionData));
+            ZeroMemory(&ExecuteParams, sizeof(ExecuteParams));
+            ZeroMemory(&ExtensionData, sizeof(ExtensionData));
             ExecuteParams.pExtensionData        = &ExtensionData;
             ExtensionData.pPrivateOutputData    = LPDXVAStatus;
             ExtensionData.PrivateOutputDataSize = nSize;

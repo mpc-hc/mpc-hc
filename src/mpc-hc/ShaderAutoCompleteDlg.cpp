@@ -142,7 +142,7 @@ BOOL CShaderAutoCompleteDlg::OnInitDialog()
                         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
                         nullptr, nullptr, nullptr, nullptr);
 
-    memset(&m_ti, 0, sizeof(m_ti));
+    ZeroMemory(&m_ti, sizeof(m_ti));
     m_ti.cbSize = sizeof(TOOLINFO);
     m_ti.uFlags = TTF_ABSOLUTE | TTF_TRACK;
     m_ti.hwnd = m_hWnd;

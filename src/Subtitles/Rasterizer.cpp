@@ -470,7 +470,7 @@ bool Rasterizer::ScanConvert()
         TRACE(_T("Error in Rasterizer::ScanConvert: mpScanBuffer is NULL"));
         return false;
     }
-    memset(mpScanBuffer, 0, mHeight * sizeof(unsigned int));
+    ZeroMemory(mpScanBuffer, mHeight * sizeof(unsigned int));
 
     // Scan convert the outline.  Yuck, Bezier curves....
 
@@ -797,7 +797,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
         return false;
     }
 
-    memset(mpOverlayBuffer, 0, 2 * mOverlayWidth * mOverlayHeight);
+    ZeroMemory(mpOverlayBuffer, 2 * mOverlayWidth * mOverlayHeight);
 
     // Are we doing a border?
 

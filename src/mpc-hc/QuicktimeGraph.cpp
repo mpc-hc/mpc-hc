@@ -531,7 +531,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
                 long bmiColors[256];
             } bmi;
 
-            memset(&bmi, 0, sizeof(bmi));
+            ZeroMemory(&bmi, sizeof(bmi));
 
             //int bpp = m_dc.GetDeviceCaps(BITSPIXEL);
             bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);

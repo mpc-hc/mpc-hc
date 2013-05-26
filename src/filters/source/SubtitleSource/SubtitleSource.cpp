@@ -611,7 +611,7 @@ HRESULT CSubtitleSourceUTF8::GetMediaType(CMediaType* pmt)
     pmt->SetSubtype(&MEDIASUBTYPE_UTF8);
     pmt->SetFormatType(&FORMAT_SubtitleInfo);
     SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO));
-    memset(psi, 0, pmt->FormatLength());
+    ZeroMemory(psi, pmt->FormatLength());
     strcpy_s(psi->IsoLang, "eng");
 
     return NOERROR;
@@ -657,7 +657,7 @@ HRESULT CSubtitleSourceSSA::GetMediaType(CMediaType* pmt)
     f.Seek(3, CFile::begin);
 
     SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO) + len);
-    memset(psi, 0, pmt->FormatLength());
+    ZeroMemory(psi, pmt->FormatLength());
     psi->dwOffset = sizeof(SUBTITLEINFO);
     strcpy_s(psi->IsoLang, "eng");
     f.Read(pmt->pbFormat + psi->dwOffset, len);
@@ -707,7 +707,7 @@ HRESULT CSubtitleSourceASS::GetMediaType(CMediaType* pmt)
     int len = (int)f.GetLength();
 
     SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO) + len);
-    memset(psi, 0, pmt->FormatLength());
+    ZeroMemory(psi, pmt->FormatLength());
     psi->dwOffset = sizeof(SUBTITLEINFO);
     strcpy_s(psi->IsoLang, "eng");
     f.Read(pmt->pbFormat + psi->dwOffset, len);
@@ -736,7 +736,7 @@ HRESULT CSubtitleSourceUSF::GetMediaType(CMediaType* pmt)
     pmt->SetSubtype(&MEDIASUBTYPE_USF);
     pmt->SetFormatType(&FORMAT_SubtitleInfo);
     SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO));
-    memset(psi, 0, pmt->FormatLength());
+    ZeroMemory(psi, pmt->FormatLength());
     strcpy_s(psi->IsoLang, "eng");
     // TODO: ...
 
@@ -761,7 +761,7 @@ HRESULT CSubtitleSourcePreview::GetMediaType(CMediaType* pmt)
     pmt->SetSubtype(&MEDIASUBTYPE_RGB32);
     pmt->SetFormatType(&FORMAT_VideoInfo);
     VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-    memset(pvih, 0, pmt->FormatLength());
+    ZeroMemory(pvih, pmt->FormatLength());
     pvih->bmiHeader.biSize = sizeof(pvih->bmiHeader);
     pvih->bmiHeader.biWidth = _WIDTH;
     pvih->bmiHeader.biHeight = _HEIGHT;
@@ -791,7 +791,7 @@ HRESULT CSubtitleSourceARGB::GetMediaType(CMediaType* pmt)
     pmt->SetSubtype(&MEDIASUBTYPE_ARGB32);
     pmt->SetFormatType(&FORMAT_VideoInfo);
     VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-    memset(pvih, 0, pmt->FormatLength());
+    ZeroMemory(pvih, pmt->FormatLength());
     pvih->bmiHeader.biSize = sizeof(pvih->bmiHeader);
     // TODO: read w,h,fps from a config file or registry
     pvih->bmiHeader.biWidth = _WIDTH;

@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,7 +39,7 @@ public:
 
     bool SetCount(size_t nNewSize, int nGrowBy = - 1) {
         if (__super::SetCount(nNewSize + m_padsize, nGrowBy)) {
-            memset(GetData() + nNewSize, 0, m_padsize);
+            ZeroMemory(GetData() + nNewSize, m_padsize);
             return true;
         }
         return false;

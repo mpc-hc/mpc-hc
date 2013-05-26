@@ -97,7 +97,7 @@ public:
         BYTE id_ext;
 
         struct peshdr() {
-            memset(this, 0, sizeof(*this));
+            ZeroMemory(this, sizeof(*this));
         }
     };
 
@@ -380,7 +380,7 @@ public:
             , crop_right(0)
             , crop_top(0)
             , crop_bottom(0) {
-            memset(spspps, 0, sizeof(spspps));
+            ZeroMemory(spspps, sizeof(spspps));
             lastid = 0;
             views = 1;
             AvgTimePerFrame = 0;

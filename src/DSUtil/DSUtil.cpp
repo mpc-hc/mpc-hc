@@ -55,7 +55,7 @@ void DumpStreamConfig(const TCHAR* fn, IAMStreamConfig* pAMVSCCap)
             AM_MEDIA_TYPE* pmt = nullptr;
 
             VIDEO_STREAM_CONFIG_CAPS caps;
-            memset(&caps, 0, sizeof(caps));
+            ZeroMemory(&caps, sizeof(caps));
 
             s.Format(_T("%d\n"), i);
             f.WriteString(s);
@@ -891,7 +891,7 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
         PAVIFILE pfile;
         if (AVIFileOpen(&pfile, fn, OF_SHARE_DENY_WRITE, 0L) == 0) {
             AVIFILEINFO afi;
-            memset(&afi, 0, sizeof(afi));
+            ZeroMemory(&afi, sizeof(afi));
             AVIFileInfo(pfile, &afi, sizeof(AVIFILEINFO));
 
             CComPtr<IAVIStream> pavi;
@@ -1015,7 +1015,7 @@ void memsetw(void* dst, unsigned short c, size_t nbytes)
 bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih)
 {
     if (pmt && bih) {
-        memset(bih, 0, sizeof(*bih));
+        ZeroMemory(bih, sizeof(*bih));
 
         if (pmt->formattype == FORMAT_VideoInfo) {
             VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->pbFormat;
@@ -1157,7 +1157,7 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
         mt.formattype = FORMAT_MPEG2Video;
 
         MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader));
-        memset(mt.Format(), 0, mt.FormatLength());
+        ZeroMemory(mt.Format(), mt.FormatLength());
         vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
         vih->hdr.bmiHeader.biWidth = w;
         vih->hdr.bmiHeader.biHeight = h;
@@ -1188,7 +1188,7 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
     mt.formattype = FORMAT_MPEG2Video;
 
     MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + len);
-    memset(mt.Format(), 0, mt.FormatLength());
+    ZeroMemory(mt.Format(), mt.FormatLength());
     vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
     vih->hdr.bmiHeader.biWidth = w;
     vih->hdr.bmiHeader.biHeight = h;
@@ -2642,8 +2642,8 @@ void TracePinInfo(IPin* pPin)
     PIN_INFO      ConnectedInfo;
     CComPtr<IPin> pConnected;
 
-    memset(&ConnectedInfo, 0, sizeof(ConnectedInfo));
-    memset(&ConnectedFilterInfo, 0, sizeof(ConnectedFilterInfo));
+    ZeroMemory(&ConnectedInfo, sizeof(ConnectedInfo));
+    ZeroMemory(&ConnectedFilterInfo, sizeof(ConnectedFilterInfo));
     if (SUCCEEDED(pPin->ConnectedTo(&pConnected))) {
         pConnected->QueryPinInfo(&ConnectedInfo);
         ConnectedInfo.pFilter->QueryFilterInfo(&ConnectedFilterInfo);

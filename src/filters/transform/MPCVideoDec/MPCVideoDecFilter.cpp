@@ -1503,7 +1503,7 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
     }
 
     m_nPosB = 1;
-    memset(&m_BFrames, 0, sizeof(m_BFrames));
+    ZeroMemory(&m_BFrames, sizeof(m_BFrames));
     m_rtLastStart = 0;
     m_nCountEstimated = 0;
     m_dRate = dRate;
@@ -1751,7 +1751,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
             // Note: If the first 23 bits of the additional bytes are not 0, then damaged
             // MPEG bitstreams could cause overread and segfault.
             memcpy(m_pFFBuffer, pDataIn, nSize);
-            memset(m_pFFBuffer + nSize, 0, FF_INPUT_BUFFER_PADDING_SIZE);
+            ZeroMemory(m_pFFBuffer + nSize, FF_INPUT_BUFFER_PADDING_SIZE);
 
             avpkt.data = m_pFFBuffer;
             avpkt.size = nSize;
@@ -2113,7 +2113,7 @@ void CMPCVideoDecFilter::ReorderBFrames(REFERENCE_TIME& rtStart, REFERENCE_TIME&
 
 void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc* pDesc)
 {
-    memset(pDesc, 0, sizeof(DXVA2_VideoDesc));
+    ZeroMemory(pDesc, sizeof(DXVA2_VideoDesc));
     pDesc->SampleWidth = PictWidthRounded();
     pDesc->SampleHeight = PictHeightRounded();
     pDesc->Format = D3DFMT_A8R8G8B8;

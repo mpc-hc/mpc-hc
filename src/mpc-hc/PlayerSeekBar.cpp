@@ -65,7 +65,7 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
     m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
     m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
 
-    memset(&m_ti, 0, sizeof(TOOLINFO));
+    ZeroMemory(&m_ti, sizeof(TOOLINFO));
     m_ti.cbSize = sizeof(TOOLINFO);
     m_ti.uFlags = TTF_IDISHWND | TTF_TRACK | TTF_ABSOLUTE;
     m_ti.hwnd = m_hWnd;

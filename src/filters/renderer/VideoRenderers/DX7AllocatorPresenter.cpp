@@ -491,7 +491,7 @@ STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     }
 
     BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
-    memset(bih, 0, sizeof(BITMAPINFOHEADER));
+    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
     bih->biSize = sizeof(BITMAPINFOHEADER);
     bih->biWidth = ddsd.dwWidth;
     bih->biHeight = ddsd.dwHeight;

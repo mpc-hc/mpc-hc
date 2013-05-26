@@ -130,7 +130,7 @@ CRealMediaWindowlessSite::CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pConte
     m_size.cx = m_size.cy = 0;
     m_position.x = m_position.y = 0;
 
-    memset(&m_lastBitmapInfo, 0, sizeof(m_lastBitmapInfo));
+    ZeroMemory(&m_lastBitmapInfo, sizeof(m_lastBitmapInfo));
 
     hr = S_OK;
 
@@ -267,7 +267,7 @@ void CRealMediaWindowlessSite::ComputeRegion()
 void CRealMediaWindowlessSite::SubtractSite(REGION* pRegion)
 {
     PNxPoint topLeft;
-    memset(&topLeft, 0, sizeof(PNxPoint));
+    ZeroMemory(&topLeft, sizeof(PNxPoint));
     GetTopLeft(&topLeft);
 
     REGION* pTempRegion = RMACreateRectRegion(topLeft.x, topLeft.y, topLeft.x + m_size.cx, topLeft.y + m_size.cy);
@@ -674,7 +674,7 @@ STDMETHODIMP CRealMediaWindowlessSite::OptimizedBlt(UCHAR* /*IN*/ pImageBits, RE
     }
 
     PNxPoint origin;
-    memset(&origin, 0, sizeof(PNxPoint));
+    ZeroMemory(&origin, sizeof(PNxPoint));
     GetTopLeft(&origin);
     PNxRect adjustedDestRect;
     adjustedDestRect.left   = rDestRect.left + origin.x;
@@ -708,7 +708,7 @@ STDMETHODIMP CRealMediaWindowlessSite::OptimizedBlt(UCHAR* /*IN*/ pImageBits, RE
 
 STDMETHODIMP CRealMediaWindowlessSite::EndOptimizedBlt()
 {
-    memset(&m_bitmapInfo, 0, sizeof(m_bitmapInfo));
+    ZeroMemory(&m_bitmapInfo, sizeof(m_bitmapInfo));
     return PNR_OK;
 }
 

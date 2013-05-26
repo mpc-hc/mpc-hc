@@ -244,7 +244,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             }
             mt.formattype = FORMAT_VideoInfo;
             VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + (ULONG)s->strf.GetCount() - sizeof(BITMAPINFOHEADER));
-            memset(mt.Format(), 0, mt.FormatLength());
+            ZeroMemory(mt.Format(), mt.FormatLength());
             memcpy(&pvih->bmiHeader, s->strf.GetData(), s->strf.GetCount());
             if (s->strh.dwRate > 0) {
                 pvih->AvgTimePerFrame = 10000000ui64 * s->strh.dwScale / s->strh.dwRate;
@@ -410,7 +410,7 @@ bool CAviSplitterFilter::DemuxInit()
 
         CAutoVectorPtr<UINT64> pSize;
         pSize.Allocate(m_pFile->m_avih.dwStreams);
-        memset((UINT64*)pSize, 0, sizeof(UINT64)*m_pFile->m_avih.dwStreams);
+        ZeroMemory((UINT64*)pSize, sizeof(UINT64)*m_pFile->m_avih.dwStreams);
         m_pFile->Seek(0);
         ReIndex(m_pFile->GetLength(), pSize);
 
@@ -498,7 +498,7 @@ HRESULT CAviSplitterFilter::ReIndex(__int64 end, UINT64* pSize)
 
 void CAviSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
-    memset((DWORD*)m_tFrame, 0, m_pFile->m_avih.dwStreams * sizeof(DWORD));
+    ZeroMemory((DWORD*)m_tFrame, m_pFile->m_avih.dwStreams * sizeof(DWORD));
     m_pFile->Seek(0);
 
     DbgLog((LOG_TRACE, 0, _T("Seek: %I64d"), rt / 10000));
@@ -523,7 +523,7 @@ bool CAviSplitterFilter::DemuxLoop()
 
     CAtlArray<BOOL> fDiscontinuity;
     fDiscontinuity.SetCount(m_pFile->m_avih.dwStreams);
-    memset(fDiscontinuity.GetData(), 0, m_pFile->m_avih.dwStreams * sizeof(BOOL));
+    ZeroMemory(fDiscontinuity.GetData(), m_pFile->m_avih.dwStreams * sizeof(BOOL));
 
     while (SUCCEEDED(hr) && !CheckRequest(nullptr)) {
         DWORD curTrack = DWORD_MAX;

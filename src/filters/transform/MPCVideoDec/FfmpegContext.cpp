@@ -294,7 +294,7 @@ int FFH264CheckCompatibility(int nWidth,
 void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, PPS* pps, DWORD nPCIVendor)
 {
     int i, j;
-    memset(pDest, 0, sizeof(DXVA_Qmatrix_H264));
+    ZeroMemory(pDest, sizeof(DXVA_Qmatrix_H264));
     if (nPCIVendor == PCIV_ATI) {
         for (i = 0; i < 6; i++) {
             for (j = 0; j < 16; j++) {

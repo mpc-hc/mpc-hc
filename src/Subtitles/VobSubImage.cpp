@@ -330,7 +330,7 @@ void CVobSubImage::TrimSubImage()
     DWORD* src = (DWORD*)&lpTemp1[offset];
     DWORD* dst = (DWORD*)&lpTemp2[1 + w + 1];
 
-    memset(lpTemp2, 0, (1 + w + 1)*sizeof(RGBQUAD));
+    ZeroMemory(lpTemp2, (1 + w + 1)*sizeof(RGBQUAD));
 
     for (int height = h; height; height--, src += rect.Width()) {
         *dst++ = 0;
@@ -339,7 +339,7 @@ void CVobSubImage::TrimSubImage()
         *dst++ = 0;
     }
 
-    memset(dst, 0, (1 + w + 1)*sizeof(RGBQUAD));
+    ZeroMemory(dst, (1 + w + 1)*sizeof(RGBQUAD));
 
     lpPixels = lpTemp2;
 

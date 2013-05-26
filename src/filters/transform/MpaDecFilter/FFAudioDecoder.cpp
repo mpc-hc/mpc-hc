@@ -174,7 +174,7 @@ CFFAudioDecoder::CFFAudioDecoder()
     , m_pParser(nullptr)
     , m_pFrame(nullptr)
 {
-    memset(&m_raData, 0, sizeof(m_raData));
+    ZeroMemory(&m_raData, sizeof(m_raData));
 }
 
 bool CFFAudioDecoder::Init(enum AVCodecID nCodecId, CTransformInputPin* pInput)
@@ -237,7 +237,7 @@ bool CFFAudioDecoder::Init(enum AVCodecID nCodecId, CTransformInputPin* pInput)
         unsigned extralen  = 0;
         getExtraData((BYTE*)format, &format_type, formatlen, nullptr, &extralen);
 
-        memset(&m_raData, 0, sizeof(m_raData));
+        ZeroMemory(&m_raData, sizeof(m_raData));
 
         if (extralen) {
             if (nCodecId == AV_CODEC_ID_COOK || nCodecId == AV_CODEC_ID_ATRAC3 || nCodecId == AV_CODEC_ID_SIPR) {

@@ -31,7 +31,7 @@ CVideoDecOutputPin::CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFi
     m_pDXVA2Allocator = nullptr;
     m_dwDXVA1SurfaceCount = 0;
     m_GuidDecoderDXVA1 = GUID_NULL;
-    memset(&m_ddUncompPixelFormat, 0, sizeof(m_ddUncompPixelFormat));
+    ZeroMemory(&m_ddUncompPixelFormat, sizeof(m_ddUncompPixelFormat));
 }
 
 CVideoDecOutputPin::~CVideoDecOutputPin()

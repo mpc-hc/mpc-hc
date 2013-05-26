@@ -42,7 +42,7 @@ static long revcolor(long c)
 CMyFont::CMyFont(STSStyle& style)
 {
     LOGFONT lf;
-    memset(&lf, 0, sizeof(lf));
+    ZeroMemory(&lf, sizeof(lf));
     lf <<= style;
     lf.lfHeight = (LONG)(style.fontSize + 0.5);
     lf.lfOutPrecision = OUT_TT_PRECIS;
@@ -747,7 +747,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
     m_inverse = inverse;
     m_cpOffset = cpOffset;
 
-    memset(m_pAlphaMask, 0, size.cx * size.cy);
+    ZeroMemory(m_pAlphaMask, size.cx * size.cy);
 
     Paint(CPoint(0, 0), CPoint(0, 0));
 
@@ -1049,7 +1049,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 
 CSubtitle::CSubtitle()
 {
-    memset(m_effects, 0, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
+    ZeroMemory(m_effects, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
     m_pClipper = nullptr;
     m_clipInverse = false;
     m_scalex = m_scaley = 1;
@@ -1084,7 +1084,7 @@ void CSubtitle::EmptyEffects()
             delete m_effects[i];
         }
     }
-    memset(m_effects, 0, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
+    ZeroMemory(m_effects, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
 }
 
 int CSubtitle::GetFullWidth()
@@ -1304,7 +1304,7 @@ void CSubtitle::CreateClippers(CSize size)
         if (k < h) {
             BYTE* am = &m_pClipper->m_pAlphaMask[k * w];
 
-            memset(m_pClipper->m_pAlphaMask, 0, am - m_pClipper->m_pAlphaMask);
+            ZeroMemory(m_pClipper->m_pAlphaMask, am - m_pClipper->m_pAlphaMask);
 
             for (ptrdiff_t j = k; j < l; j++, a += da) {
                 for (ptrdiff_t i = 0; i < w; i++, am++) {
@@ -1335,7 +1335,7 @@ void CSubtitle::CreateClippers(CSize size)
                 }
             }
 
-            memset(am, 0, (h - j)*w);
+            ZeroMemory(am, (h - j)*w);
         }
     }
 }

@@ -79,7 +79,7 @@ public:
             id = 0;
             version_number = 0;
             size = 0;
-            memset(palette, 0, sizeof(palette));
+            ZeroMemory(palette, sizeof(palette));
         }
     };
 

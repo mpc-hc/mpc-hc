@@ -379,7 +379,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
         CRegKey key;
         if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Media Type\\Extensions\\") + CString(ext), KEY_READ)) {
             ULONG len = _countof(buff);
-            memset(buff, 0, sizeof(buff));
+            ZeroMemory(buff, sizeof(buff));
             LONG ret = key.QueryStringValue(_T("Source Filter"), buff, &len); // QueryStringValue can return ERROR_INVALID_DATA on bogus strings (radlight mpc v1003, fixed in v1004)
             if (ERROR_SUCCESS == ret || ERROR_INVALID_DATA == ret && GUIDFromCString(buff) != GUID_NULL) {
                 GUID clsid = GUIDFromCString(buff);
@@ -2394,7 +2394,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
         TCHAR buff[256];
         ULONG len = sizeof(buff);
-        memset(buff, 0, len);
+        ZeroMemory(buff, sizeof(buff));
 
         CString clsid = _T("{B38C58A0-1809-11D6-A458-EDAE78F1DF12}");
 

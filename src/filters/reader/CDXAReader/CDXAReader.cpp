@@ -298,7 +298,7 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
             FilePointer.QuadPart = RIFFCDXA_HEADER_SIZE + sector * RAW_SECTOR_SIZE;
             SetFilePointerEx(m_hFile, FilePointer, &FilePointer, FILE_BEGIN);
 
-            memset(m_sector, 0, sizeof(m_sector));
+            ZeroMemory(m_sector, sizeof(m_sector));
 
             DWORD NumberOfBytesRead = 0;
 

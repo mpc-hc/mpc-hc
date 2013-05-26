@@ -265,7 +265,7 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
     }
 
     m_nLastFrameNum = -1;
-    memset(m_pPalette, 0, sizeof(m_pPalette));
+    ZeroMemory(m_pPalette, sizeof(m_pPalette));
     m_nBufferSize = m_hdr.width * m_hdr.height * 32 >> 3;
     if (!m_pFrameBuffer.Allocate(m_nBufferSize)) {
         if (phr) {
@@ -500,7 +500,7 @@ HRESULT CFLICStream::GetMediaType(int iPosition, CMediaType* pmt)
     pmt->SetTemporalCompression(TRUE);
 
     VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-    memset(vih, 0, sizeof(VIDEOINFOHEADER));
+    ZeroMemory(vih, sizeof(VIDEOINFOHEADER));
     vih->AvgTimePerFrame = m_AvgTimePerFrame;
     vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
     vih->bmiHeader.biWidth = m_hdr.width;
@@ -622,7 +622,7 @@ void CFLICStream::ExtractFrame(int nFrame)
 
 void CFLICStream::_blackchunk()
 {
-    memset(m_pFrameBuffer, 0, m_nBufferSize);
+    ZeroMemory(m_pFrameBuffer, sizeof(m_nBufferSize));
 }
 
 void CFLICStream::_copychunk()

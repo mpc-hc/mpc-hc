@@ -28,8 +28,8 @@ CCDecoder::CCDecoder(CString fn, CString rawfn) : m_fn(fn), m_rawfn(rawfn)
 
     m_time = 0;
     m_fEndOfCaption = false;
-    memset(m_buff, 0, sizeof(m_buff));
-    memset(m_disp, 0, sizeof(m_disp));
+    ZeroMemory(m_buff, sizeof(m_buff));
+    ZeroMemory(m_disp, sizeof(m_disp));
     m_cursor = CPoint(0, 0);
 
     if (!m_rawfn.IsEmpty()) {
@@ -256,9 +256,9 @@ void CCDecoder::DecodeCC(const BYTE* buff, int len, __int64 time)
 
                 PutChar(charmap[c - 0x20]);
             } else if (buff[i] == 0x94 && buff[i + 1] == 0xae) { // Erase Non-displayed [buffer] Memory
-                memset(m_buff, 0, sizeof(m_buff));
+                ZeroMemory(m_buff, sizeof(m_buff));
             } else if (buff[i] == 0x94 && buff[i + 1] == 0x20) { // Resume Caption Loading
-                memset(m_buff, 0, sizeof(m_buff));
+                ZeroMemory(m_buff, sizeof(m_buff));
             } else if (buff[i] == 0x94 && buff[i + 1] == 0x2f) { // End Of Caption
                 if (memcmp(m_disp, m_buff, sizeof(m_disp)) != 0) {
                     if (m_fEndOfCaption) {
@@ -275,7 +275,7 @@ void CCDecoder::DecodeCC(const BYTE* buff, int len, __int64 time)
                     SaveDisp(time + (i / 2) * 1000 / 30);
                 }
 
-                memset(m_disp, 0, sizeof(m_disp));
+                ZeroMemory(m_disp, sizeof(m_disp));
             } else if (buff[i] == 0x97 && (buff[i + 1] == 0xa1 || buff[i + 1] == 0xa2 || buff[i + 1] == 0x23)) { // Tab Over
                 OffsetCursor(buff[i + 1] & 3, 0);
             } else if (buff[i] == 0x91 || buff[i] == 0x92 || buff[i] == 0x15 || buff[i] == 0x16

@@ -569,7 +569,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     mt.majortype = MEDIATYPE_Video;
                     mt.formattype = FORMAT_VideoInfo;
                     vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + di->GetDataSize());
-                    memset(vih, 0, mt.FormatLength());
+                    ZeroMemory(vih, mt.FormatLength());
                     vih->dwBitRate = video_desc->GetAvgBitrate() / 8;
                     vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
                     vih->bmiHeader.biWidth = biWidth;
@@ -582,7 +582,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             mt.formattype = FORMAT_MPEG2Video;
                             {
                                 MPEG2VIDEOINFO* mvih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
-                                memset(mvih, 0, mt.FormatLength());
+                                ZeroMemory(mvih, mt.FormatLength());
                                 mvih->hdr.bmiHeader.biSize = sizeof(mvih->hdr.bmiHeader);
                                 mvih->hdr.bmiHeader.biWidth = biWidth;
                                 mvih->hdr.bmiHeader.biHeight = biHeight;
@@ -604,7 +604,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             mt.formattype = FORMAT_MPEG2Video;
                             {
                                 MPEG2VIDEOINFO* mvih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
-                                memset(mvih, 0, mt.FormatLength());
+                                ZeroMemory(mvih, mt.FormatLength());
                                 mvih->hdr.bmiHeader.biSize = sizeof(mvih->hdr.bmiHeader);
                                 mvih->hdr.bmiHeader.biWidth = biWidth;
                                 mvih->hdr.bmiHeader.biHeight = biHeight;
@@ -667,7 +667,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     mt.formattype = FORMAT_WaveFormatEx;
 
                     wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + di->GetDataSize());
-                    memset(wfe, 0, mt.FormatLength());
+                    ZeroMemory(wfe, mt.FormatLength());
                     wfe->nSamplesPerSec  = audio_desc->GetSampleRate();
                     wfe->nAvgBytesPerSec = audio_desc->GetAvgBitrate() / 8;
                     wfe->nChannels       = audio_desc->GetChannelCount();
@@ -774,7 +774,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                                 mt.subtype = MEDIASUBTYPE_VOBSUB;
                                 mt.formattype = FORMAT_SubtitleInfo;
                                 SUBTITLEINFO* si = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + hdr.GetLength());
-                                memset(si, 0, mt.FormatLength());
+                                ZeroMemory(si, mt.FormatLength());
                                 si->dwOffset = sizeof(SUBTITLEINFO);
                                 strcpy_s(si->IsoLang, _countof(si->IsoLang), CStringA(TrackLanguage));
                                 wcscpy_s(si->TrackName, _countof(si->TrackName), TrackName);
@@ -809,7 +809,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             m_framesize.cx,
                             m_framesize.cy);
                         SUBTITLEINFO* si = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + hdr.GetLength());
-                        memset(si, 0, mt.FormatLength());
+                        ZeroMemory(si, mt.FormatLength());
                         si->dwOffset = sizeof(SUBTITLEINFO);
                         strcpy_s(si->IsoLang, _countof(si->IsoLang), CStringA(TrackLanguage));
                         wcscpy_s(si->TrackName, _countof(si->TrackName), TrackName);
@@ -844,7 +844,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     mt.formattype = FORMAT_MPEG2Video;
 
                     MPEG2VIDEOINFO* mvih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + size - 7);
-                    memset(mvih, 0, mt.FormatLength());
+                    ZeroMemory(mvih, mt.FormatLength());
                     mvih->hdr.bmiHeader.biSize = sizeof(mvih->hdr.bmiHeader);
                     mvih->hdr.bmiHeader.biWidth = (LONG)avc1->GetWidth();
                     mvih->hdr.bmiHeader.biHeight = (LONG)avc1->GetHeight();
@@ -927,7 +927,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         mt.majortype = MEDIATYPE_Video;
                         mt.formattype = FORMAT_VideoInfo;
                         vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + db.GetDataSize());
-                        memset(vih, 0, mt.FormatLength());
+                        ZeroMemory(vih, mt.FormatLength());
                         vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
                         vih->bmiHeader.biWidth = (LONG)vse->GetWidth();
                         vih->bmiHeader.biHeight = (LONG)vse->GetHeight();
@@ -1088,7 +1088,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         mt.majortype = MEDIATYPE_Audio;
                         mt.formattype = FORMAT_WaveFormatEx;
                         wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX));
-                        memset(wfe, 0, mt.FormatLength());
+                        ZeroMemory(wfe, mt.FormatLength());
                         if (!(fourcc & 0xffff0000)) {
                             wfe->wFormatTag = (WORD)fourcc;
                         }
@@ -1991,7 +1991,7 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     mt.subtype = FOURCCMap('v4pm');
     mt.formattype = FORMAT_MPEG2Video;
     MPEG2VIDEOINFO* mvih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + m_seqhdrsize);
-    memset(mvih, 0, mt.FormatLength());
+    ZeroMemory(mvih, mt.FormatLength());
     mvih->hdr.bmiHeader.biSize = sizeof(mvih->hdr.bmiHeader);
     mvih->hdr.bmiHeader.biWidth = width;
     mvih->hdr.bmiHeader.biHeight = height;

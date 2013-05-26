@@ -199,7 +199,7 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWS
 {
     m_mts.Copy(mts);
     m_nBuffers = max(nBuffers, 1);
-    memset(&m_brs, 0, sizeof(m_brs));
+    ZeroMemory(&m_brs, sizeof(m_brs));
     m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
 }
 
@@ -211,7 +211,7 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilt
     , m_QueueMaxPackets(QueueMaxPackets)
 {
     m_nBuffers = max(nBuffers, 1);
-    memset(&m_brs, 0, sizeof(m_brs));
+    ZeroMemory(&m_brs, sizeof(m_brs));
     m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
 }
 

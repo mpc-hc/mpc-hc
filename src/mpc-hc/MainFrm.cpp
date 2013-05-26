@@ -1159,7 +1159,7 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
     CRect r;
     GetWindowRect(&r);
     MINMAXINFO mmi;
-    memset(&mmi, 0, sizeof(mmi));
+    ZeroMemory(&mmi, sizeof(mmi));
     SendMessage(WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
     r |= CRect(r.TopLeft(), CSize(r.Width(), mmi.ptMinTrackSize.y));
     MoveWindow(&r);
@@ -1226,7 +1226,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 
     if (!IsMenuHidden()) {
         MENUBARINFO mbi;
-        memset(&mbi, 0, sizeof(mbi));
+        ZeroMemory(&mbi, sizeof(mbi));
         mbi.cbSize = sizeof(mbi);
         ::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
@@ -1378,7 +1378,7 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 
         // This doesn't give correct menu pixel size
         //MENUBARINFO mbi;
-        //memset(&mbi, 0, sizeof(mbi));
+        //ZeroMemory(&mbi, sizeof(mbi));
         //mbi.cbSize = sizeof(mbi);
         //::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
@@ -1480,8 +1480,10 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
     if (IsD3DFullScreenMode()) {
         MONITORINFO MonitorInfo;
         HMONITOR    hMonitor;
+
         ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
         MonitorInfo.cbSize = sizeof(MonitorInfo);
+
         hMonitor = MonitorFromWindow(m_pFullscreenWnd->m_hWnd, 0);
         if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
             CRect MonitorRect = CRect(MonitorInfo.rcMonitor);
@@ -4852,7 +4854,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     }
 
     BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)(BYTE*)dib;
-    memset(bih, 0, sizeof(BITMAPINFOHEADER));
+    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
     bih->biSize = sizeof(BITMAPINFOHEADER);
     bih->biWidth = width;
     bih->biHeight = height;
@@ -11479,7 +11481,7 @@ void CMainFrame::OpenSetupStatusBar()
                 if (S_OK == m_pGB->IsPinDirection(pPin, PINDIR_INPUT)
                         && S_OK == m_pGB->IsPinConnected(pPin)) {
                     AM_MEDIA_TYPE mt;
-                    memset(&mt, 0, sizeof(mt));
+                    ZeroMemory(&mt, sizeof(mt));
                     pPin->ConnectionMediaType(&mt);
 
                     if (mt.majortype == MEDIATYPE_Audio && mt.formattype == FORMAT_WaveFormatEx) {

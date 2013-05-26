@@ -221,7 +221,7 @@ CString GetMediaTypeDesc(const CMediaType* _pMediaType, const CHdmvClipInfo::Str
                 bIsMPEG2 = true;
             } else {
                 WCHAR Temp[5];
-                memset(Temp, 0, sizeof(Temp));
+                ZeroMemory(Temp, sizeof(Temp));
                 Temp[0] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
                 Temp[1] = (pInfo->hdr.bmiHeader.biCompression >> 8) & 0xFF;
                 Temp[2] = (pInfo->hdr.bmiHeader.biCompression >> 16) & 0xFF;
@@ -294,7 +294,7 @@ CString GetMediaTypeDesc(const CMediaType* _pMediaType, const CHdmvClipInfo::Str
                 Infos.AddTail(L"VC-1");
             } else if (CodecType) {
                 WCHAR Temp[5];
-                memset(Temp, 0, sizeof(Temp));
+                ZeroMemory(Temp, sizeof(Temp));
                 Temp[0] = (CodecType >> 0) & 0xFF;
                 Temp[1] = (CodecType >> 8) & 0xFF;
                 Temp[2] = (CodecType >> 16) & 0xFF;
@@ -513,13 +513,13 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
         }
 
         len = _countof(buff);
-        memset(buff, 0, sizeof(buff));
+        ZeroMemory(buff, sizeof(buff));
         if (ERROR_SUCCESS == key.QueryStringValue(_T("AudioLanguageOrder"), buff, &len)) {
             m_csAudioLanguageOrder = CString(buff);
         }
 
         len = _countof(buff);
-        memset(buff, 0, sizeof(buff));
+        ZeroMemory(buff, sizeof(buff));
         if (ERROR_SUCCESS == key.QueryStringValue(_T("SubtitlesLanguageOrder"), buff, &len)) {
             m_csSubtitlesLanguageOrder = CString(buff);
         }

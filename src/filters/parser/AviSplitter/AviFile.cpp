@@ -88,7 +88,7 @@ HRESULT CAviFile::BuildAMVIndex()
     DWORD ulType;
     DWORD ulSize;
 
-    memset(&NewChunk, 0, sizeof(strm_t::chunk));
+    ZeroMemory(&NewChunk, sizeof(strm_t::chunk));
     while ((Read(ulType) == S_OK) && (Read(ulSize) == S_OK)) {
         switch (ulType) {
             case FCC('00dc'): // 01bw: JPeg
@@ -490,8 +490,8 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
     DWORD* curchunks = DEBUG_NEW DWORD[m_avih.dwStreams];
     UINT64* cursizes = DEBUG_NEW UINT64[m_avih.dwStreams];
 
-    memset(curchunks, 0, sizeof(DWORD)*m_avih.dwStreams);
-    memset(cursizes, 0, sizeof(UINT64)*m_avih.dwStreams);
+    ZeroMemory(curchunks, sizeof(DWORD)*m_avih.dwStreams);
+    ZeroMemory(cursizes, sizeof(UINT64)*m_avih.dwStreams);
 
     int end = 0;
 
@@ -530,7 +530,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
         ++curchunk;
     }
 
-    memset(curchunks, 0, sizeof(DWORD)*m_avih.dwStreams);
+    ZeroMemory(curchunks, sizeof(DWORD)*m_avih.dwStreams);
 
     strm_t::chunk2 cs2last = {(DWORD) - 1, 0};
 

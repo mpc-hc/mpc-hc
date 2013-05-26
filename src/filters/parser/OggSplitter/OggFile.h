@@ -80,7 +80,7 @@ public:
     OggPageHeader m_hdr;
     CAtlList<int> m_lens;
     OggPage() {
-        memset(&m_hdr, 0, sizeof(m_hdr));
+        ZeroMemory(&m_hdr, sizeof(m_hdr));
     }
 };
 

@@ -1082,7 +1082,7 @@ private:
 public:
     CFakeDirectXVideoDecoder(LPUNKNOWN pUnk, IDirectXVideoDecoder* pDec) : CUnknown(_T("Fake DXVA2 Dec"), pUnk) {
         m_pDec.Attach(pDec);
-        memset(m_ppBuffer, 0, sizeof(m_ppBuffer));
+        ZeroMemory(m_ppBuffer, sizeof(m_ppBuffer));
     }
 
     ~CFakeDirectXVideoDecoder() {
@@ -1373,7 +1373,7 @@ static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
                 for (UINT iFormat = 0; iFormat < cFormats;  iFormat++) {
                     LOG(_T("Direct 3D format : %s"),   FindD3DFormat(pFormats[iFormat]));
                     // Fill in the video description. Set the width, height, format, and frame rate.
-                    memset(&m_VideoDesc, 0, sizeof(m_VideoDesc));
+                    ZeroMemory(&m_VideoDesc, sizeof(m_VideoDesc));
                     m_VideoDesc.SampleWidth = 1280;
                     m_VideoDesc.SampleHeight = 720;
                     m_VideoDesc.Format = pFormats[iFormat];

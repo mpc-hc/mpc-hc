@@ -178,7 +178,7 @@ public:
             // it may have a fourcc in the mediasubtype, let's check that
 
             WCHAR guid[100];
-            memset(guid, 0, 100 * sizeof(WCHAR));
+            ZeroMemory(guid, 100 * sizeof(WCHAR));
             StringFromGUID2(pmt->subtype, guid, 100);
 
             if (CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {
@@ -272,7 +272,7 @@ public:
 
         if (!wfe) {
             WCHAR guid[100];
-            memset(guid, 0, 100 * sizeof(WCHAR));
+            ZeroMemory(guid, 100 * sizeof(WCHAR));
             StringFromGUID2(pmt->subtype, guid, 100);
 
             if (CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {

@@ -101,7 +101,7 @@ int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CPlayerStatusBar::Relayout()
 {
     BITMAP bm;
-    memset(&bm, 0, sizeof(bm));
+    ZeroMemory(&bm, sizeof(bm));
     if (m_bm.m_hObject) {
         m_bm.GetBitmap(&bm);
     }

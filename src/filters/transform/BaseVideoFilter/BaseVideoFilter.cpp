@@ -326,7 +326,7 @@ HRESULT CBaseVideoFilter::CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int 
         } else if (bihOut.biCompression == BI_RGB || bihOut.biCompression == BI_BITFIELDS) {
             if (!BitBltFromI420ToRGB(w, h, pOut, pitchOut, bihOut.biBitCount, pIn, pInU, pInV, pitchIn)) {
                 for (int y = 0; y < h; y++, pOut += pitchOut) {
-                    memset(pOut, 0, pitchOut);
+                    ZeroMemory(pOut, pitchOut);
                 }
             }
         }
@@ -336,7 +336,7 @@ HRESULT CBaseVideoFilter::CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int 
         } else if (bihOut.biCompression == BI_RGB || bihOut.biCompression == BI_BITFIELDS) {
             if (!BitBltFromYUY2ToRGB(w, h, pOut, pitchOut, bihOut.biBitCount, ppIn[0], pitchIn)) {
                 for (int y = 0; y < h; y++, pOut += pitchOut) {
-                    memset(pOut, 0, pitchOut);
+                    ZeroMemory(pOut, pitchOut);
                 }
             }
         }
@@ -352,7 +352,7 @@ HRESULT CBaseVideoFilter::CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int 
         } else if (bihOut.biCompression == BI_RGB || bihOut.biCompression == BI_BITFIELDS) {
             if (!BitBltFromRGBToRGB(w, h, pOut, pitchOut, bihOut.biBitCount, ppIn[0], pitchIn, sbpp)) {
                 for (int y = 0; y < h; y++, pOut += pitchOut) {
-                    memset(pOut, 0, pitchOut);
+                    ZeroMemory(pOut, pitchOut);
                 }
             }
         }
@@ -533,7 +533,7 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
     GetOutputSize(w, h, arx, ary, RealWidth, RealHeight, vsfilter);
 
     BITMAPINFOHEADER bihOut;
-    memset(&bihOut, 0, sizeof(bihOut));
+    ZeroMemory(&bihOut, sizeof(bihOut));
     bihOut.biSize = sizeof(bihOut);
     bihOut.biWidth = w;
     bihOut.biHeight = h;
@@ -545,14 +545,14 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
     if (iPosition & 1) {
         pmt->formattype = FORMAT_VideoInfo;
         VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-        memset(vih, 0, sizeof(VIDEOINFOHEADER));
+        ZeroMemory(vih, sizeof(VIDEOINFOHEADER));
         vih->bmiHeader = bihOut;
         vih->bmiHeader.biXPelsPerMeter = vih->bmiHeader.biWidth * ary;
         vih->bmiHeader.biYPelsPerMeter = vih->bmiHeader.biHeight * arx;
     } else {
         pmt->formattype = FORMAT_VideoInfo2;
         VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
-        memset(vih, 0, sizeof(VIDEOINFOHEADER2));
+        ZeroMemory(vih, sizeof(VIDEOINFOHEADER2));
         vih->bmiHeader = bihOut;
         vih->dwPictAspectRatioX = arx;
         vih->dwPictAspectRatioY = ary;

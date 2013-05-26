@@ -50,7 +50,7 @@ BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRec
         }
 
         LOGFONT lf;
-        memset(&lf, 0, sizeof(lf));
+        ZeroMemory(&lf, sizeof(lf));
         _tcscpy_s(lf.lfFaceName, face);
         HDC hDC = ::GetDC(0);
         lf.lfHeight = -MulDiv(height, GetDeviceCaps(hDC, LOGPIXELSY), 72);

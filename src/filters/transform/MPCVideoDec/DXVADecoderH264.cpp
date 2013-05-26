@@ -53,10 +53,10 @@ CDXVADecoderH264::~CDXVADecoderH264()
 
 void CDXVADecoderH264::Init()
 {
-    memset(&m_DXVAPicParams, 0, sizeof(m_DXVAPicParams));
-    memset(&m_DXVAPicParams, 0, sizeof(DXVA_PicParams_H264));
-    memset(&m_pSliceLong, 0, sizeof(DXVA_Slice_H264_Long) * MAX_SLICES);
-    memset(&m_pSliceShort, 0, sizeof(DXVA_Slice_H264_Short) * MAX_SLICES);
+    ZeroMemory(&m_DXVAPicParams, sizeof(m_DXVAPicParams));
+    ZeroMemory(&m_DXVAPicParams, sizeof(DXVA_PicParams_H264));
+    ZeroMemory(&m_pSliceLong, sizeof(DXVA_Slice_H264_Long) * MAX_SLICES);
+    ZeroMemory(&m_pSliceShort, sizeof(DXVA_Slice_H264_Short) * MAX_SLICES);
 
     m_DXVAPicParams.MbsConsecutiveFlag = 1;
     if (m_pFilter->GetPCIVendor() == PCIV_Intel) {
@@ -137,7 +137,7 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
     // Complete with zero padding (buffer size should be a multiple of 128)
     nDummy = 128 - (nSize % 128);
 
-    memset(pDXVABuffer, 0, nDummy);
+    ZeroMemory(pDXVABuffer, nDummy);
     m_pSliceShort[nSlices - 1].SliceBytesInBuffer += nDummy;
     nSize += nDummy;
 }
@@ -354,7 +354,7 @@ HRESULT CDXVADecoderH264::DisplayStatus()
     HRESULT hr = E_INVALIDARG;
     DXVA_Status_H264 Status;
 
-    memset(&Status, 0, sizeof(Status));
+    ZeroMemory(&Status, sizeof(Status));
     CHECK_HR_TRACE(CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
 
     TRACE_H264("CDXVADecoderH264::DisplayStatus() : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",

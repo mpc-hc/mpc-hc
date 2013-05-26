@@ -235,7 +235,7 @@ HRESULT CD2VStream::GetMediaType(int iPosition, CMediaType* pmt)
     pmt->SetTemporalCompression(FALSE);
 
     VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-    memset(vih, 0, sizeof(VIDEOINFOHEADER));
+    ZeroMemory(vih, sizeof(VIDEOINFOHEADER));
     vih->AvgTimePerFrame = m_AvgTimePerFrame;
     vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
     vih->bmiHeader.biWidth = m_pDecoder->Clip_Width;

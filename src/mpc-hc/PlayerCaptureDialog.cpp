@@ -43,7 +43,7 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
         return fRet;
     }
 
-    memset(*ppmt, 0, sizeof(AM_MEDIA_TYPE));
+    ZeroMemory(*ppmt, sizeof(AM_MEDIA_TYPE));
 
     BYTE* pData;
     UINT len;
@@ -142,7 +142,7 @@ static void SaveDefaultCodec(CAtlArray<Codec>& codecs, const CComboBox& box, con
 
 static void SetupDefaultCaps(AM_MEDIA_TYPE* pmt, VIDEO_STREAM_CONFIG_CAPS& caps)
 {
-    memset(&caps, 0, sizeof(caps));
+    ZeroMemory(&caps, sizeof(caps));
 
     if (!pmt) {
         return;
@@ -180,7 +180,7 @@ static void SetupDefaultCaps(AM_MEDIA_TYPE* pmt, VIDEO_STREAM_CONFIG_CAPS& caps)
 
 static void SetupDefaultCaps(AM_MEDIA_TYPE* pmt, AUDIO_STREAM_CONFIG_CAPS& caps)
 {
-    memset(&caps, 0, sizeof(caps));
+    ZeroMemory(&caps, sizeof(caps));
 
     if (!pmt) {
         return;

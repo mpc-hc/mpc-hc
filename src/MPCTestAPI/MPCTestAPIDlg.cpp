@@ -247,7 +247,7 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     strExec.Format(_T("%s /slave %d"), m_strMPCPath, PtrToInt(GetSafeHwnd()));
     UpdateData(TRUE);
 
-    memset(&StartupInfo, 0, sizeof(StartupInfo));
+    ZeroMemory(&StartupInfo, sizeof(StartupInfo));
     StartupInfo.cb = sizeof(StartupInfo);
     GetStartupInfo(&StartupInfo);
     if (CreateProcess(nullptr, (LPTSTR)(LPCTSTR)strExec, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo)) {

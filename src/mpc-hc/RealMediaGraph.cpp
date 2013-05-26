@@ -629,7 +629,7 @@ STDMETHODIMP CRealMediaPlayerWindowless::SizeChanged(PNxSize* size)
 {
     if (CComQIPtr<IRMAVideoSurface, &IID_IRMAVideoSurface> pRMAVS = m_pRMAP) {
         RMABitmapInfoHeader BitmapInfo;
-        memset(&BitmapInfo, 0, sizeof(BitmapInfo));
+        ZeroMemory(&BitmapInfo, sizeof(BitmapInfo));
         BitmapInfo.biWidth = size->cx;
         BitmapInfo.biHeight = size->cy;
         pRMAVS->BeginOptimizedBlt(&BitmapInfo);

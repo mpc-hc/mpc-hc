@@ -180,7 +180,7 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 if (CodecID == "V_MS/VFW/FOURCC") {
                     mt.formattype = FORMAT_VideoInfo;
                     VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + pTE->CodecPrivate.GetCount() - sizeof(BITMAPINFOHEADER));
-                    memset(mt.Format(), 0, mt.FormatLength());
+                    ZeroMemory(mt.Format(), mt.FormatLength());
                     memcpy(&pvih->bmiHeader, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
                     mt.subtype = FOURCCMap(pvih->bmiHeader.biCompression);
                     switch (pvih->bmiHeader.biCompression) {
@@ -265,7 +265,7 @@ avcsuccess:
                     mt.subtype = FOURCCMap('1CVA');
                     mt.formattype = FORMAT_MPEG2Video;
                     MPEG2VIDEOINFO* pm2vi = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + data.GetCount());
-                    memset(mt.Format(), 0, mt.FormatLength());
+                    ZeroMemory(mt.Format(), mt.FormatLength());
                     pm2vi->hdr.bmiHeader.biSize = sizeof(pm2vi->hdr.bmiHeader);
                     pm2vi->hdr.bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
                     pm2vi->hdr.bmiHeader.biHeight = (LONG)pTE->v.PixelHeight;
@@ -286,7 +286,7 @@ avcsuccess:
                     mt.subtype = FOURCCMap('V4PM');
                     mt.formattype = FORMAT_MPEG2Video;
                     MPEG2VIDEOINFO* pm2vi = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + pTE->CodecPrivate.GetCount());
-                    memset(mt.Format(), 0, mt.FormatLength());
+                    ZeroMemory(mt.Format(), mt.FormatLength());
                     pm2vi->hdr.bmiHeader.biSize = sizeof(pm2vi->hdr.bmiHeader);
                     pm2vi->hdr.bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
                     pm2vi->hdr.bmiHeader.biHeight = (LONG)pTE->v.PixelHeight;
@@ -304,7 +304,7 @@ avcsuccess:
                     mt.subtype = FOURCCMap('00VR' + ((CodecID[9] - 0x30) << 16));
                     mt.formattype = FORMAT_VideoInfo;
                     VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + pTE->CodecPrivate.GetCount());
-                    memset(mt.Format(), 0, mt.FormatLength());
+                    ZeroMemory(mt.Format(), mt.FormatLength());
                     memcpy(mt.Format() + sizeof(VIDEOINFOHEADER), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
                     pvih->bmiHeader.biSize = sizeof(pvih->bmiHeader);
                     pvih->bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
@@ -318,7 +318,7 @@ avcsuccess:
                     mt.subtype = MEDIASUBTYPE_DiracVideo;
                     mt.formattype = FORMAT_DiracVideoInfo;
                     DIRACINFOHEADER* dvih = (DIRACINFOHEADER*)mt.AllocFormatBuffer(FIELD_OFFSET(DIRACINFOHEADER, dwSequenceHeader) + pTE->CodecPrivate.GetCount());
-                    memset(mt.Format(), 0, mt.FormatLength());
+                    ZeroMemory(mt.Format(), mt.FormatLength());
                     dvih->hdr.bmiHeader.biSize = sizeof(dvih->hdr.bmiHeader);
                     dvih->hdr.bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
                     dvih->hdr.bmiHeader.biHeight = (LONG)pTE->v.PixelHeight;
@@ -352,7 +352,7 @@ avcsuccess:
                     mt.subtype          = FOURCCMap('OEHT');
                     mt.formattype       = FORMAT_MPEG2_VIDEO;
                     MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(sizeof(MPEG2VIDEOINFO) + pTE->CodecPrivate.GetCount());
-                    memset(mt.Format(), 0, mt.FormatLength());
+                    ZeroMemory(mt.Format(), mt.FormatLength());
                     vih->hdr.bmiHeader.biSize        = sizeof(vih->hdr.bmiHeader);
                     vih->hdr.bmiHeader.biWidth       = *(WORD*)&thdr[10] >> 4;
                     vih->hdr.bmiHeader.biHeight      = *(WORD*)&thdr[12] >> 4;
@@ -379,7 +379,7 @@ avcsuccess:
                     mt.subtype = FOURCCMap('08PV');
                     mt.formattype = FORMAT_VideoInfo;
                     VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + pTE->CodecPrivate.GetCount());
-                    memset(mt.Format(), 0, mt.FormatLength());
+                    ZeroMemory(mt.Format(), mt.FormatLength());
                     memcpy(mt.Format() + sizeof(VIDEOINFOHEADER), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
                     pvih->bmiHeader.biSize = sizeof(pvih->bmiHeader);
                     pvih->bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
@@ -400,7 +400,7 @@ avcsuccess:
                         mt.subtype = FOURCCMap(*type);
                         mt.formattype = FORMAT_VideoInfo;
                         VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + pTE->CodecPrivate.GetCount());
-                        memset(mt.Format(), 0, mt.FormatLength());
+                        ZeroMemory(mt.Format(), mt.FormatLength());
                         memcpy(mt.Format() + sizeof(VIDEOINFOHEADER), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
                         pvih->bmiHeader.biSize = sizeof(pvih->bmiHeader);
                         pvih->bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
@@ -417,7 +417,7 @@ avcsuccess:
                     mt.formattype   = FORMAT_MPEGVideo;
 
                     MPEG1VIDEOINFO* pm1vi = (MPEG1VIDEOINFO*)mt.AllocFormatBuffer(sizeof(MPEG1VIDEOINFO) + pTE->CodecPrivate.GetCount());
-                    memset(mt.Format(), 0, mt.FormatLength());
+                    ZeroMemory(mt.Format(), mt.FormatLength());
                     memcpy(mt.Format() + sizeof(MPEG1VIDEOINFO), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 
                     pm1vi->hdr.bmiHeader.biSize      = sizeof(pm1vi->hdr.bmiHeader);
@@ -561,7 +561,7 @@ avcsuccess:
                             mt.formattype = FORMAT_VideoInfo2;
                             mt.AllocFormatBuffer(vih2 + bmi);
                             memcpy(mt.Format(), mts[i].Format(), vih1);
-                            memset(mt.Format() + vih1, 0, vih2 - vih1);
+                            ZeroMemory(mt.Format() + vih1, vih2 - vih1);
                             memcpy(mt.Format() + vih2, mts[i].Format() + vih1, bmi);
 
                             CSize aspect((int)pTE->v.DisplayWidth, (int)pTE->v.DisplayHeight);
@@ -591,7 +591,7 @@ avcsuccess:
                 mt.majortype = MEDIATYPE_Audio;
                 mt.formattype = FORMAT_WaveFormatEx;
                 WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX));
-                memset(wfe, 0, mt.FormatLength());
+                ZeroMemory(wfe, mt.FormatLength());
                 wfe->nChannels = (WORD)pTE->a.Channels;
                 wfe->nSamplesPerSec = (DWORD)pTE->a.SamplingFrequency;
                 wfe->wBitsPerSample = (WORD)pTE->a.BitDepth;
@@ -627,7 +627,7 @@ avcsuccess:
                     memcpy(p + 6,  &wfe->nChannels, 2);
                     memcpy(p + 8,  &wfe->wBitsPerSample, 2);
                     memcpy(p + 10, &wfe->nSamplesPerSec, 4);
-                    memset(p + 14, 0, 30 - 14);
+                    ZeroMemory(p + 14, 30 - 14);
                     mts.Add(mt);
                 } else if (CodecID == "A_AAC") {
                     mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
@@ -713,7 +713,7 @@ avcsuccess:
                         mt.subtype = MEDIASUBTYPE_Vorbis2;
                         mt.formattype = FORMAT_VorbisFormat2;
                         VORBISFORMAT2* pvf2 = (VORBISFORMAT2*)mt.AllocFormatBuffer(sizeof(VORBISFORMAT2) + (ULONG)totalsize);
-                        memset(pvf2, 0, mt.FormatLength());
+                        ZeroMemory(pvf2, mt.FormatLength());
                         pvf2->Channels = (WORD)pTE->a.Channels;
                         pvf2->SamplesPerSec = (DWORD)pTE->a.SamplingFrequency;
                         pvf2->BitsPerSample = (DWORD)pTE->a.BitDepth;
@@ -728,7 +728,7 @@ avcsuccess:
                     mt.subtype = MEDIASUBTYPE_Vorbis;
                     mt.formattype = FORMAT_VorbisFormat;
                     VORBISFORMAT* vf = (VORBISFORMAT*)mt.AllocFormatBuffer(sizeof(VORBISFORMAT));
-                    memset(vf, 0, mt.FormatLength());
+                    ZeroMemory(vf, mt.FormatLength());
                     vf->nChannels = (WORD)pTE->a.Channels;
                     vf->nSamplesPerSec = (DWORD)pTE->a.SamplingFrequency;
                     vf->nMinBitsPerSec = vf->nMaxBitsPerSec = vf->nAvgBitsPerSec = (DWORD) - 1;
@@ -789,7 +789,7 @@ avcsuccess:
                     wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + cbSize);
                     BYTE* p = (BYTE*)(wfe + 1);
 
-                    memset(p, 0, cbSize);
+                    ZeroMemory(p, cbSize);
                     memcpy(p + 3,  &cbSize, 1);
                     memcpy(p + 4, (const unsigned char*)"alac", 4);
                     memcpy(p + 12, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
@@ -814,7 +814,7 @@ avcsuccess:
                     mt.majortype = MEDIATYPE_Subtitle;
                     mt.formattype = FORMAT_SubtitleInfo;
                     SUBTITLEINFO* psi = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + pTE->CodecPrivate.GetCount());
-                    memset(psi, 0, mt.FormatLength());
+                    ZeroMemory(psi, mt.FormatLength());
                     strncpy_s(psi->IsoLang, pTE->Language, _countof(psi->IsoLang) - 1);
                     CString subtitle_Name = pTE->Name;
                     if (pTE->FlagForced) { // "Forced" overrides "Default"

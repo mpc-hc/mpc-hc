@@ -260,7 +260,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             mt.formattype = FORMAT_VideoInfo;
 
             VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + (ULONG)pmp->typeSpecData.GetCount());
-            memset(mt.Format(), 0, mt.FormatLength());
+            ZeroMemory(mt.Format(), mt.FormatLength());
             memcpy(pvih + 1, pmp->typeSpecData.GetData(), pmp->typeSpecData.GetCount());
 
             rvinfo rvi = *(rvinfo*)pmp->typeSpecData.GetData();
@@ -298,7 +298,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 BITMAPINFOHEADER bmi = pvih->bmiHeader;
                 mt.formattype = FORMAT_VideoInfo2;
                 VIDEOINFOHEADER2* pvih2 = (VIDEOINFOHEADER2*)mt.ReallocFormatBuffer(sizeof(VIDEOINFOHEADER2) + (ULONG)pmp->typeSpecData.GetCount());
-                memset(mt.Format() + FIELD_OFFSET(VIDEOINFOHEADER2, dwInterlaceFlags), 0, mt.FormatLength() - FIELD_OFFSET(VIDEOINFOHEADER2, dwInterlaceFlags));
+                ZeroMemory(mt.Format() + FIELD_OFFSET(VIDEOINFOHEADER2, dwInterlaceFlags), mt.FormatLength() - FIELD_OFFSET(VIDEOINFOHEADER2, dwInterlaceFlags));
                 memcpy(pvih2 + 1, pmp->typeSpecData.GetData(), pmp->typeSpecData.GetCount());
                 pvih2->bmiHeader = bmi;
                 pvih2->bmiHeader.biWidth = (DWORD)pmp->width;
@@ -314,7 +314,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             mt.bTemporalCompression = 1;
 
             WAVEFORMATEX* pwfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + (ULONG)pmp->typeSpecData.GetCount());
-            memset(mt.Format(), 0, mt.FormatLength());
+            ZeroMemory(mt.Format(), mt.FormatLength());
             memcpy(pwfe + 1, pmp->typeSpecData.GetData(), pmp->typeSpecData.GetCount());
 
             union {
@@ -1078,7 +1078,7 @@ HRESULT CRMFile::Read(T& var)
 
 HRESULT CRMFile::Read(ChunkHdr& hdr)
 {
-    memset(&hdr, 0, sizeof(hdr));
+    ZeroMemory(&hdr, sizeof(hdr));
     HRESULT hr;
     if (S_OK != (hr = Read(hdr.object_id))
             || S_OK != (hr = Read(hdr.size))
@@ -1090,7 +1090,7 @@ HRESULT CRMFile::Read(ChunkHdr& hdr)
 
 HRESULT CRMFile::Read(MediaPacketHeader& mph, bool fFull)
 {
-    memset(&mph, 0, FIELD_OFFSET(MediaPacketHeader, pData));
+    ZeroMemory(&mph, FIELD_OFFSET(MediaPacketHeader, pData));
     mph.stream = (UINT16) - 1;
 
     HRESULT hr;
@@ -1760,7 +1760,7 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
         m_pI420 = static_cast<BYTE*>(_aligned_malloc(size * 3 / 2, 16));
         if (m_pI420) {
             TRACE(_T(" m_pI420.Allocated 1"));
-            memset(m_pI420, 0, size);
+            ZeroMemory(m_pI420, size);
             TRACE(_T(" m_pI420.Allocated 2"));
             memset(m_pI420 + size, 0x80, size / 2);
             TRACE(_T(" m_pI420.Allocated 3"));
@@ -1771,7 +1771,7 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
         m_pI420Tmp = static_cast<BYTE*>(_aligned_malloc(size * 3 / 2, 16));
         if (m_pI420Tmp) {
             TRACE(_T(" m_pI420Tmp.Allocated 1"));
-            memset(m_pI420Tmp, 0, size);
+            ZeroMemory(m_pI420Tmp, size);
             TRACE(_T(" m_pI420Tmp.Allocated 2"));
             memset(m_pI420Tmp + size, 0x80, size / 2);
             TRACE(_T(" m_pI420Tmp.Allocated 3"));
@@ -2052,10 +2052,10 @@ HRESULT CRealVideoDecoder::StartStreaming()
     int size = m_w * m_h;
     m_lastBuffSizeDim = size;
     m_pI420 = static_cast<BYTE*>(_aligned_malloc(size * 3 / 2, 16));
-    memset(m_pI420, 0, size);
+    ZeroMemory(m_pI420, size);
     memset(m_pI420 + size, 0x80, size / 2);
     m_pI420Tmp = static_cast<BYTE*>(_aligned_malloc(size * 3 / 2, 16));
-    memset(m_pI420Tmp, 0, size);
+    ZeroMemory(m_pI420Tmp, size);
     memset(m_pI420Tmp + size, 0x80, size / 2);
 
     return __super::StartStreaming();

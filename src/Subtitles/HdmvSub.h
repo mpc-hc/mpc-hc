@@ -61,14 +61,16 @@ public:
     };
 
     struct HDMV_CLUT {
-        BYTE         id;
-        BYTE         version_number;
-        BYTE         size;
+        BYTE    id;
+        BYTE    version_number;
+        BYTE    size;
 
         HDMV_PALETTE palette[256];
 
-        HDMV_CLUT() : id(0), version_number(0), size(0) {
-            memset(palette, 0, sizeof(palette));
+        HDMV_CLUT() : id(0)
+            , version_number(0)
+            , size(0) {
+            ZeroMemory(palette, sizeof(palette));
         }
     };
 

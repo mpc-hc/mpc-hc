@@ -69,7 +69,7 @@ bool CBaseSplitterFileEx::NextMpegStartCode(BYTE& code, __int64 len)
 
 bool CBaseSplitterFileEx::Read(pshdr& h)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     BYTE b = (BYTE)BitRead(8, true);
 
@@ -121,7 +121,7 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 
 bool CBaseSplitterFileEx::Read(pssyshdr& h)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     WORD len = (WORD)BitRead(16);
     MARKER;
@@ -150,7 +150,7 @@ bool CBaseSplitterFileEx::Read(pssyshdr& h)
 
 bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if (!(code >= 0xbd && code < 0xf0 || code == 0xfd)) { // 0xfd => blu-ray (.m2ts)
         return false;
@@ -410,7 +410,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
         pmt->formattype = FORMAT_MPEGVideo;
         int len = FIELD_OFFSET(MPEG1VIDEOINFO, bSequenceHeader) + int(shlen + shextlen);
         MPEG1VIDEOINFO* vi = (MPEG1VIDEOINFO*)DEBUG_NEW BYTE[len];
-        memset(vi, 0, len);
+        ZeroMemory(vi, len);
         vi->hdr.dwBitRate = h.bitrate;
         vi->hdr.AvgTimePerFrame = h.ifps;
         vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
@@ -432,7 +432,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
         pmt->formattype = FORMAT_MPEG2_VIDEO;
         int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + int(shlen + shextlen);
         MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DEBUG_NEW BYTE[len];
-        memset(vi, 0, len);
+        ZeroMemory(vi, len);
         vi->hdr.dwBitRate = h.bitrate;
         vi->hdr.AvgTimePerFrame = h.ifps;
         vi->hdr.dwPictAspectRatioX = h.arx;
@@ -460,7 +460,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     int syncbits = fAllowV25 ? 11 : 12;
 
@@ -557,7 +557,7 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
                   ? sizeof(WAVEFORMATEX/*MPEGLAYER3WAVEFORMAT*/) // no need to overcomplicate this...
                   : sizeof(MPEG1WAVEFORMAT);
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)DEBUG_NEW BYTE[size];
-    memset(wfe, 0, size);
+    ZeroMemory(wfe, size);
     wfe->cbSize = WORD(size - sizeof(WAVEFORMATEX));
 
     if (h.layer == 3) {
@@ -610,7 +610,7 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 
 bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     for (; len >= 7 && BitRead(11, true) != AAC_LATM_SYNC_WORD; len--) {
         BitRead(8);
@@ -632,7 +632,7 @@ bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
     }
 
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)DEBUG_NEW BYTE[sizeof(WAVEFORMATEX)];
-    memset(wfe, 0, sizeof(WAVEFORMATEX));
+    ZeroMemory(wfe, sizeof(WAVEFORMATEX));
     wfe->wFormatTag = WAVE_FORMAT_LATM_AAC;
     wfe->nChannels = h.channels;
     wfe->nSamplesPerSec = h.samplerate;
@@ -652,7 +652,7 @@ bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt, MPEG_TYPES m_type)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     __int64 pos = 0;
     int found_fake_sync = m_type == mpeg_ts ? 0 : 1;
@@ -709,7 +709,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt, MPEG_TYPES m
         }
 
         WAVEFORMATEX* wfe = (WAVEFORMATEX*)DEBUG_NEW BYTE[sizeof(WAVEFORMATEX) + 5];
-        memset(wfe, 0, sizeof(WAVEFORMATEX) + 5);
+        ZeroMemory(wfe, sizeof(WAVEFORMATEX) + 5);
         wfe->wFormatTag = WAVE_FORMAT_AAC;
         wfe->nChannels = h.channels <= 6 ? h.channels : 2;
         wfe->nSamplesPerSec = freq[h.freq];
@@ -736,7 +736,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 
     __int64 startpos = GetPos();
 
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     // Parse TrueHD and MLP header
     if (!AC3CoreOnly) {
@@ -860,7 +860,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
     }
 
     WAVEFORMATEX wfe;
-    memset(&wfe, 0, sizeof(wfe));
+    ZeroMemory(&wfe, sizeof(wfe));
     wfe.wFormatTag = WAVE_FORMAT_DOLBY_AC3;
 
     static int channels[] = {2, 1, 2, 3, 3, 4, 4, 5};
@@ -891,7 +891,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 
 bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sync)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if (find_sync) {
         for (; len >= 10 && BitRead(32, true) != 0x7ffe8001; len--) {
@@ -934,7 +934,7 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sy
     }
 
     WAVEFORMATEX wfe;
-    memset(&wfe, 0, sizeof(wfe));
+    ZeroMemory(&wfe, sizeof(wfe));
     wfe.wFormatTag = WAVE_FORMAT_DVD_DTS;
 
     static int channels[] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
@@ -976,7 +976,7 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sy
 
 bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     h.emphasis = BitRead(1);
     h.mute = BitRead(1);
@@ -997,7 +997,7 @@ bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
     }
 
     WAVEFORMATEX wfe;
-    memset(&wfe, 0, sizeof(wfe));
+    ZeroMemory(&wfe, sizeof(wfe));
     wfe.wFormatTag = WAVE_FORMAT_PCM;
     wfe.nChannels = h.channels + 1;
     static int freq[] = {48000, 96000, 44100, 32000};
@@ -1026,7 +1026,7 @@ bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
     if (len < 8) {
         return false;
     }
@@ -1059,7 +1059,7 @@ bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
     }
 
     WAVEFORMATEX wfe;
-    memset(&wfe, 0, sizeof(wfe));
+    ZeroMemory(&wfe, sizeof(wfe));
     wfe.wFormatTag = WAVE_FORMAT_UNKNOWN;
     static const WORD depth[] = {16, 20, 24};
     static const DWORD freq[] = {48000, 96000, 192000, 0, 0, 0, 0, 0, 44100, 88200, 1764000};
@@ -1088,7 +1088,7 @@ bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     h.size          = (WORD)BitRead(16);
     h.channels      = (BYTE)BitRead(4);
@@ -1131,7 +1131,7 @@ bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(mlphdr& h, int len, CMediaType* pmt, bool find_sync)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
     if (len < 20) {
         return false;
     }
@@ -1188,7 +1188,7 @@ bool CBaseSplitterFileEx::Read(mlphdr& h, int len, CMediaType* pmt, bool find_sy
 
 bool CBaseSplitterFileEx::Read(dvdspuhdr& h, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if (!pmt) {
         return true;
@@ -1203,7 +1203,7 @@ bool CBaseSplitterFileEx::Read(dvdspuhdr& h, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(hdmvsubhdr& h, CMediaType* pmt, const char* language_code)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if (!pmt) {
         return true;
@@ -1215,7 +1215,7 @@ bool CBaseSplitterFileEx::Read(hdmvsubhdr& h, CMediaType* pmt, const char* langu
 
     SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO));
     if (psi) {
-        memset(psi, 0, pmt->FormatLength());
+        ZeroMemory(psi, pmt->FormatLength());
         strcpy_s(psi->IsoLang, language_code ? language_code : "eng");
     }
 
@@ -1224,7 +1224,7 @@ bool CBaseSplitterFileEx::Read(hdmvsubhdr& h, CMediaType* pmt, const char* langu
 
 bool CBaseSplitterFileEx::Read(svcdspuhdr& h, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if (!pmt) {
         return true;
@@ -1239,7 +1239,7 @@ bool CBaseSplitterFileEx::Read(svcdspuhdr& h, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(cvdspuhdr& h, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if (!pmt) {
         return true;
@@ -1254,7 +1254,7 @@ bool CBaseSplitterFileEx::Read(cvdspuhdr& h, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(ps2audhdr& h, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if (BitRead(16, true) != 'SS') {
         return false;
@@ -1307,7 +1307,7 @@ bool CBaseSplitterFileEx::Read(ps2audhdr& h, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(ps2subhdr& h, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if (!pmt) {
         return true;
@@ -1322,7 +1322,7 @@ bool CBaseSplitterFileEx::Read(ps2subhdr& h, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(tshdr& h, bool fSync)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     BitByteAlign();
 
@@ -1448,7 +1448,7 @@ bool CBaseSplitterFileEx::Read(tshdr& h, bool fSync)
 
 bool CBaseSplitterFileEx::Read(trsechdr& h)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     BYTE pointer_field = (BYTE)BitRead(8);
     while (pointer_field-- > 0) {
@@ -1471,7 +1471,7 @@ bool CBaseSplitterFileEx::Read(trsechdr& h)
 
 bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     BitByteAlign();
 
@@ -1705,7 +1705,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
         pmt->formattype = FORMAT_MPEG2_VIDEO;
         int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extra;
         MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DEBUG_NEW BYTE[len];
-        memset(vi, 0, len);
+        ZeroMemory(vi, len);
         // vi->hdr.dwBitRate = ;
         vi->hdr.AvgTimePerFrame = h.AvgTimePerFrame;
         if (!h.sar.num) {
@@ -2067,7 +2067,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_flag)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     __int64 endpos = GetPos() + len; // - sequence header length
     __int64 extrapos = 0, extralen = 0;
@@ -2173,7 +2173,7 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
         pmt->formattype = FORMAT_VIDEOINFO2;
         int vi_len = sizeof(VIDEOINFOHEADER2) + (int)extralen + 1;
         VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)DEBUG_NEW BYTE[vi_len];
-        memset(vi, 0, vi_len);
+        ZeroMemory(vi, vi_len);
         vi->AvgTimePerFrame = (10000000I64 * nFrameRateNum) / nFrameRateDen;
 
         if (!h.sar.num) {
@@ -2210,7 +2210,7 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 
 bool CBaseSplitterFileEx::Read(dvbsub& h, int len, CMediaType* pmt)
 {
-    memset(&h, 0, sizeof(h));
+    ZeroMemory(&h, sizeof(h));
 
     if ((BitRead(32, true) & 0xFFFFFF00) == 0x20000f00) {
         static const SUBTITLEINFO SubFormat = { 0, "", L"" };

@@ -32,11 +32,11 @@ CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator* pAlloca
     , m_pAllocator(pAllocator)
     , m_bExternalRenderer(bExternalRenderer)
 {
-    D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
-    if (SUCCEEDED(m_pSurface->GetDesc(&d3dsd))) {
-        m_maxsize.SetSize(d3dsd.Width, d3dsd.Height);
-        m_rcDirty.SetRect(0, 0, d3dsd.Width, d3dsd.Height);
+    D3DSURFACE_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+    if (SUCCEEDED(m_pSurface->GetDesc(&desc))) {
+        m_maxsize.SetSize(desc.Width, desc.Height);
+        m_rcDirty.SetRect(0, 0, desc.Width, desc.Height);
     }
 }
 
@@ -74,9 +74,9 @@ STDMETHODIMP_(void*) CDX9SubPic::GetObject()
 
 STDMETHODIMP CDX9SubPic::GetDesc(SubPicDesc& spd)
 {
-    D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
-    if (FAILED(m_pSurface->GetDesc(&d3dsd))) {
+    D3DSURFACE_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+    if (FAILED(m_pSurface->GetDesc(&desc))) {
         return E_FAIL;
     }
 
@@ -84,8 +84,8 @@ STDMETHODIMP CDX9SubPic::GetDesc(SubPicDesc& spd)
     spd.w = m_size.cx;
     spd.h = m_size.cy;
     spd.bpp =
-        d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 :
-        d3dsd.Format == D3DFMT_A4R4G4B4 ? 16 : 0;
+        desc.Format == D3DFMT_A8R8G8B8 ? 32 :
+        desc.Format == D3DFMT_A4R4G4B4 ? 16 : 0;
     spd.pitch = 0;
     spd.bits = nullptr;
     spd.vidrect = m_vidrect;
@@ -175,9 +175,9 @@ STDMETHODIMP CDX9SubPic::ClearDirtyRect(DWORD color)
 
 STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
 {
-    D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
-    if (FAILED(m_pSurface->GetDesc(&d3dsd))) {
+    D3DSURFACE_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+    if (FAILED(m_pSurface->GetDesc(&desc))) {
         return E_FAIL;
     }
 
@@ -191,8 +191,8 @@ STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
     spd.w = m_size.cx;
     spd.h = m_size.cy;
     spd.bpp =
-        d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 :
-        d3dsd.Format == D3DFMT_A4R4G4B4 ? 16 : 0;
+        desc.Format == D3DFMT_A8R8G8B8 ? 32 :
+        desc.Format == D3DFMT_A4R4G4B4 ? 16 : 0;
     spd.pitch = LockedRect.Pitch;
     spd.bits = (BYTE*)LockedRect.pBits;
     spd.vidrect = m_vidrect;
@@ -244,14 +244,14 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
     HRESULT hr;
 
-    D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
-    if (FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
+    D3DSURFACE_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+    if (FAILED(pTexture->GetLevelDesc(0, &desc)) /*|| desc.Type != D3DRTYPE_TEXTURE*/) {
         return E_FAIL;
     }
 
-    float w = (float)d3dsd.Width;
-    float h = (float)d3dsd.Height;
+    float w = (float)desc.Width;
+    float h = (float)desc.Height;
 
     // Be careful with the code that follows. Some compilers (e.g. Visual Studio 2012) used to miscompile
     // it in some cases (namely x64 with optimizations /O2 /Ot). This bug led pVertices not to be correctly

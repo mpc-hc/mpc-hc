@@ -323,7 +323,7 @@ HRESULT CFLACStream::GetMediaType(int iPosition, CMediaType* pmt)
         pmt->subtype            = MEDIASUBTYPE_FLAC_FRAMED;
         pmt->formattype         = FORMAT_WaveFormatEx;
         WAVEFORMATEX* wfe       = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-        memset(wfe, 0, sizeof(WAVEFORMATEX));
+        ZeroMemory(wfe, sizeof(WAVEFORMATEX));
         wfe->wFormatTag         = WAVE_FORMAT_FLAC;
         wfe->nChannels          = m_nChannels;
         wfe->nSamplesPerSec     = m_nSamplesPerSec;

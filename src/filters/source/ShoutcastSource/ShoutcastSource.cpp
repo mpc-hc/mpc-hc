@@ -427,7 +427,7 @@ HRESULT CShoutcastStream::GetMediaType(int iPosition, CMediaType* pmt)
     pmt->SetFormatType(&FORMAT_WaveFormatEx);
 
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-    memset(wfe, 0, sizeof(WAVEFORMATEX));
+    ZeroMemory(wfe, sizeof(WAVEFORMATEX));
     wfe->wFormatTag = (WORD)MEDIASUBTYPE_MP3.Data1;
     wfe->nChannels = (WORD)m_socket.m_channels;
     wfe->nSamplesPerSec = m_socket.m_freq;
@@ -547,7 +547,8 @@ int CShoutcastStream::CShoutcastSocket::Receive(void* lpBuf, int nBufLen, int nF
         m_nBytesRead = 0;
 
         static BYTE buff[255 * 16], b = 0;
-        memset(buff, 0, sizeof(buff));
+        ZeroMemory(buff, sizeof(buff));
+
         if (1 == __super::Receive(&b, 1) && b && b * 16 == __super::Receive(buff, b * 16)) {
             CStringA str = (LPCSTR)buff;
 

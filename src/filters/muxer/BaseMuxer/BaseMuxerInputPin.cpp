@@ -165,7 +165,7 @@ HRESULT CBaseMuxerInputPin::CompleteConnect(IPin* pReceivePin)
             if (SUCCEEDED(pPB->CountProperties(&cProperties)) && cProperties > 0) {
                 for (ULONG iProperty = 0; iProperty < cProperties; iProperty++) {
                     PROPBAG2 PropBag;
-                    memset(&PropBag, 0, sizeof(PropBag));
+                    ZeroMemory(&PropBag, sizeof(PropBag));
                     ULONG cPropertiesReturned = 0;
                     if (FAILED(pPB->GetPropertyInfo(iProperty, 1, &PropBag, &cPropertiesReturned))) {
                         continue;

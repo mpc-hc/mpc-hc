@@ -97,15 +97,15 @@ STDMETHODIMP CRM9AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
         return E_FAIL;
     }
 
-    D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
-    if (FAILED(m_pVideoSurfaceOff->GetDesc(&d3dsd))) {
+    D3DSURFACE_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+    if (FAILED(m_pVideoSurfaceOff->GetDesc(&desc))) {
         return E_FAIL;
     }
 
     int dbpp =
-        d3dsd.Format == D3DFMT_R8G8B8 || d3dsd.Format == D3DFMT_X8R8G8B8 || d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 :
-        d3dsd.Format == D3DFMT_R5G6B5 ? 16 : 0;
+        desc.Format == D3DFMT_R8G8B8 || desc.Format == D3DFMT_X8R8G8B8 || desc.Format == D3DFMT_A8R8G8B8 ? 32 :
+        desc.Format == D3DFMT_R5G6B5 ? 16 : 0;
 
     if (pBitmapInfo->biCompression == '024I') {
         DWORD pitch = pBitmapInfo->biWidth;

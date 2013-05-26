@@ -164,8 +164,8 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
 
     m_pGenlock = DEBUG_NEW CGenlock(r.m_AdvRendSets.fTargetSyncOffset, r.m_AdvRendSets.fControlLimit, r.m_AdvRendSets.iLineDelta, r.m_AdvRendSets.iColumnDelta, r.m_AdvRendSets.fCycleDelta, 0); // Must be done before CreateDXDevice
     hr = CreateDXDevice(_Error);
-    memset(m_pllJitter, 0, sizeof(m_pllJitter));
-    memset(m_pllSyncOffset, 0, sizeof(m_pllSyncOffset));
+    ZeroMemory(m_pllJitter, sizeof(m_pllJitter));
+    ZeroMemory(m_pllSyncOffset, sizeof(m_pllSyncOffset));
 }
 
 CBaseAP::~CBaseAP()
@@ -1003,13 +1003,13 @@ STDMETHODIMP CBaseAP::CreateRenderer(IUnknown** ppRenderer)
 
 bool CBaseAP::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 {
-    D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
-    if (FAILED(pSurface->GetDesc(&d3dsd))) {
+    D3DSURFACE_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+    if (FAILED(pSurface->GetDesc(&desc))) {
         return false;
     }
 
-    int w = d3dsd.Width, h = d3dsd.Height;
+    int w = desc.Width, h = desc.Height;
     int sw = s.Width(), sh = s.Height();
     int dw = d.Width(), dh = d.Height();
 
@@ -1379,14 +1379,14 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, const RECT* pDst, IDirect3DTexture9* pText
     HRESULT hr;
 
     do {
-        D3DSURFACE_DESC d3dsd;
-        ZeroMemory(&d3dsd, sizeof(d3dsd));
-        if (FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
+        D3DSURFACE_DESC desc;
+        ZeroMemory(&desc, sizeof(desc));
+        if (FAILED(pTexture->GetLevelDesc(0, &desc)) /*|| desc.Type != D3DRTYPE_TEXTURE*/) {
             break;
         }
 
-        float w = (float)d3dsd.Width;
-        float h = (float)d3dsd.Height;
+        float w = (float)desc.Width;
+        float h = (float)desc.Height;
 
         // Be careful with the code that follows. Some compilers (e.g. Visual Studio 2012) used to miscompile
         // it in some cases (namely x64 with optimizations /O2 /Ot). This bug led pVertices not to be correctly
@@ -2331,7 +2331,7 @@ STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
     HRESULT hr;
 
     D3DSURFACE_DESC desc;
-    memset(&desc, 0, sizeof(desc));
+    ZeroMemory(&desc, sizeof(desc));
     m_pVideoSurface[m_nCurSurface]->GetDesc(&desc);
 
     DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
@@ -2356,7 +2356,7 @@ STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
     }
 
     BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
-    memset(bih, 0, sizeof(BITMAPINFOHEADER));
+    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
     bih->biSize = sizeof(BITMAPINFOHEADER);
     bih->biWidth = desc.Width;
     bih->biHeight = desc.Height;
@@ -3183,7 +3183,7 @@ bool CSyncAP::GetSampleFromMixer()
             break;
         }
 
-        memset(&Buffer, 0, sizeof(Buffer));
+        ZeroMemory(&Buffer, sizeof(Buffer));
         Buffer.pSample = pSample;
         pSample->GetUINT32(GUID_SURFACE_INDEX, &dwSurface);
         {
@@ -3306,17 +3306,17 @@ STDMETHODIMP CSyncAP::GetNativeVideoSize(SIZE* pszVideo, SIZE* pszARVideo)
 STDMETHODIMP CSyncAP::GetIdealVideoSize(SIZE* pszMin, SIZE* pszMax)
 {
     if (pszMin) {
-        pszMin->cx  = 1;
-        pszMin->cy  = 1;
+        pszMin->cx = 1;
+        pszMin->cy = 1;
     }
 
     if (pszMax) {
-        D3DDISPLAYMODE  d3ddm;
-
+        D3DDISPLAYMODE d3ddm;
         ZeroMemory(&d3ddm, sizeof(d3ddm));
+
         if (SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))) {
-            pszMax->cx  = d3ddm.Width;
-            pszMax->cy  = d3ddm.Height;
+            pszMax->cx = d3ddm.Width;
+            pszMax->cy = d3ddm.Height;
         }
     }
     return S_OK;

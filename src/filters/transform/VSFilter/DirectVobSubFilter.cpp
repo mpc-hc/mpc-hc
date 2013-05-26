@@ -59,7 +59,7 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
 
     {
         LOGFONT lf;
-        memset(&lf, 0, sizeof(lf));
+        ZeroMemory(&lf, sizeof(lf));
         lf.lfCharSet = DEFAULT_CHARSET;
         lf.lfOutPrecision = OUT_CHARACTER_PRECIS;
         lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
@@ -93,7 +93,7 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
     m_frd.EndThreadEvent.Create(0, FALSE, FALSE, 0);
     m_frd.RefreshEvent.Create(0, FALSE, FALSE, 0);
 
-    memset(&m_CurrentVIH2, 0, sizeof(VIDEOINFOHEADER2));
+    ZeroMemory(&m_CurrentVIH2, sizeof(VIDEOINFOHEADER2));
 }
 
 CDirectVobSubFilter::~CDirectVobSubFilter()
@@ -1242,7 +1242,7 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
                     cmt.bTemporalCompression = TRUE;
                     cmt.lSampleSize = 384 * 288 * 2;
                     VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)cmt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-                    memset(vih, 0, sizeof(VIDEOINFOHEADER));
+                    ZeroMemory(vih, sizeof(VIDEOINFOHEADER));
                     memcpy(&vih->bmiHeader, &bih, sizeof(bih));
                     vih->AvgTimePerFrame = 400000;
 
@@ -1252,7 +1252,7 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
                     }
 
                     VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)cmt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
-                    memset(vih2, 0, sizeof(VIDEOINFOHEADER2));
+                    ZeroMemory(vih2, sizeof(VIDEOINFOHEADER2));
                     memcpy(&vih2->bmiHeader, &bih, sizeof(bih));
                     vih2->AvgTimePerFrame = 400000;
                     vih2->dwPictAspectRatioX = 384;

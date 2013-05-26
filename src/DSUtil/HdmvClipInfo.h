@@ -73,7 +73,7 @@ public:
 
     struct Stream {
         Stream() {
-            memset(this, 0, sizeof(*this));
+            ZeroMemory(this, sizeof(*this));
         }
         short m_PID;
         PES_STREAM_TYPE m_Type;

@@ -111,7 +111,7 @@ HICON LoadIcon(CString fn, bool fSmall)
             }
 
             len = _countof(buff);
-            memset(buff, 0, sizeof(buff));
+            ZeroMemory(buff, sizeof(buff));
             if (ERROR_SUCCESS != key.QueryStringValue(nullptr, buff, &len) || (ext = buff).Trim().IsEmpty()) {
                 break;
             }
@@ -124,7 +124,7 @@ HICON LoadIcon(CString fn, bool fSmall)
         CString icon;
 
         len = _countof(buff);
-        memset(buff, 0, sizeof(buff));
+        ZeroMemory(buff, sizeof(buff));
         if (ERROR_SUCCESS != key.QueryStringValue(nullptr, buff, &len) || (icon = buff).Trim().IsEmpty()) {
             break;
         }
@@ -191,7 +191,7 @@ bool LoadType(CString fn, CString& type)
 
                 while (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, tmp)) {
                     len = _countof(buff);
-                    memset(buff, 0, sizeof(buff));
+                    ZeroMemory(buff, sizeof(buff));
 
                     if (ERROR_SUCCESS != key.QueryStringValue(nullptr, buff, &len)) {
                         break;
@@ -283,10 +283,10 @@ CMPlayerCApp::CMPlayerCApp()
     GetModuleFileNameEx(GetCurrentProcess(), m_hInstance, strApp, MAX_PATH);
     m_strVersion = CFileVersionInfo::GetFileVersionStr(strApp);
 
-    memset(&m_ColorControl, 0, sizeof(m_ColorControl));
+    ZeroMemory(&m_ColorControl, sizeof(m_ColorControl));
     ResetColorControlRange();
 
-    memset(&m_VMR9ColorControl, 0, sizeof(m_VMR9ColorControl));
+    ZeroMemory(&m_VMR9ColorControl, sizeof(m_VMR9ColorControl));
     m_VMR9ColorControl[0].dwSize     = sizeof(VMR9ProcAmpControlRange);
     m_VMR9ColorControl[0].dwProperty = ProcAmpControl9_Brightness;
     m_VMR9ColorControl[1].dwSize     = sizeof(VMR9ProcAmpControlRange);
@@ -296,7 +296,7 @@ CMPlayerCApp::CMPlayerCApp()
     m_VMR9ColorControl[3].dwSize     = sizeof(VMR9ProcAmpControlRange);
     m_VMR9ColorControl[3].dwProperty = ProcAmpControl9_Saturation;
 
-    memset(&m_EVRColorControl, 0, sizeof(m_EVRColorControl));
+    ZeroMemory(&m_EVRColorControl, sizeof(m_EVRColorControl));
 
     GetRemoteControlCode = GetRemoteControlCodeMicrosoft;
 }
@@ -1162,7 +1162,7 @@ BOOL CMPlayerCApp::InitInstance()
     HICON icon = LoadIcon(IDR_MAINFRAME);
 
     WNDCLASS wndcls;
-    memset(&wndcls, 0, sizeof(WNDCLASS));
+    ZeroMemory(&wndcls, sizeof(WNDCLASS));
     wndcls.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;
     wndcls.lpfnWndProc = ::DefWindowProc;
     wndcls.hInstance = AfxGetInstanceHandle();
@@ -1859,7 +1859,7 @@ void SetDispMode(const dispmode& dm, CString& DisplayName)
         return;
     }
     DEVMODE dmScreenSettings;
-    memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
+    ZeroMemory(&dmScreenSettings, sizeof(dmScreenSettings));
     dmScreenSettings.dmSize = sizeof(dmScreenSettings);
     dmScreenSettings.dmPelsWidth = dm.size.cx;
     dmScreenSettings.dmPelsHeight = dm.size.cy;
@@ -2514,7 +2514,7 @@ bool CMPlayerCApp::SetLanguage(const LanguageResource& languageResource, bool sh
 void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess)
 {
     SHELLEXECUTEINFO execinfo;
-    memset(&execinfo, 0, sizeof(execinfo));
+    ZeroMemory(&execinfo, sizeof(execinfo));
     execinfo.lpFile = strCommand;
     execinfo.cbSize = sizeof(execinfo);
     execinfo.lpVerb = _T("runas");

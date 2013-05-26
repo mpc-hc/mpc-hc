@@ -206,7 +206,7 @@ int CALLBACK EnumFontFamExProc(ENUMLOGFONTEX* /*lpelfe*/, NEWTEXTMETRICEX* /*lpn
 
 void GetMessageFont(LOGFONT* lf)
 {
-    SecureZeroMemory(lf, sizeof(LOGFONT));
+    ZeroMemory(lf, sizeof(LOGFONT));
     NONCLIENTMETRICS ncm;
     ncm.cbSize = sizeof(NONCLIENTMETRICS);
     if (!SysVersion::IsVistaOrLater()) {
@@ -219,7 +219,7 @@ void GetMessageFont(LOGFONT* lf)
 
 void GetStatusFont(LOGFONT* lf)
 {
-    SecureZeroMemory(lf, sizeof(LOGFONT));
+    ZeroMemory(lf, sizeof(LOGFONT));
     NONCLIENTMETRICS ncm;
     ncm.cbSize = sizeof(NONCLIENTMETRICS);
     if (!SysVersion::IsVistaOrLater()) {

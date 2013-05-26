@@ -753,7 +753,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
     bool fRestore[8];
     int fRestoreLen = 8;
 
-    memset(fRestore, 0, sizeof(bool)*fRestoreLen);
+    ZeroMemory(fRestore, sizeof(bool)*fRestoreLen);
 
     for (int pos = 0, eol; pos < str.GetLength(); pos++) {
         if ((eol = FindChar(str, '|', pos, fUnicode, CharSet)) < 0) {
@@ -887,7 +887,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
             }
         }
 
-        memset(fRestore, 0, sizeof(bool)*fRestoreLen);
+        ZeroMemory(fRestore, sizeof(bool)*fRestoreLen);
 
         ret += L"\\N";
     }

@@ -94,7 +94,7 @@ CAudioSwitcherFilter::CAudioSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr)
     , m_boostFactor(1.0)
     , m_normalizeFactor(m_nMaxNormFactor)
 {
-    memset(m_pSpeakerToChannelMap, 0, sizeof(m_pSpeakerToChannelMap));
+    ZeroMemory(m_pSpeakerToChannelMap, sizeof(m_pSpeakerToChannelMap));
 
     if (phr) {
         if (FAILED(*phr)) {
@@ -332,7 +332,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 }
             }
         } else {
-            memset(pDataOut, 0, pOut->GetSize());
+            ZeroMemory(pDataOut, pOut->GetSize());
         }
     } else {
         HRESULT hr2;
@@ -346,7 +346,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
             && wfe->wBitsPerSample <= 16 && fPCM) {
         if (BYTE* buff = DEBUG_NEW BYTE[len * bps]) {
             for (int ch = 0; ch < wfeout->nChannels; ch++) {
-                memset(buff, 0, len * bps);
+                ZeroMemory(buff, len * bps);
 
                 for (int i = 0; i < len; i++) {
                     memcpy(buff + i * bps, (char*)pDataOut + (ch + i * wfeout->nChannels)*bps, bps);

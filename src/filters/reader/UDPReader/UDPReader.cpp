@@ -258,7 +258,7 @@ HRESULT CUDPStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
                 if (m_pos < p->m_start) {
                     ASSERT(0);
                     size = (DWORD)min(len, p->m_start - m_pos);
-                    memset(ptr, 0, size);
+                    ZeroMemory(ptr, size);
                 } else {
                     size = (DWORD)min(len, p->m_end - m_pos);
                     memcpy(ptr, &p->m_buff[m_pos - p->m_start], size);
@@ -316,7 +316,7 @@ DWORD CUDPStream::ThreadProc()
     WSAStartup(MAKEWORD(2, 2), &wsaData);
 
     sockaddr_in addr;
-    memset(&addr, 0, sizeof(addr));
+    ZeroMemory(&addr, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
     addr.sin_port = htons((u_short)m_port);
@@ -422,7 +422,7 @@ DWORD CUDPStream::ThreadProc()
                                 static BYTE pid2counter[0x2000];
                                 static bool init = false;
                                 if (!init) {
-                                    memset(pid2counter, 0, sizeof(pid2counter));
+                                    ZeroMemory(pid2counter, sizeof(pid2counter));
                                     init = true;
                                 }
 

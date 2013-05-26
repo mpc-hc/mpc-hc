@@ -65,7 +65,7 @@ class __declspec(uuid("39F498AF-1A09-4275-B193-673B0BA3D478"))
             : di(DIAuto) {
             w = h = pitch = 0;
             buf_base = nullptr;
-            memset(&buf, 0, sizeof(buf));
+            ZeroMemory(&buf, sizeof(buf));
             rtStart = rtStop = 0;
             flags = 0;
         }
@@ -246,7 +246,7 @@ class CSubpicInputPin : public CMpeg2DecInputPin
         AM_PROPERTY_SPHLI m_sphli; // parsed
         CAutoPtr<AM_PROPERTY_SPHLI> m_psphli; // for the menu (optional)
         spu() {
-            memset(&m_sphli, 0, sizeof(m_sphli));
+            ZeroMemory(&m_sphli, sizeof(m_sphli));
             m_fForced = false;
             m_rtStart = m_rtStop = 0;
         }
@@ -272,7 +272,7 @@ class CSubpicInputPin : public CMpeg2DecInputPin
     public:
         AM_DVD_YUV m_sppal[2][4];
         cvdspu() {
-            memset(m_sppal, 0, sizeof(m_sppal));
+            ZeroMemory(m_sppal, sizeof(m_sppal));
         }
         bool Parse();
         void Render(REFERENCE_TIME rt, BYTE** p, int w, int h, AM_DVD_YUV* sppal, bool fsppal);
@@ -283,7 +283,7 @@ class CSubpicInputPin : public CMpeg2DecInputPin
     public:
         AM_DVD_YUV m_sppal[4];
         svcdspu() {
-            memset(m_sppal, 0, sizeof(m_sppal));
+            ZeroMemory(m_sppal, sizeof(m_sppal));
         }
         bool Parse();
         void Render(REFERENCE_TIME rt, BYTE** p, int w, int h, AM_DVD_YUV* sppal, bool fsppal);

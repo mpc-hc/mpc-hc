@@ -794,7 +794,7 @@ bool CVobSubFile::ReadRar(CString fn)
 #endif /* USE_STATIC_UNRAR */
 
     RAROpenArchiveDataEx OpenArchiveData;
-    memset(&OpenArchiveData, 0, sizeof(OpenArchiveData));
+    ZeroMemory(&OpenArchiveData, sizeof(OpenArchiveData));
 
     OpenArchiveData.ArcNameW = (LPTSTR)(LPCTSTR)fn;
     char fnA[MAX_PATH];
@@ -1545,8 +1545,8 @@ void CVobSubSettings::InitSettings()
     m_fOnlyShowForcedSubs = false;
     m_fCustomPal = false;
     m_tridx = 0;
-    memset(m_orgpal, 0, sizeof(m_orgpal));
-    memset(m_cuspal, 0, sizeof(m_cuspal));
+    ZeroMemory(m_orgpal, sizeof(m_orgpal));
+    ZeroMemory(m_cuspal, sizeof(m_cuspal));
 }
 
 bool CVobSubSettings::GetCustomPal(RGBQUAD* cuspal, int& tridx)

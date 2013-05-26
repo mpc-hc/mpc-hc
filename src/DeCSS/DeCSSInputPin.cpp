@@ -41,10 +41,10 @@ CDeCSSInputPin::CDeCSSInputPin(TCHAR* pObjectName, CTransformFilter* pFilter, HR
     : CTransformInputPin(pObjectName, pFilter, phr, pName)
     , m_varient(-1)
 {
-    memset(m_Challenge, 0, sizeof(m_Challenge));
-    memset(m_KeyCheck, 0, sizeof(m_KeyCheck));
-    memset(m_DiscKey, 0, sizeof(m_DiscKey));
-    memset(m_TitleKey, 0, sizeof(m_TitleKey));
+    ZeroMemory(m_Challenge, sizeof(m_Challenge));
+    ZeroMemory(m_KeyCheck, sizeof(m_KeyCheck));
+    ZeroMemory(m_DiscKey, sizeof(m_DiscKey));
+    ZeroMemory(m_TitleKey, sizeof(m_TitleKey));
 }
 
 STDMETHODIMP CDeCSSInputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -70,7 +70,7 @@ STDMETHODIMP CDeCSSInputPin::Receive(IMediaSample* pSample)
 
             if (CComQIPtr<IMediaSample2> pMS2 = pSample) {
                 AM_SAMPLE2_PROPERTIES props;
-                memset(&props, 0, sizeof(props));
+                ZeroMemory(&props, sizeof(props));
                 if (SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))
                         && (props.dwTypeSpecificFlags & AM_UseNewCSSKey)) {
                     props.dwTypeSpecificFlags &= ~AM_UseNewCSSKey;

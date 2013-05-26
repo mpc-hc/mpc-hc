@@ -799,7 +799,7 @@ COggVorbisOutputPin::COggVorbisOutputPin(OggVorbisIdHeader* h, LPCWSTR pName, CB
     mt.subtype = MEDIASUBTYPE_Vorbis;
     mt.formattype = FORMAT_VorbisFormat;
     VORBISFORMAT* vf = (VORBISFORMAT*)mt.AllocFormatBuffer(sizeof(VORBISFORMAT));
-    memset(mt.Format(), 0, mt.FormatLength());
+    ZeroMemory(mt.Format(), mt.FormatLength());
     vf->nChannels = h->audio_channels;
     vf->nSamplesPerSec = h->audio_sample_rate;
     vf->nAvgBitsPerSec = h->bitrate_nominal;
@@ -814,7 +814,7 @@ COggVorbisOutputPin::COggVorbisOutputPin(OggVorbisIdHeader* h, LPCWSTR pName, CB
     mt.subtype = MEDIASUBTYPE_Vorbis2;
     mt.formattype = FORMAT_VorbisFormat2;
     VORBISFORMAT2* vf2 = (VORBISFORMAT2*)mt.AllocFormatBuffer(sizeof(VORBISFORMAT2));
-    memset(mt.Format(), 0, mt.FormatLength());
+    ZeroMemory(mt.Format(), mt.FormatLength());
     vf2->Channels = h->audio_channels;
     vf2->SamplesPerSec = h->audio_sample_rate;
     mt.SetSampleSize(8192);
@@ -966,7 +966,7 @@ COggFlacOutputPin::COggFlacOutputPin(BYTE* h, int nCount, LPCWSTR pName, CBaseFi
     mt.subtype              = MEDIASUBTYPE_FLAC_FRAMED;
     mt.formattype           = FORMAT_WaveFormatEx;
     WAVEFORMATEX* wfe       = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX));
-    memset(wfe, 0, sizeof(WAVEFORMATEX));
+    ZeroMemory(wfe, sizeof(WAVEFORMATEX));
     wfe->cbSize = sizeof(WAVEFORMATEX);
     wfe->wFormatTag         = WAVE_FORMAT_FLAC;
     wfe->nSamplesPerSec     = m_nSamplesPerSec;
@@ -1149,7 +1149,7 @@ COggVideoOutputPin::COggVideoOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseF
     mt.subtype = FOURCCMap(MAKEFOURCC(h->subtype[0], h->subtype[1], h->subtype[2], h->subtype[3]));
     mt.formattype = FORMAT_VideoInfo;
     VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + extra);
-    memset(mt.Format(), 0, mt.FormatLength());
+    ZeroMemory(mt.Format(), mt.FormatLength());
     memcpy(mt.Format() + sizeof(VIDEOINFOHEADER), h + 1, extra);
     pvih->AvgTimePerFrame = h->time_unit / h->samples_per_unit;
     pvih->bmiHeader.biWidth = h->v.w;
@@ -1194,7 +1194,7 @@ COggAudioOutputPin::COggAudioOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseF
     mt.subtype = FOURCCMap(strtol(CStringA(h->subtype, 4), nullptr, 16));
     mt.formattype = FORMAT_WaveFormatEx;
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + extra);
-    memset(mt.Format(), 0, mt.FormatLength());
+    ZeroMemory(mt.Format(), mt.FormatLength());
     memcpy(mt.Format() + sizeof(WAVEFORMATEX), h + 1, extra);
     wfe->cbSize = extra;
     wfe->wFormatTag = (WORD)mt.subtype.Data1;
@@ -1232,7 +1232,7 @@ COggTheoraOutputPin::COggTheoraOutputPin(BYTE* p, LPCWSTR pName, CBaseFilter* pF
     mt.subtype          = FOURCCMap('OEHT');
     mt.formattype       = FORMAT_MPEG2_VIDEO;
     MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(sizeof(MPEG2VIDEOINFO));
-    memset(mt.Format(), 0, mt.FormatLength());
+    ZeroMemory(mt.Format(), mt.FormatLength());
     vih->hdr.bmiHeader.biSize        = sizeof(vih->hdr.bmiHeader);
     vih->hdr.bmiHeader.biWidth       = *(WORD*)&p[10] >> 4;
     vih->hdr.bmiHeader.biHeight      = *(WORD*)&p[12] >> 4;

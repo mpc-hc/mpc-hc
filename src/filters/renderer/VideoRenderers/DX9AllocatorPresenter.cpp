@@ -131,7 +131,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     ZeroMemory(m_DetectedFrameTimeHistoryHistory, sizeof(m_DetectedFrameTimeHistoryHistory));
     m_DetectedFrameTimePos = 0;
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
-
     ZeroMemory(m_ldDetectedRefreshRateList, sizeof(m_ldDetectedRefreshRateList));
     ZeroMemory(m_ldDetectedScanlineRateList, sizeof(m_ldDetectedScanlineRateList));
     m_DetectedRefreshRatePos = 0;
@@ -152,8 +151,8 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
     hr = CreateDevice(_Error);
 
-    memset(m_pllJitter, 0, sizeof(m_pllJitter));
-    memset(m_pllSyncOffset, 0, sizeof(m_pllSyncOffset));
+    ZeroMemory(m_pllJitter, sizeof(m_pllJitter));
+    ZeroMemory(m_pllSyncOffset, sizeof(m_pllSyncOffset));
     m_nNextJitter         = 0;
     m_nNextSyncOffset     = 0;
     m_llLastPerf          = 0;
@@ -2117,7 +2116,7 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     HRESULT hr;
 
     D3DSURFACE_DESC desc;
-    memset(&desc, 0, sizeof(desc));
+    ZeroMemory(&desc, sizeof(desc));
     m_pVideoSurface[m_nCurSurface]->GetDesc(&desc);
 
     DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
@@ -2160,7 +2159,7 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     }
 
     BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
-    memset(bih, 0, sizeof(BITMAPINFOHEADER));
+    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
     bih->biSize = sizeof(BITMAPINFOHEADER);
     bih->biWidth = desc.Width;
     bih->biHeight = desc.Height;

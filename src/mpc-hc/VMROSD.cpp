@@ -61,7 +61,7 @@ CVMROSD::CVMROSD()
     m_debugBrushBack.CreateSolidBrush(m_colors[OSD_DEBUGCLR]);
     m_debugPenBorder.CreatePen(PS_SOLID, 1, m_colors[OSD_BORDER]);
 
-    memset(&m_bitmapInfo, 0, sizeof(m_bitmapInfo));
+    ZeroMemory(&m_bitmapInfo, sizeof(m_bitmapInfo));
 }
 
 CVMROSD::~CVMROSD()
@@ -100,7 +100,7 @@ void CVMROSD::UpdateBitmap()
     CWindowDC dc(m_pWnd);
 
     m_memDC.DeleteDC();
-    memset(&m_bitmapInfo, 0, sizeof(m_bitmapInfo));
+    ZeroMemory(&m_bitmapInfo, sizeof(m_bitmapInfo));
 
     if (m_memDC.CreateCompatibleDC(&dc)) {
         BITMAPINFO bmi;

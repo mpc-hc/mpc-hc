@@ -1045,7 +1045,7 @@ HRESULT CMpaDecFilter::ProcessTrueHD_SPDIF()
         if (m_hdmisize + size <= m_hdmicount * BS_MAT_OFFSET) {
             memcpy(m_hdmibuff + m_hdmisize, p, size);
             m_hdmisize += size;
-            memset(m_hdmibuff + m_hdmisize, 0, m_hdmicount * BS_MAT_OFFSET - m_hdmisize);
+            ZeroMemory(m_hdmibuff + m_hdmisize, m_hdmicount * BS_MAT_OFFSET - m_hdmisize);
             m_hdmisize = m_hdmicount * BS_MAT_OFFSET;
         } else {
             ASSERT(0);
@@ -1381,7 +1381,7 @@ HRESULT CMpaDecFilter::ProcessPS2PCM()
             if (m_ps2_state.sync) {
                 memcpy(outBuff.GetData(), p, size);
             } else {
-                memset(outBuff.GetData(), 0, size);
+                ZeroMemory(outBuff.GetData(), size);
             }
 
             HRESULT hr;
@@ -1465,7 +1465,7 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
                     }
                 }
             } else {
-                memset(outBuff.GetData(), 0, outSize);
+                ZeroMemory(outBuff.GetData(), outSize);
             }
 
             HRESULT hr;
@@ -1682,7 +1682,7 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, WORD type, int sa
     if (isDTSWAV) {
         memcpy(pDataOut, pBuff, size);
     } else {
-        memset(pDataOut + BS_HEADER_SIZE + size, 0, length - (BS_HEADER_SIZE + size)); // Fill after the input buffer with zeros if any extra bytes
+        ZeroMemory(pDataOut + BS_HEADER_SIZE + size, length - (BS_HEADER_SIZE + size)); // Fill after the input buffer with zeros if any extra bytes
 
         int index = 0;
         // Fill the 8 bytes (4 words) of IEC header
@@ -1795,7 +1795,7 @@ CMediaType CMpaDecFilter::CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerS
     mt.formattype = FORMAT_WaveFormatEx;
 
     WAVEFORMATEXTENSIBLE wfex;
-    //memset(&wfex, 0, sizeof(wfex));
+    //ZeroMemory(&wfex, sizeof(wfex));
 
     WAVEFORMATEX& wfe = wfex.Format;
     wfe.nChannels      = nChannels;
@@ -1862,7 +1862,7 @@ CMediaType CMpaDecFilter::CreateMediaTypeHDMI(WORD type)
     mt.formattype = FORMAT_WaveFormatEx;
 
     WAVEFORMATEXTENSIBLE wfex;
-    memset(&wfex, 0, sizeof(wfex));
+    ZeroMemory(&wfex, sizeof(wfex));
 
     GUID subtype = GUID_NULL;
 

@@ -1159,7 +1159,7 @@ void CAppSettings::LoadSettings()
     if (bResult && len == sizeof(pSpeakerToChannelMap)) {
         memcpy(pSpeakerToChannelMap, ptr, sizeof(pSpeakerToChannelMap));
     } else {
-        memset(pSpeakerToChannelMap, 0, sizeof(pSpeakerToChannelMap));
+        ZeroMemory(pSpeakerToChannelMap, sizeof(pSpeakerToChannelMap));
         for (int j = 0; j < 18; j++) {
             for (int i = 0; i <= j; i++) {
                 pSpeakerToChannelMap[j][i] = 1 << i;
@@ -1732,7 +1732,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
     rtShift = 0;
     lDVDTitle = 0;
     lDVDChapter = 0;
-    memset(&DVDPosition, 0, sizeof(DVDPosition));
+    ZeroMemory(&DVDPosition, sizeof(DVDPosition));
     iAdminOption = 0;
     sizeFixedWindow.SetSize(0, 0);
     iMonitor = 0;

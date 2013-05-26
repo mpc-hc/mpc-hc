@@ -1495,13 +1495,13 @@ HRESULT CDX9RenderingEngine::TextureCopy(IDirect3DTexture9* pTexture)
 
 bool CDX9RenderingEngine::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 {
-    D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
-    if (FAILED(pSurface->GetDesc(&d3dsd))) {
+    D3DSURFACE_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+    if (FAILED(pSurface->GetDesc(&desc))) {
         return false;
     }
 
-    int w = d3dsd.Width, h = d3dsd.Height;
+    int w = desc.Width, h = desc.Height;
     int sw = s.Width(), sh = s.Height();
     int dw = d.Width(), dh = d.Height();
 
@@ -1586,14 +1586,14 @@ HRESULT CDX9RenderingEngine::AlphaBlt(const RECT* pSrc, const RECT* pDst, IDirec
 
     HRESULT hr;
 
-    D3DSURFACE_DESC d3dsd;
-    ZeroMemory(&d3dsd, sizeof(d3dsd));
-    if (FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
+    D3DSURFACE_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+    if (FAILED(pTexture->GetLevelDesc(0, &desc)) /*|| desc.Type != D3DRTYPE_TEXTURE*/) {
         return E_FAIL;
     }
 
-    float w = (float)d3dsd.Width;
-    float h = (float)d3dsd.Height;
+    float w = (float)desc.Width;
+    float h = (float)desc.Height;
 
     // Be careful with the code that follows. Some compilers (e.g. Visual Studio 2012) used to miscompile
     // it in some cases (namely x64 with optimizations /O2 /Ot). This bug led pVertices not to be correctly

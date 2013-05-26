@@ -245,10 +245,10 @@ CCDDAStream::CCDDAStream()
 
     m_llPosition = m_llLength = 0;
 
-    memset(&m_TOC, 0, sizeof(m_TOC));
+    ZeroMemory(&m_TOC, sizeof(m_TOC));
     m_nStartSector = m_nStopSector = 0;
 
-    memset(&m_header, 0, sizeof(m_header));
+    ZeroMemory(&m_header, sizeof(m_header));
     m_header.riff.hdr.chunkID = RIFFID;
     m_header.riff.WAVE = WAVEID;
     m_header.frm.hdr.chunkID = FormatID;
@@ -329,7 +329,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 
     do {
         CDROM_READ_TOC_EX TOCEx;
-        memset(&TOCEx, 0, sizeof(TOCEx));
+        ZeroMemory(&TOCEx, sizeof(TOCEx));
         TOCEx.Format = CDROM_READ_TOC_EX_FORMAT_CDTEXT;
         TOCEx.SessionTrack = iTrackIndex;
         WORD size = 0;
@@ -342,7 +342,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 
         CAutoVectorPtr<BYTE> pCDTextData;
         pCDTextData.Allocate(size);
-        memset(pCDTextData, 0, size);
+        ZeroMemory(pCDTextData, size);
 
         if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), pCDTextData, size, &BytesReturned, 0)) {
             break;

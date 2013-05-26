@@ -68,7 +68,7 @@ bool COggFile::Read(OggPageHeader& hdr, HANDLE hBreak)
 
 bool COggFile::Read(OggPage& page, bool fFull, HANDLE hBreak)
 {
-    memset(&page.m_hdr, 0, sizeof(page.m_hdr));
+    ZeroMemory(&page.m_hdr, sizeof(page.m_hdr));
     page.m_lens.RemoveAll();
     page.SetCount(0);
 

@@ -427,7 +427,7 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 
         pMediaType->formattype = FORMAT_WaveFormatEx;
         WAVEFORMATEX* wfe = (WAVEFORMATEX*)pMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-        memset(wfe, 0, sizeof(WAVEFORMATEX));
+        ZeroMemory(wfe, sizeof(WAVEFORMATEX));
         wfe->cbSize = sizeof(WAVEFORMATEX);
         wfe->nAvgBytesPerSec = ((WAVEFORMATEX*)m_pInput->CurrentMediaType().pbFormat)->nAvgBytesPerSec;
         wfe->nSamplesPerSec = ((WAVEFORMATEX*)m_pInput->CurrentMediaType().pbFormat)->nSamplesPerSec;
@@ -457,7 +457,7 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 
             pMediaType->formattype = FORMAT_WaveFormatEx;
             DOLBYAC3WAVEFORMAT* wfe = (DOLBYAC3WAVEFORMAT*)pMediaType->AllocFormatBuffer(sizeof(DOLBYAC3WAVEFORMAT));
-            memset(wfe, 0, sizeof(DOLBYAC3WAVEFORMAT));
+            ZeroMemory(wfe, sizeof(DOLBYAC3WAVEFORMAT));
             // unfortunately we can't tell what we are going to get in transform,
             // so we just set the most common values and hope that the ac3 decoder
             // is flexible enough (it is usually :) to find out these from the bitstream
@@ -471,7 +471,7 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 
             pMediaType->formattype = FORMAT_WaveFormatEx;
             WAVEFORMATEX* wfe = (WAVEFORMATEX*)pMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-            memset(wfe, 0, sizeof(WAVEFORMATEX));
+            ZeroMemory(wfe, sizeof(WAVEFORMATEX));
             // same case as with ac3, but this time we don't even know the structure
             wfe->cbSize = sizeof(WAVEFORMATEX);
             wfe->wFormatTag = WAVE_FORMAT_PCM;

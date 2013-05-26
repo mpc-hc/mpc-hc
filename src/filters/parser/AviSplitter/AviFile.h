@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,7 +36,7 @@ public:
     //using CBaseSplitterFile::Read;
     template<typename T>
     HRESULT Read(T& var, int offset = 0) {
-        memset(&var, 0, sizeof(var));
+        ZeroMemory(&var, sizeof(var));
         HRESULT hr = ByteRead((BYTE*)&var + offset, sizeof(var) - offset);
         return hr;
     }

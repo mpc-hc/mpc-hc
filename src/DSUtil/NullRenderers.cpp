@@ -72,7 +72,7 @@ public:
 
     STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES* pProps) {
         // 1 buffer required
-        memset(pProps, 0, sizeof(ALLOCATOR_PROPERTIES));
+        ZeroMemory(pProps, sizeof(ALLOCATOR_PROPERTIES));
         pProps->cbBuffer = 1;
         return S_OK;
     }
