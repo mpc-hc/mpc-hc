@@ -279,7 +279,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_INDEO
     FFMFiltersKeys[FFM_INDEO] = _T("FFM_INDEO");
 #endif
-
+#if INTERNAL_DECODER_SCREEN
+    FFMFiltersKeys[FFM_SCREEN] = _T("FFM_SCREEN");
+#endif
 }
 
 void CAppSettings::CreateCommands()

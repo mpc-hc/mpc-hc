@@ -1438,6 +1438,9 @@
     <ClCompile Include="libavcodec\vc1dsp.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\vmnc.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\vorbis.c">
       <Filter>libavcodec</Filter>
     </ClCompile>

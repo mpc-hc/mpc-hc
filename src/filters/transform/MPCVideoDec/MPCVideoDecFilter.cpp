@@ -205,14 +205,15 @@ FFMPEG_CODECS ffCodecs[] = {
     { &MEDIASUBTYPE_MJPA,   AV_CODEC_ID_MJPEG,  nullptr },
     { &MEDIASUBTYPE_MJPB,   AV_CODEC_ID_MJPEGB, nullptr },
 
-    // TSCC
-    { &MEDIASUBTYPE_TSCC,   AV_CODEC_ID_TSCC, nullptr },
-
     // Indeo 3/4/5
     { &MEDIASUBTYPE_IV31,   AV_CODEC_ID_INDEO3, nullptr },
     { &MEDIASUBTYPE_IV32,   AV_CODEC_ID_INDEO3, nullptr },
     { &MEDIASUBTYPE_IV41,   AV_CODEC_ID_INDEO4, nullptr },
     { &MEDIASUBTYPE_IV50,   AV_CODEC_ID_INDEO5, nullptr },
+
+    // Screen Capture(TSCC, VMnc)
+    { &MEDIASUBTYPE_TSCC,   AV_CODEC_ID_TSCC,   nullptr },
+    { &MEDIASUBTYPE_VMnc,   AV_CODEC_ID_VMNC,   nullptr },
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
     // H264/AVC
@@ -399,14 +400,15 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] = {
     { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPA   },
     { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPB   },
 
-    // TSCC
-    { &MEDIATYPE_Video, &MEDIASUBTYPE_TSCC   },
-
     // Indeo 3/4/5
     { &MEDIATYPE_Video, &MEDIASUBTYPE_IV31   },
     { &MEDIATYPE_Video, &MEDIASUBTYPE_IV32   },
     { &MEDIATYPE_Video, &MEDIASUBTYPE_IV41   },
     { &MEDIATYPE_Video, &MEDIASUBTYPE_IV50   },
+
+    // Screen Capture(TSCC, VMnc)
+    { &MEDIATYPE_Video, &MEDIASUBTYPE_TSCC   },
+    { &MEDIATYPE_Video, &MEDIASUBTYPE_VMnc   },
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
     // H264/AVC
@@ -893,6 +895,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
                     bCodecActivated = (m_nActiveCodecs & MPCVD_INDEO) != 0;
                     break;
                 case AV_CODEC_ID_TSCC:
+                case AV_CODEC_ID_VMNC:
                     bCodecActivated = 1;
                     break;
                 case AV_CODEC_ID_RV10:

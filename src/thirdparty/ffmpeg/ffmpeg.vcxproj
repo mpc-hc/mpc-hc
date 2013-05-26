@@ -350,6 +350,7 @@
     <ClCompile Include="libavcodec\vc1_dxva.c" />
     <ClCompile Include="libavcodec\videodsp.c" />
     <ClCompile Include="libavcodec\videodsp_template.c" />
+    <ClCompile Include="libavcodec\vmnc.c" />
     <ClCompile Include="libavcodec\vorbis.c" />
     <ClCompile Include="libavcodec\vorbisdec.c" />
     <ClCompile Include="libavcodec\vorbisdsp.c" />

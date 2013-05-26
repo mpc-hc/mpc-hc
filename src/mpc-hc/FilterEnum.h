@@ -214,6 +214,9 @@ enum FFMPEG_DECODER {
 #if INTERNAL_DECODER_INDEO
     FFM_INDEO,
 #endif
+#if INTERNAL_DECODER_SCREEN
+    FFM_SCREEN,
+#endif
 
     FFM_LAST,
     // dummy values (needed in FGManager.cpp)

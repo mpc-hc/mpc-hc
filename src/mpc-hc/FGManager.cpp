@@ -1914,7 +1914,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     memcpy(autoPtrFFMpegFilters, ffmpeg_filters, FFM_LAST + !FFM_LAST);
 
     pFGF = DEBUG_NEW CFGVideoDecoderInternal(MPCVideoDecName, MERIT64_ABOVE_DSHOW, autoPtrFFMpegFilters, autoPtrDXVAFilters);
-    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
 
 #if INTERNAL_DECODER_FLV
     if (ffmpeg_filters[FFM_FLV4]) {
@@ -2119,6 +2118,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV50);
     }
 #endif
+#if INTERNAL_DECODER_SCREEN
+    if (!ffmpeg_filters[FFM_SCREEN]) {
+        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
+        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VMnc);
+    }
+#endif
+
     m_transform.AddTail(pFGF);
 #endif /* #if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS */
 
@@ -2136,7 +2142,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 
     pFGF = DEBUG_NEW CFGVideoDecoderInternal(LowMerit(MPCVideoDecName), MERIT64_DO_USE, autoPtrDisabledFFMpegFilters, autoPtrDisabledDXVAFilters);
-    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
+
 #if INTERNAL_DECODER_FLV
     if (!(ffmpeg_filters[FFM_FLV4])) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
@@ -2338,6 +2344,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV50);
     }
 #endif
+#if INTERNAL_DECODER_SCREEN
+    if (!ffmpeg_filters[FFM_SCREEN]) {
+        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
+        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VMnc);
+    }
+#endif
+
     m_transform.AddTail(pFGF);
 #endif /* HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS */
 

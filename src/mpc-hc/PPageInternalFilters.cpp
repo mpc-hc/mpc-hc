@@ -194,6 +194,9 @@ static filter_t s_filters[] = {
 #if INTERNAL_DECODER_INDEO
     {_T("Indeo 3/4/5"), FFMPEG_DECODER, FFM_INDEO, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
+#if INTERNAL_DECODER_SCREEN
+    {_T("Screen Capture(TSCC, VMnc)"), FFMPEG_DECODER, FFM_SCREEN, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
 
     {nullptr, 0, 0, 0, nullptr}
 };

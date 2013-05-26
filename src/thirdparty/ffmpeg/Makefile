@@ -258,6 +258,7 @@ SRCS_C = \
     libavcodec/vc1dec.c \
     libavcodec/vc1dsp.c \
     libavcodec/videodsp.c \
+    libavcodec/vmnc.c \
     libavcodec/vorbis.c \
     libavcodec/vorbis_data.c \
     libavcodec/vorbisdec.c \
