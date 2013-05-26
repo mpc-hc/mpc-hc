@@ -582,7 +582,7 @@ void CDirectVobSubFilter::InitSubPicQueue()
 
     BITMAP bm;
     GetObject(m_hbm, sizeof(bm), &bm);
-    memsetd(bm.bmBits, 0xFF000000, bm.bmHeight * bm.bmWidthBytes);
+    memsetd(bm.bmBits, 0xff000000, bm.bmHeight * bm.bmWidthBytes);
 }
 
 bool CDirectVobSubFilter::AdjustFrameSize(CSize& s)

@@ -29,7 +29,7 @@ CompositionObject::CompositionObject()
     , m_nRLEPos(0)
     , m_nColorNumber(0)
 {
-    memsetd(m_Colors, 0xFF000000, sizeof(m_Colors));
+    memsetd(m_Colors, 0xff000000, sizeof(m_Colors));
 }
 
 CompositionObject::~CompositionObject()
