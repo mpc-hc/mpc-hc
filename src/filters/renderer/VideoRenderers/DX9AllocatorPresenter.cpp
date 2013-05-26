@@ -1998,6 +1998,7 @@ void CDX9AllocatorPresenter::DrawStats()
             OffsetRect(&rc, 0, TextHeight);
             if (m_pVideoTexture[0] || m_pVideoSurface[0]) {
                 D3DSURFACE_DESC desc;
+                ZeroMemory(&desc, sizeof(desc));
                 if (m_pVideoTexture[0]) {
                     m_pVideoTexture[0]->GetLevelDesc(0, &desc);
                 } else if (m_pVideoSurface[0]) {

@@ -680,12 +680,12 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     std::vector<CComPtr<IPin>> decoderOutput;
     std::vector<CComPtr<IPin>> rendererInput;
     FILTER_INFO filterInfo;
+    ZeroMemory(&filterInfo, sizeof(filterInfo));
 
     bool disconnected = FALSE;
 
     // Disconnect all pins to release video memory resources
     if (m_pD3DDev) {
-        ZeroMemory(&filterInfo, sizeof(filterInfo));
         m_pOuterEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
         if (SUCCEEDED(m_pOuterEVR->EnumPins(&rendererInputEnum))) {
             CComPtr<IPin> input;

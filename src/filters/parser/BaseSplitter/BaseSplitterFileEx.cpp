@@ -1138,9 +1138,9 @@ bool CBaseSplitterFileEx::Read(mlphdr& h, int len, CMediaType* pmt, bool find_sy
 
     __int64 startpos = GetPos();
 
-    int samplerate, channels, framelength;
-    WORD bitdepth;
-    bool isTrueHD;
+    int samplerate = 0, channels = 0, framelength = 0;
+    WORD bitdepth = 0;
+    bool isTrueHD = false;
     int fsize = 0;
 
     BYTE buf[20];

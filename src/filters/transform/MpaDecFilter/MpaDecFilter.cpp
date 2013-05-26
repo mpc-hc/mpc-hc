@@ -1083,7 +1083,7 @@ HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
     BYTE* p = base;
 
     while (p + 16 <= end) {
-        int samplerate, channels, framelength, bitrate;
+        int samplerate = 0, channels, framelength = 0, bitrate;
 
         int size = GetDTSFrameSize(p);
         if (size > 0) {

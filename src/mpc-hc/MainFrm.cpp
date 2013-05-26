@@ -8083,7 +8083,7 @@ void CMainFrame::OnNormalizeRegainVolume(UINT nID)
 {
     if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB)) {
         CAppSettings& s = AfxGetAppSettings();
-        WORD osdMessage;
+        WORD osdMessage = 0;
 
         switch (nID) {
             case ID_NORMALIZE:
@@ -8174,7 +8174,7 @@ void CMainFrame::OnAfterplayback(UINT nID)
 {
     CAppSettings& s = AfxGetAppSettings();
     s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK;
-    WORD osdMsg;
+    WORD osdMsg = 0;
 
     switch (nID) {
         case ID_AFTERPLAYBACK_NEXT:

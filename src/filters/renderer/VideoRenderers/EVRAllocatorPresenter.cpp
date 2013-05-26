@@ -1031,7 +1031,7 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
             hr = m_pMixer->SetOutputType(0, pType, MFT_SET_TYPE_TEST_ONLY);
         }
 
-        int Merit;
+        int Merit = 0;
         if (SUCCEEDED(hr)) {
             hr = GetMediaTypeMerit(pType, &Merit);
         }

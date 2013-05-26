@@ -135,7 +135,7 @@ AP4_AtomSampleTable::GetSample(AP4_Ordinal index,
     if (skip > index) return AP4_ERROR_INTERNAL;
 
     // get the atom offset for this chunk
-    AP4_Offset offset;
+    AP4_Offset offset = 0;
 	if (m_StcoAtom) result = m_StcoAtom->GetChunkOffset(chunk, offset); 
 	else if (m_Co64Atom) result = m_Co64Atom->GetChunkOffset(chunk, offset); 
 	else result = AP4_ERROR_INTERNAL;    
