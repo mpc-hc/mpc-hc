@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,14 +20,7 @@
 
 #include "stdafx.h"
 #include "AudioHelper.h"
-
-#define INT24_MAX       8388607i32
-#define INT24_MIN     (-8388607i32 - 1)
-
-#define INT8_PEAK       128
-#define INT16_PEAK      32768
-#define INT24_PEAK      8388608
-#define INT32_PEAK      2147483648
+#include "../../../DSUtil/AudioTools.h"
 
 #define F16MAX ( float(INT16_MAX) / INT16_PEAK)
 #define F24MAX ( float(INT24_MAX) / INT24_PEAK)
@@ -35,8 +28,6 @@
 
 #define round_f(x) ((x) > 0 ? (x) + 0.5f : (x) - 0.5f)
 #define round_d(x) ((x) > 0 ? (x) + 0.5  : (x) - 0.5)
-
-#define limit(a, x, b) if ((x) < (a)) { x = a; } else if ((x) > (b)) { x = b;}
 
 HRESULT convert_to_int16(enum AVSampleFormat avsf, WORD nChannels, DWORD nSamples, BYTE* pIn, int16_t* pOut)
 {

@@ -21,8 +21,6 @@
 #include "stdafx.h"
 #include "AudioTools.h"
 
-#define limit(a, x, b) if ((x) < (a)) { x = a; } else if ((x) > (b)) { x = b;}
-
 void gain_uint8(const double factor, const size_t allsamples, uint8_t* pData)
 {
     uint8_t* end = pData + allsamples;
