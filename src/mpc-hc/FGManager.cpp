@@ -2119,7 +2119,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 #if INTERNAL_DECODER_SCREEN
-    if (!ffmpeg_filters[FFM_SCREEN]) {
+    if (ffmpeg_filters[FFM_SCREEN]) {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VMnc);
     }
