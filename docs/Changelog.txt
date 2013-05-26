@@ -35,6 +35,8 @@ Legend:
 ! Vobsub files with language/title in their filenames weren't auto-loaded
 ! Fix a memory leak: the memory consumption would increase noticeably until the file was closed
   when the file had chapters and the chapter marks on seek bar were enabled
+! Capture mode: Fix reseting the renderer. When reseting the renderer in capture mode the playback
+  was stopped and never restarted
 ! Ticket #3110, DVB: Improve compatibility with some drivers for which MPC-HC failed to find
   any channel during the channel scan
 ! Ticket #3113, MPC-HC was sometimes slow to close (audio kept playing for a few seconds)

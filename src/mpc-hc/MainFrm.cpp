@@ -2686,7 +2686,11 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
     OAFilterState fs = State_Stopped;
     m_pMC->GetState(0, &fs);
     if (fs == State_Running) {
-        m_pMC->Pause();
+        if (GetPlaybackMode() != PM_CAPTURE) {
+            m_pMC->Pause();
+        } else {
+            m_pMC->Stop(); // Capture mode doesn't support pause
+        }
     }
 
     m_OSD.HideMessage(true);
@@ -2704,6 +2708,16 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
 
     if (fs == State_Running) {
         m_pMC->Run();
+
+        // When restarting DVB capture, we need to set again the channel.
+        const CAppSettings& s = AfxGetAppSettings();
+        if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
+            CComQIPtr<IBDATuner> pTun = m_pGB;
+            if (pTun) {
+                m_fSetChannelActive = false;
+                SetChannel(s.nDVBLastChannel);
+            }
+        }
     }
     return S_OK;
 }
