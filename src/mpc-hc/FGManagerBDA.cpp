@@ -43,25 +43,25 @@
 
 /// Format, Video MPEG2
 static VIDEOINFOHEADER2 sMpv_fmt = {
-    {0, 0, 720, 576},           // rcSource
-    {0, 0, 0, 0},               // rcTarget
-    0,                          // dwBitRate
-    0,                          // dwBitErrorRate
-    400000,                     // AvgTimePerFrame
-    0,                          // dwInterlaceFlags
-    0,                          // dwCopyProtectFlags
-    0,                          // dwPictAspectRatioX
-    0,                          // dwPictAspectRatioY
-    {0},                        // dwControlFlag & dwReserved1
-    0,                          // dwReserved2
+    {0, 0, 720, 576},               // rcSource
+    {0, 0, 0, 0},                   // rcTarget
+    0,                              // dwBitRate
+    0,                              // dwBitErrorRate
+    400000,                         // AvgTimePerFrame
+    0,                              // dwInterlaceFlags
+    0,                              // dwCopyProtectFlags
+    0,                              // dwPictAspectRatioX
+    0,                              // dwPictAspectRatioY
+    {0},                            // dwControlFlag & dwReserved1
+    0,                              // dwReserved2
     {
         // bmiHeader
-        sizeof(BITMAPINFOHEADER),// biSize
-        720,                    // biWidth
-        576,                    // biHeight
-        0,                    // biPlanes
-        0,                    // biBitCount
-        0                     // biCompression
+        sizeof(BITMAPINFOHEADER),   // biSize
+        720,                        // biWidth
+        576,                        // biHeight
+        0,                          // biPlanes
+        0,                          // biBitCount
+        0                           // biCompression
     }
     // implicitly sets the others fields to 0
 };
@@ -74,7 +74,7 @@ static AM_MEDIA_TYPE mt_Mpv = {
     TRUE,                           // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_VideoInfo2,              // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     sizeof(sMpv_fmt),               // cbFormat
     (LPBYTE)& sMpv_fmt              // pbFormat
 };
@@ -140,7 +140,7 @@ static const AM_MEDIA_TYPE mt_Mpa = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     sizeof(wf_Audio),               // cbFormat
     (LPBYTE)& wf_Audio              // pbFormat
 };
@@ -153,7 +153,7 @@ static const AM_MEDIA_TYPE mt_Ac3 = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     sizeof(wf_Audio),               // cbFormat
     (LPBYTE)& wf_Audio,             // pbFormat
 };
@@ -166,7 +166,7 @@ static const AM_MEDIA_TYPE mt_Eac3 = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     sizeof(wf_Audio),               // cbFormat
     (LPBYTE)& wf_Audio,             // pbFormat
 };
@@ -179,7 +179,7 @@ static const AM_MEDIA_TYPE mt_latm = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     sizeof(wf_Audio),               // cbFormat
     (LPBYTE)& wf_Audio,             // pbFormat
 };
@@ -192,9 +192,9 @@ static const AM_MEDIA_TYPE mt_Psi = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     0,                              // cbFormat
-    nullptr                            // pbFormat
+    nullptr                         // pbFormat
 };
 
 /// Media type, TIF
@@ -205,9 +205,9 @@ static const AM_MEDIA_TYPE mt_Tif = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     0,                              // cbFormat
-    nullptr                            // pbFormat
+    nullptr                         // pbFormat
 };
 
 /// Media type, EPG
@@ -218,9 +218,9 @@ static const AM_MEDIA_TYPE mt_Epg = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     0,                              // cbFormat
-    nullptr,                           // pbFormat
+    nullptr,                        // pbFormat
 };
 
 /// Media type, PMT
@@ -231,9 +231,9 @@ static const AM_MEDIA_TYPE mt_Pmt = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     0,                              // cbFormat
-    nullptr                            // pbFormat
+    nullptr                         // pbFormat
 };
 
 static const SUBTITLEINFO SubFormat = { 0, "", L"" };
@@ -246,7 +246,7 @@ static const AM_MEDIA_TYPE mt_Subtitle = {
     FALSE,                          // bTemporalCompression
     0,                              // lSampleSize
     FORMAT_None,                    // formattype
-    nullptr,                           // pUnk
+    nullptr,                        // pUnk
     sizeof(SubFormat),              // cbFormat
     (LPBYTE)& SubFormat             // pbFormat
 };
@@ -259,8 +259,8 @@ static CLSID CLSID_BDA_MPEG2_TIF =
 CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     : CFGManagerPlayer(pName, pUnk, hWnd)
 {
-    LOG(_T("\n"));
-    LOG(_T("Starting session ------------------------------------------------->"));
+    LOG(_T("---------------------------------------------------------------->"));
+    LOG(_T("Starting session..."));
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     if (pChannel) {
@@ -316,7 +316,7 @@ CFGManagerBDA::~CFGManagerBDA()
 {
     m_DVBStreams.RemoveAll();
     LOG(_T("CFGManagerBDA object destroyed."));
-    LOG(_T("\n"));
+    LOG(_T("<----------------------------------------------------------------\n\n"));
 }
 
 HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, const CStringW& DisplayName)
@@ -383,6 +383,7 @@ HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, RE
 
     return FAILED(hr) ? hr : E_NOINTERFACE;
 }
+
 HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInFilter)
 {
     HRESULT hr = VFW_E_CANNOT_CONNECT;
@@ -422,53 +423,55 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
 
 STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList)
 {
-    HRESULT hr;
+    HRESULT hr = S_OK;
     const CAppSettings& s = AfxGetAppSettings();
     CComPtr<IBaseFilter> pNetwork;
     CComPtr<IBaseFilter> pTuner;
     CComPtr<IBaseFilter> pReceiver;
 
     m_nDVBRebuildFilterGraph = s.nDVBRebuildFilterGraph;
-    LOG(_T("\n"));
     LOG(_T("Creating BDA filters..."));
     CheckAndLog(CreateKSFilter(&pNetwork, KSCATEGORY_BDA_NETWORK_PROVIDER, s.strBDANetworkProvider), _T("BDA: Network provider creation"));
     if (FAILED(hr = CreateKSFilter(&pTuner, KSCATEGORY_BDA_NETWORK_TUNER, s.strBDATuner))) {
         MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CREATE_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
         TRACE(_T("BDA: Network tuner creation: 0x%08x\n"), hr);
+        LOG(_T("Network tuner creation: 0x%08x"), hr);
         return hr;
     }
 
     if (FAILED(hr = ConnectFilters(pNetwork, pTuner))) {
         MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CONNECT_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
         TRACE(_T("BDA: Network <-> Tuner: 0x%08x\n"), hr);
+        LOG(_T("Network <-> Tuner: 0x%08x"), hr);
         return hr;
     }
     m_pBDAControl = pTuner;
 
     if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDAFreq))) {
-        AfxMessageBox(_T("BDA : IBDA_FrequencyFilter topology failed: 0x%08x\n"), hr);
-        LOG(_T("IBDA_FrequencyFilter topology failed\n"));
+        MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, _T("IBDA_FrequencyFilter topology failed."), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
+        LOG(_T("IBDA_FrequencyFilter topology failed."));
         return hr;
     }
     m_pBDATunerStats = m_pBDAFreq;
     if (FAILED(hr = SearchIBDATopology(pTuner, m_pBDADemodulator))) {
-        TRACE(_T("BDA : IBDA_DigitalDemodulator topology failed: 0x%08x\n"), hr);
-        LOG(_T("IBDA_DigitalDemodulator topology failed\n"));
+        TRACE(_T("BDA: IBDA_DigitalDemodulator topology failed: 0x%08x\n"), hr);
+        LOG(_T("IBDA_DigitalDemodulator topology failed. Result 0x%08x"), hr);
     }
     m_pBDADemodStats = m_pBDADemodulator;
 
     if (!m_pBDATunerStats || !m_pBDADemodStats) {
         if (m_pBDATunerStats) {
-            TRACE(_T("BDA : no statistics interface on the demodulator node --> using the statistics from the RF node only\n"));
-            LOG(_T("No statistics interface on the demodulator node --> using the statistics from the RF node only\n"));
+            TRACE(_T("BDA: no statistics interface on the demodulator node --> using the statistics from the RF node only\n"));
+            LOG(_T("No statistics interface on the demodulator node --> using the statistics from the RF node only."));
             m_pBDADemodStats = m_pBDATunerStats;
         } else if (m_pBDADemodStats) {
-            TRACE(_T("BDA : no statistics interface on the RF node --> using the statistics from the demodulator node only\n"));
-            LOG(_T("No statistics interface on the RF node --> using the statistics from the demodulator node only\n"));
+            TRACE(_T("BDA: no statistics interface on the RF node --> using the statistics from the demodulator node only\n"));
+            LOG(_T("No statistics interface on the RF node --> using the statistics from the demodulator node only."));
             m_pBDATunerStats = m_pBDADemodStats;
         } else { // if (!m_pBDATunerStats && !m_pBDADemodStats)
-            AfxMessageBox(_T("BDA Error: No statistics interface available."), MB_OK);
-            TRACE(_T("BDA : Not statistics interface available\n"));
+            MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, _T("No statistics interface available."), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
+            TRACE(_T("BDA: Not statistics interface available\n"));
+            LOG(_T("Not statistics interface available."));
             return E_NOINTERFACE;
         }
     }
@@ -481,13 +484,13 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
         }
     } else {
         LOG(_T("AutoDemulate topology not found."));
-        TRACE(_T("BDA : AutoDemulate topology not found: 0x%08x\n"), hr);
+        TRACE(_T("BDA: AutoDemulate topology not found: 0x%08x\n"), hr);
     }
 
-    //    CComPtr<IBaseFilter> pMpeg2Demux;
     if (FAILED(hr = m_pDemux.CoCreateInstance(CLSID_MPEG2Demultiplexer, nullptr, CLSCTX_INPROC_SERVER))) {
         MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
         TRACE(_T("BDA: Microsoft demux creation: 0x%08x\n"), hr);
+        return hr;
     }
     CheckNoLog(AddFilter(m_pDemux, _T("MPEG-2 Demultiplexer")));
     if (FAILED(ConnectFilters(pTuner, m_pDemux))) { // Separate receiver is required
@@ -515,16 +518,15 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     CheckNoLog(CreateMicrosoftDemux(m_pDemux));
 
 #ifdef _DEBUG
-    LOG(_T("\n"));
     LOG(_T("Filter list:"));
     BeginEnumFilters(this, pEF, pBF) {
-        LOG(GetFilterName(pBF));
+        LOG(_T("  ") + GetFilterName(pBF));
     }
     EndEnumFilters;
-    LOG(_T(" "));
+    LOG(_T("Filter list end.\n"));
 #endif
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CFGManagerBDA::ConnectDirect(IPin* pPinOut, IPin* pPinIn, const AM_MEDIA_TYPE* pmt)
@@ -540,7 +542,7 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
 
     CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
     LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
-    if (pChannel != nullptr) {
+    if (pChannel) {
         if ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER) ||
                 ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_WHEN_SWITCHING) && (m_nCurVideoType == pChannel->GetVideoType())) ||
                 ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS) && (s.nDVBLastChannel == nChannelPrefNumber))) {
@@ -554,7 +556,9 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
             s.nDVBLastChannel = nChannelPrefNumber;
             m_nCurVideoType = pChannel->GetVideoType();
             m_nCurAudioType = pChannel->GetDefaultAudioType();
-            LOG(_T("SetChannel %d successful."), nChannelPrefNumber);
+            LOG(_T("SetChannel %d successful.\n"), nChannelPrefNumber);
+        } else {
+            LOG(_T("SetChannel %d failed. Result: 0x%08x.\n"), nChannelPrefNumber, hr);
         }
     }
     return hr;
@@ -573,24 +577,40 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 
-    CheckAndLog(m_pBDAControl->StartChanges(), _T("BDA: Setfrequency StartChanges"));
+    CheckAndLog(m_pBDAControl->StartChanges(), _T("BDA: SetFrequency StartChanges"));
     m_pBDAFreq->put_FrequencyMultiplier(1000);
-    CheckAndLog(m_pBDAFreq->put_Bandwidth(s.iBDABandwidth), _T("BDA: Setfrequency put_Bandwidth"));
-    CheckAndLog(m_pBDAFreq->put_Frequency(freq), _T("BDA: Setfrequency put_Frequency"));
-    CheckAndLog(m_pBDAControl->CheckChanges(), _T("BDA: Setfrequency CheckChanges"));
-    CheckAndLog(m_pBDAControl->CommitChanges(), _T("BDA: Setfrequency CommitChanges"));
+    CheckAndLog(m_pBDAFreq->put_Bandwidth(s.iBDABandwidth), _T("BDA: SetFrequency put_Bandwidth"));
+    CheckAndLog(m_pBDAFreq->put_Frequency(freq), _T("BDA: SetFrequency put_Frequency"));
+    CheckAndLog(m_pBDAControl->CheckChanges(), _T("BDA: SetFrequency CheckChanges"));
+    CheckAndLog(m_pBDAControl->CommitChanges(), _T("BDA: SetFrequency CommitChanges"));
 
     int i = 50;
     ULONG pState = BDA_CHANGES_PENDING;
-    while ((pState == BDA_CHANGES_PENDING) && (i > 0)) {
+    while (SUCCEEDED(hr = m_pBDAControl->GetChangeState(&pState)) && pState == BDA_CHANGES_PENDING && i-- > 0) {
+        LOG(_T("SetFrequency changes pending, waiting for tuner..."));
         Sleep(50);
-        hr = m_pBDAControl->GetChangeState(&pState);
-        i--;
     }
-    if (pState == BDA_CHANGES_PENDING) {
-        LOG(_T("BDA: Setfrequency changes pending (timeout error----)"));
+
+    if (SUCCEEDED(hr)) {
+        if (pState == BDA_CHANGES_PENDING) {
+            LOG(_T("SetFrequency changes pending (timeout error----)"));
+            hr = VFW_E_TIMEOUT;
+        } else {
+            LOG(_T("Frequency set to %d."), freq);
+#ifdef _DEBUG
+            BOOLEAN bPresent;
+            BOOLEAN bLocked;
+            LONG lDbStrength;
+            LONG lPercentQuality;
+
+            if (SUCCEEDED(GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
+                LOG(_T("Signal stats: Strength %d dB, Quality %d%%"), lDbStrength, lPercentQuality);
+            }
+#endif
+        }
+    } else {
+        LOG(_T("Frequency change failed. Result: 0x%08x."), hr);
     }
-    LOG(_T("Frequency set to %d."), freq);
 
     return hr;
 }
@@ -598,6 +618,7 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 HRESULT CFGManagerBDA::ClearMaps()
 {
     HRESULT hr = S_OK;
+
     if (m_DVBStreams[DVB_MPV].GetMappedPID()) {
         CheckNoLog(m_DVBStreams[DVB_MPV].Unmap(m_DVBStreams[DVB_MPV].GetMappedPID()));
     }
@@ -625,15 +646,22 @@ HRESULT CFGManagerBDA::ClearMaps()
 
 STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
 {
+    HRESULT hr = S_OK;
+
     if (ulFrequency == 0) {
         ClearMaps();
     } else {
         CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 
         LOG(_T("Scanning frequency %d.........."), ulFrequency);
-        Parser.ParseSDT(ulFrequency);
-        Parser.ParsePAT();
-        Parser.ParseNIT();
+
+        if (FAILED(hr = Parser.ParseSDT(ulFrequency))) {
+            LOG(_T("ParseSDT failed. Result: 0x%08x."), hr);
+        } else if (FAILED(hr = Parser.ParsePAT())) {
+            LOG(_T("ParsePAT failed. Result: 0x%08x."), hr);
+        } else if (FAILED(hr = Parser.ParseNIT())) {
+            LOG(_T("ParseNIT failed. Result: 0x%08x."), hr);
+        }
 
         POSITION pos = Parser.Channels.GetStartPosition();
         while (pos) {
@@ -642,14 +670,15 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
                 ::SendMessage(hWnd, WM_TUNER_NEW_CHANNEL, 0, (LPARAM)(LPCTSTR)Channel.ToString());
             }
         }
+        LOG(_T("Scanning frequency %d done."), ulFrequency);
     }
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lDbStrength, LONG& lPercentQuality)
 {
-    HRESULT hr;
+    HRESULT hr = S_OK;
     CheckPointer(m_pBDATunerStats, E_UNEXPECTED);
     CheckPointer(m_pBDADemodStats, E_UNEXPECTED);
 
@@ -665,9 +694,8 @@ STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& 
     if (FAILED(hr = m_pBDADemodStats->get_SignalQuality(&lPercentQuality)) && FAILED(hr = m_pBDATunerStats->get_SignalQuality(&lPercentQuality))) {
         return hr;
     }
-    LOG(_T("Get signal stats: Strength %d dB, Quality %d%%"), lDbStrength, lPercentQuality);
 
-    return S_OK;
+    return hr;
 }
 
 // IAMStreamSelect
@@ -679,7 +707,7 @@ STDMETHODIMP CFGManagerBDA::Count(DWORD* pcStreams)
 
     *pcStreams = 0;
 
-    if (pChannel != 0) {
+    if (pChannel) {
         int Streams = pChannel->GetAudioCount() + pChannel->GetSubtitleCount();
         *pcStreams = pChannel->GetSubtitleCount() ? Streams + 1 : Streams;
     }
@@ -712,7 +740,7 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
                         }
                         SwitchStream(m_nCurAudioType, pStreamInfo->Type);
                         m_nCurAudioType = pStreamInfo->Type;
-                        Flush(m_nCurVideoType, m_nCurAudioType);
+                        CheckNoLog(Flush(m_nCurVideoType, m_nCurAudioType));
                     }
                     pStream->Map(pStreamInfo->PID);
                     ChangeState((FILTER_STATE)nState);
@@ -773,27 +801,29 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
         } else if (lIndex > 0 && lIndex == pChannel->GetAudioCount() + pChannel->GetSubtitleCount()) {
             pCurrentStream = &m_DVBStreams[DVB_SUB];
 
-            if (pdwFlags) {
-                *pdwFlags = (!pCurrentStream->GetMappedPID()) ? AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE : 0;
-            }
-            if (plcid) {
-                *plcid  = (LCID)LCID_NOSUBTITLES;
-            }
-            if (pdwGroup) {
-                *pdwGroup = 2;    // Subtitle group
-            }
-            if (ppszName) {
-                CStringW str;
-                str = _T("No subtitles");
-
-                *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
-                if (*ppszName == nullptr) {
-                    return E_OUTOFMEMORY;
+            if (pCurrentStream) {
+                if (pdwFlags) {
+                    *pdwFlags = (!pCurrentStream->GetMappedPID()) ? AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE : 0;
                 }
-                wcscpy_s(*ppszName, str.GetLength() + 1, str);
+                if (plcid) {
+                    *plcid  = (LCID)LCID_NOSUBTITLES;
+                }
+                if (pdwGroup) {
+                    *pdwGroup = 2;    // Subtitle group
+                }
+                if (ppszName) {
+                    CStringW str;
+                    str = _T("No subtitles");
+
+                    *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
+                    if (*ppszName == nullptr) {
+                        return E_OUTOFMEMORY;
+                    }
+                    wcscpy_s(*ppszName, str.GetLength() + 1, str);
+                }
             }
 
-            hr = S_OK;
+            return S_OK;
         }
 
         if (pStreamInfo && pStream && pCurrentStream) {
@@ -848,7 +878,7 @@ STDMETHODIMP CFGManagerBDA::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
 {
     CComPtr<IMpeg2Demultiplexer> pDemux;
-    HRESULT hr;
+    HRESULT hr = S_OK;
     bool bAudioMPA = false;
     bool bAudioAC3 = false;
     bool bAudioEAC3 = false;
@@ -960,7 +990,9 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
         }
     }
 
-    return S_OK;
+    LOG(_T("CreateMicrosoftDemux succeeded.\n"));
+
+    return hr;
 }
 
 HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
@@ -1017,7 +1049,7 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 
     CheckNoLog(SetFrequency(pChannel->GetFrequency()));
 
-    Flush(pChannel->GetVideoType(), pChannel->GetDefaultAudioType());
+    CheckNoLog(Flush(pChannel->GetVideoType(), pChannel->GetDefaultAudioType()));
 
     if (pChannel->GetVideoPID() != 0) {
         CheckNoLog(m_DVBStreams[pChannel->GetVideoType()].Map(pChannel->GetVideoPID()));
@@ -1039,8 +1071,6 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         Sleep(1800);
         ((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
     }
-
-    // TODO : remove sub later!
 
     return hr;
 }
@@ -1070,6 +1100,7 @@ HRESULT CFGManagerBDA::Flush(DVB_STREAM_TYPE nVideoType, DVB_STREAM_TYPE nAudioT
         hr = pVidPinIn->EndFlush();
         hr = pVidPinIn->NewSegment(0, MAXLONG, 1);
     }
+
     return hr;
 }
 
@@ -1118,7 +1149,7 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nN
             hr = pGraph->Reconnect(pNewOut, pInPin, nullptr, nullptr, nullptr, AM_GRAPH_CONFIG_RECONNECT_DIRECTCONNECT);
             pOldOutControl->Block(0, nullptr);
         } else {                                     // Dynamic pins not supported
-            LOG(_T("Dynamic pin interface not supported"));
+            LOG(_T("Dynamic pin interface not supported."));
             hr = Disconnect(pOldOut);
             if (FAILED(hr) && (GetState() != State_Stopped)) {
                 ChangeState(State_Stopped);
@@ -1144,6 +1175,7 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nN
         }
     } else {
         hr = E_POINTER;
+        ASSERT(FALSE);
     }
 
     LOG(_T("SwitchStream - Stream type: %d. Result: 0x%08x"), nNewType, hr);
@@ -1174,7 +1206,7 @@ void CFGManagerBDA::UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChanne
         NewVideoHeader->bmiHeader.biWidth = pChannel->GetVideoWidth();
     } else if (pChannel->GetVideoType() == DVB_H264) {
         NewVideoHeader->bmiHeader.biHeight = 1080;   // 1080 was the default before this change (should be 576)
-        NewVideoHeader->bmiHeader.biWidth = 1920;    // 1920 was the default before this change (should be 720;
+        NewVideoHeader->bmiHeader.biWidth = 1920;    // 1920 was the default before this change (should be 720)
     } else {
         NewVideoHeader->bmiHeader.biHeight = 576;
         NewVideoHeader->bmiHeader.biWidth = 720;
@@ -1192,7 +1224,6 @@ void CFGManagerBDA::UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChanne
     NewVideoHeader->rcTarget.left = 0;
     NewVideoHeader->rcTarget.right = 0;
     NewVideoHeader->rcTarget.bottom = 0;
-
 }
 
 HRESULT CFGManagerBDA::UpdatePSI(EventDescriptor& NowNext)
@@ -1231,15 +1262,7 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
                 return pMC->Pause();
             }
             case State_Running: {
-                int iCount = 0;
-                hr = S_FALSE;
-                while ((hr == S_FALSE) && (iCount++ < 10)) {
-                    hr = pMC->Run();
-                    if (hr == S_FALSE) {
-                        Sleep(50);
-                    }
-                }
-                if (SUCCEEDED(hr)) {
+                if (SUCCEEDED(hr = pMC->Run()) && SUCCEEDED(hr = pMC->GetState(500, &nState)) && nState == State_Running) {
                     ((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
                 }
                 LOG(_T("IMediaControl play: 0x%08x."), hr);

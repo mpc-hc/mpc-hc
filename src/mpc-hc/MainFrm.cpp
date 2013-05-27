@@ -12247,7 +12247,6 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
                 bSucceeded = false;
                 for (int nOffsetPos = 0; nOffsetPos < nOffset && !bSucceeded; nOffsetPos++) {
                     pTun->SetFrequency(ulFrequency + lOffsets[nOffsetPos]);
-                    Sleep(200);
                     if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
                         ::SendMessage(pTSD->Hwnd, WM_TUNER_STATS, lDbStrength, lPercentQuality);
                         pTun->Scan(ulFrequency + lOffsets[nOffsetPos], pTSD->Hwnd);
@@ -14711,11 +14710,10 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
     CString osd;
     EventDescriptor NowNext;
 
-    if (pChannel != nullptr) {
+    if (pChannel) {
         // Get EIT information:
         CComQIPtr<IBDATuner> pTun = m_pGB;
-        if (pTun && pChannel->GetNowNextFlag()) {
-            pTun->UpdatePSI(NowNext);
+        if (pTun && pTun->UpdatePSI(NowNext) == S_OK) {
             // Set a timer to update the infos
             time_t tNow;
             time(&tNow);
@@ -14767,6 +14765,8 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
         if (fShowInfoBar) {
             ShowControls(m_nCS | CS_INFOBAR, true);
         }
+    } else {
+        ASSERT(FALSE);
     }
 }
 
