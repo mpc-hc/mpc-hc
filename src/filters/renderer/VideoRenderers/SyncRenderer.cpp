@@ -151,7 +151,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
     const CRenderersSettings& r = GetRenderersSettings();
-    if (r.m_AdvRendSets.iVMRDisableDesktopComposition) {
+    if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {
         m_bDesktopCompositionDisabled = true;
         if (m_pDwmEnableComposition) {
             m_pDwmEnableComposition(0);
@@ -353,7 +353,7 @@ bool CBaseAP::SettingsNeedResetDevice()
 
     bool bRet = false;
     if (!m_bIsFullscreen) {
-        if (Current.iVMRDisableDesktopComposition) {
+        if (Current.bVMRDisableDesktopComposition) {
             if (!m_bDesktopCompositionDisabled) {
                 m_bDesktopCompositionDisabled = true;
                 if (m_pDwmEnableComposition) {
@@ -369,7 +369,7 @@ bool CBaseAP::SettingsNeedResetDevice()
             }
         }
     }
-    bRet = bRet || New.iEVRHighColorResolution != Current.iEVRHighColorResolution;
+    bRet = bRet || New.bEVRHighColorResolution != Current.bEVRHighColorResolution;
     m_LastRendererSettings = r.m_AdvRendSets;
     return bRet;
 }
@@ -446,7 +446,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
         pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
         pp.Flags = D3DPRESENTFLAG_VIDEO;
-        m_bHighColorResolution = r.m_AdvRendSets.iEVRHighColorResolution;
+        m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
         if (m_bHighColorResolution) {
             if (FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false))) {
                 m_strStatsMsg[MSG_ERROR] = L"10 bit RGB is not supported by this graphics device in this resolution.";
@@ -503,7 +503,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         pp.BackBufferHeight = d3ddm.Height;
         m_BackbufferType = d3ddm.Format;
         m_DisplayType = d3ddm.Format;
-        m_bHighColorResolution = r.m_AdvRendSets.iEVRHighColorResolution;
+        m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
         if (m_bHighColorResolution) {
             if (FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false))) {
                 m_strStatsMsg[MSG_ERROR] = L"10 bit RGB is not supported by this graphics device in this resolution.";
@@ -741,7 +741,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         m_pDwmIsCompositionEnabled(&bCompositionEnabled);
     }
     m_bCompositionEnabled = bCompositionEnabled != 0;
-    m_bHighColorResolution = r.m_AdvRendSets.iEVRHighColorResolution;
+    m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
 
     if (m_bIsFullscreen) { // Exclusive mode fullscreen
         pp.BackBufferWidth = d3ddm.Width;
@@ -2101,7 +2101,7 @@ void CBaseAP::DrawStats()
             if (m_bIsFullscreen) {
                 strText += "D3DFS ";
             }
-            if (r.m_AdvRendSets.iVMRDisableDesktopComposition) {
+            if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {
                 strText += "DisDC ";
             }
             if (r.m_AdvRendSets.bSynchronizeVideo) {
@@ -3181,7 +3181,7 @@ bool CSyncAP::GetSampleFromMixer()
 
         newSample = true;
 
-        if (GetRenderersData()->m_fTearingTest) {
+        if (GetRenderersData()->m_bTearingTest) {
             RECT rcTearing;
 
             rcTearing.left = m_nTearingPos;

@@ -1132,7 +1132,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         REFERENCE_TIME nsDuration;
         pSample->GetSampleDuration(&nsDuration);
 
-        if (GetRenderersData()->m_fTearingTest) {
+        if (GetRenderersData()->m_bTearingTest) {
             RECT rcTearing;
 
             rcTearing.left   = m_nTearingPos;
@@ -1981,7 +1981,7 @@ void CEVRAllocatorPresenter::RenderThread()
     while (!bQuit) {
         LONGLONG llPerf = GetRenderersData()->GetPerfCounter();
         UNREFERENCED_PARAMETER(llPerf);
-        if (!r.m_AdvRendSets.iVMR9VSyncAccurate && NextSleepTime == 0) {
+        if (!r.m_AdvRendSets.bVMR9VSyncAccurate && NextSleepTime == 0) {
             NextSleepTime = 1;
         }
         dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
@@ -2094,7 +2094,7 @@ void CEVRAllocatorPresenter::RenderThread()
                             } else {
                                 LONGLONG TimePerFrame = (LONGLONG)(GetFrameTime() * 10000000.0);
                                 LONGLONG DrawTime = m_PaintTime * 9 / 10 - 20000; // 2 ms offset (= m_PaintTime * 0.9 - 20000)
-                                //if (!r.iVMR9VSync)
+                                //if (!r.bVMR9VSync)
                                 DrawTime = 0;
 
                                 LONGLONG SyncOffset = 0;
@@ -2119,7 +2119,7 @@ void CEVRAllocatorPresenter::RenderThread()
                                     DetectedScanlineTime = DetectedRefreshTime / double(m_ScreenSize.cy);
                                 }
 
-                                if (r.m_AdvRendSets.iVMR9VSync) {
+                                if (r.m_AdvRendSets.bVMR9VSync) {
                                     bVSyncCorrection = true;
                                     double TargetVSyncPos = GetVBlackPos();
                                     double RefreshLines = DetectedScanlinesPerFrame;
@@ -2345,7 +2345,7 @@ void CEVRAllocatorPresenter::VSyncThread()
                 break;
             case WAIT_TIMEOUT: {
                 // Do our stuff
-                if (m_pD3DDev && r.m_AdvRendSets.iVMR9VSync) {
+                if (m_pD3DDev && r.m_AdvRendSets.bVMR9VSync) {
                     if (m_nRenderState == Started) {
                         int VSyncPos  = GetVBlackPos();
                         int WaitRange = max(m_ScreenSize.cy / 40, 5);
@@ -2722,7 +2722,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
             if (m_DetectedFrameTime != 0.0
                     //&& PredictedDiff > MIN_FRAME_TIME
-                    && m_DetectedLock && r.m_AdvRendSets.iEVREnableFrameTimeCorrection) {
+                    && m_DetectedLock && r.m_AdvRendSets.bEVREnableFrameTimeCorrection) {
                 double CurrentTime = Time / 10000000.0;
                 double LastTime = m_LastScheduledSampleTimeFP;
                 double PredictedTime = LastTime + m_DetectedFrameTime;

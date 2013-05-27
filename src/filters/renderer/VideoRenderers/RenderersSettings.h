@@ -77,40 +77,40 @@ public:
     public:
         CAdvRendererSettings() { SetDefault(); }
 
-        bool   fVMR9AlterativeVSync;
-        int    iVMR9VSyncOffset;
-        bool   iVMR9VSyncAccurate;
-        bool   iVMR9FullscreenGUISupport;
-        bool   iVMR9VSync;
-        bool   iVMR9FullFloatingPointProcessing;
-        bool   iVMR9HalfFloatingPointProcessing;
-        bool   iVMR9ColorManagementEnable;
-        int    iVMR9ColorManagementInput;
-        int    iVMR9ColorManagementAmbientLight;
-        int    iVMR9ColorManagementIntent;
-        bool   iVMRDisableDesktopComposition;
-        int    iVMRFlushGPUBeforeVSync;
-        int    iVMRFlushGPUAfterPresent;
-        int    iVMRFlushGPUWait;
+        bool    bVMR9AlterativeVSync;
+        int     iVMR9VSyncOffset;
+        bool    bVMR9VSyncAccurate;
+        bool    bVMR9FullscreenGUISupport;
+        bool    bVMR9VSync;
+        bool    bVMR9FullFloatingPointProcessing;
+        bool    bVMR9HalfFloatingPointProcessing;
+        bool    bVMR9ColorManagementEnable;
+        int     iVMR9ColorManagementInput;
+        int     iVMR9ColorManagementAmbientLight;
+        int     iVMR9ColorManagementIntent;
+        bool    bVMRDisableDesktopComposition;
+        int     iVMRFlushGPUBeforeVSync;
+        int     iVMRFlushGPUAfterPresent;
+        int     iVMRFlushGPUWait;
 
         // EVR
-        bool iEVRHighColorResolution;
-        bool iEVRForceInputHighColorResolution;
-        bool iEVREnableFrameTimeCorrection;
-        int  iEVROutputRange;
+        bool    bEVRHighColorResolution;
+        bool    bEVRForceInputHighColorResolution;
+        bool    bEVREnableFrameTimeCorrection;
+        int     iEVROutputRange;
 
         // SyncRenderer settings
-        int    bSynchronizeVideo;
-        int    bSynchronizeDisplay;
-        int    bSynchronizeNearest;
-        int    iLineDelta;
-        int    iColumnDelta;
-        double fCycleDelta;
-        double fTargetSyncOffset;
-        double fControlLimit;
+        int     bSynchronizeVideo;
+        int     bSynchronizeDisplay;
+        int     bSynchronizeNearest;
+        int     iLineDelta;
+        int     iColumnDelta;
+        double  fCycleDelta;
+        double  fTargetSyncOffset;
+        double  fControlLimit;
 
-        void SetDefault();
-        void SetOptimal();
+        void    SetDefault();
+        void    SetOptimal();
     };
 
     CAdvRendererSettings m_AdvRendSets;
@@ -139,9 +139,9 @@ public:
     CRenderersData();
 
     // Casimir666
-    bool        m_fTearingTest;
+    bool        m_bTearingTest;
     int         m_fDisplayStats;
-    bool        m_bResetStats; // Set to reset the presentation statistics
+    bool        m_bResetStats;  // Set to reset the presentation statistics
     CString     m_strD3DX9Version;
 
     // Hardware feature support
