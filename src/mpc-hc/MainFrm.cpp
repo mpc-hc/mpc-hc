@@ -5473,7 +5473,7 @@ void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
                       || s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
 
     pCmdUI->Enable(supported && m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
-    pCmdUI->SetCheck(supported && AfxGetMyApp()->m_Renderers.m_fDisplayStats);
+    pCmdUI->SetCheck(supported && AfxGetMyApp()->m_Renderers.m_iDisplayStats);
 }
 
 void CMainFrame::OnViewResetStats()
@@ -5489,13 +5489,13 @@ void CMainFrame::OnViewDisplayStatsSC()
                       || s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
 
     if (supported) {
-        if (!AfxGetMyApp()->m_Renderers.m_fDisplayStats) {
+        if (!AfxGetMyApp()->m_Renderers.m_iDisplayStats) {
             AfxGetMyApp()->m_Renderers.m_bResetStats = true; // to reset statistics on first call ...
         }
 
-        ++AfxGetMyApp()->m_Renderers.m_fDisplayStats;
-        if (AfxGetMyApp()->m_Renderers.m_fDisplayStats > 3) {
-            AfxGetMyApp()->m_Renderers.m_fDisplayStats = 0;
+        ++AfxGetMyApp()->m_Renderers.m_iDisplayStats;
+        if (AfxGetMyApp()->m_Renderers.m_iDisplayStats > 3) {
+            AfxGetMyApp()->m_Renderers.m_iDisplayStats = 0;
         }
     }
 }

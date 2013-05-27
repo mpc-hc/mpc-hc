@@ -1767,7 +1767,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
         }
         m_VMR9AlphaBitmap.dwFlags ^= VMRBITMAP_UPDATE;
     }
-    if (pApp->m_fDisplayStats) {
+    if (pApp->m_iDisplayStats) {
         DrawStats();
     }
     if (m_pOSDTexture) {
@@ -1796,10 +1796,10 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
         m_pRefClock->GetTime(&llCurRefTime);    // To check if we called Present too late to hit the right vsync
     }
     m_llEstVBlankTime = max(m_llEstVBlankTime, llCurRefTime); // Sometimes the real value is larger than the estimated value (but never smaller)
-    if (pApp->m_fDisplayStats < 3) {      // Partial on-screen statistics
+    if (pApp->m_iDisplayStats < 3) {      // Partial on-screen statistics
         SyncStats(m_llEstVBlankTime);     // Max of estimate and real. Sometimes Present may actually return immediately so we need the estimate as a lower bound
     }
-    if (pApp->m_fDisplayStats == 1) {      // Full on-screen statistics
+    if (pApp->m_iDisplayStats == 1) {      // Full on-screen statistics
         SyncOffsetStats(-llSyncOffset);    // Minus because we want time to flow downward in the graph in DrawStats
     }
 
@@ -1978,7 +1978,7 @@ void CBaseAP::DrawStats()
     LONGLONG llMinJitter = m_MinJitter;
 
     RECT rc = {20, 20, 520, 520 };
-    // pApp->m_fDisplayStats = 1 for full stats, 2 for little less, 3 for basic, 0 for no stats
+    // pApp->m_iDisplayStats = 1 for full stats, 2 for little less, 3 for basic, 0 for no stats
     if (m_pFont && m_pSprite) {
         m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
         CString strText;
@@ -1988,7 +1988,7 @@ void CBaseAP::DrawStats()
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
 
-        if (pApp->m_fDisplayStats == 1) {
+        if (pApp->m_iDisplayStats == 1) {
             strText.Format(L"Frame cycle  : %.3f ms [%.3f ms, %.3f ms]  Actual  %+5.3f ms [%+.3f ms, %+.3f ms]", m_dFrameCycle, m_pGenlock->minFrameCycle, m_pGenlock->maxFrameCycle, m_fJitterMean / 10000.0, (double(llMinJitter) / 10000.0), (double(llMaxJitter) / 10000.0));
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
@@ -2076,7 +2076,7 @@ void CBaseAP::DrawStats()
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
 
-        if (pApp->m_fDisplayStats == 1) {
+        if (pApp->m_iDisplayStats == 1) {
             if (m_pAudioStats && r.m_AdvRendSets.bSynchronizeVideo) {
                 strText.Format(L"Audio lag   : %3u ms [%d ms, %d ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
                 DrawText(rc, strText, 1);
@@ -2144,7 +2144,7 @@ void CBaseAP::DrawStats()
         m_pSprite->End();
     }
 
-    if (m_pLine && (pApp->m_fDisplayStats < 3)) {
+    if (m_pLine && (pApp->m_iDisplayStats < 3)) {
         D3DXVECTOR2 Points[NB_JITTER];
         int nIndex;
 
@@ -2186,7 +2186,7 @@ void CBaseAP::DrawStats()
         }
         m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
 
-        if (pApp->m_fDisplayStats == 1) { // Full on-screen statistics
+        if (pApp->m_iDisplayStats == 1) { // Full on-screen statistics
             for (int i = 0; i < NB_JITTER; i++) {
                 nIndex = (m_nNextSyncOffset + 1 + i) % NB_JITTER;
                 if (nIndex < 0) {

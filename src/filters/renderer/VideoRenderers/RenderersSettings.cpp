@@ -99,7 +99,7 @@ void CRenderersSettings::CAdvRendererSettings::SetOptimal()
 CRenderersData::CRenderersData()
 {
     m_bTearingTest  = false;
-    m_fDisplayStats = false;
+    m_iDisplayStats = false;
     m_bResetStats   = false;
     m_hD3DX9Dll     = nullptr;
     m_nDXSdkRelease = 0;

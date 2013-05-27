@@ -140,7 +140,7 @@ public:
 
     // Casimir666
     bool        m_bTearingTest;
-    int         m_fDisplayStats;
+    int         m_iDisplayStats;
     bool        m_bResetStats;  // Set to reset the presentation statistics
     CString     m_strD3DX9Version;
 
