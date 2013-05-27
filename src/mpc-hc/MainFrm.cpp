@@ -9682,7 +9682,7 @@ void CMainFrame::AutoChangeMonitorMode()
     if (s.IsD3DFullscreen() && miFPS > 0.9) {
         MediaFPS = miFPS;
     } else if (GetPlaybackMode() == PM_FILE) {
-        LONGLONG m_rtTimePerFrame = 1;
+        REFERENCE_TIME m_rtTimePerFrame = 1;
         // if ExtractAvgTimePerFrame isn't executed then MediaFPS=10000000.0,
         // (int)(MediaFPS + 0.5)=10000000 and SetDispMode is executed to Default.
         BeginEnumFilters(m_pGB, pEF, pBF) {

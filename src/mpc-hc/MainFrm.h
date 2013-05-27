@@ -891,7 +891,7 @@ public:
     bool        m_bRemainingTime;
     int         m_nCurSubtitle;
     long        m_lSubtitleShift;
-    __int64     m_rtCurSubPos;
+    REFERENCE_TIME m_rtCurSubPos;
     CString     m_strTitle;
     bool        m_bToggleShader;
     bool        m_bToggleShaderScreenSpace;
