@@ -36,3 +36,4 @@ Legend:
 ! Ticket #3110, DVB: Improve compatibility with some drivers for which MPC-HC failed to find
   any channel during the channel scan
 ! Ticket #3113, MPC-HC was sometimes slow to close (audio kept playing for a few seconds)
+! Ticket #3175, DVB: Changing the channel was exiting fullscreen or maximized mode

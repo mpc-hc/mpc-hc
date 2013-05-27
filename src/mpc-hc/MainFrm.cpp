@@ -14690,7 +14690,13 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                 }
                 ShowCurrentChannelInfo();
             }
-            ZoomVideoWindow();
+
+            WINDOWPLACEMENT wp;
+            wp.length = sizeof(wp);
+            GetWindowPlacement(&wp);
+            if (!m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
+                ZoomVideoWindow();
+            }
         }
         m_fSetChannelActive = false;
     }
