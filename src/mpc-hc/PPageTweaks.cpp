@@ -75,7 +75,7 @@ int CALLBACK EnumFontProc(ENUMLOGFONT FAR* lf, NEWTEXTMETRIC FAR* tm, int FontTy
     if (FontType == TRUETYPE_FONTTYPE) {
         fntl->Add(lf->elfFullName);
     }
-    return true;
+    return 1; /* Continue the enumeration */
 }
 
 BOOL CPPageTweaks::OnInitDialog()
