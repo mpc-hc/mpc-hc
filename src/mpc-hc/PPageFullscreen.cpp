@@ -414,9 +414,8 @@ void CPPageFullscreen::ModesUpdate()
     memset(m_iSeldm, -1, sizeof(m_iSeldm));
     m_iSel = -1;
 
-    for (int i = 0, m = 0, ModeExist = true;  ; i++) {
-        ModeExist = GetDispMode(i, dm, m_f_hmonitor);
-        if (!ModeExist) {
+    for (int i = 0, m = 0;  ; i++) {
+        if (!GetDispMode(i, dm, m_f_hmonitor)) {
             break;
         }
         if (dm.bpp != 32 || dm.size.cx < 640) {

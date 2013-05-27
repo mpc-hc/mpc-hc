@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,9 +28,9 @@ IMPLEMENT_DYNAMIC(CPPageSync, CPPageBase)
 
 CPPageSync::CPPageSync()
     : CPPageBase(CPPageSync::IDD, CPPageSync::IDD)
-    , m_bSynchronizeVideo(0)
-    , m_bSynchronizeDisplay(0)
-    , m_bSynchronizeNearest(0)
+    , m_bSynchronizeVideo(FALSE)
+    , m_bSynchronizeDisplay(FALSE)
+    , m_bSynchronizeNearest(FALSE)
     , m_iLineDelta(0)
     , m_iColumnDelta(0)
     , m_fCycleDelta(0.0012)

@@ -33,27 +33,27 @@ void CRenderersSettings::UpdateData(bool fSave)
 
 void CRenderersSettings::CAdvRendererSettings::SetDefault()
 {
-    bVMR9AlterativeVSync              = 0;
+    bVMR9AlterativeVSync              = false;
     iVMR9VSyncOffset                  = 0;
-    bVMR9VSyncAccurate                = 0;
-    bVMR9FullscreenGUISupport         = 0;
+    bVMR9VSyncAccurate                = false;
+    bVMR9FullscreenGUISupport         = false;
     bVMR9VSync                        = !SysVersion::IsVistaOrLater();
-    bVMR9FullFloatingPointProcessing  = 0;
-    bVMR9HalfFloatingPointProcessing  = 0;
-    bVMR9ColorManagementEnable        = 0;
+    bVMR9FullFloatingPointProcessing  = false;
+    bVMR9HalfFloatingPointProcessing  = false;
+    bVMR9ColorManagementEnable        = false;
     iVMR9ColorManagementInput         = VIDEO_SYSTEM_UNKNOWN;
     iVMR9ColorManagementAmbientLight  = AMBIENT_LIGHT_BRIGHT;
     iVMR9ColorManagementIntent        = COLOR_RENDERING_INTENT_PERCEPTUAL;
-    bVMRDisableDesktopComposition     = 0;
+    bVMRDisableDesktopComposition     = false;
     bVMRFlushGPUBeforeVSync           = true;
     bVMRFlushGPUAfterPresent          = true;
     bVMRFlushGPUWait                  = false;
-    bEVRHighColorResolution           = 0;
-    bEVRForceInputHighColorResolution = 0;
-    bEVREnableFrameTimeCorrection     = 0;
+    bEVRHighColorResolution           = false;
+    bEVRForceInputHighColorResolution = false;
+    bEVREnableFrameTimeCorrection     = false;
     iEVROutputRange                   = 0;
-    bSynchronizeVideo                 = 0;
-    bSynchronizeDisplay               = 0;
+    bSynchronizeVideo                 = false;
+    bSynchronizeDisplay               = false;
     bSynchronizeNearest               = true;
     iLineDelta                        = 0;
     iColumnDelta                      = 0;
@@ -64,27 +64,27 @@ void CRenderersSettings::CAdvRendererSettings::SetDefault()
 
 void CRenderersSettings::CAdvRendererSettings::SetOptimal()
 {
-    bVMR9AlterativeVSync              = 1;
+    bVMR9AlterativeVSync              = true;
     iVMR9VSyncOffset                  = 0;
-    bVMR9VSyncAccurate                = 1;
-    bVMR9FullscreenGUISupport         = 0;
-    bVMR9VSync                        = 1;
-    bVMR9FullFloatingPointProcessing  = 1;
-    bVMR9HalfFloatingPointProcessing  = 0;
-    bVMR9ColorManagementEnable        = 0;
+    bVMR9VSyncAccurate                = true;
+    bVMR9FullscreenGUISupport         = false;
+    bVMR9VSync                        = true;
+    bVMR9FullFloatingPointProcessing  = true;
+    bVMR9HalfFloatingPointProcessing  = false;
+    bVMR9ColorManagementEnable        = false;
     iVMR9ColorManagementInput         = VIDEO_SYSTEM_UNKNOWN;
     iVMR9ColorManagementAmbientLight  = AMBIENT_LIGHT_BRIGHT;
     iVMR9ColorManagementIntent        = COLOR_RENDERING_INTENT_PERCEPTUAL;
-    bVMRDisableDesktopComposition     = 1;
+    bVMRDisableDesktopComposition     = true;
     bVMRFlushGPUBeforeVSync           = true;
     bVMRFlushGPUAfterPresent          = true;
     bVMRFlushGPUWait                  = false;
-    bEVRHighColorResolution           = 0;
-    bEVRForceInputHighColorResolution = 0;
-    bEVREnableFrameTimeCorrection     = 0;
+    bEVRHighColorResolution           = false;
+    bEVRForceInputHighColorResolution = false;
+    bEVREnableFrameTimeCorrection     = false;
     iEVROutputRange                   = 0;
-    bSynchronizeVideo                 = 0;
-    bSynchronizeDisplay               = 0;
+    bSynchronizeVideo                 = false;
+    bSynchronizeDisplay               = false;
     bSynchronizeNearest               = true;
     iLineDelta                        = 0;
     iColumnDelta                      = 0;
@@ -99,7 +99,7 @@ void CRenderersSettings::CAdvRendererSettings::SetOptimal()
 CRenderersData::CRenderersData()
 {
     m_bTearingTest  = false;
-    m_iDisplayStats = false;
+    m_iDisplayStats = 0;
     m_bResetStats   = false;
     m_hD3DX9Dll     = nullptr;
     m_nDXSdkRelease = 0;

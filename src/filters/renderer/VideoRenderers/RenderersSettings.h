@@ -100,8 +100,8 @@ public:
         int     iEVROutputRange;
 
         // SyncRenderer settings
-        int     bSynchronizeVideo;
-        int     bSynchronizeDisplay;
+        bool    bSynchronizeVideo;
+        bool    bSynchronizeDisplay;
         bool    bSynchronizeNearest;
         int     iLineDelta;
         int     iColumnDelta;
