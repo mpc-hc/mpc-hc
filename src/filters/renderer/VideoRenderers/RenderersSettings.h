@@ -89,9 +89,9 @@ public:
         int     iVMR9ColorManagementAmbientLight;
         int     iVMR9ColorManagementIntent;
         bool    bVMRDisableDesktopComposition;
-        int     iVMRFlushGPUBeforeVSync;
-        int     iVMRFlushGPUAfterPresent;
-        int     iVMRFlushGPUWait;
+        bool    bVMRFlushGPUBeforeVSync;
+        bool    bVMRFlushGPUAfterPresent;
+        bool    bVMRFlushGPUWait;
 
         // EVR
         bool    bEVRHighColorResolution;
@@ -102,7 +102,7 @@ public:
         // SyncRenderer settings
         int     bSynchronizeVideo;
         int     bSynchronizeDisplay;
-        int     bSynchronizeNearest;
+        bool    bSynchronizeNearest;
         int     iLineDelta;
         int     iColumnDelta;
         double  fCycleDelta;

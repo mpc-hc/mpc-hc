@@ -5698,11 +5698,11 @@ void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
     pCmdUI->Enable(supported);
 
     if (pCmdUI->m_nID == ID_VIEW_FLUSHGPU_BEFOREVSYNC) {
-        pCmdUI->SetCheck(r.m_AdvRendSets.iVMRFlushGPUBeforeVSync != 0);
+        pCmdUI->SetCheck(r.m_AdvRendSets.bVMRFlushGPUBeforeVSync);
     } else if (pCmdUI->m_nID == ID_VIEW_FLUSHGPU_AFTERPRESENT) {
-        pCmdUI->SetCheck(r.m_AdvRendSets.iVMRFlushGPUAfterPresent != 0);
+        pCmdUI->SetCheck(r.m_AdvRendSets.bVMRFlushGPUAfterPresent);
     } else if (pCmdUI->m_nID == ID_VIEW_FLUSHGPU_WAIT) {
-        pCmdUI->SetCheck(r.m_AdvRendSets.iVMRFlushGPUWait != 0);
+        pCmdUI->SetCheck(r.m_AdvRendSets.bVMRFlushGPUWait);
     }
 
 }
@@ -6045,9 +6045,9 @@ void CMainFrame::OnViewEVROutputRange_16_235()
 void CMainFrame::OnViewFlushGPUBeforeVSync()
 {
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
-    r.m_AdvRendSets.iVMRFlushGPUBeforeVSync = !r.m_AdvRendSets.iVMRFlushGPUBeforeVSync;
+    r.m_AdvRendSets.bVMRFlushGPUBeforeVSync = !r.m_AdvRendSets.bVMRFlushGPUBeforeVSync;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMRFlushGPUBeforeVSync
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMRFlushGPUBeforeVSync
                          ? ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_ON)
                          : ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF));
 }
@@ -6055,9 +6055,9 @@ void CMainFrame::OnViewFlushGPUBeforeVSync()
 void CMainFrame::OnViewFlushGPUAfterVSync()
 {
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
-    r.m_AdvRendSets.iVMRFlushGPUAfterPresent = !r.m_AdvRendSets.iVMRFlushGPUAfterPresent;
+    r.m_AdvRendSets.bVMRFlushGPUAfterPresent = !r.m_AdvRendSets.bVMRFlushGPUAfterPresent;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMRFlushGPUAfterPresent
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMRFlushGPUAfterPresent
                          ? ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_ON)
                          : ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_OFF));
 }
@@ -6065,9 +6065,9 @@ void CMainFrame::OnViewFlushGPUAfterVSync()
 void CMainFrame::OnViewFlushGPUWait()
 {
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
-    r.m_AdvRendSets.iVMRFlushGPUWait = !r.m_AdvRendSets.iVMRFlushGPUWait;
+    r.m_AdvRendSets.bVMRFlushGPUWait = !r.m_AdvRendSets.bVMRFlushGPUWait;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.iVMRFlushGPUWait
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMRFlushGPUWait
                          ? ResStr(IDS_OSD_RS_WAIT_ON)
                          : ResStr(IDS_OSD_RS_WAIT_OFF));
 }

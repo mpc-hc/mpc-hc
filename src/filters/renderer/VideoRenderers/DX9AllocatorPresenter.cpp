@@ -1393,13 +1393,13 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         pEventQuery->Issue(D3DISSUE_END);
     }
 
-    if (r.m_AdvRendSets.iVMRFlushGPUBeforeVSync && pEventQuery) {
+    if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync && pEventQuery) {
         LONGLONG llPerf = pApp->GetPerfCounter();
         BOOL Data;
         //Sleep(5);
         LONGLONG FlushStartTime = pApp->GetPerfCounter();
         while (S_FALSE == pEventQuery->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
-            if (!r.m_AdvRendSets.iVMRFlushGPUWait) {
+            if (!r.m_AdvRendSets.bVMRFlushGPUWait) {
                 break;
             }
             Sleep(1);
@@ -1407,7 +1407,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
                 break;    // timeout after 50 ms
             }
         }
-        if (r.m_AdvRendSets.iVMRFlushGPUWait) {
+        if (r.m_AdvRendSets.bVMRFlushGPUWait) {
             m_WaitForGPUTime = pApp->GetPerfCounter() - llPerf;
         } else {
             m_WaitForGPUTime = 0;
@@ -1465,10 +1465,10 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
         BOOL Data;
 
-        if (r.m_AdvRendSets.iVMRFlushGPUAfterPresent && pEventQuery) {
+        if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent && pEventQuery) {
             LONGLONG FlushStartTime = pApp->GetPerfCounter();
             while (S_FALSE == pEventQuery->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
-                if (!r.m_AdvRendSets.iVMRFlushGPUWait) {
+                if (!r.m_AdvRendSets.bVMRFlushGPUWait) {
                     break;
                 }
                 if (pApp->GetPerfCounter() - FlushStartTime > 500000) {
@@ -1807,14 +1807,14 @@ void CDX9AllocatorPresenter::DrawStats()
                 strText += "ColorMan ";
             }
 
-            if (r.m_AdvRendSets.iVMRFlushGPUBeforeVSync) {
+            if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync) {
                 strText += "GPUFlushBV ";
             }
-            if (r.m_AdvRendSets.iVMRFlushGPUAfterPresent) {
+            if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent) {
                 strText += "GPUFlushAP ";
             }
 
-            if (r.m_AdvRendSets.iVMRFlushGPUWait) {
+            if (r.m_AdvRendSets.bVMRFlushGPUWait) {
                 strText += "GPUFlushWt ";
             }
 
