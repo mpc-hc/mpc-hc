@@ -3463,7 +3463,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             _T("");
         if (!m_fAudioOnly && (UI_Text == ResStr(IDS_CONTROLS_PAUSED) || UI_Text == ResStr(IDS_CONTROLS_PLAYING))) {
             CString DXVA_Text = GetDXVADecoderDescription();
-            if (!(_T("Not using DXVA") == DXVA_Text) || (_T("Unknown") == DXVA_Text)) {
+            if (_T("Not using DXVA") != DXVA_Text && _T("Unknown") != DXVA_Text) {
                 UI_Text += _T(" [DXVA]");
             }
         }
