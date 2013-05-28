@@ -12,8 +12,8 @@ Legend:
 ========================
 + Ticket #2872, Add support for DVB-T2 and improve channel switching (new options are available to
   have a finer control on switching process)
-* Updated Basque, Czech, French, German, Greek, Japanese, Russian, Simplified / Traditional Chinese
-  and Turkish translations
+* Updated Basque, Czech, French, German, Greek, Japanese, Russian, Simplified / Traditional Chinese,
+  Turkish and Ukrainian translations
 * Updated Little CMS to v2.5 (git dd44baf)
 * Updated zlib to v1.2.8
 * Updated Unrar to v5.0.4
@@ -29,7 +29,7 @@ Legend:
 ! PGS and DVB subtitles: Fix missing subtitles after resizing the window when using
   the subpicture queue
 ! Open dialog: if an URL was previously enterer in the "Open" or "Dub" fields an error message
-  was shown when clicking on the "Browse" button 
+  was shown when clicking on the "Browse" button
 ! Vobsub files with language/title in their filenames weren't auto-loaded
 ! Fix a memory leak: the memory consumption would increase noticeably until the file was closed
   when the file had chapters and the chapter marks on seek bar were enabled
