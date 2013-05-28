@@ -101,7 +101,7 @@ CWord::~CWord()
 
 bool CWord::Append(CWord* w)
 {
-    if (!(m_style == w->m_style)
+    if (m_style != w->m_style
             || m_fLineBreak || w->m_fLineBreak
             || w->m_kstart != w->m_kend || m_ktype != w->m_ktype) {
         return false;

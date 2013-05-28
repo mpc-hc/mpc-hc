@@ -215,7 +215,7 @@ BOOL CPPageSubStyle::OnApply()
 
     if (m_fUseDefaultStyle) {
         STSStyle& stss = AfxGetAppSettings().subdefstyle;
-        if (!(stss == m_stss)) {
+        if (stss != m_stss) {
             stss = m_stss;
             if (CMainFrame* pFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
                 pFrame->SetSubtitle(0, true, false, true);

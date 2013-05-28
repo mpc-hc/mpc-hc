@@ -2917,7 +2917,7 @@ void STSStyle::SetDefault()
     relativeTo = 2;
 }
 
-bool STSStyle::operator == (STSStyle& s)
+bool STSStyle::operator == (const STSStyle& s) const
 {
     return (marginRect == s.marginRect
             && scrAlignment == s.scrAlignment
@@ -2940,7 +2940,7 @@ bool STSStyle::operator == (STSStyle& s)
             && IsFontStyleEqual(s));
 }
 
-bool STSStyle::IsFontStyleEqual(STSStyle& s)
+bool STSStyle::IsFontStyleEqual(const STSStyle& s) const
 {
     return (
                charSet == s.charSet
