@@ -19,7 +19,7 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SETLOCAL
 
-IF "%1" == "" (
+IF "%~1" == "" (
   ECHO %~nx0: No input specified!
   SET SIGN_ERROR=True
   GOTO END
@@ -42,12 +42,12 @@ IF NOT EXIST "%~dp0..\signinfo.txt" (
 SET SIGN_CMD=
 SET /P SIGN_CMD=<%~dp0..\signinfo.txt
 
-TITLE Signing %1...
-ECHO. & ECHO Signing %1...
+TITLE Signing "%~1"...
+ECHO. & ECHO Signing "%~1"...
 
 signtool /? 2>NUL || CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL
 
-signtool sign %SIGN_CMD% %1
+signtool sign %SIGN_CMD% "%~1"
 IF %ERRORLEVEL% NEQ 0 (
   SET SIGN_ERROR=True
   GOTO END
@@ -56,7 +56,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 :END
 IF /I "%SIGN_ERROR%" == "True" (
-  IF "%1" == "" PAUSE
+  IF "%~1" == "" PAUSE
   ENDLOCAL
   EXIT /B 1
 )
