@@ -375,22 +375,22 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 if (fPCM) {
                     if (wfe->wBitsPerSample == 8) {
                         sample = (double)(int8_t)(pDataOut[i] ^ 0x80) / INT8_MAX;
-                    } else if(wfe->wBitsPerSample == 16) {
+                    } else if (wfe->wBitsPerSample == 16) {
                         sample = (double)((int16_t*)pDataOut)[i] / INT16_MAX;
-                    } else if(wfe->wBitsPerSample == 24) {
+                    } else if (wfe->wBitsPerSample == 24) {
                         int32_t i32 = 0;
                         BYTE* p = (BYTE*)(&i32);
                         p[1] = pDataOut[i * 3];
                         p[2] = pDataOut[i * 3 + 1];
                         p[3] = pDataOut[i * 3 + 2];
                         sample = (double)i32 / INT32_MAX;
-                    } else if(wfe->wBitsPerSample == 32) {
+                    } else if (wfe->wBitsPerSample == 32) {
                         sample = (double)((int32_t*)pDataOut)[i] / INT32_MAX;
                     }
                 } else if (fFloat) {
                     if (wfe->wBitsPerSample == 32) {
                         sample = (double)((float*)pDataOut)[i];
-                    } else if(wfe->wBitsPerSample == 64) {
+                    } else if (wfe->wBitsPerSample == 64) {
                         sample = ((double*)pDataOut)[i];
                     }
                 }
@@ -424,17 +424,17 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
             if (fPCM) {
                 if (wfe->wBitsPerSample == 8) {
                     gain_uint8(sample_mul, samples, (uint8_t*)pDataOut);
-                } else if(wfe->wBitsPerSample == 16) {
+                } else if (wfe->wBitsPerSample == 16) {
                     gain_int16(sample_mul, samples, (int16_t*)pDataOut);
-                } else if(wfe->wBitsPerSample == 24) {
+                } else if (wfe->wBitsPerSample == 24) {
                     gain_int24(sample_mul, samples, pDataOut);
-                } else if(wfe->wBitsPerSample == 32) {
+                } else if (wfe->wBitsPerSample == 32) {
                     gain_int32(sample_mul, samples, (int32_t*)pDataOut);
                 }
             } else if (fFloat) {
                 if (wfe->wBitsPerSample == 32) {
                     gain_float(sample_mul, samples, (float*)pDataOut);
-                } else if(wfe->wBitsPerSample == 64) {
+                } else if (wfe->wBitsPerSample == 64) {
                     gain_double(sample_mul, samples, (double*)pDataOut);
                 }
             }

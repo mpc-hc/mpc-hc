@@ -162,10 +162,10 @@ private:
 #if BYTE_ORDER == BIG_ENDIAN
         uint16_t foo1   : 4;    // don't know
         uint8_t menu_id : 4;    // 0=off, 3=root, 4=spu,
-                                // 5=audio, 6=angle, 7=ptt
+        // 5=audio, 6=angle, 7=ptt
 #else
         uint8_t menu_id : 4;    // 0=off, 3=root, 4=spu,
-                                // 5=audio, 6=angle, 7=ptt
+        // 5=audio, 6=angle, 7=ptt
         uint16_t foo1   : 4;    // don't know
 #endif
         uint16_t foo2   : 8;    // don't know

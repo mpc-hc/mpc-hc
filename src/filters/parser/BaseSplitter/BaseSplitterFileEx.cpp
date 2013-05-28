@@ -465,7 +465,7 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 
     int syncbits = fAllowV25 ? 11 : 12;
 
-    while(len >= 4) {
+    while (len >= 4) {
         __int64 pos = GetPos();
 
         if (BitRead(syncbits, true) != (1 << syncbits) - 1) {
@@ -496,7 +496,7 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 
         if (h.version == 3 && h.layer == 2) {
             if (h.channels != 3 && (h.bitrate == 1 || h.bitrate == 2 || h.bitrate == 3 || h.bitrate == 5) ||
-                h.channels == 3 && h.bitrate >= 11) {
+                    h.channels == 3 && h.bitrate >= 11) {
                 Seek(pos + 1);
                 len--;
                 continue;
