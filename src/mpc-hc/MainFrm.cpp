@@ -2343,7 +2343,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 if (m_fFrameSteppingActive) {
                     m_nStepForwardCount++;
                     m_fFrameSteppingActive = false;
-                    m_pBA->put_Volume(m_VolumeBeforeFrameStepping);
+                    m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
                 }
                 break;
             case EC_DEVICE_LOST:
@@ -4879,13 +4879,13 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         SeekTo(rt);
 
-        m_VolumeBeforeFrameStepping = m_wndToolBar.Volume;
+        m_nVolumeBeforeFrameStepping = m_wndToolBar.Volume;
         m_pBA->put_Volume(-10000);
 
         HRESULT hr = m_pFS ? m_pFS->Step(1, nullptr) : E_FAIL;
 
         if (FAILED(hr)) {
-            m_pBA->put_Volume(m_VolumeBeforeFrameStepping);
+            m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
             AfxMessageBox(IDS_FRAME_STEP_ERROR_RENDERER, MB_ICONEXCLAMATION | MB_OK, 0);
             return;
         }
@@ -4904,7 +4904,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
             }
         }
 
-        m_pBA->put_Volume(m_VolumeBeforeFrameStepping);
+        m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
 
         int col = (i - 1) % cols;
         int row = (i - 1) / cols;
@@ -7039,7 +7039,7 @@ void CMainFrame::OnPlayPlay()
         }
         if (m_fFrameSteppingActive) { // FIXME
             m_fFrameSteppingActive = false;
-            m_pBA->put_Volume(m_VolumeBeforeFrameStepping);
+            m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
         } else {
             m_pBA->put_Volume(m_wndToolBar.Volume);
         }
@@ -7192,7 +7192,7 @@ void CMainFrame::OnPlayStop()
 
         if (m_fFrameSteppingActive) { // FIXME
             m_fFrameSteppingActive = false;
-            m_pBA->put_Volume(m_VolumeBeforeFrameStepping);
+            m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
         }
     }
 
@@ -7293,7 +7293,7 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 
         m_fFrameSteppingActive = true;
 
-        m_VolumeBeforeFrameStepping = m_wndToolBar.Volume;
+        m_nVolumeBeforeFrameStepping = m_wndToolBar.Volume;
         m_pBA->put_Volume(-10000);
 
         m_pFS->Step(1, nullptr);

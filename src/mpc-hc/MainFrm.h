@@ -288,7 +288,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     bool m_fFrameSteppingActive;
     int m_nStepForwardCount;
     REFERENCE_TIME m_rtStepForwardStart;
-    int m_VolumeBeforeFrameStepping;
+    int m_nVolumeBeforeFrameStepping;
 
     bool m_fEndOfStream;
 

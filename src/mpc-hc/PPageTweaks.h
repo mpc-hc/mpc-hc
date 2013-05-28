@@ -48,8 +48,8 @@ public:
     CComboBox m_TimeTooltipPosition;
     CComboBox m_FontSize;
     CComboBox m_FontType;
-    int m_OSD_Size;
-    CString m_OSD_Font;
+    int m_nOSDSize;
+    CString m_strOSDFont;
 
     BOOL m_fFastSeek;
     BOOL m_fShowChapters;

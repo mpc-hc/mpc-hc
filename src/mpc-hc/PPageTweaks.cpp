@@ -34,7 +34,7 @@ CPPageTweaks::CPPageTweaks()
     , m_nJumpDistS(0)
     , m_nJumpDistM(0)
     , m_nJumpDistL(0)
-    , m_OSD_Size(0)
+    , m_nOSDSize(0)
     , m_fNotifySkype(TRUE)
     , m_fPreventMinimize(FALSE)
     , m_fUseWin7TaskBar(TRUE)
@@ -106,8 +106,8 @@ BOOL CPPageTweaks::OnInitDialog()
     m_TimeTooltipPosition.SetCurSel(s.nTimeTooltipPosition);
     m_TimeTooltipPosition.EnableWindow(m_fUseTimeTooltip);
 
-    m_OSD_Size = s.nOSDSize;
-    m_OSD_Font = s.strOSDFont;
+    m_nOSDSize = s.nOSDSize;
+    m_strOSDFont = s.strOSDFont;
 
     m_fFastSeek = s.fFastSeek;
     m_fShowChapters = s.fShowChapters;
@@ -127,7 +127,7 @@ BOOL CPPageTweaks::OnInitDialog()
         m_FontType.AddString(fntl[i]);
     }
     CorrectComboListWidth(m_FontType);
-    int iSel = m_FontType.FindStringExact(0, m_OSD_Font);
+    int iSel = m_FontType.FindStringExact(0, m_strOSDFont);
     if (iSel == CB_ERR) {
         iSel = 0;
     }
@@ -137,7 +137,7 @@ BOOL CPPageTweaks::OnInitDialog()
     for (int i = 10; i < 26; ++i) {
         str.Format(_T("%d"), i);
         m_FontSize.AddString(str);
-        if (m_OSD_Size == i) {
+        if (m_nOSDSize == i) {
             iSel = i;
         }
     }
@@ -167,7 +167,7 @@ BOOL CPPageTweaks::OnApply()
     s.fUseSearchInFolder = !!m_fUseSearchInFolder;
     s.fUseTimeTooltip = !!m_fUseTimeTooltip;
     s.nTimeTooltipPosition = m_TimeTooltipPosition.GetCurSel();
-    s.nOSDSize = m_OSD_Size;
+    s.nOSDSize = m_nOSDSize;
     m_FontType.GetLBText(m_FontType.GetCurSel(), s.strOSDFont);
 
     s.fFastSeek = !!m_fFastSeek;
@@ -213,9 +213,9 @@ void CPPageTweaks::OnBnClickedButton1()
 void CPPageTweaks::OnChngOSDCombo()
 {
     CString str;
-    m_OSD_Size = m_FontSize.GetCurSel() + 10;
+    m_nOSDSize = m_FontSize.GetCurSel() + 10;
     m_FontType.GetLBText(m_FontType.GetCurSel(), str);
-    ((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_OSD_Size, str);
+    ((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_nOSDSize, str);
     SetModified();
 }
 
