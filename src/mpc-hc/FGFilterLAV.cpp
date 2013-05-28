@@ -25,6 +25,7 @@
 #include "DSUtil.h"
 #include "FileVersionInfo.h"
 #include "WinAPIUtils.h"
+#include "SysVersion.h"
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
@@ -509,7 +510,26 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
     // Force disable, for future use
     bPixFmts[LAVOutPixFmt_YV16] = FALSE;
 
-    dwHWAccel = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), dwHWAccel);
+    dwHWAccel = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1);
+    if (dwHWAccel == DWORD(-1)) {
+        // We enable by default DXVA2 native on Vista+ and CUVID on XP if an nVidia adapter is found
+        if (SysVersion::IsVistaOrLater()) {
+            dwHWAccel = HWAccel_DXVA2Native;
+        } else {
+            CComPtr<IDirect3D9> pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
+            if (pD3D9) {
+                D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+
+                for (UINT adp = 0, num_adp = pD3D9->GetAdapterCount(); adp < num_adp; ++adp) {
+                    if (pD3D9->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK
+                            && adapterIdentifier.VendorId == 0x10DE) {
+                        dwHWAccel = HWAccel_CUDA;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     bHWFormats[HWCodec_H264] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("h264"), bHWFormats[HWCodec_H264]);
 
