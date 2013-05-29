@@ -1907,7 +1907,9 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
         ASSERT(SUCCEEDED(hr));
     }
 
-    StartWorkerThreads();
+    if (bResult) {
+        StartWorkerThreads();
+    }
 
     return bResult;
 }

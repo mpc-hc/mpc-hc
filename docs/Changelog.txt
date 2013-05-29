@@ -39,3 +39,4 @@ Legend:
   any channel during the channel scan
 ! Ticket #3113, MPC-HC was sometimes slow to close (audio kept playing for a few seconds)
 ! Ticket #3175, DVB: Changing the channel was exiting fullscreen or maximized mode
+! Ticket #3176, EVR renderers: Fix high CPU and memory usage when switching the user account
