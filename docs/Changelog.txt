@@ -14,7 +14,7 @@ Legend:
   have a finer control on switching process)
 * Updated Basque, Czech, French, German, Greek, Japanese, Russian, Simplified / Traditional Chinese,
   Turkish and Ukrainian translations
-* Updated Little CMS to v2.5 (git dd44baf)
+* Updated Little CMS to v2.5-rc1
 * Updated zlib to v1.2.8
 * Updated Unrar to v5.0.4
 * Updated MediaInfoLib to v0.7.63
