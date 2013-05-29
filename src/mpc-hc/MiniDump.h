@@ -26,11 +26,10 @@ public:
     CMiniDump();
     ~CMiniDump();
 
-    static void Enable()  { m_bMiniDumpEnabled = true; };
-    static void Disable() { m_bMiniDumpEnabled = false; };
+    static void Enable()  { SetUnhandledExceptionFilter(UnhandledExceptionFilter); };
+    static void Disable() { SetUnhandledExceptionFilter(nullptr); };
 
 private:
-    static LONG WINAPI  UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelExceptionFilter);
-    static BOOL         PreventSetUnhandledExceptionFilter();
-    static bool         m_bMiniDumpEnabled;
+    static LONG WINAPI UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelExceptionFilter);
+    static BOOL        PreventSetUnhandledExceptionFilter();
 };

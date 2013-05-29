@@ -29,7 +29,6 @@
 
 
 CMiniDump _Singleton;
-bool CMiniDump::m_bMiniDumpEnabled = true;
 
 
 typedef BOOL (WINAPI* MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
@@ -43,7 +42,7 @@ CMiniDump::CMiniDump()
 {
 #ifndef _DEBUG
 
-    SetUnhandledExceptionFilter(UnhandledExceptionFilter);
+    Enable();
 
     //#ifndef _WIN64
     // Enable catching in CRT (http://blog.kalmbachnet.de/?postid=75)
@@ -97,10 +96,6 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
     TCHAR   szResult[800];
     szResult[0] = _T('\0');
     CPath   dumpPath;
-
-    if (!m_bMiniDumpEnabled) {
-        return retval;
-    }
 
 #if ENABLE_MINIDUMP
     hDll = ::LoadLibrary(_T("dbghelp.dll"));
