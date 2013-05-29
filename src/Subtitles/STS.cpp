@@ -1305,7 +1305,7 @@ static bool LoadUUEFont(CTextFile* file)
         if (s.IsEmpty()) {
             break;
         }
-        if (s[0] == '[') { // check for some standatr blocks
+        if (s[0] == '[') { // check for some standard blocks
             if (s.Find(_T("[Script Info]")) == 0) {
                 break;
             }
