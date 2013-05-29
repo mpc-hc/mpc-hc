@@ -199,8 +199,6 @@ public:
     CStringW GetStrW(int i, bool fSSA = false);
     CStringW GetStrWA(int i, bool fSSA = false);
 
-#define GetStr GetStrW
-
     void SetStr(int i, CStringA str, bool fUnicode /* ignored */);
     void SetStr(int i, CStringW str, bool fUnicode);
 };

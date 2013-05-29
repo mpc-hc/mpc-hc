@@ -238,7 +238,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
         for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
             int vobid, cellid, forced, spnum;
             TCHAR c;
-            if (_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d%c%d"), &vobid,
+            if (_stscanf_s(m_sts.GetStrW(i), _T("%d%c%d%c%d%c%d"), &vobid,
                            &c, 1, &cellid, &c, 1, &forced, &c, 1, &spnum) != 7) {
                 continue;
             }
@@ -395,7 +395,7 @@ void CPlayerSubresyncBar::UpdateStrings()
             STSStyle stss;
             m_sts.GetStyle(i, stss);
 
-            m_list.SetItemText(i, COL_TEXT, m_sts.GetStr(i, true));
+            m_list.SetItemText(i, COL_TEXT, m_sts.GetStrW(i, true));
             m_list.SetItemText(i, COL_STYLE, m_sts[i].style);
             m_list.SetItemText(i, COL_FONT, stss.fontName);
             str.Format(_T("%d"), stss.charSet);
@@ -410,7 +410,7 @@ void CPlayerSubresyncBar::UpdateStrings()
         for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
             int vobid, cellid, forced;
             TCHAR c;
-            if (_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d"), &vobid,
+            if (_stscanf_s(m_sts.GetStrW(i), _T("%d%c%d%c%d"), &vobid,
                            &c, 1, &cellid, &c, 1, &forced) != 5) {
                 continue;
             }
@@ -676,12 +676,12 @@ void CPlayerSubresyncBar::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
                 break;
             case COL_TEXT:
                 if (m_mode == TEXTSUB) {
-                    CString str = m_sts.GetStr(pItem->iItem, true);
+                    CString str = m_sts.GetStrW(pItem->iItem, true);
 
                     if (str != pItem->pszText) {
                         fNeedsUpdate = true;
                         m_sts.SetStr(pItem->iItem, CString(pItem->pszText), true);
-                        m_list.SetItemText(pItem->iItem, pItem->iSubItem, m_sts.GetStr(pItem->iItem, true));
+                        m_list.SetItemText(pItem->iItem, pItem->iSubItem, m_sts.GetStrW(pItem->iItem, true));
                     }
                 }
                 break;
@@ -1042,7 +1042,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                                 for (int i = 0; i < (int)m_sts.GetCount(); i++) {
                                     if (m_sts.GetStyle(i) == stss) {
                                         CString str;
-                                        m_list.SetItemText(i, COL_TEXT, m_sts.GetStr(i, true));
+                                        m_list.SetItemText(i, COL_TEXT, m_sts.GetStrW(i, true));
                                         m_list.SetItemText(i, COL_FONT, stss->fontName);
                                         str.Format(_T("%d"), stss->charSet);
                                         m_list.SetItemText(i, COL_CHARSET, str);
@@ -1055,7 +1055,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         }
                     } else if (id == UNICODEYES || id == UNICODENO) {
                         m_sts.ConvertUnicode(iItem, id == UNICODEYES);
-                        m_list.SetItemText(iItem, COL_TEXT, m_sts.GetStr(iItem, true));
+                        m_list.SetItemText(iItem, COL_TEXT, m_sts.GetStrW(iItem, true));
                         m_list.SetItemText(iItem, COL_UNICODE, m_sts.IsEntryUnicode(iItem) ? _T("yes") : _T("no"));
                         fNeedsUpdate = true;
                     } else if (id == LAYERDEC || id == LAYERINC) {
