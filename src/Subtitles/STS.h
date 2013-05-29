@@ -44,9 +44,9 @@ public:
     double   fontScaleX, fontScaleY; // percent
     double   fontSpacing;    // +/- pixels
     LONG     fontWeight;
-    BYTE     fItalic;
-    BYTE     fUnderline;
-    BYTE     fStrikeOut;
+    int      fItalic;
+    int      fUnderline;
+    int      fStrikeOut;
     int      fBlur;
     double   fGaussianBlur;
     double   fontAngleZ, fontAngleX, fontAngleY;
