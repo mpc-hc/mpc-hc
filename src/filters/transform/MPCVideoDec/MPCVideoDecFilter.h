@@ -49,8 +49,7 @@
 
 #define CHECK_HR_TRACE(x)                   \
     hr = ##x;                               \
-    if (FAILED(hr))                         \
-    {                                       \
+    if (FAILED(hr)) {                       \
         TRACE(_T("Error : 0x%08x\n"), hr);  \
         ASSERT(hr == VFW_E_NOT_COMMITTED);  \
         return hr;                          \

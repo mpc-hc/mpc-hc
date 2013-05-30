@@ -61,11 +61,10 @@ bool CBaseSplitterFileEx::NextMpegStartCode(BYTE& code, __int64 len)
 
 //
 
-#define MARKER           \
-    if (BitRead(1) != 1) \
-    {                    \
-        ASSERT(0);       \
-        return false;    \
+#define MARKER             \
+    if (BitRead(1) != 1) { \
+        ASSERT(0);         \
+        return false;      \
     }
 
 bool CBaseSplitterFileEx::Read(pshdr& h)

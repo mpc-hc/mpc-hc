@@ -43,8 +43,7 @@ using namespace MatroskaReader;
 
 #define EndChunk                                 \
         }                                        \
-    }                                            \
-    while (pMN->Next());                         \
+    } while (pMN->Next());                       \
                                                  \
     return S_OK;
 

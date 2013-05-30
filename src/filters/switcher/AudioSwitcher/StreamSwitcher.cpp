@@ -89,14 +89,12 @@ HRESULT GetPeer(CStreamSwitcherFilter* pFilter, T** ppT)
 #define CallPeerSeekingAll(call)                            \
     HRESULT hr = E_NOTIMPL;                                 \
     POSITION pos = m_pFilter->m_pInputs.GetHeadPosition();  \
-    while (pos)                                             \
-    {                                                       \
+    while (pos) {                                           \
         CBasePin* pPin = m_pFilter->m_pInputs.GetNext(pos); \
         CComPtr<IPin> pConnected;                           \
         if (FAILED(pPin->ConnectedTo(&pConnected)))         \
             continue;                                       \
-        if (CComQIPtr<IMediaSeeking> pMS = pConnected)      \
-        {                                                   \
+        if (CComQIPtr<IMediaSeeking> pMS = pConnected) {    \
             HRESULT hr2 = pMS->call;                        \
             if (pPin == m_pFilter->GetInputPin())           \
                 hr = hr2;                                   \
@@ -107,14 +105,12 @@ HRESULT GetPeer(CStreamSwitcherFilter* pFilter, T** ppT)
 #define CallPeerAll(call)                                   \
     HRESULT hr = E_NOTIMPL;                                 \
     POSITION pos = m_pFilter->m_pInputs.GetHeadPosition();  \
-    while (pos)                                             \
-    {                                                       \
+    while (pos) {                                           \
         CBasePin* pPin = m_pFilter->m_pInputs.GetNext(pos); \
         CComPtr<IPin> pConnected;                           \
         if (FAILED(pPin->ConnectedTo(&pConnected)))         \
             continue;                                       \
-        if (CComQIPtr<IMediaPosition> pMP = pConnected)     \
-        {                                                   \
+        if (CComQIPtr<IMediaPosition> pMP = pConnected) {   \
             HRESULT hr2 = pMP->call;                        \
             if (pPin == m_pFilter->GetInputPin())           \
                 hr = hr2;                                   \

@@ -140,11 +140,10 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
     return S_FALSE;
 }
 
-#define MARKER              \
-    if (gb.BitRead(1) != 1) \
-    {                       \
-        ASSERT(0);          \
-        return E_FAIL;      \
+#define MARKER                \
+    if (gb.BitRead(1) != 1) { \
+        ASSERT(0);            \
+        return E_FAIL;        \
     }
 
 HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
