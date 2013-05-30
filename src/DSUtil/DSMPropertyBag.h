@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -114,7 +114,7 @@ public:
 
     STDMETHODIMP_(DWORD) ResGetCount();
     STDMETHODIMP ResGet(DWORD iIndex, BSTR* ppName, BSTR* ppDesc, BSTR* ppMime,
-                        BYTE** ppData, DWORD* pDataLen, DWORD_PTR* pTag = NULL);
+                        BYTE** ppData, DWORD* pDataLen, DWORD_PTR* pTag = nullptr);
     STDMETHODIMP ResSet(DWORD iIndex, LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime,
                         BYTE* pData, DWORD len, DWORD_PTR tag = 0);
     STDMETHODIMP ResAppend(LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime,
@@ -166,12 +166,12 @@ public:
     // IDSMChapterBag
 
     STDMETHODIMP_(DWORD) ChapGetCount();
-    STDMETHODIMP ChapGet(DWORD iIndex, REFERENCE_TIME* prt, BSTR* ppName = NULL);
+    STDMETHODIMP ChapGet(DWORD iIndex, REFERENCE_TIME* prt, BSTR* ppName = nullptr);
     STDMETHODIMP ChapSet(DWORD iIndex, REFERENCE_TIME rt, LPCWSTR pName);
     STDMETHODIMP ChapAppend(REFERENCE_TIME rt, LPCWSTR pName);
     STDMETHODIMP ChapRemoveAt(DWORD iIndex);
     STDMETHODIMP ChapRemoveAll();
-    STDMETHODIMP_(long) ChapLookup(REFERENCE_TIME* prt, BSTR* ppName = NULL);
+    STDMETHODIMP_(long) ChapLookup(REFERENCE_TIME* prt, BSTR* ppName = nullptr);
     STDMETHODIMP ChapSort();
 };
 

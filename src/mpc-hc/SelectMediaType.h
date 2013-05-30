@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -35,7 +35,7 @@ private:
     CAtlArray<GUID>& m_guids;
 
 public:
-    CSelectMediaType(CAtlArray<GUID>& guids, GUID guid, CWnd* pParent = NULL);   // standard constructor
+    CSelectMediaType(CAtlArray<GUID>& guids, GUID guid, CWnd* pParent = nullptr);   // standard constructor
     virtual ~CSelectMediaType();
 
     GUID m_guid;

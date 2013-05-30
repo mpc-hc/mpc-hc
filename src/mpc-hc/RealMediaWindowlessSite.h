@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -141,7 +141,7 @@ namespace DSObjects
         void SetInternalZOrder(INT32 lZOrder);
 
     public:
-        CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pContext, CRealMediaWindowlessSite* pParentSite = NULL, IUnknown* pUnkOuter = NULL);
+        CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pContext, CRealMediaWindowlessSite* pParentSite = nullptr, IUnknown* pUnkOuter = nullptr);
         virtual ~CRealMediaWindowlessSite();
 
         DECLARE_IUNKNOWN;

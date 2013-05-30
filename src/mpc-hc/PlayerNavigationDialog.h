@@ -40,7 +40,7 @@ public:
     CPlayerNavigationDialog();   // standard constructor
     virtual ~CPlayerNavigationDialog();
 
-    BOOL Create(CWnd* pParent = NULL);
+    BOOL Create(CWnd* pParent = nullptr);
     void UpdateElementList();
     void UpdatePos(int nID);
     int p_nItems[MAX_CHANNELS_ALLOWED];

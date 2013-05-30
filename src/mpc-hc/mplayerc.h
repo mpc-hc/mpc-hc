@@ -58,7 +58,7 @@ enum {
 extern HICON LoadIcon(CString fn, bool fSmall);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
-extern CStringA GetContentType(CString fn, CAtlList<CString>* redir = NULL);
+extern CStringA GetContentType(CString fn, CAtlList<CString>* redir = nullptr);
 extern WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen = false, bool bCheckMouse = true);
 
 typedef enum {
@@ -151,7 +151,7 @@ public:
     void FlushProfile();
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes);
     virtual UINT GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault);
-    virtual CString GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault = NULL);
+    virtual CString GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault = nullptr);
     virtual BOOL WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE pData, UINT nBytes);
     virtual BOOL WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue);
     virtual BOOL WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue);

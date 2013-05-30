@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,7 +34,7 @@ class CColorStatic : public CStatic
     COLORREF* m_pColor;
 
 public:
-    CColorStatic(CWnd* pParent = NULL) : m_pColor(NULL) {}
+    CColorStatic(CWnd* pParent = nullptr) : m_pColor(nullptr) {}
     virtual ~CColorStatic() {}
 
     void SetColorPtr(COLORREF* pColor) { m_pColor = pColor; }
@@ -62,7 +62,7 @@ class CStyleEditorDialog : public CDialog
     void AskColor(int i);
 
 public:
-    CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pParent = NULL);   // standard constructor
+    CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pParent = nullptr);   // standard constructor
     virtual ~CStyleEditorDialog();
 
     // Dialog Data

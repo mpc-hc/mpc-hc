@@ -113,7 +113,7 @@ protected:
     STDMETHODIMP OnFinished(bool fSucceeded) { return S_FALSE; }
 
 public:
-    IVSFRipperCallbackImpl() : CUnknown(NAME("IVSFRipperCallbackImpl"), NULL) {}
+    IVSFRipperCallbackImpl() : CUnknown(NAME("IVSFRipperCallbackImpl"), nullptr) {}
 };
 
 //

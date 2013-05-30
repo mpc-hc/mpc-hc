@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -242,16 +242,16 @@ protected:
     virtual void OnChanged();
 
 public:
-    CRenderedTextSubtitle(CCritSec* pLock, STSStyle* styleOverride = NULL, bool doOverride = false);
+    CRenderedTextSubtitle(CCritSec* pLock, STSStyle* styleOverride = nullptr, bool doOverride = false);
     virtual ~CRenderedTextSubtitle();
 
     virtual void Copy(CSimpleTextSubtitle& sts);
     virtual void Empty();
 
     // call to signal this RTS to ignore any of the styles and apply the given override style
-    void SetOverride(bool doOverride = true, STSStyle* styleOverride = NULL) {
+    void SetOverride(bool doOverride = true, STSStyle* styleOverride = nullptr) {
         m_doOverrideStyle = doOverride;
-        if (styleOverride != NULL) {
+        if (styleOverride != nullptr) {
             m_pStyleOverride = styleOverride;
         }
     }

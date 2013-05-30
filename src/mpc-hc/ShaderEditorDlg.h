@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -76,7 +76,7 @@ public:
     CShaderEditorDlg();   // standard constructor
     virtual ~CShaderEditorDlg();
 
-    BOOL Create(CWnd* pParent = NULL);
+    BOOL Create(CWnd* pParent = nullptr);
 
     // Dialog Data
     enum { IDD = IDD_SHADEREDITOR_DLG };

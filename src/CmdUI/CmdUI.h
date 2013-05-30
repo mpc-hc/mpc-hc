@@ -31,8 +31,8 @@ class CCmdUIDialog : public CDialog
 
 public:
     CCmdUIDialog();
-    CCmdUIDialog(UINT nIDTemplate, CWnd* pParent = NULL);
-    CCmdUIDialog(LPCTSTR lpszTemplateName, CWnd* pParent = NULL);
+    CCmdUIDialog(UINT nIDTemplate, CWnd* pParent = nullptr);
+    CCmdUIDialog(LPCTSTR lpszTemplateName, CWnd* pParent = nullptr);
     virtual ~CCmdUIDialog();
 
 protected:

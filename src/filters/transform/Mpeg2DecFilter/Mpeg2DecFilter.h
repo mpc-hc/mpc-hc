@@ -64,7 +64,7 @@ class __declspec(uuid("39F498AF-1A09-4275-B193-673B0BA3D478"))
         framebuf()
             : di(DIAuto) {
             w = h = pitch = 0;
-            buf_base = NULL;
+            buf_base = nullptr;
             memset(&buf, 0, sizeof(buf));
             rtStart = rtStop = 0;
             flags = 0;
@@ -97,7 +97,7 @@ class __declspec(uuid("39F498AF-1A09-4275-B193-673B0BA3D478"))
             if (buf_base) {
                 _aligned_free(buf_base);
             }
-            buf_base = NULL;
+            buf_base = nullptr;
         }
     } m_fb;
 

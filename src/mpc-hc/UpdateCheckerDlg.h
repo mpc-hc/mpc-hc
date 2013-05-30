@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,7 +29,7 @@ class UpdateCheckerDlg : public CDialog
     DECLARE_DYNAMIC(UpdateCheckerDlg)
 
 public:
-    UpdateCheckerDlg(Update_Status updateStatus, const Version& latestVersion, CWnd* pParent = NULL);
+    UpdateCheckerDlg(Update_Status updateStatus, const Version& latestVersion, CWnd* pParent = nullptr);
     virtual ~UpdateCheckerDlg();
 
     enum { IDD = IDD_UPDATE_DIALOG };

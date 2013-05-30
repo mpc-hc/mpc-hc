@@ -41,7 +41,7 @@ class CScopeLock
     void* m_pLock;
     FLock* m_pUnlockFunc;
 public:
-    CScopeLock(): m_pLock(NULL), m_pUnlockFunc(NULL) {};
+    CScopeLock(): m_pLock(nullptr), m_pUnlockFunc(nullptr) {};
 
     template <typename t_Lock>
     class TCLocker

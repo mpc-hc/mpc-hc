@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2012 see Authors.txt
+ * (C) 2008-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -124,7 +124,7 @@ public:
     Stream* FindStream(short wPID);
     bool IsHdmv() const { return m_bIsHdmv; };
     size_t GetStreamNumber() { return m_Streams.GetCount(); };
-    Stream* GetStreamByIndex(size_t nIndex) { return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL; };
+    Stream* GetStreamByIndex(size_t nIndex) { return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : nullptr; };
 
     HRESULT FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist, CAtlList<PlaylistItem>& MPLSPlaylists);
     HRESULT ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist);

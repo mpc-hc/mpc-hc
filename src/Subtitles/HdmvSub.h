@@ -108,11 +108,11 @@ public:
 
     virtual REFERENCE_TIME GetStart(POSITION nPos) {
         HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(nPos);
-        return pPresentationSegment != NULL ? pPresentationSegment->rtStart : INVALID_TIME;
+        return pPresentationSegment != nullptr ? pPresentationSegment->rtStart : INVALID_TIME;
     };
     virtual REFERENCE_TIME GetStop(POSITION nPos) {
         HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(nPos);
-        return pPresentationSegment != NULL ? pPresentationSegment->rtStop : INVALID_TIME;
+        return pPresentationSegment != nullptr ? pPresentationSegment->rtStop : INVALID_TIME;
     };
 
     void    Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);

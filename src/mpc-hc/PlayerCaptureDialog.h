@@ -70,7 +70,7 @@ public:
             return tmp;
         }
 
-        return NULL;
+        return nullptr;
     }
 
     bool FindFormat(AM_MEDIA_TYPE* pmt, CFormat<T>** ppf) {
@@ -123,7 +123,7 @@ public:
             return false;
         }
 
-        if (FindFormat(pmt, NULL, NULL, NULL)) {
+        if (FindFormat(pmt, nullptr, nullptr, nullptr)) {
             DeleteMediaType(pmt);
             return false;
         }
@@ -172,7 +172,7 @@ public:
                                 ? &((VIDEOINFOHEADER*)pmt->pbFormat)->bmiHeader
                                 : (pmt->formattype == FORMAT_VideoInfo2)
                                 ? &((VIDEOINFOHEADER2*)pmt->pbFormat)->bmiHeader
-                                : NULL;
+                                : nullptr;
 
         if (!bih) {
             // it may have a fourcc in the mediasubtype, let's check that
@@ -234,9 +234,9 @@ public:
                                 ? &((VIDEOINFOHEADER*)pfe->mt.pbFormat)->bmiHeader
                                 : (pfe->mt.formattype == FORMAT_VideoInfo2)
                                 ? &((VIDEOINFOHEADER2*)pfe->mt.pbFormat)->bmiHeader
-                                : NULL;
+                                : nullptr;
 
-        if (bih == NULL) {
+        if (bih == nullptr) {
             return str;
         }
 
@@ -268,7 +268,7 @@ public:
 
         WAVEFORMATEX* wfe = (pmt->formattype == FORMAT_WaveFormatEx)
                             ? (WAVEFORMATEX*)pmt->pbFormat
-                            : NULL;
+                            : nullptr;
 
         if (!wfe) {
             WCHAR guid[100];
@@ -303,7 +303,7 @@ public:
 
         WAVEFORMATEX* wfe = (pfe->mt.formattype == FORMAT_WaveFormatEx)
                             ? (WAVEFORMATEX*)pfe->mt.pbFormat
-                            : NULL;
+                            : nullptr;
 
         if (!wfe) {
             return str;
@@ -398,7 +398,7 @@ public:
     CPlayerCaptureDialog();   // standard constructor
     virtual ~CPlayerCaptureDialog();
 
-    BOOL Create(CWnd* pParent = NULL);
+    BOOL Create(CWnd* pParent = nullptr);
 
     // Dialog Data
     enum { IDD = IDD_CAPTURE_DLG };

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -91,7 +91,7 @@ class COggFile : public CBaseSplitterFile
 public:
     COggFile(IAsyncReader* pAsyncReader, HRESULT& hr);
 
-    bool Sync(HANDLE hBreak = NULL);
-    bool Read(OggPageHeader& hdr, HANDLE hBreak = NULL);
-    bool Read(OggPage& page, bool fFull = true, HANDLE hBreak = NULL);
+    bool Sync(HANDLE hBreak = nullptr);
+    bool Read(OggPageHeader& hdr, HANDLE hBreak = nullptr);
+    bool Read(OggPage& page, bool fFull = true, HANDLE hBreak = nullptr);
 };

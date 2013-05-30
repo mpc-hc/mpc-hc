@@ -35,7 +35,7 @@ class CGoToDlg : public CDialog
     enum { TYPE_TIME, TYPE_FRAME };
 
 public:
-    CGoToDlg(REFERENCE_TIME time = -1, REFERENCE_TIME maxTime = -1, double fps = 0, CWnd* pParent = NULL);   // standard constructor
+    CGoToDlg(REFERENCE_TIME time = -1, REFERENCE_TIME maxTime = -1, double fps = 0, CWnd* pParent = nullptr);   // standard constructor
     virtual ~CGoToDlg();
 
     CString m_timestr;

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -117,7 +117,7 @@ protected:
                                      BOOL bOutputNeeded, DWORD cOutputTypes, const GUID* pOutputTypes, const REGPINMEDIUM* pMedOut, const CLSID* pPinCategoryOut);
 
 public:
-    CFilterMapper2(bool fRefCounted, bool fAllowUnreg = false, LPUNKNOWN pUnkOuter = NULL);
+    CFilterMapper2(bool fRefCounted, bool fAllowUnreg = false, LPUNKNOWN pUnkOuter = nullptr);
     virtual ~CFilterMapper2();
 
     void SetInner(IUnknown* pUnk) { m_pFM2 = pUnk; }

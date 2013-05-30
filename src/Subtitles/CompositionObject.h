@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -69,7 +69,7 @@ public:
 
     CompositionObject* Copy() {
         CompositionObject* pCompositionObject = DEBUG_NEW CompositionObject(*this);
-        pCompositionObject->m_pRLEData = NULL;
+        pCompositionObject->m_pRLEData = nullptr;
         pCompositionObject->SetRLEData(m_pRLEData, m_nRLEDataSize, m_nRLEDataSize);
 
         return pCompositionObject;

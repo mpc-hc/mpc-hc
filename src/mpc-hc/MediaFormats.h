@@ -54,7 +54,7 @@ public:
     void SetExts(CString exts);
 
     bool FindExt(CString ext) const {
-        return m_exts.Find(ext.TrimLeft(_T('.')).MakeLower()) != NULL;
+        return m_exts.Find(ext.TrimLeft(_T('.')).MakeLower()) != nullptr;
     }
 
     CString GetLabel() const { return m_label; }

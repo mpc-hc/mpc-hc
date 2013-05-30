@@ -1,5 +1,5 @@
 /*
- * (C) 2007-2012 see Authors.txt
+ * (C) 2007-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -76,7 +76,7 @@ public:
         m_pDirectXVideoDec = pDirectXVideoDec;
     };
 
-    virtual HRESULT DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop) = NULL;
+    virtual HRESULT DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop) = 0;
     virtual void SetExtraData(BYTE* pDataIn, UINT nSize);
     virtual void CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
     virtual void Flush();
@@ -109,7 +109,7 @@ protected:
     bool m_bNeedChangeAspect;
 
     // === DXVA functions
-    HRESULT AddExecuteBuffer(DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
+    HRESULT AddExecuteBuffer(DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = nullptr);
     HRESULT GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, IMediaSample** ppSampleToDeliver);
     HRESULT Execute();
     DWORD GetDXVA1CompressedType(DWORD dwDXVA2CompressedType);

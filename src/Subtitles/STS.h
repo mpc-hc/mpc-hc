@@ -184,9 +184,9 @@ public:
 
     int TranslateSegmentStart(int i, double fps);
     int TranslateSegmentEnd(int i, double fps);
-    const STSSegment* SearchSubs(int t, double fps, /*[out]*/ int* iSegment = NULL, int* nSegments = NULL);
+    const STSSegment* SearchSubs(int t, double fps, /*[out]*/ int* iSegment = nullptr, int* nSegments = nullptr);
     const STSSegment* GetSegment(int iSegment) {
-        return iSegment >= 0 && iSegment < (int)m_segments.GetCount() ? &m_segments[iSegment] : NULL;
+        return iSegment >= 0 && iSegment < (int)m_segments.GetCount() ? &m_segments[iSegment] : nullptr;
     }
 
     STSStyle* GetStyle(int i);

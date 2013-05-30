@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,15 +36,15 @@ public:
     CBaseSub(SUBTITLE_TYPE nType);
     virtual ~CBaseSub();
 
-    virtual HRESULT         ParseSample(IMediaSample* pSample) = NULL;
+    virtual HRESULT         ParseSample(IMediaSample* pSample) = 0;
     virtual void            EndOfStream() { /* Nothing to do */ };
-    virtual void            Reset() = NULL;
-    virtual POSITION        GetStartPosition(REFERENCE_TIME rt, double fps) = NULL;
-    virtual POSITION        GetNext(POSITION pos) = NULL;
-    virtual REFERENCE_TIME  GetStart(POSITION nPos) = NULL;
-    virtual REFERENCE_TIME  GetStop(POSITION nPos) = NULL;
-    virtual void            Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox) = NULL;
-    virtual HRESULT         GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft) = NULL;
+    virtual void            Reset() = 0;
+    virtual POSITION        GetStartPosition(REFERENCE_TIME rt, double fps) = 0;
+    virtual POSITION        GetNext(POSITION pos) = 0;
+    virtual REFERENCE_TIME  GetStart(POSITION nPos) = 0;
+    virtual REFERENCE_TIME  GetStop(POSITION nPos) = 0;
+    virtual void            Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox) = 0;
+    virtual HRESULT         GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft) = 0;
 
 protected:
     SUBTITLE_TYPE           m_nType;

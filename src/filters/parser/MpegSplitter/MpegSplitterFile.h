@@ -140,7 +140,7 @@ public:
                 }
             }
 
-            return NULL;
+            return nullptr;
         }
 
     } m_streams[unknown];

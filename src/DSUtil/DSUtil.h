@@ -39,8 +39,8 @@ extern bool IsStreamStart(IBaseFilter* pBF);
 extern bool IsStreamEnd(IBaseFilter* pBF);
 extern bool IsVideoRenderer(IBaseFilter* pBF);
 extern bool IsAudioWaveRenderer(IBaseFilter* pBF);
-extern IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin = NULL);
-extern IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin = NULL);
+extern IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin = nullptr);
+extern IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin = nullptr);
 extern IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir = PINDIR_INPUT);
 extern IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir);
 extern void  NukeDownstream(IBaseFilter* pBF, IFilterGraph* pFG);
@@ -112,8 +112,8 @@ extern BOOL CFileGetStatus(LPCTSTR lpszFileName, CFileStatus& status);
 extern bool DeleteRegKey(LPCTSTR pszKey, LPCTSTR pszSubkey);
 extern bool SetRegKeyValue(LPCTSTR pszKey, LPCTSTR pszSubkey, LPCTSTR pszValueName, LPCTSTR pszValue);
 extern bool SetRegKeyValue(LPCTSTR pszKey, LPCTSTR pszSubkey, LPCTSTR pszValue);
-extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, LPCTSTR chkbytes, LPCTSTR ext = NULL, ...);
-extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlList<CString>& chkbytes, LPCTSTR ext = NULL, ...);
+extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, LPCTSTR chkbytes, LPCTSTR ext = nullptr, ...);
+extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlList<CString>& chkbytes, LPCTSTR ext = nullptr, ...);
 extern void UnRegisterSourceFilter(const GUID& subtype);
 extern LPCTSTR GetDXVAMode(const GUID* guidDecoder);
 extern void DumpBuffer(BYTE* pBuffer, int nSize);
@@ -148,7 +148,7 @@ class CPinInfo : public PIN_INFO
 {
 public:
     CPinInfo() {
-        pFilter = NULL;
+        pFilter = nullptr;
     }
     ~CPinInfo() {
         if (pFilter) {
@@ -161,7 +161,7 @@ class CFilterInfo : public FILTER_INFO
 {
 public:
     CFilterInfo() {
-        pGraph = NULL;
+        pGraph = nullptr;
     }
     ~CFilterInfo() {
         if (pGraph) {
@@ -170,36 +170,36 @@ public:
     }
 };
 
-#define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter)                                                   \
-{                                                                                                                   \
-    CComPtr<IEnumFilters> pEnumFilters;                                                                             \
-    if (pFilterGraph && SUCCEEDED(pFilterGraph->EnumFilters(&pEnumFilters))) {                                      \
-        for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) {
+#define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter)                                                      \
+{                                                                                                                      \
+    CComPtr<IEnumFilters> pEnumFilters;                                                                                \
+    if (pFilterGraph && SUCCEEDED(pFilterGraph->EnumFilters(&pEnumFilters))) {                                         \
+        for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = nullptr) {
 
 #define EndEnumFilters }}}
 
-#define BeginEnumCachedFilters(pGraphConfig, pEnumFilters, pBaseFilter)                                             \
-{                                                                                                                   \
-    CComPtr<IEnumFilters> pEnumFilters;                                                                             \
-    if (pGraphConfig && SUCCEEDED(pGraphConfig->EnumCacheFilter(&pEnumFilters))) {                                  \
-        for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) {
+#define BeginEnumCachedFilters(pGraphConfig, pEnumFilters, pBaseFilter)                                                \
+{                                                                                                                      \
+    CComPtr<IEnumFilters> pEnumFilters;                                                                                \
+    if (pGraphConfig && SUCCEEDED(pGraphConfig->EnumCacheFilter(&pEnumFilters))) {                                     \
+        for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = nullptr) {
 
 #define EndEnumCachedFilters }}}
 
-#define BeginEnumPins(pBaseFilter, pEnumPins, pPin)                                  \
-{                                                                                    \
-    CComPtr<IEnumPins> pEnumPins;                                                    \
-    if (pBaseFilter && SUCCEEDED(pBaseFilter->EnumPins(&pEnumPins))) {               \
-        for (CComPtr<IPin> pPin; S_OK == pEnumPins->Next(1, &pPin, 0); pPin = NULL) {
+#define BeginEnumPins(pBaseFilter, pEnumPins, pPin)                                     \
+{                                                                                       \
+    CComPtr<IEnumPins> pEnumPins;                                                       \
+    if (pBaseFilter && SUCCEEDED(pBaseFilter->EnumPins(&pEnumPins))) {                  \
+        for (CComPtr<IPin> pPin; S_OK == pEnumPins->Next(1, &pPin, 0); pPin = nullptr) {
 
 #define EndEnumPins }}}
 
-#define BeginEnumMediaTypes(pPin, pEnumMediaTypes, pMediaType)                                                       \
-{                                                                                                                    \
-    CComPtr<IEnumMediaTypes> pEnumMediaTypes;                                                                        \
-    if (pPin && SUCCEEDED(pPin->EnumMediaTypes(&pEnumMediaTypes))) {                                                 \
-        AM_MEDIA_TYPE* pMediaType = NULL;                                                                            \
-        for (; S_OK == pEnumMediaTypes->Next(1, &pMediaType, NULL); DeleteMediaType(pMediaType), pMediaType = NULL) {
+#define BeginEnumMediaTypes(pPin, pEnumMediaTypes, pMediaType)                                                             \
+{                                                                                                                          \
+    CComPtr<IEnumMediaTypes> pEnumMediaTypes;                                                                              \
+    if (pPin && SUCCEEDED(pPin->EnumMediaTypes(&pEnumMediaTypes))) {                                                       \
+        AM_MEDIA_TYPE* pMediaType = nullptr;                                                                               \
+        for (; S_OK == pEnumMediaTypes->Next(1, &pMediaType, nullptr); DeleteMediaType(pMediaType), pMediaType = nullptr) {
 
 #define EndEnumMediaTypes(pMediaType)                                                                          \
         }                                                                                                      \
@@ -209,14 +209,14 @@ public:
     }                                                                                                          \
 }
 
-#define BeginEnumSysDev(clsid, pMoniker)                                                                       \
-{                                                                                                              \
-    CComPtr<ICreateDevEnum> pDevEnum4$##clsid;                                                                 \
-    pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum);                                                \
-    CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                                                 \
-    if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0))                    \
-        && pClassEnum4$##clsid) {                                                                              \
-        for (CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = NULL) {
+#define BeginEnumSysDev(clsid, pMoniker)                                                                          \
+{                                                                                                                 \
+    CComPtr<ICreateDevEnum> pDevEnum4$##clsid;                                                                    \
+    pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum);                                                   \
+    CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                                                    \
+    if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0))                       \
+        && pClassEnum4$##clsid) {                                                                                 \
+        for (CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = nullptr) {
 
 #define EndEnumSysDev }}}
 
@@ -236,7 +236,7 @@ public:
 
 #define ResumeGraph                                                                                        \
     if (SUCCEEDED(_hr) && _pMS && _fs != State_Stopped)                                                    \
-        _hr = _pMS->SetPositions(&_rtNow, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning); \
+        _hr = _pMS->SetPositions(&_rtNow, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning); \
                                                                                                            \
     if (_fs == State_Running && _pMS)                                                                      \
         _pMC->Run();
@@ -250,9 +250,9 @@ public:
 #define QI(i)  (riid == __uuidof(i)) ? GetInterface((i*)this, ppv) :
 #define QI2(i) (riid == IID_##i) ? GetInterface((i*)this, ppv) :
 
-#define SAFE_DELETE(p)       { if (p) { delete (p);     (p) = NULL; } }
-#define SAFE_DELETE_ARRAY(p) { if (p) { delete [] (p);  (p) = NULL; } }
-#define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = NULL; } }
+#define SAFE_DELETE(p)       { if (p) { delete (p);     (p) = nullptr; } }
+#define SAFE_DELETE_ARRAY(p) { if (p) { delete [] (p);  (p) = nullptr; } }
+#define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = nullptr; } }
 
 #define ResStr(id)  CString(MAKEINTRESOURCE(id))
 
@@ -267,7 +267,7 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
     *phr = S_OK;
     CUnknown* punk = DEBUG_NEW T(lpunk, phr);
-    if (punk == NULL) {
+    if (punk == nullptr) {
         *phr = E_OUTOFMEMORY;
     }
     return punk;

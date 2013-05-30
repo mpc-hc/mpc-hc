@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -35,7 +35,7 @@ class CRegFilterChooserDlg : public CResizableDialog
     void AddToList(IMoniker* pMoniker);
 
 public:
-    CRegFilterChooserDlg(CWnd* pParent = NULL);   // standard constructor
+    CRegFilterChooserDlg(CWnd* pParent = nullptr);   // standard constructor
     virtual ~CRegFilterChooserDlg();
 
     CList<FilterOverride*> m_filters;

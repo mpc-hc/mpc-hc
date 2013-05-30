@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,7 +26,7 @@
 class CHyperlink : public CString
 {
 public:
-    CHyperlink(LPCTSTR lpLink = NULL) : CString(lpLink) {}
+    CHyperlink(LPCTSTR lpLink = nullptr) : CString(lpLink) {}
     ~CHyperlink() {}
     const CHyperlink& operator=(LPCTSTR lpsz) {
         CString::operator=(lpsz);
@@ -36,7 +36,7 @@ public:
         return CString::operator LPCTSTR();
     }
     /*virtual*/ HINSTANCE Navigate() {
-        return IsEmpty() ? NULL : ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
+        return IsEmpty() ? nullptr : ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
     }
 };
 
@@ -46,7 +46,7 @@ class CStaticLink : public CStatic
 {
 public:
     DECLARE_DYNAMIC(CStaticLink)
-    CStaticLink(LPCTSTR lpText = NULL, bool bDeleteOnDestroy = false);
+    CStaticLink(LPCTSTR lpText = nullptr, bool bDeleteOnDestroy = false);
     ~CStaticLink();
 
     // Hyperlink contains URL/filename. If NULL, I will use the window text.

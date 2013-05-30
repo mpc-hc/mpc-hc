@@ -120,7 +120,7 @@ private:
     void UpdateBitmap();
     void UpdateSeekBarPos(CPoint point);
     void DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPos);
-    void DrawRect(CRect* rect, CBrush* pBrush = NULL, CPen* pPen = NULL);
+    void DrawRect(CRect* rect, CBrush* pBrush = nullptr, CPen* pPen = nullptr);
     void Invalidate();
     void DrawMessage();
     void DrawDebug();

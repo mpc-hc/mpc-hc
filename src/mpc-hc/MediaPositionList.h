@@ -54,7 +54,7 @@ public:
     virtual void Empty() = 0;
 
     T* GetLatestEntry() {
-        return !IsEmpty() ? &GetHead() : NULL;
+        return !IsEmpty() ? &GetHead() : nullptr;
     };
 };
 

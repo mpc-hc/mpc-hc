@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -40,12 +40,12 @@ protected:
 public:
     CSaveSubtitlesFileDialog(
         CTextFile::enc e, int delay,
-        LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL,
-        LPCTSTR lpszFilter = NULL, CWnd* pParentWnd = NULL);
+        LPCTSTR lpszDefExt = nullptr, LPCTSTR lpszFileName = nullptr,
+        LPCTSTR lpszFilter = nullptr, CWnd* pParentWnd = nullptr);
     CSaveSubtitlesFileDialog(
         int delay,
-        LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL,
-        LPCTSTR lpszFilter = NULL, CWnd* pParentWnd = NULL);
+        LPCTSTR lpszDefExt = nullptr, LPCTSTR lpszFileName = nullptr,
+        LPCTSTR lpszFilter = nullptr, CWnd* pParentWnd = nullptr);
     virtual ~CSaveSubtitlesFileDialog();
 
     int GetDelay() { return m_delay; }

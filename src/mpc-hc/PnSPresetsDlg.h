@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -38,7 +38,7 @@ private:
                            double ZoomX, double ZoomY);
 
 public:
-    CPnSPresetsDlg(CWnd* pParent = NULL);   // standard constructor
+    CPnSPresetsDlg(CWnd* pParent = nullptr);   // standard constructor
     virtual ~CPnSPresetsDlg();
 
     CStringArray m_pnspresets;

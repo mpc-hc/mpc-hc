@@ -50,7 +50,7 @@ protected:
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
 
-    void AlphaBltSubPic(CSize size, SubPicDesc* pTarget = NULL);
+    void AlphaBltSubPic(CSize size, SubPicDesc* pTarget = nullptr);
 
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);

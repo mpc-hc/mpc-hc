@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,8 +30,8 @@ class CSaveThumbnailsDialog : public CFileDialog
 public:
     CSaveThumbnailsDialog(
         int rows, int cols, int width,
-        LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL,
-        LPCTSTR lpszFilter = NULL, CWnd* pParentWnd = NULL);
+        LPCTSTR lpszDefExt = nullptr, LPCTSTR lpszFileName = nullptr,
+        LPCTSTR lpszFilter = nullptr, CWnd* pParentWnd = nullptr);
     virtual ~CSaveThumbnailsDialog();
 
 protected:

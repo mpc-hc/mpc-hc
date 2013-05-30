@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -61,8 +61,8 @@ public:
     Vector Abs();
 
     Vector Reflect(Vector& n);
-    Vector Refract(Vector& n, float nFront, float nBack, float* nOut = NULL);
-    Vector Refract2(Vector& n, float nFrom, float nTo, float* nOut = NULL);
+    Vector Refract(Vector& n, float nFront, float nBack, float* nOut = nullptr);
+    Vector Refract2(Vector& n, float nFrom, float nTo, float* nOut = nullptr);
 
     Vector operator - ();
     float& operator [](size_t i);

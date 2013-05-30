@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2012 see Authors.txt
+ * (C) 2008-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -61,7 +61,7 @@ public:
         forbidden_bit(0),
         nal_reference_idc(0),
         nal_unit_type() {
-        SetBuffer(NULL, 0, 0);
+        SetBuffer(nullptr, 0, 0);
     }
 
     NALU_TYPE GetType() const { return nal_unit_type; };

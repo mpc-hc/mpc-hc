@@ -37,11 +37,11 @@ private:
 
 public:
     COpenFileDlg(CAtlArray<CString>& mask, bool fAllowDirSelection,
-                 LPCTSTR lpszDefExt = NULL,
-                 LPCTSTR lpszFileName = NULL,
+                 LPCTSTR lpszDefExt = nullptr,
+                 LPCTSTR lpszFileName = nullptr,
                  DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-                 LPCTSTR lpszFilter = NULL,
-                 CWnd* pParentWnd = NULL);
+                 LPCTSTR lpszFilter = nullptr,
+                 CWnd* pParentWnd = nullptr);
     virtual ~COpenFileDlg();
 
     static bool m_fAllowDirSelection;
