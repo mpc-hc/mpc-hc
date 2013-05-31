@@ -61,7 +61,7 @@ libmpeg2            GPLv2                       http://libmpeg2.sourceforge.net/
 libogg              New BSD License             http://www.xiph.org/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
-MediaInfoLib        BSD                         http://mediainfo.sourceforge.net/
+MediaInfoLib        Simplified BSD License      http://mediainfo.sourceforge.net/
 MultiMon            CPOL                        http://www.codeproject.com/KB/GDI/multimon.aspx
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
 RARFileSource       GPLv2+                      http://www.v12pwr.com/RARFileSource/
