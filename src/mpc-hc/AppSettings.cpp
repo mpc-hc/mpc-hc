@@ -803,7 +803,12 @@ void CAppSettings::SaveSettings()
                 srcdata.Replace(_T("\r"), _T(""));
                 srcdata.Replace(_T("\n"), _T("\\n"));
                 srcdata.Replace(_T("\t"), _T("\\t"));
-                pApp->WriteProfileString(IDS_R_SHADERS, index, s.label + _T("|") + s.target + _T("|") + srcdata);
+
+                CAtlList<CString> list;
+                list.AddTail(s.label);
+                list.AddTail(s.target);
+                list.AddTail(srcdata);
+                pApp->WriteProfileString(IDS_R_SHADERS, index, ImplodeEsc(list, '|'));
             }
         }
 
@@ -1395,7 +1400,7 @@ void CAppSettings::LoadSettings()
         str2 = pApp->GetProfileString(IDS_R_SHADERS, str2);
 
         CAtlList<CString> sl;
-        CString label = Explode(str2, sl, '|');
+        CString label = ExplodeEsc(str2, sl, '|');
         if (label.IsEmpty()) {
             break;
         }
