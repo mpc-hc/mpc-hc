@@ -12,6 +12,7 @@ Legend:
 ========================
 + Ticket #2872, Add support for DVB-T2 and improve channel switching (new options are available to
   have a finer control on switching process)
++ Ticket #3179, DVB: Support EPG information for Freeview broadcast (UK DVB-T2)
 * Updated Basque, Czech, French, German, Greek, Japanese, Russian, Simplified / Traditional Chinese,
   Turkish and Ukrainian translations
 * Updated Little CMS to v2.5-rc1

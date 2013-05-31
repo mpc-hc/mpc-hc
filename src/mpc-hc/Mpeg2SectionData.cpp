@@ -24,6 +24,7 @@
 
 #include "GolombBuffer.h"
 #include "Mpeg2SectionData.h"
+#include "FreeviewEPGDecode.h"
 
 
 #define BeginEnumDescriptors(gb, nType, nLength)                    \
@@ -557,11 +558,19 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
 
                         nLen = (UINT8)gb.BitRead(8);            // event_name_length
                         gb.ReadBuffer(DescBuffer, nLen);
-                        NowNext.eventName = ConvertString(DescBuffer, nLen);
+                        if (IsFreeviewEPG(InfoEvent.OriginalNetworkID, DescBuffer, nLen)) {
+                            NowNext.eventName = DecodeFreeviewEPG(DescBuffer, nLen);
+                        } else {
+                            NowNext.eventName = ConvertString(DescBuffer, nLen);
+                        }
 
                         nLen = (UINT8)gb.BitRead(8);            // text_length
                         gb.ReadBuffer(DescBuffer, nLen);
-                        NowNext.eventDesc = ConvertString(DescBuffer, nLen);
+                        if (IsFreeviewEPG(InfoEvent.OriginalNetworkID, DescBuffer, nLen)) {
+                            NowNext.eventDesc = DecodeFreeviewEPG(DescBuffer, nLen);
+                        } else {
+                            NowNext.eventDesc = ConvertString(DescBuffer, nLen);
+                        }
                         break;
                     case DT_EXTENDED_EVENT:
                         descriptorNumber = (UINT8)gb.BitRead(4); // descriptor_number
