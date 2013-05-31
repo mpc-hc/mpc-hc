@@ -918,12 +918,12 @@ void CommandData::OutTitle()
 inline bool CmpMSGID(MSGID i1,MSGID i2)
 {
 #ifdef MSGID_INT
-  return(i1==i2);
+  return i1==i2;
 #else
   // If MSGID is const char*, we cannot compare pointers only.
   // Pointers to different instances of same string can differ,
   // so we need to compare complete strings.
-  return(strcmp(i1,i2)==0);
+  return strcmp(i1,i2)==0;
 #endif
 }
 
@@ -954,7 +954,7 @@ void CommandData::OutHelp(RAR_EXIT ExitCode)
   for (uint I=0;I<ASIZE(Help);I++)
   {
 #ifndef SFX_MODULE
-    if (Help[I]==MCHelpSwV)
+    if (CmpMSGID(Help[I],MCHelpSwV))
       continue;
 #ifndef _WIN_ALL
     static MSGID Win32Only[]={
