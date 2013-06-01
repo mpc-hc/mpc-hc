@@ -52,6 +52,17 @@ extern "C"
 #include "DXVADecoderH264.h"
 #include "../../../mpc-hc/FilterEnum.h"
 
+// options names
+#define OPT_REGKEY_VideoDec  _T("Software\\Gabest\\Filters\\MPC Video Decoder")
+#define OPT_SECTION_VideoDec _T("Filters\\MPC Video Decoder")
+#define OPT_ThreadNumber     _T("ThreadNumber")
+#define OPT_DiscardMode      _T("DiscardMode")
+#define OPT_ActiveCodecs     _T("ActiveCodecs")
+#define OPT_ARMode           _T("ARMode")
+#define OPT_DXVACheck        _T("DXVACheckCompatibility")
+#define OPT_DisableDXVA_SD   _T("DisableDXVA_SD")
+#define OPT_InterlacedFlag   _T("InterlacedFlag")
+
 #define MAX_SUPPORTED_MODE       5
 #define AVRTIMEPERFRAME_VC1_EVO  417083
 
@@ -609,47 +620,47 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 #ifdef STANDALONE_FILTER
     CRegKey key;
-    if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ)) {
+    if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, OPT_REGKEY_VideoDec, KEY_READ)) {
         DWORD dw;
 #if HAS_FFMPEG_VIDEO_DECODERS
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("ThreadNumber"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPT_ThreadNumber, dw)) {
             m_nThreadNumber = dw;
         }
 #if INTERNAL_DECODER_H264
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DiscardMode"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPT_DiscardMode, dw)) {
             m_nDiscardMode = dw;
         }
 #endif
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("ActiveCodecs"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPT_ActiveCodecs, dw)) {
             m_nActiveCodecs = dw;
         }
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("ARMode"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPT_ARMode, dw)) {
             m_nARMode = dw;
         }
 #endif
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DXVACheckCompatibility"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPT_DXVACheck, dw)) {
             m_nDXVACheckCompatibility = dw;
         }
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DisableDXVA_SD"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPT_DisableDXVA_SD, dw)) {
             m_nDXVA_SD = dw;
         }
 
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("InterlacedFlag"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPT_InterlacedFlag, dw)) {
             m_interlacedFlag = (MPCVD_INTERLACED_FLAG)dw;
         }
     }
 #else
 #if HAS_FFMPEG_VIDEO_DECODERS
-    m_nThreadNumber = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ThreadNumber"), m_nThreadNumber);
+    m_nThreadNumber = AfxGetApp()->GetProfileInt(OPT_SECTION_VideoDec, OPT_ThreadNumber, m_nThreadNumber);
 #if INTERNAL_DECODER_H264
-    m_nDiscardMode = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DiscardMode"), m_nDiscardMode);
+    m_nDiscardMode = AfxGetApp()->GetProfileInt(OPT_SECTION_VideoDec, OPT_DiscardMode, m_nDiscardMode);
 #endif
-    m_nARMode = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ARMode"), m_nARMode);
+    m_nARMode = AfxGetApp()->GetProfileInt(OPT_SECTION_VideoDec, OPT_ARMode, m_nARMode);
 #endif
-    m_nDXVACheckCompatibility = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
-    m_nDXVA_SD = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DisableDXVA_SD"), m_nDXVA_SD);
+    m_nDXVACheckCompatibility = AfxGetApp()->GetProfileInt(OPT_SECTION_VideoDec, OPT_DXVACheck, m_nDXVACheckCompatibility);
+    m_nDXVA_SD = AfxGetApp()->GetProfileInt(OPT_SECTION_VideoDec, OPT_DisableDXVA_SD, m_nDXVA_SD);
 
-    m_interlacedFlag = (MPCVD_INTERLACED_FLAG)AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("InterlacedFlag"), m_interlacedFlag);
+    m_interlacedFlag = (MPCVD_INTERLACED_FLAG)AfxGetApp()->GetProfileInt(OPT_SECTION_VideoDec, OPT_InterlacedFlag, m_interlacedFlag);
 #endif
 
     if (m_nDXVACheckCompatibility > 3) {
@@ -1057,7 +1068,7 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(enum AVCodecID nCodec)
 
 CString CMPCVideoDecFilter::GetFileExtension()
 {
-    CString ext = _T("");
+    CString ext;
 
     BeginEnumFilters(m_pGraph, pEF, pBF) {
         CComQIPtr<IFileSourceFilter> pFSF = pBF;
@@ -2522,22 +2533,22 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
 {
 #ifdef STANDALONE_FILTER
     CRegKey key;
-    if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"))) {
-        key.SetDWORDValue(_T("ThreadNumber"), m_nThreadNumber);
-        key.SetDWORDValue(_T("DiscardMode"), m_nDiscardMode);
-        key.SetDWORDValue(_T("ActiveCodecs"), m_nActiveCodecs);
-        key.SetDWORDValue(_T("ARMode"), m_nARMode);
-        key.SetDWORDValue(_T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
-        key.SetDWORDValue(_T("DisableDXVA_SD"), m_nDXVA_SD);
-        key.SetDWORDValue(_T("InterlacedFlag"), m_interlacedFlag);
+    if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, OPT_REGKEY_VideoDec)) {
+        key.SetDWORDValue(OPT_ThreadNumber, m_nThreadNumber);
+        key.SetDWORDValue(OPT_DiscardMode, m_nDiscardMode);
+        key.SetDWORDValue(OPT_ActiveCodecs, m_nActiveCodecs);
+        key.SetDWORDValue(OPT_ARMode, m_nARMode);
+        key.SetDWORDValue(OPT_DXVACheck, m_nDXVACheckCompatibility);
+        key.SetDWORDValue(OPT_DisableDXVA_SD, m_nDXVA_SD);
+        key.SetDWORDValue(OPT_InterlacedFlag, m_interlacedFlag);
     }
 #else
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("ThreadNumber"), m_nThreadNumber);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("DiscardMode"), m_nDiscardMode);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("ARMode"), m_nARMode);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("DisableDXVA_SD"), m_nDXVA_SD);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("InterlacedFlag"), m_interlacedFlag);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_VideoDec, OPT_ThreadNumber, m_nThreadNumber);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_VideoDec, OPT_DiscardMode, m_nDiscardMode);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_VideoDec, OPT_ARMode, m_nARMode);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_VideoDec, OPT_DXVACheck, m_nDXVACheckCompatibility);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_VideoDec, OPT_DisableDXVA_SD, m_nDXVA_SD);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_VideoDec, OPT_InterlacedFlag, m_interlacedFlag);
 #endif
 
     return S_OK;
