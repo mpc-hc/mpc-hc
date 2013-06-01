@@ -209,7 +209,7 @@ bool CSubtitleDlDlg::Parse()
             m_pTA->ticket = value;
         } else if (param == "movie") {
             m.reset();
-            Explode(value, m.titles, '|');
+            Explode(value.Trim(" |"), m.titles, '|');
         } else if (param == "subtitle") {
             sub.reset();
             sub.id = atoi(value);
