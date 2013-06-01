@@ -14747,8 +14747,14 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), NowNext.eventName);
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.strStartTime + _T(" - ") + NowNext.strEndTime);
 
-        for (int i = 0; i < NowNext.extendedDescriptorsItemsDesc.GetCount(); i++) {
-            m_wndInfoBar.SetLine(NowNext.extendedDescriptorsItemsDesc.ElementAt(i), NowNext.extendedDescriptorsItemsContent.ElementAt(i));
+        if (NowNext.parentalRating >= 0) {
+            CString parentRating;
+            if (!NowNext.parentalRating) {
+                parentRating.LoadString(IDS_NO_PARENTAL_RATING);
+            } else {
+                parentRating.Format(IDS_PARENTAL_RATING, NowNext.parentalRating);
+            }
+            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_PARENTAL_RATING), parentRating);
         }
 
         description = NowNext.eventDesc;
@@ -14759,6 +14765,10 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
             description += NowNext.extendedDescriptorsTexts.GetTail();
         }
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+
+        for (int i = 0; i < NowNext.extendedDescriptorsItemsDesc.GetCount(); i++) {
+            m_wndInfoBar.SetLine(NowNext.extendedDescriptorsItemsDesc.ElementAt(i), NowNext.extendedDescriptorsItemsContent.ElementAt(i));
+        }
 
         RecalcLayout();
 

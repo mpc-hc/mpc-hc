@@ -39,6 +39,9 @@ struct EventDescriptor {
     CArray<CString> extendedDescriptorsItemsDesc;
     CArray<CString> extendedDescriptorsItemsContent;
     CStringList extendedDescriptorsTexts;
+    int parentalRating;
+
+    EventDescriptor() : parentalRating(-1) {};
 };
 
 enum DVB_STREAM_TYPE {

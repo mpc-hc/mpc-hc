@@ -2083,6 +2083,7 @@ BEGIN
     IDS_INFOBAR_SUBTITLES              "Subtitles"
     IDS_INFOBAR_CHANNEL                "Channel"
     IDS_INFOBAR_TIME                   "Time"
+    IDS_INFOBAR_PARENTAL_RATING        "Parental rating"
     IDS_STATSBAR_SYNC_OFFSET           "Sync Offset"
     IDS_STATSBAR_SYNC_OFFSET_FORMAT    "avg: %d ms, dev: %d ms"
     IDS_STATSBAR_JITTER                "Jitter"
@@ -3297,6 +3298,12 @@ BEGIN
     IDS_RFS_COMPRESSED                  "Compressed files are not supported"
     IDS_RFS_ENCRYPTED                   "Encrypted files are not supported"
     IDS_RFS_MISSING_VOLS                "Couldn't find all archive volumes"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PARENTAL_RATING                 "%d+"
+    IDS_NO_PARENTAL_RATING              "Not rated"
 END
 
 #endif    // English (United States) resources

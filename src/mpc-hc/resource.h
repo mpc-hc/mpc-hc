@@ -1500,6 +1500,9 @@
 #define IDS_PPAGE_CAPTURE_SFG0          57351
 #define IDS_PPAGE_CAPTURE_SFG1          57352
 #define IDS_PPAGE_CAPTURE_SFG2          57353
+#define IDS_INFOBAR_PARENTAL_RATING     57354
+#define IDS_PARENTAL_RATING             57355
+#define IDS_NO_PARENTAL_RATING          57356
 
 // Next default values for new objects
 // 
