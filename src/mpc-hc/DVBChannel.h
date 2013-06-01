@@ -40,6 +40,7 @@ struct EventDescriptor {
     CArray<CString> extendedDescriptorsItemsContent;
     CStringList extendedDescriptorsTexts;
     int parentalRating;
+    CString content;
 
     EventDescriptor() : parentalRating(-1) {};
 };

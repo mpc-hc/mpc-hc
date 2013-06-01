@@ -2084,6 +2084,7 @@ BEGIN
     IDS_INFOBAR_CHANNEL                "Channel"
     IDS_INFOBAR_TIME                   "Time"
     IDS_INFOBAR_PARENTAL_RATING        "Parental rating"
+    IDS_INFOBAR_CONTENT                "Content"
     IDS_STATSBAR_SYNC_OFFSET           "Sync Offset"
     IDS_STATSBAR_SYNC_OFFSET_FORMAT    "avg: %d ms, dev: %d ms"
     IDS_STATSBAR_JITTER                "Jitter"
@@ -3304,6 +3305,15 @@ STRINGTABLE
 BEGIN
     IDS_PARENTAL_RATING                 "%d+"
     IDS_NO_PARENTAL_RATING              "Not rated"
+    IDS_CONTENT_MOVIE_DRAMA             "Movie/Drama"
+    IDS_CONTENT_NEWS_CURRENTAFFAIRS     "News/Current affairs"
+    IDS_CONTENT_SHOW_GAMESHOW           "Show/Game show"
+    IDS_CONTENT_SPORTS                  "Sports"
+    IDS_CONTENT_CHILDREN_YOUTH_PROG     "Children's/Youth programmes"
+    IDS_CONTENT_MUSIC_BALLET_DANCE      "Music/Ballet/Dance"
+    IDS_CONTENT_MUSIC_ART_CULTURE       "Arts/Culture"
+    IDS_CONTENT_SOCIAL_POLITICAL_ECO    "Social/Political issues/Economics"
+    IDS_CONTENT_LEISURE                 "Leisure hobbies"
 END
 
 #endif    // English (United States) resources

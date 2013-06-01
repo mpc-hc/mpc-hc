@@ -549,6 +549,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
         NowNext.extendedDescriptorsItemsContent.RemoveAll();
         NowNext.extendedDescriptorsTexts.RemoveAll();
         NowNext.parentalRating = -1;
+        NowNext.content.Empty();
 
         if ((InfoEvent.ServiceId == ulSID) && (InfoEvent.CurrentNextIndicator == 1) && (InfoEvent.RunninStatus == 4)) {
             //  Descriptors:
@@ -618,6 +619,35 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
                                 }
                                 NowNext.parentalRating = rating;
                             }
+                        }
+                        break;
+                    case DT_CONTENT:
+                        ASSERT(nLength % 2 == 0);
+                        while (nLength >= 2) {
+                            BYTE content = (BYTE)gb.BitRead(4);     // content_nibble_level_1
+                            gb.BitRead(4);                          // content_nibble_level_2
+                            gb.BitRead(8);                          // user_byte
+                            if (1 <= content && content <= 10) {
+                                if (!NowNext.content.IsEmpty()) {
+                                    NowNext.content.Append(_T(", "));
+                                }
+
+                                static UINT contents[] = {
+                                    IDS_CONTENT_MOVIE_DRAMA,
+                                    IDS_CONTENT_NEWS_CURRENTAFFAIRS,
+                                    IDS_CONTENT_SHOW_GAMESHOW,
+                                    IDS_CONTENT_SPORTS,
+                                    IDS_CONTENT_CHILDREN_YOUTH_PROG,
+                                    IDS_CONTENT_MUSIC_BALLET_DANCE,
+                                    IDS_CONTENT_MUSIC_ART_CULTURE,
+                                    IDS_CONTENT_SOCIAL_POLITICAL_ECO,
+                                    IDS_CONTENT_LEISURE
+
+                                };
+
+                                NowNext.content.Append(ResStr(contents[content - 1]));
+                            }
+                            nLength -= 2;
                         }
                         break;
                     default:

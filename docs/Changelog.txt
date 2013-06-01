@@ -10,7 +10,7 @@ Legend:
 
 1.6.8 - not released yet
 ========================
-+ DVB: Show the parental rating within the EPG information when available
++ DVB: Show the parental rating and the content type within the EPG information when available
 + Ticket #2872, Add support for DVB-T2 and improve channel switching (new options are available to
   have a finer control on switching process)
 + Ticket #3179, DVB: Support EPG information for Freeview broadcast (UK DVB-T2)

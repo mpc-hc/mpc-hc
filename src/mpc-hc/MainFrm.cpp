@@ -14757,6 +14757,10 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
             m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_PARENTAL_RATING), parentRating);
         }
 
+        if (!NowNext.content.IsEmpty()) {
+            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CONTENT), NowNext.content);
+        }
+
         description = NowNext.eventDesc;
         if (!NowNext.extendedDescriptorsTexts.IsEmpty()) {
             if (!description.IsEmpty()) {
