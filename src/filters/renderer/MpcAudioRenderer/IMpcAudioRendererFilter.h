@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,12 +23,12 @@
 interface __declspec(uuid("495D2C66-D430-439b-9DEE-40F9B7929BBA"))
 IMpcAudioRendererFilter :
 public IUnknown {
-    STDMETHOD(Apply()) = 0;
+    STDMETHOD(Apply()) PURE;
 
-    STDMETHOD(SetWasapiMode(BOOL nValue)) = 0;
-    STDMETHOD_(BOOL, GetWasapiMode()) = 0;
-    STDMETHOD(SetMuteFastForward(BOOL nValue)) = 0;
-    STDMETHOD_(BOOL, GetMuteFastForward()) = 0;
-    STDMETHOD(SetSoundDevice(CString nValue)) = 0;
-    STDMETHOD_(CString, GetSoundDevice()) = 0;
+    STDMETHOD(SetWasapiMode(BOOL nValue)) PURE;
+    STDMETHOD_(BOOL, GetWasapiMode()) PURE;
+    STDMETHOD(SetMuteFastForward(BOOL nValue)) PURE;
+    STDMETHOD_(BOOL, GetMuteFastForward()) PURE;
+    STDMETHOD(SetSoundDevice(CString nValue)) PURE;
+    STDMETHOD_(CString, GetSoundDevice()) PURE;
 };

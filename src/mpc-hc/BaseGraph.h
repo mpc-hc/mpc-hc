@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,7 +45,7 @@ typedef enum {
 interface __declspec(uuid("B110CDE5-6331-4118-8AAF-A870D6F7E2E4"))
 IGraphEngine :
 public IUnknown {
-    STDMETHOD_(engine_t, GetEngine)() = 0;
+    STDMETHOD_(engine_t, GetEngine)() PURE;
 };
 
 enum {

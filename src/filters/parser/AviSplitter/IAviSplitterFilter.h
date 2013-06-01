@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,8 +23,8 @@
 interface __declspec(uuid("1E41BBCB-F6E0-4A49-91F7-A2AD5B5C7113"))
 IAviSplitterFilter :
 public IUnknown {
-    STDMETHOD(Apply()) = 0;
+    STDMETHOD(Apply()) PURE;
 
-    STDMETHOD(SetNonInterleavedFilesSupport(BOOL nValue)) = 0;
-    STDMETHOD_(BOOL, GetNonInterleavedFilesSupport()) = 0;
+    STDMETHOD(SetNonInterleavedFilesSupport(BOOL nValue)) PURE;
+    STDMETHOD_(BOOL, GetNonInterleavedFilesSupport()) PURE;
 };

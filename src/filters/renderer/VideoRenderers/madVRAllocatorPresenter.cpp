@@ -31,8 +31,8 @@ using namespace DSObjects;
 interface __declspec(uuid("D6EE8031-214E-4E9E-A3A7-458925F933AB"))
 IMadVRExclusiveModeInfo :
 public IUnknown {
-    STDMETHOD_(BOOL, IsExclusiveModeActive)() = 0;
-    STDMETHOD_(BOOL, IsMadVRSeekbarEnabled)() = 0;
+    STDMETHOD_(BOOL, IsExclusiveModeActive)() PURE;
+    STDMETHOD_(BOOL, IsMadVRSeekbarEnabled)() PURE;
 };
 
 #define ShaderStage_PreScale 0
@@ -41,8 +41,8 @@ public IUnknown {
 interface  __declspec(uuid("B6A6D5D4-9637-4C7D-AAAE-BC0B36F5E433"))
 IMadVRExternalPixelShaders :
 public IUnknown {
-    STDMETHOD(ClearPixelShaders)(bool postScale) = 0;
-    STDMETHOD(AddPixelShader)(LPCSTR sourceCode, LPCSTR compileProfile, int stage, LPVOID reserved) = 0;
+    STDMETHOD(ClearPixelShaders)(bool postScale) PURE;
+    STDMETHOD(AddPixelShader)(LPCSTR sourceCode, LPCSTR compileProfile, int stage, LPVOID reserved) PURE;
 };
 
 //

@@ -40,12 +40,12 @@ public:
     STDMETHODIMP Lock();
     STDMETHODIMP Unlock();
 
-    STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps) = 0;
-    STDMETHODIMP_(POSITION) GetNext(POSITION pos) = 0;
+    STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps) PURE;
+    STDMETHODIMP_(POSITION) GetNext(POSITION pos) PURE;
 
-    STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps) = 0;
-    STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps) = 0;
+    STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps) PURE;
+    STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps) PURE;
 
-    STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) = 0;
+    STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) PURE;
     STDMETHODIMP GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) { return E_NOTIMPL; };
 };

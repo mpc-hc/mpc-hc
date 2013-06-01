@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,8 +26,8 @@ MIDL_INTERFACE("A62888FB-8E37-44d2-8850-B3E3F2C1169F")
 ISyncClock:
 public IUnknown {
 public:
-    virtual HRESULT STDMETHODCALLTYPE AdjustClock(double adjustment) = 0;
-    virtual HRESULT STDMETHODCALLTYPE SetBias(double bias) = 0;
-    virtual HRESULT STDMETHODCALLTYPE GetBias(double * bias) = 0;
-    virtual HRESULT STDMETHODCALLTYPE GetStartTime(REFERENCE_TIME * startTime);
+    STDMETHOD(AdjustClock)(double adjustment) PURE;
+    STDMETHOD(SetBias)(double bias) PURE;
+    STDMETHOD(GetBias)(double * bias) PURE;
+    STDMETHOD(GetStartTime)(REFERENCE_TIME * startTime);
 };

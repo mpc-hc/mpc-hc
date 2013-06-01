@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,8 +24,8 @@
 interface __declspec(uuid("EE6F2741-7DB4-4AAD-A3CB-545208EE4C0A"))
 IBaseMuxerRelatedPin :
 public IUnknown {
-    STDMETHOD(SetRelatedPin)(CBasePin * pPin) = 0;
-    STDMETHOD_(CBasePin*, GetRelatedPin)() = 0;
+    STDMETHOD(SetRelatedPin)(CBasePin * pPin) PURE;
+    STDMETHOD_(CBasePin*, GetRelatedPin)() PURE;
 };
 
 class CBaseMuxerRelatedPin : public IBaseMuxerRelatedPin

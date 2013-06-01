@@ -23,28 +23,28 @@
 interface __declspec(uuid("1DC9C085-04AC-4BB8-B2BD-C49A4D30B104"))
 IMpegSplitterFilter :
 public IUnknown {
-    STDMETHOD(Apply()) = 0;
+    STDMETHOD(Apply()) PURE;
 
-    STDMETHOD(SetFastStreamChange(BOOL nValue)) = 0;
-    STDMETHOD_(BOOL, GetFastStreamChange()) = 0;
+    STDMETHOD(SetFastStreamChange(BOOL nValue)) PURE;
+    STDMETHOD_(BOOL, GetFastStreamChange()) PURE;
 
-    STDMETHOD(SetForcedSub(BOOL nValue)) = 0;
-    STDMETHOD_(BOOL, GetForcedSub()) = 0;
+    STDMETHOD(SetForcedSub(BOOL nValue)) PURE;
+    STDMETHOD_(BOOL, GetForcedSub()) PURE;
 
-    STDMETHOD(SetAudioLanguageOrder(WCHAR * nValue)) = 0;
-    STDMETHOD_(WCHAR*, GetAudioLanguageOrder()) = 0;
+    STDMETHOD(SetAudioLanguageOrder(WCHAR * nValue)) PURE;
+    STDMETHOD_(WCHAR*, GetAudioLanguageOrder()) PURE;
 
-    STDMETHOD(SetSubtitlesLanguageOrder(WCHAR * nValue)) = 0;
-    STDMETHOD_(WCHAR*, GetSubtitlesLanguageOrder()) = 0;
+    STDMETHOD(SetSubtitlesLanguageOrder(WCHAR * nValue)) PURE;
+    STDMETHOD_(WCHAR*, GetSubtitlesLanguageOrder()) PURE;
 
-    STDMETHOD(SetVC1_GuidFlag(int nValue)) = 0;
-    STDMETHOD_(int, GetVC1_GuidFlag()) = 0;
+    STDMETHOD(SetVC1_GuidFlag(int nValue)) PURE;
+    STDMETHOD_(int, GetVC1_GuidFlag()) PURE;
 
-    STDMETHOD(SetTrueHD(int nValue)) = 0;
-    STDMETHOD_(int, GetTrueHD()) = 0;
+    STDMETHOD(SetTrueHD(int nValue)) PURE;
+    STDMETHOD_(int, GetTrueHD()) PURE;
 
-    STDMETHOD(SetAlternativeDuration(BOOL nValue)) = 0;
-    STDMETHOD_(BOOL, GetAlternativeDuration()) = 0;
+    STDMETHOD(SetAlternativeDuration(BOOL nValue)) PURE;
+    STDMETHOD_(BOOL, GetAlternativeDuration()) PURE;
 
-    STDMETHOD_(int, GetMPEGType()) = 0;
+    STDMETHOD_(int, GetMPEGType()) PURE;
 };

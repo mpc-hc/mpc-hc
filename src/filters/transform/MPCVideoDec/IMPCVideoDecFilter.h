@@ -55,36 +55,36 @@ enum MPCVD_INTERLACED_FLAG {
 interface __declspec(uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262"))
 IMPCVideoDecFilter :
 public IUnknown {
-    STDMETHOD(Apply()) = 0;
+    STDMETHOD(Apply()) PURE;
 
-    STDMETHOD(SetThreadNumber(int nValue)) = 0;
-    STDMETHOD_(int, GetThreadNumber()) = 0;
+    STDMETHOD(SetThreadNumber(int nValue)) PURE;
+    STDMETHOD_(int, GetThreadNumber()) PURE;
 
-    STDMETHOD(SetDiscardMode(int nValue)) = 0;
-    STDMETHOD_(int, GetDiscardMode()) = 0;
+    STDMETHOD(SetDiscardMode(int nValue)) PURE;
+    STDMETHOD_(int, GetDiscardMode()) PURE;
 
-    STDMETHOD_(GUID*, GetDXVADecoderGuid()) = 0;
+    STDMETHOD_(GUID*, GetDXVADecoderGuid()) PURE;
 
-    STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue)) = 0;
-    STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs()) = 0;
+    STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue)) PURE;
+    STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs()) PURE;
 
-    STDMETHOD_(LPCTSTR, GetVideoCardDescription()) = 0;
+    STDMETHOD_(LPCTSTR, GetVideoCardDescription()) PURE;
 
-    STDMETHOD(SetARMode(int nValue)) = 0;
-    STDMETHOD_(int, GetARMode()) = 0;
+    STDMETHOD(SetARMode(int nValue)) PURE;
+    STDMETHOD_(int, GetARMode()) PURE;
 
-    STDMETHOD(SetDXVACheckCompatibility(int nValue)) = 0;
-    STDMETHOD_(int, GetDXVACheckCompatibility()) = 0;
+    STDMETHOD(SetDXVACheckCompatibility(int nValue)) PURE;
+    STDMETHOD_(int, GetDXVACheckCompatibility()) PURE;
 
-    STDMETHOD(SetDXVA_SD(int nValue)) = 0;
-    STDMETHOD_(int, GetDXVA_SD()) = 0;
+    STDMETHOD(SetDXVA_SD(int nValue)) PURE;
+    STDMETHOD_(int, GetDXVA_SD()) PURE;
 };
 
 interface __declspec(uuid("F0ABC515-19ED-4D65-9D5F-59E36AE7F2AF"))
 IMPCVideoDecFilter2 :
 public IMPCVideoDecFilter {
-    STDMETHOD_(int, GetFrameType()) = 0;
+    STDMETHOD_(int, GetFrameType()) PURE;
 
-    STDMETHOD(SetInterlacedFlag(MPCVD_INTERLACED_FLAG interlacedFlag)) = 0;
-    STDMETHOD_(MPCVD_INTERLACED_FLAG, GetInterlacedFlag()) = 0;
+    STDMETHOD(SetInterlacedFlag(MPCVD_INTERLACED_FLAG interlacedFlag)) PURE;
+    STDMETHOD_(MPCVD_INTERLACED_FLAG, GetInterlacedFlag()) PURE;
 };

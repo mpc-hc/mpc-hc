@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,10 +28,10 @@
 interface __declspec(uuid("63EF0035-3FFE-4c41-9230-4346E028BE20"))
 IBufferFilter :
 public IUnknown {
-    STDMETHOD(SetBuffers)(int nBuffers) = 0;
-    STDMETHOD_(int, GetBuffers)() = 0;
-    STDMETHOD_(int, GetFreeBuffers)() = 0;
-    STDMETHOD(SetPriority)(DWORD dwPriority = THREAD_PRIORITY_NORMAL) = 0;
+    STDMETHOD(SetBuffers)(int nBuffers) PURE;
+    STDMETHOD_(int, GetBuffers)() PURE;
+    STDMETHOD_(int, GetFreeBuffers)() PURE;
+    STDMETHOD(SetPriority)(DWORD dwPriority = THREAD_PRIORITY_NORMAL) PURE;
 };
 
 class __declspec(uuid("DA2B3D77-2F29-4fd2-AC99-DEE4A8A13BF0"))

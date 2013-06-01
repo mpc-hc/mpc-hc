@@ -30,20 +30,20 @@
 interface __declspec(uuid("CEDB2890-53AE-4231-91A3-B0AAFCD1DBDE"))
 IAudioSwitcherFilter :
 public IUnknown {
-    STDMETHOD(GetInputSpeakerConfig)(DWORD * pdwChannelMask) = 0;
-    STDMETHOD(GetSpeakerConfig)(bool * pfCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) = 0;
-    STDMETHOD(SetSpeakerConfig)(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) = 0;
-    STDMETHOD_(int, GetNumberOfInputChannels)() = 0;
-    STDMETHOD_(bool, IsDownSamplingTo441Enabled)() = 0;
-    STDMETHOD(EnableDownSamplingTo441)(bool fEnable) = 0;
-    STDMETHOD_(REFERENCE_TIME, GetAudioTimeShift)() = 0;
-    STDMETHOD(SetAudioTimeShift)(REFERENCE_TIME rtAudioTimeShift) = 0;
+    STDMETHOD(GetInputSpeakerConfig)(DWORD * pdwChannelMask) PURE;
+    STDMETHOD(GetSpeakerConfig)(bool * pfCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) PURE;
+    STDMETHOD(SetSpeakerConfig)(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) PURE;
+    STDMETHOD_(int, GetNumberOfInputChannels)() PURE;
+    STDMETHOD_(bool, IsDownSamplingTo441Enabled)() PURE;
+    STDMETHOD(EnableDownSamplingTo441)(bool fEnable) PURE;
+    STDMETHOD_(REFERENCE_TIME, GetAudioTimeShift)() PURE;
+    STDMETHOD(SetAudioTimeShift)(REFERENCE_TIME rtAudioTimeShift) PURE;
     // Deprecated
-    STDMETHOD(GetNormalizeBoost)(bool & fNormalize, bool & fNormalizeRecover, float & boost_dB) = 0;
+    STDMETHOD(GetNormalizeBoost)(bool & fNormalize, bool & fNormalizeRecover, float & boost_dB) PURE;
     // Deprecated
-    STDMETHOD(SetNormalizeBoost)(bool fNormalize, bool fNormalizeRecover, float boost_dB) = 0;
-    STDMETHOD(GetNormalizeBoost2)(bool & fNormalize, UINT & nMaxNormFactor, bool & fNormalizeRecover, UINT & nBoost) = 0;
-    STDMETHOD(SetNormalizeBoost2)(bool fNormalize, UINT nMaxNormFactor, bool fNormalizeRecover, UINT nBoost) = 0;
+    STDMETHOD(SetNormalizeBoost)(bool fNormalize, bool fNormalizeRecover, float boost_dB) PURE;
+    STDMETHOD(GetNormalizeBoost2)(bool & fNormalize, UINT & nMaxNormFactor, bool & fNormalizeRecover, UINT & nBoost) PURE;
+    STDMETHOD(SetNormalizeBoost2)(bool fNormalize, UINT nMaxNormFactor, bool fNormalizeRecover, UINT nBoost) PURE;
 };
 
 class AudioStreamResampler;
