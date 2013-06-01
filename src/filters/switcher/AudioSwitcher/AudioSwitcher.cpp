@@ -368,36 +368,64 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
         double sample_mul = 1.0;
 
         if (m_fNormalize) {
+            double sample_max = 0.0;
+
             // calculate max peak
-            double sample_max = 0;
-            for (size_t i = 0; i < samples; i++) {
-                double sample = 0;
-                if (fPCM) {
-                    if (wfe->wBitsPerSample == 8) {
-                        sample = (double)(int8_t)(pDataOut[i] ^ 0x80) / INT8_MAX;
-                    } else if (wfe->wBitsPerSample == 16) {
-                        sample = (double)((int16_t*)pDataOut)[i] / INT16_MAX;
-                    } else if (wfe->wBitsPerSample == 24) {
-                        int32_t i32 = 0;
-                        BYTE* p = (BYTE*)(&i32);
+            if (fPCM) {
+                int32_t maxpeak = 0;
+                if (wfe->wBitsPerSample == 8) {
+                    for (size_t i = 0; i < samples; i++) {
+                        int32_t peak = abs((int8_t)(pDataOut[i] ^ 0x80));
+                        if (peak > maxpeak) {
+                            maxpeak = peak;
+                        }
+                    }
+                    sample_max = (double)maxpeak / INT8_MAX;
+                } else if (wfe->wBitsPerSample == 16) {
+                    for (size_t i = 0; i < samples; i++) {
+                        int32_t peak = abs(((int16_t*)pDataOut)[i]);
+                        if (peak > maxpeak) {
+                            maxpeak = peak;
+                        }
+                    }
+                    sample_max = (double)maxpeak / INT16_MAX;
+                } else if (wfe->wBitsPerSample == 24) {
+                    for (size_t i = 0; i < samples; i++) {
+                        int32_t peak = 0;
+                        BYTE* p = (BYTE*)(&peak);
                         p[1] = pDataOut[i * 3];
                         p[2] = pDataOut[i * 3 + 1];
                         p[3] = pDataOut[i * 3 + 2];
-                        sample = (double)i32 / INT32_MAX;
-                    } else if (wfe->wBitsPerSample == 32) {
-                        sample = (double)((int32_t*)pDataOut)[i] / INT32_MAX;
+                        peak = abs(peak);
+                        if (peak > maxpeak) {
+                            maxpeak = peak;
+                        }
                     }
-                } else if (fFloat) {
-                    if (wfe->wBitsPerSample == 32) {
-                        sample = (double)((float*)pDataOut)[i];
-                    } else if (wfe->wBitsPerSample == 64) {
-                        sample = ((double*)pDataOut)[i];
+                    sample_max = (double)maxpeak / INT32_MAX;
+                } else if (wfe->wBitsPerSample == 32) {
+                    for (size_t i = 0; i < samples; i++) {
+                        int32_t peak = abs(((int32_t*)pDataOut)[i]);
+                        if (peak > maxpeak) {
+                            maxpeak = peak;
+                        }
                     }
+                    sample_max = (double)maxpeak / INT32_MAX;
                 }
-
-                sample = abs(sample);
-                if (sample > sample_max) {
-                    sample_max = sample;
+            } else if (fFloat) {
+                if (wfe->wBitsPerSample == 32) {
+                    for (size_t i = 0; i < samples; i++) {
+                        double sample = (double)abs(((float*)pDataOut)[i]);
+                        if (sample > sample_max) {
+                            sample_max = sample;
+                        }
+                    }
+                } else if (wfe->wBitsPerSample == 64) {
+                    for (size_t i = 0; i < samples; i++) {
+                        double sample = (double)abs(((double*)pDataOut)[i]);
+                        if (sample > sample_max) {
+                            sample_max = sample;
+                        }
+                    }
                 }
             }
 
