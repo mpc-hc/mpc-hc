@@ -1206,9 +1206,14 @@ int GetInt(CStringW& buff, char sep = ',') //throw(...)
     str = GetStrW(buff, sep);
     str.MakeLower();
 
-    CStringW fmtstr = str.GetLength() > 2 && (str.Left(2) == L"&h" || str.Left(2) == L"0x")
-                      ? str = str.Mid(2), L"%x"
-                              : L"%d";
+    LPCWSTR fmtstr;
+    if (str.GetLength() > 2
+            && ((str[0] == L'&' && str[1] == L'h') || (str[0] == L'0' && str[1] == L'x'))) {
+        str = str.Mid(2);
+        fmtstr = L"%x";
+    } else {
+        fmtstr = L"%d";
+    }
 
     int ret;
     if (swscanf_s(str, fmtstr, &ret) != 1) {
