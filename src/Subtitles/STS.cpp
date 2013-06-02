@@ -2003,6 +2003,7 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
                     for (size_t j = 0; j < count; j++) {
                         if (sub.readorder < GetAt(s.subs[j]).readorder) {
                             s.subs.InsertAt(j, n);
+                            break;
                         }
                     }
                 }
@@ -2021,6 +2022,7 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
                     for (size_t j = 0; j < count; j++) {
                         if (sub.readorder < GetAt(stss.subs[j]).readorder) {
                             stss.subs.InsertAt(j, n);
+                            break;
                         }
                     }
                 }
