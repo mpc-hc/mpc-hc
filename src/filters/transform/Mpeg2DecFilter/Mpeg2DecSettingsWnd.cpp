@@ -145,9 +145,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
     }
 
     m_note_static.Create(
-        ResStr(IDS_MPEG2_NOTE1) +
-        ResStr(IDS_MPEG2_NOTE2),
-        WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(320), m_fontheight * 4)), this);
+        ResStr(IDS_MPEG2_NOTE1), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(320), m_fontheight * 4)), this);
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
         pWnd->SetFont(&m_font, FALSE);

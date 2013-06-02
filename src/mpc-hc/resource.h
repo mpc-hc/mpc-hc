@@ -363,7 +363,6 @@
 #define IDS_MPEG2_CONTRAST              7507
 #define IDS_MPEG2_HUE                   7508
 #define IDS_MPEG2_SATURATION            7509
-#define IDS_MPEG2_NOTE2                 7510
 #define IDS_MPEG2_READ_AR               7511
 #define IDS_ARS_WASAPI_MODE             7600
 #define IDS_ARS_MUTE_FAST_FORWARD       7601
