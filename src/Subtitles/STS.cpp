@@ -1995,23 +1995,36 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
             }
 
             if (start <= s.start && s.end <= end) {
-                for (size_t j = 0, k = s.subs.GetCount(); j <= k; j++) {
-                    if (j == k || sub.readorder < GetAt(s.subs[j]).readorder) {
-                        s.subs.InsertAt(j, n);
+                size_t count = s.subs.GetCount();
+                // Take a shortcut when possible
+                if (!count || sub.readorder >= GetAt(s.subs[count - 1]).readorder) {
+                    s.subs.Add(n);
+                } else {
+                    for (size_t j = 0; j < count; j++) {
+                        if (sub.readorder < GetAt(s.subs[j]).readorder) {
+                            s.subs.InsertAt(j, n);
+                        }
                     }
                 }
-                //              s.subs.Add(n);
             }
 
             if (s.start < end && end < s.end) {
                 STSSegment stss(s.start, end);
                 stss.subs.Copy(s.subs);
-                for (size_t j = 0, k = s.subs.GetCount(); j <= k; j++) {
-                    if (j == k || sub.readorder < GetAt(stss.subs[j]).readorder) {
-                        stss.subs.InsertAt(j, n);
+
+                size_t count = stss.subs.GetCount();
+
+                // Take a shortcut when possible
+                if (!count || sub.readorder >= GetAt(stss.subs[count - 1]).readorder) {
+                    stss.subs.Add(n);
+                } else {
+                    for (size_t j = 0; j < count; j++) {
+                        if (sub.readorder < GetAt(stss.subs[j]).readorder) {
+                            stss.subs.InsertAt(j, n);
+                        }
                     }
                 }
-                //              stss.subs.Add(n);
+
                 s.start = end;
                 m_segments.InsertAt(i, stss);
             }
