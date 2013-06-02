@@ -825,7 +825,8 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID /*pParam*/)
 
         if (nCurrentVersion != nLastVersion && GetAssociatedExtensionsFromRegistry(registeredExts)) {
             if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
-                TASKDIALOGCONFIG config = {0};
+                TASKDIALOGCONFIG config;
+                ZeroMemory(&config, sizeof(TASKDIALOGCONFIG));
                 config.cbSize = sizeof(config);
                 config.hInstance = AfxGetInstanceHandle();
                 config.hwndParent = AfxGetApp()->GetMainWnd()->GetSafeHwnd();

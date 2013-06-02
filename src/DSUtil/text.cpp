@@ -30,7 +30,8 @@ DWORD CharSetToCodePage(DWORD dwCharSet)
     if (dwCharSet == CP_UTF7) {
         return CP_UTF7;
     }
-    CHARSETINFO cs = {0};
+    CHARSETINFO cs;
+    ZeroMemory(&cs, sizeof(CHARSETINFO));
     ::TranslateCharsetInfo((DWORD*)dwCharSet, &cs, TCI_SRCCHARSET);
     return cs.ciACP;
 }

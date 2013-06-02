@@ -243,7 +243,8 @@ int CharSetLen = _countof(CharSetList);
 
 static DWORD CharSetToCodePage(DWORD dwCharSet)
 {
-    CHARSETINFO cs = {0};
+    CHARSETINFO cs;
+    ZeroMemory(&cs, sizeof(CHARSETINFO));
     ::TranslateCharsetInfo((DWORD*)dwCharSet, &cs, TCI_SRCCHARSET);
     return cs.ciACP;
 }

@@ -1260,7 +1260,8 @@ void CDX9AllocatorPresenter::UpdateAlphaBitmap()
         if (!hBitmap) {
             return;
         }
-        DIBSECTION info = {0};
+        DIBSECTION info;
+        ZeroMemory(&info, sizeof(DIBSECTION));
         if (!::GetObject(hBitmap, sizeof(DIBSECTION), &info)) {
             return;
         }

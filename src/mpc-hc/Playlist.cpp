@@ -162,7 +162,8 @@ void CPlaylistItem::AutoLoadFiles()
                 path.Replace('/', '\\');
                 path = path.Left(path.ReverseFind('\\') + 1);
 
-                WIN32_FIND_DATA fd = {0};
+                WIN32_FIND_DATA fd;
+                ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
                 HANDLE hFind = FindFirstFile(fn.Left(i) + _T("*.*"), &fd);
                 if (hFind != INVALID_HANDLE_VALUE) {
                     do {

@@ -29,7 +29,8 @@ const bool SysVersion::is64Bit = InitIs64Bit();
 
 OSVERSIONINFOEX SysVersion::InitFullVersion()
 {
-    OSVERSIONINFOEX fullVersion = {0};
+    OSVERSIONINFOEX fullVersion;
+    ZeroMemory(&fullVersion, sizeof(OSVERSIONINFOEX));
     fullVersion.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
     GetVersionEx((LPOSVERSIONINFO)&fullVersion);
 

@@ -141,7 +141,8 @@ void CChildView::LoadLogo()
 
 CSize CChildView::GetLogoSize()
 {
-    BITMAP bitmap = {0};
+    BITMAP bitmap;
+    ZeroMemory(&bitmap, sizeof(BITMAP));
     m_logo.GetBitmap(&bitmap);
     return CSize(bitmap.bmWidth, bitmap.bmHeight);
 }

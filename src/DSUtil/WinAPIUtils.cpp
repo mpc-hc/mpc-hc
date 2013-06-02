@@ -238,7 +238,8 @@ bool IsFontInstalled(LPCTSTR lpszFont)
         return false;
     }
 
-    LOGFONT lf = {0};
+    LOGFONT lf;
+    ZeroMemory(&lf, sizeof(LOGFONT));
     // Any character set will do
     lf.lfCharSet = DEFAULT_CHARSET;
     // Set the facename to check for

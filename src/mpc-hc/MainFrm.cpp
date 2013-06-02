@@ -4175,7 +4175,8 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         tmp.AddBackslash();
         CString path = tmp;
 
-        WIN32_FIND_DATA fd = {0};
+        WIN32_FIND_DATA fd;
+        ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
         HANDLE hFind = FindFirstFile(fullpath, &fd);
         if (hFind != INVALID_HANDLE_VALUE) {
             do {
@@ -12183,7 +12184,8 @@ void CMainFrame::ParseDirs(CAtlList<CString>& sl)
 
     while (pos) {
         CString fn = sl.GetNext(pos);
-        WIN32_FIND_DATA fd = {0};
+        WIN32_FIND_DATA fd;
+        ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
         HANDLE hFind = FindFirstFile(fn, &fd);
 
         if (hFind != INVALID_HANDLE_VALUE) {

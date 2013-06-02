@@ -32,7 +32,8 @@ CString COpenDirHelper::strLastOpenDir;
 void COpenDirHelper::SetFont(HWND hwnd, const LPTSTR FontName, int FontSize)
 {
     HFONT hf, hfOld;
-    LOGFONT lf = {0};
+    LOGFONT lf;
+    ZeroMemory(&lf, sizeof(LOGFONT));
     HDC hdc = GetDC(hwnd);
 
     GetObject(GetWindowFont(hwnd), sizeof(lf), &lf);
@@ -113,7 +114,8 @@ int CALLBACK COpenDirHelper::BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM 
 
 void COpenDirHelper::RecurseAddDir(CString path, CAtlList<CString>* sl)
 {
-    WIN32_FIND_DATA fd = {0};
+    WIN32_FIND_DATA fd;
+    ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
 
     HANDLE hFind = FindFirstFile(path + _T("*.*"), &fd);
     if (hFind != INVALID_HANDLE_VALUE) {

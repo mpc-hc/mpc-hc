@@ -411,7 +411,8 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
     MPLSPlaylists.RemoveAll();
 
     CAtlList<PlaylistItem> Playlist;
-    WIN32_FIND_DATA fd = {0};
+    WIN32_FIND_DATA fd;
+    ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
 
     strPath.Replace(_T("\\PLAYLIST\\"), _T("\\"));
     strPath.Replace(_T("\\STREAM\\"), _T("\\"));
