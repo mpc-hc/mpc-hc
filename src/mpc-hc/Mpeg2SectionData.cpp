@@ -606,21 +606,21 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
                         }
                         break;
                     case DT_PARENTAL_RATING: {
-                            ASSERT(nLength % 4 == 0);
-                            int rating = -1;
-                            while (nLength >= 4) {
-                                gb.BitRead(24);                     // ISO 3166 country_code
-                                rating = (int)gb.BitRead(8);        // rating
-                                nLength -= 4;
-                            }
-                            if (rating >= 0 && rating <= 0x0f) {
-                                if (rating > 0) {                   // 0x00 undefined
-                                    rating += 3;                    // 0x01 to 0x0F minimum age = rating + 3 years 
-                                }
-                                NowNext.parentalRating = rating;
-                            }
+                        ASSERT(nLength % 4 == 0);
+                        int rating = -1;
+                        while (nLength >= 4) {
+                            gb.BitRead(24);                         // ISO 3166 country_code
+                            rating = (int)gb.BitRead(8);            // rating
+                            nLength -= 4;
                         }
-                        break;
+                        if (rating >= 0 && rating <= 0x0f) {
+                            if (rating > 0) {                       // 0x00 undefined
+                                rating += 3;                        // 0x01 to 0x0F minimum age = rating + 3 years
+                            }
+                            NowNext.parentalRating = rating;
+                        }
+                    }
+                    break;
                     case DT_CONTENT:
                         ASSERT(nLength % 2 == 0);
                         while (nLength >= 2) {
