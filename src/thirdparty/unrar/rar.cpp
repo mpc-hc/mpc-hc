@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 #endif
 
     InitConsoleOptions(Cmd->MsgStream,Cmd->Sound);
-    InitLogOptions(Cmd->LogName);
+    InitLogOptions(Cmd->LogName,Cmd->ErrlogCharset);
     ErrHandler.SetSilent(Cmd->AllYes || Cmd->MsgStream==MSG_NULL);
     ErrHandler.SetShutdown(Cmd->Shutdown);
 

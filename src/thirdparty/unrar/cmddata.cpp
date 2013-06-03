@@ -217,13 +217,17 @@ bool CommandData::PreprocessSwitch(const wchar *Switch)
       // Ensure that correct log file name is already set
       // if we need to report an error when processing the command line.
       ProcessSwitch(Switch);
-      InitLogOptions(LogName);
+      InitLogOptions(LogName,ErrlogCharset);
     }
 #endif
     if (wcsnicomp(Switch,L"sc",2)==0)
     {
       // Process -sc before reading any file lists.
       ProcessSwitch(Switch);
+#ifndef GUI
+      if (*LogName!=0)
+        InitLogOptions(LogName,ErrlogCharset);
+#endif
     }
   }
   return true;
@@ -738,7 +742,7 @@ void CommandData::ProcessSwitch(const wchar *Switch)
               };
               if (!AlreadyBad)
                 if (Switch[3]==0)
-                  CommentCharset=FilelistCharset=rch;
+                  CommentCharset=FilelistCharset=ErrlogCharset=rch;
                 else
                   for (uint I=3;Switch[I]!=0 && !AlreadyBad;I++)
                     switch(toupperw(Switch[I]))

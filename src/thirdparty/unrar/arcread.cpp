@@ -1279,7 +1279,7 @@ void Archive::ConvertFileHeader(FileHeader *hd)
     // This code must be performed only after other path separator checks,
     // because it produces backslashes illegal for some of checks above.
     // Backslash is allowed in file names in Unix, but not in Windows.
-    // Still, RAR 4.x use backslashes as path separator even in Unix.
+    // Still, RAR 4.x uses backslashes as path separator even in Unix.
     // Forward slash is not allowed in both systems. In RAR 5.0 we use
     // the forward slash as universal path separator.
     if (*s=='/' || *s=='\\' && Format!=RARFMT50)
