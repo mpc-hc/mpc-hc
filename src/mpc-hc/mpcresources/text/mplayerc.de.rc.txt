@@ -1567,7 +1567,7 @@ STRING IDS_MPEG2_ENABLE_PLANAR		"Planare YUV-Medientypen erlauben (VY12, I420, I
 STRING IDS_MPEG2_FORCED_SUBS		"Erzwungene Untertitel immer anzeigen"
 STRING IDS_MPEG2_HUE		"Farbton"
 STRING IDS_MPEG2_INTERLACE_FLAG		"Interlaced-Flag im Medientyp setzen"
-STRING IDS_MPEG2_NOTE1		"Hinweis: Benutzung der nicht-planaren Ausgabe, Bob-Deinterlacing oder Änderung der Farb-Einstellung, "
+STRING IDS_MPEG2_NOTE1		"Hinweis: Benutzung der nicht-planaren Ausgabe, des Bob-Deinterlacing oder Änderungen der Farb-Einstellungen kann die Leistung beeinträchtigen. Auto-Deinterlacer wechselt falls nötig zur Blend-Methode."
 STRING IDS_MPEG2_READ_AR		"Seitenverhältnis aus Stream auslesen"
 STRING IDS_MPEG2_RESET		"Zurücksetzen"
 STRING IDS_MPEG2_SATURATION		"Sättigung"
