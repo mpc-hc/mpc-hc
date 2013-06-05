@@ -1067,6 +1067,7 @@ CSubtitle::CSubtitle()
     , m_bottomborder(0)
 {
     ZeroMemory(m_effects, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
+    m_bIsAnimated = false;
 }
 
 CSubtitle::~CSubtitle()
@@ -1597,6 +1598,8 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
     CString effect = str.Left(int(s - str));
 
     if (!effect.CompareNoCase(_T("Banner;"))) {
+        sub->m_bIsAnimated = true;
+
         int delay, lefttoright = 0, fadeawaywidth = 0;
         if (_stscanf_s(s, _T("%d;%d;%d"), &delay, &lefttoright, &fadeawaywidth) < 1) {
             return;
@@ -1614,6 +1617,8 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
 
         sub->m_wrapStyle = 2;
     } else if (!effect.CompareNoCase(_T("Scroll up;")) || !effect.CompareNoCase(_T("Scroll down;"))) {
+        sub->m_bIsAnimated = true;
+
         int top, bottom, delay, fadeawayheight = 0;
         if (_stscanf_s(s, _T("%d;%d;%d;%d"), &top, &bottom, &delay, &fadeawayheight) < 3) {
             return;
@@ -1945,6 +1950,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                                  | ((int)CalcAnimation(c & 0xff0000, style.colors[0] & 0xff0000, fAnimate)) & 0xff0000)
                               : org.colors[0];
         } else if (cmd == L"fade" || cmd == L"fad") {
+            sub->m_bIsAnimated = true;
+
             if (params.GetCount() == 7 && !sub->m_effects[EF_FADE]) { // {\fade(a1=param[0], a2=param[1], a3=param[2], t1=t[0], t2=t[1], t3=t[2], t4=t[3])
                 if (Effect* e = DEBUG_NEW Effect) {
                     for (ptrdiff_t k = 0; k < 3; k++) {
@@ -2032,29 +2039,39 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                             ? (n == 0 ? false : n == 1 ? true : org.fItalic)
                             : org.fItalic;
         } else if (cmd == L"kt") {
+            sub->m_bIsAnimated = true;
+
             m_kstart = !p.IsEmpty()
                        ? wcstol(p, nullptr, 10) * 10
                        : 0;
             m_kend = m_kstart;
         } else if (cmd == L"kf" || cmd == L"K") {
+            sub->m_bIsAnimated = true;
+
             m_ktype = 1;
             m_kstart = m_kend;
             m_kend += !p.IsEmpty()
                       ? wcstol(p, nullptr, 10) * 10
                       : 1000;
         } else if (cmd == L"ko") {
+            sub->m_bIsAnimated = true;
+
             m_ktype = 2;
             m_kstart = m_kend;
             m_kend += !p.IsEmpty()
                       ? wcstol(p, nullptr, 10) * 10
                       : 1000;
         } else if (cmd == L"k") {
+            sub->m_bIsAnimated = true;
+
             m_ktype = 0;
             m_kstart = m_kend;
             m_kend += !p.IsEmpty()
                       ? wcstol(p, nullptr, 10) * 10
                       : 1000;
         } else if (cmd == L"move") { // {\move(x1=param[0], y1=param[1], x2=param[2], y2=param[3][, t1=t[0], t2=t[1]])}
+            sub->m_bIsAnimated = true;
+
             if ((params.GetCount() == 4 || params.GetCount() == 6) && !sub->m_effects[EF_MOVE]) {
                 if (Effect* e = DEBUG_NEW Effect) {
                     e->param[0] = (int)(sub->m_scalex * wcstod(params[0], nullptr) * 8);
@@ -2126,6 +2143,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                                ? (n == 0 ? false : n == 1 ? true : org.fStrikeOut)
                                : org.fStrikeOut;
         } else if (cmd == L"t") { // \t([<t1>,<t2>,][<accel>,]<style modifiers>)
+            sub->m_bIsAnimated = true;
+
             p.Empty();
 
             m_animStart = m_animEnd = 0;
@@ -2538,7 +2557,19 @@ STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, doubl
 
 STDMETHODIMP_(bool) CRenderedTextSubtitle::IsAnimated(POSITION pos)
 {
-    return true;
+    int iSegment = (int)pos - 1;
+
+    const STSSegment* stss = GetSegment(iSegment);
+    if (stss) {
+        for (size_t i = 0, count = stss->subs.GetCount(); i < count; i++) {
+            CSubtitle *sub = GetSubtitle(stss->subs[i]);
+            if (sub && sub->m_bIsAnimated) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 struct LSub {
