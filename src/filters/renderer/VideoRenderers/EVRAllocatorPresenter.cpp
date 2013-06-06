@@ -73,11 +73,11 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     const CRenderersSettings& r = GetRenderersSettings();
 
     m_nResetToken = 0;
-    m_hThread = INVALID_HANDLE_VALUE;
-    m_hGetMixerThread = INVALID_HANDLE_VALUE;
-    m_hVSyncThread = INVALID_HANDLE_VALUE;
-    m_hEvtFlush = INVALID_HANDLE_VALUE;
-    m_hEvtQuit = INVALID_HANDLE_VALUE;
+    m_hThread = nullptr;
+    m_hGetMixerThread = nullptr;
+    m_hVSyncThread = nullptr;
+    m_hEvtFlush = nullptr;
+    m_hEvtQuit = nullptr;
     m_bEvtQuit = 0;
     m_bEvtFlush = 0;
     m_ModeratedTime = 0;
@@ -251,38 +251,42 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
         m_bEvtFlush = true;
         SetEvent(m_hEvtQuit);
         m_bEvtQuit = true;
-        if ((m_hThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject(m_hThread, 10000) == WAIT_TIMEOUT)) {
+        if (m_hThread && WaitForSingleObject(m_hThread, 10000) == WAIT_TIMEOUT) {
             ASSERT(FALSE);
             TerminateThread(m_hThread, 0xDEAD);
         }
-        if ((m_hGetMixerThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject(m_hGetMixerThread, 10000) == WAIT_TIMEOUT)) {
+        if (m_hGetMixerThread && WaitForSingleObject(m_hGetMixerThread, 10000) == WAIT_TIMEOUT) {
             ASSERT(FALSE);
             TerminateThread(m_hGetMixerThread, 0xDEAD);
         }
-        if ((m_hVSyncThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject(m_hVSyncThread, 10000) == WAIT_TIMEOUT)) {
+        if (m_hVSyncThread && WaitForSingleObject(m_hVSyncThread, 10000) == WAIT_TIMEOUT) {
             ASSERT(FALSE);
             TerminateThread(m_hVSyncThread, 0xDEAD);
         }
 
-        if (m_hThread != INVALID_HANDLE_VALUE) {
+        if (m_hThread) {
             CloseHandle(m_hThread);
+            m_hThread = nullptr;
         }
-        if (m_hGetMixerThread != INVALID_HANDLE_VALUE) {
+        if (m_hGetMixerThread) {
             CloseHandle(m_hGetMixerThread);
+            m_hGetMixerThread = nullptr;
         }
-        if (m_hVSyncThread != INVALID_HANDLE_VALUE) {
+        if (m_hVSyncThread) {
             CloseHandle(m_hVSyncThread);
+            m_hVSyncThread = nullptr;
         }
-        if (m_hEvtFlush != INVALID_HANDLE_VALUE) {
+        if (m_hEvtFlush) {
             CloseHandle(m_hEvtFlush);
+            m_hEvtFlush = nullptr;
         }
-        if (m_hEvtQuit != INVALID_HANDLE_VALUE) {
+        if (m_hEvtQuit) {
             CloseHandle(m_hEvtQuit);
+            m_hEvtQuit = nullptr;
         }
 
         m_bEvtFlush = false;
         m_bEvtQuit  = false;
-
 
         TRACE_EVR("EVR: Worker threads stopped...\n");
     }
