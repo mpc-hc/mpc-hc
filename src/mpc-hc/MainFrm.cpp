@@ -843,7 +843,7 @@ void CMainFrame::OnDestroy()
     m_fileDropTarget.Revoke();
 
     if (m_pGraphThread) {
-        CAMEvent e;
+        CAMMsgEvent e;
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_EXIT, 0, (LPARAM)&e);
         if (!e.Wait(5000)) {
             TRACE(_T("ERROR: Must call TerminateThread() on CMainFrame::m_pGraphThread->m_hThread\n"));
@@ -2695,9 +2695,9 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
     BOOL bResult = false;
 
     if (m_bOpenedThruThread) {
-        CAMEvent e;
+        CAMMsgEvent e;
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, (WPARAM)&bResult, (LPARAM)&e);
-        e.Wait();
+        e.WaitMsg();
     } else {
         ResetDevice();
     }
@@ -14588,9 +14588,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    bool fUseThread = m_pGraphThread && s.fEnableWorkerThreadForOpening
-                      // don't use a worker thread in D3DFullscreen mode except madVR
-                      && (!s.IsD3DFullscreen() || s.iDSVideoRendererType == VIDRNDT_DS_MADVR);
+    bool fUseThread = m_pGraphThread && s.fEnableWorkerThreadForOpening;
 
     if (OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p)) {
         if (!p->fns.IsEmpty()) {
@@ -14667,9 +14665,9 @@ void CMainFrame::CloseMedia()
     OnFilePostClosemedia();
 
     if (m_pGraphThread && m_bOpenedThruThread) {
-        CAMEvent e;
+        CAMMsgEvent e;
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, (LPARAM)&e);
-        e.Wait(); // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
+        e.WaitMsg(); // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
     } else {
         CloseMediaPrivate();
     }
