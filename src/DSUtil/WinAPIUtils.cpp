@@ -253,7 +253,10 @@ bool IsFontInstalled(LPCTSTR lpszFont)
 bool ExploreToFile(LPCTSTR path)
 {
     bool success = false;
-    HRESULT res = CoInitialize(nullptr);
+    HRESULT res = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+    if (res == RPC_E_CHANGED_MODE) { // Try another threading model
+        res = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    }
 
     if (res == S_OK || res == S_FALSE) {
         PIDLIST_ABSOLUTE pidl;
