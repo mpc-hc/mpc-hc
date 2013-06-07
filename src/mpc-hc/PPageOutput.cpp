@@ -401,7 +401,7 @@ BOOL CPPageOutput::OnApply()
     r.iDX9Resizer                           = m_iDX9Resizer;
     r.fVMR9MixerMode                        = !!m_fVMR9MixerMode;
     r.fVMR9MixerYUV                         = !!m_fVMR9MixerYUV;
-    r.m_AdvRendSets.bVMR9AlterativeVSync    = m_fVMR9AlterativeVSync != 0;
+    r.m_AdvRendSets.bVMR9AlterativeVSync    = m_fVMR9AlterativeVSync != FALSE;
     s.strAudioRendererDisplayName           = m_AudioRendererDisplayNames[m_iAudioRendererType];
     s.fD3DFullscreen                        = m_fD3DFullscreen ? true : false;
 
