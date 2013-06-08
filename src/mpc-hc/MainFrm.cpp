@@ -1476,7 +1476,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 {
     TRACE(_T("*** CMainFrame::OnDisplayChange()\n"));
 
-    if (m_pFullscreenWnd && m_pFullscreenWnd->IsWindow()) {
+    if (IsD3DFullScreenMode()) {
         MONITORINFO MonitorInfo;
         HMONITOR    hMonitor;
         ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
@@ -1854,7 +1854,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             GetWindowRect(r);
             bool fCursorOutside = !r.PtInRect(p);
             CWnd* pWnd = WindowFromPoint(p);
-            if (m_pFullscreenWnd->IsWindow()) {
+            if (IsD3DFullScreenMode()) {
                 TRACE(_T("==> HIDE!\n"));
                 if (!m_bInOptions && pWnd == m_pFullscreenWnd) {
                     m_pFullscreenWnd->ShowCursor(false);
@@ -2753,7 +2753,7 @@ BOOL CMainFrame::OnButton(UINT id, UINT nFlags, CPoint point)
     SetFocus();
 
     CRect r;
-    if (m_pFullscreenWnd->IsWindow()) {
+    if (IsD3DFullScreenMode()) {
         m_pFullscreenWnd->GetClientRect(r);
     } else {
         m_wndView.GetClientRect(r);
@@ -2779,7 +2779,7 @@ static bool s_fLDown = false;
 
 void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    if (!m_pFullscreenWnd->IsWindow() || !m_OSD.OnLButtonDown(nFlags, point)) {
+    if (!IsD3DFullScreenMode() || !m_OSD.OnLButtonDown(nFlags, point)) {
         SetFocus();
 
         bool fClicked = false;
@@ -2813,7 +2813,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CMainFrame::OnLButtonUp(UINT nFlags, CPoint point)
 {
-    if (!m_pFullscreenWnd->IsWindow() || !m_OSD.OnLButtonUp(nFlags, point)) {
+    if (!IsD3DFullScreenMode() || !m_OSD.OnLButtonUp(nFlags, point)) {
         bool fLeftMouseBtnUnassigned = !AssignedToCmd(wmcmd::LDOWN, m_fFullScreen);
         if (fLeftMouseBtnUnassigned || ((GetTickCount() - m_nMenuHideTick) < 100)) {
             PostMessage(WM_NCLBUTTONUP, HTCAPTION, MAKELPARAM(point.x, point.y));
@@ -2940,7 +2940,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
         CSize diff = m_lastMouseMove - point;
         const CAppSettings& s = AfxGetAppSettings();
 
-        if (m_pFullscreenWnd->IsWindow() && (abs(diff.cx) + abs(diff.cy)) >= 1) {
+        if (IsD3DFullScreenMode() && (abs(diff.cx) + abs(diff.cy)) >= 1) {
             //TRACE(_T("==> SHOW!\n"));
             m_pFullscreenWnd->ShowCursor(true);
 
@@ -3340,7 +3340,7 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 
 void CMainFrame::OnMenuPlayerShort()
 {
-    if (IsMenuHidden() || m_pFullscreenWnd->IsWindow()) {
+    if (IsMenuHidden() || IsD3DFullScreenMode()) {
         OnMenu(m_popupmain.GetSubMenu(0));
     } else {
         OnMenu(m_popup.GetSubMenu(0));
@@ -4073,7 +4073,7 @@ void CMainFrame::OnFileOpenQuick()
 
 void CMainFrame::OnFileOpenmedia()
 {
-    if (m_iMediaLoadState == MLS_LOADING || !IsWindow(m_wndPlaylistBar) || m_pFullscreenWnd->IsWindow()) {
+    if (m_iMediaLoadState == MLS_LOADING || !IsWindow(m_wndPlaylistBar) || IsD3DFullScreenMode()) {
         return;
     }
 
@@ -4324,7 +4324,7 @@ int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
 
 void CMainFrame::OnFileOpendvd()
 {
-    if ((m_iMediaLoadState == MLS_LOADING) || m_pFullscreenWnd->IsWindow()) {
+    if ((m_iMediaLoadState == MLS_LOADING) || IsD3DFullScreenMode()) {
         return;
     }
 
@@ -7534,7 +7534,7 @@ void CMainFrame::OnUpdatePlaySeek(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlayGoto()
 {
-    if ((m_iMediaLoadState != MLS_LOADED) || m_pFullscreenWnd->IsWindow()) {
+    if ((m_iMediaLoadState != MLS_LOADED) || IsD3DFullScreenMode()) {
         return;
     }
 
@@ -9490,7 +9490,7 @@ CSize CMainFrame::GetVideoSize() const
 
 void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo)
 {
-    if (m_pFullscreenWnd->IsWindow()) {
+    if (IsD3DFullScreenMode()) {
         return;
     }
 
@@ -9831,7 +9831,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
     if ((m_iMediaLoadState == MLS_LOADED) && !m_fAudioOnly && IsWindowVisible()) {
         RECT wr;
         // fullscreen
-        if (m_pFullscreenWnd->IsWindow()) {
+        if (IsD3DFullScreenMode()) {
             m_pFullscreenWnd->GetClientRect(&wr);
         }
         // windowed Mode
@@ -9956,7 +9956,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 void CMainFrame::HideVideoWindow(bool fHide)
 {
     CRect wr;
-    if (m_pFullscreenWnd->IsWindow()) {
+    if (IsD3DFullScreenMode()) {
         m_pFullscreenWnd->GetClientRect(&wr);
     } else if (!m_fFullScreen) {
         m_wndView.GetClientRect(&wr);
@@ -10112,7 +10112,7 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
         r.OffsetRect(0, mi.rcWork.top - r.top);
     }
 
-    if ((m_fFullScreen || !s.HasFixedWindowSize()) && !m_pFullscreenWnd->IsWindow()) {
+    if ((m_fFullScreen || !s.HasFixedWindowSize()) && !IsD3DFullScreenMode()) {
         MoveWindow(r);
     }
 
@@ -10560,7 +10560,7 @@ CWnd* CMainFrame::GetModalParent()
 {
     const CAppSettings& s = AfxGetAppSettings();
     CWnd* pParentWnd = this;
-    if (m_pFullscreenWnd->IsWindow() && s.m_RenderersSettings.m_AdvRendSets.bVMR9FullscreenGUISupport) {
+    if (IsD3DFullScreenMode() && s.m_RenderersSettings.m_AdvRendSets.bVMR9FullscreenGUISupport) {
         pParentWnd = m_pFullscreenWnd;
     }
     return pParentWnd;
@@ -11305,7 +11305,7 @@ void CMainFrame::OpenSetupVideo()
         }
     }
 
-    if (m_fAudioOnly && m_pFullscreenWnd->IsWindow()) {
+    if (m_fAudioOnly && IsD3DFullScreenMode()) {
         m_pFullscreenWnd->DestroyWindow();
     }
 }
@@ -14674,7 +14674,7 @@ void CMainFrame::CloseMedia()
 
     UnloadExternalObjects();
 
-    if (m_pFullscreenWnd->IsWindow()) {
+    if (IsD3DFullScreenMode()) {
         m_pFullscreenWnd->ShowWindow(SW_HIDE);
     }
 }
@@ -14911,7 +14911,7 @@ bool CMainFrame::CreateFullScreenWindow()
 
 bool CMainFrame::IsD3DFullScreenMode() const
 {
-    return m_pFullscreenWnd->IsWindow();
+    return m_pFullscreenWnd && m_pFullscreenWnd->IsWindow();
 };
 
 void CMainFrame::SetupEVRColorControl()
