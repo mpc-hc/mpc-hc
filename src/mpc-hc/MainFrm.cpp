@@ -6587,7 +6587,11 @@ void CMainFrame::OnViewFullscreen()
     const CAppSettings& s = AfxGetAppSettings();
 
     if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
-        ToggleD3DFullscreen(true);
+        if (m_pGraphThread && m_bOpenedThruThread) {
+            m_pGraphThread->PostThreadMessage(CGraphThread::TM_TOGGLE_D3DFS, 0, true);
+        } else {
+            ToggleD3DFullscreen(true);
+        }
     } else {
         ToggleFullscreen(true, true);
     }
@@ -6598,7 +6602,11 @@ void CMainFrame::OnViewFullscreenSecondary()
     const CAppSettings& s = AfxGetAppSettings();
 
     if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
-        ToggleD3DFullscreen(false);
+        if (m_pGraphThread && m_bOpenedThruThread) {
+            m_pGraphThread->PostThreadMessage(CGraphThread::TM_TOGGLE_D3DFS, 0, false);
+        } else {
+            ToggleD3DFullscreen(false);
+        }
     } else {
         ToggleFullscreen(true, false);
     }
