@@ -9714,10 +9714,6 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
         pD3DFS->GetD3DFullscreen(&bIsFullscreen);
         s.fLastFullScreen = bIsFullscreen;
 
-        // Temporarily hide the OSD message if there is one, it will
-        // be restored after. This avoid positioning problems.
-        m_OSD.HideMessage(true);
-
         if (bIsFullscreen) {
             // Restore the default display mode
             if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault && s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
@@ -9769,8 +9765,6 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
         }
 
         MoveVideoWindow();
-
-        m_OSD.HideMessage(false);
     }
 }
 
