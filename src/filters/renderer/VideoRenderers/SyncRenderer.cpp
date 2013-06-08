@@ -2674,6 +2674,8 @@ STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)
         hr = m_pD3DManager->QueryInterface(__uuidof(IDirect3DDeviceManager9), (void**) ppv);
     } else if (riid == __uuidof(ISyncClockAdviser)) {
         hr = GetInterface((ISyncClockAdviser*)this, ppv);
+    } else if (riid == __uuidof(ID3DFullscreenControl)) {
+        hr = GetInterface((ID3DFullscreenControl*)this, ppv);
     } else {
         hr = __super::NonDelegatingQueryInterface(riid, ppv);
     }
@@ -4549,5 +4551,18 @@ HRESULT CGenlock::UpdateStats(double syncOffset, double frameCycle)
     frameCycleAvg = frameCycleFifo->Average(frameCycle);
     minFrameCycle = min(minFrameCycle, frameCycle);
     maxFrameCycle = max(maxFrameCycle, frameCycle);
+    return S_OK;
+}
+
+STDMETHODIMP CSyncAP::SetD3DFullscreen(bool fEnabled)
+{
+    m_bIsFullscreen = fEnabled;
+    return S_OK;
+}
+
+STDMETHODIMP CSyncAP::GetD3DFullscreen(bool* pfEnabled)
+{
+    CheckPointer(pfEnabled, E_POINTER);
+    *pfEnabled = m_bIsFullscreen;
     return S_OK;
 }
