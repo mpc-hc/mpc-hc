@@ -2497,37 +2497,45 @@ void CSimpleTextSubtitle::Sort(bool fRestoreReadorder)
     CreateSegments();
 }
 
-static int intcomp(const void* i1, const void* i2)
+struct Breakpoint
 {
-    return (*((int*)i1) - * ((int*)i2));
+    int t;
+    bool isStart;
+
+    Breakpoint(int t, bool isStart) : t(t), isStart(isStart) {};
+};
+
+static int BreakpointComp(const void* e1, const void* e2)
+{
+    const Breakpoint* bp1 = (const Breakpoint*)e1;
+    const Breakpoint* bp2 = (const Breakpoint*)e2;
+
+    return (bp1->t - bp2->t);
 }
 
 void CSimpleTextSubtitle::CreateSegments()
 {
     m_segments.RemoveAll();
 
-    size_t i, j;
+    CAtlArray<Breakpoint> breakpoints;
 
-    CAtlArray<int> breakpoints;
-
-    for (i = 0; i < GetCount(); i++) {
+    for (size_t i = 0; i < GetCount(); i++) {
         STSEntry& stse = GetAt(i);
-        breakpoints.Add(stse.start);
-        breakpoints.Add(stse.end);
+        breakpoints.Add(Breakpoint(stse.start, true));
+        breakpoints.Add(Breakpoint(stse.end, false));
     }
 
-    qsort(breakpoints.GetData(), breakpoints.GetCount(), sizeof(int), intcomp);
+    qsort(breakpoints.GetData(), breakpoints.GetCount(), sizeof(Breakpoint), BreakpointComp);
 
-    int* ptr = breakpoints.GetData(), prev = ptr ? *ptr : 0;
-
-    for (i = breakpoints.GetCount(); i > 0; i--, ptr++) {
-        if (*ptr != prev) {
-            m_segments.Add(STSSegment(prev, *ptr));
-            prev = *ptr;
+    ptrdiff_t startsCount = 0;
+    for (size_t i = 1, end = breakpoints.GetCount(); i < end; i++) {
+        startsCount += breakpoints[i - 1].isStart ? +1 : -1;
+        if (breakpoints[i - 1].t != breakpoints[i].t && startsCount > 0) {
+            m_segments.Add(STSSegment(breakpoints[i - 1].t, breakpoints[i].t));
         }
     }
 
-    for (i = 0; i < GetCount(); i++) {
+    for (size_t i = 0, j; i < GetCount(); i++) {
         STSEntry& stse = GetAt(i);
         for (j = 0; j < m_segments.GetCount() && m_segments[j].start < stse.start; j++) {
             ;
@@ -2539,14 +2547,12 @@ void CSimpleTextSubtitle::CreateSegments()
 
     OnChanged();
     /*
-        for (i = 0, j = m_segments.GetCount(); i < j; i++)
-        {
+        for (size_t i = 0, j = m_segments.GetCount(); i < j; i++) {
             STSSegment& stss = m_segments[i];
 
             TRACE(_T("%d - %d"), stss.start, stss.end);
 
-            for (size_t k = 0, l = stss.subs.GetCount(); k < l; k++)
-            {
+            for (size_t k = 0, l = stss.subs.GetCount(); k < l; k++) {
                 TRACE(_T(", %d"), stss.subs[k]);
             }
 
