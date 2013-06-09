@@ -167,6 +167,7 @@ IF /I "%BUILDTYPE%" == "Build" (
 
     COPY /Y /V %SRCFOLDER%\*.dll %DESTFOLDER%
     COPY /Y /V %SRCFOLDER%\*.ax %DESTFOLDER%
+    COPY /Y /V %SRCFOLDER%\*.manifest %DESTFOLDER%
 ) ELSE IF /I "%BUILDTYPE%" == "Clean" (
     :: Remove LAVFilters files in MPC-HC output directory
     IF EXIST %DESTFOLDER% RMDIR /S /Q %DESTFOLDER%

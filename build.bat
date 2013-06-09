@@ -405,6 +405,7 @@ IF /I "%NAME%" == "MPC-HC" (
     COPY /Y /V "%~1_%ARCH%\Lang\mpcresources.??.dll" "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
     COPY /Y /V "%~1_%ARCH%\LAVFilters\*.ax"          "%PCKG_NAME%\LAVFilters" >NUL
     COPY /Y /V "%~1_%ARCH%\LAVFilters\*.dll"         "%PCKG_NAME%\LAVFilters" >NUL
+    COPY /Y /V "%~1_%ARCH%\LAVFilters\*.manifest"    "%PCKG_NAME%\LAVFilters" >NUL
   )
   COPY /Y /V "%~1_%ARCH%\D3DCompiler_43.dll"         "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
   COPY /Y /V "%~1_%ARCH%\d3dx9_43.dll"               "%PCKG_NAME%\d3dx9_43.dll" >NUL
