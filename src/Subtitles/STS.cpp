@@ -1980,7 +1980,8 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
             m_segments.InsertAt(0, stss);
         }
 
-        for (size_t i = 0; i < m_segments.GetCount(); i++) {
+        size_t i;
+        for (i = 0; i < m_segments.GetCount(); i++) {
             STSSegment& s = m_segments[i];
 
             if (start >= s.end) {
@@ -2037,10 +2038,10 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
             }
         }
 
-        if (end > m_segments[m_segments.GetCount() - 1].end) {
-            STSSegment stss(m_segments[m_segments.GetCount() - 1].end, end);
+        if (end > m_segments[i - 1].end) {
+            STSSegment stss(m_segments[i - 1].end, end);
             stss.subs.Add(n);
-            m_segments.Add(stss);
+            m_segments.InsertAt(i, stss);
         }
     }
 }
