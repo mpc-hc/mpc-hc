@@ -12261,6 +12261,7 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
                 bSucceeded = false;
                 for (int nOffsetPos = 0; nOffsetPos < nOffset && !bSucceeded; nOffsetPos++) {
                     pTun->SetFrequency(ulFrequency + lOffsets[nOffsetPos]);
+                    Sleep(200); // Let the tuner some time to detect the signal
                     if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
                         ::SendMessage(pTSD->Hwnd, WM_TUNER_STATS, lDbStrength, lPercentQuality);
                         pTun->Scan(ulFrequency + lOffsets[nOffsetPos], pTSD->Hwnd);
