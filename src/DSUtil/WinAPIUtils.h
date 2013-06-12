@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2012 see Authors.txt
+ * (C) 2011-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -41,3 +41,10 @@ bool ExploreToFile(LPCTSTR path);
 bool FileExists(LPCTSTR fileName);
 
 CString GetProgramPath(bool bWithExecutableName = false);
+
+class CoInitializeHelper
+{
+public:
+    CoInitializeHelper();
+    ~CoInitializeHelper();
+};

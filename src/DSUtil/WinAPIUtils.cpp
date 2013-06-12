@@ -252,21 +252,14 @@ bool IsFontInstalled(LPCTSTR lpszFont)
 
 bool ExploreToFile(LPCTSTR path)
 {
+    CoInitializeHelper co;
+
     bool success = false;
-    HRESULT res = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-    if (res == RPC_E_CHANGED_MODE) { // Try another threading model
-        res = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
-    }
+    PIDLIST_ABSOLUTE pidl;
 
-    if (res == S_OK || res == S_FALSE) {
-        PIDLIST_ABSOLUTE pidl;
-
-        if (SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
-            success = SUCCEEDED(SHOpenFolderAndSelectItems(pidl, 0, nullptr, 0));
-            CoTaskMemFree(pidl);
-        }
-
-        CoUninitialize();
+    if (SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
+        success = SUCCEEDED(SHOpenFolderAndSelectItems(pidl, 0, nullptr, 0));
+        CoTaskMemFree(pidl);
     }
 
     return success;
@@ -289,4 +282,20 @@ CString GetProgramPath(bool bWithExecutableName /*= false*/)
     }
 
     return path;
+}
+
+CoInitializeHelper::CoInitializeHelper()
+{
+    HRESULT res = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+    if (res == RPC_E_CHANGED_MODE) { // Try another threading model
+        res = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    }
+    if (res != S_OK && res != S_FALSE) {
+        throw res;
+    }
+}
+
+CoInitializeHelper::~CoInitializeHelper()
+{
+    CoUninitialize();
 }
