@@ -456,7 +456,7 @@ void CMPlayerCApp::InitProfile()
 {
     // Calls to CMPlayerCApp::InitProfile() are not serialized,
     // so we serialize its internals
-    CSingleLock(&m_ProfileCriticalSection, TRUE);
+    CSingleLock lock(&m_ProfileCriticalSection, TRUE);
 
     if (m_fProfileInitialized) {
         return;
