@@ -107,7 +107,7 @@ private:
     void _EvaluateBezier(int ptbase, bool fBSpline);
     void _EvaluateLine(int pt1idx, int pt2idx);
     void _EvaluateLine(int x0, int y0, int x1, int y1);
-    static void _OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int dy);
+    static void _OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx, int dy);
     // helpers
     void Draw_noAlpha_spFF_Body_0(RasterizerNfo& rnfo);
     void Draw_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo);

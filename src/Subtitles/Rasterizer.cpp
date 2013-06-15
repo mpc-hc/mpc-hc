@@ -611,7 +611,7 @@ bool Rasterizer::ScanConvert()
     return true;
 }
 
-void Rasterizer::_OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int dy)
+void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx, int dy)
 {
     tSpanBuffer temp;
 
