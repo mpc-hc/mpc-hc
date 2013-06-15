@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -131,11 +131,7 @@ void CWord::Paint(CPoint p, CPoint org)
 
         Transform(CPoint((org.x - p.x) * 8, (org.y - p.y) * 8));
 
-        __try {
-            if (!ScanConvert()) {
-                return;
-            }
-        } __except (EXCEPTION_EXECUTE_HANDLER) {
+        if (!ScanConvert()) {
             return;
         }
 
