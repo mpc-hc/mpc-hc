@@ -2778,7 +2778,7 @@ STRINGTABLE
 BEGIN
     IDS_VDF_DXVA_SETTING    "DXVA settings"
     IDS_VDF_DXVA_MODE       "DXVA Mode"
-    IDS_D3DFS_WARNING       "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nTo exit Direct3D fullscreen and stop playback, you must press: Ctrl + C.\n\nDo you really want to activate this option?"
+    IDS_D3DFS_WARNING       "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
     IDS_MAINFRM_139         "Sub delay: %ld ms"
     IDS_REALVIDEO_INCOMPATIBLE
                             "Filename contains unsupported characters (use only A-Z, 0-9)"
@@ -3060,8 +3060,8 @@ BEGIN
     IDS_OSD_RS_FLUSH_AFT_PRES_OFF       "Flush GPU after Present: Off"
     IDS_OSD_RS_WAIT_ON                  "Wait for GPU Flush: On"
     IDS_OSD_RS_WAIT_OFF                 "Wait for GPU Flush: Off"
-    IDS_OSD_RS_D3D_FULLSCREEN_ON        "D3D Fullscreen (requires restart): On"
-    IDS_OSD_RS_D3D_FULLSCREEN_OFF       "D3D Fullscreen (requires restart): Off"
+    IDS_OSD_RS_D3D_FULLSCREEN_ON        "D3D Fullscreen: On"
+    IDS_OSD_RS_D3D_FULLSCREEN_OFF       "D3D Fullscreen: Off"
     IDS_OSD_RS_NO_DESKTOP_COMP_ON       "Disable desktop composition: On"
     IDS_OSD_RS_NO_DESKTOP_COMP_OFF      "Disable desktop composition: Off"
     IDS_OSD_RS_ALT_VSYNC_ON             "Alternative VSync: On"
@@ -3086,7 +3086,6 @@ BEGIN
     IDS_OSD_ZOOM                        "Zoom: %.0lf%%"
     IDS_OSD_ZOOM_AUTO                   "Zoom: Auto"
     IDS_OSD_ZOOM_AUTO_LARGER            "Zoom: Auto (Larger Only)"
-    IDS_OSD_D3DFS_REMINDER              "D3D Fullscreen is on, press Ctrl+C to stop"
 END
 
 STRINGTABLE
