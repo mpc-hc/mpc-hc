@@ -13633,7 +13633,7 @@ void CMainFrame::SetAlwaysOnTop(int iOnTop)
 {
     CAppSettings& s = AfxGetAppSettings();
 
-    if (!m_fFullScreen) {
+    if (!m_fFullScreen && !IsD3DFullScreenMode()) {
         const CWnd* pInsertAfter = nullptr;
 
         if (iOnTop == 0) {
