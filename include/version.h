@@ -55,7 +55,7 @@
 #define MPC_VERSION_MINOR   6
 #define MPC_VERSION_PATCH   8
 
-#define MPC_BETA_RELEASE    1
+#define MPC_BETA_RELEASE    0
 
 #define MPC_COMP_NAME_STR       _T("MPC-HC Team")
 #define MPC_COPYRIGHT_STR       _T("Copyright © 2002-2013 all contributors, see Authors.txt")

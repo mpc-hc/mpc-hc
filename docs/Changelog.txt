@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-1.6.8 - not released yet
-========================
+1.6.8 - 15 June 2013
+====================
 + DVB: Show the parental rating and the content type within the EPG information when available
 + Ticket #2872, Add support for DVB-T2 and improve channel switching (new options are available to
   have a finer control on switching process)
@@ -26,16 +26,16 @@ Legend:
   - Use percentage for the boost setting since it is easier to understand for most people
   - Add a setting to change the max normalization factor and use a default max normalization
     factor of 4 instead of 10
-* Ticket #2567, New About dialog with more detailed information and a "Copy to clipboard" feature
-  to ease support
+* Ticket #2567, New About dialog with more detailed information and a "Copy to clipboard"
+  feature to ease support
 ! PGS and DVB subtitles: Fix missing subtitles after resizing the window when using
   the subpicture queue
-! Open dialog: if an URL was previously enterer in the "Open" or "Dub" fields an error message
-  was shown when clicking on the "Browse" button
+! Open dialog: if a URL was previously enterer in the "Open" or "Dub" fields an error message
+  was shown when clicking the "Browse" button
 ! Vobsub files with language/title in their filenames weren't auto-loaded
 ! Fix a memory leak: the memory consumption would increase noticeably until the file was closed
-  when the file had chapters and the chapter marks on seek bar were enabled
-! Capture mode: Fix reseting the renderer. When reseting the renderer in capture mode the playback
+  when the file had chapters and the chapter marks on seekbar were enabled
+! Capture mode: Fix reseting the renderer. When reseting the renderer in capture mode playback
   was stopped and never restarted
 ! Ticket #3110, DVB: Improve compatibility with some drivers for which MPC-HC failed to find
   any channel during the channel scan
