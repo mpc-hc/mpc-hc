@@ -64,6 +64,17 @@ struct RasterizerNfo {
     }
 };
 
+typedef std::pair<unsigned __int64, unsigned __int64> tSpan;
+typedef std::vector<tSpan> tSpanBuffer;
+
+struct COutlineData
+{
+    int mWidth, mHeight;
+    int mPathOffsetX, mPathOffsetY;
+    int mWideBorder;
+    tSpanBuffer mOutline, mWideOutline;
+};
+
 class Rasterizer
 {
     bool fFirstSet;
@@ -76,15 +87,6 @@ protected:
     bool fSSE2;
 
 private:
-    int mWidth, mHeight;
-
-    typedef std::pair<unsigned __int64, unsigned __int64> tSpan;
-    typedef std::vector<tSpan> tSpanBuffer;
-
-    tSpanBuffer mOutline;
-    tSpanBuffer mWideOutline;
-    int mWideBorder;
-
     struct Edge {
         int next;
         int posandflag;
@@ -95,7 +97,8 @@ private:
     unsigned int* mpScanBuffer;
 
 protected:
-    int mPathOffsetX, mPathOffsetY;
+    COutlineData m_outlineData;
+
     int mOffsetX, mOffsetY;
     int mOverlayWidth, mOverlayHeight;
     byte* mpOverlayBuffer;

@@ -24,6 +24,9 @@
 #include "STS.h"
 #include "Rasterizer.h"
 #include "../SubPic/SubPicProviderImpl.h"
+#include "RenderingCache.h"
+
+typedef CRenderingCache<COutlineKey, COutlineData, CKeyTraits<COutlineKey>> COutlineCache;
 
 class CMyFont : public CFont
 {
@@ -47,6 +50,8 @@ class CWord : public Rasterizer
     bool CreateOpaqueBox();
 
 protected:
+    COutlineCache& m_outlineCache;
+
     double m_scalex, m_scaley;
     CStringW m_str;
 
@@ -63,13 +68,16 @@ public:
 
     int m_width, m_ascent, m_descent;
 
-    CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley); // str[0] = 0 -> m_fLineBreak = true (in this case we only need and use the height of m_font from the whole class)
+    // str[0] = 0 -> m_fLineBreak = true (in this case we only need and use the height of m_font from the whole class)
+    CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, COutlineCache& outlineCache);
     virtual ~CWord();
 
     virtual CWord* Copy() = 0;
     virtual bool Append(CWord* w);
 
     void Paint(CPoint p, CPoint org);
+
+    friend class COutlineKey;
 };
 
 class CText : public CWord
@@ -78,7 +86,7 @@ protected:
     virtual bool CreatePath();
 
 public:
-    CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley);
+    CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, COutlineCache& outlineCache);
 
     virtual CWord* Copy();
     virtual bool Append(CWord* w);
@@ -99,7 +107,7 @@ protected:
     virtual bool CreatePath();
 
 public:
-    CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline);
+    CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline, COutlineCache& outlineCache);
     CPolygon(CPolygon&); // can't use a const reference because we need to use CAtlArray::Copy which expects a non-const reference
     virtual ~CPolygon();
 
@@ -114,7 +122,7 @@ private:
     virtual bool Append(CWord* w);
 
 public:
-    CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset);
+    CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset, COutlineCache& outlineCache);
     virtual ~CClipper();
 
     CSize m_size;
@@ -157,6 +165,8 @@ public:
 
 class CSubtitle : public CAtlList<CLine*>
 {
+    COutlineCache& m_outlineCache;
+
     int GetFullWidth();
     int GetFullLineWidth(POSITION pos);
     int GetWrapWidth(POSITION pos, int maxwidth);
@@ -182,7 +192,7 @@ public:
     double m_scalex, m_scaley;
 
 public:
-    CSubtitle();
+    CSubtitle(COutlineCache& m_outlineCache);
     virtual ~CSubtitle();
     virtual void Empty();
     void EmptyEffects();
@@ -213,6 +223,8 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
     CRenderedTextSubtitle : public CSimpleTextSubtitle, public CSubPicProviderImpl, public ISubStream
 {
     CAtlMap<int, CSubtitle*> m_subtitleCache;
+
+    COutlineCache m_outlineCache;
 
     CScreenLayoutAllocator m_sla;
 

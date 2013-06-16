@@ -60,14 +60,10 @@ Rasterizer::Rasterizer()
     , mpOverlayBuffer(nullptr)
     , mOverlayWidth(0)
     , mOverlayHeight(0)
-    , mPathOffsetX(0)
-    , mPathOffsetY(0)
+    , m_outlineData()
     , mOffsetX(0)
     , mOffsetY(0)
     , fFirstSet(false)
-    , mWidth(0)
-    , mHeight(0)
-    , mWideBorder(0)
     , mpEdgeBuffer(nullptr)
     , mEdgeHeapSize(0)
     , mEdgeNext(0)
@@ -397,15 +393,15 @@ bool Rasterizer::ScanConvert()
 
     // Drop any outlines we may have.
 
-    mOutline.clear();
-    mWideOutline.clear();
-    mWideBorder = 0;
+    m_outlineData.mOutline.clear();
+    m_outlineData.mWideOutline.clear();
+    m_outlineData.mWideBorder = 0;
 
     // Determine bounding box
 
     if (!mPathPoints) {
-        mPathOffsetX = mPathOffsetY = 0;
-        mWidth = mHeight = 0;
+        m_outlineData.mPathOffsetX = m_outlineData.mPathOffsetY = 0;
+        m_outlineData.mWidth = m_outlineData.mHeight = 0;
         return false;
     }
 
@@ -443,26 +439,26 @@ bool Rasterizer::ScanConvert()
     }
 
     if (minx > maxx || miny > maxy) {
-        mWidth = mHeight = 0;
-        mPathOffsetX = mPathOffsetY = 0;
+        m_outlineData.mWidth = m_outlineData.mHeight = 0;
+        m_outlineData.mPathOffsetX = m_outlineData.mPathOffsetY = 0;
         _TrashPath();
         return true;
     }
 
-    mWidth  = maxx + 1 - minx;
-    mHeight = maxy + 1 - miny;
+    m_outlineData.mWidth  = maxx + 1 - minx;
+    m_outlineData.mHeight = maxy + 1 - miny;
 
     // Check that the size isn't completely crazy.
     // Note that mWidth and mHeight are in 1/8 pixels.
-    if (mWidth > MAX_DIMENSION * SUBPIXEL_MULTIPLIER
-            || mHeight > MAX_DIMENSION * SUBPIXEL_MULTIPLIER) {
+    if (m_outlineData.mWidth > MAX_DIMENSION * SUBPIXEL_MULTIPLIER
+            || m_outlineData.mHeight > MAX_DIMENSION * SUBPIXEL_MULTIPLIER) {
         TRACE(_T("Error in Rasterizer::ScanConvert: size (%dx%d) is too big"),
-              mWidth / SUBPIXEL_MULTIPLIER, mHeight / SUBPIXEL_MULTIPLIER);
+              m_outlineData.mWidth / SUBPIXEL_MULTIPLIER, m_outlineData.mHeight / SUBPIXEL_MULTIPLIER);
         return false;
     }
 
-    mPathOffsetX = minx;
-    mPathOffsetY = miny;
+    m_outlineData.mPathOffsetX = minx;
+    m_outlineData.mPathOffsetY = miny;
 
     // Initialize edge buffer.  We use edge 0 as a sentinel.
 
@@ -476,12 +472,12 @@ bool Rasterizer::ScanConvert()
 
     // Initialize scanline list.
 
-    mpScanBuffer = DEBUG_NEW unsigned int[mHeight];
+    mpScanBuffer = DEBUG_NEW unsigned int[m_outlineData.mHeight];
     if (!mpScanBuffer) {
         TRACE(_T("Error in Rasterizer::ScanConvert: mpScanBuffer is NULL"));
         return false;
     }
-    ZeroMemory(mpScanBuffer, mHeight * sizeof(unsigned int));
+    ZeroMemory(mpScanBuffer, m_outlineData.mHeight * sizeof(unsigned int));
 
     // Scan convert the outline.  Yuck, Bezier curves....
 
@@ -548,11 +544,11 @@ bool Rasterizer::ScanConvert()
 
     std::vector<int> heap;
 
-    mOutline.reserve(mEdgeNext / 2);
+    m_outlineData.mOutline.reserve(mEdgeNext / 2);
 
     __int64 y = 0;
 
-    for (y = 0; y < mHeight; ++y) {
+    for (y = 0; y < m_outlineData.mHeight; ++y) {
         int count = 0;
 
         // Detangle scanline into edge heap.
@@ -593,7 +589,7 @@ bool Rasterizer::ScanConvert()
                 x2 = (x >> 1);
 
                 if (x2 > x1) {
-                    mOutline.push_back(std::pair<__int64, __int64>((y << 32) + x1 + 0x4000000040000000i64, (y << 32) + x2 + 0x4000000040000000i64)); // G: damn Avery, this is evil! :)
+                    m_outlineData.mOutline.push_back(std::pair<__int64, __int64>((y << 32) + x1 + 0x4000000040000000i64, (y << 32) + x2 + 0x4000000040000000i64)); // G: damn Avery, this is evil! :)
                 }
             }
         }
@@ -732,7 +728,7 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
         ry = 0;
     }
 
-    mWideBorder = std::max(rx, ry);
+    m_outlineData.mWideBorder = std::max(rx, ry);
 
     if (ry > 0) {
         // Do a half circle.
@@ -740,12 +736,12 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
         for (int y = -ry; y <= ry; ++y) {
             int x = (int)(0.5 + sqrt(float(ry * ry - y * y)) * float(rx) / float(ry));
 
-            _OverlapRegion(mWideOutline, mOutline, x, y);
+            _OverlapRegion(m_outlineData.mWideOutline, m_outlineData.mOutline, x, y);
         }
     } else if (ry == 0 && rx > 0) {
         // There are artifacts if we don't make at least two overlaps of the line, even at same Y coord
-        _OverlapRegion(mWideOutline, mOutline, rx, 0);
-        _OverlapRegion(mWideOutline, mOutline, rx, 0);
+        _OverlapRegion(m_outlineData.mWideOutline, m_outlineData.mOutline, rx, 0);
+        _OverlapRegion(m_outlineData.mWideOutline, m_outlineData.mOutline, rx, 0);
     }
 
     return true;
@@ -753,15 +749,15 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
 
 void Rasterizer::DeleteOutlines()
 {
-    mWideOutline.clear();
-    mOutline.clear();
+    m_outlineData.mWideOutline.clear();
+    m_outlineData.mOutline.clear();
 }
 
 bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 {
     _TrashOverlay();
 
-    if (!mWidth || !mHeight) {
+    if (!m_outlineData.mWidth || !m_outlineData.mHeight) {
         mOverlayWidth = mOverlayHeight = 0;
         return true;
     }
@@ -769,15 +765,15 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
     xsub &= 7;
     ysub &= 7;
 
-    int width  = mWidth + xsub;
-    int height = mHeight;// + ysub
+    int width  = m_outlineData.mWidth + xsub;
+    int height = m_outlineData.mHeight;// + ysub
 
-    mOffsetX = mPathOffsetX - xsub;
-    mOffsetY = mPathOffsetY - ysub;
+    mOffsetX = m_outlineData.mPathOffsetX - xsub;
+    mOffsetY = m_outlineData.mPathOffsetY - ysub;
 
-    mWideBorder = (mWideBorder + 7) & ~7;
+    m_outlineData.mWideBorder = (m_outlineData.mWideBorder + 7) & ~7;
 
-    if (!mWideOutline.empty() || fBlur || fGaussianBlur > 0) {
+    if (!m_outlineData.mWideOutline.empty() || fBlur || fGaussianBlur > 0) {
         int bluradjust = 0;
         if (fGaussianBlur > 0) {
             bluradjust += (int)(fGaussianBlur * 3 * 8 + 0.5) | 1;
@@ -789,14 +785,14 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
         // Expand the buffer a bit when we're blurring, since that can also widen the borders a bit
         bluradjust = (bluradjust + 7) & ~7;
 
-        width  += 2 * mWideBorder + bluradjust * 2;
-        height += 2 * mWideBorder + bluradjust * 2;
+        width  += 2 * m_outlineData.mWideBorder + bluradjust * 2;
+        height += 2 * m_outlineData.mWideBorder + bluradjust * 2;
 
-        xsub += mWideBorder + bluradjust;
-        ysub += mWideBorder + bluradjust;
+        xsub += m_outlineData.mWideBorder + bluradjust;
+        ysub += m_outlineData.mWideBorder + bluradjust;
 
-        mOffsetX -= mWideBorder + bluradjust;
-        mOffsetY -= mWideBorder + bluradjust;
+        mOffsetX -= m_outlineData.mWideBorder + bluradjust;
+        mOffsetY -= m_outlineData.mWideBorder + bluradjust;
     }
 
     mOverlayWidth = ((width + 7) >> 3) + 1;
@@ -812,7 +808,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
     // Are we doing a border?
 
-    tSpanBuffer* pOutline[2] = {&mOutline, &mWideOutline};
+    tSpanBuffer* pOutline[2] = {&m_outlineData.mOutline, &m_outlineData.mWideOutline};
 
     for (ptrdiff_t i = _countof(pOutline) - 1; i >= 0; i--) {
         auto it = pOutline[i]->cbegin();
@@ -859,7 +855,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
                 return false;
             }
 
-            int border = !mWideOutline.empty() ? 1 : 0;
+            int border = !m_outlineData.mWideOutline.empty() ? 1 : 0;
 
             byte* src = mpOverlayBuffer + border;
 
@@ -883,7 +879,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
             memcpy(tmp, mpOverlayBuffer, pitch * mOverlayHeight);
 
-            int border = !mWideOutline.empty() ? 1 : 0;
+            int border = !m_outlineData.mWideOutline.empty() ? 1 : 0;
 
             // This could be done in a separated way and win some speed
             for (ptrdiff_t j = 1; j < mOverlayHeight - 1; j++) {
