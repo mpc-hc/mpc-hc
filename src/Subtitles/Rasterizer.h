@@ -75,6 +75,58 @@ struct COutlineData
     tSpanBuffer mOutline, mWideOutline;
 };
 
+struct COverlayData
+{
+    int mOffsetX, mOffsetY;
+    int mOverlayWidth, mOverlayHeight;
+    byte* mpOverlayBuffer;
+
+    COverlayData::COverlayData()
+        : mOffsetX(0), mOffsetY(0), mOverlayWidth(0), mOverlayHeight(0), mpOverlayBuffer(nullptr) {}
+
+    COverlayData::COverlayData(const COverlayData& overlayData)
+        : mOffsetX(overlayData.mOffsetX)
+        , mOffsetY(overlayData.mOffsetY)
+        , mOverlayWidth(overlayData.mOverlayWidth)
+        , mOverlayHeight(overlayData.mOverlayHeight)
+    {
+        mpOverlayBuffer = (byte*)_aligned_malloc(2 * mOverlayWidth * mOverlayHeight, 16);
+        if (!mpOverlayBuffer) {
+            mOffsetX = mOffsetY = 0;
+            mOverlayWidth = mOverlayHeight = 0;
+        }
+        memcpy(mpOverlayBuffer, overlayData.mpOverlayBuffer, 2 * mOverlayWidth * mOverlayHeight);
+    }
+
+    COverlayData::~COverlayData() {
+        DeleteOverlay();
+    }
+
+    COverlayData& operator=(const COverlayData& overlayData) {
+        mOffsetX = overlayData.mOffsetX;
+        mOffsetY = overlayData.mOffsetY;
+        mOverlayWidth = overlayData.mOverlayWidth;
+        mOverlayHeight = overlayData.mOverlayHeight;
+
+        DeleteOverlay();
+        mpOverlayBuffer = (byte*)_aligned_malloc(2 * mOverlayWidth * mOverlayHeight, 16);
+        if (!mpOverlayBuffer) {
+            mOffsetX = mOffsetY = 0;
+            mOverlayWidth = mOverlayHeight = 0;
+        }
+        memcpy(mpOverlayBuffer, overlayData.mpOverlayBuffer, 2 * mOverlayWidth * mOverlayHeight);
+
+        return *this;
+    };
+
+    void DeleteOverlay() {
+        if (mpOverlayBuffer) {
+            _aligned_free(mpOverlayBuffer);
+        }
+        mpOverlayBuffer = nullptr;
+    }
+};
+
 class Rasterizer
 {
     bool fFirstSet;
@@ -98,10 +150,7 @@ private:
 
 protected:
     COutlineData m_outlineData;
-
-    int mOffsetX, mOffsetY;
-    int mOverlayWidth, mOverlayHeight;
-    byte* mpOverlayBuffer;
+    COverlayData m_overlayData;
 
 private:
     void _TrashPath();

@@ -123,3 +123,37 @@ bool COutlineKey::operator==(const COutlineKey& outLineKey) const
             && NEARLY_EQ(m_style->outlineWidthX, outLineKey.m_style->outlineWidthX, 1e-6)
             && NEARLY_EQ(m_style->outlineWidthY, outLineKey.m_style->outlineWidthY, 1e-6);
 }
+
+COverlayKey::COverlayKey(const CWord* word, CPoint p, CPoint org)
+    : COutlineKey(word, CPoint(org.x - p.x, org.y - p.y))
+    , m_subp(p.x & 7, p.y & 7)
+{
+    UpdateHash();
+};
+
+COverlayKey::COverlayKey(const COverlayKey& overlayKey)
+    : COutlineKey(overlayKey)
+    , m_subp(overlayKey.m_subp)
+    , m_hash(overlayKey.m_hash)
+{
+};
+
+
+void COverlayKey::UpdateHash()
+{
+    m_hash = __super::GetHash();
+    m_hash += m_hash << 5;
+    m_hash += m_subp.x + (m_subp.y << 16);
+    m_hash += m_hash << 5;
+    m_hash += m_style->fBlur;
+    m_hash += m_hash << 5;
+    m_hash += int(m_style->fGaussianBlur);
+}
+
+bool COverlayKey::operator==(const COverlayKey& overlayKey) const
+{
+    return __super::operator==(overlayKey)
+            && m_subp == overlayKey.m_subp
+            && m_style->fBlur == overlayKey.m_style->fBlur
+            && NEARLY_EQ(m_style->fGaussianBlur, overlayKey.m_style->fGaussianBlur, 1e-6);
+}

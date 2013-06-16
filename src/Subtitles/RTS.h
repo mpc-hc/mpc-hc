@@ -27,6 +27,7 @@
 #include "RenderingCache.h"
 
 typedef CRenderingCache<COutlineKey, COutlineData, CKeyTraits<COutlineKey>> COutlineCache;
+typedef CRenderingCache<COverlayKey, COverlayData, CKeyTraits<COverlayKey>> COverlayCache;
 
 class CMyFont : public CFont
 {
@@ -51,6 +52,7 @@ class CWord : public Rasterizer
 
 protected:
     COutlineCache& m_outlineCache;
+    COverlayCache& m_overlayCache;
 
     double m_scalex, m_scaley;
     CStringW m_str;
@@ -69,7 +71,8 @@ public:
     int m_width, m_ascent, m_descent;
 
     // str[0] = 0 -> m_fLineBreak = true (in this case we only need and use the height of m_font from the whole class)
-    CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, COutlineCache& outlineCache);
+    CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+          COutlineCache& outlineCache, COverlayCache& overlayCache);
     virtual ~CWord();
 
     virtual CWord* Copy() = 0;
@@ -86,7 +89,8 @@ protected:
     virtual bool CreatePath();
 
 public:
-    CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, COutlineCache& outlineCache);
+    CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+          COutlineCache& outlineCache, COverlayCache& overlayCache);
 
     virtual CWord* Copy();
     virtual bool Append(CWord* w);
@@ -107,7 +111,8 @@ protected:
     virtual bool CreatePath();
 
 public:
-    CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline, COutlineCache& outlineCache);
+    CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
+             COutlineCache& outlineCache, COverlayCache& overlayCache);
     CPolygon(CPolygon&); // can't use a const reference because we need to use CAtlArray::Copy which expects a non-const reference
     virtual ~CPolygon();
 
@@ -122,7 +127,8 @@ private:
     virtual bool Append(CWord* w);
 
 public:
-    CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset, COutlineCache& outlineCache);
+    CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset,
+             COutlineCache& outlineCache, COverlayCache& overlayCache);
     virtual ~CClipper();
 
     CSize m_size;
@@ -166,6 +172,7 @@ public:
 class CSubtitle : public CAtlList<CLine*>
 {
     COutlineCache& m_outlineCache;
+    COverlayCache& m_overlayCache;
 
     int GetFullWidth();
     int GetFullLineWidth(POSITION pos);
@@ -192,7 +199,7 @@ public:
     double m_scalex, m_scaley;
 
 public:
-    CSubtitle(COutlineCache& m_outlineCache);
+    CSubtitle(COutlineCache& outlineCache, COverlayCache& overlayCache);
     virtual ~CSubtitle();
     virtual void Empty();
     void EmptyEffects();
@@ -225,6 +232,7 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
     CAtlMap<int, CSubtitle*> m_subtitleCache;
 
     COutlineCache m_outlineCache;
+    COverlayCache m_overlayCache;
 
     CScreenLayoutAllocator m_sla;
 

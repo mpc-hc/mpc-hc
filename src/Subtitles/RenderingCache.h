@@ -94,11 +94,13 @@ class STSStyle;
 class COutlineKey
 {
 private:
+    ULONG m_hash;
+
+protected:
     CString m_str;
     double m_scalex, m_scaley;
     CAutoPtr<STSStyle> m_style;
     CPoint m_org;
-    ULONG m_hash;
 
 public:
     COutlineKey(const CWord* word, CPoint org);
@@ -110,3 +112,21 @@ public:
 
     bool operator==(const COutlineKey& outLineKey) const;
 };
+
+class COverlayKey : public COutlineKey
+{
+private:
+    CPoint m_subp;
+    ULONG m_hash;
+
+public:
+    COverlayKey(const CWord* word, CPoint p, CPoint org);
+    COverlayKey(const COverlayKey& overlayKey);
+
+    ULONG GetHash() const { return m_hash; };
+
+    void UpdateHash();
+
+    bool operator==(const COverlayKey& overlayKey) const;
+};
+

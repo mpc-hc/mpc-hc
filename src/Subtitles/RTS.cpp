@@ -66,7 +66,8 @@ CMyFont::CMyFont(STSStyle& style)
 
 // CWord
 
-CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, COutlineCache& outlineCache)
+CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+             COutlineCache& outlineCache, COverlayCache& overlayCache)
     : m_style(style)
     , m_str(str)
     , m_width(0)
@@ -83,6 +84,7 @@ CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, dou
     , m_scalex(scalex)
     , m_scaley(scaley)
     , m_outlineCache(outlineCache)
+    , m_overlayCache(overlayCache)
 {
     if (str.IsEmpty()) {
         m_fWhiteSpaceChar = m_fLineBreak = true;
@@ -125,45 +127,57 @@ void CWord::Paint(CPoint p, CPoint org)
         return;
     }
 
-    if (!m_fDrawn) {
-        COutlineKey outlineKey(this, CPoint(org.x - p.x, org.y - p.y));
-        if (m_outlineCache.Lookup(outlineKey, m_outlineData)) {
-            if (m_style.borderStyle == 1) {
-                if (!CreateOpaqueBox()) {
-                    return;
-                }
-            }
-        } else {
-            if (!CreatePath()) {
+    COverlayKey overlayKey(this, p, org);
+
+    if (m_overlayCache.Lookup(overlayKey, m_overlayData)) {
+        m_fDrawn = m_outlineCache.Lookup(overlayKey, m_outlineData);
+        if (m_style.borderStyle == 1) {
+            if (!CreateOpaqueBox()) {
                 return;
             }
+        }
+    } else {
+        if (!m_fDrawn) {
+            if (m_outlineCache.Lookup(overlayKey, m_outlineData)) {
+                if (m_style.borderStyle == 1) {
+                    if (!CreateOpaqueBox()) {
+                        return;
+                    }
+                }
+            } else {
+                if (!CreatePath()) {
+                    return;
+                }
 
-            Transform(CPoint((org.x - p.x) * 8, (org.y - p.y) * 8));
+                Transform(CPoint((org.x - p.x) * 8, (org.y - p.y) * 8));
 
-            if (!ScanConvert()) {
+                if (!ScanConvert()) {
+                    return;
+                }
+
+                if (m_style.borderStyle == 0 && (m_style.outlineWidthX + m_style.outlineWidthY > 0)) {
+                    if (!CreateWidenedRegion((int)(m_style.outlineWidthX + 0.5), (int)(m_style.outlineWidthY + 0.5))) {
+                        return;
+                    }
+                } else if (m_style.borderStyle == 1) {
+                    if (!CreateOpaqueBox()) {
+                        return;
+                    }
+                }
+
+                m_outlineCache.SetAt(overlayKey, m_outlineData);
+            }
+
+            m_fDrawn = true;
+
+            if (!Rasterize(p.x & 7, p.y & 7, m_style.fBlur, m_style.fGaussianBlur)) {
                 return;
             }
-
-            if (m_style.borderStyle == 0 && (m_style.outlineWidthX + m_style.outlineWidthY > 0)) {
-                if (!CreateWidenedRegion((int)(m_style.outlineWidthX + 0.5), (int)(m_style.outlineWidthY + 0.5))) {
-                    return;
-                }
-            } else if (m_style.borderStyle == 1) {
-                if (!CreateOpaqueBox()) {
-                    return;
-                }
-            }
-
-            m_outlineCache.SetAt(outlineKey, m_outlineData);
+            m_overlayCache.SetAt(overlayKey, m_overlayData);
+        } else if ((m_p.x & 7) != (p.x & 7) || (m_p.y & 7) != (p.y & 7)) {
+            Rasterize(p.x & 7, p.y & 7, m_style.fBlur, m_style.fGaussianBlur);
+            m_overlayCache.SetAt(overlayKey, m_overlayData);
         }
-
-        m_fDrawn = true;
-
-        if (!Rasterize(p.x & 7, p.y & 7, m_style.fBlur, m_style.fGaussianBlur)) {
-            return;
-        }
-    } else if ((m_p.x & 7) != (p.x & 7) || (m_p.y & 7) != (p.y & 7)) {
-        Rasterize(p.x & 7, p.y & 7, m_style.fBlur, m_style.fGaussianBlur);
     }
 
     m_p = p;
@@ -205,7 +219,7 @@ bool CWord::CreateOpaqueBox()
                (m_width + w + 4) / 8, (m_ascent + m_descent + h + 4) / 8,
                -(w + 4) / 8, (m_ascent + m_descent + h + 4) / 8);
 
-    m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0, m_outlineCache);
+    m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0, m_outlineCache, m_overlayCache);
 
     return !!m_pOpaqueBox;
 }
@@ -416,8 +430,9 @@ void CWord::Transform_SSE2(const CPoint& org)
 
 // CText
 
-CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, COutlineCache& outlineCache)
-    : CWord(style, str, ktype, kstart, kend, scalex, scaley, outlineCache)
+CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+             COutlineCache& outlineCache, COverlayCache& overlayCache)
+    : CWord(style, str, ktype, kstart, kend, scalex, scaley, outlineCache, overlayCache)
 {
     if (m_str == L" ") {
         m_fWhiteSpaceChar = true;
@@ -508,14 +523,16 @@ bool CText::CreatePath()
 
 // CPolygon
 
-CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline, COutlineCache& outlineCache)
-    : CWord(style, str, ktype, kstart, kend, scalex, scaley, outlineCache)
+CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
+                   COutlineCache& outlineCache, COverlayCache& overlayCache)
+    : CWord(style, str, ktype, kstart, kend, scalex, scaley, outlineCache, overlayCache)
     , m_baseline(baseline)
 {
     ParseStr();
 }
 
-CPolygon::CPolygon(CPolygon& src) : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend, src.m_scalex, src.m_scaley, src.m_outlineCache)
+CPolygon::CPolygon(CPolygon& src)
+    : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend, src.m_scalex, src.m_scaley, src.m_outlineCache, src.m_overlayCache)
 {
     m_baseline = src.m_baseline;
     m_width = src.m_width;
@@ -742,8 +759,9 @@ bool CPolygon::CreatePath()
 
 // CClipper
 
-CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset, COutlineCache& outlineCache)
-    : CPolygon(STSStyle(), str, 0, 0, 0, scalex, scaley, 0, outlineCache)
+CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset,
+                   COutlineCache& outlineCache, COverlayCache& overlayCache)
+    : CPolygon(STSStyle(), str, 0, 0, 0, scalex, scaley, 0, outlineCache, overlayCache)
     , m_inverse(false)
 {
     m_size.cx = m_size.cy = 0;
@@ -766,9 +784,9 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
 
     Paint(CPoint(0, 0), CPoint(0, 0));
 
-    int w = mOverlayWidth, h = mOverlayHeight;
+    int w = m_overlayData.mOverlayWidth, h = m_overlayData.mOverlayHeight;
 
-    int x = (mOffsetX + cpOffset.x + 4) >> 3, y = (mOffsetY + cpOffset.y + 4) >> 3;
+    int x = (m_overlayData.mOffsetX + cpOffset.x + 4) >> 3, y = (m_overlayData.mOffsetY + cpOffset.y + 4) >> 3;
     int xo = 0, yo = 0;
 
     if (x < 0) {
@@ -792,7 +810,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
         return;
     }
 
-    const BYTE* src = mpOverlayBuffer + 2 * (mOverlayWidth * yo + xo);
+    const BYTE* src = m_overlayData.mpOverlayBuffer + 2 * (m_overlayData.mOverlayWidth * yo + xo);
     BYTE* dst = m_pAlphaMask + m_size.cx * y + x;
 
     while (h--) {
@@ -800,7 +818,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
             dst[wt] = src[wt * 2];
         }
 
-        src += 2 * mOverlayWidth;
+        src += 2 * m_overlayData.mOverlayWidth;
         dst += m_size.cx;
     }
 
@@ -819,7 +837,7 @@ CClipper::~CClipper()
 
 CWord* CClipper::Copy()
 {
-    return DEBUG_NEW CClipper(m_str, m_size, m_scalex, m_scaley, m_inverse, m_cpOffset, m_outlineCache);
+    return DEBUG_NEW CClipper(m_str, m_size, m_scalex, m_scaley, m_inverse, m_cpOffset, m_outlineCache, m_overlayCache);
 }
 
 bool CClipper::Append(CWord* w)
@@ -1062,7 +1080,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 
 // CSubtitle
 
-CSubtitle::CSubtitle(COutlineCache& outlineCache)
+CSubtitle::CSubtitle(COutlineCache& outlineCache, COverlayCache& overlayCache)
     : m_outlineCache(outlineCache)
     , m_pClipper(nullptr)
     , m_clipInverse(false)
@@ -1074,6 +1092,7 @@ CSubtitle::CSubtitle(COutlineCache& outlineCache)
     , m_relativeTo(1)
     , m_topborder(0)
     , m_bottomborder(0)
+    , m_overlayCache(overlayCache)
 {
     ZeroMemory(m_effects, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
     m_bIsAnimated = false;
@@ -1270,7 +1289,7 @@ void CSubtitle::CreateClippers(CSize size)
         if (!m_pClipper) {
             CStringW str;
             str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-            m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_outlineCache);
+            m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_outlineCache, m_overlayCache);
             if (!m_pClipper) {
                 return;
             }
@@ -1307,7 +1326,7 @@ void CSubtitle::CreateClippers(CSize size)
         if (!m_pClipper) {
             CStringW str;
             str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-            m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_outlineCache);
+            m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_outlineCache, m_overlayCache);
             if (!m_pClipper) {
                 return;
             }
@@ -1504,6 +1523,7 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock, STSStyle* styleOve
     , m_nPolygon(0)
     , m_polygonBaselineOffset(0)
     , m_outlineCache(128)
+    , m_overlayCache(128)
 {
     m_size = CSize(0, 0);
 
@@ -1672,19 +1692,22 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
         }
 
         if (i < j) {
-            if (CWord* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley, m_outlineCache)) {
+            if (CWord* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
+                                           m_outlineCache, m_overlayCache)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         }
 
         if (c == L'\n') {
-            if (CWord* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley, m_outlineCache)) {
+            if (CWord* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
+                                           m_outlineCache, m_overlayCache)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         } else if (c == L' ' || c == L'\x00A0') {
-            if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley, m_outlineCache)) {
+            if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
+                                           m_outlineCache, m_overlayCache)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
@@ -1704,7 +1727,7 @@ void CRenderedTextSubtitle::ParsePolygon(CSubtitle* sub, CStringW str, STSStyle&
 
     if (CWord* w = DEBUG_NEW CPolygon(style, str, m_ktype, m_kstart, m_kend,
                                       sub->m_scalex / (1 << (m_nPolygon - 1)), sub->m_scaley / (1 << (m_nPolygon - 1)),
-                                      m_polygonBaselineOffset, m_outlineCache)) {
+                                      m_polygonBaselineOffset, m_outlineCache, m_overlayCache)) {
         sub->m_words.AddTail(w);
         m_kstart = m_kend;
     }
@@ -1922,7 +1945,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             if (params.GetCount() == 1 && !sub->m_pClipper) {
                 sub->m_pClipper = DEBUG_NEW CClipper(params[0], CSize(m_size.cx >> 3, m_size.cy >> 3), sub->m_scalex, sub->m_scaley,
                                                      invert, (sub->m_relativeTo == 1) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
-                                                     m_outlineCache);
+                                                     m_outlineCache, m_overlayCache);
             } else if (params.GetCount() == 2 && !sub->m_pClipper) {
                 long scale = wcstol(p, nullptr, 10);
                 if (scale < 1) {
@@ -1930,7 +1953,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                 }
                 sub->m_pClipper = DEBUG_NEW CClipper(params[1], CSize(m_size.cx >> 3, m_size.cy >> 3),
                                                      sub->m_scalex / (1 << (scale - 1)), sub->m_scaley / (1 << (scale - 1)), invert,
-                                                     (sub->m_relativeTo == 1) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0), m_outlineCache);
+                                                     (sub->m_relativeTo == 1) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
+                                                     m_outlineCache, m_overlayCache);
             } else if (params.GetCount() == 4) {
                 CRect r;
 
@@ -2357,7 +2381,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         }
     }
 
-    sub = DEBUG_NEW CSubtitle(m_outlineCache);
+    sub = DEBUG_NEW CSubtitle(m_outlineCache, m_overlayCache);
     if (!sub) {
         return nullptr;
     }
