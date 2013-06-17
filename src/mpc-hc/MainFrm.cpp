@@ -5742,10 +5742,10 @@ void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
                        || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                        || s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D
-                      && SysVersion::IsVistaOrLater());
+                      && (SysVersion::IsVista() || SysVersion::Is7()));
 
     pCmdUI->Enable(supported);
-    pCmdUI->SetCheck(r.m_AdvRendSets.bVMRDisableDesktopComposition);
+    pCmdUI->SetCheck(supported && r.m_AdvRendSets.bVMRDisableDesktopComposition);
 }
 
 void CMainFrame::OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI)
