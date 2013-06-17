@@ -15,6 +15,7 @@ Legend:
 	- toggle hotkey is now disabled by default
 	- support for madVR has been removed (it already has exclusive mode)
 	- 10-bit RBG output now falls back to 8-bit output if the display does not support it
+* Updated Little CMS to v2.5 (git 0ba8f90)
 ! D3DFullscreen fixes:
 	- fixed strange focus behaviour when always on top is enabled
 	- fixed VMR9 D3DFS minimizing when losing focus
