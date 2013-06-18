@@ -21,7 +21,7 @@ If you want to help, here's what you need to do:
 2. [Fork](https://github.com/mpc-hc/mpc-hc/fork_select) the repository you wish to help on.
 3. Create a new topic branch to contain your feature, change, or fix.
 4. Set `core.autocrlf` to true: `git config core.autocrlf true`.
-5. Make sure you have enabled the precommit hook **[checkyear.sh](/contrib/checkyear.sh)**.
+5. Make sure you have enabled the pre-commit hook - **[pre-commit.sh](/contrib/pre-commit.sh)**.
 6. Make sure that your changes adhere to the current coding conventions used
    throughout the project - indentation, accurate comments, etc.
    For the style part we use [AStyle](http://astyle.sourceforge.net/),
