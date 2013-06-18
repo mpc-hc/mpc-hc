@@ -316,6 +316,8 @@ namespace GothSync
         void EstimateRefreshTimings();        // Estimate the times for one scan line and one frame respectively from the actual refresh data
         bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
+        HWND m_hFocusWnd;
+        HWND GetFocusWindow();
     public:
         CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
         ~CBaseAP();

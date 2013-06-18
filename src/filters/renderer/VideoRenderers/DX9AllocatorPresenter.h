@@ -114,6 +114,9 @@ namespace DSObjects
         void CalculateJitter(LONGLONG PerformanceCounter);
         virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter) {}
 
+        HWND m_hFocusWnd;
+        HWND GetFocusWindow();
+
         // Casimir666
         typedef HRESULT(WINAPI* D3DXLoadSurfaceFromMemoryPtr)(
             LPDIRECT3DSURFACE9  pDestSurface,
