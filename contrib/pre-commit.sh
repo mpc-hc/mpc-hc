@@ -35,7 +35,7 @@ astyle_ignore_excluded=y
 astyle_ignore_stashed=n
 
 # internal variables
-versioncheck_version=1
+versioncheck_version=2
 versioncheck_path=contrib/pre-commit.sh
 astyle_config=contrib/astyle.ini
 astyle_extensions=(cpp h)
@@ -45,7 +45,7 @@ checkyear_pattern1='\(C\) ([0-9][0-9][0-9][0-9]-)?[0-9][0-9][0-9][0-9] see Autho
 year=$(date +%Y)
 checkyear_pattern2='\(C\) ([0-9][0-9][0-9][0-9]-)?'"$year"' see Authors.txt'
 
-if [[ "$(uname -o)" == "Cygwin" ]]; then
+if [[ "$OSTYPE" == 'cygwin' ]]; then
 	set -o igncr
 fi
 
