@@ -3309,15 +3309,20 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
         return FALSE;
     }
     const CAppSettings& s = AfxGetAppSettings();
-    // Do not show popup menu in D3D fullscreen for Sync Renderer. It has several adverse effects.
-    if (IsD3DFullScreenMode() && s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
-        return FALSE;
-    }
-    KillTimer(TIMER_FULLSCREENMOUSEHIDER);
-    m_fHideCursor = false;
 
     CPoint point;
     GetCursorPos(&point);
+
+    // Do not show popup menu in D3D fullscreen it has several adverse effects.
+    if (IsD3DFullScreenMode()) {
+        CWnd* pWnd = WindowFromPoint(point);
+        if (pWnd && *pWnd == *m_pFullscreenWnd) {
+            return FALSE;
+        }
+    }
+
+    KillTimer(TIMER_FULLSCREENMOUSEHIDER);
+    m_fHideCursor = false;
 
     MSG msg;
     pMenu->TrackPopupMenu(TPM_RIGHTBUTTON | TPM_NOANIMATION, point.x + 1, point.y + 1, this);
