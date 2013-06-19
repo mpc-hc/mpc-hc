@@ -347,6 +347,7 @@ public:
 public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
+    bool m_fStartInD3DFullscreen;
     bool m_fHideCursor;
     CMenu m_navaudio, m_navsubtitle;
 

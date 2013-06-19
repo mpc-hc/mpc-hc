@@ -652,6 +652,7 @@ CMainFrame::CMainFrame()
     , m_bLockedZoomVideoWindow(false)
     , m_nLockedZoomVideoWindow(0)
     , m_LastOpenBDPath(_T(""))
+    , m_fStartInD3DFullscreen(false)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -9326,19 +9327,23 @@ void CMainFrame::SetDefaultFullscreenState()
 
     // Waffs : fullscreen command line
     if (!(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN) && !s.slFiles.IsEmpty()) {
-        if (!s.IsD3DFullscreen()) {
+        if (s.IsD3DFullscreen()) {
+            m_fStartInD3DFullscreen = true;
+        } else {
             ToggleFullscreen(true, true);
             SetCursor(nullptr);
+            m_fFirstFSAfterLaunchOnFS = true;
         }
         s.nCLSwitches &= ~CLSW_FULLSCREEN;
-        m_fFirstFSAfterLaunchOnFS = true;
     } else if (s.fRememberWindowSize && s.fRememberWindowPos && !m_fFullScreen && s.fLastFullScreen) {
         // Casimir666 : if fullscreen was on, put it on back
-        if (!s.IsD3DFullscreen()) {
+        if (s.IsD3DFullscreen()) {
+            m_fStartInD3DFullscreen = true;
+        } else {
             ToggleFullscreen(true, true);
             SetCursor(nullptr);
+            m_fFirstFSAfterLaunchOnFS = true;
         }
-        m_fFirstFSAfterLaunchOnFS = true;
     }
 }
 
@@ -10429,12 +10434,13 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     const CAppSettings& s = AfxGetAppSettings();
 
     // Create D3DFullscreen window if launched in fullscreen
-    if (s.IsD3DFullscreen()) {
+    if (s.IsD3DFullscreen() && m_fStartInD3DFullscreen) {
         if (s.AutoChangeFullscrRes.bEnabled) {
             AutoChangeMonitorMode();
         }
         CreateFullScreenWindow();
         m_pVideoWnd = m_pFullscreenWnd;
+        m_fStartInD3DFullscreen = false;
     } else {
         m_pVideoWnd = &m_wndView;
     }
@@ -12160,6 +12166,7 @@ void CMainFrame::CloseMediaPrivate()
 
     if (m_pFullscreenWnd->IsWindow()) {
         m_pFullscreenWnd->DestroyWindow();    // TODO : still freezing sometimes...
+        m_fStartInD3DFullscreen = true;
     }
 
     m_fRealMediaGraph = m_fShockwaveGraph = m_fQuicktimeGraph = false;
