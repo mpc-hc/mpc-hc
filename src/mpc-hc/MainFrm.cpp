@@ -2250,7 +2250,7 @@ bool CMainFrame::GraphEventComplete()
             }
             m_OSD.ClearMessage();
 
-            if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
+            if ((m_fFullScreen || IsD3DFullScreenMode()) && s.fExitFullScreenAtTheEnd) {
                 OnViewFullscreen();
             }
 
