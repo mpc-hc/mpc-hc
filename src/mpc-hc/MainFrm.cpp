@@ -9730,11 +9730,6 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
         s.fLastFullScreen = bIsFullscreen;
 
         if (bIsFullscreen) {
-            // Restore the default display mode
-            if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault && s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
-                SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, s.strFullScreenMonitor);
-            }
-
             // Turn off D3D Fullscreen
             m_OSD.EnableShowSeekBar(false);
             pD3DFS->SetD3DFullscreen(false);
