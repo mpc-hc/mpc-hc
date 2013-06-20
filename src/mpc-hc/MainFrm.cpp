@@ -1498,7 +1498,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
     }
 
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.iDSVideoRendererType != VIDRNDT_DS_MADVR && s.iDSVideoRendererType != VIDRNDT_DS_DXR) {
+    if (s.iDSVideoRendererType != VIDRNDT_DS_MADVR && s.iDSVideoRendererType != VIDRNDT_DS_DXR && !s.IsD3DFullscreen()) {
         DWORD nPCIVendor = 0;
         IDirect3D9* pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
 
