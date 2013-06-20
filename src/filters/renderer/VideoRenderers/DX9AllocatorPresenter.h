@@ -29,6 +29,8 @@
 extern bool g_bNoDuration;
 extern bool g_bExternalSubtitleTime;
 
+class CFocusThread;
+
 namespace DSObjects
 {
 
@@ -113,9 +115,6 @@ namespace DSObjects
         int GetVBlackPos();
         void CalculateJitter(LONGLONG PerformanceCounter);
         virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter) {}
-
-        HWND m_hFocusWnd;
-        HWND GetFocusWindow();
 
         // Casimir666
         typedef HRESULT(WINAPI* D3DXLoadSurfaceFromMemoryPtr)(
@@ -288,6 +287,7 @@ namespace DSObjects
 
         CString                 m_Decoder;
 
+        CFocusThread*           m_FocusThread;
     public:
         CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString& _Error);
         ~CDX9AllocatorPresenter();

@@ -43,6 +43,7 @@
 #include "PixelShaderCompiler.h"
 #include "SyncRenderer.h"
 #include "version.h"
+#include "FocusThread.h"
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX
@@ -90,7 +91,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
     m_dCycleDifference(1.0),
     m_llEstVBlankTime(0),
     m_CurrentAdapter(0),
-    m_hFocusWnd(nullptr)
+    m_FocusThread(nullptr)
 {
     if (FAILED(hr)) {
         _Error += _T("ISubPicAllocatorPresenterImpl failed\n");
@@ -194,10 +195,13 @@ CBaseAP::~CBaseAP()
     m_pAudioStats = nullptr;
     SAFE_DELETE(m_pGenlock);
 
-    if (m_hFocusWnd) {
-        DestroyWindow(m_hFocusWnd);
+    if (m_FocusThread) {
+        m_FocusThread->PostThreadMessage(WM_QUIT, 0, 0);
+        if (WaitForSingleObject(m_FocusThread->m_hThread, 10000) == WAIT_TIMEOUT) {
+            ASSERT(FALSE);
+            TerminateThread(m_FocusThread->m_hThread, 0xDEAD);
+        }
     }
-    UnregisterClass(_T("D3DFocusClass"), NULL);
 }
 
 template<int texcoords>
@@ -466,6 +470,10 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             pp.BackBufferFormat = d3ddm.Format;
         }
 
+        if (!m_FocusThread) {
+            m_FocusThread = (CFocusThread*)AfxBeginThread(RUNTIME_CLASS(CFocusThread), 0, 0, 0);
+        }
+
         if (m_pD3DEx) {
             D3DDISPLAYMODEEX DisplayMode;
             ZeroMemory(&DisplayMode, sizeof(DisplayMode));
@@ -475,7 +483,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
-            if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, GetFocusWindow(),
+            if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
                             D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
                             &pp, &DisplayMode, &m_pD3DDevEx))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
@@ -487,7 +495,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 m_DisplayType = DisplayMode.Format;
             }
         } else {
-            if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, GetFocusWindow(),
+            if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
                                                  D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
                                                  &pp, &m_pD3DDev))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
@@ -2314,36 +2322,6 @@ bool CBaseAP::ExtractInterlaced(const AM_MEDIA_TYPE* pmt)
     } else {
         return false;
     }
-}
-
-HWND CBaseAP::GetFocusWindow()
-{
-    if (!m_hFocusWnd) {
-        WNDCLASS wndclass;
-
-        wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;
-        wndclass.lpfnWndProc = DefWindowProc;
-        wndclass.cbClsExtra = 0;
-        wndclass.cbWndExtra = 0;
-        wndclass.hInstance = NULL;
-        wndclass.hIcon = NULL;
-        wndclass.hCursor = NULL;
-        wndclass.hbrBackground = NULL;
-        wndclass.lpszMenuName = NULL;
-        wndclass.lpszClassName = _T("D3DFocusClass");
-
-        if (!RegisterClass(&wndclass)) {
-            TRACE("Registering focus window failed");
-            return m_hWnd;
-        }
-
-        m_hFocusWnd = CreateWindow(_T("D3DFocusClass"), _T("D3D Focus Window"), WS_OVERLAPPED, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
-        if (!m_hFocusWnd) {
-            TRACE("Creating focus window failed");
-            return m_hWnd;
-        }
-    }
-    return m_hFocusWnd;
 }
 
 STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)

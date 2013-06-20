@@ -32,6 +32,8 @@
 extern bool g_bNoDuration; // Defined in MainFrm.cpp
 extern bool g_bExternalSubtitleTime;
 
+class CFocusThread;
+
 // Possible messages to the PowerStrip API. PowerStrip is used to control
 // the display frequency in one of the video - display synchronization modes.
 // Powerstrip can also through a CGenlock object give very accurate timing data
@@ -316,8 +318,7 @@ namespace GothSync
         void EstimateRefreshTimings();        // Estimate the times for one scan line and one frame respectively from the actual refresh data
         bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
-        HWND m_hFocusWnd;
-        HWND GetFocusWindow();
+        CFocusThread* m_FocusThread;
     public:
         CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
         ~CBaseAP();
