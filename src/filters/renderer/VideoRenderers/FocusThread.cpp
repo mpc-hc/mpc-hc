@@ -24,6 +24,14 @@
 
 IMPLEMENT_DYNCREATE(CFocusThread, CWinThread)
 
+LRESULT CALLBACK FocusWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+{
+    if (msg == WM_NCACTIVATE) {
+        return 0;
+    }
+    return DefWindowProc(hwnd, msg, wp, lp);
+}
+
 CFocusThread::CFocusThread()
     : m_hWnd(nullptr)
     , m_hEvtInit(nullptr)
@@ -31,7 +39,7 @@ CFocusThread::CFocusThread()
     WNDCLASS wndclass;
 
     wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;
-    wndclass.lpfnWndProc = DefWindowProc;
+    wndclass.lpfnWndProc = FocusWndProc;
     wndclass.cbClsExtra = 0;
     wndclass.cbWndExtra = 0;
     wndclass.hInstance = nullptr;
