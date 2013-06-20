@@ -27,6 +27,9 @@ IMPLEMENT_DYNCREATE(CFocusThread, CWinThread)
 LRESULT CALLBACK FocusWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
     if (msg == WM_NCACTIVATE) {
+        if (wp) {
+            AfxGetMainWnd()->SetForegroundWindow();
+        }
         return 0;
     }
     return DefWindowProc(hwnd, msg, wp, lp);
