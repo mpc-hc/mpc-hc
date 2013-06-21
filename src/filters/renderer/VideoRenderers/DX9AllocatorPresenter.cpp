@@ -570,9 +570,12 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     // detect 10-bit textures support
     rd->m_b10bitSupport = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE, D3DFMT_A2R10G10B10));
 
+    // detect 10-bit device support
+    bool bHighColorSupport = SUCCEEDED(m_pD3D->CheckDeviceType(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_A2R10G10B10, D3DFMT_A2R10G10B10, FALSE));
+
     // set settings that depend on hardware feature support
     m_bForceInputHighColorResolution = r.m_AdvRendSets.bEVRForceInputHighColorResolution && m_bIsEVR && rd->m_b10bitSupport;
-    m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution && m_bIsEVR && rd->m_b10bitSupport;
+    m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution && m_bIsEVR && rd->m_b10bitSupport && bHighColorSupport;
     m_bFullFloatingPointProcessing = r.m_AdvRendSets.bVMR9FullFloatingPointProcessing && rd->m_bFP16Support;
     m_bHalfFloatingPointProcessing = r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing && rd->m_bFP16Support && !m_bFullFloatingPointProcessing;
 
