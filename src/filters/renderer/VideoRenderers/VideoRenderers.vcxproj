@@ -119,6 +119,7 @@
     <ClCompile Include="DX9RenderingEngine.cpp" />
     <ClCompile Include="DXRAllocatorPresenter.cpp" />
     <ClCompile Include="EVRAllocatorPresenter.cpp" />
+    <ClCompile Include="FocusThread.cpp" />
     <ClCompile Include="IPinHook.cpp" />
     <ClCompile Include="MacrovisionKicker.cpp" />
     <ClCompile Include="madVRAllocatorPresenter.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="DX9RenderingEngine.h" />
     <ClInclude Include="DXRAllocatorPresenter.h" />
     <ClInclude Include="EVRAllocatorPresenter.h" />
+    <ClInclude Include="FocusThread.h" />
     <ClInclude Include="IPinHook.h" />
     <ClInclude Include="IQTVideoSurface.h" />
     <ClInclude Include="MacrovisionKicker.h" />

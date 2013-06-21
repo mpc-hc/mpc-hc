@@ -192,6 +192,18 @@ void CVMROSD::Stop()
     }
 }
 
+void CVMROSD::SetVideoWindow(CWnd* pWnd)
+{
+    CAutoLock lock(&m_csLock);
+
+    if (m_pWnd) {
+        m_pWnd->KillTimer((UINT_PTR)this);
+    }
+    m_pWnd = pWnd;
+    m_pWnd->SetTimer((UINT_PTR)this, 1000, (TIMERPROC)TimerFunc);
+    UpdateBitmap();
+}
+
 void CVMROSD::DrawRect(CRect* rect, CBrush* pBrush, CPen* pPen)
 {
     if (pPen) {
@@ -516,4 +528,9 @@ void CVMROSD::HideMessage(bool hide)
 void CVMROSD::EnableShowMessage(bool enabled)
 {
     m_bShowMessage = enabled;
+}
+
+void CVMROSD::EnableShowSeekBar(bool enabled)
+{
+    m_bShowSeekBar = enabled;
 }

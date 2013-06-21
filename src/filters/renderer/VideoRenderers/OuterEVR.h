@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -61,8 +61,11 @@ namespace DSObjects
 
             hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
             if (m_pEVR && FAILED(hr)) {
-                if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
-                    return GetInterface((IVMRffdshow9*)this, ppv);
+                hr = m_pAllocatorPresenter ? m_pAllocatorPresenter->QueryInterface(riid, ppv) : E_NOINTERFACE;
+                if (FAILED(hr)) {
+                    if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
+                        return GetInterface((IVMRffdshow9*)this, ppv);
+                    }
                 }
             }
 

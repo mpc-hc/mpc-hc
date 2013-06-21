@@ -440,7 +440,7 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_VIEW_REMAINING_TIME,             'I', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_98));
     ADDCMD((ID_SHADERS_TOGGLE,                  'P', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AT_TOGGLE_SHADER));
     ADDCMD((ID_SHADERS_TOGGLE_SCREENSPACE,      'P', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AT_TOGGLE_SHADERSCREENSPACE));
-    ADDCMD((ID_D3DFULLSCREEN_TOGGLE,            'F', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_MPLAYERC_99));
+    ADDCMD((ID_D3DFULLSCREEN_TOGGLE,              0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_99));
     ADDCMD((ID_GOTO_PREV_SUB,                   'Y', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_100,  APPCOMMAND_BROWSER_BACKWARD));
     ADDCMD((ID_GOTO_NEXT_SUB,                   'U', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_101,  APPCOMMAND_BROWSER_FORWARD));
     ADDCMD((ID_SHIFT_SUB_DOWN,              VK_NEXT, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_102));
@@ -483,13 +483,10 @@ CAppSettings::~CAppSettings()
 
 bool CAppSettings::IsD3DFullscreen() const
 {
-    if (nCLSwitches & CLSW_D3DFULLSCREEN) {
-        return true;
-    } else if (iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
-               iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
-               iDSVideoRendererType == VIDRNDT_DS_MADVR ||
-               iDSVideoRendererType == VIDRNDT_DS_SYNC) {
-        return fD3DFullscreen;
+    if (iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
+            iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+            iDSVideoRendererType == VIDRNDT_DS_SYNC) {
+        return fD3DFullscreen || (nCLSwitches & CLSW_D3DFULLSCREEN);
     } else {
         return false;
     }

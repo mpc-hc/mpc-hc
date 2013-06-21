@@ -183,6 +183,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     CComPtr<IVMRMixerControl9> m_pVMRMC;
     CComPtr<IMFVideoDisplayControl> m_pMFVDC;
     CComPtr<IMFVideoProcessor> m_pMFVP;
+    CComPtr<IVMRWindowlessControl9> m_pVMRWC;
 
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
     CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
@@ -346,6 +347,7 @@ public:
 public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
+    bool m_fStartInD3DFullscreen;
     bool m_fHideCursor;
     CMenu m_navaudio, m_navsubtitle;
 
@@ -411,7 +413,6 @@ protected:
     void OpenSetupCaptureBar();
     void OpenSetupWindowTitle(CString fn = _T(""));
     void AutoChangeMonitorMode();
-    double miFPS;
 
     bool GraphEventComplete();
 
@@ -444,6 +445,7 @@ public:
 
     CSize GetVideoSize() const;
     void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
+    void ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo);
     void MoveVideoWindow(bool fShowStats = false);
     void RepaintVideo();
     void HideVideoWindow(bool fHide);

@@ -53,6 +53,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, v
         QI(IVMRSurfaceAllocator9)
         QI(IVMRImagePresenter9)
         QI(IVMRWindowlessControl9)
+        QI(ID3DFullscreenControl)
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -527,7 +528,15 @@ STDMETHODIMP CVMR9AllocatorPresenter::SetAspectRatioMode(DWORD AspectRatioMode)
 
 STDMETHODIMP CVMR9AllocatorPresenter::SetVideoClippingWindow(HWND hwnd)
 {
-    return E_NOTIMPL;
+    if (m_hWnd != hwnd) {
+        CAutoLock cAutoLock(this);
+        CAutoLock cRenderLock(&m_RenderLock);
+
+        m_hWnd = hwnd;
+        m_bPendingResetDevice = true;
+        SendResetRequest();
+    }
+    return S_OK;
 }
 
 STDMETHODIMP CVMR9AllocatorPresenter::RepaintVideo(HWND hwnd, HDC hdc)
