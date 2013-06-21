@@ -35,7 +35,7 @@ astyle_ignore_excluded=y
 astyle_ignore_stashed=n
 
 # internal variables
-versioncheck_version=2
+versioncheck_version=3
 versioncheck_path=contrib/pre-commit.sh
 astyle_config=contrib/astyle.ini
 astyle_extensions=(cpp h)
@@ -55,9 +55,9 @@ if [[ "$@" == '--version' ]]; then
 	exit
 fi
 
-# warn when the tree has different version of this script
-if [[ `bash "$versioncheck_path" --version` != "$versioncheck_version" ]]; then
-	echo "Warning: .git/hooks/pre-commit differs from $versioncheck_path, you should upgrade"
+# warn when the tree has newer version of this script
+if (( $((`bash "$versioncheck_path" --version` + 0)) > $versioncheck_version )); then
+	echo "Warning: .git/hooks/pre-commit is older than $versioncheck_path, you should upgrade"
 fi
 
 in_list() {
