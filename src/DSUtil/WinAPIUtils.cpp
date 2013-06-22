@@ -48,7 +48,7 @@ bool SetPrivilege(LPCTSTR privilege, bool bEnable)
     return (GetLastError() == ERROR_SUCCESS);
 }
 
-CString GetHiveName(HKEY hive)
+CString GetHiveName(const HKEY hive)
 {
     switch ((ULONG_PTR)hive) {
         case (ULONG_PTR)HKEY_CLASSES_ROOT:

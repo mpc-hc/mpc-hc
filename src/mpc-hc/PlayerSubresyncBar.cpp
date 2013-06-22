@@ -1238,7 +1238,7 @@ void CPlayerSubresyncBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-bool CPlayerSubresyncBar::IsShortCut(MSG* pMsg)
+bool CPlayerSubresyncBar::IsShortCut(const MSG* pMsg)
 {
     if (pMsg->message == WM_KEYDOWN && VK_F1 <= pMsg->wParam && pMsg->wParam <= VK_F6) {
         int iItem = -1;

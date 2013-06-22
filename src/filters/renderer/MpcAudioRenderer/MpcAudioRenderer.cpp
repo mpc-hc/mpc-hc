@@ -1149,7 +1149,7 @@ HRESULT CMpcAudioRenderer::GetAudioDevice(IMMDevice** ppMMDevice)
     return hr;
 }
 
-bool CMpcAudioRenderer::CheckFormatChanged(WAVEFORMATEX* pWaveFormatEx, WAVEFORMATEX** ppNewWaveFormatEx)
+bool CMpcAudioRenderer::CheckFormatChanged(const WAVEFORMATEX* pWaveFormatEx, WAVEFORMATEX** ppNewWaveFormatEx)
 {
     bool formatChanged = false;
     if (m_pWaveFileFormat == nullptr) {

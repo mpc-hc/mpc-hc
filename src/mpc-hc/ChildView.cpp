@@ -105,7 +105,7 @@ BOOL CChildView::PreTranslateMessage(MSG* pMsg)
     return CWnd::PreTranslateMessage(pMsg);
 }
 
-void CChildView::SetVideoRect(CRect r)
+void CChildView::SetVideoRect(const CRect& r)
 {
     m_vrect = r;
 

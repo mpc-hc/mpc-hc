@@ -19,7 +19,7 @@ public:
     BOOL Load(LPCTSTR lpszResourceName, HINSTANCE hinstRes = nullptr);
 
     BOOL LoadFromFile(LPCTSTR lpszPath);
-    BOOL LoadFromBuffer(LPBYTE lpBuffer, UINT uiSize);
+    BOOL LoadFromBuffer(const LPBYTE lpBuffer, UINT uiSize);
 
     static void __stdcall CleanUp() {
         SAFE_DELETE(m_pImage);

@@ -774,7 +774,7 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(UINT id)
     return _T("");
 }
 
-CString CPPageAccelTbl::MakeAccelShortcutLabel(ACCEL& a)
+CString CPPageAccelTbl::MakeAccelShortcutLabel(const ACCEL& a)
 {
     // Reference page for Virtual-Key Codes: http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731%28v=vs.100%29.aspx
     CString str;

@@ -41,10 +41,10 @@ public:
 
     //static members
     static CMonitor GetNearestMonitor(const LPRECT lprc);
-    static CMonitor GetNearestMonitor(const POINT pt);
+    static CMonitor GetNearestMonitor(const POINT& pt);
     static CMonitor GetNearestMonitor(const CWnd* pWnd);
 
-    static BOOL IsOnScreen(const POINT pt);
+    static BOOL IsOnScreen(const POINT& pt);
     static BOOL IsOnScreen(const CWnd* pWnd);
     static BOOL IsOnScreen(const LPRECT lprc);
 

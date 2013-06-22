@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -69,7 +69,7 @@ public:
     void InitSettings();
 
     bool GetCustomPal(RGBQUAD* cuspal, int& tridx);
-    void SetCustomPal(RGBQUAD* cuspal, int tridx);
+    void SetCustomPal(const RGBQUAD* cuspal, int tridx);
 
     void GetDestrect(CRect& r); // destrect of m_img, considering the current alignment mode
     void GetDestrect(CRect& r, int w, int h); // this will scale it to the frame size of (w, h)

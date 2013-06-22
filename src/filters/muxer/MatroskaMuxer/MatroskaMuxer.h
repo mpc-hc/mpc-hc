@@ -120,7 +120,7 @@ public:
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
     void AddInput();
-    UINT GetTrackNumber(CBasePin* pPin);
+    UINT GetTrackNumber(const CBasePin* pPin);
 
     int GetPinCount();
     CBasePin* GetPin(int n);

@@ -33,7 +33,7 @@ static void DeserializeHex(LPCTSTR strVal, BYTE* pBuffer, int nBufSize)
     }
 }
 
-static CString SerializeHex(BYTE* pBuffer, int nBufSize)
+static CString SerializeHex(const BYTE* pBuffer, int nBufSize)
 {
     CString strTemp;
     CString strResult;

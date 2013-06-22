@@ -502,7 +502,7 @@ void CPlayerListCtrl::PreSubclassWindow()
     CListCtrl::PreSubclassWindow();
 }
 
-int CPlayerListCtrl::HitTestEx(CPoint& point, int* col) const
+int CPlayerListCtrl::HitTestEx(const CPoint& point, int* col) const
 {
     if (col) {
         *col = 0;

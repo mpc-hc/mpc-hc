@@ -107,7 +107,7 @@ STDMETHODIMP CMatroskaMuxerFilter::NonDelegatingQueryInterface(REFIID riid, void
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
-UINT CMatroskaMuxerFilter::GetTrackNumber(CBasePin* pPin)
+UINT CMatroskaMuxerFilter::GetTrackNumber(const CBasePin* pPin)
 {
     UINT nTrackNumber = 0;
 

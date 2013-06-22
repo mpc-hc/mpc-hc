@@ -1647,7 +1647,7 @@ void CAppSettings::UpdateRenderersData(bool fSave)
     }
 }
 
-__int64 CAppSettings::ConvertTimeToMSec(CString& time) const
+__int64 CAppSettings::ConvertTimeToMSec(const CString& time) const
 {
     __int64 Sec = 0;
     __int64 mSec = 0;

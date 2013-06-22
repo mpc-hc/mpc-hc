@@ -107,7 +107,7 @@ void CCDecoder::SaveDisp(__int64 time)
     m_sts.Add(str, true, (int)m_time, (int)time);
 }
 
-void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
+void CCDecoder::DecodeCC(const BYTE* buff, int len, __int64 time)
 {
     if (!m_rawfn.IsEmpty()) {
         FILE* f = nullptr;

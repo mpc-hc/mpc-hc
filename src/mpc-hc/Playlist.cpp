@@ -128,7 +128,7 @@ CString CPlaylistItem::GetLabel(int i)
     return str;
 }
 
-bool FindFileInList(CAtlList<CString>& sl, CString fn)
+bool FindFileInList(const CAtlList<CString>& sl, CString fn)
 {
     bool fFound = false;
     POSITION pos = sl.GetHeadPosition();

@@ -51,7 +51,7 @@ CPPageSubStyle::~CPPageSubStyle()
 {
 }
 
-void CPPageSubStyle::InitStyle(CString title, STSStyle& stss)
+void CPPageSubStyle::InitStyle(CString title, const STSStyle& stss)
 {
     m_pPSP->pszTitle = (m_title = title);
     m_psp.dwFlags |= PSP_USETITLE;

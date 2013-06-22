@@ -56,7 +56,7 @@ private:
     void SetupList();
     void UpdateList();
     void EnsureVisible(POSITION pos);
-    int FindItem(POSITION pos) const;
+    int FindItem(const POSITION pos) const;
     POSITION FindPos(int i);
 
     CImageList* m_pDragImage;

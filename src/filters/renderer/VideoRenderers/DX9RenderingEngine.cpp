@@ -700,7 +700,7 @@ HRESULT CDX9RenderingEngine::InitResizers(float bicubicA)
     return S_OK;
 }
 
-HRESULT CDX9RenderingEngine::TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect& srcRect)
+HRESULT CDX9RenderingEngine::TextureResize(IDirect3DTexture9* pTexture, const Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect& srcRect)
 {
     HRESULT hr;
 
@@ -731,7 +731,7 @@ HRESULT CDX9RenderingEngine::TextureResize(IDirect3DTexture9* pTexture, Vector d
     return hr;
 }
 
-HRESULT CDX9RenderingEngine::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4], const CRect& srcRect)
+HRESULT CDX9RenderingEngine::TextureResizeBilinear(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect& srcRect)
 {
     HRESULT hr;
 
@@ -769,7 +769,7 @@ HRESULT CDX9RenderingEngine::TextureResizeBilinear(IDirect3DTexture9* pTexture, 
     return hr;
 }
 
-HRESULT CDX9RenderingEngine::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect& srcRect)
+HRESULT CDX9RenderingEngine::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect& srcRect)
 {
     HRESULT hr;
 
@@ -808,7 +808,7 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic1pass(IDirect3DTexture9* pTextu
 
 /*
 // The 2 pass sampler is incorrect in that it only does bilinear resampling in the y direction.
-HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &srcRect)
+HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect &srcRect)
 {
     HRESULT hr;
 
@@ -1576,7 +1576,7 @@ HRESULT CDX9RenderingEngine::DrawRect(DWORD _Color, DWORD _Alpha, const CRect& _
     return S_OK;
 }
 
-HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
+HRESULT CDX9RenderingEngine::AlphaBlt(const RECT* pSrc, const RECT* pDst, IDirect3DTexture9* pTexture)
 {
     if (!pSrc || !pDst) {
         return E_POINTER;

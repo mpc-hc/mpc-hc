@@ -187,10 +187,10 @@ namespace GothSync
         HRESULT DrawRectBase(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4]);
         HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect& _Rect);
         HRESULT TextureCopy(IDirect3DTexture9* pTexture);
-        HRESULT TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect& SrcRect);
-        HRESULT TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4], const CRect& SrcRect);
-        HRESULT TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect& SrcRect);
-        HRESULT TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect& SrcRect);
+        HRESULT TextureResize(IDirect3DTexture9* pTexture, const Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect& SrcRect);
+        HRESULT TextureResizeBilinear(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect& SrcRect);
+        HRESULT TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect& SrcRect);
+        HRESULT TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect& SrcRect);
 
         typedef HRESULT(WINAPI* D3DXLoadSurfaceFromMemoryPtr)(
             LPDIRECT3DSURFACE9 pDestSurface,
@@ -222,7 +222,7 @@ namespace GothSync
             LPCWSTR pFaceName,
             LPD3DXFONT* ppFont);
 
-        HRESULT AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture);
+        HRESULT AlphaBlt(RECT* pSrc, const RECT* pDst, IDirect3DTexture9* pTexture);
 
         virtual void OnResetDevice() {};
 

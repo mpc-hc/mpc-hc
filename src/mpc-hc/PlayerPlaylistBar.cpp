@@ -605,7 +605,7 @@ void CPlayerPlaylistBar::EnsureVisible(POSITION pos)
     m_list.Invalidate();
 }
 
-int CPlayerPlaylistBar::FindItem(POSITION pos) const
+int CPlayerPlaylistBar::FindItem(const POSITION pos) const
 {
     for (int i = 0; i < m_list.GetItemCount(); i++) {
         if ((POSITION)m_list.GetItemData(i) == pos) {

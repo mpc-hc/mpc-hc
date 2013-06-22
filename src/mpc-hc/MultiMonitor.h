@@ -57,7 +57,7 @@ public:
 
     int GetBitsPerPixel() const;
 
-    BOOL IsOnMonitor(const POINT pt) const;
+    BOOL IsOnMonitor(const POINT& pt) const;
     BOOL IsOnMonitor(const CWnd* pWnd) const;
     BOOL IsOnMonitor(const LPRECT lprc) const;
 

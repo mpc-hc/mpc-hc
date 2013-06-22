@@ -31,7 +31,7 @@
 
 #define LCID_NOSUBTITLES -1
 
-extern void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap);
+extern void DumpStreamConfig(const TCHAR* fn, IAMStreamConfig* pAMVSCCap);
 extern int  CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC);
 extern bool IsSplitter(IBaseFilter* pBF, bool fCountConnectedOnly = false);
 extern bool IsMultiplexer(IBaseFilter* pBF, bool fCountConnectedOnly = false);
@@ -116,7 +116,7 @@ extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, LPCTS
 extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlList<CString>& chkbytes, LPCTSTR ext = nullptr, ...);
 extern void UnRegisterSourceFilter(const GUID& subtype);
 extern LPCTSTR GetDXVAMode(const GUID* guidDecoder);
-extern void DumpBuffer(BYTE* pBuffer, int nSize);
+extern void DumpBuffer(const BYTE* pBuffer, int nSize);
 extern CString ReftimeToString(const REFERENCE_TIME& rtVal);
 extern CString ReftimeToString2(const REFERENCE_TIME& rtVal);
 extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours = false);
@@ -128,7 +128,7 @@ extern DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
 extern void TraceFilterInfo(IBaseFilter* pBF);
 extern void TracePinInfo(IPin* pPin);
 extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
-extern void HexDump(CString fName, BYTE* buf, int size);
+extern void HexDump(CString fName, const BYTE* buf, int size);
 extern void CorrectComboListWidth(CComboBox& m_pComboBox);
 
 extern void getExtraData(const BYTE* format, const GUID* formattype, const size_t formatlen, BYTE* extra, unsigned int* extralen);

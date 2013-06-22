@@ -56,7 +56,7 @@ void CMediaTypesDlg::AddLine(CString str)
     m_report.ReplaceSel(str);
 }
 
-void CMediaTypesDlg::AddMediaType(AM_MEDIA_TYPE* pmt)
+void CMediaTypesDlg::AddMediaType(const AM_MEDIA_TYPE* pmt)
 {
     m_subtype = pmt->subtype;
     if (pmt->majortype == MEDIATYPE_Video) {

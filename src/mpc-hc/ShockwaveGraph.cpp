@@ -174,7 +174,7 @@ STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
     return S_OK;
 }
 
-STDMETHODIMP CShockwaveGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
+STDMETHODIMP CShockwaveGraph::SetPositions(const LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
     if (dwCurrentFlags & AM_SEEKING_AbsolutePositioning) {
         m_wndDestFrame.put_FrameNum((long)*pCurrent);

@@ -62,7 +62,7 @@ public:
     CPPageSubStyle();
     virtual ~CPPageSubStyle();
 
-    void InitStyle(CString title, STSStyle& stss);
+    void InitStyle(CString title, const STSStyle& stss);
     void GetStyle(STSStyle& stss) { stss = m_stss; }
 
     // Dialog Data

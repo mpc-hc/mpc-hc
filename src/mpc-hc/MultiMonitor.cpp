@@ -106,7 +106,7 @@ void CMonitor::GetName(CString& string) const
 
 //
 // these methods return true if any part of the item intersects the monitor rect
-BOOL CMonitor::IsOnMonitor(const POINT pt) const
+BOOL CMonitor::IsOnMonitor(const POINT& pt) const
 {
     CRect rect;
     GetMonitorRect(rect);

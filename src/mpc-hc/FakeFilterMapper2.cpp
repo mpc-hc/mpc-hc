@@ -499,7 +499,7 @@ LONG WINAPI Mine_RegSetValueW(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWORD a
     return Real_RegSetValueW(a0, a1, a2, a3, a4);
 }
 
-LONG WINAPI Mine_RegSetValueExA(HKEY a0, LPCSTR a1, DWORD a2, DWORD a3, BYTE* a4, DWORD a5)
+LONG WINAPI Mine_RegSetValueExA(HKEY a0, LPCSTR a1, DWORD a2, DWORD a3, const BYTE* a4, DWORD a5)
 {
     if (CFilterMapper2::m_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
@@ -507,7 +507,7 @@ LONG WINAPI Mine_RegSetValueExA(HKEY a0, LPCSTR a1, DWORD a2, DWORD a3, BYTE* a4
     return Real_RegSetValueExA(a0, a1, a2, a3, a4, a5);
 }
 
-LONG WINAPI Mine_RegSetValueExW(HKEY a0, LPCWSTR a1, DWORD a2, DWORD a3, BYTE* a4, DWORD a5)
+LONG WINAPI Mine_RegSetValueExW(HKEY a0, LPCWSTR a1, DWORD a2, DWORD a3, const BYTE* a4, DWORD a5)
 {
     if (CFilterMapper2::m_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;

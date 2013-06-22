@@ -1229,7 +1229,7 @@ double GetFloat(CStringW& buff, char sep = ',') //throw(...)
     return ret;
 }
 
-static bool LoadFont(CString& font)
+static bool LoadFont(const CString& font)
 {
     int len = font.GetLength();
 
@@ -1920,7 +1920,7 @@ void CSimpleTextSubtitle::Empty()
     RemoveAll();
 }
 
-void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, CString style, CString actor, CString effect, CRect marginRect, int layer, int readorder)
+void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, CString style, CString actor, CString effect, const CRect& marginRect, int layer, int readorder)
 {
     if (str.Trim().IsEmpty() || start > end) {
         return;
@@ -3004,7 +3004,7 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
     return lfw;
 }
 
-CString& operator <<= (CString& style, STSStyle& s)
+CString& operator <<= (CString& style, const STSStyle& s)
 {
     style.Format(_T("%d;%d;%d;%d;%d;%d;%f;%f;%f;%f;0x%06x;0x%06x;0x%06x;0x%06x;0x%02x;0x%02x;0x%02x;0x%02x;%d;%s;%f;%f;%f;%f;%d;%u;%u;%u;%d;%f;%f;%f;%f;%d"),
                  s.marginRect.left, s.marginRect.right, s.marginRect.top, s.marginRect.bottom,
@@ -3023,7 +3023,7 @@ CString& operator <<= (CString& style, STSStyle& s)
     return style;
 }
 
-STSStyle& operator <<= (STSStyle& s, CString& style)
+STSStyle& operator <<= (STSStyle& s, const CString& style)
 {
     s.SetDefault();
 

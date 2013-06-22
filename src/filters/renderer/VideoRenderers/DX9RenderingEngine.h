@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -79,7 +79,7 @@ namespace DSObjects
         HRESULT RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect);
 
         HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect& _Rect);
-        HRESULT AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture);
+        HRESULT AlphaBlt(const RECT* pSrc, const RECT* pDst, IDirect3DTexture9* pTexture);
 
         HRESULT SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
 
@@ -163,10 +163,10 @@ namespace DSObjects
 
         // Resizers
         HRESULT InitResizers(float bicubicA);
-        HRESULT TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect& srcRect);
-        HRESULT TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4], const CRect& srcRect);
-        HRESULT TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect& srcRect);
-        //HRESULT TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &srcRect);
+        HRESULT TextureResize(IDirect3DTexture9* pTexture, const Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect& srcRect);
+        HRESULT TextureResizeBilinear(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect& srcRect);
+        HRESULT TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect& srcRect);
+        //HRESULT TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect &srcRect);
 
         // Final pass
         HRESULT InitFinalPass();

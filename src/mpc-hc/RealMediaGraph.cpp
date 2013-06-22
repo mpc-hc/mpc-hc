@@ -513,14 +513,14 @@ CRealMediaPlayerWindowed::~CRealMediaPlayerWindowed()
     m_wndWindowFrame.DestroyWindow();
 }
 
-void CRealMediaPlayerWindowed::SetWindowRect(CRect r)
+void CRealMediaPlayerWindowed::SetWindowRect(const CRect& r)
 {
     if (IsWindow(m_wndWindowFrame.m_hWnd)) {
         m_wndWindowFrame.MoveWindow(r);
     }
 }
 
-void CRealMediaPlayerWindowed::SetDestRect(CRect r)
+void CRealMediaPlayerWindowed::SetDestRect(const CRect& r)
 {
     if (IsWindow(m_wndDestFrame.m_hWnd)) {
         m_wndDestFrame.MoveWindow(r);

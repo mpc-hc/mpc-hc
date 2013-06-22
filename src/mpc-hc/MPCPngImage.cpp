@@ -79,7 +79,7 @@ BOOL CMPCPngImage::LoadFromFile(LPCTSTR lpszPath)
     return bRes;
 }
 //*******************************************************************************
-BOOL CMPCPngImage::LoadFromBuffer(LPBYTE lpBuffer, UINT uiSize)
+BOOL CMPCPngImage::LoadFromBuffer(const LPBYTE lpBuffer, UINT uiSize)
 {
     ASSERT(lpBuffer != nullptr);
 

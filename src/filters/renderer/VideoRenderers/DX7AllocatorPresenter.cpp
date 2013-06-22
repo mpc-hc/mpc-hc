@@ -30,7 +30,7 @@ using namespace DSObjects;
 
 //
 
-static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTexture, Vector dst[4], CRect src)
+static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTexture, const Vector dst[4], const CRect& src)
 {
     if (!pTexture) {
         return E_POINTER;

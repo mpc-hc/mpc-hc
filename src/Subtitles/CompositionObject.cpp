@@ -37,7 +37,7 @@ CompositionObject::~CompositionObject()
     delete [] m_pRLEData;
 }
 
-void CompositionObject::SetPalette(int nNbEntry, HDMV_PALETTE* pPalette, bool bIsHD)
+void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool bIsHD)
 {
     m_nColorNumber = nNbEntry;
     for (int i = 0; i < nNbEntry; i++) {

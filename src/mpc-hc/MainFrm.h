@@ -463,7 +463,7 @@ public:
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false, bool bApplyDefStyle = false);
     void SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle = false);
     void ToggleSubtitleOnOff(bool bDisplayMessage = false);
-    void ReplaceSubtitle(ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
+    void ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = -1, REFERENCE_TIME rtInvalidate = -1);
     void ReloadSubtitle();
     HRESULT InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin* pPinto);
@@ -910,7 +910,7 @@ public:
     void        SetupVMR9ColorControl();
     void        SetColorControl(DWORD flags, int& brightness, int& contrast, int& hue, int& saturation);
     void        SetClosedCaptions(bool enable);
-    LPCTSTR     GetDVDAudioFormatName(DVD_AudioAttributes& ATR) const;
+    LPCTSTR     GetDVDAudioFormatName(const DVD_AudioAttributes& ATR) const;
     void        SetAudioDelay(REFERENCE_TIME rtShift);
     void        SetSubtitleDelay(int delay_ms);
     //void      AutoSelectTracks();
@@ -929,7 +929,7 @@ public:
     afx_msg void OnFileOpendirectory();
 
     void        SendCurrentPositionToApi(bool fNotifySeek = false);
-    void        ShowOSDCustomMessageApi(MPC_OSDDATA* osdData);
+    void        ShowOSDCustomMessageApi(const MPC_OSDDATA* osdData);
     void        JumpOfNSeconds(int seconds);
 
     CString GetVidPos() const;

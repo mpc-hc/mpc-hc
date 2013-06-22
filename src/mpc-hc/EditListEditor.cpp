@@ -309,7 +309,7 @@ void CEditListEditor::Save()
     SaveEditListToFile();
 }
 
-int CEditListEditor::FindIndex(POSITION pos)
+int CEditListEditor::FindIndex(const POSITION pos)
 {
     int iItem = 0;
     POSITION CurPos = m_EditList.GetHeadPosition();

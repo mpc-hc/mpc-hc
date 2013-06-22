@@ -276,7 +276,7 @@ void CRealMediaWindowlessSite::SubtractSite(REGION* pRegion)
     RMADestroyRegion(pTempRegion);
 }
 
-void CRealMediaWindowlessSite::UpdateZOrder(CRealMediaWindowlessSite* pUpdatedChildSite, INT32 lOldZOrder, INT32 lNewZOrder)
+void CRealMediaWindowlessSite::UpdateZOrder(const CRealMediaWindowlessSite* pUpdatedChildSite, INT32 lOldZOrder, INT32 lNewZOrder)
 {
     POSITION pos = m_pChildren.GetHeadPosition();
     while (pos) {
@@ -599,7 +599,7 @@ STDMETHODIMP CRealMediaWindowlessSite::SetCursor(PNxCursor cursor, REF(PNxCursor
 
 // private
 
-void CRealMediaWindowlessSite::IntersectRect(PNxRect* pRect, PNxRect* pBox, PNxRect* pRetVal)
+void CRealMediaWindowlessSite::IntersectRect(const PNxRect* pRect, const PNxRect* pBox, PNxRect* pRetVal)
 {
     pRetVal->left   = max(pRect->left, pBox->left);
     pRetVal->top    = max(pRect->top, pBox->top);

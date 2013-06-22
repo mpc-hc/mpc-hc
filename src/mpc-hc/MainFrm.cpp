@@ -7447,7 +7447,7 @@ void CMainFrame::KillTimersStop()
     KillTimer(TIMER_DVBINFO_UPDATER);
 }
 
-static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
+static int rangebsearch(REFERENCE_TIME val, const CAtlArray<REFERENCE_TIME>& rta)
 {
     int i = 0, j = (int)rta.GetCount() - 1, ret = -1;
 
@@ -13906,7 +13906,7 @@ void CMainFrame::ToggleSubtitleOnOff(bool bDisplayMessage /*= false*/)
     }
 }
 
-void CMainFrame::ReplaceSubtitle(ISubStream* pSubStreamOld, ISubStream* pSubStreamNew)
+void CMainFrame::ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pSubStreamNew)
 {
     POSITION pos = m_pSubStreams.GetHeadPosition();
     while (pos) {
@@ -15020,7 +15020,7 @@ void CMainFrame::SetClosedCaptions(bool enable)
 }
 
 
-LPCTSTR CMainFrame::GetDVDAudioFormatName(DVD_AudioAttributes& ATR) const
+LPCTSTR CMainFrame::GetDVDAudioFormatName(const DVD_AudioAttributes& ATR) const
 {
     switch (ATR.AudioFormat) {
         case DVD_AudioFormat_AC3:
@@ -15559,7 +15559,7 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
     }
 }
 
-void CMainFrame::ShowOSDCustomMessageApi(MPC_OSDDATA* osdData)
+void CMainFrame::ShowOSDCustomMessageApi(const MPC_OSDDATA* osdData)
 {
     m_OSD.DisplayMessage((OSD_MESSAGEPOS)osdData->nMsgPos, osdData->strMsg, osdData->nDurationMS);
 }

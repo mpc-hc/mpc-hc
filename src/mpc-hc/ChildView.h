@@ -40,7 +40,7 @@ public:
     DECLARE_DYNAMIC(CChildView)
 
 public:
-    void SetVideoRect(CRect r = CRect(0, 0, 0, 0));
+    void SetVideoRect(const CRect& r = CRect(0, 0, 0, 0));
     CRect GetVideoRect() const { return m_vrect; }
 
     void LoadLogo();

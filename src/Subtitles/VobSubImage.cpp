@@ -137,7 +137,7 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize,
     return true;
 }
 
-void CVobSubImage::GetPacketInfo(BYTE* lpData, int packetsize, int datasize)
+void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasize)
 {
     //  delay = 0;
 
@@ -242,7 +242,7 @@ void CVobSubImage::GetPacketInfo(BYTE* lpData, int packetsize, int datasize)
     }
 }
 
-BYTE CVobSubImage::GetNibble(BYTE* lpData)
+BYTE CVobSubImage::GetNibble(const BYTE* lpData)
 {
     WORD& off = nOffset[nPlane];
     BYTE ret = (lpData[off] >> (fAligned << 2)) & 0x0f;
@@ -526,7 +526,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
     return ol;
 }
 
-static bool FitLine(COutline& o, int& start, int& end)
+static bool FitLine(const COutline& o, int& start, int& end)
 {
     int len = (int)o.pa.GetCount();
     if (len < 7) {
@@ -650,7 +650,7 @@ static bool FitLine(COutline& o, int& start, int& end)
     return ((maxerr - minerr) / l < 0.1  || err / l < 1.5 || (fabs(maxerr) < 8 && fabs(minerr) < 8));
 }
 
-static int CalcPossibleCurveDegree(COutline& o)
+static int CalcPossibleCurveDegree(const COutline& o)
 {
     size_t len2 = o.da.GetCount();
 
@@ -860,7 +860,7 @@ static bool FitBezierVH(COutline& o, CPoint& p1, CPoint& p2)
     return true;
 }
 
-int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
+int CVobSubImage::GrabSegment(int start, const COutline& o, COutline& ret)
 {
     ret.RemoveAll();
 
@@ -928,7 +928,7 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
     return start;
 }
 
-void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2)
+void CVobSubImage::SplitOutline(const COutline& o, COutline& o1, COutline& o2)
 {
     size_t len = o.pa.GetCount();
     if (len < 4) {

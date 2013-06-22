@@ -116,7 +116,7 @@ static void LoadDefaultCodec(CAtlArray<Codec>& codecs, CComboBox& box, const GUI
     }
 }
 
-static void SaveDefaultCodec(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& cat)
+static void SaveDefaultCodec(CAtlArray<Codec>& codecs, const CComboBox& box, const GUID& cat)
 {
     if (cat == GUID_NULL) {
         return;
@@ -474,7 +474,7 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
     LoadDefaultCodec(codecs, box, cat);
 }
 
-static int ShowPPage(CAtlArray<Codec>& codecs, CComboBox& box, HWND hWnd = nullptr)
+static int ShowPPage(CAtlArray<Codec>& codecs, const CComboBox& box, HWND hWnd = nullptr)
 {
     int iSel = box.GetCurSel();
     if (iSel < 0) {

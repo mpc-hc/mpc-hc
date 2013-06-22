@@ -34,7 +34,7 @@
 #include <dxva.h>
 #include <dxva2api.h>
 
-void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
+void DumpStreamConfig(const TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 {
     CString s;
     CStdioFile f;
@@ -2489,7 +2489,7 @@ LPCTSTR GetDXVAMode(const GUID* guidDecoder)
     return DXVA2Decoder[nPos].Description;
 }
 
-void DumpBuffer(BYTE* pBuffer, int nSize)
+void DumpBuffer(const BYTE* pBuffer, int nSize)
 {
     CString strMsg;
     int nPos = 0;
@@ -2726,7 +2726,7 @@ void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
     }
 }
 
-void HexDump(CString fileName, BYTE* buf, int size)
+void HexDump(CString fileName, const BYTE* buf, int size)
 {
     if (size <= 0) {
         return;

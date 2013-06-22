@@ -125,7 +125,7 @@ protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-    bool IsShortCut(MSG* pMsg);
+    bool IsShortCut(const MSG* pMsg);
 
     DECLARE_MESSAGE_MAP()
 

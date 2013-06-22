@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -129,7 +129,7 @@ private:
     HRESULT CreateAudioClient(IMMDevice* pMMDevice, IAudioClient** ppAudioClient);
     HRESULT InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioClient* pAudioClient, IAudioRenderClient** ppRenderClient);
     HRESULT CheckAudioClient(WAVEFORMATEX* pWaveFormatEx);
-    bool CheckFormatChanged(WAVEFORMATEX* pWaveFormatEx, WAVEFORMATEX** ppNewWaveFormatEx);
+    bool CheckFormatChanged(const WAVEFORMATEX* pWaveFormatEx, WAVEFORMATEX** ppNewWaveFormatEx);
     HRESULT DoRenderSampleWasapi(IMediaSample* pMediaSample);
     HRESULT GetBufferSize(WAVEFORMATEX* pWaveFormatEx, REFERENCE_TIME* pHnsBufferPeriod);
 

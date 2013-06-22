@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,7 +54,7 @@ private:
     bool Alloc(int w, int h);
     void Free();
 
-    BYTE GetNibble(BYTE* lpData);
+    BYTE GetNibble(const BYTE* lpData);
     void DrawPixels(CPoint p, int length, int colorid);
     void TrimSubImage();
 
@@ -74,7 +74,7 @@ public:
 
     void Invalidate() { iLang = iIdx = -1; }
 
-    void GetPacketInfo(BYTE* lpData, int packetsize, int datasize);
+    void GetPacketInfo(const BYTE* lpData, int packetsize, int datasize);
     bool Decode(BYTE* lpData, int packetsize, int datasize,
                 bool fCustomPal,
                 int tridx,
@@ -85,8 +85,8 @@ public:
 
 private:
     CAutoPtrList<COutline>* GetOutlineList(CPoint& topleft);
-    int  GrabSegment(int start, COutline& o, COutline& ret);
-    void SplitOutline(COutline& o, COutline& o1, COutline& o2);
+    int  GrabSegment(int start, const COutline& o, COutline& ret);
+    void SplitOutline(const COutline& o, COutline& o1, COutline& o2);
     void AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pathPoints);
 
 public:

@@ -70,7 +70,7 @@ CVMROSD::~CVMROSD()
     m_memDC.DeleteDC();
 }
 
-void CVMROSD::SetSize(CRect wndRect, CRect videoRect)
+void CVMROSD::SetSize(const CRect& wndRect, const CRect& videoRect)
 {
     if (m_pWnd && (m_pVMB || m_pMFVMB)) {
         if (m_bSeekBarVisible) {
@@ -204,7 +204,7 @@ void CVMROSD::SetVideoWindow(CWnd* pWnd)
     UpdateBitmap();
 }
 
-void CVMROSD::DrawRect(CRect* rect, CBrush* pBrush, CPen* pPen)
+void CVMROSD::DrawRect(const CRect* rect, CBrush* pBrush, CPen* pPen)
 {
     if (pPen) {
         m_memDC.SelectObject(pPen);

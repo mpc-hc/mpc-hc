@@ -1556,7 +1556,7 @@ bool CVobSubSettings::GetCustomPal(RGBQUAD* cuspal, int& tridx)
     return m_fCustomPal;
 }
 
-void CVobSubSettings::SetCustomPal(RGBQUAD* cuspal, int tridx)
+void CVobSubSettings::SetCustomPal(const RGBQUAD* cuspal, int tridx)
 {
     memcpy(m_cuspal, cuspal, sizeof(RGBQUAD) * 4);
     m_tridx = tridx & 0xf;

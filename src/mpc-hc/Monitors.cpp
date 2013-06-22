@@ -150,7 +150,7 @@ BOOL CMonitors::IsOnScreen(const LPRECT lprc)
     return ::MonitorFromRect(lprc, MONITOR_DEFAULTTONULL) != NULL;
 }
 
-BOOL CMonitors::IsOnScreen(const POINT pt)
+BOOL CMonitors::IsOnScreen(const POINT& pt)
 {
     return ::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL) != NULL;
 }
@@ -169,7 +169,7 @@ CMonitor CMonitors::GetNearestMonitor(const LPRECT lprc)
 
 }
 
-CMonitor CMonitors::GetNearestMonitor(const POINT pt)
+CMonitor CMonitors::GetNearestMonitor(const POINT& pt)
 {
     CMonitor monitor;
     monitor.Attach(::MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST));

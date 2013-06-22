@@ -306,7 +306,7 @@ void CWebServer::OnAccept(CWebServerSocket* pServer)
     }
 }
 
-void CWebServer::OnClose(CWebClientSocket* pClient)
+void CWebServer::OnClose(const CWebClientSocket* pClient)
 {
     POSITION pos = m_clients.GetHeadPosition();
     while (pos) {

@@ -38,7 +38,7 @@ private:
     enum { UNKNOWN, VIDEO, AUDIO } m_type;
     GUID m_subtype;
     void AddLine(CString str = _T("\n"));
-    void AddMediaType(AM_MEDIA_TYPE* pmt);
+    void AddMediaType(const AM_MEDIA_TYPE* pmt);
 
 public:
     CMediaTypesDlg(IGraphBuilderDeadEnd* pGBDE, CWnd* pParent = nullptr);   // standard constructor

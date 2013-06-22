@@ -477,7 +477,7 @@ bool CFileAssoc::AreRegisteredFileContextMenuEntries(CString strExt)
     return registered;
 }
 
-bool CFileAssoc::Register(CMediaFormatCategory& mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon)
+bool CFileAssoc::Register(const CMediaFormatCategory& mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon)
 {
     if (!mfc.IsAssociable()) {
         ASSERT(FALSE);

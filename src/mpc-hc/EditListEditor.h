@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2012 see Authors.txt
+ * (C) 2009-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -83,7 +83,7 @@ class CEditListEditor : public CPlayerBar
     void            ResizeListColumn();
     POSITION        InsertClip(POSITION pos, CClip& NewClip);
     void            DropItemOnList();
-    int             FindIndex(POSITION pos);
+    int             FindIndex(const POSITION pos);
     int             FindNameIndex(LPCTSTR strName);
     void            FillCombo(LPCTSTR strFileName, CComboBox& Combo, bool bAllowNull);
     void            SelectCombo(LPCTSTR strValue, CComboBox& Combo);

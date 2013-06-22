@@ -29,7 +29,7 @@ WNDPROC COpenDirHelper::CBProc;
 bool COpenDirHelper::m_incl_subdir;
 CString COpenDirHelper::strLastOpenDir;
 
-void COpenDirHelper::SetFont(HWND hwnd, LPTSTR FontName, int FontSize)
+void COpenDirHelper::SetFont(HWND hwnd, const LPTSTR FontName, int FontSize)
 {
     HFONT hf, hfOld;
     LOGFONT lf = {0};

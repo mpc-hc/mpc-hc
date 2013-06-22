@@ -1805,7 +1805,7 @@ void CMPlayerCApp::OnHelpShowcommandlineswitches()
 }
 
 //
-void GetCurDispMode(dispmode& dm, CString& DisplayName)
+void GetCurDispMode(dispmode& dm, const CString& DisplayName)
 {
     HDC hDC;
     CString DisplayName1 = DisplayName;
@@ -1825,7 +1825,7 @@ void GetCurDispMode(dispmode& dm, CString& DisplayName)
     }
 }
 
-bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
+bool GetDispMode(int i, dispmode& dm, const CString& DisplayName)
 {
     DEVMODE devmode;
     CString DisplayName1 = DisplayName;
@@ -1918,7 +1918,7 @@ void SetHandCursor(HWND m_hWnd, UINT nID)
 typedef CAtlRegExp<CAtlRECharTraits> CAtlRegExpT;
 typedef CAtlREMatchContext<CAtlRECharTraits> CAtlREMatchContextT;
 
-bool FindRedir(CUrl& src, CString ct, CString& body, CAtlList<CString>& urls, CAutoPtrList<CAtlRegExpT>& res)
+bool FindRedir(const CUrl& src, CString ct, const CString& body, CAtlList<CString>& urls, CAutoPtrList<CAtlRegExpT>& res)
 {
     POSITION pos = res.GetHeadPosition();
     while (pos) {
@@ -1957,7 +1957,7 @@ bool FindRedir(CUrl& src, CString ct, CString& body, CAtlList<CString>& urls, CA
     return !urls.IsEmpty();
 }
 
-bool FindRedir(CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrList<CAtlRegExpT>& res)
+bool FindRedir(const CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrList<CAtlRegExpT>& res)
 {
     CString body;
 

@@ -77,7 +77,7 @@ IDSMResourceBag :
 public IUnknown {
     STDMETHOD_(DWORD, ResGetCount)() PURE;
     STDMETHOD(ResGet)(DWORD iIndex, BSTR * ppName, BSTR * ppDesc, BSTR * ppMime, BYTE** ppData, DWORD * pDataLen, DWORD_PTR * pTag) PURE;
-    STDMETHOD(ResSet)(DWORD iIndex, LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime, BYTE * pData, DWORD len, DWORD_PTR tag) PURE;
+    STDMETHOD(ResSet)(DWORD iIndex, LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime, const BYTE * pData, DWORD len, DWORD_PTR tag) PURE;
     STDMETHOD(ResAppend)(LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime, BYTE * pData, DWORD len, DWORD_PTR tag) PURE;
     STDMETHOD(ResRemoveAt)(DWORD iIndex) PURE;
     STDMETHOD(ResRemoveAll)(DWORD_PTR tag) PURE;
@@ -116,7 +116,7 @@ public:
     STDMETHODIMP ResGet(DWORD iIndex, BSTR* ppName, BSTR* ppDesc, BSTR* ppMime,
                         BYTE** ppData, DWORD* pDataLen, DWORD_PTR* pTag = nullptr);
     STDMETHODIMP ResSet(DWORD iIndex, LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime,
-                        BYTE* pData, DWORD len, DWORD_PTR tag = 0);
+                        const BYTE* pData, DWORD len, DWORD_PTR tag = 0);
     STDMETHODIMP ResAppend(LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime,
                            BYTE* pData, DWORD len, DWORD_PTR tag = 0);
     STDMETHODIMP ResRemoveAt(DWORD iIndex);

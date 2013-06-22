@@ -201,7 +201,7 @@ bool CWord::CreateOpaqueBox()
     return !!m_pOpaqueBox;
 }
 
-void CWord::Transform_C(CPoint& org)
+void CWord::Transform_C(const CPoint& org)
 {
     double scalex = m_style.fontScaleX / 100.0;
     double scaley = m_style.fontScaleY / 100.0;
@@ -250,7 +250,7 @@ void CWord::Transform_C(CPoint& org)
     }
 }
 
-void CWord::Transform_SSE2(CPoint& org)
+void CWord::Transform_SSE2(const CPoint& org)
 {
     // SSE code
     // speed up ~1.5-1.7x
@@ -1340,7 +1340,7 @@ void CSubtitle::CreateClippers(CSize size)
     }
 }
 
-void CSubtitle::MakeLines(CSize size, CRect marginRect)
+void CSubtitle::MakeLines(CSize size, const CRect& marginRect)
 {
     CSize spaceNeeded(0, 0);
 
@@ -1414,7 +1414,7 @@ void CScreenLayoutAllocator::AdvanceToSegment(int segment, const CAtlArray<int>&
     }
 }
 
-CRect CScreenLayoutAllocator::AllocRect(CSubtitle* s, int segment, int entry, int layer, int collisions)
+CRect CScreenLayoutAllocator::AllocRect(const CSubtitle* s, int segment, int entry, int layer, int collisions)
 {
     // TODO: handle collisions == 1 (reversed collisions)
 
@@ -1527,7 +1527,7 @@ void CRenderedTextSubtitle::OnChanged()
     m_sla.Empty();
 }
 
-bool CRenderedTextSubtitle::Init(CSize size, CRect vidrect)
+bool CRenderedTextSubtitle::Init(CSize size, const CRect& vidrect)
 {
     Deinit();
 
@@ -2162,7 +2162,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
     return true; // there are people keeping comments inside {}, lets make them happy now
 }
 
-bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle& style, STSStyle& org)
+bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle& style, const STSStyle& org)
 {
     if (str.Find(L"!--") == 0) {
         return true;

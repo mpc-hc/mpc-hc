@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,7 +54,7 @@ namespace DSObjects
         STDMETHODIMP GetTimeFormat(GUID* pFormat);
         STDMETHODIMP GetDuration(LONGLONG* pDuration);
         STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
-        STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+        STDMETHODIMP SetPositions(const LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
 
         // IVideoWindow
         STDMETHODIMP put_Visible(long Visible);

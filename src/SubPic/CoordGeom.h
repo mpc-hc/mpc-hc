@@ -44,7 +44,7 @@ public:
 
     Vector Normal(Vector& a, Vector& b);
     float Angle(Vector& a, Vector& b);
-    float Angle(Vector& a);
+    float Angle(const Vector& a);
     void Angle(float& u, float& v); // returns spherical coords in radian, -M_PI_2 <= u <= M_PI_2, -M_PI <= v <= M_PI
     Vector Angle();                 // does like prev., returns 'u' in 'ret.x', and 'v' in 'ret.y'
 
@@ -56,8 +56,8 @@ public:
     Vector Cross();     // xy, xz, yz
     Vector Pow(float exp);
 
-    Vector& Min(Vector& a);
-    Vector& Max(Vector& a);
+    Vector& Min(const Vector& a);
+    Vector& Max(const Vector& a);
     Vector Abs();
 
     Vector Reflect(Vector& n);
@@ -67,28 +67,28 @@ public:
     Vector operator - ();
     float& operator [](size_t i);
 
-    float operator | (Vector& v);   // dot
-    Vector operator % (Vector& v);  // cross
+    float operator | (const Vector& v);   // dot
+    Vector operator % (const Vector& v);  // cross
 
     bool operator == (const Vector& v) const;
     bool operator != (const Vector& v) const;
 
     Vector operator + (float d);
-    Vector operator + (Vector& v);
+    Vector operator + (const Vector& v);
     Vector operator - (float d);
     Vector operator - (Vector& v);
     Vector operator * (float d);
-    Vector operator * (Vector& v);
+    Vector operator * (const Vector& v);
     Vector operator / (float d);
-    Vector operator / (Vector& v);
+    Vector operator / (const Vector& v);
     Vector& operator += (float d);
-    Vector& operator += (Vector& v);
+    Vector& operator += (const Vector& v);
     Vector& operator -= (float d);
     Vector& operator -= (Vector& v);
     Vector& operator *= (float d);
-    Vector& operator *= (Vector& v);
+    Vector& operator *= (const Vector& v);
     Vector& operator /= (float d);
-    Vector& operator /= (Vector& v);
+    Vector& operator /= (const Vector& v);
 
     template<typename T> static float DegToRad(T angle) { return (float)(angle * M_PI / 180); }
 };
@@ -100,7 +100,7 @@ public:
 
     Ray() {}
     Ray(Vector& p, Vector& d);
-    void Set(Vector& p, Vector& d);
+    void Set(const Vector& p, const Vector& d);
 
     float GetDistanceFrom(Ray& r);      // r = plane
     float GetDistanceFrom(Vector& v);   // v = point
@@ -118,7 +118,7 @@ class XForm
         Matrix();
         void Initalize();
 
-        Matrix operator * (Matrix& m);
+        Matrix operator * (const Matrix& m);
         Matrix& operator *= (Matrix& m);
     } m;
 
@@ -131,16 +131,16 @@ public:
     void Initalize();
     void Initalize(Ray& r, Vector& s, bool isWorldToLocal = true);
 
-    void operator *= (Vector& s);   // scale
-    void operator += (Vector& t);   // translate
-    void operator <<= (Vector& r);  // rotate
+    void operator *= (const Vector& s);   // scale
+    void operator += (const Vector& t);   // translate
+    void operator <<= (const Vector& r);  // rotate
 
-    void operator /= (Vector& s);   // scale
+    void operator /= (const Vector& s);   // scale
     void operator -= (Vector& t);   // translate
     void operator >>= (Vector& r);  // rotate
 
     //  transformations
     Vector operator < (Vector& n);  // normal
-    Vector operator << (Vector& v); // vector
+    Vector operator << (const Vector& v); // vector
     Ray operator << (Ray& r);       // ray
 };

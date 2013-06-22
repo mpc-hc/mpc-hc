@@ -228,7 +228,7 @@ void CWebClientSocket::HandleRequest()
     }
 }
 
-void CWebClientSocket::ParseHeader(char* headerEnd)
+void CWebClientSocket::ParseHeader(const char* headerEnd)
 {
     char* start = m_buff, *end;
 
