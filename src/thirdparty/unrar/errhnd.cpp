@@ -265,7 +265,7 @@ void ErrorHandler::SetErrorCode(RAR_EXIT Code)
 }
 
 
-#if !defined(GUI) && !defined(_SFX_RTL_)
+#ifndef GUI
 #ifdef _WIN_ALL
 BOOL __stdcall ProcessSignal(DWORD SigType)
 #else
@@ -315,7 +315,7 @@ void _stdfunction ProcessSignal(int SigType)
 void ErrorHandler::SetSignalHandlers(bool Enable)
 {
   EnableBreak=Enable;
-#if !defined(GUI) && !defined(_SFX_RTL_)
+#ifndef GUI
 #ifdef _WIN_ALL
   SetConsoleCtrlHandler(Enable ? ProcessSignal:NULL,TRUE);
 //  signal(SIGBREAK,Enable ? ProcessSignal:SIG_IGN);

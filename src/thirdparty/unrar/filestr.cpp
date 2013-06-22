@@ -30,7 +30,7 @@ bool ReadTextFile(
     {
       if (AbortOnError)
         ErrHandler.Exit(RARX_OPEN);
-      return(false);
+      return false;
     }
   }
   else

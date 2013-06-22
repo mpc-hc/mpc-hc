@@ -594,7 +594,7 @@ bool IsFullPath(const wchar *Path)
 bool IsDiskLetter(const wchar *Path)
 {
   wchar Letter=etoupperw(Path[0]);
-  return(Letter>='A' && Letter<='Z' && IsDriveDiv(Path[1]));
+  return Letter>='A' && Letter<='Z' && IsDriveDiv(Path[1]);
 }
 
 

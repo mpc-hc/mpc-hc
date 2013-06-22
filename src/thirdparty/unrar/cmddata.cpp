@@ -392,7 +392,10 @@ void CommandData::ProcessSwitch(const wchar *Switch)
         case 'P':
           EncryptHeaders=true;
           if (Switch[2]!=0)
+          {
             Password.Set(Switch+2);
+            cleandata((void *)Switch,wcslen(Switch)*sizeof(Switch[0]));
+          }
           else
             if (!Password.IsSet())
             {
@@ -631,7 +634,10 @@ void CommandData::ProcessSwitch(const wchar *Switch)
         eprintf(L"\n");
       }
       else
+      {
         Password.Set(Switch+1);
+        cleandata((void *)Switch,wcslen(Switch)*sizeof(Switch[0]));
+      }
       break;
 #ifndef SFX_MODULE
     case 'Q':

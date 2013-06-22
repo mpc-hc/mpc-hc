@@ -156,8 +156,8 @@ int64 GetFreeDisk(const wchar *Name)
   GetFilePath(Name,Root,ASIZE(Root));
   char RootA[NM];
   WideToChar(Root,RootA,ASIZE(RootA));
-  struct statfs sfs;
-  if (statfs(*RootA!=0 ? RootA:".",&sfs)!=0)
+  struct statvfs sfs;
+  if (statvfs(*RootA!=0 ? RootA:".",&sfs)!=0)
     return 0;
   int64 FreeSize=sfs.f_bsize;
   FreeSize=FreeSize*sfs.f_bavail;

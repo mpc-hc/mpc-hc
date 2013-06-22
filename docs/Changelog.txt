@@ -8,18 +8,19 @@ Legend:
 ! Fixed
 
 
-1.6.9 - not released yet 
+1.6.9 - not released yet
 ========================
 + D3DFullscreen can now switch to windowed mode (just like regular fullscreen mode)
 * D3DFullscreen changes:
-	- toggle hotkey is now disabled by default
-	- support for madVR has been removed (it already has exclusive mode)
-	- 10-bit RBG output now falls back to 8-bit output if the display does not support it
+    - toggle hotkey is now disabled by default
+    - support for madVR has been removed (it already has exclusive mode)
+    - 10-bit RBG output now falls back to 8-bit output if the display does not support it
 * Updated Little CMS to v2.5 (git 0ba8f90)
+* Updated Unrar to v5.0.7
 ! D3DFullscreen fixes:
-	- fixed strange focus behaviour when always on top is enabled
-	- fixed VMR9 D3DFS minimizing when losing focus
-	- fixed thumb mouse buttons no working when D3DFS has focus
+    - fixed strange focus behaviour when always on top is enabled
+    - fixed VMR9 D3DFS minimizing when losing focus
+    - fixed thumb mouse buttons no working when D3DFS has focus
 
 
 1.6.8 - 15 June 2013
