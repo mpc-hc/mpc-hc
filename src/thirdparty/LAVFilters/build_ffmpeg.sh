@@ -27,8 +27,10 @@ copy_libs() (
 
 clean() (
   echo Cleaning...
-  rm config.out > /dev/null 2>&1
-  make distclean > /dev/null 2>&1
+  rm -f config.out > /dev/null 2>&1
+  if [ -f config.mak ]; then
+    make distclean > /dev/null 2>&1
+  fi
 )
 
 configure() (
@@ -104,15 +106,17 @@ make_dirs
 
 cd ffmpeg
 
+CONFIGRETVAL=0
+
 if [ "${2}" == "Clean" ]; then
   clean
+  CONFIGRETVAL=$?
 else
   ## read the first line of the previous configure output
   conf=$(head -n 1 config.out 2>/dev/null)
 
   if [ "${conf}" == "Arch: ${arch}" ]; then
     echo Skipping configure...
-    CONFIGRETVAL=0
   else
     clean
 
@@ -131,7 +135,10 @@ else
   if [ ${CONFIGRETVAL} -eq 0 ]; then
     build &&
     copy_libs
+    CONFIGRETVAL=$?
   fi
 
   cd ../..
 fi
+
+exit ${CONFIGRETVAL}

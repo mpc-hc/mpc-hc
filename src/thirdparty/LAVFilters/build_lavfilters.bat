@@ -139,7 +139,10 @@ IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
 :: Build FFmpeg
 sh build_ffmpeg.sh %ARCH% %BUILDTYPE%
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
+IF %ERRORLEVEL% NEQ 0 (
+    CALL :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
+    EXIT /B
+)
 
 PUSHD src
 
@@ -147,7 +150,10 @@ PUSHD src
 IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
 devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%|%ARCHVS%"
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "'devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%-%ARCHVS%" failed!"
+IF %ERRORLEVEL% NEQ 0 (
+    CALL :SubMsg "ERROR" "'devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%-%ARCHVS%" failed!"
+    EXIT /B
+)
 
 POPD
 
