@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,6 +31,8 @@
 
 extern bool g_bNoDuration; // Defined in MainFrm.cpp
 extern bool g_bExternalSubtitleTime;
+
+class CFocusThread;
 
 // Possible messages to the PowerStrip API. PowerStrip is used to control
 // the display frequency in one of the video - display synchronization modes.
@@ -316,6 +318,7 @@ namespace GothSync
         void EstimateRefreshTimings();        // Estimate the times for one scan line and one frame respectively from the actual refresh data
         bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
+        CFocusThread* m_FocusThread;
     public:
         CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
         ~CBaseAP();
@@ -346,8 +349,8 @@ namespace GothSync
         public IMFRateSupport,
         public IMFVideoDisplayControl,
         public IEVRTrustedVideoPlugin,
-        public ISyncClockAdviser
-
+        public ISyncClockAdviser,
+        public ID3DFullscreenControl
     {
     public:
         CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
@@ -436,6 +439,10 @@ namespace GothSync
         STDMETHODIMP LockDevice(HANDLE hDevice, IDirect3DDevice9** ppDevice, BOOL fBlock);
         STDMETHODIMP UnlockDevice(HANDLE hDevice, BOOL fSaveState);
         STDMETHODIMP GetVideoService(HANDLE hDevice, REFIID riid, void** ppService);
+
+        // ID3DFullscreenControl
+        STDMETHODIMP SetD3DFullscreen(bool fEnabled);
+        STDMETHODIMP GetD3DFullscreen(bool* pfEnabled);
 
     protected:
         void OnResetDevice();

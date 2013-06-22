@@ -78,6 +78,7 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
         case WM_RBUTTONDOWN:
         case WM_RBUTTONUP:
         case WM_RBUTTONDBLCLK:
+        case WM_XBUTTONDOWN:
 
         case WM_MOUSEWHEEL:
 

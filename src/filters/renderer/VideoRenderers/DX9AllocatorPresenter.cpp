@@ -28,6 +28,7 @@
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
 #include "version.h"
+#include "FocusThread.h"
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;
@@ -65,6 +66,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_bIsFullscreen(bFullscreen)
     , m_Decoder(_T(""))
     , m_nFrameType(PICT_NONE)
+    , m_FocusThread(nullptr)
 {
     if (FAILED(hr)) {
         _Error += _T("ISubPicAllocatorPresenterImpl failed\n");
@@ -187,6 +189,14 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
     if (m_hD3D9) {
         FreeLibrary(m_hD3D9);
         m_hD3D9 = nullptr;
+    }
+
+    if (m_FocusThread) {
+        m_FocusThread->PostThreadMessage(WM_QUIT, 0, 0);
+        if (WaitForSingleObject(m_FocusThread->m_hThread, 10000) == WAIT_TIMEOUT) {
+            ASSERT(FALSE);
+            TerminateThread(m_FocusThread->m_hThread, 0xDEAD);
+        }
     }
 }
 
@@ -560,9 +570,12 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     // detect 10-bit textures support
     rd->m_b10bitSupport = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE, D3DFMT_A2R10G10B10));
 
+    // detect 10-bit device support
+    bool bHighColorSupport = SUCCEEDED(m_pD3D->CheckDeviceType(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_A2R10G10B10, D3DFMT_A2R10G10B10, FALSE));
+
     // set settings that depend on hardware feature support
     m_bForceInputHighColorResolution = r.m_AdvRendSets.bEVRForceInputHighColorResolution && m_bIsEVR && rd->m_b10bitSupport;
-    m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution && m_bIsEVR && rd->m_b10bitSupport;
+    m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution && m_bIsEVR && rd->m_b10bitSupport && bHighColorSupport;
     m_bFullFloatingPointProcessing = r.m_AdvRendSets.bVMR9FullFloatingPointProcessing && rd->m_bFP16Support;
     m_bHalfFloatingPointProcessing = r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing && rd->m_bFP16Support && !m_bFullFloatingPointProcessing;
 
@@ -599,6 +612,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
         }
         m_D3DDevExError = L"No m_pD3DEx";
+
+        if (!m_FocusThread) {
+            m_FocusThread = (CFocusThread*)AfxBeginThread(RUNTIME_CLASS(CFocusThread), 0, 0, 0);
+        }
+
         if (m_pD3DEx) {
             m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
 
@@ -609,8 +627,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferHeight = m_ScreenSize.cy;
 
             hr = m_pD3DEx->CreateDeviceEx(
-                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                     GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                     GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES, //D3DCREATE_MANAGED
                      &pp, &DisplayMode, &m_pD3DDevEx);
 
             m_D3DDevExError = GetWindowsErrorMessage(hr, m_hD3D9);
@@ -629,8 +647,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferHeight = m_ScreenSize.cy;
 
             hr = m_pD3D->CreateDevice(
-                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                     GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                     GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES, //D3DCREATE_MANAGED
                      &pp, &m_pD3DDev);
             m_DisplayType = d3ddm.Format;
             m_BackbufferType = pp.BackBufferFormat;
@@ -2170,4 +2188,17 @@ STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTa
     CAutoLock cRenderLock(&m_RenderLock);
 
     return SetCustomPixelShader(pSrcData, pTarget, bScreenSpace);
+}
+
+STDMETHODIMP CDX9AllocatorPresenter::SetD3DFullscreen(bool fEnabled)
+{
+    m_bIsFullscreen = fEnabled;
+    return S_OK;
+}
+
+STDMETHODIMP CDX9AllocatorPresenter::GetD3DFullscreen(bool* pfEnabled)
+{
+    CheckPointer(pfEnabled, E_POINTER);
+    *pfEnabled = m_bIsFullscreen;
+    return S_OK;
 }

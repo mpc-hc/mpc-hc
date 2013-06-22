@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,6 +45,7 @@ BEGIN_MESSAGE_MAP(CGraphThread, CWinThread)
     ON_THREAD_MESSAGE(TM_OPEN, OnOpen)
     ON_THREAD_MESSAGE(TM_RESET, OnReset)
     ON_THREAD_MESSAGE(TM_TUNER_SCAN, OnTunerScan)
+    ON_THREAD_MESSAGE(TM_TOGGLE_D3DFS, OnToggleD3DFullscreen)
 END_MESSAGE_MAP()
 
 void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
@@ -100,5 +101,12 @@ void CGraphThread::OnTunerScan(WPARAM wParam, LPARAM lParam)
     if (m_pMainFrame) {
         CAutoPtr<TunerScanData> pTSD((TunerScanData*)lParam);
         m_pMainFrame->DoTunerScan(pTSD);
+    }
+}
+
+void CGraphThread::OnToggleD3DFullscreen(WPARAM wParam, LPARAM lParam)
+{
+    if (m_pMainFrame) {
+        m_pMainFrame->ToggleD3DFullscreen(!!lParam);
     }
 }
