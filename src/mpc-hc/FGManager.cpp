@@ -1367,14 +1367,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
-#if INTERNAL_SOURCEFILTER_SHOUTCAST
-    if (src[SRC_SHOUTCAST]) {
-        pFGF = DEBUG_NEW CFGFilterInternal<CShoutcastSource>();
-        pFGF->m_protocols.AddTail(_T("http"));
-        m_source.AddTail(pFGF);
-    }
-#endif
-
 #if INTERNAL_SOURCEFILTER_UDP
     // if (src[SRC_UDP])
     {
@@ -1536,6 +1528,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,2,FFE0,FFE0"));
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,10,FFFFFF00000080808080,49443300000000000000"));
         pFGLAVSplitterSource->AddFormat("mp3");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_HTTP
+    if (src[SRC_HTTP]) {
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("http"));
+        pFGLAVSplitterSource->AddFormat("http");
     }
 #endif
 

@@ -396,8 +396,10 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
 #endif
-#if INTERNAL_SOURCEFILTER_SHOUTCAST
-    m_filters.Add(filter_t(_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, nullptr));
+#if INTERNAL_SOURCEFILTER_HTTP
+    if (bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("HTTP"), SOURCE_FILTER, SRC_HTTP, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
 #endif
 #if INTERNAL_SOURCEFILTER_RFS
     m_filters.Add(filter_t(_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, nullptr));
