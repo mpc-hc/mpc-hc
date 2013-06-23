@@ -2116,6 +2116,10 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                 }
                 if (field == "content-type" && !sl2.IsEmpty()) {
                     ct = sl2.GetHead();
+                    int iEndContentType = ct.Find(_T(';'));
+                    if (iEndContentType > 0) {
+                        ct.Truncate(iEndContentType);
+                    }
                 }
             }
 
