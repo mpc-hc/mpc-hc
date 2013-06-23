@@ -11711,7 +11711,7 @@ DWORD CMainFrame::SetupSubtitleStreams()
             if (!bAllowOverridingSplitterChoice && pSSF && SUCCEEDED(subInput.sourceFilter->GetClassID(&clsid))) {
                 // We always allow overriding the splitter choice for our splitters that
                 // support the IAMStreamSelect interface and thus would have been ignored.
-                bAllowOverridingSplitterChoice = !!(clsid == __uuidof(CMpegSplitterFilter));
+                bAllowOverridingSplitterChoice = !!(clsid == CLSID_MPCMpegSplitter);
             }
 
             int count = 0;
@@ -13300,10 +13300,10 @@ void CMainFrame::SetupNavChaptersSubMenu()
 
 IBaseFilter* CMainFrame::FindSourceSelectableFilter()
 {
-    // splitters for video files (mpeg files with only audio track is very rare)
-    IBaseFilter* pSF = FindFilter(__uuidof(CMpegSplitterFilter), m_pGB);
+    // splitters for video files (MPEG files with only audio track is very rare)
+    IBaseFilter* pSF = FindFilter(CLSID_MPCMpegSplitter, m_pGB);
     if (!pSF) {
-        pSF = FindFilter(__uuidof(CMpegSourceFilter), m_pGB);
+        pSF = FindFilter(CLSID_MPCMpegSplitterSource, m_pGB);
     }
     // universal splitters
     if (!pSF) {

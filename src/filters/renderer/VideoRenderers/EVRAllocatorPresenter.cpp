@@ -24,7 +24,7 @@
 #include <Mferror.h>
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
-#include "../../transform/MPCVideoDec/MPCVideoDecFilter.h"
+#include "IMPCVideoDecFilter.h"
 
 #if (0)     // Set to 1 to activate EVR traces
 #define TRACE_EVR   TRACE
