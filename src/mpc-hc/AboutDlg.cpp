@@ -48,6 +48,13 @@ CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
     //}}AFX_DATA_INIT
 }
 
+CAboutDlg::~CAboutDlg()
+{
+    if (m_hIcon) {
+        DestroyIcon(m_hIcon);
+    }
+}
+
 BOOL CAboutDlg::OnInitDialog()
 {
     // Get the default text before it is overwritten by the call to __super::OnInitDialog()
