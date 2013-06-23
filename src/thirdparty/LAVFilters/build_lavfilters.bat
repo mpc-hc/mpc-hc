@@ -174,6 +174,15 @@ IF /I "%BUILDTYPE%" == "Build" (
     COPY /Y /V %SRCFOLDER%\*.dll %DESTFOLDER%
     COPY /Y /V %SRCFOLDER%\*.ax %DESTFOLDER%
     COPY /Y /V %SRCFOLDER%\*.manifest %DESTFOLDER%
+    IF /I "%RELEASETYPE%" == "Release" (
+        COPY /Y /V %SRCFOLDER%\IntelQuickSyncDecoder\IntelQuickSyncDecoder.pdb %DESTFOLDER%
+        COPY /Y /V %SRCFOLDER%\LAVAudio\LAVAudio.pdb %DESTFOLDER%
+        COPY /Y /V %SRCFOLDER%\LAVSplitter\LAVSplitter.pdb %DESTFOLDER%
+        COPY /Y /V %SRCFOLDER%\LAVVideo\LAVVideo.pdb %DESTFOLDER%
+        COPY /Y /V %SRCFOLDER%\libbluray\libbluray.pdb %DESTFOLDER%
+    ) ELSE (
+        COPY /Y /V %SRCFOLDER%\*.pdb %DESTFOLDER%
+    )
 ) ELSE IF /I "%BUILDTYPE%" == "Clean" (
     :: Remove LAVFilters files in MPC-HC output directory
     IF EXIST %DESTFOLDER% RMDIR /S /Q %DESTFOLDER%

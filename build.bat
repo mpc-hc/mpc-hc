@@ -376,11 +376,14 @@ IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 IF EXIST "%PCKG_NAME%.pdb.7z" DEL "%PCKG_NAME%.pdb.7z"
 IF EXIST "%PCKG_NAME%"        RD /Q /S "%PCKG_NAME%"
 
+SET "PDB_FILES=*.pdb"
+IF NOT DEFINED MPCHC_LITE (SET "PDB_FILES=%PDB_FILES% LAVFilters\*.pdb")
+
 REM Compress the pdb file for mpc-hc only
 IF /I "%NAME%" == "MPC-HC" (
   PUSHD "%~1_%ARCH%"
   TITLE Creating archive %PCKG_NAME%.pdb.7z...
-  START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.pdb.7z" "*.pdb" -m0=LZMA -mx9 -ms=on
+  START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.pdb.7z" %PDB_FILES% -m0=LZMA -mx9 -ms=on
   IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.pdb.7z!" & EXIT /B
   CALL :SubMsg "INFO" "%PCKG_NAME%.pdb.7z successfully created"
   IF EXIST "%PCKG_NAME%.pdb.7z" MOVE /Y "%PCKG_NAME%.pdb.7z" ".." >NUL
