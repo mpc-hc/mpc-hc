@@ -51,15 +51,10 @@ MPC-HC makes use of the following third-party code:
 Project             License                     Website
 --------------------------------------------------------------------
 ATL Server          Ms-LPL                      http://atlserver.codeplex.com/
-Bento4              GPLv2                       http://www.bok.net/trac/bento4/
 CLineNumberEdit     -                           http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
 CSizingControlBar   GPLv2                       http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                    http://research.microsoft.com/en-us/projects/detours/
-FFmpeg              GPLv2                       http://www.ffmpeg.org/
 LAV Filters         GPLv2                       http://code.google.com/p/lavfilters/
-libflac             GPLv2 / New BSD License     http://flac.sourceforge.net/
-libmpeg2            GPLv2                       http://libmpeg2.sourceforge.net/
-libogg              New BSD License             http://www.xiph.org/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
 MediaInfoLib        Simplified BSD License      http://mediainfo.sourceforge.net/

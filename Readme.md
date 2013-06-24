@@ -69,11 +69,6 @@ MPC-HC makes use of the following third-party code:
         <td>http://atlserver.codeplex.com/</td>
     </tr>
     <tr>
-        <td>Bento4</td>
-        <td>GPLv2</td>
-        <td>http://www.bok.net/trac/bento4/</td>
-    </tr>
-    <tr>
         <td>CLineNumberEdit</td>
         <td>-</td>
         <td>http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box</td>
@@ -89,29 +84,9 @@ MPC-HC makes use of the following third-party code:
         <td>http://research.microsoft.com/en-us/projects/detours/</td>
     </tr>
     <tr>
-        <td>FFmpeg</td>
-        <td>GPLv2</td>
-        <td>http://www.ffmpeg.org/</td>
-    </tr>
-    <tr>
         <td>LAV Filters</td>
         <td>GPLv2</td>
         <td>http://code.google.com/p/lavfilters/</td>
-    </tr>
-    <tr>
-        <td>libflac</td>
-        <td>GPLv2 / New BSD License</td>
-        <td>http://flac.sourceforge.net/</td>
-    </tr>
-    <tr>
-        <td>libmpeg2</td>
-        <td>GPLv2</td>
-        <td>http://libmpeg2.sourceforge.net/</td>
-    </tr>
-    <tr>
-        <td>libogg</td>
-        <td>New BSD License</td>
-        <td>http://www.xiph.org/</td>
     </tr>
     <tr>
         <td>Little CMS</td>

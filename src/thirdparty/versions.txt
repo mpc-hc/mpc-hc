@@ -1,15 +1,10 @@
 Project             Version
 ----------------------------------------
 ATL Server          -
-Bento4              1.2.3-387 (modified)
 CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
 Detours             3.0 build 316
-FFmpeg              n0.8-19080-g2bac153 git
 LAV Filters         0.58.0
-libflac             1.2.1
-libmpeg2            0.3.2 (modified)
-libogg              1.3.0
 Little CMS          v2.5-rc1
 Logitech SDK        3.01 (driver 8.00.100)
 MediaInfoLib        0.7.63
