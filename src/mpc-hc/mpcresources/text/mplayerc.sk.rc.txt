@@ -1,5 +1,5 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
-3		"O programe"
+3  	"O programe"
 8		"Copyright © 2002-2013 viď súbor Authors.txt"
 11		"Tento program je šírený ako freeware a bol vydaný pod licenciou GNU General Public."
 12		"Preložil: Marián Hikaník"
