@@ -401,6 +401,11 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("HTTP"), SOURCE_FILTER, SRC_HTTP, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
 #endif
+#if INTERNAL_SOURCEFILTER_RTSP
+    if (bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("RTSP"), SOURCE_FILTER, SRC_RTSP, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+#endif
 #if INTERNAL_SOURCEFILTER_RFS
     m_filters.Add(filter_t(_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, nullptr));
 #endif

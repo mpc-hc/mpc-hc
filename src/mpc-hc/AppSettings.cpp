@@ -135,6 +135,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_HTTP
     SrcFiltersKeys[SRC_HTTP] = _T("SRC_HTTP");
 #endif
+#if INTERNAL_SOURCEFILTER_RTSP
+    SrcFiltersKeys[SRC_RTSP] = _T("SRC_RTSP");
+#endif
 #if INTERNAL_SOURCEFILTER_REALMEDIA
     SrcFiltersKeys[SRC_REALMEDIA] = _T("SRC_REALMEDIA");
 #endif
