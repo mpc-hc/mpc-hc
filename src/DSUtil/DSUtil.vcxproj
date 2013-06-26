@@ -48,7 +48,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -111,10 +110,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\thirdparty\xpsupportvc11upd2\xpatl.cpp">
-      <AdditionalIncludeDirectories>..\DSUtil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='100'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="AudioParser.cpp" />
     <ClCompile Include="AudioTools.cpp" />
     <ClCompile Include="deinterlace.cpp" />
@@ -168,20 +163,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="..\thirdparty\xpsupportvc11upd2\xpatlwrap.asm">
-      <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='100'">true</ExcludedFromBuild>
-    </MASM>
-    <MASM Include="..\thirdparty\xpsupportvc11upd2\xpatlwrap64.asm">
-      <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='100'">true</ExcludedFromBuild>
-    </MASM>
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="..\thirdparty\xpsupportvc11upd2\Readme.txt">
       <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='100'">true</ExcludedFromBuild>
     </Text>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>
