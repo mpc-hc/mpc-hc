@@ -1939,6 +1939,9 @@ bool FindRedir(const CUrl& src, CString ct, const CString& body, CAtlList<CStrin
             if (url.CompareNoCase(_T("asf path")) == 0) {
                 continue;
             }
+            if (url.Find(_T("EXTM3U")) == 0 || url.Find(_T("#EXTINF")) == 0) {
+                continue;
+            }
 
             CUrl dst;
             dst.CrackUrl(CString(url));
@@ -2012,6 +2015,8 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 {
     CUrl url;
     CString ct, body;
+
+    fn.Trim();
 
     if (fn.Find(_T("://")) >= 0) {
         url.CrackUrl(fn);
@@ -2148,8 +2153,8 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                 }
             }
 
-            if (redir && (ct == _T("audio/x-scpls") || ct == _T("audio/x-mpegurl"))) {
-                while (body.GetLength() < 4 * 1024) { // should be enough for a playlist...
+            if (redir && (ct == _T("audio/x-scpls") || ct == _T("audio/x-mpegurl") || ct == _T("text/plain"))) {
+                while (body.GetLength() < 64 * 1024) { // should be enough for a playlist...
                     CStringA str;
                     str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
                     if (str.IsEmpty()) {
@@ -2160,6 +2165,17 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             }
         }
     } else if (!fn.IsEmpty()) {
+        FILE* f = nullptr;
+        if (!_tfopen_s(&f, fn, _T("rb"))) {
+            CStringA str;
+            str.ReleaseBufferSetLength((int)fread(str.GetBuffer(10240), 1, 10240, f));
+            body = AToT(str);
+            fclose(f);
+        }
+    }
+
+    // Try to guess from the extension if we don't have much info yet
+    if (!fn.IsEmpty() && (ct.IsEmpty() || ct == _T("text/plain"))) {
         CPath p(fn);
         CString ext = p.GetExtension().MakeLower();
         if (ext == _T(".asx")) {
@@ -2174,14 +2190,6 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             ct = _T("application/x-mpc-playlist");
         } else if (ext == _T(".bdmv")) {
             ct = _T("application/x-bdmv-playlist");
-        }
-
-        FILE* f = nullptr;
-        if (!_tfopen_s(&f, fn, _T("rb"))) {
-            CStringA str;
-            str.ReleaseBufferSetLength((int)fread(str.GetBuffer(10240), 1, 10240, f));
-            body = AToT(str);
-            fclose(f);
         }
     }
 
