@@ -4417,7 +4417,7 @@ void CMainFrame::OnFileOpendevice()
     OpenMedia(p);
     if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && m_iMediaLoadState == MLS_LOADED && s.iDefaultCaptureDevice == 1) {
         m_wndNavigationBar.m_navdlg.UpdateElementList();
-        ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
+        ShowControlBar(&m_wndNavigationBar, TRUE, TRUE);
     }
 }
 
@@ -6512,22 +6512,27 @@ void CMainFrame::OnUpdateEDLSave(CCmdUI* pCmdUI)
 void CMainFrame::OnViewNavigation()
 {
     CAppSettings& s = AfxGetAppSettings();
-    s.fHideNavigation = !s.fHideNavigation;
-    m_wndNavigationBar.m_navdlg.UpdateElementList();
-    if (GetPlaybackMode() == PM_CAPTURE) {
+
+    if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
+        s.fHideNavigation = !!m_wndNavigationBar.IsWindowVisible();
         ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
+        if (!s.fHideNavigation) {
+            m_wndNavigationBar.m_navdlg.UpdateElementList();
+        }
     }
 }
 
 void CMainFrame::OnUpdateViewNavigation(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(!AfxGetAppSettings().fHideNavigation);
+    pCmdUI->SetCheck(m_wndNavigationBar.IsWindowVisible());
     pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1);
 }
 
 void CMainFrame::OnViewCapture()
 {
-    ShowControlBar(&m_wndCaptureBar, !m_wndCaptureBar.IsWindowVisible(), TRUE);
+    if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 0) {
+        ShowControlBar(&m_wndCaptureBar, !m_wndCaptureBar.IsWindowVisible(), TRUE);
+    }
 }
 
 void CMainFrame::OnUpdateViewCapture(CCmdUI* pCmdUI)

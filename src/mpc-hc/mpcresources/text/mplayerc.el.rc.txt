@@ -1240,6 +1240,7 @@ STRING IDS_AG_TOGGLE_CAPTURE		"Εναλλαγή σε γραμμή καταγρα
 STRING IDS_AG_TOGGLE_CONTROLS		"Εναλλαγή σε πλήκτρα ελέγχου"
 STRING IDS_AG_TOGGLE_EDITLISTEDITOR		"Εναλλαγή παραθύρου EDL"
 STRING IDS_AG_TOGGLE_INFO		"Εναλλαγή σε πληροφορίες"
+STRING IDS_AG_TOGGLE_NAVIGATION		"Toggle Navigation Bar"
 STRING IDS_AG_TOGGLE_PLAYLIST		"Εναλλαγή σε γραμμή λίστας αναπαραγωγής"
 STRING IDS_AG_TOGGLE_SEEKER		"Εναλλαγή σε γραμμή αναζήτησης"
 STRING IDS_AG_TOGGLE_SHADER		"Εναλλαγή σε γραμμή Επεξεργαστή Shader"

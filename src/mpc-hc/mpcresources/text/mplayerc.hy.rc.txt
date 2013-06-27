@@ -1240,6 +1240,7 @@ STRING IDS_AG_TOGGLE_CAPTURE		"Միաց/Անջ տեսագրման վահանակ
 STRING IDS_AG_TOGGLE_CONTROLS		"Միաց/Անջ Կառավարումը"
 STRING IDS_AG_TOGGLE_EDITLISTEDITOR		"Միաց/Անջ EDL-ի պատուհանը"
 STRING IDS_AG_TOGGLE_INFO		"Միաց/Անջ Տեղեկությունը"
+STRING IDS_AG_TOGGLE_NAVIGATION		"Toggle Navigation Bar"
 STRING IDS_AG_TOGGLE_PLAYLIST		"Միաց/Անջ Խաղացանկի վահանակը"
 STRING IDS_AG_TOGGLE_SEEKER		"Միաց/Անջ Seeker-ը"
 STRING IDS_AG_TOGGLE_SHADER		"Միաց/Անջ Շեյդերների խմբագրման վահանակը"
