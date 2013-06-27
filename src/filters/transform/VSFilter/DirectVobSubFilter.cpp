@@ -375,7 +375,7 @@ STDMETHODIMP CDirectVobSubFilter::QueryFilterInfo(FILTER_INFO* pInfo)
         return __super::QueryFilterInfo(pInfo);
     }
 
-    wcscpy_s(pInfo->achName, L"DirectVobSub (forced auto-loading version)");
+    wcscpy_s(pInfo->achName, L"VSFilter (forced auto-loading version)");
     pInfo->pGraph = m_pGraph;
     if (m_pGraph) {
         m_pGraph->AddRef();

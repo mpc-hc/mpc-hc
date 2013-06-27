@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Ikusl.-argzk."
 42		"Azpidatziak *"
 44		"Ikusl.-argzk."
-46		"* Kanpoko iragazkiek (DirectVobSub bezalakoak) azpidatziak aurkezle guztietan erakutsi ditzakete."
+46		"* Kanpoko iragazkiek (VSFilter bezalakoak) azpidatziak aurkezle guztietan erakutsi ditzakete."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

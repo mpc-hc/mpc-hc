@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Screenshot"
 42		"Untertitel *"
 44		"Screenshot"
-46		"* Externe Filter (z.B. DirectVobSub) können Untertitel mit allen Renderern darstellen."
+46		"* Externe Filter (z.B. VSFilter) können Untertitel mit allen Renderern darstellen."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

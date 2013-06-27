@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"スクリーンショット"
 42		"字幕 *"
 44		"スクリーンショット"
-46		"* 外部フィルタ (例えば DirectVobSub) は、すべてのレンダラーに字幕を表示できます。"
+46		"* 外部フィルタ (例えば VSFilter) は、すべてのレンダラーに字幕を表示できます。"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

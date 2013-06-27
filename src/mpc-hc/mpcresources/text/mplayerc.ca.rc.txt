@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Captura de pantalla"
 42		"Subtítols *"
 44		"Captura de pantalla"
-46		"* Filtres externs (com DirectVobSub) poden mostrar subtítols en tots els renderitzadors."
+46		"* Filtres externs (com VSFilter) poden mostrar subtítols en tots els renderitzadors."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

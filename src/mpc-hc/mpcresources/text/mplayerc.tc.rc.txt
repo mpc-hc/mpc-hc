@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"螢幕截圖"
 42		"字幕 *"
 44		"螢幕截圖"
-46		"* 外部篩選器 (例如 DirectVobSub) 可以在任何繪製器中顯示字幕。"
+46		"* 外部篩選器 (例如 VSFilter) 可以在任何繪製器中顯示字幕。"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

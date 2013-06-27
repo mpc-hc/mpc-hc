@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Screenshot"
 42		"Titulky *"
 44		"Screenshot"
-46		"* Externé filtre (ako napr. DirectVobSub) dokážu zobrazovať titulky pri všetkých vykresľovačoch."
+46		"* Externé filtre (ako napr. VSFilter) dokážu zobrazovať titulky pri všetkých vykresľovačoch."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

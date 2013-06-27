@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Screenshot"
 42		"Sous-titres *"
 44		"Screenshot"
-46		"* Les filtres externes (DirectVobSub par exemple) peuvent afficher les sous-titres pour tous les moteurs de rendu."
+46		"* Les filtres externes (VSFilter par exemple) peuvent afficher les sous-titres pour tous les moteurs de rendu."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

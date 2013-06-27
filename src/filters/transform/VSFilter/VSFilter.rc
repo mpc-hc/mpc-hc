@@ -413,7 +413,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_PROJNAME            "&DirectVobSub"
+    IDS_PROJNAME            "&VSFilter"
     IDD_DVSPATHSPAGE        "&Paths"
     IDS_PROJNAME2           "&Subtitle Source"
     IDS_DIVX_WARNING        "The found DivX DirectShow decoder (divx_c32.ax) may be\nincompatible with the current operating system. Please, try\nto install version 3.11 or 4.0+.\n\n(This message will appear only once per installation)"

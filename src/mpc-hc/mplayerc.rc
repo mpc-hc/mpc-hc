@@ -770,7 +770,7 @@ BEGIN
     ICON            "",IDC_QTRND_SUBTITLE_SUPPORT,155,78,21,20
     LTEXT           "Screenshot",IDC_STATIC,235,79,50,8
     ICON            "",IDC_QTRND_SAVEIMAGE_SUPPORT,221,78,21,20
-    LTEXT           "* External filters (such as DirectVobSub) can display subtitles on all renderers.",IDC_STATIC,10,224,276,16
+    LTEXT           "* External filters (such as VSFilter) can display subtitles on all renderers.",IDC_STATIC,10,224,276,16
 END
 
 IDD_AUTH_DLG DIALOGEX 0, 0, 213, 127

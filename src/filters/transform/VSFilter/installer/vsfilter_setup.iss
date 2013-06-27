@@ -38,7 +38,7 @@
 #include top_dir + "\include\version.h"
 
 #define copyright_str   "2001-2013"
-#define app_name        "DirectVobSub"
+#define app_name        "VSFilter"
 
 #define app_version     str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
 #define app_vername     = app_name + " " + app_version
@@ -169,7 +169,7 @@ Name: {group}\Uninstall;           Filename: {uninstallexe}
 
 
 [Run]
-Filename: {sys}\rundll32.exe; Parameters: VSFilter.dll,DirectVobSub; Description: Configure DirectVobSub; WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked
+Filename: {sys}\rundll32.exe; Parameters: VSFilter.dll,DirectVobSub; Description: Configure VSFilter; WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked
 
 
 [Code]

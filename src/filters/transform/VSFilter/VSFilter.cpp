@@ -112,8 +112,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 
 /*const*/
 AMOVIESETUP_FILTER sudFilter[] = {
-    {&__uuidof(CDirectVobSubFilter), L"DirectVobSub", MERIT_DO_NOT_USE, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CDirectVobSubFilter2), L"DirectVobSub (auto-loading version)", MERIT_PREFERRED + 2, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CDirectVobSubFilter), L"VSFilter", MERIT_DO_NOT_USE, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CDirectVobSubFilter2), L"VSFilter (auto-loading version)", MERIT_PREFERRED + 2, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {

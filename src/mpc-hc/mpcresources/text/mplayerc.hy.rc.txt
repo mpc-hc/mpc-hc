@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Պատկերը"
 42		"Տողագրերը *"
 44		"Պատկերը"
-46		"* Արտաքին զտիչներ(ինչպես օրինակDirectVobSub) cկարող է ցուցադրել տողագրերը բոլոր ռենդերներում:"
+46		"* Արտաքին զտիչներ(ինչպես օրինակVSFilter) cկարող է ցուցադրել տողագրերը բոլոր ռենդերներում:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

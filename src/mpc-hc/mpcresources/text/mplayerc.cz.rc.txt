@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Uložení obr."
 42		"Titulky *"
 44		"Uložení obr."
-46		"* Externí filtry (např. DirectVobSub) mohou titulky zobrazovat na všech rendererech."
+46		"* Externí filtry (např. VSFilter) mohou titulky zobrazovat na všech rendererech."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

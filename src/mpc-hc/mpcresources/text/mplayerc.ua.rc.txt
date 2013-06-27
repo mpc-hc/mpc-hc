@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Скріншот"
 42		"Субтитри *"
 44		"Скріншот"
-46		"* Зовнішні фільтри (як то DirectVobSub) допускають показ субтитрів для всіх рендерерів."
+46		"* Зовнішні фільтри (як то VSFilter) допускають показ субтитрів для всіх рендерерів."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

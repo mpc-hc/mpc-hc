@@ -6,7 +6,7 @@
     version="2.41.0.0"
     type="win32"
   />
-  <description>DirectVobSub</description>
+  <description>VSFilter</description>
   <dependency>
     <dependentAssembly>
       <assemblyIdentity

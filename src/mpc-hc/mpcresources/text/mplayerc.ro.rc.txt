@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Captură ecran"
 42		"Subtitrări *"
 44		"Captură ecran"
-46		"* Filtrele externe (cum ar fi DirectVobSub) pot afişa subtitrări pe orice randor."
+46		"* Filtrele externe (cum ar fi VSFilter) pot afişa subtitrări pe orice randor."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

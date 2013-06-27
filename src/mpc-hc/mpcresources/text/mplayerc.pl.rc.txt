@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Zapis obrazu"
 42		"Napisy *"
 44		"Zapis obrazu"
-46		"* Zewnętrzne filtry (takie jak DirectVobSub) mogą wyświetlać napisy przy użyciu dowolnego renderera obrazu."
+46		"* Zewnętrzne filtry (takie jak VSFilter) mogą wyświetlać napisy przy użyciu dowolnego renderera obrazu."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48

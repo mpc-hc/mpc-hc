@@ -295,7 +295,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"截图"
 42		"字幕 *"
 44		"截图"
-46		"* 外部滤镜 (例如 DirectVobSub) 可以在所有渲染器下显示字幕。"
+46		"* 外部滤镜 (例如 VSFilter) 可以在所有渲染器下显示字幕。"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
