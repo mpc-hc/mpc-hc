@@ -248,7 +248,7 @@ public:
     // override these
     virtual HRESULT CheckMediaType(const CMediaType* pmt) = 0;
     virtual HRESULT Transform(IMediaSample* pIn, IMediaSample* pOut);
-    virtual CMediaType CreateNewOutputMediaType(const CMediaType& mt, long& cbBuffer);
+    virtual CMediaType CreateNewOutputMediaType(CMediaType mt, long& cbBuffer);
     virtual void OnNewOutputMediaType(const CMediaType& mtIn, const CMediaType& mtOut) {}
 
     // and maybe these

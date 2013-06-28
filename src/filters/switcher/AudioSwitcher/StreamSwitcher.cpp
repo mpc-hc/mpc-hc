@@ -1359,7 +1359,7 @@ HRESULT CStreamSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     return S_OK;
 }
 
-CMediaType CStreamSwitcherFilter::CreateNewOutputMediaType(const CMediaType& mt, long& cbBuffer)
+CMediaType CStreamSwitcherFilter::CreateNewOutputMediaType(CMediaType mt, long& cbBuffer)
 {
     return mt;
 }
