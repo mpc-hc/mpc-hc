@@ -26,172 +26,11 @@
 #include "../filters/Filters.h"
 #include "InternalFiltersConfig.h"
 
-static filter_t s_filters[] = {
-#if INTERNAL_SOURCEFILTER_AVI
-    {_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_CDDA
-    {_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, nullptr},
-#endif
-#if INTERNAL_SOURCEFILTER_CDXA
-    {_T("CDXA (VCD/SVCD/XCD)"), SOURCE_FILTER, SRC_CDXA, 0, nullptr},
-#endif
-#if INTERNAL_SOURCEFILTER_DSM
-    {_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0, nullptr},
-#endif
-#if INTERNAL_SOURCEFILTER_DTSAC3
-    {_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_VTS
-    {_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, nullptr},
-#endif
-#if INTERNAL_SOURCEFILTER_DVSOURCE
-    {_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, nullptr},
-#endif
-#if INTERNAL_SOURCEFILTER_FLIC
-    {_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_FLAC
-    {_T("FLAC"), SOURCE_FILTER, SRC_FLAC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_FLV
-    {_T("FLV"), SOURCE_FILTER, SRC_FLV, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_MATROSKA
-    {_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_MP4
-    {_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_MPEGAUDIO
-    {_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_MPEG
-    {_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_OGG
-    {_T("Ogg"), SOURCE_FILTER, SRC_OGG, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_REALMEDIA
-    {_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages},
-#endif
-#if INTERNAL_SOURCEFILTER_SHOUTCAST
-    {_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, nullptr},
-#endif
-#if INTERNAL_SOURCEFILTER_RFS
-    {_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, nullptr},
-#endif
-
-#if INTERNAL_DECODER_AAC
-    {_T("AAC"), AUDIO_DECODER, TRA_AAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_AC3
-    {_T("AC3/E-AC3/TrueHD/MLP"), AUDIO_DECODER, TRA_AC3, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_DTS
-    {_T("DTS"), AUDIO_DECODER, TRA_DTS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_LPCM
-    {_T("LPCM"), AUDIO_DECODER, TRA_LPCM, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_MPEGAUDIO
-    {_T("MPEG Audio"), AUDIO_DECODER, TRA_MPA, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_VORBIS
-    {_T("Vorbis"), AUDIO_DECODER, TRA_VORBIS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_FLAC
-    {_T("FLAC"), AUDIO_DECODER, TRA_FLAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_NELLYMOSER
-    {_T("Nellymoser"), AUDIO_DECODER, TRA_NELLY, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_ALAC
-    {_T("ALAC"), AUDIO_DECODER, TRA_ALAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_ALS
-    {_T("ALS"), AUDIO_DECODER, TRA_ALS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_AMR
-    {_T("AMR"), AUDIO_DECODER, TRA_AMR, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_REALAUDIO
-    {_T("RealAudio"), AUDIO_DECODER, TRA_RA, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_PS2AUDIO
-    {_T("PS2 Audio (PCM/ADPCM)"), AUDIO_DECODER, TRA_PS2AUD, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_PCM
-    {_T("Other PCM/ADPCM"), AUDIO_DECODER, TRA_PCM, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_MPEG1
-    {_T("MPEG-1 Video"), VIDEO_DECODER, TRA_MPEG1, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_MPEG2
-    {_T("MPEG-2 Video"), VIDEO_DECODER, TRA_MPEG2, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_REALVIDEO
-    {_T("RealVideo"), VIDEO_DECODER, TRA_RV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_H264
-    {_T("H264/AVC"), VIDEO_DECODER, TRA_H264, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_VC1
-    {_T("VC1"), VIDEO_DECODER, TRA_VC1, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_XVID
-    {_T("Xvid/MPEG-4"), VIDEO_DECODER, TRA_XVID, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_DIVX
-    {_T("DivX"), VIDEO_DECODER, TRA_DIVX, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_MSMPEG4
-    {_T("MS MPEG-4"), VIDEO_DECODER, TRA_MSMPEG4, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_FLV
-    {_T("FLV1/4"), VIDEO_DECODER, TRA_FLV4, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_VP356
-    {_T("VP3/5/6"), VIDEO_DECODER, TRA_VP356, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_VP8
-    {_T("VP8"), VIDEO_DECODER, TRA_VP8, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_WMV
-    {_T("WMV1/2/3"), VIDEO_DECODER, TRA_WMV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_SVQ
-    {_T("SVQ1/3"), VIDEO_DECODER, TRA_SVQ3, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_H263
-    {_T("H263"), VIDEO_DECODER, TRA_H263, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_AMVV
-    {_T("AMV video"), VIDEO_DECODER, TRA_AMVV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_THEORA
-    {_T("Theora"), VIDEO_DECODER, TRA_THEORA, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_MJPEG
-    {_T("MJPEG"), VIDEO_DECODER, TRA_MJPEG, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_INDEO
-    {_T("Indeo 3/4/5"), VIDEO_DECODER, TRA_INDEO, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_SCREEN
-    {_T("Screen Capture (TSCC, VMnc)"), VIDEO_DECODER, TRA_SCREEN, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-#if INTERNAL_DECODER_FLIC
-    {_T("FLIC"), VIDEO_DECODER, TRA_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages},
-#endif
-
-    {nullptr, 0, 0, 0, nullptr}
-};
-
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)
-CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n)
+CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n, const CArray<filter_t>& filters)
     : CCheckListBox()
     , m_n(n)
+    , m_filters(filters)
 {
     for (int i = 0; i < FILTER_TYPE_NB; i++) {
         m_nbFiltersPerType[i] = m_nbChecked[i] = 0;
@@ -355,8 +194,8 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
     }
 
     int index = 0;
-    for (int i = 0; i < _countof(s_filters); i++) {
-        switch (s_filters[i].type) {
+    for (int i = 0; i < m_filters.GetCount(); i++) {
+        switch (m_filters[i].type) {
             case SOURCE_FILTER:
                 if (m_n == 1) {
                     continue;
@@ -380,22 +219,22 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
                 SetCheck(index, FALSE);
                 break;
             case ENABLE_AUDIO:
-                if (s_filters[i].type == AUDIO_DECODER) {
+                if (m_filters[i].type == AUDIO_DECODER) {
                     SetCheck(index, TRUE);
                 }
                 break;
             case DISABLE_AUDIO:
-                if (s_filters[i].type == AUDIO_DECODER) {
+                if (m_filters[i].type == AUDIO_DECODER) {
                     SetCheck(index, FALSE);
                 }
                 break;
             case ENABLE_VIDEO:
-                if (s_filters[i].type == VIDEO_DECODER) {
+                if (m_filters[i].type == VIDEO_DECODER) {
                     SetCheck(index, TRUE);
                 }
                 break;
             case DISABLE_VIDEO:
-                if (s_filters[i].type == VIDEO_DECODER) {
+                if (m_filters[i].type == VIDEO_DECODER) {
                     SetCheck(index, FALSE);
                 }
                 break;
@@ -411,8 +250,8 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 IMPLEMENT_DYNAMIC(CPPageInternalFilters, CPPageBase)
 CPPageInternalFilters::CPPageInternalFilters()
     : CPPageBase(CPPageInternalFilters::IDD, CPPageInternalFilters::IDD)
-    , m_listSrc(0)
-    , m_listTra(1)
+    , m_listSrc(0, m_filters)
+    , m_listTra(1, m_filters)
 {
 }
 
@@ -444,19 +283,21 @@ BOOL CPPageInternalFilters::OnInitDialog()
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    for (int i = 0; i < _countof(s_filters) - 1; i++) {
+    InitFiltersList();
+
+    for (int i = 0; i < m_filters.GetCount(); i++) {
         CPPageInternalFiltersListBox* l;
         bool checked;
 
-        switch (s_filters[i].type) {
+        switch (m_filters[i].type) {
             case SOURCE_FILTER:
                 l = &m_listSrc;
-                checked = s.SrcFilters[s_filters[i].flag];
+                checked = s.SrcFilters[m_filters[i].flag];
                 break;
             case AUDIO_DECODER:
             case VIDEO_DECODER:
                 l = &m_listTra;
-                checked = s.TraFilters[s_filters[i].flag];
+                checked = s.TraFilters[m_filters[i].flag];
                 break;
             default:
                 l = nullptr;
@@ -464,7 +305,7 @@ BOOL CPPageInternalFilters::OnInitDialog()
         }
 
         if (l) {
-            l->AddFilter(&s_filters[i], checked);
+            l->AddFilter(&m_filters[i], checked);
         }
     }
 
@@ -475,6 +316,173 @@ BOOL CPPageInternalFilters::OnInitDialog()
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CPPageInternalFilters::InitFiltersList()
+{
+    bool bLAVSplitterIsAvailable = CFGFilterLAV::CheckVersion(CFGFilterLAV::GetFilterPath(CFGFilterLAV::SPLITTER));
+    bool bLAVVideoIsAvailable = CFGFilterLAV::CheckVersion(CFGFilterLAV::GetFilterPath(CFGFilterLAV::VIDEO_DECODER));
+    bool bLAVAudioIsAvailable = CFGFilterLAV::CheckVersion(CFGFilterLAV::GetFilterPath(CFGFilterLAV::AUDIO_DECODER));
+
+    m_filters.RemoveAll();
+
+    if (INTERNAL_SOURCEFILTER_AVI && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_CDDA) {
+        m_filters.Add(filter_t(_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, nullptr));
+    }
+    if (INTERNAL_SOURCEFILTER_CDXA) {
+        m_filters.Add(filter_t(_T("CDXA (VCD/SVCD/XCD)"), SOURCE_FILTER, SRC_CDXA, 0, nullptr));
+    }
+    if (INTERNAL_SOURCEFILTER_DSM) {
+        m_filters.Add(filter_t(_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0, nullptr));
+    }
+    if (INTERNAL_SOURCEFILTER_DTSAC3 && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_VTS) {
+        m_filters.Add(filter_t(_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, nullptr));
+    }
+    if (INTERNAL_SOURCEFILTER_DVSOURCE) {
+        m_filters.Add(filter_t(_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, nullptr));
+    }
+    if (INTERNAL_SOURCEFILTER_FLIC && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_FLAC && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("FLAC"), SOURCE_FILTER, SRC_FLAC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_FLV && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("FLV"), SOURCE_FILTER, SRC_FLV, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_MATROSKA && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_MP4 && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_MPEGAUDIO && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_MPEG && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_OGG && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("Ogg"), SOURCE_FILTER, SRC_OGG, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_REALMEDIA && bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+    if (INTERNAL_SOURCEFILTER_SHOUTCAST) {
+        m_filters.Add(filter_t(_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, nullptr));
+    }
+    if (INTERNAL_SOURCEFILTER_RFS) {
+        m_filters.Add(filter_t(_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, nullptr));
+    }
+
+    if (INTERNAL_DECODER_AAC && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("AAC"), AUDIO_DECODER, TRA_AAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_AC3 && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("AC3/E-AC3/TrueHD/MLP"), AUDIO_DECODER, TRA_AC3, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_DTS && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("DTS"), AUDIO_DECODER, TRA_DTS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_LPCM && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("LPCM"), AUDIO_DECODER, TRA_LPCM, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_MPEGAUDIO && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("MPEG Audio"), AUDIO_DECODER, TRA_MPA, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_VORBIS && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("Vorbis"), AUDIO_DECODER, TRA_VORBIS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_FLAC && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("FLAC"), AUDIO_DECODER, TRA_FLAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_NELLYMOSER && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("Nellymoser"), AUDIO_DECODER, TRA_NELLY, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_ALAC && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("ALAC"), AUDIO_DECODER, TRA_ALAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_ALS && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("ALS"), AUDIO_DECODER, TRA_ALS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_AMR && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("AMR"), AUDIO_DECODER, TRA_AMR, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_REALAUDIO && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("RealAudio"), AUDIO_DECODER, TRA_RA, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_PS2AUDIO && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("PS2 Audio (PCM/ADPCM)"), AUDIO_DECODER, TRA_PS2AUD, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_PCM && bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("Other PCM/ADPCM"), AUDIO_DECODER, TRA_PCM, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_MPEG1 && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("MPEG-1 Video"), VIDEO_DECODER, TRA_MPEG1, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_MPEG2 && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("MPEG-2 Video"), VIDEO_DECODER, TRA_MPEG2, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_REALVIDEO && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("RealVideo"), VIDEO_DECODER, TRA_RV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_H264 && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("H264/AVC"), VIDEO_DECODER, TRA_H264, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_VC1 && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("VC1"), VIDEO_DECODER, TRA_VC1, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_XVID && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("Xvid/MPEG-4"), VIDEO_DECODER, TRA_XVID, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_DIVX && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("DivX"), VIDEO_DECODER, TRA_DIVX, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_MSMPEG4 && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("MS MPEG-4"), VIDEO_DECODER, TRA_MSMPEG4, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_FLV && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("FLV1/4"), VIDEO_DECODER, TRA_FLV4, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_VP356 && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("VP3/5/6"), VIDEO_DECODER, TRA_VP356, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_VP8 && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("VP8"), VIDEO_DECODER, TRA_VP8, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_WMV && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("WMV1/2/3"), VIDEO_DECODER, TRA_WMV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_SVQ && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("SVQ1/3"), VIDEO_DECODER, TRA_SVQ3, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_H263 && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("H263"), VIDEO_DECODER, TRA_H263, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_AMVV && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("AMV video"), VIDEO_DECODER, TRA_AMVV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_THEORA && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("Theora"), VIDEO_DECODER, TRA_THEORA, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_MJPEG && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("MJPEG"), VIDEO_DECODER, TRA_MJPEG, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_INDEO && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("Indeo 3/4/5"), VIDEO_DECODER, TRA_INDEO, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_SCREEN && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("Screen Capture (TSCC, VMnc)"), VIDEO_DECODER, TRA_SCREEN, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
+    if (INTERNAL_DECODER_FLIC && bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("FLIC"), VIDEO_DECODER, TRA_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
+    }
 }
 
 BOOL CPPageInternalFilters::OnApply()
