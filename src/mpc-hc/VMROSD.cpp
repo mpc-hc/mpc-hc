@@ -235,8 +235,9 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
     if (llMax == llMin) {
         m_rectCursor.left = m_rectBar.left;
     } else {
-        m_rectCursor.left = m_rectBar.left + (long)((m_rectBar.Width() - SLIDER_CURSOR_WIDTH) * llPos / (llMax - llMin));
+        m_rectCursor.left = m_rectBar.left + (long)(m_rectBar.Width() * llPos / (llMax - llMin));
     }
+    m_rectCursor.left  -= SLIDER_CURSOR_WIDTH / 2;
     m_rectCursor.right  = m_rectCursor.left + SLIDER_CURSOR_WIDTH;
     m_rectCursor.top    = rect->top + (rect->Height() - SLIDER_CURSOR_HEIGHT) / 2;
     m_rectCursor.bottom = m_rectCursor.top + SLIDER_CURSOR_HEIGHT;
@@ -248,13 +249,13 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
         REFERENCE_TIME rt;
         for (DWORD i = 0; i < m_pCB->ChapGetCount(); ++i) {
             if (SUCCEEDED(m_pCB->ChapGet(i, &rt, nullptr))) {
-                __int64 pos = (m_rectBar.Width() - SLIDER_CHAP_WIDTH) * rt / (llMax - llMin);
+                __int64 pos = m_rectBar.Width() * rt / (llMax - llMin);
                 if (pos < 0) {
                     continue;
                 }
 
                 CRect r;
-                r.left = m_rectBar.left + (LONG)pos;
+                r.left = m_rectBar.left + (LONG)pos - SLIDER_CHAP_WIDTH / 2;
                 r.top = rect->top + (rect->Height() - SLIDER_CHAP_HEIGHT) / 2;
                 r.right = r.left + SLIDER_CHAP_WIDTH;
                 r.bottom = r.top + SLIDER_CHAP_HEIGHT;
