@@ -10918,6 +10918,7 @@ void CMainFrame::SetupChapters()
 
     if (AfxGetAppSettings().fShowChapters) {
         m_wndSeekBar.SetChapterBag(m_pCB);
+        m_OSD.SetChapterBag(m_pCB);
     }
 }
 
@@ -10956,6 +10957,7 @@ void CMainFrame::SetupDVDChapters()
 
     if (AfxGetAppSettings().fShowChapters) {
         m_wndSeekBar.SetChapterBag(m_pCB);
+        m_OSD.SetChapterBag(m_pCB);
     }
 }
 
