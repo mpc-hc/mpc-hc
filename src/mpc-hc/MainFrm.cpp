@@ -1719,7 +1719,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     if (!m_fEndOfStream) {
                         CAppSettings& s = AfxGetAppSettings();
 
-                        if (s.fKeepHistory && s.fRememberFilePos) {
+                        if (m_bRememberFilePos) {
                             FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
 
                             if (filePosition) {
@@ -2209,7 +2209,7 @@ bool CMainFrame::GraphEventComplete()
 {
     CAppSettings& s = AfxGetAppSettings();
 
-    if (s.fKeepHistory && s.fRememberFilePos) {
+    if (m_bRememberFilePos) {
         FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
 
         if (filePosition) {
@@ -10626,10 +10626,18 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
         HRESULT hr = m_pGB->RenderFile(CStringW(fn), nullptr);
 
-        if (bMainFile && s.fKeepHistory && s.fRememberFilePos && !s.filePositions.AddEntry(fn)) {
-            REFERENCE_TIME rtPos = s.filePositions.GetLatestEntry()->llPosition;
-            if (m_pMS) {
-                m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+        if (bMainFile) {
+            // Don't try to save file position if source isn't seekable
+            REFERENCE_TIME rtDur = 0;
+            m_pMS->GetDuration(&rtDur);
+
+            m_bRememberFilePos = s.fKeepHistory && s.fRememberFilePos && rtDur > 0;
+
+            if (m_bRememberFilePos && !s.filePositions.AddEntry(fn)) {
+                REFERENCE_TIME rtPos = s.filePositions.GetLatestEntry()->llPosition;
+                if (m_pMS) {
+                    m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+                }
             }
         }
         QueryPerformanceCounter(&m_liLastSaveTime);
