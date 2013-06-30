@@ -10743,7 +10743,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         EndEnumFilters;
     }
 
-    if (FindFilter(__uuidof(CShoutcastSource), m_pGB)) {
+    if (FindFilter(CLSID_MPCShoutcastSource, m_pGB)) {
         m_fUpdateInfoBar = true;
     }
 
