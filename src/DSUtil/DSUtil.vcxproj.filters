@@ -103,9 +103,6 @@
     <ClInclude Include="SharedInclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="simd_common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
