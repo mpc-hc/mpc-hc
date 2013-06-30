@@ -1367,15 +1367,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
-#if INTERNAL_SOURCEFILTER_UDP
-    // if (src[SRC_UDP])
-    {
-        pFGF = DEBUG_NEW CFGFilterInternal<CUDPReader>();
-        pFGF->m_protocols.AddTail(_T("udp"));
-        m_source.AddTail(pFGF);
-    }
-#endif
-
 #if INTERNAL_SOURCEFILTER_CDDA
     if (src[SRC_CDDA]) {
         pFGF = DEBUG_NEW CFGFilterInternal<CCDDAReader>();
@@ -1542,6 +1533,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (src[SRC_RTSP]) {
         pFGLAVSplitterSource->m_protocols.AddTail(_T("rtsp"));
         pFGLAVSplitterSource->AddFormat("rtsp");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_UDP
+    if (src[SRC_UDP]) {
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("udp"));
+        pFGLAVSplitterSource->AddFormat("udp");
     }
 #endif
 
