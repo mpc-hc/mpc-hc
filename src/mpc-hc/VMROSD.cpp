@@ -425,6 +425,9 @@ __int64 CVMROSD::GetPos() const
 void CVMROSD::SetPos(__int64 pos)
 {
     m_llSeekPos = pos;
+    if (m_bSeekBarVisible) {
+        Invalidate();
+    }
 }
 
 void CVMROSD::SetRange(__int64 start,  __int64 stop)
