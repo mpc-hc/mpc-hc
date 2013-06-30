@@ -1543,6 +1543,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_RTP
+    if (src[SRC_RTP]) {
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtp"));
+        pFGLAVSplitterSource->AddFormat("rtp");
+    }
+#endif
+
     // Add LAV Source Filter if needed
     if (!pFGLAVSplitterSource->m_extensions.IsEmpty()
             || !pFGLAVSplitterSource->m_chkbytes.IsEmpty()
