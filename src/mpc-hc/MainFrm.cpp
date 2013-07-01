@@ -653,6 +653,7 @@ CMainFrame::CMainFrame()
     , m_nLockedZoomVideoWindow(0)
     , m_LastOpenBDPath(_T(""))
     , m_fStartInD3DFullscreen(false)
+    , m_bRememberFilePos(false)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -7859,7 +7860,7 @@ void CMainFrame::OnPlayFilters(UINT nID)
     // Find out if we are opening the property page for an internal filter
     CComQIPtr<IBaseFilter> pBF = pUnk;
     bool bIsInternalFilter = false;
-    CFGFilterLAV::LAVFILTER_TYPE LAVFilterType;
+    CFGFilterLAV::LAVFILTER_TYPE LAVFilterType = CFGFilterLAV::INVALID;
     if (pBF) {
         bIsInternalFilter = CFGFilterLAV::IsInternalInstance(pBF, &LAVFilterType);
     }
