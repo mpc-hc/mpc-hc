@@ -238,6 +238,9 @@ IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "INFO" "mpc-hc%SLN_SUFFIX%.sln %BUILDCFG% %1 compiled successfully"
 )
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpc-hc*.exe
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.dll LAVFilters
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.ax LAVFilters
+
 EXIT /B
 
 
