@@ -326,163 +326,253 @@ void CPPageInternalFilters::InitFiltersList()
 
     m_filters.RemoveAll();
 
-    if (INTERNAL_SOURCEFILTER_AVI && bLAVSplitterIsAvailable) {
+#if INTERNAL_SOURCEFILTER_AVI
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_CDDA) {
-        m_filters.Add(filter_t(_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, nullptr));
-    }
-    if (INTERNAL_SOURCEFILTER_CDXA) {
-        m_filters.Add(filter_t(_T("CDXA (VCD/SVCD/XCD)"), SOURCE_FILTER, SRC_CDXA, 0, nullptr));
-    }
-    if (INTERNAL_SOURCEFILTER_DSM) {
-        m_filters.Add(filter_t(_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0, nullptr));
-    }
-    if (INTERNAL_SOURCEFILTER_DTSAC3 && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_CDDA
+    m_filters.Add(filter_t(_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, nullptr));
+#endif
+#if INTERNAL_SOURCEFILTER_CDXA
+    m_filters.Add(filter_t(_T("CDXA (VCD/SVCD/XCD)"), SOURCE_FILTER, SRC_CDXA, 0, nullptr));
+#endif
+#if INTERNAL_SOURCEFILTER_DSM
+    m_filters.Add(filter_t(_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0, nullptr));
+#endif
+#if INTERNAL_SOURCEFILTER_DTSAC3
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_VTS) {
-        m_filters.Add(filter_t(_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, nullptr));
-    }
-    if (INTERNAL_SOURCEFILTER_DVSOURCE) {
-        m_filters.Add(filter_t(_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, nullptr));
-    }
-    if (INTERNAL_SOURCEFILTER_FLIC && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_VTS
+    m_filters.Add(filter_t(_T("DVD Video Title Set"), SOURCE_FILTER, SRC_VTS, IDS_SRC_VTS, nullptr));
+#endif
+#if INTERNAL_SOURCEFILTER_DVSOURCE
+    m_filters.Add(filter_t(_T("DVD2AVI Project File"), SOURCE_FILTER, SRC_D2V, 0, nullptr));
+#endif
+#if INTERNAL_SOURCEFILTER_FLIC
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("FLI/FLC"), SOURCE_FILTER, SRC_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_FLAC && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_FLAC
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("FLAC"), SOURCE_FILTER, SRC_FLAC, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_FLV && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_FLV
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("FLV"), SOURCE_FILTER, SRC_FLV, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_MATROSKA && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_MATROSKA
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_MP4 && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_MP4
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("MP4/MOV"), SOURCE_FILTER, SRC_MP4, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_MPEGAUDIO && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_MPEGAUDIO
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_MPEG && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_MPEG
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_OGG && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_OGG
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("Ogg"), SOURCE_FILTER, SRC_OGG, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_REALMEDIA && bLAVSplitterIsAvailable) {
+#endif
+#if INTERNAL_SOURCEFILTER_REALMEDIA
+    if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("RealMedia"), SOURCE_FILTER, SRC_REALMEDIA, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
-    if (INTERNAL_SOURCEFILTER_SHOUTCAST) {
-        m_filters.Add(filter_t(_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, nullptr));
-    }
-    if (INTERNAL_SOURCEFILTER_RFS) {
-        m_filters.Add(filter_t(_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, nullptr));
-    }
+#endif
+#if INTERNAL_SOURCEFILTER_SHOUTCAST
+    m_filters.Add(filter_t(_T("SHOUTcast"), SOURCE_FILTER, SRC_SHOUTCAST, 0, nullptr));
+#endif
+#if INTERNAL_SOURCEFILTER_RFS
+    m_filters.Add(filter_t(_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, nullptr));
+#endif
 
-    if (INTERNAL_DECODER_AAC && bLAVAudioIsAvailable) {
+#if INTERNAL_DECODER_AAC
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("AAC"), AUDIO_DECODER, TRA_AAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_AC3 && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_AC3
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("AC3/E-AC3/TrueHD/MLP"), AUDIO_DECODER, TRA_AC3, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_DTS && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_DTS
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("DTS"), AUDIO_DECODER, TRA_DTS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_LPCM && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_LPCM
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("LPCM"), AUDIO_DECODER, TRA_LPCM, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_MPEGAUDIO && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_MPEGAUDIO
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("MPEG Audio"), AUDIO_DECODER, TRA_MPA, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_VORBIS && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_VORBIS
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("Vorbis"), AUDIO_DECODER, TRA_VORBIS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_FLAC && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_FLAC
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("FLAC"), AUDIO_DECODER, TRA_FLAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_NELLYMOSER && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_NELLYMOSER
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("Nellymoser"), AUDIO_DECODER, TRA_NELLY, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_ALAC && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_ALAC
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("ALAC"), AUDIO_DECODER, TRA_ALAC, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_ALS && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_ALS
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("ALS"), AUDIO_DECODER, TRA_ALS, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_AMR && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_AMR
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("AMR"), AUDIO_DECODER, TRA_AMR, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_REALAUDIO && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_REALAUDIO
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("RealAudio"), AUDIO_DECODER, TRA_RA, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_PS2AUDIO && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_PS2AUDIO
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("PS2 Audio (PCM/ADPCM)"), AUDIO_DECODER, TRA_PS2AUD, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_PCM && bLAVAudioIsAvailable) {
+#endif
+#if INTERNAL_DECODER_PCM
+    if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("Other PCM/ADPCM"), AUDIO_DECODER, TRA_PCM, IDS_INTERNAL_LAVF, CFGFilterLAVAudio::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_MPEG1 && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_MPEG1
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("MPEG-1 Video"), VIDEO_DECODER, TRA_MPEG1, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_MPEG2 && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_MPEG2
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("MPEG-2 Video"), VIDEO_DECODER, TRA_MPEG2, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_REALVIDEO && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_REALVIDEO
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("RealVideo"), VIDEO_DECODER, TRA_RV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_H264 && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_H264
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("H264/AVC"), VIDEO_DECODER, TRA_H264, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_VC1 && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_VC1
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("VC1"), VIDEO_DECODER, TRA_VC1, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_XVID && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_XVID
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("Xvid/MPEG-4"), VIDEO_DECODER, TRA_XVID, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_DIVX && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_DIVX
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("DivX"), VIDEO_DECODER, TRA_DIVX, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_MSMPEG4 && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_MSMPEG4
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("MS MPEG-4"), VIDEO_DECODER, TRA_MSMPEG4, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_FLV && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_FLV
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("FLV1/4"), VIDEO_DECODER, TRA_FLV4, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_VP356 && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_VP356
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("VP3/5/6"), VIDEO_DECODER, TRA_VP356, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_VP8 && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_VP8
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("VP8"), VIDEO_DECODER, TRA_VP8, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_WMV && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_WMV
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("WMV1/2/3"), VIDEO_DECODER, TRA_WMV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_SVQ && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_SVQ
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("SVQ1/3"), VIDEO_DECODER, TRA_SVQ3, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_H263 && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_H263
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("H263"), VIDEO_DECODER, TRA_H263, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_AMVV && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_AMVV
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("AMV video"), VIDEO_DECODER, TRA_AMVV, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_THEORA && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_THEORA
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("Theora"), VIDEO_DECODER, TRA_THEORA, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_MJPEG && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_MJPEG
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("MJPEG"), VIDEO_DECODER, TRA_MJPEG, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_INDEO && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_INDEO
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("Indeo 3/4/5"), VIDEO_DECODER, TRA_INDEO, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_SCREEN && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_SCREEN
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("Screen Capture (TSCC, VMnc)"), VIDEO_DECODER, TRA_SCREEN, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
-    if (INTERNAL_DECODER_FLIC && bLAVVideoIsAvailable) {
+#endif
+#if INTERNAL_DECODER_FLIC
+    if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("FLIC"), VIDEO_DECODER, TRA_FLIC, IDS_INTERNAL_LAVF, CFGFilterLAVVideo::ShowPropertyPages));
     }
+#endif
 }
 
 BOOL CPPageInternalFilters::OnApply()

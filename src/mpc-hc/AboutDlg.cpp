@@ -49,7 +49,9 @@ BOOL CAboutDlg::OnInitDialog()
     // Get the default text before it is overwritten by the call to __super::OnInitDialog()
     GetDlgItem(IDC_STATIC1)->GetWindowText(m_appname);
     GetDlgItem(IDC_AUTHORS_LINK)->GetWindowText(m_credits);
+#ifndef MPCHC_LITE
     GetDlgItem(IDC_LAVFILTERS_VERSION)->GetWindowText(m_LAVFiltersVersion);
+#endif
 
     __super::OnInitDialog();
 
@@ -142,7 +144,7 @@ BOOL CAboutDlg::OnInitDialog()
     m_MPCCompiler += _T(" Debug");
 #endif
 
-#if !defined(MPCHC_LITE)
+#ifndef MPCHC_LITE
     CString LAVFiltersVersion = CFGFilterLAV::GetVersion();
     if (!LAVFiltersVersion.IsEmpty()) {
         m_LAVFiltersVersion = LAVFiltersVersion;
