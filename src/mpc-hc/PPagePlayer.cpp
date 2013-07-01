@@ -32,7 +32,6 @@ IMPLEMENT_DYNAMIC(CPPagePlayer, CPPageBase)
 CPPagePlayer::CPPagePlayer()
     : CPPageBase(CPPagePlayer::IDD, CPPagePlayer::IDD)
     , m_iAllowMultipleInst(0)
-    , m_iAlwaysOnTop(FALSE)
     , m_fTrayIcon(FALSE)
     , m_iTitleBarTextStyle(0)
     , m_bTitleBarTextTitle(0)
@@ -64,7 +63,6 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
     DDX_Radio(pDX, IDC_RADIO1, m_iAllowMultipleInst);
     DDX_Radio(pDX, IDC_RADIO3, m_iTitleBarTextStyle);
     DDX_Check(pDX, IDC_CHECK13, m_bTitleBarTextTitle);
-    //DDX_Check(pDX, IDC_CHECK2, m_iAlwaysOnTop);
     DDX_Check(pDX, IDC_CHECK3, m_fTrayIcon);
     DDX_Check(pDX, IDC_CHECK6, m_fRememberWindowPos);
     DDX_Check(pDX, IDC_CHECK7, m_fRememberWindowSize);
@@ -101,7 +99,6 @@ BOOL CPPagePlayer::OnInitDialog()
     m_iAllowMultipleInst = s.fAllowMultipleInst;
     m_iTitleBarTextStyle = s.iTitleBarTextStyle;
     m_bTitleBarTextTitle = s.fTitleBarTextTitle;
-    m_iAlwaysOnTop = s.iOnTop;
     m_fTrayIcon = s.fTrayIcon;
     m_fRememberWindowPos = s.fRememberWindowPos;
     m_fRememberWindowSize = s.fRememberWindowSize;
@@ -135,7 +132,6 @@ BOOL CPPagePlayer::OnApply()
     s.fAllowMultipleInst = !!m_iAllowMultipleInst;
     s.iTitleBarTextStyle = m_iTitleBarTextStyle;
     s.fTitleBarTextTitle = !!m_bTitleBarTextTitle;
-    s.iOnTop = m_iAlwaysOnTop;
     s.fTrayIcon = !!m_fTrayIcon;
     s.fRememberWindowPos = !!m_fRememberWindowPos;
     s.fRememberWindowSize = !!m_fRememberWindowSize;
@@ -186,7 +182,9 @@ BOOL CPPagePlayer::OnApply()
         AfxGetMyApp()->ChangeSettingsLocation(!!m_fUseIni);
     }
 
-    ((CMainFrame*)AfxGetMainWnd())->ShowTrayIcon(s.fTrayIcon);
+    AfxGetMainFrame()->ShowTrayIcon(s.fTrayIcon);
+    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_LOGO);
+    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_WINDOW_TITLE);
 
     ::SetPriorityClass(::GetCurrentProcess(), s.dwPriority);
 

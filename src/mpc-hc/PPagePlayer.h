@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,7 +37,6 @@ public:
     int m_iAllowMultipleInst;
     int m_iTitleBarTextStyle;
     BOOL m_bTitleBarTextTitle;
-    BOOL m_iAlwaysOnTop;
     BOOL m_fRememberWindowPos;
     BOOL m_fRememberWindowSize;
     BOOL m_fSavePnSZoom;

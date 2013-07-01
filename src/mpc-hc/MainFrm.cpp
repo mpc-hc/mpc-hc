@@ -185,6 +185,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_MESSAGE(WM_REARRANGERENDERLESS, OnRepaintRenderLess)
     ON_MESSAGE(WM_RESUMEFROMSTATE, OnResumeFromState)
 
+    ON_MESSAGE_VOID(WM_SAVESETTINGS, SaveAppSettings)
+
     ON_WM_LBUTTONDOWN()
     ON_WM_LBUTTONUP()
     ON_WM_LBUTTONDBLCLK()
@@ -831,10 +833,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     WTSRegisterSessionNotification();
 
-    if (s.bNotifySkype) {
-        m_pSkypeMoodMsgHandler.Attach(DEBUG_NEW SkypeMoodMsgHandler());
-        m_pSkypeMoodMsgHandler->Connect(m_hWnd);
-    }
+    UpdateSkypeHandler();
 
     return 0;
 }
@@ -2750,6 +2749,14 @@ LRESULT CMainFrame::OnResumeFromState(WPARAM wParam, LPARAM lParam)
     }
 
     return TRUE;
+}
+
+void CMainFrame::SaveAppSettings()
+{
+    MSG msg;
+    if (!PeekMessage(&msg, m_hWnd, WM_SAVESETTINGS, WM_SAVESETTINGS, PM_NOREMOVE | PM_NOYIELD)) {
+        AfxGetAppSettings().SaveSettings();
+    }
 }
 
 BOOL CMainFrame::OnButton(UINT id, UINT nFlags, CPoint point)
@@ -10915,10 +10922,7 @@ void CMainFrame::SetupChapters()
 
     m_pCB->ChapSort();
 
-    if (AfxGetAppSettings().fShowChapters) {
-        m_wndSeekBar.SetChapterBag(m_pCB);
-        m_OSD.SetChapterBag(m_pCB);
-    }
+    UpdateSeekbarChapterBag();
 }
 
 void CMainFrame::SetupDVDChapters()
@@ -10954,10 +10958,7 @@ void CMainFrame::SetupDVDChapters()
 
     m_pCB->ChapSort();
 
-    if (AfxGetAppSettings().fShowChapters) {
-        m_wndSeekBar.SetChapterBag(m_pCB);
-        m_OSD.SetChapterBag(m_pCB);
-    }
+    UpdateSeekbarChapterBag();
 }
 
 void CMainFrame::OpenDVD(OpenDVDData* pODD)
@@ -14543,36 +14544,17 @@ bool CMainFrame::StopCapture()
 
 //
 
-void CMainFrame::ShowOptions(int idPage)
+void CMainFrame::ShowOptions(int idPage/* = 0*/)
 {
     // Disable the options dialog when using D3D fullscreen
     if (IsD3DFullScreenMode()) {
         return;
     }
 
-    CAppSettings& s = AfxGetAppSettings();
-
     CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), m_pGB, GetModalParent(), idPage);
     m_bInOptions = true;
-
-    if (options.DoModal() == IDOK) {
-        m_bInOptions = false;
-        if (!m_fFullScreen) {
-            SetAlwaysOnTop(s.iOnTop);
-        }
-
-        m_wndToolBar.m_volctrl.SetPageSize(s.nVolumeStep);
-        m_wndView.LoadLogo();
-        s.SaveSettings();
-
-        if (s.bNotifySkype && !m_pSkypeMoodMsgHandler) {
-            m_pSkypeMoodMsgHandler.Attach(DEBUG_NEW SkypeMoodMsgHandler());
-            m_pSkypeMoodMsgHandler->Connect(m_hWnd);
-        } else if (!s.bNotifySkype && m_pSkypeMoodMsgHandler) {
-            m_pSkypeMoodMsgHandler.Free();
-        }
-    }
-    Invalidate();
+    INT_PTR iRes = options.DoModal();
+    ASSERT(iRes > 0 && iRes != IDABORT);
     m_bInOptions = false;
 }
 
@@ -16215,6 +16197,29 @@ void CMainFrame::WTSUnRegisterSessionNotification()
     }
 }
 
+void CMainFrame::UpdateSkypeHandler()
+{
+    const auto& s = AfxGetAppSettings();
+    if (s.bNotifySkype && !m_pSkypeMoodMsgHandler) {
+        m_pSkypeMoodMsgHandler.Attach(DEBUG_NEW SkypeMoodMsgHandler());
+        m_pSkypeMoodMsgHandler->Connect(m_hWnd);
+    } else if (!s.bNotifySkype && m_pSkypeMoodMsgHandler) {
+        m_pSkypeMoodMsgHandler.Free();
+    }
+}
+
+void CMainFrame::UpdateSeekbarChapterBag()
+{
+    const auto& s = AfxGetAppSettings();
+    if (s.fShowChapters && m_pCB) {
+        m_wndSeekBar.SetChapterBag(m_pCB);
+        m_OSD.SetChapterBag(m_pCB);
+    } else {
+        m_wndSeekBar.RemoveChapters();
+        m_OSD.RemoveChapters();
+    }
+}
+
 void CMainFrame::EnableShaders1(bool enable)
 {
     if (enable && !m_shaderlabels.IsEmpty()) {
@@ -16238,6 +16243,30 @@ void CMainFrame::EnableShaders2(bool enable)
         if (m_pCAP2) {
             m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
         }
+    }
+}
+
+void CMainFrame::UpdateControlState(UpdateControlTarget target)
+{
+    const auto& s = AfxGetAppSettings();
+    switch (target) {
+        case UPDATE_VOLUME_STEP:
+            m_wndToolBar.m_volctrl.SetPageSize(s.nVolumeStep);
+            break;
+        case UPDATE_LOGO:
+            m_wndView.LoadLogo();
+            break;
+        case UPDATE_SKYPE:
+            UpdateSkypeHandler();
+            break;
+        case UPDATE_SEEKBAR_CHAPTERS:
+            UpdateSeekbarChapterBag();
+            break;
+        case UPDATE_WINDOW_TITLE:
+            OpenSetupWindowTitle(m_wndPlaylistBar.GetCurFileName());
+            break;
+        default:
+            ASSERT(FALSE);
     }
 }
 

@@ -181,6 +181,9 @@ BOOL CPPageTweaks::OnApply()
     }
     pFrame->UpdateThumbarButton();
 
+    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_SKYPE);
+    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_SEEKBAR_CHAPTERS);
+
     return __super::OnApply();
 }
 

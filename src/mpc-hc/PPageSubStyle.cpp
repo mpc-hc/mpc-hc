@@ -67,6 +67,7 @@ void CPPageSubStyle::AskColor(int i)
     if (dlg.DoModal() == IDOK) {
         m_stss.colors[i] = dlg.m_cc.rgbResult;
         m_color[i].Invalidate();
+        SetModified();
     }
 }
 

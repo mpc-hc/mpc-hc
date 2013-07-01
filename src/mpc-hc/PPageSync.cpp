@@ -116,6 +116,7 @@ BOOL CPPageSync::OnApply()
     ars.fCycleDelta = m_fCycleDelta;
     ars.fTargetSyncOffset = m_fTargetSyncOffset;
     ars.fControlLimit = m_fControlLimit;
+
     return __super::OnApply();
 }
 

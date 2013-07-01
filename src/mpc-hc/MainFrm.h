@@ -584,6 +584,8 @@ public:
     afx_msg LRESULT OnRepaintRenderLess(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnResumeFromState(WPARAM wParam, LPARAM lParam);
 
+    afx_msg void SaveAppSettings();
+
     BOOL OnButton(UINT id, UINT nFlags, CPoint point);
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
@@ -952,12 +954,25 @@ protected:
 
     DWORD m_nMenuHideTick;
     UINT m_nSeekDirection;
+
+    void UpdateSkypeHandler();
+    void UpdateSeekbarChapterBag();
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
     afx_msg void OnSessionChange(UINT nSessionState, UINT nId);
 
     void EnableShaders1(bool enable);
     void EnableShaders2(bool enable);
+
+    enum UpdateControlTarget {
+        UPDATE_VOLUME_STEP,
+        UPDATE_LOGO,
+        UPDATE_SKYPE,
+        UPDATE_SEEKBAR_CHAPTERS,
+        UPDATE_WINDOW_TITLE,
+    };
+
+    void UpdateControlState(UpdateControlTarget target);
 
     CAtlList<CHdmvClipInfo::PlaylistItem> m_MPLSPlaylist;
     bool m_bIsBDPlay;

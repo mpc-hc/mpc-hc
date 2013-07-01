@@ -176,6 +176,8 @@ BOOL CPPagePlayback::OnApply()
     s.strSubtitlesLanguageOrder = m_subtitlesLanguageOrder;
     s.strAudiosLanguageOrder = m_audiosLanguageOrder;
 
+    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_VOLUME_STEP);
+
     return __super::OnApply();
 }
 
