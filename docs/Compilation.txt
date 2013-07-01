@@ -47,7 +47,7 @@ Part C: Downloading and compiling the MPC-HC source
 
       or
 
-      git clone  https://github.com/mpc-hc/mpc-hc.git
+      git clone https://github.com/mpc-hc/mpc-hc.git
       git submodule update --init --recursive
 2. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
