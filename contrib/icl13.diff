@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index 4f98b01..7df3048 100644
+index b2e6d92..8ec8e55 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -368,7 +368,7 @@ IF /I "%~2" == "Win32" (
@@ -12,7 +12,7 @@ index 4f98b01..7df3048 100644
  IF /I "%COMPILER%" == "VS2012" (SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%")
  
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index aa1cc36..620ee16 100644
+index 9dd186b..1ef692d 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -41,7 +41,7 @@
@@ -44,7 +44,7 @@ index aa1cc36..620ee16 100644
    #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
  #endif
 diff --git a/docs/Readme.txt b/docs/Readme.txt
-index 8e4ed5e..5c47921 100644
+index 830cc7f..2f63bde 100644
 --- a/docs/Readme.txt
 +++ b/docs/Readme.txt
 @@ -27,7 +27,7 @@ Main Features:
@@ -153,16 +153,3 @@ index 7da55ea..c4127a7 100644
      <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0' And '$(ANALYZE)'=='true'">v110</PlatformToolset>
    </PropertyGroup>
  </Project>
-diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index b684c3d..abe7607 100644
---- a/src/thirdparty/ffmpeg/Makefile
-+++ b/src/thirdparty/ffmpeg/Makefile
-@@ -58,7 +58,7 @@ ifeq ($(64BIT),yes)
- else
-     TARGET_OS  = i686-w64-mingw32
-     CFLAGS    += -DWIN32 -D_WIN32 -DARCH_X86_32
--    OPTFLAGS  += -m32 -march=i686 -mmmx -msse -mfpmath=sse
-+    OPTFLAGS  += -m32 -march=i686 -mmmx -msse -msse2 -mfpmath=sse
-     YASMFLAGS += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
- endif
- 
