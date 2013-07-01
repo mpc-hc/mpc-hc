@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,31 +21,24 @@
 
 #pragma once
 
+#include "MouseTouch.h"
+
 class CMainFrame;
 
-class CFullscreenWnd : public CWnd
+class CFullscreenWnd : public CMouseWnd
 {
     DECLARE_DYNAMIC(CFullscreenWnd)
 
 public:
     CFullscreenWnd(CMainFrame* pMainFrame);
     virtual ~CFullscreenWnd();
-
-    void ShowCursor(bool bVisible);
     bool IsWindow();
 
 protected:
-    DECLARE_MESSAGE_MAP()
-
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual BOOL PreTranslateMessage(MSG* pMsg);
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
+    DECLARE_MESSAGE_MAP()
 
-    CMainFrame* m_pMainFrame;
-    HCURSOR     m_hCursor;
-    bool        m_bCursorVisible;
-public:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 };

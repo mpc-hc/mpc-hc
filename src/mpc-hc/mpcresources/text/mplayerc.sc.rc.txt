@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"音频 CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"在全屏幕中启动文件"
-6		"在指定时间后在全屏模式中显示控制栏"
-9		"秒"
-10		"0: 自动隐藏; -1: 不自动隐藏"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"在回放结束后退出全屏幕"
 13		"全屏幕显示器"
 16		"使用自动切换全屏监视器模式"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"打开文件位置"
 STRING IDS_PLAYLIST_SHUFFLE		"拖曳"
 STRING IDS_PLAYLIST_SORTBYLABEL		"按标签排序(&L)"
 STRING IDS_PLAYLIST_SORTBYPATH		"按路径排序(&P)"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"选择目录"
 STRING IDS_PPAGE_CAPTURE_FG0		"从不 (最快的方式)"
 STRING IDS_PPAGE_CAPTURE_FG1		"仅在切换至不同的视频类型时 (默认)"

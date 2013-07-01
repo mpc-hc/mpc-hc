@@ -35,6 +35,11 @@ class CPPageFullscreen : public CPPageBase
     CAtlArray<CString> sl;
     CStringArray m_MonitorDisplayNames;
 
+    BOOL m_bHideFullscreenControls;
+    CComboBox m_hidePolicy;
+    unsigned m_uHideFullscreenControlsDelay;
+    BOOL m_bHideFullscreenDockedPanels;
+
 public:
     CPPageFullscreen();
     virtual ~CPPageFullscreen();
@@ -56,10 +61,7 @@ public:
     int m_iMonitorType;
     CComboBox m_iMonitorTypeCtrl;
 
-    BOOL m_iShowBarsWhenFullScreen;
-    int m_nShowBarsWhenFullScreenTimeOut;
     BOOL m_fExitFullScreenAtTheEnd;
-    CSpinButtonCtrl m_nTimeOutCtrl;
     BOOL m_fRestoreResAfterExit;
 
     int m_iSel;
@@ -75,6 +77,10 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
+    void OnUpdateHideDelay(CCmdUI* pCmdUI);
+    void OnHideControlsPolicyChange();
+    void OnUpdateHideControls(CCmdUI* pCmdUI);
+
 public:
     afx_msg void OnUpdateList(CCmdUI* pCmdUI);
     afx_msg void OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult);
@@ -86,7 +92,6 @@ public:
     afx_msg void OnCheckChangeList();
     afx_msg void OnUpdateApplyDefault(CCmdUI* pCmdUI);
     afx_msg void OnUpdateFullScrCombo();
-    afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
     afx_msg void OnUpdateRestoreRes(CCmdUI* pCmdUI);
     afx_msg void OnRemove();
     afx_msg void OnUpdateRemove(CCmdUI* pCmdUI);

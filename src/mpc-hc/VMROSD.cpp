@@ -388,9 +388,8 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
                 m_pWnd->SetTimer((UINT_PTR)this, 1000, TimerFunc);
             }
             Invalidate();
-        } else {
-            bRet = false;
         }
+        bRet = !!m_rectSeekBar.PtInRect(point);
     }
 
     return bRet;

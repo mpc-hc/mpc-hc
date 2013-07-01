@@ -169,6 +169,7 @@ public:
 
 protected:
     virtual void PreSubclassWindow();
+    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
     virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 
     DECLARE_MESSAGE_MAP()

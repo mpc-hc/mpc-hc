@@ -20,12 +20,15 @@
  */
 
 #include "stdafx.h"
+#include "MainFrm.h"
 #include "mplayerc.h"
 #include "PPageFullscreen.h"
 #include "WinAPIUtils.h"
 
 #include "Monitors.h"
 #include "MultiMonitor.h"
+
+#define SANE_TIMEOUT_FOR_SHOW_CONTROLS_ON_MOUSE_MOVE 200
 
 // CPPagePlayer dialog
 
@@ -35,8 +38,8 @@ CPPageFullscreen::CPPageFullscreen()
     , m_launchfullscreen(FALSE)
     , m_fSetFullscreenRes(FALSE)
     , m_fSetDefault(FALSE)
-    , m_iShowBarsWhenFullScreen(FALSE)
-    , m_nShowBarsWhenFullScreenTimeOut(0)
+    , m_bHideFullscreenControls(FALSE)
+    , m_uHideFullscreenControlsDelay(0)
     , m_fExitFullScreenAtTheEnd(FALSE)
     , m_fRestoreResAfterExit(TRUE)
     , m_iMonitorType(0)
@@ -59,10 +62,11 @@ void CPPageFullscreen::DoDataExchange(CDataExchange* pDX)
     DDX_CBIndex(pDX, IDC_COMBO1, m_iMonitorType);
     DDX_Control(pDX, IDC_COMBO1, m_iMonitorTypeCtrl);
     DDX_Control(pDX, IDC_LIST1, m_list);
-    DDX_Check(pDX, IDC_CHECK4, m_iShowBarsWhenFullScreen);
-    DDX_Text(pDX, IDC_EDIT1, m_nShowBarsWhenFullScreenTimeOut);
+    DDX_Check(pDX, IDC_CHECK4, m_bHideFullscreenControls);
+    DDX_Control(pDX, IDC_COMBO2, m_hidePolicy);
+    DDX_Text(pDX, IDC_EDIT1, m_uHideFullscreenControlsDelay);
+    DDX_Check(pDX, IDC_CHECK6, m_bHideFullscreenDockedPanels);
     DDX_Check(pDX, IDC_CHECK5, m_fExitFullScreenAtTheEnd);
-    DDX_Control(pDX, IDC_SPIN1, m_nTimeOutCtrl);
     DDX_Check(pDX, IDC_RESTORERESCHECK, m_fRestoreResAfterExit);
 }
 
@@ -77,8 +81,11 @@ BEGIN_MESSAGE_MAP(CPPageFullscreen, CPPageBase)
     ON_CLBN_CHKCHANGE(IDC_LIST1, OnCheckChangeList)
     ON_UPDATE_COMMAND_UI(IDC_LIST1, OnUpdateList)
     ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateApplyDefault)
-    ON_UPDATE_COMMAND_UI(IDC_SPIN1, OnUpdateTimeout)
-    ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateTimeout)
+    ON_CBN_SELCHANGE(IDC_COMBO2, OnHideControlsPolicyChange)
+    ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateHideControls)
+    ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateHideDelay)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateHideDelay)
+    ON_UPDATE_COMMAND_UI(IDC_CHECK6, OnUpdateHideControls)
     ON_UPDATE_COMMAND_UI(IDC_RESTORERESCHECK, OnUpdateRestoreRes)
     ON_BN_CLICKED(IDC_BUTTON2, OnRemove)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateRemove)
@@ -104,9 +111,6 @@ BOOL CPPageFullscreen::OnInitDialog()
     m_AutoChangeFullscrRes = s.AutoChangeFullscrRes;
     m_fSetDefault = s.AutoChangeFullscrRes.bApplyDefault;
     m_f_hmonitor = s.strFullScreenMonitor;
-    m_iShowBarsWhenFullScreen = s.fShowBarsWhenFullScreen;
-    m_nShowBarsWhenFullScreenTimeOut = s.nShowBarsWhenFullScreenTimeOut;
-    m_nTimeOutCtrl.SetRange(-1, 10);
     m_fExitFullScreenAtTheEnd = s.fExitFullScreenAtTheEnd;
     m_fRestoreResAfterExit = s.fRestoreResAfterExit;
 
@@ -161,6 +165,31 @@ BOOL CPPageFullscreen::OnInitDialog()
     m_list.InsertColumn(COL_VFR_F, ResStr(IDS_PPAGE_FS_CLN_FROM_FPS), LVCFMT_RIGHT, 60);
     m_list.InsertColumn(COL_VFR_T, ResStr(IDS_PPAGE_FS_CLN_TO_FPS), LVCFMT_RIGHT, 60);
     m_list.InsertColumn(COL_SRR, ResStr(IDS_PPAGE_FS_CLN_DISPLAY_MODE), LVCFMT_LEFT, 135);
+
+
+    m_bHideFullscreenControls = s.bHideFullscreenControls;
+    m_uHideFullscreenControlsDelay = s.uHideFullscreenControlsDelay;
+    m_bHideFullscreenDockedPanels = s.bHideFullscreenDockedPanels;
+
+    auto addHidePolicy = [&](LPCTSTR lpszName, CAppSettings::HideFullscreenControlsPolicy ePolicy) {
+        int n = m_hidePolicy.InsertString(-1, lpszName);
+        if (n >= 0) {
+            VERIFY(m_hidePolicy.SetItemData(n, static_cast<DWORD_PTR>(ePolicy)) != CB_ERR);
+            if (ePolicy == s.eHideFullscreenControlsPolicy) {
+                VERIFY(m_hidePolicy.SetCurSel(n) == n);
+            }
+        } else {
+            ASSERT(FALSE);
+        }
+    };
+    auto loadString = [&](UINT nID) {
+        CString ret;
+        VERIFY(ret.LoadString(nID));
+        return ret;
+    };
+    addHidePolicy(loadString(IDS_PPAGEFULLSCREEN_SHOWNEVER), CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER);
+    addHidePolicy(loadString(IDS_PPAGEFULLSCREEN_SHOWMOVED), CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED);
+    addHidePolicy(loadString(IDS_PPAGEFULLSCREEN_SHOHHOVERED), CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_HOVERED);
 
     ModesUpdate();
     UpdateData(FALSE);
@@ -228,10 +257,28 @@ BOOL CPPageFullscreen::OnApply()
     s.AutoChangeFullscrRes = m_AutoChangeFullscrRes;
     s.fLaunchfullscreen = !!m_launchfullscreen;
     s.strFullScreenMonitor = m_f_hmonitor;
-    s.fShowBarsWhenFullScreen = !!m_iShowBarsWhenFullScreen;
-    s.nShowBarsWhenFullScreenTimeOut = m_nShowBarsWhenFullScreenTimeOut;
     s.fExitFullScreenAtTheEnd = !!m_fExitFullScreenAtTheEnd;
     s.fRestoreResAfterExit = !!m_fRestoreResAfterExit;
+
+    s.bHideFullscreenControls = !!m_bHideFullscreenControls;
+    {
+        int n = m_hidePolicy.GetCurSel();
+        if (n != CB_ERR) {
+            s.eHideFullscreenControlsPolicy =
+                static_cast<CAppSettings::HideFullscreenControlsPolicy>(m_hidePolicy.GetItemData(n));
+        } else {
+            ASSERT(FALSE);
+        }
+    }
+    if (s.eHideFullscreenControlsPolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED &&
+            m_uHideFullscreenControlsDelay > 0 && m_uHideFullscreenControlsDelay < SANE_TIMEOUT_FOR_SHOW_CONTROLS_ON_MOUSE_MOVE) {
+        m_uHideFullscreenControlsDelay = SANE_TIMEOUT_FOR_SHOW_CONTROLS_ON_MOUSE_MOVE;
+        UpdateData(FALSE);
+    }
+    s.uHideFullscreenControlsDelay = m_uHideFullscreenControlsDelay;
+    s.bHideFullscreenDockedPanels = !!m_bHideFullscreenDockedPanels;
+
+    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
 
     return __super::OnApply();
 }
@@ -369,10 +416,26 @@ void CPPageFullscreen::OnUpdateFullScrCombo()
     SetModified();
 }
 
-void CPPageFullscreen::OnUpdateTimeout(CCmdUI* pCmdUI)
+void CPPageFullscreen::OnUpdateHideControls(CCmdUI* pCmdUI)
 {
-    UpdateData();
-    pCmdUI->Enable(m_iShowBarsWhenFullScreen);
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK4));
+}
+
+void CPPageFullscreen::OnHideControlsPolicyChange()
+{
+    UpdateData(TRUE);
+    if (m_hidePolicy.GetItemData(m_hidePolicy.GetCurSel()) ==
+            static_cast<int>(CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED) &&
+            m_uHideFullscreenControlsDelay > 0 && m_uHideFullscreenControlsDelay < SANE_TIMEOUT_FOR_SHOW_CONTROLS_ON_MOUSE_MOVE) {
+        m_uHideFullscreenControlsDelay = SANE_TIMEOUT_FOR_SHOW_CONTROLS_ON_MOUSE_MOVE;
+        UpdateData(FALSE);
+    }
+}
+
+void CPPageFullscreen::OnUpdateHideDelay(CCmdUI* pCmdUI)
+{
+    int n = m_hidePolicy.GetCurSel();
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK4) && n != CB_ERR && n != 0);
 }
 
 void CPPageFullscreen::ModesUpdate()

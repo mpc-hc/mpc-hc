@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"CD ήχου"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Εκκίνηση αρχείων σε μεγιστοποιημένη προβολή"
-6		"Εμφάνιση πλήκτρων ελέγχου σε μεγιστοποιημένη προβολή για"
-9		"δευτ."
-10		"0: αυτόμ. απόκρυψη, -1: μη απόκρυψη"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Έξοδος από μεγιστοποιημένη προβολή στο τέλος της αναπαραγωγής"
 13		"Οθόνη μεγιστοποιημένης προβολής"
 16		"Χρήση λειτουργίας οθόνης αυτόματης αλλαγής για μεγιστοποιημένη προβολή"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Άνοιγμα θέσης αρχείου"
 STRING IDS_PLAYLIST_SHUFFLE		"Τυχαία σειρά"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Ταξινόμηση κατά &ετικέτα"
 STRING IDS_PLAYLIST_SORTBYPATH		"Ταξινόμηση κατά &κατάλογο"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Επιλέξτε τον κατάλογο"
 STRING IDS_PPAGE_CAPTURE_FG0		"Ποτέ (ταχύτερη προσέγγιση)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Μόνο σε εναλλαγή διαφορετικών τύπων βίντεο (προεπιλογή)"

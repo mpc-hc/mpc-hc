@@ -1432,9 +1432,13 @@ BOOL CMPlayerCApp::InitInstance()
         AfxMessageBox(_T("CMainFrame::LoadFrame failed!"));
         return FALSE;
     }
+    pFrame->m_controls.LoadState();
     pFrame->SetDefaultWindowRect((m_s.nCLSwitches & CLSW_MONITOR) ? m_s.iMonitor : 0);
-    pFrame->RestoreControlBars();
+    if (!m_s.slFiles.IsEmpty()) {
+        pFrame->m_controls.DelayShowNotLoaded(true);
+    }
     pFrame->SetDefaultFullscreenState();
+    pFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
     pFrame->SetIcon(icon, TRUE);
     pFrame->DragAcceptFiles();
     pFrame->ShowWindow((m_s.nCLSwitches & CLSW_MINIMIZED) ? SW_SHOWMINIMIZED : SW_SHOW);

@@ -1446,6 +1446,9 @@
 #define IDS_FASTSEEK_LATEST             57369
 #define IDS_FASTSEEK_NEAREST            57370
 #define IDS_HOOKS_FAILED                57371
+#define IDS_PPAGEFULLSCREEN_SHOWNEVER   57372
+#define IDS_PPAGEFULLSCREEN_SHOWMOVED   57373
+#define IDS_PPAGEFULLSCREEN_SHOHHOVERED 57374
 
 // Next default values for new objects
 // 

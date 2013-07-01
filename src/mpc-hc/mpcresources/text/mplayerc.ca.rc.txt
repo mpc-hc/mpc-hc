@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"CDs d'Àudio"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Executar arxius a pantalla completa"
-6		"Mostrar controls a pantalla completa per"
-9		"seg(s)"
-10		" 0: ocultar; -1: no ocultar"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Sortir de la pantalla completa en acabar"
 13		"Monitor a Pantalla completa"
 16		"Usar mode de monitor a pantalla completa automàtic"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Al Atzar"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Agrupar per E&tiquetes"
 STRING IDS_PLAYLIST_SORTBYPATH		"Agrupar per R&utes"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Selecciona el Directori"
 STRING IDS_PPAGE_CAPTURE_FG0		"Never (fastest approach)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Only when switching different video types (default)"

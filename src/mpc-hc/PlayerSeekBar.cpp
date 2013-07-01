@@ -26,7 +26,6 @@
 #define TOOLTIP_SHOW_DELAY 100
 #define TOOLTIP_HIDE_TIMEOUT 3000
 #define HOVER_CAPTURED_TIMEOUT 100
-#define HOVER_CAPTURED_IGNORE_X_DELTA 1
 
 IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
@@ -530,8 +529,7 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
     if (DraggingThumb()) {
         ReleaseCapture();
         KillTimer(TIMER_HOVER_CAPTURED);
-        if (!m_bHovered || (abs(point.x - m_hoverPoint.x) > HOVER_CAPTURED_IGNORE_X_DELTA &&
-                            m_rtPos != m_rtHoverPos)) {
+        if (!m_bHovered || (!CMouse::PointEqualsImprecise(point.x, m_hoverPoint.x) && m_rtPos != m_rtHoverPos)) {
             SyncVideoToThumb();
         }
     }
@@ -646,7 +644,10 @@ LRESULT CPlayerSeekBar::OnThemeChanged()
 
 void CPlayerSeekBar::OnCaptureChanged(CWnd* pWnd)
 {
-    UNREFERENCED_PARAMETER(pWnd);
     ASSERT(m_bDraggingThumb);
     m_bDraggingThumb = false;
+    if (!pWnd) {
+        // HACK: windowed (not renderless) video renderers may not produce WM_MOUSEMOVE message here
+        AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_CHILDVIEW_CURSOR_HACK);
+    }
 }

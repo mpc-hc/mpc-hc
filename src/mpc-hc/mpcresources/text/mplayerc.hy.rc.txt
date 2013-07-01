@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Audio CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Բացել ֆայլերը ամբողջ էկրանով"
-6		"Կառավարման վահանակը Ամբողջ էկրանով վիճակում մնում է"
-9		"վայր."
-10		"0: թաքցնել; -1: չթաքցնել"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Վերարտադրելուց հետո դուրս գալ Ամբողջ էկրանից"
 13		"Ամբողջ էկրանի համար մոնիտորը"
 16		"Օգտ. մոնիտորի ամբողջ էկրանով ինքնափոխման եղանակը"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Պատահական"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Դասավորել &ըստ անվան"
 STRING IDS_PLAYLIST_SORTBYPATH		"Դասավորել ըստ &ճանապարհի"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Ընտրեք թղթապանակը"
 STRING IDS_PPAGE_CAPTURE_FG0		"Երբեք (արագ է)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Միայն երբ անցում է կատարում այլ տեսակի տեսանյութի (ծրագրային)"

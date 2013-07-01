@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Zvočni CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Zaženi datoteke celozaslonsko"
-6		"Prikaži kontrole v celozaslonskem prikazu za"
-9		"sek(s)"
-10		"0: samodejno skrij; -1: ne skrij"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Izhod iz celozaslonskega prikaza na koncu predvajanja"
 13		"Zaslon za celozaslonski prikaz"
 16		"Uporabi samodejno spremembo celozaslonskega prikaza"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Odpri lokacijo datoteke"
 STRING IDS_PLAYLIST_SHUFFLE		"Premešaj"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Razvrsti po ozna&ki"
 STRING IDS_PLAYLIST_SORTBYPATH		"Razvrsti po &poti"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Izberi imenik"
 STRING IDS_PPAGE_CAPTURE_FG0		"Nikoli (najhitrejši način)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Samo pri preklopu različnih vrst videa (privzeto)"

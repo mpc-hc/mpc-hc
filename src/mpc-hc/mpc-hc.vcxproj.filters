@@ -372,6 +372,15 @@
     <ClCompile Include="VersionInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MouseTouch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrmControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -750,6 +759,18 @@
       <Filter>Header Files\LAVFilters</Filter>
     </ClInclude>
     <ClInclude Include="VersionInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseTouch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerWrappers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrmControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

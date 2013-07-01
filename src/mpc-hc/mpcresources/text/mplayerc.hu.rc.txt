@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Audió CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Inditás teljes képernyővel"
-6		"Vezerlők mutatása teljes képernyős módban"
-9		"másodpercig"
-10		" 0: auto-elrejtés; -1: nem tűnik el"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Kilépes teljes képernyőből a lejátszás végén"
 13		"Teljes képernyős monitor"
 16		"Use autochange fullscreen monitor mode"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Keverés"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Rendezés &címke szerint"
 STRING IDS_PLAYLIST_SORTBYPATH		"Rendezés &elérés szerint"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Válassza ki a mappát"
 STRING IDS_PPAGE_CAPTURE_FG0		"Never (fastest approach)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Only when switching different video types (default)"

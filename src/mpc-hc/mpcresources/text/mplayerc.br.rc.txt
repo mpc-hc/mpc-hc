@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"CD de Áudio"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Abrir arquivos em tela cheia"
-6		"Mostrar controles na tela cheia por"
-9		"seg(s)"
-10		"0: auto-ocultar; -1: sempre mostrar"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Sair da tela cheia ao terminar a reprodução"
 13		"Monitor da tela cheia"
 16		"Mudar automaticamente as configurações do monitor da tela cheia"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Abrir local do arquivo"
 STRING IDS_PLAYLIST_SHUFFLE		"Misturar"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Agrupar por e&tiquetas"
 STRING IDS_PLAYLIST_SORTBYPATH		"Agrupar por caminho"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Selecione o Diretório"
 STRING IDS_PPAGE_CAPTURE_FG0		"Nunca (abordagem mais rápida)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Somente quando alternando entre tipos diferentes de video (padrão)"

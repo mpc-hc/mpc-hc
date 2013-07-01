@@ -125,8 +125,6 @@ CAppSettings::CAppSettings()
     , iDefaultCaptureDevice(0)
     , fRestoreResAfterExit(true)
     , fExitFullScreenAtTheEnd(true)
-    , fShowBarsWhenFullScreen(true)
-    , nShowBarsWhenFullScreenTimeOut(0)
     , fLaunchfullscreen(false)
     , fD3DFullscreen(false)
     , iDSVideoRendererType(VIDRNDT_DS_DEFAULT)
@@ -189,6 +187,7 @@ CAppSettings::CAppSettings()
     , pSpeakerToChannelMap()
     , TraFilters()
     , SrcFilters()
+    , bHideWindowedControls(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -640,8 +639,14 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TRAYICON, fTrayIcon);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOZOOM, fRememberZoomLevel);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR, nAutoFitFactor);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENCTRLS, fShowBarsWhenFullScreen);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENCTRLSTIMEOUT, nShowBarsWhenFullScreenTimeOut);
+
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS, bHideFullscreenControls));
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS_POLICY,
+                                 static_cast<int>(eHideFullscreenControlsPolicy)));
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS_DELAY, uHideFullscreenControlsDelay));
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_DOCKED_PANELS, bHideFullscreenDockedPanels));
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_CONTROLS, bHideWindowedControls));
+
     pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, (BYTE*)&AutoChangeFullscrRes, sizeof(AutoChangeFullscrRes));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, fExitFullScreenAtTheEnd);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RESTORERESAFTEREXIT, fRestoreResAfterExit);
@@ -1142,8 +1147,13 @@ void CAppSettings::LoadSettings()
     fTrayIcon = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TRAYICON, FALSE);
     fRememberZoomLevel = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOZOOM, TRUE);
     nAutoFitFactor = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR, 75);
-    fShowBarsWhenFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENCTRLS, TRUE);
-    nShowBarsWhenFullScreenTimeOut = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENCTRLSTIMEOUT, 0);
+
+    bHideFullscreenControls = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS, TRUE);
+    eHideFullscreenControlsPolicy =
+        static_cast<HideFullscreenControlsPolicy>(pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS_POLICY, 1));
+    uHideFullscreenControlsDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS_DELAY, 0);
+    bHideFullscreenDockedPanels = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_DOCKED_PANELS, FALSE);
+    bHideWindowedControls = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_CONTROLS, FALSE);
 
     // Multi-monitor code
     strFullScreenMonitor = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR);
@@ -2174,6 +2184,35 @@ void CAppSettings::UpdateSettings()
         case 1: {
             // Internal decoding of WMV 1/2/3 is now disabled by default so we reinitialize its value
             pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, _T("TRA_WMV"), FALSE);
+        }
+        case 2: {
+            const CString section(_T("Settings"));
+            if (pApp->HasProfileEntry(section, _T("FullScreenCtrls")) &&
+                    pApp->HasProfileEntry(section, _T("FullScreenCtrlsTimeOut"))) {
+                bool bHide = true;
+                int nHidePolicy = 0;
+                int nTimeout = -1;
+                if (!pApp->GetProfileInt(section, _T("FullScreenCtrls"), 0)) {
+                    // hide always
+                } else {
+                    nTimeout = pApp->GetProfileInt(section, _T("FullScreenCtrlsTimeOut"), 0);
+                    if (nTimeout < 0) {
+                        // show always
+                        bHide = false;
+                    } else if (nTimeout == 0) {
+                        // show when hovered
+                        nHidePolicy = 1;
+                    } else {
+                        // show when mouse moved
+                        nHidePolicy = 2;
+                    }
+                }
+                VERIFY(pApp->WriteProfileInt(section, _T("HideFullscreenControls"), bHide));
+                if (nTimeout >= 0) {
+                    VERIFY(pApp->WriteProfileInt(section, _T("HideFullscreenControlsPolicy"), nHidePolicy));
+                    VERIFY(pApp->WriteProfileInt(section, _T("HideFullscreenControlsDelay"), nTimeout * 1000));
+                }
+            }
         }
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);

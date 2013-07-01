@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"音樂 CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"以全螢幕開啟檔案"
-6		"全螢幕時顯示控制項的時間"
-9		"秒 (s)"
-10		" 0: 自動隱藏; -1: 不隱藏"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"播放結束後退出全螢幕"
 13		"全螢幕顯示器"
 16		"使用自動變更全螢幕顯示器模式"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"開啟檔案位置"
 STRING IDS_PLAYLIST_SHUFFLE		"打亂"
 STRING IDS_PLAYLIST_SORTBYLABEL		"以標題排序(&L)"
 STRING IDS_PLAYLIST_SORTBYPATH		"以路徑排序(&P)"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"選擇目錄"
 STRING IDS_PPAGE_CAPTURE_FG0		"永不 (最快的方式)"
 STRING IDS_PPAGE_CAPTURE_FG1		"僅在切換至不同的視訊類型時 (預設)"

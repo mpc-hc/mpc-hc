@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Ljud CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Starta filer i helskarm"
-6		"Visa kontroller i helskärmsläge i"
-9		"sek(under)"
-10		" 0: auto-dölj; -1: dölj inte"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Avsluta helskärmsläge i slutet av uppspelningen"
 13		"Helskärms Bildskärm"
 16		"Ändra automatiskt bildskärmsläge för helskärm"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Blanda"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Sortera efter &etikett"
 STRING IDS_PLAYLIST_SORTBYPATH		"Sortera efter &sökvägen"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Välj mapp"
 STRING IDS_PPAGE_CAPTURE_FG0		"Never (fastest approach)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Only when switching different video types (default)"

@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,7 +34,6 @@ public:
     CPlayerNavigationBar();
     virtual ~CPlayerNavigationBar();
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
-    void ShowControls(CWnd* pMainfrm, bool bShow);
 
 public:
     CPlayerNavigationDialog m_navdlg;

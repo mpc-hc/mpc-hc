@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Ses CD'si"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Dosyaları tam ekranda çalıştır"
-6		"Kontrolleri tam ekranda gösterme süresi"
-9		"saniye"
-10		" 0: Otomatik gizle; -1: Gizleme yok"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Oynatmadan sonra tam ekrandan çık"
 13		"Tam ekran monitör"
 16		"Otomatik tam ekran monitör kipini kullan"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Dosya yerleşimini aç"
 STRING IDS_PLAYLIST_SHUFFLE		"Rastgele sırala"
 STRING IDS_PLAYLIST_SORTBYLABEL		"&Ada göre sırala"
 STRING IDS_PLAYLIST_SORTBYPATH		"&Konuma göre sırala"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Klasör seçiniz"
 STRING IDS_PPAGE_CAPTURE_FG0		"Hiçbir zaman (en hızlı yöntem)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Sadece farklı video biçimleri oynatılacaksa (varsayılan)"

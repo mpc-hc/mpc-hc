@@ -334,7 +334,7 @@ public:
     CUIceClient();
 };
 
-#define APPSETTINGS_VERSION 2
+#define APPSETTINGS_VERSION 3
 
 class CAppSettings
 {
@@ -469,8 +469,15 @@ public:
 
     // Fullscreen
     bool            fLaunchfullscreen;
-    bool            fShowBarsWhenFullScreen;
-    int             nShowBarsWhenFullScreenTimeOut;
+    bool            bHideFullscreenControls;
+    enum class HideFullscreenControlsPolicy
+    {
+        SHOW_NEVER,
+        SHOW_WHEN_HOVERED,
+        SHOW_WHEN_CURSOR_MOVED,
+    } eHideFullscreenControlsPolicy;
+    unsigned        uHideFullscreenControlsDelay;
+    bool            bHideFullscreenDockedPanels;
     bool            fExitFullScreenAtTheEnd;
     CStringW        strFullScreenMonitor;
     AChFR           AutoChangeFullscrRes;
@@ -623,6 +630,8 @@ public:
     bool            fEnableEDLEditor;
 
     HWND            hMasterWnd;
+
+    bool            bHideWindowedControls;
 
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;

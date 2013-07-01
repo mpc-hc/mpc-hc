@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Audio CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Bestanden met volledig scherm openen"
-6		"Toon bedieningspaneel in volledig scherm voor"
-9		"sec(s)"
-10		" 0: autom. verbergen; -1: niet verbergen"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Bij stoppen, volledig scherm verlaten"
 13		"Volledigscherm monitor"
 16		"Use autochange fullscreen monitor mode"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Shuffle"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Sorteer op &label"
 STRING IDS_PLAYLIST_SORTBYPATH		"Sorteer op &pad"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Map kiezen"
 STRING IDS_PPAGE_CAPTURE_FG0		"Never (fastest approach)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Only when switching different video types (default)"

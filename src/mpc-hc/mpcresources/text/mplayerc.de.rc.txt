@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Audio-CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Wiedergabe im Vollbild starten"
-6		"Steuerleiste bei Vollbild anzeigen für"
-9		"Sek."
-10		"0: nie anzeigen | -1: immer anzeigen"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Vollbild bei Beenden der Wiedergabe verlassen"
 13		"Anzeigegerät bei Vollbild:"
 16		"Anzeigemodus bei Vollbild automatisch wechseln"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Zuge&hörigen Ordner öffnen"
 STRING IDS_PLAYLIST_SHUFFLE		"&Zufallswiedergabe"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Nach Ein&trag sortieren"
 STRING IDS_PLAYLIST_SORTBYPATH		"Nach Pfad&name sortieren"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Ordner für Webseite auswählen"
 STRING IDS_PPAGE_CAPTURE_FG0		"Bei keinem Wechsel (schnell)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Nur bei Wechsel auf andere Videotypen (Standard)"

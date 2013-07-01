@@ -22,19 +22,19 @@
 #pragma once
 
 #include "MPCPngImage.h"
+#include "MouseTouch.h"
 
-class CChildView : public CWnd
+class CChildView : public CMouseWnd
 {
     CRect m_vrect;
-
-    DWORD m_lastlmdowntime;
-    CPoint m_lastlmdownpoint;
 
     CCritSec m_csLogo;
     CMPCPngImage m_logo;
 
+    CMainFrame* m_pMainFrm;
+
 public:
-    CChildView();
+    CChildView(CMainFrame* pMainFrm);
     virtual ~CChildView();
 
     DECLARE_DYNAMIC(CChildView)
@@ -49,15 +49,13 @@ public:
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam) override;
 
     DECLARE_MESSAGE_MAP()
 
     afx_msg void OnPaint();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnSize(UINT nType, int cx, int cy);
-    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
-
-    afx_msg void OnSetFocus(CWnd* pOldWnd);
     afx_msg LRESULT OnNcHitTest(CPoint point);
     afx_msg void OnNcLButtonDown(UINT nHitTest, CPoint point);
 };

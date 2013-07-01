@@ -39,6 +39,9 @@
 #include "FileDropTarget.h"
 #include "KeyProvider.h"
 #include "GraphThread.h"
+#include "TimerWrappers.h"
+#include "MainFrmControls.h"
+#include "EventDispatcher.h"
 
 #include "../SubPic/ISubPic.h"
 
@@ -142,16 +145,35 @@ interface ISubClock;
 
 class CMainFrame : public CFrameWnd, public CDropTarget
 {
+public:
+    enum class Timer32HzSubscriber
+    {
+        TOOLBARS_HIDER,
+        CURSOR_HIDER,
+        CURSOR_HIDER_D3DFS,
+    };
+    OnDemandTimer<Timer32HzSubscriber> m_timer32Hz;
+
+    enum class TimerOneTimeSubscriber
+    {
+        TOOLBARS_DELAY_NOTLOADED,
+        CHILDVIEW_CURSOR_HACK,
+    };
+    OneTimeTimerPool<TimerOneTimeSubscriber> m_timerOneTime;
+
+    EventRouter m_eventd;
+
+private:
     enum {
         TIMER_STREAMPOSPOLLER = 1,
         TIMER_STREAMPOSPOLLER2,
-        TIMER_FULLSCREENCONTROLBARHIDER,
-        TIMER_FULLSCREENMOUSEHIDER,
         TIMER_STATS,
-        TIMER_LEFTCLICK,
         TIMER_STATUSERASER,
         TIMER_DVBINFO_UPDATER,
-        TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS
+        TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS,
+        TIMER_32HZ,
+        TIMER_ONETIME_START,
+        TIMER_ONETIME_END = TIMER_ONETIME_START + 127,
     };
     enum {
         SEEK_DIRECTION_NONE,
@@ -167,6 +189,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     friend class CPPageFileInfoSheet;
     friend class CPPageLogo;
     friend class CSubtitleDlDlg;
+    friend class CMouse;
+    friend class CChildView; // for accessing IMadVRSubclassReplacement interface
 
     // TODO: wrap these graph objects into a class to make it look cleaner
 
@@ -189,6 +213,9 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
     CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
+
+    CComPtr<IMadVRSubclassReplacement> m_pMVRSR;
+    CComPtr<IMadVRSettings> m_pMVRS;
 
     CComQIPtr<IDvdControl2> m_pDVDC;
     CComQIPtr<IDvdInfo2> m_pDVDI;
@@ -225,16 +252,14 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     // windowing
 
     CRect m_lastWindowRect;
-    CPoint m_lastMouseMove;
 
-    void ShowControls(int nCS, bool fSave = false);
     void SetUIPreset(int iCaptionMenuMode, UINT nCS);
 
     void SetDefaultWindowRect(int iMonitor = 0);
     void SetDefaultFullscreenState();
     void RestoreDefaultWindowRect();
     void ZoomVideoWindow(bool snap = true, double scale = ZOOM_DEFAULT_LEVEL);
-    double GetZoomAutoFitScale(bool bLargerOnly = false) const;
+    double GetZoomAutoFitScale(bool bLargerOnly = false);
 
     void SetAlwaysOnTop(int iOnTop);
 
@@ -351,7 +376,6 @@ public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
     bool m_fStartInD3DFullscreen;
-    bool m_fHideCursor;
     CMenu m_navaudio, m_navsubtitle;
 
     CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
@@ -365,9 +389,6 @@ public:
     }
     bool IsMenuHidden() const {
         return (!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode != MODE_SHOWCAPTIONMENU);
-    }
-    bool IsSomethingLoaded() const {
-        return ((m_iMediaLoadState == MLS_LOADING || m_iMediaLoadState == MLS_LOADED) && !IsD3DFullScreenMode());
     }
     bool IsPlaylistEmpty() const {
         return (m_wndPlaylistBar.GetCount() == 0);
@@ -438,7 +459,7 @@ public:
     void PlayFavoriteDVD(CString fav);
     bool ResetDevice();
     bool DisplayChange();
-    void CloseMedia();
+    void CloseMedia(bool bNextIsQueued = false);
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
     void StopTunerScan();
     HRESULT SetChannel(int nChannel);
@@ -518,16 +539,17 @@ public:
 #endif
 
 protected:  // control bar embedded members
+    friend class CMainFrameControls;
+    CMainFrameControls m_controls;
+    friend class CPlayerBar; // it notifies m_controls of panel re-dock
 
     CChildView m_wndView;
 
-    UINT m_nCS;
     CPlayerSeekBar m_wndSeekBar;
     CPlayerToolBar m_wndToolBar;
     CPlayerInfoBar m_wndInfoBar;
     CPlayerInfoBar m_wndStatsBar;
     CPlayerStatusBar m_wndStatusBar;
-    CList<CControlBar*> m_bars;
 
     CPlayerSubresyncBar m_wndSubresyncBar;
     CPlayerPlaylistBar m_wndPlaylistBar;
@@ -535,7 +557,6 @@ protected:  // control bar embedded members
     CPlayerNavigationBar m_wndNavigationBar;
     CPlayerShaderEditorBar m_wndShaderEditorBar;
     CEditListEditor m_wndEditListEditor;
-    CList<CSizingControlBar*> m_dockingbars;
 
     CFileDropTarget m_fileDropTarget;
     // TODO
@@ -551,9 +572,6 @@ protected:  // control bar embedded members
     friend class CPPagePlayback; // TODO
     friend class CPPageAudioSwitcher; // TODO
     friend class CMPlayerCApp; // TODO
-
-    void RestoreControlBars();
-    void SaveControlBars();
 
     // Generated message map functions
 
@@ -575,6 +593,7 @@ public:
     afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnSizing(UINT nSide, LPRECT lpRect);
+    afx_msg void OnExitSizeMove();
     afx_msg void OnDisplayChange();
 
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -591,22 +610,6 @@ public:
     afx_msg LRESULT OnRepaintRenderLess(WPARAM wParam, LPARAM lParam);
 
     afx_msg void SaveAppSettings();
-
-    BOOL OnButton(UINT id, UINT nFlags, CPoint point);
-    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-    afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-    afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-    afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
-    afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
-    afx_msg void OnMButtonDblClk(UINT nFlags, CPoint point);
-    afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-    afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
-    afx_msg void OnRButtonDblClk(UINT nFlags, CPoint point);
-    afx_msg LRESULT OnXButtonDown(WPARAM wParam, LPARAM lParam);
-    afx_msg LRESULT OnXButtonUp(WPARAM wParam, LPARAM lParam);
-    afx_msg LRESULT OnXButtonDblClk(WPARAM wParam, LPARAM lParam);
-    afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
-    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 
     afx_msg LRESULT OnNcHitTest(CPoint point);
 
@@ -906,13 +909,13 @@ public:
     REFERENCE_TIME m_rtCurSubPos;
     bool        m_bToggleShader;
     bool        m_bToggleShaderScreenSpace;
-    bool        m_bInOptions;
     bool        m_bStopTunerScan;
     bool        m_bLockedZoomVideoWindow;
     int         m_nLockedZoomVideoWindow;
     bool        m_fSetChannelActive;
 
     void        SetLoadState(MPC_LOADSTATE iState);
+    MPC_LOADSTATE GetLoadState();
     void        SetPlayState(MPC_PLAYSTATE iState);
     bool        CreateFullScreenWindow();
     void        SetupEVRColorControl();
@@ -955,13 +958,19 @@ protected:
     void WTSRegisterSessionNotification();
     void WTSUnRegisterSessionNotification();
 
-    DWORD m_nMenuHideTick;
+    DWORD m_dwMenuHideTick;
 
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
     void UpdateAudioSwitcher();
 
-    void GetDockZones(unsigned& uTop, unsigned& uLeft, unsigned& uRight, unsigned& uBottom);
+    bool m_bShowingFloatingMenubar;
+    virtual void OnShowMenuBar() override {
+        m_bShowingFloatingMenubar = (GetMenuBarVisibility() != AFX_MBV_KEEPVISIBLE);
+    };
+    virtual void OnHideMenuBar() override {
+        m_bShowingFloatingMenubar = false;
+    };
 
 public:
 #if (_MSC_VER == 1800)
@@ -980,7 +989,9 @@ public:
         UPDATE_SKYPE,
         UPDATE_SEEKBAR_CHAPTERS,
         UPDATE_WINDOW_TITLE,
-        UPDATE_AUDIO_SWITCHER
+        UPDATE_AUDIO_SWITCHER,
+        UPDATE_CONTROLS_VISIBILITY,
+        UPDATE_CHILDVIEW_CURSOR_HACK,
     };
 
     void UpdateControlState(UpdateControlTarget target);

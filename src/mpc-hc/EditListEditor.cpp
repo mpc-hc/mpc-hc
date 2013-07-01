@@ -144,7 +144,7 @@ BOOL CEditListEditor::Create(CWnd* pParentWnd, UINT defDockBarID)
 
 void CEditListEditor::OnSize(UINT nType, int cx, int cy)
 {
-    CSizingControlBarG::OnSize(nType, cx, cy);
+    __super::OnSize(nType, cx, cy);
 
     ResizeListColumn();
 }

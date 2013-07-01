@@ -111,8 +111,6 @@
 #define IDS_RS_ALWAYSONTOP                  _T("AlwaysOnTop")
 #define IDS_RS_AUTOZOOM                     _T("AutoZoom")
 #define IDS_RS_AUTOFITFACTOR                _T("AutoFitFactor")
-#define IDS_RS_FULLSCREENCTRLS              _T("FullScreenCtrls")
-#define IDS_RS_FULLSCREENCTRLSTIMEOUT       _T("FullScreenCtrlsTimeOut")
 #define IDS_RS_SPSTYLE                      _T("SPDefaultStyle")
 #define IDS_RS_SPOVERRIDEPLACEMENT          _T("SPOverridePlacement")
 #define IDS_RS_SPHORPOS                     _T("SPHorPos")
@@ -209,6 +207,12 @@
 #define IDS_RS_LAST_OPEN_DIR                _T("LastOpenDir")
 #define IDS_RS_ASSOCIATED_WITH_ICON         _T("AssociatedWithIcon")
 #define IDS_RS_ICON_LIB_VERSION             _T("IconLibVersion")
+
+#define IDS_RS_HIDE_FULLSCREEN_CONTROLS        _T("HideFullscreenControls")
+#define IDS_RS_HIDE_FULLSCREEN_CONTROLS_POLICY _T("HideFullscreenControlsPolicy")
+#define IDS_RS_HIDE_FULLSCREEN_CONTROLS_DELAY  _T("HideFullscreenControlsDelay")
+#define IDS_RS_HIDE_FULLSCREEN_DOCKED_PANELS   _T("HideFullscreenDockedPanels")
+#define IDS_RS_HIDE_WINDOWED_CONTROLS          _T("HideWindowedControls")
 
 #define IDS_RS_TOGGLESHADER                 _T("ToggleShader")
 #define IDS_RS_TOGGLESHADERSSCREENSPACE     _T("ToggleShaderScreenSpace")

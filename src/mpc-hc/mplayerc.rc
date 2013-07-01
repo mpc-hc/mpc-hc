@@ -987,28 +987,29 @@ IDD_PPAGEFULLSCREEN DIALOGEX 0, 0, 296, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Launch files in fullscreen",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,3,274,8
-    CONTROL         "Show controls in fullscreen for",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,15,275,8
-    EDITTEXT        IDC_EDIT1,15,27,32,13,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,35,27,12,13
-    LTEXT           "sec(s)",IDC_STATIC1,51,29,30,8
-    LTEXT           "0: auto-hide; -1: don't hide",IDC_STATIC2,85,29,195,8
+    CONTROL         "Launch files in fullscreen",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,26,280,8
+    GROUPBOX        "",IDC_STATIC,4,51,288,36
+    CONTROL         "Hide controls in fullscreen",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,51,280,8
+    LTEXT           "ms",IDC_STATIC1,267,63,23,8
+    COMBOBOX        IDC_COMBO2,8,61,224,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Hide docked panels",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,76,280,8
     CONTROL         "Exit fullscreen at the end of playback",IDC_CHECK5,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,43,276,8
-    LTEXT           "Fullscreen monitor",IDC_STATIC,13,56,238,8
-    COMBOBOX        IDC_COMBO1,13,66,273,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "",IDC_STATIC,5,79,286,158
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,37,280,8
+    GROUPBOX        "Fullscreen monitor",IDC_STATIC,4,2,288,46
+    COMBOBOX        IDC_COMBO1,8,11,280,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "",IDC_STATIC,4,90,288,148
     CONTROL         "Use autochange fullscreen monitor mode",IDC_CHECK2,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,85,267,8
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,10,96,226,115
-    PUSHBUTTON      "Add",IDC_BUTTON1,239,96,48,16
-    PUSHBUTTON      "Del",IDC_BUTTON2,239,114,48,16
-    PUSHBUTTON      "Up",IDC_BUTTON3,240,177,48,16
-    PUSHBUTTON      "Down",IDC_BUTTON4,240,195,48,16
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,90,280,8
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,8,101,224,112
+    PUSHBUTTON      "Add",IDC_BUTTON1,235,101,53,16
+    PUSHBUTTON      "Del",IDC_BUTTON2,235,119,53,16
+    PUSHBUTTON      "Up",IDC_BUTTON3,235,179,53,16
+    PUSHBUTTON      "Down",IDC_BUTTON4,235,197,53,16
     CONTROL         "Apply default monitor mode on fullscreen exit",IDC_CHECK3,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,214,270,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,216,271,8
     CONTROL         "Restore resolution on program exit",IDC_RESTORERESCHECK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,226,270,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,227,271,8
+    EDITTEXT        IDC_EDIT1,235,61,28,12,ES_AUTOHSCROLL | ES_NUMBER
 END
 
 IDD_NAVIGATION_DLG DIALOGEX 0, 0, 93, 150
@@ -1212,11 +1213,6 @@ BEGIN
     END
 
     IDD_PPAGESYNC, DIALOG
-    BEGIN
-        VERTGUIDE, 10
-    END
-
-    IDD_PPAGEFULLSCREEN, DIALOG
     BEGIN
         VERTGUIDE, 10
     END
@@ -3245,6 +3241,9 @@ STRINGTABLE
 BEGIN
     IDS_FASTSEEK_LATEST                 "Latest keyframe"
     IDS_FASTSEEK_NEAREST                "Nearest keyframe"
+    IDS_PPAGEFULLSCREEN_SHOWNEVER       "Never show"
+    IDS_PPAGEFULLSCREEN_SHOWMOVED       "Show when moving the cursor, hide after:"
+    IDS_PPAGEFULLSCREEN_SHOHHOVERED     "Show when hovering control, hide after:"
 END
 
 #endif    // English (United States) resources

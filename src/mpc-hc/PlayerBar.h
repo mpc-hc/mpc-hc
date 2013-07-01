@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,11 +27,16 @@ class CPlayerBar : public CSizingControlBarG
 {
     DECLARE_DYNAMIC(CPlayerBar)
 
+    bool m_bAutohidden;
+    bool m_bHasActivePopup;
+
 protected:
     DECLARE_MESSAGE_MAP()
 
     UINT m_defDockBarID;
     CString m_strSettingName;
+
+    afx_msg void OnWindowPosChanged(WINDOWPOS* lpwndpos);
 
 public:
     CPlayerBar();
@@ -41,4 +46,9 @@ public:
 
     virtual void LoadState(CFrameWnd* pParent);
     virtual void SaveState();
+
+    void Autohidden(bool bValue);
+    bool Autohidden() const;
+    void HasActivePopup(bool bValue);
+    bool HasActivePopup() const;
 };

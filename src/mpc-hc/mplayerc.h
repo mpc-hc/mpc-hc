@@ -53,8 +53,6 @@ enum {
     WM_TUNER_NEW_CHANNEL
 };
 
-#define WM_MYMOUSELAST WM_XBUTTONDBLCLK
-
 ///////////////
 
 extern HICON LoadIcon(CString fn, bool fSmall);

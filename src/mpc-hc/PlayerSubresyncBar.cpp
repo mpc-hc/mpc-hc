@@ -62,7 +62,7 @@ BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* 
 
 BOOL CPlayerSubresyncBar::PreCreateWindow(CREATESTRUCT& cs)
 {
-    if (!CSizingControlBarG::PreCreateWindow(cs)) {
+    if (!__super::PreCreateWindow(cs)) {
         return FALSE;
     }
 
@@ -72,17 +72,12 @@ BOOL CPlayerSubresyncBar::PreCreateWindow(CREATESTRUCT& cs)
 BOOL CPlayerSubresyncBar::PreTranslateMessage(MSG* pMsg)
 {
     if (IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
-        if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE) {
-            GetParentFrame()->ShowControlBar(this, FALSE, TRUE);
-            return TRUE;
-        }
-
         if (IsShortCut(pMsg) || IsDialogMessage(pMsg)) {
             return TRUE;
         }
     }
 
-    return CSizingControlBarG::PreTranslateMessage(pMsg);
+    return __super::PreTranslateMessage(pMsg);
 }
 
 void CPlayerSubresyncBar::SetTime(REFERENCE_TIME rt)
@@ -554,7 +549,7 @@ void CPlayerSubresyncBar::FormatTime(int iItem, TCHAR* buff, size_t buffLen, int
 }
 
 
-BEGIN_MESSAGE_MAP(CPlayerSubresyncBar, CSizingControlBarG)
+BEGIN_MESSAGE_MAP(CPlayerSubresyncBar, CPlayerBar)
     ON_WM_SIZE()
     ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_SUBRESYNCLIST, OnBeginlabeleditList)
     ON_NOTIFY(LVN_DOLABELEDIT, IDC_SUBRESYNCLIST, OnDolabeleditList)
@@ -570,7 +565,7 @@ END_MESSAGE_MAP()
 
 void CPlayerSubresyncBar::OnSize(UINT nType, int cx, int cy)
 {
-    CSizingControlBarG::OnSize(nType, cx, cy);
+    __super::OnSize(nType, cx, cy);
 
     if (::IsWindow(m_list.m_hWnd)) {
         CRect r;

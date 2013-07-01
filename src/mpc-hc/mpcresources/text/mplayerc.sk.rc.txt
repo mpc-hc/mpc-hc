@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Audio CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Spustiť súbory v celoobrazovkovom režime"
-6		"V celoobraz. rezime zobraziť ovládače na:"
-9		"sekúnd"
-10		" 0: automaticky-skrývať; -1: neskrývať"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Po prehratí vypnúť celoobraz. režim"
 13		"Monitor pre celoobrazovkový režim"
 16		"Použiť automatickú zmenu režimu na celoobrazovkový"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Náhodne"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Zoradiť podľa &názvu"
 STRING IDS_PLAYLIST_SORTBYPATH		"Zoradiť podľa &cesty"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Zvoľte priečinok"
 STRING IDS_PPAGE_CAPTURE_FG0		"Nikdy (najrýchlejší spôsob)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Len pri prepínaní rôznych typov videa (predvolené)"

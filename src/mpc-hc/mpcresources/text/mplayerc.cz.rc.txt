@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Audio CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Spouštět v režimu na celou obrazovku"
-6		"V režimu na celou obrazovku zobrazit tlačítka na:"
-9		"s"
-10		" 0: skrývat automaticky; -1: neskrývat"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Po přehrání přejít do režimu zobrazení v okně"
 13		"Monitor pro zobrazení na celou obrazovku:"
 16		"Automatická změna režimu monitoru pro režim na celou obrazovku"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Náhodně"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Seřadit podle názvu"
 STRING IDS_PLAYLIST_SORTBYPATH		"Seřadit podle cesty"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Zvolit adresář"
 STRING IDS_PPAGE_CAPTURE_FG0		"Nikdy (nejrychlejší)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Pouze při přepínání mezi různými typy videa (výchozí)"

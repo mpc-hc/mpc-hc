@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"音楽 CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"フルスクリーンでファイルを開く"
-6		"フルスクリーン時にコントロールを表示"
-9		"秒間"
-10		" 0: 自動で隠す; -1: 隠さない"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"再生終了時にフルスクリーンを解除"
 13		"フルスクリーン モニター"
 16		"フルスクリーン モニターモード 自動変更を使用"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"ファイルの場所を開く"
 STRING IDS_PLAYLIST_SHUFFLE		"シャッフル"
 STRING IDS_PLAYLIST_SORTBYLABEL		"名前順で並び替え(&L)"
 STRING IDS_PLAYLIST_SORTBYPATH		"パス順で並び替え(&P)"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"ディレクトリを選択"
 STRING IDS_PPAGE_CAPTURE_FG0		"全然ない (最速アプローチ)"
 STRING IDS_PPAGE_CAPTURE_FG1		"異なるビデオタイプに切り替えた場合にのみ (デフォルト)"

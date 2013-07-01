@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "PlayerBar.h"
 #include "PlayerListCtrl.h"
 #include "WinHotkeyCtrl.h"
 
@@ -500,6 +501,24 @@ void CPlayerListCtrl::PreSubclassWindow()
     EnableToolTips(TRUE);
 
     CListCtrl::PreSubclassWindow();
+}
+
+LRESULT CPlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+    if (message == WM_CONTEXTMENU) {
+        auto pBar = dynamic_cast<CPlayerBar*>(GetParent());
+        ASSERT(pBar);
+        if (pBar) {
+            pBar->HasActivePopup(true);
+        }
+        LRESULT ret = __super::WindowProc(message, wParam, lParam);
+        if (pBar) {
+            pBar->HasActivePopup(false);
+        }
+        return ret;
+    } else {
+        return __super::WindowProc(message, wParam, lParam);
+    }
 }
 
 int CPlayerListCtrl::HitTestEx(const CPoint& point, int* col) const

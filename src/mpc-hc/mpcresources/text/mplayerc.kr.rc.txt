@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"오디오 CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"전체화면으로 재생시작"
-6		"전체화면시 컨트롤 표시시간"
-9		"초 동안 컨트롤 표시"
-10		" 0:자동숨김 ;-1:항상표시"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"재생이 끝나면 전체화면 종료"
 13		"전체화면 모니터"
 16		"전체화면 모니터 모드 자동전환 사용"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"순서 섞기"
 STRING IDS_PLAYLIST_SORTBYLABEL		"이름순 정렬(&L)"
 STRING IDS_PLAYLIST_SORTBYPATH		"경로순 정렬(&P)"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"디렉토리 선택"
 STRING IDS_PPAGE_CAPTURE_FG0		"Never (fastest approach)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Only when switching different video types (default)"

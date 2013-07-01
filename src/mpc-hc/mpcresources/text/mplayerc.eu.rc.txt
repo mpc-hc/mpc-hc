@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Audio CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Abiarazi agiriak ikusleiho-osoan"
-6		"Erakutsi aginteak ikusleiho-osoan"
-9		"seg"
-10		"0: berez-ezkutatu; -1: ez ezkutatu"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Irten ikusleiho-osotik irakurketaren amaieran"
 13		"Ikusleiho-osoko monitorea"
 16		"Erabili berez-aldatu ikusleiho-osoko monitore modua"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Ireki agiri kokalekua"
 STRING IDS_PLAYLIST_SHUFFLE		"Nahastu"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Antolatu e&tiketaz"
 STRING IDS_PLAYLIST_SORTBYPATH		"Antolatu hel&buruz"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Hautatu zuzenbidea"
 STRING IDS_PPAGE_CAPTURE_FG0		"Inoiz ez (fokutze azkarrena)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Bideo mota ezberdinak aldatzerakoan bakarrik (berezkoa)"

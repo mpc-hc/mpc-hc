@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"Audio CD"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Запуск файлаў на поўны экран"
-6		"Кнопкі на поўным экране застаюцца:"
-9		"сек."
-10		" 0: аўтасхаванне; -1: не хаваць"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Выхад з поўнаэкр. рэжыму па канч. прайгравання"
 13		"Манітор для поўнаэкраннага вываду"
 16		"Ужываць аўтазменты поўнаэкр. рэжыму"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Змяшаць"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Сартаваць па &імені"
 STRING IDS_PLAYLIST_SORTBYPATH		"Сартаваць па &шляху"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Абярыце тэчку"
 STRING IDS_PPAGE_CAPTURE_FG0		"Never (fastest approach)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Only when switching different video types (default)"

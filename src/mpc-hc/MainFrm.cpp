@@ -173,6 +173,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_MOVING()
     ON_WM_SIZE()
     ON_WM_SIZING()
+    ON_WM_EXITSIZEMOVE()
     ON_MESSAGE_VOID(WM_DISPLAYCHANGE, OnDisplayChange)
 
     ON_WM_SYSCOMMAND()
@@ -188,21 +189,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_MESSAGE(WM_REARRANGERENDERLESS, OnRepaintRenderLess)
 
     ON_MESSAGE_VOID(WM_SAVESETTINGS, SaveAppSettings)
-
-    ON_WM_LBUTTONDOWN()
-    ON_WM_LBUTTONUP()
-    ON_WM_LBUTTONDBLCLK()
-    ON_WM_MBUTTONDOWN()
-    ON_WM_MBUTTONUP()
-    ON_WM_MBUTTONDBLCLK()
-    ON_WM_RBUTTONDOWN()
-    ON_WM_RBUTTONUP()
-    ON_WM_RBUTTONDBLCLK()
-    ON_MESSAGE(WM_XBUTTONDOWN, OnXButtonDown)
-    ON_MESSAGE(WM_XBUTTONUP, OnXButtonUp)
-    ON_MESSAGE(WM_XBUTTONDBLCLK, OnXButtonDblClk)
-    ON_WM_MOUSEWHEEL()
-    ON_WM_MOUSEMOVE()
 
     ON_WM_NCHITTEST()
 
@@ -642,7 +628,9 @@ const TCHAR* GetEventString(LONG evCode)
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame()
-    : m_iMediaLoadState(MLS_CLOSED)
+    : m_timer32Hz(this, TIMER_32HZ, 32)
+    , m_timerOneTime(this, TIMER_ONETIME_START, TIMER_ONETIME_END - TIMER_ONETIME_START + 1)
+    , m_iMediaLoadState(MLS_CLOSED)
     , m_iPlaybackMode(PM_NONE)
     , m_bFirstPlay(false)
     , m_dwLastRun(0)
@@ -650,10 +638,7 @@ CMainFrame::CMainFrame()
     , m_rtDurationOverride(-1)
     , m_fFullScreen(false)
     , m_fFirstFSAfterLaunchOnFS(false)
-    , m_fHideCursor(false)
-    , m_lastMouseMove(-1, -1)
     , m_pLastBar(nullptr)
-    , m_nCS(0)
     , m_nLoops(0)
     , m_nLastSkipDirection(0)
     , m_posFirstExtSub(nullptr)
@@ -686,7 +671,6 @@ CMainFrame::CMainFrame()
     , m_nStepForwardCount(0)
     , m_rtStepForwardStart(0)
     , m_bToggleShaderScreenSpace(false)
-    , m_bInOptions(false)
     , m_lCurrentChapter(0)
     , m_lChapterStartTime(0xFFFFFFFF)
     , m_pTaskbarList(nullptr)
@@ -694,7 +678,7 @@ CMainFrame::CMainFrame()
     , m_bOpenedThroughThread(false)
     , m_evOpenPrivateFinished(FALSE, TRUE)
     , m_evClosePrivateFinished(FALSE, TRUE)
-    , m_nMenuHideTick(0)
+    , m_dwMenuHideTick(0)
     , m_bWasSnapped(false)
     , m_bIsBDPlay(false)
     , m_bLockedZoomVideoWindow(false)
@@ -702,6 +686,9 @@ CMainFrame::CMainFrame()
     , m_LastOpenBDPath(_T(""))
     , m_fStartInD3DFullscreen(false)
     , m_bRememberFilePos(false)
+    , m_wndView(this)
+    , m_bShowingFloatingMenubar(false)
+    , m_controls(this)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -758,65 +745,61 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_pFullscreenWnd = DEBUG_NEW CFullscreenWnd(this);
 
-    m_bars.AddTail(&m_wndSeekBar);
-    m_bars.AddTail(&m_wndToolBar);
-    m_bars.AddTail(&m_wndInfoBar);
-    m_bars.AddTail(&m_wndStatsBar);
-    m_bars.AddTail(&m_wndStatusBar);
+    m_controls.m_toolbars[CMainFrameControls::Toolbar::SEEKBAR] = &m_wndSeekBar;
+    m_controls.m_toolbars[CMainFrameControls::Toolbar::CONTROLS] = &m_wndToolBar;
+    m_controls.m_toolbars[CMainFrameControls::Toolbar::INFO] = &m_wndInfoBar;
+    m_controls.m_toolbars[CMainFrameControls::Toolbar::STATS] = &m_wndStatsBar;
+    m_controls.m_toolbars[CMainFrameControls::Toolbar::STATUS] = &m_wndStatusBar;
 
     // dockable bars
 
     EnableDocking(CBRS_ALIGN_ANY);
 
-    m_dockingbars.RemoveAll();
-
     m_wndSubresyncBar.Create(this, AFX_IDW_DOCKBAR_TOP, &m_csSubLock);
     m_wndSubresyncBar.SetBarStyle(m_wndSubresyncBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
     m_wndSubresyncBar.EnableDocking(CBRS_ALIGN_ANY);
     m_wndSubresyncBar.SetHeight(200);
-    m_dockingbars.AddTail(&m_wndSubresyncBar);
+    m_controls.m_panels[CMainFrameControls::Panel::SUBRESYNC] = &m_wndSubresyncBar;
 
     m_wndPlaylistBar.Create(this, AFX_IDW_DOCKBAR_BOTTOM);
     m_wndPlaylistBar.SetBarStyle(m_wndPlaylistBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
     m_wndPlaylistBar.EnableDocking(CBRS_ALIGN_ANY);
     m_wndPlaylistBar.SetHeight(100);
-    m_dockingbars.AddTail(&m_wndPlaylistBar);
+    m_controls.m_panels[CMainFrameControls::Panel::PLAYLIST] = &m_wndPlaylistBar;
     m_wndPlaylistBar.LoadPlaylist(GetRecentFile());
 
     m_wndEditListEditor.Create(this, AFX_IDW_DOCKBAR_RIGHT);
     m_wndEditListEditor.SetBarStyle(m_wndEditListEditor.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
     m_wndEditListEditor.EnableDocking(CBRS_ALIGN_ANY);
-    m_dockingbars.AddTail(&m_wndEditListEditor);
+    m_controls.m_panels[CMainFrameControls::Panel::EDL] = &m_wndEditListEditor;
     m_wndEditListEditor.SetHeight(100);
 
     m_wndCaptureBar.Create(this, AFX_IDW_DOCKBAR_LEFT);
     m_wndCaptureBar.SetBarStyle(m_wndCaptureBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
     m_wndCaptureBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
-    m_dockingbars.AddTail(&m_wndCaptureBar);
+    m_controls.m_panels[CMainFrameControls::Panel::CAPTURE] = &m_wndCaptureBar;
 
     m_wndNavigationBar.Create(this, AFX_IDW_DOCKBAR_LEFT);
     m_wndNavigationBar.SetBarStyle(m_wndNavigationBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
     m_wndNavigationBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
-    m_dockingbars.AddTail(&m_wndNavigationBar);
+    m_controls.m_panels[CMainFrameControls::Panel::NAVIGATION] = &m_wndNavigationBar;
 
     m_wndShaderEditorBar.Create(this, AFX_IDW_DOCKBAR_TOP);
     m_wndShaderEditorBar.SetBarStyle(m_wndShaderEditorBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
     m_wndShaderEditorBar.EnableDocking(CBRS_ALIGN_ANY);
-    m_dockingbars.AddTail(&m_wndShaderEditorBar);
+    m_controls.m_panels[CMainFrameControls::Panel::SHADEREDITOR] = &m_wndShaderEditorBar;
 
-    // Hide all dockable bars by default
-    POSITION pos = m_dockingbars.GetHeadPosition();
-    while (pos) {
-        m_dockingbars.GetNext(pos)->ShowWindow(SW_HIDE);
+    // Hide all controls initially
+    for (const auto & pair : m_controls.m_toolbars) {
+        pair.second->ShowWindow(SW_HIDE);
+    }
+    for (const auto & pair : m_controls.m_panels) {
+        pair.second->ShowWindow(SW_HIDE);
     }
 
     m_fileDropTarget.Register(this);
 
     const CAppSettings& s = AfxGetAppSettings();
-
-    // Load the controls
-    m_nCS = s.nCS;
-    ShowControls(m_nCS);
 
     SetAlwaysOnTop(s.iOnTop);
 
@@ -934,7 +917,7 @@ void CMainFrame::OnClose()
 
     m_wndPlaylistBar.SavePlaylist();
 
-    SaveControlBars();
+    m_controls.SaveState();
 
     ShowWindow(SW_HIDE);
 
@@ -956,6 +939,7 @@ DROPEFFECT CMainFrame::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState
 
 DROPEFFECT CMainFrame::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
 {
+    UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
     UINT CF_URL = RegisterClipboardFormat(_T("UniformResourceLocator"));
     return pDataObject->IsDataAvailable(CF_URL) ? DROPEFFECT_COPY : DROPEFFECT_NONE;
 }
@@ -977,12 +961,8 @@ BOOL CMainFrame::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoi
                 CAtlList<CString> sl;
                 sl.AddTail(CString(url));
 
-                if (m_wndPlaylistBar.IsWindowVisible()) {
-                    m_wndPlaylistBar.Append(sl, true);
-                } else {
-                    m_wndPlaylistBar.Open(sl, true);
-                    OpenCurPlaylistItem();
-                }
+                m_wndPlaylistBar.Open(sl, true);
+                OpenCurPlaylistItem();
 
                 GlobalUnlock(hGlobal);
                 bResult = TRUE;
@@ -1017,30 +997,6 @@ LPCTSTR CMainFrame::GetRecentFile() const
         }
     }
     return nullptr;
-}
-
-void CMainFrame::RestoreControlBars()
-{
-    POSITION pos = m_dockingbars.GetHeadPosition();
-    while (pos) {
-        CPlayerBar* pBar = dynamic_cast<CPlayerBar*>(m_dockingbars.GetNext(pos));
-
-        if (pBar) {
-            pBar->LoadState(this);
-        }
-    }
-}
-
-void CMainFrame::SaveControlBars()
-{
-    POSITION pos = m_dockingbars.GetHeadPosition();
-    while (pos) {
-        CPlayerBar* pBar = dynamic_cast<CPlayerBar*>(m_dockingbars.GetNext(pos));
-
-        if (pBar) {
-            pBar->SaveState();
-        }
-    }
 }
 
 LRESULT CMainFrame::OnTaskBarRestart(WPARAM, LPARAM)
@@ -1178,14 +1134,19 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
         }
     }
 
+    if ((m_dwMenuBarVisibility & AFX_MBV_DISPLAYONF10) && pMsg->message == WM_SYSKEYUP && pMsg->wParam == VK_F10 &&
+            m_dwMenuBarState == AFX_MBS_VISIBLE) {
+        // mfc doesn't hide menubar on f10, but we want to
+        VERIFY(SetMenuBarState(AFX_MBS_HIDDEN));
+        return TRUE;
+    }
+
     return __super::PreTranslateMessage(pMsg);
 }
 
 void CMainFrame::RecalcLayout(BOOL bNotify)
 {
     __super::RecalcLayout(bNotify);
-
-    m_wndSeekBar.HideToolTip();
 
     CRect r;
     GetWindowRect(&r);
@@ -1229,16 +1190,14 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
         return TRUE;
     }
 
-    POSITION pos = m_bars.GetHeadPosition();
-    while (pos) {
-        if (m_bars.GetNext(pos)->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
+    for (const auto & pair : m_controls.m_toolbars) {
+        if (pair.second->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
             return TRUE;
         }
     }
 
-    pos = m_dockingbars.GetHeadPosition();
-    while (pos) {
-        if (m_dockingbars.GetNext(pos)->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
+    for (const auto & pair : m_controls.m_panels) {
+        if (pair.second->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
             return TRUE;
         }
     }
@@ -1261,9 +1220,9 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     const long saneSize = 110; // TODO: make it dpi-aware
 
     {
-        // Add docked panels
+        // Add docked controls
         unsigned uTop, uLeft, uRight, uBottom;
-        GetDockZones(uTop, uLeft, uRight, uBottom);
+        m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
         long x = 0, y = 0;
         if (uTop) {
             setLarger(x, saneSize);
@@ -1286,21 +1245,6 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     }
 
     {
-        // Add toolbars
-        POSITION pos = m_bars.GetHeadPosition();
-        if (pos) {
-            setLarger(lpMMI->ptMinTrackSize.x, saneSize * 2);
-        }
-        while (pos) {
-            CControlBar* pCB = m_bars.GetNext(pos);
-            if (!IsWindow(pCB->m_hWnd) || !pCB->IsVisible()) {
-                continue;
-            }
-            lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy;
-        }
-    }
-
-    if (!IsMenuHidden()) {
         // Add menubar height
         lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYMENU);
         // Ensure that menubar will fit horizontally
@@ -1315,7 +1259,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     }
 
     if (IsWindow(m_wndToolBar.m_hWnd) && m_wndToolBar.IsVisible()) {
-        // Ensure that the controls bar will fit
+        // Ensure that Controls toolbar will fit
         setLarger(lpMMI->ptMinTrackSize.x, m_wndToolBar.GetMinWidth());
     }
 
@@ -1432,6 +1376,20 @@ void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
     CSize controlsSize(currentWindowRect.Width() - currentViewRect.Width(),
                        currentWindowRect.Height() - currentViewRect.Height());
 
+    const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
+    const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
+    if (bPanelsOnVideo) {
+        unsigned uTop, uLeft, uRight, uBottom;
+        m_controls.GetVisibleDockZones(uTop, uLeft, uRight, uBottom);
+        if (!bToolbarsOnVideo) {
+            uBottom -= m_controls.GetVisibleToolbarsHeight();
+        }
+        controlsSize.cx -= uLeft + uRight;
+        controlsSize.cy -= uTop + uBottom;
+    } else if (bToolbarsOnVideo) {
+        controlsSize.cy -= m_controls.GetVisibleToolbarsHeight();
+    }
+
     CSize newWindowSize(lpRect->right - lpRect->left, lpRect->bottom - lpRect->top);
 
     newWindowSize -= controlsSize;
@@ -1478,6 +1436,14 @@ void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
             lpRect->left = lpRect->right - newWindowSize.cx;
             lpRect->bottom = lpRect->top + newWindowSize.cy;
             break;
+    }
+}
+
+void CMainFrame::OnExitSizeMove()
+{
+    if (m_wndView.Dragging()) {
+        // HACK: windowed (not renderless) video renderers may not produce WM_MOUSEMOVE message here
+        UpdateControlState(CMainFrame::UPDATE_CHILDVIEW_CURSOR_HACK);
     }
 }
 
@@ -1838,43 +1804,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 }
             }
             break;
-        case TIMER_FULLSCREENCONTROLBARHIDER: {
-            CPoint p;
-            GetCursorPos(&p);
-
-            CRect r;
-            GetWindowRect(r);
-            bool fCursorOutside = !r.PtInRect(p);
-
-            CWnd* pWnd = WindowFromPoint(p);
-            if (pWnd && (m_wndView == *pWnd || m_wndView.IsChild(pWnd) || fCursorOutside)) {
-                if (AfxGetAppSettings().nShowBarsWhenFullScreenTimeOut >= 0) {
-                    ShowControls(CS_NONE);
-                }
-            }
-        }
-        break;
-        case TIMER_FULLSCREENMOUSEHIDER: {
-            CPoint p;
-            GetCursorPos(&p);
-
-            CRect r;
-            GetWindowRect(r);
-            bool fCursorOutside = !r.PtInRect(p);
-            CWnd* pWnd = WindowFromPoint(p);
-            if (IsD3DFullScreenMode()) {
-                if (pWnd && !m_bInOptions && *pWnd == *m_pFullscreenWnd) {
-                    m_pFullscreenWnd->ShowCursor(false);
-                }
-                KillTimer(TIMER_FULLSCREENMOUSEHIDER);
-            } else {
-                if (pWnd && !m_bInOptions && (m_wndView == *pWnd || m_wndView.IsChild(pWnd) || fCursorOutside)) {
-                    m_fHideCursor = true;
-                    SetCursor(nullptr);
-                }
-            }
-        }
-        break;
         case TIMER_STATS: {
             if (m_pQP) {
                 CString rate;
@@ -2182,6 +2111,15 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             }
         }
         break;
+        case TIMER_32HZ:
+            m_timer32Hz.NotifySubscribers();
+            break;
+        default:
+            if (nIDEvent >= TIMER_ONETIME_START && nIDEvent <= TIMER_ONETIME_END) {
+                m_timerOneTime.NotifySubscribers(nIDEvent);
+            } else {
+                ASSERT(FALSE);
+            }
     }
 
     __super::OnTimer(nIDEvent);
@@ -2751,296 +2689,6 @@ void CMainFrame::SaveAppSettings()
     }
 }
 
-BOOL CMainFrame::OnButton(UINT id, UINT nFlags, CPoint point)
-{
-    SetFocus();
-
-    CRect r;
-    if (IsD3DFullScreenMode()) {
-        m_pFullscreenWnd->GetClientRect(r);
-    } else {
-        m_wndView.GetClientRect(r);
-        m_wndView.MapWindowPoints(this, &r);
-    }
-
-    if (id != wmcmd::WDOWN && id != wmcmd::WUP && !r.PtInRect(point)) {
-        return FALSE;
-    }
-
-    BOOL ret = FALSE;
-    WORD cmd = AssignedToCmd(id, m_fFullScreen);
-
-    if (cmd) {
-        SendMessage(WM_COMMAND, cmd);
-        ret = TRUE;
-    }
-
-    return ret;
-}
-
-static bool s_fLDown = false;
-
-void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
-{
-    if (!IsD3DFullScreenMode() || !m_OSD.OnLButtonDown(nFlags, point)) {
-        SetFocus();
-
-        bool fClicked = false;
-
-        if (GetPlaybackMode() == PM_DVD) {
-            CPoint p = point - m_wndView.GetVideoRect().TopLeft();
-
-            if (SUCCEEDED(m_pDVDC->ActivateAtPosition(p))
-                    || m_iDVDDomain == DVD_DOMAIN_VideoManagerMenu
-                    || m_iDVDDomain == DVD_DOMAIN_VideoTitleSetMenu) {
-                fClicked = true;
-            }
-        }
-
-        if (!fClicked) {
-            bool fLeftMouseBtnUnassigned = !AssignedToCmd(wmcmd::LDOWN, m_fFullScreen);
-
-            if (!m_fFullScreen && ((IsCaptionHidden() && AfxGetAppSettings().nCS <= CS_SEEKBAR) || fLeftMouseBtnUnassigned || ((GetTickCount() - m_nMenuHideTick) < 100))) {
-                PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
-            } else {
-                s_fLDown = true;
-                if (OnButton(wmcmd::LDOWN, nFlags, point)) {
-                    return;
-                }
-            }
-        }
-
-        __super::OnLButtonDown(nFlags, point);
-    }
-}
-
-void CMainFrame::OnLButtonUp(UINT nFlags, CPoint point)
-{
-    if (!IsD3DFullScreenMode() || !m_OSD.OnLButtonUp(nFlags, point)) {
-        bool fLeftMouseBtnUnassigned = !AssignedToCmd(wmcmd::LDOWN, m_fFullScreen);
-        if (fLeftMouseBtnUnassigned || ((GetTickCount() - m_nMenuHideTick) < 100)) {
-            PostMessage(WM_NCLBUTTONUP, HTCAPTION, MAKELPARAM(point.x, point.y));
-        } else if (OnButton(wmcmd::LUP, nFlags, point)) {
-            return;
-        }
-
-        __super::OnLButtonUp(nFlags, point);
-    }
-}
-
-void CMainFrame::OnLButtonDblClk(UINT nFlags, CPoint point)
-{
-    if (s_fLDown) {
-        SendMessage(WM_LBUTTONDOWN, nFlags, MAKELPARAM(point.x, point.y));
-        s_fLDown = false;
-    }
-    if (!OnButton(wmcmd::LDBLCLK, nFlags, point)) {
-        __super::OnLButtonDblClk(nFlags, point);
-    }
-}
-
-void CMainFrame::OnMButtonDown(UINT nFlags, CPoint point)
-{
-    SendMessage(WM_CANCELMODE);
-    if (!OnButton(wmcmd::MDOWN, nFlags, point)) {
-        __super::OnMButtonDown(nFlags, point);
-    }
-}
-
-void CMainFrame::OnMButtonUp(UINT nFlags, CPoint point)
-{
-    if (!OnButton(wmcmd::MUP, nFlags, point)) {
-        __super::OnMButtonUp(nFlags, point);
-    }
-}
-
-void CMainFrame::OnMButtonDblClk(UINT nFlags, CPoint point)
-{
-    SendMessage(WM_MBUTTONDOWN, nFlags, MAKELPARAM(point.x, point.y));
-    if (!OnButton(wmcmd::MDBLCLK, nFlags, point)) {
-        __super::OnMButtonDblClk(nFlags, point);
-    }
-}
-
-void CMainFrame::OnRButtonDown(UINT nFlags, CPoint point)
-{
-    if (!OnButton(wmcmd::RDOWN, nFlags, point)) {
-        __super::OnRButtonDown(nFlags, point);
-    }
-}
-
-void CMainFrame::OnRButtonUp(UINT nFlags, CPoint point)
-{
-    CPoint p;
-    GetCursorPos(&p);
-    SetFocus();
-    if (WindowFromPoint(p) != m_pFullscreenWnd && !OnButton(wmcmd::RUP, nFlags, point)) {
-        __super::OnRButtonUp(nFlags, point);
-    }
-}
-
-void CMainFrame::OnRButtonDblClk(UINT nFlags, CPoint point)
-{
-    SendMessage(WM_RBUTTONDOWN, nFlags, MAKELPARAM(point.x, point.y));
-    if (!OnButton(wmcmd::RDBLCLK, nFlags, point)) {
-        __super::OnRButtonDblClk(nFlags, point);
-    }
-}
-
-LRESULT CMainFrame::OnXButtonDown(WPARAM wParam, LPARAM lParam)
-{
-    SendMessage(WM_CANCELMODE);
-    UINT fwButton = GET_XBUTTON_WPARAM(wParam);
-    return OnButton(fwButton == XBUTTON1 ? wmcmd::X1DOWN : fwButton == XBUTTON2 ? wmcmd::X2DOWN : wmcmd::NONE,
-                    GET_KEYSTATE_WPARAM(wParam), CPoint(lParam));
-}
-
-LRESULT CMainFrame::OnXButtonUp(WPARAM wParam, LPARAM lParam)
-{
-    UINT fwButton = GET_XBUTTON_WPARAM(wParam);
-    return OnButton(fwButton == XBUTTON1 ? wmcmd::X1UP : fwButton == XBUTTON2 ? wmcmd::X2UP : wmcmd::NONE,
-                    GET_KEYSTATE_WPARAM(wParam), CPoint(lParam));
-}
-
-LRESULT CMainFrame::OnXButtonDblClk(WPARAM wParam, LPARAM lParam)
-{
-    SendMessage(WM_XBUTTONDOWN, wParam, lParam);
-    UINT fwButton = GET_XBUTTON_WPARAM(wParam);
-    return OnButton(fwButton == XBUTTON1 ? wmcmd::X1DBLCLK : fwButton == XBUTTON2 ? wmcmd::X2DBLCLK : wmcmd::NONE,
-                    GET_KEYSTATE_WPARAM(wParam), CPoint(lParam));
-}
-
-BOOL CMainFrame::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
-{
-    ScreenToClient(&point);
-
-    BOOL fRet =
-        zDelta > 0 ? OnButton(wmcmd::WUP, nFlags, point) :
-        zDelta < 0 ? OnButton(wmcmd::WDOWN, nFlags, point) :
-        FALSE;
-
-    return fRet;
-}
-
-void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
-{
-    // Waffs : ignore mousemoves when entering fullscreen
-    if (m_lastMouseMove.x == -1 && m_lastMouseMove.y == -1) {
-        m_lastMouseMove.x = point.x;
-        m_lastMouseMove.y = point.y;
-    }
-
-    if (!m_OSD.OnMouseMove(nFlags, point)) {
-        if (GetPlaybackMode() == PM_DVD) {
-            CPoint vp = point - m_wndView.GetVideoRect().TopLeft();
-            ULONG pulButtonIndex;
-            if (!m_fHideCursor) {
-                SetCursor(LoadCursor(nullptr, SUCCEEDED(m_pDVDI->GetButtonAtPosition(vp, &pulButtonIndex)) ? IDC_HAND : IDC_ARROW));
-            }
-            m_pDVDC->SelectAtPosition(vp);
-        }
-
-        CSize diff = m_lastMouseMove - point;
-        const CAppSettings& s = AfxGetAppSettings();
-
-        if (IsD3DFullScreenMode() && (abs(diff.cx) + abs(diff.cy)) >= 1) {
-            //TRACE(_T("==> SHOW!\n"));
-            m_pFullscreenWnd->ShowCursor(true);
-
-            // Casimir666 : hide the cursor if we are not in the DVD menu
-            if ((GetPlaybackMode() == PM_FILE) || (GetPlaybackMode() == PM_DVD)) {
-                KillTimer(TIMER_FULLSCREENMOUSEHIDER);
-                SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, nullptr);
-            }
-        } else if (m_fFullScreen && (abs(diff.cx) + abs(diff.cy)) >= 1) {
-            int nTimeOut = s.nShowBarsWhenFullScreenTimeOut;
-
-            if (nTimeOut < 0) {
-                m_fHideCursor = false;
-                if (s.fShowBarsWhenFullScreen) {
-                    ShowControls(m_nCS);
-                    if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && s.iDefaultCaptureDevice == 1) {
-                        m_wndNavigationBar.m_navdlg.UpdateElementList();
-                        m_wndNavigationBar.ShowControls(this, TRUE);
-                    }
-                }
-
-                KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
-                SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, nullptr);
-            } else if (nTimeOut == 0) {
-                CRect r;
-                GetClientRect(r);
-                r.top = r.bottom;
-
-                POSITION pos = m_bars.GetHeadPosition();
-                for (int i = 1; pos; i <<= 1) {
-                    CControlBar* pNext = m_bars.GetNext(pos);
-                    CSize size = pNext->CalcFixedLayout(FALSE, TRUE);
-                    if (m_nCS & i) {
-                        r.top -= size.cy;
-                    }
-                }
-
-
-                // HACK: the controls would cover the menu too early hiding some buttons
-                if (GetPlaybackMode() == PM_DVD
-                        && (m_iDVDDomain == DVD_DOMAIN_VideoManagerMenu
-                            || m_iDVDDomain == DVD_DOMAIN_VideoTitleSetMenu)) {
-                    r.top = r.bottom - 10;
-                }
-
-                m_fHideCursor = false;
-
-                if (r.PtInRect(point)) {
-                    if (s.fShowBarsWhenFullScreen) {
-                        ShowControls(m_nCS);
-                    }
-                } else {
-                    if (s.fShowBarsWhenFullScreen) {
-                        ShowControls(CS_NONE);
-                    }
-                }
-
-                // PM_CAPTURE: Left Navigation panel for switching channels
-                if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && s.iDefaultCaptureDevice == 1) {
-                    CRect rLeft;
-                    GetClientRect(rLeft);
-                    rLeft.right = rLeft.left;
-                    CSize size = m_wndNavigationBar.CalcFixedLayout(FALSE, TRUE);
-                    rLeft.right += size.cx;
-
-                    m_fHideCursor = false;
-
-                    if (rLeft.PtInRect(point)) {
-                        if (s.fShowBarsWhenFullScreen) {
-                            m_wndNavigationBar.m_navdlg.UpdateElementList();
-                            m_wndNavigationBar.ShowControls(this, TRUE);
-                        }
-                    } else {
-                        if (s.fShowBarsWhenFullScreen) {
-                            m_wndNavigationBar.ShowControls(this, FALSE);
-                        }
-                    }
-                }
-
-                SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, nullptr);
-            } else {
-                m_fHideCursor = false;
-                if (s.fShowBarsWhenFullScreen) {
-                    ShowControls(m_nCS);
-                }
-
-                SetTimer(TIMER_FULLSCREENCONTROLBARHIDER, nTimeOut * 1000, nullptr);
-                SetTimer(TIMER_FULLSCREENMOUSEHIDER, max(nTimeOut * 1000, 2000), nullptr);
-            }
-        }
-
-        m_lastMouseMove = point;
-
-        __super::OnMouseMove(nFlags, point);
-    }
-}
-
 LRESULT CMainFrame::OnNcHitTest(CPoint point)
 {
     LRESULT nHitTest = __super::OnNcHitTest(point);
@@ -3291,7 +2939,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
 {
     __super::OnUnInitMenuPopup(pPopupMenu, nFlags);
-    m_nMenuHideTick = GetTickCount();
+    m_dwMenuHideTick = GetTickCount();
 }
 
 BOOL CMainFrame::OnMenu(CMenu* pMenu)
@@ -3311,20 +2959,10 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
         }
     }
 
-    KillTimer(TIMER_FULLSCREENMOUSEHIDER);
-    m_fHideCursor = false;
-
-    MSG msg;
-    pMenu->TrackPopupMenu(TPM_RIGHTBUTTON | TPM_NOANIMATION, point.x + 1, point.y + 1, this);
+    pMenu->TrackPopupMenu(TPM_RIGHTBUTTON | TPM_NOANIMATION, point.x, point.y, this);
 
     if (AfxGetMyApp()->m_fClosingState) {
         return FALSE; //prevent crash when player closes with context menu open
-    }
-
-    PeekMessage(&msg, this->m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE); //remove the click LMB, which closes the popup menu
-
-    if (m_fFullScreen) {
-        SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, nullptr);    //need when working with menus and use the keyboard only
     }
 
     return TRUE;
@@ -3546,6 +3184,16 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     OpenSetupStatusBar();
     OpenSetupCaptureBar();
 
+    // show navigation panel when it's available and not disabled
+    if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && m_iMediaLoadState == MLS_LOADED && s.iDefaultCaptureDevice == 1) {
+        m_wndNavigationBar.m_navdlg.UpdateElementList();
+        if (!m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+            m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
+        } else {
+            ASSERT(FALSE);
+        }
+    }
+
     // set item duration in the playlist
     // TODO: GetDuration() should be refactored out of this place, to some aggregating class
     REFERENCE_TIME rtDur = 0;
@@ -3588,7 +3236,7 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
         }
     }
 
-    CloseMedia();
+    CloseMedia(bOpenNextInPlaylist);
     if (bOpenNextInPlaylist) {
         OpenCurPlaylistItem();
     }
@@ -3608,11 +3256,6 @@ void CMainFrame::OnFilePostClosemedia()
         m_closingmsg.LoadString(IDS_CONTROLS_CLOSED);
     }
 
-    if (IsD3DFullScreenMode()) {
-        KillTimer(TIMER_FULLSCREENMOUSEHIDER);
-        KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
-        m_fHideCursor = false;
-    }
     m_wndView.SetVideoRect();
     m_wndSeekBar.Enable(false);
     m_wndSeekBar.SetRange(0, 0);
@@ -3627,20 +3270,19 @@ void CMainFrame::OnFilePostClosemedia()
         m_wndEditListEditor.CloseFile();
     }
 
-    if (IsWindow(m_wndSubresyncBar.m_hWnd)) {
-        ShowControlBar(&m_wndSubresyncBar, FALSE, TRUE);
-        SetSubtitle(nullptr);
+    if (m_controls.ControlChecked(CMainFrameControls::Panel::SUBRESYNC)) {
+        m_controls.ToggleControl(CMainFrameControls::Panel::SUBRESYNC);
     }
+    SetSubtitle(nullptr);
 
-    if (IsWindow(m_wndCaptureBar.m_hWnd)) {
-        ShowControlBar(&m_wndCaptureBar, FALSE, TRUE);
-        m_wndCaptureBar.m_capdlg.SetupVideoControls(_T(""), nullptr, nullptr, nullptr);
-        m_wndCaptureBar.m_capdlg.SetupAudioControls(_T(""), nullptr, CInterfaceArray<IAMAudioInputMixer>());
+    if (m_controls.ControlChecked(CMainFrameControls::Panel::CAPTURE)) {
+        m_controls.ToggleControl(CMainFrameControls::Panel::CAPTURE);
     }
+    m_wndCaptureBar.m_capdlg.SetupVideoControls(_T(""), nullptr, nullptr, nullptr);
+    m_wndCaptureBar.m_capdlg.SetupAudioControls(_T(""), nullptr, CInterfaceArray<IAMAudioInputMixer>());
 
-    if (GetPlaybackMode() == PM_CAPTURE) {
-        // Restore the controls
-        ShowControls(AfxGetAppSettings().nCS, true);
+    if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+        m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
     }
 
     OpenSetupWindowTitle(true);
@@ -4114,10 +3756,6 @@ void CMainFrame::OnFileOpenQuick()
 
     m_wndPlaylistBar.Open(fns, fMultipleFiles);
 
-    if (m_wndPlaylistBar.GetCount() == 1 && m_wndPlaylistBar.IsWindowVisible() && !m_wndPlaylistBar.IsFloating()) {
-        ShowControlBar(&m_wndPlaylistBar, FALSE, TRUE);
-    }
-
     OpenCurPlaylistItem();
 }
 
@@ -4155,10 +3793,6 @@ void CMainFrame::OnFileOpenmedia()
     }
 
     m_wndPlaylistBar.Open(dlg.m_fns, dlg.m_fMultipleFiles);
-
-    if (m_wndPlaylistBar.GetCount() == 1 && m_wndPlaylistBar.IsWindowVisible() && !m_wndPlaylistBar.IsFloating()) {
-        ShowControlBar(&m_wndPlaylistBar, FALSE, TRUE);
-    }
 
     OpenCurPlaylistItem();
 }
@@ -4331,7 +3965,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                     OpenCurPlaylistItem();
                 }
             } else {
-                SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+                //SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                 fSetForegroundWindow = true;
 
                 m_wndPlaylistBar.Open(sl, fMulti, &s.slSubs);
@@ -4455,10 +4089,6 @@ void CMainFrame::OnFileOpendevice()
         p->DisplayName[1] = s.strAnalogAudio;
     }
     OpenMedia(p);
-    if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && m_iMediaLoadState == MLS_LOADED && s.iDefaultCaptureDevice == 1) {
-        m_wndNavigationBar.m_navdlg.UpdateElementList();
-        ShowControlBar(&m_wndNavigationBar, TRUE, TRUE);
-    }
 }
 
 void CMainFrame::OnFileOpenOpticalDisk(UINT nID)
@@ -4515,11 +4145,6 @@ void CMainFrame::OnFileReopen()
 void CMainFrame::OnDropFiles(HDROP hDropInfo)
 {
     SetForegroundWindow();
-
-    if (m_wndPlaylistBar.IsWindowVisible()) {
-        m_wndPlaylistBar.OnDropFiles(hDropInfo);
-        return;
-    }
 
     CAtlList<CString> sl;
 
@@ -6388,7 +6013,7 @@ void CMainFrame::OnViewCaptionmenu()
 
     DWORD dwRemove = 0, dwAdd = 0;
     DWORD dwFlags = SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER;
-    HMENU hMenu = nullptr;
+    DWORD dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
 
     CRect wr;
     GetWindowRect(&wr);
@@ -6396,13 +6021,12 @@ void CMainFrame::OnViewCaptionmenu()
     switch (s.iCaptionMenuMode) {
         case MODE_SHOWCAPTIONMENU:  // borderless -> normal
             dwAdd = WS_CAPTION | WS_THICKFRAME;
-            hMenu = m_hMenuDefault;
+            dwMenuFlags = AFX_MBV_KEEPVISIBLE;
             wr.right  += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
             wr.bottom += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
             wr.bottom += GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYMENU);
             break;
         case MODE_HIDEMENU:         // normal -> hidemenu
-            hMenu = nullptr;
             wr.bottom -= GetSystemMetrics(SM_CYMENU);
             break;
         case MODE_FRAMEONLY:        // hidemenu -> frameonly
@@ -6427,7 +6051,7 @@ void CMainFrame::OnViewCaptionmenu()
     }
 
     ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
-    ::SetMenu(m_hWnd, hMenu);
+    SetMenuBarVisibility(dwMenuFlags);
     if (IsZoomed()) { // If the window is maximized, we want it to stay maximized.
         dwFlags |= SWP_NOSIZE;
     }
@@ -6447,43 +6071,35 @@ void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 void CMainFrame::OnViewControlBar(UINT nID)
 {
     nID -= ID_VIEW_SEEKER;
-    UINT bitID = (1u << nID);
-
-    // Remember the change
-    AfxGetAppSettings().nCS ^= bitID;
-
-    ShowControls(m_nCS ^ bitID, true);
+    m_controls.ToggleControl(static_cast<CMainFrameControls::Toolbar>(nID));
 }
 
 void CMainFrame::OnUpdateViewControlBar(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_VIEW_SEEKER;
-    pCmdUI->SetCheck(!!(m_nCS & (1 << nID)));
-
-    if (pCmdUI->m_nID == ID_VIEW_SEEKER) {
-        pCmdUI->Enable(GetPlaybackMode() != PM_CAPTURE);
-    }
+    const UINT nID = pCmdUI->m_nID - ID_VIEW_SEEKER;
+    pCmdUI->SetCheck(m_controls.ControlChecked(static_cast<CMainFrameControls::Toolbar>(nID)));
 }
 
 void CMainFrame::OnViewSubresync()
 {
-    ShowControlBar(&m_wndSubresyncBar, !m_wndSubresyncBar.IsWindowVisible(), TRUE);
+    m_controls.ToggleControl(CMainFrameControls::Panel::SUBRESYNC);
 }
 
 void CMainFrame::OnUpdateViewSubresync(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(m_wndSubresyncBar.IsWindowVisible());
+    pCmdUI->SetCheck(m_controls.ControlChecked(CMainFrameControls::Panel::SUBRESYNC));
     pCmdUI->Enable(m_pCAP && !m_pSubStreams.IsEmpty() && GetPlaybackMode() != PM_CAPTURE);
 }
 
 void CMainFrame::OnViewPlaylist()
 {
-    ShowControlBar(&m_wndPlaylistBar, !m_wndPlaylistBar.IsWindowVisible(), TRUE);
+    m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
+    m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
 }
 
 void CMainFrame::OnUpdateViewPlaylist(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(m_wndPlaylistBar.IsWindowVisible());
+    pCmdUI->SetCheck(m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST));
     pCmdUI->Enable(m_iMediaLoadState == MLS_CLOSED && m_iMediaLoadState != MLS_LOADED
                    || m_iMediaLoadState == MLS_LOADED /*&& (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_CAPTURE)*/);
 }
@@ -6494,7 +6110,7 @@ void CMainFrame::OnViewEditListEditor()
 
     if (s.fEnableEDLEditor || (AfxMessageBox(IDS_MB_SHOW_EDL_EDITOR, MB_ICONQUESTION | MB_YESNO, 0) == IDYES)) {
         s.fEnableEDLEditor = true;
-        ShowControlBar(&m_wndEditListEditor, !m_wndEditListEditor.IsWindowVisible(), TRUE);
+        m_controls.ToggleControl(CMainFrameControls::Panel::EDL);
     }
 }
 
@@ -6510,7 +6126,7 @@ void CMainFrame::OnEDLIn()
 
 void CMainFrame::OnUpdateEDLIn(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
+    pCmdUI->Enable(m_controls.ControlChecked(CMainFrameControls::Panel::EDL));
 }
 
 void CMainFrame::OnEDLOut()
@@ -6525,7 +6141,7 @@ void CMainFrame::OnEDLOut()
 
 void CMainFrame::OnUpdateEDLOut(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
+    pCmdUI->Enable(m_controls.ControlChecked(CMainFrameControls::Panel::EDL));
 }
 
 void CMainFrame::OnEDLNewClip()
@@ -6540,7 +6156,7 @@ void CMainFrame::OnEDLNewClip()
 
 void CMainFrame::OnUpdateEDLNewClip(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
+    pCmdUI->Enable(m_controls.ControlChecked(CMainFrameControls::Panel::EDL));
 }
 
 void CMainFrame::OnEDLSave()
@@ -6552,51 +6168,46 @@ void CMainFrame::OnEDLSave()
 
 void CMainFrame::OnUpdateEDLSave(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
+    pCmdUI->Enable(m_controls.ControlChecked(CMainFrameControls::Panel::EDL));
 }
 
 // Navigation menu
 void CMainFrame::OnViewNavigation()
 {
-    CAppSettings& s = AfxGetAppSettings();
-
-    if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
-        s.fHideNavigation = !!m_wndNavigationBar.IsWindowVisible();
-        ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
-        if (!s.fHideNavigation) {
-            m_wndNavigationBar.m_navdlg.UpdateElementList();
-        }
+    const bool bHiding = m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION);
+    m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
+    if (!bHiding) {
+        m_wndNavigationBar.m_navdlg.UpdateElementList();
     }
+    AfxGetAppSettings().fHideNavigation = bHiding;
 }
 
 void CMainFrame::OnUpdateViewNavigation(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(m_wndNavigationBar.IsWindowVisible());
+    pCmdUI->SetCheck(m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION));
     pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1);
 }
 
 void CMainFrame::OnViewCapture()
 {
-    if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 0) {
-        ShowControlBar(&m_wndCaptureBar, !m_wndCaptureBar.IsWindowVisible(), TRUE);
-    }
+    m_controls.ToggleControl(CMainFrameControls::Panel::CAPTURE);
 }
 
 void CMainFrame::OnUpdateViewCapture(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(m_wndCaptureBar.IsWindowVisible());
+    pCmdUI->SetCheck(m_controls.ControlChecked(CMainFrameControls::Panel::CAPTURE));
     pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 0);
 }
 
 void CMainFrame::OnViewShaderEditor()
 {
-    ShowControlBar(&m_wndShaderEditorBar, !m_wndShaderEditorBar.IsWindowVisible(), TRUE);
+    m_controls.ToggleControl(CMainFrameControls::Panel::SHADEREDITOR);
     AfxGetAppSettings().fShaderEditorWasOpened = true;
 }
 
 void CMainFrame::OnUpdateViewShaderEditor(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(m_wndShaderEditorBar.IsWindowVisible());
+    pCmdUI->SetCheck(m_controls.ControlChecked(CMainFrameControls::Panel::SHADEREDITOR));
     pCmdUI->Enable(TRUE);
 }
 
@@ -6633,13 +6244,7 @@ void CMainFrame::SetUIPreset(int iCaptionMenuMode, UINT nCS)
         SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
     }
 
-    // Remember the change
-    AfxGetAppSettings().nCS = nCS;
-    // Hide seek bar on capture mode
-    if (GetPlaybackMode() == PM_CAPTURE) {
-        nCS &= ~CS_SEEKBAR;
-    }
-    ShowControls(nCS, true);
+    m_controls.SetToolbarsSelection(nCS, true);
 }
 
 void CMainFrame::OnViewFullscreen()
@@ -8474,13 +8079,13 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
                 if (nID == ID_NAVIGATE_SKIPBACK) {
                     if (SUCCEEDED(SetChannel(nCurrentChannel - 1))) {
-                        if (m_wndNavigationBar.IsVisible()) {
+                        if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
                             m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
                         }
                     }
                 } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
                     if (SUCCEEDED(SetChannel(nCurrentChannel + 1))) {
-                        if (m_wndNavigationBar.IsVisible()) {
+                        if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
                             m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
                         }
                     }
@@ -8709,7 +8314,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             if (pTun) {
                 if (s.nDVBLastChannel != nID) {
                     if (SUCCEEDED(SetChannel(nID))) {
-                        if (m_wndNavigationBar.IsVisible()) {
+                        if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
                             m_wndNavigationBar.m_navdlg.UpdatePos(nID);
                         }
                     }
@@ -9257,39 +8862,20 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         w = s.rcLastWindowPos.Width();
         h = s.rcLastWindowPos.Height();
     } else {
-        CRect r1, r2;
-        GetClientRect(&r1);
-        m_wndView.GetClientRect(&r2);
+        CRect windowRect;
+        GetWindowRect(&windowRect);
+        CRect clientRect;
+        GetClientRect(&clientRect);
 
-        CSize logosize = m_wndView.GetLogoSize();
-        int _DEFCLIENTW = max(logosize.cx, DEFCLIENTW);
-        int _DEFCLIENTH = max(logosize.cy, DEFCLIENTH);
+        CSize logoSize = m_wndView.GetLogoSize();
+        logoSize.cx = max(logoSize.cx, DEFCLIENTW);
+        logoSize.cy = max(logoSize.cy, DEFCLIENTH);
 
-        if (GetSystemMetrics(SM_REMOTESESSION)) {
-            _DEFCLIENTH = 0;
-        }
+        unsigned uTop, uLeft, uRight, uBottom;
+        m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
 
-        DWORD style = GetStyle();
-
-        w = _DEFCLIENTW + r1.Width() - r2.Width();
-        h = _DEFCLIENTH + r1.Height() - r2.Height();
-
-        if (style & WS_THICKFRAME) {
-            w += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-            h += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
-            if ((style & WS_CAPTION) == 0) {
-                w -= 2;
-                h -= 2;
-            }
-        }
-
-        if (style & WS_CAPTION) {
-            h += GetSystemMetrics(SM_CYCAPTION);
-            if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
-                h += GetSystemMetrics(SM_CYMENU);
-            }
-            //else MODE_HIDEMENU
-        }
+        w = windowRect.Width() - clientRect.Width() + logoSize.cx + uLeft + uRight;
+        h = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
     }
 
     bool inmonitor = false;
@@ -9343,7 +8929,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         } else if (s.iCaptionMenuMode == MODE_BORDERLESS) {
             ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
         }
-        ::SetMenu(m_hWnd, nullptr);
+        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
         SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);
     }
 
@@ -9375,7 +8961,6 @@ void CMainFrame::SetDefaultFullscreenState()
             m_fStartInD3DFullscreen = true;
         } else {
             ToggleFullscreen(true, true);
-            SetCursor(nullptr);
             m_fFirstFSAfterLaunchOnFS = true;
         }
         s.nCLSwitches &= ~CLSW_FULLSCREEN;
@@ -9385,7 +8970,6 @@ void CMainFrame::SetDefaultFullscreenState()
             m_fStartInD3DFullscreen = true;
         } else {
             ToggleFullscreen(true, true);
-            SetCursor(nullptr);
             m_fFirstFSAfterLaunchOnFS = true;
         }
     }
@@ -9407,34 +8991,20 @@ void CMainFrame::RestoreDefaultWindowRect()
             w = s.sizeFixedWindow.cx;
             h = s.sizeFixedWindow.cy;
         } else {
-            CRect r1, r2;
-            GetClientRect(&r1);
-            m_wndView.GetClientRect(&r2);
+            CRect windowRect;
+            GetWindowRect(&windowRect);
+            CRect clientRect;
+            GetClientRect(&clientRect);
 
-            CSize logosize = m_wndView.GetLogoSize();
-            int _DEFCLIENTW = max(logosize.cx, DEFCLIENTW);
-            int _DEFCLIENTH = max(logosize.cy, DEFCLIENTH);
+            CSize logoSize = m_wndView.GetLogoSize();
+            logoSize.cx = max(logoSize.cx, DEFCLIENTW);
+            logoSize.cy = max(logoSize.cy, DEFCLIENTH);
 
-            DWORD style = GetStyle();
-            w = _DEFCLIENTW + r1.Width() - r2.Width();
-            h = _DEFCLIENTH + r1.Height() - r2.Height();
+            unsigned uTop, uLeft, uRight, uBottom;
+            m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
 
-            if (style & WS_THICKFRAME) {
-                w += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-                h += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
-                if ((style & WS_CAPTION) == 0) {
-                    w -= 2;
-                    h -= 2;
-                }
-            }
-
-            if (style & WS_CAPTION) {
-                h += GetSystemMetrics(SM_CYCAPTION);
-                if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
-                    h += GetSystemMetrics(SM_CYMENU);
-                }
-                //else MODE_HIDEMENU
-            }
+            w = windowRect.Width() - clientRect.Width() + logoSize.cx + uLeft + uRight;
+            h = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
         }
 
         if (s.fRememberWindowPos) {
@@ -9468,9 +9038,6 @@ OAFilterState CMainFrame::GetMediaState() const
 void CMainFrame::SetPlaybackMode(int iNewStatus)
 {
     m_iPlaybackMode = iNewStatus;
-    if (m_wndNavigationBar.IsWindowVisible() && GetPlaybackMode() != PM_CAPTURE) {
-        ShowControlBar(&m_wndNavigationBar, !m_wndNavigationBar.IsWindowVisible(), TRUE);
-    }
 }
 
 CSize CMainFrame::GetVideoSize() const
@@ -9557,7 +9124,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     CRect r;
     DWORD dwRemove = 0, dwAdd = 0;
     DWORD dwRemoveEx = 0, dwAddEx = 0;
-    HMENU hMenu;
     MONITORINFO mi;
     mi.cbSize = sizeof(MONITORINFO);
 
@@ -9569,9 +9135,12 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     static bool bExtOnTop; // True if the "on top" flag was set by an external tool
 
     if (!m_fFullScreen) {
-        if (s.bHidePlaylistFullScreen && m_wndPlaylistBar.IsVisible()) {
+        SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
+        m_eventd.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
+
+        if (s.bHidePlaylistFullScreen && m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
-            ShowControlBar(&m_wndPlaylistBar, FALSE, TRUE);
+            ShowControlBar(&m_wndPlaylistBar, FALSE, FALSE);
         }
 
         if (!m_fFirstFSAfterLaunchOnFS) {
@@ -9607,7 +9176,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         } else {
             GetDesktopWindow()->GetWindowRect(&r);
         }
-        hMenu = nullptr;
+        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
     } else {
         if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault && s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
             SetDispMode(s.strFullScreenMonitor, s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes);
@@ -9617,15 +9186,13 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         if (!m_fFirstFSAfterLaunchOnFS) {
             r = m_lastWindowRect;
         }
-        hMenu = (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) ? m_hMenuDefault : nullptr;
-
-        if (s.bHidePlaylistFullScreen && m_wndPlaylistBar.IsHiddenDueToFullscreen()) {
+        SetMenuBarVisibility(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU ?
+                             AFX_MBV_KEEPVISIBLE : AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
+        if (m_wndPlaylistBar.IsHiddenDueToFullscreen() && !m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
-            ShowControlBar(&m_wndPlaylistBar, TRUE, TRUE);
+            m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
         }
     }
-
-    m_lastMouseMove.x = m_lastMouseMove.y = -1;
 
     bool fAudioOnly = m_fAudioOnly;
     m_fAudioOnly = true;
@@ -9635,7 +9202,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
     ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
-    ::SetMenu(m_hWnd, hMenu);
 
     static bool m_Change_Monitor = false;
     // try disable shader when move from one monitor to other ...
@@ -9661,20 +9227,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     }
 
     if (m_fFullScreen) {
-        m_fHideCursor = true;
-        if (s.fShowBarsWhenFullScreen) {
-            int nTimeOut = s.nShowBarsWhenFullScreenTimeOut;
-            if (nTimeOut == 0) {
-                ShowControls(CS_NONE);
-                ShowControlBar(&m_wndNavigationBar, false, TRUE);
-            } else if (nTimeOut > 0) {
-                SetTimer(TIMER_FULLSCREENCONTROLBARHIDER, nTimeOut * 1000, nullptr);
-                SetTimer(TIMER_FULLSCREENMOUSEHIDER, max(nTimeOut * 1000, 2000), nullptr);
-            }
-        } else {
-            ShowControls(CS_NONE);
-            ShowControlBar(&m_wndNavigationBar, false, TRUE);
-        }
+        UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
 
         if (s.fPreventMinimize) {
             if (hm != hm_cur) {
@@ -9686,13 +9239,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     } else {
         ModifyStyle(0, WS_MINIMIZEBOX, SWP_NOZORDER);
-        KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
-        KillTimer(TIMER_FULLSCREENMOUSEHIDER);
-        m_fHideCursor = false;
-        ShowControls(m_nCS);
-        if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
-            ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
-        }
+        UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
     }
 
     m_fAudioOnly = fAudioOnly;
@@ -9724,24 +9271,26 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             if (!s.fRememberWindowSize) {
                 CSize vsize = GetVideoSize();
                 r = CRect(r.left, r.top, r.left + vsize.cx, r.top + vsize.cy);
-                ShowWindow(SW_HIDE);
+                // COMMENTED OUT: it releases mouse capture, we may loose the second mouse up event in doubleclick
+                //ShowWindow(SW_HIDE);
             }
             SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
             if (!s.fRememberWindowSize) {
                 ZoomVideoWindow();
-                ShowWindow(SW_SHOW);
+                //ShowWindow(SW_SHOW);
             }
         } else {
             if (m_LastWindow_HM != hm_cur) {
                 GetMonitorInfo(m_LastWindow_HM, &mi);
                 r = mi.rcMonitor;
-                ShowWindow(SW_HIDE);
+                // COMMENTED OUT: it releases mouse capture, we may loose the second mouse up event in doubleclick
+                //ShowWindow(SW_HIDE);
                 SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
             }
             ZoomVideoWindow();
-            if (m_LastWindow_HM != hm_cur) {
-                ShowWindow(SW_SHOW);
-            }
+            //if (m_LastWindow_HM != hm_cur) {
+            //    ShowWindow(SW_SHOW);
+            //}
         }
         m_fFirstFSAfterLaunchOnFS = false;
     } else {
@@ -9790,12 +9339,9 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
             ZoomVideoWindow();
-
-            // Show the cursor
-            KillTimer(TIMER_FULLSCREENMOUSEHIDER);
-            KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
-            m_fHideCursor = false;
         } else {
+            m_eventd.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
+
             // Set the fullscreen display mode
             if (s.AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo) {
                 AutoChangeMonitorMode();
@@ -9877,25 +9423,28 @@ void CMainFrame::AutoChangeMonitorMode()
 void CMainFrame::MoveVideoWindow(bool fShowStats)
 {
     if ((m_iMediaLoadState == MLS_LOADED) && !m_fAudioOnly && IsWindowVisible()) {
-        RECT wr;
-        // fullscreen
+        CRect wr;
         if (IsD3DFullScreenMode()) {
-            m_pFullscreenWnd->GetClientRect(&wr);
+            m_pFullscreenWnd->GetClientRect(wr);
+        } else {
+            m_wndView.GetClientRect(wr);
         }
-        // windowed Mode
-        else if (!m_fFullScreen) {
-            m_wndView.GetClientRect(&wr);
+
+        const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
+        const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
+        if (bPanelsOnVideo) {
+            unsigned uTop, uLeft, uRight, uBottom;
+            m_controls.GetVisibleDockZones(uTop, uLeft, uRight, uBottom);
+            if (!bToolbarsOnVideo) {
+                uBottom -= m_controls.GetVisibleToolbarsHeight();
+            }
+            wr.InflateRect(uLeft, uTop, uRight, uBottom);
+        } else if (bToolbarsOnVideo) {
+            wr.bottom += m_controls.GetVisibleToolbarsHeight();
         }
-        // fullscreen on non-primary monitor
-        else {
-            GetWindowRect(&wr);
-            RECT r;
-            m_wndView.GetWindowRect(&r);
-            wr.left   -= r.left;
-            wr.right  -= r.left;
-            wr.top    -= r.top;
-            wr.bottom -= r.top;
-        }
+
+        int nCompensateForMenubar = m_bShowingFloatingMenubar ? GetSystemMetrics(SM_CYMENU) : 0;
+        wr.bottom += nCompensateForMenubar;
 
         double dWRWidth  = (double)(wr.right - wr.left);
         double dWRHeight = (double)(wr.bottom - wr.top);
@@ -9977,6 +9526,9 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
             }
         }
 
+        wr.top -= nCompensateForMenubar;
+        wr.bottom -= nCompensateForMenubar;
+
         if (m_pCAP) {
             m_pCAP->SetPosition(wr, vr);
             Vector v(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(m_AngleZ));
@@ -10028,7 +9580,7 @@ void CMainFrame::HideVideoWindow(bool fHide)
     m_bLockedZoomVideoWindow = fHide;
 }
 
-void CMainFrame::ZoomVideoWindow(bool snap, double scale)
+void CMainFrame::ZoomVideoWindow(bool snap/* = true*/, double scale/* = ZOOM_DEFAULT_LEVEL*/)
 {
     if ((m_iMediaLoadState != MLS_LOADED) ||
             (m_nLockedZoomVideoWindow > 0) || m_bLockedZoomVideoWindow) {
@@ -10068,36 +9620,28 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
     int w = 0, h = 0;
 
     if (!m_fAudioOnly) {
-        CSize arxy = GetVideoSize();
+        CSize videoSize = GetVideoSize();
+        CSize clientTargetSize(int(videoSize.cx * scale + 0.5), int(videoSize.cy * scale + 0.5));
 
-        long lWidth  = long(arxy.cx * scale + 0.5);
-        long lHeight = long(arxy.cy * scale + 0.5);
-
-        DWORD style = GetStyle();
-
-        CRect r1, r2;
-        GetClientRect(&r1);
-        m_wndView.GetClientRect(&r2);
-
-        w = r1.Width() - r2.Width() + lWidth;
-        h = r1.Height() - r2.Height() + lHeight;
-
-        if (style & WS_THICKFRAME) {
-            w += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-            h += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
-            if ((style & WS_CAPTION) == 0) {
-                w -= 2;
-                h -= 2;
+        const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
+        const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
+        if (!bPanelsOnVideo) {
+            unsigned uTop, uLeft, uRight, uBottom;
+            m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
+            if (bToolbarsOnVideo) {
+                uBottom -= m_controls.GetToolbarsHeight();
             }
+            clientTargetSize.cx += uLeft + uRight;
+            clientTargetSize.cy += uTop + uBottom;
+        } else if (!bToolbarsOnVideo) {
+            clientTargetSize.cy += m_controls.GetToolbarsHeight();
         }
 
-        if (style & WS_CAPTION) {
-            h += GetSystemMetrics(SM_CYCAPTION);
-            if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
-                h += GetSystemMetrics(SM_CYMENU);
-            }
-            //else MODE_HIDEMENU
-        }
+        CRect clientRect;
+        GetClientRect(&clientRect);
+
+        w = r.Width() - clientRect.Width() + clientTargetSize.cx;
+        h = r.Height() - clientRect.Height() + clientTargetSize.cy;
 
         w = max(w, mmi.ptMinTrackSize.x);
         h = max(h, mmi.ptMinTrackSize.y);
@@ -10164,7 +9708,7 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
     MoveVideoWindow();
 }
 
-double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
+double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 {
     if (m_iMediaLoadState != MLS_LOADED || m_fAudioOnly) {
         return 1.0;
@@ -10204,26 +9748,18 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
         }
     }
 
-    RECT r;
-    if (m_wndSeekBar.IsVisible()) {
-        m_wndSeekBar.GetWindowRect(&r);
-        decorationsSize.cy += r.bottom - r.top;
-    }
-    if (m_wndToolBar.IsVisible()) {
-        m_wndToolBar.GetWindowRect(&r);
-        decorationsSize.cy += r.bottom - r.top;
-    }
-    if (m_wndInfoBar.IsVisible()) {
-        m_wndInfoBar.GetWindowRect(&r);
-        decorationsSize.cy += r.bottom - r.top;
-    }
-    if (m_wndStatsBar.IsVisible()) {
-        m_wndStatsBar.GetWindowRect(&r);
-        decorationsSize.cy += r.bottom - r.top;
-    }
-    if (m_wndStatusBar.IsVisible()) {
-        m_wndStatusBar.GetWindowRect(&r);
-        decorationsSize.cy += r.bottom - r.top;
+    const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
+    const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
+    if (!bPanelsOnVideo) {
+        unsigned uTop, uLeft, uRight, uBottom;
+        m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
+        if (bToolbarsOnVideo) {
+            uBottom -= m_controls.GetVisibleToolbarsHeight();
+        }
+        decorationsSize.cx += uLeft + uRight;
+        decorationsSize.cy += uTop + uBottom;
+    } else if (!bToolbarsOnVideo) {
+        decorationsSize.cy -= m_controls.GetVisibleToolbarsHeight();
     }
 
     LONG width = wa.right - wa.left;
@@ -11284,17 +10820,15 @@ void CMainFrame::OpenSetupVideo()
     if (m_pCAP) {
         SetShaders();
     }
-    // else
-    {
-        // TESTME
 
-        m_pVW->put_Owner((OAHWND)m_pVideoWnd->m_hWnd);
-        m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
-        m_pVW->put_MessageDrain((OAHWND)m_hWnd);
+    m_pVW->put_Owner((OAHWND)m_pVideoWnd->m_hWnd);
+    m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+    m_pVW->put_MessageDrain((OAHWND)m_pVideoWnd->m_hWnd);
 
-        for (CWnd* pWnd = m_wndView.GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
-            pWnd->EnableWindow(FALSE);    // little trick to let WM_SETCURSOR thru
-        }
+    for (CWnd* pWnd = m_pVideoWnd->GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
+        // 1. lets WM_SETCURSOR through (not needed as of now)
+        // 2. allows CMouse::CursorOnWindow() to work with m_pVideoWnd
+        pWnd->EnableWindow(FALSE);
     }
 
     CString DXVAInfo;
@@ -11929,6 +11463,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
+        if (m_pMVRSR = m_pCAP) {
+            if (FAILED(m_pMVRSR->DisableSubclassing())) {
+                ASSERT(FALSE);
+                m_pMVRSR = nullptr;
+            }
+        }
+        m_pMVRS = m_pCAP;
         pMVTO = m_pCAP;
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
@@ -12083,11 +11624,10 @@ void CMainFrame::CloseMediaPrivate()
     }
     m_pSubClock.Release();
 
-    //if (m_pVW) m_pVW->put_Visible(OAFALSE);
-    //if (m_pVW) m_pVW->put_MessageDrain((OAHWND)NULL), m_pVW->put_Owner((OAHWND)NULL);
-
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
+    m_pMVRS.Release();
+    m_pMVRSR.Release();
     m_pCAP2.Release();
     m_pCAP.Release();
     m_pVMRWC.Release();
@@ -13528,46 +13068,6 @@ void CMainFrame::SetupShadersSubMenu()
 
 /////////////
 
-void CMainFrame::ShowControls(int nCS, bool fSave /*= false*/)
-{
-    int nCSprev = m_nCS;
-    int hbefore = 0, hafter = 0;
-    m_pLastBar = nullptr;
-    POSITION pos = m_bars.GetHeadPosition();
-
-    for (int i = 1; pos; i <<= 1) {
-        CControlBar* pNext = m_bars.GetNext(pos);
-        ShowControlBar(pNext, !!(nCS & i), TRUE);
-        if (nCS & i) {
-            m_pLastBar = pNext;
-        }
-
-        CSize s = pNext->CalcFixedLayout(FALSE, TRUE);
-        if (nCSprev & i) {
-            hbefore += s.cy;
-        }
-        if (nCS & i) {
-            hafter += s.cy;
-        }
-    }
-
-    WINDOWPLACEMENT wp;
-    wp.length = sizeof(wp);
-    GetWindowPlacement(&wp);
-
-    if (wp.showCmd != SW_SHOWMAXIMIZED && !m_fFullScreen) {
-        CRect r;
-        GetWindowRect(r);
-        MoveWindow(r.left, r.top, r.Width(), r.Height() + hafter - hbefore);
-    }
-
-    if (fSave) {
-        m_nCS = nCS;
-    }
-
-    RecalcLayout();
-}
-
 void CMainFrame::SetAlwaysOnTop(int iOnTop)
 {
     CAppSettings& s = AfxGetAppSettings();
@@ -14284,6 +13784,9 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             CComPtr<IMFVideoMixerBitmap> pMFVMB;
             CComPtr<IMadVRTextOsd>       pMVTO;
 
+            m_pMVRS.Release();
+            m_pMVRSR.Release();
+
             m_OSD.Stop();
             m_pCAP2.Release();
             m_pCAP.Release();
@@ -14304,6 +13807,14 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVP), TRUE);
             pMVTO = m_pCAP;
+
+            if (m_pMVRSR = m_pCAP) {
+                if (FAILED(m_pMVRSR->DisableSubclassing())) {
+                    ASSERT(FALSE);
+                    m_pMVRSR = nullptr;
+                }
+            }
+            m_pMVRS = m_pCAP;
 
             const CAppSettings& s = AfxGetAppSettings();
             m_pVideoWnd = &m_wndView;
@@ -14472,10 +13983,8 @@ void CMainFrame::ShowOptions(int idPage/* = 0*/)
     }
 
     CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), m_pGB, GetModalParent(), idPage);
-    m_bInOptions = true;
     INT_PTR iRes = options.DoModal();
     ASSERT(iRes > 0 && iRes != IDABORT);
-    m_bInOptions = false;
 }
 
 void CMainFrame::StartWebServer(int nPort)
@@ -14568,7 +14077,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     // close the current graph before opening new media
     if (m_iMediaLoadState != MLS_CLOSED) {
-        CloseMedia();
+        CloseMedia(true);
         ASSERT(m_iMediaLoadState == MLS_CLOSED);
     }
 
@@ -14670,7 +14179,7 @@ bool CMainFrame::DisplayChange()
     return true;
 }
 
-void CMainFrame::CloseMedia()
+void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 {
     auto& s = AfxGetAppSettings();
 
@@ -14678,6 +14187,13 @@ void CMainFrame::CloseMedia()
         // double close, should be prevented
         ASSERT(FALSE);
         return;
+    }
+
+    // delay showing auto-hidden controls if new media is queued
+    if (bNextIsQueued) {
+        m_controls.DelayShowNotLoaded(true);
+    } else {
+        m_controls.DelayShowNotLoaded(false);
     }
 
     // abort if loading
@@ -14882,7 +14398,8 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
         RecalcLayout();
 
         if (fShowInfoBar) {
-            ShowControls(m_nCS | CS_INFOBAR, true);
+            s.nCS |= CS_INFOBAR;
+            UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
         }
     } else {
         ASSERT(FALSE);
@@ -14894,6 +14411,16 @@ void CMainFrame::SetLoadState(MPC_LOADSTATE iState)
 {
     m_iMediaLoadState = iState;
     SendAPICommand(CMD_STATE, L"%d", iState);
+    if (iState == MLS_LOADED) {
+        m_controls.DelayShowNotLoaded(false);
+        m_eventd.FireEvent(MpcEvent::MEDIA_LOADED);
+    }
+    UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
+}
+
+MPC_LOADSTATE CMainFrame::GetLoadState()
+{
+    return m_iMediaLoadState;
 }
 
 void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
@@ -15836,12 +15363,8 @@ void CMainFrame::OnFileOpendirectory()
         COpenDirHelper::RecurseAddDir(path, &sl);
     }
 
-    if (m_wndPlaylistBar.IsWindowVisible()) {
-        m_wndPlaylistBar.Append(sl, true);
-    } else {
-        m_wndPlaylistBar.Open(sl, true);
-        OpenCurPlaylistItem();
-    }
+    m_wndPlaylistBar.Open(sl, true);
+    OpenCurPlaylistItem();
 }
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
@@ -16237,64 +15760,6 @@ void CMainFrame::UpdateAudioSwitcher()
     }
 }
 
-void CMainFrame::GetDockZones(unsigned& uTop, unsigned& uLeft, unsigned& uRight, unsigned& uBottom)
-{
-    CDockBar* pTopDockbar = nullptr;
-    CDockBar* pLeftDockbar = nullptr;
-    CDockBar* pRightDockbar = nullptr;
-    CDockBar* pBottomDockbar = nullptr;
-    std::set<CControlBar*> bars;
-
-    POSITION pos = m_dockingbars.GetHeadPosition();
-    while (pos) {
-        CSizingControlBar* pBar = m_dockingbars.GetNext(pos);
-        if (IsWindow(pBar->m_hWnd) && pBar->IsWindowVisible()) {
-            CDockBar** ppDockbar = nullptr;
-            switch (pBar->GetParent()->GetDlgCtrlID()) {
-                case AFX_IDW_DOCKBAR_TOP:
-                    ppDockbar = &pTopDockbar;
-                    break;
-                case AFX_IDW_DOCKBAR_LEFT:
-                    ppDockbar = &pLeftDockbar;
-                    break;
-                case AFX_IDW_DOCKBAR_RIGHT:
-                    ppDockbar = &pRightDockbar;
-                    break;
-                case AFX_IDW_DOCKBAR_BOTTOM:
-                    ppDockbar = &pBottomDockbar;
-                    break;
-            }
-            if (ppDockbar) {
-                ASSERT(!*ppDockbar || *ppDockbar == pBar->m_pDockBar);
-                *ppDockbar = pBar->m_pDockBar;
-                bars.insert(pBar);
-            }
-        }
-    }
-
-    auto calcDock = [&](CDockBar * pDock, bool bHorz) {
-        unsigned stackSize = 0;
-        bool bNewRow = true;
-        for (int i = 0; i < pDock->m_arrBars.GetCount(); i++) {
-            auto pBar = static_cast<CControlBar*>(pDock->m_arrBars[i]);
-            if (!pBar && !bNewRow) {
-                bNewRow = true;
-            }
-            if (bNewRow && pBar && bars.find(pBar) != std::end(bars)) {
-                CSize size = pBar->CalcFixedLayout(TRUE, bHorz);
-                stackSize += (bHorz ? size.cy : size.cx) - (stackSize ? 2 : 4);
-                bNewRow = false;
-            }
-        }
-        return stackSize;
-    };
-
-    uTop = pTopDockbar ? calcDock(pTopDockbar, true) : 0;
-    uLeft = pLeftDockbar ? calcDock(pLeftDockbar, false) : 0;
-    uRight = pRightDockbar ? calcDock(pRightDockbar, false) : 0;
-    uBottom = pBottomDockbar ? calcDock(pBottomDockbar, true) : 0;
-}
-
 void CMainFrame::EnableShaders1(bool enable)
 {
     if (enable && !m_shaderlabels.IsEmpty()) {
@@ -16342,6 +15807,14 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             break;
         case UPDATE_AUDIO_SWITCHER:
             UpdateAudioSwitcher();
+            break;
+        case UPDATE_CONTROLS_VISIBILITY:
+            m_controls.UpdateToolbarsVisibility();
+            break;
+        case UPDATE_CHILDVIEW_CURSOR_HACK:
+            // HACK: windowed (not renderless) video renderers created in graph thread do not
+            // produce WM_MOUSEMOVE message when we release mouse capture on top of it, here's a workaround
+            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::CHILDVIEW_CURSOR_HACK, std::bind(&CChildView::Invalidate, &m_wndView, FALSE), 16);
             break;
         default:
             ASSERT(FALSE);

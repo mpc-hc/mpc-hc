@@ -84,7 +84,7 @@ BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 
 BOOL CPlayerPlaylistBar::PreCreateWindow(CREATESTRUCT& cs)
 {
-    if (!CSizingControlBarG::PreCreateWindow(cs)) {
+    if (!__super::PreCreateWindow(cs)) {
         return FALSE;
     }
 
@@ -96,17 +96,12 @@ BOOL CPlayerPlaylistBar::PreCreateWindow(CREATESTRUCT& cs)
 BOOL CPlayerPlaylistBar::PreTranslateMessage(MSG* pMsg)
 {
     if (IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
-        if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE) {
-            GetParentFrame()->ShowControlBar(this, FALSE, TRUE);
-            return TRUE;
-        }
-
         if (IsDialogMessage(pMsg)) {
             return TRUE;
         }
     }
 
-    return CSizingControlBarG::PreTranslateMessage(pMsg);
+    return __super::PreTranslateMessage(pMsg);
 }
 
 void CPlayerPlaylistBar::LoadState(CFrameWnd* pParent)
@@ -114,7 +109,7 @@ void CPlayerPlaylistBar::LoadState(CFrameWnd* pParent)
     CString section = _T("ToolBars\\") + m_strSettingName;
 
     if (AfxGetApp()->GetProfileInt(section, _T("Visible"), FALSE)) {
-        ShowWindow(SW_SHOW);
+        Autohidden(true);
     }
 
     __super::LoadState(pParent);
@@ -127,7 +122,7 @@ void CPlayerPlaylistBar::SaveState()
     CString section = _T("ToolBars\\") + m_strSettingName;
 
     AfxGetApp()->WriteProfileInt(section, _T("Visible"),
-                                 IsWindowVisible() || (AfxGetAppSettings().bHidePlaylistFullScreen && m_bHiddenDueToFullscreen));
+                                 IsWindowVisible() || (AfxGetAppSettings().bHidePlaylistFullScreen && m_bHiddenDueToFullscreen) || Autohidden());
 }
 
 bool CPlayerPlaylistBar::IsHiddenDueToFullscreen() const
@@ -137,6 +132,9 @@ bool CPlayerPlaylistBar::IsHiddenDueToFullscreen() const
 
 void CPlayerPlaylistBar::SetHiddenDueToFullscreen(bool bHiddenDueToFullscreen)
 {
+    if (bHiddenDueToFullscreen) {
+        Autohidden(false);
+    }
     m_bHiddenDueToFullscreen = bHiddenDueToFullscreen;
 }
 
@@ -889,7 +887,7 @@ void CPlayerPlaylistBar::SavePlaylist()
     }
 }
 
-BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CSizingControlBarG)
+BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CPlayerBar)
     ON_WM_SIZE()
     ON_NOTIFY(LVN_KEYDOWN, IDC_PLAYLIST, OnLvnKeyDown)
     ON_NOTIFY(NM_DBLCLK, IDC_PLAYLIST, OnNMDblclkList)
@@ -925,7 +923,7 @@ void CPlayerPlaylistBar::ResizeListColumn()
 
 void CPlayerPlaylistBar::OnSize(UINT nType, int cx, int cy)
 {
-    CSizingControlBarG::OnSize(nType, cx, cy);
+    __super::OnSize(nType, cx, cy);
 
     ResizeListColumn();
 }

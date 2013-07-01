@@ -112,15 +112,3 @@ void CPlayerNavigationBar::OnNcLButtonUp(UINT nHitTest, CPoint point)
         AfxGetAppSettings().fHideNavigation = true;
     }
 }
-
-void CPlayerNavigationBar::ShowControls(CWnd* pMainfrm, bool bShow)
-{
-    CSize s = this->CalcFixedLayout(FALSE, TRUE);
-    ((CMainFrame*) pMainfrm) ->ShowControlBar(this, bShow, TRUE);
-
-    WINDOWPLACEMENT wp;
-    wp.length = sizeof(wp);
-    GetWindowPlacement(&wp);
-
-    ((CMainFrame*) pMainfrm)->RecalcLayout();
-}

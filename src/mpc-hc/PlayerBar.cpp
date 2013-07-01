@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,13 +19,14 @@
  */
 
 #include "stdafx.h"
-#include "resource.h"
 #include "PlayerBar.h"
-
+#include "MainFrm.h"
 
 IMPLEMENT_DYNAMIC(CPlayerBar, CSizingControlBarG)
 CPlayerBar::CPlayerBar()
     : m_defDockBarID(0)
+    , m_bAutohidden(false)
+    , m_bHasActivePopup(false)
 {
 }
 
@@ -34,7 +35,26 @@ CPlayerBar::~CPlayerBar()
 }
 
 BEGIN_MESSAGE_MAP(CPlayerBar, CSizingControlBarG)
+    ON_WM_WINDOWPOSCHANGED()
 END_MESSAGE_MAP()
+
+void CPlayerBar::OnWindowPosChanged(WINDOWPOS* lpwndpos)
+{
+    if (lpwndpos->flags & SWP_SHOWWINDOW) {
+        bool bWasAutohidden = Autohidden();
+        Autohidden(false);
+        if (lpwndpos->flags & SWP_FRAMECHANGED && !bWasAutohidden && !IsFloating()) {
+            // the panel was re-docked
+            auto pFrame = AfxGetMainFrame();
+            // call MoveVideoWindow() manually because we don't receive WM_SIZE message
+            // (probably because we disable locking the desktop window on what CControlBar relies)
+            pFrame->MoveVideoWindow();
+            // let the user see what he did and don't hide the panel for a while
+            pFrame->m_controls.LockHideZone(pFrame->m_controls.GetPanelZone(this));
+        }
+    }
+    __super::OnWindowPosChanged(lpwndpos);
+}
 
 BOOL CPlayerBar::Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName)
 {
@@ -99,4 +119,22 @@ void CPlayerBar::SaveState()
     }
 
     pApp->WriteProfileInt(section, _T("DockState"), dockBarID);
+}
+
+void CPlayerBar::Autohidden(bool bValue)
+{
+    m_bAutohidden = bValue;
+}
+bool CPlayerBar::Autohidden() const
+{
+    return m_bAutohidden;
+}
+
+void CPlayerBar::HasActivePopup(bool bValue)
+{
+    m_bAutohidden = bValue;
+}
+bool CPlayerBar::HasActivePopup() const
+{
+    return m_bAutohidden;
 }

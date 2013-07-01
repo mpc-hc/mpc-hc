@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"CD Audio"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Pornește fișierele în modul ecran complet"
-6		"Arată controalele în modul ecran complet pentru"
-9		"sec."
-10		"0: ascundere automată; -1: nu ascunde"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Ieși din modul ecran complet la sfârșitul redării"
 13		"Monitor ecran complet"
 16		"Folosește schimbarea automată a modului monitor în ecran complet"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"Amestecă"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Sortează după &etichetă"
 STRING IDS_PLAYLIST_SORTBYPATH		"Sortează după &cale"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Selectare director"
 STRING IDS_PPAGE_CAPTURE_FG0		"Niciodată (cea mai rapidă metodă)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Doar când se schimbă tipuri video diferite (implicit)"

@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"דיסק שמע"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"הפעל קבצים במסך מלא"
-6		"הצג כלי שליטה במסך מלא למשך"
-9		"שניות"
-10		"0: הסתרה אוטומטית; -1: אל תסתיר"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"צא ממסך מלא בסיום הניגון"
 13		"צג המסך המלא"
 16		"Use autochange fullscreen monitor mode"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Open file location"
 STRING IDS_PLAYLIST_SHUFFLE		"ערבוב"
 STRING IDS_PLAYLIST_SORTBYLABEL		"מיין על-פי תווית"
 STRING IDS_PLAYLIST_SORTBYPATH		"מיין על-פי נתיב"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"בחר תיקייה"
 STRING IDS_PPAGE_CAPTURE_FG0		"Never (fastest approach)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Only when switching different video types (default)"

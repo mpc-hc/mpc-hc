@@ -225,11 +225,11 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 30		"CD Audio"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
+BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 28
 5		"Lancer en mode plein écran"
-6		"Contrôles en plein écran pendant"
-9		"sec(s)"
-10		" 0 : masquer; -1 : ne pas masquer"
+7		"Hide controls in fullscreen"
+8		"ms"
+10		"Hide docked panels"
 11		"Quitter le mode plein écran en fin de lecture"
 13		"Moniteur plein écran"
 16		"Utiliser le changement automatique de mode en plein écran"
@@ -1705,6 +1705,9 @@ STRING IDS_PLAYLIST_SHOWFOLDER		"Ouvrir le dossier contenant le fichier"
 STRING IDS_PLAYLIST_SHUFFLE		"Aléatoire"
 STRING IDS_PLAYLIST_SORTBYLABEL		"Réorganiser par &nom"
 STRING IDS_PLAYLIST_SORTBYPATH		"Réorganiser par &répertoire"
+STRING IDS_PPAGEFULLSCREEN_SHOHHOVERED		"Show when hovering control, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWMOVED		"Show when moving the cursor, hide after:"
+STRING IDS_PPAGEFULLSCREEN_SHOWNEVER		"Never show"
 STRING IDS_PPAGEWEBSERVER_0		"Sélectionnez le répertoire"
 STRING IDS_PPAGE_CAPTURE_FG0		"Jamais (méthode la plus rapide)"
 STRING IDS_PPAGE_CAPTURE_FG1		"Seulement si le type de vidéo est différent (par défaut)"
