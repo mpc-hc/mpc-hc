@@ -140,8 +140,8 @@ IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 :: Build FFmpeg
 sh build_ffmpeg.sh %ARCH% %BUILDTYPE%
 IF %ERRORLEVEL% NEQ 0 (
-    CALL :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
-    EXIT /B
+  CALL :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
+  EXIT /B
 )
 
 PUSHD src
@@ -151,41 +151,41 @@ IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
 devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%|%ARCHVS%"
 IF %ERRORLEVEL% NEQ 0 (
-    CALL :SubMsg "ERROR" "'devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%-%ARCHVS%" failed!"
-    EXIT /B
+  CALL :SubMsg "ERROR" "'devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%-%ARCHVS%" failed!"
+  EXIT /B
 )
 
 POPD
 
 SET "SRCFOLDER=src\bin_%ARCHVS%"
 IF /I "%RELEASETYPE%" == "Debug" (
-    SET "SRCFOLDER=%SRCFOLDER%d"
+  SET "SRCFOLDER=%SRCFOLDER%d"
 )
 SET "DESTFOLDER=%BIN_DIR%\mpc-hc_%ARCH%"
 IF /I "%RELEASETYPE%" == "Debug" (
-    SET "DESTFOLDER=%DESTFOLDER%_Debug"
+  SET "DESTFOLDER=%DESTFOLDER%_Debug"
 )
 SET "DESTFOLDER=%DESTFOLDER%\LAVFilters"
 
 IF /I "%BUILDTYPE%" == "Build" (
-    :: Move LAVFilters files to MPC-HC output directory
-    IF NOT EXIST %DESTFOLDER% MD %DESTFOLDER%
+  :: Move LAVFilters files to MPC-HC output directory
+  IF NOT EXIST %DESTFOLDER% MD %DESTFOLDER%
 
-    COPY /Y /V %SRCFOLDER%\*.dll %DESTFOLDER%
-    COPY /Y /V %SRCFOLDER%\*.ax %DESTFOLDER%
-    COPY /Y /V %SRCFOLDER%\*.manifest %DESTFOLDER%
-    IF /I "%RELEASETYPE%" == "Release" (
-        COPY /Y /V %SRCFOLDER%\IntelQuickSyncDecoder\IntelQuickSyncDecoder.pdb %DESTFOLDER%
-        COPY /Y /V %SRCFOLDER%\LAVAudio\LAVAudio.pdb %DESTFOLDER%
-        COPY /Y /V %SRCFOLDER%\LAVSplitter\LAVSplitter.pdb %DESTFOLDER%
-        COPY /Y /V %SRCFOLDER%\LAVVideo\LAVVideo.pdb %DESTFOLDER%
-        COPY /Y /V %SRCFOLDER%\libbluray\libbluray.pdb %DESTFOLDER%
-    ) ELSE (
-        COPY /Y /V %SRCFOLDER%\*.pdb %DESTFOLDER%
-    )
+  COPY /Y /V %SRCFOLDER%\*.dll %DESTFOLDER%
+  COPY /Y /V %SRCFOLDER%\*.ax %DESTFOLDER%
+  COPY /Y /V %SRCFOLDER%\*.manifest %DESTFOLDER%
+  IF /I "%RELEASETYPE%" == "Release" (
+    COPY /Y /V %SRCFOLDER%\IntelQuickSyncDecoder\IntelQuickSyncDecoder.pdb %DESTFOLDER%
+    COPY /Y /V %SRCFOLDER%\LAVAudio\LAVAudio.pdb %DESTFOLDER%
+    COPY /Y /V %SRCFOLDER%\LAVSplitter\LAVSplitter.pdb %DESTFOLDER%
+    COPY /Y /V %SRCFOLDER%\LAVVideo\LAVVideo.pdb %DESTFOLDER%
+    COPY /Y /V %SRCFOLDER%\libbluray\libbluray.pdb %DESTFOLDER%
+  ) ELSE (
+    COPY /Y /V %SRCFOLDER%\*.pdb %DESTFOLDER%
+  )
 ) ELSE IF /I "%BUILDTYPE%" == "Clean" (
-    :: Remove LAVFilters files in MPC-HC output directory
-    IF EXIST %DESTFOLDER% RMDIR /S /Q %DESTFOLDER%
+  :: Remove LAVFilters files in MPC-HC output directory
+  IF EXIST %DESTFOLDER% RD /Q /S %DESTFOLDER%
 )
 
 EXIT /B
