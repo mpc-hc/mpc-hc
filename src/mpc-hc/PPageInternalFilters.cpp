@@ -416,6 +416,11 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("RTP"), SOURCE_FILTER, SRC_RTP, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
     }
 #endif
+#if INTERNAL_SOURCEFILTER_MMS
+    if (bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("MMS"), SOURCE_FILTER, SRC_MMS, IDS_INTERNAL_LAVF, CFGFilterLAVSplitter::ShowPropertyPages));
+    }
+#endif
 #if INTERNAL_SOURCEFILTER_RFS
     m_filters.Add(filter_t(_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS, nullptr));
 #endif

@@ -1550,6 +1550,15 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_MMS
+    if (src[SRC_MMS]) {
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("mms"));
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("mmsh"));
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("mmst"));
+        pFGLAVSplitterSource->AddFormat("mms");
+    }
+#endif
+
     // Add LAV Source Filter if needed
     if (!pFGLAVSplitterSource->m_extensions.IsEmpty()
             || !pFGLAVSplitterSource->m_chkbytes.IsEmpty()
