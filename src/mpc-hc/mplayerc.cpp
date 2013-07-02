@@ -1921,6 +1921,7 @@ typedef CAtlREMatchContext<CAtlRECharTraits> CAtlREMatchContextT;
 bool FindRedir(const CUrl& src, CString ct, const CString& body, CAtlList<CString>& urls, CAutoPtrList<CAtlRegExpT>& res)
 {
     POSITION pos = res.GetHeadPosition();
+    bool bDetectHLS = false;
     while (pos) {
         CAtlRegExpT* re = res.GetNext(pos);
 
@@ -1940,7 +1941,16 @@ bool FindRedir(const CUrl& src, CString ct, const CString& body, CAtlList<CStrin
                 continue;
             }
             if (url.Find(_T("EXTM3U")) == 0 || url.Find(_T("#EXTINF")) == 0) {
+                bDetectHLS = true;
                 continue;
+            }
+            // Detect HTTP Live Streaming and let the source filter handle that
+            if (bDetectHLS
+                    && (url.Find(_T("EXT-X-STREAM-INF:")) != -1
+                        || url.Find(_T("EXT-X-TARGETDURATION:")) != -1
+                        || url.Find(_T("EXT-X-MEDIA-SEQUENCE:")) != -1)) {
+                urls.RemoveAll();
+                break;
             }
 
             CUrl dst;
