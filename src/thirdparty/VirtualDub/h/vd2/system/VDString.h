@@ -1250,5 +1250,7 @@ template<> VDStringW *vdmove_forward(VDStringW *src1, VDStringW *src2, VDStringW
 template<> VDStringA *vdmove_backward(VDStringA *src1, VDStringA *src2, VDStringA *dst);
 template<> VDStringW *vdmove_backward(VDStringW *src1, VDStringW *src2, VDStringW *dst);
 
+VDMOVE_CAPABLE(VDStringA);
+VDMOVE_CAPABLE(VDStringW);
 
 #endif

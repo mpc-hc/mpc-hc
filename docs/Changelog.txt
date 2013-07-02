@@ -42,6 +42,7 @@ Legend:
 * Updated Unrar to v5.0.9
 * Updated MediaInfoLib to v0.7.64
 * Updated ZenLib to v0.4.29 r444
+* Updated VirtualDub to v1.10.4-test11
 ! D3DFullscreen fixes:
   - fixed strange focus behaviour when always on top is enabled
   - fixed VMR9 D3DFS minimizing when losing focus

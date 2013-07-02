@@ -1,3 +1,8 @@
+// Force C locale to avoid this warning:
+//
+// mmreg.h : warning C4819: The file contains a character that cannot be represented in the current code page (932). Save the file in Unicode format to prevent data loss
+#pragma setlocale("C")
+
 /* MPC-HC comment out
 // Detect the Windows SDK in use and select Windows 2000 baseline
 // if the Vista SDK, else Windows 98 baseline.

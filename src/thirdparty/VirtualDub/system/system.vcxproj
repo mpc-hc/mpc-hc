@@ -147,6 +147,7 @@
     <ClCompile Include="source\thunk.cpp" />
     <ClCompile Include="source\time.cpp" />
     <ClCompile Include="source\tls.cpp" />
+    <ClCompile Include="source\vdalloc.cpp" />
     <ClCompile Include="source\VDNamespace.cpp" />
     <ClCompile Include="source\VDScheduler.cpp" />
     <ClCompile Include="source\vdstl.cpp" />

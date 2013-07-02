@@ -74,31 +74,6 @@ MyICError::MyICError(uint32 icErr, const char *format, ...) {
 	setf(tmpbuf, GetVCMErrorString(icErr));
 }
 
-MyMMIOError::MyMMIOError(const char *s, uint32 mmioerr) {
-	const char *err = "(Unknown)";
-
-	switch(mmioerr) {
-	case MMIOERR_FILENOTFOUND:		err = "file not found"; break;
-	case MMIOERR_OUTOFMEMORY:		err = "out of memory"; break;
-	case MMIOERR_CANNOTOPEN:		err = "couldn't open"; break;
-	case MMIOERR_CANNOTCLOSE:		err = "couldn't close"; break;
-	case MMIOERR_CANNOTREAD:		err = "couldn't read"; break;
-	case MMIOERR_CANNOTWRITE:		err = "couldn't write"; break;
-	case MMIOERR_CANNOTSEEK:		err = "couldn't seek"; break;
-	case MMIOERR_CANNOTEXPAND:		err = "couldn't expand"; break;
-	case MMIOERR_CHUNKNOTFOUND:		err = "chunk not found"; break;
-	case MMIOERR_UNBUFFERED:		err = "unbuffered"; break;
-	case MMIOERR_PATHNOTFOUND:		err = "path not found"; break;
-	case MMIOERR_ACCESSDENIED:		err = "access denied"; break;
-	case MMIOERR_SHARINGVIOLATION:	err = "sharing violation"; break;
-	case MMIOERR_NETWORKERROR:		err = "network error"; break;
-	case MMIOERR_TOOMANYOPENFILES:	err = "too many open files"; break;
-	case MMIOERR_INVALIDFILE:		err = "invalid file"; break;
-	}
-
-	setf("%s error: %s (%ld)", s, err, mmioerr);
-}
-
 MyAVIError::MyAVIError(const char *s, uint32 avierr) {
 	const char *err = "(Unknown)";
 
@@ -198,25 +173,4 @@ MyWin32Error::MyWin32Error(const char *format, uint32 err, ...)
 	}
 
 	setf(szTemp, szError);
-}
-
-MyCrashError::MyCrashError(const char *format, uint32 dwExceptionCode) {
-	const char *s = "(Unknown Exception)";
-
-	switch(dwExceptionCode) {
-	case EXCEPTION_ACCESS_VIOLATION:
-		s = "Access Violation";
-		break;
-	case EXCEPTION_PRIV_INSTRUCTION:
-		s = "Privileged Instruction";
-		break;
-	case EXCEPTION_INT_DIVIDE_BY_ZERO:
-		s = "Integer Divide By Zero";
-		break;
-	case EXCEPTION_BREAKPOINT:
-		s = "User Breakpoint";
-		break;
-	}
-
-	setf(format, s);
 }

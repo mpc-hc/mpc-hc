@@ -223,7 +223,9 @@ VDStringW& VDStringW::append_vsprintf(const value_type *format, va_list val) {
 }
 
 void VDStringW::move_from(VDStringW& src) {
-	delete[] mpBegin;
+	if (mpBegin != sNull)
+		delete[] mpBegin;
+
 	mpBegin = src.mpBegin;
 	mpEnd = src.mpEnd;
 	mpEOS = src.mpEOS;
@@ -281,4 +283,14 @@ VDStringW *vdmove_backward(VDStringW *src1, VDStringW *src2, VDStringW *dst) {
 	}
 
 	return dst;
+}
+
+template<>
+void vdmove<VDStringA>(VDStringA& dst, VDStringA& src) {
+	dst.move_from(src);
+}
+
+template<>
+void vdmove<VDStringW>(VDStringW& dst, VDStringW& src) {
+	dst.move_from(src);
 }

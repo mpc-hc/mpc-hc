@@ -239,6 +239,9 @@ void VDRegistryProviderMemory::Key::Remove(VDRegistryProviderMemory::Key *key) {
 }
 
 bool VDRegistryProviderMemory::Key::RemoveKey(const char *name) {
+	if (!name)
+		name = "";
+
 	// look up the subkey
 	KeyMap::iterator it(mKeyMap.find_as(name));
 	
@@ -268,6 +271,9 @@ bool VDRegistryProviderMemory::Key::RemoveKey(const char *name) {
 }
 
 bool VDRegistryProviderMemory::Key::RemoveValue(const char *name) {
+	if (!name)
+		name = "";
+
 	ValueMap::iterator it(mValueMap.find_as(name));
 
 	if (it == mValueMap.end())
@@ -282,6 +288,9 @@ bool VDRegistryProviderMemory::Key::RemoveValue(const char *name) {
 }
 
 VDRegistryProviderMemory::Value *VDRegistryProviderMemory::Key::OpenValue(const char *name, bool create) {
+	if (!name)
+		name = "";
+
 	ValueMap::iterator it(mValueMap.find_as(name));
 
 	if (it != mValueMap.end())
@@ -637,6 +646,9 @@ void *VDRegistryProviderMemory::EnumValuesBegin(void *key) {
 
 const char *VDRegistryProviderMemory::EnumValuesNext(void *enumerator) {
 	Enumerator *en = (Enumerator *)enumerator;
+
+	if (!en->mKey)
+		return NULL;
 
 	vdsynchronized(mMutex) {
 		const char *s = en->mKey->GetValueName(en->mIndex);

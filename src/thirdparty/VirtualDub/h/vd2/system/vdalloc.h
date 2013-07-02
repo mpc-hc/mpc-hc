@@ -134,6 +134,57 @@ public:
 	T *release() { T *v = ptr; ptr = NULL; return v; }
 };
 
+///////////////////////////////////////////////////////////////////////////
+
+struct vdsafedelete_t {};
+extern vdsafedelete_t vdsafedelete;
+
+template<class T>
+inline vdsafedelete_t& operator<<=(vdsafedelete_t& x, T *& p) {
+	if (p) {
+		delete p;
+		p = 0;
+	}
+
+	return x;
+}
+
+template<class T>
+inline vdsafedelete_t& operator,(vdsafedelete_t& x, T *& p) {
+	if (p) {
+		delete p
+		p = 0;
+	}
+
+	return x;
+}
+
+template<class T, size_t N>
+inline vdsafedelete_t& operator<<=(vdsafedelete_t& x, T *(&p)[N]) {
+	for(size_t i=0; i<N; ++i) {
+		if (p[i]) {
+			delete p[i];
+			p[i] = 0;
+		}
+	}
+
+	return x;
+}
+
+template<class T, size_t N>
+inline vdsafedelete_t& operator,(vdsafedelete_t& x, T *(&p)[N]) {
+	for(size_t i=0; i<N; ++i) {
+		if (p[i]) {
+			delete p[i];
+			p[i] = 0;
+		}
+	}
+
+	return x;
+}
+
+///////////////////////////////////////////////////////////////////////////
+
 #pragma warning(pop)
 
 #endif

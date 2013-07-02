@@ -129,6 +129,9 @@
     <ClCompile Include="source\tls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\vdalloc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\VDNamespace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

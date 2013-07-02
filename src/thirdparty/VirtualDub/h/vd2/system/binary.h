@@ -35,20 +35,17 @@
 #define VDMAKEFOURCC(byte1, byte2, byte3, byte4) (((uint8)byte1) + (((uint8)byte2) << 8) + (((uint8)byte3) << 16) + (((uint8)byte4) << 24))
 
 #ifdef _MSC_VER
-	unsigned short _byteswap_ushort(unsigned short);
-	unsigned long _byteswap_ulong(unsigned long);
-	unsigned __int64 _byteswap_uint64(unsigned __int64);
-
-	#pragma intrinsic(_byteswap_ushort)
-	#pragma intrinsic(_byteswap_ulong)
-	#pragma intrinsic(_byteswap_uint64)
+	#include <vd2/system/win32/intrin.h>
 
 	inline uint16 VDSwizzleU16(uint16 value) { return (uint16)_byteswap_ushort((unsigned short)value); }
 	inline sint16 VDSwizzleS16(sint16 value) { return (sint16)_byteswap_ushort((unsigned short)value); }
 	inline uint32 VDSwizzleU32(uint32 value) { return (uint32)_byteswap_ulong((unsigned long)value); }
 	inline sint32 VDSwizzleS32(sint32 value) { return (sint32)_byteswap_ulong((unsigned long)value); }
-	inline uint64 VDSwizzleU64(uint64 value) { return (uint32)_byteswap_uint64((unsigned __int64)value); }
-	inline sint64 VDSwizzleS64(sint64 value) { return (sint32)_byteswap_uint64((unsigned __int64)value); }
+	inline uint64 VDSwizzleU64(uint64 value) { return (uint64)_byteswap_uint64((unsigned __int64)value); }
+	inline sint64 VDSwizzleS64(sint64 value) { return (sint64)_byteswap_uint64((unsigned __int64)value); }
+
+	inline uint32 VDRotateLeftU32(uint32 value, int bits) { return (uint32)_rotl((unsigned int)value, bits); }
+	inline uint32 VDRotateRightU32(uint32 value, int bits) { return (uint32)_rotr((unsigned int)value, bits); }
 #else
 	inline uint16 VDSwizzleU16(uint16 value) {
 		return (value >> 8) + (value << 8);

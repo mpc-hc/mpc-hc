@@ -176,6 +176,15 @@ void VDAppendMenuW32(HMENU hmenu, UINT flags, UINT id, const wchar_t *text){
 	}
 }
 
+bool VDAppendPopupMenuW32(HMENU hmenu, UINT flags, HMENU hmenuPopup, const wchar_t *text){
+	flags |= MF_POPUP;
+
+	if (VDIsWindowsNT())
+		return 0 != AppendMenuW(hmenu, flags, (UINT_PTR)hmenuPopup, text);
+	else
+		return 0 != AppendMenuA(hmenu, flags, (UINT_PTR)hmenuPopup, VDTextWToA(text).c_str());
+}
+
 void VDAppendMenuSeparatorW32(HMENU hmenu) {
 	int pos = GetMenuItemCount(hmenu);
 	if (pos < 0)

@@ -112,7 +112,23 @@ template<class T> struct vdhash<T *> {
 	size_t operator()(T *val) const { return (size_t)val; }
 };
 
+struct vdstringhashi {
+	size_t operator()(const VDStringA& s) const;
+	size_t operator()(const char *s) const;
+	size_t operator()(const VDStringW& s) const;
+	size_t operator()(const wchar_t *s) const;
+};
+
 struct vdstringpred {
+	bool operator()(const VDStringA& s, const VDStringA& t) const;
+	bool operator()(const VDStringA& s, const VDStringSpanA& t) const;
+	bool operator()(const VDStringA& s, const char *t) const;
+	bool operator()(const VDStringW& s, const VDStringW& t) const;
+	bool operator()(const VDStringW& s, const VDStringSpanW& t) const;
+	bool operator()(const VDStringW& s, const wchar_t *t) const;
+};
+
+struct vdstringpredi {
 	bool operator()(const VDStringA& s, const VDStringA& t) const;
 	bool operator()(const VDStringA& s, const VDStringSpanA& t) const;
 	bool operator()(const VDStringA& s, const char *t) const;

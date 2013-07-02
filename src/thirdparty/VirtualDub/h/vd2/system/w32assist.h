@@ -69,6 +69,7 @@ void		VDSetWindowTextFW32(HWND hwnd, const wchar_t *format, ...);
 VDStringA	VDGetWindowTextAW32(HWND hwnd);
 VDStringW	VDGetWindowTextW32(HWND hwnd);
 void		VDAppendMenuW32(HMENU hmenu, UINT flags, UINT id, const wchar_t *text);
+bool		VDAppendPopupMenuW32(HMENU hmenu, UINT flags, HMENU hmenuPopup, const wchar_t *text);
 void		VDAppendMenuSeparatorW32(HMENU hmenu);
 void		VDCheckMenuItemByPositionW32(HMENU hmenu, uint32 pos, bool checked);
 void		VDCheckMenuItemByCommandW32(HMENU hmenu, UINT cmd, bool checked);

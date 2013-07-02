@@ -458,6 +458,7 @@ public:
 	void translate(T x, T y);
 	void scale(T x, T y);
 	void transform(T scaleX, T scaleY, T offsetX, T offsety);
+	void resize(T w, T h);
 
 	bool operator==(const VDRect& r) const;
 	bool operator!=(const VDRect& r) const;
@@ -563,6 +564,12 @@ void VDRect<T>::transform(T scaleX, T scaleY, T offsetX, T offsetY) {
 	top		= top		* scaleY + offsetY;
 	right	= right		* scaleX + offsetX;
 	bottom	= bottom	* scaleY + offsetY;
+}
+
+template<class T>
+void VDRect<T>::resize(T w, T h) {
+	right = left + w;
+	bottom = top + h;
 }
 
 template<class T>
