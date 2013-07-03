@@ -161,11 +161,6 @@
       <Project>{0d252872-7542-4232-8d02-53f9182aee15}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\thirdparty\xpsupportvc11upd2\Readme.txt">
-      <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='100'">true</ExcludedFromBuild>
-    </Text>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
