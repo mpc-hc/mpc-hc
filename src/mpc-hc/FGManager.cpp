@@ -1354,8 +1354,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     CAutoPtr<CFGFilterLAV> pFGLAVAudio(CFGFilterLAV::CreateFilter(CFGFilterLAV::AUDIO_DECODER, MERIT64_ABOVE_DSHOW));
     CAutoPtr<CFGFilterLAV> pFGLAVAudioLM(CFGFilterLAV::CreateFilter(CFGFilterLAV::AUDIO_DECODER, MERIT64_DO_USE, true));
 
-    CFGFilterLAVSplitterBase* pFGLAVSplitterBase;
-
     // Source filters
 
 #if INTERNAL_SOURCEFILTER_RFS
@@ -1586,65 +1584,75 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #endif
 
 #if INTERNAL_SOURCEFILTER_MATROSKA
-    pFGLAVSplitterBase = src[SRC_MATROSKA] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Matroska);
-    pFGLAVSplitterBase->AddFormat("matroska");
+    if (src[SRC_MATROSKA]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Matroska);
+        pFGLAVSplitter->AddFormat("matroska");
+    }
 #endif
 
 #if INTERNAL_SOURCEFILTER_REALMEDIA
-    pFGLAVSplitterBase = src[SRC_REALMEDIA] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RealMedia);
-    pFGLAVSplitterBase->AddFormat("rm");
+    if (src[SRC_REALMEDIA]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RealMedia);
+        pFGLAVSplitter->AddFormat("rm");
+    }
 #endif
 
 #if INTERNAL_SOURCEFILTER_AVI
-    pFGLAVSplitterBase = src[SRC_AVI] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
-    pFGLAVSplitterBase->AddFormat("avi");
+    if (src[SRC_AVI]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
+        pFGLAVSplitter->AddFormat("avi");
+    }
 #endif
 
 #if INTERNAL_SOURCEFILTER_OGG
-    pFGLAVSplitterBase = src[SRC_OGG] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
-    pFGLAVSplitterBase->AddFormat("ogg");
+    if (src[SRC_OGG]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
+        pFGLAVSplitter->AddFormat("ogg");
+    }
 #endif
 
 #if INTERNAL_SOURCEFILTER_MPEG
-    pFGLAVSplitterBase = src[SRC_MPEG] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1System);
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
-    pFGLAVSplitterBase->AddFormat("mpeg");
-    pFGLAVSplitterBase->AddFormat("mpegts");
-    pFGLAVSplitterBase->AddFormat("mpegraw");
+    if (src[SRC_MPEG]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1System);
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
+        pFGLAVSplitter->AddFormat("mpeg");
+        pFGLAVSplitter->AddFormat("mpegts");
+        pFGLAVSplitter->AddFormat("mpegraw");
+    }
 #endif
 
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
-    pFGLAVSplitterBase = src[SRC_MPA] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
-    pFGLAVSplitterBase->AddFormat("mp3");
+    if (src[SRC_MPA]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
+        pFGLAVSplitter->AddFormat("mp3");
+    }
 #endif
 
 #if INTERNAL_SOURCEFILTER_MP4
-    pFGLAVSplitterBase = src[SRC_MP4] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
-    pFGLAVSplitterBase->AddFormat("mp4");
+    if (src[SRC_MP4]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
+        pFGLAVSplitter->AddFormat("mp4");
+    }
 #endif
 
 #if INTERNAL_SOURCEFILTER_FLV
-    pFGLAVSplitterBase = src[SRC_FLV] ? pFGLAVSplitter : pFGLAVSplitterLM;
-    pFGLAVSplitterBase->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_FLV);
-    pFGLAVSplitterBase->AddFormat("flv");
+    if (src[SRC_FLV]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_FLV);
+        pFGLAVSplitter->AddFormat("flv");
+    }
 #endif
 
     // Add LAV Splitter if needed
     if (!pFGLAVSplitter->GetTypes().IsEmpty()) {
         m_transform.AddTail(pFGLAVSplitter.Detach());
     }
-    if (!pFGLAVSplitterLM->GetTypes().IsEmpty()) {
-        m_transform.AddTail(pFGLAVSplitterLM.Detach());
-    }
+    
+    // Add low merit LAV Splitter
+    pFGLAVSplitterLM->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
+    pFGLAVSplitterLM->AddFormat("*");
+    m_transform.AddTail(pFGLAVSplitterLM.Detach());
 
     // Transform filters
 
@@ -1791,9 +1799,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (!pFGLAVAudio->GetTypes().IsEmpty()) {
         m_transform.AddTail(pFGLAVAudio.Detach());
     }
-    if (!pFGLAVAudioLM->GetTypes().IsEmpty()) {
-        m_transform.AddTail(pFGLAVAudioLM.Detach());
-    }
+    // Add low merit LAV Audio
+    pFGLAVAudioLM->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
+    m_transform.AddTail(pFGLAVAudioLM.Detach());
 
 #if INTERNAL_DECODER_MPEG1
     pFGF = tra[TRA_MPEG1] ? pFGLAVVideo : pFGLAVVideoLM;
@@ -1905,7 +1913,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV2);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv2);
 #endif
-#if INTERNAL_DECODER_WMV || INTERNAL_DECODER_WMV3_DXVA
+#if INTERNAL_DECODER_WMV
     pFGF = tra[TRA_WMV] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV3);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv3);
@@ -2004,9 +2012,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (!pFGLAVVideo->GetTypes().IsEmpty()) {
         m_transform.AddTail(pFGLAVVideo.Detach());
     }
-    if (!pFGLAVVideoLM->GetTypes().IsEmpty()) {
-        m_transform.AddTail(pFGLAVVideoLM.Detach());
-    }
+    // Add low merit LAV video
+    pFGLAVVideoLM->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
+    m_transform.AddTail(pFGLAVVideoLM.Detach());
 
     pFGF = DEBUG_NEW CFGFilterInternal<CNullTextRenderer>(L"NullTextRenderer", MERIT64_DO_USE);
     pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);

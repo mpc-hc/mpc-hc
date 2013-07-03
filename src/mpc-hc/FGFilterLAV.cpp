@@ -238,22 +238,25 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
 
 void CFGFilterLAVSplitterBase::SetEnabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings)
 {
-    // We turn off all formats by default to ensure that we won't hijack other filters
-    LPSTR* formats;
-    UINT nFormats;
-    if (SUCCEEDED(pLAVFSettings->GetFormats(&formats, &nFormats))) {
-        for (UINT i = 0; i < nFormats; i++) {
-            pLAVFSettings->SetFormatEnabled(formats[i], FALSE);
-            // Free the memory immediately since we won't need it later
-            CoTaskMemFree(formats[i]);
+    // "*" is a special case and means all formats are enabled
+    if (m_formats.GetHead() != "*") {
+        // We turn off all formats by default to ensure that we won't hijack other filters
+        LPSTR* formats;
+        UINT nFormats;
+        if (SUCCEEDED(pLAVFSettings->GetFormats(&formats, &nFormats))) {
+            for (UINT i = 0; i < nFormats; i++) {
+                pLAVFSettings->SetFormatEnabled(formats[i], FALSE);
+                // Free the memory immediately since we won't need it later
+                CoTaskMemFree(formats[i]);
+            }
+            CoTaskMemFree(formats);
         }
-        CoTaskMemFree(formats);
-    }
-    // We turn on only the formats specified explicitly
-    POSITION pos = m_formats.GetHeadPosition();
-    while (pos) {
-        const CStringA& format = m_formats.GetNext(pos);
-        pLAVFSettings->SetFormatEnabled(format, TRUE);
+        // We turn on only the formats specified explicitly
+        POSITION pos = m_formats.GetHeadPosition();
+        while (pos) {
+            const CStringA& format = m_formats.GetNext(pos);
+            pLAVFSettings->SetFormatEnabled(format, TRUE);
+        }
     }
 }
 
