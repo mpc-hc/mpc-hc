@@ -101,7 +101,7 @@ MPC-HC makes use of the following third-party code:
     <tr>
         <td>MediaInfoLib</td>
         <td>Simplified BSD License</td>
-        <td>http://mediainfo.sourceforge.net/</td>
+        <td>http://mediaarea.net/MediaInfo</td>
     </tr>
     <tr>
         <td>MultiMon</td>

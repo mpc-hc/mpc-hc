@@ -57,7 +57,7 @@ Detours             MSR-SSLA                    http://research.microsoft.com/en
 LAV Filters         GPLv2                       http://code.google.com/p/lavfilters/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
-MediaInfoLib        Simplified BSD License      http://mediainfo.sourceforge.net/
+MediaInfoLib        Simplified BSD License      http://mediaarea.net/MediaInfo
 MultiMon            CPOL                        http://www.codeproject.com/KB/GDI/multimon.aspx
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
 RARFileSource       GPLv2+                      http://www.v12pwr.com/RARFileSource/
