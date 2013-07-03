@@ -664,7 +664,8 @@ BOOL Mhook_SetHook(PVOID *ppSystemFunction, PVOID pHookFunction) {
 		ODPRINTF((L"mhooks: Mhook_SetHook: disassembly signals %d bytes", dwInstructionLength));
 		// suspend every other thread in this process, and make sure their IP 
 		// is not in the code we're about to overwrite.
-		SuspendOtherThreads((PBYTE)pSystemFunction, dwInstructionLength);
+		// MPC-HC SPEED HACK: when we hook there's only one thread present
+		// SuspendOtherThreads((PBYTE)pSystemFunction, dwInstructionLength);
 		// allocate a trampoline structure (TODO: it is pretty wasteful to get
 		// VirtualAlloc to grab chunks of memory smaller than 100 bytes)
 		pTrampoline = TrampolineAlloc((PBYTE)pSystemFunction, patchdata.nLimitUp, patchdata.nLimitDown);
@@ -752,7 +753,8 @@ BOOL Mhook_SetHook(PVOID *ppSystemFunction, PVOID pHookFunction) {
 			}
 		}
 		// resume everybody else
-		ResumeOtherThreads();
+		// MPC-HC SPEED HACK: when we hook there's only one thread present
+		// ResumeOtherThreads();
 	} else {
 		ODPRINTF((L"mhooks: disassembly signals %d bytes (unacceptable)", dwInstructionLength));
 	}

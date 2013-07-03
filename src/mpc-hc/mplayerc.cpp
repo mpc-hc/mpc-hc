@@ -1135,6 +1135,7 @@ BOOL CMPlayerCApp::InitInstance()
         TRACE(heap_err);
     }
 
+    // At this point only main thread should be present, mhook is custom-hacked accordingly
     ENSURE(Mhook_SetHook(&(PVOID&)Real_IsDebuggerPresent, (PVOID)Mine_IsDebuggerPresent));
     ENSURE(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA));
     ENSURE(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW));
