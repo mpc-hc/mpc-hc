@@ -1759,6 +1759,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 ExtractDVDStartPos(cmdln.GetNext(pos));
             } else if (sw == _T("cd")) {
                 nCLSwitches |= CLSW_CD;
+            } else if (sw == _T("device")) {
+                nCLSwitches |= CLSW_DEVICE;
             } else if (sw == _T("add")) {
                 nCLSwitches |= CLSW_ADD;
             } else if (sw == _T("regvid")) {

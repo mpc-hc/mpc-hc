@@ -20,6 +20,7 @@ Legend:
   really need a DXVA decoder, you can use a standalone version of MPC Video Decoder.
 + Support loading HTTP/RTSP/UDP/RTP streams using embedded source filters
 + D3DFullscreen can now switch to windowed mode (just like regular fullscreen mode)
++ Ticket #533, Add a command line switch (/device) to open the default video device
 * D3DFullscreen changes:
   - toggle hotkey is now disabled by default
   - support for madVR has been removed (it already has exclusive mode)

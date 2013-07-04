@@ -4247,6 +4247,8 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
         m_wndPlaylistBar.Open(sl, true);
         OpenCurPlaylistItem();
+    } else if (s.nCLSwitches & CLSW_DEVICE) {
+        SendMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
     } else if (!s.slFiles.IsEmpty()) {
         CAtlList<CString> sl;
         sl.AddTailList(&s.slFiles);
