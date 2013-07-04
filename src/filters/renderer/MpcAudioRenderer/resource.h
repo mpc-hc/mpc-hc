@@ -3,9 +3,9 @@
 // Used by MpcAudioRenderer.rc
 //
 #define IDS_FILTER_SETTINGS_CAPTION     7000
-#define IDS_ARS_WASAPI_MODE             7600
-#define IDS_ARS_MUTE_FAST_FORWARD       7601
-#define IDS_ARS_SOUND_DEVICE            7602
+#define IDS_ARS_WASAPI_MODE             7100
+#define IDS_ARS_MUTE_FAST_FORWARD       7101
+#define IDS_ARS_SOUND_DEVICE            7102
 
 // Next default values for new objects
 //

@@ -2587,10 +2587,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_VDF_DXVA_SKIP_ALLCHECK "Skip all checks"
     IDS_FAVORITES_QUICKADDFAVORITE "Quick add favorite"
-    IDS_VDF_DXVA_SD         "Disable DXVA for SD (H.264)"
-    IDS_MPEG2_READ_AR       "Read AR from stream"
 END
 
 STRINGTABLE
@@ -2609,9 +2606,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_MPEG2_CONTRAST      "Contrast"
-    IDS_MPEG2_HUE           "Hue"
-    IDS_MPEG2_SATURATION    "Saturation"
     IDS_ADD_TO_PLAYLIST     "Add to MPC-HC Playlist"
     IDS_OPEN_WITH_MPC       "Play with MPC-HC"
     IDS_CANNOT_CHANGE_FORMAT
@@ -2620,7 +2614,6 @@ BEGIN
     IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system. Originaly made by a Hungarian developer known as Gabest, this version has additional features such as Direct 3D fullscreen mode and better support for Windows Vista/7."
     IDS_MAINFRM_12          "channel"
     IDS_MAINFRM_13          "channels"
-    IDS_VDF_FFSETTINGS      "FFmpeg settings"
 END
 
 STRINGTABLE
@@ -2703,7 +2696,6 @@ BEGIN
     IDS_MPC_BUG_REPORT      "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
     IDS_MAINFRM_DIR_TITLE   "Select Directory"
     IDS_MAINFRM_DIR_CHECK   "Include subdirectories"
-    IDS_VDF_AR_MODE         "Read AR from stream"
     IDS_AG_PAUSE            "Pause"
     IDS_AG_TOGGLE_CAPTION   "Toggle Caption&Menu"
     IDS_AG_TOGGLE_SEEKER    "Toggle Seeker"
@@ -2759,58 +2751,16 @@ BEGIN
     IDS_VOLUME_BOOST_MAX    "Volume boost Max"
     IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded (wildcards\n\t\tallowed)\n/dub ""dubname""\tLoad an additional audio file\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains ""...DELAY XXms..."")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub ""subname""\tLoad an additional subtitle file\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see ""Output"" settings)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
     IDS_UNKNOWN_SWITCH      "Unrecognized switch(es) found in command line string: \n\n"
-    IDS_MPADEC_SAMPLE_FMT   "Output sample format:"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_VDF_DXVA_SETTING    "DXVA settings"
-    IDS_VDF_DXVA_MODE       "DXVA Mode"
     IDS_D3DFS_WARNING       "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
     IDS_MAINFRM_139         "Sub delay: %ld ms"
     IDS_REALVIDEO_INCOMPATIBLE
                             "Filename contains unsupported characters (use only A-Z, 0-9)"
-    IDS_VDF_VIDEOCARD       "Video card"
     IDS_PPSDB_URLCORRECT    "The URL appears to be correct!"
     IDS_PPSDB_PROTOCOLERR   "Protocol version mismatch, please upgrade your player or choose a different address!"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_MPADEC_DRC          "Apply DRC for AC-3 and E-AC3"
-    IDS_MPADEC_MIXER        "Mixer"
-    IDS_MPADEC_MIX_SPEAKERS "Output speakers:"
-    IDS_MPADEC_MONO         "Mono"
-    IDS_MPADEC_STEREO       "Stereo"
-    IDS_MPADEC_SPDIF        "Pass-through (S/PDIF, HDMI)"
-    IDS_MPEG2_ENABLE_PLANAR "Enable planar YUV media types (VY12, I420, IYUY)"
-    IDS_MPEG2_INTERLACE_FLAG "Set interlaced flag in output media type"
-    IDS_MPEG2_FORCED_SUBS   "Always display forced subtitles"
-    IDS_MPEG2_DEINTERLACING "Deinterlacing"
-    IDS_MPEG2_BRIGHTNESS    "Brightness"
-    IDS_MPEG2_RESET         "Reset"
-    IDS_MPEG2_NOTE1         "Note: Using a non-planar output format, bob deinterlacer, or adjusting color properies can degrade performance. ""Auto"" deinterlacer will switch to ""Blend"" when necessary."
-END
-
-STRINGTABLE
-BEGIN
-    IDS_VDF_THREADNUMBER    "Decoding thread number"
-    IDS_VDF_SKIPDEBLOCK     "H264 skip deblocking mode"
-    IDS_VDF_DBLK_NONE       "None"
-    IDS_VDF_DBLK_DEFAULT    "Default"
-    IDS_VDF_DBLK_NONREF     "Non Reference"
-    IDS_VDF_DBLK_BIDIR      "Bidirectional"
-    IDS_VDF_DBLK_NONKFRM    "Non keyframes"
-    IDS_VDF_DBLK_ALL        "All frames"
-    IDS_VDF_AUTO            "Auto"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_VDF_INTERLACED_FLAG         "Force the interlaced flag"
-    IDS_VDF_IF_PROGRESSIVE          "Progressive"
-    IDS_VDF_IF_TOP_FIELD_FIRST      "Top field first"
-    IDS_VDF_IF_BOTTOM_FIELD_FIRST   "Bottom field first"
 END
 
 STRINGTABLE
@@ -2859,14 +2809,6 @@ STRINGTABLE
 BEGIN
     IDS_FRONT_LEFT          "Front Left"
     IDS_FRONT_RIGHT         "Front Right"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_VDF_DXVACOMPATIBILITY "DXVA (H.264) Compatibility check"
-    IDS_VDF_DXVA_FULLCHECK  "Full check"
-    IDS_VDF_DXVA_SKIP_LEVELCHECK "Skip level check"
-    IDS_VDF_DXVA_SKIP_REFCHECK "Skip ref frame check"
 END
 
 STRINGTABLE
@@ -3002,18 +2944,6 @@ BEGIN
     IDS_ARS_WASAPI_MODE           "Use WASAPI (restart playback)"
     IDS_ARS_MUTE_FAST_FORWARD     "Mute on fast forward"
     IDS_ARS_SOUND_DEVICE          "Sound Device:"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_MPEGSPLITTER_FSTREAM_CHANGE "Fast stream change"
-    IDS_MPEGSPLITTER_LANG_ORDER     "Audio language order:"
-    IDS_MPEGSPLITTER_SUB_ORDER      "Subtitles language order:"
-    IDS_MPEGSPLITTER_VC1_GUIDFLAG   "VC-1 Output compatibility:"
-    IDS_MPEGSPLITTER_SUB_FORCING    "Force load all subtitles"
-    IDS_MPEGSPLITTER_TRUEHD_OUTPUT  "TrueHD+AC3 streams output"
-    IDS_MPEGSPLITTER_THD_NOSPLIT    "As is"
-    IDS_MPEGSPLITTER_ALT_DUR_CALC   "Alternative method calculation of duration"
 END
 
 STRINGTABLE
@@ -3277,7 +3207,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_FILTER_SETTINGS_CAPTION         "Settings"
-    IDS_AVISPLITTER_NON_INTERLEAVED     "Non interleaved files support"
 END
 
 STRINGTABLE
