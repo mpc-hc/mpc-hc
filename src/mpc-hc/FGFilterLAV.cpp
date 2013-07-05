@@ -239,7 +239,7 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
 void CFGFilterLAVSplitterBase::SetEnabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings)
 {
     // "*" is a special case and means all formats are enabled
-    if (m_formats.GetHead() != "*") {
+    if (m_formats.IsEmpty() || m_formats.GetHead() != "*") {
         // We turn off all formats by default to ensure that we won't hijack other filters
         LPSTR* formats;
         UINT nFormats;
