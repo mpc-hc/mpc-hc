@@ -2163,7 +2163,10 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                 }
             }
 
-            if (redir && (ct == _T("audio/x-scpls") || ct == _T("audio/x-mpegurl") || ct == _T("text/plain"))) {
+            if (redir
+                    && (ct == _T("audio/x-scpls") || ct == _T("audio/scpls")
+                        || ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl")
+                        || ct == _T("text/plain"))) {
                 while (body.GetLength() < 64 * 1024) { // should be enough for a playlist...
                     CStringA str;
                     str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
@@ -2229,13 +2232,13 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             if (re && REPARSE_ERROR_OK == re->Parse(_T("Ref\\z\\b*=\\b*[\"]*{([a-zA-Z]+://[^\n\"]+}"), FALSE)) {
                 res.AddTail(re);
             }
-        } else if (ct == _T("audio/x-scpls")) {
+        } else if (ct == _T("audio/x-scpls") || ct == _T("audio/scpls")) {
             // File1=...\n
             re.Attach(DEBUG_NEW CAtlRegExp<>());
             if (re && REPARSE_ERROR_OK == re->Parse(_T("file\\z\\b*=\\b*[\"]*{[^\n\"]+}"), FALSE)) {
                 res.AddTail(re);
             }
-        } else if (ct == _T("audio/x-mpegurl")) {
+        } else if (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl")) {
             // #comment
             // ...
             re.Attach(DEBUG_NEW CAtlRegExp<>());
