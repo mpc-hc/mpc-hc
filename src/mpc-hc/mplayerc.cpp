@@ -2229,7 +2229,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             }
             // Ref#n= ...://...\n
             re.Attach(DEBUG_NEW CAtlRegExpT());
-            if (re && REPARSE_ERROR_OK == re->Parse(_T("Ref\\z\\b*=\\b*[\"]*{([a-zA-Z]+://[^\n\"]+}"), FALSE)) {
+            if (re && REPARSE_ERROR_OK == re->Parse(_T("Ref\\z\\b*=\\b*[\"]*{[a-zA-Z]+://[^\n\"]+}"), FALSE)) {
                 res.AddTail(re);
             }
         } else if (ct == _T("audio/x-scpls") || ct == _T("audio/scpls")) {
