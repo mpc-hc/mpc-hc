@@ -602,14 +602,21 @@ int64u File::Size_Get()
             }
             else
                 Size=(int64u)-1;
-            return Size;
         #elif defined WINDOWS
-            DWORD High;DWORD Low=GetFileSize(File_Handle, &High);
-            if (Low==INVALID_FILE_SIZE && GetLastError()!=NO_ERROR)
-                return (int64u)-1;
-            Size=0x100000000ULL*High+Low;
-            return Size;
+            #ifdef ZENLIB_NO_WIN9X_SUPPORT
+                LARGE_INTEGER x = {0};
+                BOOL bRet = ::GetFileSizeEx(File_Handle, &x);
+                if (bRet == FALSE)
+                    return (int64u)-1;
+                Size=x.QuadPart;
+            #else 
+                DWORD High;DWORD Low=GetFileSize(File_Handle, &High);
+                if (Low==INVALID_FILE_SIZE && GetLastError()!=NO_ERROR)
+                    return (int64u)-1;
+                Size=0x100000000ULL*High+Low;
+            #endif //ZENLIB_NO_WIN9X_SUPPORT
         #endif
+        return Size;
     #endif //ZENLIB_USEWX
 }
 

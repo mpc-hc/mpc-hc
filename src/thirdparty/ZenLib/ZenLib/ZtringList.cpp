@@ -199,7 +199,7 @@ void ZtringList::Write(const Ztring &ToWrite)
 {
     clear();
 
-    if (!&ToWrite || !ToWrite.size())
+    if (ToWrite.empty())
         return;
 
     size_type PosC=0;

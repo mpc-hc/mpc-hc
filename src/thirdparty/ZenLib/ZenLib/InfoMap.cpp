@@ -120,7 +120,7 @@ void InfoMap::Write(const Ztring &NewInfoMap)
 {
     clear();
 
-    if (!&NewInfoMap || !NewInfoMap.size())
+    if (NewInfoMap.empty())
         return;
 
     size_t Pos1=0, Pos2_EOL=0, Pos2_Separator=0;

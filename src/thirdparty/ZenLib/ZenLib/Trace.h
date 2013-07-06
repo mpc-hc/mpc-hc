@@ -49,8 +49,11 @@ if (!Trace2.empty()) \
 } \
 Trace+=__T("\r\n"); \
 Trace_F=std::fopen("Trace.txt", "a+t"); \
-std::fwrite(Trace.To_Local().c_str(), Trace.size(), 1, Trace_F); \
-std::fclose(Trace_F);
+if(Trace_F) \
+{ \
+  std::fwrite(Trace.To_Local().c_str(), Trace.size(), 1, Trace_F); \
+  std::fclose(Trace_F); \
+}
 #endif
 
 //***************************************************************************

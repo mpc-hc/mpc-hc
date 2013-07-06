@@ -106,7 +106,7 @@ void Translation::Write(const Ztring &NewLanguage)
 {
     clear();
 
-    if (!&NewLanguage || !NewLanguage.size())
+    if (NewLanguage.empty())
         return;
 
     size_t Pos1=0, Pos2_EOL=0, Pos2_Separator=0;

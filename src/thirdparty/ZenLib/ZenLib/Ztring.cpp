@@ -995,7 +995,7 @@ Ztring& Ztring::From_Number (const int64u I, int8u Radix)
             clear();
             return *this;
         }
-        Char* C1=new Char[65];
+        Char* C1=new Char[65]; C1[0] = 0;
         #ifdef __MINGW32__
             _ui64tot (I, C1, Radix);
         #else
@@ -1537,11 +1537,12 @@ std::string Ztring::To_UTF8 () const
             int32u wc; // must be unsigned.
 
             #if defined(_MSC_VER)
+                #pragma warning(push)
                 #pragma warning(disable:4127)
             #endif //defined(__VISUALC__)
             if (sizeof(wchar_t) == 2)
             #if defined(_MSC_VER)
-                #pragma warning(default:4127)
+                #pragma warning(pop)
             #endif //defined(__VISUALC__)
                 wc = (int16u) *Z; // avoid a cast problem if wchar_t is signed.
             else
