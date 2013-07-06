@@ -32,3 +32,4 @@ Legend:
   - fixed strange focus behaviour when always on top is enabled
   - fixed VMR9 D3DFS minimizing when losing focus
   - fixed thumb mouse buttons no working when D3DFS has focus
+! Various fixes for better playlist support
