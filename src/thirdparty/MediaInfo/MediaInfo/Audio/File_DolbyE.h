@@ -54,6 +54,7 @@ private :
     //Helpers
     bool Descramble_16bit();
     bool Descramble_20bit();
+    bool Descramble_24bit();
 
     //Temp
     int64u  SMPTE_time_code_StartTimecode;

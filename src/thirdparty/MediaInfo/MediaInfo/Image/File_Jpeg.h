@@ -137,7 +137,8 @@ private :
     void APPB() {Skip_XX(Element_Size, "Data");}
     void APPC() {Skip_XX(Element_Size, "Data");}
     void APPD() {Skip_XX(Element_Size, "Data");}
-    void APPE() {Skip_XX(Element_Size, "Data");}
+    void APPE();
+    void APPE_Adobe0();
     void APPF() {Skip_XX(Element_Size, "Data");}
     void JPG0() {Skip_XX(Element_Size, "Data");}
     void JPG1() {Skip_XX(Element_Size, "Data");}
@@ -156,6 +157,8 @@ private :
     void COM () {Skip_XX(Element_Size, "Data");}
 
     //Temp
+    int8u APPE_Adobe0_transform;
+    bool  APP0_JFIF_Parsed;
     bool  SOS_SOD_Parsed;
 };
 

@@ -60,6 +60,7 @@ File_ChannelGrouping::File_ChannelGrouping()
     BitDepth=0;
     SamplingRate=0;
     Endianness=0;
+    Aligned=false;
     CanBePcm=false;
     Common=NULL;
     Channel_Pos=0;
@@ -136,6 +137,7 @@ void File_ChannelGrouping::Read_Buffer_Init()
             File_SmpteSt0337* Parser=new File_SmpteSt0337;
             Parser->Container_Bits=BitDepth;
             Parser->Endianness=Endianness;
+            Parser->Aligned=Aligned;
             Common->Parsers.push_back(Parser);
         }
 

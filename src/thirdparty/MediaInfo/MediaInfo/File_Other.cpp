@@ -38,7 +38,10 @@ void File_Other::Read_Buffer_Continue()
 {
     //Integrity
     if (Buffer_Size<16)
+    {
+        Element_WaitForMoreData();
         return;
+    }
 
     Ztring Format;
          if (CC4(Buffer)==0xC5C6CBC3) {Format=__T("RISC OS Chunk data");}
@@ -168,6 +171,7 @@ void File_Other::Read_Buffer_Continue()
 
     Accept();
 
+    Element_Offset=File_Size-(File_Offset+Buffer_Offset);
     Fill(Stream_General, 0, General_Format, Format);
 
     Finish();

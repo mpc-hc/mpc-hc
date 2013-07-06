@@ -34,6 +34,7 @@ public :
 
     //In
     bool    HasCcis;
+    bool    ParseCcis;
 
     //enums
     enum graphic_set
@@ -76,7 +77,7 @@ private :
     void caption_management();
     void caption_statement();
     void data_unit_data();
-    void Character(int8u G_Value, int8u FirstByte, int8u SecondByte);
+    void Character(int16u CharacterSet, int8u G_Value, int8u FirstByte, int8u SecondByte);
     void Add(Char Character);
     void DefaultMacro();
     void control_code();
@@ -153,6 +154,9 @@ private :
 
     //Temp
     void JIS (int8u Row, int8u Column);
+
+    //Config
+    int8u Caption_conversion_type;
 };
 
 } //NameSpace

@@ -71,7 +71,10 @@ public :
 private :
     //Temp
     File__Analyze* Parser;
-    File__Analyze* Parser_Streams_Fill; //Parser to merge when filling
+    vector<File__Analyze*> Parser_Streams_Fill; //Parser to merge when filling
+    #ifdef MEDIAINFO_ID3V2_YES
+        vector<bool> Parser_Streams_Fill_Priority; //Parser to merge when filling
+    #endif
     size_t         Parser_Buffer_Size;
     int64u Id3v1_Offset;
     int64u Lyrics3_Offset;

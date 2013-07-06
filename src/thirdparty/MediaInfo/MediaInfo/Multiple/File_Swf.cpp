@@ -362,7 +362,7 @@ void File_Swf::FileHeader_Parse()
     {
         int16u FrameRate_8_8;
         Get_L2(FrameRate_8_8,                                   "FrameRate");
-        FrameRate=FrameRate_8_8/0x0100+(((float32)(FrameRate_8_8&0x00FF))/0x0100); //8.8 format
+        FrameRate=((float32)FrameRate_8_8)/0x0100+(((float32)(FrameRate_8_8&0x00FF))/0x0100); //8.8 format
         Param_Info1(FrameRate);
     }
     Get_L2 (FrameCount,                                         "FrameCount");

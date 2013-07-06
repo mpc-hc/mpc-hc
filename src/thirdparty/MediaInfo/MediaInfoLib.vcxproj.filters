@@ -419,6 +419,9 @@
     <ClInclude Include="MediaInfo\Video\File_AvsV.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Video\File_Canopus.h">
+      <Filter>Header Files\Video</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_Dirac.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
@@ -893,6 +896,9 @@
       <Filter>Source Files\Video</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_AvsV.cpp">
+      <Filter>Source Files\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Video\File_Canopus.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_Dirac.cpp">

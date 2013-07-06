@@ -74,6 +74,7 @@ void File_SmpteSt0302::Streams_Accept()
         File_SmpteSt0337* SmpteSt0337=new File_SmpteSt0337();
         SmpteSt0337->Container_Bits=(4+bits_per_sample)*4;
         SmpteSt0337->Endianness='L';
+        SmpteSt0337->Aligned=true;
         #if MEDIAINFO_DEMUX
             if (Config->Demux_Unpacketize_Get())
             {
@@ -262,18 +263,20 @@ void File_SmpteSt0302::Read_Buffer_Continue()
     {
         Parsers[Pos]->FrameInfo=FrameInfo;
         Open_Buffer_Continue(Parsers[Pos], Info, Info_Offset, true, Ratio);
-        Element_Offset=Element_Size;
 
         if (Parsers.size()>1 && Parsers[Pos]->Status[IsAccepted])
         {
             for (size_t Pos2=0; Pos2<Pos; Pos2++)
                 delete Parsers[Pos2]; //Parsers[Pos2]=NULL;
-            for (size_t Pos2=Pos+1; Pos2<Parsers.size()-1; Pos2++)
+            for (size_t Pos2=Pos+1; Pos2<Parsers.size(); Pos2++)
                 delete Parsers[Pos2]; //Parsers[Pos2]=NULL;
             Parsers.resize(Pos+1);
             Parsers.erase(Parsers.begin(), Parsers.begin()+Parsers.size()-1);
         }
     }
+    Element_Offset=Element_Size;
+
+    delete[] Info;
 
     FrameInfo.DTS+=FrameInfo.DUR;
 

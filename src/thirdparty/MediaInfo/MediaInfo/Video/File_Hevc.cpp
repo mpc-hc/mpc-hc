@@ -125,7 +125,8 @@ File_Hevc::File_Hevc()
     //In
     Frame_Count_Valid=MediaInfoLib::Config.ParseSpeed_Get()>=0.3?2:2; //Note: should be replaced by "512:2" when I-frame/GOP detection is OK
     FrameIsAlwaysComplete=false;
-    MustParse_SPS_PPS=false;
+    MustParse_VPS_SPS_PPS=false;
+    MustParse_VPS_SPS_PPS_FromMatroska=false;
     SizedBlocks=false;
 
     //File specific
@@ -341,7 +342,7 @@ void File_Hevc::Read_Buffer_Unsynched()
 void File_Hevc::Header_Parse()
 {
     //Specific case
-    if (MustParse_SPS_PPS)
+    if (MustParse_VPS_SPS_PPS)
     {
         Header_Fill_Size(Element_Size);
         Header_Fill_Code((int64u)-1, "Specific");
@@ -410,7 +411,7 @@ void File_Hevc::Header_Parse()
             Trusted_IsNot("nuh_temporal_id_plus1");
 
         FILLING_BEGIN()
-            Header_Fill_Size(Element_Offset+Size-2);
+            Header_Fill_Size(Size?(Element_Offset-2+Size):(Buffer_Size-Buffer_Offset)); //If Size is 0, it is not normal, we skip the complete frame
         FILLING_END()
     }
 
@@ -503,7 +504,7 @@ void File_Hevc::Data_Parse()
     //Specific case
     if (Element_Code==(int64u)-1)
     {
-        SPS_PPS();
+        VPS_SPS_PPS();
         return;
     }
 
@@ -1594,8 +1595,11 @@ void File_Hevc::hrd_parameters(void* &hrd_parameters_Item_)
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-void File_Hevc::SPS_PPS()
+void File_Hevc::VPS_SPS_PPS()
 {
+    if (MustParse_VPS_SPS_PPS_FromMatroska)
+        return VPS_SPS_PPS_FromMatroska();
+
     //Parsing
     int32u profile_compatibility_indications;
     int16u constraint_indicator_flags;
@@ -1711,7 +1715,147 @@ void File_Hevc::SPS_PPS()
         Element_End0();
     }
 
-    MustParse_SPS_PPS=false;
+    MustParse_VPS_SPS_PPS=false;
+}
+
+//---------------------------------------------------------------------------
+void File_Hevc::VPS_SPS_PPS_FromMatroska()
+{
+    //Parsing
+    int8u Profile, Level, vid_parameter_set_count, seq_parameter_set_count, pic_parameter_set_count;
+    if (SizedBlocks)
+        Skip_B1(                                                "Version");
+    Get_B1 (Profile,                                            "Profile");
+    Skip_B1(                                                    "Compatible profile");
+    Get_B1 (Level,                                              "Level");
+    BS_Begin();
+    Skip_S1(6,                                                  "Reserved");
+    Get_S1 (2, lengthSizeMinusOne,                              "Size of NALU length minus 1");
+    Skip_S1(3,                                                  "Reserved");
+    Get_S1 (5, vid_parameter_set_count,                         "seq_parameter_set count");
+    BS_End();
+    for (int8u Pos=0; Pos<vid_parameter_set_count; Pos++)
+    {
+        Element_Begin1("nalUnit");
+        int16u nalUnitLength;
+        Get_B2 (nalUnitLength,                              "nalUnitLength");
+        if (nalUnitLength<2 || Element_Offset+nalUnitLength>Element_Size)
+        {
+            Trusted_IsNot("Size is wrong");
+            break; //There is an error
+        }
+
+        //Header
+        int8u nal_unit_type, nuh_temporal_id_plus1;
+        BS_Begin();
+        Mark_0 ();
+        Get_S1 (6, nal_unit_type,                           "nal_unit_type");
+        Get_S1 (6, nuh_layer_id,                            "nuh_layer_id");
+        Get_S1 (3, nuh_temporal_id_plus1,                   "nuh_temporal_id_plus1");
+        if (nuh_temporal_id_plus1==0)
+            Trusted_IsNot("nuh_temporal_id_plus1 is invalid");
+        BS_End();
+
+        //Data
+        int64u Element_Offset_Save=Element_Offset;
+        int64u Element_Size_Save=Element_Size;
+        Buffer_Offset+=(size_t)Element_Offset_Save;
+        Element_Offset=0;
+        Element_Size=nalUnitLength-2;
+        Element_Code=nal_unit_type;
+        Data_Parse();
+        Buffer_Offset-=(size_t)Element_Offset_Save;
+        Element_Offset=Element_Offset_Save+nalUnitLength-2;
+        Element_Size=Element_Size_Save;
+
+        Element_End0();
+    }
+    BS_Begin();
+    Skip_S1(3,                                                  "Reserved");
+    Get_S1 (5, seq_parameter_set_count,                         "seq_parameter_set count");
+    BS_End();
+    for (int8u Pos=0; Pos<seq_parameter_set_count; Pos++)
+    {
+        Element_Begin1("nalUnit");
+        int16u nalUnitLength;
+        Get_B2 (nalUnitLength,                              "nalUnitLength");
+        if (nalUnitLength<2 || Element_Offset+nalUnitLength>Element_Size)
+        {
+            Trusted_IsNot("Size is wrong");
+            break; //There is an error
+        }
+
+        //Header
+        int8u nal_unit_type, nuh_temporal_id_plus1;
+        BS_Begin();
+        Mark_0 ();
+        Get_S1 (6, nal_unit_type,                           "nal_unit_type");
+        Get_S1 (6, nuh_layer_id,                            "nuh_layer_id");
+        Get_S1 (3, nuh_temporal_id_plus1,                   "nuh_temporal_id_plus1");
+        if (nuh_temporal_id_plus1==0)
+            Trusted_IsNot("nuh_temporal_id_plus1 is invalid");
+        BS_End();
+
+        //Data
+        int64u Element_Offset_Save=Element_Offset;
+        int64u Element_Size_Save=Element_Size;
+        Buffer_Offset+=(size_t)Element_Offset_Save;
+        Element_Offset=0;
+        Element_Size=nalUnitLength-2;
+        Element_Code=nal_unit_type;
+        Data_Parse();
+        Buffer_Offset-=(size_t)Element_Offset_Save;
+        Element_Offset=Element_Offset_Save+nalUnitLength-2;
+        Element_Size=Element_Size_Save;
+
+        Element_End0();
+    }
+    Get_B1 (pic_parameter_set_count,                            "pic_parameter_set count");
+    for (int8u Pos=0; Pos<pic_parameter_set_count; Pos++)
+    {
+        Element_Begin1("nalUnit");
+        int16u nalUnitLength;
+        Get_B2 (nalUnitLength,                              "nalUnitLength");
+        if (nalUnitLength<2 || Element_Offset+nalUnitLength>Element_Size)
+        {
+            Trusted_IsNot("Size is wrong");
+            break; //There is an error
+        }
+
+        //Header
+        int8u nal_unit_type, nuh_temporal_id_plus1;
+        BS_Begin();
+        Mark_0 ();
+        Get_S1 (6, nal_unit_type,                           "nal_unit_type");
+        Get_S1 (6, nuh_layer_id,                            "nuh_layer_id");
+        Get_S1 (3, nuh_temporal_id_plus1,                   "nuh_temporal_id_plus1");
+        if (nuh_temporal_id_plus1==0)
+            Trusted_IsNot("nuh_temporal_id_plus1 is invalid");
+        BS_End();
+
+        //Data
+        int64u Element_Offset_Save=Element_Offset;
+        int64u Element_Size_Save=Element_Size;
+        Buffer_Offset+=(size_t)Element_Offset_Save;
+        Element_Offset=0;
+        Element_Size=nalUnitLength-2;
+        Element_Code=nal_unit_type;
+        Data_Parse();
+        Buffer_Offset-=(size_t)Element_Offset_Save;
+        Element_Offset=Element_Offset_Save+nalUnitLength-2;
+        Element_Size=Element_Size_Save;
+
+        Element_End0();
+    }
+    if (Element_Offset<Element_Size)
+        Skip_XX(Element_Size-Element_Offset,                    "Padding?");
+
+    //Filling
+    FILLING_BEGIN_PRECISE();
+        MustParse_VPS_SPS_PPS=false;
+        if (!Status[IsAccepted])
+            Accept("AVC");
+    FILLING_END();
 }
 
 } //NameSpace

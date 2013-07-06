@@ -37,6 +37,32 @@ namespace MediaInfoLib
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+const char* AribStdB24B37_Caption_conversion_type(int8u Caption_conversion_type)
+{
+    switch (Caption_conversion_type)
+    {
+        case 1 : return "HD side panel";
+        case 2 : return "SD (4:3)";
+        case 3 : return "SD wide side panel";
+        case 4 : return "Mobile closed caption";
+        default: return "";
+    }
+}
+
+//---------------------------------------------------------------------------
+const char* AribStdB24B37_DRCS_conversion_type(int8u DRCS_conversion_type)
+{
+    switch (DRCS_conversion_type)
+    {
+        case 0 : return "DRCS conversion mode A";
+        case 1 : return "DRCS conversion mode B";
+        case 2 : return "Mobile DRCS";
+        case 3 : return "DRCS conversion not possible";
+        default: return "";
+    }
+}
+
+//---------------------------------------------------------------------------
 const char* AribStdB24B37_data_group_id(int8u data_group_id)
 {
     switch (data_group_id)
@@ -286,6 +312,10 @@ File_AribStdB24B37::File_AribStdB24B37()
 
     //In
     HasCcis=false;
+    ParseCcis=false;
+
+    //Config
+    Caption_conversion_type=(int8u)-1;
 }
 
 //***************************************************************************
@@ -301,7 +331,10 @@ void File_AribStdB24B37::Streams_Fill()
         Fill(Stream_Text, StreamPos_Last, Text_ID, Pos+1);
         Fill(Stream_Text, StreamPos_Last, Text_Format, "ARIB STD B24/B37");
         if (HasCcis)
+        {
             Fill(Stream_Text, StreamPos_Last, Text_MuxingMode, "CCIS");
+            Fill(Stream_Text, StreamPos_Last, Text_Format_Profile, AribStdB24B37_Caption_conversion_type(Caption_conversion_type));
+        }
         Fill(Stream_Text, StreamPos_Last, Text_StreamSize, 0);
         Fill(Stream_Text, StreamPos_Last, Text_BitRate_Mode, "CBR");
         Fill(Stream_Text, StreamPos_Last, Text_Language, Streams[Pos].ISO_639_language_code);
@@ -320,6 +353,21 @@ void File_AribStdB24B37::Streams_Finish()
 //---------------------------------------------------------------------------
 void File_AribStdB24B37::Read_Buffer_Continue()
 {
+    if (ParseCcis)
+    {
+        Skip_C4(                                                "CCIS_code");
+        Get_B1 (   Caption_conversion_type,                     "Caption_conversion_type"); Param_Info1(AribStdB24B37_Caption_conversion_type(Caption_conversion_type));
+        BS_Begin();
+        Info_S1(2, DRCS_conversion_type,                        "DRCS_conversion_type"); Param_Info1(AribStdB24B37_DRCS_conversion_type(DRCS_conversion_type));
+        Skip_S1(6,                                              "reserved");
+        BS_End();
+        BS_End();
+        Skip_B2(                                                "reserved");
+        Skip_B8(                                                "reserved");
+        ParseCcis=false;
+        return;
+    }
+
     Skip_B1(                                                    "Data_identifier");
     Skip_B1(                                                    "Private_stream_id");
     BS_Begin();
@@ -389,7 +437,7 @@ void File_AribStdB24B37::Data_Parse()
                     Skip_XX(Element_Size,                       "Waiting for caption_management");
                     break;
                 }
-                if (Element_Code<Streams.size())
+                if (Element_Code>Streams.size())
                 {
                     Skip_XX(Element_Size,                       "Unknown service");
                     Trusted_IsNot("Invalid service number");
@@ -545,11 +593,17 @@ void File_AribStdB24B37::data_unit_data()
                 Skip_C1 (                                       "Character");
                 Add((Char)header);
             }
-            else if (header&0x80) // GR //TODO: buffer check
-                Character(Streams[(size_t)(Element_Code-1)].GR, Buffer[Buffer_Offset+Element_Offset]&0x7F, Buffer[Buffer_Offset+Element_Offset+1]&0x7F);
+            else if (header&0x80) // GR //TODO: buffer check //Note about Caption_conversion_type == Mobile closed caption: see B37 Figure 3-4 Code Ranges for Mobile Closed Caption
+                Character(Caption_conversion_type==4?GS_Kanji:Streams[(size_t)(Element_Code-1)].G[Streams[(size_t)(Element_Code-1)].GR],
+                          Streams[(size_t)(Element_Code-1)].GR,
+                          Buffer[Buffer_Offset+Element_Offset]&0x7F,
+                          Buffer[Buffer_Offset+Element_Offset+1]&0x7F);
             else // GL
             {
-                Character(Streams[(size_t)(Element_Code-1)].GL_SS?Streams[(size_t)(Element_Code-1)].GL_SS:Streams[(size_t)(Element_Code-1)].GL, Buffer[Buffer_Offset+Element_Offset], Buffer[Buffer_Offset+Element_Offset+1]);
+                Character(Caption_conversion_type==4?GS_DRCS:Streams[(size_t)(Element_Code-1)].G[Streams[(size_t)(Element_Code-1)].GL_SS?Streams[(size_t)(Element_Code-1)].GL_SS:Streams[(size_t)(Element_Code-1)].GL],
+                          Streams[(size_t)(Element_Code-1)].GL_SS?Streams[(size_t)(Element_Code-1)].GL_SS:Streams[(size_t)(Element_Code-1)].GL,
+                          Buffer[Buffer_Offset+Element_Offset],
+                          Buffer[Buffer_Offset+Element_Offset+1]);
                 Streams[(size_t)(Element_Code-1)].GL_SS=0;
             }
         }
@@ -634,14 +688,14 @@ void File_AribStdB24B37::DefaultMacro()
 }
 
 //---------------------------------------------------------------------------
-void File_AribStdB24B37::Character (int8u G_Value, int8u FirstByte, int8u SecondByte)
+void File_AribStdB24B37::Character (int16u CharacterSet, int8u G_Value, int8u FirstByte, int8u SecondByte)
 {
     int16u Value=(FirstByte<<8) | SecondByte;
 
     //ARIB STD B24/B37 provide numbers with 2 number (Row and Colupmn) a shift of 32 (b00100000)
     #define Compute(f,s) (((f+32)<<8) | (s+32))
 
-    switch (Streams[(size_t)(Element_Code-1)].G[G_Value])
+    switch (CharacterSet)
     {
         case GS_Kanji:
                         Skip_B2(                                "Character");

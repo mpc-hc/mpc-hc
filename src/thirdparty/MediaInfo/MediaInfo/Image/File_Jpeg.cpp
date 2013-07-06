@@ -137,6 +137,7 @@ namespace Elements
 // Borland C++ does not accept local template
 struct Jpeg_samplingfactor
 {
+    int8u Ci;
     int8u Hi;
     int8u Vi;
 };
@@ -203,8 +204,6 @@ bool File_Jpeg::FileHeader_Begin()
         return false;
     }
 
-    Accept();
-
     //All should be OK...
     return true;
 }
@@ -256,7 +255,9 @@ bool File_Jpeg::Synched_Test()
 //---------------------------------------------------------------------------
 void File_Jpeg::Synched_Init()
 {
+    APP0_JFIF_Parsed=false;
     SOS_SOD_Parsed=false;
+    APPE_Adobe0_transform=(int8u)-1;
 }
 
 //***************************************************************************
@@ -493,6 +494,7 @@ void File_Jpeg::SIZ()
         if (Frame_Count==0 && Field_Count==0)
         {
             Accept("JPEG 2000");
+            Fill("JPEG 2000");
 
             if (Count_Get(StreamKind_Last)==0)
                 Stream_Prepare(StreamKind_Last);
@@ -597,7 +599,7 @@ void File_Jpeg::SOD()
     SOS_SOD_Parsed=true;
     if (Interlaced)
         Field_Count++;
-    if (!Interlaced && Field_Count%2==0)
+    if (!Interlaced || Field_Count%2==0)
     {
         Frame_Count++;
         if (Frame_Count_NotParsedIncluded!=(int64u)-1)
@@ -624,7 +626,7 @@ void File_Jpeg::SOF_()
     {
         Jpeg_samplingfactor SamplingFactor;
         Element_Begin1("Component");
-        Info_B1(Ci,                                             "Ci - Component identifier"); Element_Info1(Ci);
+        Get_B1 (   SamplingFactor.Ci,                           "Ci - Component identifier"); if (SamplingFactor.Ci>Count) Element_Info1(Ztring().append(1, (Char)SamplingFactor.Ci)); else Element_Info1(SamplingFactor.Ci);
         BS_Begin();
         Get_S1 (4, SamplingFactor.Hi,                           "Hi - Horizontal sampling factor"); Element_Info1(SamplingFactor.Hi);
         Get_S1 (4, SamplingFactor.Vi,                           "Vi - Vertical sampling factor"); Element_Info1(SamplingFactor.Vi);
@@ -640,6 +642,7 @@ void File_Jpeg::SOF_()
         if (Frame_Count==0 && Field_Count==0)
         {
             Accept("JPEG");
+            Fill("JPEG");
 
             if (Count_Get(StreamKind_Last)==0)
                 Stream_Prepare(StreamKind_Last);
@@ -649,13 +652,61 @@ void File_Jpeg::SOF_()
                 Fill(Stream_Image, 0, Image_Codec_String, "JPEG", Unlimited, true, true); //To Avoid automatic filling
             if (StreamKind_Last==Stream_Video)
                 Fill(Stream_Video, 0, Video_InternetMediaType, "video/JPEG", Unlimited, true, true);
-            Fill(StreamKind_Last, 0, "ColorSpace", "YUV");
             Fill(StreamKind_Last, 0, Fill_Parameter(StreamKind_Last, Generic_BitDepth), Resolution);
             Fill(StreamKind_Last, 0, "Height", Height*(Interlaced?2:1));
             Fill(StreamKind_Last, 0, "Width", Width);
 
+            //ColorSpace from http://docs.oracle.com/javase/1.4.2/docs/api/javax/imageio/metadata/doc-files/jpeg_metadata.html
+            switch (APPE_Adobe0_transform)
+            {
+                case 0x01 :
+                            if (Count==3)
+                                Fill(StreamKind_Last, 0, "ColorSpace", "YUV");
+                case 0x02 :
+                            if (Count==4)
+                                Fill(StreamKind_Last, 0, "ColorSpace", "YCCB");
+                            break;
+                default   :
+                            {
+                            int8u Ci[256];
+                            memset(Ci, 0, 256);;
+                            for (int8u Pos=0; Pos<Count; Pos++)
+                                Ci[SamplingFactors[Pos].Ci]++;
+
+                            switch (Count)
+                            {
+                                case 1 :    Fill(StreamKind_Last, 0, "ColorSpace", "Y"); break;
+                                case 2 :    Fill(StreamKind_Last, 0, "ColorSpace", "YA"); break;
+                                case 3 :
+                                                 if (!APP0_JFIF_Parsed && Ci['R']==1 && Ci['G']==1 && Ci['B']==1)                                                       //RGB
+                                                Fill(StreamKind_Last, 0, "ColorSpace", "RGB");
+                                            else if ((Ci['Y']==1 && ((Ci['C']==1 && Ci['c']==1)                                                                         //YCc
+                                                                  || Ci['C']==2))                                                                                       //YCC
+                                                  || APP0_JFIF_Parsed                                                                                                   //APP0 JFIF header present so YCC
+                                                  || APPE_Adobe0_transform==0                                                                                           //transform set to YCC
+                                                  || (SamplingFactors[0].Ci==0 && SamplingFactors[1].Ci==1 && SamplingFactors[2].Ci==2)                                 //012
+                                                  || (SamplingFactors[0].Ci==1 && SamplingFactors[1].Ci==2 && SamplingFactors[2].Ci==3))                                //123
+                                                Fill(StreamKind_Last, 0, "ColorSpace", "YUV");
+                                            break;
+                                case 4 :
+                                                 if (!APP0_JFIF_Parsed && Ci['R']==1 && Ci['G']==1 && Ci['B']==1 && Ci['A']==1)                                         //RGBA
+                                                Fill(StreamKind_Last, 0, "ColorSpace", "RGBA");
+                                            else if ((Ci['Y']==1 && Ci['A']==1 && ((Ci['C']==1 && Ci['c']==1)                                                           //YCcA
+                                                                                || Ci['C']==2))                                                                         //YCCA
+                                                  || APP0_JFIF_Parsed                                                                                                   //APP0 JFIF header present so YCCA
+                                                  || (SamplingFactors[0].Ci==0 && SamplingFactors[1].Ci==1 && SamplingFactors[2].Ci==2 && SamplingFactors[3].Ci==3)     //0123
+                                                  || (SamplingFactors[0].Ci==1 && SamplingFactors[1].Ci==2 && SamplingFactors[2].Ci==3 && SamplingFactors[3].Ci==4))    //1234
+                                                Fill(StreamKind_Last, 0, "ColorSpace", "YUVA");
+                                            else if (APPE_Adobe0_transform==0)                                                                                          //transform set to CMYK
+                                                Fill(StreamKind_Last, 0, "ColorSpace", "YCCB");
+                                            break;
+                                default:    ;
+                            }
+                            }
+            }
+
             //Chroma subsampling
-            if (SamplingFactors.size()==3 && SamplingFactors[1].Hi==1 && SamplingFactors[2].Hi==1 && SamplingFactors[1].Vi==1 && SamplingFactors[2].Vi==1)
+            if ((SamplingFactors.size()==3 || SamplingFactors.size()==4) && SamplingFactors[1].Hi==1 && SamplingFactors[2].Hi==1 && SamplingFactors[1].Vi==1 && SamplingFactors[2].Vi==1)
             {
                 string ChromaSubsampling;
                 switch (SamplingFactors[0].Hi)
@@ -685,7 +736,16 @@ void File_Jpeg::SOF_()
                     default: ;
                 }
                 if (!ChromaSubsampling.empty())
+                {
+                    if (SamplingFactors.size()==4)
+                    {
+                        if (ChromaSubsampling=="4:4:4" && SamplingFactors[3].Hi==1 && SamplingFactors[3].Vi==1)
+                            ChromaSubsampling+=":4";
+                        else
+                            ChromaSubsampling+=":?";
+                    }
                     Fill(StreamKind_Last, 0, "ChromaSubsampling", ChromaSubsampling);
+                }
             }
         }
     FILLING_END();
@@ -710,7 +770,7 @@ void File_Jpeg::SOS()
     SOS_SOD_Parsed=true;
     if (Interlaced)
         Field_Count++;
-    if (!Interlaced && Field_Count%2==0)
+    if (!Interlaced || Field_Count%2==0)
     {
         Frame_Count++;
         if (Frame_Count_NotParsedIncluded!=(int64u)-1)
@@ -734,38 +794,40 @@ void File_Jpeg::APP0()
         case 0x41564931 : APP0_AVI1(); break; //"AVI1"
         case 0x4A464946 : APP0_JFIF(); break; //"JFIF"
         case 0x4A464646 : APP0_JFFF(); break; //"JFFF"
-        default         : Skip_XX(Element_Size,                 "Data");
+        default         : Skip_XX(Element_Size-Element_Offset,  "Unknown");
     }
 }
 
 //---------------------------------------------------------------------------
 void File_Jpeg::APP0_AVI1()
 {
+    Element_Info1("AVI1");
+
     //Parsing
     int8u  FieldOrder=(int8u)-1;
-    Element_Begin1("AVI1");
-        if (Element_Size==16-4)
-        {
-            Get_B1 (FieldOrder,                                     "Polarity");
-            Skip_XX(7,                                              "Zeroes");
-        }
-        if (Element_Size==18-4)
-        {
-            int32u FieldSizeLessPadding;
-            Get_B1 (FieldOrder,                                     "Field Order");
-            Skip_B1(                                                "Zero");
-            Skip_B4(                                                "FieldSize");
-            Get_B4 (FieldSizeLessPadding,                           "FieldSizeLessPadding");
+    if (Element_Size==16-4)
+    {
+        Get_B1 (FieldOrder,                                     "Polarity");
+        Skip_XX(7,                                              "Zeroes");
+    }
+    if (Element_Size==18-4)
+    {
+        int32u FieldSizeLessPadding;
+        Get_B1 (FieldOrder,                                     "Field Order");
+        Skip_B1(                                                "Zero");
+        Skip_B4(                                                "FieldSize");
+        Get_B4 (FieldSizeLessPadding,                           "FieldSizeLessPadding");
 
-            //Coherency
-            if (FieldOrder==0 && IsSub && FieldSizeLessPadding!=Buffer_Size)
-                FieldOrder=(int8u)-1; //Not coherant
-        }
-    Element_End0();
+        //Coherency
+        if (FieldOrder==0 && IsSub && FieldSizeLessPadding!=Buffer_Size)
+            FieldOrder=(int8u)-1; //Not coherant
+    }
 
     FILLING_BEGIN();
         if (Frame_Count==0 && Field_Count==0)
         {
+            Accept();
+
             switch (FieldOrder)
             {
                 case 0x00 : Fill(Stream_Video, 0, Video_Interlacement, "PPF"); Fill(Stream_Video, 0, Video_ScanType, "Progressive"); break;
@@ -781,30 +843,32 @@ void File_Jpeg::APP0_AVI1()
 //---------------------------------------------------------------------------
 void File_Jpeg::APP0_JFIF()
 {
+    Element_Info1("JFIF");
+
     //Parsing
     Skip_B1(                                                    "Zero");
-    Element_Begin1("JFIF");
-        int16u Width, Height;
-        int8u  Unit, ThumbailX, ThumbailY;
-        Skip_B2(                                                "Version");
-        Get_B1 (Unit,                                           "Unit"); //0=Pixels, 1=dpi, 2=dpcm
-        Get_B2 (Width,                                          "Xdensity");
-        Get_B2 (Height,                                         "Ydensity");
-        Get_B1 (ThumbailX,                                      "Xthumbail");
-        Get_B1 (ThumbailY,                                      "Ythumbail");
-        Skip_XX(3*ThumbailX*ThumbailY,                          "RGB Thumbail");
-    Element_End0();
+    int16u Width, Height;
+    int8u  Unit, ThumbailX, ThumbailY;
+    Skip_B2(                                                    "Version");
+    Get_B1 (Unit,                                               "Unit"); //0=Pixels, 1=dpi, 2=dpcm
+    Get_B2 (Width,                                              "Xdensity");
+    Get_B2 (Height,                                             "Ydensity");
+    Get_B1 (ThumbailX,                                          "Xthumbail");
+    Get_B1 (ThumbailY,                                          "Ythumbail");
+    Skip_XX(3*ThumbailX*ThumbailY,                              "RGB Thumbail");
+
+    APP0_JFIF_Parsed=true;
 }
 
 //---------------------------------------------------------------------------
 void File_Jpeg::APP0_JFFF()
 {
+    Element_Info1("JFFF");
+
     Skip_B1(                                                    "Zero");
-    Element_Begin1("Extension");
-        Skip_B1(                                                "extension_code"); //0x10 Thumbnail coded using JPEG, 0x11 Thumbnail stored using 1 byte/pixel, 0x13 Thumbnail stored using 3 bytes/pixel
-        if (Element_Size>Element_Offset)
-            Skip_XX(Element_Size-Element_Offset,                "extension_data");
-    Element_End0();
+    Skip_B1(                                                    "extension_code"); //0x10 Thumbnail coded using JPEG, 0x11 Thumbnail stored using 1 byte/pixel, 0x13 Thumbnail stored using 3 bytes/pixel
+    if (Element_Size>Element_Offset)
+        Skip_XX(Element_Size-Element_Offset,                    "extension_data");
 }
 
 //---------------------------------------------------------------------------
@@ -859,15 +923,51 @@ void File_Jpeg::APP1()
 //---------------------------------------------------------------------------
 void File_Jpeg::APP1_EXIF()
 {
+    Element_Info1("Exif");
+
     //Parsing
-    Element_Begin1("Exif");
-        int32u Alignment;
-        Get_C4(Alignment,                                       "Alignment");
-        if (Alignment==0x49492A00)
-            Skip_B4(                                            "First_IFD");
-        if (Alignment==0x4D4D2A00)
-            Skip_L4(                                            "First_IFD");
-    Element_End0();
+    int32u Alignment;
+    Get_C4(Alignment,                                           "Alignment");
+    if (Alignment==0x49492A00)
+        Skip_B4(                                                "First_IFD");
+    if (Alignment==0x4D4D2A00)
+        Skip_L4(                                                "First_IFD");
+}
+
+//---------------------------------------------------------------------------
+void File_Jpeg::APPE()
+{
+    //Parsing
+    int64u Name;
+    Get_C6(Name,                                                "Name");
+    switch (Name)
+    {
+        case 0x41646F626500LL : APPE_Adobe0(); break; //"AVI1"
+        default               : Skip_XX(Element_Size-Element_Offset, "Unknown");
+    }
+}
+
+//---------------------------------------------------------------------------
+void File_Jpeg::APPE_Adobe0()
+{
+    Element_Info1("Adobe");
+
+    //Parsing
+    int8u Version;
+    Get_B1(Version,                                             "Version");
+    if (Version==100)
+    {
+        int8u transform;
+        Skip_B2(                                                "flags0");
+        Skip_B2(                                                "flags1");
+        Get_B1 (transform,                                      "transform");
+
+        FILLING_BEGIN();
+            APPE_Adobe0_transform=transform;
+        FILLING_END();
+    }
+    else
+        Skip_XX(Element_Size-Element_Offset,                    "unknown");
 }
 
 } //NameSpace

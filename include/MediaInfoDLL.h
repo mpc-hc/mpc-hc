@@ -1,20 +1,9 @@
-/* MediaInfoDLL - All info about media files, for DLL
-// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
-//
-// This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Library General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library. If not, see <http://www.gnu.org/licenses/>.
-//
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*  Copyright (c) MediaArea.net SARL. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license that can
+ *  be found in the License.html file in the root of the source tree.
+ */
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Public DLL interface implementation
@@ -128,7 +117,7 @@
 #endif
 
 /*-------------------------------------------------------------------------*/
-#if defined (_WIN32) || defined (WIN32)
+#if defined(_WIN32) || defined(WIN32)
     #ifdef _UNICODE
         #define MEDIAINFODLL_NAME L"MediaInfo.dll"
     #else //_UNICODE
@@ -140,13 +129,14 @@
 #else
     #define MEDIAINFODLL_NAME "libmediainfo.so.0"
     #define __stdcall
-#endif //!defined(_WIN32) || defined (WIN32)
+    #include <new> //for size_t
+#endif //!defined(_WIN32) || defined(WIN32)
 
 /*-------------------------------------------------------------------------*/
 /*Char types                                                               */
 #undef  __T
 #define __T(__x)    __T(__x)
-#if defined(UNICODE) || defined (_UNICODE)
+#if defined(UNICODE) || defined(_UNICODE)
     typedef wchar_t MediaInfo_Char;
     #undef  __T
     #define __T(__x) L ## __x
@@ -237,9 +227,9 @@ extern "C"
 #ifdef MEDIAINFO_GLIBC
     #include <gmodule.h>
     static GModule* MediaInfo_Module = NULL;
-#elif defined (_WIN32) || defined (WIN32)
+#elif defined(_WIN32) || defined(WIN32)
     #include <windows.h>
-    static HMODULE  MediaInfo_Module = NULL;
+    static HMODULE MediaInfo_Module = NULL;
 #else
     #include <dlfcn.h>
     static void* MediaInfo_Module = NULL;
@@ -253,7 +243,7 @@ extern "C"
 #define MEDIAINFOLIST_ASSIGN(_Name,_Name2) \
     if (!g_module_symbol (MediaInfo_Module, "MediaInfoList" MEDIAINFO_Ansi "_" _Name2, (gpointer*)&MediaInfoList_##_Name)) \
         Errors++;
-#elif defined (_WIN32) || defined (WIN32)
+#elif defined(_WIN32) || defined(WIN32)
 #define MEDIAINFO_ASSIGN(_Name,_Name2) \
     MediaInfo_##_Name=(MEDIAINFO_##_Name)GetProcAddress(MediaInfo_Module, "MediaInfo" MEDIAINFO_Ansi "_" _Name2); \
     if (MediaInfo_##_Name==NULL) Errors++;
@@ -340,7 +330,7 @@ extern "C"
     /* Load library */
     #ifdef MEDIAINFO_GLIBC
         MediaInfo_Module = g_module_open(MEDIAINFODLL_NAME, G_MODULE_BIND_LAZY);
-    #elif defined (_WIN32) || defined (WIN32)
+    #elif defined(_WIN32) || defined(WIN32)
         MediaInfo_Module = LoadLibrary(MEDIAINFODLL_NAME);
     #else
         MediaInfo_Module = dlopen(MEDIAINFODLL_NAME, RTLD_LAZY);
@@ -391,7 +381,7 @@ extern "C"
         // Unload DLL with errors
         #ifdef MEDIAINFO_GLIBC
             g_module_close(MediaInfo_Module);
-        #elif defined (_WIN32) || defined (WIN32)
+        #elif defined(_WIN32) || defined(WIN32)
             FreeLibrary(MediaInfo_Module);
         #else
             dlclose(MediaInfo_Module);
@@ -420,7 +410,7 @@ extern "C"
 
     #ifdef MEDIAINFO_GLIBC
         g_module_close(MediaInfo_Module);
-    #elif defined (_WIN32) || defined (WIN32)
+    #elif defined(_WIN32) || defined(WIN32)
         FreeLibrary(MediaInfo_Module);
     #else
         dlclose(MediaInfo_Module);
@@ -451,7 +441,7 @@ namespace MediaInfoDLL
     //MediaInfo_Char types
 #undef  __T
 #define __T(__x)    __T(__x)
-#if defined(UNICODE) || defined (_UNICODE)
+#if defined(UNICODE) || defined(_UNICODE)
     typedef wchar_t Char;
     #undef  __T
     #define __T(__x) L ## __x

@@ -63,6 +63,7 @@ private :
 
     //Elements
     void Core();
+    void Core_Frame();
     void HD();
     void TimeStamp();
     void dac3();
@@ -104,17 +105,18 @@ private :
     std::map<int8u, int64u> fscods;
     std::map<int8u, int64u> frmsizecods;
     int64u Frame_Count_HD;
-    int16u chanmap;
-    int16u frmsiz;
+    int16u chanmap_Max[8][9];
+    int16u frmsizplus1_Max[8][9];
     int16u HD_BitRate_Max;
     int16u HD_Channels2;
     int8u  fscod;
     int8u  fscod2;
     int8u  frmsizecod;
     int8u  bsid;
-    int8u  bsmod;
-    int8u  acmod;
-    int8u  dsurmod;
+    int8u  bsid_Max;
+    int8u  bsmod_Max[8][9];
+    int8u  acmod_Max[8][9];
+    int8u  dsurmod_Max[8][9];
     int8u  numblkscod;
     int8u  HD_StreamType;
     int8u  HD_SubStreams_Count;
@@ -124,7 +126,9 @@ private :
     int8u  HD_Resolution1;
     int8u  HD_Resolution2;
     int8u  dynrng_Old;
-    bool   lfeon;
+    int8u  substreamid_Independant_Current;
+    int8u  substreams_Count;
+    bool   lfeon_Max[8][9];
     bool   dxc3_Parsed;
     bool   HD_MajorSync_Parsed;
     bool   HD_NoRestart;
@@ -133,12 +137,15 @@ private :
     bool   Core_IsPresent;
     bool   HD_IsPresent;
     bool   dynrnge_Exists;
+    bool   chanmape_Max[8][9];
     bool   TimeStamp_IsPresent;
     bool   TimeStamp_IsParsing;
     bool   TimeStamp_Parsed;
     bool   TimeStamp_DropFrame_IsValid;
     bool   TimeStamp_DropFrame_Content;
     bool   BigEndian;
+    bool   IgnoreCrc_Done;
+    bool   IgnoreCrc;
     float64 TimeStamp_Content;
 };
 

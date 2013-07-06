@@ -679,6 +679,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
             {
                 Reference->MenuPos=MI->Stream_Prepare(Stream_Menu);
                 MI->Fill(Stream_Menu, Reference->MenuPos, General_ID, ID_Base);
+                MI->Fill(Stream_Menu, Reference->StreamPos, "Source", Reference->Source);
             }
             Ztring List=Reference->MI->Get(StreamKind_Last, StreamPos_From, General_ID);
             Ztring List_String=Reference->MI->Get(StreamKind_Last, StreamPos_From, General_ID_String);
@@ -735,49 +736,84 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
         MI->Fill(StreamKind_Last, StreamPos_To, "MuxingMode", Reference->MI->Info->Get(Stream_General, 0, General_Format)+MuxingMode, true);
     }
 
-    //Source_List
-    #if MEDIAINFO_ADVANCED
-        if (!HasMainFile && Config->File_Source_List_Get() && MI->Get(Stream_General, 0, __T("Format"))!=__T("HLS")) //TODO: support of HLS
+    //Lists
+    #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
+        if (!Reference->List_Compute_Done && (Reference->MI->Count_Get(Stream_Menu)==0 || StreamKind_Last==Stream_Menu))
         {
-            if (Reference->FileNames.size()>1 && (Reference->MI->Count_Get(Stream_Menu)==0 || StreamKind_Last==Stream_Menu))
-            {
-                /* unstable (HLS)
-                if (Reference->MI->Config.File_Names.size()>1)
-                {
-                    MI->Fill(StreamKind_Last, StreamPos_To, "Source_List", Reference->MI->Get(Stream_General, 0, __T("FileName")));
-                    (*MI->Stream_More)[StreamKind_Last][StreamPos_To](Ztring().From_Local("Source_List"), Info_Options)=__T("N NT");
-                }
-                */
-                Ztring SourcePath=FileName::Path_Get(MI->Retrieve(Stream_General, 0, General_CompleteName));
-                size_t SourcePath_Size=SourcePath.size()+1; //Path size + path separator size
-                for (size_t Pos=0; Pos<Reference->FileNames.size(); Pos++)
-                {
-                    Ztring Temp=Reference->FileNames[Pos];
-                    Temp.erase(0, SourcePath_Size);
-                    MI->Fill(StreamKind_Last, StreamPos_To, "Source_List", Temp);
-                }
-                (*MI->Stream_More)[StreamKind_Last][StreamPos_To](Ztring().From_Local("Source_List"), Info_Options)=__T("N NT");
-            }
-            else
-            {
-                MI->Fill(StreamKind_Last, StreamPos_To, "Source_List", Reference->MI->Get(Stream_General, 0, __T("Source_List")));
-                (*MI->Stream_More)[StreamKind_Last][StreamPos_To](Ztring().From_Local("Source_List"), Info_Options)=__T("N NT");
-            }
+            List_Compute();
+            Reference->List_Compute_Done=true;
         }
-    #endif //MEDIAINFO_ADVANCED
+    #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
+}
+
+//---------------------------------------------------------------------------
+#if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
+void File__ReferenceFilesHelper::List_Compute()
+{
+    stream_t StreamKind=References.size()>1?StreamKind_Last:Stream_General;
+    size_t   StreamPos=References.size()>1?StreamPos_To:0;
+
+    stream_t StreamKind_Target=Reference->MenuPos==(size_t)-1?StreamKind:Stream_Menu;
+    size_t   StreamPos_Target=Reference->MenuPos==(size_t)-1?StreamPos:Reference->MenuPos;
 
     //MD5
     #if MEDIAINFO_MD5
-        if (!HasMainFile && Config->File_Md5_Get() && MI->Get(Stream_General, 0, __T("Format"))!=__T("HLS")) //TODO: support of HLS
+        if (!HasMainFile && Config->File_Md5_Get())
         {
-            if (Reference->MI->Count_Get(Stream_Menu)==0 || StreamKind_Last==Stream_Menu)
+            if (!Reference->MI->Get(Stream_General, 0, __T("MD5_Generated")).empty())
             {
-                MI->Fill(StreamKind_Last, StreamPos_To, "MD5", Reference->MI->Get(Stream_General, 0, __T("MD5")));
-                (*MI->Stream_More)[StreamKind_Last][StreamPos_To](Ztring().From_Local("MD5"), Info_Options)=__T("N NT");
+                if (Reference->MI->Config.File_Names.size()==1)
+                {
+                    MI->Fill(StreamKind_Target, StreamPos_Target, "Source_MD5_Generated", Reference->MI->Get(Stream_General, 0, __T("MD5_Generated")));
+                    (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_MD5_Generated"), Info_Options)=__T("N NT");
+                }
+                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Reference->MI->Get(Stream_General, 0, __T("MD5_Generated")));
+                (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_List_MD5_Generated"), Info_Options)=__T("N NT");
+            }
+            if (!Reference->MI->Get(Stream_General, 0, __T("Source_List_MD5_Generated")).empty())
+            {
+                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Reference->MI->Get(Stream_General, 0, __T("Source_List_MD5_Generated")));
+                (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_List_MD5_Generated"), Info_Options)=__T("N NT");
+            }
+            else if (!Reference->MI->Get(StreamKind, StreamPos, __T("Source_List_MD5_Generated")).empty())
+            {
+                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Reference->MI->Get(StreamKind, StreamPos, __T("Source_List_MD5_Generated")));
+                (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_List_MD5_Generated"), Info_Options)=__T("N NT");
             }
         }
     #endif //MEDIAINFO_MD5
+
+    //Source_List
+    #if MEDIAINFO_ADVANCED
+        if (!HasMainFile && Config->File_Source_List_Get())
+        {
+            Ztring SourcePath=FileName::Path_Get(MI->Retrieve(Stream_General, 0, General_CompleteName));
+            size_t SourcePath_Size=SourcePath.size()+1; //Path size + path separator size
+            for (size_t Pos=0; Pos<Reference->FileNames.size(); Pos++)
+            {
+                Ztring Temp=Reference->FileNames[Pos];
+                if (!Config->File_IsReferenced_Get())
+                    Temp.erase(0, SourcePath_Size);
+                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List", Temp);
+            }
+            if (!Reference->MI->Get(Stream_General, 0, __T("Source_List")).empty())
+            {
+                ZtringList List;
+                List.Separator_Set(0, __T(" / "));
+                List.Write(Reference->MI->Get(Stream_General, 0, __T("Source_List")));
+                for (size_t Pos=0; Pos<List.size(); Pos++)
+                {
+                    Ztring Temp=List[Pos];
+                    if (!Config->File_IsReferenced_Get())
+                        Temp.erase(0, SourcePath_Size);
+                    MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List", Temp);
+                }
+            }
+            (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_List"), Info_Options)=__T("N NT");
+        }
+    #endif //MEDIAINFO_ADVANCED
 }
+#endif //defined(MEDIAINFO_ADVANCED) || defined(MEDIAINFO_MD5)
 
 //---------------------------------------------------------------------------
 void File__ReferenceFilesHelper::Read_Buffer_Unsynched()

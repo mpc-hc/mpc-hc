@@ -48,6 +48,7 @@ struct complete_stream
         struct program
         {
             bool HasChanged;
+            std::map<int8u, string> Eia708_Languages; //Sometimes, it is in program descriptors instead of inside the video stream descriptors //Key is caption_service_number
             std::map<std::string, Ztring> Infos;
             std::map<std::string, Ztring> ExtraInfos_Content;
             std::map<std::string, Ztring> ExtraInfos_Option;
@@ -66,6 +67,7 @@ struct complete_stream
             bool   Update_Needed_StreamCount;
             bool   Update_Needed_StreamPos;
             bool   Update_Needed_Info;
+            bool   Eia608_IsPresent;
 
             //DVB
             struct dvb_epg_block
@@ -140,6 +142,7 @@ struct complete_stream
                 Update_Needed_StreamPos=false;
                 Update_Needed_Info=false;
                 DVB_EPG_Blocks_IsUpdated=false;
+                Eia608_IsPresent=false;
                 Scte35=NULL;
             }
         };
@@ -226,7 +229,7 @@ struct complete_stream
         table_ids                                   Table_IDs; //Key is table_id
         std::map<std::string, Ztring>               Infos;
         std::map<std::string, Ztring>               Infos_Option;
-        std::map<int8u, Ztring>                     Languages; //Key is caption_service_number or 128+line21_field
+        std::map<int8u, string>                     Eia708_Languages; //Key is caption_service_number
         struct teletext
         {
             std::map<std::string, Ztring>           Infos;
@@ -288,6 +291,7 @@ struct complete_stream
         bool                                        IsUpdated_IsRegistered;
         bool                                        IsUpdated_Info;
         bool                                        CA_system_ID_MustSkipSlices;
+        bool                                        Eia608_IsPresent;
         size_t                                      IsScrambled;
         int16u                                      CA_system_ID;
         int16u                                      SubStream_pid;
@@ -353,6 +357,7 @@ struct complete_stream
             IsScrambled=false;
             CA_system_ID_MustSkipSlices=false;
             CA_system_ID=0x0000;
+            Eia608_IsPresent=false;
             SubStream_pid=0x0000;
             #if MEDIAINFO_IBI
                 Ibi_SynchronizationOffset_BeginOfFrame=(int64u)-1;
@@ -434,12 +439,14 @@ struct complete_stream
                 int32u  start_time;
                 Ztring  duration;
                 Ztring  title;
-                std::map<int8u, Ztring>  Languages; //Key is caption_service_number or 128+line21_field
+                std::map<int8u, string>  Eia708_Languages; //Key is caption_service_number
                 std::map<int16u, Ztring> texts;
+                bool                     Eia608_IsPresent;
 
                 event()
                 {
                     start_time=(int32u)-1;
+                    Eia608_IsPresent=false;
                 }
             };
 

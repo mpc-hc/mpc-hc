@@ -1,8 +1,3 @@
-
-/*!\file
-\brief     MD5 checksum routines used for authentication.  Not covered by GPL, but
-   in the public domain as per the copyright below */
-
 /*
  * This code implements the MD5 message-digest algorithm.
  * The algorithm is due to Ron Rivest.  This code was

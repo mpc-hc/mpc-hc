@@ -1136,9 +1136,9 @@ private :
     //***************************************************************************
 
     void Buffer_Clear(); //Clear the buffer
-    bool Open_Buffer_Continue_Loop();
 protected :
     //Buffer
+    bool Open_Buffer_Continue_Loop();
     const int8u* Buffer;
 public : //TO CHANGE
     size_t Buffer_Size;
@@ -1283,7 +1283,8 @@ public :
 
     //MD5
     #if MEDIAINFO_MD5
-        struct MD5Context* MD5;
+        struct MD5Context*  MD5;
+        int64u              Md5_ParseUpTo;
     #endif //MEDIAINFO_MD5
 
     #if MEDIAINFO_SEEK

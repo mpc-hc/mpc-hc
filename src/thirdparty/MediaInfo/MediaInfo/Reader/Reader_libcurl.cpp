@@ -289,6 +289,8 @@ size_t Reader_libcurl::Format_Test(MediaInfo_Internal* MI, String File_Name)
             Event.StreamIDs_Size=0;
             Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Start, 0);
             Event.Stream_Size=(int64u)-1;
+            Event.FileName=NULL;
+            Event.FileName_Unicode=NULL;
             MI->Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
         }
     #endif //MEDIAINFO_EVENTS

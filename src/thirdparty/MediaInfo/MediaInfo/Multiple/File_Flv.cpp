@@ -652,14 +652,22 @@ bool File_Flv::Synchronize()
     while (Buffer_Offset+15<=Buffer_Size)
     {
         int32u BodyLength=BigEndian2int24u(Buffer+Buffer_Offset+5);
-        if (File_Offset+Buffer_Offset+15+BodyLength==File_Size)
+        if ((Buffer[Buffer_Offset  ]
+            || Buffer[Buffer_Offset+1]
+            || Buffer[Buffer_Offset+2]
+            || Buffer[Buffer_Offset+3]>=11)
+            && File_Offset+Buffer_Offset+15+BodyLength==File_Size)
             break; //Last block
         if (File_Offset+Buffer_Offset+15+BodyLength<File_Size)
         {
             if (Buffer_Offset+15+BodyLength+15>Buffer_Size)
                 return false; //Need more data
 
-            if (BigEndian2int32u(Buffer+Buffer_Offset+15+BodyLength)==11+BodyLength) // PreviousTagSize
+            if ((Buffer[Buffer_Offset  ]
+              || Buffer[Buffer_Offset+1]
+              || Buffer[Buffer_Offset+2]
+              || Buffer[Buffer_Offset+3]>=11)
+             && BigEndian2int32u(Buffer+Buffer_Offset+15+BodyLength)==11+BodyLength) // PreviousTagSize
                 break;
         }
 

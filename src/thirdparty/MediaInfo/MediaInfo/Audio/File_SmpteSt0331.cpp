@@ -167,6 +167,9 @@ void File_SmpteSt0331::Read_Buffer_Continue()
         Element_Offset=4;
 
         #if MEDIAINFO_DEMUX
+            OriginalBuffer_Size=(size_t)Element_Size;
+            OriginalBuffer=(int8u*)(Buffer+Buffer_Offset);
+
             FrameInfo.PTS=FrameInfo.DTS;
             FrameInfo.DUR=(Element_Size-4)*1000000000/48000/32; // 48 kHz, 4 bytes per sample
             Demux_random_access=true;
@@ -174,6 +177,9 @@ void File_SmpteSt0331::Read_Buffer_Continue()
             Element_Offset=0;
             Demux(Info, Info_Offset, ContentType_MainStream);
             Element_Offset=4;
+
+            OriginalBuffer_Size=0;
+            OriginalBuffer=NULL;
         #endif //MEDIAINFO_DEMUX
 
         delete[] Info;

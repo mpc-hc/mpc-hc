@@ -142,6 +142,7 @@ File_SmpteSt0337::File_SmpteSt0337()
     // In
     Container_Bits=0;
     Endianness=0x00;
+    Aligned=false;
 
     // Temp
     FrameRate=0;
@@ -149,6 +150,7 @@ File_SmpteSt0337::File_SmpteSt0337()
     data_type=(int8u)-1;
     GuardBand_Before=0;
     GuardBand_After=0;
+    NullPadding_Size=0;
 
     // Parser
     Parser=NULL;
@@ -350,7 +352,7 @@ bool File_SmpteSt0337::Synchronize()
             return false;
         }
 
-        if ((Container_Bits==0 || Container_Bits==16) && ((Buffer_TotalBytes+Buffer_Offset)%4)==0)
+        if ((Container_Bits==0 || Container_Bits==16) && (!Aligned || ((Buffer_TotalBytes+Buffer_Offset)%4)==0))
         {
             if (Buffer[Buffer_Offset  ]==0xF8
              && Buffer[Buffer_Offset+1]==0x72
@@ -373,7 +375,7 @@ bool File_SmpteSt0337::Synchronize()
                 break; // while()
             }
         }
-        if ((Container_Bits==0 || Container_Bits==20) && ((Buffer_TotalBytes+Buffer_Offset)%5)==0)
+        if ((Container_Bits==0 || Container_Bits==20) && (!Aligned || ((Buffer_TotalBytes+Buffer_Offset)%5)==0))
         {
             if (Buffer[Buffer_Offset  ]==0x6F
              && Buffer[Buffer_Offset+1]==0x87
@@ -387,7 +389,7 @@ bool File_SmpteSt0337::Synchronize()
                 break; // while()
             }
         }
-        if ((Container_Bits==0 || Container_Bits==20) && ((Buffer_TotalBytes+Buffer_Offset)%5)==0)
+        if ((Container_Bits==0 || Container_Bits==20) && (!Aligned || ((Buffer_TotalBytes+Buffer_Offset)%5)==0))
         {
             if (Buffer[Buffer_Offset  ]==0x72
              && Buffer[Buffer_Offset+1]==0xF8
@@ -401,7 +403,7 @@ bool File_SmpteSt0337::Synchronize()
                 break; // while()
             }
         }
-        if ((Container_Bits==0 || Container_Bits==24) && ((Buffer_TotalBytes+Buffer_Offset)%6)==0)
+        if ((Container_Bits==0 || Container_Bits==24) && (!Aligned || ((Buffer_TotalBytes+Buffer_Offset)%6)==0))
         {
             if (Buffer[Buffer_Offset  ]==0x96
              && Buffer[Buffer_Offset+1]==0xF8
@@ -420,7 +422,7 @@ bool File_SmpteSt0337::Synchronize()
              && Buffer[Buffer_Offset+2]==0x96
              && Buffer[Buffer_Offset+3]==0x1F
              && Buffer[Buffer_Offset+4]==0x4E
-             && Buffer[Buffer_Offset+5]==0x5A) // 24-bit, LE
+             && Buffer[Buffer_Offset+5]==0xA5) // 24-bit, LE
             {
                 Container_Bits=24;
                 Stream_Bits=24;
@@ -437,6 +439,7 @@ bool File_SmpteSt0337::Synchronize()
                 Container_Bits=24;
                 Stream_Bits=16;
                 Endianness='B'; // BE
+                NullPadding_Size=1;
                 break; // while()
             }
             if (Buffer[Buffer_Offset  ]==0x00
@@ -449,6 +452,7 @@ bool File_SmpteSt0337::Synchronize()
                 Container_Bits=24;
                 Stream_Bits=16;
                 Endianness='L'; // LE
+                NullPadding_Size=1;
                 break; // while()
             }
             if (Buffer[Buffer_Offset  ]==0x6F
@@ -476,7 +480,7 @@ bool File_SmpteSt0337::Synchronize()
                 break; // while()
             }
         }
-        if ((Container_Bits==0 || Container_Bits==32) && ((Buffer_TotalBytes+Buffer_Offset)%8)==0)
+        if ((Container_Bits==0 || Container_Bits==32) && (!Aligned || ((Buffer_TotalBytes+Buffer_Offset)%8)==0))
         {
             if (Buffer[Buffer_Offset  ]==0x00
              && Buffer[Buffer_Offset+1]==0x00
@@ -490,6 +494,7 @@ bool File_SmpteSt0337::Synchronize()
                 Container_Bits=32;
                 Stream_Bits=16;
                 Endianness='B'; // BE
+                NullPadding_Size=2;
                 break; // while()
             }
             if (Buffer[Buffer_Offset  ]==0x00
@@ -504,6 +509,7 @@ bool File_SmpteSt0337::Synchronize()
                 Container_Bits=32;
                 Stream_Bits=16;
                 Endianness='L'; // LE
+                NullPadding_Size=2;
                 break; // while()
             }
             if (Buffer[Buffer_Offset  ]==0x00
@@ -518,6 +524,7 @@ bool File_SmpteSt0337::Synchronize()
                 Container_Bits=32;
                 Stream_Bits=20;
                 Endianness='B'; // BE
+                NullPadding_Size=1;
                 break; // while()
             }
             if (Buffer[Buffer_Offset  ]==0x00
@@ -532,6 +539,7 @@ bool File_SmpteSt0337::Synchronize()
                 Container_Bits=32;
                 Stream_Bits=20;
                 Endianness='L'; // LE
+                NullPadding_Size=1;
                 break; // while()
             }
             if (Buffer[Buffer_Offset  ]==0x00
@@ -546,6 +554,7 @@ bool File_SmpteSt0337::Synchronize()
                 Container_Bits=32;
                 Stream_Bits=24;
                 Endianness='B'; // BE
+                NullPadding_Size=1;
                 break; // while()
             }
             if (Buffer[Buffer_Offset  ]==0x00
@@ -560,11 +569,12 @@ bool File_SmpteSt0337::Synchronize()
                 Container_Bits=32;
                 Stream_Bits=24;
                 Endianness='L'; // LE
+                NullPadding_Size=1;
                 break; // while()
             }
         }
 
-        if (Container_Bits)
+        if (Container_Bits && Aligned)
             Buffer_Offset+=Container_Bits/4;
         else
             Buffer_Offset++;
@@ -591,97 +601,110 @@ bool File_SmpteSt0337::Synched_Test()
 {
     // Skip NULL padding
     size_t Buffer_Offset_Temp=Buffer_Offset;
-    if (Container_Bits==16)
+    if (Aligned)
     {
-        while ((Buffer_TotalBytes+Buffer_Offset_Temp)%4) // Padding in part of the AES3 block
+        if (Container_Bits==16)
         {
-            if (Buffer_Offset_Temp+1>Buffer_Size)
+            while ((Buffer_TotalBytes+Buffer_Offset_Temp)%4) // Padding in part of the AES3 block
+            {
+                if (Buffer_Offset_Temp+1>Buffer_Size)
+                {
+                    Element_WaitForMoreData();
+                    return false;
+                }
+                if (Buffer[Buffer_Offset_Temp])
+                {
+                    Trusted_IsNot("Bad sync");
+                    return true;
+                }
+                Buffer_Offset_Temp++;
+            }
+            while(Buffer_Offset_Temp+4<=Buffer_Size && CC4(Buffer+Buffer_Offset_Temp)==0x00000000)
+                Buffer_Offset_Temp+=4;
+            if (Buffer_Offset_Temp+4>Buffer_Size)
             {
                 Element_WaitForMoreData();
                 return false;
             }
-            if (Buffer[Buffer_Offset_Temp])
-            {
-                Trusted_IsNot("Bad sync");
-                return true;
-            }
-            Buffer_Offset_Temp++;
         }
-        while(Buffer_Offset_Temp+4<=Buffer_Size && CC4(Buffer+Buffer_Offset_Temp)==0x00000000)
-            Buffer_Offset_Temp+=4;
-        if (Buffer_Offset_Temp+4>Buffer_Size)
+        if (Container_Bits==20)
         {
-            Element_WaitForMoreData();
-            return false;
+            while ((Buffer_TotalBytes+Buffer_Offset_Temp)%5) // Padding in part of the AES3 block
+            {
+                if (Buffer_Offset_Temp+1>Buffer_Size)
+                {
+                    Element_WaitForMoreData();
+                    return false;
+                }
+                if (Buffer[Buffer_Offset_Temp])
+                {
+                    Trusted_IsNot("Bad sync");
+                    return true;
+                }
+                Buffer_Offset_Temp++;
+            }
+            while(Buffer_Offset_Temp+5<=Buffer_Size && CC5(Buffer+Buffer_Offset_Temp)==0x0000000000LL)
+                Buffer_Offset_Temp+=5;
+            if (Buffer_Offset_Temp+5>Buffer_Size)
+            {
+                Element_WaitForMoreData();
+                return false;
+            }
+        }
+        if (Container_Bits==24)
+        {
+            while ((Buffer_TotalBytes+Buffer_Offset_Temp)%6) // Padding in part of the AES3 block
+            {
+                if (Buffer_Offset_Temp+1>Buffer_Size)
+                {
+                    Element_WaitForMoreData();
+                    return false;
+                }
+                if (Buffer[Buffer_Offset_Temp])
+                {
+                    Trusted_IsNot("Bad sync");
+                    return true;
+                }
+                Buffer_Offset_Temp++;
+            }
+            while(Buffer_Offset_Temp+6<=Buffer_Size && CC6(Buffer+Buffer_Offset_Temp)==0x000000000000LL)
+                Buffer_Offset_Temp+=6;
+            if (Buffer_Offset_Temp+6>Buffer_Size)
+            {
+                Element_WaitForMoreData();
+                return false;
+            }
+        }
+        else if (Container_Bits==32)
+        {
+            while ((Buffer_TotalBytes+Buffer_Offset_Temp)%8) // Padding in part of the AES3 block
+            {
+                if (Buffer_Offset_Temp+1>Buffer_Size)
+                {
+                    Element_WaitForMoreData();
+                    return false;
+                }
+                if (Buffer[Buffer_Offset_Temp])
+                {
+                    Trusted_IsNot("Bad sync");
+                    return true;
+                }
+                Buffer_Offset_Temp++;
+            }
+            while(Buffer_Offset_Temp+8<=Buffer_Size && CC8(Buffer+Buffer_Offset_Temp)==0x0000000000000000LL)
+                Buffer_Offset_Temp+=8;
+            if (Buffer_Offset_Temp+8>Buffer_Size)
+            {
+                Element_WaitForMoreData();
+                return false;
+            }
         }
     }
-    if (Container_Bits==20)
+    else
     {
-        while ((Buffer_TotalBytes+Buffer_Offset_Temp)%5) // Padding in part of the AES3 block
-        {
-            if (Buffer_Offset_Temp+1>Buffer_Size)
-            {
-                Element_WaitForMoreData();
-                return false;
-            }
-            if (Buffer[Buffer_Offset_Temp])
-            {
-                Trusted_IsNot("Bad sync");
-                return true;
-            }
+        while(Buffer_Offset_Temp+NullPadding_Size<Buffer_Size && !Buffer[Buffer_Offset_Temp+NullPadding_Size])
             Buffer_Offset_Temp++;
-        }
-        while(Buffer_Offset_Temp+5<=Buffer_Size && CC5(Buffer+Buffer_Offset_Temp)==0x0000000000LL)
-            Buffer_Offset_Temp+=5;
-        if (Buffer_Offset_Temp+5>Buffer_Size)
-        {
-            Element_WaitForMoreData();
-            return false;
-        }
-    }
-    if (Container_Bits==24)
-    {
-        while ((Buffer_TotalBytes+Buffer_Offset_Temp)%6) // Padding in part of the AES3 block
-        {
-            if (Buffer_Offset_Temp+1>Buffer_Size)
-            {
-                Element_WaitForMoreData();
-                return false;
-            }
-            if (Buffer[Buffer_Offset_Temp])
-            {
-                Trusted_IsNot("Bad sync");
-                return true;
-            }
-            Buffer_Offset_Temp++;
-        }
-        while(Buffer_Offset_Temp+6<=Buffer_Size && CC6(Buffer+Buffer_Offset_Temp)==0x000000000000LL)
-            Buffer_Offset_Temp+=6;
-        if (Buffer_Offset_Temp+6>Buffer_Size)
-        {
-            Element_WaitForMoreData();
-            return false;
-        }
-    }
-    else if (Container_Bits==32)
-    {
-        while ((Buffer_TotalBytes+Buffer_Offset_Temp)%8) // Padding in part of the AES3 block
-        {
-            if (Buffer_Offset_Temp+1>Buffer_Size)
-            {
-                Element_WaitForMoreData();
-                return false;
-            }
-            if (Buffer[Buffer_Offset_Temp])
-            {
-                Trusted_IsNot("Bad sync");
-                return true;
-            }
-            Buffer_Offset_Temp++;
-        }
-        while(Buffer_Offset_Temp+8<=Buffer_Size && CC8(Buffer+Buffer_Offset_Temp)==0x0000000000000000LL)
-            Buffer_Offset_Temp+=8;
-        if (Buffer_Offset_Temp+8>Buffer_Size)
+        if (Buffer_Offset_Temp+NullPadding_Size>=Buffer_Size)
         {
             Element_WaitForMoreData();
             return false;
@@ -987,7 +1010,7 @@ void File_SmpteSt0337::Data_Parse()
         {
             // Source: 24LE / L1L0 L3L2 L5L3 R1R0 R3R2 R5R4
             // Dest  : 24BE / L5L3 L3L2 L1L0 R5R4 R3R2 R1R0
-            while (Element_Offset+8<=Element_Size)
+            while (Element_Offset+6<=Element_Size)
             {
                 size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
 
@@ -998,7 +1021,7 @@ void File_SmpteSt0337::Data_Parse()
                 *(Info_Temp++)= Buffer[Buffer_Pos+4]                                    ;
                 *(Info_Temp++)= Buffer[Buffer_Pos+3]                                    ;
 
-                Element_Offset+=8;
+                Element_Offset+=6;
             }
         }
 
@@ -1256,6 +1279,7 @@ void File_SmpteSt0337::Data_Parse()
 
     if (Save_Buffer)
     {
+        delete[] Buffer;
         Buffer=Save_Buffer;
         Buffer_Offset=Save_Buffer_Offset;
         Buffer_Size=Save_Buffer_Size;

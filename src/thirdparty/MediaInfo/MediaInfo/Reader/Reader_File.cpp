@@ -59,6 +59,8 @@ size_t Reader_File::Format_Test(MediaInfo_Internal* MI, String File_Name)
             Event.EventSize=sizeof(struct MediaInfo_Event_General_Start_0);
             Event.StreamIDs_Size=0;
             Event.Stream_Size=File::Size_Get(File_Name);
+            Event.FileName=NULL;
+            Event.FileName_Unicode=NULL;
             MI->Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
         }
     #endif //MEDIAINFO_EVENTS
@@ -397,6 +399,10 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                 break; //Termination is requested
         }
     }
+
+    //Deleting buffer
+    delete[] MI->Config.File_Buffer; MI->Config.File_Buffer=NULL;
+    MI->Config.File_Buffer_Size_Max=0;
 
     #ifdef MEDIAINFO_DEBUG
         std::cout<<std::hex<<Reader_File_Offset<<" - "<<Reader_File_Offset+Reader_File_BytesRead<<" : "<<std::dec<<Reader_File_BytesRead<<" bytes"<<std::endl;

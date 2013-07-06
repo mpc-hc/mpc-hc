@@ -71,10 +71,10 @@ void File_Dummy::FileHeader_Parse()
         Fill(Stream_General, 0, General_Released_Date, "1977");
         Fill(Stream_General, 0, General_FileSize, "734000000");
         Fill(Stream_General, 0, General_Format, "Matroska");
-        Fill(Stream_General, 0, General_Format_Url, "http://mediainfo.sourceforge.net");
+        Fill(Stream_General, 0, General_Format_Url, "http://MediaArea.net/MediaInfo");
         Stream_Prepare(Stream_Video);
         Fill(Stream_Video, 0, Video_Codec, "XVID");
-        Fill(Stream_Video, 0, Video_Codec_Url, "http://mediainfo.sourceforge.net");
+        Fill(Stream_Video, 0, Video_Codec_Url, "http://MediaArea.net/MediaInfo");
         Fill(Stream_Video, 0, Video_BitRate, "800000");
         Fill(Stream_Video, 0, Video_Width, "720");
         Fill(Stream_Video, 0, Video_Height, "320");
@@ -84,7 +84,7 @@ void File_Dummy::FileHeader_Parse()
         Stream_Prepare(Stream_Audio);
         Fill(Stream_Audio, 0, Audio_Format, "AC-3");
         Fill(Stream_Audio, 0, Audio_Codec, "AC3");
-        Fill(Stream_Audio, 0, Audio_Codec_Url, "http://mediainfo.sourceforge.net");
+        Fill(Stream_Audio, 0, Audio_Codec_Url, "http://MediaArea.net/MediaInfo");
         Fill(Stream_Audio, 0, Audio_BitRate, "384000");
         Fill(Stream_Audio, 0, Audio_BitRate_Mode, "CBR");
         Fill(Stream_Audio, 0, Audio_Channel_s_, "6");
@@ -92,7 +92,7 @@ void File_Dummy::FileHeader_Parse()
         Fill(Stream_Audio, 0, Audio_Language, "en");
         Stream_Prepare(Stream_Text);
         Fill(Stream_Text, 0, Text_Codec, "SSA");
-        Fill(Stream_Text, 0, Text_Codec_Url, "http://mediainfo.sourceforge.net");
+        Fill(Stream_Text, 0, Text_Codec_Url, "http://MediaArea.net/MediaInfo");
         Fill(Stream_Text, 0, Text_Language, "en");
         Fill(Stream_Text, 0, Text_Language_More, "Forced");
         Stream_Prepare(Stream_Other);
@@ -111,7 +111,7 @@ void File_Dummy::FileHeader_Parse()
 void File_Dummy::Fill_Dummy_General()
 {
     Fill(Stream_General, 0, General_Format, "Format");
-    Fill(Stream_General, 0, General_Format_Url, "http://mediainfo.sourceforge.net");
+    Fill(Stream_General, 0, General_Format_Url, "http://MediaArea.net/MediaInfo");
     Fill(Stream_General, 0, General_Format_Extensions, "fmt fmt fmt");
     Fill(Stream_General, 0, General_FileSize, "1000000");
     Fill(Stream_General, 0, General_Duration, "10000");

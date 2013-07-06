@@ -63,15 +63,15 @@ protected :
     //Streams management
     void Streams_Fill ();
     void Streams_Finish ();
-    void Streams_Finish_Preface (int128u PrefaceUID);
-    void Streams_Finish_ContentStorage (int128u ContentStorageUID);
-    void Streams_Finish_Package (int128u PackageUID);
-    void Streams_Finish_Track (int128u TrackUID);
+    void Streams_Finish_Preface (const int128u PrefaceUID);
+    void Streams_Finish_ContentStorage (const int128u ContentStorageUID);
+    void Streams_Finish_Package (const int128u PackageUID);
+    void Streams_Finish_Track (const int128u TrackUID);
     void Streams_Finish_Essence (int32u EssenceUID, int128u TrackUID);
-    void Streams_Finish_Descriptor (int128u DescriptorUID, int128u PackageUID);
-    void Streams_Finish_Locator (int128u DescriptorUID, int128u LocatorUID);
-    void Streams_Finish_Component (int128u ComponentUID, float64 EditRate, int32u TrackID, int64u Origin);
-    void Streams_Finish_Identification (int128u IdentificationUID);
+    void Streams_Finish_Descriptor (const int128u DescriptorUID, const int128u PackageUID);
+    void Streams_Finish_Locator (const int128u DescriptorUID, const int128u LocatorUID);
+    void Streams_Finish_Component (const int128u ComponentUID, float64 EditRate, int32u TrackID, int64u Origin);
+    void Streams_Finish_Identification (const int128u IdentificationUID);
     void Streams_Finish_CommercialNames ();
 
     //Buffer - Global
@@ -766,6 +766,9 @@ protected :
     bool   Essences_FirstEssence_Parsed;
     int32u IndexTable_NSL;
     int32u IndexTable_NPE;
+    #if MEDIAINFO_ADVANCED
+        int64u Footer_Position;
+    #endif //MEDIAINFO_ADVANCED
     #if defined(MEDIAINFO_ANCILLARY_YES)
         File_Ancillary* Ancillary;
         bool            Ancillary_IsBinded;

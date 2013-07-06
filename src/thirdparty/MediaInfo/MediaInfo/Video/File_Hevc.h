@@ -26,7 +26,8 @@ public :
     //In
     int64u Frame_Count_Valid;
     bool   FrameIsAlwaysComplete;
-    bool   MustParse_SPS_PPS;
+    bool   MustParse_VPS_SPS_PPS;
+    bool   MustParse_VPS_SPS_PPS_FromMatroska;
     bool   SizedBlocks;
 
     //Config
@@ -197,7 +198,8 @@ private :
     void hrd_parameters(void* &hrd_parameters_Item);
 
     //Packets - Specific
-    void SPS_PPS();
+    void VPS_SPS_PPS();
+    void VPS_SPS_PPS_FromMatroska();
 
     //Streams
     struct stream

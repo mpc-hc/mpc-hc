@@ -51,6 +51,7 @@ private :
     bool BookMark_Needed();
 
     //Elements
+    void bloc();
     void cdat();
     void cdt2() {cdat();}
     void free();
@@ -74,6 +75,7 @@ private :
     void moof_traf_tfhd();
     void moof_traf_trun();
     void moov();
+    void moov_ainf();
     void moov_cmov();
     void moov_cmov_cmvd();
     void moov_cmov_cmvd_zlib();
@@ -122,6 +124,7 @@ private :
     void moov_trak_mdia_minf_gmhd_gmin();
     void moov_trak_mdia_minf_gmhd_tmcd();
     void moov_trak_mdia_minf_gmhd_tmcd_tcmi();
+    void moov_trak_mdia_minf_gmhd_tcmi();
     void moov_trak_mdia_minf_hint();
     void moov_trak_mdia_minf_hdlr();
     void moov_trak_mdia_minf_hmhd();
@@ -263,6 +266,7 @@ private :
     void moov_udta_XMP_();
     void moov_udta_yrrc();
     void moov_udta_xxxx();
+    void pdin();
     void PICT();
     void pckg();
     void pnot();

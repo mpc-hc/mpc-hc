@@ -82,8 +82,8 @@ const char*  DTS_ChannelPositions[16]=
     "Front: L R",
     "Front: L R",
     "Front: L C R",
-    "Front: L R, Side: C",
-    "Front: L C R, Side: C",
+    "Front: L R, Back: C",
+    "Front: L C R, Back: C",
     "Front: L R, Side: L R",
     "Front: L C R, Side: L R",
     "Front: L R, Side: L R, Back: L R",
@@ -881,7 +881,19 @@ void File_Dts::Data_Parse()
     //If filled
     if (Status[IsFilled])
     {
-        Skip_XX(Element_Size,                                   "Data");
+        //Little Endian and 14-bit streams management
+        if (Save_Buffer)
+        {
+            delete[] Buffer;
+            Buffer=Save_Buffer; Save_Buffer=NULL;
+            Buffer_Offset=Save_Buffer_Offset;
+            Buffer_Size=Save_Buffer_Size;
+            File_Offset-=Buffer_Offset;
+            if (!Word)
+                Element_Size=Element_Size*16/14;
+        }
+
+        Skip_XX(Element_Size-Element_Offset,                    "Data");
         return;
     }
 
@@ -1229,7 +1241,7 @@ float64 File_Dts::BitRate_Get(bool WithHD)
                 default     :   SamplePerFrames=    0; break; //Can never happen (4 bits)
             }
             if (SamplePerFrames)
-                BitRate+=HD_size*8*DTS_HD_MaximumSampleRate[HD_MaximumSampleRate]/SamplePerFrames;
+                BitRate+=((float64)HD_size)*8*DTS_HD_MaximumSampleRate[HD_MaximumSampleRate]/SamplePerFrames;
         }
         //if (Primary_Frame_Byte_Size && Profile==__T("HRA"))
         //    BitRate*=1+((float64)HD_size)/Primary_Frame_Byte_Size; //HD block are not in the nominal bitrate
@@ -1300,11 +1312,11 @@ bool File_Dts::FrameSynchPoint_Test()
                 if (BigEndian)
                     Size=((Buffer[Buffer_Offset+6]&0x03)<<12)
                        | ( Buffer[Buffer_Offset+7]      << 4)
-                       | ((Buffer[Buffer_Offset+8]&0x0C)>> 2);
+                       | ((Buffer[Buffer_Offset+8]&0x3C)>> 2);
                 else
                     Size=((Buffer[Buffer_Offset+7]&0x03)<<12)
                        | ( Buffer[Buffer_Offset+6]      << 4)
-                       | ((Buffer[Buffer_Offset+9]&0x3F)>> 2);
+                       | ((Buffer[Buffer_Offset+9]&0x3C)>> 2);
                 Size++;
                 Original_Size=Size*16/14;
             }

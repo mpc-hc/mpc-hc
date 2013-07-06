@@ -37,6 +37,7 @@ public :
 
     //Constructor/Destructor
     File_Vc1();
+    ~File_Vc1();
 
 private :
     //Streams management
@@ -147,6 +148,12 @@ private :
 
     //Error controls
     std::vector<int8u> Frame_ShouldBe;
+
+    #if MEDIAINFO_DEMUX
+        int8u* InitData_Buffer;
+        size_t InitData_Buffer_Size;
+    #endif //MEDIAINFO_DEMUX
+
 };
 
 } //NameSpace

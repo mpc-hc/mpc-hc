@@ -967,7 +967,9 @@ void File_Mpeg_Psi::Data_Parse()
         Skip_B4(                                                "CRC32");
     }
 
-    if (table_id>=0x40 && Complete_Stream->Streams_NotParsedCount!=(size_t)-1 && Complete_Stream->Streams_NotParsedCount!=0)
+    if (table_id>=0x40
+     && Config->ParseSpeed>=0.5
+     && Complete_Stream->Streams_NotParsedCount!=(size_t)-1 && Complete_Stream->Streams_NotParsedCount!=0)
         Complete_Stream->Streams_NotParsedCount=(size_t)-1; //Disabling speed up for detection in case of DVB/ATSC tables, we want all of them.
 
     if (Buffer_Offset+Element_Size==Buffer_Size)
@@ -1149,7 +1151,7 @@ void File_Mpeg_Psi::Table_01()
 void File_Mpeg_Psi::Table_02()
 {
     //Informing PSI is parsed
-    if (!Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].IsParsed)
+    if (!Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].IsParsed && Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs_NotParsedCount)
     {
         Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs_NotParsedCount--;
         Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].IsParsed=true;
@@ -1168,6 +1170,7 @@ void File_Mpeg_Psi::Table_02()
     BS_End();
 
     //Descriptors
+    transport_stream_id=Complete_Stream->transport_stream_id;
     program_number=table_id_extension;
     program_number_IsValid=true;
     if (Descriptors_Size>0)
@@ -2468,7 +2471,7 @@ void File_Mpeg_Psi::program_number_Remove()
             if (StreamKind!=Stream_Max && StreamPos!=(size_t)-1)
                 Complete_Stream->StreamPos_ToRemove[StreamKind].push_back(StreamPos);
 
-            if (Complete_Stream->Streams_NotParsedCount!=(size_t)-1 && Complete_Stream->Streams_NotParsedCount>0 && !Complete_Stream->Streams[elementary_PID_Temp]->IsParsed)
+            if (Complete_Stream->Streams_NotParsedCount!=(size_t)-1 && Complete_Stream->Streams_NotParsedCount && !Complete_Stream->Streams[elementary_PID_Temp]->IsParsed)
                 Complete_Stream->Streams_NotParsedCount--; //Not parsed, and no need to parse it now
             delete Complete_Stream->Streams[elementary_PID_Temp]; Complete_Stream->Streams[elementary_PID_Temp]=new complete_stream::stream;
         }
@@ -2514,7 +2517,7 @@ void File_Mpeg_Psi::elementary_PID_Update(int16u PCR_PID)
     //stream_type
     if (stream_type!=Complete_Stream->Streams[elementary_PID]->stream_type && Complete_Stream->Streams[elementary_PID]->stream_type!=(int8u)-1)
     {
-        if (Complete_Stream->Streams_NotParsedCount!=(size_t)-1 && Complete_Stream->Streams_NotParsedCount>0 && !Complete_Stream->Streams[elementary_PID]->IsParsed)
+        if (Complete_Stream->Streams_NotParsedCount!=(size_t)-1 && Complete_Stream->Streams_NotParsedCount && !Complete_Stream->Streams[elementary_PID]->IsParsed)
             Complete_Stream->Streams_NotParsedCount--; //Not parsed, and no need to parse it now
         delete Complete_Stream->Streams[elementary_PID]; Complete_Stream->Streams[elementary_PID]=new complete_stream::stream;
         Complete_Stream->Streams[elementary_PID]->Kind=complete_stream::stream::unknown;
@@ -2597,7 +2600,7 @@ void File_Mpeg_Psi::elementary_PID_Remove()
         if (StreamKind!=Stream_Max && StreamPos!=(size_t)-1)
             Complete_Stream->StreamPos_ToRemove[StreamKind].push_back(StreamPos);
 
-        if (Complete_Stream->Streams_NotParsedCount!=(size_t)-1 && Complete_Stream->Streams_NotParsedCount>0 && !Complete_Stream->Streams[elementary_PID]->IsParsed)
+        if (Complete_Stream->Streams_NotParsedCount!=(size_t)-1 && Complete_Stream->Streams_NotParsedCount && !Complete_Stream->Streams[elementary_PID]->IsParsed)
             Complete_Stream->Streams_NotParsedCount--; //Not parsed, and no need to parse it now
         delete Complete_Stream->Streams[elementary_PID]; Complete_Stream->Streams[elementary_PID]=new complete_stream::stream;
         Complete_Stream->PES_PIDs.erase(elementary_PID);

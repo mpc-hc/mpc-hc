@@ -293,7 +293,7 @@ void File_Tiff::Data_Parse()
         Infos[Tiff_Tag::BitsPerSample]=__T("1");
 
         //Parsing new IFD
-        while (Element_Offset+4<Element_Size)
+        while (Element_Offset+8+4<Element_Size)
             Read_Directory();
         Get_X4 (IFDOffset,                                          "IFDOffset");
     }
@@ -314,7 +314,10 @@ void File_Tiff::Data_Parse()
         if (IFDOffset)
             GoTo(IFDOffset, "TIFF");
         else
+        {
             Finish(); //No more IFDs
+            GoToFromEnd(0);
+        }
     }
 }
 
@@ -395,7 +398,12 @@ void File_Tiff::Read_Directory()
         GetValueOffsetu(IfdItem);
 
         /* Padding up, skip dummy bytes */
-        if (Tiff_Type_Size(IfdItem.Type)*IfdItem.Count<4)
+        if (Tiff_Type_Size(IfdItem.Type)==0)
+        {
+            if (Element_Offset+4<Element_Size)
+                Skip_XX(Element_Size-(Element_Offset+4),        "Unknown");
+        }
+        else if (Tiff_Type_Size(IfdItem.Type)*IfdItem.Count<4)
             Skip_XX(Tiff_Type_Size(IfdItem.Type)*IfdItem.Count, "Padding");
     }
     else
@@ -438,7 +446,7 @@ void File_Tiff::GetValueOffsetu(ifditem &IfdItem)
     if (IfdItem.Count>=10)
     {
         //Too many data, we don't currently need it and we skip it
-        Skip_XX(Element_Size,                       Name);
+        Skip_XX(Element_Size-(Element_Offset+4),                Name);
         Info.clear();
         return;
     }

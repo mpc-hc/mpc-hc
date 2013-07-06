@@ -454,6 +454,8 @@ bool File_P2_Clip::FileHeader_Begin()
         }
     }
 
+    Element_Offset=File_Size;
+
     //All should be OK...
     return true;
 }

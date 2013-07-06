@@ -317,6 +317,9 @@ File_Avc::File_Avc()
     MustParse_SPS_PPS=false;
     SizedBlocks=false;
 
+    //Temporal references
+    TemporalReferences_DelayedElement=NULL;
+
     //Text
     #if defined(MEDIAINFO_DTVCCTRANSPORT_YES)
         GA94_03_Parser=NULL;
@@ -553,7 +556,7 @@ void File_Avc::Streams_Fill(std::vector<seq_parameter_set_struct*>::iterator seq
 }
 
 //---------------------------------------------------------------------------
-void File_Avc::Streams_Fill_subset(std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item)
+void File_Avc::Streams_Fill_subset(const std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item)
 {
     Ztring Profile=Ztring().From_Local(Avc_profile_idc((*seq_parameter_set_Item)->profile_idc))+__T("@L")+Ztring().From_Number(((float)(*seq_parameter_set_Item)->level_idc)/10, 1);
     Ztring Profile_Base=Retrieve(Stream_Video, 0, Video_Format_Profile);
@@ -1164,7 +1167,7 @@ void File_Avc::Header_Parse()
         BS_End();
 
         FILLING_BEGIN()
-            Header_Fill_Size(Element_Offset+Size-1);
+            Header_Fill_Size(Size?(Element_Offset-1+Size):(Buffer_Size-Buffer_Offset)); //If Size is 0, it is not normal, we skip the complete frame
         FILLING_END()
     }
 
@@ -1434,7 +1437,10 @@ void File_Avc::slice_layer_without_partitioning_non_IDR()
     Element_Name("slice_layer_without_partitioning (non-IDR)");
 
     //Parsing
+    BS_Begin();
     slice_header();
+    slice_data(true);
+    BS_End();
 }
 
 //---------------------------------------------------------------------------
@@ -1444,7 +1450,10 @@ void File_Avc::slice_layer_without_partitioning_IDR()
     Element_Name("slice_layer_without_partitioning (IDR)");
 
     //Parsing
+    BS_Begin();
     slice_header();
+    slice_data(true);
+    BS_End();
 
     FILLING_BEGIN_PRECISE();
         //NextCode
@@ -1461,16 +1470,18 @@ void File_Avc::slice_header()
     if (CA_system_ID_MustSkipSlices)
     {
         //Is not decodable
+        Skip_BS(Data_BS_Remain(),                               "Data");
         Finish("AVC");
         return;
     }
 
+    Element_Begin1("slice_header");
+
     //Parsing
     int32u  slice_type, pic_order_cnt_lsb=(int32u)-1;
-    int32u  first_mb_in_slice, pic_parameter_set_id, frame_num, num_ref_idx_l0_active_minus1, num_ref_idx_l1_active_minus1;
+    int32u  first_mb_in_slice, pic_parameter_set_id, frame_num, num_ref_idx_l0_active_minus1, num_ref_idx_l1_active_minus1, disable_deblocking_filter_idc, num_slice_groups_minus1, slice_group_map_type, slice_group_change_cycle=(int32u)-1;
     int32s  delta_pic_order_cnt_bottom=0;
     bool    field_pic_flag=false, bottom_field_flag=false;
-    BS_Begin();
     Get_UE (first_mb_in_slice,                                  "first_mb_in_slice");
     Get_UE (slice_type,                                         "slice_type"); Param_Info1C((slice_type<10), Avc_slice_type[slice_type]);
     #if MEDIAINFO_EVENTS
@@ -1502,8 +1513,8 @@ void File_Avc::slice_header()
     #endif //MEDIAINFO_EVENTS
     if (slice_type>=10)
     {
-        BS_End();
-        Skip_XX(Element_Size-Element_Offset,                    "Data");
+        Skip_BS(Data_BS_Remain(),                               "Data");
+        Element_End0();
         return;
     }
     Get_UE (pic_parameter_set_id,                               "pic_parameter_set_id");
@@ -1512,6 +1523,7 @@ void File_Avc::slice_header()
     {
         //Not yet present
         Skip_BS(Data_BS_Remain(),                               "Data (pic_parameter_set is missing)");
+        Element_End0();
         return;
     }
     std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item;
@@ -1521,9 +1533,12 @@ void File_Avc::slice_header()
         {
             //Not yet present
             Skip_BS(Data_BS_Remain(),                           "Data (seq_parameter_set is missing)");
+            Element_End0();
             return;
         }
     }
+    if ((*seq_parameter_set_Item)->separate_colour_plane_flag==1)
+        Skip_S1(2,                                              "color_plane_id");
     num_ref_idx_l0_active_minus1=(*pic_parameter_set_Item)->num_ref_idx_l0_default_active_minus1; //Default
     num_ref_idx_l1_active_minus1=(*pic_parameter_set_Item)->num_ref_idx_l1_default_active_minus1; //Default
     Get_BS ((*seq_parameter_set_Item)->log2_max_frame_num_minus4+4, frame_num, "frame_num");
@@ -1533,7 +1548,7 @@ void File_Avc::slice_header()
             Get_SB (bottom_field_flag,                          "bottom_field_flag");
         TEST_SB_END();
     }
-    if (Element_Code==5)
+    if (Element_Code==5) //IdrPicFlag
         Skip_UE(                                                "idr_pic_id");
     if ((*seq_parameter_set_Item)->pic_order_cnt_type==0)
     {
@@ -1581,11 +1596,46 @@ void File_Avc::slice_header()
     if (nal_ref_idc)
         dec_ref_pic_marking(memory_management_control_operations);
 
-    //TODO...
-    BS_End();
-    Skip_XX(Element_Size-Element_Offset,                        "ToDo...");
+    if ((*pic_parameter_set_Item)->entropy_coding_mode_flag &&
+        (slice_type!=2 && slice_type!=7 && //I-Frames
+         slice_type!=4 && slice_type!=9))  //SI-Frames
+        Skip_UE(                                               "cabac_init_idc");
+    Skip_SE(                                                   "slice_qp_delta");
+    switch (slice_type)
+    {
+        case 3 : //SP-Frame
+        case 4 : //SI-Frame
+        case 8 : //SP-Frame
+        case 9 : //SI-Frame
+                switch (slice_type)
+                {
+                    case 3 : //SP-Frame
+                    case 8 : //SP-Frame
+                            Skip_SB(                           "sp_for_switch_flag");
+                            break;
+                    default:    ;
+                }
+                Skip_SE (                                      "slice_qs_delta");
+                break;
+        default:    ;
+    }
+    if ((*pic_parameter_set_Item)->deblocking_filter_control_present_flag)
+    {
+        Get_UE(disable_deblocking_filter_idc,                  "disable_deblocking_filter_idc");
+        if (disable_deblocking_filter_idc!=1)
+        {
+            Skip_SE(                                           "slice_alpha_c0_offset_div2");
+            Skip_SE(                                           "slice_beta_offset_div2");
+        }
+    }
+    num_slice_groups_minus1=(*pic_parameter_set_Item)->num_slice_groups_minus1; //Default
+    slice_group_map_type=(*pic_parameter_set_Item)->slice_group_map_type; //Default
+    if (num_slice_groups_minus1 > 0 && slice_group_map_type >=3 && slice_group_map_type <=5)
+        Get_BS ((*seq_parameter_set_Item)->log2_max_slice_group_change_cycle_minus4+4, slice_group_change_cycle, "slice_group_change_cycle");
 
-    FILLING_BEGIN_PRECISE();
+    Element_End0();
+
+    FILLING_BEGIN();
         //Count of I-Frames
         if (first_mb_in_slice==0 && Element_Code!=20 && (slice_type==2 || slice_type==7)) //Not slice_layer_extension, I-Frame
             IFrame_Count++;
@@ -1952,6 +2002,17 @@ void File_Avc::slice_header()
             }
         }
     FILLING_END();
+}
+
+//---------------------------------------------------------------------------
+//
+void File_Avc::slice_data(bool AllCategories)
+{
+    Element_Begin1("slice_data");
+
+    Skip_BS(Data_BS_Remain(),                                   "(ToDo)");
+
+    Element_End0();
 }
 
 //---------------------------------------------------------------------------
@@ -2756,9 +2817,9 @@ void File_Avc::pic_parameter_set()
     Element_Name("pic_parameter_set");
 
     //Parsing
-    int32u  pic_parameter_set_id, seq_parameter_set_id, num_slice_groups_minus1, num_ref_idx_l0_default_active_minus1, num_ref_idx_l1_default_active_minus1;
-    int8u   weighted_bipred_idc;
-    bool    entropy_coding_mode_flag,bottom_field_pic_order_in_frame_present_flag, redundant_pic_cnt_present_flag, weighted_pred_flag;
+    int32u  pic_parameter_set_id, seq_parameter_set_id, num_slice_groups_minus1, num_ref_idx_l0_default_active_minus1, num_ref_idx_l1_default_active_minus1, slice_group_map_type=0;
+    int8u   weighted_bipred_idc=0;
+    bool    entropy_coding_mode_flag,bottom_field_pic_order_in_frame_present_flag, redundant_pic_cnt_present_flag, weighted_pred_flag, deblocking_filter_control_present_flag;
     BS_Begin();
     Get_UE (pic_parameter_set_id,                               "pic_parameter_set_id");
     Get_UE (seq_parameter_set_id,                               "seq_parameter_set_id");
@@ -2782,7 +2843,6 @@ void File_Avc::pic_parameter_set()
     }
     if (num_slice_groups_minus1>0)
     {
-        int32u slice_group_map_type;
         Get_UE (slice_group_map_type,                           "slice_group_map_type");
         if (slice_group_map_type==0)
         {
@@ -2829,7 +2889,7 @@ void File_Avc::pic_parameter_set()
     Skip_SE(                                                    "pic_init_qp_minus26");
     Skip_SE(                                                    "pic_init_qs_minus26");
     Skip_SE(                                                    "chroma_qp_index_offset");
-    Skip_SB(                                                    "deblocking_filter_control_present_flag");
+    Get_SB (deblocking_filter_control_present_flag,             "deblocking_filter_control_present_flag");
     Skip_SB(                                                    "constrained_intra_pred_flag");
     Get_SB (redundant_pic_cnt_present_flag,                     "redundant_pic_cnt_present_flag");
     bool more_rbsp_data=false;
@@ -2849,7 +2909,7 @@ void File_Avc::pic_parameter_set()
         bool transform_8x8_mode_flag;
         Get_SB (transform_8x8_mode_flag,                        "transform_8x8_mode_flag");
         TEST_SB_SKIP(                                           "pic_scaling_matrix_present_flag");
-        for (int8u Pos=0; Pos<6+(transform_8x8_mode_flag?2:0); Pos++ )
+        for (int8u Pos=0; Pos<6+(transform_8x8_mode_flag?((*seq_parameter_set_Item)->chroma_format_idc!=3?2:6):0); Pos++ )
             {
                 TEST_SB_SKIP(                                   "pic_scaling_list_present_flag");
                     scaling_list(Pos<6?16:64);
@@ -2900,10 +2960,13 @@ void File_Avc::pic_parameter_set()
         (*pic_parameter_sets_Item)->seq_parameter_set_id                            =(int8u)seq_parameter_set_id;
         (*pic_parameter_sets_Item)->entropy_coding_mode_flag                        =entropy_coding_mode_flag;
         (*pic_parameter_sets_Item)->bottom_field_pic_order_in_frame_present_flag    =bottom_field_pic_order_in_frame_present_flag;
+        (*pic_parameter_sets_Item)->num_slice_groups_minus1                         =(int32u)num_slice_groups_minus1;
+        (*pic_parameter_sets_Item)->slice_group_map_type                            =(int32u)slice_group_map_type;
         (*pic_parameter_sets_Item)->num_ref_idx_l0_default_active_minus1            =(int8u)num_ref_idx_l0_default_active_minus1;
         (*pic_parameter_sets_Item)->num_ref_idx_l1_default_active_minus1            =(int8u)num_ref_idx_l1_default_active_minus1;
         (*pic_parameter_sets_Item)->weighted_pred_flag                              =weighted_pred_flag;
         (*pic_parameter_sets_Item)->weighted_bipred_idc                             =weighted_bipred_idc;
+        (*pic_parameter_sets_Item)->deblocking_filter_control_present_flag          =deblocking_filter_control_present_flag;
         (*pic_parameter_sets_Item)->redundant_pic_cnt_present_flag                  =redundant_pic_cnt_present_flag;
 
         //Autorisation of other streams
@@ -3049,8 +3112,10 @@ void File_Avc::slice_layer_extension(bool svc_extension_flag)
     }
     else
     {
+        BS_Begin();
         slice_header();
-        //slice_data();
+        slice_data(true);
+        BS_End();
     }
 }
 

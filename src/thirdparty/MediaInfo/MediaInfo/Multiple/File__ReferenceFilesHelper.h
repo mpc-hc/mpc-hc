@@ -38,6 +38,9 @@ public :
         int64u              FileSize;
         bool                IsCircular;
         bool                IsMain;
+        #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
+            bool            List_Compute_Done;
+        #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
         size_t              State;
         std::map<std::string, Ztring> Infos;
         MediaInfo_Internal* MI;
@@ -63,6 +66,9 @@ public :
             FileSize=(int64u)-1;
             IsCircular=false;
             IsMain=false;
+            #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
+                List_Compute_Done=false;
+            #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
             State=0;
             MI=NULL;
             #if MEDIAINFO_FILTER
@@ -118,6 +124,9 @@ private :
     //Helpers
     size_t Stream_Prepare(stream_t StreamKind, size_t StreamPos=(size_t)-1);
     void   FileSize_Compute();
+    #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
+        void   List_Compute();
+    #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
     #if MEDIAINFO_EVENTS
     void SubFile_Start();
     int64u                          StreamID_Previous;

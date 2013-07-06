@@ -125,9 +125,25 @@ void File_Ibi::Header_Parse()
     Peek_B1(Null);
     if (Null==0x00)
     {
-        Skip_B1(                                                "Zero byte");
+        if (Buffer_Offset_Temp==0)
+            Buffer_Offset_Temp=Buffer_Offset+1;
+
+        while (Buffer_Offset_Temp<Buffer_Size)
+        {
+            if (Buffer[Buffer_Offset_Temp])
+                break;
+            Buffer_Offset_Temp++;
+        }
+        if (Buffer_Offset_Temp>=Buffer_Size)
+        {
+            Element_WaitForMoreData();
+            return;
+        }
+
         Header_Fill_Code((int32u)-1); //Should be (int64u)-1 but Borland C++ does not like this
-        Header_Fill_Size(1);
+        Header_Fill_Size(Buffer_Offset_Temp-Buffer_Offset);
+        Buffer_Offset_Temp=0;
+
         return;
     }
 
@@ -502,6 +518,12 @@ void File_Ibi::Stream_Dts()
 
 void File_Ibi::CompressedIndex()
 {
+    if (!Status[IsAccepted])
+    {
+        Reject("Ibi");
+        return;
+    }
+
     Element_Name("Compressed Index");
     int64u UncompressedSize;
     Get_EB (UncompressedSize,                                   "Uncompressed size");
@@ -511,7 +533,17 @@ void File_Ibi::CompressedIndex()
     unsigned long Dest_Size=(unsigned long)UncompressedSize;
 
     //Uncompressing
-    int8u* Dest=new int8u[Dest_Size];
+    int8u* Dest;
+    try
+    {
+        Dest=new int8u[Dest_Size];
+    }
+    catch (...)
+    {
+        //Memory error
+        Reject();
+        return;
+    }
     if (uncompress((Bytef*)Dest, &Dest_Size, (const Bytef*)Buffer+Buffer_Offset+(size_t)Element_Offset, Source_Size)<0)
     {
         Skip_XX(Element_Size-Element_Offset,                    "Problem during the decompression");
@@ -554,7 +586,9 @@ void File_Ibi::CompressedIndex()
     Element_Level--;
 
     //Parsing
-    Open_Buffer_Continue(Dest, Dest_Size);
+    Buffer=Dest;
+    Buffer_Size=Dest_Size;
+    while (Open_Buffer_Continue_Loop());
     delete[] Dest; //Dest=NULL;
 
     //Resetting file size

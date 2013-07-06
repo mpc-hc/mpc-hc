@@ -1119,7 +1119,7 @@ void File_Mpeg4v::video_object_layer_start()
     BS_End();
 
     //Coherancy
-    if (object_layer_width==0 || object_layer_height==0 || object_layer_width/object_layer_height<0.1 || object_layer_width/object_layer_height>10)
+    if (object_layer_width==0 || object_layer_height==0 || ((float32)object_layer_width)/object_layer_height<((float32)0.1) || object_layer_width/object_layer_height>10)
         Trusted_IsNot("Problem with width and height!");
 
     FILLING_BEGIN();

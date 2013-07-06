@@ -269,6 +269,7 @@
     <ClInclude Include="MediaInfo\Video\File_Aic.h" />
     <ClInclude Include="MediaInfo\Video\File_Avc.h" />
     <ClInclude Include="MediaInfo\Video\File_AvsV.h" />
+    <ClInclude Include="MediaInfo\Video\File_Canopus.h" />
     <ClInclude Include="MediaInfo\Video\File_Dirac.h" />
     <ClInclude Include="MediaInfo\Video\File_Flic.h" />
     <ClInclude Include="MediaInfo\Video\File_Fraps.h" />
@@ -456,6 +457,7 @@
     <ClCompile Include="MediaInfo\Video\File_Avc.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Avc_Duplicate.cpp" />
     <ClCompile Include="MediaInfo\Video\File_AvsV.cpp" />
+    <ClCompile Include="MediaInfo\Video\File_Canopus.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Dirac.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Flic.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Fraps.cpp" />

@@ -281,6 +281,15 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
             return __T("Disabled due to compilation options");
         #endif //MEDIAINFO_MD5
     }
+    else if (Option_Lower==__T("file_ignoresequencefilesize"))
+    {
+        #if MEDIAINFO_MD5
+            File_IgnoreSequenceFileSize_Set(!(Value==__T("0") || Value.empty()));
+            return Ztring();
+        #else //MEDIAINFO_MD5
+            return __T("Disabled due to compilation options");
+        #endif //MEDIAINFO_MD5
+    }
     else if (Option_Lower==__T("file_source_list"))
     {
         #if MEDIAINFO_MD5

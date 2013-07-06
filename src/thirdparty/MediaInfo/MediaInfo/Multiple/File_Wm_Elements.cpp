@@ -134,7 +134,7 @@ namespace Elements
     UUID(Mutex_Bitrate,                                         D6E22A01, 35DA, 11D1, 9034, 00A0C90349BE);
 }
 
-const char* Wm_StreamType(int128u Kind)
+const char* Wm_StreamType(const int128u Kind)
 {
     switch (Kind.hi)
     {
@@ -149,7 +149,7 @@ const char* Wm_StreamType(int128u Kind)
     }
 }
 
-const char* Wm_ExclusionType(int128u ExclusionType)
+const char* Wm_ExclusionType(const int128u ExclusionType)
 {
     switch (ExclusionType.hi)
     {

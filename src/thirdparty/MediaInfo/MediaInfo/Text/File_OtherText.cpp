@@ -34,7 +34,12 @@ namespace MediaInfoLib
 void File_OtherText::Read_Buffer_Continue()
 {
     if (Buffer_Size<0x200)
+    {
+        Element_WaitForMoreData();
         return;
+    }
+
+    Element_Offset=File_Size-(File_Offset+Buffer_Offset);
 
     Ztring Format, FormatMore, Codec;
     Ztring File;
@@ -81,21 +86,7 @@ void File_OtherText::Read_Buffer_Continue()
     }
     Lines.resize(0x20);
 
-         if (Lines[0].size()==1
-          && Lines[0][0]==__T('1')
-          && Lines[1].size()==29
-          && Lines[1][ 0]==__T('0') && Lines[1][ 1]==__T('0')
-          && Lines[1][ 2]==__T(':') && Lines[1][ 5]==__T(':') && Lines[1][ 8]==__T(',')
-          && Lines[1][12]==__T(' ') && Lines[1][13]==__T('-') && Lines[1][14]==__T('-') && Lines[1][15]==__T('>') && Lines[1][16]==__T(' ')
-          && Lines[1][17]==__T('0') && Lines[1][18]==__T('0')
-          && Lines[1][19]==__T(':') && Lines[1][22]==__T(':') && Lines[1][25]==__T(',')
-          && Lines.Find(__T("2"))!=Error
-          )
-    {
-        Format=__T("SubRip");
-        Codec=__T("SubRip");
-    }
-    else if (Lines[0]==__T("[Script Info]")
+         if (Lines[0]==__T("[Script Info]")
           && Lines.Find(__T("ScriptType: v4.00"))!=Error
           && Lines.Find(__T("[V4 Styles]"))!=Error
           )

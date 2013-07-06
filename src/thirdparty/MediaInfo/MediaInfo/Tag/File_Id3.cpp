@@ -104,7 +104,10 @@ void File_Id3::Read_Buffer_Continue()
         Fill(Stream_General, 0, General_Album, Album+AlbumAddition);
         Fill(Stream_General, 0, General_Track, Title+TitleAddition);
         Fill(Stream_General, 0, General_Performer, Artist+ArtistAddition);
-        Fill(Stream_General, 0, General_Comment, Comment);
+        if (Comment.find(__T("ExactAudioCopy"))==0)
+            Fill(Stream_General, 0, General_Encoded_Application, Comment);
+        else
+            Fill(Stream_General, 0, General_Comment, Comment);
         Fill(Stream_General, 0, General_Recorded_Date, Year);
         if (GenreAddition.empty())
             Fill(Stream_General, 0, General_Genre, GenreAddition);

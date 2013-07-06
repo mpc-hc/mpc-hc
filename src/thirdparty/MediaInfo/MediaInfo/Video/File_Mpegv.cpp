@@ -1687,7 +1687,7 @@ void File_Mpegv::Synched_Init()
     frame_rate_code=0;
     profile_and_level_indication_profile=(int8u)-1;
     profile_and_level_indication_level=(int8u)-1;
-    chroma_format=0;
+    chroma_format=1; //Default is 4:2:0
     horizontal_size_extension=0;
     vertical_size_extension=0;
     frame_rate_extension_n=0;
@@ -2217,6 +2217,9 @@ void File_Mpegv::picture_start()
                 IFrame_IsParsed=true;
         }
 
+        if (Frame_Count_LastIFrame!=(int64u)-1)
+            FrameNumber_PresentationOrder=Frame_Count_LastIFrame+temporal_reference;
+
         //Config
         progressive_frame=true;
         picture_structure=3; //Frame is default
@@ -2451,10 +2454,10 @@ void File_Mpegv::slice_start()
                     int64u Time_End  =Time_End_Seconds  *1000;
                     if (FrameRate)
                         Time_End  +=float32_int32s((Time_Current_Frames+temporal_reference)*1000/FrameRate);
-                    size_t Hours  = Time_End/60/60/1000;
-                    size_t Minutes=(Time_End-(Hours*60*60*1000))/60/1000;
-                    size_t Seconds=(Time_End-(Hours*60*60*1000)-(Minutes*60*1000))/1000;
-                    size_t Milli  =(Time_End-(Hours*60*60*1000)-(Minutes*60*1000)-(Seconds*1000));
+                    size_t Hours  =(size_t) Time_End/60/60/1000;
+                    size_t Minutes=(size_t)(Time_End-(Hours*60*60*1000))/60/1000;
+                    size_t Seconds=(size_t)(Time_End-(Hours*60*60*1000)-(Minutes*60*1000))/1000;
+                    size_t Milli  =(size_t)(Time_End-(Hours*60*60*1000)-(Minutes*60*1000)-(Seconds*1000));
 
                     Ztring Time;
                     Time+=Ztring::ToZtring(Hours);

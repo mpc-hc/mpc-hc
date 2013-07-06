@@ -347,7 +347,7 @@ void File_Id3v2::Streams_Fill()
                 {
                     Recorded_Date+=__T(' ');
                     Recorded_Date+=Hour;
-                    if (Minute.empty())
+                    if (!Minute.empty())
                     {
                         Recorded_Date+=__T(':');
                         Recorded_Date+=Minute;
@@ -976,7 +976,15 @@ void File_Id3v2::COMM()
 
     //Filling
     if (Element_Values(0).empty())
+    {
+        if (Element_Values(1).find(__T("ExactAudioCopy"))==0)
+        {
+            Fill(Stream_General, 0, General_Encoded_Application, Element_Values(1));
+            return;
+        }
+
         Element_Values(0)=__T("Comment");
+    }
     Fill_Name();
 }
 
