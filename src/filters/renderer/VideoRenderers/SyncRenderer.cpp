@@ -3004,22 +3004,10 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
 
     bool bDoneSomething = true;
 
-    if (aspectRatio.cx >= 1 && aspectRatio.cy >= 1) {
-        while (bDoneSomething) {
-            bDoneSomething = false;
-            int MinNum = min(aspectRatio.cx, aspectRatio.cy);
-            int i;
-            for (i = 2; i < MinNum + 1; ++i) {
-                if (aspectRatio.cx % i == 0 && aspectRatio.cy % i == 0) {
-                    break;
-                }
-            }
-            if (i != MinNum + 1) {
-                aspectRatio.cx = aspectRatio.cx / i;
-                aspectRatio.cy = aspectRatio.cy / i;
-                bDoneSomething = true;
-            }
-        }
+    int gcd = GCD(aspectRatio.cx, aspectRatio.cy);
+    if (gcd > 1) {
+        aspectRatio.cx /= gcd;
+        aspectRatio.cy /= gcd;
     }
 
     if (videoSize != m_NativeVideoSize || aspectRatio != m_AspectRatio) {
