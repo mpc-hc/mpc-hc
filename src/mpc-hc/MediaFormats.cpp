@@ -231,7 +231,6 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("flic"),        ResStr(IDS_MFMT_FLIC),        _T("fli flc flic")));
         ADDFMT((_T("dsm"),         ResStr(IDS_MFMT_DSM),         _T("dsm dsv dsa dss")));
         ADDFMT((_T("ivf"),         ResStr(IDS_MFMT_IVF),         _T("ivf")));
-        ADDFMT((_T("dvd2avi"),     ResStr(IDS_MFMT_D2V),         _T("d2v")));
         ADDFMT((_T("swf"),         ResStr(IDS_MFMT_SWF),         _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
         ADDFMT((_T("other"),       ResStr(IDS_MFMT_OTHER),       _T("divx rmvb amv")));
         ADDFMT((_T("ac3dts"),      ResStr(IDS_MFMT_AC3),         _T("ac3 dts"), true));

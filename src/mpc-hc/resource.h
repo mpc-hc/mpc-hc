@@ -1086,7 +1086,6 @@
 #define IDS_MFMT_DSM                    39020
 #define IDS_MFMT_IVF                    39021
 #define IDS_MFMT_OTHER                  39401
-#define IDS_MFMT_D2V                    39402
 #define IDS_MFMT_SWF                    39403
 #define IDS_MFMT_OTHER_AUDIO            39404
 #define IDS_MFMT_AC3                    39501
