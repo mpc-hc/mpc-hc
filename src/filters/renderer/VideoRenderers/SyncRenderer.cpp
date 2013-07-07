@@ -3002,8 +3002,6 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
     aspectRatio.cx *= videoSize.cx;
     aspectRatio.cy *= videoSize.cy;
 
-    bool bDoneSomething = true;
-
     int gcd = GCD(aspectRatio.cx, aspectRatio.cy);
     if (gcd > 1) {
         aspectRatio.cx /= gcd;
