@@ -25,7 +25,7 @@ Legend:
   - toggle hotkey is now disabled by default
   - support for madVR has been removed (it already has exclusive mode)
   - 10-bit RBG output now falls back to 8-bit output if the display does not support it
-* Updated Basque, Greek and Slovak translations
+* Updated Basque, German, Greek, Romanian and Slovak translations
 * Updated Little CMS to v2.5 (git 3d38474)
 * Updated Unrar to v5.0.7
 * Updated MediaInfoLib to v0.7.64
