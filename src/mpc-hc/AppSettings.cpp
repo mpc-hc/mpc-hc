@@ -1836,7 +1836,11 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }
         } else {
-            slFiles.AddTail(ParseFileName(param));
+            if (param == _T("-")) { // Special case: standard input
+                slFiles.AddTail(_T("pipe:0"));
+            } else {
+                slFiles.AddTail(ParseFileName(param));
+            }
         }
     }
 }

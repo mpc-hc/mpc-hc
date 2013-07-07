@@ -1543,6 +1543,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
+    // Always register the pipe protocol to allow handling standard input
+    pFGLAVSplitterSource->m_protocols.AddTail(_T("pipe"));
+
     // Add LAV Source Filter if needed
     if (!pFGLAVSplitterSource->m_extensions.IsEmpty()
             || !pFGLAVSplitterSource->m_chkbytes.IsEmpty()

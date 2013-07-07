@@ -10716,7 +10716,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             }
         }
 
-        if (s.fKeepHistory) {
+        // We don't keep track of the standard input since that hardly makes any sense
+        if (s.fKeepHistory && fn != _T("pipe:0")) {
             CRecentFileList* pMRU = bMainFile ? &s.MRU : &s.MRUDub;
             pMRU->ReadList();
             pMRU->Add(fn);

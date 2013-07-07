@@ -21,6 +21,11 @@ Legend:
 + Support loading HTTP/RTSP/UDP/RTP streams using embedded source filters
 + D3DFullscreen can now switch to windowed mode (just like regular fullscreen mode)
 + Ticket #533, Add a command line switch (/device) to open the default video device
++ Ticket #3107, Add support for playing from standard input.
+  Use "-" as a special filename to designate the standard input.
+  Examples:
+    > mpc-hc.exe - < sample.ts
+    > a_prog.exe | mpc-hc.exe -
 * D3DFullscreen changes:
   - toggle hotkey is now disabled by default
   - support for madVR has been removed (it already has exclusive mode)
