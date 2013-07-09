@@ -31,7 +31,6 @@
 #include "reader/VTSReader/VTSReader.h"
 #include "renderer/MpcAudioRenderer/MpcAudioRenderer.h"
 #include "renderer/SyncClock/SyncClock.h"
-#include "source/D2VSource/D2VSource.h"
 #include "source/SubtitleSource/SubtitleSource.h"
 #include "switcher/AudioSwitcher/AudioSwitcher.h"
 #include "transform/AVI2AC3Filter/AVI2AC3Filter.h"

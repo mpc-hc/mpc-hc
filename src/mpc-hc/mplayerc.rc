@@ -2887,7 +2887,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_MFMT_OTHER              "Other"
-    IDS_MFMT_D2V                "DVD2AVI File"
     IDS_MFMT_SWF                "Shockwave Flash"
     IDS_MFMT_OTHER_AUDIO        "Other Audio"
 END

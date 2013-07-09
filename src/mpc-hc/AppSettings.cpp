@@ -123,9 +123,6 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_FLIC
     SrcFiltersKeys[SRC_FLIC] = _T("SRC_FLIC");
 #endif
-#if INTERNAL_SOURCEFILTER_DVSOURCE
-    SrcFiltersKeys[SRC_D2V] = _T("SRC_D2V");
-#endif
 #if INTERNAL_SOURCEFILTER_DTSAC3
     SrcFiltersKeys[SRC_DTSAC3] = _T("SRC_DTSAC3");
 #endif

@@ -83,8 +83,6 @@ extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
         iconIndex = IDI_BINK_ICON;
     } else if (_tcsicmp(ext, _T(".cda")) == 0) {
         iconIndex = IDI_CDA_ICON;
-    } else if (_tcsicmp(ext, _T(".d2v")) == 0) {
-        iconIndex = IDI_D2V_ICON;
     } else if (_tcsicmp(ext, _T(".divx")) == 0) {
         iconIndex = IDI_OTHER_ICON;
     } else if (_tcsicmp(ext, _T(".dsa")) == 0) {
