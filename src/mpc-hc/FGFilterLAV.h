@@ -112,6 +112,7 @@ public:
         BOOL bImpairedAudio;
         BOOL bPreferHighQualityAudio;
         DWORD dwQueueMaxSize;
+        DWORD dwNetworkAnalysisDuration;
 
         void LoadSettings();
         void SaveSettings();

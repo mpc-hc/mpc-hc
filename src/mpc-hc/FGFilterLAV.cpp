@@ -33,7 +33,7 @@
 
 #define LAV_FILTERS_VERSION_MAJOR    0
 #define LAV_FILTERS_VERSION_MINOR    58
-#define LAV_FILTERS_VERSION_REVISION 0
+#define LAV_FILTERS_VERSION_REVISION 1
 #define LAV_FILTERS_VERSION ((QWORD)LAV_FILTERS_VERSION_MAJOR << 48 | (QWORD)LAV_FILTERS_VERSION_MINOR << 32 | (QWORD)LAV_FILTERS_VERSION_REVISION << 16)
 
 #define IDS_R_INTERNAL_LAVSPLITTER           IDS_R_INTERNAL_FILTERS  _T("\\LAVSplitter")
@@ -295,6 +295,8 @@ void CFGFilterLAVSplitterBase::Settings::LoadSettings()
     bImpairedAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("ImpairedAudio"), bImpairedAudio);
 
     dwQueueMaxSize = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxSize);
+
+    dwNetworkAnalysisDuration = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("NetworkAnalysisDuration"), dwNetworkAnalysisDuration);
 }
 
 void CFGFilterLAVSplitterBase::Settings::SaveSettings()
@@ -327,6 +329,8 @@ void CFGFilterLAVSplitterBase::Settings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("ImpairedAudio"), bImpairedAudio);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxSize);
+
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("NetworkAnalysisDuration"), dwNetworkAnalysisDuration);
 }
 
 bool CFGFilterLAVSplitterBase::Settings::GetSettings(CComQIPtr<ILAVFSettings> pLAVFSettings)
@@ -377,6 +381,8 @@ bool CFGFilterLAVSplitterBase::Settings::GetSettings(CComQIPtr<ILAVFSettings> pL
 
     dwQueueMaxSize = pLAVFSettings->GetMaxQueueMemSize();
 
+    dwNetworkAnalysisDuration = pLAVFSettings->GetNetworkStreamAnalysisDuration();
+
     return true;
 }
 
@@ -411,6 +417,8 @@ bool CFGFilterLAVSplitterBase::Settings::SetSettings(CComQIPtr<ILAVFSettings> pL
     pLAVFSettings->SetPreferHighQualityAudioStreams(bPreferHighQualityAudio);
 
     pLAVFSettings->SetMaxQueueMemSize(dwQueueMaxSize);
+
+    pLAVFSettings->SetNetworkStreamAnalysisDuration(dwNetworkAnalysisDuration);
 
     return true;
 }

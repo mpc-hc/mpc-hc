@@ -4,10 +4,10 @@ ATL Server          -
 CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
 Detours             3.0 build 316
-LAV Filters         0.58.0
+LAV Filters         0.58.1
 Little CMS          v2.5-rc1
 Logitech SDK        3.01 (driver 8.00.100)
-MediaInfoLib        0.7.63
+MediaInfoLib        0.7.64
 MultiMon            28 Aug '03 (modified)
 QuickTime SDK       7.3
 RARFileSource       0.9.3 (modified)
