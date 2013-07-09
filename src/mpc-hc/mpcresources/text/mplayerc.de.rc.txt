@@ -323,7 +323,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 36		"Fehlerhafte Pins im Filtergraphen &melden"
 37		"&Audiodateien automatisch laden"
 38		"&Untertiteldateien automatisch laden"
-39		"Steuerkontrolle"
+39		"Steuerungskontrolle"
 40		"Lautstärkestufen:"
 44		"Tempostufen:"
 END
