@@ -6600,11 +6600,7 @@ void CMainFrame::OnViewFullscreen()
     const CAppSettings& s = AfxGetAppSettings();
 
     if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
-        if (m_pGraphThread && m_bOpenedThruThread) {
-            m_pGraphThread->PostThreadMessage(CGraphThread::TM_TOGGLE_D3DFS, 0, true);
-        } else {
-            ToggleD3DFullscreen(true);
-        }
+        ToggleD3DFullscreen(true);
     } else {
         ToggleFullscreen(true, true);
     }
@@ -6615,11 +6611,7 @@ void CMainFrame::OnViewFullscreenSecondary()
     const CAppSettings& s = AfxGetAppSettings();
 
     if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
-        if (m_pGraphThread && m_bOpenedThruThread) {
-            m_pGraphThread->PostThreadMessage(CGraphThread::TM_TOGGLE_D3DFS, 0, false);
-        } else {
-            ToggleD3DFullscreen(false);
-        }
+        ToggleD3DFullscreen(false);
     } else {
         ToggleFullscreen(true, false);
     }
@@ -10470,18 +10462,6 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    // Create D3DFullscreen window if launched in fullscreen
-    if (s.IsD3DFullscreen() && m_fStartInD3DFullscreen) {
-        if (s.AutoChangeFullscrRes.bEnabled) {
-            AutoChangeMonitorMode();
-        }
-        CreateFullScreenWindow();
-        m_pVideoWnd = m_pFullscreenWnd;
-        m_fStartInD3DFullscreen = false;
-    } else {
-        m_pVideoWnd = &m_wndView;
-    }
-
     if (OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD)) {
         engine_t engine = s.m_Formats.GetEngine(p->fns.GetHead());
 
@@ -12211,11 +12191,6 @@ void CMainFrame::CloseMediaPrivate()
     }
 
     m_pProv.Release();
-
-    if (m_pFullscreenWnd->IsWindow()) {
-        m_pFullscreenWnd->DestroyWindow();    // TODO : still freezing sometimes...
-        m_fStartInD3DFullscreen = true;
-    }
 
     m_fRealMediaGraph = m_fShockwaveGraph = m_fQuicktimeGraph = false;
 
@@ -14661,6 +14636,18 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         fUseThread = false;
     }
 
+    // Create D3DFullscreen window if launched in fullscreen
+    if (s.IsD3DFullscreen() && m_fStartInD3DFullscreen) {
+        if (s.AutoChangeFullscrRes.bEnabled) {
+            AutoChangeMonitorMode();
+        }
+        CreateFullScreenWindow();
+        m_pVideoWnd = m_pFullscreenWnd;
+        m_fStartInD3DFullscreen = false;
+    } else {
+        m_pVideoWnd = &m_wndView;
+    }
+
     if (fUseThread) {
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_OPEN, 0, (LPARAM)pOMD.Detach());
         m_bOpenedThruThread = true;
@@ -14735,7 +14722,8 @@ void CMainFrame::CloseMedia()
     UnloadExternalObjects();
 
     if (IsD3DFullScreenMode()) {
-        m_pFullscreenWnd->ShowWindow(SW_HIDE);
+        m_pFullscreenWnd->DestroyWindow();
+        m_fStartInD3DFullscreen = true;
     }
 }
 
