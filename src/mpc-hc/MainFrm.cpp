@@ -1135,7 +1135,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
                     }
                     return TRUE;
                 } else if (IsCaptionHidden()) {
-                    PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
+                    PostMessage(WM_COMMAND, ID_VIEW_PRESETS_NORMAL);
                     return TRUE;
                 }
             }
