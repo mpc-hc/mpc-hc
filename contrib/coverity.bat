@@ -31,7 +31,7 @@ SET MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpuc
 "%COVDIR%\bin\cov-build.exe" --dir cov-int MSBuild "..\mpc-hc.sln" %MSBUILD_SWITCHES%
 
 :tar
-tar --version 2>NUL || (ECHO. & ECHO ERROR: tar not found & GOTO SevenZip)
+tar --version 1>&2 2>NUL || (ECHO. & ECHO ERROR: tar not found & GOTO SevenZip)
 tar czvf MPC-HC.tgz cov-int
 GOTO End
 
