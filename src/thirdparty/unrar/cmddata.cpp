@@ -673,7 +673,6 @@ void CommandData::ProcessSwitch(const wchar *Switch)
         case '0':
           Recurse=RECURSE_WILDCARDS;
           break;
-#ifndef _WIN_CE
         case 'I':
           {
             Priority=atoiw(Switch+2);
@@ -690,7 +689,6 @@ void CommandData::ProcessSwitch(const wchar *Switch)
             SetPriority(Priority);
           }
           break;
-#endif
       }
       break;
     case 'S':

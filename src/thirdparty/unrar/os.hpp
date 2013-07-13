@@ -233,7 +233,7 @@
   #endif
 #endif
 
-#if !defined(BIG_ENDIAN) && !defined(_WIN_CE) && defined(_WIN_ALL)
+#if !defined(BIG_ENDIAN) && defined(_WIN_ALL)
 // Allow not aligned integer access, increases speed in some operations.
 #define ALLOW_NOT_ALIGNED_INT
 #endif
