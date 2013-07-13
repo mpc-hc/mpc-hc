@@ -42,6 +42,12 @@
 #define IDS_R_INTERNAL_LAVVIDEO_HWACCEL      IDS_R_INTERNAL_LAVVIDEO _T("\\HWAccel")
 #define IDS_R_INTERNAL_LAVAUDIO              IDS_R_INTERNAL_FILTERS  _T("\\LAVAudio")
 
+#ifndef _WIN64
+#define LAVFILTERS_DIR _T("LAVFilters\\")
+#else
+#define LAVFILTERS_DIR _T("LAVFilters64\\")
+#endif
+
 //
 // CFGFilterLAV
 //
@@ -56,7 +62,7 @@ CFGFilterLAV::CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool
 CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
 {
     // Default path
-    CString filterPath = GetProgramPath() + _T("LAVFilters\\");
+    CString filterPath = GetProgramPath() + LAVFILTERS_DIR;
     CLSID filterCLSID;
 
     switch (filterType) {

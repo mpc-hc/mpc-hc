@@ -155,6 +155,12 @@ GOTO End
 :Main
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
+IF /I "%PPLATFORM%" == "x64" (
+  SET "LAVFILTERSDIR=LAVFilters64"
+) ELSE (
+  SET "LAVFILTERSDIR=LAVFilters"
+)
+
 IF /I "%Rebuild%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters.bat" Rebuild %PPLATFORM% %BUILDCFG% %COMPILER%
 IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
@@ -238,8 +244,8 @@ IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "INFO" "mpc-hc%SLN_SUFFIX%.sln %BUILDCFG% %1 compiled successfully"
 )
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpc-hc*.exe
-IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.dll LAVFilters
-IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.ax LAVFilters
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.dll %LAVFILTERSDIR%
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.ax %LAVFILTERSDIR%
 
 EXIT /B
 
@@ -380,7 +386,7 @@ IF EXIST "%PCKG_NAME%.pdb.7z" DEL "%PCKG_NAME%.pdb.7z"
 IF EXIST "%PCKG_NAME%"        RD /Q /S "%PCKG_NAME%"
 
 SET "PDB_FILES=*.pdb"
-IF NOT DEFINED MPCHC_LITE (SET "PDB_FILES=%PDB_FILES% LAVFilters\*.pdb")
+IF NOT DEFINED MPCHC_LITE (SET "PDB_FILES=%PDB_FILES% %LAVFILTERSDIR%\*.pdb")
 
 REM Compress the pdb file for mpc-hc only
 IF /I "%NAME%" == "MPC-HC" (
@@ -398,23 +404,23 @@ IF NOT EXIST "%PCKG_NAME%" MD "%PCKG_NAME%"
 
 IF /I "%NAME%" == "MPC-HC" (
   IF NOT DEFINED MPCHC_LITE (
-    IF NOT EXIST "%PCKG_NAME%\Lang"       MD "%PCKG_NAME%\Lang"
-    IF NOT EXIST "%PCKG_NAME%\LAVFilters" MD "%PCKG_NAME%\LAVFilters"
+    IF NOT EXIST "%PCKG_NAME%\Lang"            MD "%PCKG_NAME%\Lang"
+    IF NOT EXIST "%PCKG_NAME%\%LAVFILTERSDIR%" MD "%PCKG_NAME%\%LAVFILTERSDIR%"
   )
   IF /I "%ARCH%" == "x64" (
     COPY /Y /V "%~1_%ARCH%\mpc-hc64.exe" "%PCKG_NAME%\mpc-hc64.exe" >NUL
   ) ELSE (
     COPY /Y /V "%~1_%ARCH%\mpc-hc.exe"   "%PCKG_NAME%\mpc-hc.exe" >NUL
   )
-  COPY /Y /V "%~1_%ARCH%\mpciconlib.dll"             "%PCKG_NAME%\*.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\mpciconlib.dll"               "%PCKG_NAME%\*.dll" >NUL
   IF NOT DEFINED MPCHC_LITE (
-    COPY /Y /V "%~1_%ARCH%\Lang\mpcresources.??.dll" "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
-    COPY /Y /V "%~1_%ARCH%\LAVFilters\*.ax"          "%PCKG_NAME%\LAVFilters" >NUL
-    COPY /Y /V "%~1_%ARCH%\LAVFilters\*.dll"         "%PCKG_NAME%\LAVFilters" >NUL
-    COPY /Y /V "%~1_%ARCH%\LAVFilters\*.manifest"    "%PCKG_NAME%\LAVFilters" >NUL
+    COPY /Y /V "%~1_%ARCH%\Lang\mpcresources.??.dll"   "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
+    COPY /Y /V "%~1_%ARCH%\%LAVFILTERSDIR%\*.ax"       "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
+    COPY /Y /V "%~1_%ARCH%\%LAVFILTERSDIR%\*.dll"      "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
+    COPY /Y /V "%~1_%ARCH%\%LAVFILTERSDIR%\*.manifest" "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
   )
-  COPY /Y /V "%~1_%ARCH%\D3DCompiler_43.dll"         "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
-  COPY /Y /V "%~1_%ARCH%\d3dx9_43.dll"               "%PCKG_NAME%\d3dx9_43.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\D3DCompiler_43.dll"           "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\d3dx9_43.dll"                 "%PCKG_NAME%\d3dx9_43.dll" >NUL
 ) ELSE (
   COPY /Y /V "%~1_%ARCH%\*.ax"           "%PCKG_NAME%\*.ax" >NUL
   COPY /Y /V "%~1_%ARCH%\VSFilter.dll"   "%PCKG_NAME%\VSFilter.dll" >NUL

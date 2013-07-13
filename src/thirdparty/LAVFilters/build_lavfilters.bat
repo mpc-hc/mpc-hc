@@ -166,6 +166,9 @@ IF /I "%RELEASETYPE%" == "Debug" (
   SET "DESTFOLDER=%DESTFOLDER%_Debug"
 )
 SET "DESTFOLDER=%DESTFOLDER%\LAVFilters"
+IF /I "%ARCH%" == "x64" (
+  SET "DESTFOLDER=%DESTFOLDER%64"
+)
 
 IF /I "%BUILDTYPE%" == "Build" (
   :: Move LAVFilters files to MPC-HC output directory

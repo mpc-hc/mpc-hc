@@ -69,10 +69,13 @@
   #define base_bindir   = "..\bin"
 #endif
 
+#define lavfiltersdir   = "LAVFilters"
+
 #ifdef x64Build
   #define bindir        = base_bindir + "\mpc-hc_x64"
   #define mpchc_exe     = "mpc-hc64.exe"
   #define mpchc_ini     = "mpc-hc64.ini"
+  #define lavfiltersdir = lavfiltersdir + "64"
   #define OutFilename   = app_name + "." + app_ver + ".x64"
 #else
   #define bindir        = base_bindir + "\mpc-hc_x86"
@@ -231,9 +234,9 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 Source: {#bindir}\Lang\mpcresources.??.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
 #ifndef MPCHC_LITE
-Source: {#bindir}\LAVFilters\*.dll;         DestDir: {app}\LAVFilters;  Components: main;  Flags: ignoreversion
-Source: {#bindir}\LAVFilters\*.ax;          DestDir: {app}\LAVFilters;  Components: main;  Flags: ignoreversion
-Source: {#bindir}\LAVFilters\*.manifest;    DestDir: {app}\LAVFilters;  Components: main;  Flags: ignoreversion
+Source: {#bindir}\{#lavfiltersdir}\*.dll;         DestDir: {app}\{#lavfiltersdir};  Components: main;  Flags: ignoreversion
+Source: {#bindir}\{#lavfiltersdir}\*.ax;          DestDir: {app}\{#lavfiltersdir};  Components: main;  Flags: ignoreversion
+Source: {#bindir}\{#lavfiltersdir}\*.manifest;    DestDir: {app}\{#lavfiltersdir};  Components: main;  Flags: ignoreversion
 #endif
 Source: {#bindir}\D3DCompiler_{#MPC_DX_SDK_NUMBER}.dll; DestDir: {app}; Components: main;  Flags: ignoreversion
 Source: {#bindir}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;       DestDir: {app}; Components: main;  Flags: ignoreversion
