@@ -23,6 +23,8 @@ static BYTE reverse[0x100], table[0x100] = {
 CVobDec::CVobDec()
 {
     m_fFoundKey = false;
+    m_lfsr0 = 0;
+    m_lfsr1 = 0;
 
     for (DWORD loop0 = 0; loop0 < 0x100; loop0++) {
         BYTE value = 0;

@@ -1083,6 +1083,7 @@ public:
     CFakeDirectXVideoDecoder(LPUNKNOWN pUnk, IDirectXVideoDecoder* pDec) : CUnknown(_T("Fake DXVA2 Dec"), pUnk) {
         m_pDec.Attach(pDec);
         ZeroMemory(m_ppBuffer, sizeof(m_ppBuffer));
+        ZeroMemory(m_ppBufferLen, sizeof(m_ppBufferLen));
     }
 
     ~CFakeDirectXVideoDecoder() {

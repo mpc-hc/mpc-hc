@@ -19,6 +19,9 @@ CDVDSession::CDVDSession()
     : m_session(DVD_END_ALL_SESSIONS)
     , m_hDrive(INVALID_HANDLE_VALUE)
 {
+    ZeroMemory(m_SessionKey, sizeof(m_SessionKey));
+    ZeroMemory(m_DiscKey, sizeof(m_DiscKey));
+    ZeroMemory(m_TitleKey, sizeof(m_TitleKey));
 }
 
 CDVDSession::~CDVDSession()

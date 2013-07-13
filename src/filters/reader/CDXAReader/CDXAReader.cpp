@@ -225,6 +225,7 @@ CCDXAStream::CCDXAStream()
     m_llPosition = m_llLength = 0;
     m_nFirstSector = 0;
     m_nBufferedSector = -1;
+    ZeroMemory(m_sector, sizeof(m_sector));
 }
 
 CCDXAStream::~CCDXAStream()

@@ -246,7 +246,7 @@ CCDDAStream::CCDDAStream()
     m_llPosition = m_llLength = 0;
 
     ZeroMemory(&m_TOC, sizeof(m_TOC));
-    m_nStartSector = m_nStopSector = 0;
+    m_nFirstSector = m_nStartSector = m_nStopSector = 0;
 
     ZeroMemory(&m_header, sizeof(m_header));
     m_header.riff.hdr.chunkID = RIFFID;

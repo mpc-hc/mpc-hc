@@ -43,6 +43,7 @@ CDeCSSInputPin::CDeCSSInputPin(TCHAR* pObjectName, CTransformFilter* pFilter, HR
 {
     ZeroMemory(m_Challenge, sizeof(m_Challenge));
     ZeroMemory(m_KeyCheck, sizeof(m_KeyCheck));
+    ZeroMemory(m_Key, sizeof(m_Key));
     ZeroMemory(m_DiscKey, sizeof(m_DiscKey));
     ZeroMemory(m_TitleKey, sizeof(m_TitleKey));
 }
