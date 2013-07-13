@@ -230,21 +230,21 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 
 [Files]
 #if localize == "true"
-Source: {#bindir}\Lang\mpcresources.??.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.??.dll;     DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
 #ifndef MPCHC_LITE
-Source: {#bindir}\{#lavfiltersdir}\*.dll;         DestDir: {app}\{#lavfiltersdir};  Components: main;  Flags: ignoreversion
-Source: {#bindir}\{#lavfiltersdir}\*.ax;          DestDir: {app}\{#lavfiltersdir};  Components: main;  Flags: ignoreversion
-Source: {#bindir}\{#lavfiltersdir}\*.manifest;    DestDir: {app}\{#lavfiltersdir};  Components: main;  Flags: ignoreversion
+Source: {#bindir}\{#lavfiltersdir}\*.dll;       DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion
+Source: {#bindir}\{#lavfiltersdir}\*.ax;        DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion
+Source: {#bindir}\{#lavfiltersdir}\*.manifest;  DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion
 #endif
-Source: {#bindir}\D3DCompiler_{#MPC_DX_SDK_NUMBER}.dll; DestDir: {app}; Components: main;  Flags: ignoreversion
-Source: {#bindir}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;       DestDir: {app}; Components: main;  Flags: ignoreversion
-Source: {#bindir}\mpciconlib.dll;           DestDir: {app};      Components: mpciconlib;   Flags: ignoreversion
-Source: {#bindir}\{#mpchc_exe};             DestDir: {app};      Components: main;         Flags: ignoreversion
-Source: ..\COPYING.txt;                     DestDir: {app};      Components: main;         Flags: ignoreversion
-Source: ..\docs\Authors.txt;                DestDir: {app};      Components: main;         Flags: ignoreversion
-Source: ..\docs\Changelog.txt;              DestDir: {app};      Components: main;         Flags: ignoreversion
-Source: ..\docs\Readme.txt;                 DestDir: {app};      Components: main;         Flags: ignoreversion
+Source: {#bindir}\D3DCompiler_{#MPC_DX_SDK_NUMBER}.dll; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: {#bindir}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;       DestDir: {app}; Components: main; Flags: ignoreversion
+Source: {#bindir}\mpciconlib.dll;               DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
+Source: {#bindir}\{#mpchc_exe};                 DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\COPYING.txt;                         DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Authors.txt;                    DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: ignoreversion
 
 
 [Icons]
@@ -414,13 +414,6 @@ end;
 
 procedure CleanUpSettingsAndFiles();
 begin
-  //DeleteFile(ExpandConstant('{app}\bitstream.log'));
-  //DeleteFile(ExpandConstant('{app}\dxva_ipinhook.log'));
-  //DeleteFile(ExpandConstant('{app}\picture.log'));
-  //DeleteFile(ExpandConstant('{app}\slicelong.log'));
-  //DeleteFile(ExpandConstant('{app}\sliceshort.log'));
-  //DelTree('{app}\BitStream*.bin', False, True, False);
-  //DelTree('{app}\Matrix*.bin', False, True, False);
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
   DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
   RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
