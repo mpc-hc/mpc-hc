@@ -69,18 +69,17 @@
   #define base_bindir   = "..\bin"
 #endif
 
-#define lavfiltersdir   = "LAVFilters"
-
 #ifdef x64Build
   #define bindir        = base_bindir + "\mpc-hc_x64"
   #define mpchc_exe     = "mpc-hc64.exe"
   #define mpchc_ini     = "mpc-hc64.ini"
-  #define lavfiltersdir = lavfiltersdir + "64"
+  #define lavfiltersdir = "LAVFilters64"
   #define OutFilename   = app_name + "." + app_ver + ".x64"
 #else
   #define bindir        = base_bindir + "\mpc-hc_x86"
   #define mpchc_exe     = "mpc-hc.exe"
   #define mpchc_ini     = "mpc-hc.ini"
+  #define lavfiltersdir = "LAVFilters"
   #define OutFilename   = app_name + "." + app_ver + ".x86"
 #endif
 
@@ -296,6 +295,22 @@ Type: files; Name: {group}\{cm:UninstallProgram,Media Player Classic - Home Cine
 Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema.lnk;   Check: not IsTaskSelected('desktopicon\user')   and IsUpgrade()
 Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema.lnk; Check: not IsTaskSelected('desktopicon\common') and IsUpgrade()
 Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema.lnk; Check: not IsTaskSelected('quicklaunchicon')    and IsUpgrade(); OnlyBelowVersion: 6.01
+
+#ifdef x64Build
+Type: files; Name: {app}\LAVFilters\avcodec-lav-??.dll;                    Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\avfilter-lav-?.dll;                    Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\avformat-lav-??.dll;                   Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\avresample-lav-?.dll;                  Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\avutil-lav-??.dll;                     Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\IntelQuickSyncDecoder.dll;             Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\LAVAudio.ax;                           Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\LAVFilters.Dependencies.manifest;      Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\LAVSplitter.ax;                        Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\LAVVideo.ax;                           Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\libbluray.dll;                         Check: IsUpgrade()
+Type: files; Name: {app}\LAVFilters\swscale-lav-?.dll;                     Check: IsUpgrade()
+Type: dirifempty; Name: {app}\LAVFilters\;                                 Check: IsUpgrade()
+#endif
 
 
 #if localize == "true"
