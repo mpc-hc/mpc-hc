@@ -45,6 +45,7 @@ typedef enum {
     OSD_DEBUG
 } OSD_MESSAGEPOS;
 
+struct IDSMChapterBag;
 
 class CVMROSD
 {
@@ -75,10 +76,14 @@ public:
 
     void EnableShowSeekBar(bool enabled = true);
     void SetVideoWindow(CWnd* pWnd);
+
+    void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);
+    void RemoveChapters();
 private:
     CComPtr<IVMRMixerBitmap9>    m_pVMB;
     CComPtr<IMFVideoMixerBitmap> m_pMFVMB;
     CComPtr<IMadVRTextOsd>       m_pMVTO;
+    CComPtr<IDSMChapterBag>      m_pCB;
 
     CWnd* m_pWnd;
 
@@ -93,6 +98,7 @@ private:
     CPen    m_penCursor;
     CBrush  m_brushBack;
     CBrush  m_brushBar;
+    CBrush  m_brushChapter;
     CPen    m_debugPenBorder;
     CBrush  m_debugBrushBack;
     int     m_iFontSize;

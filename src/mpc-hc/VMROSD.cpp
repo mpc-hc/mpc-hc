@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "VMROSD.h"
 #include "mplayerc.h"
+#include "DSMPropertyBag.h"
 
 #define SEEKBAR_MARGIN       10
 #define SEEKBAR_HEIGHT       60
@@ -28,6 +29,8 @@
 #define SLIDER_BAR_HEIGHT    10
 #define SLIDER_CURSOR_HEIGHT 30
 #define SLIDER_CURSOR_WIDTH  15
+#define SLIDER_CHAP_WIDTH    4
+#define SLIDER_CHAP_HEIGHT   10
 
 
 CVMROSD::CVMROSD()
@@ -45,6 +48,7 @@ CVMROSD::CVMROSD()
     , m_iFontSize(0)
     , m_fontName(_T(""))
     , m_bShowMessage(true)
+    , m_pCB(nullptr)
 {
     m_colors[OSD_TRANSPARENT] = RGB(0,     0,   0);
     m_colors[OSD_BACKGROUND]  = RGB(32,   40,  48);
@@ -58,6 +62,7 @@ CVMROSD::CVMROSD()
     m_penCursor.CreatePen(PS_SOLID, 4, m_colors[OSD_CURSOR]);
     m_brushBack.CreateSolidBrush(m_colors[OSD_BACKGROUND]);
     m_brushBar.CreateSolidBrush(m_colors[OSD_BAR]);
+    m_brushChapter.CreateSolidBrush(m_colors[OSD_CURSOR]);
     m_debugBrushBack.CreateSolidBrush(m_colors[OSD_DEBUGCLR]);
     m_debugPenBorder.CreatePen(PS_SOLID, 1, m_colors[OSD_BORDER]);
 
@@ -230,14 +235,36 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
     if (llMax == llMin) {
         m_rectCursor.left = m_rectBar.left;
     } else {
-        m_rectCursor.left = m_rectBar.left + (long)((m_rectBar.Width() - SLIDER_CURSOR_WIDTH) * llPos / (llMax - llMin));
+        m_rectCursor.left = m_rectBar.left + (long)(m_rectBar.Width() * llPos / (llMax - llMin));
     }
+    m_rectCursor.left  -= SLIDER_CURSOR_WIDTH / 2;
     m_rectCursor.right  = m_rectCursor.left + SLIDER_CURSOR_WIDTH;
     m_rectCursor.top    = rect->top + (rect->Height() - SLIDER_CURSOR_HEIGHT) / 2;
     m_rectCursor.bottom = m_rectCursor.top + SLIDER_CURSOR_HEIGHT;
 
     DrawRect(rect, &m_brushBack, &m_penBorder);
     DrawRect(&m_rectBar, &m_brushBar);
+
+    if (m_pCB && m_pCB->ChapGetCount() > 1 && llMax != llMin) {
+        REFERENCE_TIME rt;
+        for (DWORD i = 0; i < m_pCB->ChapGetCount(); ++i) {
+            if (SUCCEEDED(m_pCB->ChapGet(i, &rt, nullptr))) {
+                __int64 pos = m_rectBar.Width() * rt / (llMax - llMin);
+                if (pos < 0) {
+                    continue;
+                }
+
+                CRect r;
+                r.left = m_rectBar.left + (LONG)pos - SLIDER_CHAP_WIDTH / 2;
+                r.top = rect->top + (rect->Height() - SLIDER_CHAP_HEIGHT) / 2;
+                r.right = r.left + SLIDER_CHAP_WIDTH;
+                r.bottom = r.top + SLIDER_CHAP_HEIGHT;
+
+                DrawRect(&r, &m_brushChapter);
+            }
+        }
+    }
+
     DrawRect(&m_rectCursor, nullptr, &m_penCursor);
 }
 
@@ -399,6 +426,9 @@ __int64 CVMROSD::GetPos() const
 void CVMROSD::SetPos(__int64 pos)
 {
     m_llSeekPos = pos;
+    if (m_bSeekBarVisible) {
+        Invalidate();
+    }
 }
 
 void CVMROSD::SetRange(__int64 start,  __int64 stop)
@@ -532,4 +562,29 @@ void CVMROSD::EnableShowMessage(bool enabled)
 void CVMROSD::EnableShowSeekBar(bool enabled)
 {
     m_bShowSeekBar = enabled;
+}
+
+void CVMROSD::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
+{
+    if (!pCB) {
+        RemoveChapters();
+    }
+
+    {
+        // Start of critical section
+        CAutoLock lock(&m_csLock);
+
+        RemoveChapters();
+        pCB.CopyTo(&m_pCB);
+    } // End of critical section
+}
+
+void CVMROSD::RemoveChapters()
+{
+    {
+        // Start of critical section
+        CAutoLock lock(&m_csLock);
+
+        m_pCB.Release();
+    } // End of critical section
 }
