@@ -2434,9 +2434,9 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_AG_MEDIAFILES       "Media files (all types)|"
+    IDS_AG_MEDIAFILES       "Media files (all types)"
     IDS_AG_ALLFILES         "All files (*.*)|*.*|"
-    IDS_AG_AUDIOFILES       "Audio files (all types)|"
+    IDS_AG_AUDIOFILES       "Audio files (all types)"
     IDS_PIXELSHADERCOMPILER_0
                             "Cannot load D3DX9_xx.dll, pixel shaders will not work."
     IDS_PIXELSHADERCOMPILER_1

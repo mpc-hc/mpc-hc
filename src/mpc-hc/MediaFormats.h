@@ -104,4 +104,6 @@ public:
 
     void GetFilter(CString& filter, CAtlArray<CString>& mask) const;
     void GetAudioFilter(CString& filter, CAtlArray<CString>& mask) const;
+
+    static bool IsExtHidden();
 };
