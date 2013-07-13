@@ -137,7 +137,7 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
-:: Build FFmpeg
+REM Build FFmpeg
 sh build_ffmpeg.sh %ARCH% %BUILDTYPE%
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
@@ -146,7 +146,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 PUSHD src
 
-:: Build LAVFilters
+REM Build LAVFilters
 IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
 devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%|%ARCHVS%"
@@ -157,21 +157,26 @@ IF %ERRORLEVEL% NEQ 0 (
 
 POPD
 
-SET "SRCFOLDER=src\bin_%ARCHVS%"
 IF /I "%RELEASETYPE%" == "Debug" (
-  SET "SRCFOLDER=%SRCFOLDER%d"
+  SET "SRCFOLDER=src\bin_%ARCHVS%d"
+) ELSE (
+  SET "SRCFOLDER=src\bin_%ARCHVS%"
 )
-SET "DESTFOLDER=%BIN_DIR%\mpc-hc_%ARCH%"
+
 IF /I "%RELEASETYPE%" == "Debug" (
-  SET "DESTFOLDER=%DESTFOLDER%_Debug"
+  SET "DESTFOLDER=%BIN_DIR%\mpc-hc_%ARCH%_Debug"
+) ELSE (
+  SET "DESTFOLDER=%BIN_DIR%\mpc-hc_%ARCH%"
 )
-SET "DESTFOLDER=%DESTFOLDER%\LAVFilters"
+
 IF /I "%ARCH%" == "x64" (
-  SET "DESTFOLDER=%DESTFOLDER%64"
+  SET "DESTFOLDER=%DESTFOLDER%\LAVFilters64"
+) ELSE (
+  SET "DESTFOLDER=%DESTFOLDER%\LAVFilters"
 )
 
 IF /I "%BUILDTYPE%" == "Build" (
-  :: Move LAVFilters files to MPC-HC output directory
+  REM Move LAVFilters files to MPC-HC output directory
   IF NOT EXIST %DESTFOLDER% MD %DESTFOLDER%
 
   COPY /Y /V %SRCFOLDER%\*.dll %DESTFOLDER%
@@ -187,7 +192,7 @@ IF /I "%BUILDTYPE%" == "Build" (
     COPY /Y /V %SRCFOLDER%\*.pdb %DESTFOLDER%
   )
 ) ELSE IF /I "%BUILDTYPE%" == "Clean" (
-  :: Remove LAVFilters files in MPC-HC output directory
+  REM Remove LAVFilters files in MPC-HC output directory
   IF EXIST %DESTFOLDER% RD /Q /S %DESTFOLDER%
 )
 
