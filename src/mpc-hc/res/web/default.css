@@ -2,8 +2,7 @@ body,
 th,
 td,
 .sectionInfo {
-	font-family:Verdana, Arial, Helvetica, Sans-Serif;
-	font-size:.8em;
+	font: .8em Verdana, Arial, Helvetica, Sans-Serif;
 }
 
 .nobr {
@@ -61,7 +60,7 @@ img {
 
 #controlbar,
 #menu {
-	background:#ECE6D4;
+	background-color:#ECE6D4;
 }
 
 #statusbar td {
@@ -71,7 +70,7 @@ img {
 
 #statusbar,
 #video {
-	background:black;
+	background-color:black;
 	color:white;
 }
 
