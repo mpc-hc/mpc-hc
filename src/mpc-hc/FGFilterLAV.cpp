@@ -953,5 +953,12 @@ bool CFGFilterLAVAudio::Settings::SetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
 
     pLAVFSettings->SetSampleConvertDithering(bSampleConvertDither);
 
+    // The internal LAV Audio Decoder will not be registered to handle WMA formats
+    // since the system decoder is preferred. However we can still enable those
+    // formats internally so that they are used in low-merit mode.
+    pLAVFSettings->SetFormatConfiguration(Codec_WMA2, TRUE);
+    pLAVFSettings->SetFormatConfiguration(Codec_WMAPRO, TRUE);
+    pLAVFSettings->SetFormatConfiguration(Codec_WMALL, TRUE);
+
     return true;
 }
