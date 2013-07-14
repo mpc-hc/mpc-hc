@@ -1637,7 +1637,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (!pFGLAVSplitter->GetTypes().IsEmpty()) {
         m_transform.AddTail(pFGLAVSplitter.Detach());
     }
-    
+
     // Add low merit LAV Splitter
     pFGLAVSplitterLM->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
     pFGLAVSplitterLM->AddFormat("*");
