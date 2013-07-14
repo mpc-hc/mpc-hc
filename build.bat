@@ -120,7 +120,6 @@ IF /I "%COMPILER%" == "VS2012" (
   IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
   SET "TOOLSET=%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
   SET "BIN_DIR=bin"
-  SET "SLN_SUFFIX="
 )
 
 IF EXIST "%~dp0signinfo.txt" (
@@ -446,7 +445,7 @@ EXIT /B
 :SubGetVersion
 REM Get the version
 IF NOT EXIST "include\version_rev.h" SET "FORCE_VER_UPDATE=True"
-IF DEFINED FORCE_VER_UPDATE CALL "update_version.bat" && SET "FORCE_VER_UPDATE="
+IF /I "%FORCE_VER_UPDATE%" == "True" CALL "update_version.bat" && SET "FORCE_VER_UPDATE=False"
 
 FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC_VERSION_[M,P]" "include\version.h"') DO (
   SET "%%A=%%B"

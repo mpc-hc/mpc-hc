@@ -86,7 +86,6 @@ IF /I "%COMPILER%" == "VS2012" (
   IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
   SET "TOOLSET=%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
   SET "BIN_DIR=%ROOT_DIR%\bin"
-  SET "SLN_SUFFIX="
 )
 
 IF /I "%ARCH%" == "Both" (
