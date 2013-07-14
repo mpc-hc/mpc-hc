@@ -24,7 +24,6 @@
 #include "DSMPropertyBag.h"
 #include "MainFrm.h"
 
-#define SEEKBAR_MARGIN       10
 #define SEEKBAR_HEIGHT       60
 #define SLIDER_BAR_MARGIN    10
 #define SLIDER_BAR_HEIGHT    10
@@ -93,8 +92,8 @@ void CVMROSD::SetSize(const CRect& wndRect, const CRect& videoRect)
                      && s.iDSVideoRendererType != VIDRNDT_DS_EVR) ? wndRect : videoRect;
         m_rectWnd.MoveToXY(0, 0);
 
-        m_rectSeekBar.left   = m_rectWnd.left    + SEEKBAR_MARGIN;
-        m_rectSeekBar.right  = m_rectWnd.right   - SEEKBAR_MARGIN;
+        m_rectSeekBar.left   = m_rectWnd.left;
+        m_rectSeekBar.right  = m_rectWnd.right;
         m_rectSeekBar.top    = m_rectWnd.bottom  - SEEKBAR_HEIGHT;
         m_rectSeekBar.bottom = m_rectSeekBar.top + SEEKBAR_HEIGHT;
 
