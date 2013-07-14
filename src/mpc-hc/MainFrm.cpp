@@ -9095,6 +9095,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
     args.RemoveHeadNoReturn(); // desc / name
     _stscanf_s(args.RemoveHead(), _T("%I64d"), &rtStart);    // pos
     _stscanf_s(args.RemoveHead(), _T("%d"), &bRelativeDrive);    // relative drive
+    rtStart = max(rtStart, 0);
 
     // NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
     //       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
@@ -9128,7 +9129,12 @@ void CMainFrame::PlayFavoriteFile(CString fav)
     }
 
     m_wndPlaylistBar.Open(args, false);
-    OpenCurPlaylistItem(max(rtStart, 0));
+    if (GetPlaybackMode() == PM_FILE && args.GetHead() == m_LastOpenFile) {
+        m_pMS->SetPositions(&rtStart, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+        OnPlayPlay();
+    } else {
+        OpenCurPlaylistItem(rtStart);
+    }
 }
 
 void CMainFrame::OnUpdateFavoritesFile(CCmdUI* pCmdUI)
