@@ -2063,10 +2063,26 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     // mainconcept color space converter
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{272D77A0-A852-4851-ADA4-9091FEAD4C86}")), MERIT64_DO_NOT_USE));
 
-    // Block VSFilter when internal subtitle renderer will get used
-    if (s.fAutoloadSubtitles && s.fBlockVSFilter) {
-        if (s.iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_DXR || s.iDSVideoRendererType == VIDRNDT_DS_SYNC || s.iDSVideoRendererType == VIDRNDT_DS_MADVR) {
-            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{9852A670-F845-491B-9BE6-EBD841B8A613}")), MERIT64_DO_NOT_USE));
+    // VSFilter/XySubFilter blocking routines
+    // If the hidden "block vsfilter" option is not disabled...
+    if (s.fBlockVSFilter) {
+        // And if the internal renderer is enabled and can be used...
+        if (s.fAutoloadSubtitles &&
+            (s.iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS ||
+             s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
+             s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+             s.iDSVideoRendererType == VIDRNDT_DS_DXR ||
+             s.iDSVideoRendererType == VIDRNDT_DS_SYNC ||
+             s.iDSVideoRendererType == VIDRNDT_DS_MADVR)) {
+            // Block VSFilter
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
+        // If the internal renderer will not be used, we are using MadVR
+        // and XySubFilter is available...
+        } else if (IsCLSIDRegistered(CLSID_XySubFilter) &&
+                   s.iDSVideoRendererType == VIDRNDT_DS_MADVR) {
+            // Disable VSFilter as a workaround for its agressive loading,
+            // as XySubFilter is generally preferred.
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
         }
     }
 
