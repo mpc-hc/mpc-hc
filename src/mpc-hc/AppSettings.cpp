@@ -28,6 +28,7 @@
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
 #include "UpdateChecker.h"
+#include "moreuuids.h"
 
 
 CAppSettings::CAppSettings()
@@ -1981,7 +1982,7 @@ void CAppSettings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
 
 bool CAppSettings::IsVSFilterInstalled()
 {
-    return IsCLSIDRegistered(_T("{9852A670-F845-491B-9BE6-EBD841B8A613}"));
+    return IsCLSIDRegistered(CLSID_VSFilter);
 }
 
 bool CAppSettings::HasEVR()
