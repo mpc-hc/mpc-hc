@@ -610,6 +610,7 @@ public:
 
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
+    bool            IsISREnabled() const;
 
 private:
     CString         SrcFiltersKeys[SRC_LAST + !SRC_LAST];

@@ -491,6 +491,20 @@ bool CAppSettings::IsD3DFullscreen() const
     }
 }
 
+bool CAppSettings::IsISREnabled() const
+{
+    if (iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS ||
+            iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
+            iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+            iDSVideoRendererType == VIDRNDT_DS_DXR ||
+            iDSVideoRendererType == VIDRNDT_DS_SYNC ||
+            iDSVideoRendererType == VIDRNDT_DS_MADVR) {
+        return fAutoloadSubtitles;
+    } else {
+        return false;
+    }
+}
+
 CString CAppSettings::SelectedAudioRenderer() const
 {
     CString strResult;
