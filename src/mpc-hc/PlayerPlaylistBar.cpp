@@ -976,15 +976,20 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
 
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0) {
-        CAppSettings& s = AfxGetAppSettings();
-        FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
-        if (filePosition)   {
-            filePosition->llPosition = 0;
-        }
+        CMainFrame* pMainFrame = static_cast<CMainFrame*>(AfxGetMainWnd());
 
-        m_pl.SetPos(FindPos(lpnmlv->iItem));
+        POSITION pos = FindPos(lpnmlv->iItem);
+        // If the file is already playing, don't try to restore a previously saved position
+        if (pMainFrame->GetPlaybackMode() == PM_FILE && pos == m_pl.GetPos()) {
+            const CPlaylistItem& pli = m_pl.GetAt(pos);
+
+            CAppSettings& s = AfxGetAppSettings();
+            s.filePositions.RemoveEntry(pli.m_fns.GetHead());
+        } else {
+            m_pl.SetPos(pos);
+        }
         m_list.Invalidate();
-        ((CMainFrame*)AfxGetMainWnd())->OpenCurPlaylistItem();
+        pMainFrame->OpenCurPlaylistItem();
     }
 
     AfxGetMainWnd()->SetFocus();

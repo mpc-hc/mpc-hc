@@ -45,3 +45,5 @@ Legend:
 ! Various fixes for better playlist support
 ! Ticket #2109, #2975, Fix the handling of aspect ratio changes when using EVR-CP or Sync Renderer
   with DXVA decoding
+! Ticket #3304, Fix remember file position when double-clicking on a playlist item. If a position was
+  previously saved, it will be restored unless the file is already playing.
