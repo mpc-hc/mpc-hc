@@ -431,10 +431,6 @@ img {
 	width: 100%;
 }
 
-#debug {
-	white-space: pre-wrap;
-}
-
 .browser-table {
 	border-collapse: separate;
 	border-spacing: 1px;

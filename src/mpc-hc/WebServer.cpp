@@ -415,8 +415,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 
             CStringA debug;
             if (s.fWebServerPrintDebugInfo) {
-                debug += "<br><hr>\r\n";
-                debug += "<div id=\"debug\">";
+                debug += "<br><hr><pre>\r\n";
 
                 CStringA key;
                 POSITION pos;
@@ -458,7 +457,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
                         debug += "REQUEST[" + HtmlSpecialChars(key) + "] = " + HtmlSpecialChars(UTF8(value)) + "\r\n";
                     }
                 }
-                debug += "</div>";
+                debug += "</pre>";
             }
             body.Replace("[debug]", debug);
         }
