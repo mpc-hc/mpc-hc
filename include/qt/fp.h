@@ -119,7 +119,9 @@ typedef double                          double_t;
     #define   NAN                     nan("255")
   #endif
 #else
-  #define     NAN                     sqrt(-1)
+  #ifndef NAN
+    #define   NAN                     sqrt(-1)
+  #endif
 #endif
 
 #if TARGET_CPU_PPC
