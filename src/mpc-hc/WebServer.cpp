@@ -406,7 +406,8 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
         return;
     }
 
-    if ((mime == "text/html" || mime == "text/javascript") && !fCGI) {
+    /* Don't cache html, js and css files */
+    if ((mime == "text/html" || mime == "text/javascript" || mime == "text/css") && !fCGI) {
         if (mime == "text/html") {
             hdr +=
                 "Expires: Thu, 19 Nov 1981 08:52:00 GMT\r\n"
