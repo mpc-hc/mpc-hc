@@ -48,7 +48,8 @@
 <br>
 <div>
 	<form action="[commandpath]" method="post">
-		<input type="hidden" name="[wmcname]" value="-1"><span class="sectionInfo">Goto control</span>
+		<input type="hidden" name="[wmcname]" value="-1">
+        <span class="sectionInfo">Goto control</span>
 		<noscript>
 			<span class="sectionInfo">
 				<strong>: (position slider disabled)</strong>
@@ -91,57 +92,57 @@
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="887">
-								<input type="submit" value=" &gt; " name="submit" onclick="postForm(887,'null',0); return false;">
+								<input type="submit" value=" &gt; " title="Play" name="submit" onclick="postForm(887,'null',0); return false;">
 							</form>
 						</td>
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="888">
-								<input type="submit" value=" || " name="submit" onclick="postForm(888,'null',0); return false;">
+								<input type="submit" value=" || " title="Pause" name="submit" onclick="postForm(888,'null',0); return false;">
 							</form>
 						</td>
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="890">
-								<input type="submit" value=" # " name="submit" onclick="postForm(890,'null',0); return false;">
+								<input type="submit" value=" # " title="Stop" name="submit" onclick="postForm(890,'null',0); return false;">
 							</form>
 						</td>
 						<td>&nbsp;</td>
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="921">
-								<input type="submit" value="I&lt;&lt;" name="submit" onclick="postForm(921,'null',0); return false;">
+								<input type="submit" value="I&lt;&lt;" title="Skip back" name="submit" onclick="postForm(921,'null',0); return false;">
 							</form>
 						</td>
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="894">
-								<input type="submit" value="&lt;&lt;" name="submit" onclick="postForm(894,'null',0); return false;">
+								<input type="submit" value="&lt;&lt;" title="Decrease speed" name="submit" onclick="postForm(894,'null',0); return false;">
 							</form>
 						</td>
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="895">
-								<input type="submit" value="&gt;&gt;" name="submit" onclick="postForm(895,'null',0); return false;">
+								<input type="submit" value="&gt;&gt;" title="Increase speed" name="submit" onclick="postForm(895,'null',0); return false;">
 							</form>
 						</td>
 						<td>
 							<form action="[commandpath]" method="post">
-								<input type="submit" value="&gt;&gt;I" name="submit" onclick="postForm(922,'null',0); return false;">
 								<input type="hidden" name="[wmcname]" value="922">
+								<input type="submit" value="&gt;&gt;I" title="Skip forward" name="submit" onclick="postForm(922,'null',0); return false;">
 							</form>
 						</td>
 						<td>&nbsp;</td>
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="892">
-								<input type="submit" value=" &lt;i " name="submit" onclick="postForm(892,'null',0); return false;">
+								<input type="submit" value=" &lt;i " title="Framestep back" name="submit" onclick="postForm(892,'null',0); return false;">
 							</form>
 						</td>
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="891">
-								<input type="submit" value=" i&gt; " name="submit" onclick="postForm(891,'null',0); return false;">
+								<input type="submit" value=" i&gt; " title="Framestep" name="submit" onclick="postForm(891,'null',0); return false;">
 							</form>
 						</td>
 					</tr>
@@ -153,49 +154,49 @@
 							<td>
 								<form action="[commandpath]" method="post">
 									<input type="hidden" name="[wmcname]" value="897">
-									<input type="submit" value="&lt; k" name="submit" onclick="postForm(897,'null',0); return false;">
+									<input type="submit" value="&lt; k" title="Jump Backward (keyframe)" name="submit" onclick="postForm(897,'null',0); return false;">
 								</form>
 							</td>
 							<td>
 								<form action="[commandpath]" method="post">
 									<input type="hidden" name="[wmcname]" value="903">
-									<input type="submit" value="&lt;&lt;&lt;" name="submit" onclick="postForm(903,'null',0); return false;">
+									<input type="submit" value="&lt;&lt;&lt;" title="Jump Backward (large)" name="submit" onclick="postForm(903,'null',0); return false;">
 								</form>
 							</td>
 							<td>
 								<form action="[commandpath]" method="post">
 									<input type="hidden" name="[wmcname]" value="901">
-									<input type="submit" value=" &lt;&lt; " name="submit" onclick="postForm(901,'null',0); return false;">
+									<input type="submit" value=" &lt;&lt; " title="Jump Backward (medium)" name="submit" onclick="postForm(901,'null',0); return false;">
 								</form>
 							</td>
 							<td>
 								<form action="[commandpath]" method="post">
 									<input type="hidden" name="[wmcname]" value="899">
-									<input type="submit" value=" &lt; " name="submit" onclick="postForm(899,'null',0); return false;">
+									<input type="submit" value=" &lt; " title="Jump Backward (small)" name="submit" onclick="postForm(899,'null',0); return false;">
 								</form>
 							</td>
 							<td>
 								<form action="[commandpath]" method="post">
 									<input type="hidden" name="[wmcname]" value="900">
-									<input type="submit" value=" &gt; " name="submit" onclick="postForm(900,'null',0); return false;">
+									<input type="submit" value=" &gt; " title="Jump Forward (small)" name="submit" onclick="postForm(900,'null',0); return false;">
 								</form>
 							</td>
 							<td>
 								<form action="[commandpath]" method="post">
 									<input type="hidden" name="[wmcname]" value="902">
-									<input type="submit" value=" &gt;&gt; " name="submit" onclick="postForm(902,'null',0); return false;">
+									<input type="submit" value=" &gt;&gt; " title="Jump Forward (medium)" name="submit" onclick="postForm(902,'null',0); return false;">
 								</form>
 							</td>
 							<td>
 								<form action="[commandpath]" method="post">
 									<input type="hidden" name="[wmcname]" value="904">
-									<input type="submit" value="&gt;&gt;&gt;" name="submit" onclick="postForm(904,'null',0); return false;">
+									<input type="submit" value="&gt;&gt;&gt;" title="Jump Forward (large)" name="submit" onclick="postForm(904,'null',0); return false;">
 								</form>
 							</td>
 							<td>
 								<form action="[commandpath]" method="post">
 									<input type="hidden" name="[wmcname]" value="898">
-									<input type="submit" value="k &gt;" name="submit" onclick="postForm(898,'null',0); return false;">
+									<input type="submit" value="k &gt;" title="Jump Forward (keyframe)" name="submit" onclick="postForm(898,'null',0); return false;">
 								</form>
 							</td>
 						</tr>
@@ -269,13 +270,13 @@
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="919">
-								<input type="submit" value="&lt;&lt;" name="submit" onclick="postForm(919,'null',0); return false;">
+								<input type="submit" value="&lt;&lt;" title="Skip back" name="submit" onclick="postForm(919,'null',0); return false;">
 							</form>
 						</td>
 						<td>
 							<form action="[commandpath]" method="post">
 								<input type="hidden" name="[wmcname]" value="920">
-								<input type="submit" value="&gt;&gt;" name="submit" onclick="postForm(920,'null',0); return false;">
+								<input type="submit" value="&gt;&gt;" title="Skip forward" name="submit" onclick="postForm(920,'null',0); return false;">
 							</form>
 						</td>
 					</tr>
