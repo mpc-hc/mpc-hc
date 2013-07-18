@@ -168,9 +168,6 @@
     <ClCompile Include="source\vdstl_hashtable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="linearalloc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\h\vd2\system\atomic.h">
