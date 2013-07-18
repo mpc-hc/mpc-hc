@@ -1,4 +1,5 @@
-/* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, camelcase:true, trailing:true, strict:false, undef:false, boss:true, unused:true, curly:true, browser:true, indent:4, maxerr:100 */
+/* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, camelcase:true, trailing:true,
+   strict:false, undef:false, boss:true, unused:true, curly:true, browser:true, indent:4, maxerr:100 */
 
 var filePath;
 var curPos;
@@ -19,6 +20,7 @@ var AP;
 var RL;
 var rpt;
 var etaup = false;
+
 if (eta === 0) {
 	eta = (state < 0 && filePath.length > 0) ? 2 : 120;
 }

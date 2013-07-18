@@ -13,7 +13,6 @@ MPCIconLib:
 
 WebServer:
 1) Update the images for player.html using a css sprite
-2) Switch to html5
 
 Installer:
 1) Add file association tasks, see https://trac.mpc-hc.org/ticket/2207

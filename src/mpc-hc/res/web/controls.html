@@ -1,18 +1,18 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<title>MPC-HC WebServer - Controls</title>
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
-<link rel="stylesheet" type="text/css" href="default.css">
-<script type="text/javascript" src="javascript.js"></script>
-<link rel="shortcut icon" href="favicon.ico">
-</head>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>MPC-HC WebServer - Controls</title>
+		<link rel="stylesheet" href="default.css">
+		<link rel="shortcut icon" href="favicon.ico">
+		<script src="javascript.js"></script>
+	</head>
 <body onload='init("[filepath]", [position], [duration], [state], [playbackrate], [reloadtime], [volumelevel], [muted])'>
 <div>
 <span class="sectionInfo">File Info</span>
 	<noscript>
 		<span class="sectionInfo">
-			:<strong> JavaScript is disabled; some components may not work</strong>
+			<strong>: JavaScript is disabled; some components may not work</strong>
 		</span>
 	</noscript>
 	<table border="1" cellspacing="1" cellpadding="4">
@@ -25,7 +25,7 @@
 		</tr>
 		<tr>
 			<td>Status: [statestring]</td>
-			<td align="center">
+			<td class="align-center">
 				<table>
 					<tr>
 						<td id="time">[positionstring]</td>
@@ -35,7 +35,7 @@
 				</table>
 			</td>
 			<td><input type="checkbox" id="reloadenabled" checked></td>
-			<td align="center">
+			<td class="align-center">
 				<form action="[commandpath]" method="POST">
 					<input type="submit" value="Refresh" name="submit" onclick="window.location=window.location; return false;">
 				</form>
@@ -49,7 +49,7 @@
 		<input type="hidden" name="[wmcname]" value="-1"><span class="sectionInfo">Goto control</span>
 		<noscript>
 			<span class="sectionInfo">
-				:<strong> (position slider disabled)</strong>
+				<strong>: (position slider disabled)</strong>
 			</span>
 		</noscript>
 		<table border="1" cellspacing="1" cellpadding="4">
@@ -212,7 +212,7 @@
 				</noscript>
 				<table border="1" cellspacing="1" cellpadding="4">
 					<tr>
-						<td id="muted" align="center" valign="middle">U</td>
+						<td id="muted" class="align-center" valign="middle">U</td>
 						<td>
 							<form action="[commandpath]" method="POST">
 								<input type="hidden" name="[wmcname]" value="909">
@@ -323,7 +323,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="872">
 											<input type="submit" value="Up/Left" name="submit" onclick="postForm(872,'null',0); return false;">
@@ -335,7 +335,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="870">
 											<input type="submit" value="Up" name="submit" onclick="postForm(870,'null',0); return false;">
@@ -347,7 +347,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="873">
 											<input type="submit" value="Up/Right" name="submit" onclick="postForm(873,'null',0); return false;">
@@ -361,7 +361,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="868">
 											<input type="submit" value="Left" name="submit" onclick="postForm(868,'null',0); return false;">
@@ -385,7 +385,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="869">
 											<input type="submit" value="Right" name="submit" onclick="postForm(869,'null',0); return false;">
@@ -411,7 +411,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="871">
 											<input type="submit" value="Down" name="submit" onclick="postForm(871,'null',0); return false;">
@@ -442,7 +442,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="866">
 												<input type="submit" value="Inc Height" name="submit" onclick="postForm(866,'null',0); return false;">
@@ -454,7 +454,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="862">
 												<input type="submit" value="Inc Size" name="submit" onclick="postForm(862,'null',0); return false;">
@@ -480,7 +480,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="861">
 												<input type="submit" value="Reset" name="submit" onclick="postForm(861,'null',0); return false;">
@@ -504,7 +504,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="863">
 												<input type="submit" value="Dec Size" name="submit" onclick="postForm(863,'null',0); return false;">
@@ -516,7 +516,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="867">
 												<input type="submit" value="Dec Height" name="submit" onclick="postForm(867,'null',0); return false;">
@@ -541,7 +541,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="835">
 											<input type="submit" value="Half" name="submit" onclick="postForm(835,'null',0); return false;">
@@ -553,7 +553,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="837">
 											<input type="submit" value="Double" name="submit" onclick="postForm(837,'null',0); return false;">
@@ -567,7 +567,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="836">
 											<input type="submit" value="Normal" name="submit" onclick="postForm(836,'null',0); return false;">
@@ -579,7 +579,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="838">
 											<input type="submit" value="Stretch" name="submit" onclick="postForm(838,'null',0); return false;">
@@ -593,7 +593,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="839">
 											<input type="submit" value="Inside" name="submit" onclick="postForm(839,'null',0); return false;">
@@ -605,7 +605,7 @@
 						<td>
 							<table border="1" cellspacing="1" cellpadding="4" width="100%">
 								<tr>
-									<td align="center">
+									<td class="align-center">
 										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="840">
 											<input type="submit" value="Outside" name="submit" onclick="postForm(840,'null',0); return false;">
@@ -624,7 +624,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="931">
 												<input type="submit" value="Up" name="submit" onclick="postForm(931,'null',0); return false;">
@@ -639,7 +639,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="929">
 												<input type="submit" value="Left" name="submit" onclick="postForm(929,'null',0); return false;">
@@ -663,7 +663,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="930">
 												<input type="submit" value="Right" name="submit" onclick="postForm(930,'null',0); return false;">
@@ -689,7 +689,7 @@
 							<td>
 								<table border="1" cellspacing="1" cellpadding="4" width="100%">
 									<tr>
-										<td align="center">
+										<td class="align-center">
 											<form action="[commandpath]" method="POST">
 												<input type="hidden" name="[wmcname]" value="932">
 												<input type="submit" value="Down" name="submit" onclick="postForm(932,'null',0); return false;">
@@ -718,7 +718,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="800">
 													<input type="submit" value="Open File" name="submit" onclick="postForm(800,'null',0); return false;">
@@ -730,7 +730,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="801">
 													<input type="submit" value="Open DVD" name="submit" onclick="postForm(801,'null',0); return false;">
@@ -742,7 +742,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="802">
 													<input type="submit" value="Open Device" name="submit" onclick="postForm(802,'null',0); return false;">
@@ -756,7 +756,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="805">
 													<input type="submit" value="Save a copy" name="submit" onclick="postForm(805,'null',0); return false;">
@@ -768,7 +768,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="804">
 													<input type="submit" value="Close" name="submit" onclick="postForm(804,'null',0); return false;">
@@ -780,7 +780,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="816">
 													<input type="submit" value="Exit" name="submit" onclick="postForm(816,'null',0); return false;">
@@ -794,7 +794,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="893">
 													<input type="submit" value="Go To" name="submit" onclick="postForm(893,'null',0); return false;">
@@ -806,7 +806,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="886">
 													<input type="submit" value="Options" name="submit" onclick="postForm(886,'null',0); return false;">
@@ -818,7 +818,7 @@
 								<td>
 									<table border="1" cellspacing="1" cellpadding="4" width="100%">
 										<tr>
-											<td align="center">
+											<td class="align-center">
 												<form action="[commandpath]" method="POST">
 													<input type="hidden" name="[wmcname]" value="814">
 													<input type="submit" value="Properties" name="submit" onclick="postForm(814,'null',0); return false;">
