@@ -1,18 +1,18 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
+		<meta charset="utf-8">
 		<title>MPC-HC WebServer - Player</title>
-		<meta http-equiv="content-type" content="text/html;charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="default.css">
-		<script type="text/javascript" src="javascript.js"></script>
+		<link rel="stylesheet" href="default.css">
 		<link rel="shortcut icon" href="favicon.ico">
+		<script src="javascript.js"></script>
 	</head>
 	<body onload="playerInit()">
 		<div>
-			<table id="player" cellpadding="0" cellspacing="0">
+			<table id="player">
 				<tr>
 					<td colspan="3">
-						<table id="header" cellpadding="0" cellspacing="0">
+						<table id="header">
 							<tr>
 								<td id="headerIcon"></td>
 								<td id="headerBack"><div class="nobr" id="title">&nbsp;</div></td>
@@ -24,17 +24,17 @@
 				<tr>
 					<td id="leftside"></td>
 					<td>
-						<table id="center" cellpadding="0" cellspacing="0">
+						<table id="center">
 							<tr>
 								<td>
-									<table id="menu" width="100%">
+									<table id="menu">
 										<tr>
 											<td>File</td>
 											<td>View</td>
 											<td>Play</td>
 											<td>Navigate</td>
 											<td>Favorites</td>
-											<td width="100%" align="right">Help</td>
+											<td id="menu-help" class="align-right">Help</td>
 										</tr>
 									</table>
 								</td>
@@ -46,7 +46,7 @@
 							</tr>
 							<tr>
 								<td>
-									<table width="100%" id="seekbar" cellpadding="0" cellspacing="0">
+									<table id="seekbar">
 										<tr>
 											<td id="seekbarleft"><img src="img/seekbarleft.png" alt="seekbarleft"></td>
 											<td id="seekbarchleft" width="0%"></td>
@@ -59,7 +59,7 @@
 							</tr>
 							<tr>
 								<td>
-									<table width="100%" cellpadding="0" cellspacing="0" id="controlbar">
+									<table id="controlbar">
 										<tr>
 											<td id="controlbuttonplay" onclick="OnCommand(887)"></td>
 											<td id="controlbuttonpause" onclick="OnCommand(888)"></td>
@@ -71,7 +71,7 @@
 											<td id="controlbuttonstep" onclick="OnCommand(891)"></td>
 											<td>&nbsp;</td>
 											<td id="controlvolumemute" onclick="OnCommand(909)"></td>
-											<td id="controlvolumebar" valign="top">
+											<td id="controlvolumebar">
 												<img src="img/controlvolumegrip.png" id="controlvolumegrip" alt="control volume grip">
 											</td>
 										</tr>
@@ -80,10 +80,10 @@
 							</tr>
 							<tr>
 								<td>
-									<table width="100%" id="statusbar">
+									<table id="statusbar">
 										<tr>
 											<td><div id="status"></div></td>
-											<td align="right"><div id="timer">&nbsp;</div></td>
+											<td class="align-right"><div id="timer">&nbsp;</div></td>
 										</tr>
 									</table>
 								</td>
