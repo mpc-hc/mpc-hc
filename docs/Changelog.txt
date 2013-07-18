@@ -14,7 +14,7 @@ Legend:
   LAV Filters are modern open source DirectShow filters based on FFmpeg. They are known to be
   reliable and fast and overall should be more stable than the old filters.
   MPC-HC integrates LAV Filters directly and no extra installation steps are required. The embedded
-  version of LAV Filters doesn't interact at all with other installed DirectShow filters (including
+  version of LAV Filters doesn't interfere at all with other installed DirectShow filters (including
   standalone versions of LAV Filters).
   Note to XP users: hardware decoding is only supported on nVidia graphic adapters. If you
   really need a DXVA decoder, you can use a standalone version of MPC Video Decoder.
@@ -22,6 +22,7 @@ Legend:
 + D3DFullscreen can now switch to windowed mode (just like regular fullscreen mode)
 + Audio Switcher: Show all audio tracks available, including all the embedded tracks exhibited by the
   source filter and the external tracks.
++ Playlist: Add a "Move to Recycle Bin" right click option, with optional keyboard shortcut
 + Ticket #533, Add a command line switch (/device) to open the default video device
 + Ticket #3107, Add support for playing from standard input.
   Use "-" as a special filename to designate the standard input.
@@ -32,12 +33,14 @@ Legend:
   - toggle hotkey is now disabled by default
   - support for madVR has been removed (it already has exclusive mode)
   - 10-bit RBG output now falls back to 8-bit output if the display does not support it
+* Remove D2VSource. It's unmaintained and basically unused.
+* WebUI: Switched to HTML5 and improved the cross browser support
+  (IE8 or newer is needed, other browsers should work fine)
 * Updated Basque, Simplified Chinese, French, German, Greek, Polish, Romanian and Slovak translations
 * Updated Little CMS to v2.5 (git fefaaa4)
 * Updated Unrar to v5.0.8
 * Updated MediaInfoLib to v0.7.64
 * Updated ZenLib to v0.4.29 r444
-* Remove D2VSource. It's unmaintained and basically unused.
 ! D3DFullscreen fixes:
   - fixed strange focus behaviour when always on top is enabled
   - fixed VMR9 D3DFS minimizing when losing focus
@@ -45,5 +48,5 @@ Legend:
 ! Various fixes for better playlist support
 ! Ticket #2109, #2975, Fix the handling of aspect ratio changes when using EVR-CP or Sync Renderer
   with DXVA decoding
-! Ticket #3304, Fix remember file position when double-clicking on a playlist item. If a position was
-  previously saved, it will be restored unless the file is already playing.
+! Ticket #3304, Fix remember file position when double-clicking on a playlist item. If a position
+  was previously saved, it will be restored unless the file is already playing.
