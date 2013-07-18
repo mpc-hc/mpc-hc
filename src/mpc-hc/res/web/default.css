@@ -302,6 +302,7 @@ img {
 	background-color: #ECE6D4;
 	width: 100%;
 }
+
 #statusbar {
 	padding: 4px 2px 1px 2px !important;
 	width: 100%;
@@ -429,6 +430,18 @@ img {
 #center,
 #header {
 	width: 100%;
+}
+
+#slider {
+	background: url(img/sliderback.png) no-repeat;
+	width: 515px;
+	height: 20px;
+}
+
+#v {
+	background: url(img/vbg.png) no-repeat;
+	width: 110px;
+	height: 20px;
 }
 
 .browser-table {
