@@ -123,8 +123,6 @@ STDMETHODIMP CShockwaveGraph::GetState(LONG msTimeout, OAFilterState* pfs)
             m_fs = State_Stopped;
         }
         fs = m_fs;
-        // HACK : Make sure that the movie is running in "show all".
-        m_wndDestFrame.SendMessage(WM_COMMAND, MAKEWPARAM(20034, 0), 0);
     } catch (CException* e) {
         e->Delete();
         return E_FAIL;
