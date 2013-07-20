@@ -36,13 +36,16 @@ else
   # which commit from master it is based on and what its hash is. This assumes we
   # won't ever branch from a changeset from before the move to git
   if [[ "$branch" != "master" ]]; then
-    # Get where the branch is based on master
-    base=$(git merge-base master HEAD)
-    base_ver=$(git rev-list --count $svnhash..$base)
-    base_ver=$((base_ver+svnrev))
-
     version_info="#define MPCHC_BRANCH _T(\"$branch\")"$'\n'
-    ver_full=" ($branch) (master@${base_ver:0:7})"
+    if git show-ref --verify --quiet refs/heads/master; then
+      # Get where the branch is based on master
+      base=$(git merge-base master HEAD)
+      base_ver=$(git rev-list --count $svnhash..$base)
+      base_ver=$((base_ver+svnrev))
+      ver_full=" ($branch) (master@${base_ver:0:7})"
+    else
+      ver_full=" ($branch)"
+    fi
   fi
 
   # Count how many changesets we have since the last svn changeset
@@ -70,7 +73,7 @@ if [[ "$branch" ]] && ! git diff-index --quiet HEAD; then
 else
   echo "Revision:  $ver"
 fi
-if [[ "$branch" ]] && [[ "$branch" != "master" ]]; then
+if [[ -n "$base" ]]; then
   echo "Mergebase: master@${base_ver} (${base:0:7})"
 fi
 
