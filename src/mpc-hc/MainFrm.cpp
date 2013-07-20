@@ -2139,6 +2139,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     Signal.Format(ResStr(IDS_STATSBAR_SIGNAL_FORMAT), (int)lDbStrength, lPercentQuality);
                     m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), Signal);
                 }
+            } else if (GetPlaybackMode() == PM_FILE) {
+                UpdateChapterInInfoBar();
             }
 
             if (GetMediaState() == State_Running && !m_fAudioOnly) {
@@ -11423,43 +11425,34 @@ void CMainFrame::OpenSetupCaptureBar()
 void CMainFrame::OpenSetupInfoBar()
 {
     if (GetPlaybackMode() == PM_FILE) {
-        bool fEmpty = true;
+        CComBSTR bstr;
+        CString title, author, copyright, rating, description;
         BeginEnumFilters(m_pGB, pEF, pBF) {
+            bool fEmpty = true;
             if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
-                CComBSTR bstr;
-                if (SUCCEEDED(pAMMC->get_Title(&bstr))) {
-                    m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), bstr.m_str);
-                    if (bstr.Length()) {
-                        fEmpty = false;
-                    }
+                if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
+                    title = bstr.m_str;
+                    fEmpty = false;
                 }
                 bstr.Empty();
-                if (SUCCEEDED(pAMMC->get_AuthorName(&bstr))) {
-                    m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUTHOR), bstr.m_str);
-                    if (bstr.Length()) {
-                        fEmpty = false;
-                    }
+                if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
+                    author = bstr.m_str;
+                    fEmpty = false;
                 }
                 bstr.Empty();
-                if (SUCCEEDED(pAMMC->get_Copyright(&bstr))) {
-                    m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_COPYRIGHT), bstr.m_str);
-                    if (bstr.Length()) {
-                        fEmpty = false;
-                    }
+                if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
+                    copyright = bstr.m_str;
+                    fEmpty = false;
                 }
                 bstr.Empty();
-                if (SUCCEEDED(pAMMC->get_Rating(&bstr))) {
-                    m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), bstr.m_str);
-                    if (bstr.Length()) {
-                        fEmpty = false;
-                    }
+                if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
+                    rating = bstr.m_str;
+                    fEmpty = false;
                 }
                 bstr.Empty();
-                if (SUCCEEDED(pAMMC->get_Description(&bstr))) {
-                    m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), bstr.m_str);
-                    if (bstr.Length()) {
-                        fEmpty = false;
-                    }
+                if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
+                    description = bstr.m_str;
+                    fEmpty = false;
                 }
                 bstr.Empty();
                 if (!fEmpty) {
@@ -11469,6 +11462,13 @@ void CMainFrame::OpenSetupInfoBar()
             }
         }
         EndEnumFilters;
+
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), title);
+        UpdateChapterInInfoBar();
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_COPYRIGHT), copyright);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), rating);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
     } else if (GetPlaybackMode() == PM_DVD) {
         CString info('-');
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), info);
@@ -11479,6 +11479,30 @@ void CMainFrame::OpenSetupInfoBar()
         RecalcLayout();
     }
 }
+
+void CMainFrame::UpdateChapterInInfoBar()
+{
+    CString chapter;
+    if (m_pCB) {
+        DWORD dwChapCount = m_pCB->ChapGetCount();
+        if (dwChapCount) {
+            REFERENCE_TIME rtNow;
+            m_pMS->GetCurrentPosition(&rtNow);
+
+            CComBSTR bstr;
+            long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
+            if (currentChap >= 0) {
+                if (bstr.Length()) {
+                    chapter.Format(_T("%s (%d/%u)"), bstr.m_str, currentChap + 1, dwChapCount);
+                } else {
+                    chapter.Format(_T("%d/%u"), currentChap + 1, dwChapCount);
+                }
+            }
+        }
+    }
+    m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHAPTER), chapter);
+}
+
 
 void CMainFrame::OpenSetupStatsBar()
 {
@@ -14068,6 +14092,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
         m_nSeekDirection = SEEK_DIRECTION_NONE;
 
         m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+        UpdateChapterInInfoBar();
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
         if (fs != State_Running) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);

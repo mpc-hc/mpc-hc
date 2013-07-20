@@ -409,6 +409,7 @@ protected:
     void OpenSetupVideo();
     void OpenSetupAudio();
     void OpenSetupInfoBar();
+    void UpdateChapterInInfoBar();
     void OpenSetupStatsBar();
     void OpenSetupStatusBar();
     // void OpenSetupToolBar();

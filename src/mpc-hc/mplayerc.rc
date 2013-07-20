@@ -2085,6 +2085,7 @@ BEGIN
     IDS_INFOBAR_TIME                   "Time"
     IDS_INFOBAR_PARENTAL_RATING        "Parental rating"
     IDS_INFOBAR_CONTENT                "Content"
+    IDS_INFOBAR_CHAPTER                "Chapter"
     IDS_STATSBAR_SYNC_OFFSET           "Sync Offset"
     IDS_STATSBAR_SYNC_OFFSET_FORMAT    "avg: %d ms, dev: %d ms"
     IDS_STATSBAR_JITTER                "Jitter"
