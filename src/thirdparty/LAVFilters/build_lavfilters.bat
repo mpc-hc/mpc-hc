@@ -117,6 +117,10 @@ IF /I "%BUILDTYPE%" == "Rebuild" (
 IF /I "%BUILDTYPE%" == "Clean" (CALL :SubMake & EXIT /B)
 
 CALL :SubMake
+
+IF /I "%ARCH%" == "x64" (SET "GCC_PREFIX=x86_64-w64-mingw32-")
+%GCC_PREFIX%gcc -c -O2 GCCInfo.c -o obj\GCCInfo.o
+
 EXIT /B
 
 

@@ -1047,4 +1047,9 @@
       <Filter>Resource Files</Filter>
     </CustomBuildStep>
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\thirdparty\LAVFilters\obj\GCCInfo.o">
+      <Filter>Source Files</Filter>
+    </Object>
+  </ItemGroup>
 </Project>

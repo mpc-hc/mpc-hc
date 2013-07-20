@@ -582,6 +582,13 @@
     <ClInclude Include="WinHotkeyCtrl.h" />
   </ItemGroup>
   <ItemGroup>
+    <Object Include="..\thirdparty\LAVFilters\obj\GCCInfo.o">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">true</ExcludedFromBuild>
+    </Object>
     <None Include="res\ani.avi" />
     <None Include="res\icon.ico">
       <FileType>ICO</FileType>

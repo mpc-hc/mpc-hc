@@ -29,6 +29,8 @@
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
 
+extern "C" char g_Gcc_Compiler[];
+
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
@@ -225,7 +227,8 @@ void CAboutDlg::OnCopyToClipboard()
     info += _T("LAV Filters:\n");
     info += _T("    LAV Splitter:       ") + CFGFilterLAV::GetVersion(CFGFilterLAV::SPLITTER) + _T("\n");
     info += _T("    LAV Video:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::VIDEO_DECODER) + _T("\n");
-    info += _T("    LAV Audio:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::AUDIO_DECODER) + _T("\n\n");
+    info += _T("    LAV Audio:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::AUDIO_DECODER) + _T("\n");
+    info += _T("    FFmpeg Compiler:    ") + CString(g_Gcc_Compiler) + _T("\n\n");
 #endif
     info += _T("Operating system:\n");
     info += _T("    Name:               ") + m_OSName + _T("\n");
