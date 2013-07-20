@@ -41,7 +41,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 * [Support Trac](https://trac.mpc-hc.org)
 * IRC Channel: [#mpc-hc](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
   / [#mpc-hc-dev](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](http://freenode.net/)
-* [Donations](http://sourceforge.net/donate/index.php?group_id=170561)
+* [Donations](http://mpc-hc.org/donate/)
 
 
 For the people involved in the development, see
