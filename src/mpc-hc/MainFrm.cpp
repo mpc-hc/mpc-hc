@@ -2355,16 +2355,16 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 }
                 break;
             case EC_DVD_TITLE_CHANGE: {
-                // Casimir666 : Save current chapter
-                DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
-                if (dvdPosition) {
-                    dvdPosition->lTitle = (DWORD)evParam1;
-                }
-
                 if (GetPlaybackMode() == PM_FILE) {
                     SetupChapters();
                 } else if (GetPlaybackMode() == PM_DVD) {
                     m_iDVDTitle = (DWORD)evParam1;
+
+                    // Save current chapter
+                    DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
+                    if (dvdPosition) {
+                        dvdPosition->lTitle = m_iDVDTitle;
+                    }
 
                     if (m_iDVDDomain == DVD_DOMAIN_Title) {
                         CString Domain;
