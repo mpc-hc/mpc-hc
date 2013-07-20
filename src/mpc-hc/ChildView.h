@@ -28,7 +28,6 @@ class CChildView : public CMouseWnd
 {
     CRect m_vrect;
 
-    CCritSec m_csLogo;
     CMPCPngImage m_logo;
 
     CMainFrame* m_pMainFrm;

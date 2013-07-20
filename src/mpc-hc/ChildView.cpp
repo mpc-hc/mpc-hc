@@ -116,8 +116,6 @@ void CChildView::LoadLogo()
     CAppSettings& s = AfxGetAppSettings();
     bool bHaveLogo = false;
 
-    CAutoLock cAutoLock(&m_csLogo);
-
     m_logo.DeleteObject();
 
     if (s.fLogoExternal) {
@@ -172,8 +170,6 @@ void CChildView::OnPaint()
 BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 {
     CRect r;
-
-    CAutoLock cAutoLock(&m_csLogo);
 
     CImage img;
     img.Attach(m_logo);
