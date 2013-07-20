@@ -12030,6 +12030,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         DWORD audstm = SetupAudioStreams();
         DWORD substm = SetupSubtitleStreams();
 
+        if (audstm) {
+            OnPlayAudio(ID_AUDIO_SUBITEM_START + audstm);
+        }
+        if (substm) {
+            SetSubtitle(substm - 1);
+        }
+
         // PostMessage instead of SendMessage because the user might call CloseMedia and then we would deadlock
 
         PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
@@ -12043,16 +12050,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             // the seekbar and the time counter.
             OnTimer(TIMER_STREAMPOSPOLLER);
             OnTimer(TIMER_STREAMPOSPOLLER2);
-        }
-
-        // Casimir666 : audio selection should be done before running the graph to prevent an
-        // unnecessary seek when a file is opened (PostMessage ID_AUDIO_SUBITEM_START removed)
-
-        if (audstm) {
-            OnPlayAudio(ID_AUDIO_SUBITEM_START + audstm);
-        }
-        if (substm) {
-            SetSubtitle(substm - 1);
         }
 
         s.nCLSwitches &= ~CLSW_OPEN;
