@@ -27,6 +27,7 @@
 #include "DSUtil.h"
 #include "FileVersionInfo.h"
 #include "Struct.h"
+#include "SysVersion.h"
 #include <winternl.h>
 #include <psapi.h>
 #include "Ifo.h"
@@ -1109,6 +1110,18 @@ BOOL SetHeapOptions()
     return fRet;
 }
 
+BOOL (WINAPI* Real_LockWindowUpdate)(HWND hWndLock) = LockWindowUpdate;
+BOOL WINAPI Mine_LockWindowUpdate(HWND hWndLock)
+{
+    if (SysVersion::IsVistaOrLater() && hWndLock == ::GetDesktopWindow()) {
+        // locking the desktop window with aero active locks the entire compositor,
+        // unfortunately MFC does that (when dragging CControlBar) and we want to prevent it
+        return FALSE;
+    } else {
+        return Real_LockWindowUpdate(hWndLock);
+    }
+}
+
 BOOL CMPlayerCApp::InitInstance()
 {
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
@@ -1135,6 +1148,8 @@ BOOL CMPlayerCApp::InitInstance()
     DetourAttach(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW);
     DetourAttach(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails);
     DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
+
+    DetourAttach(&(PVOID&)Real_LockWindowUpdate, (PVOID)Mine_LockWindowUpdate);
 
     m_hNTDLL = LoadLibrary(_T("ntdll.dll"));
 #ifndef _DEBUG  // Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
