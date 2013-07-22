@@ -539,6 +539,7 @@
 #define IDS_FAVORITES_ADD               14153
 #define IDS_FAVORITES_ORGANIZE          14154
 #define IDS_PLAYLIST_SHUFFLE            14155
+#define IDS_PLAYLIST_SHOWFOLDER         14156
 #define IDS_CONTROLS_CLOSING            14157
 #define IDS_CONTROLS_PLAYING            14158
 #define IDS_CONTROLS_PAUSED             14159

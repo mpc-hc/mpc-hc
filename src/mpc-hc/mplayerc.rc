@@ -2358,6 +2358,7 @@ BEGIN
     IDS_FILE_FAV_ADDED      "File added to favorites"
     IDS_DVD_FAV_ADDED       "DVD added to favorites"
     IDS_PLAYLIST_SHUFFLE    "Shuffle"
+    IDS_PLAYLIST_SHOWFOLDER "Open file location"
     IDS_CONTROLS_CLOSING    "Closing..."
     IDS_CONTROLS_PLAYING    "Playing"
     IDS_CONTROLS_PAUSED     "Paused"
