@@ -560,15 +560,25 @@ static DWORD DisassembleAndSkip(PVOID pFunction, DWORD dwMinLen, MHOOKS_PATCHDAT
 		while ( (dwRet < dwMinLen) && (pins = GetInstruction(&dis, (ULONG_PTR)pLoc, pLoc, dwFlags)) ) {
 			ODPRINTF(("mhooks: DisassembleAndSkip: %p: %s", pLoc, pins->String));
 			if (pins->Type == ITYPE_RET		) break;
-			if (pins->Type == ITYPE_BRANCH	) break;
+			#if !defined _M_X64 // MPC-HC hack
+				if (pins->Type == ITYPE_BRANCH) break;
+			#endif
 			if (pins->Type == ITYPE_BRANCHCC) break;
 			if (pins->Type == ITYPE_CALL	) break;
 			if (pins->Type == ITYPE_CALLCC	) break;
 
 			#if defined _M_X64
 				BOOL bProcessRip = FALSE;
+				if (pins->Type == ITYPE_BRANCH) { // MPC-HC hack
+					if (dwRet == 0 && pins->OperandCount == 1 && (pins->Operands[0].Flags & OP_IPREL) && pins->Length >= dwMinLen) {
+						ODPRINTF((L"mhooks: DisassembleAndSkip: hooking the function using MPC-HC hack"));
+						bProcessRip = TRUE;
+					} else {
+						break;
+					}
+				}
 				// mov or lea to register from rip+imm32
-				if ((pins->Type == ITYPE_MOV || pins->Type == ITYPE_LEA) && (pins->X86.Relative) && 
+				else if ((pins->Type == ITYPE_MOV || pins->Type == ITYPE_LEA) && (pins->X86.Relative) && 
 					(pins->X86.OperandSize == 8) && (pins->OperandCount == 2) &&
 					(pins->Operands[1].Flags & OP_IPREL) && (pins->Operands[1].Register == AMD64_REG_RIP))
 				{
