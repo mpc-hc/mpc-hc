@@ -23,6 +23,8 @@
 #include "SubPicAllocatorPresenterImpl.h"
 #include "../DSUtil/DSUtil.h"
 #include <math.h>
+#include "version.h"
+#include "XySubPicQueueImpl.h"
 
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)
@@ -59,6 +61,8 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::NonDelegatingQueryInterface(REFIID r
     return
         QI(ISubPicAllocatorPresenter)
         QI(ISubPicAllocatorPresenter2)
+        QI(ISubRenderOptions)
+        QI(ISubRenderConsumer)
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -202,4 +206,193 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::SetVideoAngle(Vector v, bool fRepain
         Paint(true);
     }
     return S_OK;
+}
+
+// ISubRenderOptions
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::GetBool(LPCSTR field, bool* value)
+{
+    CheckPointer(value, E_POINTER);
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::GetInt(LPCSTR field, int* value)
+{
+    CheckPointer(value, E_POINTER);
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::GetSize(LPCSTR field, SIZE* value)
+{
+    CheckPointer(value, E_POINTER);
+    if (!strcmp(field, "originalVideoSize")) {
+        *value = GetVideoSize(false);
+        return S_OK;
+    } else if (!strcmp(field, "arAdjustedVideoSize")) {
+        *value = GetVideoSize(true);
+        return S_OK;
+    }
+
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::GetRect(LPCSTR field, RECT* value)
+{
+    CheckPointer(value, E_POINTER);
+    if (!strcmp(field, "videoOutputRect") || !strcmp(field, "subtitleTargetRect")) {
+        *value = m_VideoRect;
+        return S_OK;
+    }
+
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::GetUlonglong(LPCSTR field, ULONGLONG* value)
+{
+    CheckPointer(value, E_POINTER);
+    if (!strcmp(field, "frameRate")) {
+        *value = (REFERENCE_TIME)(10000000.0 / m_fps);
+        return S_OK;
+    }
+
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::GetDouble(LPCSTR field, double* value)
+{
+    CheckPointer(value, E_POINTER);
+    if (!strcmp(field, "refreshRate")) {
+        *value = 0;
+        return S_OK;
+    }
+
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* value, int* chars)
+{
+    CheckPointer(value, E_POINTER);
+    CheckPointer(chars, E_POINTER);
+    LPWSTR ret = nullptr;
+
+    if (!strcmp(field, "name")) {
+        ret = L"MPC-HC";
+    } else if (!strcmp(field, "version")) {
+        ret = MPC_VERSION_STR;
+    } else if (!strcmp(field, "yuvMatrix")) {
+        ret = L"None";
+    }
+
+    if (ret != nullptr) {
+        size_t len = wcslen(ret);
+        size_t sz = (len + 1) * sizeof(WCHAR);
+        LPWSTR buf = (LPWSTR)LocalAlloc(LPTR, sz);
+
+        if (buf == nullptr) {
+            return E_OUTOFMEMORY;
+        }
+
+        memcpy(buf, ret, sz);
+        *chars = len;
+        *value = buf;
+
+        return S_OK;
+    }
+
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::GetBin(LPCSTR field, LPVOID* value, int* size)
+{
+    CheckPointer(value, E_POINTER);
+    CheckPointer(size, E_POINTER);
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetBool(LPCSTR field, bool value)
+{
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetInt(LPCSTR field, int value)
+{
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetSize(LPCSTR field, SIZE value)
+{
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetRect(LPCSTR field, RECT value)
+{
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetUlonglong(LPCSTR field, ULONGLONG value)
+{
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetDouble(LPCSTR field, double value)
+{
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetString(LPCSTR field, LPWSTR value, int chars)
+{
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetBin(LPCSTR field, LPVOID value, int size)
+{
+    return E_INVALIDARG;
+}
+
+// ISubRenderConsumer
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitleRenderer)
+{
+    HRESULT hr = E_FAIL;
+
+    hr = subtitleRenderer->SetBool("combineBitmaps", true);
+    if (FAILED(hr)) {
+        return hr;
+    }
+
+    if (CComQIPtr<ISubRenderConsumer> pSubConsumer = m_pSubPicQueue) {
+        hr = pSubConsumer->Connect(subtitleRenderer);
+    } else {
+        CXySubPicQueueImpl* pSubPicQueue = (CXySubPicQueueImpl*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
+        if (pSubPicQueue && SUCCEEDED(hr)) {
+            hr = pSubPicQueue->Connect(subtitleRenderer);
+            if (SUCCEEDED(hr)) {
+                m_pSubPicQueue = (ISubPicQueue*)pSubPicQueue;
+            }
+        }
+    }
+
+    return hr;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::Disconnect()
+{
+    HRESULT hr = E_FAIL;
+
+    if (CComQIPtr<ISubRenderConsumer> pSubConsumer = m_pSubPicQueue) {
+        hr = pSubConsumer->Disconnect();
+    }
+
+    return hr;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::DeliverFrame(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame)
+{
+    HRESULT hr = E_FAIL;
+
+    if (CComQIPtr<ISubRenderConsumer> pSubConsumer = m_pSubPicQueue) {
+        hr = pSubConsumer->DeliverFrame(start, stop, context, subtitleFrame);
+    }
+
+    return hr;
 }
