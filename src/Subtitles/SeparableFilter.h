@@ -1,31 +1,26 @@
 /*
-    Copyright 2007  Niels Martin Hansen
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License along
-    with this program; if not, write to the Free Software Foundation, Inc.,
-    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-    Contact:
-    E-mail: <jiifurusu@gmail.com>
-    IRC: jfs in #aegisub on irc.rizon.net
-
- */
+* (C) 2007 Niels Martin Hansen
+* (C) 2013-2014 see Authors.txt
+*
+* This file is part of MPC-HC.
+*
+* MPC-HC is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3 of the License, or
+* (at your option) any later version.
+*
+* MPC-HC is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
 
 #pragma once
 
-#ifdef _OPENMP
-#include <omp.h>
-#endif
 #include <math.h>
 
 
@@ -34,77 +29,80 @@
 template<ptrdiff_t PixelDist>
 void SeparableFilterX(unsigned char* src, unsigned char* dst, int width, int height, ptrdiff_t stride, int* kernel, int kernel_size, int divisor)
 {
-#ifdef _OPENMP
-    #pragma omp parallel for
-#endif
+    int* tmp = DEBUG_NEW int[width];
+
     for (int y = 0; y < height; y++) {
-        unsigned char* in = src + y * stride;
+        ZeroMemory(tmp, width * sizeof(int));
+
+        const unsigned char* in = src + y * stride;
         unsigned char* out = dst + y * stride;
-        for (int x = 0; x < width; x++) {
-            int accum = 0;
-            for (int k = 0; k < kernel_size; k++) {
-                int xofs = k - kernel_size / 2;
-                if (x + xofs < 0) {
-                    xofs += width;
-                }
-                if (x + xofs >= width) {
-                    xofs -= width;
-                }
-                accum += (int)(in[xofs * PixelDist] * kernel[k]);
+
+        for (int k = 0; k < kernel_size; k++) {
+            int xOffset = k - kernel_size / 2;
+            int xStart = 0;
+            int xEnd = width;
+            if (xOffset < 0) {
+                xEnd += xOffset;
+            } else if (xOffset > 0) {
+                xStart += xOffset;
             }
-            accum /= divisor;
+            for (int x = xStart; x < xEnd; x++) {
+                tmp[x - xOffset] += (int)(in[x * PixelDist] * kernel[k]);
+            }
+        }
+        for (int x = 0; x < width; x++) {
+            int accum = tmp[x] / divisor;
             if (accum > 255) {
                 accum = 255;
-            }
-            if (accum < 0) {
+            } else if (accum < 0) {
                 accum = 0;
             }
-            *out = (unsigned char)accum;
-            in += PixelDist;
-            out += PixelDist;
+            out[x * PixelDist] = (unsigned char)accum;
         }
     }
+
+    delete [] tmp;
 }
 
 
 // Filter an image in vertical direction with a one-dimensional filter
-// This one templated with PixelWidth since the channel interlacing is horizontal only,
-// filtering once vertically will automatically catch all channels.
-// (Width must be multiplied by pixel width for that to happen though.)
+// PixelWidth is the distance in bytes between pixels
 template<ptrdiff_t PixelDist>
 void SeparableFilterY(unsigned char* src, unsigned char* dst, int width, int height, ptrdiff_t stride, int* kernel, int kernel_size, int divisor)
 {
-    width *= PixelDist;
-#ifdef _OPENMP
-    #pragma omp parallel for
-#endif
-    for (int x = 0; x < width; x += PixelDist) {
-        unsigned char* in = src + x;
-        unsigned char* out = dst + x;
-        for (int y = 0; y < height; y++) {
-            int accum = 0;
-            for (int k = 0; k < kernel_size; k++) {
-                int yofs = k - kernel_size / 2;
-                if (y + yofs < 0) {
-                    yofs += height;
-                }
-                if (y + yofs >= height) {
-                    yofs -= height;
-                }
-                accum += (int)(in[yofs * stride] * kernel[k]);
+    int* tmp = DEBUG_NEW int[width];
+
+    for (int y = 0; y < height; y++) {
+        ZeroMemory(tmp, width * sizeof(int));
+
+        const unsigned char* in = src + y * stride;
+        unsigned char* out = dst + y * stride;
+        
+        int kOffset = kernel_size / 2;
+        int kStart = 0;
+        int kEnd = kernel_size;
+        if (y < kOffset) { // 0 > y - kOffset
+            kStart += kOffset - y;
+        } else if (height <= y + kOffset) {
+            kEnd -= kOffset + y + 1 - height;
+        }
+        for (int k = kStart; k < kEnd; k++) {
+            for (int x = 0; x < width; x++) {
+                tmp[x] += (int)(in[(k - kOffset) * stride + x * PixelDist] * kernel[k]);
             }
-            accum /= divisor;
+        }
+        for (int x = 0; x < width; x++) {
+            int accum = tmp[x] / divisor;
             if (accum > 255) {
                 accum = 255;
-            }
-            if (accum < 0) {
+            } else if (accum < 0) {
                 accum = 0;
             }
-            *out = (unsigned char)accum;
-            in += stride;
-            out += stride;
+            out[x * PixelDist] = (unsigned char)accum;
         }
     }
+
+    delete [] tmp;
 }
 
 
