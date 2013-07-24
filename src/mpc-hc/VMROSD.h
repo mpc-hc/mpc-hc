@@ -133,5 +133,5 @@ private:
     void DrawMessage();
     void DrawDebug();
 
-    static void CALLBACK TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime);
+    static void CALLBACK TimerFunc(HWND hWnd, UINT nMsg, UINT_PTR nIDEvent, DWORD dwTime);
 };

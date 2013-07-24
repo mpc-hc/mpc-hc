@@ -204,7 +204,7 @@ void CVMROSD::SetVideoWindow(CWnd* pWnd)
         m_pWnd->KillTimer((UINT_PTR)this);
     }
     m_pWnd = pWnd;
-    m_pWnd->SetTimer((UINT_PTR)this, 1000, (TIMERPROC)TimerFunc);
+    m_pWnd->SetTimer((UINT_PTR)this, 1000, TimerFunc);
     UpdateBitmap();
 }
 
@@ -378,7 +378,7 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
             // Add new timer for removing any messages
             if (m_pWnd) {
                 m_pWnd->KillTimer((UINT_PTR)this);
-                m_pWnd->SetTimer((UINT_PTR)this, 1000, (TIMERPROC)TimerFunc);
+                m_pWnd->SetTimer((UINT_PTR)this, 1000, TimerFunc);
             }
             Invalidate();
         } else {
@@ -443,7 +443,7 @@ void CVMROSD::GetRange(__int64& start, __int64& stop)
     stop  = m_llSeekMax;
 }
 
-void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
+void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT_PTR nIDEvent, DWORD dwTime)
 {
     CVMROSD* pVMROSD = (CVMROSD*)nIDEvent;
     if (pVMROSD) {
@@ -523,7 +523,7 @@ void CVMROSD::DisplayMessage(OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration,
         if (m_pWnd) {
             m_pWnd->KillTimer((UINT_PTR)this);
             if (nDuration != -1) {
-                m_pWnd->SetTimer((UINT_PTR)this, nDuration, (TIMERPROC)TimerFunc);
+                m_pWnd->SetTimer((UINT_PTR)this, nDuration, TimerFunc);
             }
         }
         Invalidate();
