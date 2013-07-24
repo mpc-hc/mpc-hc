@@ -183,7 +183,7 @@ STDMETHODIMP CDXRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_FAIL;
     }
 
-    (*ppRenderer = this)->AddRef();
+    (*ppRenderer = (IUnknown*)(INonDelegatingUnknown*)(this))->AddRef();
 
     MONITORINFO mi;
     mi.cbSize = sizeof(MONITORINFO);
