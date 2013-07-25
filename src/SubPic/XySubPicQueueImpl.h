@@ -98,6 +98,8 @@ class CXySubPicQueueNoThread : public CXySubPicQueueImpl
     ULONGLONG m_llSubId;
     REFERENCE_TIME m_rtStart;
     REFERENCE_TIME m_rtStop;
+
+    HANDLE m_hEvtDelivered;
 public:
     CXySubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr);
     virtual ~CXySubPicQueueNoThread();

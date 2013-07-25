@@ -142,10 +142,12 @@ HRESULT CXySubPicQueueImpl::RenderTo(ISubPic* pSubPic, ISubRenderFrame* pSubFram
 CXySubPicQueueNoThread::CXySubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr)
     : CXySubPicQueueImpl(pAllocator, phr)
 {
+    m_hEvtDelivered = CreateEvent(nullptr, false, false, nullptr);
 }
 
 CXySubPicQueueNoThread::~CXySubPicQueueNoThread()
 {
+    CloseHandle(m_hEvtDelivered);
 }
 
 // ISubPicQueue
@@ -187,11 +189,10 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
             REFERENCE_TIME rtStart = rtNow;
             REFERENCE_TIME rtStop = rtNow + rtTimePerFrame;
 
-            HANDLE hEvtDelivered = CreateEvent(nullptr, false, false, nullptr);
-            HRESULT hr = m_pSubRenderProvider->RequestFrame(rtStart, rtStop, hEvtDelivered);
+            HRESULT hr = m_pSubRenderProvider->RequestFrame(rtStart, rtStop, m_hEvtDelivered);
 
             if (SUCCEEDED(hr)) {
-                if (WaitForSingleObject(hEvtDelivered, (DWORD)(1000.0 / fps)) != WAIT_TIMEOUT) {
+                if (WaitForSingleObject(m_hEvtDelivered, (DWORD)(1000.0 / fps)) != WAIT_TIMEOUT) {
                     CAutoLock cAutoLock(&m_csLock);
 
                     if (m_pSubFrame) {
@@ -230,8 +231,6 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
 
                 m_pSubPic = ppSubPic;
             }
-
-            CloseHandle(hEvtDelivered);
         }
     }
 
