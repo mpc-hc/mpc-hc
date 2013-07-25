@@ -108,12 +108,11 @@ HRESULT CXySubPicQueueImpl::RenderTo(ISubPic* pSubPic, ISubRenderFrame* pSubFram
             return E_FAIL;
         }
 
-        ULONGLONG id;
         POINT p;
         SIZE sz;
         BYTE* pixels;
         int pitch;
-        hr = pSubFrame->GetBitmap(0, &id, &p, &sz, (LPCVOID*)(&pixels), &pitch);
+        hr = pSubFrame->GetBitmap(0, nullptr, &p, &sz, (LPCVOID*)(&pixels), &pitch);
         if (FAILED(hr)) {
             return hr;
         }
@@ -196,21 +195,30 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
                     CAutoLock cAutoLock(&m_csLock);
 
                     if (m_pSubFrame) {
-                        if (m_pAllocator->IsDynamicWriteOnly()) {
-                            CComPtr<ISubPic> pStatic;
-                            hr = m_pAllocator->GetStatic(&pStatic);
-                            if (SUCCEEDED(hr)) {
-                                hr = RenderTo(pStatic, m_pSubFrame, rtStart, rtStop);
-                            }
-                            if (SUCCEEDED(hr)) {
-                                hr = pStatic->CopyTo(pSubPic);
-                            }
-                            if (SUCCEEDED(hr)) {
+                        ULONGLONG id;
+                        hr = m_pSubFrame->GetBitmap(0, &id, nullptr, nullptr, nullptr, nullptr);
+                        if (SUCCEEDED(hr)) {
+                            if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
+                                pSubPic->SetStop(rtStop);
                                 ppSubPic = pSubPic;
-                            }
-                        } else {
-                            if (SUCCEEDED(RenderTo(pSubPic, m_pSubFrame, rtStart, rtStop))) {
-                                ppSubPic = pSubPic;
+                            } else if (m_pAllocator->IsDynamicWriteOnly()) {
+                                CComPtr<ISubPic> pStatic;
+                                hr = m_pAllocator->GetStatic(&pStatic);
+                                if (SUCCEEDED(hr)) {
+                                    hr = RenderTo(pStatic, m_pSubFrame, rtStart, rtStop);
+                                }
+                                if (SUCCEEDED(hr)) {
+                                    hr = pStatic->CopyTo(pSubPic);
+                                }
+                                if (SUCCEEDED(hr)) {
+                                    ppSubPic = pSubPic;
+                                    m_llSubId = id;
+                                }
+                            } else {
+                                if (SUCCEEDED(RenderTo(pSubPic, m_pSubFrame, rtStart, rtStop))) {
+                                    ppSubPic = pSubPic;
+                                    m_llSubId = id;
+                                }
                             }
                         }
                     }
@@ -269,7 +277,7 @@ STDMETHODIMP CXySubPicQueueNoThread::DeliverFrame(REFERENCE_TIME start, REFERENC
     m_rtStart = start;
     m_rtStop = stop;
 
-    SetEvent((HANDLE)context);
+    SetEvent(context);
 
     return S_OK;
 }

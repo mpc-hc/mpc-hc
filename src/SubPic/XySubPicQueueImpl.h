@@ -95,6 +95,7 @@ class CXySubPicQueueNoThread : public CXySubPicQueueImpl
     CComPtr<ISubRenderFrame> m_pSubFrame;
     CComPtr<ISubPic> m_pSubPic;
 
+    ULONGLONG m_llSubId;
     REFERENCE_TIME m_rtStart;
     REFERENCE_TIME m_rtStop;
 public:
