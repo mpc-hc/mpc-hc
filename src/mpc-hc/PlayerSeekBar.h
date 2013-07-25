@@ -32,11 +32,13 @@ public:
     virtual BOOL Create(CWnd* pParentWnd);
 
 private:
-    enum { TIMER_SHOW_TOOLTIP = 1 };
+    enum { TIMER_SHOW_TOOLTIP = 1, TIMER_HOVER_CAPTURED };
 
     __int64 m_start, m_stop, m_pos, m_posreal;
     bool m_bEnabled;
     bool m_bSeekable;
+    bool m_bHovered;
+    CPoint m_hoverPoint;
     HCURSOR m_cursor;
 
     CToolTipCtrl m_tooltip;
@@ -51,9 +53,10 @@ private:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
     void MoveThumb(CPoint point);
+    void SyncVideoToThumb();
     __int64 CalculatePosition(REFERENCE_TIME rt);
     __int64 CalculatePosition(CPoint point);
-    void SetPosInternal(__int64 pos);
+    void SyncThumbToVideo(__int64 pos);
 
     CRect GetChannelRect() const;
     CRect GetThumbRect() const;

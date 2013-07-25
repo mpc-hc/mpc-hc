@@ -24,6 +24,8 @@
 #include "MainFrm.h"
 
 #define TOOLTIP_SHOW_DELAY 100
+#define HOVER_CAPTURED_TIMEOUT 100
+#define HOVER_CAPTURED_IGNORE_X_DELTA 1
 
 IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
@@ -34,6 +36,7 @@ CPlayerSeekBar::CPlayerSeekBar()
     , m_posreal(0)
     , m_bEnabled(false)
     , m_bSeekable(false)
+    , m_bHovered(false)
     , m_cursor(AfxGetApp()->LoadStandardCursor(IDC_HAND))
     , m_tooltipPos(0)
     , m_tooltipState(TOOLTIP_HIDDEN)
@@ -89,8 +92,13 @@ void CPlayerSeekBar::MoveThumb(CPoint point)
     __int64 pos = CalculatePosition(point);
 
     if (pos >= 0) {
-        SetPosInternal(pos);
+        SyncThumbToVideo(pos);
     }
+}
+
+void CPlayerSeekBar::SyncVideoToThumb()
+{
+    GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBTRACK), (LPARAM)m_hWnd);
 }
 
 __int64 CPlayerSeekBar::CalculatePosition(REFERENCE_TIME rt)
@@ -123,7 +131,7 @@ __int64 CPlayerSeekBar::CalculatePosition(CPoint point)
     return pos;
 }
 
-void CPlayerSeekBar::SetPosInternal(__int64 pos)
+void CPlayerSeekBar::SyncThumbToVideo(__int64 pos)
 {
     if (m_pos == pos) {
         return;
@@ -300,6 +308,7 @@ void CPlayerSeekBar::SetRange(__int64 start, __int64 stop)
             HideToolTip();
             if (GetCapture() == this) {
                 ReleaseCapture();
+                KillTimer(TIMER_HOVER_CAPTURED);
             }
         }
     }
@@ -320,7 +329,7 @@ void CPlayerSeekBar::SetPos(__int64 pos)
     if (GetCapture() == this) {
         return;
     }
-    SetPosInternal(pos);
+    SyncThumbToVideo(pos);
 }
 
 void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
@@ -460,9 +469,10 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
     CRect clientRect;
     GetClientRect(&clientRect);
     if (m_bEnabled && m_bSeekable && clientRect.PtInRect(point)) {
+        m_bHovered = false;
         SetCapture();
         MoveThumb(point);
-        GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBPOSITION), (LPARAM)m_hWnd);
+        VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     } else {
         auto pFrame = AfxGetMainFrame();
         if (!pFrame->m_fFullScreen) {
@@ -474,16 +484,21 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 {
-    ReleaseCapture();
+    if (GetCapture() == this) {
+        ReleaseCapture();
+        KillTimer(TIMER_HOVER_CAPTURED);
+        if (!m_bHovered || abs(point.x - m_hoverPoint.x) > HOVER_CAPTURED_IGNORE_X_DELTA) {
+            SyncVideoToThumb();
+        }
+    }
 }
 
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
     if (GetCapture() == this && (nFlags & MK_LBUTTON)) {
         MoveThumb(point);
-        GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBTRACK), (LPARAM)m_hWnd);
+        VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     }
-
     if (AfxGetAppSettings().fUseTimeTooltip) {
         UpdateTooltip(point);
     }
@@ -507,13 +522,12 @@ BOOL CPlayerSeekBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
 {
+    CPoint point;
+    VERIFY(GetCursorPos(&point));
+    ScreenToClient(&point);
     switch (nIDEvent) {
         case TIMER_SHOW_TOOLTIP:
             if (m_tooltipState == TOOLTIP_TRIGGERED && m_bEnabled && m_bSeekable) {
-                CPoint point;
-                VERIFY(GetCursorPos(&point));
-                ScreenToClient(&point);
-
                 m_tooltipPos = CalculatePosition(point);
                 UpdateToolTipText();
                 m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
@@ -521,6 +535,14 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
                 m_tooltipState = TOOLTIP_VISIBLE;
             }
             KillTimer(TIMER_SHOW_TOOLTIP);
+            break;
+        case TIMER_HOVER_CAPTURED:
+            if (GetCapture() == this) {
+                m_bHovered = true;
+                m_hoverPoint = point;
+                SyncVideoToThumb();
+            }
+            KillTimer(TIMER_HOVER_CAPTURED);
             break;
         default:
             ASSERT(FALSE);
