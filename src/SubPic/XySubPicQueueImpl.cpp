@@ -97,7 +97,8 @@ STDMETHODIMP CXySubPicQueueImpl::Disconnect()
 HRESULT CXySubPicQueueImpl::RenderTo(ISubPic* pSubPic, ISubRenderFrame* pSubFrame, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
     SubPicDesc spd;
-    HRESULT hr = pSubPic->ClearDirtyRect(0xFF000000);
+    pSubPic->SetInverseAlpha(true);
+    HRESULT hr = pSubPic->ClearDirtyRect(0x00000000);
     if (SUCCEEDED(hr)) {
         hr = pSubPic->Lock(spd);
     }

@@ -39,6 +39,7 @@ CSubPicImpl::CSubPicImpl()
     , m_vidrect(0, 0, 0, 0)
     , m_VirtualTextureSize(0, 0)
     , m_VirtualTextureTopLeft(0, 0)
+    , m_invAlpha(false)
 {
 }
 
@@ -104,6 +105,7 @@ STDMETHODIMP CSubPicImpl::CopyTo(ISubPic* pSubPic)
     pSubPic->SetDirtyRect(m_rcDirty);
     pSubPic->SetSize(m_size, m_vidrect);
     pSubPic->SetVirtualTextureSize(m_VirtualTextureSize, m_VirtualTextureTopLeft);
+    pSubPic->SetInverseAlpha(m_invAlpha);
 
     return S_OK;
 }
@@ -180,6 +182,16 @@ STDMETHODIMP CSubPicImpl::SetVirtualTextureSize(const SIZE pSize, const POINT pT
     m_VirtualTextureTopLeft.SetPoint(pTopLeft.x, pTopLeft.y);
 
     return S_OK;
+}
+
+STDMETHODIMP_(bool) CSubPicImpl::GetInverseAlpha()
+{
+    return m_invAlpha;
+}
+
+STDMETHODIMP_(void) CSubPicImpl::SetInverseAlpha(bool bInverted)
+{
+    m_invAlpha = bInverted;
 }
 
 //

@@ -84,6 +84,9 @@ public IUnknown {
     STDMETHOD_(REFERENCE_TIME, GetSegmentStop)() PURE;
     STDMETHOD_(void, SetSegmentStart)(REFERENCE_TIME rtStart) PURE;
     STDMETHOD_(void, SetSegmentStop)(REFERENCE_TIME rtStop) PURE;
+
+    STDMETHOD_(bool, GetInverseAlpha)() PURE;
+    STDMETHOD_(void, SetInverseAlpha)(bool bInverted) PURE;
 };
 
 //

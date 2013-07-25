@@ -34,6 +34,7 @@ protected:
     CRect  m_vidrect;
     CSize  m_VirtualTextureSize;
     CPoint m_VirtualTextureTopLeft;
+    bool   m_invAlpha;
 
     /*
 
@@ -101,6 +102,8 @@ public:
     STDMETHODIMP_(void) SetSegmentStart(REFERENCE_TIME rtStart);
     STDMETHODIMP_(void) SetSegmentStop(REFERENCE_TIME rtStop);
 
+    STDMETHODIMP_(bool) GetInverseAlpha();
+    STDMETHODIMP_(void) SetInverseAlpha(bool bInverted);
 };
 
 
