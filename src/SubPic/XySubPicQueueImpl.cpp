@@ -105,6 +105,7 @@ HRESULT CXySubPicQueueImpl::RenderTo(ISubPic* pSubPic, ISubRenderFrame* pSubFram
         // XySubFilter only supports 32-bit bitmaps
         if (spd.bpp != 32) {
             ASSERT(FALSE);
+            pSubPic->Unlock(nullptr);
             return E_FAIL;
         }
 
