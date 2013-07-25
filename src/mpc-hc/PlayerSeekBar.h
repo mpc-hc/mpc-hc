@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,49 +23,49 @@
 
 #include "DSMPropertyBag.h"
 
-#define SHOW_DELAY 100
-#define AUTOPOP_DELAY 1000
-
-// CPlayerSeekBar
-
 class CPlayerSeekBar : public CDialogBar
 {
     DECLARE_DYNAMIC(CPlayerSeekBar)
+public:
+    CPlayerSeekBar();
+    virtual ~CPlayerSeekBar();
+    virtual BOOL Create(CWnd* pParentWnd);
 
 private:
-    enum tooltip_state_t {
-        TOOLTIP_HIDDEN,
-        TOOLTIP_TRIGGERED,
-        TOOLTIP_VISIBLE
-    };
+    enum { TIMER_SHOW_TOOLTIP = 1 };
 
     __int64 m_start, m_stop, m_pos, m_posreal;
-    bool m_fEnabled;
+    bool m_bEnabled;
+    bool m_bSeekable;
+    HCURSOR m_cursor;
+
     CToolTipCtrl m_tooltip;
+    enum { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE } m_tooltipState;
     TOOLINFO m_ti;
-    tooltip_state_t m_tooltipState;
     __int64 m_tooltipPos, m_tooltipLastPos;
     CString m_tooltipText;
-    UINT_PTR m_tooltipTimer;
+
     CComPtr<IDSMChapterBag> m_pChapterBag;
-    CCritSec m_CBLock;
+    CCritSec m_csChapterBag; // Graph thread sets the chapter bag
+
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
     void MoveThumb(CPoint point);
     __int64 CalculatePosition(REFERENCE_TIME rt);
     __int64 CalculatePosition(CPoint point);
     void SetPosInternal(__int64 pos);
 
-    void UpdateTooltip(CPoint point);
-
     CRect GetChannelRect() const;
     CRect GetThumbRect() const;
     CRect GetInnerThumbRect() const;
 
-public:
-    CPlayerSeekBar();
-    virtual ~CPlayerSeekBar();
+    void UpdateTooltip(CPoint point);
+    void UpdateToolTipPosition(CPoint& point);
+    void UpdateToolTipText();
 
-    void Enable(bool fEnable);
+public:
+    void Enable(bool bEnable);
+    void HideToolTip();
 
     void GetRange(__int64& start, __int64& stop) const;
     void SetRange(__int64 start, __int64 stop);
@@ -73,35 +73,20 @@ public:
     __int64 GetPosReal() const;
     void SetPos(__int64 pos);
 
-    void HideToolTip();
-    void UpdateToolTipPosition(CPoint& point);
-    void UpdateToolTipText();
-
     void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);
     void RemoveChapters();
 
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CPlayerSeekBar)
-    virtual BOOL Create(CWnd* pParentWnd);
-    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-    virtual BOOL PreTranslateMessage(MSG* pMsg);
-    //}}AFX_VIRTUAL
+private:
+    DECLARE_MESSAGE_MAP()
 
-    // Generated message map functions
-protected:
-    //{{AFX_MSG(CPlayerSeekBar)
     afx_msg void OnPaint();
-    afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-    afx_msg LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
     afx_msg void OnTimer(UINT_PTR nIDEvent);
-    //}}AFX_MSG
-    DECLARE_MESSAGE_MAP()
-public:
-    afx_msg BOOL OnPlayStop(UINT nID);
+    afx_msg void OnMouseLeave();
+
+    BOOL OnPlayStop(UINT nID);
 };
