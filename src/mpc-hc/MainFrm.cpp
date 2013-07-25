@@ -14104,6 +14104,12 @@ void CMainFrame::CleanGraph()
             continue;
         }
 
+        // XySubFilter doesn't have any pins connected when it is reading
+        // external subtitles
+        if (GetCLSID(pBF) == CLSID_XySubFilter) {
+            continue;
+        } 
+
         if (CComQIPtr<IFileSourceFilter>(pBF)) {
             continue;
         }
