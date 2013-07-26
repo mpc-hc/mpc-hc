@@ -205,3 +205,4 @@ public:
 
 #define AfxGetAppSettings() static_cast<CMPlayerCApp*>(AfxGetApp())->m_s
 #define AfxGetMyApp()       static_cast<CMPlayerCApp*>(AfxGetApp())
+#define AfxGetMainFrame()   static_cast<CMainFrame*>(AfxGetMainWnd())
