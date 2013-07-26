@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -70,6 +70,7 @@ protected:
     afx_msg void OnNcPaint();
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()

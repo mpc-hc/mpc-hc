@@ -203,7 +203,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
     ON_WM_NCPAINT()
     ON_WM_LBUTTONDOWN()
-    ON_WM_MOUSEMOVE()
+    ON_WM_SETCURSOR()
     ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFFFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
@@ -301,35 +301,32 @@ void CPlayerToolBar::OnNcPaint() // when using XP styles the NC area isn't drawn
     // Do not call CToolBar::OnNcPaint() for painting messages
 }
 
-void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
+BOOL CPlayerToolBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-    int i = getHitButtonIdx(point);
+    BOOL ret = FALSE;
+    if (nHitTest == HTCLIENT) {
+        CPoint point;
+        VERIFY(GetCursorPos(&point));
+        ScreenToClient(&point);
 
-    if (i == -1 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED))) {
-        ;
-    } else {
-        if (i != 10 && i != 11) {
+        int i = getHitButtonIdx(point);
+        if (i >= 0 && !(GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED))) {
             ::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+            ret = TRUE;
         }
     }
-    __super::OnMouseMove(nFlags, point);
+    return ret ? ret : __super::OnSetCursor(pWnd, nHitTest, message);
 }
 
 void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
     int i = getHitButtonIdx(point);
-    CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+    auto pFrame = AfxGetMainFrame();
 
-    if (i == -1 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED))) {
-        if (!pFrame->m_fFullScreen) {
-            MapWindowPoints(pFrame, &point, 1);
-            pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
-        }
+    if (!pFrame->m_fFullScreen && (i < 0 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED)))) {
+        MapWindowPoints(pFrame, &point, 1);
+        pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
     } else {
-        if (i != 10 && i != 11) {
-            ::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
-        }
-
         __super::OnLButtonDown(nFlags, point);
     }
 }
