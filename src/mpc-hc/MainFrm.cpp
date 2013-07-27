@@ -14108,7 +14108,7 @@ void CMainFrame::CleanGraph()
         // external subtitles
         if (GetCLSID(pBF) == CLSID_XySubFilter) {
             continue;
-        } 
+        }
 
         if (CComQIPtr<IFileSourceFilter>(pBF)) {
             continue;
