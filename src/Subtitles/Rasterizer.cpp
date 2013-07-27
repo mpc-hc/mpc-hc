@@ -854,10 +854,17 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
             byte* src = m_outlineData.mWideOutline.empty() ? m_overlayData.mpOverlayBufferBody : m_overlayData.mpOverlayBufferBorder;
 
-            SeparableFilterX<1>(src, tmp, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
-                                filter.kernel, filter.width, filter.divisor);
-            SeparableFilterY<1>(tmp, src, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
-                                filter.kernel, filter.width, filter.divisor);
+            if (fSSE2) {
+                SeparableFilterX_SSE2(src, tmp, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
+                                      filter.kernel, filter.width, filter.divisor);
+                SeparableFilterY_SSE2(tmp, src, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
+                                      filter.kernel, filter.width, filter.divisor);
+            } else {
+                SeparableFilterX<1>(src, tmp, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
+                                    filter.kernel, filter.width, filter.divisor);
+                SeparableFilterY<1>(tmp, src, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
+                                    filter.kernel, filter.width, filter.divisor);
+            }
 
             delete [] tmp;
         }

@@ -108,6 +108,166 @@ void SeparableFilterY(unsigned char* src, unsigned char* dst, int width, int hei
 }
 
 
+// Filter an image in horizontal direction with a one-dimensional filter
+void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, int height, ptrdiff_t stride,
+                           short* kernel, int kernel_size, int divisor)
+{
+    int* tmp = DEBUG_NEW int[width];
+
+    for (int y = 0; y < height; y++) {
+        ZeroMemory(tmp, width * sizeof(int));
+
+        const unsigned char* in = src + y * stride;
+        unsigned char* out = dst + y * stride;
+
+        for (int k = 0; k < kernel_size; k++) {
+            int xOffset = k - kernel_size / 2;
+            int xStart = 0;
+            int xEnd = width;
+            if (xOffset < 0) {
+                xEnd += xOffset;
+            } else if (xOffset > 0) {
+                xStart += xOffset;
+            }
+            int xEnd16 = xStart + ((xEnd - xStart) & ~15);
+            __m128i coeff = _mm_set1_epi16(kernel[k]);
+            for (int x = xStart; x < xEnd16; x += 16) {
+                // Load 16 values
+                __m128i data16 = _mm_loadu_si128((__m128i*)&in[x]);
+
+                // Multiply the first 8 values by the coefficient to get 8 32-bit integers
+                __m128i data8 = _mm_unpacklo_epi8(data16, _mm_setzero_si128());
+                __m128i resLo = _mm_mullo_epi16(data8, coeff);
+                __m128i resHi = _mm_mulhi_epi16(data8, coeff);
+                __m128i res32bitLo = _mm_unpacklo_epi16(resLo, resHi);
+                __m128i res32bitHi = _mm_unpackhi_epi16(resLo, resHi);
+
+                // Load the 4 32-bit integers values, add the values we computed and store them back
+                __m128i res = _mm_loadu_si128((__m128i*)&tmp[x - xOffset]);
+                res = _mm_add_epi32(res, res32bitLo);
+                _mm_storeu_si128((__m128i*)&tmp[x - xOffset], res);
+                // Repeat the same operation for the next 4 values
+                res = _mm_loadu_si128((__m128i*)&tmp[x - xOffset + 4]);
+                res = _mm_add_epi32(res, res32bitHi);
+                _mm_storeu_si128((__m128i*)&tmp[x - xOffset + 4], res);
+
+                // Multiply the next 8 values by the coefficient to get 8 32-bit integers
+                data8 = _mm_unpackhi_epi8(data16, _mm_setzero_si128());
+                resLo = _mm_mullo_epi16(data8, coeff);
+                resHi = _mm_mulhi_epi16(data8, coeff);
+                res32bitLo = _mm_unpacklo_epi16(resLo, resHi);
+                res32bitHi = _mm_unpackhi_epi16(resLo, resHi);
+
+                // Load the 4 32-bit integers values, add the values we computed and store them back
+                res = _mm_loadu_si128((__m128i*)&tmp[x - xOffset + 8]);
+                res = _mm_add_epi32(res, res32bitLo);
+                _mm_storeu_si128((__m128i*)&tmp[x - xOffset + 8], res);
+                // Repeat the same operation for the next 4 values
+                res = _mm_loadu_si128((__m128i*)&tmp[x - xOffset + 12]);
+                res = _mm_add_epi32(res, res32bitHi);
+                _mm_storeu_si128((__m128i*)&tmp[x - xOffset + 12], res);
+            }
+            for (int x = xEnd16; x < xEnd; x++) {
+                tmp[x - xOffset] += (int)(in[x] * kernel[k]);
+            }
+        }
+        for (int x = 0; x < width; x++) {
+            int accum = tmp[x] / divisor;
+            if (accum > 255) {
+                accum = 255;
+            } else if (accum < 0) {
+                accum = 0;
+            }
+            out[x] = (unsigned char)accum;
+        }
+    }
+
+    delete [] tmp;
+}
+
+
+// Filter an image in vertical direction with a one-dimensional filter
+void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, int height, ptrdiff_t stride,
+                           short* kernel, int kernel_size, int divisor)
+{
+    int* tmp = DEBUG_NEW int[width];
+    
+#ifdef _OPENMP
+    #pragma omp parallel for
+#endif
+    for (int y = 0; y < height; y++) {
+        ZeroMemory(tmp, width * sizeof(int));
+
+        const unsigned char* in = src + y * stride;
+        unsigned char* out = dst + y * stride;
+        
+        int kOffset = kernel_size / 2;
+        int kStart = 0;
+        int kEnd = kernel_size;
+        if (y < kOffset) { // 0 > y - kOffset
+            kStart += kOffset - y;
+        } else if (height <= y + kOffset) {
+            kEnd -= kOffset + y + 1 - height;
+        }
+        for (int k = kStart; k < kEnd; k++) {
+            int width16 = width & ~15;
+            __m128i coeff = _mm_set1_epi16(kernel[k]);
+            for (int x = 0; x < width16; x += 16) {
+                // Load 16 values
+                __m128i data16 = _mm_loadu_si128((__m128i*)&in[(k - kOffset) * stride + x]);
+
+                // Multiply the first 8 values by the coefficient to get 8 32-bit integers
+                __m128i data8 = _mm_unpacklo_epi8(data16, _mm_setzero_si128());
+                __m128i resLo = _mm_mullo_epi16(data8, coeff);
+                __m128i resHi = _mm_mulhi_epi16(data8, coeff);
+                __m128i res32bitLo = _mm_unpacklo_epi16(resLo, resHi);
+                __m128i res32bitHi = _mm_unpackhi_epi16(resLo, resHi);
+
+                // Load the 4 32-bit integers values, add the values we computed and store them back
+                __m128i res = _mm_loadu_si128((__m128i*)&tmp[x]);
+                res = _mm_add_epi32(res, res32bitLo);
+                _mm_storeu_si128((__m128i*)&tmp[x], res);
+                // Repeat the same operation for the next 4 values
+                res = _mm_loadu_si128((__m128i*)&tmp[x + 4]);
+                res = _mm_add_epi32(res, res32bitHi);
+                _mm_storeu_si128((__m128i*)&tmp[x + 4], res);
+
+                // Multiply the next 8 values by the coefficient to get 8 32-bit integers
+                data8 = _mm_unpackhi_epi8(data16, _mm_setzero_si128());
+                resLo = _mm_mullo_epi16(data8, coeff);
+                resHi = _mm_mulhi_epi16(data8, coeff);
+                res32bitLo = _mm_unpacklo_epi16(resLo, resHi);
+                res32bitHi = _mm_unpackhi_epi16(resLo, resHi);
+
+                // Load the 4 32-bit integers values, add the values we computed and store them back
+                res = _mm_loadu_si128((__m128i*)&tmp[x + 8]);
+                res = _mm_add_epi32(res, res32bitLo);
+                _mm_storeu_si128((__m128i*)&tmp[x + 8], res);
+                // Repeat the same operation for the next 4 values
+                res = _mm_loadu_si128((__m128i*)&tmp[x + 12]);
+                res = _mm_add_epi32(res, res32bitHi);
+                _mm_storeu_si128((__m128i*)&tmp[x + 12], res);
+            }
+            for (int x = width16; x < width; x++) {
+                tmp[x] += (int)(in[(k - kOffset) * stride + x] * kernel[k]);
+            }
+        }
+        for (int x = 0; x < width; x++) {
+            int accum = tmp[x] / divisor;
+            if (accum > 255) {
+                accum = 255;
+            } else if (accum < 0) {
+                accum = 0;
+            }
+            out[x] = (unsigned char)accum;
+        }
+    }
+
+    delete [] tmp;
+}
+
+
+
 static inline double NormalDist(double sigma, double x)
 {
     if (sigma <= 0.0 && x == 0.0) {
