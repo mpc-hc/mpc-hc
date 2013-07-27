@@ -1,0 +1,26 @@
+Prerequisites
+Add a new remote to LAV Filters and FFmpeg submodules:
+ - for LAV Filters, "git remote add upstream https://github.com/Nevcairiel/LAVFilters.git"
+ - for FFmpeg, "git remote add upstream git://git.1f0.de/ffmpeg.git"
+
+Warning:
+Before updating LAV Filters always makes sure that no update is required on MPC-HC side.
+If there are some changes in LAV Filters interfaces or settings, some changes are likely
+to be needed in MPC-HC. If the update breaks compatibility with older LAV Filters versions,
+remember to update the version check in FGFilterLAV.cpp.
+
+How to update LAV Filters
+ 1) Checkout the master branch in FFmpeg submodule
+ 2) Do "git pull --rebase upstream" to update FFmpeg
+ 3) Do "git tag mpc-hc-X.Y.Z-N" where X.Y.Z is the to be released
+    MPC-HC version and N is the LAV Filters update number for that
+    MPC-HC version
+ 4) Do "git push --force --tags origin" to update our FFmpeg repository
+ 5) Checkout the master branch in LAV Filters submodule
+ 6) Do "git pull --rebase upstream" to update LAV Filters
+ 7) Do "git tag mpc-hc-X.Y.Z-N" where X.Y.Z is the to be released
+    MPC-HC version and N is the LAV Filters update number for that
+    MPC-HC version
+ 8) Do "git push --force --tags origin" to update our LAV Filters repository
+ 9) Update LAV Filters version in versions.txt
+10) Commit the submodule update in MPC-HC repository
