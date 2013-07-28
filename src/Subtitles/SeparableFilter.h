@@ -23,6 +23,8 @@
 
 #include <math.h>
 
+#define LIBDIVIDE_USE_SSE2 1
+#include "libdivide.h"
 
 // Filter an image in horizontal direction with a one-dimensional filter
 // PixelWidth is the distance in bytes between pixels
@@ -112,7 +114,9 @@ void SeparableFilterY(unsigned char* src, unsigned char* dst, int width, int hei
 void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, int height, ptrdiff_t stride,
                            short* kernel, int kernel_size, int divisor)
 {
+    int width16 = width & ~15;
     int* tmp = (int*)_aligned_malloc(stride * sizeof(int), 16);
+    libdivide::divider<int> divisorLibdivide(divisor);
 
     for (int y = 0; y < height; y++) {
         ZeroMemory(tmp, stride * sizeof(int));
@@ -175,7 +179,32 @@ void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, in
                 tmp[x - xOffset] += (int)(in[x] * kernel[k]);
             }
         }
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width16; x += 16) {
+            // Load 4 32-bit integer values and divide them
+            __m128i accum1 = _mm_load_si128((__m128i*)&tmp[x]);
+            accum1 = accum1 / divisorLibdivide;
+            // Repeat the same operation on the next 4 32-bit integer values
+            __m128i accum2 = _mm_load_si128((__m128i*)&tmp[x + 4]);
+            accum2 = accum2 / divisorLibdivide;
+            // Pack the 8 32-bit integers into 8 16-bit integers
+            accum1 = _mm_packs_epi32(accum1, accum2);
+            
+            // Load 4 32-bit integer values and divide them
+            __m128i accum3 = _mm_load_si128((__m128i*)&tmp[x + 8]);
+            accum3 = accum3 / divisorLibdivide;
+            // Repeat the same operation on the next 4 32-bit integer values
+            __m128i accum4 = _mm_load_si128((__m128i*)&tmp[x + 12]);
+            accum4 = accum4 / divisorLibdivide;
+            // Pack the 8 32-bit integers into 8 16-bit integers
+            accum3 = _mm_packs_epi32(accum3, accum4);
+
+            // Pack the 16 16-bit integers into 16 8-bit unsigned integers
+            accum1 = _mm_packus_epi16(accum1, accum3);
+
+            // Store the 16 8-bit unsigned integers
+            _mm_store_si128((__m128i*)&out[x], accum1);
+        }
+        for (int x = width16; x < width; x++) {
             int accum = tmp[x] / divisor;
             if (accum > 255) {
                 accum = 255;
@@ -196,6 +225,7 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
 {
     int width16 = width & ~15;
     int* tmp = (int*)_aligned_malloc(stride * sizeof(int), 16);
+    libdivide::divider<int> divisorLibdivide(divisor);
     
 #ifdef _OPENMP
     #pragma omp parallel for
@@ -256,7 +286,32 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
                 tmp[x] += (int)(in[(k - kOffset) * stride + x] * kernel[k]);
             }
         }
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width16; x += 16) {
+            // Load 4 32-bit integer values and divide them
+            __m128i accum1 = _mm_load_si128((__m128i*)&tmp[x]);
+            accum1 = accum1 / divisorLibdivide;
+            // Repeat the same operation on the next 4 32-bit integer values
+            __m128i accum2 = _mm_load_si128((__m128i*)&tmp[x + 4]);
+            accum2 = accum2 / divisorLibdivide;
+            // Pack the 8 32-bit integers into 8 16-bit integers
+            accum1 = _mm_packs_epi32(accum1, accum2);
+            
+            // Load 4 32-bit integer values and divide them
+            __m128i accum3 = _mm_load_si128((__m128i*)&tmp[x + 8]);
+            accum3 = accum3 / divisorLibdivide;
+            // Repeat the same operation on the next 4 32-bit integer values
+            __m128i accum4 = _mm_load_si128((__m128i*)&tmp[x + 12]);
+            accum4 = accum4 / divisorLibdivide;
+            // Pack the 8 32-bit integers into 8 16-bit integers
+            accum3 = _mm_packs_epi32(accum3, accum4);
+
+            // Pack the 16 16-bit integers into 16 8-bit unsigned integers
+            accum1 = _mm_packus_epi16(accum1, accum3);
+
+            // Store the 16 8-bit unsigned integers
+            _mm_store_si128((__m128i*)&out[x], accum1);
+        }
+        for (int x = width16; x < width; x++) {
             int accum = tmp[x] / divisor;
             if (accum > 255) {
                 accum = 255;
