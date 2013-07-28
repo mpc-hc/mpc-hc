@@ -810,7 +810,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
         return;
     }
 
-    const BYTE* src = m_overlayData.mpOverlayBufferBody + m_overlayData.mOverlayWidth * yo + xo;
+    const BYTE* src = m_overlayData.mpOverlayBufferBody + m_overlayData.mOverlayPitch * yo + xo;
     BYTE* dst = m_pAlphaMask + m_size.cx * y + x;
 
     while (h--) {
@@ -818,7 +818,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
             dst[wt] = src[wt];
         }
 
-        src += m_overlayData.mOverlayWidth;
+        src += m_overlayData.mOverlayPitch;
         dst += m_size.cx;
     }
 

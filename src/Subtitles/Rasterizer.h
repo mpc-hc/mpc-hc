@@ -80,11 +80,11 @@ struct COutlineData
 struct COverlayData
 {
     int mOffsetX, mOffsetY;
-    int mOverlayWidth, mOverlayHeight;
+    int mOverlayWidth, mOverlayHeight, mOverlayPitch;
     byte *mpOverlayBufferBody, *mpOverlayBufferBorder;
 
     COverlayData::COverlayData()
-        : mOffsetX(0), mOffsetY(0), mOverlayWidth(0), mOverlayHeight(0)
+        : mOffsetX(0), mOffsetY(0), mOverlayWidth(0), mOverlayHeight(0), mOverlayPitch(0)
         , mpOverlayBufferBody(nullptr), mpOverlayBufferBorder(nullptr) {}
 
     COverlayData::COverlayData(const COverlayData& overlayData)
@@ -92,16 +92,17 @@ struct COverlayData
         , mOffsetY(overlayData.mOffsetY)
         , mOverlayWidth(overlayData.mOverlayWidth)
         , mOverlayHeight(overlayData.mOverlayHeight)
+        , mOverlayPitch(overlayData.mOverlayPitch)
     {
-        mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayWidth * mOverlayHeight, 16);
-        mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayWidth * mOverlayHeight, 16);
+        mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+        mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
         if (!mpOverlayBufferBody || !mpOverlayBufferBorder) {
             mOffsetX = mOffsetY = 0;
             mOverlayWidth = mOverlayHeight = 0;
             DeleteOverlay();
         }
-        memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayWidth * mOverlayHeight);
-        memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayWidth * mOverlayHeight);
+        memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayPitch * mOverlayHeight);
+        memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayPitch * mOverlayHeight);
     }
 
     COverlayData::~COverlayData() {
@@ -113,17 +114,18 @@ struct COverlayData
         mOffsetY = overlayData.mOffsetY;
         mOverlayWidth = overlayData.mOverlayWidth;
         mOverlayHeight = overlayData.mOverlayHeight;
+        mOverlayPitch = overlayData.mOverlayPitch;
 
         DeleteOverlay();
-        mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayWidth * mOverlayHeight, 16);
-        mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayWidth * mOverlayHeight, 16);
+        mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+        mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
         if (!mpOverlayBufferBody || !mpOverlayBufferBorder) {
             mOffsetX = mOffsetY = 0;
             mOverlayWidth = mOverlayHeight = 0;
             DeleteOverlay();
         }
-        memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayWidth * mOverlayHeight);
-        memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayWidth * mOverlayHeight);
+        memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayPitch * mOverlayHeight);
+        memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayPitch * mOverlayHeight);
 
         return *this;
     };

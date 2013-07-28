@@ -112,10 +112,10 @@ void SeparableFilterY(unsigned char* src, unsigned char* dst, int width, int hei
 void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, int height, ptrdiff_t stride,
                            short* kernel, int kernel_size, int divisor)
 {
-    int* tmp = DEBUG_NEW int[width];
+    int* tmp = (int*)_aligned_malloc(stride * sizeof(int), 16);
 
     for (int y = 0; y < height; y++) {
-        ZeroMemory(tmp, width * sizeof(int));
+        ZeroMemory(tmp, stride * sizeof(int));
 
         const unsigned char* in = src + y * stride;
         unsigned char* out = dst + y * stride;
@@ -129,11 +129,15 @@ void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, in
             } else if (xOffset > 0) {
                 xStart += xOffset;
             }
-            int xEnd16 = xStart + ((xEnd - xStart) & ~15);
+            int xStart16 = (xStart + 15) & ~15;
+            int xEnd16 = xEnd & ~15;
+            for (int x = xStart; x < xStart16; x++) {
+                tmp[x - xOffset] += (int)(in[x] * kernel[k]);
+            }
             __m128i coeff = _mm_set1_epi16(kernel[k]);
-            for (int x = xStart; x < xEnd16; x += 16) {
+            for (int x = xStart16; x < xEnd16; x += 16) {
                 // Load 16 values
-                __m128i data16 = _mm_loadu_si128((__m128i*)&in[x]);
+                __m128i data16 = _mm_load_si128((__m128i*)&in[x]);
 
                 // Multiply the first 8 values by the coefficient to get 8 32-bit integers
                 __m128i data8 = _mm_unpacklo_epi8(data16, _mm_setzero_si128());
@@ -182,7 +186,7 @@ void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, in
         }
     }
 
-    delete [] tmp;
+    _aligned_free(tmp);
 }
 
 
@@ -190,13 +194,14 @@ void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, in
 void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, int height, ptrdiff_t stride,
                            short* kernel, int kernel_size, int divisor)
 {
-    int* tmp = DEBUG_NEW int[width];
+    int width16 = width & ~15;
+    int* tmp = (int*)_aligned_malloc(stride * sizeof(int), 16);
     
 #ifdef _OPENMP
     #pragma omp parallel for
 #endif
     for (int y = 0; y < height; y++) {
-        ZeroMemory(tmp, width * sizeof(int));
+        ZeroMemory(tmp, stride * sizeof(int));
 
         const unsigned char* in = src + y * stride;
         unsigned char* out = dst + y * stride;
@@ -210,11 +215,10 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
             kEnd -= kOffset + y + 1 - height;
         }
         for (int k = kStart; k < kEnd; k++) {
-            int width16 = width & ~15;
             __m128i coeff = _mm_set1_epi16(kernel[k]);
             for (int x = 0; x < width16; x += 16) {
                 // Load 16 values
-                __m128i data16 = _mm_loadu_si128((__m128i*)&in[(k - kOffset) * stride + x]);
+                __m128i data16 = _mm_load_si128((__m128i*)&in[(k - kOffset) * stride + x]);
 
                 // Multiply the first 8 values by the coefficient to get 8 32-bit integers
                 __m128i data8 = _mm_unpacklo_epi8(data16, _mm_setzero_si128());
@@ -224,13 +228,13 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
                 __m128i res32bitHi = _mm_unpackhi_epi16(resLo, resHi);
 
                 // Load the 4 32-bit integers values, add the values we computed and store them back
-                __m128i res = _mm_loadu_si128((__m128i*)&tmp[x]);
+                __m128i res = _mm_load_si128((__m128i*)&tmp[x]);
                 res = _mm_add_epi32(res, res32bitLo);
-                _mm_storeu_si128((__m128i*)&tmp[x], res);
+                _mm_store_si128((__m128i*)&tmp[x], res);
                 // Repeat the same operation for the next 4 values
-                res = _mm_loadu_si128((__m128i*)&tmp[x + 4]);
+                res = _mm_load_si128((__m128i*)&tmp[x + 4]);
                 res = _mm_add_epi32(res, res32bitHi);
-                _mm_storeu_si128((__m128i*)&tmp[x + 4], res);
+                _mm_store_si128((__m128i*)&tmp[x + 4], res);
 
                 // Multiply the next 8 values by the coefficient to get 8 32-bit integers
                 data8 = _mm_unpackhi_epi8(data16, _mm_setzero_si128());
@@ -240,13 +244,13 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
                 res32bitHi = _mm_unpackhi_epi16(resLo, resHi);
 
                 // Load the 4 32-bit integers values, add the values we computed and store them back
-                res = _mm_loadu_si128((__m128i*)&tmp[x + 8]);
+                res = _mm_load_si128((__m128i*)&tmp[x + 8]);
                 res = _mm_add_epi32(res, res32bitLo);
-                _mm_storeu_si128((__m128i*)&tmp[x + 8], res);
+                _mm_store_si128((__m128i*)&tmp[x + 8], res);
                 // Repeat the same operation for the next 4 values
-                res = _mm_loadu_si128((__m128i*)&tmp[x + 12]);
+                res = _mm_load_si128((__m128i*)&tmp[x + 12]);
                 res = _mm_add_epi32(res, res32bitHi);
-                _mm_storeu_si128((__m128i*)&tmp[x + 12], res);
+                _mm_store_si128((__m128i*)&tmp[x + 12], res);
             }
             for (int x = width16; x < width; x++) {
                 tmp[x] += (int)(in[(k - kOffset) * stride + x] * kernel[k]);
@@ -263,7 +267,7 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
         }
     }
 
-    delete [] tmp;
+    _aligned_free(tmp);
 }
 
 
