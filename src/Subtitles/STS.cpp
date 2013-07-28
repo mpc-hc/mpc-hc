@@ -2421,17 +2421,17 @@ CStringA CSimpleTextSubtitle::GetStrA(int i, bool fSSA)
 
 CStringW CSimpleTextSubtitle::GetStrW(int i, bool fSSA)
 {
-    bool fUnicode = IsEntryUnicode(i);
+    STSEntry const& stse = GetAt(i);
     int CharSet = GetCharSet(i);
 
-    CStringW str = GetAt(i).str;
+    CStringW str = stse.str;
 
-    if (!fUnicode) {
+    if (!stse.fUnicode) {
         str = MBCSSSAToUnicode(str, CharSet);
     }
 
     if (!fSSA) {
-        str = RemoveSSATags(str, fUnicode, CharSet);
+        str = RemoveSSATags(str, true, CharSet);
     }
 
     return str;
@@ -2439,17 +2439,17 @@ CStringW CSimpleTextSubtitle::GetStrW(int i, bool fSSA)
 
 CStringW CSimpleTextSubtitle::GetStrWA(int i, bool fSSA)
 {
-    bool fUnicode = IsEntryUnicode(i);
+    STSEntry const& stse = GetAt(i);
     int CharSet = GetCharSet(i);
 
-    CStringW str = GetAt(i).str;
+    CStringW str = stse.str;
 
-    if (fUnicode) {
+    if (stse.fUnicode) {
         str = UnicodeSSAToMBCS(str, CharSet);
     }
 
     if (!fSSA) {
-        str = RemoveSSATags(str, fUnicode, CharSet);
+        str = RemoveSSATags(str, false, CharSet);
     }
 
     return str;
