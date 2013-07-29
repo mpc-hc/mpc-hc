@@ -22,10 +22,14 @@
 #include "stdafx.h"
 #include "SubPicAllocatorPresenterImpl.h"
 #include "../DSUtil/DSUtil.h"
+#include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include <math.h>
 #include "version.h"
 #include "XySubPicQueueImpl.h"
 #include "XySubPicProvider.h"
+#include <d3d9.h>
+#include <evr.h>
+#include <dxva2api.h>
 
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)
@@ -220,6 +224,20 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetBool(LPCSTR field, bool* value)
 STDMETHODIMP CSubPicAllocatorPresenterImpl::GetInt(LPCSTR field, int* value)
 {
     CheckPointer(value, E_POINTER);
+    if (!strcmp(field, "supportedLevels")) {
+        if (CComQIPtr<IMFVideoPresenter> pEVR = (ISubPicAllocatorPresenter*)this) {
+            const CRenderersSettings& r = GetRenderersSettings();
+            if (r.m_AdvRendSets.iEVROutputRange == 1) {
+                *value = 3; // TV preferred
+            } else {
+                *value = 2; // PC preferred
+            }
+        } else {
+            *value = 0; // PC only
+        }
+        return S_OK;
+    }
+
     return E_INVALIDARG;
 }
 
@@ -274,7 +292,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* valu
 {
     CheckPointer(value, E_POINTER);
     CheckPointer(chars, E_POINTER);
-    LPWSTR ret = nullptr;
+    CStringW ret = nullptr;
 
     if (!strcmp(field, "name")) {
         ret = L"MPC-HC";
@@ -282,18 +300,43 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* valu
         ret = MPC_VERSION_STR;
     } else if (!strcmp(field, "yuvMatrix")) {
         ret = L"None";
+
+        if (m_InputMediaType.IsValid() && m_InputMediaType.formattype == FORMAT_VideoInfo2) {
+            VIDEOINFOHEADER2* pVIH2 = (VIDEOINFOHEADER2*)m_InputMediaType.pbFormat;
+
+            if (pVIH2->dwControlFlags & AMCONTROL_COLORINFO_PRESENT) {
+                DXVA2_ExtendedFormat& flags = (DXVA2_ExtendedFormat&)pVIH2->dwControlFlags;
+
+                ret = (flags.NominalRange == DXVA2_NominalRange_Normal) ? L"PC." : L"TV.";
+
+                switch (flags.VideoTransferMatrix) {
+                    case DXVA2_VideoTransferMatrix_BT601:
+                        ret.Append(L"601");
+                        break;
+                    case DXVA2_VideoTransferMatrix_BT709:
+                        ret.Append(L"709");
+                        break;
+                    case DXVA2_VideoTransferMatrix_SMPTE240M:
+                        ret.Append(L"240M");
+                        break;
+                    default:
+                        ret = L"None";
+                        break;
+                }
+            }
+        }
     }
 
-    if (ret != nullptr) {
-        size_t len = wcslen(ret);
+    if (!ret.IsEmpty()) {
+        size_t len = ret.GetLength();
         size_t sz = (len + 1) * sizeof(WCHAR);
         LPWSTR buf = (LPWSTR)LocalAlloc(LPTR, sz);
 
-        if (buf == nullptr) {
+        if (!buf) {
             return E_OUTOFMEMORY;
         }
 
-        memcpy(buf, ret, sz);
+        wcscpy_s(buf, len + 1, ret);
         *chars = len;
         *value = buf;
 

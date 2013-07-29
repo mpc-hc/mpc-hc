@@ -3137,6 +3137,17 @@ HRESULT CSyncAP::RenegotiateMediaType()
         return MF_E_INVALIDREQUEST;
     }
 
+    // Get the mixer's input type
+    hr = m_pMixer->GetInputCurrentType(0, &pType);
+    if (SUCCEEDED(hr)) {
+        AM_MEDIA_TYPE* pMT;
+        hr = pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
+        if (SUCCEEDED(hr)) {
+            m_InputMediaType = *pMT;
+            pType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
+        }
+    }
+
     CInterfaceArray<IMFMediaType> ValidMixerTypes;
     // Loop through all of the mixer's proposed output types.
     DWORD iTypeIndex = 0;

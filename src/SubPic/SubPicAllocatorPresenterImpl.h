@@ -43,6 +43,8 @@ protected:
     REFERENCE_TIME m_rtNow;
     double m_fps;
 
+    CMediaType m_InputMediaType;
+
     CComPtr<ISubPicProvider> m_SubPicProvider;
     CComPtr<ISubPicAllocator> m_pAllocator;
     CComPtr<ISubPicQueue> m_pSubPicQueue;

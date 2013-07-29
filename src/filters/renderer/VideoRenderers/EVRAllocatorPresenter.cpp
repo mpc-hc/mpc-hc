@@ -1026,6 +1026,17 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 
     CInterfaceArray<IMFMediaType> ValidMixerTypes;
 
+    // Get the mixer's input type
+    hr = m_pMixer->GetInputCurrentType(0, &pType);
+    if (SUCCEEDED(hr)) {
+        AM_MEDIA_TYPE* pMT;
+        hr = pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
+        if (SUCCEEDED(hr)) {
+            m_InputMediaType = *pMT;
+            pType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
+        }
+    }
+
     // Loop through all of the mixer's proposed output types.
     DWORD iTypeIndex = 0;
     while ((hr != MF_E_NO_MORE_TYPES)) {
@@ -1647,7 +1658,6 @@ void CEVRAllocatorPresenter::GetMixerThread()
                     if (
                         SUCCEEDED(m_pOuterEVR->FindPin(L"EVR Input0", &pPin)) &&
                         SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
-
                         ExtractAvgTimePerFrame(&mt, m_rtTimePerFrame);
 
                         m_bInterlaced = ExtractInterlaced(&mt);

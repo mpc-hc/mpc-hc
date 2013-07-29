@@ -327,6 +327,13 @@ STDMETHODIMP CVMR9AllocatorPresenter::StartPresenting(DWORD_PTR dwUserID)
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
 
+    CComPtr<IBaseFilter> pVMR9;
+    CComPtr<IPin> pPin;
+    if (SUCCEEDED(m_pIVMRSurfAllocNotify->QueryInterface(IID_PPV_ARGS(&pVMR9))) &&
+            SUCCEEDED(pVMR9->FindPin(L"VMR Input0", &pPin))) {
+        pPin->ConnectionMediaType(&m_InputMediaType);
+    }
+
     return m_pD3DDev ? S_OK : E_FAIL;
 }
 
