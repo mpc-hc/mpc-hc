@@ -178,7 +178,7 @@ namespace DSObjects
         CComPtr<IDirect3DDeviceManager9> m_pD3DManager;
         CComPtr<IMFTransform>            m_pMixer;
         CComPtr<IMediaEventSink>         m_pSink;
-        CComPtr<IMFVideoMediaType>       m_pMediaType;
+        CComPtr<IMFMediaType>            m_pMediaType;
         MFVideoAspectRatioMode           m_dwVideoAspectRatioMode;
         MFVideoRenderPrefs               m_dwVideoRenderPrefs;
         COLORREF                         m_BorderColor;
@@ -201,6 +201,7 @@ namespace DSObjects
 
         CCritSec                         m_SampleQueueLock;
         CCritSec                         m_ImageProcessingLock;
+        CCritSec                         m_MediaTypeLock;
 
         CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
         CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;

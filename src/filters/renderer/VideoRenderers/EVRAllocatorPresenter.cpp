@@ -735,30 +735,32 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     CHECK_HR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
 
     VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
-    hr = pfMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
 
-    if (0) {
-        // This code doesn't work, use same method as VMR9 instead
-        if (VideoFormat->videoInfo.FramesPerSecond.Numerator != 0) {
-            switch (VideoFormat->videoInfo.InterlaceMode) {
-                case MFVideoInterlace_Progressive:
-                case MFVideoInterlace_MixedInterlaceOrProgressive:
-                default: {
-                    m_rtTimePerFrame = (10000000I64 * VideoFormat->videoInfo.FramesPerSecond.Denominator) / VideoFormat->videoInfo.FramesPerSecond.Numerator;
-                    m_bInterlaced = false;
-                }
-                break;
-                case MFVideoInterlace_FieldSingleUpper:
-                case MFVideoInterlace_FieldSingleLower:
-                case MFVideoInterlace_FieldInterleavedUpperFirst:
-                case MFVideoInterlace_FieldInterleavedLowerFirst: {
-                    m_rtTimePerFrame = (20000000I64 * VideoFormat->videoInfo.FramesPerSecond.Denominator) / VideoFormat->videoInfo.FramesPerSecond.Numerator;
-                    m_bInterlaced = true;
-                }
-                break;
+    IMFVideoMediaType* pMediaType;
+    hr = pfMFCreateVideoMediaType(VideoFormat, &pMediaType);
+
+#if 0
+    // This code doesn't work, use same method as VMR9 instead
+    if (VideoFormat->videoInfo.FramesPerSecond.Numerator != 0) {
+        switch (VideoFormat->videoInfo.InterlaceMode) {
+            case MFVideoInterlace_Progressive:
+            case MFVideoInterlace_MixedInterlaceOrProgressive:
+            default: {
+                m_rtTimePerFrame = (10000000I64 * VideoFormat->videoInfo.FramesPerSecond.Denominator) / VideoFormat->videoInfo.FramesPerSecond.Numerator;
+                m_bInterlaced = false;
             }
+            break;
+            case MFVideoInterlace_FieldSingleUpper:
+            case MFVideoInterlace_FieldSingleLower:
+            case MFVideoInterlace_FieldInterleavedUpperFirst:
+            case MFVideoInterlace_FieldInterleavedLowerFirst: {
+                m_rtTimePerFrame = (20000000I64 * VideoFormat->videoInfo.FramesPerSecond.Denominator) / VideoFormat->videoInfo.FramesPerSecond.Numerator;
+                m_bInterlaced = true;
+            }
+            break;
         }
     }
+#endif
 
     CSize videoSize;
     videoSize.cx = VideoFormat->videoInfo.dwWidth;
@@ -770,27 +772,27 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     if (SUCCEEDED(hr)) {
         i64Size.HighPart = videoSize.cx;
         i64Size.LowPart  = videoSize.cy;
-        m_pMediaType->SetUINT64(MF_MT_FRAME_SIZE, i64Size.QuadPart);
+        pMediaType->SetUINT64(MF_MT_FRAME_SIZE, i64Size.QuadPart);
 
-        m_pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
+        pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
 
         const CRenderersSettings& r = GetRenderersSettings();
 
 #if 1
         if (r.m_AdvRendSets.iEVROutputRange == 1) {
-            m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
+            pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
         } else {
-            m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
+            pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
         }
 
         //      m_pMediaType->SetUINT32 (MF_MT_TRANSFER_FUNCTION, MFVideoTransFunc_10);
 #else
 
-        m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
+        pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
         if (r.iEVROutputRange == 1) {
-            m_pMediaType->SetUINT32(MF_MT_YUV_MATRIX, MFVideoTransferMatrix_BT601);
+            pMediaType->SetUINT32(MF_MT_YUV_MATRIX, MFVideoTransferMatrix_BT601);
         } else {
-            m_pMediaType->SetUINT32(MF_MT_YUV_MATRIX, MFVideoTransferMatrix_BT709);
+            pMediaType->SetUINT32(MF_MT_YUV_MATRIX, MFVideoTransferMatrix_BT709);
         }
 #endif
 
@@ -799,10 +801,10 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
         i64Size.HighPart = aspectRatio.cx;
         i64Size.LowPart  = aspectRatio.cy;
-        m_pMediaType->SetUINT64(MF_MT_PIXEL_ASPECT_RATIO, i64Size.QuadPart);
+        pMediaType->SetUINT64(MF_MT_PIXEL_ASPECT_RATIO, i64Size.QuadPart);
 
         MFVideoArea Area = MakeArea(0, 0, videoSize.cx, videoSize.cy);
-        m_pMediaType->SetBlob(MF_MT_GEOMETRIC_APERTURE, (UINT8*)&Area, sizeof(MFVideoArea));
+        pMediaType->SetBlob(MF_MT_GEOMETRIC_APERTURE, (UINT8*)&Area, sizeof(MFVideoArea));
 
     }
 
@@ -826,7 +828,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     }
 
     pMixerType->FreeRepresentation(FORMAT_MFVideoFormat, (void*)pAMMedia);
-    m_pMediaType->QueryInterface(IID_PPV_ARGS(ppType));
+    pMediaType->QueryInterface(IID_PPV_ARGS(ppType));
 
     return hr;
 }
@@ -842,6 +844,9 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 
     hr = InitializeDevice(pType);
     if (SUCCEEDED(hr)) {
+        CAutoLock lock(&m_MediaTypeLock);
+        m_pMediaType = pType;
+
         strTemp = GetMediaTypeName(pAMMedia->subtype);
         strTemp.Replace(L"MEDIASUBTYPE_", L"");
         strTemp1 = GetMediaTypeFormatDesc(pType);
@@ -1026,7 +1031,6 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
     while ((hr != MF_E_NO_MORE_TYPES)) {
         pMixerType   = nullptr;
         pType        = nullptr;
-        m_pMediaType = nullptr;
 
         // Step 1. Get the next media type supported by mixer.
         hr = m_pMixer->GetOutputAvailableType(0, iTypeIndex++, &pMixerType);
@@ -1185,7 +1189,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMediaType** ppMediaType)
 {
     HRESULT hr = S_OK;
-    CAutoLock lock(this);  // Hold the critical section.
+    CAutoLock lock(&m_MediaTypeLock);
 
     CheckPointer(ppMediaType, E_POINTER);
     CHECK_HR(CheckShutdown());
