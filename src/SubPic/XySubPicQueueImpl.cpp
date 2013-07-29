@@ -21,147 +21,28 @@
 
 #include "stdafx.h"
 #include "XySubPicQueueImpl.h"
-#include "../DSUtil/DSUtil.h"
-
-#define SUBPIC_TRACE_LEVEL 0
-
-
-//
-// CXySubPicQueueImpl
-//
-
-CXySubPicQueueImpl::CXySubPicQueueImpl(ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CUnknown(NAME("CXySubPicQueueImpl"), nullptr)
-    , m_pSubRenderProvider(nullptr)
-    , m_pAllocator(pAllocator)
-    , m_rtNow(0)
-    , m_rtNowLast(0)
-    , m_fps(25.0)
-{
-    if (phr) {
-        *phr = S_OK;
-    }
-
-    if (!m_pAllocator) {
-        if (phr) {
-            *phr = E_FAIL;
-        }
-        return;
-    }
-}
-
-CXySubPicQueueImpl::~CXySubPicQueueImpl()
-{
-}
-
-STDMETHODIMP CXySubPicQueueImpl::NonDelegatingQueryInterface(REFIID riid, void** ppv)
-{
-    return
-        QI(ISubPicQueue)
-        QI(ISubRenderConsumer)
-        __super::NonDelegatingQueryInterface(riid, ppv);
-}
-
-// ISubPicQueue
-
-STDMETHODIMP CXySubPicQueueImpl::SetFPS(double fps)
-{
-    m_fps = fps;
-
-    return S_OK;
-}
-
-STDMETHODIMP CXySubPicQueueImpl::SetTime(REFERENCE_TIME rtNow)
-{
-    m_rtNow = rtNow;
-
-    return S_OK;
-}
-
-STDMETHODIMP CXySubPicQueueImpl::Connect(ISubRenderProvider* pSubRenderProvider)
-{
-    CAutoLock cAutoLock(&m_csSubRenderProvider);
-
-    m_pSubRenderProvider = pSubRenderProvider;
-
-    Invalidate();
-
-    return S_OK;
-}
-
-STDMETHODIMP CXySubPicQueueImpl::Disconnect()
-{
-    return Connect(nullptr);
-}
-
-HRESULT CXySubPicQueueImpl::RenderTo(ISubPic* pSubPic, ISubRenderFrame* pSubFrame, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
-{
-    SubPicDesc spd;
-    pSubPic->SetInverseAlpha(true);
-    HRESULT hr = pSubPic->ClearDirtyRect(0x00000000);
-    if (SUCCEEDED(hr)) {
-        hr = pSubPic->Lock(spd);
-    }
-    if (SUCCEEDED(hr)) {
-        // XySubFilter only supports 32-bit bitmaps
-        if (spd.bpp != 32) {
-            ASSERT(FALSE);
-            pSubPic->Unlock(nullptr);
-            return E_FAIL;
-        }
-
-        POINT p;
-        SIZE sz;
-        BYTE* pixels;
-        int pitch;
-        hr = pSubFrame->GetBitmap(0, nullptr, &p, &sz, (LPCVOID*)(&pixels), &pitch);
-        if (FAILED(hr)) {
-            return hr;
-        }
-        CRect rcDirty(p.x, p.y, p.x + sz.cx, p.y + sz.cy);
-
-        int h = rcDirty.Height();
-        BYTE* ptr = spd.bits + spd.pitch * rcDirty.top + (rcDirty.left * 4); // move pointer to dirty rect
-        while (h-- > 0) { // copy the dirty rect
-            memcpy(ptr, pixels, 4 * rcDirty.Width());
-            ptr += spd.pitch;
-            pixels += pitch;
-        }
-
-        pSubPic->SetStart(rtStart);
-        pSubPic->SetStop(rtStop);
-
-        pSubPic->Unlock(rcDirty);
-    }
-
-    return SUCCEEDED(hr) ? S_OK : E_FAIL;
-}
+#include "XySubPicProvider.h"
 
 //
 // CXySubPicQueueNoThread
 //
 
 CXySubPicQueueNoThread::CXySubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CXySubPicQueueImpl(pAllocator, phr)
+    : CSubPicQueueNoThread(pAllocator, phr)
+    , m_llSubId(0)
 {
-    m_hEvtDelivered = CreateEvent(nullptr, false, false, nullptr);
 }
 
 CXySubPicQueueNoThread::~CXySubPicQueueNoThread()
 {
-    CloseHandle(m_hEvtDelivered);
 }
 
 // ISubPicQueue
 
 STDMETHODIMP CXySubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate)
 {
-    CAutoLock cQueueLock(&m_csLock);
-
-    m_pSubFrame = nullptr;
-    m_pSubPic = nullptr;
-
-    return S_OK;
+    m_llSubId = 0;
+    return __super::Invalidate(rtInvalidate);
 }
 
 STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& ppSubPic)
@@ -183,46 +64,44 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
     if (pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop()) {
         ppSubPic = pSubPic;
     } else {
-        CAutoLock cAutoLock(&m_csSubRenderProvider);
-        if (m_pSubRenderProvider) {
+        CComPtr<ISubPicProvider> pSubPicProvider;
+        GetSubPicProvider(&pSubPicProvider);
+        CComQIPtr<IXyCompatProvider> pXySubPicProvider = pSubPicProvider;
+
+        if (pXySubPicProvider) {
             double fps = m_fps;
             REFERENCE_TIME rtTimePerFrame = (REFERENCE_TIME)(10000000.0 / fps);
 
             REFERENCE_TIME rtStart = rtNow;
             REFERENCE_TIME rtStop = rtNow + rtTimePerFrame;
 
-            HRESULT hr = m_pSubRenderProvider->RequestFrame(rtStart, rtStop, m_hEvtDelivered);
-
+            HRESULT hr = pXySubPicProvider->RequestFrame(rtStart, rtStop);
             if (SUCCEEDED(hr)) {
-                if (WaitForSingleObject(m_hEvtDelivered, (DWORD)(1000.0 / fps)) != WAIT_TIMEOUT) {
-                    CAutoLock cAutoLock(&m_csLock);
-
-                    if (m_pSubFrame) {
-                        ULONGLONG id;
-                        hr = m_pSubFrame->GetBitmap(0, &id, nullptr, nullptr, nullptr, nullptr);
+                ULONGLONG id;
+                hr = pXySubPicProvider->GetID(&id, fps);
+                if (SUCCEEDED(hr)) {
+                    if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
+                        pSubPic->SetStop(rtStop);
+                        ppSubPic = pSubPic;
+                    } else if (m_pAllocator->IsDynamicWriteOnly()) {
+                        CComPtr<ISubPic> pStatic;
+                        hr = m_pAllocator->GetStatic(&pStatic);
                         if (SUCCEEDED(hr)) {
-                            if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
-                                pSubPic->SetStop(rtStop);
-                                ppSubPic = pSubPic;
-                            } else if (m_pAllocator->IsDynamicWriteOnly()) {
-                                CComPtr<ISubPic> pStatic;
-                                hr = m_pAllocator->GetStatic(&pStatic);
-                                if (SUCCEEDED(hr)) {
-                                    hr = RenderTo(pStatic, m_pSubFrame, rtStart, rtStop);
-                                }
-                                if (SUCCEEDED(hr)) {
-                                    hr = pStatic->CopyTo(pSubPic);
-                                }
-                                if (SUCCEEDED(hr)) {
-                                    ppSubPic = pSubPic;
-                                    m_llSubId = id;
-                                }
-                            } else {
-                                if (SUCCEEDED(RenderTo(pSubPic, m_pSubFrame, rtStart, rtStop))) {
-                                    ppSubPic = pSubPic;
-                                    m_llSubId = id;
-                                }
-                            }
+                            pStatic->SetInverseAlpha(true);
+                            hr = RenderTo(pStatic, rtStart, rtStop, fps, true);
+                        }
+                        if (SUCCEEDED(hr)) {
+                            hr = pStatic->CopyTo(pSubPic);
+                        }
+                        if (SUCCEEDED(hr)) {
+                            ppSubPic = pSubPic;
+                            m_llSubId = id;
+                        }
+                    } else {
+                        pSubPic->SetInverseAlpha(true);
+                        if (SUCCEEDED(RenderTo(pSubPic, rtStart, rtStop, fps, true))) {
+                            ppSubPic = pSubPic;
+                            m_llSubId = id;
                         }
                     }
                 }
@@ -237,48 +116,4 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
     }
 
     return !!ppSubPic;
-}
-
-STDMETHODIMP CXySubPicQueueNoThread::GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
-{
-    CAutoLock cAutoLock(&m_csLock);
-
-    nSubPics = 0;
-    rtNow = m_rtNow;
-    rtStart = rtStop = 0;
-
-    if (m_pSubFrame) {
-        nSubPics = 1;
-        rtStart = m_rtStart;
-        rtStop = m_rtStop;
-    }
-
-    return S_OK;
-}
-
-STDMETHODIMP CXySubPicQueueNoThread::GetStats(int nSubPic, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
-{
-    CAutoLock cAutoLock(&m_csLock);
-
-    if (!m_pSubFrame || nSubPic != 0) {
-        return E_INVALIDARG;
-    }
-
-    rtStart = m_rtStart;
-    rtStop = m_rtStop;
-
-    return S_OK;
-}
-
-STDMETHODIMP CXySubPicQueueNoThread::DeliverFrame(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame)
-{
-    CAutoLock cAutoLock(&m_csLock);
-
-    m_pSubFrame = subtitleFrame;
-    m_rtStart = start;
-    m_rtStop = stop;
-
-    SetEvent(context);
-
-    return S_OK;
 }

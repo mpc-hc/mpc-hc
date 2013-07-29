@@ -126,7 +126,7 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
     } else {
         hr = pSubPic->ClearDirtyRect(0xFF000000);
     }
-    
+
     SubPicDesc spd;
     if (SUCCEEDED(hr)) {
         hr = pSubPic->Lock(spd);

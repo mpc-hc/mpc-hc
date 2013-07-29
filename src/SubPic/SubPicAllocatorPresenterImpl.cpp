@@ -25,6 +25,7 @@
 #include <math.h>
 #include "version.h"
 #include "XySubPicQueueImpl.h"
+#include "XySubPicProvider.h"
 
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)
@@ -363,12 +364,12 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
     if (CComQIPtr<ISubRenderConsumer> pSubConsumer = m_pSubPicQueue) {
         hr = pSubConsumer->Connect(subtitleRenderer);
     } else {
-        CXySubPicQueueImpl* pSubPicQueue = (CXySubPicQueueImpl*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
+        ISubPicProvider* pSubPicProvider = (ISubPicProvider*)DEBUG_NEW CXySubPicProvider(subtitleRenderer);
+        ISubPicQueue* pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
         if (pSubPicQueue && SUCCEEDED(hr)) {
-            hr = pSubPicQueue->Connect(subtitleRenderer);
-            if (SUCCEEDED(hr)) {
-                m_pSubPicQueue = (ISubPicQueue*)pSubPicQueue;
-            }
+            pSubPicQueue->SetSubPicProvider(pSubPicProvider);
+            m_SubPicProvider = pSubPicProvider;
+            m_pSubPicQueue = pSubPicQueue;
         }
     }
 
@@ -377,21 +378,15 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
 
 STDMETHODIMP CSubPicAllocatorPresenterImpl::Disconnect()
 {
-    HRESULT hr = E_FAIL;
-
-    if (CComQIPtr<ISubRenderConsumer> pSubConsumer = m_pSubPicQueue) {
-        hr = pSubConsumer->Disconnect();
-    }
-
-    return hr;
+    return m_pSubPicQueue->SetSubPicProvider(nullptr);
 }
 
 STDMETHODIMP CSubPicAllocatorPresenterImpl::DeliverFrame(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame)
 {
     HRESULT hr = E_FAIL;
 
-    if (CComQIPtr<ISubRenderConsumer> pSubConsumer = m_pSubPicQueue) {
-        hr = pSubConsumer->DeliverFrame(start, stop, context, subtitleFrame);
+    if (CComQIPtr<IXyCompatProvider> pXyProvider = m_SubPicProvider) {
+        hr = pXyProvider->DeliverFrame(start, stop, context, subtitleFrame);
     }
 
     return hr;

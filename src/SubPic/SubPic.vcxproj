@@ -104,6 +104,7 @@
     <ClCompile Include="SubPicImpl.cpp" />
     <ClCompile Include="SubPicProviderImpl.cpp" />
     <ClCompile Include="SubPicQueueImpl.cpp" />
+    <ClCompile Include="XySubPicProvider.cpp" />
     <ClCompile Include="XySubPicQueueImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +119,7 @@
     <ClInclude Include="SubPicImpl.h" />
     <ClInclude Include="SubPicProviderImpl.h" />
     <ClInclude Include="SubPicQueueImpl.h" />
+    <ClInclude Include="XySubPicProvider.h" />
     <ClInclude Include="XySubPicQueueImpl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

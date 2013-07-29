@@ -101,6 +101,7 @@ public:
 
 class CSubPicQueueNoThread : public CSubPicQueueImpl
 {
+protected:
     CCritSec m_csLock;
     CComPtr<ISubPic> m_pSubPic;
 
