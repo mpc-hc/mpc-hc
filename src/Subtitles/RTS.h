@@ -21,11 +21,15 @@
 
 #pragma once
 
+#include <memory>
 #include "STS.h"
 #include "Rasterizer.h"
 #include "../SubPic/SubPicProviderImpl.h"
 #include "RenderingCache.h"
 
+struct SSATag;
+typedef std::shared_ptr<CAtlList<SSATag>> SSATagsList;
+typedef CRenderingCache<CStringW, SSATagsList, CStringElementTraits<CStringW>> CSSATagsCache;
 typedef CRenderingCache<COutlineKey, COutlineData, CKeyTraits<COutlineKey>> COutlineCache;
 typedef CRenderingCache<COverlayKey, COverlayData, CKeyTraits<COverlayKey>> COverlayCache;
 
@@ -151,6 +155,89 @@ public:
     CRect PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha);
 };
 
+enum SSATagCmd {
+    // /!\ Keep those four grouped together in that order
+    SSA_1c,
+    SSA_2c,
+    SSA_3c,
+    SSA_4c,
+    // /!\ Keep those four grouped together in that order
+    SSA_1a,
+    SSA_2a,
+    SSA_3a,
+    SSA_4a,
+    SSA_alpha,
+    SSA_an,
+    SSA_a,
+    SSA_blur,
+    SSA_bord,
+    SSA_be,
+    SSA_b,
+    SSA_clip,
+    SSA_c,
+    SSA_fade,
+    SSA_fe,
+    SSA_fn,
+    SSA_frx,
+    SSA_fry,
+    SSA_frz,
+    SSA_fax,
+    SSA_fay,
+    SSA_fr,
+    SSA_fscx,
+    SSA_fscy,
+    SSA_fsc,
+    SSA_fsp,
+    SSA_fs,
+    SSA_iclip,
+    SSA_i,
+    SSA_kt,
+    SSA_kf,
+    SSA_ko,
+    SSA_k,
+    SSA_K,
+    SSA_move,
+    SSA_org,
+    SSA_pbo,
+    SSA_pos,
+    SSA_p,
+    SSA_q,
+    SSA_r,
+    SSA_shad,
+    SSA_s,
+    SSA_t,
+    SSA_u,
+    SSA_xbord,
+    SSA_xshad,
+    SSA_ybord,
+    SSA_yshad,
+    SSA_unknown
+};
+
+#define SSA_CMD_MIN_LENGTH 1
+#define SSA_CMD_MAX_LENGTH 5
+
+struct SSATag {
+    SSATagCmd cmd;
+    CAtlArray<CStringW, CStringElementTraits<CStringW>> params;
+    CAtlArray<int> paramsInt;
+    CAtlArray<double> paramsReal;
+    SSATagsList subTagsList;
+
+    SSATag() {};
+
+    SSATag(const SSATag& tag)
+        : cmd(tag.cmd)
+        , params()
+        , paramsInt()
+        , paramsReal()
+        , subTagsList(tag.subTagsList) {
+        params.Copy(tag.params);
+        paramsInt.Copy(tag.paramsInt);
+        paramsReal.Copy(tag.paramsReal);
+    }
+};
+
 enum eftype {
     EF_MOVE = 0,    // {\move(x1=param[0], y1=param[1], x2=param[2], y2=param[3], t1=t[0], t2=t[1])} or {\pos(x=param[0], y=param[1])}
     EF_ORG,         // {\org(x=param[0], y=param[1])}
@@ -229,8 +316,10 @@ public:
 class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
     CRenderedTextSubtitle : public CSimpleTextSubtitle, public CSubPicProviderImpl, public ISubStream
 {
+    static CAtlMap<CStringW, SSATagCmd, CStringElementTraits<CStringW>> s_SSATagCmds;
     CAtlMap<int, CSubtitle*> m_subtitleCache;
 
+    CSSATagsCache m_SSATagsCache;
     COutlineCache m_outlineCache;
     COverlayCache m_overlayCache;
 
@@ -252,7 +341,8 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
     void ParseEffect(CSubtitle* sub, CString str);
     void ParseString(CSubtitle* sub, CStringW str, STSStyle& style);
     void ParsePolygon(CSubtitle* sub, CStringW str, STSStyle& style);
-    bool ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& style, STSStyle& org, bool fAnimate = false);
+    bool ParseSSATag(SSATagsList& tagsList, const CStringW& str);
+    bool CreateSubFromSSATag(CSubtitle* sub, const SSATagsList& tagsList, STSStyle& style, STSStyle& org, bool fAnimate = false);
     bool ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle& style, const STSStyle& org);
 
     double CalcAnimation(double dst, double src, bool fAnimate);
