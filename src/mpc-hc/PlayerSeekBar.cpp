@@ -24,6 +24,7 @@
 #include "MainFrm.h"
 
 #define TOOLTIP_SHOW_DELAY 100
+#define TOOLTIP_HIDE_TIMEOUT 3000
 #define HOVER_CAPTURED_TIMEOUT 100
 #define HOVER_CAPTURED_IGNORE_X_DELTA 1
 
@@ -38,9 +39,8 @@ CPlayerSeekBar::CPlayerSeekBar()
     , m_bSeekable(false)
     , m_bHovered(false)
     , m_cursor(AfxGetApp()->LoadStandardCursor(IDC_HAND))
-    , m_tooltipPos(0)
     , m_tooltipState(TOOLTIP_HIDDEN)
-    , m_tooltipLastPos(-1)
+    , m_bIgnoreLastTooltipPoint(true)
 {
     ZeroMemory(&m_ti, sizeof(m_ti));
     m_ti.cbSize = sizeof(m_ti);
@@ -194,16 +194,18 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
         return;
     }
 
-    m_tooltipPos = CalculatePosition(point);
-
     switch (m_tooltipState) {
         case TOOLTIP_HIDDEN: {
-            // Start show tooltip countdown
-            m_tooltipState = TOOLTIP_TRIGGERED;
-            VERIFY(SetTimer(TIMER_SHOW_TOOLTIP, TOOLTIP_SHOW_DELAY, nullptr));
-            // Track mouse leave
-            TRACKMOUSEEVENT tme = { sizeof(tme), TME_LEAVE, m_hWnd };
-            VERIFY(TrackMouseEvent(&tme));
+            // If mouse moved or the tooltip wasn't hidden by timeout
+            if (point != m_tooltipPoint || m_bIgnoreLastTooltipPoint) {
+                m_bIgnoreLastTooltipPoint = false;
+                // Start show tooltip countdown
+                m_tooltipState = TOOLTIP_TRIGGERED;
+                VERIFY(SetTimer(TIMER_SHOWHIDE_TOOLTIP, TOOLTIP_SHOW_DELAY, nullptr));
+                // Track mouse leave
+                TRACKMOUSEEVENT tme = { sizeof(tme), TME_LEAVE, m_hWnd };
+                VERIFY(TrackMouseEvent(&tme));
+            }
         }
         break;
         case TOOLTIP_TRIGGERED:
@@ -211,9 +213,12 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
             break;
         case TOOLTIP_VISIBLE:
             // Update the tooltip if needed
-            if (m_tooltipPos != m_tooltipLastPos) {
+            ASSERT(!m_bIgnoreLastTooltipPoint);
+            if (point != m_tooltipPoint) {
+                m_tooltipPoint = point;
                 UpdateToolTipText();
-                UpdateToolTipPosition(point);
+                UpdateToolTipPosition();
+                VERIFY(SetTimer(TIMER_SHOWHIDE_TOOLTIP, TOOLTIP_HIDE_TIMEOUT, nullptr));
             }
             break;
         default:
@@ -221,11 +226,12 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
     }
 }
 
-void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
+void CPlayerSeekBar::UpdateToolTipPosition()
 {
     CSize bubbleSize(m_tooltip.GetBubbleSize(&m_ti));
     CRect windowRect;
     GetWindowRect(windowRect);
+    CPoint point(m_tooltipPoint);
 
     if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
         point.x -= bubbleSize.cx / 2 - 2;
@@ -238,12 +244,12 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
     ClientToScreen(&point);
 
     m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x, point.y));
-    m_tooltipLastPos = m_tooltipPos;
 }
 
 void CPlayerSeekBar::UpdateToolTipText()
 {
-    DVD_HMSF_TIMECODE tcNow = RT2HMS_r(m_tooltipPos);
+    REFERENCE_TIME rtNow = CalculatePosition(m_tooltipPoint);
+    DVD_HMSF_TIMECODE tcNow = RT2HMS_r(rtNow);
 
     CString time;
     if (tcNow.bHours > 0) {
@@ -256,7 +262,7 @@ void CPlayerSeekBar::UpdateToolTipText()
     {
         CAutoLock lock(&m_csChapterBag);
         if (m_pChapterBag) {
-            REFERENCE_TIME rt = m_tooltipPos;
+            REFERENCE_TIME rt = rtNow;
             m_pChapterBag->ChapLookup(&rt, &chapterName);
         }
     }
@@ -282,7 +288,7 @@ void CPlayerSeekBar::Enable(bool bEnable)
 void CPlayerSeekBar::HideToolTip()
 {
     if (m_tooltipState != TOOLTIP_HIDDEN) {
-        KillTimer(TIMER_SHOW_TOOLTIP);
+        KillTimer(TIMER_SHOWHIDE_TOOLTIP);
         m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
         m_tooltipState = TOOLTIP_HIDDEN;
     }
@@ -526,15 +532,21 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
     VERIFY(GetCursorPos(&point));
     ScreenToClient(&point);
     switch (nIDEvent) {
-        case TIMER_SHOW_TOOLTIP:
+        case TIMER_SHOWHIDE_TOOLTIP:
             if (m_tooltipState == TOOLTIP_TRIGGERED && m_bEnabled && m_bSeekable) {
-                m_tooltipPos = CalculatePosition(point);
+                m_tooltipPoint = point;
                 UpdateToolTipText();
                 m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
-                UpdateToolTipPosition(point);
+                UpdateToolTipPosition();
                 m_tooltipState = TOOLTIP_VISIBLE;
+                VERIFY(SetTimer(TIMER_SHOWHIDE_TOOLTIP, TOOLTIP_HIDE_TIMEOUT, nullptr));
+            } else if (m_tooltipState == TOOLTIP_VISIBLE) {
+                HideToolTip();
+                ASSERT(!m_bIgnoreLastTooltipPoint);
+                KillTimer(TIMER_SHOWHIDE_TOOLTIP);
+            } else {
+                KillTimer(TIMER_SHOWHIDE_TOOLTIP);
             }
-            KillTimer(TIMER_SHOW_TOOLTIP);
             break;
         case TIMER_HOVER_CAPTURED:
             if (GetCapture() == this) {
@@ -552,6 +564,7 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
 void CPlayerSeekBar::OnMouseLeave()
 {
     HideToolTip();
+    m_bIgnoreLastTooltipPoint = true;
 }
 
 BOOL CPlayerSeekBar::OnPlayStop(UINT nID)

@@ -32,7 +32,7 @@ public:
     virtual BOOL Create(CWnd* pParentWnd);
 
 private:
-    enum { TIMER_SHOW_TOOLTIP = 1, TIMER_HOVER_CAPTURED };
+    enum { TIMER_SHOWHIDE_TOOLTIP = 1, TIMER_HOVER_CAPTURED };
 
     __int64 m_start, m_stop, m_pos, m_posreal;
     bool m_bEnabled;
@@ -44,7 +44,8 @@ private:
     CToolTipCtrl m_tooltip;
     enum { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE } m_tooltipState;
     TOOLINFO m_ti;
-    __int64 m_tooltipPos, m_tooltipLastPos;
+    CPoint m_tooltipPoint;
+    bool m_bIgnoreLastTooltipPoint;
     CString m_tooltipText;
 
     CComPtr<IDSMChapterBag> m_pChapterBag;
@@ -63,7 +64,7 @@ private:
     CRect GetInnerThumbRect() const;
 
     void UpdateTooltip(CPoint point);
-    void UpdateToolTipPosition(CPoint& point);
+    void UpdateToolTipPosition();
     void UpdateToolTipText();
 
 public:
