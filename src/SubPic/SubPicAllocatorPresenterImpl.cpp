@@ -408,7 +408,9 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
         hr = pSubConsumer->Connect(subtitleRenderer);
     } else {
         ISubPicProvider* pSubPicProvider = (ISubPicProvider*)DEBUG_NEW CXySubPicProvider(subtitleRenderer);
-        ISubPicQueue* pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
+        ISubPicQueue* pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                                     ? (ISubPicQueue*)DEBUG_NEW CXySubPicQueue(GetRenderersSettings().nSPCSize, m_pAllocator, &hr)
+                                     : (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
         if (pSubPicQueue && SUCCEEDED(hr)) {
             pSubPicQueue->SetSubPicProvider(pSubPicProvider);
             m_SubPicProvider = pSubPicProvider;

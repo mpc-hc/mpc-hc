@@ -24,6 +24,21 @@
 #include "SubPicQueueImpl.h"
 #include "XySubPicProvider.h"
 
+class CXySubPicQueue : public CSubPicQueue
+{
+protected:
+    ULONGLONG m_llSubId;
+    virtual DWORD ThreadProc();
+
+public:
+    CXySubPicQueue(int nMaxSubPic, ISubPicAllocator* pAllocator, HRESULT* phr);
+    virtual ~CXySubPicQueue();
+
+    // ISubPicQueue
+
+    STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1);
+};
+
 class CXySubPicQueueNoThread : public CSubPicQueueNoThread
 {
     ULONGLONG m_llSubId;
