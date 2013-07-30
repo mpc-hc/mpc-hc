@@ -123,9 +123,6 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(SIZE* pSize, RECT* pRcSource, RECT* p
     if (m_size.cx > 0 && m_size.cy > 0) {
         CRect rcTemp = m_rcDirty;
 
-        // FIXME
-        rcTemp.DeflateRect(1, 1);
-
         *pRcSource = rcTemp;
 
         rcTemp.OffsetRect(m_VirtualTextureTopLeft);
