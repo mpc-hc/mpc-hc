@@ -1629,7 +1629,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
                     hr = m_pD3DDev->SetPixelShader(Shader.m_pPixelShader);
                     TextureCopy(m_pVideoTexture[src]);
 
-                    src     = dst;
+                    src = dst;
                     if (++dst >= m_nDXSurface + 2) {
                         dst = m_nDXSurface;
                     }
@@ -1756,9 +1756,9 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     AlphaBltSubPic(rSrcPri.Size());
     if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE) {
         CAutoLock BitMapLock(&m_VMR9AlphaBitmapLock);
-        CRect       rcSrc(m_VMR9AlphaBitmap.rSrc);
-        m_pOSDTexture   = nullptr;
-        m_pOSDSurface   = nullptr;
+        CRect rcSrc(m_VMR9AlphaBitmap.rSrc);
+        m_pOSDTexture = nullptr;
+        m_pOSDSurface = nullptr;
         if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE*)m_VMR9AlphaBitmapData) {
             if ((m_pD3DXLoadSurfaceFromMemory != nullptr) &&
                     SUCCEEDED(hr = m_pD3DDev->CreateTexture(
