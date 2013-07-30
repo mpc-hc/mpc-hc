@@ -22,6 +22,7 @@
 #pragma once
 
 #include "DSMPropertyBag.h"
+#include <memory>
 
 class CPlayerSeekBar : public CDialogBar
 {
@@ -51,6 +52,9 @@ private:
     CComPtr<IDSMChapterBag> m_pChapterBag;
     CCritSec m_csChapterBag; // Graph thread sets the chapter bag
 
+    std::unique_ptr<CDC> m_pEnabledThumb;
+    std::unique_ptr<CDC> m_pDisabledThumb;
+
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
     void MoveThumb(CPoint point);
@@ -59,9 +63,10 @@ private:
     __int64 CalculatePosition(CPoint point);
     void SyncThumbToVideo(__int64 pos);
 
+    void CreateThumb(bool bEnabled, CDC& parentDC);
     CRect GetChannelRect() const;
-    CRect GetThumbRect() const;
-    CRect GetInnerThumbRect() const;
+    CRect GetThumbRect(bool bEnabled) const;
+    CRect GetInnerThumbRect(bool bEnabled, const CRect& thumbRect) const;
 
     void UpdateTooltip(CPoint point);
     void UpdateToolTipPosition();
@@ -91,6 +96,7 @@ private:
     afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnMouseLeave();
+    afx_msg LRESULT OnThemeChanged();
 
     BOOL OnPlayStop(UINT nID);
 };
