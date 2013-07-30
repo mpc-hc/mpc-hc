@@ -29,7 +29,7 @@ CXySubPicProvider::CXySubPicProvider(ISubRenderProvider* provider)
     , m_rtStart(0)
     , m_rtStop(0)
 {
-    m_hEvtDelivered = CreateEvent(nullptr, true, false, nullptr);
+    m_hEvtDelivered = CreateEvent(nullptr, false, false, nullptr);
 }
 
 CXySubPicProvider::~CXySubPicProvider()
@@ -57,16 +57,23 @@ STDMETHODIMP CXySubPicProvider::DeliverFrame(REFERENCE_TIME start, REFERENCE_TIM
     return S_OK;
 }
 
-STDMETHODIMP CXySubPicProvider::RequestFrame(REFERENCE_TIME start, REFERENCE_TIME stop)
+STDMETHODIMP CXySubPicProvider::RequestFrame(REFERENCE_TIME start, REFERENCE_TIME stop, DWORD timeout)
 {
-    return m_pSubRenderProvider->RequestFrame(start, stop, nullptr);
-}
+    HRESULT hr = E_FAIL;
 
-STDMETHODIMP CXySubPicProvider::GetID(ULONGLONG* id, double fps)
-{
-    if (WaitForSingleObject(m_hEvtDelivered, (DWORD)(1000.0 / fps)) == WAIT_TIMEOUT) {
+    if (FAILED(hr = m_pSubRenderProvider->RequestFrame(start, stop, nullptr))) {
+        return hr;
+    }
+
+    if (WaitForSingleObject(m_hEvtDelivered, timeout) == WAIT_TIMEOUT) {
         return E_ABORT;
     }
+
+    return S_OK;
+}
+
+STDMETHODIMP CXySubPicProvider::GetID(ULONGLONG* id)
+{
     return m_pSubFrame ? m_pSubFrame->GetBitmap(0, id, nullptr, nullptr, nullptr, nullptr) : E_FAIL;
 }
 
@@ -90,11 +97,6 @@ STDMETHODIMP CXySubPicProvider::Render(SubPicDesc& spd, REFERENCE_TIME rt, doubl
         ASSERT(FALSE);
         return E_INVALIDARG;
     }
-
-    if (WaitForSingleObject(m_hEvtDelivered, (DWORD)(1000.0 / fps)) == WAIT_TIMEOUT) {
-        return E_ABORT;
-    }
-    ResetEvent(m_hEvtDelivered);
 
     if (!m_pSubFrame || (m_rtStart > rt || rt >= m_rtStop)) {
         return E_FAIL;

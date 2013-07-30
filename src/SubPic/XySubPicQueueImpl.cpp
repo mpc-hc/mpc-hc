@@ -91,10 +91,10 @@ DWORD CXySubPicQueue::ThreadProc()
                     TRACE(_T("BEHIND\n"));
                 }
 
-                HRESULT hr = pXySubPicProvider->RequestFrame(rtStart, rtStop);
+                HRESULT hr = pXySubPicProvider->RequestFrame(rtStart, rtStop, INFINITE);
                 if (SUCCEEDED(hr)) {
                     ULONGLONG id;
-                    hr = pXySubPicProvider->GetID(&id, fps);
+                    hr = pXySubPicProvider->GetID(&id);
                     if (SUCCEEDED(hr)) {
                         if (m_llSubId == id && !m_Queue.IsEmpty()) { // same subtitle as last time
                             CComPtr<ISubPic> pSubPic = m_Queue.GetTail();
@@ -232,10 +232,10 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
             REFERENCE_TIME rtStart = rtNow;
             REFERENCE_TIME rtStop = rtNow + rtTimePerFrame;
 
-            HRESULT hr = pXySubPicProvider->RequestFrame(rtStart, rtStop);
+            HRESULT hr = pXySubPicProvider->RequestFrame(rtStart, rtStop, (DWORD)(1000.0 / fps));
             if (SUCCEEDED(hr)) {
                 ULONGLONG id;
-                hr = pXySubPicProvider->GetID(&id, fps);
+                hr = pXySubPicProvider->GetID(&id);
                 if (SUCCEEDED(hr)) {
                     if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
                         pSubPic->SetStop(rtStop);

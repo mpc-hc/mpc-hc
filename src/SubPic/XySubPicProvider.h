@@ -28,9 +28,9 @@
 interface __declspec(uuid("63679E0A-93AB-4656-AF40-589E4E985991"))
 IXyCompatProvider :
 public IUnknown {
-    STDMETHOD(RequestFrame)(REFERENCE_TIME start, REFERENCE_TIME stop) PURE;
+    STDMETHOD(RequestFrame)(REFERENCE_TIME start, REFERENCE_TIME stop, DWORD timeout) PURE;
     STDMETHOD(DeliverFrame)(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame * subtitleFrame) PURE;
-    STDMETHOD(GetID)(ULONGLONG * id, double fps) PURE;
+    STDMETHOD(GetID)(ULONGLONG * id) PURE;
 };
 
 class CXySubPicProvider
@@ -56,8 +56,8 @@ public:
     // IXyCompatProvider
 
     STDMETHODIMP DeliverFrame(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame);
-    STDMETHODIMP RequestFrame(REFERENCE_TIME start, REFERENCE_TIME stop);
-    STDMETHODIMP GetID(ULONGLONG* id, double fps);
+    STDMETHODIMP RequestFrame(REFERENCE_TIME start, REFERENCE_TIME stop, DWORD timeout);
+    STDMETHODIMP GetID(ULONGLONG* id);
 
     // ISubPicProvider
 
