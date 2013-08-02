@@ -719,8 +719,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_bars.AddTail(&m_wndStatsBar);
     m_bars.AddTail(&m_wndStatusBar);
 
-    m_wndSeekBar.Enable(false);
-
     // dockable bars
 
     EnableDocking(CBRS_ALIGN_ANY);
@@ -3581,6 +3579,7 @@ void CMainFrame::OnFilePostClosemedia()
     }
     m_wndView.SetVideoRect();
     m_wndSeekBar.Enable(false);
+    m_wndSeekBar.SetRange(0, 0);
     m_wndSeekBar.SetPos(0);
     m_wndSeekBar.RemoveChapters();
     m_wndInfoBar.RemoveAllLines();
@@ -7210,6 +7209,7 @@ void CMainFrame::OnApiPlay()
 
 void CMainFrame::OnPlayStop()
 {
+    m_wndSeekBar.SetPos(0);
     if (m_iMediaLoadState == MLS_LOADED) {
         if (GetPlaybackMode() == PM_FILE) {
             LONGLONG pos = 0;

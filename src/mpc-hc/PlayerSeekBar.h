@@ -35,9 +35,10 @@ public:
 private:
     enum { TIMER_SHOWHIDE_TOOLTIP = 1, TIMER_HOVER_CAPTURED };
 
-    __int64 m_start, m_stop, m_pos, m_posreal;
+    REFERENCE_TIME m_rtStart, m_rtStop, m_rtPos;
+    REFERENCE_TIME m_rtPosReal;
     bool m_bEnabled;
-    bool m_bSeekable;
+    bool m_bHasDuration;
     bool m_bHovered;
     CPoint m_hoverPoint;
     HCURSOR m_cursor;
@@ -54,21 +55,22 @@ private:
 
     std::unique_ptr<CDC> m_pEnabledThumb;
     std::unique_ptr<CDC> m_pDisabledThumb;
+    CRect m_lastThumbRect;
 
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
-    void MoveThumb(CPoint point);
+    void MoveThumb(const CPoint& point);
     void SyncVideoToThumb();
-    __int64 CalculatePosition(REFERENCE_TIME rt);
-    __int64 CalculatePosition(CPoint point);
-    void SyncThumbToVideo(__int64 pos);
+    long ChannelPointFromPosition(REFERENCE_TIME rtPos) const;
+    REFERENCE_TIME PositionFromClientPoint(const CPoint& point) const;
+    void SyncThumbToVideo(REFERENCE_TIME rtPos);
 
     void CreateThumb(bool bEnabled, CDC& parentDC);
     CRect GetChannelRect() const;
-    CRect GetThumbRect(bool bEnabled) const;
+    CRect GetThumbRect() const;
     CRect GetInnerThumbRect(bool bEnabled, const CRect& thumbRect) const;
 
-    void UpdateTooltip(CPoint point);
+    void UpdateTooltip(const CPoint& point);
     void UpdateToolTipPosition();
     void UpdateToolTipText();
 
@@ -76,11 +78,11 @@ public:
     void Enable(bool bEnable);
     void HideToolTip();
 
-    void GetRange(__int64& start, __int64& stop) const;
-    void SetRange(__int64 start, __int64 stop);
+    void GetRange(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) const;
+    void SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
     __int64 GetPos() const;
     __int64 GetPosReal() const;
-    void SetPos(__int64 pos);
+    void SetPos(REFERENCE_TIME rtPos);
 
     void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);
     void RemoveChapters();
@@ -97,6 +99,4 @@ private:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnMouseLeave();
     afx_msg LRESULT OnThemeChanged();
-
-    BOOL OnPlayStop(UINT nID);
 };

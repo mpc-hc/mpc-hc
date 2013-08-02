@@ -31,12 +31,12 @@
 IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
 CPlayerSeekBar::CPlayerSeekBar()
-    : m_start(0)
-    , m_stop(100)
-    , m_pos(0)
-    , m_posreal(0)
+    : m_rtStart(0)
+    , m_rtStop(0)
+    , m_rtPos(0)
+    , m_rtPosReal(0)
     , m_bEnabled(false)
-    , m_bSeekable(false)
+    , m_bHasDuration(false)
     , m_bHovered(false)
     , m_cursor(AfxGetApp()->LoadStandardCursor(IDC_HAND))
     , m_tooltipState(TOOLTIP_HIDDEN)
@@ -87,67 +87,65 @@ BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)
     return TRUE;
 }
 
-void CPlayerSeekBar::MoveThumb(CPoint point)
+void CPlayerSeekBar::MoveThumb(const CPoint& point)
 {
-    __int64 pos = CalculatePosition(point);
-
-    if (pos >= 0) {
-        SyncThumbToVideo(pos);
+    if (m_bHasDuration) {
+        SyncThumbToVideo(PositionFromClientPoint(point));
     }
 }
 
 void CPlayerSeekBar::SyncVideoToThumb()
 {
-    GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBTRACK), (LPARAM)m_hWnd);
+    GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_rtPos, SB_THUMBTRACK), (LPARAM)m_hWnd);
 }
 
-__int64 CPlayerSeekBar::CalculatePosition(REFERENCE_TIME rt)
+long CPlayerSeekBar::ChannelPointFromPosition(REFERENCE_TIME rtPos) const
 {
-    if (rt >= m_start && rt < m_stop) {
-        return (__int64)(GetChannelRect().Width() * ((double)(rt) / m_stop) + 1);
-    } else {
-        return -1;
+    long ret = 0;
+    auto w = GetChannelRect().Width();
+    if (m_bHasDuration) {
+        ret = (long)(w * (rtPos - m_rtStart) / (m_rtStop - m_rtStart));
     }
-}
-
-__int64 CPlayerSeekBar::CalculatePosition(CPoint point)
-{
-    CRect r(GetChannelRect());
-    __int64 pos = -1;
-
-    if (r.left >= r.right) {
-        pos = -1;
-    } else if (point.x < r.left) {
-        pos = m_start;
-    } else if (point.x >= r.right) {
-        pos = m_stop;
-    } else {
-        __int64 w = r.right - r.left;
-        if (m_start < m_stop) {
-            pos = m_start + ((m_stop - m_start) * (point.x - r.left) + (w / 2)) / w;
-        }
+    if (ret >= w) {
+        ret = w - 1;
     }
-
-    return pos;
+    return ret;
 }
 
-void CPlayerSeekBar::SyncThumbToVideo(__int64 pos)
+REFERENCE_TIME CPlayerSeekBar::PositionFromClientPoint(const CPoint& point) const
 {
-    if (m_pos == pos) {
+    REFERENCE_TIME rtRet = -1;
+    if (m_bHasDuration) {
+        ASSERT(m_rtStart < m_rtStop);
+        const CRect channelRect(GetChannelRect());
+        auto channelPointX = (point.x < channelRect.left) ? channelRect.left :
+                             (point.x > channelRect.right) ? channelRect.right : point.x;
+        ASSERT(channelPointX >= channelRect.left && channelPointX <= channelRect.right);
+        rtRet = m_rtStart + (channelPointX - channelRect.left) * (m_rtStop - m_rtStart) / channelRect.Width();
+    }
+    return rtRet;
+}
+
+void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
+{
+    ASSERT(rtPos >= 0);
+
+    if (m_rtPos == rtPos) {
+        ASSERT(m_rtPos == m_rtPosReal);
         return;
     }
 
-    CRect before(GetThumbRect(m_bEnabled && m_bSeekable));
-    m_pos = min(max(pos, m_start), m_stop);
-    m_posreal = pos;
-    CRect after(GetThumbRect(m_bEnabled && m_bSeekable));
+    m_rtPos = rtPos;
+    m_rtPosReal = rtPos;
 
-    if (before != after) {
-        InvalidateRect(before | after);
-
-        auto pFrame = AfxGetMainFrame();
-        if (pFrame && (AfxGetAppSettings().fUseWin7TaskBar && pFrame->m_pTaskbarList)) {
-            pFrame->m_pTaskbarList->SetProgressValue(pFrame->m_hWnd, pos, m_stop);
+    if (m_bHasDuration) {
+        CRect newThumbRect(GetThumbRect());
+        if (newThumbRect != m_lastThumbRect) {
+            InvalidateRect(newThumbRect | m_lastThumbRect);
+            auto pFrame = AfxGetMainFrame();
+            if (pFrame && AfxGetAppSettings().fUseWin7TaskBar && pFrame->m_pTaskbarList) {
+                pFrame->m_pTaskbarList->SetProgressValue(pFrame->m_hWnd, m_rtPos, m_rtStop);
+            }
         }
     }
 }
@@ -164,7 +162,7 @@ void CPlayerSeekBar::CreateThumb(bool bEnabled, CDC& parentDC)
         light  = GetSysColor(COLOR_3DHILIGHT),
         bkg    = GetSysColor(COLOR_BTNFACE);
 
-        CRect r(GetThumbRect(bEnabled));
+        CRect r(GetThumbRect());
         r.MoveToXY(0, 0);
         CRect ri(GetInnerThumbRect(bEnabled, r));
 
@@ -212,17 +210,12 @@ CRect CPlayerSeekBar::GetChannelRect() const
     return r;
 }
 
-CRect CPlayerSeekBar::GetThumbRect(bool bEnabled) const
+CRect CPlayerSeekBar::GetThumbRect() const
 {
-    CRect r(GetChannelRect());
-
-    int x = r.left + (int)(bEnabled ? (__int64)r.Width() * (m_pos - m_start) / (m_stop - m_start) : 0);
-    int y = r.CenterPoint().y;
-
-    r.SetRect(x, y, x, y);
-    r.InflateRect(6, 7, 7, 8);
-
-    return r;
+    const CRect channelRect(GetChannelRect());
+    long x = channelRect.left + ChannelPointFromPosition(m_rtPos);
+    long y = channelRect.CenterPoint().y;
+    return CRect(x - 6, y - 7, x + 7, y + 8);
 }
 
 CRect CPlayerSeekBar::GetInnerThumbRect(bool bEnabled, const CRect& thumbRect) const
@@ -232,12 +225,12 @@ CRect CPlayerSeekBar::GetInnerThumbRect(bool bEnabled, const CRect& thumbRect) c
     return r;
 }
 
-void CPlayerSeekBar::UpdateTooltip(CPoint point)
+void CPlayerSeekBar::UpdateTooltip(const CPoint& point)
 {
     CRect clientRect;
     GetClientRect(&clientRect);
 
-    if (!m_bEnabled || !m_bSeekable || !clientRect.PtInRect(point)) {
+    if (!m_bHasDuration || !clientRect.PtInRect(point)) {
         HideToolTip();
         return;
     }
@@ -264,8 +257,8 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
             ASSERT(!m_bIgnoreLastTooltipPoint);
             if (point != m_tooltipPoint) {
                 m_tooltipPoint = point;
-                UpdateToolTipText();
                 UpdateToolTipPosition();
+                UpdateToolTipText();
                 VERIFY(SetTimer(TIMER_SHOWHIDE_TOOLTIP, TOOLTIP_HIDE_TIMEOUT, nullptr));
             }
             break;
@@ -296,7 +289,8 @@ void CPlayerSeekBar::UpdateToolTipPosition()
 
 void CPlayerSeekBar::UpdateToolTipText()
 {
-    REFERENCE_TIME rtNow = CalculatePosition(m_tooltipPoint);
+    ASSERT(m_bHasDuration);
+    REFERENCE_TIME rtNow = PositionFromClientPoint(m_tooltipPoint);
     DVD_HMSF_TIMECODE tcNow = RT2HMS_r(rtNow);
 
     CString time;
@@ -342,48 +336,55 @@ void CPlayerSeekBar::HideToolTip()
     }
 }
 
-void CPlayerSeekBar::GetRange(__int64& start, __int64& stop) const
+void CPlayerSeekBar::GetRange(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) const
 {
-    start = m_start;
-    stop = m_stop;
+    rtStart = m_rtStart;
+    rtStop = m_rtStop;
 }
 
-void CPlayerSeekBar::SetRange(__int64 start, __int64 stop)
+void CPlayerSeekBar::SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
-    if (start < stop) {
-        m_start = start;
-        m_stop = stop;
-        m_bSeekable = true;
+    if (rtStart < rtStop) {
+        m_rtStart = rtStart;
+        m_rtStop = rtStop;
+        if (!m_bHasDuration) {
+            m_bHasDuration = true;
+            Invalidate();
+        }
     } else {
-        m_start = 0;
-        m_stop = 0;
-        if (m_bSeekable) {
-            m_bSeekable = false;
+        m_rtStart = 0;
+        m_rtStop = 0;
+        if (m_bHasDuration) {
+            m_bHasDuration = false;
             HideToolTip();
             if (GetCapture() == this) {
                 ReleaseCapture();
                 KillTimer(TIMER_HOVER_CAPTURED);
             }
+            Invalidate();
         }
     }
 }
 
 __int64 CPlayerSeekBar::GetPos() const
 {
-    return m_pos;
+    return m_rtPos;
 }
 
 __int64 CPlayerSeekBar::GetPosReal() const
 {
-    return m_posreal;
+    return m_rtPosReal;
 }
 
-void CPlayerSeekBar::SetPos(__int64 pos)
+void CPlayerSeekBar::SetPos(REFERENCE_TIME rtPos)
 {
+    ASSERT(rtPos >= 0);
+
     if (GetCapture() == this) {
         return;
     }
-    SyncThumbToVideo(pos);
+
+    SyncThumbToVideo(rtPos);
 }
 
 void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
@@ -411,14 +412,11 @@ BEGIN_MESSAGE_MAP(CPlayerSeekBar, CDialogBar)
     ON_WM_TIMER()
     ON_WM_MOUSELEAVE()
     ON_WM_THEMECHANGED()
-    ON_COMMAND_EX(ID_PLAY_STOP, OnPlayStop)
 END_MESSAGE_MAP()
 
 void CPlayerSeekBar::OnPaint()
 {
-    CPaintDC dc(this); // device context for painting
-
-    bool bEnabled = m_bEnabled && m_bSeekable;
+    CPaintDC dc(this);
 
     COLORREF
     dark   = GetSysColor(COLOR_GRAYTEXT),
@@ -429,13 +427,13 @@ void CPlayerSeekBar::OnPaint()
 
     // Thumb
     {
-        auto& pThumb = bEnabled ? m_pEnabledThumb : m_pDisabledThumb;
+        auto& pThumb = m_bEnabled ? m_pEnabledThumb : m_pDisabledThumb;
         if (!pThumb) {
-            CreateThumb(bEnabled, dc);
+            CreateThumb(m_bEnabled, dc);
             ASSERT(pThumb);
         }
-        CRect r(GetThumbRect(bEnabled));
-        CRect ri(GetInnerThumbRect(bEnabled, r));
+        CRect r(GetThumbRect());
+        CRect ri(GetInnerThumbRect(m_bEnabled, r));
 
         CRgn rg, rgi;
         VERIFY(rg.CreateRectRgnIndirect(&r));
@@ -444,33 +442,29 @@ void CPlayerSeekBar::OnPaint()
         ExtSelectClipRgn(dc, rgi, RGN_DIFF);
         VERIFY(dc.BitBlt(r.TopLeft().x, r.TopLeft().y, r.Width(), r.Height(), pThumb.get(), 0, 0, SRCCOPY));
         ExtSelectClipRgn(dc, rg, RGN_XOR);
+
+        m_lastThumbRect = r;
     }
 
+    const CRect channelRect(GetChannelRect());
+
     // Chapters
-    {
+    if (m_bHasDuration) {
         CAutoLock lock(&m_csChapterBag);
-
-        if (m_pChapterBag && m_pChapterBag->ChapGetCount() > 1) {
-            CRect cr = GetChannelRect();
-            REFERENCE_TIME rt;
-            for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
-                if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, nullptr))) {
-                    __int64 pos = CalculatePosition(rt);
-                    if (pos < 0) {
-                        continue;
+        if (m_pChapterBag) {
+            for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
+                REFERENCE_TIME rtChap;
+                if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
+                    long chanPos = channelRect.left + ChannelPointFromPosition(rtChap);
+                    CRect r(chanPos, channelRect.top, chanPos + 1, channelRect.bottom);
+                    if (r.right < channelRect.right) {
+                        r.right++;
                     }
-
-                    LONG chanPos = cr.left + (LONG)pos;
-                    CRect chan = GetChannelRect();
-                    CRect r;
-                    if (chanPos >= chan.right) {
-                        r = CRect(chanPos - 1, cr.top, chanPos, cr.bottom); // 1 px width
-                    } else {
-                        r = CRect(chanPos - 1, cr.top, chanPos + 1, cr.bottom); // 2 px width
-                    }
-
+                    ASSERT(r.right <= channelRect.right);
                     dc.FillSolidRect(&r, dark);
                     dc.ExcludeClipRect(&r);
+                } else {
+                    ASSERT(FALSE);
                 }
             }
         }
@@ -478,9 +472,8 @@ void CPlayerSeekBar::OnPaint()
 
     // Channel
     {
-        CRect r = GetChannelRect();
-
-        dc.FillSolidRect(&r, bEnabled ? white : bkg);
+        dc.FillSolidRect(&channelRect, m_bEnabled ? white : bkg);
+        CRect r(channelRect);
         r.InflateRect(1, 1);
         dc.Draw3dRect(&r, shadow, light);
         dc.ExcludeClipRect(&r);
@@ -490,8 +483,7 @@ void CPlayerSeekBar::OnPaint()
     {
         CRect r;
         GetClientRect(&r);
-        CBrush b(bkg);
-        dc.FillRect(&r, &b);
+        dc.FillSolidRect(&r, bkg);
     }
 }
 
@@ -499,7 +491,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
     CRect clientRect;
     GetClientRect(&clientRect);
-    if (m_bEnabled && m_bSeekable && clientRect.PtInRect(point)) {
+    if (m_bEnabled && m_bHasDuration && clientRect.PtInRect(point)) {
         m_bHovered = false;
         SetCapture();
         MoveThumb(point);
@@ -543,7 +535,7 @@ BOOL CPlayerSeekBar::OnEraseBkgnd(CDC* pDC)
 BOOL CPlayerSeekBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
     BOOL ret = TRUE;
-    if (m_bEnabled && m_bSeekable) {
+    if (m_bEnabled && m_bHasDuration) {
         ::SetCursor(m_cursor);
     } else {
         ret = __super::OnSetCursor(pWnd, nHitTest, message);
@@ -558,7 +550,7 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
     ScreenToClient(&point);
     switch (nIDEvent) {
         case TIMER_SHOWHIDE_TOOLTIP:
-            if (m_tooltipState == TOOLTIP_TRIGGERED && m_bEnabled && m_bSeekable) {
+            if (m_tooltipState == TOOLTIP_TRIGGERED && m_bHasDuration) {
                 m_tooltipPoint = point;
                 UpdateToolTipText();
                 m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
@@ -597,10 +589,4 @@ LRESULT CPlayerSeekBar::OnThemeChanged()
     m_pEnabledThumb.release();
     m_pDisabledThumb.release();
     return __super::OnThemeChanged();
-}
-
-BOOL CPlayerSeekBar::OnPlayStop(UINT nID)
-{
-    SetPos(0);
-    return FALSE;
 }
