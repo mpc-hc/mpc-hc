@@ -96,6 +96,7 @@ int main(int argc, char *argv[])
   if (ShutdownOnClose)
     Shutdown();
 #endif
+  ErrHandler.MainExit=true;
   return ErrHandler.GetErrorCode();
 }
 #endif

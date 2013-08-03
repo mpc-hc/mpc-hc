@@ -39,7 +39,7 @@ Legend:
 * Updated Basque, Czech, French, German, Greek, Polish, Romanian, Simplified Chinese
   and Slovak translations
 * Updated Little CMS to v2.5 (git 1d2643c)
-* Updated Unrar to v5.0.8
+* Updated Unrar to v5.0.9
 * Updated MediaInfoLib to v0.7.64
 * Updated ZenLib to v0.4.29 r444
 ! D3DFullscreen fixes:

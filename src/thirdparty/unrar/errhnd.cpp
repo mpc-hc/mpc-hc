@@ -15,6 +15,7 @@ void ErrorHandler::Clean()
   Silent=false;
   DoShutdown=false;
   UserBreak=false;
+  MainExit=false;
 }
 
 
@@ -287,7 +288,8 @@ void _stdfunction ProcessSignal(int SigType)
 
 #ifdef _WIN_ALL
   // Let the main thread to handle 'throw' and destroy file objects.
-  Sleep(200);
+  for (uint I=0;!ErrHandler.MainExit && I<50;I++)
+    Sleep(100);
 #if defined(USE_RC) && !defined(SFX_MODULE) && !defined(RARDLL)
   ExtRes.UnloadDLL();
 #endif
