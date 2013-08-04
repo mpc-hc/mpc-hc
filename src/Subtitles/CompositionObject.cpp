@@ -182,13 +182,11 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, short
 
 void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb, short& nX, short& nY)
 {
-    BYTE  nPaletteIndex = 0;
-    short nCount;
-    bool  bQuit = false;
+    bool bQuit = false;
 
     while (!bQuit && !gb.IsEOF()) {
-        nCount = 0;
-        nPaletteIndex = 0;
+        short nCount = 0;
+        BYTE nPaletteIndex = 0;
         BYTE bTemp = (BYTE)gb.BitRead(2);
         if (bTemp != 0) {
             nPaletteIndex = bTemp;
@@ -237,13 +235,11 @@ void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 
 void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb, short& nX, short& nY)
 {
-    BYTE  nPaletteIndex = 0;
-    short nCount;
-    bool  bQuit = false;
+    bool bQuit = false;
 
     while (!bQuit && !gb.IsEOF()) {
-        nCount = 0;
-        nPaletteIndex = 0;
+        short nCount = 0;
+        BYTE nPaletteIndex = 0;
         BYTE bTemp = (BYTE)gb.BitRead(4);
         if (bTemp != 0) {
             nPaletteIndex = bTemp;
@@ -299,13 +295,11 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 
 void CompositionObject::Dvb8PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb, short& nX, short& nY)
 {
-    BYTE  nPaletteIndex = 0;
-    short nCount;
-    bool  bQuit = false;
+    bool bQuit = false;
 
     while (!bQuit && !gb.IsEOF()) {
-        nCount = 0;
-        nPaletteIndex = 0;
+        short nCount = 0;
+        BYTE nPaletteIndex = 0;
         BYTE bTemp = gb.ReadByte();
         if (bTemp != 0) {
             nPaletteIndex = bTemp;
