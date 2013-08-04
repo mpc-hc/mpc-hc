@@ -1313,7 +1313,7 @@ void CAppSettings::LoadSettings()
         CString temp = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SPSTYLE);
         subtitlesDefStyle <<= temp;
         if (temp.IsEmpty()) {
-            subtitlesDefStyle.relativeTo = 1; // default "Position subtitles relative to the video frame" option is checked
+            subtitlesDefStyle.relativeTo = STSStyle::AUTO; // default to auto mode
         }
     }
     fOverridePlacement = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPOVERRIDEPLACEMENT, FALSE);

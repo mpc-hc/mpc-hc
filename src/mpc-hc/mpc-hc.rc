@@ -2104,6 +2104,8 @@ BEGIN
     IDS_STATSBAR_SIGNAL     "Signal"
     IDS_STATSBAR_SIGNAL_FORMAT "Strength: %d dB, Quality: %d%%"
     IDS_SUBTITLES_STYLES_CAPTION "Styles"
+    IDS_TEXT_SUB_RENDERING_TARGET 
+                            "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
 END
 
 STRINGTABLE
@@ -2385,7 +2387,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_CHECK_RELATIVETO    "Default state gets inherited to other styles where it is still undefined"
+    IDC_CHECK_RELATIVETO    "If the rendering target is left undefined, it will be inherited from the default style."
     IDC_CHECK_SPCPOW2TEX    "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
     IDC_CHECK_SPCANIMWITHBUFFER 
                             "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
@@ -2550,8 +2552,10 @@ BEGIN
     IDS_CREDENTIALS_CONNECT "Enter your credentials to connect"
     IDS_SUB_SAVE_EXTERNAL_STYLE_FILE "Save custom style"
     IDS_CONTENT_EDUCATION_SCIENCE "Education/Science/Factual topics"
-    IDS_PPAGEADVANCED_HIDE_WINDOWED "Hides controls and panels also in windowed mode."
-    IDS_PPAGEADVANCED_BLOCK_VSFILTER "Prevent external subtitle renderer to be loaded when internal is in use."
+    IDS_PPAGEADVANCED_HIDE_WINDOWED 
+                            "Hides controls and panels also in windowed mode."
+    IDS_PPAGEADVANCED_BLOCK_VSFILTER 
+                            "Prevent external subtitle renderer to be loaded when internal is in use."
     IDS_PPAGEADVANCED_COL_NAME "Name"
     IDS_PPAGEADVANCED_COL_VALUE "Value"
 END

@@ -116,6 +116,10 @@ msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
 msgstr "樣式"
 
+msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
+msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
+msgstr ""
+
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
 msgstr "永不 (最快的方式)"
@@ -841,8 +845,8 @@ msgid "Accurate VSync"
 msgstr "精確式垂直同步"
 
 msgctxt "IDC_CHECK_RELATIVETO"
-msgid "Default state gets inherited to other styles where it is still undefined"
-msgstr "如果依舊沒定義, 預設會繼承其他的樣式"
+msgid "If the rendering target is left undefined, it will be inherited from the default style."
+msgstr ""
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."

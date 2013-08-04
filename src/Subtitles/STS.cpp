@@ -1479,7 +1479,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                 }
                 style->charSet = GetInt(pszBuff, nBuffLength);
                 if (sver >= 6)  {
-                    style->relativeTo = GetInt(pszBuff, nBuffLength);
+                    style->relativeTo = (STSStyle::RelativeTo)GetInt(pszBuff, nBuffLength);
                 }
 
                 if (sver <= 4)  {
@@ -2392,8 +2392,16 @@ bool CSimpleTextSubtitle::GetStyle(int i, STSStyle& stss)
     }
 
     stss = *style;
-    if (stss.relativeTo == 2 && defstyle) {
+    if (stss.relativeTo == STSStyle::AUTO && defstyle) {
         stss.relativeTo = defstyle->relativeTo;
+        // If relative to is set to "auto" even for the default style, decide based on the subtitle type
+        if (stss.relativeTo == STSStyle::AUTO) {
+            if (m_subtitleType == Subtitle::ASS || m_subtitleType == Subtitle::SSA) {
+                stss.relativeTo = STSStyle::VIDEO;
+            } else {
+                stss.relativeTo = STSStyle::WINDOW;
+            }
+        }
     }
 
     return true;
@@ -2413,8 +2421,16 @@ bool CSimpleTextSubtitle::GetStyle(CString styleName, STSStyle& stss)
 
     STSStyle* defstyle = nullptr;
     m_styles.Lookup(def, defstyle);
-    if (defstyle && stss.relativeTo == 2) {
+    if (defstyle && stss.relativeTo == STSStyle::AUTO) {
         stss.relativeTo = defstyle->relativeTo;
+        // If relative to is set to "auto" even for the default style, decide based on the subtitle type
+        if (stss.relativeTo == STSStyle::AUTO) {
+            if (m_subtitleType == Subtitle::ASS || m_subtitleType == Subtitle::SSA) {
+                stss.relativeTo = STSStyle::VIDEO;
+            } else {
+                stss.relativeTo = STSStyle::WINDOW;
+            }
+        }
     }
 
     return true;
@@ -2975,7 +2991,7 @@ void STSStyle::SetDefault()
     fBlur = 0;
     fGaussianBlur = 0;
     fontShiftX = fontShiftY = fontAngleZ = fontAngleX = fontAngleY = 0;
-    relativeTo = 2;
+    relativeTo = STSStyle::AUTO;
 }
 
 bool STSStyle::operator == (const STSStyle& s) const
@@ -3118,7 +3134,7 @@ STSStyle& operator <<= (STSStyle& s, const CString& style)
             s.fontAngleZ = GetFloat(pszBuff, nBuffLength, L';');
             s.fontAngleX = GetFloat(pszBuff, nBuffLength, L';');
             s.fontAngleY = GetFloat(pszBuff, nBuffLength, L';');
-            s.relativeTo = GetInt(pszBuff, nBuffLength, L';');
+            s.relativeTo = (STSStyle::RelativeTo)GetInt(pszBuff, nBuffLength, L';');
         }
     } catch (...) {
         s.SetDefault();

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -334,9 +334,9 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
         stss->scrAlignment = TranslateAlignment(s->pal.alignment);
 
         if (!s->pal.relativeto.IsEmpty()) stss->relativeTo =
-                !s->pal.relativeto.CompareNoCase(L"window") ? 0 :
-                !s->pal.relativeto.CompareNoCase(L"video") ? 1 :
-                0;
+                !s->pal.relativeto.CompareNoCase(L"window") ? STSStyle::WINDOW :
+                !s->pal.relativeto.CompareNoCase(L"video") ? STSStyle::VIDEO :
+                STSStyle::WINDOW;
 
         stss->borderStyle = 0;
         if (!s->fontstyle.outline.IsEmpty()) {

@@ -185,6 +185,9 @@ BOOL CPPageSubStyle::OnInitDialog()
     UpdateData(FALSE);
 
     CreateToolTip();
+    if (m_bDefaultStyle) {
+        m_wndToolTip.AddTool(GetDlgItem(IDC_CHECK_RELATIVETO), ResStr(IDS_TEXT_SUB_RENDERING_TARGET));
+    }
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -208,7 +211,7 @@ BOOL CPPageSubStyle::OnApply()
 
     m_stss.scrAlignment = m_screenAlignment + 1;
     m_stss.marginRect = m_margin;
-    m_stss.relativeTo = m_iRelativeTo;
+    m_stss.relativeTo = (STSStyle::RelativeTo)m_iRelativeTo;
 
     for (size_t i = 0; i < m_alpha.size(); i++) {
         m_stss.alpha[i] = BYTE_MAX - m_alpha[i];

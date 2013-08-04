@@ -12,6 +12,9 @@ next version - not released yet
 ===============================
 + Accept loading more than one subtitle file at a time using the "Load subtitle" dialog or drag-and-drop
 + Add advanced settings page
++ Ticket #4345, Text subtitles: Add a mode that automatically chooses the rendering target based on the
+  subtitle type, ASS/SSA subtitles will be rendered on the video frame while other text subtitles will
+  be rendered on the full window
 * Text subtitles: Faster subtitle parsing (up to 4 times faster for SSA/ASS subtitles)
 * Text subtitles: Much faster subtitle opening in the Subresync bar
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails

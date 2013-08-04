@@ -278,7 +278,7 @@ public:
     int m_wrapStyle;
     bool m_fAnimated;
     bool m_bIsAnimated;
-    int m_relativeTo;
+    STSStyle::RelativeTo m_relativeTo;
 
     Effect* m_effects[EF_NUMBEROFEFFECTS];
 

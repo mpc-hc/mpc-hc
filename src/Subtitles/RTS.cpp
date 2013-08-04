@@ -1099,7 +1099,7 @@ CSubtitle::CSubtitle(COutlineCache& outlineCache, COverlayCache& overlayCache)
     , m_scrAlignment(0)
     , m_wrapStyle(0)
     , m_fAnimated(false)
-    , m_relativeTo(1)
+    , m_relativeTo(STSStyle::AUTO)
     , m_topborder(0)
     , m_bottomborder(0)
     , m_overlayCache(overlayCache)
@@ -2157,7 +2157,7 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
 
                 if (nParams == 1 && nParamsInt == 0 && !sub->m_pClipper) {
                     sub->m_pClipper = DEBUG_NEW CClipper(tag.params[0], CSize(m_size.cx >> 3, m_size.cy >> 3), sub->m_scalex, sub->m_scaley,
-                                                         invert, (sub->m_relativeTo == 1) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
+                                                         invert, (sub->m_relativeTo == STSStyle::VIDEO) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
                                                          m_outlineCache, m_overlayCache);
                 } else if (nParams == 1 && nParamsInt == 1 && !sub->m_pClipper) {
                     long scale = tag.paramsInt[0];
@@ -2166,7 +2166,7 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                     }
                     sub->m_pClipper = DEBUG_NEW CClipper(tag.params[0], CSize(m_size.cx >> 3, m_size.cy >> 3),
                                                          sub->m_scalex / (1 << (scale - 1)), sub->m_scaley / (1 << (scale - 1)), invert,
-                                                         (sub->m_relativeTo == 1) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
+                                                         (sub->m_relativeTo == STSStyle::VIDEO) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
                                                          m_outlineCache, m_overlayCache);
                 } else if (nParamsInt == 4) {
                     sub->m_clipInverse = invert;
@@ -2176,7 +2176,7 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                     double dRight  = sub->m_scalex * tag.paramsInt[2];
                     double dBottom = sub->m_scaley * tag.paramsInt[3];
 
-                    if (sub->m_relativeTo == 1) {
+                    if (sub->m_relativeTo == STSStyle::VIDEO) {
                         double dOffsetX = m_vidrect.left / 8.0;
                         double dOffsetY = m_vidrect.top / 8.0;
                         dLeft += dOffsetX;
@@ -2373,7 +2373,7 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                         e->param[0] = std::lround(sub->m_scalex * tag.paramsReal[0] * 8.0);
                         e->param[1] = std::lround(sub->m_scaley * tag.paramsReal[1] * 8.0);
 
-                        if (sub->m_relativeTo == 1) {
+                        if (sub->m_relativeTo == STSStyle::VIDEO) {
                             e->param[0] += m_vidrect.left;
                             e->param[1] += m_vidrect.top;
                         }
@@ -2691,8 +2691,8 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     sub->m_wrapStyle = m_defaultWrapStyle;
     sub->m_fAnimated = false;
     sub->m_relativeTo = stss.relativeTo;
-    sub->m_scalex = m_dstScreenSize.cx > 0 ? double(stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
-    sub->m_scaley = m_dstScreenSize.cy > 0 ? double(stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
+    sub->m_scalex = m_dstScreenSize.cx > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
+    sub->m_scaley = m_dstScreenSize.cy > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
 
     STSEntry stse = GetAt(entry);
     CRect marginRect = stse.marginRect;
@@ -2714,7 +2714,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     marginRect.right  = std::lround(sub->m_scalex * marginRect.right * 8.0);
     marginRect.bottom = std::lround(sub->m_scaley * marginRect.bottom * 8.0);
 
-    if (stss.relativeTo == 1) { // Don't be strict when using undefined mode (relativeTo == 2)
+    if (sub->m_relativeTo == STSStyle::VIDEO) {
         // Account for the user trying to fool the renderer by setting negative margins
         CRect clipRect = m_vidrect;
         if (marginRect.left < 0) {
@@ -2735,7 +2735,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         sub->m_clip.SetRect(0, 0, m_size.cx >> 3, m_size.cy >> 3);
     }
 
-    if (stss.relativeTo == 1) {
+    if (sub->m_relativeTo == STSStyle::VIDEO) {
         marginRect.left   += m_vidrect.left;
         marginRect.top    += m_vidrect.top;
         marginRect.right  += m_size.cx - m_vidrect.right;
@@ -3021,7 +3021,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                                    s->m_scrAlignment <= 3 ? p.y - spaceNeeded.cy : s->m_scrAlignment <= 6 ? p.y - (spaceNeeded.cy + 1) / 2 : p.y),
                             spaceNeeded);
 
-                    if (s->m_relativeTo == 1) {
+                    if (s->m_relativeTo == STSStyle::VIDEO) {
                         r.OffsetRect(m_vidrect.TopLeft());
                     }
                     fPosOverride = true;
@@ -3060,8 +3060,8 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                 }
                 break;
                 case EF_BANNER: { // Banner;delay=param[0][;leftoright=param[1];fadeawaywidth=param[2]]
-                    int left = s->m_relativeTo == 1 ? m_vidrect.left : 0,
-                        right = s->m_relativeTo == 1 ? m_vidrect.right : m_size.cx;
+                    int left = (s->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.left : 0,
+                        right = (s->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.right : m_size.cx;
 
                     r.left = !!s->m_effects[k]->param[1]
                              ? (left/*marginRect.left*/ - spaceNeeded.cx) + (int)(m_time * 8.0 / s->m_effects[k]->param[0])
@@ -3083,11 +3083,12 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
                     CRect cr(0, (s->m_effects[k]->param[0] + 4) >> 3, spd.w, (s->m_effects[k]->param[1] + 4) >> 3);
 
-                    if (s->m_relativeTo == 1)
-                        r.top += m_vidrect.top,
-                                 r.bottom += m_vidrect.top,
-                                             cr.top += m_vidrect.top >> 3,
-                                                       cr.bottom += m_vidrect.top >> 3;
+                    if (s->m_relativeTo == STSStyle::VIDEO) {
+                        r.top += m_vidrect.top;
+                        r.bottom += m_vidrect.top;
+                        cr.top += m_vidrect.top >> 3;
+                        cr.bottom += m_vidrect.top >> 3;
+                    }
 
                     clipRect &= cr;
 
