@@ -244,9 +244,9 @@ cz.ViewChangelog=Zobrazit seznam změn
 
 ;German
 de.langid=00000002
-de.comp_mpciconlib=Symbole für Mediendateien
-de.comp_mpcresources=Übersetzungen
-de.msg_DeleteSettings=Wollen Sie auch die Einstellungen des MPC-HC löschen?%n%nWenn Sie den MPC-HC wieder installieren wollen, dann müssen Sie diese nicht unbedingt löschen.
+de.comp_mpciconlib=Dateisymbole für verknüpfte Mediendateien
+de.comp_mpcresources=Sprachdateien (darunter Deutsch)
+de.msg_DeleteSettings=Wollen Sie auch die Programmeinstellungen löschen?%n%nWenn Sie den MPC-HC wieder installieren möchten, dann müssen Sie diese nicht unbedingt löschen.
 de.msg_SetupIsRunningWarning=MPC-HC Setup wird bereits ausgeführt!
 #if defined(sse_required)
 de.msg_simd_sse=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE-Unterstützung.%n%nIhr Prozessor besitzt nicht diese Eigenschaft.
@@ -256,10 +256,10 @@ de.msg_simd_sse2=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE2-Unterst�
 de.tsk_AllUsers=Für alle Benutzer
 de.tsk_CurrentUser=Für aktuellen Benutzer
 de.tsk_Other=Andere Aufgaben:
-de.tsk_ResetSettings=Einstellungen zurücksetzen
+de.tsk_ResetSettings=Programmeinstellungen zurücksetzen
 de.types_DefaultInstallation=Standard Installation
 de.types_CustomInstallation=Benutzerdefinierte Installation
-de.ViewChangelog=Zeige Änderungsprotokoll
+de.ViewChangelog=Änderungsprotokoll zeigen
 
 
 ;Greek
