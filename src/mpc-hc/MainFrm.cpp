@@ -11491,12 +11491,10 @@ void CMainFrame::UpdateChapterInInfoBar()
 
             CComBSTR bstr;
             long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
-            if (currentChap >= 0) {
-                if (bstr.Length()) {
-                    chapter.Format(_T("%s (%d/%u)"), bstr.m_str, currentChap + 1, dwChapCount);
-                } else {
-                    chapter.Format(_T("%d/%u"), currentChap + 1, dwChapCount);
-                }
+            if (bstr.Length()) {
+                chapter.Format(_T("%s (%d/%u)"), bstr.m_str, max(0, currentChap + 1), dwChapCount);
+            } else {
+                chapter.Format(_T("%d/%u"), currentChap + 1, dwChapCount);
             }
         }
     }
