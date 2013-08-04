@@ -23,6 +23,9 @@ Legend:
 + Audio Switcher: Show all audio tracks available, including all the embedded tracks
   exhibited by the source filter and the external tracks
 + Playlist: Add a "Move to Recycle Bin" right click option, with optional keyboard shortcut
++ Playlist: Ticket #3323, add "Open file location" menu item
++ Information bar: Show the chapter info for files when available
++ Show chapter marks on OSD seekbar in Direct3DMode
 + Ticket #533, Add a command line switch (/device) to open the default video device
 + Ticket #3107, Add support for playing from standard input.
   Use "-" as a special filename to designate the standard input.
@@ -36,8 +39,10 @@ Legend:
 * Remove D2VSource; it's unmaintained and basically unused
 * WebUI: Switched to HTML5 and improved the cross browser support
   (IE8 or newer is needed, other browsers should work fine)
+* Improved Seekbar Mouse handling for smoother mouse seek
 * Updated Basque, Czech, French, German, Greek, Polish, Romanian, Simplified Chinese
   and Slovak translations
+* VS2012 is the new default compiler
 * Updated Little CMS to v2.5 (git 1d2643c)
 * Updated Unrar to v5.0.8
 * Updated MediaInfoLib to v0.7.64
@@ -51,3 +56,5 @@ Legend:
   Sync Renderer with DXVA decoding
 ! Ticket #3304, Fix remember file position when double-clicking on a playlist item.
   If a position was previously saved, it will be restored unless the file is already playing.
+! Ticket #903, Prevent locking the desktop window when aero is on
+! Some minor fixes and enhancements
