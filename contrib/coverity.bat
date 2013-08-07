@@ -30,15 +30,18 @@ SET MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpuc
 
 "%COVDIR%\bin\cov-build.exe" --dir cov-int MSBuild "..\mpc-hc.sln" %MSBUILD_SWITCHES%
 
+IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
+IF EXIST "MPC-HC.tgz" DEL "MPC-HC.tgz"
+
+
 :tar
 tar --version 1>&2 2>NUL || (ECHO. & ECHO ERROR: tar not found & GOTO SevenZip)
 tar czvf MPC-HC.tgz cov-int
 GOTO End
 
+
 :SevenZip
 IF NOT EXIST "%PROGRAMFILES%\7za.exe" (ECHO. & ECHO ERROR: "%PROGRAMFILES%\7za.exe" not found & GOTO End)
-IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
-IF EXIST "MPC-HC.tgz" DEL "MPC-HC.tgz"
 "%PROGRAMFILES%\7za.exe" a -ttar MPC-HC.tar cov-int
 "%PROGRAMFILES%\7za.exe" a -tgzip MPC-HC.tgz MPC-HC.tar
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
