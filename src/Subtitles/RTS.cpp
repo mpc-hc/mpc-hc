@@ -89,11 +89,6 @@ CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, dou
     if (str.IsEmpty()) {
         m_fWhiteSpaceChar = m_fLineBreak = true;
     }
-
-    CMyFont font(m_style);
-    m_ascent  = (int)(m_style.fontScaleY / 100 * font.m_ascent);
-    m_descent = (int)(m_style.fontScaleY / 100 * font.m_descent);
-    m_width   = 0;
 }
 
 CWord::~CWord()
@@ -439,6 +434,8 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, dou
     }
 
     CMyFont font(m_style);
+    m_ascent  = (int)(m_style.fontScaleY / 100 * font.m_ascent);
+    m_descent = (int)(m_style.fontScaleY / 100 * font.m_descent);
 
     HFONT hOldFont = SelectFont(g_hDC, font);
 
