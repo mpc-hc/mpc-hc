@@ -170,6 +170,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
     }
 
     m_ScreenSize.SetSize(ddsd.dwWidth, ddsd.dwHeight);
+    CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
 
     HRESULT hr;
 
@@ -194,8 +195,8 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
     INITDDSTRUCT(ddsd);
     ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
     ddsd.ddsCaps.dwCaps = /*DDSCAPS_OFFSCREENPLAIN |*/ DDSCAPS_VIDEOMEMORY | DDSCAPS_3DDEVICE;
-    ddsd.dwWidth = m_ScreenSize.cx;
-    ddsd.dwHeight = m_ScreenSize.cy;
+    ddsd.dwWidth = szDesktopSize.cx;
+    ddsd.dwHeight = szDesktopSize.cy;
     if (FAILED(hr = m_pDD->CreateSurface(&ddsd, &m_pBackBuffer, nullptr))) {
         return hr;
     }
@@ -228,7 +229,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
     switch (GetRenderersSettings().nSPCMaxRes) {
         case 0:
         default:
-            size = m_ScreenSize;
+            size = szDesktopSize;
             break;
         case 1:
             size.SetSize(1024, 768);

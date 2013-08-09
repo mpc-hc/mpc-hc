@@ -595,6 +595,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
 
+    CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
+
     if (m_bIsFullscreen) {
         if (m_bHighColorResolution) {
             pp.BackBufferFormat = D3DFMT_A2R10G10B10;
@@ -672,8 +674,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
             m_RefreshRate = DisplayMode.RefreshRate;
-            pp.BackBufferWidth = m_ScreenSize.cx;
-            pp.BackBufferHeight = m_ScreenSize.cy;
+            pp.BackBufferWidth = szDesktopSize.cx;
+            pp.BackBufferHeight = szDesktopSize.cy;
 
             // We can get 0x8876086a here when switching from two displays to one display using Win + P (Windows 7)
             // Cause: We might not reinitialize dx correctly during the switch
@@ -690,8 +692,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
             m_RefreshRate = d3ddm.RefreshRate;
-            pp.BackBufferWidth = m_ScreenSize.cx;
-            pp.BackBufferHeight = m_ScreenSize.cy;
+            pp.BackBufferWidth = szDesktopSize.cx;
+            pp.BackBufferHeight = szDesktopSize.cy;
 
             hr = m_pD3D->CreateDevice(
                      m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
@@ -745,7 +747,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     switch (GetRenderersSettings().nSPCMaxRes) {
         case 0:
         default:
-            size = m_ScreenSize;
+            size = m_bIsFullscreen ? m_ScreenSize : szDesktopSize;
             break;
         case 1:
             size.SetSize(1024, 768);

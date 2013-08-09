@@ -438,6 +438,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     m_dD3DRefreshCycle = 1000.0 / (double)m_uD3DRefreshRate; // In ms
     m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
+    CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
 
     BOOL bCompositionEnabled = false;
     if (m_pDwmIsCompositionEnabled) {
@@ -513,8 +514,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         pp.SwapEffect = D3DSWAPEFFECT_COPY;
         pp.Flags = D3DPRESENTFLAG_VIDEO;
         pp.BackBufferCount = 1;
-        pp.BackBufferWidth = d3ddm.Width;
-        pp.BackBufferHeight = d3ddm.Height;
+        pp.BackBufferWidth = szDesktopSize.cx;
+        pp.BackBufferHeight = szDesktopSize.cy;
         m_BackbufferType = d3ddm.Format;
         m_DisplayType = d3ddm.Format;
         m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
@@ -585,7 +586,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     switch (GetRenderersSettings().nSPCMaxRes) {
         case 0:
         default:
-            size = m_ScreenSize;
+            size = m_bIsFullscreen ? m_ScreenSize : szDesktopSize;
             break;
         case 1:
             size.SetSize(1024, 768);
