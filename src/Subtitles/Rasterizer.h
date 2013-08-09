@@ -94,15 +94,19 @@ struct COverlayData
         , mOverlayHeight(overlayData.mOverlayHeight)
         , mOverlayPitch(overlayData.mOverlayPitch)
     {
-        mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
-        mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
-        if (!mpOverlayBufferBody || !mpOverlayBufferBorder) {
-            mOffsetX = mOffsetY = 0;
-            mOverlayWidth = mOverlayHeight = 0;
-            DeleteOverlay();
+        if (mOverlayPitch > 0 && mOverlayHeight > 0) {
+            mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+            mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+            if (!mpOverlayBufferBody || !mpOverlayBufferBorder) {
+                mOffsetX = mOffsetY = 0;
+                mOverlayWidth = mOverlayHeight = 0;
+                DeleteOverlay();
+            }
+            memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayPitch * mOverlayHeight);
+            memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayPitch * mOverlayHeight);
+        } else {
+            mpOverlayBufferBody = mpOverlayBufferBorder = nullptr;
         }
-        memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayPitch * mOverlayHeight);
-        memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayPitch * mOverlayHeight);
     }
 
     COverlayData::~COverlayData() {
@@ -117,15 +121,19 @@ struct COverlayData
         mOverlayPitch = overlayData.mOverlayPitch;
 
         DeleteOverlay();
-        mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
-        mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
-        if (!mpOverlayBufferBody || !mpOverlayBufferBorder) {
-            mOffsetX = mOffsetY = 0;
-            mOverlayWidth = mOverlayHeight = 0;
-            DeleteOverlay();
+        if (mOverlayPitch > 0 && mOverlayHeight > 0) {
+            mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+            mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+            if (!mpOverlayBufferBody || !mpOverlayBufferBorder) {
+                mOffsetX = mOffsetY = 0;
+                mOverlayWidth = mOverlayHeight = 0;
+                DeleteOverlay();
+            }
+            memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayPitch * mOverlayHeight);
+            memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayPitch * mOverlayHeight);
+        } else {
+            mpOverlayBufferBody = mpOverlayBufferBorder = nullptr;
         }
-        memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayPitch * mOverlayHeight);
-        memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayPitch * mOverlayHeight);
 
         return *this;
     };
@@ -133,12 +141,12 @@ struct COverlayData
     void DeleteOverlay() {
         if (mpOverlayBufferBody) {
             _aligned_free(mpOverlayBufferBody);
+            mpOverlayBufferBody = nullptr;
         }
-        mpOverlayBufferBody = nullptr;
         if (mpOverlayBufferBorder) {
             _aligned_free(mpOverlayBufferBorder);
+            mpOverlayBufferBorder = nullptr;
         }
-        mpOverlayBufferBorder = nullptr;
     }
 };
 
