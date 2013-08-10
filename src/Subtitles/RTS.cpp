@@ -426,43 +426,59 @@ void CWord::Transform_SSE2(const CPoint& org)
 // CText
 
 CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
-             COutlineCache& outlineCache, COverlayCache& overlayCache)
+             CTextDimsCache& textDimsCache, COutlineCache& outlineCache, COverlayCache& overlayCache)
     : CWord(style, str, ktype, kstart, kend, scalex, scaley, outlineCache, overlayCache)
 {
     if (m_str == L" ") {
         m_fWhiteSpaceChar = true;
     }
 
-    CMyFont font(m_style);
-    m_ascent  = (int)(m_style.fontScaleY / 100 * font.m_ascent);
-    m_descent = (int)(m_style.fontScaleY / 100 * font.m_descent);
+    CTextDimsKey textDimsKey(m_str, m_style);
+    CTextDims textDims;
+    if (!textDimsCache.Lookup(textDimsKey, textDims)) {
+        CMyFont font(m_style);
+        m_ascent  = font.m_ascent;
+        m_descent = font.m_descent;
 
-    HFONT hOldFont = SelectFont(g_hDC, font);
+        HFONT hOldFont = SelectFont(g_hDC, font);
 
-    if (m_style.fontSpacing) {
-        for (LPCWSTR s = m_str; *s; s++) {
+        if (m_style.fontSpacing) {
+            for (LPCWSTR s = m_str; *s; s++) {
+                CSize extent;
+                if (!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {
+                    SelectFont(g_hDC, hOldFont);
+                    ASSERT(0);
+                    return;
+                }
+                m_width += extent.cx + (int)m_style.fontSpacing;
+            }
+            // m_width -= (int)m_style.fontSpacing; // TODO: subtract only at the end of the line
+        } else {
             CSize extent;
-            if (!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {
+            if (!GetTextExtentPoint32W(g_hDC, m_str, str.GetLength(), &extent)) {
                 SelectFont(g_hDC, hOldFont);
                 ASSERT(0);
                 return;
             }
-            m_width += extent.cx + (int)m_style.fontSpacing;
+            m_width += extent.cx;
         }
-        //          m_width -= (int)m_style.fontSpacing; // TODO: subtract only at the end of the line
+
+        SelectFont(g_hDC, hOldFont);
+
+        textDims.ascent  = m_ascent;
+        textDims.descent = m_descent;
+        textDims.width   = m_width;
+
+        textDimsCache.SetAt(textDimsKey, textDims);
     } else {
-        CSize extent;
-        if (!GetTextExtentPoint32W(g_hDC, m_str, (int)wcslen(str), &extent)) {
-            SelectFont(g_hDC, hOldFont);
-            ASSERT(0);
-            return;
-        }
-        m_width += extent.cx;
+        m_ascent  = textDims.ascent;
+        m_descent = textDims.descent;
+        m_width   = textDims.width;
     }
 
-    m_width = (int)(m_style.fontScaleX / 100 * m_width + 4) >> 3;
-
-    SelectFont(g_hDC, hOldFont);
+    m_ascent  = (int)(m_style.fontScaleY / 100 * m_ascent);
+    m_descent = (int)(m_style.fontScaleY / 100 * m_descent);
+    m_width   = (int)(m_style.fontScaleX / 100 * m_width + 4) >> 3;
 }
 
 CWord* CText::Copy()
@@ -1521,6 +1537,7 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock, STSStyle* styleOve
     , m_kend(0)
     , m_nPolygon(0)
     , m_polygonBaselineOffset(0)
+    , m_textDimsCache(2048)
     , m_SSATagsCache(2048)
     , m_outlineCache(128)
     , m_overlayCache(128)
@@ -1751,7 +1768,7 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
 
         if (i < j) {
             if (CWord* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
-                                           m_outlineCache, m_overlayCache)) {
+                                           m_textDimsCache, m_outlineCache, m_overlayCache)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
@@ -1759,13 +1776,13 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
 
         if (c == L'\n') {
             if (CWord* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
-                                           m_outlineCache, m_overlayCache)) {
+                                           m_textDimsCache, m_outlineCache, m_overlayCache)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         } else if (c == L' ' || c == L'\x00A0') {
             if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
-                                           m_outlineCache, m_overlayCache)) {
+                                           m_textDimsCache, m_outlineCache, m_overlayCache)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }

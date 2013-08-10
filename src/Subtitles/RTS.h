@@ -27,8 +27,11 @@
 #include "../SubPic/SubPicProviderImpl.h"
 #include "RenderingCache.h"
 
+struct CTextDims;
 struct SSATag;
 typedef std::shared_ptr<CAtlList<SSATag>> SSATagsList;
+
+typedef CRenderingCache<CTextDimsKey, CTextDims, CKeyTraits<CTextDimsKey>> CTextDimsCache;
 typedef CRenderingCache<CStringW, SSATagsList, CStringElementTraits<CStringW>> CSSATagsCache;
 typedef CRenderingCache<COutlineKey, COutlineData, CKeyTraits<COutlineKey>> COutlineCache;
 typedef CRenderingCache<COverlayKey, COverlayData, CKeyTraits<COverlayKey>> COverlayCache;
@@ -39,6 +42,12 @@ public:
     int m_ascent, m_descent;
 
     CMyFont(STSStyle& style);
+};
+
+struct CTextDims
+{
+    int ascent, descent;
+    int width;
 };
 
 class CPolygon;
@@ -94,7 +103,7 @@ protected:
 
 public:
     CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
-          COutlineCache& outlineCache, COverlayCache& overlayCache);
+          CTextDimsCache& textDimsCache, COutlineCache& outlineCache, COverlayCache& overlayCache);
 
     virtual CWord* Copy();
     virtual bool Append(CWord* w);
@@ -318,7 +327,8 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
 {
     static CAtlMap<CStringW, SSATagCmd, CStringElementTraits<CStringW>> s_SSATagCmds;
     CAtlMap<int, CSubtitle*> m_subtitleCache;
-
+    
+    CTextDimsCache m_textDimsCache;
     CSSATagsCache m_SSATagsCache;
     COutlineCache m_outlineCache;
     COverlayCache m_overlayCache;

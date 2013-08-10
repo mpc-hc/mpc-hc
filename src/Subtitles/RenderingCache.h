@@ -88,18 +88,37 @@ public:
     };
 };
 
-class CWord;
 class STSStyle;
 
-class COutlineKey
+class CTextDimsKey
 {
 private:
     ULONG m_hash;
 
 protected:
     CString m_str;
-    double m_scalex, m_scaley;
     CAutoPtr<STSStyle> m_style;
+
+public:
+    CTextDimsKey(const CStringW& str, const STSStyle& style);
+    CTextDimsKey(const CTextDimsKey& textDimsKey);
+
+    ULONG GetHash() const { return m_hash; };
+
+    void UpdateHash();
+
+    bool operator==(const CTextDimsKey& textDimsKey) const;
+};
+
+class CWord;
+
+class COutlineKey : public CTextDimsKey
+{
+private:
+    ULONG m_hash;
+
+protected:
+    double m_scalex, m_scaley;
     CPoint m_org;
 
 public:
@@ -129,4 +148,3 @@ public:
 
     bool operator==(const COverlayKey& overlayKey) const;
 };
-

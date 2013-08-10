@@ -28,33 +28,23 @@ bool NEARLY_EQ(T a, T b, T tol)
     return (abs(a - b) < tol);
 }
 
-COutlineKey::COutlineKey(const CWord* word, CPoint org)
-    : m_str(word->m_str)
-    , m_scalex(word->m_scalex)
-    , m_scaley(word->m_scaley)
-    , m_style(DEBUG_NEW STSStyle(word->m_style))
-    , m_org(org)
+CTextDimsKey::CTextDimsKey(const CStringW& str, const STSStyle& style)
+    : m_str(str)
+    , m_style(DEBUG_NEW STSStyle(style))
 {
     UpdateHash();
-};
+}
 
-COutlineKey::COutlineKey(const COutlineKey& outLineKey)
-    : m_str(outLineKey.m_str)
-    , m_scalex(outLineKey.m_scalex)
-    , m_scaley(outLineKey.m_scaley)
-    , m_style(DEBUG_NEW STSStyle(*outLineKey.m_style))
-    , m_org(outLineKey.m_org)
-    , m_hash(outLineKey.m_hash)
+CTextDimsKey::CTextDimsKey(const CTextDimsKey& textDimsKey)
+    : m_str(textDimsKey.m_str)
+    , m_style(DEBUG_NEW STSStyle(*textDimsKey.m_style))
+    , m_hash(textDimsKey.m_hash)
 {
-};
+}
 
-
-void COutlineKey::UpdateHash()
+void CTextDimsKey::UpdateHash()
 {
-    // CreatePath
     m_hash  = CStringElementTraits<CString>::Hash(m_str);
-    m_hash += m_hash << 5;
-    m_hash += int(m_scalex);
     m_hash += m_hash << 5;
     m_hash += m_style->charSet;
     m_hash += m_hash << 5;
@@ -71,6 +61,47 @@ void COutlineKey::UpdateHash()
     m_hash += m_style->fUnderline;
     m_hash += m_hash << 5;
     m_hash += m_style->fStrikeOut;
+}
+
+bool CTextDimsKey::operator==(const CTextDimsKey& textDimsKey) const
+{
+    return m_str == textDimsKey.m_str
+            && m_style->charSet == textDimsKey.m_style->charSet
+            && m_style->fontName == textDimsKey.m_style->fontName
+            && NEARLY_EQ(m_style->fontSize, textDimsKey.m_style->fontSize, 1e-6)
+            && NEARLY_EQ(m_style->fontSpacing, textDimsKey.m_style->fontSpacing, 1e-6)
+            && m_style->fontWeight == textDimsKey.m_style->fontWeight
+            && m_style->fItalic == textDimsKey.m_style->fItalic
+            && m_style->fUnderline == textDimsKey.m_style->fUnderline
+            && m_style->fStrikeOut == textDimsKey.m_style->fStrikeOut;
+}
+
+COutlineKey::COutlineKey(const CWord* word, CPoint org)
+    : CTextDimsKey(word->m_str, word->m_style)
+    , m_scalex(word->m_scalex)
+    , m_scaley(word->m_scaley)
+    , m_org(org)
+{
+    UpdateHash();
+}
+
+COutlineKey::COutlineKey(const COutlineKey& outLineKey)
+    : CTextDimsKey(outLineKey.m_str, *outLineKey.m_style)
+    , m_scalex(outLineKey.m_scalex)
+    , m_scaley(outLineKey.m_scaley)
+    , m_org(outLineKey.m_org)
+    , m_hash(outLineKey.m_hash)
+{
+}
+
+void COutlineKey::UpdateHash()
+{
+    // CreatePath
+    m_hash = __super::GetHash();
+    m_hash += m_hash << 5;
+    m_hash += int(m_scalex);
+    m_hash += m_hash << 5;
+    m_hash += int(m_scaley);
     m_hash += m_hash << 5;
     // Transform
     m_hash += int(m_style->fontScaleX);
@@ -99,16 +130,9 @@ void COutlineKey::UpdateHash()
 
 bool COutlineKey::operator==(const COutlineKey& outLineKey) const
 {
-    return m_str == outLineKey.m_str // CreatePath
+    return __super::operator==(outLineKey) // CreatePath
             && NEARLY_EQ(m_scalex, outLineKey.m_scalex, 1e-6)
-            && m_style->charSet == outLineKey.m_style->charSet
-            && m_style->fontName == outLineKey.m_style->fontName
-            && NEARLY_EQ(m_style->fontSize, outLineKey.m_style->fontSize, 1e-6)
-            && NEARLY_EQ(m_style->fontSpacing, outLineKey.m_style->fontSpacing, 1e-6)
-            && m_style->fontWeight == outLineKey.m_style->fontWeight
-            && m_style->fItalic == outLineKey.m_style->fItalic
-            && m_style->fUnderline == outLineKey.m_style->fUnderline
-            && m_style->fStrikeOut == outLineKey.m_style->fStrikeOut
+            && NEARLY_EQ(m_scaley, outLineKey.m_scaley, 1e-6)
             // Transform
             && NEARLY_EQ(m_style->fontScaleX, outLineKey.m_style->fontScaleX, 1e-6)
             && NEARLY_EQ(m_style->fontScaleY, outLineKey.m_style->fontScaleY, 1e-6)
@@ -129,15 +153,14 @@ COverlayKey::COverlayKey(const CWord* word, CPoint p, CPoint org)
     , m_subp(p.x & 7, p.y & 7)
 {
     UpdateHash();
-};
+}
 
 COverlayKey::COverlayKey(const COverlayKey& overlayKey)
     : COutlineKey(overlayKey)
     , m_subp(overlayKey.m_subp)
     , m_hash(overlayKey.m_hash)
 {
-};
-
+}
 
 void COverlayKey::UpdateHash()
 {
