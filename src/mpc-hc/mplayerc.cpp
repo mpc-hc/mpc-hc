@@ -36,7 +36,7 @@
 #include "FileAssoc.h"
 #include "UpdateChecker.h"
 #include "winddk/ntddcdvd.h"
-#include "detours/detours.h"
+#include "mhook/mhook-lib/mhook.h"
 #include <afxsock.h>
 #include <atlsync.h>
 #include <atlutil.h>
@@ -1127,8 +1127,6 @@ BOOL CMPlayerCApp::InitInstance()
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
     SetDllDirectory(_T(""));
 
-    long lError;
-
     if (SetHeapOptions()) {
         TRACE(_T("Terminate on corruption enabled\n"));
     } else {
@@ -1137,19 +1135,16 @@ BOOL CMPlayerCApp::InitInstance()
         TRACE(heap_err);
     }
 
-    DetourRestoreAfterWith();
-    DetourTransactionBegin();
-    DetourUpdateThread(GetCurrentThread());
+    // At this point only main thread should be present, mhook is custom-hacked accordingly
+    ENSURE(Mhook_SetHook(&(PVOID&)Real_IsDebuggerPresent, (PVOID)Mine_IsDebuggerPresent));
+    ENSURE(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA));
+    ENSURE(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW));
+    ENSURE(Mhook_SetHook(&(PVOID&)Real_CreateFileA, (PVOID)Mine_CreateFileA));
+    ENSURE(Mhook_SetHook(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW));
+    ENSURE(Mhook_SetHook(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails));
+    ENSURE(Mhook_SetHook(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl));
 
-    DetourAttach(&(PVOID&)Real_IsDebuggerPresent, (PVOID)Mine_IsDebuggerPresent);
-    DetourAttach(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA);
-    DetourAttach(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW);
-    DetourAttach(&(PVOID&)Real_CreateFileA, (PVOID)Mine_CreateFileA);
-    DetourAttach(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW);
-    DetourAttach(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails);
-    DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
-
-    DetourAttach(&(PVOID&)Real_LockWindowUpdate, (PVOID)Mine_LockWindowUpdate);
+    ENSURE(Mhook_SetHook(&(PVOID&)Real_LockWindowUpdate, (PVOID)Mine_LockWindowUpdate));
 
     m_hNTDLL = LoadLibrary(_T("ntdll.dll"));
 #ifndef _DEBUG  // Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
@@ -1157,15 +1152,12 @@ BOOL CMPlayerCApp::InitInstance()
         Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress(m_hNTDLL, "NtQueryInformationProcess");
 
         if (Real_NtQueryInformationProcess) {
-            DetourAttach(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess);
+            ENSURE(Mhook_SetHook(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess));
         }
     }
 #endif
 
     CFilterMapper2::Init();
-
-    lError = DetourTransactionCommit();
-    ASSERT(lError == NOERROR);
 
     if (FAILED(OleInitialize(0))) {
         AfxMessageBox(_T("OleInitialize failed!"));

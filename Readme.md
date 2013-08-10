@@ -79,11 +79,6 @@ MPC-HC makes use of the following third-party code:
         <td>http://www.datamekanix.com/sizecbar/</td>
     </tr>
     <tr>
-        <td>Detours</td>
-        <td>MSR-SSLA</td>
-        <td>http://research.microsoft.com/en-us/projects/detours/</td>
-    </tr>
-    <tr>
         <td>LAV Filters</td>
         <td>GPLv2</td>
         <td>http://code.google.com/p/lavfilters/</td>
@@ -102,6 +97,11 @@ MPC-HC makes use of the following third-party code:
         <td>MediaInfoLib</td>
         <td>Simplified BSD License</td>
         <td>http://mediaarea.net/MediaInfo</td>
+    </tr>
+    <tr>
+        <td>Mhook</td>
+        <td>MIT License</td>
+        <td>http://codefromthe70s.org/mhook23.aspx</td>
     </tr>
     <tr>
         <td>MultiMon</td>
