@@ -26,7 +26,7 @@ SET COVDIR=H:\progs\thirdparty\cov-analysis-win64-6.5.1
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86 || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
 SET MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount^
- /nodeReuse:true /target:Rebuild /property:Configuration="Release";Platform=Win32
+ /nodeReuse:true /target:Rebuild /property:Configuration="Release Lite";Platform=Win32
 
 "%COVDIR%\bin\cov-build.exe" --dir cov-int MSBuild "..\mpc-hc.sln" %MSBUILD_SWITCHES%
 
