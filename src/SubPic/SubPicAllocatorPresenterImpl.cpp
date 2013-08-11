@@ -240,10 +240,14 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetRect(LPCSTR field, RECT* value)
 {
     CheckPointer(value, E_POINTER);
     if (!strcmp(field, "videoOutputRect") || !strcmp(field, "subtitleTargetRect")) {
-        value->left = 0;
-        value->top = 0;
-        value->right = m_VideoRect.Width();
-        value->bottom = m_VideoRect.Height();
+        if (m_VideoRect.IsRectEmpty()) {
+            *value = m_WindowRect;
+        } else {
+            value->left = 0;
+            value->top = 0;
+            value->right = m_VideoRect.Width();
+            value->bottom = m_VideoRect.Height();
+        }
         return S_OK;
     }
 
