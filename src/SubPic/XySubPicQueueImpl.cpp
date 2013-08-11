@@ -96,6 +96,14 @@ DWORD CXySubPicQueue::ThreadProc()
                     ULONGLONG id;
                     hr = pXySubPicProvider->GetID(&id);
                     if (SUCCEEDED(hr)) {
+                        SIZE    MaxTextureSize, VirtualSize;
+                        POINT   VirtualTopLeft;
+                        HRESULT hr2;
+
+                        if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
+                            m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+                        }
+
                         if (m_llSubId == id && !m_Queue.IsEmpty()) { // same subtitle as last time
                             CComPtr<ISubPic> pSubPic = m_Queue.GetTail();
                             pSubPic->SetStop(rtStop);
@@ -126,6 +134,10 @@ DWORD CXySubPicQueue::ThreadProc()
                             if (FAILED(m_pAllocator->AllocDynamic(&pDynamic))
                                     || FAILED(pStatic->CopyTo(pDynamic))) {
                                 break;
+                            }
+
+                            if (SUCCEEDED(hr2)) {
+                                pDynamic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
                             }
 
                             AppendQueue(pDynamic);
@@ -237,6 +249,13 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
                 ULONGLONG id;
                 hr = pXySubPicProvider->GetID(&id);
                 if (SUCCEEDED(hr)) {
+                    SIZE    MaxTextureSize, VirtualSize;
+                    POINT   VirtualTopLeft;
+                    HRESULT hr2;
+                    if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
+                        m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+                    }
+
                     if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
                         pSubPic->SetStop(rtStop);
                         ppSubPic = pSubPic;
@@ -260,6 +279,10 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
                             ppSubPic = pSubPic;
                             m_llSubId = id;
                         }
+                    }
+                    
+                    if (SUCCEEDED(hr2)) {
+                        pSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
                     }
                 }
             }

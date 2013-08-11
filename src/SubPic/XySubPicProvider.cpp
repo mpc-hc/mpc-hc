@@ -121,3 +121,16 @@ STDMETHODIMP CXySubPicProvider::Render(SubPicDesc& spd, REFERENCE_TIME rt, doubl
     bbox = rcDirty;
     return S_OK;
 }
+
+STDMETHODIMP CXySubPicProvider::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft)
+{
+    RECT outputRect, clipRect;
+    if (m_pSubFrame && SUCCEEDED(m_pSubFrame->GetOutputRect(&outputRect)) && SUCCEEDED(m_pSubFrame->GetClipRect(&clipRect))) {
+        CRect rcOutput = outputRect, rcClip = clipRect;
+        MaxTextureSize = rcOutput.Size();
+        VirtualSize = rcClip.Size();
+        VirtualTopLeft = rcClip.TopLeft();
+        return S_OK;
+    }
+    return E_FAIL;
+}
