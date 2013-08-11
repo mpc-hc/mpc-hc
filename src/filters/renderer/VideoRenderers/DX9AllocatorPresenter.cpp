@@ -1556,11 +1556,10 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
             fResetDevice = true;
         }
 
-        //if (hr == S_PRESENT_MODE_CHANGED)
-        //{
-        //  TRACE(_T("Reset Device: D3D Device mode changed\n"));
-        //  fResetDevice = true;
-        //}
+        if (hr == S_PRESENT_MODE_CHANGED) {
+            TRACE(_T("Reset Device: D3D Device mode changed\n"));
+            fResetDevice = true;
+        }
 
         if (SettingsNeedResetDevice()) {
             TRACE(_T("Reset Device: settings changed\n"));
