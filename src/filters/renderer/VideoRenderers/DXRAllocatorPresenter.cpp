@@ -130,6 +130,7 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 
     HRESULT hr = S_OK;
     if (!m_pSubPicQueue) {
+        CAutoLock(this);
         m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
                          ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
                          : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
