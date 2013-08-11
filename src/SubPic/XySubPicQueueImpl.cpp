@@ -140,6 +140,11 @@ DWORD CXySubPicQueue::ThreadProc()
                                 pDynamic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
                             }
 
+                            RelativeTo relativeTo;
+                            if (SUCCEEDED(pSubPicProvider->GetRelativeTo(0, relativeTo))) {
+                                pDynamic->SetRelativeTo(relativeTo);
+                            }
+
                             AppendQueue(pDynamic);
                             m_llSubId = id;
                             bAgain = true;
@@ -283,6 +288,11 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
                     
                     if (SUCCEEDED(hr2)) {
                         pSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
+                    }
+
+                    RelativeTo relativeTo;
+                    if (SUCCEEDED(pSubPicProvider->GetRelativeTo(0, relativeTo))) {
+                        pSubPic->SetRelativeTo(relativeTo);
                     }
                 }
             }

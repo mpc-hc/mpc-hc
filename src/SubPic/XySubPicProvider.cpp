@@ -134,3 +134,9 @@ STDMETHODIMP CXySubPicProvider::GetTextureSize(POSITION pos, SIZE& MaxTextureSiz
     }
     return E_FAIL;
 }
+
+STDMETHODIMP CXySubPicProvider::GetRelativeTo(POSITION pos, RelativeTo& relativeTo)
+{
+    relativeTo = VIDEO;
+    return S_OK;
+}
