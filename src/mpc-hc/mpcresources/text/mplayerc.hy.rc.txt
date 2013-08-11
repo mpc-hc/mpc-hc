@@ -6,14 +6,14 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"Build information"
 14		"Տարբերակը."
 16		"MPC-HC կազմարկիչ."
-18		"LAV Filters:"
-19		"Not used"
-20		"Build date:"
-22		"Operating system"
-23		"Name:"
-25		"Version:"
-27		"Copy to clipboard"
-28		"OK"
+18		"LAV ֆիլտրեր."
+19		"Չի օգտագործվում"
+20		"Կառուցման ամսաթիվը."
+22		"Օպերացիոն համակարգը"
+23		"Անունը."
+25		"Տարբերակը."
+27		"Պատճենել մեկուսաշրջույթ"
+28		"ԼԱՎ"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
