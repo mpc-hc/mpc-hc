@@ -221,21 +221,9 @@ STDMETHODIMP CXySubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate)
 
 STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& ppSubPic)
 {
-    CComPtr<ISubPic> pSubPic;
+    CComPtr<ISubPic> pSubPic = m_pSubPic;
 
-    {
-        CAutoLock cAutoLock(&m_csLock);
-
-        if (!m_pSubPic) {
-            if (FAILED(m_pAllocator->AllocDynamic(&m_pSubPic))) {
-                return false;
-            }
-        }
-
-        pSubPic = m_pSubPic;
-    }
-
-    if (pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop()) {
+    if (pSubPic && pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop()) {
         ppSubPic = pSubPic;
     } else {
         CComPtr<ISubPicProvider> pSubPicProvider;
@@ -261,9 +249,15 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
                         m_pAllocator->SetMaxTextureSize(MaxTextureSize);
                     }
 
+                    if (!pSubPic) {
+                        if (FAILED(m_pAllocator->AllocDynamic(&pSubPic))) {
+                            return false;
+                        }
+                    }
+
                     if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
                         pSubPic->SetStop(rtStop);
-                        ppSubPic = pSubPic;
+                        ppSubPic = m_pSubPic;
                     } else if (m_pAllocator->IsDynamicWriteOnly()) {
                         CComPtr<ISubPic> pStatic;
                         hr = m_pAllocator->GetStatic(&pStatic);
@@ -285,7 +279,7 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
                             m_llSubId = id;
                         }
                     }
-                    
+
                     if (SUCCEEDED(hr2)) {
                         pSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
                     }
