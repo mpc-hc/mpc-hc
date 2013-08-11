@@ -42,6 +42,7 @@ protected:
 
     REFERENCE_TIME m_rtNow;
     double m_fps;
+    UINT m_RefreshRate;
 
     CMediaType m_InputMediaType;
 

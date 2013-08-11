@@ -83,7 +83,6 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_fSyncOffsetStdDev(0.0)
     , m_fSyncOffsetAvr(0.0)
     , m_llHysteresis(0)
-    , m_uD3DRefreshRate(0)
     , m_dD3DRefreshCycle(0)
     , m_dDetectedScanlineTime(0.0)
     , m_dEstRefreshCycle(0.0)
@@ -465,8 +464,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             return E_UNEXPECTED;
         }
 
-    m_uD3DRefreshRate = d3ddm.RefreshRate;
-    m_dD3DRefreshCycle = 1000.0 / (double)m_uD3DRefreshRate; // In ms
+    m_RefreshRate = d3ddm.RefreshRate;
+    m_dD3DRefreshCycle = 1000.0 / (double)m_RefreshRate; // In ms
     m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
     CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
@@ -779,8 +778,8 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         return E_UNEXPECTED;
     }
 
-    m_uD3DRefreshRate = d3ddm.RefreshRate;
-    m_dD3DRefreshCycle = 1000.0 / (double)m_uD3DRefreshRate; // In ms
+    m_RefreshRate = d3ddm.RefreshRate;
+    m_dD3DRefreshCycle = 1000.0 / (double)m_RefreshRate; // In ms
     m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
 
@@ -2059,7 +2058,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %u Hz", m_dD3DRefreshCycle, m_uD3DRefreshRate);
+            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %u Hz", m_dD3DRefreshCycle, m_RefreshRate);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -2263,7 +2262,7 @@ double CBaseAP::GetRefreshRate()
     if (m_pGenlock->powerstripTimingExists) {
         return m_pGenlock->curDisplayFreq;
     } else {
-        return (double)m_uD3DRefreshRate;
+        return (double)m_RefreshRate;
     }
 }
 
@@ -2918,7 +2917,7 @@ float CSyncAP::GetMaxRate(BOOL bThin)
                             &fpsNumerator, &fpsDenominator);
 
         // Monitor refresh rate:
-        MonitorRateHz = m_uD3DRefreshRate; // D3DDISPLAYMODE
+        MonitorRateHz = m_RefreshRate; // D3DDISPLAYMODE
 
         if (fpsDenominator && fpsNumerator && MonitorRateHz) {
             // Max Rate = Refresh Rate / Frame Rate

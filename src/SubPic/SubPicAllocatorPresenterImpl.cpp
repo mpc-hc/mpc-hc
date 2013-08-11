@@ -39,6 +39,7 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     , m_VideoRect(0, 0, 0, 0)
     , m_WindowRect(0, 0, 0, 0)
     , m_fps(25.0)
+    , m_RefreshRate(0)
     , m_rtSubtitleDelay(0)
     , m_bDeviceResetRequested(false)
     , m_bPendingResetDevice(false)
@@ -269,7 +270,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetDouble(LPCSTR field, double* valu
 {
     CheckPointer(value, E_POINTER);
     if (!strcmp(field, "refreshRate")) {
-        *value = 0;
+        *value = 1000.0 / m_RefreshRate;
         return S_OK;
     }
 

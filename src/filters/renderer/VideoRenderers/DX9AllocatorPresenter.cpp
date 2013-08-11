@@ -45,7 +45,6 @@ using namespace DSObjects;
 // CDX9AllocatorPresenter
 CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString& _Error)
     : CDX9RenderingEngine(hWnd, hr, &_Error)
-    , m_RefreshRate(0)
     , m_bAlternativeVSync(false)
     , m_bCompositionEnabled(false)
     , m_bIsEVR(bIsEVR)

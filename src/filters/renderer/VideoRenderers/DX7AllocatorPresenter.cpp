@@ -167,7 +167,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
             ddsd.ddpfPixelFormat.dwRGBBitCount <= 8) {
         return DDERR_INVALIDMODE;
     }
-
+    m_RefreshRate = ddsd.dwRefreshRate;
     m_ScreenSize.SetSize(ddsd.dwWidth, ddsd.dwHeight);
     CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
 
