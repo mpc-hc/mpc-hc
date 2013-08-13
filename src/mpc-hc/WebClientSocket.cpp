@@ -444,25 +444,49 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
     int pos = (int)(m_pMainFrame->GetPos() / 10000);
     int dur = (int)(m_pMainFrame->GetDur() / 10000);
 
-    CString positionstring, durationstring, versionstring, sizestring;
+    CString positionstring, durationstring, versionstring, sizestring, file;
     versionstring.Format(L"%s", AfxGetMyApp()->m_strVersion);
-    CPath file(m_pMainFrame->m_wndPlaylistBar.GetCurFileName());
-    file.StripPath();
-    file.RemoveExtension();
 
     positionstring.Format(_T("%02d:%02d:%02d"), (pos / 3600000), (pos / 60000) % 60, (pos / 1000) % 60);
     durationstring.Format(_T("%02d:%02d:%02d"), (dur / 3600000), (dur / 60000) % 60, (dur / 1000) % 60);
 
-    WIN32_FIND_DATA wfd;
-    HANDLE hFind = FindFirstFile(m_pMainFrame->m_wndPlaylistBar.GetCurFileName(), &wfd);
-    if (hFind != INVALID_HANDLE_VALUE) {
-        FindClose(hFind);
-        __int64 size = (__int64(wfd.nFileSizeHigh) << 32) | wfd.nFileSizeLow;
-        const int MAX_FILE_SIZE_BUFFER = 65;
-        TCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
-        StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
-        sizestring.Format(L"%s", szFileSize);
+    __int64 size = 0;
+    CString path = file = m_pMainFrame->m_wndPlaylistBar.GetCurFileName();
+    CComQIPtr<IFileSourceFilter> pFSF;
+    BeginEnumFilters(m_pMainFrame->m_pGB, pEF, pBF) {
+        if (pFSF = pBF) {
+            LPOLESTR pFN;
+            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
+                file = pFN;
+                CoTaskMemFree(pFN);
+            }
+            BeginEnumPins(pBF, pEP, pPin) {
+                if (CComQIPtr<IAsyncReader> pAR = pPin) {
+                    LONGLONG total, available;
+                    pAR->Length(&total, &available);
+                    size = total;
+                    break;
+                }
+            }
+            EndEnumPins;
+            break;
+        }
     }
+    EndEnumFilters;
+
+    if (size == 0) {
+        WIN32_FIND_DATA wfd;
+        HANDLE hFind = FindFirstFile(path, &wfd);
+        if (hFind != INVALID_HANDLE_VALUE) {
+            FindClose(hFind);
+            size = (__int64(wfd.nFileSizeHigh) << 32) | wfd.nFileSizeLow;
+        }
+    }
+
+    const int MAX_FILE_SIZE_BUFFER = 65;
+    TCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
+    StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
+    sizestring.Format(L"%s", szFileSize);
 
     m_pWebServer->LoadPage(IDR_HTML_INFO, body, AToT(m_path));
     body.Replace("[version]", UTF8(versionstring));
