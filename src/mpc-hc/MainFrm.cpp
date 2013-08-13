@@ -5418,7 +5418,7 @@ void CMainFrame::OnUpdateFileSavesubtitle(CCmdUI* pCmdUI)
 void CMainFrame::OnFileISDBSearch()
 {
     CStringA url = "http://" + AfxGetAppSettings().strISDb + "/index.php?";
-    CStringA args = makeargs(m_wndPlaylistBar.m_pl);
+    CStringA args = ISDb::makeargs(m_wndPlaylistBar.m_pl);
     ShellExecute(m_hWnd, _T("open"), CString(url + args), nullptr, nullptr, SW_SHOWDEFAULT);
 }
 
@@ -5430,7 +5430,8 @@ void CMainFrame::OnUpdateFileISDBSearch(CCmdUI* pCmdUI)
 void CMainFrame::OnFileISDBUpload()
 {
     CStringA url = "http://" + AfxGetAppSettings().strISDb + "/ul.php?";
-    CStringA args = makeargs(m_wndPlaylistBar.m_pl);
+
+    CStringA args = ISDb::makeargs(m_wndPlaylistBar.m_pl);
     ShellExecute(m_hWnd, _T("open"), CString(url + args), nullptr, nullptr, SW_SHOWDEFAULT);
 }
 
@@ -5442,8 +5443,8 @@ void CMainFrame::OnUpdateFileISDBUpload(CCmdUI* pCmdUI)
 void CMainFrame::OnFileISDBDownload()
 {
     const CAppSettings& s = AfxGetAppSettings();
-    filehash fh;
-    if (!::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
+    ISDb::filehash fh;
+    if (!ISDb::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
         MessageBeep((UINT) - 1);
         return;
     }

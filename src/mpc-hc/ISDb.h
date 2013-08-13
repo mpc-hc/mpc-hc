@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,43 +28,44 @@
 
 #define ISDb_PROTOCOL_VERSION 1
 
-
-struct isdb_subtitle {
-    int id, discs, disc_no;
-    CStringA name, format, language, iso639_2, nick, email;
-    struct isdb_subtitle() {
-        reset();
-    }
-    void reset() {
-        id = discs = disc_no = 0;
-        format = language = nick = email = "";
-    }
-};
-
-struct isdb_movie {
-    CAtlList<CStringA> titles;
-    CAtlList<isdb_subtitle> subs;
-    void reset() {
-        titles.RemoveAll();
-        subs.RemoveAll();
-    }
-    isdb_movie& operator = (const struct isdb_movie& m) {
-        if (this != &m) {
-            titles.RemoveAll();
-            titles.AddTailList(&m.titles);
-            subs.RemoveAll();
-            subs.AddTailList(&m.subs);
+namespace ISDb
+{
+    struct subtitle {
+        int id, discs, disc_no;
+        CStringA name, format, language, iso639_2, nick, email;
+        struct subtitle() {
+            reset();
         }
-        return *this;
-    }
-};
+        void reset() {
+            id = discs = disc_no = 0;
+            format = language = nick = email = "";
+        }
+    };
 
-struct filehash {
-    CString name;
-    UINT64 size, mpc_filehash;
-};
+    struct movie {
+        CAtlList<CStringA> titles;
+        CAtlList<subtitle> subs;
+        void reset() {
+            titles.RemoveAll();
+            subs.RemoveAll();
+        }
+        movie& operator = (const struct movie& m) {
+            if (this != &m) {
+                titles.RemoveAll();
+                titles.AddTailList(&m.titles);
+                subs.RemoveAll();
+                subs.AddTailList(&m.subs);
+            }
+            return *this;
+        }
+    };
 
-extern bool mpc_filehash(LPCTSTR fn, filehash& fh);
-extern void mpc_filehash(CPlaylist& pl, CList<filehash>& fhs);
-extern CStringA makeargs(CPlaylist& pl);
-extern bool OpenUrl(CInternetSession& is, CString url, CStringA& str);
+    struct filehash {
+        CString name;
+        UINT64 size, mpc_filehash;
+    };
+
+    extern bool mpc_filehash(LPCTSTR fn, filehash& fh);
+    extern void mpc_filehash(CPlaylist& pl, CList<filehash>& fhs);
+    extern CStringA makeargs(CPlaylist& pl);
+}

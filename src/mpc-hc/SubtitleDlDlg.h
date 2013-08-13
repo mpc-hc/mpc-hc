@@ -46,7 +46,7 @@ private:
         CStringA url;
         CStringA raw_list;
         CStringA ticket;
-        CList<isdb_movie> raw_movies;
+        CList<ISDb::movie> raw_movies;
     } THREADSTRUCT, *PTHREADSTRUCT;
 
     typedef struct PARAMSORT {
@@ -86,7 +86,7 @@ private:
     bool m_fReplaceSubs;
 
     CListCtrl m_list;
-    CList<isdb_subtitle> m_selsubs;
+    CList<ISDb::subtitle> m_selsubs;
     CStatusBarCtrl m_status;
 
     void SetStatus(const CString& status);
@@ -98,6 +98,7 @@ private:
     static int CALLBACK DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
     static size_t StrMatch(LPCTSTR a, LPCTSTR b);
     static CString LangCodeToName(LPCSTR code);
+    static bool OpenUrl(CInternetSession& is, CString url, CStringA& str);
 
 public:
     explicit CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename);
