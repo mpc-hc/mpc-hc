@@ -414,7 +414,7 @@ protected:
     void OpenSetupStatusBar();
     // void OpenSetupToolBar();
     void OpenSetupCaptureBar();
-    void OpenSetupWindowTitle(CString fn = _T(""));
+    void OpenSetupWindowTitle(bool reset = true);
     void AutoChangeMonitorMode();
 
     bool GraphEventComplete();
@@ -475,6 +475,8 @@ public:
     void SetSubtitleTrackIdx(int index);
 
     void AddFavorite(bool fDisplayMessage = false, bool fShowDialog = true);
+
+    CString GetFileName();
 
     // shaders
     CAtlList<CString> m_shaderlabels;

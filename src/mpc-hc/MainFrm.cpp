@@ -7124,7 +7124,7 @@ void CMainFrame::OnPlayPlay()
             if (!m_LastOpenBDPath.IsEmpty()) {
                 strOSD = strPlay +  _T(" BD");
             } else {
-                strOSD = m_wndPlaylistBar.GetCurFileName();
+                strOSD = GetFileName();
                 if (!strOSD.IsEmpty()) {
                     strOSD.TrimRight('/');
                     strOSD.Replace('\\', '/');
@@ -8882,7 +8882,7 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
     const TCHAR sep = _T(';');
 
     if (GetPlaybackMode() == PM_FILE) {
-        CString fn =  m_wndPlaylistBar.GetCurFileName();
+        CString fn = m_wndPlaylistBar.GetCurFileName();
         if (fn.IsEmpty()) {
             BeginEnumFilters(m_pGB, pEF, pBF) {
                 CComQIPtr<IFileSourceFilter> pFSF = pBF;
@@ -8903,14 +8903,7 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
             is_BD = true;
         }
 
-        CString desc = fn;
-        desc.Replace(_T('\\'), _T('/'));
-        int i = desc.Find(_T("://")), j = desc.Find(_T('?')), k = desc.ReverseFind(_T('/'));
-        if (i >= 0) {
-            desc = j >= 0 ? desc.Left(j) : desc;
-        } else if (k >= 0) {
-            desc = desc.Mid(k + 1);
-        }
+        CString desc = GetFileName();
 
         // Name
         CString name;
@@ -11604,7 +11597,7 @@ void CMainFrame::OpenSetupStatusBar()
     m_wndStatusBar.SetStatusTypeIcon(hIcon);
 }
 
-void CMainFrame::OpenSetupWindowTitle(CString fn)
+void CMainFrame::OpenSetupWindowTitle(bool reset /*= true*/)
 {
     CString title = ResStr(IDR_MAINFRAME);
 
@@ -11612,21 +11605,17 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 
     int i = s.iTitleBarTextStyle;
 
-    if (!fn.IsEmpty() && (i == 0 || i == 1)) {
+    if (!reset && (i == 0 || i == 1)) {
         if (i == 1) {
             if (GetPlaybackMode() == PM_FILE) {
-                fn.Replace('\\', '/');
-                CString fn2 = fn.Mid(fn.ReverseFind('/') + 1);
-                if (!fn2.IsEmpty()) {
-                    fn = fn2;
-                }
+                title = GetFileName();
 
                 if (s.fTitleBarTextTitle) {
                     BeginEnumFilters(m_pGB, pEF, pBF) {
                         if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
                             CComBSTR bstr;
                             if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
-                                fn = CString(bstr.m_str);
+                                title = CString(bstr.m_str);
                                 break;
                             }
                         }
@@ -11634,16 +11623,15 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
                     EndEnumFilters;
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
-                fn = _T("DVD");
+                title = _T("DVD");
             } else if (GetPlaybackMode() == PM_CAPTURE) {
-                fn.LoadString(IDS_CAPTURE_LIVE);
+                title.LoadString(IDS_CAPTURE_LIVE);
             }
         }
-        title = fn;
     }
 
     SetWindowText(title);
-    m_Lcd.SetMediaTitle(LPCTSTR(fn));
+    m_Lcd.SetMediaTitle(title);
 }
 
 DWORD CMainFrame::SetupAudioStreams()
@@ -12035,7 +12023,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             throw (UINT)IDS_AG_ABORTED;
         }
 
-        OpenSetupWindowTitle(pOMD->title);
+        OpenSetupWindowTitle(pOMD->title.IsEmpty());
 
         if (s.fEnableEDLEditor) {
             m_wndEditListEditor.OpenFile(pOMD->title);
@@ -16266,7 +16254,7 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             UpdateSeekbarChapterBag();
             break;
         case UPDATE_WINDOW_TITLE:
-            OpenSetupWindowTitle(m_wndPlaylistBar.GetCurFileName());
+            OpenSetupWindowTitle(false);
             break;
         default:
             ASSERT(FALSE);
@@ -16446,4 +16434,24 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
     i = iLocalIdx;
 
     return pSubInput;
+}
+
+CString CMainFrame::GetFileName()
+{
+    CPath path(m_wndPlaylistBar.GetCurFileName());
+
+    BeginEnumFilters(m_pGB, pEF, pBF) {
+        if (CComQIPtr<IFileSourceFilter> pFSF = pBF) {
+            LPOLESTR pFN;
+            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
+                path = pFN;
+                CoTaskMemFree(pFN);
+            }
+            break;
+        }
+    }
+    EndEnumFilters;
+
+    path.StripPath();
+    return path;
 }
