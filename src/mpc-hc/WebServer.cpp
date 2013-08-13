@@ -220,7 +220,7 @@ void CWebServer::Deploy(CString dir)
     }
 
     // Create the needed folder
-    CreateDirectory(dir + _T("img"),  nullptr);
+    CreateDirectory(dir + _T("img"), nullptr);
 
     POSITION pos = m_downloads.GetStartPosition();
     while (pos) {

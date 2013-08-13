@@ -1505,14 +1505,14 @@ static void StretchBlt(SubPicDesc& spd, CRect dstrect, CVobSubImage& src)
         RGBQUAD* endptr = ptr + dw;
 
         for (int sx = srcx; ptr < endptr; sx += (srcdx << 1), ptr++) {
-            //          PixelAtBiLinear(*ptr,   sx,         srcy,       src);
+            //          PixelAtBiLinear(*ptr, sx, srcy, src);
             ////
             RGBQUAD cc[4];
 
-            PixelAtBiLinear(cc[0],  sx,         srcy,       src);
-            PixelAtBiLinear(cc[1],  sx + srcdx,   srcy,       src);
-            PixelAtBiLinear(cc[2],  sx,         srcy + srcdy, src);
-            PixelAtBiLinear(cc[3],  sx + srcdx,   srcy + srcdy, src);
+            PixelAtBiLinear(cc[0], sx,         srcy,         src);
+            PixelAtBiLinear(cc[1], sx + srcdx, srcy,         src);
+            PixelAtBiLinear(cc[2], sx,         srcy + srcdy, src);
+            PixelAtBiLinear(cc[3], sx + srcdx, srcy + srcdy, src);
 
             ptr->rgbRed = (cc[0].rgbRed + cc[1].rgbRed + cc[2].rgbRed + cc[3].rgbRed) >> 2;
             ptr->rgbGreen = (cc[0].rgbGreen + cc[1].rgbGreen + cc[2].rgbGreen + cc[3].rgbGreen) >> 2;

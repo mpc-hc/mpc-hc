@@ -714,7 +714,7 @@ STDMETHODIMP CRealMediaWindowlessSite::EndOptimizedBlt()
 
 STDMETHODIMP CRealMediaWindowlessSite::GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType)
 {
-    ulType =  m_bitmapInfo.biCompression;
+    ulType = m_bitmapInfo.biCompression;
     return PNR_OK;
 }
 

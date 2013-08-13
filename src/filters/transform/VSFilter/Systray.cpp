@@ -65,7 +65,7 @@ LRESULT CALLBACK HookProc(UINT code, WPARAM wParam, LPARAM lParam)
     }
 
     // Always call next hook in chain
-    return CallNextHookEx(g_hHook, code,  wParam, lParam);
+    return CallNextHookEx(g_hHook, code, wParam, lParam);
 }
 
 BEGIN_MESSAGE_MAP(CSystrayWindow, CWnd)

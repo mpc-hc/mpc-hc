@@ -151,7 +151,7 @@ HRESULT CWavDestFilter::Copy(IMediaSample* pSource, IMediaSample* pDest) const
     long lSourceSize = pSource->GetActualDataLength();
 
 #ifdef _DEBUG
-    long lDestSize  = pDest->GetSize();
+    long lDestSize = pDest->GetSize();
     ASSERT(lDestSize >= lSourceSize);
 #endif
 
@@ -287,7 +287,7 @@ HRESULT CWavDestFilter::StopStreaming()
 
         RIFFLIST* pRiffWave = (RIFFLIST*)pb;
         RIFFCHUNK* pRiffFmt = (RIFFCHUNK*)(pRiffWave + 1);
-        RIFFCHUNK* pRiffData = (RIFFCHUNK*)(((BYTE*)(pRiffFmt + 1)) +  m_pInput->CurrentMediaType().FormatLength());
+        RIFFCHUNK* pRiffData = (RIFFCHUNK*)(((BYTE*)(pRiffFmt + 1)) + m_pInput->CurrentMediaType().FormatLength());
 
         pRiffData->fcc = FCC('data');
         pRiffData->cb = m_cbWavData;

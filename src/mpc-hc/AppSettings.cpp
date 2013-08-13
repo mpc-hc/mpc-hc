@@ -733,7 +733,7 @@ void CAppSettings::SaveSettings()
             CString str2;
             str2.Format(_T("%u %x %x %s %d %u %u %u"),
                         wc.cmd, wc.fVirt, wc.key,
-                        _T("\"") + CString(wc.rmcmd) +  _T("\""), wc.rmrepcnt,
+                        _T("\"") + CString(wc.rmcmd) + _T("\""), wc.rmrepcnt,
                         wc.mouse, wc.appcmd, wc.mouseFS);
             pApp->WriteProfileString(IDS_R_COMMANDS, str, str2);
             i++;

@@ -38,10 +38,10 @@ public:
     CMediaFormatCategory();
     CMediaFormatCategory(
         CString label, CString description, CAtlList<CString>& exts, bool fAudioOnly = false,
-        CString specreqnote =  _T(""), engine_t e = DirectShow, bool fAssociable = true);
+        CString specreqnote = _T(""), engine_t e = DirectShow, bool fAssociable = true);
     CMediaFormatCategory(
         CString label, CString description, CString exts, bool fAudioOnly = false,
-        CString specreqnote =  _T(""), engine_t e = DirectShow, bool fAssociable = true);
+        CString specreqnote = _T(""), engine_t e = DirectShow, bool fAssociable = true);
     virtual ~CMediaFormatCategory();
 
     void UpdateData(bool fSave);

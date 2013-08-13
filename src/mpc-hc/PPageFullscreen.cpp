@@ -134,7 +134,7 @@ BOOL CPPageFullscreen::OnInitDialog()
             DISPLAY_DEVICE displayDevice;
             ZeroMemory(&displayDevice, sizeof(displayDevice));
             displayDevice.cb = sizeof(displayDevice);
-            VERIFY(EnumDisplayDevices(str, 0,  &displayDevice, 0));
+            VERIFY(EnumDisplayDevices(str, 0, &displayDevice, 0));
             if (str == strCurMon) {
                 m_iMonitorTypeCtrl.AddString(str + _T(" - [") + ResStr(IDS_FULLSCREENMONITOR_CURRENT) + _T("] - ") + displayDevice.DeviceString);
             } else {
@@ -227,7 +227,7 @@ BOOL CPPageFullscreen::OnApply()
     m_AutoChangeFullscrRes.bApplyDefault = !!m_fSetDefault;
     s.AutoChangeFullscrRes = m_AutoChangeFullscrRes;
     s.fLaunchfullscreen = !!m_launchfullscreen;
-    s.strFullScreenMonitor =  m_f_hmonitor;
+    s.strFullScreenMonitor = m_f_hmonitor;
     s.fShowBarsWhenFullScreen = !!m_iShowBarsWhenFullScreen;
     s.nShowBarsWhenFullScreenTimeOut = m_nShowBarsWhenFullScreenTimeOut;
     s.fExitFullScreenAtTheEnd = !!m_fExitFullScreenAtTheEnd;

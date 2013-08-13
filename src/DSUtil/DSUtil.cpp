@@ -98,7 +98,7 @@ void DumpStreamConfig(const TCHAR* fn, IAMStreamConfig* pAMVSCCap)
                 VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->pbFormat;
                 pbh = &vih->bmiHeader;
 
-                s  = _T("FORMAT_VideoInfo2\n");
+                s = _T("FORMAT_VideoInfo2\n");
                 s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, 10000000.0f / vih->AvgTimePerFrame);
                 s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource.left, vih->rcSource.top, vih->rcSource.right, vih->rcSource.bottom);
                 s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget.left, vih->rcTarget.top, vih->rcTarget.right, vih->rcTarget.bottom);

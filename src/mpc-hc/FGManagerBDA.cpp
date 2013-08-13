@@ -493,7 +493,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     }
     CheckNoLog(AddFilter(m_pDemux, _T("MPEG-2 Demultiplexer")));
     if (FAILED(ConnectFilters(pTuner, m_pDemux))) { // Separate receiver is required
-        if (FAILED(hr = CreateKSFilter(&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,  s.strBDAReceiver))) {
+        if (FAILED(hr = CreateKSFilter(&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT, s.strBDAReceiver))) {
             MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CREATE_RECEIVER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
             TRACE(_T("BDA: Receiver creation: 0x%08x\n"), hr);
             return hr;
@@ -1112,7 +1112,7 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nN
     CComPtr<IPin> pInPin;
     if (pOldOut && pFGNew) {
         pOldOut->ConnectedTo(&pInPin);
-        CComPtr<IPin> pNewOut = GetFirstPin(pFGNew,  PINDIR_OUTPUT);
+        CComPtr<IPin> pNewOut = GetFirstPin(pFGNew, PINDIR_OUTPUT);
         CComPtr<IPinConnection> pNewOutDynamic;
 
         if ((nNewType != DVB_H264) && (nNewType != DVB_MPV) && GetState() != State_Stopped) {

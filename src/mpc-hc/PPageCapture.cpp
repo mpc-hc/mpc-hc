@@ -356,10 +356,10 @@ BOOL CPPageCapture::OnInitDialog()
     if (m_cbAnalogVideo.GetCount() && m_cbDigitalTuner.GetCount()) {
         m_iDefaultDevice = s.iDefaultCaptureDevice;
     } else if (m_cbAnalogVideo.GetCount()) {
-        m_iDefaultDevice =  0;
+        m_iDefaultDevice = 0;
         GetDlgItem(IDC_RADIO2)->EnableWindow(FALSE);
     } else if (m_cbDigitalTuner.GetCount()) {
-        m_iDefaultDevice =  1;
+        m_iDefaultDevice = 1;
         GetDlgItem(IDC_RADIO1)->EnableWindow(FALSE);
     } else {
         m_iDefaultDevice = s.iDefaultCaptureDevice;

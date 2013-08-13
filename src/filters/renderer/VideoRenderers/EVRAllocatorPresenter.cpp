@@ -394,7 +394,7 @@ STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 }
 
 // IMFClockStateSink
-STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime,  LONGLONG llClockStartOffset)
+STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset)
 {
     m_nRenderState = Started;
 

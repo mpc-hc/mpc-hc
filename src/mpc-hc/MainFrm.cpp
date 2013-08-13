@@ -2145,14 +2145,14 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             if (GetMediaState() == State_Running && !m_fAudioOnly) {
                 BOOL fActive = FALSE;
                 if (SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0,       &fActive, 0)) {
-                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, FALSE,   nullptr,     SPIF_SENDWININICHANGE); // this might not be needed at all...
-                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, fActive, nullptr,     SPIF_SENDWININICHANGE);
+                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, FALSE,   nullptr, SPIF_SENDWININICHANGE); // this might not be needed at all...
+                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, fActive, nullptr, SPIF_SENDWININICHANGE);
                 }
 
                 fActive = FALSE;
                 if (SystemParametersInfo(SPI_GETPOWEROFFACTIVE, 0,       &fActive, 0)) {
-                    SystemParametersInfo(SPI_SETPOWEROFFACTIVE, FALSE,   nullptr,     SPIF_SENDWININICHANGE); // this might not be needed at all...
-                    SystemParametersInfo(SPI_SETPOWEROFFACTIVE, fActive, nullptr,     SPIF_SENDWININICHANGE);
+                    SystemParametersInfo(SPI_SETPOWEROFFACTIVE, FALSE,   nullptr, SPIF_SENDWININICHANGE); // this might not be needed at all...
+                    SystemParametersInfo(SPI_SETPOWEROFFACTIVE, fActive, nullptr, SPIF_SENDWININICHANGE);
                 }
                 // prevent screensaver activate, monitor sleep/turn off after playback
                 SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
@@ -6378,7 +6378,7 @@ void CMainFrame::OnViewCaptionmenu()
             wr.bottom += GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYMENU);
             break;
         case MODE_HIDEMENU:         // normal -> hidemenu
-            hMenu =  nullptr;
+            hMenu = nullptr;
             wr.bottom -= GetSystemMetrics(SM_CYMENU);
             break;
         case MODE_FRAMEONLY:        // hidemenu -> frameonly
@@ -7122,7 +7122,7 @@ void CMainFrame::OnPlayPlay()
 
         if (GetPlaybackMode() == PM_FILE) {
             if (!m_LastOpenBDPath.IsEmpty()) {
-                strOSD = strPlay +  _T(" BD");
+                strOSD = strPlay + _T(" BD");
             } else {
                 strOSD = GetFileName();
                 if (!strOSD.IsEmpty()) {
@@ -7132,7 +7132,7 @@ void CMainFrame::OnPlayPlay()
                 }
             }
         } else if (GetPlaybackMode() == PM_DVD) {
-            strOSD = strPlay +  _T(" DVD");
+            strOSD = strPlay + _T(" DVD");
         }
     }
 
@@ -7779,7 +7779,7 @@ void CMainFrame::OnUpdatePlayChangeRate(CCmdUI* pCmdUI)
         fEnable = true;
         if (fInc && m_dSpeedRate >= 128.0) {
             fEnable = false;
-        } else if (!fInc && GetPlaybackMode() == PM_FILE &&  m_dSpeedRate < 0.125) {
+        } else if (!fInc && GetPlaybackMode() == PM_FILE && m_dSpeedRate < 0.125) {
             fEnable = false;
         } else if (!fInc && GetPlaybackMode() == PM_DVD && m_dSpeedRate <= -128.0) {
             fEnable = false;
@@ -11966,7 +11966,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         SetupVMR9ColorControl();
 
         // === EVR !
-        m_pGB->FindInterface(__uuidof(IMFVideoDisplayControl), (void**)&m_pMFVDC,  TRUE);
+        m_pGB->FindInterface(__uuidof(IMFVideoDisplayControl), (void**)&m_pMFVDC, TRUE);
         m_pGB->FindInterface(__uuidof(IMFVideoProcessor), (void**)&m_pMFVP, TRUE);
         if (m_pMFVDC) {
             m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
@@ -14987,10 +14987,10 @@ void CMainFrame::SetupEVRColorControl()
         if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Brightness, pApp->GetEVRColorControl(ProcAmp_Brightness)))) {
             return;
         }
-        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Contrast,   pApp->GetEVRColorControl(ProcAmp_Contrast)))) {
+        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Contrast, pApp->GetEVRColorControl(ProcAmp_Contrast)))) {
             return;
         }
-        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Hue,        pApp->GetEVRColorControl(ProcAmp_Hue)))) {
+        if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Hue, pApp->GetEVRColorControl(ProcAmp_Hue)))) {
             return;
         }
         if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Saturation, pApp->GetEVRColorControl(ProcAmp_Saturation)))) {

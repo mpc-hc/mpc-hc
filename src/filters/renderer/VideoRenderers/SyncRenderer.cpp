@@ -1268,10 +1268,10 @@ HRESULT CBaseAP::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, const Ve
     float ty1 = (float)SrcRect.bottom;
 
     MYD3DVERTEX<1> v[] = {
-        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z,  tx0, ty0},
-        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z,  tx1, ty0},
-        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z,  tx0, ty1},
-        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z,  tx1, ty1},
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, tx0, ty0},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, tx1, ty0},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, tx0, ty1},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, tx1, ty1},
     };
     AdjustQuad(v, 1.0, 1.0);
     hr = m_pD3DDev->SetTexture(0, pTexture);
@@ -2699,7 +2699,7 @@ STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 }
 
 // IMFClockStateSink
-STDMETHODIMP CSyncAP::OnClockStart(MFTIME hnsSystemTime,  LONGLONG llClockStartOffset)
+STDMETHODIMP CSyncAP::OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset)
 {
     m_nRenderState = Started;
     return S_OK;
@@ -4215,12 +4215,12 @@ STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 }
 
 CGenlock::CGenlock(double target, double limit, int lineD, int colD, double clockD, UINT mon):
-    targetSyncOffset(target), // Target sync offset, typically around 10 ms
-    controlLimit(limit), // How much sync offset is allowed to drift from target sync offset before control kicks in
-    lineDelta(lineD), // Number of rows used in display frequency adjustment, typically 1 (one)
-    columnDelta(colD),  // Number of columns used in display frequency adjustment, typically 1 - 2
-    cycleDelta(clockD),  // Delta used in clock speed adjustment. In fractions of 1.0. Typically around 0.001
-    monitor(mon) // The monitor to be adjusted if the display refresh rate is the controlled parameter
+    targetSyncOffset(target),   // Target sync offset, typically around 10 ms
+    controlLimit(limit),        // How much sync offset is allowed to drift from target sync offset before control kicks in
+    lineDelta(lineD),           // Number of rows used in display frequency adjustment, typically 1 (one)
+    columnDelta(colD),          // Number of columns used in display frequency adjustment, typically 1 - 2
+    cycleDelta(clockD),         // Delta used in clock speed adjustment. In fractions of 1.0. Typically around 0.001
+    monitor(mon)                // The monitor to be adjusted if the display refresh rate is the controlled parameter
 {
     lowSyncOffset = targetSyncOffset - controlLimit;
     highSyncOffset = targetSyncOffset + controlLimit;

@@ -214,7 +214,7 @@ bool CPPageWebServer::PickDir(CString& dir)
         if (iil) {
             SHGetPathFromIDList(iil, buff);
             dir = buff;
-            success =  true;
+            success = true;
         }
     }
 

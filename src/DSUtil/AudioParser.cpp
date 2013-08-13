@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2012 see Authors.txt
+ * (C) 2011-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -55,7 +55,7 @@ int GetAC3FrameSize(const BYTE* buf)
     int frame_size;
     static const int rates[] = { 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640 };
 
-    int rate  = rates[frmsizecod >> 1];
+    int rate = rates[frmsizecod >> 1];
     switch (buf[4] & 0xc0) {
         case 0:
             frame_size = 4 * rate;

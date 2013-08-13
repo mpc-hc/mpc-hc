@@ -431,7 +431,7 @@ void CVMROSD::SetPos(__int64 pos)
     }
 }
 
-void CVMROSD::SetRange(__int64 start,  __int64 stop)
+void CVMROSD::SetRange(__int64 start, __int64 stop)
 {
     m_llSeekMin = start;
     m_llSeekMax = stop;

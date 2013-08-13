@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2012 see Authors.txt
+ * (C) 2010-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -63,7 +63,7 @@ public:
     STDMETHODIMP GetBias(double* bias);
     STDMETHODIMP GetStartTime(REFERENCE_TIME* startTime);
 
-    //  CBaseFilter methods
+    // CBaseFilter methods
     int GetPinCount();
     CBasePin* GetPin(int iPin);
 

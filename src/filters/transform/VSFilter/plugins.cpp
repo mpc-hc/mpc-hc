@@ -428,22 +428,22 @@ namespace Plugin
         };
 
         struct FilterDefinition filterDef_vobsub = {
-            nullptr, nullptr, nullptr,           // next, prev, module
-            "VobSub",                   // name
-            "Adds subtitles from a vob sequence.", // desc
-            "Gabest",                   // maker
-            nullptr,                       // private_data
-            sizeof(CVirtualDubFilter**), // inst_data_size
-            vobsubInitProc,             // initProc
-            baseDeinitProc,             // deinitProc
-            baseRunProc,                // runProc
-            baseParamProc,              // paramProc
-            baseConfigProc,             // configProc
-            baseStringProc,             // stringProc
-            nullptr,                       // startProc
-            nullptr,                       // endProc
-            &vobsub_obj,                // script_obj
-            baseFssProc,                // fssProc
+            nullptr, nullptr, nullptr,              // next, prev, module
+            "VobSub",                               // name
+            "Adds subtitles from a vob sequence.",  // desc
+            "Gabest",                               // maker
+            nullptr,                                // private_data
+            sizeof(CVirtualDubFilter**),            // inst_data_size
+            vobsubInitProc,                         // initProc
+            baseDeinitProc,                         // deinitProc
+            baseRunProc,                            // runProc
+            baseParamProc,                          // paramProc
+            baseConfigProc,                         // configProc
+            baseStringProc,                         // stringProc
+            nullptr,                                // startProc
+            nullptr,                                // endProc
+            &vobsub_obj,                            // script_obj
+            baseFssProc,                            // fssProc
         };
 
         ScriptFunctionDef textsub_func_defs[] = {
@@ -456,22 +456,22 @@ namespace Plugin
         };
 
         struct FilterDefinition filterDef_textsub = {
-            nullptr, nullptr, nullptr,           // next, prev, module
-            "TextSub",                  // name
+            nullptr, nullptr, nullptr,              // next, prev, module
+            "TextSub",                              // name
             "Adds subtitles from srt, sub, psb, smi, ssa, ass file formats.", // desc
-            "Gabest",                   // maker
-            nullptr,                       // private_data
-            sizeof(CVirtualDubFilter**), // inst_data_size
-            textsubInitProc,            // initProc
-            baseDeinitProc,             // deinitProc
-            baseRunProc,                // runProc
-            baseParamProc,              // paramProc
-            baseConfigProc,             // configProc
-            baseStringProc,             // stringProc
-            nullptr,                       // startProc
-            nullptr,                       // endProc
-            &textsub_obj,               // script_obj
-            baseFssProc,                // fssProc
+            "Gabest",                               // maker
+            nullptr,                                // private_data
+            sizeof(CVirtualDubFilter**),            // inst_data_size
+            textsubInitProc,                        // initProc
+            baseDeinitProc,                         // deinitProc
+            baseRunProc,                            // runProc
+            baseParamProc,                          // paramProc
+            baseConfigProc,                         // configProc
+            baseStringProc,                         // stringProc
+            nullptr,                                // startProc
+            nullptr,                                // endProc
+            &textsub_obj,                           // script_obj
+            baseFssProc,                            // fssProc
         };
 
         static FilterDefinition* fd_vobsub;
@@ -699,22 +699,22 @@ namespace Plugin
         };
 
         struct VDXFilterDefinition filterDef_vobsub = {
-            nullptr, nullptr, nullptr,           // next, prev, module
-            "VobSub",                   // name
-            "Adds subtitles from a vob sequence.", // desc
-            "Gabest",                   // maker
-            nullptr,                       // private_data
-            sizeof(CVirtualDubFilter**), // inst_data_size
-            vobsubInitProc,             // initProc
-            baseDeinitProc,             // deinitProc
-            baseRunProc,                // runProc
-            baseParamProc,              // paramProc
-            baseConfigProc,             // configProc
-            baseStringProc,             // stringProc
-            nullptr,                       // startProc
-            nullptr,                       // endProc
-            &vobsub_obj,                // script_obj
-            baseFssProc,                // fssProc
+            nullptr, nullptr, nullptr,              // next, prev, module
+            "VobSub",                               // name
+            "Adds subtitles from a vob sequence.",  // desc
+            "Gabest",                               // maker
+            nullptr,                                // private_data
+            sizeof(CVirtualDubFilter**),            // inst_data_size
+            vobsubInitProc,                         // initProc
+            baseDeinitProc,                         // deinitProc
+            baseRunProc,                            // runProc
+            baseParamProc,                          // paramProc
+            baseConfigProc,                         // configProc
+            baseStringProc,                         // stringProc
+            nullptr,                                // startProc
+            nullptr,                                // endProc
+            &vobsub_obj,                            // script_obj
+            baseFssProc,                            // fssProc
         };
 
         VDXScriptFunctionDef textsub_func_defs[] = {
@@ -727,22 +727,22 @@ namespace Plugin
         };
 
         struct VDXFilterDefinition filterDef_textsub = {
-            nullptr, nullptr, nullptr,           // next, prev, module
-            "TextSub",                  // name
+            nullptr, nullptr, nullptr,              // next, prev, module
+            "TextSub",                              // name
             "Adds subtitles from srt, sub, psb, smi, ssa, ass file formats.", // desc
-            "Gabest",                   // maker
-            nullptr,                       // private_data
-            sizeof(CVirtualDubFilter**), // inst_data_size
-            textsubInitProc,            // initProc
-            baseDeinitProc,             // deinitProc
-            baseRunProc,                // runProc
-            baseParamProc,              // paramProc
-            baseConfigProc,             // configProc
-            baseStringProc,             // stringProc
-            nullptr,                       // startProc
-            nullptr,                       // endProc
-            &textsub_obj,               // script_obj
-            baseFssProc,                // fssProc
+            "Gabest",                               // maker
+            nullptr,                                // private_data
+            sizeof(CVirtualDubFilter**),            // inst_data_size
+            textsubInitProc,                        // initProc
+            baseDeinitProc,                         // deinitProc
+            baseRunProc,                            // runProc
+            baseParamProc,                          // paramProc
+            baseConfigProc,                         // configProc
+            baseStringProc,                         // stringProc
+            nullptr,                                // startProc
+            nullptr,                                // endProc
+            &textsub_obj,                           // script_obj
+            baseFssProc,                            // fssProc
         };
 
         static VDXFilterDefinition* fd_vobsub;

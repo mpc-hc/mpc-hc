@@ -791,7 +791,7 @@ HRESULT CMpcAudioRenderer::DoRenderSampleDirectSound(IMediaSample* pMediaSample)
     if (SUCCEEDED(hr)) {
         if (((dwPlayCursor < dwWriteCursor) &&
                 (
-                    ((m_dwDSWriteOff >= dwPlayCursor) && (m_dwDSWriteOff <=  dwWriteCursor))
+                    ((m_dwDSWriteOff >= dwPlayCursor) && (m_dwDSWriteOff <= dwWriteCursor))
                     ||
                     ((m_dwDSWriteOff < dwPlayCursor) && (m_dwDSWriteOff + lSize >= dwPlayCursor))
                 )

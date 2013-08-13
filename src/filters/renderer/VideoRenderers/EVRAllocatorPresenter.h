@@ -57,8 +57,7 @@ namespace DSObjects
         public IMFRateSupport,
         public IMFVideoDisplayControl,
         public IEVRTrustedVideoPlugin
-    /*  public IMFVideoPositionMapper,      // Non mandatory EVR Presenter Interfaces (see later...)
-    */
+    /*  public IMFVideoPositionMapper,      // Non mandatory EVR Presenter Interfaces (see later...) */
     {
     public:
         CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
