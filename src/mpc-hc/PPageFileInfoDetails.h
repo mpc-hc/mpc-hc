@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -40,14 +40,14 @@ private:
     void InitEncoding();
 
 public:
-    CPPageFileInfoDetails(CString fn, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP);
+    CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP);
     virtual ~CPPageFileInfoDetails();
 
     // Dialog Data
     enum { IDD = IDD_FILEPROPDETAILS };
 
     CStatic m_icon;
-    CString m_fn;
+    CString m_fn, m_path;
     CString m_type;
     CString m_size;
     CString m_time;

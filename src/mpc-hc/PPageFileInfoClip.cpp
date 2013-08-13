@@ -31,9 +31,10 @@
 // CPPageFileInfoClip dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoClip, CPropertyPage)
-CPPageFileInfoClip::CPPageFileInfoClip(CString fn, IFilterGraph* pFG)
+CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG)
     : CPropertyPage(CPPageFileInfoClip::IDD, CPPageFileInfoClip::IDD)
-    , m_fn(fn)
+    , m_fn(path)
+    , m_path(path)
     , m_pFG(pFG)
     , m_clip(ResStr(IDS_AG_NONE))
     , m_author(ResStr(IDS_AG_NONE))
@@ -97,25 +98,21 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    if (m_fn.IsEmpty()) {
-        BeginEnumFilters(m_pFG, pEF, pBF) {
-            CComQIPtr<IFileSourceFilter> pFSF = pBF;
-            if (pFSF) {
-                LPOLESTR pFN = nullptr;
-                AM_MEDIA_TYPE mt;
-                if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
-                    m_fn = CStringW(pFN);
-                    CoTaskMemFree(pFN);
-                }
-                break;
+    BeginEnumFilters(m_pFG, pEF, pBF) {
+        CComQIPtr<IFileSourceFilter> pFSF = pBF;
+        if (pFSF) {
+            LPOLESTR pFN;
+            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
+                m_fn = pFN;
+                CoTaskMemFree(pFN);
             }
+            break;
         }
-        EndEnumFilters;
     }
+    EndEnumFilters;
 
-    m_hIcon = LoadIcon(m_fn, false);
-    if (m_hIcon) {
-        m_icon.SetIcon(m_hIcon);
+    if (m_path.IsEmpty()) {
+        m_path = m_fn;
     }
 
     m_fn.TrimRight('/');
@@ -128,6 +125,12 @@ BOOL CPPageFileInfoClip::OnInitDialog()
             m_location_str += '\\';
         }
     }
+
+    m_hIcon = LoadIcon(m_fn, false);
+    if (m_hIcon) {
+        m_icon.SetIcon(m_hIcon);
+    }
+
     m_location.SetWindowText(m_location_str);
 
     bool fEmpty = true;

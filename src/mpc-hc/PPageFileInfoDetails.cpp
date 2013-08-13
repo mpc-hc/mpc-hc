@@ -33,9 +33,10 @@
 // CPPageFileInfoDetails dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoDetails, CPropertyPage)
-CPPageFileInfoDetails::CPPageFileInfoDetails(CString fn, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP)
+CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP)
     : CPropertyPage(CPPageFileInfoDetails::IDD, CPPageFileInfoDetails::IDD)
-    , m_fn(fn)
+    , m_fn(path)
+    , m_path(path)
     , m_pFG(pFG)
     , m_pCAP(pCAP)
     , m_hIcon(nullptr)
@@ -105,21 +106,37 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    if (m_fn.IsEmpty()) {
-        BeginEnumFilters(m_pFG, pEF, pBF) {
-            CComQIPtr<IFileSourceFilter> pFSF = pBF;
-            if (pFSF) {
-                LPOLESTR pFN = nullptr;
-                AM_MEDIA_TYPE mt;
-                if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
-                    m_fn = CStringW(pFN);
-                    CoTaskMemFree(pFN);
-                }
-                break;
+    __int64 size = 0;
+    CComQIPtr<IFileSourceFilter> pFSF;
+    BeginEnumFilters(m_pFG, pEF, pBF) {
+        if (pFSF = pBF) {
+            LPOLESTR pFN;
+            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
+                m_fn = pFN;
+                CoTaskMemFree(pFN);
             }
+            BeginEnumPins(pBF, pEP, pPin) {
+                if (CComQIPtr<IAsyncReader> pAR = pPin) {
+                    LONGLONG total, available;
+                    if (SUCCEEDED(pAR->Length(&total, &available))) {
+                        size = total;
+                    }
+                    break;
+                }
+            }
+            EndEnumPins;
+            break;
         }
-        EndEnumFilters;
     }
+    EndEnumFilters;
+
+    if (m_path.IsEmpty()) {
+        m_path = m_fn;
+    }
+
+    m_fn.TrimRight('/');
+    m_fn.Replace('\\', '/');
+    m_fn = m_fn.Mid(m_fn.ReverseFind('/') + 1);
 
     CString ext = m_fn.Left(m_fn.Find(_T("://")) + 1).TrimRight(':');
     if (ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
@@ -135,6 +152,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
         m_type.LoadString(IDS_AG_NOT_KNOWN);
     }
 
+    CString created;
     CComVariant vt;
     if (::GetProperty(m_pFG, L"CurFile.TimeCreated", &vt)) {
         if (V_VT(&vt) == VT_UI8) {
@@ -145,26 +163,35 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
             ft.dwLowDateTime = uli.LowPart;
             ft.dwHighDateTime = uli.HighPart;
 
-            m_created = FormatDateTime(ft);
+            created = FormatDateTime(ft);
         }
     }
 
     WIN32_FIND_DATA wfd;
-    HANDLE hFind = FindFirstFile(m_fn, &wfd);
+    HANDLE hFind = FindFirstFile(m_path, &wfd);
     if (hFind != INVALID_HANDLE_VALUE) {
         FindClose(hFind);
 
-        __int64 size = (__int64(wfd.nFileSizeHigh) << 32) | wfd.nFileSizeLow;
+        if (size == 0) {
+            size = (__int64(wfd.nFileSizeHigh) << 32) | wfd.nFileSizeLow;
+        }
+
+        if (created.IsEmpty()) {
+            created = FormatDateTime(wfd.ftCreationTime);
+        }
+    }
+
+    if (size > 0) {
         const int MAX_FILE_SIZE_BUFFER = 65;
         WCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
         StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
         CString szByteSize;
         szByteSize.Format(_T("%I64d"), size);
         m_size.Format(_T("%s (%s bytes)"), szFileSize, FormatNumber(szByteSize));
+    }
 
-        if (m_created.IsEmpty()) {
-            m_created = FormatDateTime(wfd.ftCreationTime);
-        }
+    if (!created.IsEmpty()) {
+        m_created = created;
     }
 
     REFERENCE_TIME rtDur = 0;
@@ -224,10 +251,6 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
             m_res += ar;
         }
     }
-
-    m_fn.TrimRight('/');
-    m_fn.Replace('\\', '/');
-    m_fn = m_fn.Mid(m_fn.ReverseFind('/') + 1);
 
     UpdateData(FALSE);
 

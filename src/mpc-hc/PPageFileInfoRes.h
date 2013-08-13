@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,7 +39,7 @@ private:
     CAtlList<CDSMResource> m_res;
 
 public:
-    CPPageFileInfoRes(CString fn, IFilterGraph* pFG);   // standard constructor
+    CPPageFileInfoRes(CString path, IFilterGraph* pFG);   // standard constructor
     virtual ~CPPageFileInfoRes();
 
     // Dialog Data
