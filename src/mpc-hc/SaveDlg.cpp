@@ -124,6 +124,16 @@ BOOL CSaveDlg::OnInitDialog()
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_RFS
+    if (!pReader) {
+        hr = S_OK;
+        CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW CRARFileSource(nullptr, &hr);
+        if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, nullptr))) {
+            pReader.Release();
+        }
+    }
+#endif
+
     if (!pReader) {
         hr = S_OK;
         CComPtr<IUnknown> pUnk;

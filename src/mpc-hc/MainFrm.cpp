@@ -4536,7 +4536,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 
 void CMainFrame::OnFileSaveAs()
 {
-    CString ext, in = m_wndPlaylistBar.GetCurFileName(), out = in;
+    CString ext, in = m_wndPlaylistBar.GetCurFileName(), out = GetFileName();
 
     if (out.Find(_T("://")) < 0) {
         ext = CPath(out).GetExtension().MakeLower();
