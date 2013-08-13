@@ -5444,9 +5444,11 @@ void CMainFrame::OnFileISDBDownload()
 {
     const CAppSettings& s = AfxGetAppSettings();
     ISDb::filehash fh;
-    if (!ISDb::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
-        MessageBeep((UINT) - 1);
-        return;
+    if (!ISDb::mpc_filehash(m_pGB, fh)) {
+        if (!ISDb::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
+            MessageBeep((UINT) - 1);
+            return;
+        }
     }
 
     try {

@@ -28,6 +28,52 @@
 
 namespace ISDb
 {
+    bool mpc_filehash(IFilterGraph* pFG, filehash& fh)
+    {
+        CComQIPtr<IFileSourceFilter> pFSF;
+        CComQIPtr<IAsyncReader> pAR;
+        BeginEnumFilters(pFG, pEF, pBF) {
+            if (pFSF = pBF) {
+                BeginEnumPins(pBF, pEP, pPin)
+                if (pAR = pPin) {
+                    break;
+                }
+                EndEnumPins;
+                break;
+            }
+        }
+        EndEnumFilters;
+
+        if (!pAR || !pFSF) {
+            return false;
+        }
+
+        LPOLESTR name;
+        if (FAILED(pFSF->GetCurFile(&name, nullptr))) {
+            return false;
+        }
+        fh.name = name;
+        CoTaskMemFree(name);
+
+        LONGLONG size, available;
+        if (pAR->Length(&size, &available) != S_OK) { // Don't accept estimates
+            return false;
+        }
+        fh.size = size;
+
+        fh.mpc_filehash = fh.size;
+        LONGLONG position = 0;
+        for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(pAR->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fh.mpc_filehash += tmp, position += sizeof(tmp), i++) {
+            ;
+        }
+        position = max(0, (INT64)fh.size - PROBE_SIZE);
+        for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(pAR->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fh.mpc_filehash += tmp, position += sizeof(tmp), i++) {
+            ;
+        }
+
+        return true;
+    }
+
     bool mpc_filehash(LPCTSTR fn, filehash& fh)
     {
         CFile f;
