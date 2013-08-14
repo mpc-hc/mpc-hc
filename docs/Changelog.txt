@@ -29,6 +29,10 @@ Legend:
   Examples:
     > mpc-hc.exe - < sample.ts
     > a_prog.exe | mpc-hc.exe -
++ Improved RAR File Source integration:
+  - Added support for subtitle database.
+  - Added support for file properties and MediaInfo.
+  - "File -> Save a copy" now extracts the file from the RAR archive.
 * D3DFullscreen changes:
   - toggle hotkey is now disabled by default
   - support for madVR has been removed (it already has exclusive mode)
@@ -52,3 +56,4 @@ Legend:
   Sync Renderer with DXVA decoding
 ! Ticket #3304, Fix remembering file position when double-clicking on a playlist item.
   If a position was previously saved, it will be restored unless the file is already playing.
+! Fixed creation date in file properties always being shown as "Not known".
