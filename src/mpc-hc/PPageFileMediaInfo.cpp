@@ -29,18 +29,21 @@
 #if USE_STATIC_MEDIAINFO
 #include "MediaInfo/MediaInfo.h"
 using namespace MediaInfoLib;
+#define MediaInfo_int64u ZenLib::int64u
 #else
 #include "MediaInfoDLL.h"
 using namespace MediaInfoDLL;
 #endif
 
+#define MEDIAINFO_BUFFER_SIZE 1024 * 256
 
 // CPPageFileMediaInfo dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileMediaInfo, CPropertyPage)
-CPPageFileMediaInfo::CPPageFileMediaInfo(CString fn, IFilterGraph* pFG)
+CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFilterGraph* pFG)
     : CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
-    , m_fn(fn)
+    , m_fn(path)
+    , m_path(path)
     , m_pFG(pFG)
     , m_pCFont(nullptr)
 {
@@ -91,38 +94,74 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
         return TRUE;
     }
 
-    if (m_fn.IsEmpty()) {
-        BeginEnumFilters(m_pFG, pEF, pBF) {
-            CComQIPtr<IFileSourceFilter> pFSF = pBF;
-            if (pFSF) {
-                LPOLESTR pFN = nullptr;
-                AM_MEDIA_TYPE mt;
-                if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
-                    m_fn = CStringW(pFN);
-                    CoTaskMemFree(pFN);
-                }
-                break;
+    CComQIPtr<IAsyncReader> pAR;
+    BeginEnumFilters(m_pFG, pEF, pBF) {
+        if (CComQIPtr<IFileSourceFilter> pFSF = pBF) {
+            LPOLESTR pFN;
+            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
+                m_fn = pFN;
+                CoTaskMemFree(pFN);
             }
+            BeginEnumPins(pBF, pEP, pPin) {
+                if (pAR = pPin) {
+                    break;
+                }
+            }
+            EndEnumPins;
+            break;
         }
-        EndEnumFilters;
+    }
+    EndEnumFilters;
+
+    if (m_path.IsEmpty()) {
+        m_path = m_fn;
     }
 
 #if USE_STATIC_MEDIAINFO
-    MediaInfoLib::String f_name = m_fn;
+    MediaInfoLib::String f_name = m_path;
     MediaInfoLib::MediaInfo MI;
 #else
-    MediaInfoDLL::String f_name = m_fn;
+    MediaInfoDLL::String f_name = m_path;
     MediaInfo MI;
 #endif
 
     MI.Option(_T("ParseSpeed"), _T("0"));
-    MI.Open(f_name);
     MI.Option(_T("Complete"));
     MI.Option(_T("Language"), _T("  Config_Text_ColumnSize;30"));
-    MI_Text = MI.Inform().c_str();
-    MI.Close();
-    if (!MI_Text.Find(_T("Unable to load"))) {
-        MI_Text = _T("");
+
+    LONGLONG llSize, llAvailable;
+    if (pAR && SUCCEEDED(pAR->Length(&llSize, &llAvailable))) {
+        size_t ret = MI.Open_Buffer_Init((MediaInfo_int64u)llSize);
+
+        size_t szLength = (size_t)min(llSize, MEDIAINFO_BUFFER_SIZE);
+        BYTE* pBuffer = DEBUG_NEW BYTE[szLength];
+        LONGLONG llPosition = 0;
+        while ((ret & 0x1) && !(ret & 0x2)) { // While accepted and not filled
+            if (FAILED(pAR->SyncRead(llPosition, (LONG)szLength, pBuffer))) {
+                break;
+            }
+            ret = MI.Open_Buffer_Continue(pBuffer, szLength);
+            
+            // Seek to a different position if needed
+            MediaInfo_int64u uiNeeded = MI.Open_Buffer_Continue_GoTo_Get();
+            if (uiNeeded != (MediaInfo_int64u) - 1 && (ULONGLONG)llPosition < uiNeeded) {
+                llPosition = (LONGLONG)uiNeeded;
+            } else {
+                llPosition += szLength;
+            }
+        }
+        MI.Open_Buffer_Finalize();
+        delete pBuffer;
+
+        MI_Text = MI.Inform().c_str();
+    } else {
+        MI.Open(f_name);
+        MI_Text = MI.Inform().c_str();
+        MI.Close();
+
+        if (!MI_Text.Find(_T("Unable to load"))) {
+            MI_Text = _T("");
+        }
     }
 
     LOGFONT lf;

@@ -29,13 +29,13 @@
 // CPPageFileInfoSheet
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoSheet, CPropertySheet)
-CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWnd* pParentWnd)
+CPPageFileInfoSheet::CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, CWnd* pParentWnd)
     : CPropertySheet(ResStr(IDS_PROPSHEET_PROPERTIES), pParentWnd, 0)
-    , m_clip(fn, pMainFrame->m_pGB)
-    , m_details(fn, pMainFrame->m_pGB, pMainFrame->m_pCAP)
-    , m_res(fn, pMainFrame->m_pGB)
-    , m_mi(fn, pMainFrame->m_pGB)
-    , m_fn(fn)
+    , m_clip(path, pMainFrame->m_pGB)
+    , m_details(path, pMainFrame->m_pGB, pMainFrame->m_pCAP)
+    , m_res(path, pMainFrame->m_pGB)
+    , m_mi(path, pMainFrame->m_pGB)
+    , m_path(path)
 {
     AddPage(&m_details);
     AddPage(&m_clip);
@@ -70,13 +70,6 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    m_fn.TrimRight('/');
-    int i = max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
-    if (i >= 0 && i < m_fn.GetLength() - 1) {
-        m_fn = m_fn.Mid(i + 1);
-    }
-    m_fn = m_fn + _T(".MediaInfo.txt");
-
     GetDlgItem(IDCANCEL)->ShowWindow(SW_HIDE);
     GetDlgItem(ID_APPLY_NOW)->ShowWindow(SW_HIDE);
     GetDlgItem(IDOK)->SetWindowText(ResStr(IDS_AG_CLOSE));
@@ -99,7 +92,16 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 
 void CPPageFileInfoSheet::OnSaveAs()
 {
-    CFileDialog filedlg(FALSE, _T("*.txt"), m_fn,
+    CString fn = m_mi.m_fn;
+
+    fn.TrimRight('/');
+    int i = max(fn.ReverseFind('\\'), fn.ReverseFind('/'));
+    if (i >= 0 && i < fn.GetLength() - 1) {
+        fn = fn.Mid(i + 1);
+    }
+    fn.Append(_T(".MediaInfo.txt"));
+
+    CFileDialog filedlg(FALSE, _T("*.txt"), fn,
                         OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
                         _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||"), this, 0);
 

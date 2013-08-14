@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,11 +44,11 @@ private:
     CButton m_Button_MI;
 
 public:
-    CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWnd* pParentWnd);
+    CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, CWnd* pParentWnd);
     virtual ~CPPageFileInfoSheet();
 
     afx_msg void OnSaveAs();
-    CString m_fn;
+    CString m_path;
 protected:
     virtual BOOL OnInitDialog();
 
