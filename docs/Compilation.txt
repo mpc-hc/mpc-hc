@@ -51,7 +51,7 @@ Part C: Downloading and compiling the MPC-HC source
       git submodule update --init --recursive
 
     If a submodule update fails, try running:
-      git submodule foreach git fetch --tags
+      git submodule foreach --recursive git fetch --tags
     then run the update again
       git submodule update --init --recursive
 2. Open the solution file "C:\mpc-hc\mpc-hc.sln"
