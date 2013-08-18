@@ -137,11 +137,11 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
         BYTE* pBuffer = DEBUG_NEW BYTE[szLength];
         LONGLONG llPosition = 0;
         while ((ret & 0x1) && !(ret & 0x2)) { // While accepted and not filled
-            if (FAILED(pAR->SyncRead(llPosition, (LONG)szLength, pBuffer))) {
+            if (pAR->SyncRead(llPosition, (LONG)szLength, pBuffer) != S_OK) {
                 break;
             }
             ret = MI.Open_Buffer_Continue(pBuffer, szLength);
-            
+
             // Seek to a different position if needed
             MediaInfo_int64u uiNeeded = MI.Open_Buffer_Continue_GoTo_Get();
             if (uiNeeded != (MediaInfo_int64u) - 1 && (ULONGLONG)llPosition < uiNeeded) {
