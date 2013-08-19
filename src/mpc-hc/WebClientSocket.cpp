@@ -444,14 +444,15 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
     int pos = (int)(m_pMainFrame->GetPos() / 10000);
     int dur = (int)(m_pMainFrame->GetDur() / 10000);
 
-    CString positionstring, durationstring, versionstring, sizestring, file;
+    CString positionstring, durationstring, versionstring, sizestring;
     versionstring.Format(L"%s", AfxGetMyApp()->m_strVersion);
 
     positionstring.Format(_T("%02d:%02d:%02d"), (pos / 3600000), (pos / 60000) % 60, (pos / 1000) % 60);
     durationstring.Format(_T("%02d:%02d:%02d"), (dur / 3600000), (dur / 60000) % 60, (dur / 1000) % 60);
 
     __int64 size = 0;
-    CString path = file = m_pMainFrame->m_wndPlaylistBar.GetCurFileName();
+    CPath path(m_pMainFrame->m_wndPlaylistBar.GetCurFileName());
+    CPath file(path);
     CComQIPtr<IFileSourceFilter> pFSF;
     BeginEnumFilters(m_pMainFrame->m_pGB, pEF, pBF) {
         if (pFSF = pBF) {
@@ -473,6 +474,9 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
         }
     }
     EndEnumFilters;
+
+    file.StripPath();
+    file.RemoveExtension();
 
     if (size == 0) {
         WIN32_FIND_DATA wfd;
