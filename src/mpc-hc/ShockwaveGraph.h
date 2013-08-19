@@ -54,7 +54,7 @@ namespace DSObjects
         STDMETHODIMP GetTimeFormat(GUID* pFormat);
         STDMETHODIMP GetDuration(LONGLONG* pDuration);
         STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
-        STDMETHODIMP SetPositions(const LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+        STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
 
         // IVideoWindow
         STDMETHODIMP put_Visible(long Visible);
