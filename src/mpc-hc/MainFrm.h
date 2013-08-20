@@ -240,6 +240,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     void SetupFiltersSubMenu();
     void SetupAudioSubMenu();
     void SetupSubtitlesSubMenu();
+    void SetupVideoStreamsSubMenu();
     void SetupNavAudioSubMenu();
     void SetupNavSubtitleSubMenu();
     void SetupNavAngleSubMenu();
@@ -255,7 +256,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     CMenu m_popupmain, m_popup;
     CMenu m_opencds;
-    CMenu m_filters, m_subtitles, m_audios;
+    CMenu m_filters, m_subtitles, m_audios, m_videoStreams;
     CMenu m_language;
     CAutoPtrArray<CMenu> m_filterpopups;
     CMenu m_navangle;
@@ -839,6 +840,7 @@ public:
     afx_msg void OnPlayShaders(UINT nID);
     afx_msg void OnPlayAudio(UINT nID);
     afx_msg void OnPlaySubtitles(UINT nID);
+    afx_msg void OnPlayVideoStreams(UINT nID);
     afx_msg void OnPlayFiltersStreams(UINT nID);
     afx_msg void OnPlayVolume(UINT nID);
     afx_msg void OnPlayVolumeBoost(UINT nID);

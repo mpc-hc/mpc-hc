@@ -266,6 +266,7 @@
 #define ID_FILTERS                      977
 #define ID_AUDIOS                       978
 #define ID_SUBTITLES                    979
+#define ID_VIDEO_STREAMS                11980 // TODO: Change me later
 #define ID_JUMPTO                       980
 #define ID_AUDIOLANGUAGE                981
 #define ID_SUBTITLELANGUAGE             982
@@ -291,6 +292,8 @@
 #define ID_AUDIO_SUBITEM_END            2299
 #define ID_SUBTITLES_SUBITEM_START      2300
 #define ID_SUBTITLES_SUBITEM_END        2399
+#define ID_VIDEO_STREAMS_SUBITEM_START  2400
+#define ID_VIDEO_STREAMS_SUBITEM_END    2499
 #define ID_NAVIGATE_AUDIO_SUBITEM_START 2500
 #define ID_NAVIGATE_AUDIO_SUBITEM_END   2599
 #define ID_NAVIGATE_SUBP_SUBITEM_START  2600

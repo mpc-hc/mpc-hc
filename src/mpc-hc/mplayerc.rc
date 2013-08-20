@@ -1455,6 +1455,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      ID_AUDIOS
         MENUITEM "Su&btitles",                  ID_SUBTITLES
+        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -1619,6 +1620,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      ID_AUDIOS
         MENUITEM "Su&btitles",                  ID_SUBTITLES
+        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -1968,6 +1970,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      ID_AUDIOS
         MENUITEM "Su&btitles",                  ID_SUBTITLES
+        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN

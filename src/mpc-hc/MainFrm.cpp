@@ -458,6 +458,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_SHADERS_START, ID_SHADERS_END, OnPlayShaders)
     ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
     ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
+    ON_COMMAND_RANGE(ID_VIDEO_STREAMS_SUBITEM_START, ID_VIDEO_STREAMS_SUBITEM_END, OnPlayVideoStreams)
     ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayFiltersStreams)
     ON_COMMAND_RANGE(ID_VOLUME_UP, ID_VOLUME_MUTE, OnPlayVolume)
     ON_COMMAND_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnPlayVolumeBoost)
@@ -3168,6 +3169,17 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         } else if (itemID == ID_SUBTITLES) {
             SetupSubtitlesSubMenu();
             pSubMenu = &m_subtitles;
+        } else if (itemID == ID_VIDEO_STREAMS) {
+
+            CString menu_str;
+            menu_str.LoadString(GetPlaybackMode() == PM_DVD ? IDS_MENU_VIDEO_ANGLE : IDS_MENU_VIDEO_STREAM);
+
+            mii.fMask = MIIM_STRING;
+            mii.dwTypeData = (LPTSTR)(LPCTSTR)menu_str;
+            pPopupMenu->SetMenuItemInfo(i, &mii, TRUE);
+
+            SetupVideoStreamsSubMenu();
+            pSubMenu = &m_videoStreams;
         } else if (itemID == ID_AUDIOLANGUAGE) {
             SetupNavAudioSubMenu();
             pSubMenu = &m_navaudio;
@@ -3602,6 +3614,7 @@ void CMainFrame::OnFilePostClosemedia()
     SetupFiltersSubMenu();
     SetupAudioSubMenu();
     SetupSubtitlesSubMenu();
+    SetupVideoStreamsSubMenu();
     SetupNavAudioSubMenu();
     SetupNavSubtitleSubMenu();
     SetupNavAngleSubMenu();
@@ -8063,6 +8076,21 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
         }
     } else if (GetPlaybackMode() == PM_FILE) {
         OnNavStreamSelectSubMenu(i, 2);
+    }
+}
+
+void CMainFrame::OnPlayVideoStreams(UINT nID)
+{
+    nID -= ID_VIDEO_STREAMS_SUBITEM_START;
+
+    if (GetPlaybackMode() == PM_FILE) {
+        OnNavStreamSelectSubMenu(nID, 0);
+    } else if (GetPlaybackMode() == PM_DVD) {
+        m_pDVDC->SelectAngle(nID + 1, DVD_CMD_FLAG_Block, nullptr);
+
+        CString osdMessage;
+        osdMessage.Format(IDS_AG_ANGLE, nID + 1);
+        m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
     }
 }
 
@@ -13130,6 +13158,48 @@ void CMainFrame::SetupSubtitlesSubMenu()
     }
 }
 
+void CMainFrame::SetupVideoStreamsSubMenu()
+{
+    CMenu* pSub = &m_videoStreams;
+
+    if (!IsMenu(pSub->m_hMenu)) {
+        pSub->CreatePopupMenu();
+    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
+            ;
+        }
+
+    if (m_iMediaLoadState != MLS_LOADED) {
+        return;
+    }
+
+    UINT id = ID_VIDEO_STREAMS_SUBITEM_START;
+
+    if (GetPlaybackMode() == PM_FILE) {
+        SetupNavStreamSelectSubMenu(pSub, id, 0);
+    } else if (GetPlaybackMode() == PM_DVD) {
+        ULONG ulStreamsAvailable, ulCurrentStream;
+        if (FAILED(m_pDVDI->GetCurrentAngle(&ulStreamsAvailable, &ulCurrentStream))) {
+            return;
+        }
+
+        if (ulStreamsAvailable < 2) {
+            return;    // one choice is not a choice...
+        }
+
+        for (ULONG i = 1; i <= ulStreamsAvailable; i++) {
+            UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
+            if (i == ulCurrentStream) {
+                flags |= MF_CHECKED;
+            }
+
+            CString str;
+            str.Format(IDS_AG_ANGLE, i);
+
+            pSub->AppendMenu(flags, id++, str);
+        }
+    }
+}
+
 void CMainFrame::SetupNavAudioSubMenu()
 {
     CMenu* pSub = &m_navaudio;
@@ -15386,6 +15456,7 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
     m_filters.DestroyMenu();
     m_subtitles.DestroyMenu();
     m_audios.DestroyMenu();
+    m_videoStreams.DestroyMenu();
     m_navaudio.DestroyMenu();
     m_navsubtitle.DestroyMenu();
     m_navangle.DestroyMenu();
