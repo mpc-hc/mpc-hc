@@ -12426,9 +12426,9 @@ void CMainFrame::SetupOpenCDSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     if (m_iMediaLoadState == MLS_LOADING) {
         return;
@@ -12479,9 +12479,9 @@ void CMainFrame::SetupFiltersSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     m_filterpopups.RemoveAll();
     m_pparray.RemoveAll();
@@ -12702,9 +12702,9 @@ void CMainFrame::SetupAudioSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     if (m_iMediaLoadState != MLS_LOADED) {
         return;
@@ -12828,9 +12828,9 @@ void CMainFrame::SetupSubtitlesSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     if (m_iMediaLoadState != MLS_LOADED || m_fAudioOnly || !m_pCAP) {
         return;
@@ -13077,9 +13077,9 @@ void CMainFrame::SetupVideoStreamsSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     if (m_iMediaLoadState != MLS_LOADED) {
         return;
@@ -13127,9 +13127,9 @@ void CMainFrame::SetupNavChaptersSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     if (m_iMediaLoadState != MLS_LOADED) {
         return;
@@ -13437,9 +13437,9 @@ void CMainFrame::SetupRecentFilesSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     UINT id = ID_RECENT_FILE_START;
     CRecentFileList& MRU = AfxGetAppSettings().MRU;
@@ -13472,9 +13472,9 @@ void CMainFrame::SetupFavoritesSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -13603,9 +13603,9 @@ void CMainFrame::SetupShadersSubMenu()
 
     if (!IsMenu(pSub->m_hMenu)) {
         pSub->CreatePopupMenu();
-    } else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-            ;
-        }
+    } else { // Empty the menu
+        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    }
 
     pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE, ResStr(IDS_SHADERS_TOGGLE));
     pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE_SCREENSPACE, ResStr(IDS_SHADERS_TOGGLE_SCREENSPACE));
