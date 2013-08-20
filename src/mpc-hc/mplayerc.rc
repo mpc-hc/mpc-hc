@@ -1484,10 +1484,6 @@ BEGIN
         MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
         MENUITEM "&Jump To...",                 ID_JUMPTO
         MENUITEM SEPARATOR
-        MENUITEM "A&udio Language",             ID_AUDIOLANGUAGE
-        MENUITEM "Su&btitle Language",          ID_SUBTITLELANGUAGE
-        MENUITEM "Video Ang&le",                ID_VIDEOANGLE
-        MENUITEM SEPARATOR
         MENUITEM "&Title Menu\tAlt+T",           ID_NAVIGATE_TITLEMENU
         MENUITEM "&Root Menu\tAlt+R",           ID_NAVIGATE_ROOTMENU
         MENUITEM "&Subtitle Menu",              ID_NAVIGATE_SUBPICTUREMENU
@@ -1601,10 +1597,6 @@ BEGIN
             MENUITEM "&Previous\tPage Up",          ID_NAVIGATE_SKIPBACK
             MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
             MENUITEM "&Jump To...",                 ID_JUMPTO
-            MENUITEM SEPARATOR
-            MENUITEM "A&udio Language",             ID_AUDIOLANGUAGE
-            MENUITEM "Su&btitle Language",          ID_SUBTITLELANGUAGE
-            MENUITEM "Video Ang&le",                ID_VIDEOANGLE
             MENUITEM SEPARATOR
             MENUITEM "&Title Menu",                 ID_NAVIGATE_TITLEMENU
             MENUITEM "&Root Menu",                  ID_NAVIGATE_ROOTMENU
@@ -1941,10 +1933,6 @@ BEGIN
             MENUITEM "&Previous\tPage Up",          ID_NAVIGATE_SKIPBACK
             MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
             MENUITEM "&Jump To...",                 ID_JUMPTO
-            MENUITEM SEPARATOR
-            MENUITEM "A&udio Language",             ID_AUDIOLANGUAGE
-            MENUITEM "Su&btitle Language",          ID_SUBTITLELANGUAGE
-            MENUITEM "Video Ang&le",                ID_VIDEOANGLE
             MENUITEM SEPARATOR
             MENUITEM "&Title Menu\tAlt+T",           ID_NAVIGATE_TITLEMENU
             MENUITEM "&Root Menu\tAlt+R",           ID_NAVIGATE_ROOTMENU

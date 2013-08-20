@@ -241,9 +241,6 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     void SetupAudioSubMenu();
     void SetupSubtitlesSubMenu();
     void SetupVideoStreamsSubMenu();
-    void SetupNavAudioSubMenu();
-    void SetupNavSubtitleSubMenu();
-    void SetupNavAngleSubMenu();
     void SetupNavChaptersSubMenu();
     void SetupFavoritesSubMenu();
     void SetupShadersSubMenu();
@@ -859,9 +856,6 @@ public:
     afx_msg void OnUpdateNavigateSkipFile(CCmdUI* pCmdUI);
     afx_msg void OnNavigateMenu(UINT nID);
     afx_msg void OnUpdateNavigateMenu(CCmdUI* pCmdUI);
-    afx_msg void OnNavigateAudio(UINT nID);
-    afx_msg void OnNavigateSubpic(UINT nID);
-    afx_msg void OnNavigateAngle(UINT nID);
     afx_msg void OnNavigateChapters(UINT nID);
     afx_msg void OnNavigateMenuItem(UINT nID);
     afx_msg void OnUpdateNavigateMenuItem(CCmdUI* pCmdUI);
