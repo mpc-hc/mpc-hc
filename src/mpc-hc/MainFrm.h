@@ -976,6 +976,9 @@ public:
 
     void UpdateControlState(UpdateControlTarget target);
 
+    // TODO: refactor it outside of MainFrm
+    GUID GetTimeFormat();
+
     CAtlList<CHdmvClipInfo::PlaylistItem> m_MPLSPlaylist;
     bool m_bIsBDPlay;
     bool OpenBD(CString Path);

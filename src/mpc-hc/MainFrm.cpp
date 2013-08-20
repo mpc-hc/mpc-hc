@@ -16455,3 +16455,13 @@ CString CMainFrame::GetFileName()
     path.StripPath();
     return path;
 }
+
+GUID CMainFrame::GetTimeFormat()
+{
+    GUID ret;
+    if (!m_pMS || !SUCCEEDED(m_pMS->GetTimeFormat(&ret))) {
+        ASSERT(FALSE);
+        ret = TIME_FORMAT_NONE;
+    }
+    return ret;
+}

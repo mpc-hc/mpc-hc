@@ -291,13 +291,20 @@ void CPlayerSeekBar::UpdateToolTipText()
 {
     ASSERT(m_bHasDuration);
     REFERENCE_TIME rtNow = PositionFromClientPoint(m_tooltipPoint);
-    DVD_HMSF_TIMECODE tcNow = RT2HMS_r(rtNow);
 
     CString time;
-    if (tcNow.bHours > 0) {
-        time.Format(_T("%02u:%02u:%02u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+    GUID timeFormat = AfxGetMainFrame()->GetTimeFormat();
+    if (timeFormat == TIME_FORMAT_MEDIA_TIME) {
+        DVD_HMSF_TIMECODE tcNow = RT2HMS_r(rtNow);
+        if (tcNow.bHours > 0) {
+            time.Format(_T("%02u:%02u:%02u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+        } else {
+            time.Format(_T("%02u:%02u"), tcNow.bMinutes, tcNow.bSeconds);
+        }
+    } else if (timeFormat == TIME_FORMAT_FRAME) {
+        time.Format(_T("%lld"), rtNow);
     } else {
-        time.Format(_T("%02u:%02u"), tcNow.bMinutes, tcNow.bSeconds);
+        ASSERT(FALSE);
     }
 
     CComBSTR chapterName;
