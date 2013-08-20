@@ -11518,7 +11518,7 @@ DWORD CMainFrame::SetupAudioStreams()
     }
 
     DWORD cStreams = 0;
-    if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
+    if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
         const CAppSettings& s = AfxGetAppSettings();
 
         CAtlArray<CString> langs;
