@@ -238,7 +238,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     void SetupOpenCDSubMenu();
     void SetupFiltersSubMenu();
-    void SetupAudioSwitcherSubMenu();
+    void SetupAudioSubMenu();
     void SetupSubtitlesSubMenu();
     void SetupNavAudioSubMenu();
     void SetupNavSubtitleSubMenu();

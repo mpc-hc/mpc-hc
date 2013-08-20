@@ -3163,7 +3163,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             SetupLanguageMenu();
             pSubMenu = &m_language;
         } else if (itemID == ID_AUDIOS) {
-            SetupAudioSwitcherSubMenu();
+            SetupAudioSubMenu();
             pSubMenu = &m_audios;
         } else if (itemID == ID_SUBTITLES) {
             SetupSubtitlesSubMenu();
@@ -3600,7 +3600,7 @@ void CMainFrame::OnFilePostClosemedia()
 
     // this will prevent any further UI updates on the dynamically added menu items
     SetupFiltersSubMenu();
-    SetupAudioSwitcherSubMenu();
+    SetupAudioSubMenu();
     SetupSubtitlesSubMenu();
     SetupNavAudioSubMenu();
     SetupNavSubtitleSubMenu();
@@ -7943,17 +7943,31 @@ void CMainFrame::OnPlayShaders(UINT nID)
 
 void CMainFrame::OnPlayAudio(UINT nID)
 {
-    int i = (int)nID - (1 + ID_AUDIO_SUBITEM_START);
+    CAppSettings& s = AfxGetAppSettings();
+    int i = (int)nID - ID_AUDIO_SUBITEM_START;
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
     if (!pSS) {
         pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
     }
 
-    if (i == -1) {
-        ShowOptions(CPPageAudioSwitcher::IDD);
-    } else if (i >= 0 && pSS) {
-        pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
+    DWORD cStreams = 0;
+
+    if (GetPlaybackMode() == PM_DVD) {
+        m_pDVDC->SelectAudioStream(i, DVD_CMD_FLAG_Block, nullptr);
+    } else if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
+        if (i == 0) {
+            ShowOptions(CPPageAudioSwitcher::IDD);
+        } else {
+            pSS->Enable(i - 1, AMSTREAMSELECTENABLE_ENABLE);
+        }
+    } else if (GetPlaybackMode() == PM_FILE) {
+        OnNavStreamSelectSubMenu(i, 1);
+    } else if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
+        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+
+        OnNavStreamSelectSubMenu(i, 1);
+        pChannel->SetDefaultAudio(i);
     }
 }
 
@@ -12716,7 +12730,7 @@ void CMainFrame::SetupLanguageMenu()
     }
 }
 
-void CMainFrame::SetupAudioSwitcherSubMenu()
+void CMainFrame::SetupAudioSubMenu()
 {
     CMenu* pSub = &m_audios;
 
@@ -12726,43 +12740,119 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
             ;
         }
 
-    if (m_iMediaLoadState == MLS_LOADED) {
-        UINT id = ID_AUDIO_SUBITEM_START;
+    if (m_iMediaLoadState != MLS_LOADED) {
+        return;
+    }
 
-        CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
-        if (!pSS) {
-            pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
+    UINT id = ID_AUDIO_SUBITEM_START;
+
+    CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
+    if (!pSS) {
+        pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
+    }
+
+    DWORD cStreams = 0;
+
+    if (GetPlaybackMode() == PM_DVD) {
+        ULONG ulStreamsAvailable, ulCurrentStream;
+        if (FAILED(m_pDVDI->GetCurrentAudio(&ulStreamsAvailable, &ulCurrentStream))) {
+            return;
         }
 
-        if (pSS) {
-            DWORD cStreams = 0;
-            if (SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
-                pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
-                pSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
+        LCID DefLanguage;
+        DVD_AUDIO_LANG_EXT ext;
+        if (FAILED(m_pDVDI->GetDefaultAudioLanguage(&DefLanguage, &ext))) {
+            return;
+        }
 
-                long iSel = 0;
+        for (ULONG i = 0; i < ulStreamsAvailable; i++) {
+            LCID Language;
+            if (FAILED(m_pDVDI->GetAudioLanguage(i, &Language))) {
+                continue;
+            }
 
-                for (long i = 0; i < (long)cStreams; i++) {
-                    DWORD dwFlags;
-                    WCHAR* pName = nullptr;
-                    if (FAILED(pSS->Info(i, nullptr, &dwFlags, nullptr, nullptr, &pName, nullptr, nullptr))) {
+            UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
+            if (Language == DefLanguage) {
+                flags |= MF_DEFAULT;
+            }
+            if (i == ulCurrentStream) {
+                flags |= MF_CHECKED;
+            }
+
+            CString str;
+            if (Language) {
+                int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
+                str.ReleaseBufferSetLength(max(len - 1, 0));
+            } else {
+                str.Format(IDS_AG_UNKNOWN, i + 1);
+            }
+
+            DVD_AudioAttributes ATR;
+            if (SUCCEEDED(m_pDVDI->GetAudioAttributes(i, &ATR))) {
+                switch (ATR.LanguageExtension) {
+                    case DVD_AUD_EXT_NotSpecified:
+                    default:
                         break;
-                    }
-                    if (dwFlags) {
-                        iSel = i;
-                    }
-
-                    CString name(pName);
-                    name.Replace(_T("&"), _T("&&"));
-
-                    pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, name);
-
-                    CoTaskMemFree(pName);
+                    case DVD_AUD_EXT_Captions:
+                        str += _T(" (Captions)");
+                        break;
+                    case DVD_AUD_EXT_VisuallyImpaired:
+                        str += _T(" (Visually Impaired)");
+                        break;
+                    case DVD_AUD_EXT_DirectorComments1:
+                        str += ResStr(IDS_MAINFRM_121);
+                        break;
+                    case DVD_AUD_EXT_DirectorComments2:
+                        str += ResStr(IDS_MAINFRM_122);
+                        break;
                 }
 
-                pSub->CheckMenuRadioItem(2, 2 + cStreams - 1, 2 + iSel, MF_BYPOSITION);
+                CString format = GetDVDAudioFormatName(ATR);
+
+                if (!format.IsEmpty()) {
+                    str.Format(IDS_MAINFRM_11,
+                               CString(str),
+                               format,
+                               ATR.dwFrequency,
+                               ATR.bQuantization,
+                               ATR.bNumberOfChannels,
+                               (ATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
+                }
             }
+
+            str.Replace(_T("&"), _T("&&"));
+
+            pSub->AppendMenu(flags, id++, str);
         }
+    }
+    // If available use the audio switcher for everything but DVDs
+    else if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
+        pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
+        pSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
+
+        long iSel = 0;
+
+        for (long i = 0; i < (long)cStreams; i++) {
+            DWORD dwFlags;
+            WCHAR* pName = nullptr;
+            if (FAILED(pSS->Info(i, nullptr, &dwFlags, nullptr, nullptr, &pName, nullptr, nullptr))) {
+                break;
+            }
+            if (dwFlags) {
+                iSel = i;
+            }
+
+            CString name(pName);
+            name.Replace(_T("&"), _T("&&"));
+
+            pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, name);
+
+            CoTaskMemFree(pName);
+        }
+
+        pSub->CheckMenuRadioItem(2, 2 + cStreams - 1, 2 + iSel, MF_BYPOSITION);
+    } else if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
+        SetupNavStreamSelectSubMenu(pSub, id, 1);
     }
 }
 
