@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -53,7 +53,7 @@ public:
     void SetStatusMessage(CString str);
     void SetStatusTimer(CString str);
     void SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision,
-                        const GUID* pTimeFormat = &TIME_FORMAT_MEDIA_TIME);
+                        const GUID& timeFormat = TIME_FORMAT_MEDIA_TIME);
 
     CString GetStatusTimer();
     void ShowTimer(bool fShow);

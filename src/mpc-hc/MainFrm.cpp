@@ -1801,9 +1801,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 m_wndSeekBar.GetRange(start, stop);
                 pos = m_wndSeekBar.GetPosReal();
 
-                GUID tf;
-                m_pMS->GetTimeFormat(&tf);
-
                 if (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing) {
                     CString str = ResStr(IDS_CAPTURE_LIVE);
 
@@ -1818,7 +1815,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                     m_wndStatusBar.SetStatusTimer(str);
                 } else {
-                    m_wndStatusBar.SetStatusTimer(pos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
+                    m_wndStatusBar.SetStatusTimer(pos, stop, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
                     if (m_bRemainingTime) {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
                     }
@@ -7260,10 +7257,8 @@ void CMainFrame::OnPlayStop()
         if (m_iMediaLoadState == MLS_LOADED) {
             __int64 start, stop;
             m_wndSeekBar.GetRange(start, stop);
-            GUID tf;
-            m_pMS->GetTimeFormat(&tf);
             if (GetPlaybackMode() != PM_CAPTURE) {
-                m_wndStatusBar.SetStatusTimer(m_wndSeekBar.GetPosReal(), stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
+                m_wndStatusBar.SetStatusTimer(m_wndSeekBar.GetPosReal(), stop, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
             }
 
             SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
@@ -14057,12 +14052,10 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
     if (GetPlaybackMode() != PM_CAPTURE) {
         __int64 start, stop;
         m_wndSeekBar.GetRange(start, stop);
-        GUID tf;
-        m_pMS->GetTimeFormat(&tf);
         if (rtPos > stop) {
             rtPos = stop;
         }
-        m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
+        m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
         m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
     }
 
