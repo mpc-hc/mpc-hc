@@ -7974,70 +7974,95 @@ void CMainFrame::OnPlayAudio(UINT nID)
 void CMainFrame::OnPlaySubtitles(UINT nID)
 {
     CAppSettings& s = AfxGetAppSettings();
-    // currently the subtitles submenu contains 5 items, apart from the actual subtitles list
-    int i = (int)nID - (5 + ID_SUBTITLES_SUBITEM_START);
+    int i = (int)nID - ID_SUBTITLES_SUBITEM_START;
 
-    if (i == -5) {
-        // options
-        ShowOptions(CPPageSubtitles::IDD);
-    } else if (i == -4) {
-        // styles
-        int j = 0;
-        SubtitleInput* pSubInput = GetSubtitleInput(j, true);
-        CLSID clsid;
+    if (GetPlaybackMode() == PM_DVD) {
+        ULONG ulStreamsAvailable, ulCurrentStream;
+        BOOL bIsDisabled;
+        if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))) {
+            if (i == 0) {
+                m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
+            } else {
+                m_pDVDC->SelectSubpictureStream(i - 1, DVD_CMD_FLAG_Block, nullptr);
+                m_pDVDC->SetSubpictureState(TRUE, DVD_CMD_FLAG_Block, nullptr);
+            }
+            i -= ulStreamsAvailable + 1;
+        }
+    }
 
-        if (pSubInput && SUCCEEDED(pSubInput->subStream->GetClassID(&clsid))) {
-            if (clsid == __uuidof(CRenderedTextSubtitle)) {
-                CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->subStream;
+    if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
+        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
 
-                CAutoPtrArray<CPPageSubStyle> pages;
-                CAtlArray<STSStyle*> styles;
+        OnNavStreamSelectSubMenu(i, 2);
+        pChannel->SetDefaultSubtitle(i);
+    } else if (!m_pSubStreams.IsEmpty()) {
+        // Currently the subtitles menu contains 5 items apart from the actual subtitles list when the ISR is used
+        i -= 5;
 
-                POSITION pos = pRTS->m_styles.GetStartPosition();
-                for (int k = 0; pos; k++) {
-                    CString key;
-                    STSStyle* val;
-                    pRTS->m_styles.GetNextAssoc(pos, key, val);
+        if (i == -5) {
+            // options
+            ShowOptions(CPPageSubtitles::IDD);
+        } else if (i == -4) {
+            // styles
+            int j = 0;
+            SubtitleInput* pSubInput = GetSubtitleInput(j, true);
+            CLSID clsid;
 
-                    CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
-                    page->InitStyle(key, *val);
-                    pages.Add(page);
-                    styles.Add(val);
-                }
+            if (pSubInput && SUCCEEDED(pSubInput->subStream->GetClassID(&clsid))) {
+                if (clsid == __uuidof(CRenderedTextSubtitle)) {
+                    CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->subStream;
 
-                CString style = ResStr(IDS_SUBTITLES_STYLES);
-                int k = style.Find(_T("&"));
-                if (k != -1) {
-                    style.Delete(k, 1);
-                }
-                CPropertySheet dlg(style, GetModalParent());
-                for (int l = 0; l < (int)pages.GetCount(); l++) {
-                    dlg.AddPage(pages[l]);
-                }
+                    CAutoPtrArray<CPPageSubStyle> pages;
+                    CAtlArray<STSStyle*> styles;
 
-                if (dlg.DoModal() == IDOK) {
-                    for (int l = 0; l < (int)pages.GetCount(); l++) {
-                        pages[l]->GetStyle(*styles[l]);
+                    POSITION pos = pRTS->m_styles.GetStartPosition();
+                    for (int k = 0; pos; k++) {
+                        CString key;
+                        STSStyle* val;
+                        pRTS->m_styles.GetNextAssoc(pos, key, val);
+
+                        CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
+                        page->InitStyle(key, *val);
+                        pages.Add(page);
+                        styles.Add(val);
                     }
-                    SetSubtitle(0, true);
+
+                    CString style = ResStr(IDS_SUBTITLES_STYLES);
+                    int k = style.Find(_T("&"));
+                    if (k != -1) {
+                        style.Delete(k, 1);
+                    }
+                    CPropertySheet dlg(style, GetModalParent());
+                    for (int l = 0; l < (int)pages.GetCount(); l++) {
+                        dlg.AddPage(pages[l]);
+                    }
+
+                    if (dlg.DoModal() == IDOK) {
+                        for (int l = 0; l < (int)pages.GetCount(); l++) {
+                            pages[l]->GetStyle(*styles[l]);
+                        }
+                        SetSubtitle(0, true);
+                    }
                 }
             }
+        } else if (i == -3) {
+            // reload
+            ReloadSubtitle();
+        } else if (i == -2) {
+            // enable
+            ToggleSubtitleOnOff();
+        } else if (i == -1) {
+            // override default style
+            // TODO: default subtitles style toggle here
+            s.fUseDefaultSubtitlesStyle = !s.fUseDefaultSubtitlesStyle;
+            SetSubtitle(0, true);
+        } else if (i >= 0) {
+            // this is an actual item from the subtitles list
+            s.fEnableSubtitles = true;
+            SetSubtitle(i);
         }
-    } else if (i == -3) {
-        // reload
-        ReloadSubtitle();
-    } else if (i == -2) {
-        // enable
-        ToggleSubtitleOnOff();
-    } else if (i == -1) {
-        // override default style
-        // TODO: default subtitles style toggle here
-        s.fUseDefaultSubtitlesStyle = !s.fUseDefaultSubtitlesStyle;
-        SetSubtitle(0, true);
-    } else if (i >= 0) {
-        // this is an actual item from the subtitles list
-        s.fEnableSubtitles = true;
-        SetSubtitle(i);
+    } else if (GetPlaybackMode() == PM_FILE) {
+        OnNavStreamSelectSubMenu(i, 2);
     }
 }
 
@@ -12872,11 +12897,104 @@ void CMainFrame::SetupSubtitlesSubMenu()
 
     UINT id = ID_SUBTITLES_SUBITEM_START;
 
+    // DVD subtitles in DVD mode are never handled by the internal subtitles renderer
+    // but it is still possible to load external subtitles so we keep that if block
+    // separated from the rest
+    if (GetPlaybackMode() == PM_DVD) {
+        ULONG ulStreamsAvailable, ulCurrentStream;
+        BOOL bIsDisabled;
+        if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))
+                && ulStreamsAvailable > 0) {
+            LCID DefLanguage;
+            DVD_SUBPICTURE_LANG_EXT ext;
+            if (FAILED(m_pDVDI->GetDefaultSubpictureLanguage(&DefLanguage, &ext))) {
+                return;
+            }
+
+            pSub->AppendMenu(MF_STRING | (bIsDisabled ? 0 : MF_CHECKED), id++, ResStr(IDS_AG_ENABLED));
+            pSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
+
+            for (ULONG i = 0; i < ulStreamsAvailable; i++) {
+                LCID Language;
+                if (FAILED(m_pDVDI->GetSubpictureLanguage(i, &Language))) {
+                    continue;
+                }
+
+                UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
+                if (Language == DefLanguage) {
+                    flags |= MF_DEFAULT;
+                }
+                if (i == ulCurrentStream) {
+                    flags |= MF_CHECKED;
+                }
+
+                CString str;
+                if (Language) {
+                    int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
+                    str.ReleaseBufferSetLength(max(len - 1, 0));
+                } else {
+                    str.Format(IDS_AG_UNKNOWN, i + 1);
+                }
+
+                DVD_SubpictureAttributes ATR;
+                if (SUCCEEDED(m_pDVDI->GetSubpictureAttributes(i, &ATR))) {
+                    switch (ATR.LanguageExtension) {
+                        case DVD_SP_EXT_NotSpecified:
+                        default:
+                            break;
+                        case DVD_SP_EXT_Caption_Normal:
+                            str += _T("");
+                            break;
+                        case DVD_SP_EXT_Caption_Big:
+                            str += _T(" (Big)");
+                            break;
+                        case DVD_SP_EXT_Caption_Children:
+                            str += _T(" (Children)");
+                            break;
+                        case DVD_SP_EXT_CC_Normal:
+                            str += _T(" (CC)");
+                            break;
+                        case DVD_SP_EXT_CC_Big:
+                            str += _T(" (CC Big)");
+                            break;
+                        case DVD_SP_EXT_CC_Children:
+                            str += _T(" (CC Children)");
+                            break;
+                        case DVD_SP_EXT_Forced:
+                            str += _T(" (Forced)");
+                            break;
+                        case DVD_SP_EXT_DirectorComments_Normal:
+                            str += _T(" (Director Comments)");
+                            break;
+                        case DVD_SP_EXT_DirectorComments_Big:
+                            str += _T(" (Director Comments, Big)");
+                            break;
+                        case DVD_SP_EXT_DirectorComments_Children:
+                            str += _T(" (Director Comments, Children)");
+                            break;
+                    }
+                }
+
+                str.Replace(_T("&"), _T("&&"));
+
+                pSub->AppendMenu(flags, id++, str);
+            }
+        }
+    }
+
     POSITION pos = m_pSubStreams.GetHeadPosition();
 
-    // Build the static menu's items
-    bool bStyleEnabled = false;
-    if (pos) {
+    if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1) {
+        SetupNavStreamSelectSubMenu(pSub, id, 2);
+    } else if (pos) { // Internal subtitles renderer
+        int nItemsBeforeStart = id - ID_SUBTITLES_SUBITEM_START;
+        if (nItemsBeforeStart > 0) {
+            pSub->AppendMenu(MF_SEPARATOR);
+            nItemsBeforeStart += 2; // Separators
+        }
+
+        // Build the static menu's items
+        bool bStyleEnabled = false;
         pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
         pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES));
         pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD));
@@ -12885,130 +13003,131 @@ void CMainFrame::SetupSubtitlesSubMenu()
         pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE));
         pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE));
         pSub->AppendMenu(MF_SEPARATOR);
-    }
 
-    // Build the dynamic menu's items
-    int i = 0, iSelected = -1;
-    while (pos) {
-        SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
+        // Build the dynamic menu's items
+        int i = 0, iSelected = -1;
+        while (pos) {
+            SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
 
-        if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
-            DWORD cStreams;
-            if (FAILED(pSSF->Count(&cStreams))) {
-                continue;
-            }
-
-            for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
-                DWORD dwFlags, dwGroup;
-                LCID lcid;
-                WCHAR* pszName = nullptr;
-
-                if (FAILED(pSSF->Info(j, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
-                        || !pszName) {
+            if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
+                DWORD cStreams;
+                if (FAILED(pSSF->Count(&cStreams))) {
                     continue;
                 }
 
-                CString name(pszName);
-                CString lcname = CString(name).MakeLower();
-                CoTaskMemFree(pszName);
+                for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
+                    DWORD dwFlags, dwGroup;
+                    LCID lcid;
+                    WCHAR* pszName = nullptr;
 
-                if (dwGroup != 2) {
+                    if (FAILED(pSSF->Info(j, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
+                            || !pszName) {
+                        continue;
+                    }
+
+                    CString name(pszName);
+                    CString lcname = CString(name).MakeLower();
+                    CoTaskMemFree(pszName);
+
+                    if (dwGroup != 2) {
+                        continue;
+                    }
+
+                    if (subInput.subStream == m_pCurrentSubStream
+                            && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
+                        iSelected = i;
+                    }
+
+                    CString str;
+
+                    if (lcname.Find(_T(" off")) >= 0) {
+                        str.LoadString(IDS_AG_DISABLED);
+                    } else {
+                        if (lcid != 0) {
+                            int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
+                            str.ReleaseBufferSetLength(max(len - 1, 0));
+                        }
+
+                        CString lcstr = CString(str).MakeLower();
+
+                        if (str.IsEmpty() || lcname.Find(lcstr) >= 0) {
+                            str = name;
+                        } else if (!name.IsEmpty()) {
+                            str = name + _T(" (") + str + _T(")");
+                        }
+                    }
+
+                    str.Replace(_T("&"), _T("&&"));
+                    pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, str);
+                    i++;
+                }
+            } else {
+                CComPtr<ISubStream> pSubStream = subInput.subStream;
+                if (!pSubStream) {
                     continue;
                 }
 
-                if (subInput.subStream == m_pCurrentSubStream
-                        && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
-                    iSelected = i;
+                if (subInput.subStream == m_pCurrentSubStream) {
+                    iSelected = i + pSubStream->GetStream();
                 }
 
-                CString str;
+                for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
+                    WCHAR* pName = nullptr;
+                    if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, nullptr))) {
+                        CString name(pName);
+                        name.Replace(_T("&"), _T("&&"));
 
-                if (lcname.Find(_T(" off")) >= 0) {
-                    str.LoadString(IDS_AG_DISABLED);
-                } else {
-                    if (lcid != 0) {
-                        int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
-                        str.ReleaseBufferSetLength(max(len - 1, 0));
+                        pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, name);
+                        CoTaskMemFree(pName);
+                    } else {
+                        pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN));
                     }
-
-                    CString lcstr = CString(str).MakeLower();
-
-                    if (str.IsEmpty() || lcname.Find(lcstr) >= 0) {
-                        str = name;
-                    } else if (!name.IsEmpty()) {
-                        str = name + _T(" (") + str + _T(")");
-                    }
+                    i++;
                 }
-
-                str.Replace(_T("&"), _T("&&"));
-                pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, str);
-                i++;
-            }
-        } else {
-            CComPtr<ISubStream> pSubStream = subInput.subStream;
-            if (!pSubStream) {
-                continue;
             }
 
             if (subInput.subStream == m_pCurrentSubStream) {
-                iSelected = i + pSubStream->GetStream();
-            }
-
-            for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
-                WCHAR* pName = nullptr;
-                if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, nullptr))) {
-                    CString name(pName);
-                    name.Replace(_T("&"), _T("&&"));
-
-                    pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, name);
-                    CoTaskMemFree(pName);
-                } else {
-                    pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN));
+                CLSID clsid;
+                if (SUCCEEDED(subInput.subStream->GetClassID(&clsid))
+                        && clsid == __uuidof(CRenderedTextSubtitle)) {
+                    bStyleEnabled = true;
                 }
-                i++;
             }
+
+            // TODO: find a better way to group these entries
+            /*if (pos && m_pSubStreams.GetAt(pos).subStream) {
+                CLSID cur, next;
+                pSubStream->GetClassID(&cur);
+                m_pSubStreams.GetAt(pos).subStream->GetClassID(&next);
+
+                if (cur != next) {
+                    pSub->AppendMenu(MF_SEPARATOR);
+                }
+            }*/
         }
 
-        if (subInput.subStream == m_pCurrentSubStream) {
-            CLSID clsid;
-            if (SUCCEEDED(subInput.subStream->GetClassID(&clsid))
-                    && clsid == __uuidof(CRenderedTextSubtitle)) {
-                bStyleEnabled = true;
-            }
+        // Set the menu's items' state
+        const CAppSettings& s = AfxGetAppSettings();
+        // Style
+        if (!bStyleEnabled) {
+            pSub->EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
         }
-
-        // TODO: find a better way to group these entries
-        /*if (pos && m_pSubStreams.GetAt(pos).subStream) {
-            CLSID cur, next;
-            pSubStream->GetClassID(&cur);
-            m_pSubStreams.GetAt(pos).subStream->GetClassID(&next);
-
-            if (cur != next) {
-                pSub->AppendMenu(MF_SEPARATOR);
-            }
-        }*/
+        // Enabled
+        if (s.fEnableSubtitles) {
+            pSub->CheckMenuItem(nItemsBeforeStart + 4, MF_BYPOSITION | MF_CHECKED);
+        }
+        // Default style
+        // TODO: foxX - default subtitles style toggle here; still wip
+        if (!s.fEnableSubtitles) {
+            pSub->EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+        }
+        if (s.fUseDefaultSubtitlesStyle) {
+            pSub->CheckMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_CHECKED);
+        }
+        pSub->CheckMenuRadioItem(nItemsBeforeStart + 7, nItemsBeforeStart + 7 + i - 1, nItemsBeforeStart + 7 + iSelected, MF_BYPOSITION);
+    } else if (GetPlaybackMode() == PM_FILE) {
+        SetupNavStreamSelectSubMenu(pSub, id, 2);
     }
-
-    // Set the menu's items' state
-    const CAppSettings& s = AfxGetAppSettings();
-    // Style
-    if (!bStyleEnabled) {
-        pSub->EnableMenuItem(1, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
-    }
-    // Enabled
-    if (s.fEnableSubtitles) {
-        pSub->CheckMenuItem(4, MF_BYPOSITION | MF_CHECKED);
-    }
-    // Default style
-    // TODO: foxX - default subtitles style toggle here; still wip
-    if (!s.fEnableSubtitles) {
-        pSub->EnableMenuItem(5, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
-    }
-    if (s.fUseDefaultSubtitlesStyle) {
-        pSub->CheckMenuItem(5, MF_BYPOSITION | MF_CHECKED);
-    }
-    // Selected subtitles track
-    pSub->CheckMenuRadioItem(7, 7 + i - 1, 7 + iSelected, MF_BYPOSITION);
 }
 
 void CMainFrame::SetupNavAudioSubMenu()
