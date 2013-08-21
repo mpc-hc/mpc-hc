@@ -632,7 +632,7 @@ CMainFrame::CMainFrame()
     , m_fOpeningAborted(false)
     , m_fBuffering(false)
     , m_fileDropTarget(this)
-    , m_fTrayIcon(false)
+    , m_bTrayIcon(false)
     , m_pFullscreenWnd(nullptr)
     , m_pVideoWnd(nullptr)
     , m_bRemainingTime(false)
@@ -1005,7 +1005,7 @@ void CMainFrame::SaveControlBars()
 
 LRESULT CMainFrame::OnTaskBarRestart(WPARAM, LPARAM)
 {
-    m_fTrayIcon = false;
+    m_bTrayIcon = false;
     ShowTrayIcon(AfxGetAppSettings().fTrayIcon);
     return 0;
 }
@@ -1057,36 +1057,29 @@ LRESULT CMainFrame::OnSkypeAttach(WPARAM wParam, LPARAM lParam)
     return m_pSkypeMoodMsgHandler ? m_pSkypeMoodMsgHandler->HandleAttach(wParam, lParam) : FALSE;
 }
 
-void CMainFrame::ShowTrayIcon(bool fShow)
+void CMainFrame::ShowTrayIcon(bool bShow)
 {
-    BOOL bWasVisible = ShowWindow(SW_HIDE);
-    NOTIFYICONDATA tnid;
+    NOTIFYICONDATA nid = { sizeof(nid), m_hWnd, IDR_MAINFRAME };
 
-    ZeroMemory(&tnid, sizeof(NOTIFYICONDATA));
-    tnid.cbSize = sizeof(NOTIFYICONDATA);
-    tnid.hWnd = m_hWnd;
-    tnid.uID = IDR_MAINFRAME;
-
-    if (fShow) {
-        if (!m_fTrayIcon) {
-            tnid.hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-            tnid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-            tnid.uCallbackMessage = WM_NOTIFYICON;
-            StringCchCopy(tnid.szTip, _countof(tnid.szTip), _T("Media Player Classic"));
-            Shell_NotifyIcon(NIM_ADD, &tnid);
-
-            m_fTrayIcon = true;
+    if (bShow) {
+        if (!m_bTrayIcon) {
+            nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+            nid.uCallbackMessage = WM_NOTIFYICON;
+            nid.hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME),
+                                         IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+            StringCchCopy(nid.szTip, _countof(nid.szTip), _T("MPC-HC"));
+            Shell_NotifyIcon(NIM_ADD, &nid);
+            m_bTrayIcon = true;
         }
     } else {
-        if (m_fTrayIcon) {
-            Shell_NotifyIcon(NIM_DELETE, &tnid);
-
-            m_fTrayIcon = false;
+        if (m_bTrayIcon) {
+            Shell_NotifyIcon(NIM_DELETE, &nid);
+            m_bTrayIcon = false;
+            if (!IsWindowVisible()) {
+                // if the window was minimized to tray - show it
+                ShowWindow(SW_SHOW);
+            }
         }
-    }
-
-    if (bWasVisible) {
-        ShowWindow(SW_SHOW);
     }
 }
 
@@ -1337,7 +1330,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
     __super::OnSize(nType, cx, cy);
 
-    if (nType == SIZE_RESTORED && m_fTrayIcon) {
+    if (nType == SIZE_RESTORED && m_bTrayIcon) {
         ShowWindow(SW_SHOW);
     }
 
@@ -1532,7 +1525,7 @@ void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
             && (((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER))) {
         TRACE(_T("SC_SCREENSAVE, nID = %d, lParam = %d\n"), nID, lParam);
         return;
-    } else if ((nID & 0xFFF0) == SC_MINIMIZE && m_fTrayIcon) {
+    } else if ((nID & 0xFFF0) == SC_MINIMIZE && m_bTrayIcon) {
         ShowWindow(SW_HIDE);
         return;
     }

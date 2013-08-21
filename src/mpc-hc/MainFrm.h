@@ -442,8 +442,8 @@ public:
 
     void AddCurDevToPlaylist();
 
-    bool m_fTrayIcon;
-    void ShowTrayIcon(bool fShow);
+    bool m_bTrayIcon;
+    void ShowTrayIcon(bool bShow);
     void SetTrayTip(CString str);
 
     CSize GetVideoSize() const;
