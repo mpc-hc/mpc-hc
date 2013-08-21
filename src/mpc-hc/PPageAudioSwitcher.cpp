@@ -90,10 +90,10 @@ BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_STATIC5, OnUpdateNormalize)
     ON_UPDATE_COMMAND_UI(IDC_EDIT3, OnUpdateNormalize)
     ON_UPDATE_COMMAND_UI(IDC_CHECK6, OnUpdateNormalize)
+    ON_UPDATE_COMMAND_UI(IDC_EDIT2, OnUpdateTimeShift)
+    ON_UPDATE_COMMAND_UI(IDC_SPIN2, OnUpdateTimeShift)
     ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateAudioSwitcher)
     ON_UPDATE_COMMAND_UI(IDC_CHECK4, OnUpdateAudioSwitcher)
-    ON_UPDATE_COMMAND_UI(IDC_EDIT2, OnUpdateAudioSwitcher)
-    ON_UPDATE_COMMAND_UI(IDC_SPIN2, OnUpdateAudioSwitcher)
     ON_UPDATE_COMMAND_UI(IDC_CHECK1, OnUpdateAudioSwitcher)
     ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateChannelMapping)
     ON_UPDATE_COMMAND_UI(IDC_SPIN1, OnUpdateChannelMapping)
@@ -339,6 +339,13 @@ void CPPageAudioSwitcher::OnUpdateNormalize(CCmdUI* pCmdUI)
     //  UpdateData();
     pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK2)/*m_fEnableAudioSwitcher*/
                    && IsDlgButtonChecked(IDC_CHECK5)/*m_fNormalize*/);
+}
+
+void CPPageAudioSwitcher::OnUpdateTimeShift(CCmdUI* pCmdUI)
+{
+    //  UpdateData();
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK2)/*m_fEnableAudioSwitcher*/
+                   && IsDlgButtonChecked(IDC_CHECK4)/*m_fAudioTimeShift)*/);
 }
 
 void CPPageAudioSwitcher::OnUpdateChannelMapping(CCmdUI* pCmdUI)

@@ -75,20 +75,7 @@ BOOL CPPageSync::OnSetActive()
 
 void CPPageSync::InitDialogPrivate()
 {
-    const CAppSettings& s = AfxGetAppSettings();
-    CMainFrame* pFrame;
-    pFrame = (CMainFrame*)(AfxGetApp()->m_pMainWnd);
-    if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE)) {
-        GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(TRUE);
-        GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(TRUE);
-        GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(TRUE);
-    } else {
-        GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(FALSE);
-        GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(FALSE);
-        GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(FALSE);
-    }
-
-    const CRenderersSettings::CAdvRendererSettings& ars = s.m_RenderersSettings.m_AdvRendSets;
+    const CRenderersSettings::CAdvRendererSettings& ars = AfxGetAppSettings().m_RenderersSettings.m_AdvRendSets;
     m_bSynchronizeVideo = ars.bSynchronizeVideo;
     m_bSynchronizeDisplay = ars.bSynchronizeDisplay;
     m_bSynchronizeNearest = ars.bSynchronizeNearest;
@@ -105,9 +92,7 @@ BOOL CPPageSync::OnApply()
 {
     UpdateData();
 
-    CAppSettings& s = AfxGetAppSettings();
-
-    CRenderersSettings::CAdvRendererSettings& ars = s.m_RenderersSettings.m_AdvRendSets;
+    CRenderersSettings::CAdvRendererSettings& ars = AfxGetAppSettings().m_RenderersSettings.m_AdvRendSets;
     ars.bSynchronizeVideo = !!m_bSynchronizeVideo;
     ars.bSynchronizeDisplay = !!m_bSynchronizeDisplay;
     ars.bSynchronizeNearest = !!m_bSynchronizeNearest;
@@ -124,6 +109,26 @@ BEGIN_MESSAGE_MAP(CPPageSync, CPPageBase)
     ON_BN_CLICKED(IDC_SYNCVIDEO, OnBnClickedSyncVideo)
     ON_BN_CLICKED(IDC_SYNCDISPLAY, OnBnClickedSyncDisplay)
     ON_BN_CLICKED(IDC_SYNCNEAREST, OnBnClickedSyncNearest)
+    ON_UPDATE_COMMAND_UI(IDC_SYNCVIDEO, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateSyncVideo)
+    ON_UPDATE_COMMAND_UI(IDC_CYCLEDELTA, OnUpdateSyncVideo)
+    ON_UPDATE_COMMAND_UI(IDC_SYNCDISPLAY, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdateSyncDisplay)
+    ON_UPDATE_COMMAND_UI(IDC_LINEDELTA, OnUpdateSyncDisplay)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdateSyncDisplay)
+    ON_UPDATE_COMMAND_UI(IDC_COLUMNDELTA, OnUpdateSyncDisplay)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC4, OnUpdateSyncDisplay)
+    ON_UPDATE_COMMAND_UI(IDC_SYNCNEAREST, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_CYCLEDELTA, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_LINEDELTA, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_COLUMNDELTA, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_TARGETSYNCOFFSET, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_CONTROLLIMIT, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC5, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC6, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC7, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC8, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC9, OnUpdateRenderer)
 END_MESSAGE_MAP()
 
 void CPPageSync::OnBnClickedSyncVideo()
@@ -157,4 +162,19 @@ void CPPageSync::OnBnClickedSyncNearest()
     }
     UpdateData(FALSE);
     SetModified();
+}
+
+void CPPageSync::OnUpdateRenderer(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(AfxGetAppSettings().iDSVideoRendererType == VIDRNDT_DS_SYNC);
+}
+
+void CPPageSync::OnUpdateSyncDisplay(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(AfxGetAppSettings().iDSVideoRendererType == VIDRNDT_DS_SYNC && m_bSynchronizeDisplay);
+}
+
+void CPPageSync::OnUpdateSyncVideo(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(AfxGetAppSettings().iDSVideoRendererType == VIDRNDT_DS_SYNC && m_bSynchronizeVideo);
 }

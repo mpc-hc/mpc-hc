@@ -889,10 +889,10 @@ BEGIN
     PUSHBUTTON      "Reset",IDC_RESET,231,80,50,14
     GROUPBOX        "Update check",IDC_STATIC,5,106,286,40
     CONTROL         "Enable automatic update check",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,118,250,8
-    LTEXT           "Delay between each check:",IDC_STATIC,10,131,110,8
+    LTEXT           "Delay between each check:",IDC_STATIC5,10,131,110,8
     EDITTEXT        IDC_EDIT1,120,129,30,13,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,150,129,13,14
-    LTEXT           "day(s)",IDC_STATIC,155,131,50,8
+    LTEXT           "day(s)",IDC_STATIC6,155,131,50,8
     GROUPBOX        "Settings management",IDC_STATIC,5,151,286,28
     PUSHBUTTON      "Reset",IDC_RESET_SETTINGS,10,161,86,14
     PUSHBUTTON      "Export",IDC_EXPORT_SETTINGS,200,161,86,14
@@ -960,23 +960,23 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "",IDC_STATIC,5,5,286,82
     CONTROL         "Sync video to display",IDC_SYNCVIDEO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,17,280,8
-    LTEXT           "Frequency adjustment:",IDC_STATIC,20,31,85,8
+    LTEXT           "Frequency adjustment:",IDC_STATIC1,20,31,85,8
     EDITTEXT        IDC_CYCLEDELTA,109,29,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
     CONTROL         "Sync display to video",IDC_SYNCDISPLAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,46,280,8
-    LTEXT           "Frequency adjustment:",IDC_STATIC,20,60,85,8
+    LTEXT           "Frequency adjustment:",IDC_STATIC2,20,60,85,8
     EDITTEXT        IDC_LINEDELTA,109,58,40,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    LTEXT           "lines",IDC_STATIC,153,60,30,8
+    LTEXT           "lines",IDC_STATIC3,153,60,30,8
     EDITTEXT        IDC_COLUMNDELTA,187,58,40,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    LTEXT           "columns",IDC_STATIC,231,60,30,8
+    LTEXT           "columns",IDC_STATIC4,231,60,30,8
     CONTROL         "Present at nearest VSync",IDC_SYNCNEAREST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,280,8
     GROUPBOX        "",IDC_STATIC,5,91,286,43
-    LTEXT           "Target sync offset:",IDC_STATIC,10,105,100,8
+    LTEXT           "Target sync offset:",IDC_STATIC5,10,105,100,8
     EDITTEXT        IDC_TARGETSYNCOFFSET,114,103,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
-    LTEXT           "ms",IDC_STATIC,158,105,24,8
-    LTEXT           "Control limits:",IDC_STATIC,10,119,86,8
-    LTEXT           "+/-",IDC_STATIC,100,119,10,8
+    LTEXT           "ms",IDC_STATIC6,158,105,24,8
+    LTEXT           "Control limits:",IDC_STATIC7,10,119,86,8
+    LTEXT           "+/-",IDC_STATIC8,100,119,10,8
     EDITTEXT        IDC_CONTROLLIMIT,114,117,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
-    LTEXT           "ms",IDC_STATIC,158,119,24,8
+    LTEXT           "ms",IDC_STATIC9,158,119,24,8
     LTEXT           "Changes take effect after the playback has been closed and restarted.",IDC_STATIC,10,138,276,18
 END
 
