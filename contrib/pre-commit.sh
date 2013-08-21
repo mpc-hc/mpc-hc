@@ -46,96 +46,96 @@ year=$(date +%Y)
 checkyear_pattern2='\(C\) ([0-9][0-9][0-9][0-9]-)?'"$year"' see Authors.txt'
 
 if [[ "$OSTYPE" == 'cygwin' ]]; then
-	set -o igncr
+  set -o igncr
 fi
 
 # print version and exit if requested
 if [[ "$@" == '--version' ]]; then
-	echo "$versioncheck_version"
-	exit
+  echo "$versioncheck_version"
+  exit
 fi
 
 # warn when the tree has newer version of this script
 if (( $((`bash "$versioncheck_path" --version` + 0)) > $versioncheck_version )); then
-	echo "Warning: .git/hooks/pre-commit is older than $versioncheck_path, you should upgrade"
+  echo "Warning: .git/hooks/pre-commit is older than $versioncheck_path, you should upgrade"
 fi
 
 in_list() {
-	one="$1"
-	shift
-	for valid in "$@"; do
-		[[ "$one" == "$valid" ]] && return 0
-	done
-	return 1
+  one="$1"
+  shift
+  for valid in "$@"; do
+    [[ "$one" == "$valid" ]] && return 0
+  done
+  return 1
 }
 
 not_in_list() {
-	in_list "$@" && return 1
-	return 0
+  in_list "$@" && return 1
+  return 0
 }
 
 filepath_contains() {
-	IFS='/' read -a parsed_path <<< "$1"
-	shift
-	for one in "${parsed_path[@]}"; do
-		for valid in "$@"; do
-			[[ "$one" == "$valid" ]] && return 0
-		done
-	done
-	return 1
+  IFS='/' read -a parsed_path <<< "$1"
+  shift
+  for one in "${parsed_path[@]}"; do
+    for valid in "$@"; do
+      [[ "$one" == "$valid" ]] && return 0
+    done
+  done
+  return 1
 }
 
 check_copyright_year() {
-	return_code=0
-	for file in "$@"; do
-		# only verify year if it already has an mpc-hc style copyright entry
-		if grep -q -E "$checkyear_pattern1" "$file"; then
-			# check if the year is outdated
-			if ! grep -q -E "$checkyear_pattern2" "$file"; then
-				echo "Invalid copyright year in $file"
-				return_code=1
-			fi
-		fi
-	done
-	return $return_code
+  return_code=0
+  for file in "$@"; do
+    # only verify year if it already has an mpc-hc style copyright entry
+    if grep -q -E "$checkyear_pattern1" "$file"; then
+      # check if the year is outdated
+      if ! grep -q -E "$checkyear_pattern2" "$file"; then
+        echo "Invalid copyright year in $file"
+        return_code=1
+      fi
+    fi
+  done
+  return $return_code
 }
 
 apply_astyle() {
-	return_code=0
-	if (( $# > 0 )); then
-		astyle "--options=$astyle_config" "$@"
-		return_code=$?
-	fi
-	return $return_code
+  return_code=0
+  if (( $# > 0 )); then
+    astyle "--options=$astyle_config" "$@"
+    return_code=$?
+  fi
+  return $return_code
 }
 
 # populate the list of stashed files
 # if the feature is disabled, leave it empty
 stashed_files=()
 if [[ "$astyle_enabled" == y ]] && [[ "$astyle_ignore_stashed" == y ]]; then
-	buffer=$(git stash list --format=%gd)
-	[[ -n "$buffer" ]] &&
-	while read -r stash; do
-		stash_buffer=$(git stash show "${stash}" --name-only --diff-filter=M)
-		[[ -n "$stash_buffer" ]] &&
-		while read -r file; do
-			if not_in_list "$file" "${stashed_files[@]}"; then
-				stashed_files=("${stashed_files[@]}" "$file")
-			fi
-		done <<< "$stash_buffer" # process substitution is not implemented in msys bash
-	done <<< "$buffer" # process substitution is not implemented in msys bash
+  buffer=$(git stash list --format=%gd)
+  [[ -n "$buffer" ]] &&
+  while read -r stash; do
+    stash_buffer=$(git stash show "${stash}" --name-only --diff-filter=M)
+    [[ -n "$stash_buffer" ]] &&
+    while read -r file; do
+      if not_in_list "$file" "${stashed_files[@]}"; then
+        stashed_files=("${stashed_files[@]}" "$file")
+      fi
+    done <<< "$stash_buffer" # process substitution is not implemented in msys bash
+  done <<< "$buffer" # process substitution is not implemented in msys bash
 fi
 
 # parse astyle config file for excluded files and populate the list of such files
 # if the feature is disabled, leave the list empty
 astyle_excluded=()
 if [[ "$astyle_enabled" == y ]] && [[ "$astyle_ignore_excluded" == y ]]; then
-	buffer=$(grep -v ^# "$astyle_config")
-	for pair in $buffer; do
-		switch="${pair%%=*}"
-		value="${pair##*=}"
-		[[ "$switch" == "--exclude" ]] && astyle_excluded=("${astyle_excluded[@]}" "$value")
-	done
+  buffer=$(grep -v ^# "$astyle_config")
+  for pair in $buffer; do
+    switch="${pair%%=*}"
+    value="${pair##*=}"
+    [[ "$switch" == "--exclude" ]] && astyle_excluded=("${astyle_excluded[@]}" "$value")
+  done
 fi
 
 # loop through all new and modified files
@@ -144,50 +144,50 @@ astyle_files=()
 buffer=$(git diff --cached --name-only --diff-filter=ACMR)
 [[ -n "$buffer" ]] &&
 while read -r file; do
-	ext="${file##*.}"
+  ext="${file##*.}"
 
-	# check whether the file may have mpc-hc copyright header
-	if in_list "$ext" "${checkyear_extensions[@]}"; then
-		checkyear_files=("${checkyear_files[@]}" "$file")
-	fi
+  # check whether the file may have mpc-hc copyright header
+  if in_list "$ext" "${checkyear_extensions[@]}"; then
+    checkyear_files=("${checkyear_files[@]}" "$file")
+  fi
 
-	# check whether the file is astylable and not present in git stashes
-	# the latter might result in 'git stash pop' conflicts
-	if [[ "$astyle_enabled" == y ]] && in_list "$ext" "${astyle_extensions[@]}"; then
-		if ! filepath_contains "$file" "${astyle_excluded[@]}"; then
-			if not_in_list "$file" "${stashed_files[@]}"; then
-				astyle_files=("${astyle_files[@]}" "$file")
-			else
-				echo "Not astyling stashed $file"
-			fi
-		else
-			echo "Not astyling blacklisted $file"
-		fi
-	fi
+  # check whether the file is astylable and not present in git stashes
+  # the latter might result in 'git stash pop' conflicts
+  if [[ "$astyle_enabled" == y ]] && in_list "$ext" "${astyle_extensions[@]}"; then
+    if ! filepath_contains "$file" "${astyle_excluded[@]}"; then
+      if not_in_list "$file" "${stashed_files[@]}"; then
+        astyle_files=("${astyle_files[@]}" "$file")
+      else
+        echo "Not astyling stashed $file"
+      fi
+    else
+      echo "Not astyling blacklisted $file"
+    fi
+  fi
 done <<< "$buffer" # process substitution is not implemented in msys bash
 
 # do the actual work here
 exit_code=0
 if [[ "$checkyear_enabled" == y ]] && (( ${#checkyear_files[@]} > 0 )); then
-	check_copyright_year "${checkyear_files[@]}" || exit_code=1
+  check_copyright_year "${checkyear_files[@]}" || exit_code=1
 fi
 if [[ "$astyle_enabled" == y ]] && (( ${#astyle_files[@]} > 0 )); then
-	astyle_found_version=$(astyle --version 2>&1)
-	if (( $? == 0 )); then
-		if [[ "$astyle_found_version" == "$astyle_version" ]]; then
-			apply_astyle "${astyle_files[@]}" && git add "${astyle_files[@]}" || exit_code=1
-		else 
-			echo "Error: astyle version must be '$astyle_version'"
-			exit_code=1
-		fi
-	else
-		echo "Error: astyle was not found"
-		exit_code=1
-	fi
+  astyle_found_version=$(astyle --version 2>&1)
+  if (( $? == 0 )); then
+    if [[ "$astyle_found_version" == "$astyle_version" ]]; then
+      apply_astyle "${astyle_files[@]}" && git add "${astyle_files[@]}" || exit_code=1
+    else
+      echo "Error: astyle version must be '$astyle_version'"
+      exit_code=1
+    fi
+  else
+    echo "Error: astyle was not found"
+    exit_code=1
+  fi
 fi
 
 # if there were problems, exit nonzero
 if (( exit_code != 0 )); then
-	echo "To ignore this and commit anyway use 'git commit --no-verify'"
+  echo "To ignore this and commit anyway use 'git commit --no-verify'"
 fi
 exit $exit_code
