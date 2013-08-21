@@ -388,6 +388,10 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
 {
     HRESULT hr = E_FAIL;
 
+    if (m_SubPicProvider) {
+        return hr;
+    }
+
     hr = subtitleRenderer->SetBool("combineBitmaps", true);
     if (FAILED(hr)) {
         return hr;
@@ -413,7 +417,8 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
 
 STDMETHODIMP CSubPicAllocatorPresenterImpl::Disconnect()
 {
-    return m_pSubPicQueue->SetSubPicProvider(nullptr);
+    m_SubPicProvider = nullptr;
+    return m_pSubPicQueue->SetSubPicProvider(m_SubPicProvider);
 }
 
 STDMETHODIMP CSubPicAllocatorPresenterImpl::DeliverFrame(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame)
