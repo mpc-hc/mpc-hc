@@ -445,8 +445,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_SEEKBACKWARDSMALL, ID_PLAY_SEEKFORWARDLARGE, OnUpdatePlaySeek)
     ON_UPDATE_COMMAND_UI(ID_PLAY_SEEKSET, OnUpdatePlaySeek)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_SEEKKEYBACKWARD, ID_PLAY_SEEKKEYFORWARD, OnUpdatePlaySeek)
-    ON_COMMAND(ID_PLAY_GOTO, OnPlayGoto)
-    ON_UPDATE_COMMAND_UI(ID_PLAY_GOTO, OnUpdateGoto)
     ON_COMMAND_RANGE(ID_PLAY_DECRATE, ID_PLAY_INCRATE, OnPlayChangeRate)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_DECRATE, ID_PLAY_INCRATE, OnUpdatePlayChangeRate)
     ON_COMMAND(ID_PLAY_RESETRATE, OnPlayResetRate)
@@ -478,11 +476,14 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
     ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACKFILE, ID_NAVIGATE_SKIPFORWARDFILE, OnNavigateSkipFile)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACKFILE, ID_NAVIGATE_SKIPFORWARDFILE, OnUpdateNavigateSkipFile)
+    ON_COMMAND(ID_NAVIGATE_GOTO, OnNavigateGoto)
+    ON_UPDATE_COMMAND_UI(ID_NAVIGATE_GOTO, OnUpdateNavigateGoto)
     ON_COMMAND_RANGE(ID_NAVIGATE_TITLEMENU, ID_NAVIGATE_CHAPTERMENU, OnNavigateMenu)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_TITLEMENU, ID_NAVIGATE_CHAPTERMENU, OnUpdateNavigateMenu)
     ON_COMMAND_RANGE(ID_NAVIGATE_CHAP_SUBITEM_START, ID_NAVIGATE_CHAP_SUBITEM_END, OnNavigateChapters)
     ON_COMMAND_RANGE(ID_NAVIGATE_MENU_LEFT, ID_NAVIGATE_MENU_LEAVE, OnNavigateMenuItem)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_MENU_LEFT, ID_NAVIGATE_MENU_LEAVE, OnUpdateNavigateMenuItem)
+
     ON_COMMAND(ID_NAVIGATE_TUNERSCAN, OnTunerScan)
     ON_UPDATE_COMMAND_UI(ID_NAVIGATE_TUNERSCAN, OnUpdateTunerScan)
 
@@ -3177,7 +3178,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
             SetupVideoStreamsSubMenu();
             pSubMenu = &m_videoStreams;
-        } else if (itemID == ID_JUMPTO) {
+        } else if (itemID == ID_NAVIGATE_JUMPTO) {
             SetupNavChaptersSubMenu();
             pSubMenu = &m_navchapters;
         } else if (itemID == ID_FAVORITES) {
@@ -7547,84 +7548,6 @@ void CMainFrame::OnUpdatePlaySeek(CCmdUI* pCmdUI)
     pCmdUI->Enable(fEnable);
 }
 
-void CMainFrame::OnPlayGoto()
-{
-    if ((m_iMediaLoadState != MLS_LOADED) || IsD3DFullScreenMode()) {
-        return;
-    }
-
-    REFTIME atpf = 0.0;
-    if (FAILED(m_pBV->get_AvgTimePerFrame(&atpf)) || atpf <= 0.0) {
-        BeginEnumFilters(m_pGB, pEF, pBF) {
-            if (atpf > 0.0) {
-                break;
-            }
-
-            BeginEnumPins(pBF, pEP, pPin) {
-                if (atpf > 0.0) {
-                    break;
-                }
-
-                AM_MEDIA_TYPE mt;
-                pPin->ConnectionMediaType(&mt);
-
-                if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
-                    atpf = (REFTIME)((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
-                } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
-                    atpf = (REFTIME)((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
-                }
-            }
-            EndEnumPins;
-        }
-        EndEnumFilters;
-    }
-
-    // Double-check that the detection is correct for DVDs
-    DVD_VideoAttributes VATR;
-    if (m_pDVDI && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
-        double ratio;
-        if (VATR.ulFrameRate == 50) {
-            ratio = 25.0 * atpf;
-            // Accept 25 or 50 fps
-            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)) {
-                atpf = 1.0 / 25.0;
-            }
-        } else {
-            ratio = 29.97 * atpf;
-            // Accept 29,97, 59.94, 23.976 or 47.952 fps
-            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)
-                    && !NEARLY_EQ(ratio, 1.25, 1e-2)  && !NEARLY_EQ(ratio, 2.5, 1e-2)) {
-                atpf = 1.0 / 29.97;
-            }
-        }
-    }
-
-    REFERENCE_TIME start, dur = -1;
-    m_wndSeekBar.GetRange(start, dur);
-    CGoToDlg dlg(m_wndSeekBar.GetPos(), dur, atpf > 0 ? (1.0 / atpf) : 0);
-    if (IDOK != dlg.DoModal() || dlg.m_time < 0) {
-        return;
-    }
-
-    SeekTo(dlg.m_time);
-}
-
-void CMainFrame::OnUpdateGoto(CCmdUI* pCmdUI)
-{
-    bool fEnable = false;
-
-    if (m_iMediaLoadState == MLS_LOADED) {
-        fEnable = true;
-        if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
-            fEnable = false;
-        } else if (GetPlaybackMode() == PM_CAPTURE) {
-            fEnable = false;
-        }
-    }
-
-    pCmdUI->Enable(fEnable);
-}
-
 void CMainFrame::SetPlayingRate(double rate)
 {
     if (m_iMediaLoadState != MLS_LOADED) {
@@ -8557,6 +8480,84 @@ void CMainFrame::OnUpdateNavigateSkipFile(CCmdUI* pCmdUI)
     pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED
                    && ((GetPlaybackMode() == PM_FILE && (m_wndPlaylistBar.GetCount() > 1 || AfxGetAppSettings().fUseSearchInFolder))
                        || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing && m_wndPlaylistBar.GetCount() > 1)));
+}
+
+void CMainFrame::OnNavigateGoto()
+{
+    if ((m_iMediaLoadState != MLS_LOADED) || IsD3DFullScreenMode()) {
+        return;
+    }
+
+    REFTIME atpf = 0.0;
+    if (FAILED(m_pBV->get_AvgTimePerFrame(&atpf)) || atpf <= 0.0) {
+        BeginEnumFilters(m_pGB, pEF, pBF) {
+            if (atpf > 0.0) {
+                break;
+            }
+
+            BeginEnumPins(pBF, pEP, pPin) {
+                if (atpf > 0.0) {
+                    break;
+                }
+
+                AM_MEDIA_TYPE mt;
+                pPin->ConnectionMediaType(&mt);
+
+                if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
+                    atpf = (REFTIME)((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
+                } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
+                    atpf = (REFTIME)((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
+                }
+            }
+            EndEnumPins;
+        }
+        EndEnumFilters;
+    }
+
+    // Double-check that the detection is correct for DVDs
+    DVD_VideoAttributes VATR;
+    if (m_pDVDI && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
+        double ratio;
+        if (VATR.ulFrameRate == 50) {
+            ratio = 25.0 * atpf;
+            // Accept 25 or 50 fps
+            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)) {
+                atpf = 1.0 / 25.0;
+            }
+        } else {
+            ratio = 29.97 * atpf;
+            // Accept 29,97, 59.94, 23.976 or 47.952 fps
+            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)
+                    && !NEARLY_EQ(ratio, 1.25, 1e-2)  && !NEARLY_EQ(ratio, 2.5, 1e-2)) {
+                atpf = 1.0 / 29.97;
+            }
+        }
+    }
+
+    REFERENCE_TIME start, dur = -1;
+    m_wndSeekBar.GetRange(start, dur);
+    CGoToDlg dlg(m_wndSeekBar.GetPos(), dur, atpf > 0 ? (1.0 / atpf) : 0);
+    if (IDOK != dlg.DoModal() || dlg.m_time < 0) {
+        return;
+    }
+
+    SeekTo(dlg.m_time);
+}
+
+void CMainFrame::OnUpdateNavigateGoto(CCmdUI* pCmdUI)
+{
+    bool fEnable = false;
+
+    if (m_iMediaLoadState == MLS_LOADED) {
+        fEnable = true;
+        if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
+            fEnable = false;
+        } else if (GetPlaybackMode() == PM_CAPTURE) {
+            fEnable = false;
+        }
+    }
+
+    pCmdUI->Enable(fEnable);
 }
 
 void CMainFrame::OnNavigateMenu(UINT nID)

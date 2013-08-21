@@ -179,7 +179,7 @@
 #define ID_PLAY_STOP                    890
 #define ID_PLAY_FRAMESTEP               891
 #define ID_PLAY_FRAMESTEPCANCEL         892
-#define ID_PLAY_GOTO                    893
+#define ID_NAVIGATE_GOTO                893
 #define ID_PLAY_DECRATE                 894
 #define ID_PLAY_INCRATE                 895
 #define ID_PLAY_RESETRATE               896
@@ -267,7 +267,7 @@
 #define ID_AUDIOS                       978
 #define ID_SUBTITLES                    979
 #define ID_VIDEO_STREAMS                980
-#define ID_JUMPTO                       981
+#define ID_NAVIGATE_JUMPTO              981
 #define ID_COLOR_BRIGHTNESS_INC         984
 #define ID_COLOR_BRIGHTNESS_DEC         985
 #define ID_COLOR_CONTRAST_INC           986

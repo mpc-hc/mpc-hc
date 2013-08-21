@@ -1444,7 +1444,6 @@ BEGIN
         MENUITEM "&Play/Pause\tSpace",          ID_PLAY_PLAYPAUSE
         MENUITEM "&Stop\tPeriod",               ID_PLAY_STOP
         MENUITEM "F&rame Step\tRight",          ID_PLAY_FRAMESTEP
-        MENUITEM "&Go To...\tCtrl+G",           ID_PLAY_GOTO
         MENUITEM SEPARATOR
         MENUITEM "&Decrease Rate\tCtrl+Down",   ID_PLAY_DECRATE
         MENUITEM "&Increase Rate\tCtrl+Up",     ID_PLAY_INCRATE
@@ -1482,7 +1481,8 @@ BEGIN
     BEGIN
         MENUITEM "&Previous\tPage Up",          ID_NAVIGATE_SKIPBACK
         MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
-        MENUITEM "&Jump To...",                 ID_JUMPTO
+        MENUITEM "&Go To...\tCtrl+G",           ID_NAVIGATE_GOTO
+        MENUITEM "&Jump To...",                 ID_NAVIGATE_JUMPTO
         MENUITEM SEPARATOR
         MENUITEM "&Title Menu\tAlt+T",           ID_NAVIGATE_TITLEMENU
         MENUITEM "&Root Menu\tAlt+R",           ID_NAVIGATE_ROOTMENU
@@ -1596,7 +1596,8 @@ BEGIN
         BEGIN
             MENUITEM "&Previous\tPage Up",          ID_NAVIGATE_SKIPBACK
             MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
-            MENUITEM "&Jump To...",                 ID_JUMPTO
+            MENUITEM "&Go To...\tCtrl+G",           ID_NAVIGATE_GOTO
+            MENUITEM "&Jump To...",                 ID_NAVIGATE_JUMPTO
             MENUITEM SEPARATOR
             MENUITEM "&Title Menu",                 ID_NAVIGATE_TITLEMENU
             MENUITEM "&Root Menu",                  ID_NAVIGATE_ROOTMENU
@@ -1922,7 +1923,6 @@ BEGIN
             MENUITEM "&Play/Pause\tSpace",          ID_PLAY_PLAYPAUSE
             MENUITEM "&Stop\tPeriod",               ID_PLAY_STOP
             MENUITEM "F&rame Step\tRight",          ID_PLAY_FRAMESTEP
-            MENUITEM "&Go To...\tCtrl+G",           ID_PLAY_GOTO
             MENUITEM SEPARATOR
             MENUITEM "&Decrease Rate\tCtrl+Down",   ID_PLAY_DECRATE
             MENUITEM "&Increase Rate\tCtrl+Up",     ID_PLAY_INCRATE
@@ -1932,7 +1932,8 @@ BEGIN
         BEGIN
             MENUITEM "&Previous\tPage Up",          ID_NAVIGATE_SKIPBACK
             MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
-            MENUITEM "&Jump To...",                 ID_JUMPTO
+            MENUITEM "&Go To...\tCtrl+G",           ID_NAVIGATE_GOTO
+            MENUITEM "&Jump To...",                 ID_NAVIGATE_JUMPTO
             MENUITEM SEPARATOR
             MENUITEM "&Title Menu\tAlt+T",           ID_NAVIGATE_TITLEMENU
             MENUITEM "&Root Menu\tAlt+R",           ID_NAVIGATE_ROOTMENU

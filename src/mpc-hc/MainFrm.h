@@ -824,8 +824,6 @@ public:
     afx_msg void OnPlaySeekSet();
     afx_msg void OnPlaySeekKey(UINT nID); // no menu item
     afx_msg void OnUpdatePlaySeek(CCmdUI* pCmdUI);
-    afx_msg void OnPlayGoto();
-    afx_msg void OnUpdateGoto(CCmdUI* pCmdUI);
     afx_msg void OnPlayChangeRate(UINT nID);
     afx_msg void OnUpdatePlayChangeRate(CCmdUI* pCmdUI);
     afx_msg void OnPlayResetRate();
@@ -854,6 +852,8 @@ public:
     afx_msg void OnUpdateNavigateSkip(CCmdUI* pCmdUI);
     afx_msg void OnNavigateSkipFile(UINT nID);
     afx_msg void OnUpdateNavigateSkipFile(CCmdUI* pCmdUI);
+    afx_msg void OnNavigateGoto();
+    afx_msg void OnUpdateNavigateGoto(CCmdUI* pCmdUI);
     afx_msg void OnNavigateMenu(UINT nID);
     afx_msg void OnUpdateNavigateMenu(CCmdUI* pCmdUI);
     afx_msg void OnNavigateChapters(UINT nID);
