@@ -1302,7 +1302,6 @@ int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)
     int lCurTime = (int)(rtPos / 10000) + (bForward ? 1 : -1);
 
     if (m_subtimes.IsEmpty()) {
-        rtPos = max(0, rtPos + (bForward ? 1 : -1) * 50000000);
         return -2;
     }
 

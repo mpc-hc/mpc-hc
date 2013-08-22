@@ -15089,12 +15089,14 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName(const DVD_AudioAttributes& ATR) const
 
 afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 {
-    OnPlayPause();
-    m_rtCurSubPos = m_wndSeekBar.GetPosReal();
-    m_lSubtitleShift = 0;
-    m_nCurSubtitle = m_wndSubresyncBar.FindNearestSub(m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
-    if ((m_nCurSubtitle != -1) && m_pMS) {
-        m_pMS->SetPositions(&m_rtCurSubPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+    if (!m_pSubStreams.IsEmpty() && GetPlaybackMode() != PM_CAPTURE) {
+        m_rtCurSubPos = m_wndSeekBar.GetPosReal();
+        m_lSubtitleShift = 0;
+        m_nCurSubtitle = m_wndSubresyncBar.FindNearestSub(m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
+        if (m_nCurSubtitle >= 0 && m_pMS) {
+            OnPlayPause();
+            m_pMS->SetPositions(&m_rtCurSubPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+        }
     }
 }
 
