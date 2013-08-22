@@ -11608,12 +11608,19 @@ DWORD CMainFrame::SetupSubtitleStreams()
             CComPtr<ISubStream> pSubStream = subInput.subStream;
             CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter;
 
-            bool bAllowOverridingSplitterChoice = s.bAllowOverridingExternalSplitterChoice;
-            CLSID clsid;
-            if (!bAllowOverridingSplitterChoice && pSSF && SUCCEEDED(subInput.sourceFilter->GetClassID(&clsid))) {
-                // We always allow overriding the splitter choice for our splitters that
-                // support the IAMStreamSelect interface and thus would have been ignored.
-                bAllowOverridingSplitterChoice = !!(clsid == CLSID_MPCMpegSplitter);
+            bool bAllowOverridingSplitterChoice;
+            // If the internal LAV Splitter has its own language preferences set, we choose not to override its choice
+            if (pSSF && CFGFilterLAV::IsInternalInstance(subInput.sourceFilter)) {
+                bAllowOverridingSplitterChoice = true;
+                if (CComQIPtr<ILAVFSettings> pLAVFSettings = subInput.sourceFilter) {
+                    LPWSTR langPrefs = nullptr;
+                    if (SUCCEEDED(pLAVFSettings->GetPreferredSubtitleLanguages(&langPrefs)) && langPrefs && wcslen(langPrefs)) {
+                        bAllowOverridingSplitterChoice = false;
+                    }
+                    CoTaskMemFree(langPrefs);
+                }
+            } else {
+                bAllowOverridingSplitterChoice = s.bAllowOverridingExternalSplitterChoice;
             }
 
             int count = 0;
