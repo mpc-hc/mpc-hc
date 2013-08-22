@@ -11627,7 +11627,15 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 title = _T("DVD");
             }
         } else { // Show full path
-            title = m_wndPlaylistBar.GetCurFileName();
+            if (GetPlaybackMode() == PM_FILE) {
+                title = m_wndPlaylistBar.GetCurFileName();
+            } else if (GetPlaybackMode() == PM_DVD) {
+                WCHAR buff[MAX_PATH];
+                ULONG len = 0;
+                if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) && len) {
+                    title = buff;
+                }
+            }
         }
     }
 
