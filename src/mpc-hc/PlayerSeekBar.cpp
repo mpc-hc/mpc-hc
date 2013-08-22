@@ -501,6 +501,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
     if (m_bEnabled && m_bHasDuration && clientRect.PtInRect(point)) {
         m_bHovered = false;
         SetCapture();
+        m_capturePoint = point;
         MoveThumb(point);
         VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     } else {
@@ -525,7 +526,8 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
-    if (GetCapture() == this && (nFlags & MK_LBUTTON)) {
+    if (GetCapture() == this && (nFlags & MK_LBUTTON) && m_capturePoint.x != point.x) {
+        m_capturePoint = point;
         MoveThumb(point);
         VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     }
