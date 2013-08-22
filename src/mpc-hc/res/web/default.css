@@ -393,6 +393,7 @@ img {
 
 #seekbar {
 	background: url(img/seekbarmid.png) repeat-x;
+	margin-top: 1px;
 	width: 100%;
 }
 
