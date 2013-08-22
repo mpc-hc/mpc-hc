@@ -2485,6 +2485,7 @@ BEGIN
     IDS_MPLAYERC_28         "Jump Backward (large)"
     IDS_MPLAYERC_29         "Jump Forward (keyframe)"
     IDS_MPLAYERC_30         "Jump Backward (keyframe)"
+    IDS_AG_SEEKSET          "Jump to Beginning"
     IDS_AG_NEXT             "Next"
     IDS_AG_PREVIOUS         "Previous"
     IDS_AG_NEXT_FILE        "Next File"

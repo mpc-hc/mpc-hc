@@ -823,6 +823,7 @@ public:
     afx_msg void OnPlayFramestep(UINT nID);
     afx_msg void OnUpdatePlayFramestep(CCmdUI* pCmdUI);
     afx_msg void OnPlaySeek(UINT nID);
+    afx_msg void OnPlaySeekSet();
     afx_msg void OnPlaySeekKey(UINT nID); // no menu item
     afx_msg void OnUpdatePlaySeek(CCmdUI* pCmdUI);
     afx_msg void OnPlayGoto();

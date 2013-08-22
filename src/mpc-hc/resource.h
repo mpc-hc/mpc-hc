@@ -282,6 +282,7 @@
 #define ID_CUSTOM_CHANNEL_MAPPING       993
 #define ID_NORMALIZE                    994
 #define ID_REGAIN_VOLUME                995
+#define ID_PLAY_SEEKSET                 996
 #define ID_FILTERS_SUBITEM_START        2000
 #define ID_FILTERS_SUBITEM_END          2099
 #define ID_FILTERSTREAMS_SUBITEM_START  2100
@@ -841,6 +842,7 @@
 #define IDS_MPLAYERC_102                32979
 #define IDS_MPLAYERC_103                32980
 #define IDS_AG_DISPLAY_STATS            32981
+#define IDS_AG_SEEKSET                  32982
 #define IDS_PPAGEWEBSERVER_0            32996
 #define IDS_MAINFRM_2                   33014
 #define IDS_AG_SUBTITLES_SAVED          33015

@@ -1228,6 +1228,7 @@ STRING IDS_AG_RESET_STATS		"Սինք ռենդերերի ետարկման վիճ�
 STRING IDS_AG_SAVE_AS		"Պահպանել որպես"
 STRING IDS_AG_SAVE_IMAGE		"Պահպանել նկարը"
 STRING IDS_AG_SAVE_SUBTITLE		"Պահպանել տողագրերը"
+STRING IDS_AG_SEEKSET		"Jump to Beginning"
 STRING IDS_AG_SHADER		"Շեյդեր. "
 STRING IDS_AG_SOUND		"Ձայնը"
 STRING IDS_AG_STOP		"Կանգնեցնել"

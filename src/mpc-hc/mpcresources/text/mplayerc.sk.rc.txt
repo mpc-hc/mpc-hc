@@ -1228,6 +1228,7 @@ STRING IDS_AG_RESET_STATS		"Obnoviť štatistiky vykresľovania a synchronizáci
 STRING IDS_AG_SAVE_AS		"Uložiť ako"
 STRING IDS_AG_SAVE_IMAGE		"Uložiť obrázok"
 STRING IDS_AG_SAVE_SUBTITLE		"Uložiť titulky"
+STRING IDS_AG_SEEKSET		"Jump to Beginning"
 STRING IDS_AG_SHADER		"Shader: "
 STRING IDS_AG_SOUND		"Zvuk"
 STRING IDS_AG_STOP		"Stop"

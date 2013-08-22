@@ -440,8 +440,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_PLAY_FRAMESTEP, ID_PLAY_FRAMESTEPCANCEL, OnPlayFramestep)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_FRAMESTEP, ID_PLAY_FRAMESTEPCANCEL, OnUpdatePlayFramestep)
     ON_COMMAND_RANGE(ID_PLAY_SEEKBACKWARDSMALL, ID_PLAY_SEEKFORWARDLARGE, OnPlaySeek)
+    ON_COMMAND(ID_PLAY_SEEKSET, OnPlaySeekSet)
     ON_COMMAND_RANGE(ID_PLAY_SEEKKEYBACKWARD, ID_PLAY_SEEKKEYFORWARD, OnPlaySeekKey)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_SEEKBACKWARDSMALL, ID_PLAY_SEEKFORWARDLARGE, OnUpdatePlaySeek)
+    ON_UPDATE_COMMAND_UI(ID_PLAY_SEEKSET, OnUpdatePlaySeek)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_SEEKKEYBACKWARD, ID_PLAY_SEEKKEYFORWARD, OnUpdatePlaySeek)
     ON_COMMAND(ID_PLAY_GOTO, OnPlayGoto)
     ON_UPDATE_COMMAND_UI(ID_PLAY_GOTO, OnUpdateGoto)
@@ -7435,6 +7437,17 @@ void CMainFrame::OnPlaySeek(UINT nID)
     }
 
     SeekTo(m_wndSeekBar.GetPos() + dt, s.fFastSeek);
+}
+
+void CMainFrame::OnPlaySeekSet()
+{
+    const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
+    REFERENCE_TIME rtStart, rtStop;
+    m_wndSeekBar.GetRange(rtStart, rtStop);
+    if (rtPos != rtStart) {
+        m_nSeekDirection = SEEK_DIRECTION_BACKWARD;
+        SeekTo(rtStart, false);
+    }
 }
 
 void CMainFrame::SetTimersPlay()
