@@ -414,7 +414,7 @@ protected:
     void OpenSetupStatusBar();
     // void OpenSetupToolBar();
     void OpenSetupCaptureBar();
-    void OpenSetupWindowTitle(bool reset = true);
+    void OpenSetupWindowTitle(bool reset = false);
     void AutoChangeMonitorMode();
 
     bool GraphEventComplete();
@@ -902,7 +902,6 @@ public:
     int         m_nCurSubtitle;
     long        m_lSubtitleShift;
     REFERENCE_TIME m_rtCurSubPos;
-    CString     m_strTitle;
     bool        m_bToggleShader;
     bool        m_bToggleShaderScreenSpace;
     bool        m_bInOptions;

@@ -820,14 +820,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_bToggleShader = s.fToggleShader;
     m_bToggleShaderScreenSpace = s.fToggleShaderScreenSpace;
 
-    m_strTitle.LoadString(IDR_MAINFRAME);
-
-#ifdef MPCHC_LITE
-    m_strTitle += _T(" Lite");
-#endif
-
-    SetWindowText(m_strTitle);
-    m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
+    OpenSetupWindowTitle(true);
 
     WTSRegisterSessionNotification();
 
@@ -3599,8 +3592,7 @@ void CMainFrame::OnFilePostClosemedia()
 
     RecalcLayout();
 
-    SetWindowText(m_strTitle);
-    m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
+    OpenSetupWindowTitle(true);
 
     SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 
@@ -11585,16 +11577,22 @@ void CMainFrame::OpenSetupStatusBar()
     m_wndStatusBar.SetStatusTypeIcon(hIcon);
 }
 
-void CMainFrame::OpenSetupWindowTitle(bool reset /*= true*/)
+void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
 {
     CString title = ResStr(IDR_MAINFRAME);
+#ifdef MPCHC_LITE
+    title += _T(" Lite");
+#endif
 
     const CAppSettings& s = AfxGetAppSettings();
 
     int i = s.iTitleBarTextStyle;
 
     if (!reset && (i == 0 || i == 1)) {
-        if (i == 1) { // Show filename or title
+        // There is no path in capture mode
+        if (GetPlaybackMode() == PM_CAPTURE) {
+            title.LoadString(IDS_CAPTURE_LIVE);
+        } else if (i == 1) { // Show filename or title
             if (GetPlaybackMode() == PM_FILE) {
                 title = GetFileName();
 
@@ -11612,8 +11610,6 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= true*/)
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
                 title = _T("DVD");
-            } else if (GetPlaybackMode() == PM_CAPTURE) {
-                title.LoadString(IDS_CAPTURE_LIVE);
             }
         } else { // Show full path
             title = m_wndPlaylistBar.GetCurFileName();
@@ -12013,7 +12009,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             throw (UINT)IDS_AG_ABORTED;
         }
 
-        OpenSetupWindowTitle(pOMD->title.IsEmpty());
+        OpenSetupWindowTitle();
 
         if (s.fEnableEDLEditor) {
             m_wndEditListEditor.OpenFile(pOMD->title);
@@ -16242,7 +16238,7 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             UpdateSeekbarChapterBag();
             break;
         case UPDATE_WINDOW_TITLE:
-            OpenSetupWindowTitle(false);
+            OpenSetupWindowTitle();
             break;
         default:
             ASSERT(FALSE);
