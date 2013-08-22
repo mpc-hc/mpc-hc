@@ -11594,7 +11594,7 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= true*/)
     int i = s.iTitleBarTextStyle;
 
     if (!reset && (i == 0 || i == 1)) {
-        if (i == 1) {
+        if (i == 1) { // Show filename or title
             if (GetPlaybackMode() == PM_FILE) {
                 title = GetFileName();
 
@@ -11615,6 +11615,8 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= true*/)
             } else if (GetPlaybackMode() == PM_CAPTURE) {
                 title.LoadString(IDS_CAPTURE_LIVE);
             }
+        } else { // Show full path
+            title = m_wndPlaylistBar.GetCurFileName();
         }
     }
 
