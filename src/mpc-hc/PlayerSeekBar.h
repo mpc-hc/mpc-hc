@@ -81,8 +81,8 @@ public:
 
     void GetRange(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) const;
     void SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
-    __int64 GetPos() const;
-    __int64 GetPosReal() const;
+    REFERENCE_TIME GetPos() const;
+    REFERENCE_TIME GetPosReal() const;
     void SetPos(REFERENCE_TIME rtPos);
 
     void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);

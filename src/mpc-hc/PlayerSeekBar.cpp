@@ -373,12 +373,12 @@ void CPlayerSeekBar::SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
     }
 }
 
-__int64 CPlayerSeekBar::GetPos() const
+REFERENCE_TIME CPlayerSeekBar::GetPos() const
 {
     return m_rtPos;
 }
 
-__int64 CPlayerSeekBar::GetPosReal() const
+REFERENCE_TIME CPlayerSeekBar::GetPosReal() const
 {
     return m_rtPosReal;
 }
