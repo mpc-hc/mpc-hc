@@ -37,6 +37,7 @@ CPlayerSeekBar::CPlayerSeekBar()
     , m_rtPosReal(0)
     , m_bEnabled(false)
     , m_bHasDuration(false)
+    , m_rtHoverPos(0)
     , m_bHovered(false)
     , m_cursor(AfxGetApp()->LoadStandardCursor(IDC_HAND))
     , m_tooltipState(TOOLTIP_HIDDEN)
@@ -90,7 +91,11 @@ BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)
 void CPlayerSeekBar::MoveThumb(const CPoint& point)
 {
     if (m_bHasDuration) {
-        SyncThumbToVideo(PositionFromClientPoint(point));
+        REFERENCE_TIME rtPos = PositionFromClientPoint(point);
+        if (AfxGetAppSettings().fFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
+            rtPos = AfxGetMainFrame()->GetClosestKeyFrame(rtPos);
+        }
+        SyncThumbToVideo(rtPos);
     }
 }
 
@@ -101,6 +106,7 @@ void CPlayerSeekBar::SyncVideoToThumb()
 
 long CPlayerSeekBar::ChannelPointFromPosition(REFERENCE_TIME rtPos) const
 {
+    rtPos = min(m_rtStop, max(m_rtStart, rtPos));
     long ret = 0;
     auto w = GetChannelRect().Width();
     if (m_bHasDuration) {
@@ -128,8 +134,6 @@ REFERENCE_TIME CPlayerSeekBar::PositionFromClientPoint(const CPoint& point) cons
 
 void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
 {
-    ASSERT(rtPos >= 0);
-
     if (m_rtPos == rtPos) {
         ASSERT(m_rtPos == m_rtPosReal);
         return;
@@ -385,8 +389,6 @@ REFERENCE_TIME CPlayerSeekBar::GetPosReal() const
 
 void CPlayerSeekBar::SetPos(REFERENCE_TIME rtPos)
 {
-    ASSERT(rtPos >= 0);
-
     if (GetCapture() == this) {
         return;
     }
@@ -501,7 +503,6 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
     if (m_bEnabled && m_bHasDuration && clientRect.PtInRect(point)) {
         m_bHovered = false;
         SetCapture();
-        m_capturePoint = point;
         MoveThumb(point);
         VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     } else {
@@ -518,7 +519,8 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
     if (GetCapture() == this) {
         ReleaseCapture();
         KillTimer(TIMER_HOVER_CAPTURED);
-        if (!m_bHovered || abs(point.x - m_hoverPoint.x) > HOVER_CAPTURED_IGNORE_X_DELTA) {
+        if (!m_bHovered || (abs(point.x - m_hoverPoint.x) > HOVER_CAPTURED_IGNORE_X_DELTA &&
+                            m_rtPos != m_rtHoverPos)) {
             SyncVideoToThumb();
         }
     }
@@ -526,8 +528,7 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
-    if (GetCapture() == this && (nFlags & MK_LBUTTON) && m_capturePoint.x != point.x) {
-        m_capturePoint = point;
+    if (GetCapture() == this && (nFlags & MK_LBUTTON)) {
         MoveThumb(point);
         VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     }
@@ -575,8 +576,9 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
             }
             break;
         case TIMER_HOVER_CAPTURED:
-            if (GetCapture() == this) {
+            if (GetCapture() == this && (!m_bHovered || m_rtHoverPos != m_rtPos)) {
                 m_bHovered = true;
+                m_rtHoverPos = m_rtPos;
                 m_hoverPoint = point;
                 SyncVideoToThumb();
             }

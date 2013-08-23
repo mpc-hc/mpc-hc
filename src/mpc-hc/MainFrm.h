@@ -419,7 +419,7 @@ protected:
     CGraphThread* m_pGraphThread;
     bool m_bOpenedThruThread;
 
-    CAtlArray<REFERENCE_TIME> m_kfs;
+    std::vector<REFERENCE_TIME> m_kfs;
 
     bool m_fOpeningAborted;
     bool m_bWasSnapped;
@@ -452,7 +452,9 @@ public:
     OAFilterState GetMediaState() const;
     REFERENCE_TIME GetPos() const;
     REFERENCE_TIME GetDur() const;
-    void SeekTo(REFERENCE_TIME rt, bool fSeekToKeyFrame = false);
+    bool GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const;
+    REFERENCE_TIME GetClosestKeyFrame(REFERENCE_TIME rtTarget) const;
+    void SeekTo(REFERENCE_TIME rt);
     void SetPlayingRate(double rate);
 
     DWORD SetupAudioStreams();
@@ -949,7 +951,6 @@ protected:
     void WTSUnRegisterSessionNotification();
 
     DWORD m_nMenuHideTick;
-    UINT m_nSeekDirection;
 
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();

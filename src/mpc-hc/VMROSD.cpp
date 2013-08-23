@@ -22,6 +22,7 @@
 #include "VMROSD.h"
 #include "mplayerc.h"
 #include "DSMPropertyBag.h"
+#include "MainFrm.h"
 
 #define SEEKBAR_MARGIN       10
 #define SEEKBAR_HEIGHT       60
@@ -356,6 +357,10 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
     m_llSeekPos = (point.x - m_rectBar.left) * (m_llSeekMax - m_llSeekMin) / (m_rectBar.Width() - SLIDER_CURSOR_WIDTH);
     m_llSeekPos = max(m_llSeekPos, m_llSeekMin);
     m_llSeekPos = min(m_llSeekPos, m_llSeekMax);
+
+    if (AfxGetAppSettings().fFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
+        m_llSeekPos = AfxGetMainFrame()->GetClosestKeyFrame(m_llSeekPos);
+    }
 
     if (m_pWnd) {
         AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_llSeekPos, SB_THUMBTRACK), (LPARAM)m_pWnd->m_hWnd);

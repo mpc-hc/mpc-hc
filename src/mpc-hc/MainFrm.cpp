@@ -651,7 +651,6 @@ CMainFrame::CMainFrame()
     , m_bOpenedThruThread(false)
     , m_nMenuHideTick(0)
     , m_bWasSnapped(false)
-    , m_nSeekDirection(SEEK_DIRECTION_NONE)
     , m_bIsBDPlay(false)
     , m_bLockedZoomVideoWindow(false)
     , m_nLockedZoomVideoWindow(0)
@@ -2716,7 +2715,7 @@ LRESULT CMainFrame::OnResumeFromState(WPARAM wParam, LPARAM lParam)
     int iPlaybackMode = (int)wParam;
 
     if (iPlaybackMode == PM_FILE) {
-        SeekTo(10000i64 * int(lParam), false);
+        SeekTo(10000i64 * int(lParam));
     } else if (iPlaybackMode == PM_DVD) {
         CComPtr<IDvdState> pDvdState;
         pDvdState.Attach((IDvdState*)lParam);
@@ -3039,17 +3038,12 @@ LRESULT CMainFrame::OnNcHitTest(CPoint point)
 
 void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-    bool Shift_State = !!(::GetKeyState(VK_SHIFT) & 0x8000);
-    if (AfxGetAppSettings().fFastSeek) {
-        Shift_State = !Shift_State;
-    }
-
     if (pScrollBar->IsKindOf(RUNTIME_CLASS(CVolumeCtrl))) {
         OnPlayVolume(0);
     } else if (pScrollBar->IsKindOf(RUNTIME_CLASS(CPlayerSeekBar)) && m_iMediaLoadState == MLS_LOADED) {
-        SeekTo(m_wndSeekBar.GetPos(), Shift_State);
+        SeekTo(m_wndSeekBar.GetPos());
     } else if (*pScrollBar == *m_pVideoWnd) {
-        SeekTo(m_OSD.GetPos(), Shift_State);
+        SeekTo(m_OSD.GetPos());
     }
 
     __super::OnHScroll(nSBCode, nPos, pScrollBar);
@@ -7400,30 +7394,46 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlaySeek(UINT nID)
 {
-    const CAppSettings& s = AfxGetAppSettings();
+    const auto& s = AfxGetAppSettings();
 
-    REFERENCE_TIME dt =
+    REFERENCE_TIME rtSeekTo =
         nID == ID_PLAY_SEEKBACKWARDSMALL ? -10000i64 * s.nJumpDistS :
-        nID == ID_PLAY_SEEKFORWARDSMALL ? +10000i64 * s.nJumpDistS :
-        nID == ID_PLAY_SEEKBACKWARDMED ? -10000i64 * s.nJumpDistM :
-        nID == ID_PLAY_SEEKFORWARDMED ? +10000i64 * s.nJumpDistM :
+        nID == ID_PLAY_SEEKFORWARDSMALL  ? +10000i64 * s.nJumpDistS :
+        nID == ID_PLAY_SEEKBACKWARDMED   ? -10000i64 * s.nJumpDistM :
+        nID == ID_PLAY_SEEKFORWARDMED    ? +10000i64 * s.nJumpDistM :
         nID == ID_PLAY_SEEKBACKWARDLARGE ? -10000i64 * s.nJumpDistL :
-        nID == ID_PLAY_SEEKFORWARDLARGE ? +10000i64 * s.nJumpDistL :
+        nID == ID_PLAY_SEEKFORWARDLARGE  ? +10000i64 * s.nJumpDistL :
         0;
 
-    m_nSeekDirection = (nID == ID_PLAY_SEEKBACKWARDSMALL || nID == ID_PLAY_SEEKBACKWARDMED || nID == ID_PLAY_SEEKBACKWARDLARGE) ? SEEK_DIRECTION_BACKWARD :
-                       (nID == ID_PLAY_SEEKFORWARDSMALL || nID == ID_PLAY_SEEKFORWARDMED || nID == ID_PLAY_SEEKFORWARDLARGE) ? SEEK_DIRECTION_FORWARD : SEEK_DIRECTION_NONE;
+    bool bSeekingForward = (nID == ID_PLAY_SEEKFORWARDSMALL ||
+                            nID == ID_PLAY_SEEKFORWARDMED ||
+                            nID == ID_PLAY_SEEKFORWARDLARGE);
 
-    if (!dt) {
+    if (rtSeekTo == 0) {
+        ASSERT(FALSE);
         return;
     }
 
-    // HACK: the custom graph should support frame based seeking instead
     if (m_fShockwaveGraph) {
-        dt /= 10000i64 * 100;
+        // HACK: the custom graph should support frame based seeking instead
+        rtSeekTo /= 10000i64 * 100;
     }
 
-    SeekTo(m_wndSeekBar.GetPos() + dt, s.fFastSeek);
+    const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
+    rtSeekTo += rtPos;
+
+    if (s.fFastSeek) {
+        // seek to the closest keyframe, but never in the opposite direction
+        rtSeekTo = GetClosestKeyFrame(rtSeekTo);
+        if ((bSeekingForward && rtSeekTo <= rtPos) ||
+                (!bSeekingForward &&
+                 rtSeekTo >= rtPos - (GetMediaState() == State_Running ? 10000000 : 0))) {
+            OnPlaySeekKey(bSeekingForward ? ID_PLAY_SEEKKEYFORWARD : ID_PLAY_SEEKKEYBACKWARD);
+            return;
+        }
+    }
+
+    SeekTo(rtSeekTo);
 }
 
 void CMainFrame::OnPlaySeekSet()
@@ -7432,8 +7442,7 @@ void CMainFrame::OnPlaySeekSet()
     REFERENCE_TIME rtStart, rtStop;
     m_wndSeekBar.GetRange(rtStart, rtStop);
     if (rtPos != rtStart) {
-        m_nSeekDirection = SEEK_DIRECTION_BACKWARD;
-        SeekTo(rtStart, false);
+        SeekTo(rtStart);
     }
 }
 
@@ -7452,82 +7461,22 @@ void CMainFrame::KillTimersStop()
     KillTimer(TIMER_DVBINFO_UPDATER);
 }
 
-static int rangebsearch(REFERENCE_TIME val, const CAtlArray<REFERENCE_TIME>& rta)
-{
-    int i = 0, j = (int)rta.GetCount() - 1, ret = -1;
-
-    if (j >= 0 && val >= rta[j]) {
-        return j;
-    }
-
-    while (i < j) {
-        int mid = (i + j) >> 1;
-        REFERENCE_TIME midt = rta[mid];
-        if (val == midt) {
-            ret = mid;
-            break;
-        } else if (val < midt) {
-            ret = -1;
-            if (j == mid) {
-                mid--;
-            }
-            j = mid;
-        } else if (val > midt) {
-            ret = mid;
-            if (i == mid) {
-                mid++;
-            }
-            i = mid;
-        }
-    }
-
-    return ret;
-}
-
 void CMainFrame::OnPlaySeekKey(UINT nID)
 {
-    if (!m_kfs.IsEmpty()) {
+    if (!m_kfs.empty()) {
+        bool bSeekingForward = (nID == ID_PLAY_SEEKKEYFORWARD);
+        const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
+        REFERENCE_TIME rtSeekTo = rtPos - (bSeekingForward ? 0 : (GetMediaState() == State_Running) ? 10000000 : 10000);
+        std::pair<REFERENCE_TIME, REFERENCE_TIME> keyframes;
 
-        if (GetMediaState() == State_Stopped) {
-            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+        if (GetNeighbouringKeyFrames(rtSeekTo, keyframes)) {
+            rtSeekTo = bSeekingForward ? keyframes.second : keyframes.first;
+            if (bSeekingForward && rtSeekTo <= rtPos) {
+                // the end of stream is near, no keyframes before it
+                return;
+            }
+            SeekTo(rtSeekTo);
         }
-
-        HRESULT hr;
-        REFERENCE_TIME rtCurrent, rtDur;
-        hr = m_pMS->GetCurrentPosition(&rtCurrent);
-        hr = m_pMS->GetDuration(&rtDur);
-        int dec = 1;
-        int i = rangebsearch(rtCurrent, m_kfs);
-
-        if (i > 0) {
-            dec = (UINT)max(min(rtCurrent - m_kfs[i - 1], 10000000), 0);
-        }
-
-        rtCurrent =
-            nID == ID_PLAY_SEEKKEYBACKWARD ? max(rtCurrent - dec, 0) :
-            nID == ID_PLAY_SEEKKEYFORWARD ? rtCurrent : 0;
-
-        i = rangebsearch(rtCurrent, m_kfs);
-
-        if (nID == ID_PLAY_SEEKKEYBACKWARD) {
-            rtCurrent = m_kfs[max(i, 0)];
-        } else if (nID == ID_PLAY_SEEKKEYFORWARD && i < (int)m_kfs.GetCount() - 1) {
-            rtCurrent = m_kfs[i + 1];
-        } else {
-            return;
-        }
-
-        // HACK: if d3d or something changes fpu control word the values of
-        // m_kfs may be different now (if it was asked again), adding a little
-        // to the seek position eliminates this error usually.
-
-        rtCurrent += 10;
-
-        hr = m_pMS->SetPositions(
-                 &rtCurrent, AM_SEEKING_AbsolutePositioning | AM_SEEKING_SeekToKeyFrame,
-                 nullptr, AM_SEEKING_NoPositioning);
-
-        m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
     }
 }
 
@@ -7536,7 +7485,7 @@ void CMainFrame::OnUpdatePlaySeek(CCmdUI* pCmdUI)
     bool fEnable = false;
     OAFilterState fs = GetMediaState();
 
-    if (m_iMediaLoadState == MLS_LOADED && (fs == State_Paused || fs == State_Running)) {
+    if (m_iMediaLoadState == MLS_LOADED) {
         fEnable = true;
         if (GetPlaybackMode() == PM_DVD && (m_iDVDDomain != DVD_DOMAIN_Title || fs != State_Running)) {
             fEnable = false;
@@ -10684,8 +10633,15 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     UINT nKFs = 0;
     if (pKFI && S_OK == pKFI->GetKeyFrameCount(nKFs) && nKFs > 0) {
         UINT k = nKFs;
-        if (!m_kfs.SetCount(k) || S_OK != pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.GetData(), k) || k != nKFs) {
-            m_kfs.RemoveAll();
+        m_kfs.resize(k);
+        if (FAILED(pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.data(), k)) || k != nKFs) {
+            m_kfs.clear();
+        }
+        for (auto it = m_kfs.begin(); it != m_kfs.end(); ++it) {
+            // HACK: if d3d or something changes fpu control word the values of
+            // m_kfs may be different now (if it was asked again), adding a little
+            // to the seek position eliminates this error usually.
+            *it += 10;
         }
     }
 
@@ -12093,7 +12049,7 @@ void CMainFrame::CloseMediaPrivate()
     m_fLiveWM = false;
     m_fEndOfStream = false;
     m_rtDurationOverride = -1;
-    m_kfs.RemoveAll();
+    m_kfs.clear();
     m_pCB.Release();
 
     {
@@ -13944,7 +13900,46 @@ REFERENCE_TIME CMainFrame::GetDur() const
     return (m_iMediaLoadState == MLS_LOADED ? stop : 0);
 }
 
-void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
+bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const
+{
+    bool ret = false;
+    REFERENCE_TIME rtLower, rtUpper;
+    if (!m_kfs.empty()) {
+        const auto cbegin = m_kfs.cbegin();
+        const auto cend = m_kfs.cend();
+        ASSERT(std::is_sorted(cbegin, cend));
+        auto upper = std::upper_bound(cbegin, cend, rtTarget);
+        if (upper == cbegin) {
+            // we assume that streams always start with keyframe
+            rtLower = *cbegin;
+            rtUpper = (++upper != cend) ? *upper : rtLower;
+        } else if (upper == cend) {
+            rtLower = rtUpper = *(--upper);
+        } else {
+            rtUpper = *upper;
+            rtLower = *(--upper);
+        }
+        ret = true;
+    } else {
+        rtLower = rtUpper = rtTarget;
+    }
+    keyframes = std::make_pair(rtLower, rtUpper);
+    return ret;
+}
+
+REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget) const
+{
+    REFERENCE_TIME ret;
+    std::pair<REFERENCE_TIME, REFERENCE_TIME> keyframes;
+    if (GetNeighbouringKeyFrames(rtTarget, keyframes)) {
+        ret = keyframes.first;
+    } else {
+        ret = rtTarget;
+    }
+    return ret;
+}
+
+void CMainFrame::SeekTo(REFERENCE_TIME rtPos)
 {
     ASSERT(m_pMS != nullptr);
     if (m_pMS == nullptr) {
@@ -13971,16 +13966,6 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
         if (fs == State_Stopped) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
-
-        if (fSeekToKeyFrame) {
-            if (!m_kfs.IsEmpty()) {
-                int i = rangebsearch(rtPos, m_kfs);
-                if (i >= 1 && i < (int)m_kfs.GetCount() - 1) {
-                    rtPos = m_kfs[i + ((m_nSeekDirection == SEEK_DIRECTION_FORWARD) ? 1 : (m_nSeekDirection == SEEK_DIRECTION_BACKWARD) ? (-1) : SEEK_DIRECTION_NONE)];
-                }
-            }
-        }
-        m_nSeekDirection = SEEK_DIRECTION_NONE;
 
         m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
         UpdateChapterInInfoBar();

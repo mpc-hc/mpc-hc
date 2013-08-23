@@ -39,7 +39,7 @@ private:
     REFERENCE_TIME m_rtPosReal;
     bool m_bEnabled;
     bool m_bHasDuration;
-    CPoint m_capturePoint;
+    REFERENCE_TIME m_rtHoverPos;
     bool m_bHovered;
     CPoint m_hoverPoint;
     HCURSOR m_cursor;

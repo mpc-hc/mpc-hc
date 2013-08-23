@@ -212,8 +212,6 @@ void CPlayerStatusBar::SetStatusTimer(CString str)
 
 void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision, const GUID& timeFormat/* = TIME_FORMAT_MEDIA_TIME*/)
 {
-    ASSERT(rtNow >= 0 && (rtNow <= rtDur || rtDur <= 0));
-
     CString str;
     CString posstr, durstr, rstr;
 
