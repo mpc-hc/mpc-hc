@@ -11532,12 +11532,40 @@ DWORD CMainFrame::SetupAudioStreams()
         DWORD selected = 1;
         int  maxrating = 0;
         for (DWORD i = 0; i < cStreams; i++) {
+            DWORD dwFlags, dwGroup;
             WCHAR* pName = nullptr;
-            if (FAILED(pSS->Info(i, nullptr, nullptr, nullptr, nullptr, &pName, nullptr, nullptr))) {
+            CComPtr<IUnknown> pObject;
+            if (FAILED(pSS->Info(i, nullptr, &dwFlags, nullptr, &dwGroup, &pName, &pObject, nullptr))) {
                 continue;
             }
             CString name(pName);
             CoTaskMemFree(pName);
+
+            // If the track is controlled by a splitter and isn't selected at splitter level
+            if (dwGroup == 1) {
+                bool bSkipTrack;
+
+                // If the splitter is the internal LAV Splitter and no language preferences
+                // have been set at splitter level, we can override its choice safely
+                CComQIPtr<IBaseFilter> pBF = pObject;
+                if (pBF && CFGFilterLAV::IsInternalInstance(pBF)) {
+                    bSkipTrack = false;
+                    if (CComQIPtr<ILAVFSettings> pLAVFSettings = pBF) {
+                        LPWSTR langPrefs = nullptr;
+                        if (SUCCEEDED(pLAVFSettings->GetPreferredLanguages(&langPrefs)) && langPrefs && wcslen(langPrefs)) {
+                            bSkipTrack = true;
+                        }
+                        CoTaskMemFree(langPrefs);
+                    }
+                } else {
+                    bSkipTrack = true;
+                }
+
+                if (bSkipTrack) {
+                    continue;
+                }
+            }
+
             name.Trim();
             name.MakeLower();
 
