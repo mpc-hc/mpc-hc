@@ -524,6 +524,7 @@ public:
     void AddFavorite(bool fDisplayMessage = false, bool fShowDialog = true);
 
     CString GetFileName();
+    CString GetCaptureTitle();
 
     // shaders
     void SetShaders(bool bSetPreResize = true, bool bSetPostResize = true);

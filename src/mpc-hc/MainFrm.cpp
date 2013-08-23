@@ -11117,7 +11117,7 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
     if (!reset && (i == 0 || i == 1)) {
         // There is no path in capture mode
         if (GetPlaybackMode() == PM_CAPTURE) {
-            title.LoadString(IDS_CAPTURE_LIVE);
+            title = GetCaptureTitle();
         } else if (i == 1) { // Show filename or title
             if (GetPlaybackMode() == PM_FILE) {
                 title = GetFileName();
@@ -11842,7 +11842,7 @@ void CMainFrame::SendNowPlayingToSkype()
                     title = (LPCTSTR)path;
                     author.Empty();
                 } else if (GetPlaybackMode() == PM_CAPTURE) {
-                    title = label != pli.m_fns.GetHead() ? label : ResStr(IDS_CAPTURE_LIVE);
+                    title = GetCaptureTitle();
                     author.Empty();
                 } else if (GetPlaybackMode() == PM_DVD) {
                     title = _T("DVD");
@@ -14341,6 +14341,8 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                     PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
                     return hr;
                 }
+                OpenSetupWindowTitle();
+                SendNowPlayingToSkype();
                 ShowCurrentChannelInfo();
             }
 
@@ -16038,6 +16040,28 @@ CString CMainFrame::GetFileName()
     }
 
     return StripPath(path);
+}
+
+CString CMainFrame::GetCaptureTitle()
+{
+    CAppSettings& s = AfxGetAppSettings();
+    CString title;
+
+    title.LoadString(IDS_CAPTURE_LIVE);
+    if (s.iDefaultCaptureDevice == 0) {
+        CString devName = GetFriendlyName(m_VidDispName);
+        if (!devName.IsEmpty()) {
+            title.AppendFormat(_T(" | %s"), devName);
+        }
+    } else {
+        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+        if (pChannel) {
+            title.AppendFormat(_T(" | %s"), pChannel->GetName());
+        } else {
+            title += _T(" | DVB");
+        }
+    }
+    return title;
 }
 
 GUID CMainFrame::GetTimeFormat()

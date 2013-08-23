@@ -19,6 +19,7 @@ next version - not released yet
 + Ticket #3614, Do medium jumps when pressing mouse navigation buttons on the seekbar
 + New option to auto-hide docked panels together with toolbars
 + Support pixel shader presets (with shortcuts and command line options)
++ Show more descriptive window title in the capture mode
 * The storing mechanism of pixel shaders was redesigned:
     - each pixel shader is now stored in its own file with .hlsl extension
     - shader files are reloaded automatically when MPC-HC detects changes in them
