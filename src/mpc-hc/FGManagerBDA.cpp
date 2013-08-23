@@ -1228,11 +1228,9 @@ void CFGManagerBDA::UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChanne
     NewVideoHeader->rcTarget.bottom = 0;
 }
 
-HRESULT CFGManagerBDA::UpdatePSI(EventDescriptor& NowNext)
+HRESULT CFGManagerBDA::UpdatePSI(const CDVBChannel* pChannel, EventDescriptor& NowNext)
 {
     HRESULT hr = S_FALSE;
-    CAppSettings& s = AfxGetAppSettings();
-    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 
     if (pChannel->GetNowNextFlag()) {

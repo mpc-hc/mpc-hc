@@ -600,7 +600,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
                             gb.ReadBuffer(DescBuffer, nLen);
                             text = ConvertString(DescBuffer, nLen);
                             if (descriptorNumber == 0) {        // new descriptor set
-                                NowNext.extendedDescriptorsTexts.AddTail(text);
+                                NowNext.extendedDescriptorsTexts.AddTail(text.TrimLeft());
                             } else {
                                 NowNext.extendedDescriptorsTexts.GetTail().Append(text);
                             }
@@ -666,10 +666,11 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
     if (InfoEvent.ServiceId != ulSID) {
         NowNext.startTime = 0;
         NowNext.duration = 0;
-        NowNext.strStartTime = _T("");
-        NowNext.strEndTime = _T("");
-        NowNext.eventName = _T("Info not available");
-        NowNext.eventDesc = _T("");
+        NowNext.strStartTime.Empty();
+        NowNext.strEndTime.Empty();
+        NowNext.eventName.Empty();
+        NowNext.eventDesc.Empty();
+        return E_FAIL;
     }
 
     return S_OK;

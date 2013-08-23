@@ -131,7 +131,7 @@ public:
 
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
-    STDMETHODIMP UpdatePSI(EventDescriptor& NowNext);
+    STDMETHODIMP UpdatePSI(const CDVBChannel* pChannel, EventDescriptor& NowNext);
 
 private:
 

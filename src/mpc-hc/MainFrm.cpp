@@ -14341,8 +14341,6 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                     PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
                     return hr;
                 }
-                OpenSetupWindowTitle();
-                SendNowPlayingToSkype();
                 ShowCurrentChannelInfo();
             }
 
@@ -14365,15 +14363,15 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
 {
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-    CString description;
-    CString osd;
-    EventDescriptor NowNext;
+    CComQIPtr<IBDATuner> pTun = m_pGB;
 
-    if (pChannel) {
+    if (pChannel && pTun) {
+        EventDescriptor NowNext;
         // Get EIT information:
-        CComQIPtr<IBDATuner> pTun = m_pGB;
-        if (pTun && pTun->UpdatePSI(NowNext) == S_OK) {
-            // Set a timer to update the infos
+        HRESULT hr = pTun->UpdatePSI(pChannel, NowNext);
+
+        if (hr != S_FALSE) {
+            // Set a timer to update the infos only if channel has now/next flag
             time_t tNow;
             time(&tNow);
             time_t tElapse = NowNext.duration - (tNow - NowNext.startTime);
@@ -14383,62 +14381,65 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
             // We set a 15s delay to let some room for the program infos to change
             tElapse += 15;
             SetTimer(TIMER_DVBINFO_UPDATER, 1000 * (UINT)tElapse, nullptr);
-            m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(TRUE);
+            m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow();
         } else {
-            m_wndInfoBar.RemoveAllLines();
             m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(FALSE);
-            RecalcLayout();
-            if (fShowOSD) {
-                m_OSD.DisplayMessage(OSD_TOPLEFT, pChannel->GetName(), 3500);
-            }
-            return;
         }
 
-        if (fShowOSD) {
-            osd = pChannel->GetName();
-            osd += _T(" | ") + NowNext.eventName + _T(" (") + NowNext.strStartTime + _T(" - ") + NowNext.strEndTime + _T(")");
-            m_OSD.DisplayMessage(OSD_TOPLEFT, osd , 3500);
-        }
-
-        // Update Info Bar
+        CString sChannelInfo = pChannel->GetName();
         m_wndInfoBar.RemoveAllLines();
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), pChannel->GetName());
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), NowNext.eventName);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.strStartTime + _T(" - ") + NowNext.strEndTime);
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), sChannelInfo);
 
-        if (NowNext.parentalRating >= 0) {
-            CString parentRating;
-            if (!NowNext.parentalRating) {
-                parentRating.LoadString(IDS_NO_PARENTAL_RATING);
-            } else {
-                parentRating.Format(IDS_PARENTAL_RATING, NowNext.parentalRating);
+        if (hr == S_OK) {
+            // EIT information parsed correctly
+            if (fShowOSD) {
+                sChannelInfo.AppendFormat(_T(" | %s (%s - %s)"), NowNext.eventName, NowNext.strStartTime, NowNext.strEndTime);
             }
-            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_PARENTAL_RATING), parentRating);
-        }
 
-        if (!NowNext.content.IsEmpty()) {
-            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CONTENT), NowNext.content);
-        }
+            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), NowNext.eventName);
+            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.strStartTime + _T(" - ") + NowNext.strEndTime);
 
-        description = NowNext.eventDesc;
-        if (!NowNext.extendedDescriptorsTexts.IsEmpty()) {
-            if (!description.IsEmpty()) {
-                description += _T("; ");
+            if (NowNext.parentalRating >= 0) {
+                CString parentRating;
+                if (!NowNext.parentalRating) {
+                    parentRating.LoadString(IDS_NO_PARENTAL_RATING);
+                } else {
+                    parentRating.Format(IDS_PARENTAL_RATING, NowNext.parentalRating);
+                }
+                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_PARENTAL_RATING), parentRating);
             }
-            description += NowNext.extendedDescriptorsTexts.GetTail();
-        }
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
 
-        for (int i = 0; i < NowNext.extendedDescriptorsItemsDesc.GetCount(); i++) {
-            m_wndInfoBar.SetLine(NowNext.extendedDescriptorsItemsDesc.ElementAt(i), NowNext.extendedDescriptorsItemsContent.ElementAt(i));
+            if (!NowNext.content.IsEmpty()) {
+                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CONTENT), NowNext.content);
+            }
+
+            CString description = NowNext.eventDesc;
+            if (!NowNext.extendedDescriptorsTexts.IsEmpty()) {
+                if (!description.IsEmpty()) {
+                    description += _T("; ");
+                }
+                description += NowNext.extendedDescriptorsTexts.GetTail();
+            }
+            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+
+            for (int i = 0; i < NowNext.extendedDescriptorsItemsDesc.GetCount(); i++) {
+                m_wndInfoBar.SetLine(NowNext.extendedDescriptorsItemsDesc.ElementAt(i), NowNext.extendedDescriptorsItemsContent.ElementAt(i));
+            }
+
+            if (fShowInfoBar) {
+                s.nCS |= CS_INFOBAR;
+                UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
+            }
         }
 
         RecalcLayout();
-
-        if (fShowInfoBar) {
-            s.nCS |= CS_INFOBAR;
-            UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
+        if (fShowOSD) {
+            m_OSD.DisplayMessage(OSD_TOPLEFT, sChannelInfo, 3500);
         }
+
+        // Update window title and skype status
+        OpenSetupWindowTitle();
+        SendNowPlayingToSkype();
     } else {
         ASSERT(FALSE);
     }
@@ -16057,6 +16058,11 @@ CString CMainFrame::GetCaptureTitle()
         CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
         if (pChannel) {
             title.AppendFormat(_T(" | %s"), pChannel->GetName());
+            CString eventName;
+            m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), eventName);
+            if (!eventName.IsEmpty()) {
+                title.AppendFormat(_T(" - %s"), eventName);
+            }
         } else {
             title += _T(" | DVB");
         }

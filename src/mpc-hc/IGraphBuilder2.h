@@ -43,8 +43,6 @@ public IUnknown {
     STDMETHOD(GetDeadEnd)(int iIndex, CAtlList<CStringW>& path, CAtlList<CMediaType>& mts) PURE;
 };
 
-struct EventDescriptor;
-
 // private use only
 interface __declspec(uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7"))
 IBDATuner :
@@ -54,5 +52,5 @@ public IUnknown {
     STDMETHOD(SetFrequency)(ULONG ulFrequency) PURE;
     STDMETHOD(Scan)(ULONG ulFrequency, HWND hWnd) PURE;
     STDMETHOD(GetStats)(BOOLEAN & bPresent, BOOLEAN & bLocked, LONG & lDbStrength, LONG & lPercentQuality) PURE;
-    STDMETHOD(UpdatePSI)(EventDescriptor & NowNext) PURE;
+    STDMETHOD(UpdatePSI)(const class CDVBChannel * pChannel, struct EventDescriptor & NowNext) PURE;
 };
