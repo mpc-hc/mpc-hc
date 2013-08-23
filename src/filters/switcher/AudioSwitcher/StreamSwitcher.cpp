@@ -1442,6 +1442,10 @@ STDMETHODIMP CStreamSwitcherFilter::Count(DWORD* pcStreams)
     return S_OK;
 }
 
+// pdwGroup value is set to:
+//  - 0 if the track isn't controlled by any underlying IAMStreamSelect interface
+//  - 1 if the track is controlled by an underlying IAMStreamSelect interface and is not selected at that level
+//  - 2 if the track is controlled by an underlying IAMStreamSelect interface and is selected at that level
 STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk)
 {
     CAutoLock cAutoLock(&m_csPins);
@@ -1458,8 +1462,9 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
                 if (SUCCEEDED(hr)) {
                     for (int i = 0; i < (int)cStreams; i++) {
                         AM_MEDIA_TYPE* pmt = nullptr;
+                        DWORD dwFlags;
                         LPWSTR pszName = nullptr;
-                        hr = pSSF->Info(i, &pmt, pdwFlags, plcid, NULL, &pszName, nullptr, nullptr);
+                        hr = pSSF->Info(i, &pmt, &dwFlags, plcid, NULL, &pszName, nullptr, nullptr);
                         if (SUCCEEDED(hr) && pmt && pmt->majortype == MEDIATYPE_Audio) {
                             if (lIndex == 0) {
                                 bFound = true;
@@ -1470,8 +1475,12 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
                                     DeleteMediaType(pmt);
                                 }
 
-                                if (pdwFlags && m_pInput != pInputPin) {
-                                    *pdwFlags = 0;
+                                if (pdwFlags) {
+                                    *pdwFlags = (m_pInput == pInputPin) ? dwFlags : 0;
+                                }
+
+                                if (pdwGroup) {
+                                    *pdwGroup = (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) ? 2 : 1;
                                 }
 
                                 if (ppszName) {
@@ -1504,6 +1513,10 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
                     *plcid = 0;
                 }
 
+                if (pdwGroup) {
+                    *pdwGroup = 0;
+                }
+
                 if (ppszName) {
                     *ppszName = (WCHAR*)CoTaskMemAlloc((wcslen(pInputPin->Name()) + 1) * sizeof(WCHAR));
                     if (*ppszName) {
@@ -1518,10 +1531,6 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
 
     if (!bFound) {
         return E_INVALIDARG;
-    }
-
-    if (pdwGroup) {
-        *pdwGroup = 0;
     }
 
     if (ppObject) {
