@@ -2454,6 +2454,7 @@ BEGIN
     IDS_AG_OPEN_DVD         "Open DVD/BD"
     IDS_AG_OPEN_DEVICE      "Open Device"
     IDS_AG_SAVE_AS          "Save As"
+    IDS_AG_SAVE_COPY        "Save a Copy"
     IDS_AG_SAVE_IMAGE       "Save Image"
     IDS_MPLAYERC_6          "Save Image (auto)"
     IDS_OSD_IMAGE_SAVED     "Image saved successfully"
