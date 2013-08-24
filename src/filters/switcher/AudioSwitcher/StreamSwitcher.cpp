@@ -1450,6 +1450,7 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
 {
     CAutoLock cAutoLock(&m_csPins);
 
+    IUnknown* pObject = nullptr;
     bool bFound = false;
     POSITION pos = m_pInputs.GetHeadPosition();
     while (pos && !bFound) {
@@ -1468,6 +1469,7 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
                         if (SUCCEEDED(hr) && pmt && pmt->majortype == MEDIATYPE_Audio) {
                             if (lIndex == 0) {
                                 bFound = true;
+                                pObject = pSSF;
 
                                 if (ppmt) {
                                     *ppmt = pmt;
@@ -1534,7 +1536,10 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
     }
 
     if (ppObject) {
-        *ppObject = nullptr;
+        *ppObject = pObject;
+        if (pObject) {
+            pObject->AddRef();
+        }
     }
 
     if (ppUnk) {
