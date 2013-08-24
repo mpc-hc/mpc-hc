@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Arrêter le graphe"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"Comportement du menu ""Lancer un DVD/BD"""
 6		"Demander le chemin du lecteur/répertoire"
 7		"Toujours utiliser le chemin par défaut :"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Audio"
 13		"Sous-titres"
 15		"Réglages complémentaires"
-16		"Auto-configuration du nombre de haut-parleurs pour ivideo ac3"
-18		"Autoriser les sous-titres malentendants pour le décodeur ""Line 21"""
+16		"Autoriser les sous-titres malentendants pour le décodeur ""Line 21"""
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

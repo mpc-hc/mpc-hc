@@ -269,11 +269,9 @@ BEGIN
     CONTROL         "Audio",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,10,86,65,8
     CONTROL         "Subtitles",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,10,98,65,8
     LISTBOX         IDC_LIST1,79,74,208,66,WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    GROUPBOX        "Additional settings",IDC_STATIC,5,140,286,36
-    CONTROL         "Automatically set speaker count for the ivideo AC3 decoder",IDC_CHECK1,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,152,270,8
+    GROUPBOX        "Additional settings",IDC_STATIC,5,140,286,26
     CONTROL         "Allow closed captions in ""Line 21 Decoder""",IDC_CHECK2,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,164,270,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,152,270,8
 END
 
 IDD_PPAGEPLAYBACK DIALOGEX 0, 0, 296, 241

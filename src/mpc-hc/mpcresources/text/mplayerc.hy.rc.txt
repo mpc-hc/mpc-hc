@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Կանգնեցնել գրաֆան"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"Հրամանի վարքը՝ ""Բացել DVD/BD"""
 6		"Հարցնել տեղի համար"
 7		"Մշտապես բացել հիմնական տեղը."
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Ձայնը"
 13		"Տողագրերը"
 15		"Լրացուցիչ կարգավորումներ"
-16		"Սյուների քանակը ivideo ac3 ապակոդավորիչի համար"
-18		"Թույլատրել փակված կադրերը 'Line 21 Decoder'-ում"
+16		"Թույլատրել փակված կադրերը 'Line 21 Decoder'-ում"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

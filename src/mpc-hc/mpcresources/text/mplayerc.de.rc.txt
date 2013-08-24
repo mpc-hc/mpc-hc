@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Stopp:"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"Verhalten bei ""DVD/BD öffnen"""
 6		"Verzeichnis für DVD/BD erfragen"
 7		"Standard-Verzeichnis für DVD/BD verwenden:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Audio"
 13		"Untertitel"
 15		"Weitere Einstellungen"
-16		"Lautsprecheranzahl für InterVideo AC3 Decoder automatisch ermitteln"
-18		"Untertitel im Line 21 Decoder erlauben"
+16		"Untertitel im Line 21 Decoder erlauben"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

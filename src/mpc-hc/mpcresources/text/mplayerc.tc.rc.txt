@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"停止篩選器圖"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"""開啟 DVD/BD"" 的行為"
 6		"提示位置"
 7		"總是開啟預設位置:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"發音"
 13		"字幕"
 15		"額外設定"
-16		"自動為 InterVideo AC3 解碼器設定揚聲器個數"
-18		"允許 Line 21 Decoder 中的隱藏式字幕"
+16		"允許 Line 21 Decoder 中的隱藏式字幕"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

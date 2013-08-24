@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Stop filter graph"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"""DVD/BD Aç"" ayarları"
 6		"Konum bilgisi iste"
 7		"Varsayılan konumu aç:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Ses"
 13		"Alt Yazılar"
 15		"Diğer ayarlar"
-16		"Ivideo AC3 çözücüsü için hoparlör sayısını otomatik olarak seç"
-18		"Line 21 Çözücüsü için görüntü almaya izin ver"
+16		"Line 21 Çözücüsü için görüntü almaya izin ver"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

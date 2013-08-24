@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Зупиняти граф фільтрів"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"Дії при відкритті DVD/BD"
 6		"Запитувати про розташування"
 7		"Завжди відкривати типове розташування:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Аудіо"
 13		"Субтитри"
 15		"Додаткові налаштування"
-16		"Автовибір кількості каналів для ivideo ac3 декодера"
-18		"Дозволити приховані субтитри для 'Line 21 Decoder'"
+16		"Дозволити приховані субтитри для 'Line 21 Decoder'"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

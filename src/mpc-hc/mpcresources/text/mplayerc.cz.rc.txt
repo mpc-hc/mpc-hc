@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Ukončit graf filtrů"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"Chování funkce ""Otevřít DVD/BD"""
 6		"Zeptat se na umístění"
 7		"Vždy otevřít výchozí umístění:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Zvukové stopy"
 13		"Titulky"
 15		"Další nastavení"
-16		"Automaticky nastavit počet reproduktorů pro ivideo ac3 dekodér"
-18		"Povolit closed captions ve filtru 'Line 21 Decoder'"
+16		"Povolit closed captions ve filtru 'Line 21 Decoder'"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

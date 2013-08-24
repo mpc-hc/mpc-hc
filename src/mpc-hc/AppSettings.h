@@ -440,7 +440,6 @@ public:
     bool            fUseDVDPath;
     CString         strDVDPath;
     LCID            idMenuLang, idAudioLang, idSubtitlesLang;
-    bool            fAutoSpeakerConf;
     bool            fClosedCaptions;
 
     // Output

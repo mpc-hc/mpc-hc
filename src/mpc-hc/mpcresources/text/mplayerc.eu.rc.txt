@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Gelditu iragazki grafika"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"""Ireki DVD/BD"" jokabidea"
 6		"Galdetu kokalekua"
 7		"Betik ireki berezko kokalekua:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Audioa"
 13		"Azpidatziak"
 15		"Ezarpen gehigarriak"
-16		"Berezgaitasunez ezarri hotsgorailu zenbatekoa ivideo AC3 dekodeatzailearentzat"
-18		"Ahalbidetu giro azpidatziak 'Line 21 Dekodeatzailean'"
+16		"Ahalbidetu giro azpidatziak 'Line 21 Dekodeatzailean'"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

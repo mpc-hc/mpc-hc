@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Zatrzymuj graf filtrów"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"Preferowana lokalizacja dla „Otwórz DVD/BD”"
 6		"Pytaj za każdym razem"
 7		"Zawsze otwieraj domyślną lokalizację:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Dźwięk"
 13		"Napisy"
 15		"Dodatkowe ustawienia"
-16		"Automatyczne ustawianie liczby głośników dla dekodera ivideo AC3"
-18		"Zezwalaj na napisy „closed captions” w dekoderze „Line 21”"
+16		"Zezwalaj na napisy „closed captions” w dekoderze „Line 21”"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Διακοπή γραφήματος φίλτρου"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"Συμπεριφορά του ""Άνοιγμα DVD/BD"""
 6		"Ερώτηση για τοποθεσία"
 7		"Άνοιγμα πάντα της προεπιλεγμένης τοποθεσίας:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Ήχος"
 13		"Υπότιτλοι"
 15		"Πρόσθετες ρυθμίσεις"
-16		"Αυτόματη ρύθμιση ηχείων, βάσει του αποκωδικοποιητή AC3 ivideo"
-18		"Να επιτρέπονται κλειστές λεζάντες στο «Line 21 Decoder»"
+16		"Να επιτρέπονται κλειστές λεζάντες στο «Line 21 Decoder»"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"停止滤镜图表"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"""打开 DVD/BD"" 行为"
 6		"提示位置"
 7		"总是打开默认的位置:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"音频"
 13		"字幕"
 15		"附加设置"
-16		"自动为 ivideo AC3 解码器设置扬声器"
-18		"允许 ""Line 21 解码器"" 中的隐藏式字幕"
+16		"允许 ""Line 21 解码器"" 中的隐藏式字幕"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"Stop filter graph"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"""Open DVD/BD"" behavior"
 6		"Prompt for location"
 7		"Always open the default location:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"Audio"
 13		"Sottotitoli"
 15		"Impostazioni aggiuntive"
-16		"Imposta automaticamente il numero degli speaker per il decoder AC3"
-18		"Consenti i sottotitoli nel 'Line 21 Decoder'"
+16		"Consenti i sottotitoli nel 'Line 21 Decoder'"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20

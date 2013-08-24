@@ -172,7 +172,7 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 28
 26		"フィルタ グラフを停止する"
 END
 
-BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
+BEGIN DIALOGEX IDD_PPAGEDVD LINES 18
 5		"""DVD/BD を開く"" の挙動"
 6		"場所を指示する"
 7		"常にデフォルトの場所を開く:"
@@ -181,8 +181,7 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 12		"音声"
 13		"字幕"
 15		"追加設定"
-16		"InterVideo 製 AC3 デコーダのためにスピーカーの数を自動設定する"
-18		"'Line 21 Decoder'でクローズド キャプションを許可する"
+16		"'Line 21 Decoder'でクローズド キャプションを許可する"
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20
