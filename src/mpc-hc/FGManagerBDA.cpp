@@ -847,7 +847,8 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
                 str = StreamTypeToName(pStreamInfo->PesType);
 
                 if (!pStreamInfo->Language.IsEmpty() && pStreamInfo->GetLCID() == 0) {
-                    str += _T(" [") + pStreamInfo->Language + _T("]");
+                    // Try to convert language code even if LCID was not found.
+                    str += _T(" [") + ISO6392ToLanguage(CStringA(pStreamInfo->Language)) + _T("]");
                 }
 
                 *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
