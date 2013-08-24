@@ -320,6 +320,7 @@ EXIT /B
 
 
 :SubCopyDXDll
+IF /I "%BUILDCFG%" == "Debug" EXIT /B
 PUSHD "%BIN_DIR%"
 EXPAND "%DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~1.cab" -F:D3DCompiler_43.dll mpc-hc_%~1 >NUL
 EXPAND "%DXSDK_DIR%\Redist\Jun2010_d3dx9_43_%~1.cab" -F:d3dx9_43.dll mpc-hc_%~1 >NUL
@@ -376,8 +377,13 @@ IF /I "%~2" == "Win32" (
 
 PUSHD "%BIN_DIR%"
 
+SET "VS_OUT_DIR=%~1_%ARCH%"
 SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%"
 IF DEFINED MPCHC_LITE (SET "PCKG_NAME=%PCKG_NAME%.Lite")
+IF /I "%BUILDCFG%" == "Debug" (
+	SET "PCKG_NAME=%PCKG_NAME%.dbg"
+	SET "VS_OUT_DIR=%VS_OUT_DIR%_Debug"
+)
 IF /I "%COMPILER%" == "VS2012" (SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%")
 
 IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
@@ -389,7 +395,7 @@ IF NOT DEFINED MPCHC_LITE (SET "PDB_FILES=%PDB_FILES% %LAVFILTERSDIR%\*.pdb")
 
 REM Compress the pdb file for mpc-hc only
 IF /I "%NAME%" == "MPC-HC" (
-  PUSHD "%~1_%ARCH%"
+  PUSHD "%VS_OUT_DIR%"
   TITLE Creating archive %PCKG_NAME%.pdb.7z...
   START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.pdb.7z" %PDB_FILES% -m0=LZMA -mx9 -ms=on
   IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.pdb.7z!" & EXIT /B
@@ -403,26 +409,28 @@ IF NOT EXIST "%PCKG_NAME%" MD "%PCKG_NAME%"
 
 IF /I "%NAME%" == "MPC-HC" (
   IF NOT DEFINED MPCHC_LITE (
-    IF NOT EXIST "%PCKG_NAME%\Lang"            MD "%PCKG_NAME%\Lang"
+    IF /I "%BUILDCFG%" NEQ "Debug" (
+      IF NOT EXIST "%PCKG_NAME%\Lang"          MD "%PCKG_NAME%\Lang"
+    )
     IF NOT EXIST "%PCKG_NAME%\%LAVFILTERSDIR%" MD "%PCKG_NAME%\%LAVFILTERSDIR%"
   )
   IF /I "%ARCH%" == "x64" (
-    COPY /Y /V "%~1_%ARCH%\mpc-hc64.exe" "%PCKG_NAME%\mpc-hc64.exe" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\mpc-hc64.exe" "%PCKG_NAME%\mpc-hc64.exe" >NUL
   ) ELSE (
-    COPY /Y /V "%~1_%ARCH%\mpc-hc.exe"   "%PCKG_NAME%\mpc-hc.exe" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\mpc-hc.exe"   "%PCKG_NAME%\mpc-hc.exe" >NUL
   )
-  COPY /Y /V "%~1_%ARCH%\mpciconlib.dll"               "%PCKG_NAME%\*.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\mpciconlib.dll"               "%PCKG_NAME%\*.dll" >NUL
   IF NOT DEFINED MPCHC_LITE (
-    COPY /Y /V "%~1_%ARCH%\Lang\mpcresources.??.dll"   "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
-    COPY /Y /V "%~1_%ARCH%\%LAVFILTERSDIR%\*.ax"       "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
-    COPY /Y /V "%~1_%ARCH%\%LAVFILTERSDIR%\*.dll"      "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
-    COPY /Y /V "%~1_%ARCH%\%LAVFILTERSDIR%\*.manifest" "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\Lang\mpcresources.??.dll"   "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.ax"       "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.dll"      "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.manifest" "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
   )
-  COPY /Y /V "%~1_%ARCH%\D3DCompiler_43.dll"           "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
-  COPY /Y /V "%~1_%ARCH%\d3dx9_43.dll"                 "%PCKG_NAME%\d3dx9_43.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\D3DCompiler_43.dll"           "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\d3dx9_43.dll"                 "%PCKG_NAME%\d3dx9_43.dll" >NUL
 ) ELSE (
-  COPY /Y /V "%~1_%ARCH%\*.ax"           "%PCKG_NAME%\*.ax" >NUL
-  COPY /Y /V "%~1_%ARCH%\VSFilter.dll"   "%PCKG_NAME%\VSFilter.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\*.ax"           "%PCKG_NAME%\*.ax" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\VSFilter.dll"   "%PCKG_NAME%\VSFilter.dll" >NUL
 )
 
 COPY /Y /V "..\COPYING.txt"         "%PCKG_NAME%" >NUL
