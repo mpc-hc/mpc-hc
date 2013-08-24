@@ -104,6 +104,8 @@ extern CStringW UTF8ToStringW(const char* S);
 extern CStringW LocalToStringW(const char* S);
 extern CString ISO6391ToLanguage(LPCSTR code);
 extern CString ISO6392ToLanguage(LPCSTR code);
+extern bool IsISO639Language(LPCSTR code);
+extern CString ISO639XToLanguage(LPCSTR code, bool bCheckForFullLangName = false);
 extern LCID ISO6391ToLcid(LPCSTR code);
 extern LCID ISO6392ToLcid(LPCSTR code);
 extern CString ISO6391To6392(LPCSTR code);
