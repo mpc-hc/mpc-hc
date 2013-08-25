@@ -414,6 +414,7 @@ void CPlayerSeekBar::RemoveChapters()
 BEGIN_MESSAGE_MAP(CPlayerSeekBar, CDialogBar)
     ON_WM_PAINT()
     ON_WM_LBUTTONDOWN()
+    ON_WM_LBUTTONDBLCLK()
     ON_WM_LBUTTONUP()
     ON_WM_MOUSEMOVE()
     ON_WM_ERASEBKGND()
@@ -512,6 +513,11 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
             pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
         }
     }
+}
+
+void CPlayerSeekBar::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+    OnLButtonDown(nFlags, point);
 }
 
 void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
