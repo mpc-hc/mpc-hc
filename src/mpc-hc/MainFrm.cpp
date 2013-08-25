@@ -4486,7 +4486,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
         return;
     }
 
-    if (sl.GetCount() == 1 && m_iMediaLoadState == MLS_LOADED && m_pCAP) {
+    if (sl.GetCount() == 1 && m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() != PM_CAPTURE && !m_fAudioOnly && m_pCAP) {
         CPath fn(sl.GetHead());
         ISubStream* pSubStream = nullptr;
 
@@ -5321,7 +5321,7 @@ void CMainFrame::OnFileLoadsubtitle()
 
 void CMainFrame::OnUpdateFileLoadsubtitle(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() != PM_CAPTURE && !m_fAudioOnly && m_pCAP);
 }
 
 void CMainFrame::OnFileSavesubtitle()
