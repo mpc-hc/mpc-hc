@@ -36,7 +36,6 @@ private:
     enum { TIMER_SHOWHIDE_TOOLTIP = 1, TIMER_HOVER_CAPTURED };
 
     REFERENCE_TIME m_rtStart, m_rtStop, m_rtPos;
-    REFERENCE_TIME m_rtPosReal;
     bool m_bEnabled;
     bool m_bHasDuration;
     REFERENCE_TIME m_rtHoverPos;
@@ -82,7 +81,6 @@ public:
     void GetRange(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) const;
     void SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
     REFERENCE_TIME GetPos() const;
-    REFERENCE_TIME GetPosReal() const;
     void SetPos(REFERENCE_TIME rtPos);
 
     void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);

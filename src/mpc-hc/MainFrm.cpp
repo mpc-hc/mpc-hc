@@ -1785,7 +1785,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             if (m_iMediaLoadState == MLS_LOADED) {
                 __int64 start, stop, pos;
                 m_wndSeekBar.GetRange(start, stop);
-                pos = m_wndSeekBar.GetPosReal();
+                pos = m_wndSeekBar.GetPos();
 
                 if (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing) {
                     CString str = ResStr(IDS_CAPTURE_LIVE);
@@ -5084,7 +5084,7 @@ CString CMainFrame::GetVidPos() const
     if ((GetPlaybackMode() == PM_FILE) || (GetPlaybackMode() == PM_DVD)) {
         __int64 start, stop, pos;
         m_wndSeekBar.GetRange(start, stop);
-        pos = m_wndSeekBar.GetPosReal();
+        pos = m_wndSeekBar.GetPos();
 
         DVD_HMSF_TIMECODE tcNow = RT2HMSF(pos);
         DVD_HMSF_TIMECODE tcDur = RT2HMSF(stop);
@@ -7226,7 +7226,7 @@ void CMainFrame::OnPlayStop()
             __int64 start, stop;
             m_wndSeekBar.GetRange(start, stop);
             if (GetPlaybackMode() != PM_CAPTURE) {
-                m_wndStatusBar.SetStatusTimer(m_wndSeekBar.GetPosReal(), stop, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
+                m_wndStatusBar.SetStatusTimer(m_wndSeekBar.GetPos(), stop, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
             }
 
             SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
@@ -14990,7 +14990,7 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName(const DVD_AudioAttributes& ATR) const
 afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 {
     if (!m_pSubStreams.IsEmpty() && GetPlaybackMode() != PM_CAPTURE) {
-        m_rtCurSubPos = m_wndSeekBar.GetPosReal();
+        m_rtCurSubPos = m_wndSeekBar.GetPos();
         m_lSubtitleShift = 0;
         m_nCurSubtitle = m_wndSubresyncBar.FindNearestSub(m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
         if (m_nCurSubtitle >= 0 && m_pMS) {

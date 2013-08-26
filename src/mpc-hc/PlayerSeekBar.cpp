@@ -34,7 +34,6 @@ CPlayerSeekBar::CPlayerSeekBar()
     : m_rtStart(0)
     , m_rtStop(0)
     , m_rtPos(0)
-    , m_rtPosReal(0)
     , m_bEnabled(false)
     , m_bHasDuration(false)
     , m_rtHoverPos(0)
@@ -135,12 +134,10 @@ REFERENCE_TIME CPlayerSeekBar::PositionFromClientPoint(const CPoint& point) cons
 void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
 {
     if (m_rtPos == rtPos) {
-        ASSERT(m_rtPos == m_rtPosReal);
         return;
     }
 
     m_rtPos = rtPos;
-    m_rtPosReal = rtPos;
 
     if (m_bHasDuration) {
         CRect newThumbRect(GetThumbRect());
@@ -380,11 +377,6 @@ void CPlayerSeekBar::SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 REFERENCE_TIME CPlayerSeekBar::GetPos() const
 {
     return m_rtPos;
-}
-
-REFERENCE_TIME CPlayerSeekBar::GetPosReal() const
-{
-    return m_rtPosReal;
 }
 
 void CPlayerSeekBar::SetPos(REFERENCE_TIME rtPos)
