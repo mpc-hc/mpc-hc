@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Los cambios tendrán efecto tras cerrar y reiniciar la reproducción."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Distancias de salto (corto, medio, largo en ms)"
 9		"Original"
 10		"Fast seek (on keyframe)"
-11		"Show chapter marks in seek bar"
-12		"Display ""Now Playing"" information in Skype's mood message"
-14		"Prevenir MINIMIZAR en pantalla completa al utilizar un monitor diferente al por defecto"
-16		"Utilizar características de la barra de tareas de Windows 7"
-17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-19		"Use time tooltip:"
-21		"Fuente OSD:"
-24		"Enable Logitech LCD support (experimental)"
+12		"Show chapter marks in seek bar"
+13		"Display ""Now Playing"" information in Skype's mood message"
+15		"Prevenir MINIMIZAR en pantalla completa al utilizar un monitor diferente al por defecto"
+17		"Utilizar características de la barra de tareas de Windows 7"
+18		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+20		"Use time tooltip:"
+22		"Fuente OSD:"
+25		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"There are no customized keys to export."
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"The settings have been successfully exported."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Some changes have not been saved yet.\nDo you want to save them before exporting?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"This type is already in the list!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVDs"
 STRING IDS_FAVFILES		"Archivos"
 STRING IDS_FAVORITES_ADD		"&Agregar a Favoritos..."

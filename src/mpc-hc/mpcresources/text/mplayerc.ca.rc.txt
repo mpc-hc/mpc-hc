@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Els canvis tindran efecte després de tencar i reiniciar la reproducció."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Intervals de salt (curt, mig, llarg en ms)"
 9		"Original"
 10		"Desplaçament Ràpid(al fotograma clau)"
-11		"Mostra la posició dels capítols dins de la barra de desplaçament"
-12		"Mostra el títol ""En reproducció"" en els missatges d'estat d'ànim del Skype"
-14		"Prevenir MINIMITZAR des de pantalla completa al monitor secundari"
-16		"Usar característiques de la barra de tasques del Win7"
-17		"Obrir el fitxer de la carpeta següent/anterior amb ""Skip back/forward"" quan només hi ha un element de llista de reproducció"
-19		"Usar la descripció emergent de temps:"
-21		"Estil del OSD:"
-24		"Activar suport LCD per teclat Logitech (experimental)"
+12		"Mostra la posició dels capítols dins de la barra de desplaçament"
+13		"Mostra el títol ""En reproducció"" en els missatges d'estat d'ànim del Skype"
+15		"Prevenir MINIMITZAR des de pantalla completa al monitor secundari"
+17		"Usar característiques de la barra de tasques del Win7"
+18		"Obrir el fitxer de la carpeta següent/anterior amb ""Skip back/forward"" quan només hi ha un element de llista de reproducció"
+20		"Usar la descripció emergent de temps:"
+22		"Estil del OSD:"
+25		"Activar suport LCD per teclat Logitech (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"No hi ha dreceres de teclat per exportar."
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Els ajustos s'han exportat amb èxit."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Alguns canvis no s'han desat encara.\nVoleu desar abans d'exportar?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Aquest tipus ja està a la llista!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVDs"
 STRING IDS_FAVFILES		"Arxius"
 STRING IDS_FAVORITES_ADD		"&Afegir a Favorits..."

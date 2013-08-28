@@ -394,7 +394,8 @@ BEGIN
     EDITTEXT        IDC_EDIT2,54,17,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_EDIT3,98,17,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     PUSHBUTTON      "Default",IDC_BUTTON1,150,17,54,14
-    CONTROL         "Fast seek (on keyframe)",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,42,286,8
+    CONTROL         "Fast seek (on keyframe)",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,42,162,8
+    COMBOBOX        IDC_COMBO4,169,40,89,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Show chapter marks in seek bar",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,54,286,8
     CONTROL         "Display ""Now Playing"" information in Skype's mood message",IDC_CHECK4,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,66,286,8
@@ -3229,6 +3230,12 @@ END
 STRINGTABLE
 BEGIN
     IDS_FILE_RECYCLE                    "Move to Recycle Bin"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_FASTSEEK_LATEST                 "Latest keyframe"
+    IDS_FASTSEEK_NEAREST                "Nearest keyframe"
 END
 
 #endif    // English (United States) resources

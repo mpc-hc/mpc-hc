@@ -358,7 +358,7 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
     m_llSeekPos = max(m_llSeekPos, m_llSeekMin);
     m_llSeekPos = min(m_llSeekPos, m_llSeekMax);
 
-    if (AfxGetAppSettings().fFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
+    if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
         m_llSeekPos = AfxGetMainFrame()->GetClosestKeyFrame(m_llSeekPos);
     }
 

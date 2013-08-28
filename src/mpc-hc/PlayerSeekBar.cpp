@@ -91,7 +91,7 @@ void CPlayerSeekBar::MoveThumb(const CPoint& point)
 {
     if (m_bHasDuration) {
         REFERENCE_TIME rtPos = PositionFromClientPoint(point);
-        if (AfxGetAppSettings().fFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
+        if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
             rtPos = AfxGetMainFrame()->GetClosestKeyFrame(rtPos);
         }
         SyncThumbToVideo(rtPos);

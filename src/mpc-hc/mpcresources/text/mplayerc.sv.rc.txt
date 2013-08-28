@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Ändringarna börjar gälla efter omstart av uppspelning."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Hoppavstånd (liten, medel, stor i ms)"
 9		"Standard"
 10		"Snabbsök (på nyckelbild)"
-11		"Visa kapitelmarkeringar i sökverktyget"
-12		"Skickar ""Vad jag lyssnar på"" information till Skypes humörmeddelande"
-14		"Förhindra att minimera spelaren när helskärmsläget är aktiverat på en sekundär bildskärm"
-16		"Använd Windows 7 aktivitetsfälts-funktioner"
-17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-19		"Använd tid verktygstips:"
-21		"OSD teckensnitt:"
-24		"Aktivera Logitech LCD stöd (experimentell)"
+12		"Visa kapitelmarkeringar i sökverktyget"
+13		"Skickar ""Vad jag lyssnar på"" information till Skypes humörmeddelande"
+15		"Förhindra att minimera spelaren när helskärmsläget är aktiverat på en sekundär bildskärm"
+17		"Använd Windows 7 aktivitetsfälts-funktioner"
+18		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+20		"Använd tid verktygstips:"
+22		"OSD teckensnitt:"
+25		"Aktivera Logitech LCD stöd (experimentell)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"There are no customized keys to export."
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"The settings have been successfully exported."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Some changes have not been saved yet.\nDo you want to save them before exporting?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"This type is already in the list!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVDs"
 STRING IDS_FAVFILES		"Filer"
 STRING IDS_FAVORITES_ADD		"&Lägg till Favorit..."

@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Modificările vor avea efect după ce redarea a fost oprită și repornită."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Intervale de sărire (mic, mediu, mare în ms)"
 9		"Implicit"
 10		"Căutare rapidă (la cadru cheie)"
-11		"Arată semne pentru capitole în bara de căutare"
-12		"Afişează informații ""Acum în redare"" în mesajul din Skype privind starea de spirit"
-14		"Împiedică minimizarea playerului din ecran complet pe un monitor care nu este implicit"
-16		"Folosește facilitățile barei de activități Windows 7"
-17		"Deschide următorul/precedentul fişier din dosar la comenzile ""Sari înapoi/înainte"" când este un singur element în lista de redare"
-19		"Folosește indiciu de timp:"
-21		"Fontul OSD:"
-24		"Activează suportul LCD pentru tastaturi Logitech (experimental)"
+12		"Arată semne pentru capitole în bara de căutare"
+13		"Afişează informații ""Acum în redare"" în mesajul din Skype privind starea de spirit"
+15		"Împiedică minimizarea playerului din ecran complet pe un monitor care nu este implicit"
+17		"Folosește facilitățile barei de activități Windows 7"
+18		"Deschide următorul/precedentul fişier din dosar la comenzile ""Sari înapoi/înainte"" când este un singur element în lista de redare"
+20		"Folosește indiciu de timp:"
+22		"Fontul OSD:"
+25		"Activează suportul LCD pentru tastaturi Logitech (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"Nu există taste rapide (scurtături) pentr
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Setările au fost exportate cu succes."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Unele modificări nu au fost încă salvate.\nDoriți să le salvați înainte de exportare?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Acest tip se află deja în listă!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD-uri"
 STRING IDS_FAVFILES		"Fișiere"
 STRING IDS_FAVORITES_ADD		"&Adăugare la favorite..."

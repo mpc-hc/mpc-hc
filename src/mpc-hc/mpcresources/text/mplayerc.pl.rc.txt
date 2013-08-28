@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Zmiany zostaną wprowadzone po ponownym uruchomieniu odtwarzania."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Odstępy przejść (mały, średni, duży w ms)"
 9		"Domyślne"
 10		"Szybkie przewijanie (na klatkę kluczową)"
-11		"Pokazuj znaczniki rozdziałów na pasku postępu"
-12		"Wyświetlaj informację o aktualnie odtwarzanym pliku w statusie Skype"
-14		"Zapobiegaj minimalizacji w trybie pełnoekranowym na dodatkowych wyświetlaczach"
-16		"Korzystaj z możliwości paska zadań systemu Windows 7"
-17		"Otwieraj kolejne pliki w folderze podczas nawigacji, gdy na liście odtwarzania znajduje się tylko jeden element."
-19		"Używaj dymka z czasem:"
-21		"Czcionka OSD:"
-24		"Włącz obsługę wyświetlacza LCD Logitech (eksperymentalna)"
+12		"Pokazuj znaczniki rozdziałów na pasku postępu"
+13		"Wyświetlaj informację o aktualnie odtwarzanym pliku w statusie Skype"
+15		"Zapobiegaj minimalizacji w trybie pełnoekranowym na dodatkowych wyświetlaczach"
+17		"Korzystaj z możliwości paska zadań systemu Windows 7"
+18		"Otwieraj kolejne pliki w folderze podczas nawigacji, gdy na liście odtwarzania znajduje się tylko jeden element."
+20		"Używaj dymka z czasem:"
+22		"Czcionka OSD:"
+25		"Włącz obsługę wyświetlacza LCD Logitech (eksperymentalna)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1373,6 +1373,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"Brak niestandardowych ustawień klawiszy do
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Ustawienia zostały pomyślnie wyeksportowane."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Niektóre ustawienia nie zostały jeszcze zapisane.\nChcesz zapisać te ustawienia przed eksportowaniem?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Ten typ znajduje się na liście!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"Płyty DVD"
 STRING IDS_FAVFILES		"Pliki"
 STRING IDS_FAVORITES_ADD		"&Dodaj..."

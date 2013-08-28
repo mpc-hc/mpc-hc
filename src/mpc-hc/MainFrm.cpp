@@ -7422,7 +7422,7 @@ void CMainFrame::OnPlaySeek(UINT nID)
     const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
     rtSeekTo += rtPos;
 
-    if (s.fFastSeek) {
+    if (s.bFastSeek) {
         // seek to the closest keyframe, but never in the opposite direction
         rtSeekTo = GetClosestKeyFrame(rtSeekTo);
         if ((bSeekingForward && rtSeekTo <= rtPos) ||
@@ -13923,12 +13923,15 @@ bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REF
 
 REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget) const
 {
-    REFERENCE_TIME ret;
+    REFERENCE_TIME ret = rtTarget;
     std::pair<REFERENCE_TIME, REFERENCE_TIME> keyframes;
     if (GetNeighbouringKeyFrames(rtTarget, keyframes)) {
-        ret = keyframes.first;
-    } else {
-        ret = rtTarget;
+        const auto& s = AfxGetAppSettings();
+        if (s.eFastSeekMethod == s.FASTSEEK_NEAREST_KEYFRAME) {
+            ret = (rtTarget - keyframes.first < keyframes.second - rtTarget) ? keyframes.first : keyframes.second;
+        } else {
+            ret = keyframes.first;
+        }
     }
     return ret;
 }

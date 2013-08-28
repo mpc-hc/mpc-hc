@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Aldaketek eragina dute irakurketa itxi eta berrabiarazi ondoren."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Jauzi hurruntasunak (txikia, ertaina, luzea sm-tan)"
 9		"Berezkoa"
 10		"Bilaketa azkarra (giltza-framean)"
-11		"Erakutsi atal markak bilaketa barran"
-12		"Erakutsi ""Orain Irakurtzen"" argibidea Skype-ren modu mezuan"
-14		"Saihestu TXIKIENTZEA Ikusleiho-osoa berezko monitorea ez denean"
-16		"Erabili Windows 7 Eginkizun-barra ezaugarriak"
-17		"Ireki agiritegiko hurrengo/aurreko agiria 'Jauzi atzera/aurrera' irakur-zerrendan gai bakarra dagoenean"
-19		"Denbora tresnaburua:"
-21		"IGE hizkia:"
-24		"Gaitu Logitech LCD sostengua (esperimentala)"
+12		"Erakutsi atal markak bilaketa barran"
+13		"Erakutsi ""Orain Irakurtzen"" argibidea Skype-ren modu mezuan"
+15		"Saihestu TXIKIENTZEA Ikusleiho-osoa berezko monitorea ez denean"
+17		"Erabili Windows 7 Eginkizun-barra ezaugarriak"
+18		"Ireki agiritegiko hurrengo/aurreko agiria 'Jauzi atzera/aurrera' irakur-zerrendan gai bakarra dagoenean"
+20		"Denbora tresnaburua:"
+22		"IGE hizkia:"
+25		"Gaitu Logitech LCD sostengua (esperimentala)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"Ez dago norbere giltzarik esportatzeko."
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Ezarpenak ongi esportatu dira."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Aldaketa batzuk oraindik ez daude gordeta.\nGordetzea nahi dituzu esportatu aurretik?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Mota hau jadanik zerrendan dago!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD-ak"
 STRING IDS_FAVFILES		"Agiriak"
 STRING IDS_FAVORITES_ADD		"&Gehitu Gogokoenetara..."

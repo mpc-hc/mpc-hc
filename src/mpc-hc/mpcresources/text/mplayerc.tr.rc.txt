@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Değişiklikler, yürütme kapatıldıktan ve uygulama yeniden başlatıldıktan sonra uygulanacaktır."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Atlama uzaklıkları (ms olarak az, orta, çok)"
 9		"Varsayılan"
 10		"Hızlı oynatma (çerçeve içinde)"
-11		"Bölüm izlerini oynatma çubuğunda göster"
-12		"Skype durumum kısmında ""Oynatılıyor"" bilgisini göster"
-14		"Varsayılan monitör dışında tam ekranda iken küçültmeye izin verme"
-16		"Windows 7 görev çubuğu özelliklerini kullan"
-17		"Oynatma listesinde tek nesne varken ""Geri/ileri git"" tuşuyla önceki/sonraki dosyayı aç"
-19		"Süre gösterim yerleşimi:"
-21		"OSD yazı tipi:"
-24		"Logitech LCD desteğini kullan (önerilmez)"
+12		"Bölüm izlerini oynatma çubuğunda göster"
+13		"Skype durumum kısmında ""Oynatılıyor"" bilgisini göster"
+15		"Varsayılan monitör dışında tam ekranda iken küçültmeye izin verme"
+17		"Windows 7 görev çubuğu özelliklerini kullan"
+18		"Oynatma listesinde tek nesne varken ""Geri/ileri git"" tuşuyla önceki/sonraki dosyayı aç"
+20		"Süre gösterim yerleşimi:"
+22		"OSD yazı tipi:"
+25		"Logitech LCD desteğini kullan (önerilmez)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"Dışarı aktarılacak bir tuş özelleşti
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Ayarlar başarıyla dışarı verildi."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Bazı ayarlar kaydedilmemiş.\nDışarı aktarmadan önce kaydetmek istiyor musunuz?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Bu biçim zaten listede mevcut!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD"
 STRING IDS_FAVFILES		"Dosya"
 STRING IDS_FAVORITES_ADD		"&Sık Kullanılanlara Ekle..."

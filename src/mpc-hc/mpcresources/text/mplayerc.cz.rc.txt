@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Změny se projeví až po zastavení a opětovném spuštění přehrávání."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Velikosti skoků  [malý | střední | velký]  (ms)"
 9		"Výchozí"
 10		"Rychlé procházení (po klíčových snímcích)"
-11		"V panelu procházení zobrazit značky kapitol"
-12		"Zobrazit informace o přehrávaných souborech jako zprávu o náladě ve Skype"
-14		"Zabránit minimalizaci z Fullscreen při běhu na nevýchozím monitoru"
-16		"Aktivovat funkce pro panel úloh Windows 7"
-17		"Pokud je v playlistu jen jen jedna položka, otevřít pomocí příkazů 'Skočit zpět/vpřed' předchozí/následující soubor v adresáři"
-19		"Zobrazit v popisku čas:"
-21		"Písmo pro OSD:"
-24		"Povolit podporu pro Logitech LCD (experimentální)"
+12		"V panelu procházení zobrazit značky kapitol"
+13		"Zobrazit informace o přehrávaných souborech jako zprávu o náladě ve Skype"
+15		"Zabránit minimalizaci z Fullscreen při běhu na nevýchozím monitoru"
+17		"Aktivovat funkce pro panel úloh Windows 7"
+18		"Pokud je v playlistu jen jen jedna položka, otevřít pomocí příkazů 'Skočit zpět/vpřed' předchozí/následující soubor v adresáři"
+20		"Zobrazit v popisku čas:"
+22		"Písmo pro OSD:"
+25		"Povolit podporu pro Logitech LCD (experimentální)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"Používáte výchozí nastavení klávesov
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Nastavení bylo úspěšně exportováno."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Některé změny nastavení nebyly dosud uloženy.\nChcete je před exportováním uložit?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Tento typ je již v seznamu uveden!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD"
 STRING IDS_FAVFILES		"Soubory"
 STRING IDS_FAVORITES_ADD		"&Přidat k oblíbeným..."

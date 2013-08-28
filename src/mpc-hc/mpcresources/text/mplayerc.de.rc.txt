@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Änderungen werden erst nach Neustart der Wiedergabe wirksam."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Sprungintervalle (klein, mittel, groß in ms)"
 9		"&Standard"
 10		"Schnellen Suchlauf verwenden (mittels Keyframes)"
-11		"Zeitleiste mit Kapitelmarken anzeigen"
-12		"Aktuelle Wiedergabeinformation als persönliche Skype-Nachricht ausgeben"
-14		"Minimieren des Fensters auf sekundärem Anzeigegerät bei Vollbild verhindern"
-16		"Windows-Taskbarfunktionen verwenden (ab Windows 7)"
-17		"Nächste Datei im Ordner bei nur einer Datei in der Wiedergabeliste durch\n""Vorwärts/Rückwärts springen"" öffnen"
-19		"Zeit-Tooltip verwenden:"
-21		"OSD-Schrift:"
-24		"LCD-Unterstützung für Logitech-Tastaturen aktivieren (experimentell)"
+12		"Zeitleiste mit Kapitelmarken anzeigen"
+13		"Aktuelle Wiedergabeinformation als persönliche Skype-Nachricht ausgeben"
+15		"Minimieren des Fensters auf sekundärem Anzeigegerät bei Vollbild verhindern"
+17		"Windows-Taskbarfunktionen verwenden (ab Windows 7)"
+18		"Nächste Datei im Ordner bei nur einer Datei in der Wiedergabeliste durch\n""Vorwärts/Rückwärts springen"" öffnen"
+20		"Zeit-Tooltip verwenden:"
+22		"OSD-Schrift:"
+25		"LCD-Unterstützung für Logitech-Tastaturen aktivieren (experimentell)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1373,6 +1373,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"Für den Export liegen keine benutzerdefini
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Die Einstellungen wurden erfolgreich exportiert."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Einige Einstellungen des MPC-HC sind noch nicht übernommen worden.\n\nSollen die aktuellen Einstellungen trotzdem gesichert werden?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Dieser Typ ist bereits in der Liste!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVDs"
 STRING IDS_FAVFILES		"Sonstige"
 STRING IDS_FAVORITES_ADD		"Zu Favoriten &hinzufügen..."

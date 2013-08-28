@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"현재 파일을 닫고 다시 시작해야만 설정이 적용됩니다."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"이동 간격 (최소/중간/최대 간격을 밀리초 단위로 입력)"
 9		"기본값"
 10		"빠른 탐색 (키프레임)"
-11		"Show chapter marks in seek bar"
-12		"Display ""Now Playing"" information in Skype's mood message"
-14		"전체화면시 최소화 예방 (기본 모니터가 없을시)"
-16		"Windows 7 작업표시줄기능 사용(작업표시줄에서 컨트롤가능)"
-17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-19		"시간 툴팁 사용:"
-21		"OSD 글꼴:"
-24		"Enable Logitech LCD support (experimental)"
+12		"Show chapter marks in seek bar"
+13		"Display ""Now Playing"" information in Skype's mood message"
+15		"전체화면시 최소화 예방 (기본 모니터가 없을시)"
+17		"Windows 7 작업표시줄기능 사용(작업표시줄에서 컨트롤가능)"
+18		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+20		"시간 툴팁 사용:"
+22		"OSD 글꼴:"
+25		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"There are no customized keys to export."
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"설정들이 정상적으로 내보내기되었습니다."
 STRING IDS_EXPORT_SETTINGS_WARNING		"몇몇 변경사항이 아직 저장되지 않았습니다.\n내보내기를 하기전에 변경사항들을 저장하시겠습니까?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"이 형식은 이미 리스트에 있습니다!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD"
 STRING IDS_FAVFILES		"파일"
 STRING IDS_FAVORITES_ADD		"즐겨찾기에 추가(&A)..."

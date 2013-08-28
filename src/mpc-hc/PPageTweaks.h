@@ -48,6 +48,7 @@ public:
     CComboBox m_TimeTooltipPosition;
     CComboBox m_FontSize;
     CComboBox m_FontType;
+    CComboBox m_FastSeekMethod;
     int m_nOSDSize;
     CString m_strOSDFont;
 
@@ -65,7 +66,7 @@ protected:
 
 public:
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
-    afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateFastSeek(CCmdUI* pCmdUI);
     afx_msg void OnBnClickedButton1();
     afx_msg void OnUseTimeTooltipClicked();
     afx_msg void OnChngOSDCombo();

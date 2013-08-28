@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Les changements prennent effet après que la lecture soit arrêtée et redémarrée."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Intervalles de saut (petit, moyen, grand en ms)"
 9		"Par défaut"
 10		"Déplacement rapide (à l'image clé)"
-11		"Afficher la position des chapitres dans la barre de déplacement"
-12		"Afficher le titre joué actuellement dans les messages d'humeur de Skype"
-14		"Ne pas réduire MPC-HC en mode plein écran sur le moniteur secondaire"
-16		"Utilisation des fonctionnalitées de la barre de tâche Windows 7"
-17		"Ouvrir le fichier suivant/précédent dans le dossier lorsque ""Fichier suivant/précédent"" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
-19		"Utiliser l'infobulle temporelle :"
-21		"Police OSD :"
-24		"Activer le support LCD pour les claviers Logitech (expérimental)"
+12		"Afficher la position des chapitres dans la barre de déplacement"
+13		"Afficher le titre joué actuellement dans les messages d'humeur de Skype"
+15		"Ne pas réduire MPC-HC en mode plein écran sur le moniteur secondaire"
+17		"Utilisation des fonctionnalitées de la barre de tâche Windows 7"
+18		"Ouvrir le fichier suivant/précédent dans le dossier lorsque ""Fichier suivant/précédent"" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
+20		"Utiliser l'infobulle temporelle :"
+22		"Police OSD :"
+25		"Activer le support LCD pour les claviers Logitech (expérimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"Il n'y a aucun raccourci clavier à exporte
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Les paramètres ont été exportés avec succès."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Certains changements n'ont pas encore été sauvegardés.\nSouhaitez-vous les appliquer avant d'exporter ?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Ce type est déjà présent dans la liste !"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVDs"
 STRING IDS_FAVFILES		"Fichiers"
 STRING IDS_FAVORITES_ADD		"&Ajouter aux favoris..."

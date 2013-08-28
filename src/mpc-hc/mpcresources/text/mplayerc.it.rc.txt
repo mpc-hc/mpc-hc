@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Le modifiche saranno effettive dopo un riavvio della riproduzione."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Intervalli di salto (piccolo, medio, grande in ms)"
 9		"Default"
 10		"Ricerca veloce (sui keyframe)"
-11		"Show chapter marks in seek bar"
-12		"Display ""Now Playing"" information in Skype's mood message"
-14		"Disattiva minimizzazione con schermo intero su schermo non predefinito"
-16		"Utilizza le caratteristiche della Taskbar di Windows 7"
-17		"Apri il file precedente/successivo nella cartella con ""Salta indietro/avanti"" quando la playlist contiene un solo elemento"
-19		"Visualizza tempo:"
-21		"Carattere OSD:"
-24		"Abilita supporto Logitech LCD (sperimentale)"
+12		"Show chapter marks in seek bar"
+13		"Display ""Now Playing"" information in Skype's mood message"
+15		"Disattiva minimizzazione con schermo intero su schermo non predefinito"
+17		"Utilizza le caratteristiche della Taskbar di Windows 7"
+18		"Apri il file precedente/successivo nella cartella con ""Salta indietro/avanti"" quando la playlist contiene un solo elemento"
+20		"Visualizza tempo:"
+22		"Carattere OSD:"
+25		"Abilita supporto Logitech LCD (sperimentale)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"There are no customized keys to export."
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Le impostazioni sono state esportate con successo."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Alcune modifiche non sono ancora state salvate.\nVuoi salvarle prima di procedere con l'esportazione?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Questo tipo è già nella lista!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD"
 STRING IDS_FAVFILES		"File"
 STRING IDS_FAVORITES_ADD		"&Aggiungi a preferiti..."

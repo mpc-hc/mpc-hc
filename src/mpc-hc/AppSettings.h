@@ -522,7 +522,8 @@ public:
     int             nJumpDistS;
     int             nJumpDistM;
     int             nJumpDistL;
-    bool            fFastSeek;
+    bool            bFastSeek;
+    enum { FASTSEEK_LATEST_KEYFRAME, FASTSEEK_NEAREST_KEYFRAME } eFastSeekMethod;
     bool            fShowChapters;
     bool            bNotifySkype;
     bool            fPreventMinimize;

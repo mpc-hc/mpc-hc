@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"ファイルを開き直すと変更が有効になります。"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"ジャンプ間隔 (小、中、大 : ms単位)"
 9		"デフォルト"
 10		"高速 シーク(キーフレームに)"
-11		"シークバーにチャプターマークを表示する"
-12		"現在再生中のファイル情報を Skype ムード メッセージに表示する"
-14		"デフォルト モニタ以外でフルスクリーン表示しているときは最小化しない"
-16		"Windows 7 のタスクバーを使う"
-17		"1つのアイテムだけがプレイリストに残っていない場合に""前へ/次へ""でフォルダ内の前/次のファイルを開く"
-19		"時間ツールチップを使う:"
-21		"OSD フォント:"
-24		"Logitech LCD のサポートを有効 (実験的)"
+12		"シークバーにチャプターマークを表示する"
+13		"現在再生中のファイル情報を Skype ムード メッセージに表示する"
+15		"デフォルト モニタ以外でフルスクリーン表示しているときは最小化しない"
+17		"Windows 7 のタスクバーを使う"
+18		"1つのアイテムだけがプレイリストに残っていない場合に""前へ/次へ""でフォルダ内の前/次のファイルを開く"
+20		"時間ツールチップを使う:"
+22		"OSD フォント:"
+25		"Logitech LCD のサポートを有効 (実験的)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"エクスポートするためのカスタ�
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"設定が正常にエクスポートされています。"
 STRING IDS_EXPORT_SETTINGS_WARNING		"いくつかの変更がまだ保存されていません。\nエクスポートする前にそれらを保存しますか？"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"このタイプは既にリストに存在します！"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD"
 STRING IDS_FAVFILES		"ファイル"
 STRING IDS_FAVORITES_ADD		"お気に入りに追加(&A)..."

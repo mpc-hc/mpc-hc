@@ -64,6 +64,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO3, m_TimeTooltipPosition);
     DDX_Control(pDX, IDC_COMBO1, m_FontType);
     DDX_Control(pDX, IDC_COMBO2, m_FontSize);
+    DDX_Control(pDX, IDC_COMBO4, m_FastSeekMethod);
     DDX_Check(pDX, IDC_CHECK1, m_fFastSeek);
     DDX_Check(pDX, IDC_CHECK2, m_fShowChapters);
     DDX_Check(pDX, IDC_CHECK_LCD, m_fLCDSupport);
@@ -109,7 +110,11 @@ BOOL CPPageTweaks::OnInitDialog()
     m_nOSDSize = s.nOSDSize;
     m_strOSDFont = s.strOSDFont;
 
-    m_fFastSeek = s.fFastSeek;
+    m_fFastSeek = s.bFastSeek;
+    m_FastSeekMethod.AddString(ResStr(IDS_FASTSEEK_LATEST));
+    m_FastSeekMethod.AddString(ResStr(IDS_FASTSEEK_NEAREST));
+    m_FastSeekMethod.SetCurSel(s.eFastSeekMethod);
+
     m_fShowChapters = s.fShowChapters;
 
     m_fLCDSupport = s.fLCDSupport;
@@ -170,7 +175,9 @@ BOOL CPPageTweaks::OnApply()
     s.nOSDSize = m_nOSDSize;
     m_FontType.GetLBText(m_FontType.GetCurSel(), s.strOSDFont);
 
-    s.fFastSeek = !!m_fFastSeek;
+    s.bFastSeek = !!m_fFastSeek;
+    s.eFastSeekMethod = static_cast<decltype(s.eFastSeekMethod)>(m_FastSeekMethod.GetCurSel());
+
     s.fShowChapters = !!m_fShowChapters;
 
     s.fLCDSupport = !!m_fLCDSupport;
@@ -188,7 +195,7 @@ BOOL CPPageTweaks::OnApply()
 }
 
 BEGIN_MESSAGE_MAP(CPPageTweaks, CPPageBase)
-    ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateCheck3)
+    ON_UPDATE_COMMAND_UI(IDC_COMBO4, OnUpdateFastSeek)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
     ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)
     ON_CBN_SELCHANGE(IDC_COMBO1, OnChngOSDCombo)
@@ -199,8 +206,9 @@ END_MESSAGE_MAP()
 
 // CPPageTweaks message handlers
 
-void CPPageTweaks::OnUpdateCheck3(CCmdUI* pCmdUI)
+void CPPageTweaks::OnUpdateFastSeek(CCmdUI* pCmdUI)
 {
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK1));
 }
 
 void CPPageTweaks::OnBnClickedButton1()

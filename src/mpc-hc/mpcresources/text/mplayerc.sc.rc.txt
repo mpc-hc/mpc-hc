@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"更改将在播放被关闭并重新启动后生效。"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"步进距离 (小, 中, 大每毫秒)"
 9		"默认"
 10		"快速搜索 (以关键帧)"
-11		"在进度栏显示章节标志"
-12		"在 Skype 的心情消息中显示 ""现在正在播放"" 的信息"
-14		"在非默认显示器上全屏时防止播放器被最小化"
-16		"使用 Windows 7 任务栏功能"
-17		"在播放列表中仅有一个项目时使用 ""向前/后跳转"" 后打开文件中的下一个/上一个文件"
-19		"使用时间工具提示:"
-21		"OSD 字体:"
-24		"开启罗技LCD支持 (实验性)"
+12		"在进度栏显示章节标志"
+13		"在 Skype 的心情消息中显示 ""现在正在播放"" 的信息"
+15		"在非默认显示器上全屏时防止播放器被最小化"
+17		"使用 Windows 7 任务栏功能"
+18		"在播放列表中仅有一个项目时使用 ""向前/后跳转"" 后打开文件中的下一个/上一个文件"
+20		"使用时间工具提示:"
+22		"OSD 字体:"
+25		"开启罗技LCD支持 (实验性)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"没有自定义键可以导出。"
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"已经成功导出设置。"
 STRING IDS_EXPORT_SETTINGS_WARNING		"尚未保存一些设置。\n您要在导出之前保存它们吗？"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"在列表中已经存在此类型！"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD"
 STRING IDS_FAVFILES		"文件"
 STRING IDS_FAVORITES_ADD		"添加到收藏夹(&A)..."

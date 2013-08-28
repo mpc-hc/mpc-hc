@@ -1435,6 +1435,8 @@
 #define IDS_CONTENT_LEISURE             57366
 #define IDS_FILE_RECYCLE                57367
 #define IDS_AG_SAVE_COPY                57368
+#define IDS_FASTSEEK_LATEST             57369
+#define IDS_FASTSEEK_NEAREST            57370
 
 // Next default values for new objects
 // 

@@ -422,18 +422,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Змены ўступяць у моц пасля перазагрузкі відэа."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 5		"Адлегласці пераходу (кароткая, сярэдняя, доўгая) у мс"
 9		"Стандартна"
 10		"Хуткая перамотка (па ключавых кадрах)"
-11		"Show chapter marks in seek bar"
-12		"Display ""Now Playing"" information in Skype's mood message"
-14		"Не згортваць акно на дадатковым дысплеі ў поўнаэкранным рэжыме"
-16		"Выкарыстоўваць магчымасці таскбара Windows 7"
-17		"Адкрыць наступны/папярэднi файл у папцы пры нацiску папярэднi/наступны, калi у плэйлiсце адзiн файл"
-19		"Паказваць час:"
-21		"OSD  Шрыфт"
-24		"Укл падтрымку Logitech LCD (эксперыментальна)"
+12		"Show chapter marks in seek bar"
+13		"Display ""Now Playing"" information in Skype's mood message"
+15		"Не згортваць акно на дадатковым дысплеі ў поўнаэкранным рэжыме"
+17		"Выкарыстоўваць магчымасці таскбара Windows 7"
+18		"Адкрыць наступны/папярэднi файл у папцы пры нацiску папярэднi/наступны, калi у плэйлiсце адзiн файл"
+20		"Паказваць час:"
+22		"OSD  Шрыфт"
+25		"Укл падтрымку Logitech LCD (эксперыментальна)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1374,6 +1374,8 @@ STRING IDS_EXPORT_SETTINGS_NO_KEYS		"There are no customized keys to export."
 STRING IDS_EXPORT_SETTINGS_SUCCESS		"Налады паспяхова экспартаваны."
 STRING IDS_EXPORT_SETTINGS_WARNING		"Некаторыя змены не захаваны.\nЦі жадаеце захаваць іх перад экспартам?"
 STRING IDS_EXTERNAL_FILTERS_ERROR_MT		"Гэты тып ужо ёсць у спісе!"
+STRING IDS_FASTSEEK_LATEST		"Latest keyframe"
+STRING IDS_FASTSEEK_NEAREST		"Nearest keyframe"
 STRING IDS_FAVDVDS		"DVD"
 STRING IDS_FAVFILES		"Файлы"
 STRING IDS_FAVORITES_ADD		"&Дадаць..."
