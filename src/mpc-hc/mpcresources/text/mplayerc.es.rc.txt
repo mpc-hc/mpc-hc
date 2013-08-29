@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"Extensiones de archivo"
 8		"Original"
 9		"Fijar"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"&Set default programs"
 12		"Asociación"
 13		"&Video"

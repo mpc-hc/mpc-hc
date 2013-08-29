@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"Dateierweiterungen"
 8		"&Standard"
 9		"&Übernehmen"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"Standard-Programme festlegen"
 12		"Dateiverknüpfungen"
 13		"&Video"

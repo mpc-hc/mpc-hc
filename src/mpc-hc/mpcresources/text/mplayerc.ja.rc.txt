@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"拡張子"
 8		"デフォルト"
 9		"設定"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"デフォルト プログラムを設定する(&S)"
 12		"関連付け"
 13		"動画(&V)"

@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"Пашырэнні файлаў"
 8		"Стандартна"
 9		"Усталяваць"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"&Set default programs"
 12		"Асацыяцыі"
 13		"&Відэа"

@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"Dosya uzantıları"
 8		"Varsayılan"
 9		"Ayarla"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"&Varsayılan uygulamaları seç"
 12		"İlişkilendirme"
 13		"&Video"

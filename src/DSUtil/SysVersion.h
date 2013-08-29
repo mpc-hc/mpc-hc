@@ -45,6 +45,7 @@ public:
     static bool Is7() { return (version == 0x0601); }
     static bool Is7OrLater() { return (version >= 0x0601); }
     static bool Is8() { return (version == 0x0602); }
+    static bool Is8OrLater() { return (version >= 0x0602); }
 
     static bool Is64Bit() { return is64Bit; }
 };

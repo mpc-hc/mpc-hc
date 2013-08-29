@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"Koncovky súborov"
 8		"Predvol."
 9		"Nastaviť"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"&Nastaviť predvolený program"
 12		"Asociácia"
 13		"&Video"

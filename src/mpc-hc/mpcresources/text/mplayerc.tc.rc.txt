@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"副檔名"
 8		"預設值"
 9		"設定"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"設定預設程式(&S)"
 12		"檔案關聯"
 13		"視訊(&V)"

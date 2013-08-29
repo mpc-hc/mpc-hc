@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"Extensii fișiere"
 8		"Implicit"
 9		"Definește"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"&Setează programele implicite"
 12		"Asociere"
 13		"&Video"

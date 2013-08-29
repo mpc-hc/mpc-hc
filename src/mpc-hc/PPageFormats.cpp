@@ -232,7 +232,7 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_BUTTON5)->ShowWindow(SW_HIDE);
     }
 
-    if (SysVersion::Is8()) {
+    if (SysVersion::Is8OrLater()) {
         CRect r;
         GetDlgItem(IDC_STATIC2)->GetWindowRect(r);
         ScreenToClient(r);

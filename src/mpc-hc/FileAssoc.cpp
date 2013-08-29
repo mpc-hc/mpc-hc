@@ -190,7 +190,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
 
     if (!bRegister) {
         // On Windows 8, an app can't set itself as the default handler for a format
-        if (!SysVersion::Is8() && bRegister != IsRegistered(ext)) {
+        if (!SysVersion::Is8OrLater() && bRegister != IsRegistered(ext)) {
             SetFileAssociation(ext, strProgID, bRegister);
         }
 
@@ -279,7 +279,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
         }
 
         // On Windows 8, an app can't set itself as the default handler for a format
-        if (!SysVersion::Is8() && bRegister != IsRegistered(ext)) {
+        if (!SysVersion::Is8OrLater() && bRegister != IsRegistered(ext)) {
             SetFileAssociation(ext, strProgID, bRegister);
         }
 
@@ -420,7 +420,7 @@ bool CFileAssoc::IsRegistered(CString ext)
         m_pAAR = CFileAssoc::CreateRegistrationManager();
     }
 
-    if (SysVersion::Is8()) {
+    if (SysVersion::Is8OrLater()) {
         // The Eight way
         bIsDefault = TRUE; // Check only if MPC-HC is registered as able to handle that format, not if it's the default.
     } else if (m_pAAR) {

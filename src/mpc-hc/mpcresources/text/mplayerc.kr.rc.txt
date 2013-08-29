@@ -202,7 +202,7 @@ BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"파일 형식"
 8		"기본값"
 9		"설정"
-10		"Windows 8"
+10		"Windows 8 or later"
 11		"&Set default programs"
 12		"연결"
 13		"비디오(&V)"
