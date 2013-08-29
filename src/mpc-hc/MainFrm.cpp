@@ -10071,11 +10071,6 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
             //else MODE_HIDEMENU
         }
 
-        if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && !m_fFullScreen && !m_wndNavigationBar.IsVisible()) {
-            CSize r3 = m_wndNavigationBar.CalcFixedLayout(FALSE, TRUE);
-            w += r3.cx;
-        }
-
         w = max(w, mmi.ptMinTrackSize.x);
         h = max(h, mmi.ptMinTrackSize.y);
     } else {
@@ -14398,14 +14393,9 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         return false;
     }
 
-    OAFilterState __fs = GetMediaState();
-    REFERENCE_TIME __rt = 0;
+    OAFilterState fs = GetMediaState();
 
-    if (m_iMediaLoadState == MLS_LOADED) {
-        __rt = GetPos();
-    }
-
-    if (__fs != State_Stopped) {
+    if (fs != State_Stopped) {
         SendMessage(WM_COMMAND, ID_PLAY_STOP);
     }
 
@@ -14462,25 +14452,48 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         }
 
         if (fVidPrev) {
-            m_pCAP = nullptr;
-            m_pCAP2 = nullptr;
-            m_pVMRWC = nullptr;
-            m_pVMRMC = nullptr;
-            m_pMFVDC = nullptr;
+            CComPtr<IVMRMixerBitmap9>    pVMB;
+            CComPtr<IMFVideoMixerBitmap> pMFVMB;
+            CComPtr<IMadVRTextOsd>       pMVTO;
+
+            m_OSD.Stop();
+            m_pCAP2.Release();
+            m_pCAP.Release();
+            m_pVMRWC.Release();
+            m_pVMRMC.Release();
+            m_pMFVP.Release();
+            m_pMFVDC.Release();
+            m_pQP.Release();
+
             m_pGB->Render(pVidPrevPin);
 
-            m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), TRUE);
-            m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
-            m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVP), TRUE);
+            pMVTO = m_pCAP;
 
+            const CAppSettings& s = AfxGetAppSettings();
             m_pVideoWnd = &m_wndView;
 
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else if (m_pVMRWC) {
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
+            }
+
+            if (s.fShowOSD || s.fShowDebugInfo) {
+                if (pVMB) {
+                    m_OSD.Start(m_pVideoWnd, pVMB, IsD3DFullScreenMode());
+                } else if (pMFVMB) {
+                    m_OSD.Start(m_pVideoWnd, pMFVMB, IsD3DFullScreenMode());
+                } else if (pMVTO) {
+                    m_OSD.Start(m_pVideoWnd, pMVTO);
+                }
             }
         }
 
@@ -14490,7 +14503,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             UNREFERENCED_PARAMETER(hr2);
         }
 
-        m_pAMDF = nullptr;
+        m_pAMDF.Release();
         m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMDF));
     }
 
@@ -14557,14 +14570,10 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
     SetupVMR9ColorControl();
 
     if (m_iMediaLoadState == MLS_LOADED) {
-        SeekTo(__rt);
-
-        if (__fs == State_Stopped) {
-            SendMessage(WM_COMMAND, ID_PLAY_STOP);
-        } else if (__fs == State_Paused) {
-            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-        } else if (__fs == State_Running) {
+        if (fs == State_Running) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+        } else if (fs == State_Paused) {
+            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
     }
 
