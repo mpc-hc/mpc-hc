@@ -14464,9 +14464,24 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         if (fVidPrev) {
             m_pCAP = nullptr;
             m_pCAP2 = nullptr;
+            m_pVMRWC = nullptr;
+            m_pVMRMC = nullptr;
+            m_pMFVDC = nullptr;
             m_pGB->Render(pVidPrevPin);
+
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
+
+            m_pVideoWnd = &m_wndView;
+
+            if (m_pMFVDC) {
+                m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
+            } else if (m_pVMRWC) {
+                m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
+            }
         }
 
         if (fVidCap) {
@@ -14539,6 +14554,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
     OpenSetupAudio();
     OpenSetupStatsBar();
     OpenSetupStatusBar();
+    SetupVMR9ColorControl();
 
     if (m_iMediaLoadState == MLS_LOADED) {
         SeekTo(__rt);
