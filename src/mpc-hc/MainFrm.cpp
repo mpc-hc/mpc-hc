@@ -10637,12 +10637,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         if (FAILED(pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.data(), k)) || k != nKFs) {
             m_kfs.clear();
         }
-        for (auto it = m_kfs.begin(); it != m_kfs.end(); ++it) {
-            // HACK: if d3d or something changes fpu control word the values of
-            // m_kfs may be different now (if it was asked again), adding a little
-            // to the seek position eliminates this error usually.
-            *it += 10;
-        }
     }
 
     SetPlaybackMode(PM_FILE);
