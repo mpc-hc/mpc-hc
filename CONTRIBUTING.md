@@ -18,7 +18,7 @@
 If you want to help, here's what you need to do:
 
 1. Make sure you have a [GitHub account](https://github.com/signup/free).
-2. [Fork](https://github.com/mpc-hc/mpc-hc/fork_select) the repository you wish to help on.
+2. [Fork](https://github.com/mpc-hc/mpc-hc/fork) our repository.
 3. Create a new topic branch to contain your feature, change, or fix.
 4. Set `core.autocrlf` to true: `git config core.autocrlf true`.
 5. Make sure you have enabled the pre-commit hook - **[pre-commit.sh](/contrib/pre-commit.sh)**.
