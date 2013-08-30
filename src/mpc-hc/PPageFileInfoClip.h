@@ -32,12 +32,13 @@ class CPPageFileInfoClip : public CPropertyPage
 
 private:
     CComPtr<IFilterGraph> m_pFG;
+    CComPtr<IFileSourceFilter> m_pFSF;
     HICON m_hIcon;
 
     CToolTipCtrl m_tooltip;
 
 public:
-    CPPageFileInfoClip(CString path, IFilterGraph* pFG);
+    CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF);
     virtual ~CPPageFileInfoClip();
 
     // Dialog Data

@@ -40,11 +40,12 @@ using namespace MediaInfoDLL;
 // CPPageFileMediaInfo dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileMediaInfo, CPropertyPage)
-CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFilterGraph* pFG)
+CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF)
     : CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
     , m_fn(path)
     , m_path(path)
     , m_pFG(pFG)
+    , m_pFSF(pFSF)
     , m_pCFont(nullptr)
 {
 }
@@ -95,23 +96,22 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
     }
 
     CComQIPtr<IAsyncReader> pAR;
-    BeginEnumFilters(m_pFG, pEF, pBF) {
-        if (CComQIPtr<IFileSourceFilter> pFSF = pBF) {
-            LPOLESTR pFN;
-            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
-                m_fn = pFN;
-                CoTaskMemFree(pFN);
-            }
+    if (m_pFSF) {
+        LPOLESTR pFN;
+        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
+            m_fn = pFN;
+            CoTaskMemFree(pFN);
+        }
+
+        if (CComQIPtr<IBaseFilter> pBF = m_pFSF) {
             BeginEnumPins(pBF, pEP, pPin) {
                 if (pAR = pPin) {
                     break;
                 }
             }
             EndEnumPins;
-            break;
         }
     }
-    EndEnumFilters;
 
     if (m_path.IsEmpty()) {
         m_path = m_fn;

@@ -31,11 +31,12 @@
 // CPPageFileInfoClip dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoClip, CPropertyPage)
-CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG)
+CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF)
     : CPropertyPage(CPPageFileInfoClip::IDD, CPPageFileInfoClip::IDD)
     , m_fn(path)
     , m_path(path)
     , m_pFG(pFG)
+    , m_pFSF(pFSF)
     , m_clip(ResStr(IDS_AG_NONE))
     , m_author(ResStr(IDS_AG_NONE))
     , m_copyright(ResStr(IDS_AG_NONE))
@@ -98,18 +99,13 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    BeginEnumFilters(m_pFG, pEF, pBF) {
-        CComQIPtr<IFileSourceFilter> pFSF = pBF;
-        if (pFSF) {
-            LPOLESTR pFN;
-            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
-                m_fn = pFN;
-                CoTaskMemFree(pFN);
-            }
-            break;
+    if (m_pFSF) {
+        LPOLESTR pFN;
+        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
+            m_fn = pFN;
+            CoTaskMemFree(pFN);
         }
     }
-    EndEnumFilters;
 
     if (m_path.IsEmpty()) {
         m_path = m_fn;

@@ -65,7 +65,7 @@ namespace ISDb
         UINT64 size, mpc_filehash;
     };
 
-    extern bool mpc_filehash(IFilterGraph* pFG, filehash& fh);
+    extern bool mpc_filehash(IFileSourceFilter* pFSF, filehash& fh);
     extern bool mpc_filehash(LPCTSTR fn, filehash& fh);
     extern void mpc_filehash(CPlaylist& pl, CList<filehash>& fhs);
     extern CStringA makeargs(CPlaylist& pl);

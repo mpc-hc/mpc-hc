@@ -27,11 +27,12 @@
 // CPPageFileInfoRes dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoRes, CPPageBase)
-CPPageFileInfoRes::CPPageFileInfoRes(CString path, IFilterGraph* pFG)
+CPPageFileInfoRes::CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF)
     : CPPageBase(CPPageFileInfoRes::IDD, CPPageFileInfoRes::IDD)
     , m_fn(path)
     , m_hIcon(nullptr)
     , m_pFG(pFG)
+    , m_pFSF(pFSF)
 {
 }
 
@@ -62,18 +63,13 @@ BOOL CPPageFileInfoRes::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    CComQIPtr<IFileSourceFilter> pFSF;
-    BeginEnumFilters(m_pFG, pEF, pBF) {
-        if (pFSF = pBF) {
-            LPOLESTR pFN = nullptr;
-            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
-                m_fn = pFN;
-                CoTaskMemFree(pFN);
-            }
-            break;
+    if (m_pFSF) {
+        LPOLESTR pFN = nullptr;
+        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
+            m_fn = pFN;
+            CoTaskMemFree(pFN);
         }
     }
-    EndEnumFilters;
 
     m_hIcon = LoadIcon(m_fn, false);
     if (m_hIcon) {

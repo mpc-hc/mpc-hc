@@ -33,12 +33,13 @@
 // CPPageFileInfoDetails dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoDetails, CPropertyPage)
-CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP)
+CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF)
     : CPropertyPage(CPPageFileInfoDetails::IDD, CPPageFileInfoDetails::IDD)
     , m_fn(path)
     , m_path(path)
     , m_pFG(pFG)
     , m_pCAP(pCAP)
+    , m_pFSF(pFSF)
     , m_hIcon(nullptr)
     , m_type(ResStr(IDS_AG_NOT_KNOWN))
     , m_size(ResStr(IDS_AG_NOT_KNOWN))
@@ -106,29 +107,13 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    __int64 size = 0;
-    CComQIPtr<IFileSourceFilter> pFSF;
-    BeginEnumFilters(m_pFG, pEF, pBF) {
-        if (pFSF = pBF) {
-            LPOLESTR pFN;
-            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
-                m_fn = pFN;
-                CoTaskMemFree(pFN);
-            }
-            BeginEnumPins(pBF, pEP, pPin) {
-                if (CComQIPtr<IAsyncReader> pAR = pPin) {
-                    LONGLONG total, available;
-                    if (SUCCEEDED(pAR->Length(&total, &available))) {
-                        size = total;
-                    }
-                    break;
-                }
-            }
-            EndEnumPins;
-            break;
+    if (m_pFSF) {
+        LPOLESTR pFN;
+        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
+            m_fn = pFN;
+            CoTaskMemFree(pFN);
         }
     }
-    EndEnumFilters;
 
     if (m_path.IsEmpty()) {
         m_path = m_fn;
@@ -165,6 +150,20 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 
             created = FormatDateTime(ft);
         }
+    }
+
+    __int64 size = 0;
+    if (CComQIPtr<IBaseFilter> pBF = m_pFSF) {
+        BeginEnumPins(pBF, pEP, pPin) {
+            if (CComQIPtr<IAsyncReader> pAR = pPin) {
+                LONGLONG total, available;
+                if (SUCCEEDED(pAR->Length(&total, &available))) {
+                    size = total;
+                }
+                break;
+            }
+        }
+        EndEnumPins;
     }
 
     WIN32_FIND_DATA wfd;

@@ -5408,7 +5408,7 @@ void CMainFrame::OnFileISDBDownload()
 {
     const CAppSettings& s = AfxGetAppSettings();
     ISDb::filehash fh;
-    if (!ISDb::mpc_filehash(m_pGB, fh)) {
+    if (!ISDb::mpc_filehash(m_pFSF, fh)) {
         if (!ISDb::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
             MessageBeep((UINT) - 1);
             return;
@@ -10594,6 +10594,13 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
         if (bMainFile) {
             pOFD->title = fn;
+            if (!(m_pFSF = m_pGB)) {
+                BeginEnumFilters(m_pGB, pEF, pBF);
+                if (m_pFSF = pBF) {
+                    break;
+                }
+                EndEnumFilters;
+            }
         }
 
         bMainFile = false;
@@ -12090,6 +12097,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pVW.Release();
     m_pME.Release();
     m_pMC.Release();
+    m_pFSF.Release();
 
     if (m_pGB) {
         m_pGB->RemoveFromROT();
@@ -16326,17 +16334,13 @@ CString CMainFrame::GetFileName()
 {
     CPath path(m_wndPlaylistBar.GetCurFileName());
 
-    BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (CComQIPtr<IFileSourceFilter> pFSF = pBF) {
-            LPOLESTR pFN;
-            if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
-                path = pFN;
-                CoTaskMemFree(pFN);
-            }
-            break;
+    if (m_pFSF) {
+        LPOLESTR pFN;
+        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
+            path = pFN;
+            CoTaskMemFree(pFN);
         }
     }
-    EndEnumFilters;
 
     path.StripPath();
     return path;

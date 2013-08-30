@@ -28,21 +28,16 @@
 
 namespace ISDb
 {
-    bool mpc_filehash(IFilterGraph* pFG, filehash& fh)
+    bool mpc_filehash(IFileSourceFilter* pFSF, filehash& fh)
     {
-        CComQIPtr<IFileSourceFilter> pFSF;
         CComQIPtr<IAsyncReader> pAR;
-        BeginEnumFilters(pFG, pEF, pBF) {
-            if (pFSF = pBF) {
-                BeginEnumPins(pBF, pEP, pPin)
-                if (pAR = pPin) {
-                    break;
-                }
-                EndEnumPins;
+        if (CComQIPtr<IBaseFilter> pBF = pFSF) {
+            BeginEnumPins(pBF, pEP, pPin)
+            if (pAR = pPin) {
                 break;
             }
+            EndEnumPins;
         }
-        EndEnumFilters;
 
         if (!pAR || !pFSF) {
             return false;

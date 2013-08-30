@@ -33,6 +33,7 @@ class CPPageFileInfoDetails : public CPropertyPage
 
 private:
     CComPtr<IFilterGraph> m_pFG;
+    CComPtr<IFileSourceFilter> m_pFSF;
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
 
     HICON m_hIcon;
@@ -40,7 +41,7 @@ private:
     void InitEncoding();
 
 public:
-    CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP);
+    CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF);
     virtual ~CPPageFileInfoDetails();
 
     // Dialog Data

@@ -177,6 +177,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     CComQIPtr<IBasicAudio> m_pBA;
     CComQIPtr<IMediaSeeking> m_pMS;
     CComQIPtr<IVideoFrameStep> m_pFS;
+    CComQIPtr<IFileSourceFilter> m_pFSF;
     CComQIPtr<IQualProp, &IID_IQualProp> m_pQP;
     CComQIPtr<IBufferInfo> m_pBI;
     CComQIPtr<IAMOpenProgress> m_pAMOP;
