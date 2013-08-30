@@ -77,8 +77,8 @@ CAppSettings::CAppSettings()
     , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
     , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
     , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
-    , bFastSeek(false)
-    , eFastSeekMethod(FASTSEEK_LATEST_KEYFRAME)
+    , bFastSeek(true)
+    , eFastSeekMethod(FASTSEEK_NEAREST_KEYFRAME)
     , fShowChapters(TRUE)
     , fLCDSupport(FALSE)
     , iBrightness(0)
@@ -1450,9 +1450,9 @@ void CAppSettings::LoadSettings()
 
     fShowOSD              = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, TRUE);
     fEnableEDLEditor      = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
-    bFastSeek             = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK, FALSE);
+    bFastSeek             = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK, TRUE);
     eFastSeekMethod       = static_cast<decltype(eFastSeekMethod)>(
-                                pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK_METHOD, FASTSEEK_LATEST_KEYFRAME));
+                                pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK_METHOD, FASTSEEK_NEAREST_KEYFRAME));
     fShowChapters         = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CHAPTERS, TRUE);
 
 
