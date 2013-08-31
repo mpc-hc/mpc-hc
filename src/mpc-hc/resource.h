@@ -1300,7 +1300,6 @@
 #define IDS_REGAIN_VOLUME               41335
 #define IDS_OSD_REGAIN_VOLUME_ON        41336
 #define IDS_OSD_REGAIN_VOLUME_OFF       41337
-#define IDS_UNDETERMINED                41338
 #define IDS_SIZE_UNIT_K                 41339
 #define IDS_SIZE_UNIT_M                 41340
 #define IDS_SIZE_UNIT_G                 41341
