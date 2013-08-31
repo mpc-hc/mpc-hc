@@ -43,7 +43,7 @@ CPPageSubStyle::CPPageSubStyle()
     , m_linkalphasliders(FALSE)
     , m_iRelativeTo(0)
     , m_fUseDefaultStyle(true)
-    , m_stss(AfxGetAppSettings().subdefstyle)
+    , m_stss(AfxGetAppSettings().subtitlesDefStyle)
 {
 }
 
@@ -215,7 +215,7 @@ BOOL CPPageSubStyle::OnApply()
     }
 
     if (m_fUseDefaultStyle) {
-        STSStyle& stss = AfxGetAppSettings().subdefstyle;
+        STSStyle& stss = AfxGetAppSettings().subtitlesDefStyle;
         if (stss != m_stss) {
             stss = m_stss;
             if (CMainFrame* pFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {

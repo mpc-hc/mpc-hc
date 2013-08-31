@@ -508,7 +508,7 @@ public:
     int             nSubDelayInterval;
 
     // Default Style
-    STSStyle        subdefstyle;
+    STSStyle        subtitlesDefStyle;
 
     // Misc
     bool            bPreferDefaultForcedSubtitles;
