@@ -117,7 +117,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     CRegKey key;
     ULONG   len;
 
-    if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC-HC Audio Renderer"), KEY_READ)) {
+    if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\Filters\\MPC-HC Audio Renderer"), KEY_READ)) {
         DWORD dw;
         TCHAR buff[256];
         if (ERROR_SUCCESS == key.QueryDWORDValue(_T("UseWasapi"), dw)) {
@@ -566,7 +566,7 @@ STDMETHODIMP CMpcAudioRenderer::Apply()
 {
 #ifdef STANDALONE_FILTER
     CRegKey key;
-    if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC-HC Audio Renderer"))) {
+    if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\Filters\\MPC-HC Audio Renderer"))) {
         key.SetDWORDValue(_T("UseWasapi"), m_useWASAPIAfterRestart);
         key.SetDWORDValue(_T("MuteFastForward"), m_bMuteFastForward);
         key.SetStringValue(_T("SoundDevice"), m_csSound_Device);

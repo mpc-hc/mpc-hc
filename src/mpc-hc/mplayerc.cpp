@@ -350,7 +350,7 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
     free((void*)m_pszRegistryKey);
     m_pszRegistryKey = nullptr;
 
-    SetRegistryKey(_T("Gabest"));
+    SetRegistryKey(_T("MPC-HC"));
 
     return true;
 }
@@ -1362,7 +1362,7 @@ BOOL CMPlayerCApp::InitInstance()
     if (!IsIniValid()) {
         CRegKey key;
         CString exePath = GetProgramPath(true);
-        if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\MPC-HC"))) {
+        if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\MPC-HC"))) {
             key.SetStringValue(_T("ExePath"), exePath);
         }
     }
