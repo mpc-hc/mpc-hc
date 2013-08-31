@@ -35,6 +35,8 @@ Legend:
   - "File -> Save a copy" now extracts the file from the RAR archive
 * All track selection sub-menus are now centralized in the Play menu, the similar sub-menus
   have been removed from the Navigate menu
+* The naming of external subtitles item in Play -> Subtitles menu has been improved to get rid
+  of the uninformative "Undetermined" name
 * The "Go To" menu entry has been moved to the "Navigate" menu
 * D3DFullscreen changes:
   - toggle hotkey is now disabled by default

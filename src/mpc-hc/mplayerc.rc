@@ -2435,7 +2435,6 @@ BEGIN
     IDS_PIXELSHADERCOMPILER_1
                             "Cannot find necessary function entry points in D3DX9_xx.dll, pixel shaders will not work."
     IDS_AG_NOT_KNOWN        "Not known"
-    IDS_UNDETERMINED        "Undetermined"
     IDS_MPLAYERC_0          "Quick Open File"
     IDS_AG_OPEN_FILE        "Open File"
 END
