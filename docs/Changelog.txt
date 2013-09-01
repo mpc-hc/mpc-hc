@@ -33,6 +33,7 @@ Legend:
   - Added support for subtitle database
   - Added support for file properties and MediaInfo
   - "File -> Save a copy" now extracts the file from the RAR archive
++ Windows 8.1 support
 * All track selection sub-menus are now centralized in the Play menu, the similar sub-menus
   have been removed from the Navigate menu
 * The naming of external subtitles item in Play -> Subtitles menu has been improved to get rid
