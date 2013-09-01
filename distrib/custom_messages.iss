@@ -109,8 +109,8 @@ ru.WelcomeLabel2=Программа установит [name] на ваш ком
 ru.WinVersionTooLowError=[name] Эта программа требует Windows XP Service Pack 3 или выше.
 
 ;Chinese Simplified
-sc.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-sc.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+sc.WelcomeLabel2=这将安装 [name] 到您的计算机中。%n%n建议您在继续之前关闭所有其它的应用程序。
+sc.WinVersionTooLowError=[name] 要求 Windows XP Service Pack 3 或更高版本。
 
 ;Swedish
 sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
@@ -544,12 +544,12 @@ ru.ViewChangelog=Просмотреть журнал изменений
 sc.langid=00002052
 sc.comp_mpciconlib=图标库
 sc.comp_mpcresources=翻译
-sc.msg_DeleteSettings=是否同时删除 MPC-HC 设置?%n%n如果您打算再次安装 MPC-HC 则无需删除。
+sc.msg_DeleteSettings=是否同时删除 MPC-HC 设置？%n%n如果您打算再次安装 MPC-HC 则不必删除。
 sc.msg_SetupIsRunningWarning=MPC-HC 安装程序已在运行中！
 #if defined(sse_required)
-sc.msg_simd_sse=这个编译版的 MPC-HC 需要一个支持 SSE 指令集的 CPU。%n%n但是您的 CPU 并不支持这个功能。
+sc.msg_simd_sse=此 MPC-HC 编译版本要求 CPU 支持 SSE 指令集。%n%n您的 CPU 不具备该能力。
 #elif defined(sse2_required)
-sc.msg_simd_sse2=这个编译版的 MPC-HC 需要一个支持 SSE2 指令集的 CPU。%n%n但是您的 CPU 并不支持这个功能。
+sc.msg_simd_sse2=此 MPC-HC 编译版本要求 CPU 支持 SSE2 指令集。%n%n您的 CPU 不具备该能力。
 #endif
 sc.tsk_AllUsers=为所有用户安装
 sc.tsk_CurrentUser=仅为当前用户安装
