@@ -10977,21 +10977,6 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
         if (FAILED(m_pCGB->FindInterface(&LOOK_UPSTREAM_ONLY, nullptr, m_pVidCap, IID_IAMTVTuner, (void**)&m_pAMTuner))) {
             TRACE(_T("Warning: No IAMTVTuner interface was found\n"));
         }
-        /*
-                if (m_pAMVSCCap)
-                {
-                    //DumpStreamConfig(_T("c:\\mpclog.txt"), m_pAMVSCCap);
-                    CComQIPtr<IAMVfwCaptureDialogs> pVfwCD = m_pVidCap;
-                    if (!m_pAMXBar && pVfwCD)
-                    {
-                        m_wndCaptureBar.m_capdlg.SetupVideoControls(viddispname, m_pAMVSCCap, pVfwCD);
-                    }
-                    else
-                    {
-                        m_wndCaptureBar.m_capdlg.SetupVideoControls(viddispname, m_pAMVSCCap, m_pAMXBar, m_pAMTuner);
-                    }
-                }
-        */
         // TODO: init m_pAMXBar
 
         if (m_pAMTuner) { // load saved channel

@@ -31,7 +31,6 @@
 
 #define LCID_NOSUBTITLES -1
 
-extern void DumpStreamConfig(const TCHAR* fn, IAMStreamConfig* pAMVSCCap);
 extern int  CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC);
 extern bool IsSplitter(IBaseFilter* pBF, bool fCountConnectedOnly = false);
 extern bool IsMultiplexer(IBaseFilter* pBF, bool fCountConnectedOnly = false);
@@ -85,7 +84,6 @@ extern bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih);
 extern bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih);
 extern bool ExtractAvgTimePerFrame(const AM_MEDIA_TYPE* pmt, REFERENCE_TIME& rtAvgTimePerFrame);
 extern bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary);
-extern bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h);
 extern bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyName);
 extern IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB);
 extern CStringW GetFriendlyName(CStringW DisplayName);
@@ -120,7 +118,6 @@ extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, LPCTS
 extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlList<CString>& chkbytes, LPCTSTR ext = nullptr, ...);
 extern void UnRegisterSourceFilter(const GUID& subtype);
 extern LPCTSTR GetDXVAMode(const GUID* guidDecoder);
-extern void DumpBuffer(const BYTE* pBuffer, int nSize);
 extern CString ReftimeToString(const REFERENCE_TIME& rtVal);
 extern CString ReftimeToString2(const REFERENCE_TIME& rtVal);
 extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours = false);
@@ -129,17 +126,8 @@ extern COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb);
 extern COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb);
 extern DWORD YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
 extern DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
-extern void TraceFilterInfo(IBaseFilter* pBF);
-extern void TracePinInfo(IPin* pPin);
 extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
-extern void HexDump(CString fName, const BYTE* buf, int size);
 extern void CorrectComboListWidth(CComboBox& m_pComboBox);
-
-extern void getExtraData(const BYTE* format, const GUID* formattype, const size_t formatlen, BYTE* extra, unsigned int* extralen);
-extern void audioFormatTypeHandler(const BYTE* format, const GUID* formattype,
-                                   DWORD* pnSamples, WORD* pnChannels,
-                                   WORD* pnBitsPerSample, WORD* pnBlockAlign,
-                                   DWORD* pnBytesPerSec);
 
 typedef enum {
     PICT_NONE,
