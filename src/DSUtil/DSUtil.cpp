@@ -33,6 +33,7 @@
 #include <d3d9types.h>
 #include <dxva.h>
 #include <dxva2api.h>
+#include <intrin.h>
 
 void DumpStreamConfig(const TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 {
@@ -995,20 +996,15 @@ REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps)
 
 void memsetd(void* dst, unsigned int c, size_t nbytes)
 {
+    size_t n = nbytes / 4;
+
 #ifndef _WIN64
-    if (!(g_cpuid.m_flags & g_cpuid.sse2)) {
-        __asm {
-            mov eax, c
-            mov ecx, nbytes
-            shr ecx, 2
-            mov edi, dst
-            cld
-            rep stosd
-        }
+    if (!(g_cpuid.m_flags & g_cpuid.sse2)) { // No SSE2
+        __stosd((unsigned long*)dst, c, n);
         return;
     }
 #endif
-    size_t n = nbytes / 4;
+
     size_t o = n - (n % 4);
 
     __m128i val = _mm_set1_epi32((int)c);
@@ -1024,11 +1020,11 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 
     switch (n - o) {
         case 3:
-                ((DWORD*)dst)[o + 2] = c;
+            ((DWORD*)dst)[o + 2] = c;
         case 2:
-                ((DWORD*)dst)[o + 1] = c;
+            ((DWORD*)dst)[o + 1] = c;
         case 1:
-                ((DWORD*)dst)[o + 0] = c;
+            ((DWORD*)dst)[o + 0] = c;
     }
 }
 
@@ -2205,7 +2201,7 @@ CString ISO639XToLanguage(LPCSTR code, bool bCheckForFullLangName /*= false*/)
             break;
         case 3:
             lang = ISO6392ToLanguage(code);
-            if (lang == code) { // When it can't find a match, ISO6392ToLanguage returns the input string 
+            if (lang == code) { // When it can't find a match, ISO6392ToLanguage returns the input string
                 lang.Empty();
             }
             break;
@@ -2735,41 +2731,41 @@ const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type)
 {
     switch (_Type) {
         case VIDEO_STREAM_MPEG1:
-                return L"MPEG-1";
+            return L"MPEG-1";
         case VIDEO_STREAM_MPEG2:
-                return L"MPEG-2";
+            return L"MPEG-2";
         case AUDIO_STREAM_MPEG1:
-                return L"MPEG-1";
+            return L"MPEG-1";
         case AUDIO_STREAM_MPEG2:
-                return L"MPEG-2";
+            return L"MPEG-2";
         case VIDEO_STREAM_H264:
-                return L"H264";
+            return L"H264";
         case AUDIO_STREAM_LPCM:
-                return L"LPCM";
+            return L"LPCM";
         case AUDIO_STREAM_AC3:
-                return L"Dolby Digital";
+            return L"Dolby Digital";
         case AUDIO_STREAM_DTS:
-                return L"DTS";
+            return L"DTS";
         case AUDIO_STREAM_AC3_TRUE_HD:
-                return L"Dolby TrueHD";
+            return L"Dolby TrueHD";
         case AUDIO_STREAM_AC3_PLUS:
-                return L"Dolby Digital Plus";
+            return L"Dolby Digital Plus";
         case AUDIO_STREAM_DTS_HD:
-                return L"DTS-HD High Resolution Audio";
+            return L"DTS-HD High Resolution Audio";
         case AUDIO_STREAM_DTS_HD_MASTER_AUDIO:
-                return L"DTS-HD Master Audio";
+            return L"DTS-HD Master Audio";
         case PRESENTATION_GRAPHICS_STREAM:
-                return L"Presentation Graphics Stream";
+            return L"Presentation Graphics Stream";
         case INTERACTIVE_GRAPHICS_STREAM:
-                return L"Interactive Graphics Stream";
+            return L"Interactive Graphics Stream";
         case SUBTITLE_STREAM:
-                return L"Subtitle";
+            return L"Subtitle";
         case SECONDARY_AUDIO_AC3_PLUS:
-                return L"Secondary Dolby Digital Plus";
+            return L"Secondary Dolby Digital Plus";
         case SECONDARY_AUDIO_DTS_HD:
-                return L"Secondary DTS-HD High Resolution Audio";
+            return L"Secondary DTS-HD High Resolution Audio";
         case VIDEO_STREAM_VC1:
-                return L"VC-1";
+            return L"VC-1";
     }
     return nullptr;
 }
