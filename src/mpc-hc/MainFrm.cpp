@@ -13686,10 +13686,10 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= nullptr*
                 if (REPARSE_ERROR_OK == re.Parse(_T("^[.\\-_ ]+{[^.\\-_ ]+}([.\\-_ ]+{[^.\\-_ ]+})?"), FALSE) && re.Match(subName, &mc)) {
                     LPCTSTR s, e;
                     mc.GetMatch(0, &s, &e);
-                    lang = ISO639XToLanguage(CStringA(s, e - s), true);
+                    lang = ISO639XToLanguage(CStringA(s, int(e - s)), true);
                     if (!lang.IsEmpty()) {
                         mc.GetMatch(1, &s, &e);
-                        bHearingImpaired = (CString(s, e -s).CompareNoCase(_T("hi")) == 0);
+                        bHearingImpaired = (CString(s, int(e - s)).CompareNoCase(_T("hi")) == 0);
                     }
                 }
             }
@@ -13701,10 +13701,10 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= nullptr*
                 if (REPARSE_ERROR_OK == re.Parse(_T(".*?[.\\-_ ]+{[^.\\-_ ]+}([.\\-_ ]+{[^.\\-_ ]+})?$"), FALSE) && re.Match(subName, &mc)) {
                     LPCTSTR s, e;
                     mc.GetMatch(0, &s, &e);
-                    lang = ISO639XToLanguage(CStringA(s, e - s), true);
+                    lang = ISO639XToLanguage(CStringA(s, int(e - s)), true);
 
                     mc.GetMatch(1, &s, &e);
-                    CStringA str(s, e - s);
+                    CStringA str(s, int(e - s));
 
                     if (!lang.IsEmpty() && str.CompareNoCase("hi") == 0) {
                         bHearingImpaired = true;
