@@ -47,6 +47,7 @@ CPPagePlayback::CPPagePlayback()
     , m_fReportFailedPins(FALSE)
     , m_subtitlesLanguageOrder(_T(""))
     , m_audiosLanguageOrder(_T(""))
+    , m_fAllowOverridingExternalSplitterChoice(FALSE)
     , m_nSpeedStep(0)
     , m_nVolumeStep(0)
 {
@@ -76,6 +77,7 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK6, m_fReportFailedPins);
     DDX_Text(pDX, IDC_EDIT2, m_subtitlesLanguageOrder);
     DDX_Text(pDX, IDC_EDIT3, m_audiosLanguageOrder);
+    DDX_Check(pDX, IDC_CHECK4, m_fAllowOverridingExternalSplitterChoice);
     DDX_Text(pDX, IDC_VOLUMESTEP, m_nVolumeStep);
     DDX_Text(pDX, IDC_EDIT4, m_nAutoFitFactor);
     DDX_Control(pDX, IDC_VOLUMESTEP_SPIN, m_VolumeStepCtrl);
@@ -134,6 +136,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_fReportFailedPins = s.fReportFailedPins;
     m_subtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
     m_audiosLanguageOrder = s.strAudiosLanguageOrder;
+    m_fAllowOverridingExternalSplitterChoice = s.bAllowOverridingExternalSplitterChoice;
 
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_50));
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_100));
@@ -147,6 +150,12 @@ BOOL CPPagePlayback::OnInitDialog()
     m_SpeedStepCtrl.SetAccel(1, &accel);
 
     EnableToolTips(TRUE);
+    CreateToolTip();
+
+    m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT2), ResStr(IDS_LANG_PREF_EXAMPLE));
+    m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT3), ResStr(IDS_LANG_PREF_EXAMPLE));
+    m_wndToolTip.AddTool(GetDlgItem(IDC_CHECK4), ResStr(IDS_OVERRIDE_EXT_SPLITTER_CHOICE));
+
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -175,6 +184,7 @@ BOOL CPPagePlayback::OnApply()
     s.fReportFailedPins = !!m_fReportFailedPins;
     s.strSubtitlesLanguageOrder = m_subtitlesLanguageOrder;
     s.strAudiosLanguageOrder = m_audiosLanguageOrder;
+    s.bAllowOverridingExternalSplitterChoice = !!m_fAllowOverridingExternalSplitterChoice;
 
     AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_VOLUME_STEP);
 

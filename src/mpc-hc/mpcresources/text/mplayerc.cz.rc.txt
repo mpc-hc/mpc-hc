@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Preferované výchozí stopy"
 28		"Titulky:"
 30		"Zvuk:"
-32		"(Příklad: eng jap swe)"
+32		"Povolit přepsání výběru z externího splitteru"
 33		"Otevírání souborů"
 34		"Filtry načítat v samostatném podprocesu"
 36		"Vypisovat podrobné informace o chybějících kodecích"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Papamatovat si zvětšení Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Upřednostňovat titulky s příznakem vynucený a/nebo výchozí"
 7		"Pokud jsou dostupné, upřednostňovat externí titulky"
 9		"Nenačítat vložené titulky"
-10		"Povolit přepsání výběru z externího splitteru"
-11		"Místa pro automatické načítání"
-13		"Výchozí"
-14		"Online databáze"
-15		"Adresa online databáze titulků:"
-18		"Otestovat"
+10		"Místa pro automatické načítání"
+12		"Výchozí"
+13		"Online databáze"
+14		"Adresa online databáze titulků:"
+17		"Otestovat"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Název"
 STRING IDS_INFOBAR_VIDEO		"Video"
 STRING IDS_INTERNAL_LAVF		"Používá LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Nelze otevřít, neplatné vstupní parametry"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"Byl načten poslední soubor v adresáři."
 STRING IDS_LOGO_AUTHOR		"Autor neznámý. Pokud jste autorem tohoto loga, kontaktujte mě!"
 STRING IDS_LOW_FREQUENCY		"Basový"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Miniatury úspěšně uloženy"
 STRING IDS_OSD_ZOOM		"Velikost: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Velikost: Automaticky"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Velikost: Automaticky (jen větší)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Upravit..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"Nepodařilo se načíst D3DX9_xx.dll, pixel shadery nebudou funkční."

@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"תעדוף ברירת מחדל"
 28		"כתוביות:"
 30		"שמע:"
-32		"(דוגמה: eng jap swe)"
+32		"Allow overriding external splitter choice"
 33		"פתח הגדרות"
 34		"השתמש בתהליך נפרד בכדי לבנות את גרף הפילטרים"
 36		"דווח על תקעים שלא מתנגנים"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Remember last Pan-n-Scan Zoom"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Prefer forced and/or default subtitles tracks"
 7		"העדף כתוביות חיצוניות אם קיימות"
 9		"אל תטען כתוביות מובנות מהקונטיינר"
-10		"Allow overriding external splitter choice"
-11		"נתיבים לטעינה אוטומטית"
-13		"אפס"
-14		"מסד נתונים ברשת"
-15		"כתובת למסד נתונים ברשת:"
-18		"בדוק"
+10		"נתיבים לטעינה אוטומטית"
+12		"אפס"
+13		"מסד נתונים ברשת"
+14		"כתובת למסד נתונים ברשת:"
+17		"בדוק"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"כותרת"
 STRING IDS_INFOBAR_VIDEO		"וידאו"
 STRING IDS_INTERNAL_LAVF		"Uses LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Can't open, invalid input parameters"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"הקובץ האחרון בתיקיה נטען עכשיו."
 STRING IDS_LOGO_AUTHOR		"יוצר לא ידוע. צור קשר אם אתה הוא שיצר את הלוגו!"
 STRING IDS_LOW_FREQUENCY		"תדר נמוך"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Thumbnails saved successfully"
 STRING IDS_OSD_ZOOM		"Zoom: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Zoom: Auto"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Zoom: Auto (Larger Only)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"ערוך..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"לא מצליח לטעון D3DX9_xx.dll, מצלילי פיקסלים לא יעבדו."

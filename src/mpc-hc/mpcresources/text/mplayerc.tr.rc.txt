@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Varsayılan parça seçimi"
 28		"Alt Yazı :"
 30		"Ses :"
-32		"(Örnek: tur eng jap)"
+32		"Harici ayırıcı komut seçimlerine izin ver"
 33		"Genel Ayarlar"
 34		"Filtre grafiği kurulumu için oynatıcı önceliğini kullan"
 36		"Çevrilemeyen ilişkilendirmeleri rapor et"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Son büyütme ayarlarını hatırla"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Zorlanmış ve/veya varsayılan alt yazı izlerini tercih et"
 7		"Her zaman harici alt yazıları tercih et"
 9		"Gömülü alt yazıları yükleme"
-10		"Harici ayırıcı komut seçimlerine izin ver"
-11		"Yükleme konumları"
-13		"Sıfırla"
-14		"Çevrimiçi veritabanı"
-15		"Çevrimiçi alt yazı veritabanı adresi:"
-18		"Dene"
+10		"Yükleme konumları"
+12		"Sıfırla"
+13		"Çevrimiçi veritabanı"
+14		"Çevrimiçi alt yazı veritabanı adresi:"
+17		"Dene"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Başlık"
 STRING IDS_INFOBAR_VIDEO		"Video"
 STRING IDS_INTERNAL_LAVF		"Uses LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Açılamıyor, geçersiz girdi komutları uygulandı"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"Klasördeki son dosya yüklendi."
 STRING IDS_LOGO_AUTHOR		"Yazar bilinmiyor. Bu tasarım size aitse lütfen irtibata geçiniz!"
 STRING IDS_LOW_FREQUENCY		"Düşük Frekans"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Küçük resim başarıyla kaydedildi"
 STRING IDS_OSD_ZOOM		"Yakınlaştırma: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Yakınlaştırma: Otomatik"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Yakınlaştırma: Otomatik (Sadece sığdır)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Düzenle..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"D3DX9_xx.dll yüklenemedi, piksel tonlayıcıları çalışmayabilir."

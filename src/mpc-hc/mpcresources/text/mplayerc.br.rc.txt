@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Idiomas preferenciais"
 28		"Legenda"
 30		"Áudio"
-32		"(Exemplo: eng jap por)"
+32		"Allow overriding external splitter choice"
 33		"Opções de abertura"
 34		"Usar processo funcional para construir filtro gráfico"
 36		"Reportar conectores que não queiram funcionar"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Lembrar o zoom de Pan && Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Prefer forced and/or default subtitles tracks"
 7		"Preferir legendas externas às internas"
 9		"Ignorar legendas internas"
-10		"Allow overriding external splitter choice"
-11		"Pastas para autocarregamento de legendas"
-13		"Resetar"
-14		"Banco de dados online"
-15		"Digite a URL do banco de dados de legendas:"
-18		"Testar"
+10		"Pastas para autocarregamento de legendas"
+12		"Resetar"
+13		"Banco de dados online"
+14		"Digite a URL do banco de dados de legendas:"
+17		"Testar"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Título"
 STRING IDS_INFOBAR_VIDEO		"Vídeo"
 STRING IDS_INTERNAL_LAVF		"Uses LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Can't open, invalid input parameters"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"O último arquivo da pasta está carregado agora."
 STRING IDS_LOGO_AUTHOR		"Autor desconhecido. Contacte-nos se você fez este logo!"
 STRING IDS_LOW_FREQUENCY		"Baixa frequência"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Miniaturas salvas com sucesso"
 STRING IDS_OSD_ZOOM		"Zoom: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Zoom: Auto"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Zoom: Auto (Diminuir apenas)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Editar..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"Não foi possível carregar D3DX9_xx.dll, os pixel shaders não funcionarão."

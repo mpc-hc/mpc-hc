@@ -11558,7 +11558,7 @@ DWORD CMainFrame::SetupAudioStreams()
                         CoTaskMemFree(langPrefs);
                     }
                 } else {
-                    bSkipTrack = true;
+                    bSkipTrack = !s.bAllowOverridingExternalSplitterChoice;
                 }
 
                 if (bSkipTrack) {

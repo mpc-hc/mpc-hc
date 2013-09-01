@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Bevorzugte Sprachspuren"
 28		"Untertitel:"
 30		"Audio:"
-32		"(Beispiel: eng deu swe)"
+32		"Untertitelauswahl eines externen Splitters übergehen"
 33		"Wiedergabeaufbau"
 34		"Filtergraphen in separatem Thread erstellen"
 36		"Fehlerhafte Pins im Filtergraphen melden"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Letzten Pan&&Scan-Zoom merken"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Vorgegebene Untertitelspuren bevorzugen"
 7		"Externe Untertitel bevorzugen (falls verfügbar)"
 9		"Interne Untertitel nicht verwenden"
-10		"Untertitelauswahl eines externen Splitters übergehen"
-11		"Untertitel-Suchpfade"
-13		"&Standard"
-14		"Untertiteldatenbank"
-15		"URL zur Untertiteldatenbank:"
-18		"&Testen"
+10		"Untertitel-Suchpfade"
+12		"&Standard"
+13		"Untertiteldatenbank"
+14		"URL zur Untertiteldatenbank:"
+17		"&Testen"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1420,6 +1419,7 @@ STRING IDS_INFOBAR_TITLE		"Titel"
 STRING IDS_INFOBAR_VIDEO		"Video"
 STRING IDS_INTERNAL_LAVF		"Unter Verwendung des internen LAV Filters."
 STRING IDS_INVALID_PARAMS_ERROR		"Öffnen nicht möglich, ungültige Eingabeparameter"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"Aktuelle Datei ist die letzte im Ordner."
 STRING IDS_LOGO_AUTHOR		"Der Verfasser des Logos ist leider unbekannt. Falls Sie der Autor dieses Logos sind, kontaktieren Sie uns bitte!"
 STRING IDS_LOW_FREQUENCY		"Niederfrequenz (LFE)"
@@ -1679,6 +1679,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Miniaturansichten erfolgreich gespeichert."
 STRING IDS_OSD_ZOOM		"Zoom: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Zoom: Auto-Anpassung"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Zoom: Auto-Verkleinerung"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"&Profil bearbeiten..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"DirectX-Laufzeitbibliothek konnte nicht gefunden werden. Pixel-Shader bleiben inaktiv."

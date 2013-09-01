@@ -59,6 +59,7 @@ public:
     BOOL m_fReportFailedPins;
     CString m_subtitlesLanguageOrder;
     CString m_audiosLanguageOrder;
+    BOOL m_fAllowOverridingExternalSplitterChoice;
 
     CComboBox m_zoomlevelctrl;
 

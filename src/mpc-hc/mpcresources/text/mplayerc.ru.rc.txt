@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Приоритет выбора дорожек"
 28		"Субтитры:"
 30		"Звук:"
-32		"(Например: eng rus jap)"
+32		"Разрешить переопределение выбора для внешних сплиттеров"
 33		"Настройки открытия файлов"
 34		"Рабочий поток для построения цепи фильтров"
 36		"Отчет об ошибках рендеринга потоков"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Запоминать зум Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Предпочитать форсированные и субтитры по умолчанию"
 7		"Всегда использовать внешние субтитры как основные"
 9		"Не использовать встроенные субтитры"
-10		"Разрешить переопределение выбора для внешних сплиттеров"
-11		"Путь для внешних субтитров"
-13		"Сброс"
-14		"База данных в интернете"
-15		"URL базы данных субтитров:"
-18		"Тест"
+10		"Путь для внешних субтитров"
+12		"Сброс"
+13		"База данных в интернете"
+14		"URL базы данных субтитров:"
+17		"Тест"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Название"
 STRING IDS_INFOBAR_VIDEO		"Видео"
 STRING IDS_INTERNAL_LAVF		"Uses LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Не удается открыть, неверные входные параметры"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"Загружен последний файл в каталоге"
 STRING IDS_LOGO_AUTHOR		"Свяжитесь c разработчиком, если это ваш логотип!"
 STRING IDS_LOW_FREQUENCY		"Сабвуфер"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Миниатюра успешно сохранен
 STRING IDS_OSD_ZOOM		"Масштаб: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Масштаб: Авто"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Масштаб: Авто (только большие)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Изменить..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"Невозможно загрузить D3DX9_xx.dll, пиксельные шейдеры работать не будут."

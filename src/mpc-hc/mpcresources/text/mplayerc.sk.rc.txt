@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Uprednostnenie predvolenej stopy"
 28		"Titulky"
 30		"zvuk"
-32		"(príklad: eng jap swe)"
+32		"Umožniť výber pre nerešpektovanie rozdeľovača titulkov"
 33		"Nastavenia otvárania súborov"
 34		"Pri vytváraní grafu filtra otvoriť iné vlákno"
 36		"Zaznamenať piny, ktoré sa nevykreslia"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Pamätať si posledné priblíženie Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Preferovať vynútené a/alebo predvolené stopy s titulkami"
 7		"Uprednostniť externé titulky, ak sú dostupné"
 9		"Nenačítavať vložené titulky"
-10		"Umožniť výber pre nerešpektovanie rozdeľovača titulkov"
-11		"Cesty pre automotické načítavanie"
-13		"Reset"
-14		"Online-databáza"
-15		"Základná URL adresa webovej databázy titulkov:"
-18		"Otestovať"
+10		"Cesty pre automotické načítavanie"
+12		"Reset"
+13		"Online-databáza"
+14		"Základná URL adresa webovej databázy titulkov:"
+17		"Otestovať"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Titul:"
 STRING IDS_INFOBAR_VIDEO		"Video:"
 STRING IDS_INTERNAL_LAVF		"Uses LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Nemožno otvoriť, vstupné parametre nie sú platné"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"Posledný súbor v priečinku je práve načítaný."
 STRING IDS_LOGO_AUTHOR		"Autor neznámy. Ak ste autorom tohto loga, kontaktujte ma!"
 STRING IDS_LOW_FREQUENCY		"Nízke frekvencie"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Náhľady boli úspešne uložené"
 STRING IDS_OSD_ZOOM		"Priblíženie: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Priblíženie: Auto"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Priblíženie: Auto (iba väčšie)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Úpravy..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"Nemožno načítať súbor D3DX9_xx.dll, pixel shadery nebudú pracovať."

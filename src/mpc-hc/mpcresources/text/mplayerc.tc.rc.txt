@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"預設偏好"
 28		"字幕"
 30		"音訊"
-32		"(範例: eng jap swe)"
+32		"允許覆蓋外部分離器選擇"
 33		"開啟設定"
 34		"使用工作執行緒建立篩選器圖 (Filter Graph)"
 36		"回報繪製失敗的腳位 (Pin)"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"記憶上次的平移掃描縮放"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"優先使用強迫和/或預設字幕軌道"
 7		"外部字幕較內嵌字幕優先"
 9		"忽略內嵌字幕"
-10		"允許覆蓋外部分離器選擇"
-11		"自動載入路徑"
-13		"重設"
-14		"線上資料庫"
-15		"線上字幕資料庫的基礎網址:"
-18		"測試"
+10		"自動載入路徑"
+12		"重設"
+13		"線上資料庫"
+14		"線上字幕資料庫的基礎網址:"
+17		"測試"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"標題"
 STRING IDS_INFOBAR_VIDEO		"視訊"
 STRING IDS_INTERNAL_LAVF		"使用 LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"不能開啟, 無效的輸入參數"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"現已載入資料夾內的最後一個檔案"
 STRING IDS_LOGO_AUTHOR		"作者未知。如果這個標誌是您做的, 請聯繫我!"
 STRING IDS_LOW_FREQUENCY		"LFE 低音"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"縮圖已成功儲存"
 STRING IDS_OSD_ZOOM		"縮放: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"縮放: 自動"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"縮放: 自動 (僅限解像度過大時)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"編輯..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"無法載入 D3DX9_xx.dll 檔案, Pixel Shader 將無法運作。"

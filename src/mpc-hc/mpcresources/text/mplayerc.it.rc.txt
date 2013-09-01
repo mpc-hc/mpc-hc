@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Preferenze traccia predefinita"
 28		"Sottotitoli"
 30		"Audio"
-32		"(Esempio: ita eng jap)"
+32		"Allow overriding external splitter choice"
 33		"Impostazioni all'apertura"
 34		"Usa il worker thread per costruire il filter graph"
 36		"Mostra i pin che falliscono il rendering"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Ricorda l'ultimo zoom Pan&&Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Prefer forced and/or default subtitles tracks"
 7		"Usa sempre i sottotitoli esterni se disponibili"
 9		"Non caricare i sottotitoli interni al video"
-10		"Allow overriding external splitter choice"
-11		"Percorsi di caricamento automatico"
-13		"Reimposta"
-14		"Database online"
-15		"Indirizzo del database di sottotitoli online:"
-18		"Prova"
+10		"Percorsi di caricamento automatico"
+12		"Reimposta"
+13		"Database online"
+14		"Indirizzo del database di sottotitoli online:"
+17		"Prova"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Titolo"
 STRING IDS_INFOBAR_VIDEO		"Video"
 STRING IDS_INTERNAL_LAVF		"Uses LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Impossibile aprire, parametri di input non validi"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"L'ultimo file nella cartella è ora caricato."
 STRING IDS_LOGO_AUTHOR		"Autore sconosciuto. Contattaci se hai disegnato tu questo logo!"
 STRING IDS_LOW_FREQUENCY		"Basse frequenze"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Miniature salvate con successo"
 STRING IDS_OSD_ZOOM		"Zoom: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Zoom: automatico"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Zoom: automatico (allarga)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Modifica..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"Impossibile caricare D3DX9_xx.dll, i pixel shader non funzioneranno."

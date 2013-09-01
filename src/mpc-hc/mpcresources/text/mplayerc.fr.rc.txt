@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Ordre préféré des pistes"
 28		"Sous-titres"
 30		"Audio"
-32		"(Exemple : fre eng jap)"
+32		"Autoriser la modification du choix initial des splitters externes"
 33		"Paramètres d'ouverture"
 34		"Processus d'aide à la construction des filtres"
 36		"Indiquer les connexions échouées lors du rendu"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Se souvenir du recadrage (Pan && Scan)"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Préférer les pistes de sous-titres forcées et/ou par défaut"
 7		"Préférer les pistes de sous-titres externes à celles internes"
 9		"Ignorer les pistes de sous-titres internes"
-10		"Autoriser la modification du choix initial des splitters externes"
-11		"Dossiers à utiliser pour le chargement automatique"
-13		"Reset"
-14		"Base de données en ligne"
-15		"Adresse de la base de données de sous-titres :"
-18		"Tester"
+10		"Dossiers à utiliser pour le chargement automatique"
+12		"Reset"
+13		"Base de données en ligne"
+14		"Adresse de la base de données de sous-titres :"
+17		"Tester"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Titre"
 STRING IDS_INFOBAR_VIDEO		"Vidéo"
 STRING IDS_INTERNAL_LAVF		"Utilise LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Ouverture impossible, paramètres d'entrée invalides."
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"Le dernier fichier dans le dossier est déjà chargé."
 STRING IDS_LOGO_AUTHOR		"Auteur inconnu. Contactez moi si vous avez créé ce logo !"
 STRING IDS_LOW_FREQUENCY		"Basse Fréquence"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Miniatures sauvegardées avec succès"
 STRING IDS_OSD_ZOOM		"Zoom : %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Zoom : Automatique"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Zoom: Automatique (si trop grand)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Modifier..."
 STRING IDS_PARENTAL_RATING		"Déconseillé au moins de %d ans"
 STRING IDS_PIXELSHADERCOMPILER_0		"Le fichier D3DX9_xx.dll est introuvable, une mise à jour de DirectX 9 est nécessaire pour utiliser les Pixels Shaders."

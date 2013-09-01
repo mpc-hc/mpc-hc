@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Default track preference"
 28		"Subtítulos"
 30		"Audio"
-32		"(Ejemplo: eng jap swe)"
+32		"Allow overriding external splitter choice"
 33		"Opciones de apertura"
 34		"Usar proceso funcional para construir extr. de filtros"
 36		"Reportar conectores que no quieran funcionar"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Remember last Pan-n-Scan Zoom"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Prefer forced and/or default subtitles tracks"
 7		"Always default to external subtitles if available"
 9		"Do not load embedded subtitles"
-10		"Allow overriding external splitter choice"
-11		"Autoload paths"
-13		"Reset"
-14		"Online database"
-15		"La URL base de la base de datos de subtítulos:"
-18		"Probar"
+10		"Autoload paths"
+12		"Reset"
+13		"Online database"
+14		"La URL base de la base de datos de subtítulos:"
+17		"Probar"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Titulo"
 STRING IDS_INFOBAR_VIDEO		"Video"
 STRING IDS_INTERNAL_LAVF		"Uses LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Can't open, invalid input parameters"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"The last file in the folder is loaded now."
 STRING IDS_LOGO_AUTHOR		"Autor desconocido. Contactame si hiciste este logo!"
 STRING IDS_LOW_FREQUENCY		"Baja Frecuencia"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Thumbnails saved successfully"
 STRING IDS_OSD_ZOOM		"Zoom: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Zoom: Auto"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Zoom: Auto (Larger Only)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Editar..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"Imposible cargar D3DX9_xx.dll, los pixel shaders no funcionaran."

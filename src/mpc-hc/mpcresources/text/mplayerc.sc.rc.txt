@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"默认轨道参数"
 28		"字幕:"
 30		"音频:"
-32		"(示例: eng jap swe)"
+32		"允许替代外部分离器选择"
 33		"打开设置"
 34		"使用工作线程来创建滤镜图像"
 36		"报告渲染失败的帧"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"记住最后的全景缩放大小"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"优先使用强制和/或默认字幕轨道"
 7		"优先使用外部字幕替代内嵌字幕"
 9		"忽略内嵌字幕"
-10		"允许替代外部分离器选择"
-11		"自动载入路径"
-13		"重置"
-14		"在线数据库"
-15		"在线字幕数据库的基础 URL:"
-18		"测试"
+10		"自动载入路径"
+12		"重置"
+13		"在线数据库"
+14		"在线字幕数据库的基础 URL:"
+17		"测试"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"标题"
 STRING IDS_INFOBAR_VIDEO		"视频"
 STRING IDS_INTERNAL_LAVF		"使用 LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"无法打开, 无效的输入参数"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"正在载入文件夹中的最后一个文件。"
 STRING IDS_LOGO_AUTHOR		"作者未知。如果是您制作了此标志请联系我们！"
 STRING IDS_LOW_FREQUENCY		"低音"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"成功保存缩略图"
 STRING IDS_OSD_ZOOM		"缩放: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"缩放: 自动"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"缩放: 自动 (仅放大)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"编辑(&E)..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"无法载入 D3DX9_xx.dll, 像素着色器不工作。"

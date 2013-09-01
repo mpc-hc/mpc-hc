@@ -287,7 +287,7 @@ BEGIN
     RTEXT           "L",IDC_STATIC,145,35,30,8
     CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | TBS_TOOLTIPS | WS_TABSTOP | 0x400,175,27,85,24
     LTEXT           "R",IDC_STATIC,261,35,27,8
-    GROUPBOX        "Playback",IDC_STATIC,5,112,126,58
+    GROUPBOX        "Playback",IDC_STATIC,5,112,126,59
     CONTROL         "Play",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,125,55,8
     CONTROL         "Repeat forever",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,10,138,116,8
     EDITTEXT        IDC_EDIT1,65,123,20,13,ES_AUTOHSCROLL | ES_NUMBER
@@ -300,12 +300,12 @@ BEGIN
     EDITTEXT        IDC_EDIT4,238,89,35,13,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,273,88,11,14
     LTEXT           "%",IDC_STATIC3,277,91,8,8
-    GROUPBOX        "Default track preference",IDC_STATIC,137,112,154,58
+    GROUPBOX        "Default track preference",IDC_STATIC,137,112,154,59
     LTEXT           "Subtitles:",IDC_STATIC,142,125,44,8
     EDITTEXT        IDC_EDIT2,190,123,94,13,ES_AUTOHSCROLL
     LTEXT           "Audio:",IDC_STATIC,142,140,44,8
     EDITTEXT        IDC_EDIT3,190,138,94,13,ES_AUTOHSCROLL
-    LTEXT           "(Example: eng jap swe)",IDC_STATIC,147,153,132,8
+    CONTROL         "Allow overriding external splitter choice",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,142,152,142,18
     GROUPBOX        "Open settings",IDC_STATIC,5,173,286,63
     CONTROL         "Use worker thread to construct the filter graph",IDC_CHECK7,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,185,276,8
@@ -1026,15 +1026,14 @@ BEGIN
     CONTROL         "Prefer external subtitles over embedded subtitles",IDC_CHECK2,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,17,285,8
     CONTROL         "Ignore embedded subtitles",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,29,285,8
-    CONTROL         "Allow overriding external splitter choice",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,41,285,8
-    GROUPBOX        "Autoload paths",IDC_STATIC,5,53,287,31
-    EDITTEXT        IDC_EDIT1,10,65,224,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Reset",IDC_BUTTON1,237,65,50,14
-    GROUPBOX        "Online database",IDC_STATIC,6,90,286,45
-    LTEXT           "Base URL of the online subtitle database:",IDC_STATIC,10,101,222,8
-    LTEXT           "http://",IDC_STATIC,10,115,22,8
-    COMBOBOX        IDC_COMBO1,35,113,199,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Test",IDC_BUTTON2,237,112,50,14
+    GROUPBOX        "Autoload paths",IDC_STATIC,5,41,287,31
+    EDITTEXT        IDC_EDIT1,10,53,224,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Reset",IDC_BUTTON1,237,53,50,14
+    GROUPBOX        "Online database",IDC_STATIC,6,78,286,45
+    LTEXT           "Base URL of the online subtitle database:",IDC_STATIC,10,89,222,8
+    LTEXT           "http://",IDC_STATIC,10,103,22,8
+    COMBOBOX        IDC_COMBO1,35,101,199,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Test",IDC_BUTTON2,237,100,50,14
 END
 
 IDD_UPDATE_DIALOG DIALOGEX 0, 0, 300, 60
@@ -3165,6 +3164,8 @@ BEGIN
     IDS_ZOOM_AUTOFIT                    "Auto Fit"
     IDS_ZOOM_AUTOFIT_LARGER             "Auto Fit (Larger Only)"
     IDS_SPEEDSTEP_AUTO                  "Auto"
+    IDS_LANG_PREF_EXAMPLE               "Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
+    IDS_OVERRIDE_EXT_SPLITTER_CHOICE    "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 END
 
 STRINGTABLE

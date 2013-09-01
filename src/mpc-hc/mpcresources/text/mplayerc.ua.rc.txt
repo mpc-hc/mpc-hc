@@ -316,7 +316,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 27		"Уподобання користувача щодо вибору:"
 28		"Субтитрів"
 30		"Аудіо"
-32		"(Наприклад: eng jap swe)"
+32		"Дозволити ігнорування вибору зовнішніх спліттерів"
 33		"Налаштування відркриття файлів"
 34		"Окремий потік для ланцюжка фільтрів"
 36		"Звіт про помилки рендерингу потоків"
@@ -354,16 +354,15 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 33		"Запам'ятов. останнє значення Pan-n-Scan"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 19
+BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 18
 5		"Віддавати перевагу форсованим і/або типовим доріжкам субтитрів"
 7		"Завжди, якщо можливо, робити типовими зовнішні субтитри"
 9		"Не завантажувати вбудовані субтитри"
-10		"Дозволити ігнорування вибору зовнішніх спліттерів"
-11		"Шлях автозавантаження зовнішніх субтитрів"
-13		"Скинути"
-14		"Онлайн база"
-15		"URL онлайн бази субтитрів:"
-18		"Тест"
+10		"Шлях автозавантаження зовнішніх субтитрів"
+12		"Скинути"
+13		"Онлайн база"
+14		"URL онлайн бази субтитрів:"
+17		"Тест"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
@@ -1421,6 +1420,7 @@ STRING IDS_INFOBAR_TITLE		"Назва"
 STRING IDS_INFOBAR_VIDEO		"Відео"
 STRING IDS_INTERNAL_LAVF		"Uses LAV Filters"
 STRING IDS_INVALID_PARAMS_ERROR		"Неможливо відкрити, некоректні вхідні параметри"
+STRING IDS_LANG_PREF_EXAMPLE		"Enter your preferred languages here.\nFor example, type: ""eng jap swe"""
 STRING IDS_LAST_IN_FOLDER		"Останній файл в теці запущений."
 STRING IDS_LOGO_AUTHOR		"Автор невідомий. Зв'яжіться зі мною, якщо це ваш лого!"
 STRING IDS_LOW_FREQUENCY		"Низькочастотний(LFE)"
@@ -1680,6 +1680,7 @@ STRING IDS_OSD_THUMBS_SAVED		"Мініатюри успішно збережен
 STRING IDS_OSD_ZOOM		"Масштаб: %.0lf%%"
 STRING IDS_OSD_ZOOM_AUTO		"Масштаб: Автоматично"
 STRING IDS_OSD_ZOOM_AUTO_LARGER		"Масштаб: Автоматично (лише збільшення)"
+STRING IDS_OVERRIDE_EXT_SPLITTER_CHOICE		"External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 STRING IDS_PANSCAN_EDIT		"Змінити..."
 STRING IDS_PARENTAL_RATING		"%d+"
 STRING IDS_PIXELSHADERCOMPILER_0		"Неможливо завантажити D3DX9_xx.dll, піксельні шейдери працювати не будуть."
