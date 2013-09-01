@@ -50,7 +50,7 @@ Legend:
   (IE8 or newer is needed, other browsers should work fine)
 * Updated Armenian, Basque, Czech, French, German, Greek, Japanese, Polish, Romanian,
   Simplified and Traditional Chinese and Slovak translations
-* Updated Little CMS to v2.5 (git 1d2643c)
+* Updated Little CMS to v2.5 (git 4eb0140)
 * Updated Unrar to v5.0.9
 * Updated MediaInfoLib to v0.7.64
 * Updated ZenLib to v0.4.29 r444
