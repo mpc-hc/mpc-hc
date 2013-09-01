@@ -11666,8 +11666,8 @@ DWORD CMainFrame::SetupSubtitleStreams()
                     rating = 16 * int(langs.GetCount() - k);
                     break;
                 }
-                if (externalPriority) {
-                    rating += 8;
+                if (externalPriority) { // External tracks are given a higher priority than language matches
+                    rating += 16 * int(langs.GetCount() + 1);
                 }
                 if (s.bPreferDefaultForcedSubtitles) {
                     if (name.Find(_T("[default,forced]")) != -1) { // for LAV Splitter
