@@ -23,13 +23,16 @@
 #include "ShockwaveGraph.h"
 #include "resource.h"
 #include "DSUtil.h"
+#include "SysVersion.h"
 #include <math.h>
+#include <Audiopolicy.h>
+#include <Mmdeviceapi.h>
 
 using namespace DSObjects;
 
-
 CShockwaveGraph::CShockwaveGraph(HWND hParent, HRESULT& hr)
     : m_fs(State_Stopped)
+    , m_fInitialVolume(1)
 {
     hr = S_OK;
 
@@ -45,12 +48,32 @@ CShockwaveGraph::CShockwaveGraph(HWND hParent, HRESULT& hr)
         return;
     }
     m_wndDestFrame.put_BackgroundColor(0);
+
+    if (SysVersion::IsVistaOrLater()) {
+        CComPtr<IMMDeviceEnumerator> pDeviceEnumerator;
+        if (SUCCEEDED(pDeviceEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator)))) {
+            CComPtr<IMMDevice> pDevice;
+            if (SUCCEEDED(pDeviceEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice))) {
+                CComPtr<IAudioSessionManager> pSessionManager;
+                if (SUCCEEDED(pDevice->Activate(__uuidof(IAudioSessionManager), CLSCTX_ALL, nullptr,
+                                                reinterpret_cast<void**>(&pSessionManager)))) {
+                    if (SUCCEEDED(pSessionManager->GetSimpleAudioVolume(nullptr, FALSE, &m_pSimpleVolume))) {
+                        VERIFY(SUCCEEDED(m_pSimpleVolume->GetMasterVolume(&m_fInitialVolume)));
+                    }
+                }
+            }
+        }
+        ASSERT(m_pSimpleVolume);
+    }
 }
 
 CShockwaveGraph::~CShockwaveGraph()
 {
     m_wndDestFrame.DestroyWindow();
     m_wndWindowFrame.DestroyWindow();
+    if (m_pSimpleVolume) {
+        VERIFY(SUCCEEDED(m_pSimpleVolume->SetMasterVolume(m_fInitialVolume, nullptr)));
+    }
 }
 
 // IGraphBuilder
@@ -249,27 +272,43 @@ STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
 // IBasicAudio
 STDMETHODIMP CShockwaveGraph::put_Volume(long lVolume)
 {
-    lVolume = (lVolume <= -10000) ? 0 : (long)(pow(10.0, lVolume / 4000.0) * 100);
-    lVolume = lVolume * 0x10000 / 100;
-    lVolume = max(min(lVolume, 0xffff), 0);
-    waveOutSetVolume(0, (lVolume << 16) | lVolume);
+    HRESULT hr = S_OK;
 
-    return S_OK;
+    if (m_pSimpleVolume) {
+        float fVolume = (lVolume <= -10000) ? 0 : (lVolume >= 0) ? 1 : pow(10.f, lVolume / 4000.f);
+        hr = m_pSimpleVolume->SetMasterVolume(fVolume, nullptr);
+    } else {
+        lVolume = (lVolume <= -10000) ? 0 : (long)(pow(10.0, lVolume / 4000.0) * 100);
+        lVolume = lVolume * 0x10000 / 100;
+        lVolume = max(min(lVolume, 0xffff), 0);
+        waveOutSetVolume(0, (lVolume << 16) | lVolume);
+    }
+
+    return hr;
 }
 
 STDMETHODIMP CShockwaveGraph::get_Volume(long* plVolume)
 {
     CheckPointer(plVolume, E_POINTER);
+    HRESULT hr = S_OK;
 
-    waveOutGetVolume(0, (DWORD*)plVolume);
-    *plVolume = (*plVolume & 0xffff + ((*plVolume >> 16) & 0xffff)) / 2 * 100 / 0x10000;
-    if (*plVolume > 0) {
-        *plVolume = min((long)(4000 * log10(*plVolume / 100.0f)), 0);
+    if (m_pSimpleVolume) {
+        float fVolume;
+        hr = m_pSimpleVolume->GetMasterVolume(&fVolume);
+        if (SUCCEEDED(hr)) {
+            *plVolume = (fVolume == 0) ? -10000 : long(4000 * log10(fVolume));
+        }
     } else {
-        *plVolume = -10000;
+        waveOutGetVolume(0, (DWORD*)plVolume);
+        *plVolume = (*plVolume & 0xffff + ((*plVolume >> 16) & 0xffff)) / 2 * 100 / 0x10000;
+        if (*plVolume > 0) {
+            *plVolume = min((long)(4000 * log10(*plVolume / 100.0f)), 0);
+        } else {
+            *plVolume = -10000;
+        }
     }
 
-    return S_OK;
+    return hr;
 }
 
 // IAMOpenProgress
