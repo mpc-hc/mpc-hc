@@ -51,7 +51,7 @@ Legend:
 * Updated Armenian, Basque, Czech, French, German, Greek, Japanese, Polish, Romanian,
   Simplified and Traditional Chinese and Slovak translations
 * Updated Little CMS to v2.5 (git 4eb0140)
-* Updated Unrar to v5.0.9
+* Updated Unrar to v5.0.0
 * Updated MediaInfoLib to v0.7.64
 * Updated ZenLib to v0.4.29 r444
 * Updated VirtualDub to v1.10.4-test11
