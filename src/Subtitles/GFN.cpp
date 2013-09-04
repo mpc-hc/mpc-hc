@@ -63,6 +63,7 @@ void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubF
 
     CString orgpath = fn.Left(l);
     CString title = fn.Mid(l, l2 - l);
+    int titleLength = title.GetLength();
     //CString filename = title + _T(".nooneexpectsthespanishinquisition");
 
     if (!fWeb) {
@@ -76,8 +77,8 @@ void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubF
                 extListSub.AppendChar(_T('|'));
             }
         }
-        regExpSub.Format(_T("%s([%s]+.+)?\\.(%s)$"), title, separators, extListSub);
-        regExpVid.Format(_T("%s.+\\.(%s)$"), title, extListVid);
+        regExpSub.Format(_T("([%s]+.+)?\\.(%s)$"), separators, extListSub);
+        regExpVid.Format(_T(".+\\.(%s)$"), extListVid);
 
         CAtlRegExp<CAtlRECharTraits> reSub, reVid;
         CAtlREMatchContext<CAtlRECharTraits> mc;
@@ -105,9 +106,9 @@ void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubF
             if ((hFile = FindFirstFile(path + title + _T("*"), &wfd)) != INVALID_HANDLE_VALUE) {
                 do {
                     CString fn = path + wfd.cFileName;
-                    if (reSub.Match(wfd.cFileName, &mc)) {
+                    if (reSub.Match(&wfd.cFileName[titleLength], &mc)) {
                         subs.AddTail(fn);
-                    } else if (reVid.Match(wfd.cFileName, &mc)) {
+                    } else if (reVid.Match(&wfd.cFileName[titleLength], &mc)) {
                         // Convert to lower-case and cut the extension for easier matching
                         vids.AddTail(fn.Left(fn.ReverseFind(_T('.'))).MakeLower());
                     }
