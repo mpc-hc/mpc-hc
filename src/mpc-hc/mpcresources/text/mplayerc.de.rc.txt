@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Ursprüngliche Auflösung bei Programmende wiederherstellen"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Um alternative Filter zu verwenden, die betreffenden Formate hier bitte deaktivieren. Durch einen Doppelklick auf fett gedruckte Formate können zugehörige Eigenschaften und Optionen des internen Filters aufgerufen werden."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Um alternative Filter zu verwenden, die betreffenden Formate hier bitte deaktivieren."
 6		"Quellen-Filter"
 8		"Decoder-Filter"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

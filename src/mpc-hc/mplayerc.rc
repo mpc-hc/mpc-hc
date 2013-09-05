@@ -704,11 +704,15 @@ IDD_PPAGEINTERNALFILTERS DIALOGEX 0, 0, 296, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "If you would like to use the stand-alone versions of these filters or another replacement, disable them here. Filters written in bold can be double-clicked to show their property pages.",IDC_STATIC,5,5,285,27
-    GROUPBOX        "Source Filters",IDC_STATIC,5,36,141,200
-    LISTBOX         IDC_LIST1,10,48,131,182,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Transform Filters",IDC_STATIC,150,36,141,200
-    LISTBOX         IDC_LIST2,155,48,131,182,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "If you would like to use the stand-alone versions of these filters or another replacement, disable them here.",IDC_STATIC,5,5,285,18
+    GROUPBOX        "Source Filters",IDC_STATIC,5,24,141,186
+    LISTBOX         IDC_LIST1,10,36,131,168,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Transform Filters",IDC_STATIC,150,24,141,186
+    LISTBOX         IDC_LIST2,155,36,131,168,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Internal LAV Filters settings",IDC_STATIC,5,212,286,28
+    PUSHBUTTON      "Splitter",IDC_SPLITTER_CONF,10,222,86,14
+    PUSHBUTTON      "Video decoder",IDC_VIDEO_DEC_CONF,105,222,86,14
+    PUSHBUTTON      "Audio decoder",IDC_AUDIO_DEC_CONF,200,222,86,14
 END
 
 IDD_PPAGELOGO DIALOGEX 0, 0, 296, 241

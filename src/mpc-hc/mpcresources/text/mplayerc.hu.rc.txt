@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Felbontás visszaállítása kilépéskor"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Ha az önálló változatait vagy valamilyen más helyettesítőit szeretné használni ezeknek a szűrőknek , tiltsa le őket itt. A vastagbetűvel írt szűrőkre duplán kattintva lehet előhozni a tulajdonságlapjaikat."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Ha az önálló változatait vagy valamilyen más helyettesítőit szeretné használni ezeknek a szűrőknek , tiltsa le őket itt."
 6		"Forrás Szűrők"
 8		"Dekódoló Szűrők"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

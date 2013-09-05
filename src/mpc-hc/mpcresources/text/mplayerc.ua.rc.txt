@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Відновлювати роздільну здатність після закриття програми"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Якщо Ви бажаєте використовувати окремі версії цих фільтрів/декодерів, то вимкніть їх тут. Фільтри, виділені жирним шрифтом, мають свої сторінки властивостей (активуються подвійним кліком)."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Якщо Ви бажаєте використовувати окремі версії цих фільтрів/декодерів, то вимкніть їх тут."
 6		"Фільтри джерел"
 8		"Декодери"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

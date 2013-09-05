@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Restore resolution on program exit"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"If you would like to use the stand-alone versions of these filters or another replacement, disable them here. Filters written in bold can be double-clicked to show their property pages."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
 6		"Source Filters"
 8		"Transform Filters"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

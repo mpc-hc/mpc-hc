@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Restaurează rezoluția la ieșirea din program"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Dacă doriți să folosiți versiunea autonomă a acestor filtre sau un înlocuitor, dezactivați-le aici. Pe filtrele scrise aldin (îngroșat) se poate da dublu-clic pentru a deschide paginile lor cu proprietăți."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Dacă doriți să folosiți versiunea autonomă a acestor filtre sau un înlocuitor, dezactivați-le aici."
 6		"Filtre sursă"
 8		"Filtre de transformare"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

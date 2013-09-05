@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Restaurar resolución al salir"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Si prefiere utilizar las versiones independientes de estos filtros o algun otro reemplazo, desactívelos aquí. Al dar doble clic en los filtros escritos en negritas se mostrarán sus páginas de propiedades."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Si prefiere utilizar las versiones independientes de estos filtros o algun otro reemplazo, desactívelos aquí."
 6		"Filtros de Fuentes"
 8		"Filtros de Transformación"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

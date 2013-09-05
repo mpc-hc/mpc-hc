@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Herstel resolutie bij afsluiten"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Als u een standalone-versie of een ander alternatief van een van deze filters wilt gebruiken, vink het dan hier uit. Filters in vet gedrukte letters kunt u dubbelklikken om hun eigenschappen te zien."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Als u een standalone-versie of een ander alternatief van een van deze filters wilt gebruiken, vink het dan hier uit."
 6		"Source Filters"
 8		"Transformatie Filters"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

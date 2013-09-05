@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Վերականգնել չափը՝ ծրագիրը փակելիս"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Եթե ցանկանում եք օգտագործել այս ֆիլտրերի առանձին տարբերակը, ապա անջատեք դրանք այստեղ։ Հաստ տառատեսակով ֆիլտրերը ունեն իրենց հատկություների էջը, որը կբացվի կրկնակի սեղմամբ։"
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Եթե ցանկանում եք օգտագործել այս ֆիլտրերի առանձին տարբերակը, ապա անջատեք դրանք այստեղ։"
 6		"Աղբյուրների ֆիլտրեր"
 8		"Ապակոդավորիչներ"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

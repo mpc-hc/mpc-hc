@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Восстанавливать разрешение после выхода из программы"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Если вы хотите использовать отдельную версию этих фильтров или другую замену, отключите их здесь. Фильтры, выделенные жирным шрифтом, имеют свои страницы свойств, открывающиеся по двойному клику."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Если вы хотите использовать отдельную версию этих фильтров или другую замену, отключите их здесь."
 6		"Фильтры источников"
 8		"Декодеры"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

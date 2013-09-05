@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Ripristina la risoluzione all'uscita"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Se vuoi utilizzare la versione stand-alone di questi filtri o qualche altro sostituito, disabilitali qui. I filtri in grassetto hanno opzioni disponibili aprendoli con un doppio click."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Se vuoi utilizzare la versione stand-alone di questi filtri o qualche altro sostituito, disabilitali qui."
 6		"Filtri sorgente"
 8		"Filtri di trasformazione"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Återställ skärmupplösning när programmet avslutas"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Om du vill använda en fristående version av ett filter eller ett annat externt filter, inaktivera dem här. Dubbelklicka på filter i fetstil för att visa dess egenskaper."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Om du vill använda en fristående version av ett filter eller ett annat externt filter, inaktivera dem här."
 6		"Käll-Filter"
 8		"Transformerings-Filter"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Узнаўляць вырашальнасць пасля выхаду з праграмы"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Калі вы жадаеце выкарыстоўваць асобную версію гэтых фільтраў або іншую замену, адключыце іх тут. Фільтры, вылучаныя тоўстым шрыфтам, маюць свае старонкі ўласцівасцяў, якія адкрываюцца па падвойным кліку."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Калі вы жадаеце выкарыстоўваць асобную версію гэтых фільтраў або іншую замену, адключыце іх тут."
 6		"Фільтры крыніц"
 8		"Дэкодэры"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

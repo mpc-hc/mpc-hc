@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"שחזר רזולוצייה ביציאה מהתוכנה"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"אם ברצונך להשתמש בגרסה הנפרדת של פילטרים אלה או חלופה אחרה, כבה אותם כאן. על פילטרים מודגשים אפשר להקליק פעמיים בכדי לראות את דפי ההגדרות שלהם."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"אם ברצונך להשתמש בגרסה הנפרדת של פילטרים אלה או חלופה אחרה, כבה אותם כאן."
 6		"פילטרי מקור"
 8		"פילטרי פענוח"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

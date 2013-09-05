@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Leheneratu bereizmena programatik irtetzerakoan"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Iragazki hauen bakarkako bertsioren bat edo ordezkoren bat erabiltzea nahi baduzu, ezgaitu itzazu hemen. Lodiz idatzitako iragazkiek beren ezaugarri orrialdea erakutsi dezakete klik bikoitza eginez."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Iragazki hauen bakarkako bertsioren bat edo ordezkoren bat erabiltzea nahi baduzu, ezgaitu itzazu hemen."
 6		"Iturburu Iragazkiak"
 8		"Eraldaketa Iragazkiak"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Po ukončení obnoviť pôvodné rozlíšenie"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Ak chcete použiť samostatný balíček filtrov, prípadne nejakú ich náhradu, túto voľbu zablokujte. Pri filtroch, ktorých názvy sú zobrazené tučným písmom, možno zobraziť stránku s doplnkovými informáciami."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Ak chcete použiť samostatný balíček filtrov, prípadne nejakú ich náhradu, túto voľbu zablokujte."
 6		"Zdrojové filtre"
 8		"Transformačné filtre"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

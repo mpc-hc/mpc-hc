@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"プログラム終了時に解像度を元に戻す"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"スタンドアロン版や代替フィルタを使用する場合は、該当する箇所を無効にしてください。太字で書かれたフィルタはダブルクリックでプロパティ ページを表示できます。"
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"スタンドアロン版や代替フィルタを使用する場合は、該当する箇所を無効にしてください。"
 6		"ソース フィルタ"
 8		"変換フィルタ"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

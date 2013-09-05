@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"離開後回復解析度"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"如果您想使用這些篩選器的獨立版本或是其它的替代品, 請先在此停用。點兩下以粗體字顯示的篩選器可以顯示其屬性頁面。"
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"如果您想使用這些篩選器的獨立版本或是其它的替代品, 請先在此停用。"
 6		"檔案來源篩選器 (分離器)"
 8		"編碼轉換篩選器 (解碼器)"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

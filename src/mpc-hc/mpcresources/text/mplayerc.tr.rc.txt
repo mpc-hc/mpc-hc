@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Çözünürlüğü çıkışta geri al"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Eğer bu filtrelerin başka sürümlerini veya aynı işte görevli başka yapımlarını kullanmak istiyorsanız, onları buradan kapatınız. Koyu renkle gösterilmiş filtrelerin üzerine çift tıklayarak kendi ayarlama seçeneklerini görüntüleyebilirsiniz."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Eğer bu filtrelerin başka sürümlerini veya aynı işte görevli başka yapımlarını kullanmak istiyorsanız, onları buradan kapatınız."
 6		"Kaynak Filtreleri"
 8		"Dönüştürme Filtreleri"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

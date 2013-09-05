@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"在退出程序后还原分辨率"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"如果您希望使用这些滤镜的独立版本或其它可替代品,请在此禁用它。用粗体标注的滤镜可以双击显示它们的属性页。"
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"如果您希望使用这些滤镜的独立版本或其它可替代品,请在此禁用它。"
 6		"源滤镜"
 8		"转换滤镜"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

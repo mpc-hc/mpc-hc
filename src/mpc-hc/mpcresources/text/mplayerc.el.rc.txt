@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Επαναφορά ανάλυσης στην έξοδο του προγράμματος"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Εάν θέλετε να χρησιμοποιήσετε την αυτόνομη έκδοση απ΄αυτά τα φίλτρα ή κάποια άλλη αντικατάσταση, απενεργοποιήστε τα εδώ. Στα φίλτρα γραμμένα με έντονη γραφή, μπορείτε με διπλό κλικ να εμφανίσετε τις σελίδες ιδιοτήτων τους."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Εάν θέλετε να χρησιμοποιήσετε την αυτόνομη έκδοση απ΄αυτά τα φίλτρα ή κάποια άλλη αντικατάσταση, απενεργοποιήστε τα εδώ."
 6		"Πηγαία φίλτρα"
 8		"Τροποποιημένα φίλτρα"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

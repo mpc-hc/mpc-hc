@@ -1412,6 +1412,9 @@
 #define IDS_OSD_D3DFS_REMINDER          41455
 #define IDS_LANG_PREF_EXAMPLE           41456
 #define IDS_OVERRIDE_EXT_SPLITTER_CHOICE 41457
+#define IDC_SPLITTER_CONF               41458
+#define IDC_VIDEO_DEC_CONF              41459
+#define IDC_AUDIO_DEC_CONF              41460
 #define IDS_PPAGE_CAPTURE_FG0           57345
 #define IDS_PPAGE_CAPTURE_FG1           57346
 #define IDS_PPAGE_CAPTURE_FG2           57347

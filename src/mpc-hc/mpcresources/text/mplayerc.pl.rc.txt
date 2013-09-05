@@ -241,10 +241,14 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 25		"Przywróć rozdzielczość przy wyłączaniu programu"
 END
 
-BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Aby użyć filtrów zewnętrznych, najczęściej należy najpierw odznaczyć odpowiednie filtry na poniższej liście. Dwukrotne kliknięcie wytłuszczonej nazwy filtra spowoduje otwarcie jego okna konfiguracyjnego."
+BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 14
+5		"Aby użyć filtrów zewnętrznych, najczęściej należy najpierw odznaczyć odpowiednie filtry na poniższej liście."
 6		"Filtry źródłowe"
 8		"Filtry przetwarzające"
+10		"Internal LAV Filters settings"
+11		"Splitter"
+12		"Video decoder"
+13		"Audio decoder"
 END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12

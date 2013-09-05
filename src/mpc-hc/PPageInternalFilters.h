@@ -30,16 +30,14 @@ struct filter_t {
     int type;
     int flag;
     UINT nHintID;
-    void (*ShowPropertyPages)(CWnd* pParendWnd);
 
     filter_t() {};
 
-    filter_t(LPCTSTR label, int type, int flag, UINT nHintID, void (*ShowPropertyPages)(CWnd* pParendWnd))
+    filter_t(LPCTSTR label, int type, int flag, UINT nHintID)
         : label(label)
         , type(type)
         , flag(flag)
         , nHintID(nHintID)
-        , ShowPropertyPages(ShowPropertyPages)
     {}
 };
 
@@ -65,7 +63,6 @@ protected:
     unsigned int m_nbChecked[FILTER_TYPE_NB];
 
 public:
-    virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
     virtual int AddFilter(filter_t* filter, bool checked);
     virtual void UpdateCheckState();
     afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
@@ -84,8 +81,6 @@ class CPPageInternalFilters : public CPPageBase
 
     void InitFiltersList();
 
-    void ShowPPage(CPPageInternalFiltersListBox& l);
-
 public:
     CPPageInternalFilters();
     virtual ~CPPageInternalFilters();
@@ -100,8 +95,9 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
-    afx_msg void OnLbnDblclkList1();
-    afx_msg void OnLbnDblclkList2();
     afx_msg void OnSelChange();
     afx_msg void OnCheckBoxChange();
+    afx_msg void OnBnClickedSplitterConf();
+    afx_msg void OnBnClickedVideoDecConf();
+    afx_msg void OnBnClickedAudioDecConf();
 };
