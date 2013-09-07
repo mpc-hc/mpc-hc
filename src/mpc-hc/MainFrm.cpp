@@ -13034,6 +13034,7 @@ static CString StripPath(CString path)
 {
     CString p = path;
     p.Replace('\\', '/');
+    p.TrimRight('/');
     p = p.Mid(p.ReverseFind('/') + 1);
     return (p.IsEmpty() ? path : p);
 }
@@ -16413,7 +16414,7 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
 
 CString CMainFrame::GetFileName()
 {
-    CPath path(m_wndPlaylistBar.GetCurFileName());
+    CString path(m_wndPlaylistBar.GetCurFileName());
 
     if (m_pFSF) {
         LPOLESTR pFN;
@@ -16423,8 +16424,7 @@ CString CMainFrame::GetFileName()
         }
     }
 
-    path.StripPath();
-    return path;
+    return StripPath(path);
 }
 
 GUID CMainFrame::GetTimeFormat()

@@ -87,6 +87,7 @@ static CString StripPath(CString path)
 {
     CString p = path;
     p.Replace('\\', '/');
+    p.TrimRight('/');
     p = p.Mid(p.ReverseFind('/') + 1);
     return (p.IsEmpty() ? path : p);
 }
