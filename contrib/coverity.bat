@@ -21,7 +21,7 @@ SETLOCAL
 
 PUSHD %~dp0
 
-SET COVDIR=H:\progs\thirdparty\cov-analysis-win64-6.5.1
+SET COVDIR=H:\progs\thirdparty\cov-analysis-win64-6.6.1
 
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86 || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
