@@ -151,7 +151,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
             }
         }
         MI.Open_Buffer_Finalize();
-        delete pBuffer;
+        delete [] pBuffer;
 
         MI_Text = MI.Inform().c_str();
     } else {
