@@ -2021,12 +2021,17 @@ bool IsISO639Language(LPCSTR code)
     _strlwr_s(tmp, nLen);
     tmp[0] = toupper(tmp[0]);
 
+    bool bFound = false;
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].name, tmp)) {
-            return true;
+            bFound = true;
+            break;
         }
     }
-    return false;
+
+    delete [] tmp;
+
+    return bFound;
 }
 
 CString ISO639XToLanguage(LPCSTR code, bool bCheckForFullLangName /*= false*/)
