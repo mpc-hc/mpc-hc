@@ -159,8 +159,8 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
                 LONGLONG total, available;
                 if (SUCCEEDED(pAR->Length(&total, &available))) {
                     size = total;
+                    break;
                 }
-                break;
             }
         }
         EndEnumPins;

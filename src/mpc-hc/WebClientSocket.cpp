@@ -457,9 +457,10 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
         BeginEnumPins(pBF, pEP, pPin) {
             if (CComQIPtr<IAsyncReader> pAR = pPin) {
                 LONGLONG total, available;
-                pAR->Length(&total, &available);
-                size = total;
-                break;
+                if (SUCCEEDED(pAR->Length(&total, &available))) {
+                    size = total;
+                    break;
+                }
             }
         }
         EndEnumPins;
