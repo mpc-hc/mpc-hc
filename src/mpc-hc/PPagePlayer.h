@@ -52,6 +52,8 @@ public:
     BOOL m_fRememberFilePos;
     BOOL m_bRememberPlaylistItems;
 
+    DWORD m_dwCheckIniLastTick;
+
     // Dialog Data
     enum { IDD = IDD_PPAGEPLAYER };
 
@@ -69,4 +71,5 @@ public:
     afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
     afx_msg void OnUpdateCheck13(CCmdUI* pCmdUI);
     afx_msg void OnUpdatePos(CCmdUI* pCmdUI);
+    void OnUpdateSaveToIni(CCmdUI* pCmdUI);
 };

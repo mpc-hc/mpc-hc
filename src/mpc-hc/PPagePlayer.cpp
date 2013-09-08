@@ -48,6 +48,7 @@ CPPagePlayer::CPPagePlayer()
     , m_fRememberDVDPos(FALSE)
     , m_fRememberFilePos(FALSE)
     , m_bRememberPlaylistItems(TRUE)
+    , m_dwCheckIniLastTick(0)
 {
 }
 
@@ -83,6 +84,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_CHECK13, OnUpdateCheck13)
     ON_UPDATE_COMMAND_UI(IDC_DVD_POS, OnUpdatePos)
     ON_UPDATE_COMMAND_UI(IDC_FILE_POS, OnUpdatePos)
+    ON_UPDATE_COMMAND_UI(IDC_CHECK8, OnUpdateSaveToIni)
 END_MESSAGE_MAP()
 
 // CPPagePlayer message handlers
@@ -206,4 +208,20 @@ void CPPagePlayer::OnUpdatePos(CCmdUI* pCmdUI)
     UpdateData();
 
     pCmdUI->Enable(!!m_fKeepHistory);
+}
+
+void CPPagePlayer::OnUpdateSaveToIni(CCmdUI* pCmdUI)
+{
+    DWORD dwTick = GetTickCount();
+    // run this check no often than once per second
+    if (dwTick - m_dwCheckIniLastTick >= 1000) {
+        CPath iniDirPath(AfxGetMyApp()->GetIniPath());
+        VERIFY(iniDirPath.RemoveFileSpec());
+        HANDLE hDir = CreateFile(iniDirPath, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+                                 OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+        // gray-out "save to .ini" option when we don't have writing permissions in the target directory
+        pCmdUI->Enable(hDir != INVALID_HANDLE_VALUE);
+        CloseHandle(hDir);
+        m_dwCheckIniLastTick = dwTick;
+    }
 }
