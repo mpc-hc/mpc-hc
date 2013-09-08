@@ -31,10 +31,7 @@ class CPPageFileInfoClip : public CPropertyPage
     DECLARE_DYNAMIC(CPPageFileInfoClip)
 
 private:
-    CComPtr<IFilterGraph> m_pFG;
-    CComPtr<IFileSourceFilter> m_pFSF;
     HICON m_hIcon;
-
     CToolTipCtrl m_tooltip;
 
 public:
@@ -51,6 +48,7 @@ public:
     CString m_copyright;
     CString m_rating;
     CString m_location_str;
+    CString m_desctext;
     CEdit   m_location;
     CEdit   m_desc;
 

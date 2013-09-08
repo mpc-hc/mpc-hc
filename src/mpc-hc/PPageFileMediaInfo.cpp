@@ -40,70 +40,21 @@ using namespace MediaInfoDLL;
 // CPPageFileMediaInfo dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileMediaInfo, CPropertyPage)
-CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF)
+CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
     : CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
     , m_fn(path)
     , m_path(path)
-    , m_pFG(pFG)
-    , m_pFSF(pFSF)
     , m_pCFont(nullptr)
 {
-}
-
-CPPageFileMediaInfo::~CPPageFileMediaInfo()
-{
-    delete m_pCFont;
-    m_pCFont = nullptr;
-}
-
-void CPPageFileMediaInfo::DoDataExchange(CDataExchange* pDX)
-{
-    __super::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_MIEDIT, m_mediainfo);
-}
-
-
-BEGIN_MESSAGE_MAP(CPPageFileMediaInfo, CPropertyPage)
-    ON_WM_SHOWWINDOW()
-END_MESSAGE_MAP()
-
-// CPPageFileMediaInfo message handlers
-static WNDPROC OldControlProc;
-
-static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    if (message == WM_KEYDOWN) {
-        if ((LOWORD(wParam) == 'A' || LOWORD(wParam) == 'a')
-                && (GetKeyState(VK_CONTROL) < 0)) {
-            CEdit* pEdit = (CEdit*)CWnd::FromHandle(control);
-            pEdit->SetSel(0, pEdit->GetWindowTextLength(), TRUE);
-            return 0;
-        }
-    }
-
-    return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call edit control's own windowproc
-}
-
-BOOL CPPageFileMediaInfo::OnInitDialog()
-{
-    __super::OnInitDialog();
-
-    if (!m_pCFont) {
-        m_pCFont = DEBUG_NEW CFont;
-    }
-    if (!m_pCFont) {
-        return TRUE;
-    }
-
     CComQIPtr<IAsyncReader> pAR;
-    if (m_pFSF) {
+    if (pFSF) {
         LPOLESTR pFN;
-        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
+        if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
             m_fn = pFN;
             CoTaskMemFree(pFN);
         }
 
-        if (CComQIPtr<IBaseFilter> pBF = m_pFSF) {
+        if (CComQIPtr<IBaseFilter> pBF = pFSF) {
             BeginEnumPins(pBF, pEP, pPin) {
                 if (pAR = pPin) {
                     break;
@@ -162,6 +113,52 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
         if (!MI_Text.Find(_T("Unable to load"))) {
             MI_Text = _T("");
         }
+    }
+}
+
+CPPageFileMediaInfo::~CPPageFileMediaInfo()
+{
+    delete m_pCFont;
+    m_pCFont = nullptr;
+}
+
+void CPPageFileMediaInfo::DoDataExchange(CDataExchange* pDX)
+{
+    __super::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_MIEDIT, m_mediainfo);
+}
+
+
+BEGIN_MESSAGE_MAP(CPPageFileMediaInfo, CPropertyPage)
+    ON_WM_SHOWWINDOW()
+END_MESSAGE_MAP()
+
+// CPPageFileMediaInfo message handlers
+static WNDPROC OldControlProc;
+
+static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    if (message == WM_KEYDOWN) {
+        if ((LOWORD(wParam) == 'A' || LOWORD(wParam) == 'a')
+                && (GetKeyState(VK_CONTROL) < 0)) {
+            CEdit* pEdit = (CEdit*)CWnd::FromHandle(control);
+            pEdit->SetSel(0, pEdit->GetWindowTextLength(), TRUE);
+            return 0;
+        }
+    }
+
+    return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call edit control's own windowproc
+}
+
+BOOL CPPageFileMediaInfo::OnInitDialog()
+{
+    __super::OnInitDialog();
+
+    if (!m_pCFont) {
+        m_pCFont = DEBUG_NEW CFont;
+    }
+    if (!m_pCFont) {
+        return TRUE;
     }
 
     LOGFONT lf;

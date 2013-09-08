@@ -30,53 +30,6 @@
 #include "moreuuids.h"
 
 
-// CPPageFileInfoDetails dialog
-
-IMPLEMENT_DYNAMIC(CPPageFileInfoDetails, CPropertyPage)
-CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF)
-    : CPropertyPage(CPPageFileInfoDetails::IDD, CPPageFileInfoDetails::IDD)
-    , m_fn(path)
-    , m_path(path)
-    , m_pFG(pFG)
-    , m_pCAP(pCAP)
-    , m_pFSF(pFSF)
-    , m_hIcon(nullptr)
-    , m_type(ResStr(IDS_AG_NOT_KNOWN))
-    , m_size(ResStr(IDS_AG_NOT_KNOWN))
-    , m_time(ResStr(IDS_AG_NOT_KNOWN))
-    , m_res(ResStr(IDS_AG_NOT_KNOWN))
-    , m_created(ResStr(IDS_AG_NOT_KNOWN))
-{
-}
-
-CPPageFileInfoDetails::~CPPageFileInfoDetails()
-{
-    if (m_hIcon) {
-        DestroyIcon(m_hIcon);
-    }
-}
-
-void CPPageFileInfoDetails::DoDataExchange(CDataExchange* pDX)
-{
-    __super::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_DEFAULTICON, m_icon);
-    DDX_Text(pDX, IDC_EDIT1, m_fn);
-    DDX_Text(pDX, IDC_EDIT4, m_type);
-    DDX_Text(pDX, IDC_EDIT3, m_size);
-    DDX_Text(pDX, IDC_EDIT2, m_time);
-    DDX_Text(pDX, IDC_EDIT5, m_res);
-    DDX_Text(pDX, IDC_EDIT6, m_created);
-    DDX_Control(pDX, IDC_EDIT7, m_encoding);
-}
-
-#define SETPAGEFOCUS (WM_APP + 252) // arbitrary number, can be changed if necessary
-
-BEGIN_MESSAGE_MAP(CPPageFileInfoDetails, CPropertyPage)
-    ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
-END_MESSAGE_MAP()
-
-// CPPageFileInfoDetails message handlers
-
 static bool GetProperty(IFilterGraph* pFG, LPCOLESTR propName, VARIANT* vt)
 {
     BeginEnumFilters(pFG, pEF, pBF) {
@@ -103,43 +56,31 @@ static CString FormatDateTime(FILETIME tm)
     return ret;
 }
 
-BOOL CPPageFileInfoDetails::OnInitDialog()
-{
-    __super::OnInitDialog();
+// CPPageFileInfoDetails dialog
 
-    if (m_pFSF) {
+IMPLEMENT_DYNAMIC(CPPageFileInfoDetails, CPropertyPage)
+CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF)
+    : CPropertyPage(CPPageFileInfoDetails::IDD, CPPageFileInfoDetails::IDD)
+    , m_fn(path)
+    , m_path(path)
+    , m_hIcon(nullptr)
+    , m_type(ResStr(IDS_AG_NOT_KNOWN))
+    , m_size(ResStr(IDS_AG_NOT_KNOWN))
+    , m_time(ResStr(IDS_AG_NOT_KNOWN))
+    , m_res(ResStr(IDS_AG_NOT_KNOWN))
+    , m_created(ResStr(IDS_AG_NOT_KNOWN))
+{
+    if (pFSF) {
         LPOLESTR pFN;
-        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
+        if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
             m_fn = pFN;
             CoTaskMemFree(pFN);
         }
     }
 
-    if (m_path.IsEmpty()) {
-        m_path = m_fn;
-    }
-
-    m_fn.TrimRight('/');
-    m_fn.Replace('\\', '/');
-    m_fn = m_fn.Mid(m_fn.ReverseFind('/') + 1);
-
-    CString ext = m_fn.Left(m_fn.Find(_T("://")) + 1).TrimRight(':');
-    if (ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
-        ext = _T(".") + m_fn.Mid(m_fn.ReverseFind('.') + 1);
-    }
-
-    m_hIcon = LoadIcon(m_fn, false);
-    if (m_hIcon) {
-        m_icon.SetIcon(m_hIcon);
-    }
-
-    if (!LoadType(ext, m_type)) {
-        m_type.LoadString(IDS_AG_NOT_KNOWN);
-    }
-
     CString created;
     CComVariant vt;
-    if (::GetProperty(m_pFG, L"CurFile.TimeCreated", &vt)) {
+    if (::GetProperty(pFG, L"CurFile.TimeCreated", &vt)) {
         if (V_VT(&vt) == VT_UI8) {
             ULARGE_INTEGER uli;
             uli.QuadPart = V_UI8(&vt);
@@ -153,7 +94,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
     }
 
     __int64 size = 0;
-    if (CComQIPtr<IBaseFilter> pBF = m_pFSF) {
+    if (CComQIPtr<IBaseFilter> pBF = pFSF) {
         BeginEnumPins(pBF, pEP, pPin) {
             if (CComQIPtr<IAsyncReader> pAR = pPin) {
                 LONGLONG total, available;
@@ -194,20 +135,20 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
     }
 
     REFERENCE_TIME rtDur = 0;
-    CComQIPtr<IMediaSeeking> pMS = m_pFG;
+    CComQIPtr<IMediaSeeking> pMS = pFG;
     if (pMS && SUCCEEDED(pMS->GetDuration(&rtDur)) && rtDur > 0) {
         m_time = ReftimeToString2(rtDur);
     }
 
     CSize wh(0, 0), arxy(0, 0);
 
-    if (m_pCAP) {
-        wh = m_pCAP->GetVideoSize(false);
-        arxy = m_pCAP->GetVideoSize(true);
+    if (pCAP) {
+        wh = pCAP->GetVideoSize(false);
+        arxy = pCAP->GetVideoSize(true);
     } else {
-        if (CComQIPtr<IBasicVideo> pBV = m_pFG) {
+        if (CComQIPtr<IBasicVideo> pBV = pFG) {
             if (SUCCEEDED(pBV->GetVideoSize(&wh.cx, &wh.cy))) {
-                if (CComQIPtr<IBasicVideo2> pBV2 = m_pFG) {
+                if (CComQIPtr<IBasicVideo2> pBV2 = pFG) {
                     pBV2->GetPreferredAspectRatio(&arxy.cx, &arxy.cy);
                 }
             } else {
@@ -216,7 +157,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
         }
 
         if (wh.cx == 0 && wh.cy == 0) {
-            BeginEnumFilters(m_pFG, pEF, pBF) {
+            BeginEnumFilters(pFG, pEF, pBF) {
                 if (CComQIPtr<IBasicVideo> pBV = pBF) {
                     pBV->GetVideoSize(&wh.cx, &wh.cy);
                     if (CComQIPtr<IBasicVideo2> pBV2 = pBF) {
@@ -251,12 +192,66 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
         }
     }
 
+    InitEncodingText(pFG);
+}
+
+CPPageFileInfoDetails::~CPPageFileInfoDetails()
+{
+    if (m_hIcon) {
+        DestroyIcon(m_hIcon);
+    }
+}
+
+void CPPageFileInfoDetails::DoDataExchange(CDataExchange* pDX)
+{
+    __super::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_DEFAULTICON, m_icon);
+    DDX_Text(pDX, IDC_EDIT1, m_fn);
+    DDX_Text(pDX, IDC_EDIT4, m_type);
+    DDX_Text(pDX, IDC_EDIT3, m_size);
+    DDX_Text(pDX, IDC_EDIT2, m_time);
+    DDX_Text(pDX, IDC_EDIT5, m_res);
+    DDX_Text(pDX, IDC_EDIT6, m_created);
+    DDX_Control(pDX, IDC_EDIT7, m_encoding);
+}
+
+#define SETPAGEFOCUS (WM_APP + 252) // arbitrary number, can be changed if necessary
+
+BEGIN_MESSAGE_MAP(CPPageFileInfoDetails, CPropertyPage)
+    ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
+END_MESSAGE_MAP()
+
+// CPPageFileInfoDetails message handlers
+
+BOOL CPPageFileInfoDetails::OnInitDialog()
+{
+    __super::OnInitDialog();
+
+    if (m_path.IsEmpty()) {
+        m_path = m_fn;
+    }
+
+    m_fn.TrimRight('/');
+    m_fn.Replace('\\', '/');
+    m_fn = m_fn.Mid(m_fn.ReverseFind('/') + 1);
+
+    CString ext = m_fn.Left(m_fn.Find(_T("://")) + 1).TrimRight(':');
+    if (ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
+        ext = _T(".") + m_fn.Mid(m_fn.ReverseFind('.') + 1);
+    }
+
+    m_hIcon = LoadIcon(m_fn, false);
+    if (m_hIcon) {
+        m_icon.SetIcon(m_hIcon);
+    }
+
+    if (!LoadType(ext, m_type)) {
+        m_type.LoadString(IDS_AG_NOT_KNOWN);
+    }
+
     UpdateData(FALSE);
 
-    InitEncoding();
-
-    m_pFG = nullptr;
-    m_pCAP = nullptr;
+    m_encoding.SetWindowText(m_encodingtext);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -276,11 +271,11 @@ LRESULT CPPageFileInfoDetails::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-void CPPageFileInfoDetails::InitEncoding()
+void CPPageFileInfoDetails::InitEncodingText(IFilterGraph* pFG)
 {
     CAtlList<CString> sl;
 
-    BeginEnumFilters(m_pFG, pEF, pBF) {
+    BeginEnumFilters(pFG, pEF, pBF) {
         CComPtr<IBaseFilter> pUSBF = GetUpStreamFilter(pBF);
 
         if (GetCLSID(pBF) == CLSID_NetShowSource) {
@@ -334,7 +329,6 @@ void CPPageFileInfoDetails::InitEncoding()
     }
     EndEnumFilters;
 
-    CString text = Implode(sl, '\n');
-    text.Replace(_T("\n"), _T("\r\n"));
-    m_encoding.SetWindowText(text);
+    m_encodingtext = Implode(sl, '\n');
+    m_encodingtext.Replace(_T("\n"), _T("\r\n"));
 }

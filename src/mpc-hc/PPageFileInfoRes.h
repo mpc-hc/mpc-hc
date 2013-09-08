@@ -34,10 +34,8 @@ class CPPageFileInfoRes : public CPPageBase
     DECLARE_DYNAMIC(CPPageFileInfoRes)
 
 private:
-    CComPtr<IFilterGraph> m_pFG;
-    CComPtr<IFileSourceFilter> m_pFSF;
     HICON m_hIcon;
-    CAtlList<CDSMResource> m_res;
+    std::vector<CDSMResource> m_res;
 
 public:
     CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF);   // standard constructor

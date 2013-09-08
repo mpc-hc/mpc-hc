@@ -32,13 +32,9 @@ class CPPageFileInfoDetails : public CPropertyPage
     DECLARE_DYNAMIC(CPPageFileInfoDetails)
 
 private:
-    CComPtr<IFilterGraph> m_pFG;
-    CComPtr<IFileSourceFilter> m_pFSF;
-    CComPtr<ISubPicAllocatorPresenter> m_pCAP;
-
     HICON m_hIcon;
 
-    void InitEncoding();
+    void InitEncodingText(IFilterGraph* pFG);
 
 public:
     CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF);
@@ -54,6 +50,7 @@ public:
     CString m_time;
     CString m_res;
     CString m_created;
+    CString m_encodingtext;
     CEdit   m_encoding;
 
 protected:

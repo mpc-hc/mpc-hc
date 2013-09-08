@@ -35,8 +35,6 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
     : CPropertyPage(CPPageFileInfoClip::IDD, CPPageFileInfoClip::IDD)
     , m_fn(path)
     , m_path(path)
-    , m_pFG(pFG)
-    , m_pFSF(pFSF)
     , m_clip(ResStr(IDS_AG_NONE))
     , m_author(ResStr(IDS_AG_NONE))
     , m_copyright(ResStr(IDS_AG_NONE))
@@ -44,6 +42,49 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
     , m_location_str(ResStr(IDS_AG_NONE))
     , m_hIcon(nullptr)
 {
+    if (pFSF) {
+        LPOLESTR pFN;
+        if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
+            m_fn = pFN;
+            CoTaskMemFree(pFN);
+        }
+    }
+
+    bool fEmpty = true;
+    BeginEnumFilters(pFG, pEF, pBF) {
+        if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
+            CComBSTR bstr;
+            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
+                m_clip = bstr.m_str;
+                fEmpty = false;
+            }
+            bstr.Empty();
+            if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
+                m_author = bstr.m_str;
+                fEmpty = false;
+            }
+            bstr.Empty();
+            if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
+                m_copyright = bstr.m_str;
+                fEmpty = false;
+            }
+            bstr.Empty();
+            if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
+                m_rating = bstr.m_str;
+                fEmpty = false;
+            }
+            bstr.Empty();
+            if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
+                m_desctext = bstr.m_str;
+                fEmpty = false;
+            }
+            bstr.Empty();
+            if (!fEmpty) {
+                break;
+            }
+        }
+    }
+    EndEnumFilters;
 }
 
 CPPageFileInfoClip::~CPPageFileInfoClip()
@@ -99,14 +140,6 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    if (m_pFSF) {
-        LPOLESTR pFN;
-        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
-            m_fn = pFN;
-            CoTaskMemFree(pFN);
-        }
-    }
-
     if (m_path.IsEmpty()) {
         m_path = m_fn;
     }
@@ -129,42 +162,6 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 
     m_location.SetWindowText(m_location_str);
 
-    bool fEmpty = true;
-    BeginEnumFilters(m_pFG, pEF, pBF) {
-        if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
-            CComBSTR bstr;
-            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
-                m_clip = bstr.m_str;
-                fEmpty = false;
-            }
-            bstr.Empty();
-            if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
-                m_author = bstr.m_str;
-                fEmpty = false;
-            }
-            bstr.Empty();
-            if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
-                m_copyright = bstr.m_str;
-                fEmpty = false;
-            }
-            bstr.Empty();
-            if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
-                m_rating = bstr.m_str;
-                fEmpty = false;
-            }
-            bstr.Empty();
-            if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
-                m_desc.SetWindowText(CString(bstr.m_str));
-                fEmpty = false;
-            }
-            bstr.Empty();
-            if (!fEmpty) {
-                break;
-            }
-        }
-    }
-    EndEnumFilters;
-
     m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
 
     m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
@@ -174,6 +171,8 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     if (FileExists(m_path)) {
         m_tooltip.AddTool(&m_location, IDS_TOOLTIP_EXPLORE_TO_FILE);
     }
+
+    m_desc.SetWindowText(m_desctext);
 
     UpdateData(FALSE);
 

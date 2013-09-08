@@ -63,6 +63,8 @@ Legend:
 ! Fixed creation date in file properties always being shown as "Not known"
 ! Ticket #2109, #2975, Fix the handling of aspect ratio changes when using EVR-CP or
   Sync Renderer with DXVA decoding
+! Ticket #2189, Fix graph objects not being properly released when opening another file while
+  Properties window is visible
 ! Ticket #3304, Fix remembering file position when double-clicking on a playlist item.
   If a position was previously saved, it will be restored unless the file is already playing.
 ! Ticket #3440, Disable the "Explore to" feature when the file isn't local in the Properties dialog
