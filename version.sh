@@ -24,6 +24,7 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
   hash=0000000
   ver=0
   ver_additional=
+  echo "Warning: Git not available or not a git repo. Using dummy values for hash and version number."
 else
   # Get information about the current version
   describe=$(git describe --long)
@@ -40,6 +41,14 @@ else
   # Get the current branch name
   branch=$(git symbolic-ref -q HEAD) && branch=${branch##refs/heads/} || branch="no branch"
 
+  echo "On branch: $branch"
+  echo "Hash:      $hash"
+  if ! git diff-index --quiet HEAD; then
+    echo "Revision:  $ver (Local modifications found)"
+  else
+    echo "Revision:  $ver"
+  fi
+
   # If we are on another branch that isn't master, we want extra info like on
   # which commit from master it is based on. This assumes we
   # won't ever branch from a changeset from before the move to git
@@ -51,6 +60,7 @@ else
       base=$(git merge-base master HEAD)
       base=${base:0:7}
       ver_additional+=" (master@${base})"
+      echo "Mergebase: master@${base}"
     fi
   fi
 fi
@@ -59,18 +69,6 @@ version_info+="#define MPCHC_HASH _T(\"$hash\")"$'\n'
 version_info+="#define MPC_VERSION_REV $ver"$'\n'
 version_info+="#define MPC_VERSION_REV_FULL _T(\"${ver}${ver_additional}\")"
 
-if [[ "$branch" ]]; then
-  echo "On branch: $branch"
-fi
-echo "Hash:      $hash"
-if [[ "$branch" ]] && ! git diff-index --quiet HEAD; then
-  echo "Revision:  $ver (Local modifications found)"
-else
-  echo "Revision:  $ver"
-fi
-if [[ -n "$base" ]]; then
-  echo "Mergebase: master@${base}"
-fi
 
 # Update version_rev.h if it does not exist, or if version information was changed.
 if [[ ! -f "$versionfile" ]] || [[ "$version_info" != "$(<"$versionfile")" ]]; then
