@@ -16,11 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# This is the last svn changeset, the number and hash can be automatically
-# calculated, but it is slow to do that. So it is better to have it hardcoded.
-svnrev=5597
-svnhash="f669833b77e6515dc5f0a682c5bf665f9a81b2ec"
-
 versionfile="./include/version_rev.h"
 manifestfile="./src/mpc-hc/res/mpc-hc.exe.manifest"
 
@@ -28,41 +23,41 @@ manifestfile="./src/mpc-hc/res/mpc-hc.exe.manifest"
 if ! git rev-parse --git-dir > /dev/null 2>&1; then
   hash=0000000
   ver=0
+  ver_additional=
 else
+  # Get information about the current version
+  describe=$(git describe --long)
+
+  # Get the abbreviated hash of the current changeset
+  hash=${describe##*-g}
+
+  # Get the number changesets since the last tag
+  ver=${describe#*-}
+  ver=${ver%-*}
+
+  ver_additional=" ($hash)"
+
   # Get the current branch name
   branch=$(git symbolic-ref -q HEAD) && branch=${branch##refs/heads/} || branch="no branch"
 
   # If we are on another branch that isn't master, we want extra info like on
-  # which commit from master it is based on and what its hash is. This assumes we
+  # which commit from master it is based on. This assumes we
   # won't ever branch from a changeset from before the move to git
   if [[ "$branch" != "master" ]]; then
     version_info="#define MPCHC_BRANCH _T(\"$branch\")"$'\n'
+    ver_additional+=" ($branch)"
     if git show-ref --verify --quiet refs/heads/master; then
       # Get where the branch is based on master
       base=$(git merge-base master HEAD)
-      base_ver=$(git rev-list --count $svnhash..$base)
-      base_ver=$((base_ver+svnrev))
-      ver_full=" ($branch) (master@${base_ver:0:7})"
-    else
-      ver_full=" ($branch)"
+      base=${base:0:7}
+      ver_additional+=" (master@${base})"
     fi
   fi
-
-  # Count how many changesets we have since the last svn changeset
-  ver=$(git rev-list --count $svnhash..HEAD)
-  # Now add it with to last svn revision number
-  ver=$((ver+svnrev))
-
-  # Get the abbreviated hash of the current changeset
-  hash=$(git rev-parse --short HEAD)
-
 fi
-
-ver_full="_T(\"$ver ($hash)$ver_full\")"
 
 version_info+="#define MPCHC_HASH _T(\"$hash\")"$'\n'
 version_info+="#define MPC_VERSION_REV $ver"$'\n'
-version_info+="#define MPC_VERSION_REV_FULL $ver_full"
+version_info+="#define MPC_VERSION_REV_FULL _T(\"${ver}${ver_additional}\")"
 
 if [[ "$branch" ]]; then
   echo "On branch: $branch"
@@ -74,7 +69,7 @@ else
   echo "Revision:  $ver"
 fi
 if [[ -n "$base" ]]; then
-  echo "Mergebase: master@${base_ver} (${base:0:7})"
+  echo "Mergebase: master@${base}"
 fi
 
 # Update version_rev.h if it does not exist, or if version information was changed.
