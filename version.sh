@@ -16,8 +16,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+versionfile_fixed="./include/version.h"
 versionfile="./include/version_rev.h"
 manifestfile="./src/mpc-hc/res/mpc-hc.exe.manifest"
+
+# Read major, minor and patch version numbers from static version.h file
+while read -r _ var value; do
+  if [[ $var == MPC_VERSION_MAJOR ]]; then
+    ver_fixed_major=$value
+  elif [[ $var == MPC_VERSION_MINOR ]]; then
+    ver_fixed_minor=$value
+  elif [[ $var == MPC_VERSION_PATCH ]]; then
+    ver_fixed_patch=$value
+  fi
+done < "$versionfile_fixed"
+ver_fixed="${ver_fixed_major}.${ver_fixed_minor}.${ver_fixed_patch}"
 
 # If we are not inside a git repo use hardcoded values
 if ! git rev-parse --git-dir > /dev/null 2>&1; then
@@ -76,8 +89,9 @@ if [[ ! -f "$versionfile" ]] || [[ "$version_info" != "$(<"$versionfile")" ]]; t
   echo "$version_info" > "$versionfile"
 fi
 
+
 # Update manifest file if it does not exist or if source manifest.conf was changed.
-newmanifest="$(sed -e "s/\\\$WCREV\\\$/${ver}/" "$manifestfile.conf")"
+newmanifest="$(sed -e "s/\\\$VERSION\\\$/${ver_fixed}.${ver}/" "$manifestfile.conf")"
 if [[ ! -f "$manifestfile" ]] || [[ "$newmanifest" != "$(<"$manifestfile")" ]]; then
   # Update the revision number in the manifest file
   echo "$newmanifest" > "$manifestfile"
