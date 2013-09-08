@@ -171,7 +171,9 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
     m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
 
-    m_tooltip.AddTool(&m_location, IDS_TOOLTIP_EXPLORE_TO_FILE);
+    if (FileExists(m_path)) {
+        m_tooltip.AddTool(&m_location, IDS_TOOLTIP_EXPLORE_TO_FILE);
+    }
 
     UpdateData(FALSE);
 

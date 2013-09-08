@@ -258,7 +258,7 @@ bool ExploreToFile(LPCTSTR path)
     bool success = false;
     PIDLIST_ABSOLUTE pidl;
 
-    if (SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
+    if (FileExists(path) && SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
         success = SUCCEEDED(SHOpenFolderAndSelectItems(pidl, 0, nullptr, 0));
         CoTaskMemFree(pidl);
     }
