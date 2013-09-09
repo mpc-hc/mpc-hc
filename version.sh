@@ -31,6 +31,7 @@ while read -r _ var value; do
   fi
 done < "$versionfile_fixed"
 ver_fixed="${ver_fixed_major}.${ver_fixed_minor}.${ver_fixed_patch}"
+echo "Version:   $ver_fixed"
 
 # If we are not inside a git repo use hardcoded values
 if ! git rev-parse --git-dir > /dev/null 2>&1; then
@@ -41,6 +42,7 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
 else
   # Get information about the current version
   describe=$(git describe --long)
+  echo "Describe:  $describe"
 
   # Get the abbreviated hash of the current changeset
   hash=${describe##*-g}
