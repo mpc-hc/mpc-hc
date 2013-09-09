@@ -29,7 +29,7 @@
 #endif
 
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
-;#define VS2012
+;#define VS2010
 ;#define x64Build
 ;#define MPCHC_LITE
 
@@ -63,10 +63,10 @@
 #define app_vername     = app_name + " " + app_ver
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
-#if defined(VS2012)
-  #define base_bindir   = "..\bin12"
-#else
+#if defined(VS2010)
   #define base_bindir   = "..\bin"
+#else
+  #define base_bindir   = "..\bin12"
 #endif
 
 #ifdef x64Build
@@ -95,8 +95,8 @@
   #endif
 #endif
 
-#if defined(VS2012)
-  #define OutFilename    = OutFilename + ".VS2012"
+#if defined(VS2010)
+  #define OutFilename    = OutFilename + ".VS2010"
 #endif
 
 #if MPC_BETA_RELEASE

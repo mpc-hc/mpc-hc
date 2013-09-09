@@ -99,7 +99,7 @@ IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTY
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "PPLATFORM=Both")
 IF %ARGC%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0    (SET "CONFIG=MPCHC")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "BUILDCFG=Release")
-IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2010")
+IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2012")
 IF %ARGCL%   GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGD%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGF%    GTR 1 (GOTO UnsupportedSwitch)
@@ -337,7 +337,7 @@ IF /I "%~1" == "x64" (
   CALL :SubCopyDXDll x64
 ) ELSE CALL :SubCopyDXDll x86
 
-IF /I "%COMPILER%" == "VS2012" (SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2012)
+IF /I "%COMPILER%" == "VS2010" (SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2010)
 
 CALL :SubDetectInnoSetup
 
@@ -384,7 +384,7 @@ IF /I "%BUILDCFG%" == "Debug" (
 	SET "PCKG_NAME=%PCKG_NAME%.dbg"
 	SET "VS_OUT_DIR=%VS_OUT_DIR%_Debug"
 )
-IF /I "%COMPILER%" == "VS2012" (SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%")
+IF /I "%COMPILER%" == "VS2010" (SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%")
 
 IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 IF EXIST "%PCKG_NAME%.pdb.7z" DEL "%PCKG_NAME%.pdb.7z"
