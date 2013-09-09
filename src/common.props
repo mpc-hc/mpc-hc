@@ -82,15 +82,15 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <StringPooling>true</StringPooling>
-      <WholeProgramOptimization Condition="'$(UseLTCG)'=='true'">true</WholeProgramOptimization>
+      <WholeProgramOptimization Condition="'$(PlatformToolsetVersion)'=='110'">true</WholeProgramOptimization>
     </ClCompile>
     <Lib>
-      <LinkTimeCodeGeneration Condition="'$(UseLTCG)'=='true'">true</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration Condition="'$(PlatformToolsetVersion)'=='110'">true</LinkTimeCodeGeneration>
     </Lib>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware Condition="'$(Platform)'=='Win32'">true</LargeAddressAware>
-      <LinkTimeCodeGeneration Condition="'$(UseLTCG)'=='true'">UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration Condition="'$(PlatformToolsetVersion)'=='110'">UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <MergeSections>.rdata=.text</MergeSections>
       <OptimizeReferences>true</OptimizeReferences>
       <SetChecksum>true</SetChecksum>
