@@ -23,12 +23,12 @@ PUSHD %~dp0
 
 SET COVDIR=H:\progs\thirdparty\cov-analysis-win64-6.6.1
 
-CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86 || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
+CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
 SET MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount^
  /nodeReuse:true /target:Rebuild /property:Configuration="Release Lite";Platform=Win32
 
-"%COVDIR%\bin\cov-build.exe" --dir cov-int MSBuild "..\mpc-hc.sln" %MSBUILD_SWITCHES%
+"%COVDIR%\bin\cov-build.exe" --dir cov-int MSBuild "..\mpc-hc_vs2012.sln" %MSBUILD_SWITCHES%
 
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
 IF EXIST "MPC-HC.tgz" DEL "MPC-HC.tgz"
