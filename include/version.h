@@ -69,12 +69,15 @@
 #define MPC_VERSION_NUM         MPC_VERSION_MAJOR,MPC_VERSION_MINOR,MPC_VERSION_PATCH,0
 #define MPC_VERSION_STR         MAKE_STR(MPC_VERSION_MAJOR) _T(".") \
                                 MAKE_STR(MPC_VERSION_MINOR) _T(".") \
-                                MAKE_STR(MPC_VERSION_PATCH) _T(".0")
+                                MAKE_STR(MPC_VERSION_PATCH)
 #define MPC_VERSION_STR_FULL    MPC_VERSION_STR
 
 #else // !NO_VERSION_REV_NEEDED
 
 #define MPC_VERSION_NUM         MPC_VERSION_MAJOR,MPC_VERSION_MINOR,MPC_VERSION_PATCH,MPC_VERSION_REV
+
+#if MPC_BETA_RELEASE
+
 #define MPC_VERSION_STR         MAKE_STR(MPC_VERSION_MAJOR) _T(".") \
                                 MAKE_STR(MPC_VERSION_MINOR) _T(".") \
                                 MAKE_STR(MPC_VERSION_PATCH) _T(".") \
@@ -82,7 +85,21 @@
 #define MPC_VERSION_STR_FULL    MAKE_STR(MPC_VERSION_MAJOR) _T(".") \
                                 MAKE_STR(MPC_VERSION_MINOR) _T(".") \
                                 MAKE_STR(MPC_VERSION_PATCH) _T(".") \
-                                MPC_VERSION_REV_FULL
+                                MAKE_STR(MPC_VERSION_REV) \
+                                MPC_VERSION_ADDITIONAL
+
+#else // !MPC_BETA_RELEASE
+
+#define MPC_VERSION_STR         MAKE_STR(MPC_VERSION_MAJOR) _T(".") \
+                                MAKE_STR(MPC_VERSION_MINOR) _T(".") \
+                                MAKE_STR(MPC_VERSION_PATCH)
+#define MPC_VERSION_STR_FULL    MAKE_STR(MPC_VERSION_MAJOR) _T(".") \
+                                MAKE_STR(MPC_VERSION_MINOR) _T(".") \
+                                MAKE_STR(MPC_VERSION_PATCH) \
+                                MPC_VERSION_ADDITIONAL
+
+#endif // MPC_BETA_RELEASE
+
 #endif // NO_VERSION_REV_NEEDED
 
 #endif // ISPP_INVOKED

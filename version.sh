@@ -82,7 +82,7 @@ fi
 
 version_info+="#define MPCHC_HASH _T(\"$hash\")"$'\n'
 version_info+="#define MPC_VERSION_REV $ver"$'\n'
-version_info+="#define MPC_VERSION_REV_FULL _T(\"${ver}${ver_additional}\")"
+version_info+="#define MPC_VERSION_ADDITIONAL _T(\"${ver_additional}\")"
 
 
 # Update version_rev.h if it does not exist, or if version information was changed.
