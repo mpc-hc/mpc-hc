@@ -66,6 +66,7 @@ Legend:
 ! Ticket #2189, Fix graph objects not being properly released when opening another file while
   Properties window is visible
 ! Ticket #3304, Fix remembering file position when double-clicking on a playlist item.
-  If a position was previously saved, it will be restored unless the file is already playing.
+  If a position was previously saved, it will be restored unless the file is already playing
+! Ticket #3425, Audio Switcher: Fix a crash when the audio resampling and channel remapping were enabled
 ! Ticket #3440, Disable the "Explore to" feature when the file isn't local in the Properties dialog
   and the playlist context menu
