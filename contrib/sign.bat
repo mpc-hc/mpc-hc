@@ -25,12 +25,10 @@ IF "%~1" == "" (
   GOTO END
 )
 
-IF NOT DEFINED VS100COMNTOOLS (
-  IF NOT DEFINED VS110COMNTOOLS (
-    ECHO %~nx0: Visual Studio does not seem to be installed...
-    SET SIGN_ERROR=True
-    GOTO END
-  )
+IF NOT DEFINED VS110COMNTOOLS (
+  ECHO %~nx0: Visual Studio does not seem to be installed...
+  SET SIGN_ERROR=True
+  GOTO END
 )
 
 IF NOT EXIST "%~dp0..\signinfo.txt" (
@@ -45,7 +43,7 @@ SET /P SIGN_CMD=<%~dp0..\signinfo.txt
 TITLE Signing "%~1"...
 ECHO. & ECHO Signing "%~1"...
 
-signtool /? 2>NUL || CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL
+signtool /? 2>NUL || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL
 
 signtool sign %SIGN_CMD% "%~1"
 IF %ERRORLEVEL% NEQ 0 (
