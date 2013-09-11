@@ -540,7 +540,7 @@ ECHO        Debug only applies to mpc-hc.sln.
 ECHO        The arguments are not case sensitive and can be ommitted.
 ECHO. & ECHO.
 ECHO Executing %~nx0 without any arguments will use the default ones:
-ECHO "%~nx0 Build Both MPCHC Release VS2010"
+ECHO "%~nx0 Build Both MPCHC Release VS2012"
 ECHO. & ECHO.
 ECHO Examples:
 ECHO %~nx0 x86 Resources     -Builds the x86 resources
