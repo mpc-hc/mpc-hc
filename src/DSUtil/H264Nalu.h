@@ -20,7 +20,6 @@
 
 #pragma once
 
-
 typedef enum {
     NALU_TYPE_SLICE    = 1,
     NALU_TYPE_DPA      = 2,

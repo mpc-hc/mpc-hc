@@ -20,6 +20,7 @@
  */
 
 #pragma once
+
 #include <atlcoll.h>
 #include <atlsimpcoll.h>
 
