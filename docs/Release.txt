@@ -15,9 +15,5 @@ Here is a quick how-to release a new stable build:
    the new version number
 
 
-In the next commit, bump the version:
-
-1) In "include/version.h"
-2) In "src/mpc-hc/res/mpc-hc.exe.manifest.conf"
-
-and set the MPC_BETA_RELEASE define to 1 in "include/version.h"
+In the next commit, bump the version and set the MPC_BETA_RELEASE define to 1
+in "include/version.h"
