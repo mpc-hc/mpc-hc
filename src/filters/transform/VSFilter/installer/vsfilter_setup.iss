@@ -66,14 +66,14 @@
   #define OutFilename   = OutFilename + ".VS2010"
 #endif
 
-#if MPC_BETA_RELEASE
+#if MPC_NIGHTLY_RELEASE
   #define FullAppNameVer = app_vername + " " + "(" + str(MPCHC_HASH) + ")"
 #else
   #define FullAppNameVer = app_vername
 #endif
 
-#if MPC_BETA_RELEASE
-  #define FullAppNameVer = FullAppNameVer + " " + str(MPC_VERSION_BETA)
+#if MPC_NIGHTLY_RELEASE
+  #define FullAppNameVer = FullAppNameVer + " " + str(MPC_VERSION_NIGHTLY)
 #endif
 #ifdef x64Build
   #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"

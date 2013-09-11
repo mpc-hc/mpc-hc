@@ -55,7 +55,7 @@
 #define MPC_VERSION_MINOR   7
 #define MPC_VERSION_PATCH   0
 
-#define MPC_BETA_RELEASE    1
+#define MPC_NIGHTLY_RELEASE 1
 
 #define MPC_COMP_NAME_STR       _T("MPC-HC Team")
 #define MPC_COPYRIGHT_STR       _T("Copyright © 2002-2013 all contributors, see Authors.txt")
@@ -76,7 +76,7 @@
 
 #define MPC_VERSION_NUM         MPC_VERSION_MAJOR,MPC_VERSION_MINOR,MPC_VERSION_PATCH,MPC_VERSION_REV
 
-#if MPC_BETA_RELEASE
+#if MPC_NIGHTLY_RELEASE
 
 #define MPC_VERSION_STR         MAKE_STR(MPC_VERSION_MAJOR) _T(".") \
                                 MAKE_STR(MPC_VERSION_MINOR) _T(".") \
@@ -88,7 +88,7 @@
                                 MAKE_STR(MPC_VERSION_REV) \
                                 MPC_VERSION_ADDITIONAL
 
-#else // !MPC_BETA_RELEASE
+#else // !MPC_NIGHTLY_RELEASE
 
 #define MPC_VERSION_STR         MAKE_STR(MPC_VERSION_MAJOR) _T(".") \
                                 MAKE_STR(MPC_VERSION_MINOR) _T(".") \
@@ -98,15 +98,15 @@
                                 MAKE_STR(MPC_VERSION_PATCH) \
                                 MPC_VERSION_ADDITIONAL
 
-#endif // MPC_BETA_RELEASE
+#endif // MPC_NIGHTLY_RELEASE
 
 #endif // NO_VERSION_REV_NEEDED
 
 #endif // ISPP_INVOKED
 
 
-#if MPC_BETA_RELEASE
-#define MPC_VERSION_BETA        _T("Beta")
+#if MPC_NIGHTLY_RELEASE
+#define MPC_VERSION_NIGHTLY     _T("Nightly")
 #endif
 
 #ifdef _WIN64

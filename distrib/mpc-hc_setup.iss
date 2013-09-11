@@ -54,7 +54,7 @@
 
 #define app_ver_full    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
 
-#if MPC_BETA_RELEASE
+#if MPC_NIGHTLY_RELEASE
   #define app_ver       app_ver_full
 #else
   #define app_ver       str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH)
@@ -99,14 +99,14 @@
   #define OutFilename    = OutFilename + ".VS2010"
 #endif
 
-#if MPC_BETA_RELEASE
+#if MPC_NIGHTLY_RELEASE
   #define FullAppNameVer = app_vername + " " + "(" + str(MPCHC_HASH) + ")"
 #else
   #define FullAppNameVer = app_vername
 #endif
 
-#if MPC_BETA_RELEASE
-  #define FullAppNameVer = FullAppNameVer + " " + "Beta"
+#if MPC_NIGHTLY_RELEASE
+  #define FullAppNameVer = FullAppNameVer + " " + str(MPC_VERSION_NIGHTLY)
 #endif
 #ifdef MPCHC_LITE
   #define FullAppNameVer = FullAppNameVer + " " + "Lite"
