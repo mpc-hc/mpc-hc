@@ -1059,10 +1059,8 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         m_list.SetItemText(iItem, COL_UNICODE, m_sts.IsEntryUnicode(iItem) ? _T("yes") : _T("no"));
                         fNeedsUpdate = true;
                     } else if (id == LAYERDEC || id == LAYERINC) {
-                        int d = (id == LAYERDEC) ? -1 : (id == LAYERINC) ? +1 : 0;
-                        if (d != 0) {
-                            fNeedsUpdate = true;
-                        }
+                        int d = (id == LAYERDEC) ? -1 : 1;
+                        fNeedsUpdate = true;
                         m_sts[iItem].layer += d;
                         CString s;
                         s.Format(_T("%d"), m_sts[iItem].layer);

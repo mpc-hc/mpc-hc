@@ -1049,10 +1049,6 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
                     } else {
                         break;
                     }
-
-                    if (n != 1) {
-                        break;
-                    }
                 }
 
                 if ((!m_rd.selids.IsEmpty() || m_rd.fClosedCaption) && line.IsEmpty()) {
