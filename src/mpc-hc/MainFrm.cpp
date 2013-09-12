@@ -7391,7 +7391,9 @@ void CMainFrame::OnPlayFramestep(UINT nID)
         BeginEnumFilters(m_pGB, pEF, pBF) {
             BeginEnumPins(pBF, pEP, pPin) {
                 AM_MEDIA_TYPE mt;
-                pPin->ConnectionMediaType(&mt);
+                if (FAILED(pPin->ConnectionMediaType(&mt))) {
+                    continue;
+                }
 
                 if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
                     rtAvgTime = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
@@ -8924,52 +8926,55 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
     } else if (GetPlaybackMode() == PM_DVD) {
         WCHAR path[MAX_PATH];
         ULONG len = 0;
-        m_pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
-        CString fn = path;
-        fn.TrimRight(_T("/\\"));
+        if (SUCCEEDED(m_pDVDI->GetDVDDirectory(path, MAX_PATH, &len))) {
+            CString fn = path;
+            fn.TrimRight(_T("/\\"));
 
-        DVD_PLAYBACK_LOCATION2 Location;
-        m_pDVDI->GetCurrentLocation(&Location);
-        CString desc;
-        desc.Format(_T("%s - T%02u C%02u - %02u:%02u:%02u"), fn, Location.TitleNum, Location.ChapterNum,
-                    Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds);
-
-        // Name
-        CString name;
-        if (fShowDialog) {
-            CFavoriteAddDlg dlg(fn, desc);
-            if (dlg.DoModal() != IDOK) {
-                return;
+            DVD_PLAYBACK_LOCATION2 Location;
+            CString desc;
+            if (SUCCEEDED(m_pDVDI->GetCurrentLocation(&Location))) {
+                desc.Format(_T("%s - T%02u C%02u - %02u:%02u:%02u"), fn, Location.TitleNum, Location.ChapterNum,
+                            Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds);
+            } else {
+                desc = fn;
             }
-            name = dlg.m_name;
-        } else {
-            name = s.bFavRememberPos ? desc : fn;
-        }
-        args.AddTail(name);
-
-        // RememberPos
-        CString pos(_T("0"));
-        if (s.bFavRememberPos) {
-            CDVDStateStream stream;
-            stream.AddRef();
-
-            CComPtr<IDvdState> pStateData;
-            CComQIPtr<IPersistStream> pPersistStream;
-            if (SUCCEEDED(m_pDVDI->GetState(&pStateData))
-                    && (pPersistStream = pStateData)
-                    && SUCCEEDED(OleSaveToStream(pPersistStream, (IStream*)&stream))) {
-                pos = BinToCString(stream.m_data.GetData(), stream.m_data.GetCount());
+            // Name
+            CString name;
+            if (fShowDialog) {
+                CFavoriteAddDlg dlg(fn, desc);
+                if (dlg.DoModal() != IDOK) {
+                    return;
+                }
+                name = dlg.m_name;
+            } else {
+                name = s.bFavRememberPos ? desc : fn;
             }
+            args.AddTail(name);
+
+            // RememberPos
+            CString pos(_T("0"));
+            if (s.bFavRememberPos) {
+                CDVDStateStream stream;
+                stream.AddRef();
+
+                CComPtr<IDvdState> pStateData;
+                CComQIPtr<IPersistStream> pPersistStream;
+                if (SUCCEEDED(m_pDVDI->GetState(&pStateData))
+                        && (pPersistStream = pStateData)
+                        && SUCCEEDED(OleSaveToStream(pPersistStream, (IStream*)&stream))) {
+                    pos = BinToCString(stream.m_data.GetData(), stream.m_data.GetCount());
+                }
+            }
+
+            args.AddTail(pos);
+
+            // Paths
+            args.AddTail(fn);
+
+            CString str = ImplodeEsc(args, sep);
+            s.AddFav(FAV_DVD, str);
+            osdMsg = IDS_DVD_FAV_ADDED;
         }
-
-        args.AddTail(pos);
-
-        // Paths
-        args.AddTail(fn);
-
-        CString str = ImplodeEsc(args, sep);
-        s.AddFav(FAV_DVD, str);
-        osdMsg = IDS_DVD_FAV_ADDED;
     } else if (GetPlaybackMode() == PM_CAPTURE) {
         // TODO
     }
@@ -11159,38 +11164,39 @@ void CMainFrame::OpenCustomizeGraph()
                 }
 
                 DWORD cnt = 0;
-                pSS->Count(&cnt);
-                for (DWORD i = 0; i < cnt; i++) {
-                    AM_MEDIA_TYPE* pmt = nullptr;
-                    DWORD dwFlags = 0;
-                    LCID lcid = 0;
-                    DWORD dwGroup = 0;
-                    WCHAR* pszName = nullptr;
-                    if (SUCCEEDED(pSS->Info((long)i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
-                        CStringW name(pszName), sound(ResStr(IDS_AG_SOUND)), subtitle(L"Subtitle");
+                if (SUCCEEDED(pSS->Count(&cnt))) {
+                    for (DWORD i = 0; i < cnt; i++) {
+                        AM_MEDIA_TYPE* pmt = nullptr;
+                        DWORD dwFlags = 0;
+                        LCID lcid = 0;
+                        DWORD dwGroup = 0;
+                        WCHAR* pszName = nullptr;
+                        if (SUCCEEDED(pSS->Info((long)i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
+                            CStringW name(pszName), sound(ResStr(IDS_AG_SOUND)), subtitle(L"Subtitle");
 
-                        if (idAudio != (LCID) - 1 && (idAudio & 0x3ff) == (lcid & 0x3ff) // sublang seems to be zeroed out in ogm...
-                                && name.GetLength() > sound.GetLength()
-                                && !name.Left(sound.GetLength()).CompareNoCase(sound)) {
-                            if (SUCCEEDED(pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE))) {
-                                idAudio = (LCID) - 1;
+                            if (idAudio != (LCID) - 1 && (idAudio & 0x3ff) == (lcid & 0x3ff) // sublang seems to be zeroed out in ogm...
+                                    && name.GetLength() > sound.GetLength()
+                                    && !name.Left(sound.GetLength()).CompareNoCase(sound)) {
+                                if (SUCCEEDED(pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE))) {
+                                    idAudio = (LCID) - 1;
+                                }
                             }
-                        }
 
-                        if (idSub != (LCID) - 1 && (idSub & 0x3ff) == (lcid & 0x3ff) // sublang seems to be zeroed out in ogm...
-                                && name.GetLength() > subtitle.GetLength()
-                                && !name.Left(subtitle.GetLength()).CompareNoCase(subtitle)
-                                && name.Mid(subtitle.GetLength()).Trim().CompareNoCase(L"off")) {
-                            if (SUCCEEDED(pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE))) {
-                                idSub = (LCID) - 1;
+                            if (idSub != (LCID) - 1 && (idSub & 0x3ff) == (lcid & 0x3ff) // sublang seems to be zeroed out in ogm...
+                                    && name.GetLength() > subtitle.GetLength()
+                                    && !name.Left(subtitle.GetLength()).CompareNoCase(subtitle)
+                                    && name.Mid(subtitle.GetLength()).Trim().CompareNoCase(L"off")) {
+                                if (SUCCEEDED(pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE))) {
+                                    idSub = (LCID) - 1;
+                                }
                             }
-                        }
 
-                        if (pmt) {
-                            DeleteMediaType(pmt);
-                        }
-                        if (pszName) {
-                            CoTaskMemFree(pszName);
+                            if (pmt) {
+                                DeleteMediaType(pmt);
+                            }
+                            if (pszName) {
+                                CoTaskMemFree(pszName);
+                            }
                         }
                     }
                 }
@@ -12601,8 +12607,8 @@ void CMainFrame::SetupFiltersSubMenu()
             EndEnumPins;
 
             CComQIPtr<IAMStreamSelect> pSS = pBF;
-            if (pSS) {
-                DWORD nStreams = 0;
+            DWORD nStreams = 0;
+            if (pSS && SUCCEEDED(pSS->Count(&nStreams))) {
                 DWORD flags = (DWORD) - 1;
                 DWORD group = (DWORD) - 1;
                 DWORD prevgroup = (DWORD) - 1;
@@ -12610,7 +12616,6 @@ void CMainFrame::SetupFiltersSubMenu()
                 WCHAR* wname = nullptr;
                 UINT uMenuFlags;
 
-                pSS->Count(&nStreams);
 
                 if (nStreams > 0 && nPPages > 0) {
                     pSubSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
@@ -12624,7 +12629,9 @@ void CMainFrame::SetupFiltersSubMenu()
 
                     flags = group = 0;
                     wname = nullptr;
-                    pSS->Info(i, nullptr, &flags, &lcid, &group, &wname, nullptr, nullptr);
+                    if (FAILED(pSS->Info(i, nullptr, &flags, &lcid, &group, &wname, nullptr, nullptr))) {
+                        continue;
+                    }
 
                     if (group != prevgroup && idl > idlstart) {
                         if (selectedInGroup) {
