@@ -1322,8 +1322,8 @@ CString GetMediaTypeName(const GUID& guid)
         ret = str;
     } else if (ret == _T("Unknown GUID Name")) {
         WCHAR null[128] = {0}, buff[128];
-        StringFromGUID2(GUID_NULL, null, 127);
-        ret = CString(CStringW(StringFromGUID2(guid, buff, 127) ? buff : null));
+        StringFromGUID2(GUID_NULL, null, _countof(null) - 1);
+        ret = CString(CStringW(StringFromGUID2(guid, buff, _countof(buff) - 1) ? buff : null));
     }
 
     return ret;
@@ -1347,8 +1347,8 @@ HRESULT GUIDFromCString(CString str, GUID& guid)
 CString CStringFromGUID(const GUID& guid)
 {
     WCHAR null[128] = {0}, buff[128];
-    StringFromGUID2(GUID_NULL, null, 127);
-    return CString(StringFromGUID2(guid, buff, 127) > 0 ? buff : null);
+    StringFromGUID2(GUID_NULL, null, _countof(null) - 1);
+    return CString(StringFromGUID2(guid, buff, _countof(buff) - 1) > 0 ? buff : null);
 }
 
 CStringW UTF8To16(LPCSTR utf8)

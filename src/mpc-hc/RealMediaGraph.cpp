@@ -688,7 +688,7 @@ STDMETHODIMP CRealMediaGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
     m_fn = lpcwstrFile;
 
     CHAR buff[MAX_PATH] = {0};
-    WideCharToMultiByte(GetACP(), 0, lpcwstrFile, -1, buff, MAX_PATH, 0, 0);
+    WideCharToMultiByte(GetACP(), 0, lpcwstrFile, -1, buff, _countof(buff), 0, 0);
 
     CStringA fn(buff);
     if (fn.Find("://") < 0) {

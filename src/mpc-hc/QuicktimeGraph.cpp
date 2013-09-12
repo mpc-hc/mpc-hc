@@ -487,7 +487,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
         }
 
         CHAR buff[MAX_PATH] = {0, 0};
-        WideCharToMultiByte(GetACP(), 0, fn, -1, buff + 1, MAX_PATH - 1, 0, 0);
+        WideCharToMultiByte(GetACP(), 0, fn, -1, buff + 1, _countof(buff) - 1, 0, 0);
         buff[0] = strlen(buff + 1);
 
         // Make a FSSpec with a pascal string filename
