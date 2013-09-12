@@ -3702,10 +3702,10 @@ void CSyncAP::RenderThread()
 
                                 if ((m_lShiftToNearestPrev - m_lShiftToNearest) > lDisplayCycle2) { // If a step down in the m_lShiftToNearest function. Display slower than video.
                                     m_bVideoSlowerThanDisplay = false;
-                                    m_llHysteresis = -(LONGLONG)(10000 * lDisplayCycle4);
+                                    m_llHysteresis = -(LONGLONG)lDisplayCycle4 * 10000;
                                 } else if ((m_lShiftToNearest - m_lShiftToNearestPrev) > lDisplayCycle2) { // If a step up
                                     m_bVideoSlowerThanDisplay = true;
-                                    m_llHysteresis = (LONGLONG)(10000 * lDisplayCycle4);
+                                    m_llHysteresis = (LONGLONG)lDisplayCycle4 * 10000;
                                 } else if ((m_lShiftToNearest < (3 * lDisplayCycle4)) && (m_lShiftToNearest > lDisplayCycle4)) {
                                     m_llHysteresis = 0;    // Reset when between 1/4 and 3/4 of the way either way
                                 }

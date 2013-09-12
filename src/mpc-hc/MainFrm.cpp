@@ -15345,7 +15345,7 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
             break;
         case CMD_SETAUDIODELAY:
-            rtPos = _wtol((LPCWSTR)pCDS->lpData) * 10000;
+            rtPos = (REFERENCE_TIME)_wtol((LPCWSTR)pCDS->lpData) * 10000;
             SetAudioDelay(rtPos);
             break;
         case CMD_SETSUBTITLEDELAY:
