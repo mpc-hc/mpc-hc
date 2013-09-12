@@ -25,6 +25,7 @@
 #include "PPageWebServer.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
+#include <afxglobals.h>
 
 
 // CPPageWebServer dialog

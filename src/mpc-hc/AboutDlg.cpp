@@ -28,6 +28,7 @@
 #include "version.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
+#include <afxole.h>
 
 extern "C" char g_Gcc_Compiler[];
 
