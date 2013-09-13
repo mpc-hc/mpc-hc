@@ -24,7 +24,12 @@ REM You can set here the Inno Setup path if for example you have Inno Setup Unic
 REM installed and you want to use the ANSI Inno Setup which is in another location
 IF NOT DEFINED InnoSetupPath SET "InnoSetupPath=H:\progs\thirdparty\isetup"
 
+SET ROOT_DIR=..\..\..\..\..
+SET "BIN_DIR=%ROOT_DIR%\bin12"
 CALL :SubDetectInnoSetup
+IF EXIST "%~dp0%ROOT_DIR%\signinfo.txt" (
+  CALL :SubSign Filters VSFilter.dll
+)
 CALL :SubInno
 CALL :SubInno x64Build
 
@@ -35,10 +40,36 @@ ENDLOCAL
 EXIT /B
 
 
+:SubSign
+IF %ERRORLEVEL% NEQ 0 EXIT /B
+REM %1 is Filters or MPC-HC
+REM %2 is name of the file to sign
+REM %3 is the subfolder
+
+PUSHD "%BIN_DIR%\%~1_x86\%3"
+FOR /F "delims=" %%A IN ('DIR "%2" /b') DO (
+  CALL "%~dp0%ROOT_DIR%\contrib\sign.bat" "%%A" || (ECHO Problem signing %%A & GOTO Break)
+)
+ECHO %2 signed successfully.
+POPD
+
+PUSHD "%BIN_DIR%\%~1_x64\%3"
+FOR /F "delims=" %%A IN ('DIR "%2" /b') DO (
+  CALL "%~dp0%ROOT_DIR%\contrib\sign.bat" "%%A" || (ECHO Problem signing %%A & GOTO Break)
+)
+ECHO %2 signed successfully.
+POPD
+
+:Break
+POPD
+EXIT /B
+
+
 :SubInno
 ECHO.
 TITLE Building VSFilter installer...
-"%InnoSetupPath%\ISCC.exe" /Q "vsfilter_setup.iss" /D%~1 /D%~2
+"%InnoSetupPath%\ISCC.exe" /SMySignTool="cmd /c "%~dp0%ROOT_DIR%\contrib\sign.bat" $f" /Q^
+ "vsfilter_setup.iss" /D%~1 /D%~2
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 IF /I "%~1%" == "x64Build" (
   ECHO Installer x64 compiled successfully!

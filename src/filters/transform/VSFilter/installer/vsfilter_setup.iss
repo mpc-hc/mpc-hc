@@ -123,6 +123,9 @@ ArchitecturesInstallIn64BitMode=x64
 #else
 AppID=vsfilter
 #endif
+#ifexist top_dir + "\signinfo.txt"
+SignTool=MySignTool
+#endif
 
 
 [Languages]
