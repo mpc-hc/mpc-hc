@@ -741,6 +741,8 @@ BOOL Mhook_SetHook(PVOID *ppSystemFunction, PVOID pHookFunction) {
 
 					// flush instruction cache and restore original protection
 					FlushInstructionCache(hProc, pTrampoline->codeTrampoline, dwInstructionLength);
+					// MPC-HC HACK: otherwise we go into infinite recursion when hooking NtQueryInformationProcess() with EMET active and the hook calls the original function
+					*ppSystemFunction = pTrampoline->codeTrampoline;
 					VirtualProtectEx(hProc, pTrampoline, sizeof(MHOOKS_TRAMPOLINE), dwOldProtectTrampolineFunction, &dwOldProtectTrampolineFunction);
 				} else {
 					ODPRINTF((L"mhooks: Mhook_SetHook: failed VirtualProtectEx 2: %d", gle()));
