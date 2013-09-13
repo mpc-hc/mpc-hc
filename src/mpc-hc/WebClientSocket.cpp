@@ -444,13 +444,14 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
     int pos = (int)(m_pMainFrame->GetPos() / 10000);
     int dur = (int)(m_pMainFrame->GetDur() / 10000);
 
-    CString positionstring, durationstring, versionstring, sizestring, file;
+    CString positionstring, durationstring, versionstring, sizestring;
     versionstring.Format(L"%s", AfxGetMyApp()->m_strVersion);
 
     positionstring.Format(_T("%02d:%02d:%02d"), (pos / 3600000), (pos / 60000) % 60, (pos / 1000) % 60);
     durationstring.Format(_T("%02d:%02d:%02d"), (dur / 3600000), (dur / 60000) % 60, (dur / 1000) % 60);
 
-    file = m_pMainFrame->GetFileName();
+    CPath file(m_pMainFrame->GetFileName());
+    file.RemoveExtension();
 
     __int64 size = 0;
     if (CComQIPtr<IBaseFilter> pBF = m_pMainFrame->m_pFSF) {
