@@ -27,6 +27,8 @@
 
 // CPPageSubStyle dialog
 
+#pragma warning(push)
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 IMPLEMENT_DYNAMIC(CPPageSubStyle, CPPageBase)
 CPPageSubStyle::CPPageSubStyle()
     : CPPageBase(CPPageSubStyle::IDD, CPPageSubStyle::IDD)
@@ -44,8 +46,10 @@ CPPageSubStyle::CPPageSubStyle()
     , m_iRelativeTo(0)
     , m_fUseDefaultStyle(true)
     , m_stss(AfxGetAppSettings().subtitlesDefStyle)
+    , m_alpha()
 {
 }
+#pragma warning(pop)
 
 CPPageSubStyle::~CPPageSubStyle()
 {

@@ -42,7 +42,11 @@ struct EventDescriptor {
     int parentalRating;
     CString content;
 
-    EventDescriptor() : parentalRating(-1) {};
+    EventDescriptor()
+        : startTime(0)
+        , duration(0)
+        , parentalRating(-1)
+    {};
 };
 
 enum DVB_STREAM_TYPE {

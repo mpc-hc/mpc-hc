@@ -52,6 +52,7 @@ public IUnknown {
 CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString& _Error)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
     , m_ScreenSize(0, 0)
+    , m_bIsFullscreen(false)
 {
     if (FAILED(hr)) {
         _Error += L"ISubPicAllocatorPresenterImpl failed\n";

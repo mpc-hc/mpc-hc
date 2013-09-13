@@ -216,6 +216,7 @@ CString FindLangFromId(WORD id)
 CVobSubFile::CVobSubFile(CCritSec* pLock)
     : CSubPicProviderImpl(pLock)
     , m_sub(1024 * 1024)
+    , m_iLang(0)
 {
 }
 

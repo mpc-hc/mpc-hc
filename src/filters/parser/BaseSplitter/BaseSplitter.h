@@ -108,9 +108,12 @@ public:
     static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
     REFERENCE_TIME rtStart, rtStop;
     AM_MEDIA_TYPE* pmt;
-    Packet() {
-        pmt = nullptr;
-        bDiscontinuity = bAppendable = FALSE;
+    Packet()
+        : pmt(nullptr)
+        , bDiscontinuity(FALSE)
+        , bAppendable(FALSE)
+        , bSyncPoint(FALSE)
+        , TrackNumber(0) {
     }
     virtual ~Packet() {
         if (pmt) {

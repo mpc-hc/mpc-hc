@@ -564,9 +564,15 @@ void CLCDMyColorPage::SetPlayState(PlayState ps)
 
 /* attach to an available lcd */
 CMPC_Lcd::CMPC_Lcd()
+    : hLCD_UpdateThread(nullptr)
+    , m_nMediaStart(0)
+    , m_nMediaStop(0)
+    , m_nVolumeStart(0)
+    , m_nVolumeStop(100)
+    , Thread_Loop(false)
+    , nThread_tTimeout(0)
 {
     InitializeCriticalSection(&cs);
-    hLCD_UpdateThread = nullptr;
 
     // lcd init
     ZeroMemory(&m_ConnCtx, sizeof(m_ConnCtx));

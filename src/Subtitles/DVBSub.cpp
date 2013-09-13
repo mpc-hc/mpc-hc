@@ -37,6 +37,8 @@ CDVBSub::CDVBSub()
     , m_nBufferWritePos(0)
     , m_nBufferSize(0)
     , m_pBuffer(nullptr)
+    , m_rtStart(0)
+    , m_rtStop(0)
 {
 }
 

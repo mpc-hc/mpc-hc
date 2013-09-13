@@ -34,11 +34,17 @@ struct SubPicDesc {
     BYTE* bitsV;
     RECT vidrect; // video rectangle
 
-    struct SubPicDesc() {
-        type = 0;
-        w = h = bpp = pitch = pitchUV = 0;
-        bits = nullptr;
-        bitsU = bitsV = nullptr;
+    struct SubPicDesc()
+        : type(0)
+        , w(0)
+        , h(0)
+        , bpp(0)
+        , pitch(0)
+        , pitchUV(0)
+        , bits(nullptr)
+        , bitsU(nullptr)
+        , bitsV(nullptr) {
+        ZeroMemory(&vidrect, sizeof(vidrect));
     }
 };
 #pragma pack(pop)

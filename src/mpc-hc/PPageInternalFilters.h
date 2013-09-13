@@ -31,14 +31,19 @@ struct filter_t {
     int flag;
     UINT nHintID;
 
-    filter_t() {};
+    filter_t()
+        : label(nullptr)
+        , type(0)
+        , flag(0)
+        , nHintID(0) {
+    };
 
     filter_t(LPCTSTR label, int type, int flag, UINT nHintID)
         : label(label)
         , type(type)
         , flag(flag)
-        , nHintID(nHintID)
-    {}
+        , nHintID(nHintID) {
+    };
 };
 
 class CPPageInternalFiltersListBox : public CCheckListBox

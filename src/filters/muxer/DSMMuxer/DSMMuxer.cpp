@@ -89,6 +89,7 @@ CDSMMuxerFilter::CDSMMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr, bool fAutoChap, b
     : CBaseMuxerFilter(pUnk, phr, __uuidof(this))
     , m_fAutoChap(fAutoChap)
     , m_fAutoRes(fAutoRes)
+    , m_rtPrevSyncPoint(_I64_MIN)
 {
     if (phr) {
         *phr = S_OK;

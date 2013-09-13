@@ -53,15 +53,26 @@ int Rasterizer::getOverlayWidth()
     return mOverlayWidth * 8;
 }
 
-Rasterizer::Rasterizer() :
-    mpPathTypes(nullptr),
-    mpPathPoints(nullptr),
-    mPathPoints(0),
-    mpOverlayBuffer(nullptr)
+Rasterizer::Rasterizer()
+    : mpPathTypes(nullptr)
+    , mpPathPoints(nullptr)
+    , mPathPoints(0)
+    , mpOverlayBuffer(nullptr)
+    , mOverlayWidth(0)
+    , mOverlayHeight(0)
+    , mPathOffsetX(0)
+    , mPathOffsetY(0)
+    , mOffsetX(0)
+    , mOffsetY(0)
+    , fFirstSet(false)
+    , mWidth(0)
+    , mHeight(0)
+    , mWideBorder(0)
+    , mpEdgeBuffer(nullptr)
+    , mEdgeHeapSize(0)
+    , mEdgeNext(0)
+    , mpScanBuffer(0)
 {
-    mOverlayWidth = mOverlayHeight = 0;
-    mPathOffsetX = mPathOffsetY = 0;
-    mOffsetX = mOffsetY = 0;
     // CPUID from VDub
     fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 }

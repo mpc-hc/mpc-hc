@@ -237,20 +237,33 @@ public:
     int rmrepcnt;
 
     wmcmd(WORD cmd = 0)
-        : rmrepcnt(0) {
+        : appcmd(0)
+        , appcmdorg(0)
+        , dwname(0)
+        , mouse(NONE)
+        , mouseorg(NONE)
+        , mouseFS(NONE)
+        , mouseFSorg(NONE)
+        , rmcmd("")
+        , rmrepcnt(0) {
         this->cmd = cmd;
+        this->key = 0;
+        this->fVirt = 0;
     }
 
-    wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, UINT mouseFS = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5) {
+    wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, UINT mouseFS = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)
+        : appcmd(appcmd)
+        , appcmdorg(appcmd)
+        , dwname(dwname)
+        , mouse(mouse)
+        , mouseorg(mouse)
+        , mouseFS(mouseFS)
+        , mouseFSorg(mouseFS)
+        , rmcmd(rmcmd)
+        , rmrepcnt(rmrepcnt) {
         this->cmd = cmd;
         this->key = key;
         this->fVirt = fVirt;
-        this->appcmd = appcmdorg = appcmd;
-        this->dwname = dwname;
-        this->mouse = mouseorg = mouse;
-        this->mouseFS = mouseFSorg = mouseFS;
-        this->rmcmd = rmcmd;
-        this->rmrepcnt = rmrepcnt;
         backup = *this;
     }
 
@@ -409,7 +422,7 @@ public:
     CString         strLogoFileName;
 
     // Web Inteface
-    BOOL            fEnableWebServer;
+    bool            fEnableWebServer;
     int             nWebServerPort;
     int             nCmdlnWebServerPort;
     bool            fWebServerUseCompression;

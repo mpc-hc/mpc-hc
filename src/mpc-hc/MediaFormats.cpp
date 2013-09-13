@@ -30,7 +30,9 @@
 //
 
 CMediaFormatCategory::CMediaFormatCategory()
-    : m_fAudioOnly(false), m_fAssociable(true)
+    : m_fAudioOnly(false)
+    , m_fAssociable(true)
+    , m_engine(DirectShow)
 {
 }
 
@@ -184,6 +186,8 @@ CString CMediaFormatCategory::GetBackupExtsWithPeriod(bool fAppendEngine) const
 //
 
 CMediaFormats::CMediaFormats()
+    : m_iRtspHandler((engine_t)(int)RealMedia)
+    , m_fRtspFileExtFirst(1)
 {
 }
 

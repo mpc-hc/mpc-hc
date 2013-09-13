@@ -149,6 +149,7 @@ CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* 
     , m_bDisableAnim(bDisableAnim)
     , m_rtQueueMin(0)
     , m_rtQueueMax(0)
+    , m_rtInvalidate(0)
 {
     if (phr && FAILED(*phr)) {
         return;

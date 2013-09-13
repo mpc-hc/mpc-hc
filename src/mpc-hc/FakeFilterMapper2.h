@@ -45,7 +45,8 @@ public:
         , fTemporary(false)
         , type(EXTERNAL)
         , iLoadType(0)
-        , dwMerit(0) {
+        , dwMerit(0)
+        , clsid(GUID_NULL) {
     }
     FilterOverride(FilterOverride* f) {
         fDisabled = f->fDisabled;

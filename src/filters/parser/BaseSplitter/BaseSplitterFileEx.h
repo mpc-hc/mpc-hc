@@ -379,11 +379,14 @@ public:
             , crop_left(0)
             , crop_right(0)
             , crop_top(0)
-            , crop_bottom(0) {
+            , crop_bottom(0)
+            , lastid(0)
+            , views(1)
+            , AvgTimePerFrame(0)
+            , profile(0)
+            , level(0) {
             ZeroMemory(spspps, sizeof(spspps));
-            lastid = 0;
-            views = 1;
-            AvgTimePerFrame = 0;
+            ZeroMemory(&sar, sizeof(sar));
         }
     };
 

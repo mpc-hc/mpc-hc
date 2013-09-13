@@ -25,13 +25,24 @@
 #include <math.h>
 
 CVobSubImage::CVobSubImage()
+    : iLang(-1)
+    , iIdx(-1)
+    , fForced(false)
+    , start(0)
+    , delay(0)
+    , rect(CRect(0, 0, 0, 0))
+    , lpPixels(nullptr)
+    , lpTemp1(nullptr)
+    , lpTemp2(nullptr)
+    , org(CSize(0, 0))
+    , nPlane(0)
+    , fCustomPal(false)
+    , fAligned(1)
+    , tridx(0)
+    , orgpal(nullptr)
+    , cuspal(nullptr)
 {
-    iLang = iIdx = -1;
-    fForced = false;
-    start = delay = 0;
-    rect = CRect(0, 0, 0, 0);
-    lpPixels = lpTemp1 = lpTemp2 = nullptr;
-    org = CSize(0, 0);
+    ZeroMemory(&pal, sizeof(pal));
 }
 
 CVobSubImage::~CVobSubImage()

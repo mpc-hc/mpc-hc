@@ -177,11 +177,15 @@ static void make_downsample_filter(long* filter_bank, int filter_width, long sam
 }
 
 AudioStreamResampler::AudioStreamResampler(int bps, long orig_rate, long new_rate, bool fHighQuality)
+    : samp_frac(0x80000)
+    , bps(bps)
+    , holdover(0)
+    , filter_bank(nullptr)
+    , filter_width(1)
+    , accum(0)
+    , ptsampleRout(audio_pointsample_16)
+    , dnsampleRout(audio_downsample_mono16)
 {
-    samp_frac = 0x80000;
-
-    this->bps = bps;
-
     if (bps == 1) {
         ptsampleRout = audio_pointsample_8;
         dnsampleRout = audio_downsample_mono8;
@@ -195,13 +199,7 @@ AudioStreamResampler::AudioStreamResampler(int bps, long orig_rate, long new_rat
     // orig_rate > new_rate!
     samp_frac = MulDiv(orig_rate, 0x80000, new_rate);
 
-    holdover = 0;
-    filter_bank = nullptr;
-    filter_width = 1;
-    accum = 0;
-
     // If this is a high-quality downsample, allocate memory for the filter bank
-
     if (fHighQuality) {
         if (samp_frac > 0x80000) {
             // HQ downsample: allocate filter bank

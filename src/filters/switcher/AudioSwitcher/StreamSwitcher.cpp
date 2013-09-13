@@ -1164,6 +1164,8 @@ STDMETHODIMP CStreamSwitcherOutputPin::Backout(IPin* ppinOut, IGraphBuilder* pGr
 
 CStreamSwitcherFilter::CStreamSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr, const CLSID& clsid)
     : CBaseFilter(NAME("CStreamSwitcherFilter"), lpunk, &m_csState, clsid)
+    , m_pInput(nullptr)
+    , m_pOutput(nullptr)
 {
     if (phr) {
         *phr = S_OK;

@@ -112,6 +112,8 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     , lastBufferTime(0)
     , hnsActualDuration(0)
     , m_lVolume(DSBVOLUME_MIN)
+    , pfAvSetMmThreadCharacteristicsW(nullptr)
+    , pfAvRevertMmThreadCharacteristics(nullptr)
 {
 #ifdef STANDALONE_FILTER
     CRegKey key;

@@ -730,6 +730,7 @@ bool CPolygon::CreatePath()
 
 CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset)
     : CPolygon(STSStyle(), str, 0, 0, 0, scalex, scaley, 0)
+    , m_inverse(false)
 {
     m_size.cx = m_size.cy = 0;
     m_pAlphaMask = nullptr;
@@ -1048,11 +1049,18 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 // CSubtitle
 
 CSubtitle::CSubtitle()
+    : m_pClipper(nullptr)
+    , m_clipInverse(false)
+    , m_scalex(1)
+    , m_scaley(1)
+    , m_scrAlignment(0)
+    , m_wrapStyle(0)
+    , m_fAnimated(false)
+    , m_relativeTo(1)
+    , m_topborder(0)
+    , m_bottomborder(0)
 {
     ZeroMemory(m_effects, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
-    m_pClipper = nullptr;
-    m_clipInverse = false;
-    m_scalex = m_scaley = 1;
 }
 
 CSubtitle::~CSubtitle()
@@ -1469,6 +1477,16 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock, STSStyle* styleOve
     : CSubPicProviderImpl(pLock)
     , m_doOverrideStyle(doOverride)
     , m_pStyleOverride(styleOverride)
+    , m_time(0)
+    , m_delay(0)
+    , m_animStart(0)
+    , m_animEnd(0)
+    , m_animAccel(0.0)
+    , m_ktype(0)
+    , m_kstart(0)
+    , m_kend(0)
+    , m_nPolygon(0)
+    , m_polygonBaselineOffset(0)
 {
     m_size = CSize(0, 0);
 

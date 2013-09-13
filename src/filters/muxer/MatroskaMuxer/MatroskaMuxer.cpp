@@ -713,6 +713,8 @@ CMatroskaMuxerInputPin::CMatroskaMuxerInputPin(LPCWSTR pName, CBaseFilter* pFilt
     , m_fActive(false)
     , m_fEndOfStreamReceived(false)
     , m_rtDur(0)
+    , m_rtLastStart(0)
+    , m_rtLastStop(0)
 {
 }
 

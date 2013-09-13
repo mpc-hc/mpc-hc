@@ -51,6 +51,8 @@ CRealMediaPlayer::CRealMediaPlayer(HWND hWndParent, CRealMediaGraph* pRMG)
     , m_nDuration(0)
     , m_VideoSize(0, 0)
     , m_fVideoSizeChanged(true)
+    , m_fpSetDLLAccessPath(nullptr)
+    , m_unPercentComplete(0)
 {
 }
 

@@ -30,18 +30,20 @@ class CDVBStream
 {
 public:
     CDVBStream()
-        : m_ulMappedPID(0)
+        : m_Name(L"")
+        , m_bFindExisting(false)
         , m_pmt(0)
-        , m_bFindExisting(0) {
+        , m_nMsc(MEDIA_TRANSPORT_PACKET)
+        , m_ulMappedPID(0) {
     }
 
-    CDVBStream(LPWSTR strName, const AM_MEDIA_TYPE* pmt, bool bFindExisting = false, MEDIA_SAMPLE_CONTENT nMsc = MEDIA_ELEMENTARY_STREAM) :
-        m_Name(strName),
-        m_bFindExisting(bFindExisting),
-        m_pmt(pmt),
-        m_nMsc(nMsc),
-        m_ulMappedPID(0)
-    {}
+    CDVBStream(LPWSTR strName, const AM_MEDIA_TYPE* pmt, bool bFindExisting = false, MEDIA_SAMPLE_CONTENT nMsc = MEDIA_ELEMENTARY_STREAM)
+        : m_Name(strName)
+        , m_bFindExisting(bFindExisting)
+        , m_pmt(pmt)
+        , m_nMsc(nMsc)
+        , m_ulMappedPID(0) {
+    }
 
     LPWSTR GetName() { return m_Name; };
     const AM_MEDIA_TYPE* GetMediaType() { return m_pmt; };

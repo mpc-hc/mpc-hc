@@ -349,9 +349,9 @@ Vector& Vector::operator /= (const Vector& v)
 //
 
 Ray::Ray(Vector& p, Vector& d)
+    : p(p)
+    , d(d)
 {
-    this->p = p;
-    this->d = d;
 }
 
 void Ray::Set(const Vector& p, const Vector& d)

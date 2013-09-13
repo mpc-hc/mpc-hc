@@ -52,6 +52,7 @@ CStyleEditorDialog::CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pPa
     , m_screenalignment(0)
     , m_margin(0, 0, 0, 0)
     , m_linkalphasliders(FALSE)
+    , m_alpha()
 {
 }
 

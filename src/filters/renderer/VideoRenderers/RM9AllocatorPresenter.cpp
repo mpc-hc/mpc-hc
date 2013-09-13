@@ -30,6 +30,8 @@ using namespace DSObjects;
 CRM9AllocatorPresenter::CRM9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     : CDX9AllocatorPresenter(hWnd, bFullscreen, hr, false, _Error)
 {
+    ZeroMemory(&m_bitmapInfo, sizeof(m_bitmapInfo));
+    ZeroMemory(&m_lastBitmapInfo, sizeof(m_lastBitmapInfo));
 }
 
 STDMETHODIMP CRM9AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
