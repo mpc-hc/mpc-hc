@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"Μετάφραση: geogeo.gr && Λάμπρος Ζουλούμης"
 13		"Πληροφορίες δημιουργίας"
 14		"Έκδοση:"
-16		"MPC-HC compiler:"
+16		"Compiler:"
 18		"LAV Filters:"
 19		"Δεν χρησιμοποιείται"
 20		"Ημερ/νία δημιουργίας:"

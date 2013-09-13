@@ -221,7 +221,7 @@ void CAboutDlg::OnCopyToClipboard()
     info += _T("\n----------------------------------\n\n");
     info += _T("Build information:\n");
     info += _T("    Version:            ") + m_strBuildNumber + _T("\n");
-    info += _T("    MPC-HC compiler:    ") + m_MPCCompiler + _T("\n");
+    info += _T("    Compiler:           ") + m_MPCCompiler + _T("\n");
     info += _T("    Build date:         ") + m_buildDate + _T("\n\n");
 #ifndef MPCHC_LITE
     info += _T("LAV Filters:\n");

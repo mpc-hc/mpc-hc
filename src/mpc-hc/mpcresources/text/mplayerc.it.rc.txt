@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"Traduzione italiana di SigiTM"
 13		"Build information"
 14		"Version :"
-16		"Compilatore MPC-HC:"
+16		"Compilatore:"
 18		"LAV Filters:"
 19		"Not used"
 20		"Build date:"

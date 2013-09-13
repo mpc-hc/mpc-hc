@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"Magyarra fordította Kleiber Tamás."
 13		"Build information"
 14		"Version :"
-16		"MPC-HC Fordítóprogram :"
+16		"Fordítóprogram:"
 18		"LAV Filters:"
 19		"Not used"
 20		"Build date:"

@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"Překlad: khagaroth"
 13		"Informace o sestavení"
 14		"Verze :"
-16		"MPC-HC zkompilován :"
+16		"Zkompilován:"
 18		"LAV Filters:"
 19		"Nepoužito"
 20		"Datum sestavení:"

@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"Traducerea în română realizată de Daniel Alămiță, actualizată şi corectată de lordkag"
 13		"Informaţii despre versiunea compilată"
 14		"Versiune:"
-16		"Compilator MPC-HC:"
+16		"Compilator:"
 18		"LAV Filters:"
 19		"Nu s-a folosit"
 20		"Data compilării:"

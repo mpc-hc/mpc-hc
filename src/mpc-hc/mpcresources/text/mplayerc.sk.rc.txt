@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"Preložil: Marián Hikaník"
 13		"Informácia o zostavení"
 14		"Verzia:"
-16		"Kompilátor MPC-HC:"
+16		"Kompilátor:"
 18		"LAV Filters:"
 19		"Nevyužité"
 20		"Dátum zostavenia:"

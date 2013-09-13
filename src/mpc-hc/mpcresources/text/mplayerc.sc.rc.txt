@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"简体中文翻译由风影幻想和酷剑菲心制作"
 13		"编译信息"
 14		"版本:"
-16		"MPC-HC 编译器:"
+16		"编译器:"
 18		"LAV Filters:"
 19		"不使用"
 20		"编译日期:"

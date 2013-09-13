@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"Traduction : Julien (Vk), Pho3nX et al. (voir Authors.txt)"
 13		"Information de compilation"
 14		"Version :"
-16		"Compilateur de MPC-HC :"
+16		"Compilateur:"
 18		"LAV Filters:"
 19		"Non utilisé"
 20		"Date de compilation :"

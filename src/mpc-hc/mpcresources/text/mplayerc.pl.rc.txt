@@ -5,7 +5,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 12		"Tłumaczenie: Piotr Sokół, Kasper93, Haix"
 13		"Informacje o kompilacji"
 14		"Wersja:"
-16		"Kompilator MPC-HC:"
+16		"Kompilator:"
 18		"LAV Filters:"
 19		"Nie zastosowano"
 20		"Data kompilacji:"
