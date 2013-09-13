@@ -28,7 +28,8 @@ SET ROOT_DIR=..\..\..\..\..
 SET "BIN_DIR=%ROOT_DIR%\bin12"
 CALL :SubDetectInnoSetup
 IF EXIST "%~dp0%ROOT_DIR%\signinfo.txt" (
-  CALL :SubSign Filters VSFilter.dll
+  CALL :SubSign VSFilter.dll x86
+  CALL :SubSign VSFilter.dll x64
 )
 CALL :SubInno
 CALL :SubInno x64Build
@@ -41,24 +42,13 @@ EXIT /B
 
 
 :SubSign
-IF %ERRORLEVEL% NEQ 0 EXIT /B
-REM %1 is Filters or MPC-HC
-REM %2 is name of the file to sign
-REM %3 is the subfolder
+IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
+REM %1 is name of the file to sign
+REM %2 is the platform
 
-PUSHD "%BIN_DIR%\%~1_x86\%3"
-FOR /F "delims=" %%A IN ('DIR "%2" /b') DO (
-  CALL "%~dp0%ROOT_DIR%\contrib\sign.bat" "%%A" || (ECHO Problem signing %%A & GOTO Break)
-)
-ECHO %2 signed successfully.
-POPD
-
-PUSHD "%BIN_DIR%\%~1_x64\%3"
-FOR /F "delims=" %%A IN ('DIR "%2" /b') DO (
-  CALL "%~dp0%ROOT_DIR%\contrib\sign.bat" "%%A" || (ECHO Problem signing %%A & GOTO Break)
-)
-ECHO %2 signed successfully.
-POPD
+PUSHD "%BIN_DIR%\Filters_%~2\"
+CALL "%~dp0%ROOT_DIR%\contrib\sign.bat" "%1" || (ECHO Problem signing %1 & GOTO Break)
+ECHO %1 signed successfully.
 
 :Break
 POPD
@@ -66,10 +56,11 @@ EXIT /B
 
 
 :SubInno
+IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 ECHO.
 TITLE Building VSFilter installer...
 "%InnoSetupPath%\ISCC.exe" /SMySignTool="cmd /c "%~dp0%ROOT_DIR%\contrib\sign.bat" $f" /Q^
- "vsfilter_setup.iss" /D%~1 /D%~2
+ "vsfilter_setup.iss" /D%~1
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 IF /I "%~1%" == "x64Build" (
   ECHO Installer x64 compiled successfully!
