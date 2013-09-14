@@ -352,7 +352,7 @@ Legend:
   running when VSFilter is active since that's a job for players not for filters
 * Ticket #1733/#2029, Include subfolders when opening a folder using the command
   line or via the explorer context menu
-* Ticket #2144,2277, Improve the subtitles downloader dialog:
+* Ticket #2144/2277, Improve the subtitles downloader dialog:
     - the dialog's size and position are now saved
     - the columns' sizes are saved
     - the subtitle list is now fetched from a worker thread (this way the player won't
