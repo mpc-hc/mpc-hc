@@ -49,4 +49,6 @@ protected:
 
 public:
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+
+    bool HasInfo() const { return !MI_Text.IsEmpty(); };
 };

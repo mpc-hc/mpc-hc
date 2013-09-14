@@ -52,7 +52,9 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, C
 #if !USE_STATIC_MEDIAINFO
     if (CPPageFileMediaInfo::HasMediaInfo())
 #endif
-        AddPage(&m_mi);
+        if (m_mi.HasInfo()) {
+            AddPage(&m_mi);
+        }
 }
 
 CPPageFileInfoSheet::~CPPageFileInfoSheet()

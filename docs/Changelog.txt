@@ -70,3 +70,4 @@ Legend:
 ! Ticket #3425, Audio Switcher: Fix a crash with audio resampling and channel remapping enabled
 ! Ticket #3440, Disable the "Explore to" feature when the file isn't local in the Properties dialog
   and the playlist context menu
+! Ticket #3455, Hide MediaInfo tab when no information is available
