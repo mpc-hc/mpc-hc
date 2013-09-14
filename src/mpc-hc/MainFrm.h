@@ -955,6 +955,7 @@ protected:
 
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
+    void UpdateAudioSwitcher();
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
     afx_msg void OnSessionChange(UINT nSessionState, UINT nId);
@@ -968,6 +969,7 @@ public:
         UPDATE_SKYPE,
         UPDATE_SEEKBAR_CHAPTERS,
         UPDATE_WINDOW_TITLE,
+        UPDATE_AUDIO_SWITCHER
     };
 
     void UpdateControlState(UpdateControlTarget target);

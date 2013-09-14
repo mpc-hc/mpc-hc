@@ -16187,6 +16187,19 @@ void CMainFrame::UpdateSeekbarChapterBag()
     }
 }
 
+void CMainFrame::UpdateAudioSwitcher()
+{
+    CAppSettings& s = AfxGetAppSettings();
+    CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
+
+    if (pASF) {
+        pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
+        pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
+        pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64 * s.iAudioTimeShift : 0);
+        pASF->SetNormalizeBoost2(s.fAudioNormalize, s.nAudioMaxNormFactor, s.fAudioNormalizeRecover, s.nAudioBoost);
+    }
+}
+
 void CMainFrame::EnableShaders1(bool enable)
 {
     if (enable && !m_shaderlabels.IsEmpty()) {
@@ -16231,6 +16244,9 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             break;
         case UPDATE_WINDOW_TITLE:
             OpenSetupWindowTitle();
+            break;
+        case UPDATE_AUDIO_SWITCHER:
+            UpdateAudioSwitcher();
             break;
         default:
             ASSERT(FALSE);

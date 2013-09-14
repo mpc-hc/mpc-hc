@@ -32,7 +32,6 @@ class CPPageAudioSwitcher : public CPPageBase
     DECLARE_DYNAMIC(CPPageAudioSwitcher)
 
 private:
-    CComQIPtr<IAudioSwitcherFilter> m_pASF;
     DWORD m_pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS];
     DWORD m_dwChannelMask;
 

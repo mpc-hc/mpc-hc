@@ -47,7 +47,12 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
     , m_AudioBoostPos(0)
     , m_nAudioMaxNormFactor(400)
 {
-    m_pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pFG);
+    CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pFG);
+
+    if (pASF) {
+        pASF->GetInputSpeakerConfig(&m_dwChannelMask);
+        m_nChannels = pASF->GetNumberOfInputChannels();
+    }
 }
 
 CPPageAudioSwitcher::~CPPageAudioSwitcher()
@@ -130,16 +135,8 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
     m_fCustomChannelMapping = s.fCustomChannelMapping;
     memcpy(m_pSpeakerToChannelMap, s.pSpeakerToChannelMap, sizeof(s.pSpeakerToChannelMap));
 
-    if (m_pASF) {
-        m_pASF->GetInputSpeakerConfig(&m_dwChannelMask);
-    }
-
     m_nChannels = s.nSpeakerChannels;
     m_nChannelsSpinCtrl.SetRange(1, AS_MAX_CHANNELS);
-
-    if (m_pASF) {
-        m_nChannels = m_pASF->GetNumberOfInputChannels();
-    }
 
     m_list.InsertColumn(0, _T(""), LVCFMT_LEFT, 100);
     m_list.InsertItem(0, _T(""));
@@ -202,15 +199,9 @@ BOOL CPPageAudioSwitcher::OnApply()
     s.iAudioTimeShift = m_tAudioTimeShift;
     s.fCustomChannelMapping = !!m_fCustomChannelMapping;
     memcpy(s.pSpeakerToChannelMap, m_pSpeakerToChannelMap, sizeof(m_pSpeakerToChannelMap));
-
-    if (m_pASF) {
-        m_pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
-        m_pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
-        m_pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64 * s.iAudioTimeShift : 0);
-        m_pASF->SetNormalizeBoost2(s.fAudioNormalize, s.nAudioMaxNormFactor, s.fAudioNormalizeRecover, s.nAudioBoost);
-    }
-
     s.nSpeakerChannels = m_nChannels;
+
+    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_AUDIO_SWITCHER);
 
     return __super::OnApply();
 }
