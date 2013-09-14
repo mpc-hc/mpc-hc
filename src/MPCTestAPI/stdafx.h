@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2012 see Authors.txt
+ * (C) 2011-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,5 +20,12 @@
 
 #pragma once
 
-#include "../../include/stdafx_common.h"
-#include "../../include/stdafx_common_afx2.h"
+#define VC_EXTRALEAN                        // Exclude rarely-used stuff from Windows headers
+
+#include <afxwin.h>                         // MFC core and standard components
+#include <afxext.h>                         // MFC extensions
+#include <afxdisp.h>                        // MFC Automation classes
+#include <afxdtctl.h>                       // MFC support for Internet Explorer 4 Common Controls
+#ifndef _AFX_NO_AFXCMN_SUPPORT
+#include <afxcmn.h>                         // MFC support for Windows Common Controls
+#endif // _AFX_NO_AFXCMN_SUPPORT
