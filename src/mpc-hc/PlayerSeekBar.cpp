@@ -388,6 +388,11 @@ void CPlayerSeekBar::SetPos(REFERENCE_TIME rtPos)
     SyncThumbToVideo(rtPos);
 }
 
+bool CPlayerSeekBar::HasDuration() const
+{
+    return m_bHasDuration;
+}
+
 void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
 {
     CAutoLock lock(&m_csChapterBag);

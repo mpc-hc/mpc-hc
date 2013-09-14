@@ -82,6 +82,7 @@ public:
     void SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
     REFERENCE_TIME GetPos() const;
     void SetPos(REFERENCE_TIME rtPos);
+    bool HasDuration() const;
 
     void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);
     void RemoveChapters();
