@@ -8,8 +8,8 @@
 #include "../DSUtil/GolombBuffer.h"
 #include "../DSUtil/DSUtil.h"
 
-#define Audio_block_size    66
-#define Subtitle_block_size 194
+#define AUDIO_BLOCK_SIZE    66
+#define SUBTITLE_BLOCK_SIZE 194
 
 //
 // CDVDSession
@@ -436,9 +436,9 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 
     // Audio streams ...
     m_ifoFile.Seek(0x202, CFile::begin);
-    BYTE buffer[Subtitle_block_size];
-    m_ifoFile.Read(buffer, Audio_block_size);
-    CGolombBuffer gb(buffer, Audio_block_size);
+    BYTE buffer[SUBTITLE_BLOCK_SIZE];
+    m_ifoFile.Read(buffer, AUDIO_BLOCK_SIZE);
+    CGolombBuffer gb(buffer, AUDIO_BLOCK_SIZE);
     int stream_count = gb.ReadShort();
     for (int i = 0; i < min(stream_count, 8); i++) {
         BYTE Coding_mode = (BYTE)gb.BitRead(3);
@@ -468,8 +468,8 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 
     // Subtitle streams ...
     m_ifoFile.Seek(0x254, CFile::begin);
-    m_ifoFile.Read(buffer, Subtitle_block_size);
-    CGolombBuffer gb_s(buffer, Subtitle_block_size);
+    m_ifoFile.Read(buffer, SUBTITLE_BLOCK_SIZE);
+    CGolombBuffer gb_s(buffer, SUBTITLE_BLOCK_SIZE);
     stream_count = gb_s.ReadShort();
     for (int i = 0; i < min(stream_count, 32); i++) {
         gb_s.ReadShort();
