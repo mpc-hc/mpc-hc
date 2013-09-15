@@ -345,11 +345,12 @@ function GetInstallFolder(Default: String): String;
 var
   sInstallPath: String;
 begin
-  if not RegQueryStringValue(HKCU, 'SOFTWARE\MPC-HC\Media Player Classic', 'ExePath', sInstallPath) then begin
+  if not RegQueryStringValue(HKCU, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', sInstallPath)
+  or not RegQueryStringValue(HKCU, 'SOFTWARE\MPC-HC\MPC-HC', 'ExePath', sInstallPath) then begin
     Result := ExpandConstant('{pf}\MPC-HC');
   end
   else begin
-    RegQueryStringValue(HKCU, 'SOFTWARE\MPC-HC\Media Player Classic', 'ExePath', sInstallPath);
+    RegQueryStringValue(HKCU, 'SOFTWARE\MPC-HC\MPC-HC', 'ExePath', sInstallPath);
     Result := ExtractFileDir(sInstallPath);
     if (Result = '') or not DirExists(Result) then begin
       Result := ExpandConstant('{pf}\MPC-HC');
@@ -388,7 +389,8 @@ end;
 // Check if MPC-HC's settings exist
 function SettingsExist(): Boolean;
 begin
-  if RegKeyExists(HKEY_CURRENT_USER, 'Software\MPC-HC\Media Player Classic') or
+  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') or
+  RegKeyExists(HKEY_CURRENT_USER, 'Software\MPC-HC\MPC-HC') or
   FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
     Result := True
   else
@@ -407,11 +409,24 @@ end;
 procedure CleanUpSettingsAndFiles();
 begin
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
+  DeleteFile(ExpandConstant('{userappdata}\MPC-HC\default.mpcpl'));
+  RemoveDir(ExpandConstant('{userappdata}\MPC-HC'));
+  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\MPC-HC\Filters');
+  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\MPC-HC\MPC-HC');
+  RegDeleteKeyIfEmpty(HKCU, 'Software\MPC-HC');
+end;
+
+
+procedure CleanUpOldSettingsAndFiles();
+begin
   DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
   RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
-  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\MPC-HC\Filters');
-  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\MPC-HC\Media Player Classic');
-  RegDeleteKeyIfEmpty(HKCU, 'Software\MPC-HC');
+  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Filters');
+  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Media Player Classic');
+  RegDeleteKeyIfEmpty(HKCU, 'Software\Gabest');
+  RegDeleteValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath')
+  RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\Gabest\Media Player Classic');
+  RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\Gabest');
 end;
 
 
@@ -427,7 +442,7 @@ begin
     if IsComponentSelected('mpcresources') and FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
       SetIniInt('Settings', 'InterfaceLanguage', iLanguage, ExpandConstant('{app}\{#mpchc_ini}'))
     else
-      RegWriteDWordValue(HKCU, 'Software\MPC-HC\Media Player Classic\Settings', 'InterfaceLanguage', iLanguage);
+      RegWriteDWordValue(HKCU, 'Software\MPC-HC\MPC-HC\Settings', 'InterfaceLanguage', iLanguage);
   end;
 
 end;
@@ -437,11 +452,13 @@ procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   // When uninstalling, ask the user to delete MPC-HC settings
   if (CurUninstallStep = usUninstall) and SettingsExist() then begin
-    if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
+    if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then begin
       CleanUpSettingsAndFiles();
+      CleanUpOldSettingsAndFiles();
+    end;
 
-    RegDeleteValue(HKLM, 'SOFTWARE\MPC-HC\Media Player Classic', 'ExePath')
-    RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\MPC-HC\Media Player Classic');
+    RegDeleteValue(HKLM, 'SOFTWARE\MPC-HC\MPC-HC', 'ExePath')
+    RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\MPC-HC\MPC-HC');
     RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\MPC-HC');
 
   end;
