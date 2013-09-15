@@ -15129,8 +15129,8 @@ afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 
 afx_msg void CMainFrame::OnLanguage(UINT nID)
 {
-    CMenu  DefaultMenu;
-    CMenu* OldMenu;
+    CMenu  defaultMenu;
+    CMenu* oldMenu;
 
     if (nID == ID_LANGUAGE_HEBREW) { // Show a warning when switching to Hebrew (must not be translated)
         MessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
@@ -15151,20 +15151,20 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
     m_favorites.DestroyMenu();
     m_shaders.DestroyMenu();
     m_recentfiles.DestroyMenu();
+    m_language.DestroyMenu();
 
     m_popup.DestroyMenu();
     m_popup.LoadMenu(IDR_POPUP);
     m_popupmain.DestroyMenu();
     m_popupmain.LoadMenu(IDR_POPUPMAIN);
 
-    OldMenu = GetMenu();
-    DefaultMenu.LoadMenu(IDR_MAINFRAME);
-
-    SetMenu(&DefaultMenu);
-    m_hMenuDefault = DefaultMenu;
-    DefaultMenu.Detach();
-    // TODO : destroy old menu ???
-    //OldMenu->DestroyMenu();
+    oldMenu = GetMenu();
+    // Attach the new menu to the window
+    defaultMenu.LoadMenu(IDR_MAINFRAME);
+    SetMenu(&defaultMenu);
+    m_hMenuDefault = defaultMenu.Detach();
+    // and then destroy the old one
+    oldMenu->DestroyMenu();
 }
 
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
