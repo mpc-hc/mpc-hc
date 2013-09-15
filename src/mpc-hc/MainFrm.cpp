@@ -11512,9 +11512,29 @@ DWORD CMainFrame::SetupAudioStreams()
         return 0;
     }
 
+    bool bIsSplitter = false;
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
     if (!pSS) {
         pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
+    }
+    if (!pSS && m_pFSF) { // Try to find the main splitter
+        pSS = m_pFSF;
+        if (!pSS) { // If the source filter isn't a splitter
+            CComQIPtr<IBaseFilter> pBF = m_pFSF;
+            if (pBF) { // try to get the main splitter
+                PIN_DIRECTION pinDir;
+                BeginEnumPins(pBF, pEP, pPin) {
+                    CComPtr<IPin> pPinConnectedTo;
+                    if (SUCCEEDED(pPin->QueryDirection(&pinDir)) && pinDir == PINDIR_OUTPUT
+                            && SUCCEEDED(pPin->ConnectedTo(&pPinConnectedTo)) && pPinConnectedTo) {
+                        pSS = GetFilterFromPin(pPinConnectedTo);
+                        break;
+                    }
+                }
+                EndEnumPins
+            }
+        }
+        bIsSplitter = true;
     }
 
     DWORD cStreams = 0;
@@ -11529,8 +11549,8 @@ DWORD CMainFrame::SetupAudioStreams()
             lang = s.strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
         }
 
-        DWORD selected = 1;
-        int  maxrating = 0;
+        DWORD selected = 1, id = 0;
+        int maxrating = 0;
         for (DWORD i = 0; i < cStreams; i++) {
             DWORD dwFlags, dwGroup;
             WCHAR* pName = nullptr;
@@ -11541,13 +11561,19 @@ DWORD CMainFrame::SetupAudioStreams()
             CString name(pName);
             CoTaskMemFree(pName);
 
-            // If the track is controlled by a splitter and isn't selected at splitter level
-            if (dwGroup == 1) {
+            // Skip no-audio track if we are dealing directly with a splitter
+            if (bIsSplitter && dwGroup != 1) {
+                continue;
+            }
+
+            // If the track is controlled by a splitter (directly or not) and isn't selected at splitter level
+            if ((!bIsSplitter && dwGroup == 1)
+                || (bIsSplitter && !(dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)))) {
                 bool bSkipTrack;
 
                 // If the splitter is the internal LAV Splitter and no language preferences
                 // have been set at splitter level, we can override its choice safely
-                CComQIPtr<IBaseFilter> pBF = pObject;
+                CComQIPtr<IBaseFilter> pBF = bIsSplitter ? (IUnknown*)pSS : pObject;
                 if (pBF && CFGFilterLAV::IsInternalInstance(pBF)) {
                     bSkipTrack = false;
                     if (CComQIPtr<ILAVFSettings> pLAVFSettings = pBF) {
@@ -11573,7 +11599,7 @@ DWORD CMainFrame::SetupAudioStreams()
             for (size_t j = 0; j < langs.GetCount(); j++) {
                 int num = _tstoi(langs[j]) - 1;
                 if (num >= 0) { // this is track number
-                    if (i != num) {
+                    if (id != num) {
                         continue;  // not matched
                     }
                 } else { // this is lang string
@@ -11594,16 +11620,18 @@ DWORD CMainFrame::SetupAudioStreams()
             if (name.Find(_T("[default]")) != -1) {
                 rating += 2;
             }
-            if (i == 0) {
+            if (id == 0) {
                 rating += 1;
             }
 
             if (rating > maxrating) {
                 maxrating = rating;
-                selected = i;
+                selected = id;
             }
+
+            id++;
         }
-        return selected + 1;
+        return selected + !bIsSplitter;
     }
 
     return 0;
