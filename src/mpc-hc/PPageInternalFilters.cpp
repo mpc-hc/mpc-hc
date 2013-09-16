@@ -296,6 +296,10 @@ void CPPageInternalFilters::InitFiltersList()
     bool bLAVVideoIsAvailable = CFGFilterLAV::CheckVersion(CFGFilterLAV::GetFilterPath(CFGFilterLAV::VIDEO_DECODER));
     bool bLAVAudioIsAvailable = CFGFilterLAV::CheckVersion(CFGFilterLAV::GetFilterPath(CFGFilterLAV::AUDIO_DECODER));
 
+    GetDlgItem(IDC_SPLITTER_CONF)->EnableWindow(bLAVSplitterIsAvailable);
+    GetDlgItem(IDC_VIDEO_DEC_CONF)->EnableWindow(bLAVVideoIsAvailable);
+    GetDlgItem(IDC_AUDIO_DEC_CONF)->EnableWindow(bLAVAudioIsAvailable);
+
     m_filters.RemoveAll();
 
 #if INTERNAL_SOURCEFILTER_AVI
