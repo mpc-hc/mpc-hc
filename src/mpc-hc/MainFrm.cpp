@@ -15187,12 +15187,14 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
     m_popupmain.LoadMenu(IDR_POPUPMAIN);
 
     oldMenu = GetMenu();
-    // Attach the new menu to the window
     defaultMenu.LoadMenu(IDR_MAINFRAME);
-    SetMenu(&defaultMenu);
+    if (oldMenu) {
+        // Attach the new menu to the window only if there was a menu before
+        SetMenu(&defaultMenu);
+        // and then destroy the old one
+        oldMenu->DestroyMenu();
+    }
     m_hMenuDefault = defaultMenu.Detach();
-    // and then destroy the old one
-    oldMenu->DestroyMenu();
 }
 
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
