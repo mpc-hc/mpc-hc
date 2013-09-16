@@ -2145,10 +2145,19 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             m_playingmsg.Empty();
         }
         break;
-        case TIMER_DVBINFO_UPDATER:
+        case TIMER_DVBINFO_UPDATER: {
             KillTimer(TIMER_DVBINFO_UPDATER);
             ShowCurrentChannelInfo(false, false);
-            break;
+        }
+        break;
+        case TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS: {
+            if (GetPlaybackMode() == PM_NONE) {
+                if (UnloadUnusedExternalObjects()) {
+                    KillTimer(TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS);
+                }
+            }
+        }
+        break;
     }
 
     __super::OnTimer(nIDEvent);
@@ -14622,6 +14631,9 @@ void CMainFrame::AddCurDevToPlaylist()
 
 void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 {
+    // No need to try releasing external objects while playing
+    KillTimer(TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS);
+
     // shortcut
     if (OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD.m_p)) {
         if (m_iMediaLoadState == MLS_LOADED && m_pAMTuner
@@ -14738,7 +14750,9 @@ void CMainFrame::CloseMedia()
         CloseMediaPrivate();
     }
 
-    UnloadExternalObjects();
+    // Try to release external objects
+    UnloadUnusedExternalObjects();
+    SetTimer(TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS, 60000, nullptr);
 
     if (IsD3DFullScreenMode()) {
         m_pFullscreenWnd->DestroyWindow();

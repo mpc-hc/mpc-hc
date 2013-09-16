@@ -1194,29 +1194,37 @@ CStringW GetFriendlyName(CStringW displayName)
     return friendlyName;
 }
 
+typedef HRESULT(__stdcall* fDllCanUnloadNow)(void);
+
 typedef struct {
     CString path;
     HINSTANCE hInst;
     CLSID clsid;
+    fDllCanUnloadNow fpDllCanUnloadNow;
+    bool bUnloadOnNextCheck;
 } ExternalObject;
 
-static CAtlList<ExternalObject> s_extobjs;
+static CAtlList<ExternalObject> s_extObjs;
+static CCritSec s_csExtObjs;
 
 HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
 {
     CheckPointer(ppv, E_POINTER);
+
+    CAutoLock lock(&s_csExtObjs);
 
     CString fullpath = MakeFullPath(path);
 
     HINSTANCE hInst = nullptr;
     bool fFound = false;
 
-    POSITION pos = s_extobjs.GetHeadPosition();
+    POSITION pos = s_extObjs.GetHeadPosition();
     while (pos) {
-        ExternalObject& eo = s_extobjs.GetNext(pos);
+        ExternalObject& eo = s_extObjs.GetNext(pos);
         if (!eo.path.CompareNoCase(fullpath)) {
             hInst = eo.hInst;
             fFound = true;
+            eo.bUnloadOnNextCheck = false;
             break;
         }
     }
@@ -1248,7 +1256,9 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
         eo.path = fullpath;
         eo.hInst = hInst;
         eo.clsid = clsid;
-        s_extobjs.AddTail(eo);
+        eo.fpDllCanUnloadNow = (fDllCanUnloadNow)GetProcAddress(hInst, "DllCanUnloadNow");
+        eo.bUnloadOnNextCheck = false;
+        s_extObjs.AddTail(eo);
     }
 
     return hr;
@@ -1261,14 +1271,16 @@ HRESULT LoadExternalFilter(LPCTSTR path, REFCLSID clsid, IBaseFilter** ppBF)
 
 HRESULT LoadExternalPropertyPage(IPersist* pP, REFCLSID clsid, IPropertyPage** ppPP)
 {
+    CAutoLock lock(&s_csExtObjs);
+
     CLSID clsid2 = GUID_NULL;
     if (FAILED(pP->GetClassID(&clsid2))) {
         return E_FAIL;
     }
 
-    POSITION pos = s_extobjs.GetHeadPosition();
+    POSITION pos = s_extObjs.GetHeadPosition();
     while (pos) {
-        ExternalObject& eo = s_extobjs.GetNext(pos);
+        ExternalObject& eo = s_extObjs.GetNext(pos);
         if (eo.clsid == clsid2) {
             return LoadExternalObject(eo.path, clsid, __uuidof(IPropertyPage), (void**)ppPP);
         }
@@ -1277,14 +1289,31 @@ HRESULT LoadExternalPropertyPage(IPersist* pP, REFCLSID clsid, IPropertyPage** p
     return E_FAIL;
 }
 
-void UnloadExternalObjects()
+bool UnloadUnusedExternalObjects()
 {
-    POSITION pos = s_extobjs.GetHeadPosition();
+    CAutoLock lock(&s_csExtObjs);
+
+    POSITION pos = s_extObjs.GetHeadPosition(), currentPos;
     while (pos) {
-        ExternalObject& eo = s_extobjs.GetNext(pos);
-        CoFreeLibrary(eo.hInst);
+        currentPos = pos;
+        ExternalObject& eo = s_extObjs.GetNext(pos);
+
+        if (eo.fpDllCanUnloadNow && eo.fpDllCanUnloadNow() == S_OK) {
+            // Before actually unloading it, we require that the library reports
+            // that it can be unloaded safely twice in a row with a 60s delay
+            // between the two checks.
+            if (eo.bUnloadOnNextCheck) {
+                CoFreeLibrary(eo.hInst);
+                s_extObjs.RemoveAt(currentPos);
+            } else {
+                eo.bUnloadOnNextCheck = true;
+            }
+        } else {
+            eo.bUnloadOnNextCheck = false;
+        }
     }
-    s_extobjs.RemoveAll();
+
+    return s_extObjs.IsEmpty();
 }
 
 CString MakeFullPath(LPCTSTR path)
