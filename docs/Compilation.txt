@@ -35,7 +35,7 @@ SET "MPCHC_GIT=C:\Program Files (x86)\Git"
 Part C: Downloading and compiling the MPC-HC source
 
 1. Use Git to clone MPC-HC's repository to "C:\mpc-hc" (or anywhere else you like)
-    Download Git from http://msysgit.googlecode.com/files/Git-1.8.3-preview20130601.exe
+    Download Git from http://msysgit.googlecode.com/files/Git-1.8.4-preview20130916.exe
     Run:
       git clone --recursive https://github.com/mpc-hc/mpc-hc.git
 
