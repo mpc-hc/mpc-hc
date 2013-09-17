@@ -243,8 +243,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENDVDBD, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_OPENDEVICE, OnFileOpendevice)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENDEVICE, OnUpdateFileOpen)
-    ON_COMMAND_RANGE(ID_FILE_OPEN_CD_START, ID_FILE_OPEN_CD_END, OnFileOpenCD)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_FILE_OPEN_CD_START, ID_FILE_OPEN_CD_END, OnUpdateFileOpen)
+    ON_COMMAND_RANGE(ID_FILE_OPEN_OPTICAL_DISK_START, ID_FILE_OPEN_OPTICAL_DISK_END, OnFileOpenOpticalDisk)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_FILE_OPEN_OPTICAL_DISK_START, ID_FILE_OPEN_OPTICAL_DISK_END, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_REOPEN, OnFileReopen)
     ON_COMMAND(ID_FILE_RECYCLE, OnFileRecycle)
     ON_WM_DROPFILES()
@@ -4207,15 +4207,15 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         CAtlList<CString> sl;
 
         if (!s.slFiles.IsEmpty()) {
-            GetCDROMType(s.slFiles.GetHead()[0], sl);
+            GetOpticalDiskType(s.slFiles.GetHead()[0], sl);
         } else {
             CString dir;
             dir.ReleaseBufferSetLength(GetCurrentDirectory(MAX_PATH, dir.GetBuffer(MAX_PATH)));
 
-            GetCDROMType(dir[0], sl);
+            GetOpticalDiskType(dir[0], sl);
 
-            for (TCHAR drive = 'C'; sl.IsEmpty() && drive <= 'Z'; drive++) {
-                GetCDROMType(drive, sl);
+            for (TCHAR drive = _T('C'); sl.IsEmpty() && drive <= _T('Z'); drive++) {
+                GetOpticalDiskType(drive, sl);
             }
         }
 
@@ -4395,19 +4395,19 @@ void CMainFrame::OnFileOpendevice()
     }
 }
 
-void CMainFrame::OnFileOpenCD(UINT nID)
+void CMainFrame::OnFileOpenOpticalDisk(UINT nID)
 {
-    nID -= ID_FILE_OPEN_CD_START;
+    nID -= ID_FILE_OPEN_OPTICAL_DISK_START;
 
     nID++;
-    for (TCHAR drive = 'C'; drive <= 'Z'; drive++) {
+    for (TCHAR drive = _T('C'); drive <= _T('Z'); drive++) {
         CAtlList<CString> sl;
 
-        switch (GetCDROMType(drive, sl)) {
-            case CDROM_Audio:
-            case CDROM_VideoCD:
-            case CDROM_DVDVideo:
-            case CDROM_BD:
+        switch (GetOpticalDiskType(drive, sl)) {
+            case OpticalDisk_Audio:
+            case OpticalDisk_VideoCD:
+            case OpticalDisk_DVDVideo:
+            case OpticalDisk_BD:
                 nID--;
                 break;
             default:
@@ -11808,7 +11808,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             CString drive = fn.Left(i + 2);
             UINT type = GetDriveType(drive);
             CAtlList<CString> sl;
-            if (type == DRIVE_REMOVABLE || type == DRIVE_CDROM && GetCDROMType(drive[0], sl) != CDROM_Audio) {
+            if (type == DRIVE_REMOVABLE || type == DRIVE_CDROM && GetOpticalDiskType(drive[0], sl) != OpticalDisk_Audio) {
                 int ret = IDRETRY;
                 while (ret == IDRETRY) {
                     WIN32_FIND_DATA findFileData;
@@ -12384,26 +12384,26 @@ void CMainFrame::SetupOpenCDSubMenu()
         return;
     }
 
-    UINT id = ID_FILE_OPEN_CD_START;
+    UINT id = ID_FILE_OPEN_OPTICAL_DISK_START;
 
-    for (TCHAR drive = 'C'; drive <= 'Z'; drive++) {
+    for (TCHAR drive = _T('C'); drive <= _T('Z'); drive++) {
         CAtlList<CString> files;
-        cdrom_t CDROMType = GetCDROMType(drive, files);
+        OpticalDiskType_t opticalDiskType = GetOpticalDiskType(drive, files);
 
-        if (CDROMType != CDROM_NotFound && CDROMType != CDROM_Unknown) {
+        if (opticalDiskType != OpticalDisk_NotFound && opticalDiskType != OpticalDisk_Unknown) {
             CString label = GetDriveLabel(drive);
             if (label.IsEmpty()) {
-                switch (CDROMType) {
-                    case CDROM_Audio:
+                switch (opticalDiskType) {
+                    case OpticalDisk_Audio:
                         label = _T("Audio CD");
                         break;
-                    case CDROM_VideoCD:
+                    case OpticalDisk_VideoCD:
                         label = _T("(S)VCD");
                         break;
-                    case CDROM_DVDVideo:
+                    case OpticalDisk_DVDVideo:
                         label = _T("DVD Video");
                         break;
-                    case CDROM_BD:
+                    case OpticalDisk_BD:
                         label = _T("Blu-ray Disc");
                         break;
                     default:

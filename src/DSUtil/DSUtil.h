@@ -66,14 +66,14 @@ extern CString GetFilterPath(const CLSID& clsid);
 extern void  CStringToBin(CString str, CAtlArray<BYTE>& data);
 extern CString BinToCString(const BYTE* ptr, size_t len);
 typedef enum {
-    CDROM_NotFound,
-    CDROM_Audio,
-    CDROM_VideoCD,
-    CDROM_DVDVideo,
-    CDROM_BD,
-    CDROM_Unknown
-} cdrom_t;
-extern cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files);
+    OpticalDisk_NotFound,
+    OpticalDisk_Audio,
+    OpticalDisk_VideoCD,
+    OpticalDisk_DVDVideo,
+    OpticalDisk_BD,
+    OpticalDisk_Unknown
+} OpticalDiskType_t;
+extern OpticalDiskType_t GetOpticalDiskType(TCHAR drive, CAtlList<CString>& files);
 extern CString GetDriveLabel(TCHAR drive);
 extern bool GetKeyFrames(CString fn, CUIntArray& kfs);
 extern DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps = 0); // used to remember the current position

@@ -228,7 +228,7 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
             FindClose(h);
 
             if (sl.IsEmpty() && mask.Find(_T(":\\")) == 1) {
-                if (CDROM_VideoCD == GetCDROMType(mask[0], sl)) {
+                if (OpticalDisk_VideoCD == GetOpticalDiskType(mask[0], sl)) {
                     sl.RemoveAll(); // need to open VideoCD as disk
                 }
             }

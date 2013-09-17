@@ -745,7 +745,7 @@ static void FindFiles(CString fn, CAtlList<CString>& files)
     }
 }
 
-cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
+OpticalDiskType_t GetOpticalDiskType(TCHAR drive, CAtlList<CString>& files)
 {
     files.RemoveAll();
 
@@ -756,13 +756,13 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
         // CDROM_DVDVideo
         FindFiles(path + _T("\\VIDEO_TS\\video_ts.ifo"), files);
         if (!files.IsEmpty()) {
-            return CDROM_DVDVideo;
+            return OpticalDisk_DVDVideo;
         }
 
         // CDROM_BD
         FindFiles(path + _T("\\BDMV\\index.bdmv"), files);
         if (!files.IsEmpty()) {
-            return CDROM_BD;
+            return OpticalDisk_BD;
         }
 
         // CDROM_VideoCD
@@ -775,7 +775,7 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
         FindFiles(path + _T("\\mpeg2\\music??.dat"), files);
         FindFiles(path + _T("\\mpeg2\\music??.mpg"), files);
         if (!files.IsEmpty()) {
-            return CDROM_VideoCD;
+            return OpticalDisk_VideoCD;
         }
 
         // CDROM_Audio
@@ -799,14 +799,14 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
             CloseHandle(hDrive);
         }
         if (!files.IsEmpty()) {
-            return CDROM_Audio;
+            return OpticalDisk_Audio;
         }
 
         // it is a cdrom but nothing special
-        return CDROM_Unknown;
+        return OpticalDisk_Unknown;
     }
 
-    return CDROM_NotFound;
+    return OpticalDisk_NotFound;
 }
 
 CString GetDriveLabel(TCHAR drive)
