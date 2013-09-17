@@ -34,7 +34,6 @@
 CPlayerNavigationDialog::CPlayerNavigationDialog()
     : CResizableDialog(CPlayerNavigationDialog::IDD, nullptr)
     , m_bTVStations(true)
-    , m_pParent(nullptr)
     , p_nItems()
 {
 }
@@ -49,7 +48,6 @@ BOOL CPlayerNavigationDialog::Create(CWnd* pParent)
     if (!__super::Create(IDD, pParent)) {
         return FALSE;
     }
-    m_pParent = pParent;
     return TRUE;
 }
 
@@ -81,7 +79,6 @@ BEGIN_MESSAGE_MAP(CPlayerNavigationDialog, CResizableDialog)
     ON_BN_CLICKED(IDC_NAVIGATION_INFO, OnButtonInfo)
     ON_BN_CLICKED(IDC_NAVIGATION_SCAN, OnTunerScan)
     ON_BN_CLICKED(IDC_NAVIGATION_FILTERSTATIONS, OnTvRadioStations)
-
 END_MESSAGE_MAP()
 
 
@@ -104,12 +101,8 @@ void CPlayerNavigationDialog::OnDestroy()
 
 void CPlayerNavigationDialog::OnChangeChannel()
 {
-    CWnd* TempWnd;
-    int nItem;
-
-    TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
-    nItem = p_nItems[m_ChannelList.GetCurSel()] + ID_NAVIGATE_CHAP_SUBITEM_START;
-    static_cast<CMainFrame*>(TempWnd)->OnNavigateChapters(nItem);
+    int nItem = p_nItems[m_ChannelList.GetCurSel()] + ID_NAVIGATE_CHAP_SUBITEM_START;
+    AfxGetMainFrame()->OnNavigateChapters(nItem);
 }
 
 void CPlayerNavigationDialog::UpdateElementList()
@@ -146,23 +139,18 @@ void CPlayerNavigationDialog::UpdatePos(int nID)
             m_ChannelList.SetCurSel(i);
             break;
         }
-
     }
 }
 
 void CPlayerNavigationDialog::OnTunerScan()
 {
-    CWnd* TempWnd;
-    TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
-    static_cast<CMainFrame*>(TempWnd)->OnTunerScan();
+    AfxGetMainFrame()->OnTunerScan();
     UpdateElementList();
 }
 
 void CPlayerNavigationDialog::OnButtonInfo()
 {
-    CWnd* TempWnd;
-    TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
-    static_cast<CMainFrame*>(TempWnd)->ShowCurrentChannelInfo(true, true);
+    AfxGetMainFrame()->ShowCurrentChannelInfo(true, true);
 }
 
 void CPlayerNavigationDialog::OnTvRadioStations()
