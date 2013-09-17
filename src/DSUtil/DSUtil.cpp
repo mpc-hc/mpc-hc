@@ -1232,7 +1232,7 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
     HRESULT hr = E_FAIL;
 
     if (!hInst) {
-        hInst = CoLoadLibrary(CComBSTR(fullpath), TRUE);
+        hInst = LoadLibraryEx(fullpath, nullptr, LOAD_WITH_ALTERED_SEARCH_PATH);
     }
     if (hInst) {
         typedef HRESULT(__stdcall * PDllGetClassObject)(REFCLSID rclsid, REFIID riid, LPVOID * ppv);
@@ -1247,7 +1247,7 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
     }
 
     if (FAILED(hr) && hInst && !fFound) {
-        CoFreeLibrary(hInst);
+        FreeLibrary(hInst);
         return hr;
     }
 
@@ -1303,7 +1303,7 @@ bool UnloadUnusedExternalObjects()
             // that it can be unloaded safely twice in a row with a 60s delay
             // between the two checks.
             if (eo.bUnloadOnNextCheck) {
-                CoFreeLibrary(eo.hInst);
+                FreeLibrary(eo.hInst);
                 s_extObjs.RemoveAt(currentPos);
             } else {
                 eo.bUnloadOnNextCheck = true;
