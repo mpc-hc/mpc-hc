@@ -72,3 +72,4 @@ Legend:
   and the playlist context menu
 ! Ticket #3455, Hide MediaInfo tab when no information is available
 ! Ticket #3456, Don't show the progress in the taskbar when no duration is available
+! Ticket #3478, The "File" menu was slow to open when a drive was unavailable

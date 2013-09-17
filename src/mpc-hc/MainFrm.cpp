@@ -11569,7 +11569,7 @@ DWORD CMainFrame::SetupAudioStreams()
 
             // If the track is controlled by a splitter (directly or not) and isn't selected at splitter level
             if ((!bIsSplitter && dwGroup == 1)
-                || (bIsSplitter && !(dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)))) {
+                    || (bIsSplitter && !(dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)))) {
                 bool bSkipTrack;
 
                 // If the splitter is the internal LAV Splitter and no language preferences
@@ -12387,40 +12387,34 @@ void CMainFrame::SetupOpenCDSubMenu()
     UINT id = ID_FILE_OPEN_CD_START;
 
     for (TCHAR drive = 'C'; drive <= 'Z'; drive++) {
-        CString label = GetDriveLabel(drive), str;
-
         CAtlList<CString> files;
-        switch (GetCDROMType(drive, files)) {
-            case CDROM_Audio:
-                if (label.IsEmpty()) {
-                    label = _T("Audio CD");
-                }
-                str.Format(_T("%s (%c:)"), label, drive);
-                break;
-            case CDROM_VideoCD:
-                if (label.IsEmpty()) {
-                    label = _T("(S)VCD");
-                }
-                str.Format(_T("%s (%c:)"), label, drive);
-                break;
-            case CDROM_DVDVideo:
-                if (label.IsEmpty()) {
-                    label = _T("DVD Video");
-                }
-                str.Format(_T("%s (%c:)"), label, drive);
-                break;
-            case CDROM_BD:
-                label = GetDriveLabel(drive);
-                if (label.IsEmpty()) {
-                    label = _T("Blu-ray Disc");
-                }
-                str.Format(_T("%s (%c:)"), label, drive);
-                break;
-            default:
-                break;
-        }
+        cdrom_t CDROMType = GetCDROMType(drive, files);
 
-        if (!str.IsEmpty()) {
+        if (CDROMType != CDROM_NotFound && CDROMType != CDROM_Unknown) {
+            CString label = GetDriveLabel(drive);
+            if (label.IsEmpty()) {
+                switch (CDROMType) {
+                    case CDROM_Audio:
+                        label = _T("Audio CD");
+                        break;
+                    case CDROM_VideoCD:
+                        label = _T("(S)VCD");
+                        break;
+                    case CDROM_DVDVideo:
+                        label = _T("DVD Video");
+                        break;
+                    case CDROM_BD:
+                        label = _T("Blu-ray Disc");
+                        break;
+                    default:
+                        ASSERT(FALSE);
+                        break;
+                }
+            }
+
+            CString str;
+            str.Format(_T("%s (%c:)"), label, drive);
+
             pSub->AppendMenu(MF_STRING | MF_ENABLED, id++, str);
         }
     }
