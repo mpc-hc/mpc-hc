@@ -70,6 +70,7 @@ typedef enum {
     CDROM_Audio,
     CDROM_VideoCD,
     CDROM_DVDVideo,
+    CDROM_BD,
     CDROM_Unknown
 } cdrom_t;
 extern cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files);

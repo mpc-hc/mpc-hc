@@ -4407,6 +4407,7 @@ void CMainFrame::OnFileOpenCD(UINT nID)
             case CDROM_Audio:
             case CDROM_VideoCD:
             case CDROM_DVDVideo:
+            case CDROM_BD:
                 nID--;
                 break;
             default:
@@ -12405,6 +12406,13 @@ void CMainFrame::SetupOpenCDSubMenu()
             case CDROM_DVDVideo:
                 if (label.IsEmpty()) {
                     label = _T("DVD Video");
+                }
+                str.Format(_T("%s (%c:)"), label, drive);
+                break;
+            case CDROM_BD:
+                label = GetDriveLabel(drive);
+                if (label.IsEmpty()) {
+                    label = _T("Blu-ray Disc");
                 }
                 str.Format(_T("%s (%c:)"), label, drive);
                 break;

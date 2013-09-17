@@ -753,6 +753,18 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
     path.Format(_T("%c:"), drive);
 
     if (GetDriveType(path + _T("\\")) == DRIVE_CDROM) {
+        // CDROM_DVDVideo
+        FindFiles(path + _T("\\VIDEO_TS\\video_ts.ifo"), files);
+        if (!files.IsEmpty()) {
+            return CDROM_DVDVideo;
+        }
+
+        // CDROM_BD
+        FindFiles(path + _T("\\BDMV\\index.bdmv"), files);
+        if (!files.IsEmpty()) {
+            return CDROM_BD;
+        }
+
         // CDROM_VideoCD
         FindFiles(path + _T("\\mpegav\\avseq??.dat"), files);
         FindFiles(path + _T("\\mpegav\\avseq??.mpg"), files);
@@ -764,12 +776,6 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
         FindFiles(path + _T("\\mpeg2\\music??.mpg"), files);
         if (!files.IsEmpty()) {
             return CDROM_VideoCD;
-        }
-
-        // CDROM_DVDVideo
-        FindFiles(path + _T("\\VIDEO_TS\\video_ts.ifo"), files);
-        if (!files.IsEmpty()) {
-            return CDROM_DVDVideo;
         }
 
         // CDROM_Audio
