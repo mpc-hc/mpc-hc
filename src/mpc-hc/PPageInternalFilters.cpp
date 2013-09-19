@@ -304,7 +304,7 @@ void CPPageInternalFilters::InitFiltersList()
     }
 #endif
 #if INTERNAL_SOURCEFILTER_CDDA
-    m_filters.Add(filter_t(_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA));
+    m_filters.Add(filter_t(_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, 0));
 #endif
 #if INTERNAL_SOURCEFILTER_CDXA
     m_filters.Add(filter_t(_T("CDXA (VCD/SVCD/XCD)"), SOURCE_FILTER, SRC_CDXA, 0));

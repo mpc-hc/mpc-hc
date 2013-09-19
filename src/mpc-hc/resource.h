@@ -507,7 +507,6 @@
 #define IDC_LISTCHANNELS                12138
 #define IDC_STATUSBAR                   12139
 #define IDC_PPAGECAPTURE_DESC1          12140
-#define IDS_SRC_CDDA                    14001
 #define IDS_SRC_VTS                     14002
 #define IDS_SRC_RFS                     14003
 #define IDS_INTERNAL_LAVF               14004

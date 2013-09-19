@@ -2288,7 +2288,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_SRC_CDDA            "Windows XP only"
     IDS_SRC_VTS             "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
     IDS_SRC_RFS             "Based on RARFileSource, doesn't support compressed files"
     IDS_INTERNAL_LAVF       "Uses LAV Filters"
