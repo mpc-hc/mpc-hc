@@ -1025,9 +1025,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuildStep Include="res\mpc-hc.exe.manifest">
-      <Filter>Resource Files</Filter>
-    </CustomBuildStep>
     <CustomBuildStep Include="res\mplayerc.rc2">
       <Filter>Resource Files</Filter>
     </CustomBuildStep>
