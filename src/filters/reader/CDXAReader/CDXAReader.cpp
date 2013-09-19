@@ -180,6 +180,20 @@ STDMETHODIMP CCDXAReader::NonDelegatingQueryInterface(REFIID riid, void** ppv)
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
+STDMETHODIMP CCDXAReader::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+    CheckPointer(pInfo, E_POINTER);
+    ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+
+    wcscpy_s(pInfo->achName, CCDXAReaderName);
+    pInfo->pGraph = m_pGraph;
+    if (m_pGraph) {
+        m_pGraph->AddRef();
+    }
+
+    return S_OK;
+}
+
 STDMETHODIMP CCDXAReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 {
     CMediaType mt;
