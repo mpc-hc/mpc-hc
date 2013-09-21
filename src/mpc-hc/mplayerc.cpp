@@ -1234,6 +1234,12 @@ BOOL CMPlayerCApp::InitInstance()
             RegCloseKey(reg);
         }
 
+        // Restore the ExePath value to prevent settings migration
+        CRegKey key;
+        if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\MPC-HC"))) {
+            key.SetStringValue(_T("ExePath"), GetProgramPath(true));
+        }
+
         // Remove the current playlist if it exists
         CString strSavePath;
         if (GetAppSavePath(strSavePath)) {
@@ -1350,6 +1356,21 @@ BOOL CMPlayerCApp::InitInstance()
         }
     }
 
+    if (!IsIniValid()) {
+        CRegKey key;
+        if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\MPC-HC"))) {
+            if (RegQueryValueEx(key, _T("ExePath"), 0, nullptr, nullptr, nullptr) != ERROR_SUCCESS) { // First launch
+                // Move registry settings from the old to the new location
+                CRegKey oldKey;
+                if (ERROR_SUCCESS == oldKey.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Media Player Classic"), KEY_READ)) {
+                    SHCopyKey(oldKey, _T(""), key, 0);
+                }
+            }
+
+            key.SetStringValue(_T("ExePath"), GetProgramPath(true));
+        }
+    }
+
     m_s.LoadSettings(); // read settings
 
     m_AudioRendererDisplayName_CL = _T("");
@@ -1357,14 +1378,6 @@ BOOL CMPlayerCApp::InitInstance()
     if (!__super::InitInstance()) {
         AfxMessageBox(_T("InitInstance failed!"));
         return FALSE;
-    }
-
-    if (!IsIniValid()) {
-        CRegKey key;
-        CString exePath = GetProgramPath(true);
-        if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\MPC-HC"))) {
-            key.SetStringValue(_T("ExePath"), exePath);
-        }
     }
 
     AfxEnableControlContainer();
