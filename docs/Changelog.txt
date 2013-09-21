@@ -49,7 +49,7 @@ Legend:
 * WebUI: Switched to HTML5 and improved the cross browser support
   (IE8 or newer is needed, other browsers should work fine)
 * Updated Armenian, Basque, Czech, French, German, Greek, Japanese, Polish, Romanian,
-  Simplified and Traditional Chinese and Slovak translations
+  Simplified and Traditional Chinese, Slovak and Ukrainian translations
 * Updated Little CMS to v2.5 (git ad2cb04)
 * Updated Unrar to v5.0.0
 * Updated MediaInfoLib to v0.7.64
