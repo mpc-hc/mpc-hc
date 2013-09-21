@@ -459,7 +459,7 @@ public:
     void SeekTo(REFERENCE_TIME rt);
     void SetPlayingRate(double rate);
 
-    DWORD SetupAudioStreams();
+    int SetupAudioStreams();
     DWORD SetupSubtitleStreams();
 
     bool LoadSubtitle(CString fn, ISubStream** actualStream = nullptr, bool bAutoLoad = false);

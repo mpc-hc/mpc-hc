@@ -11516,10 +11516,10 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
     m_Lcd.SetMediaTitle(title);
 }
 
-DWORD CMainFrame::SetupAudioStreams()
+int CMainFrame::SetupAudioStreams()
 {
     if (m_iMediaLoadState != MLS_LOADED) {
-        return 0;
+        return -1;
     }
 
     bool bIsSplitter = false;
@@ -11559,8 +11559,8 @@ DWORD CMainFrame::SetupAudioStreams()
             lang = s.strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
         }
 
-        DWORD selected = 1, id = 0;
-        int maxrating = 0;
+        int selected = -1, id = 0;
+        int maxrating = -1;
         for (DWORD i = 0; i < cStreams; i++) {
             DWORD dwFlags, dwGroup;
             WCHAR* pName = nullptr;
@@ -11598,6 +11598,7 @@ DWORD CMainFrame::SetupAudioStreams()
                 }
 
                 if (bSkipTrack) {
+                    id++;
                     continue;
                 }
             }
@@ -11630,9 +11631,6 @@ DWORD CMainFrame::SetupAudioStreams()
             if (name.Find(_T("[default]")) != -1) {
                 rating += 2;
             }
-            if (id == 0) {
-                rating += 1;
-            }
 
             if (rating > maxrating) {
                 maxrating = rating;
@@ -11644,7 +11642,7 @@ DWORD CMainFrame::SetupAudioStreams()
         return selected + !bIsSplitter;
     }
 
-    return 0;
+    return -1;
 }
 
 DWORD CMainFrame::SetupSubtitleStreams()
@@ -11984,10 +11982,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             Sleep(50);
         }
 
-        DWORD audstm = SetupAudioStreams();
+        int audstm = SetupAudioStreams();
         DWORD substm = SetupSubtitleStreams();
 
-        if (audstm) {
+        if (audstm >= 0) {
             OnPlayAudio(ID_AUDIO_SUBITEM_START + audstm);
         }
         if (substm) {
