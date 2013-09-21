@@ -460,7 +460,7 @@ public:
     void SetPlayingRate(double rate);
 
     int SetupAudioStreams();
-    DWORD SetupSubtitleStreams();
+    int SetupSubtitleStreams();
 
     bool LoadSubtitle(CString fn, ISubStream** actualStream = nullptr, bool bAutoLoad = false);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false, bool bApplyDefStyle = false);

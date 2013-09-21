@@ -11645,7 +11645,7 @@ int CMainFrame::SetupAudioStreams()
     return -1;
 }
 
-DWORD CMainFrame::SetupSubtitleStreams()
+int CMainFrame::SetupSubtitleStreams()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -11660,9 +11660,9 @@ DWORD CMainFrame::SetupSubtitleStreams()
             lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         }
 
-        DWORD selected = 0;
-        DWORD i = 0;
-        int  maxrating = 0;
+        int selected = -1;
+        int i = 0;
+        int maxrating = -1;
         POSITION pos = m_pSubStreams.GetHeadPosition();
         while (pos) {
             if (m_posFirstExtSub == pos) {
@@ -11752,9 +11752,9 @@ DWORD CMainFrame::SetupSubtitleStreams()
                     }
                 }
 
-                if (rating > maxrating || !selected) {
+                if (rating > maxrating) {
                     maxrating = rating;
-                    selected = i + 1;
+                    selected = i;
                 }
                 i++;
             }
@@ -11762,7 +11762,7 @@ DWORD CMainFrame::SetupSubtitleStreams()
         return selected;
     }
 
-    return 0;
+    return -1;
 }
 
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
@@ -11983,13 +11983,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
 
         int audstm = SetupAudioStreams();
-        DWORD substm = SetupSubtitleStreams();
+        int substm = SetupSubtitleStreams();
 
         if (audstm >= 0) {
             OnPlayAudio(ID_AUDIO_SUBITEM_START + audstm);
         }
-        if (substm) {
-            SetSubtitle(substm - 1);
+        if (substm >= 0) {
+            SetSubtitle(substm);
         }
 
         // PostMessage instead of SendMessage because the user might call CloseMedia and then we would deadlock
