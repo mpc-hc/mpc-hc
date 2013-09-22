@@ -2002,3 +2002,64 @@ bool CAppSettings::HasEVR()
 {
     return IsCLSIDRegistered(CLSID_EnhancedVideoRenderer);
 }
+
+void CAppSettings::UpdateSettings()
+{
+    CWinApp* pApp = AfxGetApp();
+    ASSERT(pApp);
+
+    UINT version = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, 0);
+    if (version >= APPSETTINGS_VERSION) {
+        return; // Nothing to update
+    }
+
+    // Use lambda expressions to copy data entries
+    auto copyInt = [pApp](LPCTSTR oldSection, LPCTSTR oldEntry, LPCTSTR newSection, LPCTSTR newEntry) {
+        int old = pApp->GetProfileInt(oldSection, oldEntry, 0);
+        VERIFY(pApp->WriteProfileInt(newSection, newEntry, old));
+    };
+    auto copyString = [pApp](LPCTSTR oldSection, LPCTSTR oldEntry, LPCTSTR newSection, LPCTSTR newEntry) {
+        CString old = pApp->GetProfileString(oldSection, oldEntry);
+        VERIFY(pApp->WriteProfileString(newSection, newEntry, old));
+    };
+    auto copyBin = [pApp](LPCTSTR oldSection, LPCTSTR oldEntry, LPCTSTR newSection, LPCTSTR newEntry) {
+        UINT len;
+        BYTE* old;
+        if (pApp->GetProfileBinary(oldSection, oldEntry, &old, &len)) {
+            VERIFY(pApp->WriteProfileBinary(newSection, newEntry, old, len));
+            delete [] old;
+        }
+    };
+
+
+    // Migrate to the latest version, these cases should fall through
+    // so that all incremental updates are applied.
+    switch (version) {
+        case 0:
+            copyInt(_T("Settings"), _T("Remember DVD Pos"), _T("Settings"), _T("RememberDVDPos"));
+            copyInt(_T("Settings"), _T("Remember File Pos"), _T("Settings"), _T("RememberFilePos"));
+            copyInt(_T("Settings"), _T("Show OSD"), _T("Settings"), _T("ShowOSD"));
+            copyString(_T("Settings"), _T("Shaders List"), _T("Settings"), _T("ShadersList"));
+            copyInt(_T("Settings"), _T("OSD_Size"), _T("Settings"), _T("OSDSize"));
+            copyString(_T("Settings"), _T("OSD_Font"), _T("Settings"), _T("OSDFont"));
+            copyInt(_T("Settings"), _T("gotoluf"), _T("Settings"), _T("GoToLastUsed"));
+            copyInt(_T("Settings"), _T("fps"), _T("Settings"), _T("GoToFPS"));
+
+            // Move DVB section
+            copyString(_T("DVB configuration"), _T("BDANetworkProvider"), _T("DVBConfiguration"), _T("BDANetworkProvider"));
+            copyString(_T("DVB configuration"), _T("BDATuner"), _T("DVBConfiguration"), _T("BDATuner"));
+            copyString(_T("DVB configuration"), _T("BDAReceiver"), _T("DVBConfiguration"), _T("BDAReceiver"));
+            copyInt(_T("DVB configuration"), _T("BDAScanFreqStart"), _T("DVBConfiguration"), _T("BDAScanFreqStart"));
+            copyInt(_T("DVB configuration"), _T("BDAScanFreqEnd"), _T("DVBConfiguration"), _T("BDAScanFreqEnd"));
+            copyInt(_T("DVB configuration"), _T("BDABandWidth"), _T("DVBConfiguration"), _T("BDABandWidth"));
+            copyInt(_T("DVB configuration"), _T("BDAUseOffset"), _T("DVBConfiguration"), _T("BDAUseOffset"));
+            copyInt(_T("DVB configuration"), _T("BDAOffset"), _T("DVBConfiguration"), _T("BDAOffset"));
+            copyInt(_T("DVB configuration"), _T("BDAIgnoreEncryptedChannels"), _T("DVBConfiguration"), _T("BDAIgnoreEncryptedChannels"));
+            copyInt(_T("DVB configuration"), _T("LastChannel"), _T("DVBConfiguration"), _T("LastChannel"));
+            copyInt(_T("DVB configuration"), _T("RebuildFilterGraph"), _T("DVBConfiguration"), _T("RebuildFilterGraph"));
+            copyInt(_T("DVB configuration"), _T("StopFilterGraph"), _T("DVBConfiguration"), _T("StopFilterGraph"));
+
+        default:
+            pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);
+    }
+}

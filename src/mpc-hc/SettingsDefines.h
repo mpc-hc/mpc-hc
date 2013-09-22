@@ -21,6 +21,7 @@
 #pragma once
 
 #define IDS_R_SETTINGS                      _T("Settings")
+#define IDS_R_VERSION                       _T("SettingsVersion")
 #define IDS_R_FILTERS                       _T("Filters")
 #define IDS_R_EXTERNAL_FILTERS_x86          _T("Filters\\x86")
 #define IDS_R_EXTERNAL_FILTERS_x64          _T("Filters\\x64")

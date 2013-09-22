@@ -320,6 +320,8 @@ public:
     CUIceClient();
 };
 
+#define APPSETTINGS_VERSION 1
+
 class CAppSettings
 {
     bool fInitialized;
@@ -635,6 +637,7 @@ public:
     void            SaveSettings();
     void            LoadSettings();
     void            SaveExternalFilters() { if (fInitialized) { SaveExternalFilters(m_filters); } };
+    void            UpdateSettings();
 
     void            GetFav(favtype ft, CAtlList<CString>& sl) const;
     void            SetFav(favtype ft, CAtlList<CString>& sl);
