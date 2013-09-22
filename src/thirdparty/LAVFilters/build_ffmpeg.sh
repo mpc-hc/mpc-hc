@@ -27,10 +27,10 @@ strip_libs() {
 }
 
 copy_libs() (
-  cp lib*/*-lav-*.dll ../bin_${archdir}
-  cp lib*/*.lib ../bin_${archdir}/lib
-  cp lib*/*-lav-*.dll ../bin_${archdir}d
-  cp lib*/*.lib ../bin_${archdir}d/lib
+  cp lib*/*-lav-*.dll ../../bin_${archdir}
+  cp lib*/*.lib ../../bin_${archdir}/lib
+  cp lib*/*-lav-*.dll ../../bin_${archdir}d
+  cp lib*/*.lib ../../bin_${archdir}d/lib
 )
 
 clean() (
@@ -88,18 +88,18 @@ configure() (
     --build-suffix=-lav \
     --arch=${arch}"
 
-  EXTRA_CFLAGS="-D_WIN32_WINNT=0x0502 -DWINVER=0x0502 -I../thirdparty/include -idirafter../common/includes/dxva2 -DPTW32_STATIC_LIB"
+  EXTRA_CFLAGS="-D_WIN32_WINNT=0x0502 -DWINVER=0x0502 -I../../thirdparty/include -idirafter../../common/includes/dxva2 -DPTW32_STATIC_LIB"
   EXTRA_LDFLAGS=""
   if [ "${arch}" == "x86_64" ]; then
     OPTIONS="${OPTIONS} --enable-cross-compile --cross-prefix=x86_64-w64-mingw32- --target-os=mingw32"
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../thirdparty/lib64"
+    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../thirdparty/lib64"
   else
     OPTIONS="${OPTIONS} --cpu=i686"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mmmx -msse -mfpmath=sse"
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../thirdparty/lib32"
+    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../thirdparty/lib32"
   fi
 
-  sh configure --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
+  sh ../../ffmpeg/configure --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
 )
 
 build() (
@@ -113,7 +113,11 @@ cd src
 
 make_dirs
 
-cd ffmpeg
+out_dir=bin_${archdir}/ffmpeg
+if [ ! -d ${out_dir} ]; then
+  mkdir -p ${out_dir}
+fi
+cd ${out_dir}
 
 CONFIGRETVAL=0
 
@@ -148,7 +152,7 @@ else
     CONFIGRETVAL=$?
   fi
 
-  cd ../..
+  cd ../../..
 fi
 
 exit ${CONFIGRETVAL}
