@@ -119,7 +119,6 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">.ax</TargetExt>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">.ax</TargetExt>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">.ax</TargetExt>
