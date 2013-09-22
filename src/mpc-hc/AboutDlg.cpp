@@ -115,13 +115,7 @@ BOOL CAboutDlg::OnInitDialog()
 #else
     m_MPCCompiler = _T("MSVC 2012");
 #endif
-#elif (_MSC_VER == 1600) // 2010
-#if (_MSC_FULL_VER >= 160040219)
-    m_MPCCompiler = _T("MSVC 2010 SP1");
-#else
-    m_MPCCompiler = _T("MSVC 2010");
-#endif
-#elif (_MSC_VER < 1600)
+#elif (_MSC_VER <= 1600)
 #error Compiler is not supported!
 #endif
 #else

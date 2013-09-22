@@ -210,15 +210,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release' or '$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release' or '$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release' or '$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\FilterApp.cpp" />
     <ClCompile Include="MpcAudioRenderer.cpp" />
     <ClCompile Include="MpcAudioRendererSettingsWnd.cpp" />

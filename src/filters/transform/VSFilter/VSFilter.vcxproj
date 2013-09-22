@@ -126,15 +126,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp">
-      <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp">
-      <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp">
-      <ExcludedFromBuild Condition="'$(PlatformToolsetVersion)'=='110'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="AvgLines.cpp" />
     <ClCompile Include="Copy.cpp" />
     <ClCompile Include="csriapi.cpp" />
