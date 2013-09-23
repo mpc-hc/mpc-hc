@@ -8,7 +8,7 @@ else
   archdir=Win32
 fi
 
-make_dirs() (
+make_dirs() {
   if [ ! -d bin_${archdir}/lib ]; then
     mkdir -p bin_${archdir}/lib
   fi
@@ -16,7 +16,7 @@ make_dirs() (
   if [ ! -d bin_${archdir}d/lib ]; then
     mkdir -p bin_${archdir}d/lib
   fi
-)
+}
 
 strip_libs() {
   if [ "${arch}" == "x86_64" ]; then
@@ -26,22 +26,23 @@ strip_libs() {
   fi
 }
 
-copy_libs() (
+copy_libs() {
   cp lib*/*-lav-*.dll ../../bin_${archdir}
   cp lib*/*.lib ../../bin_${archdir}/lib
   cp lib*/*-lav-*.dll ../../bin_${archdir}d
   cp lib*/*.lib ../../bin_${archdir}d/lib
-)
+}
 
-clean() (
+clean() {
   echo Cleaning...
   rm -f config.out > /dev/null 2>&1
   if [ -f config.mak ]; then
     make distclean > /dev/null 2>&1
   fi
-)
+  CLEANED=1
+}
 
-configure() (
+configure() {
   OPTIONS="
     --enable-shared                 \
     --disable-static                \
@@ -95,35 +96,18 @@ configure() (
   fi
 
   sh ../../ffmpeg/configure --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
-)
+}
 
-build() (
+build() {
   echo Building...
   make -j8
-)
+}
 
-echo Building ffmpeg in GCC ${arch} Release config...
-
-cd src
-
-make_dirs
-
-out_dir=bin_${archdir}/ffmpeg
-if [ ! -d ${out_dir} ]; then
-  mkdir -p ${out_dir}
-fi
-cd ${out_dir}
-
-CONFIGRETVAL=0
-
-if [ "${2}" == "Clean" ]; then
-  clean
-  CONFIGRETVAL=$?
-else
+configureAndBuild() {
   ## read the first line of the previous configure output
   conf=$(head -n 1 config.out 2>/dev/null)
 
-  if [ "${conf}" == "Arch: ${arch}" ]; then
+  if [ "${conf}" == "Arch: ${arch}" ] && [ ${FORCECLEAN} -eq 0 ]; then
     echo Skipping configure...
   else
     clean
@@ -146,8 +130,37 @@ else
     copy_libs
     CONFIGRETVAL=$?
   fi
+}
 
-  cd ../../..
+echo Building ffmpeg in GCC ${arch} Release config...
+
+cd src
+
+make_dirs
+
+out_dir=bin_${archdir}/ffmpeg
+if [ ! -d ${out_dir} ]; then
+  mkdir -p ${out_dir}
 fi
+cd ${out_dir}
+
+CLEANED=0
+FORCECLEAN=0
+CONFIGRETVAL=0
+
+if [ "${2}" == "Clean" ]; then
+  clean
+  CONFIGRETVAL=$?
+else
+  configureAndBuild
+
+  if [ ! ${CONFIGRETVAL} -eq 0 ] && [ ${CLEANED} -eq 0 ]; then
+    echo Trying again with forced reconfigure...
+    FORCECLEAN=1
+    configureAndBuild
+  fi
+fi
+
+cd ../../..
 
 exit ${CONFIGRETVAL}
