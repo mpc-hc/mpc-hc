@@ -1199,6 +1199,8 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_s.ParseCommandLine(m_cmdln);
 
+    VERIFY(SetCurrentDirectory(GetProgramPath()));
+
     if (m_s.nCLSwitches & (CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH)) { // show commandline help window
         m_s.LoadSettings();
         ShowCmdlnSwitches();
