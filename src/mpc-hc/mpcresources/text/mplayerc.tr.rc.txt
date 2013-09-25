@@ -298,7 +298,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Ekran görüntüsü"
 42		"Alt yazılar*"
 44		"Ekran görüntüsü"
-46		"* VSFilters gibi harici filtreler alt yazıları tüm çeviricilerde gösterebilirler."
+46		"* VSFilter gibi harici filtreler alt yazıları tüm çeviricilerde gösterebilirler."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
