@@ -298,7 +298,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 40		"Ekran görüntüsü"
 42		"Alt yazılar*"
 44		"Ekran görüntüsü"
-46		"* VSFiltresi gibi harici filtreler alt yazıları tüm çeviricilerde gösterebilirler."
+46		"* VSFilters gibi harici filtreler alt yazıları tüm çeviricilerde gösterebilirler."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
@@ -1820,7 +1820,7 @@ STRING IDS_SUBRESYNC_CLN_STYLE		"Biçim"
 STRING IDS_SUBRESYNC_CLN_TEXT		"Metin"
 STRING IDS_SUBRESYNC_CLN_TIME		"Süre"
 STRING IDS_SUBRESYNC_CLN_UNICODE		"Unicode"
-STRING IDS_SUBRESYNC_CLN_VOB_ID		"Vob ID"
+STRING IDS_SUBRESYNC_CLN_VOB_ID		"Vob ID'si"
 STRING IDS_SUBRESYNC_CURRENT		"&Geçerli"
 STRING IDS_SUBRESYNC_DECREASE		"&Azalt"
 STRING IDS_SUBRESYNC_DELETE		"&Sil"
