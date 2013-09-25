@@ -6,7 +6,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 13		"Yapım bilgisi"
 14		"MPC-HC Sürümü:"
 16		"Derlemesi:"
-18		"LAV Filtreleri:"
+18		"LAV Filters:"
 19		"Kullanılmıyor"
 20		"Yapım tarihi:"
 22		"İşletim sistemi"
