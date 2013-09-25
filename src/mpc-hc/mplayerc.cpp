@@ -1199,7 +1199,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_s.ParseCommandLine(m_cmdln);
 
-    if (m_s.nCLSwitches & (CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH)) { // show comandline help window
+    if (m_s.nCLSwitches & (CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH)) { // show commandline help window
         m_s.LoadSettings();
         ShowCmdlnSwitches();
         return FALSE;
