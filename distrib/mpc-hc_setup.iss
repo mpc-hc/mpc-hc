@@ -435,8 +435,10 @@ var
   iLanguage: Integer;
 begin
   if CurStep = ssPostInstall then begin
-    if IsTaskSelected('reset_settings') then
+    if IsTaskSelected('reset_settings') then begin
       CleanUpSettingsAndFiles();
+      RegWriteStringValue(HKCU, 'Software\MPC-HC\MPC-HC', 'ExePath', ExpandConstant('{app}\{#mpchc_exe}'));
+    end;
 
     iLanguage := StrToInt(ExpandConstant('{cm:langid}'));
     if IsComponentSelected('mpcresources') and FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
