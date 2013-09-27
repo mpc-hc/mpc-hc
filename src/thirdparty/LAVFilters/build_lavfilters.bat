@@ -81,7 +81,6 @@ IF /I "%COMPILER%" == "VS2012" (
   IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
   SET "TOOLSET=%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
   SET "BIN_DIR=%ROOT_DIR%\bin12"
-  SET "SLN_SUFFIX=2012"
 ) ELSE (
   IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
   SET "TOOLSET=%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
@@ -153,9 +152,9 @@ PUSHD src
 REM Build LAVFilters
 IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
-devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%|%ARCHVS%"
+devenv LAVFilters.sln /%BUILDTYPE% "%RELEASETYPE%|%ARCHVS%"
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "'devenv LAVFilters%SLN_SUFFIX%.sln /%BUILDTYPE% "%RELEASETYPE%-%ARCHVS%" failed!"
+  CALL :SubMsg "ERROR" "'devenv LAVFilters.sln /%BUILDTYPE% "%RELEASETYPE%-%ARCHVS%" failed!"
   EXIT /B
 )
 
