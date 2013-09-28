@@ -158,6 +158,7 @@ public:
     {
         TOOLBARS_DELAY_NOTLOADED,
         CHILDVIEW_CURSOR_HACK,
+        DELAY_IDLE,
     };
     OneTimeTimerPool<TimerOneTimeSubscriber> m_timerOneTime;
 

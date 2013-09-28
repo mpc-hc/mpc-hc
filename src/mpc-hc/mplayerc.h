@@ -124,6 +124,10 @@ class CMPlayerCApp : public CWinApp
     static UINT GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
     static UINT GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
 
+    bool m_bDelayingIdle;
+    void DelayedIdle();
+    virtual BOOL IsIdleMessage(MSG* pMsg) override;
+
 public:
     CMPlayerCApp();
     ~CMPlayerCApp();

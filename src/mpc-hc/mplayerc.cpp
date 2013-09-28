@@ -282,6 +282,7 @@ CMPlayerCApp::CMPlayerCApp()
     : m_hNTDLL(nullptr)
     , m_fClosingState(false)
     , m_fProfileInitialized(false)
+    , m_bDelayingIdle(false)
 {
     TCHAR strApp[MAX_PATH];
 
@@ -311,6 +312,32 @@ CMPlayerCApp::~CMPlayerCApp()
     if (m_hNTDLL) {
         FreeLibrary(m_hNTDLL);
     }
+}
+
+void CMPlayerCApp::DelayedIdle()
+{
+    m_bDelayingIdle = false;
+}
+
+BOOL CMPlayerCApp::IsIdleMessage(MSG* pMsg)
+{
+    BOOL ret = __super::IsIdleMessage(pMsg);
+    if (ret && pMsg->message == WM_MOUSEMOVE) {
+        if (m_bDelayingIdle) {
+            ret = FALSE;
+        } else {
+            auto pMainFrm = AfxGetMainFrame();
+            if (pMainFrm) {
+                const unsigned uTimeout = 100;
+                // delay next WM_MOUSEMOVE initiated idle for uTimeout ms
+                // if there will be no WM_MOUSEMOVE messages, WM_TIMER will initiate the idle
+                pMainFrm->m_timerOneTime.Subscribe(
+                    CMainFrame::TimerOneTimeSubscriber::DELAY_IDLE, std::bind(&CMPlayerCApp::DelayedIdle, this), uTimeout);
+                m_bDelayingIdle = true;
+            }
+        }
+    }
+    return ret;
 }
 
 void CMPlayerCApp::ShowCmdlnSwitches() const
