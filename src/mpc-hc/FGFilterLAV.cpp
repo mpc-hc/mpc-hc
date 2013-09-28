@@ -30,6 +30,8 @@
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 #include "moreuuids.h"
+#include "../filters/InternalPropertyPage.h"
+#include "../filters/PinInfoWnd.h"
 
 #define LAV_FILTERS_VERSION_MAJOR    0
 #define LAV_FILTERS_VERSION_MINOR    58
@@ -198,6 +200,52 @@ bool CFGFilterLAV::IsInternalInstance(IBaseFilter* pBF, LAVFILTER_TYPE* pLAVFilt
     }
 
     return bIsInternalInstance;
+}
+
+HRESULT CFGFilterLAV::PropertyPageCallback(IBaseFilter* pBF)
+{
+    CheckPointer(pBF, E_POINTER);
+    
+    CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), AfxGetMyApp()->GetMainWnd());
+
+    // Find out which internal filter we are opening the property page for 
+    CFGFilterLAV::LAVFILTER_TYPE LAVFilterType = CFGFilterLAV::INVALID;
+    if (!CFGFilterLAV::IsInternalInstance(pBF, &LAVFilterType)) {
+        return E_UNEXPECTED;
+    }
+
+    HRESULT hr = E_FAIL;
+    if (CComQIPtr<ISpecifyPropertyPages> pSPP = pBF) {
+        ps.AddPages(pSPP, (LAVFilterType != CFGFilterLAV::AUDIO_DECODER) ? 1 : 2);
+    }
+
+    CComPtr<IPropertyPage> pPP = DEBUG_NEW CInternalPropertyPageTempl<CPinInfoWnd>(nullptr, &hr);
+    ps.AddPage(pPP, pBF);
+
+    if (ps.GetPageCount() > 1) {
+        ps.DoModal();
+
+        if (CComQIPtr<ILAVFSettings> pLAVFSettings = pBF) {
+            CFGFilterLAVSplitterBase::Settings settings;
+            if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVSplitter
+                settings.SaveSettings(); // Save them to the registry/ini
+            }
+        } else if (CComQIPtr<ILAVVideoSettings> pLAVFSettings = pBF) {
+            CFGFilterLAVVideo::Settings settings;
+            if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVVideo
+                settings.SaveSettings(); // Save them to the registry/ini
+            }
+        } else if (CComQIPtr<ILAVAudioSettings> pLAVFSettings = pBF) {
+            CFGFilterLAVAudio::Settings settings;
+            if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVAudio
+                settings.SaveSettings(); // Save them to the registry/ini
+            }
+        }
+
+        hr = S_OK;
+    }
+
+    return hr;
 }
 
 //
@@ -425,6 +473,11 @@ bool CFGFilterLAVSplitterBase::Settings::SetSettings(CComQIPtr<ILAVFSettings> pL
     pLAVFSettings->SetMaxQueueMemSize(dwQueueMaxSize);
 
     pLAVFSettings->SetNetworkStreamAnalysisDuration(dwNetworkAnalysisDuration);
+
+    // Custom interface available only in patched build, will be removed after it's upstreamed
+    if (CComQIPtr<ILAVFSettingsMPCHCCustom> pLAVFSettingsMPCHCCustom = pLAVFSettings) {
+        pLAVFSettingsMPCHCCustom->SetPropertyPageCallback(PropertyPageCallback);
+    }
 
     return true;
 }
@@ -705,6 +758,11 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
     // Force RV1/2 enabled, the user can control it from our own options
     pLAVFSettings->SetFormatConfiguration(Codec_RV12, TRUE);
 
+    // Custom interface available only in patched build, will be removed after it's upstreamed
+    if (CComQIPtr<ILAVVideoSettingsMPCHCCustom> pLAVFSettingsMPCHCCustom = pLAVFSettings) {
+        pLAVFSettingsMPCHCCustom->SetPropertyPageCallback(PropertyPageCallback);
+    }
+
     return true;
 }
 
@@ -959,6 +1017,11 @@ bool CFGFilterLAVAudio::Settings::SetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
     pLAVFSettings->SetFormatConfiguration(Codec_WMA2, TRUE);
     pLAVFSettings->SetFormatConfiguration(Codec_WMAPRO, TRUE);
     pLAVFSettings->SetFormatConfiguration(Codec_WMALL, TRUE);
+
+    // Custom interface available only in patched build, will be removed after it's upstreamed
+    if (CComQIPtr<ILAVAudioSettingsMPCHCCustom> pLAVFSettingsMPCHCCustom = pLAVFSettings) {
+        pLAVFSettingsMPCHCCustom->SetPropertyPageCallback(PropertyPageCallback);
+    }
 
     return true;
 }

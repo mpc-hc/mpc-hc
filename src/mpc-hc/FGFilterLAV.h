@@ -83,6 +83,8 @@ public:
             }
         }
     }
+
+    static HRESULT PropertyPageCallback(IBaseFilter* pFilter);
 };
 
 class CFGFilterLAVSplitterBase : public CFGFilterLAV
