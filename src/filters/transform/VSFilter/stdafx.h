@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,9 +24,15 @@
 #define _ATL_APARTMENT_THREADED
 
 #include "../../../DSUtil/SharedInclude.h"
-#include "../../../../include/stdafx_common.h"
-#include "../../../../include/stdafx_common_afx2.h"
-#include "../../../../include/stdafx_common_dshow.h"
+
+#include <afxwin.h>
+#include <afxdisp.h>
+
+#include <atlbase.h>
+#include <atlcom.h>
+
+#include "BaseClasses/streams.h"
+#include <dvdmedia.h>
 #include "../../../DSUtil/DSUtil.h"
 
 #include "DirectVobSubFilter.h"

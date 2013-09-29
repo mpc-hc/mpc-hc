@@ -345,18 +345,6 @@
     <ClCompile Include="AboutDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\mfc\afxmaskededit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\mfc\winmdi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MPCPngImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -722,9 +710,6 @@
     <ClInclude Include="AboutDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\thirdparty\mfc\afxmaskededit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1040,9 +1025,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuildStep Include="res\mpc-hc.exe.manifest">
-      <Filter>Resource Files</Filter>
-    </CustomBuildStep>
     <CustomBuildStep Include="res\mplayerc.rc2">
       <Filter>Resource Files</Filter>
     </CustomBuildStep>

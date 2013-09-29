@@ -23,6 +23,7 @@
 
 #include <afxwin.h>
 #include <afxcmn.h>
+#include <dvdmedia.h>
 #include "../filters/transform/BufferFilter/BufferFilter.h"
 #include "FloatEdit.h"
 #include "resource.h"

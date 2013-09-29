@@ -22,7 +22,7 @@
 #pragma once
 
 #include <afxwin.h>
-#include "afxmaskededit.h"
+#include <afxmaskededit.h>
 #include "resource.h"
 
 

@@ -57,15 +57,6 @@
     <ClCompile Include="VSFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="VSFilter.def">
@@ -126,10 +117,5 @@
     <ResourceCompile Include="VSFilter.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Manifest Include="res\VSFilter.manifest">
-      <Filter>Resource Files</Filter>
-    </Manifest>
   </ItemGroup>
 </Project>

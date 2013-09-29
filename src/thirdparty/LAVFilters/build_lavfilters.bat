@@ -43,7 +43,6 @@ SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
 SET ARGB=0
 SET ARGBC=0
-SET ARGCOMP=0
 SET ARGPL=0
 SET INPUT=0
 SET VALID=0
@@ -61,31 +60,22 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "x64"      SET "ARCH=x64"            & SET /A ARGPL+=1
   IF /I "%%G" == "Debug"    SET "RELEASETYPE=Debug"   & SET /A ARGBC+=1
   IF /I "%%G" == "Release"  SET "RELEASETYPE=Release" & SET /A ARGBC+=1
-  IF /I "%%G" == "VS2010"   SET "COMPILER=VS2010"     & SET /A ARGCOMP+=1
-  IF /I "%%G" == "VS2012"   SET "COMPILER=VS2012"     & SET /A ARGCOMP+=1
   IF /I "%%G" == "Silent"   SET "SILENT=True"         & SET /A VALID+=1
   IF /I "%%G" == "Nocolors" SET "NOCOLORS=True"       & SET /A VALID+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
-SET /A VALID+=%ARGB%+%ARGPL%+%ARGBC%+%ARGCOMP%
+SET /A VALID+=%ARGB%+%ARGPL%+%ARGBC%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
 IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTYPE=Build")
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "ARCH=Both")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "RELEASETYPE=Release")
-IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2012")
 
-IF /I "%COMPILER%" == "VS2012" (
-  IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
-  SET "TOOLSET=%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
-  SET "BIN_DIR=%ROOT_DIR%\bin12"
-) ELSE (
-  IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
-  SET "TOOLSET=%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
-  SET "BIN_DIR=%ROOT_DIR%\bin"
-)
+IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
+SET "TOOLSET=%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
+SET "BIN_DIR=%ROOT_DIR%\bin"
 
 IF /I "%ARCH%" == "Both" (
   SET "ARCH=x86" & CALL :Main
@@ -223,13 +213,13 @@ CALL :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Debug^|Release] [VS2010^|VS2012]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Debug^|Release]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        The arguments are not case sensitive and can be ommitted.
 ECHO. & ECHO.
 ECHO Executing %~nx0 without any arguments will use the default ones:
-ECHO "%~nx0 Build Both Release VS2012"
+ECHO "%~nx0 Build Both Release"
 ECHO.
 POPD
 ENDLOCAL

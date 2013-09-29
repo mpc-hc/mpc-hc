@@ -24,18 +24,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\mfc\winmdi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HScrollListBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MPCTestAPI.h">
@@ -66,10 +54,5 @@
     <None Include="res\MPCTestAPI.ico">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Manifest Include="res\MPCTestAPI.exe.manifest">
-      <Filter>Resource Files</Filter>
-    </Manifest>
   </ItemGroup>
 </Project>

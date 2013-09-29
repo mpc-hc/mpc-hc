@@ -26,6 +26,7 @@
 #include <math.h>
 #include <algorithm>
 
+#include <afxglobals.h>
 #include <afxpriv.h>
 #include <atlconv.h>
 #include <atlrx.h>

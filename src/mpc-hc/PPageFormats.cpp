@@ -27,6 +27,7 @@
 #include "WinAPIUtils.h"
 #include <psapi.h>
 #include <string>
+#include <atlimage.h>
 
 
 // CPPageFormats dialog
