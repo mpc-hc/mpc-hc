@@ -185,10 +185,15 @@ int UpdateChecker::CompareVersion(const Version& v1, const Version& v2)
         return 1;
     } else if (v1.patch < v2.patch) {
         return -1;
-    } else if (v1.revision > v2.revision) {
-        return 1;
-    } else if (v1.revision < v2.revision) {
-        return -1;
+        // HACK: work around 1.7.0.7858 fiasco
+        // should be uncommented after 1.7.1
+#if MPC_VERSION_PATCH > 0
+#   error uncomment
+#endif
+        // } else if (v1.revision > v2.revision) {
+        //     return 1;
+        // } else if (v1.revision < v2.revision) {
+        //     return -1;
     } else {
         return 0;
     }
