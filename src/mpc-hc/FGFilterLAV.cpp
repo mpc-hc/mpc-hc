@@ -205,10 +205,10 @@ bool CFGFilterLAV::IsInternalInstance(IBaseFilter* pBF, LAVFILTER_TYPE* pLAVFilt
 HRESULT CFGFilterLAV::PropertyPageCallback(IBaseFilter* pBF)
 {
     CheckPointer(pBF, E_POINTER);
-    
+
     CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), AfxGetMyApp()->GetMainWnd());
 
-    // Find out which internal filter we are opening the property page for 
+    // Find out which internal filter we are opening the property page for
     CFGFilterLAV::LAVFILTER_TYPE LAVFilterType = CFGFilterLAV::INVALID;
     if (!CFGFilterLAV::IsInternalInstance(pBF, &LAVFilterType)) {
         return E_UNEXPECTED;
