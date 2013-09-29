@@ -5,12 +5,6 @@ https://trac.mpc-hc.org/wiki/How_to_compile_the_MPC
 
 Part A: Preparing the Visual Studio environment
 
- Visual Studio 2010
-  1. Install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine)
-  2. Install Visual Studio 2010 Service Pack 1 -> http://www.microsoft.com/downloads/en/details.aspx?FamilyID=75568aa6-8107-475d-948a-ef22627e57a5&displaylang=en
-  3. Make sure you install all available updates from Microsoft Update
-  4. Install the DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
-
  Visual Studio 2012
   1. Install Visual C++ 2012, part of Visual Studio 2012 Professional (Express won't work, other editions work fine)
   2. Install Visual Studio 2012 Update 3 -> http://www.microsoft.com/visualstudio/eng/downloads#d-visual-studio-2012-update

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <dvdmedia.h>
+
 #pragma pack(push, 1)
 struct VIH {
     VIDEOINFOHEADER vih;

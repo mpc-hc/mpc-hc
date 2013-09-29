@@ -29,7 +29,6 @@
 #endif
 
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
-;#define VS2010
 ;#define x64Build
 ;#define MPCHC_LITE
 
@@ -63,11 +62,7 @@
 #define app_vername     = app_name + " " + app_ver
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
-#if defined(VS2010)
-  #define base_bindir   = "..\bin"
-#else
-  #define base_bindir   = "..\bin12"
-#endif
+#define base_bindir   = "..\bin"
 
 #ifdef x64Build
   #define bindir        = base_bindir + "\mpc-hc_x64"
@@ -93,10 +88,6 @@
   #else
     #define OutFilename  = OutFilename + ".en"
   #endif
-#endif
-
-#if defined(VS2010)
-  #define OutFilename    = OutFilename + ".VS2010"
 #endif
 
 #if MPC_NIGHTLY_RELEASE

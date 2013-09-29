@@ -22,6 +22,7 @@
 #pragma once
 
 #include <afxwin.h>
+#include <atlpath.h>
 
 
 // COpenFileDlg

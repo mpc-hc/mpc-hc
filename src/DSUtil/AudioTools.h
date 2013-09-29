@@ -20,12 +20,7 @@
 
 #pragma once
 
-// TODO: remove this when it's fixed in MSVC
-// Work around warning C4005: 'XXXX' : macro redefinition
-#pragma warning(push)
-#pragma warning(disable: 4005)
 #include <stdint.h>
-#pragma warning(pop)
 
 #define INT24_MAX       8388607
 #define INT24_MIN     (-8388608)

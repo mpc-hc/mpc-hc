@@ -25,7 +25,8 @@ REM installed and you want to use the ANSI Inno Setup which is in another locati
 IF NOT DEFINED InnoSetupPath SET "InnoSetupPath=H:\progs\thirdparty\isetup"
 
 SET ROOT_DIR=..\..\..\..\..
-SET "BIN_DIR=%ROOT_DIR%\bin12"
+SET "BIN_DIR=%ROOT_DIR%\bin"
+
 CALL :SubDetectInnoSetup
 IF EXIST "%~dp0%ROOT_DIR%\signinfo.txt" (
   CALL :SubSign VSFilter.dll x86

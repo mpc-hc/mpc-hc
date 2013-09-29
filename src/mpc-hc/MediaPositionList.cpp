@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "MediaPositionList.h"
+#include "SettingsDefines.h"
 
 // Helper functions
 

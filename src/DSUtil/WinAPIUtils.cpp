@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include <d3dx9.h>
+#include <Shlobj.h>
 #include "WinAPIUtils.h"
 #include "SysVersion.h"
 
