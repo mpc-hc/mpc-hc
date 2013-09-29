@@ -3114,8 +3114,8 @@ END
 STRINGTABLE
 BEGIN
     IDS_USING_LATEST_STABLE             "\nYou are already using the latest stable version."
-    IDS_USING_NEWER_VERSION             "Your current version is v%u.%u.%u.%u.\n\nThe latest stable version is v%u.%u.%u.%u."
-    IDS_NEW_UPDATE_AVAILABLE            "MPC-HC v%u.%u.%u.%u is now available. You are using v%u.%u.%u.%u.\n\nDo you want to visit MPC-HC's website to download it?"
+    IDS_USING_NEWER_VERSION             "Your current version is v%s.\n\nThe latest stable version is v%s."
+    IDS_NEW_UPDATE_AVAILABLE            "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
     IDS_UPDATE_ERROR                    "Update server not found.\n\nPlease check your internet connection or try again later."
     IDS_UPDATE_CLOSE                    "&Close"
     IDS_UPDATE_CONFIG_AUTO_CHECK        "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."

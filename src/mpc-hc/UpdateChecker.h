@@ -27,6 +27,17 @@ struct Version {
     UINT minor;
     UINT patch;
     UINT revision;
+
+    CString ToString() const {
+        CString versionStr;
+
+        versionStr.Format(_T("%u.%u.%u"), major, minor, patch);
+        if (revision) {
+            versionStr.AppendFormat(_T(".%u"), revision);
+        }
+
+        return versionStr;
+    }
 };
 
 enum Update_Status {

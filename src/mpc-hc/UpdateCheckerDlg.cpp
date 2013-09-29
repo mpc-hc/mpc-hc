@@ -34,28 +34,16 @@ UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, const Version& la
         case UPDATER_UPDATE_AVAILABLE:
         case UPDATER_UPDATE_AVAILABLE_IGNORED:
             m_text.Format(IDS_NEW_UPDATE_AVAILABLE,
-                          latestVersion.major,
-                          latestVersion.minor,
-                          latestVersion.patch,
-                          latestVersion.revision,
-                          UpdateChecker::MPC_HC_VERSION.major,
-                          UpdateChecker::MPC_HC_VERSION.minor,
-                          UpdateChecker::MPC_HC_VERSION.patch,
-                          UpdateChecker::MPC_HC_VERSION.revision);
+                          latestVersion.ToString(),
+                          UpdateChecker::MPC_HC_VERSION.ToString());
             break;
         case UPDATER_LATEST_STABLE:
             m_text.LoadString(IDS_USING_LATEST_STABLE);
             break;
         case UPDATER_NEWER_VERSION:
             m_text.Format(IDS_USING_NEWER_VERSION,
-                          UpdateChecker::MPC_HC_VERSION.major,
-                          UpdateChecker::MPC_HC_VERSION.minor,
-                          UpdateChecker::MPC_HC_VERSION.patch,
-                          UpdateChecker::MPC_HC_VERSION.revision,
-                          latestVersion.major,
-                          latestVersion.minor,
-                          latestVersion.patch,
-                          latestVersion.revision);
+                          UpdateChecker::MPC_HC_VERSION.ToString(),
+                          latestVersion.ToString());
             break;
         case UPDATER_ERROR:
             m_text.LoadString(IDS_UPDATE_ERROR);
