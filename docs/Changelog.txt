@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-1.7.0 - not released yet
-========================
+1.7.0 - 29 September 2013
+=========================
 + Replace the internal filters with LAV Filters.
   LAV Filters are modern open source DirectShow filters based on FFmpeg. They are known
   to be reliable and fast and overall should be more stable than the old filters.
