@@ -445,20 +445,17 @@ FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC_VERSION_[M,P]" "include\v
   SET "%%A=%%B"
 )
 
-FOR /F "tokens=2,3,4 delims=(" %%A IN ('FINDSTR /L /C:"define MPC_VERSION_REV_FULL" "include\version_rev.h"') DO (
-  SET "MPC_VERSION_REV=%%A" & SET "MPCHC_HASH=%%B" & SET "MPCHC_BRANCH=%%C"
+FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC" "include\version_rev.h"') DO (
+  SET "%%A=%%B"
 )
 
 FOR /F "tokens=3" %%A IN ('FINDSTR /R /C:"define MPC_NIGHTLY_RELEASE" "include\version.h"') DO (
   SET "MPCHC_NIGHTLY=%%A"
 )
 
-SET "MPC_VERSION_REV=%MPC_VERSION_REV:~1,-1%"
-IF "%MPCHC_BRANCH%" NEQ "" (
-  SET "MPCHC_HASH=%MPCHC_HASH:~0,-2%"
-  SET "MPCHC_BRANCH=%MPCHC_BRANCH:~0,-2%"
-) ELSE (
-  SET "MPCHC_HASH=%MPCHC_HASH:~0,-3%"
+SET "MPCHC_HASH=%MPCHC_HASH:~4,-2%"
+IF DEFINED MPCHC_BRANCH (
+  SET "MPCHC_BRANCH=%MPCHC_BRANCH:~4,-2%"
 )
 
 IF "%MPCHC_NIGHTLY%" NEQ "0" (
