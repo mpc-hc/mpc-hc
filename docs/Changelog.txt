@@ -8,6 +8,12 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
+* Updated Unrar to v5.0.0.12
+
+
+
 1.7.0 - 29 September 2013
 =========================
 + Replace the internal filters with LAV Filters.
