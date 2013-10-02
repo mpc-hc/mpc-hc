@@ -2,17 +2,19 @@ Media Player Classic - Home Cinema (MPC-HC) is a free and open source audio
 and video player for Windows. MPC-HC is based on the original Guliverkli project
 and contains a lot of additional features and bug fixes.
 
-We are in dire need of new developers of any kind. If you can code a little, or you can create
-logos for the player and images for the file associations, or you can create/maintain the main
-website, please join our IRC channel and talk to us. Any help is always appreciated.
-Find some easy ticket on our trac page, fix the problem, post the patch on trac or come on IRC
-and we'll review it for you.
+We are in dire need of new developers of any kind. If you can code a little,
+or you can create logos for the player and images for the file associations,
+or you can create/maintain the main website, please join our IRC channel
+and talk to us. Find some easy ticket on our trac page, fix the problem,
+post the patch on trac or come on IRC and we'll review it for you.
+Any help is always appreciated.
 
-We care about keeping an open project open and free for contributions wherever they may come from.
+We care about keeping an open project open and free for contributions
+wherever they may come from.
 
 
 Main Features:
----------------
+--------------
 * Option to remove tearing
 * Better support for Windows Vista/7, including a 64-bit build
 * Support for EVR/EVR CP (Enhanced Video Renderer)
@@ -26,13 +28,13 @@ Main Features:
 
 
 System Requirements:
----------------------
+--------------------
 * An SSE capable CPU
 * Windows XP SP3, Vista, 7, 8, 8.1 32-bit/64-bit
 
 
 Links:
--------
+------
 Website:            http://mpc-hc.org
 Source code:        https://github.com/mpc-hc
 Support Trac:       https://trac.mpc-hc.org
