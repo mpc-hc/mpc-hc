@@ -3455,7 +3455,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                     if (pMuxMS && SUCCEEDED(pMuxMS->GetCurrentPosition(&pos)) && pos > 0) {
                         double bytepersec = 10000000.0 * size / pos;
                         if (bytepersec > 0) {
-                            m_rtDurationOverride = __int64(10000000.0 * (FreeBytesAvailable.QuadPart + size) / bytepersec);
+                            m_rtDurationOverride = REFERENCE_TIME(10000000.0 * (FreeBytesAvailable.QuadPart + size) / bytepersec);
                         }
                     }
                 }

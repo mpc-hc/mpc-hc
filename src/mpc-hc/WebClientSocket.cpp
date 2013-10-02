@@ -453,7 +453,7 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
     CPath file(m_pMainFrame->GetFileName());
     file.RemoveExtension();
 
-    __int64 size = 0;
+    LONGLONG size = 0;
     if (CComQIPtr<IBaseFilter> pBF = m_pMainFrame->m_pFSF) {
         BeginEnumPins(pBF, pEP, pPin) {
             if (CComQIPtr<IAsyncReader> pAR = pPin) {
@@ -472,7 +472,7 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
         HANDLE hFind = FindFirstFile(m_pMainFrame->m_wndPlaylistBar.GetCurFileName(), &wfd);
         if (hFind != INVALID_HANDLE_VALUE) {
             FindClose(hFind);
-            size = (__int64(wfd.nFileSizeHigh) << 32) | wfd.nFileSizeLow;
+            size = (LONGLONG(wfd.nFileSizeHigh) << 32) | wfd.nFileSizeLow;
         }
     }
 

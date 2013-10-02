@@ -93,7 +93,7 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, IS
         }
     }
 
-    __int64 size = 0;
+    LONGLONG size = 0;
     if (CComQIPtr<IBaseFilter> pBF = pFSF) {
         BeginEnumPins(pBF, pEP, pPin) {
             if (CComQIPtr<IAsyncReader> pAR = pPin) {
