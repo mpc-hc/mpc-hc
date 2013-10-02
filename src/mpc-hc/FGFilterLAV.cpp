@@ -582,6 +582,8 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
 
     dwHWAccel = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1);
     if (dwHWAccel == DWORD(-1)) {
+        dwHWAccel = HWAccel_None; // Ensure that a valid state is selected if no HW acceleration is available
+
         // We enable by default DXVA2 native on Vista+ and CUVID on XP if an nVidia adapter is found
         if (SysVersion::IsVistaOrLater()) {
             dwHWAccel = HWAccel_DXVA2Native;
