@@ -11679,7 +11679,11 @@ int CMainFrame::SetupSubtitleStreams()
                 bAllowOverridingSplitterChoice = true;
                 if (CComQIPtr<ILAVFSettings> pLAVFSettings = subInput.sourceFilter) {
                     LPWSTR langPrefs = nullptr;
-                    if (SUCCEEDED(pLAVFSettings->GetPreferredSubtitleLanguages(&langPrefs)) && langPrefs && wcslen(langPrefs)) {
+                    LAVSubtitleMode subtitleMode = pLAVFSettings->GetSubtitleMode();
+                    if ((((subtitleMode == LAVSubtitleMode_Default && SUCCEEDED(pLAVFSettings->GetPreferredSubtitleLanguages(&langPrefs)))
+                            || (subtitleMode == LAVSubtitleMode_Advanced && SUCCEEDED(pLAVFSettings->GetAdvancedSubtitleConfig(&langPrefs))))
+                            && langPrefs && wcslen(langPrefs))
+                            || subtitleMode == LAVSubtitleMode_ForcedOnly || subtitleMode == LAVSubtitleMode_NoSubs) {
                         bAllowOverridingSplitterChoice = false;
                     }
                     CoTaskMemFree(langPrefs);
