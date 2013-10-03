@@ -62,8 +62,8 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Clean"        SET "BUILDTYPE=Clean"    & SET /A ARGB+=1  & SET /A ARGCL+=1 & SET /A ARGLAVF+=1
   IF /I "%%G" == "Rebuild"      SET "BUILDTYPE=Rebuild"  & SET /A ARGB+=1  & SET /A ARGRE+=1
   IF /I "%%G" == "Both"         SET "PPLATFORM=Both"     & SET /A ARGPL+=1
-  IF /I "%%G" == "Win32"        SET "PPLATFORM=Win32"    & SET /A ARGPL+=1 & SET /A ARGANL-=1
-  IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1 & SET /A ARGANL-=1
+  IF /I "%%G" == "Win32"        SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
+  IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
   IF /I "%%G" == "x64"          SET "PPLATFORM=x64"      & SET /A ARGPL+=1
   IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1
   IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET /A ARGM+=1
@@ -84,7 +84,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "LAVFilters"   SET "Rebuild=LAVFilters" & SET /A VALID+=1 & SET /A ARGLAVF+=1 & SET /A ARGRE+=1
   IF /I "%%G" == "Silent"       SET "SILENT=True"        & SET /A VALID+=1
   IF /I "%%G" == "Nocolors"     SET "NOCOLORS=True"      & SET /A VALID+=1
-  IF /I "%%G" == "Analyze"      SET "ANALYZE=True"       & SET /A VALID+=1 & SET /A ARGANL+=1
+  IF /I "%%G" == "Analyze"      SET "ANALYZE=True"       & SET /A VALID+=1
 )
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
@@ -103,7 +103,6 @@ IF %ARGLAVF% GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGL%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGRE%   GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGANL%  GTR 1 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
