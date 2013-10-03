@@ -109,7 +109,7 @@ CALL :SubMake
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 IF /I "%ARCH%" == "x64" (SET "GCC_PREFIX=x86_64-w64-mingw32-")
-%GCC_PREFIX%gcc -c -O2 GCCInfo.c -o obj\GCCInfo.o
+%GCC_PREFIX%gcc -c -O2 GCCInfo.c -o src\bin_%ARCHVS%\ffmpeg\GCCInfo.o
 
 EXIT /B
 

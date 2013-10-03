@@ -1030,7 +1030,7 @@
     </CustomBuildStep>
   </ItemGroup>
   <ItemGroup>
-    <Object Include="..\thirdparty\LAVFilters\obj\GCCInfo.o">
+    <Object Include="..\thirdparty\LAVFilters\src\bin_$(PlatformName)\ffmpeg\GCCInfo.o">
       <Filter>Source Files</Filter>
     </Object>
   </ItemGroup>
