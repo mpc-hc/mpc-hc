@@ -13,7 +13,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>/w34701 /w34706 /d2Zi+ %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(ANALYZE)'=='true'">/wd6031 /wd6309 /wd6387 /wd28204 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(ANALYZE)'=='true'">/wd4005 /wd6031 /wd6246 /wd6309 /wd6387 /wd28204 %(AdditionalOptions)</AdditionalOptions>
       <EnablePREfast Condition="'$(ANALYZE)'=='true'">true</EnablePREfast>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
