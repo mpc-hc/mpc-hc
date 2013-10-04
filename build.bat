@@ -40,6 +40,7 @@ SET ARGB=0
 SET ARGBC=0
 SET ARGC=0
 SET ARGCL=0
+SET ARGCOMP=0
 SET ARGD=0
 SET ARGF=0
 SET ARGLAVF=0
@@ -76,6 +77,8 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Translations" SET "CONFIG=Translation" & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
+  IF /I "%%G" == "VS2012"       SET "COMPILER=VS2012"    & SET /A ARGCOMP+=1
+  IF /I "%%G" == "VS2013"       SET "COMPILER=VS2013"    & SET /A ARGCOMP+=1
   IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
@@ -87,7 +90,7 @@ FOR %%G IN (%ARG%) DO (
 )
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
-SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%
+SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGCOMP%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
@@ -95,6 +98,7 @@ IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTY
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "PPLATFORM=Both")
 IF %ARGC%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0    (SET "CONFIG=MPCHC")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "BUILDCFG=Release")
+IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2012")
 IF %ARGCL%   GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGD%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGF%    GTR 1 (GOTO UnsupportedSwitch)
@@ -105,9 +109,15 @@ IF %ARGRE%   GTR 1 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
-IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
-SET "TOOLSET=%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
-SET "BIN_DIR=bin"
+IF /I "%COMPILER%" == "VS2013" (
+  IF NOT DEFINED VS120COMNTOOLS GOTO MissingVar
+  SET "TOOLSET=%VS120COMNTOOLS%..\..\VC\vcvarsall.bat"
+  SET "BIN_DIR=bin13"
+) ELSE (
+  IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
+  SET "TOOLSET=%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
+  SET "BIN_DIR=bin"
+)
 
 IF EXIST "%~dp0signinfo.txt" (
   IF /I "%INSTALLER%" == "True" SET "SIGN=True"
@@ -147,7 +157,7 @@ IF /I "%PPLATFORM%" == "x64" (
   SET "LAVFILTERSDIR=LAVFilters"
 )
 
-IF /I "%Clean%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters.bat" Clean %PPLATFORM% %BUILDCFG%
+IF /I "%Clean%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters.bat" Clean %PPLATFORM% %BUILDCFG% %COMPILER%
 IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
 REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
@@ -185,7 +195,7 @@ EXIT /B
 
 :End
 IF %ERRORLEVEL% NEQ 0 EXIT /B
-TITLE Compiling MPC-HC [FINISHED]
+TITLE Compiling MPC-HC %COMPILER% [FINISHED]
 SET END_TIME=%TIME%
 CALL :SubGetDuration
 CALL :SubMsg "INFO" "Compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
@@ -196,7 +206,7 @@ EXIT /B
 :SubFilters
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-TITLE Compiling MPC-HC Filters - %BUILDCFG% Filter^|%1...
+TITLE Compiling MPC-HC Filters %COMPILER% - %BUILDCFG% Filter^|%1...
 REM Call update_version.bat before building the filters
 CALL "update_version.bat"
 
@@ -218,7 +228,7 @@ EXIT /B
 :SubMPCHC
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-TITLE Compiling MPC-HC - %BUILDCFG%^|%1...
+TITLE Compiling MPC-HC %COMPILER% - %BUILDCFG%^|%1...
 MSBuild.exe mpc-hc.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="%BUILDCFG%";Platform=%1^
  /flp1:LogFile="%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log";errorsonly;Verbosity=diagnostic^
@@ -257,7 +267,7 @@ EXIT /B
 :SubMPCIconLib
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-TITLE Compiling mpciconlib - Release^|%1...
+TITLE Compiling mpciconlib %COMPILER% - Release^|%1...
 MSBuild.exe mpciconlib.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1
 IF %ERRORLEVEL% NEQ 0 (
@@ -279,7 +289,7 @@ FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  "Portuguese (Brazil)" "Romanian" "Russian" "Slovak" "Spanish" "Swedish"
  "Turkish" "Ukrainian"
 ) DO (
- TITLE Compiling mpcresources - %%~G^|%1...
+ TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...
  MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="Release %%~G";Platform=%1
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
@@ -325,6 +335,10 @@ IF /I "%~1" == "x64" (
   CALL :SubCopyDXDll x64
 ) ELSE CALL :SubCopyDXDll x86
 
+IF /I "%COMPILER%" == "VS2013" (
+  SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2013
+)
+
 CALL :SubDetectInnoSetup
 
 IF NOT DEFINED InnoSetupPath (
@@ -332,7 +346,7 @@ IF NOT DEFINED InnoSetupPath (
   EXIT /B
 )
 
-TITLE Compiling %1 installer...
+TITLE Compiling %1 %COMPILER% installer...
 "%InnoSetupPath%" /SMySignTool="cmd /c "%~dp0contrib\sign.bat" $f" /Q /O"%BIN_DIR%"^
  "distrib\mpc-hc_setup.iss" %MPCHC_INNO_DEF%
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
@@ -369,6 +383,10 @@ IF DEFINED MPCHC_LITE (SET "PCKG_NAME=%PCKG_NAME%.Lite")
 IF /I "%BUILDCFG%" == "Debug" (
   SET "PCKG_NAME=%PCKG_NAME%.dbg"
   SET "VS_OUT_DIR=%VS_OUT_DIR%_Debug"
+)
+
+IF /I "%COMPILER%" == "VS2013" (
+  SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%"
 )
 
 IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
@@ -516,14 +534,14 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [Analyze]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2012^|VS2013] [Analyze]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.
 ECHO        The arguments are not case sensitive and can be ommitted.
 ECHO. & ECHO.
 ECHO Executing %~nx0 without any arguments will use the default ones:
-ECHO "%~nx0 Build Both MPCHC Release"
+ECHO "%~nx0 Build Both MPCHC Release VS2012"
 ECHO. & ECHO.
 ECHO Examples:
 ECHO %~nx0 x86 Resources     -Builds the x86 resources
@@ -541,7 +559,7 @@ EXIT /B
 
 :MissingVar
 COLOR 0C
-TITLE Compiling MPC-HC [ERROR]
+TITLE Compiling MPC-HC %COMPILER% [ERROR]
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "docs\Compilation.txt" for more information.
