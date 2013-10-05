@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,6 +54,11 @@ BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd, UINT defDockBarID)
     m_szFixedFloat = r.Size();
 
     return TRUE;
+}
+
+void CPlayerCaptureBar::InitControls()
+{
+    m_capdlg.InitControls();
 }
 
 BOOL CPlayerCaptureBar::PreTranslateMessage(MSG* pMsg)

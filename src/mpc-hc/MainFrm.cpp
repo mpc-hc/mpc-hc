@@ -10912,6 +10912,8 @@ HRESULT CMainFrame::OpenBDAGraph()
 
 void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 {
+    m_wndCaptureBar.InitControls();
+
     CStringW vidfrname, audfrname;
     CComPtr<IBaseFilter> pVidCapTmp, pAudCapTmp;
 
