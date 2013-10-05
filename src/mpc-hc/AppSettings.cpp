@@ -1855,7 +1855,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             if (param == _T("-")) { // Special case: standard input
                 slFiles.AddTail(_T("pipe://stdin"));
             } else {
-                slFiles.AddTail(ParseFileName(param));
+                const_cast<CString&>(param) = ParseFileName(param);
+                slFiles.AddTail(param);
             }
         }
     }
