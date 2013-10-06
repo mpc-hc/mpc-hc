@@ -222,6 +222,7 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 [Files]
 #if localize == "true"
 Source: {#bindir}\Lang\mpcresources.??.dll;     DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.??-??.dll;  DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
 #ifndef MPCHC_LITE
 Source: {#bindir}\{#lavfiltersdir}\*.dll;       DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion

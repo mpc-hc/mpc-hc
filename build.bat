@@ -274,9 +274,10 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
- "Chinese Traditional" "Czech" "Dutch" "French" "German" "Greek" "Hebrew"
- "Hungarian" "Italian" "Japanese" "Korean" "Polish" "Portuguese (Brazil)"
- "Romanian" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
+ "Chinese Traditional" "Czech" "Dutch" "English (British)" "French" "German"
+ "Greek" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean" "Polish"
+ "Portuguese (Brazil)" "Romanian" "Russian" "Slovak" "Spanish" "Swedish"
+ "Turkish" "Ukrainian"
 ) DO (
  TITLE Compiling mpcresources - %%~G^|%1...
  MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
@@ -403,15 +404,16 @@ IF /I "%NAME%" == "MPC-HC" (
   ) ELSE (
     COPY /Y /V "%VS_OUT_DIR%\mpc-hc.exe"   "%PCKG_NAME%\mpc-hc.exe" >NUL
   )
-  COPY /Y /V "%VS_OUT_DIR%\mpciconlib.dll"               "%PCKG_NAME%\*.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\mpciconlib.dll"                "%PCKG_NAME%\*.dll" >NUL
   IF NOT DEFINED MPCHC_LITE (
-    COPY /Y /V "%VS_OUT_DIR%\Lang\mpcresources.??.dll"   "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
-    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.ax"       "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
-    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.dll"      "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
-    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.manifest" "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\Lang\mpcresources.??.dll"    "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\Lang\mpcresources.??-??.dll" "%PCKG_NAME%\Lang\mpcresources.??-??.dll" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.ax"        "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.dll"       "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.manifest"  "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
   )
-  COPY /Y /V "%VS_OUT_DIR%\D3DCompiler_43.dll"           "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
-  COPY /Y /V "%VS_OUT_DIR%\d3dx9_43.dll"                 "%PCKG_NAME%\d3dx9_43.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\D3DCompiler_43.dll"            "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\d3dx9_43.dll"                  "%PCKG_NAME%\d3dx9_43.dll" >NUL
 ) ELSE (
   COPY /Y /V "%VS_OUT_DIR%\*.ax"           "%PCKG_NAME%\*.ax" >NUL
   COPY /Y /V "%VS_OUT_DIR%\VSFilter.dll"   "%PCKG_NAME%\VSFilter.dll" >NUL

@@ -29,6 +29,9 @@
     <ResourceCompile Include="mplayerc.el.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="mplayerc.en-GB.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
     <ResourceCompile Include="mplayerc.es.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
