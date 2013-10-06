@@ -1078,7 +1078,7 @@ CRendererPosPassThru::EOS()
     else
     {
 	LONGLONG llStop;
-	if SUCCEEDED(hr=GetStopPosition(&llStop))
+	if (SUCCEEDED(hr=GetStopPosition(&llStop)))
 	{
 	    CAutoLock cAutoLock(&m_PositionLock);
 	    m_StartMedia =
