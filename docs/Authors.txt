@@ -46,6 +46,7 @@ Chinese Simplified      Bonami                  <bonami@users.sourceforge.net>
 Chinese Traditional     Kene Lin                <kenelin@users.sourceforge.net>
 Czech                   khagaroth               <khagaroth@users.sourceforge.net>
 Dutch                   Paul Tjepkema           <pietpuk123@users.sourceforge.net>
+English (British)       Boris Kotov             <doctor.z01db3rg@gmail.com>
 French                  Sebastiii               <sebastiii@users.sourceforge.net>
 German                  Markus Gaugg            <markusgaugg@users.sourceforge.net>
 German                  Luan                    <luanmail@users.sourceforge.net>

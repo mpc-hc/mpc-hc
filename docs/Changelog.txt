@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
++ Ticket #3548: Add British English translation
 * Updated VirtualDub to v1.10.4-test12
 * Updated Unrar to v5.0.0.12
 ! Ticket #3530, Internal LAV Splitter: the advanced subtitle selection modes were ignored
