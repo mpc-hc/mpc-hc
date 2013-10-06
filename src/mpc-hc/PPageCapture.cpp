@@ -557,7 +557,7 @@ void CPPageCapture::FindAnalogDevices()
         }
 
         CString str;
-        str.Format(_T("%d - %s - %s"), s_countrycodes[j].code, s_countrycodes[j].str, standard);
+        str.Format(_T("%ld - %s - %s"), s_countrycodes[j].code, s_countrycodes[j].str, standard);
 
         int i = m_cbAnalogCountry.AddString(str);
         m_cbAnalogCountry.SetItemDataPtr(i, &s_countrycodes[j]);

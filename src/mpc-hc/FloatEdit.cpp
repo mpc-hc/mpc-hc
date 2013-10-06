@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -120,13 +120,13 @@ bool CHexEdit::GetDWORD(DWORD& dw)
 {
     CString s;
     GetWindowText(s);
-    return (_stscanf_s(s, _T("%x"), &dw) == 1);
+    return (_stscanf_s(s, _T("%lx"), &dw) == 1);
 }
 
 DWORD CHexEdit::operator = (DWORD dw)
 {
     CString s;
-    s.Format(_T("%08x"), dw);
+    s.Format(_T("%08lx"), dw);
     SetWindowText(s);
     return dw;
 }
@@ -136,7 +136,7 @@ CHexEdit::operator DWORD()
     CString s;
     GetWindowText(s);
     DWORD dw;
-    return (_stscanf_s(s, _T("%x"), &dw) == 1 ? dw : 0);
+    return (_stscanf_s(s, _T("%lx"), &dw) == 1 ? dw : 0);
 }
 
 BEGIN_MESSAGE_MAP(CHexEdit, CEdit)

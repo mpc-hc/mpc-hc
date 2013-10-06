@@ -29,7 +29,7 @@ static void DeserializeHex(LPCTSTR strVal, BYTE* pBuffer, int nBufSize)
     long lRes;
 
     for (int i = 0; i < nBufSize; i++) {
-        _stscanf_s(strVal + (i * 2), _T("%02x"), &lRes);
+        _stscanf_s(strVal + (i * 2), _T("%02lx"), &lRes);
         pBuffer[i] = (BYTE)lRes;
     }
 }

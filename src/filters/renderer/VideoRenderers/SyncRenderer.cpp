@@ -2094,21 +2094,21 @@ void CBaseAP::DrawStats()
 
         if (pApp->m_iDisplayStats == 1) {
             if (m_pAudioStats && r.m_AdvRendSets.bSynchronizeVideo) {
-                strText.Format(L"Audio lag   : %3u ms [%d ms, %d ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
+                strText.Format(L"Audio lag   : %3lu ms [%ld ms, %ld ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);
             }
 
-            strText.Format(L"Sample time  : waiting %3d ms", m_lNextSampleWait);
+            strText.Format(L"Sample time  : waiting %3ld ms", m_lNextSampleWait);
             if (r.m_AdvRendSets.bSynchronizeNearest) {
                 CString temp;
-                temp.Format(L"  paint time correction: %3d ms  Hysteresis: %I64d", m_lShiftToNearest, m_llHysteresis / 10000);
+                temp.Format(L"  paint time correction: %3ld ms  Hysteresis: %I64d", m_lShiftToNearest, m_llHysteresis / 10000);
                 strText += temp;
             }
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Buffering    : Buffered %3d    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface);
+            strText.Format(L"Buffering    : Buffered %3ld    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 

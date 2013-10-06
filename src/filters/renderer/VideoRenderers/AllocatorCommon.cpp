@@ -183,7 +183,7 @@ CString GetWindowsErrorMessage(HRESULT _Error, HMODULE _Module)
         LocalFree(lpMsgBuf);
     }
     CString Temp;
-    Temp.Format(L"0x%08x ", _Error);
+    Temp.Format(L"0x%08lx ", _Error);
     return Temp + errmsg;
 }
 

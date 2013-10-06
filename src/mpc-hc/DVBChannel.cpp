@@ -110,7 +110,7 @@ void CDVBChannel::FromString(CString strValue)
 CString CDVBChannel::ToString()
 {
     CString strValue;
-    strValue.AppendFormat(_T("%d|%s|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%ld|%d|%ld|%d|%d"),
+    strValue.AppendFormat(_T("%d|%s|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
                           FORMAT_VERSION_CURRENT,
                           m_strName,
                           m_ulFrequency,

@@ -701,7 +701,7 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
         }
 
         if (!_tcsnicmp(code, _T("{c:$"), 4)) {
-            _stscanf_s(code, _T("{c:$%x"), &ret->colors[0]);
+            _stscanf_s(code, _T("{c:$%lx"), &ret->colors[0]);
         } else if (!_tcsnicmp(code, _T("{f:"), 3)) {
             ret->fontName = code.Mid(3);
         } else if (!_tcsnicmp(code, _T("{s:"), 3)) {
@@ -1282,7 +1282,7 @@ static bool LoadFont(const CString& font)
         }
 
         CString fn;
-        fn.Format(_T("%sfont%08x.ttf"), path, chksum);
+        fn.Format(_T("%sfont%08lx.ttf"), path, chksum);
 
         if (!FileExists(fn)) {
             CFile f;
@@ -3007,7 +3007,7 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 
 CString& operator <<= (CString& style, const STSStyle& s)
 {
-    style.Format(_T("%d;%d;%d;%d;%d;%d;%f;%f;%f;%f;0x%06x;0x%06x;0x%06x;0x%06x;0x%02x;0x%02x;0x%02x;0x%02x;%d;%s;%f;%f;%f;%f;%d;%u;%u;%u;%d;%f;%f;%f;%f;%d"),
+    style.Format(_T("%d;%d;%d;%d;%d;%d;%f;%f;%f;%f;0x%06lx;0x%06lx;0x%06lx;0x%06lx;0x%02x;0x%02x;0x%02x;0x%02x;%d;%s;%f;%f;%f;%f;%ld;%d;%d;%d;%d;%f;%f;%f;%f;%d"),
                  s.marginRect.left, s.marginRect.right, s.marginRect.top, s.marginRect.bottom,
                  s.scrAlignment, s.borderStyle,
                  s.outlineWidthX, s.outlineWidthY, s.shadowDepthX, s.shadowDepthY,

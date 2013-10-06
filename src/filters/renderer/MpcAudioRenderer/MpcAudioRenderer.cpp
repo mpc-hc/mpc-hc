@@ -1201,7 +1201,7 @@ HRESULT CMpcAudioRenderer::GetBufferSize(WAVEFORMATEX* pWaveFormatEx, REFERENCE_
                                          1.0 * pWaveFormatEx->nSamplesPerSec) /*+ 0.5*/);
     *pHnsBufferPeriod *= 1000;
 
-    TRACE(_T("CMpcAudioRenderer::GetBufferSize set a %lld period for a %ld buffer size\n"), *pHnsBufferPeriod, bufferSize);
+    TRACE(_T("CMpcAudioRenderer::GetBufferSize set a %I64d period for a %ld buffer size\n"), *pHnsBufferPeriod, bufferSize);
 
     return S_OK;
 }

@@ -475,7 +475,7 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
             f.WriteString(str + _T("\n"));
             str.Format(_T("%d,ainput,%d"), i, pli.m_ainput);
             f.WriteString(str + _T("\n"));
-            str.Format(_T("%d,country,%d"), i, pli.m_country);
+            str.Format(_T("%d,country,%ld"), i, pli.m_country);
             f.WriteString(str + _T("\n"));
         }
     }

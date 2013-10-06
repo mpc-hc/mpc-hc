@@ -790,7 +790,7 @@ OpticalDiskType_t GetOpticalDiskType(TCHAR drive, CAtlList<CString>& files)
                     TOC.TrackData[i - 1].Control &= 5;
                     if (TOC.TrackData[i - 1].Control == 0 || TOC.TrackData[i - 1].Control == 1) {
                         CString fn;
-                        fn.Format(_T("%s\\track%02d.cda"), path, i);
+                        fn.Format(_T("%s\\track%02Id.cda"), path, i);
                         files.AddTail(fn);
                     }
                 }
@@ -2334,7 +2334,7 @@ void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlLi
     POSITION pos = chkbytes.GetHeadPosition();
     for (ptrdiff_t i = 0; pos; i++) {
         CString idx;
-        idx.Format(_T("%d"), i);
+        idx.Format(_T("%Id"), i);
         SetRegKeyValue(_T("Media Type\\") + majortype, subtype, idx, chkbytes.GetNext(pos));
     }
 

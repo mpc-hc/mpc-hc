@@ -271,7 +271,7 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
             }
             // else if (subtype == ) str = _T("");
             else if (biCompression < 256) {
-                str.Format(_T("%u"), biCompression);
+                str.Format(_T("%lu"), biCompression);
             } else {
                 str.Format(_T("%4.4hs"), &biCompression);
             }
@@ -716,7 +716,7 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         sl.AddTail(_T("pbFormat:"));
 
         for (ptrdiff_t i = 0, j = (cbFormat + 15) & ~15; i < j; i += 16) {
-            str.Format(_T("%04x:"), i);
+            str.Format(_T("%04Ix:"), i);
 
             for (ptrdiff_t k = i, l = min(i + 16, (int)cbFormat); k < l; k++) {
                 CString byte;

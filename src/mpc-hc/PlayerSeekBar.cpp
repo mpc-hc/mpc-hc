@@ -303,7 +303,7 @@ void CPlayerSeekBar::UpdateToolTipText()
             time.Format(_T("%02u:%02u"), tcNow.bMinutes, tcNow.bSeconds);
         }
     } else if (timeFormat == TIME_FORMAT_FRAME) {
-        time.Format(_T("%lld"), rtNow);
+        time.Format(_T("%I64d"), rtNow);
     } else {
         ASSERT(FALSE);
     }

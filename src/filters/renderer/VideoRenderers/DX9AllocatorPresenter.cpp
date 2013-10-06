@@ -1984,12 +1984,12 @@ void CDX9AllocatorPresenter::DrawStats()
 
         if (iDetailedStats > 1) {
             if (m_bIsEVR) {
-                strText.Format(L"Buffering    : Buffered %3d    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer, m_nCurSurface);
+                strText.Format(L"Buffering    : Buffered %3ld    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer, m_nCurSurface);
             } else {
                 strText.Format(L"Buffering    : VMR9Surfaces %3d   VMR9Surface %3d", m_nVMR9Surfaces, m_iVMR9Surface);
             }
         } else {
-            strText.Format(L"Buffered     : %3d", m_nUsedBuffer);
+            strText.Format(L"Buffered     : %3ld", m_nUsedBuffer);
         }
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
