@@ -15,6 +15,8 @@ next version - not released yet
 * Updated Unrar to v5.0.0.12
 ! Ticket #3530, Internal LAV Splitter: the advanced subtitle selection modes were ignored
 ! Ticket #3523/#3533/#3551, Improve the stability of MPC-HC on buggy systems
+! Ticket #3564, If "Keep history of recently opened file" option was enabled, MPC-HC crashed
+  when opening very long URLs
 
 
 1.7.0 - 29 September 2013

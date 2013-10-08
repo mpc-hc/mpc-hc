@@ -1954,7 +1954,6 @@ CAppSettings::CRecentFileAndURLList::CRecentFileAndURLList(UINT nStart, LPCTSTR 
 {
 }
 
-extern BOOL AFXAPI AfxFullPath(LPTSTR lpszPathOut, LPCTSTR lpszFileIn);
 extern BOOL AFXAPI AfxComparePath(LPCTSTR lpszPath1, LPCTSTR lpszPath2);
 
 void CAppSettings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
@@ -1967,21 +1966,20 @@ void CAppSettings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
         return;
     }
 
-    bool fURL = (CString(lpszPathName).Find(_T("://")) >= 0);
+    CString pathName = lpszPathName;
+
+    bool fURL = (pathName.Find(_T("://")) >= 0);
 
     // fully qualify the path name
-    TCHAR szTemp[1024];
-    if (fURL) {
-        _tcscpy_s(szTemp, lpszPathName);
-    } else {
-        AfxFullPath(szTemp, lpszPathName);
+    if (!fURL) {
+        pathName = MakeFullPath(pathName);
     }
 
     // update the MRU list, if an existing MRU string matches file name
     int iMRU;
     for (iMRU = 0; iMRU < m_nSize - 1; iMRU++) {
-        if ((fURL && !_tcscmp(m_arrNames[iMRU], szTemp))
-                || AfxComparePath(m_arrNames[iMRU], szTemp)) {
+        if ((fURL && !_tcscmp(m_arrNames[iMRU], pathName))
+                || AfxComparePath(m_arrNames[iMRU], pathName)) {
             break;    // iMRU will point to matching entry
         }
     }
@@ -1992,7 +1990,7 @@ void CAppSettings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
         m_arrNames[iMRU] = m_arrNames[iMRU - 1];
     }
     // place this one at the beginning
-    m_arrNames[0] = szTemp;
+    m_arrNames[0] = pathName;
 }
 
 bool CAppSettings::IsVSFilterInstalled()
