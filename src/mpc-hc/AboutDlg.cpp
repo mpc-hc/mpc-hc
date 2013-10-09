@@ -105,7 +105,9 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 #elif defined(_MSC_VER)
 #if (_MSC_VER == 1700) // 2012
-#if (_MSC_FULL_VER == 170060610)
+#if (_MSC_FULL_VER == 170060930)
+    m_MPCCompiler = _T("MSVC 2012 Update 4 RC");
+#elif (_MSC_FULL_VER == 170060610)  // MSVC 2012 Update 3
     m_MPCCompiler = _T("MSVC 2012 Update 3");
 #elif (_MSC_FULL_VER == 170060315)  // MSVC 2012 Update 2
 #error VS2012 Update 2 is not supported because the binaries will not run on XP. Install Update 3 instead.
