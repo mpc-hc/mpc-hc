@@ -69,20 +69,50 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_hDXVA2Lib(nullptr)
     , m_hEVRLib(nullptr)
     , m_hAVRTLib(nullptr)
+    , m_nResetToken(0)
+    , m_hThread(nullptr)
+    , m_hGetMixerThread(nullptr)
+    , m_hVSyncThread(nullptr)
+    , m_hEvtFlush(nullptr)
+    , m_hEvtQuit(nullptr)
+    , m_bEvtQuit(0)
+    , m_bEvtFlush(0)
+    , m_ModeratedTime(0)
+    , m_ModeratedTimeLast(-1)
+    , m_ModeratedClockLast(-1)
+    , m_nRenderState(Shutdown)
+    , m_fUseInternalTimer(false)
+    , m_LastSetOutputRange(-1)
+    , m_bPendingRenegotiate(false)
+    , m_bPendingMediaFinished(false)
+    , m_bWaitingSample(false)
+    , m_pCurrentDisplaydSample(nullptr)
+    , m_nStepCount(0)
+    , m_dwVideoAspectRatioMode(MFVideoARMode_PreservePicture)
+    , m_dwVideoRenderPrefs((MFVideoRenderPrefs)0)
+    , m_BorderColor(RGB(0, 0, 0))
+    , m_bSignaledStarvation(false)
+    , m_StarvationClock(0)
+    , m_pOuterEVR(nullptr)
+    , m_LastScheduledSampleTime(-1)
+    , m_LastScheduledUncorrectedSampleTime(-1)
+    , m_MaxSampleDuration(0)
+    , m_LastSampleOffset(0)
+    , m_VSyncOffsetHistoryPos(0)
+    , m_bLastSampleOffsetValid(false)
+    , m_LastScheduledSampleTimeFP(-1)
+    , pfDXVA2CreateDirect3DDeviceManager9(nullptr)
+    , pfMFCreateDXSurfaceBuffer(nullptr)
+    , pfMFCreateVideoSampleFromSurface(nullptr)
+    , pfMFCreateVideoMediaType(nullptr)
+    , pfAvSetMmThreadCharacteristicsW(nullptr)
+    , pfAvSetMmThreadPriority(nullptr)
+    , pfAvRevertMmThreadCharacteristics(nullptr)
 {
     const CRenderersSettings& r = GetRenderersSettings();
 
-    m_nResetToken = 0;
-    m_hThread = nullptr;
-    m_hGetMixerThread = nullptr;
-    m_hVSyncThread = nullptr;
-    m_hEvtFlush = nullptr;
-    m_hEvtQuit = nullptr;
-    m_bEvtQuit = 0;
-    m_bEvtFlush = 0;
-    m_ModeratedTime = 0;
-    m_ModeratedTimeLast = -1;
-    m_ModeratedClockLast = -1;
+    ZeroMemory(m_VSyncOffsetHistory, sizeof(m_VSyncOffsetHistory));
+    ResetStats();
 
     if (FAILED(hr)) {
         _Error += L"DX9AllocatorPresenter failed\n";
@@ -91,13 +121,17 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
     // Load EVR specific DLLs
     m_hDXVA2Lib = LoadLibrary(L"dxva2.dll");
-    pfDXVA2CreateDirect3DDeviceManager9 = m_hDXVA2Lib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9") : nullptr;
+    if (m_hDXVA2Lib) {
+        pfDXVA2CreateDirect3DDeviceManager9 = (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9");
+    }
 
     // Load EVR functions
     m_hEVRLib = LoadLibrary(L"evr.dll");
-    pfMFCreateDXSurfaceBuffer = m_hEVRLib ? (PTR_MFCreateDXSurfaceBuffer) GetProcAddress(m_hEVRLib, "MFCreateDXSurfaceBuffer") : nullptr;
-    pfMFCreateVideoSampleFromSurface = m_hEVRLib ? (PTR_MFCreateVideoSampleFromSurface) GetProcAddress(m_hEVRLib, "MFCreateVideoSampleFromSurface") : nullptr;
-    pfMFCreateVideoMediaType = m_hEVRLib ? (PTR_MFCreateVideoMediaType) GetProcAddress(m_hEVRLib, "MFCreateVideoMediaType") : nullptr;
+    if (m_hEVRLib) {
+        pfMFCreateDXSurfaceBuffer = (PTR_MFCreateDXSurfaceBuffer) GetProcAddress(m_hEVRLib, "MFCreateDXSurfaceBuffer");
+        pfMFCreateVideoSampleFromSurface = (PTR_MFCreateVideoSampleFromSurface) GetProcAddress(m_hEVRLib, "MFCreateVideoSampleFromSurface");
+        pfMFCreateVideoMediaType = (PTR_MFCreateVideoMediaType) GetProcAddress(m_hEVRLib, "MFCreateVideoMediaType");
+    }
 
     if (!pfDXVA2CreateDirect3DDeviceManager9 || !pfMFCreateDXSurfaceBuffer || !pfMFCreateVideoSampleFromSurface || !pfMFCreateVideoMediaType) {
         if (!pfDXVA2CreateDirect3DDeviceManager9) {
@@ -119,9 +153,11 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     // Load mfplat fuctions
 #if 0
     m_hMFPlatLib = LoadLibrary(L"mfplat.dll");
-    (FARPROC&)pMFCreateMediaType = GetProcAddress(m_hMFPlatLib, "MFCreateMediaType");
-    (FARPROC&)pMFInitMediaTypeFromAMMediaType = GetProcAddress(m_hMFPlatLib, "MFInitMediaTypeFromAMMediaType");
-    (FARPROC&)pMFInitAMMediaTypeFromMFMediaType = GetProcAddress(m_hMFPlatLib, "MFInitAMMediaTypeFromMFMediaType");
+    if (m_hMFPlatLib) {
+        (FARPROC&)pMFCreateMediaType = GetProcAddress(m_hMFPlatLib, "MFCreateMediaType");
+        (FARPROC&)pMFInitMediaTypeFromAMMediaType = GetProcAddress(m_hMFPlatLib, "MFInitMediaTypeFromAMMediaType");
+        (FARPROC&)pMFInitAMMediaTypeFromMFMediaType = GetProcAddress(m_hMFPlatLib, "MFInitAMMediaTypeFromMFMediaType");
+    }
 
     if (!pMFCreateMediaType || !pMFInitMediaTypeFromAMMediaType || !pMFInitAMMediaTypeFromMFMediaType) {
         hr = E_FAIL;
@@ -131,31 +167,32 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
     // Load Vista+ specific DLLs
     m_hAVRTLib = LoadLibrary(L"avrt.dll");
-    pfAvSetMmThreadCharacteristicsW = m_hAVRTLib ? (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW") : nullptr;
-    pfAvSetMmThreadPriority = m_hAVRTLib ? (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority") : nullptr;
-    pfAvRevertMmThreadCharacteristics = m_hAVRTLib ? (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hAVRTLib, "AvRevertMmThreadCharacteristics") : nullptr;
+    if (m_hAVRTLib) {
+        pfAvSetMmThreadCharacteristicsW = (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW");
+        pfAvSetMmThreadPriority = (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority");
+        pfAvRevertMmThreadCharacteristics = (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hAVRTLib, "AvRevertMmThreadCharacteristics");
+    }
 
     // Init DXVA manager
     hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
-    if (SUCCEEDED(hr)) {
+    if (SUCCEEDED(hr) && m_pD3DManager) {
         hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
         if (FAILED(hr)) {
             _Error += L"m_pD3DManager->ResetDevice failed\n";
         }
+
+        CComPtr<IDirectXVideoDecoderService> pDecoderService;
+        HANDLE hDevice;
+        if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
+                SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
+            TRACE_EVR("EVR: DXVA2 : device handle = 0x%08x", hDevice);
+            HookDirectXVideoDecoderService(pDecoderService);
+
+            m_pD3DManager->CloseDeviceHandle(hDevice);
+        }
     } else {
         _Error += L"DXVA2CreateDirect3DDeviceManager9 failed\n";
     }
-
-    CComPtr<IDirectXVideoDecoderService> pDecoderService;
-    HANDLE hDevice;
-    if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
-            SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
-        TRACE_EVR("EVR: DXVA2 : device handle = 0x%08x", hDevice);
-        HookDirectXVideoDecoderService(pDecoderService);
-
-        m_pD3DManager->CloseDeviceHandle(hDevice);
-    }
-
 
     // Bufferize frame only with 3D texture!
     if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
@@ -163,29 +200,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     } else {
         m_nNbDXSurface = 1;
     }
-
-    ResetStats();
-    m_nRenderState              = Shutdown;
-    m_fUseInternalTimer         = false;
-    m_LastSetOutputRange        = -1;
-    m_bPendingRenegotiate       = false;
-    m_bPendingMediaFinished     = false;
-    m_bWaitingSample            = false;
-    m_pCurrentDisplaydSample    = nullptr;
-    m_nStepCount                = 0;
-    m_dwVideoAspectRatioMode    = MFVideoARMode_PreservePicture;
-    m_dwVideoRenderPrefs        = (MFVideoRenderPrefs)0;
-    m_BorderColor               = RGB(0, 0, 0);
-    m_bSignaledStarvation       = false;
-    m_StarvationClock           = 0;
-    m_pOuterEVR                 = nullptr;
-    m_LastScheduledSampleTime   = -1;
-    m_LastScheduledUncorrectedSampleTime = -1;
-    m_MaxSampleDuration         = 0;
-    m_LastSampleOffset          = 0;
-    ZeroMemory(m_VSyncOffsetHistory, sizeof(m_VSyncOffsetHistory));
-    m_VSyncOffsetHistoryPos     = 0;
-    m_bLastSampleOffsetValid    = false;
 }
 
 CEVRAllocatorPresenter::~CEVRAllocatorPresenter()

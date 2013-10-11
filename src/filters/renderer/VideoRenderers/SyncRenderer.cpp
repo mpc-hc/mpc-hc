@@ -52,56 +52,79 @@ using namespace GothSync;
 
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 
-CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
-    CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error),
-    m_ScreenSize(0, 0),
-    m_bicubicA(0),
-    m_nDXSurface(1),
-    m_nVMR9Surfaces(0),
-    m_iVMR9Surface(0),
-    m_nCurSurface(0),
-    m_bSnapToVSync(false),
-    m_bInterlaced(0),
-    m_nUsedBuffer(0),
-    m_TextScale(1.0),
-    m_dMainThreadId(0),
-    m_bNeedCheckSample(true),
-    m_hEvtQuit(nullptr),
-    m_bIsFullscreen(bFullscreen),
-    m_uSyncGlitches(0),
-    m_pGenlock(nullptr),
-    m_lAudioLag(0),
-    m_lAudioLagMin(10000),
-    m_lAudioLagMax(-10000),
-    m_pAudioStats(nullptr),
-    m_nNextJitter(0),
-    m_nNextSyncOffset(0),
-    m_llLastSyncTime(0),
-    m_fAvrFps(0.0),
-    m_fJitterStdDev(0.0),
-    m_fSyncOffsetStdDev(0.0),
-    m_fSyncOffsetAvr(0.0),
-    m_llHysteresis(0),
-    m_uD3DRefreshRate(0),
-    m_dD3DRefreshCycle(0),
-    m_dDetectedScanlineTime(0.0),
-    m_dEstRefreshCycle(0.0),
-    m_dFrameCycle(0.0),
-    m_dOptimumDisplayCycle(0.0),
-    m_dCycleDifference(1.0),
-    m_llEstVBlankTime(0),
-    m_CurrentAdapter(0),
-    m_FocusThread(nullptr)
+CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
+    : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
+    , m_ScreenSize(0, 0)
+    , m_bicubicA(0)
+    , m_nDXSurface(1)
+    , m_nVMR9Surfaces(0)
+    , m_iVMR9Surface(0)
+    , m_nCurSurface(0)
+    , m_bSnapToVSync(false)
+    , m_bInterlaced(0)
+    , m_nUsedBuffer(0)
+    , m_TextScale(1.0)
+    , m_dMainThreadId(0)
+    , m_bNeedCheckSample(true)
+    , m_hEvtQuit(nullptr)
+    , m_bIsFullscreen(bFullscreen)
+    , m_uSyncGlitches(0)
+    , m_pGenlock(nullptr)
+    , m_lAudioLag(0)
+    , m_lAudioLagMin(10000)
+    , m_lAudioLagMax(-10000)
+    , m_pAudioStats(nullptr)
+    , m_nNextJitter(0)
+    , m_nNextSyncOffset(0)
+    , m_llLastSyncTime(0)
+    , m_fAvrFps(0.0)
+    , m_fJitterStdDev(0.0)
+    , m_fSyncOffsetStdDev(0.0)
+    , m_fSyncOffsetAvr(0.0)
+    , m_llHysteresis(0)
+    , m_uD3DRefreshRate(0)
+    , m_dD3DRefreshCycle(0)
+    , m_dDetectedScanlineTime(0.0)
+    , m_dEstRefreshCycle(0.0)
+    , m_dFrameCycle(0.0)
+    , m_dOptimumDisplayCycle(0.0)
+    , m_dCycleDifference(1.0)
+    , m_llEstVBlankTime(0)
+    , m_CurrentAdapter(0)
+    , m_FocusThread(nullptr)
+    , m_lNextSampleWait(1)
+    , m_MinJitter(MAXLONG64)
+    , m_MaxJitter(MINLONG64)
+    , m_MinSyncOffset(MAXLONG64)
+    , m_MaxSyncOffset(MINLONG64)
+    , m_pcFramesDropped(0)
+    , m_pcFramesDuplicated(0)
+    , m_pcFramesDrawn(0)
+    , m_uScanLineEnteringPaint(0)
+    , m_JitterStdDev(0)
+    , m_fJitterMean(0)
+    , m_bHighColorResolution(false)
+    , m_bCompositionEnabled(false)
+    , m_bDesktopCompositionDisabled(false)
+    , m_llSampleTime(0)
+    , m_llLastSampleTime(0)
+    , m_lShiftToNearest(0)
+    , m_lShiftToNearestPrev(0)
+    , m_bVideoSlowerThanDisplay(0)
+    , m_lAudioSlaveMode(0)
+    , m_pD3DXLoadSurfaceFromMemory(nullptr)
+    , m_pD3DXCreateLine(nullptr)
+    , m_pD3DXCreateFont(nullptr)
+    , m_pD3DXCreateSprite(nullptr)
+    , m_pDwmIsCompositionEnabled(nullptr)
+    , m_pDwmEnableComposition(nullptr)
+    , m_pDirect3DCreate9Ex(nullptr)
 {
     if (FAILED(hr)) {
         _Error += _T("ISubPicAllocatorPresenterImpl failed\n");
         return;
     }
 
-    m_pD3DXLoadSurfaceFromMemory = nullptr;
-    m_pD3DXCreateLine = nullptr;
-    m_pD3DXCreateFont = nullptr;
-    m_pD3DXCreateSprite = nullptr;
     HINSTANCE hDll = GetRenderersData()->GetD3X9Dll();
 
     if (hDll) {
@@ -115,22 +138,17 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
         _Error += _T(" release or newer in order for MPC-HC to function properly.\n");
     }
 
-    m_pDwmIsCompositionEnabled = nullptr;
-    m_pDwmEnableComposition = nullptr;
     m_hDWMAPI = LoadLibrary(L"dwmapi.dll");
     if (m_hDWMAPI) {
         (FARPROC&)m_pDwmIsCompositionEnabled = GetProcAddress(m_hDWMAPI, "DwmIsCompositionEnabled");
         (FARPROC&)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-    m_pDirect3DCreate9Ex = nullptr;
     m_hD3D9 = LoadLibrary(L"d3d9.dll");
 #ifndef DISABLE_USING_D3D9EX
     if (m_hD3D9) {
         (FARPROC&)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
     }
-#endif
-
     if (m_pDirect3DCreate9Ex) {
         DEBUG_ONLY(_tprintf_s(_T("m_pDirect3DCreate9Ex\n")));
         m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
@@ -138,6 +156,8 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
             m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
         }
     }
+#endif
+
     if (!m_pD3DEx) {
         m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
         if (!m_pD3D) {
@@ -2422,17 +2442,37 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_hDXVA2Lib(nullptr)
     , m_hEVRLib(nullptr)
     , m_hAVRTLib(nullptr)
+    , m_nResetToken(0)
+    , m_hRenderThread(nullptr)
+    , m_hMixerThread(nullptr)
+    , m_hEvtFlush(nullptr)
+    , m_hEvtQuit(nullptr)
+    , m_hEvtSkip(nullptr)
+    , m_bEvtQuit(0)
+    , m_bEvtFlush(0)
+    , m_nRenderState(Shutdown)
+    , m_bStepping(false)
+    , m_bUseInternalTimer(false)
+    , m_LastSetOutputRange(-1)
+    , m_bPendingRenegotiate(false)
+    , m_bPendingMediaFinished(false)
+    , m_pCurrentDisplaydSample(nullptr)
+    , m_nStepCount(0)
+    , m_dwVideoAspectRatioMode(MFVideoARMode_PreservePicture)
+    , m_dwVideoRenderPrefs((MFVideoRenderPrefs)0)
+    , m_BorderColor(RGB(0, 0, 0))
+    , m_bPrerolled(false)
+    , m_LastClockState(MFCLOCK_STATE_INVALID)
+    , m_bEvtSkip(false)
+    , pfDXVA2CreateDirect3DDeviceManager9(nullptr)
+    , pfMFCreateDXSurfaceBuffer(nullptr)
+    , pfMFCreateVideoSampleFromSurface(nullptr)
+    , pfMFCreateVideoMediaType(nullptr)
+    , pfAvSetMmThreadCharacteristicsW(nullptr)
+    , pfAvSetMmThreadPriority(nullptr)
+    , pfAvRevertMmThreadCharacteristics(nullptr)
 {
     const CRenderersSettings& r = GetRenderersSettings();
-
-    m_nResetToken = 0;
-    m_hRenderThread  = nullptr;
-    m_hMixerThread = nullptr;
-    m_hEvtFlush = nullptr;
-    m_hEvtQuit = nullptr;
-    m_hEvtSkip = nullptr;
-    m_bEvtQuit = 0;
-    m_bEvtFlush = 0;
 
     if (FAILED(hr)) {
         _Error += L"SyncAP failed\n";
@@ -2441,13 +2481,17 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
 
     // Load EVR specific DLLs
     m_hDXVA2Lib = LoadLibrary(L"dxva2.dll");
-    pfDXVA2CreateDirect3DDeviceManager9 = m_hDXVA2Lib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9") : nullptr;
+    if (m_hDXVA2Lib) {
+        pfDXVA2CreateDirect3DDeviceManager9 = (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9");
+    }
 
     // Load EVR functions
     m_hEVRLib = LoadLibrary(L"evr.dll");
-    pfMFCreateDXSurfaceBuffer = m_hEVRLib ? (PTR_MFCreateDXSurfaceBuffer)GetProcAddress(m_hEVRLib, "MFCreateDXSurfaceBuffer") : nullptr;
-    pfMFCreateVideoSampleFromSurface = m_hEVRLib ? (PTR_MFCreateVideoSampleFromSurface)GetProcAddress(m_hEVRLib, "MFCreateVideoSampleFromSurface") : nullptr;
-    pfMFCreateVideoMediaType = m_hEVRLib ? (PTR_MFCreateVideoMediaType)GetProcAddress(m_hEVRLib, "MFCreateVideoMediaType") : nullptr;
+    if (m_hEVRLib) {
+        pfMFCreateDXSurfaceBuffer = (PTR_MFCreateDXSurfaceBuffer)GetProcAddress(m_hEVRLib, "MFCreateDXSurfaceBuffer");
+        pfMFCreateVideoSampleFromSurface = (PTR_MFCreateVideoSampleFromSurface)GetProcAddress(m_hEVRLib, "MFCreateVideoSampleFromSurface");
+        pfMFCreateVideoMediaType = (PTR_MFCreateVideoMediaType)GetProcAddress(m_hEVRLib, "MFCreateVideoMediaType");
+    }
 
     if (!pfDXVA2CreateDirect3DDeviceManager9 || !pfMFCreateDXSurfaceBuffer || !pfMFCreateVideoSampleFromSurface || !pfMFCreateVideoMediaType) {
         if (!pfDXVA2CreateDirect3DDeviceManager9) {
@@ -2468,27 +2512,28 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
 
     // Load Vista+ specific DLLs
     m_hAVRTLib = LoadLibrary(L"avrt.dll");
-    pfAvSetMmThreadCharacteristicsW = m_hAVRTLib ? (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW") : nullptr;
-    pfAvSetMmThreadPriority = m_hAVRTLib ? (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority") : nullptr;
-    pfAvRevertMmThreadCharacteristics = m_hAVRTLib ? (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hAVRTLib, "AvRevertMmThreadCharacteristics") : nullptr;
+    if (m_hAVRTLib) {
+        pfAvSetMmThreadCharacteristicsW = (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW");
+        pfAvSetMmThreadPriority = (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority");
+        pfAvRevertMmThreadCharacteristics = (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hAVRTLib, "AvRevertMmThreadCharacteristics");
+    }
 
     // Init DXVA manager
     hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
-    if (SUCCEEDED(hr)) {
+    if (SUCCEEDED(hr) && m_pD3DManager) {
         hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
         if (FAILED(hr)) {
             _Error += L"m_pD3DManager->ResetDevice failed\n";
         }
+        CComPtr<IDirectXVideoDecoderService> pDecoderService;
+        HANDLE hDevice;
+        if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
+                SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
+            HookDirectXVideoDecoderService(pDecoderService);
+            m_pD3DManager->CloseDeviceHandle(hDevice);
+        }
     } else {
         _Error += L"DXVA2CreateDirect3DDeviceManager9 failed\n";
-    }
-
-    CComPtr<IDirectXVideoDecoderService> pDecoderService;
-    HANDLE hDevice;
-    if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
-            SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
-        HookDirectXVideoDecoderService(pDecoderService);
-        m_pD3DManager->CloseDeviceHandle(hDevice);
     }
 
     // Bufferize frame only with 3D texture
@@ -2498,19 +2543,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         m_nDXSurface = 1;
     }
 
-    m_nRenderState = Shutdown;
-    m_bStepping = false;
-    m_bUseInternalTimer = false;
-    m_LastSetOutputRange = -1;
-    m_bPendingRenegotiate = false;
-    m_bPendingMediaFinished = false;
-    m_pCurrentDisplaydSample = nullptr;
-    m_nStepCount = 0;
-    m_dwVideoAspectRatioMode = MFVideoARMode_PreservePicture;
-    m_dwVideoRenderPrefs = (MFVideoRenderPrefs)0;
-    m_BorderColor = RGB(0, 0, 0);
     m_pOuterEVR = nullptr;
-    m_bPrerolled = false;
     m_lShiftToNearest = -1; // Illegal value to start with
 }
 
