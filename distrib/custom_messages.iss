@@ -24,7 +24,7 @@
 
 
 [Messages]
-;English
+; English
 WelcomeLabel1=[name/ver]
 en.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 en.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
@@ -32,107 +32,107 @@ en.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to r
 
 #if localize == "true"
 
-;Portuguese (Brasil)
+; Portuguese (Brasil)
 br.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 br.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
-;Belarusian
+; Belarusian
 by.WelcomeLabel2=Зараз будзе ўстаноўлена [name].%n%nРэкамендуецца закрыць усе прыкладанні перад працягам.
 by.WinVersionTooLowError=[name] патрабуецца Windows XP Service Pack 3 або навей.
 
-;Catalan
+; Catalan
 ca.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 ca.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
-;Czech
+; Czech
 cz.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDříve než budete pokračovat, doporučuje se ukončit veškeré spuštěné aplikace.
 cz.WinVersionTooLowError=[name] vyžaduje Windows XP Service Pack 3 nebo novější.
 
-;German
+; German
 de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wird empfohlen, alle laufenden Programme zu beenden, bevor Sie mit der Installation fortfahren.
 de.WinVersionTooLowError=[name] benötigt Windows XP Service Pack 3 oder höher.
 
-;Greek
+; Greek
 el.WelcomeLabel2=Θα γίνει εγκατάσταση του [name] στον υπολογιστή σας.%n%nΣας συνιστούμε να κλείσετε κάθε άλλη εφαρμογή πριν συνεχίσετε.
 el.WinVersionTooLowError=Το [name] χρειάζεται Windows XP Service Pack 3 ή νεότερο για να λειτουργήσει.
 
-;English British
+; English British
 en_GB.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 en_GB.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
-;Spanish
+; Spanish
 es.WelcomeLabel2=Este programa instalara [name] en tu computadora.%n%nEs recomendable que cierres todas las aplicaciones antes de continuar.
 es.WinVersionTooLowError=[name] require Windows XP Service Pack 3 o superior para funcionar.
 
-;Basque
+; Basque
 eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
 eu.WinVersionTooLowError=[name] Windows XP Service Pack 3 edo berriagoa behar du lan egiteko.
 
-;French
+; French
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
 fr.WinVersionTooLowError=[name] nécessite Windows XP Service Pack 3 ou plus récent pour fonctionner.
 
-;Hebrew
+; Hebrew
 he.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 he.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
-;Hungarian
+; Hungarian
 hu.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 hu.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
-;Armenian
+; Armenian
 hy.WelcomeLabel2=Սա կտեղակայի [name]-ը Ձեր համակարգչում։%n%nԽորհուրդ ենք տալիս փակել բոլոր մյուս ծրագրերը։
 hy.WinVersionTooLowError=[name]-ը պահանջում է Windows XP Service Pack 3 կամ ավելի բարձր։
 
-;Italian
+; Italian
 it.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 it.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
-;Japanese
+; Japanese
 ja.WelcomeLabel2=このプログラムはあなたのコンピュータの上に[name]をインストールします。%n%nセットアップを続ける前に他のすべてのアプリを閉じることを推奨します。
 ja.WinVersionTooLowError=[name] を実行する為に Windows XP Service Pack 3 以降が必要です。
 
-;Korean
+; Korean
 kr.WelcomeLabel2=이 설치프로그램은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
 kr.WinVersionTooLowError=[name] 는(은) Windows XP Service Pack 3  또는 그 이상의 버전에서만 설치할 수 있습니다.
 
-;Dutch
+; Dutch
 nl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 nl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
-;Polish
+; Polish
 pl.WelcomeLabel2=Ten instalator zainstaluje [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
 pl.WinVersionTooLowError=[name] wymaga systemu Windows XP Service Pack 3 lub nowszego do uruchomienia.
 
-;Romanian
+; Romanian
 ro.WelcomeLabel2=Se va instala [name] pe calculatorul dumneavoastră.%n%nEste recomandat să închideţi toate celelalte aplicaţii înainte de a continua.
 ro.WinVersionTooLowError=[name] necesită Windows XP Service Pack 3 sau mai nou pentru a rula.
 
-;Russian
+; Russian
 ru.WelcomeLabel2=Программа установит [name] на ваш компьютер.%n%nРекомендуется закрыть все прочие приложения перед тем, как продолжить.
 ru.WinVersionTooLowError=[name] Эта программа требует Windows XP Service Pack 3 или выше.
 
-;Chinese Simplified
+; Chinese Simplified
 sc.WelcomeLabel2=这将安装 [name] 到您的计算机中。%n%n建议您在继续之前关闭所有其它的应用程序。
 sc.WinVersionTooLowError=[name] 要求 Windows XP Service Pack 3 或更高版本。
 
-;Swedish
+; Swedish
 sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
 sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
 
-;Slovakian
+; Slovakian
 sk.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 sk.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
-;Chinese Traditional
+; Chinese Traditional
 tc.WelcomeLabel2=這將會安裝 [name] 在你的電腦中。%n%n建議您關閉所有其它應用程序然後再繼續。
 tc.WinVersionTooLowError=執行 [name] 需要 Windows XP Service Pack 3 或更新的版本。
 
-;Turkish
+; Turkish
 tr.WelcomeLabel2=[name] oynatıcısı bilgisayarınıza kurulacaktır.%n%nDevam etmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
 tr.WinVersionTooLowError=[name] oynatıcısı kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
 
-;Ukrainian
+; Ukrainian
 ua.WelcomeLabel2=На ваш комп'ютер буде встановлено [name].%n%nРекомендується завершити роботу інших додатків перед продовженням.
 ua.WinVersionTooLowError=[name] вимагає використання ОС Windows XP Service Pack 3 або пізнішої версії.
 
@@ -143,7 +143,7 @@ ua.WinVersionTooLowError=[name] вимагає використання ОС Win
 [CustomMessages]
 ; comp=component, tsk=Task, msg=Message
 
-;English
+; English
 en.langid=00000000
 en.comp_mpciconlib=Icon Library
 en.comp_mpcresources=Translations
@@ -166,7 +166,7 @@ en.ViewChangelog=View Changelog
 
 #if localize == "true"
 
-;Portuguese (Brasil)
+; Portuguese (Brasil)
 br.langid=00001046
 br.comp_mpciconlib=Biblioteca de ícones
 br.comp_mpcresources=Traduções
@@ -186,7 +186,7 @@ br.types_CustomInstallation=Instalação personalizada
 br.ViewChangelog=Ver registro de alterações
 
 
-;Belarusian
+; Belarusian
 by.langid=00001059
 by.comp_mpciconlib=Бібліятэка значкоў
 by.comp_mpcresources=Пераклады
@@ -206,7 +206,7 @@ by.types_CustomInstallation=Адмысловае ўсталяванне
 by.ViewChangelog=Спіс зменаў
 
 
-;Catalan
+; Catalan
 ca.langid=00001027
 ca.comp_mpciconlib=Llibreria d'icones
 ca.comp_mpcresources=Traduccions
@@ -226,7 +226,7 @@ ca.types_CustomInstallation=Instal.lació personalitzada
 ca.ViewChangelog=Veure registre de canvis
 
 
-;Czech
+; Czech
 cz.langid=00001029
 cz.comp_mpciconlib=Ikony typů souborů
 cz.comp_mpcresources=Jazykové soubory
@@ -246,7 +246,7 @@ cz.types_CustomInstallation=Volitelná instalace
 cz.ViewChangelog=Zobrazit seznam změn
 
 
-;German
+; German
 de.langid=00000002
 de.comp_mpciconlib=Dateisymbole für verknüpfte Mediendateien
 de.comp_mpcresources=Sprachdateien (darunter Deutsch)
@@ -266,7 +266,7 @@ de.types_CustomInstallation=Benutzerdefinierte Installation
 de.ViewChangelog=Änderungsprotokoll zeigen
 
 
-;Greek
+; Greek
 el.langid=00001032
 el.comp_mpciconlib=Βιβλιοθήκη Εικονιδίων
 el.comp_mpcresources=Μεταφράσεις
@@ -286,7 +286,7 @@ el.types_CustomInstallation=Προσαρμοσμένη εγκατάσταση
 el.ViewChangelog=Εμφάνιση Λίστας Αλλαγών
 
 
-;English British
+; English British
 en_GB.langid=00002057
 en_GB.comp_mpciconlib=Icon Library
 en_GB.comp_mpcresources=Translations
@@ -306,7 +306,7 @@ en_GB.types_CustomInstallation=Custom installation
 en_GB.ViewChangelog=View Changelog
 
 
-;Spanish
+; Spanish
 es.langid=00001034
 es.comp_mpciconlib=Librería de iconos
 es.comp_mpcresources=Traducciones
@@ -326,7 +326,7 @@ es.types_CustomInstallation=Instalación personalizada
 es.ViewChangelog=Ver registro de cambios
 
 
-;Basque
+; Basque
 eu.langid=00001069
 eu.comp_mpciconlib=Ikur Liburutegia
 eu.comp_mpcresources=Itzulpenak
@@ -346,7 +346,7 @@ eu.types_CustomInstallation=Norbere ezarpena
 eu.ViewChangelog=Ikusi Aldaketa-oharra
 
 
-;French
+; French
 fr.langid=00001036
 fr.comp_mpciconlib=Bibliothèque d'icône
 fr.comp_mpcresources=Traductions
@@ -366,7 +366,7 @@ fr.types_CustomInstallation=Installation personnalisée
 fr.ViewChangelog=Voir la liste des changements
 
 
-;Hebrew
+; Hebrew
 he.langid=00001037
 he.comp_mpciconlib=ספריית אייקונים
 he.comp_mpcresources=תרגומים
@@ -386,7 +386,7 @@ he.types_CustomInstallation=התקנה מותאמת אישית
 he.ViewChangelog=הצג רשימת עדכונים
 
 
-;Hungarian
+; Hungarian
 hu.langid=00001038
 hu.comp_mpciconlib=Ikon Gyűjtemény
 hu.comp_mpcresources=Fordítások
@@ -406,7 +406,7 @@ hu.types_CustomInstallation=Egyedi telepítés
 hu.ViewChangelog=Verziótörténet megtekintése
 
 
-;Armenian
+; Armenian
 hy.langid=00001067
 hy.comp_mpciconlib=Պատկերների գրադարան
 hy.comp_mpcresources=Թարգմանություններ
@@ -426,7 +426,7 @@ hy.types_CustomInstallation=Ընտրովի տեղակայում
 hy.ViewChangelog=Նայել փոփոխությունների ցանկը
 
 
-;Italian
+; Italian
 it.langid=00001040
 it.comp_mpciconlib=Libreria icone
 it.comp_mpcresources=Traduzioni
@@ -446,7 +446,7 @@ it.types_CustomInstallation=Installazione personalizzata
 it.ViewChangelog=Visualizza Changelog
 
 
-;Japanese
+; Japanese
 ja.langid=00001041
 ja.comp_mpciconlib=アイコン ライブラリー
 ja.comp_mpcresources=翻訳
@@ -466,7 +466,7 @@ ja.types_CustomInstallation=カスタム インストール
 ja.ViewChangelog=変更履歴を見る
 
 
-;Korean
+; Korean
 kr.langid=00001042
 kr.comp_mpciconlib=아이콘 라이브러리
 kr.comp_mpcresources=번역
@@ -486,7 +486,7 @@ kr.types_CustomInstallation=사용자정의 설치
 kr.ViewChangelog=버전 변경사항 보기
 
 
-;Dutch
+; Dutch
 nl.langid=00001043
 nl.comp_mpciconlib=Iconen voor mediabestanden
 nl.comp_mpcresources=Localisaties
@@ -506,7 +506,7 @@ nl.types_CustomInstallation=Aangepaste installatie
 nl.ViewChangelog=Bekijk Wijzigingsoverzicht
 
 
-;Polish
+; Polish
 pl.langid=00001045
 pl.comp_mpciconlib=Ikony plików multimedialnych
 pl.comp_mpcresources=Tłumaczenia
@@ -525,7 +525,7 @@ pl.types_DefaultInstallation=Instalacja domyślna
 pl.types_CustomInstallation=Instalacja częściowa
 pl.ViewChangelog=Pokaż zmiany
 
-;Romanian
+; Romanian
 ro.langid=00001048
 ro.comp_mpciconlib=Bibliotecă de pictograme
 ro.comp_mpcresources=Traduceri
@@ -544,7 +544,7 @@ ro.types_DefaultInstallation=Instalare implicită
 ro.types_CustomInstallation=Instalare personalizată
 ro.ViewChangelog=Vezi istoricul modificărilor
 
-;Russian
+; Russian
 ru.langid=00001049
 ru.comp_mpciconlib=Библиотека значков
 ru.comp_mpcresources=Локализации
@@ -564,7 +564,7 @@ ru.types_CustomInstallation=Выборочная установка
 ru.ViewChangelog=Просмотреть журнал изменений
 
 
-;Chinese Simplified
+; Chinese Simplified
 sc.langid=00002052
 sc.comp_mpciconlib=图标库
 sc.comp_mpcresources=翻译
@@ -584,7 +584,7 @@ sc.types_CustomInstallation=自定义安装
 sc.ViewChangelog=查看更新日志
 
 
-;Swedish
+; Swedish
 sv.langid=00001053
 sv.comp_mpciconlib=Ikonbibliotek
 sv.comp_mpcresources=Översättningar
@@ -604,7 +604,7 @@ sv.types_CustomInstallation=Anpassad installation
 sv.ViewChangelog=Visa ändringslogg
 
 
-;Slovakian
+; Slovakian
 sk.langid=00001051
 sk.comp_mpciconlib=Knižnica ikon
 sk.comp_mpcresources=Preklady
@@ -624,7 +624,7 @@ sk.types_CustomInstallation=Vlastná inštalácia
 sk.ViewChangelog=Zobraziť zoznam zmien
 
 
-;Chinese Traditional
+; Chinese Traditional
 tc.langid=00003076
 tc.comp_mpciconlib=圖示庫
 tc.comp_mpcresources=翻譯
@@ -644,7 +644,7 @@ tc.types_CustomInstallation=自訂安裝
 tc.ViewChangelog=檢視更新日誌
 
 
-;Turkish
+; Turkish
 tr.langid=00001055
 tr.comp_mpciconlib=Simge Kütüphanesi
 tr.comp_mpcresources=Çeviriler
@@ -664,7 +664,7 @@ tr.types_CustomInstallation=Özel yükleme
 tr.ViewChangelog=Sürüm Notları
 
 
-;Ukrainian
+; Ukrainian
 ua.langid=00001058
 ua.comp_mpciconlib=Бібліотека іконок
 ua.comp_mpcresources=Локалізації
