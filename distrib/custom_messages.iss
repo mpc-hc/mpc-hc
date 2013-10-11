@@ -56,6 +56,10 @@ de.WinVersionTooLowError=[name] benötigt Windows XP Service Pack 3 oder höher.
 el.WelcomeLabel2=Θα γίνει εγκατάσταση του [name] στον υπολογιστή σας.%n%nΣας συνιστούμε να κλείσετε κάθε άλλη εφαρμογή πριν συνεχίσετε.
 el.WinVersionTooLowError=Το [name] χρειάζεται Windows XP Service Pack 3 ή νεότερο για να λειτουργήσει.
 
+;English British
+en_GB.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+en_GB.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
 ;Spanish
 es.WelcomeLabel2=Este programa instalara [name] en tu computadora.%n%nEs recomendable que cierres todas las aplicaciones antes de continuar.
 es.WinVersionTooLowError=[name] require Windows XP Service Pack 3 o superior para funcionar.
@@ -280,6 +284,26 @@ el.tsk_ResetSettings=Επαναφορά ρυθμίσεων
 el.types_DefaultInstallation=Προκαθορισμένη εγκατάσταση
 el.types_CustomInstallation=Προσαρμοσμένη εγκατάσταση
 el.ViewChangelog=Εμφάνιση Λίστας Αλλαγών
+
+
+;English British
+en_GB.langid=00002057
+en_GB.comp_mpciconlib=Icon Library
+en_GB.comp_mpcresources=Translations
+en_GB.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%n%nIf you plan on installing MPC-HC again then you do not have to delete them.
+en_GB.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+#if defined(sse_required)
+en_GB.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
+#elif defined(sse2_required)
+en_GB.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
+#endif
+en_GB.tsk_AllUsers=For all users
+en_GB.tsk_CurrentUser=For the current user only
+en_GB.tsk_Other=Other tasks:
+en_GB.tsk_ResetSettings=Reset settings
+en_GB.types_DefaultInstallation=Default installation
+en_GB.types_CustomInstallation=Custom installation
+en_GB.ViewChangelog=View Changelog
 
 
 ;Spanish
