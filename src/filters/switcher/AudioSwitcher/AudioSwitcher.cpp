@@ -722,7 +722,7 @@ STDMETHODIMP CAudioSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
 {
     HRESULT hr = __super::Enable(lIndex, dwFlags);
     if (S_OK == hr) {
-        m_normalizeFactor = m_nMaxNormFactor;;
+        m_normalizeFactor = m_nMaxNormFactor;
     }
     return hr;
 }
