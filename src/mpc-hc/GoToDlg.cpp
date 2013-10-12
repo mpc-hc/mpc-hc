@@ -89,7 +89,7 @@ BOOL CGoToDlg::OnInitDialog()
         }
 
         if (m_fps > 0) {
-            m_framestr.Format(_T("%d, %.3f"), (int)(m_fps * m_time / 10000000), m_fps);
+            m_framestr.Format(_T("%d, %.3f"), (int)(m_fps * m_time / 10000000 + 0.5), m_fps);
         }
 
         UpdateData(FALSE);
