@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Varování"
-7		"Media Player Classic - Home Cinema nemohl propojit některé vývody v grafu filtrů, pravděpodobně nemáte nainstalovány všechny potřebné kodeky nebo filtry."
+7		"MPC-HC nemohl propojit některé vývody v grafu filtrů, pravděpodobně nemáte nainstalovány všechny potřebné kodeky nebo filtry."
 8		"Pro následující vývody se nepodařilo nalézt připojitelný filtr:"
 11		"Zavřít"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Zesílení: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Snížení jasu"
 STRING IDS_BRIGHTNESS_INC		"Zvýšení jasu"
 STRING IDS_CANCEL		"Storno"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema nemá dostatečná oprávnění pro změnu asociací souborů. Pro získání administrátorských oprávnění klikněte na tlačítko ""Upravit""."
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC nemá dostatečná oprávnění pro změnu asociací souborů. Pro získání administrátorských oprávnění klikněte na tlačítko ""Upravit""."
 STRING IDS_CAPTURE_ERROR		"Chyba záznamu"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Do grafu se nepodařilo přidat filtr vyrovnávací paměti %s."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Do grafu se nepodařilo přidat filtr kodéru %s."

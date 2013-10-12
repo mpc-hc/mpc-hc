@@ -117,7 +117,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     CRegKey key;
     ULONG   len;
 
-    if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Audio Renderer"), KEY_READ)) {
+    if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC-HC Audio Renderer"), KEY_READ)) {
         DWORD dw;
         TCHAR buff[256];
         if (ERROR_SUCCESS == key.QueryDWORDValue(_T("UseWasapi"), dw)) {
@@ -133,9 +133,9 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
         }
     }
 #else
-    m_useWASAPI = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPC Audio Renderer"), _T("UseWasapi"), m_useWASAPI);
-    m_bMuteFastForward = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPC Audio Renderer"), _T("MuteFastForward"), m_bMuteFastForward);
-    m_csSound_Device = AfxGetApp()->GetProfileString(_T("Filters\\MPC Audio Renderer"), _T("SoundDevice"), _T(""));
+    m_useWASAPI = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPC-HC Audio Renderer"), _T("UseWasapi"), m_useWASAPI);
+    m_bMuteFastForward = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPC-HC Audio Renderer"), _T("MuteFastForward"), m_bMuteFastForward);
+    m_csSound_Device = AfxGetApp()->GetProfileString(_T("Filters\\MPC-HC Audio Renderer"), _T("SoundDevice"), _T(""));
 #endif
     m_useWASAPIAfterRestart = m_useWASAPI;
 
@@ -566,15 +566,15 @@ STDMETHODIMP CMpcAudioRenderer::Apply()
 {
 #ifdef STANDALONE_FILTER
     CRegKey key;
-    if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Audio Renderer"))) {
+    if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC-HC Audio Renderer"))) {
         key.SetDWORDValue(_T("UseWasapi"), m_useWASAPIAfterRestart);
         key.SetDWORDValue(_T("MuteFastForward"), m_bMuteFastForward);
         key.SetStringValue(_T("SoundDevice"), m_csSound_Device);
     }
 #else
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Audio Renderer"), _T("UseWasapi"), m_useWASAPI);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Audio Renderer"), _T("MuteFastForward"), m_bMuteFastForward);
-    AfxGetApp()->WriteProfileString(_T("Filters\\MPC Audio Renderer"), _T("SoundDevice"), m_csSound_Device);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC-HC Audio Renderer"), _T("UseWasapi"), m_useWASAPI);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC-HC Audio Renderer"), _T("MuteFastForward"), m_bMuteFastForward);
+    AfxGetApp()->WriteProfileString(_T("Filters\\MPC-HC Audio Renderer"), _T("SoundDevice"), m_csSound_Device);
 #endif
 
     return S_OK;
@@ -624,7 +624,7 @@ HRESULT CMpcAudioRenderer::GetReferenceClockInterface(REFIID riid, void** ppv)
         return m_pReferenceClock->NonDelegatingQueryInterface(riid, ppv);
     }
 
-    m_pReferenceClock = DEBUG_NEW CBaseReferenceClock(NAME("Mpc Audio Clock"), nullptr, &hr);
+    m_pReferenceClock = DEBUG_NEW CBaseReferenceClock(NAME("MPC-HC Audio Clock"), nullptr, &hr);
     if (!m_pReferenceClock) {
         return E_OUTOFMEMORY;
     }

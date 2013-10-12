@@ -34,7 +34,7 @@
 #include "MpcAudioRendererSettingsWnd.h"
 #include "SoundTouch/include/SoundTouch.h"
 
-#define MpcAudioRendererName L"MPC Audio Renderer"
+#define MpcAudioRendererName L"MPC-HC Audio Renderer"
 
 // REFERENCE_TIME time units per second and per millisecond
 #define REFTIMES_PER_SEC        10000000.0

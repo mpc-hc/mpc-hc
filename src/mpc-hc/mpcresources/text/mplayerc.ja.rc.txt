@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"警告"
-7		"Media Player Classic - Home Cinema はグラフの中のピンのいくつかを再生できませんでした。必要なコーデックかフィルタがインストールされていない可能性があります。"
+7		"MPC-HC はグラフの中のピンのいくつかを再生できませんでした。必要なコーデックかフィルタがインストールされていない可能性があります。"
 8		"以下のピンが接続可能なフィルタを発見できませんでした:"
 11		"閉じる"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"ブースト: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"明度を下げる"
 STRING IDS_BRIGHTNESS_INC		"明度を上がる"
 STRING IDS_CANCEL		"キャンセル"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema にはファイルの関連付けを変更するための充分な権限がありません。""変更"" ボタンをクリックして管理者権限を得てください。"
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC にはファイルの関連付けを変更するための充分な権限がありません。""変更"" ボタンをクリックして管理者権限を得てください。"
 STRING IDS_CAPTURE_ERROR		"キャプチャ エラー"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"グラフに %s バッファ フィルタを追加できません。"
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"グラフに %s エンコーダ フィルタを追加できません。"

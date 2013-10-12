@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"אזהרה"
-7		"Media Player Classic - Home Cinema לא הצליח לחבר חלק מהשקעים בגרף, יתכן ולא מותקנים אצלך חלק מהמפענחים הדרושים."
+7		"MPC-HC לא הצליח לחבר חלק מהשקעים בגרף, יתכן ולא מותקנים אצלך חלק מהמפענחים הדרושים."
 8		"השקעים הבאים לא הצליחו למצוא פילטר אליו ניתן להתחבר:"
 11		"סגור"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"המרצה: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"הפחתת בהירות"
 STRING IDS_BRIGHTNESS_INC		"הגברת בהירות"
 STRING IDS_CANCEL		"Cancel"
-STRING IDS_CANNOT_CHANGE_FORMAT		"ל-Media Player Classic - Home Cinema אין מספיק הרשאות לשנות הגדרות שייוך קבצים. אנא לחץ על כפתור ה-""שנה"" בכדי לקבל הרשאות מנהל."
+STRING IDS_CANNOT_CHANGE_FORMAT		"ל-MPC-HC אין מספיק הרשאות לשנות הגדרות שייוך קבצים. אנא לחץ על כפתור ה-""שנה"" בכדי לקבל הרשאות מנהל."
 STRING IDS_CAPTURE_ERROR		"שגיאה בלכידה"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"לא יכול להוסיף את פילטר החוצץ %s אל הגרף."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"לא יכול להוסיף את פילטר הקידוד %s אל הגרף."

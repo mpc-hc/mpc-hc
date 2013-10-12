@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"警告"
-7		"Media Player Classic - Home Cinema 无法渲染图像中的某些帧,您或许未在系统中安装所需的解码器或者分离器。"
+7		"MPC-HC 无法渲染图像中的某些帧,您或许未在系统中安装所需的解码器或者分离器。"
 8		"以下为无法查找到可用滤镜的帧信息:"
 11		"关闭"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"提高: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"降低亮度"
 STRING IDS_BRIGHTNESS_INC		"增加亮度"
 STRING IDS_CANCEL		"取消"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema 没有足够的权限更改文件格式关联。请单击 ""修改"" 按钮获取管理员权限。"
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC 没有足够的权限更改文件格式关联。请单击 ""修改"" 按钮获取管理员权限。"
 STRING IDS_CAPTURE_ERROR		"捕获错误"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"无法添加 %s 缓冲滤镜到图表中。"
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"无法添加 %s 编码滤镜到图表中。"

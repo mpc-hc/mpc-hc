@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Uyarı"
-7		"Media Player Classic - Home Cinema, grafikteki bazı görüntüleri gösteremedi. Gerekli filtreler innDirilmemiş ya da sisteminize yüklenmemiş olabilir."
+7		"MPC-HC, grafikteki bazı görüntüleri gösteremedi. Gerekli filtreler innDirilmemiş ya da sisteminize yüklenmemiş olabilir."
 8		"Aşağıdaki işlem(ler) uygun bir filtre bulmakta başarısız oldu:"
 11		"Kapat"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Yükseltme: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Parlaklığı azalt"
 STRING IDS_BRIGHTNESS_INC		"Parlaklığı arttır"
 STRING IDS_CANCEL		"İptal"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic Home Cinema, dosya biçimi ilişkilendirmelerini ayarlayabilmek için gerekli izinlere sahip değil. Lütfen yönetici haklarını atamak için ""Değiştir"" tuşuna tıklayınız."
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC, dosya biçimi ilişkilendirmelerini ayarlayabilmek için gerekli izinlere sahip değil. Lütfen yönetici haklarını atamak için ""Değiştir"" tuşuna tıklayınız."
 STRING IDS_CAPTURE_ERROR		"Yakalama hatası"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Grafiğe %s tampon filtresi eklenemedi."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Grafiğe %s kodlayıcı filtresi eklenemedi."

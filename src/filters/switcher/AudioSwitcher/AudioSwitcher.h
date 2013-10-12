@@ -23,7 +23,7 @@
 
 #include "StreamSwitcher.h"
 
-#define AudioSwitcherName L"MPC AudioSwitcher"
+#define AudioSwitcherName L"MPC-HC AudioSwitcher"
 #define AS_MAX_CHANNELS 18
 
 

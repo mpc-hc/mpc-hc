@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Upozornenie"
-7		"Media Player Classic - Home Cinema nedokázal vykresliť niektoré piny, pretože sa vo Vašom systéme pravdepodobne nenachádzajú potrebné kodeky či filtre."
+7		"MPC-HC nedokázal vykresliť niektoré piny, pretože sa vo Vašom systéme pravdepodobne nenachádzajú potrebné kodeky či filtre."
 8		"Nepodarilo sa nájsť vhodný filter k týmto pinom:"
 11		"Zatvoriť"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Zosilnenie: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Zníženie jasu"
 STRING IDS_BRIGHTNESS_INC		"Zvýšenie jasu"
 STRING IDS_CANCEL		"Storno"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Program Media Player Classic - Home Cinema nemá oprávnenia, dostatočné na zmenu asociácií k formátom. Kliknite prosím na tlačidlo ""Modifikovať"" a preberte práva administrátora PC."
+STRING IDS_CANNOT_CHANGE_FORMAT		"Program MPC-HC nemá oprávnenia, dostatočné na zmenu asociácií k formátom. Kliknite prosím na tlačidlo ""Modifikovať"" a preberte práva administrátora PC."
 STRING IDS_CAPTURE_ERROR		"Chyba pri zaznamenávaní"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Nemožno pridať filter vyrovnávacej pamäte %s do grafu."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Nemožno pridať filter enkodéra %s do grafu."

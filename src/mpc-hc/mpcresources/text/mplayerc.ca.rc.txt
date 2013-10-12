@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Advertència"
-7		"Media Player Classic - Home Cinema no pot renderitzar alguns dels conectors de l'esquema, potser no tens els còdecs o filtres necessàris instal·lats al sistema."
+7		"MPC-HC no pot renderitzar alguns dels conectors de l'esquema, potser no tens els còdecs o filtres necessàris instal·lats al sistema."
 8		"Els seguents conectors no han trobat un filtre conectable:"
 11		"Buscar codecs a la xarxa"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Augmentar : +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Disminuir la Brillantor"
 STRING IDS_BRIGHTNESS_INC		"Augmentar la Brillantor"
 STRING IDS_CANCEL		"Cancel.lar"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema no té suficients privilegis per cambiar les associacions del tipus d'arxiu. Sisplau faci clic al botó de ""Modificar"" per obtenir drets d'administrador."
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC no té suficients privilegis per cambiar les associacions del tipus d'arxiu. Sisplau faci clic al botó de ""Modificar"" per obtenir drets d'administrador."
 STRING IDS_CAPTURE_ERROR		"Error de captació"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"No es pot afegir el filtre %s de memòria intermitja al graph."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"No es pot afegir el filtre decodificador %s al graph."

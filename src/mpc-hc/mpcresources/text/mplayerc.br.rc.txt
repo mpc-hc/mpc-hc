@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Aviso"
-7		"Media Player Classic - Home Cinema não pôde renderizar algum dos pinos do gráfico. Talvez você não tenha os codecs ou filtros necessários instalados em seu sistema."
+7		"MPC-HC não pôde renderizar algum dos pinos do gráfico. Talvez você não tenha os codecs ou filtros necessários instalados em seu sistema."
 8		"Os seguintes pinos falharam em encontrar um filtro apropriado:"
 11		"Fechar"
 END

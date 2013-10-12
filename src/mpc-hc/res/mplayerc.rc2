@@ -194,7 +194,7 @@ BEGIN
         BEGIN
             VALUE "Comments",         "Based on the original Media Player Classic v6.4.9.0 © Gabest"
             VALUE "CompanyName",      MPC_COMP_NAME_STR
-            VALUE "FileDescription",  "Media Player Classic - Home Cinema"
+            VALUE "FileDescription",  "MPC-HC"
             VALUE "FileVersion",      MPC_VERSION_STR_FULL
             VALUE "InternalName",     "mpc-hc"
             VALUE "LegalCopyright",   MPC_COPYRIGHT_STR
@@ -203,7 +203,7 @@ BEGIN
 #else
             VALUE "OriginalFilename", "mpc-hc.exe"
 #endif
-            VALUE "ProductName",      "Media Player Classic - Home Cinema"
+            VALUE "ProductName",      "MPC-HC"
             VALUE "ProductVersion",   MPC_VERSION_STR_FULL
         END
     END

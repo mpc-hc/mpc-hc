@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,7 @@
 
 #pragma once
 
-#define DeCSSFilterName L"MPC DeCSSFilter"
+#define DeCSSFilterName L"MPC-HC DeCSSFilter"
 
 class __declspec(uuid("7B3BD419-FE03-4820-BE94-A22A4F844895"))
     CDeCSSFilter : public CTransformFilter

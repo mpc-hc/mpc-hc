@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,8 +26,8 @@
 #include "DSMSplitterFile.h"
 #include "../BaseSplitter/BaseSplitter.h"
 
-#define DSMSplitterName L"MPC DSM Splitter"
-#define DSMSourceName   L"MPC DSM Source"
+#define DSMSplitterName L"MPC-HC DSM Splitter"
+#define DSMSourceName   L"MPC-HC DSM Source"
 
 class __declspec(uuid("0912B4DD-A30A-4568-B590-7179EBB420EC"))
     CDSMSplitterFilter : public CBaseSplitterFilter

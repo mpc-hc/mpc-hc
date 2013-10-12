@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Avertissement"
-7		"Media Player Classic - Home Cinema ne peut pas effectuer le rendu de certains éléments du graphe, les codecs ou filtres nécessaires ne figurent pas sur votre ordinateur."
+7		"MPC-HC ne peut pas effectuer le rendu de certains éléments du graphe, les codecs ou filtres nécessaires ne figurent pas sur votre ordinateur."
 8		"Le(s) élément(s) suivant(s) n'ont pas pu trouver de filtre approprié :"
 11		"Fermer"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Boost : +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Diminuer la luminosité"
 STRING IDS_BRIGHTNESS_INC		"Augmenter la luminosité"
 STRING IDS_CANCEL		"Annuler"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Vous ne disposez pas des droits suffisants pour changer les associations des formats de fichiers. Veuillez cliquer sur le bouton ""Modifier"" pour donner les droits d'administration à Media Player Classic - Home Cinema."
+STRING IDS_CANNOT_CHANGE_FORMAT		"Vous ne disposez pas des droits suffisants pour changer les associations des formats de fichiers. Veuillez cliquer sur le bouton ""Modifier"" pour donner les droits d'administration à MPC-HC."
 STRING IDS_CAPTURE_ERROR		"Erreur de capture"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Impossible d'ajouter le filtre tampon %s au graphe."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Impossible d'ajouter le filtre d'encodage %s au graphe."
