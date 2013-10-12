@@ -533,7 +533,7 @@ namespace GothSync
         HRESULT CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
         HRESULT SetMediaType(IMFMediaType* pType);
 
-        // Functions pointers for Vista/.NET3 specific library
+        // Functions pointers for Vista+ / .NET Framework 3.5 specific library
         HMODULE m_hDXVA2Lib;
         HMODULE m_hEVRLib;
         HMODULE m_hAVRTLib;

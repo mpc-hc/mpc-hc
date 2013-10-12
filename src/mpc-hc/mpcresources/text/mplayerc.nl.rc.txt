@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Standaardwaarden worden ook op andere stijlen toeg
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Maakt ondertitelings-animatie mogelijk bij een subpicture-buffer groter dan 0. Dit uitzetten zal de CPU ontlasten. Zet dit ook uit als de ondertiteling flikkert."
 STRING IDC_CHECK_SPCPOW2TEX		"Dit uitvinken, maakt een beetje grafisch geheugen vrij en spaart bandbreedte bij de overdracht van lokaal naar grafisch geheugen. Dit werkt waarschijnlijk niet bij oudere grafische kaarten."
 STRING IDC_DSDXR		"Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .Net 3.5 installed."
+STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
 STRING IDC_DSEVR_CUSTOM		"Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
 STRING IDC_DSMADVR		"High-quality renderer, requires a GPU that supports D3D9 or later."
 STRING IDC_DSNULL_COMP		"Verbind met elk video-achtig media type en zal de inkomende signalen in het, grote dan wel kleine, niets zenden. Gebruik dit als geen uitgangssignaal nodig is en de om de CPU te ontlasten."

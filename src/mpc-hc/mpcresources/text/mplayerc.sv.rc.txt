@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Standard läget blir ärvda till andra stilar där
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Tillåter undertext animering när man använder sub bild buffert större än 0. Inaktivering av detta alternativ sänker CPU användningen. Stäng också av om du upplever blinkande undertexter."
 STRING IDC_CHECK_SPCPOW2TEX		"Avmarker detta frigör lite grafikminne och sparar bandbredd på lokal till grafikminne överföringar, men det kanske inte fungerar med äldre grafikkort."
 STRING IDC_DSDXR		"Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .Net 3.5 installed."
+STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
 STRING IDC_DSEVR_CUSTOM		"Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
 STRING IDC_DSMADVR		"High-quality renderer, requires a GPU that supports D3D9 or later."
 STRING IDC_DSNULL_COMP		"Ansluts till vilken som helst video-liknande media typ och kommer att skicka inkommande prover till ingenstans. Använd det när du inte behöver bildskärmen och vill spara cpu från att arbeta i onödan."

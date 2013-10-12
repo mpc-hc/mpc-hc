@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Az alapértelmezett pozíciót örökli a többi s
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Lehetővé teszi a felirat animálását, ha az előreolvasott feliratképek száma nagyobb, mint nulla. A funkció tiltása csökkenti a CPU terheltségét. Akkor is tiltsa, ha villódzik a felirat."
 STRING IDC_CHECK_SPCPOW2TEX		"Ezt kikapcsolva felszabadít egy kis videomemóriát és sávszélességet takarít meg a lokális memória-videomemória közötti átvitelnél, de régebbi videokártyákkal lehet, hogy nem fog működni."
 STRING IDC_DSDXR		"Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .Net 3.5 installed."
+STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
 STRING IDC_DSEVR_CUSTOM		"Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
 STRING IDC_DSMADVR		"High-quality renderer, requires a GPU that supports D3D9 or later."
 STRING IDC_DSNULL_COMP		"Minden videószerű médiatípushoz csatlakozni fog és a bejövő mintákat nem küldi ki sehová. Ezt akkor válassza, ha a videómegjelenítésre nincs szüksége és meg szeretné kímélni a processzorát a felesleges munkától."

@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Berezko egoera beste estilo batzuetatik lortzen da
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Ahalbidetzen du azpidatzi animazioa 0 baino handiagoa den azpirudi buffer bat erabiltzerakoan. Aukera hau ezgaitzeak CPU erabilera gutxiago izango du. Ezgaitu ere azpidatziak keinuka ikusten badituzu."
 STRING IDC_CHECK_SPCPOW2TEX		"Hau ez-hautatzeak bideo oroimen apur bat askatu eta bandazabalera gordetzen du tokian bideo oroimen eskualdaketarako, baina badaiteke ez lan egitea bideo txartel zaharrekin."
 STRING IDC_DSDXR		"VMR-9 (aurkezgabe) bezalakoa, baina egizko bi-urratseko birneurriratzaile bikubikoa erabiltzen du."
-STRING IDC_DSEVR		"Eskuragarri bakarrik Vista edo berriagotan edo XP gutxienez .Net 3.5 ezarrita duela."
+STRING IDC_DSEVR		"Eskuragarri bakarrik Vista edo berriagotan edo XP gutxienez .NET Framework 3.5 ezarrita duela."
 STRING IDC_DSEVR_CUSTOM		"EVR bezalakoa, baina MPC-HC Esleitzaile-Aurkeztzailearekin azpidatzi eta prozesatu-ondorenerako. Gomendatua Windows Vista edo berriagotarako."
 STRING IDC_DSMADVR		"Ontasun-Handiko aurkezlea, D3D9 edo berriagoa sostengatzen duen GPU behar da."
 STRING IDC_DSNULL_COMP		"Edozein bideo-erako multimedia motarekn elkarketatzen da eta barrurako laginak inora ez bidaliko ditu. Erabili bideo erakuspenik behar ez duzunean eta cpu-a gordetzea nahi duzunean alperrik lan egitetik."

@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Predvolené hodnoty sa nastavia aj v iných štýl
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Ak je použitá vyrovnávacia pamäť pre podobrázky väčšia ako 0, môžu sa titulky animovať. Zablokovaním tejto voľby znížite vyťaženie procesora. Voľbu zablokujte aj v prípade, že titulky blikajú."
 STRING IDC_CHECK_SPCPOW2TEX		"Vypnutie tejto voľby spôsobí menšie vyťažovanie pamäte grafickej karty a zníži prenosovú rýchlosť karty, staršie graf. karty však môžu mať s týmto problémy."
 STRING IDC_DSDXR		"Rovnaké ako VMR-9 (bezstratové), ale používa skutočnú dvojprechodovú zmenu veľkosti."
-STRING IDC_DSEVR		"Dostupné len na systéme Vista alebo novšom alebo na systéme XP s nainštalovaným prostredím .Net 3.5."
+STRING IDC_DSEVR		"Dostupné len na systéme Vista alebo novšom alebo na systéme XP s nainštalovaným prostredím .NET Framework 3.5."
 STRING IDC_DSEVR_CUSTOM		"Rovnaké ako EVR, ale so súčasťou Allocator-Presenter MPC-HC pre titulkovanie a dodatočné úpravy. Odporúča sa pre Windows Vista alebo novší."
 STRING IDC_DSMADVR		"Vysokokvalitné vykresľovanie, vyžaduje grafický čip s podporou D3D9 alebo novšieho."
 STRING IDC_DSNULL_COMP		"Pripája sa k videu, neodosiela však prichádzajúce pakety. Môžete ho použiť vtedy, ak nepotrebujete obrazový výstup videa a chcete obmedziť zbytočnú prácu procesora."

@@ -262,7 +262,7 @@ namespace DSObjects
         HRESULT                          GetMediaTypeMerit(IMFMediaType* pType, int* pMerit);
         LPCTSTR                          GetMediaTypeFormatDesc(IMFMediaType* pMediaType);
 
-        // === Functions pointers on Vista / .NET3 specific library
+        // === Functions pointers on Vista+ / .NET Framework 3.5 specific library
         HMODULE m_hDXVA2Lib;
         HMODULE m_hEVRLib;
         HMODULE m_hAVRTLib;

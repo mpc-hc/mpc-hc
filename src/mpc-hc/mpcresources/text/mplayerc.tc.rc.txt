@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"如果依舊沒定義, 預設會繼承其他的樣
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"當子畫面緩衝大於 0 時允許字幕動畫。停用這個選項會降低 CPU 使用量。如果您覺得字幕在閃爍時也請停用。"
 STRING IDC_CHECK_SPCPOW2TEX		"不勾選該選項可以釋放一點顯示記憶體以及節省本地到顯示記憶體間的傳輸頻寬, 但這可能沒辦法在較舊的顯示卡上運作。"
 STRING IDC_DSDXR		"和 VMR-9 (無轉換) 相同, 但使用了真正的 two-pass bicubic 縮放器。"
-STRING IDC_DSEVR		"只能在 Vista 或以後或安裝了 .Net 3.5 或更新的 XP 上使用。"
+STRING IDC_DSEVR		"只能在 Vista 或以後或安裝了 .NET Framework 3.5 或更新的 XP 上使用。"
 STRING IDC_DSEVR_CUSTOM		"和 EVR 相同, 但擁有 MPC-HC 配置呈現器作顯示字幕和後處理。推薦用在 Windows Vista 及以後。"
 STRING IDC_DSMADVR		"高質量的繪製器, 需要支援 D3D9 或更新的 GPU 。"
 STRING IDC_DSNULL_COMP		"連到任何視訊媒體類型, 並且不傳送傳進來的取樣資料。當你不需要任何視訊顯示而又想節省不必要的 CPU 工作時可以用。"

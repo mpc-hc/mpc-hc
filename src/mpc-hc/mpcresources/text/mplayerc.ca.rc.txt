@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"L'estat predeterminat s'hereda cap a altres estils
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Permet subtítols amb animació al utilitzar una memoria intermèdia per sub-imágenes més grans que 0. Inhabilitant auquesta opció es minimitza l'ús de CPU. Inhabilitar també si els subtítols pipillejent."
 STRING IDC_CHECK_SPCPOW2TEX		"Si desmarcas això es llibera una mica de memòria de vídeo i guardes amplada de banda en transferencias de memoria local a memòria de vídeo, però no funcionar amb tarjetas gràficas antigues."
 STRING IDC_DSDXR		"Igual que VMR-9 (sense res), pero usa un redimensionador real de dues passades."
-STRING IDC_DSEVR		"Nomès disponible a Vista o posterior o per XP amb com a mínim .Net 3.5 instal·lat."
+STRING IDC_DSEVR		"Nomès disponible a Vista o posterior o per XP amb com a mínim .NET Framework 3.5 instal·lat."
 STRING IDC_DSEVR_CUSTOM		"Igual que EVR, pero amb Asignació-Presentació del MPC-HC per subtitulat y postprocessament. Recomanat per Vindows Vista o posterior."
 STRING IDC_DSMADVR		"Renderitzador d'alta qualitat, requereix una GPU amb suport D3D9 o posterior."
 STRING IDC_DSNULL_COMP		"Conecta a cualsevol tipus de mitjà de vídeo i manda les mostres a cap lloc. Utilitza'l quant no necesitis veure el vídeo, i vulguis  evitar l'ús no necessari de la cpu."

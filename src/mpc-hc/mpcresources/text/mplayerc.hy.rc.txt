@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Ծրագրային վիճակը որոշվում �
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Հնարավորություն է տալիս շարժապատկերել տողագրերը։"
 STRING IDC_CHECK_SPCPOW2TEX		"Այս հնարավորության անջատումը ազատում է որոշ քանակի տեսահիշողություն։ Անջատեք, եթե տողագրերը թարթում են։"
 STRING IDC_DSDXR		"Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .Net 3.5 installed."
+STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
 STRING IDC_DSEVR_CUSTOM		"Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
 STRING IDC_DSMADVR		"High-quality renderer, requires a GPU that supports D3D9 or later."
 STRING IDC_DSNULL_COMP		"Միանում է ցանկացած տեսակի տեսատվյալների և մտնող կադրերը ոչ մի տեղ չի ուղարկում։ Այս եղանակը կարող է օգտակար լինել, եթե անհրաժեշտ է պահպանել ռեսուրսներից միայն ձայնը։"

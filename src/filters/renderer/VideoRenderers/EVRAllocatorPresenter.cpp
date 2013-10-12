@@ -129,7 +129,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     }
 #endif
 
-    // Load Vista specific DLLs
+    // Load Vista+ specific DLLs
     m_hAVRTLib = LoadLibrary(L"avrt.dll");
     pfAvSetMmThreadCharacteristicsW = m_hAVRTLib ? (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW") : nullptr;
     pfAvSetMmThreadPriority = m_hAVRTLib ? (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority") : nullptr;
@@ -1576,7 +1576,7 @@ void CEVRAllocatorPresenter::GetMixerThread()
     DWORD    dwResolution;
     DWORD    dwUser = 0;
 
-    // Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
+    // Tell Multimedia Class Scheduler we are a playback thread (increase priority)
     //HANDLE hAvrt = 0;
     //if (pfAvSetMmThreadCharacteristicsW) {
     //    DWORD dwTaskIndex = 0;
@@ -1977,7 +1977,7 @@ void CEVRAllocatorPresenter::RenderThread()
     DWORD    dwUser = 0;
     DWORD    dwObject;
 
-    // Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
+    // Tell Multimedia Class Scheduler we are a playback thread (increase priority)
     HANDLE hAvrt = 0;
     if (pfAvSetMmThreadCharacteristicsW) {
         DWORD dwTaskIndex = 0;
@@ -2335,7 +2335,7 @@ void CEVRAllocatorPresenter::VSyncThread()
     DWORD    dwResolution;
     DWORD    dwUser = 0;
 
-    // Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
+    // Tell Multimedia Class Scheduler we are a playback thread (increase priority)
     //HANDLE hAvrt = 0;
     //if (pfAvSetMmThreadCharacteristicsW) {
     //    DWORD dwTaskIndex = 0;

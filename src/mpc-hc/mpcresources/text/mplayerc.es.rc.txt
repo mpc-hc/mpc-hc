@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"El estado predeterminado se hereda a otros estilos
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Permite subtítulos con animación al utilizar una memoria intermedia para sub-imágenes mayor que 0. Inhabilitando esta opción se minimiza el uso de CPU. Inhabilitar también si los subtítulos parpadean."
 STRING IDC_CHECK_SPCPOW2TEX		"Si desmarcas esto se libera una poca memoria de video y guardas ancho de banda en transferencias de memoria locales a memoria de video, pero puede no funcionar con tarjetas graficas antiguas."
 STRING IDC_DSDXR		"Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .Net 3.5 installed."
+STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
 STRING IDC_DSEVR_CUSTOM		"Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
 STRING IDC_DSMADVR		"High-quality renderer, requires a GPU that supports D3D9 or later."
 STRING IDC_DSNULL_COMP		"Conecta a cualquier tipo de medio de video y manda las muestras a ningún lado. Utilízalo cuando no necesitas ver el video, y quieres evitar el uso de cpu innecesario."

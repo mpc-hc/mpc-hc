@@ -23,7 +23,7 @@
 #include "BaseClasses/streams.h"
 #include <dsound.h>
 
-#include <MMReg.h>  //must be before other Wasapi headers
+#include <MMReg.h>  //must be before other WASAPI headers
 #include <strsafe.h>
 #include <mmdeviceapi.h>
 #include <avrt.h>

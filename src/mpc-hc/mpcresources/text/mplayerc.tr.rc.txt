@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Varsayılan durum hala tanımsız olduğu için di
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"0'dan büyük bir görüntü tamponu kullanırken alt yazı animasyonlarına izin verir. Bu ayarı kapatmak işlemci kullanımını düşürecektir. Eğer alt yazılar parlak gösterilirse, yine ilgili ayarı kapatmanız önerilir."
 STRING IDC_CHECK_SPCPOW2TEX		"Bunu kapatmak yerel video hafızası bant genişliğini korur ve az bir miktar video hafızasını boşaltır, ancak eski ekran kartları ile çalışmayabilir."
 STRING IDC_DSDXR		"VMR-9 (çevrilmeden) gibidir, ancak gerçek çift-geçişli kübik boyutlandırıcı kullanır."
-STRING IDC_DSEVR		"Sadece Vista veya daha yenisi, ya da en az .Net 3.5 yüklü XP üzerinde çalışır."
+STRING IDC_DSEVR		"Sadece Vista veya daha yenisi, ya da en az .NET Framework 3.5 yüklü XP üzerinde çalışır."
 STRING IDC_DSEVR_CUSTOM		"GVI ile aynıdır, ancak alt yazı ve son işleme için MPC-HC 'nin kendi bölüştürücüsü ile birlikte çalışır. Windows Vista veya daha üstü için önerilir."
 STRING IDC_DSMADVR		"Yüksek kaliteli bir çözücüdür, ancak D3D9 veya daha sonrasını destekleyen bir ekran kartı gerektirir."
 STRING IDC_DSNULL_COMP		"Her video benzeri medya biçimine bağlanır ve dahili örnekleri bir yere göndermez. Video gösterimine ihtiyaç duymadığınız ve işlemciyi pek az kullanmak istediğiniz durumlarda bu seçeneği seçiniz."

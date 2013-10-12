@@ -140,13 +140,13 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     m_useWASAPIAfterRestart = m_useWASAPI;
 
 
-    // Load Vista specific DLLs
+    // Load Vista+ specific DLLs
     m_hLibAVRT = LoadLibrary(L"avrt.dll");
     if (m_hLibAVRT != nullptr) {
         pfAvSetMmThreadCharacteristicsW   = (PTR_AvSetMmThreadCharacteristicsW)   GetProcAddress(m_hLibAVRT, "AvSetMmThreadCharacteristicsW");
         pfAvRevertMmThreadCharacteristics = (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hLibAVRT, "AvRevertMmThreadCharacteristics");
     } else {
-        m_useWASAPI = false;    // Wasapi not available below Vista
+        m_useWASAPI = false;    // WASAPI is not available below Vista
     }
 
     TRACE(_T("CMpcAudioRenderer constructor\n"));
@@ -754,7 +754,7 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
 
         if (pfAvSetMmThreadCharacteristicsW) {
             hTask = pfAvSetMmThreadCharacteristicsW(_T("Pro Audio"), &taskIndex);
-            TRACE(_T("CMpcAudioRenderer::InitCoopLevel Putting thread in higher priority for Wasapi mode (lowest latency)\n"));
+            TRACE(_T("CMpcAudioRenderer::InitCoopLevel Putting thread in higher priority for WASAPI mode (lowest latency)\n"));
             hr = GetLastError();
             if (hTask == nullptr) {
                 return hr;

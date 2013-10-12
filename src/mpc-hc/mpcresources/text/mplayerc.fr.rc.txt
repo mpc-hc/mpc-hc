@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Etat par défaut devient héréditaire à d'autres
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Autorise l'animation des sous-titres lorsque la mise en mémoire tampon des sous-titres est activée. Désactiver cette option permet d'écomiser des ressources CPU. Il est conseillé de la désactiver si vous observez des clignotements des sous-titres."
 STRING IDC_CHECK_SPCPOW2TEX		"Décochez la case permet de libérer un peu de mémoire vidéo et d'économise de la bande passante sur les transfet de mémoire vidéo, mais cela ne fonctionne pas forcement avec les anciennes cartes graphiques."
 STRING IDC_DSDXR		"Identique à VMR-9 (sans rendu), mais utilise un vrai redimensionnement bicubique bi-passes."
-STRING IDC_DSEVR		"Disponible uniquement pour Vista ou ultérieur ou pour XP avec le framework .Net 3.5 ou ultérieur installé."
+STRING IDC_DSEVR		"Disponible uniquement pour Vista ou ultérieur ou pour XP avec le framework .NET Framework 3.5 ou ultérieur installé."
 STRING IDC_DSEVR_CUSTOM		"Identique à EVR, mais avec le plugin Présentation/Allocation de MPC-HC pour les sous-titres et les post-traitements. Recommendé pour Windows Vista et ultérieur."
 STRING IDC_DSMADVR		"Moteur de rendu haute qualité, nécessite une carte graphique supportant D3D9 ou ultérieur."
 STRING IDC_DSNULL_COMP		"Connection vers n'importe quel type de média vidéo et enverra l'exemple entrant vers nul part. Utilisez le quand vous n'avez pas besoin de l'affichage vidéo and que vous voulez garder des ressources processeur et éviter de le faire travailler inutilement."

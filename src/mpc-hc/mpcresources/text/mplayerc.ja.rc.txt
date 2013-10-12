@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"未設定のスタイルにはデフォルト状�
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"サブピクチャーバッファを使用している時に字幕アニメーションを許可します。無効にすると CPU 使用率が下がります。字幕がチラつく場合も無効にしてください。"
 STRING IDC_CHECK_SPCPOW2TEX		"チェックを外すとビデオメモリの消費量とシステムメモリとビデオメモリ間の負荷を抑えられますが、古いビデオカードでは動作しない可能性があります。"
 STRING IDC_DSDXR		"VMR-9 (レンダーレス) と同じですが、真の2パスバイキュービックリサイザを使用しています。"
-STRING IDC_DSEVR		"Vista 以降、少なくとも .Net 3.5 をインストールした XP のみ利用可能。"
+STRING IDC_DSEVR		"Vista 以降、少なくとも .NET Framework 3.5 をインストールした XP のみ利用可能。"
 STRING IDC_DSEVR_CUSTOM		"EVR と同じですが、字幕および後処理のために MPC-HC のアロケータプレゼンである。Windows Vista 以降推奨されます。"
 STRING IDC_DSMADVR		"高品質のレンダラ、D3D9 以降をサポートする GPU が必要になります。"
 STRING IDC_DSNULL_COMP		"すべての動画の (ような) メディア タイプに接続して入力サンプルをどこにも出力しません。映像の表示が不要で無駄な CPU 負荷を無くしたい場合に使用してください。"

@@ -2467,7 +2467,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         return;
     }
 
-    // Load Vista specific DLLs
+    // Load Vista+ specific DLLs
     m_hAVRTLib = LoadLibrary(L"avrt.dll");
     pfAvSetMmThreadCharacteristicsW = m_hAVRTLib ? (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW") : nullptr;
     pfAvSetMmThreadPriority = m_hAVRTLib ? (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority") : nullptr;
@@ -3623,7 +3623,7 @@ void CSyncAP::RenderThread()
     int nSamplesLeft;
     CComPtr<IMFSample>pNewSample = nullptr; // The sample next in line to be presented
 
-    // Tell Vista Multimedia Class Scheduler we are doing threaded playback (increase priority)
+    // Tell Multimedia Class Scheduler we are doing threaded playback (increase priority)
     HANDLE hAvrt = 0;
     if (pfAvSetMmThreadCharacteristicsW) {
         DWORD dwTaskIndex = 0;

@@ -1071,7 +1071,7 @@ STRING IDC_CHECK_RELATIVETO		"Umieszcza napisy na ekranie zależnie od rozmiaru 
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Wyświetla animacje napisów w przypadku, gdy liczba buforowanych wierszy jest większa od zera. Zmniejsza w niewielkim stopniu obciążenie procesora. Opcja pomocna w przypadku, gdy napisy migają."
 STRING IDC_CHECK_SPCPOW2TEX		"Odznaczenie opcji zmniejsza w niewielkim stopniu ilość używanej pamięci karty graficznej oraz wielkość transferu do niej. Może nie działać ze starszymi kartami graficznymi."
 STRING IDC_DSDXR		"Działa tak samo jak „VMR-9 (renderless)”, lecz używa prawdziwego dwu przebiegowego skalowania bicubic."
-STRING IDC_DSEVR		"Dostępny tylko w systemie Vista i nowszych lub XP z zainstalowanymi bibliotekami .Net 3.5."
+STRING IDC_DSEVR		"Dostępny tylko w systemie Vista i nowszych lub XP z zainstalowanymi bibliotekami .NET Framework 3.5."
 STRING IDC_DSEVR_CUSTOM		"Działa tak samo jak „EVR”, ponadto z modyfikacjami umożliwiającymi obsługę napisów oraz przetwarzania końcowego (shadery) w MPC-HC. Zalecany dla Windows Vista i nowszych."
 STRING IDC_DSMADVR		"Renderer oferujacy mozliwie najlepszą jakość obrazu. Wymaga karty graficznej, która obsługuje D3D9 lub nowszy."
 STRING IDC_DSNULL_COMP		"Łączy z dowolnym formatem wideo i wysyła przychodzące próbki donikąd. Użycie wskazane, gdy strumień wideo nie musi być wyświetlany, dzięki czemu można zmniejszyć obciążenie CPU."

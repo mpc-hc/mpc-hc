@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"מצב ברירת המחדל עובר בירושה
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"מאפשר הנפשת כתוביות כאשר משתמשים בחוצץ תת-תמונות גדול מ-0. כיבוי אפשרות זו תנמיך את השימוש במעבד. אפשר לכבות אם אתה סובל מכתוביות מהבהבות."
 STRING IDC_CHECK_SPCPOW2TEX		"הסרת סימון זה ירוקן טיפת זיכרון וידאו וישמור על רוחב פס בהעתקות מקומיות לזיכרון הוידאו, אך זה עלול לא לעבוד עם כרטיסים גרפים ישנים."
 STRING IDC_DSDXR		"Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .Net 3.5 installed."
+STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
 STRING IDC_DSEVR_CUSTOM		"Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
 STRING IDC_DSMADVR		"High-quality renderer, requires a GPU that supports D3D9 or later."
 STRING IDC_DSNULL_COMP		"מתחבר לכל סוג מדיה דומה לוידאו וישלח את הדגימות הנכנסות לשום מקום. השתמש בזה כאשר אינך זקוק לתצוגת וידאו ואתה רוצה לחסוך עבודה מיותרת של המעבד."

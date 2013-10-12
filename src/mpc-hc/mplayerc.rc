@@ -2227,7 +2227,7 @@ BEGIN
     IDC_DSVMR9REN           "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. ""True Color"" desktop color space recommended. Recommended for Windows XP."
     IDC_DSNULL_COMP         "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
     IDC_DSNULL_UNCOMP       "Same as the normal Null renderer, but this will only connect to uncompressed types."
-    IDC_DSEVR               "Only available on Vista or later or on XP with at least .Net 3.5 installed."
+    IDC_DSEVR               "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
     IDC_DSEVR_CUSTOM        "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
     IDC_DSDXR               "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
     IDC_DSSYNC              "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."

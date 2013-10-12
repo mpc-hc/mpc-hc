@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"Starea implicită va fi moștenită și de celelal
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"Permite animarea subtitrării când este folosită o memorie tampon de subimagini mai mare decât 0. Dezactivând această opțiune va scădea și folosirea procesorului. De asemenea, dezactivați-o dacă se întâmplă ca subtitrările să pâlpâie."
 STRING IDC_CHECK_SPCPOW2TEX		"Debifând această opțiune mai eliberează puțin din memoria video și salvează din lățimea de bandă în transferurile locale către memoria video, dar s-ar putea să nu funcționeze cu plăci video mai vechi."
 STRING IDC_DSDXR		"Asemănător cu VMR-9 (fără randare), dar foloseşte o redimensionare bicubică în doi paşi adevărată."
-STRING IDC_DSEVR		"Disponibil doar pentru Vista sau mai nou, sau pentru XP cu cel puţin .Net 3.5 instalat."
+STRING IDC_DSEVR		"Disponibil doar pentru Vista sau mai nou, sau pentru XP cu cel puţin .NET Framework 3.5 instalat."
 STRING IDC_DSEVR_CUSTOM		"Asemănător cu EVR, dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrare şi postprocesare. Recomandat pentru Windows Vista sau mai nou."
 STRING IDC_DSMADVR		"Randor de calitate înaltă, necesită o placă grafică ce suportă D3D9 sau mai nou."
 STRING IDC_DSNULL_COMP		"Se conectează la orice tip de media video și mostrele video nu vor fi trimise niciunde. Folosiți-l când nu aveți nevoie de afișarea video și vreți să salvați procesorul de la o muncă inutilă."

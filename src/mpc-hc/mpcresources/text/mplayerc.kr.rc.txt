@@ -1072,7 +1072,7 @@ STRING IDC_CHECK_RELATIVETO		"기본 상태가 다른 스타일을 상속합니�
 STRING IDC_CHECK_SPCANIMWITHBUFFER		"서브픽쳐의 버퍼가 0보다 클때 자막 애니메이션을 허용합니다. 이 옵션을 선택하면 CPU사용률이 증가할수있습니다. 자막이 깜박이Ы 비정상적으로 출력되면 이 옵션을 해제하십시오."
 STRING IDC_CHECK_SPCPOW2TEX		"이것을 선택하지않으면 비디오 메모리 및 전송대역을 절약하지만, 구형 비디오 카드에서는 동작하지 않을수 있습니다."
 STRING IDC_DSDXR		"Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .Net 3.5 installed."
+STRING IDC_DSEVR		"Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
 STRING IDC_DSEVR_CUSTOM		"Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
 STRING IDC_DSMADVR		"High-quality renderer, requires a GPU that supports D3D9 or later."
 STRING IDC_DSNULL_COMP		"모든 비디오형식의 샘플을 출력하지 않습니다. 비디오를 출력하지않으면서 CPU가 작동하도록 하려할때 사용합니다."
