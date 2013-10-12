@@ -1265,7 +1265,7 @@ STDMETHODIMP CFGManager::AddToROT()
     CComPtr<IRunningObjectTable> pROT;
     CComPtr<IMoniker> pMoniker;
     WCHAR wsz[256];
-    swprintf_s(wsz, _countof(wsz), L"FilterGraph %08p pid %08x (MPC)", this, GetCurrentProcessId());
+    swprintf_s(wsz, _countof(wsz), L"FilterGraph %08p pid %08x (MPC-HC)", this, GetCurrentProcessId());
     if (SUCCEEDED(hr = GetRunningObjectTable(0, &pROT))
             && SUCCEEDED(hr = CreateItemMoniker(L"!", wsz, &pMoniker))) {
         hr = pROT->Register(ROTFLAGS_REGISTRATIONKEEPSALIVE, (IGraphBuilder2*)this, pMoniker, &m_dwRegister);

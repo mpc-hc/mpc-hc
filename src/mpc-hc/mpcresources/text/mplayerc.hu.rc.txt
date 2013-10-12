@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Figyelem"
-7		"A Media Player Classic - Home Cinema nem tudta feldolgozni néhány elemét a gráfnak. Lehet, hogy nincs telepítve a megfelelő kodek vagy formátumhasító szűrő."
+7		"A MPC-HC nem tudta feldolgozni néhány elemét a gráfnak. Lehet, hogy nincs telepítve a megfelelő kodek vagy formátumhasító szűrő."
 8		"A következő csatlakozó(k) nem talált(ak) kompatíbilis szűrőt:"
 11		"Bezárás"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Boost: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Brightness decrease"
 STRING IDS_BRIGHTNESS_INC		"Brightness increase"
 STRING IDS_CANCEL		"Cancel"
-STRING IDS_CANNOT_CHANGE_FORMAT		"A Media Player Classic - Home Cinema nem rendelkezik elegendő jogosultságokkal, hogy módosítsa a fájl formátumok hozzárendelését. Kérem kattintson a ""Módosít"" gombra, hogy adminisztrátori jogosultságokat kapjon."
+STRING IDS_CANNOT_CHANGE_FORMAT		"A MPC-HC nem rendelkezik elegendő jogosultságokkal, hogy módosítsa a fájl formátumok hozzárendelését. Kérem kattintson a ""Módosít"" gombra, hogy adminisztrátori jogosultságokat kapjon."
 STRING IDS_CAPTURE_ERROR		"Capture Error"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Can't add the %s buffer filter to the graph."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Can't add the %s encoder filter to the graph."

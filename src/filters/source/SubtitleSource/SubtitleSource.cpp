@@ -45,13 +45,13 @@ const AMOVIESETUP_PIN sudOpPin[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-    {&__uuidof(CSubtitleSourceASCII), L"MPC SubtitleSource (S_TEXT/ASCII)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CSubtitleSourceUTF8), L"MPC SubtitleSource (S_TEXT/UTF8)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CSubtitleSourceSSA), L"MPC SubtitleSource (S_TEXT/SSA)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CSubtitleSourceASS), L"MPC SubtitleSource (S_TEXT/ASS)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CSubtitleSourceUSF), L"MPC SubtitleSource (S_TEXT/USF)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CSubtitleSourcePreview), L"MPC SubtitleSource (Preview)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
-    {&__uuidof(CSubtitleSourceARGB), L"MPC SubtitleSource (ARGB)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CSubtitleSourceASCII), L"MPC-HC SubtitleSource (S_TEXT/ASCII)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CSubtitleSourceUTF8), L"MPC-HC SubtitleSource (S_TEXT/UTF8)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CSubtitleSourceSSA), L"MPC-HC SubtitleSource (S_TEXT/SSA)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CSubtitleSourceASS), L"MPC-HC SubtitleSource (S_TEXT/ASS)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CSubtitleSourceUSF), L"MPC-HC SubtitleSource (S_TEXT/USF)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CSubtitleSourcePreview), L"MPC-HC SubtitleSource (Preview)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CSubtitleSourceARGB), L"MPC-HC SubtitleSource (ARGB)", MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {

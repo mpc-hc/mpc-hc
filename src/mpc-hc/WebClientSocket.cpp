@@ -867,7 +867,7 @@ bool CWebClientSocket::OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime)
     return true;
 }
 
-bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& mime)
+bool CWebClientSocket::OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& mime)
 {
     // TODO: add quality control and return logo when nothing is loaded
 

@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"경고"
-7		"Media Player Classic - Home Cinema 가 파일을 렌더하는데 실패했습니다. 추가적인 코덱이나 필터를 설치해야 할수도 있습니다."
+7		"MPC-HC 가 파일을 렌더하는데 실패했습니다. 추가적인 코덱이나 필터를 설치해야 할수도 있습니다."
 8		"다음 pin이 연결가능한 필터를 찾는데 실패했습니다:"
 11		"닫기"
 END
@@ -690,7 +690,7 @@ BEGIN MENU IDR_MAINFRAME LINES 244
 238		"명령입력 스위치 옵션"
 239		"툴바 이미지 다운로드"
 240		"기부하기"
-242		"Media Player Classic - Home Cinema 정보(&A)..."
+242		"MPC-HC 정보(&A)..."
 END
 
 BEGIN MENU IDR_POPUP LINES 234
@@ -996,7 +996,7 @@ BEGIN MENU IDR_POPUPMAIN LINES 316
 209		"명령입력 스위치 옵션"
 210		"툴바 이미지 다운로드"
 211		"기부하기"
-213		"Media Player Classic - Home Cinema 정보(&A)..."
+213		"MPC-HC 정보(&A)..."
 216		"필터(&F)"
 217		"셰이더(&H)"
 219		"오디오(&A)"

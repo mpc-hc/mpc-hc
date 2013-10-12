@@ -61,7 +61,7 @@ extern HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPi
 extern HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP);
 
 // Support ffdshow queuing.
-// This interface is used to check version of Media Player Classic.
+// This interface is used to check version of MPC-HC.
 // {A273C7F6-25D4-46b0-B2C8-4F7FADC44E37}
 DEFINE_GUID(IID_IVMRffdshow9,
             0xa273c7f6, 0x25d4, 0x46b0, 0xb2, 0xc8, 0x4f, 0x7f, 0xad, 0xc4, 0x4e, 0x37);

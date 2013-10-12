@@ -177,7 +177,7 @@ const installer_mutex = 'vsfilter_setup_mutex';
 // Check if VSFilter's settings exist
 function SettingsExist(): Boolean;
 begin
-  if RegKeyExists(HKCU, 'Software\Gabest\VSFilter') then
+  if RegKeyExists(HKCU, 'Software\MPC-HC\VSFilter') then
     Result := True
   else
     Result := False;
@@ -221,8 +221,8 @@ end;
 
 procedure CleanUpSettings();
 begin
-  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\VSFilter');
-  RegDeleteKeyIfEmpty(HKCU, 'Software\Gabest');
+  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\MPC-HC\VSFilter');
+  RegDeleteKeyIfEmpty(HKCU, 'Software\MPC-HC');
 end;
 
 

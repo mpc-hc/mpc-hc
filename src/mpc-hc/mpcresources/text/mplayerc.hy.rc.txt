@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Ուշադրություն"
-7		"Media Player Classic - Home Cinema-ն չի կարողանում վերարտադրել որոշ հոսքեր, հնարավոր է, որ տեղակայված չէ համապատասխան կոդավորիչը կամ ֆիլտրը։"
+7		"MPC-HC-ն չի կարողանում վերարտադրել որոշ հոսքեր, հնարավոր է, որ տեղակայված չէ համապատասխան կոդավորիչը կամ ֆիլտրը։"
 8		"Այս հոսքերի համար ընտրված չէ համապատասխան ֆիլտր."
 11		"Փակել"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Boost-ը. +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Բացության նվազեցում"
 STRING IDS_BRIGHTNESS_INC		"Բացության ուժեղացում"
 STRING IDS_CANCEL		"Չեղարկել"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema-ն չունի համապատասխան լիազորություներ ֆայլերի ասոցիացումները փոխելու համար։ Սեղմեք ""Փոխել"" կոճակը՝ ադմինի իրավունքները օգտագործելու համար։"
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC-ն չունի համապատասխան լիազորություներ ֆայլերի ասոցիացումները փոխելու համար։ Սեղմեք ""Փոխել"" կոճակը՝ ադմինի իրավունքները օգտագործելու համար։"
 STRING IDS_CAPTURE_ERROR		"Նկարման սխալ"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Հնարավոր չէ ավելացնել %s բուֆերի ֆիլտրը գրաֆ-ին։"
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Հնարավոր չէ ավելացնել %s կոդավորիչի ֆիլտրը գրաֆ-ին։"

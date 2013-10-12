@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Kontuz"
-7		"Media Player Classic - Home Cinemak ezin ditu pin batzuk grafikan aurkeztu, badaiteke zuk ez izatea beharrezko kodekak edo iragazkiak ezarrita zure sisteman."
+7		"MPC-HCk ezin ditu pin batzuk grafikan aurkeztu, badaiteke zuk ez izatea beharrezko kodekak edo iragazkiak ezarrita zure sisteman."
 8		"Hurrengo pinak huts egin du iragazki elkarketagarria aurkitzerakoan:"
 11		"Itxi"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Bultzada: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Gutxitu dizdira"
 STRING IDS_BRIGHTNESS_INC		"Gehitu dizdira"
 STRING IDS_CANCEL		"Ezeztatu"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinemak ez du nahikoa pribilegio agiri heuskarri elkarketak aldatzeko. Mesedez klikatu ""Aldatu"" botoia administrari eskubideak izateko"
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HCk ez du nahikoa pribilegio agiri heuskarri elkarketak aldatzeko. Mesedez klikatu ""Aldatu"" botoia administrari eskubideak izateko"
 STRING IDS_CAPTURE_ERROR		"Harpen Akatsa"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Ezinezkoa gehitzea %s buffer iragazkia grafikara."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Ezinezkoa gehitzea %s kodeatzaile iragazkia grafikara."

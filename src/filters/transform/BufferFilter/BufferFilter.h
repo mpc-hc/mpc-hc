@@ -23,7 +23,7 @@
 
 #include <atlbase.h>
 
-#define BufferFilterName L"MPC Buffer Filter"
+#define BufferFilterName L"MPC-HC Buffer Filter"
 
 interface __declspec(uuid("63EF0035-3FFE-4c41-9230-4346E028BE20"))
 IBufferFilter :
