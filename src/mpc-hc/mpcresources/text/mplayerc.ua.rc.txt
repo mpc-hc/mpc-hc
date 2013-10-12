@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Увага"
-7		"Media Player Classic - Home Cinema не може відтворити деякі потоки, можливо, у Вас не встановлений відповідний кодек або фільтр."
+7		"MPC-HC не може відтворити деякі потоки, можливо, у Вас не встановлений відповідний кодек або фільтр."
 8		"Для деяких потоків не знайдено відповідного фільтру:"
 11		"Закрити"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Підсилення: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Зменшення яскравості"
 STRING IDS_BRIGHTNESS_INC		"Збільшення яскравості"
 STRING IDS_CANCEL		"Відмінити"
-STRING IDS_CANNOT_CHANGE_FORMAT		"У Media Player Classic - Home Cinema недостатньо прав для зміни асоціацій файлів. Натисніть на кнопку ""Modify"" для виконання операції з правами адміністратора."
+STRING IDS_CANNOT_CHANGE_FORMAT		"У MPC-HC недостатньо прав для зміни асоціацій файлів. Натисніть на кнопку ""Modify"" для виконання операції з правами адміністратора."
 STRING IDS_CAPTURE_ERROR		"Помилка захоплення"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Не вдається додати фільтр %s буферизації до графу."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Не вдається додати фільтр %s кодування до графу."

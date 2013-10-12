@@ -226,7 +226,7 @@ STDMETHODIMP CNullVideoRendererInputPin::SetSurfaceType(DXVA2_SurfaceType dwType
 STDMETHODIMP CNullVideoRendererInputPin::GetVideoWindow(HWND* phwndVideo)
 {
     CheckPointer(phwndVideo, E_POINTER);
-    *phwndVideo = m_hWnd;   // Important to implement this method (used by mpc)
+    *phwndVideo = m_hWnd;   // Important to implement this method (used by MPC-HC)
     return S_OK;
 }
 

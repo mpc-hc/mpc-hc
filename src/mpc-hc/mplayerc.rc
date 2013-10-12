@@ -178,7 +178,7 @@ CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDR_MAINFRAME,14,10,48,48
-    LTEXT           "Media Player Classic - Home Cinema",IDC_STATIC1,60,8,200,8
+    LTEXT           "MPC-HC",IDC_STATIC1,60,8,200,8
     CONTROL         "Copyright © 2002-2013 see Authors.txt",IDC_AUTHORS_LINK,
                     "SysLink",WS_TABSTOP,60,20,200,8
     CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,200,8
@@ -557,7 +557,7 @@ EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Warning"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Media Player Classic - Home Cinema could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system.",IDC_STATIC1,5,5,286,27
+    LTEXT           "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system.",IDC_STATIC1,5,5,286,27
     LTEXT           "The following pin(s) failed to find a connectable filter:",IDC_STATIC2,5,29,286,8
     COMBOBOX        IDC_COMBO1,5,41,286,87,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT1,5,58,286,140,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
@@ -2144,7 +2144,7 @@ END
 
 STRINGTABLE
 BEGIN
-    AFX_IDS_APP_TITLE       "Media Player Classic"
+    AFX_IDS_APP_TITLE       "MPC-HC"
     IDS_PPAGE_CAPTURE_FG0   "Never (fastest approach)"
     IDS_PPAGE_CAPTURE_FG1   "Only when switching different video types (default)"
     IDS_PPAGE_CAPTURE_FG2   "Always (slowest option)"
@@ -2605,7 +2605,7 @@ BEGIN
     IDS_ADD_TO_PLAYLIST     "Add to MPC-HC Playlist"
     IDS_OPEN_WITH_MPC       "Play with MPC-HC"
     IDS_CANNOT_CHANGE_FORMAT
-                            "Media Player Classic - Home Cinema has not enough privileges to change files formats associations. Please click on ""Modify"" button to get administrator rights."
+                            "MPC-HC has not enough privileges to change files formats associations. Please click on ""Modify"" button to get administrator rights."
     IDS_MISSING_ICONS_LIB   "The icons library ""mpciconlib.dll"" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get ""mpciconlib.dll""."
     IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system. Originaly made by a Hungarian developer known as Gabest, this version has additional features such as Direct 3D fullscreen mode and better support for Windows Vista/7."
     IDS_MAINFRM_12          "channel"

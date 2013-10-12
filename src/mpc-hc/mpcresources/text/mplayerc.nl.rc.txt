@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Waarschuwing"
-7		"Media Player Classic - Home Cinema kon sommige pins in de graph niet renderen. Misschien zijn de nodige codecs of filters niet op het systeem geïnstalleerd."
+7		"MPC-HC kon sommige pins in de graph niet renderen. Misschien zijn de nodige codecs of filters niet op het systeem geïnstalleerd."
 8		"Voor de volgende pins(s) is/zijn geen filter gevonden:"
 11		"Sluiten"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Boost: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Brightness decrease"
 STRING IDS_BRIGHTNESS_INC		"Brightness increase"
 STRING IDS_CANCEL		"Cancel"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema heeft Beheerdersrechten nodig om bestandskoppelingen te wijzigen. Klik op ""Beheerder"" om deze rechten te verkrijgen."
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC heeft Beheerdersrechten nodig om bestandskoppelingen te wijzigen. Klik op ""Beheerder"" om deze rechten te verkrijgen."
 STRING IDS_CAPTURE_ERROR		"Capture Error"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Can't add the %s buffer filter to the graph."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Can't add the %s encoder filter to the graph."

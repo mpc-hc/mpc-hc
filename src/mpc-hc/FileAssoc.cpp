@@ -163,7 +163,7 @@ bool CFileAssoc::RegisterApp()
     if (m_pAAR) {
         CString appIcon = "\"" + GetProgramPath(true) + "\",0";
 
-        // Register MPC for the windows "Default application" manager
+        // Register MPC-HC for the windows "Default application" manager
         CRegKey key;
 
         if (ERROR_SUCCESS == key.Open(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\RegisteredApplications"))) {
@@ -786,7 +786,7 @@ bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
             appIcon.Format(_T("\"%s\",%d"), m_iconLibPath, iconIndex);
         }
 
-        /* no icon was found for the file extension, so use MPC's icon */
+        /* no icon was found for the file extension, so use MPC-HC's icon */
         if (appIcon.IsEmpty()) {
             appIcon = "\"" + progPath + "\",0";
         }

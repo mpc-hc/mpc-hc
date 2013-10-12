@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Внимание"
-7		"Media Player Classic - Home Cinema не может воспроизвести некоторые потоки, возможно, у вас не установлен нужный кодек или фильтр."
+7		"MPC-HC не может воспроизвести некоторые потоки, возможно, у вас не установлен нужный кодек или фильтр."
 8		"Для данных потоков не найден подходящий фильтр:"
 11		"Закрыть"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Усиление: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Яркость уменьшить"
 STRING IDS_BRIGHTNESS_INC		"Яркость увеличить"
 STRING IDS_CANCEL		"Отменить"
-STRING IDS_CANNOT_CHANGE_FORMAT		"У Media Player Classic - Home Cinema недостаточно привилегий для изменения ассоциаций файлов. Нажмите на кнопку ""Изменить"" для изменения с администраторскими правами."
+STRING IDS_CANNOT_CHANGE_FORMAT		"У MPC-HC недостаточно привилегий для изменения ассоциаций файлов. Нажмите на кнопку ""Изменить"" для изменения с администраторскими правами."
 STRING IDS_CAPTURE_ERROR		"Ошибка захвата"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Невозможно добавить буферный фильтр %s к графу."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Невозможно добавить фильтр-энкодер %s к графу."

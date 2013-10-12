@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Advertencia"
-7		"Media Player Classic - Home Cinema no pudo renderizar algunos de los conectores del esquema, talvez no tengas los codecs o filtros instalados en el sistema."
+7		"MPC-HC no pudo renderizar algunos de los conectores del esquema, talvez no tengas los codecs o filtros instalados en el sistema."
 8		"El(los) siguientes conector(es) no encontraron un filtro conectable:"
 11		"Cerrar"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Boost: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Brightness decrease"
 STRING IDS_BRIGHTNESS_INC		"Brightness increase"
 STRING IDS_CANCEL		"Cancel"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema no tiene suficientes privilegios para cambiar las asociaciones de tipos de atchivo. por favor de clic en el botón de ""Modificar"" para obtener derechos de administración."
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC no tiene suficientes privilegios para cambiar las asociaciones de tipos de atchivo. por favor de clic en el botón de ""Modificar"" para obtener derechos de administración."
 STRING IDS_CAPTURE_ERROR		"Capture Error"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Can't add the %s buffer filter to the graph."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Can't add the %s encoder filter to the graph."

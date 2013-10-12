@@ -68,7 +68,7 @@ namespace DSObjects
                     if (riid == __uuidof(IBasicVideo2)) {
                         return GetInterface((IBasicVideo2*)this, ppv);
                     }
-                    if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
+                    if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched MPC-HC.
                         return GetInterface((IVMRffdshow9*)this, ppv);
                     }
                     /*if (riid == __uuidof(IVMRWindowlessControl))

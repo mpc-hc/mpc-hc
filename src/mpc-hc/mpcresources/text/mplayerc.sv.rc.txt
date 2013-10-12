@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Varning"
-7		"Media Player Classic - Home Cinema kunde inte rendera några av dataströmmarna, du kanske inte har de nödvändiga codecs eller filterna installerade."
+7		"MPC-HC kunde inte rendera några av dataströmmarna, du kanske inte har de nödvändiga codecs eller filterna installerade."
 8		"Följande ström misslyckades med att hitta ett anslutningsbart filter:"
 11		"Stäng"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Boost: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Brightness decrease"
 STRING IDS_BRIGHTNESS_INC		"Brightness increase"
 STRING IDS_CANCEL		"Cancel"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema har inte tillräcklig behörighet för att ändra fil format föreningar. Klicka på ""Ändra"" knappen för att få administratörsrättigheter."
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC har inte tillräcklig behörighet för att ändra fil format föreningar. Klicka på ""Ändra"" knappen för att få administratörsrättigheter."
 STRING IDS_CAPTURE_ERROR		"Capture Error"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Can't add the %s buffer filter to the graph."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Can't add the %s encoder filter to the graph."

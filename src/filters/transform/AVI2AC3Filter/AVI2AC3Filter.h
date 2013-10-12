@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,7 @@
 
 #pragma once
 
-#define AVI2AC3FilterName L"MPC AVI<->AC3/DTS"
+#define AVI2AC3FilterName L"MPC-HC AVI<->AC3/DTS"
 
 /*  AC3 audio
 

@@ -366,18 +366,18 @@ function StatusLoop() {
 
 var snapshotCounter = 0;
 
-function LoadSnapShot() {
+function LoadSnapshot() {
 	if (img = document.getElementById("snapshot")) {
 		img.src = "snapshot.jpg" + "?" + snapshotCounter++;
 	}
 }
 
-function OnLoadSnapShot() {
-	setTimeout(LoadSnapShot, 5000);
+function OnLoadSnapshot() {
+	setTimeout(LoadSnapshot, 5000);
 }
 
-function OnAbortErrorSnapShot() {
-	setTimeout(LoadSnapShot, 10000);
+function OnAbortErrorSnapshot() {
+	setTimeout(LoadSnapshot, 10000);
 }
 
 function OnSeek(e) {
@@ -426,7 +426,7 @@ function OnCommand(id) {
 
 function playerInit() {
 	StatusLoop();
-	LoadSnapShot();
+	LoadSnapshot();
 	if (e = document.getElementById("seekbar")) {
 		e.onclick = OnSeek;
 	}

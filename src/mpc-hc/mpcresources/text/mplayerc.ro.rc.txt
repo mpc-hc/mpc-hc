@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Avertisment"
-7		"Media Player Classic - Home Cinema nu a putut randa unii dintre pinii graficului, este posibil să nu aveți codecurile sau filtrele necesare instalate pe sistem."
+7		"MPC-HC nu a putut randa unii dintre pinii graficului, este posibil să nu aveți codecurile sau filtrele necesare instalate pe sistem."
 8		"Următorii pini au eșuat în găsirea unui filtru conectabil:"
 11		"Închide"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Amplificare: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Micșorare luminozitate"
 STRING IDS_BRIGHTNESS_INC		"Mărire luminozitate"
 STRING IDS_CANCEL		"Renunță"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema nu are destule drepturi pentru a schimba asocierea cu formatele de fișiere. Dați clic pe butonul ""Modifică"" pentru a obține drepturi de administrator."
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC nu are destule drepturi pentru a schimba asocierea cu formatele de fișiere. Dați clic pe butonul ""Modifică"" pentru a obține drepturi de administrator."
 STRING IDS_CAPTURE_ERROR		"Eroare captură"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Filtrul de preîncărcare %s nu poate fi adăugat la grafic."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Filtrul codor %s nu poate fi adăugat la grafic."

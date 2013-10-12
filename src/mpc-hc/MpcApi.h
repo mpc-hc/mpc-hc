@@ -145,10 +145,10 @@ unsigned int {
     // Parameter n: active file, -1 if no active file
     CMD_PLAYLIST            = 0x50000006,
 
-    // Send information about mpc closing
+    // Send information about mpc-hc closing
     CMD_DISCONNECT          = 0x5000000B,
 
-    // ==== Commands from host to MPC
+    // ==== Commands from host to mpc-hc
 
     // Open new file
     // Parameter 1: file path

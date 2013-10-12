@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Увага"
-7		"Media Player Classic - Home Cinema не можа прайграць некаторыя струмені, магчыма, у вас не ўсталяваны патрэбны кодэк або фільтр."
+7		"MPC-HC не можа прайграць некаторыя струмені, магчыма, у вас не ўсталяваны патрэбны кодэк або фільтр."
 8		"Для дадзеных струменяў не знойдзены неабходны фільтр:"
 11		"Закрыць"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Узмацненне: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Яркасць паменьшыць"
 STRING IDS_BRIGHTNESS_INC		"Яркасць павялічыць"
 STRING IDS_CANCEL		"Адмена"
-STRING IDS_CANNOT_CHANGE_FORMAT		"У Media Player Classic - Home Cinema недастаткова правоў для змены асацыяцыяў файлаў. Націсніце на кнопку ""Modify"" для змены з адміністратарскімі правамі."
+STRING IDS_CANNOT_CHANGE_FORMAT		"У MPC-HC недастаткова правоў для змены асацыяцыяў файлаў. Націсніце на кнопку ""Modify"" для змены з адміністратарскімі правамі."
 STRING IDS_CAPTURE_ERROR		"Памылка захопу"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Немагчыма дадаць буферны фільтр %s да графа."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Немагчыма дадаць фільтр-энкодер %s да графа."

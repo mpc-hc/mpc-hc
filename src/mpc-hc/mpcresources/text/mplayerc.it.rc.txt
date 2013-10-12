@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Attenzione"
-7		"Media Player Classic - Home Cinema non è in grado di renderizzare alcune componenti del file; probabilmente non sono installati nel sistema i codec o filtri necessari."
+7		"MPC-HC non è in grado di renderizzare alcune componenti del file; probabilmente non sono installati nel sistema i codec o filtri necessari."
 8		"I seguenti pin non hanno un filtro collegabile:"
 11		"Chiudi"
 END
@@ -1300,7 +1300,7 @@ STRING IDS_BOOST_OSD		"Aumento: +%u%%"
 STRING IDS_BRIGHTNESS_DEC		"Incremento luminosità"
 STRING IDS_BRIGHTNESS_INC		"Decremento luminosità"
 STRING IDS_CANCEL		"Annulla"
-STRING IDS_CANNOT_CHANGE_FORMAT		"Media Player Classic - Home Cinema non ha abbastanza privilegi per cambiare le associazioni dei file. Clicca sul tasto ""Modifica"" per ottenere i diritti di amministratore."
+STRING IDS_CANNOT_CHANGE_FORMAT		"MPC-HC non ha abbastanza privilegi per cambiare le associazioni dei file. Clicca sul tasto ""Modifica"" per ottenere i diritti di amministratore."
 STRING IDS_CAPTURE_ERROR		"Errore di cattura"
 STRING IDS_CAPTURE_ERROR_ADD_BUFFER		"Impossibile aggiungere il filtro buffer %s al grafo."
 STRING IDS_CAPTURE_ERROR_ADD_ENCODER		"Impossibile aggiungere il filtro encoder %s al grafo."

@@ -98,7 +98,7 @@ END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"警告"
-7		"Media Player Classic - Home Cinema 無法繪製篩選器圖裡的某些腳位, 您的系統可能沒有安裝需要的編解碼器或篩選器。"
+7		"MPC-HC 無法繪製篩選器圖裡的某些腳位, 您的系統可能沒有安裝需要的編解碼器或篩選器。"
 8		"以下的腳位找不到對應的篩選器:"
 11		"關閉"
 END

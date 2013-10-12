@@ -28,7 +28,7 @@
 #include "AsyncReader/asyncio.h"
 #include "AsyncReader/asyncrdr.h"
 
-#define CCDDAReaderName L"MPC CDDA Reader"
+#define CCDDAReaderName L"MPC-HC CDDA Reader"
 
 typedef struct {
     UINT chunkID;
