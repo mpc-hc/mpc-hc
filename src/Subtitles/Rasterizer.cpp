@@ -1511,29 +1511,23 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     bbox.SetRect(x, y, x + w, y + h);
     bbox &= CRect(0, 0, spd.w, spd.h);
 
-    // fill rasterize info
-    RasterizerNfo rnfo;
-    // Grab the first colour
-    rnfo.color = switchpts[0];
-    // How would this differ from src?
-    rnfo.dst = (DWORD*)((char*)spd.bits + (spd.pitch * y)) + x;
-    rnfo.sw = switchpts;
-
-    rnfo.w = w;
-    rnfo.h = h;
-    rnfo.xo = xo;
-    rnfo.yo = yo;
-    rnfo.overlayp = mOverlayWidth;
-    rnfo.pitch = spd.pitch;
-    rnfo.spdw = spd.w;
     // The alpha bitmap of the subtitles?
-    rnfo.src = mpOverlayBuffer + 2 * (mOverlayWidth * yo + xo);
-    // s points to what the "body" to use is
-    // If we're rendering body fill and border, src+1 points to the array of
-    // widened regions which contain both border and fill in one.
-    rnfo.s = fBorder ? (rnfo.src + 1) : rnfo.src;
-    // The complex "vector clip mask" I think.
-    rnfo.am = pAlphaMask + spd.w * y + x;
+    byte* src = mpOverlayBuffer + 2 * (mOverlayWidth * yo + xo);
+    // fill rasterize info
+    RasterizerNfo rnfo(w, h, xo, yo, mOverlayWidth, spd.w, spd.pitch,
+                       // Grab the first colour
+                       switchpts[0],
+                       switchpts,
+                       // s points to what the "body" to use is
+                       // If we're rendering body fill and border, src+1 points to the array of
+                       // widened regions which contain both border and fill in one.
+                       fBorder ? (src + 1) : src,
+                       src,
+                       // How would this differ from src?
+                       (DWORD*)((char*)spd.bits + (spd.pitch * y)) + x,
+                       // The complex "vector clip mask" I think.
+                       pAlphaMask + spd.w * y + x);
+
     // Every remaining line in the bitmap to be rendered...
     // Basic case of no complex clipping mask
     if (!pAlphaMask) {
@@ -1635,24 +1629,4 @@ void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nH
             }
         }
     }
-}
-
-RasterizerNfo::RasterizerNfo()
-{
-    /*
-    w = 0;
-    h = 0;
-    spdw = 0;
-    overlayp = 0;
-    typ = 0;
-    pitch = 0;
-    color = 0;
-
-    xo = 0;
-
-    sw = nullptr;
-    s = nullptr;
-    src = nullptr;
-    dst = nullptr;
-    */
 }
