@@ -8248,6 +8248,8 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 // navigate
 void CMainFrame::OnNavigateSkip(UINT nID)
 {
+    const CAppSettings& s = AfxGetAppSettings();
+
     if (GetPlaybackMode() == PM_FILE) {
         SetupChapters();
         m_nLastSkipDirection = nID;
@@ -8278,8 +8280,9 @@ void CMainFrame::OnNavigateSkip(UINT nID)
                 REFERENCE_TIME rtDur;
                 m_pMS->GetDuration(&rtDur);
                 CString strOSD;
-                strOSD.Format(_T("%s/%s %s%d/%u - \"%s\""),
-                              ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), i + 1, nChapters, name);
+                strOSD.Format(_T("%s%s/%s %s%d/%u - \"%s\""),
+                              s.fRemainingTime ? _T("- ") : _T(""), ReftimeToString2(s.fRemainingTime ? rtDur - rt : rt), ReftimeToString2(rtDur),
+                              ResStr(IDS_AG_CHAPTER2), i + 1, nChapters, name);
                 m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
                 return;
             }
@@ -8344,8 +8347,10 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
             CString strOSD;
             if (stop > 0) {
+                DVD_HMSF_TIMECODE currentHMSF = s.fRemainingTime ? RT2HMS_r(stop - HMSF2RT(Location.TimeCode)) : Location.TimeCode;
                 DVD_HMSF_TIMECODE stopHMSF = RT2HMS_r(stop);
-                strOSD.Format(_T("%s/%s %s, %s%02u/%02lu"), DVDtimeToString(Location.TimeCode, stopHMSF.bHours > 0), DVDtimeToString(stopHMSF),
+                strOSD.Format(_T("%s%s/%s %s, %s%02u/%02lu"),
+                              s.fRemainingTime ? _T("- ") : _T(""), DVDtimeToString(currentHMSF, stopHMSF.bHours > 0), DVDtimeToString(stopHMSF),
                               strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
             } else {
                 strOSD.Format(_T("%s, %s%02u/%02lu"), strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
@@ -8361,12 +8366,10 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block, nullptr);
         */
     } else if (GetPlaybackMode() == PM_CAPTURE) {
-        if (AfxGetAppSettings().iDefaultCaptureDevice == 1) {
+        if (s.iDefaultCaptureDevice == 1) {
             CComQIPtr<IBDATuner> pTun = m_pGB;
             if (pTun) {
-                int nCurrentChannel;
-                const CAppSettings& s = AfxGetAppSettings();
-                nCurrentChannel = s.nDVBLastChannel;
+                int nCurrentChannel = s.nDVBLastChannel;
 
                 if (nID == ID_NAVIGATE_SKIPBACK) {
                     if (SUCCEEDED(SetChannel(nCurrentChannel - 1))) {
@@ -8556,6 +8559,8 @@ void CMainFrame::OnNavigateChapters(UINT nID)
         return;
     }
 
+    const CAppSettings& s = AfxGetAppSettings();
+
     if (GetPlaybackMode() == PM_FILE) {
         int id = nID - ID_NAVIGATE_CHAP_SUBITEM_START;
 
@@ -8591,8 +8596,9 @@ void CMainFrame::OnNavigateChapters(UINT nID)
                 REFERENCE_TIME rtDur;
                 m_pMS->GetDuration(&rtDur);
                 CString strOSD;
-                strOSD.Format(_T("%s/%s %s%d/%u - \"%s\""),
-                              ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), id + 1, m_pCB->ChapGetCount(), name);
+                strOSD.Format(_T("%s%s/%s %s%d/%u - \"%s\""),
+                              s.fRemainingTime ? _T("- ") : _T(""), ReftimeToString2(s.fRemainingTime ? rtDur - rt : rt), ReftimeToString2(rtDur),
+                              ResStr(IDS_AG_CHAPTER2), id + 1, m_pCB->ChapGetCount(), name);
                 m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
             }
             return;
@@ -8640,8 +8646,10 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 
             CString strOSD;
             if (stop > 0) {
+                DVD_HMSF_TIMECODE currentHMSF = s.fRemainingTime ? RT2HMS_r(stop - HMSF2RT(Location.TimeCode)) : Location.TimeCode;
                 DVD_HMSF_TIMECODE stopHMSF = RT2HMS_r(stop);
-                strOSD.Format(_T("%s/%s %s, %s%02u/%02lu"), DVDtimeToString(Location.TimeCode, stopHMSF.bHours > 0), DVDtimeToString(stopHMSF),
+                strOSD.Format(_T("%s%s/%s %s, %s%02u/%02lu"),
+                              s.fRemainingTime ? _T("- ") : _T(""), DVDtimeToString(currentHMSF, stopHMSF.bHours > 0), DVDtimeToString(stopHMSF),
                               strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
             } else {
                 strOSD.Format(_T("%s, %s%02u/%02lu"), strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
@@ -8650,12 +8658,10 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
         }
     } else if (GetPlaybackMode() == PM_CAPTURE) {
-        const CAppSettings& s = AfxGetAppSettings();
-
         nID -= ID_NAVIGATE_CHAP_SUBITEM_START;
 
         if (s.iDefaultCaptureDevice == 1) {
-            CComQIPtr<IBDATuner>    pTun = m_pGB;
+            CComQIPtr<IBDATuner> pTun = m_pGB;
             if (pTun) {
                 if (s.nDVBLastChannel != nID) {
                     if (SUCCEEDED(SetChannel(nID))) {
