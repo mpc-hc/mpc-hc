@@ -1248,17 +1248,30 @@ BOOL CMPlayerCApp::InitInstance()
 
         // Remove the settings
         if (IsIniValid()) {
-            CFile::Remove(GetIniPath());
+            FILE* fp;
+            do { // Open mpc-hc.ini, retry if it is already being used by another process
+                fp = _tfsopen(m_pszProfileName, _T("w"), _SH_SECURE);
+                if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
+                    break;
+                }
+                Sleep(100);
+            } while (true);
+            if (fp) {
+                // Close without writing anything, it should produce empty file
+                VERIFY(fclose(fp) == 0);
+            } else {
+                ASSERT(FALSE);
+            }
         } else {
-            HKEY reg = GetAppRegistryKey();
-            SHDeleteKey(reg, _T(""));
-            RegCloseKey(reg);
-        }
-
-        // Restore the ExePath value to prevent settings migration
-        CRegKey key;
-        if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\MPC-HC"))) {
-            key.SetStringValue(_T("ExePath"), GetProgramPath(true));
+            CRegKey key;
+            // Clear settings
+            key.Attach(GetAppRegistryKey());
+            VERIFY(key.RecurseDeleteKey(_T("")) == ERROR_SUCCESS);
+            VERIFY(key.Close() == ERROR_SUCCESS);
+            // Set ExePath value to prevent settings migration
+            key.Attach(GetAppRegistryKey());
+            VERIFY(key.SetStringValue(_T("ExePath"), GetProgramPath(true)) == ERROR_SUCCESS);
+            VERIFY(key.Close() == ERROR_SUCCESS);
         }
 
         // Remove the current playlist if it exists
