@@ -275,7 +275,7 @@ void CMediaFormats::UpdateData(bool fSave)
 #undef ADDFMT
 
         m_iRtspHandler = (engine_t)AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspHandler"), (int)RealMedia);
-        m_fRtspFileExtFirst = !!AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspFileExtFirst"), 1);
+        m_fRtspFileExtFirst = !!AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspFileExtFirst"), TRUE);
     }
 
     for (size_t i = 0; i < GetCount(); i++) {

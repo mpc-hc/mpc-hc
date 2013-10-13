@@ -146,7 +146,7 @@ INT_PTR CDVSBasePPage::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
                         if (!m_fDisableInstantUpdate
                                 && !(HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_INSTANTUPDATE)
                                 && LOWORD(wParam) != IDC_EDIT1 && LOWORD(wParam) != IDC_ANIMWHENBUFFERING
-                                && !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1)) {
+                                && !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), TRUE)) {
                             OnApplyChanges();
                         }
                     }
@@ -695,7 +695,7 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_animwhenbuff.SetCheck(m_fAnimWhenBuffering);
         m_showosd.SetCheck(m_fOSD);
         m_autoreload.SetCheck(!m_fReloaderDisabled);
-        m_instupd.SetCheck(!!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1));
+        m_instupd.SetCheck(!!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), TRUE));
     }
 }
 
