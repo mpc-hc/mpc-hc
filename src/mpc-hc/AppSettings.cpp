@@ -2059,6 +2059,16 @@ void CAppSettings::UpdateSettings()
             copyInt(_T("DVB configuration"), _T("RebuildFilterGraph"), _T("DVBConfiguration"), _T("RebuildFilterGraph"));
             copyInt(_T("DVB configuration"), _T("StopFilterGraph"), _T("DVBConfiguration"), _T("StopFilterGraph"));
 
+            for (int iChannel = 0; ; iChannel++) {
+                CString strTemp, strChannel;
+                strTemp.Format(_T("%d"), iChannel);
+                strChannel = pApp->GetProfileString(_T("DVB configuration"), strTemp);
+                if (strChannel.IsEmpty()) {
+                    break;
+                }
+                VERIFY(pApp->WriteProfileString(_T("DVBConfiguration"), strTemp, strChannel));
+            }
+
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);
     }
