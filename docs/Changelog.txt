@@ -17,7 +17,7 @@ next version - not released yet
   The frame number was sometimes off by 1. This was easily noticeable when doing frame-stepping
 ! Ticket #1555, Use elapsed/remaining time for the chapter change OSD depending on what is selected
   for the time display. Also prevent the OSD from blinking when changing the chapter
-! Ticket #3530, Internal LAV Splitter: the advanced subtitle selection modes were ignored
 ! Ticket #3523/#3533/#3551, Improve the stability of MPC-HC on buggy systems
+! Ticket #3530, Internal LAV Splitter: the advanced subtitle selection modes were ignored
 ! Ticket #3564, If "Keep history of recently opened file" option was enabled, MPC-HC crashed
   when opening very long URLs
