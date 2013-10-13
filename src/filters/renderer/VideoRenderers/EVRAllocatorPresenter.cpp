@@ -1187,8 +1187,8 @@ STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMe
     CheckPointer(ppMediaType, E_POINTER);
     CHECK_HR(CheckShutdown());
 
-    if (m_pMediaType == nullptr) {
-        CHECK_HR(MF_E_NOT_INITIALIZED);
+    if (!m_pMediaType) {
+        return MF_E_NOT_INITIALIZED;
     }
 
     CHECK_HR(m_pMediaType->QueryInterface(IID_PPV_ARGS(ppMediaType)));
