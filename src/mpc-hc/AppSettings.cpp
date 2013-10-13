@@ -2005,7 +2005,7 @@ bool CAppSettings::HasEVR()
 
 void CAppSettings::UpdateSettings()
 {
-    CWinApp* pApp = AfxGetApp();
+    auto pApp = AfxGetMyApp();
     ASSERT(pApp);
 
     UINT version = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, 0);
@@ -2015,12 +2015,16 @@ void CAppSettings::UpdateSettings()
 
     // Use lambda expressions to copy data entries
     auto copyInt = [pApp](LPCTSTR oldSection, LPCTSTR oldEntry, LPCTSTR newSection, LPCTSTR newEntry) {
-        int old = pApp->GetProfileInt(oldSection, oldEntry, 0);
-        VERIFY(pApp->WriteProfileInt(newSection, newEntry, old));
+        if (pApp->HasProfileEntry(oldSection, oldEntry)) {
+            int old = pApp->GetProfileInt(oldSection, oldEntry, 0);
+            VERIFY(pApp->WriteProfileInt(newSection, newEntry, old));
+        }
     };
     auto copyString = [pApp](LPCTSTR oldSection, LPCTSTR oldEntry, LPCTSTR newSection, LPCTSTR newEntry) {
-        CString old = pApp->GetProfileString(oldSection, oldEntry);
-        VERIFY(pApp->WriteProfileString(newSection, newEntry, old));
+        if (pApp->HasProfileEntry(oldSection, oldEntry)) {
+            CString old = pApp->GetProfileString(oldSection, oldEntry);
+            VERIFY(pApp->WriteProfileString(newSection, newEntry, old));
+        }
     };
     auto copyBin = [pApp](LPCTSTR oldSection, LPCTSTR oldEntry, LPCTSTR newSection, LPCTSTR newEntry) {
         UINT len;

@@ -822,6 +822,27 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
     }
 }
 
+bool CMPlayerCApp::HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry)
+{
+    bool ret = false;
+    if (m_pszRegistryKey) {
+        HKEY hSectionKey = GetSectionKey(lpszSection);
+        if (hSectionKey) {
+            LONG lResult = RegQueryValueEx(hSectionKey, lpszEntry, nullptr, nullptr, nullptr, nullptr);
+            VERIFY(RegCloseKey(hSectionKey) == ERROR_SUCCESS);
+            ret = (lResult == ERROR_SUCCESS);
+        }
+    } else {
+        auto it1 = m_ProfileMap.find(lpszSection);
+        if (it1 != m_ProfileMap.end()) {
+            auto& sectionMap = it1->second;
+            auto it2 = sectionMap.find(lpszEntry);
+            ret = (it2 != sectionMap.end());
+        }
+    }
+    return ret;
+}
+
 void CMPlayerCApp::PreProcessCommandLine()
 {
     m_cmdln.RemoveAll();

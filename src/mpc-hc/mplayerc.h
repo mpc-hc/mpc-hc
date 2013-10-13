@@ -156,6 +156,7 @@ public:
     virtual BOOL WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE pData, UINT nBytes);
     virtual BOOL WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue);
     virtual BOOL WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue);
+    bool HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry);
 
     bool GetAppSavePath(CString& path);
 
