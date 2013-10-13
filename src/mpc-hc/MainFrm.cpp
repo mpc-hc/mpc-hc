@@ -8272,7 +8272,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             }
 
             if (i >= 0 && (DWORD)i < nChapters) {
-                SeekTo(rt);
+                SeekTo(rt, false);
                 SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
 
                 REFERENCE_TIME rtDur;
@@ -8585,7 +8585,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             REFERENCE_TIME rt;
             CComBSTR name;
             if (SUCCEEDED(m_pCB->ChapGet(id, &rt, &name))) {
-                SeekTo(rt);
+                SeekTo(rt, false);
                 SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
 
                 REFERENCE_TIME rtDur;
@@ -14069,7 +14069,7 @@ REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget) const
     return ret;
 }
 
-void CMainFrame::SeekTo(REFERENCE_TIME rtPos)
+void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
 {
     ASSERT(m_pMS != nullptr);
     if (m_pMS == nullptr) {
@@ -14089,7 +14089,10 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos)
             rtPos = stop;
         }
         m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
-        m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
+
+        if (bShowOSD) {
+            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
+        }
     }
 
     if (GetPlaybackMode() == PM_FILE) {

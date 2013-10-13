@@ -456,7 +456,7 @@ public:
     REFERENCE_TIME GetDur() const;
     bool GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const;
     REFERENCE_TIME GetClosestKeyFrame(REFERENCE_TIME rtTarget) const;
-    void SeekTo(REFERENCE_TIME rt);
+    void SeekTo(REFERENCE_TIME rt, bool bShowOSD = true);
     void SetPlayingRate(double rate);
 
     int SetupAudioStreams();
