@@ -874,7 +874,7 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
     return !kfs.IsEmpty();
 }
 
-DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps) // use to remember the current position
+DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps /*= 0.0*/) // use to remember the current position
 {
     DVD_HMSF_TIMECODE hmsf = {
         (BYTE)((rt / 10000000 / 60 / 60)),
@@ -899,11 +899,11 @@ DVD_HMSF_TIMECODE RT2HMS_r(REFERENCE_TIME rt) // used only for information (for 
     return hmsf;
 }
 
-REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps)
+REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps /*= -1.0*/)
 {
-    if (fps == 0) {
+    if (fps <= 0.0) {
         hmsf.bFrames = 0;
-        fps = 1;
+        fps = 1.0;
     }
     return (REFERENCE_TIME)((((REFERENCE_TIME)hmsf.bHours * 60 + hmsf.bMinutes) * 60 + hmsf.bSeconds) * 1000 + 1.0 * hmsf.bFrames * 1000 / fps) * 10000;
 }
