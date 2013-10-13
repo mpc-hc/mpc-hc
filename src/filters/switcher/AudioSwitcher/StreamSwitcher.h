@@ -246,9 +246,6 @@ public:
     CStreamSwitcherInputPin* GetInputPin();
     CStreamSwitcherOutputPin* GetOutputPin();
 
-    bool m_fResetOutputMediaType;
-    void ResetOutputMediaType() { m_fResetOutputMediaType = true; }
-
     // override these
     virtual HRESULT CheckMediaType(const CMediaType* pmt) = 0;
     virtual HRESULT Transform(IMediaSample* pIn, IMediaSample* pOut);

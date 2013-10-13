@@ -164,7 +164,6 @@ namespace GothSync
         virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A8R8G8B8);
         virtual void DeleteSurfaces();
 
-        HANDLE m_hEvtQuit; // Stop rendering thread event
         LONGLONG m_LastAdapterCheck;
         UINT m_CurrentAdapter;
 
@@ -295,10 +294,7 @@ namespace GothSync
         UINT m_uSyncGlitches;
 
         LONGLONG m_llSampleTime, m_llLastSampleTime; // Present time for the current sample
-        LONG m_lSampleLatency, m_lLastSampleLatency; // Time between intended and actual presentation time
-        LONG m_lMinSampleLatency, m_lLastMinSampleLatency;
         LONGLONG m_llHysteresis;
-        LONG m_lHysteresis;
         LONG m_lShiftToNearest, m_lShiftToNearestPrev;
         bool m_bVideoSlowerThanDisplay;
 

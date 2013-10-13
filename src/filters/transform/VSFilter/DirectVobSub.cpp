@@ -318,7 +318,7 @@ STDMETHODIMP CDirectVobSub::get_TextSettings(void* lf, int lflen, COLORREF* colo
         *fOutline = (m_defStyle.outlineWidthX + m_defStyle.outlineWidthY) > 0;
     }
     if (fAdvancedRenderer) {
-        *fAdvancedRenderer = m_fAdvancedRenderer;
+        *fAdvancedRenderer = false; // Remove me
     }
 
     return S_OK;

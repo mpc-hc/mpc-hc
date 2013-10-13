@@ -199,8 +199,6 @@ public:
     };
 
 private:
-    static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
-
     int                 m_nBufferSize;
     int                 m_nBufferReadPos;
     int                 m_nBufferWritePos;
