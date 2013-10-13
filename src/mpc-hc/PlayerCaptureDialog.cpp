@@ -630,7 +630,7 @@ void CPlayerCaptureDialog::InitControls()
         m_fVidPreview = AfxGetApp()->GetProfileInt(IDS_R_CAPTURE, _T("VidPreview"), TRUE);
         m_fAudPreview = AfxGetApp()->GetProfileInt(IDS_R_CAPTURE, _T("AudPreview"), TRUE);
         m_muxtype = AfxGetApp()->GetProfileInt(IDS_R_CAPTURE, _T("FileFormat"), 0);
-        m_file = AfxGetApp()->GetProfileString(IDS_R_CAPTURE, _T("FileName"), _T(""));
+        m_file = AfxGetApp()->GetProfileString(IDS_R_CAPTURE, _T("FileName"));
         m_fSepAudio = AfxGetApp()->GetProfileInt(IDS_R_CAPTURE, _T("SepAudio"), TRUE);
 
         m_muxctrl.AddString(_T("AVI"));
