@@ -722,19 +722,17 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
     HRESULT hr = E_INVALIDARG;
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-    DVBStreamInfo* pStreamInfo = nullptr;
-    FILTER_STATE nState;
 
     if (pChannel) {
         if (lIndex >= 0 && lIndex < pChannel->GetAudioCount()) {
-            pStreamInfo = pChannel->GetAudio(lIndex);
+            DVBStreamInfo* pStreamInfo = pChannel->GetAudio(lIndex);
             if (pStreamInfo) {
                 CDVBStream* pStream = &m_DVBStreams[pStreamInfo->Type];
                 if (pStream) {
                     if (pStream->GetMappedPID()) {
                         pStream->Unmap(pStream->GetMappedPID());
                     }
-                    nState = GetState();
+                    FILTER_STATE nState = GetState();
                     if (m_nCurAudioType != pStreamInfo->Type) {
                         if ((s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) && (GetState() != State_Stopped)) {
                             ChangeState(State_Stopped);
@@ -754,7 +752,7 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
                 ASSERT(FALSE);
             }
         } else if (lIndex > 0 && lIndex < pChannel->GetAudioCount() + pChannel->GetSubtitleCount()) {
-            pStreamInfo = pChannel->GetSubtitle(lIndex - pChannel->GetAudioCount());
+            DVBStreamInfo* pStreamInfo = pChannel->GetSubtitle(lIndex - pChannel->GetAudioCount());
 
             if (pStreamInfo) {
                 m_DVBStreams[DVB_SUB].Map(pStreamInfo->PID);

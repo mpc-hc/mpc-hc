@@ -74,7 +74,6 @@ void CHdmvClipInfo::ReadBuffer(BYTE* pBuff, DWORD nLen)
 HRESULT CHdmvClipInfo::ReadProgramInfo()
 {
     BYTE number_of_program_sequences;
-    BYTE number_of_streams_in_ps;
     LARGE_INTEGER Pos;
 
     m_Streams.RemoveAll();
@@ -88,7 +87,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
     for (size_t i = 0; i < number_of_program_sequences; i++) {
         ReadDword();    //SPN_program_sequence_start
         ReadShort();    //program_map_PID
-        number_of_streams_in_ps = (BYTE)ReadByte(); //number_of_streams_in_ps
+        BYTE number_of_streams_in_ps = (BYTE)ReadByte(); //number_of_streams_in_ps
         ReadByte();     //reserved_for_future_use
 
         for (size_t stream_index = 0; stream_index < number_of_streams_in_ps; stream_index++) {

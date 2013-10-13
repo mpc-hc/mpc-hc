@@ -1455,8 +1455,6 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
 
     bool bDoVSyncInPresent = (!bCompositionEnabled && !m_bAlternativeVSync) || !r.m_AdvRendSets.bVMR9VSync;
 
-    LONGLONG PresentWaitTime = 0;
-
     CComPtr<IDirect3DQuery9> pEventQuery;
 
     m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
@@ -1568,7 +1566,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
         m_VBlankStartMeasure = ScanLine;
 
         if (bAll && bDoVSyncInPresent) {
-            m_PresentWaitTime = (rd->GetPerfCounter() - llPerf) + PresentWaitTime;
+            m_PresentWaitTime = rd->GetPerfCounter() - llPerf;
             m_PresentWaitTimeMin = std::min(m_PresentWaitTimeMin, m_PresentWaitTime);
             m_PresentWaitTimeMax = std::max(m_PresentWaitTimeMax, m_PresentWaitTime);
         } else {
@@ -2065,17 +2063,14 @@ void CDX9AllocatorPresenter::DrawStats()
 
     if (m_pLine && iDetailedStats) {
         D3DXVECTOR2 Points[NB_JITTER];
-        int nIndex;
 
-        int StartX = 0;
-        int StartY = 0;
         int ScaleX = 1;
         int ScaleY = 1;
         int DrawWidth = 625 * ScaleX + 50;
         int DrawHeight = 250 * ScaleY;
         int Alpha = 80;
-        StartX = m_windowRect.Width() - (DrawWidth + 20);
-        StartY = m_windowRect.Height() - (DrawHeight + 20);
+        int StartX = m_windowRect.Width() - (DrawWidth + 20);
+        int StartY = m_windowRect.Height() - (DrawHeight + 20);
 
         DrawRect(RGB(0, 0, 0), Alpha, CRect(StartX, StartY, StartX + DrawWidth, StartY + DrawHeight));
         // === Jitter Graduation
@@ -2100,7 +2095,7 @@ void CDX9AllocatorPresenter::DrawStats()
         // === Jitter curve
         if (m_rtTimePerFrame) {
             for (int i = 0; i < NB_JITTER; i++) {
-                nIndex = (m_nNextJitter + 1 + i) % NB_JITTER;
+                int nIndex = (m_nNextJitter + 1 + i) % NB_JITTER;
                 if (nIndex < 0) {
                     nIndex += NB_JITTER;
                 }
@@ -2112,7 +2107,7 @@ void CDX9AllocatorPresenter::DrawStats()
 
             if (m_bSyncStatsAvailable) {
                 for (int i = 0; i < NB_JITTER; i++) {
-                    nIndex = (m_nNextSyncOffset + 1 + i) % NB_JITTER;
+                    int nIndex = (m_nNextSyncOffset + 1 + i) % NB_JITTER;
                     if (nIndex < 0) {
                         nIndex += NB_JITTER;
                     }

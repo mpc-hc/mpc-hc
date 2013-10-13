@@ -1986,11 +1986,8 @@ void CEVRAllocatorPresenter::RenderThread()
     HANDLE   hEvts[] = { m_hEvtQuit, m_hEvtFlush};
     bool     bQuit = false, bForcePaint = false;
     TIMECAPS tc;
-    DWORD    dwResolution;
     MFTIME   nsSampleTime;
     LONGLONG llClockTime;
-    DWORD    dwUser = 0;
-    DWORD    dwObject;
 
     // Tell Multimedia Class Scheduler we are a playback thread (increase priority)
     HANDLE hAvrt = 0;
@@ -2003,8 +2000,8 @@ void CEVRAllocatorPresenter::RenderThread()
     }
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
-    dwUser = timeBeginPeriod(dwResolution);
+    DWORD dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
+    DWORD dwUser = timeBeginPeriod(dwResolution);
     const CRenderersSettings& r = GetRenderersSettings();
 
     int NextSleepTime = 1;
@@ -2014,7 +2011,7 @@ void CEVRAllocatorPresenter::RenderThread()
         if (!r.m_AdvRendSets.bVMR9VSyncAccurate && NextSleepTime == 0) {
             NextSleepTime = 1;
         }
-        dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, std::max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
+        DWORD dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, std::max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
         /*      dwObject = WAIT_TIMEOUT;
                 if (m_bEvtFlush)
                     dwObject = WAIT_OBJECT_0 + 1;

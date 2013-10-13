@@ -8659,11 +8659,11 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
 {
     CAppSettings& s = AfxGetAppSettings();
     CAtlList<CString> args;
-    bool is_BD = false;
     WORD osdMsg = 0;
     const TCHAR sep = _T(';');
 
     if (GetPlaybackMode() == PM_FILE) {
+        bool is_BD = false;
         CString fn = m_wndPlaylistBar.GetCurFileName();
         if (fn.IsEmpty()) {
             BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -11903,15 +11903,13 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
             BOOLEAN bLocked;
             LONG lDbStrength;
             LONG lPercentQuality;
-            int nProgress;
             int nOffset = pTSD->Offset ? 3 : 1;
             LONG lOffsets[3] = {0, pTSD->Offset, -pTSD->Offset};
-            bool bSucceeded;
             m_bStopTunerScan = false;
             pTun->Scan(0, 0);  // Clear maps
 
             for (ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency <= pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth) {
-                bSucceeded = false;
+                bool bSucceeded = false;
                 for (int nOffsetPos = 0; nOffsetPos < nOffset && !bSucceeded; nOffsetPos++) {
                     pTun->SetFrequency(ulFrequency + lOffsets[nOffsetPos]);
                     Sleep(200); // Let the tuner some time to detect the signal
@@ -11922,7 +11920,7 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
                     }
                 }
 
-                nProgress = MulDiv(ulFrequency - pTSD->FrequencyStart, 100, pTSD->FrequencyStop - pTSD->FrequencyStart);
+                int nProgress = MulDiv(ulFrequency - pTSD->FrequencyStart, 100, pTSD->FrequencyStop - pTSD->FrequencyStart);
                 ::SendMessage(pTSD->Hwnd, WM_TUNER_SCAN_PROGRESS, nProgress, 0);
                 ::SendMessage(pTSD->Hwnd, WM_TUNER_STATS, lDbStrength, lPercentQuality);
 
@@ -13064,14 +13062,11 @@ void CMainFrame::SetupFavoritesSubMenu()
         CString str;
 
         if (!sl.IsEmpty()) {
-            bool bPositionDataPresent = false;
-
             // pos
             REFERENCE_TIME rt = 0;
             if (1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {
                 DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
                 str.Format(_T("[%02u:%02u:%02u]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
-                bPositionDataPresent = true;
             }
 
             // relative drive
@@ -15183,10 +15178,10 @@ void CMainFrame::SendNowPlayingToApi()
 void CMainFrame::SendSubtitleTracksToApi()
 {
     CStringW strSubs;
-    POSITION pos = m_pSubStreams.GetHeadPosition();
-    int i = 0, iSelected = -1;
 
     if (GetLoadState() == MLS::LOADED) {
+        POSITION pos = m_pSubStreams.GetHeadPosition();
+        int i = 0, iSelected = -1;
         if (pos) {
             while (pos) {
                 SubtitleInput& subInput = m_pSubStreams.GetNext(pos);

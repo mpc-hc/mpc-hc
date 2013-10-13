@@ -684,7 +684,6 @@ HRESULT CMpeg2DataParser::ParseNIT()
     PSECTION data;
     WORD wTSID;
     WORD wSectionLength;
-    WORD transport_stream_loop_length;
 
     CheckNoLog(m_pData->GetSection(PID_NIT, SI_NIT, &m_Filter, 15000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
@@ -701,7 +700,7 @@ HRESULT CMpeg2DataParser::ParseNIT()
     EndEnumDescriptors;
 
     gb.BitRead(4);                                              // reserved_future_use
-    transport_stream_loop_length = (WORD)gb.BitRead(12);        // network_descriptors_length
+    gb.BitRead(12);                                             // network_descriptors_length
     while (gb.GetSize() - gb.GetPos() > 4) {
         WORD transport_stream_id = (WORD)gb.BitRead(16);        // transport_stream_id
         UNREFERENCED_PARAMETER(transport_stream_id);

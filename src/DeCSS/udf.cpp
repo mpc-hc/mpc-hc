@@ -65,10 +65,10 @@ tp_udf_file udf_get_root(const HANDLE hDrive, const WORD partition_number)
 {
     BYTE sector[fio_SECTOR_SIZE];
     tp_udf_tag tag = (tp_udf_tag)sector;
-    DWORD sec_size, max_sec, i, j;
+    DWORD sec_size, max_sec, i;
     DWORD MVDS_lba, MVDS_lba_end, MVDS_back_lba, MVDS_back_lba_end;
-    DWORD FileDescriptorSequence_lba = 0, FileDescriptorSequence_lba_end;
-    DWORD partition_lba = 0, parent_icb;
+    DWORD FileDescriptorSequence_lba = 0;
+    DWORD partition_lba = 0;
     tp_udf_AnchorVolumeDescriptorPointer avd;
     bool res, part_valid, vol_valid;
 
@@ -104,7 +104,7 @@ tp_udf_file udf_get_root(const HANDLE hDrive, const WORD partition_number)
     i = 1;
     do {
         // try twice (if we need to) for ReserveAnchor
-        j = MVDS_lba;
+        DWORD j = MVDS_lba;
         do {
             res = aspi_ReadSectors(hDrive, j++, 1, sec_size, sector);
             if (res) {
@@ -126,7 +126,7 @@ tp_udf_file udf_get_root(const HANDLE hDrive, const WORD partition_number)
                     if (vol_valid) {
                         // extract vol->FileSetDescriptorSequence
                         FileDescriptorSequence_lba = vol->FileSetDescriptorSequence.Location.Location;
-                        FileDescriptorSequence_lba_end = FileDescriptorSequence_lba + ((vol->FileSetDescriptorSequence.Length & udf_LengthMask) - 1) / sec_size;
+                        DWORD FileDescriptorSequence_lba_end = FileDescriptorSequence_lba + ((vol->FileSetDescriptorSequence.Length & udf_LengthMask) - 1) / sec_size;
                     }
                 }
             } else {
@@ -148,7 +148,7 @@ tp_udf_file udf_get_root(const HANDLE hDrive, const WORD partition_number)
             tp_udf_FileSetDescriptor fsd = (tp_udf_FileSetDescriptor)sector;
 
             if (partition_number == fsd->RootDirectoryICB.Location.PartitionNumber) {
-                parent_icb = fsd->RootDirectoryICB.Location.Location;
+                DWORD parent_icb = fsd->RootDirectoryICB.Location.Location;
                 res = aspi_ReadSectors(hDrive, partition_lba + parent_icb, 1, sec_size, sector);
                 if (res && tag->TagIdentifier == udf_TAG_FileEntry) {
                     tp_udf_FileEntry fe = (tp_udf_FileEntry)sector;

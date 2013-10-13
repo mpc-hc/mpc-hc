@@ -968,9 +968,8 @@ static void ReplaceNoCase(CStringW& str, CStringW from, CStringW to)
     CStringW lstr = str;
     lstr.MakeLower();
 
-    int i, j, k;
-
-    for (i = 0, j = str.GetLength(); i < j;) {
+    for (int i = 0, j = str.GetLength(); i < j;) {
+        int k = -1;
         if ((k = lstr.Find(from, i)) >= 0) {
             str.Delete(k, from.GetLength());
             lstr.Delete(k, from.GetLength());

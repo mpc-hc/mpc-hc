@@ -72,13 +72,14 @@ void CVobDec::Salt(const BYTE salt[5], int& lfsr0, int& lfsr1)
 
 int CVobDec::FindLfsr(const BYTE* crypt, int offset, const BYTE* plain)
 {
-    int loop0, loop1, lfsr0, lfsr1, carry, count;
+    int count = 0;
 
-    for (loop0 = count = 0; loop0 != (1 << 18); loop0++) {
-        lfsr0 = loop0 >> 1;
-        carry = loop0 & 0x01;
+    for (int loop0 = 0; loop0 != (1 << 18); loop0++) {
+        int lfsr0 = loop0 >> 1;
+        int carry = loop0 & 0x01;
+        int loop1 = 0, lfsr1 = 0;
 
-        for (loop1 = lfsr1 = 0; loop1 != 4; loop1++) {
+        for (; loop1 != 4; loop1++) {
             ClockLfsr0Forward(lfsr0);
             carry = (table[crypt[offset + loop1]] ^ plain[loop1]) - ((lfsr0 >> 9) ^ 0xFF) - carry;
             lfsr1 = (lfsr1 >> 8) | ((carry & 0xFF) << 17);

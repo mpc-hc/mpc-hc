@@ -74,7 +74,6 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
 
     if (!fWeb) {
         WIN32_FIND_DATA wfd;
-        HANDLE hFile;
 
         CString extListSub, regExpSub, regExpVid;
         for (size_t i = 0; i < subTypesExt.size(); i++) {
@@ -107,7 +106,8 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
 
             CAtlList<CString> subs, vids;
 
-            if ((hFile = FindFirstFile(path + title + _T("*"), &wfd)) != INVALID_HANDLE_VALUE) {
+            HANDLE hFile = FindFirstFile(path + title + _T("*"), &wfd);
+            if (hFile != INVALID_HANDLE_VALUE) {
                 do {
                     CString fn = path + wfd.cFileName;
                     if (std::regex_match(&wfd.cFileName[titleLength], reSub)) {

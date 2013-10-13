@@ -2225,12 +2225,11 @@ double CBaseAP::GetDisplayCycle()
 double CBaseAP::GetCycleDifference()
 {
     double dBaseDisplayCycle = GetDisplayCycle();
-    UINT i;
     double minDiff = 1.0;
     if (dBaseDisplayCycle == 0.0 || m_dFrameCycle == 0.0) {
         return 1.0;
     } else {
-        for (i = 1; i <= 8; i++) { // Try a lot of multiples of the display frequency
+        for (UINT i = 1; i <= 8; i++) { // Try a lot of multiples of the display frequency
             double dDisplayCycle = i * dBaseDisplayCycle;
             double diff = (dDisplayCycle - m_dFrameCycle) / m_dFrameCycle;
             if (abs(diff) < abs(minDiff)) {
@@ -2258,14 +2257,12 @@ void CBaseAP::EstimateRefreshTimings()
         LONGLONG startTime = rd->GetPerfCounter();
         UINT startLine = rasterStatus.ScanLine;
         LONGLONG endTime = 0;
-        LONGLONG time = 0;
         UINT endLine = 0;
-        UINT line = 0;
         bool done = false;
         while (!done) { // Estimate time for one scan line
             m_pD3DDev->GetRasterStatus(0, &rasterStatus);
-            line = rasterStatus.ScanLine;
-            time = rd->GetPerfCounter();
+            UINT line = rasterStatus.ScanLine;
+            LONGLONG time = rd->GetPerfCounter();
             if (line > 0) {
                 endLine = line;
                 endTime = time;
@@ -2841,9 +2838,8 @@ float CSyncAP::GetMaxRate(BOOL bThin)
 {
     float fMaxRate = FLT_MAX;  // Default.
     UINT32 fpsNumerator = 0, fpsDenominator = 0;
-    UINT MonitorRateHz = 0;
 
-    if (!bThin && (m_pMediaType != nullptr)) {
+    if (!bThin && m_pMediaType) {
         // Non-thinned: Use the frame rate and monitor refresh rate.
 
         // Frame rate:
@@ -2851,7 +2847,7 @@ float CSyncAP::GetMaxRate(BOOL bThin)
                             &fpsNumerator, &fpsDenominator);
 
         // Monitor refresh rate:
-        MonitorRateHz = m_refreshRate; // D3DDISPLAYMODE
+        UINT MonitorRateHz = m_refreshRate; // D3DDISPLAYMODE
 
         if (fpsDenominator && fpsNumerator && MonitorRateHz) {
             // Max Rate = Refresh Rate / Frame Rate
@@ -3576,10 +3572,9 @@ void CSyncAP::MixerThread()
                 bQuit = true;
                 break;
             case WAIT_TIMEOUT: {
-                bool bNewSample = false;
                 {
                     CAutoLock AutoLock(&m_ImageProcessingLock);
-                    bNewSample = GetSampleFromMixer();
+                    GetSampleFromMixer();
                 }
                 if (m_bUseInternalTimer && m_pSubPicQueue) {
                     m_pSubPicQueue->SetFPS(m_fps);
@@ -3604,13 +3599,6 @@ void CSyncAP::RenderThread()
     HANDLE hEvts[] = {m_hEvtQuit, m_hEvtFlush, m_hEvtSkip};
     bool bQuit = false;
     TIMECAPS tc;
-    DWORD dwResolution;
-    LONGLONG llRefClockTime;
-    double dTargetSyncOffset;
-    MFTIME llSystemTime;
-    DWORD dwUser = 0;
-    DWORD dwObject;
-    int nSamplesLeft;
     CComPtr<IMFSample>pNewSample = nullptr; // The sample next in line to be presented
 
     // Tell Multimedia Class Scheduler we are doing threaded playback (increase priority)
@@ -3625,20 +3613,20 @@ void CSyncAP::RenderThread()
 
     // Set timer resolution
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
-    dwUser = timeBeginPeriod(dwResolution);
+    DWORD dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
+    DWORD dwUser = timeBeginPeriod(dwResolution);
     pNewSample = nullptr;
 
     while (!bQuit) {
         m_lNextSampleWait = 1; // Default value for running this loop
-        nSamplesLeft = 0;
+        int nSamplesLeft = 0;
         bool stepForward = false;
         LONG lDisplayCycle  = (LONG)(GetDisplayCycle());
         LONG lDisplayCycle2 = (LONG)(GetDisplayCycle() / 2.0); // These are a couple of empirically determined constants used the control the "snap" function
         LONG lDisplayCycle4 = (LONG)(GetDisplayCycle() / 4.0);
 
         const CRenderersSettings& r = GetRenderersSettings();
-        dTargetSyncOffset = r.m_AdvRendSets.fTargetSyncOffset;
+        double dTargetSyncOffset = r.m_AdvRendSets.fTargetSyncOffset;
 
         if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) {  // If either streaming or the pre-roll sample and no sample yet fetched
             if (SUCCEEDED(GetScheduledSample(&pNewSample, nSamplesLeft))) { // Get the next sample
@@ -3652,6 +3640,8 @@ void CSyncAP::RenderThread()
                         pNewSample = nullptr;
                         m_lNextSampleWait = 0;
                     } else {
+                        MFTIME llSystemTime;
+                        LONGLONG llRefClockTime;
                         m_pClock->GetCorrelatedTime(0, &llRefClockTime, &llSystemTime); // Get zero-based reference clock time. llSystemTime is not used for anything here
                         m_lNextSampleWait = (LONG)((m_llSampleTime - llRefClockTime) / 10000); // Time left until sample is due, in ms
                         if (m_bStepping) {
@@ -3726,7 +3716,7 @@ void CSyncAP::RenderThread()
             }
         }
         // Wait for the next presentation time (m_lNextSampleWait) or some other event.
-        dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, (DWORD)m_lNextSampleWait);
+        DWORD dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, (DWORD)m_lNextSampleWait);
         switch (dwObject) {
             case WAIT_OBJECT_0: // Quit
                 bQuit = true;
@@ -4314,10 +4304,6 @@ HRESULT CGenlock::GetTiming()
 // Reset display timing parameters to nominal.
 HRESULT CGenlock::ResetTiming()
 {
-    LPARAM lParam = 0;
-    WPARAM wParam = monitor;
-    ATOM setTiming;
-    LRESULT ret;
     CAutoLock lock(&csGenlockLock);
 
     if (!PowerstripRunning()) {
@@ -4325,9 +4311,8 @@ HRESULT CGenlock::ResetTiming()
     }
 
     if (displayAdjustmentsMade > 0) {
-        setTiming = GlobalAddAtom(cruise);
-        lParam = setTiming;
-        ret = SendMessage(psWnd, UM_SETCUSTOMTIMINGFAST, wParam, lParam);
+        ATOM setTiming = GlobalAddAtom(cruise);
+        SendMessage(psWnd, UM_SETCUSTOMTIMINGFAST, monitor, (LPARAM)setTiming);
         GlobalDeleteAtom(setTiming);
         curDisplayFreq = displayFreqCruise;
     }
