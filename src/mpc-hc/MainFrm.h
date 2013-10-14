@@ -274,6 +274,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     // chapters (dvd mode)
     void SetupDVDChapters();
 
+    bool SeekToFileChapter(int iChapter, bool bRelative = false);
+
     void AddTextPassThruFilter();
 
     int m_nLoops;

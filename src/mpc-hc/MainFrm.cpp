@@ -8245,53 +8245,71 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
     }
 }
 
+bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
+{
+    if (GetPlaybackMode() != PM_FILE) {
+        return false;
+    }
+
+    SetupChapters();
+
+    bool ret = false;
+
+    if (DWORD nChapters = m_pCB->ChapGetCount()) {
+        REFERENCE_TIME rt;
+
+        if (bRelative) {
+            if (SUCCEEDED(m_pMS->GetCurrentPosition(&rt))) {
+                if (iChapter < 0) {
+                    // If we are less than 3s after the start of the current chapter, we go to
+                    // the previous chapter else we restart current chapter from the beginning
+                    rt -= 30000000;
+                    iChapter = 0;
+                } else if (iChapter > 0) {
+                    iChapter = 1;
+                }
+                iChapter = m_pCB->ChapLookup(&rt, nullptr) + iChapter;
+            } else {
+                iChapter = -1;
+            }
+        }
+
+        CComBSTR name;
+        if (iChapter >= 0 && DWORD(iChapter) < nChapters && SUCCEEDED(m_pCB->ChapGet(iChapter, &rt, &name))) {
+            SeekTo(rt, false);
+            SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
+            ret = true;
+
+            REFERENCE_TIME rtDur;
+            if (SUCCEEDED(m_pMS->GetDuration(&rtDur))) {
+                const CAppSettings& s = AfxGetAppSettings();
+                CString strOSD;
+
+                strOSD.Format(_T("%s%s/%s %s%d/%u - \"%s\""),
+                              s.fRemainingTime ? _T("- ") : _T(""), ReftimeToString2(s.fRemainingTime ? rtDur - rt : rt), ReftimeToString2(rtDur),
+                              ResStr(IDS_AG_CHAPTER2), iChapter + 1, nChapters, name);
+                m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+            }
+        }
+    }
+
+    return ret;
+}
+
 // navigate
 void CMainFrame::OnNavigateSkip(UINT nID)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
     if (GetPlaybackMode() == PM_FILE) {
-        SetupChapters();
         m_nLastSkipDirection = nID;
 
-        if (DWORD nChapters = m_pCB->ChapGetCount()) {
-            REFERENCE_TIME rtCur;
-            m_pMS->GetCurrentPosition(&rtCur);
-
-            REFERENCE_TIME rt = rtCur;
-            CComBSTR name;
-            long i = 0;
-
+        if (!SeekToFileChapter((nID == ID_NAVIGATE_SKIPBACK) ? -1 : 1, true)) {
             if (nID == ID_NAVIGATE_SKIPBACK) {
-                rt -= 30000000;
-                i = m_pCB->ChapLookup(&rt, &name);
+                SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKFILE);
             } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-                i = m_pCB->ChapLookup(&rt, &name) + 1;
-                name.Empty();
-                if (i < (int)nChapters) {
-                    m_pCB->ChapGet(i, &rt, &name);
-                }
+                SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
             }
-
-            if (i >= 0 && (DWORD)i < nChapters) {
-                SeekTo(rt, false);
-                SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
-
-                REFERENCE_TIME rtDur;
-                m_pMS->GetDuration(&rtDur);
-                CString strOSD;
-                strOSD.Format(_T("%s%s/%s %s%d/%u - \"%s\""),
-                              s.fRemainingTime ? _T("- ") : _T(""), ReftimeToString2(s.fRemainingTime ? rtDur - rt : rt), ReftimeToString2(rtDur),
-                              ResStr(IDS_AG_CHAPTER2), i + 1, nChapters, name);
-                m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
-                return;
-            }
-        }
-
-        if (nID == ID_NAVIGATE_SKIPBACK) {
-            SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKFILE);
-        } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-            SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
         }
     } else if (GetPlaybackMode() == PM_DVD) {
         m_dSpeedRate = 1.0;
@@ -8586,21 +8604,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             id -= (int)m_MPLSPlaylist.GetCount();
         }
 
-        if (id >= 0 && id < (int)m_pCB->ChapGetCount() && m_pCB->ChapGetCount() > 1) {
-            REFERENCE_TIME rt;
-            CComBSTR name;
-            if (SUCCEEDED(m_pCB->ChapGet(id, &rt, &name))) {
-                SeekTo(rt, false);
-                SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
-
-                REFERENCE_TIME rtDur;
-                m_pMS->GetDuration(&rtDur);
-                CString strOSD;
-                strOSD.Format(_T("%s%s/%s %s%d/%u - \"%s\""),
-                              s.fRemainingTime ? _T("- ") : _T(""), ReftimeToString2(s.fRemainingTime ? rtDur - rt : rt), ReftimeToString2(rtDur),
-                              ResStr(IDS_AG_CHAPTER2), id + 1, m_pCB->ChapGetCount(), name);
-                m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
-            }
+        if (SeekToFileChapter(id)) {
             return;
         }
 
