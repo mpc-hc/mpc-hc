@@ -271,10 +271,11 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     CComPtr<IDSMChapterBag> m_pCB;
     void SetupChapters();
 
-    // chapters (dvd mode)
+    // chapters (DVD mode)
     void SetupDVDChapters();
 
     bool SeekToFileChapter(int iChapter, bool bRelative = false);
+    bool SeekToDVDChapter(int iChapter, bool bRelative = false);
 
     void AddTextPassThruFilter();
 

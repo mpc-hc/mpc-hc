@@ -8296,6 +8296,101 @@ bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
     return ret;
 }
 
+bool CMainFrame::SeekToDVDChapter(int iChapter, bool bRelative /*= false*/)
+{
+    if (GetPlaybackMode() != PM_DVD) {
+        return false;
+    }
+
+    ULONG ulNumOfVolumes, ulVolume;
+    DVD_DISC_SIDE Side;
+    ULONG ulNumOfTitles = 0;
+    CheckNoLogBool(m_pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles));
+
+    DVD_PLAYBACK_LOCATION2 Location;
+    ULONG ulNumOfChapters = 0;
+    ULONG uTitle = 0, uChapter = 0;
+    if (bRelative) {
+        CheckNoLogBool(m_pDVDI->GetCurrentLocation(&Location));
+
+        CheckNoLogBool(m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters));
+
+        uTitle = Location.TitleNum;
+        uChapter = Location.ChapterNum;
+
+        if (iChapter < 0) {
+            ULONG tsec = (Location.TimeCode.bHours * 3600)
+                         + (Location.TimeCode.bMinutes * 60)
+                         + (Location.TimeCode.bSeconds);
+            ULONG diff = 0;
+            if (m_lChapterStartTime != 0xFFFFFFFF && tsec > m_lChapterStartTime) {
+                diff = tsec - m_lChapterStartTime;
+            }
+            // Go the previous chapter only if else than 7 seconds
+            // have passed since the beginning of the current chapter
+            if (diff <= 7) {
+                // If we are at the first chapter of a volume that isn't the first
+                // one, we skip to the last chapter of the previous volume.
+                if (uChapter == 1 && uTitle > 1) {
+                    uTitle--;
+                    CheckNoLogBool(m_pDVDI->GetNumberOfChapters(uTitle, &uChapter));
+                } else if (uChapter > 1) {
+                    uChapter--;
+                }
+            }
+        } else {
+            // If we are at the last chapter of a volume that isn't the last
+            // one, we skip to the first chapter of the next volume.
+            if (uChapter == ulNumOfChapters && uTitle < ulNumOfTitles) {
+                uTitle++;
+                uChapter = 1;
+            } else if (uChapter < ulNumOfChapters) {
+                uChapter++;
+            }
+        }
+    } else if (iChapter > 0) {
+        uChapter = ULONG(iChapter);
+        if (uChapter <= ulNumOfTitles) {
+            uTitle = uChapter;
+            uChapter = 1;
+        } else {
+            CheckNoLogBool(m_pDVDI->GetCurrentLocation(&Location));
+            uTitle = Location.TitleNum;
+            uChapter -= ulNumOfTitles;
+        }
+    }
+
+    if (uTitle && uChapter
+            && SUCCEEDED(m_pDVDC->PlayChapterInTitle(uTitle, uChapter, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr))) {
+        if (SUCCEEDED(m_pDVDI->GetCurrentLocation(&Location))
+                && SUCCEEDED(m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters))) {
+            CString strTitle;
+            strTitle.Format(IDS_AG_TITLE2, Location.TitleNum, ulNumOfTitles);
+            __int64 start, stop;
+            m_wndSeekBar.GetRange(start, stop);
+
+            CString strOSD;
+            if (stop > 0) {
+                const CAppSettings& s = AfxGetAppSettings();
+
+                DVD_HMSF_TIMECODE currentHMSF = s.fRemainingTime ? RT2HMS_r(stop - HMSF2RT(Location.TimeCode)) : Location.TimeCode;
+                DVD_HMSF_TIMECODE stopHMSF = RT2HMS_r(stop);
+                strOSD.Format(_T("%s%s/%s %s, %s%02u/%02lu"),
+                              s.fRemainingTime ? _T("- ") : _T(""), DVDtimeToString(currentHMSF, stopHMSF.bHours > 0), DVDtimeToString(stopHMSF),
+                              strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+            } else {
+                strOSD.Format(_T("%s, %s%02u/%02lu"), strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+            }
+
+            m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
 // navigate
 void CMainFrame::OnNavigateSkip(UINT nID)
 {
@@ -8318,71 +8413,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
         }
 
-        ULONG ulNumOfVolumes, ulVolume;
-        DVD_DISC_SIDE Side;
-        ULONG ulNumOfTitles = 0;
-        m_pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles);
-
-        DVD_PLAYBACK_LOCATION2 Location;
-        m_pDVDI->GetCurrentLocation(&Location);
-
-        ULONG ulNumOfChapters = 0;
-        m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
-
-        if (nID == ID_NAVIGATE_SKIPBACK) {
-            if (Location.ChapterNum == 1 && Location.TitleNum > 1) {
-                m_pDVDI->GetNumberOfChapters(Location.TitleNum - 1, &ulNumOfChapters);
-                m_pDVDC->PlayChapterInTitle(Location.TitleNum - 1, ulNumOfChapters, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
-            } else {
-                ULONG tsec = (Location.TimeCode.bHours * 3600)
-                             + (Location.TimeCode.bMinutes * 60)
-                             + (Location.TimeCode.bSeconds);
-                ULONG diff = 0;
-                if (m_lChapterStartTime != 0xFFFFFFFF && tsec > m_lChapterStartTime) {
-                    diff = tsec - m_lChapterStartTime;
-                }
-                // Restart the chapter if more than 7 seconds have passed
-                if (diff <= 7) {
-                    m_pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
-                } else {
-                    m_pDVDC->ReplayChapter(DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
-                }
-            }
-        } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-            if (Location.ChapterNum == ulNumOfChapters && Location.TitleNum < ulNumOfTitles) {
-                m_pDVDC->PlayChapterInTitle(Location.TitleNum + 1, 1, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
-            } else {
-                m_pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
-            }
-        }
-
-        if ((m_pDVDI->GetCurrentLocation(&Location) == S_OK)) {
-            m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
-            CString strTitle;
-            strTitle.Format(IDS_AG_TITLE2, Location.TitleNum, ulNumOfTitles);
-            __int64 start, stop;
-            m_wndSeekBar.GetRange(start, stop);
-
-            CString strOSD;
-            if (stop > 0) {
-                DVD_HMSF_TIMECODE currentHMSF = s.fRemainingTime ? RT2HMS_r(stop - HMSF2RT(Location.TimeCode)) : Location.TimeCode;
-                DVD_HMSF_TIMECODE stopHMSF = RT2HMS_r(stop);
-                strOSD.Format(_T("%s%s/%s %s, %s%02u/%02lu"),
-                              s.fRemainingTime ? _T("- ") : _T(""), DVDtimeToString(currentHMSF, stopHMSF.bHours > 0), DVDtimeToString(stopHMSF),
-                              strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
-            } else {
-                strOSD.Format(_T("%s, %s%02u/%02lu"), strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
-            }
-
-            m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
-        }
-
-        /*
-        if (nID == ID_NAVIGATE_SKIPBACK)
-            pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, nullptr);
-        else if (nID == ID_NAVIGATE_SKIPFORWARD)
-            pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block, nullptr);
-        */
+        SeekToDVDChapter((nID == ID_NAVIGATE_SKIPBACK) ? -1 : 1, true);
     } else if (GetPlaybackMode() == PM_CAPTURE) {
         if (s.iDefaultCaptureDevice == 1) {
             CComQIPtr<IBDATuner> pTun = m_pGB;
@@ -8617,50 +8648,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             OpenCurPlaylistItem();
         }
     } else if (GetPlaybackMode() == PM_DVD) {
-        ULONG ulNumOfVolumes, ulVolume;
-        DVD_DISC_SIDE Side;
-        ULONG ulNumOfTitles = 0;
-        m_pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles);
-
-        DVD_PLAYBACK_LOCATION2 Location;
-        m_pDVDI->GetCurrentLocation(&Location);
-
-        ULONG ulNumOfChapters = 0;
-        m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
-
-        nID -= (ID_NAVIGATE_CHAP_SUBITEM_START - 1);
-
-        if (nID <= ulNumOfTitles) {
-            m_pDVDC->PlayTitle(nID, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr); // sometimes this does not do anything ...
-            m_pDVDC->PlayChapterInTitle(nID, 1, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr); // ... but this does!
-        } else {
-            nID -= ulNumOfTitles;
-
-            if (nID <= ulNumOfChapters) {
-                m_pDVDC->PlayChapter(nID, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
-            }
-        }
-
-        if ((m_pDVDI->GetCurrentLocation(&Location) == S_OK)) {
-            m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
-            CString strTitle;
-            strTitle.Format(IDS_AG_TITLE2, Location.TitleNum, ulNumOfTitles);
-            __int64 start, stop;
-            m_wndSeekBar.GetRange(start, stop);
-
-            CString strOSD;
-            if (stop > 0) {
-                DVD_HMSF_TIMECODE currentHMSF = s.fRemainingTime ? RT2HMS_r(stop - HMSF2RT(Location.TimeCode)) : Location.TimeCode;
-                DVD_HMSF_TIMECODE stopHMSF = RT2HMS_r(stop);
-                strOSD.Format(_T("%s%s/%s %s, %s%02u/%02lu"),
-                              s.fRemainingTime ? _T("- ") : _T(""), DVDtimeToString(currentHMSF, stopHMSF.bHours > 0), DVDtimeToString(stopHMSF),
-                              strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
-            } else {
-                strOSD.Format(_T("%s, %s%02u/%02lu"), strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
-            }
-
-            m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
-        }
+        SeekToDVDChapter(nID - ID_NAVIGATE_CHAP_SUBITEM_START + 1);
     } else if (GetPlaybackMode() == PM_CAPTURE) {
         nID -= ID_NAVIGATE_CHAP_SUBITEM_START;
 

@@ -75,6 +75,7 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S>> {};
 
 #define CheckAndLog(x, msg)  hr = ##x; if (FAILED(hr)) { TRACE(msg _T(": 0x%08x\n"), hr); return hr; }
 #define CheckNoLog(x)        hr = ##x; if (FAILED(hr)) { return hr; }
+#define CheckNoLogBool(x)    if (FAILED(x)) { return false; }
 
 #include "resource.h"
 #include "FakeFilterMapper2.h"
