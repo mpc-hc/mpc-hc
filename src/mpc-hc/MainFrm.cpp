@@ -104,6 +104,8 @@ bool NEARLY_EQ(T a, T b, T tol)
 
 #define MENUBARBREAK 30
 
+#define PREV_CHAP_THRESHOLD 5
+
 static UINT s_uTaskbarRestart = RegisterWindowMessage(_T("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(_T("MYWM_NOTIFYICON"));
 static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
@@ -8261,9 +8263,9 @@ bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
         if (bRelative) {
             if (SUCCEEDED(m_pMS->GetCurrentPosition(&rt))) {
                 if (iChapter < 0) {
-                    // If we are less than 3s after the start of the current chapter, we go to
-                    // the previous chapter else we restart current chapter from the beginning
-                    rt -= 30000000;
+                    // Go the previous chapter only if more than PREV_CHAP_THRESHOLD seconds
+                    // have passed since the beginning of the current chapter else restart it
+                    rt -= PREV_CHAP_THRESHOLD * 10000000;
                     iChapter = 0;
                 } else if (iChapter > 0) {
                     iChapter = 1;
@@ -8326,9 +8328,9 @@ bool CMainFrame::SeekToDVDChapter(int iChapter, bool bRelative /*= false*/)
             if (m_lChapterStartTime != 0xFFFFFFFF && tsec > m_lChapterStartTime) {
                 diff = tsec - m_lChapterStartTime;
             }
-            // Go the previous chapter only if else than 7 seconds
-            // have passed since the beginning of the current chapter
-            if (diff <= 7) {
+            // Go the previous chapter only if more than PREV_CHAP_THRESHOLD seconds
+            // have passed since the beginning of the current chapter else restart it
+            if (diff <= PREV_CHAP_THRESHOLD) {
                 // If we are at the first chapter of a volume that isn't the first
                 // one, we skip to the last chapter of the previous volume.
                 if (uChapter == 1 && uTitle > 1) {
