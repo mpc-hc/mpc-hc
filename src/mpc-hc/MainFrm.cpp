@@ -1379,124 +1379,74 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
     }
 }
 
-void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
+void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
 {
-    __super::OnSizing(fwSide, pRect);
+    __super::OnSizing(nSide, lpRect);
 
-    const CAppSettings& s = AfxGetAppSettings();
-    bool fCtrl = !!(GetAsyncKeyState(VK_CONTROL) & 0x80000000);
+    const auto& s = AfxGetAppSettings();
+    bool bCtrl = GetKeyState(VK_CONTROL) < 0;
 
-    if (m_iMediaLoadState != MLS_LOADED || m_fFullScreen
-            || s.iDefaultVideoSize == DVS_STRETCH
-            || (fCtrl == s.fLimitWindowProportions)) {  // remember that fCtrl is initialized with !!whatever(), same with fLimitWindowProportions
+    if (m_iMediaLoadState != MLS_LOADED || m_fFullScreen ||
+            s.iDefaultVideoSize == DVS_STRETCH || !bCtrl == !s.fLimitWindowProportions) {
         return;
     }
 
-    CSize wsize(pRect->right - pRect->left, pRect->bottom - pRect->top);
-    CSize vsize = GetVideoSize();
-    CSize fsize(0, 0);
-
-    if (!vsize.cx || !vsize.cy) {
+    CSize videoSize = GetVideoSize();
+    if (videoSize.cx == 0 || videoSize.cy == 0) {
         return;
     }
 
-    // TODO
-    {
-        DWORD style = GetStyle();
+    CRect currentWindowRect, currentViewRect;
+    GetWindowRect(currentWindowRect);
+    m_wndView.GetWindowRect(currentViewRect);
+    CSize controlsSize(currentWindowRect.Width() - currentViewRect.Width(),
+                       currentWindowRect.Height() - currentViewRect.Height());
 
-        // This doesn't give correct menu pixel size
-        //MENUBARINFO mbi;
-        //ZeroMemory(&mbi, sizeof(mbi));
-        //mbi.cbSize = sizeof(mbi);
-        //::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
+    CSize newWindowSize(lpRect->right - lpRect->left, lpRect->bottom - lpRect->top);
 
-        if (style & WS_THICKFRAME) {
-            fsize.cx += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-            fsize.cy += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
-            if ((style & WS_CAPTION) == 0) {
-                fsize.cx -= 2;
-                fsize.cy -= 2;
-            }
-        }
+    newWindowSize -= controlsSize;
 
-        if (style & WS_CAPTION) {
-            fsize.cy += GetSystemMetrics(SM_CYCAPTION);
-            if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
-                fsize.cy += GetSystemMetrics(SM_CYMENU);      //mbi.rcBar.bottom - mbi.rcBar.top;
-            }
-            //else MODE_HIDEMENU
-        }
+    bool bWider = videoSize.cy < videoSize.cx;
 
-        POSITION pos = m_bars.GetHeadPosition();
-        while (pos) {
-            CControlBar* pCB = m_bars.GetNext(pos);
-            if (IsWindow(pCB->m_hWnd) && pCB->IsVisible()) {
-                fsize.cy += pCB->CalcFixedLayout(TRUE, TRUE).cy;
-            }
-        }
-
-        pos = m_dockingbars.GetHeadPosition();
-        while (pos) {
-            CSizingControlBar* pCB = m_dockingbars.GetNext(pos);
-
-            if (IsWindow(pCB->m_hWnd) && pCB->IsWindowVisible() && !pCB->IsFloating()) {
-                if (pCB->IsHorzDocked()) {
-                    fsize.cy += pCB->CalcFixedLayout(TRUE, TRUE).cy - 2;
-                } else if (pCB->IsVertDocked()) {
-                    fsize.cx += pCB->CalcFixedLayout(TRUE, FALSE).cx;
-                }
-            }
-        }
-    }
-
-    wsize -= fsize;
-
-    bool fWider = vsize.cy < vsize.cx;
-
-    switch (fwSide) {
+    switch (nSide) {
         case WMSZ_TOP:
         case WMSZ_BOTTOM:
-            wsize.cx = long(wsize.cy * vsize.cx / (double)vsize.cy + 0.5);
-            wsize.cy = long(wsize.cx * vsize.cy / (double)vsize.cx + 0.5);
+            newWindowSize.cx = long(newWindowSize.cy * videoSize.cx / (double)videoSize.cy + 0.5);
+            newWindowSize.cy = long(newWindowSize.cx * videoSize.cy / (double)videoSize.cx + 0.5);
             break;
         case WMSZ_TOPLEFT:
         case WMSZ_TOPRIGHT:
         case WMSZ_BOTTOMLEFT:
         case WMSZ_BOTTOMRIGHT:
-            if (!fWider) {
-                wsize.cx = long(wsize.cy * vsize.cx / (double)vsize.cy + 0.5);
-                wsize.cy = long(wsize.cx * vsize.cy / (double)vsize.cx + 0.5);
-                break;
-            }
         case WMSZ_LEFT:
         case WMSZ_RIGHT:
-            wsize.cy = long(wsize.cx * vsize.cy / (double)vsize.cx + 0.5);
-            wsize.cx = long(wsize.cy * vsize.cx / (double)vsize.cy + 0.5);
+            newWindowSize.cy = long(newWindowSize.cx * videoSize.cy / (double)videoSize.cx + 0.5);
+            newWindowSize.cx = long(newWindowSize.cy * videoSize.cx / (double)videoSize.cy + 0.5);
             break;
     }
 
-    wsize += fsize;
+    newWindowSize += controlsSize;
 
-    switch (fwSide) {
+    switch (nSide) {
         case WMSZ_TOPLEFT:
-            pRect->left = pRect->right - wsize.cx;
-            pRect->top = pRect->bottom - wsize.cy;
+            lpRect->left = lpRect->right - newWindowSize.cx;
+            lpRect->top = lpRect->bottom - newWindowSize.cy;
             break;
         case WMSZ_TOP:
         case WMSZ_TOPRIGHT:
-            pRect->right = pRect->left + wsize.cx;
-            pRect->top = pRect->bottom - wsize.cy;
+            lpRect->right = lpRect->left + newWindowSize.cx;
+            lpRect->top = lpRect->bottom - newWindowSize.cy;
             break;
         case WMSZ_RIGHT:
         case WMSZ_BOTTOM:
         case WMSZ_BOTTOMRIGHT:
-            pRect->right = pRect->left + wsize.cx;
-            pRect->bottom = pRect->top + wsize.cy;
+            lpRect->right = lpRect->left + newWindowSize.cx;
+            lpRect->bottom = lpRect->top + newWindowSize.cy;
             break;
         case WMSZ_LEFT:
         case WMSZ_BOTTOMLEFT:
-            pRect->left = pRect->right - wsize.cx;
-            pRect->bottom = pRect->top + wsize.cy;
+            lpRect->left = lpRect->right - newWindowSize.cx;
+            lpRect->bottom = lpRect->top + newWindowSize.cy;
             break;
     }
 }

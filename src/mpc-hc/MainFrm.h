@@ -574,7 +574,7 @@ public:
     afx_msg void OnMove(int x, int y);
     afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
     afx_msg void OnSize(UINT nType, int cx, int cy);
-    afx_msg void OnSizing(UINT fwSide, LPRECT pRect);
+    afx_msg void OnSizing(UINT nSide, LPRECT lpRect);
     afx_msg void OnDisplayChange();
 
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
