@@ -1325,9 +1325,11 @@ CString MakeFullPath(LPCTSTR path)
     fn.ReleaseBuffer(GetModuleFileName(AfxGetInstanceHandle(), fn.GetBuffer(MAX_PATH), MAX_PATH));
     CPath p(fn);
 
-    if (full.GetLength() >= 2 && full[0] == '\\' && full[1] != '\\') {
-        p.StripToRoot();
-        full = CString(p) + full.Mid(1);
+    if (full.GetLength() >= 2 && full[0] == '\\') {
+        if (full[1] != '\\') {
+            p.StripToRoot();
+            full = CString(p) + full.Mid(1);
+        }
     } else if (full.Find(_T(":\\")) < 0) {
         p.RemoveFileSpec();
         p.AddBackslash();
