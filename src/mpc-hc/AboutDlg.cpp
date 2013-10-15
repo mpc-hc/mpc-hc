@@ -231,21 +231,29 @@ void CAboutDlg::OnCopyToClipboard()
     info += _T("    Name:               ") + m_OSName + _T("\n");
     info += _T("    Version:            ") + m_OSVersion + _T("\n");
 
-    COleDataSource* pData = DEBUG_NEW COleDataSource();
-
+    // Allocate a global memory object for the text
     int len = info.GetLength() + 1;
-    HGLOBAL hGlob = GlobalAlloc(GMEM_FIXED, len * sizeof(WCHAR));
+    HGLOBAL hGlob = GlobalAlloc(GMEM_MOVEABLE, len * sizeof(WCHAR));
+    if (hGlob) {
+        // Lock the handle and copy the text to the buffer
+        LPVOID pData = GlobalLock(hGlob);
+        if (pData) {
+            wcscpy_s((WCHAR*)pData, len, (LPCWSTR)info);
+            GlobalUnlock(hGlob);
 
-    if (pData && hGlob) {
-        wcscpy_s((WCHAR*)hGlob, len, (LPCWSTR)info);
+            if (GetParent()->OpenClipboard()) {
+                // Place the handle on the clipboard, if the call succeeds
+                // the system will take care of the allocated memory
+                if (::EmptyClipboard() && ::SetClipboardData(CF_UNICODETEXT, hGlob)) {
+                    hGlob = nullptr;
+                }
 
-        pData->CacheGlobalData(CF_UNICODETEXT, hGlob);
+                ::CloseClipboard();
+            }
+        }
 
-        // The system will take care of removing the allocated memory
-        pData->SetClipboard();
-    } else if (pData) {
-        delete pData;
-    } else if (hGlob) {
-        GlobalFree(hGlob);
+        if (hGlob) {
+            GlobalFree(hGlob);
+        }
     }
 }
