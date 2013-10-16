@@ -962,6 +962,9 @@ protected:
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
     void UpdateAudioSwitcher();
+
+    void GetDockZones(unsigned& uTop, unsigned& uLeft, unsigned& uRight, unsigned& uBottom);
+
 public:
 #if (_MSC_VER == 1800)
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);

@@ -64,6 +64,8 @@
 
 #include <Il21dec.h>
 
+#include <set>
+
 #include "sizecbar/scbarg.h"
 #include "ResizableLib/ResizableDialog.h"
 

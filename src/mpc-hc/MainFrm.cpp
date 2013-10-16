@@ -1248,66 +1248,95 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 
 void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
-    const CAppSettings& s = AfxGetAppSettings();
-    DWORD style = GetStyle();
-    lpMMI->ptMinTrackSize.x = 16;
+    const auto& s = AfxGetAppSettings();
+
+    auto setLarger = [](long & a, long b) {
+        a = max(a, b);
+    };
+
+    lpMMI->ptMinTrackSize.x = 0;
+    lpMMI->ptMinTrackSize.y = 0;
+
+    const long saneSize = 110; // TODO: make it dpi-aware
+
+    {
+        // Add docked panels
+        unsigned uTop, uLeft, uRight, uBottom;
+        GetDockZones(uTop, uLeft, uRight, uBottom);
+        long x = 0, y = 0;
+        if (uTop) {
+            setLarger(x, saneSize);
+            y += uTop;
+        }
+        if (uLeft) {
+            x += uLeft;
+            setLarger(y, saneSize);
+        }
+        if (uRight) {
+            x += uRight;
+            setLarger(y, saneSize);
+        }
+        if (uBottom) {
+            setLarger(x, saneSize);
+            y += uBottom;
+        }
+        lpMMI->ptMinTrackSize.x += x;
+        lpMMI->ptMinTrackSize.y += y;
+    }
+
+    {
+        // Add toolbars
+        POSITION pos = m_bars.GetHeadPosition();
+        if (pos) {
+            setLarger(lpMMI->ptMinTrackSize.x, saneSize * 2);
+        }
+        while (pos) {
+            CControlBar* pCB = m_bars.GetNext(pos);
+            if (!IsWindow(pCB->m_hWnd) || !pCB->IsVisible()) {
+                continue;
+            }
+            lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy;
+        }
+    }
 
     if (!IsMenuHidden()) {
-        MENUBARINFO mbi;
-        ZeroMemory(&mbi, sizeof(mbi));
-        mbi.cbSize = sizeof(mbi);
+        // Add menubar height
+        lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYMENU);
+        // Ensure that menubar will fit horizontally
+        MENUBARINFO mbi = { sizeof(mbi) };
         ::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
-
-        // Calculate menu's horizontal length in pixels
-        lpMMI->ptMinTrackSize.x = GetSystemMetrics(SM_CYMENU) / 2; //free space after menu
-        CRect r;
-        for (int i = 0; ::GetMenuItemRect(m_hWnd, mbi.hMenu, i, &r); i++) {
-            lpMMI->ptMinTrackSize.x += r.Width();
+        long x = GetSystemMetrics(SM_CYMENU) / 2; // free space after menu
+        CRect rect;
+        for (int i = 0; ::GetMenuItemRect(m_hWnd, mbi.hMenu, i, &rect); i++) {
+            x += rect.Width();
         }
+        setLarger(lpMMI->ptMinTrackSize.x, x);
     }
+
     if (IsWindow(m_wndToolBar.m_hWnd) && m_wndToolBar.IsVisible()) {
-        lpMMI->ptMinTrackSize.x = max(m_wndToolBar.GetMinWidth(), lpMMI->ptMinTrackSize.x);
+        // Ensure that the controls bar will fit
+        setLarger(lpMMI->ptMinTrackSize.x, m_wndToolBar.GetMinWidth());
     }
 
-    lpMMI->ptMinTrackSize.y = 0;
-    if (style & WS_CAPTION) {
-        lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYCAPTION);
-        if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
-            lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYMENU);      //(mbi.rcBar.bottom - mbi.rcBar.top);
+    {
+        // Add window frame
+        DWORD style = GetStyle();
+        if (style & WS_CAPTION) {
+            lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYCAPTION);
         }
-        //else MODE_HIDEMENU
-    }
-
-    if (style & WS_THICKFRAME) {
-        lpMMI->ptMinTrackSize.x += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-        lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
-        if ((style & WS_CAPTION) == 0) {
-            lpMMI->ptMinTrackSize.x -= 2;
-            lpMMI->ptMinTrackSize.y -= 2;
-        }
-    }
-
-    POSITION pos = m_bars.GetHeadPosition();
-    while (pos) {
-        CControlBar* pCB = m_bars.GetNext(pos);
-        if (!IsWindow(pCB->m_hWnd) || !pCB->IsVisible()) {
-            continue;
-        }
-        lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy;
-    }
-
-    pos = m_dockingbars.GetHeadPosition();
-    while (pos) {
-        CSizingControlBar* pCB = m_dockingbars.GetNext(pos);
-        if (IsWindow(pCB->m_hWnd) && pCB->IsWindowVisible() && !pCB->IsFloating()) {
-            lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy - 2;    // 2 is a magic value from CSizingControlBar class, i guess this should be GetSystemMetrics( SM_CXBORDER ) or similar
+        if (style & WS_THICKFRAME) {
+            lpMMI->ptMinTrackSize.x += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
+            lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
+            if (!(style & WS_CAPTION)) {
+                lpMMI->ptMinTrackSize.x -= GetSystemMetrics(SM_CXBORDER) * 2;
+                lpMMI->ptMinTrackSize.y -= GetSystemMetrics(SM_CYBORDER) * 2;
+            }
         }
     }
-    if (lpMMI->ptMinTrackSize.y < 16) {
-        lpMMI->ptMinTrackSize.y = 16;
-    }
 
-    __super::OnGetMinMaxInfo(lpMMI);
+    // Final fence
+    setLarger(lpMMI->ptMinTrackSize.x, 16);
+    setLarger(lpMMI->ptMinTrackSize.y, 16);
 }
 
 void CMainFrame::OnMove(int x, int y)
@@ -16216,6 +16245,64 @@ void CMainFrame::UpdateAudioSwitcher()
         pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64 * s.iAudioTimeShift : 0);
         pASF->SetNormalizeBoost2(s.fAudioNormalize, s.nAudioMaxNormFactor, s.fAudioNormalizeRecover, s.nAudioBoost);
     }
+}
+
+void CMainFrame::GetDockZones(unsigned& uTop, unsigned& uLeft, unsigned& uRight, unsigned& uBottom)
+{
+    CDockBar* pTopDockbar = nullptr;
+    CDockBar* pLeftDockbar = nullptr;
+    CDockBar* pRightDockbar = nullptr;
+    CDockBar* pBottomDockbar = nullptr;
+    std::set<CControlBar*> bars;
+
+    POSITION pos = m_dockingbars.GetHeadPosition();
+    while (pos) {
+        CSizingControlBar* pBar = m_dockingbars.GetNext(pos);
+        if (IsWindow(pBar->m_hWnd) && pBar->IsWindowVisible()) {
+            CDockBar** ppDockbar = nullptr;
+            switch (pBar->GetParent()->GetDlgCtrlID()) {
+                case AFX_IDW_DOCKBAR_TOP:
+                    ppDockbar = &pTopDockbar;
+                    break;
+                case AFX_IDW_DOCKBAR_LEFT:
+                    ppDockbar = &pLeftDockbar;
+                    break;
+                case AFX_IDW_DOCKBAR_RIGHT:
+                    ppDockbar = &pRightDockbar;
+                    break;
+                case AFX_IDW_DOCKBAR_BOTTOM:
+                    ppDockbar = &pBottomDockbar;
+                    break;
+            }
+            if (ppDockbar) {
+                ASSERT(!*ppDockbar || *ppDockbar == pBar->m_pDockBar);
+                *ppDockbar = pBar->m_pDockBar;
+                bars.insert(pBar);
+            }
+        }
+    }
+
+    auto calcDock = [&](CDockBar * pDock, bool bHorz) {
+        unsigned stackSize = 0;
+        bool bNewRow = true;
+        for (int i = 0; i < pDock->m_arrBars.GetCount(); i++) {
+            auto pBar = static_cast<CControlBar*>(pDock->m_arrBars[i]);
+            if (!pBar && !bNewRow) {
+                bNewRow = true;
+            }
+            if (bNewRow && pBar && bars.find(pBar) != std::end(bars)) {
+                CSize size = pBar->CalcFixedLayout(TRUE, bHorz);
+                stackSize += (bHorz ? size.cy : size.cx) - (stackSize ? 2 : 4);
+                bNewRow = false;
+            }
+        }
+        return stackSize;
+    };
+
+    uTop = pTopDockbar ? calcDock(pTopDockbar, true) : 0;
+    uLeft = pLeftDockbar ? calcDock(pLeftDockbar, false) : 0;
+    uRight = pRightDockbar ? calcDock(pRightDockbar, false) : 0;
+    uBottom = pBottomDockbar ? calcDock(pBottomDockbar, true) : 0;
 }
 
 void CMainFrame::EnableShaders1(bool enable)
