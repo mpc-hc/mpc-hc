@@ -64,7 +64,12 @@
 
 #include <Il21dec.h>
 
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <map>
 #include <set>
+#include <vector>
 
 #include "sizecbar/scbarg.h"
 #include "ResizableLib/ResizableDialog.h"
