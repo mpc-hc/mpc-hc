@@ -421,6 +421,30 @@ static short GetFrames(byte val)
     return (short)(((byte0_high - 4) * 10) + byte0_low);
 }
 
+bool CVobFile::GetTitleInfo(const CString& fn, const ULONG iTitleNum, DWORD& VTSN, DWORD& TTN)
+{
+    if (!m_ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {
+        return false;
+    }
+
+    char hdr[13];
+    m_ifoFile.Read(hdr, 12);
+    hdr[12] = 0;
+    if (strcmp(hdr, "DVDVIDEO-VMG")) {
+        return false;
+    }
+
+    m_ifoFile.Seek(0xC4, CFile::begin);
+    DWORD TT_SRPTPosition = ReadDword() * 2048;
+    m_ifoFile.Seek(TT_SRPTPosition + 8 + (iTitleNum - 1) * 12 + 6, CFile::begin);
+    VTSN = (DWORD)ReadByte();
+    TTN = (DWORD)ReadByte();
+
+    m_ifoFile.Close();
+
+    return true;
+}
+
 bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, int iProgNum /*= 1*/)
 {
     if (!m_ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {

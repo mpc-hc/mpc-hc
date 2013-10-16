@@ -10856,25 +10856,39 @@ void CMainFrame::SetupDVDChapters()
     m_pCB = DEBUG_NEW CDSMChapterBag(nullptr, nullptr);
 
     WCHAR buff[MAX_PATH];
-    ULONG len = 0;
+    ULONG len, ulNumOfChapters;
     DVD_PLAYBACK_LOCATION2 loc;
-    if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) &&
-            SUCCEEDED(m_pDVDI->GetCurrentLocation(&loc))) {
-        CStringW path;
-        path.Format(L"%s\\VTS_%02u_0.IFO", buff, loc.TitleNum);
 
+    if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDVDDirectory(buff, _countof(buff), &len))
+            && SUCCEEDED(m_pDVDI->GetCurrentLocation(&loc))
+            && SUCCEEDED(m_pDVDI->GetNumberOfChapters(loc.TitleNum, &ulNumOfChapters))) {
         CVobFile vob;
-        CAtlList<CString> files;
-        if (vob.Open(path, files)) {
-            for (int i = 0; i < vob.GetChaptersCount(); i++) {
-                REFERENCE_TIME rt = vob.GetChapterOffset(i);
+        DWORD VTSN, TTN;
+        CStringW path;
+        path.Format(L"%s\\video_ts.IFO", buff);
 
-                CStringW str;
-                str.Format(IDS_AG_CHAPTER, i + 1);
+        if (vob.GetTitleInfo(path, loc.TitleNum, VTSN, TTN)) {
+            CAtlList<CString> files;
+            path.Empty();
+            path.Format(L"%s\\VTS_%02u_0.IFO", buff, VTSN);
 
-                m_pCB->ChapAppend(rt, str);
+            if (vob.Open(path, files, TTN)) {
+                int iChaptersCount = vob.GetChaptersCount();
+                if (ulNumOfChapters == (ULONG)iChaptersCount) {
+                    for (int i = 0; i < iChaptersCount; i++) {
+                        REFERENCE_TIME rt = vob.GetChapterOffset(i);
+
+                        CStringW str;
+                        str.Format(IDS_AG_CHAPTER, i + 1);
+
+                        m_pCB->ChapAppend(rt, str);
+                    }
+                } else {
+                    // Parser failed!
+                    ASSERT(FALSE);
+                }
+                vob.Close();
             }
-            vob.Close();
         }
     }
 
