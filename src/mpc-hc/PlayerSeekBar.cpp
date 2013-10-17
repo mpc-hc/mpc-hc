@@ -397,6 +397,7 @@ void CPlayerSeekBar::SetChapterBag(IDSMChapterBag* pCB)
 {
     CAutoLock lock(&m_csChapterBag);
     m_pChapterBag = pCB;
+    Invalidate();
 }
 
 void CPlayerSeekBar::RemoveChapters()

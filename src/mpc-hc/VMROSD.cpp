@@ -573,6 +573,7 @@ void CVMROSD::SetChapterBag(IDSMChapterBag* pCB)
 {
     CAutoLock lock(&m_csLock);
     m_pCB = pCB;
+    Invalidate();
 }
 
 void CVMROSD::RemoveChapters()
