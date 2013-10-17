@@ -393,19 +393,15 @@ bool CPlayerSeekBar::HasDuration() const
     return m_bHasDuration;
 }
 
-void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
+void CPlayerSeekBar::SetChapterBag(IDSMChapterBag* pCB)
 {
     CAutoLock lock(&m_csChapterBag);
-    m_pChapterBag.Release();
-    if (pCB) {
-        pCB.CopyTo(&m_pChapterBag);
-    }
+    m_pChapterBag = pCB;
 }
 
 void CPlayerSeekBar::RemoveChapters()
 {
-    CAutoLock lock(&m_csChapterBag);
-    m_pChapterBag.Release();
+    SetChapterBag(nullptr);
 }
 
 BEGIN_MESSAGE_MAP(CPlayerSeekBar, CDialogBar)

@@ -77,7 +77,7 @@ public:
     void EnableShowSeekBar(bool enabled = true);
     void SetVideoWindow(CWnd* pWnd);
 
-    void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);
+    void SetChapterBag(IDSMChapterBag* pCB);
     void RemoveChapters();
 private:
     CComPtr<IVMRMixerBitmap9>    m_pVMB;

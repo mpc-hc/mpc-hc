@@ -569,27 +569,13 @@ void CVMROSD::EnableShowSeekBar(bool enabled)
     m_bShowSeekBar = enabled;
 }
 
-void CVMROSD::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
+void CVMROSD::SetChapterBag(IDSMChapterBag* pCB)
 {
-    if (!pCB) {
-        RemoveChapters();
-    }
-
-    {
-        // Start of critical section
-        CAutoLock lock(&m_csLock);
-
-        RemoveChapters();
-        pCB.CopyTo(&m_pCB);
-    } // End of critical section
+    CAutoLock lock(&m_csLock);
+    m_pCB = pCB;
 }
 
 void CVMROSD::RemoveChapters()
 {
-    {
-        // Start of critical section
-        CAutoLock lock(&m_csLock);
-
-        m_pCB.Release();
-    } // End of critical section
+    SetChapterBag(nullptr);
 }

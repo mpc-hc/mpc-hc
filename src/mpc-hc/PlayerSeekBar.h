@@ -84,7 +84,7 @@ public:
     void SetPos(REFERENCE_TIME rtPos);
     bool HasDuration() const;
 
-    void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);
+    void SetChapterBag(IDSMChapterBag* pCB);
     void RemoveChapters();
 
 private:
