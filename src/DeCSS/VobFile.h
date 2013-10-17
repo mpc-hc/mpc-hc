@@ -81,7 +81,7 @@ public:
     bool HasDiscKey(BYTE* key);
     bool HasTitleKey(BYTE* key);
 
-    bool Open(CString fn, CAtlList<CString>& files /* out */); // vts ifo
+    bool Open(CString fn, CAtlList<CString>& files /* out */, int iProgNum = 1); // vts ifo
     bool Open(CAtlList<CString>& files, int offset = -1); // vts vobs, video vob offset in lba
     void Close();
 

@@ -421,7 +421,7 @@ static short GetFrames(byte val)
     return (short)(((byte0_high - 4) * 10) + byte0_low);
 }
 
-bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
+bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, int iProgNum /*= 1*/)
 {
     if (!m_ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {
         return false;
@@ -482,7 +482,9 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
     // Chapters ...
     m_ifoFile.Seek(0xCC, CFile::begin); //Get VTS_PGCI adress
     DWORD pcgITPosition = ReadDword() * 2048;
-    m_ifoFile.Seek(pcgITPosition + 8 + 4, CFile::begin);
+    m_ifoFile.Seek(pcgITPosition, CFile::begin);
+    WORD progCount = (WORD)ReadShort(); // TODO: Use that...
+    m_ifoFile.Seek(pcgITPosition + 8 * iProgNum + 4, CFile::begin);
     DWORD chainOffset = ReadDword();
     m_ifoFile.Seek(pcgITPosition + chainOffset + 2, CFile::begin);
     BYTE programChainPrograms = ReadByte();
