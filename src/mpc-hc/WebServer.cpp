@@ -29,7 +29,7 @@
 #include "WebServerSocket.h"
 #include "WebClientSocket.h"
 #include "WebServer.h"
-#include "version.h"
+#include "VersionInfo.h"
 #include "WinAPIUtils.h"
 
 
@@ -603,7 +603,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
         }
 
         env.AddTail(_T("GATEWAY_INTERFACE=CGI/1.1"));
-        env.AddTail(_T("SERVER_SOFTWARE=MPC-HC/") MPC_VERSION_STR);
+        env.AddTail(_T("SERVER_SOFTWARE=MPC-HC/") + VersionInfo::GetVersionString());
         env.AddTail(_T("SERVER_PROTOCOL=") + AToT(pClient->m_ver));
         env.AddTail(_T("REQUEST_METHOD=") + AToT(pClient->m_cmd));
         env.AddTail(_T("PATH_INFO=") + redir);

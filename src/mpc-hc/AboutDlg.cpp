@@ -25,7 +25,7 @@
 #include "FGFilterLAV.h"
 #endif
 #include "mplayerc.h"
-#include "version.h"
+#include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
 #include <afxole.h>
@@ -61,25 +61,21 @@ BOOL CAboutDlg::OnInitDialog()
     // Because we set LR_SHARED, there is no need to explicitly destroy the icon
     m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 48, 48, LR_SHARED));
 
-#if MPC_NIGHTLY_RELEASE || _WIN64
-    m_appname += _T(" (");
-#endif
-
-#if MPC_NIGHTLY_RELEASE
-    m_appname += MPC_VERSION_NIGHTLY;
-#endif
-
-#if MPC_NIGHTLY_RELEASE && _WIN64
-    m_appname += _T(", ");
-#endif
-
-#ifdef _WIN64
-    m_appname += _T("64-bit");
-#endif
-
-#if MPC_NIGHTLY_RELEASE || _WIN64
-    m_appname += _T(")");
-#endif
+    if (VersionInfo::IsNightly() || VersionInfo::Is64Bit()) {
+        m_appname += _T(" (");
+    }
+    if (VersionInfo::IsNightly()) {
+        m_appname += VersionInfo::GetNightlyWord();
+    }
+    if (VersionInfo::IsNightly() && VersionInfo::Is64Bit()) {
+        m_appname += _T(", ");
+    }
+    if (VersionInfo::Is64Bit()) {
+        m_appname += _T("64-bit");
+    }
+    if (VersionInfo::IsNightly() || VersionInfo::Is64Bit()) {
+        m_appname += _T(")");
+    }
 
 #ifdef MPCHC_LITE
     m_appname += _T(" Lite");
@@ -95,7 +91,7 @@ BOOL CAboutDlg::OnInitDialog()
 
     m_homepage.Format(_T("<a>%s</a>"), WEBSITE_URL);
 
-    m_strBuildNumber = MPC_VERSION_STR_FULL;
+    m_strBuildNumber = VersionInfo::GetFullVersionString();
 
 #if defined(__INTEL_COMPILER)
 #if (__INTEL_COMPILER >= 1210)
@@ -156,7 +152,7 @@ BOOL CAboutDlg::OnInitDialog()
     }
 #endif
 
-    m_buildDate = _T(__DATE__) _T(" ") _T(__TIME__);
+    m_buildDate = VersionInfo::GetBuildDateString();
 
     OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
     m_OSName.Format(_T("Windows NT %1u.%1u (build %u"),

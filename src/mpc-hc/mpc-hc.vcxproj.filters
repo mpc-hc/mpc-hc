@@ -369,6 +369,9 @@
     <ClCompile Include="FGFilterLAV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VersionInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -745,6 +748,9 @@
     </ClInclude>
     <ClInclude Include="..\thirdparty\LAVFilters\LAVVideoSettings.h">
       <Filter>Header Files\LAVFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="VersionInfo.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

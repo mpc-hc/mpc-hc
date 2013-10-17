@@ -25,7 +25,7 @@
 #include "resource.h"
 #include <DbgHelp.h>
 #include "mpc-hc_config.h"
-#include "version.h"
+#include "VersionInfo.h"
 #include "WinAPIUtils.h"
 
 
@@ -110,7 +110,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
             }
 
             CString strDumpName = AfxGetApp()->m_pszExeName;
-            strDumpName.AppendFormat(_T(".exe.%d.%d.%d.%d.dmp"), MPC_VERSION_NUM);
+            strDumpName.Append(_T(".exe.") + VersionInfo::GetVersionString() + _T(".dmp"));
             dumpPath.Append(strDumpName);
 
             // create the file

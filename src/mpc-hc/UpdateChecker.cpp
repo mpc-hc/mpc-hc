@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "mpc-hc_config.h"
-#include "version.h"
+#include "VersionInfo.h"
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 #include "SettingsDefines.h"
@@ -30,7 +30,12 @@
 
 #include <afxinet.h>
 
-const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_NUM };
+const Version UpdateChecker::MPC_HC_VERSION = {
+    VersionInfo::GetMajorNumber(),
+    VersionInfo::GetMinorNumber(),
+    VersionInfo::GetPatchNumber(),
+    VersionInfo::GetRevisionNumber()
+};
 const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = UPDATE_URL;
 
 bool UpdateChecker::bIsCheckingForUpdate = false;
@@ -60,14 +65,16 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
             osVersionStr += _T(" x64");
         }
 
-        LPCTSTR headersFmt = _T("User-Agent: MPC-HC")
-#ifdef _WIN64
-                             _T(" (64-bit)")
-#endif
+        CString headersFmt = _T("User-Agent: MPC-HC");
+        if (VersionInfo::Is64Bit()) {
+            headersFmt += _T(" (64-bit)");
+        }
 #ifdef MPCHC_LITE
-                             _T(" Lite")
+        headersFmt += _T(" Lite");
 #endif
-                             _T(" (%s)/") MPC_VERSION_STR_FULL _T("\r\n");
+        headersFmt += _T(" (%s)/");
+        headersFmt += VersionInfo::GetFullVersionString();
+        headersFmt += _T("\r\n");
 
         CString headers;
         headers.Format(headersFmt, osVersionStr);
