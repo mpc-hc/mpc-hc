@@ -40,6 +40,7 @@
 #include <evr.h>
 #include <evr9.h>
 #include <ksproxy.h>
+#include "IPinHook.h"
 #include "moreuuids.h"
 
 //
@@ -837,6 +838,21 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                         //pMFGS->GetService (MF_WORKQUEUE_SERVICES, IID_IMFWorkQueueServices, (void**)&pMFWQS);
                         //pMFWQS->BeginRegisterPlatformWorkQueueWithMMCSS(
 
+                        if (pMadVRAllocatorPresenter) {
+                            // Hook DXVA to have status and logging.
+                            CComPtr<IDirectXVideoDecoderService> pDecoderService;
+                            CComPtr<IDirect3DDeviceManager9>     pDeviceManager;
+                            HANDLE hDevice = INVALID_HANDLE_VALUE;
+
+                            if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_ACCELERATION_SERVICE, IID_PPV_ARGS(&pDeviceManager)))
+                                    && SUCCEEDED(pDeviceManager->OpenDeviceHandle(&hDevice))
+                                    && SUCCEEDED(pDeviceManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
+                                HookDirectXVideoDecoderService(pDecoderService);
+                                pDeviceManager->CloseDeviceHandle(hDevice);
+                            }
+                            pDeviceManager.Release();
+                            pDecoderService.Release();
+                        }
                     }
 
                     return hr;
