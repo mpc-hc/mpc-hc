@@ -1154,7 +1154,6 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
         */
         if (pMsg->wParam == VK_ESCAPE) {
             bool fEscapeNotAssigned = !AssignedToCmd(VK_ESCAPE, m_fFullScreen, false);
-            const CAppSettings& s = AfxGetAppSettings();
 
             if (fEscapeNotAssigned) {
                 if (m_fFullScreen || IsD3DFullScreenMode()) {
@@ -3341,7 +3340,6 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
     if (!pMenu) {
         return FALSE;
     }
-    const CAppSettings& s = AfxGetAppSettings();
 
     CPoint point;
     GetCursorPos(&point);
