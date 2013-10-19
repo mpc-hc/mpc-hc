@@ -931,7 +931,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
     HRESULT hr;
 
     const CRenderersSettings& r = GetRenderersSettings();
-    const CRenderersData* data = GetRenderersData();
+    const CRenderersData* rd = GetRenderersData();
 
     // Check whether the final pass must be initialized
     bool bColorManagement = r.m_AdvRendSets.bVMR9ColorManagementEnable;
@@ -962,7 +962,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
     }
 
     // Check whether the final pass is supported by the hardware
-    m_bFinalPass = data->m_bFP16Support;
+    m_bFinalPass = rd->m_bFP16Support;
     if (!m_bFinalPass) {
         return S_OK;
     }

@@ -2348,7 +2348,7 @@ void CEVRAllocatorPresenter::VSyncThread()
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
-    const CRenderersData* pApp = GetRenderersData();
+    const CRenderersData* rd = GetRenderersData();
     const CRenderersSettings& r = GetRenderersSettings();
 
     while (!bQuit) {
@@ -2391,14 +2391,14 @@ void CEVRAllocatorPresenter::VSyncThread()
                         int ScanlineStart = ScanLine;
                         bool bTakenLock;
                         WaitForVBlankRange(ScanlineStart, 5, true, true, false, bTakenLock);
-                        LONGLONG TimeStart = pApp->GetPerfCounter();
+                        LONGLONG TimeStart = rd->GetPerfCounter();
 
                         WaitForVBlankRange(ScanLineMiddle, 5, true, true, false, bTakenLock);
-                        LONGLONG TimeMiddle = pApp->GetPerfCounter();
+                        LONGLONG TimeMiddle = rd->GetPerfCounter();
 
                         int ScanlineEnd = ScanLine;
                         WaitForVBlankRange(ScanlineEnd, 5, true, true, false, bTakenLock);
-                        LONGLONG TimeEnd = pApp->GetPerfCounter();
+                        LONGLONG TimeEnd = rd->GetPerfCounter();
 
                         double nSeconds = double(TimeEnd - TimeStart) / 10000000.0;
                         LONGLONG DiffMiddle = TimeMiddle - TimeStart;

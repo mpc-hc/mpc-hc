@@ -1549,7 +1549,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     }
 
     const CRenderersSettings& r = GetRenderersSettings();
-    CRenderersData* pApp = GetRenderersData();
+    CRenderersData* rd = GetRenderersData();
     D3DRASTER_STATUS rasterStatus;
     REFERENCE_TIME llCurRefTime = 0;
     REFERENCE_TIME llSyncOffset = 0;
@@ -1783,7 +1783,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
         }
         m_VMR9AlphaBitmap.dwFlags ^= VMRBITMAP_UPDATE;
     }
-    if (pApp->m_iDisplayStats) {
+    if (rd->m_iDisplayStats) {
         DrawStats();
     }
     if (m_pOSDTexture) {
@@ -1812,11 +1812,11 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
         m_pRefClock->GetTime(&llCurRefTime);    // To check if we called Present too late to hit the right vsync
     }
     m_llEstVBlankTime = max(m_llEstVBlankTime, llCurRefTime); // Sometimes the real value is larger than the estimated value (but never smaller)
-    if (pApp->m_iDisplayStats < 3) {      // Partial on-screen statistics
+    if (rd->m_iDisplayStats < 3) {        // Partial on-screen statistics
         SyncStats(m_llEstVBlankTime);     // Max of estimate and real. Sometimes Present may actually return immediately so we need the estimate as a lower bound
     }
-    if (pApp->m_iDisplayStats == 1) {      // Full on-screen statistics
-        SyncOffsetStats(-llSyncOffset);    // Minus because we want time to flow downward in the graph in DrawStats
+    if (rd->m_iDisplayStats == 1) {       // Full on-screen statistics
+        SyncOffsetStats(-llSyncOffset);   // Minus because we want time to flow downward in the graph in DrawStats
     }
 
     // Adjust sync
@@ -1853,9 +1853,9 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
         m_pAudioStats->GetStatParam(AM_AUDREND_STAT_PARAM_SLAVE_MODE, &m_lAudioSlaveMode, &tmp);
     }
 
-    if (pApp->m_bResetStats) {
+    if (rd->m_bResetStats) {
         ResetStats();
-        pApp->m_bResetStats = false;
+        rd->m_bResetStats = false;
     }
 
     bool fResetDevice = m_bPendingResetDevice;
@@ -1879,7 +1879,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     }
 
     if (r.fResetDevice) {
-        LONGLONG time = GetRenderersData()->GetPerfCounter();
+        LONGLONG time = rd->GetPerfCounter();
         if (time > m_LastAdapterCheck + 20000000) { // check every 2 sec.
             m_LastAdapterCheck = time;
 #ifdef _DEBUG
@@ -1988,7 +1988,7 @@ void CBaseAP::DrawText(const RECT& rc, const CString& strText, int _Priority)
 void CBaseAP::DrawStats()
 {
     const CRenderersSettings& r = GetRenderersSettings();
-    const CRenderersData* pApp = GetRenderersData();
+    const CRenderersData* rd = GetRenderersData();
 
     LONGLONG llMaxJitter = m_MaxJitter;
     LONGLONG llMinJitter = m_MinJitter;
@@ -2004,7 +2004,7 @@ void CBaseAP::DrawStats()
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
 
-        if (pApp->m_iDisplayStats == 1) {
+        if (rd->m_iDisplayStats == 1) {
             strText.Format(L"Frame cycle  : %.3f ms [%.3f ms, %.3f ms]  Actual  %+5.3f ms [%+.3f ms, %+.3f ms]", m_dFrameCycle, m_pGenlock->minFrameCycle, m_pGenlock->maxFrameCycle, m_fJitterMean / 10000.0, (double(llMinJitter) / 10000.0), (double(llMaxJitter) / 10000.0));
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
@@ -2092,7 +2092,7 @@ void CBaseAP::DrawStats()
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
 
-        if (pApp->m_iDisplayStats == 1) {
+        if (rd->m_iDisplayStats == 1) {
             if (m_pAudioStats && r.m_AdvRendSets.bSynchronizeVideo) {
                 strText.Format(L"Audio lag   : %3lu ms [%ld ms, %ld ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
                 DrawText(rc, strText, 1);
@@ -2145,7 +2145,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"DirectX SDK  : %u", GetRenderersData()->GetDXSdkRelease());
+            strText.Format(L"DirectX SDK  : %u", rd->GetDXSdkRelease());
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -2160,7 +2160,7 @@ void CBaseAP::DrawStats()
         m_pSprite->End();
     }
 
-    if (m_pLine && (pApp->m_iDisplayStats < 3)) {
+    if (m_pLine && (rd->m_iDisplayStats < 3)) {
         D3DXVECTOR2 Points[NB_JITTER];
         int nIndex;
 
@@ -2202,7 +2202,7 @@ void CBaseAP::DrawStats()
         }
         m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
 
-        if (pApp->m_iDisplayStats == 1) { // Full on-screen statistics
+        if (rd->m_iDisplayStats == 1) { // Full on-screen statistics
             for (int i = 0; i < NB_JITTER; i++) {
                 nIndex = (m_nNextSyncOffset + 1 + i) % NB_JITTER;
                 if (nIndex < 0) {
@@ -2258,7 +2258,7 @@ double CBaseAP::GetCycleDifference()
 void CBaseAP::EstimateRefreshTimings()
 {
     if (m_pD3DDev) {
-        const CRenderersData* pApp = GetRenderersData();
+        const CRenderersData* rd = GetRenderersData();
         D3DRASTER_STATUS rasterStatus;
         m_pD3DDev->GetRasterStatus(0, &rasterStatus);
         while (rasterStatus.ScanLine != 0) {
@@ -2268,7 +2268,7 @@ void CBaseAP::EstimateRefreshTimings()
             m_pD3DDev->GetRasterStatus(0, &rasterStatus);
         }
         m_pD3DDev->GetRasterStatus(0, &rasterStatus);
-        LONGLONG startTime = pApp->GetPerfCounter();
+        LONGLONG startTime = rd->GetPerfCounter();
         UINT startLine = rasterStatus.ScanLine;
         LONGLONG endTime = 0;
         LONGLONG time = 0;
@@ -2278,7 +2278,7 @@ void CBaseAP::EstimateRefreshTimings()
         while (!done) { // Estimate time for one scan line
             m_pD3DDev->GetRasterStatus(0, &rasterStatus);
             line = rasterStatus.ScanLine;
-            time = pApp->GetPerfCounter();
+            time = rd->GetPerfCounter();
             if (line > 0) {
                 endLine = line;
                 endTime = time;
@@ -2294,7 +2294,7 @@ void CBaseAP::EstimateRefreshTimings()
             m_pD3DDev->GetRasterStatus(0, &rasterStatus);
         }
         // Now we're at the start of a vsync
-        startTime = pApp->GetPerfCounter();
+        startTime = rd->GetPerfCounter();
         UINT i;
         for (i = 1; i <= 50; i++) {
             m_pD3DDev->GetRasterStatus(0, &rasterStatus);
@@ -2306,7 +2306,7 @@ void CBaseAP::EstimateRefreshTimings()
             }
             // Now we're at the next vsync
         }
-        endTime = pApp->GetPerfCounter();
+        endTime = rd->GetPerfCounter();
         m_dEstRefreshCycle = (double)(endTime - startTime) / ((i - 1) * 10000.0);
     }
 }
