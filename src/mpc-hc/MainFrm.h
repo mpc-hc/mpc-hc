@@ -205,6 +205,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     CComPtr<IUnknown> m_pProv;
 
+    bool m_bUsingDXVA;
+
     void SetVolumeBoost(UINT nAudioBoost);
     void SetBalance(int balance);
 
