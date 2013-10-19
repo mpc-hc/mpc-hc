@@ -10,7 +10,8 @@ Legend:
 
 next version - not released yet
 ===============================
-+ Ticket #3548: Add British English translation
++ Ticket #3548, Add British English translation
++ Ticket #3605, Support playlists using UTF8 encoding without BOM
 * Updated VirtualDub to v1.10.4-test12
 * Updated Unrar to v5.0.0.12
 ! Ticket #1478, Slightly improve the precision of the frame number in the Go To dialog.

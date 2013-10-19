@@ -2032,10 +2032,12 @@ bool FindRedir(const CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrLi
 {
     CString body;
 
-    CTextFile f(CTextFile::ANSI);
-    if (f.Open(fn)) for (CString tmp; f.ReadString(tmp); body += tmp + '\n') {
+    CTextFile f(CTextFile::UTF8);
+    if (f.Open(fn)) {
+        for (CString tmp; f.ReadString(tmp); body += tmp + '\n') {
             ;
         }
+    }
 
     CString dir = fn.Left(max(fn.ReverseFind('/'), fn.ReverseFind('\\')) + 1); // "ReverseFindOneOf"
 
