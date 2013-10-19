@@ -204,7 +204,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_WM_NCPAINT()
     ON_WM_LBUTTONDOWN()
     ON_WM_SETCURSOR()
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFFFFFF, OnToolTipNotify)
+    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
