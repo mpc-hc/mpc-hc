@@ -11932,12 +11932,12 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pCAP2 = nullptr;
         m_pCAP = nullptr;
 
-        m_pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter), (void**)&m_pCAP, TRUE);
-        m_pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter2), (void**)&m_pCAP2, TRUE);
-        m_pGB->FindInterface(__uuidof(IVMRWindowlessControl9), (void**)&m_pVMRWC, FALSE); // might have IVMRMixerBitmap9, but not IVMRWindowlessControl9
-        m_pGB->FindInterface(__uuidof(IVMRMixerControl9), (void**)&m_pVMRMC, TRUE);
-        m_pGB->FindInterface(__uuidof(IVMRMixerBitmap9), (void**)&pVMB, TRUE);
-        m_pGB->FindInterface(__uuidof(IMFVideoMixerBitmap), (void**)&pMFVMB, TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE); // might have IVMRMixerBitmap9, but not IVMRWindowlessControl9
+        m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
         pMVTO = m_pCAP;
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
@@ -11953,8 +11953,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         SetupVMR9ColorControl();
 
         // === EVR !
-        m_pGB->FindInterface(__uuidof(IMFVideoDisplayControl), (void**)&m_pMFVDC, TRUE);
-        m_pGB->FindInterface(__uuidof(IMFVideoProcessor), (void**)&m_pMFVP, TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVP), TRUE);
         if (m_pMFVDC) {
             m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
         }
@@ -14448,8 +14448,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pCAP = nullptr;
             m_pCAP2 = nullptr;
             m_pGB->Render(pVidPrevPin);
-            m_pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter), (void**)&m_pCAP, TRUE);
-            m_pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter2), (void**)&m_pCAP2, TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
         }
 
         if (fVidCap) {

@@ -1240,7 +1240,7 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
 
         if (p && FAILED(hr = p(clsid, iid, ppv))) {
             CComPtr<IClassFactory> pCF;
-            if (SUCCEEDED(hr = p(clsid, __uuidof(IClassFactory), (void**)&pCF))) {
+            if (SUCCEEDED(hr = p(clsid, IID_PPV_ARGS(&pCF)))) {
                 hr = pCF->CreateInstance(nullptr, iid, ppv);
             }
         }
@@ -1266,7 +1266,7 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
 
 HRESULT LoadExternalFilter(LPCTSTR path, REFCLSID clsid, IBaseFilter** ppBF)
 {
-    return LoadExternalObject(path, clsid, __uuidof(IBaseFilter), (void**)ppBF);
+    return LoadExternalObject(path, clsid, IID_PPV_ARGS(ppBF));
 }
 
 HRESULT LoadExternalPropertyPage(IPersist* pP, REFCLSID clsid, IPropertyPage** ppPP)
@@ -1282,7 +1282,7 @@ HRESULT LoadExternalPropertyPage(IPersist* pP, REFCLSID clsid, IPropertyPage** p
     while (pos) {
         ExternalObject& eo = s_extObjs.GetNext(pos);
         if (eo.clsid == clsid2) {
-            return LoadExternalObject(eo.path, clsid, __uuidof(IPropertyPage), (void**)ppPP);
+            return LoadExternalObject(eo.path, clsid, IID_PPV_ARGS(ppPP));
         }
     }
 

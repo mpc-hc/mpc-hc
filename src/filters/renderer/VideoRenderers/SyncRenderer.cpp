@@ -2487,7 +2487,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     CComPtr<IDirectXVideoDecoderService> pDecoderService;
     HANDLE hDevice;
     if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
-            SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, __uuidof(IDirectXVideoDecoderService), (void**)&pDecoderService))) {
+            SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
         HookDirectXVideoDecoderService(pDecoderService);
         m_pD3DManager->CloseDeviceHandle(hDevice);
     }
@@ -2638,7 +2638,7 @@ STDMETHODIMP CSyncAP::CreateRenderer(IUnknown** ppRenderer)
         hr = pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&pMFVR));
 
         if (SUCCEEDED(hr)) {
-            hr = QueryInterface(__uuidof(IMFVideoPresenter), (void**)&pVP);
+            hr = QueryInterface(IID_PPV_ARGS(&pVP));
         }
         if (SUCCEEDED(hr)) {
             hr = pMFVR->InitializeRenderer(nullptr, pVP);
@@ -2959,7 +2959,7 @@ HRESULT CSyncAP::IsMediaTypeSupported(IMFMediaType* pMixerType)
     return hr;
 }
 
-HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType)
+HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** ppType)
 {
     HRESULT hr;
     AM_MEDIA_TYPE* pAMMedia = nullptr;
@@ -3020,7 +3020,7 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
     }
 
     pMixerType->FreeRepresentation(FORMAT_MFVideoFormat, (void*)pAMMedia);
-    m_pMediaType->QueryInterface(__uuidof(IMFMediaType), (void**) pType);
+    m_pMediaType->QueryInterface(IID_PPV_ARGS(ppType));
 
     return hr;
 }
@@ -3235,7 +3235,7 @@ STDMETHODIMP CSyncAP::GetCurrentMediaType(__deref_out  IMFVideoMediaType** ppMed
         CHECK_HR(MF_E_NOT_INITIALIZED);
     }
 
-    CHECK_HR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType));
+    CHECK_HR(m_pMediaType->QueryInterface(IID_PPV_ARGS(ppMediaType)));
     return hr;
 }
 
@@ -3244,9 +3244,9 @@ STDMETHODIMP CSyncAP::InitServicePointers(__in IMFTopologyServiceLookup* pLookup
 {
     HRESULT hr;
     DWORD dwObjects = 1;
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE, __uuidof(IMFTransform), (void**)&m_pMixer, &dwObjects);
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, __uuidof(IMediaEventSink), (void**)&m_pSink, &dwObjects);
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, __uuidof(IMFClock), (void**)&m_pClock, &dwObjects);
+    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE, IID_PPV_ARGS(&m_pMixer), &dwObjects);
+    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&m_pSink), &dwObjects);
+    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&m_pClock), &dwObjects);
     StartWorkerThreads();
     return S_OK;
 }
@@ -3950,7 +3950,7 @@ HRESULT CSyncAP::BeginStreaming()
     CComPtr<IBaseFilter> pEVR;
     FILTER_INFO filterInfo;
     ZeroMemory(&filterInfo, sizeof(filterInfo));
-    m_pOuterEVR->QueryInterface(__uuidof(IBaseFilter), (void**)&pEVR);
+    m_pOuterEVR->QueryInterface(IID_PPV_ARGS(&pEVR));
     pEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
 
     BeginEnumFilters(filterInfo.pGraph, pEF, pBF);

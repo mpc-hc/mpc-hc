@@ -109,7 +109,7 @@ static void LoadDefaultCodec(CAtlArray<Codec>& codecs, CComboBox& box, const GUI
         if (DisplayName == c.DisplayName) {
             box.SetCurSel(i);
             if (!c.pBF) {
-                c.pMoniker->BindToObject(nullptr, nullptr, __uuidof(IBaseFilter), (void**)&c.pBF);
+                c.pMoniker->BindToObject(nullptr, nullptr, IID_PPV_ARGS(&c.pBF));
             }
             break;
         }
@@ -489,7 +489,7 @@ static int ShowPPage(CAtlArray<Codec>& codecs, const CComboBox& box, HWND hWnd =
     Codec& c = codecs[iSel];
 
     if (!c.pBF) {
-        c.pMoniker->BindToObject(nullptr, nullptr, __uuidof(IBaseFilter), (void**)&c.pBF);
+        c.pMoniker->BindToObject(nullptr, nullptr, IID_PPV_ARGS(&c.pBF));
     }
 
     if (CComQIPtr<ISpecifyPropertyPages> pSPP = c.pBF) {

@@ -346,7 +346,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
         CComPtr<IPin> pPin;
         CMediaType mt;
 
-        if (SUCCEEDED(m_pIVMRSurfAllocNotify->QueryInterface(__uuidof(IBaseFilter), (void**)&pVMR9)) &&
+        if (SUCCEEDED(m_pIVMRSurfAllocNotify->QueryInterface(IID_PPV_ARGS(&pVMR9))) &&
                 SUCCEEDED(pVMR9->FindPin(L"VMR Input0", &pPin)) &&
                 SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
             ExtractAvgTimePerFrame(&mt, m_rtTimePerFrame);

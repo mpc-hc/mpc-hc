@@ -149,7 +149,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     CComPtr<IDirectXVideoDecoderService> pDecoderService;
     HANDLE hDevice;
     if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
-            SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, __uuidof(IDirectXVideoDecoderService), (void**)&pDecoderService))) {
+            SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
         TRACE_EVR("EVR: DXVA2 : device handle = 0x%08x", hDevice);
         HookDirectXVideoDecoderService(pDecoderService);
 
@@ -327,7 +327,7 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     hr = pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&pMFVR));
 
     if (SUCCEEDED(hr)) {
-        hr = QueryInterface(__uuidof(IMFVideoPresenter), (void**)&pVP);
+        hr = QueryInterface(IID_PPV_ARGS(&pVP));
     }
     if (SUCCEEDED(hr)) {
         hr = pMFVR->InitializeRenderer(nullptr, pVP);
@@ -708,7 +708,7 @@ HRESULT CEVRAllocatorPresenter::IsMediaTypeSupported(IMFMediaType* pMixerType)
     return hr;
 }
 
-HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType)
+HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** ppType)
 {
     HRESULT hr;
     AM_MEDIA_TYPE* pAMMedia = nullptr;
@@ -809,7 +809,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     }
 
     pMixerType->FreeRepresentation(FORMAT_MFVideoFormat, (void*)pAMMedia);
-    m_pMediaType->QueryInterface(__uuidof(IMFMediaType), (void**) pType);
+    m_pMediaType->QueryInterface(IID_PPV_ARGS(ppType));
 
     return hr;
 }
@@ -1177,7 +1177,7 @@ STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMe
         CHECK_HR(MF_E_NOT_INITIALIZED);
     }
 
-    CHECK_HR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType));
+    CHECK_HR(m_pMediaType->QueryInterface(IID_PPV_ARGS(ppMediaType)));
 
     return hr;
 }
@@ -1190,13 +1190,13 @@ STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTop
 
     TRACE_EVR("EVR: CEVRAllocatorPresenter::InitServicePointers\n");
     hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE,
-                                __uuidof(IMFTransform), (void**)&m_pMixer, &dwObjects);
+                                IID_PPV_ARGS(&m_pMixer), &dwObjects);
 
     hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
-                                __uuidof(IMediaEventSink), (void**)&m_pSink, &dwObjects);
+                                IID_PPV_ARGS(&m_pSink), &dwObjects);
 
     hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
-                                __uuidof(IMFClock), (void**)&m_pClock, &dwObjects);
+                                IID_PPV_ARGS(&m_pClock), &dwObjects);
 
 
     StartWorkerThreads();

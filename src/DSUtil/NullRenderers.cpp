@@ -308,7 +308,7 @@ HRESULT CNullUVideoRenderer::DoRenderSample(IMediaSample* pSample)
     CComQIPtr<IMFGetService> pService = pSample;
     if (pService != nullptr) {
         CComPtr<IDirect3DSurface9>  pSurface;
-        if (SUCCEEDED(pService->GetService(MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**)&pSurface))) {
+        if (SUCCEEDED(pService->GetService(MR_BUFFER_SERVICE, IID_PPV_ARGS(&pSurface)))) {
             // TODO : render surface...
         }
     }

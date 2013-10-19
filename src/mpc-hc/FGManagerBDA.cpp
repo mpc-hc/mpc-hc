@@ -1137,15 +1137,15 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nN
         }
 
         CComPtr<IPinConnection> pOldOutDynamic;
-        pOldOut->QueryInterface(__uuidof(IPinConnection), (void**) &pOldOutDynamic);
+        pOldOut->QueryInterface(IID_PPV_ARGS(&pOldOutDynamic));
         CComPtr<IPinConnection> pInPinDynamic;
-        pInPin->QueryInterface(__uuidof(IPinConnection), (void**) &pInPinDynamic);
+        pInPin->QueryInterface(IID_PPV_ARGS(&pInPinDynamic));
         CComPtr<IPinFlowControl> pOldOutControl;
         if ((GetState() != State_Stopped) && pInPinDynamic && pOldOutDynamic) {       // Try dynamic switch
-            pOldOut->QueryInterface(__uuidof(IPinFlowControl), (void**) &pOldOutControl);
+            pOldOut->QueryInterface(IID_PPV_ARGS(&pOldOutControl));
             pOldOutControl->Block(AM_PIN_FLOW_CONTROL_BLOCK, nullptr);
             CComPtr<IGraphConfig> pGraph;
-            QueryInterface(__uuidof(IGraphConfig), (void**) &pGraph);
+            QueryInterface(IID_PPV_ARGS(&pGraph));
             hr = pGraph->Reconnect(pNewOut, pInPin, nullptr, nullptr, nullptr, AM_GRAPH_CONFIG_RECONNECT_DIRECTCONNECT);
             pOldOutControl->Block(0, nullptr);
         } else {                                     // Dynamic pins not supported
@@ -1246,7 +1246,7 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
     OAFilterState nState = nRequested + 1;
 
     CComPtr<IMediaControl> pMC;
-    QueryInterface(__uuidof(IMediaControl), (void**) &pMC);
+    QueryInterface(IID_PPV_ARGS(&pMC));
     pMC->GetState(500, &nState);
     if (nState != nRequested) {
         switch (nRequested) {
@@ -1277,7 +1277,7 @@ FILTER_STATE CFGManagerBDA::GetState()
 {
     CComPtr<IMediaControl> pMC;
     OAFilterState nState;
-    QueryInterface(__uuidof(IMediaControl), (void**) &pMC);
+    QueryInterface(IID_PPV_ARGS(&pMC));
     pMC->GetState(500, &nState);
 
     return (FILTER_STATE) nState;

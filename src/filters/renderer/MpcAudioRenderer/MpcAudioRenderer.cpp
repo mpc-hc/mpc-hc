@@ -735,7 +735,7 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
     IVideoWindow* pVideoWindow = nullptr;
     HWND hWnd = nullptr;
 
-    hr = m_pGraph->QueryInterface(__uuidof(IVideoWindow), (void**) &pVideoWindow);
+    hr = m_pGraph->QueryInterface(IID_PPV_ARGS(&pVideoWindow));
     if (SUCCEEDED(hr)) {
         pVideoWindow->get_Owner((OAHWND*)&hWnd);
         SAFE_RELEASE(pVideoWindow);
@@ -1274,7 +1274,7 @@ HRESULT CMpcAudioRenderer::InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioCl
 
     // calculate the new period
     if (SUCCEEDED(hr)) {
-        hr = pAudioClient->GetService(__uuidof(IAudioRenderClient), (void**)(ppRenderClient));
+        hr = pAudioClient->GetService(IID_PPV_ARGS(ppRenderClient));
     }
 
     if (FAILED(hr)) {
