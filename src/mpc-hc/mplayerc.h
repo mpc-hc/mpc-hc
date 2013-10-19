@@ -101,10 +101,10 @@ extern void SetAudioRenderer(int AudioDevNo);
 extern void SetHandCursor(HWND m_hWnd, UINT nID);
 
 struct LanguageResource {
-    const UINT resourceID;
-    const LANGID localeID; // Check http://msdn.microsoft.com/en-us/goglobal/bb964664
-    const LPCTSTR name;
-    const LPCTSTR dllPath;
+    UINT resourceID;
+    LANGID localeID; // Check http://msdn.microsoft.com/en-us/goglobal/bb964664
+    LPCTSTR name;
+    LPCTSTR dllPath;
 };
 
 class CMPlayerCApp : public CWinApp
