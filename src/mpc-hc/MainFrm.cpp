@@ -910,7 +910,7 @@ void CMainFrame::OnClose()
         pos = m_shaderlabels.GetHeadPosition();
         while (pos) {
             strList += m_shaderlabels.GetAt(pos) + "|";
-            m_dockingbars.GetNext(pos);
+            m_shaderlabels.GetNext(pos);
         }
         s.strShaderList = strList;
     }
@@ -921,7 +921,7 @@ void CMainFrame::OnClose()
         pos = m_shaderlabelsScreenSpace.GetHeadPosition();
         while (pos) {
             strList += m_shaderlabelsScreenSpace.GetAt(pos) + "|";
-            m_dockingbars.GetNext(pos);
+            m_shaderlabelsScreenSpace.GetNext(pos);
         }
         s.strShaderListScreenSpace = strList;
     }
