@@ -70,8 +70,7 @@ IApplicationAssociationRegistration* CFileAssoc::CreateRegistrationManager()
     HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
                                   nullptr,
                                   CLSCTX_INPROC,
-                                  IID_IApplicationAssociationRegistration,
-                                  (LPVOID*)&pAAR);
+                                  IID_PPV_ARGS(&pAAR));
     UNREFERENCED_PARAMETER(hr);
 
     return pAAR;
@@ -878,8 +877,7 @@ bool CFileAssoc::ShowWindowsAssocDialog()
     HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistrationUI,
                                   nullptr,
                                   CLSCTX_INPROC,
-                                  IID_IApplicationAssociationRegistrationUI,
-                                  (LPVOID*)&pAARUI);
+                                  IID_PPV_ARGS(&pAARUI));
 
     bool success = (SUCCEEDED(hr) && pAARUI != nullptr);
 

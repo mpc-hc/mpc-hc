@@ -429,7 +429,7 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
         c.pMoniker = pMoniker;
         /*
         CComPtr<IBaseFilter> pBF;
-        if (FAILED(pMoniker->BindToObject(0, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF)
+        if (FAILED(pMoniker->BindToObject(0, 0, IID_PPV_ARGS(&pBF))) || !pBF)
             continue;
 
         c.pBF = pBF;
@@ -443,7 +443,7 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
         CoTaskMemFree(strName);
 
         CComPtr<IPropertyBag> pPB;
-        pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
+        pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
         if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
@@ -1509,7 +1509,7 @@ void CPlayerCaptureDialog::OnVideoCodecDimension()
 
         // we have to recreate the encoder, otherwise it will accept the new media type for only the first time
         m_pVidEnc = nullptr;
-        m_pVidEncMoniker->BindToObject(0, 0, IID_IBaseFilter, (void**)&m_pVidEnc);
+        m_pVidEncMoniker->BindToObject(0, 0, IID_PPV_ARGS(&m_pVidEnc));
     }
 }
 
@@ -1539,7 +1539,7 @@ void CPlayerCaptureDialog::OnAudioCodecDimension()
 
         // we have to recreate the encoder, otherwise it will accept the new media type for only the first time
         m_pAudEnc = nullptr;
-        m_pAudEncMoniker->BindToObject(0, 0, IID_IBaseFilter, (void**)&m_pAudEnc);
+        m_pAudEncMoniker->BindToObject(0, 0, IID_PPV_ARGS(&m_pAudEnc));
         /*
                 SaveMediaType(
                     CString(m_pAudEncArray[m_audcodec.GetItemData(m_audcodec.GetCurSel())].DisplayName.m_str),

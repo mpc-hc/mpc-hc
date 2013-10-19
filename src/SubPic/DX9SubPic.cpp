@@ -65,7 +65,7 @@ CDX9SubPic::~CDX9SubPic()
 STDMETHODIMP_(void*) CDX9SubPic::GetObject()
 {
     CComPtr<IDirect3DTexture9> pTexture;
-    if (SUCCEEDED(m_pSurface->GetContainer(IID_IDirect3DTexture9, (void**)&pTexture))) {
+    if (SUCCEEDED(m_pSurface->GetContainer(IID_PPV_ARGS(&pTexture)))) {
         return (void*)(IDirect3DTexture9*)pTexture;
     }
 

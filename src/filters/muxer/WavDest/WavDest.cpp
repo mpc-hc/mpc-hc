@@ -281,7 +281,7 @@ HRESULT CWavDestFilter::StopStreaming()
         return E_FAIL;
     }
 
-    HRESULT hr = ((IMemInputPin*) pDwnstrmInputPin)->QueryInterface(IID_IStream, (void**)&pStream);
+    HRESULT hr = ((IMemInputPin*) pDwnstrmInputPin)->QueryInterface(IID_PPV_ARGS(&pStream));
     if (SUCCEEDED(hr)) {
         BYTE* pb = (BYTE*)_alloca(m_cbHeader);
 

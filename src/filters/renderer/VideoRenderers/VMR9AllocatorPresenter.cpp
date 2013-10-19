@@ -434,7 +434,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
     if (!m_bPendingResetDevice) {
         CComPtr<IDirect3DTexture9> pTexture;
-        lpPresInfo->lpSurf->GetContainer(IID_IDirect3DTexture9, (void**)&pTexture);
+        lpPresInfo->lpSurf->GetContainer(IID_PPV_ARGS(&pTexture));
 
         if (pTexture) {
             m_pVideoSurface[m_nCurSurface] = lpPresInfo->lpSurf;

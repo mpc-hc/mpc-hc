@@ -822,20 +822,20 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                         CComPtr<IMFVideoMixerBitmap>    pMFMB;
                         CComPtr<IMFVideoProcessor>      pMFVP;
 
-                        if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC))) {
+                        if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&pMFVDC)))) {
                             m_pUnks.AddTail(pMFVDC);
                         }
 
-                        if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_MIXER_SERVICE, IID_IMFVideoMixerBitmap, (void**)&pMFMB))) {
+                        if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_MIXER_SERVICE, IID_PPV_ARGS(&pMFMB)))) {
                             m_pUnks.AddTail(pMFMB);
                         }
 
-                        if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_MIXER_SERVICE, IID_IMFVideoProcessor, (void**)&pMFVP))) {
+                        if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_MIXER_SERVICE, IID_PPV_ARGS(&pMFVP)))) {
                             m_pUnks.AddTail(pMFVP);
                         }
 
                         //CComPtr<IMFWorkQueueServices> pMFWQS;
-                        //pMFGS->GetService (MF_WORKQUEUE_SERVICES, IID_IMFWorkQueueServices, (void**)&pMFWQS);
+                        //pMFGS->GetService (MF_WORKQUEUE_SERVICES, IID_PPV_ARGS(&pMFWQS));
                         //pMFWQS->BeginRegisterPlatformWorkQueueWithMMCSS(
 
                         if (pMadVRAllocatorPresenter) {

@@ -52,7 +52,7 @@ void CRegFilterChooserDlg::DoDataExchange(CDataExchange* pDX)
 void CRegFilterChooserDlg::AddToList(IMoniker* pMoniker)
 {
     CComPtr<IPropertyBag> pPB;
-    if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
+    if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
         CComVariant var;
         if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             m_list.SetItemData(

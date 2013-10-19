@@ -9173,7 +9173,7 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 
     CComPtr<IDvdState> pDvdState;
-    HRESULT hr = OleLoadFromStream((IStream*)&stream, IID_IDvdState, (void**)&pDvdState);
+    HRESULT hr = OleLoadFromStream((IStream*)&stream, IID_PPV_ARGS(&pDvdState));
     UNREFERENCED_PARAMETER(hr);
 
     CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
@@ -10996,37 +10996,37 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
         m_pVidCap = pVidCapTmp;
 
         if (!pAudCapTmp) {
-            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Interleaved, m_pVidCap, IID_IAMStreamConfig, (void**)&m_pAMVSCCap))
-                    && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_IAMStreamConfig, (void**)&m_pAMVSCCap))) {
+            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Interleaved, m_pVidCap, IID_PPV_ARGS(&m_pAMVSCCap)))
+                    && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMVSCCap)))) {
                 TRACE(_T("Warning: No IAMStreamConfig interface for vidcap capture"));
             }
 
-            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Interleaved, m_pVidCap, IID_IAMStreamConfig, (void**)&m_pAMVSCPrev))
-                    && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Video, m_pVidCap, IID_IAMStreamConfig, (void**)&m_pAMVSCPrev))) {
+            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Interleaved, m_pVidCap, IID_PPV_ARGS(&m_pAMVSCPrev)))
+                    && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMVSCPrev)))) {
                 TRACE(_T("Warning: No IAMStreamConfig interface for vidcap capture"));
             }
 
-            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, m_pVidCap, IID_IAMStreamConfig, (void**)&m_pAMASC))
-                    && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Audio, m_pVidCap, IID_IAMStreamConfig, (void**)&m_pAMASC))) {
+            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, m_pVidCap, IID_PPV_ARGS(&m_pAMASC)))
+                    && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Audio, m_pVidCap, IID_PPV_ARGS(&m_pAMASC)))) {
                 TRACE(_T("Warning: No IAMStreamConfig interface for vidcap"));
             } else {
                 m_pAudCap = m_pVidCap;
             }
         } else {
-            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_IAMStreamConfig, (void**)&m_pAMVSCCap))) {
+            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMVSCCap)))) {
                 TRACE(_T("Warning: No IAMStreamConfig interface for vidcap capture"));
             }
 
-            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_IAMStreamConfig, (void**)&m_pAMVSCPrev))) {
+            if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMVSCPrev)))) {
                 TRACE(_T("Warning: No IAMStreamConfig interface for vidcap capture"));
             }
         }
 
-        if (FAILED(m_pCGB->FindInterface(&LOOK_UPSTREAM_ONLY, nullptr, m_pVidCap, IID_IAMCrossbar, (void**)&m_pAMXBar))) {
+        if (FAILED(m_pCGB->FindInterface(&LOOK_UPSTREAM_ONLY, nullptr, m_pVidCap, IID_PPV_ARGS(&m_pAMXBar)))) {
             TRACE(_T("Warning: No IAMCrossbar interface was found\n"));
         }
 
-        if (FAILED(m_pCGB->FindInterface(&LOOK_UPSTREAM_ONLY, nullptr, m_pVidCap, IID_IAMTVTuner, (void**)&m_pAMTuner))) {
+        if (FAILED(m_pCGB->FindInterface(&LOOK_UPSTREAM_ONLY, nullptr, m_pVidCap, IID_PPV_ARGS(&m_pAMTuner)))) {
             TRACE(_T("Warning: No IAMTVTuner interface was found\n"));
         }
         // TODO: init m_pAMXBar
@@ -11059,8 +11059,8 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 
         m_pAudCap = pAudCapTmp;
 
-        if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, m_pAudCap, IID_IAMStreamConfig, (void**)&m_pAMASC))
-                && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Audio, m_pAudCap, IID_IAMStreamConfig, (void**)&m_pAMASC))) {
+        if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, m_pAudCap, IID_PPV_ARGS(&m_pAMASC)))
+                && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Audio, m_pAudCap, IID_PPV_ARGS(&m_pAMASC)))) {
             TRACE(_T("Warning: No IAMStreamConfig interface for vidcap"));
         }
         /*
@@ -11117,14 +11117,14 @@ void CMainFrame::OpenCustomizeGraph()
         m_pGB->AddFilter(m_pRefClock, name);
 
         CComPtr<IReferenceClock> refClock;
-        m_pRefClock->QueryInterface(IID_IReferenceClock, reinterpret_cast<void**>(&refClock));
+        m_pRefClock->QueryInterface(IID_PPV_ARGS(&refClock));
         CComPtr<IMediaFilter> mediaFilter;
-        m_pGB->QueryInterface(IID_IMediaFilter, reinterpret_cast<void**>(&mediaFilter));
+        m_pGB->QueryInterface(IID_PPV_ARGS(&mediaFilter));
         mediaFilter->SetSyncSource(refClock);
         mediaFilter = nullptr;
         refClock = nullptr;
 
-        m_pRefClock->QueryInterface(IID_ISyncClock, reinterpret_cast<void**>(&m_pSyncClock));
+        m_pRefClock->QueryInterface(IID_PPV_ARGS(&m_pSyncClock));
 
         CComQIPtr<ISyncClockAdviser> pAdviser = m_pCAP;
         if (pAdviser) {
@@ -14459,7 +14459,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         }
 
         m_pAMDF = nullptr;
-        m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_IAMDroppedFrames, (void**)&m_pAMDF);
+        m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMDF));
     }
 
     //if (m_pAudCap)

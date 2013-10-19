@@ -433,7 +433,7 @@ void CPPageCapture::FindAnalogDevices()
     // List video devices
     BeginEnumSysDev(CLSID_VideoInputDeviceCategory, pMoniker) {
         CComPtr<IPropertyBag> pPB;
-        pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
+        pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
         if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
@@ -468,7 +468,7 @@ void CPPageCapture::FindAnalogDevices()
 
     BeginEnumSysDev(CLSID_AudioInputDeviceCategory, pMoniker) {
         CComPtr<IPropertyBag> pPB;
-        pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
+        pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
         if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
@@ -579,7 +579,7 @@ void CPPageCapture::FindDigitalDevices()
 
     BeginEnumSysDev(KSCATEGORY_BDA_NETWORK_PROVIDER, pMoniker) {
         CComPtr<IPropertyBag> pPB;
-        pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
+        pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
         if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
@@ -610,7 +610,7 @@ void CPPageCapture::FindDigitalDevices()
     iSel = 0;
     BeginEnumSysDev(KSCATEGORY_BDA_NETWORK_TUNER, pMoniker) {
         CComPtr<IPropertyBag> pPB;
-        pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
+        pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
         if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
@@ -636,7 +636,7 @@ void CPPageCapture::FindDigitalDevices()
     iSel = 0;
     BeginEnumSysDev(KSCATEGORY_BDA_RECEIVER_COMPONENT, pMoniker) {
         CComPtr<IPropertyBag> pPB;
-        pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
+        pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
         if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {

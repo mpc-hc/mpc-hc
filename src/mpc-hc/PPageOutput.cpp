@@ -165,7 +165,7 @@ BOOL CPPageOutput::OnInitDialog()
         m_AudioRendererDisplayNames.Add(CString(str));
 
         CComPtr<IPropertyBag> pPB;
-        if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
+        if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
             CComVariant var;
             pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr);
 

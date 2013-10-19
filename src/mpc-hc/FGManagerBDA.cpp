@@ -325,7 +325,7 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
         CComPtr<IPropertyBag> pPB;
         CComVariant var;
         LPOLESTR strName = nullptr;
-        if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB)) &&
+        if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB))) &&
                 SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName)) &&
                 SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             CStringW Name = CStringW(strName);
@@ -333,7 +333,7 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
                 continue;
             }
 
-            hr = pMoniker->BindToObject(nullptr, nullptr, IID_IBaseFilter, (void**)ppBF);
+            hr = pMoniker->BindToObject(nullptr, nullptr, IID_PPV_ARGS(ppBF));
             if (SUCCEEDED(hr)) {
                 hr = AddFilter(*ppBF, CStringW(var.bstrVal));
             }
@@ -884,7 +884,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
     bool bAudioEAC3 = false;
     bool bAudioLATM = false;
 
-    CheckNoLog(pMpeg2Demux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux));
+    CheckNoLog(pMpeg2Demux->QueryInterface(IID_PPV_ARGS(&pDemux)));
 
     LOG(_T("Receiver -> Demux connected."));
     CAppSettings& s = AfxGetAppSettings();
@@ -1008,7 +1008,7 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 
     if (pChannel->GetVideoPID() != 0) {
         CComPtr<IMpeg2Demultiplexer> pDemux;
-        m_pDemux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux);
+        m_pDemux->QueryInterface(IID_PPV_ARGS(&pDemux));
 
         if (pChannel->GetVideoType() == DVB_H264) {
             UpdateMediaType(&vih2_H264, pChannel);
@@ -1118,7 +1118,7 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nN
 
         if ((nNewType != DVB_H264) && (nNewType != DVB_MPV) && GetState() != State_Stopped) {
             CComPtr<IMpeg2Demultiplexer> pDemux;
-            m_pDemux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux);
+            m_pDemux->QueryInterface(IID_PPV_ARGS(&pDemux));
 
             switch (nNewType) {
                 case DVB_MPA:

@@ -144,7 +144,7 @@ void CFGFilterRegistry::QueryProperties()
 {
     ASSERT(m_pMoniker);
     CComPtr<IPropertyBag> pPB;
-    if (SUCCEEDED(m_pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
+    if (SUCCEEDED(m_pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
         CComVariant var;
         if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             m_name = var.bstrVal;
@@ -248,7 +248,7 @@ HRESULT CFGFilterRegistry::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
     HRESULT hr = E_FAIL;
 
     if (m_pMoniker) {
-        if (SUCCEEDED(hr = m_pMoniker->BindToObject(0, 0, IID_IBaseFilter, (void**)ppBF))) {
+        if (SUCCEEDED(hr = m_pMoniker->BindToObject(0, 0, IID_PPV_ARGS(ppBF)))) {
             m_clsid = ::GetCLSID(*ppBF);
         }
     } else if (m_clsid != GUID_NULL) {
