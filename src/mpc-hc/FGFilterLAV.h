@@ -183,6 +183,8 @@ public:
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 
     static void ShowPropertyPages(CWnd* pParendWnd);
+
+    static LPCTSTR GetUserFriendlyDecoderName(const CString& decoderName);
 };
 
 class CFGFilterLAVAudio : public CFGFilterLAV

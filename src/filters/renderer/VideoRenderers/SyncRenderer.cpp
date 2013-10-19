@@ -2141,8 +2141,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"%-13s: %s", GetDXVAVersion(), GetDXVADecoderDescription());
-            DrawText(rc, strText, 1);
+            DrawText(rc, rd->m_strDXVAInfo, 1);
             OffsetRect(&rc, 0, TextHeight);
 
             strText.Format(L"DirectX SDK  : %u", rd->GetDXSdkRelease());

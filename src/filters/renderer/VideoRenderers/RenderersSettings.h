@@ -138,7 +138,6 @@ class CRenderersData
 public:
     CRenderersData();
 
-    // Casimir666
     bool        m_bTearingTest;
     int         m_iDisplayStats;
     bool        m_bResetStats;  // Set to reset the presentation statistics
@@ -147,6 +146,7 @@ public:
     // Hardware feature support
     bool        m_bFP16Support;
     bool        m_b10bitSupport;
+    CString     m_strDXVAInfo;
 
     LONGLONG    GetPerfCounter() const;
     HINSTANCE   GetD3X9Dll();

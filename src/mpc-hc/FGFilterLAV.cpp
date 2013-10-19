@@ -546,6 +546,25 @@ void CFGFilterLAVVideo::ShowPropertyPages(CWnd* pParendWnd)
     CFGFilterLAV::ShowPropertyPages<VIDEO_DECODER, CFGFilterLAVVideo, ILAVVideoSettings, 1>(pParendWnd);
 }
 
+LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const CString& decoderName)
+{
+    static std::pair<LPCTSTR, LPCTSTR> userFriendlyDecoderNames[] = {
+        make_pair(_T("avcodec"), _T("FFmpeg")),
+        make_pair(_T("dxva2n"), _T("DXVA2 Native")),
+        make_pair(_T("dxva2cb"), _T("DXVA2 Copy-back")),
+        make_pair(_T("cuvid"), _T("Nvidia CUVID")),
+        make_pair(_T("quicksync"), _T("Intel QuickSync"))
+    };
+
+    for (int i = 0; i < _countof(userFriendlyDecoderNames); i++) {
+        if (decoderName == userFriendlyDecoderNames[i].first) {
+            return userFriendlyDecoderNames[i].second;
+        }
+    }
+
+    return _T("None");
+}
+
 static LPCTSTR pixFmtSettingsMap[LAVOutPixFmt_NB] = {
     _T("yv12"), _T("nv12"), _T("yuy2"), _T("uyvy"), _T("ayuv"), _T("p010"), _T("p210"), _T("y410"),
     _T("p016"), _T("p216"), _T("y416"), _T("rgb32"), _T("rgb24"), _T("v210"), _T("v410"), _T("yv16"),

@@ -11267,20 +11267,36 @@ void CMainFrame::OpenSetupVideo()
         }
     }
 
+    CString DXVAInfo;
+
     if (m_fAudioOnly) {
         if (IsD3DFullScreenMode()) {
             m_pFullscreenWnd->DestroyWindow();
         }
     } else {
-        // If LAV Video is in the graph, we query it directly since it's always more reliable than the hook.
+        CString DXVADecoderDescription = GetDXVADecoderDescription();
+        m_bUsingDXVA = (_T("Not using DXVA") != DXVADecoderDescription && _T("Unknown") != DXVADecoderDescription);
+
+        DXVAInfo.Format(_T("%-13s: %s"), GetDXVAVersion(), GetDXVADecoderDescription());
+
+        // If LAV Video is in the graph, we query it since it's always more reliable than the hook.
         if (CComQIPtr<ILAVVideoStatus> pLAVVideoStatus = FindFilter(GUID_LAVVideo, m_pGB)) {
             CStringW decoderName = pLAVVideoStatus->GetActiveDecoderName();
-            m_bUsingDXVA = (decoderName.Find(L"dxva") == 0 || decoderName == L"cuvid" || decoderName == L"quicksync");
-        } else {
-            CString DXVA_Text = GetDXVADecoderDescription();
-            m_bUsingDXVA = (_T("Not using DXVA") != DXVA_Text && _T("Unknown") != DXVA_Text);
+            if (decoderName.Find(L"dxva") == 0 || decoderName == L"cuvid" || decoderName == L"quicksync") {
+                CString LAVDXVAInfo;
+                LAVDXVAInfo.Format(_T("LAV Video Decoder (%s)"), CFGFilterLAVVideo::GetUserFriendlyDecoderName(decoderName));
+
+                if (!m_bUsingDXVA) { // Don't trust the hook
+                    m_bUsingDXVA = true;
+                    DXVAInfo.Format(_T("DXVA2        : %s"), LAVDXVAInfo);
+                } else {
+                    DXVAInfo.AppendFormat(_T(" [%s]"), LAVDXVAInfo);
+                }
+            }
         }
     }
+
+    GetRenderersData()->m_strDXVAInfo = DXVAInfo;
 }
 
 void CMainFrame::OpenSetupAudio()
