@@ -3507,8 +3507,18 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             fs == State_Running ? ResStr(IDS_CONTROLS_PLAYING) :
             _T("");
         if (!m_fAudioOnly && (UI_Text == ResStr(IDS_CONTROLS_PAUSED) || UI_Text == ResStr(IDS_CONTROLS_PLAYING))) {
-            CString DXVA_Text = GetDXVADecoderDescription();
-            if (_T("Not using DXVA") != DXVA_Text && _T("Unknown") != DXVA_Text) {
+            bool bUsingDXVA = false;
+
+            // If LAV Video is in the graph, we query it directly since it's always more reliable than the hook.
+            if (CComQIPtr<ILAVVideoStatus> pLAVVideoStatus = FindFilter(GUID_LAVVideo, m_pGB)) {
+                CStringW decoderName = pLAVVideoStatus->GetActiveDecoderName();
+                bUsingDXVA = (decoderName.Find(L"dxva") == 0 || decoderName == L"cuvid" || decoderName == L"quicksync");
+            } else {
+                CString DXVA_Text = GetDXVADecoderDescription();
+                bUsingDXVA = (_T("Not using DXVA") != DXVA_Text && _T("Unknown") != DXVA_Text);
+            }
+
+            if (bUsingDXVA) {
                 UI_Text += _T(" [DXVA]");
             }
         }
