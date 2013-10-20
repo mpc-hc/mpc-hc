@@ -2584,13 +2584,17 @@ const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type)
 
 //
 // Usage: SetThreadName (-1, "MainThread");
+// Code from http://msdn.microsoft.com/en-us/library/xcb2z8hs%28v=vs.110%29.aspx
 //
+
+#pragma pack(push,8)
 typedef struct tagTHREADNAME_INFO {
     DWORD  dwType;      // must be 0x1000
     LPCSTR szName;      // pointer to name (in user addr space)
     DWORD  dwThreadID;  // thread ID (-1 caller thread)
     DWORD  dwFlags;     // reserved for future use, must be zero
 } THREADNAME_INFO;
+#pragma pack(pop)
 
 void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
 {
@@ -2601,8 +2605,8 @@ void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
     info.dwFlags    = 0;
 
     __try {
-        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(DWORD), (ULONG_PTR*)&info);
-    } __except (EXCEPTION_CONTINUE_EXECUTION) {
+        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
     }
 }
 
