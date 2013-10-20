@@ -6,7 +6,9 @@
 *.psess
 *.sdf
 *.suo
+*.tss
 *.user
+*.vspx
 /.cov/*
 /.git-rewrite
 /bin
