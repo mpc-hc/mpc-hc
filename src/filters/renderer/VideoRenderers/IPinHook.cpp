@@ -49,10 +49,10 @@ int  g_nDXVAVersion = 0;
 IPinCVtbl* g_pPinCVtbl = nullptr;
 IMemInputPinCVtbl* g_pMemInputPinCVtbl = nullptr;
 
-typedef struct {
-    const int Format;
-    const LPCTSTR Description;
-} D3DFORMAT_TYPE;
+struct D3DFORMAT_TYPE {
+    int Format;
+    LPCTSTR Description;
+};
 
 const D3DFORMAT_TYPE D3DFormatType[] = {
     { D3DFMT_UNKNOWN       , _T("D3DFMT_UNKNOWN      ") },

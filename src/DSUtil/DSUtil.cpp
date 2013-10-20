@@ -2357,10 +2357,10 @@ void UnRegisterSourceFilter(const GUID& subtype)
     DeleteRegKey(_T("Media Type\\") + CStringFromGUID(MEDIATYPE_Stream), CStringFromGUID(subtype));
 }
 
-typedef struct {
-    const GUID*   Guid;
-    const LPCTSTR Description;
-} DXVA2_DECODER;
+struct DXVA2_DECODER {
+    const GUID* Guid;
+    LPCTSTR Description;
+};
 
 static const DXVA2_DECODER DXVA2Decoder[] = {
     {&GUID_NULL,                        _T("Unknown")},

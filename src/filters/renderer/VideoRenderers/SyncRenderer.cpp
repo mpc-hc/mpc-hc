@@ -3077,11 +3077,6 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
     return hr;
 }
 
-typedef struct {
-    const int Format;
-    const LPCTSTR Description;
-} D3DFORMAT_TYPE;
-
 LONGLONG CSyncAP::GetMediaTypeMerit(IMFMediaType* pMediaType)
 {
     AM_MEDIA_TYPE* pAMMedia = nullptr;
