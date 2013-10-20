@@ -76,7 +76,7 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
                                  1,
                                  INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
                                  headers,
-                                 -1);
+                                 DWORD(-1));
 
         if (versionFile) {
             CString latestVersionStr;

@@ -1173,7 +1173,7 @@ void CPlayerCaptureDialog::SetupAudioControls(
     if (!pAMAIM.IsEmpty()) {
         m_pAMAIM.Copy(pAMAIM);
 
-        size_t iSel = -1;
+        size_t iSel = SIZE_T_MAX;
 
         for (size_t i = 0; i < m_pAMAIM.GetCount(); i++) {
             CComQIPtr<IPin> pPin = m_pAMAIM[i];

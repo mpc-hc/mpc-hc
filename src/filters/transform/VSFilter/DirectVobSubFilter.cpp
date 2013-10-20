@@ -1612,12 +1612,12 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyl
     }
 }
 
-void CDirectVobSubFilter::InvalidateSubtitle(REFERENCE_TIME rtInvalidate, DWORD_PTR nSubtitleId)
+void CDirectVobSubFilter::InvalidateSubtitle(REFERENCE_TIME rtInvalidate /*= -1*/, DWORD_PTR nSubtitleId /*= DWORD_PTR_MAX*/)
 {
     CAutoLock cAutolock(&m_csQueueLock);
 
     if (m_pSubPicQueue) {
-        if (nSubtitleId == -1 || nSubtitleId == m_nSubtitleId) {
+        if (nSubtitleId == DWORD_PTR_MAX || nSubtitleId == m_nSubtitleId) {
             m_pSubPicQueue->Invalidate(rtInvalidate);
         }
     }
@@ -1657,9 +1657,9 @@ void CDirectVobSubFilter::RemoveSubStream(ISubStream* pSubStream)
     }
 }
 
-void CDirectVobSubFilter::Post_EC_OLE_EVENT(CString str, DWORD_PTR nSubtitleId)
+void CDirectVobSubFilter::Post_EC_OLE_EVENT(CString str, DWORD_PTR nSubtitleId /*= DWORD_PTR_MAX*/)
 {
-    if (nSubtitleId != -1 && nSubtitleId != m_nSubtitleId) {
+    if (nSubtitleId != DWORD_PTR_MAX && nSubtitleId != m_nSubtitleId) {
         return;
     }
 
