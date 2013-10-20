@@ -299,29 +299,28 @@ void CPPageFileInfoDetails::InitEncodingText(IFilterGraph* pFG)
         BeginEnumPins(pBF, pEP, pPin) {
             CMediaTypeEx mt;
             PIN_DIRECTION dir;
-            if (FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
-                    || FAILED(pPin->ConnectionMediaType(&mt))) {
-                continue;
-            }
+            if (SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_OUTPUT
+                    && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
 
-            CString str = mt.ToString();
+                CString str = mt.ToString();
 
-            if (!str.IsEmpty()) {
-                if (mt.majortype == MEDIATYPE_Video) { // Sort streams, set Video streams at head
-                    bool found_video = false;
-                    for (POSITION pos = sl.GetTailPosition(); pos; sl.GetPrev(pos)) {
-                        CString Item = sl.GetAt(pos);
-                        if (!Item.Find(_T("Video:"))) {
-                            sl.InsertAfter(pos, str + CString(L" [" + GetPinName(pPin) + L"]"));
-                            found_video = true;
-                            break;
+                if (!str.IsEmpty()) {
+                    if (mt.majortype == MEDIATYPE_Video) { // Sort streams, set Video streams at head
+                        bool found_video = false;
+                        for (POSITION pos = sl.GetTailPosition(); pos; sl.GetPrev(pos)) {
+                            CString Item = sl.GetAt(pos);
+                            if (!Item.Find(_T("Video:"))) {
+                                sl.InsertAfter(pos, str + CString(L" [" + GetPinName(pPin) + L"]"));
+                                found_video = true;
+                                break;
+                            }
                         }
+                        if (!found_video) {
+                            sl.AddHead(str + CString(L" [" + GetPinName(pPin) + L"]"));
+                        }
+                    } else {
+                        sl.AddTail(str + CString(L" [" + GetPinName(pPin) + L"]"));
                     }
-                    if (!found_video) {
-                        sl.AddHead(str + CString(L" [" + GetPinName(pPin) + L"]"));
-                    }
-                } else {
-                    sl.AddTail(str + CString(L" [" + GetPinName(pPin) + L"]"));
                 }
             }
         }

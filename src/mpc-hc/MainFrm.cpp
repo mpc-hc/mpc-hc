@@ -7384,14 +7384,12 @@ void CMainFrame::OnPlayFramestep(UINT nID)
         BeginEnumFilters(m_pGB, pEF, pBF) {
             BeginEnumPins(pBF, pEP, pPin) {
                 AM_MEDIA_TYPE mt;
-                if (FAILED(pPin->ConnectionMediaType(&mt))) {
-                    continue;
-                }
-
-                if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
-                    rtAvgTime = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
-                } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
-                    rtAvgTime = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
+                if (SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                    if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
+                        rtAvgTime = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
+                    } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
+                        rtAvgTime = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
+                    }
                 }
             }
             EndEnumPins;
@@ -8547,12 +8545,12 @@ void CMainFrame::OnNavigateGoto()
                 }
 
                 AM_MEDIA_TYPE mt;
-                pPin->ConnectionMediaType(&mt);
-
-                if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
-                    atpf = (REFTIME)((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
-                } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
-                    atpf = (REFTIME)((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
+                if (SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                    if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
+                        atpf = (REFTIME)((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
+                    } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
+                        atpf = (REFTIME)((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
+                    }
                 }
             }
             EndEnumPins;
@@ -9819,13 +9817,12 @@ void CMainFrame::AutoChangeMonitorMode()
             BeginEnumPins(pBF, pEP, pPin) {
                 CMediaTypeEx mt;
                 PIN_DIRECTION dir;
-                if (FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
-                        || FAILED(pPin->ConnectionMediaType(&mt))) {
-                    continue;
-                }
-                ExtractAvgTimePerFrame(&mt, m_rtTimePerFrame);
-                if (m_rtTimePerFrame == 0) {
-                    m_rtTimePerFrame = 1;
+                if (SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_OUTPUT
+                        && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                    ExtractAvgTimePerFrame(&mt, m_rtTimePerFrame);
+                    if (m_rtTimePerFrame == 0) {
+                        m_rtTimePerFrame = 1;
+                    }
                 }
             }
             EndEnumPins;
@@ -11493,12 +11490,10 @@ void CMainFrame::OpenSetupStatusBar()
             }
 
             BeginEnumPins(pBF, pEP, pPin) {
+                AM_MEDIA_TYPE mt;
                 if (S_OK == m_pGB->IsPinDirection(pPin, PINDIR_INPUT)
-                        && S_OK == m_pGB->IsPinConnected(pPin)) {
-                    AM_MEDIA_TYPE mt;
-                    ZeroMemory(&mt, sizeof(mt));
-                    pPin->ConnectionMediaType(&mt);
-
+                        && S_OK == m_pGB->IsPinConnected(pPin)
+                        && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
                     if (mt.majortype == MEDIATYPE_Audio && mt.formattype == FORMAT_WaveFormatEx) {
                         switch (((WAVEFORMATEX*)mt.pbFormat)->nChannels) {
                             case 1:
@@ -13262,51 +13257,47 @@ void CMainFrame::SetupNavChaptersSubMenu()
         }
 
     } else if (GetPlaybackMode() == PM_DVD) {
-        ULONG ulNumOfVolumes, ulVolume;
+        ULONG ulNumOfVolumes, ulVolume, ulNumOfTitles, ulNumOfChapters, ulUOPs;
         DVD_DISC_SIDE Side;
-        ULONG ulNumOfTitles = 0;
-        m_pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles);
-
         DVD_PLAYBACK_LOCATION2 Location;
-        m_pDVDI->GetCurrentLocation(&Location);
 
-        ULONG ulNumOfChapters = 0;
-        m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
+        if (SUCCEEDED(m_pDVDI->GetCurrentLocation(&Location))
+                && SUCCEEDED(m_pDVDI->GetCurrentUOPS(&ulUOPs))
+                && SUCCEEDED(m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters))
+                && SUCCEEDED(m_pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles))) {
 
-        ULONG ulUOPs = 0;
-        m_pDVDI->GetCurrentUOPS(&ulUOPs);
+            for (ULONG i = 1; i <= ulNumOfTitles; i++) {
+                UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
+                if (i == Location.TitleNum) {
+                    flags |= MF_CHECKED;
+                }
+                if (ulUOPs & UOP_FLAG_Play_Title) {
+                    flags |= MF_DISABLED | MF_GRAYED;
+                }
 
-        for (ULONG i = 1; i <= ulNumOfTitles; i++) {
-            UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
-            if (i == Location.TitleNum) {
-                flags |= MF_CHECKED;
-            }
-            if (ulUOPs & UOP_FLAG_Play_Title) {
-                flags |= MF_DISABLED | MF_GRAYED;
-            }
+                CString str;
+                str.Format(IDS_AG_TITLE, i);
 
-            CString str;
-            str.Format(IDS_AG_TITLE, i);
-
-            pSub->AppendMenu(flags, id++, str);
-        }
-
-        for (ULONG i = 1; i <= ulNumOfChapters; i++) {
-            UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
-            if (i == Location.ChapterNum) {
-                flags |= MF_CHECKED;
-            }
-            if (ulUOPs & UOP_FLAG_Play_Chapter) {
-                flags |= MF_DISABLED | MF_GRAYED;
-            }
-            if (i == 1) {
-                flags |= MF_MENUBARBREAK;
+                pSub->AppendMenu(flags, id++, str);
             }
 
-            CString str;
-            str.Format(IDS_AG_CHAPTER, i);
+            for (ULONG i = 1; i <= ulNumOfChapters; i++) {
+                UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
+                if (i == Location.ChapterNum) {
+                    flags |= MF_CHECKED;
+                }
+                if (ulUOPs & UOP_FLAG_Play_Chapter) {
+                    flags |= MF_DISABLED | MF_GRAYED;
+                }
+                if (i == 1) {
+                    flags |= MF_MENUBARBREAK;
+                }
 
-            pSub->AppendMenu(flags, id++, str);
+                CString str;
+                str.Format(IDS_AG_CHAPTER, i);
+
+                pSub->AppendMenu(flags, id++, str);
+            }
         }
     } else if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1) {
         const CAppSettings& s = AfxGetAppSettings();
@@ -13735,13 +13726,11 @@ void CMainFrame::AddTextPassThruFilter()
         BeginEnumPins(pBF, pEP, pPin) {
             CComPtr<IPin> pPinTo;
             AM_MEDIA_TYPE mt;
-            if (FAILED(pPin->ConnectedTo(&pPinTo)) || !pPinTo
-                    || FAILED(pPin->ConnectionMediaType(&mt))
-                    || mt.majortype != MEDIATYPE_Text && mt.majortype != MEDIATYPE_Subtitle) {
-                continue;
+            if (SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo
+                    && SUCCEEDED(pPin->ConnectionMediaType(&mt))
+                    && (mt.majortype == MEDIATYPE_Text || mt.majortype == MEDIATYPE_Subtitle)) {
+                InsertTextPassThruFilter(pBF, pPin, pPinTo);
             }
-
-            InsertTextPassThruFilter(pBF, pPin, pPinTo);
         }
         EndEnumPins;
     }
