@@ -249,6 +249,7 @@ public:
         this->cmd = cmd;
         this->key = 0;
         this->fVirt = 0;
+        ZeroMemory(&backup, sizeof(backup));
     }
 
     wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, UINT mouseFS = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)

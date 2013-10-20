@@ -143,6 +143,8 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 // CSubPicQueue
 //
 
+#pragma warning(push)
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized 
 CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
     : CSubPicQueueImpl(pAllocator, phr)
     , m_nMaxSubPic(nMaxSubPic)
@@ -150,6 +152,8 @@ CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* 
     , m_rtQueueMin(0)
     , m_rtQueueMax(0)
     , m_rtInvalidate(0)
+    , m_fBreakBuffering(false)
+    , m_ThreadEvents()
 {
     if (phr && FAILED(*phr)) {
         return;
@@ -168,6 +172,7 @@ CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* 
     }
     CAMThread::Create();
 }
+#pragma warning(pop)
 
 CSubPicQueue::~CSubPicQueue()
 {

@@ -139,6 +139,8 @@ CAppSettings::CAppSettings()
     , nVolumeStep(5)
     , nSpeedStep(0)
     , fUseDVDPath(false)
+    , rtShift(0)
+    , rtStart(0)
     , lDVDTitle(0)
     , lDVDChapter(0)
     , iAdminOption(0)
@@ -363,6 +365,8 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_FLIC
     TraFiltersKeys[TRA_FLIC] = _T("TRA_FLIC");
 #endif
+
+    ZeroMemory(&DVDPosition, sizeof(DVDPosition));
 }
 #pragma warning(pop)
 

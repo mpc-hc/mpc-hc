@@ -169,6 +169,7 @@ CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString* _pErro
     , m_Lut3DSize(64)
     , m_Lut3DEntryCount(64 * 64 * 64)
     , m_StretchRectFilter(D3DTEXF_NONE)
+    , m_pD3DXFloat32To16Array(nullptr)
 {
     ZeroMemory(&m_Caps, sizeof(m_Caps));
     HINSTANCE hDll = GetRenderersData()->GetD3X9Dll();

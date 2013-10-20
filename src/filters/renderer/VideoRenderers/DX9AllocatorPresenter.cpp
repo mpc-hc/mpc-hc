@@ -40,8 +40,9 @@ bool queue_ffdshow_support = false;
 
 using namespace DSObjects;
 
+#pragma warning(push)
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized 
 // CDX9AllocatorPresenter
-
 CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString& _Error)
     : CDX9RenderingEngine(hWnd, hr, &_Error)
     , m_RefreshRate(0)
@@ -93,17 +94,56 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_ModeratedTimeSpeed(1.0)
     , m_ModeratedTimeSpeedPrim(0.0)
     , m_ModeratedTimeSpeedDiff(0.0)
+    , m_DetectedFrameRate(0.0)
+    , m_DetectedFrameTime(0.0)
+    , m_DetectedFrameTimeStdDev(0.0)
+    , m_DetectedLock(false)
+    , m_DetectedFrameTimePos(0)
+    , m_DetectedRefreshRatePos(0)
+    , m_DetectedRefreshTimePrim(0)
+    , m_DetectedScanlineTime(0)
+    , m_DetectedScanlineTimePrim(0)
+    , m_DetectedRefreshRate(0)
+    , m_nNextJitter(0)
+    , m_nNextSyncOffset(0)
+    , m_llLastPerf(0)
+    , m_fAvrFps(0.0)
+    , m_fJitterStdDev(0.0)
+    , m_fSyncOffsetStdDev(0.0)
+    , m_fSyncOffsetAvr(0.0)
+    , m_bSyncStatsAvailable(false)
+    , m_fJitterMean(0.0)
+    , m_DetectedRefreshTime(0.0)
+    , m_DetectedScanlinesPerFrame(0.0)
+    , m_JitterStdDev(0)
+    , m_MaxJitter(MINLONG64)
+    , m_MinJitter(MAXLONG64)
+    , m_MaxSyncOffset(0)
+    , m_MinSyncOffset(0)
+    , m_VBlankEndWait(0)
+    , m_VBlankStartWait(0)
+    , m_pD3DXLoadSurfaceFromMemory(nullptr)
+    , m_pD3DXLoadSurfaceFromSurface(nullptr)
+    , m_pD3DXCreateLine(nullptr)
+    , m_pD3DXCreateFont(nullptr)
+    , m_pD3DXCreateSprite(nullptr)
+    , m_pDwmIsCompositionEnabled(nullptr)
+    , m_pDwmEnableComposition(nullptr)
+    , m_pDirect3DCreate9Ex(nullptr)
+    , m_DetectedFrameTimeHistory()
+    , m_DetectedFrameTimeHistoryHistory()
+    , m_ldDetectedRefreshRateList()
+    , m_ldDetectedScanlineRateList()
+    , m_pllJitter()
+    , m_pllSyncOffset()
 {
+    ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+
     if (FAILED(hr)) {
         _Error += _T("ISubPicAllocatorPresenterImpl failed\n");
         return;
     }
 
-    m_pD3DXLoadSurfaceFromMemory  = nullptr;
-    m_pD3DXLoadSurfaceFromSurface = nullptr;
-    m_pD3DXCreateLine             = nullptr;
-    m_pD3DXCreateFont             = nullptr;
-    m_pD3DXCreateSprite           = nullptr;
     HINSTANCE hDll                = GetRenderersData()->GetD3X9Dll();
 
     if (hDll) {
@@ -118,15 +158,12 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         _Error += _T(" release or newer in order for MPC-HC to function properly.\n");
     }
 
-    m_pDwmIsCompositionEnabled = nullptr;
-    m_pDwmEnableComposition = nullptr;
     m_hDWMAPI = LoadLibrary(L"dwmapi.dll");
     if (m_hDWMAPI) {
         (FARPROC&)m_pDwmIsCompositionEnabled = GetProcAddress(m_hDWMAPI, "DwmIsCompositionEnabled");
         (FARPROC&)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-    m_pDirect3DCreate9Ex = nullptr;
     m_hD3D9 = LoadLibrary(L"d3d9.dll");
 #ifndef DISABLE_USING_D3D9EX
     if (m_hD3D9) {
@@ -149,21 +186,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         m_pD3D = m_pD3DEx;
     }
 
-    m_DetectedFrameRate = 0.0;
-    m_DetectedFrameTime = 0.0;
-    m_DetectedFrameTimeStdDev = 0.0;
-    m_DetectedLock = false;
-    ZeroMemory(m_DetectedFrameTimeHistory, sizeof(m_DetectedFrameTimeHistory));
-    ZeroMemory(m_DetectedFrameTimeHistoryHistory, sizeof(m_DetectedFrameTimeHistoryHistory));
-    m_DetectedFrameTimePos = 0;
-    ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
-    ZeroMemory(m_ldDetectedRefreshRateList, sizeof(m_ldDetectedRefreshRateList));
-    ZeroMemory(m_ldDetectedScanlineRateList, sizeof(m_ldDetectedScanlineRateList));
-    m_DetectedRefreshRatePos = 0;
-    m_DetectedRefreshTimePrim = 0;
-    m_DetectedScanlineTime = 0;
-    m_DetectedScanlineTimePrim = 0;
-    m_DetectedRefreshRate = 0;
     const CRenderersSettings& r = GetRenderersSettings();
 
     if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {
@@ -176,18 +198,8 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     }
 
     hr = CreateDevice(_Error);
-
-    ZeroMemory(m_pllJitter, sizeof(m_pllJitter));
-    ZeroMemory(m_pllSyncOffset, sizeof(m_pllSyncOffset));
-    m_nNextJitter         = 0;
-    m_nNextSyncOffset     = 0;
-    m_llLastPerf          = 0;
-    m_fAvrFps             = 0.0;
-    m_fJitterStdDev       = 0.0;
-    m_fSyncOffsetStdDev   = 0.0;
-    m_fSyncOffsetAvr      = 0.0;
-    m_bSyncStatsAvailable = false;
 }
+#pragma warning(pop)
 
 CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
 {

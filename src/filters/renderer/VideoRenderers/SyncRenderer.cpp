@@ -56,6 +56,8 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
     , m_ScreenSize(0, 0)
     , m_bicubicA(0)
+    , m_nTearingPos(0)
+    , m_VMR9AlphaBitmapWidthBytes()
     , m_nDXSurface(1)
     , m_nVMR9Surfaces(0)
     , m_iVMR9Surface(0)
@@ -89,6 +91,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_dOptimumDisplayCycle(0.0)
     , m_dCycleDifference(1.0)
     , m_llEstVBlankTime(0)
+    , m_LastAdapterCheck(0)
     , m_CurrentAdapter(0)
     , m_FocusThread(nullptr)
     , m_lNextSampleWait(1)
@@ -119,6 +122,10 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_pDwmEnableComposition(nullptr)
     , m_pDirect3DCreate9Ex(nullptr)
 {
+    ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+    ZeroMemory(&m_caps, sizeof(m_caps));
+    ZeroMemory(&pp, sizeof(pp));
+
     if (FAILED(hr)) {
         _Error += _T("ISubPicAllocatorPresenterImpl failed\n");
         return;
@@ -168,8 +175,6 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     } else {
         m_pD3D = m_pD3DEx;
     }
-
-    ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
     const CRenderersSettings& r = GetRenderersSettings();
     if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {

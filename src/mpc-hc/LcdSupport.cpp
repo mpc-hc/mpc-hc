@@ -569,6 +569,8 @@ CMPC_Lcd::CMPC_Lcd()
     , m_nMediaStop(0)
     , m_nVolumeStart(0)
     , m_nVolumeStop(100)
+    , m_MonoOutput(nullptr)
+    , m_ColorOutput(nullptr)
     , Thread_Loop(false)
     , nThread_tTimeout(0)
 {
