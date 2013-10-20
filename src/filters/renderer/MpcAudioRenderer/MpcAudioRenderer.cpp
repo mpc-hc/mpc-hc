@@ -1080,7 +1080,7 @@ HRESULT CMpcAudioRenderer::GetAudioDevice(IMMDevice** ppMMDevice)
     TRACE(_T("CMpcAudioRenderer::GetAudioDevice\n"));
 
     CComPtr<IMMDeviceEnumerator> enumerator;
-    IMMDeviceCollection* devices;
+    IMMDeviceCollection* devices = nullptr;
     IPropertyStore* pProps = nullptr;
     HRESULT hr = enumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator));
 

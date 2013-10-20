@@ -1329,7 +1329,7 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
 
     // Open the output profile
     cmsHPROFILE hOutputProfile;
-    FILE* outputProfileStream;
+    FILE* outputProfileStream = nullptr;
 
     if (profilePath != 0) {
         if (_wfopen_s(&outputProfileStream, T2W(profilePath), L"rb") != 0) {
