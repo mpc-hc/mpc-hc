@@ -33,8 +33,6 @@ class CSubPicAllocatorPresenterImpl
 {
 protected:
     HWND m_hWnd;
-    CSize m_spMaxSize; // TODO:
-    int m_spMaxQueued; // TODO:
     REFERENCE_TIME m_rtSubtitleDelay;
 
     CSize m_NativeVideoSize, m_AspectRatio;

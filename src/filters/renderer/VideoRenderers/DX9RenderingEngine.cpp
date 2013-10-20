@@ -148,7 +148,29 @@ CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString* _pErro
     , m_nNbDXSurface(1)
     , m_nCurSurface(0)
     , m_CurrentAdapter(0)
+    , m_BackbufferType(D3DFMT_UNKNOWN)
+    , m_DisplayType(D3DFMT_UNKNOWN)
+    , m_bHighColorResolution(false)
+    , m_bForceInputHighColorResolution(false)
+    , m_RenderingPath(RENDERING_PATH_DRAW)
+    , m_SurfaceType(D3DFMT_UNKNOWN)
+    , m_bFullFloatingPointProcessing(false)
+    , m_bHalfFloatingPointProcessing(false)
+    , m_bColorManagement(false)
+    , m_InputVideoSystem(VIDEO_SYSTEM_UNKNOWN)
+    , m_AmbientLight(AMBIENT_LIGHT_BRIGHT)
+    , m_RenderingIntent(COLOR_RENDERING_INTENT_PERCEPTUAL)
+    , m_ScreenSpacePassCount(1)
+    , m_ScreenSpacePassSrc(0)
+    , m_ScreenSpacePassDest(1)
+    , m_pRenderTarget(nullptr)
+    , m_BicubicA(0)
+    , m_bFinalPass(false)
+    , m_Lut3DSize(64)
+    , m_Lut3DEntryCount(64 * 64 * 64)
+    , m_StretchRectFilter(D3DTEXF_NONE)
 {
+    ZeroMemory(&m_Caps, sizeof(m_Caps));
     HINSTANCE hDll = GetRenderersData()->GetD3X9Dll();
     m_bD3DX = hDll != nullptr;
 

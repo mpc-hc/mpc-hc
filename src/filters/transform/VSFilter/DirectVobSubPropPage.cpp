@@ -146,7 +146,7 @@ INT_PTR CDVSBasePPage::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
                         if (!m_fDisableInstantUpdate
                                 && !(HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_INSTANTUPDATE)
                                 && LOWORD(wParam) != IDC_EDIT1 && LOWORD(wParam) != IDC_ANIMWHENBUFFERING
-                                && !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1)) {
+                                && !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), TRUE)) {
                             OnApplyChanges();
                         }
                     }
@@ -295,6 +295,12 @@ CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr)
     : CDVSBasePPage(NAME("VSFilter Property Page (main)"), pUnk, IDD_DVSMAINPAGE, IDD_DVSMAINPAGE)
     , m_nLangs(0)
     , m_ppLangs(nullptr)
+    , m_iSelectedLanguage(0)
+    , m_fOverridePlacement(false)
+    , m_PlacementXperc(50)
+    , m_PlacementYperc(90)
+    , m_fOnlyShowForcedVobSubs(false)
+    , m_fn()
 {
     BindControl(IDC_FILENAME, m_fnedit);
     BindControl(IDC_LANGCOMBO, m_langs);
@@ -473,8 +479,17 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 
 /* CDVSGeneralPPage */
 
-CDVSGeneralPPage::CDVSGeneralPPage(LPUNKNOWN pUnk, HRESULT* phr) :
-    CDVSBasePPage(NAME("VSFilter Property Page (global settings)"), pUnk, IDD_DVSGENERALPAGE, IDD_DVSGENERALPAGE)
+CDVSGeneralPPage::CDVSGeneralPPage(LPUNKNOWN pUnk, HRESULT* phr)
+    : CDVSBasePPage(NAME("VSFilter Property Page (global settings)"), pUnk, IDD_DVSGENERALPAGE, IDD_DVSGENERALPAGE)
+    , m_HorExt(0)
+    , m_VerExt(0)
+    , m_ResX2(0)
+    , m_ResX2minw(0)
+    , m_ResX2minh(0)
+    , m_LoadLevel(0)
+    , m_fExternalLoad(true)
+    , m_fWebLoad(true)
+    , m_fEmbeddedLoad(true)
 {
     BindControl(IDC_VEREXTCOMBO, m_verext);
     BindControl(IDC_MOD32FIX, m_mod32fix);
@@ -595,8 +610,16 @@ void CDVSGeneralPPage::UpdateControlData(bool fSave)
 
 /* CDVSMiscPPage */
 
-CDVSMiscPPage::CDVSMiscPPage(LPUNKNOWN pUnk, HRESULT* phr) :
-    CDVSBasePPage(NAME("VSFilter Property Page (misc settings)"), pUnk, IDD_DVSMISCPAGE, IDD_DVSMISCPAGE)
+CDVSMiscPPage::CDVSMiscPPage(LPUNKNOWN pUnk, HRESULT* phr)
+    : CDVSBasePPage(NAME("VSFilter Property Page (misc settings)"), pUnk, IDD_DVSMISCPAGE, IDD_DVSMISCPAGE)
+    , m_fFlipPicture(false)
+    , m_fFlipSubtitles(false)
+    , m_fHideSubtitles(false)
+    , m_fOSD(false)
+    , m_fAnimWhenBuffering(true)
+    , m_fReloaderDisabled(false)
+    , m_fSaveFullPath(false)
+    , m_uSubPictToBuffer(10)
 {
     BindControl(IDC_FLIP, m_flippic);
     BindControl(IDC_FLIPSUB, m_flipsub);
@@ -672,14 +695,19 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_animwhenbuff.SetCheck(m_fAnimWhenBuffering);
         m_showosd.SetCheck(m_fOSD);
         m_autoreload.SetCheck(!m_fReloaderDisabled);
-        m_instupd.SetCheck(!!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1));
+        m_instupd.SetCheck(!!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), TRUE));
     }
 }
 
 /* CDVSTimingPPage */
 
-CDVSTimingPPage::CDVSTimingPPage(LPUNKNOWN pUnk, HRESULT* phr) :
-    CDVSBasePPage(NAME("VSFilter Timing Property Page"), pUnk, IDD_DVSTIMINGPAGE, IDD_DVSTIMINGPAGE)
+CDVSTimingPPage::CDVSTimingPPage(LPUNKNOWN pUnk, HRESULT* phr)
+    : CDVSBasePPage(NAME("VSFilter Timing Property Page"), pUnk, IDD_DVSTIMINGPAGE, IDD_DVSTIMINGPAGE)
+    , m_SubtitleSpeedMul(1000)
+    , m_SubtitleSpeedDiv(1000)
+    , m_SubtitleDelay(0)
+    , m_fMediaFPSEnabled(false)
+    , m_MediaFPS(25.0)
 {
     BindControl(IDC_MODFPS, m_modfps);
     BindControl(IDC_FPS, m_fps);

@@ -88,10 +88,10 @@ void CCmdUIDialog::OnInitMenuPopup(CMenu* pPopupMenu, UINT /*nIndex*/, BOOL /*bS
 
     // Determine if menu is popup in top-level menu and set m_pOther to
     // it if so (m_pParentMenu == nullptr) indicates that it is secondary popup.
-    HMENU hParentMenu;
     if (AfxGetThreadState()->m_hTrackingMenu == pPopupMenu->m_hMenu) {
         state.m_pParentMenu = pPopupMenu;    // Parent == child for tracking popup.
-    } else if ((hParentMenu = ::GetMenu(m_hWnd)) != nullptr) {
+    } else if (::GetMenu(m_hWnd) != nullptr) {
+        HMENU hParentMenu;
         CWnd* pParent = this;
         // Child windows don't have menus--need to go to the top!
         if (pParent != nullptr &&

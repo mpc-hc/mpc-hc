@@ -313,7 +313,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     int n, curPos = 0;
     CArray<int> columnWidth;
 
-    CString strColumnWidth = AfxGetApp()->GetProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH, _T(""));
+    CString strColumnWidth = AfxGetApp()->GetProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH);
     CString token = strColumnWidth.Tokenize(_T(","), curPos);
     while (!token.IsEmpty()) {
         if (_stscanf_s(token, L"%d", &n) == 1) {

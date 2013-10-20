@@ -68,7 +68,6 @@ namespace DSObjects
 
         //
 
-        DWORD m_wndStyle;
         CPlayerWindow m_wndWindowFrame, m_wndDestFrame;
 
         //

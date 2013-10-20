@@ -260,8 +260,11 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 {
     LOG(_T("---------------------------------------------------------------->"));
     LOG(_T("Starting session..."));
+
     CAppSettings& s = AfxGetAppSettings();
+    m_nDVBRebuildFilterGraph = s.nDVBRebuildFilterGraph;
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+
     if (pChannel) {
         if (pChannel->GetVideoType() == DVB_H264) {
             UpdateMediaType(&vih2_H264, pChannel);
@@ -269,6 +272,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
             UpdateMediaType(&sMpv_fmt, pChannel);
         }
     }
+
     m_DVBStreams[DVB_MPV]  = CDVBStream(L"mpv",  &mt_Mpv);
     m_DVBStreams[DVB_H264] = CDVBStream(L"h264", &mt_H264);
     m_DVBStreams[DVB_MPA]  = CDVBStream(L"mpa",  &mt_Mpa);
@@ -428,7 +432,6 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     CComPtr<IBaseFilter> pTuner;
     CComPtr<IBaseFilter> pReceiver;
 
-    m_nDVBRebuildFilterGraph = s.nDVBRebuildFilterGraph;
     LOG(_T("Creating BDA filters..."));
     CheckAndLog(CreateKSFilter(&pNetwork, KSCATEGORY_BDA_NETWORK_PROVIDER, s.strBDANetworkProvider), _T("BDA: Network provider creation"));
     if (FAILED(hr = CreateKSFilter(&pTuner, KSCATEGORY_BDA_NETWORK_TUNER, s.strBDATuner))) {

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,9 +28,7 @@
 #define PT_BSPLINETO        0xfc
 #define PT_BSPLINEPATCHTO   0xfa
 
-class RasterizerNfo
-{
-public:
+struct RasterizerNfo {
     int w;
     int h;
     int spdw;
@@ -48,7 +46,22 @@ public:
 
     byte* am;
 
-    RasterizerNfo();
+    RasterizerNfo(int w, int h, int xo, int yo, int overlayp, int spdw, int pitch, DWORD color,
+                  const DWORD* sw, byte* s, byte* src, DWORD* dst, byte* am)
+        : w(w)
+        , h(h)
+        , xo(xo)
+        , yo(yo)
+        , overlayp(overlayp)
+        , spdw(spdw)
+        , pitch(pitch)
+        , color(color)
+        , sw(sw)
+        , s(s)
+        , src(src)
+        , dst(dst)
+        , am(am) {
+    }
 };
 
 class Rasterizer

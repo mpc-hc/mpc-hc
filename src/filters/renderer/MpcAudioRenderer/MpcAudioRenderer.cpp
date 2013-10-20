@@ -112,6 +112,8 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     , lastBufferTime(0)
     , hnsActualDuration(0)
     , m_lVolume(DSBVOLUME_MIN)
+    , pfAvSetMmThreadCharacteristicsW(nullptr)
+    , pfAvRevertMmThreadCharacteristics(nullptr)
 {
 #ifdef STANDALONE_FILTER
     CRegKey key;
@@ -135,7 +137,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
 #else
     m_useWASAPI = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPC-HC Audio Renderer"), _T("UseWasapi"), m_useWASAPI);
     m_bMuteFastForward = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPC-HC Audio Renderer"), _T("MuteFastForward"), m_bMuteFastForward);
-    m_csSound_Device = AfxGetApp()->GetProfileString(_T("Filters\\MPC-HC Audio Renderer"), _T("SoundDevice"), _T(""));
+    m_csSound_Device = AfxGetApp()->GetProfileString(_T("Filters\\MPC-HC Audio Renderer"), _T("SoundDevice"));
 #endif
     m_useWASAPIAfterRestart = m_useWASAPI;
 

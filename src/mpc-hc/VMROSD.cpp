@@ -68,6 +68,8 @@ CVMROSD::CVMROSD()
     m_debugPenBorder.CreatePen(PS_SOLID, 1, m_colors[OSD_BORDER]);
 
     ZeroMemory(&m_bitmapInfo, sizeof(m_bitmapInfo));
+    ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+    ZeroMemory(&m_MFVideoAlphaBitmap, sizeof(m_MFVideoAlphaBitmap));
 }
 
 CVMROSD::~CVMROSD()

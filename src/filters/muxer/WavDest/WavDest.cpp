@@ -72,6 +72,8 @@ CFilterApp theApp;
 
 CWavDestFilter::CWavDestFilter(LPUNKNOWN pUnk, HRESULT* phr)
     : CTransformFilter(NAME("WavDest filter"), pUnk, __uuidof(this))
+    , m_cbHeader(0)
+    , m_cbWavData(0)
 {
     if (SUCCEEDED(*phr)) {
         if (CWavDestOutputPin* pOut = DEBUG_NEW CWavDestOutputPin(this, phr)) {

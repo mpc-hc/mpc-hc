@@ -28,13 +28,17 @@
 
 // CPlayerNavigationDialog dialog
 
+#pragma warning(push)
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 // IMPLEMENT_DYNAMIC(CPlayerNavigationDialog, CResizableDialog)
 CPlayerNavigationDialog::CPlayerNavigationDialog()
     : CResizableDialog(CPlayerNavigationDialog::IDD, nullptr)
     , m_bTVStations(true)
     , m_pParent(nullptr)
+    , p_nItems()
 {
 }
+#pragma warning(pop)
 
 CPlayerNavigationDialog::~CPlayerNavigationDialog()
 {

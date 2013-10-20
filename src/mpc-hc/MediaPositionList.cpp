@@ -63,10 +63,10 @@ void CFilePositionList::Load()
 
     for (int i = 0; i < m_nMaxSize && hasNextEntry; i++) {
         strFilePos.Format(_T("File Name %d"), i);
-        filePosition.strFile = m_pApp->GetProfileString(m_lpszSection, strFilePos, _T(""));
+        filePosition.strFile = m_pApp->GetProfileString(m_lpszSection, strFilePos);
 
         strFilePos.Format(_T("File Position %d"), i);
-        strValue = m_pApp->GetProfileString(m_lpszSection, strFilePos, _T(""));
+        strValue = m_pApp->GetProfileString(m_lpszSection, strFilePos);
         filePosition.llPosition = _tstoi64(strValue);
 
         if (!filePosition.strFile.IsEmpty()) {

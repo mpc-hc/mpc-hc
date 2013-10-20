@@ -75,10 +75,10 @@ public:
 
         HDMV_PALETTE palette[256];
 
-        DVB_CLUT() {
-            id = 0;
-            version_number = 0;
-            size = 0;
+        DVB_CLUT()
+            : id(0)
+            , version_number(0)
+            , size(0) {
             ZeroMemory(palette, sizeof(palette));
         }
     };
@@ -93,16 +93,16 @@ public:
         short       vertical_position_minimun;
         short       vertical_position_maximum;
 
-        DVB_DISPLAY() {
-            // Default value (section 5.1.3)
-            version_number = 0;
-            display_window_flag = 0;
-            width          = 720;
-            height         = 576;
-            horizontal_position_minimun = 0;
-            horizontal_position_maximum = 0;
-            vertical_position_minimun = 0;
-            vertical_position_maximum = 0;
+        DVB_DISPLAY()
+        // Default value (section 5.1.3)
+            : version_number(0)
+            , display_window_flag(0)
+            , width(720)
+            , height(576)
+            , horizontal_position_minimun(0)
+            , horizontal_position_maximum(0)
+            , vertical_position_minimun(0)
+            , vertical_position_maximum(0) {
         }
     };
 
@@ -115,14 +115,14 @@ public:
         BYTE        foreground_pixel_code;
         BYTE        background_pixel_code;
 
-        DVB_OBJECT() {
-            object_id                  = 0xFF;
-            object_type                = 0;
-            object_provider_flag       = 0;
-            object_horizontal_position = 0;
-            object_vertical_position   = 0;
-            foreground_pixel_code      = 0;
-            background_pixel_code      = 0;
+        DVB_OBJECT()
+            : object_id(0xFF)
+            , object_type(0)
+            , object_provider_flag(0)
+            , object_horizontal_position(0)
+            , object_vertical_position(0)
+            , foreground_pixel_code(0)
+            , background_pixel_code(0) {
         }
     };
 
@@ -143,21 +143,21 @@ public:
         int        objectCount;
         DVB_OBJECT objects[MAX_OBJECTS];
 
-        DVB_REGION() {
-            id                     = 0;
-            horizAddr              = 0;
-            vertAddr               = 0;
-            version_number         = 0;
-            fill_flag              = 0;
-            width                  = 0;
-            height                 = 0;
-            level_of_compatibility = 0;
-            depth                  = 0;
-            CLUT_id                = 0;
-            _8_bit_pixel_code      = 0;
-            _4_bit_pixel_code      = 0;
-            _2_bit_pixel_code      = 0;
-            objectCount            = 0;
+        DVB_REGION()
+            : id(0)
+            , horizAddr(0)
+            , vertAddr(0)
+            , version_number(0)
+            , fill_flag(0)
+            , width(0)
+            , height(0)
+            , level_of_compatibility(0)
+            , depth(0)
+            , CLUT_id(0)
+            , _8_bit_pixel_code(0)
+            , _4_bit_pixel_code(0)
+            , _2_bit_pixel_code(0)
+            , objectCount(0) {
         }
     };
 
@@ -175,12 +175,14 @@ public:
         CAtlList<DVB_CLUT*>          CLUTs;
         bool                         rendered;
 
-        DVB_PAGE() {
-            pageTimeOut       = 0;
-            pageVersionNumber = 0;
-            pageState         = 0;
-            regionCount       = 0;
-            rendered          = false;
+        DVB_PAGE()
+            : pageTimeOut(0)
+            , pageVersionNumber(0)
+            , pageState(0)
+            , regionCount(0)
+            , rendered(false)
+            , rtStart(0)
+            , rtStop(0) {
         }
 
         ~DVB_PAGE() {
@@ -197,8 +199,6 @@ public:
     };
 
 private:
-    static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
-
     int                 m_nBufferSize;
     int                 m_nBufferReadPos;
     int                 m_nBufferWritePos;

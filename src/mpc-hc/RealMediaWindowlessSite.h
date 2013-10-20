@@ -44,12 +44,19 @@ namespace DSObjects
 {
 
     struct REGION {
-        REGION() : rects(0), pOSRegion(0), size(0), numRects(0) {}
         long size;
         long numRects;
         PNxRect* rects;
         PNxRect extents;
         void* pOSRegion;
+
+        REGION()
+            : rects(nullptr)
+            , pOSRegion(nullptr)
+            , size(0)
+            , numRects(0) {
+            ZeroMemory(&extents, sizeof(extents));
+        }
     };
 
     void ExtractRects(REGION* pRegion);

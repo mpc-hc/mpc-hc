@@ -27,9 +27,6 @@ class CGolombBuffer;
 class CHdmvSub : public CBaseSub
 {
 public:
-
-    static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
-
     enum HDMV_SEGMENT_TYPE {
         NO_SEGMENT       = 0xFFFF,
         PALETTE          = 0x14,

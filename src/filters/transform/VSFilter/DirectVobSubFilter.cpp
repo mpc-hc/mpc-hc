@@ -83,7 +83,7 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
     m_tbid.hSystrayWnd = nullptr;
     m_tbid.graph = nullptr;
     m_tbid.fRunOnce = false;
-    m_tbid.fShowIcon = (theApp.m_AppName.Find(_T("zplayer"), 0) < 0 || !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), 0));
+    m_tbid.fShowIcon = (theApp.m_AppName.Find(_T("zplayer"), 0) < 0 || !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), FALSE));
 
     HRESULT hr = S_OK;
     m_pTextInput.Add(DEBUG_NEW CTextInputPin(this, m_pLock, &m_csSubLock, &hr));
@@ -337,7 +337,7 @@ HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName
     if (pGraph) {
         AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-        if (!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0)) {
+        if (!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), FALSE)) {
             QWORD ver = CFileVersionInfo::GetFileVersionNum(_T("divx_c32.ax"));
             if (((ver >> 48) & 0xffff) == 4 && ((ver >> 32) & 0xffff) == 2) {
                 AfxMessageBox(IDS_DIVX_WARNING, MB_ICONWARNING | MB_OK, 0);

@@ -126,6 +126,9 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer,
     , m_hDXVA2Lib(nullptr)
     , m_pD3DDev(nullptr)
     , m_pD3DDeviceManager(nullptr)
+    , pfDXVA2CreateDirect3DDeviceManager9(nullptr)
+    , pfDXVA2CreateVideoService(nullptr)
+    , m_nResetTocken(0)
     , m_hDevice(INVALID_HANDLE_VALUE)
 {
     CreateSurface();

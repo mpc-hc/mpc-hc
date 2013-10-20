@@ -127,9 +127,9 @@ CRealMediaWindowlessSite::CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pConte
     , m_pRegion(nullptr)
     , m_pRegionWithoutChildren(nullptr)
 {
-    m_size.cx = m_size.cy = 0;
-    m_position.x = m_position.y = 0;
-
+    ZeroMemory(&m_size, sizeof(m_size));
+    ZeroMemory(&m_position, sizeof(m_position));
+    ZeroMemory(&m_bitmapInfo, sizeof(m_bitmapInfo));
     ZeroMemory(&m_lastBitmapInfo, sizeof(m_lastBitmapInfo));
 
     hr = S_OK;

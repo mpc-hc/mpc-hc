@@ -167,19 +167,19 @@ BOOL CPPageOutput::OnInitDialog()
         CComPtr<IPropertyBag> pPB;
         if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
             CComVariant var;
-            pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr);
+            if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+                CString fstr(var.bstrVal);
 
-            CString fstr(var.bstrVal);
-
-            var.Clear();
-            if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, nullptr))) {
-                BSTR* pbstr;
-                if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pbstr))) {
-                    fstr.Format(_T("%s (%08x)"), CString(fstr), *((DWORD*)pbstr + 1));
-                    SafeArrayUnaccessData(var.parray);
+                var.Clear();
+                if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, nullptr))) {
+                    BSTR* pbstr;
+                    if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pbstr))) {
+                        fstr.Format(_T("%s (%08x)"), CString(fstr), *((DWORD*)pbstr + 1));
+                        SafeArrayUnaccessData(var.parray);
+                    }
                 }
+                Cbstr.Format(_T("%d: %s"), i, fstr);
             }
-            Cbstr.Format(_T("%d: %s"), i, fstr);
         } else {
             Cbstr.Format(_T("%d: %s"), i, CString(str));
         }

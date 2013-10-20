@@ -31,6 +31,8 @@ using namespace DSObjects;
 CRM7AllocatorPresenter::CRM7AllocatorPresenter(HWND hWnd, HRESULT& hr)
     : CDX7AllocatorPresenter(hWnd, hr)
 {
+    ZeroMemory(&m_bitmapInfo, sizeof(m_bitmapInfo));
+    ZeroMemory(&m_lastBitmapInfo, sizeof(m_lastBitmapInfo));
 }
 
 STDMETHODIMP CRM7AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)

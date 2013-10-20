@@ -28,6 +28,8 @@
 
 // CPPageAudioSwitcher dialog
 
+#pragma warning(push)
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 IMPLEMENT_DYNAMIC(CPPageAudioSwitcher, CPPageBase)
 CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
 #ifdef MPCHC_LITE
@@ -46,6 +48,7 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
     , m_fAudioTimeShift(FALSE)
     , m_AudioBoostPos(0)
     , m_nAudioMaxNormFactor(400)
+    , m_pSpeakerToChannelMap()
 {
     CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pFG);
 
@@ -54,6 +57,7 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
         m_nChannels = pASF->GetNumberOfInputChannels();
     }
 }
+#pragma warning(pop)
 
 CPPageAudioSwitcher::~CPPageAudioSwitcher()
 {

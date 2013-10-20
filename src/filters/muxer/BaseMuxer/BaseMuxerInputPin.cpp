@@ -38,6 +38,7 @@ CBaseMuxerInputPin::CBaseMuxerInputPin(LPCWSTR pName, CBaseFilter* pFilter, CCri
     , m_evAcceptPacket(TRUE)
     , m_iPacketIndex(0)
     , m_fEOS(false)
+    , m_rtMaxStart(_I64_MIN)
 {
     static int s_iID = 0;
     m_iID = s_iID++;
