@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,53 +25,53 @@
 #include "STS.h"
 
 // metadata
-typedef struct {
+struct author_t {
     CStringW name, email, url;
-} author_t;
+};
 
-typedef struct {
+struct language_t {
     CStringW code, text;
-} language_t;
+};
 
-typedef struct {
+struct metadata_t {
     CStringW title, date, comment;
     author_t author;
     language_t language, languageext;
-} metadata_t;
+};
 
 // style
-typedef struct {
+struct posattriblist_t {
     CStringW alignment, relativeto, horizontal_margin, vertical_margin, rotate[3];
-} posattriblist_t;
+};
 
-typedef struct {
+struct fontstyle_t {
     CStringW face, size, color[4], weight, italic, underline, alpha, outline, shadow, wrap;
-} fontstyle_t;
+};
 
-typedef struct {
+struct style_t {
     CStringW name;
     fontstyle_t fontstyle;
     posattriblist_t pal;
-} style_t;
+};
 
 // effect
-typedef struct {
+struct keyframe_t {
     CStringW position;
     fontstyle_t fontstyle;
     posattriblist_t pal;
-} keyframe_t;
+};
 
-typedef struct {
+struct effect_t {
     CStringW name;
     CAutoPtrList<keyframe_t> keyframes;
-} effect_t;
+};
 
 // subtitle/text
-typedef struct {
+struct text_t {
     int start, stop;
     CStringW effect, style, str;
     posattriblist_t pal;
-} text_t;
+};
 
 class CUSFSubtitles
 {

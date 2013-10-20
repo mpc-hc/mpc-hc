@@ -23,7 +23,7 @@
 
 #include <atlcoll.h>
 
-typedef struct {
+struct COutline {
     CAtlArray<CPoint> pa;
     CAtlArray<int> da;
     void RemoveAll() {
@@ -34,7 +34,7 @@ typedef struct {
         pa.Add(p);
         da.Add(d);
     }
-} COutline;
+};
 
 class CVobSubImage
 {
@@ -63,9 +63,9 @@ public:
     bool fForced;
     __int64 start, delay;
     CRect rect;
-    typedef struct {
+    struct SubPal {
         BYTE pal: 4, tr: 4;
-    } SubPal;
+    };
     SubPal pal[4];
     RGBQUAD* lpPixels;
 

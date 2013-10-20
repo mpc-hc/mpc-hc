@@ -30,34 +30,34 @@
 
 #define CCDDAReaderName L"MPC-HC CDDA Reader"
 
-typedef struct {
+struct ChunkHeader {
     UINT chunkID;
     long chunkSize;
-} ChunkHeader;
+};
 
 #define RIFFID 'FFIR'
 #define WAVEID 'EVAW'
-typedef struct {
+struct RIFFChunk {
     ChunkHeader hdr;
     UINT WAVE;
-} RIFFChunk;
+};
 
 #define FormatID ' tmf'
-typedef struct {
+struct FormatChunk {
     ChunkHeader hdr;
     PCMWAVEFORMAT pcm;
-} FormatChunk;
+};
 
 #define DataID 'atad'
-typedef struct {
+struct DataChunk {
     ChunkHeader hdr;
-} DataChunk;
+};
 
-typedef struct {
+struct WAVEChunck {
     RIFFChunk riff;
     FormatChunk frm;
     DataChunk data;
-} WAVEChunck;
+};
 
 class CCDDAStream : public CAsyncStream
 {

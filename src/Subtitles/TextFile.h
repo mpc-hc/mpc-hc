@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,13 +26,13 @@
 class CTextFile : protected CStdioFile
 {
 public:
-    typedef enum {
+    enum enc {
         DEFAULT_ENCODING,
         UTF8,
         LE16,
         BE16,
         ANSI
-    } enc;
+    };
 
 private:
     enc m_encoding, m_defaultencoding;

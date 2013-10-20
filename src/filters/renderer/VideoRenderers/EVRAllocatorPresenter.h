@@ -166,12 +166,12 @@ namespace DSObjects
 
     private:
 
-        typedef enum {
+        enum RENDER_STATE {
             Started  = State_Running,
             Stopped  = State_Stopped,
             Paused   = State_Paused,
             Shutdown = State_Running + 1
-        } RENDER_STATE;
+        };
 
         COuterEVR*                       m_pOuterEVR;
         CComPtr<IMFClock>                m_pClock;

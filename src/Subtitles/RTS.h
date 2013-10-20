@@ -193,10 +193,10 @@ public:
 
 class CScreenLayoutAllocator
 {
-    typedef struct {
+    struct SubRect {
         CRect r;
         int segment, entry, layer;
-    } SubRect;
+    };
 
     CAtlList<SubRect> m_subrects;
 

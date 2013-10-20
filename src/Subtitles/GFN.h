@@ -37,8 +37,8 @@ enum exttype {
 };
 extern LPCTSTR exttypestr[];
 
-typedef struct {
+struct SubFile {
     CString fn; /*exttype ext;*/
-} SubFile;
+};
 
 extern void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret);

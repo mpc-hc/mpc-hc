@@ -74,11 +74,11 @@ static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15
 
 namespace GothSync
 {
-    typedef enum {
+    enum EVR_STATS_MSG {
         MSG_MIXERIN,
         MSG_MIXEROUT,
         MSG_ERROR
-    } EVR_STATS_MSG;
+    };
 
 #pragma pack(push, 1)
 
@@ -459,12 +459,12 @@ namespace GothSync
         typedef BOOL (__stdcall* PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
         typedef BOOL (__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
-        typedef enum {
+        enum RENDER_STATE {
             Started  = State_Running,
             Stopped  = State_Stopped,
             Paused   = State_Paused,
             Shutdown = State_Running + 1
-        } RENDER_STATE;
+        };
 
         CComPtr<IMFClock> m_pClock;
         CComPtr<IDirect3DDeviceManager9> m_pD3DManager;

@@ -65,14 +65,14 @@ extern CString GetFilterPath(LPCTSTR clsid);
 extern CString GetFilterPath(const CLSID& clsid);
 extern void  CStringToBin(CString str, CAtlArray<BYTE>& data);
 extern CString BinToCString(const BYTE* ptr, size_t len);
-typedef enum {
+enum OpticalDiskType_t {
     OpticalDisk_NotFound,
     OpticalDisk_Audio,
     OpticalDisk_VideoCD,
     OpticalDisk_DVDVideo,
     OpticalDisk_BD,
     OpticalDisk_Unknown
-} OpticalDiskType_t;
+};
 extern OpticalDiskType_t GetOpticalDiskType(TCHAR drive, CAtlList<CString>& files);
 extern CString GetDriveLabel(TCHAR drive);
 extern bool GetKeyFrames(CString fn, CUIntArray& kfs);
@@ -130,12 +130,12 @@ extern DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
 extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
 extern void CorrectComboListWidth(CComboBox& m_pComboBox);
 
-typedef enum {
+enum FF_FIELD_TYPE {
     PICT_NONE,
     PICT_TOP_FIELD,
     PICT_BOTTOM_FIELD,
     PICT_FRAME
-} FF_FIELD_TYPE;
+};
 
 class CPinInfo : public PIN_INFO
 {

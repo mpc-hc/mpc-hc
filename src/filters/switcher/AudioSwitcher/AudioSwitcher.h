@@ -51,9 +51,9 @@ class AudioStreamResampler;
 class __declspec(uuid("18C16B08-6497-420e-AD14-22D21C2CEAB7"))
     CAudioSwitcherFilter : public CStreamSwitcherFilter, public IAudioSwitcherFilter
 {
-    typedef struct {
+    struct ChMap {
         DWORD Speaker, Channel;
-    } ChMap;
+    };
     CAtlArray<ChMap> m_chs[AS_MAX_CHANNELS];
 
     bool m_fCustomChannelMapping;

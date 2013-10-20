@@ -1773,11 +1773,11 @@ typedef bool (*STSOpenFunct)(CTextFile* file, CSimpleTextSubtitle& ret, int Char
 
 static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet);
 
-typedef struct {
+struct OpenFunctStruct {
     STSOpenFunct open;
     tmode mode;
     exttype type;
-} OpenFunctStruct;
+};
 
 static OpenFunctStruct OpenFuncts[] = {
     OpenSubRipper, TIME, EXTSRT,

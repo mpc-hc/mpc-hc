@@ -34,10 +34,10 @@
 
 #define MIN_FRAME_TIME 15000
 
-typedef enum {
+enum EVR_STATS_MSG {
     MSG_MIXERIN,
     MSG_MIXEROUT
-} EVR_STATS_MSG;
+};
 
 // Guid to tag IMFSample with DirectX surface index
 static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };

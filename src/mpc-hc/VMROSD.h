@@ -27,7 +27,7 @@
 #include "madVRAllocatorPresenter.h"
 
 
-typedef enum {
+enum OSD_COLORS {
     OSD_TRANSPARENT,
     OSD_BACKGROUND,
     OSD_BORDER,
@@ -36,14 +36,14 @@ typedef enum {
     OSD_CURSOR,
     OSD_DEBUGCLR,
     OSD_LAST
-} OSD_COLORS;
+};
 
-typedef enum {
+enum OSD_MESSAGEPOS {
     OSD_NOMESSAGE,
     OSD_TOPLEFT,
     OSD_TOPRIGHT,
     OSD_DEBUG
-} OSD_MESSAGEPOS;
+};
 
 struct IDSMChapterBag;
 

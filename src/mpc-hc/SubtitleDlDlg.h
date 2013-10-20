@@ -40,16 +40,17 @@ private:
         bool checked;
     };
 
-    typedef struct THREADSTRUCT {
+    struct THREADSTRUCT {
         HWND hWND;
         CInternetSession is;
         CStringA url;
         CStringA raw_list;
         CStringA ticket;
         CList<ISDb::movie> raw_movies;
-    } THREADSTRUCT, *PTHREADSTRUCT;
+    };
+    typedef THREADSTRUCT* PTHREADSTRUCT;
 
-    typedef struct PARAMSORT {
+    struct PARAMSORT {
         PARAMSORT(HWND hWnd, int colIndex, bool ascending) :
             m_hWnd(hWnd),
             m_colIndex(colIndex),
@@ -58,9 +59,10 @@ private:
         HWND m_hWnd;
         int m_colIndex;
         bool m_ascending;
-    } PARAMSORT, *PPARAMSORT;
+    };
+    typedef PARAMSORT* PPARAMSORT;
 
-    typedef struct DEFPARAMSORT {
+    struct DEFPARAMSORT {
         DEFPARAMSORT(HWND hWnd, CString filename) :
             m_hWnd(hWnd),
             m_filename(filename)
@@ -68,7 +70,8 @@ private:
         HWND m_hWnd;
         CString m_filename;
         CMap <CString, LPCTSTR, int, int> m_langPos;
-    } DEFPARAMSORT, *PDEFPARAMSORT;
+    };
+    typedef DEFPARAMSORT* PDEFPARAMSORT;
 
     enum {
         COL_FILENAME,

@@ -341,12 +341,12 @@ public:
 
 //
 
-typedef struct {
+struct Codec {
     CComPtr<IMoniker> pMoniker;
     CComPtr<IBaseFilter> pBF;
     CString FriendlyName;
     CComBSTR DisplayName;
-} Codec;
+};
 
 typedef CAtlArray<Codec> CCodecArray;
 

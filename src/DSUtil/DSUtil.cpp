@@ -1196,13 +1196,13 @@ CStringW GetFriendlyName(CStringW displayName)
 
 typedef HRESULT(__stdcall* fDllCanUnloadNow)(void);
 
-typedef struct {
+struct ExternalObject {
     CString path;
     HINSTANCE hInst;
     CLSID clsid;
     fDllCanUnloadNow fpDllCanUnloadNow;
     bool bUnloadOnNextCheck;
-} ExternalObject;
+};
 
 static CAtlList<ExternalObject> s_extObjs;
 static CCritSec s_csExtObjs;

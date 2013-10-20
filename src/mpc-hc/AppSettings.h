@@ -139,7 +139,7 @@ enum MCE_RAW_INPUT {
 #define DEFAULT_JUMPDISTANCE_3  20000
 
 
-typedef enum {
+enum dvstype {
     DVS_HALF,
     DVS_NORMAL,
     DVS_DOUBLE,
@@ -148,13 +148,13 @@ typedef enum {
     DVS_FROMOUTSIDE,
     DVS_ZOOM1,
     DVS_ZOOM2
-} dvstype;
+};
 
-typedef enum {
+enum favtype {
     FAV_FILE,
     FAV_DVD,
     FAV_DEVICE
-} favtype;
+};
 
 #define MAX_FILE_POSITION 20
 #define MAX_DVD_POSITION 20
@@ -177,27 +177,27 @@ enum DVB_StopFilterGraph {
 };
 
 #pragma pack(push, 1)
-typedef struct {
+struct dispmode {
     bool fValid;
     CSize size;
     int bpp, freq;
     DWORD dmDisplayFlags;
-} dispmode;
+};
 
-typedef struct {
+struct fpsmode {
     double vfr_from;
     double vfr_to;
     bool fChecked;
     dispmode dmFSRes;
     bool fIsData;
-} fpsmode;
+};
 
 #define MAX_FPS_COUNT 30
-typedef struct {
+struct AChFR {
     bool bEnabled;
     fpsmode dmFullscreenRes[MAX_FPS_COUNT];
     bool bApplyDefault;
-}   AChFR; //AutoChangeFullscrRes
+}; //AutoChangeFullscrRes
 #pragma pack(pop)
 
 class wmcmd : public ACCEL

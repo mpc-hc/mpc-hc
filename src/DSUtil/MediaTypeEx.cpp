@@ -28,14 +28,14 @@
 #include "moreuuids.h"
 
 #pragma pack(push, 1)
-typedef struct {
+struct DOLBYAC3WAVEFORMAT {
     WAVEFORMATEX Format;
     BYTE bBigEndian;
     BYTE bsid;
     BYTE lfeon;
     BYTE copyrightb;
     BYTE nAuxBitsCode;  //  Aux bits per frame
-} DOLBYAC3WAVEFORMAT;
+};
 #pragma pack(pop)
 
 CMediaTypeEx::CMediaTypeEx()

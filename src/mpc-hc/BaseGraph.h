@@ -35,12 +35,12 @@ protected:
     DECLARE_MESSAGE_MAP()
 };
 
-typedef enum {
+enum engine_t {
     DirectShow = 0,
     RealMedia,
     QuickTime,
     ShockWave
-} engine_t;
+};
 
 interface __declspec(uuid("B110CDE5-6331-4118-8AAF-A870D6F7E2E4"))
 IGraphEngine :
@@ -69,10 +69,10 @@ class CBaseGraph
     long m_lNotifyMsg;
     LONG_PTR m_lNotifyInstData;
 
-    typedef struct {
+    struct GMSG {
         long m_lEventCode;
         LONG_PTR m_lParam1, m_lParam2;
-    } GMSG;
+    };
     CList<GMSG> m_msgqueue;
 
 protected:

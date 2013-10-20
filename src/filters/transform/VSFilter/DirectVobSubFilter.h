@@ -27,12 +27,12 @@
 #include "../../../Subtitles/VobSubFile.h"
 #include "../../../Subtitles/RTS.h"
 
-typedef struct {
+struct SystrayIconData {
     HWND hSystrayWnd;
     IFilterGraph* graph;
     IDirectVobSub* dvs;
     bool fRunOnce, fShowIcon;
-} SystrayIconData;
+};
 
 /* This is for graphedit */
 

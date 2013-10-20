@@ -254,10 +254,10 @@ bool CPlaylist::RemoveAt(POSITION pos)
     return false;
 }
 
-typedef struct {
+struct plsort_t {
     UINT n;
     POSITION pos;
-} plsort_t;
+};
 
 static int compare(const void* arg1, const void* arg2)
 {
@@ -266,10 +266,10 @@ static int compare(const void* arg1, const void* arg2)
     return a1 > a2 ? 1 : a1 < a2 ? -1 : 0;
 }
 
-typedef struct {
+struct plsort2_t {
     LPCTSTR  str;
     POSITION pos;
-} plsort2_t;
+};
 
 int compare2(const void* arg1, const void* arg2)
 {

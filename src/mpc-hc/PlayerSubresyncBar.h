@@ -74,9 +74,9 @@ private:
 
     bool m_fUnlink;
 
-    typedef struct {
+    struct SubTime {
         int orgstart, newstart, orgend, newend;
-    } SubTime;
+    };
     CAtlArray<SubTime> m_subtimes;
 
     //  CRenderedTextSubtitle m_sts;

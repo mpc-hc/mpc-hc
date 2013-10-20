@@ -26,7 +26,7 @@
 #include "TextFile.h"
 #include "GFN.h"
 
-typedef enum { TIME, FRAME } tmode; // the meaning of STSEntry::start/end
+enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
 
 class STSStyle
 {
@@ -80,7 +80,7 @@ public:
     void Free();
 };
 
-typedef struct {
+struct STSEntry {
     CStringW str;
     bool fUnicode;
     CString style, actor, effect;
@@ -88,7 +88,7 @@ typedef struct {
     int layer;
     int start, end;
     int readorder;
-} STSEntry;
+};
 
 class STSSegment
 {

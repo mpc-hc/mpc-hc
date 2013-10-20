@@ -100,20 +100,20 @@ protected:
     bool SaveMaestro(CString fn, int delay);
 
 public:
-    typedef struct {
+    struct SubPos {
         __int64 filepos;
         __int64 start, stop;
         bool fForced;
         char vobid, cellid;
         __int64 celltimestamp;
         bool fValid;
-    } SubPos;
+    };
 
-    typedef struct {
+    struct SubLang {
         int id;
         CString name, alt;
         CAtlArray<SubPos> subpos;
-    } SubLang;
+    };
 
     int m_iLang;
     SubLang m_langs[32];
@@ -124,13 +124,13 @@ public:
 
     bool Copy(CVobSubFile& vsf);
 
-    typedef enum {
+    enum SubFormat {
         None,
         VobSub,
         WinSubMux,
         Scenarist,
         Maestro
-    } SubFormat;
+    };
 
     bool Open(CString fn);
     bool Save(CString fn, int delay = 0, SubFormat sf = VobSub);
