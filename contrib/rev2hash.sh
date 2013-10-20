@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
 OPTIND=1
 fullhash=0
 hashlength=7
@@ -58,7 +59,7 @@ rev="$1"
 svnrev=5597
 svnhash="f669833b77e6515dc5f0a682c5bf665f9a81b2ec"
 
-#If the git command isn't available or we are not inside a git repo exit the script
+# If the git command isn't available or we are not inside a git repo exit the script
 git rev-parse --git-dir > /dev/null 2>&1 || exit 1
 
 # If this revision is after the switch to git

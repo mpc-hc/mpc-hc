@@ -69,9 +69,9 @@ SET /A VALID+=%ARGB%+%ARGPL%+%ARGBC%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
-IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTYPE=Build")
-IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "ARCH=Both")
-IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "RELEASETYPE=Release")
+IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=Build")
+IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "ARCH=Both")
+IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "RELEASETYPE=Release")
 
 IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
 SET "TOOLSET=%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
@@ -170,7 +170,7 @@ IF /I "%BUILDTYPE%" == "Build" (
   %GCC_PREFIX%gcc -c -O2 GCCInfo.c -o src\bin_%ARCHVS%\ffmpeg\GCCInfo.o
   REM ERRORLEVEL can't be checked because the variable is updated only when exiting the IF
 
-  REM Move LAVFilters files to MPC-HC output directory
+  REM Copy LAVFilters files to MPC-HC output directory
   IF NOT EXIST %DESTFOLDER% MD %DESTFOLDER%
 
   COPY /Y /V %SRCFOLDER%\*.dll %DESTFOLDER%

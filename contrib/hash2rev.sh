@@ -16,13 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
 [[ -n "$1" ]] || exit 1
 # This is the last svn changeset, the number and hash can be automatically
 # calculated, but it is slow to do that. So it is better to have it hardcoded.
 svnrev=5597
 svnhash="f669833b77e6515dc5f0a682c5bf665f9a81b2ec"
 
-#If the git command isn't available or we are not inside a git repo exit the script
+# If the git command isn't available or we are not inside a git repo exit the script
 git rev-parse --git-dir > /dev/null 2>&1 || exit 1
 
 # If the input hash is after the switch to git
