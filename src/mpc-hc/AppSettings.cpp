@@ -71,7 +71,7 @@ CAppSettings::CAppSettings()
     , fEnableAudioSwitcher(true)
     , fAudioNormalize(false)
     , fAudioNormalizeRecover(true)
-    , nAudioBoost(-1)
+    , nAudioBoost(UINT(-1))
     , fDownSampleTo441(0)
     , fAudioTimeShift(0)
     , iAudioTimeShift(0)
@@ -97,7 +97,7 @@ CAppSettings::CAppSettings()
     , iCaptionMenuMode(MODE_SHOWCAPTIONMENU)
     , fHideNavigation(0)
     , nCS(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR)
-    , language(-1)
+    , language(LANGID(-1))
     , fEnableSubtitles(true)
     , fUseDefaultSubtitlesStyle(false)
     , iDefaultVideoSize(DVS_FROMINSIDE)
@@ -1091,7 +1091,7 @@ void CAppSettings::LoadSettings()
 
     // Set interface language first!
     language = (LANGID)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, -1);
-    if (language == (LANGID) - 1) {
+    if (language == LANGID(-1)) {
         CMPlayerCApp::SetDefaultLanguage();
     } else if (language != 0) {
         if (language <= 23) { // Here for compatibility with old settings
