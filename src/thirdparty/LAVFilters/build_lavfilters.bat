@@ -106,10 +106,6 @@ IF /I "%BUILDTYPE%" == "Rebuild" (
 IF /I "%BUILDTYPE%" == "Clean" (CALL :SubMake & EXIT /B)
 
 CALL :SubMake
-IF %ERRORLEVEL% NEQ 0 EXIT /B
-
-IF /I "%ARCH%" == "x64" (SET "GCC_PREFIX=x86_64-w64-mingw32-")
-%GCC_PREFIX%gcc -c -O2 GCCInfo.c -o src\bin_%ARCHVS%\ffmpeg\GCCInfo.o
 
 EXIT /B
 
@@ -164,11 +160,16 @@ IF /I "%RELEASETYPE%" == "Debug" (
 
 IF /I "%ARCH%" == "x64" (
   SET "DESTFOLDER=%DESTFOLDER%\LAVFilters64"
+  SET "GCC_PREFIX=x86_64-w64-mingw32-"
 ) ELSE (
   SET "DESTFOLDER=%DESTFOLDER%\LAVFilters"
 )
 
 IF /I "%BUILDTYPE%" == "Build" (
+  REM Build GCCInfo
+  %GCC_PREFIX%gcc -c -O2 GCCInfo.c -o src\bin_%ARCHVS%\ffmpeg\GCCInfo.o
+  REM ERRORLEVEL can't be checked because the variable is updated only when exiting the IF
+
   REM Move LAVFilters files to MPC-HC output directory
   IF NOT EXIST %DESTFOLDER% MD %DESTFOLDER%
 
