@@ -1043,7 +1043,7 @@ bool CVobSubFile::WriteIdx(CString fn, int delay)
         if (!sl.id) {
             sl.id = '--';
         }
-        str.Format(_T("id: %c%c, index: %u\n"), sl.id >> 8, sl.id & 0xff, i);
+        str.Format(_T("id: %c%c, index: %Iu\n"), sl.id >> 8, sl.id & 0xff, i);
         f.WriteString(str);
 
         str = _T("# Uncomment next line to activate alternative name in VSFilter / Windows Media Player 6.x\n");
