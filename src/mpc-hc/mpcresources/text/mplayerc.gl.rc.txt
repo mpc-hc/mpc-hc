@@ -9,7 +9,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 18		"LAV Filters:"
 19		"Not used"
 20		"Build date:"
-22		"Operating system"
+22		"Sistema operativo"
 23		"Nome:"
 25		"Versión:"
 27		"Copy to clipboard"
