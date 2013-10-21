@@ -1,19 +1,19 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 3		"Acerca De"
-8		"Copyright © 2002-2013 vea archivo Authors.txt"
-11		"Este programa es gratuito y fue lanzado bajo la Licencia Publica General GNU."
-12		"Traducido al castellano por SquallMX. Revisión XPC."
-13		"Build information"
-14		"Version :"
+8		"dereitos de autor © 2002-2013 vexa arquivo Authors.txt"
+11		"Este programa é gratuito e foi lanzado baixo a Licenza Publica Xeral GNU."
+12		"Traducido ao galego por anxo_cruel. Revisión XPC."
+13		"Información Build"
+14		"Versión :"
 16		"Compilador:"
 18		"LAV Filters:"
 19		"Not used"
 20		"Build date:"
 22		"Operating system"
-23		"Name:"
-25		"Version:"
+23		"Nome:"
+25		"Versión:"
 27		"Copy to clipboard"
-28		"OK"
+28		"Aceptar"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
@@ -27,48 +27,48 @@ BEGIN DIALOGEX IDD_AUTH_DLG LINES 15
 3		"Authentication needed"
 6		"Aceptar"
 7		"Cancelar"
-9		"Area restringida"
-10		"Nombre de Usuario:"
-11		"Contraseña:"
-14		"Recordar mi contraseña"
+9		"Area restrinxida"
+10		"Nome de Usuario:"
+11		"Contrasinal:"
+14		"Lembrar o meu contrasinal"
 END
 
 BEGIN DIALOGEX IDD_CAPTURE_DLG LINES 41
 5		"Video"
-14		"Fijar"
+14		"Fixar"
 15		"Audio"
-19		"Salida"
-20		"Grabar Video"
+19		"Saída"
+20		"Gravar Video"
 21		"Vista Preliminar"
-26		"Grabar Audio"
+26		"Gravar Audio"
 27		"Vista Preliminar"
-32		"Buffers V/A:"
+32		"Bufers V/A:"
 38		"Audio a WAV"
-39		"Grabar"
+39		"Gravar"
 END
 
 BEGIN DIALOGEX IDD_FAVADD LINES 12
-3		"Agregar a Favoritos"
-6		"Escoge un nombre para tu acceso directo:"
-8		"Recordar posición"
+3		"Engadir a Favoritos"
+6		"Escolle un nome para o teu acceso directo:"
+8		"Lembrar posición"
 9		"Cancelar"
 10		"Aceptar"
-11		"Unidad relativa"
+11		"Unidade relativa"
 END
 
 BEGIN DIALOGEX IDD_FAVORGANIZE LINES 13
 3		"Organizar Favoritos"
-8		"Renombar"
+8		"Renomear"
 9		"Subir"
-10		"Bajar"
-11		"Borrar"
+10		"Baixar"
+11		"Eliminar"
 12		"Aceptar"
 END
 
 BEGIN DIALOGEX IDD_FILEPROPCLIP LINES 22
 8		"Título:"
 10		"Autor:"
-12		"Copyright:"
+12		"Dereitos de autor:"
 14		"Clasificación:"
 17		"Ubicación:"
 20		"Descripción:"
@@ -83,17 +83,17 @@ BEGIN DIALOGEX IDD_FILEPROPDETAILS LINES 20
 END
 
 BEGIN DIALOGEX IDD_FILEPROPRES LINES 10
-8		"Guardar Como..."
+8		"Gardar Como..."
 END
 
 BEGIN DIALOGEX IDD_GOTO_DLG LINES 14
 3		"Ir a..."
 6		"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-7		"Tiempo"
-9		"¡Ir!"
-10		"Escribe dos conjuntos de números para acceder a un cuadro específico, el primero es el número de cuadros y el segundo la tasa de cuadros por segundo."
-11		"Cuadro"
-13		"¡Ir!"
+7		"Tempo"
+9		"Ir!"
+10		"Escribe dous conxuntos de números para acceder a un cadro específico, o primeiro é o número de cuadros e o segundo a taxa de cadros por segundo."
+11		"Cadro"
+13		"Ir!"
 END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
