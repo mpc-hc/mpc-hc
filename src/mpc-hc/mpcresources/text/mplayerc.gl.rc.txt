@@ -3,12 +3,12 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 8		"dereitos de autor © 2002-2013 vexa arquivo Authors.txt"
 11		"Este programa é gratuito e foi lanzado baixo a Licenza Publica Xeral GNU."
 12		"Traducido ao galego por anxo_cruel. Revisión XPC."
-13		"Información Build"
+13		"Información de compilación"
 14		"Versión :"
 16		"Compilador:"
-18		"LAV Filters:"
+18		"Filtros LAV:"
 19		"Not used"
-20		"Build date:"
+20	  "Data de compilación:"
 22		"Sistema operativo"
 23		"Nome:"
 25		"Versión:"
@@ -17,14 +17,14 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
-3		"Select Filter"
+3		"Selecciona Filtro"
 7		"Explorar..."
 8		"Aceptar"
 9		"Cancelar"
 END
 
 BEGIN DIALOGEX IDD_AUTH_DLG LINES 15
-3		"Authentication needed"
+3		"Authenticación precisa"
 6		"Aceptar"
 7		"Cancelar"
 9		"Area restrinxida"
@@ -88,7 +88,7 @@ END
 
 BEGIN DIALOGEX IDD_GOTO_DLG LINES 14
 3		"Ir a..."
-6		"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
+6	  "Insira un código de tempo usando o formato (HH:)mm:. Ss.ms para ir a un tempo especificado. Non escribir os separadores de forma explícita."
 7		"Tempo"
 9		"Ir!"
 10		"Escribe dous conxuntos de números para acceder a un cadro específico, o primeiro é o número de cuadros e o segundo a taxa de cadros por segundo."
