@@ -40,7 +40,7 @@ public:
     CLBAFile();
     virtual ~CLBAFile();
 
-    bool IsOpen();
+    bool IsOpen() const;
 
     bool Open(LPCTSTR path);
     void Close();
@@ -71,31 +71,31 @@ class CVobFile : public CDVDSession
 
     CAtlMap<DWORD, CString> m_pStream_Lang;
 
-    int m_ChaptersCount;
+    int m_iChaptersCount;
     CAtlMap<BYTE, LONGLONG> m_pChapters;
 public:
     CVobFile();
     virtual ~CVobFile();
 
-    static bool GetTitleInfo(CString fn, ULONG nTitleNum, ULONG& VTSN /* out */, ULONG& TTN /* out */); // video_ts.ifo
+    static bool GetTitleInfo(LPCTSTR fn, ULONG nTitleNum, ULONG& VTSN /* out */, ULONG& TTN /* out */); // video_ts.ifo
 
-    bool IsDVD();
-    bool HasDiscKey(BYTE* key);
-    bool HasTitleKey(BYTE* key);
+    bool IsDVD() const;
+    bool HasDiscKey(BYTE* key) const;
+    bool HasTitleKey(BYTE* key) const;
 
     bool Open(CString fn, CAtlList<CString>& files /* out */, ULONG nProgNum = 1); // vts ifo
-    bool Open(CAtlList<CString>& files, int offset = -1); // vts vobs, video vob offset in lba
+    bool Open(const CAtlList<CString>& files, int offset = -1); // vts vobs, video vob offset in lba
     void Close();
 
-    int GetLength();
-    int GetPosition();
+    int GetLength() const;
+    int GetPosition() const;
     int Seek(int pos);
     bool Read(BYTE* buff);
 
-    BSTR GetTrackName(UINT aTrackIdx);
+    BSTR GetTrackName(UINT aTrackIdx) const;
 
-    int GetChaptersCount() { return m_ChaptersCount; }
-    LONGLONG GetChapterOffset(UINT ChapterNumber);
+    int GetChaptersCount() const { return m_iChaptersCount; }
+    LONGLONG GetChapterOffset(UINT chapterNumber) const;
 
 private:
     CFile   m_ifoFile;

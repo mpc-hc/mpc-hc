@@ -10,6 +10,9 @@
 
 #define AUDIO_BLOCK_SIZE    66
 #define SUBTITLE_BLOCK_SIZE 194
+#define IFO_HEADER_SIZE     12
+#define VIDEO_TS_HEADER     "DVDVIDEO-VMG"
+#define VTS_HEADER          "DVDVIDEO-VTS"
 
 //
 // CDVDSession
@@ -312,7 +315,7 @@ CLBAFile::~CLBAFile()
 {
 }
 
-bool CLBAFile::IsOpen()
+bool CLBAFile::IsOpen() const
 {
     return (m_hFile != hFileNull);
 }
@@ -358,19 +361,19 @@ bool CLBAFile::Read(BYTE* buff)
 CVobFile::CVobFile()
 {
     Close();
-    m_ChaptersCount = -1;
+    m_iChaptersCount = -1;
 }
 
 CVobFile::~CVobFile()
 {
 }
 
-bool CVobFile::IsDVD()
+bool CVobFile::IsDVD() const
 {
     return m_fDVD;
 }
 
-bool CVobFile::HasDiscKey(BYTE* key)
+bool CVobFile::HasDiscKey(BYTE* key) const
 {
     if (key) {
         memcpy(key, m_DiscKey, 5);
@@ -378,7 +381,7 @@ bool CVobFile::HasDiscKey(BYTE* key)
     return m_fHasDiscKey;
 }
 
-bool CVobFile::HasTitleKey(BYTE* key)
+bool CVobFile::HasTitleKey(BYTE* key) const
 {
     if (key) {
         memcpy(key, m_TitleKey, 5);
@@ -421,17 +424,17 @@ static short GetFrames(byte val)
     return (short)(((byte0_high - 4) * 10) + byte0_low);
 }
 
-bool CVobFile::GetTitleInfo(CString fn, ULONG nTitleNum, ULONG& VTSN, ULONG& TTN)
+bool CVobFile::GetTitleInfo(LPCTSTR fn, ULONG nTitleNum, ULONG& VTSN, ULONG& TTN)
 {
     CFile ifoFile;
     if (!ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {
         return false;
     }
 
-    char hdr[13];
-    ifoFile.Read(hdr, 12);
-    hdr[12] = 0;
-    if (strcmp(hdr, "DVDVIDEO-VMG")) {
+    char hdr[IFO_HEADER_SIZE + 1];
+    ifoFile.Read(hdr, IFO_HEADER_SIZE);
+    hdr[IFO_HEADER_SIZE] = '\0';
+    if (strcmp(hdr, VIDEO_TS_HEADER)) {
         return false;
     }
 
@@ -458,10 +461,10 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
         return false;
     }
 
-    char hdr[13];
-    m_ifoFile.Read(hdr, 12);
-    hdr[12] = 0;
-    if (strcmp(hdr, "DVDVIDEO-VTS")) {
+    char hdr[IFO_HEADER_SIZE + 1];
+    m_ifoFile.Read(hdr, IFO_HEADER_SIZE);
+    hdr[IFO_HEADER_SIZE] = '\0';
+    if (strcmp(hdr, VTS_HEADER)) {
         return false;
     }
 
@@ -522,7 +525,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
     DWORD chainOffset = ReadDword();
     m_ifoFile.Seek(pcgITPosition + chainOffset + 2, CFile::begin);
     BYTE programChainPrograms = ReadByte();
-    m_ChaptersCount = programChainPrograms;
+    m_iChaptersCount = programChainPrograms;
     m_ifoFile.Seek(pcgITPosition + chainOffset + 230, CFile::begin);
     int programMapOffset = ReadShort();
     m_ifoFile.Seek(pcgITPosition + chainOffset + 0xE8, CFile::begin);
@@ -574,7 +577,6 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
         m_pChapters[currentProgram + 1] = rtDuration;
     }
 
-    //
     m_ifoFile.Close();
 
     int offset = -1;
@@ -613,7 +615,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
     return Open(vobs, offset);
 }
 
-bool CVobFile::Open(CAtlList<CString>& vobs, int offset)
+bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
 {
     Close();
 
@@ -738,12 +740,12 @@ void CVobFile::Close()
     m_fDVD = m_fHasDiscKey = m_fHasTitleKey = false;
 }
 
-int CVobFile::GetLength()
+int CVobFile::GetLength() const
 {
     return (m_size - m_offset);
 }
 
-int CVobFile::GetPosition()
+int CVobFile::GetPosition() const
 {
     return (m_pos - m_offset);
 }
@@ -817,16 +819,16 @@ bool CVobFile::Read(BYTE* buff)
     return true;
 }
 
-BSTR CVobFile::GetTrackName(UINT aTrackIdx)
+BSTR CVobFile::GetTrackName(UINT aTrackIdx) const
 {
-    CString TrackName = _T("");
-    m_pStream_Lang.Lookup(aTrackIdx, TrackName);
-    return TrackName.AllocSysString();
+    CString trackName;
+    m_pStream_Lang.Lookup(aTrackIdx, trackName);
+    return trackName.AllocSysString();
 }
 
-REFERENCE_TIME CVobFile::GetChapterOffset(UINT ChapterNumber)
+REFERENCE_TIME CVobFile::GetChapterOffset(UINT ChapterNumber) const
 {
-    REFERENCE_TIME ChapterOffset = 0;
-    m_pChapters.Lookup(ChapterNumber, ChapterOffset);
-    return ChapterOffset;
+    REFERENCE_TIME rtChapterOffset = 0;
+    m_pChapters.Lookup(ChapterNumber, rtChapterOffset);
+    return rtChapterOffset;
 }
