@@ -10862,16 +10862,15 @@ void CMainFrame::SetupDVDChapters()
     if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDVDDirectory(buff, _countof(buff), &len))
             && SUCCEEDED(m_pDVDI->GetCurrentLocation(&loc))
             && SUCCEEDED(m_pDVDI->GetNumberOfChapters(loc.TitleNum, &ulNumOfChapters))) {
-        CVobFile vob;
-        DWORD VTSN, TTN;
-        CStringW path;
+        CString path;
         path.Format(L"%s\\video_ts.IFO", buff);
+        ULONG VTSN, TTN;
 
-        if (vob.GetTitleInfo(path, loc.TitleNum, VTSN, TTN)) {
-            CAtlList<CString> files;
-            path.Empty();
+        if (CVobFile::GetTitleInfo(path, loc.TitleNum, VTSN, TTN)) {
             path.Format(L"%s\\VTS_%02u_0.IFO", buff, VTSN);
+            CAtlList<CString> files;
 
+            CVobFile vob;
             if (vob.Open(path, files, TTN)) {
                 int iChaptersCount = vob.GetChaptersCount();
                 if (ulNumOfChapters == (ULONG)iChaptersCount) {

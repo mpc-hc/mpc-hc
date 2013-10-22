@@ -421,31 +421,38 @@ static short GetFrames(byte val)
     return (short)(((byte0_high - 4) * 10) + byte0_low);
 }
 
-bool CVobFile::GetTitleInfo(const CString& fn, const ULONG iTitleNum, DWORD& VTSN, DWORD& TTN)
+bool CVobFile::GetTitleInfo(CString fn, ULONG nTitleNum, ULONG& VTSN, ULONG& TTN)
 {
-    if (!m_ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {
+    CFile ifoFile;
+    if (!ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {
         return false;
     }
 
     char hdr[13];
-    m_ifoFile.Read(hdr, 12);
+    ifoFile.Read(hdr, 12);
     hdr[12] = 0;
     if (strcmp(hdr, "DVDVIDEO-VMG")) {
         return false;
     }
 
-    m_ifoFile.Seek(0xC4, CFile::begin);
-    DWORD TT_SRPTPosition = ReadDword() * 2048;
-    m_ifoFile.Seek(TT_SRPTPosition + 8 + (iTitleNum - 1) * 12 + 6, CFile::begin);
-    VTSN = (DWORD)ReadByte();
-    TTN = (DWORD)ReadByte();
+    ifoFile.Seek(0xC4, CFile::begin);
+    DWORD TT_SRPTPosition; // Read a 32-bit unsigned big-endian integer
+    ifoFile.Read(&TT_SRPTPosition, sizeof(TT_SRPTPosition));
+    TT_SRPTPosition = _byteswap_ulong(TT_SRPTPosition);
+    TT_SRPTPosition *= 2048;
+    ifoFile.Seek(TT_SRPTPosition + 8 + (nTitleNum - 1) * 12 + 6, CFile::begin);
+    BYTE tmp;
+    ifoFile.Read(&tmp, sizeof(tmp));
+    VTSN = tmp;
+    ifoFile.Read(&tmp, sizeof(tmp));
+    TTN = tmp;
 
-    m_ifoFile.Close();
+    ifoFile.Close();
 
     return true;
 }
 
-bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, int iProgNum /*= 1*/)
+bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
 {
     if (!m_ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {
         return false;
@@ -504,11 +511,14 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, int iProgNum /*= 1*/)
     }
 
     // Chapters ...
-    m_ifoFile.Seek(0xCC, CFile::begin); //Get VTS_PGCI adress
+    m_ifoFile.Seek(0xCC, CFile::begin); //Get VTS_PGCI address
     DWORD pcgITPosition = ReadDword() * 2048;
     m_ifoFile.Seek(pcgITPosition, CFile::begin);
-    WORD progCount = (WORD)ReadShort(); // TODO: Use that...
-    m_ifoFile.Seek(pcgITPosition + 8 * iProgNum + 4, CFile::begin);
+    WORD nProgCount = (WORD)ReadShort();
+    if (nProgNum > nProgCount) {
+        return false;
+    }
+    m_ifoFile.Seek(pcgITPosition + 8 * nProgNum + 4, CFile::begin);
     DWORD chainOffset = ReadDword();
     m_ifoFile.Seek(pcgITPosition + chainOffset + 2, CFile::begin);
     BYTE programChainPrograms = ReadByte();
