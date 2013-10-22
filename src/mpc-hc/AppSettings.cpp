@@ -71,7 +71,7 @@ CAppSettings::CAppSettings()
     , fEnableAudioSwitcher(true)
     , fAudioNormalize(false)
     , fAudioNormalizeRecover(true)
-    , nAudioBoost(UINT(-1))
+    , nAudioBoost(0)
     , fDownSampleTo441(0)
     , fAudioTimeShift(0)
     , iAudioTimeShift(0)
@@ -1282,22 +1282,11 @@ void CAppSettings::LoadSettings()
     fAudioNormalize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZE, FALSE);
     nAudioMaxNormFactor = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOMAXNORMFACTOR, 400);
     fAudioNormalizeRecover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, TRUE);
-    nAudioBoost = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, -1);
-    if (nAudioBoost == UINT(-1)) { // Backward compatibility
-        double dAudioBoost_dB = _tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, _T("0")));
-        if (dAudioBoost_dB < 0 || dAudioBoost_dB > 10) {
-            dAudioBoost_dB = 0;
-        }
-        nAudioBoost = UINT(100 * pow(10.0, dAudioBoost_dB / 20.0) + 0.5) - 100;
-    }
-    if (nAudioBoost > 300) { // Max boost is 300%
-        nAudioBoost = 300;
-    }
+    nAudioBoost = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, 0);
 
     nSpeakerChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
     // External filters
-    ConvertOldExternalFiltersList(); // Here for backward compatibility
     LoadExternalFilters(m_filters);
 
     fIntRealMedia = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_INTREALMEDIA, FALSE);
@@ -2127,6 +2116,22 @@ void CAppSettings::UpdateSettings()
     // so that all incremental updates are applied.
     switch (version) {
         case 0: {
+            UINT nAudioBoost = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, -1);
+            if (nAudioBoost == UINT(-1)) {
+                double dAudioBoost_dB = _tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, _T("0")));
+                if (dAudioBoost_dB < 0 || dAudioBoost_dB > 10) {
+                    dAudioBoost_dB = 0;
+                }
+                nAudioBoost = UINT(100 * pow(10.0, dAudioBoost_dB / 20.0) + 0.5) - 100;
+            }
+            if (nAudioBoost > 300) { // Max boost is 300%
+                nAudioBoost = 300;
+            }
+            pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, nAudioBoost);
+
+            ConvertOldExternalFiltersList();
+        }
+        {
             const CString section(_T("Settings"));
             copyInt(section, _T("Remember DVD Pos"), section, _T("RememberDVDPos"));
             copyInt(section, _T("Remember File Pos"), section, _T("RememberFilePos"));
