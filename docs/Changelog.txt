@@ -11,6 +11,7 @@ Legend:
 next version - not released yet
 ===============================
 + Ticket #3548, Add British English translation
++ Ticket #3590, Internal filters: Support for HEVC and VP9
 + Ticket #3605, Support playlists using UTF8 encoding without BOM
 * Updated VirtualDub to v1.10.4-test12
 * Updated Unrar to v5.0.0.12
