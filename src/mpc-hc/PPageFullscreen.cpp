@@ -387,7 +387,9 @@ void CPPageFullscreen::ModesUpdate()
 
     CString strModes;
     CString strCur;
-    GetCurDispModeString(strCur);
+    if (!GetCurDispModeString(strCur)) {
+        return;
+    }
 
     int iNoData = 0;
     for (int i = 0; i < MAX_FPS_COUNT; i++) {
@@ -400,7 +402,10 @@ void CPPageFullscreen::ModesUpdate()
     if (!m_AutoChangeFullscrRes.bEnabled
             || m_AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes.freq < 0
             || m_AutoChangeFullscrRes.dmFullscreenRes[0].fIsData == false) {
-        GetCurDispMode(dmtoset[0], m_f_hmonitor);
+        if (!GetCurDispMode(m_f_hmonitor, dmtoset[0])) {
+            return;
+        }
+
         for (int i = 1; i < MAX_FPS_COUNT; i++) {
             dmtoset[i] = dmtoset[0];
         }
@@ -415,7 +420,7 @@ void CPPageFullscreen::ModesUpdate()
     m_iSel = -1;
 
     for (int i = 0, m = 0;  ; i++) {
-        if (!GetDispMode(i, dm, m_f_hmonitor)) {
+        if (!GetDispMode(m_f_hmonitor, i, dm)) {
             break;
         }
         if (dm.bpp != 32 || dm.size.cx < 640) {
@@ -732,10 +737,14 @@ void CPPageFullscreen::ReindexListSubItem()
     }
 }
 
-void CPPageFullscreen::GetCurDispModeString(CString& strCur)
+bool CPPageFullscreen::GetCurDispModeString(CString& strCur)
 {
     dispmode dmod;
-    GetCurDispMode(dmod, m_f_hmonitor);
-    strCur.Format(_T("[ %d ]  @ %dx%d "), dmod.freq, dmod.size.cx, dmod.size.cy);
-    (dmod.dmDisplayFlags == DM_INTERLACED) ? strCur += _T("i") : strCur += _T("p");
+    bool ret = GetCurDispMode(m_f_hmonitor, dmod);
+    if (ret) {
+        strCur.Format(_T("[ %d ]  @ %dx%d "), dmod.freq, dmod.size.cx, dmod.size.cy);
+        strCur += (dmod.dmDisplayFlags == DM_INTERLACED) ? _T("i") : _T("p");
+    }
+
+    return ret;
 }

@@ -9587,7 +9587,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         hMenu = nullptr;
     } else {
         if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault && s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
-            SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, s.strFullScreenMonitor);
+            SetDispMode(s.strFullScreenMonitor, s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes);
         }
 
         dwAdd = (s.iCaptionMenuMode == MODE_BORDERLESS ? 0 : s.iCaptionMenuMode == MODE_FRAMEONLY ? WS_THICKFRAME : WS_CAPTION | WS_THICKFRAME);
@@ -9841,12 +9841,12 @@ void CMainFrame::AutoChangeMonitorMode()
                 && MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
                 && MediaFPS <= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_to) {
 
-            SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[rs].dmFSRes, mf_hmonitor);
+            SetDispMode(mf_hmonitor, s.AutoChangeFullscrRes.dmFullscreenRes[rs].dmFSRes);
             return;
         }
     }
     if (s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked) {
-        SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, mf_hmonitor);
+        SetDispMode(mf_hmonitor, s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes);
     }
 }
 

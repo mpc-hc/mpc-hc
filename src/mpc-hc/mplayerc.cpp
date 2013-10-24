@@ -1863,60 +1863,40 @@ void CMPlayerCApp::OnHelpShowcommandlineswitches()
     ShowCmdlnSwitches();
 }
 
-//
-void GetCurDispMode(dispmode& dm, const CString& DisplayName)
+bool GetCurDispMode(const CString& displayName, dispmode& dm)
 {
-    HDC hDC;
-    CString DisplayName1 = DisplayName;
-    if ((DisplayName == _T("Current")) || DisplayName.IsEmpty()) {
-        CMonitor monitor;
-        CMonitors monitors;
-        monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
-        monitor.GetName(DisplayName1);
-    }
-    hDC = CreateDC(DisplayName1, nullptr, nullptr, nullptr);
-    if (hDC) {
-        dm.fValid = true;
-        dm.size = CSize(GetDeviceCaps(hDC, HORZRES), GetDeviceCaps(hDC, VERTRES));
-        dm.bpp = GetDeviceCaps(hDC, BITSPIXEL);
-        dm.freq = GetDeviceCaps(hDC, VREFRESH);
-        DeleteDC(hDC);
-    }
+    return GetDispMode(displayName, ENUM_CURRENT_SETTINGS, dm);
 }
 
-bool GetDispMode(int i, dispmode& dm, const CString& DisplayName)
+bool GetDispMode(CString displayName, int i, dispmode& dm)
 {
     DEVMODE devmode;
-    CString DisplayName1 = DisplayName;
     devmode.dmSize = sizeof(DEVMODE);
-    if ((DisplayName == _T("Current")) || DisplayName.IsEmpty()) {
-        CMonitor monitor;
-        CMonitors monitors;
-        monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
-        monitor.GetName(DisplayName1);
+    if (displayName == _T("Current") || displayName.IsEmpty()) {
+        CMonitor monitor = CMonitors::GetNearestMonitor(AfxGetApp()->m_pMainWnd);
+        monitor.GetName(displayName);
     }
-    if (!EnumDisplaySettings(DisplayName1, i, &devmode)) {
-        return false;
+
+    dm.fValid = !!EnumDisplaySettings(displayName, i, &devmode);
+
+    if (dm.fValid) {
+        dm.fValid = true;
+        dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
+        dm.bpp = devmode.dmBitsPerPel;
+        dm.freq = devmode.dmDisplayFrequency;
+        dm.dmDisplayFlags = devmode.dmDisplayFlags;
     }
-    dm.fValid = true;
-    dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
-    dm.bpp = devmode.dmBitsPerPel;
-    dm.freq = devmode.dmDisplayFrequency;
-    dm.dmDisplayFlags = devmode.dmDisplayFlags;
-    return true;
+
+    return dm.fValid;
 }
 
-void SetDispMode(const dispmode& dm, CString& DisplayName)
+void SetDispMode(CString displayName, const dispmode& dm)
 {
-    dispmode dm1;
-    GetCurDispMode(dm1, DisplayName);
-    if ((dm.size == dm1.size) && (dm.bpp == dm1.bpp) && (dm.freq == dm1.freq)) {
+    dispmode dmCurrent;
+    if (!GetCurDispMode(displayName, dmCurrent) || (dm.size == dmCurrent.size && dm.bpp == dmCurrent.bpp && dm.freq == dmCurrent.freq)) {
         return;
     }
 
-    if (!dm.fValid) {
-        return;
-    }
     DEVMODE dmScreenSettings;
     ZeroMemory(&dmScreenSettings, sizeof(dmScreenSettings));
     dmScreenSettings.dmSize = sizeof(dmScreenSettings);
@@ -1926,17 +1906,16 @@ void SetDispMode(const dispmode& dm, CString& DisplayName)
     dmScreenSettings.dmDisplayFrequency = dm.freq;
     dmScreenSettings.dmDisplayFlags = dm.dmDisplayFlags;
     dmScreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY  | DM_DISPLAYFLAGS;
-    CString DisplayName1 = DisplayName;
-    if ((DisplayName == _T("Current")) || DisplayName.IsEmpty()) {
-        CMonitor monitor;
-        CMonitors monitors;
-        monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
-        monitor.GetName(DisplayName1);
+
+    if (displayName == _T("Current") || displayName.IsEmpty()) {
+        CMonitor monitor = CMonitors::GetNearestMonitor(AfxGetApp()->m_pMainWnd);
+        monitor.GetName(displayName);
     }
+
     if (AfxGetAppSettings().fRestoreResAfterExit) {
-        ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, nullptr, CDS_FULLSCREEN, nullptr);
+        ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, CDS_FULLSCREEN, nullptr);
     } else {
-        ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, nullptr, 0, nullptr);
+        ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, 0, nullptr);
     }
 }
 
