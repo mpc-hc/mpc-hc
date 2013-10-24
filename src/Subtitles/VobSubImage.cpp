@@ -1285,42 +1285,44 @@ void CVobSubImage::Scale2x()
 {
     int w = rect.Width(), h = rect.Height();
 
-    DWORD* src = (DWORD*)lpPixels;
-    DWORD* dst = DEBUG_NEW DWORD[w * h];
+    if (w && h) {
+        DWORD* src = (DWORD*)lpPixels;
+        DWORD* dst = DEBUG_NEW DWORD[w * h];
 
-    for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++, src++, dst++) {
-            DWORD E = *src;
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++, src++, dst++) {
+                DWORD E = *src;
 
-            DWORD A = x > 0 && y > 0 ? src[-w - 1] : E;
-            DWORD B = y > 0 ? src[-w] : E;
-            DWORD C = x < w - 1 && y > 0 ? src[-w + 1] : E;
-            UNREFERENCED_PARAMETER(A);
-            UNREFERENCED_PARAMETER(C);
+                DWORD A = x > 0 && y > 0 ? src[-w - 1] : E;
+                DWORD B = y > 0 ? src[-w] : E;
+                DWORD C = x < w - 1 && y > 0 ? src[-w + 1] : E;
+                UNREFERENCED_PARAMETER(A);
+                UNREFERENCED_PARAMETER(C);
 
-            DWORD D = x > 0 ? src[-1] : E;
-            DWORD F = x < w - 1 ? src[+1] : E;
+                DWORD D = x > 0 ? src[-1] : E;
+                DWORD F = x < w - 1 ? src[+1] : E;
 
-            DWORD G = x > 0 && y < h - 1 ? src[+w - 1] : E;
-            DWORD H = y < h - 1 ? src[+w] : E;
-            DWORD I = x < w - 1 && y < h - 1 ? src[+w + 1] : E;
-            UNREFERENCED_PARAMETER(G);
-            UNREFERENCED_PARAMETER(I);
+                DWORD G = x > 0 && y < h - 1 ? src[+w - 1] : E;
+                DWORD H = y < h - 1 ? src[+w] : E;
+                DWORD I = x < w - 1 && y < h - 1 ? src[+w + 1] : E;
+                UNREFERENCED_PARAMETER(G);
+                UNREFERENCED_PARAMETER(I);
 
-            DWORD E0 = D == B && B != F && D != H ? D : E;
-            DWORD E1 = B == F && B != D && F != H ? F : E;
-            DWORD E2 = D == H && D != B && H != F ? D : E;
-            DWORD E3 = H == F && D != H && B != F ? F : E;
+                DWORD E0 = D == B && B != F && D != H ? D : E;
+                DWORD E1 = B == F && B != D && F != H ? F : E;
+                DWORD E2 = D == H && D != B && H != F ? D : E;
+                DWORD E3 = H == F && D != H && B != F ? F : E;
 
-            *dst = ((((E0 & 0x00ff00ff) + (E1 & 0x00ff00ff) + (E2 & 0x00ff00ff) + (E3 & 0x00ff00ff) + 2) >> 2) & 0x00ff00ff)
-                   | (((((E0 >> 8) & 0x00ff00ff) + ((E1 >> 8) & 0x00ff00ff) + ((E2 >> 8) & 0x00ff00ff) + ((E3 >> 8) & 0x00ff00ff) + 2) << 6) & 0xff00ff00);
+                *dst = ((((E0 & 0x00ff00ff) + (E1 & 0x00ff00ff) + (E2 & 0x00ff00ff) + (E3 & 0x00ff00ff) + 2) >> 2) & 0x00ff00ff)
+                    | (((((E0 >> 8) & 0x00ff00ff) + ((E1 >> 8) & 0x00ff00ff) + ((E2 >> 8) & 0x00ff00ff) + ((E3 >> 8) & 0x00ff00ff) + 2) << 6) & 0xff00ff00);
+            }
         }
+
+        src -= w * h;
+        dst -= w * h;
+
+        memcpy(src, dst, w * h * 4);
+
+        delete [] dst;
     }
-
-    src -= w * h;
-    dst -= w * h;
-
-    memcpy(src, dst, w * h * 4);
-
-    delete [] dst;
 }

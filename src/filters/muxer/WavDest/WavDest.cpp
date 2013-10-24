@@ -75,28 +75,26 @@ CWavDestFilter::CWavDestFilter(LPUNKNOWN pUnk, HRESULT* phr)
     , m_cbHeader(0)
     , m_cbWavData(0)
 {
-    if (SUCCEEDED(*phr)) {
-        if (CWavDestOutputPin* pOut = DEBUG_NEW CWavDestOutputPin(this, phr)) {
-            if (SUCCEEDED(*phr)) {
-                m_pOutput = pOut;
-            } else {
-                delete pOut;
-            }
+    if (CWavDestOutputPin* pOut = DEBUG_NEW CWavDestOutputPin(this, phr)) {
+        if (SUCCEEDED(*phr)) {
+            m_pOutput = pOut;
         } else {
-            *phr = E_OUTOFMEMORY;
-            return;
+            delete pOut;
         }
+    } else {
+        *phr = E_OUTOFMEMORY;
+        return;
+    }
 
-        if (CTransformInputPin* pIn = DEBUG_NEW CTransformInputPin(NAME("Transform input pin"), this, phr, L"In")) {
-            if (SUCCEEDED(*phr)) {
-                m_pInput = pIn;
-            } else {
-                delete pIn;
-            }
+    if (CTransformInputPin* pIn = DEBUG_NEW CTransformInputPin(NAME("Transform input pin"), this, phr, L"In")) {
+        if (SUCCEEDED(*phr)) {
+            m_pInput = pIn;
         } else {
-            *phr = E_OUTOFMEMORY;
-            return;
+            delete pIn;
         }
+    } else {
+        *phr = E_OUTOFMEMORY;
+        return;
     }
 }
 
