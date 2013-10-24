@@ -333,7 +333,7 @@ STDMETHODIMP CQuicktimeGraph::Step(DWORD dwFrames, IUnknown* pStepObject)
 
     OSType myTypes[] = {VisualMediaCharacteristic};
     TimeValue myCurrTime = GetMovieTime(m_wndDestFrame.theMovie, nullptr);
-    Fixed theRate = (int)dwFrames > 0 ? 0x00010000 : 0xffff0000;
+    Fixed theRate = !(dwFrames & 0x80000000) ? 0x00010000 : 0xffff0000;
 
     for (int nSteps = abs((int)dwFrames); nSteps > 0; nSteps--) {
         TimeValue myNextTime;
