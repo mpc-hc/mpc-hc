@@ -4285,11 +4285,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         }
 
         if (OpenBD(s.slFiles.GetHead())) {
-            if (fSetForegroundWindow && !(s.nCLSwitches & CLSW_NOFOCUS)) {
-                SetForegroundWindow();
-            }
-            s.nCLSwitches &= ~CLSW_NOFOCUS;
-            return true;
+            // Nothing more to do
         } else if (!fMulti && CPath(s.slFiles.GetHead() + _T("\\VIDEO_TS")).IsDirectory()) {
             SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
             fSetForegroundWindow = true;
