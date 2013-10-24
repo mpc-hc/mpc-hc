@@ -1979,6 +1979,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF = tra[TRA_VP8] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
 #endif
+#if INTERNAL_DECODER_VP9
+    pFGF = tra[TRA_VP9] ? pFGLAVVideo : pFGLAVVideoLM;
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP90);
+#endif
 #if INTERNAL_DECODER_MJPEG
     pFGF = tra[TRA_MJPEG] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);

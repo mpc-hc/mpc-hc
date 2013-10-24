@@ -165,6 +165,9 @@ enum DECODER {
 #if INTERNAL_DECODER_VP8
     TRA_VP8,
 #endif
+#if INTERNAL_DECODER_VP9
+    TRA_VP9,
+#endif
 #if INTERNAL_DECODER_XVID
     TRA_XVID,
 #endif

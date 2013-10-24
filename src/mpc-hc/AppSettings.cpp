@@ -321,6 +321,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_VP8
     TraFiltersKeys[TRA_VP8] = _T("TRA_VP8");
 #endif
+#if INTERNAL_DECODER_VP9
+    TraFiltersKeys[TRA_VP9] = _T("TRA_VP9");
+#endif
 #if INTERNAL_DECODER_XVID
     TraFiltersKeys[TRA_XVID] = _T("TRA_XVID");
 #endif

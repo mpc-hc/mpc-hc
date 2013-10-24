@@ -523,6 +523,11 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("VP8"), VIDEO_DECODER, TRA_VP8, IDS_INTERNAL_LAVF));
     }
 #endif
+#if INTERNAL_DECODER_VP9
+    if (bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("VP9"), VIDEO_DECODER, TRA_VP9, IDS_INTERNAL_LAVF));
+    }
+#endif
 #if INTERNAL_DECODER_WMV
     if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("WMV1/2/3"), VIDEO_DECODER, TRA_WMV, IDS_INTERNAL_LAVF));
