@@ -37,7 +37,12 @@ function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) 
 	muted = _muted;
 
 	if (eta > 0) {
-		RL = setTimeout("etaup=true; if (re.checked===true) {postForm(0,'null',0);}", 1000 * eta);
+		RL = setTimeout(function () {
+			etaup = true;
+			if (re.checked === true) {
+				postForm(0, "null", 0);
+			}
+		}, 1000 * eta);
 	}
 	Live = length < 1;
 	startTime = startTime - curPos;
@@ -74,14 +79,21 @@ function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) 
 function autoplay(a) {
 	if (etaup && re.checked === true) {
 		etaup = false;
-		RL = setTimeout("etaup=true; if (re.checked===true) {postForm(0,'null',0);}", 5000);
+		RL = setTimeout(function () {
+			etaup = true;
+			if (re.checked === true) {
+				postForm(0, "null", 0);
+			}
+		}, 5000);
 	}
 	AP = setTimeout(autoplay, rdirt);
 	var ct = new Date().getTime();
 	var cap = pbr * (ct - startTime);
 	if (cap > length && !Live) {
 		if (re.checked === true) {
-			RL = setTimeout("window.location=window.location;", 5000);
+			RL = setTimeout(function () {
+				window.location = window.location;
+			}, 5000);
 		}
 	}
 	cap = ((cap > length && !Live) ? length : (cap < 0 ? 0 : cap));
