@@ -4738,13 +4738,6 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
     BYTE* p = DEBUG_NEW BYTE[dstpitch * h];
 
     const BYTE* src = pData + sizeof(*bih);
-    if (bpp <= 8) {
-        if (bih->biClrUsed) {
-            src += bih->biClrUsed * sizeof(bi->bmiColors[0]);
-        } else {
-            src += (1 << bpp) * DWORD(sizeof(bi->bmiColors[0]));
-        }
-    }
 
     BitBltFromRGBToRGB(w, h, p, dstpitch, 24, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
 

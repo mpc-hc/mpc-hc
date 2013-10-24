@@ -888,13 +888,6 @@ bool CWebClientSocket::OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& m
         BYTE* p = DEBUG_NEW BYTE[w * h * 4];
 
         const BYTE* src = pData + sizeof(*bih);
-        if (bpp <= 8) {
-            if (bih->biClrUsed) {
-                src += bih->biClrUsed * sizeof(bi->bmiColors[0]);
-            } else {
-                src += (1 << bpp) * DWORD(sizeof(bi->bmiColors[0]));
-            }
-        }
 
         int srcpitch = w * (bpp >> 3);
         int dstpitch = w * 4;
