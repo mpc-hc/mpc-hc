@@ -153,6 +153,9 @@ enum DECODER {
 #if INTERNAL_DECODER_H264
     TRA_H264,
 #endif
+#if INTERNAL_DECODER_HEVC
+    TRA_HEVC,
+#endif
 #if INTERNAL_DECODER_VC1
     TRA_VC1,
 #endif

@@ -488,6 +488,11 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("H264/AVC"), VIDEO_DECODER, TRA_H264, IDS_INTERNAL_LAVF));
     }
 #endif
+#if INTERNAL_DECODER_HEVC
+    if (bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("HEVC"), VIDEO_DECODER, TRA_HEVC, IDS_INTERNAL_LAVF));
+    }
+#endif
 #if INTERNAL_DECODER_VC1
     if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("VC1"), VIDEO_DECODER, TRA_VC1, IDS_INTERNAL_LAVF));
