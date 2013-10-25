@@ -47,16 +47,14 @@ bool g_RegOK = true;//false; // doesn't work with the dvd graph builder
 
 CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUID& clsid)
     : CBaseVideoFilter(NAME("CDirectVobSubFilter"), punk, phr, clsid)
-    , m_nSubtitleId((DWORD_PTR) - 1)
+    , m_hdc(0)
+    , m_hbm(0)
+    , m_hfont(0)
+    , m_fps(25.0)
     , m_fMSMpeg4Fix(false)
-    , m_fps(25)
+    , m_nSubtitleId(DWORD_PTR(-1))
 {
     AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-    m_hdc = 0;
-    m_hbm = 0;
-    m_hfont = 0;
-
     {
         LOGFONT lf;
         ZeroMemory(&lf, sizeof(lf));

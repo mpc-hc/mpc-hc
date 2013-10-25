@@ -31,9 +31,13 @@ CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, in
     : m_pAsyncReader(pAsyncReader)
     , m_fStreaming(false)
     , m_fRandomAccess(false)
-    , m_pos(0), m_len(0)
-    , m_bitbuff(0), m_bitlen(0)
-    , m_cachepos(0), m_cachelen(0)
+    , m_pos(0)
+    , m_len(0)
+    , m_bitbuff(0)
+    , m_bitlen(0)
+    , m_cachepos(0)
+    , m_cachelen(0)
+    , m_cachetotal(0)
 {
     if (!m_pAsyncReader) {
         hr = E_UNEXPECTED;

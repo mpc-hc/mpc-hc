@@ -197,6 +197,7 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWS
     , m_fFlushed(false)
     , m_eEndFlush(TRUE)
     , m_QueueMaxPackets(QueueMaxPackets)
+    , m_rtStart(0)
 {
     m_mts.Copy(mts);
     m_nBuffers = max(nBuffers, 1);
@@ -211,6 +212,7 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilt
     , m_fFlushed(false)
     , m_eEndFlush(TRUE)
     , m_QueueMaxPackets(QueueMaxPackets)
+    , m_rtStart(0)
 {
     m_nBuffers = max(nBuffers, 1);
     ZeroMemory(&m_brs, sizeof(m_brs));
@@ -782,6 +784,9 @@ CBaseSplitterFilter::CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT*
     , m_rtLastStop(_I64_MIN)
     , m_priority(THREAD_PRIORITY_NORMAL)
     , m_QueueMaxPackets(QueueMaxPackets)
+    , m_rtNewStart(0)
+    , m_rtNewStop(0)
+    , m_fFlushing(false)
 {
     if (phr) {
         *phr = S_OK;

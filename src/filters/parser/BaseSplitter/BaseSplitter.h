@@ -113,7 +113,9 @@ public:
         , bDiscontinuity(FALSE)
         , bAppendable(FALSE)
         , bSyncPoint(FALSE)
-        , TrackNumber(0) {
+        , TrackNumber(0)
+        , rtStart(0)
+        , rtStop(0) {
     }
     virtual ~Packet() {
         if (pmt) {

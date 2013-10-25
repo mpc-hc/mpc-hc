@@ -35,6 +35,8 @@ END_MESSAGE_MAP()
 
 // CStyleEditorDialog dialog
 
+#pragma warning(push)
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized  
 IMPLEMENT_DYNAMIC(CStyleEditorDialog, CDialog)
 CStyleEditorDialog::CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pParent /*=nullptr*/)
     : CDialog(CStyleEditorDialog::IDD, pParent)
@@ -55,6 +57,7 @@ CStyleEditorDialog::CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pPa
     , m_alpha()
 {
 }
+#pragma warning(pop)
 
 CStyleEditorDialog::~CStyleEditorDialog()
 {

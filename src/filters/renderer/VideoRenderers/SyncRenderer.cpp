@@ -121,6 +121,13 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_pDwmIsCompositionEnabled(nullptr)
     , m_pDwmEnableComposition(nullptr)
     , m_pDirect3DCreate9Ex(nullptr)
+    , m_hDWMAPI(nullptr)
+    , m_hD3D9(nullptr)
+    , m_pOuterEVR(nullptr)
+    , m_SurfaceType(D3DFMT_UNKNOWN)
+    , m_BackbufferType(D3DFMT_UNKNOWN)
+    , m_DisplayType(D3DFMT_UNKNOWN)
+    , m_filter(D3DTEXF_NONE)
 {
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
     ZeroMemory(&m_caps, sizeof(m_caps));

@@ -24,11 +24,11 @@
 #include "VSFilter.h"
 
 CDirectVobSub::CDirectVobSub()
+    : m_iSelectedLanguage(0)
+    , m_MediaFPS(25.0)
+    , m_fForced(false)
 {
     AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-    BYTE* pData;
-    UINT nSize;
 
     m_iSelectedLanguage = 0;
     m_fHideSubtitles = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_HIDE), FALSE);
@@ -51,19 +51,18 @@ CDirectVobSub::CDirectVobSub()
     m_SubtitleSpeedDiv = theApp.GetProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_SUBTITLESPEEDDIV), 1000);
     m_fMediaFPSEnabled = !!theApp.GetProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPSENABLED), FALSE);
     m_ePARCompensationType = static_cast<CSimpleTextSubtitle::EPARCompensationType>(theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_AUTOPARCOMPENSATION), 0));
-    pData = nullptr;
+
+    BYTE* pData = nullptr;
+    UINT nSize;
     if (theApp.GetProfileBinary(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPS), &pData, &nSize) && pData) {
-        if (nSize != sizeof(m_MediaFPS)) {
-            m_MediaFPS = 25.0;
-        } else {
+        if (nSize == sizeof(m_MediaFPS)) {
             memcpy(&m_MediaFPS, pData, sizeof(m_MediaFPS));
         }
         delete [] pData;
     }
+
     m_ZoomRect.left = m_ZoomRect.top = 0;
     m_ZoomRect.right = m_ZoomRect.bottom = 1;
-
-    m_fForced = false;
 }
 
 CDirectVobSub::~CDirectVobSub()

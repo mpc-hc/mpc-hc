@@ -291,8 +291,11 @@ void CDVSBasePPage::BindControl(UINT id, CWnd& control)
 
 /* CDVSMainPPage */
 
+#pragma warning(push)
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized  
 CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr)
     : CDVSBasePPage(NAME("VSFilter Property Page (main)"), pUnk, IDD_DVSMAINPAGE, IDD_DVSMAINPAGE)
+    , m_fn()
     , m_nLangs(0)
     , m_ppLangs(nullptr)
     , m_iSelectedLanguage(0)
@@ -300,7 +303,7 @@ CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr)
     , m_PlacementXperc(50)
     , m_PlacementYperc(90)
     , m_fOnlyShowForcedVobSubs(false)
-    , m_fn()
+    , m_ePARCompensationType(CSimpleTextSubtitle::EPCTDisabled)
 {
     BindControl(IDC_FILENAME, m_fnedit);
     BindControl(IDC_LANGCOMBO, m_langs);
@@ -311,6 +314,7 @@ CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr)
     BindControl(IDC_ONLYSHOWFORCEDSUBS, m_forcedsubs);
     BindControl(IDC_PARCOMBO, m_PARCombo);
 }
+#pragma warning(pop)
 
 CDVSMainPPage::~CDVSMainPPage()
 {
@@ -817,6 +821,7 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 CDVSZoomPPage::CDVSZoomPPage(LPUNKNOWN pUnk, HRESULT* phr) :
     CDVSBasePPage(NAME("VSFilter Zoom Property Page"), pUnk, IDD_DVSZOOMPAGE, IDD_DVSZOOMPAGE)
 {
+    ZeroMemory(&m_rect, sizeof(m_rect));
     BindControl(IDC_SPIN1, m_posx);
     BindControl(IDC_SPIN2, m_posy);
     BindControl(IDC_SPIN7, m_scalex);
