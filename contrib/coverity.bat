@@ -21,14 +21,18 @@ SETLOCAL
 
 PUSHD %~dp0
 
-SET COVDIR=H:\progs\thirdparty\cov-analysis-win64-6.6.1
+IF NOT DEFINED COVDIR SET "COVDIR=H:\progs\thirdparty\cov-analysis-win64-6.6.1"
+IF DEFINED COVDIR IF NOT EXIST "%COVDIR%" (
+  ECHO.
+  ECHO ERROR: Coverity not found in "%COVDIR%"
+  GOTO End
+)
+
 
 CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
-SET MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount^
- /nodeReuse:true /target:Rebuild /property:Configuration="Release Lite";Platform=Win32
-
-"%COVDIR%\bin\cov-build.exe" --dir cov-int MSBuild "..\mpc-hc.sln" %MSBUILD_SWITCHES%
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" rebuild lite win32 main release silent
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" rebuild filters win32 release silent
 
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
 IF EXIST "MPC-HC.tgz" DEL "MPC-HC.tgz"
@@ -36,14 +40,18 @@ IF EXIST "MPC-HC.tgz" DEL "MPC-HC.tgz"
 
 :tar
 tar --version 1>&2 2>NUL || (ECHO. & ECHO ERROR: tar not found & GOTO SevenZip)
-tar czvf MPC-HC.tgz cov-int
+tar czvf "MPC-HC.tgz" "cov-int"
 GOTO End
 
 
 :SevenZip
-IF NOT EXIST "%PROGRAMFILES%\7za.exe" (ECHO. & ECHO ERROR: "%PROGRAMFILES%\7za.exe" not found & GOTO End)
-"%PROGRAMFILES%\7za.exe" a -ttar MPC-HC.tar cov-int
-"%PROGRAMFILES%\7za.exe" a -tgzip MPC-HC.tgz MPC-HC.tar
+IF NOT EXIST "%PROGRAMFILES%\7za.exe" (
+  ECHO.
+  ECHO ERROR: "%PROGRAMFILES%\7za.exe" not found
+  GOTO End
+)
+"%PROGRAMFILES%\7za.exe" a -ttar "MPC-HC.tar" "cov-int"
+"%PROGRAMFILES%\7za.exe" a -tgzip "MPC-HC.tgz" "MPC-HC.tar"
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
 
 
