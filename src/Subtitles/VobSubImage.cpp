@@ -1285,7 +1285,7 @@ void CVobSubImage::Scale2x()
 {
     int w = rect.Width(), h = rect.Height();
 
-    if (w && h) {
+    if (w > 0 && h > 0) {
         DWORD* src = (DWORD*)lpPixels;
         DWORD* dst = DEBUG_NEW DWORD[w * h];
 
@@ -1314,7 +1314,7 @@ void CVobSubImage::Scale2x()
                 DWORD E3 = H == F && D != H && B != F ? F : E;
 
                 *dst = ((((E0 & 0x00ff00ff) + (E1 & 0x00ff00ff) + (E2 & 0x00ff00ff) + (E3 & 0x00ff00ff) + 2) >> 2) & 0x00ff00ff)
-                    | (((((E0 >> 8) & 0x00ff00ff) + ((E1 >> 8) & 0x00ff00ff) + ((E2 >> 8) & 0x00ff00ff) + ((E3 >> 8) & 0x00ff00ff) + 2) << 6) & 0xff00ff00);
+                       | (((((E0 >> 8) & 0x00ff00ff) + ((E1 >> 8) & 0x00ff00ff) + ((E2 >> 8) & 0x00ff00ff) + ((E3 >> 8) & 0x00ff00ff) + 2) << 6) & 0xff00ff00);
             }
         }
 
