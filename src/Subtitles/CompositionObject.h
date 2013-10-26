@@ -69,8 +69,10 @@ public:
 
     CompositionObject* Copy() {
         CompositionObject* pCompositionObject = DEBUG_NEW CompositionObject(*this);
-        pCompositionObject->m_pRLEData = nullptr;
-        pCompositionObject->SetRLEData(m_pRLEData, m_nRLEDataSize, m_nRLEDataSize);
+        if (m_pRLEData) {
+            pCompositionObject->m_pRLEData = nullptr;
+            pCompositionObject->SetRLEData(m_pRLEData, m_nRLEDataSize, m_nRLEDataSize);
+        }
 
         return pCompositionObject;
     }

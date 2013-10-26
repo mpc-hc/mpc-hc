@@ -209,7 +209,9 @@ void CHdmvSub::EnqueuePresentationSegment(REFERENCE_TIME rt)
                 pObject->m_width = pObjectData.m_width;
                 pObject->m_height = pObjectData.m_height;
 
-                pObject->SetRLEData(pObjectData.GetRLEData(), pObjectData.GetRLEDataSize(), pObjectData.GetRLEDataSize());
+                if (pObjectData.GetRLEData()) {
+                    pObject->SetRLEData(pObjectData.GetRLEData(), pObjectData.GetRLEDataSize(), pObjectData.GetRLEDataSize());
+                }
             }
 
             m_pPresentationSegments.AddTail(m_pCurrentPresentationSegment);
@@ -256,7 +258,7 @@ void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize)   
     BYTE m_sequence_desc = pGBuffer->ReadByte();
 
     if (m_sequence_desc & 0x80) {
-        DWORD object_data_length  = (DWORD)pGBuffer->BitRead(24);
+        int object_data_length = (int)pGBuffer->BitRead(24);
 
         pObject.m_width = pGBuffer->ReadShort();
         pObject.m_height = pGBuffer->ReadShort();

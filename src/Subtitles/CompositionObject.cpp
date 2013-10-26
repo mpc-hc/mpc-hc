@@ -65,19 +65,27 @@ void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, b
 void CompositionObject::SetRLEData(const BYTE* pBuffer, int nSize, int nTotalSize)
 {
     delete [] m_pRLEData;
-    m_pRLEData     = DEBUG_NEW BYTE[nTotalSize];
-    m_nRLEDataSize = nTotalSize;
-    m_nRLEPos      = nSize;
 
-    memcpy(m_pRLEData, pBuffer, nSize);
+    if (nTotalSize > 0 && nSize <= nTotalSize) {
+        m_pRLEData     = DEBUG_NEW BYTE[nTotalSize];
+        m_nRLEDataSize = nTotalSize;
+        m_nRLEPos      = nSize;
+
+        memcpy(m_pRLEData, pBuffer, nSize);
+    } else {
+        m_pRLEData     = nullptr;
+        m_nRLEDataSize = m_nRLEPos = 0;
+        ASSERT(FALSE); // This shouldn't happen in normal operation
+    }
 }
 
 void CompositionObject::AppendRLEData(const BYTE* pBuffer, int nSize)
 {
-    ASSERT(m_nRLEPos + nSize <= m_nRLEDataSize);
     if (m_nRLEPos + nSize <= m_nRLEDataSize) {
         memcpy(m_pRLEData + m_nRLEPos, pBuffer, nSize);
         m_nRLEPos += nSize;
+    } else {
+        ASSERT(FALSE); // This shouldn't happen in normal operation
     }
 }
 
