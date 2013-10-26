@@ -82,6 +82,7 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
     m_hSystrayThread = 0;
     m_tbid.hSystrayWnd = nullptr;
     m_tbid.graph = nullptr;
+    m_tbid.dvs = nullptr;
     m_tbid.fRunOnce = false;
     m_tbid.fShowIcon = (theApp.m_AppName.Find(_T("zplayer"), 0) < 0 || !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), FALSE));
 
