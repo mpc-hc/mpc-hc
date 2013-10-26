@@ -183,41 +183,35 @@ IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin)
 
 IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 {
-    if (!pBF) {
-        return nullptr;
-    }
-
-    BeginEnumPins(pBF, pEP, pPin) {
-        PIN_DIRECTION dir2;
-        pPin->QueryDirection(&dir2);
-        if (dir == dir2) {
-            IPin* pRet = pPin.Detach();
-            pRet->Release();
-            return pRet;
+    if (pBF) {
+        BeginEnumPins(pBF, pEP, pPin) {
+            PIN_DIRECTION dir2;
+            if (SUCCEEDED(pPin->QueryDirection(&dir2)) && dir == dir2) {
+                IPin* pRet = pPin.Detach();
+                pRet->Release();
+                return pRet;
+            }
         }
+        EndEnumPins;
     }
-    EndEnumPins;
 
     return nullptr;
 }
 
 IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 {
-    if (!pBF) {
-        return nullptr;
-    }
-
-    BeginEnumPins(pBF, pEP, pPin) {
-        PIN_DIRECTION dir2;
-        pPin->QueryDirection(&dir2);
-        CComPtr<IPin> pPinTo;
-        if (dir == dir2 && (S_OK != pPin->ConnectedTo(&pPinTo))) {
-            IPin* pRet = pPin.Detach();
-            pRet->Release();
-            return pRet;
+    if (pBF) {
+        BeginEnumPins(pBF, pEP, pPin) {
+            PIN_DIRECTION dir2;
+            CComPtr<IPin> pPinTo;
+            if (SUCCEEDED(pPin->QueryDirection(&dir2)) && dir == dir2 && (S_OK != pPin->ConnectedTo(&pPinTo))) {
+                IPin* pRet = pPin.Detach();
+                pRet->Release();
+                return pRet;
+            }
         }
+        EndEnumPins;
     }
-    EndEnumPins;
 
     return nullptr;
 }

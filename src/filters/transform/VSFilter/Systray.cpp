@@ -246,9 +246,11 @@ LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
                 bool fMMSwitcher = !names[j].Compare(_T("Morgan Stream Switcher"));
 
                 DWORD cStreams = 0;
-                pStreams[j]->Count(&cStreams);
+                if (FAILED(pStreams[j]->Count(&cStreams)) || !cStreams) {
+                    continue;
+                }
 
-                DWORD flags, group, prevgroup = (DWORD) - 1;
+                DWORD flags, group, prevgroup = DWORD_MAX;
 
                 for (UINT i = 0; i < cStreams; i++) {
                     WCHAR* pName = nullptr;
@@ -270,9 +272,7 @@ LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
                     }
                 }
 
-                if (cStreams > 0) {
-                    popup.AppendMenu(MF_SEPARATOR);
-                }
+                popup.AppendMenu(MF_SEPARATOR);
             }
 
             int i = 0;

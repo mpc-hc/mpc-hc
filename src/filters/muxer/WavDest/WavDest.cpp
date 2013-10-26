@@ -166,21 +166,22 @@ HRESULT CWavDestFilter::Copy(IMediaSample* pSource, IMediaSample* pDest) const
 
     // Copy the sample times
 
-    REFERENCE_TIME TimeStart, TimeEnd;
-    if (NOERROR == pSource->GetTime(&TimeStart, &TimeEnd)) {
-        pDest->SetTime(&TimeStart, &TimeEnd);
+    REFERENCE_TIME rtTimeStart, rtTimeEnd;
+    if (SUCCEEDED(pSource->GetTime(&rtTimeStart, &rtTimeEnd))) {
+        pDest->SetTime(&rtTimeStart, &rtTimeEnd);
     }
 
-    LONGLONG MediaStart, MediaEnd;
-    if (pSource->GetMediaTime(&MediaStart, &MediaEnd) == NOERROR) {
-        pDest->SetMediaTime(&MediaStart, &MediaEnd);
+    LONGLONG rtMediaStart, rtMediaEnd;
+    if (SUCCEEDED(pSource->GetMediaTime(&rtMediaStart, &rtMediaEnd))) {
+        pDest->SetMediaTime(&rtMediaStart, &rtMediaEnd);
     }
 
     // Copy the media type
     AM_MEDIA_TYPE* pMediaType;
-    pSource->GetMediaType(&pMediaType);
-    pDest->SetMediaType(pMediaType);
-    DeleteMediaType(pMediaType);
+    if (SUCCEEDED(pSource->GetMediaType(&pMediaType)) && pMediaType) {
+        pDest->SetMediaType(pMediaType);
+        DeleteMediaType(pMediaType);
+    }
 
     // Copy the actual data length
     long lDataLength = pSource->GetActualDataLength();
