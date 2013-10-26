@@ -293,7 +293,7 @@ namespace Plugin
             }
 
             void StringProc(const FilterActivation* fa, const FilterFunctions* ff, char* str) {
-                sprintf(str, " (%s)", !GetFileName().IsEmpty() ? CStringA(GetFileName()) : " (empty)");
+                sprintf(str, " (%s)", GetFileName().IsEmpty() ? " (empty)" : CStringA(GetFileName()));
             }
 
             bool FssProc(FilterActivation* fa, const FilterFunctions* ff, char* buf, int buflen) {
@@ -560,7 +560,7 @@ namespace Plugin
             }
 
             void StringProc(const VDXFilterActivation* fa, const VDXFilterFunctions* ff, char* str) {
-                sprintf(str, " (%s)", !GetFileName().IsEmpty() ? CStringA(GetFileName()) : " (empty)");
+                sprintf(str, " (%s)", GetFileName().IsEmpty() ? " (empty)" : CStringA(GetFileName()));
             }
 
             bool FssProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff, char* buf, int buflen) {
