@@ -345,7 +345,7 @@ DWORD CALLBACK SystrayThreadProc(void* pParam)
 static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 {
     int i = 0;
-    WCHAR* wstr = nullptr;
+    CStringW name;
     CComPtr<IBaseFilter> pFilter;
     CAUUID caGUID;
     caGUID.pElems = nullptr;
@@ -360,7 +360,7 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
         if (i == idx) {
             pFilter = pBF;
             pSPS->GetPages(&caGUID);
-            wstr = _wcsdup(CStringW(GetFilterName(pBF))); // double char-wchar conversion happens in the non-unicode build, but anyway... :)
+            name = GetFilterName(pBF);
             break;
         }
 
@@ -374,18 +374,15 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
         if (hWnd != INVALID_HANDLE_VALUE) {
             ShowPPage(pFilter, hWnd);
         } else {
-            ret = DEBUG_NEW TCHAR[wcslen(wstr) + 1];
+            ret = DEBUG_NEW TCHAR[name.GetLength() + 1];
             if (ret) {
-                _tcscpy_s(ret, wcslen(wstr) + 1, CString(wstr));
+                _tcscpy_s(ret, name.GetLength() + 1, CString(name));
             }
         }
     }
 
     if (caGUID.pElems) {
         CoTaskMemFree(caGUID.pElems);
-    }
-    if (wstr) {
-        free(wstr);
     }
 
     return ret;
