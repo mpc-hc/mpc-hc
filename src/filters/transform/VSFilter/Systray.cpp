@@ -305,7 +305,9 @@ LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
                     }
                 }
 
-                CallPPage(m_tbid->graph, id & 0xff, hWnd);
+                if (hWnd != INVALID_HANDLE_VALUE) {
+                    CallPPage(m_tbid->graph, id & 0xff, hWnd);
+                }
             }
         }
         break;
