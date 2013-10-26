@@ -481,14 +481,7 @@ HRESULT CDVBSub::ParseDisplay(CGolombBuffer& gb, WORD wSegLength)
 HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
 {
     int nEnd = gb.GetPos() + wSegLength;
-    CDVBSub::DVB_REGION* pRegion;
-    CDVBSub::DVB_REGION DummyRegion;
-
-    pRegion = FindRegion(m_pCurrentPage, gb.ReadByte());
-
-    if (pRegion == nullptr) {
-        pRegion = &DummyRegion;
-    }
+    CDVBSub::DVB_REGION* pRegion = FindRegion(m_pCurrentPage, gb.ReadByte());
 
     if (pRegion != nullptr) {
         pRegion->version_number = (BYTE)gb.BitRead(4);
