@@ -203,7 +203,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 r.mime == "application/x-font-ttf" ||
                 r.mime == "application/vnd.ms-opentype") {
             //m_fontinst.InstallFont(r.data);
-            m_fontinst.InstallFontMemory(r.data.GetData(), r.data.GetCount());
+            m_fontinst.InstallFontMemory(r.data.GetData(), (UINT)r.data.GetCount());
         }
     }
 
@@ -258,7 +258,7 @@ bool CDSMSplitterFilter::DemuxLoop()
 STDMETHODIMP CDSMSplitterFilter::GetKeyFrameCount(UINT& nKFs)
 {
     CheckPointer(m_pFile, E_UNEXPECTED);
-    nKFs = m_pFile->m_sps.GetCount();
+    nKFs = (UINT)m_pFile->m_sps.GetCount();
     return S_OK;
 }
 

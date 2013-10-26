@@ -120,7 +120,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
             pIn += 8 + 1 + pIn[8] + 1 + 3;
         }
 
-        len -= (pInOrg - pIn);
+        len -= int(pInOrg - pIn);
 
         if (size < len) {
             return E_FAIL;
@@ -246,7 +246,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
                     pOut += curlen;
                 }
 
-                pOutSample->SetActualDataLength(pOut - pOutOrg);
+                pOutSample->SetActualDataLength(int(pOut - pOutOrg));
 
                 hr = m_pOutput->Deliver(pOutSample);
             }
@@ -318,7 +318,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
         return E_FAIL;
     }
 
-    pOutSample->SetActualDataLength(pOut - pOutOrg);
+    pOutSample->SetActualDataLength(int(pOut - pOutOrg));
 
     return S_OK;
 }

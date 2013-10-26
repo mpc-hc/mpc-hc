@@ -85,7 +85,7 @@ namespace Plugin
             if (!m_pSubPicQueue) {
                 CComPtr<ISubPicAllocator> pAllocator = DEBUG_NEW CMemSubPicAllocator(dst.type, size);
 
-                HRESULT hr;
+                HRESULT hr = E_FAIL;
                 if (!(m_pSubPicQueue = DEBUG_NEW CSubPicQueueNoThread(pAllocator, &hr)) || FAILED(hr)) {
                     m_pSubPicQueue = nullptr;
                     return false;
@@ -126,7 +126,7 @@ namespace Plugin
             CFileGetStatus(fn, fs);
 
             for (;;) {
-                DWORD i = WaitForMultipleObjects(handles.GetCount(), handles.GetData(), FALSE, 1000);
+                DWORD i = WaitForMultipleObjects((DWORD)handles.GetCount(), handles.GetData(), FALSE, 1000);
 
                 if (WAIT_OBJECT_0 == i) {
                     Reply(S_OK);
@@ -603,7 +603,7 @@ namespace Plugin
                     return 1;
                 }
 
-                return Open(fd.GetPathName(), fd.m_pOFN->lCustData) ? 0 : 1;
+                return Open(fd.GetPathName(), (int)fd.m_pOFN->lCustData) ? 0 : 1;
             }
 
             void StringProc(const VDXFilterActivation* fa, const VDXFilterFunctions* ff, char* str) {

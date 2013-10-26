@@ -109,7 +109,7 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
         UpdateData();
 
         if (m_iCharset >= 0) {
-            m_stss.charSet = m_charset.GetItemData(m_iCharset);
+            m_stss.charSet = (int)m_charset.GetItemData(m_iCharset);
         }
         m_stss.fontSpacing = m_spacing;
         m_stss.fontAngleZ = m_angle;
@@ -129,7 +129,7 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
     } else {
         m_font.SetWindowText(m_stss.fontName);
         m_iCharset = -1;
-        for (ptrdiff_t i = 0; i < CharSetLen; i++) {
+        for (int i = 0; i < CharSetLen; i++) {
             CString str;
             str.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
             m_charset.AddString(str);

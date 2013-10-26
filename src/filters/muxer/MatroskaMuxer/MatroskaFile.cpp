@@ -86,7 +86,7 @@ HRESULT CBinary::Write(IStream* pStream)
     }
 
     HeaderWrite(pStream);
-    return pStream->Write(GetData(), GetCount(), nullptr);
+    return pStream->Write(GetData(), (ULONG)GetCount(), nullptr);
 }
 
 QWORD CANSI::Size(bool fWithHeader)
@@ -701,7 +701,7 @@ HRESULT CBlock::Write(IStream* pStream)
     bswap((BYTE*)&t, 2);
     pStream->Write(&t, 2, nullptr);
     BYTE Lacing = 0;
-    BYTE n = BlockData.GetCount();
+    BYTE n = (BYTE)BlockData.GetCount();
     if (n > 1) {
         Lacing |= 2;
     }
@@ -724,7 +724,7 @@ HRESULT CBlock::Write(IStream* pStream)
     POSITION pos = BlockData.GetHeadPosition();
     while (pos) {
         CBinary* b = BlockData.GetNext(pos);
-        pStream->Write(b->GetData(), b->GetCount(), nullptr);
+        pStream->Write(b->GetData(), (ULONG)b->GetCount(), nullptr);
     }
     return S_OK;
 }

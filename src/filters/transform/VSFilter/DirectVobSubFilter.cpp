@@ -1424,7 +1424,7 @@ void CDirectVobSubFilter2::GetRidOfInternalScriptRenderer()
                     && SUCCEEDED(pPin->ConnectedTo(&pPinTo))) {
                 m_pGraph->Disconnect(pPinTo);
                 m_pGraph->Disconnect(pPin);
-                m_pGraph->ConnectDirect(pPinTo, GetPin(2 + m_pTextInput.GetCount() - 1), nullptr);
+                m_pGraph->ConnectDirect(pPinTo, GetPin(2 + (int)m_pTextInput.GetCount() - 1), nullptr);
             }
         }
         EndEnumPins;
@@ -1740,7 +1740,7 @@ DWORD CDirectVobSubFilter::ThreadProc()
     SetupFRD(paths, handles);
 
     for (;;) {
-        DWORD idx = WaitForMultipleObjects(handles.GetCount(), handles.GetData(), FALSE, INFINITE);
+        DWORD idx = WaitForMultipleObjects((int)handles.GetCount(), handles.GetData(), FALSE, INFINITE);
 
         if (idx == (WAIT_OBJECT_0 + 0)) { // m_frd.hEndThreadEvent
             break;

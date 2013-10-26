@@ -248,7 +248,7 @@ HRESULT CVTSStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
     }
 
     if (pdwBytesRead) {
-        *pdwBytesRead = ptr - pbBuffer;
+        *pdwBytesRead = DWORD(ptr - pbBuffer);
     }
 
     return S_OK;

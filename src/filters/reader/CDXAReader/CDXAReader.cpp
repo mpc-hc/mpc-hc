@@ -348,7 +348,7 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
     }
 
     if (pdwBytesRead) {
-        *pdwBytesRead = pbBuffer - pbBufferOrg;
+        *pdwBytesRead = DWORD(pbBuffer - pbBufferOrg);
     }
     m_llPosition += pbBuffer - pbBufferOrg;
 

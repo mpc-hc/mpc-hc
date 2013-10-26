@@ -388,7 +388,7 @@ void CDVSMainPPage::UpdateObjectData(bool fSave)
             int nLangs;
             m_pDirectVobSub->get_LanguageCount(&nLangs);
             AllocLangs(nLangs);
-            for (ptrdiff_t i = 0; i < m_nLangs; i++) {
+            for (int i = 0; i < m_nLangs; i++) {
                 m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
             }
             m_pDirectVobSub->get_SelectedLanguage(&m_iSelectedLanguage);
@@ -404,7 +404,7 @@ void CDVSMainPPage::UpdateObjectData(bool fSave)
         int nLangs;
         m_pDirectVobSub->get_LanguageCount(&nLangs);
         AllocLangs(nLangs);
-        for (ptrdiff_t i = 0; i < m_nLangs; i++) {
+        for (int i = 0; i < m_nLangs; i++) {
             m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
         }
         m_pDirectVobSub->get_SelectedLanguage(&m_iSelectedLanguage);
@@ -545,16 +545,16 @@ void CDVSGeneralPPage::UpdateControlData(bool fSave)
 {
     if (fSave) {
         if (m_verext.GetCurSel() >= 0) {
-            m_VerExt = m_verext.GetItemData(m_verext.GetCurSel());
+            m_VerExt = (int)m_verext.GetItemData(m_verext.GetCurSel());
         }
         m_HorExt = !!m_mod32fix.GetCheck();
         if (m_resx2.GetCurSel() >= 0) {
-            m_ResX2 = m_resx2.GetItemData(m_resx2.GetCurSel());
+            m_ResX2 = (int)m_resx2.GetItemData(m_resx2.GetCurSel());
         }
         m_ResX2minw = m_resx2w.GetPos();
         m_ResX2minh = m_resx2h.GetPos();
         if (m_load.GetCurSel() >= 0) {
-            m_LoadLevel = m_load.GetItemData(m_load.GetCurSel());
+            m_LoadLevel = (int)m_load.GetItemData(m_load.GetCurSel());
         }
         m_fExternalLoad = !!m_extload.GetCheck();
         m_fWebLoad = !!m_webload.GetCheck();
@@ -971,7 +971,7 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
         if ((UINT)m_preflist.GetCount() == VIHSIZE) {
             BYTE* pData = DEBUG_NEW BYTE[VIHSIZE];
 
-            for (ptrdiff_t i = 0; i < m_preflist.GetCount(); i++) {
+            for (int i = 0; i < m_preflist.GetCount(); i++) {
                 pData[i] = (BYTE)m_preflist.GetItemData(i);
             }
 
@@ -997,12 +997,12 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
             nSize = VIHSIZE;
             pData = DEBUG_NEW BYTE[VIHSIZE];
             for (size_t i = 0; i < VIHSIZE; i++) {
-                pData[i] = i;
+                pData[i] = (BYTE)i;
             }
         }
 
         if (pData) {
-            for (ptrdiff_t i = 0; i < (int)nSize; i++) {
+            for (int i = 0; i < (int)nSize; i++) {
                 m_dynchglist.AddString(VIH2String(pData[i]));
                 m_dynchglist.SetItemData(i, pData[i]);
                 m_preflist.AddString(VIH2String(pData[i]));
