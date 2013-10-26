@@ -45,8 +45,8 @@ public:
     bool Open(LPCTSTR path);
     void Close();
 
-    int GetLength();
-    int GetPosition();
+    int GetLengthLBA() const;
+    int GetPositionLBA() const;
     int Seek(int lba);
     bool Read(BYTE* buff);
 };

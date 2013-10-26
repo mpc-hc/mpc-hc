@@ -334,12 +334,12 @@ void CLBAFile::Close()
     }
 }
 
-int CLBAFile::GetLength()
+int CLBAFile::GetLengthLBA() const
 {
     return (int)(CFile::GetLength() / 2048);
 }
 
-int CLBAFile::GetPosition()
+int CLBAFile::GetPositionLBA() const
 {
     return (int)(CFile::GetPosition() / 2048);
 }
@@ -784,7 +784,7 @@ bool CVobFile::Read(BYTE* buff)
         return false;
     }
 
-    if (m_file.IsOpen() && m_file.GetPosition() == m_file.GetLength()) {
+    if (m_file.IsOpen() && m_file.GetPositionLBA() == m_file.GetLengthLBA()) {
         m_file.Close();
     }
 
