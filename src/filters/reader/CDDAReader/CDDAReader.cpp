@@ -355,7 +355,9 @@ bool CCDDAStream::Load(const WCHAR* fnw)
         size = _byteswap_ushort(size) + sizeof(size);
 
         CAutoVectorPtr<BYTE> pCDTextData;
-        pCDTextData.Allocate(size);
+        if (!pCDTextData.Allocate(size)) {
+            break;
+        }
         ZeroMemory(pCDTextData, size);
 
         if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), pCDTextData, size, &BytesReturned, 0)) {

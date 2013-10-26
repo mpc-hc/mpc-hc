@@ -512,7 +512,9 @@ void CDirectVobSubFilter::InitSubPicQueue()
     m_pSubPicQueue = nullptr;
 
     m_pTempPicBuff.Free();
-    m_pTempPicBuff.Allocate(4 * m_w * m_h);
+    if (!m_pTempPicBuff.Allocate(4 * m_w * m_h)) {
+        return;
+    }
 
     const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 

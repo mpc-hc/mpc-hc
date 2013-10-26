@@ -67,9 +67,9 @@ LRESULT CALLBACK COpenFileDlg::WindowProcNew(HWND hwnd, UINT message, WPARAM wPa
     if (message == WM_COMMAND && HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDOK
             && m_fAllowDirSelection) {
         CAutoVectorPtr<TCHAR> path;
-        path.Allocate(MAX_PATH + 1); // MAX_PATH should be bigger for multiple selection, but we are only interested if it's zero length
+        // MAX_PATH should be bigger for multiple selection, but we are only interested if it's zero length
         // note: allocating MAX_PATH only will cause a buffer overrun for too long strings, and will result in a silent app disappearing crash, 100% reproducible
-        if (::GetDlgItemText(hwnd, cmb13, (TCHAR*)path, MAX_PATH) == 0) {
+        if (path.Allocate(MAX_PATH + 1) && ::GetDlgItemText(hwnd, cmb13, (TCHAR*)path, MAX_PATH) == 0) {
             ::SendMessage(hwnd, CDM_SETCONTROLTEXT, edt1, (LPARAM)__DUMMY__);
         }
     }

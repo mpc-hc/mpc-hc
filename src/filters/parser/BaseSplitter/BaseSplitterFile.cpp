@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -64,8 +64,7 @@ bool CBaseSplitterFile::SetCacheSize(int cachelen)
 {
     m_pCache.Free();
     m_cachetotal = 0;
-    m_pCache.Allocate((size_t)cachelen);
-    if (!m_pCache) {
+    if (!m_pCache.Allocate((size_t)cachelen)) {
         return false;
     }
     m_cachetotal = cachelen;

@@ -93,20 +93,20 @@ BOOL CAuthDlg::OnInitDialog()
         }
     } else {
         CAutoVectorPtr<TCHAR> buff;
-        buff.Allocate(SHORT_MAX);
+        if (buff.Allocate(SHORT_MAX)) {
+            DWORD len = GetPrivateProfileSection(IDS_R_LOGINS, buff, SHORT_MAX, pApp->m_pszProfileName);
 
-        DWORD len = GetPrivateProfileSection(IDS_R_LOGINS, buff, SHORT_MAX, pApp->m_pszProfileName);
-
-        TCHAR* p = buff;
-        while (*p && len > 0) {
-            CString str = p;
-            p += str.GetLength() + 1;
-            len -= str.GetLength() + 1;
-            CAtlList<CString> sl;
-            Explode(str, sl, '=', 2);
-            if (sl.GetCount() == 2) {
-                m_logins[sl.GetHead()] = DEncrypt(sl.GetTail());
-                m_usernamectrl.AddString(sl.GetHead());
+            TCHAR* p = buff;
+            while (*p && len > 0) {
+                CString str = p;
+                p += str.GetLength() + 1;
+                len -= str.GetLength() + 1;
+                CAtlList<CString> sl;
+                Explode(str, sl, '=', 2);
+                if (sl.GetCount() == 2) {
+                    m_logins[sl.GetHead()] = DEncrypt(sl.GetTail());
+                    m_usernamectrl.AddString(sl.GetHead());
+                }
             }
         }
     }
