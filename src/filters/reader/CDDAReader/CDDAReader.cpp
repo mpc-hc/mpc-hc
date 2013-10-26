@@ -352,7 +352,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
             break;
         }
 
-        size = ((size >> 8) | (size << 8)) + sizeof(size);
+        size = _byteswap_ushort(size) + sizeof(size);
 
         CAutoVectorPtr<BYTE> pCDTextData;
         pCDTextData.Allocate(size);
