@@ -220,13 +220,11 @@ HRESULT CBufferFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     BYTE* pDataIn  = nullptr;
     BYTE* pDataOut = nullptr;
 
-    pIn->GetPointer(&pDataIn);
-    pOut->GetPointer(&pDataOut);
-
     long len  = pIn->GetActualDataLength();
     long size = pOut->GetSize();
 
-    if (!pDataIn || !pDataOut || len > size || len <= 0) {
+    if (FAILED(pIn->GetPointer(&pDataIn)) || !pDataIn || FAILED(pOut->GetPointer(&pDataOut))|| !pDataOut
+            || len > size || len <= 0) {
         return S_FALSE;
     }
 

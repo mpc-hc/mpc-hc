@@ -143,8 +143,10 @@ HRESULT CDeCSSFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     BYTE* pDataIn = nullptr;
     BYTE* pDataOut = nullptr;
 
-    pIn->GetPointer(&pDataIn);
-    pOut->GetPointer(&pDataOut);
+    HRESULT hr;
+    if (FAILED(hr = pIn->GetPointer(&pDataIn)) || FAILED(hr = pOut->GetPointer(&pDataOut))) {
+        return hr;
+    }
 
     long len = pIn->GetActualDataLength();
     long size = pOut->GetSize();
