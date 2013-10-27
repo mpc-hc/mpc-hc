@@ -1,18 +1,16 @@
 Patches are always welcome. :)
 
 MPC-HC:
-1) Try to fix all /W3 warnings for Win32 in our code
-2) Fix all coverity scan issues for our code
-3) Run /analyze and fix some of the errors; memory leaks, NULL pointer dereferencing,
-   buffer overruns etc
-4) Remove support for unneeded/obsolete renderers
-6) Replace the default old looking toolbar with a more modern one
+1) Remove support for unneeded/obsolete renderers
+2) Drop XP support after its EOL
+3) Replace the default old looking toolbar with a more modern one
 
 MPCIconLib:
 1) Replace the file association icons with better looking ones
 
 WebServer:
 1) Update the images for player.html using a css sprite
+2) Add an alternative web interface if possible
 
 Installer:
 1) Add file association tasks, see https://trac.mpc-hc.org/ticket/2207
