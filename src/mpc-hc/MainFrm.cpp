@@ -10853,7 +10853,7 @@ void CMainFrame::SetupDVDChapters()
         ULONG VTSN, TTN;
 
         if (CVobFile::GetTitleInfo(path, loc.TitleNum, VTSN, TTN)) {
-            path.Format(L"%s\\VTS_%02u_0.IFO", buff, VTSN);
+            path.Format(L"%s\\VTS_%02lu_0.IFO", buff, VTSN);
             CAtlList<CString> files;
 
             CVobFile vob;
