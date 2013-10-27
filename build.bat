@@ -80,7 +80,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1 & SET /A ARGL+=1
-  IF /I "%%G" == "LAVFilters"   SET "Rebuild=LAVFilters" & SET /A VALID+=1 & SET /A ARGLAVF+=1 & SET /A ARGRE+=1
+  IF /I "%%G" == "LAVFilters"   SET "Clean=LAVFilters"   & SET /A VALID+=1 & SET /A ARGLAVF+=1 & SET /A ARGRE+=1
   IF /I "%%G" == "Silent"       SET "SILENT=True"        & SET /A VALID+=1
   IF /I "%%G" == "Nocolors"     SET "NOCOLORS=True"      & SET /A VALID+=1
   IF /I "%%G" == "Analyze"      SET "ANALYZE=True"       & SET /A VALID+=1
@@ -147,7 +147,7 @@ IF /I "%PPLATFORM%" == "x64" (
   SET "LAVFILTERSDIR=LAVFilters"
 )
 
-IF /I "%Rebuild%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters.bat" Rebuild %PPLATFORM% %BUILDCFG%
+IF /I "%Clean%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters.bat" Clean %PPLATFORM% %BUILDCFG%
 IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
 REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
