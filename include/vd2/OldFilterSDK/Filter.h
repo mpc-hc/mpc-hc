@@ -1,7 +1,7 @@
 #ifndef f_FILTER_H
 #define f_FILTER_H
 
-#include <vd2\plugin\vdvideofilt.h>
+#include <vd2/plugin/vdvideofilt.h>
 #include <windows.h>
 
 // This is really dumb, but necessary to support VTbls in C++.
