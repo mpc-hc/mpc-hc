@@ -223,7 +223,7 @@ HRESULT CBufferFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     long len  = pIn->GetActualDataLength();
     long size = pOut->GetSize();
 
-    if (FAILED(pIn->GetPointer(&pDataIn)) || !pDataIn || FAILED(pOut->GetPointer(&pDataOut))|| !pDataOut
+    if (FAILED(pIn->GetPointer(&pDataIn)) || !pDataIn || FAILED(pOut->GetPointer(&pDataOut)) || !pDataOut
             || len > size || len <= 0) {
         return S_FALSE;
     }

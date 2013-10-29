@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -106,7 +106,7 @@ HRESULT CDirectVobSubFilter::Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, in
         wIn <<= 1, hIn <<= 1;
     }
 
-    int left = ((wSub - wIn) >> 1)&~1;
+    int left = ((wSub - wIn) >> 1) & ~1;
     int mid = wIn;
     int right = left + ((wSub - wIn) & 1);
 
@@ -229,8 +229,8 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
         pitchOut = bihOut.biWidth;
     }
 
-    pitchIn = (pitchIn + 3)&~3;
-    pitchOut = (pitchOut + 3)&~3;
+    pitchIn = (pitchIn + 3) & ~3;
+    pitchOut = (pitchOut + 3) & ~3;
 
     if (bihOut.biHeight > 0 && bihOut.biCompression <= 3) { // flip if the dst bitmap is flipped rgb (m_hbm is a top-down bitmap, not like the subpictures)
         pOut += pitchOut * (abs(bihOut.biHeight) - 1);

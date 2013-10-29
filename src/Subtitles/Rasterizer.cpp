@@ -235,7 +235,7 @@ void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
         // prestep y0 down
 
         int dy = y1 - y0;
-        int y = ((y0 + 3)&~7) + 4;
+        int y = ((y0 + 3) & ~7) + 4;
         int iy = y >> 3;
 
         y1 = (y1 - 5) >> 3;
@@ -267,7 +267,7 @@ void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
         // prestep y1 down
 
         int dy = y0 - y1;
-        int y = ((y1 + 3)&~7) + 4;
+        int y = ((y1 + 3) & ~7) + 4;
         int iy = y >> 3;
 
         y0 = (y0 - 5) >> 3;
@@ -775,7 +775,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
     mOffsetX = mPathOffsetX - xsub;
     mOffsetY = mPathOffsetY - ysub;
 
-    mWideBorder = (mWideBorder + 7)&~7;
+    mWideBorder = (mWideBorder + 7) & ~7;
 
     if (!mWideOutline.empty() || fBlur || fGaussianBlur > 0) {
         int bluradjust = 0;
@@ -787,7 +787,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
         }
 
         // Expand the buffer a bit when we're blurring, since that can also widen the borders a bit
-        bluradjust = (bluradjust + 7)&~7;
+        bluradjust = (bluradjust + 7) & ~7;
 
         width  += 2 * mWideBorder + bluradjust * 2;
         height += 2 * mWideBorder + bluradjust * 2;

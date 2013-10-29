@@ -1245,19 +1245,19 @@ static bool LoadFont(const CString& font)
         *p = *s - 33;
     }
 
-    for (ptrdiff_t i = 0, j = 0, k = len&~3; i < k; i += 4, j += 3) {
+    for (ptrdiff_t i = 0, j = 0, k = len & ~3; i < k; i += 4, j += 3) {
         pData[j + 0] = ((pData[i + 0] & 63) << 2) | ((pData[i + 1] >> 4) & 3);
         pData[j + 1] = ((pData[i + 1] & 15) << 4) | ((pData[i + 2] >> 2) & 15);
         pData[j + 2] = ((pData[i + 2] &  3) << 6) | ((pData[i + 3] >> 0) & 63);
     }
 
-    int datalen = (len&~3) * 3 / 4;
+    int datalen = (len & ~3) * 3 / 4;
 
     if ((len & 3) == 2) {
-        pData[datalen++] = ((pData[(len&~3) + 0] & 63) << 2) | ((pData[(len&~3) + 1] >> 4) & 3);
+        pData[datalen++] = ((pData[(len & ~3) + 0] & 63) << 2) | ((pData[(len & ~3) + 1] >> 4) & 3);
     } else if ((len & 3) == 3) {
-        pData[datalen++] = ((pData[(len&~3) + 0] & 63) << 2) | ((pData[(len&~3) + 1] >> 4) & 3);
-        pData[datalen++] = ((pData[(len&~3) + 1] & 15) << 4) | ((pData[(len&~3) + 2] >> 2) & 15);
+        pData[datalen++] = ((pData[(len & ~3) + 0] & 63) << 2) | ((pData[(len & ~3) + 1] >> 4) & 3);
+        pData[datalen++] = ((pData[(len & ~3) + 1] & 15) << 4) | ((pData[(len & ~3) + 2] >> 2) & 15);
     }
 
     HANDLE hFont = INVALID_HANDLE_VALUE;

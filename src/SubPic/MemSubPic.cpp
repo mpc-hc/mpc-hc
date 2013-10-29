@@ -189,11 +189,11 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 
         if (m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
             m_rcDirty.left &= ~1;
-            m_rcDirty.right = (m_rcDirty.right + 1)&~1;
+            m_rcDirty.right = (m_rcDirty.right + 1) & ~1;
 
             if (m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
                 m_rcDirty.top &= ~1;
-                m_rcDirty.bottom = (m_rcDirty.bottom + 1)&~1;
+                m_rcDirty.bottom = (m_rcDirty.bottom + 1) & ~1;
             }
         }
     }
