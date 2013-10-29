@@ -368,7 +368,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
         CDROM_TOC_CD_TEXT_DATA_BLOCK* pDesc = ((CDROM_TOC_CD_TEXT_DATA*)(BYTE*)pCDTextData)->Descriptors;
 
         CStringArray str[16];
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < _countof(str); i++) {
             str[i].SetSize(1 + m_TOC.LastTrack);
         }
         CString last;
