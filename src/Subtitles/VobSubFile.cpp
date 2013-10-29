@@ -1165,7 +1165,8 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
         }
 
         if (i != packetsize || sizeleft > 0) {
-            delete [] ret, ret = nullptr;
+            delete [] ret;
+            ret = nullptr;
         }
     } while (false);
 

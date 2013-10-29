@@ -119,7 +119,8 @@ CDeCSSFilter::CDeCSSFilter(LPUNKNOWN lpunk, HRESULT* phr)
         *phr = E_OUTOFMEMORY;
     }
     if (FAILED(*phr))  {
-        delete m_pInput, m_pInput = nullptr;
+        delete m_pInput;
+        m_pInput = nullptr;
         return;
     }
 }

@@ -88,7 +88,8 @@ CBufferFilter::CBufferFilter(LPUNKNOWN lpunk, HRESULT* phr)
             hr = E_OUTOFMEMORY;
         }
         if (FAILED(hr)) {
-            delete m_pInput, m_pInput = nullptr;
+            delete m_pInput;
+            m_pInput = nullptr;
             break;
         }
     } while (false);
