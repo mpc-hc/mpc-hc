@@ -125,8 +125,8 @@ sk.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 sk.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ; Slovenian
-sl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-sl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+sl.WelcomeLabel2=[name] bo nameščen na tem računalniku.%n%nPriporočamo, da zaprete vse ostale programa pred nadaljevanjem.
+sl.WinVersionTooLowError=[name] zahteva za delovanje Windows XP Service Pack 3 ali novejše
 
 ; Chinese Traditional
 tc.WelcomeLabel2=這將會安裝 [name] 在你的電腦中。%n%n建議您關閉所有其它應用程序然後再繼續。
@@ -630,22 +630,22 @@ sk.ViewChangelog=Zobraziť zoznam zmien
 
 ; Slovenian
 sl.langid=00001060
-sl.comp_mpciconlib=Icon Library
-sl.comp_mpcresources=Translations
-sl.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%n%nIf you plan on installing MPC-HC again then you do not have to delete them.
-sl.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+sl.comp_mpciconlib=Knjižnica ikon
+sl.comp_mpcresources=Prevodi
+sl.msg_DeleteSettings=Želite izbrisati nastavitve MPC-HC?%n%nČe nameravate spet namestiti MPC-HC, potem vam jih ni potrebno izbrisati.
+sl.msg_SetupIsRunningWarning=Namestitev MPC-HC je že zagnana!
 #if defined(sse_required)
-sl.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
+sl.msg_simd_sse=Ta različica MPC-HC zahteva procesor s podporo SSE razširitvam.%n%nVaš procesor nima teh zmožnosti.
 #elif defined(sse2_required)
-sl.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
+sl.msg_simd_sse2=Ta različica MPC-HC zahteva procesor s podporo SSE2 razširitvam.%n%nVaš procesor nima teh zmožnosti.
 #endif
-sl.tsk_AllUsers=For all users
-sl.tsk_CurrentUser=For the current user only
-sl.tsk_Other=Other tasks:
-sl.tsk_ResetSettings=Reset settings
-sl.types_DefaultInstallation=Default installation
-sl.types_CustomInstallation=Custom installation
-sl.ViewChangelog=View Changelog
+sl.tsk_AllUsers=Za vse uporabnike
+sl.tsk_CurrentUser=Samo za trenutnega uporabnika
+sl.tsk_Other=Ostala opravila:
+sl.tsk_ResetSettings=Ponastavi nastavitve
+sl.types_DefaultInstallation=Privzeta namestitev
+sl.types_CustomInstallation=Namestitev po meri
+sl.ViewChangelog=Poglej dnevnik sprememb
 
 
 ; Chinese Traditional
