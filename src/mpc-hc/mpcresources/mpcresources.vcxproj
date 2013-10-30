@@ -177,6 +177,14 @@
       <Configuration>Release Slovak</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Slovenian|Win32">
+      <Configuration>Release Slovenian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Slovenian|x64">
+      <Configuration>Release Slovenian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Spanish|Win32">
       <Configuration>Release Spanish</Configuration>
       <Platform>Win32</Platform>
@@ -259,6 +267,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Romanian'">$(ProjectName).ro</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Russian'">$(ProjectName).ru</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Slovak'">$(ProjectName).sk</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Slovenian'">$(ProjectName).sl</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Spanish'">$(ProjectName).es</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Swedish'">$(ProjectName).sv</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Turkish'">$(ProjectName).tr</TargetName>
@@ -341,6 +350,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.sk.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Slovak'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.sl.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Slovenian'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.sv.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Swedish'">true</ExcludedFromBuild>

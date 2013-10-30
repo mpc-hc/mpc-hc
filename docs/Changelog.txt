@@ -13,6 +13,7 @@ next version - not released yet
 + Ticket #3548, Add British English translation
 + Ticket #3590, Internal filters: Support for HEVC and VP9
 + Ticket #3605, Support playlists using UTF8 encoding without BOM
++ Ticket #3643, Add Slovenian translation
 * Updated VirtualDub to v1.10.4
 * Updated Unrar to v5.0.0.12
 * Updated Little CMS to v2.6b (git 69ecafd)

@@ -77,6 +77,9 @@
     <ResourceCompile Include="mplayerc.sk.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="mplayerc.sl.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
     <ResourceCompile Include="mplayerc.sv.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

@@ -124,6 +124,10 @@ sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
 sk.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 sk.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
+; Slovenian
+sl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+sl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
 ; Chinese Traditional
 tc.WelcomeLabel2=這將會安裝 [name] 在你的電腦中。%n%n建議您關閉所有其它應用程序然後再繼續。
 tc.WinVersionTooLowError=執行 [name] 需要 Windows XP Service Pack 3 或更新的版本。
@@ -622,6 +626,26 @@ sk.tsk_ResetSettings=Obnoviť pôvodné nastavenia
 sk.types_DefaultInstallation=Predvolená inštalácia
 sk.types_CustomInstallation=Vlastná inštalácia
 sk.ViewChangelog=Zobraziť zoznam zmien
+
+
+; Slovenian
+sl.langid=00001060
+sl.comp_mpciconlib=Icon Library
+sl.comp_mpcresources=Translations
+sl.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%n%nIf you plan on installing MPC-HC again then you do not have to delete them.
+sl.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+#if defined(sse_required)
+sl.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
+#elif defined(sse2_required)
+sl.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
+#endif
+sl.tsk_AllUsers=For all users
+sl.tsk_CurrentUser=For the current user only
+sl.tsk_Other=Other tasks:
+sl.tsk_ResetSettings=Reset settings
+sl.types_DefaultInstallation=Default installation
+sl.types_CustomInstallation=Custom installation
+sl.ViewChangelog=View Changelog
 
 
 ; Chinese Traditional

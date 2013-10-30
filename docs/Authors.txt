@@ -65,6 +65,7 @@ Romanian                Daniel Alămiță
 Romanian                lordkag                 <lordkag@users.sourceforge.net>
 Russian                 YDY                     <ydy@users.sourceforge.net>
 Slovak                  Marián Hikaník          <mhikanik@users.sourceforge.net>
+Slovenian               shvala                  <simon.hvala@hotmail.com>
 Spanish                 SquallMX                <squallmx@users.sourceforge.net>
 Turkish                 Bosluk                  <bosluk@users.sourceforge.net>
 Ukrainian               arestarh                <arestarh1986@users.sourceforge.net>

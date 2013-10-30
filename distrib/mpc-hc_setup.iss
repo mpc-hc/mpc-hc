@@ -195,6 +195,7 @@ Name: ru;    MessagesFile: compiler:Languages\Russian.isl
 Name: sc;    MessagesFile: Languages\ChineseSimplified.isl
 Name: sv;    MessagesFile: Languages\Swedish.isl
 Name: sk;    MessagesFile: Languages\Slovak.isl
+Name: sl;    MessagesFile: compiler:Languages\Slovenian.isl
 Name: tc;    MessagesFile: Languages\ChineseTraditional.isl
 Name: tr;    MessagesFile: Languages\Turkish.isl
 Name: ua;    MessagesFile: compiler:Languages\Ukrainian.isl
