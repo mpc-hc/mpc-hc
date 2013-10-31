@@ -11,6 +11,11 @@ Part A: Preparing the Visual Studio environment
   3. Make sure you install all available updates from Microsoft Update
   4. Install the DirectX SDK (June 2010) -> http://go.microsoft.com/fwlink/?LinkID=71193
 
+ Visual Studio 2013
+  1. Install Visual C++ 2013, part of Visual Studio 2013 Professional (Express won't work, other editions work fine)
+  2. Make sure you install all available updates from Microsoft Update
+  3. Install the DirectX SDK (June 2010) -> http://go.microsoft.com/fwlink/?LinkID=71193
+
 
 Part B: Preparing the GCC environment
  NOTES:
