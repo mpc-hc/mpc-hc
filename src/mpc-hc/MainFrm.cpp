@@ -16188,7 +16188,11 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
     return __super::WindowProc(message, wParam, lParam);
 }
 
+#if (_MSC_VER == 1800)
+UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData)
+#else
 UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
+#endif
 {
     static BOOL bWasPausedBeforeSuspention;
     OAFilterState mediaState;
