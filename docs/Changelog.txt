@@ -15,6 +15,7 @@ next version - not released yet
 + Ticket #3605, Support playlists using UTF8 encoding without BOM
 * Updated VirtualDub to v1.10.4
 * Updated Unrar to v5.0.0.12
+* Updated Little CMS to v2.6b (git 69ecafd)
 ! DVD: The chapter marks could be wrong from some titles
 ! Ticket #1478, Slightly improve the precision of the frame number in the Go To dialog.
   The frame number was sometimes off by 1. This was easily noticeable when doing frame-stepping
