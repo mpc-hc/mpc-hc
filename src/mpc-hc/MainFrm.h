@@ -244,6 +244,7 @@ private:
     CComPtr<IUnknown> m_pProv;
 
     bool m_bUsingDXVA;
+    void UpdateDXVAStatus();
 
     void SetVolumeBoost(UINT nAudioBoost);
     void SetBalance(int balance);

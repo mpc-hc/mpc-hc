@@ -8,6 +8,11 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
+! Ticket #3881, DXVA status was invalid with certain decoders
+
+
 1.7.2 - 26 January 2014
 =======================
 + Added support for XySubFilter, only compatible with embedded subtitles for now
