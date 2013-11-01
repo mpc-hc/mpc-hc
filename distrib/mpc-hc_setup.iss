@@ -70,20 +70,20 @@
 #endif
 
 #ifdef x64Build
-  #define bindir        = base_bindir + "\mpc-hc_x64"
+  #define bindir        = AddBackslash(base_bindir) + "mpc-hc_x64"
   #define mpchc_exe     = "mpc-hc64.exe"
   #define mpchc_ini     = "mpc-hc64.ini"
   #define lavfiltersdir = "LAVFilters64"
   #define OutFilename   = app_name + "." + app_ver + ".x64"
 #else
-  #define bindir        = base_bindir + "\mpc-hc_x86"
+  #define bindir        = AddBackslash(base_bindir) + "mpc-hc_x86"
   #define mpchc_exe     = "mpc-hc.exe"
   #define mpchc_ini     = "mpc-hc.ini"
   #define lavfiltersdir = "LAVFilters"
   #define OutFilename   = app_name + "." + app_ver + ".x86"
 #endif
 
-#ifnexist bindir + "\" + mpchc_exe
+#ifnexist AddBackslash(bindir) + mpchc_exe
   #error Compile MPC-HC first
 #endif
 

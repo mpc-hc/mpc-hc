@@ -20,8 +20,8 @@
 ; Inno Setup: http://www.jrsoftware.org/isdl.php
 
 
-#if VER < EncodeVer(5,5,3)
-  #error Update your Inno Setup version (5.5.3 or newer)
+#if VER < EncodeVer(5,5,4)
+  #error Update your Inno Setup version (5.5.4 or newer)
 #endif
 
 ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
@@ -34,8 +34,8 @@
 #define VerMinor  "41"
 #define top_dir   "..\..\..\..\.."
 
-#include top_dir + "\include\mpc-hc_config.h"
-#include top_dir + "\include\version.h"
+#include AddBackslash(top_dir) + "include\mpc-hc_config.h"
+#include AddBackslash(top_dir) + "include\version.h"
 
 #define copyright_str   "2001-2013"
 #define app_name        "VSFilter"
@@ -45,20 +45,20 @@
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
 #if defined(VS2013)
-  #define base_bindir   = top_dir + "\bin13"
+  #define base_bindir   = AddBackslash(top_dir) + "bin13"
 #else
-  #define base_bindir   = top_dir + "\bin"
+  #define base_bindir   = AddBackslash(top_dir) + "bin"
 #endif
 
 #ifdef x64Build
-  #define bindir        = base_bindir + "\Filters_x64"
+  #define bindir        = AddBackslash(base_bindir) + "Filters_x64"
   #define OutFilename   = app_name + "_" + app_version + "_x64"
 #else
-  #define bindir        = base_bindir + "\Filters_x86"
+  #define bindir        = AddBackslash(base_bindir) + "Filters_x86"
   #define OutFilename   = app_name + "_" + app_version + "_x86"
 #endif
 
-#ifnexist bindir + "\VSFilter.dll"
+#ifnexist AddBackslash(bindir) + "VSFilter.dll"
   #error Compile VSFilter first
 #endif
 
