@@ -1,8 +1,7 @@
 /*************************************************************************
   vStrip by [maven] (maven@maven.de)
     udf.c:  routines for udf-parsing (because windows just doesn't cut it),
-                    refs: udf102.pdf, udf200.pdf, ecma 167
-                    (tabsize 2)
+                    refs: udf102.pdf, udf200.pdf
 *************************************************************************/
 
 #include "stdafx.h"
