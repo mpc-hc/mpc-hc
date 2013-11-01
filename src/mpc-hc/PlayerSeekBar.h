@@ -42,6 +42,7 @@ private:
     bool m_bHovered;
     CPoint m_hoverPoint;
     HCURSOR m_cursor;
+    bool m_bDraggingThumb;
 
     CToolTipCtrl m_tooltip;
     enum { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE } m_tooltipState;
@@ -87,6 +88,8 @@ public:
     void SetChapterBag(IDSMChapterBag* pCB);
     void RemoveChapters();
 
+    bool DraggingThumb();
+
 private:
     DECLARE_MESSAGE_MAP()
 
@@ -103,4 +106,5 @@ private:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnMouseLeave();
     afx_msg LRESULT OnThemeChanged();
+    afx_msg void OnCaptureChanged(CWnd* pWnd);
 };

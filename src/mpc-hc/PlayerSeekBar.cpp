@@ -39,6 +39,7 @@ CPlayerSeekBar::CPlayerSeekBar()
     , m_rtHoverPos(0)
     , m_bHovered(false)
     , m_cursor(AfxGetApp()->LoadStandardCursor(IDC_HAND))
+    , m_bDraggingThumb(false)
     , m_tooltipState(TOOLTIP_HIDDEN)
     , m_bIgnoreLastTooltipPoint(true)
 {
@@ -365,7 +366,7 @@ void CPlayerSeekBar::SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
         if (m_bHasDuration) {
             m_bHasDuration = false;
             HideToolTip();
-            if (GetCapture() == this) {
+            if (DraggingThumb()) {
                 ReleaseCapture();
                 KillTimer(TIMER_HOVER_CAPTURED);
             }
@@ -381,7 +382,7 @@ REFERENCE_TIME CPlayerSeekBar::GetPos() const
 
 void CPlayerSeekBar::SetPos(REFERENCE_TIME rtPos)
 {
-    if (GetCapture() == this) {
+    if (DraggingThumb()) {
         return;
     }
 
@@ -405,6 +406,11 @@ void CPlayerSeekBar::RemoveChapters()
     SetChapterBag(nullptr);
 }
 
+bool CPlayerSeekBar::DraggingThumb()
+{
+    return m_bDraggingThumb;
+}
+
 BEGIN_MESSAGE_MAP(CPlayerSeekBar, CDialogBar)
     ON_WM_PAINT()
     ON_WM_LBUTTONDOWN()
@@ -419,6 +425,7 @@ BEGIN_MESSAGE_MAP(CPlayerSeekBar, CDialogBar)
     ON_WM_TIMER()
     ON_WM_MOUSELEAVE()
     ON_WM_THEMECHANGED()
+    ON_WM_CAPTURECHANGED()
 END_MESSAGE_MAP()
 
 void CPlayerSeekBar::OnPaint()
@@ -501,6 +508,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
     if (m_bEnabled && m_bHasDuration && clientRect.PtInRect(point)) {
         m_bHovered = false;
         SetCapture();
+        m_bDraggingThumb = true;
         MoveThumb(point);
         VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     } else {
@@ -519,7 +527,7 @@ void CPlayerSeekBar::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 {
-    if (GetCapture() == this) {
+    if (DraggingThumb()) {
         ReleaseCapture();
         KillTimer(TIMER_HOVER_CAPTURED);
         if (!m_bHovered || (abs(point.x - m_hoverPoint.x) > HOVER_CAPTURED_IGNORE_X_DELTA &&
@@ -535,7 +543,7 @@ void CPlayerSeekBar::OnXButtonDown(UINT nFlags, UINT nButton, CPoint point)
     UNREFERENCED_PARAMETER(point);
     // do medium jumps when clicking mouse navigation buttons on the seekbar
     // if not dragging the seekbar thumb
-    if (GetCapture() != this) {
+    if (!DraggingThumb()) {
         switch (nButton) {
             case XBUTTON1:
                 SendMessage(WM_COMMAND, ID_PLAY_SEEKBACKWARDMED);
@@ -562,7 +570,7 @@ void CPlayerSeekBar::OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point)
 
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
-    if (GetCapture() == this && (nFlags & MK_LBUTTON)) {
+    if (DraggingThumb() && (nFlags & MK_LBUTTON)) {
         MoveThumb(point);
         VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     }
@@ -610,7 +618,7 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
             }
             break;
         case TIMER_HOVER_CAPTURED:
-            if (GetCapture() == this && (!m_bHovered || m_rtHoverPos != m_rtPos)) {
+            if (DraggingThumb() && (!m_bHovered || m_rtHoverPos != m_rtPos)) {
                 m_bHovered = true;
                 m_rtHoverPos = m_rtPos;
                 m_hoverPoint = point;
@@ -634,4 +642,11 @@ LRESULT CPlayerSeekBar::OnThemeChanged()
     m_pEnabledThumb.release();
     m_pDisabledThumb.release();
     return __super::OnThemeChanged();
+}
+
+void CPlayerSeekBar::OnCaptureChanged(CWnd* pWnd)
+{
+    UNREFERENCED_PARAMETER(pWnd);
+    ASSERT(m_bDraggingThumb);
+    m_bDraggingThumb = false;
 }
