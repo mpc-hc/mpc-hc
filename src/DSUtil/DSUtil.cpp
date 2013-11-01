@@ -2362,7 +2362,7 @@ static const DXVA2_DECODER DXVA2Decoder[] = {
     {&DXVA_Intel_H264_ClearVideo,       _T("H.264 bitstream decoder, ClearVideo(tm)")},  // Intel ClearVideo H264 bitstream decoder
     {&DXVA_Intel_VC1_ClearVideo,        _T("VC-1 bitstream decoder, ClearVideo(tm)")},   // Intel ClearVideo VC-1 bitstream decoder
     {&DXVA_Intel_VC1_ClearVideo_2,      _T("VC-1 bitstream decoder 2, ClearVideo(tm)")}, // Intel ClearVideo VC-1 bitstream decoder 2
-    {&DXVA_MPEG4_ASP,                   _T("MPEG-4 ASP bitstream decoder")},             // Nvidia MPEG-4 ASP bitstream decoder
+    {&DXVA_MPEG4_ASP,                   _T("MPEG-4 ASP bitstream decoder")},             // NVIDIA MPEG-4 ASP bitstream decoder
     {&DXVA_ModeNone,                    _T("Mode none")},
     {&DXVA_ModeH261_A,                  _T("H.261 A, post processing")},
     {&DXVA_ModeH261_B,                  _T("H.261 B, deblocking")},

@@ -552,7 +552,7 @@ LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const CString& decoderName
         make_pair(_T("avcodec"), _T("FFmpeg")),
         make_pair(_T("dxva2n"), _T("DXVA2 Native")),
         make_pair(_T("dxva2cb"), _T("DXVA2 Copy-back")),
-        make_pair(_T("cuvid"), _T("Nvidia CUVID")),
+        make_pair(_T("cuvid"), _T("NVIDIA CUVID")),
         make_pair(_T("quicksync"), _T("Intel QuickSync"))
     };
 
@@ -604,7 +604,7 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
     if (dwHWAccel == DWORD(-1)) {
         dwHWAccel = HWAccel_None; // Ensure that a valid state is selected if no HW acceleration is available
 
-        // We enable by default DXVA2 native on Vista+ and CUVID on XP if an nVidia adapter is found
+        // We enable by default DXVA2 native on Vista+ and CUVID on XP if an NVIDIA adapter is found
         if (SysVersion::IsVistaOrLater()) {
             dwHWAccel = HWAccel_DXVA2Native;
         } else {

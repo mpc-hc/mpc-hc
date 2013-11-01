@@ -554,7 +554,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     HRESULT hr = S_OK;
     m_CurrentAdapter = GetAdapter(m_pD3D);
 
-    /*// TODO : add nVidia PerfHUD !!!
+    /*// TODO : add NVIDIA PerfHUD !!!
 
     // Set default settings
     UINT AdapterToUse=D3DADAPTER_DEFAULT;

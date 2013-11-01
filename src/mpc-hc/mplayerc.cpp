@@ -2398,10 +2398,10 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
         m_ColorControl[0].StepSize      = max(1, (int)(m_VMR9ColorControl[0].StepSize + 0.5));
         // Contrast
         /*if (m_VMR9ColorControl[1].MinValue == 0.0999908447265625) {
-              m_VMR9ColorControl[1].MinValue = 0.11;    //fix nvidia bug
+              m_VMR9ColorControl[1].MinValue = 0.11;    //fix NVIDIA bug
           }*/
         if (*(int*)&m_VMR9ColorControl[1].MinValue == 1036830720) {
-            m_VMR9ColorControl[1].MinValue = 0.11f;    //fix nvidia bug
+            m_VMR9ColorControl[1].MinValue = 0.11f;    //fix NVIDIA bug
         }
         m_ColorControl[1].MinValue      = (int)floor(m_VMR9ColorControl[1].MinValue * 100 + 0.5) - 100;
         m_ColorControl[1].MaxValue      = (int)floor(m_VMR9ColorControl[1].MaxValue * 100 + 0.5) - 100;

@@ -1127,7 +1127,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
                     }
                 }
             }
-            // No multiple pin for Internal MPEG2 Software Decoder, Nvidia PureVideo Decoder, Sonic Cinemaster VideoDecoder
+            // No multiple pin for Internal MPEG2 Software Decoder, NVIDIA PureVideo Decoder, Sonic Cinemaster VideoDecoder
             else if (clsid == CLSID_CMpeg2DecFilter
                      || clsid == CLSID_NvidiaVideoDecoder
                      || clsid == CLSID_SonicCinemasterVideoDecoder) {
