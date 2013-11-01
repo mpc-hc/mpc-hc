@@ -410,6 +410,9 @@ BEGIN_MESSAGE_MAP(CPlayerSeekBar, CDialogBar)
     ON_WM_LBUTTONDOWN()
     ON_WM_LBUTTONDBLCLK()
     ON_WM_LBUTTONUP()
+    ON_WM_XBUTTONDOWN()
+    ON_WM_XBUTTONUP()
+    ON_WM_XBUTTONDBLCLK()
     ON_WM_MOUSEMOVE()
     ON_WM_ERASEBKGND()
     ON_WM_SETCURSOR()
@@ -524,6 +527,37 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
             SyncVideoToThumb();
         }
     }
+}
+
+void CPlayerSeekBar::OnXButtonDown(UINT nFlags, UINT nButton, CPoint point)
+{
+    UNREFERENCED_PARAMETER(nFlags);
+    UNREFERENCED_PARAMETER(point);
+    // do medium jumps when clicking mouse navigation buttons on the seekbar
+    // if not dragging the seekbar thumb
+    if (GetCapture() != this) {
+        switch (nButton) {
+            case XBUTTON1:
+                SendMessage(WM_COMMAND, ID_PLAY_SEEKBACKWARDMED);
+                break;
+            case XBUTTON2:
+                SendMessage(WM_COMMAND, ID_PLAY_SEEKFORWARDMED);
+                break;
+        }
+    }
+}
+
+void CPlayerSeekBar::OnXButtonUp(UINT nFlags, UINT nButton, CPoint point)
+{
+    UNREFERENCED_PARAMETER(nFlags);
+    UNREFERENCED_PARAMETER(nButton);
+    UNREFERENCED_PARAMETER(point);
+    // do nothing
+}
+
+void CPlayerSeekBar::OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point)
+{
+    OnXButtonDown(nFlags, nButton, point);
 }
 
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)

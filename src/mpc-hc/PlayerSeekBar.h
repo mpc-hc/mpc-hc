@@ -94,6 +94,9 @@ private:
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+    afx_msg void OnXButtonDown(UINT nFlags, UINT nButton, CPoint point);
+    afx_msg void OnXButtonUp(UINT nFlags, UINT nButton, CPoint point);
+    afx_msg void OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
