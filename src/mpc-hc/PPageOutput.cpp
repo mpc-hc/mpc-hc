@@ -551,30 +551,17 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
 
             // Force 3D surface with EVR Custom
-            if (m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) {
-                GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
-                ((CComboBox*)GetDlgItem(IDC_DX_SURFACE))->SetCurSel(2);
+            GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
+            ((CComboBox*)GetDlgItem(IDC_DX_SURFACE))->SetCurSel(2);
 
-                if (SysVersion::IsVistaOrLater()) {
-                    m_iDSDXVASupport.SetIcon(m_tick);
-                }
-                m_iDSShaderSupport.SetIcon(m_tick);
-                m_iDSRotationSupport.SetIcon(m_tick);
-                m_wndToolTip.UpdateTipText(ResStr(IDC_DSEVR_CUSTOM), GetDlgItem(IDC_VIDRND_COMBO));
-            } else {
-                GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
-
-                if (!SysVersion::IsVistaOrLater()) {
-                    m_iDSDXVASupport.SetIcon(m_tick);
-                }
-                if (m_iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
-                    m_iDSShaderSupport.SetIcon(m_tick);
-                    m_iDSRotationSupport.SetIcon(m_tick);
-                }
+            if (SysVersion::IsVistaOrLater()) {
+                m_iDSDXVASupport.SetIcon(m_tick);
             }
-
             m_iDSSubtitleSupport.SetIcon(m_tick);
             m_iDSSaveImageSupport.SetIcon(m_tick);
+            m_iDSShaderSupport.SetIcon(m_tick);
+            m_iDSRotationSupport.SetIcon(m_tick);
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSEVR_CUSTOM), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_SYNC:
             GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow(TRUE);
@@ -582,6 +569,8 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+
+            // Force 3D surface with EVR Sync
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
             ((CComboBox*)GetDlgItem(IDC_DX_SURFACE))->SetCurSel(2);
 
