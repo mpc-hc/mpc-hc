@@ -437,7 +437,8 @@ void CPPageOutput::OnSurfaceChange()
             m_wndToolTip.UpdateTipText(ResStr(IDC_TEXTURESURF2D), GetDlgItem(IDC_DX_SURFACE));
             break;
         case VIDRNDT_AP_TEXTURE3D:
-            if (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) {
+            if (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                    || m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || m_iDSVideoRendererType == VIDRNDT_DS_SYNC) {
                 m_iDSShaderSupport.SetIcon(m_tick);
                 m_iDSRotationSupport.SetIcon(m_tick);
             } else if (m_iDSVideoRendererType == VIDRNDT_DS_MADVR) {
