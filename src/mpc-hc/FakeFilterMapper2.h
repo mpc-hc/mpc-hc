@@ -62,47 +62,15 @@ public:
         dwMerit = f->dwMerit;
     }
 };
-/*
-class CFilterMapper2 : protected CUnknown, protected IFilterMapper2
-{
-    static bool fInitialized;
-
-    CComPtr<IFilterMapper2> m_pFM2;
-    CString m_path;
-
-protected:
-    DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
-
-    // IFilterMapper2
-
-    STDMETHODIMP CreateCategory(REFCLSID clsidCategory, DWORD dwCategoryMerit, LPCWSTR Description);
-    STDMETHODIMP UnregisterFilter(const CLSID* pclsidCategory, const OLECHAR* szInstance, REFCLSID Filter);
-    STDMETHODIMP RegisterFilter(REFCLSID clsidFilter, LPCWSTR Name, IMoniker** ppMoniker, const CLSID* pclsidCategory, const OLECHAR* szInstance, const REGFILTER2* prf2);
-    STDMETHODIMP EnumMatchingFilters(IEnumMoniker** ppEnum, DWORD dwFlags, BOOL bExactMatch, DWORD dwMerit,
-        BOOL bInputNeeded, DWORD cInputTypes, const GUID* pInputTypes, const REGPINMEDIUM* pMedIn, const CLSID* pPinCategoryIn, BOOL bRender,
-        BOOL bOutputNeeded, DWORD cOutputTypes, const GUID* pOutputTypes, const REGPINMEDIUM* pMedOut, const CLSID* pPinCategoryOut);
-
-public:
-    CFilterMapper2();
-    virtual ~CFilterMapper2();
-
-    static void Init();
-
-    static IFilterMapper2* m_pFilterMapper2;
-    CList<Filter*> m_filters;
-    void Register(CString path);
-};
-*/
 
 class CFilterMapper2 : protected CUnknown, public IFilterMapper2
 {
-    static bool fInitialized;
+    static bool s_bInitialized;
 
     CComPtr<IUnknown> m_pFM2;
     CString m_path;
 
-    bool m_fRefCounted, m_fAllowUnreg;
+    bool m_bRefCounted, m_bAllowUnreg;
 
 protected:
     DECLARE_IUNKNOWN;
@@ -118,14 +86,14 @@ protected:
                                      BOOL bOutputNeeded, DWORD cOutputTypes, const GUID* pOutputTypes, const REGPINMEDIUM* pMedOut, const CLSID* pPinCategoryOut);
 
 public:
-    CFilterMapper2(bool fRefCounted, bool fAllowUnreg = false, LPUNKNOWN pUnkOuter = nullptr);
+    CFilterMapper2(bool bRefCounted, bool bAllowUnreg = false, LPUNKNOWN pUnkOuter = nullptr);
     virtual ~CFilterMapper2();
 
     void SetInner(IUnknown* pUnk) { m_pFM2 = pUnk; }
 
     static void Init();
 
-    static IFilterMapper2* m_pFilterMapper2;
+    static IFilterMapper2* s_pFilterMapper2;
     CList<FilterOverride*> m_filters;
     void Register(CString path);
 };
