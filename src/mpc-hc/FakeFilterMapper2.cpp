@@ -575,7 +575,9 @@ CFilterMapper2::CFilterMapper2(bool bRefCounted, bool bAllowUnreg /*= false*/, L
 {
     m_cRef = bRefCounted ? 0 : 1;
 
-    Init();
+    // We can't call Init() if more than one thread is running due to a custom optimization
+    // we use for mhook. Instead we ensure that the hooks were properly set up at startup
+    ENSURE(s_bInitialized);
 
     HRESULT hr = Real_CoCreateInstance(CLSID_FilterMapper2, (IUnknown*)(INonDelegatingUnknown*)this,
                                        CLSCTX_ALL, IID_PPV_ARGS(&m_pFM2));
