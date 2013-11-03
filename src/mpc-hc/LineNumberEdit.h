@@ -1,5 +1,4 @@
-#if !defined(AFX_LINENUMBEREDIT_H__CAB7A465_709C_42B8_80D0_2B0AF6D25AD4__INCLUDED_)
-#define AFX_LINENUMBEREDIT_H__CAB7A465_709C_42B8_80D0_2B0AF6D25AD4__INCLUDED_
+#pragma once
 
 /////////////////////////////////////////////////////////////////////////////
 // CLineNumberStatic window
@@ -98,5 +97,3 @@ private:
 	int                 m_LineDelta; // Introduced to provide an offset to the first line number
 
 };
-
-#endif // !defined(AFX_LINENUMBEREDIT_H__CAB7A465_709C_42B8_80D0_2B0AF6D25AD4__INCLUDED_)
