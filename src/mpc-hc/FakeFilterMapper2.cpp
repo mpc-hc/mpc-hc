@@ -333,6 +333,7 @@ LONG WINAPI Mine_RegCreateKeyExW(HKEY a0, LPCWSTR a1, DWORD a2, LPWSTR a3, DWORD
 
 LONG WINAPI Mine_RegDeleteKeyA(HKEY a0, LPCSTR a1)
 {
+    // (INT_PTR)a0 < 0 will catch all attempts to use a predefined HKEY directly
     if (CFilterMapper2::s_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
     }
@@ -341,6 +342,7 @@ LONG WINAPI Mine_RegDeleteKeyA(HKEY a0, LPCSTR a1)
 
 LONG WINAPI Mine_RegDeleteKeyW(HKEY a0, LPCWSTR a1)
 {
+    // (INT_PTR)a0 < 0 will catch all attempts to use a predefined HKEY directly
     if (CFilterMapper2::s_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
     }
@@ -349,6 +351,7 @@ LONG WINAPI Mine_RegDeleteKeyW(HKEY a0, LPCWSTR a1)
 
 LONG WINAPI Mine_RegDeleteValueA(HKEY a0, LPCSTR a1)
 {
+    // (INT_PTR)a0 < 0 will catch all attempts to use a predefined HKEY directly
     if (CFilterMapper2::s_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
     }
@@ -357,6 +360,7 @@ LONG WINAPI Mine_RegDeleteValueA(HKEY a0, LPCSTR a1)
 
 LONG WINAPI Mine_RegDeleteValueW(HKEY a0, LPCWSTR a1)
 {
+    // (INT_PTR)a0 < 0 will catch all attempts to use a predefined HKEY directly
     if (CFilterMapper2::s_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
     }
@@ -485,6 +489,7 @@ LONG WINAPI Mine_RegQueryValueExW(HKEY a0, LPCWSTR a1, LPDWORD a2, LPDWORD a3, L
 
 LONG WINAPI Mine_RegSetValueA(HKEY a0, LPCSTR a1, DWORD a2, LPCSTR a3, DWORD a4)
 {
+    // (INT_PTR)a0 < 0 will catch all attempts to use a predefined HKEY directly
     if (CFilterMapper2::s_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
     }
@@ -493,6 +498,7 @@ LONG WINAPI Mine_RegSetValueA(HKEY a0, LPCSTR a1, DWORD a2, LPCSTR a3, DWORD a4)
 
 LONG WINAPI Mine_RegSetValueW(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWORD a4)
 {
+    // (INT_PTR)a0 < 0 will catch all attempts to use a predefined HKEY directly
     if (CFilterMapper2::s_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
     }
@@ -501,6 +507,7 @@ LONG WINAPI Mine_RegSetValueW(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWORD a
 
 LONG WINAPI Mine_RegSetValueExA(HKEY a0, LPCSTR a1, DWORD a2, DWORD a3, const BYTE* a4, DWORD a5)
 {
+    // (INT_PTR)a0 < 0 will catch all attempts to use a predefined HKEY directly
     if (CFilterMapper2::s_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
     }
@@ -509,6 +516,7 @@ LONG WINAPI Mine_RegSetValueExA(HKEY a0, LPCSTR a1, DWORD a2, DWORD a3, const BY
 
 LONG WINAPI Mine_RegSetValueExW(HKEY a0, LPCWSTR a1, DWORD a2, DWORD a3, const BYTE* a4, DWORD a5)
 {
+    // (INT_PTR)a0 < 0 will catch all attempts to use a predefined HKEY directly
     if (CFilterMapper2::s_pFilterMapper2 && (a0 == FAKEHKEY || (INT_PTR)a0 < 0)) {
         return ERROR_SUCCESS;
     }
