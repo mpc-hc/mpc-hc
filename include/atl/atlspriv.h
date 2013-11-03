@@ -41,7 +41,7 @@
 #pragma pack(push,_ATL_PACKING)
 namespace ATL{
 
-	// One of these objects can be created globally to turn
+// One of these objects can be created globally to turn
 // on the socket stuff at CRT startup and shut it down
 // on CRT term.
 class _AtlWSAInit
@@ -50,6 +50,7 @@ public:
 	_AtlWSAInit() throw()
 	{
 		m_dwErr = WSAEFAULT;
+		ZeroMemory(&m_stData, sizeof(m_stData));
 	}
 
 	bool Init()
@@ -68,7 +69,7 @@ public:
 			WSACleanup();
 	}
 
-	WSADATA  m_stData;
+	WSADATA m_stData;
 	DWORD m_dwErr;
 };
 
