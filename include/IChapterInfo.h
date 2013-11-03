@@ -21,7 +21,7 @@
 
 #pragma once
 
-typedef enum ChapterType {
+enum ChapterType {
     AtomicChapter   = 0,        // only contain one element
     SubChapter      = 1         // contain a list of elements
 };

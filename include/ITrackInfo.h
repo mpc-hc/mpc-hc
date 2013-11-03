@@ -21,7 +21,7 @@
 
 #pragma once
 
-typedef enum TrackType {
+enum TrackType {
     TypeVideo       = 1,
     TypeAudio       = 2,
     TypeComplex     = 3,

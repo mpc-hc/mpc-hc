@@ -54,10 +54,10 @@ public:
 class CVobFile : public CDVDSession
 {
     // all files
-    typedef struct {
+    struct file_t {
         CString fn;
         int size;
-    } file_t;
+    };
 
     CAtlArray<file_t> m_files;
     int m_iFile;

@@ -614,7 +614,7 @@ static struct {
     { _T("VideoFiles"), _T(" %1"),      IDS_AUTOPLAY_PLAYVIDEO },
     { _T("MusicFiles"), _T(" %1"),      IDS_AUTOPLAY_PLAYMUSIC },
     { _T("CDAudio"),    _T(" %1 /cd"),  IDS_AUTOPLAY_PLAYAUDIOCD },
-    { _T("DVDMovie"),   _T(" %1 /dvd"), IDS_AUTOPLAY_PLAYDVDMOVIE },
+    { _T("DVDMovie"),   _T(" %1 /dvd"), IDS_AUTOPLAY_PLAYDVDMOVIE }
 };
 
 bool CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)

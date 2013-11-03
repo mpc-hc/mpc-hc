@@ -54,8 +54,7 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
     struct {
         float x, y, z, rhw;
         float tu, tv;
-    }
-    pVertices[] = {
+    } pVertices[] = {
         {(float)dst[0].x, (float)dst[0].y, (float)dst[0].z, 1.0f / (float)dst[0].z, (float)src.left / w, (float)src.top / h},
         {(float)dst[1].x, (float)dst[1].y, (float)dst[1].z, 1.0f / (float)dst[1].z, (float)src.right / w, (float)src.top / h},
         {(float)dst[2].x, (float)dst[2].y, (float)dst[2].z, 1.0f / (float)dst[2].z, (float)src.left / w, (float)src.bottom / h},
