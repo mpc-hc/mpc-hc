@@ -727,6 +727,7 @@ CLineNumberStatic::CLineNumberStatic()
 	m_format = _T( "%05d" );
 	m_topline = 0;
 	m_bottomline = 0;
+	m_topmargin = 0;
 }
 
 CLineNumberStatic::~CLineNumberStatic()
