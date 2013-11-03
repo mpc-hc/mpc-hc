@@ -442,7 +442,7 @@ bool CBaseSplitterOutputPin::IsActive()
 
 DWORD CBaseSplitterOutputPin::ThreadProc()
 {
-    SetThreadName((DWORD) - 1, "CBaseSplitterOutputPin");
+    SetThreadName(DWORD(-1), "CBaseSplitterOutputPin");
     m_hrDeliver = S_OK;
     m_fFlushing = m_fFlushed = false;
     m_eEndFlush.Set();

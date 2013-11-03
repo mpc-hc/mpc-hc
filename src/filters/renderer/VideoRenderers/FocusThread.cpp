@@ -70,7 +70,7 @@ CFocusThread::~CFocusThread()
 
 BOOL CFocusThread::InitInstance()
 {
-    SetThreadName((DWORD) - 1, "FocusThread");
+    SetThreadName(DWORD(-1), "FocusThread");
     m_hWnd = CreateWindow(_T("D3DFocusClass"), _T("D3D Focus Window"), WS_OVERLAPPED, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
     SetEvent(m_hEvtInit);
     if (!m_hWnd) {

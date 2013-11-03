@@ -337,7 +337,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9PresentationInfo* lpPresInfo)
 {
-    SetThreadName((DWORD) - 1, "CVMR9AllocatorPresenter");
+    SetThreadName(DWORD(-1), "CVMR9AllocatorPresenter");
     CheckPointer(m_pIVMRSurfAllocNotify, E_UNEXPECTED);
 
     if (m_rtTimePerFrame == 0 || m_bNeedCheckSample) {

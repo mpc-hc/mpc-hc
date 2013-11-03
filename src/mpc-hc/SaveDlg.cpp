@@ -65,7 +65,7 @@ BOOL CSaveDlg::OnInitDialog()
 
     // We can't use m_anim.Open(IDR_AVI_FILECOPY) since we want to load the AVI from the main executable
     m_anim.SendMessage(ACM_OPEN, (WPARAM)AfxGetInstanceHandle(), (LPARAM)IDR_AVI_FILECOPY);
-    m_anim.Play(0, (UINT) - 1, (UINT) - 1);
+    m_anim.Play(0, UINT(-1), UINT(-1));
 
     CString str, in = m_in, out = m_out;
     if (in.GetLength() > 60) {

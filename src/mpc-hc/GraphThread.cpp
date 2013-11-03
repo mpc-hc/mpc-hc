@@ -27,7 +27,7 @@ IMPLEMENT_DYNCREATE(CGraphThread, CWinThread)
 
 BOOL CGraphThread::InitInstance()
 {
-    SetThreadName((DWORD) - 1, "GraphThread");
+    SetThreadName(DWORD(-1), "GraphThread");
     AfxSocketInit();
     return SUCCEEDED(CoInitialize(0)) ? TRUE : FALSE;
 }

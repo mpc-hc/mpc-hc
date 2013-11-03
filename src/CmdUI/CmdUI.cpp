@@ -117,12 +117,12 @@ void CCmdUIDialog::OnInitMenuPopup(CMenu* pPopupMenu, UINT /*nIndex*/, BOOL /*bS
 
         ASSERT(state.m_pOther == nullptr);
         ASSERT(state.m_pMenu != nullptr);
-        if (state.m_nID == (UINT) - 1) {
+        if (state.m_nID == UINT(-1)) {
             // Possibly a popup menu, route to first item of that popup.
             state.m_pSubMenu = pPopupMenu->GetSubMenu(state.m_nIndex);
             if (state.m_pSubMenu == nullptr ||
                     (state.m_nID = state.m_pSubMenu->GetMenuItemID(0)) == 0 ||
-                    state.m_nID == (UINT) - 1) {
+                    state.m_nID == UINT(-1)) {
                 continue;       // First item of popup can't be routed to.
             }
             state.DoUpdate(this, TRUE);     // Popups are never auto disabled.

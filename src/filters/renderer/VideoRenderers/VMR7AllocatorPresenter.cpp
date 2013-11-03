@@ -199,7 +199,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::FreeSurface(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR7AllocatorPresenter::PrepareSurface(DWORD_PTR dwUserID, IDirectDrawSurface7* lpSurface, DWORD dwSurfaceFlags)
 {
-    SetThreadName((DWORD) - 1, "CVMR7AllocatorPresenter");
+    SetThreadName(DWORD(-1), "CVMR7AllocatorPresenter");
 
     if (!lpSurface) {
         return E_POINTER;

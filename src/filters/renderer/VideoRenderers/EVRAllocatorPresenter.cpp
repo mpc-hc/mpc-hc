@@ -1548,7 +1548,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 
 DWORD WINAPI CEVRAllocatorPresenter::GetMixerThreadStatic(LPVOID lpParam)
 {
-    SetThreadName((DWORD) - 1, "CEVRPresenter::MixerThread");
+    SetThreadName(DWORD(-1), "CEVRPresenter::MixerThread");
     CEVRAllocatorPresenter* pThis = (CEVRAllocatorPresenter*) lpParam;
     pThis->GetMixerThread();
     return 0;
@@ -1556,7 +1556,7 @@ DWORD WINAPI CEVRAllocatorPresenter::GetMixerThreadStatic(LPVOID lpParam)
 
 DWORD WINAPI CEVRAllocatorPresenter::PresentThread(LPVOID lpParam)
 {
-    SetThreadName((DWORD) - 1, "CEVRPresenter::PresentThread");
+    SetThreadName(DWORD(-1), "CEVRPresenter::PresentThread");
     CEVRAllocatorPresenter* pThis = (CEVRAllocatorPresenter*) lpParam;
     pThis->RenderThread();
     return 0;
@@ -2514,7 +2514,7 @@ void CEVRAllocatorPresenter::VSyncThread()
 
 DWORD WINAPI CEVRAllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
 {
-    SetThreadName((DWORD) - 1, "CEVRAllocatorPresenter::VSyncThread");
+    SetThreadName(DWORD(-1), "CEVRAllocatorPresenter::VSyncThread");
     CEVRAllocatorPresenter* pThis = (CEVRAllocatorPresenter*) lpParam;
     pThis->VSyncThread();
     return 0;

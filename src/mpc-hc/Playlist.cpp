@@ -28,7 +28,7 @@
 // CPlaylistItem
 //
 
-UINT CPlaylistItem::m_globalid  = 0;
+UINT CPlaylistItem::m_globalid = 0;
 
 CPlaylistItem::CPlaylistItem()
     : m_type(file)
