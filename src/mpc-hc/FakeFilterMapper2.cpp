@@ -706,9 +706,9 @@ STDMETHODIMP CFilterMapper2::EnumMatchingFilters(IEnumMoniker** ppEnum, DWORD dw
         BOOL bOutputNeeded, DWORD cOutputTypes, const GUID* pOutputTypes, const REGPINMEDIUM* pMedOut, const CLSID* pPinCategoryOut)
 {
     if (CComQIPtr<IFilterMapper2> pFM2 = m_pFM2) {
-        pFM2->EnumMatchingFilters(ppEnum, dwFlags, bExactMatch, dwMerit,
-                                  bInputNeeded, cInputTypes, pInputTypes, pMedIn, pPinCategoryIn, bRender,
-                                  bOutputNeeded, cOutputTypes, pOutputTypes, pMedOut, pPinCategoryOut);
+        return pFM2->EnumMatchingFilters(ppEnum, dwFlags, bExactMatch, dwMerit,
+                                         bInputNeeded, cInputTypes, pInputTypes, pMedIn, pPinCategoryIn, bRender,
+                                         bOutputNeeded, cOutputTypes, pOutputTypes, pMedOut, pPinCategoryOut);
     }
 
     return E_NOTIMPL;
