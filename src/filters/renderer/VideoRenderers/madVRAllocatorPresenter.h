@@ -24,12 +24,7 @@
 #include "../../../SubPic/SubPicAllocatorPresenterImpl.h"
 #include "../../../SubPic/ISubRender.h"
 
-interface  __declspec(uuid("ABA34FDA-DD22-4E00-9AB4-4ABF927D0B0C"))
-IMadVRTextOsd :
-public IUnknown {
-    STDMETHOD(OsdDisplayMessage)(LPCWSTR text, DWORD milliseconds) PURE;
-    STDMETHOD(OsdClearMessage)() PURE;
-};
+#include <mvrInterfaces.h>
 
 namespace DSObjects
 {
