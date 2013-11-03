@@ -1105,7 +1105,7 @@ void CPlayerPlaylistBar::OnDropFiles(HDROP hDropInfo)
 
     CAtlList<CString> sl;
 
-    UINT nFiles = ::DragQueryFile(hDropInfo, (UINT) - 1, nullptr, 0);
+    UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
     for (UINT iFile = 0; iFile < nFiles; iFile++) {
         TCHAR szFileName[MAX_PATH];
         ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);

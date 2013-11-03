@@ -4502,7 +4502,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 
     CAtlList<CString> sl;
 
-    UINT nFiles = ::DragQueryFile(hDropInfo, (UINT) - 1, nullptr, 0);
+    UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
 
     if (nFiles == 1) {
         CString path;
@@ -5449,7 +5449,7 @@ void CMainFrame::OnFileISDBDownload()
     ISDb::filehash fh;
     if (!ISDb::mpc_filehash(m_pFSF, fh)) {
         if (!ISDb::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
-            MessageBeep((UINT) - 1);
+            MessageBeep(UINT_MAX);
             return;
         }
     }
@@ -7989,7 +7989,7 @@ void CMainFrame::OnPlayFiltersStreams(UINT nID)
     }
 
     if (FAILED(pAMSS->Enable(nID - i, AMSTREAMSELECTENABLE_ENABLE))) {
-        MessageBeep((UINT) - 1);
+        MessageBeep(UINT_MAX);
     }
 
     OpenSetupStatusBar();
