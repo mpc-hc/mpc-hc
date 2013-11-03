@@ -92,7 +92,7 @@ private:
         TEMOD = 2,
         TSADJ = 4,
         TEADJ = 8,
-        TSEP = 0x80000000
+        TSEP  = 0x80000000
     };
 
     void SetSTS0(int& start, int end, int ti0);

@@ -144,7 +144,7 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 //
 
 #pragma warning(push)
-#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized 
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
     : CSubPicQueueImpl(pAllocator, phr)
     , m_nMaxSubPic(nMaxSubPic)

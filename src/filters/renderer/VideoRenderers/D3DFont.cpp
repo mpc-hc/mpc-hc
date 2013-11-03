@@ -36,6 +36,7 @@ struct FONT2DVERTEX {
     DWORD color;
     float tu, tv;
 };
+
 struct FONT3DVERTEX {
     D3DXVECTOR3 p;
     D3DXVECTOR3 n;

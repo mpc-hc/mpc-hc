@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,25 +33,25 @@ typedef enum TrackType {
 #pragma pack(push, 1)
 
 struct TrackElement {
-    WORD Size;              // Size of this structure
-    BYTE Type;              // See TrackType
-    BOOL FlagDefault;       // Set if the track is the default for its TrackType.
-    BOOL FlagForced;        // Set if that track MUST be used during playback.
-    BOOL FlagLacing;        // Set if the track may contain blocks using lacing.
-    UINT MinCache;          // The minimum number of frames a player should be able to cache during playback.
-    UINT MaxCache;          // The maximum cache size required to store referenced frames in and the current frame. 0 means no cache is needed.
-    CHAR Language[4];       // Specifies the language of the track, in the ISO-639-2 form. (end with '\0')
+    WORD Size;                      // Size of this structure
+    BYTE Type;                      // See TrackType
+    BOOL FlagDefault;               // Set if the track is the default for its TrackType.
+    BOOL FlagForced;                // Set if that track MUST be used during playback.
+    BOOL FlagLacing;                // Set if the track may contain blocks using lacing.
+    UINT MinCache;                  // The minimum number of frames a player should be able to cache during playback.
+    UINT MaxCache;                  // The maximum cache size required to store referenced frames in and the current frame. 0 means no cache is needed.
+    CHAR Language[4];               // Specifies the language of the track, in the ISO-639-2 form. (end with '\0')
 };
 
 struct TrackExtendedInfoVideo {
-    WORD Size;              // Size of this structure
-    BOOL Interlaced;        // Set if the video is interlaced.
-    UINT PixelWidth;        // Width of the encoded video frames in pixels.
-    UINT PixelHeight;       // Height of the encoded video frames in pixels.
-    UINT DisplayWidth;      // Width of the video frames to display.
-    UINT DisplayHeight;     // Height of the video frames to display.
-    BYTE DisplayUnit;       // Type of the unit for DisplayWidth/Height (0: pixels, 1: centimeters, 2: inches).
-    BYTE AspectRatioType;   // Specify the possible modifications to the aspect ratio (0: free resizing, 1: keep aspect ratio, 2: fixed).
+    WORD Size;                      // Size of this structure
+    BOOL Interlaced;                // Set if the video is interlaced.
+    UINT PixelWidth;                // Width of the encoded video frames in pixels.
+    UINT PixelHeight;               // Height of the encoded video frames in pixels.
+    UINT DisplayWidth;              // Width of the video frames to display.
+    UINT DisplayHeight;             // Height of the video frames to display.
+    BYTE DisplayUnit;               // Type of the unit for DisplayWidth/Height (0: pixels, 1: centimeters, 2: inches).
+    BYTE AspectRatioType;           // Specify the possible modifications to the aspect ratio (0: free resizing, 1: keep aspect ratio, 2: fixed).
 };
 
 struct TrackExtendedInfoAudio {

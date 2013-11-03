@@ -66,29 +66,29 @@ enum DVB_STREAM_TYPE {
 };
 
 enum DVB_CHROMA_TYPE {
-    DVB_Chroma_NONE = 0x00,
+    DVB_Chroma_NONE  = 0x00,
     DVB_Chroma_4_2_0 = 0x01,
     DVB_Chroma_4_2_2 = 0x02,
     DVB_Chroma_4_4_4 = 0x03
 };
 
 enum DVB_FPS_TYPE {
-    DVB_FPS_NONE = 0x00,
+    DVB_FPS_NONE   = 0x00,
     DVB_FPS_23_976 = 0x01,
-    DVB_FPS_24_0 = 0x02,
-    DVB_FPS_25_0 = 0x03,
-    DVB_FPS_29_97 = 0x04,
-    DVB_FPS_30_0 = 0x05,
-    DVB_FPS_50_0 = 0x06,
-    DVB_FPS_59_94 = 0x07,
-    DVB_FPS_60_0 = 0x08
+    DVB_FPS_24_0   = 0x02,
+    DVB_FPS_25_0   = 0x03,
+    DVB_FPS_29_97  = 0x04,
+    DVB_FPS_30_0   = 0x05,
+    DVB_FPS_50_0   = 0x06,
+    DVB_FPS_59_94  = 0x07,
+    DVB_FPS_60_0   = 0x08
 };
 
 enum DVB_AspectRatio_TYPE {
-    DVB_AR_NULL = 0x00,
-    DVB_AR_1 = 0x01,
-    DVB_AR_3_4 = 0x02,
-    DVB_AR_9_16 = 0x03,
+    DVB_AR_NULL   = 0x00,
+    DVB_AR_1      = 0x01,
+    DVB_AR_3_4    = 0x02,
+    DVB_AR_9_16   = 0x03,
     DVB_AR_1_2_21 = 0x04
 };
 

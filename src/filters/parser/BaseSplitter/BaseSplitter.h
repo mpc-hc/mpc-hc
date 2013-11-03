@@ -39,7 +39,7 @@
 
 enum {
     /* various PCM "codecs" */
-    FF_CODEC_ID_FIRST_AUDIO = 0x10000,     ///< A dummy id pointing at the start of audio codecs
+    FF_CODEC_ID_FIRST_AUDIO = 0x10000,      //< A dummy id pointing at the start of audio codecs
     FF_CODEC_ID_PCM_S16LE = 0x10000,
     FF_CODEC_ID_PCM_S16BE,
     FF_CODEC_ID_PCM_U16LE,

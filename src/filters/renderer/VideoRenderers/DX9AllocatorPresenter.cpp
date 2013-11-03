@@ -41,7 +41,7 @@ bool queue_ffdshow_support = false;
 using namespace DSObjects;
 
 #pragma warning(push)
-#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized 
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 // CDX9AllocatorPresenter
 CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString& _Error)
     : CDX9RenderingEngine(hWnd, hr, &_Error)

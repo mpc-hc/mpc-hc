@@ -292,7 +292,7 @@ void CDVSBasePPage::BindControl(UINT id, CWnd& control)
 /* CDVSMainPPage */
 
 #pragma warning(push)
-#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized  
+#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr)
     : CDVSBasePPage(NAME("VSFilter Property Page (main)"), pUnk, IDD_DVSMAINPAGE, IDD_DVSMAINPAGE)
     , m_fn()
