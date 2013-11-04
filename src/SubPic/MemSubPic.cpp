@@ -97,7 +97,6 @@ CMemSubPic::CMemSubPic(SubPicDesc& spd)
 CMemSubPic::~CMemSubPic()
 {
     delete [] m_spd.bits;
-    m_spd.bits = nullptr;
 }
 
 // ISubPic
