@@ -249,6 +249,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_FLV
     SrcFiltersKeys[SRC_FLV] = _T("SRC_FLV");
 #endif
+#if INTERNAL_SOURCEFILTER_ASF
+    SrcFiltersKeys[SRC_ASF] = _T("SRC_ASF");
+#endif
 #if INTERNAL_SOURCEFILTER_FLAC
     SrcFiltersKeys[SRC_FLAC] = _T("SRC_FLAC");
 #endif

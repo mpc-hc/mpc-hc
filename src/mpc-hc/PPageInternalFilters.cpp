@@ -359,6 +359,11 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, IDS_INTERNAL_LAVF));
     }
 #endif
+#if INTERNAL_SOURCEFILTER_ASF
+    if (bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("WMV / ASF / DVR-MS"), SOURCE_FILTER, SRC_ASF, IDS_INTERNAL_LAVF));
+    }
+#endif
 #if INTERNAL_SOURCEFILTER_OGG
     if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("Ogg"), SOURCE_FILTER, SRC_OGG, IDS_INTERNAL_LAVF));

@@ -1441,6 +1441,15 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_ASF
+    if (src[SRC_ASF]) {
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".wmv"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".asf"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dvr-ms"));
+        pFGLAVSplitterSource->AddFormat("asf");
+    }
+#endif
+
 #if INTERNAL_SOURCEFILTER_MATROSKA
     if (src[SRC_MATROSKA]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,1A45DFA3"));
@@ -1646,6 +1655,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (src[SRC_FLV]) {
         pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_FLV);
         pFGLAVSplitter->AddFormat("flv");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_ASF
+    if (src[SRC_ASF]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_ASF);
+        pFGLAVSplitter->AddFormat("asf");
     }
 #endif
 
