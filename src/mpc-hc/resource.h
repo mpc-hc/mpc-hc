@@ -233,8 +233,6 @@
 #define ID_BOSS                         944
 #define ID_DUMMYSEPARATOR               945
 #define ID_BUTTONSEP                    946
-#define ID_FILE_POST_OPENMEDIA          947
-#define ID_FILE_POST_CLOSEMEDIA         948
 #define ID_MENU_PLAYER_SHORT            949
 #define ID_MENU_PLAYER_LONG             950
 #define ID_MENU_FILTERS                 951

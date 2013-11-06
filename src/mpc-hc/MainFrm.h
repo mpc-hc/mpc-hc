@@ -305,8 +305,6 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     bool m_fLiveWM;
 
-    bool m_fUpdateInfoBar;
-
     void SendStatusMessage(CString msg, int nTimeOut);
     CString m_playingmsg, m_closingmsg;
 
@@ -387,7 +385,8 @@ protected:
 
     bool m_fAudioOnly;
     dispmode m_dmBeforeFullscreen;
-    CString m_LastOpenFile, m_LastOpenBDPath;
+    CString m_LastOpenBDPath;
+    CAutoPtr<OpenMediaData> m_lastOMD;
     HMONITOR m_LastWindow_HM;
 
     DVD_DOMAIN m_iDVDDomain;
@@ -415,7 +414,6 @@ protected:
     void UpdateChapterInInfoBar();
     void OpenSetupStatsBar();
     void OpenSetupStatusBar();
-    // void OpenSetupToolBar();
     void OpenSetupCaptureBar();
     void OpenSetupWindowTitle(bool reset = false);
     void AutoChangeMonitorMode();
@@ -424,7 +422,9 @@ protected:
 
     friend class CGraphThread;
     CGraphThread* m_pGraphThread;
-    bool m_bOpenedThruThread;
+    bool m_bOpenedThroughThread;
+    ::CEvent m_evOpenPrivateFinished;
+    ::CEvent m_evClosePrivateFinished;
 
     std::vector<REFERENCE_TIME> m_kfs;
 
@@ -589,7 +589,6 @@ public:
     afx_msg LRESULT OnGraphNotify(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnResetDevice(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnRepaintRenderLess(WPARAM wParam, LPARAM lParam);
-    afx_msg LRESULT OnResumeFromState(WPARAM wParam, LPARAM lParam);
 
     afx_msg void SaveAppSettings();
 
@@ -624,10 +623,9 @@ public:
 
     afx_msg void OnUpdatePlayerStatus(CCmdUI* pCmdUI);
 
-    afx_msg void OnFilePostOpenmedia();
-    afx_msg void OnUpdateFilePostOpenmedia(CCmdUI* pCmdUI);
+    afx_msg LRESULT OnFilePostOpenmedia(WPARAM wParam, LPARAM lparam);
+    afx_msg LRESULT OnOpenMediaFailed(WPARAM wParam, LPARAM lParam);
     afx_msg void OnFilePostClosemedia();
-    afx_msg void OnUpdateFilePostClosemedia(CCmdUI* pCmdUI);
 
     afx_msg void OnBossKey();
 

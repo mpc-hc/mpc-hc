@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -49,12 +49,12 @@ END_MESSAGE_MAP()
 
 void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
 {
-    if (m_pMainFrame) {
+    ASSERT(m_pMainFrame);
+    ASSERT(WaitForSingleObject(m_pMainFrame->m_evClosePrivateFinished, 0) == WAIT_TIMEOUT);
+    if (m_pMainFrame->m_iMediaLoadState == MLS_CLOSING) {
         m_pMainFrame->CloseMediaPrivate();
     }
-    if (CAMEvent* e = (CAMEvent*)lParam) {
-        e->Set();
-    }
+    VERIFY(m_pMainFrame->m_evClosePrivateFinished.SetEvent());
 }
 
 void CGraphThread::OnDisplayChange(WPARAM wParam, LPARAM lParam)
@@ -75,10 +75,13 @@ void CGraphThread::OnExit(WPARAM wParam, LPARAM lParam)
 void CGraphThread::OnOpen(WPARAM wParam, LPARAM lParam)
 {
     TRACE(_T("--> CGraphThread::OnOpen on thread: %d\n"), GetCurrentThreadId());
-    if (m_pMainFrame) {
+    ASSERT(m_pMainFrame);
+    ASSERT(WaitForSingleObject(m_pMainFrame->m_evOpenPrivateFinished, 0) == WAIT_TIMEOUT);
+    if (m_pMainFrame->m_iMediaLoadState == MLS_LOADING) {
         CAutoPtr<OpenMediaData> pOMD((OpenMediaData*)lParam);
         m_pMainFrame->OpenMediaPrivate(pOMD);
     }
+    VERIFY(m_pMainFrame->m_evOpenPrivateFinished.SetEvent());
 }
 
 void CGraphThread::OnReset(WPARAM wParam, LPARAM lParam)
