@@ -370,8 +370,12 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         // names[] = _T("");
     }
 
-    // Check the subtype first
-    if (subtype == MEDIASUBTYPE_PCM) {
+    // Check if we are bitstreaming to S/PDIF first to avoid misdetection as PCM
+    if (wFormatTag == WAVE_FORMAT_DOLBY_AC3_SPDIF) { // Note that DTS bitstreaming uses the same format tag
+        str = _T("S/PDIF");
+    }
+    // Check the subtype first after special cases have been handled
+    else if (subtype == MEDIASUBTYPE_PCM) {
         str = _T("PCM");
     } else if (subtype == MEDIASUBTYPE_IEEE_FLOAT) {
         str = _T("IEEE Float");
