@@ -91,6 +91,8 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
     lSampleLen = pSample->GetActualDataLength();
 
     pSample->GetTime(&rtStart, &rtStop);
+    TRACE_HDMVSUB(_T("--------- ParseSample rtStart=%s, rtStop=%s ---------\n"), ReftimeToString(rtStart), ReftimeToString(rtStop));
+
     if (pData) {
         CGolombBuffer SampleBuffer(pData, lSampleLen);
 
@@ -143,8 +145,9 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
                         case PRESENTATION_SEG:
                             TRACE_HDMVSUB(_T("CHdmvSub:PRESENTATION_SEG   %s (size=%d)\n"), ReftimeToString(rtStart), m_nSegSize);
 
-                            // Enqueue the current presentation segment if any
-                            EnqueuePresentationSegment(rtStart);
+                            // Update the timestamp for the previous segment
+                            UpdateTimeStamp(rtStart);
+
                             // Parse the new presentation segment
                             ParsePresentationSegment(rtStart, &SegmentBuffer);
 
@@ -153,7 +156,9 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
                             //TRACE_HDMVSUB(_T("CHdmvSub:WINDOW_DEF         %s\n"), ReftimeToString(rtStart));
                             break;
                         case END_OF_DISPLAY:
-                            //TRACE_HDMVSUB(_T("CHdmvSub:END_OF_DISPLAY     %s\n"), ReftimeToString(rtStart));
+                            TRACE_HDMVSUB(_T("CHdmvSub:END_OF_DISPLAY     %s\n"), ReftimeToString(rtStart));
+                            // Enqueue the current presentation segment if any
+                            EnqueuePresentationSegment();
                             break;
                         default:
                             TRACE_HDMVSUB(_T("CHdmvSub:UNKNOWN Seg %d     rtStart=0x%10dd\n"), m_nCurSegment, rtStart);
@@ -173,7 +178,7 @@ int CHdmvSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffe
     m_pCurrentPresentationSegment = DEBUG_NEW HDMV_PRESENTATION_SEGMENT();
 
     m_pCurrentPresentationSegment->rtStart = rt;
-    m_pCurrentPresentationSegment->rtStop  = _I64_MAX;
+    m_pCurrentPresentationSegment->rtStop = INFINITE_TIME; // Unknown for now
 
     ParseVideoDescriptor(pGBuffer, &m_pCurrentPresentationSegment->video_descriptor);
     ParseCompositionDescriptor(pGBuffer, &m_pCurrentPresentationSegment->composition_descriptor);
@@ -193,11 +198,10 @@ int CHdmvSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffe
     return m_pCurrentPresentationSegment->objectCount;
 }
 
-void CHdmvSub::EnqueuePresentationSegment(REFERENCE_TIME rt)
+void CHdmvSub::EnqueuePresentationSegment()
 {
     if (m_pCurrentPresentationSegment) {
         if (m_pCurrentPresentationSegment->objectCount > 0) {
-            m_pCurrentPresentationSegment->rtStop = rt;
             m_pCurrentPresentationSegment->CLUT = m_CLUTs[m_pCurrentPresentationSegment->CLUT.id];
 
             // Get the objects' data
@@ -216,14 +220,26 @@ void CHdmvSub::EnqueuePresentationSegment(REFERENCE_TIME rt)
             }
 
             m_pPresentationSegments.AddTail(m_pCurrentPresentationSegment);
-            TRACE_HDMVSUB(_T("CHdmvSub: Enqueue Presentation Segment %d - %s => %s\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber,
-                          ReftimeToString(m_pCurrentPresentationSegment->rtStart), ReftimeToString(m_pCurrentPresentationSegment->rtStop));
+            TRACE_HDMVSUB(_T("CHdmvSub: Enqueue Presentation Segment %d - %s => ?\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber,
+                          ReftimeToString(m_pCurrentPresentationSegment->rtStart));
         } else {
             TRACE_HDMVSUB(_T("CHdmvSub: Delete empty Presentation Segment %d\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber);
             delete m_pCurrentPresentationSegment;
         }
 
         m_pCurrentPresentationSegment = nullptr;
+    }
+}
+
+void CHdmvSub::UpdateTimeStamp(REFERENCE_TIME rtStop)
+{
+    if (!m_pPresentationSegments.IsEmpty()) {
+        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetTail();
+
+        pPresentationSegment->rtStop = rtStop;
+
+        TRACE_HDMVSUB(_T("CHdmvSub: Update Presentation Segment TimeStamp %d - %s => %s\n"), pPresentationSegment->composition_descriptor.nNumber,
+                      ReftimeToString(pPresentationSegment->rtStart), ReftimeToString(pPresentationSegment->rtStop));
     }
 }
 
@@ -321,7 +337,7 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
         POSITION pos = pPresentationSegment->objects.GetHeadPosition();
 
         TRACE_HDMVSUB(_T("CHdmvSub:Render Presentation segment %d --> %s - %s\n"), pPresentationSegment->composition_descriptor.nNumber,
-                      ReftimeToString(pPresentationSegment->rtStart), ReftimeToString(pPresentationSegment->rtStop));
+                      ReftimeToString(pPresentationSegment->rtStart), (pPresentationSegment->rtStop == INFINITE_TIME) ? _T("?") : ReftimeToString(pPresentationSegment->rtStop));
 
         while (pos) {
             CompositionObject* pObject = pPresentationSegment->objects.GetNext(pos);

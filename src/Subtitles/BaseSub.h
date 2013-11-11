@@ -37,6 +37,7 @@ class CBaseSub
 {
 public:
     static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
+    static const REFERENCE_TIME INFINITE_TIME = _I64_MAX;
 
     CBaseSub() = delete;
     explicit CBaseSub(SUBTITLE_TYPE nType)

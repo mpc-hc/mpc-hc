@@ -93,7 +93,9 @@ STDMETHODIMP_(REFERENCE_TIME) CRenderedHdmvSubtitle::GetStop(POSITION pos, doubl
 
 STDMETHODIMP_(bool) CRenderedHdmvSubtitle::IsAnimated(POSITION pos)
 {
-    return false;
+    CAutoLock cAutoLock(&m_csCritSec);
+    // If the end time isn't known yet, we consider the subtitle as animated to be sure it will properly updated
+    return (m_pSub->GetStop(pos) == CBaseSub::INFINITE_TIME);
 }
 
 STDMETHODIMP CRenderedHdmvSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
