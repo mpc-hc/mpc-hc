@@ -510,6 +510,7 @@
 #define IDS_SRC_VTS                     14002
 #define IDS_SRC_RFS                     14003
 #define IDS_INTERNAL_LAVF               14004
+#define IDS_INTERNAL_LAVF_WMV           14005
 #define IDS_PLAYLIST_OPEN               14114
 #define IDS_PLAYLIST_ADD                14115
 #define IDS_PLAYLIST_REMOVE             14116

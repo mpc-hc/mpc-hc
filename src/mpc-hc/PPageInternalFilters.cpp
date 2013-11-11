@@ -361,7 +361,7 @@ void CPPageInternalFilters::InitFiltersList()
 #endif
 #if INTERNAL_SOURCEFILTER_ASF
     if (bLAVSplitterIsAvailable) {
-        m_filters.Add(filter_t(_T("WMV / ASF / DVR-MS"), SOURCE_FILTER, SRC_ASF, IDS_INTERNAL_LAVF));
+        m_filters.Add(filter_t(_T("WMV / ASF / DVR-MS"), SOURCE_FILTER, SRC_ASF, IDS_INTERNAL_LAVF_WMV));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
@@ -540,7 +540,7 @@ void CPPageInternalFilters::InitFiltersList()
 #endif
 #if INTERNAL_DECODER_WMV
     if (bLAVVideoIsAvailable) {
-        m_filters.Add(filter_t(_T("WMV1/2/3"), VIDEO_DECODER, TRA_WMV, IDS_INTERNAL_LAVF));
+        m_filters.Add(filter_t(_T("WMV1/2/3"), VIDEO_DECODER, TRA_WMV, IDS_INTERNAL_LAVF_WMV));
     }
 #endif
 #if INTERNAL_DECODER_SVQ

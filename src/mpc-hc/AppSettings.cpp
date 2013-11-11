@@ -1379,12 +1379,12 @@ void CAppSettings::LoadSettings()
 
     m_Formats.UpdateData(false);
 
-    // Internal filters
+    // Internal filters (ASF splitting and WMV decoding are disabled by default)
     for (int f = 0; f < SRC_LAST; f++) {
-        SrcFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], TRUE);
+        SrcFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], f != SRC_ASF);
     }
     for (int f = 0; f < TRA_LAST; f++) {
-        TraFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], TRUE);
+        TraFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], f != TRA_WMV);
     }
 
     strLogoFileName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE);
@@ -2170,6 +2170,10 @@ void CAppSettings::UpdateSettings()
                 }
                 VERIFY(pApp->WriteProfileString(newSection, strTemp, strChannel));
             }
+        }
+        case 1: {
+            // Internal decoding of WMV 1/2/3 is now disabled by default so we reinitialize its value
+            pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[TRA_WMV], FALSE);
         }
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);

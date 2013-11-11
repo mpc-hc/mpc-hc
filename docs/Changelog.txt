@@ -15,6 +15,8 @@ next version - not released yet
 + Ticket #3590, Internal filters: Support for HEVC and VP9
 + Ticket #3605, Support playlists using UTF8 encoding without BOM
 + Ticket #3643, Add Slovenian translation
+* Ticket #3569/#3679/#3680, Disable internal WMV/ASF/DVR-MS splitting and WMV decoding by default
+  since Microsoft filters are generally more stable
 * Updated Portuguese (Brazil) translation
 * Updated VirtualDub to v1.10.4
 * Updated Unrar to v5.0.0.12
