@@ -34,3 +34,4 @@ next version - not released yet
   as unavailable for "Sync renderer"
 ! Ticket #3676, Internal LAV Audio Decoder: Fix a crash when using old versions of the ArcSoft DTS Decoder
   to handle DTS decoding internally
+! Ticket #3702, External audio was not synced on open if restarting from the latest remembered position

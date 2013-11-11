@@ -10528,6 +10528,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     CAppSettings& s = AfxGetAppSettings();
 
     bool bMainFile = true;
+    REFERENCE_TIME rtPos = 0;
 
     POSITION pos = pOFD->fns.GetHeadPosition();
     while (pos) {
@@ -10548,10 +10549,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             m_bRememberFilePos = s.fKeepHistory && s.fRememberFilePos && rtDur > 0;
 
             if (m_bRememberFilePos && !s.filePositions.AddEntry(fn)) {
-                REFERENCE_TIME rtPos = s.filePositions.GetLatestEntry()->llPosition;
-                if (m_pMS) {
-                    m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
-                }
+                // Seek only after all files are loaded
+                rtPos = s.filePositions.GetLatestEntry()->llPosition;
             }
         }
         QueryPerformanceCounter(&m_liLastSaveTime);
@@ -10647,6 +10646,10 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         if (m_fCustomGraph) {
             break;
         }
+    }
+
+    if (m_pMS && rtPos) {
+        m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
     }
 
     if (s.fReportFailedPins) {
