@@ -2291,7 +2291,7 @@ BEGIN
     IDS_SRC_VTS             "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
     IDS_SRC_RFS             "Based on RARFileSource, doesn't support compressed files"
     IDS_INTERNAL_LAVF       "Uses LAV Filters"
-    IDS_INTERNAL_LAVF_WMV   "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats. If you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+    IDS_INTERNAL_LAVF_WMV   "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 END
 
 STRINGTABLE
