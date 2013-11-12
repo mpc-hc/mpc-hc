@@ -8,6 +8,11 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
+* Updated Unrar to v5.0.0.13
+
+
 1.7.1 - 17 November 2013
 ========================
 + Ticket #2655, Internal filters: Support WMV/ASF/DVR-MS splitting

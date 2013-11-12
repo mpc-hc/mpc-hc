@@ -18,6 +18,7 @@
 #define ERAR_UNKNOWN            21
 #define ERAR_MISSING_PASSWORD   22
 #define ERAR_EREFERENCE         23
+#define ERAR_BAD_PASSWORD       24
 
 #define RAR_OM_LIST              0
 #define RAR_OM_EXTRACT           1
