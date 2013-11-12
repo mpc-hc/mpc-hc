@@ -221,21 +221,21 @@ void CAboutDlg::OnAuthors(NMHDR* pNMHDR, LRESULT* pResult)
 void CAboutDlg::OnCopyToClipboard()
 {
     CStringW info = m_appname;
-    info += _T("\n----------------------------------\n\n");
-    info += _T("Build information:\n");
-    info += _T("    Version:            ") + m_strBuildNumber + _T("\n");
-    info += _T("    Compiler:           ") + m_MPCCompiler + _T("\n");
-    info += _T("    Build date:         ") + m_buildDate + _T("\n\n");
+    info += _T("\r\n----------------------------------\r\n\r\n");
+    info += _T("Build information:\r\n");
+    info += _T("    Version:            ") + m_strBuildNumber + _T("\r\n");
+    info += _T("    Compiler:           ") + m_MPCCompiler + _T("\r\n");
+    info += _T("    Build date:         ") + m_buildDate + _T("\r\n\r\n");
 #ifndef MPCHC_LITE
-    info += _T("LAV Filters:\n");
-    info += _T("    LAV Splitter:       ") + CFGFilterLAV::GetVersion(CFGFilterLAV::SPLITTER) + _T("\n");
-    info += _T("    LAV Video:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::VIDEO_DECODER) + _T("\n");
-    info += _T("    LAV Audio:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::AUDIO_DECODER) + _T("\n");
-    info += _T("    FFmpeg compiler:    ") + CString(g_Gcc_Compiler) + _T("\n\n");
+    info += _T("LAV Filters:\r\n");
+    info += _T("    LAV Splitter:       ") + CFGFilterLAV::GetVersion(CFGFilterLAV::SPLITTER) + _T("\r\n");
+    info += _T("    LAV Video:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::VIDEO_DECODER) + _T("\r\n");
+    info += _T("    LAV Audio:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::AUDIO_DECODER) + _T("\r\n");
+    info += _T("    FFmpeg compiler:    ") + CString(g_Gcc_Compiler) + _T("\r\n\r\n");
 #endif
-    info += _T("Operating system:\n");
-    info += _T("    Name:               ") + m_OSName + _T("\n");
-    info += _T("    Version:            ") + m_OSVersion + _T("\n");
+    info += _T("Operating system:\r\n");
+    info += _T("    Name:               ") + m_OSName + _T("\r\n");
+    info += _T("    Version:            ") + m_OSVersion + _T("\r\n");
 
     // Allocate a global memory object for the text
     int len = info.GetLength() + 1;
