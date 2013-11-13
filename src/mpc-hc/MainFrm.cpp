@@ -25,6 +25,7 @@
 
 #include <math.h>
 #include <algorithm>
+#include <set>
 
 #include <afxglobals.h>
 #include <afxpriv.h>
@@ -12276,15 +12277,16 @@ void CMainFrame::ParseDirs(CAtlList<CString>& sl)
     }
 }
 
-static bool SearchInDirCompare(const CString& str1, const CString& str2)
-{
-    return (StrCmpLogicalW(str1, str2) < 0);
-}
+struct SearchInDirCompare {
+    bool operator()(const CString& str1, const CString& str2) {
+        return (StrCmpLogicalW(str1, str2) < 0);
+    }
+};
 
 bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
 {
-    CStringArray files;
-    CMediaFormats& mf = AfxGetAppSettings().m_Formats;
+    std::set<CString, SearchInDirCompare> files;
+    const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
     CString mask = m_LastOpenFile.Left(m_LastOpenFile.ReverseFind(_T('\\')) + 1) + _T("*.*");
     CFileFind finder;
     BOOL bHasNext = finder.FindFile(mask);
@@ -12296,53 +12298,43 @@ bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
             CString path = finder.GetFilePath();
             CString ext = path.Mid(path.ReverseFind('.'));
             if (mf.FindExt(ext)) {
-                files.Add(path);
+                files.insert(path);
             }
         }
     }
 
     finder.Close();
 
-    if (files.GetCount() <= 1) {
+    if (files.size() <= 1) {
         return false;
     }
 
-    std::sort(files.GetData(), files.GetData() + files.GetCount(), SearchInDirCompare);
-
-    INT_PTR current = -1;
-    for (INT_PTR i = 0, l = files.GetCount(); i < l && current < 0; i++) {
-        if (m_LastOpenFile.CompareNoCase(files[i]) == 0) {
-            current = i;
-        }
-    }
-
-    if (current < 0) {
-        return false;
-    }
-
-    CAtlList<CString> sl;
+    // We make sure that the currently opened file is added to the list
+    // even if it's of an unknown format.
+    auto current = files.insert(m_LastOpenFile).first;
 
     if (bDirForward) {
         current++;
-        if (current >= files.GetCount()) {
+        if (current == files.end()) {
             if (bLoop) {
-                current = 0;
+                current = files.begin();
             } else {
                 return false;
             }
         }
     } else {
-        current--;
-        if (current < 0) {
+        if (current == files.begin()) {
             if (bLoop) {
-                current = files.GetCount() - 1;
+                current = files.end();
             } else {
                 return false;
             }
         }
+        current--;
     }
 
-    sl.AddHead(files[current]);
+    CAtlList<CString> sl;
+    sl.AddHead(*current);
     m_wndPlaylistBar.Open(sl, false);
     OpenCurPlaylistItem();
 
