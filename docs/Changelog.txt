@@ -17,7 +17,7 @@ next version - not released yet
 + Ticket #3643, Add Slovenian translation
 * Ticket #3569/#3679/#3680, Disable internal WMV/ASF/DVR-MS splitting and WMV decoding by default
   since Microsoft filters are generally more stable
-* Updated Portuguese (Brazil) translation
+* Updated French and Portuguese (Brazil) translations
 * Updated VirtualDub to v1.10.4
 * Updated Unrar to v5.0.0.12
 * Updated Little CMS to v2.6b (git 69ecafd)
