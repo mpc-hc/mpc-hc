@@ -111,8 +111,8 @@ BOOL CAboutDlg::OnInitDialog()
     m_MPCCompiler = _T("MSVC 2013 Preview/Beta/RC");
 #endif
 #elif (_MSC_VER == 1700)            // 2012
-#if (_MSC_FULL_VER == 170060930)
-    m_MPCCompiler = _T("MSVC 2012 Update 4 RC");
+#if (_MSC_FULL_VER == 170061030)
+    m_MPCCompiler = _T("MSVC 2012 Update 4");
 #elif (_MSC_FULL_VER == 170060610)  // MSVC 2012 Update 3
     m_MPCCompiler = _T("MSVC 2012 Update 3");
 #elif (_MSC_FULL_VER == 170060315)  // MSVC 2012 Update 2
