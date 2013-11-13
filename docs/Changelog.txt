@@ -18,6 +18,13 @@ next version - not released yet
 * Ticket #3569/#3679/#3680, Disable internal WMV/ASF/DVR-MS splitting and WMV decoding by default
   since Microsoft filters are generally more stable
 * Updated French and Portuguese (Brazil) translations
+* Updated LAV Filters to 0.59.1.26:
+    - Ticket #3576, LAV Video: Support H264 Annex B format in MP4 files
+    - Ticket #3601, LAV Video: Fix a crash with DXVA on AMD cards when stopping playback
+    - Ticket #3676, LAV Audio: Fix a crash when using old versions of the ArcSoft DTS Decoder
+      to handle DTS decoding internally
+    - Ticket #3688, LAV Audio: Fix a freeze when changing the bitstreaming settings when paused
+* Updated Portuguese (Brazil) translation
 * Updated VirtualDub to v1.10.4
 * Updated Unrar to v5.0.0.12
 * Updated Little CMS to v2.6b (git 69ecafd)
@@ -32,9 +39,6 @@ next version - not released yet
 ! Ticket #3530, Internal LAV Splitter: the advanced subtitle selection modes were ignored
 ! Ticket #3564, If "Keep history of recently opened file" option was enabled, MPC-HC crashed
   when opening very long URLs
-! Ticket #3601, Internal LAV Video Decoder: Fix a crash with DXVA on AMD cards when stopping playback
 ! Ticket #3672, "Output" property page: "Shader" and "Rotation" were sometimes wrongly displayed
   as unavailable for "Sync renderer"
-! Ticket #3676, Internal LAV Audio Decoder: Fix a crash when using old versions of the ArcSoft DTS Decoder
-  to handle DTS decoding internally
 ! Ticket #3702, External audio was not synced on open if restarting from the latest remembered position
