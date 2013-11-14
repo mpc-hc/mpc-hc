@@ -17,7 +17,7 @@ next version - not released yet
 + Ticket #3643, Add Slovenian translation
 * Ticket #3569/#3679/#3680, Disable internal WMV/ASF/DVR-MS splitting and WMV decoding by default
   since Microsoft filters are generally more stable
-* Updated French and Portuguese (Brazil) translations
+* Updated French, Polish and Portuguese (Brazil) translations
 * Updated LAV Filters to 0.59.1.26:
     - Ticket #3576, LAV Video: Support H264 Annex B format in MP4 files
     - Ticket #3601, LAV Video: Fix a crash with DXVA on AMD cards when stopping playback
