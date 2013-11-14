@@ -629,8 +629,23 @@ public:
     bool            IsISREnabled() const;
 
 private:
-    CString         SrcFiltersKeys[SRC_LAST + !SRC_LAST];
-    CString         TraFiltersKeys[TRA_LAST + !TRA_LAST];
+    struct FilterKey {
+        CString name;
+        bool bDefault;
+
+        FilterKey()
+            : name()
+            , bDefault(false) {
+        }
+
+        FilterKey(CString name, bool bDefault)
+            : name(name)
+            , bDefault(bDefault) {
+        }
+    };
+
+    FilterKey       SrcFiltersKeys[SRC_LAST + !SRC_LAST];
+    FilterKey       TraFiltersKeys[TRA_LAST + !TRA_LAST];
 
     __int64         ConvertTimeToMSec(const CString& time) const;
     void            ExtractDVDStartPos(CString& strParam);

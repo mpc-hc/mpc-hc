@@ -192,181 +192,181 @@ CAppSettings::CAppSettings()
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
-    SrcFiltersKeys[SRC_CDDA] = _T("SRC_CDDA");
+    SrcFiltersKeys[SRC_CDDA] = FilterKey(_T("SRC_CDDA"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_CDXA
-    SrcFiltersKeys[SRC_CDXA] = _T("SRC_CDXA");
+    SrcFiltersKeys[SRC_CDXA] = FilterKey(_T("SRC_CDXA"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_VTS
-    SrcFiltersKeys[SRC_VTS] = _T("SRC_VTS");
+    SrcFiltersKeys[SRC_VTS] = FilterKey(_T("SRC_VTS"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_FLIC
-    SrcFiltersKeys[SRC_FLIC] = _T("SRC_FLIC");
+    SrcFiltersKeys[SRC_FLIC] = FilterKey(_T("SRC_FLIC"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_DTSAC3
-    SrcFiltersKeys[SRC_DTSAC3] = _T("SRC_DTSAC3");
+    SrcFiltersKeys[SRC_DTSAC3] = FilterKey(_T("SRC_DTSAC3"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_MATROSKA
-    SrcFiltersKeys[SRC_MATROSKA] = _T("SRC_MATROSKA");
+    SrcFiltersKeys[SRC_MATROSKA] = FilterKey(_T("SRC_MATROSKA"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_HTTP
-    SrcFiltersKeys[SRC_HTTP] = _T("SRC_HTTP");
+    SrcFiltersKeys[SRC_HTTP] = FilterKey(_T("SRC_HTTP"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_RTSP
-    SrcFiltersKeys[SRC_RTSP] = _T("SRC_RTSP");
+    SrcFiltersKeys[SRC_RTSP] = FilterKey(_T("SRC_RTSP"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_RTSP
-    SrcFiltersKeys[SRC_UDP] = _T("SRC_UDP");
+    SrcFiltersKeys[SRC_UDP] = FilterKey(_T("SRC_UDP"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_RTP
-    SrcFiltersKeys[SRC_RTP] = _T("SRC_RTP");
+    SrcFiltersKeys[SRC_RTP] = FilterKey(_T("SRC_RTP"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_MMS
-    SrcFiltersKeys[SRC_MMS] = _T("SRC_MMS");
+    SrcFiltersKeys[SRC_MMS] = FilterKey(_T("SRC_MMS"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_REALMEDIA
-    SrcFiltersKeys[SRC_REALMEDIA] = _T("SRC_REALMEDIA");
+    SrcFiltersKeys[SRC_REALMEDIA] = FilterKey(_T("SRC_REALMEDIA"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_AVI
-    SrcFiltersKeys[SRC_AVI] = _T("SRC_AVI");
+    SrcFiltersKeys[SRC_AVI] = FilterKey(_T("SRC_AVI"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
-    SrcFiltersKeys[SRC_OGG] = _T("SRC_OGG");
+    SrcFiltersKeys[SRC_OGG] = FilterKey(_T("SRC_OGG"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_MPEG
-    SrcFiltersKeys[SRC_MPEG] = _T("SRC_MPEG");
+    SrcFiltersKeys[SRC_MPEG] = FilterKey(_T("SRC_MPEG"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
-    SrcFiltersKeys[SRC_MPA] = _T("SRC_MPA");
+    SrcFiltersKeys[SRC_MPA] = FilterKey(_T("SRC_MPA"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_DSM
-    SrcFiltersKeys[SRC_DSM] = _T("SRC_DSM");
+    SrcFiltersKeys[SRC_DSM] = FilterKey(_T("SRC_DSM"), true);
 #endif
-    SrcFiltersKeys[SRC_SUBS] = _T("SRC_SUBS");
+    SrcFiltersKeys[SRC_SUBS] = FilterKey(_T("SRC_SUBS"), true);
 #if INTERNAL_SOURCEFILTER_MP4
-    SrcFiltersKeys[SRC_MP4] = _T("SRC_MP4");
+    SrcFiltersKeys[SRC_MP4] = FilterKey(_T("SRC_MP4"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_FLV
-    SrcFiltersKeys[SRC_FLV] = _T("SRC_FLV");
+    SrcFiltersKeys[SRC_FLV] = FilterKey(_T("SRC_FLV"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_ASF
-    SrcFiltersKeys[SRC_ASF] = _T("SRC_ASF");
+    SrcFiltersKeys[SRC_ASF] = FilterKey(_T("SRC_ASF"), false);
 #endif
 #if INTERNAL_SOURCEFILTER_FLAC
-    SrcFiltersKeys[SRC_FLAC] = _T("SRC_FLAC");
+    SrcFiltersKeys[SRC_FLAC] = FilterKey(_T("SRC_FLAC"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_RFS
-    SrcFiltersKeys[SRC_RFS] = _T("SRC_RFS");
+    SrcFiltersKeys[SRC_RFS] = FilterKey(_T("SRC_RFS"), true);
 #endif
 
     // Internal decoders
 #if INTERNAL_DECODER_MPEG1
-    TraFiltersKeys[TRA_MPEG1] = _T("TRA_MPEG1");
+    TraFiltersKeys[TRA_MPEG1] = FilterKey(_T("TRA_MPEG1"), true);
 #endif
 #if INTERNAL_DECODER_MPEG2
-    TraFiltersKeys[TRA_MPEG2] = _T("TRA_MPEG2");
+    TraFiltersKeys[TRA_MPEG2] = FilterKey(_T("TRA_MPEG2"), true);
 #endif
 #if INTERNAL_DECODER_REALVIDEO
-    TraFiltersKeys[TRA_RV] = _T("TRA_RV");
+    TraFiltersKeys[TRA_RV] = FilterKey(_T("TRA_RV"), true);
 #endif
 #if INTERNAL_DECODER_REALAUDIO
-    TraFiltersKeys[TRA_RA] = _T("TRA_RA");
+    TraFiltersKeys[TRA_RA] = FilterKey(_T("TRA_RA"), true);
 #endif
 #if INTERNAL_DECODER_MPEGAUDIO
-    TraFiltersKeys[TRA_MPA] = _T("TRA_MPA");
+    TraFiltersKeys[TRA_MPA] = FilterKey(_T("TRA_MPA"), true);
 #endif
 #if INTERNAL_DECODER_DTS
-    TraFiltersKeys[TRA_DTS] = _T("TRA_DTS");
+    TraFiltersKeys[TRA_DTS] = FilterKey(_T("TRA_DTS"), true);
 #endif
 #if INTERNAL_DECODER_LPCM
-    TraFiltersKeys[TRA_LPCM] = _T("TRA_LPCM");
+    TraFiltersKeys[TRA_LPCM] = FilterKey(_T("TRA_LPCM"), true);
 #endif
 #if INTERNAL_DECODER_AC3
-    TraFiltersKeys[TRA_AC3] = _T("TRA_AC3");
+    TraFiltersKeys[TRA_AC3] = FilterKey(_T("TRA_AC3"), true);
 #endif
 #if INTERNAL_DECODER_AAC
-    TraFiltersKeys[TRA_AAC] = _T("TRA_AAC");
+    TraFiltersKeys[TRA_AAC] = FilterKey(_T("TRA_AAC"), true);
 #endif
 #if INTERNAL_DECODER_ALAC
-    TraFiltersKeys[TRA_ALAC] = _T("TRA_ALAC");
+    TraFiltersKeys[TRA_ALAC] = FilterKey(_T("TRA_ALAC"), true);
 #endif
 #if INTERNAL_DECODER_ALS
-    TraFiltersKeys[TRA_ALS] = _T("TRA_ALS");
+    TraFiltersKeys[TRA_ALS] = FilterKey(_T("TRA_ALS"), true);
 #endif
 #if INTERNAL_DECODER_PS2AUDIO
-    TraFiltersKeys[TRA_PS2AUD] = _T("TRA_PS2AUD");
+    TraFiltersKeys[TRA_PS2AUD] = FilterKey(_T("TRA_PS2AUD"), true);
 #endif
 #if INTERNAL_DECODER_VORBIS
-    TraFiltersKeys[TRA_VORBIS] = _T("TRA_VORBIS");
+    TraFiltersKeys[TRA_VORBIS] = FilterKey(_T("TRA_VORBIS"), true);
 #endif
 #if INTERNAL_DECODER_FLAC
-    TraFiltersKeys[TRA_FLAC] = _T("TRA_FLAC");
+    TraFiltersKeys[TRA_FLAC] = FilterKey(_T("TRA_FLAC"), true);
 #endif
 #if INTERNAL_DECODER_NELLYMOSER
-    TraFiltersKeys[TRA_NELLY] = _T("TRA_NELLY");
+    TraFiltersKeys[TRA_NELLY] = FilterKey(_T("TRA_NELLY"), true);
 #endif
 #if INTERNAL_DECODER_AMR
-    TraFiltersKeys[TRA_AMR] = _T("TRA_AMR");
+    TraFiltersKeys[TRA_AMR] = FilterKey(_T("TRA_AMR"), true);
 #endif
 #if INTERNAL_DECODER_PCM
-    TraFiltersKeys[TRA_PCM] = _T("TRA_PCM");
+    TraFiltersKeys[TRA_PCM] = FilterKey(_T("TRA_PCM"), true);
 #endif
 #if INTERNAL_DECODER_H264
-    TraFiltersKeys[TRA_H264] = _T("TRA_H264");
+    TraFiltersKeys[TRA_H264] = FilterKey(_T("TRA_H264"), true);
 #endif
 #if INTERNAL_DECODER_HEVC
-    TraFiltersKeys[TRA_HEVC] = _T("TRA_HEVC");
+    TraFiltersKeys[TRA_HEVC] = FilterKey(_T("TRA_HEVC"), true);
 #endif
 #if INTERNAL_DECODER_VC1
-    TraFiltersKeys[TRA_VC1] = _T("TRA_VC1");
+    TraFiltersKeys[TRA_VC1] = FilterKey(_T("TRA_VC1"), true);
 #endif
 #if INTERNAL_DECODER_FLV
-    TraFiltersKeys[TRA_FLV4] = _T("TRA_FLV4");
+    TraFiltersKeys[TRA_FLV4] = FilterKey(_T("TRA_FLV4"), true);
 #endif
 #if INTERNAL_DECODER_VP356
-    TraFiltersKeys[TRA_VP356] = _T("TRA_VP356");
+    TraFiltersKeys[TRA_VP356] = FilterKey(_T("TRA_VP356"), true);
 #endif
 #if INTERNAL_DECODER_VP8
-    TraFiltersKeys[TRA_VP8] = _T("TRA_VP8");
+    TraFiltersKeys[TRA_VP8] = FilterKey(_T("TRA_VP8"), true);
 #endif
 #if INTERNAL_DECODER_VP9
-    TraFiltersKeys[TRA_VP9] = _T("TRA_VP9");
+    TraFiltersKeys[TRA_VP9] = FilterKey(_T("TRA_VP9"), true);
 #endif
 #if INTERNAL_DECODER_XVID
-    TraFiltersKeys[TRA_XVID] = _T("TRA_XVID");
+    TraFiltersKeys[TRA_XVID] = FilterKey(_T("TRA_XVID"), true);
 #endif
 #if INTERNAL_DECODER_DIVX
-    TraFiltersKeys[TRA_DIVX] = _T("TRA_DIVX");
+    TraFiltersKeys[TRA_DIVX] = FilterKey(_T("TRA_DIVX"), true);
 #endif
 #if INTERNAL_DECODER_MSMPEG4
-    TraFiltersKeys[TRA_MSMPEG4] = _T("TRA_MSMPEG4");
+    TraFiltersKeys[TRA_MSMPEG4] = FilterKey(_T("TRA_MSMPEG4"), true);
 #endif
 #if INTERNAL_DECODER_WMV
-    TraFiltersKeys[TRA_WMV] = _T("TRA_WMV");
+    TraFiltersKeys[TRA_WMV] = FilterKey(_T("TRA_WMV"), false);
 #endif
 #if INTERNAL_DECODER_SVQ
-    TraFiltersKeys[TRA_SVQ3] = _T("TRA_SVQ3");
+    TraFiltersKeys[TRA_SVQ3] = FilterKey(_T("TRA_SVQ3"), true);
 #endif
 #if INTERNAL_DECODER_H263
-    TraFiltersKeys[TRA_H263] = _T("TRA_H263");
+    TraFiltersKeys[TRA_H263] = FilterKey(_T("TRA_H263"), true);
 #endif
 #if INTERNAL_DECODER_THEORA
-    TraFiltersKeys[TRA_THEORA] = _T("TRA_THEORA");
+    TraFiltersKeys[TRA_THEORA] = FilterKey(_T("TRA_THEORA"), true);
 #endif
 #if INTERNAL_DECODER_AMVV
-    TraFiltersKeys[TRA_AMVV] = _T("TRA_AMVV");
+    TraFiltersKeys[TRA_AMVV] = FilterKey(_T("TRA_AMVV"), true);
 #endif
 #if INTERNAL_DECODER_MJPEG
-    TraFiltersKeys[TRA_MJPEG] = _T("TRA_MJPEG");
+    TraFiltersKeys[TRA_MJPEG] = FilterKey(_T("TRA_MJPEG"), true);
 #endif
 #if INTERNAL_DECODER_INDEO
-    TraFiltersKeys[TRA_INDEO] = _T("TRA_INDEO");
+    TraFiltersKeys[TRA_INDEO] = FilterKey(_T("TRA_INDEO"), true);
 #endif
 #if INTERNAL_DECODER_SCREEN
-    TraFiltersKeys[TRA_SCREEN] = _T("TRA_SCREEN");
+    TraFiltersKeys[TRA_SCREEN] = FilterKey(_T("TRA_SCREEN"), true);
 #endif
 #if INTERNAL_DECODER_FLIC
-    TraFiltersKeys[TRA_FLIC] = _T("TRA_FLIC");
+    TraFiltersKeys[TRA_FLIC] = FilterKey(_T("TRA_FLIC"), true);
 #endif
 
     ZeroMemory(&DVDPosition, sizeof(DVDPosition));
@@ -848,10 +848,10 @@ void CAppSettings::SaveSettings()
 
     // Internal filters
     for (int f = 0; f < SRC_LAST; f++) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], SrcFilters[f]);
+        pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f].name, SrcFilters[f]);
     }
     for (int f = 0; f < TRA_LAST; f++) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], TraFilters[f]);
+        pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f].name, TraFilters[f]);
     }
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, strLogoFileName);
@@ -1379,12 +1379,12 @@ void CAppSettings::LoadSettings()
 
     m_Formats.UpdateData(false);
 
-    // Internal filters (ASF splitting and WMV decoding are disabled by default)
+    // Internal filters
     for (int f = 0; f < SRC_LAST; f++) {
-        SrcFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], f != SRC_ASF);
+        SrcFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f].name, SrcFiltersKeys[f].bDefault);
     }
     for (int f = 0; f < TRA_LAST; f++) {
-        TraFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], f != TRA_WMV);
+        TraFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f].name, TraFiltersKeys[f].bDefault);
     }
 
     strLogoFileName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE);
@@ -2173,7 +2173,7 @@ void CAppSettings::UpdateSettings()
         }
         case 1: {
             // Internal decoding of WMV 1/2/3 is now disabled by default so we reinitialize its value
-            pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[TRA_WMV], FALSE);
+            pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, _T("TRA_WMV"), FALSE);
         }
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);
