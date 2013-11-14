@@ -220,8 +220,8 @@ void CAboutDlg::OnAuthors(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CAboutDlg::OnCopyToClipboard()
 {
-    CStringW info = m_appname;
-    info += _T("\r\n----------------------------------\r\n\r\n");
+    CStringW info = m_appname + _T("\r\n");
+    info += CString(_T('-'), m_appname.GetLength()) + _T("\r\n\r\n");
     info += _T("Build information:\r\n");
     info += _T("    Version:            ") + m_strBuildNumber + _T("\r\n");
     info += _T("    Compiler:           ") + m_MPCCompiler + _T("\r\n");
