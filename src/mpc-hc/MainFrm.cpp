@@ -14878,8 +14878,11 @@ HRESULT CMainFrame::SetChannel(int nChannel)
             WINDOWPLACEMENT wp;
             wp.length = sizeof(wp);
             GetWindowPlacement(&wp);
-            if (!m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
+            if (s.fRememberZoomLevel
+                    && !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED)) {
                 ZoomVideoWindow();
+            } else {
+                MoveVideoWindow();
             }
         }
         m_fSetChannelActive = false;
