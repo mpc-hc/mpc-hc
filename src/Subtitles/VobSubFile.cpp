@@ -566,11 +566,18 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
             int hh, mm, ss, ms;
             int n = _stscanf_s(str, _T("%d%c%d%c%d%c%d"), &hh, &c, 1, &mm, &c, 1, &ss, &c, 1, &ms);
 
-            m_toff = n == 1
-                     ? hh * (fNegative ? -1 : 1)
-                         : n == 4 + 3
-                         ? (hh * 60 * 60 * 1000 + mm * 60 * 1000 + ss * 1000 + ms) * (fNegative ? -1 : 1)
-                         : fError = true, 0;
+            switch (n) {
+                case 1: // We have read only one integer, interpret it as an offset expressed in milliseconds
+                    m_toff = hh * (fNegative ? -1 : 1);
+                    break;
+                case 7: // We have read 4 integers + 3 separators, interpret them as hh:mm:ss.ms
+                    m_toff = (hh * 60 * 60 * 1000 + mm * 60 * 1000 + ss * 1000 + ms) * (fNegative ? -1 : 1);
+                    break;
+                default:
+                    fError = true;
+                    m_toff = 0;
+                    break;
+            }
         } else if (entry == _T("forced subs")) {
             str.MakeLower();
 
