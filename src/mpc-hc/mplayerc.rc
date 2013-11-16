@@ -2615,6 +2615,7 @@ BEGIN
     IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system. Originaly made by a Hungarian developer known as Gabest, this version has additional features such as Direct 3D fullscreen mode and better support for Windows Vista/7."
     IDS_MAINFRM_12          "channel"
     IDS_MAINFRM_13          "channels"
+    IDS_HOOKS_FAILED        "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
 END
 
 STRINGTABLE

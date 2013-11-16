@@ -78,6 +78,8 @@ const LanguageResource CMPlayerCApp::languageResources[] = {
 
 const size_t CMPlayerCApp::languageResourcesCount = _countof(CMPlayerCApp::languageResources);
 
+#define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
+
 HICON LoadIcon(CString fn, bool fSmall)
 {
     if (fn.IsEmpty()) {
@@ -1155,15 +1157,9 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     // At this point only main thread should be present, mhook is custom-hacked accordingly
-    ENSURE(Mhook_SetHook(&(PVOID&)Real_IsDebuggerPresent, (PVOID)Mine_IsDebuggerPresent));
-    ENSURE(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA));
-    ENSURE(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW));
-    ENSURE(Mhook_SetHook(&(PVOID&)Real_CreateFileA, (PVOID)Mine_CreateFileA));
-    ENSURE(Mhook_SetHook(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW));
-    ENSURE(Mhook_SetHook(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails));
-    ENSURE(Mhook_SetHook(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl));
+    bool bHookingSuccessful = true;
 
-    ENSURE(Mhook_SetHook(&(PVOID&)Real_LockWindowUpdate, (PVOID)Mine_LockWindowUpdate));
+    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_IsDebuggerPresent, (PVOID)Mine_IsDebuggerPresent);
 
     m_hNTDLL = LoadLibrary(_T("ntdll.dll"));
 #ifndef _DEBUG  // Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
@@ -1171,10 +1167,26 @@ BOOL CMPlayerCApp::InitInstance()
         Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress(m_hNTDLL, "NtQueryInformationProcess");
 
         if (Real_NtQueryInformationProcess) {
-            ENSURE(Mhook_SetHook(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess));
+            bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess);
         }
     }
 #endif
+
+    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA);
+    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW);
+    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW);
+    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
+
+    if (!bHookingSuccessful) {
+        if (AfxMessageBox(IDS_HOOKS_FAILED, MB_ICONWARNING | MB_YESNO, 0) == IDYES) {
+            ShellExecute(nullptr, _T("open"), HOOKS_BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
+        }
+    }
+
+    // If those hooks fail it's annoying but try to run anyway without reporting any error in release mode
+    VERIFY(Mhook_SetHook(&(PVOID&)Real_CreateFileA, (PVOID)Mine_CreateFileA)); // The internal splitter uses the right share mode anyway so this is no big deal
+    VERIFY(Mhook_SetHook(&(PVOID&)Real_LockWindowUpdate, (PVOID)Mine_LockWindowUpdate));
+    VERIFY(Mhook_SetHook(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails));
 
     CFilterMapper2::Init();
 

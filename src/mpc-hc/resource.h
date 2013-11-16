@@ -1447,6 +1447,7 @@
 #define IDS_AG_SAVE_COPY                57368
 #define IDS_FASTSEEK_LATEST             57369
 #define IDS_FASTSEEK_NEAREST            57370
+#define IDS_HOOKS_FAILED                57371
 
 // Next default values for new objects
 // 

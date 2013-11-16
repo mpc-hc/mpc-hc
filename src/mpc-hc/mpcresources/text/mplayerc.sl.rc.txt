@@ -1402,6 +1402,7 @@ STRING IDS_GOTO_ERROR_PARSING_TEXT		"Napaka pri razčlenitvi vnešenega besedila
 STRING IDS_GOTO_ERROR_PARSING_TIME		"Napaka pri razčlenitvi vnešenega časa!"
 STRING IDS_GRAPH_INTERFACES_ERROR		"Neuspela poizvedba po potrebnih vmesnikih za predvajanje"
 STRING IDS_GRAPH_TARGET_WND_ERROR		"Ni bilo mogoče nastaviti ciljnega okna za obvestilo grafu."
+STRING IDS_HOOKS_FAILED		"MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
 STRING IDS_HUE_DEC		"Odtenek -"
 STRING IDS_HUE_INC		"Odtenek +"
 STRING IDS_ICONS_REASSOC_DLG_CONTENT		"To bo popravilo nepravilen prikaz ikon po posodobitvi knjižnice ikon.\nPrivzete povezane datoteke ne bodo spremenjene, samo ustrezne ikone bodo osvežene."
