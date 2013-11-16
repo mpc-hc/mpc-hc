@@ -24,7 +24,6 @@ next version - not released yet
     - Ticket #3676, LAV Audio: Fix a crash when using old versions of the ArcSoft DTS Decoder
       to handle DTS decoding internally
     - Ticket #3688, LAV Audio: Fix a freeze when changing the bitstreaming settings when paused
-* Updated Portuguese (Brazil) translation
 * Updated VirtualDub to v1.10.4
 * Updated Unrar to v5.0.0.12
 * Updated Little CMS to v2.6b (git 69ecafd)
@@ -41,4 +40,5 @@ next version - not released yet
   when opening very long URLs
 ! Ticket #3672, "Output" property page: "Shader" and "Rotation" were sometimes wrongly displayed
   as unavailable for "Sync renderer"
-! Ticket #3702, External audio was not synced on open if restarting from the latest remembered position
+! Ticket #3702, External audio was not synced on open if restarting from the last remembered position
+! Ticket #3720, DVB: Obey the Auto-zoom option when opening a channel
