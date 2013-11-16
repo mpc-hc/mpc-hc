@@ -898,6 +898,13 @@ bool CMPlayerCApp::SendCommandLine(HWND hWnd)
 BOOL (__stdcall* Real_IsDebuggerPresent)()
     = IsDebuggerPresent;
 
+typedef NTSTATUS(WINAPI* FUNC_NTQUERYINFORMATIONPROCESS)(HANDLE ProcessHandle,
+        PROCESSINFOCLASS ProcessInformationClass,
+        PVOID ProcessInformation,
+        ULONG ProcessInformationLength,
+        PULONG ReturnLength);
+static FUNC_NTQUERYINFORMATIONPROCESS Real_NtQueryInformationProcess = nullptr;
+
 LONG(__stdcall* Real_ChangeDisplaySettingsExA)(LPCSTR a0,
         LPDEVMODEA a1,
         HWND a2,
@@ -945,26 +952,16 @@ MMRESULT(__stdcall* Real_mixerSetControlDetails)(HMIXEROBJ hmxobj,
         DWORD fdwDetails)
     = mixerSetControlDetails;
 
+BOOL (WINAPI* Real_LockWindowUpdate)(HWND hWndLock) = LockWindowUpdate;
 
-typedef NTSTATUS(WINAPI* FUNC_NTQUERYINFORMATIONPROCESS)(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
-static FUNC_NTQUERYINFORMATIONPROCESS Real_NtQueryInformationProcess = nullptr;
-/*
-NTSTATUS (* Real_NtQueryInformationProcess) (HANDLE             ProcessHandle,
-                                             PROCESSINFOCLASS   ProcessInformationClass,
-                                             PVOID              ProcessInformation,
-                                             ULONG              ProcessInformationLength,
-                                             PULONG             ReturnLength)
-    = nullptr;
-*/
-
-
+// This hook prevents the program from reporting that a debugger is attached
 BOOL WINAPI Mine_IsDebuggerPresent()
 {
     TRACE(_T("Oops, somebody was trying to be naughty! (called IsDebuggerPresent)\n"));
     return FALSE;
 }
 
-
+// This hook prevents the program from reporting that a debugger is attached
 NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength)
 {
     NTSTATUS nRet;
@@ -973,12 +970,11 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
 
     if (ProcessInformationClass == ProcessBasicInformation) {
         PROCESS_BASIC_INFORMATION* pbi = (PROCESS_BASIC_INFORMATION*)ProcessInformation;
-        PEB_NT* pPEB;
+        PEB_NT* pPEB = (PEB_NT*)pbi->PebBaseAddress;
         PEB_NT PEB;
 
-        pPEB = (PEB_NT*)pbi->PebBaseAddress;
         ReadProcessMemory(ProcessHandle, pPEB, &PEB, sizeof(PEB), nullptr);
-        PEB.BeingDebugged = 0;
+        PEB.BeingDebugged = FALSE;
         WriteProcessMemory(ProcessHandle, pPEB, &PEB, sizeof(PEB), nullptr);
     } else if (ProcessInformationClass == 7) { // ProcessDebugPort
         BOOL* pDebugPort = (BOOL*)ProcessInformation;
@@ -988,6 +984,7 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
     return nRet;
 }
 
+// This hook prevents the program from requesting Macrovision checks
 LONG WINAPI Mine_ChangeDisplaySettingsEx(LONG ret, DWORD dwFlags, LPVOID lParam)
 {
     if (dwFlags & CDS_VIDEOPARAMETERS) {
@@ -1027,12 +1024,9 @@ LONG WINAPI Mine_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpD
                lParam);
 }
 
+// This hook forces files to open even if they are currently being written
 HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
-    //CStringA fn(p1);
-    //fn.MakeLower();
-    //int i = fn.Find(".part");
-    //if (i > 0 && i == fn.GetLength() - 5)
     p3 |= FILE_SHARE_WRITE;
 
     return Real_CreateFileA(p1, p2, p3, p4, p5, p6, p7);
@@ -1062,6 +1056,8 @@ BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileS
     return bRet;
 }
 
+// This hook forces files to open even if they are currently being written and hijacks
+// IFO file opening so that a modified IFO with no forbidden operations is opened instead.
 HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
     HANDLE hFile = INVALID_HANDLE_VALUE;
@@ -1083,14 +1079,7 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
     return hFile;
 }
 
-MMRESULT WINAPI Mine_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails)
-{
-    if (fdwDetails == (MIXER_OBJECTF_HMIXER | MIXER_SETCONTROLDETAILSF_VALUE)) {
-        return MMSYSERR_NOERROR;    // don't touch the mixer, kthx
-    }
-    return Real_mixerSetControlDetails(hmxobj, pmxcd, fdwDetails);
-}
-
+// This hooks disables the DVD version check
 BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID lpInBuffer, DWORD nInBufferSize, LPVOID lpOutBuffer, DWORD nOutBufferSize, LPDWORD lpBytesReturned, LPOVERLAPPED lpOverlapped)
 {
     BOOL ret = Real_DeviceIoControl(hDevice, dwIoControlCode, lpInBuffer, nInBufferSize, lpOutBuffer, nOutBufferSize, lpBytesReturned, lpOverlapped);
@@ -1102,6 +1091,25 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
     }
 
     return ret;
+}
+
+MMRESULT WINAPI Mine_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails)
+{
+    if (fdwDetails == (MIXER_OBJECTF_HMIXER | MIXER_SETCONTROLDETAILSF_VALUE)) {
+        return MMSYSERR_NOERROR;    // don't touch the mixer, kthx
+    }
+    return Real_mixerSetControlDetails(hmxobj, pmxcd, fdwDetails);
+}
+
+BOOL WINAPI Mine_LockWindowUpdate(HWND hWndLock)
+{
+    if (SysVersion::IsVistaOrLater() && hWndLock == ::GetDesktopWindow()) {
+        // locking the desktop window with aero active locks the entire compositor,
+        // unfortunately MFC does that (when dragging CControlBar) and we want to prevent it
+        return FALSE;
+    } else {
+        return Real_LockWindowUpdate(hWndLock);
+    }
 }
 
 BOOL SetHeapOptions()
@@ -1131,18 +1139,6 @@ BOOL SetHeapOptions()
     }
 
     return fRet;
-}
-
-BOOL (WINAPI* Real_LockWindowUpdate)(HWND hWndLock) = LockWindowUpdate;
-BOOL WINAPI Mine_LockWindowUpdate(HWND hWndLock)
-{
-    if (SysVersion::IsVistaOrLater() && hWndLock == ::GetDesktopWindow()) {
-        // locking the desktop window with aero active locks the entire compositor,
-        // unfortunately MFC does that (when dragging CControlBar) and we want to prevent it
-        return FALSE;
-    } else {
-        return Real_LockWindowUpdate(hWndLock);
-    }
 }
 
 BOOL CMPlayerCApp::InitInstance()
