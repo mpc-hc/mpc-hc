@@ -534,37 +534,36 @@ bool CFilterMapper2::s_bInitialized = false;
 void CFilterMapper2::Init()
 {
     if (!s_bInitialized) {
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_CoCreateInstance, (PVOID)Mine_CoCreateInstance));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegCloseKey, (PVOID)Mine_RegCloseKey));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegFlushKey, (PVOID)Mine_RegFlushKey));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegCreateKeyA, (PVOID)Mine_RegCreateKeyA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegCreateKeyW, (PVOID)Mine_RegCreateKeyW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegCreateKeyExA, (PVOID)Mine_RegCreateKeyExA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegCreateKeyExW, (PVOID)Mine_RegCreateKeyExW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegDeleteKeyA, (PVOID)Mine_RegDeleteKeyA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegDeleteKeyW, (PVOID)Mine_RegDeleteKeyW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegDeleteValueA, (PVOID)Mine_RegDeleteValueA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegDeleteValueW, (PVOID)Mine_RegDeleteValueW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegEnumKeyExA, (PVOID)Mine_RegEnumKeyExA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegEnumKeyExW, (PVOID)Mine_RegEnumKeyExW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegEnumValueA, (PVOID)Mine_RegEnumValueA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegEnumValueW, (PVOID)Mine_RegEnumValueW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegOpenKeyA, (PVOID)Mine_RegOpenKeyA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegOpenKeyW, (PVOID)Mine_RegOpenKeyW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegOpenKeyExA, (PVOID)Mine_RegOpenKeyExA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegOpenKeyExW, (PVOID)Mine_RegOpenKeyExW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegQueryInfoKeyA, (PVOID)Mine_RegQueryInfoKeyA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegQueryInfoKeyW, (PVOID)Mine_RegQueryInfoKeyW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegQueryValueA, (PVOID)Mine_RegQueryValueA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegQueryValueW, (PVOID)Mine_RegQueryValueW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegQueryValueExA, (PVOID)Mine_RegQueryValueExA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegQueryValueExW, (PVOID)Mine_RegQueryValueExW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegSetValueA, (PVOID)Mine_RegSetValueA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegSetValueW, (PVOID)Mine_RegSetValueW));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegSetValueExA, (PVOID)Mine_RegSetValueExA));
-        ENSURE(Mhook_SetHook(&(PVOID&)Real_RegSetValueExW, (PVOID)Mine_RegSetValueExW));
-
-        s_bInitialized = true;
+        // In case of error, we don't report the failure immediately since the hooks might not be needed
+        s_bInitialized = Mhook_SetHook(&(PVOID&)Real_CoCreateInstance, (PVOID)Mine_CoCreateInstance)
+                         && Mhook_SetHook(&(PVOID&)Real_RegCloseKey, (PVOID)Mine_RegCloseKey)
+                         && Mhook_SetHook(&(PVOID&)Real_RegFlushKey, (PVOID)Mine_RegFlushKey)
+                         && Mhook_SetHook(&(PVOID&)Real_RegCreateKeyA, (PVOID)Mine_RegCreateKeyA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegCreateKeyW, (PVOID)Mine_RegCreateKeyW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegCreateKeyExA, (PVOID)Mine_RegCreateKeyExA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegCreateKeyExW, (PVOID)Mine_RegCreateKeyExW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegDeleteKeyA, (PVOID)Mine_RegDeleteKeyA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegDeleteKeyW, (PVOID)Mine_RegDeleteKeyW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegDeleteValueA, (PVOID)Mine_RegDeleteValueA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegDeleteValueW, (PVOID)Mine_RegDeleteValueW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegEnumKeyExA, (PVOID)Mine_RegEnumKeyExA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegEnumKeyExW, (PVOID)Mine_RegEnumKeyExW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegEnumValueA, (PVOID)Mine_RegEnumValueA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegEnumValueW, (PVOID)Mine_RegEnumValueW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegOpenKeyA, (PVOID)Mine_RegOpenKeyA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegOpenKeyW, (PVOID)Mine_RegOpenKeyW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegOpenKeyExA, (PVOID)Mine_RegOpenKeyExA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegOpenKeyExW, (PVOID)Mine_RegOpenKeyExW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegQueryInfoKeyA, (PVOID)Mine_RegQueryInfoKeyA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegQueryInfoKeyW, (PVOID)Mine_RegQueryInfoKeyW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegQueryValueA, (PVOID)Mine_RegQueryValueA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegQueryValueW, (PVOID)Mine_RegQueryValueW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegQueryValueExA, (PVOID)Mine_RegQueryValueExA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegQueryValueExW, (PVOID)Mine_RegQueryValueExW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegSetValueA, (PVOID)Mine_RegSetValueA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegSetValueW, (PVOID)Mine_RegSetValueW)
+                         && Mhook_SetHook(&(PVOID&)Real_RegSetValueExA, (PVOID)Mine_RegSetValueExA)
+                         && Mhook_SetHook(&(PVOID&)Real_RegSetValueExW, (PVOID)Mine_RegSetValueExW);
     }
 }
 
