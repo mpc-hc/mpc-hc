@@ -221,81 +221,76 @@ STDMETHODIMP CXySubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate)
 
 STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& ppSubPic)
 {
-    CComPtr<ISubPic> pSubPic = m_pSubPic;
+    CComPtr<ISubPic> pSubPic;
+    CComPtr<ISubPicProvider> pSubPicProvider;
+    GetSubPicProvider(&pSubPicProvider);
+    CComQIPtr<IXyCompatProvider> pXySubPicProvider = pSubPicProvider;
 
-    if (pSubPic && pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop()) {
-        ppSubPic = pSubPic;
-    } else {
-        CComPtr<ISubPicProvider> pSubPicProvider;
-        GetSubPicProvider(&pSubPicProvider);
-        CComQIPtr<IXyCompatProvider> pXySubPicProvider = pSubPicProvider;
+    if (pXySubPicProvider) {
+        double fps = m_fps;
+        REFERENCE_TIME rtTimePerFrame = (REFERENCE_TIME)(10000000.0 / fps);
 
-        if (pXySubPicProvider) {
-            double fps = m_fps;
-            REFERENCE_TIME rtTimePerFrame = (REFERENCE_TIME)(10000000.0 / fps);
+        REFERENCE_TIME rtStart = rtNow;
+        REFERENCE_TIME rtStop = rtNow + rtTimePerFrame;
 
-            REFERENCE_TIME rtStart = rtNow;
-            REFERENCE_TIME rtStop = rtNow + rtTimePerFrame;
-
-            HRESULT hr = pXySubPicProvider->RequestFrame(rtStart, rtStop, (DWORD)(1000.0 / fps));
+        HRESULT hr = pXySubPicProvider->RequestFrame(rtStart, rtStop, (DWORD)(1000.0 / fps));
+        if (SUCCEEDED(hr)) {
+            ULONGLONG id;
+            hr = pXySubPicProvider->GetID(&id);
             if (SUCCEEDED(hr)) {
-                ULONGLONG id;
-                hr = pXySubPicProvider->GetID(&id);
-                if (SUCCEEDED(hr)) {
-                    SIZE    MaxTextureSize, VirtualSize;
-                    POINT   VirtualTopLeft;
-                    HRESULT hr2;
-                    if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
-                        m_pAllocator->SetMaxTextureSize(MaxTextureSize);
-                    }
+                SIZE    MaxTextureSize, VirtualSize;
+                POINT   VirtualTopLeft;
+                HRESULT hr2;
+                if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
+                    m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+                }
 
-                    if (!pSubPic) {
-                        if (FAILED(m_pAllocator->AllocDynamic(&pSubPic))) {
-                            return false;
-                        }
-                    }
-
-                    if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
-                        pSubPic->SetStop(rtStop);
-                        ppSubPic = m_pSubPic;
-                    } else if (m_pAllocator->IsDynamicWriteOnly()) {
-                        CComPtr<ISubPic> pStatic;
-                        hr = m_pAllocator->GetStatic(&pStatic);
-                        if (SUCCEEDED(hr)) {
-                            pStatic->SetInverseAlpha(true);
-                            hr = RenderTo(pStatic, rtStart, rtStop, fps, true);
-                        }
-                        if (SUCCEEDED(hr)) {
-                            hr = pStatic->CopyTo(pSubPic);
-                        }
-                        if (SUCCEEDED(hr)) {
-                            ppSubPic = pSubPic;
-                            m_llSubId = id;
-                        }
-                    } else {
-                        pSubPic->SetInverseAlpha(true);
-                        if (SUCCEEDED(RenderTo(pSubPic, rtStart, rtStop, fps, true))) {
-                            ppSubPic = pSubPic;
-                            m_llSubId = id;
-                        }
-                    }
-
-                    if (SUCCEEDED(hr2)) {
-                        pSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
-                    }
-
-                    RelativeTo relativeTo;
-                    if (SUCCEEDED(pSubPicProvider->GetRelativeTo(0, relativeTo))) {
-                        pSubPic->SetRelativeTo(relativeTo);
+                if (!pSubPic) {
+                    if (FAILED(m_pAllocator->AllocDynamic(&pSubPic))) {
+                        return false;
                     }
                 }
-            }
 
-            if (ppSubPic) {
-                CAutoLock cAutoLock(&m_csLock);
+                if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
+                    pSubPic->SetStop(rtStop);
+                    ppSubPic = m_pSubPic;
+                } else if (m_pAllocator->IsDynamicWriteOnly()) {
+                    CComPtr<ISubPic> pStatic;
+                    hr = m_pAllocator->GetStatic(&pStatic);
+                    if (SUCCEEDED(hr)) {
+                        pStatic->SetInverseAlpha(true);
+                        hr = RenderTo(pStatic, rtStart, rtStop, fps, true);
+                    }
+                    if (SUCCEEDED(hr)) {
+                        hr = pStatic->CopyTo(pSubPic);
+                    }
+                    if (SUCCEEDED(hr)) {
+                        ppSubPic = pSubPic;
+                        m_llSubId = id;
+                    }
+                } else {
+                    pSubPic->SetInverseAlpha(true);
+                    if (SUCCEEDED(RenderTo(pSubPic, rtStart, rtStop, fps, true))) {
+                        ppSubPic = pSubPic;
+                        m_llSubId = id;
+                    }
+                }
 
-                m_pSubPic = ppSubPic;
+                if (SUCCEEDED(hr2)) {
+                    pSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
+                }
+
+                RelativeTo relativeTo;
+                if (SUCCEEDED(pSubPicProvider->GetRelativeTo(0, relativeTo))) {
+                    pSubPic->SetRelativeTo(relativeTo);
+                }
             }
+        }
+
+        if (ppSubPic) {
+            CAutoLock cAutoLock(&m_csLock);
+
+            m_pSubPic = ppSubPic;
         }
     }
 
