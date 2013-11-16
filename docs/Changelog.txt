@@ -11,6 +11,7 @@ Legend:
 next version - not released yet
 ===============================
 * Updated Unrar to v5.0.0.13
+! Ticket #3650, Improve the speed of subtitles toggling (on/off) and switching
 ! Ticket #3668, MPC-HC could crash when reloading the subtitles
 
 

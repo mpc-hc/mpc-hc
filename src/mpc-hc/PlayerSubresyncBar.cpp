@@ -101,6 +101,11 @@ void CPlayerSubresyncBar::SetTime(REFERENCE_TIME rt)
 
 void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
 {
+    // Avoid reloading the same subtitles again
+    if (m_pSubStream == pSubStream) {
+        return;
+    }
+
     m_pSubStream = pSubStream;
     m_mode = NONE;
     m_lastSegment = -1;
