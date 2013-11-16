@@ -2885,5 +2885,5 @@ STDMETHODIMP CRenderedTextSubtitle::Reload()
     if (!FileExists(m_path)) {
         return E_FAIL;
     }
-    return !m_path.IsEmpty() && Open(m_path, DEFAULT_CHARSET) ? S_OK : E_FAIL;
+    return !m_path.IsEmpty() && Open(m_path, DEFAULT_CHARSET, m_name) ? S_OK : E_FAIL;
 }

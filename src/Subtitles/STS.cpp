@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "STS.h"
 #include <atlbase.h>
+#include "atl/atlrx.h"
 
 #include "RealTextParser.h"
 #include <fstream>
@@ -2532,7 +2533,7 @@ void CSimpleTextSubtitle::CreateSegments()
     */
 }
 
-bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
+bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString videoName)
 {
     Empty();
 
@@ -2541,14 +2542,82 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
         return false;
     }
 
-    fn.Replace('\\', '/');
     if (name.IsEmpty()) {
-        name = fn.Left(fn.ReverseFind('.'));
-        name = name.Mid(name.ReverseFind('/') + 1);
-        int len = name.GetLength();
-        int pos = name.ReverseFind('.') + 1;
-        if ((len - pos) > 1) {
-            name = name.Mid(pos);
+        CString lang;
+        bool bHearingImpaired = false;
+
+        // The filename of the subtitle file
+        int iExtStart = fn.ReverseFind('.');
+        if (iExtStart < 0) {
+            iExtStart = fn.GetLength();
+        }
+        CString subName = fn.Left(iExtStart).Mid(fn.ReverseFind('\\') + 1);
+
+        if (!videoName.IsEmpty()) {
+            // The filename of the video file
+            iExtStart = videoName.ReverseFind('.');
+            if (iExtStart < 0) {
+                iExtStart = videoName.GetLength();
+            }
+            CString videoExt = videoName.Mid(iExtStart + 1).MakeLower();
+            videoName = videoName.Left(iExtStart).Mid(videoName.ReverseFind('\\') + 1);
+
+            CString subNameNoCase = CString(subName).MakeLower();
+            CString videoNameNoCase = CString(videoName).MakeLower();
+
+            // Check if the subtitle filename starts with the video filename
+            // so that we can try to find a language info right after it
+            if (subNameNoCase.Find(videoNameNoCase) == 0) {
+                int iVideoNameEnd = videoName.GetLength();
+                // Get ride of the video extension if it's in the subtitle filename
+                if (subNameNoCase.Find(videoExt, iVideoNameEnd) == iVideoNameEnd + 1) {
+                    iVideoNameEnd += 1 + videoExt.GetLength();
+                }
+                subName = subName.Mid(iVideoNameEnd);
+
+                CAtlRegExp<CAtlRECharTraits> re;
+                CAtlREMatchContext<CAtlRECharTraits> mc;
+                if (REPARSE_ERROR_OK == re.Parse(_T("^[.\\-_ ]+{[^.\\-_ ]+}([.\\-_ ]+{[^.\\-_ ]+})?"), FALSE) && re.Match(subName, &mc)) {
+                    LPCTSTR s, e;
+                    mc.GetMatch(0, &s, &e);
+                    lang = ISO639XToLanguage(CStringA(s, int(e - s)), true);
+                    if (!lang.IsEmpty()) {
+                        mc.GetMatch(1, &s, &e);
+                        bHearingImpaired = (CString(s, int(e - s)).CompareNoCase(_T("hi")) == 0);
+                    }
+                }
+            }
+        }
+
+        // If we couldn't find any info yet, we try to find the language at the end of the filename
+        if (lang.IsEmpty()) {
+            CAtlRegExp<CAtlRECharTraits> re;
+            CAtlREMatchContext<CAtlRECharTraits> mc;
+            if (REPARSE_ERROR_OK == re.Parse(_T(".*?[.\\-_ ]+{[^.\\-_ ]+}([.\\-_ ]+{[^.\\-_ ]+})?$"), FALSE) && re.Match(subName, &mc)) {
+                LPCTSTR s, e;
+                mc.GetMatch(0, &s, &e);
+                lang = ISO639XToLanguage(CStringA(s, int(e - s)), true);
+
+                mc.GetMatch(1, &s, &e);
+                CStringA str(s, int(e - s));
+
+                if (!lang.IsEmpty() && str.CompareNoCase("hi") == 0) {
+                    bHearingImpaired = true;
+                } else {
+                    lang = ISO639XToLanguage(str, true);
+                }
+            }
+        }
+
+        name = fn.Mid(fn.ReverseFind('\\') + 1);
+        if (name.GetLength() > 100) { // Cut some part of the filename if it's too long
+            name.Format(_T("%s...%s"), name.Left(50).TrimRight(_T(".-_ ")), name.Right(50).TrimLeft(_T(".-_ ")));
+        }
+        if (!lang.IsEmpty()) {
+            name.AppendFormat(_T(" [%s]"), lang);
+            if (bHearingImpaired) {
+                name.Append(_T(" [hearing impaired]"));
+            }
         }
     }
 
