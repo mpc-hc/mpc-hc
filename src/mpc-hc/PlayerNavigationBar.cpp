@@ -58,8 +58,29 @@ BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd, UINT defDockBarID)
     return TRUE;
 }
 
+static WNDPROC g_parentFrameOrigWndProc = nullptr;
+LRESULT CALLBACK ParentFrameSubclassWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    ASSERT(g_parentFrameOrigWndProc);
+    if (message == WM_SYSCOMMAND && wParam == SC_CLOSE) {
+        AfxGetAppSettings().fHideNavigation = true;
+    }
+    return CallWindowProc(g_parentFrameOrigWndProc, hwnd, message, wParam, lParam);
+}
+
 BOOL CPlayerNavigationBar::PreTranslateMessage(MSG* pMsg)
 {
+    if (CWnd* pParent1 = GetParent()) {
+        CWnd* pParent2 = pParent1->GetParent();
+        if (pParent2 != m_pParent) {
+            if (!g_parentFrameOrigWndProc) {
+                g_parentFrameOrigWndProc = SubclassWindow(pParent2->m_hWnd, ParentFrameSubclassWndProc);
+            }
+        } else {
+            g_parentFrameOrigWndProc = nullptr;
+        }
+    }
+
     if (IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
         if (IsDialogMessage(pMsg)) {
             return TRUE;
