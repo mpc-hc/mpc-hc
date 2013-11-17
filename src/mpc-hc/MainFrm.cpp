@@ -13866,7 +13866,7 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= nullptr*
     return !!pSubStream;
 }
 
-bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMessage /*= false*/, bool bApplyDefStyle /*= false*/)
+bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMessage /*= false*/, bool bApplyDefStyle /*= false*/, bool bSetSubStream /*= true*/)
 {
     if (!m_pCAP) {
         return false;
@@ -13889,11 +13889,14 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
             }
             i = 0;
         }
-        {
+
+        if (bSetSubStream) {
             // m_csSubLock shouldn't be locked when using IAMStreamSelect::Enable
             CAutoLock cAutoLock(&m_csSubLock);
             pSubInput->subStream->SetStream(i);
             SetSubtitle(pSubInput->subStream, bApplyDefStyle);
+        } else {
+            m_pCAP->SetSubPicProvider(CComQIPtr<ISubPicProvider>(m_pCurrentSubStream));
         }
 
         if (bDisplayMessage) {
@@ -13993,7 +13996,7 @@ void CMainFrame::ToggleSubtitleOnOff(bool bDisplayMessage /*= false*/)
     s.fEnableSubtitles = !s.fEnableSubtitles;
 
     if (s.fEnableSubtitles) {
-        SetSubtitle(0, true, bDisplayMessage);
+        SetSubtitle(0, true, bDisplayMessage, false, false);
     } else {
         m_pCAP->SetSubPicProvider(nullptr);
 
