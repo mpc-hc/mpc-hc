@@ -23,7 +23,7 @@
 #include "mplayerc.h"
 #include "GoToDlg.h"
 
-#include <atlrx.h>
+#include "atl/atlrx.h"
 #include "SettingsDefines.h"
 #include <math.h>
 

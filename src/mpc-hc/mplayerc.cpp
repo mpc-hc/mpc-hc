@@ -40,7 +40,7 @@
 #include <afxsock.h>
 #include <atlsync.h>
 #include <atlutil.h>
-#include <atlrx.h>
+#include "atl/atlrx.h"
 #include <share.h>
 #include "mpc-hc_config.h"
 

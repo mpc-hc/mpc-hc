@@ -24,7 +24,7 @@
 #include "resource.h"
 #include "MainFrm.h"
 #include <atlbase.h>
-#include <atlisapi.h>
+#include "atl/atlisapi.h"
 #include "zlib/zlib.h"
 #include "WebServerSocket.h"
 #include "WebClientSocket.h"

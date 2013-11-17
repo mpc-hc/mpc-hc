@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include <io.h>
-#include <atl/atlrx.h>
+#include "atl/atlrx.h"
 #include "TextFile.h"
 #include "GFN.h"
 
