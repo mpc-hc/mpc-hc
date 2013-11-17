@@ -1840,6 +1840,7 @@ STRING IDS_SUBTITLES_ERROR		"Субтытры не загружаны або н�
 STRING IDS_SUBTITLES_OPTIONS		"&Опцыі..."
 STRING IDS_SUBTITLES_RELOAD		"&Перазагрузіць"
 STRING IDS_SUBTITLES_STYLES		"&Стылі..."
+STRING IDS_SUBTITLES_STYLES_CAPTION		"Стылі"
 STRING IDS_SUBTITLE_STREAM		"Субтытры: %s"
 STRING IDS_SUBTITLE_STREAM_OFF		"Субтытры: адключаны"
 STRING IDS_TEXTFILE_ENC		"Encoding:"

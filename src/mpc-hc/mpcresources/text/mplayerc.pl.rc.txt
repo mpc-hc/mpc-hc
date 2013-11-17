@@ -1839,6 +1839,7 @@ STRING IDS_SUBTITLES_ERROR		"Napisy nie zostały wczytane lub wybrano niewspiera
 STRING IDS_SUBTITLES_OPTIONS		"&Ustawienia..."
 STRING IDS_SUBTITLES_RELOAD		"&Wczytaj ponownie"
 STRING IDS_SUBTITLES_STYLES		"&Style..."
+STRING IDS_SUBTITLES_STYLES_CAPTION		"Style"
 STRING IDS_SUBTITLE_STREAM		"Napisy: %s"
 STRING IDS_SUBTITLE_STREAM_OFF		"Napisy: wyłączone"
 STRING IDS_TEXTFILE_ENC		"Kodowanie znaków:"

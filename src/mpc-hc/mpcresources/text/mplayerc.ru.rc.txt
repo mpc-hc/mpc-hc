@@ -1840,6 +1840,7 @@ STRING IDS_SUBTITLES_ERROR		"Субтитры не загружены либо �
 STRING IDS_SUBTITLES_OPTIONS		"&Опции..."
 STRING IDS_SUBTITLES_RELOAD		"&Перезагрузить"
 STRING IDS_SUBTITLES_STYLES		"&Стили..."
+STRING IDS_SUBTITLES_STYLES_CAPTION		"Стили"
 STRING IDS_SUBTITLE_STREAM		"Субтитры: %s"
 STRING IDS_SUBTITLE_STREAM_OFF		"Субтитры: отключены"
 STRING IDS_TEXTFILE_ENC		"Кодировка:"

@@ -1840,6 +1840,7 @@ STRING IDS_SUBTITLES_ERROR		"Untertitel wurden nicht geladen oder werden nicht u
 STRING IDS_SUBTITLES_OPTIONS		"&Optionen..."
 STRING IDS_SUBTITLES_RELOAD		"&Erneut laden"
 STRING IDS_SUBTITLES_STYLES		"&Darstellung anpassen..."
+STRING IDS_SUBTITLES_STYLES_CAPTION		"Darstellung anpassen"
 STRING IDS_SUBTITLE_STREAM		"Untertitel: %s"
 STRING IDS_SUBTITLE_STREAM_OFF		"Untertitel: Aus"
 STRING IDS_TEXTFILE_ENC		"Kodierung:"

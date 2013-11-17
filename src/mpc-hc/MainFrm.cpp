@@ -7925,12 +7925,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                         styles.Add(val);
                     }
 
-                    CString style = ResStr(IDS_SUBTITLES_STYLES);
-                    int k = style.Find(_T("&"));
-                    if (k != -1) {
-                        style.Delete(k, 1);
-                    }
-                    CPropertySheet dlg(style, GetModalParent());
+                    CPropertySheet dlg(ResStr(IDS_SUBTITLES_STYLES_CAPTION), GetModalParent());
                     for (int l = 0; l < (int)pages.GetCount(); l++) {
                         dlg.AddPage(pages[l]);
                     }
