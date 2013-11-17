@@ -15,5 +15,4 @@ Here is a quick how-to release a new stable build:
    the new version number
 
 
-In the next commit, bump the version and set the MPC_NIGHTLY_RELEASE define to 1
-in "include/version.h"
+In the next commit, set the MPC_NIGHTLY_RELEASE define to 1 in "include/version.h"
