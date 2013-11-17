@@ -361,7 +361,7 @@ void CPPageInternalFilters::InitFiltersList()
 #endif
 #if INTERNAL_SOURCEFILTER_ASF
     if (bLAVSplitterIsAvailable) {
-        m_filters.Add(filter_t(_T("WMV / ASF / DVR-MS"), SOURCE_FILTER, SRC_ASF, IDS_INTERNAL_LAVF_WMV));
+        m_filters.Add(filter_t(_T("WMV/ASF/DVR-MS"), SOURCE_FILTER, SRC_ASF, IDS_INTERNAL_LAVF_WMV));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
