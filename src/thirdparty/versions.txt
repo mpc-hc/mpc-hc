@@ -4,7 +4,7 @@ ATL Server          -
 CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
 LAV Filters         0.59.1-31-c635d2d (custom build based on 0.59.1-26-73db2ec)
-Little CMS          2.5 (git ad2cb04)
+Little CMS          2.6b (git 69ecafd)
 Logitech SDK        3.01 (driver 8.00.100)
 MediaInfoLib        0.7.64
 Mhook               2.3 (modified)
@@ -15,7 +15,7 @@ RealMedia SDK       -
 ResizableLib        1.3
 SoundTouch          1.7.1 r170
 TreePropSheet       7 Mar '03 (modified)
-UnRAR               5.0.0
+UnRAR               5.0.0.12
 VirtualDub          1.10.4
 ZenLib              0.4.29 r444
 zlib                1.2.8

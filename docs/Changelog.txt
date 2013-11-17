@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-next version - not released yet
-===============================
+1.7.1 - 17 November 2013
+========================
 + Ticket #2655, Internal filters: Support WMV/ASF/DVR-MS splitting
 + Ticket #3548, Add British English translation
 + Ticket #3590, Internal filters: Support for HEVC and VP9
