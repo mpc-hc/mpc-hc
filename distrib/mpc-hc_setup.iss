@@ -452,10 +452,12 @@ begin
     end;
 
     iLanguage := StrToInt(ExpandConstant('{cm:langid}'));
-    if IsComponentSelected('mpcresources') and FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
-      SetIniInt('Settings', 'InterfaceLanguage', iLanguage, ExpandConstant('{app}\{#mpchc_ini}'))
-    else
-      RegWriteDWordValue(HKCU, 'Software\MPC-HC\MPC-HC\Settings', 'InterfaceLanguage', iLanguage);
+    if IsComponentSelected('mpcresources') then begin
+      if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
+        SetIniInt('Settings', 'InterfaceLanguage', iLanguage, ExpandConstant('{app}\{#mpchc_ini}'))
+      else
+        RegWriteDWordValue(HKCU, 'Software\MPC-HC\MPC-HC\Settings', 'InterfaceLanguage', iLanguage);
+    end;
   end;
 
 end;
