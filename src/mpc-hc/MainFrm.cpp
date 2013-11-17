@@ -14029,9 +14029,12 @@ void CMainFrame::InvalidateSubtitle(DWORD_PTR nSubtitleId /*= DWORD_PTR_MAX*/, R
 
 void CMainFrame::ReloadSubtitle()
 {
-    POSITION pos = m_pSubStreams.GetHeadPosition();
-    while (pos) {
-        m_pSubStreams.GetNext(pos).subStream->Reload();
+    {
+        CAutoLock cAutoLock(&m_csSubLock);
+        POSITION pos = m_pSubStreams.GetHeadPosition();
+        while (pos) {
+            m_pSubStreams.GetNext(pos).subStream->Reload();
+        }
     }
     SetSubtitle(0, true);
 }
