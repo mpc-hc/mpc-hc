@@ -10,8 +10,16 @@ Legend:
 
 next version - not released yet
 ===============================
++ Ticket #1556, Ability to move the player window by dragging the video area during DVD playback
++ Ticket #2251, Show hidden main menu with Alt key
++ Ticket #3284, Mouse pointer hides automatically during playback (previously it worked only in fullscreen)
++ Ticket #3379, "Left Up" mouse keybinding now allows to move the player window by dragging the video area
++ Ticket #3614, Do medium jumps when pressing mouse navigation buttons on the seekbar
++ New option to auto-hide docked panels together with toolbars
+* More flexible auto-hide controls in fullscreen configuration options
 * Updated Traditional Chinese, Greek and Japanese translations
 * Updated Unrar to v5.0.0.13
+! Ticket #1300/#2081, Toolbars auto-hiding now always works properly in multi-display configurations
 ! Ticket #3479, Improve the behavior of MPC-HC when some security tools prevent it
   from initializing correctly
 ! Ticket #3650, Improve the speed of subtitles toggling (on/off) and switching
