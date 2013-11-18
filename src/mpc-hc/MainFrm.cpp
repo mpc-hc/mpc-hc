@@ -13957,6 +13957,7 @@ void CMainFrame::ReloadSubtitle()
         }
     }
     SetSubtitle(0, true);
+    m_wndSubresyncBar.ReloadSubtitle();
 }
 
 void CMainFrame::SetSubtitleTrackIdx(int index)

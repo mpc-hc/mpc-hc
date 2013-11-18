@@ -30,6 +30,7 @@
 IMPLEMENT_DYNAMIC(CPlayerSubresyncBar, CPlayerBar)
 CPlayerSubresyncBar::CPlayerSubresyncBar()
     : m_pSubLock(nullptr)
+    , m_fps(0.0)
     , m_mode(0)
     , m_rt(0)
     , m_fUnlink(false)
@@ -102,11 +103,16 @@ void CPlayerSubresyncBar::SetTime(REFERENCE_TIME rt)
 void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
 {
     // Avoid reloading the same subtitles again
-    if (m_pSubStream == pSubStream) {
-        return;
-    }
+    if (m_pSubStream != pSubStream || m_fps != fps) {
+        m_pSubStream = pSubStream;
+        m_fps = fps;
 
-    m_pSubStream = pSubStream;
+        ReloadSubtitle();
+    }
+}
+
+void CPlayerSubresyncBar::ReloadSubtitle()
+{
     m_mode = NONE;
     m_lastSegment = -1;
     m_sts.Empty();
@@ -154,7 +160,7 @@ void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
         m_mode = TEXTSUB;
 
         m_sts.Copy(*pRTS);
-        m_sts.ConvertToTimeBased(fps);
+        m_sts.ConvertToTimeBased(m_fps);
         m_sts.Sort(true); /*!!m_fUnlink*/
 
         for (int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) {
