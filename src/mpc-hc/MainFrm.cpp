@@ -3166,13 +3166,24 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     OpenSetupStatusBar();
     OpenSetupCaptureBar();
 
-    // show navigation panel when it's available and not disabled
-    if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && m_eMediaLoadState == MLS::LOADED && s.iDefaultCaptureDevice == 1) {
-        m_wndNavigationBar.m_navdlg.UpdateElementList();
-        if (!m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
-            m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
+    if (GetPlaybackMode() == PM_CAPTURE && m_eMediaLoadState == MLS::LOADED) {
+        // show navigation panel when it's available and not disabled
+        if (s.iDefaultCaptureDevice == 1) {
+            if (!s.fHideNavigation) {
+                m_wndNavigationBar.m_navdlg.UpdateElementList();
+                if (!m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+                    m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
+                } else {
+                    ASSERT(FALSE);
+                }
+            }
         } else {
-            ASSERT(FALSE);
+            // show capture bar
+            if (!m_controls.ControlChecked(CMainFrameControls::Panel::CAPTURE)) {
+                m_controls.ToggleControl(CMainFrameControls::Panel::CAPTURE);
+            } else {
+                ASSERT(FALSE);
+            }
         }
     }
 
