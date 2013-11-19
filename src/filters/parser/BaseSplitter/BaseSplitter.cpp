@@ -1300,12 +1300,12 @@ LPCTSTR CBaseSplitterFilter::GetPartFilename(IAsyncReader* pAsyncReader)
 
 STDMETHODIMP CBaseSplitterFilter::GetCapabilities(DWORD* pCapabilities)
 {
-    return pCapabilities ? *pCapabilities =
-               AM_SEEKING_CanGetStopPos |
-               AM_SEEKING_CanGetDuration |
-               AM_SEEKING_CanSeekAbsolute |
-               AM_SEEKING_CanSeekForwards |
-               AM_SEEKING_CanSeekBackwards, S_OK : E_POINTER;
+    CheckPointer(pCapabilities, E_POINTER);
+
+    *pCapabilities = AM_SEEKING_CanGetStopPos | AM_SEEKING_CanGetDuration
+                     | AM_SEEKING_CanSeekAbsolute | AM_SEEKING_CanSeekForwards | AM_SEEKING_CanSeekBackwards;
+
+    return S_OK;
 }
 
 STDMETHODIMP CBaseSplitterFilter::CheckCapabilities(DWORD* pCapabilities)
@@ -1337,7 +1337,11 @@ STDMETHODIMP CBaseSplitterFilter::QueryPreferredFormat(GUID* pFormat)
 
 STDMETHODIMP CBaseSplitterFilter::GetTimeFormat(GUID* pFormat)
 {
-    return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
+    CheckPointer(pFormat, E_POINTER);
+
+    *pFormat = TIME_FORMAT_MEDIA_TIME;
+
+    return S_OK;
 }
 
 STDMETHODIMP CBaseSplitterFilter::IsUsingTimeFormat(const GUID* pFormat)
@@ -1398,17 +1402,32 @@ STDMETHODIMP CBaseSplitterFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pL
 
 STDMETHODIMP CBaseSplitterFilter::SetRate(double dRate)
 {
-    return dRate > 0 ? m_dRate = dRate, S_OK : E_INVALIDARG;
+    HRESULT hr = E_INVALIDARG;
+
+    if (dRate > 0.0) {
+        m_dRate = dRate;
+        hr = S_OK;
+    }
+
+    return hr;
 }
 
 STDMETHODIMP CBaseSplitterFilter::GetRate(double* pdRate)
 {
-    return pdRate ? *pdRate = m_dRate, S_OK : E_POINTER;
+    CheckPointer(pdRate, E_POINTER);
+
+    *pdRate = m_dRate;
+
+    return S_OK;
 }
 
 STDMETHODIMP CBaseSplitterFilter::GetPreroll(LONGLONG* pllPreroll)
 {
-    return pllPreroll ? *pllPreroll = 0, S_OK : E_POINTER;
+    CheckPointer(pllPreroll, E_POINTER);
+
+    *pllPreroll = 0;
+
+    return S_OK;
 }
 
 HRESULT CBaseSplitterFilter::SetPositionsInternal(void* id, LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)

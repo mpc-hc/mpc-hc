@@ -294,7 +294,14 @@ bool CCDXAStream::Load(const WCHAR* fnw)
 
 HRESULT CCDXAStream::SetPointer(LONGLONG llPos)
 {
-    return (llPos >= 0 && llPos < m_llLength) ? m_llPosition = llPos, S_OK : S_FALSE;
+    HRESULT hr = S_FALSE;
+
+    if (llPos >= 0 && llPos < m_llLength) {
+        m_llPosition = llPos;
+        hr = S_OK;
+    }
+
+    return hr;
 }
 
 HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWORD pdwBytesRead)

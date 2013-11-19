@@ -221,9 +221,11 @@ STDMETHODIMP_(ULONG) CMatroskaMuxerFilter::GetMiscFlags()
 
 STDMETHODIMP CMatroskaMuxerFilter::GetCapabilities(DWORD* pCapabilities)
 {
-    return pCapabilities ? *pCapabilities =
-               AM_SEEKING_CanGetDuration |
-               AM_SEEKING_CanGetCurrentPos, S_OK : E_POINTER;
+    CheckPointer(pCapabilities, E_POINTER);
+
+    *pCapabilities = AM_SEEKING_CanGetDuration | AM_SEEKING_CanGetCurrentPos;
+
+    return S_OK;
 }
 
 STDMETHODIMP CMatroskaMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
@@ -250,7 +252,11 @@ STDMETHODIMP CMatroskaMuxerFilter::QueryPreferredFormat(GUID* pFormat)
 
 STDMETHODIMP CMatroskaMuxerFilter::GetTimeFormat(GUID* pFormat)
 {
-    return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
+    CheckPointer(pFormat, E_POINTER);
+
+    *pFormat = TIME_FORMAT_MEDIA_TIME;
+
+    return S_OK;
 }
 
 STDMETHODIMP CMatroskaMuxerFilter::IsUsingTimeFormat(const GUID* pFormat)

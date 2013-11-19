@@ -151,7 +151,11 @@ STDMETHODIMP CShockwaveGraph::GetState(LONG msTimeout, OAFilterState* pfs)
         return E_FAIL;
     }
 
-    return pfs ? *pfs = fs, S_OK : E_POINTER;
+    CheckPointer(pfs, E_POINTER);
+
+    *pfs = fs;
+
+    return S_OK;
 }
 
 // IMediaSeeking
@@ -162,7 +166,11 @@ STDMETHODIMP CShockwaveGraph::IsFormatSupported(const GUID* pFormat)
 
 STDMETHODIMP CShockwaveGraph::GetTimeFormat(GUID* pFormat)
 {
-    return pFormat ? *pFormat = TIME_FORMAT_FRAME, S_OK : E_POINTER;
+    CheckPointer(pFormat, E_POINTER);
+
+    *pFormat = TIME_FORMAT_FRAME;
+
+    return S_OK;
 }
 
 STDMETHODIMP CShockwaveGraph::GetDuration(LONGLONG* pDuration)
@@ -225,7 +233,11 @@ STDMETHODIMP CShockwaveGraph::put_Visible(long Visible)
 
 STDMETHODIMP CShockwaveGraph::get_Visible(long* pVisible)
 {
-return pVisible ? *pVisible = (m_wndDestFrame.IsWindowVisible() ? OATRUE : OAFALSE), S_OK : E_POINTER;
+    CheckPointer(pVisible, E_POINTER);
+
+    *pVisible = m_wndDestFrame.IsWindowVisible() ? OATRUE : OAFALSE;
+
+    return S_OK;
 }
 
 STDMETHODIMP CShockwaveGraph::SetWindowPosition(long Left, long Top, long Width, long Height)

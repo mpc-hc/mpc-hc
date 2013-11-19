@@ -736,18 +736,30 @@ STDMETHODIMP CRealMediaGraph::Stop()
 
 STDMETHODIMP CRealMediaGraph::GetState(LONG msTimeout, OAFilterState* pfs)
 {
-    return pfs ? *pfs = m_pRMP->m_State, S_OK : E_POINTER;
+    CheckPointer(pfs, E_POINTER);
+
+    *pfs = m_pRMP->m_State;
+
+    return S_OK;
 }
 
 // IMediaSeeking
 STDMETHODIMP CRealMediaGraph::GetDuration(LONGLONG* pDuration)
 {
-    return pDuration ? *pDuration = m_pRMP->m_nDuration, S_OK : E_POINTER;
+    CheckPointer(pDuration, E_POINTER);
+
+    *pDuration = m_pRMP->m_nDuration;
+
+    return S_OK;
 }
 
 STDMETHODIMP CRealMediaGraph::GetCurrentPosition(LONGLONG* pCurrent)
 {
-    return pCurrent ? *pCurrent = m_pRMP->m_nCurrent, S_OK : E_POINTER;
+    CheckPointer(pCurrent, E_POINTER);
+
+    *pCurrent = m_pRMP->m_nCurrent;
+
+    return S_OK;
 }
 
 STDMETHODIMP CRealMediaGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)

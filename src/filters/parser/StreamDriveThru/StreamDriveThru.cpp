@@ -265,7 +265,11 @@ STDMETHODIMP CStreamDriveThruFilter::Run(REFERENCE_TIME tStart)
 
 STDMETHODIMP CStreamDriveThruFilter::GetCapabilities(DWORD* pCapabilities)
 {
-    return pCapabilities ? *pCapabilities = AM_SEEKING_CanGetCurrentPos | AM_SEEKING_CanGetStopPos | AM_SEEKING_CanGetDuration, S_OK : E_POINTER;
+    CheckPointer(pCapabilities, E_POINTER);
+
+    *pCapabilities = AM_SEEKING_CanGetCurrentPos | AM_SEEKING_CanGetStopPos | AM_SEEKING_CanGetDuration;
+
+    return S_OK;
 }
 
 STDMETHODIMP CStreamDriveThruFilter::CheckCapabilities(DWORD* pCapabilities)
@@ -296,7 +300,11 @@ STDMETHODIMP CStreamDriveThruFilter::QueryPreferredFormat(GUID* pFormat)
 
 STDMETHODIMP CStreamDriveThruFilter::GetTimeFormat(GUID* pFormat)
 {
-    return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
+    CheckPointer(pFormat, E_POINTER);
+
+    *pFormat = TIME_FORMAT_MEDIA_TIME;
+
+    return S_OK;
 }
 
 STDMETHODIMP CStreamDriveThruFilter::IsUsingTimeFormat(const GUID* pFormat)
@@ -332,7 +340,11 @@ STDMETHODIMP CStreamDriveThruFilter::GetStopPosition(LONGLONG* pStop)
 
 STDMETHODIMP CStreamDriveThruFilter::GetCurrentPosition(LONGLONG* pCurrent)
 {
-    return pCurrent ? *pCurrent = m_position, S_OK : E_POINTER;
+    CheckPointer(pCurrent, E_POINTER);
+
+    *pCurrent = m_position;
+
+    return S_OK;
 }
 
 STDMETHODIMP CStreamDriveThruFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
@@ -367,7 +379,11 @@ STDMETHODIMP CStreamDriveThruFilter::GetRate(double* pdRate)
 
 STDMETHODIMP CStreamDriveThruFilter::GetPreroll(LONGLONG* pllPreroll)
 {
-    return pllPreroll ? *pllPreroll = 0, S_OK : E_POINTER;
+    CheckPointer(pllPreroll, E_POINTER);
+
+    *pllPreroll = 0;
+
+    return S_OK;
 }
 
 //

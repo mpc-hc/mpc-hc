@@ -394,7 +394,11 @@ STDMETHODIMP CBaseMuxerFilter::Run(REFERENCE_TIME tStart)
 
 STDMETHODIMP CBaseMuxerFilter::GetCapabilities(DWORD* pCapabilities)
 {
-    return pCapabilities ? *pCapabilities = AM_SEEKING_CanGetDuration | AM_SEEKING_CanGetCurrentPos, S_OK : E_POINTER;
+    CheckPointer(pCapabilities, E_POINTER);
+
+    *pCapabilities = AM_SEEKING_CanGetDuration | AM_SEEKING_CanGetCurrentPos;
+
+    return S_OK;
 }
 
 STDMETHODIMP CBaseMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
@@ -421,7 +425,11 @@ STDMETHODIMP CBaseMuxerFilter::QueryPreferredFormat(GUID* pFormat)
 
 STDMETHODIMP CBaseMuxerFilter::GetTimeFormat(GUID* pFormat)
 {
-    return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
+    CheckPointer(pFormat, E_POINTER);
+
+    *pFormat = TIME_FORMAT_MEDIA_TIME;
+
+    return S_OK;
 }
 
 STDMETHODIMP CBaseMuxerFilter::IsUsingTimeFormat(const GUID* pFormat)

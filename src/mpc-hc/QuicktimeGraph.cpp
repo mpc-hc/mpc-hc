@@ -151,8 +151,12 @@ STDMETHODIMP CQuicktimeGraph::Stop()
 
 STDMETHODIMP CQuicktimeGraph::GetState(LONG msTimeout, OAFilterState* pfs)
 {
+    CheckPointer(pfs, E_POINTER);
+
     // TODO: this seems to deadlock when opening from the net
-    return pfs ? *pfs = m_wndDestFrame.GetState(), S_OK : E_POINTER;
+    *pfs = m_wndDestFrame.GetState();
+
+    return S_OK;
 }
 
 // IMediaSeeking
@@ -226,14 +230,23 @@ STDMETHODIMP CQuicktimeGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFl
 
 STDMETHODIMP CQuicktimeGraph::SetRate(double dRate)
 {
-    return m_wndDestFrame.theMovie ? SetMovieRate(m_wndDestFrame.theMovie, (Fixed)(dRate * 0x10000)), S_OK : E_UNEXPECTED;
+    CheckPointer(m_wndDestFrame.theMovie, E_UNEXPECTED);
+
+    SetMovieRate(m_wndDestFrame.theMovie, (Fixed)(dRate * 0x10000));
+
+    return S_OK;
 }
 
 STDMETHODIMP CQuicktimeGraph::GetRate(double* pdRate)
 {
     CheckPointer(pdRate, E_POINTER);
     *pdRate = 1.0;
-    return m_wndDestFrame.theMovie ? *pdRate = (double)GetMovieRate(m_wndDestFrame.theMovie) / 0x10000, S_OK : E_UNEXPECTED;
+
+    CheckPointer(m_wndDestFrame.theMovie, E_UNEXPECTED);
+
+    *pdRate = (double)GetMovieRate(m_wndDestFrame.theMovie) / 0x10000;
+
+    return S_OK;
 }
 
 // IVideoWindow

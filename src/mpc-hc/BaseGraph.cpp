@@ -411,7 +411,11 @@ STDMETHODIMP CBaseGraph::GetNotifyFlags(long* lplNoNotifyFlags)
 // IMediaSeeking
 STDMETHODIMP CBaseGraph::GetCapabilities(DWORD* pCapabilities)
 {
-    return pCapabilities ? *pCapabilities = AM_SEEKING_CanSeekAbsolute | AM_SEEKING_CanGetCurrentPos | AM_SEEKING_CanGetDuration, S_OK : E_POINTER;
+    CheckPointer(pCapabilities, E_POINTER);
+
+    *pCapabilities = AM_SEEKING_CanSeekAbsolute | AM_SEEKING_CanGetCurrentPos | AM_SEEKING_CanGetDuration;
+
+    return S_OK;
 }
 
 STDMETHODIMP CBaseGraph::CheckCapabilities(DWORD* pCapabilities)
@@ -442,7 +446,11 @@ STDMETHODIMP CBaseGraph::QueryPreferredFormat(GUID* pFormat)
 
 STDMETHODIMP CBaseGraph::GetTimeFormat(GUID* pFormat)
 {
-    return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
+    CheckPointer(pFormat, E_POINTER);
+
+    *pFormat = TIME_FORMAT_MEDIA_TIME;
+
+    return S_OK;
 }
 
 STDMETHODIMP CBaseGraph::IsUsingTimeFormat(const GUID* pFormat)
