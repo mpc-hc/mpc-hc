@@ -7,7 +7,7 @@ Part A: Preparing the Visual Studio environment
 
  Visual Studio 2012
   1. Install Visual C++ 2012, part of Visual Studio 2012 Professional (Express won't work, other editions work fine)
-  2. Install Visual Studio 2012 Update 3 -> http://go.microsoft.com/fwlink/?LinkID=240162#d-visual-studio-2012-update
+  2. Install Visual Studio 2012 Update 4 -> http://go.microsoft.com/fwlink/?LinkID=240162#d-visual-studio-2012-update
   3. Make sure you install all available updates from Microsoft Update
   4. Install the DirectX SDK (June 2010) -> http://go.microsoft.com/fwlink/?LinkID=71193
 
