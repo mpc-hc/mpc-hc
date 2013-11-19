@@ -73,7 +73,7 @@ public IUnknown {
     STDMETHOD_(BOOL, GetTrackInfo)(UINT aTrackIdx, struct TrackElement * pStructureToFill) = 0;
 
     // Get an extended information struct relative to the track type
-    STDMETHOD_(BOOL, GetTrackExtendedInfo)(UINT aTrackIdx, void * pStructureToFill) = 0;
+    STDMETHOD_(BOOL, GetTrackExtendedInfo)(UINT aTrackIdx, void* pStructureToFill) = 0;
 
     STDMETHOD_(BSTR, GetTrackCodecID)(UINT aTrackIdx) = 0;
     STDMETHOD_(BSTR, GetTrackName)(UINT aTrackIdx) = 0;

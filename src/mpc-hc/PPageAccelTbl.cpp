@@ -253,8 +253,8 @@ CString CPPageAccelTbl::MakeAccelVkeyLabel(WORD key, bool fVirtKey)
         case VK_CAPITAL:
             str = _T("VK_CAPITAL");
             break;
-            //  case VK_KANA: str = _T("VK_KANA"); break;
-            //  case VK_HANGEUL: str = _T("VK_HANGEUL"); break;
+        //  case VK_KANA: str = _T("VK_KANA"); break;
+        //  case VK_HANGEUL: str = _T("VK_HANGEUL"); break;
         case VK_HANGUL:
             str = _T("VK_HANGUL");
             break;
@@ -264,7 +264,7 @@ CString CPPageAccelTbl::MakeAccelVkeyLabel(WORD key, bool fVirtKey)
         case VK_FINAL:
             str = _T("VK_FINAL");
             break;
-            //  case VK_HANJA: str = _T("VK_HANJA"); break;
+        //  case VK_HANJA: str = _T("VK_HANJA"); break;
         case VK_KANJI:
             str = _T("VK_KANJI");
             break;
@@ -469,7 +469,7 @@ CString CPPageAccelTbl::MakeAccelVkeyLabel(WORD key, bool fVirtKey)
         case VK_SCROLL:
             str = _T("VK_SCROLL");
             break;
-            //  case VK_OEM_NEC_EQUAL: str = _T("VK_OEM_NEC_EQUAL"); break;
+        //  case VK_OEM_NEC_EQUAL: str = _T("VK_OEM_NEC_EQUAL"); break;
         case VK_OEM_FJ_JISHO:
             str = _T("VK_OEM_FJ_JISHO");
             break;
@@ -825,8 +825,8 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(const ACCEL& a)
         case VK_CAPITAL:
             str = _T("Capital");
             break;
-            //  case VK_KANA: str = _T("Kana"); break;
-            //  case VK_HANGEUL: str = _T("Hangeul"); break;
+        //  case VK_KANA: str = _T("Kana"); break;
+        //  case VK_HANGEUL: str = _T("Hangeul"); break;
         case VK_HANGUL:
             str = _T("Hangul");
             break;
@@ -836,7 +836,7 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(const ACCEL& a)
         case VK_FINAL:
             str = _T("Final");
             break;
-            //  case VK_HANJA: str = _T("Hanja"); break;
+        //  case VK_HANJA: str = _T("Hanja"); break;
         case VK_KANJI:
             str = _T("Kanji");
             break;
@@ -1041,7 +1041,7 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(const ACCEL& a)
         case VK_SCROLL:
             str = _T("Scroll");
             break;
-            //  case VK_OEM_NEC_EQUAL: str = _T("OEM NEC Equal"); break;
+        //  case VK_OEM_NEC_EQUAL: str = _T("OEM NEC Equal"); break;
         case VK_OEM_FJ_JISHO:
             str = _T("OEM FJ Jisho");
             break;

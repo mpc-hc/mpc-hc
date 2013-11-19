@@ -59,7 +59,7 @@ public:
     }
     void NotifySubscribers() {
         auto subscribers = m_subscribers;
-        for (const auto & kv : subscribers) {
+        for (const auto& kv : subscribers) {
             kv.second();
         }
     }
@@ -89,7 +89,7 @@ public:
     }
     ~OneTimeTimerPool() {
         if (m_pWnd->m_hWnd) {
-            for (const auto & kv : m_subscribers) {
+            for (const auto& kv : m_subscribers) {
                 const UINT_PTR nIDEvent = kv.second.first;
                 ASSERT(m_used[nIDEvent]);
                 VERIFY(m_pWnd->KillTimer(nIDEvent));
@@ -155,7 +155,7 @@ private:
     std::map<UINT_PTR, bool> m_used;
     inline UINT_PTR FindFree() const {
         UINT_PTR ret = 0;
-        for (const auto & kv : m_used) {
+        for (const auto& kv : m_used) {
             if (!kv.second) {
                 ret = kv.first;
                 break;

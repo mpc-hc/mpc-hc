@@ -35,11 +35,11 @@ astyle_ignore_excluded=y
 astyle_ignore_stashed=n
 
 # internal variables
-versioncheck_version=3
+versioncheck_version=4
 versioncheck_path=contrib/pre-commit.sh
 astyle_config=contrib/astyle.ini
 astyle_extensions=(cpp h)
-astyle_version='Artistic Style Version 2.03'
+astyle_version='Artistic Style Version 2.04'
 checkyear_extensions=(bat cpp h hlsl iss pl sh)
 checkyear_pattern1='\(C\) ([0-9][0-9][0-9][0-9]-)?[0-9][0-9][0-9][0-9] see Authors.txt'
 year=$(date +%Y)

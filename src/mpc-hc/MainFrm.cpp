@@ -795,10 +795,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_controls.m_panels[CMainFrameControls::Panel::SHADEREDITOR] = &m_wndShaderEditorBar;
 
     // Hide all controls initially
-    for (const auto & pair : m_controls.m_toolbars) {
+    for (const auto& pair : m_controls.m_toolbars) {
         pair.second->ShowWindow(SW_HIDE);
     }
-    for (const auto & pair : m_controls.m_panels) {
+    for (const auto& pair : m_controls.m_panels) {
         pair.second->ShowWindow(SW_HIDE);
     }
 
@@ -1195,13 +1195,13 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
         return TRUE;
     }
 
-    for (const auto & pair : m_controls.m_toolbars) {
+    for (const auto& pair : m_controls.m_toolbars) {
         if (pair.second->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
             return TRUE;
         }
     }
 
-    for (const auto & pair : m_controls.m_panels) {
+    for (const auto& pair : m_controls.m_panels) {
         if (pair.second->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
             return TRUE;
         }
@@ -7761,7 +7761,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
             case ID_COLOR_BRIGHTNESS_INC:
                 brightness += 2;
-                // no break
+            // no break
             case ID_COLOR_BRIGHTNESS_DEC:
                 brightness -= 1;
                 SetColorControl(ProcAmp_Brightness, brightness, contrast, hue, saturation);
@@ -7771,7 +7771,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
             case ID_COLOR_CONTRAST_INC:
                 contrast += 2;
-                // no break
+            // no break
             case ID_COLOR_CONTRAST_DEC:
                 contrast -= 1;
                 SetColorControl(ProcAmp_Contrast, brightness, contrast, hue, saturation);
@@ -7781,7 +7781,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
             case ID_COLOR_HUE_INC:
                 hue += 2;
-                // no break
+            // no break
             case ID_COLOR_HUE_DEC:
                 hue -= 1;
                 SetColorControl(ProcAmp_Hue, brightness, contrast, hue, saturation);
@@ -7791,7 +7791,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
             case ID_COLOR_SATURATION_INC:
                 saturation += 2;
-                // no break
+            // no break
             case ID_COLOR_SATURATION_DEC:
                 saturation -= 1;
                 SetColorControl(ProcAmp_Saturation, brightness, contrast, hue, saturation);

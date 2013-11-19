@@ -1163,8 +1163,8 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 
     return
         nRendered == nTotal ? (nRendered > 0 ? S_OK : S_FALSE) :
-            nRendered > 0 ? VFW_S_PARTIAL_RENDER :
-            VFW_E_CANNOT_RENDER;
+        nRendered > 0 ? VFW_S_PARTIAL_RENDER :
+        VFW_E_CANNOT_RENDER;
 }
 
 STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)

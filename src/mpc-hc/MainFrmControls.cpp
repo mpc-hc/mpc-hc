@@ -29,7 +29,7 @@ bool CMainFrameControls::ShowToolbars(UINT nCS)
     if (nCS != st.nVisibleCS) {
         m_pMainFrame->m_pLastBar = nullptr;
         int i = 1;
-        for (const auto & pair : m_toolbars) {
+        for (const auto& pair : m_toolbars) {
             auto& pCB = pair.second;
             if (nCS & i) {
                 m_pMainFrame->ShowControlBar(pCB, TRUE, TRUE);
@@ -151,7 +151,7 @@ void CMainFrameControls::SetToolbarsSelection(UINT nCS, bool bShow/* = false*/)
 void CMainFrameControls::LoadState()
 {
     ASSERT(!m_panels.empty());
-    for (const auto & pair : m_panels) {
+    for (const auto& pair : m_panels) {
         auto pBar = pair.second;
         pBar->LoadState(m_pMainFrame);
         if (pBar->IsFloating() && pBar->Autohidden()) {
@@ -164,7 +164,7 @@ void CMainFrameControls::LoadState()
 void CMainFrameControls::SaveState()
 {
     ASSERT(!m_panels.empty());
-    for (const auto & pair : m_panels) {
+    for (const auto& pair : m_panels) {
         pair.second->SaveState();
     }
 }
@@ -345,7 +345,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
     const bool bNoTimer = m_zoneHideTicks.empty();
     const DWORD dwTick = GetTickCount();
 
-    for (const auto & pair : m_zoneHideTicks) {
+    for (const auto& pair : m_zoneHideTicks) {
         if (pair.second <= dwTick && !(mask.maskShow & pair.first)) {
             mask.hide(pair.first);
         }
@@ -377,7 +377,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
     }
 
     if (!bCanHideDockedPanels) {
-        for (const auto & pair : m_panels) {
+        for (const auto& pair : m_panels) {
             if (pair.second->Autohidden()) {
                 bRecalcLayout = true;
                 m_pMainFrame->ShowControlBar(pair.second, TRUE, TRUE);
@@ -514,7 +514,7 @@ unsigned CMainFrameControls::GetToolbarsHeight(UINT nCS) const
 {
     unsigned ret = 0;
     int i = 1;
-    for (const auto & pair : m_toolbars) {
+    for (const auto& pair : m_toolbars) {
         auto& pCB = pair.second;
         if ((nCS & i) && IsWindow(pCB->m_hWnd)) {
             ret += pCB->CalcFixedLayout(TRUE, TRUE).cy;
@@ -584,7 +584,7 @@ void CMainFrameControls::EnumPanelZones()
     m_panelZones.clear();
     m_panelDocks.clear();
 
-    for (const auto & pair : m_panels) {
+    for (const auto& pair : m_panels) {
         auto& pBar = pair.second;
         if (IsWindow(pBar->m_hWnd) && (pBar->Autohidden() || pBar->IsWindowVisible())) {
             DockZone zone = GetPanelZone(pBar);

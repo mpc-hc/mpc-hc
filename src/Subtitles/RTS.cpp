@@ -636,7 +636,7 @@ bool CPolygon::ParseStr()
                     m_pathPointsOrg.SetCount(lastsplinestart);
                     lastsplinestart = -1;
                 }
-                // no break
+            // no break
             case 'p':
                 if (m_pathPointsOrg.GetCount() < 3) {
                     break;
@@ -1877,17 +1877,17 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             double n = CalcAnimation(wcstod(p, nullptr), style.fGaussianBlur, fAnimate);
             style.fGaussianBlur = !p.IsEmpty()
                                   ? (n < 0 ? 0 : n)
-                                      : org.fGaussianBlur;
+                                  : org.fGaussianBlur;
         } else if (cmd == L"bord") {
             double dst = wcstod(p, nullptr);
             double nx = CalcAnimation(dst, style.outlineWidthX, fAnimate);
             style.outlineWidthX = !p.IsEmpty()
                                   ? (nx < 0 ? 0 : nx)
-                                      : org.outlineWidthX;
+                                  : org.outlineWidthX;
             double ny = CalcAnimation(dst, style.outlineWidthY, fAnimate);
             style.outlineWidthY = !p.IsEmpty()
                                   ? (ny < 0 ? 0 : ny)
-                                      : org.outlineWidthY;
+                                  : org.outlineWidthY;
         } else if (cmd == L"be") {
             int n = (int)(CalcAnimation(wcstol(p, nullptr, 10), style.fBlur, fAnimate) + 0.5);
             style.fBlur = !p.IsEmpty()
@@ -1897,7 +1897,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             int n = wcstol(p, nullptr, 10);
             style.fontWeight = !p.IsEmpty()
                                ? (n == 0 ? FW_NORMAL : n == 1 ? FW_BOLD : n >= 100 ? n : org.fontWeight)
-                                   : org.fontWeight;
+                               : org.fontWeight;
         } else if (cmd == L"clip" || cmd == L"iclip") {
             bool invert = (cmd == L"iclip");
 
@@ -2000,12 +2000,12 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             double n = CalcAnimation(wcstod(p, nullptr), style.fontScaleX, fAnimate);
             style.fontScaleX = !p.IsEmpty()
                                ? ((n < 0) ? 0 : n)
-                                   : org.fontScaleX;
+                               : org.fontScaleX;
         } else if (cmd == L"fscy") {
             double n = CalcAnimation(wcstod(p, nullptr), style.fontScaleY, fAnimate);
             style.fontScaleY = !p.IsEmpty()
                                ? ((n < 0) ? 0 : n)
-                                   : org.fontScaleY;
+                               : org.fontScaleY;
         } else if (cmd == L"fsc") {
             style.fontScaleX = org.fontScaleX;
             style.fontScaleY = org.fontScaleY;
@@ -2029,7 +2029,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             int n = wcstol(p, nullptr, 10);
             style.fItalic = !p.IsEmpty()
                             ? (n == 0 ? false : n == 1 ? true : org.fItalic)
-                                : org.fItalic;
+                            : org.fItalic;
         } else if (cmd == L"kt") {
             m_kstart = !p.IsEmpty()
                        ? wcstol(p, nullptr, 10) * 10
@@ -2114,16 +2114,16 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             double nx = CalcAnimation(dst, style.shadowDepthX, fAnimate);
             style.shadowDepthX = !p.IsEmpty()
                                  ? (nx < 0 ? 0 : nx)
-                                     : org.shadowDepthX;
+                                 : org.shadowDepthX;
             double ny = CalcAnimation(dst, style.shadowDepthY, fAnimate);
             style.shadowDepthY = !p.IsEmpty()
                                  ? (ny < 0 ? 0 : ny)
-                                     : org.shadowDepthY;
+                                 : org.shadowDepthY;
         } else if (cmd == L"s") {
             int n = wcstol(p, nullptr, 10);
             style.fStrikeOut = !p.IsEmpty()
                                ? (n == 0 ? false : n == 1 ? true : org.fStrikeOut)
-                                   : org.fStrikeOut;
+                               : org.fStrikeOut;
         } else if (cmd == L"t") { // \t([<t1>,<t2>,][<accel>,]<style modifiers>)
             p.Empty();
 
@@ -2153,13 +2153,13 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             int n = wcstol(p, nullptr, 10);
             style.fUnderline = !p.IsEmpty()
                                ? (n == 0 ? false : n == 1 ? true : org.fUnderline)
-                                   : org.fUnderline;
+                               : org.fUnderline;
         } else if (cmd == L"xbord") {
             double dst = wcstod(p, nullptr);
             double nx = CalcAnimation(dst, style.outlineWidthX, fAnimate);
             style.outlineWidthX = !p.IsEmpty()
                                   ? (nx < 0 ? 0 : nx)
-                                      : org.outlineWidthX;
+                                  : org.outlineWidthX;
         } else if (cmd == L"xshad") {
             double dst = wcstod(p, nullptr);
             double nx = CalcAnimation(dst, style.shadowDepthX, fAnimate);
@@ -2171,7 +2171,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             double ny = CalcAnimation(dst, style.outlineWidthY, fAnimate);
             style.outlineWidthY = !p.IsEmpty()
                                   ? (ny < 0 ? 0 : ny)
-                                      : org.outlineWidthY;
+                                  : org.outlineWidthY;
         } else if (cmd == L"yshad") {
             double dst = wcstod(p, nullptr);
             double ny = CalcAnimation(dst, style.shadowDepthY, fAnimate);

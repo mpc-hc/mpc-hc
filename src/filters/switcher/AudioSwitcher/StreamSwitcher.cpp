@@ -385,7 +385,7 @@ CStreamSwitcherInputPin::CStreamSwitcherInputPin(CStreamSwitcherFilter* pFilter,
 }
 
 class __declspec(uuid("138130AF-A79B-45D5-B4AA-87697457BA87"))
-        NeroAudioDecoder {};
+    NeroAudioDecoder {};
 
 STDMETHODIMP CStreamSwitcherInputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
@@ -1048,7 +1048,7 @@ HRESULT CStreamSwitcherOutputPin::DecideBufferSize(IMemAllocator* pAllocator, AL
 // virtual
 
 class __declspec(uuid("AEFA5024-215A-4FC7-97A4-1043C86FD0B8"))
-        MatrixMixer {};
+    MatrixMixer {};
 
 HRESULT CStreamSwitcherOutputPin::CheckConnect(IPin* pPin)
 {

@@ -797,9 +797,9 @@ namespace Plugin
                 dst.bpp = vi.BitsPerPixel();
                 dst.type =
                     vi.IsRGB32() ? (env->GetVar("RGBA").AsBool() ? MSP_RGBA : MSP_RGB32) :
-                        vi.IsRGB24() ? MSP_RGB24 :
-                        vi.IsYUY2() ? MSP_YUY2 :
-                        -1;
+                    vi.IsRGB24() ? MSP_RGB24 :
+                    vi.IsYUY2() ? MSP_YUY2 :
+                    -1;
 
                 float fps = m_fps > 0 ? m_fps : (float)vi.fps_numerator / vi.fps_denominator;
 
@@ -809,7 +809,7 @@ namespace Plugin
             }
         };
 
-    class CVobSubAvisynthFilter : public CVobSubFilter, public CAvisynthFilter
+        class CVobSubAvisynthFilter : public CVobSubFilter, public CAvisynthFilter
         {
         public:
             CVobSubAvisynthFilter(PClip c, const char* fn, IScriptEnvironment* env)
@@ -917,11 +917,11 @@ namespace Plugin
                 dst.bpp = dst.pitch / dst.w * 8; //vi.BitsPerPixel();
                 dst.type =
                     vi.IsRGB32() ? (env->GetVar("RGBA").AsBool() ? MSP_RGBA : MSP_RGB32)  :
-                        vi.IsRGB24() ? MSP_RGB24 :
-                        vi.IsYUY2() ? MSP_YUY2 :
-                /*vi.IsYV12()*/ vi.pixel_type == VideoInfo::CS_YV12 ? (s_fSwapUV ? MSP_IYUV : MSP_YV12) :
-                /*vi.IsIYUV()*/ vi.pixel_type == VideoInfo::CS_IYUV ? (s_fSwapUV ? MSP_YV12 : MSP_IYUV) :
-                        -1;
+                    vi.IsRGB24() ? MSP_RGB24 :
+                    vi.IsYUY2() ? MSP_YUY2 :
+                    /*vi.IsYV12()*/ vi.pixel_type == VideoInfo::CS_YV12 ? (s_fSwapUV ? MSP_IYUV : MSP_YV12) :
+                    /*vi.IsIYUV()*/ vi.pixel_type == VideoInfo::CS_IYUV ? (s_fSwapUV ? MSP_YV12 : MSP_IYUV) :
+                    -1;
 
                 float fps = m_fps > 0 ? m_fps : (float)vi.fps_numerator / vi.fps_denominator;
 

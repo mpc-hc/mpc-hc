@@ -188,7 +188,7 @@ void CMouse::EventCallback(MpcEvent ev)
         case MpcEvent::SWITCHING_TO_FULLSCREEN:
         case MpcEvent::SWITCHING_TO_FULLSCREEN_D3D:
             m_switchingToFullscreen = std::make_pair(true, screenPoint);
-            // no break
+        // no break
         case MpcEvent::MEDIA_LOADED:
             if (CursorOnWindow(screenPoint, GetWnd())) {
                 SetCursor(screenPoint);

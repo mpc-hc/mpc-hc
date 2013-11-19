@@ -29,7 +29,7 @@ EventRouter::EventRouterCore::EventRouterCore()
 
 void EventRouter::EventRouterCore::FireEvent(MpcEvent ev)
 {
-    for (const auto & pair : m_conns) {
+    for (const auto& pair : m_conns) {
         if (pair.second.recieves.find(ev) != std::end(pair.second.recieves)) {
             pair.second.callback(ev);
         }
@@ -82,7 +82,7 @@ void EventRouter::Disconnect(EventClient& node)
 
 void EventClient::FireEvent(MpcEvent ev)
 {
-    for (const auto & conn : m_conns) {
+    for (const auto& conn : m_conns) {
         ASSERT(GetCurrentThreadId() == conn->m_tid);
         if (!conn->m_bDestroyed) {
             ASSERT(conn->m_conns[this].fires.find(ev) != std::end(conn->m_conns[this].fires));
@@ -93,7 +93,7 @@ void EventClient::FireEvent(MpcEvent ev)
 
 EventClient::~EventClient()
 {
-    for (const auto & conn : m_conns) {
+    for (const auto& conn : m_conns) {
         ASSERT(GetCurrentThreadId() == conn->m_tid);
         conn->m_conns.erase(this);
     }

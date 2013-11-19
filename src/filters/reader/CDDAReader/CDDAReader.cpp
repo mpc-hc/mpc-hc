@@ -390,7 +390,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
                           ? (!pDesc->Unicode
                              ? CString(CStringA((CHAR*)pDesc->Text + tlen + 1, lenU - (tlen + 1)))
                              : CString(CStringW((WCHAR*)pDesc->WText + tlen + 1, lenW - (tlen + 1))))
-                              : _T("");
+                          : _T("");
 
             if ((pDesc->PackType -= 0x80) >= 0x10) {
                 continue;

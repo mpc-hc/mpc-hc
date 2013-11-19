@@ -535,9 +535,9 @@ void CPlayerSubresyncBar::FormatTime(int iItem, TCHAR* buff, size_t buffLen, int
             ? (time == 2 ? m_sts[iItem].start
                : time == 1 ? m_subtimes[iItem].newstart
                : m_subtimes[iItem].orgstart)
-                : (time == 2 ? m_sts[iItem].end
-                   : time == 1 ? m_subtimes[iItem].newend
-                   : m_subtimes[iItem].orgend);
+            : (time == 2 ? m_sts[iItem].end
+               : time == 1 ? m_subtimes[iItem].newend
+               : m_subtimes[iItem].orgend);
 
     _stprintf_s(buff, buffLen, t >= 0
                 ? _T("%02d:%02d:%02d.%03d")
