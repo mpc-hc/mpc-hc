@@ -525,7 +525,6 @@ CPlayerCaptureDialog::CPlayerCaptureDialog()
     : CResizableDialog(CPlayerCaptureDialog::IDD, nullptr)
     , m_bInitialized(false)
     , m_vidfps(0)
-    , m_file(_T(""))
     , m_fVidOutput(TRUE)
     , m_fAudOutput(TRUE)
     , m_fVidPreview(FALSE)
@@ -632,6 +631,24 @@ void CPlayerCaptureDialog::InitControls()
         m_muxtype = AfxGetApp()->GetProfileInt(IDS_R_CAPTURE, _T("FileFormat"), 0);
         m_file = AfxGetApp()->GetProfileString(IDS_R_CAPTURE, _T("FileName"));
         m_fSepAudio = AfxGetApp()->GetProfileInt(IDS_R_CAPTURE, _T("SepAudio"), TRUE);
+
+        CString dir = m_file.Left(m_file.ReverseFind('\\'));
+        // Overwrite m_file if it isn't a valid path
+        if (!PathFileExists(dir) || dir.IsEmpty()) {
+            m_file.Empty();
+            HRESULT hr = SHGetFolderPath(nullptr, CSIDL_PERSONAL, nullptr, 0, m_file.GetBuffer(MAX_PATH));
+            m_file.ReleaseBuffer();
+            if (SUCCEEDED(hr)) {
+                m_file.Append(_T("\\MPC-HC Capture"));
+                if (!PathFileExists(m_file)) {
+                    VERIFY(CreateDirectory(m_file, nullptr));
+                }
+            } else {
+                // Use current directory
+                m_file.ReleaseBufferSetLength(GetCurrentDirectory(MAX_PATH, dir.GetBuffer(MAX_PATH)));
+            }
+            m_file.AppendFormat(_T("\\%s_capture_[time].avi"), AfxGetApp()->m_pszExeName);
+        }
 
         m_muxctrl.AddString(_T("AVI"));
         m_muxctrl.AddString(_T("Ogg Media"));
@@ -1607,14 +1624,23 @@ void CPlayerCaptureDialog::OnRecord()
             pFSF = m_pDst;
         }
 
+        // Replace [time] with current timestamp in the file name.
+        CString file = m_file;
+        time_t tNow = time(nullptr);
+        tm tLoc;
+        localtime_s(&tLoc, &tNow);
+        TCHAR time[100];
+        _tcsftime(time, sizeof(time), _T("%Y-%m-%d_%H-%M-%S"), &tLoc);
+        file.Replace(_T("[time]"), CString(time));
+
         if (!pFSF
-                || FAILED(pFSF->SetFileName(CStringW(m_file), nullptr))
+                || FAILED(pFSF->SetFileName(CStringW(file), nullptr))
                 || FAILED(pFSF->SetMode(AM_FILE_OVERWRITE))) {
             MessageBox(ResStr(IDS_CAPTURE_ERROR_OUT_FILE), ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
             return;
         }
 
-        CString audfn = m_file.Left(m_file.ReverseFind('.') + 1);
+        CString audfn = file.Left(file.ReverseFind('.') + 1);
         if (m_fSepAudio && m_fAudOutput && m_pAudMux && !audfn.IsEmpty()) {
             audfn += _T("wav");
 
@@ -1658,7 +1684,7 @@ void CPlayerCaptureDialog::OnRecord()
         pFrame->StopCapture();
         /*
                 {
-                    if (FILE* f = _tfopen(m_file, _T("rb+")))
+                    if (FILE* f = _tfopen(file, _T("rb+")))
                     {
                         fseek(f, 0x20, SEEK_SET);
                         unsigned short mspf = (unsigned short)(((VIDEOINFOHEADER*)m_mtv.pbFormat)->AvgTimePerFrame / 10);
