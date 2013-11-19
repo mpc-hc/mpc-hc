@@ -1236,6 +1236,14 @@ STDMETHODIMP CFGManager::NukeDownstream(IUnknown* pUnk)
         if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
                 && SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
             if (CComPtr<IBaseFilter> pBF = GetFilterFromPin(pPinTo)) {
+                if (GetCLSID(pBF) == CLSID_EnhancedVideoRenderer) {
+                    // GetFilterFromPin() returns pointer to the Base EVR,
+                    // but we need to remove Outer EVR from the graph.
+                    CComPtr<IBaseFilter> pOuterEVR;
+                    if (SUCCEEDED(pBF->QueryInterface(&pOuterEVR))) {
+                        pBF = pOuterEVR;
+                    }
+                }
                 NukeDownstream(pBF);
                 Disconnect(pPinTo);
                 Disconnect(pPin);
