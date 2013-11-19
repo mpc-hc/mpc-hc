@@ -13437,7 +13437,7 @@ void CMainFrame::LoadKeyFrames()
     EndEnumFilters;
     UINT nKFs = 0;
     m_kfs.clear();
-    if (pKFI && S_OK == pKFI->GetKeyFrameCount(nKFs) && nKFs > 0) {
+    if (pKFI && S_OK == pKFI->GetKeyFrameCount(nKFs) && nKFs > 1) {
         UINT k = nKFs;
         m_kfs.resize(k);
         if (FAILED(pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.data(), k)) || k != nKFs) {
