@@ -1,7 +1,7 @@
 Here is a quick how-to release a new stable build:
 
-1) Update "thirdparty/versions.txt" and the release date in "Changelog.txt"
-2) Set the MPC_NIGHTLY_RELEASE define to 0 in "include/version.h"
+1) Update version and set the MPC_NIGHTLY_RELEASE define to 0 in "include/version.h"
+2) Update "thirdparty/versions.txt" and the version/release date in "Changelog.txt"
 3) Commit the changes
 4) Make sure you have a clean source tree, no modified files, or unpushed commits
 5) Compile MPC-HC and the standalone filters:
