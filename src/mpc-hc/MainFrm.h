@@ -448,6 +448,7 @@ protected:
     ::CEvent m_evOpenPrivateFinished;
     ::CEvent m_evClosePrivateFinished;
 
+    void LoadKeyFrames();
     std::vector<REFERENCE_TIME> m_kfs;
 
     bool m_fOpeningAborted;

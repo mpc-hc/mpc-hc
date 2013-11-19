@@ -2603,6 +2603,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 REFERENCE_TIME rtDur = 0;
                 m_pMS->GetDuration(&rtDur);
                 m_wndPlaylistBar.SetCurTime(rtDur);
+                LoadKeyFrames();
             }
             break;
             case EC_BG_AUDIO_CHANGED:
@@ -3122,6 +3123,11 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     // from this on
     SetLoadState(MLS_LOADED);
 
+    // load keyframes for fast-seek
+    if (wParam == PM_FILE) {
+        LoadKeyFrames();
+    }
+
     // remember OpenMediaData for later use
     m_lastOMD.Free();
     m_lastOMD.Attach((OpenMediaData*)lParam);
@@ -3248,6 +3254,8 @@ void CMainFrame::OnFilePostClosemedia()
 {
     SetPlaybackMode(PM_NONE);
     SetLoadState(MLS_CLOSED);
+
+    m_kfs.clear();
 
     m_nCurSubtitle = -1;
     m_lSubtitleShift = 0;
@@ -10226,21 +10234,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
     SetupChapters();
 
-    CComQIPtr<IKeyFrameInfo> pKFI;
-    BeginEnumFilters(m_pGB, pEF, pBF);
-    if (pKFI = pBF) {
-        break;
-    }
-    EndEnumFilters;
-    UINT nKFs = 0;
-    if (pKFI && S_OK == pKFI->GetKeyFrameCount(nKFs) && nKFs > 0) {
-        UINT k = nKFs;
-        m_kfs.resize(k);
-        if (FAILED(pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.data(), k)) || k != nKFs) {
-            m_kfs.clear();
-        }
-    }
-
     SetPlaybackMode(PM_FILE);
 }
 
@@ -13432,6 +13425,25 @@ bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REF
     }
     keyframes = std::make_pair(rtLower, rtUpper);
     return ret;
+}
+
+void CMainFrame::LoadKeyFrames()
+{
+    CComQIPtr<IKeyFrameInfo> pKFI;
+    BeginEnumFilters(m_pGB, pEF, pBF);
+    if (pKFI = pBF) {
+        break;
+    }
+    EndEnumFilters;
+    UINT nKFs = 0;
+    m_kfs.clear();
+    if (pKFI && S_OK == pKFI->GetKeyFrameCount(nKFs) && nKFs > 0) {
+        UINT k = nKFs;
+        m_kfs.resize(k);
+        if (FAILED(pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.data(), k)) || k != nKFs) {
+            m_kfs.clear();
+        }
+    }
 }
 
 REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget) const
