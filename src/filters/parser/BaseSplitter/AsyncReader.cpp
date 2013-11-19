@@ -32,7 +32,7 @@
 
 CAsyncFileReader::CAsyncFileReader(CString fn, HRESULT& hr)
     : CUnknown(NAME("CAsyncFileReader"), nullptr, &hr)
-    , m_len((ULONGLONG) - 1)
+    , m_len(ULONGLONG_MAX)
     , m_hBreakEvent(nullptr)
     , m_lOsError(0)
 {
@@ -44,7 +44,7 @@ CAsyncFileReader::CAsyncFileReader(CString fn, HRESULT& hr)
 
 CAsyncFileReader::CAsyncFileReader(CAtlList<CHdmvClipInfo::PlaylistItem>& Items, HRESULT& hr)
     : CUnknown(NAME("CAsyncFileReader"), nullptr, &hr)
-    , m_len((ULONGLONG) - 1)
+    , m_len(ULONGLONG_MAX)
     , m_hBreakEvent(nullptr)
     , m_lOsError(0)
 {
@@ -115,7 +115,7 @@ STDMETHODIMP CAsyncFileReader::SyncRead(LONGLONG llPosition, LONG lLength, BYTE*
 
 STDMETHODIMP CAsyncFileReader::Length(LONGLONG* pTotal, LONGLONG* pAvailable)
 {
-    LONGLONG len = m_len >= 0 ? m_len : GetLength();
+    LONGLONG len = (m_len != ULONGLONG_MAX) ? m_len : GetLength();
     if (pTotal) {
         *pTotal = len;
     }
@@ -155,7 +155,7 @@ CAsyncUrlReader::CAsyncUrlReader(CString url, HRESULT& hr)
     }
 
     hr = Open(m_fn, modeRead | shareDenyRead | typeBinary | osSequentialScan) ? S_OK : E_FAIL;
-    m_len = (ULONGLONG) - 1; // force GetLength() return actual length always
+    m_len = ULONGLONG_MAX; // force GetLength() return actual length always
 }
 
 CAsyncUrlReader::~CAsyncUrlReader()
