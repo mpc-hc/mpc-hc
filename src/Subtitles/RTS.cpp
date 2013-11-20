@@ -2743,6 +2743,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                 }
                 break;
                 default:
+                    ASSERT(FALSE); // Shouldn't happen
                     break;
             }
         }

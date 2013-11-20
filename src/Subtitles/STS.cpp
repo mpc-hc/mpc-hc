@@ -884,6 +884,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
                         ret += L"{\\s}";
                         break;
                     default:
+                        ASSERT(FALSE); // Shouldn't happen
                         break;
                 }
             }

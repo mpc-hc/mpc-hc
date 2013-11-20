@@ -503,6 +503,7 @@ bool CCDXAStream::LookForMediaSubType()
                             CStringToBin(s, val);
                             break;
                         default:
+                            ASSERT(FALSE); // Shouldn't happen
                             nTries = -1;
                             break;
                     }

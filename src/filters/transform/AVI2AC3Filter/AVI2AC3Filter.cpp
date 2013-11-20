@@ -500,6 +500,7 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
                 pMediaType->majortype = MEDIATYPE_DVD_ENCRYPTED_PACK;
                 break;
             default:
+                ASSERT(FALSE); // Shouldn't happen
                 return E_INVALIDARG;
         }
     } else {
