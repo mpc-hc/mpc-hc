@@ -205,7 +205,10 @@ BOOL CPPageAudioSwitcher::OnApply()
     memcpy(s.pSpeakerToChannelMap, m_pSpeakerToChannelMap, sizeof(m_pSpeakerToChannelMap));
     s.nSpeakerChannels = m_nChannels;
 
-    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_AUDIO_SWITCHER);
+    // There is no main frame when the option dialog is displayed stand-alone
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_AUDIO_SWITCHER);
+    }
 
     return __super::OnApply();
 }

@@ -91,7 +91,10 @@ BOOL CPPageBase::OnSetActive()
 
 BOOL CPPageBase::OnApply()
 {
-    AfxGetMainFrame()->PostMessage(WM_SAVESETTINGS);
+    // There is no main frame when the option dialog is displayed stand-alone
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->PostMessage(WM_SAVESETTINGS);
+    }
     return __super::OnApply();
 }
 

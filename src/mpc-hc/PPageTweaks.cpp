@@ -194,8 +194,11 @@ BOOL CPPageTweaks::OnApply()
     }
     pFrame->UpdateThumbarButton();
 
-    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_SKYPE);
-    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_SEEKBAR_CHAPTERS);
+    // There is no main frame when the option dialog is displayed stand-alone
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_SKYPE);
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_SEEKBAR_CHAPTERS);
+    }
 
     return __super::OnApply();
 }

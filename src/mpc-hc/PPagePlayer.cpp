@@ -184,9 +184,12 @@ BOOL CPPagePlayer::OnApply()
         AfxGetMyApp()->ChangeSettingsLocation(!!m_fUseIni);
     }
 
-    AfxGetMainFrame()->ShowTrayIcon(s.fTrayIcon);
-    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_LOGO);
-    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_WINDOW_TITLE);
+    // There is no main frame when the option dialog is displayed stand-alone
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->ShowTrayIcon(s.fTrayIcon);
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_LOGO);
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_WINDOW_TITLE);
+    }
 
     ::SetPriorityClass(::GetCurrentProcess(), s.dwPriority);
 

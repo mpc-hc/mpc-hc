@@ -279,7 +279,10 @@ BOOL CPPageFullscreen::OnApply()
     s.uHideFullscreenControlsDelay = m_uHideFullscreenControlsDelay;
     s.bHideFullscreenDockedPanels = !!m_bHideFullscreenDockedPanels;
 
-    AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
+    // There is no main frame when the option dialog is displayed stand-alone
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
+    }
 
     return __super::OnApply();
 }
