@@ -102,9 +102,11 @@ public:
 CDeCSSFilter::CDeCSSFilter(LPUNKNOWN lpunk, HRESULT* phr)
     : CTransformFilter(NAME("CDeCSSFilter"), lpunk, __uuidof(this))
 {
-    if (phr) {
-        *phr = S_OK;
+    HRESULT hr;
+    if (!phr) {
+        phr = &hr;
     }
+    *phr = S_OK;
 
     m_pInput = DEBUG_NEW CKsPSInputPin(NAME("CKsPSInputPin"), this, phr, L"In");
     if (!m_pInput) {

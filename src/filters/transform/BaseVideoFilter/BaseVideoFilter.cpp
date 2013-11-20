@@ -37,9 +37,11 @@ CBaseVideoFilter::CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, 
     : CTransformFilter(pName, lpunk, clsid)
     , m_cBuffers(cBuffers)
 {
-    if (phr) {
-        *phr = S_OK;
+    HRESULT hr;
+    if (!phr) {
+        phr = &hr;
     }
+    *phr = S_OK;
 
     m_pInput = DEBUG_NEW CBaseVideoInputPin(NAME("CBaseVideoInputPin"), this, phr, L"Video");
     if (!m_pInput) {
