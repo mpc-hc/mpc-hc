@@ -238,9 +238,7 @@ CSubtitleStream::CSubtitleStream(const WCHAR* wfn, CSubtitleSource* pParent, HRE
     CString fn(wfn);
 
     if (!m_rts.Open(fn, DEFAULT_CHARSET)) {
-        if (phr) {
-            *phr = E_FAIL;
-        }
+        *phr = E_FAIL;
         return;
     }
 
@@ -255,9 +253,7 @@ CSubtitleStream::CSubtitleStream(const WCHAR* wfn, CSubtitleSource* pParent, HRE
 
     m_rtStop = m_rtDuration;
 
-    if (phr) {
-        *phr = m_rtDuration > 0 ? S_OK : E_FAIL;
-    }
+    *phr = m_rtDuration > 0 ? S_OK : E_FAIL;
 }
 
 CSubtitleStream::~CSubtitleStream()
