@@ -915,7 +915,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
                 a = a * (0xff - static_cast<DWORD>(alpha)) / 0xff;
             }
             COLORREF shadow = revcolor(w->m_style.colors[3]) | (a << 24);
-            DWORD sw[6] = {shadow, 0xffffffff};
+            DWORD sw[6] = {shadow, DWORD_MAX};
 
             w->Paint(CPoint(x, y), org);
 
@@ -954,7 +954,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
                 aoutline += alpha * (0xff - w->m_style.alpha[2]) / 0xff;
             }
             COLORREF outline = revcolor(w->m_style.colors[2]) | ((0xff - aoutline) << 24);
-            DWORD sw[6] = {outline, (DWORD) - 1};
+            DWORD sw[6] = {outline, DWORD_MAX};
 
             w->Paint(CPoint(x, y), org);
 

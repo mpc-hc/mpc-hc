@@ -189,7 +189,7 @@ DWORD CAsyncUrlReader::ThreadProc()
     DWORD cmd = GetRequest();
     if (cmd != CMD_INIT) {
         Reply((DWORD)E_FAIL);
-        return (DWORD) - 1;
+        return DWORD_ERROR;
     }
 
     try {

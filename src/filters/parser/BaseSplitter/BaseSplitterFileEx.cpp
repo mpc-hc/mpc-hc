@@ -48,7 +48,7 @@ CBaseSplitterFileEx::~CBaseSplitterFileEx()
 bool CBaseSplitterFileEx::NextMpegStartCode(BYTE& code, __int64 len)
 {
     BitByteAlign();
-    DWORD dw = (DWORD) - 1;
+    DWORD dw = DWORD_MAX;
     do {
         if (len-- == 0 || !GetRemaining()) {
             return false;

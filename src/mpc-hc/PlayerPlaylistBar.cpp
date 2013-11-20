@@ -1263,7 +1263,7 @@ void CPlayerPlaylistBar::DropItemOnList()
     m_list.DeleteItem(m_nDragIndex);
 
     CList<CPlaylistItem> tmp;
-    UINT id = (UINT) - 1;
+    UINT id = UINT_MAX;
     for (int i = 0; i < m_list.GetItemCount(); i++) {
         POSITION pos = (POSITION)m_list.GetItemData(i);
         CPlaylistItem& pli = m_pl.GetAt(pos);

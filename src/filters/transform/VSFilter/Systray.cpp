@@ -327,7 +327,7 @@ DWORD CALLBACK SystrayThreadProc(void* pParam)
 
     CSystrayWindow wnd((SystrayIconData*)pParam);
     if (!wnd.CreateEx(0, AfxRegisterWndClass(0), _T("DVSWND"), WS_OVERLAPPED, CRect(0, 0, 0, 0), nullptr, 0, nullptr)) {
-        return (DWORD) - 1;
+        return DWORD_ERROR;
     }
 
     ((SystrayIconData*)pParam)->hSystrayWnd = wnd.m_hWnd;

@@ -868,7 +868,7 @@ void CMainFrame::OnDestroy()
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_EXIT, 0, (LPARAM)&e);
         if (!e.Wait(5000)) {
             TRACE(_T("ERROR: Must call TerminateThread() on CMainFrame::m_pGraphThread->m_hThread\n"));
-            TerminateThread(m_pGraphThread->m_hThread, (DWORD) - 1);
+            TerminateThread(m_pGraphThread->m_hThread, DWORD_ERROR);
         }
     }
 
@@ -12032,9 +12032,9 @@ void CMainFrame::SetupFiltersSubMenu()
             CComQIPtr<IAMStreamSelect> pSS = pBF;
             DWORD nStreams = 0;
             if (pSS && SUCCEEDED(pSS->Count(&nStreams))) {
-                DWORD flags = (DWORD) - 1;
-                DWORD group = (DWORD) - 1;
-                DWORD prevgroup = (DWORD) - 1;
+                DWORD flags = DWORD_MAX;
+                DWORD group = DWORD_MAX;
+                DWORD prevgroup = DWORD_MAX;
                 LCID lcid;
                 WCHAR* wname = nullptr;
                 UINT uMenuFlags;
@@ -12785,7 +12785,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGr
         return;
     }
 
-    DWORD dwPrevGroup = (DWORD) - 1;
+    DWORD dwPrevGroup = DWORD_MAX;
 
     for (int i = 0, j = cStreams; i < j; i++) {
         DWORD dwFlags, dwGroup;

@@ -355,7 +355,7 @@ HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName
 
             if (WaitForSingleObject(m_hSystrayThread, 10000) != WAIT_OBJECT_0) {
                 DbgLog((LOG_TRACE, 0, _T("CALL THE AMBULANCE!!!")));
-                TerminateThread(m_hSystrayThread, (DWORD) - 1);
+                TerminateThread(m_hSystrayThread, DWORD_ERROR);
             }
 
             m_hSystrayThread = 0;

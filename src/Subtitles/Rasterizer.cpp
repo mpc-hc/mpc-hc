@@ -1534,7 +1534,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
         // If the first colour switching coordinate is at "infinite" we're
         // never switching and can use some simpler code.
         // ??? Is this optimisation really worth the extra readability issues it adds?
-        if (switchpts[1] == 0xFFFFFFFF) {
+        if (switchpts[1] == DWORD_MAX) {
             // fBody is true if we're rendering a fill or a shadow.
             if (fBody) {
                 if (fSSE2) {
@@ -1552,7 +1552,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
                 }
             }
         }
-        // not (switchpts[1] == 0xFFFFFFFF)
+        // not (switchpts[1] == DWORD_MAX)
         else {
             // switchpts plays an important rule here
             //const long *sw = switchpts;
@@ -1576,7 +1576,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     }
     // Here we *do* have an alpha mask
     else {
-        if (switchpts[1] == 0xFFFFFFFF) {
+        if (switchpts[1] == DWORD_MAX) {
             if (fBody) {
                 if (fSSE2) {
                     Draw_Alpha_spFF_Body_sse2(rnfo);

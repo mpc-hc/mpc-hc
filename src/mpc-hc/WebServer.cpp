@@ -171,7 +171,7 @@ DWORD WINAPI CWebServer::StaticThreadProc(LPVOID lpParam)
 DWORD CWebServer::ThreadProc()
 {
     if (!AfxSocketInit(nullptr)) {
-        return (DWORD) - 1;
+        return DWORD_ERROR;
     }
 
     CWebServerSocket s(this, m_nPort);

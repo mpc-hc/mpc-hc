@@ -660,7 +660,7 @@ void CBaseSplitterOutputPin::MakeISCRHappy()
 
         if (GetCLSID(pBF) == GUIDFromCString(_T("{48025243-2D39-11CE-875D-00608CB78066}"))) { // ISCR
             CAutoPtr<Packet> p(DEBUG_NEW Packet());
-            p->TrackNumber = (DWORD) - 1;
+            p->TrackNumber = DWORD_ERROR;
             p->rtStart = -1;
             p->rtStop = 0;
             p->bSyncPoint = FALSE;
@@ -852,7 +852,7 @@ DWORD CBaseSplitterFilter::GetOutputTrackNum(CBaseSplitterOutputPin* pPin)
         }
     }
 
-    return (DWORD) - 1;
+    return DWORD_ERROR;
 }
 
 HRESULT CBaseSplitterFilter::RenameOutputPin(DWORD TrackNumSrc, DWORD TrackNumDst, const AM_MEDIA_TYPE* pmt)
@@ -972,7 +972,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
     m_eEndFlush.Set();
     m_fFlushing = false;
 
-    for (DWORD cmd = (DWORD) - 1; ; cmd = GetRequest()) {
+    for (DWORD cmd = DWORD_ERROR; ; cmd = GetRequest()) {
         if (cmd == CMD_EXIT) {
             m_hThread = nullptr;
             Reply(S_OK);
@@ -986,7 +986,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 
         DemuxSeek(m_rtStart);
 
-        if (cmd != (DWORD) - 1) {
+        if (cmd != DWORD_ERROR) {
             Reply(S_OK);
         }
 

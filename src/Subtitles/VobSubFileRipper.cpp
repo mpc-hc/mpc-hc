@@ -442,7 +442,7 @@ DWORD CVobSubFileRipper::ThreadProc()
 
             default:
                 Reply((DWORD)E_FAIL);
-                return (DWORD) - 1;
+                return DWORD_ERROR;
         }
 
         m_fBreakThread = false;
