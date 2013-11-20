@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"현재 파일을 닫고 다시 시작해야만 설정이 적용됩니다."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"이동 간격 (최소/중간/최대 간격을 밀리초 단위로 입력)"
 9		"기본값"
 10		"빠른 탐색 (키프레임)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"시간 툴팁 사용:"
 22		"OSD 글꼴:"
 25		"Enable Logitech LCD support (experimental)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

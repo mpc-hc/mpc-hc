@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Змены ўступяць у моц пасля перазагрузкі відэа."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Адлегласці пераходу (кароткая, сярэдняя, доўгая) у мс"
 9		"Стандартна"
 10		"Хуткая перамотка (па ключавых кадрах)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Паказваць час:"
 22		"OSD  Шрыфт"
 25		"Укл падтрымку Logitech LCD (эксперыментальна)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

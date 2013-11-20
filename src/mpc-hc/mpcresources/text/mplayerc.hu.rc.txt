@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"A módosítások akkor lépnek érvénybe, ha a lejátszót bezárta és újraindította."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Ugrás távolságok (kicsi, közepes, nagy, ezredmásodpercben)"
 9		"Alapértelmezés"
 10		"Fast seek (on keyframe)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Use time tooltip:"
 22		"OSD betűtípus:"
 25		"Enable Logitech LCD support (experimental)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

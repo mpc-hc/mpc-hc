@@ -557,6 +557,7 @@ public:
     int             nTimeTooltipPosition;
     CString         strOSDFont;
     int             nOSDSize;
+    bool            bHideWindowedMousePointer;
 
     // Miscellaneous
     int             iBrightness;

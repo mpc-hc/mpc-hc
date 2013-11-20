@@ -9312,6 +9312,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     if (m_Change_Monitor && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
         SetShaders();
     }
+
+    if (m_fFullScreen) {
+        m_eventd.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN);
+    }
 }
 
 void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
@@ -9347,9 +9351,9 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
             ZoomVideoWindow();
-        } else {
-            m_eventd.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
 
+            MoveVideoWindow();
+        } else {
             // Set the fullscreen display mode
             if (s.AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo) {
                 AutoChangeMonitorMode();
@@ -9357,6 +9361,8 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Create a new D3D Fullscreen window
             CreateFullScreenWindow();
+
+            m_eventd.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
 
             // Turn on D3D Fullscreen
             m_OSD.EnableShowSeekBar(true);
@@ -9370,9 +9376,11 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             } else {
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
             }
-        }
 
-        MoveVideoWindow();
+            MoveVideoWindow();
+
+            m_eventd.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
+        }
     }
 }
 

@@ -214,6 +214,8 @@
 #define IDS_RS_HIDE_FULLSCREEN_DOCKED_PANELS   _T("HideFullscreenDockedPanels")
 #define IDS_RS_HIDE_WINDOWED_CONTROLS          _T("HideWindowedControls")
 
+#define IDS_RS_HIDE_WINDOWED_MOUSE_POINTER  _T("HideWindowedMousePointer")
+
 #define IDS_RS_TOGGLESHADER                 _T("ToggleShader")
 #define IDS_RS_TOGGLESHADERSSCREENSPACE     _T("ToggleShaderScreenSpace")
 

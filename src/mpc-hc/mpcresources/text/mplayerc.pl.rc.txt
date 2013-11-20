@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Zmiany zostaną wprowadzone po ponownym uruchomieniu odtwarzania."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Odstępy przejść (mały, średni, duży w ms)"
 9		"Domyślne"
 10		"Szybkie przewijanie (na klatkę kluczową)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Używaj dymka z czasem:"
 22		"Czcionka OSD:"
 25		"Włącz obsługę wyświetlacza LCD Logitech (eksperymentalna)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

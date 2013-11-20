@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Spremembe obveljajo, ko se predvajanje zapre in ponovno zažene."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Velikosti preskoka (kratek, srednji, dolg v ms)"
 9		"Privzeto"
 10		"Hitro iskanje (po ključni sliki)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Uporabi namig o času:"
 22		"Zaslonska pisava:"
 25		"Omogoči podporo Logitech LCD (poskusno)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

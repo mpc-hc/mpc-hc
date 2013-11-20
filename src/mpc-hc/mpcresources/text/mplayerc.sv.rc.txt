@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Ändringarna börjar gälla efter omstart av uppspelning."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Hoppavstånd (liten, medel, stor i ms)"
 9		"Standard"
 10		"Snabbsök (på nyckelbild)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Använd tid verktygstips:"
 22		"OSD teckensnitt:"
 25		"Aktivera Logitech LCD stöd (experimentell)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

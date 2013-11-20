@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Ցուցադրել մոտագույն vsync-ի հետ"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Անցման ձևը (կարճ, միջին, երկար) մ/վ-ով"
 9		"Ըստ ծրագրայինի"
 10		"Արագ պտտում (on keyframe)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Օգտ. ժամանակի հուշումը"
 22		"OSD տառատեսակ:"
 25		"Միացնել Logitech LCD-ի աջակցումը (փորձարկվում է)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

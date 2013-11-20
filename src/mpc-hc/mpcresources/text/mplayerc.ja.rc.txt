@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"ファイルを開き直すと変更が有効になります。"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"ジャンプ間隔 (小、中、大 : ms単位)"
 9		"デフォルト"
 10		"高速 シーク(キーフレームに)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"時間ツールチップを使う:"
 22		"OSD フォント:"
 25		"Logitech LCD のサポートを有効 (実験的)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

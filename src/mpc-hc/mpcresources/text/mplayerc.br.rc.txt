@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"As mudanças apenas terão efeito após o fechamento do vídeo."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Distâncias para pulos (curto, médio, longo em ms)"
 9		"Padrão"
 10		"Pular diretamente para quadros-chave"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Mostrar tempo na barra de progresso:"
 22		"Fonte do OSD:"
 25		"Habilitar suporte ao LCD Logitech (experimental)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

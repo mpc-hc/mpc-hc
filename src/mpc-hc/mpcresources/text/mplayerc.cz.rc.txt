@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Změny se projeví až po zastavení a opětovném spuštění přehrávání."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Velikosti skoků  [malý | střední | velký]  (ms)"
 9		"Výchozí"
 10		"Rychlé procházení (po klíčových snímcích)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Zobrazit v popisku čas:"
 22		"Písmo pro OSD:"
 25		"Povolit podporu pro Logitech LCD (experimentální)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

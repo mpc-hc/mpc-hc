@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Değişiklikler, yürütme kapatıldıktan ve uygulama yeniden başlatıldıktan sonra uygulanacaktır."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Atlama uzaklıkları (ms olarak az, orta, çok)"
 9		"Varsayılan"
 10		"Hızlı oynatma (çerçeve içinde)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Süre gösterim yerleşimi:"
 22		"OSD yazı tipi:"
 25		"Logitech LCD desteğini kullan (önerilmez)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

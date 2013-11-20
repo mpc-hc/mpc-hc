@@ -37,7 +37,9 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
 
     EventRouter::EventSelection evs;
     evs.insert(MpcEvent::SWITCHING_TO_FULLSCREEN);
+    evs.insert(MpcEvent::SWITCHED_TO_FULLSCREEN);
     evs.insert(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
+    evs.insert(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
     evs.insert(MpcEvent::MEDIA_LOADED);
     m_pMainFrm->m_eventd.Connect(m_eventc, evs, std::bind(&CMouse::EventCallback, this, std::placeholders::_1));
 }
@@ -96,7 +98,7 @@ void CMouse::ResetToBlankState()
     m_bTrackingMouseLeave = false;
     m_drag = Drag::NO_DRAG;
     m_cursor = Cursor::ARROW;
-    m_switchedToFullscreen.first = false;
+    m_switchingToFullscreen.first = false;
 }
 
 void CMouse::StartMouseHider(const CPoint& screenPoint)
@@ -179,9 +181,13 @@ void CMouse::EventCallback(MpcEvent ev)
     CPoint screenPoint;
     VERIFY(GetCursorPos(&screenPoint));
     switch (ev) {
+        case MpcEvent::SWITCHED_TO_FULLSCREEN:
+        case MpcEvent::SWITCHED_TO_FULLSCREEN_D3D:
+            m_switchingToFullscreen.first = false;
+            break;
         case MpcEvent::SWITCHING_TO_FULLSCREEN:
         case MpcEvent::SWITCHING_TO_FULLSCREEN_D3D:
-            m_switchedToFullscreen = std::make_pair(true, screenPoint);
+            m_switchingToFullscreen = std::make_pair(true, screenPoint);
         case MpcEvent::MEDIA_LOADED:
             if (CursorOnWindow(screenPoint, GetWnd())) {
                 SetCursor(screenPoint);
@@ -350,6 +356,8 @@ BOOL CMouse::InternalOnMouseWheel(UINT nFlags, short zDelta, const CPoint& point
 
 bool CMouse::SelectCursor(const CPoint& screenPoint, const CPoint& clientPoint, UINT nFlags)
 {
+    const auto& s = AfxGetAppSettings();
+
     if (m_bD3DFS && m_pMainFrm->m_OSD.OnMouseMove(nFlags, clientPoint)) {
         StopMouseHider();
         m_cursor = Cursor::HAND;
@@ -370,11 +378,11 @@ bool CMouse::SelectCursor(const CPoint& screenPoint, const CPoint& clientPoint, 
     bool bCanHide = !bMouseButtonDown &&
                     (m_pMainFrm->GetLoadState() == MLS_LOADED || m_pMainFrm->m_controls.DelayShowNotLoaded()) &&
                     !m_pMainFrm->IsInteractiveVideo() &&
-                    !(m_pMainFrm->IsD3DFullScreenMode() ^ m_bD3DFS);
+                    (m_switchingToFullscreen.first || IsOnFullscreenWindow() ||
+                     (s.bHideWindowedMousePointer && !(m_pMainFrm->IsD3DFullScreenMode() ^ m_bD3DFS)));
 
-    if (m_switchedToFullscreen.first) {
-        m_switchedToFullscreen.first = false;
-        if (bCanHide && PointEqualsImprecise(screenPoint, m_switchedToFullscreen.second)) {
+    if (m_switchingToFullscreen.first) {
+        if (bCanHide && PointEqualsImprecise(screenPoint, m_switchingToFullscreen.second)) {
             StopMouseHider();
             m_cursor = Cursor::NONE;
             m_hideCursorPoint = screenPoint;

@@ -65,7 +65,7 @@ private:
     CPoint m_hideCursorPoint;
     bool m_bLeftClicked;
 
-    std::pair<bool, CPoint> m_switchedToFullscreen;
+    std::pair<bool, CPoint> m_switchingToFullscreen;
 
     virtual CWnd& GetWnd() = 0;
 

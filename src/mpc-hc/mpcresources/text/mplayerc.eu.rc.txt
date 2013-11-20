@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Aldaketek eragina dute irakurketa itxi eta berrabiarazi ondoren."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Jauzi hurruntasunak (txikia, ertaina, luzea sm-tan)"
 9		"Berezkoa"
 10		"Bilaketa azkarra (giltza-framean)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Denbora tresnaburua:"
 22		"IGE hizkia:"
 25		"Gaitu Logitech LCD sostengua (esperimentala)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

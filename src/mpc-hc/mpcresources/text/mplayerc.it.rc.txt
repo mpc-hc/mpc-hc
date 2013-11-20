@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Le modifiche saranno effettive dopo un riavvio della riproduzione."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Intervalli di salto (piccolo, medio, grande in ms)"
 9		"Default"
 10		"Ricerca veloce (sui keyframe)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Visualizza tempo:"
 22		"Carattere OSD:"
 25		"Abilita supporto Logitech LCD (sperimentale)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

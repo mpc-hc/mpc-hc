@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Änderungen werden erst nach Neustart der Wiedergabe wirksam."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Sprungintervalle (klein, mittel, groß in ms)"
 9		"&Standard"
 10		"Schnellen Suchlauf verwenden:"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Zeit-Tooltip verwenden:"
 22		"OSD-Schrift:"
 25		"LCD-Unterstützung für Logitech-Tastaturen aktivieren (experimentell)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

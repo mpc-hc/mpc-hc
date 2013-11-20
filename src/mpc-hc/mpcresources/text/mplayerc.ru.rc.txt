@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Изменения применятся после остановки и перезапуска воспроизведения."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Расстояния перехода (короткое, среднее, длинное) в мс"
 9		"По умолчанию"
 10		"Быстрая перемотка (по ключевым кадрам)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Показывать время"
 22		"Шрифт OSD:"
 25		"Включить поддержку Logitech LCD (экспериментальное)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

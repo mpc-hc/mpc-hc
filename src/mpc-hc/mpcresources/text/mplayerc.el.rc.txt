@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Οι αλλαγές θα ενεργοποιηθούν μετά το κλείσιμο κι επανεκκίνηση της αναπαραγωγής."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Αποστάσεις μεταπήδησης (μικρή, μεσαία, μεγάλη σε ms)"
 9		"Προεπιλογή"
 10		"Γρήγορη αναζήτηση (σε βασικό καρέ)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Χρήση συμβουλής χρόνου:"
 22		"Γραμματοσειρά OSD:"
 25		"Ενεργοποίηση υποστήριξης Logitech LCD (πειραματικά)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

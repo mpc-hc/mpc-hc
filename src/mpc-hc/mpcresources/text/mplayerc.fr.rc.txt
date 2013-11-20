@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Les changements prennent effet après que la lecture soit arrêtée et redémarrée."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Intervalles de saut (petit, moyen, grand en ms)"
 9		"Par défaut"
 10		"Déplacement rapide (à l'image-clé)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Utiliser l'infobulle temporelle :"
 22		"Police OSD :"
 25		"Activer le support LCD pour les claviers Logitech (expérimental)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

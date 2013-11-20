@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"השינויים נכנסים לתוקף רק לאחר שהניגון הופסק והופעל מחדש."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"מרחקי קפיצה (קטנה, בינונית וגדולה במילישניות)"
 9		"ברירת מחדל"
 10		"קפיצות מהירות (לפריים מפתח)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"השתמש בתיבת זמן מרחפת:"
 22		"גופן תצוגת מידע בוידאו:"
 25		"Enable Logitech LCD support (experimental)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

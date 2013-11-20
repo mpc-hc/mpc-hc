@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"要關閉或是重新啟動播放後, 變更才會有效。"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"跳躍距離 (分別為小, 中, 大, 以毫秒為單位)"
 9		"預設值"
 10		"快速搜尋 (於關鍵影格)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"使用時間工具提示:"
 22		"OSD 字型:"
 25		"啟用 Logitech LCD 支援 (實驗性)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

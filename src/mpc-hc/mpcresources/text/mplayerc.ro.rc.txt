@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Modificările vor avea efect după ce redarea a fost oprită și repornită."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Intervale de sărire (mic, mediu, mare în ms)"
 9		"Implicit"
 10		"Căutare rapidă (la cadru cheie)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Folosește indiciu de timp:"
 22		"Fontul OSD:"
 25		"Activează suportul LCD pentru tastaturi Logitech (experimental)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

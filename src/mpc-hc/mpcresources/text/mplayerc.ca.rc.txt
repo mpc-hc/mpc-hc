@@ -425,7 +425,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Els canvis tindran efecte després de tencar i reiniciar la reproducció."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 29
 5		"Intervals de salt (curt, mig, llarg en ms)"
 9		"Original"
 10		"Desplaçament Ràpid(al fotograma clau)"
@@ -437,6 +437,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 27
 20		"Usar la descripció emergent de temps:"
 22		"Estil del OSD:"
 25		"Activar suport LCD per teclat Logitech (experimental)"
+27		"Auto-hide the mouse pointer during playback in windowed mode"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

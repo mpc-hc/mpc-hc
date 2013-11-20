@@ -12,7 +12,7 @@ next version - not released yet
 ===============================
 + Ticket #1556, Ability to move the player window by dragging the video area during DVD playback
 + Ticket #2251, Show hidden main menu with Alt key
-+ Ticket #3284, Mouse pointer hides automatically during playback (previously it worked only in fullscreen)
++ Ticket #3284, Option to auto-hide mouse pointer in windowed mode during playback
 + Ticket #3379, "Left Up" mouse keybinding now allows to move the player window by dragging the video area
 + Ticket #3614, Do medium jumps when pressing mouse navigation buttons on the seekbar
 + New option to auto-hide docked panels together with toolbars

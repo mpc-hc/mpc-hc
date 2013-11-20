@@ -188,6 +188,7 @@ CAppSettings::CAppSettings()
     , TraFilters()
     , SrcFilters()
     , bHideWindowedControls(false)
+    , bHideWindowedMousePointer(true)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -646,6 +647,8 @@ void CAppSettings::SaveSettings()
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS_DELAY, uHideFullscreenControlsDelay));
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_DOCKED_PANELS, bHideFullscreenDockedPanels));
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_CONTROLS, bHideWindowedControls));
+
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_MOUSE_POINTER, bHideWindowedMousePointer));
 
     pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, (BYTE*)&AutoChangeFullscrRes, sizeof(AutoChangeFullscrRes));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, fExitFullScreenAtTheEnd);
@@ -1154,6 +1157,8 @@ void CAppSettings::LoadSettings()
     uHideFullscreenControlsDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS_DELAY, 0);
     bHideFullscreenDockedPanels = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_DOCKED_PANELS, FALSE);
     bHideWindowedControls = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_CONTROLS, FALSE);
+
+    bHideWindowedMousePointer = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_MOUSE_POINTER, TRUE);
 
     // Multi-monitor code
     strFullScreenMonitor = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR);
