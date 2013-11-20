@@ -182,14 +182,16 @@ void CMainFrameControls::GetVisibleDockZones(unsigned& uTop, unsigned& uLeft, un
 bool CMainFrameControls::PanelsCoverVideo() const
 {
     const auto& s = AfxGetAppSettings();
-    return m_pMainFrame->m_fFullScreen || (s.bHideWindowedControls && s.bHideFullscreenControls && s.bHideFullscreenDockedPanels &&
+    return m_pMainFrame->m_fFullScreen || (!m_pMainFrame->IsD3DFullScreenMode() &&
+                                           s.bHideWindowedControls && s.bHideFullscreenControls && s.bHideFullscreenDockedPanels &&
                                            s.eHideFullscreenControlsPolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER);
 }
 
 bool CMainFrameControls::ToolbarsCoverVideo() const
 {
     const auto& s = AfxGetAppSettings();
-    return m_pMainFrame->m_fFullScreen || (s.bHideWindowedControls && s.bHideFullscreenControls &&
+    return m_pMainFrame->m_fFullScreen || (!m_pMainFrame->IsD3DFullScreenMode() &&
+                                           s.bHideWindowedControls && s.bHideFullscreenControls &&
                                            s.eHideFullscreenControlsPolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER);
 }
 
