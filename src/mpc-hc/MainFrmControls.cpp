@@ -480,7 +480,9 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                     }
                 }
                 if (zone == DOCK_BOTTOM) {
-                    ShowToolbars(CS_NONE);
+                    if (ShowToolbars(CS_NONE)) {
+                        bRecalcLayout = true;
+                    }
                 }
                 m_zoneHideTicks.erase(zone);
                 m_zoneHideLocks.erase(zone);
