@@ -636,7 +636,7 @@ bool CPolygon::ParseStr()
                     m_pathPointsOrg.SetCount(lastsplinestart);
                     lastsplinestart = -1;
                 }
-                // no break here
+                // no break
             case 'p':
                 if (m_pathPointsOrg.GetCount() < 3) {
                     break;

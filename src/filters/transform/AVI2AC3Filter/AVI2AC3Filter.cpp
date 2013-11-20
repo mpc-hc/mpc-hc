@@ -488,14 +488,14 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
             case 1:
                 pMediaType->ResetFormatBuffer();
                 pMediaType->formattype = FORMAT_None;
-                // No break here
+                // no break
             case 2:
                 pMediaType->majortype = MEDIATYPE_MPEG2_PES;
                 break;
             case 3:
                 pMediaType->ResetFormatBuffer();
                 pMediaType->formattype = FORMAT_None;
-                // No break here
+                // no break
             case 4:
                 pMediaType->majortype = MEDIATYPE_DVD_ENCRYPTED_PACK;
                 break;

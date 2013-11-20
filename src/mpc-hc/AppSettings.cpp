@@ -2190,10 +2190,12 @@ void CAppSettings::UpdateSettings()
                 VERIFY(pApp->WriteProfileString(newSection, strTemp, strChannel));
             }
         }
+        // no break
         case 1: {
             // Internal decoding of WMV 1/2/3 is now disabled by default so we reinitialize its value
             pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, _T("TRA_WMV"), FALSE);
         }
+        // no break
         case 2: {
             const CString section(_T("Settings"));
             if (pApp->HasProfileEntry(section, _T("FullScreenCtrls")) &&
@@ -2223,6 +2225,7 @@ void CAppSettings::UpdateSettings()
                 }
             }
         }
+        // no break
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);
     }

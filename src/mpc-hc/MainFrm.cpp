@@ -7761,6 +7761,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
             case ID_COLOR_BRIGHTNESS_INC:
                 brightness += 2;
+                // no break
             case ID_COLOR_BRIGHTNESS_DEC:
                 brightness -= 1;
                 SetColorControl(ProcAmp_Brightness, brightness, contrast, hue, saturation);
@@ -7770,6 +7771,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
             case ID_COLOR_CONTRAST_INC:
                 contrast += 2;
+                // no break
             case ID_COLOR_CONTRAST_DEC:
                 contrast -= 1;
                 SetColorControl(ProcAmp_Contrast, brightness, contrast, hue, saturation);
@@ -7779,6 +7781,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
             case ID_COLOR_HUE_INC:
                 hue += 2;
+                // no break
             case ID_COLOR_HUE_DEC:
                 hue -= 1;
                 SetColorControl(ProcAmp_Hue, brightness, contrast, hue, saturation);
@@ -7788,6 +7791,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
             case ID_COLOR_SATURATION_INC:
                 saturation += 2;
+                // no break
             case ID_COLOR_SATURATION_DEC:
                 saturation -= 1;
                 SetColorControl(ProcAmp_Saturation, brightness, contrast, hue, saturation);
