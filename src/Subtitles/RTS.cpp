@@ -541,10 +541,15 @@ bool CPolygon::Append(CWord* w)
 
 bool CPolygon::GetLONG(CStringW& str, LONG& ret)
 {
-    LPWSTR s = (LPWSTR)(LPCWSTR)str, e = s;
-    ret = wcstol(str, &e, 10);
-    str.Delete(0, int(e - s));
-    return (e > s);
+    LPCWSTR s = str;
+    LPWSTR e = nullptr;
+
+    ret = wcstol(s, &e, 10);
+
+    int nRead = int(e - s);
+    str.Delete(0, nRead);
+
+    return (nRead > 0);
 }
 
 bool CPolygon::GetPOINT(CStringW& str, POINT& ret)
