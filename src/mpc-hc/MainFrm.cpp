@@ -14216,10 +14216,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     }
 
     // abort if loading
-    if (m_iMediaLoadState == MLS_LOADING) {
-        // it should be possible only in graph thread
-        ASSERT(m_bOpenedThroughThread);
-
+    if (m_iMediaLoadState == MLS_LOADING && m_bOpenedThroughThread) {
         // tell OpenMediaPrivate() that we want to abort
         m_fOpeningAborted = true;
 
