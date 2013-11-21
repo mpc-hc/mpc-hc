@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
++ Added support for XySubFilter, only compatible with embedded subtitles for now
 + Ticket #1556, Ability to move the player window by dragging the video area during DVD playback
 + Ticket #2251, Show hidden main menu with Alt key
 + Ticket #3284, Option to auto-hide mouse pointer in windowed mode during playback
