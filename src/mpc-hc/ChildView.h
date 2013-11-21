@@ -30,7 +30,7 @@ class CChildView : public CMouseWnd
 
     CMPCPngImage m_logo;
 
-    CMainFrame* m_pMainFrm;
+    CMainFrame* m_pMainFrame;
 
 public:
     CChildView(CMainFrame* pMainFrm);

@@ -27,10 +27,10 @@
 /////////////////////////////////////////////////////////////////////////////
 // CChildView
 
-CChildView::CChildView(CMainFrame* pMainFrm)
+CChildView::CChildView(CMainFrame* pMainFrame)
     : m_vrect(0, 0, 0, 0)
-    , CMouseWnd(pMainFrm)
-    , m_pMainFrm(pMainFrm)
+    , CMouseWnd(pMainFrame)
+    , m_pMainFrame(pMainFrame)
 {
     LoadLogo();
 }
@@ -57,7 +57,7 @@ BOOL CChildView::PreTranslateMessage(MSG* pMsg)
     // filter interactive video controls mouse messages
     if (pMsg->hwnd != m_hWnd &&
             pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MOUSELAST &&
-            m_pMainFrm->IsInteractiveVideo()) {
+            m_pMainFrame->IsInteractiveVideo()) {
         switch (pMsg->message) {
             case WM_LBUTTONDOWN:
             case WM_LBUTTONUP:
@@ -86,7 +86,7 @@ LRESULT CChildView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
     bool bCallOurProc = true;
-    if (m_pMainFrm->m_pMVRSR) {
+    if (m_pMainFrame->m_pMVRSR) {
         // call madVR window proc directly when the interface is available
         switch (message) {
             case WM_MOUSEMOVE:
@@ -95,7 +95,7 @@ LRESULT CChildView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
                 // CMouseWnd will call madVR window proc
                 break;
             default:
-                bCallOurProc = !m_pMainFrm->m_pMVRSR->ParentWindowProc(m_hWnd, message, &wParam, &lParam, &ret);
+                bCallOurProc = !m_pMainFrame->m_pMVRSR->ParentWindowProc(m_hWnd, message, &wParam, &lParam, &ret);
         }
     }
     if (bCallOurProc) {
@@ -174,7 +174,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
     CImage img;
     img.Attach(m_logo);
 
-    if (m_pMainFrm->GetLoadState() != MLS_CLOSED && !m_pMainFrm->IsD3DFullScreenMode()) {
+    if (m_pMainFrame->GetLoadState() != MLS_CLOSED && !m_pMainFrame->IsD3DFullScreenMode()) {
         pDC->ExcludeClipRect(m_vrect);
     } else if (!img.IsNull()) {
         GetClientRect(r);
@@ -201,14 +201,13 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 {
     CWnd::OnSize(nType, cx, cy);
 
-    ((CMainFrame*)GetParentFrame())->MoveVideoWindow();
+    m_pMainFrame->MoveVideoWindow();
 }
 
 LRESULT CChildView::OnNcHitTest(CPoint point)
 {
     LRESULT ret = CWnd::OnNcHitTest(point);
-    const auto pFrame = AfxGetMainFrame();
-    if (!pFrame->m_fFullScreen && pFrame->IsFrameLessWindow()) {
+    if (!m_pMainFrame->m_fFullScreen && m_pMainFrame->IsFrameLessWindow()) {
         CRect rcFrame;
         GetWindowRect(&rcFrame);
         CRect rcClient(rcFrame);
@@ -271,6 +270,6 @@ void CChildView::OnNcLButtonDown(UINT nHitTest, CPoint point)
             break;
     }
     if (flag) {
-        AfxGetMainFrame()->SendMessage(WM_SYSCOMMAND, SC_SIZE | flag, MAKELPARAM(point.x, point.y));
+        m_pMainFrame->SendMessage(WM_SYSCOMMAND, SC_SIZE | flag, MAKELPARAM(point.x, point.y));
     }
 }

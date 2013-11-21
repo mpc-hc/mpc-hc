@@ -52,7 +52,7 @@ public:
 private:
     CMouse(const CMouse&);
     const bool m_bD3DFS;
-    CMainFrame* m_pMainFrm;
+    CMainFrame* m_pMainFrame;
     bool m_bMouseHiderStarted;
     CPoint m_mouseHiderStartScreenPoint;
     DWORD m_dwMouseHiderStartTick;

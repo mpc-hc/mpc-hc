@@ -31,8 +31,9 @@
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 // IMPLEMENT_DYNAMIC(CPlayerNavigationDialog, CResizableDialog)
-CPlayerNavigationDialog::CPlayerNavigationDialog()
+CPlayerNavigationDialog::CPlayerNavigationDialog(CMainFrame* pMainFrame)
     : CResizableDialog(CPlayerNavigationDialog::IDD, nullptr)
+    , m_pMainFrame(pMainFrame)
     , m_bTVStations(true)
     , p_nItems()
 {
@@ -102,7 +103,7 @@ void CPlayerNavigationDialog::OnDestroy()
 void CPlayerNavigationDialog::OnChangeChannel()
 {
     int nItem = p_nItems[m_ChannelList.GetCurSel()] + ID_NAVIGATE_CHAP_SUBITEM_START;
-    AfxGetMainFrame()->OnNavigateChapters(nItem);
+    m_pMainFrame->OnNavigateChapters(nItem);
 }
 
 void CPlayerNavigationDialog::UpdateElementList()
@@ -144,13 +145,13 @@ void CPlayerNavigationDialog::UpdatePos(int nID)
 
 void CPlayerNavigationDialog::OnTunerScan()
 {
-    AfxGetMainFrame()->OnTunerScan();
+    m_pMainFrame->OnTunerScan();
     UpdateElementList();
 }
 
 void CPlayerNavigationDialog::OnButtonInfo()
 {
-    AfxGetMainFrame()->ShowCurrentChannelInfo(true, true);
+    m_pMainFrame->ShowCurrentChannelInfo(true, true);
 }
 
 void CPlayerNavigationDialog::OnTvRadioStations()

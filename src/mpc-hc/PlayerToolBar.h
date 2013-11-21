@@ -25,11 +25,15 @@
 
 #include <atlimage.h>
 
+class CMainFrame;
+
 class CPlayerToolBar : public CToolBar
 {
     DECLARE_DYNAMIC(CPlayerToolBar)
 
 private:
+    CMainFrame* m_pMainFrame;
+
     bool IsMuted() const;
     void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
@@ -39,7 +43,7 @@ private:
     CImageList* m_pButtonsImages;
 
 public:
-    CPlayerToolBar();
+    CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
 
     int GetVolume() const;

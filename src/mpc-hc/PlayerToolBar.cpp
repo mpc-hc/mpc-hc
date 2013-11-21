@@ -32,8 +32,9 @@
 // CPlayerToolBar
 
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
-CPlayerToolBar::CPlayerToolBar()
-    : m_nButtonHeight(16)
+CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
+    : m_pMainFrame(pMainFrame)
+    , m_nButtonHeight(16)
     , m_pButtonsImages(nullptr)
 {
 }
@@ -321,11 +322,10 @@ BOOL CPlayerToolBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
     int i = getHitButtonIdx(point);
-    auto pFrame = AfxGetMainFrame();
 
-    if (!pFrame->m_fFullScreen && (i < 0 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED)))) {
-        MapWindowPoints(pFrame, &point, 1);
-        pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
+    if (!m_pMainFrame->m_fFullScreen && (i < 0 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED)))) {
+        MapWindowPoints(m_pMainFrame, &point, 1);
+        m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
     } else {
         __super::OnLButtonDown(nFlags, point);
     }

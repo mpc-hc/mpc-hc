@@ -33,8 +33,9 @@
 #define SLIDER_CHAP_HEIGHT   10
 
 
-CVMROSD::CVMROSD()
-    : m_pWnd(nullptr)
+CVMROSD::CVMROSD(CMainFrame* pMainFrame)
+    : m_pMainFrame(pMainFrame)
+    , m_pWnd(nullptr)
     , m_llSeekMin(0)
     , m_llSeekMax(0)
     , m_llSeekPos(0)
@@ -360,7 +361,7 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
     m_llSeekPos = min(m_llSeekPos, m_llSeekMax);
 
     if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
-        m_llSeekPos = AfxGetMainFrame()->GetClosestKeyFrame(m_llSeekPos);
+        m_llSeekPos = m_pMainFrame->GetClosestKeyFrame(m_llSeekPos);
     }
 
     if (m_pWnd) {

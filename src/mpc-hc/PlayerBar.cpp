@@ -45,12 +45,13 @@ void CPlayerBar::OnWindowPosChanged(WINDOWPOS* lpwndpos)
         Autohidden(false);
         if (lpwndpos->flags & SWP_FRAMECHANGED && !bWasAutohidden && !IsFloating()) {
             // the panel was re-docked
-            auto pFrame = AfxGetMainFrame();
-            // call MoveVideoWindow() manually because we don't receive WM_SIZE message
-            // (probably because we disable locking the desktop window on what CControlBar relies)
-            pFrame->MoveVideoWindow();
-            // let the user see what he did and don't hide the panel for a while
-            pFrame->m_controls.LockHideZone(pFrame->m_controls.GetPanelZone(this));
+            if (auto pFrame = AfxGetMainFrame()) {
+                // call MoveVideoWindow() manually because we don't receive WM_SIZE message
+                // (probably because we disable locking the desktop window on what CControlBar relies)
+                pFrame->MoveVideoWindow();
+                // let the user see what he did and don't hide the panel for a while
+                pFrame->m_controls.LockHideZone(pFrame->m_controls.GetPanelZone(this));
+            }
         }
     }
     __super::OnWindowPosChanged(lpwndpos);

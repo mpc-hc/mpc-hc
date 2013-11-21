@@ -30,10 +30,12 @@
 
 #define MAX_CHANNELS_ALLOWED 200
 
+class CMainFrame;
+
 class CPlayerNavigationDialog : public CResizableDialog
 {
 public:
-    CPlayerNavigationDialog();
+    CPlayerNavigationDialog(CMainFrame* pMainFrame);
     virtual ~CPlayerNavigationDialog();
 
     BOOL Create(CWnd* pParent = nullptr);
@@ -44,6 +46,8 @@ public:
 
     // Dialog Data
     enum { IDD = IDD_NAVIGATION_DLG };
+
+    CMainFrame* m_pMainFrame;
 
     CListBox m_ChannelList;
     CButton m_ButtonInfo;

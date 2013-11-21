@@ -27,6 +27,7 @@
 IMPLEMENT_DYNAMIC(CFullscreenWnd, CWnd)
 CFullscreenWnd::CFullscreenWnd(CMainFrame* pMainFrame)
     : CMouseWnd(pMainFrame, true)
+    , m_pMainFrame(pMainFrame)
 {
 }
 
@@ -44,7 +45,7 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
     switch (pMsg->message) {
         case WM_KEYDOWN:
         case WM_KEYUP:
-            AfxGetMainFrame()->PostMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
+            m_pMainFrame->PostMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
             return TRUE;
     }
     return CWnd::PreTranslateMessage(pMsg);

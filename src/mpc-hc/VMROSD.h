@@ -47,10 +47,12 @@ enum OSD_MESSAGEPOS {
 
 struct IDSMChapterBag;
 
+class CMainFrame;
+
 class CVMROSD
 {
 public:
-    CVMROSD();
+    CVMROSD(CMainFrame* pMainFrame);
     ~CVMROSD();
 
     void Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB, bool bShowSeekBar);
@@ -85,6 +87,7 @@ private:
     CComPtr<IMadVRTextOsd>       m_pMVTO;
     CComPtr<IDSMChapterBag>      m_pCB;
 
+    CMainFrame* m_pMainFrame;
     CWnd* m_pWnd;
 
     CCritSec           m_csLock;

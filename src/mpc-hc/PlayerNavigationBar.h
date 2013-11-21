@@ -25,13 +25,15 @@
 
 // CPlayerNavigationBar
 
+class CMainFrame;
+
 class CPlayerNavigationBar : public CPlayerBar
 {
     DECLARE_DYNAMIC(CPlayerNavigationBar)
 
 public:
     CWnd* m_pParent;
-    CPlayerNavigationBar();
+    CPlayerNavigationBar(CMainFrame* pMainFrame);
     virtual ~CPlayerNavigationBar();
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
 

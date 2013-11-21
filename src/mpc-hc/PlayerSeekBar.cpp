@@ -29,8 +29,9 @@
 
 IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
-CPlayerSeekBar::CPlayerSeekBar()
-    : m_rtStart(0)
+CPlayerSeekBar::CPlayerSeekBar(CMainFrame* pMainFrame)
+    : m_pMainFrame(pMainFrame)
+    , m_rtStart(0)
     , m_rtStop(0)
     , m_rtPos(0)
     , m_bEnabled(false)
@@ -92,7 +93,7 @@ void CPlayerSeekBar::MoveThumb(const CPoint& point)
     if (m_bHasDuration) {
         REFERENCE_TIME rtPos = PositionFromClientPoint(point);
         if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
-            rtPos = AfxGetMainFrame()->GetClosestKeyFrame(rtPos);
+            rtPos = m_pMainFrame->GetClosestKeyFrame(rtPos);
         }
         SyncThumbToVideo(rtPos);
     }
@@ -143,9 +144,8 @@ void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
         CRect newThumbRect(GetThumbRect());
         if (newThumbRect != m_lastThumbRect) {
             InvalidateRect(newThumbRect | m_lastThumbRect);
-            auto pFrame = AfxGetMainFrame();
-            if (pFrame && AfxGetAppSettings().fUseWin7TaskBar && pFrame->m_pTaskbarList) {
-                pFrame->m_pTaskbarList->SetProgressValue(pFrame->m_hWnd, m_rtPos, m_rtStop);
+            if (AfxGetAppSettings().fUseWin7TaskBar && m_pMainFrame->m_pTaskbarList) {
+                m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, m_rtPos, m_rtStop);
             }
         }
     }
@@ -294,7 +294,7 @@ void CPlayerSeekBar::UpdateToolTipText()
     REFERENCE_TIME rtNow = PositionFromClientPoint(m_tooltipPoint);
 
     CString time;
-    GUID timeFormat = AfxGetMainFrame()->GetTimeFormat();
+    GUID timeFormat = m_pMainFrame->GetTimeFormat();
     if (timeFormat == TIME_FORMAT_MEDIA_TIME) {
         DVD_HMSF_TIMECODE tcNow = RT2HMS_r(rtNow);
         if (tcNow.bHours > 0) {
@@ -511,10 +511,9 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
         MoveThumb(point);
         VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     } else {
-        auto pFrame = AfxGetMainFrame();
-        if (!pFrame->m_fFullScreen) {
-            MapWindowPoints(pFrame, &point, 1);
-            pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
+        if (!m_pMainFrame->m_fFullScreen) {
+            MapWindowPoints(m_pMainFrame, &point, 1);
+            m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
         }
     }
 }
@@ -648,6 +647,6 @@ void CPlayerSeekBar::OnCaptureChanged(CWnd* pWnd)
     m_bDraggingThumb = false;
     if (!pWnd) {
         // HACK: windowed (not renderless) video renderers may not produce WM_MOUSEMOVE message here
-        AfxGetMainFrame()->UpdateControlState(CMainFrame::UPDATE_CHILDVIEW_CURSOR_HACK);
+        m_pMainFrame->UpdateControlState(CMainFrame::UPDATE_CHILDVIEW_CURSOR_HACK);
     }
 }

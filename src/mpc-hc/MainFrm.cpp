@@ -690,6 +690,10 @@ CMainFrame::CMainFrame()
     , m_wndView(this)
     , m_bShowingFloatingMenubar(false)
     , m_controls(this)
+    , m_wndSeekBar(this)
+    , m_wndToolBar(this)
+    , m_wndNavigationBar(this)
+    , m_OSD(this)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;

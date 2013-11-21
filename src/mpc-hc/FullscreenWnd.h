@@ -29,6 +29,8 @@ class CFullscreenWnd : public CMouseWnd
 {
     DECLARE_DYNAMIC(CFullscreenWnd)
 
+    CMainFrame* m_pMainFrame;
+
 public:
     CFullscreenWnd(CMainFrame* pMainFrame);
     virtual ~CFullscreenWnd();

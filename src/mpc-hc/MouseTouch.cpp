@@ -27,7 +27,7 @@
 
 CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     : m_bD3DFS(bD3DFS)
-    , m_pMainFrm(pMainFrm)
+    , m_pMainFrame(pMainFrm)
     , m_dwMouseHiderStartTick(0)
 {
     m_cursors[Cursor::NONE] = nullptr;
@@ -41,7 +41,7 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     evs.insert(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
     evs.insert(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
     evs.insert(MpcEvent::MEDIA_LOADED);
-    m_pMainFrm->m_eventd.Connect(m_eventc, evs, std::bind(&CMouse::EventCallback, this, std::placeholders::_1));
+    m_pMainFrame->m_eventd.Connect(m_eventc, evs, std::bind(&CMouse::EventCallback, this, std::placeholders::_1));
 }
 
 CMouse::~CMouse()
@@ -103,12 +103,12 @@ void CMouse::ResetToBlankState()
 
 void CMouse::StartMouseHider(const CPoint& screenPoint)
 {
-    ASSERT(!m_pMainFrm->IsInteractiveVideo());
+    ASSERT(!m_pMainFrame->IsInteractiveVideo());
     m_mouseHiderStartScreenPoint = screenPoint;
     if (!m_bMouseHiderStarted) {
         // periodic timer is used here intentionally, recreating timer after each mouse move is more expensive
         auto t = m_bD3DFS ? CMainFrame::Timer32HzSubscriber::CURSOR_HIDER_D3DFS : CMainFrame::Timer32HzSubscriber::CURSOR_HIDER;
-        m_pMainFrm->m_timer32Hz.Subscribe(t, std::bind(&CMouse::MouseHiderCallback, this));
+        m_pMainFrame->m_timer32Hz.Subscribe(t, std::bind(&CMouse::MouseHiderCallback, this));
         m_bMouseHiderStarted = true;
     }
     m_dwMouseHiderStartTick = GetTickCount();
@@ -116,12 +116,12 @@ void CMouse::StartMouseHider(const CPoint& screenPoint)
 void CMouse::StopMouseHider()
 {
     auto t = m_bD3DFS ? CMainFrame::Timer32HzSubscriber::CURSOR_HIDER_D3DFS : CMainFrame::Timer32HzSubscriber::CURSOR_HIDER;
-    m_pMainFrm->m_timer32Hz.Unsubscribe(t);
+    m_pMainFrame->m_timer32Hz.Unsubscribe(t);
     m_bMouseHiderStarted = false;
 }
 void CMouse::MouseHiderCallback()
 {
-    ASSERT(!m_pMainFrm->IsInteractiveVideo());
+    ASSERT(!m_pMainFrame->IsInteractiveVideo());
     if (GetTickCount() > m_dwMouseHiderStartTick + CURSOR_HIDE_TIMEOUT) {
         StopMouseHider();
         ASSERT(m_cursor != Cursor::NONE);
@@ -135,7 +135,7 @@ void CMouse::MouseHiderCallback()
 
 void CMouse::StartMouseLeaveTracker()
 {
-    ASSERT(!m_pMainFrm->IsInteractiveVideo());
+    ASSERT(!m_pMainFrame->IsInteractiveVideo());
     TRACKMOUSEEVENT tme = { sizeof(tme), TME_LEAVE, GetWnd() };
     if (TrackMouseEvent(&tme)) {
         m_bTrackingMouseLeave = true;
@@ -152,13 +152,13 @@ void CMouse::StopMouseLeaveTracker()
 
 CPoint CMouse::GetVideoPoint(const CPoint& point) const
 {
-    return m_bD3DFS ? point : point - m_pMainFrm->m_wndView.GetVideoRect().TopLeft();
+    return m_bD3DFS ? point : point - m_pMainFrame->m_wndView.GetVideoRect().TopLeft();
 }
 
 bool CMouse::IsOnFullscreenWindow() const
 {
-    bool bD3DFSActive = m_pMainFrm->IsD3DFullScreenMode();
-    return (m_pMainFrm->m_fFullScreen && !bD3DFSActive) || (m_bD3DFS && bD3DFSActive);
+    bool bD3DFSActive = m_pMainFrame->IsD3DFullScreenMode();
+    return (m_pMainFrame->m_fFullScreen && !bD3DFSActive) || (m_bD3DFS && bD3DFSActive);
 }
 
 bool CMouse::OnButton(UINT id, const CPoint& point, bool bOnFullscreen)
@@ -166,7 +166,7 @@ bool CMouse::OnButton(UINT id, const CPoint& point, bool bOnFullscreen)
     bool ret = false;
     WORD cmd = AssignedToCmd(id, bOnFullscreen);
     if (cmd) {
-        m_pMainFrm->PostMessage(WM_COMMAND, cmd);
+        m_pMainFrame->PostMessage(WM_COMMAND, cmd);
         ret = true;
     }
     return ret;
@@ -201,7 +201,7 @@ void CMouse::EventCallback(MpcEvent ev)
 // madVR compatibility layer for exclusive mode seekbar
 bool CMouse::UsingMVR() const
 {
-    return !!m_pMainFrm->m_pMVRSR;
+    return !!m_pMainFrame->m_pMVRSR;
 }
 void CMouse::MVRMove(UINT nFlags, const CPoint& point)
 {
@@ -209,7 +209,7 @@ void CMouse::MVRMove(UINT nFlags, const CPoint& point)
         WPARAM wp = nFlags;
         LPARAM lp = MAKELPARAM(point.x, point.y);
         LRESULT lr = 0;
-        m_pMainFrm->m_pMVRSR->ParentWindowProc(GetWnd(), WM_MOUSEMOVE, &wp, &lp, &lr);
+        m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_MOUSEMOVE, &wp, &lp, &lr);
     }
 }
 bool CMouse::MVRDown(UINT nFlags, const CPoint& point)
@@ -219,7 +219,7 @@ bool CMouse::MVRDown(UINT nFlags, const CPoint& point)
         WPARAM wp = nFlags;
         LPARAM lp = MAKELPARAM(point.x, point.y);
         LRESULT lr = 0;
-        ret = !!m_pMainFrm->m_pMVRSR->ParentWindowProc(GetWnd(), WM_LBUTTONDOWN, &wp, &lp, &lr);
+        ret = !!m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_LBUTTONDOWN, &wp, &lp, &lr);
     }
     return ret;
 }
@@ -230,7 +230,7 @@ bool CMouse::MVRUp(UINT nFlags, const CPoint& point)
         WPARAM wp = nFlags;
         LPARAM lp = MAKELPARAM(point.x, point.y);
         LRESULT lr = 0;
-        ret = !!m_pMainFrm->m_pMVRSR->ParentWindowProc(GetWnd(), WM_LBUTTONUP, &wp, &lp, &lr);
+        ret = !!m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_LBUTTONUP, &wp, &lp, &lr);
     }
     return ret;
 }
@@ -245,20 +245,20 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         return;
     }
     bool bIsOnFS = IsOnFullscreenWindow();
-    if ((!m_bD3DFS || !bIsOnFS) && ((ULONG)GetMessageTime() <= m_pMainFrm->m_dwPopupMenuHideTick + GetDoubleClickTime())) {
+    if ((!m_bD3DFS || !bIsOnFS) && ((ULONG)GetMessageTime() <= m_pMainFrame->m_dwPopupMenuHideTick + GetDoubleClickTime())) {
         return;
     }
-    auto mode = m_pMainFrm->GetPlaybackMode();
-    if (m_pMainFrm->GetLoadState() == MLS_LOADED && m_pMainFrm->GetPlaybackMode() == PM_DVD &&
-            (m_pMainFrm->IsD3DFullScreenMode() ^ m_bD3DFS) == 0 &&
-            (m_pMainFrm->m_pDVDC->ActivateAtPosition(GetVideoPoint(point)) == S_OK)) {
+    auto mode = m_pMainFrame->GetPlaybackMode();
+    if (m_pMainFrame->GetLoadState() == MLS_LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
+            (m_pMainFrame->IsD3DFullScreenMode() ^ m_bD3DFS) == 0 &&
+            (m_pMainFrame->m_pDVDC->ActivateAtPosition(GetVideoPoint(point)) == S_OK)) {
         return;
     }
-    if (m_bD3DFS && bIsOnFS && m_pMainFrm->m_OSD.OnLButtonDown(nFlags, point)) {
+    if (m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonDown(nFlags, point)) {
         return;
     }
     m_bLeftClicked = true;
-    m_drag = (!bIsOnFS && m_pMainFrm->IsCaptionHidden()) ||
+    m_drag = (!bIsOnFS && m_pMainFrame->IsCaptionHidden()) ||
              (!OnButton(wmcmd::LDOWN, point, bIsOnFS) && !bIsOnFS) ? Drag::BEGIN_DRAG : Drag::NO_DRAG;
     if (m_drag == Drag::BEGIN_DRAG) {
         GetWnd().SetCapture();
@@ -271,7 +271,7 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
     ReleaseCapture();
     if (!MVRUp(nFlags, point)) {
         bool bIsOnFS = IsOnFullscreenWindow();
-        if (!(m_bD3DFS && bIsOnFS && m_pMainFrm->m_OSD.OnLButtonUp(nFlags, point)) && m_bLeftClicked) {
+        if (!(m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point)) && m_bLeftClicked) {
             OnButton(wmcmd::LUP, point, bIsOnFS);
         }
     }
@@ -284,8 +284,8 @@ void CMouse::InternalOnLButtonDblClk(UINT nFlags, const CPoint& point)
     m_bLeftClicked = false;
     SetCursor(nFlags, point);
     GetWnd().SetCapture(); // if DOWN or DBLCLK command changes window position, we still want to receive UP event
-    if (!m_pMainFrm->IsInteractiveVideo()) {
-        m_bLeftClicked = (m_bD3DFS && IsOnFullscreenWindow()) || ((ULONG)GetMessageTime() > m_pMainFrm->m_dwPopupMenuHideTick + GetDoubleClickTime());
+    if (!m_pMainFrame->IsInteractiveVideo()) {
+        m_bLeftClicked = (m_bD3DFS && IsOnFullscreenWindow()) || ((ULONG)GetMessageTime() > m_pMainFrame->m_dwPopupMenuHideTick + GetDoubleClickTime());
     }
     if (m_bLeftClicked) {
         OnButton(wmcmd::LDOWN, point);
@@ -358,15 +358,15 @@ bool CMouse::SelectCursor(const CPoint& screenPoint, const CPoint& clientPoint, 
 {
     const auto& s = AfxGetAppSettings();
 
-    if (m_bD3DFS && m_pMainFrm->m_OSD.OnMouseMove(nFlags, clientPoint)) {
+    if (m_bD3DFS && m_pMainFrame->m_OSD.OnMouseMove(nFlags, clientPoint)) {
         StopMouseHider();
         m_cursor = Cursor::HAND;
         return true;
     }
 
-    if (m_pMainFrm->GetLoadState() == MLS_LOADED && m_pMainFrm->GetPlaybackMode() == PM_DVD &&
-            (m_pMainFrm->IsD3DFullScreenMode() ^ m_bD3DFS) == 0 &&
-            (m_pMainFrm->m_pDVDC->SelectAtPosition(GetVideoPoint(clientPoint)) == S_OK)) {
+    if (m_pMainFrame->GetLoadState() == MLS_LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
+            (m_pMainFrame->IsD3DFullScreenMode() ^ m_bD3DFS) == 0 &&
+            (m_pMainFrame->m_pDVDC->SelectAtPosition(GetVideoPoint(clientPoint)) == S_OK)) {
         StopMouseHider();
         m_cursor = Cursor::HAND;
         return true;
@@ -376,10 +376,10 @@ bool CMouse::SelectCursor(const CPoint& screenPoint, const CPoint& clientPoint, 
     bool bHidden = (m_cursor == Cursor::NONE);
     bool bHiddenAndMoved = bHidden && !PointEqualsImprecise(screenPoint, m_hideCursorPoint);
     bool bCanHide = !bMouseButtonDown &&
-                    (m_pMainFrm->GetLoadState() == MLS_LOADED || m_pMainFrm->m_controls.DelayShowNotLoaded()) &&
-                    !m_pMainFrm->IsInteractiveVideo() &&
+                    (m_pMainFrame->GetLoadState() == MLS_LOADED || m_pMainFrame->m_controls.DelayShowNotLoaded()) &&
+                    !m_pMainFrame->IsInteractiveVideo() &&
                     (m_switchingToFullscreen.first || IsOnFullscreenWindow() ||
-                     (s.bHideWindowedMousePointer && !(m_pMainFrm->IsD3DFullScreenMode() ^ m_bD3DFS)));
+                     (s.bHideWindowedMousePointer && !(m_pMainFrame->IsD3DFullScreenMode() ^ m_bD3DFS)));
 
     if (m_switchingToFullscreen.first) {
         if (bCanHide && PointEqualsImprecise(screenPoint, m_switchingToFullscreen.second)) {
@@ -406,7 +406,7 @@ bool CMouse::SelectCursor(const CPoint& screenPoint, const CPoint& clientPoint, 
 
 void CMouse::SetCursor(UINT nFlags, const CPoint& screenPoint, const CPoint& clientPoint)
 {
-    if (SelectCursor(screenPoint, clientPoint, nFlags) && !m_pMainFrm->IsInteractiveVideo()) {
+    if (SelectCursor(screenPoint, clientPoint, nFlags) && !m_pMainFrame->IsInteractiveVideo()) {
         ::SetCursor(m_cursors[m_cursor]);
     }
 }
@@ -434,7 +434,7 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
         if ((!bUpAssigned && screenPoint != m_beginDragPoint) ||
                 (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint))) {
             VERIFY(ReleaseCapture());
-            m_pMainFrm->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(m_beginDragPoint.x, m_beginDragPoint.y));
+            m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(m_beginDragPoint.x, m_beginDragPoint.y));
             m_drag = Drag::DRAGGED;
             m_bLeftClicked = false;
             ret = true;
@@ -455,7 +455,7 @@ void CMouse::InternalOnMouseMove(UINT nFlags, const CPoint& point)
     CPoint screenPoint(point);
     GetWnd().ClientToScreen(&screenPoint);
 
-    if (!TestDrag(screenPoint) && !m_pMainFrm->IsInteractiveVideo()) {
+    if (!TestDrag(screenPoint) && !m_pMainFrame->IsInteractiveVideo()) {
         if (!m_bTrackingMouseLeave) {
             StartMouseLeaveTracker();
         }
@@ -463,7 +463,7 @@ void CMouse::InternalOnMouseMove(UINT nFlags, const CPoint& point)
         MVRMove(nFlags, point);
     }
 
-    m_pMainFrm->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
+    m_pMainFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
 }
 
 void CMouse::InternalOnMouseLeave()

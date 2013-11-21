@@ -24,17 +24,20 @@
 #include "DSMPropertyBag.h"
 #include <memory>
 
+class CMainFrame;
+
 class CPlayerSeekBar : public CDialogBar
 {
     DECLARE_DYNAMIC(CPlayerSeekBar)
 public:
-    CPlayerSeekBar();
+    CPlayerSeekBar(CMainFrame* pMainFrame);
     virtual ~CPlayerSeekBar();
     virtual BOOL Create(CWnd* pParentWnd);
 
 private:
     enum { TIMER_SHOWHIDE_TOOLTIP = 1, TIMER_HOVER_CAPTURED };
 
+    CMainFrame* m_pMainFrame;
     REFERENCE_TIME m_rtStart, m_rtStop, m_rtPos;
     bool m_bEnabled;
     bool m_bHasDuration;
