@@ -10924,37 +10924,27 @@ void CMainFrame::OpenSetupInfoBar()
         CComBSTR bstr;
         CString title, author, copyright, rating, description;
         BeginEnumFilters(m_pGB, pEF, pBF) {
-            bool fEmpty = true;
             if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
                 if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
                     title = bstr.m_str;
-                    fEmpty = false;
                 }
                 bstr.Empty();
                 if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
                     author = bstr.m_str;
-                    fEmpty = false;
                 }
                 bstr.Empty();
                 if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
                     copyright = bstr.m_str;
-                    fEmpty = false;
                 }
                 bstr.Empty();
                 if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
                     rating = bstr.m_str;
-                    fEmpty = false;
                 }
                 bstr.Empty();
                 if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
                     description = bstr.m_str;
-                    fEmpty = false;
                 }
                 bstr.Empty();
-                if (!fEmpty) {
-                    RecalcLayout();
-                    break;
-                }
             }
         }
         EndEnumFilters;
@@ -10965,6 +10955,7 @@ void CMainFrame::OpenSetupInfoBar()
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_COPYRIGHT), copyright);
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), rating);
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+        RecalcLayout();
     } else if (GetPlaybackMode() == PM_DVD) {
         CString info('-');
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), info);
