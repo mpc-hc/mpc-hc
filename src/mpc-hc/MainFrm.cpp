@@ -2585,15 +2585,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             case EC_VIDEO_SIZE_CHANGED: {
                 TRACE(_T("\t%dx%d\n"), CSize((DWORD)evParam1));
 
-                WINDOWPLACEMENT wp;
-                wp.length = sizeof(wp);
-                GetWindowPlacement(&wp);
-
                 CSize size((DWORD)evParam1);
                 m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
 
-                if (s.fRememberZoomLevel
-                        && !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED)) {
+                if (GetLoadState() == MLS_LOADED && s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
                     ZoomVideoWindow();
                 } else {
                     MoveVideoWindow();
