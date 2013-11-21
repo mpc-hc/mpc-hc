@@ -392,7 +392,7 @@ int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
     unsigned int tmp;
     // minimum buffer size is 16
     DWORD sync = *(DWORD*)buf;
-    BYTE hdr[14]; //minimum header size is 14
+    BYTE hdr[14] = {0}; //minimum header size is 14
     bool isDTS14 = false;
     switch (sync) {
         case 0x0180fe7f:    // '7FFE8001' 16 bits and big endian bitstream

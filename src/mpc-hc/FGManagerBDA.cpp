@@ -358,7 +358,7 @@ HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, RE
     CComQIPtr<IBDA_Topology> pTop(pTuner);
     CheckPointer(pTop, E_NOINTERFACE);
 
-    ULONG NodeTypes;
+    ULONG NodeTypes = 0;
     ULONG NodeType[32];
 
     HRESULT hr = pTop->GetNodeTypes(&NodeTypes, _countof(NodeType), NodeType);

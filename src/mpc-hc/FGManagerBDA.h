@@ -92,6 +92,7 @@ private:
         if (SUCCEEDED(m_pMap->EnumPIDMap(&pEnumMap))) {
             PID_MAP maps[8];
             ULONG   nbPids = 0;
+            ZeroMemory(maps, sizeof(maps));
 
             if (pEnumMap->Next(_countof(maps), maps, &nbPids) == S_OK) {
                 for (ULONG i = 0; i < nbPids; i++) {
