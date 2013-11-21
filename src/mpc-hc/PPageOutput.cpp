@@ -540,6 +540,7 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
 
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR9REN), GetDlgItem(IDC_VIDRND_COMBO));
+            break;
         case VIDRNDT_DS_EVR_CUSTOM:
             if (m_iD3D9RenderDeviceCtrl.GetCount() > 1) {
                 GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
