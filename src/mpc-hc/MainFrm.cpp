@@ -3116,7 +3116,6 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 
 LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 {
-    UNREFERENCED_PARAMETER(wParam);
     ASSERT(m_iMediaLoadState == MLS_LOADING);
     auto& s = AfxGetAppSettings();
 
