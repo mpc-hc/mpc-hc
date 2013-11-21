@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -105,7 +105,9 @@ void CPlayerInfoBar::RemoveAllLines()
     m_label.RemoveAll();
     m_info.RemoveAll();
 
-    Relayout();
+    // invalidate and redraw bypassing message queue
+    Invalidate();
+    UpdateWindow();
 }
 
 BOOL CPlayerInfoBar::Create(CWnd* pParentWnd)
