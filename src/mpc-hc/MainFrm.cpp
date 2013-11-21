@@ -3155,12 +3155,11 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     // current playlist item was loaded successfully
     m_wndPlaylistBar.SetCurValid(true);
 
-    // restore magnification if requested
-    if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen) {
-        WINDOWPLACEMENT wp = { sizeof(wp) };
-        if (GetWindowPlacement(&wp) && wp.showCmd != SW_SHOWMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
-            ZoomVideoWindow(false);
-        }
+    // set item duration in the playlist
+    // TODO: GetDuration() should be refactored out of this place, to some aggregating class
+    REFERENCE_TIME rtDur = 0;
+    if (m_pMS && m_pMS->GetDuration(&rtDur) == S_OK) {
+        m_wndPlaylistBar.SetCurTime(rtDur);
     }
 
     // process /pns command-line arg, then discard it
@@ -3175,19 +3174,6 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         }
         s.strPnSPreset.Empty();
     }
-
-    // start playback if requested
-    m_bFirstPlay = true;
-    if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
-        OnPlayPlay();
-    } else {
-        OnPlayPause();
-        // If we don't start playing immediately, we need to initialize
-        // the seekbar and the time counter.
-        OnTimer(TIMER_STREAMPOSPOLLER);
-        OnTimer(TIMER_STREAMPOSPOLLER2);
-    }
-    s.nCLSwitches &= ~CLSW_OPEN;
 
     // initiate toolbars with the new media
     OpenSetupInfoBar();
@@ -3205,12 +3191,26 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         }
     }
 
-    // set item duration in the playlist
-    // TODO: GetDuration() should be refactored out of this place, to some aggregating class
-    REFERENCE_TIME rtDur = 0;
-    if (m_pMS && m_pMS->GetDuration(&rtDur) == S_OK) {
-        m_wndPlaylistBar.SetCurTime(rtDur);
+    // restore magnification if requested
+    if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen) {
+        WINDOWPLACEMENT wp = { sizeof(wp) };
+        if (GetWindowPlacement(&wp) && wp.showCmd != SW_SHOWMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
+            ZoomVideoWindow(false);
+        }
     }
+
+    // start playback if requested
+    m_bFirstPlay = true;
+    if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
+        OnPlayPlay();
+    } else {
+        OnPlayPause();
+        // If we don't start playing immediately, we need to initialize
+        // the seekbar and the time counter.
+        OnTimer(TIMER_STREAMPOSPOLLER);
+        OnTimer(TIMER_STREAMPOSPOLLER2);
+    }
+    s.nCLSwitches &= ~CLSW_OPEN;
 
     // notify listeners
     SendNowPlayingToSkype();
