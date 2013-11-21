@@ -678,7 +678,8 @@ CMainFrame::CMainFrame()
     , m_bOpenedThroughThread(false)
     , m_evOpenPrivateFinished(FALSE, TRUE)
     , m_evClosePrivateFinished(FALSE, TRUE)
-    , m_dwMenuHideTick(0)
+    , m_pVisiblePopupMenu(nullptr)
+    , m_dwPopupMenuHideTick(0)
     , m_bWasSnapped(false)
     , m_bIsBDPlay(false)
     , m_bLockedZoomVideoWindow(false)
@@ -2940,7 +2941,10 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
 {
     __super::OnUnInitMenuPopup(pPopupMenu, nFlags);
-    m_dwMenuHideTick = GetTickCount();
+    if (m_pVisiblePopupMenu == pPopupMenu) {
+        m_pVisiblePopupMenu = nullptr;
+        m_dwPopupMenuHideTick = GetTickCount();
+    }
 }
 
 BOOL CMainFrame::OnMenu(CMenu* pMenu)
@@ -2960,11 +2964,13 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
         }
     }
 
-    pMenu->TrackPopupMenu(TPM_RIGHTBUTTON | TPM_NOANIMATION, point.x, point.y, this);
-
     if (AfxGetMyApp()->m_fClosingState) {
         return FALSE; //prevent crash when player closes with context menu open
     }
+
+    m_pVisiblePopupMenu = pMenu;
+
+    pMenu->TrackPopupMenu(TPM_RIGHTBUTTON | TPM_NOANIMATION, point.x, point.y, this);
 
     return TRUE;
 }

@@ -245,7 +245,7 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         return;
     }
     bool bIsOnFS = IsOnFullscreenWindow();
-    if ((!m_bD3DFS || !bIsOnFS) && ((ULONG)GetMessageTime() <= m_pMainFrm->m_dwMenuHideTick + GetDoubleClickTime())) {
+    if ((!m_bD3DFS || !bIsOnFS) && ((ULONG)GetMessageTime() <= m_pMainFrm->m_dwPopupMenuHideTick + GetDoubleClickTime())) {
         return;
     }
     auto mode = m_pMainFrm->GetPlaybackMode();
@@ -285,7 +285,7 @@ void CMouse::InternalOnLButtonDblClk(UINT nFlags, const CPoint& point)
     SetCursor(nFlags, point);
     GetWnd().SetCapture(); // if DOWN or DBLCLK command changes window position, we still want to receive UP event
     if (!m_pMainFrm->IsInteractiveVideo()) {
-        m_bLeftClicked = (m_bD3DFS && IsOnFullscreenWindow()) || ((ULONG)GetMessageTime() > m_pMainFrm->m_dwMenuHideTick + GetDoubleClickTime());
+        m_bLeftClicked = (m_bD3DFS && IsOnFullscreenWindow()) || ((ULONG)GetMessageTime() > m_pMainFrm->m_dwPopupMenuHideTick + GetDoubleClickTime());
     }
     if (m_bLeftClicked) {
         OnButton(wmcmd::LDOWN, point);

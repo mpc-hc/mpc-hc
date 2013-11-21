@@ -960,7 +960,8 @@ protected:
     void WTSRegisterSessionNotification();
     void WTSUnRegisterSessionNotification();
 
-    DWORD m_dwMenuHideTick;
+    CMenu* m_pVisiblePopupMenu;
+    DWORD m_dwPopupMenuHideTick;
 
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
