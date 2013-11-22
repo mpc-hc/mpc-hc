@@ -6076,6 +6076,9 @@ void CMainFrame::OnUpdateViewControlBar(CCmdUI* pCmdUI)
 {
     const UINT nID = pCmdUI->m_nID - ID_VIEW_SEEKER;
     pCmdUI->SetCheck(m_controls.ControlChecked(static_cast<CMainFrameControls::Toolbar>(nID)));
+    if (pCmdUI->m_nID == ID_VIEW_SEEKER) {
+        pCmdUI->Enable(GetPlaybackMode() != PM_CAPTURE);
+    }
 }
 
 void CMainFrame::OnViewSubresync()

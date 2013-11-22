@@ -32,18 +32,17 @@ class CMainFrameControls
     friend class CPlayerBar; // notifies of panel re-dock
     CMainFrame* m_pMainFrame;
 
-    struct _ControlsVisibilityState {
+    struct ControlsVisibilityState {
         UINT nVisibleCS;
+        UINT nCurrentCS;
         CPoint lastShowPoint;
         bool bLastCanAutoHideToolbars;
         bool bLastCanAutoHidePanels;
-        _ControlsVisibilityState()
-            : nVisibleCS(0)
-            , bLastCanAutoHideToolbars(false)
-            , bLastCanAutoHidePanels(false)
-        {}
+        ControlsVisibilityState();
     } m_controlsVisibilityState;
 
+    UINT GetEffectiveToolbarsSelection();
+    bool ShowToolbarsSelection();
     bool ShowToolbars(UINT nCS);
 
     bool m_bDelayShowNotLoaded;
@@ -81,7 +80,7 @@ public:
     bool ControlChecked(Panel panel);
     void ToggleControl(Toolbar toolbar);
     void ToggleControl(Panel panel);
-    void SetToolbarsSelection(UINT nCS, bool bShow = false);
+    void SetToolbarsSelection(UINT nCS, bool bDelayHide = false);
 
     void LoadState();
     void SaveState();

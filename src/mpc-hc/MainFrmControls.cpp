@@ -22,6 +22,43 @@
 #include "MainFrmControls.h"
 #include "MainFrm.h"
 
+CMainFrameControls::ControlsVisibilityState::ControlsVisibilityState()
+    : nVisibleCS(0)
+    , bLastCanAutoHideToolbars(false)
+    , bLastCanAutoHidePanels(false)
+{
+    nCurrentCS = AfxGetAppSettings().nCS;
+}
+
+UINT CMainFrameControls::GetEffectiveToolbarsSelection()
+{
+    const auto& s = AfxGetAppSettings();
+    UINT ret = s.nCS;
+    if (m_pMainFrame->GetPlaybackMode() == PM_CAPTURE) {
+        ret &= ~CS_SEEKBAR;
+    }
+    return ret;
+}
+
+bool CMainFrameControls::ShowToolbarsSelection()
+{
+    auto& st = m_controlsVisibilityState;
+    const auto oldCS = st.nCurrentCS;
+    st.nCurrentCS = GetEffectiveToolbarsSelection();
+    bool bRecalcLayout = false;
+    if (!InFullscreenWithPermahiddenToolbars()) {
+        bRecalcLayout = ShowToolbars(st.nCurrentCS);
+        if (st.nCurrentCS != oldCS && !ToolbarsCoverVideo() && !m_pMainFrame->IsZoomed()) {
+            CRect newRect;
+            m_pMainFrame->GetWindowRect(newRect);
+            newRect.bottom += GetToolbarsHeight(st.nCurrentCS);
+            newRect.bottom -= GetToolbarsHeight(oldCS);
+            m_pMainFrame->MoveWindow(newRect);
+        }
+    }
+    return bRecalcLayout;
+}
+
 bool CMainFrameControls::ShowToolbars(UINT nCS)
 {
     bool bRecalcLayout = false;
@@ -83,9 +120,9 @@ CMainFrameControls::~CMainFrameControls()
 
 bool CMainFrameControls::ControlChecked(Toolbar toolbar)
 {
-    const auto& s = AfxGetAppSettings();
+    const auto& st = m_controlsVisibilityState;
     const auto nID = static_cast<UINT>(toolbar);
-    return !!(s.nCS & (1 << nID));
+    return !!(st.nCurrentCS & (1 << nID));
 }
 
 bool CMainFrameControls::ControlChecked(Panel panel)
@@ -123,28 +160,15 @@ void CMainFrameControls::ToggleControl(Panel panel)
     }
 }
 
-void CMainFrameControls::SetToolbarsSelection(UINT nCS, bool bShow/* = false*/)
+void CMainFrameControls::SetToolbarsSelection(UINT nCS, bool bDelayHide/* = false*/)
 {
-    auto& s = AfxGetAppSettings();
-    if (nCS != s.nCS) {
-        DelayShowNotLoaded(false);
-        const auto oldCS = s.nCS;
-        s.nCS = nCS;
-        if (!InFullscreenWithPermahiddenToolbars()) {
-            if (bShow) {
-                LockHideZone(DOCK_BOTTOM);
-            }
-            if (m_controlsVisibilityState.nVisibleCS || bShow) {
-                ShowToolbars(s.nCS);
-            }
-            if (!ToolbarsCoverVideo() && !m_pMainFrame->IsZoomed()) {
-                CRect newRect;
-                m_pMainFrame->GetWindowRect(newRect);
-                newRect.bottom += GetToolbarsHeight(s.nCS);
-                newRect.bottom -= GetToolbarsHeight(oldCS);
-                m_pMainFrame->MoveWindow(newRect);
-            }
-        }
+    DelayShowNotLoaded(false);
+    if (bDelayHide) {
+        LockHideZone(DOCK_BOTTOM);
+    }
+    AfxGetAppSettings().nCS = nCS;
+    if (ShowToolbarsSelection()) {
+        m_pMainFrame->RecalcLayout();
     }
 }
 
@@ -451,7 +475,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                         DelayShowNotLoaded(false);
                         mask.show(maskAll);
                     }
-                    if (ShowToolbars(s.nCS)) {
+                    if (ShowToolbarsSelection()) {
                         bRecalcLayout = true;
                     }
                     bSetTick = true;
@@ -586,7 +610,7 @@ unsigned CMainFrameControls::GetVisibleToolbarsHeight() const
 
 unsigned CMainFrameControls::GetToolbarsHeight() const
 {
-    return GetToolbarsHeight(AfxGetAppSettings().nCS);
+    return GetToolbarsHeight(m_controlsVisibilityState.nCurrentCS);
 }
 
 void CMainFrameControls::DelayShowNotLoaded(bool bDoDelay)
