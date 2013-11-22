@@ -45,8 +45,19 @@ ECHO. & ECHO Signing "%~1"...
 
 signtool /? 2>NUL || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL
 
+REM Repeat n times when signing fails
+SET REPEAT=3
+SET TRY=0
+
+:SIGN
 signtool sign %SIGN_CMD% "%~1"
+SET /A TRY+=1
 IF %ERRORLEVEL% NEQ 0 (
+  IF TRY LSS REPEAT (
+    REM Wait 5 seconds before next try
+    PING -n 5 127.0.0.1 >NUL
+    GOTO SIGN
+  )
   SET SIGN_ERROR=True
   GOTO END
 )
