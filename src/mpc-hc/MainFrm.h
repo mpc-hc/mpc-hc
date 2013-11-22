@@ -252,6 +252,8 @@ private:
 
     // windowing
 
+    bool m_bDelaySetOutputRect;
+
     CRect m_lastWindowRect;
 
     void SetUIPreset(int iCaptionMenuMode, UINT nCS);

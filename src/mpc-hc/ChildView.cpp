@@ -24,9 +24,6 @@
 #include "ChildView.h"
 #include "MainFrm.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// CChildView
-
 CChildView::CChildView(CMainFrame* pMainFrame)
     : m_vrect(0, 0, 0, 0)
     , CMouseWnd(pMainFrame)
@@ -154,17 +151,10 @@ BEGIN_MESSAGE_MAP(CChildView, CMouseWnd)
     ON_WM_NCLBUTTONDOWN()
 END_MESSAGE_MAP()
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CChildView message handlers
-
 void CChildView::OnPaint()
 {
-    CPaintDC dc(this); // device context for painting
-
-    ((CMainFrame*)GetParentFrame())->RepaintVideo();
-
-    // Do not call CWnd::OnPaint() for painting messages
+    CPaintDC dc(this);
+    m_pMainFrame->RepaintVideo();
 }
 
 BOOL CChildView::OnEraseBkgnd(CDC* pDC)
@@ -199,8 +189,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 
 void CChildView::OnSize(UINT nType, int cx, int cy)
 {
-    CWnd::OnSize(nType, cx, cy);
-
+    __super::OnSize(nType, cx, cy);
     m_pMainFrame->MoveVideoWindow();
 }
 

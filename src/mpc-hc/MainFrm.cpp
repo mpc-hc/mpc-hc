@@ -694,6 +694,7 @@ CMainFrame::CMainFrame()
     , m_wndToolBar(this)
     , m_wndNavigationBar(this)
     , m_OSD(this)
+    , m_bDelaySetOutputRect(false)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -1157,9 +1158,12 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
     GetWindowRect(&r);
     MINMAXINFO mmi;
     ZeroMemory(&mmi, sizeof(mmi));
-    SendMessage(WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
-    r |= CRect(r.TopLeft(), CSize(r.Width(), mmi.ptMinTrackSize.y));
-    MoveWindow(&r);
+    OnGetMinMaxInfo(&mmi);
+    const POINT& min = mmi.ptMinTrackSize;
+    if (r.Height() < min.y || r.Width() < min.x) {
+        r |= CRect(r.TopLeft(), CSize(min));
+        MoveWindow(r);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -3190,13 +3194,18 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         }
     }
 
-    // restore magnification if requested
-    if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen) {
-        WINDOWPLACEMENT wp = { sizeof(wp) };
-        if (GetWindowPlacement(&wp) && wp.showCmd != SW_SHOWMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
-            ZoomVideoWindow(false);
-        }
+    // auto-zoom if requested
+    if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen && !IsZoomed() && !IsIconic()) {
+        ZoomVideoWindow(false);
     }
+
+    // update control bar areas and paint bypassing the message queue
+    RecalcLayout();
+    UpdateWindow();
+
+    // the window is repositioned and repainted, set video renderer output rect
+    m_bDelaySetOutputRect = false;
+    MoveVideoWindow();
 
     // start playback if requested
     m_bFirstPlay = true;
@@ -9446,7 +9455,7 @@ void CMainFrame::AutoChangeMonitorMode()
 
 void CMainFrame::MoveVideoWindow(bool fShowStats)
 {
-    if ((m_iMediaLoadState == MLS_LOADED) && !m_fAudioOnly && IsWindowVisible()) {
+    if (!m_bDelaySetOutputRect && m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && IsWindowVisible()) {
         CRect wr;
         if (IsD3DFullScreenMode()) {
             m_pFullscreenWnd->GetClientRect(wr);
@@ -9726,8 +9735,6 @@ void CMainFrame::ZoomVideoWindow(bool snap/* = true*/, double scale/* = ZOOM_DEF
     if ((m_fFullScreen || !s.HasFixedWindowSize()) && !IsD3DFullScreenMode()) {
         MoveWindow(r);
     }
-
-    //ShowWindow(SW_SHOWNORMAL);
 
     MoveVideoWindow();
 }
@@ -10959,7 +10966,6 @@ void CMainFrame::OpenSetupInfoBar()
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_COPYRIGHT), copyright);
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), rating);
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
-        RecalcLayout();
     } else if (GetPlaybackMode() == PM_DVD) {
         CString info('-');
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), info);
@@ -10967,7 +10973,6 @@ void CMainFrame::OpenSetupInfoBar()
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_VIDEO), info);
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUDIO), info);
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), info);
-        RecalcLayout();
     }
 }
 
@@ -11012,13 +11017,11 @@ void CMainFrame::OpenSetupStatsBar()
                 m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
                 m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info);
             }
-            RecalcLayout();
         }
 
         if (!m_pBI && (m_pBI = pBF)) {
             m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
             m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info); // FIXME: shouldn't be here
-            RecalcLayout();
         }
     }
     EndEnumFilters;
@@ -13925,6 +13928,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
     OpenSetupAudio();
     OpenSetupStatsBar();
     OpenSetupStatusBar();
+    RecalcLayout();
+
     SetupVMR9ColorControl();
 
     if (m_iMediaLoadState == MLS_LOADED) {
@@ -14170,6 +14175,9 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     } else {
         m_pVideoWnd = &m_wndView;
     }
+
+    // don't set video renderer output rect until the window is repositioned
+    m_bDelaySetOutputRect = true;
 
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()
     if (fUseThread) {
