@@ -1244,7 +1244,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
         setLarger(lpMMI->ptMinTrackSize.x, x);
     }
 
-    if (IsWindow(m_wndToolBar.m_hWnd) && m_wndToolBar.IsVisible()) {
+    if (IsWindow(m_wndToolBar.m_hWnd) && m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
         // Ensure that Controls toolbar will fit
         setLarger(lpMMI->ptMinTrackSize.x, m_wndToolBar.GetMinWidth());
     }
