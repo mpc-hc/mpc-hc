@@ -25,6 +25,8 @@
 
 class CPlayerBar : public CSizingControlBarG
 {
+    friend class CMainFrameControls; // for accessing m_szMinVert, m_szMinHorz and m_cxEdge
+
     DECLARE_DYNAMIC(CPlayerBar)
 
     bool m_bAutohidden;

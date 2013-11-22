@@ -1223,34 +1223,11 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
         a = max(a, b);
     };
 
-    lpMMI->ptMinTrackSize.x = 0;
-    lpMMI->ptMinTrackSize.y = 0;
-
     const long saneSize = 110; // TODO: make it dpi-aware
 
     {
-        // Add docked controls
-        unsigned uTop, uLeft, uRight, uBottom;
-        m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
-        long x = 0, y = 0;
-        if (uTop) {
-            setLarger(x, saneSize);
-            y += uTop;
-        }
-        if (uLeft) {
-            x += uLeft;
-            setLarger(y, saneSize);
-        }
-        if (uRight) {
-            x += uRight;
-            setLarger(y, saneSize);
-        }
-        if (uBottom) {
-            setLarger(x, saneSize);
-            y += uBottom;
-        }
-        lpMMI->ptMinTrackSize.x += x;
-        lpMMI->ptMinTrackSize.y += y;
+        // Begin with docked controls
+        lpMMI->ptMinTrackSize = CPoint(m_controls.GetDockZonesMinSize(saneSize));
     }
 
     {

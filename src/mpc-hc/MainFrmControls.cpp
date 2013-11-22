@@ -179,6 +179,61 @@ void CMainFrameControls::GetVisibleDockZones(unsigned& uTop, unsigned& uLeft, un
     GetDockZonesInternal(uTop, uLeft, uRight, uBottom, bDoEnum, true);
 }
 
+CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
+{
+    EnumPanelZones();
+
+    auto calcDock = [&](DockZone zone) {
+        bool bHorz = (zone == DOCK_TOP || zone == DOCK_BOTTOM);
+        const auto& panels = m_panelZones.find(zone)->second;
+        auto pDock = m_panelDocks.find(zone)->second;
+        unsigned stackSize = 0;
+        unsigned maxRowSize = 0, rowSize = 0;
+        bool bNewRow = true;
+        for (int i = 0; i < pDock->m_arrBars.GetCount(); i++) {
+            auto pBar = static_cast<CPlayerBar*>(pDock->m_arrBars[i]);
+            if (!pBar && !bNewRow) {
+                bNewRow = true;
+                maxRowSize = max(maxRowSize, rowSize);
+                rowSize = 0;
+            }
+            if (pBar) {
+                for (const auto panel : panels) {
+                    if (m_panels[panel] == pBar) {
+                        rowSize += max((int)uSaneFallback, (bHorz ? pBar->m_szMinHorz.cx : pBar->m_szMinVert.cy)) + (rowSize ? 8 : 6) + pBar->m_cxEdge;
+                        if (bNewRow) {
+                            CSize size = pBar->CalcFixedLayout(TRUE, bHorz);
+                            stackSize += (bHorz ? size.cy : size.cx) - (stackSize ? 2 : 4);
+                            bNewRow = false;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return bHorz ? CSize(maxRowSize, stackSize) : CSize(stackSize, maxRowSize);
+    };
+
+    const CSize sizeTop(m_panelZones.find(DOCK_TOP) != std::end(m_panelZones) ? calcDock(DOCK_TOP) : 0);
+    const CSize sizeLeft(m_panelZones.find(DOCK_LEFT) != std::end(m_panelZones) ? calcDock(DOCK_LEFT) : 0);
+    const CSize sizeRight(m_panelZones.find(DOCK_RIGHT) != std::end(m_panelZones) ? calcDock(DOCK_RIGHT) : 0);
+    const CSize sizeBottom(m_panelZones.find(DOCK_BOTTOM) != std::end(m_panelZones) ? calcDock(DOCK_BOTTOM) : 0);
+
+    CSize ret;
+    ret.cx = max(sizeLeft.cx + sizeRight.cx, max(sizeTop.cx, sizeBottom.cx));
+    ret.cy = sizeTop.cy + sizeBottom.cy + max(sizeLeft.cy, sizeRight.cy);
+    const unsigned uToolbars = GetToolbarsHeight();
+    if (sizeBottom.cy && uToolbars) {
+        ret.cy += 2;
+    }
+    if (uToolbars) {
+        ret.cx = max(ret.cx, (int)uSaneFallback);
+    }
+    ret.cy += uToolbars;
+
+    return ret;
+}
+
 bool CMainFrameControls::PanelsCoverVideo() const
 {
     const auto& s = AfxGetAppSettings();

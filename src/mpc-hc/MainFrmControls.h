@@ -88,6 +88,7 @@ public:
 
     void GetDockZones(unsigned& uTop, unsigned& uLeft, unsigned& uRight, unsigned& uBottom, bool bDoEnum = true);
     void GetVisibleDockZones(unsigned& uTop, unsigned& uLeft, unsigned& uRight, unsigned& uBottom, bool bDoEnum = true);
+    CSize GetDockZonesMinSize(unsigned uSaneFallback);
 
     bool PanelsCoverVideo() const;
     bool ToolbarsCoverVideo() const;
