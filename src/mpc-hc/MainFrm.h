@@ -953,6 +953,7 @@ public:
     bool        m_bLockedZoomVideoWindow;
     int         m_nLockedZoomVideoWindow;
     bool        m_fSetChannelActive;
+    bool        m_fDVBChannelActive;
 
     void        SetLoadState(MLS eState);
     MLS         GetLoadState() const;
