@@ -1539,11 +1539,11 @@ std::string Ztring::To_UTF8 () const
             #if defined(_MSC_VER)
                 #pragma warning(push)
                 #pragma warning(disable:4127)
-            #endif //defined(__VISUALC__)
+            #endif //defined(_MSC_VER)
             if (sizeof(wchar_t) == 2)
             #if defined(_MSC_VER)
                 #pragma warning(pop)
-            #endif //defined(__VISUALC__)
+            #endif //defined(_MSC_VER)
                 wc = (int16u) *Z; // avoid a cast problem if wchar_t is signed.
             else
                 wc = *Z;

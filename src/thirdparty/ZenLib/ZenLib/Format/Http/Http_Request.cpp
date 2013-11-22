@@ -74,7 +74,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
         ;
     else if (Method.size()==4 && Method[0]=='P' && Method[1]=='O' && Method[2]=='S' && Method[3]=='T')
         ;
-    else if (Method.size()==4 && Method[0]=='H' && Method[1]=='E' && Method[2]=='A' && Method[2]=='D')
+    else if (Method.size()==4 && Method[0]=='H' && Method[1]=='E' && Method[2]=='A' && Method[3]=='D')
         Http->HeadersOnly=true;
     else
     {

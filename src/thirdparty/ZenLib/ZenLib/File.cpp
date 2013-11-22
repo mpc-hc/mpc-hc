@@ -593,12 +593,12 @@ int64u File::Size_Get()
             File_Size=lseek(File_Handle, 0, SEEK_END);
             lseek(File_Handle, CurrentPos, SEEK_SET);
             */
-            streampos CurrentPos=((fstream*)File_Handle)->tellg();
-            if (CurrentPos!=(streampos)-1)
+            fstream::pos_type CurrentPos=((fstream*)File_Handle)->tellg();
+            if (CurrentPos!=(fstream::pos_type)-1)
             {
                 ((fstream*)File_Handle)->seekg(0, ios_base::end);
                 Size=((fstream*)File_Handle)->tellg();
-                ((fstream*)File_Handle)->seekg(CurrentPos, ios_base::beg);
+                ((fstream*)File_Handle)->seekg(CurrentPos);
             }
             else
                 Size=(int64u)-1;
@@ -609,7 +609,7 @@ int64u File::Size_Get()
                 if (bRet == FALSE)
                     return (int64u)-1;
                 Size=x.QuadPart;
-            #else 
+            #else
                 DWORD High;DWORD Low=GetFileSize(File_Handle, &High);
                 if (Low==INVALID_FILE_SIZE && GetLastError()!=NO_ERROR)
                     return (int64u)-1;
