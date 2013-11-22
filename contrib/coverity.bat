@@ -30,6 +30,10 @@ IF DEFINED COVDIR IF NOT EXIST "%COVDIR%" (
 
 
 CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO vcvarsall.bat call failed.
+  GOTO End
+)
 
 IF EXIST "cov-int" RD /q /s "cov-int"
 

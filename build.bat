@@ -166,6 +166,7 @@ IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
 IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=x86_amd64)
 CALL "%TOOLSET%" %ARCH%
+IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters %PPLATFORM%

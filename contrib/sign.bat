@@ -25,8 +25,8 @@ IF "%~1" == "" (
   GOTO END
 )
 
-IF NOT DEFINED VS110COMNTOOLS (
-  ECHO %~nx0: Visual Studio does not seem to be installed...
+IF NOT DEFINED VS120COMNTOOLS (
+  ECHO %~nx0: Visual Studio 2013 does not seem to be installed...
   SET SIGN_ERROR=True
   GOTO END
 )
@@ -43,7 +43,11 @@ SET /P SIGN_CMD=<%~dp0..\signinfo.txt
 TITLE Signing "%~1"...
 ECHO. & ECHO Signing "%~1"...
 
-signtool /? 2>NUL || CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL
+signtool /? 2>NUL || CALL "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO vcvarsall.bat call failed.
+  GOTO End
+)
 
 REM Repeat n times when signing fails
 SET REPEAT=3
