@@ -9709,9 +9709,8 @@ void CMainFrame::ZoomVideoWindow(bool snap/* = true*/, double scale/* = ZOOM_DEF
                 r.top = r.bottom - h;
             }
         } else {    // center window
-            CPoint cp = r.CenterPoint();
-            r.left = cp.x - w / 2;
-            r.top = cp.y - h / 2;
+            r.left += (r.right - r.left) / 2 - w / 2;
+            r.top += (r.bottom - r.top) / 2 - h / 2;
             m_bWasSnapped = false;
         }
     }
