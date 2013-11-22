@@ -3194,6 +3194,10 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         }
     }
 
+    // we don't want to wait until timers initialize the seekbar and the time counter
+    OnTimer(TIMER_STREAMPOSPOLLER);
+    OnTimer(TIMER_STREAMPOSPOLLER2);
+
     // auto-zoom if requested
     if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen && !IsZoomed() && !IsIconic()) {
         ZoomVideoWindow(false);
@@ -3213,10 +3217,6 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         OnPlayPlay();
     } else {
         OnPlayPause();
-        // If we don't start playing immediately, we need to initialize
-        // the seekbar and the time counter.
-        OnTimer(TIMER_STREAMPOSPOLLER);
-        OnTimer(TIMER_STREAMPOSPOLLER2);
     }
     s.nCLSwitches &= ~CLSW_OPEN;
 
@@ -11030,8 +11030,6 @@ void CMainFrame::OpenSetupStatusBar()
 {
     m_wndStatusBar.ShowTimer(true);
 
-    //
-
     if (!m_fCustomGraph) {
         UINT id = IDB_AUDIOTYPE_NOAUDIO;
 
@@ -11074,8 +11072,6 @@ void CMainFrame::OpenSetupStatusBar()
         m_wndStatusBar.SetStatusBitmap(id);
     }
 
-    //
-
     HICON hIcon = nullptr;
 
     if (GetPlaybackMode() == PM_FILE) {
@@ -11084,8 +11080,6 @@ void CMainFrame::OpenSetupStatusBar()
         hIcon = LoadIcon(ext, true);
     } else if (GetPlaybackMode() == PM_DVD) {
         hIcon = LoadIcon(_T(".ifo"), true);
-    } else if (GetPlaybackMode() == PM_DVD) {
-        //hIcon = ; // TODO
     }
 
     m_wndStatusBar.SetStatusTypeIcon(hIcon);
