@@ -116,7 +116,7 @@ void CPlayerNavigationDialog::UpdateElementList()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (s.iDefaultCaptureDevice == 1) {
+    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
         m_ChannelList.ResetContent();
 
         int nCurrentChannel = s.nDVBLastChannel;
@@ -136,7 +136,6 @@ void CPlayerNavigationDialog::UpdateElementList()
             }
         }
     }
-
 }
 
 void CPlayerNavigationDialog::UpdatePos(int nID)

@@ -87,7 +87,8 @@ enum {
     PM_NONE,
     PM_FILE,
     PM_DVD,
-    PM_CAPTURE
+    PM_ANALOG_CAPTURE,
+    PM_DIGITAL_CAPTURE
 };
 
 interface __declspec(uuid("6E8D4A21-310C-11d0-B79A-00AA003767A7")) // IID_IAMLine21Decoder
@@ -377,6 +378,7 @@ public:
     void StopWebServer();
 
     int GetPlaybackMode() const { return m_iPlaybackMode; }
+    bool IsPlaybackCaptureMode() const { return GetPlaybackMode() == PM_ANALOG_CAPTURE || GetPlaybackMode() == PM_DIGITAL_CAPTURE; }
     void SetPlaybackMode(int iNewStatus);
     bool IsMuted() { return m_wndToolBar.GetVolume() == -10000; }
     int GetVolume() { return m_wndToolBar.m_volctrl.GetPos(); }

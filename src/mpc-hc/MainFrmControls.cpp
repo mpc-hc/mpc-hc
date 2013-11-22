@@ -34,7 +34,8 @@ UINT CMainFrameControls::GetEffectiveToolbarsSelection()
 {
     const auto& s = AfxGetAppSettings();
     UINT ret = s.nCS;
-    if (m_pMainFrame->GetPlaybackMode() == PM_CAPTURE) {
+    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE
+            || m_pMainFrame->GetPlaybackMode() == PM_ANALOG_CAPTURE) {
         ret &= ~CS_SEEKBAR;
     }
     if (m_pMainFrame->GetLoadState() == MLS::LOADED && m_pMainFrame->m_fAudioOnly && !ret) {

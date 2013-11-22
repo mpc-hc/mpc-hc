@@ -1390,7 +1390,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     CAppSettings& s = AfxGetAppSettings();
 
     m.AppendMenu(MF_STRING | (!bOnItem ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_OPEN, ResStr(IDS_PLAYLIST_OPEN));
-    if (((CMainFrame*)AfxGetMainWnd())->GetPlaybackMode() == PM_CAPTURE) {
+    if (((CMainFrame*)AfxGetMainWnd())->GetPlaybackMode() == PM_ANALOG_CAPTURE) {
         m.AppendMenu(MF_STRING | MF_ENABLED, M_ADD, ResStr(IDS_PLAYLIST_ADD));
     }
     m.AppendMenu(MF_STRING | (!bOnItem ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_REMOVE, ResStr(IDS_PLAYLIST_REMOVE));
