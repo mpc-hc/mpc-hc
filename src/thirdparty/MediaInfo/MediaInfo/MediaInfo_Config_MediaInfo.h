@@ -92,9 +92,26 @@ public :
     #endif //MEDIAINFO_ADVANCED
 
     #if MEDIAINFO_ADVANCED
+        void          File_DefaultFrameRate_Set (float64 NewValue);
+        float64       File_DefaultFrameRate_Get ();
+    #endif //MEDIAINFO_ADVANCED
+
+    #if MEDIAINFO_ADVANCED
         void          File_Source_List_Set (bool NewValue);
         bool          File_Source_List_Get ();
     #endif //MEDIAINFO_ADVANCED
+
+    #if MEDIAINFO_ADVANCED
+        void          File_RiskyBitRateEstimation_Set (bool NewValue);
+        bool          File_RiskyBitRateEstimation_Get ();
+    #endif //MEDIAINFO_ADVANCED
+
+    #if MEDIAINFO_DEMUX
+        #if MEDIAINFO_ADVANCED
+            void          File_Demux_Unpacketize_StreamLayoutChange_Skip_Set (bool NewValue);
+            bool          File_Demux_Unpacketize_StreamLayoutChange_Skip_Get ();
+        #endif //MEDIAINFO_ADVANCED
+    #endif //MEDIAINFO_DEMUX
 
     #if MEDIAINFO_MD5
         void          File_Md5_Set (bool NewValue);
@@ -273,6 +290,9 @@ public :
     #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX
     bool          Demux_EventWasSent;
+    int64u          Demux_Offset_Frame;
+    int64u          Demux_Offset_DTS;
+    int64u          Demux_Offset_DTS_FromStream;
     File__Analyze*  Events_Delayed_CurrentSource;
         #if MEDIAINFO_SEEK
         bool      Demux_IsSeeking;
@@ -293,7 +313,12 @@ private :
     bool                    File_ID_OnlyRoot;
     #if MEDIAINFO_ADVANCED
         bool                File_IgnoreSequenceFileSize;
+        float64             File_DefaultFrameRate;
         bool                File_Source_List;
+        bool                File_RiskyBitRateEstimation;
+        #if MEDIAINFO_DEMUX
+            bool                File_Demux_Unpacketize_StreamLayoutChange_Skip;
+        #endif //MEDIAINFO_DEMUX
     #endif //MEDIAINFO_ADVANCED
     #if MEDIAINFO_MD5
         bool                File_Md5;

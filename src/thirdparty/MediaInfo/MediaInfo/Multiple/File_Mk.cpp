@@ -2453,7 +2453,7 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecPrivate_auds()
     Get_L2 (BitsPerSample,                                      "BitsPerSample");
 
     //Filling
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         InfoCodecID_Format_Type=InfoCodecID_Format_Riff;
         CodecID.From_Number(FormatTag, 16);
         CodecID_Fill(CodecID, Stream_Audio, StreamPos_Last, InfoCodecID_Format_Riff);
@@ -2552,7 +2552,7 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecPrivate_vids()
     Skip_L4(                                                    "ClrUsed");
     Skip_L4(                                                    "ClrImportant");
 
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         Ztring Codec;
         if (((Compression&0x000000FF)>=0x00000020 && (Compression&0x000000FF)<=0x0000007E
           && (Compression&0x0000FF00)>=0x00002000 && (Compression&0x0000FF00)<=0x00007E00
@@ -2605,7 +2605,7 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecPrivate_vids()
         //Creating the parser
         CodecID_Manage();
 
-    FILLING_END()
+    FILLING_END();
 
     if (Data_Remain())
     {

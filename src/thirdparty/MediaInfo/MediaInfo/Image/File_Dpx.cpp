@@ -697,6 +697,7 @@ void File_Dpx::GenericSectionHeader_v2_ImageElement()
             Fill(StreamKind_Last, StreamPos_Last, "Format", "DPX");
             Fill(StreamKind_Last, StreamPos_Last, "Format_Version", "Version 2");
             Fill(StreamKind_Last, StreamPos_Last, "BitDepth", BitDephs);
+            Fill(StreamKind_Last, StreamPos_Last, "colour_description_present", "Yes");
             Fill(StreamKind_Last, StreamPos_Last, "colour_primaries", DPX_TransferCharacteristic(TransferCharacteristic));
             Fill(StreamKind_Last, StreamPos_Last, "transfer_characteristics", DPX_ColorimetricSpecification(ColorimetricSpecification));
         }

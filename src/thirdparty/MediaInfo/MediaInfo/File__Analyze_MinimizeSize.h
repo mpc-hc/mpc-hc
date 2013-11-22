@@ -1028,27 +1028,6 @@ public :
     bool Element_IsNotFinished ();
     bool Element_IsWaitingForMoreData ();
 
-    //Begin
-    #define FILLING_BEGIN() \
-        if (Element_IsOK()) \
-        {
-
-    #define FILLING_BEGIN_PRECISE() \
-        if (Element_Offset!=Element_Size) \
-            Trusted_IsNot("Size error"); \
-        else if (Element_IsOK()) \
-        {
-
-    //Else
-    #define FILLING_ELSE() \
-        } \
-        else \
-        { \
-
-    //End
-    #define FILLING_END() \
-        }
-
     //***************************************************************************
     // Merging
     //***************************************************************************
@@ -1059,6 +1038,8 @@ public :
     size_t Merge(MediaInfo_Internal &ToAdd, stream_t StreamKind, size_t StreamPos_From, size_t StreamPos_To, bool Erase=true); //Merge 2 streams
     size_t Merge(File__Analyze &ToAdd, bool Erase=true); //Merge 2 File_Base
     size_t Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t StreamPos_From, size_t StreamPos_To, bool Erase=true); //Merge 2 streams
+
+    void CodecID_Fill           (const Ztring &Value, stream_t StreamKind, size_t StreamPos, infocodecid_format_t Format);
 
     //***************************************************************************
     // Finalize
@@ -1099,7 +1080,6 @@ protected :
     void Kilo_Kilo123           (stream_t StreamKind, size_t StreamPos, size_t Parameter);
     void Value_Value123         (stream_t StreamKind, size_t StreamPos, size_t Parameter);
     void YesNo_YesNo            (stream_t StreamKind, size_t StreamPos, size_t Parameter);
-    void CodecID_Fill           (const Ztring &Value, stream_t StreamKind, size_t StreamPos, infocodecid_format_t Format);
 
     //***************************************************************************
     //
@@ -1168,7 +1148,7 @@ protected :
     bool FileHeader_Begin_XML(tinyxml2::XMLDocument &Document);
     bool Synchronize_0x000001();
 public:
-    void TestContinuousFileNames();
+    void TestContinuousFileNames(size_t CountOfFiles=24, Ztring FileExtension=Ztring());
 
 private :
 

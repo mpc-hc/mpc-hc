@@ -692,6 +692,14 @@ enum video
     Video_Tagged_Date,
     Video_Encryption,
     Video_BufferSize,
+    Video_colour_description_present,
+    Video_colour_primaries,
+    Video_transfer_characteristics,
+    Video_matrix_coefficients,
+    Video_colour_description_present_Original,
+    Video_colour_primaries_Original,
+    Video_transfer_characteristics_Original,
+    Video_matrix_coefficients_Original,
 };
 
 //---------------------------------------------------------------------------
@@ -1284,6 +1292,14 @@ enum image
     Image_Encoded_Date,
     Image_Tagged_Date,
     Image_Encryption,
+    Image_colour_description_present,
+    Image_colour_primaries,
+    Image_transfer_characteristics,
+    Image_matrix_coefficients,
+    Image_colour_description_present_Original,
+    Image_colour_primaries_Original,
+    Image_transfer_characteristics_Original,
+    Image_matrix_coefficients_Original,
 };
 
 //---------------------------------------------------------------------------
@@ -1362,6 +1378,8 @@ enum menu
     Menu_Original_NetworkName,
     Menu_Countries,
     Menu_TimeZones,
+    Menu_LawRating,
+    Menu_LawRating_Reason,
     Menu_Chapters_Pos_Begin,
     Menu_Chapters_Pos_End,
 };

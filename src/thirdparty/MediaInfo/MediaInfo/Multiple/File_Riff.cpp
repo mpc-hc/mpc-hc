@@ -158,8 +158,12 @@ void File_Riff::Streams_Finish ()
         if (Ancillary && (*Ancillary))
         {
             Clear();
+            Stream_Prepare(Stream_General);
             Finish(*Ancillary);
             Merge(**Ancillary);
+            Ztring LawRating=(*Ancillary)->Retrieve(Stream_General, 0, General_LawRating);
+            if (!LawRating.empty())
+                Fill(Stream_General, 0, General_LawRating, LawRating, true);
             return;
         }
     #endif //defined(MEDIAINFO_ANCILLARY_YES)

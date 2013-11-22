@@ -186,7 +186,7 @@ void File_Tak::STREAMINFO()
     BS_End();
     Skip_L3(                                                    "crc");
 
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         //Coherency
         if (samplerate==0)
             return;

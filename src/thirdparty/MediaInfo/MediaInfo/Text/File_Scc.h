@@ -40,6 +40,13 @@ private :
     bool FileHeader_Begin();
     void FileHeader_Parse();
 
+    //Buffer - Global
+    #if MEDIAINFO_SEEK
+    size_t  Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
+    void    Read_Buffer_Unsynched ();
+    void    Read_Buffer_AfterParsing ();
+    #endif //MEDIAINFO_SEEK
+
     //Buffer - Per element
     void Header_Parse();
     void Data_Parse();

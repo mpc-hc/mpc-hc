@@ -1640,7 +1640,7 @@ void File_Riff::AVI__hdlr_strl_strf_txts()
         Skip_XX(22,                                             "Unknown");
     }
 
-    FILLING_BEGIN_PRECISE()
+    FILLING_BEGIN_PRECISE();
         Stream_Prepare(Stream_Text);
 
         if (Element_Size==0)
@@ -1719,7 +1719,7 @@ void File_Riff::AVI__hdlr_strl_strf_vids()
             Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec_CC), Ztring().From_CC4(Compression).To_Local().c_str()); //FormatTag
         }
         Fill(StreamKind_Last, StreamPos_Last, "Width", Width, 10, true);
-        Fill(StreamKind_Last, StreamPos_Last, "Height", Height, 10, true);
+        Fill(StreamKind_Last, StreamPos_Last, "Height", Height>=0x80000000?(-Height):Height, 10, true); // AVI can use negative height for raw to signal that it's coded top-down, not bottom-up
         if (Resolution==32 && Compression==0x74736363) //tscc
             Fill(StreamKind_Last, StreamPos_Last, "BitDepth", 8);
         else if (Compression==0x44495633) //DIV3
@@ -2537,13 +2537,21 @@ void File_Riff::AVI__movi_xxxx___tx()
     //Parsing
     int32u Name_Size;
     Ztring Value;
-    Skip_C4(                                                    "GAB2");
-    Skip_L1(                                                    "Zero");
-    Skip_L2(                                                    "CodePage"); //2=Unicode
-    Get_L4 (Name_Size,                                          "Name_Size");
-    Skip_UTF16L(Name_Size,                                      "Name");
-    Skip_L2(                                                    "Four");
-    Skip_L4(                                                    "File_Size");
+    int32u GAB2;
+    Peek_B4(GAB2);
+    if (GAB2==0x47414232 && Element_Size>=17)
+    {
+        Skip_C4(                                                    "GAB2");
+        Skip_L1(                                                    "Zero");
+        Skip_L2(                                                    "CodePage"); //2=Unicode
+        Get_L4 (Name_Size,                                          "Name_Size");
+        Skip_UTF16L(Name_Size,                                      "Name");
+        Skip_L2(                                                    "Four");
+        Skip_L4(                                                    "File_Size");
+
+        if (Element_Offset>Element_Size)
+            Element_Offset=Element_Size; //Problem
+    }
 
     //Skip it
     Stream[Stream_ID].SearchingPayload=false;
@@ -2621,7 +2629,7 @@ void File_Riff::AVI__movi_StreamJump()
     {
         do
             Stream_Structure_Temp++;
-        while (Stream_Structure_Temp!=Stream_Structure.end() && !Stream[(int32u)Stream_Structure_Temp->second.Name].SearchingPayload);
+        while (Stream_Structure_Temp!=Stream_Structure.end() && !(Stream[(int32u)Stream_Structure_Temp->second.Name].SearchingPayload && Config->ParseSpeed<1.0));
         if (Stream_Structure_Temp!=Stream_Structure.end())
         {
             int64u ToJump=Stream_Structure_Temp->first;

@@ -6,13 +6,13 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about SubRip files
+// Information about HDS (.f4m) files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_SubRipH
-#define MediaInfo_File_SubRipH
+#ifndef MediaInfo_File_HdsF4mH
+#define MediaInfo_File_HdsF4mH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -23,37 +23,39 @@
 namespace MediaInfoLib
 {
 
+class File__ReferenceFilesHelper;
+
 //***************************************************************************
-// Class File_SubRip
+// Class File_HdsF4m
 //***************************************************************************
 
-class File_SubRip : public File__Analyze
+class File_HdsF4m : public File__Analyze
 {
 public :
-    File_SubRip();
+    //Constructor/Destructor
+    File_HdsF4m();
+    ~File_HdsF4m();
 
 private :
-    //Buffer - File header
-    bool FileHeader_Begin();
+    //Streams management
+    void Streams_Finish ();
 
     //Buffer - Global
     #if MEDIAINFO_SEEK
     size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
     #endif //MEDIAINFO_SEEK
-    void Read_Buffer_Continue();
+
+    //Buffer - File header
+    bool FileHeader_Begin();
+
+    //Helpers
+    void Representation();
 
     //Temp
-    #if MEDIAINFO_DEMUX
-    struct item
-    {
-        int64u PTS_Begin;
-        int64u PTS_End;
-        Ztring Content;
-    };
-    std::vector<item> Items;
-    #endif //MEDIAINFO_DEMUX
+    File__ReferenceFilesHelper*     ReferenceFiles;
 };
 
 } //NameSpace
 
 #endif
+

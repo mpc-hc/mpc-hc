@@ -31,6 +31,7 @@ class File_Mpeg4_Descriptors : public File__Analyze
 public :
     //In
     stream_t KindOfStream;
+    size_t   PosOfStream;
     bool     Parser_DoNotFreeIt; //If you want to keep the Parser
     bool     SLConfig_DoNotFreeIt; //If you want to keep the SLConfig
 

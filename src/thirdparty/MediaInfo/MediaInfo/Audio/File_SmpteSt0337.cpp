@@ -1266,7 +1266,7 @@ void File_SmpteSt0337::Data_Parse()
         Skip_XX(Element_Size-Element_Offset,                    "Data");
     }
 
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         FrameSizes[IsSub?Buffer_Size:((GuardBand_Before+Element_Size)*Container_Bits/Stream_Bits)]++;
 
         Frame_Count++;

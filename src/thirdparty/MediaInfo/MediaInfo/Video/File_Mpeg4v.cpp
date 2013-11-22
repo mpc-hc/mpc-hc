@@ -244,6 +244,7 @@ File_Mpeg4v::File_Mpeg4v()
 
     //Temp
     video_object_layer_start_IsParsed=false;
+    colour_description=false;
 }
 
 //---------------------------------------------------------------------------
@@ -408,7 +409,7 @@ void File_Mpeg4v::Streams_Fill()
              if (aspect_ratio_info==0x02) PixelAspectRatio_Value=(float32)12/(float32)11;
         else if (aspect_ratio_info==0x03) PixelAspectRatio_Value=(float32)10/(float32)11;
         else if (aspect_ratio_info==0x04) PixelAspectRatio_Value=(float32)16/(float32)11;
-        else if (aspect_ratio_info==0x05) PixelAspectRatio_Value=(float32)40/(float32)13;
+        else if (aspect_ratio_info==0x05) PixelAspectRatio_Value=(float32)40/(float32)33;
         else if (aspect_ratio_info==0x0F && par_height) PixelAspectRatio_Value=((float32)par_width)/par_height;
         Fill(Stream_Video, 0, Video_PixelAspectRatio, PixelAspectRatio_Value, 3, true);
         Fill(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio, ((float)object_layer_width)/object_layer_height*PixelAspectRatio_Value, 3, true);
@@ -417,11 +418,12 @@ void File_Mpeg4v::Streams_Fill()
     Fill(Stream_Video, 0, Video_BitDepth, bits_per_pixel);
     if (chroma_format<4)
         Fill(Stream_Video, 0, Video_Colorimetry, Mpeg4v_Colorimetry[chroma_format]);
-    if (colour_primaries!=(int8u)-1)
+    if (colour_description)
     {
-        Fill(Stream_Video, 0, "colour_primaries", Mpegv_colour_primaries(colour_primaries));
-        Fill(Stream_Video, 0, "transfer_characteristics", Mpegv_transfer_characteristics(transfer_characteristics));
-        Fill(Stream_Video, 0, "matrix_coefficients", Mpegv_matrix_coefficients(matrix_coefficients));
+        Fill(Stream_Video, 0, Video_colour_description_present, "Yes");
+        Fill(Stream_Video, 0, Video_colour_primaries, Mpegv_colour_primaries(colour_primaries));
+        Fill(Stream_Video, 0, Video_transfer_characteristics, Mpegv_transfer_characteristics(transfer_characteristics));
+        Fill(Stream_Video, 0, Video_matrix_coefficients, Mpegv_matrix_coefficients(matrix_coefficients));
     }
     if (low_delay)
     {
@@ -1141,7 +1143,7 @@ void File_Mpeg4v::video_object_layer_start()
         video_object_layer_start_IsParsed=true;
         if (!Status[IsAccepted])
             Accept("MPEG-4 Visual");
-    FILLING_END()
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -1409,7 +1411,7 @@ void File_Mpeg4v::visual_object_start()
         TEST_SB_SKIP(                                           "video_signal_type");
             Skip_S1(3,                                          "video_format");
             Skip_SB(                                            "video_range");
-            TEST_SB_SKIP(                                       "colour_description");
+            TEST_SB_GET (  colour_description,                  "colour_description");
                 Get_S1 (8, colour_primaries,                    "colour_primaries"); Param_Info1(Mpegv_colour_primaries(colour_primaries));
                 Get_S1 (8, transfer_characteristics,            "transfer_characteristics"); Param_Info1(Mpegv_transfer_characteristics(transfer_characteristics));
                 Get_S1 (8, matrix_coefficients,                 "matrix_coefficients"); Param_Info1(Mpegv_matrix_coefficients(matrix_coefficients));

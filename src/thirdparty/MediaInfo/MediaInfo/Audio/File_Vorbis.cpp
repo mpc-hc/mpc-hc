@@ -98,7 +98,7 @@ void File_Vorbis::Identification()
     Skip_L1(                                                    "Framing");
 
     //Filling
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         Accept("Vorbis");
 
         Stream_Prepare(Stream_Audio);

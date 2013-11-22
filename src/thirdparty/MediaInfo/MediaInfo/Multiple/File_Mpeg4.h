@@ -416,6 +416,7 @@ private :
         #endif //MEDIAINFO_DEMUX || MEDIAINFO_SEEK
         #if MEDIAINFO_DEMUX
             bool            PtsDtsAreSame;
+            bool            Demux_EventWasSent;
         #endif //MEDIAINFO_DEMUX
 
         stream()
@@ -457,6 +458,7 @@ private :
             #endif //MEDIAINFO_DEMUX
             #if MEDIAINFO_DEMUX
                 PtsDtsAreSame=false;
+                Demux_EventWasSent=false;
             #endif //MEDIAINFO_DEMUX
         }
 

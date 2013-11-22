@@ -101,6 +101,11 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MediaInfo\Multiple\File_DashMpd.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_DcpAm.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_DcpCpl.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_DcpPkl.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_HdsF4m.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Pmp.h" />
     <ClInclude Include="MediaInfo\Text\File_SubRip.h" />
     <ClInclude Include="MediaInfo\Text\File_TimedText.h" />
@@ -199,7 +204,6 @@
     <ClInclude Include="MediaInfo\Multiple\File_Ancillary.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Bdmv.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Cdxa.h" />
-    <ClInclude Include="MediaInfo\Multiple\File_Dcp.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Dpg.h" />
     <ClInclude Include="MediaInfo\Multiple\File_DvDif.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Dvdv.h" />
@@ -374,6 +378,11 @@
     <ClCompile Include="MediaInfo\MediaInfo_File.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_Inform.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_Internal.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_DashMpd.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_DcpAm.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_DcpCpl.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_DcpPkl.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_HdsF4m.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Pmp.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File__ReferenceFilesHelper.cpp" />
     <ClCompile Include="MediaInfo\PreComp.cpp">
@@ -386,7 +395,6 @@
     <ClCompile Include="MediaInfo\Multiple\File_Ancillary.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Bdmv.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Cdxa.cpp" />
-    <ClCompile Include="MediaInfo\Multiple\File_Dcp.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Dpg.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_DvDif.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_DvDif_Analysis.cpp" />

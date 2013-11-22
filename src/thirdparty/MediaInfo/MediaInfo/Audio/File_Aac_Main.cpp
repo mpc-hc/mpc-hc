@@ -22,6 +22,9 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Audio/File_Aac.h"
+#if MEDIAINFO_ADVANCED
+    #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
+#endif //MEDIAINFO_ADVANCED
 #include <cmath>
 using namespace std;
 //---------------------------------------------------------------------------
@@ -448,7 +451,7 @@ void File_Aac::AudioSpecificConfig (size_t End)
         Skip_BS(Data_BS_Remain()-End,                           LastByte?"Unknown":"Padding");
     }
 
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         AudioSpecificConfig_OutOfBand (sampling_frequency, audioObjectType, sbrData, psData, sbrPresentFlag, psPresentFlag);
 
         //Parsing the rest
@@ -508,7 +511,7 @@ void File_Aac::AudioSpecificConfig_OutOfBand (int32u sampling_frequency_, int8u 
         Infos["ChannelPositions/String2"].From_Local(Aac_ChannelConfiguration2[channelConfiguration]);
     }
 
-    if (sbrPresentFlag)
+    if (sbrPresentFlag || !Infos["Format_Settings_SBR"].empty())
     {
         Infos["Format_Profile"]=__T("HE-AAC");
         Ztring SamplingRate=Infos["SamplingRate"];
@@ -524,7 +527,7 @@ void File_Aac::AudioSpecificConfig_OutOfBand (int32u sampling_frequency_, int8u 
     else if (sbrData)
         Infos["Format_Settings_SBR"]=__T("No (Explicit)");
 
-    if (psPresentFlag)
+    if (psPresentFlag || !Infos["Format_Settings_PS"].empty())
     {
         Infos["Format_Profile"]=__T("HE-AACv2");
         Ztring Channels=Infos["Channel(s)"];
@@ -581,6 +584,7 @@ void File_Aac::AudioMuxElement()
     }
     if (sampling_frequency_index==(int8u)-1) //No previous config
     {
+        CanFill=false;
         Skip_BS(Data_BS_Remain(),                               "(Waiting for configuration)");
         return;
     }
@@ -1101,9 +1105,12 @@ void File_Aac::adts_variable_header()
     FILLING_BEGIN();
         aac_frame_lengths.push_back(aac_frame_length);
 
-        if (adts_buffer_fullness==0x7FF)
-            Infos["BitRate_Mode"].From_Local("VBR");
-        else
+        Infos["BitRate_Mode"].From_Local(adts_buffer_fullness==0x7FF?"VBR":"CBR");
+        if (adts_buffer_fullness!=0x7FF
+        #if MEDIAINFO_ADVANCED
+         || Config->File_RiskyBitRateEstimation_Get()
+        #endif //MEDIAINFO_ADVANCED
+        )
         {
             //Calculating
             int64u aac_frame_length_Total=0;
@@ -1115,7 +1122,6 @@ void File_Aac::adts_variable_header()
             BitRate/=aac_frame_lengths.size();
 
             //Filling
-            Infos["BitRate_Mode"].From_Local("CBR");
             Infos["BitRate"].From_Number(BitRate);
         }
     FILLING_END();

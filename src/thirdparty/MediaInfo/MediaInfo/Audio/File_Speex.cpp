@@ -101,7 +101,7 @@ void File_Speex::Identification()
             Skip_XX(Element_Size-header_size,                   "Unknown");
 
         //Filling
-        FILLING_BEGIN()
+        FILLING_BEGIN();
             Accept("Speex");
 
             Stream_Prepare(Stream_Audio);

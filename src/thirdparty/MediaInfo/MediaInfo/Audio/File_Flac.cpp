@@ -166,7 +166,7 @@ void File_Flac::STREAMINFO()
     BS_End();
     Skip_B16(                                                   "MD5 signature of the unencoded audio data");
 
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         if (SampleRate==0)
             return;
         File__Tags_Helper::Accept("FLAC");

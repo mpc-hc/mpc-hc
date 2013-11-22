@@ -405,6 +405,7 @@ void File_Wm::Header_StreamProperties_Audio_WMA ()
                                 std::string Data_Raw((const char*)(Buffer+Buffer_Offset+Element_Offset), (size_t)10);//Element_Size-(Element_Offset));
                                 std::string Data_Base64(Base64::encode(Data_Raw));
                                 Fill(Stream_Audio, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                (*Stream_More)[Stream_Audio][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
                                 }
                                 break;
                     default :   ;
@@ -511,6 +512,7 @@ void File_Wm::Header_StreamProperties_Video ()
                                 std::string Data_Raw((const char*)(Buffer+(size_t)Element_Offset), (size_t)(Data_Size-40));
                                 std::string Data_Base64(Base64::encode(Data_Raw));
                                 Fill(Stream_Video, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                (*Stream_More)[Stream_Video][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
                                 }
                                 break;
                     default :   ;

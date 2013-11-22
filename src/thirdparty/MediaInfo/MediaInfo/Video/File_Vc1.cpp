@@ -254,6 +254,16 @@ File_Vc1::~File_Vc1()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+void File_Vc1::Streams_Accept()
+{
+    //Filling
+    Stream_Prepare(Stream_Video);
+    Fill(Stream_Video, 0, Video_Format, "VC-1");
+    Fill(Stream_Video, 0, Video_Codec, From_WMV3?"WMV3":"VC-1"); //For compatibility with the old reaction
+    Fill(Stream_Video, 0, Video_BitDepth, 8);
+}
+
+//---------------------------------------------------------------------------
 void File_Vc1::Streams_Fill()
 {
     //Calculating - PixelAspectRatio
@@ -264,12 +274,6 @@ void File_Vc1::Streams_Fill()
         PixelAspectRatio=((float)AspectRatioX)/((float)AspectRatioY);
     else
         PixelAspectRatio=1; //Unknown
-
-    //Filling
-    Stream_Prepare(Stream_Video);
-    Fill(Stream_Video, 0, Video_Format, "VC-1");
-    Fill(Stream_Video, 0, Video_Codec, From_WMV3?"WMV3":"VC-1"); //For compatibility with the old reaction
-    Fill(Stream_Video, 0, Video_BitDepth, 8);
 
     Ztring Profile;
     if (profile!=(int8u)-1)
@@ -553,6 +557,7 @@ bool File_Vc1::Demux_UnpacketizeContainer_Test()
                                 std::string Data_Raw((const char*)(Buffer+Buffer_Offset), (size_t)(Header_End-Buffer_Offset));
                                 std::string Data_Base64(Base64::encode(Data_Raw));
                                 Fill(Stream_Video, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                (*Stream_More)[Stream_Video][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
                                 }
                                 break;
                     default :   ;
@@ -1025,6 +1030,7 @@ void File_Vc1::EntryPointHeader()
                                 std::string Data_Raw((char*)InitData_Buffer_Temp, InitData_Buffer_Temp_Size);
                                 std::string Data_Base64(Base64::encode(Data_Raw));
                                 Fill(Stream_Video, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                (*Stream_More)[Stream_Video][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
                                 }
                                 break;
                     default :   ;

@@ -266,7 +266,7 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                     }
                     if (Pos>=MI->Config.File_Sizes.size())
                         break;
-                    if (Pos!=MI->Config.File_Names_Pos)
+                    if (Pos!=MI->Config.File_Names_Pos-1)
                     {
                         F.Close();
                         F.Open(MI->Config.File_Names[Pos]);

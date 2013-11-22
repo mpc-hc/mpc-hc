@@ -499,7 +499,7 @@ void File_AribStdB24B37::caption_management() //caption_management_data()
         BS_End();
         Element_End0();
 
-        FILLING_BEGIN()
+        FILLING_BEGIN();
             Streams[pos_languages].ISO_639_language_code=ISO_639_language_code;
             Streams[pos_languages].DMF_reception=DMF_reception;
             Streams[pos_languages].Format=Format;
@@ -516,16 +516,16 @@ void File_AribStdB24B37::caption_management() //caption_management_data()
                 Streams[pos_languages].G_Width[2]=1;
                 Streams[pos_languages].G_Width[3]=1;
             }
-        FILLING_END()
+        FILLING_END();
     }
     Get_B3 (data_unit_loop_length,                              "data_unit_loop_length");
     if (data_unit_loop_length)
         Skip_XX(data_unit_loop_length,                          "data_unit");
 
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         if (!Status[IsAccepted])
             Accept();
-    FILLING_END()
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------

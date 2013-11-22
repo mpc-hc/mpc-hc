@@ -288,6 +288,7 @@ private :
     bool   Parsing_End_ForDTS;
     bool   bit_rate_value_IsValid;
     bool   profile_and_level_indication_escape;
+    bool   colour_description;
     int8u  RefFramesCount;
     int8u  BVOPsSinceLastRefFrames;
     int16u temporal_reference_LastIFrame;

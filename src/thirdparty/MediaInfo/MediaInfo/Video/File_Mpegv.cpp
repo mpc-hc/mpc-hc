@@ -200,6 +200,7 @@ const char* Mpegv_profile_and_level_indication_level[]=
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Video/File_Mpegv.h"
+#include "MediaInfo/TimeCode.h"
 #include "ZenLib/BitStream.h"
 #include "ZenLib/Utils.h"
 #if defined(MEDIAINFO_DTVCCTRANSPORT_YES)
@@ -221,7 +222,9 @@ const char* Mpegv_profile_and_level_indication_level[]=
     #include "MediaInfo/MediaInfo_Events.h"
     #include "MediaInfo/MediaInfo_Events_Internal.h"
 #endif //MEDIAINFO_EVENTS
+#include <cmath>
 using namespace ZenLib;
+using namespace std;
 
 #undef FILLING_BEGIN
 #define FILLING_BEGIN() \
@@ -1173,6 +1176,9 @@ void File_Mpegv::Streams_Update()
                     IsNewStream=true;
                 }
                 Merge(*(*Text_Positions[Text_Positions_Pos].Parser), Stream_Text, Pos, Text_Positions[Text_Positions_Pos].StreamPos+Pos);
+                Ztring LawRating=(*Text_Positions[Text_Positions_Pos].Parser)->Retrieve(Stream_General, 0, General_LawRating);
+                if (!LawRating.empty())
+                    Fill(Stream_General, 0, General_LawRating, LawRating, true);
 
                 if (IsNewStream)
                 {
@@ -1261,13 +1267,13 @@ void File_Mpegv::Streams_Fill()
         Fill(Stream_Video, 0, Video_ScanType, "Progressive");
         Fill(Stream_Video, 0, Video_Interlacement, "PPF");
     }
-    else if (progressive_frame_Count && progressive_frame_Count!=Frame_Count)
+    else if (progressive_frame_Count && progressive_frame_Count!=Frame_Count && progressive_frame_Count!=Frame_Count+1) //In case the stream is cut before a slice
     {
         //This is mixed
     }
     else if (Frame_Count>0) //Only if we have at least one progressive_frame definition
     {
-        if (progressive_sequence || progressive_frame_Count==Frame_Count)
+        if (progressive_sequence || progressive_frame_Count==Frame_Count || progressive_frame_Count==Frame_Count+1)
         {
             Fill(Stream_Video, 0, Video_ScanType, "Progressive");
             Fill(Stream_Video, 0, Video_Interlacement, "PPF");
@@ -1327,9 +1333,13 @@ void File_Mpegv::Streams_Fill()
 
     //Standard
     Fill(Stream_Video, 0, Video_Standard, Mpegv_video_format[video_format]);
-    Fill(Stream_Video, 0, "colour_primaries", Mpegv_colour_primaries(colour_primaries));
-    Fill(Stream_Video, 0, "transfer_characteristics", Mpegv_transfer_characteristics(transfer_characteristics));
-    Fill(Stream_Video, 0, "matrix_coefficients", Mpegv_matrix_coefficients(matrix_coefficients));
+    if (colour_description)
+    {
+        Fill(Stream_Video, 0, Video_colour_description_present, "Yes");
+        Fill(Stream_Video, 0, Video_colour_primaries, Mpegv_colour_primaries(colour_primaries));
+        Fill(Stream_Video, 0, Video_transfer_characteristics, Mpegv_transfer_characteristics(transfer_characteristics));
+        Fill(Stream_Video, 0, Video_matrix_coefficients, Mpegv_matrix_coefficients(matrix_coefficients));
+    }
 
     //Matrix
     if (load_intra_quantiser_matrix || load_non_intra_quantiser_matrix)
@@ -1422,7 +1432,12 @@ void File_Mpegv::Streams_Fill()
         if (DTG1_Parser)
             Merge(*DTG1_Parser, Stream_Video, 0, 0);
         if (GA94_06_Parser)
+        {
             Merge(*GA94_06_Parser, Stream_Video, 0, 0);
+            Ztring LawRating=GA94_06_Parser->Retrieve(Stream_General, 0, General_LawRating);
+            if (!LawRating.empty())
+                Fill(Stream_General, 0, General_LawRating, LawRating, true);
+        }
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
     #if defined(MEDIAINFO_AFDBARDATA_YES)
         if (AfdBarData_Parser)
@@ -1476,29 +1491,32 @@ void File_Mpegv::Streams_Finish()
     //Duration
     if (PTS_End>PTS_Begin)
         Fill(Stream_Video, 0, Video_Duration, float64_int64s(((float64)(PTS_End-PTS_Begin))/1000000));
-    else if (!TimeCodeIsNotTrustable && Time_End_Seconds!=Error)
-    {
-        float32 Time_Begin=((float32)Time_Begin_Seconds)*1000;
-        float32 Time_End =((float32)Time_End_Seconds)*1000;
-        if (FrameRate)
-        {
-            float32 FrameRate_Corrected=FrameRate;
-            if (FrameRate>=29.970 && FrameRate<=29.971 && !group_start_drop_frame_flag)
-                FrameRate_Corrected=30;
-            Time_Begin+=Time_Begin_Frames*1000/FrameRate_Corrected;
-            Time_End  +=Time_End_Frames  *1000/FrameRate_Corrected;
-        }
-        float32 Duration=Time_End-Time_Begin;
-        if (FrameRate>=29.970 && FrameRate<=29.971 && !group_start_drop_frame_flag)
-        {
-            Duration*=1001;
-            Duration/=1000;
-        }
-        Fill(Stream_Video, 0, Video_Duration, Duration, 0);
-    }
     else if (Frame_Count_NotParsedIncluded!=(int64u)-1)
     {
         Fill(Stream_Video, 0, Video_FrameCount, Frame_Count_NotParsedIncluded);
+        if (FrameRate)
+            Fill(Stream_Video, 0, Video_Duration, Frame_Count_NotParsedIncluded/FrameRate*1000, 0);
+    }
+    else if (!TimeCodeIsNotTrustable && Time_End_Seconds!=Error && FrameRate)
+    {
+        TimeCode Time_Begin_TC;
+        Time_Begin_TC.FramesPerSecond=(int8u)ceil(FrameRate);
+        Time_Begin_TC.DropFrame=(FrameRate-ceil(FrameRate))?true:false;
+        Time_Begin_TC.Hours=(int8u)(Time_Begin_Seconds/3600);
+        Time_Begin_TC.Minutes=(int8u)((Time_Begin_Seconds%3600)/60);
+        Time_Begin_TC.Seconds=(int8u)(Time_Begin_Seconds%60);
+        Time_Begin_TC.Frames=(int8u)Time_Begin_Frames;
+        TimeCode Time_End_TC;
+        Time_End_TC.FramesPerSecond=(int8u)ceil(FrameRate);
+        Time_End_TC.DropFrame=(FrameRate-ceil(FrameRate))?true:false;
+        Time_End_TC.Hours=(int8u)(Time_End_Seconds/3600);
+        Time_End_TC.Minutes=(int8u)((Time_End_Seconds%3600)/60);
+        Time_End_TC.Seconds=(int8u)(Time_End_Seconds%60);
+        Time_End_TC.Frames=(int8u)Time_End_Frames;
+        int32u Time_Begin_FrameCount=Time_Begin_TC.ToFrames();
+        int32u Time_End_FrameCount=Time_End_TC.ToFrames();
+        Fill(Stream_Video, 0, Video_FrameCount, Time_End_FrameCount-Time_Begin_FrameCount, 0);
+        Fill(Stream_Video, 0, Video_Duration, (Time_End_FrameCount-Time_Begin_FrameCount)/FrameRate*1000, 0);
     }
 
     //picture_coding_types
@@ -1709,6 +1727,7 @@ void File_Mpegv::Synched_Init()
     PTS_LastIFrame=(int64u)-1;
     bit_rate_value_IsValid=false;
     profile_and_level_indication_escape=false;
+    colour_description=false;
     RefFramesCount=0;
     BVOPsSinceLastRefFrames=0;
     temporal_reference_LastIFrame=0;
@@ -1803,7 +1822,7 @@ bool File_Mpegv::Demux_UnpacketizeContainer_Test()
         while (Demux_Offset+4<=Buffer_Size)
         {
             //Synchronizing
-            while(Demux_Offset+3<=Buffer_Size && (Buffer[Demux_Offset  ]!=0x00
+            while(Demux_Offset+4<=Buffer_Size && (Buffer[Demux_Offset  ]!=0x00
                                                 || Buffer[Demux_Offset+1]!=0x00
                                                 || Buffer[Demux_Offset+2]!=0x01))
             {
@@ -1813,28 +1832,28 @@ bool File_Mpegv::Demux_UnpacketizeContainer_Test()
                 if (Demux_Offset>=Buffer_Size || Buffer[Demux_Offset-1]==0x00)
                     Demux_Offset--;
             }
+            if (Demux_Offset+4>Buffer_Size)
+                break;
 
-            if (Demux_Offset+4<=Buffer_Size)
+            if (Demux_IntermediateItemFound)
             {
-                if (Demux_IntermediateItemFound)
+                bool MustBreak;
+                switch (Buffer[Demux_Offset+3])
                 {
-                    bool MustBreak;
-                    switch (Buffer[Demux_Offset+3])
-                    {
-                        case 0x00 :
-                        case 0xB3 :
-                                    MustBreak=true; break;
-                        default   : MustBreak=false;
-                    }
-                    if (MustBreak)
-                        break; //while() loop
+                    case 0x00 :
+                    case 0xB3 :
+                                MustBreak=true; break;
+                    default   : MustBreak=false;
                 }
-                else
-                {
-                    if (!Buffer[Demux_Offset+3])
-                        Demux_IntermediateItemFound=true;
-                }
+                if (MustBreak)
+                    break; //while() loop
             }
+            else
+            {
+                if (!Buffer[Demux_Offset+3])
+                    Demux_IntermediateItemFound=true;
+            }
+
             Demux_Offset++;
         }
 
@@ -2279,7 +2298,7 @@ void File_Mpegv::picture_start()
             picture_coding_types_Current+=Mpegv_picture_coding_type[picture_coding_type];
 
         //Detecting streams with only I-Frames
-        if (picture_coding_type==1 && picture_coding_type_Old==1)
+        if (picture_coding_type==1 && picture_coding_type_Old==1 && !FirstFieldFound)
             temporal_reference_Old=(int16u)-1; //Resetting temporal_reference_Old
 
         //NextCode
@@ -3660,7 +3679,7 @@ void File_Mpegv::extension_start()
         case  2 :{ //Sequence Display
                     //Parsing
                     Get_S1 ( 3, video_format,                   "video_format"); Param_Info1(Mpegv_video_format[video_format]);
-                    TEST_SB_SKIP(                               "colour_description");
+                    TEST_SB_GET (  colour_description,          "colour_description");
                         Get_S1 (8, colour_primaries,            "colour_primaries"); Param_Info1(Mpegv_colour_primaries(colour_primaries));
                         Get_S1 (8, transfer_characteristics,    "transfer_characteristics"); Param_Info1(Mpegv_transfer_characteristics(transfer_characteristics));
                         Get_S1 (8, matrix_coefficients,         "matrix_coefficients"); Param_Info1(Mpegv_matrix_coefficients(matrix_coefficients));

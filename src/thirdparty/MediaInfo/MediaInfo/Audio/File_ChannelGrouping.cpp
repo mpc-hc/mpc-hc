@@ -301,6 +301,9 @@ void File_ChannelGrouping::Read_Buffer_Continue()
                     Minimum-=3;
                     break;
                 default: ;
+                    // Not supported
+                    Reject();
+                    return;
             }
         }
     }

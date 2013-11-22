@@ -39,6 +39,7 @@ private :
     void FileHeader_Parse();
 
     //Buffer
+    void Read_Buffer_Unsynched();
     void Read_Buffer_Continue();
 
     //Elements

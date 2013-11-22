@@ -126,10 +126,10 @@
 #elif defined(__APPLE__) && defined(__MACH__)
     #define MEDIAINFODLL_NAME "libmediainfo.0.dylib"
     #define __stdcall
+    #include <new> //for size_t
 #else
     #define MEDIAINFODLL_NAME "libmediainfo.so.0"
     #define __stdcall
-    #include <new> //for size_t
 #endif //!defined(_WIN32) || defined(WIN32)
 
 /*-------------------------------------------------------------------------*/
@@ -231,6 +231,10 @@ extern "C"
     #include <windows.h>
     static HMODULE MediaInfo_Module = NULL;
 #else
+    #ifdef MACOSX
+        #include <CoreFoundation/CFBundle.h>
+    #endif
+
     #include <dlfcn.h>
     static void* MediaInfo_Module = NULL;
 #endif
@@ -333,7 +337,35 @@ extern "C"
     #elif defined(_WIN32) || defined(WIN32)
         MediaInfo_Module = LoadLibrary(MEDIAINFODLL_NAME);
     #else
-        MediaInfo_Module = dlopen(MEDIAINFODLL_NAME, RTLD_LAZY);
+        #ifdef MACOSX
+            MediaInfo_Module = dlopen("@executable_path/" MEDIAINFODLL_NAME, RTLD_LAZY);
+            if (!MediaInfo_Module)
+            {
+                CFBundleRef mainBundle = CFBundleGetMainBundle();
+
+                // get full app path and delete app name
+                CFURLRef app_url = CFBundleCopyExecutableURL(mainBundle);
+                CFURLRef app_path_url = CFURLCreateCopyDeletingLastPathComponent(NULL, app_url);
+
+                CFStringRef app_path = CFURLCopyFileSystemPath(app_path_url, kCFURLPOSIXPathStyle);
+
+                CFMutableStringRef mut_app_path = CFStringCreateMutableCopy(NULL, NULL, app_path);
+                CFStringAppend(mut_app_path, CFSTR("/"));
+                CFStringAppend(mut_app_path, CFSTR(MEDIAINFODLL_NAME));
+                CFStringEncoding encodingMethod = CFStringGetSystemEncoding();
+                const char *fullPath = CFStringGetCStringPtr(mut_app_path, encodingMethod);
+
+                MediaInfo_Module = dlopen(fullPath, RTLD_LAZY);
+
+                CFRelease(app_url);
+                CFRelease(app_path_url);
+                CFRelease(app_path);
+                CFRelease(mut_app_path);
+            }
+        #endif /* MACOSX*/
+
+        if (!MediaInfo_Module)
+            MediaInfo_Module = dlopen(MEDIAINFODLL_NAME, RTLD_LAZY);
         if (!MediaInfo_Module)
             MediaInfo_Module = dlopen("./" MEDIAINFODLL_NAME, RTLD_LAZY);
         if (!MediaInfo_Module)

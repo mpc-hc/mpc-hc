@@ -18,6 +18,7 @@ next version - not released yet
 + New option to auto-hide docked panels together with toolbars
 * More flexible auto-hide controls in fullscreen configuration options
 * Updated Traditional Chinese, Greek and Japanese translations
+* Updated MediaInfoLib to v0.7.65
 * Updated Unrar to v5.0.0.13
 ! Ticket #1300/#2081, Toolbars auto-hiding now always works properly in multi-display configurations
 ! Ticket #3479, Improve the behavior of MPC-HC when some security tools prevent it

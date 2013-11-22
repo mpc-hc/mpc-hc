@@ -77,6 +77,7 @@ struct Reader_libcurl::curl_data
     std::string         Ssh_PrivateKeyFileName;
     bool                Ssh_IgnoreSecurity;
     bool                Init_AlreadyDone;
+    bool                Init_NotAFile;
     #if MEDIAINFO_NEXTPACKET
         bool            NextPacket;
     #endif MEDIAINFO_NEXTPACKET
@@ -99,6 +100,7 @@ struct Reader_libcurl::curl_data
         Ssl_IgnoreSecurity=false;
         Ssh_IgnoreSecurity=false;
         Init_AlreadyDone=false;
+        Init_NotAFile=false;
         #if MEDIAINFO_NEXTPACKET
             NextPacket=false;
         #endif MEDIAINFO_NEXTPACKET
@@ -124,7 +126,12 @@ size_t libcurl_WriteData_CallBack(void *ptr, size_t size, size_t nmemb, void *da
     {
         double File_SizeD;
         CURLcode Result=curl_easy_getinfo(((Reader_libcurl::curl_data*)data)->Curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &File_SizeD);
-        if (Result==CURLE_OK && File_SizeD!=-1)
+        if (Result==CURLE_OK && File_SizeD==0)
+        {
+            ((Reader_libcurl::curl_data*)data)->Init_NotAFile=true;
+            return 0; //Great chances it is FTP file listing due to interogation mark in the file name
+        }
+        else if (Result==CURLE_OK && File_SizeD!=-1)
         {
             ((Reader_libcurl::curl_data*)data)->MI->Open_Buffer_Init((int64u)File_SizeD, ((Reader_libcurl::curl_data*)data)->File_Name);
         }
@@ -371,7 +378,7 @@ size_t Reader_libcurl::Format_Test_PerParser(MediaInfo_Internal* MI, const Strin
     #endif //MEDIAINFO_NEXTPACKET
     Curl_Data->MI=MI;
     Curl_Data->File_Name=File_Name;
-    string FileName_String=Ztring(Curl_Data->File_Name).To_Local();
+    string FileName_String=Ztring(Curl_Data->File_Name).To_UTF8();
     if (MI->Config.File_TimeToLive_Get())
         Curl_Data->Time_Max=time(0)+(time_t)MI->Config.File_TimeToLive_Get();
     if (!MI->Config.File_Curl_Get(__T("UserAgent")).empty())
@@ -702,6 +709,14 @@ size_t Reader_libcurl::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                     do
                     {
                         CURLMcode CodeM=curl_multi_perform(Curl_Data->CurlM, &running_handles);
+                        if (Result==CURLE_WRITE_ERROR && Curl_Data->Init_NotAFile)
+                        {
+                            //Not possible to get the file with UTF-8, trying local code page
+                            Curl_Data->Init_NotAFile=false;
+                            string FileName_String=Ztring(Curl_Data->File_Name).To_Local();
+                            curl_easy_setopt(Curl_Data->Curl, CURLOPT_URL, FileName_String.c_str());
+                            CodeM=curl_multi_perform(Curl_Data->CurlM, &running_handles);
+                        }
                         if (CodeM!=CURLM_OK && CodeM!=CURLM_CALL_MULTI_PERFORM)
                             break; //There is a problem
                         #if MEDIAINFO_DEMUX
@@ -718,7 +733,17 @@ size_t Reader_libcurl::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                 }
                 else
             #endif //MEDIAINFO_NEXTPACKET
+            {
                 Result=curl_easy_perform(Curl_Data->Curl);
+                if (Result==CURLE_WRITE_ERROR && Curl_Data->Init_NotAFile)
+                {
+                    //Not possible to get the file with UTF-8, trying local code page
+                    Curl_Data->Init_NotAFile=false;
+                    string FileName_String=Ztring(Curl_Data->File_Name).To_Local();
+                    curl_easy_setopt(Curl_Data->Curl, CURLOPT_URL, FileName_String.c_str());
+                    Result=curl_easy_perform(Curl_Data->Curl);
+                }
+            }
 
             if (Result!=CURLE_OK && Result!=CURLE_WRITE_ERROR)
             {

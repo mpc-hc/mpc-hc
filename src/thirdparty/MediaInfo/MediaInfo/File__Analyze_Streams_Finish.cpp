@@ -47,6 +47,12 @@ void File__Analyze::Streams_Finish_Global()
     if (IsSub)
         return;
 
+    #if MEDIAINFO_ADVANCED
+        //Default frame rate
+        if (Count_Get(Stream_Video)==1 && Retrieve(Stream_Video, 0, Video_FrameRate).empty() && Config->File_DefaultFrameRate_Get())
+            Fill(Stream_Video, 0, Video_FrameRate, Config->File_DefaultFrameRate_Get());
+    #endif //MEDIAINFO_ADVANCED
+
     //Video Frame count
     if (Count_Get(Stream_Video)==1 && Count_Get(Stream_Audio)==0 && Retrieve(Stream_Video, 0, Video_FrameCount).empty())
     {
@@ -91,14 +97,17 @@ void File__Analyze::Streams_Finish_Global()
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::TestContinuousFileNames()
+void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExtension)
 {
-    if (!Config->File_TestContinuousFileNames_Get())
+    if (IsSub || !Config->File_TestContinuousFileNames_Get())
         return;
 
     size_t Pos=Config->File_Names.size();
+    if (!Pos)
+        return;
 
     //Trying to detect continuous file names (e.g. video stream as an image or HLS)
+    bool AlreadyPresent=Config->File_Names.size()==1?true:false;
     FileName FileToTest(Config->File_Names.Read(Config->File_Names.size()-1));
     Ztring FileToTest_Name=FileToTest.Name_Get();
     size_t FileNameToTest_Pos=FileToTest_Name.size();
@@ -114,16 +123,15 @@ void File__Analyze::TestContinuousFileNames()
         {
             Pos++;
             Ztring Pos_Ztring; Pos_Ztring.From_Number(Pos);
-            if (Numbers_Size<Pos_Ztring.size())
-                break; //Not enough place for numbers
-            Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), __T('0'));
-            Ztring Next=FileToTest.Path_Get()+PathSeparator+FileToTest_Name+Pos_Ztring+__T('.')+FileToTest.Extension_Get();
+            if (Numbers_Size>Pos_Ztring.size())
+                Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), __T('0'));
+            Ztring Next=FileToTest.Path_Get()+PathSeparator+FileToTest_Name+Pos_Ztring+__T('.')+(FileExtension.empty()?FileToTest.Extension_Get():FileExtension);
             if (!File::Exists(Next))
                 break;
             Config->File_Names.push_back(Next);
         }
 
-        if (!Config->File_IsReferenced_Get() && Config->File_Names.size()<24)
+        if (!Config->File_IsReferenced_Get() && Config->File_Names.size()<CountOfFiles && AlreadyPresent)
             Config->File_Names.resize(1); //Removing files, wrong detection
     }
 

@@ -93,7 +93,7 @@ void File_Theora::Identification()
     }
 
     //Filling
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         Accept("Theora");
 
         Stream_Prepare(Stream_Video);

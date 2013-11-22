@@ -22,6 +22,10 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Text/File_N19.h"
+#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
+#if MEDIAINFO_EVENTS
+    #include "MediaInfo/MediaInfo_Events_Internal.h"
+#endif //MEDIAINFO_EVENTS
 using namespace std;
 //---------------------------------------------------------------------------
 
@@ -182,6 +186,21 @@ const char* N19_LanguageCode(int16u LC)
 }
 
 //***************************************************************************
+// Constructor/Destructor
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+File_N19::File_N19()
+:File__Analyze()
+{
+    //Configuration
+    #if MEDIAINFO_EVENTS
+        ParserIDs[0]=MediaInfo_Parser_N19;
+        StreamIDs_Width[0]=0;
+    #endif //MEDIAINFO_EVENTS
+}
+
+//***************************************************************************
 // Buffer - File header
 //***************************************************************************
 
@@ -303,8 +322,30 @@ void File_N19::FileHeader_Parse()
 
         //Init
         FirstFrame_TCI=(int64u)-1;
+        #if MEDIAINFO_DEMUX
+            Frame_Count=0;
+            TCO_Latest=(int64u)-1;
+        #endif //MEDIAINFO_DEMUX
     FILLING_END();
 }
+
+//***************************************************************************
+// Buffer - Global
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+#if MEDIAINFO_SEEK
+size_t File_N19::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
+{
+    #if MEDIAINFO_DEMUX
+        TCO_Latest=(int64u)-1;
+    #endif //MEDIAINFO_DEMUX
+
+    GoTo(0x400);
+    Open_Buffer_Unsynch();
+    return 1;
+}
+#endif //MEDIAINFO_SEEK
 
 //***************************************************************************
 // Buffer - Per element
@@ -355,7 +396,7 @@ void File_N19::Data_Parse()
         {
             Fill(Stream_Text, 0, Text_Duration, TCO-FirstFrame_TCI);
         }
-        else
+        else if (Config->ParseSpeed<1.0)
             //Jumping
             GoToFromEnd(128, "N19");
     FILLING_END();

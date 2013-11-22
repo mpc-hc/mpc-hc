@@ -80,6 +80,8 @@ size_t File__Analyze::Stream_Prepare (stream_t KindOfStream, size_t StreamPos)
         Fill(StreamKind_Last, Pos, General_StreamKindID, Pos, 10, true);
         if (Count_Get(StreamKind_Last)>1)
             Fill(StreamKind_Last, Pos, General_StreamKindPos, Pos+1, 10, true);
+        else
+            Clear(StreamKind_Last, Pos, General_StreamKindPos);
     }
 
     //Filling Lists & Counts
@@ -137,6 +139,19 @@ size_t File__Analyze::Stream_Prepare (stream_t KindOfStream, size_t StreamPos)
             if (Begin!=string::npos && End!=string::npos && Begin<End)
                 FileName_Modified.erase(Begin, End-Begin);
             Fill (Stream_General, 0, General_CompleteName, FileName_Modified);
+            size_t FileName_Modified_PathSeparatorOffset=FileName_Modified.find_last_of(__T('/'));
+            if (FileName_Modified_PathSeparatorOffset!=string::npos)
+            {
+                Fill (Stream_General, 0, General_FolderName, FileName_Modified.substr(0, FileName_Modified_PathSeparatorOffset));
+                size_t FileName_Modified_ExtensionSeparatorOffset=FileName_Modified.find_last_of(__T('.'));
+                if (FileName_Modified_ExtensionSeparatorOffset!=string::npos && FileName_Modified_ExtensionSeparatorOffset>FileName_Modified_PathSeparatorOffset)
+                {
+                    Fill (Stream_General, 0, General_FileName, FileName_Modified.substr(FileName_Modified_PathSeparatorOffset+1, FileName_Modified_ExtensionSeparatorOffset-(FileName_Modified_PathSeparatorOffset+1)));
+                    Fill (Stream_General, 0, General_FileExtension, FileName_Modified.substr(FileName_Modified_ExtensionSeparatorOffset+1));
+                }
+                else
+                    Fill (Stream_General, 0, General_FileName, FileName_Modified.substr(FileName_Modified_PathSeparatorOffset+1));
+            }
         }
 
         //File dates
@@ -160,7 +175,13 @@ size_t File__Analyze::Stream_Prepare (stream_t KindOfStream, size_t StreamPos)
         if (Fill_Temp(Pos, 0).IsNumber())
             Fill(StreamKind_Last, StreamPos_Last, Fill_Temp(Pos, 0).To_int32u(), Fill_Temp(Pos, 1));
         else
+        {
             Fill(StreamKind_Last, StreamPos_Last, Fill_Temp(Pos, 0).To_UTF8().c_str(), Fill_Temp(Pos, 1));
+            #if MEDIAINFO_DEMUX
+                if (!Retrieve(KindOfStream, StreamPos_Last, "Demux_InitBytes").empty())
+                    (*Stream_More)[KindOfStream][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT"); //TODO: find a better way to hide additional fields by default
+            #endif //MEDIAINFO_DEMUX
+        }
     Fill_Temp.clear();
 
     return StreamPos_Last; //The position in the stream count
@@ -171,6 +192,31 @@ size_t File__Analyze::Stream_Erase (stream_t KindOfStream, size_t StreamPos)
     //Integrity
     if (!Status[IsAccepted] || KindOfStream>Stream_Max || StreamPos>=Count_Get(KindOfStream))
         return Error;
+
+    //Filling Lists & Counts
+    if (!IsSub && KindOfStream!=Stream_General)
+    {
+        const Ztring& StreamKind_Text=Get(KindOfStream, 0, General_StreamKind, Info_Text);
+        ZtringList Temp; Temp.Separator_Set(0, __T(" / "));
+        Temp.Write(Retrieve(Stream_General, 0, Ztring(StreamKind_Text+__T("_Codec_List")).To_Local().c_str()));
+        if (StreamPos<Temp.size())
+            Temp.erase(Temp.begin()+StreamPos);
+        Fill(Stream_General, 0, Ztring(StreamKind_Text+__T("_Codec_List")).To_Local().c_str(), Temp.Read(), true);
+        Temp.Write(Retrieve(Stream_General, 0, Ztring(StreamKind_Text+__T("_Language_List")).To_Local().c_str()));
+        if (StreamPos<Temp.size())
+            Temp.erase(Temp.begin()+StreamPos);
+        Fill(Stream_General, 0, Ztring(StreamKind_Text+__T("_Language_List")).To_Local().c_str(), Temp.Read(), true);
+        Temp.Write(Retrieve(Stream_General, 0, Ztring(StreamKind_Text+__T("_Format_List")).To_Local().c_str()));
+        if (StreamPos<Temp.size())
+            Temp.erase(Temp.begin()+StreamPos);
+        Fill(Stream_General, 0, Ztring(StreamKind_Text+__T("_Format_List")).To_Local().c_str(), Temp.Read(), true);
+        Temp.Write(Retrieve(Stream_General, 0, Ztring(StreamKind_Text+__T("_Format_WithHint_List")).To_Local().c_str()));
+        if (StreamPos<Temp.size())
+            Temp.erase(Temp.begin()+StreamPos);
+        Fill(Stream_General, 0, Ztring(StreamKind_Text+__T("_Format_WithHint_List")).To_Local().c_str(), Temp.Read(), true);
+
+        Fill(Stream_General, 0, Ztring(StreamKind_Text+__T("Count")).To_Local().c_str(), Count_Get(KindOfStream)-1, 10, true);
+    }
 
     //Insert a stream
     (*Stream)[KindOfStream].erase((*Stream)[KindOfStream].begin()+StreamPos);
@@ -183,6 +229,8 @@ size_t File__Analyze::Stream_Erase (stream_t KindOfStream, size_t StreamPos)
         Fill(KindOfStream, Pos, General_StreamKindID, Pos, 10, true);
         if (Count_Get(KindOfStream)>1)
             Fill(KindOfStream, Pos, General_StreamKindPos, Pos+1, 10, true);
+        else
+            Clear(KindOfStream, Pos, General_StreamKindPos);
     }
 
     StreamKind_Last=Stream_Max;
@@ -1168,10 +1216,17 @@ void File__Analyze::Clear (stream_t StreamKind, size_t StreamPos, const char* Pa
 {
     //Integrity
     if (StreamKind>=Stream_Max
-     || StreamPos>=(*Stream)[StreamKind].size()
      || Parameter==NULL
      || Parameter[0]=='\0')
         return;
+
+    if (StreamPos>=(*Stream)[StreamKind].size())
+    {
+        size_t Pos=Fill_Temp.Find(Ztring().From_UTF8(Parameter));
+        if (Pos!=string::npos)
+            Fill_Temp.erase(Fill_Temp.begin()+Pos);
+        return;
+    }
 
     size_t Parameter_Pos=MediaInfoLib::Config.Info_Get(StreamKind).Find(Ztring().From_Local(Parameter));
     if (Parameter_Pos==Error)
@@ -1237,6 +1292,10 @@ void File__Analyze::Clear (stream_t StreamKind, size_t StreamPos, size_t Paramet
             {
                 if (Parameter+1<(*Stream)[StreamKind][StreamPos].size())
                     (*Stream)[StreamKind][StreamPos][Parameter+1].clear();
+            }
+            else if (Parameter+1<(*Stream)[StreamKind][StreamPos].size() && MediaInfoLib::Config.Info_Get(StreamKind).Read(Parameter+1, Info_Name).find(__T("/String"))!=string::npos)
+            {
+                (*Stream)[StreamKind][StreamPos][Parameter+1].clear();
             }
         }
 
@@ -1371,6 +1430,7 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
 
     //Specific stuff
     Ztring Width_Temp, Height_Temp, PixelAspectRatio_Temp, DisplayAspectRatio_Temp, FrameRate_Temp, FrameRate_Mode_Temp, ScanType_Temp, ScanOrder_Temp, Channels_Temp, Delay_Temp, Delay_DropFrame_Temp, Delay_Source_Temp, Delay_Settings_Temp, Source_Temp, Source_Kind_Temp, Source_Info_Temp;
+    Ztring colour_description_present_Temp, colour_primaries_Temp, transfer_characteristics_Temp, matrix_coefficients_Temp;
     if (StreamKind==Stream_Video)
     {
         Width_Temp=Retrieve(Stream_Video, StreamPos_To, Video_Width);
@@ -1381,6 +1441,17 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
         FrameRate_Mode_Temp=Retrieve(Stream_Video, StreamPos_To, Video_FrameRate_Mode); //We want to keep the FrameRate_Mode of AVI 120 fps
         ScanType_Temp=Retrieve(Stream_Video, StreamPos_To, Video_ScanType);
         ScanOrder_Temp=Retrieve(Stream_Video, StreamPos_To, Video_ScanOrder);
+        colour_description_present_Temp=Retrieve(Stream_Video, StreamPos_To, Video_colour_description_present);
+        if (!colour_description_present_Temp.empty())
+        {
+            colour_primaries_Temp=Retrieve(Stream_Video, StreamPos_To, Video_colour_primaries);
+            transfer_characteristics_Temp=Retrieve(Stream_Video, StreamPos_To, Video_transfer_characteristics);
+            matrix_coefficients_Temp=Retrieve(Stream_Video, StreamPos_To, Video_matrix_coefficients);
+        }
+        Clear(Stream_Video, StreamPos_To, Video_colour_description_present);
+        Clear(Stream_Video, StreamPos_To, Video_colour_primaries);
+        Clear(Stream_Video, StreamPos_To, Video_transfer_characteristics);
+        Clear(Stream_Video, StreamPos_To, Video_matrix_coefficients);
     }
     if (StreamKind==Stream_Audio)
     {
@@ -1471,7 +1542,7 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
             Fill(Stream_Video, StreamPos_To, Video_ScanType_Original, (*Stream)[Stream_Video][StreamPos_To][Video_ScanType], true);
             Fill(Stream_Video, StreamPos_To, Video_ScanType, ScanType_Temp, true);
         }
-        if ((!ScanOrder_Temp.empty() && ScanOrder_Temp!=Retrieve(Stream_Video, StreamPos_To, Video_ScanOrder)) || !Retrieve(Stream_Video, StreamPos_To, Video_ScanType_Original).empty())
+        if (Retrieve(Stream_Video, StreamPos_To, Video_ScanType_Original)!=__T("Progressive") && ((!ScanOrder_Temp.empty() && ScanOrder_Temp!=Retrieve(Stream_Video, StreamPos_To, Video_ScanOrder)) || !Retrieve(Stream_Video, StreamPos_To, Video_ScanType_Original).empty()))
         {
             Fill(Stream_Video, StreamPos_To, Video_ScanOrder_Original, (*Stream)[Stream_Video][StreamPos_To][Video_ScanOrder], true);
             if (ScanOrder_Temp.empty())
@@ -1481,6 +1552,30 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
             }
             else
                 Fill(Stream_Video, StreamPos_To, Video_ScanOrder, ScanOrder_Temp, true);
+        }
+        if (!colour_description_present_Temp.empty())
+        {
+            if (!colour_description_present_Temp.empty() && !Retrieve(Stream_Video, StreamPos_To, Video_colour_description_present).empty()
+             && (colour_primaries_Temp!=Retrieve(Stream_Video, StreamPos_To, Video_colour_primaries)
+              || transfer_characteristics_Temp!=Retrieve(Stream_Video, StreamPos_To, Video_transfer_characteristics)
+              || matrix_coefficients_Temp!=Retrieve(Stream_Video, StreamPos_To, Video_matrix_coefficients)))
+            {
+                Fill(Stream_Video, StreamPos_To, Video_colour_description_present_Original, (*Stream)[Stream_Video][StreamPos_To][Video_colour_description_present], true);
+                Fill(Stream_Video, StreamPos_To, Video_colour_description_present, colour_description_present_Temp, true);
+                Fill(Stream_Video, StreamPos_To, Video_colour_primaries_Original, (*Stream)[Stream_Video][StreamPos_To][Video_colour_primaries], true);
+                Fill(Stream_Video, StreamPos_To, Video_colour_primaries, colour_primaries_Temp, true);
+                Fill(Stream_Video, StreamPos_To, Video_transfer_characteristics_Original, (*Stream)[Stream_Video][StreamPos_To][Video_transfer_characteristics], true);
+                Fill(Stream_Video, StreamPos_To, Video_transfer_characteristics, transfer_characteristics_Temp, true);
+                Fill(Stream_Video, StreamPos_To, Video_matrix_coefficients_Original, (*Stream)[Stream_Video][StreamPos_To][Video_matrix_coefficients], true);
+                Fill(Stream_Video, StreamPos_To, Video_matrix_coefficients, matrix_coefficients_Temp, true);
+            }
+            else
+            {
+                Fill(Stream_Video, StreamPos_To, Video_colour_description_present, colour_description_present_Temp, true);
+                Fill(Stream_Video, StreamPos_To, Video_colour_primaries, colour_primaries_Temp, true);
+                Fill(Stream_Video, StreamPos_To, Video_transfer_characteristics, transfer_characteristics_Temp, true);
+                Fill(Stream_Video, StreamPos_To, Video_matrix_coefficients, matrix_coefficients_Temp, true);
+            }
         }
     }
     if (StreamKind==Stream_Audio)

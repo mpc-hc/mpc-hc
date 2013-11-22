@@ -131,6 +131,13 @@ void File_Dpg::FileHeader_Parse()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+void File_Dpg::Read_Buffer_Unsynched()
+{
+    if (Parser)
+        Parser->Open_Buffer_Unsynch();
+}
+
+//---------------------------------------------------------------------------
 void File_Dpg::Read_Buffer_Continue()
 {
     if (!Parser)
@@ -143,11 +150,11 @@ void File_Dpg::Read_Buffer_Continue()
                 Open_Buffer_Continue(Parser, (size_t)((File_Offset+Buffer_Size<Audio_Offset+Audio_Size)?Buffer_Size:(Audio_Offset+Audio_Size-File_Offset)));
                 if (Parser->Status[IsAccepted])
                 {
+                    Parser->Open_Buffer_Unsynch();
                     Finish(Parser);
                     Merge(*Parser, Stream_Audio, 0, 0);
                     #if defined(MEDIAINFO_MPEGV_YES)
                         Audio_Size=0;
-                        Open_Buffer_Unsynch();
                         Data_GoTo(Video_Offset, "DPG");
                         delete Parser; Parser=new File_Mpegv();
                         Open_Buffer_Init(Parser);
@@ -164,6 +171,7 @@ void File_Dpg::Read_Buffer_Continue()
                 if (Parser->Status[IsAccepted])
                 {
                     //Merging
+                    Parser->Open_Buffer_Unsynch();
                     Finish(Parser);
                     Merge(*Parser, Stream_Video, 0, 0);
 

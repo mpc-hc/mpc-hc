@@ -258,6 +258,7 @@ File_Gxf::File_Gxf()
         Ancillary=NULL;
     #endif //defined(MEDIAINFO_ANCILLARY_YES)
     SizeToAnalyze=16*1024*1024;
+    IsParsingMiddle_MaxOffset=(int64u)-1;
     Audio_Count=0;
     Element_Code=0x00; //Element_Code is used as a test for pre-existing parsing, it must be initialized
 
@@ -434,6 +435,10 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
 
                 Merge(*Temp.Parsers[0], Stream_Video, 0, StreamPos_Last);
 
+                Ztring LawRating=Temp.Parsers[0]->Retrieve(Stream_General, 0, General_LawRating);
+                if (!LawRating.empty())
+                    Fill(Stream_General, 0, General_LawRating, LawRating, true);
+
                 Fill(Stream_Video, StreamPos_Last, Video_ID, StreamID, 10, true);
                 Fill(Stream_Video, StreamPos_Last, "Title", Temp.MediaName);
 
@@ -534,6 +539,10 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                     Fill(Stream_Text, StreamPos_Last, Text_Delay_Original_Source, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_Delay_Original_Source), true);
                     Fill(Stream_Text, StreamPos_Last, "Title", Temp.MediaName);
                 }
+
+                Ztring LawRating=Temp.Parsers[0]->Retrieve(Stream_General, 0, General_LawRating);
+                if (!LawRating.empty())
+                    Fill(Stream_General, 0, General_LawRating, LawRating, true);
 
                 StreamKind_Last=Stream_Max;
                 StreamPos_Last=(size_t)-1;
@@ -752,6 +761,18 @@ size_t File_Gxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
 }
 #endif //MEDIAINFO_SEEK
 
+//---------------------------------------------------------------------------
+void File_Gxf::Read_Buffer_AfterParsing()
+{
+    if (File_GoTo==(int64u)-1 && File_Offset+Buffer_Offset>=IsParsingMiddle_MaxOffset)
+    {
+        Fill();
+        Open_Buffer_Unsynch();
+        Finish();
+        return;
+    }
+}
+
 //***************************************************************************
 // Buffer - Per element
 //***************************************************************************
@@ -761,13 +782,13 @@ bool File_Gxf::Header_Begin()
 {
     #if MEDIAINFO_DEMUX
         //Handling of multiple frames in one block
-        if (Element_Code==0xBF && Config->Demux_Unpacketize_Get()) //media block
-            for (size_t Pos=0; Pos<Streams[TrackNumber].Parsers.size(); Pos++)
-            {
-                Open_Buffer_Continue(Streams[TrackNumber].Parsers[Pos], Buffer+Buffer_Offset, 0);
-                if (Config->Demux_EventWasSent)
-                    return false;
-            }
+        if (Element_Code==0xBF && Config->Demux_Unpacketize_Get() && Streams[TrackNumber].Demux_EventWasSent) //media block
+        {
+            Open_Buffer_Continue(Streams[TrackNumber].Parsers[0], Buffer+Buffer_Offset, 0);
+            if (Config->Demux_EventWasSent)
+                return false;
+            Streams[TrackNumber].Demux_EventWasSent=false;
+        }
     #endif //MEDIAINFO_DEMUX
 
     return true;
@@ -1431,7 +1452,7 @@ void File_Gxf::media()
     #endif //MEDIAINFO_DEMUX
 
     //Needed?
-    if (!Streams[TrackNumber].Searching_Payload)
+    if (!Streams[TrackNumber].Searching_Payload && IsParsingMiddle_MaxOffset==(int64u)-1)
     {
         Skip_XX(Element_Size-Element_Offset,                    "data");
         //Element_DoNotShow();
@@ -1442,6 +1463,10 @@ void File_Gxf::media()
     {
         Streams[TrackNumber].Parsers[Pos]->FrameInfo.DTS=FrameInfo.DTS;
         Open_Buffer_Continue(Streams[TrackNumber].Parsers[Pos], Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset));
+        #if MEDIAINFO_DEMUX
+            if (Config->Demux_EventWasSent && Config->Demux_Unpacketize_Get())
+                Streams[TrackNumber].Demux_EventWasSent=true;
+        #endif //MEDIAINFO_DEMUX
 
         //Multiple parsers
         if (Streams[TrackNumber].Parsers.size()>1)
@@ -1468,7 +1493,7 @@ void File_Gxf::media()
 
     Element_Offset=Element_Size;
 
-    if (MediaInfoLib::Config.ParseSpeed_Get()<1 && Streams[TrackNumber].Parsers.size()==1 && Streams[TrackNumber].Parsers[0]->Status[IsFilled])
+    if (IsParsingMiddle_MaxOffset!=(int64u)-1 && Config->ParseSpeed<1 && Streams[TrackNumber].Parsers.size()==1 && Streams[TrackNumber].Parsers[0]->Status[IsFilled])
     {
         Streams[TrackNumber].Searching_Payload=false;
 
@@ -1476,7 +1501,7 @@ void File_Gxf::media()
             Parsers_Count--;
         if (Parsers_Count==0)
         {
-            Finish();
+            TryToFinish();
         }
     }
 }
@@ -1560,7 +1585,7 @@ void File_Gxf::Detect_EOF()
 {
     if (File_Offset+Buffer_Size>=SizeToAnalyze)
     {
-        Finish();
+        TryToFinish();
     }
 }
 
@@ -1574,7 +1599,7 @@ File__Analyze* File_Gxf::ChooseParser_ChannelGrouping(int8u TrackID)
             return NULL; //Not a channel grouping
 
         Parser=new File_ChannelGrouping;
-        Parser->CanBePcm=true;;
+        Parser->CanBePcm=true;
         Parser->Channel_Pos=1;
         Parser->Common=((File_ChannelGrouping*)Streams[TrackID-1].Parsers[0])->Common;
         Parser->StreamID=TrackID-1;
@@ -1583,7 +1608,7 @@ File__Analyze* File_Gxf::ChooseParser_ChannelGrouping(int8u TrackID)
     else
     {
         Parser=new File_ChannelGrouping;
-        Parser->CanBePcm=true;;
+        Parser->CanBePcm=true;
         Parser->Channel_Pos=0;
         //if (Descriptor->second.Infos.find("SamplingRate")!=Descriptor->second.Infos.end())
         Streams[TrackID].IsChannelGrouping=true;
@@ -1603,6 +1628,21 @@ File__Analyze* File_Gxf::ChooseParser_ChannelGrouping(int8u TrackID)
     #endif //MEDIAINFO_DEMUX
 
     return Parser;
+}
+
+//---------------------------------------------------------------------------
+void File_Gxf::TryToFinish()
+{
+    if (!IsSub && File_Size!=(int64u)-1 && Config->ParseSpeed<1 && IsParsingMiddle_MaxOffset==(int64u)-1 && File_Size/2>SizeToAnalyze*4)
+    {
+        IsParsingMiddle_MaxOffset=File_Size/2+SizeToAnalyze*4;
+        GoTo(File_Size/2);
+        Open_Buffer_Unsynch();
+        Parsers_Count=(int8u)-1;
+        return;
+    }
+
+    Finish();
 }
 
 } //NameSpace

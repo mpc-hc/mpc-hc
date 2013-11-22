@@ -304,7 +304,7 @@ void File_MpegTs::Streams_Update_Programs()
             if (Program->second.IsParsed)
             {
                 //Per pid
-                Ztring Languages, Codecs, Formats, StreamKinds, StreamPoss, elementary_PIDs, elementary_PIDs_String, Delay;
+                Ztring Languages, Codecs, Formats, StreamKinds, StreamPoss, elementary_PIDs, elementary_PIDs_String, Delay, LawRating;
                 for (size_t Pos=0; Pos<Program->second.elementary_PIDs.size(); Pos++)
                 {
                     int16u elementary_PID=Program->second.elementary_PIDs[Pos];
@@ -347,6 +347,14 @@ void File_MpegTs::Streams_Update_Programs()
                         if (Complete_Stream->Streams[elementary_PID]->IsPCR)
                         {
                             Delay=Ztring::ToZtring(((float64)Complete_Stream->Streams[elementary_PID]->TimeStamp_Start)/27000, 6);
+                        }
+
+                        //Law rating
+                        if (Complete_Stream->Streams[elementary_PID] && Complete_Stream->Streams[elementary_PID]->Parser)
+                        {
+                            Ztring LawRating_Temp=Complete_Stream->Streams[elementary_PID]->Parser->Retrieve(Stream_General, 0, General_LawRating);
+                            if (!LawRating_Temp.empty())
+                                LawRating+=LawRating_Temp+__T(" / ");;
                         }
                     }
                 }
@@ -422,6 +430,11 @@ void File_MpegTs::Streams_Update_Programs()
                         if (!Languages.empty())
                             Languages.resize(Languages.size()-3);
                         Fill(Stream_Menu, StreamPos_Last, Menu_Language, Languages, true);
+                        if (!LawRating.empty())
+                            LawRating.resize(LawRating.size()-3);
+                        Fill(Stream_Menu, StreamPos_Last, "LawRating", LawRating, true);
+                        if (!LawRating.empty() && StreamPos_Last)
+                            Clear(Stream_General, 0, General_LawRating); //More than 1 menu, can not be in General part
                     }
                 }
 
@@ -461,6 +474,9 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
     //No direct handling of Sub streams;
     if (Temp->stream_type==0x20 && Temp->SubStream_pid) //Stereoscopic is not alone
         return;
+
+    if (Temp->Parser)
+        Temp->Parser->Open_Buffer_Update();
 
     //Merging from a previous merge
     size_t Count;
@@ -536,7 +552,7 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
         }
 
         //By the stream_type
-        if (StreamKind_Last==Stream_Max && Complete_Stream->transport_stream_id_IsValid && !Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs.empty())
+        if (StreamKind_Last==Stream_Max && Complete_Stream->transport_stream_id_IsValid && !Temp->program_numbers.empty() && !Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs.empty())
         {
             int32u format_identifier=Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[Temp->program_numbers[0]].registration_format_identifier;
             if (Mpeg_Psi_stream_type_StreamKind(Temp->stream_type, format_identifier)!=Stream_Max && (Temp->IsRegistered || ForceStreamDisplay || format_identifier==Elements::HDMV))
@@ -555,7 +571,7 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
         }
 
         //By the StreamKind
-        if (StreamKind_Last==Stream_Max && Temp->StreamKind_FromDescriptor!=Stream_Max && (Temp->IsRegistered || ForceStreamDisplay || Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[Temp->program_numbers[0]].registration_format_identifier==Elements::HDMV))
+        if (StreamKind_Last==Stream_Max && Temp->StreamKind_FromDescriptor!=Stream_Max && (Temp->IsRegistered || ForceStreamDisplay || (!Temp->program_numbers.empty() && Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[Temp->program_numbers[0]].registration_format_identifier==Elements::HDMV)))
         {
             Stream_Prepare(Temp->StreamKind_FromDescriptor);
             Count=1;
@@ -829,6 +845,24 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
                     Fill(StreamKind_Last, StreamPos_Last, Info->first.c_str(), Info->second);
             }
             Teletext->second.Infos.clear();
+        }
+    }
+
+    //Law rating
+    if (Temp->Parser)
+    {
+        Ztring LawRating=Temp->Parser->Retrieve(Stream_General, 0, General_LawRating);
+        if (!LawRating.empty())
+        {
+            if (Count_Get(Stream_Menu))
+            {
+                Ztring MenuID=Retrieve(Temp->StreamKind, Temp->StreamPos, General_MenuID);
+                for (size_t Pos=0; Pos<Count_Get(Stream_Menu); Pos++)
+                    if (Retrieve(Stream_Menu, Pos, General_MenuID)==MenuID)
+                        Fill(Stream_Menu, Pos, "LawRating", LawRating, true);
+            }
+            else
+                Fill(Stream_General, 0, General_LawRating, LawRating, true);
         }
     }
 }
@@ -1518,7 +1552,7 @@ bool File_MpegTs::Synched_Test()
                                                 {
                                                    if (!discontinuity_indicator)
                                                         Complete_Stream->Streams[pid]->TimeStamp_HasProblems++;
-                                                   float64 Bytes=(float64)(File_Offset+Buffer_Offset-Complete_Stream->Streams[pid]->TimeStamp_End_Offset);;
+                                                   float64 Bytes=(float64)(File_Offset+Buffer_Offset-Complete_Stream->Streams[pid]->TimeStamp_End_Offset);
                                                    int64u TimeToAdd;
                                                    if (Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Current_Raw)
                                                        TimeToAdd=float64_int64s(Bytes*8/Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Current_Raw*27000000);
@@ -2257,7 +2291,7 @@ void File_MpegTs::Header_Parse_AdaptationField()
                                     {
                                        if (!discontinuity_indicator)
                                             Complete_Stream->Streams[pid]->TimeStamp_HasProblems++;
-                                       float64 Bytes=(float64)(File_Offset+Buffer_Offset-Complete_Stream->Streams[pid]->TimeStamp_End_Offset);;
+                                       float64 Bytes=(float64)(File_Offset+Buffer_Offset-Complete_Stream->Streams[pid]->TimeStamp_End_Offset);
                                        int64u TimeToAdd;
                                        if (Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Current_Raw)
                                            TimeToAdd=float64_int64s(Bytes*8/Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Current_Raw*27000000);
@@ -2483,7 +2517,7 @@ void File_MpegTs::Header_Parse_AdaptationField()
                                     {
                                        if (!discontinuity_indicator)
                                             Complete_Stream->Streams[pid]->TimeStamp_HasProblems++;
-                                       float64 Bytes=(float64)(File_Offset+Buffer_Offset-Complete_Stream->Streams[pid]->TimeStamp_End_Offset);;
+                                       float64 Bytes=(float64)(File_Offset+Buffer_Offset-Complete_Stream->Streams[pid]->TimeStamp_End_Offset);
                                        int64u TimeToAdd;
                                        if (Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Current_Raw)
                                            TimeToAdd=float64_int64s(Bytes*8/Complete_Stream->Streams[pid]->TimeStamp_InstantaneousBitRate_Current_Raw*27000000);
@@ -2820,8 +2854,11 @@ void File_MpegTs::PES_Parse_Finish()
     {
         if ((Complete_Stream->Streams[pid]->Searching_Payload_Start || Complete_Stream->Streams[pid]->Searching_Payload_Continue) && Config->ParseSpeed<1 && MpegTs_JumpTo_End)
         {
-            Complete_Stream->Streams[pid]->Searching_Payload_Start_Set(false);
-            Complete_Stream->Streams[pid]->Searching_Payload_Continue_Set(false);
+            if (Config->File_StopSubStreamAfterFilled_Get())
+            {
+                Complete_Stream->Streams[pid]->Searching_Payload_Start_Set(false);
+                Complete_Stream->Streams[pid]->Searching_Payload_Continue_Set(false);
+            }
             if (!Complete_Stream->Streams[pid]->IsParsed && Complete_Stream->Streams_NotParsedCount)
             {
                 Complete_Stream->Streams[pid]->IsParsed=true;

@@ -410,9 +410,9 @@ void File_Hevc::Header_Parse()
         if (nuh_temporal_id_plus1==0)
             Trusted_IsNot("nuh_temporal_id_plus1");
 
-        FILLING_BEGIN()
+        FILLING_BEGIN();
             Header_Fill_Size(Size?(Element_Offset-2+Size):(Buffer_Size-Buffer_Offset)); //If Size is 0, it is not normal, we skip the complete frame
-        FILLING_END()
+        FILLING_END();
     }
 
     //Filling
@@ -795,7 +795,7 @@ void File_Hevc::video_parameter_set()
     TESTELSE_SB_END();
     BS_End();
 
-    FILLING_BEGIN_PRECISE()
+    FILLING_BEGIN_PRECISE();
         //Creating Data
         if (vps_video_parameter_set_id>=video_parameter_sets.size())
             video_parameter_sets.resize(vps_video_parameter_set_id+1);
@@ -814,7 +814,7 @@ void File_Hevc::video_parameter_set()
         Streams[36].Searching_Payload=true; //end_of_seq
         Streams[37].Searching_Payload=true; //end_of_bitstream
         Streams[38].Searching_Payload=true; //filler_data
-    FILLING_END()
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -945,7 +945,7 @@ void File_Hevc::seq_parameter_set()
     TESTELSE_SB_END();
     BS_End();
 
-    FILLING_BEGIN_PRECISE()
+    FILLING_BEGIN_PRECISE();
         //Creating Data
         if (sps_seq_parameter_set_id>=seq_parameter_sets.size())
             seq_parameter_sets.resize(sps_seq_parameter_set_id+1);
@@ -975,7 +975,7 @@ void File_Hevc::seq_parameter_set()
 
         //Autorisation of other streams
         Streams[34].Searching_Payload=true; //pic_parameter_set
-    FILLING_END()
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------

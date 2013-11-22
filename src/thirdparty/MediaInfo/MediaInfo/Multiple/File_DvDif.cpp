@@ -474,7 +474,7 @@ void File_DvDif::Streams_Fill()
         {
             Fill(Stream_General, 0, General_Format_Commercial_IfAny, "DVCPRO HD");
             Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "DVCPRO HD");
-            Fill(Stream_Video, 0, Video_BitDepth, 10, 10, true); //MXF files say that DVCPRO HD are 10 bits, exact?
+            Clear(Stream_Video, 0, Video_BitDepth); //MXF files say that DVCPRO HD streams are 8 or 10 bits, exact?
         }
         else
         {

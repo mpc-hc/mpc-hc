@@ -185,6 +185,27 @@ string TimeCode::ToString()
     return TC;
 }
 
+//---------------------------------------------------------------------------
+int32u TimeCode::ToFrames()
+{
+    if (!FramesPerSecond)
+        return (int32u)-1;
+
+    int32u TC=(Hours     *3600
+             + Minutes   *  60
+             + Seconds        )*FramesPerSecond
+            + Frames;
+
+    if (DropFrame)
+    {
+        TC-= Hours      *108
+          + (Minutes/10)*18
+          + (Minutes%10)*2;
+    }
+
+    return TC;
+}
+
 //***************************************************************************
 //
 //***************************************************************************

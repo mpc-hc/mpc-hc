@@ -342,7 +342,7 @@ size_t MediaInfo_Internal::Open(const String &File_Name_)
                     return 1;
 
                 //Nothing interesting
-                delete Info; Info=NULL;
+                Close();
             }
         }
     #endif //MEDIAINFO_IBI_YES
@@ -514,6 +514,24 @@ void MediaInfo_Internal::Entry()
                         if (File::Exists(Test))
                             Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".stl\" />\r\n";
                     }
+                    if (FileExtension!=__T("ttml"))
+                    {
+                        Test.Extension_Set(__T("ttml"));
+                        if (File::Exists(Test))
+                            Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".ttml\" />\r\n";
+                    }
+                    if (FileExtension!=__T("ssa"))
+                    {
+                        Test.Extension_Set(__T("ssa"));
+                        if (File::Exists(Test))
+                            Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".ssa\" />\r\n";
+                    }
+                    if (FileExtension!=__T("ass"))
+                    {
+                        Test.Extension_Set(__T("ass"));
+                        if (File::Exists(Test))
+                            Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".ass\" />\r\n";
+                    }
 
                     Ztring Name=Test.Name_Get();
                     Ztring BaseName=Name.SubString(Ztring(), __T("_"));
@@ -573,6 +591,10 @@ void MediaInfo_Internal::Entry()
                 {
                     Open_Buffer_Init(Dxw.size(), FileName(Config.File_Names[0]).Path_Get()+PathSeparator+FileName(Config.File_Names[0]).Name_Get());
                     Open_Buffer_Continue((const int8u*)Dxw.c_str(), Dxw.size());
+                    #if MEDIAINFO_NEXTPACKET
+                        if (Config.NextPacket_Get())
+                            return;
+                   #endif //MEDIAINFO_NEXTPACKET
                     Open_Buffer_Finalize();
                 }
             #else //defined(MEDIAINFO_REFERENCES_YES)
@@ -868,7 +890,19 @@ std::bitset<32> MediaInfo_Internal::Open_NextPacket ()
                 Demux_EventWasSent=(Reader->Format_Test_PerParser_Continue(this)==2);
                 CS.Enter();
             }
+            else
         #endif //defined(MEDIAINFO_READER_NO)
+            {
+                #if MEDIAINFO_NEXTPACKET
+                    Config.Demux_EventWasSent=false;
+                #endif //MEDIAINFO_NEXTPACKET
+                Open_Buffer_Continue(NULL, 0);
+                #if MEDIAINFO_NEXTPACKET
+                    Demux_EventWasSent=Config.Demux_EventWasSent;
+                    if (!Demux_EventWasSent)
+                #endif //MEDIAINFO_NEXTPACKET
+                        Open_Buffer_Finalize();
+            }
     }
 
     std::bitset<32> ToReturn=Info==NULL?std::bitset<32>(0x0F):Info->Status;
@@ -1150,7 +1184,7 @@ String MediaInfo_Internal::Option (const String &Option, const String &Value)
     else if (OptionLower.find(__T("file_seek"))==0)
     {
         #if MEDIAINFO_SEEK
-            if (Reader==NULL)
+            if (Reader==NULL && Info==NULL)
                 return __T("Error: Reader pointer is empty");
 
             size_t Method=(size_t)-1;
@@ -1208,7 +1242,11 @@ String MediaInfo_Internal::Option (const String &Option, const String &Value)
             }
 
             CS.Leave();
-            size_t Result=Reader->Format_Test_PerParser_Seek(this, Method, SeekValue, ID);
+            size_t Result;
+            if (Reader)
+                Result=Reader->Format_Test_PerParser_Seek(this, Method, SeekValue, ID);
+            else
+                Result=Open_Buffer_Seek(Method, SeekValue, ID);
             CS.Enter();
             switch (Result)
             {

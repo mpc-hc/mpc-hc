@@ -68,8 +68,45 @@ Export_PBCore::~Export_PBCore ()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-void PBCore_Transform__Common_Begin(Ztring &ToReturn, MediaInfo_Internal &MI, stream_t StreamKind, size_t StreamPos)
+void PBCore_Transform(Ztring &ToReturn, MediaInfo_Internal &MI, stream_t StreamKind, size_t StreamPos)
 {
+    //Menu: only if TimeCode
+    if (StreamKind==Stream_Menu && MI.Get(Stream_Menu, StreamPos, Menu_Format)!=__T("TimeCode"))
+        return;
+
+    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
+
+    //essenceTrackType
+    Ztring essenceTrackType;
+    switch (StreamKind)
+    {
+        case Stream_Video:
+                            essenceTrackType=__T("Video");
+                            break;
+        case Stream_Audio:
+                            essenceTrackType=__T("Audio");
+                            break;
+        case Stream_Text:
+                            {
+                            Ztring Format=MI.Get(Stream_Text, StreamPos, Text_Format);
+                            if (Format==__T("EIA-608") || Format==__T("EIA-708"))
+                                essenceTrackType=__T("CC");
+                            else
+                                essenceTrackType=__T("Text");
+                            }
+                            break;
+        case Stream_Menu:
+                            if (MI.Get(Stream_Menu, StreamPos, Menu_Format)==__T("TimeCode"))
+                            {
+                                essenceTrackType=__T("TimeCode");
+                                break;
+                            }
+                            else
+                                return; //Not supported
+        default:            return; //Not supported
+    }
+    ToReturn+=__T("\t\t\t<essenceTrackType>")+essenceTrackType+__T("</essenceTrackType>\n");
+
     //essenceTrackIdentifier
     if (!MI.Get(StreamKind, StreamPos, __T("ID")).empty())
     {
@@ -88,12 +125,8 @@ void PBCore_Transform__Common_Begin(Ztring &ToReturn, MediaInfo_Internal &MI, st
     }
 
     //essenceTrackStandard
-    if (StreamKind==Stream_Video && !MI.Get(Stream_Video, StreamPos, Video_Standard).empty()) //Video only, but must be placed here
+    if (StreamKind==Stream_Video && !MI.Get(Stream_Video, StreamPos, Video_Standard).empty())
         ToReturn+=__T("\t\t\t<essenceTrackStandard>")+MI.Get(Stream_Video, StreamPos, Video_Standard)+__T("</essenceTrackStandard>\n");
-
-    //essenceTrackLanguage
-    if (!MI.Get(StreamKind, StreamPos, __T("Language")).empty())
-        ToReturn+=__T("\t\t\t<essenceTrackLanguage>")+MediaInfoLib::Config.Iso639_2_Get(MI.Get(StreamKind, StreamPos, __T("Language")))+__T("</essenceTrackLanguage>\n");
 
     //essenceTrackEncoding
     if (!MI.Get(StreamKind, StreamPos, __T("Format")).empty())
@@ -115,18 +148,40 @@ void PBCore_Transform__Common_Begin(Ztring &ToReturn, MediaInfo_Internal &MI, st
         ToReturn+=__T("</essenceTrackDataRate>\n");
     }
 
+    //essenceTrackFrameRate
+    if (StreamKind==Stream_Video && !MI.Get(Stream_Video, StreamPos, Video_FrameRate).empty())
+    {
+        ToReturn+=__T("\t\t\t<essenceTrackFrameRate>");
+        ToReturn+=MI.Get(Stream_Video, StreamPos, Video_FrameRate);
+        if (!MI.Get(Stream_Video, StreamPos, Video_FrameRate_Mode).empty())
+            ToReturn+=__T(' ')+MI.Get(Stream_Video, StreamPos, Video_FrameRate_Mode);
+        ToReturn+=__T("</essenceTrackFrameRate>\n");
+    }
+
+    //essenceTrackSamplingRate
+    if (StreamKind==Stream_Audio && !MI.Get(Stream_Audio, StreamPos, Audio_SamplingRate).empty())
+        ToReturn+=__T("\t\t\t<essenceTrackSamplingRate>")+MI.Get(Stream_Audio, StreamPos, Audio_SamplingRate)+__T("</essenceTrackSamplingRate>\n");
+
+    //essenceTrackBitDepth
+    if (!MI.Get(StreamKind, StreamPos, __T("BitDepth")).empty())
+        ToReturn+=__T("\t\t\t<essenceTrackBitDepth version=\"PBCoreXSD_Ver_1.2_D1\">")+MI.Get(StreamKind, StreamPos, __T("BitDepth"))+__T("</essenceTrackBitDepth>\n");
+
+    //essenceTrackFrameSize
+    if (StreamKind==Stream_Video && !MI.Get(Stream_Video, StreamPos, Video_Width).empty())
+        ToReturn+=__T("\t\t\t<essenceTrackFrameSize>")+MI.Get(Stream_Video, StreamPos, Video_Width)+__T('x')+MI.Get(Stream_Video, StreamPos, Video_Height)+__T("</essenceTrackFrameSize>\n");
+
+    //essenceTrackAspectRatio
+    if (StreamKind==Stream_Video && !MI.Get(Stream_Video, StreamPos, Video_DisplayAspectRatio).empty())
+        ToReturn+=__T("\t\t\t<essenceTrackAspectRatio>")+MI.Get(Stream_Video, StreamPos, Video_DisplayAspectRatio)+__T("</essenceTrackAspectRatio>\n");
+
     //essenceTrackDuration
     if (!MI.Get(StreamKind, StreamPos, __T("Duration")).empty())
         ToReturn+=__T("\t\t\t<essenceTrackDuration>")+MI.Get(StreamKind, StreamPos, __T("Duration"))+__T("</essenceTrackDuration>\n");
 
-    //essenceTrackBitDepth
-    if (!MI.Get(StreamKind, StreamPos, __T("Resolution")).empty())
-        ToReturn+=__T("\t\t\t<essenceTrackBitDepth version=\"PBCoreXSD_Ver_1.2_D1\">")+MI.Get(StreamKind, StreamPos, __T("Resolution"))+__T("</essenceTrackBitDepth>\n");
-}
+    //essenceTrackLanguage
+    if (!MI.Get(StreamKind, StreamPos, __T("Language")).empty())
+        ToReturn+=__T("\t\t\t<essenceTrackLanguage>")+MediaInfoLib::Config.Iso639_2_Get(MI.Get(StreamKind, StreamPos, __T("Language")))+__T("</essenceTrackLanguage>\n");
 
-//---------------------------------------------------------------------------
-void PBCore_Transform__Common_End(Ztring &ToReturn, MediaInfo_Internal &MI, stream_t StreamKind, size_t StreamPos)
-{
     //essenceTrackAnnotation - all fields (except *_String*) separated by |
     Ztring Temp;
     for (size_t Pos=0; Pos<MI.Count_Get(StreamKind, StreamPos); Pos++)
@@ -137,105 +192,6 @@ void PBCore_Transform__Common_End(Ztring &ToReturn, MediaInfo_Internal &MI, stre
         Temp.resize(Temp.size()-1);
         ToReturn+=__T("\t\t\t<essenceTrackAnnotation>"); ToReturn+=Temp; ToReturn+=__T("</essenceTrackAnnotation>\n");
     }
-}
-
-//---------------------------------------------------------------------------
-void PBCore_Transform_Video(Ztring &ToReturn, MediaInfo_Internal &MI, size_t StreamPos)
-{
-    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
-
-    //essenceTrackType
-    ToReturn+=__T("\t\t\t<essenceTrackType>Video</essenceTrackType>\n");
-
-    //Common
-    PBCore_Transform__Common_Begin(ToReturn, MI, Stream_Video, StreamPos);
-
-    //essenceTrackFrameSize
-    if (!MI.Get(Stream_Video, StreamPos, Video_Width).empty())
-        ToReturn+=__T("\t\t\t<essenceTrackFrameSize>")+MI.Get(Stream_Video, StreamPos, Video_Width)+__T('x')+MI.Get(Stream_Video, StreamPos, Video_Height)+__T("</essenceTrackFrameSize>\n");
-
-    //essenceTrackAspectRatio
-    if (!MI.Get(Stream_Video, StreamPos, Video_DisplayAspectRatio).empty())
-        ToReturn+=__T("\t\t\t<essenceTrackAspectRatio>")+MI.Get(Stream_Video, StreamPos, Video_DisplayAspectRatio)+__T("</essenceTrackAspectRatio>\n");
-
-    //essenceTrackFrameRate
-    if (!MI.Get(Stream_Video, StreamPos, Video_FrameRate).empty())
-    {
-        ToReturn+=__T("\t\t\t<essenceTrackFrameRate>");
-        ToReturn+=MI.Get(Stream_Video, StreamPos, Video_FrameRate);
-        if (!MI.Get(Stream_Video, StreamPos, Video_FrameRate_Mode).empty())
-            ToReturn+=__T(' ')+MI.Get(Stream_Video, StreamPos, Video_FrameRate_Mode);
-        ToReturn+=__T("</essenceTrackFrameRate>\n");
-    }
-
-    //Comon
-    PBCore_Transform__Common_End(ToReturn, MI, Stream_Video, StreamPos);
-
-    ToReturn+=__T("\t\t</pbcoreEssenceTrack>\n");
-}
-
-//---------------------------------------------------------------------------
-void PBCore_Transform_Audio(Ztring &ToReturn, MediaInfo_Internal &MI, size_t StreamPos)
-{
-    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
-
-    //essenceTrackType
-    ToReturn+=__T("\t\t\t<essenceTrackType>Audio</essenceTrackType>\n");
-
-    //Common
-    PBCore_Transform__Common_Begin(ToReturn, MI, Stream_Audio, StreamPos);
-
-    if (!MI.Get(Stream_Audio, StreamPos, Audio_SamplingRate).empty())
-        ToReturn+=__T("\t\t\t<essenceTrackSamplingRate>")+MI.Get(Stream_Audio, StreamPos, Audio_SamplingRate)+__T("</essenceTrackSamplingRate>\n");
-
-    //Comon
-    PBCore_Transform__Common_End(ToReturn, MI, Stream_Audio, StreamPos);
-
-    ToReturn+=__T("\t\t</pbcoreEssenceTrack>\n");
-}
-
-//---------------------------------------------------------------------------
-void PBCore_Transform_Text(Ztring &ToReturn, MediaInfo_Internal &MI, size_t StreamPos)
-{
-    //Init
-    Ztring Format=MI.Get(Stream_Text, StreamPos, Text_Format);
-
-    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
-
-    //essenceTrackType
-    ToReturn+=__T("\t\t\t<essenceTrackType>");
-    if (Format==__T("EIA-608") || Format==__T("EIA-708"))
-        ToReturn+=__T("caption");
-    else
-        ToReturn+=__T("text");
-    ToReturn+=__T("</essenceTrackType>\n");
-
-    //Common
-    PBCore_Transform__Common_Begin(ToReturn, MI, Stream_Text, StreamPos);
-
-    //Common
-    PBCore_Transform__Common_End(ToReturn, MI, Stream_Text, StreamPos);
-
-    ToReturn+=__T("\t\t</pbcoreEssenceTrack>\n");
-}
-
-//---------------------------------------------------------------------------
-void PBCore_Transform_Menu(Ztring &ToReturn, MediaInfo_Internal &MI, size_t StreamPos)
-{
-    //Only if TimeCode
-    if (MI.Get(Stream_Menu, StreamPos, Menu_Format)!=__T("TimeCode"))
-        return;
-
-    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
-
-    //essenceTrackType
-    ToReturn+=__T("\t\t\t<essenceTrackType>timecode</essenceTrackType>\n");
-
-    //Common
-    PBCore_Transform__Common_Begin(ToReturn, MI, Stream_Menu, StreamPos);
-
-    //Common
-    PBCore_Transform__Common_End(ToReturn, MI, Stream_Menu, StreamPos);
 
     ToReturn+=__T("\t\t</pbcoreEssenceTrack>\n");
 }
@@ -359,21 +315,10 @@ Ztring Export_PBCore::Transform(MediaInfo_Internal &MI)
     //formatTracks
     ToReturn+=__T("\t\t<formatTracks>")+Ztring::ToZtring(MI.Count_Get(Stream_Video)+MI.Count_Get(Stream_Audio)+MI.Count_Get(Stream_Image)+MI.Count_Get(Stream_Text))+__T("</formatTracks>\n");
 
-    //Video streams
-    for (size_t StreamPos=0; StreamPos<MI.Count_Get(Stream_Video); StreamPos++)
-        PBCore_Transform_Video(ToReturn, MI, StreamPos);
-
-    //Audio streams
-    for (size_t StreamPos=0; StreamPos<MI.Count_Get(Stream_Audio); StreamPos++)
-        PBCore_Transform_Audio(ToReturn, MI, StreamPos);
-
-    //Text streams
-    for (size_t StreamPos=0; StreamPos<MI.Count_Get(Stream_Text); StreamPos++)
-        PBCore_Transform_Text(ToReturn, MI, StreamPos);
-
-    //Menu streams
-    for (size_t StreamPos=0; StreamPos<MI.Count_Get(Stream_Menu); StreamPos++)
-        PBCore_Transform_Menu(ToReturn, MI, StreamPos);
+    //Streams
+    for (size_t StreamKind=Stream_General+1; StreamKind<Stream_Max; StreamKind++)
+        for (size_t StreamPos=0; StreamPos<MI.Count_Get((stream_t)StreamKind); StreamPos++)
+            PBCore_Transform(ToReturn, MI, (stream_t)StreamKind, StreamPos);
 
     ToReturn+=__T("\t</pbcoreInstantiation>\n");
     ToReturn+=__T("</PBCoreDescriptionDocument>\n");

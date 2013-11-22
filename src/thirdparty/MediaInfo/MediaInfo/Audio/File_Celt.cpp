@@ -94,7 +94,7 @@ void File_Celt::Identification()
     Skip_L4(                                                    "extra_headers");
 
     //Filling
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         Accept("CELT");
 
         Stream_Prepare(Stream_Audio);

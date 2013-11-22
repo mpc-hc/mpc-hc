@@ -46,7 +46,9 @@ void File_OtherText::Read_Buffer_Continue()
     ZtringList Lines;
 
     //Feed File and Lines
-    File.From_Local((char*)Buffer, Buffer_Size); //Ansi
+    File.From_UTF8((const char*)Buffer, Buffer_Size>65536?65536:Buffer_Size);
+    if (File.empty())
+        File.From_Local((const char*)Buffer, Buffer_Size>65536?65536:Buffer_Size); // Trying from local code page
     if (File.size()<0x100)
     {
         File.From_Unicode((wchar_t*)Buffer, 0, Buffer_Size/sizeof(wchar_t)); //Unicode with BOM
@@ -59,35 +61,14 @@ void File_OtherText::Read_Buffer_Continue()
     }
     if (File.size()>0x1000)
         File.resize(0x1000); //Do not work on too big
-    if (File.find(__T("\x0D\x0A"))!=Error)
-    {
-        Lines.Separator_Set(0, __T("\x0D\x0A"));
-        Lines.Write(File);
-    }
-    else if (File.find(__T("\x0D"))!=Error)
-    {
-        Lines.Separator_Set(0, __T("\x0D"));
-        Lines.Write(File);
-    }
-    else if (File.find(__T("\x0A"))!=Error)
-    {
-        Lines.Separator_Set(0, __T("\x0A"));
-        Lines.Write(File);
-    }
-    else
-    {
-        Reject("Other text");
-        return;
-    }
-    if (Lines.size()<0x10)
-    {
-        Reject("Other text");
-        return;
-    }
+    File.FindAndReplace(__T("\r\n"), __T("\n"), 0, Ztring_Recursive);
+    File.FindAndReplace(__T("\r"), __T("\n"), 0, Ztring_Recursive);
+    Lines.Separator_Set(0, __T("\n"));
+    Lines.Write(File);
     Lines.resize(0x20);
 
          if (Lines[0]==__T("[Script Info]")
-          && Lines.Find(__T("ScriptType: v4.00"))!=Error
+          && (Lines.Find(__T("ScriptType: v4.00"))!=Error || Lines.Find(__T("Script Type: V4.00"))!=Error)
           && Lines.Find(__T("[V4 Styles]"))!=Error
           )
     {
@@ -96,7 +77,7 @@ void File_OtherText::Read_Buffer_Continue()
        Codec=__T("SSA");
     }
     else if (Lines[0]==__T("[Script Info]")
-          && Lines.Find(__T("ScriptType: v4.00+"))!=Error
+          && (Lines.Find(__T("ScriptType: v4.00+"))!=Error || Lines.Find(__T("Script Type: V4.00+"))!=Error)
           && Lines.Find(__T("[V4+ Styles]"))!=Error
           )
     {

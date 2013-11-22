@@ -91,6 +91,9 @@ const char* Mpega_Format_Profile_Layer[4]=
 #include "MediaInfo/Audio/File_Mpega.h"
 #include "ZenLib/BitStream.h"
 #include "ZenLib/Utils.h"
+#if MEDIAINFO_ADVANCED
+    #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
+#endif //MEDIAINFO_ADVANCED
 using namespace ZenLib;
 //---------------------------------------------------------------------------
 
@@ -843,6 +846,21 @@ bool File_Mpega::Demux_UnpacketizeContainer_Test()
     int8u bitrate_index0     =(CC1(Buffer+Buffer_Offset+2)>>4)&0x0F;
     int8u sampling_frequency0=(CC1(Buffer+Buffer_Offset+2)>>2)&0x03;
     int8u padding_bit0       =(CC1(Buffer+Buffer_Offset+2)>>1)&0x01;
+
+    if (Mpega_SamplingRate[ID][sampling_frequency]==0 || Mpega_Coefficient[ID][layer]==0 || Mpega_BitRate[ID][layer][bitrate_index]==0 || Mpega_SlotSize[layer]==0)
+        return true; //Synhro issue
+
+    #if MEDIAINFO_ADVANCED
+        if (Frame_Count && File_Demux_Unpacketize_StreamLayoutChange_Skip)
+        {
+            int8u mode0              =CC1(Buffer+Buffer_Offset+3)>>6;
+            if (sampling_frequency0!=sampling_frequency_Frame0 || mode0!=mode_Frame0)
+            {
+                return true;
+            }
+        }
+    #endif //MEDIAINFO_ADVANCED
+
     Demux_Offset=Buffer_Offset+(Mpega_Coefficient[ID0][layer0]*Mpega_BitRate[ID0][layer0][bitrate_index0]*1000/Mpega_SamplingRate[ID0][sampling_frequency0]+(padding_bit0?1:0))*Mpega_SlotSize[layer0];
 
     if (Demux_Offset>Buffer_Size)
@@ -903,6 +921,19 @@ void File_Mpega::Header_Parse()
     mode_Count[mode]++;
 
     FILLING_BEGIN();
+        #if MEDIAINFO_DEMUX
+            #if MEDIAINFO_ADVANCED
+                if (!Frame_Count)
+                {
+                    File_Demux_Unpacketize_StreamLayoutChange_Skip=Config->File_Demux_Unpacketize_StreamLayoutChange_Skip_Get();
+                    if (File_Demux_Unpacketize_StreamLayoutChange_Skip)
+                    {
+                        sampling_frequency_Frame0=sampling_frequency;
+                        mode_Frame0=mode;
+                    }
+                }
+            #endif //MEDIAINFO_ADVANCED
+        #endif //MEDIAINFO_DEMUX
     FILLING_END();
 }
 
@@ -944,7 +975,7 @@ void File_Mpega::Data_Parse()
     //Counting
     if (File_Offset+Buffer_Offset+Element_Size==File_Size-File_EndTagSize)
         Frame_Count_Valid=Frame_Count; //Finish MPEG Audio frames in case of there are less than Frame_Count_Valid frames
-    if (Frame_Count==0)
+    if (Frame_Count==0 && Frame_Count_NotParsedIncluded==0)
         PTS_Begin=FrameInfo.PTS;
     Frame_Count++;
     Frame_Count_InThisBlock++;

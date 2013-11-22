@@ -28,10 +28,18 @@ namespace MediaInfoLib
 
 class File_N19 : public File__Analyze
 {
+public :
+    File_N19();
+
 private :
     //Buffer - File header
     bool FileHeader_Begin();
     void FileHeader_Parse();
+
+    //Buffer - Global
+    #if MEDIAINFO_SEEK
+    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
+    #endif //MEDIAINFO_SEEK
 
     //Buffer - Per element
     void Header_Parse();
@@ -40,6 +48,9 @@ private :
     //Temp
     int64u FirstFrame_TCI;
     int64u DFC;
+    #if MEDIAINFO_DEMUX
+        int64u TCO_Latest;
+    #endif //MEDIAINFO_DEMUX
 };
 
 } //NameSpace

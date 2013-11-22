@@ -2147,7 +2147,7 @@ void File_Ac3::dec3()
     int8u num_ind_sub;
     Skip_S2(13,                                                 "data_rate");
     Get_S1 ( 3, num_ind_sub,                                    "num_ind_sub");
-    for (int8u Pos=0; Pos<num_ind_sub; Pos++)
+    for (int8u Pos=0; Pos<=num_ind_sub; Pos++)
     {
         Element_Begin1("independent substream");
         int8u num_dep_sub;

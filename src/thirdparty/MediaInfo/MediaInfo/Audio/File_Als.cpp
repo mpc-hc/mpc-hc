@@ -106,7 +106,7 @@ void File_Als::FileHeader_Parse()
     Skip_SB(                                                    "samples are big-endian");
     BS_End();
 
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         if (SampleRate==0)
             return;
         Duration=((int64u)Samples)*1000/SampleRate;

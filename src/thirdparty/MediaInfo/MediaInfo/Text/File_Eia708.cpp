@@ -75,6 +75,8 @@ void File_Eia708::Streams_Fill()
         {
             Stream_Prepare(Stream_Text);
             Fill(Stream_Text, StreamPos_Last, Text_ID, Pos);
+            Fill(Stream_Text, StreamPos_Last, "CaptionServiceName", Pos);
+            (*Stream_More)[StreamKind_Last][StreamPos_Last](Ztring().From_Local("CaptionServiceName"), Info_Options)=__T("N NT");
             Fill(Stream_Text, StreamPos_Last, Text_Format, "EIA-708");
             Fill(Stream_Text, StreamPos_Last, Text_StreamSize, 0);
             Fill(Stream_Text, StreamPos_Last, Text_BitRate_Mode, "CBR");

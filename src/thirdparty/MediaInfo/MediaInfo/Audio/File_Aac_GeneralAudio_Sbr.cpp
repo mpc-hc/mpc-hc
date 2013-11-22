@@ -328,6 +328,9 @@ void File_Aac::sbr_extension_data(size_t End, int8u id_aac, bool crc_flag)
             }
             Infos["Format_Settings_SBR"]=__T("Yes (Implicit)");
             Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+__T("-SBR");
+
+            if (Frame_Count_Valid<32)
+                Frame_Count_Valid=32; //We need to find the SBR header
         }
     FILLING_END();
 
@@ -364,6 +367,17 @@ void File_Aac::sbr_extension_data(size_t End, int8u id_aac, bool crc_flag)
         sbr->bs_amp_res[0]=sbr->bs_amp_res_FromHeader; //Set up with header data
         sbr->bs_amp_res[1]=sbr->bs_amp_res_FromHeader; //Set up with header data
         sbr_data(id_aac);
+
+        FILLING_BEGIN();
+            if (MediaInfoLib::Config.ParseSpeed_Get()<0.3)
+            {
+                Frame_Count_Valid=Frame_Count+1;
+                #if MEDIAINFO_ADVANCED
+                    if (aac_frame_lengths.size()<8)
+                        Frame_Count_Valid+=8-aac_frame_lengths.size();
+                #endif //MEDIAINFO_ADVANCED
+            }
+        FILLING_END();
     }
     if (Data_BS_Remain()>End)
         Skip_BS(Data_BS_Remain()-End,                           "bs_fill_bits");

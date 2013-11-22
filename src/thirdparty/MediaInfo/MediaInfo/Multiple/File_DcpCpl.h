@@ -6,13 +6,13 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about SubRip files
+// Information about DCP/IMF Composition Playlist files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_SubRipH
-#define MediaInfo_File_SubRipH
+#ifndef MediaInfo_File_DcpCplH
+#define MediaInfo_File_DcpCplH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -23,37 +23,38 @@
 namespace MediaInfoLib
 {
 
+class File__ReferenceFilesHelper;
+
 //***************************************************************************
-// Class File_SubRip
+// Class File_DcpCpl
 //***************************************************************************
 
-class File_SubRip : public File__Analyze
+class File_DcpCpl : public File__Analyze
 {
 public :
-    File_SubRip();
+    //Constructor/Destructor
+    File_DcpCpl();
+    ~File_DcpCpl();
 
 private :
-    //Buffer - File header
-    bool FileHeader_Begin();
+    //Streams management
+    void Streams_Finish ();
 
     //Buffer - Global
     #if MEDIAINFO_SEEK
     size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
     #endif //MEDIAINFO_SEEK
-    void Read_Buffer_Continue();
+
+    //Buffer - File header
+    bool FileHeader_Begin();
 
     //Temp
-    #if MEDIAINFO_DEMUX
-    struct item
-    {
-        int64u PTS_Begin;
-        int64u PTS_End;
-        Ztring Content;
-    };
-    std::vector<item> Items;
-    #endif //MEDIAINFO_DEMUX
+    File__ReferenceFilesHelper*     ReferenceFiles;
+    friend class File_DcpAm;    //Theses classes need access to internal structure for optimization. There is recursivity with theses formats
+    friend class File_DcpPkl;   //Theses classes need access to internal structure for optimization. There is recursivity with theses formats
 };
 
 } //NameSpace
 
 #endif
+

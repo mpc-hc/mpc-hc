@@ -669,7 +669,7 @@ void File_Jpeg::SOF_()
                 default   :
                             {
                             int8u Ci[256];
-                            memset(Ci, 0, 256);;
+                            memset(Ci, 0, 256);
                             for (int8u Pos=0; Pos<Count; Pos++)
                                 Ci[SamplingFactors[Pos].Ci]++;
 

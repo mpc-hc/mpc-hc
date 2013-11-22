@@ -518,7 +518,7 @@ const char* Mpeg4_jp2h_EnumCS(int32u EnumCS)
     switch (EnumCS)
     {
         case 0x10 : return "RGB"; //sRGB
-        case 0x11 : return "Grey";
+        case 0x11 : return "Y";
         case 0x12 : return "YUV"; //sYUV
         default   : return "";
     }
@@ -551,6 +551,7 @@ namespace Elements
     const int64u free=0x66726565;
     const int64u ftyp=0x66747970;
     const int64u ftyp_qt=0x71742020;
+    const int64u ftyp_dash=0x64617368;
     const int64u ftyp_isom=0x69736F6D;
     const int64u ftyp_caqv=0x63617176;
     const int64u idat=0x69646174;
@@ -1346,6 +1347,7 @@ void File_Mpeg4::ftyp()
         for (size_t Pos=0; Pos<ftyps.size(); Pos++)
             switch (ftyps[Pos])
             {
+                case Elements::ftyp_dash : if (Config->File_Names.size()==1)TestContinuousFileNames(1, __T("m4s")); break;
                 case Elements::ftyp_caqv : Fill(StreamKind_Last, StreamPos_Last, "Encoded_Application", "Casio Digital Camera"); break;
                 default : ;
             }
@@ -1633,6 +1635,10 @@ void File_Mpeg4::mdat_xxxx()
         #endif //MEDIAINFO_DEMUX
 
         Open_Buffer_Continue(Stream->second.Parsers[Pos], Buffer+Buffer_Offset, (size_t)Element_Size);
+        #if MEDIAINFO_DEMUX
+            if (Config->Demux_EventWasSent && Config->Demux_Unpacketize_Get())
+                Stream->second.Demux_EventWasSent=true;
+        #endif //MEDIAINFO_DEMUX
         Element_Show();
 
         #if MEDIAINFO_DEMUX
@@ -1899,12 +1905,8 @@ void File_Mpeg4::moof_traf_tfhd()
         Skip_B4(                                                "sample_description_index");
     if (default_sample_duration_present)
         Get_B4 (moof_traf_default_sample_duration,              "default_sample_duration");
-    else
-        moof_traf_default_sample_duration=Stream->second.mvex_trex_default_sample_duration;
     if (default_sample_size_present)
         Get_B4 (moof_traf_default_sample_size,                  "default_sample_size");
-    else
-        moof_traf_default_sample_size=Stream->second.mvex_trex_default_sample_size;
     if (default_sample_flags_present)
         Skip_B4(                                                "default_sample_flags");
 
@@ -1912,6 +1914,10 @@ void File_Mpeg4::moof_traf_tfhd()
         Stream=Streams.find(moov_trak_tkhd_TrackID);
         if (Stream==Streams.end())
             Stream=Streams.begin();
+        if (!default_sample_duration_present)
+            moof_traf_default_sample_duration=Stream->second.mvex_trex_default_sample_duration;
+        if (!default_sample_size_present)
+            moof_traf_default_sample_size=Stream->second.mvex_trex_default_sample_size;
     FILLING_END();
 }
 
@@ -2669,10 +2675,10 @@ void File_Mpeg4::moov_mvex_trex()
         Skip_B2(                                                "sample_degradation_priority");
     Element_End0();
 
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         Streams[moov_trak_tkhd_TrackID].mvex_trex_default_sample_duration=default_sample_duration;
         Streams[moov_trak_tkhd_TrackID].mvex_trex_default_sample_size=default_sample_size;
-    FILLING_END()
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -3506,10 +3512,6 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stps()
     }
     if (!stss_PreviouslyEmpty)
         std::sort(Streams[moov_trak_tkhd_TrackID].stss.begin(), Streams[moov_trak_tkhd_TrackID].stss.end());
-
-    //Bit rate mode is based on only 1 frame bit rate computing, not valid for P and B frames
-    //TODO: compute Bit rate mode from stps
-    Clear(StreamKind_Last, StreamPos_Last, "BitRate_Mode");
 }
 
 //---------------------------------------------------------------------------
@@ -3904,6 +3906,9 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxSound()
     //Bug found in one file: sample size is 16 with a 24-bit CodecID ("in24")
     if (Element_Code==0x696E3234 && SampleSize==16)
         SampleSize=24; //Correcting the header
+    //Bug found in one file: sample size is 16 with a 32-bit CodecID ("fl32")
+    if (Element_Code==0x666C3332 && SampleSize==16)
+        SampleSize=32; //Correcting the header
 
     if (moov_trak_mdia_minf_stbl_stsd_Pos)
         return; //Handling only the first description
@@ -4128,7 +4133,7 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxSound()
                                     std::string Data_Raw((const char*)(Buffer+Buffer_Offset+Element_Offset-(18+Data_Size)), (size_t)(18+Data_Size));
                                     std::string Data_Base64(Base64::encode(Data_Raw));
                                     Fill(Stream_Audio, StreamPos_Last, "Demux_InitBytes", Data_Base64);
-                                    (*Stream_More)[Stream_Audio][0](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
+                                    (*Stream_More)[Stream_Audio][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
                                     }
                                     break;
                         default :   ;
@@ -4421,11 +4426,20 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxVideo()
         }
 
         //RGB(A)
-        if (Codec=="raw ")
+        if (Codec=="raw " || Codec=="rle ")
         {
-            if (Depth==32)
+            if (Depth==1)
             {
-                Fill(Stream_Video, StreamPos_Last, Video_Format, "RGBA", Unlimited, true, true);
+                Fill(Stream_Video, StreamPos_Last, Video_ColorSpace, "Y", Unlimited, true, true);
+                Fill(Stream_Video, StreamPos_Last, Video_BitDepth, 1);
+            }
+            else if (Depth<15)
+            {
+                Fill(Stream_Video, StreamPos_Last, Video_ColorSpace, "RGB", Unlimited, true, true);
+                Fill(Stream_Video, StreamPos_Last, Video_BitDepth, 8);
+            }
+            else if (Depth==32 || Depth==36)
+            {
                 Fill(Stream_Video, StreamPos_Last, Video_ColorSpace, "RGBA", Unlimited, true, true);
                 Fill(Stream_Video, StreamPos_Last, Video_BitDepth, Depth/4);
             }
@@ -4580,6 +4594,7 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_avcC()
                                     std::string Data_Raw((const char*)(Buffer+Buffer_Offset), (size_t)Element_Size);
                                     std::string Data_Base64(Base64::encode(Data_Raw));
                                     Fill(Stream_Video, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                    (*Stream_More)[Stream_Video][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
                                     }
                                     break;
                         default :   ;
@@ -4762,9 +4777,13 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_colr()
     Get_B2 (matrix_coefficients,                                "Matrix index"); Param_Info1(Mpegv_matrix_coefficients((int8u)matrix_coefficients));
 
     FILLING_BEGIN();
-        Fill(Stream_Video, StreamPos_Last, "colour_primaries", Mpegv_colour_primaries((int8u)colour_primaries));
-        Fill(Stream_Video, StreamPos_Last, "transfer_characteristics", Mpegv_transfer_characteristics((int8u)transfer_characteristics));
-        Fill(Stream_Video, StreamPos_Last, "matrix_coefficients", Mpegv_matrix_coefficients((int8u)matrix_coefficients));
+        if (Retrieve(Stream_Video, StreamPos_Last, Video_colour_description_present).empty()) //Using only the first one met
+        {
+            Fill(Stream_Video, StreamPos_Last, Video_colour_description_present, "Yes");
+            Fill(Stream_Video, StreamPos_Last, Video_colour_primaries, Mpegv_colour_primaries((int8u)colour_primaries));
+            Fill(Stream_Video, StreamPos_Last, Video_transfer_characteristics, Mpegv_transfer_characteristics((int8u)transfer_characteristics));
+            Fill(Stream_Video, StreamPos_Last, Video_matrix_coefficients, Mpegv_matrix_coefficients((int8u)matrix_coefficients));
+        }
     FILLING_END();
 }
 
@@ -4849,7 +4868,6 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_dac3()
         {
             File_Ac3* Parser=new File_Ac3;
             Open_Buffer_Init(Parser);
-            Parser->Frame_Count_Valid=2;
             Parser->MustParse_dac3=true;
             Streams[moov_trak_tkhd_TrackID].Parsers.push_back(Parser);
             mdat_MustParse=true; //Data is in MDAT
@@ -5164,12 +5182,12 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_fiel()
             case 0x02 : Fill(Stream_Video, StreamPos_Last, Video_ScanType, "Interlaced", Unlimited, true, true);
                         switch(detail)
                         {
-                            case 1  :   // Split fields, TFF
-                            case 9  :   // Interleaved fields, TFF
+                            case  1  :  // T is displayed earliest, T is stored first in the file.
+                            case 14 :   // T is displayed earliest, B is stored first in the file.
                                         Fill(Stream_Video, StreamPos_Last, Video_ScanOrder, "TFF", Unlimited, true, true);
                                         break;
-                            case 6  :   // Split fields, BFF
-                            case 14 :   // Interleaved fields, BFF
+                            case  6  :  // B is displayed earliest, B is stored first in the file.
+                            case  9 :   // B is displayed earliest, T is stored first in the file.
                                         Fill(Stream_Video, StreamPos_Last, Video_ScanOrder, "BFF", Unlimited, true, true);
                                         break;
                             default  :  ;
@@ -5564,10 +5582,6 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stss()
     }
     if (!stss_PreviouslyEmpty)
         std::sort(Streams[moov_trak_tkhd_TrackID].stss.begin(), Streams[moov_trak_tkhd_TrackID].stss.end());
-
-    //Bit rate mode is based on only 1 frame bit rate computing, not valid for P and B frames
-    //TODO: compute Bit rate mode from stss
-    Clear(StreamKind_Last, StreamPos_Last, "BitRate_Mode");
 }
 
 //---------------------------------------------------------------------------
@@ -5632,7 +5646,6 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsz()
     else
     {
         int32u Size;
-        int32u Size_Min=(int32u)-1, Size_Max=0;
         /*
         if (FieldSize==4)
             BS_Begin(); //Too much slow
@@ -5672,10 +5685,6 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsz()
 
             Stream->second.stsz_StreamSize+=Size;
             Stream->second.stsz_Total.push_back(Size);
-            if (Size<Size_Min)
-                Size_Min=Size;
-            if (Size>Size_Max)
-                Size_Max=Size;
             if (Pos<FrameCount_MaxPerStream)
                 Stream->second.stsz.push_back(Size);
         }
@@ -5683,14 +5692,6 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsz()
         if (FieldSize==4)
             BS_End(); //Too much slow
         */
-
-        if (Stream->second.stss.empty() && Retrieve(StreamKind_Last, StreamPos_Last, "BitRate_Mode").empty())
-        {
-            if (Size_Min*(1.005+0.005)<Size_Max)
-                Fill(StreamKind_Last, StreamPos_Last, "BitRate_Mode", "VBR");
-            else
-                Fill(StreamKind_Last, StreamPos_Last, "BitRate_Mode", "CBR");
-        }
     }
 }
 

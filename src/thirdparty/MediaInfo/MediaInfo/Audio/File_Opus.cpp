@@ -131,7 +131,7 @@ void File_Opus::Identification()
         Skip_XX(Element_Size-Element_Offset,                    "unknown");
 
     //Filling
-    FILLING_BEGIN()
+    FILLING_BEGIN();
         Accept("Opus");
 
         Stream_Prepare(Stream_Audio);

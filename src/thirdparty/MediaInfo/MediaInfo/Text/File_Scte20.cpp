@@ -111,6 +111,7 @@ void File_Scte20::Streams_Update_PerStream(size_t Pos)
     Update(Streams[Pos]->Parser);
 
     if (Streams[Pos]->Parser)
+    {
         for (size_t Pos2=0; Pos2<Streams[Pos]->Parser->Count_Get(Stream_Text); Pos2++)
         {
             Stream_Prepare(Stream_Text);
@@ -118,6 +119,11 @@ void File_Scte20::Streams_Update_PerStream(size_t Pos)
             Fill(Stream_Text, StreamPos_Last, "MuxingMode", "SCTE 20");
             Fill(Stream_Text, StreamPos_Last, Text_ID, Streams[Pos]->Parser->Retrieve(Stream_Text, Pos2, Text_ID), true);
         }
+
+        Ztring LawRating=Streams[Pos]->Parser->Retrieve(Stream_General, 0, General_LawRating);
+        if (!LawRating.empty())
+            Fill(Stream_General, 0, General_LawRating, LawRating, true);
+    }
 }
 
 //---------------------------------------------------------------------------

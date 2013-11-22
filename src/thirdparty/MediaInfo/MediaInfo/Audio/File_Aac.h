@@ -91,6 +91,7 @@ public :
 protected :
     //Streams management
     void Streams_Fill();
+    void Streams_Update();
     void Streams_Finish();
 
     //Buffer - File header
