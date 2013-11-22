@@ -733,6 +733,7 @@ CMainFrame::CMainFrame()
     , m_bIsBDPlay(false)
     , m_bLockedZoomVideoWindow(false)
     , m_nLockedZoomVideoWindow(0)
+    , m_fDVBChannelActive(false)
     , m_LastOpenBDPath(_T(""))
     , m_fStartInD3DFullscreen(false)
     , m_bRememberFilePos(false)
@@ -2147,16 +2148,18 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), Subtitles);
             } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-                CComQIPtr<IBDATuner> pTun = m_pGB;
-                BOOLEAN bPresent;
-                BOOLEAN bLocked;
-                LONG lDbStrength;
-                LONG lPercentQuality;
-                CString Signal;
+                if (m_fDVBChannelActive) {
+                    CComQIPtr<IBDATuner> pTun = m_pGB;
+                    BOOLEAN bPresent, bLocked;
+                    LONG lDbStrength, lPercentQuality;
+                    CString Signal;
 
-                if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
-                    Signal.Format(ResStr(IDS_STATSBAR_SIGNAL_FORMAT), (int)lDbStrength, lPercentQuality);
-                    m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), Signal);
+                    if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
+                        Signal.Format(ResStr(IDS_STATSBAR_SIGNAL_FORMAT), (int)lDbStrength, lPercentQuality);
+                        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), Signal);
+                    }
+                } else {
+                    m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), _T("-"));
                 }
             } else if (GetPlaybackMode() == PM_FILE) {
                 OpenSetupInfoBar(false);
@@ -7100,6 +7103,7 @@ void CMainFrame::OnPlayStop()
             m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
         } else if (GetPlaybackMode() != PM_NONE) {
             m_pMC->Stop();
+            m_fDVBChannelActive = false;
         }
 
         m_dSpeedRate = 1.0;
@@ -11796,6 +11800,7 @@ void CMainFrame::CloseMediaPrivate()
     m_fEndOfStream = false;
     m_rtDurationOverride = -1;
     m_bUsingDXVA = false;
+    m_fDVBChannelActive = false;
     m_pCB.Release();
 
     SetSubtitle(SubtitleInput(nullptr));
@@ -14594,6 +14599,7 @@ HRESULT CMainFrame::SetChannel(int nChannel)
 
     if (!m_fSetChannelActive) {
         m_fSetChannelActive = true;
+        m_fDVBChannelActive = false;
 
         if (pTun) {
             // Skip n intermediate ZoomVideoWindow() calls while the new size is stabilized:
@@ -14618,23 +14624,22 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                     PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
                     return hr;
                 }
+
+                m_fDVBChannelActive = true;
+
+                if (s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
+                    ZoomVideoWindow();
+                }
+                MoveVideoWindow();
+
+                // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
+                // for 5 seconds since playback starts
+                m_bAllowWindowZoom = true;
+                m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
+                { m_bAllowWindowZoom = false; }, 5000);
+
                 ShowCurrentChannelInfo();
             }
-
-            WINDOWPLACEMENT wp;
-            wp.length = sizeof(wp);
-            GetWindowPlacement(&wp);
-            if (s.fRememberZoomLevel
-                    && !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED)) {
-                ZoomVideoWindow();
-            }
-            MoveVideoWindow();
-
-            // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
-            // for 5 seconds since playback starts
-            m_bAllowWindowZoom = true;
-            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
-            { m_bAllowWindowZoom = false; }, 5000);
         }
         m_fSetChannelActive = false;
     }
