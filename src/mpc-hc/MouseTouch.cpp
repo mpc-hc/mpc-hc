@@ -202,25 +202,27 @@ void CMouse::EventCallback(MpcEvent ev)
 // madVR compatibility layer for exclusive mode seekbar
 bool CMouse::UsingMVR() const
 {
-    return !!m_pMainFrame->m_pMVRSR;
+    return !!m_pMainFrame->m_pMVRS;
 }
 void CMouse::MVRMove(UINT nFlags, const CPoint& point)
 {
     if (UsingMVR()) {
+        CPoint mappedPoint(point);
+        MapWindowPoints(GetWnd(), m_pMainFrame->m_hWnd, &mappedPoint, 1);
         WPARAM wp = nFlags;
-        LPARAM lp = MAKELPARAM(point.x, point.y);
-        LRESULT lr = 0;
-        m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_MOUSEMOVE, &wp, &lp, &lr);
+        LPARAM lp = MAKELPARAM(mappedPoint.x, mappedPoint.y);
+        m_pMainFrame->SendMessage(WM_MOUSEMOVE, wp, lp);
     }
 }
 bool CMouse::MVRDown(UINT nFlags, const CPoint& point)
 {
     bool ret = false;
     if (UsingMVR()) {
+        CPoint mappedPoint(point);
+        MapWindowPoints(GetWnd(), m_pMainFrame->m_hWnd, &mappedPoint, 1);
         WPARAM wp = nFlags;
-        LPARAM lp = MAKELPARAM(point.x, point.y);
-        LRESULT lr = 0;
-        ret = !!m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_LBUTTONDOWN, &wp, &lp, &lr);
+        LPARAM lp = MAKELPARAM(mappedPoint.x, mappedPoint.y);
+        ret = (m_pMainFrame->SendMessage(WM_LBUTTONDOWN, wp, lp) != 42);
     }
     return ret;
 }
@@ -228,10 +230,11 @@ bool CMouse::MVRUp(UINT nFlags, const CPoint& point)
 {
     bool ret = false;
     if (UsingMVR()) {
+        CPoint mappedPoint(point);
+        MapWindowPoints(GetWnd(), m_pMainFrame->m_hWnd, &mappedPoint, 1);
         WPARAM wp = nFlags;
-        LPARAM lp = MAKELPARAM(point.x, point.y);
-        LRESULT lr = 0;
-        ret = !!m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_LBUTTONUP, &wp, &lp, &lr);
+        LPARAM lp = MAKELPARAM(mappedPoint.x, mappedPoint.y);
+        ret = (m_pMainFrame->SendMessage(WM_LBUTTONUP, wp, lp) != 42);
     }
     return ret;
 }

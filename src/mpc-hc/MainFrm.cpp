@@ -11436,12 +11436,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
-        if (m_pMVRSR = m_pCAP) {
-            if (FAILED(m_pMVRSR->DisableSubclassing())) {
-                ASSERT(FALSE);
-                m_pMVRSR = nullptr;
-            }
-        }
         m_pMVRS = m_pCAP;
         pMVTO = m_pCAP;
 
@@ -11600,7 +11594,6 @@ void CMainFrame::CloseMediaPrivate()
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
     m_pMVRS.Release();
-    m_pMVRSR.Release();
     m_pCAP2.Release();
     m_pCAP.Release();
     m_pVMRWC.Release();
@@ -13777,7 +13770,6 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             CComPtr<IMadVRTextOsd>       pMVTO;
 
             m_pMVRS.Release();
-            m_pMVRSR.Release();
 
             m_OSD.Stop();
             m_pCAP2.Release();
@@ -13799,13 +13791,6 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVP), TRUE);
             pMVTO = m_pCAP;
-
-            if (m_pMVRSR = m_pCAP) {
-                if (FAILED(m_pMVRSR->DisableSubclassing())) {
-                    ASSERT(FALSE);
-                    m_pMVRSR = nullptr;
-                }
-            }
             m_pMVRS = m_pCAP;
 
             const CAppSettings& s = AfxGetAppSettings();
@@ -15588,6 +15573,11 @@ HRESULT CMainFrame::UpdateThumbnailClip()
 
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (message == WM_LBUTTONDOWN || message == WM_LBUTTONUP) {
+        ASSERT(m_pMVRS);
+        return 42;
+    }
+
     if ((message == WM_COMMAND) && (THBN_CLICKED == HIWORD(wParam))) {
         int const wmId = LOWORD(wParam);
         switch (wmId) {

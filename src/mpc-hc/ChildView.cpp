@@ -79,28 +79,6 @@ BOOL CChildView::PreTranslateMessage(MSG* pMsg)
     return CWnd::PreTranslateMessage(pMsg);
 }
 
-LRESULT CChildView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
-{
-    LRESULT ret = 0;
-    bool bCallOurProc = true;
-    if (m_pMainFrame->m_pMVRSR) {
-        // call madVR window proc directly when the interface is available
-        switch (message) {
-            case WM_MOUSEMOVE:
-            case WM_LBUTTONDOWN:
-            case WM_LBUTTONUP:
-                // CMouseWnd will call madVR window proc
-                break;
-            default:
-                bCallOurProc = !m_pMainFrame->m_pMVRSR->ParentWindowProc(m_hWnd, message, &wParam, &lParam, &ret);
-        }
-    }
-    if (bCallOurProc) {
-        ret = __super::WindowProc(message, wParam, lParam);
-    }
-    return ret;
-}
-
 void CChildView::SetVideoRect(const CRect& r)
 {
     m_vrect = r;

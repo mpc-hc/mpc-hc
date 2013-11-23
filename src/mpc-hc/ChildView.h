@@ -48,7 +48,6 @@ public:
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual BOOL PreTranslateMessage(MSG* pMsg);
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam) override;
 
     DECLARE_MESSAGE_MAP()
 
