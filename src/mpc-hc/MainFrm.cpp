@@ -733,7 +733,6 @@ CMainFrame::CMainFrame()
     , m_bIsBDPlay(false)
     , m_bLockedZoomVideoWindow(false)
     , m_nLockedZoomVideoWindow(0)
-    , m_fDVBChannelActive(false)
     , m_LastOpenBDPath(_T(""))
     , m_fStartInD3DFullscreen(false)
     , m_bRememberFilePos(false)
@@ -760,7 +759,6 @@ CMainFrame::CMainFrame()
     , m_iDVDTitle(0)
     , m_rtCurSubPos(0)
     , m_bStopTunerScan(false)
-    , m_fSetChannelActive(false)
     , m_bAllowWindowZoom(false)
     , m_dLastVideoScaleFactor(0)
     , m_nLastVideoWidth(0)
@@ -2161,7 +2159,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), Subtitles);
             } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-                if (m_fDVBChannelActive) {
+                if (m_DVBState.bActive) {
                     CComQIPtr<IBDATuner> pTun = m_pGB;
                     BOOLEAN bPresent, bLocked;
                     LONG lDbStrength, lPercentQuality;
@@ -2754,7 +2752,6 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
         if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
             CComQIPtr<IBDATuner> pTun = m_pGB;
             if (pTun) {
-                m_fSetChannelActive = false;
                 SetChannel(AfxGetAppSettings().nDVBLastChannel);
             }
         }
@@ -6939,7 +6936,6 @@ void CMainFrame::OnPlayPlay()
             CComQIPtr<IBDATuner> pTun = m_pGB;
             if (pTun) {
                 bVideoWndNeedReset = false; // SetChannel deals with MoveVideoWindow
-                m_fSetChannelActive = false;
                 SetChannel(s.nDVBLastChannel);
             } else {
                 ASSERT(FALSE);
@@ -7114,9 +7110,13 @@ void CMainFrame::OnPlayStop()
             m_pDVDC->SetOption(DVD_ResetOnStop, TRUE);
             m_pMC->Stop();
             m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
-        } else if (GetPlaybackMode() != PM_NONE) {
+        } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
             m_pMC->Stop();
-            m_fDVBChannelActive = false;
+            m_DVBState.bActive = false;
+            OpenSetupWindowTitle();
+            m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
+        } else if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
+            m_pMC->Stop();
         }
 
         m_dSpeedRate = 1.0;
@@ -7777,7 +7777,6 @@ void CMainFrame::OnPlayShadersPresets(UINT nID)
 // Called from GraphThread
 void CMainFrame::OnPlayAudio(UINT nID)
 {
-    CAppSettings& s = AfxGetAppSettings();
     int i = (int)nID - ID_AUDIO_SUBITEM_START;
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
@@ -7798,7 +7797,7 @@ void CMainFrame::OnPlayAudio(UINT nID)
     } else if (GetPlaybackMode() == PM_FILE) {
         OnNavStreamSelectSubMenu(i, 1);
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        if (CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel)) {
+        if (CDVBChannel* pChannel = m_DVBState.pChannel) {
             OnNavStreamSelectSubMenu(i, 1);
             pChannel->SetDefaultAudio(i);
         }
@@ -7826,7 +7825,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
     }
 
     if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        if (CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel)) {
+        if (CDVBChannel* pChannel = m_DVBState.pChannel) {
             OnNavStreamSelectSubMenu(i, 2);
             pChannel->SetDefaultSubtitle(i);
         }
@@ -8392,7 +8391,7 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
                         && m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
                        || (GetPlaybackMode() == PM_FILE  && s.fUseSearchInFolder)
                        || (GetPlaybackMode() == PM_FILE  && !s.fUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
-                       || (GetPlaybackMode() == PM_DIGITAL_CAPTURE && !m_fSetChannelActive)));
+                       || (GetPlaybackMode() == PM_DIGITAL_CAPTURE && !m_DVBState.bSetChannelActive)));
 }
 
 void CMainFrame::OnNavigateSkipFile(UINT nID)
@@ -11813,7 +11812,7 @@ void CMainFrame::CloseMediaPrivate()
     m_fEndOfStream = false;
     m_rtDurationOverride = -1;
     m_bUsingDXVA = false;
-    m_fDVBChannelActive = false;
+    m_DVBState = DVBState();
     m_pCB.Release();
 
     SetSubtitle(SubtitleInput(nullptr));
@@ -14606,67 +14605,68 @@ void CMainFrame::StopTunerScan()
 
 HRESULT CMainFrame::SetChannel(int nChannel)
 {
-    const CAppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     HRESULT hr = S_OK;
     CComQIPtr<IBDATuner> pTun = m_pGB;
+    CDVBChannel* pChannel = s.FindChannelByPref(nChannel);
 
-    if (!m_fSetChannelActive) {
-        m_fSetChannelActive = true;
-        m_fDVBChannelActive = false;
+    if (pTun && pChannel && !m_DVBState.bSetChannelActive) {
+        m_DVBState = DVBState();
+        m_DVBState.bSetChannelActive = true;
 
-        if (pTun) {
-            // Skip n intermediate ZoomVideoWindow() calls while the new size is stabilized:
-            switch (s.iDSVideoRendererType) {
-                case VIDRNDT_DS_MADVR:
-                    if (s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) {
-                        m_nLockedZoomVideoWindow = 3;
-                    } else {
-                        m_nLockedZoomVideoWindow = 0;
-                    }
-                    break;
-                case VIDRNDT_DS_EVR_CUSTOM:
+        // Skip n intermediate ZoomVideoWindow() calls while the new size is stabilized:
+        switch (s.iDSVideoRendererType) {
+            case VIDRNDT_DS_MADVR:
+                if (s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) {
+                    m_nLockedZoomVideoWindow = 3;
+                } else {
                     m_nLockedZoomVideoWindow = 0;
-                    break;
-                default:
-                    m_nLockedZoomVideoWindow = 0;
-            }
-            if (SUCCEEDED(hr = pTun->SetChannel(nChannel))) {
-                if (hr == S_FALSE) {
-                    // Re-create all
-                    m_nLockedZoomVideoWindow = 0;
-                    PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
-                    return hr;
                 }
-
-                m_fDVBChannelActive = true;
-
-                if (s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
-                    ZoomVideoWindow();
-                }
-                MoveVideoWindow();
-
-                // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
-                // for 5 seconds since playback starts
-                m_bAllowWindowZoom = true;
-                m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
-                { m_bAllowWindowZoom = false; }, 5000);
-
-                ShowCurrentChannelInfo();
-            }
+                break;
+            case VIDRNDT_DS_EVR_CUSTOM:
+                m_nLockedZoomVideoWindow = 0;
+                break;
+            default:
+                m_nLockedZoomVideoWindow = 0;
         }
-        m_fSetChannelActive = false;
+        if (SUCCEEDED(hr = pTun->SetChannel(nChannel))) {
+            if (hr == S_FALSE) {
+                // Re-create all
+                m_nLockedZoomVideoWindow = 0;
+                PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
+                return hr;
+            }
+
+            m_DVBState.bActive = true;
+            m_DVBState.pChannel = pChannel;
+            m_DVBState.sChannelName = pChannel->GetName();
+
+            if (s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
+                ZoomVideoWindow();
+            }
+            MoveVideoWindow();
+
+            // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
+            // for 5 seconds since playback starts
+            m_bAllowWindowZoom = true;
+            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
+            { m_bAllowWindowZoom = false; }, 5000);
+
+            ShowCurrentChannelInfo();
+        }
+        m_DVBState.bSetChannelActive = false;
     }
     return hr;
 }
 
 void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfoBar /*= false*/)
 {
-    CAppSettings& s = AfxGetAppSettings();
-    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+    CDVBChannel* pChannel = m_DVBState.pChannel;
     CComQIPtr<IBDATuner> pTun = m_pGB;
 
-    if (pChannel && pTun) {
+    if (!m_DVBState.bInfoActive && pChannel && pTun) {
         EventDescriptor& NowNext = m_DVBState.NowNext;
+        m_DVBState.bInfoActive = true;
         // Get EIT information:
         HRESULT hr = pTun->UpdatePSI(pChannel, NowNext);
 
@@ -14688,7 +14688,7 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
             m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(FALSE);
         }
 
-        CString sChannelInfo = pChannel->GetName();
+        CString sChannelInfo = m_DVBState.sChannelName;
         m_wndInfoBar.RemoveAllLines();
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), sChannelInfo);
 
@@ -14716,20 +14716,20 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
             }
 
             CString description = NowNext.eventDesc;
-            if (!NowNext.extendedDescriptorsTexts.IsEmpty()) {
+            if (!NowNext.extendedDescriptorsText.IsEmpty()) {
                 if (!description.IsEmpty()) {
                     description += _T("; ");
                 }
-                description += NowNext.extendedDescriptorsTexts.GetTail();
+                description += NowNext.extendedDescriptorsText;
             }
             m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
 
-            for (int i = 0; i < NowNext.extendedDescriptorsItemsDesc.GetCount(); i++) {
-                m_wndInfoBar.SetLine(NowNext.extendedDescriptorsItemsDesc.ElementAt(i), NowNext.extendedDescriptorsItemsContent.ElementAt(i));
+            for (const auto& item : NowNext.extendedDescriptorsItems) {
+                m_wndInfoBar.SetLine(item.first, item.second);
             }
 
             if (fShowInfoBar) {
-                s.nCS |= CS_INFOBAR;
+                AfxGetAppSettings().nCS |= CS_INFOBAR;
                 UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
             }
         }
@@ -14738,6 +14738,8 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
         if (fShowOSD) {
             m_OSD.DisplayMessage(OSD_TOPLEFT, sChannelInfo, 3500);
         }
+
+        m_DVBState.bInfoActive = false;
 
         // Update window title and skype status
         OpenSetupWindowTitle();
@@ -16359,21 +16361,18 @@ CString CMainFrame::GetFileName()
 
 CString CMainFrame::GetCaptureTitle()
 {
-    CAppSettings& s = AfxGetAppSettings();
     CString title;
 
     title.LoadString(IDS_CAPTURE_LIVE);
-    if (s.iDefaultCaptureDevice == 0) {
+    if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
         CString devName = GetFriendlyName(m_VidDispName);
         if (!devName.IsEmpty()) {
             title.AppendFormat(_T(" | %s"), devName);
         }
     } else {
-        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-        if (pChannel) {
-            title.AppendFormat(_T(" | %s"), pChannel->GetName());
-            CString eventName;
-            m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), eventName);
+        CString& eventName = m_DVBState.NowNext.eventName;
+        if (m_DVBState.bActive) {
+            title.AppendFormat(_T(" | %s"), m_DVBState.sChannelName);
             if (!eventName.IsEmpty()) {
                 title.AppendFormat(_T(" - %s"), eventName);
             }

@@ -568,7 +568,12 @@ public:
     void ShowCurrentChannelInfo(bool fShowOSD = true, bool fShowInfoBar = false);
 
     struct DVBState {
+        CString         sChannelName;
+        CDVBChannel*    pChannel          = nullptr;
         EventDescriptor NowNext;
+        bool            bActive           = false;
+        bool            bSetChannelActive = false;
+        bool            bInfoActive       = false;
     } m_DVBState;
 
     // Implementation
@@ -956,8 +961,6 @@ public:
     bool        m_bStopTunerScan;
     bool        m_bLockedZoomVideoWindow;
     int         m_nLockedZoomVideoWindow;
-    bool        m_fSetChannelActive;
-    bool        m_fDVBChannelActive;
 
     void        SetLoadState(MLS eState);
     MLS         GetLoadState() const;
