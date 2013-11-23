@@ -14655,6 +14655,9 @@ HRESULT CMainFrame::SetChannel(int nChannel)
             ShowCurrentChannelInfo();
         }
         m_DVBState.bSetChannelActive = false;
+    } else {
+        hr = E_FAIL;
+        ASSERT(FALSE);
     }
     return hr;
 }
