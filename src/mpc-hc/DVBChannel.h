@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <vector>
+
 #define FORMAT_VERSION_0       0
 #define FORMAT_VERSION_1       1
 #define FORMAT_VERSION_2       2
@@ -32,21 +34,14 @@
 struct EventDescriptor {
     CString eventName;
     CString eventDesc;
-    time_t startTime;
-    time_t duration;
+    time_t startTime = 0;
+    time_t duration  = 0;
     CString strStartTime;
     CString strEndTime;
-    CArray<CString> extendedDescriptorsItemsDesc;
-    CArray<CString> extendedDescriptorsItemsContent;
-    CStringList extendedDescriptorsTexts;
-    int parentalRating;
+    std::vector<std::pair<CString, CString>> extendedDescriptorsItems;
+    CString extendedDescriptorsText;
+    int parentalRating = -1;
     CString content;
-
-    EventDescriptor()
-        : startTime(0)
-        , duration(0)
-        , parentalRating(-1)
-    {};
 };
 
 enum DVB_STREAM_TYPE {
