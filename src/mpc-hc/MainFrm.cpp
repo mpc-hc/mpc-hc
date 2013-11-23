@@ -1880,9 +1880,22 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
                         }
                         break;
-                    case PM_DIGITAL_CAPTURE:
-                        m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
-                        break;
+                    case PM_DIGITAL_CAPTURE: {
+                        EventDescriptor& NowNext = m_DVBState.NowNext;
+                        time_t tNow;
+                        time(&tNow);
+                        if (NowNext.duration > 0 && tNow >= NowNext.startTime && tNow <= NowNext.startTime + NowNext.duration) {
+                            REFERENCE_TIME rtNow = REFERENCE_TIME(tNow - NowNext.startTime) * 10000000;
+                            REFERENCE_TIME rtDur = REFERENCE_TIME(NowNext.duration) * 10000000;
+                            m_wndStatusBar.SetStatusTimer(rtNow, rtDur, false, TIME_FORMAT_MEDIA_TIME);
+                            if (m_bRemainingTime) {
+                                m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
+                            }
+                        } else {
+                            m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
+                        }
+                    }
+                    break;
                     case PM_ANALOG_CAPTURE:
                         if (!m_fCapturing) {
                             CString str = ResStr(IDS_CAPTURE_LIVE);
@@ -14653,7 +14666,7 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
     CComQIPtr<IBDATuner> pTun = m_pGB;
 
     if (pChannel && pTun) {
-        EventDescriptor NowNext;
+        EventDescriptor& NowNext = m_DVBState.NowNext;
         // Get EIT information:
         HRESULT hr = pTun->UpdatePSI(pChannel, NowNext);
 
