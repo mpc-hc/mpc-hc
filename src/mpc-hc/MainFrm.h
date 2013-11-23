@@ -567,6 +567,10 @@ public:
     // DVB capture
     void ShowCurrentChannelInfo(bool fShowOSD = true, bool fShowInfoBar = false);
 
+    struct DVBState {
+        EventDescriptor NowNext;
+    } m_DVBState;
+
     // Implementation
 public:
     virtual ~CMainFrame();
