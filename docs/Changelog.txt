@@ -22,6 +22,7 @@ next version - not released yet
 * Updated Simplified and Traditional Chinese, Greek and Japanese translations
 * Updated MediaInfoLib to v0.7.65
 * Updated ZenLib to v0.4.29 r453
+* Updated Little CMS to v2.6b (git 579b3aa)
 * Updated Unrar to v5.0.0.13
 ! Ticket #1300/#2081, Toolbars auto-hiding now always works properly in multi-display configurations
 ! Ticket #3479, Improve the behavior of MPC-HC when some security tools prevent it
