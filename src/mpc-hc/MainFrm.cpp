@@ -13876,7 +13876,9 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         }
 
         m_pAMDF.Release();
-        m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMDF));
+        if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMDF)))) {
+            TRACE(_T("Warning: No IAMDroppedFrames interface for vidcap capture"));
+        }
     }
 
     //if (m_pAudCap)
