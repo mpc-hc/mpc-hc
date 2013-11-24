@@ -837,43 +837,6 @@ BEGIN
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,33,224,146
 END
 
-IDD_SHADERCOMBINE_DLG DIALOGEX 0, 0, 220, 190
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Shader Combiner"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    LISTBOX         IDC_LIST1,5,39,155,65,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK",IDOK,167,153,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,167,173,50,14
-    PUSHBUTTON      "Move &Up",IDC_BUTTON1,167,90,50,14
-    PUSHBUTTON      "Move &Down",IDC_BUTTON4,167,108,50,14
-    PUSHBUTTON      "&Remove",IDC_BUTTON3,167,25,50,14
-    CONTROL         "",IDC_STATIC1,"Static",SS_ETCHEDHORZ,4,21,213,1
-    COMBOBOX        IDC_COMBO1,5,4,155,120,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "&Add",IDC_BUTTON2,167,3,50,14
-    LISTBOX         IDC_LIST2,5,122,155,65,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Enable pre-resize pixel shaders",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,26,155,10
-    CONTROL         "Enable post-resize pixel shaders",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,109,155,10
-END
-
-IDD_SHADEREDITOR_DLG DIALOGEX 0, 0, 205, 71
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    COMBOBOX        IDC_COMBO1,0,0,115,51,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT1,0,15,205,27,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
-    COMBOBOX        IDC_COMBO2,117,0,47,42,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT2,0,44,205,26,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL
-    PUSHBUTTON      "Delete",IDC_BUTTON1,166,0,39,13
-END
-
-IDD_SHADERAUTOCOMPLETE_DLG DIALOGEX 0, 0, 99, 81
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU | WS_THICKFRAME
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    LISTBOX         IDC_LIST1,0,0,99,81,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP
-END
-
 IDD_PPAGEMISC DIALOGEX 0, 0, 296, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -1055,6 +1018,47 @@ BEGIN
     PUSHBUTTON      "&Ignore this update",IDC_UPDATE_IGNORE_BUTTON,202,40,90,14
 END
 
+IDD_PPAGESHADERS DIALOGEX 0, 0, 296, 241
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Shaders contain special effects which can be added to the video rendering process.",IDC_STATIC,4,4,288,16
+    LISTBOX         IDC_LIST1,4,24,174,107,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Add shader file",IDC_BUTTON12,4,134,90,14
+    PUSHBUTTON      "Remove",IDC_BUTTON13,98,134,80,14
+    PUSHBUTTON      "Add to pre-resize",IDC_BUTTON1,184,24,108,14
+    PUSHBUTTON      "Add to post-resize",IDC_BUTTON2,184,42,108,14
+    GROUPBOX        "Shader presets",IDC_STATIC,184,60,108,88
+    COMBOBOX        IDC_COMBO1,192,74,90,16,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Load",IDC_BUTTON3,192,92,56,14
+    PUSHBUTTON      "Save",IDC_BUTTON4,192,110,56,14
+    PUSHBUTTON      "Delete",IDC_BUTTON5,192,128,56,14
+    GROUPBOX        "Active pre-resize shaders",IDC_STATIC,4,152,141,84
+    LISTBOX         IDC_LIST2,10,164,115,67,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "",IDC_BUTTON6,127,164,14,14,BS_ICON | BS_FLAT
+    PUSHBUTTON      "",IDC_BUTTON7,127,180,14,14,BS_ICON | BS_FLAT
+    PUSHBUTTON      "",IDC_BUTTON8,127,196,14,14,BS_ICON | BS_FLAT
+    GROUPBOX        "Active post-resize shaders",IDC_STATIC,150,152,142,84
+    LISTBOX         IDC_LIST3,156,164,116,67,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "",IDC_BUTTON9,274,164,14,14,BS_ICON | BS_FLAT
+    PUSHBUTTON      "",IDC_BUTTON10,274,180,14,14,BS_ICON | BS_FLAT
+    PUSHBUTTON      "",IDC_BUTTON11,274,196,14,14,BS_ICON | BS_FLAT
+END
+
+IDD_DEBUGSHADERS_DLG DIALOGEX 0, 0, 373, 290
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Debug Shaders"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO1,2,2,224,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Debug Information",IDC_STATIC,2,16,369,272
+    EDITTEXT        IDC_EDIT1,6,26,362,259,ES_MULTILINE | ES_READONLY | WS_VSCROLL
+    CONTROL         "PS 2.0",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE | WS_GROUP,229,2,34,13
+    CONTROL         "PS 2.0b",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,265,2,34,13
+    CONTROL         "PS 2.0a",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,301,2,34,13
+    CONTROL         "PS 3.0",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,337,2,34,13
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1190,18 +1194,6 @@ BEGIN
     BEGIN
     END
 
-    IDD_SHADERCOMBINE_DLG, DIALOG
-    BEGIN
-        VERTGUIDE, 5
-        VERTGUIDE, 155
-        VERTGUIDE, 212
-        HORZGUIDE, 10
-        HORZGUIDE, 39
-        HORZGUIDE, 104
-        HORZGUIDE, 122
-        HORZGUIDE, 187
-    END
-
     IDD_PPAGEMISC, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1301,8 +1293,8 @@ BEGIN
         MENUITEM "Su&bresync\tCtrl+6",          ID_VIEW_SUBRESYNC
         MENUITEM "Pla&ylist\tCtrl+7",           ID_VIEW_PLAYLIST
         MENUITEM "Captu&re\tCtrl+8",            ID_VIEW_CAPTURE
-        MENUITEM "S&hader Editor\tCtrl+9",      ID_VIEW_SHADEREDITOR
         MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
+        MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
         POPUP "&Presets..."
         BEGIN
             MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL
@@ -1655,8 +1647,8 @@ BEGIN
             MENUITEM "Su&bresync",                  ID_VIEW_SUBRESYNC
             MENUITEM "Pla&ylist",                   ID_VIEW_PLAYLIST
             MENUITEM "Captu&re",                    ID_VIEW_CAPTURE
-            MENUITEM "S&hader Editor",              ID_VIEW_SHADEREDITOR
             MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
+            MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
             MENUITEM "&Language",                   ID_MENU_LANGUAGE
             POPUP "&Presets..."
             BEGIN
@@ -1781,8 +1773,8 @@ BEGIN
             MENUITEM "Su&bresync\tCtrl+6",          ID_VIEW_SUBRESYNC
             MENUITEM "Pla&ylist\tCtrl+7",           ID_VIEW_PLAYLIST
             MENUITEM "Captu&re\tCtrl+8",            ID_VIEW_CAPTURE
-            MENUITEM "S&hader Editor\tCtrl+9",      ID_VIEW_SHADEREDITOR
             MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
+            MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
             MENUITEM "&Language",                   ID_MENU_LANGUAGE
             POPUP "&Presets..."
             BEGIN
@@ -2091,15 +2083,9 @@ BEGIN
     IDS_AUTOPLAY_PLAYAUDIOCD           "Play Audio CD"
     IDS_AUTOPLAY_PLAYDVDMOVIE          "Play DVD Movie"
     IDS_PROPSHEET_PROPERTIES           "Properties"
-    IDS_SHADERS_EDIT                   "&Edit shaders..."
     IDS_SUBTITLES_DEFAULT_STYLE        "&Default Style"
     IDS_FAVFILES                       "Files"
     IDS_FAVDVDS                        "DVDs"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_SHADERS_TOGGLE      "Enable Pre-Resize Pixel Shaders"
 END
 
 STRINGTABLE
@@ -2118,7 +2104,6 @@ BEGIN
     IDS_PLAYLIST_SORTBYPATH         "Sort by &path"
     IDS_PLAYLIST_RANDOMIZE          "R&andomize"
     IDS_PLAYLIST_RESTORE            "R&estore"
-    IDS_SHADER_EDITOR               "Shader Editor"
     IDS_SUBRESYNC_CAPTION           "Subresync"
     IDS_SUBRESYNC_SEPARATOR         "&Separator"
     IDS_SUBRESYNC_DELETE            "&Delete"
@@ -2194,6 +2179,7 @@ BEGIN
     IDD_PPAGEINTERNALFILTERS "Internal Filters"
     IDD_PPAGELOGO           "Player::Logo"
     IDD_PPAGEOUTPUT         "Playback::Output"
+    IDD_PPAGESHADERS        "Playback::Shaders"
     IDD_PPAGEWEBSERVER      "Player::Web Interface"
     IDD_PPAGESUBDB          "Subtitles::Database"
 END
@@ -2297,8 +2283,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_SHADERS_TOGGLE_SCREENSPACE "Enable Post-Resize Pixel Shaders"
-    IDS_AT_TOGGLE_SHADERSCREENSPACE "Toggle Screen Space Pixel Shaders"
     IDS_AG_VSYNCACCURATE    "Accurate VSync"
 END
 
@@ -2345,6 +2329,7 @@ BEGIN
     IDS_SUBRESYNC_INCREASE  "&Increase"
     IDS_OPTIONS_CAPTION     "Options"
     IDS_SHADERS_SELECT      "&Select Shaders..."
+    IDS_SHADERS_DEBUG       "&Debug Shaders..."
 END
 
 STRINGTABLE
@@ -2386,7 +2371,6 @@ BEGIN
     IDS_AG_PNS_ROTATEZ_P    "PnS Rotate Z+"
     IDS_AG_PNS_ROTATEZ_M    "PnS Rotate Z-"
     IDS_AG_TEARING_TEST     "Tearing Test"
-    IDS_AT_TOGGLE_SHADER    "Toggle Pixel Shaders"
     IDS_SCALE_16_9          "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
     IDS_SCALE_WIDESCREEN    "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
     IDS_SCALE_ULTRAWIDE     "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
@@ -2417,7 +2401,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_AG_CLOSE            "Close"
-    IDS_SHADEREDITORDLG_0   "Are you sure you want to delete this shader?"
 END
 
 STRINGTABLE
@@ -2435,10 +2418,8 @@ BEGIN
     IDS_AG_MEDIAFILES       "Media files (all types)"
     IDS_AG_ALLFILES         "All files (*.*)|*.*|"
     IDS_AG_AUDIOFILES       "Audio files (all types)"
-    IDS_PIXELSHADERCOMPILER_0
-                            "Cannot load D3DX9_xx.dll, pixel shaders will not work."
-    IDS_PIXELSHADERCOMPILER_1
-                            "Cannot find necessary function entry points in D3DX9_xx.dll, pixel shaders will not work."
+    IDS_SHADER_DLL_ERR_0    "Cannot load %s, pixel shaders will not work."
+    IDS_SHADER_DLL_ERR_1    "Cannot find necessary function entry points in %s, pixel shaders will not work."
     IDS_AG_NOT_KNOWN        "Not known"
     IDS_MPLAYERC_0          "Quick Open File"
     IDS_AG_OPEN_FILE        "Open File"
@@ -2567,6 +2548,8 @@ BEGIN
     IDS_MPLAYERC_96         "Prev Subtitle (DVD)"
     IDS_MPLAYERC_97         "On/Off Subtitle (DVD)"
     IDS_MPLAYERC_98         "Remaining Time"
+    IDS_AG_SHADERS_PRESET_NEXT "Next Shader Preset"
+    IDS_AG_SHADERS_PRESET_PREV "Prev Shader Preset"
 END
 
 STRINGTABLE
@@ -2663,16 +2646,10 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_MAINFRM_65          "Pre-Resize Pixel Shaders: on"
-    IDS_MAINFRM_66          "Pre-Resize Pixel Shaders: off"
-    IDS_MAINFRM_PPONSCR     "Post-Resize Pixel Shaders: on"
-    IDS_MAINFRM_PPOFFSCR    "Post-Resize Pixel Shaders: off"
     IDS_MAINFRM_68          "Aspect Ratio: %d:%d"
     IDS_MAINFRM_69          "Aspect Ratio: Default"
     IDS_MAINFRM_70          "Audio Delay: %I64dms"
     IDS_AG_CHAPTER          "Chapter %d"
-    IDS_MAINFRM_73          "Could not load shader: "
-    IDS_AG_SHADER           "Shader: "
     IDS_AG_OUT_OF_MEMORY    "Out of memory"
     IDS_MAINFRM_77          "Error: Flash player for IE is required"
     IDS_MAINFRM_78          "QuickTime not yet supported for X64 (apple library not available)"
@@ -2680,6 +2657,9 @@ BEGIN
     IDS_MAINFRM_81          "Invalid argument"
     IDS_MAINFRM_82          "Opening aborted"
     IDS_MAINFRM_83          "Failed to render the file"
+    IDS_MAINFRM_PRE_SHADERS_FAILED "Failed to set pre-resize shaders"
+    IDS_MAINFRM_POST_SHADERS_FAILED "Failed to set post-resize shaders"
+    IDS_MAINFRM_BOTH_SHADERS_FAILED "Failed to set both pre-resize and post-resize shaders"
 END
 
 STRINGTABLE
@@ -2749,7 +2729,7 @@ BEGIN
     IDS_VOLUME_BOOST_DEC    "Volume boost decrease"
     IDS_VOLUME_BOOST_MIN    "Volume boost Min"
     IDS_VOLUME_BOOST_MAX    "Volume boost Max"
-    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded (wildcards\n\t\tallowed, ""-"" denotes standard input)\n/dub ""dubname""\tLoad an additional audio file\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains ""...DELAY XXms..."")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub ""subname""\tLoad an additional subtitle file\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see ""Output"" settings)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded (wildcards\n\t\tallowed, ""-"" denotes standard input)\n/dub ""dubname""\tLoad an additional audio file\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains ""...DELAY XXms..."")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub ""subname""\tLoad an additional subtitle file\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see ""Output"" settings)\n/shaderpreset ""Pr""\tStart using ""Pr"" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
     IDS_UNKNOWN_SWITCH      "Unrecognized switch(es) found in command line string: \n\n"
 END
 
@@ -2771,8 +2751,8 @@ BEGIN
     IDS_AG_TOGGLE_SUBRESYNC  "Toggle Subresync Bar"
     IDS_AG_TOGGLE_PLAYLIST   "Toggle Playlist Bar"
     IDS_AG_TOGGLE_CAPTURE    "Toggle Capture Bar"
-    IDS_AG_TOGGLE_SHADER     "Toggle Shader Editor Bar"
     IDS_AG_TOGGLE_NAVIGATION "Toggle Navigation Bar"
+    IDS_AG_TOGGLE_DEBUGSHADERS "Toggle Debug Shaders"
     IDS_AG_ZOOM_50           "Zoom 50%"
     IDS_AG_ZOOM_100          "Zoom 100%"
     IDS_AG_ZOOM_200          "Zoom 200%"
@@ -2782,6 +2762,11 @@ BEGIN
     IDS_AG_VIDFRM_OUTSIDE    "VidFrm Outside"
     IDS_AG_PNS_RESET         "PnS Reset"
     IDS_AG_PNS_ROTATEX_P     "PnS Rotate X+"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DEBUGSHADERS_FIRSTRUN_MSG "Shaders are recompiled automatically when the corresponding files are modified."
 END
 
 STRINGTABLE
@@ -3004,6 +2989,7 @@ BEGIN
     IDS_OSD_ZOOM                        "Zoom: %.0lf%%"
     IDS_OSD_ZOOM_AUTO                   "Zoom: Auto"
     IDS_OSD_ZOOM_AUTO_LARGER            "Zoom: Auto (Larger Only)"
+    IDS_OSD_SHADERS_PRESET              "Shader preset: %s"
 END
 
 STRINGTABLE

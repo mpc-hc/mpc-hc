@@ -44,6 +44,9 @@
 #define USE_STATIC_MEDIAINFO 1
 #endif
 
+#define SHADERS_DIR _T("Shaders")
+#define SHADERS_EXT _T(".hlsl")
+
 // If you distribute your builds, please disable minidumps by defining ENABLE_MINIDUMP 0.
 #define ENABLE_MINIDUMP 1
 

@@ -73,7 +73,6 @@ public:
         CAPTURE,
         NAVIGATION,
         EDL,
-        SHADEREDITOR,
     };
     std::map<Panel, CPlayerBar*> m_panels;
 

@@ -1713,7 +1713,7 @@ HRESULT CDX9RenderingEngine::SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarge
         return S_OK;
     }
 
-    if (!pSrcData || !pTarget) {
+    if (!pSrcData) {
         return E_INVALIDARG;
     }
 

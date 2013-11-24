@@ -29,6 +29,7 @@
 #include "DVBChannel.h"
 #include "MediaPositionList.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
+#include "Shaders.h"
 
 #include <afxsock.h>
 
@@ -351,8 +352,6 @@ class CAppSettings
     };
 
 public:
-    bool fShaderEditorWasOpened;
-
     // cmdline params
     UINT nCLSwitches;
     CAtlList<CString>   slFiles, slDubs, slSubs, slFilters;
@@ -599,18 +598,9 @@ public:
     CString         strSnapshotPath, strSnapshotExt;
     // Save Thumbnails...
     int             iThumbRows, iThumbCols, iThumbWidth;
-    // Shader Editor
-    struct Shader {
-        CString     label;
-        CString     target;
-        CString     srcdata;
-    };
-    CAtlList<Shader> m_shaders;
-    // Shader Combiner
-    bool            fToggleShader;
-    bool            fToggleShaderScreenSpace;
-    CString         strShaderList;
-    CString         strShaderListScreenSpace;
+    // Shaders
+    ShaderList      m_ShadersExtraList;
+    ShaderSelection m_Shaders;
     // Playlist (contex menu)
     bool            bShufflePlaylistItems;
     bool            bHidePlaylistFullScreen;

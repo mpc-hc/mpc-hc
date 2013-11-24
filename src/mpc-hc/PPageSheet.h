@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -40,6 +40,7 @@
 #include "PPageTweaks.h"
 #include "PPageMisc.h"
 #include "PPageCapture.h"
+#include "PPageShaders.h"
 #include "TreePropSheet/TreePropSheet.h"
 
 
@@ -75,6 +76,7 @@ private:
     CPPagePlayback m_playback;
     CPPageDVD m_dvd;
     CPPageOutput m_output;
+    CPPageShaders m_shaders;
     CPPageFullscreen m_fullscreen;
     CPPageSync m_sync;
     CPPageCapture m_tuner;

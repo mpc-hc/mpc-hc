@@ -41,7 +41,7 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     evs.insert(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
     evs.insert(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
     evs.insert(MpcEvent::MEDIA_LOADED);
-    m_pMainFrame->m_eventd.Connect(m_eventc, evs, std::bind(&CMouse::EventCallback, this, std::placeholders::_1));
+    GetEventd().Connect(m_eventc, evs, std::bind(&CMouse::EventCallback, this, std::placeholders::_1));
 }
 
 CMouse::~CMouse()

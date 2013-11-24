@@ -340,6 +340,12 @@ BOOL CMPlayerCApp::IsIdleMessage(MSG* pMsg)
     return ret;
 }
 
+BOOL CMPlayerCApp::PumpMessage()
+{
+    return MsgWaitForMultipleObjectsEx(0, nullptr, INFINITE, QS_ALLINPUT,
+                                       MWMO_INPUTAVAILABLE | MWMO_ALERTABLE) == WAIT_IO_COMPLETION ? TRUE : __super::PumpMessage();
+}
+
 void CMPlayerCApp::ShowCmdlnSwitches() const
 {
     CString s;
@@ -443,9 +449,6 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 
     // Save external filters to the new location
     m_s.SaveExternalFilters();
-
-    // Ensure the shaders are properly saved
-    m_s.fShaderEditorWasOpened = true;
 
     // Write settings immediately
     m_s.SaveSettings();

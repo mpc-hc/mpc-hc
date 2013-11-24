@@ -122,6 +122,7 @@
     <ClCompile Include="MediaTypeEx.cpp" />
     <ClCompile Include="MediaTypes.cpp" />
     <ClCompile Include="NullRenderers.cpp" />
+    <ClCompile Include="PathUtils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -147,6 +148,7 @@
     <ClInclude Include="MediaTypes.h" />
     <ClInclude Include="Mpeg2Def.h" />
     <ClInclude Include="NullRenderers.h" />
+    <ClInclude Include="PathUtils.h" />
     <ClInclude Include="SharedInclude.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SysVersion.h" />
