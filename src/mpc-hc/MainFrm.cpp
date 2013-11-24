@@ -11684,12 +11684,6 @@ void CMainFrame::ParseDirs(CAtlList<CString>& sl)
     }
 }
 
-struct SearchInDirCompare {
-    bool operator()(const CString& str1, const CString& str2) {
-        return (StrCmpLogicalW(str1, str2) < 0);
-    }
-};
-
 bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
 {
     ASSERT(GetPlaybackMode() == PM_FILE);
@@ -11699,7 +11693,7 @@ bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
         return false;
     }
 
-    std::set<CString, SearchInDirCompare> files;
+    std::set<CString, CStringUtils::LogicalLess> files;
     const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
     CString mask = pFileData->title.Left(pFileData->title.ReverseFind(_T('\\')) + 1) + _T("*.*");
     CFileFind finder;

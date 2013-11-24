@@ -142,12 +142,7 @@ public:
     bool ExportSettings(CString savePath, CString subKey = _T(""));
 
 private:
-    struct CStringIgnoreCaseLess {
-        bool operator()(const CString& str1, const CString& str2) const {
-            return str1.CompareNoCase(str2) < 0;
-        }
-    };
-    std::map<CString, std::map<CString, CString, CStringIgnoreCaseLess>, CStringIgnoreCaseLess> m_ProfileMap;
+    std::map<CString, std::map<CString, CString, CStringUtils::IgnoreCaseLess>, CStringUtils::IgnoreCaseLess> m_ProfileMap;
     bool m_fProfileInitialized;
     void InitProfile();
     ::CCriticalSection m_ProfileCriticalSection;
