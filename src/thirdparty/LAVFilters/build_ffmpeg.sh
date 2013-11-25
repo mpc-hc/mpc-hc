@@ -35,11 +35,9 @@ copy_libs() {
 
 clean() {
   echo Cleaning...
-  rm -f config.out > /dev/null 2>&1
   if [ -f config.mak ]; then
     make distclean > /dev/null 2>&1
   fi
-  CLEANED=1
 }
 
 configure() {
@@ -103,19 +101,14 @@ build() {
 }
 
 configureAndBuild() {
-  ## read the first line of the previous configure output
-  conf=$(head -n 1 config.out 2>/dev/null)
-
-  if [ "${conf}" == "Arch: ${arch}" ] && [ ${FORCECLEAN} -eq 0 ]; then
+  ## Don't run configure again if it was previously run
+  if [ -f config.mak ]; then
     echo Skipping configure...
   else
-    clean
-
     echo Configuring...
-    ## write the configure info
-    echo Arch: ${arch} > config.out
+
     ## run configure, redirect to file because of a msys bug
-    configure >> config.out 2>&1
+    configure > config.out 2>&1
     CONFIGRETVAL=$?
 
     ## show configure output
@@ -143,20 +136,26 @@ if [ ! -d ${out_dir} ]; then
 fi
 cd ${out_dir}
 
-CLEANED=0
-FORCECLEAN=0
 CONFIGRETVAL=0
 
 if [ "${2}" == "Clean" ]; then
   clean
   CONFIGRETVAL=$?
 else
+  ## Check if configure was previously run
+  if [ -f config.mak ]; then
+    CLEANBUILD=0
+  else
+    CLEANBUILD=1
+  fi
+
   configureAndBuild
 
-  if [ ! ${CONFIGRETVAL} -eq 0 ] && [ ${CLEANED} -eq 0 ]; then
+  ## In case of error and only if we didn't start with a clean build,
+  ## we try to rebuild from scratch including a full reconfigure
+  if [ ! ${CONFIGRETVAL} -eq 0 ] && [ ${CLEANBUILD} -eq 0 ]; then
     echo Trying again with forced reconfigure...
-    FORCECLEAN=1
-    configureAndBuild
+    clean && configureAndBuild
   fi
 fi
 
