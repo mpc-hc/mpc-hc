@@ -766,7 +766,6 @@ CMainFrame::CMainFrame()
     , m_bExtOnTop(false)
 {
     m_Lcd.SetVolumeRange(0, 100);
-    m_liLastSaveTime.QuadPart = 0;
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
     // disabled but it avoids some unwanted cases where programmatically
@@ -1771,138 +1770,134 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
         case TIMER_STREAMPOSPOLLER:
             if (GetLoadState() == MLS::LOADED) {
                 REFERENCE_TIME rtNow = 0, rtDur = 0;
+                switch (GetPlaybackMode()) {
+                    case PM_FILE:
+                        g_bExternalSubtitleTime = false;
+                        m_pMS->GetCurrentPosition(&rtNow);
+                        m_pMS->GetDuration(&rtDur);
 
-                if (GetPlaybackMode() == PM_FILE) {
-                    m_pMS->GetCurrentPosition(&rtNow);
-                    m_pMS->GetDuration(&rtDur);
-
-                    // Casimir666 : autosave subtitle sync after play
-                    if ((m_nCurSubtitle >= 0) && (m_rtCurSubPos != rtNow)) {
-                        if (m_lSubtitleShift != 0) {
-                            if (m_wndSubresyncBar.SaveToDisk()) {
-                                m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_AG_SUBTITLES_SAVED), 500);
-                            } else {
-                                m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_MAINFRM_4));
-                            }
-                        }
-                        m_nCurSubtitle   = -1;
-                        m_lSubtitleShift = 0;
-                    }
-
-                    if (!m_fEndOfStream) {
-                        CAppSettings& s = AfxGetAppSettings();
-
-                        if (m_bRememberFilePos) {
-                            FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
-
+                        if (m_bRememberFilePos && !m_fEndOfStream) {
+                            CFilePositionList& fp = AfxGetAppSettings().filePositions;
+                            FILE_POSITION* filePosition = fp.GetLatestEntry();
                             if (filePosition) {
+                                bool bSave = std::abs(filePosition->llPosition - rtNow) > 300000000;
                                 filePosition->llPosition = rtNow;
-
-                                LARGE_INTEGER time;
-                                QueryPerformanceCounter(&time);
-                                LARGE_INTEGER freq;
-                                QueryPerformanceFrequency(&freq);
-                                if ((time.QuadPart - m_liLastSaveTime.QuadPart) >= 30 * freq.QuadPart) { // save every half of minute
-                                    m_liLastSaveTime = time;
-                                    s.filePositions.SaveLatestEntry();
+                                if (bSave) {
+                                    fp.SaveLatestEntry();
                                 }
                             }
                         }
-                    }
 
-                    if (m_rtDurationOverride >= 0) {
-                        rtDur = m_rtDurationOverride;
-                    }
-
-                    g_bNoDuration = rtDur <= 0;
-                    m_wndSeekBar.Enable(rtDur > 0);
-                    m_wndSeekBar.SetRange(0, rtDur);
-                    m_wndSeekBar.SetPos(rtNow);
-                    m_OSD.SetRange(0, rtDur);
-                    m_OSD.SetPos(rtNow);
-                    m_Lcd.SetMediaRange(0, rtDur);
-                    m_Lcd.SetMediaPos(rtNow);
-                } else if (IsPlaybackCaptureMode()) {
-                    m_pMS->GetCurrentPosition(&rtNow);
-                    if (m_fCapturing && m_wndCaptureBar.m_capdlg.m_pMux) {
-                        CComQIPtr<IMediaSeeking> pMuxMS = m_wndCaptureBar.m_capdlg.m_pMux;
-                        if (!pMuxMS || FAILED(pMuxMS->GetCurrentPosition(&rtNow))) {
-                            rtNow = 0;
+                        // Casimir666 : autosave subtitle sync after play
+                        if (m_nCurSubtitle >= 0 && m_rtCurSubPos != rtNow) {
+                            if (m_lSubtitleShift) {
+                                if (m_wndSubresyncBar.SaveToDisk()) {
+                                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_AG_SUBTITLES_SAVED), 500);
+                                } else {
+                                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_MAINFRM_4));
+                                }
+                            }
+                            m_nCurSubtitle = -1;
+                            m_lSubtitleShift = 0;
                         }
-                    }
 
-                    if (m_rtDurationOverride >= 0) {
-                        rtDur = m_rtDurationOverride;
-                    }
+                        m_wndStatusBar.SetStatusTimer(rtNow, rtDur, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
+                        break;
+                    case PM_DVD:
+                        g_bExternalSubtitleTime = true;
+                        if (m_pDVDI) {
+                            DVD_PLAYBACK_LOCATION2 Location;
+                            if (m_pDVDI->GetCurrentLocation(&Location) == S_OK) {
+                                double fps = Location.TimeCodeFlags == DVD_TC_FLAG_25fps ? 25.0
+                                             : Location.TimeCodeFlags == DVD_TC_FLAG_30fps ? 30.0
+                                             : Location.TimeCodeFlags == DVD_TC_FLAG_DropFrame ? 30 / 1.001
+                                             : 25.0;
 
-                    g_bNoDuration = rtDur <= 0;
-                    m_wndSeekBar.Enable(false);
-                    m_wndSeekBar.SetRange(0, rtDur);
-                    m_wndSeekBar.SetPos(rtNow);
-                    m_OSD.SetRange(0, rtDur);
-                    m_OSD.SetPos(rtNow);
-                    m_Lcd.SetMediaRange(0, rtDur);
-                    m_Lcd.SetMediaPos(rtNow);
+                                rtNow = HMSF2RT(Location.TimeCode, fps);
+                                DVD_HMSF_TIMECODE tcDur;
+                                ULONG ulFlags;
+                                if (SUCCEEDED(m_pDVDI->GetTotalTitleTime(&tcDur, &ulFlags))) {
+                                    rtDur = HMSF2RT(tcDur, fps);
+                                }
+                                if (m_pSubClock) {
+                                    m_pSubClock->SetTime(rtNow);
+                                }
+                            }
+                        }
+                        m_wndStatusBar.SetStatusTimer(rtNow, rtDur, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
+                        break;
+                    case PM_ANALOG_CAPTURE:
+                        g_bExternalSubtitleTime = true;
+                        if (m_fCapturing) {
+                            if (m_wndCaptureBar.m_capdlg.m_pMux) {
+                                CComQIPtr<IMediaSeeking> pMuxMS = m_wndCaptureBar.m_capdlg.m_pMux;
+                                if (!pMuxMS || FAILED(pMuxMS->GetCurrentPosition(&rtNow))) {
+                                    m_pMS->GetCurrentPosition(&rtNow);
+                                }
+                            }
+                            if (m_rtDurationOverride >= 0) {
+                                rtDur = m_rtDurationOverride;
+                            }
+                        }
+                        break;
+                    case PM_DIGITAL_CAPTURE:
+                        g_bExternalSubtitleTime = true;
+                        m_pMS->GetCurrentPosition(&rtNow);
+                        break;
+                    default:
+                        ASSERT(FALSE);
+                        break;
                 }
 
-                if (m_pCAP && GetPlaybackMode() != PM_FILE) {
-                    g_bExternalSubtitleTime = true;
-                    if (m_pDVDI) {
-                        DVD_PLAYBACK_LOCATION2 Location;
-                        if (m_pDVDI->GetCurrentLocation(&Location) == S_OK) {
-                            double fps = Location.TimeCodeFlags == DVD_TC_FLAG_25fps ? 25.0
-                                         : Location.TimeCodeFlags == DVD_TC_FLAG_30fps ? 30.0
-                                         : Location.TimeCodeFlags == DVD_TC_FLAG_DropFrame ? 29.97
-                                         : 25.0;
+                g_bNoDuration = rtDur <= 0;
+                m_wndSeekBar.Enable(!g_bNoDuration);
+                m_wndSeekBar.SetRange(0, rtDur);
+                m_wndSeekBar.SetPos(rtNow);
+                m_OSD.SetRange(0, rtDur);
+                m_OSD.SetPos(rtNow);
+                m_Lcd.SetMediaRange(0, rtDur);
+                m_Lcd.SetMediaPos(rtNow);
 
-                            REFERENCE_TIME rtTimeCode = HMSF2RT(Location.TimeCode, fps);
-                            m_pCAP->SetTime(rtTimeCode);
-                        } else {
-                            m_pCAP->SetTime(/*rtNow*/m_wndSeekBar.GetPos());
-                        }
-                    } else {
-                        // Set rtNow to support DVB subtitle
+                if (m_pCAP) {
+                    if (g_bExternalSubtitleTime) {
                         m_pCAP->SetTime(rtNow);
                     }
-                } else {
-                    g_bExternalSubtitleTime = false;
+                    m_wndSubresyncBar.SetTime(rtNow);
+                    m_wndSubresyncBar.SetFPS(m_pCAP->GetFPS());
                 }
             }
             break;
         case TIMER_STREAMPOSPOLLER2:
             if (GetLoadState() == MLS::LOADED) {
-                __int64 start, stop, pos;
-                m_wndSeekBar.GetRange(start, stop);
-                pos = m_wndSeekBar.GetPos();
-
-                if (GetPlaybackMode() == PM_ANALOG_CAPTURE && !m_fCapturing) {
-                    CString str = ResStr(IDS_CAPTURE_LIVE);
-
-                    long lChannel = 0, lVivSub = 0, lAudSub = 0;
-                    if (m_pAMTuner
-                            && m_wndCaptureBar.m_capdlg.IsTunerActive()
-                            && SUCCEEDED(m_pAMTuner->get_Channel(&lChannel, &lVivSub, &lAudSub))) {
-                        CString ch;
-                        ch.Format(_T(" (ch%ld)"), lChannel);
-                        str += ch;
-                    }
-
-                    m_wndStatusBar.SetStatusTimer(str);
-                } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-                    m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
-                } else {
-                    m_wndStatusBar.SetStatusTimer(pos, stop, !!m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
-                    if (m_bRemainingTime) {
-                        m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
-                    }
+                switch (GetPlaybackMode()) {
+                    case PM_FILE:
+                    // no break
+                    case PM_DVD:
+                        if (m_bRemainingTime) {
+                            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
+                        }
+                        break;
+                    case PM_DIGITAL_CAPTURE:
+                        m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
+                        break;
+                    case PM_ANALOG_CAPTURE:
+                        if (!m_fCapturing) {
+                            CString str = ResStr(IDS_CAPTURE_LIVE);
+                            long lChannel = 0, lVivSub = 0, lAudSub = 0;
+                            if (m_pAMTuner
+                                    && m_wndCaptureBar.m_capdlg.IsTunerActive()
+                                    && SUCCEEDED(m_pAMTuner->get_Channel(&lChannel, &lVivSub, &lAudSub))) {
+                                str.AppendFormat(_T(" (ch%ld)"), lChannel);
+                            }
+                            m_wndStatusBar.SetStatusTimer(str);
+                        }
+                        break;
+                    default:
+                        ASSERT(FALSE);
+                        break;
                 }
-
-                if (m_pCAP) {
-                    m_wndSubresyncBar.SetFPS(m_pCAP->GetFPS());
-                    m_wndSubresyncBar.SetTime(pos);
-                    if (!m_bDelaySetOutputRect && GetMediaState() == State_Paused) {
-                        m_pCAP->Paint(false); // TODO: Improve subpic queue and remove this call.
-                    }
+                if (m_pCAP && !m_bDelaySetOutputRect && GetMediaState() == State_Paused) {
+                    m_pCAP->Paint(false); // TODO: Improve subpic queue and remove this call.
                 }
             }
             break;
@@ -2259,8 +2254,6 @@ bool CMainFrame::GraphEventComplete()
 
         if (filePosition) {
             filePosition->llPosition = 0;
-
-            QueryPerformanceCounter(&m_liLastSaveTime);
             s.filePositions.SaveLatestEntry();
         }
     }
@@ -2605,39 +2598,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             }
             break;
             case EC_DVD_CURRENT_HMSF_TIME: {
-                double fps = evParam2 == DVD_TC_FLAG_25fps ? 25.0
-                             : evParam2 == DVD_TC_FLAG_30fps ? 30.0
-                             : evParam2 == DVD_TC_FLAG_DropFrame ? 29.97
-                             : 25.0;
-
-                REFERENCE_TIME rtDur = 0;
-
-                DVD_HMSF_TIMECODE tcDur;
-                ULONG ulFlags;
-                if (SUCCEEDED(m_pDVDI->GetTotalTitleTime(&tcDur, &ulFlags))) {
-                    rtDur = HMSF2RT(tcDur, fps);
-                }
-
-                g_bNoDuration = rtDur <= 0;
-                m_wndSeekBar.Enable(rtDur > 0);
-                m_wndSeekBar.SetRange(0, rtDur);
-                m_OSD.SetRange(0, rtDur);
-                m_Lcd.SetMediaRange(0, rtDur);
-
-                REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
-
                 // Casimir666 : Save current position in the chapter
                 DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
                 if (dvdPosition) {
                     memcpy(&dvdPosition->timecode, (void*)&evParam1, sizeof(DVD_HMSF_TIMECODE));
-                }
-
-                m_wndSeekBar.SetPos(rtNow);
-                m_OSD.SetPos(rtNow);
-                m_Lcd.SetMediaPos(rtNow);
-
-                if (m_pSubClock) {
-                    m_pSubClock->SetTime(rtNow);
                 }
             }
             break;
@@ -3470,6 +3434,10 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     m_wndStatsBar.RemoveAllLines();
     m_wndStatusBar.Clear();
     m_wndStatusBar.ShowTimer(false);
+    m_OSD.SetRange(0, 0);
+    m_OSD.SetPos(0);
+    m_Lcd.SetMediaRange(0, 0);
+    m_Lcd.SetMediaPos(0);
 
     if (!bNextIsQueued) {
         RecalcLayout();
@@ -10372,7 +10340,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                 rtPos = s.filePositions.GetLatestEntry()->llPosition;
             }
         }
-        QueryPerformanceCounter(&m_liLastSaveTime);
 
         if (FAILED(hr)) {
             if (bMainFile) {

@@ -342,7 +342,6 @@ private:
 
     bool m_fEndOfStream;
 
-    LARGE_INTEGER m_liLastSaveTime;
     bool m_bRememberFilePos;
 
     DWORD m_dwLastRun;

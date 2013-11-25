@@ -119,17 +119,19 @@ void CPlayerSubresyncBar::ReloadTranslatableResources()
 
 void CPlayerSubresyncBar::SetTime(REFERENCE_TIME rt)
 {
-    m_rt = rt;
-    int curSegment;
+    if (m_rt != rt) {
+        m_rt = rt;
+        int curSegment;
 
-    if (!m_sts.SearchSubs((int)(rt / 10000), 25, &curSegment)) {
-        curSegment = -1;
-    }
+        if (!m_sts.SearchSubs((int)(rt / 10000), 25, &curSegment)) {
+            curSegment = -1;
+        }
 
-    if (m_lastSegment != curSegment) {
-        m_list.Invalidate();
+        if (m_lastSegment != curSegment) {
+            m_list.Invalidate();
+        }
+        m_lastSegment = curSegment;
     }
-    m_lastSegment = curSegment;
 }
 
 void CPlayerSubresyncBar::SetFPS(double fps)
