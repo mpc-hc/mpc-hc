@@ -21,6 +21,7 @@
 // originally from virtualdub
 
 #include "stdafx.h"
+#include <algorithm>
 #include <MMReg.h>
 #include "Audio.h"
 
@@ -257,7 +258,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesIn, void* output,
 
         // Read into buffer.
 
-        srcSamples = min(srcSamples, samplesIn);
+        srcSamples = std::min(srcSamples, samplesIn);
         if (!srcSamples) {
             break;
         }

@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "RenderersSettings.h"
 #include "DX9AllocatorPresenter.h"
 #include <InitGuid.h>
@@ -856,7 +857,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     m_pFont = nullptr;
     if (m_pD3DXCreateFont) {
         int MinSize = 1600;
-        int CurrentSize = min(m_ScreenSize.cx, MinSize);
+        int CurrentSize = std::min(m_ScreenSize.cx, MinSize);
         double Scale = double(CurrentSize) / double(MinSize);
         m_TextScale = Scale;
         m_pD3DXCreateFont(m_pD3DDev,                   // D3D device
@@ -1002,8 +1003,8 @@ void CDX9AllocatorPresenter::CalculateJitter(LONGLONG PerfCounter)
             LONGLONG DevInt = m_pllJitter[i] - (LONGLONG)FrameTimeMean;
             double Deviation = (double)DevInt;
             DeviationSum += Deviation * Deviation;
-            m_MaxJitter = max(m_MaxJitter, DevInt);
-            m_MinJitter = min(m_MinJitter, DevInt);
+            m_MaxJitter = std::max(m_MaxJitter, DevInt);
+            m_MinJitter = std::min(m_MinJitter, DevInt);
         }
         double StdDev = sqrt(DeviationSum / NB_JITTER);
 
@@ -1046,9 +1047,9 @@ bool CDX9AllocatorPresenter::GetVBlank(int& _ScanLine, int& _bInVBlank, bool _bM
         _bInVBlank = RasterStatus.InVBlank;
     }
     if (_bMeasureTime) {
-        m_VBlankMax = max(m_VBlankMax, ScanLine);
+        m_VBlankMax = std::max(m_VBlankMax, ScanLine);
         if (ScanLine != 0 && !_bInVBlank) {
-            m_VBlankMinCalc = min(m_VBlankMinCalc, ScanLine);
+            m_VBlankMinCalc = std::min(m_VBlankMinCalc, ScanLine);
         }
         m_VBlankMin = m_VBlankMax - m_ScreenSize.cy;
     }
@@ -1065,7 +1066,7 @@ bool CDX9AllocatorPresenter::GetVBlank(int& _ScanLine, int& _bInVBlank, bool _bM
         if (Time > 5000000) { // 0.5 sec
             TRACE(_T("GetVBlank too long (%f sec)\n"), Time / 10000000.0);
         }
-        m_RasterStatusWaitTimeMaxCalc = max(m_RasterStatusWaitTimeMaxCalc, Time);
+        m_RasterStatusWaitTimeMaxCalc = std::max(m_RasterStatusWaitTimeMaxCalc, Time);
     }
 
     return true;
@@ -1141,14 +1142,14 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
     }
     double RefreshRate = GetRefreshRate();
     LONG ScanLines = GetScanLines();
-    int MinRange = max(min(int(0.0015 * double(ScanLines) * RefreshRate + 0.5), ScanLines / 3), 5); // 1.5 ms or max 33 % of Time
+    int MinRange = std::max(std::min(int(0.0015 * double(ScanLines) * RefreshRate + 0.5), ScanLines / 3), 5); // 1.5 ms or max 33 % of Time
     int NoSleepStart = _RasterStart - MinRange;
     int NoSleepRange = MinRange;
     if (NoSleepStart < 0) {
         NoSleepStart += m_ScreenSize.cy;
     }
 
-    int MinRange2 = max(min(int(0.0050 * double(ScanLines) * RefreshRate + 0.5), ScanLines / 3), 5); // 5 ms or max 33 % of Time
+    int MinRange2 = std::max(std::min(int(0.0050 * double(ScanLines) * RefreshRate + 0.5), ScanLines / 3), 5); // 5 ms or max 33 % of Time
     int D3DDevLockStart = _RasterStart - MinRange2;
     int D3DDevLockRange = MinRange2;
     if (D3DDevLockStart < 0) {
@@ -1243,8 +1244,8 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
         }
 
         m_RasterStatusWaitTime = m_RasterStatusWaitTimeMaxCalc;
-        m_RasterStatusWaitTimeMin = min(m_RasterStatusWaitTimeMin, m_RasterStatusWaitTime);
-        m_RasterStatusWaitTimeMax = max(m_RasterStatusWaitTimeMax, m_RasterStatusWaitTime);
+        m_RasterStatusWaitTimeMin = std::min(m_RasterStatusWaitTimeMin, m_RasterStatusWaitTime);
+        m_RasterStatusWaitTimeMax = std::max(m_RasterStatusWaitTimeMax, m_RasterStatusWaitTime);
     }
 
     return bWaited;
@@ -1255,12 +1256,12 @@ int CDX9AllocatorPresenter::GetVBlackPos()
     const CRenderersSettings& r = GetRenderersSettings();
     BOOL bCompositionEnabled = m_bCompositionEnabled;
 
-    int WaitRange = max(m_ScreenSize.cy / 40, 5);
+    int WaitRange = std::max(m_ScreenSize.cy / 40, 5);
     if (!bCompositionEnabled) {
         if (m_bAlternativeVSync) {
             return r.m_AdvRendSets.iVMR9VSyncOffset;
         } else {
-            int MinRange = max(min(int(0.005 * double(m_ScreenSize.cy) * GetRefreshRate() + 0.5), m_ScreenSize.cy / 3), 5); // 5  ms or max 33 % of Time
+            int MinRange = std::max(std::min(int(0.005 * double(m_ScreenSize.cy) * GetRefreshRate() + 0.5), m_ScreenSize.cy / 3), 5); // 5  ms or max 33 % of Time
             int WaitFor = m_ScreenSize.cy - (MinRange + WaitRange);
             return WaitFor;
         }
@@ -1488,8 +1489,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
     if (fAll) {
         m_PaintTime = (rd->GetPerfCounter() - StartPaint);
-        m_PaintTimeMin = min(m_PaintTimeMin, m_PaintTime);
-        m_PaintTimeMax = max(m_PaintTimeMax, m_PaintTime);
+        m_PaintTimeMin = std::min(m_PaintTimeMin, m_PaintTime);
+        m_PaintTimeMax = std::max(m_PaintTimeMax, m_PaintTime);
     }
 
     bool bWaited = false;
@@ -1564,12 +1565,12 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
         if (fAll && bDoVSyncInPresent) {
             m_PresentWaitTime = (rd->GetPerfCounter() - llPerf) + PresentWaitTime;
-            m_PresentWaitTimeMin = min(m_PresentWaitTimeMin, m_PresentWaitTime);
-            m_PresentWaitTimeMax = max(m_PresentWaitTimeMax, m_PresentWaitTime);
+            m_PresentWaitTimeMin = std::min(m_PresentWaitTimeMin, m_PresentWaitTime);
+            m_PresentWaitTimeMax = std::max(m_PresentWaitTimeMax, m_PresentWaitTime);
         } else {
             m_PresentWaitTime = 0;
-            m_PresentWaitTimeMin = min(m_PresentWaitTimeMin, m_PresentWaitTime);
-            m_PresentWaitTimeMax = max(m_PresentWaitTimeMax, m_PresentWaitTime);
+            m_PresentWaitTimeMin = std::min(m_PresentWaitTimeMin, m_PresentWaitTime);
+            m_PresentWaitTimeMax = std::max(m_PresentWaitTimeMax, m_PresentWaitTime);
         }
     }
 

@@ -23,6 +23,7 @@
 #include <math.h>
 #include <time.h>
 #include <emmintrin.h>
+#include <algorithm>
 #include "RTS.h"
 #include "../DSUtil/WinAPIUtils.h"
 
@@ -690,8 +691,8 @@ bool CPolygon::ParseStr()
         }
     }
 
-    m_width = max(maxx - minx, 0);
-    m_ascent = max(maxy - miny, 0);
+    m_width = std::max(maxx - minx, 0);
+    m_ascent = std::max(maxy - miny, 0);
 
     int baseline = (int)(64 * m_scaley * m_baseline);
     m_descent = baseline;
@@ -1270,7 +1271,7 @@ void CSubtitle::CreateClippers(CSize size)
 
         for (ptrdiff_t j = 0; j < h; j++, am += w) {
             int a = 0;
-            int k = min(width, w);
+            int k = std::min(width, w);
 
             for (ptrdiff_t i = 0; i < k; i++, a += da) {
                 am[i] = (am[i] * a) >> 14;
@@ -1375,7 +1376,7 @@ void CSubtitle::MakeLines(CSize size, const CRect& marginRect)
             fFirstLine = false;
         }
 
-        spaceNeeded.cx = max(l->m_width + l->m_borderX, spaceNeeded.cx);
+        spaceNeeded.cx = std::max(l->m_width + l->m_borderX, spaceNeeded.cx);
         spaceNeeded.cy += l->m_ascent + l->m_descent;
 
         AddTail(l);
@@ -1607,7 +1608,7 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
         }
 
         sub->m_effects[e->type = EF_BANNER] = e;
-        e->param[0] = (int)(max(1.0 * delay / sub->m_scalex, 1));
+        e->param[0] = (int)(std::max(1.0 * delay / sub->m_scalex, 1));
         e->param[1] = lefttoright;
         e->param[2] = (int)(sub->m_scalex * fadeawaywidth);
 
@@ -1632,7 +1633,7 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
         sub->m_effects[e->type = EF_SCROLL] = e;
         e->param[0] = (int)(sub->m_scaley * top * 8);
         e->param[1] = (int)(sub->m_scaley * bottom * 8);
-        e->param[2] = (int)(max(1.0 * delay / sub->m_scaley, 1));
+        e->param[2] = (int)(std::max(1.0 * delay / sub->m_scaley, 1));
         e->param[3] = (effect.GetLength() == 12);
         e->param[4] = (int)(sub->m_scaley * fadeawayheight);
     }

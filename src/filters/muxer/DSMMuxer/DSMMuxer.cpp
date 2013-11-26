@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include <MMReg.h>
 #include "DSMMuxer.h"
 #include "../../../DSUtil/DSUtil.h"
@@ -331,7 +332,7 @@ void CDSMMuxerFilter::MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket)
 
     if (pPacket->IsTimeValid()) {
         rtTimeStamp = pPacket->rtStart;
-        rtDuration = max(pPacket->rtStop - pPacket->rtStart, 0);
+        rtDuration = std::max(pPacket->rtStop - pPacket->rtStart, 0);
 
         iTimeStamp = GetByteLength(myabs(rtTimeStamp));
         ASSERT(iTimeStamp <= 7);

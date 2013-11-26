@@ -152,7 +152,7 @@ void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
             InvalidateRect(newThumbRect | m_lastThumbRect);
         }
         if (bSetTaskbar && AfxGetAppSettings().fUseWin7TaskBar && m_pMainFrame->m_pTaskbarList) {
-            VERIFY(S_OK == m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, max(m_rtPos, 1), m_rtStop));
+            VERIFY(S_OK == m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, max(m_rtPos, 1ll), m_rtStop));
         }
     }
 }

@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include <math.h>
+#include <algorithm>
 #include "DirectVobSubFilter.h"
 #include "Scale2x.h"
 #include "../../../DSUtil/DSUtil.h"

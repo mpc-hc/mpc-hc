@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "StreamSwitcher.h"
 #include "../../../DSUtil/DSUtil.h"
 
@@ -1375,8 +1376,8 @@ HRESULT CStreamSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
         return S_FALSE;    // FIXME
     }
 
-    memcpy(pDataOut, pDataIn, min(len, size));
-    pOut->SetActualDataLength(min(len, size));
+    memcpy(pDataOut, pDataIn, std::min(len, size));
+    pOut->SetActualDataLength(std::min(len, size));
 
     return S_OK;
 }

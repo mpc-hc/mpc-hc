@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "SubPicQueueImpl.h"
 #include "../DSUtil/DSUtil.h"
 
@@ -388,8 +389,8 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
                 if (rtStop > rtNow) {
                     rtNow = rtStop;
                 }
-                m_rtQueueMin = min(m_rtQueueMin, rtStart);
-                m_rtQueueMax = max(m_rtQueueMax, rtStop);
+                m_rtQueueMin = std::min(m_rtQueueMin, rtStart);
+                m_rtQueueMax = std::max(m_rtQueueMax, rtStop);
             }
         }
     }
@@ -455,7 +456,7 @@ DWORD CSubPicQueue::ThreadProc()
                 }
 
                 if (rtNow < rtStop) {
-                    REFERENCE_TIME rtCurrent = max(rtNow, rtStart);
+                    REFERENCE_TIME rtCurrent = std::max(rtNow, rtStart);
                     bool bIsAnimated = pSubPicProvider->IsAnimated(pos) && !bDisableAnim;
                     while (rtCurrent < rtStop) {
                         SIZE    MaxTextureSize, VirtualSize;
@@ -473,7 +474,7 @@ DWORD CSubPicQueue::ThreadProc()
 
                         HRESULT hr;
                         if (bIsAnimated) {
-                            REFERENCE_TIME rtEndThis = min(rtCurrent + rtTimePerFrame, rtStop);
+                            REFERENCE_TIME rtEndThis = std::min(rtCurrent + rtTimePerFrame, rtStop);
                             hr = RenderTo(pStatic, rtCurrent, rtEndThis, fps, bIsAnimated);
                             pStatic->SetSegmentStart(rtStart);
                             pStatic->SetSegmentStop(rtStop);

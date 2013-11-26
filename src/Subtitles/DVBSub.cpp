@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "DVBSub.h"
 #include "../DSUtil/GolombBuffer.h"
+#include <algorithm>
 
 #if (0) // Set to 1 to activate DVB subtitles traces
 #define TRACE_DVB TRACE
@@ -128,7 +129,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
             }
 
             BYTE* pPrev = m_pBuffer;
-            m_nBufferSize = max(m_nBufferWritePos + nSize, m_nBufferSize + BUFFER_CHUNK_GROW);
+            m_nBufferSize = std::max(m_nBufferWritePos + nSize, m_nBufferSize + BUFFER_CHUNK_GROW);
             m_pBuffer = DEBUG_NEW BYTE[m_nBufferSize];
             if (pPrev != nullptr) {
                 memcpy_s(m_pBuffer, m_nBufferSize, pPrev, m_nBufferWritePos);

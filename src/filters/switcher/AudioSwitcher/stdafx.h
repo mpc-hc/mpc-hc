@@ -32,3 +32,5 @@
 
 #include "BaseClasses/streams.h"
 #include <dvdmedia.h>
+
+#include <algorithm>

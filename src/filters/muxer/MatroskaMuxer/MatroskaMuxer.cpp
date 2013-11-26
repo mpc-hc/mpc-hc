@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include <MMReg.h>
 #include "MatroskaMuxer.h"
 #include "../../../DSUtil/DSUtil.h"
@@ -635,7 +636,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                             }
                         }
 
-                        info.Duration.Set(max(info.Duration, (float)b->Block.TimeCodeStop));
+                        info.Duration.Set(std::max(info.Duration, (float)b->Block.TimeCodeStop));
 
                         m_rtCurrent = b->Block.TimeCode * 10000;
 
@@ -1104,7 +1105,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
             *dst++ = 2;
             for (int i = 0; i < 2; i++) {
                 for (int len2 = pvf2->HeaderSize[i]; len2 >= 0; len2 -= 255) {
-                    *dst++ = min(len2, 255);
+                    *dst++ = std::min(len2, 255);
                 }
             }
 
@@ -1270,7 +1271,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
             *dst++ = 2;
             for (size_t i = 0; i < 2; i++) {
                 for (INT_PTR len = m_pVorbisHdrs[i]->GetCount(); len >= 0; len -= 255) {
-                    *dst++ = (BYTE)min(len, 255);
+                    *dst++ = (BYTE)std::min(len, 255);
                 }
             }
 

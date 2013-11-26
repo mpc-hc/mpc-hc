@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <io.h>
+#include <algorithm>
 #include "VobFile.h"
 #include "CSSauth.h"
 #include "CSSscramble.h"
@@ -474,7 +475,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
     m_ifoFile.Read(buffer, AUDIO_BLOCK_SIZE);
     CGolombBuffer gb(buffer, AUDIO_BLOCK_SIZE);
     int stream_count = gb.ReadShort();
-    for (int i = 0; i < min(stream_count, 8); i++) {
+    for (int i = 0; i < std::min(stream_count, 8); i++) {
         BYTE Coding_mode = (BYTE)gb.BitRead(3);
         gb.BitRead(5);// skip
         int ToAdd = 0;
@@ -505,7 +506,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
     m_ifoFile.Read(buffer, SUBTITLE_BLOCK_SIZE);
     CGolombBuffer gb_s(buffer, SUBTITLE_BLOCK_SIZE);
     stream_count = gb_s.ReadShort();
-    for (int i = 0; i < min(stream_count, 32); i++) {
+    for (int i = 0; i < std::min(stream_count, 32); i++) {
         gb_s.ReadShort();
         char lang[2];
         gb_s.ReadBuffer((BYTE*)lang, 2);
@@ -725,7 +726,7 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
             }
         }
     */
-    m_offset = max(offset, 0);
+    m_offset = std::max(offset, 0);
 
     return true;
 }
@@ -752,7 +753,7 @@ int CVobFile::GetPosition() const
 
 int CVobFile::Seek(int pos)
 {
-    pos = min(max(pos + m_offset, m_offset), m_size - 1);
+    pos = std::min(std::max(pos + m_offset, m_offset), m_size - 1);
 
     int i = -1;
     int size = 0;

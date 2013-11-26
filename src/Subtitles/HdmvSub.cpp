@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "HdmvSub.h"
 #include "../DSUtil/GolombBuffer.h"
+#include <algorithm>
 
 #if (0) // Set to 1 to activate HDMV subtitles traces
 #define TRACE_HDMVSUB TRACE
@@ -122,7 +123,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 
             if (m_nCurSegment != NO_SEGMENT) {
                 if (m_nSegBufferPos < m_nSegSize) {
-                    int nSize = min(m_nSegSize - m_nSegBufferPos, lSampleLen);
+                    int nSize = std::min(m_nSegSize - m_nSegBufferPos, lSampleLen);
                     SampleBuffer.ReadBuffer(m_pSegBuffer + m_nSegBufferPos, nSize);
                     m_nSegBufferPos += nSize;
                 }
@@ -327,10 +328,10 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
                     && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
                 pObject->SetPalette(pPresentationSegment->CLUT.size, pPresentationSegment->CLUT.palette, pPresentationSegment->video_descriptor.nVideoWidth > 720);
 
-                bbox.left   = min(pObject->m_horizontal_position, bbox.left);
-                bbox.top    = min(pObject->m_vertical_position, bbox.top);
-                bbox.right  = max(pObject->m_horizontal_position + pObject->m_width, bbox.right);
-                bbox.bottom = max(pObject->m_vertical_position + pObject->m_height, bbox.bottom);
+                bbox.left   = std::min(pObject->m_horizontal_position, bbox.left);
+                bbox.top    = std::min(pObject->m_vertical_position, bbox.top);
+                bbox.right  = std::max(pObject->m_horizontal_position + pObject->m_width, bbox.right);
+                bbox.bottom = std::max(pObject->m_vertical_position + pObject->m_height, bbox.bottom);
 
                 TRACE_HDMVSUB(_T(" --> Object %d (Pos=%dx%d, Res=%dx%d, SPDRes=%dx%d)\n"),
                               pObject->m_object_id_ref, pObject->m_horizontal_position, pObject->m_vertical_position, pObject->m_width, pObject->m_height, spd.w, spd.h);

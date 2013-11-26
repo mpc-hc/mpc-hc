@@ -732,7 +732,7 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
         ry = 0;
     }
 
-    mWideBorder = max(rx, ry);
+    mWideBorder = std::max(rx, ry);
 
     if (ry > 0) {
         // Do a half circle.
@@ -1141,7 +1141,7 @@ void Rasterizer::Draw_noAlpha_sp_Body_0(RasterizerNfo& rnfo)
     // xo is the offset (usually negative) we have moved into the image
     // So if we have passed the switchpoint (?) switch to another colour
     // (So switchpts stores both colours *and* coordinates?)
-    int gran = min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
+    int gran = std::min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
     int color2 = rnfo.sw[2];
 
     while (h--) {
@@ -1162,7 +1162,7 @@ void Rasterizer::Draw_noAlpha_sp_noBody_0(RasterizerNfo& rnfo)
     int color = rnfo.color;
     byte* src = rnfo.src;
     DWORD* dst = rnfo.dst;
-    int gran = min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
+    int gran = std::min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
     int color2 = rnfo.sw[2];
 
     while (h--) {
@@ -1207,7 +1207,7 @@ void Rasterizer::Draw_Alpha_spFF_noBody_0(RasterizerNfo& rnfo)
     int color = rnfo.color;
     byte* src = rnfo.src;
     DWORD* dst = rnfo.dst;
-    int gran = min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
+    int gran = std::min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
     int color2 = rnfo.sw[2];
 
     while (h--) {
@@ -1248,7 +1248,7 @@ void Rasterizer::Draw_Alpha_sp_noBody_0(RasterizerNfo& rnfo)
     int color = rnfo.color;
     byte* src = rnfo.src;
     DWORD* dst = rnfo.dst;
-    int gran = min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
+    int gran = std::min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
     int color2 = rnfo.sw[2];
 
     while (h--) {
@@ -1322,7 +1322,7 @@ void Rasterizer::Draw_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo)
     // xo is the offset (usually negative) we have moved into the image
     // So if we have passed the switchpoint (?) switch to another colour
     // (So switchpts stores both colours *and* coordinates?)
-    int gran = min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
+    int gran = std::min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
     int end_gran = ((gran - 1) / 8) * 8;
     int end_w = gran + ((rnfo.w - gran - 1) / 8) * 8;
     int color2 = rnfo.sw[2];
@@ -1351,7 +1351,7 @@ void Rasterizer::Draw_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
     int color = rnfo.color;
     byte* src = rnfo.src;
     DWORD* dst = rnfo.dst;
-    int gran = min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
+    int gran = std::min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
     int color2 = rnfo.sw[2];
 
     while (h--) {
@@ -1414,7 +1414,7 @@ void Rasterizer::Draw_Alpha_sp_Body_sse2(RasterizerNfo& rnfo)
     int color = rnfo.color;
     byte* s = rnfo.s;
     DWORD* dst = rnfo.dst;
-    int gran = min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
+    int gran = std::min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
     int color2 = rnfo.sw[2];
 
     while (h--) {
@@ -1437,7 +1437,7 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
     DWORD color = rnfo.color;
     byte* src = rnfo.src;
     DWORD* dst = rnfo.dst;
-    int gran = min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
+    int gran = std::min((int)rnfo.sw[3] + 1 - rnfo.xo, rnfo.w);
     int color2 = rnfo.sw[2];
     UNREFERENCED_PARAMETER(color2);
 

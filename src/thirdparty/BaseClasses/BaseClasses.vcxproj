@@ -73,6 +73,7 @@
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
+      <UndefinePreprocessorDefinitions>NOMINMAX;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>strmiids.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -83,6 +84,7 @@
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
+      <UndefinePreprocessorDefinitions>NOMINMAX;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>strmiids.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -93,6 +95,7 @@
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
+      <UndefinePreprocessorDefinitions>NOMINMAX;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>strmiids.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -103,6 +106,7 @@
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
+      <UndefinePreprocessorDefinitions>NOMINMAX;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>strmiids.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>

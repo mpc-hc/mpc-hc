@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "VobSubFile.h"
 #include "VobSubFileRipper.h"
 #include "../DeCSS/VobDec.h"
@@ -235,9 +236,9 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
                 y = (y - 16) * 255 / 219;
 
-                pgc.pal[j].rgbRed = (BYTE)min(max(1.0 * y + 1.4022 * (u - 128), 0), 255);
-                pgc.pal[j].rgbGreen = (BYTE)min(max(1.0 * y - 0.3456 * (u - 128) - 0.7145 * (v - 128), 0), 255);
-                pgc.pal[j].rgbBlue = (BYTE)min(max(1.0 * y + 1.7710 * (v - 128), 0) , 255);
+                pgc.pal[j].rgbRed = (BYTE)std::min(std::max(1.0 * y + 1.4022 * (u - 128), 0), 255);
+                pgc.pal[j].rgbGreen = (BYTE)std::min(std::max(1.0 * y - 0.3456 * (u - 128) - 0.7145 * (v - 128), 0), 255);
+                pgc.pal[j].rgbBlue = (BYTE)std::min(std::max(1.0 * y + 1.7710 * (v - 128), 0) , 255);
             }
 
             //
@@ -297,7 +298,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
                         break; // last angle block (no more should follow)
                 }
                 pgc.angles[0][j].iAngle = iAngle;
-                pgc.nAngles = max(pgc.nAngles, iAngle);
+                pgc.nAngles = std::max(pgc.nAngles, iAngle);
 
                 f.Seek(3, CFile::current);
                 ReadBEdw(pgc.angles[0][j].tTime);
@@ -957,7 +958,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
             PGC& pgc = m_rd.pgcs[m_rd.iSelPGC];
 
             pgc.iSelAngle = _tcstol(line, nullptr, 10);
-            if (pgc.iSelAngle < 0 || pgc.iSelAngle > max(1, pgc.nAngles) || pgc.iSelAngle > 9) {
+            if (pgc.iSelAngle < 0 || pgc.iSelAngle > std::max(1, pgc.nAngles) || pgc.iSelAngle > 9) {
                 break;
             }
 

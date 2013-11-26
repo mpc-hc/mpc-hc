@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include <commdlg.h>
 #include <afxdlgs.h>
 #include "DirectVobSubFilter.h"

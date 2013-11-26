@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include <atlbase.h>
 #include <afxinet.h>
+#include <algorithm>
 #include "TextFile.h"
 #include "Utf8.h"
 
@@ -160,7 +161,7 @@ ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
             break;
     }
 
-    lOff = max(min((ULONGLONG)lOff, len), 0) + m_offset;
+    lOff = std::max(std::min((ULONGLONG)lOff, len), 0) + m_offset;
 
     pos = CStdioFile::Seek(lOff, begin) - m_offset;
 

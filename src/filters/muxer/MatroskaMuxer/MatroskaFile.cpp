@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "MatroskaFile.h"
 #include "../../../DSUtil/DSUtil.h"
 
@@ -714,7 +715,7 @@ HRESULT CBlock::Write(IStream* pStream)
             if (pos) {
                 INT_PTR len = b->GetCount();
                 while (len >= 0) {
-                    n = (BYTE)min(len, 255);
+                    n = (BYTE)std::min(len, 255);
                     pStream->Write(&n, 1, nullptr);
                     len -= 255;
                 }
@@ -924,7 +925,7 @@ HRESULT Void::Write(IStream* pStream)
     BYTE buff[64];
     memset(buff, 0x80, sizeof(buff));
     for (int len = (int)m_len; len > 0; len -= sizeof(buff)) {
-        pStream->Write(buff, (ULONG)min(sizeof(buff), len), nullptr);
+        pStream->Write(buff, (ULONG)std::min(sizeof(buff), len), nullptr);
     }
     return S_OK;
 }

@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "../SyncClock/Interfaces.h"
+#include <algorithm>
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "../../../mpc-hc/resource.h"
@@ -685,7 +686,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
     if (m_pD3DXCreateFont) {
         int MinSize = 1600;
-        int CurrentSize = min(m_ScreenSize.cx, MinSize);
+        int CurrentSize = std::min(m_ScreenSize.cx, MinSize);
         double Scale = double(CurrentSize) / double(MinSize);
         m_TextScale = Scale;
         m_pD3DXCreateFont(m_pD3DDev, (int)(-24.0 * Scale), (UINT)(-11.0 * Scale), CurrentSize < 800 ? FW_NORMAL : FW_BOLD, 0, FALSE,
@@ -955,7 +956,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     m_pFont = nullptr;
     if (m_pD3DXCreateFont) {
         int MinSize = 1600;
-        int CurrentSize = min(m_ScreenSize.cx, MinSize);
+        int CurrentSize = std::min(m_ScreenSize.cx, MinSize);
         double Scale = double(CurrentSize) / double(MinSize);
         m_TextScale = Scale;
         m_pD3DXCreateFont(m_pD3DDev, (int)(-24.0 * Scale), (UINT)(-11.0 * Scale), CurrentSize < 800 ? FW_NORMAL : FW_BOLD, 0, FALSE,
@@ -1161,8 +1162,8 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
     }
     if (m_bicubicA || bNeedScreenSizeTexture) {
         if (FAILED(m_pD3DDev->CreateTexture(
-                       min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth),
-                       min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight),
+                       std::min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth),
+                       std::min(std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight),
                        1,
                        D3DUSAGE_RENDERTARGET,
                        D3DFMT_A8R8G8B8,
@@ -1174,8 +1175,8 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
         }
 
         if (FAILED(m_pD3DDev->CreateTexture(
-                       min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth),
-                       min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight),
+                       std::min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth),
+                       std::min(std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight),
                        1,
                        D3DUSAGE_RENDERTARGET,
                        D3DFMT_A8R8G8B8,
@@ -1521,8 +1522,8 @@ void CBaseAP::SyncStats(LONGLONG syncTime)
         LONGLONG DevInt = m_pllJitter[i] - (LONGLONG)m_fJitterMean;
         double Deviation = (double)DevInt;
         DeviationSum += Deviation * Deviation;
-        m_MaxJitter = max(m_MaxJitter, DevInt);
-        m_MinJitter = min(m_MinJitter, DevInt);
+        m_MaxJitter = std::max(m_MaxJitter, DevInt);
+        m_MinJitter = std::min(m_MinJitter, DevInt);
     }
 
     m_fJitterStdDev = sqrt(DeviationSum / NB_JITTER);
@@ -1540,8 +1541,8 @@ void CBaseAP::SyncOffsetStats(LONGLONG syncOffset)
     for (int i = 0; i < NB_JITTER; i++) {
         LONGLONG Offset = m_pllSyncOffset[i];
         AvrageSum += Offset;
-        m_MaxSyncOffset = max(m_MaxSyncOffset, Offset);
-        m_MinSyncOffset = min(m_MinSyncOffset, Offset);
+        m_MaxSyncOffset = std::max(m_MaxSyncOffset, Offset);
+        m_MinSyncOffset = std::min(m_MinSyncOffset, Offset);
     }
     double MeanOffset = double(AvrageSum) / NB_JITTER;
     double DeviationSum = 0;
@@ -1605,7 +1606,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     if (m_pRefClock) {
         m_pRefClock->GetTime(&llCurRefTime);
     }
-    int dScanLines = max((int)m_ScreenSize.cy - m_uScanLineEnteringPaint, 0);
+    int dScanLines = std::max((int)m_ScreenSize.cy - m_uScanLineEnteringPaint, 0);
     dSyncOffset = dScanLines * m_dDetectedScanlineTime; // ms
     llSyncOffset = REFERENCE_TIME(10000.0 * dSyncOffset); // Reference time units (100 ns)
     m_llEstVBlankTime = llCurRefTime + llSyncOffset; // Estimated time for the start of next vblank
@@ -1852,7 +1853,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     if (m_pRefClock) {
         m_pRefClock->GetTime(&llCurRefTime);    // To check if we called Present too late to hit the right vsync
     }
-    m_llEstVBlankTime = max(m_llEstVBlankTime, llCurRefTime); // Sometimes the real value is larger than the estimated value (but never smaller)
+    m_llEstVBlankTime = std::max(m_llEstVBlankTime, llCurRefTime); // Sometimes the real value is larger than the estimated value (but never smaller)
     if (rd->m_iDisplayStats < 3) {        // Partial on-screen statistics
         SyncStats(m_llEstVBlankTime);     // Max of estimate and real. Sometimes Present may actually return immediately so we need the estimate as a lower bound
     }
@@ -1889,8 +1890,8 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     DWORD tmp;
     if (m_pAudioStats != nullptr) {
         m_pAudioStats->GetStatParam(AM_AUDREND_STAT_PARAM_SLAVE_ACCUMERROR, &m_lAudioLag, &tmp);
-        m_lAudioLagMin = min((long)m_lAudioLag, m_lAudioLagMin);
-        m_lAudioLagMax = max((long)m_lAudioLag, m_lAudioLagMax);
+        m_lAudioLagMin = std::min((long)m_lAudioLag, m_lAudioLagMin);
+        m_lAudioLagMax = std::max((long)m_lAudioLag, m_lAudioLagMax);
         m_pAudioStats->GetStatParam(AM_AUDREND_STAT_PARAM_SLAVE_MODE, &m_lAudioSlaveMode, &tmp);
     }
 
@@ -2559,7 +2560,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
 
     // Bufferize frame only with 3D texture
     if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
-        m_nDXSurface = max(min(r.iEvrBuffers, MAX_PICTURE_SLOTS - 2), 4);
+        m_nDXSurface = std::max(std::min(r.iEvrBuffers, MAX_PICTURE_SLOTS - 2), 4);
     } else {
         m_nDXSurface = 1;
     }
@@ -3635,7 +3636,7 @@ void CSyncAP::MixerThread()
     DWORD dwUser = 0;
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
 
     while (!bQuit) {
@@ -3694,7 +3695,7 @@ void CSyncAP::RenderThread()
 
     // Set timer resolution
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
     pNewSample = nullptr;
 
@@ -4522,11 +4523,11 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
     highSyncOffset = targetSyncOffset + r.m_AdvRendSets.fControlLimit;
 
     syncOffsetAvg = syncOffsetFifo->Average(syncOffset);
-    minSyncOffset = min(minSyncOffset, syncOffset);
-    maxSyncOffset = max(maxSyncOffset, syncOffset);
+    minSyncOffset = std::min(minSyncOffset, syncOffset);
+    maxSyncOffset = std::max(maxSyncOffset, syncOffset);
     frameCycleAvg = frameCycleFifo->Average(frameCycle);
-    minFrameCycle = min(minFrameCycle, frameCycle);
-    maxFrameCycle = max(maxFrameCycle, frameCycle);
+    minFrameCycle = std::min(minFrameCycle, frameCycle);
+    maxFrameCycle = std::max(maxFrameCycle, frameCycle);
 
     if (!PowerstripRunning() || !powerstripTimingExists) {
         return E_FAIL;
@@ -4584,11 +4585,11 @@ HRESULT CGenlock::ControlClock(double syncOffset, double frameCycle)
     highSyncOffset = targetSyncOffset + r.m_AdvRendSets.fControlLimit;
 
     syncOffsetAvg = syncOffsetFifo->Average(syncOffset);
-    minSyncOffset = min(minSyncOffset, syncOffset);
-    maxSyncOffset = max(maxSyncOffset, syncOffset);
+    minSyncOffset = std::min(minSyncOffset, syncOffset);
+    maxSyncOffset = std::max(maxSyncOffset, syncOffset);
     frameCycleAvg = frameCycleFifo->Average(frameCycle);
-    minFrameCycle = min(minFrameCycle, frameCycle);
-    maxFrameCycle = max(maxFrameCycle, frameCycle);
+    minFrameCycle = std::min(minFrameCycle, frameCycle);
+    maxFrameCycle = std::max(maxFrameCycle, frameCycle);
 
     if (!syncClock) {
         return E_FAIL;
@@ -4624,11 +4625,11 @@ HRESULT CGenlock::ControlClock(double syncOffset, double frameCycle)
 HRESULT CGenlock::UpdateStats(double syncOffset, double frameCycle)
 {
     syncOffsetAvg = syncOffsetFifo->Average(syncOffset);
-    minSyncOffset = min(minSyncOffset, syncOffset);
-    maxSyncOffset = max(maxSyncOffset, syncOffset);
+    minSyncOffset = std::min(minSyncOffset, syncOffset);
+    maxSyncOffset = std::max(maxSyncOffset, syncOffset);
     frameCycleAvg = frameCycleFifo->Average(frameCycle);
-    minFrameCycle = min(minFrameCycle, frameCycle);
-    maxFrameCycle = max(maxFrameCycle, frameCycle);
+    minFrameCycle = std::min(minFrameCycle, frameCycle);
+    maxFrameCycle = std::max(maxFrameCycle, frameCycle);
     return S_OK;
 }
 
