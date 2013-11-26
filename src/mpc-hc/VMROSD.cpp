@@ -288,7 +288,7 @@ void CVMROSD::DrawMessage()
                 break;
             case OSD_TOPRIGHT:
             default:
-                rectMessages = CRect(max(10, m_rectWnd.right - 10 - rectText.Width()), 10, m_rectWnd.right - 10, rectText.bottom + 10);
+                rectMessages = CRect(max<int>(10, m_rectWnd.right - 10 - rectText.Width()), 10, m_rectWnd.right - 10, rectText.bottom + 10);
                 break;
         }
         DrawRect(&rectMessages, &m_brushBack, &m_penBorder);

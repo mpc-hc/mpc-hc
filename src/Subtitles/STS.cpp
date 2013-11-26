@@ -1485,15 +1485,15 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                         style->alpha[i] = (BYTE)(style->colors[i] >> 24);
                         style->colors[i] &= 0xffffff;
                     }
-                    style->fontScaleX = std::max(style->fontScaleX, 0);
-                    style->fontScaleY = std::max(style->fontScaleY, 0);
+                    style->fontScaleX = std::max(style->fontScaleX, 0.0);
+                    style->fontScaleY = std::max(style->fontScaleY, 0.0);
                 }
                 style->fontAngleX = style->fontAngleY = 0;
                 style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
-                style->outlineWidthX = std::max(style->outlineWidthX, 0);
-                style->outlineWidthY = std::max(style->outlineWidthY, 0);
-                style->shadowDepthX = std::max(style->shadowDepthX, 0);
-                style->shadowDepthY = std::max(style->shadowDepthY, 0);
+                style->outlineWidthX = std::max(style->outlineWidthX, 0.0);
+                style->outlineWidthY = std::max(style->outlineWidthY, 0.0);
+                style->shadowDepthX = std::max(style->shadowDepthX, 0.0);
+                style->shadowDepthY = std::max(style->shadowDepthY, 0.0);
                 if (sver <= 4) {
                     style->scrAlignment = (style->scrAlignment & 4) ? ((style->scrAlignment & 3) + 6) // top
                                           : (style->scrAlignment & 8) ? ((style->scrAlignment & 3) + 3) // mid
@@ -1540,7 +1540,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                 }
                 Effect = WToT(GetStrW(buff));
 
-                int len = min(Effect.GetLength(), buff.GetLength());
+                int len = std::min(Effect.GetLength(), buff.GetLength());
                 if (Effect.Left(len) == WToT(buff.Left(len))) {
                     Effect.Empty();
                 }
@@ -1656,14 +1656,14 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                 style->marginRect.top = style->marginRect.bottom = GetInt(buff);
                 style->charSet = GetInt(buff);
 
-                style->fontScaleX = std::max(style->fontScaleX, 0);
-                style->fontScaleY = std::max(style->fontScaleY, 0);
-                style->fontSpacing = std::max(style->fontSpacing, 0);
+                style->fontScaleX = std::max(style->fontScaleX, 0.0);
+                style->fontScaleY = std::max(style->fontScaleY, 0.0);
+                style->fontSpacing = std::max(style->fontSpacing, 0.0);
                 style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
-                style->outlineWidthX = std::max(style->outlineWidthX, 0);
-                style->outlineWidthY = std::max(style->outlineWidthY, 0);
-                style->shadowDepthX = std::max(style->shadowDepthX, 0);
-                style->shadowDepthY = std::max(style->shadowDepthY, 0);
+                style->outlineWidthX = std::max(style->outlineWidthX, 0.0);
+                style->outlineWidthY = std::max(style->outlineWidthY, 0.0);
+                style->shadowDepthX = std::max(style->shadowDepthX, 0.0);
+                style->shadowDepthY = std::max(style->shadowDepthY, 0.0);
 
                 ret.AddStyle(StyleName, style);
             } catch (...) {

@@ -84,7 +84,7 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
     if (pAR && SUCCEEDED(pAR->Length(&llSize, &llAvailable))) {
         size_t ret = MI.Open_Buffer_Init((MediaInfo_int64u)llSize);
 
-        size_t szLength = (size_t)min(llSize, MEDIAINFO_BUFFER_SIZE);
+        size_t szLength = (size_t)std::min<LONGLONG>(llSize, MEDIAINFO_BUFFER_SIZE);
         BYTE* pBuffer = DEBUG_NEW BYTE[szLength];
         LONGLONG llPosition = 0;
         while ((ret & 0x1) && !(ret & 0x2)) { // While accepted and not filled

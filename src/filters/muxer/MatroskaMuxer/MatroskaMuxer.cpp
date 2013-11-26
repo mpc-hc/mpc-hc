@@ -636,7 +636,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                             }
                         }
 
-                        info.Duration.Set(std::max(info.Duration, (float)b->Block.TimeCodeStop));
+                        info.Duration.Set(std::max<float>(info.Duration, (float)b->Block.TimeCodeStop));
 
                         m_rtCurrent = b->Block.TimeCode * 10000;
 
@@ -1271,7 +1271,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
             *dst++ = 2;
             for (size_t i = 0; i < 2; i++) {
                 for (INT_PTR len = m_pVorbisHdrs[i]->GetCount(); len >= 0; len -= 255) {
-                    *dst++ = (BYTE)std::min(len, 255);
+                    *dst++ = (BYTE)std::min<INT_PTR>(len, 255);
                 }
             }
 

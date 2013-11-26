@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include <atlbase.h>
 #include "AVI2AC3Filter.h"
 #include "../../../DSUtil/DSUtil.h"
@@ -108,7 +109,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
     }
     BYTE* pOutOrg = pOut;
 
-    int size = pOutSample->GetSize();
+    long size = pOutSample->GetSize();
 
     if ((CheckAC3(&m_pInput->CurrentMediaType()) || CheckDTS(&m_pInput->CurrentMediaType()))
             && (CheckWAVEAC3(&m_pOutput->CurrentMediaType()) || CheckWAVEDTS(&m_pOutput->CurrentMediaType()))) {
@@ -120,7 +121,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
             pIn += 8 + 1 + pIn[8] + 1 + 3;
         }
 
-        len -= int(pInOrg - pIn);
+        len -= long(pInOrg - pIn);
 
         if (size < len) {
             return E_FAIL;
@@ -138,9 +139,9 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 
             bool fDiscontinuity = (S_OK == pOutSample->IsDiscontinuity());
 
-            int pos = 0;
+            long pos = 0;
             while (pos < len) {
-                int curlen = min(len - pos, 2013);
+                int curlen = std::min(len - pos, 2013l);
                 pos += 2013;
 
                 CComPtr<IMediaSample> pOutSample;
@@ -164,7 +165,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
                 }
                 BYTE* pOutOrg = pOut;
 
-                int size = pOutSample->GetSize();
+                long size = pOutSample->GetSize();
 
                 const GUID* majortype = &m_pOutput->CurrentMediaType().majortype;
                 const GUID* subtype = &m_pOutput->CurrentMediaType().subtype;
@@ -246,7 +247,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
                     pOut += curlen;
                 }
 
-                pOutSample->SetActualDataLength(int(pOut - pOutOrg));
+                pOutSample->SetActualDataLength(long(pOut - pOutOrg));
 
                 hr = m_pOutput->Deliver(pOutSample);
             }
@@ -390,7 +391,7 @@ HRESULT CAVI2AC3Filter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PR
     pAllocatorIn->GetProperties(pProperties);
 
     pProperties->cBuffers = 2;
-    pProperties->cbBuffer = max(pProperties->cbBuffer, 1024 * 1024); // this should be enough...
+    pProperties->cbBuffer = std::max(pProperties->cbBuffer, 1024l * 1024l); // this should be enough...
     pProperties->cbAlign = 1;
     pProperties->cbPrefix = 0;
 

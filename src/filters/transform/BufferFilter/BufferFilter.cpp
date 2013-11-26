@@ -261,7 +261,7 @@ HRESULT CBufferFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 
     pAllocatorIn->GetProperties(pProperties);
 
-    pProperties->cBuffers = std::max(m_nSamplesToBuffer, pProperties->cBuffers);
+    pProperties->cBuffers = std::max<long>(m_nSamplesToBuffer, pProperties->cBuffers);
 
     HRESULT hr;
     ALLOCATOR_PROPERTIES Actual;

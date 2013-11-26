@@ -244,7 +244,7 @@ void CBaseAP::AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
         v[i].x -= offset;
         v[i].y -= offset;
 
-        for (int j = 0; j < max(texcoords - 1, 1); j++) {
+        for (int j = 0; j < std::max(texcoords - 1, 1); j++) {
             v[i].t[j].u -= (float)(offset * dx);
             v[i].t[j].v -= (float)(offset * dy);
         }
@@ -685,8 +685,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     }
 
     if (m_pD3DXCreateFont) {
-        int MinSize = 1600;
-        int CurrentSize = std::min(m_ScreenSize.cx, MinSize);
+        LONG MinSize = 1600;
+        LONG CurrentSize = std::min(m_ScreenSize.cx, MinSize);
         double Scale = double(CurrentSize) / double(MinSize);
         m_TextScale = Scale;
         m_pD3DXCreateFont(m_pD3DDev, (int)(-24.0 * Scale), (UINT)(-11.0 * Scale), CurrentSize < 800 ? FW_NORMAL : FW_BOLD, 0, FALSE,
@@ -955,8 +955,8 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
 
     m_pFont = nullptr;
     if (m_pD3DXCreateFont) {
-        int MinSize = 1600;
-        int CurrentSize = std::min(m_ScreenSize.cx, MinSize);
+        LONG MinSize = 1600;
+        LONG CurrentSize = std::min(m_ScreenSize.cx, MinSize);
         double Scale = double(CurrentSize) / double(MinSize);
         m_TextScale = Scale;
         m_pD3DXCreateFont(m_pD3DDev, (int)(-24.0 * Scale), (UINT)(-11.0 * Scale), CurrentSize < 800 ? FW_NORMAL : FW_BOLD, 0, FALSE,
@@ -1162,8 +1162,8 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
     }
     if (m_bicubicA || bNeedScreenSizeTexture) {
         if (FAILED(m_pD3DDev->CreateTexture(
-                       std::min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth),
-                       std::min(std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight),
+                       std::min((DWORD)m_ScreenSize.cx, m_caps.MaxTextureWidth),
+                       std::min((DWORD)std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), m_caps.MaxTextureHeight),
                        1,
                        D3DUSAGE_RENDERTARGET,
                        D3DFMT_A8R8G8B8,
@@ -1175,8 +1175,8 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
         }
 
         if (FAILED(m_pD3DDev->CreateTexture(
-                       std::min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth),
-                       std::min(std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight),
+                       std::min((DWORD)m_ScreenSize.cx, m_caps.MaxTextureWidth),
+                       std::min((DWORD)std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), m_caps.MaxTextureHeight),
                        1,
                        D3DUSAGE_RENDERTARGET,
                        D3DFMT_A8R8G8B8,
@@ -1606,7 +1606,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     if (m_pRefClock) {
         m_pRefClock->GetTime(&llCurRefTime);
     }
-    int dScanLines = std::max((int)m_ScreenSize.cy - m_uScanLineEnteringPaint, 0);
+    int dScanLines = std::max(int(m_ScreenSize.cy - m_uScanLineEnteringPaint), 0);
     dSyncOffset = dScanLines * m_dDetectedScanlineTime; // ms
     llSyncOffset = REFERENCE_TIME(10000.0 * dSyncOffset); // Reference time units (100 ns)
     m_llEstVBlankTime = llCurRefTime + llSyncOffset; // Estimated time for the start of next vblank
@@ -3636,7 +3636,7 @@ void CSyncAP::MixerThread()
     DWORD dwUser = 0;
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = std::min(std::max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
 
     while (!bQuit) {
@@ -3695,7 +3695,7 @@ void CSyncAP::RenderThread()
 
     // Set timer resolution
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = std::min(std::max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
     pNewSample = nullptr;
 

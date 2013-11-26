@@ -61,7 +61,7 @@ namespace ISDb
         for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(pAR->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fh.mpc_filehash += tmp, position += sizeof(tmp), i++) {
             ;
         }
-        position = max(0, (INT64)fh.size - PROBE_SIZE);
+        position = std::max(0ll, (INT64)fh.size - PROBE_SIZE);
         for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(pAR->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fh.mpc_filehash += tmp, position += sizeof(tmp), i++) {
             ;
         }
@@ -87,7 +87,7 @@ namespace ISDb
         for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.mpc_filehash += tmp, i++) {
             ;
         }
-        f.Seek(max(0, (INT64)fh.size - PROBE_SIZE), CFile::begin);
+        f.Seek(std::max(0ll, (INT64)fh.size - PROBE_SIZE), CFile::begin);
         for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.mpc_filehash += tmp, i++) {
             ;
         }

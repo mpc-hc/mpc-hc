@@ -42,15 +42,15 @@ public:
     bool  m_forced_on_flag;
     BYTE  m_version_number;
 
-    short m_horizontal_position;
-    short m_vertical_position;
-    short m_width;
-    short m_height;
+    LONG m_horizontal_position;
+    LONG m_vertical_position;
+    LONG m_width;
+    LONG m_height;
 
-    short m_cropping_horizontal_position;
-    short m_cropping_vertical_position;
-    short m_cropping_width;
-    short m_cropping_height;
+    LONG m_cropping_horizontal_position;
+    LONG m_cropping_vertical_position;
+    LONG m_cropping_width;
+    LONG m_cropping_height;
 
     CompositionObject();
     ~CompositionObject();

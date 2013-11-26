@@ -1620,7 +1620,7 @@ void CEVRAllocatorPresenter::GetMixerThread()
     //}
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = std::min(std::max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
 
     while (!bQuit) {
@@ -2020,7 +2020,7 @@ void CEVRAllocatorPresenter::RenderThread()
     }
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = std::min(std::max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
     const CRenderersSettings& r = GetRenderersSettings();
 
@@ -2208,9 +2208,9 @@ void CEVRAllocatorPresenter::RenderThread()
                                 if (m_FrameTimeCorrection && 0) {
                                     MinMargin = MIN_FRAME_TIME;
                                 } else {
-                                    MinMargin = MIN_FRAME_TIME + std::min(LONGLONG(m_DetectedFrameTimeStdDev), 20000);
+                                    MinMargin = MIN_FRAME_TIME + std::min(LONGLONG(m_DetectedFrameTimeStdDev), 20000ll);
                                 }
-                                LONGLONG TimePerFrameMargin = std::min(std::max(TimePerFrame * 2 / 100, MinMargin), TimePerFrame * 11 / 100); // (0.02..0.11)TimePerFrame
+                                LONGLONG TimePerFrameMargin = std::min(std::max(TimePerFrame * 2l / 100l, MinMargin), TimePerFrame * 11l / 100l); // (0.02..0.11)TimePerFrame
                                 LONGLONG TimePerFrameMargin0 = TimePerFrameMargin / 2;
                                 LONGLONG TimePerFrameMargin1 = 0;
 
@@ -2378,7 +2378,7 @@ void CEVRAllocatorPresenter::VSyncThread()
     //}
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = std::min(std::max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
     const CRenderersData* rd = GetRenderersData();
     const CRenderersSettings& r = GetRenderersSettings();
@@ -2395,8 +2395,8 @@ void CEVRAllocatorPresenter::VSyncThread()
                 if (m_pD3DDev && r.m_AdvRendSets.bVMR9VSync) {
                     if (m_nRenderState == Started) {
                         int VSyncPos  = GetVBlackPos();
-                        int WaitRange = std::max(m_ScreenSize.cy / 40, 5);
-                        int MinRange  = std::max(std::min(int(0.003 * double(m_ScreenSize.cy) * double(m_RefreshRate) + 0.5), m_ScreenSize.cy / 3), 5); // 1.8  ms or max 33 % of Time
+                        int WaitRange = std::max(m_ScreenSize.cy / 40l, 5l);
+                        int MinRange  = std::max(std::min(long(0.003 * m_ScreenSize.cy * m_RefreshRate + 0.5), m_ScreenSize.cy / 3l), 5l); // 1.8  ms or max 33 % of Time
 
                         VSyncPos += MinRange + WaitRange;
 

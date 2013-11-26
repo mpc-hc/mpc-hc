@@ -41,8 +41,8 @@ public:
 
 
     struct VIDEO_DESCRIPTOR {
-        short nVideoWidth;
-        short nVideoHeight;
+        int nVideoWidth;
+        int nVideoHeight;
         BYTE  bFrameRate;     // <= Frame rate here!
     };
 

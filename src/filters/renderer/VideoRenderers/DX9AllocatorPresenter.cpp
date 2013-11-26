@@ -856,8 +856,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     m_pFont = nullptr;
     if (m_pD3DXCreateFont) {
-        int MinSize = 1600;
-        int CurrentSize = std::min(m_ScreenSize.cx, MinSize);
+        long MinSize = 1600;
+        long CurrentSize = std::min(m_ScreenSize.cx, MinSize);
         double Scale = double(CurrentSize) / double(MinSize);
         m_TextScale = Scale;
         m_pD3DXCreateFont(m_pD3DDev,                   // D3D device
@@ -1142,14 +1142,14 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
     }
     double RefreshRate = GetRefreshRate();
     LONG ScanLines = GetScanLines();
-    int MinRange = std::max(std::min(int(0.0015 * double(ScanLines) * RefreshRate + 0.5), ScanLines / 3), 5); // 1.5 ms or max 33 % of Time
+    int MinRange = std::max(std::min(long(0.0015 * ScanLines * RefreshRate + 0.5), ScanLines / 3l), 5l); // 1.5 ms or max 33 % of Time
     int NoSleepStart = _RasterStart - MinRange;
     int NoSleepRange = MinRange;
     if (NoSleepStart < 0) {
         NoSleepStart += m_ScreenSize.cy;
     }
 
-    int MinRange2 = std::max(std::min(int(0.0050 * double(ScanLines) * RefreshRate + 0.5), ScanLines / 3), 5); // 5 ms or max 33 % of Time
+    int MinRange2 = std::max(std::min(long(0.0050 * ScanLines * RefreshRate + 0.5), ScanLines / 3l), 5l); // 5 ms or max 33 % of Time
     int D3DDevLockStart = _RasterStart - MinRange2;
     int D3DDevLockRange = MinRange2;
     if (D3DDevLockStart < 0) {
@@ -1256,12 +1256,12 @@ int CDX9AllocatorPresenter::GetVBlackPos()
     const CRenderersSettings& r = GetRenderersSettings();
     BOOL bCompositionEnabled = m_bCompositionEnabled;
 
-    int WaitRange = std::max(m_ScreenSize.cy / 40, 5);
+    int WaitRange = std::max(m_ScreenSize.cy / 40l, 5l);
     if (!bCompositionEnabled) {
         if (m_bAlternativeVSync) {
             return r.m_AdvRendSets.iVMR9VSyncOffset;
         } else {
-            int MinRange = std::max(std::min(int(0.005 * double(m_ScreenSize.cy) * GetRefreshRate() + 0.5), m_ScreenSize.cy / 3), 5); // 5  ms or max 33 % of Time
+            int MinRange = std::max(std::min(long(0.005 * m_ScreenSize.cy * GetRefreshRate() + 0.5), m_ScreenSize.cy / 3l), 5l); // 5  ms or max 33 % of Time
             int WaitFor = m_ScreenSize.cy - (MinRange + WaitRange);
             return WaitFor;
         }

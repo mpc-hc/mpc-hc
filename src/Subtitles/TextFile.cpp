@@ -161,7 +161,7 @@ ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
             break;
     }
 
-    lOff = std::max(std::min((ULONGLONG)lOff, len), 0) + m_offset;
+    lOff = std::max(std::min((ULONGLONG)lOff, len), 0ull) + m_offset;
 
     pos = CStdioFile::Seek(lOff, begin) - m_offset;
 

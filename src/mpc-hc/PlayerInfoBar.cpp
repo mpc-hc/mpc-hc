@@ -154,7 +154,7 @@ void CPlayerInfoBar::Relayout()
         CDC* pDC = m_label[i]->GetDC();
         CString str;
         m_label[i]->GetWindowText(str);
-        w = max(w, pDC->GetTextExtent(str).cx);
+        w = max<int>(w, pDC->GetTextExtent(str).cx);
         m_label[i]->ReleaseDC(pDC);
     }
 

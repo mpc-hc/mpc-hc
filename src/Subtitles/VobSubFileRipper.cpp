@@ -236,9 +236,9 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
                 y = (y - 16) * 255 / 219;
 
-                pgc.pal[j].rgbRed = (BYTE)std::min(std::max(1.0 * y + 1.4022 * (u - 128), 0), 255);
-                pgc.pal[j].rgbGreen = (BYTE)std::min(std::max(1.0 * y - 0.3456 * (u - 128) - 0.7145 * (v - 128), 0), 255);
-                pgc.pal[j].rgbBlue = (BYTE)std::min(std::max(1.0 * y + 1.7710 * (v - 128), 0) , 255);
+                pgc.pal[j].rgbRed = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y + 1.4022 * (u - 128)), 0u), 255u);
+                pgc.pal[j].rgbGreen = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y - 0.3456 * (u - 128) - 0.7145 * (v - 128)), 0u), 255u);
+                pgc.pal[j].rgbBlue = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y + 1.7710 * (v - 128)), 0u) , 255u);
             }
 
             //

@@ -301,7 +301,7 @@ void CPlaylist::SortByName()
     POSITION pos = GetHeadPosition();
     for (int i = 0; pos; i++, GetNext(pos)) {
         CString& fn = GetAt(pos).m_fns.GetHead();
-        a[i].str = (LPCTSTR)fn + max(fn.ReverseFind('/'), fn.ReverseFind('\\')) + 1;
+        a[i].str = (LPCTSTR)fn + std::max(fn.ReverseFind('/'), fn.ReverseFind('\\')) + 1;
         a[i].pos = pos;
     }
     qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);

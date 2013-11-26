@@ -167,7 +167,7 @@ __forceinline void mix<int, INT64, INT24_MIN, INT24_MAX>(DWORD mask, int ch, int
         }
     }
 
-    sum = std::min(std::max(sum, INT24_MIN), INT24_MAX);
+    sum = std::min<INT64>(std::max<INT64>(sum, INT24_MIN), INT24_MAX);
 
     memcpy(dst, (BYTE*)&sum, 3);
 }

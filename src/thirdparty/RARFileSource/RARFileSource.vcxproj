@@ -71,6 +71,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <EnablePREfast>false</EnablePREfast>
+      <UndefinePreprocessorDefinitions>NOMINMAX</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(OutDir)$(ProjectName).res</ResourceOutputFileName>
@@ -83,6 +84,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <EnablePREfast>false</EnablePREfast>
+      <UndefinePreprocessorDefinitions>NOMINMAX</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(OutDir)$(ProjectName).res</ResourceOutputFileName>
@@ -95,6 +97,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <EnablePREfast>false</EnablePREfast>
+      <UndefinePreprocessorDefinitions>NOMINMAX</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(OutDir)$(ProjectName).res</ResourceOutputFileName>
@@ -107,6 +110,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <EnablePREfast>false</EnablePREfast>
+      <UndefinePreprocessorDefinitions>NOMINMAX</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(OutDir)$(ProjectName).res</ResourceOutputFileName>

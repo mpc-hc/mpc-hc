@@ -332,7 +332,7 @@ void CDSMMuxerFilter::MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket)
 
     if (pPacket->IsTimeValid()) {
         rtTimeStamp = pPacket->rtStart;
-        rtDuration = std::max(pPacket->rtStop - pPacket->rtStart, 0);
+        rtDuration = std::max(pPacket->rtStop - pPacket->rtStart, 0ll);
 
         iTimeStamp = GetByteLength(myabs(rtTimeStamp));
         ASSERT(iTimeStamp <= 7);

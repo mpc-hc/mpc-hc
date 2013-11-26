@@ -1376,7 +1376,7 @@ void CSubtitle::MakeLines(CSize size, const CRect& marginRect)
             fFirstLine = false;
         }
 
-        spaceNeeded.cx = std::max(l->m_width + l->m_borderX, spaceNeeded.cx);
+        spaceNeeded.cx = std::max<long>(l->m_width + l->m_borderX, spaceNeeded.cx);
         spaceNeeded.cy += l->m_ascent + l->m_descent;
 
         AddTail(l);
@@ -1608,7 +1608,7 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
         }
 
         sub->m_effects[e->type = EF_BANNER] = e;
-        e->param[0] = (int)(std::max(1.0 * delay / sub->m_scalex, 1));
+        e->param[0] = (int)(std::max(1.0 * delay / sub->m_scalex, 1.0));
         e->param[1] = lefttoright;
         e->param[2] = (int)(sub->m_scalex * fadeawaywidth);
 
@@ -1633,7 +1633,7 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
         sub->m_effects[e->type = EF_SCROLL] = e;
         e->param[0] = (int)(sub->m_scaley * top * 8);
         e->param[1] = (int)(sub->m_scaley * bottom * 8);
-        e->param[2] = (int)(std::max(1.0 * delay / sub->m_scaley, 1));
+        e->param[2] = (int)(std::max(1.0 * delay / sub->m_scaley, 1.0));
         e->param[3] = (effect.GetLength() == 12);
         e->param[4] = (int)(sub->m_scaley * fadeawayheight);
     }

@@ -906,9 +906,9 @@ bool CVobSubFile::ReadIfo(CString fn)
 
         y = (y - 16) * 255 / 219;
 
-        m_orgpal[i].rgbRed = (BYTE)std::min(std::max(1.0 * y + 1.4022 * (u - 128), 0), 255);
-        m_orgpal[i].rgbGreen = (BYTE)std::min(std::max(1.0 * y - 0.3456 * (u - 128) - 0.7145 * (v - 128), 0), 255);
-        m_orgpal[i].rgbBlue = (BYTE)std::min(std::max(1.0 * y + 1.7710 * (v - 128), 0) , 255);
+        m_orgpal[i].rgbRed = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y + 1.4022 * (u - 128)), 0u), 255u);
+        m_orgpal[i].rgbGreen = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y - 0.3456 * (u - 128) - 0.7145 * (v - 128)), 0u), 255u);
+        m_orgpal[i].rgbBlue = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y + 1.7710 * (v - 128)), 0u) , 255u);
     }
 
     return true;
@@ -1967,7 +1967,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
             }
         }
 
-        for (ptrdiff_t y = std::max(m_img.rect.top + 1, 2); y < m_img.rect.bottom - 1; y++) {
+        for (ptrdiff_t y = std::max(m_img.rect.top + 1, 2l); y < m_img.rect.bottom - 1; y++) {
             ASSERT(m_size.cy - y - 1 >= 0);
             if (m_size.cy - y - 1 < 0) {
                 break;
@@ -2197,7 +2197,7 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
             }
         }
 
-        for (ptrdiff_t y = std::max(m_img.rect.top + 1, 2); y < m_img.rect.bottom - 1; y++) {
+        for (ptrdiff_t y = std::max(m_img.rect.top + 1, 2l); y < m_img.rect.bottom - 1; y++) {
             ASSERT(m_size.cy - y - 1 >= 0);
             if (m_size.cy - y - 1 < 0) {
                 break;

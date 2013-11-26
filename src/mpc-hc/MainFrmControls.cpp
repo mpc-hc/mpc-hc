@@ -245,7 +245,7 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
             if (pBar) {
                 for (const auto panel : panels) {
                     if (m_panels[panel] == pBar) {
-                        rowSize += max((int)uSaneFallback, (bHorz ? pBar->m_szMinHorz.cx : pBar->m_szMinVert.cy)) + (rowSize ? 8 : 6) + pBar->m_cxEdge;
+                        rowSize += max((long)uSaneFallback, (bHorz ? pBar->m_szMinHorz.cx : pBar->m_szMinVert.cy)) + (rowSize ? 8 : 6) + pBar->m_cxEdge;
                         if (bNewRow) {
                             CSize size = pBar->CalcFixedLayout(TRUE, bHorz);
                             stackSize += (bHorz ? size.cy : size.cx) - (stackSize ? 2 : 4);
@@ -272,7 +272,7 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
         ret.cy += 2;
     }
     if (uToolbars) {
-        ret.cx = max(ret.cx, (int)uSaneFallback);
+        ret.cx = max(ret.cx, (long)uSaneFallback);
     }
     ret.cy += uToolbars;
 

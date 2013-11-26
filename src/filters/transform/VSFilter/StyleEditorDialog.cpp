@@ -156,9 +156,9 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
         m_scaleyspin.SetRange32(-10000, 10000);
 
         m_borderstyle = m_stss.borderStyle;
-        m_borderwidth = (int)min(m_stss.outlineWidthX, m_stss.outlineWidthY);
+        m_borderwidth = (int)std::min(m_stss.outlineWidthX, m_stss.outlineWidthY);
         m_borderwidthspin.SetRange32(0, 10000);
-        m_shadowdepth = (int)min(m_stss.shadowDepthX, m_stss.shadowDepthY);
+        m_shadowdepth = (int)std::min(m_stss.shadowDepthX, m_stss.shadowDepthY);
         m_shadowdepthspin.SetRange32(0, 10000);
 
         m_screenalignment = m_stss.scrAlignment - 1;
