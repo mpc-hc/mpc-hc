@@ -7092,7 +7092,7 @@ void CMainFrame::OnPlaySeek(UINT nID)
     const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
     rtSeekTo += rtPos;
 
-    if (s.bFastSeek) {
+    if (s.bFastSeek && !m_kfs.empty()) {
         // seek to the closest keyframe, but never in the opposite direction
         rtSeekTo = GetClosestKeyFrame(rtSeekTo);
         if ((bSeekingForward && rtSeekTo <= rtPos) ||
