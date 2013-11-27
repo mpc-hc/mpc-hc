@@ -1785,7 +1785,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 m_wndSubresyncBar.SetTime(pos);
 
-                if (m_pCAP && GetMediaState() == State_Paused) {
+                if (!m_bDelaySetOutputRect && m_pCAP && GetMediaState() == State_Paused) {
                     m_pCAP->Paint(false);
                 }
             }
@@ -9809,7 +9809,7 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 
 void CMainFrame::RepaintVideo()
 {
-    if (m_pCAP) {
+    if (!m_bDelaySetOutputRect && m_pCAP) {
         m_pCAP->Paint(false);
     }
 }
