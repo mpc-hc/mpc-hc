@@ -49,7 +49,8 @@ typedef enum MPC_LOADSTATE {
     MLS_CLOSED,
     MLS_LOADING,
     MLS_LOADED,
-    MLS_CLOSING
+    MLS_CLOSING,
+    MLS_FAILING,
 };
 
 

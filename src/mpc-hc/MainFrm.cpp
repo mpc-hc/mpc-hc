@@ -3209,6 +3209,9 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 
 LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
 {
+    ASSERT(GetLoadState() == MLS_LOADING);
+    SetLoadState(MLS_FAILING);
+
     ASSERT(GetCurrentThreadId() == AfxGetApp()->m_nThreadID);
     const auto& s = AfxGetAppSettings();
 
@@ -14197,7 +14200,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     }
 
     // abort if loading
-    if (m_iMediaLoadState == MLS_LOADING && m_bOpenedThroughThread) {
+    if (m_iMediaLoadState == MLS_LOADING) {
+        // should be possible only in graph thread
+        ASSERT(m_bOpenedThroughThread);
+
         // tell OpenMediaPrivate() that we want to abort
         m_fOpeningAborted = true;
 
