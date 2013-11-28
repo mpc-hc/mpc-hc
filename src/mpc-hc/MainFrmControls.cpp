@@ -290,7 +290,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
 
     const bool bCanAutoHide = (m_pMainFrame->m_fFullScreen || s.bHideWindowedControls) && s.bHideFullscreenControls &&
                               ePolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER &&
-                              (m_pMainFrame->GetLoadState() == MLS_LOADED || m_bDelayShowNotLoaded);
+                              (m_pMainFrame->GetLoadState() == MLS::LOADED || m_bDelayShowNotLoaded);
     const bool bCanHideDockedPanels = s.bHideFullscreenDockedPanels;
 
     bool bEnumedPanelZones = false;

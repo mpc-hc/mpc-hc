@@ -142,7 +142,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
     CImage img;
     img.Attach(m_logo);
 
-    if (m_pMainFrame->GetLoadState() != MLS_CLOSED && !m_pMainFrame->IsD3DFullScreenMode()) {
+    if (m_pMainFrame->GetLoadState() != MLS::CLOSED && !m_pMainFrame->IsD3DFullScreenMode()) {
         pDC->ExcludeClipRect(m_vrect);
     } else if (!img.IsNull()) {
         GetClientRect(r);

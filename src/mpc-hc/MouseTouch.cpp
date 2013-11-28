@@ -253,7 +253,7 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         return;
     }
     auto mode = m_pMainFrame->GetPlaybackMode();
-    if (m_pMainFrame->GetLoadState() == MLS_LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
+    if (m_pMainFrame->GetLoadState() == MLS::LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
             (m_pMainFrame->IsD3DFullScreenMode() ^ m_bD3DFS) == 0 &&
             (m_pMainFrame->m_pDVDC->ActivateAtPosition(GetVideoPoint(point)) == S_OK)) {
         return;
@@ -368,7 +368,7 @@ bool CMouse::SelectCursor(const CPoint& screenPoint, const CPoint& clientPoint, 
         return true;
     }
 
-    if (m_pMainFrame->GetLoadState() == MLS_LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
+    if (m_pMainFrame->GetLoadState() == MLS::LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
             (m_pMainFrame->IsD3DFullScreenMode() ^ m_bD3DFS) == 0 &&
             (m_pMainFrame->m_pDVDC->SelectAtPosition(GetVideoPoint(clientPoint)) == S_OK)) {
         StopMouseHider();
@@ -380,7 +380,7 @@ bool CMouse::SelectCursor(const CPoint& screenPoint, const CPoint& clientPoint, 
     bool bHidden = (m_cursor == Cursor::NONE);
     bool bHiddenAndMoved = bHidden && !PointEqualsImprecise(screenPoint, m_hideCursorPoint);
     bool bCanHide = !bMouseButtonDown &&
-                    (m_pMainFrame->GetLoadState() == MLS_LOADED || m_pMainFrame->m_controls.DelayShowNotLoaded()) &&
+                    (m_pMainFrame->GetLoadState() == MLS::LOADED || m_pMainFrame->m_controls.DelayShowNotLoaded()) &&
                     !m_pMainFrame->IsInteractiveVideo() &&
                     (m_switchingToFullscreen.first || IsOnFullscreenWindow() ||
                      (s.bHideWindowedMousePointer && !(m_pMainFrame->IsD3DFullScreenMode() ^ m_bD3DFS)));

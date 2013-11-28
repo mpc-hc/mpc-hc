@@ -51,7 +51,7 @@ void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
 {
     ASSERT(m_pMainFrame);
     ASSERT(WaitForSingleObject(m_pMainFrame->m_evClosePrivateFinished, 0) == WAIT_TIMEOUT);
-    if (m_pMainFrame->m_iMediaLoadState == MLS_CLOSING) {
+    if (m_pMainFrame->m_eMediaLoadState == MLS::CLOSING) {
         m_pMainFrame->CloseMediaPrivate();
     }
     VERIFY(m_pMainFrame->m_evClosePrivateFinished.SetEvent());
@@ -77,7 +77,7 @@ void CGraphThread::OnOpen(WPARAM wParam, LPARAM lParam)
     TRACE(_T("--> CGraphThread::OnOpen on thread: %d\n"), GetCurrentThreadId());
     ASSERT(m_pMainFrame);
     ASSERT(WaitForSingleObject(m_pMainFrame->m_evOpenPrivateFinished, 0) == WAIT_TIMEOUT);
-    if (m_pMainFrame->m_iMediaLoadState == MLS_LOADING) {
+    if (m_pMainFrame->m_eMediaLoadState == MLS::LOADING) {
         CAutoPtr<OpenMediaData> pOMD((OpenMediaData*)lParam);
         m_pMainFrame->OpenMediaPrivate(pOMD);
     }

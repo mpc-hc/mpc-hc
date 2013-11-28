@@ -75,6 +75,15 @@
 
 class CFullscreenWnd;
 
+enum class MLS
+{
+    CLOSED,
+    LOADING,
+    LOADED,
+    CLOSING,
+    FAILING,
+};
+
 enum {
     PM_NONE,
     PM_FILE,
@@ -403,7 +412,7 @@ public:
     CControlBar* m_pLastBar;
 
 protected:
-    MPC_LOADSTATE m_iMediaLoadState;
+    MLS m_eMediaLoadState;
     bool m_bFirstPlay;
 
     bool m_fAudioOnly;
@@ -917,8 +926,8 @@ public:
     int         m_nLockedZoomVideoWindow;
     bool        m_fSetChannelActive;
 
-    void        SetLoadState(MPC_LOADSTATE iState);
-    MPC_LOADSTATE GetLoadState();
+    void        SetLoadState(MLS eState);
+    MLS         GetLoadState();
     void        SetPlayState(MPC_PLAYSTATE iState);
     bool        CreateFullScreenWindow();
     void        SetupEVRColorControl();
