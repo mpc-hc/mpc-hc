@@ -6684,6 +6684,10 @@ void CMainFrame::OnPlayPlay()
         return;
     }
 
+    if (GetLoadState() == MLS_LOADING) {
+        return;
+    }
+
     if (m_iMediaLoadState == MLS_LOADED) {
         if (GetMediaState() == State_Stopped) {
             m_dSpeedRate = 1.0;
