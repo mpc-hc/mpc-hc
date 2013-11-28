@@ -3191,6 +3191,9 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     // start playback if requested
     m_bFirstPlay = true;
     if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
+        if (m_pMC) {
+            m_pMC->Pause();
+        }
         OnPlayPlay();
     } else {
         OnPlayPause();
@@ -11550,10 +11553,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             if (pDVDData->pDvdState && m_pDVDC) {
                 VERIFY(m_pDVDC->SetState(pDVDData->pDvdState, DVD_CMD_FLAG_Block, nullptr) == S_OK);
             }
-        }
-
-        if (m_pMC) {
-            m_pMC->Pause();
         }
     } catch (LPCTSTR msg) {
         err = msg;
