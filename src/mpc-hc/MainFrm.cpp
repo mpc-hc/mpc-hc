@@ -12319,7 +12319,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
     // Empty the menu
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
 
-    if (GetLoadState() != MLS::LOADED || m_fAudioOnly || !m_pCAP) {
+    if (GetLoadState() != MLS::LOADED || m_fAudioOnly) {
         return;
     }
 
