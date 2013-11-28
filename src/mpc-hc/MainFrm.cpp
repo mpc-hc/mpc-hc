@@ -11073,18 +11073,6 @@ void CMainFrame::OpenSetupStatusBar()
 
         m_wndStatusBar.SetStatusBitmap(id);
     }
-
-    HICON hIcon = nullptr;
-
-    if (GetPlaybackMode() == PM_FILE) {
-        CString fn = m_wndPlaylistBar.GetCurFileName();
-        CString ext = fn.Mid(fn.ReverseFind('.') + 1);
-        hIcon = LoadIcon(ext, true);
-    } else if (GetPlaybackMode() == PM_DVD) {
-        hIcon = LoadIcon(_T(".ifo"), true);
-    }
-
-    m_wndStatusBar.SetStatusTypeIcon(hIcon);
 }
 
 // Called from GraphThread
@@ -14060,7 +14048,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     const auto& s = AfxGetAppSettings();
 
     auto pFileData = dynamic_cast<const OpenFileData*>(pOMD.m_p);
-    //auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
+    auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
     auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.m_p);
 
     // if the tuner graph is already loaded, we just change its channel
@@ -14154,6 +14142,15 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     // don't set video renderer output rect until the window is repositioned
     m_bDelaySetOutputRect = true;
+
+    // display corresponding media icon in status bar
+    if (pFileData) {
+        CString filename = m_wndPlaylistBar.GetCurFileName();
+        CString ext = filename.Mid(filename.ReverseFind('.') + 1);
+        m_wndStatusBar.SetStatusTypeIcon(LoadIcon(ext, true));
+    } else if (pDVDData) {
+        m_wndStatusBar.SetStatusTypeIcon(LoadIcon(_T(".ifo"), true));
+    }
 
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()
     if (fUseThread) {
