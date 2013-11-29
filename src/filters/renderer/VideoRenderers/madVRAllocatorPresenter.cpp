@@ -167,7 +167,7 @@ HRESULT CmadVRAllocatorPresenter::Render(
     __super::SetPosition(wndRect, videoRect); // needed? should be already set by the player
     SetTime(rtStart);
     if (atpf > 0 && m_pSubPicQueue) {
-        m_fps = (double)(10000000.0 / atpf);
+        m_fps = 10000000.0 / atpf;
         m_pSubPicQueue->SetFPS(m_fps);
     }
     AlphaBltSubPic(wndRect, videoRect);
