@@ -39,6 +39,7 @@ CPlayerInfoBar::~CPlayerInfoBar()
 
 void CPlayerInfoBar::SetLine(CString label, CString info)
 {
+    info.Trim();
     if (info.IsEmpty()) {
         RemoveLine(label);
         return;
