@@ -112,6 +112,7 @@ public:
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* pSubLock);
 
     void SetTime(REFERENCE_TIME rt);
+    void SetFPS(double fps);
 
     void SetSubtitle(ISubStream* pSubStream, double fps);
     void ReloadSubtitle();
