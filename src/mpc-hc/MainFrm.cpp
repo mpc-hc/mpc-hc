@@ -3184,16 +3184,13 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     RecalcLayout();
     UpdateWindow();
 
-    // the window is repositioned and repainted, set video renderer output rect
+    // the window is repositioned and repainted, video renderer rect is ready to be set -
+    // OnPlayPlay()/OnPlayPause() will take care of that
     m_bDelaySetOutputRect = false;
-    MoveVideoWindow();
 
     // start playback if requested
     m_bFirstPlay = true;
     if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
-        if (m_pMC) {
-            m_pMC->Pause();
-        }
         OnPlayPlay();
     } else {
         OnPlayPause();
@@ -6694,6 +6691,10 @@ void CMainFrame::OnPlayPlay()
         return;
     }
 
+    if (GetLoadState() == MLS::LOADED && GetMediaState() == State_Stopped) {
+        MoveVideoWindow(false, true);
+    }
+
     if (m_eMediaLoadState == MLS::LOADED) {
         if (GetMediaState() == State_Stopped) {
             m_dSpeedRate = 1.0;
@@ -6742,7 +6743,6 @@ void CMainFrame::OnPlayPlay()
         SetAlwaysOnTop(s.iOnTop);
     }
 
-    MoveVideoWindow();
     m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
     SetPlayState(PS_PLAY);
 
@@ -6786,6 +6786,10 @@ void CMainFrame::OnPlayPlay()
 
 void CMainFrame::OnPlayPauseI()
 {
+    if (GetLoadState() == MLS::LOADED && GetMediaState() == State_Stopped) {
+        MoveVideoWindow(false, true);
+    }
+
     if (m_eMediaLoadState == MLS::LOADED) {
 
         if (GetPlaybackMode() == PM_FILE) {
@@ -6799,8 +6803,6 @@ void CMainFrame::OnPlayPauseI()
         KillTimer(TIMER_STATS);
         SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
     }
-
-    MoveVideoWindow();
 
     CString strOSD = ResStr(ID_PLAY_PAUSE);
     int i = strOSD.Find(_T("\n"));
@@ -9458,7 +9460,7 @@ void CMainFrame::AutoChangeMonitorMode()
     }
 }
 
-void CMainFrame::MoveVideoWindow(bool fShowStats)
+void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVideoRect/* = false*/)
 {
     if (!m_bDelaySetOutputRect && m_eMediaLoadState == MLS::LOADED && !m_fAudioOnly && IsWindowVisible()) {
         CRect wr;
@@ -9490,7 +9492,8 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
         RECT vr = {0, 0, 0, 0};
 
         OAFilterState fs = GetMediaState();
-        if ((fs == State_Paused) || (fs == State_Running) || ((fs == State_Stopped) && (m_fShockwaveGraph || m_fQuicktimeGraph))) {
+        if ((fs == State_Paused) || (fs == State_Running) ||
+                (fs == State_Stopped && (bSetStoppedVideoRect || m_fShockwaveGraph || m_fQuicktimeGraph))) {
             SIZE arxy = GetVideoSize();
             double dARx = (double)(arxy.cx);
             double dARy = (double)(arxy.cy);
