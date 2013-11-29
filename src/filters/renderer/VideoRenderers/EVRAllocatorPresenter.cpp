@@ -950,7 +950,7 @@ HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMer
                 *pMerit = 11;
                 break;
             case FCC('YUY2'):
-                *pMerit = 0;    // bug: the internal software codecs will always select this, for safety this item is ranked below X8R8G8B8 until the problem is solved
+                *pMerit = 10;
                 break;
             case FCC('UYVY'):
                 *pMerit = 9;
