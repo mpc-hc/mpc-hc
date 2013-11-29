@@ -48,7 +48,7 @@ msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
 msgstr "历史文件(&F)"
 
-msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
 msgstr "关闭(&C)"
 

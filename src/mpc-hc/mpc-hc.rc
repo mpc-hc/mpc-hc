@@ -1279,7 +1279,7 @@ BEGIN
         MENUITEM "Open Dir&ectory...",          ID_FILE_OPENDIRECTORY
         MENUITEM "O&pen Disc",                  ID_FILE_OPENDISC
         MENUITEM "Recent &Files",               ID_RECENT_FILES
-        MENUITEM "&Close",                      ID_FILE_CLOSEPLAYLIST
+        MENUITEM "&Close",                      ID_FILE_CLOSE_AND_RESTORE
         MENUITEM SEPARATOR
         MENUITEM "&Save a Copy...",             ID_FILE_SAVE_COPY
         MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
@@ -1526,7 +1526,7 @@ BEGIN
             MENUITEM "Open Dir&ectory...",          ID_FILE_OPENDIRECTORY
             MENUITEM "O&pen Disc",                  ID_FILE_OPENDISC
             MENUITEM "Recent &Files",               ID_RECENT_FILES
-            MENUITEM "&Close",                      ID_FILE_CLOSEPLAYLIST
+            MENUITEM "&Close",                      ID_FILE_CLOSE_AND_RESTORE
             MENUITEM SEPARATOR
             MENUITEM "&Save a Copy...",             ID_FILE_SAVE_COPY
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
@@ -1761,7 +1761,7 @@ BEGIN
             MENUITEM "Open Dir&ectory...",          ID_FILE_OPENDIRECTORY
             MENUITEM "O&pen Disc",                  ID_FILE_OPENDISC
             MENUITEM "Recent &Files",               ID_RECENT_FILES
-            MENUITEM "&Close",                      ID_FILE_CLOSEPLAYLIST
+            MENUITEM "&Close",                      ID_FILE_CLOSE_AND_RESTORE
             MENUITEM SEPARATOR
             MENUITEM "&Save a Copy...",             ID_FILE_SAVE_COPY
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE

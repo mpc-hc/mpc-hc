@@ -253,8 +253,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_ISDB_DOWNLOAD, OnUpdateFileISDBDownload)
     ON_COMMAND(ID_FILE_PROPERTIES, OnFileProperties)
     ON_UPDATE_COMMAND_UI(ID_FILE_PROPERTIES, OnUpdateFileProperties)
-    ON_COMMAND(ID_FILE_CLOSEPLAYLIST, OnFileClosePlaylist)
-    ON_UPDATE_COMMAND_UI(ID_FILE_CLOSEPLAYLIST, OnUpdateFileClose)
+    ON_COMMAND(ID_FILE_CLOSE_AND_RESTORE, OnFileCloseAndRestore)
+    ON_UPDATE_COMMAND_UI(ID_FILE_CLOSE_AND_RESTORE, OnUpdateFileClose)
     ON_COMMAND(ID_FILE_CLOSEMEDIA, OnFileCloseMedia)
     ON_UPDATE_COMMAND_UI(ID_FILE_CLOSEMEDIA, OnUpdateFileClose)
 
@@ -2284,7 +2284,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 if (GetPlaybackMode() == PM_CAPTURE && evParam2 == 0) {
                     CComQIPtr<IBaseFilter> pBF = (IUnknown*)evParam1;
                     if (!m_pVidCap && m_pVidCap == pBF || !m_pAudCap && m_pAudCap == pBF) {
-                        SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+                        SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
                     }
                 }
                 break;
@@ -5971,7 +5971,7 @@ void CMainFrame::OnD3DFullscreenToggle()
     }
 }
 
-void CMainFrame::OnFileClosePlaylist()
+void CMainFrame::OnFileCloseAndRestore()
 {
     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
     RestoreDefaultWindowRect();

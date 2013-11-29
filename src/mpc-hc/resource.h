@@ -72,7 +72,7 @@
 #define ID_FILE_OPENDVDBD               801
 #define ID_FILE_OPENDEVICE              802
 #define ID_FILE_CLOSEMEDIA              803
-#define ID_FILE_CLOSEPLAYLIST           804
+#define ID_FILE_CLOSE_AND_RESTORE       804
 #define ID_FILE_SAVE_COPY               805
 #define ID_FILE_SAVE_IMAGE              806
 #define ID_FILE_SAVE_IMAGE_AUTO         807

@@ -45,7 +45,7 @@ msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
 msgstr "最近使ったファイル"
 
-msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
 msgstr "閉じる(&C)"
 
