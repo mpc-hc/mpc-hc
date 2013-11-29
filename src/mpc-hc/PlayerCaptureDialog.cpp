@@ -1684,17 +1684,6 @@ void CPlayerCaptureDialog::OnRecord()
         m_nRecordTimerID = 0;
 
         pFrame->StopCapture();
-        /*
-                {
-                    if (FILE* f = _tfopen(file, _T("rb+")))
-                    {
-                        fseek(f, 0x20, SEEK_SET);
-                        unsigned short mspf = (unsigned short)(((VIDEOINFOHEADER*)m_mtv.pbFormat)->AvgTimePerFrame / 10);
-                        fwrite(&mspf, 1, 2, f);
-                        fclose(f);
-                    }
-                }
-        */
         EnableControls(this, true);
 
         m_pVidBuffer = nullptr;
