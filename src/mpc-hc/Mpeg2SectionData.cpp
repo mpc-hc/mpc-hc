@@ -291,7 +291,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
                     gb.ReadBuffer(DescBuffer, nLength);         // service_name
                     DescBuffer[nLength] = 0;
                     Channel.SetName(ConvertString(DescBuffer, nLength));
-                    TRACE(_T("%15S %d\n"), Channel.GetName(), Channel.GetSID());
+                    TRACE(_T("%-20s %lu\n"), Channel.GetName(), Channel.GetSID());
                     break;
                 default:
                     SkipDescriptor(gb, nType, nLength);         // descriptor()
