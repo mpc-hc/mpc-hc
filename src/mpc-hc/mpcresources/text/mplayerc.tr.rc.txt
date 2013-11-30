@@ -4,7 +4,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 11		"Bu program ücretsiz olup Genel Kamusal GNU Lisansı altında sunulmaktadır."
 12		"bosluk (Sinan Hunerel) tarafından Türkçeleştirilmiştir"
 13		"Yapım bilgisi"
-14		"MPC-HC Sürümü:"
+14		"Sürüm:"
 16		"Derlemesi:"
 18		"LAV Filters:"
 19		"Kullanılmıyor"
@@ -312,7 +312,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 5		"Ses"
-6		"Ses"
+6		"Düzey"
 7		"Alçak"
 9		"Yüksek"
 10		"Denge"
@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"Çizgisel"
 22		"Saydam kutu"
 23		"Kenar genişliği"
-26		"Gölge derinliği"
+26		"Gölge"
 29		"Ekran Yerleşimi && Kenarlar"
 39		"Sola"
 42		"Sağa"

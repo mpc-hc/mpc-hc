@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"Podčrtano"
 22		"Neprosojni okvir"
 23		"Širina roba"
-26		"Globina sence"
+26		"Senca"
 29		"Poravnava zaslona in meje"
 39		"Levo"
 42		"Desno"

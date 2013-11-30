@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"Obrys"
 22		"Rámček"
 23		"Šírka okraja"
-26		"Hĺbka tieňa"
+26		"Tieň"
 29		"Zarovnanie obrazu && okraje"
 39		"Vľavo"
 42		"Vpravo"

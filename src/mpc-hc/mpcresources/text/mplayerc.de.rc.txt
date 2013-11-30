@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"Kontur"
 22		"Rechteck"
 23		"Randstärke:"
-26		"Schattentiefe:"
+26		"Schatten:"
 29		"Bildschirmausrichtung"
 39		"Links:"
 42		"Rechts:"

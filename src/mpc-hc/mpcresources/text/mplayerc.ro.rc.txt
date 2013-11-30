@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"Contur"
 22		"Dreptunghi opac"
 23		"Lățime chenar"
-26		"Profunzime umbră"
+26		"Umbră"
 29		"Aliniere ecran && margini"
 39		"Stânga"
 42		"Dreapta"

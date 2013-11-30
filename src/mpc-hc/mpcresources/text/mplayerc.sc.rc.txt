@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"轮廓"
 22		"不透明框"
 23		"边框宽度"
-26		"阴影深度"
+26		"阴影"
 29		"屏幕排列与边缘"
 39		"左"
 42		"右"

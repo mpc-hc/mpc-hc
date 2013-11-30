@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"Zarys"
 22		"Jednolite tło"
 23		"Szer. obramowania:"
-26		"Głębia cienia:"
+26		"Cień:"
 29		"Położenie i marginesy"
 39		"Lewo:"
 42		"Prawo:"

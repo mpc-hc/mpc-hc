@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"Kontur"
 22		"Ogenomskinlig ruta"
 23		"Kantbredd"
-26		"Skuggdjup"
+26		"Skugga"
 29		"Bildskärms Anpassning && Marginaler"
 39		"Vänster"
 42		"Höger"

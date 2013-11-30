@@ -11,7 +11,7 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 29
 20		"Build date:"
 22		"Operating system"
 23		"Name:"
-25		"Version:"
+25		"Версія :"
 27		"Copy to clipboard"
 28		"OK"
 END
@@ -403,7 +403,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 21		"Контур"
 22		"Заліванне"
 23		"Шырыня мяжы"
-26		"Глыбіня ценю"
+26		"Цень"
 29		"Выраўніванне і водступы"
 39		"Злева"
 42		"Справа"
