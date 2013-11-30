@@ -1255,22 +1255,22 @@ IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Quick Open File...\tCtrl+Q", ID_FILE_OPENQUICK
+        MENUITEM "&Quick Open File...", ID_FILE_OPENQUICK
         MENUITEM SEPARATOR
-        MENUITEM "&Open File...\tCtrl+O",       ID_FILE_OPENMEDIA
-        MENUITEM "Open &DVD/BD...\tCtrl+D",     ID_FILE_OPENDVDBD
-        MENUITEM "Open De&vice...\tCtrl+V",     ID_FILE_OPENDEVICE
+        MENUITEM "&Open File...",       ID_FILE_OPENMEDIA
+        MENUITEM "Open &DVD/BD...",     ID_FILE_OPENDVDBD
+        MENUITEM "Open De&vice...",     ID_FILE_OPENDEVICE
         MENUITEM "Open Dir&ectory...",          ID_FILE_OPENDIRECTORY
         MENUITEM "O&pen Disc",                  ID_FILE_OPENDISC32774
         MENUITEM "Recent &Files",               ID_RECENT_FILES
-        MENUITEM "&Close\tCtrl+C",              ID_FILE_CLOSEPLAYLIST
+        MENUITEM "&Close",              ID_FILE_CLOSEPLAYLIST
         MENUITEM SEPARATOR
         MENUITEM "&Save a Copy...",             ID_FILE_SAVE_COPY
         MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
         MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
         MENUITEM SEPARATOR
-        MENUITEM "&Load Subtitle...\tCtrl+L",   ID_FILE_LOAD_SUBTITLE
-        MENUITEM "Save S&ubtitle...\tCtrl+S",   ID_FILE_SAVE_SUBTITLE
+        MENUITEM "&Load Subtitle...",   ID_FILE_LOAD_SUBTITLE
+        MENUITEM "Save S&ubtitle...",   ID_FILE_SAVE_SUBTITLE
         POPUP "Subtitle Data&base"
         BEGIN
             MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
@@ -1280,19 +1280,19 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
         MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+X",                ID_FILE_EXIT
+        MENUITEM "E&xit",                ID_FILE_EXIT
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "Caption&&Menu\tCtrl+0",       ID_VIEW_CAPTIONMENU
-        MENUITEM "See&k Bar\tCtrl+1",           ID_VIEW_SEEKER
-        MENUITEM "&Controls\tCtrl+2",           ID_VIEW_CONTROLS
-        MENUITEM "&Information\tCtrl+3",        ID_VIEW_INFORMATION
-        MENUITEM "&Statistics\tCtrl+4",         ID_VIEW_STATISTICS
-        MENUITEM "St&atus\tCtrl+5",             ID_VIEW_STATUS
-        MENUITEM "Su&bresync\tCtrl+6",          ID_VIEW_SUBRESYNC
-        MENUITEM "Pla&ylist\tCtrl+7",           ID_VIEW_PLAYLIST
-        MENUITEM "Captu&re\tCtrl+8",            ID_VIEW_CAPTURE
+        MENUITEM "Caption&&Menu",       ID_VIEW_CAPTIONMENU
+        MENUITEM "See&k Bar",           ID_VIEW_SEEKER
+        MENUITEM "&Controls",           ID_VIEW_CONTROLS
+        MENUITEM "&Information",        ID_VIEW_INFORMATION
+        MENUITEM "&Statistics",         ID_VIEW_STATISTICS
+        MENUITEM "St&atus",             ID_VIEW_STATUS
+        MENUITEM "Su&bresync",          ID_VIEW_SUBRESYNC
+        MENUITEM "Pla&ylist",           ID_VIEW_PLAYLIST
+        MENUITEM "Captu&re",            ID_VIEW_CAPTURE
         MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
         MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
         POPUP "&Presets..."
@@ -1302,23 +1302,23 @@ BEGIN
             MENUITEM "&Normal",                     ID_VIEW_PRESETS_NORMAL
         END
         MENUITEM SEPARATOR
-        MENUITEM "F&ull Screen\tAlt+Enter",     ID_VIEW_FULLSCREEN
+        MENUITEM "F&ull Screen",     ID_VIEW_FULLSCREEN
         POPUP "&Zoom"
         BEGIN
-            MENUITEM "&50%\tAlt+1",                 ID_VIEW_ZOOM_50
-            MENUITEM "&100%\tAlt+2",                ID_VIEW_ZOOM_100
-            MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
-            MENUITEM "Auto &Fit\tAlt+4",            ID_VIEW_ZOOM_AUTOFIT
-            MENUITEM "Auto Fit (&Larger Only)\tAlt+5", ID_VIEW_ZOOM_AUTOFIT_LARGER
+            MENUITEM "&50%",                 ID_VIEW_ZOOM_50
+            MENUITEM "&100%",                ID_VIEW_ZOOM_100
+            MENUITEM "&200%",                ID_VIEW_ZOOM_200
+            MENUITEM "Auto &Fit",            ID_VIEW_ZOOM_AUTOFIT
+            MENUITEM "Auto Fit (&Larger Only)", ID_VIEW_ZOOM_AUTOFIT_LARGER
         END
         MENUITEM SEPARATOR
         MENUITEM "&Language",                   ID_MENU_LANGUAGE
         MENUITEM SEPARATOR
         POPUP "R&enderer Settings"
         BEGIN
-            MENUITEM "&Tearing Test\tCtrl+T",       ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats\tCtrl+J",      ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time\tCtrl+I",     ID_VIEW_REMAINING_TIME
+            MENUITEM "&Tearing Test",       ID_VIEW_TEARING_TEST
+            MENUITEM "&Display Stats",      ID_VIEW_DISPLAYSTATS
+            MENUITEM "&Remaining Time",     ID_VIEW_REMAINING_TIME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -1334,7 +1334,7 @@ BEGIN
                 MENUITEM "&Full Floating Point Processing", ID_VIEW_FULLFLOATINGPOINTPROCESSING
                 MENUITEM "&Half Floating Point Processing", ID_VIEW_HALFFLOATINGPOINTPROCESSING
                 MENUITEM "Disable desktop composition (&Aero)", ID_VIEW_DISABLEDESKTOPCOMPOSITION
-                MENUITEM "Enable Frame Time &Correction\tC", ID_VIEW_ENABLEFRAMETIMECORRECTION
+                MENUITEM "Enable Frame Time &Correction", ID_VIEW_ENABLEFRAMETIMECORRECTION
             END
             POPUP "&Color Management"
             BEGIN
@@ -1362,12 +1362,12 @@ BEGIN
             END
             POPUP "&VSync"
             BEGIN
-                MENUITEM "&VSync\tV",                   ID_VIEW_VSYNC
-                MENUITEM "&Accurate VSync\tAlt+V",      ID_VIEW_VSYNCACCURATE
+                MENUITEM "&VSync",                   ID_VIEW_VSYNC
+                MENUITEM "&Accurate VSync",      ID_VIEW_VSYNCACCURATE
                 MENUITEM "A&lternative VSync",          ID_VIEW_ALTERNATIVEVSYNC
                 MENUITEM "0",                           ID_VIEW_VSYNCOFFSET
-                MENUITEM "&Decrease VSync Offset\tCtrl+Alt+Up", ID_VIEW_VSYNCOFFSET_DECREASE
-                MENUITEM "&Increase VSync Offset\tCtrl+Alt+Down", ID_VIEW_VSYNCOFFSET_INCREASE
+                MENUITEM "&Decrease VSync Offset", ID_VIEW_VSYNCOFFSET_DECREASE
+                MENUITEM "&Increase VSync Offset", ID_VIEW_VSYNCOFFSET_INCREASE
             END
             POPUP "&GPU Control"
             BEGIN
@@ -1406,20 +1406,20 @@ BEGIN
         END
         POPUP "Pa&n&&Scan"
         BEGIN
-            MENUITEM "&Increase Size\tNumpad 9",     ID_VIEW_INCSIZE
-            MENUITEM "&Decrease Size\tNumpad 1",     ID_VIEW_DECSIZE
-            MENUITEM "I&ncrease Width\tNumpad 6",    ID_VIEW_INCWIDTH
-            MENUITEM "D&ecrease Width\tNumpad 4",    ID_VIEW_DECWIDTH
-            MENUITEM "In&crease Height\tNumpad 8",   ID_VIEW_INCHEIGHT
-            MENUITEM "Decre&ase Height\tNumpad 2",   ID_VIEW_DECHEIGHT
+            MENUITEM "&Increase Size",     ID_VIEW_INCSIZE
+            MENUITEM "&Decrease Size",     ID_VIEW_DECSIZE
+            MENUITEM "I&ncrease Width",    ID_VIEW_INCWIDTH
+            MENUITEM "D&ecrease Width",    ID_VIEW_DECWIDTH
+            MENUITEM "In&crease Height",   ID_VIEW_INCHEIGHT
+            MENUITEM "Decre&ase Height",   ID_VIEW_DECHEIGHT
             MENUITEM SEPARATOR
-            MENUITEM "Move &Right\tCtrl+Numpad 6",   ID_PANSCAN_MOVERIGHT
-            MENUITEM "Move &Left\tCtrl+Numpad 4",    ID_PANSCAN_MOVELEFT
-            MENUITEM "Move &Up\tCtrl+Numpad 8",      ID_PANSCAN_MOVEUP
-            MENUITEM "Move &Down\tCtrl+Numpad 2",    ID_PANSCAN_MOVEDOWN
-            MENUITEM "Cen&ter\tCtrl+Numpad 5",       ID_PANSCAN_CENTER
+            MENUITEM "Move &Right",   ID_PANSCAN_MOVERIGHT
+            MENUITEM "Move &Left",    ID_PANSCAN_MOVELEFT
+            MENUITEM "Move &Up",      ID_PANSCAN_MOVEUP
+            MENUITEM "Move &Down",    ID_PANSCAN_MOVEDOWN
+            MENUITEM "Cen&ter",       ID_PANSCAN_CENTER
             MENUITEM SEPARATOR
-            MENUITEM "Re&set\tNumpad 5",             ID_VIEW_RESET
+            MENUITEM "Re&set",             ID_VIEW_RESET
         END
         MENUITEM SEPARATOR
         POPUP "On &Top"
@@ -1433,13 +1433,13 @@ BEGIN
     END
     POPUP "&Play"
     BEGIN
-        MENUITEM "&Play/Pause\tSpace",          ID_PLAY_PLAYPAUSE
-        MENUITEM "&Stop\tPeriod",               ID_PLAY_STOP
-        MENUITEM "F&rame Step\tRight",          ID_PLAY_FRAMESTEP
+        MENUITEM "&Play/Pause",          ID_PLAY_PLAYPAUSE
+        MENUITEM "&Stop",               ID_PLAY_STOP
+        MENUITEM "F&rame Step",          ID_PLAY_FRAMESTEP
         MENUITEM SEPARATOR
-        MENUITEM "&Decrease Rate\tCtrl+Down",   ID_PLAY_DECRATE
-        MENUITEM "&Increase Rate\tCtrl+Up",     ID_PLAY_INCRATE
-        MENUITEM "R&eset Rate\tCtrl+R",          ID_PLAY_RESETRATE
+        MENUITEM "&Decrease Rate",   ID_PLAY_DECRATE
+        MENUITEM "&Increase Rate",     ID_PLAY_INCRATE
+        MENUITEM "R&eset Rate",          ID_PLAY_RESETRATE
         MENUITEM SEPARATOR
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
@@ -1450,9 +1450,9 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
-            MENUITEM "&Up\tUp Arrow",               ID_VOLUME_UP
-            MENUITEM "&Down\tDown Arrow",           ID_VOLUME_DOWN
-            MENUITEM "&Mute\tCtrl+M",               ID_VOLUME_MUTE
+            MENUITEM "&Up",               ID_VOLUME_UP
+            MENUITEM "&Down",           ID_VOLUME_DOWN
+            MENUITEM "&Mute",               ID_VOLUME_MUTE
         END
         POPUP "Af&ter Playback"
         BEGIN
@@ -1471,13 +1471,13 @@ BEGIN
     END
     POPUP "&Navigate"
     BEGIN
-        MENUITEM "&Previous\tPage Up",          ID_NAVIGATE_SKIPBACK
-        MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
-        MENUITEM "&Go To...\tCtrl+G",           ID_NAVIGATE_GOTO
+        MENUITEM "&Previous",          ID_NAVIGATE_SKIPBACK
+        MENUITEM "&Next",            ID_NAVIGATE_SKIPFORWARD
+        MENUITEM "&Go To...",           ID_NAVIGATE_GOTO
         MENUITEM "&Jump To...",                 ID_NAVIGATE_JUMPTO
         MENUITEM SEPARATOR
-        MENUITEM "&Title Menu\tAlt+T",           ID_NAVIGATE_TITLEMENU
-        MENUITEM "&Root Menu\tAlt+R",           ID_NAVIGATE_ROOTMENU
+        MENUITEM "&Title Menu",           ID_NAVIGATE_TITLEMENU
+        MENUITEM "&Root Menu",           ID_NAVIGATE_ROOTMENU
         MENUITEM "&Subtitle Menu",              ID_NAVIGATE_SUBPICTUREMENU
         MENUITEM "&Audio Menu",                 ID_NAVIGATE_AUDIOMENU
         MENUITEM "An&gle Menu",                 ID_NAVIGATE_ANGLEMENU
@@ -1502,22 +1502,22 @@ BEGIN
     BEGIN
         POPUP "&File"
         BEGIN
-            MENUITEM "&Quick Open File...\tCtrl+Q", ID_FILE_OPENQUICK
+            MENUITEM "&Quick Open File...", ID_FILE_OPENQUICK
             MENUITEM SEPARATOR
-            MENUITEM "&Open File...\tCtrl+O",       ID_FILE_OPENMEDIA
-            MENUITEM "Open &DVD/BD...\tCtrl+D",     ID_FILE_OPENDVDBD
-            MENUITEM "Open De&vice...\tCtrl+V",     ID_FILE_OPENDEVICE
+            MENUITEM "&Open File...",       ID_FILE_OPENMEDIA
+            MENUITEM "Open &DVD/BD...",     ID_FILE_OPENDVDBD
+            MENUITEM "Open De&vice...",     ID_FILE_OPENDEVICE
             MENUITEM "Open Dir&ectory...",           ID_FILE_OPENDIRECTORY
             MENUITEM "O&pen Disc",                  ID_FILE_OPENDISC32774
             MENUITEM "Recent &Files",                ID_RECENT_FILES
-            MENUITEM "&Close\tCtrl+C",              ID_FILE_CLOSEPLAYLIST
+            MENUITEM "&Close",              ID_FILE_CLOSEPLAYLIST
             MENUITEM SEPARATOR
             MENUITEM "&Save a Copy...",             ID_FILE_SAVE_COPY
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
             MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            MENUITEM "&Load Subtitle...\tCtrl+L",   ID_FILE_LOAD_SUBTITLE
-            MENUITEM "Save S&ubtitle...\tCtrl+S",   ID_FILE_SAVE_SUBTITLE
+            MENUITEM "&Load Subtitle...",   ID_FILE_LOAD_SUBTITLE
+            MENUITEM "Save S&ubtitle...",   ID_FILE_SAVE_SUBTITLE
             POPUP "Subtitle Data&base"
             BEGIN
                 MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
@@ -1527,7 +1527,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
             MENUITEM SEPARATOR
-            MENUITEM "E&xit\tAlt+X",                ID_FILE_EXIT
+            MENUITEM "E&xit",                ID_FILE_EXIT
         END
         MENUITEM SEPARATOR
         MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
@@ -1536,11 +1536,11 @@ BEGIN
         MENUITEM "F&ull Screen",                ID_VIEW_FULLSCREEN
         POPUP "&Zoom"
         BEGIN
-            MENUITEM "&50%\tAlt+1",                 ID_VIEW_ZOOM_50
-            MENUITEM "&100%\tAlt+2",                ID_VIEW_ZOOM_100
-            MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
-            MENUITEM "Auto &Fit\tAlt+4",            ID_VIEW_ZOOM_AUTOFIT
-            MENUITEM "Auto Fit (&Larger Only)\tAlt+5", ID_VIEW_ZOOM_AUTOFIT_LARGER
+            MENUITEM "&50%",                 ID_VIEW_ZOOM_50
+            MENUITEM "&100%",                ID_VIEW_ZOOM_100
+            MENUITEM "&200%",                ID_VIEW_ZOOM_200
+            MENUITEM "Auto &Fit",            ID_VIEW_ZOOM_AUTOFIT
+            MENUITEM "Auto Fit (&Larger Only)", ID_VIEW_ZOOM_AUTOFIT_LARGER
         END
         MENUITEM SEPARATOR
         POPUP "&Video Frame"
@@ -1568,27 +1568,27 @@ BEGIN
         END
         POPUP "Pa&n&&Scan"
         BEGIN
-            MENUITEM "&Increase Size\tNumpad 9",     ID_VIEW_INCSIZE
-            MENUITEM "&Decrease Size\tNumpad 1",     ID_VIEW_DECSIZE
-            MENUITEM "I&ncrease Width\tNumpad 6",    ID_VIEW_INCWIDTH
-            MENUITEM "D&ecrease Width\tNumpad 4",    ID_VIEW_DECWIDTH
-            MENUITEM "In&crease Height\tNumpad 8",   ID_VIEW_INCHEIGHT
-            MENUITEM "Decre&ase Height\tNumpad 2",   ID_VIEW_DECHEIGHT
+            MENUITEM "&Increase Size",     ID_VIEW_INCSIZE
+            MENUITEM "&Decrease Size",     ID_VIEW_DECSIZE
+            MENUITEM "I&ncrease Width",    ID_VIEW_INCWIDTH
+            MENUITEM "D&ecrease Width",    ID_VIEW_DECWIDTH
+            MENUITEM "In&crease Height",   ID_VIEW_INCHEIGHT
+            MENUITEM "Decre&ase Height",   ID_VIEW_DECHEIGHT
             MENUITEM SEPARATOR
-            MENUITEM "Move &Right\tCtrl+Numpad 6",   ID_PANSCAN_MOVERIGHT
-            MENUITEM "Move &Left\tCtrl+Numpad 4",    ID_PANSCAN_MOVELEFT
-            MENUITEM "Move &Up\tCtrl+Numpad 8",      ID_PANSCAN_MOVEUP
-            MENUITEM "Move &Down\tCtrl+Numpad 2",    ID_PANSCAN_MOVEDOWN
-            MENUITEM "Cen&ter\tCtrl+Numpad 5",       ID_PANSCAN_CENTER
+            MENUITEM "Move &Right",   ID_PANSCAN_MOVERIGHT
+            MENUITEM "Move &Left",    ID_PANSCAN_MOVELEFT
+            MENUITEM "Move &Up",      ID_PANSCAN_MOVEUP
+            MENUITEM "Move &Down",    ID_PANSCAN_MOVEDOWN
+            MENUITEM "Cen&ter",       ID_PANSCAN_CENTER
             MENUITEM SEPARATOR
-            MENUITEM "Re&set\tNumpad 5",             ID_VIEW_RESET
+            MENUITEM "Re&set",             ID_VIEW_RESET
         END
         MENUITEM SEPARATOR
         POPUP "&Navigate"
         BEGIN
-            MENUITEM "&Previous\tPage Up",          ID_NAVIGATE_SKIPBACK
-            MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
-            MENUITEM "&Go To...\tCtrl+G",           ID_NAVIGATE_GOTO
+            MENUITEM "&Previous",          ID_NAVIGATE_SKIPBACK
+            MENUITEM "&Next",            ID_NAVIGATE_SKIPFORWARD
+            MENUITEM "&Go To...",           ID_NAVIGATE_GOTO
             MENUITEM "&Jump To...",                 ID_NAVIGATE_JUMPTO
             MENUITEM SEPARATOR
             MENUITEM "&Title Menu",                 ID_NAVIGATE_TITLEMENU
@@ -1609,9 +1609,9 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
-            MENUITEM "&Up\tUp Arrow",               ID_VOLUME_UP
-            MENUITEM "&Down\tDown Arrow",           ID_VOLUME_DOWN
-            MENUITEM "&Mute\tCtrl+M",               ID_VOLUME_MUTE
+            MENUITEM "&Up",               ID_VOLUME_UP
+            MENUITEM "&Down",           ID_VOLUME_DOWN
+            MENUITEM "&Mute",               ID_VOLUME_MUTE
         END
         POPUP "Af&ter Playback"
         BEGIN
@@ -1659,9 +1659,9 @@ BEGIN
         END
         POPUP "R&enderer Settings"
         BEGIN
-            MENUITEM "&Tearing Test\tCtrl+T",       ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats\tCtrl+J",      ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time\tCtrl+I",      ID_VIEW_REMAINING_TIME
+            MENUITEM "&Tearing Test",       ID_VIEW_TEARING_TEST
+            MENUITEM "&Display Stats",      ID_VIEW_DISPLAYSTATS
+            MENUITEM "&Remaining Time",      ID_VIEW_REMAINING_TIME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -1677,7 +1677,7 @@ BEGIN
                 MENUITEM "&Full Floating Point Processing", ID_VIEW_FULLFLOATINGPOINTPROCESSING
                 MENUITEM "&Half Floating Point Processing", ID_VIEW_HALFFLOATINGPOINTPROCESSING
                 MENUITEM "Disable desktop composition (&Aero)", ID_VIEW_DISABLEDESKTOPCOMPOSITION
-                MENUITEM "Enable Frame Time &Correction\tC", ID_VIEW_ENABLEFRAMETIMECORRECTION
+                MENUITEM "Enable Frame Time &Correction", ID_VIEW_ENABLEFRAMETIMECORRECTION
             END
             POPUP "&Color Management"
             BEGIN
@@ -1705,12 +1705,12 @@ BEGIN
             END
             POPUP "&VSync"
             BEGIN
-                MENUITEM "&VSync\tV",                   ID_VIEW_VSYNC
-                MENUITEM "&Accurate VSync\tAlt+V",       ID_VIEW_VSYNCACCURATE
+                MENUITEM "&VSync",                   ID_VIEW_VSYNC
+                MENUITEM "&Accurate VSync",       ID_VIEW_VSYNCACCURATE
                 MENUITEM "A&lternative VSync",           ID_VIEW_ALTERNATIVEVSYNC
                 MENUITEM "0",                           ID_VIEW_VSYNCOFFSET
-                MENUITEM "&Decrease VSync Offset\tCtrl+Alt+Up", ID_VIEW_VSYNCOFFSET_DECREASE
-                MENUITEM "&Increase VSync Offset\tCtrl+Alt+Down", ID_VIEW_VSYNCOFFSET_INCREASE
+                MENUITEM "&Decrease VSync Offset", ID_VIEW_VSYNCOFFSET_DECREASE
+                MENUITEM "&Increase VSync Offset", ID_VIEW_VSYNCOFFSET_INCREASE
             END
             POPUP "&GPU Control"
             BEGIN
@@ -1727,7 +1727,7 @@ BEGIN
         MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
         MENUITEM "&Options...",                 ID_VIEW_OPTIONS
         MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+X",                ID_FILE_EXIT
+        MENUITEM "E&xit",                ID_FILE_EXIT
     END
 END
 
@@ -1737,11 +1737,11 @@ BEGIN
     BEGIN
         POPUP "&File"
         BEGIN
-            MENUITEM "&Quick Open File...\tCtrl+Q", ID_FILE_OPENQUICK
+            MENUITEM "&Quick Open File...", ID_FILE_OPENQUICK
             MENUITEM SEPARATOR
-            MENUITEM "&Open File...\tCtrl+O",       ID_FILE_OPENMEDIA
-            MENUITEM "Open &DVD/BD...\tCtrl+D",     ID_FILE_OPENDVDBD
-            MENUITEM "Open De&vice...\tCtrl+V",     ID_FILE_OPENDEVICE
+            MENUITEM "&Open File...",       ID_FILE_OPENMEDIA
+            MENUITEM "Open &DVD/BD...",     ID_FILE_OPENDVDBD
+            MENUITEM "Open De&vice...",     ID_FILE_OPENDEVICE
             MENUITEM "Open Dir&ectory...",           ID_FILE_OPENDIRECTORY
             MENUITEM "O&pen Disc",                  ID_FILE_OPENDISC32774
             MENUITEM "Recent &Files",                ID_RECENT_FILES
@@ -1751,8 +1751,8 @@ BEGIN
             MENUITEM "Save &Image...",               ID_FILE_SAVE_IMAGE
             MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            MENUITEM "&Load Subtitle...\tCtrl+L",   ID_FILE_LOAD_SUBTITLE
-            MENUITEM "Save S&ubtitle...\tCtrl+S",   ID_FILE_SAVE_SUBTITLE
+            MENUITEM "&Load Subtitle...",   ID_FILE_LOAD_SUBTITLE
+            MENUITEM "Save S&ubtitle...",   ID_FILE_SAVE_SUBTITLE
             POPUP "Subtitle Data&base"
             BEGIN
                 MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
@@ -1764,15 +1764,15 @@ BEGIN
         END
         POPUP "&View"
         BEGIN
-            MENUITEM "Caption&&Menu\tCtrl+0",       ID_VIEW_CAPTIONMENU
-            MENUITEM "See&k Bar\tCtrl+1",           ID_VIEW_SEEKER
-            MENUITEM "&Controls\tCtrl+2",           ID_VIEW_CONTROLS
-            MENUITEM "&Information\tCtrl+3",        ID_VIEW_INFORMATION
-            MENUITEM "&Statistics\tCtrl+4",         ID_VIEW_STATISTICS
-            MENUITEM "St&atus\tCtrl+5",             ID_VIEW_STATUS
-            MENUITEM "Su&bresync\tCtrl+6",          ID_VIEW_SUBRESYNC
-            MENUITEM "Pla&ylist\tCtrl+7",           ID_VIEW_PLAYLIST
-            MENUITEM "Captu&re\tCtrl+8",            ID_VIEW_CAPTURE
+            MENUITEM "Caption&&Menu",       ID_VIEW_CAPTIONMENU
+            MENUITEM "See&k Bar",           ID_VIEW_SEEKER
+            MENUITEM "&Controls",           ID_VIEW_CONTROLS
+            MENUITEM "&Information",        ID_VIEW_INFORMATION
+            MENUITEM "&Statistics",         ID_VIEW_STATISTICS
+            MENUITEM "St&atus",             ID_VIEW_STATUS
+            MENUITEM "Su&bresync",          ID_VIEW_SUBRESYNC
+            MENUITEM "Pla&ylist",           ID_VIEW_PLAYLIST
+            MENUITEM "Captu&re",            ID_VIEW_CAPTURE
             MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
             MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
             MENUITEM "&Language",                   ID_MENU_LANGUAGE
@@ -1783,21 +1783,21 @@ BEGIN
                 MENUITEM "&Normal",                     ID_VIEW_PRESETS_NORMAL
             END
             MENUITEM SEPARATOR
-            MENUITEM "F&ull Screen\tAlt+Enter",     ID_VIEW_FULLSCREEN
+            MENUITEM "F&ull Screen",     ID_VIEW_FULLSCREEN
             POPUP "&Zoom"
             BEGIN
-                MENUITEM "&50%\tAlt+1",                 ID_VIEW_ZOOM_50
-                MENUITEM "&100%\tAlt+2",                ID_VIEW_ZOOM_100
-                MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
-                MENUITEM "Auto &Fit\tAlt+4",             ID_VIEW_ZOOM_AUTOFIT
-                MENUITEM "Auto Fit (&Larger Only)\tAlt+5", ID_VIEW_ZOOM_AUTOFIT_LARGER
+                MENUITEM "&50%",                 ID_VIEW_ZOOM_50
+                MENUITEM "&100%",                ID_VIEW_ZOOM_100
+                MENUITEM "&200%",                ID_VIEW_ZOOM_200
+                MENUITEM "Auto &Fit",             ID_VIEW_ZOOM_AUTOFIT
+                MENUITEM "Auto Fit (&Larger Only)", ID_VIEW_ZOOM_AUTOFIT_LARGER
             END
             MENUITEM SEPARATOR
             POPUP "R&enderer Settings"
             BEGIN
-                MENUITEM "&Tearing Test\tCtrl+T",       ID_VIEW_TEARING_TEST
-                MENUITEM "&Display Stats\tCtrl+J",      ID_VIEW_DISPLAYSTATS
-                MENUITEM "&Remaining Time\tCtrl+I",      ID_VIEW_REMAINING_TIME
+                MENUITEM "&Tearing Test",       ID_VIEW_TEARING_TEST
+                MENUITEM "&Display Stats",      ID_VIEW_DISPLAYSTATS
+                MENUITEM "&Remaining Time",      ID_VIEW_REMAINING_TIME
                 MENUITEM SEPARATOR
                 POPUP "&Output Range"
                 BEGIN
@@ -1813,7 +1813,7 @@ BEGIN
                     MENUITEM "&Full Floating Point Processing", ID_VIEW_FULLFLOATINGPOINTPROCESSING
                     MENUITEM "&Half Floating Point Processing", ID_VIEW_HALFFLOATINGPOINTPROCESSING
                     MENUITEM "Disable desktop composition (&Aero)", ID_VIEW_DISABLEDESKTOPCOMPOSITION
-                    MENUITEM "Enable Frame Time &Correction\tC", ID_VIEW_ENABLEFRAMETIMECORRECTION
+                    MENUITEM "Enable Frame Time &Correction", ID_VIEW_ENABLEFRAMETIMECORRECTION
                 END
                 POPUP "&Color Management"
                 BEGIN
@@ -1841,12 +1841,12 @@ BEGIN
                 END
                 POPUP "&VSync"
                 BEGIN
-                    MENUITEM "&VSync\tV",                   ID_VIEW_VSYNC
-                    MENUITEM "&Accurate VSync\tAlt+V",       ID_VIEW_VSYNCACCURATE
+                    MENUITEM "&VSync",                   ID_VIEW_VSYNC
+                    MENUITEM "&Accurate VSync",       ID_VIEW_VSYNCACCURATE
                     MENUITEM "A&lternative VSync",           ID_VIEW_ALTERNATIVEVSYNC
                     MENUITEM "0",                           ID_VIEW_VSYNCOFFSET
-                    MENUITEM "&Decrease VSync Offset\tCtrl+Alt+Up", ID_VIEW_VSYNCOFFSET_DECREASE
-                    MENUITEM "&Increase VSync Offset\tCtrl+Alt+Down", ID_VIEW_VSYNCOFFSET_INCREASE
+                    MENUITEM "&Decrease VSync Offset", ID_VIEW_VSYNCOFFSET_DECREASE
+                    MENUITEM "&Increase VSync Offset", ID_VIEW_VSYNCOFFSET_INCREASE
                 END
                 POPUP "&GPU Control"
                 BEGIN
@@ -1885,20 +1885,20 @@ BEGIN
             END
             POPUP "Pa&n&&Scan"
             BEGIN
-                MENUITEM "&Increase Size\tNumpad 9",     ID_VIEW_INCSIZE
-                MENUITEM "&Decrease Size\tNumpad 1",     ID_VIEW_DECSIZE
-                MENUITEM "I&ncrease Width\tNumpad 6",    ID_VIEW_INCWIDTH
-                MENUITEM "D&ecrease Width\tNumpad 4",    ID_VIEW_DECWIDTH
-                MENUITEM "In&crease Height\tNumpad 8",   ID_VIEW_INCHEIGHT
-                MENUITEM "Decre&ase Height\tNumpad 2",   ID_VIEW_DECHEIGHT
+                MENUITEM "&Increase Size",     ID_VIEW_INCSIZE
+                MENUITEM "&Decrease Size",     ID_VIEW_DECSIZE
+                MENUITEM "I&ncrease Width",    ID_VIEW_INCWIDTH
+                MENUITEM "D&ecrease Width",    ID_VIEW_DECWIDTH
+                MENUITEM "In&crease Height",   ID_VIEW_INCHEIGHT
+                MENUITEM "Decre&ase Height",   ID_VIEW_DECHEIGHT
                 MENUITEM SEPARATOR
-                MENUITEM "Move &Right\tCtrl+Numpad 6",   ID_PANSCAN_MOVERIGHT
-                MENUITEM "Move &Left\tCtrl+Numpad 4",    ID_PANSCAN_MOVELEFT
-                MENUITEM "Move &Up\tCtrl+Numpad 8",      ID_PANSCAN_MOVEUP
-                MENUITEM "Move &Down\tCtrl+Numpad 2",    ID_PANSCAN_MOVEDOWN
-                MENUITEM "Cen&ter\tCtrl+Numpad 5",       ID_PANSCAN_CENTER
+                MENUITEM "Move &Right",   ID_PANSCAN_MOVERIGHT
+                MENUITEM "Move &Left",    ID_PANSCAN_MOVELEFT
+                MENUITEM "Move &Up",      ID_PANSCAN_MOVEUP
+                MENUITEM "Move &Down",    ID_PANSCAN_MOVEDOWN
+                MENUITEM "Cen&ter",       ID_PANSCAN_CENTER
                 MENUITEM SEPARATOR
-                MENUITEM "Re&set\tNumpad 5",             ID_VIEW_RESET
+                MENUITEM "Re&set",             ID_VIEW_RESET
             END
             MENUITEM SEPARATOR
             POPUP "On &Top"
@@ -1912,23 +1912,23 @@ BEGIN
         END
         POPUP "&Play"
         BEGIN
-            MENUITEM "&Play/Pause\tSpace",          ID_PLAY_PLAYPAUSE
-            MENUITEM "&Stop\tPeriod",               ID_PLAY_STOP
-            MENUITEM "F&rame Step\tRight",          ID_PLAY_FRAMESTEP
+            MENUITEM "&Play/Pause",          ID_PLAY_PLAYPAUSE
+            MENUITEM "&Stop",               ID_PLAY_STOP
+            MENUITEM "F&rame Step",          ID_PLAY_FRAMESTEP
             MENUITEM SEPARATOR
-            MENUITEM "&Decrease Rate\tCtrl+Down",   ID_PLAY_DECRATE
-            MENUITEM "&Increase Rate\tCtrl+Up",     ID_PLAY_INCRATE
-            MENUITEM "R&eset Rate\tCtrl+R",          ID_PLAY_RESETRATE
+            MENUITEM "&Decrease Rate",   ID_PLAY_DECRATE
+            MENUITEM "&Increase Rate",     ID_PLAY_INCRATE
+            MENUITEM "R&eset Rate",          ID_PLAY_RESETRATE
         END
         POPUP "&Navigate"
         BEGIN
-            MENUITEM "&Previous\tPage Up",          ID_NAVIGATE_SKIPBACK
-            MENUITEM "&Next\tPage Down",            ID_NAVIGATE_SKIPFORWARD
-            MENUITEM "&Go To...\tCtrl+G",           ID_NAVIGATE_GOTO
+            MENUITEM "&Previous",          ID_NAVIGATE_SKIPBACK
+            MENUITEM "&Next",            ID_NAVIGATE_SKIPFORWARD
+            MENUITEM "&Go To...",           ID_NAVIGATE_GOTO
             MENUITEM "&Jump To...",                 ID_NAVIGATE_JUMPTO
             MENUITEM SEPARATOR
-            MENUITEM "&Title Menu\tAlt+T",           ID_NAVIGATE_TITLEMENU
-            MENUITEM "&Root Menu\tAlt+R",           ID_NAVIGATE_ROOTMENU
+            MENUITEM "&Title Menu",           ID_NAVIGATE_TITLEMENU
+            MENUITEM "&Root Menu",           ID_NAVIGATE_ROOTMENU
             MENUITEM "&Subtitle Menu",              ID_NAVIGATE_SUBPICTUREMENU
             MENUITEM "&Audio Menu",                 ID_NAVIGATE_AUDIOMENU
             MENUITEM "An&gle Menu",                 ID_NAVIGATE_ANGLEMENU
@@ -1955,9 +1955,9 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
-            MENUITEM "&Up\tUp Arrow",               ID_VOLUME_UP
-            MENUITEM "&Down\tDown Arrow",           ID_VOLUME_DOWN
-            MENUITEM "&Mute\tCtrl+M",               ID_VOLUME_MUTE
+            MENUITEM "&Up",               ID_VOLUME_UP
+            MENUITEM "&Down",           ID_VOLUME_DOWN
+            MENUITEM "&Mute",               ID_VOLUME_MUTE
         END
         POPUP "Af&ter Playback"
         BEGIN
@@ -1976,9 +1976,9 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "R&enderer Settings"
         BEGIN
-            MENUITEM "&Tearing Test\tCtrl+T",       ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats\tCtrl+J",      ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time\tCtrl+I",      ID_VIEW_REMAINING_TIME
+            MENUITEM "&Tearing Test",       ID_VIEW_TEARING_TEST
+            MENUITEM "&Display Stats",      ID_VIEW_DISPLAYSTATS
+            MENUITEM "&Remaining Time",      ID_VIEW_REMAINING_TIME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -1994,7 +1994,7 @@ BEGIN
                 MENUITEM "&Full Floating Point Processing", ID_VIEW_FULLFLOATINGPOINTPROCESSING
                 MENUITEM "&Half Floating Point Processing", ID_VIEW_HALFFLOATINGPOINTPROCESSING
                 MENUITEM "Disable desktop composition (&Aero)", ID_VIEW_DISABLEDESKTOPCOMPOSITION
-                MENUITEM "Enable Frame Time &Correction\tC", ID_VIEW_ENABLEFRAMETIMECORRECTION
+                MENUITEM "Enable Frame Time &Correction", ID_VIEW_ENABLEFRAMETIMECORRECTION
             END
             POPUP "&Color Management"
             BEGIN
@@ -2022,12 +2022,12 @@ BEGIN
             END
             POPUP "&VSync"
             BEGIN
-                MENUITEM "&VSync\tV",                   ID_VIEW_VSYNC
-                MENUITEM "&Accurate VSync\tAlt+V",       ID_VIEW_VSYNCACCURATE
+                MENUITEM "&VSync",                   ID_VIEW_VSYNC
+                MENUITEM "&Accurate VSync",       ID_VIEW_VSYNCACCURATE
                 MENUITEM "A&lternative VSync",           ID_VIEW_ALTERNATIVEVSYNC
                 MENUITEM "0",                           ID_VIEW_VSYNCOFFSET
-                MENUITEM "&Decrease VSync Offset\tCtrl+Alt+Up", ID_VIEW_VSYNCOFFSET_DECREASE
-                MENUITEM "&Increase VSync Offset\tCtrl+Alt+Down", ID_VIEW_VSYNCOFFSET_INCREASE
+                MENUITEM "&Decrease VSync Offset", ID_VIEW_VSYNCOFFSET_DECREASE
+                MENUITEM "&Increase VSync Offset", ID_VIEW_VSYNCOFFSET_INCREASE
             END
             POPUP "&GPU Control"
             BEGIN
@@ -2044,7 +2044,7 @@ BEGIN
         MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
         MENUITEM "&Options...",                 ID_VIEW_OPTIONS
         MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+X",                ID_FILE_EXIT
+        MENUITEM "E&xit",                ID_FILE_EXIT
     END
 END
 
@@ -2821,10 +2821,10 @@ STRINGTABLE
 BEGIN
     IDS_AG_RESET_STATS      "Sync Renderer reset stats"
     IDD_PPAGESUBMISC        "Subtitles::Misc"
-    IDS_VIEW_BORDERLESS     "Hide &borders\tCtrl+0"
-    IDS_VIEW_FRAMEONLY      "Frame Only\tCtrl+0"
-    IDS_VIEW_CAPTIONMENU    "Sho&w Caption&&Menu\tCtrl+0"
-    IDS_VIEW_HIDEMENU       "Hide &Menu\tCtrl+0"
+    IDS_VIEW_BORDERLESS     "Hide &borders"
+    IDS_VIEW_FRAMEONLY      "Frame Only"
+    IDS_VIEW_CAPTIONMENU    "Sho&w Caption&&Menu"
+    IDS_VIEW_HIDEMENU       "Hide &Menu"
     IDS_TIME_TOOLTIP_ABOVE  "Above seekbar"
     IDS_TIME_TOOLTIP_BELOW  "Below seekbar"
 END
