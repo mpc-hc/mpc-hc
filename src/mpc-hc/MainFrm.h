@@ -200,6 +200,7 @@ private:
     friend class CPPageLogo;
     friend class CSubtitleDlDlg;
     friend class CMouse;
+    friend class CPlayerSeekBar; // for accessing m_controls.ControlChecked()
 
     // TODO: wrap these graph objects into a class to make it look cleaner
 

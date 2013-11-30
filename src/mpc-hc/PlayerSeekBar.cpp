@@ -88,6 +88,15 @@ BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)
     return TRUE;
 }
 
+CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
+{
+    CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
+    if (!m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
+        ret.cy += 2;
+    }
+    return ret;
+}
+
 void CPlayerSeekBar::MoveThumb(const CPoint& point)
 {
     if (m_bHasDuration) {

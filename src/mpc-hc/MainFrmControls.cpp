@@ -43,19 +43,23 @@ UINT CMainFrameControls::GetEffectiveToolbarsSelection()
 bool CMainFrameControls::ShowToolbarsSelection()
 {
     auto& st = m_controlsVisibilityState;
-    const auto oldCS = st.nCurrentCS;
-    st.nCurrentCS = GetEffectiveToolbarsSelection();
+    const auto newCS = GetEffectiveToolbarsSelection();
     bool bRecalcLayout = false;
     if (!InFullscreenWithPermahiddenToolbars()) {
-        bRecalcLayout = ShowToolbars(st.nCurrentCS);
-        if (st.nCurrentCS != oldCS && !ToolbarsCoverVideo() && !m_pMainFrame->IsZoomed()) {
+        const bool bResize = (newCS != st.nCurrentCS && !ToolbarsCoverVideo() && !m_pMainFrame->IsZoomed());
+        if (bResize) {
             CRect newRect;
             m_pMainFrame->GetWindowRect(newRect);
+            newRect.bottom -= GetToolbarsHeight(st.nCurrentCS);
+            bRecalcLayout = ShowToolbars(newCS);
+            st.nCurrentCS = newCS; // some toolbars' height may depend on ControlChecked()
             newRect.bottom += GetToolbarsHeight(st.nCurrentCS);
-            newRect.bottom -= GetToolbarsHeight(oldCS);
             m_pMainFrame->MoveWindow(newRect);
+        } else {
+            bRecalcLayout = ShowToolbars(newCS);
         }
     }
+    st.nCurrentCS = newCS;
     return bRecalcLayout;
 }
 
@@ -80,6 +84,20 @@ bool CMainFrameControls::ShowToolbars(UINT nCS)
         bRecalcLayout = true;
     }
     return bRecalcLayout;
+}
+
+unsigned CMainFrameControls::GetToolbarsHeight(UINT nCS) const
+{
+    unsigned ret = 0;
+    int i = 1;
+    for (const auto& pair : m_toolbars) {
+        auto& pCB = pair.second;
+        if ((nCS & i) && IsWindow(pCB->m_hWnd)) {
+            ret += pCB->CalcFixedLayout(TRUE, TRUE).cy;
+        }
+        i <<= 1;
+    }
+    return ret;
 }
 
 void CMainFrameControls::DelayShowNotLoadedCallback()
@@ -587,20 +605,6 @@ void CMainFrameControls::UpdateToolbarsVisibility()
 
     st.bLastCanAutoHideToolbars = bCanAutoHide;
     st.bLastCanAutoHidePanels = bCanAutoHide && bCanHideDockedPanels;
-}
-
-unsigned CMainFrameControls::GetToolbarsHeight(UINT nCS) const
-{
-    unsigned ret = 0;
-    int i = 1;
-    for (const auto& pair : m_toolbars) {
-        auto& pCB = pair.second;
-        if ((nCS & i) && IsWindow(pCB->m_hWnd)) {
-            ret += pCB->CalcFixedLayout(TRUE, TRUE).cy;
-        }
-        i <<= 1;
-    }
-    return ret;
 }
 
 unsigned CMainFrameControls::GetVisibleToolbarsHeight() const

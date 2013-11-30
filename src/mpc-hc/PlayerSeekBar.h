@@ -29,6 +29,7 @@ class CMainFrame;
 class CPlayerSeekBar : public CDialogBar
 {
     DECLARE_DYNAMIC(CPlayerSeekBar)
+
 public:
     CPlayerSeekBar(CMainFrame* pMainFrame);
     virtual ~CPlayerSeekBar();
@@ -62,6 +63,7 @@ private:
     CRect m_lastThumbRect;
 
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz) override;
 
     void MoveThumb(const CPoint& point);
     void SyncVideoToThumb();

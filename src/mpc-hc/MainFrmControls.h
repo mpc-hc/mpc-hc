@@ -44,6 +44,7 @@ class CMainFrameControls
     UINT GetEffectiveToolbarsSelection();
     bool ShowToolbarsSelection();
     bool ShowToolbars(UINT nCS);
+    unsigned GetToolbarsHeight(UINT nCS) const;
 
     bool m_bDelayShowNotLoaded;
     void DelayShowNotLoadedCallback();
@@ -93,7 +94,6 @@ public:
     bool ToolbarsCoverVideo() const;
 
     void UpdateToolbarsVisibility();
-    unsigned GetToolbarsHeight(UINT nCS) const;
     unsigned GetVisibleToolbarsHeight() const;
     unsigned GetToolbarsHeight() const;
 
