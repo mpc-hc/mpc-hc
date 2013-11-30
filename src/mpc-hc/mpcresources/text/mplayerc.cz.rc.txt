@@ -585,7 +585,7 @@ BEGIN MENU IDR_MAINFRAME LINES 244
 79		"10bitový RGB výstup"
 80		"Vynutit 10bitový RGB vstup"
 81		"Zpracovat ve formátu s plovoucí desetinnou čárkou"
-82		"Zpracovat ve formátu s plovoucí desetinou čárkou poloviční přesnosti"
+82		"Zpracovat ve formátu s plovoucí desetinnou čárkou poloviční přesnosti"
 83		"Zakázat kompozici plochy"
 84		"Povolit opravu času snímků"
 86		"Správa barev"
