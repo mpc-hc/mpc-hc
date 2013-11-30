@@ -288,9 +288,9 @@ void CMainFrameControls::UpdateToolbarsVisibility()
     CPoint clientPoint(screenPoint);
     m_pMainFrame->ScreenToClient(&clientPoint);
 
-    const bool bCanAutoHide = (m_pMainFrame->m_fFullScreen || s.bHideWindowedControls) && s.bHideFullscreenControls &&
-                              ePolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER &&
-                              (m_pMainFrame->GetLoadState() == MLS::LOADED || m_bDelayShowNotLoaded);
+    const bool bCanAutoHide = s.bHideFullscreenControls && (m_pMainFrame->GetLoadState() == MLS::LOADED || m_bDelayShowNotLoaded) &&
+                              (m_pMainFrame->m_fFullScreen || (s.bHideWindowedControls && !m_pMainFrame->m_fAudioOnly)) &&
+                              ePolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER;
     const bool bCanHideDockedPanels = s.bHideFullscreenDockedPanels;
 
     bool bEnumedPanelZones = false;
