@@ -1230,7 +1230,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
         lpMMI->ptMinTrackSize = CPoint(m_controls.GetDockZonesMinSize(saneSize));
     }
 
-    {
+    if (GetMenuBarVisibility() == AFX_MBV_KEEPVISIBLE || m_bShowingFloatingMenubar) {
         // Add menubar height
         lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYMENU);
         // Ensure that menubar will fit horizontally
