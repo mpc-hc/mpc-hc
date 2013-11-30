@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* External filters (such as VSFilter) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"오디오"
 6		"볼륨"
 7		"최소"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"자막언어"
 30		"오디오언어"
 32		"Allow overriding external splitter choice"
-33		"열기 설정"
-34		"필터그래프를 생성하는 작업자 쓰레드 사용"
-36		"렌더링에 실패하면 pin 보고"
-37		"오디오파일을 자동으로 열기"
-38		"자막파일을 자동으로 열기"
-39		"Control"
-40		"Volume step:"
-44		"Speed step:"
+34		"열기 설정"
+35		"필터그래프를 생성하는 작업자 쓰레드 사용"
+37		"렌더링에 실패하면 pin 보고"
+38		"오디오파일을 자동으로 열기"
+39		"자막파일을 자동으로 열기"
+40		"Control"
+41		"Volume step:"
+45		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

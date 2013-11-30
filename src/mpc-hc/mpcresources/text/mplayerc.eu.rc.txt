@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Kanpoko iragazkiek (VSFilter bezalakoak) azpidatziak aurkezle guztietan erakutsi ditzakete."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Audioa"
 6		"Bolumena"
 7		"Gutx"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Azpidatziak:"
 30		"Audioa:"
 32		"Ahalbidetu kanpoko banantzaile aukera ezeztatzea"
-33		"Ireki ezarpenak"
-34		"Erabili langile hariak iragazki grafika eraikitzeko"
-36		"Jakinarazi aurkezlean huts egiten duten pin-ak"
-37		"Berez-gertatu audio agiriak"
-38		"Berez-gertatu azpidatziak"
-39		"Agintea"
-40		"Bolumen urratsa:"
-44		"Abiadura urratsa:"
+34		"Ireki ezarpenak"
+35		"Erabili langile hariak iragazki grafika eraikitzeko"
+37		"Jakinarazi aurkezlean huts egiten duten pin-ak"
+38		"Berez-gertatu audio agiriak"
+39		"Berez-gertatu azpidatziak"
+40		"Agintea"
+41		"Bolumen urratsa:"
+45		"Abiadura urratsa:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

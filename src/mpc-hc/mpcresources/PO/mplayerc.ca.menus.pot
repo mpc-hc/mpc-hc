@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Arxiu"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "Obrir Arxiu &Ràpid..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Obrir Arxiu..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Obrir &DVD/BD..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Obrir Dis&positiu..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Obrir Di&rectori..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "Obrir Di&sc"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "Ar&xius Recents"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "&Tancar"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Desar una còpia..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Desar &Imatge..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Desar &Miniatures..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "Cargar &Subtítol..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Desar S&ubtítol..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Base de Dades dels Subtítols"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "Bus&car..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Pu&jar..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "Descarre&gar..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "Pr&opietats"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "So&rtir"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Veure"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Capçalera &i Menú"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "Barra de &Cerca"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "Cont&rols"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Informació"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "Es&tatístiques"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "Est&at"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "&Resincronització dels subtítols"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "&Llista de Reproducció"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "&Captura"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "&Navegació"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Interfície..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Mínim"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compacte"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "&Pantalla completa"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "&Ajust automàtic"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "A&just automàtic (Si es massa Gran)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "Llengua (&Language)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ajustos del Renderit&zador"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "Prova de &Pipelleig"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Mostrar Estadístiques"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "&Temps Restant"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Rang de Sortida"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pr&esentació"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "&Pantalla completa D3D"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "P&antalla completa D3D amb GUI"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "So&rtida RGB 10-bits"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "For&çar Entrada RGB 10-bits"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "Proce&ssament en coma flotant complet"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "Processa&ment en coma flotant parcial"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Desactivar &Composició de l'escriptori(Aero)"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Activar correcció temporal de &fotograma"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Gestió de Colors"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Activar"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Tipus d'Entrada"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "&Autodetecció"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&LLum ambiental"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Brillant (2.2 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Tènue (2.35 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "&Fosca (2.4 Gamma)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Tipus de &Renderització"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Perceptual"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "Colorimetria &Relativa"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "&Saturació"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "Colorimetria &Absoluta"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&VSync (Sincronia Vertical)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "VSync &Precisa"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "VSync &Alternativa"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Disminuir compensació de vsync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Augmentar  compensació de vsync"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Control de la &GPU"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Buidar GPU &abans de VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Buidar GPU &després de Present"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "Esperar el &buidatge"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Re&inicialitzar"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Reinicialitzar ajustos &per defecte del renderitzador"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Reinicialitzar ajustos òpti&ms del renderitzador"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Finestra de Vídeo"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Meitat del Tamany"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "Tamany &Original"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Doble del Tamany"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Ajustar a la finestra"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Tocar finestra des de D&ins"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Tocar finestra des de F&ora"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "Ma&ntenir Relació d'Aspecte(AR)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Forçar Relació d'Aspecte Específica"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Original"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Corregir &Relació d'Aspecte Diff al Monitor/Escriptori"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pan&&S&can"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "&Augmentar Tamany"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "&Disminuir Tamany"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "Au&gmentar Amplada"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "Dis&minuir Amplada"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "Augmentar Al&çada"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Dismi&nuir Alçada"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Moure ca&p a la Dreta"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Moure cap a l'Es&querra"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Mo&ure cap Amunt"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Moure cap A&vall"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Centra&r"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "R&einiciar"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Sempre &Visible"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Sempre"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "&Durant la reproducció"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "Durant la reproducció de &vídeo"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Opcions..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Reproduir"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Reproduir/Pausa"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Aturar"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Avançar un &Fotograma"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Au&gmentar  Velocitat"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Disminuir Velocitat"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Re&iniciar Velocitat"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "Fi&ltres"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "Àu&dio"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "Su&btítols"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Vol&umen"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Amunt"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "A&vall"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Mutis"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Després de la Re&producció"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "-------- Un Cop -------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "&Tancar "
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&En espera"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Hibernar"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "&Apagar"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Tancar &Sessió"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Bloquejar l'ordinador"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "------- Cada cop-------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Ta&ncar "
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "&No Fer Res"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "&Reproduir el següent arxiu dins de la carpeta"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Na&vegar"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Previ"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Següent"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "A&nar a..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "Anar A&..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "Menú del &Títol"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "Menú &Arrel"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "Menú dels &Subtítols"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "Menú de l'Àu&dio"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Menú d'An&gle"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "Menú dels &Capítols"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "&Favorits"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "A&juda"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "Pàgina del P&rograma"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Verificar &actualitzacions"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "Opcions de la L&ínia de Comandaments"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Decarregar Icones per la &Barra de Control"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "D&onació"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&Quant Al..."
+msgstr ""
+

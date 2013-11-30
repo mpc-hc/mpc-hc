@@ -1,0 +1,1652 @@
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "Medya Biçimi Seçimi"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDOK"
+msgid "Tamam"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
+msgid "İptal"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
+msgid "Video"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
+msgid "Seç"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Ses"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Çıkış"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
+msgid "Video Kaydet"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
+msgid "Önizleme"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
+msgid "Ses Kaydet"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
+msgid "Önizleme"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "V/A Tamponu:"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON3"
+msgid "..."
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
+msgid "Ses --> Wav"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
+msgid "Kayıt"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
+msgid "Dahili ses dönüştürücü filtresini kullan (yeniden başlatma gerektirir)"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
+msgid "Normalleştirme"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
+msgid "Ses yükseltme oranı:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
+msgid "Ses geri kazanımını kullan"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
+msgid "Yükseltme:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
+msgid "44100 Hz örneklemesine dönüştür"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
+msgid "Ses süresi değişimi (ms):"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
+msgid "Özel kanal adreslemesini kullan"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
+msgid "Hoparlör sayısını ve çıkışını :"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
+msgid "kanallı olarak ayarla"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
+msgid "Ayarların hemen geçerli olabilmesi için tıklarken Shift tuşuna basınız"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_CAPTION"
+msgid "Git..."
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Belirtilmiş bir görüntüye atlamak için [ss:]dd:ss.ms biçimine uyarak bir süre girişi yapınız. Ayıraçları açık biçimde girmenize gerek yoktur."
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Süre"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_EDIT1"
+msgid "00:00:00.000"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_OK1"
+msgid "Git!"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Belirtilmiş bir görüntüye atlamak için iki sayı giriniz; ilki çerçeve sayısı, ikincisi çerçeve oranı içindir."
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Görüntü"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_OK2"
+msgid "Git!"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_CAPTION"
+msgid "Aç"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Bir video veya ses dosyası adresi giriniz (internetteki veya bilgisayarınızdaki). Oynatıcı dosyayı sizin için yürütecektir..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Video:"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
+msgid "Gözat..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
+msgid "Dublaj:"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
+msgid "Gözat..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDOK"
+msgid "Tamam"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDCANCEL"
+msgid "İptal"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
+msgid "Açılışta oynatma listesine de ekle"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_CAPTION"
+msgid "Hakkında"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC1"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
+msgid "Telif Hakkı © 2002-2013, Authors.txt dosyasına bakınız"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Bu program ücretsiz olup Genel Kamusal GNU Lisansı altında sunulmaktadır."
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "bosluk (Sinan Hunerel) tarafından Türkçeleştirilmiştir"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Yapım bilgisi"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Sürüm:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Derlemesi:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "LAV Filters:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
+msgid "Kullanılmıyor"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Yapım tarihi:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "İşletim sistemi"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Ad:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
+msgid "Panoya kopyala"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDOK"
+msgid "Tamam"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Açılış ayarları"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
+msgid "Tüm medya dosyaları için aynı oynatıcıyı kullan"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
+msgid "Yürütülen her medya dosyası için yeni bir oynatıcı aç"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Başlık çubuğu"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
+msgid "Tam yolu göster"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
+msgid "Sadece dosya adını göster"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
+msgid "Bir bilgi gösterme"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
+msgid "Dosya adını başlıkla değiştir"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Diğer"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
+msgid "Saat simgesinde göster"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
+msgid "OSD göster (yeniden başlatma gerektirir)"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
+msgid "Boyutlandırırken pencere oranlarını sınırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
+msgid "Masaüstü kenarlarına uyarla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
+msgid "Ayarları .ini dosyasında sakla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
+msgid "CD-ROM Açma özelliğini kapat"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
+msgid "İşlem önceliğini normalden yüksek tut"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Geçmiş"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
+msgid "Dosya geçmişini hatırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "DVD yerleşimini hatırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
+msgid "Dosya yerleşimini hatırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "Son oynatma listesini hatırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
+msgid "Son pencere yerleşimini hatırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
+msgid "Son pencere boyutunu hatırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
+msgid "Son büyütme ayarlarını hatırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "\"DVD/BD Aç\" ayarları"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
+msgid "Konum bilgisi iste"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
+msgid "Varsayılan konumu aç:"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_BUTTON1"
+msgid "..."
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "DVD Yöneticisi ve harici OGM Ayırıcısı için tercih edilen dil"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
+msgid "Menü"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
+msgid "Ses"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
+msgid "Alt Yazılar"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Diğer ayarlar"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
+msgid "Line 21 Çözücüsü için görüntü almaya izin ver"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Ses"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Düzey"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Alçak"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Yüksek"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
+msgid "Denge"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Sol"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Sağ"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Yürütme"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
+msgid "Sadece"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
+msgid "Sürekli tekrarla"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
+msgid "kez oynat"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
+msgid "Oynatma bitince geri sar"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Çıkış"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
+msgid "Büyütme oranı:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
+msgid "Yüzdelik boyut:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Varsayılan parça seçimi"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Alt Yazı :"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Ses :"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
+msgid "Harici ayırıcı komut seçimlerine izin ver"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Genel Ayarlar"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
+msgid "Filtre grafiği kurulumu için oynatıcı önceliğini kullan"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
+msgid "Çevrilemeyen ilişkilendirmeleri rapor et"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
+msgid "Ses dosyalarını otomatik olarak yükle"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
+msgid "Alt yazıları otomatik olarak yükle"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Kontrol"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Ses oranı:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Hız oranı:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
+msgid "Özel yerleşim oranları"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
+msgid "Yatay:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
+msgid "Dikey:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Gecikme süresi"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Kaplama ayarları (değişiklikleri görmek için video'yu tekrar açınız)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Tamponlanarak okunacak resim sayısı:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "En fazla doku çözünürlüğü:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Tamponlarken animasyonlara izin ver"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
+msgid "Dokuyu çiftli olarak topla"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Uyarı"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Ekran kartınızın ayarlarından Tam ekran keskinlik yumuşatması seçeneğini açarsanız, alt yazılar düzgün görülmeyecek ve daha fazla işlemci kullanımına neden olacaktır."
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
+msgid "Dosya uzantıları"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
+msgid "Varsayılan"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
+msgid "Ayarla"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
+msgid "Windows 8 veya üstü"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
+msgid "&Varsayılan uygulamaları seç"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "İlişkilendirme"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
+msgid "&Video"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
+msgid "S&es"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "T&ümü"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
+msgid "Özel simgeler kullan"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
+msgid "&Değiştir"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Gerçek Zamanlı Yayın İletişim kontrolcüsü (rtsp://... adresleri için)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
+msgid "RealMedia"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
+msgid "QuickTime"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
+msgid "DirectShow"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
+msgid "Önce dosya uzantısına bak"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Sağ tuş menüsü"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
+msgid "Konum"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
+msgid "Dosya"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
+msgid "Otomatik yürütme"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
+msgid "Video"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
+msgid "Müzik"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
+msgid "DVD"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
+msgid "Ses CD'si"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Atlama uzaklıkları (ms olarak az, orta, çok)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
+msgid "Varsayılan"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
+msgid "Hızlı oynatma (çerçeve içinde)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
+msgid "Bölüm izlerini oynatma çubuğunda göster"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
+msgid "Skype durumum kısmında \"Oynatılıyor\" bilgisini göster"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
+msgid "Varsayılan monitör dışında tam ekranda iken küçültmeye izin verme"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
+msgid "Windows 7 görev çubuğu özelliklerini kullan"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
+msgid "Oynatma listesinde tek nesne varken \"Geri/ileri git\" tuşuyla önceki/sonraki dosyayı aç"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
+msgid "Süre gösterim yerleşimi:"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "OSD yazı tipi:"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Logitech LCD desteğini kullan (önerilmez)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
+msgid "Filtre Ekle..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
+msgid "Sil"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
+msgid "Tercih Et"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
+msgid "Önle"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
+msgid "Değer Seçimi:"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
+msgid "Yukarı"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
+msgid "Aşağı"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
+msgid "Medya Biçimi Ekle.."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
+msgid "Alt Yazı Biçimi Ekle.."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
+msgid "Sil"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
+msgid "Listeyi Sıfırla"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Biçim:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Boyut:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Medya uzunluğu:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Video boyutu:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Oluşturma:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Klip:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Yazar:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Telif:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Beğenilme:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Konum:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Açıklama:"
+msgstr ""
+
+msgctxt "IDD_FAVADD_CAPTION"
+msgid "Sık Kullanılanlara Ekle"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_STATIC"
+msgid "Kısayolunuz için bir ad seçiniz:"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK1"
+msgid "Yerleşimi hatırla"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDCANCEL"
+msgid "İptal"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDOK"
+msgid "Tamam"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK2"
+msgid "İlişkili sürücü"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_CAPTION"
+msgid "Sık Kullanılanları Düzenle"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
+msgid "Adlandır"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
+msgid "Yukarı Taşı"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
+msgid "Aşağı Taşı"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
+msgid "Sil"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDOK"
+msgid "Tamam"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_CAPTION"
+msgid "Süzme & Tarama Varsayılanları"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
+msgid "Yeni"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
+msgid "Sil"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
+msgid "Yukarı"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
+msgid "Aşağı"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
+msgid "&Ayarla"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
+msgid "&İptal"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDOK"
+msgid "&Kaydet"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Yer: 0.0 -> 1.0"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Büyüt: 0.2 -> 3.0"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK"
+msgid "WinLIRC:"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK2"
+msgid "uICE:"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
+msgid "Genel Medya Tuşları"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
+msgid "Tümünü Seç"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
+msgid "Seçimi Sıfırla"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
+msgid "Uyarı"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
+msgid "MPC-HC, grafikteki bazı görüntüleri gösteremedi. Gerekli filtreler innDirilmemiş ya da sisteminize yüklenmemiş olabilir."
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
+msgid "Aşağıdaki işlem(ler) uygun bir filtre bulmakta başarısız oldu:"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDOK"
+msgid "Kapat"
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_CAPTION"
+msgid "Kaydediliyor..."
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_IDC_FROMTO"
+msgid "Static"
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_IDCANCEL"
+msgid "İptal"
+msgstr ""
+
+msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Kodlama:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Kodlama:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "Gecikme:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Küçük resimler:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "dizin"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "sütun"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Resim genişliği:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "piksel"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_CAPTION"
+msgid "Filtre Seçimi"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
+msgid "Gözat..."
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDOK"
+msgid "Tamam"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDCANCEL"
+msgid "İptal"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Yazı Tipi"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
+msgid "Yazı Tipi"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Aralık boyutu"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Açı (z,°)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Ölçek (x,%)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Ölçek (y,%)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Kenarlık Biçimi"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
+msgid "Çizgisel"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
+msgid "Saydam kutu"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Kenar genişliği"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Gölge"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Ekran Yerleşimi && Kenarlar"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Sola"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Sağa"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Yukarı"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Aşağı"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
+msgid "Alt yazıları video çerçevesine bağla"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Renkler && Şeffaflık"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "0%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Birincil"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "İkincil"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Çizgi"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
+msgid "Alfa kanallarını bağla"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Eğer bu filtrelerin başka sürümlerini veya aynı işte görevli başka yapımlarını kullanmak istiyorsanız, onları buradan kapatınız."
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Kaynak Filtreleri"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Dönüştürme Filtreleri"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Dahili LAV Filters Ayarları"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
+msgid "Ayırıcı"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
+msgid "Video çözücüsü"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
+msgid "Ses çözücüsü"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
+msgid "Dahili:"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
+msgid "Harici:"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "Gözat..."
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DirectShow Video'su"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "RealMedia Video'su"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "QuickTime Video'su"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DirectShow Sesi"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "VMR-7/VMR-9 (çevrilmeden) ve GVI (CP) ayarları"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Yüzey:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Yakınlaştırma:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
+msgid "D3D9 Karıştırıcı aygıtı seçimi"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
+msgid "Görüntüyü değiştirirken yeniden başlat"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Tam Ekran Direct3D (kopuklukları sil)"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Değişken Eşzam."
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 karıştırıcısı kipi"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
+msgid "YUV karıştırması"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
+msgid "GVI Tamponları:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DXVA"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Alt yazılar*"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Ekran görüntüsü"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Tonlamalar"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Döndürme"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "* VSFilter gibi harici filtreler alt yazıları tüm çeviricilerde gösterebilirler."
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_CAPTION"
+msgid "Kimlik Doğrulaması Gerekiyor"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDOK"
+msgid "Tamam"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDCANCEL"
+msgid "İptal"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Kısıtlanmış alan"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Kullanıcı Adı:"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Şifre:"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_CHECK1"
+msgid "Şifremi hatırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
+msgid "B. Noktası dinle:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
+msgid "İnternet tarayıcısında çalıştır..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
+msgid "Sıkıştırmayı aç"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
+msgid "Sadece yerel ağ erişimine izin ver"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
+msgid "Hata bilgisini yazdır"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
+msgid "Sunulacak sayfalar:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
+msgid "Gözat..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
+msgid "Çıkart..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "Varsayılan sayfa:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "CGI komutları: (.uzantı1=yol1;.uzantı2=yol2;...)"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
+msgid "Çevrimiçi bulunabilen alt yazılar"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "innDir && Aç"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
+msgid "Geçerli alt yazıları değiştir"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
+msgid "Farklı Kaydet..."
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Renk kontrolleri (VMR-9, GVI ve madVR için)"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Parlaklık"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Karşıtlık"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Renk"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Doygunluk"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET"
+msgid "Sıfırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Güncelleştirme kontrolü"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
+msgid "Otomatik güncelleştirmeleri aç"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
+msgid "Güncelleştirme kontrolü :"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
+msgid "günde bir"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Ayar yönetimi"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
+msgid "Sıfırla"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
+msgid "Ver"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
+msgid "Tuş Seç. Ver"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_CAPTION"
+msgid "Kanal taraması"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_ID_START"
+msgid "Başlat"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDCANCEL"
+msgid "İptal"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Frek. Başı"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Bant aralığı"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Frek. Sonu"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
+msgid "Şifreli kanalları kullanma"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_ID_SAVE"
+msgid "Kaydet"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "F"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Q"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
+msgid "Dengeli kullanım"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Varsayılan Aygıt"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
+msgid "Karasal"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
+msgid "Sayısal"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Karasal yayın ayarları"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
+msgid "Video"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
+msgid "Ses"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
+msgid "Ülke"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Sayısal yayın ayarları (BDA)"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
+msgid "Ağ Sağlayıcısı"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
+msgid "Kanal Alıcısı"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
+msgid "Alıcı"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
+msgid "Kanal değiştirme yöntemi:"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
+msgid "Filtre grafiği oluştur"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
+msgid "Filtre grafiği durdur"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgid "Video'yu görüntüye eşzamanla"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgid "Frekans düzeltmesi:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgid "Görüntüyü video'ya eşzamanla"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgid "Frekans düzeltmesi:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgid "satır"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgid "sütun"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgid "En yakın eşzamanlılık örneği"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgid "Hedef uyum dengesi:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgid "Kontrol sınırı:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgid "+/-"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC"
+msgid "Değişiklikler, yürütme kapatıldıktan ve uygulama yeniden başlatıldıktan sonra uygulanacaktır."
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
+msgid "Dosyaları tam ekranda çalıştır"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
+msgid "Hide controls in fullscreen"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
+msgid "Hide docked panels"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
+msgid "Oynatmadan sonra tam ekrandan çık"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "Tam ekran monitör"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
+msgid "Otomatik tam ekran monitör kipini kullan"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
+msgid "Ekle"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
+msgid "Sil"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
+msgid "Yukarı"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
+msgid "Aşağı"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
+msgid "Varsayılan monitör kipini tam ekrandan çıkışta uygula"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
+msgid "Çözünürlüğü çıkışta geri al"
+msgstr ""
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
+msgid "Bilgi"
+msgstr ""
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
+msgid "Tara"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
+msgid "Zorlanmış ve/veya varsayılan alt yazı izlerini tercih et"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
+msgid "Her zaman harici alt yazıları tercih et"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
+msgid "Gömülü alt yazıları yükleme"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Yükleme konumları"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
+msgid "Sıfırla"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Çevrimiçi veritabanı"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Çevrimiçi alt yazı veritabanı adresi:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "http://"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
+msgid "Dene"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_CAPTION"
+msgid "Güncelleştirme"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
+msgid "&Şimdi innDir"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
+msgid "Daha sonra &hatırlat"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
+msgid "&Bu güncelleştirmeyi gizle"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shaders contain special effects which can be added to the video rendering process."
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
+msgid "Add shader file"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
+msgid "Remove"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
+msgid "Add to pre-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
+msgid "Add to post-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shader presets"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
+msgid "Load"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
+msgid "Save"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
+msgid "Delete"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active pre-resize shaders"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active post-resize shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
+msgid "Debug Shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
+msgid "Debug Information"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
+msgid "PS 2.0"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
+msgid "PS 2.0b"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
+msgid "PS 2.0a"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
+msgid "PS 3.0"
+msgstr ""
+

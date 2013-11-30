@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Файл"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "Пр&осто відкрити файл..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Відкрити файл..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Ві&дкрити DVD/BD..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Відкрити &пристрій..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Відкрити теку ..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "Відкрити ди&ск"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "&Недавно відкриті файли"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "&Закрити"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "Зберегти &копію..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Зберегти &зображення..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Зберегти м&ініатюри..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "Відкрити су&бтитри..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Збере&гти субтитри..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "База субтитрів"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "Знайти..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Відвантажити..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "Завантажити..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "В&ластивості"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "В&ихід"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Вигляд"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "За&головок та меню"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "Смуга &перемотки"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Керування"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Інформація"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Статистика"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "Смуга с&тану"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Синхронізація су&бтитрів"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "С&писок відтворення"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "&Запис"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Навігація"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Компоновка"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Мінімальна"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Компактна"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Звичайна"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "На весь екран"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Масштаб"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Автоматично"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Автоматично (лише збільшення)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Language"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Налаштування рендерера"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Тест дрижання"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Показ статистики"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "Залишок часу"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Вихідний діапазон"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Презентація"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Повноекранний"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Повноекранний з GUI"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-ти бітний RGB на виході"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Форсувати 10-ти бітний RGB на вході"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "Повна обробка з рухомою точкою"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "Половинна обробка з рухомою точкою"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Вимкнути ефекти робочого столу"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Дозволити корекцію часу кадру"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Управління кольором"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "Ввімкнути"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Вхідний тип"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "Автовизначення"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Розсіяне освітлення"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "Яскраво (Гамма 2.2)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "Тьмяно (Гамма 2.35)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "Темно (Гамма 2.4)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Призначення рендерингу"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "По сприйняттю"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "Відносна колориметрія"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "Насиченість"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "Абсолютна колориметрія"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Вертик. синхронізація (VSync)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&Звичайна"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Точна"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "&Альтернативна"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "З&меншити затримку"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "З&більшити затримку"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Графічний процесор (GPU)"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Заповнювати GPU перед VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Заповнювати GPU після Present"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "Чекати на заповнення"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Скинути"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Відновити &звичайні налаштування рендерера"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Відновити &оптимальні налаштування рендерера"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Відеокадр"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Половинного розміру"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Нормального розміру"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "По&двійного розміру"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Розтягнути до розміру вікна"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "На &ширину екрану"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Збільшення &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Збільшення &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "На &висоту екрану"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Зберегти пропорції"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "В&становити пропорції"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Авто"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "&4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "&5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "&16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Пропорції &монітору та роб. столу різні"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Розта&шування та розмір кадру"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "Збільшити розмір"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "Зменшити розмір"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "Збільшити ширину"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "Зменшити ширину"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "Збільшити висоту"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Зменшити висоту"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Змістити вправо"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Змістити вліво"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Змістити догори"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Змістити донизу"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "По центру"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "Скинути"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "П&оверх інших вікон"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Типово"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "Завжди"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "При відтворенні"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "При відтворенні відео"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Налаштування..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Відтворення"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Відтв/Пауза"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Стоп"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "По&кадрово"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Пов&ільніше"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Шв&идше"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Нормально"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "&Фільтри"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "&Шейдери"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "&Аудіо"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "С&убтитри"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Потік відео"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Гучність"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Голосніше"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Тихіше"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Вимкнути"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Наприкінці"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "------- Лише раз -------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "Закрити програму"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "Перейти в режим очікування"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "Перейти в режим сну"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Вимкнути комп'ютер"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Завершити сеанс"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "Заблокувати ПК"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "-------- Щоразу --------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Закрити програму"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Нічого не робити"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Відтворити наступний файл в теці"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Навігація"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "П&опередній"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Наступний"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Перейти..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "&Перейти..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "&Меню диску"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Головне меню"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "Меню суб&титрів"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "Меню ау&діо"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Меню кута з&ору"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "Меню с&цен"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "&Закладки"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Допомога"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Домівка"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Перевірити &оновлення"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "Параметри &запуску"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Завантажити користувацькі панелі інструментів"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "Допомогти матеріально"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&Про програму..."
+msgstr ""
+

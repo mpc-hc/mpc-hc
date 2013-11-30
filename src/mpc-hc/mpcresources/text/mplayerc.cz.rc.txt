@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Externí filtry (např. VSFilter) mohou titulky zobrazovat na všech rendererech."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Zvuk"
 6		"Hlasitost"
 7		"Min"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Titulky:"
 30		"Zvuk:"
 32		"Přepsat výběr externího splitteru"
-33		"Otevírání souborů"
-34		"Filtry načítat v samostatném podprocesu"
-36		"Vypisovat podrobné informace o chybějících kodecích"
-37		"Automaticky načíst zvukové stopy"
-38		"Automaticky načíst titulky"
-39		"Ovládání"
-40		"Krok hlasitosti:"
-44		"Krok rychlosti:"
+34		"Otevírání souborů"
+35		"Filtry načítat v samostatném podprocesu"
+37		"Vypisovat podrobné informace o chybějících kodecích"
+38		"Automaticky načíst zvukové stopy"
+39		"Automaticky načíst titulky"
+40		"Ovládání"
+41		"Krok hlasitosti:"
+45		"Krok rychlosti:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

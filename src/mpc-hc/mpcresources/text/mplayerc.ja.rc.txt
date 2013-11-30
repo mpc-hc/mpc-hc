@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* 外部フィルタ (例えば VSFilter) は、すべてのレンダラーに字幕を表示できます。"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"音声"
 6		"音量"
 7		"低"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"字幕:"
 30		"音声:"
 32		"外部スプリッタの選択をオーバーライド可能にする"
-33		"開く設定"
-34		"フィルタ グラフの構築にワーカー スレッドを使用する"
-36		"再生に失敗したピンを報告する"
-37		"音声ファイルを自動で読み込む"
-38		"字幕を自動で読み込む"
-39		"コントロール"
-40		"ボリュームステップ:"
-44		"スピードステップ:"
+34		"開く設定"
+35		"フィルタ グラフの構築にワーカー スレッドを使用する"
+37		"再生に失敗したピンを報告する"
+38		"音声ファイルを自動で読み込む"
+39		"字幕を自動で読み込む"
+40		"コントロール"
+41		"ボリュームステップ:"
+45		"スピードステップ:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

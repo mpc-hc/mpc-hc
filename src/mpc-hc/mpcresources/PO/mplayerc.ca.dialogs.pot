@@ -1,0 +1,1652 @@
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "Seleccioni Tipus de Mitjà"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDOK"
+msgid "D'acord"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
+msgid "Cancel.lar"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
+msgid "Vídeo"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
+msgid "Fixar"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Àudio"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Sortida"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
+msgid "Gravar Vídeo"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
+msgid "Vista prèvia"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
+msgid "Gravar Àudio"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
+msgid "Vista prèvia"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Buffers V/A:"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON3"
+msgid "..."
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
+msgid "Àudio a WAV"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
+msgid "Gravar"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
+msgid "Activar interruptor del filtre d'àudio intern (requereix inicialitzar)"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
+msgid "Normalitzar"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
+msgid "Max amplification:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
+msgid "Guany de volum"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
+msgid "Augment:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
+msgid "Resamplejar a 44100 Hz"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
+msgid "Desplaçament de l'àudio (ms):"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
+msgid "Activar assignació de canal personalitzat"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
+msgid "Configuració dels altaveus"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
+msgid "Canals d'entrada:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
+msgid "Prem la tecla \"shift\" per aplicar els canvis al moment"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_CAPTION"
+msgid "Anar A..."
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Introduïu un codi de temps en el format [hh:] mm: ss.ms per saltar-hi directament. No cal escriure els signes separadors de forma explícita."
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Temps"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_EDIT1"
+msgid "00:00:00.000"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_OK1"
+msgid "Ves!"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Escriu dos números per accedir a un fotograma específic, el primer es el nombre de fotogrames i el segon la velocitat de fotograma."
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Fotograma"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_OK2"
+msgid "Ves!"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_CAPTION"
+msgid "Obrir"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Escriu el camí de l'arxiu multimèdia ( a Internet o al teu ordinador) y el reproductor l'obrirà per tu."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Obrir:"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
+msgid "Explorar..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
+msgid "Doblatge:"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
+msgid "Explorar..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDOK"
+msgid "D'acord"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDCANCEL"
+msgid "Cancel.lar"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
+msgid "Afegir a la Llista de reproducció sense obrir"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_CAPTION"
+msgid "Quant a"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC1"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
+msgid "Copyright © 2002-2013 veure l'arxiu Authors.txt"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Aquet programa és gratuït i distribuït sota la Llicència Pública General de GNU."
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Traducció al català per l'Enric"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Build information"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Versió:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Compilador:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "LAV Filters:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
+msgid "Not used"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Build date:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Operating system"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Name:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
+msgid "Copy to clipboard"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Opcions d'obertura"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
+msgid "Usar el mateix reproductor per a cada arxiu de mitjans que es reprodueixi"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
+msgid "Obrir un nou reproductor per cada arxiu de mitjans que es reprodueixi"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Barra del títol"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
+msgid "Mostrar el camí complet"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
+msgid "Només el nom de l'arxiu"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
+msgid "No mostrar res"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
+msgid "Substituir el nom del fixer pel títol"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Altres"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
+msgid "Icona a la safata del sistema"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
+msgid "Mostrar OSD (requereix inicialitzar)"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
+msgid "Limitar proporcions finestra al canviar tamany"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
+msgid "Ajustar a les vores de l'escriptori"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
+msgid "Desar la configuració a un arxiu .ini"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
+msgid "Desactivar el menú \"Obrir Disc\""
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
+msgid "Més prioritat pel procés"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "History"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
+msgid "Mantenir l'historial dels arxius oberts"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "Recordar la posició del DVD"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
+msgid "Recordar la posició de l'arxiu"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "Recordar l'última llista de reproducció"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
+msgid "Recordar posició de la finestra"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
+msgid "Recordar tamany de la finestra"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
+msgid "Recordar l'últim Zoom de Pan-n-Scan"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Comportament de \"Llençar un DVD/BD\""
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
+msgid "Preguntar per la ubicació"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
+msgid "Sembre obrir la ubicació per defecte:"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_BUTTON1"
+msgid "..."
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Idioma preferit pel menú del DVD i l'OGM Splitter extern"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
+msgid "Menú"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
+msgid "Àudio"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
+msgid "Subtítols"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Ajustos addicionals"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
+msgid "Permetre subtítols amb \"Line 21 Decoder\""
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Àudio"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volum"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Mínim"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Màxim"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
+msgid "Balanç"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "I"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "D"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Reproducció"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
+msgid "Reproduir"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
+msgid "Repetir per sempre"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
+msgid "cop(vegades)"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
+msgid "Tornar al inici en acabar"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Sortida"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
+msgid "Zoom automàtic:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
+msgid "Factor de zoom automàtic:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Pista per defecte"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Subtítols:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Àudio:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
+msgid "Anul·lar opcions de maquinari forà (splitter)"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Ajustos d'inici"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
+msgid "Ajuda en la construcció del Filter Graph"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
+msgid "Reportar conectors que no volen funcionar"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
+msgid "Carga automàtica d'àudio"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
+msgid "Carga automàtica dels subtítols"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Control"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Pas de Volum:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Pas d'Acceleració:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
+msgid "Reescriure l'ubicació"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
+msgid "Horitzontal:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
+msgid "Vertical:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Interval del Retard"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Opcions de textura (es necessari reobrir l'arxiu perque tingui efecta)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Nombre de pre càrrega de subtítols:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Resolució màxima de la textura:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Permetre animació (durant la memòria intermitja) "
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
+msgid "Arrodonir a la potència de 2"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Advertència"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Si actives l'antialiasing a pantalla completa en les opcions de la tarja gràfica, els subtítols no es veuran millor i exigirant força cpu."
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
+msgid "Extensions d'arxiu"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
+msgid "Per defecte"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
+msgid "Fixar"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
+msgid "Windows 8 or later"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
+msgid "&Establir programes predeterminats"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Associació"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
+msgid "&Vídeo"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
+msgid "À&udio"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "&Tots"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
+msgid "Amb Icones"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
+msgid "&Modificar"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Gestor del Protocol de Transmisions en Temps Real (per rtsp://... URLs)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
+msgid "RealMedia"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
+msgid "QuickTime"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
+msgid "DirectShow"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
+msgid "Mirar primer l'extensió"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Menú contextual del gestor d'arxius"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
+msgid "Directori"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
+msgid "Arxiu(s)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
+msgid "Reproducció Automàtica"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
+msgid "Vídeo"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
+msgid "Música"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
+msgid "DVD"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
+msgid "CDs d'Àudio"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Intervals de salt (curt, mig, llarg en ms)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
+msgid "Original"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
+msgid "Desplaçament Ràpid(al fotograma clau)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
+msgid "Mostra la posició dels capítols dins de la barra de desplaçament"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
+msgid "Mostra el títol \"En reproducció\" en els missatges d'estat d'ànim del Skype"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
+msgid "Prevenir MINIMITZAR des de pantalla completa al monitor secundari"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
+msgid "Usar característiques de la barra de tasques del Win7"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
+msgid "Obrir el fitxer de la carpeta següent/anterior amb \"Skip back/forward\" quan només hi ha un element de llista de reproducció"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
+msgid "Usar la descripció emergent de temps:"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Estil del OSD:"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Activar suport LCD per teclat Logitech (experimental)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
+msgid "Afegir Filtre..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
+msgid "Eliminar"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
+msgid "Preferir"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
+msgid "Bloquejar"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
+msgid "Fixar Mèrit:"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
+msgid "Amunt"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
+msgid "Avall"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
+msgid "Afegeix un Tipus..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
+msgid "Afegir Subtipus..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
+msgid "Borrar"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
+msgid "Inicialitzar Llista"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Tipus:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Tamany:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Duració:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Tamany del vídeo:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Creat:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Títol:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Autor:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Copyright:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Clasificació:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Ubicació:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Descripció:"
+msgstr ""
+
+msgctxt "IDD_FAVADD_CAPTION"
+msgid "Afegir a Favorits"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_STATIC"
+msgid "Escull un nom per la drecera de teclat:"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK1"
+msgid "Recordar posició"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDCANCEL"
+msgid "Cancel.lar"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDOK"
+msgid "D'acord"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK2"
+msgid "Unitat relativa"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_CAPTION"
+msgid "Organitzar Favorits"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
+msgid "Renombrar"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
+msgid "Pujar"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
+msgid "Baixar"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
+msgid "Borrar"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDOK"
+msgid "D'acord"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_CAPTION"
+msgid "Mode Pan&Scan"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
+msgid "Nou"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
+msgid "Borrar"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
+msgid "Pujar"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
+msgid "Baixar"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
+msgid "&Posar"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
+msgid "&Cancel.lar"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDOK"
+msgid "&Desar"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Posició: 0.0 -> 1.0"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Zoom: 0.2 -> 3.0"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK"
+msgid "WinLIRC:"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK2"
+msgid "uICE:"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
+msgid "Tecles multimèdia globals"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
+msgid "Seleccionar Tots"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
+msgid "Inicialitzar Selecció"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
+msgid "Advertència"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
+msgid "MPC-HC no pot renderitzar alguns dels conectors de l'esquema, potser no tens els còdecs o filtres necessàris instal·lats al sistema."
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
+msgid "Els seguents conectors no han trobat un filtre conectable:"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDOK"
+msgid "Buscar codecs a la xarxa"
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_CAPTION"
+msgid "Desant..."
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_IDC_FROMTO"
+msgid "Static"
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_IDCANCEL"
+msgid "Cancel.lar"
+msgstr ""
+
+msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Codificant:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Codificant:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "Retart:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Miniatures:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "files"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "columnes"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Ample:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "píxels"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_CAPTION"
+msgid "Seleccionar Filtre"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
+msgid "Explorar..."
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDOK"
+msgid "D'acord"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDCANCEL"
+msgid "Cancel.lar"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Font"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
+msgid "Font"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Espai"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Angle (z,°)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Escala (x,%)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Escala (y,%)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Estil de les Vores"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
+msgid "Contorn"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
+msgid "Caixa opaca"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Vora"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Ombra"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Alienació i Marges"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Esquerra"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Dreta"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Dalt"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Sota"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
+msgid "Posició subtítols relativa a la imatge"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Colors i Transparència"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "0%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Primari"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Secundari"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Contorn"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
+msgid "Vincular canals alfa"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Si prefereix utilitzar les versions independents d'aquets filtres o algún altre reemplaçament, desactivi'ls aquí."
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Filtres Font"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Filtres de Transformació"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Internal LAV Filters settings"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
+msgid "Splitter"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
+msgid "Video decoder"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
+msgid "Audio decoder"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
+msgid "Intern:"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
+msgid "Extern:"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "Explorar..."
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Vídeo DirectShow"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Vídeo RealMedia"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Vídeo QuickTime"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Renderitzador d'Àudio"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "VMR-7/VMR-9 (sense res) and EVR (CP) settings"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Superfície:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Interpolació:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
+msgid "Seleccionar dispositiu de D3D9"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
+msgid "Restablir quant canviï la pantalla"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Pantalla completa amb D3D"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "VSync alternatiu"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 en mode mesclador"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
+msgid "Mesclador YUV"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
+msgid "Buffers de l'EVR:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DXVA"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Subtítols *"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Captura de pantalla"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Shaders"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Rotació"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "* Filtres externs (com VSFilter) poden mostrar subtítols en tots els renderitzadors."
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_CAPTION"
+msgid "Autentificació necessària"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDOK"
+msgid "D'acord"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDCANCEL"
+msgid "Cancel.lar"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Àrea restringida"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Nom d'usuari:"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Contrassenya:"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_CHECK1"
+msgid "Recordar la meva contrassenya"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
+msgid "Escoltar al port"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
+msgid "Llençar dins del navegador..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
+msgid "Activar compresió"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
+msgid "Permitir acces només des del host local"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
+msgid "Imprimir informació de depuració"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
+msgid "Servir pàginas des de:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
+msgid "Explorar..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
+msgid "Desplegar..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "Pàgina per defecte:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "Gestors de CGI: (.ext1=ruta1;.ext2=ruta2;...)"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
+msgid "Subtítols disponibles en línea"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Descarregar i Obrir"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
+msgid "Remplaçar els subtítols actuals"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
+msgid "Desar Com a.."
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Control de color (pel VMR-9, EVR i madVR)"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Brillantor"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Contrast"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Tint"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Saturació"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET"
+msgid "Inicialitzar"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Comprovació d'actualitzacions"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
+msgid "Activar comprovació automàtica d'actualitzacions"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
+msgid "Comprovar cada:  "
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
+msgid "dies"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Gestió de configuracions"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
+msgid "Inicialitzar"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
+msgid "Exportar"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
+msgid "Exp. Dreceres Teclat"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_CAPTION"
+msgid "Sintonització"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_ID_START"
+msgid "Inici"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDCANCEL"
+msgid "Cancel.lar"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Freqüència inicial"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Amplada de banda"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Freqüència final"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
+msgid "Ignorar canals encriptats"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_ID_SAVE"
+msgid "Desar"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "F"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Q"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
+msgid "Usar un desajustament(offset)"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Dispositiu per defecte"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
+msgid "Analògic"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
+msgid "Digital"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Configuració analògica"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
+msgid "Vídeo"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
+msgid "Àudio"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
+msgid "País"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Configuració digital (BDA)"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
+msgid "Proveedor"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
+msgid "Sintonitzador"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
+msgid "Receptor"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
+msgid "Channel switching approach:"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
+msgid "Rebuild filter graph"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
+msgid "Stop filter graph"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgid "Sincronitzar el vídeo a la pantalla"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgid "Ajustar freqüència:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgid "Sincronitzar la pantalla al vídeo"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgid "Ajustar freqüència:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgid "Línies"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgid "Columnes"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgid "Presentar al Vsync més proper"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgid "Desajustament del Vsync:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgid "Límits de control:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgid "+/-"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC"
+msgid "Els canvis tindran efecte després de tencar i reiniciar la reproducció."
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
+msgid "Executar arxius a pantalla completa"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
+msgid "Hide controls in fullscreen"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
+msgid "Hide docked panels"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
+msgid "Sortir de la pantalla completa en acabar"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "Monitor a Pantalla completa"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
+msgid "Usar mode de monitor a pantalla completa automàtic"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
+msgid "Afegir"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
+msgid "Borrar"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
+msgid "Amunt"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
+msgid "Avall"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
+msgid "Aplicar visualització per defecte del monitor en sortir de la pantalla completa"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
+msgid "Restaurar la resolució en sortir"
+msgstr ""
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
+msgid "Info"
+msgstr ""
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
+msgid "Sintonitzar"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
+msgid "Preferir pistes de subtítols forçats i/o per defecte"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
+msgid "Subtítols externs per defecte si hi són"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
+msgid "No carregar subtítols encastats"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Camí de càrrega automàtica"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
+msgid "Inicialitzar"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Base de dades en línia"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "La URL de la base de dades de subtítols en línia"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "http://"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
+msgid "Provar"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_CAPTION"
+msgid "Actualitzar verificador"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
+msgid "&Decarregar ara"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
+msgid "Recordarme &més tard"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
+msgid "&Ignorar aquesta actualització"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shaders contain special effects which can be added to the video rendering process."
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
+msgid "Add shader file"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
+msgid "Remove"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
+msgid "Add to pre-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
+msgid "Add to post-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shader presets"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
+msgid "Load"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
+msgid "Save"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
+msgid "Delete"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active pre-resize shaders"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active post-resize shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
+msgid "Debug Shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
+msgid "Debug Information"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
+msgid "PS 2.0"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
+msgid "PS 2.0b"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
+msgid "PS 2.0a"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
+msgid "PS 3.0"
+msgstr ""
+

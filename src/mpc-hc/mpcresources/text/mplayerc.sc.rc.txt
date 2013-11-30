@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* 外部滤镜 (例如 VSFilter) 可以在所有渲染器下显示字幕。"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"音频"
 6		"音量"
 7		"小"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"字幕:"
 30		"音频:"
 32		"允许替代外部分离器选择"
-33		"打开设置"
-34		"使用工作线程来创建滤镜图像"
-36		"报告渲染失败的帧"
-37		"自动装载音频文件"
-38		"自动装载字幕"
-39		"控制"
-40		"音量步进:"
-44		"速度步进:"
+34		"打开设置"
+35		"使用工作线程来创建滤镜图像"
+37		"报告渲染失败的帧"
+38		"自动装载音频文件"
+39		"自动装载字幕"
+40		"控制"
+41		"音量步进:"
+45		"速度步进:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

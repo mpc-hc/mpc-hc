@@ -1,0 +1,3352 @@
+msgctxt "IDR_MAINFRAME"
+msgid "Media Player Classic Home Cinema"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "再生位置"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "映像"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "音声"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "字幕"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "チャプター"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "完了..."
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "ビデオの再生"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "音楽の再生"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "音楽 CD の再生"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "DVD ムービーの再生"
+msgstr ""
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "プロパティ"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "デフォルトのスタイル(&D)"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "ファイル"
+msgstr ""
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVD"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "チャンネル"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "時間"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "同期オフセット"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "平均: %d ms, 偏差: %d ms"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "ジッタ"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "ビットレート"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (平均/現在)"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "シグナル"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "強さ: %d dB, 品質: %d%%"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "スタイル"
+msgstr ""
+
+msgctxt "AFX_IDS_APP_TITLE"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "全然ない (最速アプローチ)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "異なるビデオタイプに切り替えた場合にのみ (デフォルト)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "必ず (最も遅いオプション)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "いくつかのデバイスでサポートされていません。二つのビデオデコーダは常にフィルタグラフに存在する。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "異なるビデオストリームを切り替える場合を除いて速い。フィルタグラフで唯一のビデオデコーダ存在する。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "推奨されません。テスト目的のみ。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "可能であれば決してしない (最速が、ほとんどのフィルタによってサポートされていません)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "異なるビデオタイプに切り替えた場合にのみ (デフォルト)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "必ず (一部のデバイスが必要になる場合があり)"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "親の評価"
+msgstr ""
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "未評価"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "コンテンツ"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "映画/ドラマ"
+msgstr ""
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "ニュース/時事"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr ""
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "ファイルをお気に入りに追加しました"
+msgstr ""
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD をお気に入りに追加しました"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "キャプチャ 設定"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "ナビゲーション バー"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "字幕ずれ修正"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "時間"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "終了"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "プレビュー"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "強制的な"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "テキスト"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "スタイル"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "フォント"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "DVD ナビゲータ フィルタの一部のピンのレンダリングに失敗しました"
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "DVD再生のために必要なインタフェースの問合せに失敗しました"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "ライブ"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "グラフに ビデオ キャプチャ フィルタを追加できません。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "グラフに オーディオ キャプチャ フィルタを追加できません。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "キャプチャ デバイスをオープンできません。"
+msgstr ""
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "開くことができません。無効な入力パラメータ。"
+msgstr ""
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Edit List 編集"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "入力した時間はファイルの長さよりも大きくなっています。"
+msgstr ""
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "アイコンライブラリ \"mpciconlib.dll\"が見つかりません。\nプレーヤーのデフォルトのアイコンはファイルの関連付けに使用されます。\nMPC-HCを再インストールして\"mpciconlib.dll\"を入手してください。"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "ファイル"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "言語"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "フォーマット"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "ディスク"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "タイトル"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "文字セット"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "ユニコード"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "レイヤ"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "アクター"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "効果"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "プレイリスト"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "オン / オフ"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "fps から"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "fps へ"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "ディスプレイモード (Hz)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "デフォルト"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "ほか"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "システム デフォルト"
+msgstr ""
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "再生のために必要なインタフェースの問合せに失敗しました"
+msgstr ""
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "グラフの通知用のターゲットウィンドウを設定できませんでした"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "DVD ナビゲータ フィルタのすべてのピンのレンダリングに失敗しました"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "開く(&O)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "追加(&D)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "消去(&R)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "クリア(&L)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "クリップボードへコピー(&C)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "名前を付けて保存...(&S)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "名前順で並び替え(&L)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "パス順で並び替え(&P)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "ランダム化(&A)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "元に戻す(&E)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "セパレータ(&S)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "削除(&D)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "複製(&U)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "リセット(&R)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "サブタイトル遅延減少"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "サブタイトル遅延増加"
+msgstr ""
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "サムネイルの保存"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "再生"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "プレーヤー"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD"
+msgid "再生::DVD/OGM"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "字幕"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "プレーヤー::関連付け"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "詳細設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "内部フィルタ::音声切替"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "外部フィルタ"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "再生::シェーダ"
+msgstr ""
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "音声切替"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "新しいバージョンのアイコンライブラリ"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "アイコンを再関連付けしたいですか？"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "アイコン ライブラリの最新版の後に不正確に表示されているアイコンを修正します。\nファイルの関連付けが変更されません。対応するアイコンのみ更新されます。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "旧レンダラ"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "オーバーレイ ミキサ"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "VMR 7 (ウィンドウ)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "VMR 9 (ウィンドウ)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "VMR 7 (レンダーレス)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "VMR 9 (レンダーレス)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "EVR"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "EVR カスタムプレゼンタ"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali レンダラ"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "無効 (すべて)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "無効 (無圧縮)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDF_LOGO1"
+msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
+msgstr ""
+
+msgctxt "IDF_LOGO2"
+msgid "Steven W. Smith, smith78@sbcglobal.net"
+msgstr ""
+
+msgctxt "IDF_LOGO3"
+msgid "Robbie Khan, email@robbiekhan.co.uk"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "プレーヤー::キーバインド"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "字幕::デフォルト スタイル"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "内部フィルタ"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO"
+msgid "プレーヤー::ロゴ"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "再生::出力"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "プレーヤー::ウェブ インターフェイス"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "字幕::データベース"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES"
+msgid "リソース"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC"
+msgid "その他"
+msgstr ""
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "メディア情報"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "再生::キャプチャ"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC"
+msgid "再生::同期レンダラ設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "再生::フルスクリーン"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "詳細"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "クリップ"
+msgstr ""
+
+msgctxt "IDC_DSSYSDEF"
+msgid "DirectShow 用の標準ビデオレンダラです。他のレンダラが何らかの理由で読み込めなかった時に使用されます。Windows XP では VMR-7 (ウィンドウ) と同じです。"
+msgstr ""
+
+msgctxt "IDC_DSOLD"
+msgid "Windows 9x/me/2k の標準レンダラです。ビデオウィンドウの表示状態とビデオカードの能力に依存し、描画方法が GDI、DirectDraw、オーバーレイの間で動的に切り替わります。"
+msgstr ""
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "常にオーバーレイでレンダリングします。YUV 形式の場合、RGB に色変換することなく直接描画します。これはすべてのレンダリング方法の中で最も高速で、確実にフルスクリーン ビデオミラーリングでテレビ出力できる唯一の方法です。"
+msgstr ""
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "Windows XP の標準レンダラです。オーバーレイ ミキサーよりも少し遅いですが非常に安定しています。DirectDraw を使用して可能ならオーバーレイで動作します。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "DirectX 9 がインストールされている場合にのみ使用できます。VMR-7 (ウィンドウ) と同等ですが、オーバーレイ レンダリングをしないため VMR-7 (ウィンドウ) より少し遅いです。"
+msgstr ""
+
+msgctxt "IDC_DSVMR7REN"
+msgid "字幕表示のための MPC-HC のアロケータ-プレゼンタ プラグインを除いて VMR-7 (ウィンドウ) と同じです。オーバーレイのビデオミラーリングは動作 し な い でしょう。デスクトップの色数を 'True Color' にする事を推奨します。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9REN"
+msgid "字幕表示のための MPC-HC のアロケータ-プレゼンタ プラグインを除いて VMR-9 (ウィンドウ) と同じです。オーバーレイのビデオミラーリングは動作 す る でしょう。デスクトップの色数を 'True Color' にする事を推奨します。Windows XP で推奨します。"
+msgstr ""
+
+msgctxt "IDC_DSDXR"
+msgid "VMR-9 (レンダーレス) と同じですが、真の2パスバイキュービックリサイザを使用しています。"
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "すべての動画の (ような) メディア タイプに接続して入力サンプルをどこにも出力しません。映像の表示が不要で無駄な CPU 負荷を無くしたい場合に使用してください。"
+msgstr ""
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "無効 (すべて) と同じですが、こちらは無圧縮タイプにのみ接続します。"
+msgstr ""
+
+msgctxt "IDC_DSEVR"
+msgid "Vista 以降、少なくとも .NET Framework 3.5 をインストールした XP のみ利用可能。"
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "EVR と同じですが、字幕および後処理のために MPC-HC のアロケータプレゼンである。Windows Vista 以降推奨されます。"
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "高品質のレンダラ、D3D9 以降をサポートする GPU が必要になります。"
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "EVR カスタムプレゼンタ と同じですが、飛ばされたり重複ビデオ フレームを排除するためにディスプレイのリフレッシュ レートとビデオのフレームレートを同期させるためにいくつかのオプションを提供しています。"
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Real 独自のレンダラです。相互作用はないですが SMIL スクリプトは機能するでしょう。 DirectDraw を使用して可能ならオーバーレイで動作します。"
+msgstr ""
+
+msgctxt "IDC_RMDX7"
+msgid "VMR-7 (レンダーレス) の DirectX 7 ベースのアロケータプレゼンタでレンダリングされる Real 用の出力エンジンです。"
+msgstr ""
+
+msgctxt "IDC_RMDX9"
+msgid "VMR-9 (レンダーレス) の DirectX 9 ベースのアロケータプレゼンタでレンダリングされる Real 用の出力エンジンです。"
+msgstr ""
+
+msgctxt "IDC_QTSYSDEF"
+msgid "QuickTime 独自のレンダラです。映像の表示領域がリサイズされたり、他のウィンドウによって部分的に隠されると少し遅くなります。オーバーレイが利用できない場合は GDI が使用されます。"
+msgstr ""
+
+msgctxt "IDC_QTDX7"
+msgid "VMR-7 (レンダーレス) の DirectX 7 ベースのアロケータプレゼンタでレンダリングされる QuickTime 用の出力エンジンです。"
+msgstr ""
+
+msgctxt "IDC_QTDX9"
+msgid "VMR-9 (レンダーレス) の DirectX 9 ベースのアロケータプレゼンタでレンダリングされる QuickTime 用の出力エンジンです。"
+msgstr ""
+
+msgctxt "IDC_REGULARSURF"
+msgid "映像の表面を通常のオフスクリーン サーフェスとして割り当てます。"
+msgstr ""
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "字幕が VMR-7/VMR-9 (レンダーレス)、EVR カスタムプレゼンタ、同期、madVR と Haali ビデオ レンダラのみでサポートされています。\n\n画像を保存することは、オーバーレイ または madVR ビデオ レンダラでは動作しません。"
+msgstr ""
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "MPC Audio Renderer が壊れている、使用しないでください。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "同期レンダラ"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - バグを報告"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "MPC-HCは予期せずに終了しましたが、このビルドはデバッグ情報なしでコンパイルされています。\nこのバグを報告するには、公式ビルドを最初に試みるべきです。\n\n今すぐダウンロードページを訪れますか？"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "通常のオフスクリーン サーフェス"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D 表面"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D 表面 (推奨)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "ニアレストネイバー"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "バイリニア"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "バイリニア (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "バイキュビック A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "バイキュビック A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "バイキュビック A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**無効**"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "選択したレンダラがインストールされていません。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "無効 (すべて)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "無効 (無圧縮)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC オーディオ レンダラ"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "名前"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIMEタイプ"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "お使いのブラウザに埋め込まれたリソースを表示するためには、Webインターフェイスを有効にする必要があります。\n\n情報のみを保存したい場合は、「名前を付けて保存」ボタンを使用します。"
+msgstr ""
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "字幕をダウンロード"
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "遅延 (ms):"
+msgstr ""
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "自動"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "エクスポートするためのカスタマイズキーはありません。"
+msgstr ""
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "アーカイブ内のメディア ファイルを見つけられませんでした"
+msgstr ""
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "圧縮されたファイルはサポートされません"
+msgstr ""
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "暗号化されたファイルはサポートされません"
+msgstr ""
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "すべてのアーカイブボリュームを見つけられませんでした"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "映像の表面をテクスチャとして割り当てますが、バックバッファへのコピーと伸張には 2D 関数を使用します。32ビット、RGBA、2の累乗でないサイズのテクスチャと、最低でも映像の解像度の確保が可能なビデオカードが必要です。"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "映像の表面をテクスチャとして割り当て、3D で2つの三角形として描画します。画面の設定でアンチエイリアスを有効にするとレンダリング速度に悪影響を与えるかもしれません。"
+msgstr ""
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "ピクセル シェーダ 2.0 に対応していなければ自動的に単純な線形補間が使用されます。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 (レンダーレス) をミキサ モードに設定すると、プロパティ ページのコントロールの大部分が動作するようになり、レンダラ フレームに別々のワーカー スレッドを使用するようになります。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "レンダラーのいくつかの互換性を犠牲にしてパフォーマンスを向上させます。"
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "引き裂きは減りますが、ツールバーを表示するのことができなくてなってしまう。Ctrl+C を押してこのモードではフルスクリーンを終了します。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "D3Dに組み込まれているデフォルトの垂直同期をバイパスすることによって引き裂く減らすことができます。"
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "VTS_xx_x.VOB ファイルをまとめて読み込むには VTS_xx_0.IFO ファイルを開く"
+msgstr ""
+
+msgctxt "IDS_SRC_RFS"
+msgid "RARFileSource に基づいた、圧縮されたファイルをサポートしていません"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "LAV Filters を使用する"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "LAV Filters を使用する。マイクロソフトのフィルタがそれらのフォーマットには安定しているので、デフォルトで無効になりました。\n内部フィルタを使用することに決める場合、良い再生の経験を持っているためにソースとデコードの両方を有効にしてください。"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "ナビゲーションバーの表示"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "正確な垂直同期"
+msgstr ""
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "未設定のスタイルにはデフォルト状態の設定が適用される"
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "チェックを外すとビデオメモリの消費量とシステムメモリとビデオメモリ間の負荷を抑えられますが、古いビデオカードでは動作しない可能性があります。"
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "サブピクチャーバッファを使用している時に字幕アニメーションを許可します。無効にすると CPU 使用率が下がります。字幕がチラつく場合も無効にしてください。"
+msgstr ""
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "このボタンをクリックすると MPC-HC の実際のファイルの関連付けがフォーマットグループのチェックの状態に反映されます。\n新しく拡張子が追加されると大抵チェックボックスは灰色になるので、このダイアログを閉じる前に再びチェックすることを忘れないでください！"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAY"
+msgid "再生\n再生"
+msgstr ""
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "一時停止\n一時停止"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "停止\n停止"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "コマ送り\nコマ送り"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "再生速度減少\n再生速度減少"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "再生速度増加\n再生速度増加"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "ミュート"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "ミュート解除"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "音声なし"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "前へ\n前へ"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "次へ\n次へ"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "オリジナル(&O)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "現在(&C)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "編集(&E)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "はい(&Y)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "いいえ(&N)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "減少(&D)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "増加(&I)"
+msgstr ""
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "オプション"
+msgstr ""
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "シェーダを選択(&S)..."
+msgstr ""
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "お気に入りに追加(&A)..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "お気に入りの整理(&O)..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "シャッフル"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "ファイルの場所を開く"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "閉じています..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "再生中"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "一時停止"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL 新しいクリップ"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "リストの消去"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES"
+msgid "最近使ったファイル"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "最近使ったファイルのリストを削除しますか？"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL 保存"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "フレーム時間補正"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "EDL ウィンドウの表示"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL 開始点の設定"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL 終了点の設定"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnS 回転 X- (下回転)"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnS 回転 Y+ (左回転)"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnS 回転 Y- (右回転)"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnS 回転 Z+ (反時計回り)"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnS 回転 Z- (時計回り)"
+msgstr ""
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "ティアリング テスト"
+msgstr ""
+
+msgctxt "IDS_SCALE_16_9"
+msgid "16:9 画面に合わせる,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "ワイド画面に拡大,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "ウルトラワイド画面に拡大,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "フルスクリーン時は隠す"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "停止"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "バッファリング... (%d%%)"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "キャプチャしています..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "開いています..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "閉じました"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "オプション(&O)..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "スタイル(&S)..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "再読み込み(&R)"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "表示(&E)"
+msgstr ""
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "編集..."
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "タイトル"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "作成者"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "著作権"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "評価"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "説明"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "領域"
+msgstr ""
+
+msgctxt "IDS_AG_CLOSE"
+msgid "閉じる"
+msgstr ""
+
+msgctxt "IDS_AG_NONE"
+msgid "無し"
+msgstr ""
+
+msgctxt "IDS_AG_COMMAND"
+msgid "コマンド"
+msgstr ""
+
+msgctxt "IDS_AG_KEY"
+msgid "キー"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE"
+msgid "マウス ウィンドウ"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "マウス フルスクリーン"
+msgstr ""
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "アプリケーション コマンド"
+msgstr ""
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "メディア ファイル (すべての種類)"
+msgstr ""
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "すべてのファイル (*.*)|*.*|"
+msgstr ""
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "音声ファイル (すべての種類)"
+msgstr ""
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "不明"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "クイック再生"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "ファイルを開く"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "DVD/BD を開く"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "デバイスを開く"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "名前を付けて保存"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "画像を保存"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "画像を保存 (自動)"
+msgstr ""
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "画像が正常に保存されました"
+msgstr ""
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "字幕を読み込む"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "字幕を保存"
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "プロパティ"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT"
+msgid "終了"
+msgstr ""
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "再生/一時停止"
+msgstr ""
+
+msgctxt "IDS_AG_PLAY"
+msgid "再生"
+msgstr ""
+
+msgctxt "IDS_AG_STOP"
+msgid "停止"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "コマ送り"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "コマ戻し"
+msgstr ""
+
+msgctxt "IDS_AG_GO_TO"
+msgid "移動"
+msgstr ""
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "再生速度増加"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "ショー/ゲームショー"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "スポーツ"
+msgstr ""
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "子供/青少年プログラム"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "音楽/バレエ/ダンス"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "芸術/文化"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "社会的/政治的な問題/経済学"
+msgstr ""
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "レジャー趣味"
+msgstr ""
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "ごみ箱に移動"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "コピーを保存"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "最近のキー フレーム"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "最も近いキー フレーム"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "フレーム時間補正 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "フレーム時間補正 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "目標垂直同期 オフセット: %.1f"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "垂直同期 オフセット: %d"
+msgstr ""
+
+msgctxt "IDS_OSD_SPEED"
+msgid "速度: %.2lfx"
+msgstr ""
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "サムネイルが正常に保存されました"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "ビデオ ストリーム(&T)"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "ビデオ アングル(&L)"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "設定をリセットする"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "MPC-HCのデフォルト設定に復元してもよろしいですか？\nすべての現在の設定は失われます！"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "デフォルト設定を復元するの為にMPC-HCのすべてのインスタンスを閉じてください。"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "設定をエクスポートする"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "いくつかの変更がまだ保存されていません。\nエクスポートする前にそれらを保存しますか？"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "設定が正常にエクスポートされています。"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "エクスポートは失敗しました！あなたが正しい権限を持っていない場合に発生します。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA エラー"
+msgstr ""
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "再生速度減少"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "再生速度標準"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "音声遅延 +10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "音声遅延 -10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "前方にジャンプ (小)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "後方にジャンプ (小)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "前方にジャンプ (中)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "後方にジャンプ (中)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "前方にジャンプ (大)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "後方にジャンプ (大)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "前方にジャンプ (キーフレーム)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "後方にジャンプ (キーフレーム)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT"
+msgid "次へ"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "前へ"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "次のファイル"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "前のファイル"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Direct3D フルスクリーンへ切り替え"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "前の字幕へ"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "次の字幕へ"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "字幕を左へ移動"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "字幕を右へ移動"
+msgstr ""
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "ステータスを表示"
+msgstr ""
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "先頭にジャンプ"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "最小表示"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "コンパクト表示"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "ノーマル表示"
+msgstr ""
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "フルスクリーン"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "フルスクリーン (解像度変更なし)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "拡大/縮小 自動フィット"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "ビデオフレーム 1/2"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "ビデオフレーム 標準"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "ビデオフレーム 2倍"
+msgstr ""
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "常に手前に表示"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnS サイズを拡大"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnS 幅を拡大"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnS 高さを拡大"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnS サイズを縮小"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnS 幅を縮小"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnS 高さを縮小"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "字幕をダウンロード中。しばらくお待ちください。"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "リストを解析..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "字幕が見つかりません。"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d 個の字幕が利用可能。"
+msgstr ""
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "MPC-HCの更新を定期的にチェックしますか？\n\nこの機能はオプションのその他から後で無効にできます。"
+msgstr ""
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "自動調整"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "自動調整（超過サイズのみ）"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "拡大/縮小 自動フィット（超過サイズのみ）"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "拡大 自動（超過サイズのみ）"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "ダブルクリックでファイルの場所を開く"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "経過時間と残り時間を切り替え"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "無効な遅延"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "1から365までの数字を入力してください。"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnS 中央へ戻す"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnS 左へ移動"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnS 右へ移動"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnS 上へ移動"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnS 下へ移動"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnS 左上へ移動"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnS 右上へ移動"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnS 左下へ移動"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnS 右下へ移動"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "音量を上げる"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "音量を下げる"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "ミュート"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD タイトル メニュー"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD ルート メニュー"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD 字幕メニュー"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD 音声メニュー"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD アングル メニュー"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD チャプター メニュー"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD メニュー 左へ"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD メニュー 右へ"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD メニュー 上へ"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD メニュー 下へ"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD メニュー 決定"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD メニュー 戻る"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD メニュー 終わる"
+msgstr ""
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "ボスが来た"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "プレーヤー メニュー (短)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "プレーヤー メニュー (長)"
+msgstr ""
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "フィルタ メニュー"
+msgstr ""
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "オプション"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "次の音声"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "前の音声"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "次の字幕"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "前の字幕"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "字幕のオン/オフ"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "字幕の再読み込み"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "次の音声 (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "前の音声 (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "次の字幕 (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "前の字幕 (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "次のアングル (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "前のアングル (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "次の音声 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "前の音声 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "次の字幕 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "前の字幕 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "字幕のオン/オフ (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "残り時間"
+msgstr ""
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "ディレクトリを選択"
+msgstr ""
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "クイックお気に入り追加"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "名前"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "周波数"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "暗号化"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "はい"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "いいえ"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "始まる"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "止める"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "ラジオ局"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "TV 局"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "フォーマット"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_2"
+msgid "フォーカスが移動: %s - %s"
+msgstr ""
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "字幕を保存しました"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_4"
+msgid "字幕を保存できない"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "フレームレート"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_6"
+msgid "再生: %d、破棄: %d"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMES"
+msgid "フレーム数"
+msgstr ""
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "バッファ"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_9"
+msgid "ボリューム: %02d/%02d, タイトル: %02d/%02d, チャプター: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_10"
+msgid "アングル: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dHz %dビット %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "MPC-HC プレイリストに追加"
+msgstr ""
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "MPC-HC で再生する"
+msgstr ""
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "MPC-HC にはファイルの関連付けを変更するための充分な権限がありません。\"変更\" ボタンをクリックして管理者権限を得てください。"
+msgstr ""
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "Windows オペレーティング システムにおいて最もパワフルで構成可能なマルチメディア プレーヤーの1つです。原作者は Gabest というハンガリーの開発者で、このバージョンは Direct3D フルスクリーン モードと Windows Vista/7 のサポート強化といった機能の追加があります。"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_12"
+msgid "チャンネル"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_13"
+msgid "チャンネル"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE"
+msgid "タイトル %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: 予期しないエラー"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: コピープロテクトによる失敗"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: 無効な DVD 1.x Disc"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: 無効な Disc リージョン"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: 視聴制限"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: マクロビジョンによる失敗"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: システムとデコーダ リージョンの不一致"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: ディスクとデコーダ リージョンの不一致"
+msgstr ""
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "このオプションはティアリングの除去のために設計されていますが、動画の再生中はコンテキスト メニューとダイアログ ボックスの表示を妨げます。\n\n本当にこのオプションを有効にしますか？"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_139"
+msgid "字幕の遅延: %ld ms"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE2"
+msgid "タイトル: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "ファイル名にサポートされていない文字が使われています (A-Z、0-9 のみ使用可)"
+msgstr ""
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "行:"
+msgstr ""
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "列:"
+msgstr ""
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "画像の幅"
+msgstr ""
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "URL は正しいと思われます！"
+msgstr ""
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "プロトコルのバージョンが一致しません。プレーヤーのアップグレードか違うアドレスを選択してください！"
+msgstr ""
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "アスペクト比"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", 合計: %d, 破棄: %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", サイズ: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", サイズ: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", フリー: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", フリー: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", フリー V/A バッファ: %03d/%03d"
+msgstr ""
+
+msgctxt "IDS_AG_ERROR"
+msgid "エラー"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "字幕: オフ"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "字幕: %s"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_46"
+msgid "DVD/BD のパスを選択してください:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_47"
+msgid " 読み込み成功"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_48"
+msgid "すべてのファイル (*.*)|*.*||"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_49"
+msgid "GetDIB 失敗、hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_51"
+msgid "GetCurrentImage 失敗、hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_53"
+msgid "ファイルを作成することができません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_54"
+msgid "時間のないファイルのサムネイルは作成できません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_55"
+msgid "ビデオ フレーム サイズ取得失敗"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_56"
+msgid "メモリが足りません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_57"
+msgid "無効な画像形式です。%d bpp dibs 以上のサムネイルを作成できません。"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_58"
+msgid "ファイル サイズ: %s (%s バイト)\\N"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ファイル名: %s\\N%s解像度: %dx%d %s\\N長さ: %02d:%02d:%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_60"
+msgid "字幕を読み込むためにはビデオ レンダラを変更しファイルを開き直す必要があります。\n- DirectShow: VMR-7/VMR-9 (レンダーレス)、EVR カスタムプレゼンタ、同期、madVR、Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DX7 または DX9 レンダラ\n- ShockWave: n/a"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_68"
+msgid "アスペクト比: %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_69"
+msgid "アスペクト比: 標準"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "オーディオ遅延: %I64dms"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "チャプター %d"
+msgstr ""
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "メモリ不足"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_77"
+msgid "エラー: Flash の再生には IE が必要です"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime はまだ X64 でサポートされていません (apple ライブラリが使用できません)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_80"
+msgid "フィルタ グラフ オブジェクトの作成に失敗しました"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_81"
+msgid "無効な引数"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_82"
+msgid "ファイルを開きませんでした"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_83"
+msgid "ファイルの描画に失敗しました"
+msgstr ""
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "不正な URL です。字幕データベースがありません！"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "チャプター: "
+msgstr ""
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Vol: %d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST_OSD"
+msgid "ブースト: +%u%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "バランス: %s"
+msgstr ""
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "現在のモニター"
+msgstr ""
+
+msgctxt "IDS_MPC_CRASH"
+msgid "MPC-HCは予期せずに終了しました。この問題を解決しやすくするために、私たちのバグトラッカーにこのファイル '%s'を送信してください。\n\n今すぐミニダンプファイルを含むフォルダを開き、今すぐバグトラッカーを訪れますか？"
+msgstr ""
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "'%s' のダンプファイルの作成に失敗しました (エラー %d)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "ディレクトリを選択してください"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "サブフォルダを含める"
+msgstr ""
+
+msgctxt "IDS_AG_PAUSE"
+msgid "一時停止"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "タイトルバーとメニューバーの表示"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "シークバーの表示"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "コントロールの表示"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_84"
+msgid "無効なファイル名です"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_86"
+msgid "フィルタを接続することができません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_87"
+msgid "ソースフィルタをロードできません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_88"
+msgid "ファイルの描画に失敗しました"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_89"
+msgid "無効なファイル形式です"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_90"
+msgid "ファイルが見つかりません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_91"
+msgid "未知のファイルタイプです"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_92"
+msgid "サポートしていないストリームです"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_93"
+msgid "DVD ディレクトリが見つかりません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_94"
+msgid "DVD ナビゲータ フィルタを作成できません"
+msgstr ""
+
+msgctxt "IDS_AG_FAILED"
+msgid "失敗"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_96"
+msgid "ビデオ キャプチャ フィルタを作成することができません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_98"
+msgid "キャプチャ フィルタはありません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_99"
+msgid "キャプチャ グラフ ビルダ オブジェクトを作成することができません"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_108"
+msgid "デバイスを開くことができません"
+msgstr ""
+
+msgctxt "IDS_AG_SOUND"
+msgid "サウンド"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s が見つかりません。このファイルを含むメディアを挿入してください。"
+msgstr ""
+
+msgctxt "IDS_AG_ABORTED"
+msgid "中止"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_116"
+msgid "プロパティ(&R)..."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_117"
+msgid "ピンのプロパティ..."
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "未知のストリーム"
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "不明 %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNC"
+msgid "垂直同期"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (ディレクター コメント 1)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (ディレクター コメント 2)"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLED"
+msgid "有効"
+msgstr ""
+
+msgctxt "IDS_AG_ANGLE"
+msgid "アングル %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "垂直同期オフセットの増加"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLED"
+msgid "無効"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "垂直同期オフセットの減少"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D フルスクリーン"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_137"
+msgid "未知のフォーマット"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_138"
+msgid "字幕の移動: %ld ms"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "音量 ブースト 上げる"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "音量 ブースト 下げる"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "音量 ブースト 最小"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "音量 ブースト 最大"
+msgstr ""
+
+msgctxt "IDS_USAGE"
+msgid "使用方法: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\t先頭のファイルかフォルダを読み込む (ワイルドカード使用可, \"-\" が標準入力を表す)\n/dub \"dubname\"\t追加の音声ファイルを読み込む\n/dubdelay \"file\"\t追加の音声ファイルを XXms シフトして読み込む\n\t\t(ファイルが \"...DELAY XXms...\" を含んでいる場合)\n/d3dfs\t\tD3D フルスクリーン モードで起動する\n/sub \"subname\"\t追加の字幕ファイルを読み込む\n/filter \"filtername\"\tDLL から DirectShow フィルタを読み込む (ワイルドカード使用可)\n/dvd\t\tDVD モードで起動する\n\t\t \"pathname\" は DVD フォルダ (オプション)\n/dvdpos T#C\tタイトルTのチャプターCから再生する\n/dvdpos T#hh:mm\tタイトルTの位置hh:mm:ssから再生する\n/cd\t\tオーディオ CD または (S)VCD の全トラックを読み込む\n\t\t \"pathname\" はドライブパスの指定 (オプション)\n/device\t\tデフォルトのビデオデバイスを開く\n/open\t\t自動で再生開始せずにファイルを開く\n/play\t\tプレーヤーの起動と同時にファイルを再生する\n/close\t\t再生終了後にプレーヤーを終了する (/play 使用時のみ有効)\n/shutdown \t再生終了後に OS をシャットダウンする\n/fullscreen\tフルスクリーン モードで起動\n/minimized\t最小化モードで起動する\n/new\t\t新しいプレーヤーを起動する\n/add\t\t\"pathname\" をプレイリストに追加する\n\t\t /open および /play と同時に使用可能\n/regvid\t\t動画ファイルに関連付けする\n/regaud\t\t音声ファイルに関連付けする\n/regpl\t\tプレイリストファイルに関連付けをする\n/regall\t\tサポートされているすべてのファイルタイプに関連付けをする\n/unregall\t\tファイルの関連付けをすべての削除する\n/start ms\t\t\"ms\" (ミリ秒) の位置から再生を開始する\n/startpos hh:mm:ss\thh:mm:ssの位置から再生する\n/fixedsize w,h\tウィンドウサイズを固定する\n/monitor N\tN 番目 (Nは1から始まる) のモニタで起動する\n/audiorenderer N\tN 番目 (Nは1から始まる) のオーディオレンダラを使用する\n\t\t(\"出力\" 設定を参照)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\t設定をデフォルトに戻す\n/help /h /?\tコマンドライン スイッチのヘルプを表示する"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "コマンドライン文字列に不明なスイッチが見つかりました: \n\n"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "ファイル情報の表示"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "統計の表示"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "ステータスの表示"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "字幕ずれ修正バーの表示"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "プレイリストバーの表示"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "キャプチャバーの表示"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "1/2サイズ"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "標準サイズ"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "2倍サイズ"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "アスペクト比の切り替え"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "ウィンドウサイズに変形"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "ウィンドウサイズに合わせる"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "縦か横に合わせてカット"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "PnS リセット"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "PnS 回転 X+ (上回転)"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "拡大 1"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "拡大 2"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "拡大設定の切り替え"
+msgstr ""
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "すべてのフィルタを有効(&E)"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "チューナー調整"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "字幕が読み込まれていないか未対応のレンダラを使用しています。"
+msgstr ""
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "作者不明。このロゴを作成された方はお知らせください！"
+msgstr ""
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "カレントフォルダにはメディアファイルがもうありません。"
+msgstr ""
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "フォルダ内の最初のファイルが読み込まれました。"
+msgstr ""
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "フォルダ内の最後のファイルが読み込まれました。"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "フロント・左"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "フロント・右"
+msgstr ""
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "フロント・センター"
+msgstr ""
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "サブウーファー"
+msgstr ""
+
+msgctxt "IDS_BACK_LEFT"
+msgid "リア・左"
+msgstr ""
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "リア・右"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "フロント・センター・左"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "フロント・センター・右"
+msgstr ""
+
+msgctxt "IDS_BACK_CENTER"
+msgid "リア・センター"
+msgstr ""
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "サイド・左"
+msgstr ""
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "サイド・右"
+msgstr ""
+
+msgctxt "IDS_TOP_CENTER"
+msgid "トップ・センター"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "トップ・フロント・左"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "トップ・フロント・センター"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "トップ・フロント・右"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "トップ・リア・左"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "トップ・リア・センター"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "トップ・リア・右"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "同期レンダラの統計をリセット"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "字幕::その他"
+msgstr ""
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "境界線を隠す"
+msgstr ""
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "フレームだけ"
+msgstr ""
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "タイトルバーとメニューバーを表示する"
+msgstr ""
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "メニューを隠す"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "シークバーの上"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "シークバーの下"
+msgstr ""
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "ビデオ: %s"
+msgstr ""
+
+msgctxt "IDS_APPLY"
+msgid "適用する"
+msgstr ""
+
+msgctxt "IDS_CLEAR"
+msgid "クリア"
+msgstr ""
+
+msgctxt "IDS_CANCEL"
+msgid "キャンセル"
+msgstr ""
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "レイアウト"
+msgstr ""
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "ピクセル:"
+msgstr ""
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "エンコーディング:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "すべてのフィルタを無効(&D)"
+msgstr ""
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "すべてのオーディオ フィルタを有効"
+msgstr ""
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "すべてのオーディオ フィルタを無効"
+msgstr ""
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "すべてのビデオ フィルタを有効"
+msgstr ""
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "すべてのビデオ フィルタを無効"
+msgstr ""
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "ウインドウサイズに変形"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "ウィンドウサイズに合わせる"
+msgstr ""
+
+msgctxt "IDS_ZOOM1"
+msgid "拡大 1"
+msgstr ""
+
+msgctxt "IDS_ZOOM2"
+msgid "拡大 2"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "縦か横に合わせてカット"
+msgstr ""
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "オーディオ: %s"
+msgstr ""
+
+msgctxt "IDS_AG_REOPEN"
+msgid "ファイルを開き直す"
+msgstr ""
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr ""
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Other Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "解像度"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "アスペクト比"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "WASAPI を使用する (再生を再開する)"
+msgstr ""
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "早送りの時にミュートする"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "サウンドデバイス:"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "垂直同期 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "垂直同期 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "正確な垂直同期 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "正確な垂直同期 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "ビデオをディスプレイに同期 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "ビデオをディスプレイに同期 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "ディスプレイをビデオに同期 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "ディスプレイをビデオに同期 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "最寄りの垂直同期に表示 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "最寄りの垂直同期に表示 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "カラー マネージメント オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "カラー マネージメント オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "入力 タイプ: 自動検出"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "入力 タイプ: HDTV"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "入力 タイプ: SDTV NTSC"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "入力 タイプ: SDTV PAL"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "アンビエント ライト: 明るい (ガンマ 2.2)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "アンビエント ライト: 薄暗い (ガンマ 2.35)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "アンビエント ライト: 暗い (ガンマ 2.4)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "色空間変換の方法: 知覚的"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "色空間変換の方法: 相対的な色域を維持"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "色空間変換の方法: 彩度"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "色空間変換の方法: 絶対的な色域を維持"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "出力範囲: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "垂直同期前に GPU をフラッシュ オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "垂直同期前に GPU をフラッシュ オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "表示後に GPU をフラッシュ オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "表示後に GPU をフラッシュ オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "フラッシュを待機 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "フラッシュを待機 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D フルスクリーン モード オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D フルスクリーン モード オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "デスクトップ コンポジション (Aero) の無効化 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "デスクトップ コンポジション (Aero) の無効化 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "代替の垂直同期 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "代替の垂直同期 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "デフォルトのレンダラ設定"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "最適なレンダラ設定"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D フルスクリーン GUI 対応 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D フルスクリーン GUI 対応 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10ビット RGB 出力 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10ビット RGB 出力 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "強制的に 10ビット RGB 入力 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "強制的に 10ビット RGB 入力 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "完全な浮動小数点演算 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "完全な浮動小数点演算 オフ"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "半浮動小数点演算 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "半浮動小数点演算 オフ"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "明度を下げる"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "コントラストを上がる"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "コントラストを下げる"
+msgstr ""
+
+msgctxt "IDS_HUE_INC"
+msgid "色相 +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "色相 -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "彩度を上がる"
+msgstr ""
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "彩度を下げる"
+msgstr ""
+
+msgctxt "IDS_RESET_COLOR"
+msgid "カラー設定をリセットする"
+msgstr ""
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nあなたは既に最新の安定バージョンを使用しています。"
+msgstr ""
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "あなたのバージョンは \t v%s.\n\n最新の安定バージョンは \t v%s."
+msgstr ""
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "MPC-HC v%s が利用可能になりました。使用中のバージョンは v%s. です。\n\nMPC-HCのウェブサイトを訪れてダウンロードしますか？"
+msgstr ""
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "更新サーバーを見つかりません。\n\nインターネット接続をチェックして、再試行してください。"
+msgstr ""
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "閉じる(&C)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "拡大 %.0lf%%"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "拡大 自動"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "カスタム チャネル マッピング 切り替え"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "カスタム チャネル マッピング オン"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "カスタム チャネル マッピング オフ"
+msgstr ""
+
+msgctxt "IDS_NORMALIZE"
+msgid "ノーマライズ 切り替え"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "ノーマライズ オン"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "ノーマライズ オフ"
+msgstr ""
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "音量回復 切り替え"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "音量回復 オン"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "音量回復 オフ"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "チューナーを作成できませんでした。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "受信機を作成できませんでした。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "ネットワークとチューナーを接続できませんでした。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "チューナーと受信機を接続できませんでした。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "チューナーを接続できませんでした。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "デマルチプレクサを作成できませんでした。"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "入力された時間の解析エラーが発生しました！"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "入力されたテキストの解析エラーが発生しました！"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "入力されたフレーム レートの解析エラーが発生しました！"
+msgstr ""
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "フレームステップはできません。別のビデオレンダラを試してください。"
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "「画像を保存」と「サムネイルを保存」機能は、RealMediaのデフォルトビデオレンダラでは動作しません。\nMPC-HCの出力オプションで、RealMediaのDirectXレンダラのいずれかを選択し、ファイルを再度開いてください。"
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "「画像を保存」と「サムネイルを保存」機能は、QuickTimeのデフォルトビデオレンダラでは動作しません。\nMPC-HCの出力オプションで、QuickTimeのDirectXレンダラのいずれかを選択し、ファイルを再度開いてください。"
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "「画像を保存」と「サムネイルを保存」機能は、Shockwaveファイルに対しては機能しません。"
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "「画像を保存」と「サムネイルを保存」機能は、オーバーレイ ミキサー ビデオ レンダラでは動作しません。\nMPC-HCの出力オプションにビデオレンダラを変更し、ファイルを再度開いてください。"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "オンライン字幕データベースに接続できません。"
+msgstr ""
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "EDLエディタを起動しますか？"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "キャプチャ エラー"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "ビデオ"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "オーディオ"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "グラフに %s バッファ フィルタを追加できません。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "グラフに %s バッファ フィルタを接続することはできません。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "グラフに %s エンコーダ フィルタを追加できません。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "グラフに %s エンコーダ フィルタを接続することはできません。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "%s エンコーダー フィルタで圧縮形式を設定することはできません。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "マルチプレクサフィルタに %s ストリームを接続することはできません。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "ビデオ キャプチャ ピンが見つかりませんでした。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "オーディオ キャプチャ ピンが見つかりませんでした。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "出力ファイルを初期化中にエラーが発生しました。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "オーディオ出力ファイルの初期化中にエラーが発生しました。"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "正しい時間の形式は [-]hh:mm:ss.ms です。(例：01:23:45.678)."
+msgstr ""
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "このタイプは既にリストに存在します！"
+msgstr ""
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "それらをテストする前に新しい設定を適用してください。"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "再生終了後: 終了"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "再生終了後: スタンバイ"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "再生終了後: 休止状態"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "再生終了後: シャットダウン"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "再生終了後: ログオフ"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "再生終了後: ロック"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "再生終了後: 常に終了"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "再生終了後: 何もしない"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "再生終了後: フォルダ内を順次再生"
+msgstr ""
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "明度: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "コントラスト: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_HUE"
+msgid "色相: %s°"
+msgstr ""
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "彩度: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "カラー設定は復元しました"
+msgstr ""
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "カラー コントロールはサポートされていません"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "明度を上がる"
+msgstr ""
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "お好みの言語をここに入力します。\n例: \"eng jap swe\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "外部スプリッタは独自の言語設定オプションを持つことができますのでMPC-HCのデフォルトの動作ではそれらの最初の選択を変更しません。\nMPC-HCが外部スプリッタを制御したい場合はこのオプションを有効にします。"
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "設定"
+msgstr ""
+

@@ -1,0 +1,3352 @@
+msgctxt "IDR_MAINFRAME"
+msgid "Media Player Classic Home Cinema"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "位置"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "视频"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "音频"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "字幕"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "章节"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "正在完成..."
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "播放视频"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "播放音乐"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "播放音频 CD"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "播放 DVD 电影"
+msgstr ""
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "属性"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "默认风格(&D)"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "文件"
+msgstr ""
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVD"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "频道"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "时间"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "同步偏移"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "平均: %d 毫秒, 偏差: %d 毫秒"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "抖动"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "码率"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (平均/当前)"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "信号"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "强度: %d dB, 质量: %d%%"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "风格"
+msgstr ""
+
+msgctxt "AFX_IDS_APP_TITLE"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "从不 (最快的方式)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "仅在切换至不同的视频类型时 (默认)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "总是 (最慢的选项)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "不支持某些设备。在滤镜图表中总是会出现两个视频解码器。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "在不同视频流之间切换的最快方式。只会在滤镜图表中出现一个视频解码器。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "不推荐。仅做测试用途。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "如果可能不要使用 (最快,不支持大多数滤镜)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "仅在切换至不同的视频类型时 (默认)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "总是 (某些设备可能需要)"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "父母指导"
+msgstr ""
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "未分级"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "内容"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "电影/戏剧"
+msgstr ""
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "新闻/时事"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr ""
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "文件已添加到收藏夹中"
+msgstr ""
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD 已添加到收藏夹中"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "捕获设置"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "导航栏"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "字幕同步"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "时间"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "结束"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "预览"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "强制"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "文本"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "风格"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "字体"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "渲染 DVD 导航滤镜的部分 pin 失败"
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "查询播放 DVD 所需的接口失败"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "实况"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "无法添加视频捕获滤镜到图表中"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "无法添加音频捕获滤镜到图表中"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "无法打开设备。"
+msgstr ""
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "无法打开, 无效的输入参数"
+msgstr ""
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "编辑列表编辑器"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "输入的时间大于文件的长度。"
+msgstr ""
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "图标库 \"mpciconlib.dll\" 丢失。\n文件关联将使用播放器的默认图标。\n请重新安装 MPC-HC 来获取 \"mpciconlib.dll\"。"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "文件"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "语言"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "格式"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "光盘"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "标题"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "字符集"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "分层"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "演员"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "效果"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "播放列表"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "开/关"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "从 fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "到 fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "显示模式 (Hz)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "默认"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "其它"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "系统默认"
+msgstr ""
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "查询播放所需的接口失败"
+msgstr ""
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "无法为图表提示设置目标窗口"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "渲染 DVD 导航滤镜的所有 pin 失败"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "打开(&O)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "添加(&D)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "移除(&R)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "清除(&L)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "复制到剪贴板(&C)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "另存为(&S)..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "按标签排序(&L)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "按路径排序(&P)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "随机(&A)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "还原(&E)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "分割(&S)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "删除(&D)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "重覆(&U)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "重置(&R)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "字幕延迟 -"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "字幕延迟 +"
+msgstr ""
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "保存缩略图"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "回放"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "播放器"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD"
+msgid "回放::DVD/OGM"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "字幕"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "播放器::格式"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "调节"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "内部滤镜::音频切换器"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "扩展滤镜"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "回放::着色器"
+msgstr ""
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "音频切换器"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "新版本的图标库"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "您要关联图标吗？"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "这可以修正在更新图标库后图标显示不正确的问题。\n不会修改文件关联,只会刷新图标的一致性。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "旧视频渲染器"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "覆盖合成渲染器"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "VMR-7 (窗口化)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "VMR-9 (窗口化)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "VMR-7 (未渲染)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "VMR-9 (未渲染)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "EVR"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "EVR (自定义呈现器)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali 视频渲染器"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "空 (任何东西)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "空 (未压缩)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDF_LOGO1"
+msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
+msgstr ""
+
+msgctxt "IDF_LOGO2"
+msgid "Steven W. Smith, smith78@sbcglobal.net"
+msgstr ""
+
+msgctxt "IDF_LOGO3"
+msgid "Robbie Khan, email@robbiekhan.co.uk"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "播放器::按键"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "字幕::默认风格"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "内部滤镜"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO"
+msgid "播放器::标志"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "回放::输出"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "播放器::Web 界面"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "字幕::数据库"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES"
+msgid "资源"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC"
+msgid "其它"
+msgstr ""
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "回放::采集"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC"
+msgid "回放::同步渲染器设置"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "回放::全屏幕"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "详细信息"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "剪辑"
+msgstr ""
+
+msgctxt "IDC_DSSYSDEF"
+msgid "DirectShow 的默认渲染滤镜。 如果其它渲染器因为某些原因无法被装载那么将会返回到此。在 Windows XP 下这等同于 VMR-7 (窗口化)。"
+msgstr ""
+
+msgctxt "IDC_DSOLD"
+msgid "这是 Windows 9x/me/2k 的默认渲染器。根据视频窗口的可见度和您显卡的功能,它将会在 GDI, DirectDraw ,覆盖渲染模式之间动态切换。"
+msgstr ""
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "总是在覆盖模式渲染。通常情况下仅允许 YUV 格式,但是它们将直接使用未转换任何 RGB 的颜色输出。这是所有渲染模式中最快的并且是您可以激活将全屏幕视频镜像输出至电视功能的渲染器。"
+msgstr ""
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "Windows XP 的默认视频渲染器。非常稳定而且只比覆盖合成器稍慢。当可能时它将使用 DriectDraw 并运行在覆盖模式下。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "仅在 DirectX 9 已被安装的情况下可用。与 VMR-7 (窗口化) 有相同的功能, 因为它决不会使用覆盖渲染所以这会导致比 VMR-7 (窗口化) 稍慢。"
+msgstr ""
+
+msgctxt "IDC_DSVMR7REN"
+msgid "与 VMR-7 (窗口化) 相同,但是拥有 MPC-HC 字幕分配传输插件。覆盖视频镜像将不会工作。推荐使用 \"真彩色\" 为桌面颜色。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9REN"
+msgid "与 VMR-9 (窗口化) 相同,但是拥有 MPC-HC 字幕分配传输插件。覆盖视频镜像可能会工作。推荐使用 \"真彩色\" 为桌面颜色。推荐用于 Windows XP。"
+msgstr ""
+
+msgctxt "IDC_DSDXR"
+msgid "与 VMR-9 (未渲染) 相同, 但是使用了一个真正的双三次成形器。"
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "连接到任意视频文件类型并且会将进入的采样信息传送到任意地方。当您不需要显示视频并希望节省不必要的 cpu 工作时请使用它。"
+msgstr ""
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "和普通的空渲染器相同, 但仅会被连接到未压缩的类型上。"
+msgstr ""
+
+msgctxt "IDC_DSEVR"
+msgid "仅在 Vista 或更高版本或者在 XP 上安装了最新的 .NET Framework 3.5 时可用。"
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "类似于 EVR,但是可以为字幕和后期处理使用加速呈现器。推荐在 Windows Vista 或更高的版本上使用。"
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "高质量的渲染器,需要 GPU 支持 D3D9 或更高的版本。"
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "与 EVR (CP) 相同,但是提供数个选项来同步视频帧率,防止跳动或重复的视频帧。"
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Real 自己的渲染器。SMIL 脚本将会被执行,但或许无法执行交互功能。当可能时将会使用 DirectDraw 并运行在覆盖模式下。"
+msgstr ""
+
+msgctxt "IDC_RMDX7"
+msgid "使用基于 DX7 的 VMR-7 (未渲染) 分配传输器渲染输出的 Real 引擎。"
+msgstr ""
+
+msgctxt "IDC_RMDX9"
+msgid "使用基于 DX9 的 VMR-9 (未渲染) 分配传输器渲染输出的 Real 引擎。"
+msgstr ""
+
+msgctxt "IDC_QTSYSDEF"
+msgid "QuickTime 自己的渲染器。当视频区域被重新调整大小或被其它窗口部份覆盖时可能会变的稍慢一些。当覆盖不可用时它可能会完全返回至 GDI。"
+msgstr ""
+
+msgctxt "IDC_QTDX7"
+msgid "使用基于 DX7 的 VMR-7 (未渲染) 分配传输器渲染输出的 QuickTime 引擎。"
+msgstr ""
+
+msgctxt "IDC_QTDX9"
+msgid "使用基于 DX9 的 VMR-9 分配转换器 (未渲染) 渲染的 QuickTime 引擎输出。"
+msgstr ""
+
+msgctxt "IDC_REGULARSURF"
+msgid "视频表面将分配为空白离屏表面。"
+msgstr ""
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "字幕仅支持 VMR-7/VMR-9 (未渲染)、EVR (CP)、同步、madVR 和 Haali 视频渲染器。\n\n保存图像无法在覆盖合成器或 madVR 视频渲染器下工作。"
+msgstr ""
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "MPC 音频渲染器已损坏, 不要使用。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "同步渲染器"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - 报告一个 bug"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "MPC-HC 已经崩溃了但是此构建是被编译为无调试信息的。\n如果您想报告此 bug,您应该首先尝试官方构建的版本。\n\n您要立即访问下载页吗？"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "标准离屏表面"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D 表面"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D 表面 (推荐)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "邻值"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "双线性"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "双线性 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "双立方 A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "双立方 A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "双立方 A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**不可用**"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "未安装选定的渲染器。"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "空 (任何东西)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "空 (未压缩)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC 音频渲染器"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "名称"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME 类型"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "为了在您的浏览器中能查看内嵌的资源您应该开启 web 界面。\n\n如果您只是希望保存信息请使用 \"另存为\" 按钮。"
+msgstr ""
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "下载字幕"
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "延迟 (毫秒):"
+msgstr ""
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "自动"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "没有自定义键可以导出。"
+msgstr ""
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "在档案文件中没有媒体文件"
+msgstr ""
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "不支持已压缩的文件"
+msgstr ""
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "不支持加密文件"
+msgstr ""
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "找不到全部档案卷"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "视频表面将被分配为一个纹理但仍使用 2d 功能来复制和拉伸它到后台缓存中。它需要一块可以分配 32 位, RGBA, 无二次幂限制尺寸纹理并至少支持和当前视频分辨率相同的显卡支持。"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "视频表面将被分配成一个纹理并描绘到在 3d 中的两个多边形。在显示设置中打开抗锯齿功能可能会给渲染速度造成负面效果。"
+msgstr ""
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "如果这里不支持像素遮罩 2.0,将自动使用简易双线过滤。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "将 VMR-9 (未渲染) 放置到混合器模式中,这将会使许多在属性页由它所控制功能生效并且它将使用独立的工作线程来渲染画面。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "改进某些兼容渲染器的性能。"
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "减少图像撕裂但是会阻碍工具栏的显示。要在此模式中退出全屏,请按 Ctrl+C。"
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "通过绕过内建于 D3D 中的垂直同步来减少撕裂现象。"
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "打开 VTS_xx_0.ifo 以在同一处载入 VTS_xx_x.vob 文件"
+msgstr ""
+
+msgctxt "IDS_SRC_RFS"
+msgid "基于 RARFileSource, 不支持已压缩的文件"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "使用 LAV Filters"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "使用 LAV Filters。 默认禁用，因为系统内置的微软滤镜通常更稳定。\n如果您选择内部滤镜, 为这些格式同时启用源滤镜和转换滤镜会获得更好的播放体验。"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "切换导航栏"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "精确垂直同步"
+msgstr ""
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "仍未定义从其它风格获取的默认区域"
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "取消此选项来释放一些显存并为本地视频内存传输节省带宽,但是它可能无法在一些旧显卡上正常工作。"
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "在使用子画面缓冲大于 0 时允许字幕动画。关闭此选项可以降低 CPU 占用。如果您遇到了字幕闪烁的问题也可以关闭它。"
+msgstr ""
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "在点击此按钮后,被选中的格式组的状态将会对 MPC-HC 的实际文件关联做出更改。最新添加的扩展名通常会变灰,所以请不要忘记在关闭此对话框前再次选中此类型的文件！"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAY"
+msgid "播放\n播放"
+msgstr ""
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "暂停\n暂停"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "停止\n停止"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "步进\n步进"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "降低速度\n降低速度"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "增加速度\n增加速度"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "静音"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "取消静音"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "无音频"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "向后跳转\n向后跳转"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "向前跳转\n向前跳转"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "原始(&O)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "当前(&C)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "编辑(&E)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "是(&Y)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "否(&N)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "减少(&D)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "增加(&I)"
+msgstr ""
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "选项"
+msgstr ""
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "选择着色器(&S)..."
+msgstr ""
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "添加到收藏夹(&A)..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "管理收藏夹(&O)..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "拖曳"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "打开文件位置"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "正在关闭..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "正在播放"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "已暂停"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL 新剪辑"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "清除列表(&C)"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES"
+msgid "历史文件"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "您确实要删除历史文件列表吗？"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL 保存"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "开始帧计时修正"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "切换 EDL 窗口"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL 装入"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL 开始"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnS 旋转 X-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnS 旋转 Y+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnS 旋转 Y-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnS 旋转 Z+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnS 旋转 Z-"
+msgstr ""
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "撕裂测试"
+msgstr ""
+
+msgctxt "IDS_SCALE_16_9"
+msgid "缩放至 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "缩放至宽屏幕,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "缩放至超宽屏幕,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "在全屏幕中隐藏"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "已停止"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "正在缓冲... (%d%%)"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "正在捕获..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "正在打开..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "已关闭"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "选项(&O)..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "风格(&S)..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "重装载(&R)"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "开启(&E)"
+msgstr ""
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "编辑(&E)..."
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "标题"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "作者"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "版权"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "分级"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "注释"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "区域"
+msgstr ""
+
+msgctxt "IDS_AG_CLOSE"
+msgid "关闭"
+msgstr ""
+
+msgctxt "IDS_AG_NONE"
+msgid "无"
+msgstr ""
+
+msgctxt "IDS_AG_COMMAND"
+msgid "命令"
+msgstr ""
+
+msgctxt "IDS_AG_KEY"
+msgid "按键"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE"
+msgid "鼠标窗口化"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "鼠标全屏"
+msgstr ""
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "应用程序命令"
+msgstr ""
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "媒体文件 (所有类型)"
+msgstr ""
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "所有文件 (*.*)|*.*|"
+msgstr ""
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "音频文件 (所有类型)"
+msgstr ""
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "未知"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "快速打开文件"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "打开文件"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "打开 DVD/BD"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "打开设备"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "另存为"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "保存图像"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "保存图像 (自动)"
+msgstr ""
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "已成功保存图像"
+msgstr ""
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "载入字幕"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "保存字幕"
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "属性"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT"
+msgid "退出"
+msgstr ""
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "播放/暂停"
+msgstr ""
+
+msgctxt "IDS_AG_PLAY"
+msgid "播放"
+msgstr ""
+
+msgctxt "IDS_AG_STOP"
+msgid "停止"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "帧步进"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "帧回退"
+msgstr ""
+
+msgctxt "IDS_AG_GO_TO"
+msgid "转到"
+msgstr ""
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "增加速率"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "演出/游戏节目"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "体育"
+msgstr ""
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "幼儿/儿童节目"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "音乐/芭蕾舞/舞蹈"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "艺术/文化"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "社会/政治问题/经济"
+msgstr ""
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "休闲兴趣"
+msgstr ""
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "移动到回收站"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "保存为一个副本"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "最近的关键帧"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "最接近的关键帧"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC 在初始化时遇到了一个问题。DVD 播放可能不正确。这可能是某些安全工具导致的不兼容。\n\n您要报告此问题吗？"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "从不显示"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "移动鼠标光标时显示，隐藏在:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "光标经过控制栏区域时显示, 隐藏在:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "帧时间纠正: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "帧时间纠正: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "目标垂直同步偏移: %.1f"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "垂直同步偏移: %d"
+msgstr ""
+
+msgctxt "IDS_OSD_SPEED"
+msgid "速度: %.2lfx"
+msgstr ""
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "成功保存缩略图"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "视频流(&V)"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "视角(&L)"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "重置设置"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "您确实要还原 MPC-HC 到它的默认设置吗?\n请注意,您当前所有的设置都将丢失！"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "请关闭所有 MPC-HC 的实例,以便可以还原默认设置。"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "导出设置"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "尚未保存一些设置。\n您要在导出之前保存它们吗？"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "已经成功导出设置。"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "导出失败！这可能是由于您没有正确的权限所导致的问题。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA 错误"
+msgstr ""
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "减少速率"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "重置速率"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "音频延迟 +10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "音频延迟 -10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "向前跳 (小)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "向后跳 (小)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "向前跳 (中)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "向后跳 (中)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "向前跳 (大)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "向后跳 (大)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "向前跳 (关键帧)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "向后跳 (关键帧)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT"
+msgid "下一首"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "上一首"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "下一个文件"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "上一个文件"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "切换 Direct3D 全屏幕"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "转到上一个字幕"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "转到下一个字幕"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "上档字幕左移"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "上档字幕右移"
+msgstr ""
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "显示状态"
+msgstr ""
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "跳转到开头"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "最小视图"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "紧凑视图"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "普通视图"
+msgstr ""
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "全屏幕"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "全屏幕 (w/o res.更改)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "自动适应缩放"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "VidFrm 半数"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "VidFrm 普通"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "VidFrm 双倍"
+msgstr ""
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "总是前端显示"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnS Inc 大小"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnS Inc 宽度"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnS Inc 高度"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnS Dec 大小"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnS Dec 宽度"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnS Dec 高度"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "正在下载字幕, 请稍候。"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "正在解析列表..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "找不到字幕。"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid "有 %d 条字幕可用。"
+msgstr ""
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "您确实要定期检查 MPC-HC 的更新吗？\n\n此功能可以在其它选项页中被关闭。"
+msgstr ""
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "自动适应"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "自动适应 (仅放大)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "自动缩放 (仅放大)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "缩放: 自动 (仅放大)"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "双击来打开文件所在位置"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "在已用和剩余时间之间切换"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "无效的延时"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "请输入 1 到 365 之间的数字。"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnS 居中"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnS 左"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnS 右"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnS 上"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnS 下"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnS 上/左"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnS 上/右"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnS 下/左"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnS 下/右"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "增加音量"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "减小音量"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "静音"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD 标题菜单"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD 根菜单"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD 字幕菜单"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD 音频菜单"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD 视角菜单"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD 章节菜单"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD 菜单左"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD 菜单右"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD 菜单上"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD 菜单下"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD 菜单激活"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD 菜单返回"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD 菜单离开"
+msgstr ""
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "老板键"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "播放器菜单 (短)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "播放器菜单 (长)"
+msgstr ""
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "滤镜菜单"
+msgstr ""
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "选项"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "下一条音轨"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "上一条音轨"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "下一个字幕"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "上一个字幕"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "开/关字幕"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "重新装载字幕"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "下一条音轨 (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "上一条音轨 (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "下一个字幕 (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "上一个字幕 (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "下一视角 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "上一视角 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "下一音轨 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "上一音轨 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "下一个字幕 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "上一字幕 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "开/关字幕 (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "剩余时间"
+msgstr ""
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "选择目录"
+msgstr ""
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "快速添加至收藏夹"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "编号"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "名称"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "频率"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "加密"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "是"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "否"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "启动"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "停止"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "广播电台"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "电视台"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "格式"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_2"
+msgid "焦点丢失于: %s - %s"
+msgstr ""
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "已保存字幕"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_4"
+msgid "无法保存字幕"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "帧率"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_6"
+msgid "描绘: %d, 丢弃: %d"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMES"
+msgid "帧"
+msgstr ""
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "缓冲"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_9"
+msgid "音量: %02d/%02d, 标题: %02d/%02d, 章节: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_10"
+msgid "视角: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dHz %d 位 %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "添加到 MPC-HC 播放列表"
+msgstr ""
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "使用 MPC-HC 播放"
+msgstr ""
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "MPC-HC 没有足够的权限更改文件格式关联。请单击 \"修改\" 按钮获取管理员权限。"
+msgstr ""
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "一种非常强大、可配置的用于 Windows 操作系统的多媒体播放器。原始版本由一名匈牙利的开发者 Gabest 制作。本版本添加了类似 Direct 3D 全屏幕模式等附加功能以及对 Windows Vista/7 更佳的支持。"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_12"
+msgid "声道"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_13"
+msgid "声道"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE"
+msgid "标题 %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: 未预料的错误"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: 复制保护失败"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: 无效的 DVD 1.x 光盘"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: 无效的光盘区域"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: 低家长等级"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: 无效的宏码"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: 不兼容的系统和解码器区域"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: 不兼容的光盘和解码器区域"
+msgstr ""
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "此选项被设计用于减少撕裂。但是也会导致 MPC-HC 在播放时无法显示上下文菜单和任意对话框。\n\n您确实要激活此选项吗？"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_139"
+msgid "字幕延迟: %ld ms"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE2"
+msgid "标题: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "文件名含有不支持的字符 (只能使用 A-Z, 0-9)"
+msgstr ""
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "行:"
+msgstr ""
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "列:"
+msgstr ""
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "图像宽度"
+msgstr ""
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "URL 看上去不正确！"
+msgstr ""
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "协议版本不匹配,请升级您的播放器或选择一个不同的地址！"
+msgstr ""
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "高宽比"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", 总计: %d, 已丢弃: %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", 大小: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", 大小: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", 空闲: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", 空闲: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", 空闲 V/A 缓存: %03d/%03d"
+msgstr ""
+
+msgctxt "IDS_AG_ERROR"
+msgid "错误"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "字幕: 关"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "字幕: %s"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_46"
+msgid "选择 DVD/BD 的路径:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_47"
+msgid " 已成功装载"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_48"
+msgid "所有文件 (*.*)|*.*||"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_49"
+msgid "GetDIB 失败, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_51"
+msgid "GetCurrentImage 失败, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_53"
+msgid "无法创建文件"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_54"
+msgid "无法创建没有持续时间的缩略图文件"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_55"
+msgid "获取视频画面大小失败"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_56"
+msgid "内存溢出,赶快去买!"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_57"
+msgid "无效的图像格式, 无法创建大于 %d bpp 的缩略图。"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_58"
+msgid "文件大小: %s (%s 字节)\\N"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}文件名: %s\\N%s分辨率: %dx%d %s\\N持续时间: %02d:%02d:%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_60"
+msgid "要载入字幕,您需要更改视频渲染器类型然后重新打开文件。\n- DirectShow: VMR-7/VMR-9 (未渲染)、EVR (CP)、同步、madVR 或 Haali\n- RealMedia: 用于 RealMedia 的特殊渲染器, 或通过 DirectShow 打开它\n- QuickTime: 用于 QuickTime 的 DX7 或 DX9 渲染器\n- ShockWave: n/a"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_68"
+msgid "高宽比: %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_69"
+msgid "高宽比: 默认"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "音频延迟: %I64dms"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "章节 %d"
+msgstr ""
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "内存溢出"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_77"
+msgid "错误: 需要用于 IE 的 Flash player"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime 还不支持 X64 (apple 库不可用)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_80"
+msgid "创建滤镜图表对象失败"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_81"
+msgid "无效的变量"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_82"
+msgid "放弃打开"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_83"
+msgid "渲染文件失败"
+msgstr ""
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "错误的 URL,无法定位字幕数据库！"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "章节: "
+msgstr ""
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "音量: %d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST_OSD"
+msgid "提高: +%u%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "平衡: %s"
+msgstr ""
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "当前"
+msgstr ""
+
+msgctxt "IDS_MPC_CRASH"
+msgid "MPC-HC 已被异常终止。要帮助我们修复此问题, 请将此文件 \"%s\" 发送至我们的 bug 跟踪器上。\n\n您是否要打开含有迷你转储文件的文件夹并访问 bug 跟踪器？"
+msgstr ""
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "创建转储文件到 \"%s\" 失败  (错误 %d)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "选择目录"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "包括子目录"
+msgstr ""
+
+msgctxt "IDS_AG_PAUSE"
+msgid "暂停"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "切换标题与菜单"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "切换进度栏"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "切换控制栏"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_84"
+msgid "无效的文件名"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_86"
+msgid "无法连接滤镜"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_87"
+msgid "无法载入任何源滤镜"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_88"
+msgid "无法渲染文件"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_89"
+msgid "无效的文件格式"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_90"
+msgid "没有找到文件"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_91"
+msgid "未知的文件类型"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_92"
+msgid "不支持的流"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_93"
+msgid "找不到 DVD 目录"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_94"
+msgid "无法创建 DVD 导航滤镜"
+msgstr ""
+
+msgctxt "IDS_AG_FAILED"
+msgid "失败"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_96"
+msgid "无法创建视频捕获滤镜"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_98"
+msgid "无捕获滤镜"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_99"
+msgid "无法创建捕获图形编辑器对象"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_108"
+msgid "无法打开任何设备"
+msgstr ""
+
+msgctxt "IDS_AG_SOUND"
+msgid "音频"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_114"
+msgid "找不到 %s, 请插入包含此文件的媒体。"
+msgstr ""
+
+msgctxt "IDS_AG_ABORTED"
+msgid "已放弃"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_116"
+msgid "属性(&P)..."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (pin) 属性..."
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "未知流"
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "未知 %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNC"
+msgid "垂直同步"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (导演注释 1)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (导演注释 2)"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLED"
+msgid "已开启"
+msgstr ""
+
+msgctxt "IDS_AG_ANGLE"
+msgid "视角 %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "增加垂直同步偏移"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLED"
+msgid "已关闭"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "减少垂直同步偏移"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D 全屏幕"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_137"
+msgid "未知格式"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_138"
+msgid "字幕上档 : %ld"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "增加音量推进"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "减小音量推进"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "最小音量推进"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "最大音量推进"
+msgstr ""
+
+msgctxt "IDS_USAGE"
+msgid "用法: mpc-hc.exe \"路径名\" [开关]\n\n\"路径名\"\t表示要载入的主文件或目录 (允许通配符, \"-\" 表示标准输入)\n/dub \"配音名\"\t载入一个附加的音频文件\n/dubdelay \t\"文件\"载入音频文件延迟 XXms (如果该文件包含 \"...延迟 XXms...\")\n/d3dfs\t\t在 D3D 全屏幕模式开始渲染\n/sub \"字幕名\"\t载入一个附加的字幕文件\n/filter \"滤镜名\"\t从一个动态链接库中载入 DirectShow 滤镜 (允许通配符)\n/dvd\t\t运行 DVD 模式, \"路径名\" 表示 dvd 文件夹 (可选)\n/dvdpos T#C\t从标题 T, 章节 C 开始播放\n/dvdpos T#hh:mm\t从标题 T, 位置 hh:mm:ss 开始播放\n/cd\t\t从一张音频 CD 或 (S)VCD 中载入所有音轨, \"路径名\" 表示驱动器路径 (可选)\n/device\t\t打开默认的视频设备\n/open\t\t打开文件, 不自动开始回放\n/play\t\t在播放器启动后播放文件\n/close\t\t在播放后关闭播放器 (仅能和 /play 同时使用)\n/shutdown\t在播放完毕后关闭操作系统\n/fullscreen\t以全屏幕模式启动\n/minimized\t以最小化模式启动\n/new\t\t启动一个新的播放器实例\n/add\t\t添加 \"路径名\" 到播放列表中,可以和 /open 与 /play 组合使用\n/regvid\t\t为视频文件创建文件关联\n/regaud\t\t为音频文件创建文件关联\n/regpl\t\t为播放列表创建文件关联\n/regall\t\t为所有支持的文件类型创建文件关联\n/unregall\t\t移除所有文件关联\n/start ms\t\t在 \"ms\" (= 毫秒) 处开始播放\n/startpos hh:mm:ss\t在位置 hh:mm:ss 开始播放\n/fixedsize w,h\t设置一个固定的窗口大小\n/monitor N\t在显示器 N 上启动, N 从 1 开始\n/audiorenderer N\t使用音频渲染器 N 启动, N 从 1 开始\n\t\t(请查阅 \"输出\" 设置)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\t恢复默认设置\n/help /h /?\t显示此命令行开关帮助对话框\n"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "在命令行字串中发现未认证的开关符: \n\n"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "切换信息栏"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "切换统计栏"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "切换状态栏"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "切换字幕同步栏"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "切换播放列表栏"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "切换捕获栏"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "缩放 50%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "缩放 100%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "缩放 200%"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "下一个高宽比预设"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "视频画面拉伸"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "视频画面内"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "视频画面外"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "PnS 重置"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "PnS 旋转 X+"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "VidFrm 缩放 1"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "VidFrm 缩放 2"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "VidFrm 切换缩放"
+msgstr ""
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "开启所有滤镜(&E)"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "调谐器扫描"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "字幕未被载入或是不支持的渲染器。"
+msgstr ""
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "作者未知。如果是您制作了此标志请联系我们！"
+msgstr ""
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "在当前的文件夹中没有更多的媒体。"
+msgstr ""
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "正在载入文件夹中的首个文件。"
+msgstr ""
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "正在载入文件夹中的最后一个文件。"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "前 左"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "前 右"
+msgstr ""
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "前 中"
+msgstr ""
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "低音"
+msgstr ""
+
+msgctxt "IDS_BACK_LEFT"
+msgid "后 左"
+msgstr ""
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "后 右"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "中前 左"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "中前 右"
+msgstr ""
+
+msgctxt "IDS_BACK_CENTER"
+msgid "后 中"
+msgstr ""
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "边 左"
+msgstr ""
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "边 右"
+msgstr ""
+
+msgctxt "IDS_TOP_CENTER"
+msgid "上 中"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "上 前 左"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "上 前 中"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "上 前 右"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "上 后 左"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "上 后 中"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "上 后 右"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "同步渲染器重置状态"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "字幕::其它"
+msgstr ""
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "隐藏边框(&B)"
+msgstr ""
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "仅图像"
+msgstr ""
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "显示标题与菜单(&W)"
+msgstr ""
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "隐藏菜单(&M)"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "在进度栏之上"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "在进度栏之下"
+msgstr ""
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "视频: %s"
+msgstr ""
+
+msgctxt "IDS_APPLY"
+msgid "应用"
+msgstr ""
+
+msgctxt "IDS_CLEAR"
+msgid "清除"
+msgstr ""
+
+msgctxt "IDS_CANCEL"
+msgid "取消"
+msgstr ""
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "版式"
+msgstr ""
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "像素:"
+msgstr ""
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "编码:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "关闭所有滤镜(&D)"
+msgstr ""
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "开启所有音频解码器"
+msgstr ""
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "关闭所有音频解码器"
+msgstr ""
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "开启所有视频解码器"
+msgstr ""
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "关闭所有视频解码器"
+msgstr ""
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "伸展满窗口"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "从内部接触窗口"
+msgstr ""
+
+msgctxt "IDS_ZOOM1"
+msgid "缩放 1"
+msgstr ""
+
+msgctxt "IDS_ZOOM2"
+msgid "缩放 2"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "从外部接触窗口"
+msgstr ""
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "音频: %s"
+msgstr ""
+
+msgctxt "IDS_AG_REOPEN"
+msgid "重新打开文件"
+msgstr ""
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr ""
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Other Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "分辨率"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "高宽比"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "使用 WASAPI (需要重启播放)"
+msgstr ""
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "在快进时静音"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "声音设备:"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "垂直同步: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "垂直同步: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "精确垂直同步: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "精确垂直同步: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "同步视频到显示: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "同步视频到显示: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "同步显示到视频: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "同步显示到视频: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "在最接近垂直同步处呈现: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "在最接近垂直同步处呈现: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "色彩管理: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "色彩管理: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "输入类型: 自动检测"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "输入类型: HDTV"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "输入类型: SDTV NTSC"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "输入类型: SDTV PAL"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "环境光线: 明亮 (2.2 伽玛)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "环境光线: 昏暗 (2.35 伽玛)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "环境光线:黑暗 (2.4 伽玛)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "渲染目的: 感性"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "渲染目的: 相对比色分析"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "渲染目的: 饱和"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "渲染目的: 绝对比色分析"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "输出范围: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "在垂直同步前刷新 GPU: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "在垂直同步前刷新 GPU: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "在呈现后刷新 GPU: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "在呈现后刷新 GPU: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "等待 GPU 刷新: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "等待 GPU 刷新: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D全屏幕: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D全屏幕: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "关闭桌面组合: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "关闭桌面组合: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "可替代垂直同步: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "可替代垂直同步: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "渲染设置重置为默认"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "渲染设置重置为优化"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D 全屏 GUI 支持: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D 全屏 GUI 支持: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10 位 RGB 输出: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10 位 RGB 输出: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "强制 10 位 RGB 输入: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "强制 10 位 RGB 输入: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "完全浮点处理: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "完全浮点处理: 关"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "半浮点处理: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "半浮点处理: 关"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "降低亮度"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "增加对比度"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "降低对比度"
+msgstr ""
+
+msgctxt "IDS_HUE_INC"
+msgid "色调 +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "色调 -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "增加饱和度"
+msgstr ""
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "降低饱和度"
+msgstr ""
+
+msgctxt "IDS_RESET_COLOR"
+msgid "重置颜色设置"
+msgstr ""
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\n您正在使用最新的稳定版。"
+msgstr ""
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "您当前的版本是 v%s。\n\n最新的稳定版是 v%s。"
+msgstr ""
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "有新版的 MPC-HC v%s 版本可用。 您正在使用 v%s。\n\n您要访问 MPC-HC 的网站来下载它吗？"
+msgstr ""
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "找不到更新服务器。\n\n请检查您的 internet 连接或者稍后再试。"
+msgstr ""
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "关闭(&C)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "缩放: %.0lf%%"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "缩放: 自动"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "切换自定义声道映射"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "自定义声道映射: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "自定义声道映射: 关"
+msgstr ""
+
+msgctxt "IDS_NORMALIZE"
+msgid "切换规格化"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "规格化: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "规格化: 关"
+msgstr ""
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "切换增益音量"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "增益音量: 开"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "增益音量: 关"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "无法创建调谐器。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "无法创建接收器。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "无法连接网络与调谐器。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "无法连接调谐器与接收器。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "无法连接调谐器。"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "无法创建多路输出选择器。"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "解析输入的时间错误！"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "解析输入的文本错误！"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "解析输入的帧率错误！"
+msgstr ""
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "无法进行帧步进,请尝试其它视频渲染器。"
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "\"保存图像\" 和 \"保存缩略图\" 功能无法工作于 RealMedia 的系统默认视频渲染器下。\n请在 MPC-HC 的输出选项中为 RealMedia 选择一个 DirectX 渲染器,然后重新打开文件。"
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "\"保存图像\" 和 \"保存缩略图\" 功能无法工作于 QuickTime 的系统默认视频渲染器下。\n请在 MPC-HC 的输出选项中为 QuickTime 选择一个 DirectX 渲染器,然后重新打开文件。"
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "\"保存图像\" 和 \"保存缩略图\" 功能无法用于 ShockWave文件。"
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "\"保存图像\" 和 \"保存缩略图\" 功能无法工作于覆盖合成视频渲染器下。\n请在MPC的输出选项中更换视频渲染器,然后重新打开文件。"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "无法连接到在线字幕数据库。"
+msgstr ""
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "您要激活 EDL 编辑器吗？"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "捕获错误"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "视频"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "音频"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "无法添加 %s 缓冲滤镜到图表中。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "无法连接 %s 缓冲滤镜到图表中。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "无法添加 %s 编码滤镜到图表中。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "无法连接 %s 编码滤镜到图表中。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "无法为 %s 编码滤镜设置压缩格式。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "无法连接 %s 流到多路复用器滤镜。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "找不到视频捕获 pin。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "找不到音频捕获 pin。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "初始化输出文件错误。"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "初始化音频输出文件错误。"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "正确的时间格式是 [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
+msgstr ""
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "在列表中已经存在此类型！"
+msgstr ""
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "您需要在测试之前应用新类型。"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "回放结束后: 退出"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "回放结束后: 待机"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "回放结束后: 休眠"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "回放结束后: 关机"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "回放结束后: 注销"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "回放结束后: 锁定"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "回放结束后: 总是退出"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "回放结束后: 什么都不做"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "回放结束后: 播放文件夹中的下一个文件"
+msgstr ""
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "亮度: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "对比度: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_HUE"
+msgid "色调: %s°"
+msgstr ""
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "饱和度: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "已重置颜色设置"
+msgstr ""
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "不支持颜色控制"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "增加亮度"
+msgstr ""
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "请在这里输入您预设的语言。\n例如, 输入: \"eng jap swe\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "外部分离器可以拥有它们自己的语言预设选项, MPC-HC 默认行为不会更改它们的内部选择。\n如果您要 MPC-HC 控制外部分离器请开启此选项。"
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "设置"
+msgstr ""
+

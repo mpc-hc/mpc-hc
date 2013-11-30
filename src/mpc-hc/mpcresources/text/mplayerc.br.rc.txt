@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Filtros externos (como o VSFilter) podem mostrar legendas em todos os processadores de vídeo."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Áudio"
 6		"Volume"
 7		"Mín"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Legenda:"
 30		"Áudio:"
 32		"Permitir substituir a escolha do splitter externo"
-33		"Opções de abertura"
-34		"Usar processo funcional para construir filtro gráfico"
-36		"Reportar conectores que não queiram funcionar"
-37		"Autocarregamento de áudio"
-38		"Autocarregamento de legendas"
-39		"Control"
-40		"Passo do Volume:"
-44		"Passo da Velocidade:"
+34		"Opções de abertura"
+35		"Usar processo funcional para construir filtro gráfico"
+37		"Reportar conectores que não queiram funcionar"
+38		"Autocarregamento de áudio"
+39		"Autocarregamento de legendas"
+40		"Control"
+41		"Passo do Volume:"
+45		"Passo da Velocidade:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

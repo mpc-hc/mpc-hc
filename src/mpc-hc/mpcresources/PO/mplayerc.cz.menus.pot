@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Soubor"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Rychle otevřít soubor..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Otevřít soubor..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Otevřít &DVD/BD..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Ote&vřít zařízení..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Otevřít adresář..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "Otevřít disk"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "Nedávno otevřené"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "&Zavřít"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Uložit kopii..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Uložit &obrázek..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Uložit miniatury..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "Načíst &titulky..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "U&ložit titulky..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Databáze titulků"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "Hledat..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Odeslat..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "Stáhnout..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "&Vlastnosti"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "&Konec"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Zobrazit"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Záh&laví a Hlavní nabídka"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "Panel &hledání"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Ovládací prvky"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Informace"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "S&tatistika"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "Sta&vový řádek"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "&Subresync"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "&Playlist"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "&Záznam"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Navigace"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pře&dvolby..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimální"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Kompaktní"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Standardní"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "&Na celou obrazovku"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Automaticky přizpůsobit"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Automaticky přizpůsobit (jen větší)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Language"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Nastavení rendereru"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "Test &trhání"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Statistika zobrazení"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "Zbývající čas"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Rozsah výstupu"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Zobrazení"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Fullscreen režim"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Fullscreen s podporou GUI"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10bitový RGB výstup"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Vynutit 10bitový RGB vstup"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "Zpracovat ve formátu s plovoucí desetinnou čárkou"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "Zpracovat ve formátu s plovoucí desetinnou čárkou poloviční přesnosti"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Zakázat kompozici plochy"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Povolit opravu času snímků"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Správa barev"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "Povolit"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Typ vstupu"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "Detekovat automaticky"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Osvětlení prostředí"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "Jasno (gamma 2.2)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "Šero (gamma 2.35)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "Tma (gamma 2.4)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Vykreslení"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "Percepční"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "Relativní kolorimetrické"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "Sytost"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "Absolutní kolorimetrické"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "Přesný VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "Alternativní VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Snížit vsync offset"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Zvýšit vsync offset"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ovládání GPU"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Vyprázdnit GPU před VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Vyprázdnit GPU po zobrazení"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "Čekat na vyprázdnění"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Obnova nastavení"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Obnovit výchozí nastavení rendereru"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Obnovit optimální nastavení rendereru"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Výřez v&idea"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "Poloviční velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "Standardní velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "Dvojnásobná velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "Roztáhnout do okna"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Dotknout se okna zevnitř"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Roztáhnout &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Roztáhnout &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Dotknout se okna zvenčí"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "Zachovat poměr stran"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Vynutit poměr stran"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "Výchozí"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Opravit rozdíl poměru stran monitoru a plochy"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pan&&S&can"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "Zvětšit velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "Zmenšit velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "Zvětšit šířku"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "Zmenšit šířku"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "Zvětšit výšku"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Zmenšit výšku"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Posunout doprava"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Posunout doleva"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Posunout nahoru"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Posunout dolů"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Vycentrovat"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "Výchozí"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Vždy n&avrchu"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Výchozí"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Vždy"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "&Během přehrávání"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "Během přehrávání &videa"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Možnosti..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Přehrát"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Přehrát/Pozastavit"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Zastavit"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "&Krokovat po snímcích"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Zpo&malit přehrávání"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Z&rychlit přehrávání"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Výchozí rychlost"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "Filtry"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "Shadery"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "Titulky"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "H&lasitost"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "Zvýšit"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "Snížit"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Ztlumit"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "P&o přehrání"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "-------- Jednou --------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "Zavřít přehrávač"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "Pohotovostní režim"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "Režim spánku"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Vypnout počítač"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Odhlásit uživatele"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "Uzamknout počítač"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "--------- Vždy ---------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Zavřít přehrávač"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Nedělat nic"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Přehrát následující v adresáři"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Přejí&t"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Předchozí"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Následující"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "Přejít &na..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "Přejít..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "Úvodní nabídka"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "Hlavní nabídka"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "Nabídka titulků"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "Nabídka zvukových stop"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Nabídka úhlů pohledu kamery"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "Nabídka kapitol"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "Oblíbené"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Nápo&věda"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Domovská stránka"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Vyhledat &aktualizace"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Parametry příkazového řádku"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Vzhledy panelu tlačítek"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "Zaslat dar"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&O programu..."
+msgstr ""
+

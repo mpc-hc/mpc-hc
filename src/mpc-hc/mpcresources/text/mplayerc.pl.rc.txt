@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Zewnętrzne filtry (takie jak VSFilter) mogą wyświetlać napisy przy użyciu dowolnego renderera obrazu."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Dźwięk"
 6		"Głośność"
 7		"Min."
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"napisy:"
 30		"audio:"
 32		"Zezwól na zmiana ścieżki wybranej przez splitter"
-33		"Ustawienia ładowania"
-34		"Używaj osobnego wątku programu do utworzenia grafu filtrów"
-36		"Powiadamiaj o błędach w renderowaniu pinów"
-37		"Automatycznie wczytuj dodatkowe ścieżki audio"
-38		"Automatycznie wczytuj napisy"
-39		"Kontrola"
-40		"Zm. głośności o:"
-44		"Zm. prędkości o:"
+34		"Ustawienia ładowania"
+35		"Używaj osobnego wątku programu do utworzenia grafu filtrów"
+37		"Powiadamiaj o błędach w renderowaniu pinów"
+38		"Automatycznie wczytuj dodatkowe ścieżki audio"
+39		"Automatycznie wczytuj napisy"
+40		"Kontrola"
+41		"Zm. głośności o:"
+45		"Zm. prędkości o:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

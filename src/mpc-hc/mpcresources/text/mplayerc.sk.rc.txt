@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Externé filtre (ako napr. VSFilter) dokážu zobrazovať titulky pri všetkých vykresľovačoch."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Zvuk"
 6		"Hlasitosť"
 7		"Min"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Titulky"
 30		"zvuk"
 32		"Umožniť výber pre nerešpektovanie rozdeľovača titulkov"
-33		"Nastavenia otvárania súborov"
-34		"Pri vytváraní grafu filtra otvoriť iné vlákno"
-36		"Zaznamenať piny, ktoré sa nevykreslia"
-37		"Aut. načítanie zvuk. stôp"
-38		"Aut. načítanie titulkov"
-39		"Ovládač"
-40		"Krok pri hlasitosti:"
-44		"Krok pri rýchlosti:"
+34		"Nastavenia otvárania súborov"
+35		"Pri vytváraní grafu filtra otvoriť iné vlákno"
+37		"Zaznamenať piny, ktoré sa nevykreslia"
+38		"Aut. načítanie zvuk. stôp"
+39		"Aut. načítanie titulkov"
+40		"Ovládač"
+41		"Krok pri hlasitosti:"
+45		"Krok pri rýchlosti:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

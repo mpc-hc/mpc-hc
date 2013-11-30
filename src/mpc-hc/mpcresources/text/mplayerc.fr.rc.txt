@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Les filtres externes (VSFilter par exemple) peuvent afficher les sous-titres pour tous les moteurs de rendu."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Audio"
 6		"Volume"
 7		"Min"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Sous-titres :"
 30		"Audio :"
 32		"Autoriser la modification du choix initial des splitters externes"
-33		"Paramètres d'ouverture"
-34		"Construire le graphe de filtre dans un thread indépendant"
-36		"Indiquer les connexions échouées lors du rendu"
-37		"Charger automatique des fichiers audio externes"
-38		"Charger automatique des sous-titres externes"
-39		"Contrôles"
-40		"Pas du volume :"
-44		"Pas de la vitesse :"
+34		"Paramètres d'ouverture"
+35		"Construire le graphe de filtre dans un thread indépendant"
+37		"Indiquer les connexions échouées lors du rendu"
+38		"Charger automatique des fichiers audio externes"
+39		"Charger automatique des sous-titres externes"
+40		"Contrôles"
+41		"Pas du volume :"
+45		"Pas de la vitesse :"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

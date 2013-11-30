@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* External filters (such as VSFilter) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"שמע"
 6		"עצמת קול"
 7		"מינימום"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"כתוביות:"
 30		"שמע:"
 32		"Allow overriding external splitter choice"
-33		"פתח הגדרות"
-34		"השתמש בתהליך נפרד בכדי לבנות את גרף הפילטרים"
-36		"דווח על תקעים שלא מתנגנים"
-37		"טען אוטומטית קבצי אודיו"
-38		"טען אוטומטית כתוביות"
-39		"Control"
-40		"Volume step:"
-44		"Speed step:"
+34		"פתח הגדרות"
+35		"השתמש בתהליך נפרד בכדי לבנות את גרף הפילטרים"
+37		"דווח על תקעים שלא מתנגנים"
+38		"טען אוטומטית קבצי אודיו"
+39		"טען אוטומטית כתוביות"
+40		"Control"
+41		"Volume step:"
+45		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

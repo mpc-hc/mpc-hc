@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* External filters (such as VSFilter) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Ljud"
 6		"Volym"
 7		"Min"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Undertexter:"
 30		"Ljud:"
 32		"Allow overriding external splitter choice"
-33		"Öppna inställningar"
-34		"Använd arbetstråden för att bygga filter-grafen"
-36		"Rapportera stift som misslyckas att rendera"
-37		"Läs in ljudfiler automatiskt"
-38		"Läs in undertexter automatiskt"
-39		"Kontroll"
-40		"Volymsteg:"
-44		"Hastighetssteg:"
+34		"Öppna inställningar"
+35		"Använd arbetstråden för att bygga filter-grafen"
+37		"Rapportera stift som misslyckas att rendera"
+38		"Läs in ljudfiler automatiskt"
+39		"Läs in undertexter automatiskt"
+40		"Kontroll"
+41		"Volymsteg:"
+45		"Hastighetssteg:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

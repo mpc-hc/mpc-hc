@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Datoteka"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Hitro odpri datoteko..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Odpri datoteko..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Odpri &DVD/BD..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Odpri napra&vo..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Odpri imeni&k..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "Od&pri disk"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "&Nedavne datoteke"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "Z&apri"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Shrani kopijo..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Shrani sl&iko..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Shrani predo&gledno sličico..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "Na&loži podnapise..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Shrani pod&napise..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Podatkovna z&birka podnapisov"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "I&skanje..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Prenesi &gor..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "Prenesi &dol..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "Las&tnosti"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "I&zhod"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "P&ogled"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Napi&si in meni"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "Iskalni tra&k"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Upravljanje"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Informacije"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "S&tatistika"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&anje"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Ponovna sinhronizacija po&dnapisov"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Sezna&m predvajanja"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "&Zajem"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "&Krmarjenje"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Prednastavitve..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimalno"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Kompaktno"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normalno"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "&Celozaslonsko"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Povečava"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Samodejno prila&godi"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Samodejno prilagodi (&Samo večje)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Jezik"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Nastavitve izrisovalnika"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Test trganja"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "Pr&ikaži statistiko"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "P&reostali čas"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Izh&odni obseg"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "&0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "&16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Prikaz"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D celo&zaslonski način"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D celozaslonsko podpora &GUI"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit &RGB izhod"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "&Vsili 10-bit RGB vhod"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "&Procesiranje s polno plavajočo vejico"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "P&rocesiranje s polovično plavajočo vejico"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Onemogoči kompozicijo namizja (&Aero)"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Omogoči korek&cijo časa slike"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Upravljanje barv"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Omogoči"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Vhodn&i tip"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "S&amodejno zaznaj"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ambientna svet&loba"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Svetlo (2.2 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Zatemnjeno (2.35 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "&Temno (2.4 Gamma)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Namen iz&risovalnika"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Dojemanje"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "&Relativno kolorimetično"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "Na&sičenje"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "&Absolutno kolorimetrično"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Natančni VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "&Alternativni VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Zmanjšaj VSync odmik"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Povečaj VSync odmik"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&GPU nadzor"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Izprazni GPU &pred VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Izprazni GPU p&o Present"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "Počakaj na izpraznit&ve"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pona&stavi"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Ponastavi na &privzete nastavitve izrisovalnika"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Ponastavi na &optimalne nastavitve izrisovalnika"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Video slika"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Polovična velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normalna velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "Po&dvojena velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Raztegni na okno"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Dot&ik okna od znotraj"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Povečava &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Povečava &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "D&otik okna od zunaj"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Zadrži razmerje stranic"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Preglasi r&azmerje stranic"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Privzeto"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "&4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "&5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "&16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "&235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "1&85:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Popravi razliko razmerja strani&c Zaslon/Namizje"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pr&emakni in spremeni"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "&Povečaj velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "&Zmanjšaj velikost"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "P&ovečaj širino"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "Z&manjšaj širino"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "Po&večaj višino"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Zm&anjšaj višino"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Pomakni &desno"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Pomakni &levo"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Pomakni &gor"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Pomakni &dol"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Sredi&na"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "Pona&stavi"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Na vr&hu"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Privzeto"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Vedno"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "Med &predvajanjem"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "Med predvajanjem &videa"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Možnosti..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Predvajaj"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Predvajaj/Pavza"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stop"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Slika &korakoma"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Pojdi &na..."
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Zmanjšaj &hitrost"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Povečaj h&itrost"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "Ponastavi hit&rost"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "&Filtri"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "S&enčilniki"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "&Zvok"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "Po&dnapisi"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Glasnost"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Gor"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Dol"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Utišaj"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Po predvajanj&u"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "-------- Tokrat --------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "&Izhod"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&V pripravljenosti"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Spanje"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Iz&ključi"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "&Odjava"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Zakleni"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "------- Vsakokrat ------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Iz&hod"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "&Ne naredi ničesar"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "&Predvajaj naslednje v imeniku"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Krmarjenje"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Prejšnji"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Naslednji"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "Poj&di na..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "&Skoči do..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "Na&slovni meni"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "Ko&renski meni"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Meni podnapisov"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "Meni z&voka"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Meni zornega k&ota"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "Meni &epizode"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "Prilju&bljene"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Po&moč"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Domača stran"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Preveri za &posodobitve"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Stikala ukazne vrsti&ce"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Prenesi slike orodne vrs&tice"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "D&oniraj"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "O progr&amu..."
+msgstr ""
+

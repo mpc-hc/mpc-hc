@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Externe Filter (z.B. VSFilter) können Untertitel mit allen Renderern darstellen."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Audio"
 6		"Lautstärke"
 7		"Min"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Untertitel:"
 30		"Audio:"
 32		"Auswahl externer Splitter übergehen"
-33		"Wiedergabeaufbau"
-34		"Filtergraphen in separatem Thread erstellen"
-36		"Fehlerhafte Pins im Filtergraphen melden"
-37		"Audiodateien automatisch laden"
-38		"Untertiteldateien automatisch laden"
-39		"Steuerungskontrolle"
-40		"Lautstärkestufen:"
-44		"Tempostufen:"
+34		"Wiedergabeaufbau"
+35		"Filtergraphen in separatem Thread erstellen"
+37		"Fehlerhafte Pins im Filtergraphen melden"
+38		"Audiodateien automatisch laden"
+39		"Untertiteldateien automatisch laden"
+40		"Steuerungskontrolle"
+41		"Lautstärkestufen:"
+45		"Tempostufen:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

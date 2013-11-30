@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "파일(&F)"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "파일 바로 열기(&Q)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "파일 열기(&O)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "DVD/BD 열기(&D)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "장치 열기(&V)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "디렉토리 열기..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "디스크 열기(&P)"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "최근 파일"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "닫기(&C)"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Save a Copy..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "화면 캡쳐(&I)..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "썸네일 캡쳐..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "자막 불러오기(&L)..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "자막 저장하기(&S)..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "자막 데이터베이스"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "검색..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "업로드..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "다운로드..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "등록정보(&R)"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "종료(&X)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "보기(&V)"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "제목표시줄&&메뉴"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "검색 슬라이더(&S)"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "컨트롤(&R)"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "정보(&I)"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "통계(&T)"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "상태표시줄(&A)"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "자막싱크조절"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "재생목록"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "캡쳐"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "네비게이션"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "프리셋..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "최소"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "간단히"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "표준"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "전체화면(&L)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "확대/축소(&Z)"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "50%(&5)%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "100%(&1)"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "200%(&2)"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "화면에 맞게 자동으로 확대/축소"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (Larger Only)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Language"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "렌더러 설정"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "잔상 테스트 (&T)"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "디스플레이 상태(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "남은 시간"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "출력범위"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "프리젠테이션"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D 전체화면 모드"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D 전체화면 GUI지원"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10비트 RGB 출력"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "강제 10비트 RGB 입력"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "전체 실수 처리연산"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "절반 부동소수점 연산"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "데스크톱 합성 사용안함"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "프레임시간수정 사용"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "색 관리"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "활성화"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "입력 종류"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "자동감지"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "주변광"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "밝음 (2.2 감마)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "흐림 (2.35 감마)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "어두움 (2.4 감마)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "렌더링 의도"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "가시범위"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "상대 색도계"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "채도"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "절대 색도계"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "VSync(&V)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "정확한 VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "대체 VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "VSync 오프셋 감소(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "VSync 오프셋 증가(&I)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "GPU 제어"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "VSync 전에 GPU 플러싱"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "출력 후에 GPU 플러싱"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "플러싱 대기"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "초기화"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "기본값으로 초기화"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "최적값으로 초기화"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "비디오 프레임(&V)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "절반 크기(&H)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "원래 크기(&N)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "두배 크기(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "창 크기/모양대로 늘이기(&S)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "안쪽 윈도우창 크기/모양대로 조절(&I)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "확대 &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "확대 &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "바깥쪽 윈도우창 크기/모양대로 조절(&O)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "원본 비율 유지(&K)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "화면비율"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "기본값"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "모니터/바탕화면의 비율차이 수정"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "화면 크기/위치 조절"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "화면 확대"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "화면 축소"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "가로폭 증가"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "가로폭 감소"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "세로폭 증가"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "세로폭 감소"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "오른쪽으로"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "왼쪽으로"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "윈로"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "아래로"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "중앙으로"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "초기화"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "항상 위"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "사용"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "재생 중일때만 사용"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "비디오 재생 중에만 사용"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "옵션(&O)..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "재생(&P)"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "재생/일시중지(&P)"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "정지(&S)"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "한 프레임씩 재생(&R)"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "재생속도 감소(&D)"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "재생속도 증가(&I)"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "재생속도 초기화"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "필터(&F)"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "셰이더(&H)"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "오디오(&A)"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "자막(&B)"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "볼륨(&U)"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "크게(&U)"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "작게(&D)"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "음소거(&M)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "재생이 끝나면"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "--------- 이번 재생시에만 ---------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "파일 닫기 "
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "윈도우 대기모드"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "윈도우 절전모드"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "윈도우 종료"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "윈도우 로그오프"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "잠그기"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "------ 모든 재생시에 ------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "파일 닫기"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "아무것도 하지않음"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "폴더의 다음 파일 재생"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "탐색(&N)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "이전으로(&P)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "다음으로(&N)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "이동(&G)..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "이동(&J)..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "타이틀 메뉴"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "루트 메뉴(&R)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "자막 메뉴(&S)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "오디오 메뉴(&A)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "앵글 메뉴(&G)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "챕터 메뉴(&C)"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "즐겨찾기(&A)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "도움말(&H)"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "홈페이지"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Check for &updates"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "명령입력 스위치 옵션"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "툴바 이미지 다운로드"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "기부하기"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "MPC-HC 정보(&A)..."
+msgstr ""
+

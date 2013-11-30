@@ -1,0 +1,3352 @@
+msgctxt "IDR_MAINFRAME"
+msgid "Media Player Classic Home Cinema"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Θέση"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Βίντεο"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Ήχος"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Υπότιτλοι"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Κεφάλαιο"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Ολοκλήρωση..."
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Αναπαραγωγή βίντεο"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Αναπαραγωγή μουσικής"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Αναπαραγωγή CD ήχου"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "Αναπαραγωγή ταινίας DVD"
+msgstr ""
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Ιδιότητες"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "&Προεπιλεγμένο στυλ"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "Αρχεία"
+msgstr ""
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVDs"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Κανάλι"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Χρόνος"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Μετάθεση συγχρονισμού"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "μέση: %d ms, απόκλιση: %d ms"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Τρεμόπαιγμα"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Ρυθμός μετάδοσης bit"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (μέσος/τρέχων)"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Σήμα"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Ένταση: %d dB, Ποιότητα: %d%%"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Στυλ"
+msgstr ""
+
+msgctxt "AFX_IDS_APP_TITLE"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Ποτέ (ταχύτερη προσέγγιση)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Μόνο σε εναλλαγή διαφορετικών τύπων βίντεο (προεπιλογή)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Πάντα (βραδύτερη επιλογή)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Δεν υποστηρίζεται από κάποιες συσκευές. Δύο αποκωδικοποιητές βίντεο εμφανίζονται πάντα στο γράφημα φίλτρου."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Γρήγορη, εκτός της εναλλαγής μεταξύ διαφορετικών ροών βίντεο. Μόνο ένας αποκωδ/τής εμφανίζεται στο γράφημα φίλτρου."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Δεν συνιστάται. Μόνο για λόγους δοκιμής."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Ποτέ αν είναι δυνατόν (ταχύτερα, αλλά δεν υποστηρίζεται από τα περισσότερα φίλτρα)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Μόνο σε εναλλαγή διαφορετικών τύπων βίντεο (προεπιλογή)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Πάντα (μπορεί να απαιτείται από κάποιες συσκευές)"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Γονικός χαρακτηρισμός"
+msgstr ""
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Χωρίς διαβάθμιση"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Περιεχόμενο"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Ταινία/Τηλεοπτική σειρά"
+msgstr ""
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "Ειδήσεις/Επικαιρότητα"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr ""
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "Το αρχείο προστέθηκε στα αγαπημένα"
+msgstr ""
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "Το DVD προστέθηκε στα αγαπημένα"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Ρυθμίσεις καταγραφής"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Γραμμή πλοήγησης"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Επανασυγχρονισμός υποτίτλων"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Χρόνος"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "Τέλος"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Προεπισκόπηση"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "ID κελιού"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Δυναμικά"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Κείμενο"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Στυλ"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Γραμματοσειρά"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Απέτυχε η απόδοση ορισμένων pins του φίλτρου περιήγησης DVD"
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Απέτυχε το ερώτημα των απαραίτητων διασυνδέσεων για αναπαραγωγή DVD"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Ζωντανά"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Δεν είναι δυνατή η προσθήκη φίλτρου καταγραφής βίντεο στο γράφημα"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Δεν είναι δυνατή η προσθήκη φίλτρου καταγραφής ήχου στο γράφημα"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Δεν ήταν δυνατό το άνοιγμα της συσκευής καταγραφής."
+msgstr ""
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Δεν είναι δυνατό το άνοιγμα. Μη έγκυρες παράμετροι εισόδου"
+msgstr ""
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Επεξεργασία λίστας επεξεργαστών"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "Ο χρόνος που έχει εισαχθεί είναι μεγαλύτερος από τη διάρκεια του αρχείου."
+msgstr ""
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "Η βιβλιοθήκη εικονιδίων \"mpciconlib.dll\" λείπει.\nΘα χρησιμοποιηθεί το προεπιλεγμένο εικονίδιο αναπαραγωγής για τις συσχετίσεις αρχείων.\nΠαρακαλώ κάντε επανεγκατάσταση του MPC-HC για λήψη του \"mpciconlib.dll\"."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "Αρχείο"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Γλώσσα"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Μορφή"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Δίσκος"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Τίτλος(οι)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "Σύνολο χαρακτήρων"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Επίπεδο"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Ηθοποιός"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Εφέ"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Λίστα αναπαραγωγής"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "Ναι/Όχι"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "Από fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "έως fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Λειτουργία προβολής (Hz)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Προεπιλογή"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Άλλη"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "Προεπιλογή συστήματος"
+msgstr ""
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Απέτυχε το ερώτημα των απαραίτητων διασυνδέσεων για αναπαραγωγή"
+msgstr ""
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Δεν ήταν δυνατός ο ορισμός ενός παραθύρου προορισμού για κοινοποίηση του γραφήματος"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Απέτυχε η απόδοση όλων των pins του φίλτρου περιήγησης DVD"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "Ά&νοιγμα"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "Π&ροσθήκη"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "&Κατάργηση"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "&Απαλοιφή"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "Αντι&γραφή στο Πρόχειρο"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "Αποθήκευση &ως..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Ταξινόμηση κατά &ετικέτα"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Ταξινόμηση κατά &κατάλογο"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "Τυ&χαία"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "Επανα&φορά"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Διαχωριστικό"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "&Διαγραφή"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "Διπλότυπο"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "&Μηδενισμός"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Καθυστέρηση υποτίτλου -"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Καθυστέρηση υποτίτλου +"
+msgstr ""
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Αποθήκευση μικρογραφιών"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Αναπαραγωγή"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Αναπαραγωγός"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Αναπαραγωγή::DVD/OGM"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Υπότιτλοι"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Αναπαραγωγός::Μορφές"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Tweaks"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Εσωτερικά φίλτρα::Επιλογέας ήχου"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "Εξωτερικά φίλτρα"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Αναπαραγωγή::Shaders"
+msgstr ""
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Επιλογέας ήχου"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "Νέα έκδοση της βιβλιοθήκης εικονιδίων"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Θέλετε επανασυσχέτιση των εικονιδίων;"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "Αυτό θα διορθώσει τα εικονίδια που δεν εμφανίζονται σωστά μετά από μια ενημέρωση της βιβλιοθήκης εικονιδίων.\nΤο αρχείο συσχετίσεων δεν θα τροποποιηθεί, παρά μόνο θα ανανεωθού τα αντίστοιχα εικονίδια."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Παλιό πρόγραμμα απόδοσης"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Απόδοση μείκτη επικάλυψης"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Απόδοση μείξης βίντεο 7 (σε παράθυρο)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Απόδοση μείξης βίντεο 9 (σε παράθυρο)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Απόδοση μείξης βίντεο 7 (χωρίς απόδοση)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Απόδοση μείξης βίντεο 9 (χωρίς απόδοση)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Βελτιωμένη απόδοση βίντεο"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Βελτιωμένη απόδοση βίντεο (προσαρμοσμένη απόδοση)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Απόδοση βίντεο Haali"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Ψευδής (οτιδήποτε)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Ψευδής (ασυμπίεστο)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDF_LOGO1"
+msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
+msgstr ""
+
+msgctxt "IDF_LOGO2"
+msgid "Steven W. Smith, smith78@sbcglobal.net"
+msgstr ""
+
+msgctxt "IDF_LOGO3"
+msgid "Robbie Khan, email@robbiekhan.co.uk"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Αναπαραγωγός::Πλήκτρα συντομεύσεων"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Υπότιτλοι::Προεπιλεγμένο στυλ"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Εσωτερικά φίλτρα"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Αναπαραγωγός::Λογότυπο"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Αναπαραγωγή::Έξοδος"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Αναπαραγωγός::Διεπαφή διαδικτύου"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "Υπότιτλοι::Βάση δεδομένων"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Πόροι"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Διάφορα"
+msgstr ""
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "Πληροφορίες"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Αναπαραγωγή::Καταγραφή"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Αναπαραγωγή::Ρυθμίσεις συγχρ. απόδοσης"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Αναπαραγωγή::Μεγιστοποιημένη προβολή"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Λεπτομέρειες"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Απόσπασμα"
+msgstr ""
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Προεπιλεγμένο φίλτρο απόδοσης βίντεο DirectShow. Τα άλλα θα επιστρέψουν σ΄αυτό όταν για κάποιο λόγο δεν μπορούν να φορτωθούν. Στα Windows XP αυτό είναι όμοιο με το VMR-7 (παράθυρα)."
+msgstr ""
+
+msgctxt "IDC_DSOLD"
+msgid "Αυτό είναι το προεπιλεγμένο πρόγραμμα απόδοσης των Windows 9x/me/2k. Με βάση την ορατότητα του παραθύρου βίντεο και τις δυνατότητες της κάρτας γραφικών σας, αυτό θα αλλάζει λειτουργία δυναμικά μεταξύ GDI, DirectDraw και Επικάλυψης."
+msgstr ""
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Απόδοση πάντα σε επικάλυψη. Γενικά επιτρέπονται μόνο μορφές YUV, αλλά παρουσιάζονται άμεσα, χωρίς καμία μετατροπή χρώματος σε RGB. Αυτή είναι η ταχύτερη μέθοδος απόδοσης απ΄όλες και η μόνη που μπορείτε να είστε σίγουρος για την ενεργοποίηση καθρεπτίσματος μεγιστοποιημένου βίντεο στην έξοδο TV."
+msgstr ""
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "Η προεπιλεγμένη απόδοση των Windows XP. Πολύ σταθερή και λίγο πιο αργή απ΄ ότι ο μίκτης Επικάλυψης. Χρησιμοποιεί DirectDraw και τρέχει σε Επικάλυψη όταν μπορεί."
+msgstr ""
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Είναι διαθέσιμο μόνο αν έχετε εγκατεστημένο το DirectX 9. Έχει τις ίδιες δυνατότητες με το VMR-7 (σε παράθυρο), αλλά δεν χρησιμοποιεί ποτέ απόδοση επικάλυψης και λόγω αυτού μπορεί να είναι λίγο πιο αργό από το VMR-7 (σε παράθυρο)."
+msgstr ""
+
+msgctxt "IDC_DSVMR7REN"
+msgid "Ίδιο με το VMR-7 (σε παράθυρο), αλλά με το πρόσθετο Εκχώρησης-Παρουσίασης του MPC-HC για υποτιτλισμό. Το καθρέπτισμα βίντεο επικάλυψης ΔΕΝ λειτουργεί. Συνιστάται το μέγιστο βάθος χρώματος οθόνης (32 bit)."
+msgstr ""
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Ίδιο με το VMR-9 (σε παράθυρο), αλλά με το πρόσθετο Εκχώρησης-Παρουσίασης του MPC-HC για υποτιτλισμό. Το καθρέπτισμα βίντεο επικάλυψης ΕΝΔΕΧΕΤΑΙ να λειτουργεί. Συνιστάται το μέγιστο βάθος χρώματος οθόνης (32 bit). Συνιστάται για Windows XP."
+msgstr ""
+
+msgctxt "IDC_DSDXR"
+msgid "Ίδιο με το VMR-9 (χωρίς απόδοση), Αλλά χρησιμοποιεί μια πραγματικά δικυβική διπλού περάσματος αλλαγή μεγέθους."
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Συνδέεται με οποιονδήποτε τύπο πολυμέσων βίντεο και στέλνει τα εισερχόμενα δείγματα στο πουθενά. Χρησιμοποιήστε το όταν δεν χρειάζεστε την εμφάνιση του βίντεο και θέλετε να εξοικονομήσετε επεξεργαστική ισχύ."
+msgstr ""
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Όμοια με την κανονική ψευδή απόδοση, αλλά αυτή συνδέεται μόνο σε μη συμπιεσμένους τύπους."
+msgstr ""
+
+msgctxt "IDC_DSEVR"
+msgid "Είναι διαθέσιμη μόνο για Vista ή νεότερη έκδοση ή σε XP με εγκατεστημένο τουλάχιστον το .NET Framework 3.5."
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Ίδιο με το EVR, αλλά με το πρόσθετο Εκχώρησης-Παρουσίασης του MPC-HC για υποτιτλισμό και τελική επεξεργασία. Συνιστάται για Windows Vista ή νεότερη έκδοση."
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "Απόδοση υψηλής ποιότητας. Απαιτείται μια GPU που υποστηρίζει D3D9 ή νεότερη έκδοση."
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "Ίδιο με το EVR (CP), αλλά προσφέρει πολλές επιλογές για συγχρονισμό του ρυθμού καρέ βίντεο με το ρυθμό ανανέωσης της οθόνης για εξάλειψη της παράλειψης ή διπλοαναπαραγωγής καρέ βίντεο."
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Η απόδοση του QuickTime. Είναι λίγο αργή όταν η περιοχή του βίντεο αλλάζει μέγεθος ή καλύπτεται εν μέρει από ένα άλλο παράθυρο. Όταν η επικάλυψη δεν είναι διαθέσιμη, αυτό μπορεί να επανέλθει στο GDI."
+msgstr ""
+
+msgctxt "IDC_RMDX7"
+msgid "Η έξοδος των μηχανών απόδοσης των Real, από τη βασισμένη στο DX7 Εκχώρηση-Παρουσίαση της VMR-7 (χωρίς απόδοση)."
+msgstr ""
+
+msgctxt "IDC_RMDX9"
+msgid "Η έξοδος των μηχανών απόδοσης των Real, από τη βασισμένη στο DX9 Εκχώρηση-Παρουσίαση της VMR-9 (χωρίς απόδοση)."
+msgstr ""
+
+msgctxt "IDC_QTSYSDEF"
+msgid "Η απόδοση του QuickTime. Είναι λίγο αργή όταν η περιοχή του βίντεο αλλάζει μέγεθος ή καλύπτεται εν μέρει από ένα άλλο παράθυρο. Όταν η επικάλυψη δεν είναι διαθέσιμη, αυτό μπορεί να επανέλθει στο GDI."
+msgstr ""
+
+msgctxt "IDC_QTDX7"
+msgid "Η έξοδος των μηχανών απόδοσης του QuickTime, από τη βασισμένη στο DX7 Εκχώρηση-Παρουσίαση της VMR-7 (χωρίς απόδοση)."
+msgstr ""
+
+msgctxt "IDC_QTDX9"
+msgid "Η έξοδος των μηχανών απόδοσης του QuickTime, από τη βασισμένη στο DX9 Εκχώρηση-Παρουσίαση της VMR-9 (χωρίς απόδοση)."
+msgstr ""
+
+msgctxt "IDC_REGULARSURF"
+msgid "Η επιφάνεια του βίντεο θα διατεθεί ως μια κανονική εκτός οθόνης επιφάνεια."
+msgstr ""
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "Οι υπότιτλοι υποστηρίζονται μόνο από VMR-7/VMR-9 (χωρίς απόδοση), EVR (CP), Sync, madVR και αποδόσεις βίντεο Haali.\n\nΗ αποθήκευση εικόνων δεν λειτουργεί με Overlay ή αποδόσεις βίντεο madVR."
+msgstr ""
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "Η απόδοση ήχου MPC είναι κατεστραμμένη. Μη την χρησιμοποιείτε."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Απόδοση συγχρονισμού"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - Αναφορά σφάλματος"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "Το MPC-HC μόλις κατέρρευσε αλλά αυτή η έκδοση καταρτίστηκε χωρίς πληροφορίες αποσφαλμάτωσης.\nΕάν θέλετε να αναφέρετε αυτό το σφάλμα, θα πρέπει πρώτα να προσπαθήσετε με μια επίσημη έκδοση.\n\nΘέλετε να επισκεφθείτε τη σελίδα λήψης τώρα;"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Κανονική απλή επίπεδη επιφάνεια"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D επιφάνειες"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D επιφάνειες (συνιστάται)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Πλησιέστερη γειτονική"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Διγραμμική"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Διγραμμική (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Δικυβική A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Δικυβική A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Δικυβική A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**δεν είναι διαθέσιμη**"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "Το επιλεγμένο πρόγραμμα απόδοσης δεν είναι εγκατεστημένο."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Ψευδής (οτιδήποτε)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Ψευδής (ασυμπίεστο)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "Απόδοση ήχου του MPC-HC"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Όνομα"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "Τύπος MIME"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "Για να προβάλετε έναν ενσωματωμένο πόρο στο πρόγραμμα περιήγησής σας, πρέπει να ενεργοποιήσετε τη διασύνδεση web.\n\nΧρησιμοποιήστε το κουμπί «Αποθήκευση ως», εάν θέλετε να αποθηκεύσετε μόνο τις πληροφορίες."
+msgstr ""
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Λήψη υποτίτλων"
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Καθυστέρηση (ms):"
+msgstr ""
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Αυτόμ."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "Δεν υπάρχουν προσαρμοσμένα πλήκτρα για εξαγωγή."
+msgstr ""
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "Δεν βρέθηκαν αρχεία πολυμέσων στην αρχειοθήκη"
+msgstr ""
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Δεν υποστηρίζονται συμπιεσμένα αρχεία"
+msgstr ""
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Δεν υποστηρίζονται κρυπτογραφημένα αρχεία"
+msgstr ""
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Δεν ήταν δυνατή η εύρεση όλων των τόμων της αρχειοθήκης"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Η επιφάνεια του βίντεο θα διατεθεί ως υφή, αλλά οι λειτουργίες 2D θα μπορούν να χρησιμοποιηθούν για αντιγραφή και επιμήκυνση στην backbuffer. Απαιτεί μια κάρτα γραφικών που να διαθέσει 32bit, RGBA, υφές διαστάσεων όχι-δυνάμεων του δύο και τουλάχιστον στην ανάλυση του βίντεο."
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Η επιφάνεια του βίντεο θα διατεθεί ως υφή και σαν δυό τρίγωνα σε 3D. Η ενεργοποίηση τηε εξομάλυνσης γραφικών στις ρυθμίσεις οθόνης, ενδέχεται να έχει εσφαλμένο αποτέλεσμα σε σχέση με την ταχύτητα απόδοσης."
+msgstr ""
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "Εάν δεν υπάρχει υποστήριξη Pixel Shader 2.0, χρησιμοποιείται αυτόματα η απλή διγραμμική."
+msgstr ""
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Θέτει το VMR-9 (χωρίς απόδοση) σε λειτουργία μείκτη. Αυτό σημαίνει ότι τα περισσότερα από τα στοιχεία ελέγχου της σελίδας ιδιοτήτων θα λειτουργούν και θα χρησιμοποιούν ένα ξεχωριστό νήμα εργασίας για την απόδοση των καρέ."
+msgstr ""
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Βελτιώνει τις επιδόσεις εις βάρος κάποιας συμβατότητας του προγράμματος απόδοσης."
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Μειώνει το σχίσιμο αλλά εμποδίζει την εργαλειοθήκη να φαίνεται. Για να κάνετε έξοδο από πλήρη οθόνη σε αυτή τη λειτουργία πατήστε Ctrl+C."
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Μειώνει το σχίσιμο παρακάμπτοντας την προεπιλογή VSync ενσωματωμένου στο D3D."
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "Άνοιγμα VTS_xx_0.ifo για φόρτωση αρχείων VTS_xx_x.vob σε ένα κομμάτι"
+msgstr ""
+
+msgctxt "IDS_SRC_RFS"
+msgid "Βασίζεται στο RARFileSource. Δεν υποστηρίζονται συμπιεσμένα αρχεία"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Χρησιμοποιεί LAV Filters"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Χρησιμοποιεί LAV Filters. Απενεργοποιημένο από προεπιλογή, διότι τα φίλτρα της Microsoft είναι συνήθως πιο σταθερά γι αυτές τις μορφές.\nΕάν επιλέξετε να χρησιμοποιήσετε τα εσωτερικά φίλτρα, ενεργοποιήστε τα τόσο για την πηγή όσο και για την αποκωδικοποίηση, για να έχετε μια καλύτερη εμπειρία αναπαραγωγής."
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Εναλλαγή σε γραμμή περιήγησης"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Ακριβής VSync"
+msgstr ""
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "Η προεπιλεγμένη τιμή χρησιμοποιείται και σε άλλα στυλ, όπου δεν έχει καθοριστεί"
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "Αν το αποεπιλέξετε αυτό, απελευθερώνετε λίγη μνήμη βίντεο και εξοικονομείται εύρος ζώνης μεταφοράς βίντεο στην τοπική μνήμη, αλλά μπορεί να μην λειτουργεί με παλαιότερες κάρτες γραφικών."
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Επιτρέπετε η κίνηση του υπότιτλου όταν χρησιμοποιείται μια προσωρινή επιμέρους εικόνα μεγαλύτερη από 0. Η απενεργοποίηση αυτής της επιλογής θα μειώσει τη χρήση της CPU. Επίσης να το απενεργοποιήσετε εάν οι υπότιτλοι αναβοσβήνουν."
+msgstr ""
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "Μετά το κλικ σε αυτό το κουμπί, το επιλεγμένο μέλος της ομάδας μορφής, θα αντικατοπτρίζει την πραγματική συσχέτιση αρχείου για το MPC-HC. Μια επέκταση που προστέθηκε πρόσφατα, θα είναι συνήθως γκρι, ώστε να μην ξεχάσετε να το ελέγξτε ξανά πριν να κλείσετε αυτό το παράθυρο διαλόγου!"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Αναπαραγωγή\nΑναπαραγωγή"
+msgstr ""
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Παύση\nΠαύση"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "Διακοπή\nΔιακοπή"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Βήμα\nΒήμα"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Μείωση ταχύτητας\nΜείωση ταχύτητας"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Αύξηση ταχύτητας\nΑύξηση ταχύτητας"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Σίγαση"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Διακοπή σίγασης"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "Χωρίς ήχο"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Μετάβαση πίσω\nΜετάβαση πίσω"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Μετάβαση μπροστά\nΜετάβαση μπροστά"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Πρωτότυπος"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Τρέχων"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "Επε&ξεργασία"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Ναι"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "Ό&χι"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Μείωση"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "Αύ&ξηση"
+msgstr ""
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Επιλογές"
+msgstr ""
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "Επι&λογή Shaders..."
+msgstr ""
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "&Προσθήκη στα αγαπημένα..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "&Οργάνωση αγαπημένων..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "Τυχαία σειρά"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Άνοιγμα θέσης αρχείου"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Κλείσιμο..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Αναπαραγωγή"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Σταματημένο"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL: νέο απόσπασμα"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "Εκκαθάριση λίστας"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES"
+msgid "Πρόσφατα αρχεία"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Είστε βέβαιος ότι θέλετε να διαγράψετε τη λίστα προσφάτων αρχείων;"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL: αποθήκευση"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Ενεργοποίηση διόρθωσης χρόνου καρέ"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "Εναλλαγή παραθύρου EDL"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL: στην είσοδο"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL: στην έξοδο"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "Πανοραμική: Περιστροφή X-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "Πανοραμική: Περιστροφή Y+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "Πανοραμική: Περιστροφή Y-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "Πανοραμική: Περιστροφή Z+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "Πανοραμική: Περιστροφή Z-"
+msgstr ""
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Δοκιμή σχισίματος"
+msgstr ""
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Αναλογία σε 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Εστίαση σε ευρυγώνια οθόνη,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Εστίαση σε υπερευρυγώνια οθόνη,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "Απόκρυψη σε πλήρη οθόνη"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Διακόπηκε"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Προσωρινή μνήμη... (%d%%)"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Καταγραφή..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Άνοιγμα..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Κλειστό"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "Επι&λογές..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Στυλ..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "Επανα&φόρτωση"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "Ενε&ργοποίηση"
+msgstr ""
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "Επεξεργασία..."
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Τίτλος"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Δημιουργός"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Copyright"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Διαβάθμιση"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Περιγραφή"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Τομέας"
+msgstr ""
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Κλείσιμο"
+msgstr ""
+
+msgctxt "IDS_AG_NONE"
+msgid "Κανένα"
+msgstr ""
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Εντολή"
+msgstr ""
+
+msgctxt "IDS_AG_KEY"
+msgid "Πλήκτρο"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Ποντίκι παραθύρου"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Ποντίκι πλήρους οθόνης"
+msgstr ""
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "Εντολή εφαρμογής"
+msgstr ""
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Αρχεία πολυμέσων (όλοι οι τύποι)"
+msgstr ""
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "Όλα τα αρχεία (*.*)|*.*|"
+msgstr ""
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Αρχεία ήχου (όλοι οι τύποι)"
+msgstr ""
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Δεν είναι γνωστό"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Γρήγορο άνοιγμα αρχείου"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Άνοιγμα αρχείου"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "Άνοιγμα DVD/BD"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Άνοιγμα συσκευής"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Αποθήκευση ως"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Αποθήκευση εικόνας"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Αποθήκευση εικόνας (αυτόμ.)"
+msgstr ""
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Η αποθήκευση εικόνας ολοκληρώθηκε"
+msgstr ""
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "Φόρτωση υποτίτλων"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "Αποθήκευση υποτίτλων"
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Ιδιότητες"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT"
+msgid "Έξοδος"
+msgstr ""
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Αναπαραγωγή/Παύση"
+msgstr ""
+
+msgctxt "IDS_AG_PLAY"
+msgid "Αναπαραγωγή"
+msgstr ""
+
+msgctxt "IDS_AG_STOP"
+msgid "Διακοπή"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Βήμα καρέ"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Βήμα καρέ πίσω"
+msgstr ""
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Μετάβαση"
+msgstr ""
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Επιτάχυνση ροής"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Τηλεοπτική εκπομπή/Τηλεπαιχνίδι"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Αθλητικά"
+msgstr ""
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Παιδικά/Προγράμματα για τη νεολαία"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Μουσική/Μπαλέτο/Χορός"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Τέχνες/Πολιτισμός"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Κοινωνικά/Πολιτικά θέματα/Οικονομικά"
+msgstr ""
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Χόμπυ/Αναψυχή"
+msgstr ""
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Μετακίνηση στον κάδο ανακύκλωσης"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Αποθήκευση ενός αντιγράφου"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Τελευταίο βασικό καρέ"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Πλησιέστερο βασικό καρέ"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Διόρθωση ρυθμού καρέ: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Διόρθωση ρυθμού καρέ: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Στόχος μετάθεσης VSync: %.1f"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "Μετάθεση του VSync: %d"
+msgstr ""
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Ταχύτητα: %.2lfx"
+msgstr ""
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Οι μικρογραφίες αποθηκεύτηκαν επιτυχώς"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "&Ροή βίντεο"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "&Γωνία βίντεο"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Εξαγωγή ρυθμίσεων"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Είστε βέβαιος ότι θέλετε να επαναφέρετε το MPC-HC στις προεπιλεγμένες ρυθμίσεις;\nΝα έχετε υπόψιν ότι όλες οι τρέχουσες ρυθμίσεις θα χαθούν!"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Παρακαλώ κλείστε όλες τις προβολές του MPC-HC, έτσι ώστε να γίνει επαναφορά των προεπιλεγμένων ρυθμίσεων."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Εξαγωγή ρυθμίσεων"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Ορισμένες αλλαγές δεν αποθηκεύτηκαν ακόμη.\nΘέλετε να τις αποθηκεύσετε πριν την εξαγωγή;"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "Οι ρυθμίσεις έχουν εξαχθεί επιτυχώς."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "Η εξαγωγή απέτυχε! Αυτό μπορεί να συμβεί όταν δεν έχετε τα κατάλληλα δικαιώματα."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR"
+msgid "Σφάλμα BDA"
+msgstr ""
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Επιβράδυνση ροής"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Επαναφορά ροής"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Καθυστέρηση ήχου +10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Καθυστέρηση ήχου -10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Άλμα εμπρός (μικρό)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Άλμα πίσω (μικρό)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Άλμα εμπρός (μέτριο)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Άλμα πίσω (μέτριο)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Άλμα εμπρός (μεγάλο)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Άλμα πίσω (μεγάλο)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Άλμα εμπρός (βασικό καρέ)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Άλμα πίσω (βασικό καρέ)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT"
+msgid "Επόμενο"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Προηγούμενο"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Επόμενο αρχείο"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Προηγούμενο αρχείο"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Εναλλαγή πλήρους οθόνης Direct3D"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Μετάβαση στον προηγούμενο υπότιτλο"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Μετάβαση στον επόμενο υπότιτλο"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Μετατόπιση υπότιτλου αριστερά"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Μετατόπιση υπότιτλου δεξιά"
+msgstr ""
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "Εμφάνιση στατιστικών"
+msgstr ""
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Μετάβαση στην αρχή"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "Λιτή προβολή"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "Συμπαγής προβολή"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "Κανονική προβολή"
+msgstr ""
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "Πλήρης οθόνη"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "Πλήρης οθόνη (χωρίς αλλαγή ανάλυσης)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Μεγέθυνση αυτόματης προσαρμογής"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "Παράθυρο βίντεο: Μισό"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "Παράθυρο βίντεο: Κανονικό"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "Παράθυρο βίντεο: Διπλό"
+msgstr ""
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Πάντα στην κορυφή"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "Πανοραμική: Μέγεθος +"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "Πανοραμική: Πλάτος +"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "Πανοραμική: Ύψος +"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "Πανοραμική: Μέγεθος -"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "Πανοραμική: Πλάτος -"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "Πανοραμική: Ύψος -"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Λήψη υποτίτλων. Παρακαλώ περιμένετε."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Ανάλυση λίστας..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "Δεν βρέθηκαν υπότιτλοι."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d υπότιτλοι είναι διαθέσιμοι."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Θέλετε να γίνεται έλεγχος περιοδικά για ενημερώσεις του MPC-HC;\n\nΑυτή η δυνατότητα μπορεί να απενεργοποιηθεί αργότερα από τη σελίδα επιλογών «Διάφορα»."
+msgstr ""
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Αυτόματη προσαρμογή"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Αυτόματη προσαρμογή εστίασης (μόνο για μεγαλύτερα)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Αυτόματη προσαρμογή (μόνο για μεγαλύτερα)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Εστίαση: Αυτόματη (μόνο για μεγαλύτερα)"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Διπλό κλικ για άνοιγμα της θέσης του αρχείου"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Εναλλαγή μεταξύ του χρόνου που πέρασε και αυτού που απομένει"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Μη έγκυρη καθυστέρηση"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Παρακαλώ εισάγετε έναν αριθμό μεταξύ 1 και 365."
+msgstr ""
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "Πανοραμική: Κέντρο"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "Πανοραμική: Αριστερά"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "Πανοραμική: Δεξιά"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "Πανοραμική: Πάνω"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "Πανοραμική: Κάτω"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "Πανοραμική: Πάνω/Αριστερά"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "Πανοραμική: Πάνω/Δεξιά"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "Πανοραμική: Κάτω/Αριστερά"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "Πανοραμική: Κάτω/Δεξιά"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Αύξηση έντασης"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Μείωση έντασης"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Σίγαση"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "Τίτλος μενού DVD"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "Κεντρικό μενού DVD"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "Μενού υποτίτλων DVD"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "Μενού ήχου DVD"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "Μενού γωνίας DVD"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "Μενού κεφαλαίων DVD"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "Μενού DVD αριστερά"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "Μενού DVD δεξιά"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "Μενού DVD πάνω"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "Μενού DVD κάτω"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "Ενεργοποίηση μενού DVD"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "Μενού DVD πίσω"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "Εγκατάλειψη μενού DVD"
+msgstr ""
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Πλήκτρο αφεντικού"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Μενού αναπαραγωγού (σύντομο)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Μενού αναπαραγωγού (ευρύ)"
+msgstr ""
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Μενού φίλτρων"
+msgstr ""
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Επιλογές"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Επόμενο κομμάτι ήχου"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Προηγούμενο κομμάτι ήχου"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Επόμενος υπότιτλος"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Προηγούμενος υπότιτλος"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "Απ-Ενεργοποίηση υποτίτλων"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Επαναφόρτωση υποτίτλων"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "Επόμενο κομμάτι ήχου (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "Προηγούμενο κομμάτι ήχου (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "Επόμενος υπότιτλος (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "Προηγούμενος υπότιτλος (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "Επόμενη γωνία (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "Προηγούμενη γωνία (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "Επόμενο κομμάτι ήχου (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "Προηγούμενο κομμάτι ήχου (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "Επόμενος υπότιτλος (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "Προηγούμενος υπότιτλος (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "Απ-Ενεργοποίηση υποτίτλων (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "Χρόνος που απομένει"
+msgstr ""
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Επιλέξτε τον κατάλογο"
+msgstr ""
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Ταχεία προσθήκη αγαπημένου"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N°"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Όνομα"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Συχνότητα"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Κρυπτογραφημένο"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "Ναι"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "Όχι"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Έναρξη"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Διακοπή"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Σταθμοί ραδιοφώνου"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "Σταθμοί τηλεόρασης"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Μορφή"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_2"
+msgid "Απώλεια εστίασης σε: %s - %s"
+msgstr ""
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Οι υπότιτλοι αποθηκεύτηκαν"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Δεν είναι δυνατή η αποθήκευση των υποτίτλων"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Ρυθμός καρέ"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_6"
+msgid "προβλήθηκαν: %d, απορρίφθηκαν: %d"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Καρέ"
+msgstr ""
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Προσωρινές μνήμες"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Τόμος: %02d/%02d, Τίτλος: %02d/%02d, Κεφάλαιο: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Γωνία: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dHz %dbits %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Προσθήκη στη λίστα αναπαραγωγής του MPC-HC"
+msgstr ""
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Αναπαραγωγή με το MPC-HC"
+msgstr ""
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "Το MPC-HC δεν έχει δικαιώματα για να αλλάξει τις συσχετίσεις των μορφών αρχείων. Παρακαλούμε κάντε κλικ στο κουμπί \"Τροποποίηση\" για να ληφθούν δικαιώματα διαχειριστή."
+msgstr ""
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "Ένα από τα πιο ισχυρά, προσαρμόσιμα προγράμματα αναπαραγωγής πολυμέσων για το λειτουργικό σύστημα των Windows. Αρχικά δημιουργήθηκε από έναν Ούγγρο προγραμματιστή, γνωστό ως Gabest. Αυτή η έκδοση έχει πρόσθετες δυνατότητες όπως η κατάσταση λειτουργίας Direct 3D πλήρους οθόνης και καλύτερη υποστήριξη για Windows Vista/7."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_12"
+msgid "κανάλι"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_13"
+msgid "κανάλια"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE"
+msgid "Τίτλος %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Μη αναμενόμενο σφάλμα"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: Σφάλμα στην προστασία αντιγραφής"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Μη έγκυρος δίσκος DVD 1.x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Μη έγκυρη περιοχή δίσκου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Χαμηλό επίπεδο γονικού ελέγχου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Η προστασία Macrovision απέτυχε"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Μη συμβατές περιοχές συστήματος και αποκωδικοποιητή"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Μη συμβατές περιοχές δίσκου και αποκωδικοποιητή"
+msgstr ""
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "Η επιλογή αυτή έχει σχεδιαστεί για την αποφυγή σχισίματος. Ωστόσο, θα αποτρέψει επίσης το MPC-HC\nαπό την εμφάνιση των μενού περιβάλλοντος και παραθύρων διαλόγου κατά την αναπαραγωγή.\n\nΓια να βγείτε από την αναπαραγωγή Direct3D πλήρους οθόνης, πρέπει να πιέσετε: Ctrl + C.\n\nΕίστε βέβαιος ότι θέλετε να ενεργοποιήσετε αυτήν την επιλογή;"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Καθυστέρηση υποτίτλων: %ld ms"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Τίτλος: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "Το όνομα αρχείου περιέχει μη υποστηριζόμενους χαρακτήρες (χρήση μόνο A-Z, 0-9)"
+msgstr ""
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Γραμμές:"
+msgstr ""
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Στήλες:"
+msgstr ""
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Πλάτος εικόνας:"
+msgstr ""
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "Η διεύθυνση URL φαίνεται να είναι σωστή!"
+msgstr ""
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "Ασυμφωνία έκδοσης πρωτοκόλλου. Παρακαλώ να αναβαθμίσετε το πρόγραμμα αναπαραγωγής ή να επιλέξετε μια διαφορετική διεύθυνση!"
+msgstr ""
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Αναλογία πλευρών"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Σύνολο: %d, Απορρίφθηκαν: %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Μέγεθος: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Μέγεθος: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Ελεύθερη: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Ελεύθερη: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Ελεύθερη προσωρ. μνήμη V/A: %03d/%03d"
+msgstr ""
+
+msgctxt "IDS_AG_ERROR"
+msgid "Σφάλμα"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Υπότιτλοι: off"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Υπότιτλοι: %s"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_46"
+msgid "Επιλέξτε τη διαδρομή για το DVD:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_47"
+msgid " φορτώθηκε επιτυχώς"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_48"
+msgid "Όλα τα αρχεία (*.*)|*.*||"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_49"
+msgid "Το GetDIB απέτυχε. hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_51"
+msgid "Το GetCurrentImage απέτυχε. hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_53"
+msgid "Δεν είναι δυνατή η δημιουργία αρχείου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_54"
+msgid "Δεν είναι δυνατή η δημιουργία μικρογραφιών για αρχεία χωρίς διάρκεια"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_55"
+msgid "Απέτυχε η λήψη μεγέθους καρέ του βίντεο"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_56"
+msgid "Ανεπαρκής μνήμη. Πρέπει να προμηθευτείτε περισσότερη!"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_57"
+msgid "Μη έγκυρη μορφή εικόνας. Δεν είναι δυνατή η δημιουργία μικρογραφιών από %d bpp dibs."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_58"
+msgid "Μέγεθος αρχείου: %s (%s bytes)\\N"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Όνομα αρχείου: %s\\N%sΑνάλυση: %dx%d %s\\NΔιάρκεια: %02d:%02d:%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_60"
+msgid "Για φόρτωση υποτίτλων πρέπει να αλλάξετε τον τύπο απόδοσης βίντεο και να ανοίξετε ξανά το αρχείο.\n- DirectShow: VMR-7/VMR-9 (χωρίς απόδοση), EVR (CP), Sync, madVR ή Haali\n- RealMedia: Ειδική απόδοση για RealMedia ή άνοιγμά του με το DirectShow\n- QuickTime : απόδοση DX7 ή DX9 για QuickTime\n- ShockWave : Μη διαθέσιμο"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Αναλογία πλευρών: %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Αναλογία πλευρών: Προεπιλογή"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Καθυστέρηση ήχου: %I64dms"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "Κεφάλαιο %d"
+msgstr ""
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Ανεπαρκής μνήμη"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Σφάλμα: Απαιτείται το Flash player για IE"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_78"
+msgid "Το QuickTime δεν υποστηρίζεται ακόμη για X64 (δεν είναι διαθέσιμη η βιβλιοθήκη της Apple)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Η δημιουργία του γραφήματος φίλτρου απέτυχε"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Μη έγκυρο όρισμα"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Το άνοιγμα ματαιώθηκε"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Η απόδοση του αρχείου απέτυχε"
+msgstr ""
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "Εσφαλμένη διεύθυνση. Δεν υπάρχει βάση δεδομένων υποτίτλων εδώ!"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "Κεφάλαιο: "
+msgstr ""
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Ένταση: %d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Ώθηση: +%u%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Ισορροπία: %s"
+msgstr ""
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Τρέχουσα"
+msgstr ""
+
+msgctxt "IDS_MPC_CRASH"
+msgid "Το MPC-HC τερματίστηκε απροσδόκητα. Για να βοηθήσετε να διορθωθεί αυτό το πρόβλημα, παρακαλούμε να στείλετε το αρχείο \"%s\" στην κονσόλα παρακολούθησης σφαλμάτων μας.\n\nΘέλετε να ανοίξετε το φάκελο που περιέχει το αρχείο ένδειξης σφαλμάτων και να επισκεφθείτε την κονσόλα παρακολούθησης σφαλμάτων τώρα;"
+msgstr ""
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "Απέτυχε η δημιουργία αρχείου ένδειξης σφαλμάτων σε \"%s\" (σφάλμα %d)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Επιλέξτε κατάλογο"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Περιλαμβάνονται υποφάκελοι"
+msgstr ""
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Παύση"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Εναλλαγή σε λεζάντα & μενού"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Εναλλαγή σε γραμμή αναζήτησης"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Εναλλαγή σε πλήκτρα ελέγχου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Μη έγκυρο όνομα αρχείου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Δεν ήταν δυνατή η σύνδεση των φίλτρων"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Δεν ήταν δυνατή η φόρτωση κάποιου πηγαίου φίλτρου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_88"
+msgid "Δεν ήταν δυνατή η απόδοση του αρχείου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Μη έγκυρη μορφή αρχείου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_90"
+msgid "Το αρχείο δεν βρέθηκε"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Άγνωστος τύπος αρχείου"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Η ροή δεν υποστηρίζεται"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_93"
+msgid "Δεν ήταν δυνατή η εύρεση του καταλόγου του DVD"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_94"
+msgid "Δεν είναι δυνατή η δημιουργία του φίλτρου περιήγησης DVD"
+msgstr ""
+
+msgctxt "IDS_AG_FAILED"
+msgid "Απέτυχε"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Δεν ήταν δυνατή η δημιουργία φίλτρου καταγραφής βίντεο"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_98"
+msgid "Δεν υπάρχουν φίλτρα καταγραφής"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Δεν είναι δυνατή η δημιουργία του γραφήματος καταγραφής"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Δεν ήταν δυνατό το άνοιγμα κάποιας συσκευής"
+msgstr ""
+
+msgctxt "IDS_AG_SOUND"
+msgid "Ήχος"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_114"
+msgid "Το %s δεν βρέθηκε. Παρακαλώ εισάγετε το μέσο που περιέχει αυτό το αρχείο."
+msgstr ""
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Ματαιώθηκε"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Ιδιότητες..."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (pin) ιδιότητες..."
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Άγνωστη ροή"
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Άγνωστη %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNC"
+msgid "Κατακόρυφος συγχρονισμός (VSync)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Director Comments 1)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Director Comments 2)"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLED"
+msgid "Ενεργοποιημένο"
+msgstr ""
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Γωνία %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "Αύξηση μετάθεσης του VSync"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Απενεργοποιημένο"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "Μείωση μετάθεσης του VSync"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D Πλήρους οθόνης"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Άγνωστη μορφή"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Μετατόπιση υποτίτλων: %ld ms"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Αύξηση ώθησης έντασης"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Μείωση ώθησης έντασης"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Ελάχιστη ώθηση έντασης"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Μέγιστη ώθηση έντασης"
+msgstr ""
+
+msgctxt "IDS_USAGE"
+msgid "Χρήση: mpc-hc.exe \"κατάλογος\" [παράμετροι]\n\n\"κατάλογος\"\tΤο κύριο αρχείο ή ο κατάλογος που θα φορτωθεί\n\t\t(τα wildcards επιτρέπονται, \"-\" denotes standard input)\n/dub \"αρχείο ήχου\"\tΦόρτωση ενός πρόσθετου αρχείου ήχου\n/dubdelay \"αρχείο\"\tΦόρτωση ενός πρόσθετου αρχείου ήχου μετατοπισμένο με XXms\n\t\t(εάν το αρχείο περιέχει \"...DELAY XXms...\")\n/d3dfs\t\tΕκκίνηση απόδοσης σε λειτουργία D3D πλήρους οθόνης\n/sub \"όνομα υπότιτλων\"\tΦόρτωση ενός πρόσθετου αρχείου υποτίτλων\n/filter \"όνομα φίλτρου\"\tΦόρτωση φίλτρων DirectShow από ένα dll\n\t\t(τα wildcards επιτρέπονται)\n/dvd\t\tΕκτέλεση σε λειτουργία DVD. Ως \"κατάλογος\" εννοείται\n\t\tο φάκελος του DVD (προαιρετικά)\n/dvdpos T#C\tΈναρξη αναπαραγωγής στον τίτλο T, κεφάλαιο C\n/dvdpos T#hh:mm\tΈναρξη αναπαραγωγής στον τίτλο T, θέση hh:mm:ss\n/cd\t\tΦόρτωση όλων των κομματιών από ένα CD ή (S)VCD.\n\t\tΩς \"κατάλογος\" εννοείται της συσκευής οδήγησης (προαιρετικά)\n/device\t\tOpen the default video device\n/open\t\tΆνοιγμα του αρχείου χωρίς αυτόματη έναρξη αναπαραγωγής\n/play\t\tΈναρξη αναπαραγωγής του αρχείου με την εκκίνηση του\n\t\tπρογράμματος αναπαραγωγής\n/close\t\tΚλείσιμο του προγράμματος μετά την αναπαραγωγή\n\t\t(δουλεύει μόνο όταν χρησιμοποιείται με το /play)\n/shutdown\tΤερματισμός του συστήματος μετά την αναπαραγωγή\n/fullscreen\tΈκκίνηση σε λειτουργία πλήρους οθόνης\n/minimized\tΈκκίνηση σε ελαχιστοποιημένη λειτουργία\n/new\t\tΕκκινεί μια νέα παρουσία του MPC-HC\n/add\t\tΠροσθήκη του \"κατάλογος\" στη λίστα αναπαραγωγής.\n\t\tΜπορεί να συνδυαστεί με /open και /play\n/regvid\t\tΔημιουργεί συσχετίσεις για αρχεία βίντεο\n/regaud\t\tΔημιουργεί συσχετίσεις για αρχεία ήχου\n/regpl\t\tΔημιουργεί συσχετίσεις για αρχεία λίστας αναπαραγωγής\n/regall\t\tΔημιουργεί συσχετίσεις αρχείων\n\t\tγια όλους τους υποστηριζόμενους τύπους αρχείων\n/unregall\t\tΚαταργεί όλες τις συσχετίσεις αρχείων\n/start ms\t\tΈναρξη αναπαραγωγής στα \"ms\" (= χιλιοστά δευτερολέπτου)\n/startpos hh:mm:ss\tΈναρξη αναπαραγωγής στη θέση hh:mm:ss\n/fixedsize w,h\tΟρίζει το μέγεθος ενός σταθερού παραθύρου\n/monitor N\tΕκκίνηση του MPC-HC στην οθόνη N (όπου το N ξεκινά από 1)\n/audiorenderer N\tΈναρξη απόδοσης ήχου με χρήση του N (όπου το N ξεκινά από 1)\n\t\t(βλέπε ρυθμίσεις \"Έξοδος\")\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tΕπαναφορά προεπιλεγμένων ρυθμίσεων\n/help /h /?\tΕμφάνιση βοήθειας σχετικά με τις παραμέτρους της γραμμής εντολών\n"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "Άγνωστη παράμετρος βρέθηκε στη συμβολοσειρά της γραμμής εντολών: \n\n"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Εναλλαγή σε πληροφορίες"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Εναλλαγή σε στατιστικά"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Εναλλαγή σε κατάσταση"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Εναλλαγή σε γραμμή επανασυγχρονισμού υποτίτλων"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Εναλλαγή σε γραμμή λίστας αναπαραγωγής"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Εναλλαγή σε γραμμή καταγραφής"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Μεγέθυνση 50%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Μεγέθυνση 100%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Μεγέθυνση 200%"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Επόμενη προρύθμιση AR"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "Παράθυρο βίντεο: Τέντωμα"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "Παράθυρο βίντεο: Εσωτερικό"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "Παράθυρο βίντεο: Εξωτερικό"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "Πανοραμική: Επαναφορά"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "Πανοραμική: Περιστροφή X+"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "Παράθυρο βίντεο: Εστίαση 1"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "Παράθυρο βίντεο: Εστίαση 2"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "Παράθυρο βίντεο: Εναλλαγή εστίασης"
+msgstr ""
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "&Ενεργοποίηση όλων των φίλτρων"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Σάρωση δέκτη"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Οι υπότιτλοι δεν έχουν φορτωθεί ή δεν υποστηρίζεται το πρόγραμμα απόδοσης."
+msgstr ""
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Άγνωστος δημιουργός. Επικοινωνήστε μαζί μου εάν δημιουργήσατε αυτό το λογότυπο!"
+msgstr ""
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "Δεν υπάρχουν άλλα μέσα στον τρέχοντα φάκελο."
+msgstr ""
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "Τώρα φορτώνεται το πρώτο αρχείο στο φάκελο."
+msgstr ""
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "Τώρα φορτώνεται το τελευταίο αρχείο στο φάκελο."
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Μπροστά αριστερά"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Μπροστά δεξιά"
+msgstr ""
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Μπροστά κέντρο"
+msgstr ""
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Χαμηλής συχνότητας"
+msgstr ""
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Πίσω αριστερά"
+msgstr ""
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Πίσω δεξιά"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Μπροστά αριστερά του κεντρικού"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Μπροστά δεξιά του κεντρικού"
+msgstr ""
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Πίσω κέντρο"
+msgstr ""
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Αριστερή πλευρά"
+msgstr ""
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Δεξιά πλευρά"
+msgstr ""
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Πάνω κέντρο"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Μπροστά πάνω αριστερά"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Μπροστά πάνω κέντρο"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Μπροστά πάνω δεξιά"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Πίσω πάνω αριστερά"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Πίσω πάνω κέντρο"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Μπροστά πάνω δεξιά"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "Μηδενισμός στατιστικών συγχρονισμού απόδοσης"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Υπότιτλοι::Διάφορα"
+msgstr ""
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Απόκρυψη περιθωρίων"
+msgstr ""
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Κάδρο μόνο"
+msgstr ""
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Εμφάνιση Λεζάντας && Μενού"
+msgstr ""
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Απόκρυψη μενού"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Πάνω από γραμμή αναζήτησης"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Κάτω από γραμμή αναζήτησης"
+msgstr ""
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Βίντεο: %s"
+msgstr ""
+
+msgctxt "IDS_APPLY"
+msgid "Εφαρμογή"
+msgstr ""
+
+msgctxt "IDS_CLEAR"
+msgid "Απαλοιφή"
+msgstr ""
+
+msgctxt "IDS_CANCEL"
+msgid "Άκυρο"
+msgstr ""
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Διάταξη"
+msgstr ""
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Πίξελ:"
+msgstr ""
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Κωδικοποίηση:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "&Απενεργοποίηση όλων των φίλτρων"
+msgstr ""
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Ενεργοποίηση όλων των αποκωδικοποιητών ήχου"
+msgstr ""
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Απενεργοποίηση όλων των αποκωδικοποιητών ήχου"
+msgstr ""
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Ενεργοποίηση όλων των αποκωδικοποιητών βίντεο"
+msgstr ""
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Απενεργοποίηση όλων των αποκωδικοποιητών βίντεο"
+msgstr ""
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Επέκταση στο παράθυρο"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Άγγιγμα παραθύρου εσωτερικά"
+msgstr ""
+
+msgctxt "IDS_ZOOM1"
+msgid "Μεγέθυνση 1"
+msgstr ""
+
+msgctxt "IDS_ZOOM2"
+msgid "Μεγέθυνση 2"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Άγγιγμα παραθύρου εξωτερικά"
+msgstr ""
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Ήχος: %s"
+msgstr ""
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Επαναφόρτωση αρχείου"
+msgstr ""
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "Βίντεο DVD"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Άλλο"
+msgstr ""
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Άλλο αρχείο ήχου"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "CD ήχου"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Λίστα αναπαραγωγής"
+msgstr ""
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Λίστα αναπαραγωγής Blu-ray"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "Αρχειοθήκη RAR"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Ανάλυση"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Αναλογίες εικόνας"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "Χρήση WASAPI (επανεκκίνηση αναπαραγωγής)"
+msgstr ""
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "Σίγαση στη γρήγορη αναπαραγωγή"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Συσκευή ήχου:"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "Κατακόρυφος συγχρονισμός (VSync): Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "Κατακόρυφος συγχρονισμός (VSync): Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Ακριβής VSync: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Ακριβής VSync: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Συγχρονισμός βίντεο με την οθόνη: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Συγχρονισμός βίντεο με την οθόνη: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Συγχρονισμός οθόνης με το βίντεο: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Συγχρονισμός οθόνης με το βίντεο: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Παρουσίαση στον πλησιέστερο VSync: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Παρουσίαση στον πλησιέστερο VSync: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Διαχείριση χρωμάτων: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Διαχείριση χρωμάτων: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Τύπος εισόδου: Αυτόματη ανίχνευση"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Τύπος εισόδου: HDTV"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Τύπος εισόδου: SDTV NTSC"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Τύπος εισόδου: SDTV PAL"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Περιβάλλον φωτισμού: Φωτεινό (2.2 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Περιβάλλον φωτισμού: Μέσο (2.35 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Περιβάλλον φωτισμού: Σκοτεινό (2.4 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Στόχος φωτοαπόδοσης: Ποσοστιαία"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Στόχος φωτοαπόδοσης: Σχετική μέτρηση χρωμάτων"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Στόχος φωτοαπόδοσης: Κορεσμός"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Στόχος φωτοαπόδοσης: Απόλυτη μέτρηση χρωμάτων"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Εύρος εξαγωγής: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "Εκκαθάριση GPU πριν το VSync: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "Εκκαθάριση GPU πριν το VSync: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "Εκκαθάριση GPU μετά την παρουσίαση: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "Εκκαθάριση GPU μετά την παρουσίαση: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Αναμονή για εκκαθάριση της GPU: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Αναμονή για εκκαθάριση της GPU: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D πλήρους οθόνης (απαιτείται επανεκκίνηση): Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D πλήρους οθόνης (απαιτείται επανεκκίνηση): Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Απενεργοποίηση σύνθεσης επιφάνειας εργασίας: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Απενεργοποίηση σύνθεσης επιφάνειας εργασίας: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Εναλλακτικός VSync: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Εναλλακτικός VSync: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Επαναφορά προεπιλεγμένων ρυθμίσεων απόδοσης"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Επαναφορά βέλτιστων ρυθμίσεων απόδοσης"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D πλήρους οθόνης με γραφικό περιβάλλον: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D πλήρους οθόνης με γραφικό περιβάλλον: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "Έξοδος RGB 10-bit: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "Έξοδος RGB 10-bit: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "Δυναμική είσοδος RGB 10-bit: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "Δυναμική είσοδος RGB 10-bit: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Επεξεργασία 32 bit κινητής υποδιαστολής: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Επεξεργασία 32 bit κινητής υποδιαστολής: Όχι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Επεξεργασία 16 bit κινητής υποδιαστολής: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Επεξεργασία 16 bit κινητής υποδιαστολής: Όχι"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Μείωση φωτεινότητας"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Αύξηση αντίθεσης"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Μείωση αντίθεσης"
+msgstr ""
+
+msgctxt "IDS_HUE_INC"
+msgid "Απόχρωση +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "Απόχρωση -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Αύξηση κορεσμού"
+msgstr ""
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Μείωση κορεσμού"
+msgstr ""
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Επαναφορά ρυθμίσεων χρώματος"
+msgstr ""
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nΈχετε ήδη την πιο πρόσφατη σταθερή έκδοση."
+msgstr ""
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Η τρέχουσα έκδοσή σας είναι η v%s.\n\nΗ νεώτερη σταθερή έκδοση είναι η v%s."
+msgstr ""
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "Η έκδοση MPC-HC v%s είναι τώρα διαθέσιμη.\nΧρησιμοποιείτε την v%s.\n\nΘέλετε να επισκεφθείτε τον ιστότοπο του MPC-HC για λήψη;"
+msgstr ""
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Ο διακομιστής ενημερώσεων δεν βρέθηκε.\n\nΠαρακαλώ ελέγξτε τη σύνδεση διαδικτύου σας ή προσπαθήστε πάλι αργότερα."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Κλείσιμο"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Εστίαση: %.0lf%%"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Εστίαση: Αυτόματα"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Εναλλαγή προσαρμοσμένης αντιστοίχισης καναλιών"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Προσαρμ. πίνακας καναλιών: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Προσαρμ. πίνακας καναλιών: Όχι"
+msgstr ""
+
+msgctxt "IDS_NORMALIZE"
+msgid "Εναλλαγή εξομάλυνσης έντασης ήχου"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Εξομάλυνση: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Εξομάλυνση: Όχι"
+msgstr ""
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Εναλλαγή ανάκτησης έντασης"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Ανάκτηση έντασης: Ναι"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Ανάκτηση έντασης: Όχι"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Δεν ήταν δυνατή η δημιουργία του δέκτη."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Δεν ήταν δυνατή η δημιουργία της συσκευής λήψης."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Δεν ήταν δυνατή η σύνδεση του δικτύου και του δέκτη."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Δεν ήταν δυνατή η σύνδεση του δέκτη και της συσκευής λήψης."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Δεν ήταν δυνατή η σύνδεση του δέκτη."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Δεν ήταν δυνατή η δημιουργία διαχωρισμού της πολύπλεξης."
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Σφάλμα ανάλυσης του χρόνου που έχει εισαχθεί!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Σφάλμα ανάλυσης του κειμένου που έχει εισαχθεί!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Σφάλμα ανάλυσης του ρυθμού καρέ που έχει εισαχθεί!"
+msgstr ""
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Δεν είναι δυνατό το βήμα καρέ.\nΔοκιμάστε μια διαφορετική απόδοση βίντεο."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "Οι επιλογές \"Αποθήκευση εικόνας\" και \"Αποθήκευση μικρογραφιών\" δεν λειτουργούν με την προεπιλεγμένη απόδοση βίντεο για RealMedia.\nΕπιλέξτε μία από τις αποδόσεις DirectX για RealMedia στις επιλογές εξόδου του MPC-HC και ανοίξτε πάλι το αρχείο."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "Οι επιλογές \"Αποθήκευση εικόνας\" και \"Αποθήκευση μικρογραφιών\" δεν λειτουργούν με την προεπιλεγμένη απόδοση βίντεο για QuickTime.\nΕπιλέξτε μία από τις αποδόσεις DirectX για QuickTime στις επιλογές εξόδου του MPC-HC και ανοίξτε πάλι το αρχείο."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "Οι επιλογές \"Αποθήκευση εικόνας\" και \"Αποθήκευση μικρογραφιών\" δεν λειτουργούν για αρχεία Shockwave."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "Οι επιλογές \"Αποθήκευση εικόνας\" και \"Αποθήκευση μικρογραφιών\" δεν λειτουργούν με την απόδοση βίντεο Overlay Mixer.\nΑλλάξτε την απόδοση βίντεο στις επιλογές εξόδου του MPC-HC και ανοίξτε πάλι το αρχείο."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Δεν ήταν δυνατή η σύνδεση με τη βάση δεδομένων υποτίτλων."
+msgstr ""
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Θέλετε να ενεργοποιήσετε τον επεξεργαστή EDL;"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Σφάλμα καταγραφής"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "βίντεο"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "ήχος"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "Δεν μπορεί να προστεθεί το φίλτρο ενδιάμεσης μνήμης %s στο γράφημα."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Δεν μπορεί να συνδεθεί το φίλτρο ενδιάμεσης μνήμης %s στο γράφημα."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "Δεν μπορεί να προστεθεί το φίλτρο κωδικοποιητή %s στο γράφημα."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Δεν μπορεί να συνδεθεί το φίλτρο κωδικοποιητή %s στο γράφημα."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Δεν είναι δυνατό να οριστεί η μορφή συμπίεσης στο φίλτρο κωδικοποιητή %s."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Δεν μπορεί να συνδεθεί η ροή %s στο φίλτρο πολύπλεξης."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "Δεν βρέθηκε pin καταγραφής βίντεο."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "Δεν βρέθηκε pin καταγραφής ήχου."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Σφάλμα κατά την προετοιμασία του εξαγόμενου αρχείου."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Σφάλμα κατά την προετοιμασία του εξαγόμενου αρχείου ήχου."
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "Η σωστή μορφή ώρας είναι [-]ωω:λλ:δδ.χδ (π.χ. 01:23:45.678)."
+msgstr ""
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "Αυτός ο τύπος υπάρχει ήδη στη λίστα!"
+msgstr ""
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "Πρέπει να κάνετε εφαρμογή των νέων ρυθμίσεων πριν από τη δοκιμή τους."
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "Μετά την αναπαραγωγή: Έξοδος"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "Μετά την αναπαραγωγή: Σε αναμονή"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "Μετά την αναπαραγωγή: Αδρανοποίηση"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "Μετά την αναπαραγωγή: Τερματισμός λειτουργίας"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "Μετά την αναπαραγωγή: Αποσύνδεση"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "Μετά την αναπαραγωγή: Κλείδωμα"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "Μετά την αναπαραγωγή: Πάντα έξοδος"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "Μετά την αναπαραγωγή: Καμία ενέργεια"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "Μετά την αναπαραγωγή: Αναπ/γή επόμενου στο φάκελο"
+msgstr ""
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Φωτεινότητα : %s"
+msgstr ""
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Αντίθεση : %s"
+msgstr ""
+
+msgctxt "IDS_OSD_HUE"
+msgid "Απόχρωση : %s°"
+msgstr ""
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Κορεσμός : %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Οι ρυθμίσεις χρώματος επανήλθαν"
+msgstr ""
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Ο έλεγχος χρώματος δεν υποστηρίζεται"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Αύξηση φωτεινότητας"
+msgstr ""
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Εισάγετε εδώ τις προτιμώμενες γλώσσες σας.\nΓια απαράδειγμα, πληκτρολογήστε: \"ell eng fre\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "Οι εξωτερικοί διαχωριστές μπορούν να έχουν τις δικές τους επιλογές προτίμησης γλώσσας, έτσι ώστε η προεπιλεγμένη συμπεριφορά του MPC-HC να μην αλλάξει την αρχική επιλογή.\nΕνεργοποιήστε αυτή την επιλογή εάν θέλετε το MPC-HC να ελέγχει τους εξωτερικούς διαχωριστές."
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Ρυθμίσεις"
+msgstr ""
+

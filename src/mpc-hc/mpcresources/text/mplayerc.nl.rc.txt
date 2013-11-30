@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* External filters (such as VSFilter) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Audio"
 6		"Volume"
 7		"Min"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Ondertitelings:"
 30		"Audio:"
 32		"Allow overriding external splitter choice"
-33		"Opties voor openen"
-34		"Filter graph in aparte CPU-thread samenstellen"
-36		"Rapporteer pins die niet renderen"
-37		"Geluidsbestanden autom. laden"
-38		"Ondertiteling autom. laden"
-39		"Control"
-40		"Volume step:"
-44		"Speed step:"
+34		"Opties voor openen"
+35		"Filter graph in aparte CPU-thread samenstellen"
+37		"Rapporteer pins die niet renderen"
+38		"Geluidsbestanden autom. laden"
+39		"Ondertiteling autom. laden"
+40		"Control"
+41		"Volume step:"
+45		"Speed step:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

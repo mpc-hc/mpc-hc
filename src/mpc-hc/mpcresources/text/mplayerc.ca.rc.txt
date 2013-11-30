@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Filtres externs (com VSFilter) poden mostrar subtítols en tots els renderitzadors."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Àudio"
 6		"Volum"
 7		"Mínim"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Subtítols:"
 30		"Àudio:"
 32		"Anul·lar opcions de maquinari forà (splitter)"
-33		"Ajustos d'inici"
-34		"Ajuda en la construcció del Filter Graph"
-36		"Reportar conectors que no volen funcionar"
-37		"Carga automàtica d'àudio"
-38		"Carga automàtica dels subtítols"
-39		"Control"
-40		"Pas de Volum:"
-44		"Pas d'Acceleració:"
+34		"Ajustos d'inici"
+35		"Ajuda en la construcció del Filter Graph"
+37		"Reportar conectors que no volen funcionar"
+38		"Carga automàtica d'àudio"
+39		"Carga automàtica dels subtítols"
+40		"Control"
+41		"Pas de Volum:"
+45		"Pas d'Acceleració:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

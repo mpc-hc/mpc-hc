@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Filtrele externe (cum ar fi VSFilter) pot afişa subtitrări pe orice randor."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Audio"
 6		"Volum"
 7		"Min"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Subtitrări:"
 30		"Audio:"
 32		"Permite suprascrierea opţiunii separatorului (splitter) extern"
-33		"Setări pentru deschidere"
-34		"Folosește un fir de execuţie secundar pentru a construi graficul filtrelor"
-36		"Raportează pinii care eșuează să randeze"
-37		"Încarcă automat fișierele audio"
-38		"Încarcă automat subtitrările"
-39		"Control"
-40		"Treaptă Volum:"
-44		"Treaptă Viteză:"
+34		"Setări pentru deschidere"
+35		"Folosește un fir de execuţie secundar pentru a construi graficul filtrelor"
+37		"Raportează pinii care eșuează să randeze"
+38		"Încarcă automat fișierele audio"
+39		"Încarcă automat subtitrările"
+40		"Control"
+41		"Treaptă Volum:"
+45		"Treaptă Viteză:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

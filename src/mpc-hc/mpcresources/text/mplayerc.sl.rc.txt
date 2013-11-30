@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* Zunanji filtri (kot je VSFilter) lahko prikažejo podnapise na vseh izrisovalnikih."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"Zvok"
 6		"Glasnost"
 7		"Min"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"Podnapisi:"
 30		"Zvok:"
 32		"(Primer: eng jap swe)"
-33		"Nastavitve pri odpiranju"
-34		"Uporabni delovno nit za izdelavo grafa filtrov"
-36		"Javi priključke z napako pri izrisovanju"
-37		"Samodejno naloži zvočne datoteke"
-38		"Samodejno naloži podnapise"
-39		"Nadzor"
-40		"Korak glasnosti:"
-44		"Korak hitrosti:"
+34		"Nastavitve pri odpiranju"
+35		"Uporabni delovno nit za izdelavo grafa filtrov"
+37		"Javi priključke z napako pri izrisovanju"
+38		"Samodejno naloži zvočne datoteke"
+39		"Samodejno naloži podnapise"
+40		"Nadzor"
+41		"Korak glasnosti:"
+45		"Korak hitrosti:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

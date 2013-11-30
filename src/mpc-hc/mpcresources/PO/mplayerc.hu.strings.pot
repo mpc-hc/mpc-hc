@@ -1,0 +1,3352 @@
+msgctxt "IDR_MAINFRAME"
+msgid "Media Player Classic Home Cinema"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Rekesz"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Videó"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Audió"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Feliratok"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Chapter"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Befejezés..."
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Videó lejátszása"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Zene lejátszása"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Audió CD lejátszása"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "DVD lejátszása"
+msgstr ""
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Tulajdonságok"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "&Alap stílus"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "Fájlok"
+msgstr ""
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVDk"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Channel"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Time"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Sync Offset"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "avg: %d ms, dev: %d ms"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Jitter"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Bitrate"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (avg/cur)"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Signal"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Strength: %d dB, Quality: %d%%"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Stílusok"
+msgstr ""
+
+msgctxt "AFX_IDS_APP_TITLE"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Never (fastest approach)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Only when switching different video types (default)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Always (slowest option)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Not supported by some devices. Two video decoders always present in the filter graph."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Not recommended. Only for testing purposes."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Never if possible (fastest, but not supported by most filters)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Only when switching different video types (default)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Always (may be required by some devices)"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Parental rating"
+msgstr ""
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Not rated"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Content"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Movie/Drama"
+msgstr ""
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "News/Current affairs"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr ""
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "File added to favorites"
+msgstr ""
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD added to favorites"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Capture Settings"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Navigation Bar"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Subresync"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Time"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "End"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Preview"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Forced"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Text"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Style"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Font"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Failed to render some of the pins of the DVD Navigator filter"
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for DVD playback"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Live"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Can't add video capture filter to the graph"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Can't add audio capture filter to the graph"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Could not open capture device."
+msgstr ""
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Can't open, invalid input parameters"
+msgstr ""
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Edit List Editor"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "The entered time is greater than the file duration."
+msgstr ""
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "File"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Language"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Format"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Disc"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Title(s)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "CharSet"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Layer"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Actor"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Effect"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Playlist"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "On/Off"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "From fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "To fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Display mode (Hz)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Default"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Other"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "System Default"
+msgstr ""
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for playback"
+msgstr ""
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Could not set target window for graph notification"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Failed to render all pins of the DVD Navigator filter"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "&Megnyitás"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "&Hozzáadás"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "&Eltávolítás"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "C&lear"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "Vá&gólapra másolás"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "Menté&s másként..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Rendezés &címke szerint"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Rendezés &elérés szerint"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "&Véletlenszerűsítés"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "&Helyreállítás"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Elválasztó"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "&Törlés"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "D&uplázás"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "&Alaphelyzetbe állítás"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Felirat késleltetés -"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Felirat késleltetés +"
+msgstr ""
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Ikonképek mentése"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Lejátszás"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Lejátszó"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Lejátszás::DVD/OGM"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Feliratok"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Lejátszó::Formátumok"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Finomhangolások"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Belső szűrők::Audió-váltó"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "Külső szűrők"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Lejátszás::Shaders"
+msgstr ""
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Audió-váltó"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "New version of the icon library"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Do you want to reassociate the icons?"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Old Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Overlay Mixer Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Video Mixing Renderer 7 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video Mixing Renderer 9 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Video Mixing Renderer 7 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video Mixing Renderer 9 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Enhanced Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Enhanced Video Renderer (custom presenter)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDF_LOGO1"
+msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
+msgstr ""
+
+msgctxt "IDF_LOGO2"
+msgid "Steven W. Smith, smith78@sbcglobal.net"
+msgstr ""
+
+msgctxt "IDF_LOGO3"
+msgid "Robbie Khan, email@robbiekhan.co.uk"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Lejátszó::Billentyűk"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Feliratok::Alapstílus"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Belső szűrők"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Lejátszó::Logó"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Lejátszás::Kimenet"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Lejátszó::Webes felület"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "Feliratok::Adatbázis"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Erőforrások"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Vegyes"
+msgstr ""
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "Média Infó"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Lejátszás::Rögzítés"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Lejátszás::Sync Renderer Settings"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Lejátszás::Teljes Képernyő"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Jellemzők"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Klip"
+msgstr ""
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Az alapértelmezett videó átalakító szűrő DirectShow-hoz. A többi erre fog visszaugrani, ha valamiért nem lehet őket betölteni. Windows XP alatt ez ugyan az, mint a VMR-7 (windowed)."
+msgstr ""
+
+msgctxt "IDC_DSOLD"
+msgid "Ez a Windows 9x/me/2k alapértelmezett átalakítója. A videó ablakának láthatóságától és a videokártyája képességeitől függően, dinamikusan vált GDI, DirectDraw és Overlay átalakítási módok között."
+msgstr ""
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Mindig Overlay módban alakít át. Gyakorlatilag csak YUV formátumokat engedélyez, de ezeket közvetlenül adja tovább bármiféle RGB-re való színkonverzió nélkül. Ez a leggyorsabb átalakítási metódus mindközül és az egyetlen, ahol biztos lehet a teljes képernyős videó tükrözésben még akkor is ha aktiválva van a tv-kimenet."
+msgstr ""
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "A Windows XP alapértelmezett átalakítója. Nagyon stabil és csak egy kicsit lassabb, mint az Overlay mixer. Használja a DirectDraw-ot és Overlay módban fut, ha lehet."
+msgstr ""
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Csak akkor elérhető, ha telepítve van DirectX 9. Ugyan azokkal az adottságokkal rendelkezik, mint a VMR-7 (windowed), de sosem fog Overlay átalakítót használni és éppen ezért egy kicsit talán lassabb is, mint a VMR-7 (windowed)."
+msgstr ""
+
+msgctxt "IDC_DSVMR7REN"
+msgid "Ugyan az, mint a VMR-7 (windowed), de az MPC-HC Allokátor-Prezentátor beépülő modulja van benne a feliratozáshoz. Az Overlay videó tükrözés NEM FOG működni. Ajánlott 32 bites asztal-színmélységet beállítani mellé."
+msgstr ""
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Ugyan az, mint a VMR-9 (windowed), de az MPC-HC Allokátor-Prezentátor beépülő modulja van benne a feliratozáshoz. Az Overlay videó tükrözés TALÁN működik. Ajánlott 32 bites asztal-színmélységet beállítani mellé."
+msgstr ""
+
+msgctxt "IDC_DSDXR"
+msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Minden videószerű médiatípushoz csatlakozni fog és a bejövő mintákat nem küldi ki sehová. Ezt akkor válassza, ha a videómegjelenítésre nincs szüksége és meg szeretné kímélni a processzorát a felesleges munkától."
+msgstr ""
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Ugyan az, mint a sima Null átalakító, de ez csak tömörítetlen típusokhoz fog csatlakozni."
+msgstr ""
+
+msgctxt "IDC_DSEVR"
+msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "A Real saját átalakítója. A SMIL szkriptek műdödni fognak, de az interaktivitás nem igazán. Használja a DirectDraw-ot és Overlay módban megy, ha lehet."
+msgstr ""
+
+msgctxt "IDC_RMDX7"
+msgid "A Real-Motor kimenete, amit a DX7-alapú VMR-7 (renderless) átalakító generál."
+msgstr ""
+
+msgctxt "IDC_RMDX9"
+msgid "A Real-Motor kimenete, amit a DX9-alapú VMR-9 (renderless) átalakító generál."
+msgstr ""
+
+msgctxt "IDC_QTSYSDEF"
+msgid "A QuickTime saját átalakítója. Egy kicsit belassul, ha a videósáv át van méretezve, vagy ha részben lefedi egy másik ablak. Ha az Overlay mód nem elérhető, GDI-re vált vissza."
+msgstr ""
+
+msgctxt "IDC_QTDX7"
+msgid "A QuickTime-Motor kimenete, amit a DX7-alapú VMR-7 (renderless) átalakító generál."
+msgstr ""
+
+msgctxt "IDC_QTDX9"
+msgid "A QuickTime-Motor kimenete, amit a DX9-alapú VMR-9 (renderless) átalakító generál."
+msgstr ""
+
+msgctxt "IDC_REGULARSURF"
+msgid "A videó-felület normál képernyőn-kívüli (offscreen) felületként lesz lefoglalva."
+msgstr ""
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
+msgstr ""
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "MPC Audio Renderer is broken, do not use."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync Renderer"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - Reporting a bug"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Regular offscreen plain surface"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D surfaces"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D surfaces (recommended)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Nearest neighbor"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinear"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinear (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bicubic A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bicubic A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bicubic A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**unavailable**"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "The selected renderer is not installed."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC Audio Renderer"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Name"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME Type"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
+msgstr ""
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Download subtitles"
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Delay (ms):"
+msgstr ""
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Auto"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "There are no customized keys to export."
+msgstr ""
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "No media files found in the archive"
+msgstr ""
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Compressed files are not supported"
+msgstr ""
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Encrypted files are not supported"
+msgstr ""
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Couldn't find all archive volumes"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "A videó-felület textúraként lesz lefoglalva, de így is a 2D funkciók lesznek használva, hogy azt rámásoljuk és rányújtsuk a hátoldali-pufferre (backbuffer). Egy olyan videokártya szükséges hozzá, ami képes lefoglalni 32bites, RGBA és nem kettő hatványának megfelelő textúrákat legalább akkora méretben, mint maga a videó."
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "A videó-felület textúraként lesz lefoglalva és 3D-ben két háromszögként lesz megrajzolva. Ha a vonalsimítás (antialiasing) be van kapcsolva a képernyőbeállításoknál rossz hatással lehet az átalakítás sebességére."
+msgstr ""
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "Ha nincs Képpont árnyékoló (Pixel Shader) 2.0 támogatás, automatikusan a sima bilineáris lesz használva."
+msgstr ""
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Keverő módba állítja a VMR-9 (renderless) átalakítót, ami azt jelenti, hogy a legtöbb vezérlő működni fog a tulajdonságok lapján és külön szálon (worker thread) fogja átalakítani a képkockákat."
+msgstr ""
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Improves performance at the cost of some compatability of the renderer."
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Reduces tearing by bypassing the default VSync built into D3D."
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "Nyissa meg a VTS_xx_0.ifo fájlt, hogy a VTS_xx_x.vob fájlokat egészben töltse be"
+msgstr ""
+
+msgctxt "IDS_SRC_RFS"
+msgid "Based on RARFileSource, doesn't support compressed files"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Uses LAV Filters"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Toggle Navigation Bar"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Pontos függőleges szinkronizáció"
+msgstr ""
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "Az alapértelmezett pozíciót örökli a többi stílus, ahol ez még nincs meghatározva"
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "Ezt kikapcsolva felszabadít egy kis videomemóriát és sávszélességet takarít meg a lokális memória-videomemória közötti átvitelnél, de régebbi videokártyákkal lehet, hogy nem fog működni."
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Lehetővé teszi a felirat animálását, ha az előreolvasott feliratképek száma nagyobb, mint nulla. A funkció tiltása csökkenti a CPU terheltségét. Akkor is tiltsa, ha villódzik a felirat."
+msgstr ""
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "Miután rákattint erre a gombra, a formátumcsoport bepipált állapota az MPC-HC való aktuális fájlhozzárendeléseket fogja tükrözni. Egy újonnan hozzáadott kiterjesztéssel rendszerint szürkítettre fog váltani, tehát mielőtt bezárja a párbeszédpanelt, ne felejtse el újra bepipálni azt a csoportot!"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Lejátszás\nLejátszás"
+msgstr ""
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Szünet\nSzünet"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "Leállítás\nLeállítás"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Léptetés\nLéptetés"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Sebesség csökkentése\nSebesség csökkentése"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Sebesség növelése\nSebesség növelése"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Elnémítás"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Unmute"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "Nincs audió"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Ugrás vissza\nUgrás vissza"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Ugrás előre\nUgrás előre"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Eredeti"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Jelenlegi"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Szerkesztés"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Igen"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&Nem"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Csökkentés"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Növelés"
+msgstr ""
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Beállítások"
+msgstr ""
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr ""
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "&Hozzáadás a Kedvencekhez..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "&Kedvencek rendezése..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "Keverés"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Open file location"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Bezárás..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Lejátszás"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Szünet"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL új klip"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "Lista törlése"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES"
+msgid "Legutóbbi fájlok"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Biztosan törölni szeretnéd a legutóbb megnyitott fájlok listáját?"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL mentés"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Képkocka időzítés-javítás engedélyezése"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "EDL ablak Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL Be"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL Ki"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnL Elforgatás X-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnL Elforgatás Y+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnL Elforgatás Y-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnL Elforgatás Z+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnL Elforgatás Z-"
+msgstr ""
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Képszétválasztás teszt"
+msgstr ""
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Skálázás 16:9 TV-re,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Nagyítás Szélesvásznúra,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Nagyítás Ultra-Szélesvásznúra,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "Elrejtés Teljes képernyős módban"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Leállítva"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Pufferelés... (%d%%)"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Rögzítés..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Megnyitás..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Bezárva"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "&Beállítások..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Stílusok..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "&Újratöltés"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "&Engedélyezés"
+msgstr ""
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "Szerkesztés..."
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Cím"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Szerző"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Szerzői jog"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Minősítés"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Leírás"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Tartomány"
+msgstr ""
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Bezárás"
+msgstr ""
+
+msgctxt "IDS_AG_NONE"
+msgid "Nincs"
+msgstr ""
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Parancs"
+msgstr ""
+
+msgctxt "IDS_AG_KEY"
+msgid "Billentyű"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Mouse Windowed"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Mouse Fullscreen"
+msgstr ""
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "Prog. Parancs"
+msgstr ""
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Média fájlok (összes típus)"
+msgstr ""
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "Összes fájl (*.*)|*.*|"
+msgstr ""
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Audió fájlok (all types)"
+msgstr ""
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Ismeretlen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Gyors fájl megnyitás"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Fájl megnyitása"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "DVD/BD megnyitása"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Eszköz megnyitása"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Mentés másként"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Kép mentése"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Kép mentése (auto)"
+msgstr ""
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Image saved successfully"
+msgstr ""
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "Felirat betöltése"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "Felirat mentése"
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Tulajdonságok"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT"
+msgid "Kilépés"
+msgstr ""
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Lejátszás/Szünet"
+msgstr ""
+
+msgctxt "IDS_AG_PLAY"
+msgid "Lejátszás"
+msgstr ""
+
+msgctxt "IDS_AG_STOP"
+msgid "Leállítás"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Léptetés"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Visszaléptetés"
+msgstr ""
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Ugrás"
+msgstr ""
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Sebesség növelése"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Show/Game show"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Sports"
+msgstr ""
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Children's/Youth programmes"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Music/Ballet/Dance"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Arts/Culture"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Social/Political issues/Economics"
+msgstr ""
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Leisure hobbies"
+msgstr ""
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Move to Recycle Bin"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Save a Copy"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Latest keyframe"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Nearest keyframe"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Frame Time Correction: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Frame Time Correction: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Target VSync Offset: %.1f"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "VSync Offset: %d"
+msgstr ""
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Speed: %.2lfx"
+msgstr ""
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Thumbnails saved successfully"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "Video S&tream"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "Video Ang&le"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Reset settings"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Please close all instances of MPC-HC so that the default settings can be restored."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Export settings"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "The settings have been successfully exported."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "The export failed! This can happen when you don't have the correct rights."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA Error"
+msgstr ""
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Sebesség csökkentése"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Sebesség alaphelyzetbe állítása"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Audió késleltetés +10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Audió késleltetés -10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Ugrás előre (kicsi)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Ugrás vissza (kicsi)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Ugrás  előre (közepes)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Ugrás  vissza (közepes)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Ugrás előre (nagy)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Ugrás vissza (nagy)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Ugrás előre (kulcs képkocka)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Ugrás vissza (kulcs képkocka)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT"
+msgid "Következő"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Előző"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Next File"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Previous File"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Direct3D teljes képernyős mód Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Ugrás az előző feliratra"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Ugrás a következő feliratra"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Felirat balra tolása"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Felirat jobbra tolása"
+msgstr ""
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "Statisztika megjelenítése"
+msgstr ""
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Jump to Beginning"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "Minimális nézet"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "Tömörített nézet"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "Normál nézet"
+msgstr ""
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "Teljes képernyő"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "Teljes képernyő (felbontás módosítása nélkül)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Nagyítás Auto illeszkedés"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "VidFrm Felezett"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "VidFrm Normál"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "VidFrm Dupla"
+msgstr ""
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Mindig felül"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnL Méret növelése"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnL Szélesség növelése"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnL Magasság növelése"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnL Méret csökkentése"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnL Szélesség csökkentése"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnL Magasság csökkentése"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Downloading subtitle(s), please wait."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Parsing list..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "No subtitles found."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d subtitle(s) available."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
+msgstr ""
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Auto Fit"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (Larger Only)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Zoom Auto Fit (Larger Only)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Zoom: Auto (Larger Only)"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Double click to open file location"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Toggle between elapsed and remaining time"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Invalid delay"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Please enter a number between 1 and 365."
+msgstr ""
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnL Középre állít"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnL Balra"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnL Jobbra"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnL Fel"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnL Le"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnL Fel/Balra"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnL Fel/Jobbra"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnL Le/Balra"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnL Le/Jobbra"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Hangerő Fel"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Hangerő Le"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Hangerő Elnémítás"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD Cím menü"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD Gyökér menü"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD Felirat menü"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD Audió menü"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD Látószög menü"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD Fejezet menü"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD menü Balra"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD menü Jobbra"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD menü Fel"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD menü Le"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD menü Aktiválás"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD menü Vissza"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD menü Elhagyás"
+msgstr ""
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Főnök Gomb"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Lejátszó menü (rövid)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Lejátszó menü (hosszú)"
+msgstr ""
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Szűrők menü"
+msgstr ""
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Beállítások"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Következő audió"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Előző audió"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Következő felirat"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Előző felirat"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "Felirat Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Feliratok újratöltése"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "Következő audió (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "Előző audió (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "Következő felirat (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "Előző felirat (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "Következő látószög (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "Előző látószög (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "Következő audió (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "Előző audió (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "Következő felirat (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "Előző felirat (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "Felirat Ki-Bekapcsolása (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "Hátralévő idő"
+msgstr ""
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Válassza ki a mappát"
+msgstr ""
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Gyors kedvencekhez adás"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Name"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Frequency"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Encrypted"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "Yes"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "No"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Start"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Stop"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Radio stations"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "TV stations"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Format"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_2"
+msgid "A fókuszt elvette: %s - %s"
+msgstr ""
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Feliratok elmentve"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Nem lehet elmenteni a feliratokat"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Képkocka-ráta"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_6"
+msgid "rajzolt: %d, elejtett: %d"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Képkockák"
+msgstr ""
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Pufferek"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Kötet: %02d/%02d, Cím: %02d/%02d, Fejezet: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Látószög: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dHz %dbit %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Hozzáadás az MPC-HC Lejátszási listához"
+msgstr ""
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Lejátszás MPC-HC vel"
+msgstr ""
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "A MPC-HC nem rendelkezik elegendő jogosultságokkal, hogy módosítsa a fájl formátumok hozzárendelését. Kérem kattintson a \"Módosít\" gombra, hogy adminisztrátori jogosultságokat kapjon."
+msgstr ""
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "Egyike a legjobb teljesítménnyel és testreszabhatósággal rendelkező multimédiás lejátszóknak Windows operációs rendszerekre. Eredetileg a Magyar fejlesztő, Gabest készítette. Ebben a verzióban további funkciók találhatóak, mint például a Direct 3D teljes képernyős mód és a jobb Windows Vista/7 támogatás."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_12"
+msgid "csatorna"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_13"
+msgid "csatorna"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE"
+msgid "Cím %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Váratlan hiba"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: Másolás-védelem Hiba"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Érvénytelen DVD 1.x Lemez"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Érvénytelen Lemez Régió"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Alacsony Felügyeleti Szint"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Macrovision Hiba"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Összeférhetetlen Rendszer és Dekódoló régiók"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Összeférhetetlen Lemez és Dekódoló régiók"
+msgstr ""
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying context menus and dialog boxes during playback.\n\nDo you really want to activate this option?"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Felirat késl.: %ld ms"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Cím: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "A fájlnév nemtámogatott karaktereket tartalmaz (érvényes karakterek A-Z, 0-9)"
+msgstr ""
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Sorok:"
+msgstr ""
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Oszlopok:"
+msgstr ""
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Image width"
+msgstr ""
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "AZ URL érvényesnek tűnik!"
+msgstr ""
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "Eltérő protokoll verzió, kérem frissítse a lejátszóját, vagy válasszon egy másik címet!"
+msgstr ""
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Képméretarány"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Összes: %d, Elejtett: %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Méret: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Méret: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Szabad: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Szabad: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Szabad V/A Pufferek: %03d/%03d"
+msgstr ""
+
+msgctxt "IDS_AG_ERROR"
+msgid "Hiba"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Felirat: ki"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Felirat: %s"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_46"
+msgid "Válassza ki a DVD/BD-hez vezető elérési utat:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_47"
+msgid " sikeresen betöltve"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_48"
+msgid "Minden fájl (*.*)|*.*||"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_49"
+msgid "GetDIB sikertelen, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_51"
+msgid "GetCurrentImage sikertelen, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_53"
+msgid "A fájl nem hozható létre"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_54"
+msgid "Időtartam nélküli fájlokhoz nem lehet ikonképeket létrehozni"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_55"
+msgid "Nem lehetett megpakni a videó képkocka méretét"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_56"
+msgid "Elfogyott a memória, menjen és vegyen még!"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_57"
+msgid "Érvénytelen képformátum, nem lehet %d bpp dib-ekből ikonképeket létrehozni."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_58"
+msgid "Fájlméret: %s (%s bytes)\\N"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Fájlnév: %s\\N%sFelbontás: %dx%d %s\\NIdőtartam: %02d:%02d:%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_60"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Képméretarány: %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Képméretarány: Alapértelmezés"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Audió késleltetés: %I64dms"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "%d. fejezet"
+msgstr ""
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Elfogyott a memória"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Error: Flash for IE is required"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_78"
+msgid "A QuickTime nem támogatott még X64 alatt (nem érhető el apple library hozzá)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Nem sikerült létrehozni a szűrő-gráf objektumot"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Érvénytelen változó"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Megnyitás elvetve"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Nem sikerült megjeleníteni a fájlt"
+msgstr ""
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "Rossz URL, a megadott címen nem található felirat adatbázis!"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "fejezet: "
+msgstr ""
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Hang: %d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Boost: +%u%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Balance: %s"
+msgstr ""
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Aktuális"
+msgstr ""
+
+msgctxt "IDS_MPC_CRASH"
+msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
+msgstr ""
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "A memóriakiíratás (dump) fájl nem hozható létre az adott helyen: '%s' (hiba %d)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Mappa kiválasztása"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Almappákkal együtt"
+msgstr ""
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Szünet"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Cím&Menü Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Keresősáv Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Vezérlők Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Érvénytelen fájlnév"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Nem lehet csatlakoztatni a szűrőket"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Nem lehet egy forrás szűrőt sem betölteni"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_88"
+msgid "A fájl nem megjeleníthető"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Érvénytelen fájl formátum"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_90"
+msgid "A fájl nem található"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Ismeretlen fájl típus"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Nem támogatott adatfolyam"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_93"
+msgid "Nem található a DVD mappa"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_94"
+msgid "Nem lehet létrehozni a DVD Navigátor szűrőt"
+msgstr ""
+
+msgctxt "IDS_AG_FAILED"
+msgid "Nem sikerült"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Nem lehet létrehozni a videó rögzítő szűrőt"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_98"
+msgid "Nincsenek rögzítő szűrők"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Nem lehet létrehozni rögzítő-gráf építő objektumot"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Nem nyitható meg egyetlen eszköz sem"
+msgstr ""
+
+msgctxt "IDS_AG_SOUND"
+msgid "Hang"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s nem található, kérem tegyen be egy médiát, amin megtalálható ez a fájl."
+msgstr ""
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Elvetve"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Tulajdonságok..."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_117"
+msgid "Csatlakozó tulajdonságok..."
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Ismeretlen adatfolyam"
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Ismeretlen %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNC"
+msgid "Függőleges szinkronizáció"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Rendezői megjegyzések 1)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Rendezői megjegyzések 2)"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLED"
+msgid "Engedélyezve"
+msgstr ""
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Látószög %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "Függőleges szinkronizáció eltolás növelése"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Kikapcsolva"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "Függőleges szinkronizáció eltolás csökkentése"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D Teljes képernyő"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Ismeretlen formátum"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Felirat eltolás : %ld"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Hangerő erősítés növelése"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Hangerő erősítés csökkentése"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Hangerő erősítés Min"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Hangerő erősítés Max"
+msgstr ""
+
+msgctxt "IDS_USAGE"
+msgid "Használat: mpc-hc.exe \"pathname\" [kapcsolók]\n\n\"pathname\"\tA fő betöltendő fájl vagy mappa helye (spec. helyettesítő karakterek \n\t\tengedélyezve, \"-\" denotes standard input)\n/dub \"dubname\"\tBetölt egy külön audió fájlt\n/dubdelay \"file\"\tBetölt egy külön audió fájlt XX ms-al eltolva (ha a\n\t\tfájl tartalmaz \"...DELAY XXms...\")\n/d3dfs\t\tlejátszó indítása D3D teljes képernyős módban\n/sub \"subname\"\tBetölt egy külön felirat fájlt\n/filter \"filtername\"\tDirectShow szűrőket tölt be egy dynamic link\n\t\tlibrary-ból (spec. helyettesítő karakterek tengedélyezve)\n/dvd\t\tDVD módban való futtatás, a \"pathname\" a dvd \n\t\tmappáját jelenti (opcionális)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tBetölti egy audió CD vagy egy (s)vcd összes műsorszámát, a\n\t\t\"pathname\" a meghajtó betűjelét jelenti (opcionális)\n/device\t\tOpen the default video device\n/open\t\tMegnyitja a fájlt, de nem kezdi el automatikusan eljátszani\n/play\t\tKezdje el lejátszani a fájlt, amint a lejátszó\n\t\telindul\n/close\t\tZárja be a lejátszót a műsör befejeződése után (csak a /play kapcsolóval\n\t\tegyütt használható)\n/shutdown\tÁllítsa le a rendszert a műsor lejátszásának befejeződése után\n/fullscreen\tIndítás teljes képernyős módban\n/minimized\tMinimalizált formában való indítás\n/new\t\tA lejátszó egy új példányának használata\n/add\t\tA \"pathname\" hozzáadása a lejátszási listához, összekombinálható \n\t\taz /open és /play kapcsolóval\n/regvid\t\tVideó formátumok beregisztrálása\n/regaud\t\tAudió formátumok beregisztrálása\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tVideó formátumok beregisztráltságának megszüntetése\n/start ms\t\tX \"ms\" (= ezredmásodperc) után induljon a lejátszás\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tFix ablakméret beállítása\n/monitor N\tIndítás az N. monitoron, ahol N egytől indul\n/audiorenderer N\tN. audió átalakító használata, ahol N egytől indul\n\t\t(lásd \"Kimenet\" beállítások)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tMegmutatja a parancssori kapcsolókról szóló súgót\n"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "Nem felismerhető kapcsoló(k) találhatóak a parancssortól kapott szövegben: \n\n"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Információ Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Statisztika Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Állapotsor Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Felirat időzítő Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Lejátszási lista Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Rögzítés oszlop Ki-Bekapcsolása"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Kicsinyítés 50%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Nagyítás 100%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Nagyítás 200%"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Következő Képméretarány nézet"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "VidFrm ablakhoz nyújtása"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "VidFrm ablak érintése belülről"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "VidFrm ablak érintése kívülről"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "PnL Visszaállítás"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "PnL Elforgatás X+"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "VidFrm Zoom 1"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "VidFrm Zoom 2"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "VidFrm Switch Zoom"
+msgstr ""
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "&Összes szűrő engedélyezése"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner keresés"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "A feliratok nem betölthetők, vagy nem támogatott átalakító."
+msgstr ""
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Ismeretlen szerző. Keressen fel minket, ha ön készítette a logót!"
+msgstr ""
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "No more media in the current folder."
+msgstr ""
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "The first file in the folder is loaded now."
+msgstr ""
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "The last file in the folder is loaded now."
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Front Bal"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Front Jobb"
+msgstr ""
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Front Center"
+msgstr ""
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Alacsony Frekvencia"
+msgstr ""
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Hátsó Bal"
+msgstr ""
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Hátsó Jobb"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Center Front Bal"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Center Front Jobb"
+msgstr ""
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Hátsó Center"
+msgstr ""
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Bal Oldalsó"
+msgstr ""
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Jobb Oldalsó"
+msgstr ""
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Top Center"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Top Front "
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Top Front Center"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Top Front Jobb"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Top Hátsó Bal"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Top Hátsó Center"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Top Hátsó Jobb"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "Sync Renderer reset stats"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Feliratok::Misc"
+msgstr ""
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide borders"
+msgstr ""
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Frame Only"
+msgstr ""
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Show Caption&&Menu"
+msgstr ""
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide Menu"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seekbar"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seekbar"
+msgstr ""
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr ""
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr ""
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr ""
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr ""
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr ""
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr ""
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "&Összes szűrő tiltása"
+msgstr ""
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Enable all audio decoders"
+msgstr ""
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Disable all audio decoders"
+msgstr ""
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Enable all video decoders"
+msgstr ""
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Disable all video decoders"
+msgstr ""
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Ablakhoz nyújtás"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Ablak érintése belülről"
+msgstr ""
+
+msgctxt "IDS_ZOOM1"
+msgid "Zoom 1"
+msgstr ""
+
+msgctxt "IDS_ZOOM2"
+msgid "Zoom 2"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Ablak érintése kívülről"
+msgstr ""
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Audió: %s"
+msgstr ""
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Fájl újranyitása"
+msgstr ""
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr ""
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Other Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Resolution"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "Use WASAPI (restart playback)"
+msgstr ""
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "Mute on fast forward"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "VSync: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "VSync: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Accurate VSync: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Accurate VSync: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Synchronize Video to Display: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Synchronize Video to Display: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Synchronize Display to Video: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Synchronize Display to Video: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Present at Nearest VSync: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Present at Nearest VSync: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Color Management: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Color Management: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Input Type: Auto-Detect"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Input Type: HDTV"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Input Type: SDTV NTSC"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Input Type: SDTV PAL"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Ambient Light: Bright (2.2 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Ambient Light: Dim (2.35 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Ambient Light: Dark (2.4 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Rendering Intent: Perceptual"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Rendering Intent: Relative Colorimetric"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Rendering Intent: Saturation"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Rendering Intent: Absolute Colorimetric"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Output Range: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "Flush GPU before VSync: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "Flush GPU before VSync: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "Flush GPU after Present: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "Flush GPU after Present: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Wait for GPU Flush: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Wait for GPU Flush: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D Fullscreen: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D Fullscreen: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Disable desktop composition: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Disable desktop composition: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Alternative VSync: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Alternative VSync: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Renderer settings reset to default"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Renderer settings reset to optimal"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D Fullscreen GUI Support: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D Fullscreen GUI Support: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10-bit RGB Output: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10-bit RGB Output: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "Force 10-bit RGB Input: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "Force 10-bit RGB Input: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Full Floating Point Processing: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Full Floating Point Processing: Off"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Half Floating Point Processing: On"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Half Floating Point Processing: Off"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Brightness decrease"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Contrast increase"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Contrast decrease"
+msgstr ""
+
+msgctxt "IDS_HUE_INC"
+msgid "Hue +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "Hue -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Saturation increase"
+msgstr ""
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Saturation decrease"
+msgstr ""
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Reset color settings"
+msgstr ""
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nYou are already using the latest stable version."
+msgstr ""
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
+msgstr ""
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
+msgstr ""
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Update server not found.\n\nPlease check your internet connection or try again later."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Close"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Zoom: %.0lf%%"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Zoom: Auto"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Toggle custom channel mapping"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Custom channel mapping: On"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Custom channel mapping: Off"
+msgstr ""
+
+msgctxt "IDS_NORMALIZE"
+msgid "Toggle normalization"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Normalization: On"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Normalization: Off"
+msgstr ""
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Toggle regain volume"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Regain volume: On"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Regain volume: Off"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Could not create the tuner."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Could not create the receiver."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Could not connect the network and the tuner."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Could not connect the tuner and the receiver."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Could not connect the tuner."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Could not create the demultiplexer."
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Error parsing the entered time!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Error parsing the entered text!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Error parsing the entered frame rate!"
+msgstr ""
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Cannot frame step, try a different video renderer."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Cannot connect to the online subtitles database."
+msgstr ""
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Do you want to activate the EDL editor?"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Capture Error"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "video"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "audio"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "Can't add the %s buffer filter to the graph."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Can't connect the %s buffer filter to the graph."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "Can't add the %s encoder filter to the graph."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Can't connect the %s encoder filter to the graph."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Can't set the compression format on the %s encoder filter."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Can't connect the %s stream to the multiplexer filter."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "No video capture pin was found."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "No audio capture pin was found."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Error initializing the output file."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Error initializing the audio output file."
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
+msgstr ""
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "This type is already in the list!"
+msgstr ""
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "You need to apply the new settings before testing them."
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Exit"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "After Playback: Stand By"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "After Playback: Hibernate"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "After Playback: Shutdown"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "After Playback: Log Off"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "After Playback: Lock"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "After Playback: Always exit"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do Nothing"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "After Playback: Play next in the folder"
+msgstr ""
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Brightness: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Contrast: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_HUE"
+msgid "Hue: %s°"
+msgstr ""
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Saturation: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Color settings restored"
+msgstr ""
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Color control is not supported"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Brightness increase"
+msgstr ""
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Settings"
+msgstr ""
+

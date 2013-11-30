@@ -310,7 +310,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 47
 46		"* 外部篩選器 (例如 VSFilter) 可以在任何繪製器中顯示字幕。"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 49
 5		"音訊"
 6		"音量"
 7		"小"
@@ -330,14 +330,14 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 48
 28		"字幕:"
 30		"音訊:"
 32		"允許覆蓋外部分離器選擇"
-33		"開啟設定"
-34		"使用工作執行緒建立篩選器圖 (Filter Graph)"
-36		"回報繪製失敗的腳位 (Pin)"
-37		"自動載入音訊檔案"
-38		"自動載入字幕"
-39		"控制"
-40		"音量步進:"
-44		"速度步進:"
+34		"開啟設定"
+35		"使用工作執行緒建立篩選器圖 (Filter Graph)"
+37		"回報繪製失敗的腳位 (Pin)"
+38		"自動載入音訊檔案"
+39		"自動載入字幕"
+40		"控制"
+41		"音量步進:"
+45		"速度步進:"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34

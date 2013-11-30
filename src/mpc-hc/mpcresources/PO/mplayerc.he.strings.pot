@@ -1,0 +1,3352 @@
+msgctxt "IDR_MAINFRAME"
+msgid "Media Player Classic Home Cinema"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "מיקום"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "וידאו"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "שמע"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "כתוביות"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Chapter"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "משלים..."
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "נגן וידאו"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "נגן מוזיקה"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "נגן דיסק שמע"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "נגן סרט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "מאפיינים"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "סגנון ברירת מחדל"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "קבצים"
+msgstr ""
+
+msgctxt "IDS_FAVDVDS"
+msgid "דיסקי די.וי.די"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Channel"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Time"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Sync Offset"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "avg: %d ms, dev: %d ms"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Jitter"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Bitrate"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (avg/cur)"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Signal"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Strength: %d dB, Quality: %d%%"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "סגנונות"
+msgstr ""
+
+msgctxt "AFX_IDS_APP_TITLE"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Never (fastest approach)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Only when switching different video types (default)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Always (slowest option)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Not supported by some devices. Two video decoders always present in the filter graph."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Not recommended. Only for testing purposes."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Never if possible (fastest, but not supported by most filters)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Only when switching different video types (default)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Always (may be required by some devices)"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Parental rating"
+msgstr ""
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Not rated"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Content"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Movie/Drama"
+msgstr ""
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "News/Current affairs"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr ""
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "File added to favorites"
+msgstr ""
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD added to favorites"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Capture Settings"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Navigation Bar"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Subresync"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Time"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "End"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Preview"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Forced"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Text"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Style"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Font"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Failed to render some of the pins of the DVD Navigator filter"
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for DVD playback"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Live"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Can't add video capture filter to the graph"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Can't add audio capture filter to the graph"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Could not open capture device."
+msgstr ""
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Can't open, invalid input parameters"
+msgstr ""
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Edit List Editor"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "The entered time is greater than the file duration."
+msgstr ""
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "File"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Language"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Format"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Disc"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Title(s)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "CharSet"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Layer"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Actor"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Effect"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Playlist"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "On/Off"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "From fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "To fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Display mode (Hz)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Default"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Other"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "System Default"
+msgstr ""
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for playback"
+msgstr ""
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Could not set target window for graph notification"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Failed to render all pins of the DVD Navigator filter"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "פתח"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "הוסף"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "הסר"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "נקה"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "העתק ללוח הגזירים"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "שמירה בשם..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "מיין על-פי תווית"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "מיין על-פי נתיב"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "הפוך לאקראי"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "שחזר"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "מפריד"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "מחק"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "שכפל"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "אפס"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "שיהוי כתובית -"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "שיהוי כתובית +"
+msgstr ""
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "שמירת תמונות ממוזערות"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "ניגון"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "נגן"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD"
+msgid "ניגון::די.וי.די/OGM"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "כתוביות"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "נגן::פורמטים"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "כיוונונים"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "פילטרים פנימיים::מחליף זרמי השמע"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "פילטרים חיצוניים"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "ניגון::Shaders"
+msgstr ""
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "מחליף זרמי השמע"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "New version of the icon library"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Do you want to reassociate the icons?"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Old Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Overlay Mixer Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Video Mixing Renderer 7 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video Mixing Renderer 9 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Video Mixing Renderer 7 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video Mixing Renderer 9 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Enhanced Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Enhanced Video Renderer (custom presenter)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDF_LOGO1"
+msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
+msgstr ""
+
+msgctxt "IDF_LOGO2"
+msgid "Steven W. Smith, smith78@sbcglobal.net"
+msgstr ""
+
+msgctxt "IDF_LOGO3"
+msgid "Robbie Khan, email@robbiekhan.co.uk"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "נגן::מקשים"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "כתוביות::סגנון ברירת מחדל"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "פילטרים פנימיים"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO"
+msgid "נגן::לוגו"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "ניגון::פלט"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "נגן::ממשק אתר רשת"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "כתוביות::מסד נתונים"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES"
+msgid "משאבים"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC"
+msgid "שונות"
+msgstr ""
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "מידע-מדיה"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "ניגון::לכידה"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC"
+msgid "ניגון::Sync Renderer Settings"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "ניגון::מסך מלא"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "פרטים"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "קליפ"
+msgstr ""
+
+msgctxt "IDC_DSSYSDEF"
+msgid "פילטר מציג וידאו ברירת המחדל עבור DirectShow. אחרים יסגו לזה כאשר אינם יכולים להטען מסיבה כלשהי. ב-Windown XP אפשרות זו שקולה ל-VMR-7 (windowed)."
+msgstr ""
+
+msgctxt "IDC_DSOLD"
+msgid "זהו מציג ברירת המחדל ב-Windows 9x/me/2k. בהתאם לראות החלון ויכולות הכרטיס הגרפי שלך, הוא יחליף בין מצבי תצוגה של GDI, DirectDraw ו-Overlay בצורה דינמית."
+msgstr ""
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "תמיד מציג ב-overlay. בדרך כלל רק פורמטי YUV מותרים, אך הם מוצגים ישירות ללא המרת צבעים ל-RGB. זוהי השיטה המהירה ביותר להצגה והיחידה בה אתה יכול להיות בטוח ששיקוף וידאו במסך מלא ליציאת טלוויזיה מופעלת."
+msgstr ""
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "מציג ברירת המחדל ב-Windows XP. מאוד יציב ורק טיפה יותר איטי ממיקסר ה-Overlay. משתמש ב-DirectDraw ורץ ב-Overlay כאשר הוא מסוגל."
+msgstr ""
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "זמין רק אם מותקן אצלך DirectX 9. ברשותו אותן יכולות כמו VMR-7 (windowed), אך הוא לעולם לא משתמש בהצגת Overlay ולכן יתכן ויהיה טיפה יותר איטי מ-VMR-7 (windowed)."
+msgstr ""
+
+msgctxt "IDC_DSVMR7REN"
+msgid "כמו VMR-7 (windowed), אך עם תוסף הקצבת תצוגה של MPC-HC עבור כתוביות. שיקוף וידאו של Overlay לא יעבוד. מרחב הצבעים 'צבע אמיתי' לשולחן העבודה מומלץ."
+msgstr ""
+
+msgctxt "IDC_DSVMR9REN"
+msgid "כמו VMR-9 (windowed), אך עם תוסף הקצבת תצוגה של MPC-HC עבור כתוביות. שיקוף וידאו של Overlay אולי יעבוד. מרחב הצבעים 'צבע אמיתי' לשולחן העבודה מומלץ. מומלץ עבור Windows XP."
+msgstr ""
+
+msgctxt "IDC_DSDXR"
+msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "מתחבר לכל סוג מדיה דומה לוידאו וישלח את הדגימות הנכנסות לשום מקום. השתמש בזה כאשר אינך זקוק לתצוגת וידאו ואתה רוצה לחסוך עבודה מיותרת של המעבד."
+msgstr ""
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "כמו מציג ה-Null הרגיל, אך זה יתחבר רק לסוגים לא מכווצים."
+msgstr ""
+
+msgctxt "IDC_DSEVR"
+msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "מציג הוידאו של Real. סקריפטי SMIL יעבדו, אך אינטרקצייה כנראה לא. משתמש ב-DirectDraw ורץ ב-Overlay כאשר הוא יכול."
+msgstr ""
+
+msgctxt "IDC_RMDX7"
+msgid "פלט מנוע ה-Real המוצג על-ידי מקציב התצוגה מבוסס ה-DX7 של VMR-7 (renderless)."
+msgstr ""
+
+msgctxt "IDC_RMDX9"
+msgid "פלט מנוע ה-Real המוצג על-ידי מקציב התצוגה מבוסס ה-DX9 של VMR-9 (renderless)."
+msgstr ""
+
+msgctxt "IDC_QTSYSDEF"
+msgid "מציג הוידאו של QuickTime. קצת איטי כאשר גודל שטח הוידאו משתנה או מכוסה על-ידי חלון אחר. כאשר Overlay אינו זמין, הוא כנראה ניסוג ל-GDI."
+msgstr ""
+
+msgctxt "IDC_QTDX7"
+msgid "פלט מנוע ה-QuickTime המוצג על-ידי מקציב התצוגה מבוסס ה-DX7 של VMR-7 (renderless)."
+msgstr ""
+
+msgctxt "IDC_QTDX9"
+msgid "פלט מנוע ה-QuickTime המוצג על-ידי מקציב התצוגה מבוסס ה-DX9 של VMR-9 (renderless)."
+msgstr ""
+
+msgctxt "IDC_REGULARSURF"
+msgid "משטח הוידאו יוקצה כמשטח רגיל מחוץ למסך."
+msgstr ""
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
+msgstr ""
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "MPC Audio Renderer is broken, do not use."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync Renderer"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - Reporting a bug"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Regular offscreen plain surface"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D surfaces"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D surfaces (recommended)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Nearest neighbor"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinear"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinear (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bicubic A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bicubic A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bicubic A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**unavailable**"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "The selected renderer is not installed."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC Audio Renderer"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Name"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME Type"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
+msgstr ""
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Download subtitles"
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Delay (ms):"
+msgstr ""
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Auto"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "There are no customized keys to export."
+msgstr ""
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "No media files found in the archive"
+msgstr ""
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Compressed files are not supported"
+msgstr ""
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Encrypted files are not supported"
+msgstr ""
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Couldn't find all archive volumes"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "משטח הוידאו יוקצה כמרקם, אך פונקציות ה-2D עדיין ישמשו להעתיק ולמתוח אותו אל החוצץ האחורי. דורש כרטיס גרפי המסוגל להקצות מרקמי  32ביט, RGBA, ללא כפולות של 2 ולפחות ברזולוצייה של הוידאו."
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "משטח הוידאו יקוצה כמרקם ויצוייר כשני משולשים ב-3D. אם החלקת קצוות מופעלת בהגדרות התצוגה, יתכן וזה ישפיע לרעה על מהירות ההצגה."
+msgstr ""
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "אם לא קיימת תמיכה במצליל פיקסלים 2.0, אלגוריתם פשוט דו-כיווני יהיה בשימוש בצורה אוטומטית."
+msgstr ""
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "מכניס את VMR-9 (renderless) למצב מיקסר, אשר אומר שרוב כלי השליטה בדפי התכונות יעבדו ויבוצע שימוש בתהליכון-עובד נפרד בכדי למסור את הפריימים."
+msgstr ""
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Improves performance at the cost of some compatability of the renderer."
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Reduces tearing by bypassing the default VSync built into D3D."
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "פתח VTS_xx_0.ifo בכדי לטעון קבצי VTS_xx_x.vob כחתיכה אחת"
+msgstr ""
+
+msgctxt "IDS_SRC_RFS"
+msgid "Based on RARFileSource, doesn't support compressed files"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Uses LAV Filters"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Toggle Navigation Bar"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "סנכרון אנכי מדוייק"
+msgstr ""
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "מצב ברירת המחדל עובר בירושה לסגנונות אחרים בהם שם הוא עדיין אינו מוגדר"
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "הסרת סימון זה ירוקן טיפת זיכרון וידאו וישמור על רוחב פס בהעתקות מקומיות לזיכרון הוידאו, אך זה עלול לא לעבוד עם כרטיסים גרפים ישנים."
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "מאפשר הנפשת כתוביות כאשר משתמשים בחוצץ תת-תמונות גדול מ-0. כיבוי אפשרות זו תנמיך את השימוש במעבד. אפשר לכבות אם אתה סובל מכתוביות מהבהבות."
+msgstr ""
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "אחרי לחיצה על כפתור זה, המצב המסומן של קבוצת פורמטים ייצג את השיוך האמיתי של הקבצים ל-MPC-HC. הרחבת חדשה שנוספת בדרך כלל תהפוך זאת לאפור, אז אל תשכח לסמון אותו שוב לפני שאתה סוגר את הדיאלוג!"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAY"
+msgid "נגן\nנגן"
+msgstr ""
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "השהה\nהשהה"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "עצור\nעצור"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "צעד\nצעד"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "הקטן מהירות\nהקטן מהירות"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "הגדל מהירות\nהגדל מהירות"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "השתק"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Unmute"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "אין שמע"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "דלג אחורה\nדלג אחורה"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "דלג קדימה\nדלג קדימה"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "מקורי"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "נוכחי"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "ערוך"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "כן"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "לא"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "הפחת"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "הוסף"
+msgstr ""
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "הגדרות"
+msgstr ""
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr ""
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "הוסף למועדפים..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "ארגן מועדפים..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "ערבוב"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Open file location"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "סוגר..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "מנגן"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "מושהה"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "קליפ חדש של EDL"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "נקה רשימה"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES"
+msgid "קבצים אחרונים"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "אתה בטוח שברצונך למחוק את רשימת הקבצים האחרונים?"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "שמירת EDL"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "הפעל תיקון זמן פריים"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "הצג/הסתר חלון EDL"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL דולק"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL כבוי"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnS סובב X-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnS סובב Y+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnS סובב Y-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnS סובב Z+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnS סובב Z-"
+msgstr ""
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "בדיקת קריעה"
+msgstr ""
+
+msgctxt "IDS_SCALE_16_9"
+msgid "התאם לטלוויזיית 16:9,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "זום למסך רחב,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "זום למסך אולטרה-רחב,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "הסתר במסך מלא"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "נעצר"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "ממלא חוצץ... (%d%%)"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "לוכד..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "פותח..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "סגור"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "הגדרות..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "סגנונות..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "טען מחדש"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "הדלק"
+msgstr ""
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "ערוך..."
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "כותרת"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "יוצר"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "זכויות יוצרים"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "דירוג"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "תיאור"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "שם מתחם"
+msgstr ""
+
+msgctxt "IDS_AG_CLOSE"
+msgid "סגור"
+msgstr ""
+
+msgctxt "IDS_AG_NONE"
+msgid "כלום"
+msgstr ""
+
+msgctxt "IDS_AG_COMMAND"
+msgid "פקודה"
+msgstr ""
+
+msgctxt "IDS_AG_KEY"
+msgid "מקש"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE"
+msgid "חלון עכבר"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "מסך מלא עכבר"
+msgstr ""
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "פקודת יישום"
+msgstr ""
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "קבצי מדיה (כל הסוגים)"
+msgstr ""
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "כל הקבצים (*.*)|*.*|"
+msgstr ""
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "קבצי שמע (כל הסוגים)"
+msgstr ""
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "לא ידוע"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "פתיחה מהירה של קובץ"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "פתיחת קובץ"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "פתח די.וי.די/BD"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "פתח התקן"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "שמירה בשם"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "שמור תמונה"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "שמור תמונה (אוטומטי)"
+msgstr ""
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "תמונה נשמרה בהצלחה"
+msgstr ""
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "טען כתוביות"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "שמור כתוביות"
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "מאפיינים"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT"
+msgid "יציאה"
+msgstr ""
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "נגן/השהה"
+msgstr ""
+
+msgctxt "IDS_AG_PLAY"
+msgid "נגן"
+msgstr ""
+
+msgctxt "IDS_AG_STOP"
+msgid "עצור"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "התקדם בפריים"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "חזור פריים אחורה"
+msgstr ""
+
+msgctxt "IDS_AG_GO_TO"
+msgid "קפוץ ל"
+msgstr ""
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "הגבר מהירות"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Show/Game show"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Sports"
+msgstr ""
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Children's/Youth programmes"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Music/Ballet/Dance"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Arts/Culture"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Social/Political issues/Economics"
+msgstr ""
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Leisure hobbies"
+msgstr ""
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Move to Recycle Bin"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Save a Copy"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Latest keyframe"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Nearest keyframe"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "תיקון זמן פריים: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "תיקון זמן פריים: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "יעד פיצוי סנכרון אנכי: %.1f"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "פיצוי סנכרון אנכי: %d"
+msgstr ""
+
+msgctxt "IDS_OSD_SPEED"
+msgid "מהירות: %.2lfx"
+msgstr ""
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Thumbnails saved successfully"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "זרם וידאו"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "זווית וידאו"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "איפוס הגדרות"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "אנא סגור את כל התהליכים של MPC-HC כדי שיהיה ניתן לשחזר להגדרות ברירת המחדל."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "יצוא הגדרות"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "The settings have been successfully exported."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "The export failed! This can happen when you don't have the correct rights."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA Error"
+msgstr ""
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "הנמך מהירות"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "אפס מהירות"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "שיהוי שמע +10מילי-שניות"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "שיהוי שמע -10מילי-שניות"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "קפוץ קדימה (קטן)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "קפוץ אחורה (קטן)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "קפוץ קדימה (בינוני)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "קפוץ אחורה (בינוני)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "קפוץ קדימה (גדול)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "קפוץ אחורה (גדול)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "קפוץ קדימה (פריים-מפתח)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "קפוץ אחורה (פריים-מפתח)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT"
+msgid "הבא"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "הקודם"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "הקובץ הבא"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Previous File"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "הפעל/כבה מסך מלא ב-Direct3D"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "עבור לכתוביות הקודמות"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "עבור לכתוביות הבאות"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "הזז כתוביות שמאלה"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "הזז כתוביות ימינה"
+msgstr ""
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "הצג סטטיסטיקה"
+msgstr ""
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Jump to Beginning"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "הצגה מינימלית"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "הצגה קומפקטית"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "הצגה רגילה"
+msgstr ""
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "מסך מלא"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "מסך מלא (ללא שינוי רזולוצייה)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "זום מותאם אוטומטית"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "חצי מסגרת וידאו"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "מסגרת וידאו רגילה"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "מסגרת ודיאו כפולה"
+msgstr ""
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "תמיד מעל חלונות אחרים"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnS הגדל גודל"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnS הגדל רוחב"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnS הגדל גובה"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnS הקטן גודל"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnS הקטן רוחב"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnS הקטן גובה"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Downloading subtitle(s), please wait."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Parsing list..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "No subtitles found."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d subtitle(s) available."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
+msgstr ""
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Auto Fit"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (Larger Only)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Zoom Auto Fit (Larger Only)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Zoom: Auto (Larger Only)"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Double click to open file location"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Toggle between elapsed and remaining time"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Invalid delay"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Please enter a number between 1 and 365."
+msgstr ""
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnS מרכז"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnS שמאלה"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnS ימינה"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnS למעלה"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnS למטה"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnS למעלה/שמאלה"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnS למעלה/ימינה"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnS למטה/שמאלה"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnS למטה/ימינה"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "הגבר עצמת שמע"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "הנמך עצמת שמע"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "השתק שמע"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "תפריט כותרת די.וי.די"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD Root Menu"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "תפריט כתוביות די.וי.די"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "תפריט שמע די.וי.די"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "תפריט זווית די.וי.די"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "תפריט פרקי די.וי.די"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "שמאלה בתפריט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "ימינה בתפריט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "למעלה בתפריט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "למטה בתפריט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "הפעלת תפריט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "חזור בתפריט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "צא בתפריט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "מקש בוס"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "תפריט נגן (קצר)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "תפריט נגן (ארוך)"
+msgstr ""
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "תפריט פילטרים"
+msgstr ""
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "הגדרות"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "זרם השמע הבא"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "זרם השמע הקודם"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "הכתוביות הבאות"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "הכתוביות הקודמות"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "הפעל/כבה כתוביות"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "טען מחדש כתוביות"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "זרם שמע הבא (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "זרם שמע הקודם (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "הכתוביות הבאות (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "הכתוביות הקודמות (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "הזווית הבאה (די.וי.די)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "הזווית הקודמת (די.וי.די)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "זרם השמע הבא (די.וי.די)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "זרם השמע הקודם (די.וי.די)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "הכתוביות הבאות (די.וי.די)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "הכתוביות הקודמות (די.וי.די)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "הפעל/כבה כתוביות (די.וי.די)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "זמן שנותר"
+msgstr ""
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "בחר תיקייה"
+msgstr ""
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "הוספה מהירה של מועדף"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "שם"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "תדר"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "מוצפן"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "כן"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "לא"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "התחל"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "עצור"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "תחנות רדיו"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "תחנות טלוויזייה"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Format"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_2"
+msgid "מיקוד אבד ל: %s - %s"
+msgstr ""
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "כתוביות נשמרו"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_4"
+msgid "לא יכול לשמור כתוביות"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "קצב פריימים"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_6"
+msgid "צויירו: %d, הושמטו: %d"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMES"
+msgid "פריימים"
+msgstr ""
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "חוצצים"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_9"
+msgid "עצמת שמע: %02d/%02d, כותרת: %02d/%02d, פרק: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_10"
+msgid "זווית: %02d/%02d, %dx%d %dהרץ %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dהרץ %dביטים %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "הוסף לרשימת ההשמעה של MPC-HC"
+msgstr ""
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "נגן עם MPC-HC"
+msgstr ""
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "ל-MPC-HC אין מספיק הרשאות לשנות הגדרות שייוך קבצים. אנא לחץ על כפתור ה-\"שנה\" בכדי לקבל הרשאות מנהל."
+msgstr ""
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "אחד מנגני המולטימדיה הכי חזקים וניתנים להתאמה אישית עבור מערכת Windows. במקור נותר על-ידי מפתח הונגרי בשם Gabest. לגרסה זו ישנן יכולות נוספות כמו מצב מסך מלא ב-Direct 3D ותמיכה טובה יותר לויסטה ומעלה."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_12"
+msgid "ערוץ"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_13"
+msgid "ערוצים"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE"
+msgid "כותר %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_16"
+msgid "די.וי.די: שגיאה לא צפוייה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_17"
+msgid "די.וי.די: כשלון הגנת-העתקה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_18"
+msgid "די.וי.די: דיסק די.וי.די 1.x לא תקין"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_19"
+msgid "די.וי.די: אזור דיסק לא תקין"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_20"
+msgid "די.וי.די: חסימת הגנת הורים"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_21"
+msgid "די.וי.די: כשלון Macrovision"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_22"
+msgid "די.וי.די: אזורי מערכת ומפענחים לא תואמים"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_23"
+msgid "די.וי.די: אזורי דיסק ומפענחים לא תואמים"
+msgstr ""
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "אפשרות זו נועדה לעצור קריעת תמונה. בנוסף, היא גם תמנע מ-MPC-HC להציג תפריטים ודיאלוגים בזמן הניגון.\n\nהאם אתה בטוח שברצונך להפעיל אפשרות זו?"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_139"
+msgid "שיהוי כתוביות: %ld מילי-שניות"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE2"
+msgid "כותר: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "שם הקובץ מכיל תווים לא נתמכים (השתמש רק ב: A-Z, 0-9)"
+msgstr ""
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "שורות:"
+msgstr ""
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "טורים:"
+msgstr ""
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Image width"
+msgstr ""
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "כתובת ה-URL נראית תקינה!"
+msgstr ""
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "גרסה פרוטוקול לא תואמת, אנא שדרג את הנגן שלך או בחר כתובת אחרת!"
+msgstr ""
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "יחס גובה-רוחב"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", סף הכל: %d, הושמש: %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", גודל: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", גודל: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", ריק: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", ריק: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", חוצצי וידאו/שמע ריקים: %03d/%03d"
+msgstr ""
+
+msgctxt "IDS_AG_ERROR"
+msgid "שגיאה"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "כתוביות: כבוי"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "כתוביות: %s"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_46"
+msgid "בחר נתיב עבור הדי.וי.די/BD:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_47"
+msgid " נטען בהצלחה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_48"
+msgid "כל הקבצים (*.*)|*.*||"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_49"
+msgid "GetDIB נכשל, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_51"
+msgid "GetCurrentImage נכשל, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_53"
+msgid "לא יכול ליצור קובץ"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_54"
+msgid "לא יכול ליצור תמונות ממוזערות עבור קבצים ללא אורך"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_55"
+msgid "קבלת גודל מסגרת הוידאו נכשלה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_56"
+msgid "הזיכרון אזל, לך וקנה עוד!"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_57"
+msgid "פורמט תמונה לא תקין, לא יכול ליצור תמונות ממוזערות של %d bpp dibs."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_58"
+msgid "גודל קובץ: %s (%s בתים)\\N"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}שם קובץ: %s\\N%sרזולוצייה: %dx%d %s\\Nאורך: %02d:%02d:%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_60"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_68"
+msgid "יחס גובה-רוחב: %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_69"
+msgid "יחס גובה-רוחב: ברירת מחדל"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "שיהוי שמע: %I64dms"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "פרק %d"
+msgstr ""
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "אזל כל הזיכרון"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Error: Flash for IE is required"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime עדיין לא נתמך ב-X64 (אין ספרייה זמינה של Apple)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_80"
+msgid "יצירת עצם גרף הפילטרים נכשלה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_81"
+msgid "ארגומנט לא תקין"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_82"
+msgid "פתיחה הופסקה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_83"
+msgid "הגשת הקובץ נכשלה"
+msgstr ""
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "כתובת URL לא תקינה, לא מצליח למצוא מסד נתונים של כתוביות שם!"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "פרק: "
+msgstr ""
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "עצמת שמע: %d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST_OSD"
+msgid "המרצה: +%u%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "איזון: %s"
+msgstr ""
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "נוכחי"
+msgstr ""
+
+msgctxt "IDS_MPC_CRASH"
+msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
+msgstr ""
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "לא מצליח ליצור קובץ הטלה ב-'%s' (שגיאה %d)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "בחר תיקיה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "כולל תת-תיקיות"
+msgstr ""
+
+msgctxt "IDS_AG_PAUSE"
+msgid "השהה"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "הפעל/כבה כותרת&תפריט"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "הפעל/כבה פס קפיצה"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "הפעל/כבה כלי שליטה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_84"
+msgid "שם קובץ לא תקין"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_86"
+msgid "לא מצליח לחבר את הפילטרים"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_87"
+msgid "לא מצליח לטעון שום פילטר מקור"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_88"
+msgid "לא יכול להגיש את הקובץ"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_89"
+msgid "פורמט קובץ לא תקין"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_90"
+msgid "קובץ לא נמצא"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_91"
+msgid "סוג קובץ לא מוכר"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_92"
+msgid "זרם לא נתמך"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_93"
+msgid "לא מצליח למצוא תיקית די.וי.די"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_94"
+msgid "לא מצליח ליצור פילטר ניווט די.וי.די"
+msgstr ""
+
+msgctxt "IDS_AG_FAILED"
+msgid "נכשל"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_96"
+msgid "לא מצליח ליצור פילטר לכידת וידאו"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_98"
+msgid "אין פילטרים ללכידה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_99"
+msgid "לא מצליח ליצור עצם יצירת גרף לכידה"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_108"
+msgid "לא ניתן לפתוח שום התקן"
+msgstr ""
+
+msgctxt "IDS_AG_SOUND"
+msgid "צליל"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s לא נמצא, אנא הכנס מדיה המכילה קובץ זה."
+msgstr ""
+
+msgctxt "IDS_AG_ABORTED"
+msgid "הופסק"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_116"
+msgid "מאפיינים..."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (פין) מאפיינים..."
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "זרם לא ידוע"
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "לא ידוע %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNC"
+msgid "סנכרון אנכי"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (הערות במאי 1)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (הערות במאי 2)"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLED"
+msgid "מופעל"
+msgstr ""
+
+msgctxt "IDS_AG_ANGLE"
+msgid "זווית %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "הגדל פיצוי סנכרון אנכי"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLED"
+msgid "כבוי"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "הקטן פיצוי סנכרון אנכי"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D במסך מלא"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_137"
+msgid "פורמט לא ידוע"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_138"
+msgid "שיהוי כתוביות: %ld מילי-שניות"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "הגדל המרצת עוצמת שמע"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "הקטן המרצת עוצמת שמע"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "המרצת עוצמת שמע מינימלית"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "המרצת עוצמת שמע מקסימלית"
+msgstr ""
+
+msgctxt "IDS_USAGE"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tfile contains \"...DELAY XXms...\")\n/d3dfs\t\tstart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playing\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched.\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet fixed window size\n/monitor N\tStart on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "פרמטר(ים) לא ידוע(ים) נמצא(ו) במחרוזת שורת הפקודה: \n\n"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "הפעל/כבה מידע"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "הפעל/כבה סטטיסטיקה"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "הפעל/כבה שורת סטטוס"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "הפעל/כבה פאנל סנכרון כתוביות"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "הפעל/כבה פאנל רשימת השמעה"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "הפעל/כבה פאנל לכידה"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "זום 50%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "זום 100%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "זום 200%"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "יחס גובה-רוחב מותאם מראש הבא"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "מתח מסגרת וידאו"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "פנים מסגרת וידאו"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "חוץ מסגרת וידאו"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "איפוס PnS"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "סיבוב X+ PnS"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "זום 1 מסגרת וידאו"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "זום 2 מסגרת וידאו"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "החלפת זום מסגרת וידאו"
+msgstr ""
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "הפעל את כל הפילטרים"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "סריקת כוונן"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "כתוביות לא נטענו או מציג וידאו לא נתמך."
+msgstr ""
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "יוצר לא ידוע. צור קשר אם אתה הוא שיצר את הלוגו!"
+msgstr ""
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "אין מדיה נוספת בתיקיה הנוכחית."
+msgstr ""
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "הקובץ הראשון בתיקיה נטען עכשיו."
+msgstr ""
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "הקובץ האחרון בתיקיה נטען עכשיו."
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "קדמי שמאלי"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "קדמי ימני"
+msgstr ""
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "קדמי אמצעי"
+msgstr ""
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "תדר נמוך"
+msgstr ""
+
+msgctxt "IDS_BACK_LEFT"
+msgid "אחורי שמאלי"
+msgstr ""
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "אחורי ימני"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "קדמי שמאלי של אמצעי"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "קדמי ימני של אמצעי"
+msgstr ""
+
+msgctxt "IDS_BACK_CENTER"
+msgid "אחורי אמצע"
+msgstr ""
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "צידי שמאלי"
+msgstr ""
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "צידי ימני"
+msgstr ""
+
+msgctxt "IDS_TOP_CENTER"
+msgid "אמצעי למעלה"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "קדמי שמאלי למעלה"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "קדמי אמצעי למעלה"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "קדמי ימני למעלה"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "אחורי שמאלי למעלה"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "אחורי מרכזי למעלה"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "אחורי ימני למעלה"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "Sync Renderer reset stats"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "כתוביות::שונות"
+msgstr ""
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "הסתר מסגרת"
+msgstr ""
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "פריים בלבד"
+msgstr ""
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "הצג כותרת&&תפריט"
+msgstr ""
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "הסתר תפריט"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "מעל פס הקפיצה"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "מתחת פס הקפיצה"
+msgstr ""
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr ""
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr ""
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr ""
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr ""
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr ""
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr ""
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "כבה את כל הפילטרים"
+msgstr ""
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Enable all audio decoders"
+msgstr ""
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Disable all audio decoders"
+msgstr ""
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Enable all video decoders"
+msgstr ""
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Disable all video decoders"
+msgstr ""
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "מתח לחלון"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "גע בחלון מבפנים"
+msgstr ""
+
+msgctxt "IDS_ZOOM1"
+msgid "זום 1"
+msgstr ""
+
+msgctxt "IDS_ZOOM2"
+msgid "זום 2"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "גע בחלון מבחוץ"
+msgstr ""
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "שמע: %s"
+msgstr ""
+
+msgctxt "IDS_AG_REOPEN"
+msgid "פתח קובץ מחדש"
+msgstr ""
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr ""
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Other Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Resolution"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "השתמש ב-WASAPI (הפעל ניגון מחדש)"
+msgstr ""
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "השתקה בקפיצה מהירה קדימה"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "התקן שמע:"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "סנכרון אנכי: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "סנכרון אנכי: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "סנכרון אנכי מדוייק: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "סנכרון אנכי מדוייק: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "סנכרון וידאו למסך: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "סנכרון וידאו למסך: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "סנכרון מסך לוידאו: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "סנכרון מסך לוידאו: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "הצגה בנקודת הסנכרון האנכי הקרובה ביותר: מופעלת"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "הצגה בנקודת הסנכרון האנכי הקרובה ביותר: כבויה"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "ניהול צבעים: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "ניהול צבעים: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "סוג קלט: זיהוי אוטומטי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "סוג קלט: טלוויזיה בהפרדה גבוהה"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "סוג קלט: טלוויזיה בהפרדה נמוכה NTSC"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "סוג קלט: טלוויזיה בהפרדה נמוכה PAL"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "אור מקיף: בהיר (גאמה 2.2)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "אור מקיף: עמום (גאמה 2.35)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "אור מקיף: כהה (גאמה 2.4)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "מטרת הצגה: תפיסתית"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "מטרת הצגה: מדידת צבע יחסית"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "מטרת הצגה: הרוויה"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "מטרת הצגה: מדידת צבע מוחלטת"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "טווח פלט: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "רוקן מעבד גרפי לפני סנכרון אנכי: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "רוקן מעבד גרפי לפני סנכרון אנכי: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "רוקן מעבד גרפי אחרי הצגה: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "רוקן מעבד גרפי אחרי הצגה: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "המתן לריקון מעבד גרפי: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "המתן לריקון מעבד גרפי: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "מסך מלא של D3D: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "מסך מלא של D3D: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "ניטרול הרכבת שולחן עבודה: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "ניטרול הרכבת שולחן עבודה: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "סנכרון אנכי חלופי: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "סנכרון אנכי חלופי: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "מציג וידאו אופס להגדרות ברירת מחדל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "מציג וידאו אופס להגדרות אופטימליות"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "תמיכה בממשק משתמש בתצוגת מסך מלא של D3D: מופעלת"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "תמיכה בממשק משתמש בתצוגת מסך מלא של D3D: כבויה"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "פלט RGB 10-ביט: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "פלט RGB 10-ביט: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "אילוץ קלט RGB 10-ביט: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "אילוץ קלט RGB 10-ביט: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "עיבוד בנקודה צפה מלאה: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "עיבוד בנקודה צפה מלאה: כבוי"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "עיבוד בחצי נקודה צפה: מופעל"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "עיבוד בחצי נקודה צפה: כבוי"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "הפחתת בהירות"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "הגברת ניגודיות"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "הפחתת ניגודיות"
+msgstr ""
+
+msgctxt "IDS_HUE_INC"
+msgid "גוון +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "גוון -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "הגברת הרוויה"
+msgstr ""
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "הפחתת הרוויה"
+msgstr ""
+
+msgctxt "IDS_RESET_COLOR"
+msgid "איפוס הגדרות צבע"
+msgstr ""
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nYou are already using the latest stable version."
+msgstr ""
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
+msgstr ""
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
+msgstr ""
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Update server not found.\n\nPlease check your internet connection or try again later."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Close"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Zoom: %.0lf%%"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Zoom: Auto"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Toggle custom channel mapping"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Custom channel mapping: On"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Custom channel mapping: Off"
+msgstr ""
+
+msgctxt "IDS_NORMALIZE"
+msgid "Toggle normalization"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Normalization: On"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Normalization: Off"
+msgstr ""
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Toggle regain volume"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Regain volume: On"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Regain volume: Off"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Could not create the tuner."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Could not create the receiver."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Could not connect the network and the tuner."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Could not connect the tuner and the receiver."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Could not connect the tuner."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Could not create the demultiplexer."
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "שגיאה בפענוח הזמן שהוזן!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "שגיאה בפענוח הטקסט שהוזן!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "שגיאה בפענוח קצב הפריימים שהוזן!"
+msgstr ""
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Cannot frame step, try a different video renderer."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Cannot connect to the online subtitles database."
+msgstr ""
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Do you want to activate the EDL editor?"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "שגיאה בלכידה"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "וידאו"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "שמע"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "לא יכול להוסיף את פילטר החוצץ %s אל הגרף."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Can't connect the %s buffer filter to the graph."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "לא יכול להוסיף את פילטר הקידוד %s אל הגרף."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Can't connect the %s encoder filter to the graph."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "לא ניתן לקבוע את פורמט הכיווץ בפילטר הקידוד %s."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Can't connect the %s stream to the multiplexer filter."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "לא נמצא שום שקע לכידת וידאו."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "לא נמצא שקע לכידת שמע."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "שגיאה באתחול קובץ הפלט."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "שגיאה באתחול קובץ פלט השמע."
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
+msgstr ""
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "This type is already in the list!"
+msgstr ""
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "אתה צריך להחיל את ההגדרות החדשות לפני שאתה מנסה אותן."
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "לאחר הניגון: יציאה"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "לאחר הניגון: מצב המתנה"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "לאחר הניגון: מצב שינה"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "לאחר הניגון: כבה"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "לאחר הניגון: צא ממשתמש"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "לאחר הניגון: נעילה"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "לאחר הניגון: צא תמיד "
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "לאחר הניגון: אל תעשה כלום"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "לאחר הניגון: נגן הבא בתיקייה"
+msgstr ""
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "בהירות: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "ניגודיות: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_HUE"
+msgid "גוון: %s°"
+msgstr ""
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "הרוויה: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "הגדרות צבע שוחזרו"
+msgstr ""
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "שליטה בצבע אינה נתמכת"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "הגברת בהירות"
+msgstr ""
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Settings"
+msgstr ""
+
