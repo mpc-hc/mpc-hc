@@ -784,7 +784,7 @@ BEGIN MENU IDR_POPUP LINES 234
 128		"Avsluta"
 129		"Gör Ingenting"
 130		"Spela nästa fil i mappen"
-133		"Vi&sa"
+133		"&Visa"
 135		"Alltid överst"
 137		"&Default"
 138		"Allti&d"

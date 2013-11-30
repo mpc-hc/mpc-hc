@@ -1543,7 +1543,7 @@ BEGIN
             MENUITEM "Auto Fit (&Larger Only)", ID_VIEW_ZOOM_AUTOFIT_LARGER
         END
         MENUITEM SEPARATOR
-        POPUP "&Video Frame"
+        POPUP "Video &Frame"
         BEGIN
             MENUITEM "&Half Size",                  ID_VIEW_VF_HALF
             MENUITEM "&Normal Size",                ID_VIEW_VF_NORMAL
@@ -1555,7 +1555,7 @@ BEGIN
             MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
             MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-            POPUP "O&verride Aspect Ratio"
+            POPUP "Override &Aspect Ratio"
             BEGIN
                 MENUITEM "&Default",                     ID_ASPECTRATIO_SOURCE
                 MENUITEM "&4:3",                         ID_ASPECTRATIO_4_3
@@ -1598,9 +1598,9 @@ BEGIN
             MENUITEM "An&gle Menu",                 ID_NAVIGATE_ANGLEMENU
             MENUITEM "&Chapter Menu",               ID_NAVIGATE_CHAPTERMENU
         END
-        MENUITEM "&Favorites",                  ID_FAVORITES
+        MENUITEM "F&avorites",                  ID_FAVORITES
         MENUITEM SEPARATOR
-        MENUITEM "F&ilters",                    ID_FILTERS
+        MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      ID_AUDIOS
@@ -1628,7 +1628,7 @@ BEGIN
             MENUITEM "Play next in the &folder",     ID_AFTERPLAYBACK_NEXT
         END
         MENUITEM SEPARATOR
-        POPUP "Vi&ew"
+        POPUP "&View"
         BEGIN
             POPUP "On &Top"
             BEGIN
@@ -1693,7 +1693,7 @@ BEGIN
                 BEGIN
                     MENUITEM "&Bright (2.2 Gamma)",          ID_VIEW_CM_AMBIENTLIGHT_BRIGHT
                     MENUITEM "&Dim (2.35 Gamma)",            ID_VIEW_CM_AMBIENTLIGHT_DIM
-                    MENUITEM "&Dark (2.4 Gamma)",            ID_VIEW_CM_AMBIENTLIGHT_DARK
+                    MENUITEM "D&ark (2.4 Gamma)",            ID_VIEW_CM_AMBIENTLIGHT_DARK
                 END
                 POPUP "&Rendering Intent"
                 BEGIN
@@ -1760,7 +1760,7 @@ BEGIN
                 MENUITEM "&Download...",                ID_FILE_ISDB_DOWNLOAD
             END
             MENUITEM SEPARATOR
-            MENUITEM "Prope&rties",                 ID_FILE_PROPERTIES
+            MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
         END
         POPUP "&View"
         BEGIN
@@ -1879,7 +1879,7 @@ BEGIN
                     MENUITEM "&5:4",                         ID_ASPECTRATIO_5_4
                     MENUITEM "&16:9",                        ID_ASPECTRATIO_16_9
                     MENUITEM "&235:100",                     ID_ASPECTRATIO_235_100
-                    MENUITEM "&185:100",                     ID_ASPECTRATIO_185_100
+                    MENUITEM "1&85:100",                     ID_ASPECTRATIO_185_100
                 END
                 MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
             END
@@ -1934,7 +1934,7 @@ BEGIN
             MENUITEM "An&gle Menu",                 ID_NAVIGATE_ANGLEMENU
             MENUITEM "&Chapter Menu",               ID_NAVIGATE_CHAPTERMENU
         END
-        MENUITEM "&Favorites",                  ID_FAVORITES
+        MENUITEM "F&avorites",                  ID_FAVORITES
         POPUP "&Help"
         BEGIN
             MENUITEM "&Home Page",                  ID_HELP_HOMEPAGE
