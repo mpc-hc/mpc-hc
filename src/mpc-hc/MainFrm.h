@@ -961,6 +961,7 @@ public:
     ITaskbarList3* m_pTaskbarList;
     HRESULT CreateThumbnailToolbar();
     HRESULT UpdateThumbarButton();
+    HRESULT UpdateThumbarButton(MPC_PLAYSTATE iPlayState);
     HRESULT UpdateThumbnailClip();
 
 protected:

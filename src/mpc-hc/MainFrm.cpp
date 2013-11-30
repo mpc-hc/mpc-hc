@@ -2242,8 +2242,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
     CAppSettings& s = AfxGetAppSettings();
     HRESULT hr = S_OK;
 
-    UpdateThumbarButton();
-
     LONG evCode = 0;
     LONG_PTR evParam1, evParam2;
     while (m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
@@ -9590,8 +9588,6 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
     } else {
         m_wndView.SetVideoRect();
     }
-
-    UpdateThumbarButton();
 }
 
 void CMainFrame::HideVideoWindow(bool fHide)
@@ -14444,6 +14440,8 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
     } else {
         SetThreadExecutionState(iState == PS_PLAY ? ES_CONTINUOUS | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
     }
+
+    UpdateThumbarButton(iState);
 }
 
 bool CMainFrame::CreateFullScreenWindow()
@@ -15448,6 +15446,22 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 
 HRESULT CMainFrame::UpdateThumbarButton()
 {
+    MPC_PLAYSTATE state = PS_STOP;
+    if (GetLoadState() == MLS::LOADED) {
+        switch (GetMediaState()) {
+            case State_Running:
+                state = PS_PLAY;
+                break;
+            case State_Paused:
+                state = PS_PAUSE;
+                break;
+        }
+    }
+    return UpdateThumbarButton(state);
+}
+
+HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
+{
     if (!m_pTaskbarList) {
         return E_FAIL;
     }
@@ -15516,22 +15530,21 @@ HRESULT CMainFrame::UpdateThumbarButton()
 
     if (m_eMediaLoadState == MLS::LOADED) {
         HICON hIcon = nullptr;
-        OAFilterState fs = GetMediaState();
-        if (fs == State_Running) {
+        if (iPlayState == PS_PLAY) {
             buttons[1].dwFlags = THBF_ENABLED;
             buttons[2].dwFlags = THBF_ENABLED;
             buttons[2].iBitmap = 2;
 
             hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_PLAY), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
             m_pTaskbarList->SetProgressState(m_hWnd, m_wndSeekBar.HasDuration() ? TBPF_NORMAL : TBPF_NOPROGRESS);
-        } else if (fs == State_Stopped) {
+        } else if (iPlayState == PS_STOP) {
             buttons[1].dwFlags = THBF_DISABLED;
             buttons[2].dwFlags = THBF_ENABLED;
             buttons[2].iBitmap = 3;
 
             hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_STOP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
-        } else if (fs == State_Paused) {
+        } else if (iPlayState == PS_PAUSE) {
             buttons[1].dwFlags = THBF_ENABLED;
             buttons[2].dwFlags = THBF_ENABLED;
             buttons[2].iBitmap = 3;

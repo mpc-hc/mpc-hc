@@ -134,19 +134,16 @@ REFERENCE_TIME CPlayerSeekBar::PositionFromClientPoint(const CPoint& point) cons
 
 void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
 {
-    if (m_rtPos == rtPos) {
-        return;
-    }
-
     m_rtPos = rtPos;
-
     if (m_bHasDuration) {
         CRect newThumbRect(GetThumbRect());
+        bool bSetTaskbar = (rtPos <= 0);
         if (newThumbRect != m_lastThumbRect) {
+            bSetTaskbar = true;
             InvalidateRect(newThumbRect | m_lastThumbRect);
-            if (AfxGetAppSettings().fUseWin7TaskBar && m_pMainFrame->m_pTaskbarList) {
-                m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, m_rtPos, m_rtStop);
-            }
+        }
+        if (bSetTaskbar && AfxGetAppSettings().fUseWin7TaskBar && m_pMainFrame->m_pTaskbarList) {
+            VERIFY(S_OK == m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, max(m_rtPos, 1), m_rtStop));
         }
     }
 }
