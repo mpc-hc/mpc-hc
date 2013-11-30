@@ -51,7 +51,7 @@ const LanguageResource CMPlayerCApp::languageResources[] = {
     {ID_LANGUAGE_BELARUSIAN,            1059,   _T("Belarusian"),               _T("Lang\\mpcresources.by.dll")},
     {ID_LANGUAGE_CATALAN,               1027,   _T("Catalan"),                  _T("Lang\\mpcresources.ca.dll")},
     {ID_LANGUAGE_CHINESE_SIMPLIFIED,    2052,   _T("Chinese (Simplified)"),     _T("Lang\\mpcresources.sc.dll")},
-    {ID_LANGUAGE_CHINESE_TRADITIONAL,   3076,   _T("Chinese (Traditional)"),    _T("Lang\\mpcresources.tc.dll")},
+    {ID_LANGUAGE_CHINESE_TRADITIONAL,   1028,   _T("Chinese (Traditional)"),    _T("Lang\\mpcresources.tc.dll")},
     {ID_LANGUAGE_CZECH,                 1029,   _T("Czech"),                    _T("Lang\\mpcresources.cz.dll")},
     {ID_LANGUAGE_DUTCH,                 1043,   _T("Dutch"),                    _T("Lang\\mpcresources.nl.dll")},
     {ID_LANGUAGE_ENGLISH,               0,      _T("English"),                  nullptr},
@@ -71,7 +71,7 @@ const LanguageResource CMPlayerCApp::languageResources[] = {
     {ID_LANGUAGE_SLOVAK,                1051,   _T("Slovak"),                   _T("Lang\\mpcresources.sk.dll")},
     {ID_LANGUAGE_SLOVENIAN,             1060,   _T("Slovenian"),                _T("Lang\\mpcresources.sl.dll")},
     {ID_LANGUAGE_SWEDISH,               1053,   _T("Swedish"),                  _T("Lang\\mpcresources.sv.dll")},
-    {ID_LANGUAGE_SPANISH,               1034,   _T("Spanish"),                  _T("Lang\\mpcresources.es.dll")},
+    {ID_LANGUAGE_SPANISH,               3082,   _T("Spanish"),                  _T("Lang\\mpcresources.es.dll")},
     {ID_LANGUAGE_TURKISH,               1055,   _T("Turkish"),                  _T("Lang\\mpcresources.tr.dll")},
     {ID_LANGUAGE_UKRAINIAN,             1058,   _T("Ukrainian"),                _T("Lang\\mpcresources.ua.dll")}
 };
