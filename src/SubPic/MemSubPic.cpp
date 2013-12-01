@@ -413,6 +413,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         dst.pitch = -dst.pitch;
     }
 
+    // TODO: m_invAlpha support
     switch (dst.type) {
         case MSP_RGBA:
             for (ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {

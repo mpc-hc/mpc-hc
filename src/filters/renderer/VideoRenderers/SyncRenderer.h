@@ -267,7 +267,6 @@ namespace GothSync
 
         // Display and frame rates and cycles
         double m_dDetectedScanlineTime; // Time for one (horizontal) scan line. Extracted at stream start and used to calculate vsync time
-        UINT m_uD3DRefreshRate;         // As got when creating the d3d device
         double m_dD3DRefreshCycle;      // Display refresh cycle ms
         double m_dEstRefreshCycle;      // As estimated from scan lines
         double m_dFrameCycle;           // Average sample time, extracted from the samples themselves

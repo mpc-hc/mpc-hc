@@ -60,8 +60,9 @@ public:
     */
 };
 
-class CSubPicQueue : public CSubPicQueueImpl, private CAMThread
+class CSubPicQueue : public CSubPicQueueImpl, protected CAMThread
 {
+protected:
     int m_nMaxSubPic;
     BOOL m_bDisableAnim;
 
@@ -81,7 +82,7 @@ class CSubPicQueue : public CSubPicQueueImpl, private CAMThread
     bool m_fBreakBuffering;
     enum { EVENT_EXIT, EVENT_TIME, EVENT_COUNT }; // IMPORTANT: _EXIT must come before _TIME if we want to exit fast from the destructor
     HANDLE m_ThreadEvents[EVENT_COUNT];
-    DWORD ThreadProc();
+    virtual DWORD ThreadProc();
 
 public:
     CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
@@ -101,6 +102,7 @@ public:
 
 class CSubPicQueueNoThread : public CSubPicQueueImpl
 {
+protected:
     CCritSec m_csLock;
     CComPtr<ISubPic> m_pSubPic;
 

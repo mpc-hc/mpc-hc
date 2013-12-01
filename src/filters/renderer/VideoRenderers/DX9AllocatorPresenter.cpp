@@ -45,7 +45,6 @@ using namespace DSObjects;
 // CDX9AllocatorPresenter
 CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString& _Error)
     : CDX9RenderingEngine(hWnd, hr, &_Error)
-    , m_RefreshRate(0)
     , m_bAlternativeVSync(false)
     , m_bCompositionEnabled(false)
     , m_bIsEVR(bIsEVR)
@@ -835,9 +834,15 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     }
 
     hr = S_OK;
-    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    if (!m_pSubPicQueue) {
+        CAutoLock(this);
+        m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    } else {
+        m_pSubPicQueue->Invalidate();
+    }
+
     if (!m_pSubPicQueue || FAILED(hr)) {
         _Error += L"m_pSubPicQueue failed\n";
 
@@ -1395,7 +1400,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     }
 
     // paint the text on the backbuffer
-    AlphaBltSubPic(rSrcPri.Size());
+    AlphaBltSubPic(rDstPri, rDstVid);
 
     // Casimir666 : show OSD
     if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE) {

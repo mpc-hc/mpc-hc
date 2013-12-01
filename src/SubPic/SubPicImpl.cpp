@@ -39,6 +39,8 @@ CSubPicImpl::CSubPicImpl()
     , m_vidrect(0, 0, 0, 0)
     , m_VirtualTextureSize(0, 0)
     , m_VirtualTextureTopLeft(0, 0)
+    , m_invAlpha(false)
+    , m_relativeTo(WINDOW)
 {
 }
 
@@ -104,6 +106,7 @@ STDMETHODIMP CSubPicImpl::CopyTo(ISubPic* pSubPic)
     pSubPic->SetDirtyRect(m_rcDirty);
     pSubPic->SetSize(m_size, m_vidrect);
     pSubPic->SetVirtualTextureSize(m_VirtualTextureSize, m_VirtualTextureTopLeft);
+    pSubPic->SetInverseAlpha(m_invAlpha);
 
     return S_OK;
 }
@@ -113,24 +116,27 @@ STDMETHODIMP CSubPicImpl::GetDirtyRect(RECT* pDirtyRect)
     return pDirtyRect ? *pDirtyRect = m_rcDirty, S_OK : E_POINTER;
 }
 
-STDMETHODIMP CSubPicImpl::GetSourceAndDest(SIZE* pSize, RECT* pRcSource, RECT* pRcDest)
+STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource, RECT* pRcDest)
 {
     CheckPointer(pRcSource, E_POINTER);
     CheckPointer(pRcDest,   E_POINTER);
 
     if (m_size.cx > 0 && m_size.cy > 0) {
-        CRect rcTemp = m_rcDirty;
+        CRect rcTarget = (m_relativeTo == WINDOW) ? rcWindow : rcVideo;
+        CSize szTarget = rcTarget.Size();
 
-        // FIXME
-        rcTemp.DeflateRect(1, 1);
+        CRect rcTemp = m_rcDirty;
 
         *pRcSource = rcTemp;
 
         rcTemp.OffsetRect(m_VirtualTextureTopLeft);
-        *pRcDest = CRect(rcTemp.left   * pSize->cx / m_VirtualTextureSize.cx,
-                         rcTemp.top    * pSize->cy / m_VirtualTextureSize.cy,
-                         rcTemp.right  * pSize->cx / m_VirtualTextureSize.cx,
-                         rcTemp.bottom * pSize->cy / m_VirtualTextureSize.cy);
+        rcTemp = CRect(rcTemp.left   * szTarget.cx / m_VirtualTextureSize.cx,
+                       rcTemp.top    * szTarget.cy / m_VirtualTextureSize.cy,
+                       rcTemp.right  * szTarget.cx / m_VirtualTextureSize.cx,
+                       rcTemp.bottom * szTarget.cy / m_VirtualTextureSize.cy);
+        rcTemp.OffsetRect(rcTarget.TopLeft());
+
+        *pRcDest = rcTemp;
 
         return S_OK;
     } else {
@@ -178,6 +184,28 @@ STDMETHODIMP CSubPicImpl::SetVirtualTextureSize(const SIZE pSize, const POINT pT
 {
     m_VirtualTextureSize.SetSize(pSize.cx, pSize.cy);
     m_VirtualTextureTopLeft.SetPoint(pTopLeft.x, pTopLeft.y);
+
+    return S_OK;
+}
+
+STDMETHODIMP_(bool) CSubPicImpl::GetInverseAlpha()
+{
+    return m_invAlpha;
+}
+
+STDMETHODIMP_(void) CSubPicImpl::SetInverseAlpha(bool bInverted)
+{
+    m_invAlpha = bInverted;
+}
+
+STDMETHODIMP CSubPicImpl::GetRelativeTo(RelativeTo* pRelativeTo)
+{
+    return pRelativeTo ? *pRelativeTo = m_relativeTo, S_OK : E_POINTER;
+}
+
+STDMETHODIMP CSubPicImpl::SetRelativeTo(RelativeTo relativeTo)
+{
+    m_relativeTo = relativeTo;
 
     return S_OK;
 }

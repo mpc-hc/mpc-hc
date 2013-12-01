@@ -83,7 +83,6 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_fSyncOffsetStdDev(0.0)
     , m_fSyncOffsetAvr(0.0)
     , m_llHysteresis(0)
-    , m_uD3DRefreshRate(0)
     , m_dD3DRefreshCycle(0)
     , m_dDetectedScanlineTime(0.0)
     , m_dEstRefreshCycle(0.0)
@@ -465,8 +464,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             return E_UNEXPECTED;
         }
 
-    m_uD3DRefreshRate = d3ddm.RefreshRate;
-    m_dD3DRefreshCycle = 1000.0 / (double)m_uD3DRefreshRate; // In ms
+    m_RefreshRate = d3ddm.RefreshRate;
+    m_dD3DRefreshCycle = 1000.0 / (double)m_RefreshRate; // In ms
     m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
     CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
@@ -667,9 +666,14 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     }
 
     m_pSubPicQueue = nullptr;
-    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    if (!m_pSubPicQueue) {
+        m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    } else {
+        m_pSubPicQueue->Invalidate();
+    }
+
     if (!m_pSubPicQueue || FAILED(hr)) {
         _Error += L"m_pSubPicQueue failed\n";
         return E_FAIL;
@@ -774,8 +778,8 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         return E_UNEXPECTED;
     }
 
-    m_uD3DRefreshRate = d3ddm.RefreshRate;
-    m_dD3DRefreshCycle = 1000.0 / (double)m_uD3DRefreshRate; // In ms
+    m_RefreshRate = d3ddm.RefreshRate;
+    m_dD3DRefreshCycle = 1000.0 / (double)m_RefreshRate; // In ms
     m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
 
@@ -930,9 +934,14 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     }
 
     hr = S_OK;
-    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    if (!m_pSubPicQueue) {
+        m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    } else {
+        m_pSubPicQueue->Invalidate();
+    }
+
     if (!m_pSubPicQueue || FAILED(hr)) {
         _Error += L"m_pSubPicQueue failed\n";
 
@@ -1784,7 +1793,9 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
             }
         }
     }
-    AlphaBltSubPic(rSrcPri.Size());
+
+    AlphaBltSubPic(rDstPri, rDstVid);
+
     if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE) {
         CAutoLock BitMapLock(&m_VMR9AlphaBitmapLock);
         CRect rcSrc(m_VMR9AlphaBitmap.rSrc);
@@ -2047,7 +2058,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %u Hz", m_dD3DRefreshCycle, m_uD3DRefreshRate);
+            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %u Hz", m_dD3DRefreshCycle, m_RefreshRate);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -2251,7 +2262,7 @@ double CBaseAP::GetRefreshRate()
     if (m_pGenlock->powerstripTimingExists) {
         return m_pGenlock->curDisplayFreq;
     } else {
-        return (double)m_uD3DRefreshRate;
+        return (double)m_RefreshRate;
     }
 }
 
@@ -2906,7 +2917,7 @@ float CSyncAP::GetMaxRate(BOOL bThin)
                             &fpsNumerator, &fpsDenominator);
 
         // Monitor refresh rate:
-        MonitorRateHz = m_uD3DRefreshRate; // D3DDISPLAYMODE
+        MonitorRateHz = m_RefreshRate; // D3DDISPLAYMODE
 
         if (fpsDenominator && fpsNumerator && MonitorRateHz) {
             // Max Rate = Refresh Rate / Frame Rate
@@ -3135,6 +3146,17 @@ HRESULT CSyncAP::RenegotiateMediaType()
 
     if (!m_pMixer) {
         return MF_E_INVALIDREQUEST;
+    }
+
+    // Get the mixer's input type
+    hr = m_pMixer->GetInputCurrentType(0, &pType);
+    if (SUCCEEDED(hr)) {
+        AM_MEDIA_TYPE* pMT;
+        hr = pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
+        if (SUCCEEDED(hr)) {
+            m_InputMediaType = *pMT;
+            pType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
+        }
     }
 
     CInterfaceArray<IMFMediaType> ValidMixerTypes;
@@ -4245,8 +4267,11 @@ STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
     hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
     if (m_pEVR && FAILED(hr)) {
-        if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched MPC-HC.
-            return GetInterface((IVMRffdshow9*)this, ppv);
+        hr = m_pAllocatorPresenter ? m_pAllocatorPresenter->QueryInterface(riid, ppv) : E_NOINTERFACE;
+        if (FAILED(hr)) {
+            if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched MPC-HC.
+                return GetInterface((IVMRffdshow9*)this, ppv);
+            }
         }
     }
     return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);

@@ -167,7 +167,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
             ddsd.ddpfPixelFormat.dwRGBBitCount <= 8) {
         return DDERR_INVALIDMODE;
     }
-
+    m_RefreshRate = ddsd.dwRefreshRate;
     m_ScreenSize.SetSize(ddsd.dwWidth, ddsd.dwHeight);
     CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
 
@@ -269,9 +269,15 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
     }
 
     hr = S_OK;
-    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    if (!m_pSubPicQueue) {
+        CAutoLock(this);
+        m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    } else {
+        m_pSubPicQueue->Invalidate();
+    }
+
     if (!m_pSubPicQueue || FAILED(hr)) {
         return E_FAIL;
     }
@@ -409,7 +415,7 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
 
         // paint the text on the backbuffer
 
-        AlphaBltSubPic(rSrcPri.Size());
+        AlphaBltSubPic(rDstPri, rDstVid);
     }
 
     // wait vsync

@@ -129,10 +129,15 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
     }
 
     HRESULT hr = S_OK;
+    if (!m_pSubPicQueue) {
+        CAutoLock(this);
+        m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+    } else {
+        m_pSubPicQueue->Invalidate();
+    }
 
-    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
     if (!m_pSubPicQueue || FAILED(hr)) {
         return E_FAIL;
     }
@@ -148,12 +153,14 @@ HRESULT CDXRAllocatorPresenter::Render(
     REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, REFERENCE_TIME atpf,
     int left, int top, int right, int bottom, int width, int height)
 {
-    __super::SetPosition(CRect(0, 0, width, height), CRect(left, top, right, bottom)); // needed? should be already set by the player
+    CRect wndRect(0, 0, width, height);
+    CRect videoRect(left, top, right, bottom);
+    __super::SetPosition(wndRect, videoRect); // needed? should be already set by the player
     SetTime(rtStart);
     if (atpf > 0 && m_pSubPicQueue) {
         m_pSubPicQueue->SetFPS(10000000.0 / atpf);
     }
-    AlphaBltSubPic(CSize(width, height));
+    AlphaBltSubPic(wndRect, videoRect);
     return S_OK;
 }
 
@@ -183,7 +190,7 @@ STDMETHODIMP CDXRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_FAIL;
     }
 
-    (*ppRenderer = this)->AddRef();
+    (*ppRenderer = (IUnknown*)(INonDelegatingUnknown*)(this))->AddRef();
 
     MONITORINFO mi;
     mi.cbSize = sizeof(MONITORINFO);

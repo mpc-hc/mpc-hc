@@ -121,8 +121,13 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
         return hr;
     }
 
+    if (pSubPic->GetInverseAlpha()) {
+        hr = pSubPic->ClearDirtyRect(0x00000000);
+    } else {
+        hr = pSubPic->ClearDirtyRect(0xFF000000);
+    }
+
     SubPicDesc spd;
-    hr = pSubPic->ClearDirtyRect(0xFF000000);
     if (SUCCEEDED(hr)) {
         hr = pSubPic->Lock(spd);
     }
@@ -509,6 +514,11 @@ DWORD CSubPicQueue::ThreadProc()
                             pDynamic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
                         }
 
+                        RelativeTo relativeTo;
+                        if (SUCCEEDED(pSubPicProvider->GetRelativeTo(pos, relativeTo))) {
+                            pDynamic->SetRelativeTo(relativeTo);
+                        }
+
                         AppendQueue(pDynamic);
                         bAgain = true;
 
@@ -648,6 +658,11 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
                     }
                     if (SUCCEEDED(hr2)) {
                         pSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
+                    }
+
+                    RelativeTo relativeTo;
+                    if (SUCCEEDED(pSubPicProvider->GetRelativeTo(pos, relativeTo))) {
+                        pSubPic->SetRelativeTo(relativeTo);
                     }
                 }
             }

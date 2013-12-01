@@ -42,7 +42,6 @@ namespace DSObjects
         CCritSec m_VMR9AlphaBitmapLock;
         void     UpdateAlphaBitmap();
     protected:
-        UINT    m_RefreshRate;
         bool    m_bAlternativeVSync;
         bool    m_bCompositionEnabled;
         bool    m_bIsEVR;

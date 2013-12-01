@@ -25,11 +25,13 @@
 #include <atlcoll.h>
 #include "ISubPic.h"
 #include "CoordGeom.h"
+#include "SubRenderIntf.h"
 
 class CSubPicAllocatorPresenterImpl
     : public CUnknown
     , public CCritSec
     , public ISubPicAllocatorPresenter2
+    , public ISubRenderConsumer
 {
 protected:
     HWND m_hWnd;
@@ -40,6 +42,9 @@ protected:
 
     REFERENCE_TIME m_rtNow;
     double m_fps;
+    UINT m_RefreshRate;
+
+    CMediaType m_InputMediaType;
 
     CComPtr<ISubPicProvider> m_SubPicProvider;
     CComPtr<ISubPicAllocator> m_pAllocator;
@@ -48,7 +53,7 @@ protected:
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
 
-    void AlphaBltSubPic(CSize size, SubPicDesc* pTarget = nullptr);
+    void AlphaBltSubPic(const CRect& windowRect, const CRect& videoRect, SubPicDesc* pTarget = nullptr);
 
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);
@@ -93,4 +98,34 @@ public:
         }
         return E_NOTIMPL;
     }
+
+    // ISubRenderOptions
+
+    STDMETHODIMP GetBool(LPCSTR field, bool* value);
+    STDMETHODIMP GetInt(LPCSTR field, int* value);
+    STDMETHODIMP GetSize(LPCSTR field, SIZE* value);
+    STDMETHODIMP GetRect(LPCSTR field, RECT* value);
+    STDMETHODIMP GetUlonglong(LPCSTR field, ULONGLONG* value);
+    STDMETHODIMP GetDouble(LPCSTR field, double* value);
+    STDMETHODIMP GetString(LPCSTR field, LPWSTR* value, int* chars);
+    STDMETHODIMP GetBin(LPCSTR field, LPVOID* value, int* size);
+    STDMETHODIMP SetBool(LPCSTR field, bool value);
+    STDMETHODIMP SetInt(LPCSTR field, int value);
+    STDMETHODIMP SetSize(LPCSTR field, SIZE value);
+    STDMETHODIMP SetRect(LPCSTR field, RECT value);
+    STDMETHODIMP SetUlonglong(LPCSTR field, ULONGLONG value);
+    STDMETHODIMP SetDouble(LPCSTR field, double value);
+    STDMETHODIMP SetString(LPCSTR field, LPWSTR value, int chars);
+    STDMETHODIMP SetBin(LPCSTR field, LPVOID value, int size);
+
+    // ISubRenderConsumer
+
+    STDMETHODIMP GetMerit(ULONG* plMerit) {
+        CheckPointer(plMerit, E_POINTER);
+        *plMerit = 4 << 16;
+        return S_OK;
+    }
+    STDMETHODIMP Connect(ISubRenderProvider* subtitleRenderer);
+    STDMETHODIMP Disconnect();
+    STDMETHODIMP DeliverFrame(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame);
 };
