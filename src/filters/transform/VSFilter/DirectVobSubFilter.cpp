@@ -1545,14 +1545,14 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyl
         pSubStream->GetClassID(&clsid);
 
         if (clsid == __uuidof(CVobSubFile)) {
-            CVobSubBase* pVSS = (CVobSubFile*)(ISubStream*)pSubStream;
+            CVobSubSettings* pVSS = (CVobSubFile*)(ISubStream*)pSubStream;
 
             if (fApplyDefStyle) {
                 pVSS->SetAlignment(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc, 1, 1);
                 pVSS->m_fOnlyShowForcedSubs = m_fOnlyShowForcedVobSubs;
             }
         } else if (clsid == __uuidof(CVobSubStream)) {
-            CVobSubBase* pVSS = (CVobSubStream*)(ISubStream*)pSubStream;
+            CVobSubSettings* pVSS = (CVobSubStream*)(ISubStream*)pSubStream;
 
             if (fApplyDefStyle) {
                 pVSS->SetAlignment(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc, 1, 1);
