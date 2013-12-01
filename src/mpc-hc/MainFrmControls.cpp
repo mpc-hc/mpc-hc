@@ -37,6 +37,9 @@ UINT CMainFrameControls::GetEffectiveToolbarsSelection()
     if (m_pMainFrame->GetPlaybackMode() == PM_CAPTURE) {
         ret &= ~CS_SEEKBAR;
     }
+    if (m_pMainFrame->GetLoadState() == MLS::LOADED && m_pMainFrame->m_fAudioOnly && !ret) {
+        ret = CS_SEEKBAR | CS_TOOLBAR;
+    }
     return ret;
 }
 
@@ -152,8 +155,9 @@ bool CMainFrameControls::ControlChecked(Panel panel)
 void CMainFrameControls::ToggleControl(Toolbar toolbar)
 {
     const auto& s = AfxGetAppSettings();
+    const auto& st = m_controlsVisibilityState;
     const auto nID = static_cast<UINT>(toolbar);
-    auto nCS = s.nCS;
+    auto nCS = s.nCS | st.nCurrentCS;
     nCS ^= (1 << nID);
     SetToolbarsSelection(nCS, true);
 }
