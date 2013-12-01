@@ -9265,8 +9265,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     }
 
     if (m_fFullScreen) {
-        UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
-
         if (s.fPreventMinimize) {
             if (hm != hm_cur) {
                 ModifyStyle(WS_MINIMIZEBOX, 0, SWP_NOZORDER);
@@ -9277,7 +9275,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     } else {
         ModifyStyle(0, WS_MINIMIZEBOX, SWP_NOZORDER);
-        UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
     }
 
     m_fAudioOnly = fAudioOnly;
@@ -9334,6 +9331,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     } else {
         SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
     }
+
+    UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
 
     MoveVideoWindow();
 
