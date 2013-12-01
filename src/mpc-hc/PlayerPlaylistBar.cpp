@@ -274,8 +274,6 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         return;
     }
 
-    const CAppSettings& s = AfxGetAppSettings();
-
     ResolveLinkFiles(fns);
 
     CAtlList<CString> sl;

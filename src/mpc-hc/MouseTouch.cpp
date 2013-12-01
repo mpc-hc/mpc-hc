@@ -252,7 +252,6 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
     if ((!m_bD3DFS || !bIsOnFS) && ((ULONG)GetMessageTime() <= m_pMainFrame->m_dwPopupMenuHideTick + GetDoubleClickTime())) {
         return;
     }
-    auto mode = m_pMainFrame->GetPlaybackMode();
     if (m_pMainFrame->GetLoadState() == MLS::LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
             (m_pMainFrame->IsD3DFullScreenMode() ^ m_bD3DFS) == 0 &&
             (m_pMainFrame->m_pDVDC->ActivateAtPosition(GetVideoPoint(point)) == S_OK)) {

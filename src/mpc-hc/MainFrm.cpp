@@ -1217,8 +1217,6 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 
 void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
-    const auto& s = AfxGetAppSettings();
-
     auto setLarger = [](long & a, long b) {
         a = max(a, b);
     };
@@ -1379,8 +1377,6 @@ void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
     CSize newWindowSize(lpRect->right - lpRect->left, lpRect->bottom - lpRect->top);
 
     newWindowSize -= controlsSize;
-
-    bool bWider = videoSize.cy < videoSize.cx;
 
     switch (nSide) {
         case WMSZ_TOP:

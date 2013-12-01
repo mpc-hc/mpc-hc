@@ -105,7 +105,6 @@ unsigned CMainFrameControls::GetToolbarsHeight(UINT nCS) const
 
 void CMainFrameControls::DelayShowNotLoadedCallback()
 {
-    auto& st = m_controlsVisibilityState;
     ASSERT(m_bDelayShowNotLoaded);
     m_bDelayShowNotLoaded = false;
     UpdateToolbarsVisibility();
