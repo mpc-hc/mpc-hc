@@ -723,14 +723,13 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     DVBStreamInfo* pStreamInfo = nullptr;
-    CDVBStream* pStream = nullptr;
     FILTER_STATE nState;
 
     if (pChannel) {
         if (lIndex >= 0 && lIndex < pChannel->GetAudioCount()) {
             pStreamInfo = pChannel->GetAudio(lIndex);
             if (pStreamInfo) {
-                pStream = &m_DVBStreams[pStreamInfo->Type];
+                CDVBStream* pStream = &m_DVBStreams[pStreamInfo->Type];
                 if (pStream) {
                     if (pStream->GetMappedPID()) {
                         pStream->Unmap(pStream->GetMappedPID());

@@ -1332,13 +1332,13 @@ BOOL CMPlayerCApp::InitInstance()
         CMediaFormats& mf = m_s.m_Formats;
         mf.UpdateData(false);
 
-        bool bAudioOnly, bPlaylist;
+        bool bAudioOnly;
 
         CFileAssoc::LoadIconLib();
         CFileAssoc::SaveIconLibVersion();
 
         for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
-            bPlaylist = !mf[i].GetLabel().CompareNoCase(_T("pls"));
+            bool bPlaylist = !mf[i].GetLabel().CompareNoCase(_T("pls"));
 
             if (bPlaylist && !(m_s.nCLSwitches & CLSW_REGEXTPL)) {
                 continue;

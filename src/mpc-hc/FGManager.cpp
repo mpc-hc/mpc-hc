@@ -1058,9 +1058,8 @@ STDMETHODIMP CFGManager::RenderEx(IPin* pPinOut, DWORD dwFlags, DWORD* pvContext
         }
         EndEnumFilters;
 
-        HRESULT hr;
-
         while (!pBFs.IsEmpty()) {
+            HRESULT hr;
             if (SUCCEEDED(hr = ConnectFilter(pPinOut, pBFs.RemoveHead()))) {
                 return hr;
             }

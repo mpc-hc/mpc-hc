@@ -504,10 +504,9 @@ void CSubtitleDlDlg::OnDestroy()
 
     const CHeaderCtrl& pHC = *m_list.GetHeaderCtrl();
     CString strColumnWidth;
-    int w;
 
     for (int i = 0; i < pHC.GetItemCount(); ++i) {
-        w = m_list.GetColumnWidth(i);
+        int w = m_list.GetColumnWidth(i);
         strColumnWidth.AppendFormat(L"%d,", w);
     }
     AfxGetApp()->WriteProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH, strColumnWidth);
