@@ -6238,6 +6238,7 @@ void CMainFrame::OnViewMinimal()
 
 void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
 {
+    pCmdUI->Enable(!(GetLoadState() == MLS::LOADED && m_fAudioOnly));
 }
 
 void CMainFrame::OnViewCompact()
