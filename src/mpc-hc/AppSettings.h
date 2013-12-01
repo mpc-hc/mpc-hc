@@ -79,7 +79,7 @@ enum {
     CLSW_UNRECOGNIZEDSWITCH = CLSW_RESET << 1 // 30
 };
 
-enum {
+enum MpcCaptionState {
     MODE_SHOWCAPTIONMENU,
     MODE_HIDEMENU,
     MODE_FRAMEONLY,
@@ -569,7 +569,7 @@ public:
 
     // MENUS
     // View
-    int             iCaptionMenuMode; // normal -> hidemenu -> frameonly -> borderless
+    MpcCaptionState eCaptionMenuMode;
     bool            fHideNavigation;
     UINT            nCS; // Control state for toolbars
     // Language

@@ -6000,71 +6000,88 @@ void CMainFrame::OnUpdateFileClose(CCmdUI* pCmdUI)
 
 // view
 
-void CMainFrame::OnViewCaptionmenu()
+void CMainFrame::SetCaptionState(MpcCaptionState eState)
 {
-    CAppSettings& s = AfxGetAppSettings();
-    s.iCaptionMenuMode++;
-    s.iCaptionMenuMode %= MODE_COUNT; // three states: normal->borderless->frame only->
+    auto& s = AfxGetAppSettings();
+
+    if (eState == s.eCaptionMenuMode) {
+        return;
+    }
+
+    const auto eOldState = s.eCaptionMenuMode;
+    s.eCaptionMenuMode = eState;
 
     if (m_fFullScreen) {
         return;
     }
 
     DWORD dwRemove = 0, dwAdd = 0;
-    DWORD dwFlags = SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER;
-    DWORD dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
+    DWORD dwMenuFlags = GetMenuBarVisibility();
 
-    CRect wr;
-    GetWindowRect(&wr);
+    CRect windowRect;
+    GetWindowRect(&windowRect);
 
-    switch (s.iCaptionMenuMode) {
-        case MODE_SHOWCAPTIONMENU:  // borderless -> normal
-            dwAdd = WS_CAPTION | WS_THICKFRAME;
-            dwMenuFlags = AFX_MBV_KEEPVISIBLE;
-            wr.right  += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-            wr.bottom += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
-            wr.bottom += GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYMENU);
-            break;
-        case MODE_HIDEMENU:         // normal -> hidemenu
-            wr.bottom -= GetSystemMetrics(SM_CYMENU);
-            break;
-        case MODE_FRAMEONLY:        // hidemenu -> frameonly
-            dwRemove = WS_CAPTION;
-            wr.right  -= 2;
-            wr.bottom -= GetSystemMetrics(SM_CYCAPTION) + 2;
-            if (IsZoomed()) { // If the window is maximized, we want it to stay centered.
-                dwFlags &= ~SWP_NOMOVE;
-                wr.left += 1;
-            }
-            break;
-        case MODE_BORDERLESS:       // frameonly -> borderless
-            dwRemove = WS_THICKFRAME;
-            wr.right  -= GetSystemMetrics(SM_CXSIZEFRAME) * 2 - 2;
-            wr.bottom -= GetSystemMetrics(SM_CYSIZEFRAME) * 2 - 2;
-            if (IsZoomed()) { // If the window is maximized, we want it to stay centered.
-                dwFlags &= ~SWP_NOMOVE;
-                wr.top = 0;
-                wr.left = 0;
-            }
-            break;
+    const int base = MpcCaptionState::MODE_COUNT;
+    const bool bZoomed = !!IsZoomed();
+    for (int i = eOldState; i != eState; ++i %= base) {
+        switch (static_cast<MpcCaptionState>(i)) {
+            case MpcCaptionState::MODE_BORDERLESS:
+                dwMenuFlags = AFX_MBV_KEEPVISIBLE;
+                dwAdd |= (WS_CAPTION | WS_THICKFRAME);
+                dwRemove &= ~(WS_CAPTION | WS_THICKFRAME);
+                windowRect.InflateRect(GetSystemMetrics(SM_CXSIZEFRAME), GetSystemMetrics(SM_CYSIZEFRAME));
+                if (!bZoomed) {
+                    windowRect.bottom += GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYMENU);
+                }
+                break;
+            case MpcCaptionState::MODE_SHOWCAPTIONMENU:
+                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
+                if (!bZoomed) {
+                    windowRect.bottom -= GetSystemMetrics(SM_CYMENU);
+                }
+                break;
+            case MpcCaptionState::MODE_HIDEMENU:
+                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
+                dwAdd &= ~WS_CAPTION;
+                dwRemove |= WS_CAPTION;
+                windowRect.DeflateRect(GetSystemMetrics(SM_CXBORDER), GetSystemMetrics(SM_CYBORDER));
+                if (!bZoomed) {
+                    windowRect.bottom -= GetSystemMetrics(SM_CYCAPTION);
+                }
+                break;
+            case MpcCaptionState::MODE_FRAMEONLY:
+                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
+                dwAdd &= ~WS_THICKFRAME;
+                dwRemove |= WS_THICKFRAME;
+                windowRect.DeflateRect(GetSystemMetrics(SM_CXSIZEFRAME) - GetSystemMetrics(SM_CXBORDER),
+                                       GetSystemMetrics(SM_CYSIZEFRAME) - GetSystemMetrics(SM_CYBORDER));
+                break;
+            default:
+                ASSERT(FALSE);
+        }
     }
 
-    ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
+    UINT uFlags = SWP_NOZORDER;
+    if (dwRemove || dwAdd) {
+        uFlags |= SWP_FRAMECHANGED;
+    }
+
     SetMenuBarVisibility(dwMenuFlags);
-    if (IsZoomed()) { // If the window is maximized, we want it to stay maximized.
-        dwFlags |= SWP_NOSIZE;
-    }
-    // NOTE: wr.left and wr.top are ignored due to SWP_NOMOVE flag
-    SetWindowPos(nullptr, wr.left, wr.top, wr.Width(), wr.Height(), dwFlags);
+    VERIFY(SetWindowLong(m_hWnd, GWL_STYLE, (GetWindowLong(m_hWnd, GWL_STYLE) | dwAdd) & ~dwRemove));
+    VERIFY(SetWindowPos(nullptr, windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height(), uFlags));
+}
 
-    MoveVideoWindow();
+void CMainFrame::OnViewCaptionmenu()
+{
+    const auto& s = AfxGetAppSettings();
+    SetCaptionState(static_cast<MpcCaptionState>((s.eCaptionMenuMode + 1) % MpcCaptionState::MODE_COUNT));
 }
 
 void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 {
-    static int NEXT_MODE[] = {IDS_VIEW_HIDEMENU, IDS_VIEW_FRAMEONLY, IDS_VIEW_BORDERLESS, IDS_VIEW_CAPTIONMENU};
-    int idx = (AfxGetAppSettings().iCaptionMenuMode %= MODE_COUNT);
-    pCmdUI->SetText(ResStr(NEXT_MODE[idx]));
+    const auto& s = AfxGetAppSettings();
+    static UINT next[] = { IDS_VIEW_HIDEMENU, IDS_VIEW_FRAMEONLY, IDS_VIEW_BORDERLESS, IDS_VIEW_CAPTIONMENU };
+    pCmdUI->SetText(ResStr(next[s.eCaptionMenuMode % MpcCaptionState::MODE_COUNT]));
 }
 
 void CMainFrame::OnViewControlBar(UINT nID)
@@ -6215,7 +6232,8 @@ void CMainFrame::OnUpdateViewShaderEditor(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewMinimal()
 {
-    SetUIPreset(MODE_BORDERLESS, CS_NONE);
+    SetCaptionState(MODE_BORDERLESS);
+    m_controls.SetToolbarsSelection(CS_NONE, true);
 }
 
 void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
@@ -6224,7 +6242,8 @@ void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewCompact()
 {
-    SetUIPreset(MODE_FRAMEONLY, CS_SEEKBAR);
+    SetCaptionState(MODE_FRAMEONLY);
+    m_controls.SetToolbarsSelection(CS_SEEKBAR, true);
 }
 
 void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
@@ -6233,20 +6252,12 @@ void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewNormal()
 {
-    SetUIPreset(MODE_SHOWCAPTIONMENU, CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR | CS_INFOBAR);
+    SetCaptionState(MODE_SHOWCAPTIONMENU);
+    m_controls.SetToolbarsSelection(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR | CS_INFOBAR, true);
 }
 
 void CMainFrame::OnUpdateViewNormal(CCmdUI* pCmdUI)
 {
-}
-
-void CMainFrame::SetUIPreset(int iCaptionMenuMode, UINT nCS)
-{
-    while (AfxGetAppSettings().iCaptionMenuMode != iCaptionMenuMode) {
-        SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-    }
-
-    m_controls.SetToolbarsSelection(nCS, true);
 }
 
 void CMainFrame::OnViewFullscreen()
@@ -8938,10 +8949,10 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
     UINT lastWindowType = s.nLastWindowType;
     MoveWindow(x, y, w, h);
 
-    if (s.iCaptionMenuMode != MODE_SHOWCAPTIONMENU) {
-        if (s.iCaptionMenuMode == MODE_FRAMEONLY) {
+    if (s.eCaptionMenuMode != MODE_SHOWCAPTIONMENU) {
+        if (s.eCaptionMenuMode == MODE_FRAMEONLY) {
             ModifyStyle(WS_CAPTION, 0, SWP_NOZORDER);
-        } else if (s.iCaptionMenuMode == MODE_BORDERLESS) {
+        } else if (s.eCaptionMenuMode == MODE_BORDERLESS) {
             ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
         }
         SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
@@ -9212,11 +9223,11 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             SetDispMode(s.strFullScreenMonitor, s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes);
         }
 
-        dwAdd = (s.iCaptionMenuMode == MODE_BORDERLESS ? 0 : s.iCaptionMenuMode == MODE_FRAMEONLY ? WS_THICKFRAME : WS_CAPTION | WS_THICKFRAME);
+        dwAdd = (s.eCaptionMenuMode == MODE_BORDERLESS ? 0 : s.eCaptionMenuMode == MODE_FRAMEONLY ? WS_THICKFRAME : WS_CAPTION | WS_THICKFRAME);
         if (!m_fFirstFSAfterLaunchOnFS) {
             r = m_lastWindowRect;
         }
-        SetMenuBarVisibility(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU ?
+        SetMenuBarVisibility(s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU ?
                              AFX_MBV_KEEPVISIBLE : AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
         if (m_wndPlaylistBar.IsHiddenDueToFullscreen() && !m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
@@ -9766,7 +9777,7 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
         // caption
         decorationsSize.cy += GetSystemMetrics(SM_CYCAPTION);
         // menu
-        if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
+        if (s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
             decorationsSize.cy += GetSystemMetrics(SM_CYMENU);
         }
     }
@@ -15605,7 +15616,7 @@ HRESULT CMainFrame::UpdateThumbnailClip()
     // Remove the menu from thumbnail clip preview if it displayed
     result_rect.left = 2;
     result_rect.right = result_rect.left + (vid_rect.right - vid_rect.left) - 4;
-    result_rect.top = (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) ? 22 : 2;
+    result_rect.top = (s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU) ? 22 : 2;
     result_rect.bottom = result_rect.top + (vid_rect.bottom - vid_rect.top) - 4;
 
     return m_pTaskbarList->SetThumbnailClip(m_hWnd, &result_rect);

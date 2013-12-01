@@ -264,8 +264,6 @@ private:
 
     CRect m_lastWindowRect;
 
-    void SetUIPreset(int iCaptionMenuMode, UINT nCS);
-
     void SetDefaultWindowRect(int iMonitor = 0);
     void SetDefaultFullscreenState();
     void RestoreDefaultWindowRect();
@@ -393,13 +391,13 @@ public:
     CComPtr<ISyncClock> m_pSyncClock;
 
     bool IsFrameLessWindow() const {
-        return (m_fFullScreen || AfxGetAppSettings().iCaptionMenuMode == MODE_BORDERLESS);
+        return (m_fFullScreen || AfxGetAppSettings().eCaptionMenuMode == MODE_BORDERLESS);
     }
     bool IsCaptionHidden() const {//If no caption, there is no menu bar. But if is no menu bar, then the caption can be.
-        return (!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode > MODE_HIDEMENU); //!=MODE_SHOWCAPTIONMENU && !=MODE_HIDEMENU
+        return (!m_fFullScreen && AfxGetAppSettings().eCaptionMenuMode > MODE_HIDEMENU); //!=MODE_SHOWCAPTIONMENU && !=MODE_HIDEMENU
     }
     bool IsMenuHidden() const {
-        return (!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode != MODE_SHOWCAPTIONMENU);
+        return (!m_fFullScreen && AfxGetAppSettings().eCaptionMenuMode != MODE_SHOWCAPTIONMENU);
     }
     bool IsPlaylistEmpty() const {
         return (m_wndPlaylistBar.GetCount() == 0);
@@ -690,7 +688,9 @@ public:
     afx_msg void OnFileCloseMedia(); // no menu item
     afx_msg void OnUpdateFileClose(CCmdUI* pCmdUI);
 
+    void SetCaptionState(MpcCaptionState eState);
     afx_msg void OnViewCaptionmenu();
+
     afx_msg void OnViewNavigation();
     afx_msg void OnUpdateViewCaptionmenu(CCmdUI* pCmdUI);
     afx_msg void OnUpdateViewNavigation(CCmdUI* pCmdUI);
