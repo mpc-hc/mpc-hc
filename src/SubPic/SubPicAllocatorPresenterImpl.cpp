@@ -23,8 +23,8 @@
 #include "SubPicAllocatorPresenterImpl.h"
 #include "../DSUtil/DSUtil.h"
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
+#include "../mpc-hc/VersionInfo.h"
 #include <math.h>
-#include "version.h"
 #include "XySubPicQueueImpl.h"
 #include "XySubPicProvider.h"
 #include <d3d9.h>
@@ -286,7 +286,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* valu
     if (!strcmp(field, "name")) {
         ret = L"MPC-HC";
     } else if (!strcmp(field, "version")) {
-        ret = MPC_VERSION_STR;
+        ret = VersionInfo::GetVersionString();
     } else if (!strcmp(field, "yuvMatrix")) {
         ret = L"None";
 
