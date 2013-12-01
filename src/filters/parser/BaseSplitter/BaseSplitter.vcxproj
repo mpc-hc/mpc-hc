@@ -96,7 +96,6 @@
     <ClCompile Include="AsyncReader.cpp" />
     <ClCompile Include="BaseSplitter.cpp" />
     <ClCompile Include="BaseSplitterFile.cpp" />
-    <ClCompile Include="BaseSplitterFileEx.cpp" />
     <ClCompile Include="MultiFiles.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -106,7 +105,6 @@
     <ClInclude Include="AsyncReader.h" />
     <ClInclude Include="BaseSplitter.h" />
     <ClInclude Include="BaseSplitterFile.h" />
-    <ClInclude Include="BaseSplitterFileEx.h" />
     <ClInclude Include="MultiFiles.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

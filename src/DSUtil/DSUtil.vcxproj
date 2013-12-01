@@ -109,7 +109,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AudioParser.cpp" />
     <ClCompile Include="AudioTools.cpp" />
     <ClCompile Include="deinterlace.cpp" />
     <ClCompile Include="DSMPropertyBag.cpp" />
@@ -135,7 +134,6 @@
     <ClCompile Include="WinAPIUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioParser.h" />
     <ClInclude Include="AudioTools.h" />
     <ClInclude Include="DSMPropertyBag.h" />
     <ClInclude Include="DSUtil.h" />

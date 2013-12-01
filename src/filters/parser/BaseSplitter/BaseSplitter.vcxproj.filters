@@ -20,9 +20,6 @@
     <ClCompile Include="BaseSplitterFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BaseSplitterFileEx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MultiFiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,9 +35,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseSplitterFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseSplitterFileEx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MultiFiles.h">

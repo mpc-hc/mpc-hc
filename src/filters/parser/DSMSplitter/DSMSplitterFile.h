@@ -22,8 +22,11 @@
 #pragma once
 
 #include "../BaseSplitter/BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitterFile.h"
 #include "dsm/dsm.h"
 #include "../../../DSUtil/DSMPropertyBag.h"
+
+#define MAX_PROBE_SIZE (64 * 1024)
 
 class CDSMSplitterFile : public CBaseSplitterFile
 {
