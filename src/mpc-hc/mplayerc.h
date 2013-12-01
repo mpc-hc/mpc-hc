@@ -94,9 +94,6 @@ __inline int FixedToInt(__in const DXVA2_Fixed32& _fixed_, __in const short fact
     return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;
 }
 
-extern bool GetCurDispMode(const CString& displayName, dispmode& dm);
-extern bool GetDispMode(CString displayName, int i, dispmode& dm);
-extern void SetDispMode(CString displayName, const dispmode& dm);
 extern void SetAudioRenderer(int AudioDevNo);
 
 extern void SetHandCursor(HWND m_hWnd, UINT nID);

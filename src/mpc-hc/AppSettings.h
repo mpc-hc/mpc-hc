@@ -480,6 +480,7 @@ public:
     bool            fExitFullScreenAtTheEnd;
     CStringW        strFullScreenMonitor;
     AChFR           AutoChangeFullscrRes;
+    unsigned        uAutoChangeFullscrResDelay;
     bool            fRestoreResAfterExit;
 
     // Sync Renderer Settings

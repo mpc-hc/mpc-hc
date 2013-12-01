@@ -168,6 +168,7 @@ public:
         CHILDVIEW_CURSOR_HACK,
         DELAY_IDLE,
         ACTIVE_SHADER_FILES_CHANGE_COOLDOWN,
+        DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
     };
     OneTimeTimerPool<TimerOneTimeSubscriber> m_timerOneTime;
 
@@ -413,6 +414,8 @@ public:
 protected:
     MLS m_eMediaLoadState;
     bool m_bFirstPlay;
+    bool m_bOpeningInAutochangedMonitorMode;
+    bool m_bPausedForAutochangeMonitorMode;
 
     bool m_fAudioOnly;
     dispmode m_dmBeforeFullscreen;
@@ -447,6 +450,13 @@ protected:
     void OpenSetupStatusBar();
     void OpenSetupCaptureBar();
     void OpenSetupWindowTitle(bool reset = false);
+
+public:
+    static bool GetCurDispMode(const CString& displayName, dispmode& dm);
+    static bool GetDispMode(CString displayName, int i, dispmode& dm);
+
+protected:
+    void SetDispMode(CString displayName, const dispmode& dm);
     void AutoChangeMonitorMode();
 
     bool GraphEventComplete();

@@ -1905,62 +1905,6 @@ void CMPlayerCApp::OnHelpShowcommandlineswitches()
     ShowCmdlnSwitches();
 }
 
-bool GetCurDispMode(const CString& displayName, dispmode& dm)
-{
-    return GetDispMode(displayName, ENUM_CURRENT_SETTINGS, dm);
-}
-
-bool GetDispMode(CString displayName, int i, dispmode& dm)
-{
-    DEVMODE devmode;
-    devmode.dmSize = sizeof(DEVMODE);
-    if (displayName == _T("Current") || displayName.IsEmpty()) {
-        CMonitor monitor = CMonitors::GetNearestMonitor(AfxGetApp()->m_pMainWnd);
-        monitor.GetName(displayName);
-    }
-
-    dm.fValid = !!EnumDisplaySettings(displayName, i, &devmode);
-
-    if (dm.fValid) {
-        dm.fValid = true;
-        dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
-        dm.bpp = devmode.dmBitsPerPel;
-        dm.freq = devmode.dmDisplayFrequency;
-        dm.dmDisplayFlags = devmode.dmDisplayFlags;
-    }
-
-    return dm.fValid;
-}
-
-void SetDispMode(CString displayName, const dispmode& dm)
-{
-    dispmode dmCurrent;
-    if (!GetCurDispMode(displayName, dmCurrent) || (dm.size == dmCurrent.size && dm.bpp == dmCurrent.bpp && dm.freq == dmCurrent.freq)) {
-        return;
-    }
-
-    DEVMODE dmScreenSettings;
-    ZeroMemory(&dmScreenSettings, sizeof(dmScreenSettings));
-    dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-    dmScreenSettings.dmPelsWidth = dm.size.cx;
-    dmScreenSettings.dmPelsHeight = dm.size.cy;
-    dmScreenSettings.dmBitsPerPel = dm.bpp;
-    dmScreenSettings.dmDisplayFrequency = dm.freq;
-    dmScreenSettings.dmDisplayFlags = dm.dmDisplayFlags;
-    dmScreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY  | DM_DISPLAYFLAGS;
-
-    if (displayName == _T("Current") || displayName.IsEmpty()) {
-        CMonitor monitor = CMonitors::GetNearestMonitor(AfxGetApp()->m_pMainWnd);
-        monitor.GetName(displayName);
-    }
-
-    if (AfxGetAppSettings().fRestoreResAfterExit) {
-        ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, CDS_FULLSCREEN, nullptr);
-    } else {
-        ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, 0, nullptr);
-    }
-}
-
 void SetAudioRenderer(int AudioDevNo)
 {
     CStringArray m_AudioRendererDisplayNames;

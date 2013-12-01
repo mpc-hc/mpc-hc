@@ -190,6 +190,7 @@ CAppSettings::CAppSettings()
     , bHideFullscreenDockedPanels(FALSE)
     , bHideWindowedControls(false)
     , bHideWindowedMousePointer(true)
+    , uAutoChangeFullscrResDelay(0)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -652,6 +653,7 @@ void CAppSettings::SaveSettings()
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_MOUSE_POINTER, bHideWindowedMousePointer));
 
     pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, (BYTE*)&AutoChangeFullscrRes, sizeof(AutoChangeFullscrRes));
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES_DELAY, (int)uAutoChangeFullscrResDelay));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, fExitFullScreenAtTheEnd);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RESTORERESAFTEREXIT, fRestoreResAfterExit);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWPOS, fRememberWindowPos);
@@ -1187,6 +1189,7 @@ void CAppSettings::LoadSettings()
     } else {
         AutoChangeFullscrRes.bEnabled = false;
     }
+    uAutoChangeFullscrResDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES_DELAY, 0);
 
     fExitFullScreenAtTheEnd = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, TRUE);
     fRestoreResAfterExit = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RESTORERESAFTEREXIT, TRUE);

@@ -63,7 +63,7 @@
 #define IDS_RS_USEDEFAULTSUBTITLESSTYLE     _T("UseDefaultsubtitlesStyle")
 #define IDS_RS_THUMBWIDTH                   _T("ThumbWidth")
 #define IDS_RS_D3DFULLSCREEN                _T("D3DFullScreen")
-#define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
+//#define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
 #define IDS_RS_SPEEDSTEP                    _T("SpeedStep")
 
 // Audio
@@ -139,6 +139,7 @@
 #define IDS_RS_BLOCKVSFILTER                _T("BlockVSFilter")
 #define IDS_RS_ACCELTBL                     _T("AccelTbl")
 #define IDS_RS_FULLSCREENRES                _T("FullscreenRes")
+#define IDS_RS_FULLSCREENRES_DELAY          _T("FullscreenResDelay")
 #define IDS_RS_WINLIRCADDR                  _T("WinLircAddr")
 #define IDS_RS_WINLIRC                      _T("UseWinLirc")
 #define IDS_RS_TRAYICON                     _T("TrayIcon")
