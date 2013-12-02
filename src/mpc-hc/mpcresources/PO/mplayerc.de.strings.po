@@ -3083,7 +3083,7 @@ msgstr "\nSie verwenden bereits die neuste stabile Version."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "\nAktuelle Version:\t%s\nNeuste stabile Version:\t%s"
+msgstr "Aktuelle Version:\t%s\n\nNeuste stabile Version:\t%s"
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
