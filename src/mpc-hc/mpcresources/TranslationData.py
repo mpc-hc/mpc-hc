@@ -310,6 +310,16 @@ class TranslationData:
                 if dataID[1] != dataIDTranslated[1]:
                     dataPair[0][dataID] = dataIDTranslated[1]
 
+    def translate(self, translationData):
+        self.dialogsHeader = translationData.dialogsHeader
+        self.menusHeader = translationData.menusHeader
+        self.stringsHeader = translationData.stringsHeader
+
+        for dataPair in ((self.dialogs, translationData.dialogs), (self.menus, translationData.menus), (self.strings, translationData.strings)):
+            for dataID in dataPair[0]:
+                if dataID in dataPair[1]:
+                    dataPair[0][dataID] = dataPair[1][dataID]
+
     def translateRC(self, filenameBase, filenameRC):
         config = ConfigParser.RawConfigParser()
         config.readfp(codecs.open('cfg\\' + filenameRC + '.cfg', 'r', 'utf8'))
