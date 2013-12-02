@@ -327,11 +327,11 @@ msgstr "Ввімк./Вимк."
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
-msgstr "Від (кадри\с)"
+msgstr "Від (кадри/с)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To fps"
-msgstr "До (кадри\с)"
+msgstr "До (кадри/с)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
