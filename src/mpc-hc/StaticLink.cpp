@@ -105,7 +105,7 @@ void CStaticLink::OnLButtonDown(UINT nFlags, CPoint point)
     if (m_link.IsEmpty()) {
         // no link: try to load from resource string or window text
         if (!m_link.LoadString(GetDlgCtrlID())) {
-            VERIFY(GetWindowText(m_link));
+            GetWindowText(m_link);
         }
         if (m_link.IsEmpty()) {
             return;
