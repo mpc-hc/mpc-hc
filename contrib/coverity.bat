@@ -31,8 +31,12 @@ IF DEFINED COVDIR IF NOT EXIST "%COVDIR%" (
 
 CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
-"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" rebuild lite win32 main release silent
-"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" rebuild filters win32 release silent
+IF EXIST "cov-int" RD /q /s "cov-int"
+
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Lite Win32 main Release silent
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Filters Win32 Release silent
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild IconLib Win32 Release silent
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Api Win32 Release silent
 
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
 IF EXIST "MPC-HC.tgz" DEL "MPC-HC.tgz"
