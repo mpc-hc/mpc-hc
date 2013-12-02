@@ -21,6 +21,7 @@ import re
 from collections import OrderedDict
 import itertools
 import ConfigParser
+from datetime import datetime
 
 
 def detectEncoding(filename):
@@ -84,6 +85,22 @@ END
 /////////////////////////////////////////////////////////////////////////////\n\n\n
 '''
 
+potHeader = u'''# MPC-HC - %s
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\\n"
+"POT-Creation-Date: %s+0000\\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n"
+"Language-Team: LANGUAGE <LL@li.org>\\n"
+"MIME-Version: 1.0\\n"
+"Content-Type: text/plain; charset=UTF-8\\n"
+"Content-Transfer-Encoding: 8bit\\n"
+"Language: \\n"\n
+'''
+
 
 class TranslationData:
     dialogStart = re.compile(ur'^([^ ]+) DIALOGEX \d+, \d+, \d+, \d+\r\n', re.UNICODE)
@@ -94,11 +111,15 @@ class TranslationData:
     stringTableEntry = re.compile(ur'^\s*([^ ]+)\s*(?:\s+"((?:[^"]|"")+)")?\r\n', re.UNICODE)
     poLine = re.compile(ur'^\s*(msgctxt|msgid|msgstr)\s+"((?:[^"]|\\")*)"\r\n', re.UNICODE)
     versionInfo = versionInfo.replace('\n', '\r\n')
+    potHeader = potHeader.replace('\n', '\r\n')
 
     def __init__(self):
         self.empty()
 
     def empty(self):
+        self.dialogsHeader = None
+        self.menusHeader = None
+        self.stringsHeader = None
         self.dialogs = OrderedDict()
         self.menus = OrderedDict()
         self.strings = OrderedDict()
@@ -176,12 +197,18 @@ class TranslationData:
     def loadFromPO(self, filename, ext):
         self.empty()
 
-        self.loadDataFromPO(filename + '.dialogs.' + ext, self.dialogs)
-        self.loadDataFromPO(filename + '.menus.' + ext, self.menus)
-        self.loadDataFromPO(filename + '.strings.' + ext, self.strings)
+        self.loadDataFromPO(filename + '.dialogs.' + ext,
+                            self.dialogs, 'dialogsHeader')
+        self.loadDataFromPO(filename + '.menus.' + ext,
+                            self.menus, 'menusHeader')
+        self.loadDataFromPO(filename + '.strings.' + ext,
+                            self.strings, 'stringsHeader')
 
-    def loadDataFromPO(self, filename, data):
+    def loadDataFromPO(self, filename, data, header=None):
         with codecs.open(filename, 'r', 'utf8') as f:
+            if header:
+                setattr(self, header, self.readHeaderFromPO(f))
+
             hasNext = True
             while hasNext:
                 poEntry = self.readPOEntry(f, True)
@@ -189,6 +216,21 @@ class TranslationData:
                     data[(poEntry[0], poEntry[1])] = poEntry[2]
                 else:
                     hasNext = False
+
+    def readHeaderFromPO(self, f):
+        header = None
+        line = f.readline()
+        if line.startswith(u'#'):
+            header = []
+            header.append(line)
+            for line in f:
+                header.append(line)
+                if line.startswith(u'\r\n'):
+                    break
+            header = ''.join(header)
+        else:
+            f.seek(0)
+        return header
 
     def readPOEntry(self, f, needContext):
         context = None
@@ -211,13 +253,39 @@ class TranslationData:
 
         return None
 
-    def writePO(self, filename, ext):
-        self.writePOData(filename + '.dialogs.' + ext, self.dialogs)
-        self.writePOData(filename + '.menus.' + ext, self.menus)
-        self.writePOData(filename + '.strings.' + ext, self.strings)
+    def writePO(self, filename, ext, output=(True, True, True)):
+        self.prepareHeaders(ext)
 
-    def writePOData(self, filename, data):
+        if output[0]:
+            self.writePOData(filename + '.dialogs.' + ext,
+                             self.dialogs, self.dialogsHeader)
+        if output[1]:
+            self.writePOData(filename + '.menus.' + ext,
+                             self.menus, self.menusHeader)
+        if output[2]:
+            self.writePOData(filename + '.strings.' + ext,
+                             self.strings, self.stringsHeader)
+
+    def prepareHeaders(self, ext):
+        if ext == 'pot':
+            self.dialogsHeader = self.menusHeader = self.stringsHeader = None
+
+        utcnow = datetime.utcnow().replace(microsecond=0).isoformat(' ')
+
+        if not self.dialogsHeader:
+            self.dialogsHeader = TranslationData.potHeader % ('Strings extracted from dialogs', utcnow)
+
+        if not self.menusHeader:
+            self.menusHeader = TranslationData.potHeader % ('Strings extracted from menus', utcnow)
+
+        if not self.stringsHeader:
+            self.stringsHeader = TranslationData.potHeader % ('Strings extracted from string tables', utcnow)
+
+    def writePOData(self, filename, data, header=None):
         with codecs.open(filename, 'w', 'utf8') as f:
+            if header:
+                f.write(header)
+
             for dataID in data:
                 f.write('msgctxt "')
                 f.write(dataID[0].replace('""', '\\"'))    # msgctxt
@@ -228,6 +296,11 @@ class TranslationData:
                 f.write('msgstr "')
                 f.write(data[dataID].replace('""', '\\"')) # msgstr
                 f.write('"\r\n\r\n')
+
+    def areEqualsSections(self, translationData):
+        return (self.dialogs == translationData.dialogs,
+                self.menus == translationData.menus,
+                self.strings == translationData.strings)
 
     # This shouldn't be used in general since it isn't safe at all
     # but we need it to migrate from our old system.

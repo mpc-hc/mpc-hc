@@ -22,4 +22,9 @@ from TranslationData import *
 if __name__ == '__main__':
     translationData = TranslationData()
     translationData.loadFromRC(r'..\mplayerc.rc')
-    translationData.writePO(r'PO\mplayerc', 'pot')
+
+    translationDataOld = TranslationData()
+    translationDataOld.loadFromPO(r'PO\mplayerc', 'pot')
+    output = tuple(not b for b in translationData.areEqualsSections(translationDataOld))
+
+    translationData.writePO(r'PO\mplayerc', 'pot', output)
