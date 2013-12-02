@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:15+0000\n"
+"POT-Creation-Date: 2013-12-02 19:07:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -915,10 +915,6 @@ msgstr ""
 
 msgctxt "IDD_SAVE_DLG_CAPTION"
 msgid "Saving..."
-msgstr ""
-
-msgctxt "IDD_SAVE_DLG_IDC_FROMTO"
-msgid "Static"
 msgstr ""
 
 msgctxt "IDD_SAVE_DLG_IDCANCEL"

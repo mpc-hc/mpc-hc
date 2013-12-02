@@ -917,10 +917,6 @@ msgctxt "IDD_SAVE_DLG_CAPTION"
 msgid "Saving..."
 msgstr "Shranjujem..."
 
-msgctxt "IDD_SAVE_DLG_IDC_FROMTO"
-msgid "Static"
-msgstr ""
-
 msgctxt "IDD_SAVE_DLG_IDCANCEL"
 msgid "Cancel"
 msgstr "Prekliči"
