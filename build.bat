@@ -36,6 +36,7 @@ IF NOT EXIST %MPCHC_MSYS%    GOTO MissingVar
 SET ARG=/%*
 SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
+SET ARGAPI=0
 SET ARGB=0
 SET ARGBC=0
 SET ARGC=0
@@ -69,6 +70,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET /A ARGM+=1
   IF /I "%%G" == "Filters"      SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
   IF /I "%%G" == "Filter"       SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
+  IF /I "%%G" == "API"          SET "CONFIG=API"         & SET /A ARGC+=1  & SET /A ARGAPI+=1
   IF /I "%%G" == "MPCHC"        SET "CONFIG=MPCHC"       & SET /A ARGC+=1
   IF /I "%%G" == "MPC-HC"       SET "CONFIG=MPCHC"       & SET /A ARGC+=1
   IF /I "%%G" == "Resources"    SET "CONFIG=Resources"   & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
@@ -79,10 +81,10 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
   IF /I "%%G" == "VS2012"       SET "COMPILER=VS2012"    & SET /A ARGCOMP+=1
   IF /I "%%G" == "VS2013"       SET "COMPILER=VS2013"    & SET /A ARGCOMP+=1
-  IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1 & SET /A ARGL+=1
+  IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1 & SET /A ARGAPI+=1
+  IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1 & SET /A ARGAPI+=1
+  IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1 & SET /A ARGAPI+=1
+  IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1 & SET /A ARGL+=1 & SET /A ARGAPI+=1
   IF /I "%%G" == "LAVFilters"   SET "Clean=LAVFilters"   & SET /A VALID+=1 & SET /A ARGLAVF+=1 & SET /A ARGRE+=1
   IF /I "%%G" == "Silent"       SET "SILENT=True"        & SET /A VALID+=1
   IF /I "%%G" == "Nocolors"     SET "NOCOLORS=True"      & SET /A VALID+=1
@@ -106,6 +108,7 @@ IF %ARGLAVF% GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGL%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGRE%   GTR 1 (GOTO UnsupportedSwitch)
+IF %ARGAPI%  GTR 1 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
@@ -177,6 +180,11 @@ IF /I "%CONFIG%" == "IconLib" (
 
 IF /I "%CONFIG%" == "Translation" (
   CALL :SubMPCRresources %PPLATFORM%
+  EXIT /B
+)
+
+IF /I "%CONFIG%" == "API" (
+  CALL :SubMPCTestAPI %PPLATFORM%
   EXIT /B
 )
 
@@ -264,6 +272,7 @@ IF DEFINED MPCHC_LITE (
 CALL :SubMPCRresources %1
 EXIT /B
 
+
 :SubMPCIconLib
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
@@ -295,6 +304,23 @@ FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 )
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??.dll Lang
+EXIT /B
+
+
+:SubMPCTestAPI
+IF %ERRORLEVEL% NEQ 0 EXIT /B
+
+PUSHD "src\MPCTestAPI"
+TITLE Compiling MPCTestAPI %COMPILER% - %BUILDCFG%^|%1...
+MSBuild.exe MPCTestAPI.sln %MSBUILD_SWITCHES%^
+ /target:%BUILDTYPE% /property:Configuration=%BUILDCFG%;Platform=%1
+IF %ERRORLEVEL% NEQ 0 (
+  CALL :SubMsg "ERROR" "MPCTestAPI.sln %1 - Compilation failed!"
+  EXIT /B
+) ELSE (
+  CALL :SubMsg "INFO" "MPCTestAPI.sln %1 compiled successfully"
+)
+POPD
 EXIT /B
 
 
@@ -538,7 +564,7 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2012^|VS2013] [Analyze]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2012^|VS2013] [Analyze]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.
