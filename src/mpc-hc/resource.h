@@ -1432,6 +1432,7 @@
 #define IDS_AG_SHADERS_PRESET_NEXT      57383
 #define ID_SHADERS_PRESET_PREV          57384
 #define IDS_AG_SHADERS_PRESET_PREV      57385
+#define IDS_STRING_COLON                57386
 
 // Next default values for new objects
 // 

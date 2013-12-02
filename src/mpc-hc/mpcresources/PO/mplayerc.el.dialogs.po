@@ -133,10 +133,6 @@ msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
 msgstr "Χρόνος"
 
-msgctxt "IDD_GOTO_DLG_IDC_EDIT1"
-msgid "00:00:00.000"
-msgstr ""
-
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
 msgstr "Μετάβαση"
@@ -193,10 +189,6 @@ msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
 msgstr "Περί"
 
-msgctxt "IDD_ABOUTBOX_IDC_STATIC1"
-msgid "MPC-HC"
-msgstr ""
-
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright © 2002-2013 see Authors.txt"
 msgstr "Copyright © 2002-2013 βλέπε Authors.txt"
@@ -219,10 +211,6 @@ msgstr "Έκδοση:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Compiler:"
-msgstr ""
-
-msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "LAV Filters:"
 msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
@@ -876,14 +864,6 @@ msgstr "Θέση: 0.0 -> 1.0"
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
 msgstr "Μεγέθυνση: 0.2->3.0"
-
-msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK"
-msgid "WinLIRC:"
-msgstr ""
-
-msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK2"
-msgid "uICE:"
-msgstr ""
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"

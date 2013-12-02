@@ -628,6 +628,9 @@
     <CustomBuildStep Include="res\mplayerc.rc2">
       <FileType>RC2</FileType>
     </CustomBuildStep>
+    <CustomBuildStep Include="res\untranslatable.rc2">
+      <FileType>RC2</FileType>
+    </CustomBuildStep>
     <None Include="res\multi.ico" />
     <None Include="res\noaudio.bmp" />
     <None Include="res\onoff.bmp" />

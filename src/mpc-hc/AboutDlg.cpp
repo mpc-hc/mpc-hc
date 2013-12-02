@@ -39,6 +39,7 @@ CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
     , m_appname(_T(""))
     , m_strBuildNumber(_T(""))
     , m_MPCCompiler(_T(""))
+    , m_LAVFilters(_T(""))
 #ifndef MPCHC_LITE
     , m_LAVFiltersVersion(_T(""))
 #endif
@@ -50,7 +51,6 @@ CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 BOOL CAboutDlg::OnInitDialog()
 {
     // Get the default text before it is overwritten by the call to __super::OnInitDialog()
-    GetDlgItem(IDC_STATIC1)->GetWindowText(m_appname);
     GetDlgItem(IDC_AUTHORS_LINK)->GetWindowText(m_credits);
 #ifndef MPCHC_LITE
     GetDlgItem(IDC_LAVFILTERS_VERSION)->GetWindowText(m_LAVFiltersVersion);
@@ -61,6 +61,7 @@ BOOL CAboutDlg::OnInitDialog()
     // Because we set LR_SHARED, there is no need to explicitly destroy the icon
     m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 48, 48, LR_SHARED));
 
+    m_appname = _T("MPC-HC");
     if (VersionInfo::IsNightly() || VersionInfo::Is64Bit()) {
         m_appname += _T(" (");
     }
@@ -145,6 +146,7 @@ BOOL CAboutDlg::OnInitDialog()
     m_MPCCompiler += _T(" Debug");
 #endif
 
+    m_LAVFilters.Format(IDS_STRING_COLON, _T("LAV Filters"));
 #ifndef MPCHC_LITE
     CString LAVFiltersVersion = CFGFilterLAV::GetVersion();
     if (!LAVFiltersVersion.IsEmpty()) {
@@ -185,6 +187,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_HOMEPAGE_LINK, m_homepage);
     DDX_Text(pDX, IDC_VERSION, m_strBuildNumber);
     DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
+    DDX_Text(pDX, IDC_STATIC5, m_LAVFilters);
 #ifndef MPCHC_LITE
     DDX_Text(pDX, IDC_LAVFILTERS_VERSION, m_LAVFiltersVersion);
 #endif

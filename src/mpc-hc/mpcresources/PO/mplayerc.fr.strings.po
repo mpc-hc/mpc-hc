@@ -13,10 +13,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 
-msgctxt "IDR_MAINFRAME"
-msgid "Media Player Classic Home Cinema"
-msgstr ""
-
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "Emplacement"
@@ -111,10 +107,6 @@ msgstr "Force : %d dB, Qualité : %d%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
-msgstr ""
-
-msgctxt "AFX_IDS_APP_TITLE"
-msgid "MPC-HC"
 msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
@@ -527,18 +519,6 @@ msgstr "Pas de rendu vidéo (formats non compressés)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
-msgstr ""
-
-msgctxt "IDF_LOGO1"
-msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
-msgstr ""
-
-msgctxt "IDF_LOGO2"
-msgid "Steven W. Smith, smith78@sbcglobal.net"
-msgstr ""
-
-msgctxt "IDF_LOGO3"
-msgid "Robbie Khan, email@robbiekhan.co.uk"
 msgstr ""
 
 msgctxt "IDD_PPAGEACCELTBL"
@@ -1212,6 +1192,10 @@ msgstr ""
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
 msgstr ""
+
+msgctxt "IDS_STRING_COLON"
+msgid "%s:"
+msgstr "%s :"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

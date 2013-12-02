@@ -48,7 +48,9 @@ BEGIN
     "#pragma code_page(1252)\r\n"
     "#include ""afxres.rc""     // Standard components\r\n"
     "#include ""res\\mplayerc.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
-    "#endif\0"
+    "#endif\r\n"
+    "\r\n"
+    "#include ""res\\untranslatable.rc2""  // untranslatable strings\0"
 END
 
 #endif    // APSTUDIO_INVOKED
@@ -147,7 +149,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly.",IDC_STATIC,5,5,173,27
     LTEXT           "Time",IDC_STATIC,10,42,35,8
-    CONTROL         "00:00:00.000",IDC_EDIT1,"MfcMaskedEdit",WS_BORDER | WS_TABSTOP | 0x80,47,39,80,14
+    CONTROL         "",IDC_EDIT1,"MfcMaskedEdit",WS_BORDER | WS_TABSTOP | 0x80,47,39,80,14
     DEFPUSHBUTTON   "Go!",IDC_OK1,131,39,50,14
     LTEXT           "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate.",IDC_STATIC,5,64,173,26
     LTEXT           "Frame",IDC_STATIC,10,99,35,8
@@ -179,7 +181,7 @@ CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDR_MAINFRAME,14,10,48,48
-    LTEXT           "MPC-HC",IDC_STATIC1,60,8,200,8
+    LTEXT           "",IDC_STATIC1,60,8,200,8
     CONTROL         "Copyright © 2002-2013 see Authors.txt",IDC_AUTHORS_LINK,
                     "SysLink",WS_TABSTOP,60,20,200,8
     CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,200,8
@@ -190,7 +192,7 @@ BEGIN
     LTEXT           "",IDC_VERSION,95,92,155,8
     LTEXT           "Compiler:",IDC_STATIC,13,104,85,8
     LTEXT           "",IDC_MPC_COMPILER,95,104,155,8
-    LTEXT           "LAV Filters:",IDC_STATIC,13,116,85,8
+    LTEXT           "",IDC_STATIC5,13,116,85,8
     LTEXT           "Not used",IDC_LAVFILTERS_VERSION,95,116,155,8
     LTEXT           "Build date:",IDC_STATIC,13,128,85,8
     LTEXT           "",IDC_STATIC2,95,128,155,8
@@ -545,10 +547,10 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_PLACEHOLDER,"Static",SS_BLACKFRAME | NOT WS_VISIBLE,5,5,286,190
     CONTROL         "",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,200,9,8
-    LTEXT           "WinLIRC:",IDC_STATICLINK,18,200,35,8
+    LTEXT           "",IDC_STATICLINK,18,200,35,8
     EDITTEXT        IDC_EDIT1,57,198,86,13,ES_AUTOHSCROLL
     CONTROL         "",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,215,9,8
-    LTEXT           "uICE:",IDC_STATICLINK2,18,215,35,8
+    LTEXT           "",IDC_STATICLINK2,18,215,35,8
     EDITTEXT        IDC_EDIT2,57,213,86,13,ES_AUTOHSCROLL
     CONTROL         "Global Media Keys",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,228,160,8
     PUSHBUTTON      "Select All",IDC_BUTTON1,201,204,90,14
@@ -2059,11 +2061,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "Media Player Classic Home Cinema"
-END
-
-STRINGTABLE
-BEGIN
     IDS_INFOBAR_LOCATION    "Location"
     IDS_INFOBAR_VIDEO       "Video"
     IDS_INFOBAR_AUDIO       "Audio"
@@ -2096,7 +2093,6 @@ END
 
 STRINGTABLE
 BEGIN
-    AFX_IDS_APP_TITLE       "MPC-HC"
     IDS_PPAGE_CAPTURE_FG0   "Never (fastest approach)"
     IDS_PPAGE_CAPTURE_FG1   "Only when switching different video types (default)"
     IDS_PPAGE_CAPTURE_FG2   "Always (slowest option)"
@@ -2237,17 +2233,6 @@ BEGIN
     IDS_PPAGE_OUTPUT_NULL_COMP "Null (anything)"
     IDS_PPAGE_OUTPUT_NULL_UNCOMP "Null (uncompressed)"
     IDS_PPAGE_OUTPUT_MADVR  "madVR"
-END
-
-STRINGTABLE
-BEGIN
-    IDF_LOGO1               "Marcel Hoffs, marcelhoffs@hotmail.com"
-END
-
-STRINGTABLE
-BEGIN
-    IDF_LOGO2               "Steven W. Smith, smith78@sbcglobal.net"
-    IDF_LOGO3               "Robbie Khan, email@robbiekhan.co.uk"
 END
 
 STRINGTABLE
@@ -2531,6 +2516,7 @@ BEGIN
     IDS_OSD_SHADERS_PRESET  "Shader preset: %s"
     IDS_AG_SHADERS_PRESET_NEXT "Next Shader Preset"
     IDS_AG_SHADERS_PRESET_PREV "Prev Shader Preset"
+    IDS_STRING_COLON        "%s:"
 END
 
 STRINGTABLE
@@ -3321,6 +3307,8 @@ LANGUAGE 9, 1
 #include "afxres.rc"     // Standard components
 #include "res\mplayerc.rc2"  // non-Microsoft Visual C++ edited resources
 #endif
+
+#include "res\untranslatable.rc2"  // untranslatable strings
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

@@ -1051,6 +1051,11 @@
     </CustomBuildStep>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuildStep Include="res\untranslatable.rc2">
+      <Filter>Resource Files</Filter>
+    </CustomBuildStep>
+  </ItemGroup>
+  <ItemGroup>
     <Object Include="..\thirdparty\LAVFilters\src\bin_$(PlatformName)\ffmpeg\GCCInfo.o">
       <Filter>Source Files</Filter>
     </Object>
