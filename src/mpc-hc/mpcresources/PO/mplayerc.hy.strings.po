@@ -879,7 +879,7 @@ msgstr "Վերարտադրում\nՎերարտադրում"
 
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
-msgstr "Դադար\Դադար"
+msgstr "Դադար\nԴադար"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
