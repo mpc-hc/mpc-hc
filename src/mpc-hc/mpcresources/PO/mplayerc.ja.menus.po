@@ -333,10 +333,6 @@ msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
 msgstr "代替の垂直同期"
 
-msgctxt "ID_VIEW_VSYNCOFFSET"
-msgid "0"
-msgstr ""
-
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
 msgstr "垂直同期オフセットの減少(&D)"

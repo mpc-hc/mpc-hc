@@ -61,10 +61,6 @@ msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
 msgstr "מאגר וידאו/שמע:"
 
-msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON3"
-msgid "..."
-msgstr ""
-
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
 msgstr "שמע ל-wav"
@@ -343,10 +339,6 @@ msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr ""
-
-msgctxt "IDD_PPAGEDVD_IDC_BUTTON1"
-msgid "..."
 msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
@@ -1548,10 +1540,6 @@ msgstr "מסד נתונים ברשת"
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
 msgstr "כתובת למסד נתונים ברשת:"
-
-msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "http://"
-msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"

@@ -61,10 +61,6 @@ msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
 msgstr "V/A 緩衝區:"
 
-msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON3"
-msgid "..."
-msgstr ""
-
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
 msgstr "輸出成 WAV 檔案"
@@ -344,10 +340,6 @@ msgstr "提示位置"
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
 msgstr "總是開啟預設位置:"
-
-msgctxt "IDD_PPAGEDVD_IDC_BUTTON1"
-msgid "..."
-msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
@@ -1548,10 +1540,6 @@ msgstr "線上資料庫"
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
 msgstr "線上字幕資料庫的基礎網址:"
-
-msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "http://"
-msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"

@@ -333,10 +333,6 @@ msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
 msgstr "可选垂直同步(&L)"
 
-msgctxt "ID_VIEW_VSYNCOFFSET"
-msgid "0"
-msgstr ""
-
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
 msgstr "减少垂直同步偏移(&D)"

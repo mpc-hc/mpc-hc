@@ -112,6 +112,7 @@ class TranslationData:
     poLine = re.compile(ur'^\s*(msgctxt|msgid|msgstr)\s+"((?:[^"]|\\")*)"\r\n', re.UNICODE)
     versionInfo = versionInfo.replace('\n', '\r\n')
     potHeader = potHeader.replace('\n', '\r\n')
+    excludedStrings = re.compile(ur'(?:http://|\.\.\.|\d+)$', re.UNICODE | re.IGNORECASE)
 
     def __init__(self):
         self.empty()
@@ -145,7 +146,7 @@ class TranslationData:
                     break
                 else:
                     match = TranslationData.dialogEntry.match(line)
-                    if match:
+                    if match and not TranslationData.excludedStrings.match(match.group(1)):
                         self.dialogs[(id + '_' + match.group(2), match.group(1))] = ''
             elif line == u'BEGIN\r\n':
                 inDialog = True
@@ -165,7 +166,7 @@ class TranslationData:
                     break
             else:
                 match = TranslationData.menuEntry.match(line)
-                if match:
+                if match and not TranslationData.excludedStrings.match(match.group(1)):
                     id = match.group(2)
                     if not id:
                         id = 'POPUP'
@@ -182,7 +183,9 @@ class TranslationData:
                 break
             elif inStringTable:
                 if waitingForString:
-                    self.strings[(stringId, line.strip(' \r\n"'))] = ''
+                    s = line.strip(' \r\n"')
+                    if not TranslationData.excludedStrings.match(s):
+                        self.strings[(stringId, s)] = ''
                     waitingForString = False
                 else:
                     match = TranslationData.stringTableEntry.match(line)
@@ -190,7 +193,8 @@ class TranslationData:
                         stringId = match.group(1)
                         s = match.group(2)
                         if s:
-                            self.strings[(stringId, s)] = ''
+                            if not TranslationData.excludedStrings.match(s):
+                                self.strings[(stringId, s)] = ''
                         else:
                             waitingForString = True
 

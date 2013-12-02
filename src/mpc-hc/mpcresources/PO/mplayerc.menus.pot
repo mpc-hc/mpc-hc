@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:38:54+0000\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -331,10 +331,6 @@ msgstr ""
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr ""
-
-msgctxt "ID_VIEW_VSYNCOFFSET"
-msgid "0"
 msgstr ""
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"

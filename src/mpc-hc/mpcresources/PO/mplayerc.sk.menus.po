@@ -333,10 +333,6 @@ msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
 msgstr "Alternatívna funkcia VSync"
 
-msgctxt "ID_VIEW_VSYNCOFFSET"
-msgid "0"
-msgstr ""
-
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
 msgstr "&Znížiť vyrovnávanie funkciou vsync"

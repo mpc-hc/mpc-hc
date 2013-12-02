@@ -333,10 +333,6 @@ msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
 msgstr "대체 VSync"
 
-msgctxt "ID_VIEW_VSYNCOFFSET"
-msgid "0"
-msgstr ""
-
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
 msgstr "VSync 오프셋 감소(&D)"

@@ -61,10 +61,6 @@ msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
 msgstr "V/A 버퍼:"
 
-msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON3"
-msgid "..."
-msgstr ""
-
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
 msgstr "WAV"
@@ -343,10 +339,6 @@ msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr ""
-
-msgctxt "IDD_PPAGEDVD_IDC_BUTTON1"
-msgid "..."
 msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
@@ -1548,10 +1540,6 @@ msgstr "온라인 데이터베이스"
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
 msgstr "온라인 자막 데이터베이스 URL:"
-
-msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "http://"
-msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"
