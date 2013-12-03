@@ -46,7 +46,6 @@
 #include "SaveThumbnailsDialog.h"
 #include "FavoriteAddDlg.h"
 #include "FavoriteOrganizeDlg.h"
-#include "ShaderCombineDlg.h"
 #include "FullscreenWnd.h"
 #include "TunerScanDlg.h"
 #include "OpenDirHelper.h"
@@ -278,8 +277,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_EDL_SAVE, OnUpdateEDLSave)
     ON_COMMAND(ID_VIEW_CAPTURE, OnViewCapture)
     ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTURE, OnUpdateViewCapture)
-    ON_COMMAND(ID_VIEW_SHADEREDITOR, OnViewShaderEditor)
-    ON_UPDATE_COMMAND_UI(ID_VIEW_SHADEREDITOR, OnUpdateViewShaderEditor)
+    ON_COMMAND(ID_VIEW_DEBUGSHADERS, OnViewDebugShaders)
+    ON_UPDATE_COMMAND_UI(ID_VIEW_DEBUGSHADERS, OnUpdateViewDebugShaders)
     ON_COMMAND(ID_VIEW_PRESETS_MINIMAL, OnViewMinimal)
     ON_UPDATE_COMMAND_UI(ID_VIEW_PRESETS_MINIMAL, OnUpdateViewMinimal)
     ON_COMMAND(ID_VIEW_PRESETS_COMPACT, OnViewCompact)
@@ -403,10 +402,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_INCREASE, OnViewVSyncOffsetIncrease)
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_DECREASE, OnViewVSyncOffsetDecrease)
-    ON_UPDATE_COMMAND_UI(ID_SHADERS_TOGGLE, OnUpdateShaderToggle)
-    ON_COMMAND(ID_SHADERS_TOGGLE, OnShaderToggle)
-    ON_UPDATE_COMMAND_UI(ID_SHADERS_TOGGLE_SCREENSPACE, OnUpdateShaderToggleScreenSpace)
-    ON_COMMAND(ID_SHADERS_TOGGLE_SCREENSPACE, OnShaderToggleScreenSpace)
     ON_UPDATE_COMMAND_UI(ID_VIEW_REMAINING_TIME, OnUpdateViewRemainingTime)
     ON_COMMAND(ID_VIEW_REMAINING_TIME, OnViewRemainingTime)
     ON_COMMAND(ID_D3DFULLSCREEN_TOGGLE, OnD3DFullscreenToggle)
@@ -439,7 +434,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_INCAUDDELAY, ID_PLAY_DECAUDDELAY, OnUpdatePlayChangeAudDelay)
     ON_COMMAND_RANGE(ID_FILTERS_SUBITEM_START, ID_FILTERS_SUBITEM_END, OnPlayFilters)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERS_SUBITEM_START, ID_FILTERS_SUBITEM_END, OnUpdatePlayFilters)
-    ON_COMMAND_RANGE(ID_SHADERS_START, ID_SHADERS_END, OnPlayShaders)
+    ON_COMMAND(ID_SHADERS_SELECT, OnPlayShadersSelect)
+    ON_COMMAND(ID_SHADERS_PRESET_NEXT, OnPlayShadersPresetNext)
+    ON_COMMAND(ID_SHADERS_PRESET_PREV, OnPlayShadersPresetPrev)
+    ON_COMMAND_RANGE(ID_SHADERS_PRESETS_START, ID_SHADERS_PRESETS_END, OnPlayShadersPresets)
     ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
     ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
     ON_COMMAND_RANGE(ID_VIDEO_STREAMS_SUBITEM_START, ID_VIDEO_STREAMS_SUBITEM_END, OnPlayVideoStreams)
@@ -624,6 +622,23 @@ const TCHAR* GetEventString(LONG evCode)
 }
 #endif
 
+void CMainFrame::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::SHADER_SELECTION_CHANGED:
+            SetShaders();
+            break;
+        case MpcEvent::SHADER_PRERESIZE_SELECTION_CHANGED:
+            SetShaders(true, false);
+            break;
+        case MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED:
+            SetShaders(false, true);
+            break;
+        default:
+            ASSERT(FALSE);
+    }
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
 
@@ -667,10 +682,8 @@ CMainFrame::CMainFrame()
     , m_bRemainingTime(false)
     , m_nCurSubtitle(-1)
     , m_lSubtitleShift(0)
-    , m_bToggleShader(false)
     , m_nStepForwardCount(0)
     , m_rtStepForwardStart(0)
-    , m_bToggleShaderScreenSpace(false)
     , m_lCurrentChapter(0)
     , m_lChapterStartTime(0xFFFFFFFF)
     , m_pTaskbarList(nullptr)
@@ -695,6 +708,7 @@ CMainFrame::CMainFrame()
     , m_wndNavigationBar(this)
     , m_OSD(this)
     , m_bDelaySetOutputRect(false)
+    , m_pDebugShaders(nullptr)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -703,6 +717,21 @@ CMainFrame::CMainFrame()
     // disabled but it avoids some unwanted cases where programmatically
     // disabled menu items are always re-enabled by CFrameWnd.
     m_bAutoMenuEnable = FALSE;
+
+    EventRouter::EventSelection recieves;
+    recieves.insert(MpcEvent::SHADER_SELECTION_CHANGED);
+    recieves.insert(MpcEvent::SHADER_PRERESIZE_SELECTION_CHANGED);
+    recieves.insert(MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED);
+    EventRouter::EventSelection fires;
+    fires.insert(MpcEvent::SWITCHING_TO_FULLSCREEN);
+    fires.insert(MpcEvent::SWITCHED_TO_FULLSCREEN);
+    fires.insert(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
+    fires.insert(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
+    fires.insert(MpcEvent::MEDIA_LOADED);
+    fires.insert(MpcEvent::SHADER_PRERESIZE_SELECTION_CHANGED);
+    fires.insert(MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED);
+    fires.insert(MpcEvent::SHADER_SELECTION_CHANGED);
+    GetEventd().Connect(m_eventc, recieves, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
 }
 
 CMainFrame::~CMainFrame()
@@ -790,11 +819,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_wndNavigationBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
     m_controls.m_panels[CMainFrameControls::Panel::NAVIGATION] = &m_wndNavigationBar;
 
-    m_wndShaderEditorBar.Create(this, AFX_IDW_DOCKBAR_TOP);
-    m_wndShaderEditorBar.SetBarStyle(m_wndShaderEditorBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-    m_wndShaderEditorBar.EnableDocking(CBRS_ALIGN_ANY);
-    m_controls.m_panels[CMainFrameControls::Panel::SHADEREDITOR] = &m_wndShaderEditorBar;
-
     // Hide all controls initially
     for (const auto& pair : m_controls.m_toolbars) {
         pair.second->ShowWindow(SW_HIDE);
@@ -826,33 +850,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
             StartWebServer(s.nWebServerPort);
         }
     }
-
-    // Casimir666 : reload Shaders
-    {
-        CString strList = s.strShaderList;
-        CString strRes;
-        int curPos = 0;
-
-        strRes = strList.Tokenize(_T("|"), curPos);
-        while (!strRes.IsEmpty()) {
-            m_shaderlabels.AddTail(strRes);
-            strRes = strList.Tokenize(_T("|"), curPos);
-        }
-    }
-    {
-        CString strList = s.strShaderListScreenSpace;
-        CString strRes;
-        int curPos = 0;
-
-        strRes = strList.Tokenize(_T("|"), curPos);
-        while (!strRes.IsEmpty()) {
-            m_shaderlabelsScreenSpace.AddTail(strRes);
-            strRes = strList.Tokenize(_T("|"), curPos);
-        }
-    }
-
-    m_bToggleShader = s.fToggleShader;
-    m_bToggleShaderScreenSpace = s.fToggleShaderScreenSpace;
 
     OpenSetupWindowTitle(true);
 
@@ -891,32 +888,6 @@ void CMainFrame::OnDestroy()
 void CMainFrame::OnClose()
 {
     CAppSettings& s = AfxGetAppSettings();
-    // Casimir666 : save shaders list
-    {
-        POSITION pos;
-        CString strList = "";
-
-        pos = m_shaderlabels.GetHeadPosition();
-        while (pos) {
-            strList += m_shaderlabels.GetAt(pos) + "|";
-            m_shaderlabels.GetNext(pos);
-        }
-        s.strShaderList = strList;
-    }
-    {
-        POSITION pos;
-        CString  strList = "";
-
-        pos = m_shaderlabelsScreenSpace.GetHeadPosition();
-        while (pos) {
-            strList += m_shaderlabelsScreenSpace.GetAt(pos) + "|";
-            m_shaderlabelsScreenSpace.GetNext(pos);
-        }
-        s.strShaderListScreenSpace = strList;
-    }
-
-    s.fToggleShader = m_bToggleShader;
-    s.fToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
 
     s.dZoomX = m_ZoomX;
     s.dZoomY = m_ZoomY;
@@ -3101,6 +3072,11 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 
     // from this on
     SetLoadState(MLS::LOADED);
+
+    // set shader selection
+    if (m_pCAP || m_pCAP2) {
+        SetShaders();
+    }
 
     // load keyframes for fast-seek
     if (wParam == PM_FILE) {
@@ -5916,58 +5892,6 @@ void CMainFrame::OnViewRemainingTime()
     OnTimer(TIMER_STREAMPOSPOLLER2);
 }
 
-void CMainFrame::OnUpdateShaderToggle(CCmdUI* pCmdUI)
-{
-    if (m_shaderlabels.IsEmpty()) {
-        pCmdUI->Enable(FALSE);
-        m_bToggleShader = false;
-        pCmdUI->SetCheck(0);
-    } else {
-        pCmdUI->Enable(TRUE);
-        pCmdUI->SetCheck(m_bToggleShader);
-    }
-}
-
-void CMainFrame::OnUpdateShaderToggleScreenSpace(CCmdUI* pCmdUI)
-{
-    if (m_shaderlabelsScreenSpace.IsEmpty()) {
-        pCmdUI->Enable(FALSE);
-        m_bToggleShaderScreenSpace = false;
-        pCmdUI->SetCheck(0);
-    } else {
-        pCmdUI->Enable(TRUE);
-        pCmdUI->SetCheck(m_bToggleShaderScreenSpace);
-    }
-}
-
-void CMainFrame::OnShaderToggle()
-{
-    m_bToggleShader = !m_bToggleShader;
-    if (m_bToggleShader) {
-        SetShaders();
-        m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_MAINFRM_65));
-    } else {
-        if (m_pCAP) {
-            m_pCAP->SetPixelShader(nullptr, nullptr);
-        }
-        m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_MAINFRM_66));
-    }
-}
-
-void CMainFrame::OnShaderToggleScreenSpace()
-{
-    m_bToggleShaderScreenSpace = !m_bToggleShaderScreenSpace;
-    if (m_bToggleShaderScreenSpace) {
-        SetShaders();
-        m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_MAINFRM_PPONSCR));
-    } else {
-        if (m_pCAP2) {
-            m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-        }
-        m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_MAINFRM_PPOFFSCR));
-    }
-}
-
 void CMainFrame::OnD3DFullscreenToggle()
 {
     CAppSettings& s = AfxGetAppSettings();
@@ -6214,16 +6138,37 @@ void CMainFrame::OnUpdateViewCapture(CCmdUI* pCmdUI)
     pCmdUI->Enable(m_eMediaLoadState == MLS::LOADED && GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 0);
 }
 
-void CMainFrame::OnViewShaderEditor()
+void CMainFrame::OnViewDebugShaders()
 {
-    m_controls.ToggleControl(CMainFrameControls::Panel::SHADEREDITOR);
-    AfxGetAppSettings().fShaderEditorWasOpened = true;
+    auto& dlg = m_pDebugShaders;
+    if (dlg && !dlg->m_hWnd) {
+        // something has destroyed the dialog and we didn't know about it
+        SAFE_DELETE(dlg);
+    }
+    if (!dlg) {
+        // dialog doesn't exist - create and show it
+        dlg = new CDebugShadersDlg();
+        dlg->ShowWindow(SW_SHOW);
+    } else if (dlg->IsWindowVisible()) {
+        if (dlg->IsIconic()) {
+            // dialog is visible but iconic - restore it
+            VERIFY(dlg->ShowWindow(SW_RESTORE));
+        } else {
+            // dialog is visible and not iconic - destroy it
+            VERIFY(dlg->DestroyWindow());
+            ASSERT(!dlg->m_hWnd);
+            SAFE_DELETE(dlg);
+        }
+    } else {
+        // dialog is not visible - show it
+        VERIFY(!dlg->ShowWindow(SW_SHOW));
+    }
 }
 
-void CMainFrame::OnUpdateViewShaderEditor(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdateViewDebugShaders(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(m_controls.ControlChecked(CMainFrameControls::Panel::SHADEREDITOR));
-    pCmdUI->Enable(TRUE);
+    const auto& dlg = m_pDebugShaders;
+    pCmdUI->SetCheck(dlg && dlg->m_hWnd && dlg->IsWindowVisible());
 }
 
 void CMainFrame::OnViewMinimal()
@@ -7473,20 +7418,50 @@ void CMainFrame::OnUpdatePlayFilters(CCmdUI* pCmdUI)
     pCmdUI->Enable(!m_fCapturing);
 }
 
-enum {
-    ID_SHADERS_SELECT = ID_SHADERS_START,
-    ID_SHADERS_SELECT_SCREENSPACE
-};
-
-void CMainFrame::OnPlayShaders(UINT nID)
+void CMainFrame::OnPlayShadersSelect()
 {
-    if (nID == ID_SHADERS_SELECT) {
-        if (IDOK != CShaderCombineDlg(m_shaderlabels, m_shaderlabelsScreenSpace, GetModalParent()).DoModal()) {
-            return;
+    ShowOptions(IDD_PPAGESHADERS);
+}
+
+void CMainFrame::OnPlayShadersPresetNext()
+{
+    auto& s = AfxGetAppSettings();
+    if (s.m_Shaders.NextPreset()) {
+        CString name;
+        if (s.m_Shaders.GetCurrentPresetName(name)) {
+            CString msg;
+            msg.Format(IDS_OSD_SHADERS_PRESET, name);
+            m_OSD.DisplayMessage(OSD_TOPLEFT, msg);
         }
     }
+}
 
-    SetShaders();
+void CMainFrame::OnPlayShadersPresetPrev()
+{
+    auto& s = AfxGetAppSettings();
+    if (s.m_Shaders.PrevPreset()) {
+        CString name;
+        if (s.m_Shaders.GetCurrentPresetName(name)) {
+            CString msg;
+            msg.Format(IDS_OSD_SHADERS_PRESET, name);
+            m_OSD.DisplayMessage(OSD_TOPLEFT, msg);
+        }
+    }
+}
+
+void CMainFrame::OnPlayShadersPresets(UINT nID)
+{
+    ASSERT((nID >= ID_SHADERS_PRESETS_START) && (nID <= ID_SHADERS_PRESETS_END));
+    auto& s = AfxGetAppSettings();
+    int num = (int)nID - ID_SHADERS_PRESETS_START;
+    auto presets = s.m_Shaders.GetPresets();
+    ASSERT(num < (int)presets.size());
+    for (const auto& pair : presets) {
+        if (num-- == 0) {
+            s.m_Shaders.SetCurrentPreset(pair.first);
+            break;
+        }
+    }
 }
 
 // Called from GraphThread
@@ -9174,7 +9149,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     if (!m_fFullScreen) {
         SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
-        m_eventd.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
+        m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
 
         if (s.bHidePlaylistFullScreen && m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
@@ -9240,29 +9215,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
     ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
-
-    static bool m_Change_Monitor = false;
-    // try disable shader when move from one monitor to other ...
-    if (m_fFullScreen) {
-        m_Change_Monitor = (hm != hm_cur);
-        if (m_Change_Monitor && !m_bToggleShader) {
-            if (m_pCAP) {
-                m_pCAP->SetPixelShader(nullptr, nullptr);
-            }
-        }
-        if (m_Change_Monitor && m_bToggleShaderScreenSpace) {
-            if (m_pCAP2) {
-                m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-            }
-        }
-
-    } else {
-        if (m_Change_Monitor && m_bToggleShader) {
-            if (m_pCAP) {
-                m_pCAP->SetPixelShader(nullptr, nullptr);
-            }
-        }
-    }
 
     if (m_fFullScreen) {
         if (s.fPreventMinimize) {
@@ -9338,12 +9290,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     m_OSD.HideMessage(false);
 
-    if (m_Change_Monitor && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
-        SetShaders();
-    }
-
     if (m_fFullScreen) {
-        m_eventd.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN);
+        m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN);
     }
 }
 
@@ -9391,7 +9339,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             // Create a new D3D Fullscreen window
             CreateFullScreenWindow();
 
-            m_eventd.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
+            m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
 
             // Turn on D3D Fullscreen
             m_OSD.EnableShowSeekBar(true);
@@ -9408,7 +9356,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             MoveVideoWindow();
 
-            m_eventd.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
+            m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
         }
     }
 }
@@ -9826,109 +9774,67 @@ void CMainFrame::RepaintVideo()
     }
 }
 
-void CMainFrame::SetShaders()
+void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/* = true*/)
 {
-    if (!m_pCAP) {
+    if (GetLoadState() != MLS::LOADED) {
         return;
     }
 
-    const CAppSettings& s = AfxGetAppSettings();
+    const auto& s = AfxGetAppSettings();
+    bool preFailed = false, postFailed = false;
 
-    CAtlStringMap<const CAppSettings::Shader*> s2s;
-
-    POSITION pos = s.m_shaders.GetHeadPosition();
-    while (pos) {
-        const CAppSettings::Shader* pShader = &s.m_shaders.GetNext(pos);
-        s2s[pShader->label] = pShader;
-    }
-
-    m_pCAP->SetPixelShader(nullptr, nullptr);
+    // When pTarget parameter of ISubPicAllocatorPresenter2::SetPixelShader2() is nullptr,
+    // internal video renderers select maximum available profile and madVR (the only external renderer that
+    // supports shader part of ISubPicAllocatorPresenter2 interface) seems to ignore it altogether.
     if (m_pCAP2) {
-        m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-    }
-
-    for (int i = 0; i < 2; ++i) {
-        if (i == 0 && !m_bToggleShader) {
-            continue;
-        }
-        if (i == 1 && !m_bToggleShaderScreenSpace) {
-            continue;
-        }
-        CAtlList<CString> labels;
-
-        CAtlList<CString>* pLabels;
-        if (i == 0) {
-            pLabels = &m_shaderlabels;
-        } else {
-            if (!m_pCAP2) {
-                break;
-            }
-            pLabels = &m_shaderlabelsScreenSpace;
-        }
-
-        pos = pLabels->GetHeadPosition();
-        while (pos) {
-            const CAppSettings::Shader* pShader = nullptr;
-            if (s2s.Lookup(pLabels->GetNext(pos), pShader)) {
-                CStringA target = pShader->target;
-                CStringA srcdata = pShader->srcdata;
-
-                HRESULT hr;
-                if (i == 0) {
-                    hr = m_pCAP->SetPixelShader(srcdata, target);
-                } else {
-                    hr = m_pCAP2->SetPixelShader2(srcdata, target, true);
+        if (bSetPreResize) {
+            m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
+            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPreResize()) {
+                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, false))) {
+                    preFailed = true;
+                    m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
+                    break;
                 }
-
-                if (FAILED(hr)) {
+            }
+        }
+        if (bSetPostResize) {
+            m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
+            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPostResize()) {
+                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, true))) {
+                    postFailed = true;
+                    m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
+                    break;
+                }
+            }
+        }
+    } else if (m_pCAP) {
+        // shouldn't happen, all knows renderers that support ISubPicAllocatorPresenter interface
+        // support ISubPicAllocatorPresenter2 as well, and it takes priority
+        ASSERT(FALSE);
+        if (bSetPreResize) {
+            m_pCAP->SetPixelShader(nullptr, nullptr);
+            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPreResize()) {
+                if (FAILED(m_pCAP->SetPixelShader(shader.GetCode(), nullptr))) {
+                    preFailed = true;
                     m_pCAP->SetPixelShader(nullptr, nullptr);
-                    if (m_pCAP2) {
-                        m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-                    }
-                    SendStatusMessage(ResStr(IDS_MAINFRM_73) + pShader->label, 3000);
-                    return;
+                    break;
                 }
-
-                labels.AddTail(pShader->label);
             }
         }
-
-        if (m_eMediaLoadState == MLS::LOADED) {
-            CString str = Implode(labels, '|');
-            str.Replace(_T("|"), _T(", "));
-            SendStatusMessage(ResStr(IDS_AG_SHADER) + str, 3000);
-        }
+        postFailed = !s.m_Shaders.GetCurrentPreset().GetPostResize().empty();
     }
-}
 
-void CMainFrame::UpdateShaders(CString label)
-{
-    if (!m_pCAP) {
+    CString errMsg;
+    if (preFailed && postFailed) {
+        VERIFY(errMsg.LoadString(IDS_MAINFRM_BOTH_SHADERS_FAILED));
+    } else if (preFailed) {
+        VERIFY(errMsg.LoadString(IDS_MAINFRM_PRE_SHADERS_FAILED));
+    } else if (postFailed) {
+        VERIFY(errMsg.LoadString(IDS_MAINFRM_POST_SHADERS_FAILED));
+    } else {
         return;
     }
-
-    if (m_shaderlabels.GetCount() <= 1) {
-        m_shaderlabels.RemoveAll();
-    }
-
-    if (m_shaderlabels.IsEmpty() && !label.IsEmpty()) {
-        m_shaderlabels.AddTail(label);
-    }
-
-    bool fUpdate = m_shaderlabels.IsEmpty();
-
-    POSITION pos = m_shaderlabels.GetHeadPosition();
-    while (pos) {
-        if (label == m_shaderlabels.GetNext(pos)) {
-            fUpdate = true;
-            break;
-        }
-    }
-
-    if (fUpdate) {
-        SetShaders();
-    }
-
+    SendStatusMessage(errMsg, 3000);
 }
 
 void CMainFrame::SetBalance(int balance)
@@ -10843,10 +10749,6 @@ void CMainFrame::OpenSetupVideo()
         m_fAudioOnly = false;
     }
 
-    if (m_pCAP) {
-        SetShaders();
-    }
-
     m_pVW->put_Owner((OAHWND)m_pVideoWnd->m_hWnd);
     m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
     m_pVW->put_MessageDrain((OAHWND)m_pVideoWnd->m_hWnd);
@@ -11684,12 +11586,6 @@ void CMainFrame::ParseDirs(CAtlList<CString>& sl)
     }
 }
 
-struct SearchInDirCompare {
-    bool operator()(const CString& str1, const CString& str2) {
-        return (StrCmpLogicalW(str1, str2) < 0);
-    }
-};
-
 bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
 {
     ASSERT(GetPlaybackMode() == PM_FILE);
@@ -11699,7 +11595,7 @@ bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
         return false;
     }
 
-    std::set<CString, SearchInDirCompare> files;
+    std::set<CString, CStringUtils::LogicalLess> files;
     const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
     CString mask = pFileData->title.Left(pFileData->title.ReverseFind(_T('\\')) + 1) + _T("*.*");
     CFileFind finder;
@@ -13035,19 +12931,36 @@ void CMainFrame::SetupFavoritesSubMenu()
 
 void CMainFrame::SetupShadersSubMenu()
 {
-    CMenu* pSub = &m_shaders;
+    const auto& s = AfxGetAppSettings();
+    auto& subMenu = m_shaders;
 
-    if (!IsMenu(pSub->m_hMenu)) {
-        pSub->CreatePopupMenu();
-    } else { // Empty the menu
-        while (pSub->RemoveMenu(0, MF_BYPOSITION));
+    if (!IsMenu(subMenu.m_hMenu)) {
+        VERIFY(subMenu.CreatePopupMenu());
+    } else while (subMenu.RemoveMenu(0, MF_BYPOSITION));
+
+    VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT)));
+    VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_VIEW_DEBUGSHADERS, ResStr(IDS_SHADERS_DEBUG)));
+
+    auto presets = s.m_Shaders.GetPresets();
+    if (!presets.empty()) {
+        CString current;
+        bool selected = s.m_Shaders.GetCurrentPresetName(current);
+        VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
+        UINT nID = ID_SHADERS_PRESETS_START;
+        for (const auto& pair : presets) {
+            if (nID > ID_SHADERS_PRESETS_END) {
+                // too many presets
+                ASSERT(FALSE);
+                break;
+            }
+            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, nID, pair.first));
+            if (selected && pair.first == current) {
+                VERIFY(subMenu.CheckMenuRadioItem(nID, nID, nID, MF_BYCOMMAND));
+                selected = false;
+            }
+            nID++;
+        }
     }
-
-    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE, ResStr(IDS_SHADERS_TOGGLE));
-    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_TOGGLE_SCREENSPACE, ResStr(IDS_SHADERS_TOGGLE_SCREENSPACE));
-    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT));
-    pSub->AppendMenu(MF_SEPARATOR);
-    pSub->AppendMenu(MF_STRING | MF_ENABLED, ID_VIEW_SHADEREDITOR, ResStr(IDS_SHADERS_EDIT));
 }
 
 /////////////
@@ -14422,7 +14335,7 @@ void CMainFrame::SetLoadState(MLS eState)
     SendAPICommand(CMD_STATE, L"%d", static_cast<int>(eState));
     if (eState == MLS::LOADED) {
         m_controls.DelayShowNotLoaded(false);
-        m_eventd.FireEvent(MpcEvent::MEDIA_LOADED);
+        m_eventc.FireEvent(MpcEvent::MEDIA_LOADED);
     }
     UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
 }
@@ -14842,9 +14755,6 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             break;
         case CMD_DECREASEVOLUME:
             m_wndToolBar.m_volctrl.DecreaseVolume();
-            break;
-        case CMD_SHADER_TOGGLE:
-            OnShaderToggle();
             break;
         case CMD_CLOSEAPP:
             PostMessage(WM_CLOSE);
@@ -15788,32 +15698,6 @@ void CMainFrame::UpdateAudioSwitcher()
         pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
         pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64 * s.iAudioTimeShift : 0);
         pASF->SetNormalizeBoost2(s.fAudioNormalize, s.nAudioMaxNormFactor, s.fAudioNormalizeRecover, s.nAudioBoost);
-    }
-}
-
-void CMainFrame::EnableShaders1(bool enable)
-{
-    if (enable && !m_shaderlabels.IsEmpty()) {
-        m_bToggleShader = true;
-        SetShaders();
-    } else {
-        m_bToggleShader = false;
-        if (m_pCAP) {
-            m_pCAP->SetPixelShader(nullptr, nullptr);
-        }
-    }
-}
-
-void CMainFrame::EnableShaders2(bool enable)
-{
-    if (enable && !m_shaderlabelsScreenSpace.IsEmpty()) {
-        m_bToggleShaderScreenSpace = true;
-        SetShaders();
-    } else {
-        m_bToggleShaderScreenSpace = false;
-        if (m_pCAP2) {
-            m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-        }
     }
 }
 

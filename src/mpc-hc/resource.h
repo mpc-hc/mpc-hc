@@ -16,6 +16,9 @@
 #define IDF_LOGO3                       209
 #define IDF_TICKCROSS                   210
 #define IDB_STREAMTYPES                 215
+#define IDB_SHADER_UP                   216
+#define IDB_SHADER_DOWN                 217
+#define IDB_SHADER_DEL                  218
 #define IDI_SINGLE                      300
 #define IDI_MULTI                       301
 #define IDI_DVD                         302
@@ -65,28 +68,6 @@
 #define IDF_SHADER_RESIZER              700
 #define IDF_SHADER_EMPTY                701
 #define IDF_SHADER_FINAL                702
-#define IDF_SHADER_LEVELS               703
-#define IDF_SHADER_LEVELS2              704
-#define IDF_SHADER_LEVELS3              705
-#define IDF_SHADER_BT601_BT709          706
-#define IDF_SHADER_YV12CHROMAUP         707
-#define IDF_SHADER_GRAYSCALE            708
-#define IDF_SHADER_SHARPEN              709
-#define IDF_SHADER_SHARPEN_COMPLEX      710
-#define IDF_SHADER_SHARPEN_COMPLEX2     711
-#define IDF_SHADER_EDGE_SHARPEN         712
-#define IDF_SHADER_CONTOUR              713
-#define IDF_SHADER_DEINTERLACE          714
-#define IDF_SHADER_DENOISE              715
-#define IDF_SHADER_PROCAMP              716
-#define IDF_SHADER_INVERT               717
-#define IDF_SHADER_LETTERBOX            718
-#define IDF_SHADER_NIGHTVISION          719
-#define IDF_SHADER_EMBOSS               720
-#define IDF_SHADER_SPHERE               721
-#define IDF_SHADER_SPOTLIGHT            722
-#define IDF_SHADER_WAVE                 723
-#define IDF_SHADER_LCD                  724
 #define ID_FILE_OPENMEDIA               800
 #define ID_FILE_OPENDVDBD               801
 #define ID_FILE_OPENDEVICE              802
@@ -113,7 +94,7 @@
 #define ID_VIEW_SUBRESYNC               823
 #define ID_VIEW_PLAYLIST                824
 #define ID_VIEW_CAPTURE                 825
-#define ID_VIEW_SHADEREDITOR            826
+#define ID_VIEW_DEBUGSHADERS            826
 #define ID_VIEW_PRESETS_MINIMAL         827
 #define ID_VIEW_PRESETS_COMPACT         828
 #define ID_VIEW_PRESETS_NORMAL          829
@@ -299,8 +280,9 @@
 #define ID_FILE_OPEN_OPTICAL_DISK_END   4099
 #define ID_PANNSCAN_PRESETS_START       4100
 #define ID_PANNSCAN_PRESETS_END         4199
-#define ID_SHADERS_START                4200
-#define ID_SHADERS_END                  4299
+#define ID_SHADERS_SELECT               4200
+#define ID_SHADERS_PRESETS_START        4201
+#define ID_SHADERS_PRESETS_END          4299
 #define ID_NAVIGATE_CHAP_SUBITEM_START  4300
 #define ID_NAVIGATE_CHAP_SUBITEM_END    4499
 #define ID_VIEW_ZOOM_AUTOFIT_LARGER     4500
@@ -317,9 +299,6 @@
 #define IDD_SUBTITLEDL_DLG              10005
 #define IDD_FILEPROPDETAILS             10010
 #define IDD_FILEPROPCLIP                10011
-#define IDD_SHADEREDITOR_DLG            10012
-#define IDD_SHADERAUTOCOMPLETE_DLG      10013
-#define IDD_SHADERCOMBINE_DLG           10014
 #define IDD_PNSPRESET_DLG               10015
 #define IDD_GOTO_DLG                    10016
 #define IDD_FAVADD                      10017
@@ -336,6 +315,7 @@
 #define IDD_PPAGETWEAKS                 10028
 #define IDD_PPAGEAUDIOSWITCHER          10029
 #define IDD_PPAGEEXTERNALFILTERS        10030
+#define IDD_PPAGESHADERS                10031
 #define IDD_PPAGEACCELTBL               10032
 #define IDD_PPAGESUBSTYLE               10033
 #define IDD_PPAGEINTERNALFILTERS        10036
@@ -430,11 +410,18 @@
 #define IDC_BUTTON6                     11125
 #define IDC_BUTTON7                     11126
 #define IDC_BUTTON8                     11127
-#define IDC_RESET_SETTINGS              11128
-#define IDC_EXPORT_SETTINGS             11129
+#define IDC_BUTTON9                     11128
+#define IDC_BUTTON10                    11129
+#define IDC_BUTTON11                    11130
+#define IDC_BUTTON12                    11131
+#define IDC_BUTTON13                    11132
+#define IDC_RESET_SETTINGS              11133
+#define IDC_EXPORT_SETTINGS             11134
+#define IDC_TREE2                       11141
 #define IDC_TREE2                       11141
 #define IDC_LIST1                       11160
-#define IDC_LIST2                       11180
+#define IDC_LIST2                       11161
+#define IDC_LIST3                       11162
 #define IDC_TAB1                        11200
 #define IDC_ANIMATE1                    11220
 #define IDC_PROGRESS1                   11240
@@ -532,6 +519,7 @@
 #define IDS_SUBRESYNC_INCREASE          14134
 #define IDS_OPTIONS_CAPTION             14135
 #define IDS_SHADERS_SELECT              14136
+#define IDS_SHADERS_DEBUG               14137
 #define IDS_FAVORITES_ADD               14153
 #define IDS_FAVORITES_ORGANIZE          14154
 #define IDS_PLAYLIST_SHUFFLE            14155
@@ -566,7 +554,6 @@
 #define IDS_AUTOPLAY_PLAYAUDIOCD        14184
 #define IDS_AUTOPLAY_PLAYDVDMOVIE       14185
 #define IDS_PROPSHEET_PROPERTIES        14186
-#define IDS_SHADERS_EDIT                14187
 #define IDS_SUBTITLES_DEFAULT_STYLE     14188
 #define IDS_FAVFILES                    14190
 #define IDS_FAVDVDS                     14191
@@ -590,6 +577,7 @@
 #define IDS_VIEW_HIDEMENU               20010
 #define IDD_UPDATE_DIALOG               20011
 #define IDF_WIN7_TOOLBAR                20012
+#define IDD_DEBUGSHADERS_DLG            20013
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004
@@ -678,8 +666,6 @@
 #define ID_VIEW_HALFFLOATINGPOINTPROCESSING 24043
 #define ID_FILE_RECYCLE                 24044
 #define ID_VIEW_TEARING_TEST            32769
-#define ID_SHADERS_TOGGLE               32770
-#define IDS_SHADERS_TOGGLE              32771
 #define ID_FILE_OPENDISC32774           32774
 #define ID_SHADERS                      32775
 #define ID_VIEW_REMAINING_TIME          32778
@@ -719,7 +705,6 @@
 #define ID_LANGUAGE_SLOVENIAN           32814
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
-#define IDS_SHADEREDITORDLG_0           32831
 #define IDS_AG_NONE                     32832
 #define IDS_AG_COMMAND                  32833
 #define IDS_AG_KEY                      32834
@@ -729,8 +714,6 @@
 #define IDS_AG_MEDIAFILES               32871
 #define IDS_AG_ALLFILES                 32872
 #define IDS_AG_AUDIOFILES               32873
-#define IDS_PIXELSHADERCOMPILER_0       32874
-#define IDS_PIXELSHADERCOMPILER_1       32875
 #define IDS_AG_NOT_KNOWN                32876
 #define IDS_MPLAYERC_0                  32877
 #define IDS_AG_OPEN_FILE                32878
@@ -881,14 +864,10 @@
 #define IDS_MAINFRM_58                  33065
 #define IDS_MAINFRM_59                  33066
 #define IDS_MAINFRM_60                  33067
-#define IDS_MAINFRM_65                  33072
-#define IDS_MAINFRM_66                  33073
 #define IDS_MAINFRM_68                  33075
 #define IDS_MAINFRM_69                  33076
 #define IDS_MAINFRM_70                  33077
 #define IDS_AG_CHAPTER                  33078
-#define IDS_MAINFRM_73                  33079
-#define IDS_AG_SHADER                   33080
 #define IDS_AG_OUT_OF_MEMORY            33081
 #define IDS_MAINFRM_77                  33082
 #define IDS_MAINFRM_78                  33083
@@ -971,7 +950,7 @@
 #define IDS_AG_TOGGLE_SUBRESYNC         33219
 #define IDS_AG_TOGGLE_PLAYLIST          33220
 #define IDS_AG_TOGGLE_CAPTURE           33221
-#define IDS_AG_TOGGLE_SHADER            33222
+#define IDS_AG_TOGGLE_DEBUGSHADERS      33222
 #define IDS_AG_ZOOM_50                  33223
 #define IDS_AG_ZOOM_100                 33224
 #define IDS_AG_ZOOM_200                 33225
@@ -987,7 +966,6 @@
 #define IDS_AG_PNS_ROTATEZ_P            33235
 #define IDS_AG_PNS_ROTATEZ_M            33236
 #define IDS_AG_TEARING_TEST             33237
-#define IDS_AT_TOGGLE_SHADER            33238
 #define IDS_SCALE_16_9                  33239
 #define IDS_SCALE_WIDESCREEN            33240
 #define IDS_SCALE_ULTRAWIDE             33241
@@ -997,11 +975,6 @@
 #define ID_VIEW_VSYNCOFFSET_DECREASE    33246
 #define ID_VIEW_VSYNCOFFSET_INCREASE    33247
 #define IDS_AG_TOGGLE_NAVIGATION        33248
-#define ID_SHADERS_TOGGLE_SCREENSPACE   33254
-#define IDS_SHADERS_TOGGLE_SCREENSPACE  33255
-#define IDS_MAINFRM_PPONSCR             33257
-#define IDS_MAINFRM_PPOFFSCR            33258
-#define IDS_AT_TOGGLE_SHADERSCREENSPACE 33259
 #define ID_VIEW_VSYNCACCURATE           33260
 #define IDS_AG_VSYNCACCURATE            33261
 #define ID_VIEW_FULLSCREENGUISUPPORT    33263
@@ -1311,7 +1284,6 @@
 #define IDS_DVD_FAV_ADDED               41346
 #define IDS_CAPTURE_SETTINGS            41347
 #define IDS_NAVIGATION_BAR              41348
-#define IDS_SHADER_EDITOR               41349
 #define IDS_SUBRESYNC_CAPTION           41350
 #define IDS_SUBRESYNC_CLN_TIME          41351
 #define IDS_SUBRESYNC_CLN_END           41352
@@ -1449,12 +1421,23 @@
 #define IDS_PPAGEFULLSCREEN_SHOWNEVER   57372
 #define IDS_PPAGEFULLSCREEN_SHOWMOVED   57373
 #define IDS_PPAGEFULLSCREEN_SHOHHOVERED 57374
+#define IDS_MAINFRM_PRE_SHADERS_FAILED  57375
+#define IDS_MAINFRM_POST_SHADERS_FAILED 57376
+#define IDS_MAINFRM_BOTH_SHADERS_FAILED 57377
+#define IDS_DEBUGSHADERS_FIRSTRUN_MSG   57378
+#define IDS_SHADER_DLL_ERR_0            57379
+#define IDS_SHADER_DLL_ERR_1            57380
+#define IDS_OSD_SHADERS_PRESET          57381
+#define ID_SHADERS_PRESET_NEXT          57382
+#define IDS_AG_SHADERS_PRESET_NEXT      57383
+#define ID_SHADERS_PRESET_PREV          57384
+#define IDS_AG_SHADERS_PRESET_PREV      57385
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20013
+#define _APS_NEXT_RESOURCE_VALUE        20014
 #define _APS_NEXT_COMMAND_VALUE         33449
 #define _APS_NEXT_CONTROL_VALUE         22078
 #define _APS_NEXT_SYMED_VALUE           24044

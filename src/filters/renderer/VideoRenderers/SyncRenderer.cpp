@@ -2438,7 +2438,7 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
         return S_OK;
     }
 
-    if (!pSrcData || !pTarget) {
+    if (!pSrcData) {
         return E_INVALIDARG;
     }
 

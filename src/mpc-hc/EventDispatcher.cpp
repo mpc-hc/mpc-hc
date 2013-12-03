@@ -46,18 +46,21 @@ EventRouter::~EventRouter()
     m_core->m_bDestroyed = true;
 }
 
-void EventRouter::FireEvent(MpcEvent ev)
-{
-    ASSERT(GetCurrentThreadId() == m_core->m_tid);
-    m_core->FireEvent(ev);
-}
-
 void EventRouter::Connect(EventClient& node, const EventSelection& recieves, const EventCallback& callback)
 {
     ASSERT(GetCurrentThreadId() == m_core->m_tid);
     EventRouterCore::EventClientInfo info;
     info.recieves = recieves;
     info.callback = callback;
+    m_core->m_conns[&node] = info;
+    node.m_conns.insert(m_core);
+}
+
+void EventRouter::Connect(EventClient& node, const EventSelection& fires)
+{
+    ASSERT(GetCurrentThreadId() == m_core->m_tid);
+    EventRouterCore::EventClientInfo info;
+    info.fires = fires;
     m_core->m_conns[&node] = info;
     node.m_conns.insert(m_core);
 }

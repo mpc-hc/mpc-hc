@@ -335,6 +335,7 @@
     <ClCompile Include="ComPropertyPage.cpp" />
     <ClCompile Include="ComPropertySheet.cpp" />
     <ClCompile Include="CShockwaveFlash.cpp" />
+    <ClCompile Include="DebugShadersDlg.cpp" />
     <ClCompile Include="DeinterlacerFilter.cpp" />
     <ClCompile Include="DVBChannel.cpp" />
     <ClCompile Include="EditListEditor.cpp" />
@@ -383,7 +384,6 @@
     <ClCompile Include="PlayerNavigationDialog.cpp" />
     <ClCompile Include="PlayerPlaylistBar.cpp" />
     <ClCompile Include="PlayerSeekBar.cpp" />
-    <ClCompile Include="PlayerShaderEditorBar.cpp" />
     <ClCompile Include="PlayerStatusBar.cpp" />
     <ClCompile Include="PlayerSubresyncBar.cpp" />
     <ClCompile Include="PlayerToolBar.cpp" />
@@ -408,6 +408,7 @@
     <ClCompile Include="PPageOutput.cpp" />
     <ClCompile Include="PPagePlayback.cpp" />
     <ClCompile Include="PPagePlayer.cpp" />
+    <ClCompile Include="PPageShaders.cpp" />
     <ClCompile Include="PPageSheet.cpp" />
     <ClCompile Include="PPageSubMisc.cpp" />
     <ClCompile Include="PPageSubStyle.cpp" />
@@ -426,9 +427,7 @@
     <ClCompile Include="SaveTextFileDialog.cpp" />
     <ClCompile Include="SaveThumbnailsDialog.cpp" />
     <ClCompile Include="SelectMediaType.cpp" />
-    <ClCompile Include="ShaderAutoCompleteDlg.cpp" />
-    <ClCompile Include="ShaderCombineDlg.cpp" />
-    <ClCompile Include="ShaderEditorDlg.cpp" />
+    <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="ShockwaveGraph.cpp" />
     <ClCompile Include="SkypeMoodMsgHandler.cpp" />
     <ClCompile Include="StaticLink.cpp" />
@@ -462,6 +461,7 @@
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
     <ClInclude Include="CShockwaveFlash.h" />
+    <ClInclude Include="DebugShadersDlg.h" />
     <ClInclude Include="DeinterlacerFilter.h" />
     <ClInclude Include="DVBChannel.h" />
     <ClInclude Include="EditListEditor.h" />
@@ -514,7 +514,6 @@
     <ClInclude Include="PlayerNavigationDialog.h" />
     <ClInclude Include="PlayerPlaylistBar.h" />
     <ClInclude Include="PlayerSeekBar.h" />
-    <ClInclude Include="PlayerShaderEditorBar.h" />
     <ClInclude Include="PlayerStatusBar.h" />
     <ClInclude Include="PlayerSubresyncBar.h" />
     <ClInclude Include="PlayerToolBar.h" />
@@ -539,6 +538,7 @@
     <ClInclude Include="PPageOutput.h" />
     <ClInclude Include="PPagePlayback.h" />
     <ClInclude Include="PPagePlayer.h" />
+    <ClInclude Include="PPageShaders.h" />
     <ClInclude Include="PPageSheet.h" />
     <ClInclude Include="PPageSubMisc.h" />
     <ClInclude Include="PPageSubStyle.h" />
@@ -559,9 +559,7 @@
     <ClInclude Include="SaveThumbnailsDialog.h" />
     <ClInclude Include="SelectMediaType.h" />
     <ClInclude Include="SettingsDefines.h" />
-    <ClInclude Include="ShaderAutoCompleteDlg.h" />
-    <ClInclude Include="ShaderCombineDlg.h" />
-    <ClInclude Include="ShaderEditorDlg.h" />
+    <ClInclude Include="Shaders.h" />
     <ClInclude Include="ShockwaveGraph.h" />
     <ClInclude Include="SkypeMoodMsgHandler.h" />
     <ClInclude Include="StaticLink.h" />

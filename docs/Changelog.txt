@@ -17,6 +17,14 @@ next version - not released yet
 + Ticket #3379, "Left Up" mouse keybinding now allows to move the player window by dragging the video area
 + Ticket #3614, Do medium jumps when pressing mouse navigation buttons on the seekbar
 + New option to auto-hide docked panels together with toolbars
++ Support pixel shader presets (with shortcuts and command line options)
+* The storing mechanism of pixel shaders was redesigned:
+    - each pixel shader is now stored in its own file with .hlsl extension
+    - shader files are reloaded automatically when MPC-HC detects changes in them
+    - internal pixel shader editor was removed, you're supposed to use specialized external
+      editors from now on, but can still view compilation output in "Debug Shaders" window
+    - internal video renderers now always use the latest supported shader profile to compile
+      pixel shaders
 * More flexible auto-hide controls in fullscreen configuration options
 * Updated LAV Filters to 0.59.1.35:
     - Ticket #3760, LAV Video: Fix a crash when opening some DVDs on 64-bit
@@ -26,6 +34,7 @@ next version - not released yet
 * Updated Little CMS to v2.6b (git 579b3aa)
 * Updated Unrar to v5.0.0.13
 ! Internal subtiles renderer: Vobsub/PGS/DVB subtitles are now rendered relative to the video frame
+! Warnings were not displayed in pixel shader compilation output
 ! Ticket #1300/#2081, Toolbars auto-hiding now always works properly in multi-display configurations
 ! Ticket #3479, Improve the behavior of MPC-HC when some security tools prevent it
   from initializing correctly

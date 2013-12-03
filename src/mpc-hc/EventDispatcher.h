@@ -32,6 +32,10 @@ enum class MpcEvent
     SWITCHING_TO_FULLSCREEN_D3D,
     SWITCHED_TO_FULLSCREEN_D3D,
     MEDIA_LOADED,
+    SHADER_PRERESIZE_SELECTION_CHANGED,
+    SHADER_POSTRESIZE_SELECTION_CHANGED,
+    SHADER_SELECTION_CHANGED,
+    SHADER_LIST_CHANGED,
 };
 
 class EventClient;
@@ -63,8 +67,8 @@ public:
     EventRouter();
     ~EventRouter();
 
-    void FireEvent(MpcEvent ev);
     void Connect(EventClient& node, const EventSelection& recieves, const EventCallback& callback);
+    void Connect(EventClient& node, const EventSelection& fires);
     void Connect(EventClient& node, const EventSelection& recieves, const EventCallback& callback, const EventSelection& fires);
     void Disconnect(EventClient& node);
 };

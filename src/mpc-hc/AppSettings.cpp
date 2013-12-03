@@ -58,7 +58,6 @@ CAppSettings::CAppSettings()
     , fRemainingTime(false)
     , nUpdaterAutoCheck(-1)
     , nUpdaterDelay(7)
-    , fShaderEditorWasOpened(false)
     , fBDAUseOffset(0)
     , iBDABandwidth(8)
     , iBDAOffset(166)
@@ -109,8 +108,6 @@ CAppSettings::CAppSettings()
     , iThumbRows(4)
     , iThumbCols(4)
     , iThumbWidth(1024)
-    , fToggleShader(0)
-    , fToggleShaderScreenSpace(0)
     , bShufflePlaylistItems(false)
     , bHidePlaylistFullScreen(false)
     , nLastWindowType(SIZE_RESTORED)
@@ -433,8 +430,8 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_VIEW_SUBRESYNC,                  '6', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SUBRESYNC));
     ADDCMD((ID_VIEW_PLAYLIST,                   '7', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_PLAYLIST));
     ADDCMD((ID_VIEW_CAPTURE,                    '8', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CAPTURE));
-    ADDCMD((ID_VIEW_SHADEREDITOR,               '9', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SHADER));
     ADDCMD((ID_VIEW_NAVIGATION,                   0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_NAVIGATION));
+    ADDCMD((ID_VIEW_DEBUGSHADERS,                 0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_DEBUGSHADERS));
     ADDCMD((ID_VIEW_PRESETS_MINIMAL,            '1', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_MINIMAL));
     ADDCMD((ID_VIEW_PRESETS_COMPACT,            '2', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_COMPACT));
     ADDCMD((ID_VIEW_PRESETS_NORMAL,             '3', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_NORMAL));
@@ -533,8 +530,8 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_DVD_SUB_ONOFF,                     0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_97));
     ADDCMD((ID_VIEW_TEARING_TEST,               'T', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TEARING_TEST));
     ADDCMD((ID_VIEW_REMAINING_TIME,             'I', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_98));
-    ADDCMD((ID_SHADERS_TOGGLE,                  'P', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AT_TOGGLE_SHADER));
-    ADDCMD((ID_SHADERS_TOGGLE_SCREENSPACE,      'P', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AT_TOGGLE_SHADERSCREENSPACE));
+    ADDCMD((ID_SHADERS_PRESET_NEXT,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_SHADERS_PRESET_NEXT));
+    ADDCMD((ID_SHADERS_PRESET_PREV,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_SHADERS_PRESET_PREV));
     ADDCMD((ID_D3DFULLSCREEN_TOGGLE,              0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_99));
     ADDCMD((ID_GOTO_PREV_SUB,                   'Y', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_100));
     ADDCMD((ID_GOTO_NEXT_SUB,                   'U', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_101));
@@ -752,11 +749,6 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, iHue);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, iSaturation);
 
-    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLIST, strShaderList);
-    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLISTSCREENSPACE, strShaderListScreenSpace);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADER, (int)fToggleShader);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADERSSCREENSPACE, (int)fToggleShaderScreenSpace);
-
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, (int)fShowOSD);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, (int)fEnableEDLEditor);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, language);
@@ -893,32 +885,29 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
 
-    if (fShaderEditorWasOpened) { // This is a large data block. Save it only when really necessary.
-        // Erase the currently saved shaders
-        pApp->WriteProfileString(IDS_R_SHADERS, nullptr, nullptr);
-        pApp->WriteProfileInt(IDS_R_SHADERS, IDS_RS_SHADERS_INITIALIZED, 1);
-
-        pos = m_shaders.GetHeadPosition();
-        for (int i = 0; pos; i++) {
-            const Shader& s = m_shaders.GetNext(pos);
-
-            if (!s.label.IsEmpty()) {
-                CString index;
-                index.Format(_T("%d"), i);
-                CString srcdata = s.srcdata;
-                srcdata.Replace(_T("\r"), _T(""));
-                srcdata.Replace(_T("\n"), _T("\\n"));
-                srcdata.Replace(_T("\t"), _T("\\t"));
-
-                CAtlList<CString> list;
-                list.AddTail(s.label);
-                list.AddTail(s.target);
-                list.AddTail(srcdata);
-                pApp->WriteProfileString(IDS_R_SHADERS, index, ImplodeEsc(list, '|'));
-            }
+    {
+        // Save the list of extra (non-default) shader files
+        VERIFY(pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_EXTRA, m_ShadersExtraList.ToString()));
+        // Save shader selection
+        CString strPre, strPost;
+        m_Shaders.GetCurrentPreset().ToStrings(strPre, strPost);
+        VERIFY(pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_PRERESIZE, strPre));
+        VERIFY(pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_POSTRESIZE, strPost));
+        // Save shader presets
+        int i = 0;
+        CString iStr;
+        pApp->WriteProfileString(IDS_R_SHADER_PRESETS, nullptr, nullptr);
+        for (const auto& pair : m_Shaders.GetPresets()) {
+            iStr.Format(_T("%d"), i++);
+            pair.second.ToStrings(strPre, strPost);
+            VERIFY(pApp->WriteProfileString(IDS_R_SHADER_PRESETS, iStr, pair.first));
+            VERIFY(pApp->WriteProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_PRERESIZE + iStr, strPre));
+            VERIFY(pApp->WriteProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_POSTRESIZE + iStr, strPost));
         }
-
-        fShaderEditorWasOpened = false;
+        // Save selected preset name
+        CString name;
+        m_Shaders.GetCurrentPresetName(name);
+        VERIFY(pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_LASTPRESET, name));
     }
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, fRemainingTime);
@@ -1449,83 +1438,30 @@ void CAppSettings::LoadSettings()
     strISDb = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, _T("www.opensubtitles.org/isdb"));
 
     nLastUsedPage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTUSEDPAGE, 0);
-    //
 
-    m_shaders.RemoveAll();
-
-    CAtlStringMap<UINT> shaders;
-
-    shaders[_T("16-235 -> 0-255 [SD][HD]")]  = IDF_SHADER_LEVELS;
-    shaders[_T("16-235 -> 0-255 [SD]")]      = IDF_SHADER_LEVELS2;
-    shaders[_T("0-255 -> 16-235")]           = IDF_SHADER_LEVELS3;
-    shaders[_T("BT.601 -> BT.709")]          = IDF_SHADER_BT601_BT709;
-    shaders[_T("YV12 Chroma Upsampling")]    = IDF_SHADER_YV12CHROMAUP;
-    shaders[_T("grayscale")]                 = IDF_SHADER_GRAYSCALE;
-
-    shaders[_T("sharpen")]                   = IDF_SHADER_SHARPEN;
-    shaders[_T("sharpen complex")]           = IDF_SHADER_SHARPEN_COMPLEX;
-    shaders[_T("sharpen complex 2")]         = IDF_SHADER_SHARPEN_COMPLEX2;
-    shaders[_T("edge sharpen")]              = IDF_SHADER_EDGE_SHARPEN;
-    shaders[_T("contour")]                   = IDF_SHADER_CONTOUR;
-
-    shaders[_T("deinterlace (blend)")]       = IDF_SHADER_DEINTERLACE;
-    shaders[_T("denoise")]                   = IDF_SHADER_DENOISE;
-    shaders[_T("procamp")]                   = IDF_SHADER_PROCAMP;
-    shaders[_T("invert")]                    = IDF_SHADER_INVERT;
-    shaders[_T("letterbox")]                 = IDF_SHADER_LETTERBOX;
-    shaders[_T("LCD angle correction")]      = IDF_SHADER_LCD;
-
-    shaders[_T("nightvision")]               = IDF_SHADER_NIGHTVISION;
-    shaders[_T("emboss")]                    = IDF_SHADER_EMBOSS;
-    shaders[_T("sphere")]                    = IDF_SHADER_SPHERE;
-    shaders[_T("spotlight")]                 = IDF_SHADER_SPOTLIGHT;
-    shaders[_T("wave")]                      = IDF_SHADER_WAVE;
-
-    for (int iShader = 0; ; iShader++) {
-        CString str2;
-        str2.Format(_T("%d"), iShader);
-        str2 = pApp->GetProfileString(IDS_R_SHADERS, str2);
-
-        CAtlList<CString> sl;
-        CString label = ExplodeEsc(str2, sl, '|');
-        if (label.IsEmpty()) {
-            break;
-        }
-        if (sl.GetCount() < 3) {
-            continue;
-        }
-
-        Shader s;
-        s.label = sl.RemoveHead();
-        s.target = sl.RemoveHead();
-        s.srcdata = sl.RemoveHead();
-        s.srcdata.Replace(_T("\\n"), _T("\n"));
-        s.srcdata.Replace(_T("\\t"), _T("\t"));
-        m_shaders.AddTail(s);
-
-        shaders.RemoveKey(s.label);
-    }
-
-    pos = shaders.GetStartPosition();
-    while (pos) {
-        CAtlStringMap<UINT>::CPair* pPair = shaders.GetNext(pos);
-
-        CStringA srcdata;
-        if (LoadResource(pPair->m_value, srcdata, _T("SHADER"))) {
-            Shader s;
-            s.label = pPair->m_key;
-
-            // Select minimum version for each shader!
-            switch (pPair->m_value) {
-                case IDF_SHADER_DENOISE:
-                    s.target = _T("ps_3_0");
-                    break;
-                default:
-                    s.target = _T("ps_2_0");
-                    break;
+    {
+        // Load the list of extra (non-default) shader files
+        m_ShadersExtraList = ShaderList(pApp->GetProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_EXTRA));
+        // Load shader selection
+        m_Shaders.SetCurrentPreset(ShaderPreset(pApp->GetProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_PRERESIZE),
+                                                pApp->GetProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_POSTRESIZE)));
+        // Load shader presets
+        ShaderSelection::ShaderPresetMap presets;
+        for (int i = 0;; i++) {
+            CString iStr;
+            iStr.Format(_T("%d"), i);
+            CString name = pApp->GetProfileString(IDS_R_SHADER_PRESETS, iStr);
+            if (name.IsEmpty()) {
+                break;
             }
-            s.srcdata = CString(srcdata);
-            m_shaders.AddTail(s);
+            presets.emplace(name, ShaderPreset(pApp->GetProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_PRERESIZE + iStr),
+                                               pApp->GetProfileString(IDS_R_SHADER_PRESETS, IDS_RS_SHADERS_POSTRESIZE + iStr)));
+        }
+        m_Shaders.SetPresets(presets);
+        // Load last shader preset name
+        CString name = pApp->GetProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_LASTPRESET);
+        if (!name.IsEmpty()) {
+            m_Shaders.SetCurrentPreset(name);
         }
     }
 
@@ -1537,11 +1473,6 @@ void CAppSettings::LoadSettings()
     iContrast   = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, 0);
     iHue        = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, 0);
     iSaturation = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, 0);
-
-    strShaderList   = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLIST);
-    strShaderListScreenSpace = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLISTSCREENSPACE);
-    fToggleShader = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADER, FALSE);
-    fToggleShaderScreenSpace = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADERSSCREENSPACE, FALSE);
 
     fShowOSD              = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, TRUE);
     fEnableEDLEditor      = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
@@ -1595,8 +1526,6 @@ void CAppSettings::LoadSettings()
     dvdPositions.Load();
 
     fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, FALSE);
-
-    // TODO: sort shaders by label
 
     fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, FALSE);
 
@@ -1944,6 +1873,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 CMiniDump::Disable();
             } else if (sw == _T("audiorenderer") && pos) {
                 SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));
+            } else if (sw == _T("shaderpreset") && pos) {
+                m_Shaders.SetCurrentPreset(cmdln.GetNext(pos));
             } else if (sw == _T("reset")) {
                 nCLSwitches |= CLSW_RESET;
             } else {
