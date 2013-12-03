@@ -680,6 +680,8 @@ void CMainFrameControls::EnumPanelZones()
             }
         }
     }
+
+    m_controlsVisibilityState.nCurrentCS = GetEffectiveToolbarsSelection();
 }
 
 void CMainFrameControls::GetDockZonesInternal(unsigned& uTop, unsigned& uLeft, unsigned& uRight, unsigned& uBottom, bool bDoEnum, bool bOnlyVisible)
