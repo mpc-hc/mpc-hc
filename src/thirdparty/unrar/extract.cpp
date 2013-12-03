@@ -643,7 +643,7 @@ bool CmdExtract::ExtractCurrentFile(CommandData *Cmd,Archive &Arc,size_t HeaderS
           // If we already have ERAR_EOPEN as result of missing volume,
           // we should not replace it with less precise ERAR_BAD_DATA.
           if (Cmd->DllError!=ERAR_EOPEN)
-            Cmd->DllError=ERAR_BAD_DATA;
+            Cmd->DllError=WrongPassword ? ERAR_BAD_PASSWORD : ERAR_BAD_DATA;
 #endif
         }
       }

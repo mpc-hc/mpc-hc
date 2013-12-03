@@ -32,7 +32,7 @@ next version - not released yet
 * Updated MediaInfoLib to v0.7.65
 * Updated ZenLib to v0.4.29 r453
 * Updated Little CMS to v2.6b (git 579b3aa)
-* Updated Unrar to v5.0.0.13
+* Updated Unrar to v5.0.0.14
 ! Internal subtiles renderer: Vobsub/PGS/DVB subtitles are now rendered relative to the video frame
 ! Warnings were not displayed in pixel shader compilation output
 ! Ticket #1300/#2081, Toolbars auto-hiding now always works properly in multi-display configurations

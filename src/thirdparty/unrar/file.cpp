@@ -60,17 +60,27 @@ bool File::Open(const wchar *Name,uint Mode)
   DWORD LastError;
   if (hNewFile==BAD_HANDLE)
   {
-    // Following CreateFile("\\?\path") call can change the last error code
-    // from "not found" to "access denied" for relative paths like "..\path".
-    // But we need the correct "not found" code to create a new archive
-    // if existing one is not found. So we preserve the code here.
     LastError=GetLastError();
 
     wchar LongName[NM];
     if (GetWinLongPath(Name,LongName,ASIZE(LongName)))
     {
       hNewFile=CreateFile(LongName,Access,ShareMode,NULL,OPEN_EXISTING,Flags,NULL);
-      LastError=GetLastError();
+
+      // For archive names longer than 260 characters first CreateFile
+      // (without \\?\) fails and sets LastError to 3 (access denied).
+      // We need the correct "file not found" error code to decide
+      // if we create a new archive or quit with "cannot create" error.
+      // So we need to check the error code after \\?\ CreateFile again,
+      // otherwise we'll fail to create new archives with long names.
+      // But we cannot simply assign the new code to LastError,
+      // because it would break "..\arcname.rar" relative names processing.
+      // First CreateFile returns the correct "file not found" code for such
+      // names, but "\\?\" CreateFile returns ERROR_INVALID_NAME treating
+      // dots as a directory name. So we check only for "file not found"
+      // error here and for other errors use the first CreateFile result.
+      if (GetLastError()==ERROR_FILE_NOT_FOUND)
+        LastError=ERROR_FILE_NOT_FOUND;
     }
   }
 

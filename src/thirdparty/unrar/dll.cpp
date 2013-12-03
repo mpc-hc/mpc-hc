@@ -195,7 +195,16 @@ int PASCAL RARReadHeaderEx(HANDLE hArcData,struct RARHeaderDataEx *D)
         }
         else
           return ERAR_EOPEN;
-      return(Data->Arc.BrokenHeader ? ERAR_BAD_DATA:ERAR_END_ARCHIVE);
+
+      if (Data->Arc.BrokenHeader)
+        return ERAR_BAD_DATA;
+
+      // Might be necessary if RARSetPassword is still called instead of
+      // open callback for RAR5 archives and if password is invalid.
+      if (Data->Arc.FailedHeaderDecryption)
+        return ERAR_BAD_PASSWORD;
+      
+      return ERAR_END_ARCHIVE;
     }
     FileHeader *hd=&Data->Arc.FileHead;
     if (Data->OpenMode==RAR_OM_LIST && hd->SplitBefore)
