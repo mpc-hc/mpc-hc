@@ -15,127 +15,127 @@ msgstr ""
 
 msgctxt "POPUP"
 msgid "&File"
-msgstr ""
+msgstr "&File"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr ""
+msgstr "&Quick Open File..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
-msgstr ""
+msgstr "&Open File..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr ""
+msgstr "Open &DVD/BD..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr ""
+msgstr "Open De&vice..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr ""
+msgstr "Open Dir&ectory..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr ""
+msgstr "O&pen Disc"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr ""
+msgstr "Recent &Files"
 
 msgctxt "ID_FILE_CLOSEPLAYLIST"
 msgid "&Close"
-msgstr ""
+msgstr "&Close"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr ""
+msgstr "&Save a Copy..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr ""
+msgstr "Save &Image..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr ""
+msgstr "Save &Thumbnails..."
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
-msgstr ""
+msgstr "&Load Subtitle..."
 
 msgctxt "ID_FILE_SAVE_SUBTITLE"
 msgid "Save S&ubtitle..."
-msgstr ""
+msgstr "Save S&ubtitle..."
 
 msgctxt "POPUP"
 msgid "Subtitle Data&base"
-msgstr ""
+msgstr "Subtitle Data&base"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
-msgstr ""
+msgstr "&Search..."
 
 msgctxt "ID_FILE_ISDB_UPLOAD"
 msgid "&Upload..."
-msgstr ""
+msgstr "&Upload..."
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
-msgstr ""
+msgstr "&Download..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
-msgstr ""
+msgstr "P&roperties"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr ""
+msgstr "E&xit"
 
 msgctxt "POPUP"
 msgid "&View"
-msgstr ""
+msgstr "&View"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr ""
+msgstr "Caption&&Menu"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr ""
+msgstr "See&k Bar"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr ""
+msgstr "&Controls"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
-msgstr ""
+msgstr "&Information"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
-msgstr ""
+msgstr "&Statistics"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr ""
+msgstr "St&atus"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr ""
+msgstr "Su&bresync"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr ""
+msgstr "Pla&ylist"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr ""
+msgstr "Captu&re"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr ""
+msgstr "Na&vigation"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
@@ -143,115 +143,115 @@ msgstr ""
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr ""
+msgstr "&Presets..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr ""
+msgstr "&Minimal"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr ""
+msgstr "&Compact"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr ""
+msgstr "&Normal"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
-msgstr ""
+msgstr "F&ull Screen"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr ""
+msgstr "&Zoom"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr ""
+msgstr "Auto &Fit"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr ""
+msgstr "Auto Fit (&Larger Only)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr ""
+msgstr "&Language"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr ""
+msgstr "R&enderer Settings"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr ""
+msgstr "&Tearing Test"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
-msgstr ""
+msgstr "&Display Stats"
 
 msgctxt "ID_VIEW_REMAINING_TIME"
 msgid "&Remaining Time"
-msgstr ""
+msgstr "&Remaining Time"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr ""
+msgstr "&Output Range"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr ""
+msgstr "&0 - 255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr ""
+msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr ""
+msgstr "&Presentation"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr ""
+msgstr "D3D Fullscreen &Mode"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr ""
+msgstr "D3D Fullscreen &GUI Support"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr ""
+msgstr "10-bit &RGB Output"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr ""
+msgstr "Force 10-bit RGB &Input"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr ""
+msgstr "&Full Floating Point Processing"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr ""
+msgstr "&Half Floating Point Processing"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr ""
+msgstr "Disable desktop composition (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr ""
+msgstr "Enable Frame Time &Correction"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -259,51 +259,51 @@ msgstr "&Colour Management"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr ""
+msgstr "&Enable"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr ""
+msgstr "&Input Type"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr ""
+msgstr "&Auto-Detect"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
-msgstr ""
+msgstr "&HDTV"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr ""
+msgstr "SDTV &NTSC"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr ""
+msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr ""
+msgstr "Ambient &Light"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr ""
+msgstr "&Bright (2.2 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr ""
+msgstr "&Dim (2.35 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr ""
+msgstr "D&ark (2.4 Gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr ""
+msgstr "&Rendering Intent"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr ""
+msgstr "&Perceptual"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
@@ -311,7 +311,7 @@ msgstr "&Relative Colourimetric"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr ""
+msgstr "&Saturation"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
@@ -319,171 +319,171 @@ msgstr "&Absolute Colourimetric"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr ""
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr ""
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr ""
+msgstr "&Accurate VSync"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr ""
+msgstr "A&lternative VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr ""
+msgstr "&Decrease VSync Offset"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr ""
+msgstr "&Increase VSync Offset"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr ""
+msgstr "&GPU Control"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr ""
+msgstr "Flush GPU &before VSync"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr ""
+msgstr "Flush GPU &after Present"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr ""
+msgstr "&Wait for flushes"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr ""
+msgstr "R&eset"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr ""
+msgstr "Reset to &default renderer settings"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr ""
+msgstr "Reset to &optimal renderer settings"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr ""
+msgstr "Video &Frame"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr ""
+msgstr "&Half Size"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr ""
+msgstr "&Normal Size"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr ""
+msgstr "&Double Size"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr ""
+msgstr "&Stretch To Window"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr ""
+msgstr "Touch Window From &Inside"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr ""
+msgstr "Zoom &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr ""
+msgstr "Zoom &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr ""
+msgstr "Touch Window From &Outside"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
-msgstr ""
+msgstr "&Keep Aspect Ratio"
 
 msgctxt "POPUP"
 msgid "Override &Aspect Ratio"
-msgstr ""
+msgstr "Override &Aspect Ratio"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
-msgstr ""
+msgstr "&Default"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr ""
+msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr ""
+msgstr "&5:4"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr ""
+msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr ""
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr ""
+msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr ""
+msgstr "&Correct Monitor/Desktop AR Diff"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr ""
+msgstr "Pa&n&&Scan"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr ""
+msgstr "&Increase Size"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr ""
+msgstr "&Decrease Size"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr ""
+msgstr "I&ncrease Width"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr ""
+msgstr "D&ecrease Width"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr ""
+msgstr "In&crease Height"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr ""
+msgstr "Decre&ase Height"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr ""
+msgstr "Move &Right"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr ""
+msgstr "Move &Left"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr ""
+msgstr "Move &Up"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr ""
+msgstr "Move &Down"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
@@ -491,187 +491,187 @@ msgstr "Cen&tre"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr ""
+msgstr "Re&set"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr ""
+msgstr "On &Top"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr ""
+msgstr "&Default"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
-msgstr ""
+msgstr "&Always"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr ""
+msgstr "While &Playing"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr ""
+msgstr "While Playing &Video"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr ""
+msgstr "&Options..."
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr ""
+msgstr "&Play"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr ""
+msgstr "&Play/Pause"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
-msgstr ""
+msgstr "&Stop"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
-msgstr ""
+msgstr "F&rame Step"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr ""
+msgstr "&Decrease Rate"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr ""
+msgstr "&Increase Rate"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr ""
+msgstr "R&eset Rate"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr ""
+msgstr "&Filters"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr ""
+msgstr "S&haders"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
-msgstr ""
+msgstr "&Audio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"
-msgstr ""
+msgstr "Su&btitles"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
-msgstr ""
+msgstr "&Video Stream"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr ""
+msgstr "&Volume"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
-msgstr ""
+msgstr "&Up"
 
 msgctxt "ID_VOLUME_DOWN"
 msgid "&Down"
-msgstr ""
+msgstr "&Down"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr ""
+msgstr "&Mute"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr ""
+msgstr "Af&ter Playback"
 
 msgctxt "ID_AFTERPLAYBACK_ONCE"
 msgid "--------- Once ---------"
-msgstr ""
+msgstr "--------- Once ---------"
 
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
-msgstr ""
+msgstr "&Exit"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr ""
+msgstr "&Stand By"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr ""
+msgstr "&Hibernate"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr ""
+msgstr "Shut&down"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr ""
+msgstr "Log &Off"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr ""
+msgstr "&Lock"
 
 msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
 msgid "------ Every time ------"
-msgstr ""
+msgstr "------ Every time ------"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "E&xit"
-msgstr ""
+msgstr "E&xit"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do &Nothing"
-msgstr ""
+msgstr "Do &Nothing"
 
 msgctxt "ID_AFTERPLAYBACK_NEXT"
 msgid "Play next in the &folder"
-msgstr ""
+msgstr "Play next in the &folder"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr ""
+msgstr "&Navigate"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
-msgstr ""
+msgstr "&Previous"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "&Next"
-msgstr ""
+msgstr "&Next"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr ""
+msgstr "&Go To..."
 
 msgctxt "ID_NAVIGATE_JUMPTO"
 msgid "&Jump To..."
-msgstr ""
+msgstr "&Jump To..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
-msgstr ""
+msgstr "&Title Menu"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr ""
+msgstr "&Root Menu"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr ""
+msgstr "&Subtitle Menu"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr ""
+msgstr "&Audio Menu"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr ""
+msgstr "An&gle Menu"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr ""
+msgstr "&Chapter Menu"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
@@ -679,29 +679,29 @@ msgstr "F&avourites"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr ""
+msgstr "&Help"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr ""
+msgstr "&Home Page"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr ""
+msgstr "Check for &updates"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr ""
+msgstr "&Command Line Switches"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr ""
+msgstr "Download &Toolbar Images"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr ""
+msgstr "&Donate"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr ""
+msgstr "&About..."
 
