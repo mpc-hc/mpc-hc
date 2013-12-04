@@ -160,7 +160,6 @@ CString CShaderListBox::GetTitle(const Shader& shader)
         ret += _T(" <not found!>"); // TODO: externalize this string and merge it with the one in PPageExternalFilters
     }
     return ret;
-    return shader.filePath;
 }
 
 void CShaderListBox::PreSubclassWindow()
