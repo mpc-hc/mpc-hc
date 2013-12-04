@@ -4,6 +4,7 @@
 *.old
 *.opensdf
 *.psess
+*.pyc
 *.sdf
 *.suo
 *.tss
@@ -24,7 +25,6 @@
 /signinfo.txt
 /src/filters/transform/VSFilter/installer/*.exe
 /src/mpc-hc/mpcresources/backup
-/src/mpc-hc/mpcresources/newrc
 /src/mpc-hc/res/mpc-hc.exe.manifest
 /src/MPCTestAPI/bin
 /src/MPCTestAPI/bin13
