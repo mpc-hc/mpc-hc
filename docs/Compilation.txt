@@ -35,6 +35,8 @@ SET "MPCHC_MINGW32=%MPCHC_MSYS%\mingw"
 SET "MPCHC_MINGW64=%MPCHC_MINGW32%"
 REM Git is optional to set if you chose to add it in PATH when installing it
 SET "MPCHC_GIT=C:\Program Files (x86)\Git"
+REM Python 2.7.X is optional if you don't plan to modify the resource files
+SET "MPCHC_PYTHON=C:\Python27"
 
 
 Part C: Downloading and compiling the MPC-HC source
