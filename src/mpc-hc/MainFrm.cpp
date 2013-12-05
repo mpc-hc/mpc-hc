@@ -14167,6 +14167,9 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     // stop the graph before destroying it
     OnPlayStop();
 
+    // clear any active osd messages
+    m_OSD.ClearMessage();
+
     // initiate graph destruction
     if (m_pGraphThread && m_bOpenedThroughThread) {
         // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
