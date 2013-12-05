@@ -27,6 +27,15 @@ IF EXIST "%ROOT_DIR%\build.user.bat" (
   IF DEFINED PYTHON (SET MPCHC_PYTHON=%PYTHON%)
 )
 
+REM If the define wasn't set, we try to detect Python 2.7 from the registry
+IF NOT DEFINED MPCHC_PYTHON (
+  FOR /F "delims=" %%G IN (
+    'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Python\PythonCore\2.7\InstallPath" /ve 2^>NUL ^| FIND "REG_SZ" ^|^|
+     REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Python\PythonCore\2.7\InstallPath" /ve 2^>NUL ^| FIND "REG_SZ"') DO (
+    SET "PYTHONPATH_REG=%%G" & CALL :SubPythonPath %%PYTHONPATH_REG:*REG_SZ=%%
+  )
+)
+
 SET PATH=%MPCHC_PYTHON%;%PATH%
 FOR %%G IN (python.exe)  DO (SET PYTHON_PATH=%%~$PATH:G)
 IF NOT DEFINED PYTHON_PATH  GOTO MissingVar
@@ -39,6 +48,11 @@ IF NOT EXIST backup\PO MD backup\PO
 COPY /Y /V PO backup\PO
 ECHO ----------------------
 
+EXIT /B
+
+
+:SubPythonPath
+SET MPCHC_PYTHON=%*
 EXIT /B
 
 
