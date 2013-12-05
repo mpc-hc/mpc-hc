@@ -637,7 +637,7 @@ public:
 
     afx_msg LRESULT OnFilePostOpenmedia(WPARAM wParam, LPARAM lparam);
     afx_msg LRESULT OnOpenMediaFailed(WPARAM wParam, LPARAM lParam);
-    afx_msg void OnFilePostClosemedia();
+    void OnFilePostClosemedia(bool bNextIsQueued = false);
 
     afx_msg void OnBossKey();
 

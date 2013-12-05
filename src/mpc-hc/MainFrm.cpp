@@ -3213,7 +3213,7 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-void CMainFrame::OnFilePostClosemedia()
+void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
 {
     SetPlaybackMode(PM_NONE);
     SetLoadState(MLS::CLOSED);
@@ -3236,6 +3236,10 @@ void CMainFrame::OnFilePostClosemedia()
     m_wndStatsBar.RemoveAllLines();
     m_wndStatusBar.Clear();
     m_wndStatusBar.ShowTimer(false);
+
+    if (!bNextIsQueued) {
+        RecalcLayout();
+    }
 
     if (AfxGetAppSettings().fEnableEDLEditor) {
         m_wndEditListEditor.CloseFile();
@@ -14178,7 +14182,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     s.nCLSwitches &= CLSW_OPEN | CLSW_PLAY | CLSW_AFTERPLAYBACK_MASK | CLSW_NOFOCUS;
 
     // graph is destroyed, update stuff
-    OnFilePostClosemedia();
+    OnFilePostClosemedia(bNextIsQueued);
 }
 
 void CMainFrame::StartTunerScan(CAutoPtr<TunerScanData> pTSD)
