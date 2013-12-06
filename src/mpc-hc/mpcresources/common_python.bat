@@ -37,8 +37,8 @@ IF NOT DEFINED MPCHC_PYTHON (
 )
 
 SET PATH=%MPCHC_PYTHON%;%PATH%
-FOR %%G IN (python.exe)  DO (SET PYTHON_PATH=%%~$PATH:G)
-IF NOT DEFINED PYTHON_PATH  GOTO MissingVar
+FOR %%G IN (python.exe) DO (SET PYTHON_PATH=%%~$PATH:G)
+IF NOT DEFINED PYTHON_PATH GOTO MissingVar
 
 ECHO Backing up current translation files...
 IF NOT EXIST backup MD backup
