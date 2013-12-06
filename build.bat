@@ -116,8 +116,6 @@ IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
 
 IF DEFINED MPCHC_LITE SET "BUILDCFG=%BUILDCFG% Lite"
 
-CALL :SubDetectWinArch
-
 SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true"
 
 SET START_TIME=%TIME%
@@ -489,25 +487,10 @@ IF "%MPCHC_NIGHTLY%" NEQ "0" (
 EXIT /B
 
 
-:SubDetectWinArch
-REM If "Program Files (x86)" is present, the system is 64 bit, otherwise it is 32 bit
-IF DEFINED PROGRAMFILES(x86) (SET os_type=Win64) ELSE (SET os_type=Win32)
-EXIT /B
-
-
 :SubDetectInnoSetup
-REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
-REM of Inno Setup accordingly since Inno Setup is a 32-bit application
-IF /I "%os_type%" == "Win64" (
-  SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
-) ELSE (
-  SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
-)
-
-FOR /F "delims=" %%G IN (
-  'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path" 2^>NUL ^|FIND "REG_SZ"') DO (
-  SET "InnoSetupPath=%%G" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%
-)
+FOR /F "tokens=5*" %%A IN (
+  'REG QUERY "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1" /v "Inno Setup: App Path" 2^>NUL ^| FIND "REG_SZ" ^|^|
+   REG QUERY "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1" /v "Inno Setup: App Path" 2^>NUL ^| FIND "REG_SZ"') DO SET "InnoSetupPath=%%B\ISCC.exe"
 EXIT /B
 
 
@@ -518,17 +501,9 @@ IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 FOR %%G IN (7za.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
 IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 
-IF /I "%os_type%" == "Win64" (
-  FOR /F "delims=" %%G IN (
-    'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO (
-    SET "SEVENZIP_REG=%%G" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
-  )
-)
-
-FOR /F "delims=" %%G IN (
-  'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO (
-  SET "SEVENZIP_REG=%%G" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
-)
+FOR /F "tokens=2*" %%A IN (
+  'REG QUERY "HKLM\SOFTWARE\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ" ^|^|
+   REG QUERY "HKLM\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO SET "SEVENZIP=%%B\7z.exe"
 EXIT /B
 
 
@@ -576,16 +551,6 @@ ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
-
-
-:SubInnoSetupPath
-SET "InnoSetupPath=%*\ISCC.exe"
-EXIT /B
-
-
-:SubSevenzipPath
-SET "SEVENZIP=%*\7z.exe"
-EXIT /B
 
 
 :SubMsg
