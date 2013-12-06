@@ -67,6 +67,4 @@ private:
 
     CBaseSub*       m_pSub;
     CCritSec        m_csCritSec;
-
-    RelativeTo      m_relativeTo;
 };
