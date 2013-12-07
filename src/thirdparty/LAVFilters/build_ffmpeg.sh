@@ -98,7 +98,9 @@ configure() {
 
 build() {
   echo Building...
-  make -j8
+  make -j8 2>&1 | tee make.log
+  ## Check the return status and the log to detect possible errors
+  [ ${PIPESTATUS[0]} -eq 0 ] && ! grep -q -F "rerun configure" make.log
 }
 
 configureAndBuild() {
