@@ -1,0 +1,1631 @@
+# MPC-HC - Strings extracted from dialogs
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "Select Media Type"
+msgstr "Selectează tipul media"
+
+msgctxt "IDD_SELECTMEDIATYPE_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
+msgid "Cancel"
+msgstr "Renunță"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
+msgid "Video"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
+msgid "Set"
+msgstr "Definește"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Audio"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Output"
+msgstr "Ieșire"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
+msgid "Record Video"
+msgstr "Înregistrează video"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
+msgid "Preview"
+msgstr "Previzualizare"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
+msgid "Record Audio"
+msgstr "Înregistrează audio"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
+msgid "Preview"
+msgstr "Previzualizare"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "V/A Buffers:"
+msgstr "Preîncărcări V/A:"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
+msgid "Audio to wav"
+msgstr "Audio către wav"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
+msgid "Record"
+msgstr "Înregistrează"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
+msgid "Enable built-in audio switcher filter (requires restart)"
+msgstr "Activează filtrul comutator audio încorporat (necesită repornire player)"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
+msgid "Normalize"
+msgstr "Normalizare"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
+msgid "Max amplification:"
+msgstr "Amplificare maximă:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
+msgid "Regain volume"
+msgstr "Restabilire volum"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
+msgid "Boost:"
+msgstr "Amplificare:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
+msgid "Down-sample to 44100 Hz"
+msgstr "Reeșantionează la 44100 Hz"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
+msgid "Audio time shift (ms):"
+msgstr "Decalare timp audio (ms):"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
+msgid "Enable custom channel mapping"
+msgstr "Activează repartizarea particularizată a canalelor "
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
+msgid "Speaker configuration for "
+msgstr "Configurație difuzoare pentru "
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
+msgid "input channels:"
+msgstr "canale de intrare:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
+msgid "Hold shift for immediate changes when clicking something "
+msgstr "Țineți Shift apăsat pentru aplicarea imediată a schimbărilor când dați clic pe ceva"
+
+msgctxt "IDD_GOTO_DLG_CAPTION"
+msgid "Go To..."
+msgstr "Du-te la..."
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
+msgstr "Introduceți un cod de timp folosind formatul [hh:]mm:ss.ms pentru a sări la un timp specificat. Nu este necesar să introduceţi separatorii explicit."
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Time"
+msgstr "Timp"
+
+msgctxt "IDD_GOTO_DLG_IDC_OK1"
+msgid "Go!"
+msgstr "Du-te!"
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
+msgstr "Introduceți două numere pentru a sări la un cadru specificat: primul este numărul cadrului, al doilea este rata cadrelor."
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Frame"
+msgstr "Cadru"
+
+msgctxt "IDD_GOTO_DLG_IDC_OK2"
+msgid "Go!"
+msgstr "Du-te!"
+
+msgctxt "IDD_OPEN_DLG_CAPTION"
+msgid "Open"
+msgstr "Deschide"
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
+msgstr "Introduceți adresa unui fișier video sau audio (de pe Internet sau din calculatorul dumneavoastră) și playerul îl va deschide pentru dumneavoastră."
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Open:"
+msgstr "Deschide:"
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Răsfoire..."
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
+msgid "Dub:"
+msgstr "Dublaj:"
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
+msgid "Browse..."
+msgstr "Răsfoire..."
+
+msgctxt "IDD_OPEN_DLG_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDCANCEL"
+msgid "Cancel"
+msgstr "Renunță"
+
+msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
+msgid "Add to playlist without opening"
+msgstr "Adaugă la lista de redare fără a deschide"
+
+msgctxt "IDD_ABOUTBOX_CAPTION"
+msgid "About"
+msgstr "Despre"
+
+msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
+msgid "Copyright © 2002-2013 see Authors.txt"
+msgstr "Drepturi de autor © 2002-2013 vedeți Authors.txt"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "This program is freeware and released under the GNU General Public License."
+msgstr "Acesta program este gratuit și distribuit sub licența GNU General Public License."
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "English translation made by MPC-HC Team"
+msgstr "Traducerea în română realizată de Daniel Alămiță, actualizată şi corectată de lordkag"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Build information"
+msgstr "Informaţii despre versiunea compilată"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Version:"
+msgstr "Versiune:"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Compiler:"
+msgstr "Compilator:"
+
+msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
+msgid "Not used"
+msgstr "Nu s-a folosit"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Build date:"
+msgstr "Data compilării:"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Operating system"
+msgstr "Sistem de operare"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Name:"
+msgstr "Nume:"
+
+msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
+msgid "Copy to clipboard"
+msgstr "Copiază în clipboard"
+
+msgctxt "IDD_ABOUTBOX_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Open options"
+msgstr "Opțiuni pentru deschidere"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
+msgid "Use the same player for each media file"
+msgstr "Folosește același player pentru fiecare fișier media"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
+msgid "Open a new player for each media file played"
+msgstr "Deschide un player nou pentru fiecare fișier media redat"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Title bar"
+msgstr "Bară de titlu"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
+msgid "Display full path"
+msgstr "Afișează calea completă"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
+msgid "File name only"
+msgstr "Doar numele fișierului"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
+msgid "Don't prefix anything"
+msgstr "Nu prefixa nimic"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
+msgid "Replace file name with title"
+msgstr "Înlocuiește numele fișierului cu titlul filmului"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Other"
+msgstr "Altele"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
+msgid "Tray icon"
+msgstr "Pictogramă în zona de notificare"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
+msgid "Show OSD (requires restart)"
+msgstr "Arată OSD (necesită repornire player)"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
+msgid "Limit window proportions on resize"
+msgstr "Limitează proporțiile ferestrei la redimensionare"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
+msgid "Snap to desktop edges"
+msgstr "Extinde până la marginile ecranului"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
+msgid "Store settings to .ini file"
+msgstr "Salvează setările într-un fișier .ini"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
+msgid "Disable \"Open Disc\" menu"
+msgstr "Dezactivează meniul \"Deschide Disc\""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
+msgid "Process priority above normal"
+msgstr "Prioritatea procesării peste normal"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "History"
+msgstr "Istoric"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
+msgid "Keep history of recently opened files"
+msgstr "Ține un istoric al ultimelor fișiere deschise"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "Remember DVD position"
+msgstr "Ține minte poziția pe DVD"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
+msgid "Remember File position"
+msgstr "Ține minte poziția în fișier"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "Remember last playlist"
+msgstr "Ține minte ultima listă de redare"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
+msgid "Remember last window position"
+msgstr "Ține minte ultima poziție a ferestrei"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
+msgid "Remember last window size"
+msgstr "Ține minte ultima dimensiune a ferestrei"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
+msgid "Remember last Pan-n-Scan Zoom"
+msgstr "Ține minte ultima focalizare a Pan && Scan"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "\"Open DVD/BD\" behavior"
+msgstr "Acţiuni pentru meniul \"Deschide DVD/BD\""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
+msgid "Prompt for location"
+msgstr "Solicită locaţia"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
+msgid "Always open the default location:"
+msgstr "Deschide întotdeauna locaţia implicită:"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Preferred language for DVD Navigator and the external OGM Splitter"
+msgstr "Limbă preferată pentru navigatorul DVD și separatorul (splitter) extern OGM"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
+msgid "Menu"
+msgstr "Meniu"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
+msgid "Audio"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
+msgid "Subtitles"
+msgstr "Subtitrări"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Additional settings"
+msgstr "Setări adiționale"
+
+msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
+msgid "Allow closed captions in \"Line 21 Decoder\""
+msgstr "Permite subtitrări pentru persoane cu dizabilități în \"Line 21 Decoder\""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Audio"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume"
+msgstr "Volum"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Min"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Max"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
+msgid "Balance"
+msgstr "Balans"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "L"
+msgstr "S"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "R"
+msgstr "D"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Playback"
+msgstr "Redare"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
+msgid "Play"
+msgstr "Redă"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
+msgid "Repeat forever"
+msgstr "Repetă la nesfârșit"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
+msgid "time(s)"
+msgstr "dată(ori)"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
+msgid "Rewind when done playing"
+msgstr "Derulează la început la terminarea redării"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Output"
+msgstr "Ieșire"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
+msgid "Auto-zoom:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
+msgid "Auto fit factor:"
+msgstr "Factor de auto-potrivire:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Default track preference"
+msgstr "Ordinea preferată a pistelor"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Subtitles:"
+msgstr "Subtitrări:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Audio:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
+msgid "Allow overriding external splitter choice"
+msgstr "Permite suprascrierea opţiunii separatorului (splitter) extern"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Open settings"
+msgstr "Setări pentru deschidere"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
+msgid "Use worker thread to construct the filter graph"
+msgstr "Folosește un fir de execuţie secundar pentru a construi graficul filtrelor"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
+msgid "Report pins which fail to render"
+msgstr "Raportează pinii care eșuează să randeze"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
+msgid "Auto-load audio files"
+msgstr "Încarcă automat fișierele audio"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
+msgid "Auto-load subtitles"
+msgstr "Încarcă automat subtitrările"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Control"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume step:"
+msgstr "Treaptă Volum:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Speed step:"
+msgstr "Treaptă Viteză:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
+msgid "Override placement"
+msgstr "Suprascrie așezarea"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
+msgid "Horizontal:"
+msgstr "Orizontal:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
+msgid "Vertical:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Delay interval"
+msgstr "Interval întârziere"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Texture settings (open the video again to see the changes)"
+msgstr "Setările texturei (deschideți fișierul video din nou pentru a vedea schimbările)"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Sub pictures to buffer:"
+msgstr "Imagini subtitrare de preîncărcat:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Maximum texture resolution:"
+msgstr "Rezoluție maximă pentru textură :"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Allow animation when buffering"
+msgstr "Permite animații când se încarcă în avans"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
+msgid "Round up to power of two"
+msgstr "Rotunjește la puteri ale lui 2"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Warning"
+msgstr "Avertisment"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgstr "Dacă suprascrieţi și activați dezimțuire (antialiasing) pentru ecran complet în setările plăcii grafice, subtitrările nu o să arate mai bine, dar cu siguranță se va consuma mai mult din resursele sistemului."
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
+msgid "File extensions"
+msgstr "Extensii fișiere"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
+msgid "Default"
+msgstr "Implicit"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
+msgid "Set"
+msgstr "Definește"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
+msgid "Windows 8 or later"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
+msgid "&Set default programs"
+msgstr "&Setează programele implicite"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Association"
+msgstr "Asociere"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
+msgid "&Video"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
+msgid "A&udio"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "A&ll"
+msgstr "&Toate"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
+msgid "With icons"
+msgstr "Cu pictograme din MPC-HC"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
+msgid "&Modify"
+msgstr "&Modifică"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
+msgstr "Operator al protocolului pentru transfer în timp real (pentru URL-uri rtsp://...)"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
+msgid "RealMedia"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
+msgid "QuickTime"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
+msgid "DirectShow"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
+msgid "Check file extension first"
+msgstr "Vezi înainte extensia fișierului"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Explorer Context Menu"
+msgstr "Meniu contextual pentru Explorator"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
+msgid "Directory"
+msgstr "Directoare"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
+msgid "File(s)"
+msgstr "Fișier(e)"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
+msgid "Autoplay"
+msgstr "Redare automată"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
+msgid "Video"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
+msgid "Music"
+msgstr "Muzică"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
+msgid "DVD"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
+msgid "Audio CD"
+msgstr "CD Audio"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Jump distances (small, medium, large in ms)"
+msgstr "Intervale de sărire (mic, mediu, mare în ms)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
+msgid "Default"
+msgstr "Implicit"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
+msgid "Fast seek (on keyframe)"
+msgstr "Căutare rapidă (la cadru cheie)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
+msgid "Show chapter marks in seek bar"
+msgstr "Arată semne pentru capitole în bara de căutare"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
+msgid "Display \"Now Playing\" information in Skype's mood message"
+msgstr "Afişează informații \"Acum în redare\" în mesajul din Skype privind starea de spirit"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
+msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
+msgstr "Împiedică minimizarea playerului din ecran complet pe un monitor care nu este implicit"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
+msgid "Use Windows 7 Taskbar features"
+msgstr "Folosește facilitățile barei de activități Windows 7"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
+msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "Deschide următorul/precedentul fişier din dosar la comenzile \"Sari înapoi/înainte\" când este un singur element în lista de redare"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
+msgid "Use time tooltip:"
+msgstr "Folosește indiciu de timp:"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "OSD font:"
+msgstr "Fontul OSD:"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Enable Logitech LCD support (experimental)"
+msgstr "Activează suportul LCD pentru tastaturi Logitech (experimental)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
+msgid "Add Filter..."
+msgstr "Adaugă filtru..."
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
+msgid "Remove"
+msgstr "Elimină"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
+msgid "Prefer"
+msgstr "Preferă"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
+msgid "Block"
+msgstr "Blochează"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
+msgid "Set merit:"
+msgstr "Definește merit:"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
+msgid "Up"
+msgstr "Sus"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
+msgid "Down"
+msgstr "Jos"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
+msgid "Add Media Type..."
+msgstr "Adaugă tip media..."
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
+msgid "Add Sub Type..."
+msgstr "Adaugă subtip..."
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
+msgid "Delete"
+msgstr "Șterge"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
+msgid "Reset List"
+msgstr "Resetează lista"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Type:"
+msgstr "Tip:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Size:"
+msgstr "Mărime:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Media length:"
+msgstr "Durată:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Video size:"
+msgstr "Mărime video:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Created:"
+msgstr "Creat:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Clip:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Author:"
+msgstr "Autor:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Copyright:"
+msgstr "Drepturi de autor:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Rating:"
+msgstr "Apreciere:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Location:"
+msgstr "Locație:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Description:"
+msgstr "Descriere:"
+
+msgctxt "IDD_FAVADD_CAPTION"
+msgid "Add Favorite"
+msgstr "Adaugă la favorite"
+
+msgctxt "IDD_FAVADD_IDC_STATIC"
+msgid "Choose a name for your shortcut:"
+msgstr "Alegeți un nume pentru scurtătură:"
+
+msgctxt "IDD_FAVADD_IDC_CHECK1"
+msgid "Remember position"
+msgstr "Memorează poziția"
+
+msgctxt "IDD_FAVADD_IDCANCEL"
+msgid "Cancel"
+msgstr "Renunță"
+
+msgctxt "IDD_FAVADD_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK2"
+msgid "Relative drive"
+msgstr "Unitate relativă"
+
+msgctxt "IDD_FAVORGANIZE_CAPTION"
+msgid "Organize Favorites"
+msgstr "Organizare favorite"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
+msgid "Rename"
+msgstr "Redenumește"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
+msgid "Move Up"
+msgstr "Mută în sus"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
+msgid "Move Down"
+msgstr "Mută în jos"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
+msgid "Delete"
+msgstr "Șterge"
+
+msgctxt "IDD_FAVORGANIZE_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_CAPTION"
+msgid "Pan&Scan Presets"
+msgstr "Setări prestabilite Pan & Scan"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
+msgid "New"
+msgstr "Nou"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
+msgid "Delete"
+msgstr "Șterge"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
+msgid "Up"
+msgstr "Sus"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
+msgid "Down"
+msgstr "Jos"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
+msgid "&Set"
+msgstr "&Setează"
+
+msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
+msgid "&Cancel"
+msgstr "&Renunță"
+
+msgctxt "IDD_PNSPRESET_DLG_IDOK"
+msgid "&Save"
+msgstr "&Salvează"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Pos: 0.0 -> 1.0"
+msgstr "Poziție: 0.0 -> 1.0"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Zoom: 0.2 -> 3.0"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
+msgid "Global Media Keys"
+msgstr "Taste media globale"
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
+msgid "Select All"
+msgstr "Selectează toate"
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
+msgid "Reset Selected"
+msgstr "Resetează selectate"
+
+msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
+msgid "Warning"
+msgstr "Avertisment"
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
+msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
+msgstr "MPC-HC nu a putut randa unii dintre pinii graficului, este posibil să nu aveți codecurile sau filtrele necesare instalate pe sistem."
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
+msgid "The following pin(s) failed to find a connectable filter:"
+msgstr "Următorii pini au eșuat în găsirea unui filtru conectabil:"
+
+msgctxt "IDD_MEDIATYPES_DLG_IDOK"
+msgid "Close"
+msgstr "Închide"
+
+msgctxt "IDD_SAVE_DLG_CAPTION"
+msgid "Saving..."
+msgstr "Salvare..."
+
+msgctxt "IDD_SAVE_DLG_IDCANCEL"
+msgid "Cancel"
+msgstr "Renunță"
+
+msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Encoding:"
+msgstr "Codare:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Encoding:"
+msgstr "Codare:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "Delay:"
+msgstr "Întârziere:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Thumbnails:"
+msgstr "Miniaturi:"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "rows"
+msgstr "rânduri"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "columns"
+msgstr "coloane"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Image width:"
+msgstr "Lățime imagine:"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "pixels"
+msgstr "pixeli"
+
+msgctxt "IDD_ADDREGFILTER_CAPTION"
+msgid "Select Filter"
+msgstr "Alege filtru"
+
+msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Răsfoire..."
+
+msgctxt "IDD_ADDREGFILTER_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDCANCEL"
+msgid "Cancel"
+msgstr "Renunță"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Font"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
+msgid "Font"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Spacing"
+msgstr "Spațiere"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Angle (z,°)"
+msgstr "Unghi (z,°)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Scale (x,%)"
+msgstr "Scală (x,%)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Scale (y,%)"
+msgstr "Scală (y,%)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Border Style"
+msgstr "Stil chenar"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
+msgid "Outline"
+msgstr "Contur"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
+msgid "Opaque box"
+msgstr "Dreptunghi opac"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Width"
+msgstr "Lățime chenar"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Shadow"
+msgstr "Umbră"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Screen Alignment && Margins"
+msgstr "Aliniere ecran && margini"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Left"
+msgstr "Stânga"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Right"
+msgstr "Dreapta"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Top"
+msgstr "Sus"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Bottom"
+msgstr "Jos"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
+msgid "Position subtitles relative to the video frame"
+msgstr "Poziționează subtitrările relativ la cadrul video"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Colors && Transparency"
+msgstr "Culori && transparență"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "0%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Primary"
+msgstr "Primar"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Secondary"
+msgstr "Secundar"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Outline"
+msgstr "Contur"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
+msgid "Link alpha channels"
+msgstr "Unește canalele alpha"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
+msgstr "Dacă doriți să folosiți versiunea autonomă a acestor filtre sau un înlocuitor, dezactivați-le aici."
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Source Filters"
+msgstr "Filtre sursă"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Transform Filters"
+msgstr "Filtre de transformare"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Internal LAV Filters settings"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
+msgid "Splitter"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
+msgid "Video decoder"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
+msgid "Audio decoder"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
+msgid "Internal:"
+msgstr "Intern:"
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
+msgid "External:"
+msgstr "Extern:"
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "Browse..."
+msgstr "Răsfoire..."
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DirectShow Video"
+msgstr "Video DirectShow"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "RealMedia Video"
+msgstr "Video RealMedia"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "QuickTime Video"
+msgstr "Video QuickTime"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Audio Renderer"
+msgstr "Randor audio"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Setări pentru VMR-7/VMR-9 (fără randare) și EVR (CP)"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Surface:"
+msgstr "Suprafaţă:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Resizer:"
+msgstr "Redimensionare:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
+msgid "Select D3D9 Render Device"
+msgstr "Selectați dispozitivul de randare D3D9"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
+msgid "Reinitialize when changing display"
+msgstr "Reinițializează la schimbarea ecranului"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "D3D Fullscreen"
+msgstr "Ecran complet D3D"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Alternative VSync"
+msgstr "VSync alternativ"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 Mixer Mode"
+msgstr "VMR-9 în mod mixare"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
+msgid "YUV Mixing"
+msgstr "Mixare YUV"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
+msgid "EVR Buffers:"
+msgstr "Preîncărcări EVR:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DXVA"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Subtitles *"
+msgstr "Subtitrări *"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Screenshot"
+msgstr "Captură ecran"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Shaders"
+msgstr "Shadere"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Rotation"
+msgstr "Rotaţie"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
+msgstr "* Filtrele externe (cum ar fi VSFilter) pot afişa subtitrări pe orice randor."
+
+msgctxt "IDD_AUTH_DLG_CAPTION"
+msgid "Authentication needed"
+msgstr "Este necesară autentificarea"
+
+msgctxt "IDD_AUTH_DLG_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDCANCEL"
+msgid "Cancel"
+msgstr "Renunță"
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Restricted area"
+msgstr "Zonă restricționată"
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Username:"
+msgstr "Nume utilizator:"
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Password:"
+msgstr "Parolă:"
+
+msgctxt "IDD_AUTH_DLG_IDC_CHECK1"
+msgid "Remember my password"
+msgstr "Ține minte parola"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
+msgid "Listen on port:"
+msgstr "Ascultă pe portul:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
+msgid "Launch in web browser..."
+msgstr "Lansează în navigator web..."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
+msgid "Enable compression"
+msgstr "Activează comprimare"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
+msgid "Allow access from localhost only"
+msgstr "Permite accesul numai de pe acest calculator (reţeaua internă)"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
+msgid "Print debug information"
+msgstr "Afișează informații de depanare"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
+msgid "Serve pages from:"
+msgstr "Servește pagini din:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Răsfoire..."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
+msgid "Deploy..."
+msgstr "Lansează..."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "Default page:"
+msgstr "Pagina implicită:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
+msgstr "Operatori CGI: (.ext1=dosar1;.ext2=dosar2;...)"
+
+msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
+msgid "Subtitles available online"
+msgstr "Subtitrări disponibile online"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download && Open"
+msgstr "Descarcă && Deschide"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
+msgid "Replace currently loaded subtitles"
+msgstr "Înlocuiește subtitrările încărcate curent"
+
+msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
+msgid "Save As..."
+msgstr "Salvează ca..."
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Color controls (for VMR-9, EVR and madVR)"
+msgstr "Controale de culoare (pentru VMR-9, EVR şi madVR)"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Brightness"
+msgstr "Luminozitate"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Contrast"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Hue"
+msgstr "Nuanță"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Saturation"
+msgstr "Saturație"
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET"
+msgid "Reset"
+msgstr "Resetează"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Update check"
+msgstr "Verificare actualizări"
+
+msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
+msgid "Enable automatic update check"
+msgstr "Activează verificarea automată a actualizărilor"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
+msgid "Delay between each check:"
+msgstr "Întârziere între verificări:"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
+msgid "day(s)"
+msgstr "zi(le)"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Settings management"
+msgstr "Administrare setări"
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
+msgid "Reset"
+msgstr "Resetează"
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
+msgid "Export"
+msgstr "Exportă"
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
+msgid "Export keys"
+msgstr "Exportă taste rapide"
+
+msgctxt "IDD_TUNER_SCAN_CAPTION"
+msgid "Tuner scan"
+msgstr "Scanare tuner"
+
+msgctxt "IDD_TUNER_SCAN_ID_START"
+msgid "Start"
+msgstr "Pornește"
+
+msgctxt "IDD_TUNER_SCAN_IDCANCEL"
+msgid "Cancel"
+msgstr "Renunță"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Freq. Start"
+msgstr "Frecv. de pornire"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Bandwidth"
+msgstr "Lățime de bandă"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Freq. End"
+msgstr "Frecv. de încheiere"
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
+msgid "Ignore encrypted channels"
+msgstr "Ignoră canalele criptate"
+
+msgctxt "IDD_TUNER_SCAN_ID_SAVE"
+msgid "Save"
+msgstr "Salvează"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "F"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Q"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
+msgid "Use an offset"
+msgstr "Folosește un decalaj"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Default Device"
+msgstr "Dispozitiv implicit"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
+msgid "Analog"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
+msgid "Digital"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Analog settings"
+msgstr "Setări receptor analog"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
+msgid "Video"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
+msgid "Audio"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
+msgid "Country"
+msgstr "Țară"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Digital settings (BDA)"
+msgstr "Setări receptor digital (BDA)"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
+msgid "Network Provider"
+msgstr "Furnizor rețea"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
+msgid "Tuner"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
+msgid "Receiver"
+msgstr "Receptor"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
+msgid "Channel switching approach:"
+msgstr "Modalitate de schimbare a canalului:"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
+msgid "Rebuild filter graph"
+msgstr "Reconstruieşte graficul filtrelor"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
+msgid "Stop filter graph"
+msgstr "Opreşte graficul filtrelor"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgid "Sync video to display"
+msgstr "Sincronizează frecvenţa video cu cea a ecranului"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgid "Frequency adjustment:"
+msgstr "Frecvență de ajustare:"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgid "Sync display to video"
+msgstr "Sincronizează frecvenţa ecranului cu cea video"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgid "Frequency adjustment:"
+msgstr "Frecvență de ajustare:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgid "lines"
+msgstr "linii"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgid "columns"
+msgstr "coloane"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgid "Present at nearest VSync"
+msgstr "Prezintă la cel mai apropiat VSync (Sincronizare Verticală)"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgid "Target sync offset:"
+msgstr "Decalaj de sincronizare ţintă:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgid "Control limits:"
+msgstr "Limite de control:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgid "+/-"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC"
+msgid "Changes take effect after the playback has been closed and restarted."
+msgstr "Modificările vor avea efect după ce redarea a fost oprită și repornită."
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
+msgid "Launch files in fullscreen"
+msgstr "Pornește fișierele în modul ecran complet"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
+msgid "Hide controls in fullscreen"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
+msgid "Hide docked panels"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
+msgid "Exit fullscreen at the end of playback"
+msgstr "Ieși din modul ecran complet la sfârșitul redării"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "Fullscreen monitor"
+msgstr "Monitor ecran complet"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
+msgid "Use autochange fullscreen monitor mode"
+msgstr "Folosește schimbarea automată a modului monitor în ecran complet"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
+msgid "Add"
+msgstr "Adaugă"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
+msgid "Del"
+msgstr "Șterge"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
+msgid "Up"
+msgstr "Mută în sus"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
+msgid "Down"
+msgstr "Mută în jos"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
+msgid "Apply default monitor mode on fullscreen exit"
+msgstr "Aplică modul monitor implicit la ieșirea din modul ecran complet"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
+msgid "Restore resolution on program exit"
+msgstr "Restaurează rezoluția la ieșirea din program"
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
+msgid "Info"
+msgstr "Informații"
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
+msgid "Scan"
+msgstr "Scanează"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
+msgid "Prefer forced and/or default subtitles tracks"
+msgstr "Preferă subtitrările forţate şi/sau implicite"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
+msgid "Prefer external subtitles over embedded subtitles"
+msgstr "Preferă subtitrările externe în locul celor integrate"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
+msgid "Ignore embedded subtitles"
+msgstr "Ignoră subtitrările integrate"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Autoload paths"
+msgstr "Căi de încărcare automată"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
+msgid "Reset"
+msgstr "Resetează"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Online database"
+msgstr "Bază de date online"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Base URL of the online subtitle database:"
+msgstr "URL de bază pentru baza de date cu subtitrări online:"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
+msgid "Test"
+msgstr "Testează"
+
+msgctxt "IDD_UPDATE_DIALOG_CAPTION"
+msgid "Update Checker"
+msgstr "Verificare actualizări"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
+msgid "&Download now"
+msgstr "&Descarcă acum"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
+msgid "Remind me &later"
+msgstr "Aminteşte-mi mai &târziu"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
+msgid "&Ignore this update"
+msgstr "&Ignoră această actualizare"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shaders contain special effects which can be added to the video rendering process."
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
+msgid "Add shader file"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
+msgid "Remove"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
+msgid "Add to pre-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
+msgid "Add to post-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shader presets"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
+msgid "Load"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
+msgid "Save"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
+msgid "Delete"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active pre-resize shaders"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active post-resize shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
+msgid "Debug Shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
+msgid "Debug Information"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
+msgid "PS 2.0"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
+msgid "PS 2.0b"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
+msgid "PS 2.0a"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
+msgid "PS 3.0"
+msgstr ""
+

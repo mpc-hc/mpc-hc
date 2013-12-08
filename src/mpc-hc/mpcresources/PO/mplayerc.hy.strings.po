@@ -1,0 +1,3351 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hy\n"
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Location"
+msgstr "Տեղը"
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Video"
+msgstr "Տեսանյութը"
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Audio"
+msgstr "Ձայնը"
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Subtitles"
+msgstr "Տողագիրը"
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Chapter"
+msgstr "Գլուխը"
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Completing..."
+msgstr "Ամբողջացվում է..."
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Play Video"
+msgstr "Վերարտադրել տեսանյութ"
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Play Music"
+msgstr "Նվագարկել երաժշտություն"
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Play Audio CD"
+msgstr "Նվագարկել Audio CD"
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "Play DVD Movie"
+msgstr "Վերարտադրել DVD Ֆիլմ"
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Properties"
+msgstr "Հատկություններ"
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "&Default Style"
+msgstr "&Ոճը ըստ ծրագրայինի"
+
+msgctxt "IDS_FAVFILES"
+msgid "Files"
+msgstr "Ֆիլտրեր"
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVDs"
+msgstr "DVD-ներ"
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Channel"
+msgstr "Ալիքը"
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Time"
+msgstr "Ժամանակը"
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Sync Offset"
+msgstr "Սինքի շարժը"
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "avg: %d ms, dev: %d ms"
+msgstr "միջ. %d մվ, անջ. %d մվ"
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Jitter"
+msgstr "Ջիթերը"
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Bitrate"
+msgstr "Բիթրեյթ"
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (avg/cur)"
+msgstr " (միջ./ընթ.)"
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Signal"
+msgstr "Ազդանշանը"
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Strength: %d dB, Quality: %d%%"
+msgstr "Հզոր-ը. %d dB, Որակը. %d%%"
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Styles"
+msgstr "Ոճեր"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Never (fastest approach)"
+msgstr "Երբեք (արագ է)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Only when switching different video types (default)"
+msgstr "Միայն երբ անցում է կատարում այլ տեսակի տեսանյութի (ծրագրային)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Always (slowest option)"
+msgstr "Մշտապես (դանդաղ է)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Not supported by some devices. Two video decoders always present in the filter graph."
+msgstr "Որոշ սարքեր չեն աջակցում:Երկու տեսակոդավորիչներ մշտապես ներկայացված են ֆիլտրի գրաֆայում:"
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
+msgstr "Արագ բացառություն, երբ անցում է կատարվում տարբեր տեսահոսքերի միջև: Միայն մեկ տեսակոդավորիչ է ներկայացված  ֆիլտրի գրաֆայում:"
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Not recommended. Only for testing purposes."
+msgstr "Խորհուրդ չի տրվում:Միայն թեստավորման համար:"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Never if possible (fastest, but not supported by most filters)"
+msgstr "Երբեք, եթե հնարավոր է (արագ է, բայց որոշ ֆիլտրեր չեն աջակցում)"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Only when switching different video types (default)"
+msgstr "Միայն երբ անցում է կատարում այլ տեսակի տեսանյութի (ծրագրային)"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Always (may be required by some devices)"
+msgstr "Մշատապես (կարող է պահանջվել որոշ սարքերի կողմից)"
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Parental rating"
+msgstr "Ծնողական վարկանիշը"
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Not rated"
+msgstr "Չունի վարկանիշ"
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Content"
+msgstr "Բովանդակությունը"
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Movie/Drama"
+msgstr "Ֆիլմ/Դրամա"
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "News/Current affairs"
+msgstr "ՆորություննեԸնթացիկ գործերs"
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr "ԳԲ/վ"
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "File added to favorites"
+msgstr "Ֆայլը ավելացվել է ընտրյալներին"
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD added to favorites"
+msgstr "DVD-ն ավելացվել է ընտրյալներին"
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Capture Settings"
+msgstr "Տեսագրման կարգավորումներ"
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Navigation Bar"
+msgstr "Ուղղորդման վահանակը"
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Subresync"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Time"
+msgstr "Ժամանակը"
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "End"
+msgstr "Վերջ"
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Preview"
+msgstr "Դիտում"
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr "Վանդակի ID-ին"
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Forced"
+msgstr "Հարկադիր"
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Text"
+msgstr "Տեքստը"
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Style"
+msgstr "Ոճը"
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Font"
+msgstr "Տառը"
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Failed to render some of the pins of the DVD Navigator filter"
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for DVD playback"
+msgstr "Չհաջողվեց ստանալ պահանջվող DVD-ի հերթականությունը"
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Live"
+msgstr "Ուղիղ"
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Can't add video capture filter to the graph"
+msgstr "Հնարավոր չէ ավելացնել տեսագրման ֆիլտր գրաֆային"
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Can't add audio capture filter to the graph"
+msgstr "Հնարավոր չէ ավելացնել ձայնագրման ֆիլտր գրաֆային"
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Could not open capture device."
+msgstr "Չկա տեսագրման սարք։"
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Can't open, invalid input parameters"
+msgstr "Հնարավոր չէ բացել, մուտքի սխալ ցուցիչներ"
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Edit List Editor"
+msgstr "Խմբագրել Ցանկի խմբագրիչը"
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "The entered time is greater than the file duration."
+msgstr "Նշված ժամանակը գերազանցում է ֆայլի տևողությանը։"
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
+msgstr "Պատկերների շտեմարանը՝ \"mpciconlib.dll\", բացակայում է։\nՖայլերի ասոցիացումների համար կօգտագործվի վերարտադրիչի հիմնական պատկերը։\nՎերատեղակայեք MPC-HC-ն՝ ունենալու համար \"mpciconlib.dll\"-ն։"
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "File"
+msgstr "Ֆայլը"
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Language"
+msgstr "Լեզուն"
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Format"
+msgstr "Տեսակը"
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Disc"
+msgstr "Խտասկավառակը"
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Title(s)"
+msgstr "Վերնագիրը"
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "CharSet"
+msgstr "Կոդավորումը"
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr "Յունիքոդ"
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Layer"
+msgstr "Շերտը"
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Actor"
+msgstr "Դերասանը"
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Effect"
+msgstr "Էֆեկտը"
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Playlist"
+msgstr "Խաղացանկը"
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "On/Off"
+msgstr "Միաց./Անջ."
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "From fps"
+msgstr "Fps-ից"
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "To fps"
+msgstr "Fps-ից"
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Display mode (Hz)"
+msgstr "Ցուցադրման եղ-ը (Hz)"
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Default"
+msgstr "Ծրագրային"
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Other"
+msgstr "Այլ"
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "System Default"
+msgstr "Համակարգային"
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for playback"
+msgstr "Չհաջողվեց ստանալ պահանջվող վերարտադրման հերթականությունը"
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Could not set target window for graph notification"
+msgstr "Հնարավոր չէ նշել պատուհանը գրաֆ. տեղեկացման համար"
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Failed to render all pins of the DVD Navigator filter"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "&Open"
+msgstr "&Բացել"
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "A&dd"
+msgstr "Ա&վելացնել"
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "&Remove"
+msgstr "&Ջնջել"
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "C&lear"
+msgstr "Մ&աքրել"
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "&Copy to clipboard"
+msgstr "&Պատճենել շրջույթում"
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "&Save As..."
+msgstr "&Պահպանել որպես..."
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Sort by &label"
+msgstr "Դասավորել &ըստ անվան"
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Sort by &path"
+msgstr "Դասավորել ըստ &ճանապարհի"
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "R&andomize"
+msgstr "Խ&առնել"
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "R&estore"
+msgstr "Վ&երականգնել"
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Separator"
+msgstr "&Բաժանիչ"
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "&Delete"
+msgstr "&Ջնջել"
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "D&uplicate"
+msgstr "Կ&րկնօրինակել"
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "&Reset"
+msgstr "&Ետարկել"
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Subtitle Delay -"
+msgstr "Տողագրերի պահում -"
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Subtitle Delay +"
+msgstr "Տողագրերի պահում +"
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Save thumbnails"
+msgstr "Պահպանել մանրապատկերները"
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Playback"
+msgstr "Վերարտադրում"
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Player"
+msgstr "Վերարտադրիչը"
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Playback::DVD/OGM"
+msgstr "Վերարտադրում::DVD/OGM"
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Subtitles"
+msgstr "Տողագրերը"
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Player::Formats"
+msgstr "Վերարտադրիչը::Տեսակները"
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Tweaks"
+msgstr "Լրացուցիչ"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Internal Filters::Audio Switcher"
+msgstr "Ներդրված Ֆիլտրեր::Ձայնի անջատիչ"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "External Filters"
+msgstr "Արտաքին Ֆիլտրեր"
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Playback::Shaders"
+msgstr "Վերարտադրում::Շեյդերներ"
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Audio Switcher"
+msgstr "Ձայնի անջատիչ"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "New version of the icon library"
+msgstr "Պատկերի շտեմարանի նոր տարբերակը"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Do you want to reassociate the icons?"
+msgstr "Վերասոցիացնե՞լ պատկերները:"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
+msgstr "Սա կուղղի սխալ պատկերվող  պատկերները, ինչը կարող է պատահել խպատկերների շտեմարանը թարմացնելիս:\nՖայլերի ասոցիացումները չեն փոփոխվի, պատկերները պարզապես կթարմացվեն:"
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Old Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Overlay Mixer Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Video Mixing Renderer 7 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video Mixing Renderer 9 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Video Mixing Renderer 7 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video Mixing Renderer 9 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Enhanced Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Enhanced Video Renderer (custom presenter)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Player::Keys"
+msgstr "Վերարտադրիչը::Կոճակներ"
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Subtitles::Default Style"
+msgstr "Տողագրերը::Ծրագրային ոճը"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Internal Filters"
+msgstr "Ներդրված Ֆիլտրեր"
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Player::Logo"
+msgstr "Վերարտադրիչը::Պատկերը"
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Playback::Output"
+msgstr "Վերարտադրիչը::Արտածումը"
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Player::Web Interface"
+msgstr "Վերարտադրիչը::Web տեսքը"
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "Subtitles::Database"
+msgstr "Տողագրերը::Բազան"
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Ռեսուրսներ"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Տարբեր"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Վերարտադրում::տեսագրում"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Վերարտադրում::Sync Renderer-ի կարգավորումներ"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Վերարտադրում::Ամբողջ էկրանով"
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Details"
+msgstr "Մանրամասն"
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Clip"
+msgstr "Անունը"
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
+msgstr "Ցուցադրման եղանակը ըստ ծրագրայինի DirectShow-ի համար։ Այս եղանակը օգտագործվում է միայն այն ժամանակ, երբ մյուսները հասանելի չեն։ Windows XP-ում համօրինակ է VMR-7 (windowed)-ի։"
+
+msgctxt "IDC_DSOLD"
+msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilies, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
+msgstr "Ցուցադրման եղանակը ըստ ծրագրայինի Windows 9x/ME/2K-ի համար։ Կապված տեսապատուհանի տեսանելիության հետ և տեսաքարտի հնարավորությունների հետ, եղանակը դինամիկ կերպով անցում է կատարում GDI-ի, DirectDraw-ի և Overlay-ի միջև։"
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
+msgstr "Հիմնականում հասանելի են միայն YUV տեսակները, բայց դրանք ներկայացվում են ուղղակիորեն՝ առանց ձևափոխման RGB-ի։ Սա ամենաարագ եղանակն է բոլորից և միայն այստեղ է, որ համաչափորեն աշխատում է տեսանյութի \"հայելային\" արտածումը  (TV-OUT-ի վրա)։"
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
+msgstr "Տեսանյութի ցուցադրումը ըստ ծրագրայինի Windows XP-ի համար։ Շատ ստաբիլ է և փոքր ինչ դանդաղ է Overlay mixer եղանակից։ Օգտագործում է DirectDraw և հնարավորության դեպքում բացվում է Overlay-ում։"
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
+msgstr "Հասանելի է տեղակայված DirectX 9-ի դեպքում։ Հնարավորությունները նույն են ինչ VMR-7 (windowed)-ում, բայց երբեք չի օգտագործում է Overlay, դրա հանար կարող է փոքր ինչ դանդաղ լինել VMR-7 (windowed)-ից։"
+
+msgctxt "IDC_DSVMR7REN"
+msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
+msgstr "Նույնն է ինչ VMR-7 (windowed)-ը, բայց ունի տողագրերի արտածման MPC-HC Allocator-Presenter օժանդակիչ։ Տեսանյութի \"Հայելային\" արտապատկերումը Overlay-ում չի աշխատի։ Գույնի առումով խորհուրդ է տրվում նշել 'True Color'։"
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
+msgstr "Նույնն է ինչ VMR-9 (windowed)-ը, բայց ունի տողագրերի արտածման MPC-HC Allocator-Presenter օժանդակիչ։ Տեսանյութի \"Հայելային\" արտապատկերումը Overlay-ում կարող է աշխատել։ Գույնի առումով խորհուրդ է տրվում նշել 'True Color'։"
+
+msgctxt "IDC_DSDXR"
+msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
+msgstr "Միանում է ցանկացած տեսակի տեսատվյալների և մտնող կադրերը ոչ մի տեղ չի ուղարկում։ Այս եղանակը կարող է օգտակար լինել, եթե անհրաժեշտ է պահպանել ռեսուրսներից միայն ձայնը։"
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
+msgstr "Նույնն է ինչ Նորմալ Null ցուցադրիչը, բայց միացվում է միայն տվյալների չսեղմված տեսակին։"
+
+msgctxt "IDC_DSEVR"
+msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
+msgstr "RealMedia-ի սեփական ցուցադրիչը։ SMIL գրվածքները կաշխատեն։ Օգտագործում է DirectDraw և հնարավորության դեպքում բացվում է Overlay-ում։"
+
+msgctxt "IDC_RMDX7"
+msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
+msgstr "RealMedia-ի արտածումը մշակվում է Allocator-Presenter օժանդակիչի միջոցով VMR-7 (renderless)-ում։"
+
+msgctxt "IDC_RMDX9"
+msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+msgstr "RealMedia-ի արտածումը մշակվում է Allocator-Presenter օժանդակիչի միջոցով VMR-9 (renderless)-ում։"
+
+msgctxt "IDC_QTSYSDEF"
+msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
+msgstr "QuickTime-ի սեփական ցուցադրիչը։ Դանդաղում է կադրի չափի փոփոխման դեպքում։ Եթե Overlay-ը հասանելի չէ անցեք GDI-ի եղանակի։"
+
+msgctxt "IDC_QTDX7"
+msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
+msgstr "QuickTime-ի արտածումը մշակվում է Allocator-Presenter օժանդակիչի միջոցով VMR-7 (renderless)-ում։"
+
+msgctxt "IDC_QTDX9"
+msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+msgstr "QuickTime-ի արտածումը մշակվում է Allocator-Presenter օժանդակիչի միջոցով VMR-9 (renderless)-ում։"
+
+msgctxt "IDC_REGULARSURF"
+msgid "Video surface will be allocated as a regular offscreen surface."
+msgstr "Տեսանյութի մակերեսը առանձնացվում է որպես էկրանից դուրս։"
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
+msgstr "Տողագրերը աջակցվում են միայն՝ VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR և Haali տեսառենդերների կողմից:\n\nՊահպանված նկարները չեն աշխատի Overlay-ի կամ madVR-ի հետ:"
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "MPC Audio Renderer is broken, do not use."
+msgstr "MPC-ի ձայնի ռենդերերը վնասված է և չի օգտագործվում:"
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync Renderer"
+msgstr "Սինքի ռենդերերը"
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - Reporting a bug"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
+msgstr "MPC-HC-ը խափանվեց, բայց այս կմշակումը հավաքվել է առանց սխալների ուղղման տեղեկության:\nԵթե ցանկանում եք հաղորդել խնդրի մասին, նախ փորձեք պաշտոնական տարբերակը:\n\nԲացե՞լ ներբեռնելու էջը:"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Regular offscreen plain surface"
+msgstr "Սովորական մակերես էկրանից դուրս"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D surfaces"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D surfaces (recommended)"
+msgstr "3D surfaces (խորհուրդ է տրվում)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Nearest neighbor"
+msgstr "Մոտակա հարևանը"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinear"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinear (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bicubic A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bicubic A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bicubic A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**unavailable**"
+msgstr "**անհասանելի է**"
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "The selected renderer is not installed."
+msgstr "Ընտրված ռենդերերը տեղադրված չէ:"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC Audio Renderer"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Name"
+msgstr "Անունը"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME Type"
+msgstr "MIME տեսակի"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
+msgstr "Դիտարկիչում ներդրված ռեսուրսը դիտելու համար դուք պետք է միացնեք վեբ միջերեսը:\n\nՕգտագործեք \"Պահպանել որպես\" bկոճակը, եթե պարզապես ցանկանում եք պահպանել տեղեկությունը:"
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Download subtitles"
+msgstr "Բեռնել տողագրերը"
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Delay (ms):"
+msgstr "Ուշացումը (մվ)."
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Auto"
+msgstr "Ինքնա"
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "There are no customized keys to export."
+msgstr "Չկա որոշված բանալի՝ արտածելու համար:"
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "No media files found in the archive"
+msgstr "Արխիվում չկան մեդիա ֆայլեր"
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Compressed files are not supported"
+msgstr "Սեղմված ֆայլերը չեն աջակցվում"
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Encrypted files are not supported"
+msgstr "Կոդավորված ֆայլերը չեն աջակցվում"
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Couldn't find all archive volumes"
+msgstr "Արխիվի բոլոր հատորները չեն գտնվել"
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Տեսանյութի մակերեսը առանձնացվում է որպես արտապատկերում, բայց տեսանյութի պատճենման և ձգման համար օգտագործվում է 2D ֆունկցիան։ Պահանջում է տեսաքարտի առկայություն, որը կարող է կատարել 32bit RGBA արտապատկերումներ։"
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Տեսանյութի մակերեսը առանձնացվում է որպես արտապատկերում և պատկերվում է որպես երկու եռանկյուն 3D-ով։"
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Փիքսելային շեյդերների տարբերակ 2.0-ն չաջակցելու դեպքում, կօգտագործվի պարզունակ մեթոդ։"
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Փոխում է VMR-9 (renderless)-ը Խառնիչի եղանակի, սա նշանակում է, որ կադրի մշակման համար էջի հատկություններում բաղադրիչների մեծամասնությունը կաշխատի և կօգտագործի առանձնացված աշխատանքային հոսքեր։"
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Improves performance at the cost of some compatability of the renderer."
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Reduces tearing by bypassing the default VSync built into D3D."
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
+msgstr "Բացում է VTS_xx_0.ifo ֆայլերը՝ VTS_xx_x.vob ֆայլերի խումբը բեռնելու համար"
+
+msgctxt "IDS_SRC_RFS"
+msgid "Based on RARFileSource, doesn't support compressed files"
+msgstr "Հիմնված RARFileSource-ին, չի աջակցում սեղմված ֆայլերը"
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Uses LAV Filters"
+msgstr "Օգտ. է LAV ֆիլտրեր"
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "Օգտ. է LAV ֆիլտրեր. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Toggle Navigation Bar"
+msgstr "Փոխել ուղղորդման վահանակը"
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Accurate VSync"
+msgstr "Ճշտապահ VSync"
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "Default state gets inherited to other styles where it is still undefined"
+msgstr "Ծրագրային վիճակը որոշվում է այնտեղ, որտեղ այն դեռ չի որոշվել"
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
+msgstr "Այս հնարավորության անջատումը ազատում է որոշ քանակի տեսահիշողություն։ Անջատեք, եթե տողագրերը թարթում են։"
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
+msgstr "Հնարավորություն է տալիս շարժապատկերել տողագրերը։"
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
+msgstr "Այս կոճակը սեղմելուց հետո կցուցադրվի MPC-HC-ի հետ ասոցիացված տեսակների խմբերը։ Նոր ավելացումները երևում են մոխրագույն գույնով, ուստի մի մոռացեք նորից ստուգել դրանք պատուհանը փակելիս։"
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Play\nPlay"
+msgstr "Վերարտադրում\nՎերարտադրում"
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Pause\nPause"
+msgstr "Դադար\nԴադար"
+
+msgctxt "ID_PLAY_STOP"
+msgid "Stop\nStop"
+msgstr "Կանգնեցնել\nԿանգնեցնել"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Step\nStep"
+msgstr "Քայլ\nՔայլ"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Decrease speed\nDecrease speed"
+msgstr "Փոքրացնել արագությունը\nՓոքրացնել արագությունը"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Increase speed\nIncrease speed"
+msgstr "Մեծացնել արագությունը\nՄեծացնել  արագությունը"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Mute"
+msgstr "Անձայն"
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Unmute"
+msgstr "Ձայնով"
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "No audio"
+msgstr "Առանց ձայնի"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Skip back\nSkip back"
+msgstr "Քայլ հետ\nՔայլ հետ"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Skip forward\nSkip forward"
+msgstr "Քայլ առաջ\nՔայլ առաջ"
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "&Օրիգինալ"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "&Գործող"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "&Խմբագրել"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "&Այո"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "&Ոչ"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "&Փոխել"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "&Մեծացնել"
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "Ընտրանքներ"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "&Ընտրեք շեյդերները..."
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "&Add to Favorites..."
+msgstr "&Ավելացնել ընտրյալներին..."
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "&Organize Favorites..."
+msgstr "&Դասավորել ընտրյալները..."
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "Shuffle"
+msgstr "Պատահական"
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Open file location"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Closing..."
+msgstr "Փակվում է..."
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Playing"
+msgstr "Վերարատադրվում է"
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Paused"
+msgstr "Դադար"
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL new clip"
+msgstr "EDL նոր անուն"
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "&Clear list"
+msgstr "Մաքրել ցանկը"
+
+msgctxt "IDS_RECENT_FILES"
+msgid "Recent Files"
+msgstr "Բացված վերջին ֆայլերը"
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Are you sure that you want to delete recent files list?"
+msgstr "Մաքրե՞լ վերջին բացված ֆայլերի ցանկը։"
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL save"
+msgstr "EDL-ն պահպանել"
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time Correction"
+msgstr "Միացնել կադրի ժամանակի ուղղումը"
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "Toggle EDL window"
+msgstr "Միաց/Անջ EDL-ի պատուհանը"
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL set In"
+msgstr "Տեղակայել EDL-ը ներսում"
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL set Out"
+msgstr "EDL-ն անջատել"
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnS Rotate X-"
+msgstr "Շրջել կադրը X-"
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnS Rotate Y+"
+msgstr "Շրջել կադրը Y+"
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnS Rotate Y-"
+msgstr "Շրջել կադրը Y-"
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnS Rotate Z+"
+msgstr "Շրջել կադրը Z+"
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnS Rotate Z-"
+msgstr "Շրջել կադրը Z-"
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Tearing Test"
+msgstr "Սրընթաց թեստ"
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr "Համամասնությունը 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Նշել չափը Լայնէկրան,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Նշել չափը Ամենա-Լայնէկրան,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "Hide on Fullscreen"
+msgstr "Թաքցնել, եթե ամբողջ էկրանով է"
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Stopped"
+msgstr "Կանգնեցված"
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Buffering... (%d%%)"
+msgstr "Պահենացում... (%d%%)"
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Capturing..."
+msgstr "Տեսագրվում է..."
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Opening..."
+msgstr "Բացվում է..."
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Closed"
+msgstr "Փակ է"
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "&Options..."
+msgstr "&Ընտրանքներ..."
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Styles..."
+msgstr "&Ոճեր..."
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "&Reload"
+msgstr "&Վերաբացել"
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "&Enable"
+msgstr "&Միացնել"
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "&Edit..."
+msgstr "Խմբագրել..."
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Title"
+msgstr "Անունը"
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Author"
+msgstr "Հեղինակը"
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Copyright"
+msgstr "Իրավունքներ"
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Rating"
+msgstr "Վարկանիշը"
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Description"
+msgstr "Նկարագրությունը"
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Domain"
+msgstr "Շրջանը"
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Close"
+msgstr "Փակել"
+
+msgctxt "IDS_AG_NONE"
+msgid "None"
+msgstr "Չկա"
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Command"
+msgstr "Հրաման"
+
+msgctxt "IDS_AG_KEY"
+msgid "Key"
+msgstr "Բանալին"
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Mouse Windowed"
+msgstr "Մկնիկի պատուհանը"
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Mouse Fullscreen"
+msgstr "Մկնիկով ամբողջ էկրանով"
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "App Command"
+msgstr "Հրաման"
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Media files (all types)"
+msgstr "Մեդիաֆայլեր (բոլոր տեսակի)"
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "All files (*.*)|*.*|"
+msgstr "Բոլոր ֆայլերը (*.*)|*.*|"
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Audio files (all types)"
+msgstr "Ձայնային ֆայլեր (բոլոր տեսակի)"
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Not known"
+msgstr "Հայտնի չէ"
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Quick Open File"
+msgstr "Բացեք ֆայլ"
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Open File"
+msgstr "Բացել ֆայլ"
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "Open DVD/BD"
+msgstr "Բացել DVD/BD"
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_STRING_COLON"
+msgid "%s:"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Open Device"
+msgstr "Բացել սարքը"
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Save As"
+msgstr "Պահպանել որպես"
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Save Image"
+msgstr "Պահպանել նկարը"
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Save Image (auto)"
+msgstr "Պահպանել նկարը (auto)"
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Image saved successfully"
+msgstr "Նկարը հաջողությամբ պահպանվել է"
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "Load Subtitle"
+msgstr "Բացել տողագիր"
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "Save Subtitle"
+msgstr "Պահպանել տողագրերը"
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Properties"
+msgstr "Հատկություններ"
+
+msgctxt "IDS_AG_EXIT"
+msgid "Exit"
+msgstr "Փակել"
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Play/Pause"
+msgstr "Վերարտադրել/Դադար"
+
+msgctxt "IDS_AG_PLAY"
+msgid "Play"
+msgstr "Վերարատադրել"
+
+msgctxt "IDS_AG_STOP"
+msgid "Stop"
+msgstr "Կանգնեցնել"
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Framestep"
+msgstr "Կադր-քայլ"
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Framestep back"
+msgstr "Ետարկել արագությունը"
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Go To"
+msgstr "Անցնել"
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Increase Rate"
+msgstr "Մեծացնել արագությունը"
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Show/Game show"
+msgstr "Շոու/Խաղային շոու"
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Sports"
+msgstr "Սպորտ"
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Children's/Youth programmes"
+msgstr "Երեխաներ/Երիտասարդ ծրագրավորողներ"
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Music/Ballet/Dance"
+msgstr "Երաժշտություն/Բալետ/Պար"
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Arts/Culture"
+msgstr "Արվեստ/Մշակույթ"
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Social/Political issues/Economics"
+msgstr "Սոցիալական/Քաղաքական/Economics"
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Leisure hobbies"
+msgstr "Հոբիներ"
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Move to Recycle Bin"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Save a Copy"
+msgstr "Պահպանել օրինակը"
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Latest keyframe"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Nearest keyframe"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Frame Time Correction: On"
+msgstr "Շրջանակի ժ-ի ուղղում. Միաց"
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Frame Time Correction: Off"
+msgstr "Շրջանակի ժ-ի ուղղում. Անջ"
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Target VSync Offset: %.1f"
+msgstr "Օբյեկտի VSync Offset-ը. %.1f"
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "VSync Offset: %d"
+msgstr "VSync Offset-ը. %d"
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Speed: %.2lfx"
+msgstr "Արագ-ը. %.2lfx"
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Thumbnails saved successfully"
+msgstr "Մանրապատկերները հաջողությամբ պահպանվեցին"
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "&Video Stream"
+msgstr "Տեսանյութի հ&ոսքը"
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "Video Ang&le"
+msgstr "Տեսանյութի անկ&յունը"
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Reset settings"
+msgstr "Ետարկել կարգավորումները"
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
+msgstr "Վերականգնե՞լ MPC-HC-ի ծրագրային կարգավորումները:\nԻմացած եղեք, որ ընթացիկ Ձեր ԲՈԼՈՐ կարգավորումներըև կկորսվեն!"
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Please close all instances of MPC-HC so that the default settings can be restored."
+msgstr "Ծրագրային կարգավորումները վերականգնելու համար նախ փակեք MPC-HC-ի բոլոր օրինակները։"
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Export settings"
+msgstr "Արտածման կարգավորումներ"
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
+msgstr "Որոշ փոփոխություններ դեռ չեն պահպանվել։\nՊահպանե՞լ դրանք արտածելուց առաջ։"
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "The settings have been successfully exported."
+msgstr "Կարգավորումները հաջողությամբ են արտածվել:"
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "The export failed! This can happen when you don't have the correct rights."
+msgstr "Արտածումը ձախողվեց! Սա կարող է պատահել, եթե Դուք չունեք Ադմինի իրավունքներ։"
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA Error"
+msgstr "BDA սխալ"
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Decrease Rate"
+msgstr "Փոքրացնել արագությունը"
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Reset Rate"
+msgstr "Ետարկել"
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Audio Delay +10ms"
+msgstr "Ձայնի դադար +10մվ"
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Audio Delay -10ms"
+msgstr "Ձայնի դադար -10մվ"
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Jump Forward (small)"
+msgstr "Անցում առաջ (կարճ)"
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Jump Backward (small)"
+msgstr "Անցում հետ (կարճ)"
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Jump Forward (medium)"
+msgstr "Անցում առաջ (միջին)"
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Jump Backward (medium)"
+msgstr "Անցում հետ (միջին)"
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Jump Forward (large)"
+msgstr "Անցում առաջ (երկար)"
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Jump Backward (large)"
+msgstr "Անցում հետ (երկար)"
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Jump Forward (keyframe)"
+msgstr "Անցում առաջ (հիմնական կադրերով)"
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Jump Backward (keyframe)"
+msgstr "Անցում հետ (հիմնական կադրերով)"
+
+msgctxt "IDS_AG_NEXT"
+msgid "Next"
+msgstr "Հաջորդը"
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Previous"
+msgstr "Նախորդը"
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Next File"
+msgstr "Հաջորդ ֆայլը"
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Previous File"
+msgstr "Նախորդ ֆայլը"
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Toggle Direct3D fullscreen"
+msgstr "Ամբողջ էկրանով Direct3D Միաց/Անջ"
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Goto Prev Subtitle"
+msgstr "Անցնել նախորդ տողագրին"
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Goto Next Subtitle"
+msgstr "Անցնել հաջորդ տողագրին"
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Shift Subtitle Left"
+msgstr "Շարժել տողագրերը ձախ"
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Shift Subtitle Right"
+msgstr "Շարժել տողագրերը աջ"
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "Display Stats"
+msgstr "Ցուցադրել վիճակագրությունը"
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Jump to Beginning"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "View Minimal"
+msgstr "Մինիմալ տեսքով"
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "View Compact"
+msgstr "Կոմպակտ տեսքով"
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "View Normal"
+msgstr "Նորմալ տեսքով"
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "Fullscreen"
+msgstr "Ամբողջ էկրանով"
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "Fullscreen (w/o res.change)"
+msgstr "Ամբողջ էկրանով"
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Zoom Auto Fit"
+msgstr "Ետարկել չափը"
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "VidFrm Half"
+msgstr "Կիսատ տեսանյութ"
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "VidFrm Normal"
+msgstr "Նորմալ տեսանյութ"
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "VidFrm Double"
+msgstr "Կրկնակի տեսանյութ"
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Always On Top"
+msgstr "Միշտ առջևում"
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnS Inc Size"
+msgstr "Մեծացնել կադրի չափը"
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnS Inc Width"
+msgstr "Մեծացնել կադրի լայնքը"
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnS Inc Height"
+msgstr "Մեծացնել կադրի բարձրությունը"
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnS Dec Size"
+msgstr "Փոքրացնել կադրի չափը"
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnS Dec Width"
+msgstr "Փոքրացնել կադրի լայնքը"
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnS Dec Height"
+msgstr "Փոքրացնել կադրի բարձրությունը"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Downloading subtitle(s), please wait."
+msgstr "Տողագրերը բեռնվում են, փոքր-ինչ սպասեք։"
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Parsing list..."
+msgstr "Ստանում է ցանկը..."
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "No subtitles found."
+msgstr "Տողագրեր չկան։"
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d subtitle(s) available."
+msgstr " %d տողագրեր են հասանելի։"
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
+msgstr "Պարբերաբար ստուգե՞լ MPC-HC-ի թարմացումները։\n\nԱյս հնարավորությունը կարող եք անջատել Ընտրանքներ»Տարբեր բաժնից։"
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Auto Fit"
+msgstr "Ինքնահարմարեցնել"
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (Larger Only)"
+msgstr "Ինքնահարմարեցում (Միայն մեծերը)"
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Zoom Auto Fit (Larger Only)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Zoom: Auto (Larger Only)"
+msgstr "Չափը. Ինքնա (Միայն մեծերը)"
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Double click to open file location"
+msgstr "Կրկնակի սեղմեք՝ ֆայլի թղթապանակը բացելու համար"
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Toggle between elapsed and remaining time"
+msgstr "Անցում անցած և մնացած ժամանակի միջև"
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Invalid delay"
+msgstr "Սխալ դադար"
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Please enter a number between 1 and 365."
+msgstr "Նշեք թիվ՝ 1-365։"
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnS Center"
+msgstr "Կադրը կենտրոնով"
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnS Left"
+msgstr "Շարժել կադրը ձախ"
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnS Right"
+msgstr "Շարժել կադրը աջ"
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnS Up"
+msgstr "Շարժել կադրը վերև"
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnS Down"
+msgstr "Շարժել կադրը ներքև"
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnS Up/Left"
+msgstr "Շարժել կադրը վերև/ձախ"
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnS Up/Right"
+msgstr "Շարժել կադրը վերև/աջ"
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnS Down/Left"
+msgstr "Շարժել կադրը ներքև/ձախ"
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnS Down/Right"
+msgstr "Շարժել կադրը ներքև/աջ"
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Volume Up"
+msgstr "Բարձրացնել ձայնը"
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Volume Down"
+msgstr "Իջեցն. ձայնը"
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Volume Mute"
+msgstr "Անձայն"
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD Title Menu"
+msgstr "DVD՝ անունների ընտրացանկը"
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD Root Menu"
+msgstr "DVD՝ խորքային ընտրացանկ "
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD Subtitle Menu"
+msgstr "DVD՝ տողագրերի ընտրացանկը"
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD Audio Menu"
+msgstr "DVD՝ ձայնի ընտրացանկը"
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD Angle Menu"
+msgstr "DVD՝ անկյունների ընտրացանկ"
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD Chapter Menu"
+msgstr "DVD՝ գլուխների ընտրացանկը"
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD Menu Left"
+msgstr "DVD՝ ընտրացանկ ձախ"
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD Menu Right"
+msgstr "DVD ընտրացանկը աջ"
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD Menu Up"
+msgstr "DVD՝ ընտրացանկ աջ"
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD Menu Down"
+msgstr "DVD՝ ընտրացանկ ներքև"
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD Menu Activate"
+msgstr "Ակտիվացնել DVD ընտրացանկը"
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD Menu Back"
+msgstr "DVD՝ ընտրացանկ հետ"
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD Menu Leave"
+msgstr "Փակել DVD ընտրացանկը"
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Boss key"
+msgstr "Boss Կոճակ"
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Player Menu (short)"
+msgstr "Վերարտադրիչի ընտրացանկը (կրճատված)"
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Player Menu (long)"
+msgstr "Վերարտադրիչի ընտրացանկը (ամբողջական)"
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Filters Menu"
+msgstr "Ֆիլտրերի ընտրացանկը"
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Options"
+msgstr "Ընտրանքներ"
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Next Audio"
+msgstr "Հաջորդ ձայնային ֆայլը"
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Prev Audio"
+msgstr "Նախորդ ձայնը"
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Next Subtitle"
+msgstr "Հաջորդ տողագիրը"
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Prev Subtitle"
+msgstr "Նախորդ տեղագիրը"
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "On/Off Subtitle"
+msgstr "Միաց/Անջ տողագրերը"
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Reload Subtitles"
+msgstr "Վերաբացել տողագրերը"
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "Next Audio (OGM)"
+msgstr "Հաջորդ ձայնը (OGM)"
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "Prev Audio (OGM)"
+msgstr "Նախորդ ձայնը (OGM)"
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "Next Subtitle (OGM)"
+msgstr "Հաջորդ տողագրերը (OGM)"
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "Prev Subtitle (OGM)"
+msgstr "Նախորդ տողագրերը (OGM)"
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "Next Angle (DVD)"
+msgstr "Հաջորդ անկյունը (DVD)"
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "Prev Angle (DVD)"
+msgstr "Նախորդ անկյունը (DVD)"
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "Next Audio (DVD)"
+msgstr "Հաջորդ ձայնը (DVD)"
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "Prev Audio (DVD)"
+msgstr "Նախորդ ձայնը (DVD)"
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "Next Subtitle (DVD)"
+msgstr "Հաջորդ տողագրերը (DVD)"
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "Prev Subtitle (DVD)"
+msgstr "Նախորդ տողագրերը (DVD)"
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "On/Off Subtitle (DVD)"
+msgstr "Տողագրերը Միաց/Անջ (DVD)"
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "Remaining Time"
+msgstr "Մնացած ժամանակը"
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Select the directory"
+msgstr "Ընտրեք թղթապանակը"
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Quick add favorite"
+msgstr "Արագ ավելացնել ընտրյալներին"
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Name"
+msgstr "Անունը"
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Frequency"
+msgstr "Հաճախականությունը"
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Encrypted"
+msgstr "Կոդավորված"
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "Yes"
+msgstr "Այո"
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "No"
+msgstr "Ոչ"
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Start"
+msgstr "Սկսել"
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Stop"
+msgstr "Կանգնեցնել"
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Radio stations"
+msgstr "Ռադիո կայաններ"
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "TV stations"
+msgstr "TV կայաններ"
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Format"
+msgstr "Տեսակը"
+
+msgctxt "IDS_MAINFRM_2"
+msgid "Focus lost to: %s - %s"
+msgstr "Ֆոկուսի դիրքը՝ %s - %s"
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Subtitles saved"
+msgstr "Տողագրերը պահպանվեցին"
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Cannot save subtitles"
+msgstr "Հնարավոր չէ պահպանել տողագրերը"
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Frame rate"
+msgstr "Կադրի հաճախությունը"
+
+msgctxt "IDS_MAINFRM_6"
+msgid "drawn: %d, dropped: %d"
+msgstr "գրվել է. %d, կորսվել է. %d"
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Frames"
+msgstr "Կադրեր"
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Buffers"
+msgstr "Բուֆերներ"
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
+msgstr "Հատորը. %02d/%02d, Անունը. %02d/%02d, Գլուխը. %02d/%02d"
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr "Անկյունը. %02d/%02d, %dx%d %dHz %d:%d"
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dHz %dbits %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Add to MPC-HC Playlist"
+msgstr "Ավելացնել MPC-HC-ի խաղացանկին"
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Play with MPC-HC"
+msgstr "Վերարատադրել MPC-HC-ով"
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
+msgstr "MPC-HC-ն չունի համապատասխան լիազորություներ ֆայլերի ասոցիացումները փոխելու համար։ Սեղմեք \"Փոխել\" կոճակը՝ ադմինի իրավունքները օգտագործելու համար։"
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "One of the most powerful, configurable multimedia players for Windows operating system. Originaly made by a Hungarian developer known as Gabest, this version has additional features such as Direct 3D fullscreen mode and better support for Windows Vista/7."
+msgstr "Ամենահզոր և բազմաֆունկցիոնալ կարգավորվող վերարտադրիչներից մեկը Windows համակարգի համար։ Սկզբնապես ստեղծվել է հունգարացի ծրագրավորողի կողմից, որը հայտնի է Gabest անունով։ Այս տարբերակը ունի լրացուցիչ հնարավորություններ, որոնցից է Ամբողջ էկրանով Direct 3D եղանակը և Windows Vista/7-ի բարելավված աջակցումը։"
+
+msgctxt "IDS_MAINFRM_12"
+msgid "channel"
+msgstr "ալիք"
+
+msgctxt "IDS_MAINFRM_13"
+msgid "channels"
+msgstr "ալիքներ"
+
+msgctxt "IDS_AG_TITLE"
+msgid "Title %d"
+msgstr "%d-ի անունը"
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Unexpected error"
+msgstr "DVD. չնախատեսված սխալ"
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: Copy-Protect Fail"
+msgstr "DVD՝ խնդիր կապված հեղինակային իրավունքի հետ"
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Invalid DVD 1.x Disc"
+msgstr "DVD՝ սխալ DVD 1.x սկավառակ"
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Invalid Disc Region"
+msgstr "DVD՝ սկավառակի սխալ շրջան"
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Low Parental Level"
+msgstr "DVD՝ վերահսկամ ցածր աստիճան"
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Macrovision Fail"
+msgstr "DVD՝ խնդիր Macrovision-ի հետ"
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Incompatible System And Decoder Regions"
+msgstr "DVD՝ համակարգի և ապակոդավորիչի անհամատեղելի շրջան"
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Incompatible Disc And Decoder Regions"
+msgstr "DVD՝ ապակոդավորիչի և սկավառակի անհամատեղելի շրջան"
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
+msgstr "Այս ընտրանքը օգտագործվում է թարթումը հեռացնելու համար։\n\nՄիացնե՞լ։"
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Sub delay: %ld ms"
+msgstr "Տողագրերի հապաղումը. %ld ms"
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Title: %02d/%02d"
+msgstr "Անունը. %02d/%02d"
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
+msgstr "Ֆայլի անվան մեջ կան սխալ նշաններ (օգտագործեք միայն A-Z, 0-9)"
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Rows:"
+msgstr "Տողեր."
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Columns:"
+msgstr "Սյուներ."
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Image width"
+msgstr "Նկարի լայնքը"
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "The URL appears to be correct!"
+msgstr "URL-ն սխալ է"
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
+msgstr "Արձանագրության տարբերակը չի համապատասխանում։"
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr "Համամասնություններ"
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Total: %d, Dropped: %d"
+msgstr ", Ընդամենը. %d, կորսվել է. %d"
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Size: %I64dKB"
+msgstr ", Չափը. %I64dԿԲ"
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Size: %I64dMB"
+msgstr ", Չափը. %I64dՄԲ"
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Free: %I64dKB"
+msgstr ", Ազատ է. %I64dԿԲ"
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Free: %I64dMB"
+msgstr ", Ազատ է. %I64dՄԲ"
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Free V/A Buffers: %03d/%03d"
+msgstr ", Ազատ է V/A շրջույթներ. %03d/%03d"
+
+msgctxt "IDS_AG_ERROR"
+msgid "Error"
+msgstr "Սխալ"
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Subtitle: off"
+msgstr "Տողագրեր: անջ."
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Subtitle: %s"
+msgstr "Տողագրեր: %s"
+
+msgctxt "IDS_MAINFRM_46"
+msgid "Select the path for the DVD/BD:"
+msgstr "Ընտրեք DVD/BD-ի ճանապարհը."
+
+msgctxt "IDS_MAINFRM_47"
+msgid " loaded successfully"
+msgstr " Հաջողությամբ բեռնվել է"
+
+msgctxt "IDS_MAINFRM_48"
+msgid "All files (*.*)|*.*||"
+msgstr "Բոլոր ֆայլերը (*.*)|*.*||"
+
+msgctxt "IDS_MAINFRM_49"
+msgid "GetDIB failed, hr = %08x"
+msgstr "Խնդիր GetDIB, hr = %08x"
+
+msgctxt "IDS_MAINFRM_51"
+msgid "GetCurrentImage failed, hr = %08x"
+msgstr "Խնդիր GetCurrentImage, hr = %08x"
+
+msgctxt "IDS_MAINFRM_53"
+msgid "Cannot create file"
+msgstr "Հնարավոր չէ ստեղծել ֆայլը"
+
+msgctxt "IDS_MAINFRM_54"
+msgid "Cannot create thumbnails for files with no duration"
+msgstr "Հնարավոր չէ ստեղծել ֆայլերի մանրապատկերները, որոնք չունեն տևողություն"
+
+msgctxt "IDS_MAINFRM_55"
+msgid "Failed to get video frame size"
+msgstr "Հնարավոր չէ ստանալ կադրի չափը"
+
+msgctxt "IDS_MAINFRM_56"
+msgid "Out of memory, go buy some more!"
+msgstr "Հիշողությունը չի բավականացնում։"
+
+msgctxt "IDS_MAINFRM_57"
+msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
+msgstr "Նկարի սխալ տեսակ, հնարավոր չէ ստեղծել մանրապատկեր %d bpp-ից։"
+
+msgctxt "IDS_MAINFRM_58"
+msgid "File Size: %s (%s bytes)\\N"
+msgstr "Ֆայլի ծավալը. %s (%s բայթ)\\N"
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Ֆայլի անունը. %s\\N%sՉափերը. %dx%d %s\\NՏևողությունը. %02d:%02d:%02d"
+
+msgctxt "IDS_MAINFRM_60"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Տողագրերը բացելու համար պետք է փոխեք ռենդերերի տեսակը և վերաբացեք ֆայլը:\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Aspect Ratio: %d:%d"
+msgstr "Համամասնություններ. %d:%d"
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Aspect Ratio: Default"
+msgstr "Համամասնություններ. ստանդարտ"
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Audio Delay: %I64dms"
+msgstr "Ձայնի դադար. %I64dմվ"
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "Chapter %d"
+msgstr "Մաս %d"
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Out of memory"
+msgstr "Հիշողությունը չի հերիքում"
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Error: Flash player for IE is required"
+msgstr "Սխալ. պահանջվում է Flash կամ IE"
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime not yet supported for X64 (apple library not available)"
+msgstr "QuickTime-ը դեռ չի աջակցվում X64-ի համար (Apple-ի բաղադրիչները հասանելի չեն)"
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Failed to create the filter graph object"
+msgstr "Հնարավոր չէ ստեղծել ֆիլտրի գրաֆա։"
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Invalid argument"
+msgstr "Սխալ հատկանիշ"
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Opening aborted"
+msgstr "Բացումը ընդհատված է"
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Failed to render the file"
+msgstr "Հնարավոր չէ վերարտադրել"
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "Bad URL, could not locate subtitle database there!"
+msgstr "Սխալ URL"
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "Chapter: "
+msgstr "Մաս: "
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Vol: %d%%"
+msgstr "Ձայնը. %d%%"
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Boost: +%u%%"
+msgstr "Boost-ը. +%u%%"
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Balance: %s"
+msgstr "Բալանսը. %s"
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Current"
+msgstr "Գործողը"
+
+msgctxt "IDS_MPC_CRASH"
+msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
+msgstr "MPC-HC-ն անսպասելի փակվեց։ Այս խնդիրը լուծելու համար ուղարկեք \"%s\" ֆայլը սխալների շտեմարան։\n\nԲացե՞լ սխալի ֆայլը պարունակող թղթապանակը և այցելե՞լ սխալների շտեմարան հենց հիմա։"
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "Failed to create dump file to \"%s\" (error %d)"
+msgstr "Սխալ՝ '%s' dump ֆայլը ստեղծելիս (սխալ %d)"
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Select Directory"
+msgstr "Ընտրեք թղթապանակը"
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Include subdirectories"
+msgstr "Ներառյալ ենթաթղթ.-ները"
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Pause"
+msgstr "Դադար"
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Toggle Caption&Menu"
+msgstr "Միաց/Անջ Ընտրացանկի &վերնագիրը"
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Toggle Seeker"
+msgstr "Միաց/Անջ Seeker-ը"
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Toggle Controls"
+msgstr "Միաց/Անջ Կառավարումը"
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Invalid file name"
+msgstr "Ֆայլի անունը սխալ է"
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Cannot connect the filters"
+msgstr "Հնարավոր չէ միացնել ֆիլտրը"
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Cannot load any source filter"
+msgstr "Հնարավոր չէ բացել ֆիլտր"
+
+msgctxt "IDS_MAINFRM_88"
+msgid "Cannot render the file"
+msgstr "Ֆայլը հնարավոր չէ վերարտադրել"
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Invalid file format"
+msgstr "Ֆայլի սխալ տեսակ"
+
+msgctxt "IDS_MAINFRM_90"
+msgid "File not found"
+msgstr "Ֆայլ չի գտնվել"
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Unknown file type"
+msgstr "Ֆայլի անհայտ տեսակ"
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Unsupported stream"
+msgstr "Չաջակցվող հոսք"
+
+msgctxt "IDS_MAINFRM_93"
+msgid "Cannot find DVD directory"
+msgstr "Հնարավոր չէ գտնել DVD-ի թղթապանակը"
+
+msgctxt "IDS_MAINFRM_94"
+msgid "Can't create the DVD Navigator filter"
+msgstr "Հնարավոր չէ ստեղծել DVD ուղղորդիչի ֆիլտր"
+
+msgctxt "IDS_AG_FAILED"
+msgid "Failed"
+msgstr "Ձախողում"
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Can't create video capture filter"
+msgstr "Հնարավոր չէ ստեղծել տեսագրման ֆիլտր"
+
+msgctxt "IDS_MAINFRM_98"
+msgid "No capture filters"
+msgstr "Տեսագրման ֆիլտրը բացակայում է"
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Can't create capture graph builder object"
+msgstr "Հնարավոր չէ ստեղծել տեսագրման գրաֆայի օբյեկտը։"
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Couldn't open any device"
+msgstr "Հնարավոր չէ բացել ոչ մի սարք"
+
+msgctxt "IDS_AG_SOUND"
+msgid "Sound"
+msgstr "Ձայնը"
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s was not found, please insert media containing this file."
+msgstr "%s-ը չի գտնվել, տեղադրեք դա ֆայլի կրիչը։"
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Aborted"
+msgstr "Կանգնեցված"
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Properties..."
+msgstr "&Հատկություններ..."
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (pin) properties..."
+msgstr " (pin) Հատկություններ..."
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Unknown Stream"
+msgstr "Անհայտ հոսք"
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Unknown %d"
+msgstr "Անհայտ %d"
+
+msgctxt "IDS_AG_VSYNC"
+msgid "VSync"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Director Comments 1)"
+msgstr " (Ռեժիսորի մեկնաբանություններ 1)"
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Director Comments 2)"
+msgstr " (Ռեժիսորի մեկնաբանություններ 2)"
+
+msgctxt "IDS_AG_ENABLED"
+msgid "Enabled"
+msgstr "Միացված է"
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Angle %d"
+msgstr "Անկյուն %d"
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "Increase VSync Offset"
+msgstr "Մեծացնել VSync-ի շարժը"
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Disabled"
+msgstr "Անջատված"
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "Decrease VSync Offset"
+msgstr "Փոքրացնել VSync-ի շարժը"
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D Fullscreen"
+msgstr "MPC-HC D3D Ամբողջ էկրանով"
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Unknown format"
+msgstr "Անհայտ տեսակ"
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Sub shift: %ld ms"
+msgstr "Տողագրերի տեղափոխում. %ld ms"
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Volume boost increase"
+msgstr "Ձայնը՝ Բարձրացնել"
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Volume boost decrease"
+msgstr "Ձայնը՝ Իջեցնել"
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Volume boost Min"
+msgstr "Ձայնը՝ Min"
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Volume boost Max"
+msgstr "Ձայնը՝ Max"
+
+msgctxt "IDS_USAGE"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Օգտագործվում է. mpc-hc.exe \"ճանապարհը\" [փոխանցիչներ]\n\n\"ճանապարհը\"\tբեռնման ֆայլը կամ թղթապանակը։ \n/dub \"dubname\"\tԲացել լրացուցիչ ձայնային ֆայլ\n/dubdelay \"file\"\tԲացել լրացուցիչ ձայնային ֆայլ՝ XXմվ\n(եթե ֆայլը ունի \"...DELAY XXms...\")։\n/d3dfs\t\tՍկսել Ամբողջ էկրանով՝ D3D եղանակով։\n/sub \"subname\"\tԲացել լրացուցիչ տողագրեր։\n/filter \"filtername\"\tԲացել DirectShow ֆիլտրեր  գրադարանից։\n/dvd\t\tԲացել DVD եղանակով, \"ճանապարհը\" նշանակում է DVD-ի թղթապանակը։\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tԲեռնել Audio CD--ի բոլոր ֆայլերը կամ (S)VCD, \"ճանապարհը\" նշանակում է պնակի ճանապարհը։\n/device\t\tOpen the default video device\n/open\t\tՄիայն Բացել Ֆայլը։\n/play\t\tՍկսել Վերարտադրումը՝ անմիջապես բացելիս։\n/close\t\tՎերարտադրումը ավարտելուց հետո փակել (աշխատում է միայն /play փոխանցիչի հետ)։\n/shutdown\tՎերարտադրումը ավարտելուց հետո անջատել համակարգիչը։\n/fullscreen\tԲացել Ամբողջ էկրանով եղանակով։\n/minimized\tԲացել՝ էկրանի ներքևում վիճակում։\n/new\t\tՕգտագործել վերարտադրիչի նոր օրինակ։\n/add\t\tԱվելացնել \"ճանապարհը\" խաղացանկում, կարելի է /open և /play-ի հետ համատեղ։\n/regvid\t\tԳրանցել տեսանյութի տեսակները։\n/regaud\t\tԳրանցել ձայնային տեսակները։\n/regpl\t\tՍտեղծել ֆայլերի ասոցիացումներ խաղացանկի ֆայլերի համար\n/regall\t\tՍտեղծել ֆայլերի ասոցիացումներ ֆայլերի բոլոր աջակցվող տեսակների համարs\n/unregall\t\tՀետգրանցել բոլորը։\n/start ms\t\tՎերարտադրել \"ms\" դիրքից (= միլիվայրկյաններ)։\n/startpos hh:mm:ss\tՍկսել վերարտադրումը՝ hh:mm:ss\n/fixedsize w,h\tՀաստատել պատուհանի ֆիկսված չափ։\n/monitor N\tԲացվում է N մոնիտորի վրա, որտեղ N-ը հաշվվում է 1-ից։\n/audiorenderer N\tՕգտագործել N ցուցադրիչը, որտեղ N-ը հաշվվում է 1-ից\n\t\t(նայեք \"Արտածման\" կարգավորումները)։\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tՎերականգնել հիմնական կարգավորումները\n/help /h /?\tՑուցադրել հուշում\n"
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "Unrecognized switch(es) found in command line string: \n\n"
+msgstr "Սխալներ հրամանների տողում. \n\n"
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Toggle Information"
+msgstr "Միաց/Անջ Տեղեկությունը"
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Toggle Statistics"
+msgstr "Միաց/Անջ Վիճակագրությունը"
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Toggle Status"
+msgstr "Միաց/Անջ Դրության տողը"
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Toggle Subresync Bar"
+msgstr "Միաց/Անջ Տողագրերի համաժեցման վահանակը"
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Toggle Playlist Bar"
+msgstr "Միաց/Անջ Խաղացանկի վահանակը"
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Toggle Capture Bar"
+msgstr "Միաց/Անջ տեսագրման վահանակը"
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Zoom 50%"
+msgstr "Չափը 50%"
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Zoom 100%"
+msgstr "Չափը 100%"
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Zoom 200%"
+msgstr "Չափը 200%"
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Next AR Preset"
+msgstr "Հաջորդ AR Preset"
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "VidFrm Stretch"
+msgstr "Կադրը ձգել պատուհանի չափով"
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "VidFrm Inside"
+msgstr "Կադրը պատուհանից ներս"
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "VidFrm Outside"
+msgstr "Նկարագրել պատուհանից դուրս"
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "PnS Reset"
+msgstr "Ետարկել"
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "PnS Rotate X+"
+msgstr "Շրջել կադրը X+"
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "VidFrm Zoom 1"
+msgstr "Կադրի չափը 1"
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "VidFrm Zoom 2"
+msgstr "Կադրի չափը  2"
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "VidFrm Switch Zoom"
+msgstr "VidFrm փոխման չափը"
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "&Enable all filters"
+msgstr "&Միացնել բոլոր ֆիլտրերը"
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Թյուների կարգավորում"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Տողադրերը չեն բացվել կամ չի աջակցվում։"
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Author unknown. Contact us if you made this logo!"
+msgstr "Հեղինակը հայտնի չէ։"
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "No more media in the current folder."
+msgstr "Վերարտադրելու համար ֆայլեր չկան։"
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "The first file in the folder is loaded now."
+msgstr "Կբացվի առաջին ֆայլը ցանկում։"
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "The last file in the folder is loaded now."
+msgstr "Կբացվի ցանկի վերջին ֆայլը։"
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Front Left"
+msgstr "Առջևում ձախ"
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Front Right"
+msgstr "Առջևում աջ"
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Front Center"
+msgstr "Առջևում կենտրոն"
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Low Frequency"
+msgstr "Ցածր հաճախականություն"
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Back Left"
+msgstr "Հետ ձախ"
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Back Right"
+msgstr "Հետ աջ"
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Front Left of Center"
+msgstr "Առջևում կենտրոն ձախ"
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Front Right of Center"
+msgstr "Առջևում կենտրոն աջ"
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Back Center"
+msgstr "Հետ կենտրոնով"
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Side Left"
+msgstr "Կողային ձախ"
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Side Right"
+msgstr "Կողային աջ"
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Top Center"
+msgstr "Վերին կենտ."
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Top Front Left"
+msgstr "Վերին առաջն. ձախ"
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Top Front Center"
+msgstr "Վերին առաջն. կենտրոն"
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Top Front Right"
+msgstr "Վերին առաջն. աջ"
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Top Back Left"
+msgstr "Վերին հետին ձախ"
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Top Back Center"
+msgstr "Վերին հետին կենտրոն"
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Top Back Right"
+msgstr "Վերին հետին աջ"
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "Sync Renderer reset stats"
+msgstr "Սինք ռենդերերի ետարկման վիճակը"
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "Տողագրերը::Լրացուցիչ"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "Թաքցնել եզրագիծը"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Frame Only"
+msgstr "Միայն կադրը"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "Ցուցադրել &&Ընտրացանկը"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "Թաքցնել ընտրացանկը"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seekbar"
+msgstr "Վահանակից ցած"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seekbar"
+msgstr "Վահանակից վեր"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "Տեսանյութը. %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "Կիրառել"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "Մաքրել"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "Չեղարկել"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "Չափը"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "Փիքսել."
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "&Disable all filters"
+msgstr "&Անջատել բոլոր ֆիլտրերը"
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Enable all audio decoders"
+msgstr "Միացնել բոլոր ձայնային ապակոդավորիչներ"
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Disable all audio decoders"
+msgstr "Անջատել բոլոր ձայնային ապակոդավորիչները"
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Enable all video decoders"
+msgstr "Միացնել բոլոր տեսաապակոդավորիչները"
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Disable all video decoders"
+msgstr "Անջատել բոլոր տեսաապակոդավորիչները"
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Stretch To Window"
+msgstr "Ձգել պատուհանի չափով"
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Touch Window From Inside"
+msgstr "Գրել պատուհանի ներսում"
+
+msgctxt "IDS_ZOOM1"
+msgid "Zoom 1"
+msgstr "Չափը 1"
+
+msgctxt "IDS_ZOOM2"
+msgid "Zoom 2"
+msgstr "Չափը 2"
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Touch Window From Outside"
+msgstr "Գրել պատուհանից դուրս"
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Audio: %s"
+msgstr "Ձայնը.: %s"
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Reopen File"
+msgstr "Վերաբացել ֆայլը"
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr "Այլ"
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Other Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr "Խաղացանկ"
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Resolution"
+msgstr "Լուծաչափը"
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr "Հարաբերակցությունը"
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "Use WASAPI (restart playback)"
+msgstr "Օգտագործել WASAPI (վերամեկնարկել վերարտադրումը)"
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "Mute on fast forward"
+msgstr "Անձայն՝ առաջ տալիս"
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr "Ձայնի սարքը."
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "VSync: On"
+msgstr "VSync. Միաց"
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "VSync: Off"
+msgstr "VSync. Անջ"
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Accurate VSync: On"
+msgstr "Ճշգրիտ VSync. Միաց"
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Accurate VSync: Off"
+msgstr "Ճշգրիտ VSync. Անջ"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Synchronize Video to Display: On"
+msgstr "Համաժամեցնել տեսանյութը էկրանին. Միաց"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Synchronize Video to Display: Off"
+msgstr "Համաժամեցնել տեսանյութը էկրանին. Անջ"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Synchronize Display to Video: On"
+msgstr "Համաժամեցնել էկրանը տեսանյութին. Միաց"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Synchronize Display to Video: Off"
+msgstr "Համաժամեցնել էկրանը տեսանյութին. Անջ"
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Present at Nearest VSync: On"
+msgstr "Ներկայացումը մոտակա VSync-ին. Միաց"
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Present at Nearest VSync: Off"
+msgstr "Ներկայացումը մոտակա VSync-ին. Անջ"
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Color Management: On"
+msgstr "Գույնի կառավարում. Միաց"
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Color Management: Off"
+msgstr "Գույնի կառավարում. Անջ"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Input Type: Auto-Detect"
+msgstr "Մուտքի տեսակը. Ինքնորոշում"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Input Type: HDTV"
+msgstr "Մուտքի տեսակը. HDTV"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Input Type: SDTV NTSC"
+msgstr "Մուտքի տեսակը. SDTV NTSC"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Input Type: SDTV PAL"
+msgstr "Մուտքի տեսակը. SDTV PAL"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Ambient Light: Bright (2.2 Gamma)"
+msgstr "Լրջակայքի բաց-ը. Բաց (2.2 Գամմա)"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Ambient Light: Dim (2.35 Gamma)"
+msgstr "Լրջակայքի բաց-ը. Պղտոր (2.35 Գամմա)"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Ambient Light: Dark (2.4 Gamma)"
+msgstr "Լրջակայքի բաց-ը. Մուգ (2.4 Գամմա)"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Rendering Intent: Perceptual"
+msgstr "Ռենդեր. մտայ-ը. Զգայուն"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Rendering Intent: Relative Colorimetric"
+msgstr "Ռենդեր. մտայ-ը. Հարաբերական գույնայնացում"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Rendering Intent: Saturation"
+msgstr "Ռենդեր. մտայ-ը. Խտայնությունը"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Rendering Intent: Absolute Colorimetric"
+msgstr "Ռենդեր. մտայ-ը. Բացարձակ գույնայնացում"
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Output Range: %s"
+msgstr "Արտածման կարգը. %s"
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "Flush GPU before VSync: On"
+msgstr "Flush GPU VSync-ից առաջ. Միաց"
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "Flush GPU before VSync: Off"
+msgstr "Flush GPU VSync-ից առաջ. Անջ"
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "Flush GPU after Present: On"
+msgstr "Flush GPU ներկ.-ից հետո. Միաց"
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "Flush GPU after Present: Off"
+msgstr "Flush GPU ներկ.-ից հետո. Անջ"
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Wait for GPU Flush: On"
+msgstr "Սպասում GPU Flush-ին. Միաց"
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Wait for GPU Flush: Off"
+msgstr "Սպասում GPU Flush-ին. Անջ"
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D Fullscreen: On"
+msgstr "D3D Ամբողջ էկրանով. Միաց"
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D Fullscreen: Off"
+msgstr "D3D Ամբողջ էկրանով. Անջ"
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Disable desktop composition: On"
+msgstr "Անջատել աշխատաշրջանի կազմը. Միաց"
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Disable desktop composition: Off"
+msgstr "Անջատել աշխատաշրջանի կազմը. Անջ"
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Alternative VSync: On"
+msgstr "Այլընտրանքային VSync. Միաց"
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Alternative VSync: Off"
+msgstr "Այլընտրանքային VSync. Անջ"
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Renderer settings reset to default"
+msgstr "Ռենդերի կարգավորումները ըստ ծրագրայինի"
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Renderer settings reset to optimal"
+msgstr "Ռենդերի կարգավորումները ըստ օպտիմալի"
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D Fullscreen GUI Support: On"
+msgstr "D3D Ամբողջ էկրանով GUI աջակցում. Միաց"
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D Fullscreen GUI Support: Off"
+msgstr "D3D Ամբողջ էկրանով GUI աջակցում. Անջ"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10-bit RGB Output: On"
+msgstr "10-բիթ RGB արտածում. Միաց"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10-bit RGB Output: Off"
+msgstr "10-բիթ RGB արտածում. Անջ"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "Force 10-bit RGB Input: On"
+msgstr "Ստիպող. 10-բիթ RGB ներմուծում. Միաց"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "Force 10-bit RGB Input: Off"
+msgstr "Ստիպող. 10-բիթ RGB ներմուծում. Անջ"
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Full Floating Point Processing: On"
+msgstr "Ամբողջական լղոզման կետի ընթացքը. Միաց"
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Full Floating Point Processing: Off"
+msgstr "Ամբողջական լղոզման կետի ընթացքը. Անջ"
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Half Floating Point Processing: On"
+msgstr "Կես լղոզման կետի ընթացքը. Միաց"
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Half Floating Point Processing: Off"
+msgstr "Կես լղոզման կետի ընթացքը. Անջ"
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Brightness decrease"
+msgstr "Բացության նվազեցում"
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Contrast increase"
+msgstr "Կոնտրաստի մեծացում"
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Contrast decrease"
+msgstr "Կոնտրաստի փոքրացում"
+
+msgctxt "IDS_HUE_INC"
+msgid "Hue +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "Hue -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Saturation increase"
+msgstr "Խտայնության մեծացում"
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Saturation decrease"
+msgstr "Խտայնության փոքրացում"
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Reset color settings"
+msgstr "Ետարկել գույնի կարգավորումները"
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nYou are already using the latest stable version."
+msgstr "\nԴուք օգտագործում եք ծրագրի վերջին տարբերակը։"
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
+msgstr "Ընթացիկ տարբերակն է՝ v%s։\n\nՀասանելի է v%s տարբերակը։"
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
+msgstr "Հասանելի է MPC-HC v%s-ը։ Դուք օգտագործում եք v%s-ը։\n\nԲացե՞լ MPC-HC-ի վեբ կայքը այն բեռնելու համար։"
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Update server not found.\n\nPlease check your internet connection or try again later."
+msgstr "Թարմացումների սպասարկիչը չի գտնվել։\n\nՍտուգեք ինտերնետ կապը կամ փորձեք ավելի ուշ։"
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Close"
+msgstr "&Փակել"
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Zoom: %.0lf%%"
+msgstr "Չափը. %.0lf%%"
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Zoom: Auto"
+msgstr "Չափը. Ինքնա"
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Toggle custom channel mapping"
+msgstr "Փոփոխել ընտրված ալիքների ցուցադրումը"
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Custom channel mapping: On"
+msgstr "Ընտրված ալիքի արտացոլում. Միաց."
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Custom channel mapping: Off"
+msgstr "Ընտրված ալիքի արտացոլում. Անջ."
+
+msgctxt "IDS_NORMALIZE"
+msgid "Toggle normalization"
+msgstr "Փոփոխել կանոնավորումը"
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Normalization: On"
+msgstr "Կանոնավորումը. Միաց."
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Normalization: Off"
+msgstr "Կանոնավորումը. Անջ."
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Toggle regain volume"
+msgstr "Փոփոխել շրջանի ձայնը"
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Regain volume: On"
+msgstr "Շրջանի ձայնը. Միաց."
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Regain volume: Off"
+msgstr "Շրջանի ձայնը. Անջ."
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr "ԿԲ"
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr "ՄԲ"
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr "ԳԲ"
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr "ԿԲ/վ"
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr "ՄԲ/վ"
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Could not create the tuner."
+msgstr "Հնարավոր չէ ստեղծել թյուներ։"
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Could not create the receiver."
+msgstr "Հնարավոր չէ ստեղծել ստացող։"
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Could not connect the network and the tuner."
+msgstr "Հնարավոր չէ միանալ ցանցին կամ թյուներին։"
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Could not connect the tuner and the receiver."
+msgstr "Հնարավոր չէ միանալ թյուներին և ստացողին։"
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Could not connect the tuner."
+msgstr "Հնարավոր չէ միանալ թյուներին։"
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Could not create the demultiplexer."
+msgstr "Հնարավոր չէ ստեղծել demultiplexer։"
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Error parsing the entered time!"
+msgstr "Մուտքագրված ժամանակի աստիճանի վերլուծման սխալ։"
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Error parsing the entered text!"
+msgstr "Մուտքագրված տեքստի աստիճանի վերլուծման սխալ։"
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Error parsing the entered frame rate!"
+msgstr "Մուտքագրված կադրի աստիճանի վերլուծման սխալ։"
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Cannot frame step, try a different video renderer."
+msgstr "Ընտրեք այլ տեսառենդեր։"
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
+msgstr "'Պահպանել նկարը' և 'Պահպանել Մանրապատկերով' հնարավորությունները չեն աշխատի ծրագրային սարքի համար RealMedia-ում։\nԸնտրեք DirectX-ի հնար.-ից որևէ մեկը RealMedia-ի համար MPC-HC-ի արտածման կարգավորումներում և կրկին բացեք ֆայլը։"
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
+msgstr "'Պահպանել նկարը' և 'Պահպանել Մանրապատկերով' հնարավորությունները չեն աշխատի ծրագրային սարքի համար QuickTime-ում։\nԸնտրեք DirectX-ի հնար.-ից որևէ մեկը QuickTime-ի համար MPC-HC-ի արտածման կարգավորումներում և կրկին բացեք ֆայլը։"
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
+msgstr "'Պահպանել նկարը' և 'Պահպանել Մանրապատկերով' հնարավորությունները չեն աշխատի Shockwave ֆայլերի համար։"
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
+msgstr "'Պահպանել նկարը' և 'Պահպանել Մանրապատկերով' հնարավորությունները չեն աշխատի Overlay Mixer տեսակոդավորման ժամանակ:\nՓոխեք տեսակոդավորման սարքը MPC-ի արտածման կարգավորումներում և կրկին բացեք ֆայլը։"
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Cannot connect to the online subtitles database."
+msgstr "Հնարավոր չէ միանալ տողագրերի առցանց շտեմարանին։"
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Do you want to activate the EDL editor?"
+msgstr "Ցանկանու՞մ եք ակտիվացնել EDL խմբագրիչը։"
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Capture Error"
+msgstr "Նկարման սխալ"
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "video"
+msgstr "տեսահոսքը"
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "audio"
+msgstr "ձայնը"
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "Can't add the %s buffer filter to the graph."
+msgstr "Հնարավոր չէ ավելացնել %s բուֆերի ֆիլտրը գրաֆ-ին։"
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Can't connect the %s buffer filter to the graph."
+msgstr "Հնարավոր չէ միանալ %s բուֆերի ֆիլտրին գրաֆ-ում։"
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "Can't add the %s encoder filter to the graph."
+msgstr "Հնարավոր չէ ավելացնել %s կոդավորիչի ֆիլտրը գրաֆ-ին։"
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Can't connect the %s encoder filter to the graph."
+msgstr "Հնարավոր չէ միանալ %s բուֆերի ֆիլտրին գրաֆ-ում։"
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Can't set the compression format on the %s encoder filter."
+msgstr "Հնարավոր չէ տալ սեղմման տեսակը %s կոդավորման ֆիլտրին։"
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Can't connect the %s stream to the multiplexer filter."
+msgstr "Հնարավոր չէ միանալ %s հոսքին multiplexer ֆիլտրում։"
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "No video capture pin was found."
+msgstr "Չկա տեսագրման սարք։"
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "No audio capture pin was found."
+msgstr "Չկա ձայնագրման սարք։"
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Error initializing the output file."
+msgstr "Սխալ՝ արտածվող ֆայլի որոշման։"
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Error initializing the audio output file."
+msgstr "Սխալ՝ արտածվող ձայնի ֆայլի որոշման։"
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
+msgstr "Ժամանակի ճիշտ եղանակն է [-]hh:mm:ss.ms (օր.՝ 01:23:45.678)."
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "This type is already in the list!"
+msgstr "Այս տեսակը արդեն իսկ առկա է ցանկում!"
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "You need to apply the new settings before testing them."
+msgstr "Նոր կարգավորումները թեստավորելուց առաջ նախ պետք է դրանք պահպանել"
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Exit"
+msgstr "Վերարտադրելուց հետո. Փակել"
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "After Playback: Stand By"
+msgstr "Վերարտադրելուց հետո. Քուն"
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "After Playback: Hibernate"
+msgstr "Վերարտադրելուց հետո. Քնեցում"
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "After Playback: Shutdown"
+msgstr "Վերարտադրելուց հետո. Անջատել"
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "After Playback: Log Off"
+msgstr "Վերարտադրելուց հետո. Փակել"
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "After Playback: Lock"
+msgstr "Վերարտադրելուց հետո. Կողփել"
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "After Playback: Always exit"
+msgstr "Վերարտադրելուց հետո. Միշտ փակել"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do Nothing"
+msgstr "Վերարտադրելուց հետո. Ոչինչ չանել"
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "After Playback: Play next in the folder"
+msgstr "Վերարտադրելուց հետո. Խաղարկել հաջորդ ֆայլը"
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Brightness: %s"
+msgstr "Բացությունը. %s"
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Contrast: %s"
+msgstr "Կոնտրաստը. %s"
+
+msgctxt "IDS_OSD_HUE"
+msgid "Hue: %s°"
+msgstr "Տոնը. %s°"
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Saturation: %s"
+msgstr "Խտայնությունը. %s"
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Color settings restored"
+msgstr "Գույնի կարգավորումները վերականգնվել են"
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Color control is not supported"
+msgstr "Գույնի կառավարումը չի աջակցվում"
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Brightness increase"
+msgstr "Բացության ուժեղացում"
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Settings"
+msgstr "Կարգավորումներ"
+

@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "文件(&F)"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "快速打开文件(&Q)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "打开文件(&O)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "打开 DVD/BD(&D)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "打开设备(&V)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "打开目录(&E)..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "打开光盘(&P)"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "历史文件(&F)"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "关闭(&C)"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "保存为一个副本(&S)..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "保存图像(&I)..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "保存缩略图(&T)..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "载入字幕(&L)..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "保存字幕(&U)..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "字幕数据库(&B)"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "搜索(&S)..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "上传(&U)..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "下载(&D)..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "属性(&R)"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "退出(&X)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "查看(&V)"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "标题与菜单"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "进度栏(&K)"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "控制栏(&C)"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "信息栏(&I)"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "统计栏(&S)"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "状态栏(&A)"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "字幕同步(&B)"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "播放列表(&Y)"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "捕获栏(&R)"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "导航(&V)"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "预设(&P)..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "最小(&M)"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "简洁(&C)"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "普通(&N)"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "全屏幕(&U)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "缩放(&Z)"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "自动适应(&F)"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "自动适应 (仅放大)(&L)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "语言(&L)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "渲染器设置(&E)"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "撕裂测试(&T)"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "显示状态(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "剩余时间(&R)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "输出范围(&O)"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "外观(&P)"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D 全屏幕模式(&M)"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D 全屏幕 GUI 支持(&G)"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10 位 RGB 输出(&R)"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "强制 10 位 RGB 输入(&I)"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "全浮点处理(&F)"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "半浮点处理(&H)"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "关闭桌面组件 (&Aero)"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "开启帧时间修正(&C)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "色彩管理(&C)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "开启(&E)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "输入类型(&I)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "自动检测(&A)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "环境光线(&L)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "明亮 (2.2 伽玛)(&B)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "昏暗 (2.35 伽玛)(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "黑暗 (2.4 伽玛)(&A)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "渲染目的(&R)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "感性(&P)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "相对比色分析(&R)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "饱和(&S)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "绝对比色分析(&A)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "垂直同步(&V)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "垂直同步(&V)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "精确垂直同步(&A)"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "可选垂直同步(&L)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "减少垂直同步偏移(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "增加垂直同步偏移(&I)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "GPU 控制(G)"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "在垂直同步前刷新 GPU(&B)"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "在呈现后刷新 GPU(&A)"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "等待刷新(&W)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "重置(&E)"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "重置为默认渲染器设置(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "重置为优化渲染器设置(&O)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "视频画面(&F)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "半数尺寸(&H)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "普通尺寸(&N)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "双倍尺寸(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "拉伸至整个窗口(&S)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "缩放以适合窗口(&I)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "缩放 &1 倍"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "缩放 &2 倍"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "缩放以填满窗口(&O)"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "保持高宽比(&K)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "替代高宽比(&A)"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "默认(&D)"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "纠正显示器/桌面高宽比差异(&C)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "全景扫描(&N)"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "增大尺寸(&I)"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "减小尺寸(&D)"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "增加宽度(&N)"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "减小宽度(&E)"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "增加高度(&C)"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "减小高度(&A)"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "向右移动(&R)"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "向左移动(&L)"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "向上移动(&U)"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "向下移动(&D)"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "居中(&T)"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "重置(&S)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "前端显示(&T)"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "默认(&D)"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "总是(&A)"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "当播放时(&P)"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "在播放视频时(&V)..."
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "选项(&O)..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "播放(&P)"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "播放/暂停(&P)"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "停止(&S)"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "帧步进(&R)"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "减少速率(&D)"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "增加速率(&I)"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "重置速率(&E)"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "滤镜(&F)"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "着色器(&H)"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "音频(&A)"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "字幕(&B)"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "视频流(&V)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "音量(&V)"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "上升(&U)"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "下降(&D)"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "静音(&M)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "回放结束后(&T)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "--------- 一次 ---------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "退出(&E)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "待机(&S)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "休眠(&H)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "关机(&D)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "注销(&O)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "锁定(&L)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "--------- 每次 ---------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "退出(&X)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "什么都不做(&N)"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "播放文件夹中的下一个文件(&F)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "导航(&N)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "上一个(&P)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "下一个(&N)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "转到(&G)..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "跳转到(&J)..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "标题菜单(&T)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "根菜单(&R)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "字幕菜单(&S)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "音频菜单(&A)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "视角菜单(&G)"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "章节菜单(&C)"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "收藏(&A)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "帮助(&H)"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "主页(&H)"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "检查更新(&U)"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "命令行开关符(&C)"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "下载工具栏图像(&T)"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "捐献(&D)"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "关于(&A)..."
+msgstr ""
+

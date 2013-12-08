@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Ֆայլ"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Բացել ֆայլ..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Բացեք Ֆայլը..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Բացել &DVD/BD..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Բացել &սարքից..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Բացել թղթապանակ..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "Բացել &սկավառակից"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "Վերջին բացված ֆայլերը"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "&Փակել"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Պահպանել օրինակը..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Պահպանել &նկարով..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Պահպանել մանրապատկերներով..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Բացել տողագրերը..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Պա&հպանել տողագրերը..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Տողագրերի բազան"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "Գտնել..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Փոխանցել..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "Բեռնել..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "Հ&ատկություններ"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "Փ&ակել"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Տեսքը"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Գլ&խագիրը և ընտրացանկը"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "&Հետ և առաջ տալու գիծը"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Կառավարում"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Տեղեկություն"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Վիճակագրությունը"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "Դ&րության տողը"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Տողագրերի համաժեցում"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Խաղացանկը"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Տեսագրում"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Ուղորդում"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Արտաքին տեսքը..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "Մինիմալ"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "Կոմպակտ"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "Նորմալ"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "Ամբողջ &էկրանով"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Չափը"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Ծրագրային"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Ինքնահարմարեցում (Միայն մեծերը)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "Լեզուն (&Language)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ցուցադրման կարգավորումներ"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Սրընթաց թեստ"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Ցուցադրել վիճակագրությունը"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "Մնացած ժամանակը"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Արտածման կարգը"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Presentation"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "Ամբողջ էկրանով  D3D"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "Ամբողջ էկրանով  D3D՝ GUI-ի աջակցմամբ"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-բիթ RGB Արտածում"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Ստիպող. 10-բիթ RGB Ներմուծում"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "Ամբողջական լողացող կետի ընթացքով"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "Կես ողացող կետի ընթացքով"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Անջատել Աշխատասեղանի էֆեկտները (Aero)"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Միացնել կադրի ուղղման ժամանակը"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Գույների կառավարում"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "Միացնել"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Մուտքի տեսակը"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "Ինքնորոշում"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Շրջապատող գույնը"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "Բաց (2.2 Գամմա)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "Աղոտ (2.35 Գամմա)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "Մուգ (2.4 Գամմա)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Վերահաշվ. եղանակը"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "Ընկալումը"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "Հարաբերական գույնամետրային"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "Խտայնությունը"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "Ամբողջական գույնամետրային"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "Ճշտապահ VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "Այլընտրանքային VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "Փ&ոքրացնել VSync-ի շարժը"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "Մ&եծացնել VSync-ի շարժը"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "GPU-ի Կառավարում"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Հիշել GPU-ն VSync-ից առաջ"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Հիշել GPU-ն՝ ներկայացումից հետո"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "Սպասել լրացման"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ետարկել"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Ետարկել ստանդարտ կարգավորումների"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Ետարկել օպտիմալ կարգավորումների"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Կադրը"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Կես չափով"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Նորմալ չափի"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Կրկնակի չափով"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Ձգել պատուհանի չափով"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Գրել պատուհանի &ներսում"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Մեծացված &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Մեծացված &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Նկարագրել պատուհանից &դուրս"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Պահպանել համամասնությունները"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Նշել համամասնությունները"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "Ըստ ծրագրայինի"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Հաշվի առնել մոնիտորի և Աշխատասեղանի տարբերությունները"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Կադրի &դիրքը և չափը"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "Մեծացնել չափը"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "Փոքրացնել չափը"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "Մեծացնել լայնքը"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "Փոքրացնել լայնքը"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "Մեծացնել բարձրությունը"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Փոքրացնել բարձրությունը"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Տեղափոխել աջ"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Տեղափոխել ձախ"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Տեղափոխել վերև"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Տեղափոխել ներքև"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Կենտրոնացնել"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "Ետարկել"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Բոլոր պատուհաններից վեր"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Ծրագրային"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "Միշտ"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "Վերարտադրելիս"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "Տեսանյութը վերարտադրելիս"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Կարգավորումներ..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Վերարտադրում"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Վերարտադրել/Դադար"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Կանգնեցնել"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Ըստ &կադրերի"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Փոքրացնել արագությունը"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Մեծացնել արագությունը"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Ետարկել"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "&Ֆիլտրեր"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "Շ&եյդերներ"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "&Ձայնը"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "Տ&ողագրեր"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ձայնի &բարձր."
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Բարձր"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Ցածր"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Անջատել"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Վերարտադրումը ավարտելիս"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "--------- Մեկ անգամ ---------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "Փակել ծրագիրը"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "Անցնել դադարի եղանակի"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "Անցնել «Քուն» եղանակի"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Անջատել համակարգիչը"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Ավարտել աշխատանքը"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "Կողպել"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "------ Ամեն անգամ ------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Փակել ծրագիրը"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Ոչինչ չանել"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Անցնել ցանկում հաջորդին"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Կառավարում"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Նախորդը"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Հաջորդը"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Անցում..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "&Անցնել..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "Ընտրացանկի գլխագիրը"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Խորքային ընտրացանկը"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Տողագրերի ըն&տրացանկ"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "Ձայնի ընտ&րացանկը"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Տեսանյութի անկյունների ընտ&րացանկ"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "&Գլուխների ընտրացանկ"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "Ը&նտրյալները"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Օգնություն"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "Վեբ կայքը"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Ստուգել թարմացումները"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "Հրամաններ"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Բեռնել վահանակի պատկերներ"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "Աջակցեք!"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&Ծրագրի մասին..."
+msgstr ""
+

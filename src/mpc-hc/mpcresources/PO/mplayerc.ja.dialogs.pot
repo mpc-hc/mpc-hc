@@ -1,0 +1,1652 @@
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "メディア タイプの選択"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
+msgid "キャンセル"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
+msgid "映像"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
+msgid "設定"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "音声"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "出力"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
+msgid "録画する"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
+msgid "プレビュー"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
+msgid "録音する"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
+msgid "プレビュー"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "V/A バッファ:"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON3"
+msgid "..."
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
+msgid "音声は wav"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
+msgid "開始"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
+msgid "内蔵の音声切り替えフィルタを使用 (ファイルの開き直しが必要)"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
+msgid "ノーマライズ"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
+msgid "最大増幅:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
+msgid "音量回復"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
+msgid "ブースト:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
+msgid "44100 Hz にダウン サンプリングする"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
+msgid "音声のタイム シフト [ms]:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
+msgid "チャンネル マッピングを有効にする"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
+msgid "入力スピーカー設定:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
+msgid "チャンネル"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
+msgid "Shift を押したままクリックすると即座に変更されます"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_CAPTION"
+msgid "再生位置を移動"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "指定した時間にジャンプするには [hh:]mm:ss.ms のフォーマットを使用してタイムコードを入力してください。あなたが明示的に区切り文字を入力する必要はありません。"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "時間"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_EDIT1"
+msgid "00:00:00.000"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_OK1"
+msgid "移動"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "フレーム番号、フレームレートの順で数値を入力し、移動先フレームを指定してください。"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "フレーム"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_OK2"
+msgid "移動"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_CAPTION"
+msgid "開く"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "インターネットやコンピュータにある再生したいムービーやオーディオ ファイルのアドレスを入力してください。"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "開く:"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
+msgid "参照..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
+msgid "副音声:"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
+msgid "参照..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDCANCEL"
+msgid "キャンセル"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
+msgid "開かずにプレイリストに追加"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_CAPTION"
+msgid "バージョン情報"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC1"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
+msgid "Copyright © 2002-2013 (Authors.txt ファイルを参照)"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "このプログラムはフリーウェアであり、GNU 一般公衆利用許諾書 (GPL) に基づいて配布されます。"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Japanese translation made by Anonymous@2ch"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "ビルド情報"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "バージョン:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "コンパイラ:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "LAV Filters:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
+msgid "使用されていません"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "ビルド日付:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "オペレーティングシステム"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "ネーム:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
+msgid "クリップボードにコピー"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "開くオプション"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
+msgid "再生するメディア ファイルは同じプレーヤーを使う"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
+msgid "再生するメディア ファイルごとに新しいプレーヤーを開く"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "タイトルバー"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
+msgid "フルパスを表示"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
+msgid "ファイル名のみ"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
+msgid "何も付けない"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
+msgid "ファイル名をタイトル名に置き換え"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "その他"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
+msgid "タスクトレイ アイコン"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
+msgid "OSD の表示 (要再起動)"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
+msgid "リサイズ時にウィンドウ サイズのアスペクト比を固定"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
+msgid "デスクトップの端にスナップさせる"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
+msgid "設定を .ini ファイルに保存"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
+msgid "「ディスクを開く」 のメニューを隠す"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
+msgid "プロセスの優先度を 通常以上 にする"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "履歴"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
+msgid "最近使ったファイルの履歴を保存"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "DVD の再生位置を記憶"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
+msgid "ファイルの再生位置を記憶"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "終了時のプレイリストを記憶"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
+msgid "終了時のウィンドウ位置を記憶"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
+msgid "終了時のウィンドウ サイズを記憶"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
+msgid "最近使った PnS 拡大率を記憶"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "\"DVD/BD を開く\" の挙動"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
+msgid "場所を指示する"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
+msgid "常にデフォルトの場所を開く:"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_BUTTON1"
+msgid "..."
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "DVD ナビゲータと OGM スプリッタでの優先言語"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
+msgid "メニュー"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
+msgid "音声"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
+msgid "字幕"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "追加設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
+msgid "'Line 21 Decoder'でクローズド キャプションを許可する"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "音声"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "音量"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "低"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "高"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
+msgid "バランス"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "左"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "右"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "再生"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
+msgid "再生"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
+msgid "連続再生"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
+msgid "回"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
+msgid "再生後に巻き戻す"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "出力"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
+msgid "自動拡大:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
+msgid "オート フィット ファクター:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "デフォルト トラックの優先順序"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "字幕:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "音声:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
+msgid "外部スプリッタの選択をオーバーライド可能にする"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "開く設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
+msgid "フィルタ グラフの構築にワーカー スレッドを使用する"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
+msgid "再生に失敗したピンを報告する"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
+msgid "音声ファイルを自動で読み込む"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
+msgid "字幕を自動で読み込む"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "コントロール"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "ボリュームステップ:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "スピードステップ:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
+msgid "配置を強制指定する"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
+msgid "水平位置:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
+msgid "垂直位置:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "遅延間隔"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "テクスチャ設定 (変更を有効にするにはビデオを開き直してください)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "先読みサブピクチャ数:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "テクスチャの最大解像度:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "バッファリング中のアニメーションを許可する"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
+msgid "2の累乗で切り上げる"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "警告"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "ビデオカードの設定でフルスクリーン時のアンチ エイリアシングを有効にした場合、CPU 負荷が大きくなるだけで字幕は少しも綺麗にならないでしょう。"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
+msgid "拡張子"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
+msgid "デフォルト"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
+msgid "設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
+msgid "Windows 8 以降"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
+msgid "デフォルト プログラムを設定する(&S)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "関連付け"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
+msgid "動画(&V)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
+msgid "音声(&U)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "すべて(&L)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
+msgid "アイコンの関連付け"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
+msgid "変更(&M)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "リアルタイム ストリーミング プロトコル (rtsp://...で始まる URL) 用のエンジン"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
+msgid "RealMedia"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
+msgid "QuickTime"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
+msgid "DirectShow"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
+msgid "最初に拡張子で判別"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "エクスプローラのコンテキストメニュー"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
+msgid "ディレクトリ"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
+msgid "ファイル"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
+msgid "自動再生"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
+msgid "映像"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
+msgid "音楽"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
+msgid "DVD"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
+msgid "音楽 CD"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "ジャンプ間隔 (小、中、大 : ms単位)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
+msgid "デフォルト"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
+msgid "高速 シーク(キーフレームに)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
+msgid "シークバーにチャプターマークを表示する"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
+msgid "現在再生中のファイル情報を Skype ムード メッセージに表示する"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
+msgid "デフォルト モニタ以外でフルスクリーン表示しているときは最小化しない"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
+msgid "Windows 7 のタスクバーを使う"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
+msgid "1つのアイテムだけがプレイリストに残っていない場合に\"前へ/次へ\"でフォルダ内の前/次のファイルを開く"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
+msgid "時間ツールチップを使う:"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "OSD フォント:"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Logitech LCD のサポートを有効 (実験的)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
+msgid "フィルタの追加..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
+msgid "消去"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
+msgid "優先する"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
+msgid "使用しない"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
+msgid "メリット値を設定:"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
+msgid "上へ"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
+msgid "下へ"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
+msgid "メディア タイプを追加..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
+msgid "サブ タイプを追加..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
+msgid "削除"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
+msgid "リストをリセット"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "ファイルの種類:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "サイズ:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "メディアの長さ:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "ビデオ サイズ:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "作成日:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "タイトル:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "作成者:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "著作権:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "評価:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "場所:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "説明:"
+msgstr ""
+
+msgctxt "IDD_FAVADD_CAPTION"
+msgid "お気に入りの追加"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_STATIC"
+msgid "ショートカットの名前を選択してください:"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK1"
+msgid "再生開始位置を保存"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDCANCEL"
+msgid "キャンセル"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK2"
+msgid "相対ドライブ"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_CAPTION"
+msgid "お気に入りの整理"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
+msgid "名前の変更"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
+msgid "上へ"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
+msgid "下へ"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
+msgid "削除"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_CAPTION"
+msgid "パン＆スキャン プリセット"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
+msgid "新規"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
+msgid "削除"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
+msgid "上へ"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
+msgid "下へ"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
+msgid "セット(&S)"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
+msgid "キャンセル(&C)"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDOK"
+msgid "保存(&S)"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "位置: 0.0 -> 1.0"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "拡大率: 0.2 -> 3.0"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK"
+msgid "WinLIRC:"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK2"
+msgid "uICE:"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
+msgid "グローバル メディア キー"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
+msgid "すべて選択"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
+msgid "選択アイテムをリセット"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
+msgid "警告"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
+msgid "MPC-HC はグラフの中のピンのいくつかを再生できませんでした。必要なコーデックかフィルタがインストールされていない可能性があります。"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
+msgid "以下のピンが接続可能なフィルタを発見できませんでした:"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDOK"
+msgid "閉じる"
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_CAPTION"
+msgid "保存しています..."
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_IDC_FROMTO"
+msgid "Static"
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_IDCANCEL"
+msgid "キャンセル"
+msgstr ""
+
+msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "文字コード:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "文字コード:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "遅延:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "サムネイル:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "行"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "列"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "画像の幅:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "ピクセル"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_CAPTION"
+msgid "フィルタの選択"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
+msgid "参照..."
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDCANCEL"
+msgid "キャンセル"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "フォント"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
+msgid "フォント"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "間隔"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "角度 (z,°)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "サイズ (x,%)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "サイズ (y,%)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "境界のスタイル"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
+msgid "輪郭"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
+msgid "不透明な四角"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "境界の幅"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "影"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "表示位置と余白"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "左"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "右"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "上"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "下"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
+msgid "ビデオ フレームに合わせて字幕を配置する"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "色と透過率"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "0%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "色1"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "色2"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "輪郭"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
+msgid "アルファ チャンネルを連動させる"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "スタンドアロン版や代替フィルタを使用する場合は、該当する箇所を無効にしてください。"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "ソース フィルタ"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "変換フィルタ"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "内部 LAV Filters の設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
+msgid "スプリッタ"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
+msgid "ビデオ デコーダ"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
+msgid "オーディオ デコーダ"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
+msgid "内蔵:"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
+msgid "外部:"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "参照..."
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DirectShow ビデオ"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "RealMedia ビデオ"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "QuickTime ビデオ"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "オーディオ レンダラ"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "VMR-7/VMR-9 (レンダーレス) と EVR カスタムプレゼンタ の設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "サーフェス:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "補間方法:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
+msgid "D3D9 レンダラ デバイスの選択"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
+msgid "表示変更時に再初期化"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Direct3D フルスクリーン"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "代替の垂直同期"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 ミキサ モード"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
+msgid "YUV ミキシング"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
+msgid "EVR バッファ:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DXVA"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "字幕 *"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "スクリーンショット"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "シェーダ"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "回転"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "* 外部フィルタ (例えば VSFilter) は、すべてのレンダラーに字幕を表示できます。"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_CAPTION"
+msgid "認証が必要です"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDOK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDCANCEL"
+msgid "キャンセル"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "制限エリア"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "ユーザ名:"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "パスワード:"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_CHECK1"
+msgid "パスワードを保存する"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
+msgid "このポートで待機:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
+msgid "ウェブ ブラウザで開く..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
+msgid "圧縮を有効にする"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
+msgid "ローカルホストからの接続のみを許可する"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
+msgid "デバッグ情報を表示する"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
+msgid "サーバのルート ディレクトリ:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
+msgid "参照..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
+msgid "展開..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "デフォルト ページ:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "CGI ハンドラ: (拡張子1=パス1; 拡張子2=パス2;...)"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
+msgid "オンラインで利用可能な字幕"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "ダウンロードして開く"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
+msgid "現在読み込まれている字幕を置き換える"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
+msgid "保存..."
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "カラー コントロール (VMR-9, EVR と madVR)"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "明度"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "コントラスト"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "色相"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "彩度"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET"
+msgid "リセット"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "更新チェック"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
+msgid "自動更新チェックを有効にする"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
+msgid "各チェック間の遅延:"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
+msgid "日"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "設定管理"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
+msgid "リセット"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
+msgid "エクスポート"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
+msgid "キーをエクスポートする"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_CAPTION"
+msgid "チューナー調整"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_ID_START"
+msgid "開始"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDCANCEL"
+msgid "キャンセル"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "開始周波数"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "帯域幅"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "終了周波数"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
+msgid "暗号化チャンネルを無視する"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_ID_SAVE"
+msgid "保存"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "F"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Q"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
+msgid "オフセットを使用する"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "デバイスの選択"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
+msgid "アナログ"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
+msgid "デジタル"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "アナログ設定"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
+msgid "映像"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
+msgid "音声"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
+msgid "地域"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "デジタル設定 (BDA)"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
+msgid "プロバイダ"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
+msgid "チューナー"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
+msgid "受信機"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
+msgid "チャネル スイッチング アプローチ:"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
+msgid "フィルタ グラフを再構築"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
+msgid "フィルタ グラフを停止する"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgid "ビデオをディスプレイに同期する"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgid "周波数調整:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgid "ディスプレイをビデオに同期する"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgid "周波数調整:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgid "行"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgid "列"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgid "最も近い垂直同期で表示する"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgid "目標同期オフセット:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgid "調整制限:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgid "+/-"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC"
+msgid "ファイルを開き直すと変更が有効になります。"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
+msgid "フルスクリーンでファイルを開く"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
+msgid "Hide controls in fullscreen"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
+msgid "Hide docked panels"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
+msgid "再生終了時にフルスクリーンを解除"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "フルスクリーン モニター"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
+msgid "フルスクリーン モニターモード 自動変更を使用"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
+msgid "追加"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
+msgid "削除"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
+msgid "上へ"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
+msgid "下へ"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
+msgid "フルスクリーンから抜けたらデフォルトモニターモードを適用"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
+msgid "プログラム終了時に解像度を元に戻す"
+msgstr ""
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
+msgid "情報"
+msgstr ""
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
+msgid "スキャン"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
+msgid "強制的またはデフォルトの字幕トラックを好む"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
+msgid "外部字幕ファイルを優先する"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
+msgid "内蔵された字幕を読み込まない"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "字幕ファイルパス指定"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
+msgid "リセット"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "オンラインデータベース"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "オンライン字幕データベースの基本 URL:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "http://"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
+msgid "テスト"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_CAPTION"
+msgid "更新チェッカー"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
+msgid "今すぐダウンロード(&D)"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
+msgid "後で通知する(&L)"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
+msgid "この更新を無視する(&I)"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shaders contain special effects which can be added to the video rendering process."
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
+msgid "Add shader file"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
+msgid "Remove"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
+msgid "Add to pre-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
+msgid "Add to post-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shader presets"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
+msgid "Load"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
+msgid "Save"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
+msgid "Delete"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active pre-resize shaders"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active post-resize shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
+msgid "Debug Shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
+msgid "Debug Information"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
+msgid "PS 2.0"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
+msgid "PS 2.0b"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
+msgid "PS 2.0a"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
+msgid "PS 3.0"
+msgstr ""
+

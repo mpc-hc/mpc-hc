@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Αρχείο"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Γρήγορο άνοιγμα αρχείου..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "Ά&νοιγμα αρχείου..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Άνοιγμα &δίσκου DVD/BD..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Άνοιγμα &συσκευής..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Άνοιγμα &καταλόγου..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "Άνοι&γμα δίσκου"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "Πρόσφατα αρχεία"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "&Κλείσιμο"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Αποθήκευση ενός αντιγράφου..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Αποθήκευση &εικόνας..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Αποθήκευση &μικρογραφιών..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "Φόρτωση &υποτίτλων..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Αποθήκευση υπο&τίτλων..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Βάση δεδομένων υποτίτλων"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "Ανα&ζήτηση..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Α&ποστολή..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "&Λήψη..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "&Ιδιότητες"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "Έ&ξοδος"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Προβολή"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Λεζάντα && Μενού"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "Γραμμή ανα&ζήτησης"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "Πλήκ&τρα ελέγχου"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Πληροφορίες"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Στατιστικά"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "&Κατάσταση"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Επανασυγχρονισμός υποτίτλων"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Λίστα αναπαραγωγής"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Καταγραφή"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Περιήγηση"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Π&ροεπιλογές εμφάνισης..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Λιτή"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Συμπαγής"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Κανονική"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "Πλήρης ο&θόνη"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Μεγέθυνση"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Αυτόματη προσαρμογή"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Αυτόματη προσαρμογή (μόνο για μεγαλύτερα)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "Γλώσσα / &Language"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ρυθμίσεις απόδοσης"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Δοκιμή σχισίματος"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Εμφάνιση στατιστικών"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "Χρόνος που απομένει"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Εύρος εξαγωγής"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Παρουσίαση"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Λειτουργία πλήρους οθόνης"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Πλήρους οθόνης με γραφικό περιβάλλον"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "Έξοδος RGB 10-bit"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Δυναμική είσοδος RGB 10-bit"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "Επεξεργασία 32 bit κινητής υποδιαστολής"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "Επεξεργασία 16 bit κινητής υποδιαστολής"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Απενεργοποίηση σύνθεσης επιφάνειας εργασίας (Aero)"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Ενεργοποίηση διόρθωσης χρόνου καρέ"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Διαχείριση χρωμάτων"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "Ενεργοποίηση"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Τύπος εισόδου"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "Αυτόματη ανίχνευση"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Περιβάλλον φωτισμού"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "Φωτεινό (2.2 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "Μέσο (2.35 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "Σκοτεινό (2.4 Gamma)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Στόχος φωτοαπόδοσης"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "Ποσοστιαία"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "Σχετική μέτρηση χρωμάτων"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "Κορεσμός"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "Απόλυτη μέτρηση χρωμάτων"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Κατακόρυφος συγχρονισμός (VSync)"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "Ακριβής VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "Εναλλακτικός VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Μείωση μετάθεσης του VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Αύξηση μετάθεσης του VSync"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Έλεγχος GPU"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Εκκαθάριση GPU πριν το VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Εκκαθάριση GPU μετά την Παρουσίαση"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "Αναμονή για εκκαθαρίσεις"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Επαναφορά"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Επαναφορά στις προεπιλεγμένες ρυθμίσεις απόδοσης"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Επαναφορά στις βέλτιστες ρυθμίσεις απόδοσης"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Κά&δρο βίντεο"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Μισό μέγεθος"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Κανονικό μέγεθος"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Διπλό μέγεθος"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Επέκταση στο παράθυρο"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Άγγιγμα παραθύρου ε&σωτερικά"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Μεγέθυνση &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Μεγέθυνση &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Άγγιγμα παραθύρου ε&ξωτερικά"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "Διατή&ρηση αναλογιών"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Παράκαμψη αναλογιών"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "Προεπιλογή"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Διόρθωση οθόνης/Διαφορά αναλογιών"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Πανοραμική οπτική && Σάρ&ωση"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "Αύξηση μεγέθους"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "Μείωση μεγέθους"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "Αύξηση πλάτους"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "Μείωση πλάτους"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "Αύξηση ύψους"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Μείωση ύψους"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Μετακίνηση δεξιά"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Μετακίνηση αριστερά"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Μετακίνηση πάνω"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Μετακίνηση κάτω"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Κέντρο"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "Επαναφορά"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Στο προσκήνιο"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Προεπιλογή"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "Πάντα"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "Στην αναπαραγωγή"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "Στην αναπαραγωγή βίντεο"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "Επι&λογές..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Αναπαρα&γωγή"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Αναπαραγωγή/Παύση"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Διακοπή"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Βήμα κα&ρέ"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Μείωση ταχύτητας"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Αύ&ξηση ταχύτητας"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Επαναφορά ταχύτητας"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "&Φίλτρα"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "Ή&χος"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "&Υπότιτλοι"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Ροή βίντεο"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Έ&νταση ήχου"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Πάνω"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Κάτω"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Σίγαση"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Μετά την αναπαραγωγή"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "----------- Μόνο τώρα ----------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "Έξοδος"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "Αναμονή"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "Αδρανοποίηση"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Τερματισμός"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Αποσύνδεση"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "Κλείδωμα"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "----------- Κάθε φορά -----------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Έξοδος"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Καμία ενέργεια"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Αναπαραγωγή επόμενου στο φάκελο"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Πε&ριήγηση"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Προηγούμενο"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Επόμενο"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "Μετά&βαση σε..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "Μετά&βαση σε..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "Μενού τίτλων"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Κεντρικό μενού"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "Μενού υποτίτ&λων"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "Μενού ήχ&ου"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Μενού γω&νίας"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "Μενού κε&φαλαίων"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "Α&γαπημένα"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Βοήθεια"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Ιστοσελίδα"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Έλεγχος για ενημερώσεις"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "Παράμετροι &γραμμής εντολών"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "&Λήψη εικόνων εργαλειοθήκης"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "&Δωρεά"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&Περί..."
+msgstr ""
+

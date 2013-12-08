@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Arkiv"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Snabböppna Fil..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "Öppna &Fil..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Öppna &DVD/BD..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Öppna &Enhet..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Öppna &Mapp..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "Öppna S&kiva"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "Senaste F&iler"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "St&äng"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "Spara en K&opia..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Spara Skärmdum&p..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Spara Miniat&yrer..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Läs in Undertext..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Spara Underte&xt..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Undertextsdatabas"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "&Sök..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Ladda &upp..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "Ladda &ner..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "E&genskaper"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "&Avsluta"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Visa"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Rubrik && Meny"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "&Sökverktyg"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "Kont&roller"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Information"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "S&tatistik"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&atus"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Undertext resynk"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Spellista"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Spela in"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Navigering"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Mallar"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimal"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Kompakt"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "He&lskärm"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50 %"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100 %"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200 %"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Passa automatiskt"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Passa automatiskt (Enbart större)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Språk"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Renderingsinställningar"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Tearingtest"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Visa Statistik"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "Återstående Tid"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Utmatningsomfång"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Presentation"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Helskärmsläge"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Helskärms GUI-support"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit RGB-utmatning"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Tvinga 10-bit RGB-indata"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "&Full flyttalsberäkning"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "&Halv flyttalsberäkning"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Inaktivera skrivbordssammansättning (&Aero)"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Aktivera Bildtidsrättning"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Färghantering"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Aktivera"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Inmatningstyp"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "Identifiera automatiskt"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ambient &Light"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Ljus (2.2 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Nedtonat (2.35 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "&Mörk (2.4 Gamma)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Återge med avseende på:"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Perceptuell"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "&Relativ kolorimetri"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "&Mättnad"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "&Absolut kolorimetri"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Exakt VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "&Alternativ VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Minska Vsync-förskjutningen"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Öka Vsync-förskjutningen"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "GPU-kontroll"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Töm GPU &före VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Töm GPU &efter Present"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "&Vänta på tömningar"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Återställ"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Återställ till standard renderingsinställningar"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Återställ till optimala renderingsinställningar"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Filmstorlek"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Halva Storleken"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normala Storleken"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Dubbla Storleken"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Sträck Till Fönster"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Berör Fönstret Från &Insidan"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Berör Fönstret Från &Utsidan"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Behåll bildförhållandet"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Manuellt bildförhållande"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "Standard"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Korrigera bildförhållandet mellan skärm/skrivbord"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pan&&S&can"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "Öka Storlek"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "Minska Storlek"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "Öka Bredd"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "Minska Bredd"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "Öka Höjd"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Minska Höjd"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Flytta Höger"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Flytta Vänster"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Flytta Upp"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Flytta Ner"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Center"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "Återställ"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Alltid överst"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "Allti&d"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "Under &Uppspelning"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "Under Uppspelning av &video"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Inställningar..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Spela upp"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Spela upp/Pausa"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stoppa"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "&Bildrutesteg"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Långsammare Uppspelning"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Snabbare Uppspelning"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Återställ Uppspelningshastighet"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "&Filter"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "&Ljud"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "Un&dertexter"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Vol&ym"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Höj"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Sänk"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Ljud av"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Efter Uppspelning"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "-------- En gång -------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "Avsluta"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "Vänteläge"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "Viloläge"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Stänga av"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Logga ut"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "Lås"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "------ Varje gång ------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Avsluta"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Gör Ingenting"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Spela nästa fil i mappen"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Navigera"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Föregående"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Nästa"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Gå Till..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "&Hoppa Till..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "Titelmeny"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Rotmeny"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Undertextmeny"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "&Ljudmeny"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Vi&nkelmeny"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "&Kapitelmeny"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "F&avoriter"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Hjälp"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "Hemsida"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Sök efter &uppdateringar"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "Kommandoradsväxlar"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Hämta verktygsfältsbilder"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "Donera"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&Om..."
+msgstr ""
+

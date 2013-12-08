@@ -1,0 +1,707 @@
+# MPC-HC - Strings extracted from menus
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+
+msgctxt "POPUP"
+msgid "&File"
+msgstr "&Dosya"
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Quick Open File..."
+msgstr "&Hızlı Dosya Aç..."
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Open File..."
+msgstr "&Dosya Aç..."
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Open &DVD/BD..."
+msgstr "&DVD/BD Aç..."
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Open De&vice..."
+msgstr "A&ygıt Aç..."
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Open Dir&ectory..."
+msgstr "Konum aç..."
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "O&pen Disc"
+msgstr "CD-RO&M Aç"
+
+msgctxt "ID_RECENT_FILES"
+msgid "Recent &Files"
+msgstr "Belgelerim"
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "&Close"
+msgstr "&Kapat"
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Save a Copy..."
+msgstr "&Kaydet..."
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Save &Image..."
+msgstr "Re&sim Kaydet..."
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Save &Thumbnails..."
+msgstr "Küçük Resim Kaydet..."
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Load Subtitle..."
+msgstr "&Alt Yazı Yükle..."
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Save S&ubtitle..."
+msgstr "Alt Yazı Kaydet..."
+
+msgctxt "POPUP"
+msgid "Subtitle Data&base"
+msgstr "Alt Yazı Veritabanı"
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "&Search..."
+msgstr "Ara..."
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "&Upload..."
+msgstr "Gönder..."
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "&Download..."
+msgstr "innDir..."
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "P&roperties"
+msgstr "S&eçenekler"
+
+msgctxt "ID_FILE_EXIT"
+msgid "E&xit"
+msgstr "Ç&ıkış"
+
+msgctxt "POPUP"
+msgid "&View"
+msgstr "&Görünüm"
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Caption&&Menu"
+msgstr "Başlık && Menü"
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "See&k Bar"
+msgstr "&Arama Çubuğu"
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Controls"
+msgstr "Kont&roller"
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Information"
+msgstr "&Bilgi"
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Statistics"
+msgstr "İs&tatistikler"
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&atus"
+msgstr "Du&rum"
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Su&bresync"
+msgstr "Eşzamanlılık"
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Pla&ylist"
+msgstr "Oynatma Listesi"
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Captu&re"
+msgstr "Ekran Yakalama"
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Na&vigation"
+msgstr "Yönlendirme"
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Presets..."
+msgstr "Oynatıcı Ayrıntıları..."
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimal"
+msgstr "En Az"
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compact"
+msgstr "Az"
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr "Normal"
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "F&ull Screen"
+msgstr "Ta&m Ekran"
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr "Yakınlaştırma"
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr "&%50"
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr "&%100"
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr "&%200"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Auto &Fit"
+msgstr "Otomatik Sığdır"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (&Larger Only)"
+msgstr "Sığdır (Sadece büyütme)"
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Language"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "R&enderer Settings"
+msgstr "Çevirici ayarları"
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Tearing Test"
+msgstr "&Kopukluk Testi"
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Display Stats"
+msgstr "&İstatistikleri Göster"
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "&Remaining Time"
+msgstr "Kalan Süre"
+
+msgctxt "POPUP"
+msgid "&Output Range"
+msgstr "Çıkış Aralığı"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "&0 - 255"
+msgstr "0 - 255"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "&16 - 235"
+msgstr "16 - 235"
+
+msgctxt "POPUP"
+msgid "&Presentation"
+msgstr "Sunum"
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Fullscreen &Mode"
+msgstr "Tam ekran D3D kipi"
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Fullscreen &GUI Support"
+msgstr "Tam ekran D3D arabirim desteği"
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit &RGB Output"
+msgstr "10-bit RGB Çıkışı"
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Force 10-bit RGB &Input"
+msgstr "10-bit RGB Çıkışını zorla"
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "&Full Floating Point Processing"
+msgstr "Tam Hareketli Hedef İşleme"
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "&Half Floating Point Processing"
+msgstr "Yarım Hareketli Hedef İşleme"
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Disable desktop composition (&Aero)"
+msgstr "Masaüstü düzeltmesini kapat"
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time &Correction"
+msgstr "Görüntü süresi düzeltmesini aç"
+
+msgctxt "POPUP"
+msgid "&Color Management"
+msgstr "Renk Yönetimi"
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Enable"
+msgstr "Açık"
+
+msgctxt "POPUP"
+msgid "&Input Type"
+msgstr "Giriş Biçimi"
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "&Auto-Detect"
+msgstr "Otomatik"
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr "HDTV"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr "SDTV NTSC"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr "SDTV PAL"
+
+msgctxt "POPUP"
+msgid "Ambient &Light"
+msgstr "Ortam Işığı"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Bright (2.2 Gamma)"
+msgstr "Parlak (2.2 Karşıtlık)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Dim (2.35 Gamma)"
+msgstr "Donuk (2.35 Karşıtlık)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "D&ark (2.4 Gamma)"
+msgstr "Karanlık (2.4 Karşıtlık)"
+
+msgctxt "POPUP"
+msgid "&Rendering Intent"
+msgstr "Çevirme Yöntemi"
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Perceptual"
+msgstr "Algısal"
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "&Relative Colorimetric"
+msgstr "Göreceli Renk Ölçümü"
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "&Saturation"
+msgstr "Doygunluk"
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "&Absolute Colorimetric"
+msgstr "Koşulsuz Renk Ölçümü"
+
+msgctxt "POPUP"
+msgid "&VSync"
+msgstr "Eşzamanlılık"
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr "&Eşzamanla"
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Accurate VSync"
+msgstr "Tam Eşzamanla"
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "A&lternative VSync"
+msgstr "Farklı Eşzamanla"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Decrease VSync Offset"
+msgstr "&Eşzamanlılık dengesini azalt"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Increase VSync Offset"
+msgstr "&Eşzamanlılık dengesini arttır"
+
+msgctxt "POPUP"
+msgid "&GPU Control"
+msgstr "GPU Denetimi"
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Flush GPU &before VSync"
+msgstr "GPU'yu eşzamanlılıktan önce sıfırla"
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Flush GPU &after Present"
+msgstr "GPU'yu seçimden sonra sıfırla"
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "&Wait for flushes"
+msgstr "Sıfırlama için bekle"
+
+msgctxt "POPUP"
+msgid "R&eset"
+msgstr "Sıfırlama"
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Reset to &default renderer settings"
+msgstr "Varsayılan çevirici ayarlarına dön"
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Reset to &optimal renderer settings"
+msgstr "Tavsiye edilen çevirici ayarlarına dön"
+
+msgctxt "POPUP"
+msgid "Video &Frame"
+msgstr "&Video Boyutu"
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Half Size"
+msgstr "&Yarım Boyut"
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normal Size"
+msgstr "&Normal Boyut"
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Double Size"
+msgstr "&İki Katı Boyut"
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Stretch To Window"
+msgstr "&Pencereye Uzat"
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Touch Window From &Inside"
+msgstr "Pencereyi İçeriden &Uyarla"
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr "Yakınlaştırma &1"
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr "Yakınlaştırma &2"
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Touch Window From &Outside"
+msgstr "Pencereyi Dışarıdan U&yarla"
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Keep Aspect Ratio"
+msgstr "&Taraf Oranını Koru"
+
+msgctxt "POPUP"
+msgid "Override &Aspect Ratio"
+msgstr "Taraf Oranını Kilitle"
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Default"
+msgstr "Varsayılan"
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "&4:3"
+msgstr "4:3"
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "&5:4"
+msgstr "5:4"
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "&16:9"
+msgstr "16:9"
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "&235:100"
+msgstr "235:100"
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "1&85:100"
+msgstr "185:100"
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "&Correct Monitor/Desktop AR Diff"
+msgstr "Monitör/Masaüstü AR Farkını Düzelt"
+
+msgctxt "POPUP"
+msgid "Pa&n&&Scan"
+msgstr "Süzme && Tarama"
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "&Increase Size"
+msgstr "Boyutu Arttır"
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "&Decrease Size"
+msgstr "Boyutu Azalt"
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "I&ncrease Width"
+msgstr "Genişliği Arttır"
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "D&ecrease Width"
+msgstr "Genişliği Azalt"
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "In&crease Height"
+msgstr "Yüksekliği Arttır"
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Decre&ase Height"
+msgstr "Yüksekliği Azalt"
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Move &Right"
+msgstr "Sağa Taşı"
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Move &Left"
+msgstr "Sola Taşı"
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Move &Up"
+msgstr "Yukarı Taşı"
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Move &Down"
+msgstr "Aşağı Taşı"
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Cen&ter"
+msgstr "Ortala"
+
+msgctxt "ID_VIEW_RESET"
+msgid "Re&set"
+msgstr "Sıfırla"
+
+msgctxt "POPUP"
+msgid "On &Top"
+msgstr "Pencereyi Üstte Tut"
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr "&Varsayılan"
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Always"
+msgstr "Her zaman"
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "While &Playing"
+msgstr "Oynatılırken"
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "While Playing &Video"
+msgstr "Video oynatılırken"
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Options..."
+msgstr "&Ayarlar..."
+
+msgctxt "POPUP"
+msgid "&Play"
+msgstr "&Yürütme"
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Play/Pause"
+msgstr "&Oynat/Duraklat"
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stop"
+msgstr "&Durdur"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "F&rame Step"
+msgstr "G&örüntü Atlaması"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Decrease Rate"
+msgstr "Oranı Azalt"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Increase Rate"
+msgstr "Oranı Arttır"
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "R&eset Rate"
+msgstr "Oranı Sıfırla"
+
+msgctxt "ID_FILTERS"
+msgid "&Filters"
+msgstr "&Filtreler"
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr "T&onlamalar"
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio"
+msgstr "Ses"
+
+msgctxt "ID_SUBTITLES"
+msgid "Su&btitles"
+msgstr "Al&t Yazılar"
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr "&Video Akışı"
+
+msgctxt "POPUP"
+msgid "&Volume"
+msgstr "Se&s"
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Up"
+msgstr "&Arttır"
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Down"
+msgstr "&Azalt"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Mute"
+msgstr "&Sesi Kıs"
+
+msgctxt "POPUP"
+msgid "Af&ter Playback"
+msgstr "Oynatmadan Sonra"
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "--------- Once ---------"
+msgstr "-------- Bir Kez --------"
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "&Exit"
+msgstr "Kapat "
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&Stand By"
+msgstr "Askıya Al"
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Hibernate"
+msgstr "Hazırda Beklet"
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Shut&down"
+msgstr "Bilgisayarı Kapat"
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Log &Off"
+msgstr "Oturumu Kapat"
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Lock"
+msgstr "Kilitle"
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "------ Every time ------"
+msgstr "------- Her Zaman -------"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "E&xit"
+msgstr "Kapat "
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do &Nothing"
+msgstr "Bir İşlem Yapma"
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Play next in the &folder"
+msgstr "Sıradaki Dosyayı Oynat"
+
+msgctxt "POPUP"
+msgid "&Navigate"
+msgstr "&Yönetim"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Previous"
+msgstr "&Önceki"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Next"
+msgstr "&Sonraki"
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Go To..."
+msgstr "&Git..."
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "&Jump To..."
+msgstr "&Atla..."
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "&Title Menu"
+msgstr "Başlık Menüsü"
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Root Menu"
+msgstr "&Kök Menüsü"
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Subtitle Menu"
+msgstr "&Alt Yazı Menüsü"
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "&Audio Menu"
+msgstr "&Ses Menüsü"
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "An&gle Menu"
+msgstr "Aç&ı Menüsü"
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "&Chapter Menu"
+msgstr "&Bölüm Menüsü"
+
+msgctxt "ID_FAVORITES"
+msgid "F&avorites"
+msgstr "S&ık Kullanılanlar"
+
+msgctxt "POPUP"
+msgid "&Help"
+msgstr "&Yardım"
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Home Page"
+msgstr "Ana Sayfa"
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Check for &updates"
+msgstr "Güncelleştirmelere bak"
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Command Line Switches"
+msgstr "Komut Satırı Anahtarları"
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Download &Toolbar Images"
+msgstr "Araç çubuğu resimlerini innDir"
+
+msgctxt "ID_HELP_DONATE"
+msgid "&Donate"
+msgstr "Bağış yap"
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&About..."
+msgstr "&Hakkında..."
+

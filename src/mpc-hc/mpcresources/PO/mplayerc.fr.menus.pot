@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Fichier"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "Ouvrir &rapidement..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Ouvrir un fichier..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Lancer un &DVD/BD..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Ouvrir un &périphérique..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Ouvrir un répertoire..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "O&uvrir le disque"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "Fichiers récents"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "&Fermer"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Enregistrer une copie..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Enregistrer l'&image..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Enregistrer les miniatures..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Charger des sous-titres..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Enregistrer les sous-titres..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Base de données"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "&Rechercher..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Envoyer..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "Télécharger..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "&Propriétés"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "&Quitter"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Affichage"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Titre && Menu"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "B&arre de recherche"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "Cont&rôles"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Informations"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "S&tatistiques"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "&État"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Resynchronisation des sous-titres"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Liste de lecture"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Capture"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Navigation"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Présélections..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimal"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compact"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "Plein écran"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Automatique"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Automatique (si trop grand)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Language"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Options d'affichage"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "Test de &Tearing"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "Statistiques d'affichage"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "Durée restante"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Plage de sortie"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Présentation"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "Direct3D plein écran"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "Afficher l'interface utilisation en mode plein écran Direct3D"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "Sortie RVB 10 bits"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Forcer l'entrée RVB 10 bits"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "Traitement en virgule flottante 32 bits"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "Traitement en virgule flottante 16 bits"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Désactiver Aero pendant la lecture"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Activer la correction temporelle"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Paramétrage des couleurs"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "Activer"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Type d'entrée"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "Détection automatique"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Luminosité ambiante"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "Claire (2.2 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "Moyenne (2.35 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "Sombre (2.4 Gamma)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Intention de rendu"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "Perceptuelle"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "Colorimétrie relative"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "Saturation"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "Colorimétrie absolue"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Synchronisation"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&Activer la synchronisation"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "Méthode &précise"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "Méthode &alternative VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Diminuer le décalage"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Augmenter le décalage"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Contrôle du GPU"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Vider le GPU avant synchronisation"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Vider le GPU après affichage"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "Attendre le GPU"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Remise à zéro"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Valeurs par défaut"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Valeurs optimales"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Fenêtre &vidéo"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Moitié"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Originale"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Double"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Ajuster à la fenêtre"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Ajuster à l'&intérieur de la fenêtre"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Ajuster à l'&extérieur de la fenêtre"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Conserver les proportions"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Modifier les proportions"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "Par défaut"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Corriger le différentiel bureau/écran"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Recadrage"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "Agrandir"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "Rétrécir"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "Agrandir en largeur"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "Rétrécir en largeur"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "Agrandir en hauteur"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Rétrécir en hauteur"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Déplacer à droite"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Déplacer à gauche"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Déplacer vers le haut"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Déplacer vers le bas"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Centrer"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "Rétablir"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Toujours visible"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "Par &défaut"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "Toujours"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "Pendant la lecture"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "Pendant la lecture vidéo"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Options..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Lecture"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Lecture/Pause"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Arrêt"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "&Image par image"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Ralentir"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Accélérer"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Réinitialiser"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "&Filtres"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "Sou&s-titres"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "Piste &vidéo"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Vol&ume"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Augmenter"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Diminuer"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Muet"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "En fin de lecture"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "--------- Une fois ---------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "Fermer le programme"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "Mettre en veille"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "Mettre en veille prolongée"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Arrêter l'ordinateur"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Fermer la session"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "Verrouiller l'ordinateur"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "------ Tout le temps ------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Fermer le programme"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Ne rien faire"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Lecture du fichier suivant dans le répertoire"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Navigation"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Précédent"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Suivant"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Aller à..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "Atteindre..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "Menu supérieur"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "Menu &principal"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "Menu des &sous-titres"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "Menu de sélection de la langue &audio"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Menu de sélection de l'an&gle"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "Menu &chapitrage"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "F&avoris"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Aide"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "Site Web de &MPC-HC"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Vérifier les &mises à jour"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "Options de la ligne de commandes"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Télécharger des barres d'outils personnalisées"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "Donations"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&A propos de MPC-HC..."
+msgstr ""
+

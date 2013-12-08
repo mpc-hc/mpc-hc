@@ -1,0 +1,1652 @@
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "選擇媒體類型"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDOK"
+msgid "確認"
+msgstr ""
+
+msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
+msgid "取消"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
+msgid "視訊"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
+msgid "設定"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "音訊"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "輸出"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
+msgid "錄製視訊"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
+msgid "預覽"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
+msgid "錄製音訊"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
+msgid "預覽"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "V/A 緩衝區:"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON3"
+msgid "..."
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
+msgid "輸出成 WAV 檔案"
+msgstr ""
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
+msgid "錄製"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
+msgid "啟用內建的音訊切換篩選器 (需要重新啟動)"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
+msgid "標準化"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
+msgid "最大擴增:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
+msgid "回復音量"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
+msgid "增益:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
+msgid "降低取樣到 44100 Hz"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
+msgid "平移音訊時間 (ms):"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
+msgid "啟用自訂的聲道對應"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
+msgid "揚聲器組態: 給"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
+msgid "組聲道"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
+msgid "按住 Shift 可以立即反應點選時的改變"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_CAPTION"
+msgid "移至..."
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "輸入一組 [hh:]mm:ss.ms 的時間格式來跳至指定的時間。您不一定要明確輸入分隔符號。"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "時間:"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_EDIT1"
+msgid "00:00:00.000"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_OK1"
+msgid "前往"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "輸入兩組數字來跳至指定的影格。第一個數字指的是影格號碼, 第二個數字指的是影格播放速率。"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "影格:"
+msgstr ""
+
+msgctxt "IDD_GOTO_DLG_IDC_OK2"
+msgid "前往"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_CAPTION"
+msgid "開啟"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "鍵入影片或是聲音檔的位址 (在網路上或是您的電腦裡), 播放程式就會開啟它。"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "開啟:"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
+msgid "瀏覽..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
+msgid "配音:"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
+msgid "瀏覽..."
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDOK"
+msgid "確認"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDCANCEL"
+msgid "取消"
+msgstr ""
+
+msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
+msgid "加進播放清單而不開啟"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_CAPTION"
+msgid "關於"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC1"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
+msgid "Copyright © 2002-2013 請見 Authors.txt 檔案"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "本程式是自由軟體, 並依 GNU General Public License 發行。"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "譯者: Kene Lin"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "編譯訊息"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "版本:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "編譯器:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "LAV Filters:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
+msgid "未使用"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "編譯日期:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "作業系統"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "名稱:"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
+msgid "複製到剪貼板"
+msgstr ""
+
+msgctxt "IDD_ABOUTBOX_IDOK"
+msgid "確定"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "開啟選項"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
+msgid "每個媒體檔案都使用相同的播放程式"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
+msgid "每個媒體檔案播放時都開啟新的播放程式"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "標題列"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
+msgid "顯示完整路徑"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
+msgid "只有檔案名稱"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
+msgid "不使用前綴字串"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
+msgid "以標題替代檔案名稱"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "其它選項"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
+msgid "系統列圖示"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
+msgid "顯示 OSD (需要重新啟動)"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
+msgid "縮放時限定視窗長寬比例"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
+msgid "貼齊視窗邊緣"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
+msgid "儲存設定到 INI 檔"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
+msgid "停用 \"開啟光碟\" 選單"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
+msgid "程式優先權調成高於一般"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "歷史記錄"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
+msgid "保留最近開啟檔案的記錄"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "記憶 DVD 位置"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
+msgid "記憶檔案位置"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "記憶上次的播放清單"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
+msgid "記憶上次的視窗位置"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
+msgid "記憶上次的視窗大小"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
+msgid "記憶上次的平移掃描縮放"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "\"開啟 DVD/BD\" 的行為"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
+msgid "提示位置"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
+msgid "總是開啟預設位置:"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_BUTTON1"
+msgid "..."
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "DVD 導覽與外部 OGM 分離器的偏好語言"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
+msgid "選單"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
+msgid "發音"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
+msgid "字幕"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "額外設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
+msgid "允許 Line 21 Decoder 中的隱藏式字幕"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "音訊"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "音量"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "小"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "大"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
+msgid "平衡"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "左"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "右"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "播放"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
+msgid "播放"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
+msgid "永遠重複播放"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
+msgid "次"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
+msgid "結束播放時回到開頭"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "輸出"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
+msgid "自動縮放:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
+msgid "自動縮放系數:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "預設偏好"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "字幕:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "音訊:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
+msgid "允許覆蓋外部分離器選擇"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "開啟設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
+msgid "使用工作執行緒建立篩選器圖 (Filter Graph)"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
+msgid "回報繪製失敗的腳位 (Pin)"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
+msgid "自動載入音訊檔案"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
+msgid "自動載入字幕"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "控制"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "音量步進:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "速度步進:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
+msgid "覆寫放置位置"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
+msgid "水平:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
+msgid "垂直:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
+msgid "%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "延遲間隔"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "材質設定 (再次開啟視訊即可看見變更)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "緩衝的子畫面:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "最大材質解析度:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "緩衝時允許動畫"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
+msgid "進位到 2 的乘方"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "警告"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "如果您覆寫並啟用在顯示卡裡的全螢幕反鋸齒 (FSAA) 設定, 字幕不會變得比較好看, 卻會吃更多的 CPU 資源。"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
+msgid "副檔名"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
+msgid "預設值"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
+msgid "設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
+msgid "Windows 8 或更新"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
+msgid "設定預設程式(&S)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "檔案關聯"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
+msgid "視訊(&V)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
+msgid "音訊(&U)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "全部(&L)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
+msgid "包含圖示"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
+msgid "修改(&M)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "即時串流協定處理器 (給 rtsp://... 網址用)"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
+msgid "RealMedia"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
+msgid "QuickTime"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
+msgid "DirectShow"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
+msgid "先看副檔名"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "檔案總管右鍵選單"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
+msgid "目錄"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
+msgid "檔案"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
+msgid "自動播放"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
+msgid "影片"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
+msgid "音樂"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
+msgid "DVD"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
+msgid "音樂 CD"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "跳躍距離 (分別為小, 中, 大, 以毫秒為單位)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
+msgid "預設值"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
+msgid "快速搜尋 (於關鍵影格)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
+msgid "在搜尋列中顯示章節標記"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
+msgid "顯示 \"Now Playing\" 的訊息於 Skype 心情小語"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
+msgid "避免在非預設顯示器全螢幕時最小化"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
+msgid "使用 Windows 7 工作列功能"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
+msgid "當播放清單中只有一個項目時執行 \"前一段/後一段\" 時開啟前/後一個檔案"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
+msgid "使用時間工具提示:"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "OSD 字型:"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "啟用 Logitech LCD 支援 (實驗性)"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
+msgid "新增篩選器..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
+msgid "移除"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
+msgid "偏好"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
+msgid "攔阻"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
+msgid "設定優先度:"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
+msgid "上移"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
+msgid "下移"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
+msgid "新增媒體類型..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
+msgid "新增子類型..."
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
+msgid "刪除"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
+msgid "重設清單"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "檔案類型:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "檔案大小:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "時間長度:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "畫面大小:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "建立日期:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "片名:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "作者:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "著作權:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "評價:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "位置:"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "描述:"
+msgstr ""
+
+msgctxt "IDD_FAVADD_CAPTION"
+msgid "加到我的最愛"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_STATIC"
+msgid "請選擇捷徑的名稱:"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK1"
+msgid "記憶位置"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDCANCEL"
+msgid "取消"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDOK"
+msgid "確認"
+msgstr ""
+
+msgctxt "IDD_FAVADD_IDC_CHECK2"
+msgid "相對磁碟機"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_CAPTION"
+msgid "組織我的最愛"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
+msgid "更名"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
+msgid "上移"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
+msgid "下移"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
+msgid "刪除"
+msgstr ""
+
+msgctxt "IDD_FAVORGANIZE_IDOK"
+msgid "確認"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_CAPTION"
+msgid "平移掃描先期設定"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
+msgid "新增"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
+msgid "刪除"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
+msgid "上移"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
+msgid "下移"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
+msgid "設定(&S)"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
+msgid "取消(&C)"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDOK"
+msgid "儲存(&S)"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "位置: 0.0 -> 1.0"
+msgstr ""
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "縮放: 0.2 -> 3.0"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK"
+msgid "WinLIRC:"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_STATICLINK2"
+msgid "uICE:"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
+msgid "全域媒體鍵"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
+msgid "選取全部"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
+msgid "重新選取"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
+msgid "警告"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
+msgid "MPC-HC 無法繪製篩選器圖裡的某些腳位, 您的系統可能沒有安裝需要的編解碼器或篩選器。"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
+msgid "以下的腳位找不到對應的篩選器:"
+msgstr ""
+
+msgctxt "IDD_MEDIATYPES_DLG_IDOK"
+msgid "關閉"
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_CAPTION"
+msgid "儲存..."
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_IDC_FROMTO"
+msgid "Static"
+msgstr ""
+
+msgctxt "IDD_SAVE_DLG_IDCANCEL"
+msgid "取消"
+msgstr ""
+
+msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "編碼:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "編碼:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "延遲:"
+msgstr ""
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "縮圖:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "列"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "行"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "影像寬度:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "像素"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_CAPTION"
+msgid "選擇篩選器"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
+msgid "瀏覽..."
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDOK"
+msgid "確認"
+msgstr ""
+
+msgctxt "IDD_ADDREGFILTER_IDCANCEL"
+msgid "取消"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "字型"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
+msgid "字型"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "空白"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "角度 (z,°)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "比例 (x,%)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "比例 (y,%)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "邊框樣式"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
+msgid "邊線"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
+msgid "不透明框"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "邊框寬度"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "陰影"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "螢幕對齊與邊界"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "左"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "右"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "上"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "下"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
+msgid "放置字幕於視訊畫面相對位置"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "顏色與透明度"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "0%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "主要"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "次要"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "邊線"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
+msgid "連結 Alpha 通道"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "如果您想使用這些篩選器的獨立版本或是其它的替代品, 請先在此停用。"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "檔案來源篩選器 (分離器)"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "編碼轉換篩選器 (解碼器)"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "內部 LAV Filters 設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
+msgid "分離器"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
+msgid "視訊解碼器"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
+msgid "音訊解碼器"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
+msgid "內部:"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
+msgid "外部:"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "瀏覽..."
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DirectShow 視訊"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "RealMedia 視訊"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "QuickTime 視訊"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "音訊譜製器"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "VMR-7/VMR-9 (無轉換) 與 EVR 自訂呈現設定"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "繪圖頁:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "變更大小:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
+msgid "選擇 D3D9 繪製裝置"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
+msgid "變更顯示時重新初始化"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Direct3D 全螢幕"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "替代式垂直同步"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 合成模式"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
+msgid "YUV 合成"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
+msgid "EVR 緩衝區:"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DXVA"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "字幕 *"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "螢幕截圖"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Shaders"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "旋轉"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "* 外部篩選器 (例如 VSFilter) 可以在任何繪製器中顯示字幕。"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_CAPTION"
+msgid "需要認證"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDOK"
+msgid "確認"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDCANCEL"
+msgid "取消"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "限制區域"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "使用者名稱:"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "使用者密碼:"
+msgstr ""
+
+msgctxt "IDD_AUTH_DLG_IDC_CHECK1"
+msgid "記憶我的密碼"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
+msgid "監聽連接埠:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
+msgid "於網頁瀏覽器開啟..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
+msgid "啟用壓縮"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
+msgid "只允許從本機存取"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
+msgid "列印偵錯資訊"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
+msgid "服務頁面來自:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
+msgid "瀏覽..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
+msgid "部署..."
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "預設頁面:"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "CGI 處理器: (.ext1=path1;.ext2=path2;...)"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
+msgid "線上有可用的字幕"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "下載並開啟"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
+msgid "取代目前載入的字幕"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
+msgid "儲存為..."
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "色彩控制項 (VMR-9, EVR 及 madVR)"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "亮度"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "對比"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "色調"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "飽和度"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET"
+msgid "重設"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "更新檢查"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
+msgid "啟用自動更新檢查"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
+msgid "每次檢查間隔:"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
+msgid "天"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "設定管理"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
+msgid "重設"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
+msgid "匯出"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
+msgid "匯出按建"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_CAPTION"
+msgid "調諧器掃瞄"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_ID_START"
+msgid "開始"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDCANCEL"
+msgid "取消"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "開始頻率"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "頻寬"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "結束頻率"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
+msgid "忽略加密通道"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_ID_SAVE"
+msgid "儲存"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "F"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Q"
+msgstr ""
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
+msgid "使用偏移量"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "預設裝置"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
+msgid "類比"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
+msgid "數位"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "類比設定"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
+msgid "視訊"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
+msgid "音訊"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
+msgid "國家"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "數位設定 (BDA)"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
+msgid "網路供應器"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
+msgid "調諧器"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
+msgid "接收器"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
+msgid "切換頻道的方法:"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
+msgid "重建篩選器圖"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
+msgid "停止篩選器圖"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgid "同步視訊至顯示"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgid "頻率調整:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgid "同步顯示至視訊"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgid "頻率調整:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgid "行"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgid "列"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgid "於最近的垂直同步呈現"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgid "目標同步偏移量:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgid "毫秒"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgid "控制限制:"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgid "+/-"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgid "毫秒"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC"
+msgid "要關閉或是重新啟動播放後, 變更才會有效。"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
+msgid "以全螢幕開啟檔案"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
+msgid "Hide controls in fullscreen"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
+msgid "ms"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
+msgid "Hide docked panels"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
+msgid "播放結束後退出全螢幕"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "全螢幕顯示器"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
+msgid "使用自動變更全螢幕顯示器模式"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
+msgid "新增"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
+msgid "刪除"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
+msgid "上移"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
+msgid "下移"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
+msgid "離開全螢幕時套用預設顯示器模式"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
+msgid "離開後回復解析度"
+msgstr ""
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
+msgid "資訊"
+msgstr ""
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
+msgid "掃瞄"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
+msgid "優先使用強迫和/或預設字幕軌道"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
+msgid "外部字幕較內嵌字幕優先"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
+msgid "忽略內嵌字幕"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "自動載入路徑"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
+msgid "重設"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "線上資料庫"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "線上字幕資料庫的基礎網址:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "http://"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
+msgid "測試"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_CAPTION"
+msgid "更新檢查程式"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
+msgid "立即下載(&D)"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
+msgid "稍後再提醒我(&L)"
+msgstr ""
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
+msgid "忽略此次更新(&I)"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shaders contain special effects which can be added to the video rendering process."
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
+msgid "Add shader file"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
+msgid "Remove"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
+msgid "Add to pre-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
+msgid "Add to post-resize"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shader presets"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
+msgid "Load"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
+msgid "Save"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
+msgid "Delete"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active pre-resize shaders"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active post-resize shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
+msgid "Debug Shaders"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
+msgid "Debug Information"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
+msgid "PS 2.0"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
+msgid "PS 2.0b"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
+msgid "PS 2.0a"
+msgstr ""
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
+msgid "PS 3.0"
+msgstr ""
+

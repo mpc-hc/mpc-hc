@@ -72,9 +72,9 @@ SET /A VALID+=%ARGB%+%ARGPL%+%ARGBC%+%ARGCOMP%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
-IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=Build")
-IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "ARCH=Both")
-IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "RELEASETYPE=Release")
+IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTYPE=Build")
+IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "ARCH=Both")
+IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "RELEASETYPE=Release")
 IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2012")
 
 IF /I "%COMPILER%" == "VS2013" (
@@ -268,6 +268,7 @@ FOR /F "tokens=1,2 delims=#" %%G IN (
 <NUL SET /p ".=%DEL%" > "%~2"
 FINDSTR /v /a:%1 /R ".18" "%~2" NUL
 DEL "%~2" > NUL 2>&1
+REM The space in the following ECHO is intentional
 ECHO  %~3
 EXIT /B
 

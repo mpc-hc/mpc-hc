@@ -647,6 +647,7 @@ FOR /F "tokens=1,2 delims=#" %%G IN (
 <NUL SET /p ".=%DEL%" > "%~2"
 FINDSTR /v /a:%1 /R ".18" "%~2" NUL
 DEL "%~2" > NUL 2>&1
+REM The space in the following ECHO is intentional
 ECHO  %~3
 EXIT /B
 

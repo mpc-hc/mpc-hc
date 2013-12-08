@@ -1,0 +1,3352 @@
+msgctxt "IDR_MAINFRAME"
+msgid "Media Player Classic Home Cinema"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Позиція"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Відео"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Аудіо"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Субтитри"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Розділ"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Закінчення..."
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Відтворення відео"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Відтворення музики"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Відтворення AudioCD"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "Відтворення DVD"
+msgstr ""
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Властивості"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "&Стандартний стиль"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "Файли"
+msgstr ""
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVD"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Канал"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Час"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Відхилення синхронізації"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "усеред.: %d мс, стандар.: %d мс"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Джіттер"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Бітрейт"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (усеред./поточ.)"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Сигнал"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Потужність: %d дБ, Якість: %d%%"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Стилі"
+msgstr ""
+
+msgctxt "AFX_IDS_APP_TITLE"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Ніколи (найшвидший спосіб)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Лише при перемиканні різних типів відео (типово)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Завжди (найповільніший спосіб)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Не підтримується деяким обладнанням. Два декодери відео завжди присутні у графі фільтрів."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Швидко, крім ситуацій з перемиканням між різними потоками відео. Лише один декодер відео присутній у графі фільтрів."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Не рекомендовано. Лише для тестових цілей."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Ніколи, якщо можливо (найшвидший спосіб, але не підтримується більшістю фільтрів)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Лише при перемиканні різних типів відео (типово)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Завжди (може бути необхідний при роботі з деяким обладнанням)"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Батьківський рейтинг"
+msgstr ""
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Без рейтингу"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Вміст"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Кіно/Драма"
+msgstr ""
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "Новини/Поточні події"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "ГБ/с"
+msgstr ""
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "Файл додано до закладок"
+msgstr ""
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD додано до закладок"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Налаштування захоплення"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Панель навігації"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Синронізація субтитрів"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Час"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "Кінець"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Поперед. перегляд"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Форсовано"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Текст"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Стиль"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Шрифт"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Не вдалося опрацювати деякі піни фільтра DVD Navigator"
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Не вдалося опитати необхідні інтерфейси для відтворення DVD"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Наживо"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Неможливо додати фільтр захоплення відео до графу"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Неможливо додати фільтр захоплення аудіо до графу"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Не вдалося відкрити пристрій захоплення."
+msgstr ""
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Неможливо відкрити, некоректні вхідні параметри"
+msgstr ""
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Редагувати редактор списків"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "Введений час є більшим за тривалість файлу."
+msgstr ""
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "Бібліотека іконок \"mpciconlib.dll\" відсутня.\nТипова іконка самого плеєра буде використовуватися для асоціації файлів.\nБудь ласка, встановіть повторно MPC-HC для можливості використання \"mpciconlib.dll\"."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "Файл"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Мова"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Формат"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Опис"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Заголовок"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "Набір символів"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Юнікод"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Шар"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Актор"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Ефект"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Список відтворення"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "Ввімк./Вимк."
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "Від (кадри\с)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "До (кадри\с)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Режим відображення (Гц)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Типово"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Інше"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "Типово для ОС"
+msgstr ""
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Не вдалося опитати необхідні інтерфейси для відтворення"
+msgstr ""
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Не вдалося встановити цільове вікно для сповіщення графу"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Не вдалося опрацювати всі піни фільтра DVD Navigator"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "&Запустити"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "&Додати"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "&Прибрати"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "О&чистити"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "&Копіювати до \"буферу обміну\""
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "&Зберегти як..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Впорядкувати по &імені"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Впорядкувати по &шляху"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "Пе&ремішати"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "Ві&дновити"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Разділювач"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "&Видалити"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "&Здублювати"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "&Скинути"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Затримка субтитрів -"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Затримка субтитрів +"
+msgstr ""
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Зберегти мініатюри"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Відтворення"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Програвач"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Відтворення::DVD/OGM"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Субтитри"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Програвач::Формати"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Додатково"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Вбудовані фільтри::Аудіоперемикач"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "Зовнішні фільтри"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Відтворення::Шейдери"
+msgstr ""
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Аудіоперемикач"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "Нова версія бібліотеки іконок"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Ви хочете переасоціювати іконки?"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "Це виправить іконки, що некоректно відображаються після оновлення бібліотеки іконок.\nАсоціації файлів не буде модифіковано, лише відповідні іконки будуть оновлені."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Old Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Overlay Mixer Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Video Mixing Renderer 7 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video Mixing Renderer 9 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Video Mixing Renderer 7 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video Mixing Renderer 9 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Enhanced Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Enhanced Video Renderer (користув.)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Null (стиснений)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Null (нестиснений)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDF_LOGO1"
+msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
+msgstr ""
+
+msgctxt "IDF_LOGO2"
+msgid "Steven W. Smith, smith78@sbcglobal.net"
+msgstr ""
+
+msgctxt "IDF_LOGO3"
+msgid "Robbie Khan, email@robbiekhan.co.uk"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Програвач::Гарячі клавіші"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Субтитри::Стандартний стиль"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Вбудовані фільтри"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Програвач::Логотип"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Відтворення::Вивід"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Програвач::Web-інтерфейс"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "Субтитри::База"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Ресурси"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Різне"
+msgstr ""
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Відтворення::Захоплення"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Відтворення::Налаштування Sync Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Відтворення::Повноекранний режим"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Детально"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Кліп"
+msgstr ""
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Відео рендерер зазвичай для DirectShow. Цей режим використовується, коли неможливо завантажити інші рендерери. На Windows XP відповідає VMR-7 (windowed)."
+msgstr ""
+
+msgctxt "IDC_DSOLD"
+msgid "Відеорендерер зазвичай для Windows 9x/ME/2K. Залежно від видимості відеовікна та можливостей відеокарти, режим динамічно перемикається між методами GDI, DirectDraw і Overlay."
+msgstr ""
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Рендеринг завжди здійснюється в оверлеї. Зазвичай доступні лише формати YUV, але вони представляються безпосередньо, без перетворення в RGB. Це найшвидший метод, і лише тут ґарантовано працює \"дзеркальний\" вивід відео на TV-OUT."
+msgstr ""
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "Відеорендерер зазвичай для Windows XP. Дуже стабільний і лише трохи повільніший за Overlay mixer. Використовує DirectDraw та по-можливості запускається в оверлеї."
+msgstr ""
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Доступний лише при встановленому DirectX 9. По можливостях подібний до VMR-7 (windowed), але ніколи не використовує оверлей, а отже може бути дещо повільнішим, ніж VMR-7 (windowed)."
+msgstr ""
+
+msgctxt "IDC_DSVMR7REN"
+msgid "Так само як VMR-7 (windowed), але з плагіном MPC-HC Allocator-Presenter для виводу субтитрів. \"Зеркальне\" відображення відео в оверлеї працювати НЕ БУДЕ. Бажано встановити глибину кольору 'True Color'."
+msgstr ""
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Так само як VMR-9 (windowed), але з плагіном MPC-HC Allocator-Presenter для виводу субтитрів. \"Зеркальне\" відображення відео в оверлеї МОЖЕ працювати. Бажано встановити глибину кольору 'True Color'."
+msgstr ""
+
+msgctxt "IDC_DSDXR"
+msgid "Так само як і VMR-9 (renderless), але використовує справжній двопрохідний bicubic масштабувальник."
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Підключається до будь-якого типу відеоданих і відправляє вхідні кадри в нікуди. Може бути корисний для економії ресурсів процесора, якщо потрібен лише звук."
+msgstr ""
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Так само як нормальний Null-рендерер, але підключається лише до нестиснених даних."
+msgstr ""
+
+msgctxt "IDC_DSEVR"
+msgid "Доступний лише в ОС Windows Vista чи пізніших або в XP з встановленим .NET щонайменше версії 3.5."
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Так само як і EVR, але з Allocator-Presenter MPC-HC для відображення субтитрів і виконання післяобробки. Рекомендований для ОС Windows Vista чи пізніших."
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "Високоякісний рендерер, вимагає GPU, що підтримує D3D9 або пізніший."
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "Так само як і EVR (користув.), але має опції для синхронізування частоти кадрів відео з частотою поновлення екрану для уникнення пропущенних або тих, що дублюються, кадрів відео."
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Власний рендерер RealMedia. Скрипти SMIL будуть працювати, але без інтерактивності. Використовує DirectDraw і по-можливості запускається в оверлеї."
+msgstr ""
+
+msgctxt "IDC_RMDX7"
+msgid "Вивід RealMedia обробляється за допомогою плагіна Allocator-Presenter в VMR-7 (renderless)."
+msgstr ""
+
+msgctxt "IDC_RMDX9"
+msgid "Вивід RealMedia обробляється за допомогою плагіна Allocator-Presenter в VMR-9 (renderless)."
+msgstr ""
+
+msgctxt "IDC_QTSYSDEF"
+msgid "Власний рендерер QuickTime. Сповільнюється при зміні розміру кадру або якщо вікно частково перекривається іншим вікном. Якщо оверлей недоступний, то використовується метод GDI."
+msgstr ""
+
+msgctxt "IDC_QTDX7"
+msgid "Вивід QuickTime обробляється за допомогою плагіна Allocator-Presenter в VMR-7 (renderless)."
+msgstr ""
+
+msgctxt "IDC_QTDX9"
+msgid "Вивід QuickTime обробляється за допомогою плагіна Allocator-Presenter в VMR-9 (renderless)."
+msgstr ""
+
+msgctxt "IDC_REGULARSURF"
+msgid "Поверхня для відео виділяється як звичайна поверхня за межами екрану."
+msgstr ""
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "Субтитри підтримуються лише VMR-7/VMR-9 (renderless), EVR (користув.), Sync, madVR і Haali рендерерами відео.\n\nЗбереження зображень не працює при використанні Overlay або madVR рендерерів відео."
+msgstr ""
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "Рендерер аудіо MPC є непрацюючим, не використовуйте його."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync Renderer"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - Повідомлення про помилку"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "Роботу MPC-HC несподівано перервано, але данна збірка була скомпільована без підтримки відлагоджувальної інформації.\nЯкщо ви хочете повідомити про помилку, вам необхідно спочатку завантажити офіційну збірку.\n\nВи хочете зараз відвідати сторінку для завантаження?"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Прості закадрові планарні поверхні"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D поверхні"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D поверхні (рекомендовано)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Nearest neighbor"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinear"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinear (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bicubic A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bicubic A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bicubic A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**недоступний**"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "Вибраний рендерер не встановлено."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC Audio Renderer"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Назва"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME-тип"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "Для відображення вбудованих ресурсів у браузері вам необхідно ввімкнути веб-інтерфейс.\n\nВикористовуйте пункт \"Зберегти як\", якщо ви хочете зберегти лише інформацію."
+msgstr ""
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Завантажити субтитри"
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Затримка (мс):"
+msgstr ""
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Авто"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "Немає жодних налаштованих клавіш для експорту."
+msgstr ""
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "Жодного медіафайла не знайдено в архіві"
+msgstr ""
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Стиснуті файли не підтримуються"
+msgstr ""
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Зашифровані файли не підтримуються"
+msgstr ""
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Не вдалося знайти всі томи архіва"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Поверхня для відео виділяється як текстура, але для копіювання та масштабування відео в буфер використовуються функції 2D. Відеокарта повинна вміти виділяти буфер текстур 32bit RGBA з розмірами не степеню 2, і не менше розміру відео."
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Поверхня для відео виділяється як текстура і рендериться як два трикутники в 3D. Використання згладжування в налаштуваннях відеокарти може суттєво знизити швидкість рендерингу."
+msgstr ""
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "Якщо піксельні шейдери версії 2.0 не підтримуються, то буде використовуватись простий білінійний метод."
+msgstr ""
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Переводить режим VMR-9 (renderless) в режим мікшера, тобто, більшість елементів керування на сторінці властивостей будуть функціонувати використовуючи окремий потік для рендерингу кадрів."
+msgstr ""
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Підвищує продуктивність, але ціною сумісності рендерера."
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Зменшує дрижання, проте перешкоджає відображенню панелі інструментів. Для виходу з повноекранного режиму в данному випадку необхідно натискати Ctrl+C."
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Зменшує дрижання за допомогою пропуску типового VSync, що є в складі D3D."
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "Відкриває файли VTS_xx_0.ifo для завантаження набору VTS_xx_x.vob"
+msgstr ""
+
+msgctxt "IDS_SRC_RFS"
+msgid "Базується на RARFileSource, не підтримує стиснутих файлів"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Використовує LAV Filters"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Використовує LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Ввімк./Вимк. панель навігації"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Точний VSync"
+msgstr ""
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "Стандартний стан успадковується іншими стилями, в яких він ще не визначений."
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "Вимкнення цієї опції дещо зменшує використання відеопам'яті та зменшує потік даних між основною та відеопам'яттю, але може не працювати на старих відеокартах."
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Дозволяє анімацію субтитрів при використанні буфера субзображень більшого за 0. Вимкнення цієї опції дозволить дещо зменшити завантаження ЦП. Використовуйте якщо помітне мигтіння субтитрів."
+msgstr ""
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "Після натискання цієї кнопки, відмітки вибору групи форматів будуть встановлені відповідно до наявних асоціацій файлів для MPC-HC. Щойно додані роширення зазвичай будуть помічатися \"сірим\", тому не забувайте виділити їх знову перед закриттям вікна!"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Відтворення\nВідтворення"
+msgstr ""
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Пауза\nПауза"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "Стоп\nСтоп"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Крок\nКрок"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Повільніше\nПовільніше"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Швидше\nШвидше"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Вимкнути звук"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Ввімкнути звук"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "Без звуку"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Крок назад\nКрок назад"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Крок вперед\nКрок вперед"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Оригінальний"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Поточний"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Змінити"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Так"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&Ні"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "З&меншити"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "З&більшити"
+msgstr ""
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Налаштування"
+msgstr ""
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Вибрати шейдери..."
+msgstr ""
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "&Додати..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "&Впорядкувати.."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "У випадковому порядку"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Відкрити місцерозташування файла"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Закриття..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Відтворення"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Пауза"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL новий кліп"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "Очистити"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES"
+msgid "&Недавно відкриті файли"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Дійсно очистити список недавно відкритих файлів ?"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL зберегти"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Корекція часу кадру"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "Ввімк./Вимк. редактор списка відтворення"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL час початку"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL час закінчення"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "Повернути кадр X-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "Повернути кадр Y+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "Повернути кадр Y-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "Повернути кадр Z+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "Повернути кадр Z-"
+msgstr ""
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Тест дрижання"
+msgstr ""
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Масштабувати до 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Збільшити до Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Збільшити до Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "Приховувати якщо 'На весь екран'"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Зупинено"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Буферизація... (%d%%)"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Йде запис..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Відкривається..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Закрито"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "&Опції..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Стилі..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "&Перечитати"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "&Ввімкнути"
+msgstr ""
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "Змінити..."
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Назва"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Автор"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Права"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Рейтинг"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Опис"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Область"
+msgstr ""
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Закрити"
+msgstr ""
+
+msgctxt "IDS_AG_NONE"
+msgid "Ні"
+msgstr ""
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Команда"
+msgstr ""
+
+msgctxt "IDS_AG_KEY"
+msgid "Клавіша"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Миша (віконний режим)"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Миша (повноекранний режим)"
+msgstr ""
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "Команда додатку"
+msgstr ""
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Медіафайли (всі типи)"
+msgstr ""
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "Всі файли (*.*)|*.*|"
+msgstr ""
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Аудіофайли (всі типи)"
+msgstr ""
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Невідомий"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Швидко відкрити файл"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Відкрити файл"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "Відкрити DVD/BD"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Відкрити пристрій"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Зберегти як"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Зберегти зображення"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Зберегти зображення (автоматично)"
+msgstr ""
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Зображення успішно збережено"
+msgstr ""
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "Завантажити субтитри"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "Зберегти субтитри"
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Властивості"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT"
+msgid "Вихід"
+msgstr ""
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Відтворення/Пауза"
+msgstr ""
+
+msgctxt "IDS_AG_PLAY"
+msgid "Відтворення"
+msgstr ""
+
+msgctxt "IDS_AG_STOP"
+msgid "Стоп"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Крок вперед"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Крок назад"
+msgstr ""
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Перейти в позицію"
+msgstr ""
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Швидше"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Шоу/Ігрове шоу"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Спорт"
+msgstr ""
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Програми для дітей/молоді"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Музика/Балет/Танці"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Мистецтво/Культура"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Соціальні події/Політичні події/Економіка"
+msgstr ""
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Дозвілля, хобі"
+msgstr ""
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Перемістити до системного кошика"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Зберегти копію"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Останній ключовий кадр"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Найближчий ключовий кадр"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Корекцію часу кадру: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Корекцію часу кадру: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Відхилення синхронізації: %.1f"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "Затримка VSync: %d"
+msgstr ""
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Швидкість відтв.: %.2lfx"
+msgstr ""
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Мініатюри успішно збережено"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "Потік в&ідео"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "Кут від&ео"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Скинути налаштування"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Ви впевнені, що хочете відновити типові налаштування MPC-HC?\nМайте на увазі, що ВСІ ваші поточні налаштування будуть втрачені!"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Будь ласка, закрийте всі копії MPC-HC, щоб була можливість відновити типові налаштування."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Експорт налаштувань"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Деякі зміни не було збережено.\nВи хочете, щоб вони були збережені перед початком експорту?"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "Налаштування було успішно експортовано."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "Сталася помилка при експорті! Це може траплятись, коли у вас немає відповідних прав."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR"
+msgid "Помилка BDA"
+msgstr ""
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Повільніше"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Нормальна швидкість"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Затримка аудіо +10мс"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Затримка аудіо -10мс"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Перехід вперед (короткий)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Перехід назад (короткий)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Перехід вперед (середній)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Перехід назад (середній)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Перехід вперед (довгий)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Перехід назад (довгий)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Перехід вперед (по ключових кадрах)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Перехід назад (по ключових кадрах)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT"
+msgid "Наступний"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Попередній"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Наступний файл"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Попередній файл"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Ввімк./Вимк. повноекранний Direct3D"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Перейти до попередніх субтитрів"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Перейти до наступних субтитрів"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Зсунути субтитри вліво"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Зсунути субтитри вправо"
+msgstr ""
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "Показати статистику"
+msgstr ""
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Перейти на початок"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "Мінімальна компоновка"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "Компактна компоновка"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "Звичайна компоновка"
+msgstr ""
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "На весь екран"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "На весь екран (не міняти розд. здатність)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Вписати"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "Половинний відеокадр"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "Нормальний відеокадр"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "Подвійний відеокадр"
+msgstr ""
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Поверх інших вікон"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "Збільшити розмір кадру"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "Збільшити ширину кадру"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "Збільшити висоту кадру"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "Зменшити розмір кадру"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "Зменшити ширину кадру"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "Зменшити висоту кадру"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Йде завантаження субтитрів, будь ласка, зачекайте."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Обробка списку..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "Субтитрів не знайдено."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d субтитрів доступно."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Ви хочете періодично перевіряти оновлення MPC-HC?\n\nДана можливість може бути вимкнена пізніше на сторінці налаштувань Різне."
+msgstr ""
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Автоматично вписати"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Автоматично вписати (лише збільшення)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Автоматично вписати (лише збільшення)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Масштаб: Автоматично (лише збільшення)"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Для відкриття теки з файлом зробіть подвійний клік"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Перемикання між часом, що пройшов і залишився"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Невірно вказано період"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Будь ласка, введіть число від 1 до 365."
+msgstr ""
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "Центрувати кадр"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "Зсунути кадр вліво"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "Зсунути кадр вправо"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "Зсунути кадр догори"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "Зсунути кадр донизу"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "Зсунути кадр догори/вліво"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "Зсунути кадр догори/вправо"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "Зсунути кадр донизу/вліво"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "Зсунути кадр донизу/вправо"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Голосніше"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Тихіше"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Вимкнути звук"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD - меню диску"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD - кореневе меню"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD - меню субтитрів"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD - меню аудіо"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD - меню кута зору"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD - меню сцен"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD меню - вліво"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD меню - вправо"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD меню - догори"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD меню - донизу"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD меню - вибрати"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD меню - назад"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD меню - вихід"
+msgstr ""
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Аварійна клавіша"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Меню програвача (скорочене)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Меню програвача (повне)"
+msgstr ""
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Меню фільтрів"
+msgstr ""
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Опції"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Наступне аудіо"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Попереднє аудіо"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Наступні субтитри"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Попередні субтитри"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "Ввімк./Вимк. субтитри"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Перечитати субтитри"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "Наступне аудіо (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "Попереднє аудіо (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "Наступні субтитри (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "Попередні субтитри (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "Наступний кут зору (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "Попередній кут зору (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "Наступне аудіо (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "Попереднє аудіо (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "Наступні субтитри (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "Попередні субтитри (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "Ввімк./Вимк. субтитри (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "Часу залишилося"
+msgstr ""
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Оберіть теку"
+msgstr ""
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Швидко додати до закладок"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "Номер"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Назва"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Частота"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Зашифровано"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "Так"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "Ні"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Розпочати"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Зупинити"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Радіостанції"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "Канали ТБ"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Формат"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_2"
+msgid "Фокус перейшов до: %s - %s"
+msgstr ""
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Субтитри збережено"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Неможливо зберегти субтитри."
+msgstr ""
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Частота кадрів"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_6"
+msgid "записано: %d, втрачено: %d"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Кадрів"
+msgstr ""
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Буферів"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Том: %02d/%02d, Розділ: %02d/%02d, Сцена: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Кут: %02d/%02d, %dx%d %dГц %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %d Гц %d біт %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Додати до списка відтворення MPC-HC"
+msgstr ""
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Відтворити в MPC-HC"
+msgstr ""
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "У MPC-HC недостатньо прав для зміни асоціацій файлів. Натисніть на кнопку \"Modify\" для виконання операції з правами адміністратора."
+msgstr ""
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "Один з найпотужніших мультимедійних програвачів для Windows. Початково створений угорським розробником, відомим як Gabest. Ця версія має додаткові можливості, зокрема повноекранний Direct3D режим та покращену підтримку Windows Vista/7."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_12"
+msgid "канал"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_13"
+msgid "каналів"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE"
+msgid "Назва %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Непередбачена помилка."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: проблема з захистом від копіювання."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Невірний диск DVD 1.x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Невірний регіон диска."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Низький рівень батьківського контролю."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Проблема з Macrovision."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Несумісний регіон декодера та системи."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Несумісний регіон декодера та диску."
+msgstr ""
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "Ця опція призначена для усунення \"дрижання\", але у цьому режимі MPC-HC не може показувати контекстне меню та діалоги якщо відео завантажене.\n\nПродовжити?"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Затримка субтитрів: %ld ms"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Назва: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "Ім'я файлу містить недозволені символи (використовуйте A-Z, 0-9)"
+msgstr ""
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Рядків:"
+msgstr ""
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Стовпців:"
+msgstr ""
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Ширина зображення"
+msgstr ""
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "Введено правильний URL (напевно)!"
+msgstr ""
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "Версія протоколу не співпадає, Обновіть програму або виберіть інший сервер!"
+msgstr ""
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Пропорції"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Разом: %d, Втрачено: %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Розмір: %I64dКб"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Розмір: %I64dМб"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Вільно: %I64dКб"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Вільно: %I64dМб"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Вільно буферів: %03d/%03d"
+msgstr ""
+
+msgctxt "IDS_AG_ERROR"
+msgid "Помилка"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Субтитри: вимкнено"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Субтитри: %s"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_46"
+msgid "Оберіть шлях до DVD/BD:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_47"
+msgid " успішно завантажено"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_48"
+msgid "Всі файли (*.*)|*.*||"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_49"
+msgid "Проблема з GetDIB, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_51"
+msgid "Проблема з GetCurrentImage, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_53"
+msgid "Неможливо створити файл"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_54"
+msgid "Неможливо створити мініатюри для файлів без тривалості"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_55"
+msgid "Неможливо отримати розмір відеокадра"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_56"
+msgid "Недостатньо пам'яті!"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_57"
+msgid "Невірний формат зображення, неможливо створити мініатюри з %d bpp."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_58"
+msgid "Розмір файлу: %s (%s байт)\\N"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Ім'я файлу: %s\\N%sРозмір: %dx%d %s\\NТривалість: %02d:%02d:%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_60"
+msgid "Для завантаження субтитрів Вам необхідно змінити тип рендерера та повторно відкрити файл.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (користув.), Sync, madVR або Haali\n- RealMedia: Спеціальний рендерер для RealMedia, або відкривайте файл через DirectShow\n- QuickTime: DX7 або DX9 рендерер для QuickTime\n- ShockWave: недоступно"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Пропорції: %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Пропорції: стандартні"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Затримка аудіо: %I64dмс"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "Сцена %d"
+msgstr ""
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Недостатньо памяті"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Помилка: Flash необхідний для IE"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime поки що не підтримується для X64 (бібліотеки від Apple недоступні)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Помилка створення об'єкта графа фільтрів"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Невірний аргумент"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Відкривання перервано"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Помилка відтворення файла"
+msgstr ""
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "Введено неправильний URL, база субтитрів недоступна!"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "Сцена: "
+msgstr ""
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Гучн: %d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Підсилення: +%u%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Баланс: %s"
+msgstr ""
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Поточний"
+msgstr ""
+
+msgctxt "IDS_MPC_CRASH"
+msgid "Роботу MPC-HC несподівано перервано. Щоб допомогти нам виправити проблему, надішліть цей файл '%s' на наш трекер з розв'язання помилок.\n\nВи хочете відкрити теку, що містить файл мінідампу і відвідати трекер?"
+msgstr ""
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "Неможливо створити файл-дамп '%s' (код помилки %d)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Оберіть теку"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Разом з підтеками"
+msgstr ""
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Пауза"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Ввімк./Вимк. заголовок і меню"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Ввімк./Вимк. смуга перемотки"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Ввімк./Вимк. керування"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Невірне ім'я файлу"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Неможливо підключити фільтри"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Неможливо завантажити жодного фільтру джерел"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_88"
+msgid "Неможливо відтворити файл"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Невірний формат файлу"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_90"
+msgid "Файл не знайдено"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Невідомий тип файлу"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Потік не підтримується"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_93"
+msgid "Неможливо знайти каталог DVD"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_94"
+msgid "Неможливо створити фільтр DVD-навігатора"
+msgstr ""
+
+msgctxt "IDS_AG_FAILED"
+msgid "Невдача"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Неможливо створити фільтр запису відео"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_98"
+msgid "Фільтри запису відео відсутні"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Неможливо створити об'єкт побудови графу запису відео"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Неможливо відкрити жодного пристрою"
+msgstr ""
+
+msgctxt "IDS_AG_SOUND"
+msgid "Звук"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s не знайдено. Будь ласка, вставте носій, що містить цей файл."
+msgstr ""
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Перервано"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Властивості..."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (pin) властивості..."
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Невідомий потік"
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Невідомий %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNC"
+msgid "VSync"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Коментар режисера 1)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Коментар режисера 2)"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLED"
+msgid "Увімкнено"
+msgstr ""
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Кут зору %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "Збільшити затримку VSync"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Вимкнено"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "Зменшити затримку VSync"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC Повноекранний D3D"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Невідомий формат"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Позиція субтитрів: %ld ms"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Підсилення - збільшити"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Підсилення - зменшити"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Підсилення - Мін."
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Підсилення - Макс."
+msgstr ""
+
+msgctxt "IDS_USAGE"
+msgid "Використання: mpc-hc.exe \"шлях\" [перемикачі]\n\n\"шлях\"\tФайл або тека для завантаження (дозволені маски, \"-\" перевизначають стандартне введення)\n/dub \"dubname\"\tЗавантажити додатковий дубляж\n/dubdelay \"file\"\tЗавантажити додатковий дубляж з затримкою XXмс\n(якщо ім'я файлу містить \"...DELAY XXms...\")\n/d3dfs\t\tСтартувати в повноекранному D3D режимі\n/sub \"subname\"\tЗавантажити додаткові субтитри\n/filter \"filtername\"\tЗавантажити фільтри DirectShow з бібліотеки (дозволені маски)\n/dvd\t\tЗапуск в режимі DVD, \"шлях\" вказує на вміст DVD (опціонально)\n/dvdpos T#C\tПочинати відтворення з заголовку T, розділу C\n/dvdpos T#hh:mm\tПочинати відтворення з заголовку T, позиції hh:mm:ss\n/cd\t\tЗавантажити всі доріжки Audio CD або (S)VCD, \"шлях\" вказує на вміст диску (опціонально)\n/device\t\tВідкрити типовий пристрій відображення відео\n/open\t\tЛише відкрити файл, не відтворювати\n/play\t\tПочинати відтворення відразу після запуску\n/close\t\tЗакрити після завершення відтворення (працює лише з /play)\n/shutdown\tВимкнути комп'ютер після завершення відтворення\n/fullscreen\tЗапуск в повноекранному режимі\n/minimized\tЗапуск в згорнутому вигляді\n/new\t\tЗапускати нову копію програвача\n/add\t\tДодати \"шлях\" в список відтворення, можна спільно з /open та /play\n/regvid\t\tЗареєструвати асоціації відеоформатів\n/regaud\t\tЗареєструвати асоціації аудіоформатів\n/regpl\t\tЗареєструвати асоціації для файлів списків відтворення\n/regall\t\tЗареєструвати асоціації для всіх підтримуваних типів файлів\n/unregall\t\tВідреєструвати асоціації відеоформатів\n/start ms\t\tВідтворювати починаючи з позиції \"ms\" (= мілісекунди)\n/startpos hh:mm:ss\tПочинати відтворення з позиції hh:mm:ss\n/fixedsize w,h\tВстановити фіксований розмір вікна\n/monitor N\tЗапустити на моніторі N, нумерація з 1\n/audiorenderer N\tЗапустити з аудіорендерером N, нумерація з 1\n\t\t(див. \"Вивід\" в налаштуваннях)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tВідновити типові налаштування\n/help /h /?\tПоказати цю довідку\n"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "В рядку запуску знайдено невідомі перемикачі: \n\n"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Ввімк./Вимк. інформація"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Ввімк./Вимк. статистика"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Ввімк./Вимк. статус"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Ввімк./Вимк. синхронізатор сутбитрів"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Ввімк./Вимк. список відтворення"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Ввімк./Вимк. вікно запису"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Масштаб 50%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Масштаб 100%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Масштаб 200%"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Наступна по списку пропорція"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "Кадр розтягнути до вікна"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "Кадр вписати у вікно"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "Кадром охопити вікно"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "Скинути положення кадру"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "Повернути кадр X+"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "Збільшення Кадру 1"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "Збільшення Кадру 2"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "Перемикання збільшення кадру"
+msgstr ""
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "&Ввімкнути всі фільтри"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Налаштування тюнера"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Субтитри не завантажені або використовується непідтримуваний рендерер."
+msgstr ""
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Автор невідомий. Зв'яжіться зі мною, якщо це ваш лого!"
+msgstr ""
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "Більше немає медіафайлів в поточній теці."
+msgstr ""
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "Перший файл в теці запущений."
+msgstr ""
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "Останній файл в теці запущений."
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Фронтальний лівий"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Фронтальний правий"
+msgstr ""
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Фронтальний центральний"
+msgstr ""
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Низькочастотний(LFE)"
+msgstr ""
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Тиловий лівий"
+msgstr ""
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Тиловий правий"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Фронтальний центральний лівий"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Фронтальний центральний правий"
+msgstr ""
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Тиловий центральний"
+msgstr ""
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Бічний лівий"
+msgstr ""
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Бічний правий"
+msgstr ""
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Верхній центральний"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Верхній фронтальний лівий"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Верхній фронтальний центральний"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Верхній фронтальний правий"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Верхній тиловий лівий"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Верхній тиловий центральний"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Верхній тиловий правий"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "Скидання статистики Sync Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Субтитри::Різне"
+msgstr ""
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Приховати межі"
+msgstr ""
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Лише відеокадр"
+msgstr ""
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Відобразити заголовок та меню"
+msgstr ""
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Приховати меню"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Над стрічкою перемотування"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Під стрічкою перемотування"
+msgstr ""
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Відео: %s"
+msgstr ""
+
+msgctxt "IDS_APPLY"
+msgid "Застосувати"
+msgstr ""
+
+msgctxt "IDS_CLEAR"
+msgid "Очистити"
+msgstr ""
+
+msgctxt "IDS_CANCEL"
+msgid "Відмінити"
+msgstr ""
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Розташування"
+msgstr ""
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Пікселів:"
+msgstr ""
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Набір символів:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "&Вимкнути всі фільтри"
+msgstr ""
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Ввімкнути всі аудіодекодери"
+msgstr ""
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Вимкнути всі аудіодекодери"
+msgstr ""
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Ввімкнути всі відеодекодери"
+msgstr ""
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Вимкнути всі відеодекодери"
+msgstr ""
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Розтягнути до розміру вікна"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Вписати у вікно з середини"
+msgstr ""
+
+msgctxt "IDS_ZOOM1"
+msgid "Збільшення 1"
+msgstr ""
+
+msgctxt "IDS_ZOOM2"
+msgid "Збільшення 2"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Описати вікно ззовні"
+msgstr ""
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Потік аудіо: %s"
+msgstr ""
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Повторно відкрити файл"
+msgstr ""
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr ""
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Інше аудіо"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "Кадрів за секунду"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Роздільна здатність"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Співвіднош. сторін"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "Використовувати WASAPI (необхідний перезапуск)"
+msgstr ""
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "Вимикати звук при прискореному перемотуванні вперед"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Пристрій виведення звуку:"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "VSync: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "VSync: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Точна VSync: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Точна VSync: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Синхронізація відео з дисплеєм: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Синхронізація відео з дисплеєм: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Синхронізація дисплею з відео: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Синхронізація дисплею з відео: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Презентація при найближчому VSync: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Презентація при найближчому VSync: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Управління кольором: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Управління кольором: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Вхідний тип: Автовизначення"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Вхідний тип: HDTV"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Вхідний тип: SDTV NTSC"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Вхідний тип: SDTV PAL"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Розсіяне освітлення: Яскраво (2.2 Гамма)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Розсіяне освітлення: Тьмяно (2.35 Гамма)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Розсіяне освітлення: Темно (2.4 Гамма)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Призначення рендерингу: По сприйняттю"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Призначення рендерингу: Відносна колориметрія"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Призначення рендерингу: Насиченість"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Призначення рендерингу: Абсолютна колориметрія"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Вихідний діапазон: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "Заповнювати GPU перед VSync: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "Заповнювати GPU перед VSync: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "Заповнювати GPU після Present: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "Заповнювати GPU після Present: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Чекати на заповнення GPU: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Чекати на заповнення GPU: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D Повноекранний: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D Повноекранний: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Вимкнути ефекти робочого столу: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Вимкнути ефекти робочого столу: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Альтернативна VSync: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Альтернативна VSync: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Відновити звичайні налаштування рендерера"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Відновити оптимальні налаштування рендерера"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D Повноекранний з GUI: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D Повноекранний з GUI: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10-ти бітний RGB на виході: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10-ти бітний RGB на виході: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "Форсувати 10-ти бітний RGB на вході: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "Форсувати 10-ти бітний RGB на вході: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Повна обробка з рухомою точкою: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Повна обробка з рухомою точкою: Вимк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Половинна обробка з рухомою точкою: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Половинна обробка з рухомою точкою: Вимк."
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Зменшення яскравості"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Збільшення контрасту"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Зменшення контрасту"
+msgstr ""
+
+msgctxt "IDS_HUE_INC"
+msgid "Відтінок +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "Відтінок -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Збільшення насиченості"
+msgstr ""
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Зменшення насиченості"
+msgstr ""
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Скинути налаштування щодо управління кольором"
+msgstr ""
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nВи вже використовуєте останню стабільну версію."
+msgstr ""
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Ваша поточна версія - v%s.\n\nОстання стабільна версія - v%s."
+msgstr ""
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "Зараз є доступною версія MPC-HC v%s. Ви використовуєте версію v%s.\n\nВи хочете відвідати сайт MPC-HC щоб завантажити її?"
+msgstr ""
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Сервера оновлень не знайдено.\n\nБудь ласка, перевірте ваше інтернет-з'єднання або спробуйте ще раз пізніше."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Закрити"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Масштаб: %.0lf%%"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Масштаб: Автоматично"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Ввімк./Вимк. розподіл каналів користувача"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Розподіл каналів користувача: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Розподіл каналів користувача: Вимк."
+msgstr ""
+
+msgctxt "IDS_NORMALIZE"
+msgid "Ввімк./Вимк. нормалізацію"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Нормалізація: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Нормалізація: Вимк."
+msgstr ""
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Ввімк./Вимк. відновлення гучності"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Відновлення гучності: Ввімк."
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Відновлення гучності: Вимк."
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "КБ"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "МБ"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "ГБ"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "КБ/с"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "МБ/с"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Неможливо створити тюнер."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Неможливо створити рісівер."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Неможливо з'єднатися з мережею і тюнером."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Неможливо з'єднатися з тюнером і рісівером."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Неможливо з'єднатися з тюнером."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Неможливо створити демультиплексер."
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Помилка обробки введеного часу!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Помилка обробки введеного тексту!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Помилка обробки введеної частоти кадрів!"
+msgstr ""
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Покадровий перегляд неможливий, спробуйте інший рендерер відео."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "'Зберегти зображення' і 'Зберегти мініатюри' не працюють для типового рендерера відео RealMedia.\nОберіть один з DirectX рендерерів для RealMedia у відповідному розділі налаштувань MPC-HC і повторно відкрийте файл."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "'Зберегти зображення' і 'Зберегти мініатюри' не працюють для типового рендерера відео QuickTime.\nОберіть один з DirectX рендерерів для QuickTime у відповідному розділі налаштувань MPC-HC і повторно відкрийте файл."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "'Зберегти зображення' і 'Зберегти мініатюри' не працюють для файлів Shockwave."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "'Зберегти зображення' і 'Зберегти мініатюри' не працюють для рендерера відео Overlay Mixer.\nЗмініть рендерер відео у відповідному розділі налаштувань MPC-HC і повторно відкрийте файл."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Неможливо з'єднатися з онлайн-базою субтитрів."
+msgstr ""
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Ви хочете активувати редактор EDL?"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Помилка захоплення"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "відео"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "аудіо"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "Не вдається додати фільтр %s буферизації до графу."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Не вдається з'єднати фільтр %s буферизації з графом."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "Не вдається додати фільтр %s кодування до графу."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Не вдається з'єднати фільтр %s кодування з графом."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Не вдається встановити формат стиснення для фільтра %s кодування."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Не вдається з'єднати потік %s з фільтром-мультиплексером."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "Не знайдено жодного піна захоплення відео."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "Не знайдено жодного піна захоплення аудіо."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Помилка ініціалізації вихідного файла."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Помилка ініціалізації вихідного файла аудіо."
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "Коректний формат задання часу [-]гг:хв.хв.:сс.мс (наприклад, 01:23:45.678)."
+msgstr ""
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "Цей тип уже в списку!"
+msgstr ""
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "Вам необхідно застосувати нові налаштування перед тим, як їх тестувати."
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "Наприкінці відтворення: Закрити програму"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "Наприкінці відтворення: Перейти в режим очікування"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "Наприкінці відтворення: Перейти в режим сну"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "Наприкінці відтворення: Вимкнути комп'ютер"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "Наприкінці відтворення: Завершити сеанс"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "Наприкінці відтворення: Заблокувати ПК"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "Наприкінці відтворення: Завжди закривати програму"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "Наприкінці відтворення: Нічого не робити"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "Наприкінці відтворення: Відтворити наступний файл в теці"
+msgstr ""
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Яскравість: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Контраст: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_HUE"
+msgid "Відтінок: %s°"
+msgstr ""
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Насиченість: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Налаштування щодо управління кольором відновлено"
+msgstr ""
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Управління кольором не підтримується"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Збільшення яскравості"
+msgstr ""
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Введіть ваші уподобання щодо мови доріжок тут.\nНаприклад, введіть: \"eng jap swe\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "Зовнішні спліттери можуть мати свої власні налаштування щодо вибору мови доріжок, тому типова поведінка MPC-HC не має на меті змінювати їх.\nВвімкніть дану опцію, якщо хочете, щоб MPC-HC перевизначав вибір зовнішніх спліттерів у цьому аспекті."
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Налаштування"
+msgstr ""
+

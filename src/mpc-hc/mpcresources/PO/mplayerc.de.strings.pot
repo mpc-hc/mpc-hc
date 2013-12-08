@@ -1,0 +1,3352 @@
+msgctxt "IDR_MAINFRAME"
+msgid "Media Player Classic Home Cinema"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Ort"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Video"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Audio"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Untertitel"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Kapitel"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Beende..."
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Spiele Video"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Spiele Musik"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Spiele Audio-CD"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "Spiele DVD-Film"
+msgstr ""
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Eigenschaften"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "&Standard-Darstellung"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "Sonstige"
+msgstr ""
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVDs"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Kanal"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Zeit"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Sync-Offset"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "avg: %d ms, dev: %d ms"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Jitter"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Bitrate"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (avg/cur)"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Signal"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Stärke: %d dB, Qualität: %d%%"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Darstellung anpassen"
+msgstr ""
+
+msgctxt "AFX_IDS_APP_TITLE"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Bei keinem Wechsel (schnell)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Nur bei Wechsel auf andere Videotypen (Standard)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Bei jedem Wechsel (langsam)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Wird von einigen Geräten nicht unterstützt. Es sind immer zwei Video-Decoder im Filtergraphen verfügbar."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Langsamer bei Wechsel zwischen verschiedenen Videotypen. Es ist nur ein Video-Decoder im Filtergraphen verfügbar."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Nicht empfehlenswert. Sollte nur zu Testzwecken verwendet werden."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Möglichst bei keinem Wechsel (schnell, oft nicht unterstützt)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Nur bei Wechsel auf andere Videotypen (Standard)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Bei jedem Wechsel (langsam, von einigen Geräten benötigt)"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Altersfreigabe"
+msgstr ""
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Keine Einstufung"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Genre"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Spielfilm/Drama"
+msgstr ""
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "Nachrichten/Aktuelles"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr ""
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "Die Mediendatei wurde zu den Favoriten hinzugefügt"
+msgstr ""
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "Die DVD wurde zu den Favoriten hinzugefügt."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Aufnahme-Einstellungen"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Navigationsleiste"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Untertitel-Resync"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Zeit"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "Ende"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Vorschau"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob-ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Zellen-ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Erzwungen"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Text"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Stil"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Schriftart"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Das Rendern einiger Pins des DVD-Navigator-Filters ist fehlgeschlagen."
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Problem bei der Abfrage der für die DVD-Wiedergabe benötigten Schnittstelle."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Live"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Der Videoaufnahme-Filter konnte nicht mit dem Filtergraphen verbunden werden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Der Audioaufnahme-Filter konnte nicht mit dem Filtergraphen verbunden werden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Das Videogerät konnte nicht geöffnet werden."
+msgstr ""
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Öffnen nicht möglich, ungültige Eingabeparameter"
+msgstr ""
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "List-Editor bearbeiten"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "Die eingegebene Zeit überschreitet die Laufzeit der Datei."
+msgstr ""
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "Die Datei \"mpciconlib.dll\" konnte nicht gefunden werden. Diese Icon-Bibliothek wird für die MPC-HC-Dateiverknüpfungen benötigt. Bitte den MPC-HC neu installieren, um die Datei wiederherzustellen."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "Datei"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Sprache"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Format"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Disc"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Titel"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "Zeichensatz"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Ebene"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Darsteller"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Effekt"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Wiedergabeliste"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "Priorität"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "Bildrate von (fps)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "Bildrate bis (fps)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Anzeigemodus (Hz)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Standard"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Andere"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "System-Standard"
+msgstr ""
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Problem bei der Abfrage der für die Wiedergabe benötigten Schnittstelle."
+msgstr ""
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Das Zielfenster für die Graph-Benachrichtigung konnte nicht gesetzt werden."
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Das Rendern sämtlicher Pins des DVD-Navigator-Filters ist fehlgeschlagen."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "&Öffnen"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "&Hinzufügen"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "&Entfernen"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "Wiedergabeliste &leeren"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "&Pfadname kopieren"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "Wiedergabeliste &speichern..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Nach Ein&trag sortieren"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Nach Pfad&name sortieren"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "Nach Zu&fall sortieren"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "&Reihenfolge wiederherstellen"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Separator"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "&Löschen"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "D&uplizieren"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "&Zurücksetzen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Untertitelverzögerung (-500ms)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Untertitelverzögerung (+500ms)"
+msgstr ""
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Miniaturansichten speichern"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Wiedergabe"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Programm"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Wiedergabe::DVD/BD/OGM"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Untertitel"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Programm::Formate"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Optimierungen"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Interne Filter::Audio-Umschalter"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "Externe Filter"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Wiedergabe::Shader"
+msgstr ""
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Audio-Umschalter"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "Neue Version der Icon-Bibliothek"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Sollen die Icons neu zugeordnet werden?"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "Eine Neuzuordnung der Icons behebt eine falsche Darstellung der Icons, nachdem die Icon-Bibliothek aktualisiert wurde. Dabei bleiben zuvor festgelegte Dateiverknüpfungen unverändert."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Alter Video-Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Overlay Mixer Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Video Mixing Renderer 7 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video Mixing Renderer 9 (windowed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Video Mixing Renderer 7 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video Mixing Renderer 9 (renderless)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Enhanced Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Enhanced Video Renderer (custom presenter)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Null Video Renderer (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Null Video Renderer (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDF_LOGO1"
+msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
+msgstr ""
+
+msgctxt "IDF_LOGO2"
+msgid "Steven W. Smith, smith78@sbcglobal.net"
+msgstr ""
+
+msgctxt "IDF_LOGO3"
+msgid "Robbie Khan, email@robbiekhan.co.uk"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Programm::Tasten"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Untertitel::Standard-Darstellung"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Interne Filter"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Programm::Logo"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Wiedergabe::Ausgabe"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Programm::Web-Steuerung"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "Untertitel::Datenbank"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Ressourcen"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Verschiedenes"
+msgstr ""
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Wiedergabe::Erfassung"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Wiedergabe::Sync Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Wiedergabe::Vollbild"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Details"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Allgemein"
+msgstr ""
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Andere Video-Renderer fallen auf diesen Renderer zurück, wenn sie nicht geladen werden können. Unter Windows XP gleichbedeutend mit dem VMR-7 (windowed)."
+msgstr ""
+
+msgctxt "IDC_DSOLD"
+msgid "Verwendet je nach Grafikkarte und Sichtbarkeit des Videofensters das GDI, DirectDraw oder den Overlay-Modus. Standard-Renderer von Windows 9x/ME/2000."
+msgstr ""
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Rendert im Overlay-Modus. Normalerweise sind nur YUV-Formate erlaubt, diese werden aber ohne Farbumwandlung direkt in RGB dargestellt. Ist die schnellste und zuverlässigste Methode, mit der ein Vollbild über TV-Ausgang gespiegelt ausgegeben werden kann."
+msgstr ""
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "Sehr stabil und kaum langsamer als der Overlay Mixer Renderer. Verwendet auch DirectDraw, arbeitet aber nach Möglichkeit im Overlay-Modus. Standard-Renderer von Windows XP."
+msgstr ""
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Bietet im Unterschied zum VMR-7 (windowed) keinen Overlay-Modus und kann dadurch etwas langsamer sein. Nur unter DirectX 9 verfügbar."
+msgstr ""
+
+msgctxt "IDC_DSVMR7REN"
+msgid "Bietet im Unterschied zum VMR-7 (windowed) eine Unterstützung für Untertitel. Gespiegelte Darstellung eines Overlay-Videos funktioniert NICHT! Desktop-Farbtiefe sollte auf Echtfarben eingestellt sein."
+msgstr ""
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Bietet im Unterschied zum VMR-9 (windowed) eine Unterstützung für Untertitel. Gespiegelte Darstellung eines Overlay-Videos KANN funktionieren! Desktop-Farbtiefe sollte auf Echtfarben eingestellt sein."
+msgstr ""
+
+msgctxt "IDC_DSDXR"
+msgid "Bietet im Unterschied zum VMR-9 einen echten bikubischen Zwei-Pass-Resizer."
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Verbindet sich mit allen Videotypen, um den eingehenden Stream zu verwerfen. Soll die CPU entlasten, falls keine Videoausgabe benötigt wird."
+msgstr ""
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Unterstützt im Unterschied zum Null Video Renderer (anything) nur unkomprimierte Medientypen."
+msgstr ""
+
+msgctxt "IDC_DSEVR"
+msgid "Grundsätzlich unter Windows Vista/7/8 verfügbar. Setzt unter Windows XP die Installation eines .NET Framework 3.5 oder höher voraus."
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Bietet im Unterschied zum EVR eine Unterstützung für Untertitel und Postprocessing. Empfohlene Einstellung für Windows Vista/7/8."
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "Renderer für höchste Videoqualität. Benötigt eine Grafikkarte, die Direct3D 9 oder höher unterstützt."
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "Bietet im Unterschied zum EVR (CP) mehrere Optionen für die Synchronisierung der Videobildrate mit der Bildwiederholfrequenz des Anzeigegeräts, um übersprungene oder duplizierte Videobilder zu entfernen."
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Gibt RealMedia-Video über RealNetworks' eigenen Renderer aus. SMIL-Scripte funktionieren, können aber Probleme bereiten. Verwendet neben DirectDraw nach Möglichkeit den Overlay-Modus."
+msgstr ""
+
+msgctxt "IDC_RMDX7"
+msgid "Gibt RealMedia-Video über den VMR-7 (renderless) aus."
+msgstr ""
+
+msgctxt "IDC_RMDX9"
+msgid "Gibt RealMedia-Video über den VMR-9 (renderless) aus."
+msgstr ""
+
+msgctxt "IDC_QTSYSDEF"
+msgid "Gibt QuickTime-Video über Apple's eigenen Renderer aus. Ist bei größenverändertem oder verdecktem Videofenster vergleichsweise langsam. Kann mangels Overlay-Modus auf das GDI zurückzufallen."
+msgstr ""
+
+msgctxt "IDC_QTDX7"
+msgid "Gibt QuickTime-Video über den VMR-7 (renderless) aus."
+msgstr ""
+
+msgctxt "IDC_QTDX9"
+msgid "Gibt QuickTime-Video über den VMR-9 (renderless) aus."
+msgstr ""
+
+msgctxt "IDC_REGULARSURF"
+msgid "Die Video-Oberfläche ist eine normale Offscreen-Oberfläche."
+msgstr ""
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "Untertitel werden nur vom VMR-7/9 (renderless), EVR (CP), Sync Renderer (EVR-CP), Haali Video Renderer und von madVR unterstützt. Zudem können Bilder und Miniaturansichten im Overlay-Modus und mit madVR nicht gespeichert werden."
+msgstr ""
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "Stellt die verschiedenen Audio-Renderer bereit. Den MPC-HC Audio Renderer bitte vorerst nicht verwenden."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync Renderer (EVR-CP)"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC-Fehlerbericht"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "Der MPC-HC wurde unerwartet beendet. Um Fehler dieser Art an uns melden zu können, muss eine offizielle Version mit Debug-Informationen verwendet werden.\n\nMöchten Sie nun die offizielle Version herunterladen?"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Regelmäßige Oberfläche außerhalb des Bildschirms"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D-Oberflächen"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D-Oberflächen (empfohlen)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Nächster Nachbar"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinear"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinear (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bikubisch A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bikubisch A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bikubisch A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "* nicht verfügbar *"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "Der ausgewählte Renderer ist nicht installiert."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC Audio Renderer"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Name"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME Type"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "Um eingebettete Ressourcen im Browser anzeigen zu können, muss die Web-Steuerung aktiviert werden. Bitte den Button \"Speichern unter\" betätigen, falls nur die Informationen gespeichert werden sollen."
+msgstr ""
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Untertitel herunterladen"
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Verzögerung (ms):"
+msgstr ""
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Auto"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "Für die Sicherung der Tastenbefehle liegen keine benutzerdefinierten Einträge vor."
+msgstr ""
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "Keine Mediendateien im Archiv gefunden"
+msgstr ""
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Komprimierte Archive werden nicht unterstützt"
+msgstr ""
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Verschlüsselte Archive werden nicht unterstützt"
+msgstr ""
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Es konnten nicht alle Archivteile gefunden werden"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Die Video-Oberfläche ist eine Textur-Oberfläche. 2D-Funktionen werden aber noch genutzt, um das Bild in den Hintergrundpuffer zu kopieren und zu strecken. Benötigt eine Grafikkarte, die 32-bit, RGBA und Nicht-Zweierpotenztexturen in Videoauflösung unterstützt."
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Die Video-Oberfläche ist eine Textur-Oberfläche und wird als zwei Dreiecke in 3D gezeichnet. Ein in den Anzeigeeinstellungen aktiviertes Antialiasing kann die Rendergeschwindigkeit herabsetzen."
+msgstr ""
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "Verwendet ohne Pixel-Shader 2.0 automatisch den einfachen bilinearer Resizer."
+msgstr ""
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Versetzt den VMR-9 (renderless) in den Mixer-Modus, bei dem ein separater Thread zum Rendern genutzt wird. Kann mit den meisten Ausgabe-Optionen verwendet werden."
+msgstr ""
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Verbessert die Leistung auf Kosten der Kompatibilität einiger Renderer."
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Reduziert Tearing-Effekte. Allerdings werden dabei keine Steuerelemente angezeigt. Um diesen Modus dennoch beenden zu können, bitte \"Strg+C\" drücken."
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Reduziert Tearing-Effekte unter Umgehung des von Direct3D verwendeten VSync."
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "Öffnet eine VTS-Informationsdatei, um die zugehörigen Videodateien zu laden."
+msgstr ""
+
+msgctxt "IDS_SRC_RFS"
+msgid "Unterstützt nur unkomprimierte Archive."
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Verwendet die internen LAV Filters."
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Verwendet die internen LAV Filters. Ist mit den Standard-Einstellungen\ndeaktiviert, da die Microsoft-eigenen Filter hier meist stabiler arbeiten.\nQuellen-Filter und Decoder-Filter dieser Formate sollten für bessere\nWiedergabe nicht unabhängig voneinander verwendet werden."
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Ansicht: Navigation (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Genauer VSync (ein/aus)"
+msgstr ""
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "Gilt auch für bislang undefinierte Styles."
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "Eine Deaktivierung gibt etwas Videospeicher frei und spart Bandbreite bei der Übertragung zum Videospeicher. Funktioniert aber meist nicht mit älteren Grafikkarten."
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Erlaubt Untertitel-Animationen bei einem Pufferspeicher größer als 0. Eine Deaktivierung entlastet die CPU, sollte aber vor allem bei flimmernden Untertiteln vorgenommen werden."
+msgstr ""
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "Bewirkt die Anzeige der dem MPC-HC aktuell zugewiesenen Dateiendungen. Dabei sind neue Einträge gewöhnlich mit einem grauen Haken versehen. Bitte graue Haken erneut anwählen, bevor diese Seite geschlossen wird."
+msgstr ""
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Wiedergabe\nWiedergabe"
+msgstr ""
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Pause\nPause"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "Stopp\nStopp"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Einzelbild vor\nEinzelbild vor"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Tempo verringern\nTempo verringern"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Tempo erhöhen\nTempo erhöhen"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Stummschaltung ein"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Stummschaltung aus"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "Kein Audio"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Rückwärts springen\nRückwärts springen"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Vorwärts springen\nVorwärts springen"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Aktuell"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Bearbeiten"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Ja"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&Nein"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Verringern"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Erhöhen"
+msgstr ""
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Optionen"
+msgstr ""
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "Pixel-Shader &auswählen..."
+msgstr ""
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "Zu Favoriten &hinzufügen..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "Favoriten &verwalten..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "&Zufallswiedergabe"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Zuge&hörigen Ordner öffnen"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Schließe..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Wiedergabe"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Pause"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL erstellen"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "&Dateiliste löschen"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES"
+msgid "Zuletzt geöffnete Dateien"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Soll die Liste der zuletzt geöffneten Dateien wirklich gelöscht werden?"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL speichern"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Bildzeit-Korrektur (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "EDL-Fenster (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL-Anfang setzen"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL-Ende setzen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "Pan&Scan: Um X-Achse spiegeln"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "Pan&Scan: Um Y-Achse drehen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "Pan&Scan: Um Y-Achse spiegeln"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "Pan&Scan: Um Z-Achse drehen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "Pan&Scan: Um Z-Achse spiegeln"
+msgstr ""
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Tearing-Test (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Skalierung nach 16:9,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Zoom zu Breitbild,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Zoom zu Ultra-Breitbild,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "&Bei Vollbild ausblenden"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Stopp"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Fülle Pufferspeicher... (%d%%)"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Aufnahme läuft..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Öffne..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Geschlossen"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "&Optionen..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Darstellung anpassen..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "&Erneut laden"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "&Aktivieren"
+msgstr ""
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "&Profil bearbeiten..."
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Titel"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Autor"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Copyright"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Bewertung"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Beschreibung"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Domain"
+msgstr ""
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Schließen"
+msgstr ""
+
+msgctxt "IDS_AG_NONE"
+msgid "Keine"
+msgstr ""
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Befehl"
+msgstr ""
+
+msgctxt "IDS_AG_KEY"
+msgid "Taste"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Maus bei Fenster"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Maus bei Vollbild"
+msgstr ""
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "Anwendungsbefehl"
+msgstr ""
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Mediendateien (alle Formate)"
+msgstr ""
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "Alle Dateien (*.*)|*.*|"
+msgstr ""
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Audiodateien (Alle Formate)"
+msgstr ""
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Unbekannt"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Mediendatei öffnen"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Medien öffnen"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "DVD/BD öffnen"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Videogerät öffnen"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Speichern..."
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Bild speichern"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Bild schnell speichern"
+msgstr ""
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Bild erfolgreich gespeichert."
+msgstr ""
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "Untertiteldatei laden"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "Untertiteldatei speichern"
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Eigenschaften"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT"
+msgid "Beenden"
+msgstr ""
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Wiedergabe/Pause"
+msgstr ""
+
+msgctxt "IDS_AG_PLAY"
+msgid "Wiedergabe"
+msgstr ""
+
+msgctxt "IDS_AG_STOP"
+msgid "Stopp"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Einzelbild vor"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Einzelbild zurück"
+msgstr ""
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Gehe zu"
+msgstr ""
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Tempo erhöhen"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Show/Spielshow"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Sport"
+msgstr ""
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Kinder-/Jugendprogramm"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Musik/Ballet/Tanz"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Kunst/Kultur"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Soziale/politische/wirtschaftliche Themen"
+msgstr ""
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Freizeit/Hobbies"
+msgstr ""
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Mediendatei löschen"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Kopie speichern unter"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Mit letztem Keyframe"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Mit näherem Keyframe"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Bildzeit-Korrektur: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Bildzeit-Korrektur: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Ziel-VSync-Offset: %.1f"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "VSync-Offset: %d"
+msgstr ""
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Tempo: x%.2lf"
+msgstr ""
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Miniaturansichten erfolgreich gespeichert."
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "Videos&pur"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "&Blickwinkel"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Programm-Einstellungen zurücksetzen"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Sollen die Programm-Einstellungen wirklich zurückgesetzt werden?\n\nDabei gehen alle aktuellen Einstellungen verloren!"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Bitte alle Programminstanzen schließen, damit die Programm-Einstellungen problemlos zurückgesetzt werden können."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Programm-Einstellungen sichern"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Sollen die bisher nicht gespeicherten Programm-Einstellungen vor der Sicherung übernommen werden?"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "Die Programm-Einstellungen wurden erfolgreich gesichert."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "Die Sicherung der Programm-Einstellungen ist fehlgeschlagen. Um das Problem zu beheben, den MPC-HC bitte mit Administratorrechten starten und erneut versuchen."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA-Fehler"
+msgstr ""
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Tempo verringern"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Tempo zurücksetzen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Audioverzögerung (+10ms)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Audioverzögerung (-10ms)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Springen: Vorwärts (kurz)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Springen: Rückwärts (kurz)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Springen: Vorwärts (mittel)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Springen: Rückwärts (mittel)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Springen: Vorwärts (weit)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Springen: Rückwärts (weit)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Springen: Vorwärts (Keyframe)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Springen: Rückwärts (Keyframe)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT"
+msgid "Vorwärts (springen)"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Rückwärts (springen)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Nächste Datei aufrufen"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Vorherige Datei aufrufen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Direct3D-Vollbildmodus (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Untertitel rückwärts springen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Untertitel vorwärts springen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Untertitelverschiebung (links)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Untertitelverschiebung (rechts)"
+msgstr ""
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "Anzeigestatistik (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Zum Anfang springen"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "Fenster-Profil: Minimal"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "Fenster-Profil: Kompakt"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "Fenster-Profil: Normal"
+msgstr ""
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "Vollbild (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "Vollbild ohne Auflösungsänderung (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Zoom: Auto-Anpassung"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "Videobild: Halbe Größe"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "Videobild: Normale Größe"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "Videobild: Doppelte Größe"
+msgstr ""
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Fenster immer im Vordergrund"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "Pan&Scan: Größe erhöhen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "Pan&Scan: Breite erhöhen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "Pan&Scan: Höhe erhöhen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "Pan&Scan: Größe verringern"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "Pan&Scan: Breite verringern"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "Pan&Scan: Höhe verringern"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Untertitel werden heruntergeladen, bitte warten..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Analyse..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "Keine Untertitel gefunden."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d Untertitel verfügbar."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Soll regelmäßig nach einer neuen Programmversion gesucht werden?\n\nDiese automatische Aktualisierungsprüfung kann in den Optionen jederzeit wieder deaktiviert werden."
+msgstr ""
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Auto-Anpassung"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Auto-Verkleinerung"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Zoom: Auto-Verkleinerung"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Zoom: Auto-Verkleinerung"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Doppelklicken, um den Ordner mit dieser Datei zu öffnen"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Zeitanzeige ändern"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Ungültige Eingabe"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Bitte eine Zahl zwischen 1 und 365 eingeben."
+msgstr ""
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "Pan&Scan: Zentrieren"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "Pan&Scan: Nach links bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "Pan&Scan: Nach rechts bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "Pan&Scan: Nach oben bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "Pan&Scan: Nach unten bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "Pan&Scan: Nach oben-links bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "Pan&Scan: Nach oben-rechts bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "Pan&Scan: Nach unten-links bewegen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "Pan&Scan: Nach unten-rechts bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Lautstärke erhöhen"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Lautstärke verringern"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Stummschaltung (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD-Menü: Titelmenü"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD-Menü: Hauptmenü"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD-Menü: Untertitelmenü"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD-Menü: Audiomenü"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD-Menü: Blickwinkelmenü"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD-Menü: Kapitelmenü"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD-Menü: Nach links bewegen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD-Menü: Nach rechts bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD-Menü: Nach oben bewegen"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD-Menü: Nach unten bewegen"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD-Menü: Aktivieren"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD-Menü: Zurück"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD-Menü: Verlassen"
+msgstr ""
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Cheftaste"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Player-Kontextmenü (lang)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Player-Kontextmenü (kurz)"
+msgstr ""
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Filter-Kontextmenü"
+msgstr ""
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Optionen"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Audio vor"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Audio zurück"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Untertitel vor"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Untertitel zurück"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "Untertitel (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Untertitel neu laden"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "OGM-Spur: Audio vor"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "OGM-Spur: Audio zurück"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "OGM-Spur: Untertitel vor"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "OGM-Spur: Untertitel zurück"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "DVD-Spur: Blickwinkel vor"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "DVD-Spur: Blickwinkel zurück"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "DVD-Spur: Audio vor"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "DVD-Spur: Audio zurück"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "DVD-Spur: Untertitel vor"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "DVD-Spur: Untertitel zurück"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "DVD-Spur: Untertitel (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "Restzeitanzeige (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Ordner für Webseite auswählen"
+msgstr ""
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Zu Favoriten schnell hinzufügen"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "Nr."
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Name"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Frequenz"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Verschlüsselung"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "Ja"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "Nein"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Start"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Stopp"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Radio-Sender"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "TV-Sender"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Format"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_2"
+msgid "Fokus übernommen von: %s - %s"
+msgstr ""
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Untertitel gespeichert"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Untertitel können nicht gespeichert werden"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Bildrate"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_6"
+msgid "ausgegeben: %d, verworfen: %d"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Bilder"
+msgstr ""
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Pufferspeicher"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Band: %02d/%02d, Titel: %02d/%02d, Kapitel: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Blickwinkel: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dHz %dbits %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Zur MPC-HC-Wiedergabeliste hinzufügen"
+msgstr ""
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Wiedergabe mit MPC-HC"
+msgstr ""
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "Es werden Administratorrechte benötigt, um dem MPC-HC Dateierweitungen zuweisen zu können. Bitte den Button \"Anpassen\" betätigen, um die Zuweisung mit Administratorrechten vorzunehmen."
+msgstr ""
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "Einer der leistungsstärksten und anpassungsfähigsten Mediaplayer für Windows-Betriebssysteme. Ursprünglich von einem ungarischen Entwickler namens Gabest erstellt, beinhaltet diese Version zahlreiche Erweiterungen und Neuerungen, wie z.B. einen speziellen Direct3D-Vollbildmodus zur Reduzierung von Tearing-Effekten und die Unterstützung von Windows Vista/7/8."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_12"
+msgid "Kanal"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_13"
+msgid "Kanäle"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE"
+msgid "Titel %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Unerwarteter Fehler"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: Probleme mit dem Kopierschutz"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Ungültige DVD-1.x-Disc"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Ungültige DVD-Region"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Jugendschutz-Level zu niedrig"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Fehler mit Macrovision-Kopierschutz"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Regionalcode-Konflikt zwischen System und Decoder"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Regionalcode-Konflikt zwischen DVD und Decoder"
+msgstr ""
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "Der Direct3D-Vollbildmodus dient dazu, Tearing-Effekte während der Videowiedergabe zu reduzieren. Allerdings werden dabei keine Dialoge und Menüs angezeigt.\n\nSoll diese Option wirklich aktiviert werden?"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Untertitelverzögerung: %ldms"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Titel: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "Der Dateiname enthält ungültige Zeichen (Auswahl: A-Z, 0-9)"
+msgstr ""
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Reihen:"
+msgstr ""
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Spalten:"
+msgstr ""
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Bildbreite:"
+msgstr ""
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "Verbindung zur Untertiteldatenbank erfolgreich verifiziert."
+msgstr ""
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "Protokollversionen stimmen nicht überein. Bitte den MPC-HC aktualisieren oder einen anderen Server verwenden."
+msgstr ""
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Seitenverhältnis"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Gesamt: %d, Verworfen: %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Größe: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Größe: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Frei: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Frei: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Freie V/A-Puffer: %03d/%03d"
+msgstr ""
+
+msgctxt "IDS_AG_ERROR"
+msgid "Fehler"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Untertitel: Aus"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Untertitel: %s"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_46"
+msgid "DVD/BD öffnen"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_47"
+msgid " erfolgreich geladen"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_48"
+msgid "Alle Dateien (*.*)|*.*||"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_49"
+msgid "GetDIB fehlgeschlagen, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_51"
+msgid "GetCurrentImage fehlgeschlagen, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_53"
+msgid "Datei kann nicht angelegt werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_54"
+msgid "Für Dateien mit nur einem Bild können Miniaturansichten nicht erstellt werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_55"
+msgid "Videobildgröße kann nicht ermittelt werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_56"
+msgid "Nicht genug Speicher verfügbar!"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_57"
+msgid "Ungültiges Bildformat, kann Miniaturansichten von %d bpp dibs nicht erstellen."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_58"
+msgid "Größe: %s (%s Bytes)\\N"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Dateiname: %s\\N%sAuflösung: %dx%d %s\\NLaufzeit: %02d:%02d:%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_60"
+msgid "Um Untertiteldateien laden und darstellen zu können, bitte einen geeigneten Video-Renderer in den Ausgabe-Optionen wählen und die Datei erneut öffnen."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Seitenverhältnis: %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Seitenverhältnis: Auto"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Audioverzögerung: %I64dms"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "Kapitel %d"
+msgstr ""
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Nicht genügend Arbeitsspeicher vorhanden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Fehler: Das Flash-Player-Plugin des Internet Explorers wird benötigt"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime wird von 64-Bit-Systemen direkt nicht unterstützt"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Filtergraph-Objekt kann nicht erstellt werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Ungültiges Argument"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Öffnen abgebrochen"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Rendern der Datei fehlgeschlagen"
+msgstr ""
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "Verbindung zur Untertiteldatenbank fehlgeschlagen!"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "Kapitel: "
+msgstr ""
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Lautstärke: %d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Tonverstärkung: +%u%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Balance: %s"
+msgstr ""
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Aktueller Monitor"
+msgstr ""
+
+msgctxt "IDS_MPC_CRASH"
+msgid "Der MPC-HC wurde unerwartet beendet. Damit dieses Problem behoben werden kann, bitte die Datei \"%s\" an unseren Bugtracker senden.\n\nMöchten Sie nun den Ordner mit der Minidump-Datei öffnen und den Bugtracker aufrufen?"
+msgstr ""
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "Die Minidump-Datei \"%s\" konnte nicht angelegt werden (Fehler %d)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Verzeichnis öffnen"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Unterverzeichnis einbeziehen"
+msgstr ""
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Pause"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Ansicht: Fensterelemente (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Ansicht: Zeitleiste (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Ansicht: Steuerelemente (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Ungültiger Dateiname"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Filter-Verbindung kann nicht hergestellt werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Quellen-Filter kann nicht geladen werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_88"
+msgid "Datei kann nicht gerendert werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Ungültiges Dateiformat"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_90"
+msgid "Datei nicht gefunden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Unbekannter Dateityp"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Format wird nicht unterstützt"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_93"
+msgid "DVD-Verzeichnis konnte nicht gefunden werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_94"
+msgid "DVD-Navigator-Filter konnte nicht erstellt werden"
+msgstr ""
+
+msgctxt "IDS_AG_FAILED"
+msgid "Fehlgeschlagen"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Videoaufnahme-Filter kann nicht erstellt werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_98"
+msgid "Keine Aufnahme-Filter gefunden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Aufnahmegraph-Objekt kann nicht erstellt werden"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Gerät konnte nicht geöffnet werden"
+msgstr ""
+
+msgctxt "IDS_AG_SOUND"
+msgid "Audio"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s konnte nicht gefunden werden. Bitte zugehöriges Medium einlegen."
+msgstr ""
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Abgebrochen"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Eigenschaften..."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (Pin) Eigenschaften..."
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Unbekanntes Format"
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Unbekannt %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNC"
+msgid "VSync (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Regisseur-Kommentare 1)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Regisseur-Kommentare 2)"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLED"
+msgid "Aktiviert"
+msgstr ""
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Blickwinkel %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "VSync-Offset erhöhen"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Deaktiviert"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "VSync-Offset verringern"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_136"
+msgid "Direct3D-Vollbildmodus"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Unbekanntes Dateiformat"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Untertitelverschiebung: %ld"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Tonverstärkung erhöhen"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Tonverstärkung verringern"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Tonverstärkung (+0%)"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Tonverstärkung (+300%)"
+msgstr ""
+
+msgctxt "IDS_USAGE"
+msgid "Aufruf: mpc-hc.exe \"Pfadname\" [Optionen]\n\n\"Pfadname\"\tGibt Datei oder Verzeichnis zur Wiedergabe an.\n\t\t(Wildcards sind möglich. Standardeingabe kann\n\t\tals \"-\" angegeben werden.)\n/dub \"Datei\"\tÖffnet zusätzliche Audiodatei.\n/dubdelay \"Datei\"\tÖffnet zusätzliche Audiodatei, deren Wiedergabe\n\t\tum X ms versetzt wird.\n\t\t(Dateiname muss \"DELAY Xms\" enthalten.)\n/d3dfs\t\tStartet Player im Direct3D-Vollbildmodus.\n/sub \"Datei\"\tÖffnet zusätzliche Untertiteldatei.\n/filter \"Filtername\"\tLädt DirectShow-Filter aus einer\n\t\tLaufzeitbibliothek. (Wildcards sind möglich.)\n/dvd\t\tStartet Player im DVD-Modus. (DVD-Verzeichnis\n\t\tkann als \"Pfadname\" angegeben werden.)\n/dvdpos T#C\tStartet DVD-Wiedergabe bei Titel T, Kapitel C.\n/dvdpos T#P\tStartet DVD-Wiedergabe bei Titel T, Position P\n\t\t(hh:mm:ss).\n/cd\t\tÖffnet Audio-CD oder (S)VCD. (Laufwerk kann\n\t\tals \"Pfadname\" angegeben werden.)\n/device\t\tÖffnet Videogerät.\n/open\t\tÖffnet Medieninhalt und pausiert Wiedergabe.\n/play\t\tÖffnet Medieninhalt und startet Wiedergabe.\n/close\t\tBeendet Player nach Wiedergabe (in\n\t\tKombination mit \"/play\").\n/shutdown\tFährt System nach Wiedergabe herunter.\n/fullscreen\tStartet Wiedergabe im Vollbild.\n/minimized\tStartet Player minimiert.\n/new\t\tÖffnet neues Playerfenster.\n/add\t\tFügt \"Pfadname\" zur Wiedergabeliste hinzu\n\t\t(in Kombination mit \"/open\" oder \"/play\").\n/regvid\t\tRegistriert alle verfügbaren Videoformate.\n/regaud\t\tRegistriert alle verfügbaren Audioformate.\n/regpl\t\tRegistriert alle verfügbaren Wiedergabelisten.\n/regall\t\tRegistriert alle verfügbaren Medienformate.\n/unregall\t\tDeregistriert alle verfügbaren Medienformate.\n/start X\t\tStartet Wiedergabe bei X ms.\n/startpos P\tStartet Wiedergabe bei Position P (hh:mm:ss).\n/fixedsize W,H\tFixiert Fenstergröße bei Breite W und Höhe H.\n/monitor N\tStartet Wiedergabe auf Monitor N (wobei N>0).\n/audiorenderer N\tLädt Audio-Renderer N (wobei N>0, siehe\n\t\tAusgabe-Optionen).\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tSetzt alle Programm-Einstellungen zurück.\n/help /h /?\tZeigt diese Hilfe an.\n"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "Unbekannte Option in der Befehlszeile:\n"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Ansicht: Informationen (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Ansicht: Statistik (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Ansicht: Status (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Ansicht: Untertitel-Resync (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Ansicht: Wiedergabeliste (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Ansicht: Aufnahme (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Zoom: 50%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Zoom: 100%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Zoom: 200%"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Bildformat: Seitenverhältnis (wechseln)"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "Videobild: Auf Fenstergröße strecken"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "Videobild: Fenster von innen berühren"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "Videobild: Fenster von außen berühren"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "Pan&Scan: Zurücksetzen"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "Pan&Scan: Um X-Achse drehen"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "Videobild: Zoom 1"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "Videobild: Zoom 2"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "Videobild: Zoom wechseln"
+msgstr ""
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "Alle Filter aktivieren"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Frequenzbereich scannen"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Untertitel wurden nicht geladen oder werden nicht unterstützt."
+msgstr ""
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Der Verfasser des Logos ist leider unbekannt. Falls Sie der Autor dieses Logos sind, kontaktieren Sie uns bitte!"
+msgstr ""
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "Kein weiteres abspielbares Medium im aktuellen Ordner."
+msgstr ""
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "Die aktuelle Datei ist die erste im Ordner."
+msgstr ""
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "Die aktuelle Datei ist die letzte im Ordner."
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Vorne-links (FL)"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Vorne-rechts (FR)"
+msgstr ""
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Vorne-Center (FC)"
+msgstr ""
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Niederfrequenz (LFE)"
+msgstr ""
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Hinten-links (BL)"
+msgstr ""
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Hinten-rechts (BR)"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Vorne-links-Center (FLc)"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Vorne-rechts-Center (FRc)"
+msgstr ""
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Hinten-Center (BC)"
+msgstr ""
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Seite-links (SiL)"
+msgstr ""
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Seite-rechts (SiR)"
+msgstr ""
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Oben-Center (TpC)"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Oben-vorne-links (TpFL)"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Oben-vorne-Center (TpFC)"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Oben-vorne-rechts (TpFR)"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Oben-hinten-links (TpBL)"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Oben-hinten-Center (TpBC)"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Oben-hinten-rechts (TpBR)"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "EVR-Sync-Statistik zurücksetzen"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Untertitel::Sonstiges"
+msgstr ""
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Fensterrahmen aus&blenden"
+msgstr ""
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Titelleiste aus&blenden"
+msgstr ""
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Fensterelemente ein&blenden"
+msgstr ""
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Menü aus&blenden"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Über der Zeitleiste"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Unter der Zeitleiste"
+msgstr ""
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Videospur: %s"
+msgstr ""
+
+msgctxt "IDS_APPLY"
+msgid "Übernehmen"
+msgstr ""
+
+msgctxt "IDS_CLEAR"
+msgid "Löschen"
+msgstr ""
+
+msgctxt "IDS_CANCEL"
+msgid "Abbrechen"
+msgstr ""
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Miniaturansichten"
+msgstr ""
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Bildpunkte:"
+msgstr ""
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Kodierung:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "Alle Filter deaktivieren"
+msgstr ""
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Audio-Decoder aktivieren"
+msgstr ""
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Audio-Decoder deaktivieren"
+msgstr ""
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Video-Decoder aktivieren"
+msgstr ""
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Video-Decoder deaktivieren"
+msgstr ""
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Auf Fenstergröße strecken"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Fenster von innen berühren"
+msgstr ""
+
+msgctxt "IDS_ZOOM1"
+msgid "Zoom 1"
+msgstr ""
+
+msgctxt "IDS_ZOOM2"
+msgid "Zoom 2"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Fenster von außen berühren"
+msgstr ""
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Audio: %s"
+msgstr ""
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Mediendatei erneut öffnen"
+msgstr ""
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "RealVideo"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "RealScript"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Andere Videoformate"
+msgstr ""
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Andere Audioformate"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "Sun/NeXT Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "CD Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "RealAudio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "Tom's lossless Audio Kompressor"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "The True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Wiedergabelisten"
+msgstr ""
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "BD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR-Archiv"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "Bildrate (fps)"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Auflösung"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Seitenverhältnis"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "WASAPI verwenden (Wiedergabe neu starten)"
+msgstr ""
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "Stummschaltung bei schnellem Vorlauf"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Soundgerät:"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "VSync: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "VSync: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Genauer VSync: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Genauer VSync: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Videowiedergabe an Anzeige anpassen: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Videowiedergabe an Anzeige anpassen: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Anzeige an Videowiedergabe anpassen: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Anzeige an Videowiedergabe anpassen: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Videobilder mit nächstgelegenem VSync darstellen: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Videobilder mit nächstgelegenem VSync darstellen: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Farbmanagement: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Farbmanagement: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Eingangstyp: Auto-Erkennung"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Eingangstyp: HDTV"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Eingangstyp: SDTV-NTSC"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Eingangstyp: SDTV-PAL"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Umgebungslicht: Hell (Gamma: 2.2)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Umgebungslicht: Schwach (Gamma: 2.35)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Umgebungslicht: Dunkel (Gamma: 2.4)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Wiedergabeziel: Perzeptiv"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Wiedergabeziel: Relativ farbmetrisch"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Wiedergabeziel: Sättigungserhaltend"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Wiedergabeziel: Absolut farbmetrisch"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Ausgabebereich: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "GPU vor VSync leeren: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "GPU vor VSync leeren: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "GPU nach Ausgabe leeren: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "GPU nach Ausgabe leeren: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Auf geleerte GPU warten: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Auf geleerte GPU warten: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "Direct3D-Vollbildmodus: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "Direct3D-Vollbildmodus: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Windows-Desktopgestaltung deaktivieren: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Windows-Desktopgestaltung deaktivieren: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Alternativer VSync: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Alternativer VSync: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Standard-Einstellungen für Video-Renderer erfolgreich geladen."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Optimierte Einstellungen für Video-Renderer erfolgreich geladen."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "GUI-Unterstützung bei Direct3D-Vollbildmodus: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "GUI-Unterstützung bei Direct3D-Vollbildmodus: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10-Bit-RGB-Ausgabe: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10-Bit-RGB-Ausgabe: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "10-Bit-RGB-Eingabe erzwingen: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "10-Bit-RGB-Eingabe erzwingen: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Gleitkommaverarbeitung mit voller Genauigkeit: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Gleitkommaverarbeitung mit voller Genauigkeit: Aus"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Gleitkommaverarbeitung mit halber Genauigkeit: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Gleitkommaverarbeitung mit halber Genauigkeit: Aus"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Helligkeit verringern"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Kontrast erhöhen"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Kontrast verringern"
+msgstr ""
+
+msgctxt "IDS_HUE_INC"
+msgid "Farbton +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "Farbton -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Sättigung erhöhen"
+msgstr ""
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Sättigung verringern"
+msgstr ""
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Farbeinstellungen zurücksetzen"
+msgstr ""
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nSie verwenden bereits die neuste stabile Version."
+msgstr ""
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "\nAktuelle Version:\t%s\nNeuste stabile Version:\t%s"
+msgstr ""
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "Ein neuer MPC-HC in der Version %s ist verfügbar. Aktuell wird die Version %s verwendet.\n\nMöchten Sie die neue Version nun herunterladen?"
+msgstr ""
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Es konnte keine Verbindung mit dem Aktualisierungsserver hergestellt werden. Bitte die Internetverbindung überprüfen."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Schließen"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Zoom: %.0lf%%"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Zoom: Auto-Anpassung"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Benutzerdefinierte Kanalzuordnung (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Benutzerdefinierte Kanalzuordnung: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Benutzerdefinierte Kanalzuordnung: Aus"
+msgstr ""
+
+msgctxt "IDS_NORMALIZE"
+msgid "Ton normalisieren (ein/aus)"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Ton normalisieren: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Ton normalisieren: Aus"
+msgstr ""
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Lautstärke zurücksetzen"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Lautstärke zurücksetzen: Ein"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Lautstärke zurücksetzen: Aus"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Der Tuner konnte nicht erstellt werden."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Der Receiver konnte nicht erstellt werden."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Es konnte keine Verbindung mit Netzwerk und Tuner hergestellt werden."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Es konnte keine Verbindung mit Tuner und Receiver hergestellt werden."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Es konnte keine Verbindung mit dem Tuner hergestellt werden."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Der Demultiplexer konnte nicht erstellt werden."
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Fehler beim Auslesen der eingegebenen Zeit!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Fehler beim Auslesen des eingegebenen Textes!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Fehler beim Auslesen der eingegebenen Bildrate!"
+msgstr ""
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Keine Einzelbildschaltung möglich, bitte mit einem anderen Video-Renderer versuchen."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" arbeiten nicht mit dem Standard-Renderer von RealMedia zusammen. Bitte einen VMR-Renderer für RealMedia-Video in den Ausgabe-Optionen wählen und die Datei erneut öffnen."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" arbeiten nicht mit dem Standard-Renderer von QuickTime zusammen. Bitte einen VMR-Renderer für QuickTime-Video in den Ausgabe-Optionen wählen und die Datei erneut öffnen."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit Shockwave nicht verwendet werden."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" arbeiten nicht mit dem Overlay-Mixer zusammen. Bitte einen geeigneten Video-Renderer in den Ausgabe-Optionen wählen und die Datei erneut öffnen."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Es konnte keine Verbindung zur Untertiteldatenbank hergestellt werden."
+msgstr ""
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Soll der EDL-Editor aktiviert werden?"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Aufnahmefehler"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "Videofehler"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "Audiofehler"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "Der %s Puffer-Filter konnte nicht zum Filtergraphen hinzugefügt werden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Der %s Puffer-Filter konnte nicht mit dem Filtergraphen verbunden werden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "Der %s Encoder-Filter konnte nicht zum Filtergraphen hinzugefügt werden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Der %s Encoder-Filter konnte nicht mit dem Filtergraphen verbunden werden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Die Kompression konnte nicht auf den %s Encoder-Filter angewandt werden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Der %s Stream konnte nicht mit dem Multiplexer-Filter verbunden werden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "Es wurde kein Videoaufnahme-Pin gefunden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "Es wurde kein Audioaufnahme-Pin gefunden."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Fehler bei der Initialisierung der Ausgabedatei."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Fehler bei der Initialisierung der Audioausgabedatei."
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "Das richtige Zeit-Format ist [-]hh:mm:ss.ms (bspw. 01:23:45.678)."
+msgstr ""
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "Dieser Typ ist in der Liste bereits vermerkt."
+msgstr ""
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "Neue Einstellungen müssen zunächst bestätigt werden, bevor sie getestet werden können."
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "Nach Wiedergabe: Programm beenden"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "Nach Wiedergabe: Energie sparen (falls verfügbar)"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "Nach Wiedergabe: Ruhezustand (falls verfügbar)"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "Nach Wiedergabe: Computer herunterfahren"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "Nach Wiedergabe: Benutzer abmelden"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "Nach Wiedergabe: Benutzer sperren"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "Nach Wiedergabe: Programm beenden (Standard-Aktion)"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "Nach Wiedergabe: Keine Aktion"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "Nach Wiedergabe: Nächste Datei im Ordner abspielen"
+msgstr ""
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Helligkeit: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Kontrast: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_HUE"
+msgid "Farbton: %s°"
+msgstr ""
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Sättigung: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Farbeinstellungen erfolgreich zurückgesetzt."
+msgstr ""
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Farbeinstellungen werden nicht unterstützt."
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Helligkeit erhöhen"
+msgstr ""
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Erlaubt die Angabe mehrerer bevorzugter Sprachspuren einer Mediendatei nach dem Muster \"ger eng swe\"."
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "Übergeht die Auswahl der Sprachspur externer Splitter und verwendet die programmeigenen Vorgaben."
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Einstellungen"
+msgstr ""
+

@@ -1,0 +1,696 @@
+msgctxt "POPUP"
+msgid "&Bestand"
+msgstr ""
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "Snel &Bestand openen..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "Bestand &openen..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "&DVD/BD openen..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "A&pparaat openen..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "&Map openen..."
+msgstr ""
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "Schijf openen"
+msgstr ""
+
+msgctxt "ID_RECENT_FILES"
+msgid "&Recentelijke Bestanden"
+msgstr ""
+
+msgctxt "ID_FILE_CLOSEPLAYLIST"
+msgid "Sl&uiten"
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Save a Copy..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Afbeeld&ing opslaan..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Miniatuurweergaven opslaan..."
+msgstr ""
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "Ondertiteling &laden..."
+msgstr ""
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Ondertiteling op&slaan..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ondertitelings Database"
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "Zoeken..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "Versturen..."
+msgstr ""
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "Ontvangen..."
+msgstr ""
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "&Eigenschappen"
+msgstr ""
+
+msgctxt "ID_FILE_EXIT"
+msgid "Afsluiten"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Bee&ld"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Titelbalk && Menu"
+msgstr ""
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "&Zoekbalk"
+msgstr ""
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "Bedieningspaneel"
+msgstr ""
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Informatie"
+msgstr ""
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "S&tatistieken"
+msgstr ""
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&atus"
+msgstr ""
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "&Ondertitelings-resync"
+msgstr ""
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "&Afspeellijst"
+msgstr ""
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Opnemen"
+msgstr ""
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Navigation"
+msgstr ""
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "W&eergave..."
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimum"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compakt"
+msgstr ""
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Standaard"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "&Volledig Scherm"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&In- en uit&zoomen"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Autom. passend"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (Larger Only)"
+msgstr ""
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Language"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Renderer Instellingen"
+msgstr ""
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Tearing Test"
+msgstr ""
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Beeld Statistieken"
+msgstr ""
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "Resterende T&ijd"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Uitgangsbereik"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "0 - 255"
+msgstr ""
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "16 - 235"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Presentatie"
+msgstr ""
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Volledig Scherm"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Volledig Scherm met GUI"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit RGB Output"
+msgstr ""
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Force 10-bit RGB Input"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "Full Floating Point Processing"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "Half Floating Point Processing"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Deactiveer Aero tijdens afspelen"
+msgstr ""
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Activeer Frametime Correctie"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Color Management"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "Activeren"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Input Type"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "Auto-Detect"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "HDTV"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV NTSC"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV PAL"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Ambient Light"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "Bright (2.2 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "Dim (2.35 Gamma)"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "Dark (2.4 Gamma)"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Rendering Intent"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "Perceptual"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "Relative Colorimetric"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "Saturation"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "Absolute Colorimetric"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&Activeer VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "Accurate VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "Alternatieve VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET"
+msgid "0"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "Verhoog VSync offset"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "Verlaag VSync offset"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "GPU Controle"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "GPU legen voor VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "GPU legen na afspelen"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "Wacht tot GPU leeg"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Reset"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Instellingen van Renderer op &Standaard"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Instellingen van Renderer op &Optimaal"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Beeldverhouding"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Halve grootte"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normale grootte"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Dubbele grootte"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "Spreiden"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Pas venster vanuit binnen aan"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Pas venster vanaf buiten aan"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Schaalverhouding aanhouden"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Schaalverhouding niet aanhouden"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "Standaard"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "4:3"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "5:4"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "16:9"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "235:100"
+msgstr ""
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "185:100"
+msgstr ""
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "Scherm/Bureaublad AR-afwijking corrigeren"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pan && S&can"
+msgstr ""
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "Vergroten"
+msgstr ""
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "Verkleinen"
+msgstr ""
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "&Breder"
+msgstr ""
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "&Smaller"
+msgstr ""
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "&Hoger"
+msgstr ""
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "&Lager"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Naar rechts verplaatsen"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Naar links verplaatsen"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Omhoog verplaatsen"
+msgstr ""
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Omlaag verplaatsen"
+msgstr ""
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "&Centreren"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET"
+msgid "Reset"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Op Voorgrond"
+msgstr ""
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr ""
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "Altijd"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "Tijdens afspelen"
+msgstr ""
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "Tijdens afspelen video"
+msgstr ""
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Opties..."
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Afspelen"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "Afspelen/&Pauze"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stoppen"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "&Frame vooruit"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Langzamer"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Sneller"
+msgstr ""
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "Normaal"
+msgstr ""
+
+msgctxt "ID_FILTERS"
+msgid "&Filters"
+msgstr ""
+
+msgctxt "ID_SHADERS"
+msgid "Pixel S&hader"
+msgstr ""
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio"
+msgstr ""
+
+msgctxt "ID_SUBTITLES"
+msgid "&Ondertiteling"
+msgstr ""
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Volume"
+msgstr ""
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Harder"
+msgstr ""
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Zachter"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Dempen"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Na weergave"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "------- Eenmalig -------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "Afsluiten"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "Standby"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "Slaapstand"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Windows Afsluiten"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Afmelden"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "Lock"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "-------- Altijd --------"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "Aflsuiten"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Niets doen"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Play next in the folder"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Navigatie"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Vorig&e"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Volgen&de"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Ga naar..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "&Spring naar..."
+msgstr ""
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "&Titel Menu"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Root Menu"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "Ondertitelings Menu"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "Audio Menu"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "Camerahoek Menu"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "Hoofdstuk Menu"
+msgstr ""
+
+msgctxt "ID_FAVORITES"
+msgid "F&avorieten"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&Help"
+msgstr ""
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Homepage"
+msgstr ""
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Check for &updates"
+msgstr ""
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Opdrachtprompt parameters"
+msgstr ""
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Download Toolbar Images"
+msgstr ""
+
+msgctxt "ID_HELP_DONATE"
+msgid "Doneer"
+msgstr ""
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&Info..."
+msgstr ""
+

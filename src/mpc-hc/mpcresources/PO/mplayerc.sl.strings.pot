@@ -1,0 +1,3352 @@
+msgctxt "IDR_MAINFRAME"
+msgid "Media Player Classic Home Cinema"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Lokacija"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Video"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Zvok"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Podnapisi"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Epizoda"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Zaključevanje..."
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Predvajaj video"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Predvajaj glasbo"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Predvajaj zvočni CD"
+msgstr ""
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "Predvajaj DVD Film"
+msgstr ""
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Lastnosti"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "Privz&eti slog"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "Datoteke"
+msgstr ""
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVDji"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Kanal"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Čas"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Odmik sinhr."
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "povpr.: %d ms, odmik: %d ms"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Trepetanje"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Bitna hitrost"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (povpr./trenu.)"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Signal"
+msgstr ""
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Moč: %d dB, Kvaliteta: %d%%"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Slogi"
+msgstr ""
+
+msgctxt "AFX_IDS_APP_TITLE"
+msgid "MPC-HC"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Nikoli (najhitrejši način)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Samo pri preklopu različnih vrst videa (privzeto)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Vedno (najpočasnejša možnost)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Ni podprto na nekaterih napravah. Dva video dekoderja vedno prisotna v filterskem grafu."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Hitro razen pri preklapljanju med različnimi video pretoki. Samo en video dekoder prisoten v filterskem grafu."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Ni priporočljivo. Samo za namene testiranja."
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Nikoli če je mogoče (najhitrejše, vendar nepodprto pri večini filtrov)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Samo pri preklopu med različnimi vrstami videa (privzeto)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Vedno (lahko zahtevajo nekatere naprave)"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Starševska ocena"
+msgstr ""
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr ""
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Neocenjeno"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Vsebina"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Film/Drama"
+msgstr ""
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "Novice/Aktualno"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr ""
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "Datoteka dodana med priljubljene"
+msgstr ""
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD dodan med priljubljene"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Nastavitve zajema"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Navigacijski trak"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Ponovna sinhronizacija podnapisov"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Čas"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "Konec"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Predogled"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "ID celice"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Vsiljeno"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Besedilo"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Slog"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Pisava"
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Neuspel izris nekaterih priključkov DVD Navigator filtra"
+msgstr ""
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Neuspela poizvedba po potrebnih vmesnikih za DVD predvajanje"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "V živo"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Filtra za zajem videa ni mogoče dodati v graf"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Filtra za zajem zvoka ni mogoče dodati v graf"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Ne morem odpreti naprave za zajem."
+msgstr ""
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Ne morem odpreti, neveljavni vhodni parametri"
+msgstr ""
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Urejaj urejevalnik seznama"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "Vnešeni čas je večji od trajanja datoteke."
+msgstr ""
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "Knjižnica ikon \"mpciconlib.dll\" manjka.\nUporabljena bo privzeta ikona predvajalnika za povezavo datotek.\nProsimo, ponovno instalirajte MPC-HC da bi pridobili \"mpciconlib.dll\"."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "Datoteka"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Jezik"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Format"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Disk"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Naslov(i)"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "Nabor znakov"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Plast"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Igralec"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Učinek"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Seznam predvajanja"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "Vklj./Izklj."
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "Od fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "Do fps"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Način zaslona (Hz)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Privzeto"
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Ostalo"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "Sistemsko privzeto"
+msgstr ""
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Neuspela poizvedba po potrebnih vmesnikih za predvajanje"
+msgstr ""
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Ni bilo mogoče nastaviti ciljnega okna za obvestilo grafu."
+msgstr ""
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Neuspel izris vseh priključkov DVD Navigator filtra"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "&Odpri"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "Dod&aj"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "Odst&rani"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "P&očisti"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "&Kopiraj na odložišče"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "&Shrani kot..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Razvrsti po ozna&ki"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Razvrsti po &poti"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "N&aredi naključno"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "Obnov&i"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Ločevalnik"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "Z&briši"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "Pod&voji"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "Pona&stavi"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Zakasnitev podnapisa -"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Zakasnitev podnapisa +"
+msgstr ""
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Shrani predogledne sličice"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Predvajanje"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Predvajalnik"
+msgstr ""
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Predvajanje::DVD/OGM"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Podnapisi"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Predvajanje::Formati"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Prilagoditve"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Interni filtri::Zvočni Preklopnik"
+msgstr ""
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "Zunanji filtri"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Predvajanje::Senčilniki"
+msgstr ""
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Zvočni preklopnik"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "Nova različica knjižnice ikon"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Želiš ponovno povezati ikone?"
+msgstr ""
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "To bo popravilo nepravilen prikaz ikon po posodobitvi knjižnice ikon.\nPrivzete povezane datoteke ne bodo spremenjene, samo ustrezne ikone bodo osvežene."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Stari video izrisovalnik"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Izrisovalnik mešalnik s prekrivanjem"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Video mešalni izrisovalnik VMR 7 (okensko)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video mešalni izrisovalnik VMR 9 (okensko)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Video mešalni izrisovalnik VMR 7 (brez izrisovanja)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video mešalni izrisovalnik VMR 9 (brez izrisovanja)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Izboljšan video izrisovalnik EVR"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Izboljšan video izrisovalnik (predstavitev po meri) EVR (CP)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali video izrisovalnik"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Nič (karkoli)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Nič (nestisnjeno)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr ""
+
+msgctxt "IDF_LOGO1"
+msgid "Marcel Hoffs, marcelhoffs@hotmail.com"
+msgstr ""
+
+msgctxt "IDF_LOGO2"
+msgid "Steven W. Smith, smith78@sbcglobal.net"
+msgstr ""
+
+msgctxt "IDF_LOGO3"
+msgid "Robbie Khan, email@robbiekhan.co.uk"
+msgstr ""
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Predvajalnik::Tipke"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Podnapisi::Privzeti slog"
+msgstr ""
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Interni filtri"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Predvajanje::Logo"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Predvajanje::Izhod"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Predvajanje::Mrežni vmesnik"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "Podnapisi::Podat. zbirka"
+msgstr ""
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Viri"
+msgstr ""
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Razno"
+msgstr ""
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr ""
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Predvajanje::Zajem"
+msgstr ""
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Predvajanje::Nastavitve Sync izrisovalnika"
+msgstr ""
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Predvajanje::Celozaslonsko"
+msgstr ""
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Podrobnosti"
+msgstr ""
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Izrezek"
+msgstr ""
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Privzeti video izrisovalnik za DirectShow. Drugi se bodo vrnili na tega, če se ne bodo mogli naložiti iz kakršnegakoli razloga. Na Windows XP je ta enak VMR-7 (okensko)."
+msgstr ""
+
+msgctxt "IDC_DSOLD"
+msgid "To je privzeti izrisovalnik na Windows 9x/me/2k. Glede na vidljivost video okna in zmožnosti video kartice bo dinamično preklapljal med GDI, DirectDraw in prekrivnim načinom izrisovanja."
+msgstr ""
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Vedno izrisuje s prekrivanjem. Običajno je dovoljen samo YUV format, vendar so prikazani neposredno brez pretvorbe barv v RGB. To je najhitrejši način izrisovanja in edini, kjer je zagotovljeno celozaslonsko zrcaljenje slike na tv-izhod."
+msgstr ""
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "Privzeti izrisovalnik na Windows XP. Zelo stabilen in samo malo počasnejši kot prekrivni mešalnik. Uporablja DirectDraw in deluje v prekrivanju kadar lahko."
+msgstr ""
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Na voljo samo če imate nameščeno DirectX 9. Ima iste zmožnosti kot VMR-7 (okensko), vendar ne bo nikoli uporabljal izrisovanja s prekrivanjem, zato pa bo tudi mogoče malo počasnejši od VMR-7 (okensko)."
+msgstr ""
+
+msgctxt "IDC_DSVMR7REN"
+msgid "Enako kot VMR-7 (okensko), vendar z Allocator-Presenter vtičnikom od MPC-HC za podnapise. Video zrcaljenje s prekrivanjem NE BO delalo. \"True Color\" nastavitev barv namizja priporočena."
+msgstr ""
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Enako kot VMR-9 (okensko), vendar z Allocator-Presenter vtičnikom od MPC-HC za podnapise. Video zrcaljenje s prekrivanjem bo MOGOČE delalo. \"True Color\" nastavitev barv namizja priporočena. Priporočljivo za Windows XP."
+msgstr ""
+
+msgctxt "IDC_DSDXR"
+msgid "Isto kot VMR-9 (brez izrisovalnika), vendar uporablja pravo bikubično spreminjanje velikosti v dveh prehodih."
+msgstr ""
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Se priključi na katerikoli medij tipa video, vendar ne pošilja naprej nič. Uporabi ko ne potrebujete prikaza slike in želite CPU prihraniti nepotrebno delo."
+msgstr ""
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Enako kot običajni Null izrisovalnik, vendar se ta lahko priključi samo na nestisnjene formate."
+msgstr ""
+
+msgctxt "IDC_DSEVR"
+msgid "Na voljo samo na Visti ali višje oziroma na XP z nameščenimi najmanj .Net 3.5."
+msgstr ""
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Isto kot EVR, vendar z Allocator-Presenter od MPC-HC za podnapise in poprocesiranje. Priporočljivo za Windows Vista ali višje."
+msgstr ""
+
+msgctxt "IDC_DSMADVR"
+msgid "Visokokvalitetni izrisovalnik, zahteva GPU s podporo D3D9 ali višje."
+msgstr ""
+
+msgctxt "IDC_DSSYNC"
+msgid "Enako kot EVR (CP), vendar ponuja več možnosti za sinhronizacijo frekvence video slike s frekvenco osveževanja zaslona zaradi preprečevanja izpuščanja ali podvojevanja video slike."
+msgstr ""
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Lastni izrisovalnik Real. SMIL skripte bodo delale, interakcija pa najbrž ne. Uporablja DirectDraw in teče s prekrivanjem, kadar lahko."
+msgstr ""
+
+msgctxt "IDC_RMDX7"
+msgid "Izhod iz Real izrisan z Allocator-Presenter na osnovi DX7 od VMR-7 (brez izrisovalnika)."
+msgstr ""
+
+msgctxt "IDC_RMDX9"
+msgid "Izhod iz Real izrisan z Allocator-Presenter na osnovi DX9 od VMR-9 (brez izrisovalnika)."
+msgstr ""
+
+msgctxt "IDC_QTSYSDEF"
+msgid "Lastni izrisovalnik QuickTime. Postane počasen, ko je velikost video območja spremenjena ali delno prekrito z drugim oknom. Ko prekrivanje ni na voljo najraje preklopi nazaj na GDI."
+msgstr ""
+
+msgctxt "IDC_QTDX7"
+msgid "Izhod iz QuickTime izrisan z Allocator-Presenter na osnovi DX7 od VMR-7 (brez izrisovalnika)."
+msgstr ""
+
+msgctxt "IDC_QTDX9"
+msgid "Izhod iz QuickTime izrisan z Allocator-Presenter na osnovi DX9 od VMR-9 (brez izrisovalnika)."
+msgstr ""
+
+msgctxt "IDC_REGULARSURF"
+msgid "Video površina bo dodeljena kot redna izvenzaslonska površina."
+msgstr ""
+
+msgctxt "IDC_VIDRND_COMBO"
+msgid "Podnapisi so podprti samo na VMR-7/VMR-9 (brez izrisovanja), EVR (CP), Sync, madVR in Haali video izrisovalnikih.\n\nShranjevanje slik ne deluje pri prekrivajočih ali madVR video izrisovalnikih."
+msgstr ""
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "MPC zvočni izvajalnik je okvarjen, ne uporabljaj."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync izrisovalnik"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - Prijava hrošča"
+msgstr ""
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "MPC-HC se je ravnokar sesul, vendar je bila ta različica prevedena brez informacij o razhroščevanju.\nČe želite prijaviti ta hrošč, bi morali najprej poizkusiti uradno različico.\n\nŽelite obiskati spletno stran s prenosi?"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Veljavna enostavna površina izven zaslona"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D ploskve"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D ploskve (priporočeno)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Najbližji sosed"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinearno"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinearno (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bikubično A=-0.60 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bikubično A=-0.75 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bikubično A=-1.00 (PS 2.0)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**ni na voljo**"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "Izbrani izrisovalnik ni nameščen."
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC Audio Renderer"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Ime"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME tip"
+msgstr ""
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "Da bi videl vdelane vire v brskalniku, je potrebno omogočiti spletni vmesnik.\n\nUporabi gumb \"Shrani kot\" če želiš samo shraniti informacije."
+msgstr ""
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Prenesi podnapise"
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Zakasnitev (ms):"
+msgstr ""
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Auto"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "Za izvoz ni nobenih tipk po meri."
+msgstr ""
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "V arhivu ni multimedijskih datotek"
+msgstr ""
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Stisnjene datoteke niso podprte"
+msgstr ""
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Zakodirane datoteke niso podprte"
+msgstr ""
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Ne najdem vseh arhivskih izvodov"
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video površina bo dodeljena kot tekstura, vendar bodo 2D funkcije uporabljene za kopiranje in raztegovanje na medpomnilnik ozadja. Zahteva video kartico, ki lahko dodeli teksture 32bit, RGBA, ki niso velikosti potence od 2 in najmanj v ločljivosti videa."
+msgstr ""
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video površina bo dodeljena kot tekstura in narisana kot dva trikotnika v 3D. Glajenje, vključeno v nastavitvah zaslona bo mogoče imelo negativen učinek na hitrost izrisovanja."
+msgstr ""
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "Če ni podpore za Pixel Shader 2.0 je samodejno uporabljena preprosta bilinearna."
+msgstr ""
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Postavi VMR-9 (brez izrisovalnika) v način mešalnika, kar pomeni, da bo večina kontrol na njegovi nastavitveni strani delujočih in da bo uporabil ločeno delovno nit za izrisovanje slik."
+msgstr ""
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Izboljša delovanje za ceno združljivosti izrisovalnika."
+msgstr ""
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Zmanjša trganje, vendar prepreči prikaz orodne vrstice. Za izhod iz celozaslonskega načina pritisni Ctrl+C."
+msgstr ""
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Zmanjšuje trganje tako, da se izogne privzetemu VSync, ki je vgrajen v D3D."
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "Odprite VTS_xx_0.ifo, da bi naložili VTS_xx_x.vob datoteke v enem kosu"
+msgstr ""
+
+msgctxt "IDS_SRC_RFS"
+msgid "Osnovan na RARFileSource, ne podpira stisnjenih datotek"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Uporablja LAV filtre"
+msgstr ""
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Uporablja LAV filtre. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Preklopi vrstico s krmarjenjem"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Natančni VSync"
+msgstr ""
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "Privzeto stanje se podeduje na ostale sloge, kjer še ni definirano"
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "Če ni označeno, se sprosti malo video pomnilnika in prihrani pasovno širino pri prenosu v video pomnilnik, ampak mogoče ne bo delovalo s starejšimi video karticami."
+msgstr ""
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Dovoljuje animacijo podnapisov, ko je v uporabi medpomnilnik podslike večji od 0. Onemogočanje te opcije zmanjša obremenitev CPU. Prav tako jo onemogočite, če podnapisi utripajo."
+msgstr ""
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "Ko kliknete ta gumb bodo označene vrste datotek predstavljale dejansko povezavo datotek za MPC-HC. Na novo dodane vrste datotek bodo običajno prikazane osenčeno, zato jih ne pozabite označiti preden zaprete to pogovorno okno!"
+msgstr ""
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Predvajaj\nPredvajaj"
+msgstr ""
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Pavza\nPavza"
+msgstr ""
+
+msgctxt "ID_PLAY_STOP"
+msgid "Stop\nStop"
+msgstr ""
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Korak\nKorak"
+msgstr ""
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Zmanjšaj hitrost\nZmanjšaj hitrost"
+msgstr ""
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Povečaj hitrost\nPovečaj hitrost"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Utišaj"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Vključi zvok"
+msgstr ""
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "Ni zvoka"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Preskoči nazaj\nPreskoči nazaj"
+msgstr ""
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Preskoči naprej\nPreskoči naprej"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "Izvirn&o"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Trenutno"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "Ur&ejaj"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Da"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&Ne"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Zmanjšaj"
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "Poveča&j"
+msgstr ""
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Možnosti"
+msgstr ""
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "Izberi &senčilnike..."
+msgstr ""
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "&Dodaj priljubljenim..."
+msgstr ""
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "&Urejaj priljubljene..."
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "Premešaj"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Odpri lokacijo datoteke"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Zapiranje..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Predvajanje"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Pavza"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL nov izrezek"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "&Počisti seznam"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES"
+msgid "Nedavne datoteke"
+msgstr ""
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Ste prepričani, da želite izbrisati seznam nedavnih datotek?"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL shrani"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Omogoči časovno korekcijo slike"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "Preklopi EDL okno"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL nastavi vhod"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL nastavi izhod"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnS Rotiraj X-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnS Rotiraj Y+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnS Rotiraj Y-"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnS Rotiraj Z+"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnS Rotiraj Z-"
+msgstr ""
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Test trganja"
+msgstr ""
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Povečaj na 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Povečaj v Širokozaslonsko,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Povečaj v Ultra-Širokozaslonsko,%.3f,%.3f,%.3f,%.3f"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "Skrij v celozaslonsko"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Ustavljeno"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Medpomnjenje... (%d%%)"
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Zajem..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Odpiranje..."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Zaprto"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "M&ožnosti..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Slogi..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "&Ponovno naloži"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "&Omogoči"
+msgstr ""
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "Ur&ejaj..."
+msgstr ""
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Naslov"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Avtor"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Avtorske pravice"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Ocena"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Opis"
+msgstr ""
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Domena"
+msgstr ""
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Zapri"
+msgstr ""
+
+msgctxt "IDS_AG_NONE"
+msgid "Noben"
+msgstr ""
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Ukaz"
+msgstr ""
+
+msgctxt "IDS_AG_KEY"
+msgid "Tipka"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Miška okensko"
+msgstr ""
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Miška celozaslonsko"
+msgstr ""
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "Aplik. ukaz"
+msgstr ""
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Multimedijske datoteke (vse vrste)|"
+msgstr ""
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "Vse datoteke (*.*)|*.*|"
+msgstr ""
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Zvočne datoteke (vse vrste)|"
+msgstr ""
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Nepoznano"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Hitro odpri datoteko"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Odpri datoteko"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "Odpri DVD/BD"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr ""
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr ""
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Odpri napravo"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Shrani kot"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Shrani sliko"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Shrani sliko (auto)"
+msgstr ""
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Slika uspešno shranjena"
+msgstr ""
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "Naloži podnapise"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "Shrani podnapis"
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Lastnosti"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT"
+msgid "Izhod"
+msgstr ""
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Predvajaj/Pavza"
+msgstr ""
+
+msgctxt "IDS_AG_PLAY"
+msgid "Predvajaj"
+msgstr ""
+
+msgctxt "IDS_AG_STOP"
+msgid "Stop"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Slike korakoma"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Slike korakoma nazaj"
+msgstr ""
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Pojdi na"
+msgstr ""
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Povečaj hitrost"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Zabava/Predstava"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Šport"
+msgstr ""
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Otroški/Mladinski programi"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Glasba/Balet/Ples"
+msgstr ""
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Umetnost/Kultura"
+msgstr ""
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Družba/Politika/Ekonomija"
+msgstr ""
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Prosti čas"
+msgstr ""
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Premakni v koš"
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Shrani kopijo"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Zadnja ključna slika"
+msgstr ""
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Najbljižja ključna slika"
+msgstr ""
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr ""
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Korekcija časa slike: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Korekcija časa slike: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Ciljni odmik VSync: %.1f"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "VSync odmik: %d"
+msgstr ""
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Hitrost: %.2lfx"
+msgstr ""
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Predogledne sličice uspešno shranjene"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "&Video pretok"
+msgstr ""
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "Video zor&ni kot"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Ponastavi nastavitve"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Ste prepričani, da želite obnoviti MPC-HC na privzete nastavitve?\nOpozarjamo vas, da bodo VSE trenutne nastavitve izgubljene!"
+msgstr ""
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Prosimo zaprite vse primerke MPC-HC, da bi lahko obnovili privzete nastavitve."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Izvozi nastavitve"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Nekatere spremembe še niso bile shranjene.\nJih želite shraniti pred izvozom?"
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "Nastavitve so bile uspešno izvožene."
+msgstr ""
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "Izvoz ni uspel! To se lahko zgodi, če nimate ustreznih pravic."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA napaka"
+msgstr ""
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Zmanjšaj hitrost"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Ponastavi hitrost"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Zakasnitev zvoka +10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Zakasnitev zvoka -10ms"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Skok naprej (majhen)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Skok nazaj (majhen)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Skok naprej (srednji)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Skok nazaj (srednji)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Skok naprej (velik)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Skok nazaj (velik)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Skok naprej (ključna slika)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Skok nazaj (ključna slika)"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT"
+msgid "Naslednji"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Prejšnje"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Naslednja datoteka"
+msgstr ""
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Prejšnja datoteka"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Preklopi Direct3D celozaslonsko"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Pojdi na prejšnji podnapis"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Pojdi na naslednji podnapis"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Premakni podnapis v levo"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Premakni podnapis v desno"
+msgstr ""
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "Prikaži stat."
+msgstr ""
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Skoči na začetek"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "Minimalni pogled"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "Kompaktni pogled"
+msgstr ""
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "Običajni pogled"
+msgstr ""
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "Celozaslonsko"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "Celozaslonsko (brez sprem. ločljivosti)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Samodejno prilagodi povečavo"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "Slika polovično"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "Slika običajno"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "Slika dvojno"
+msgstr ""
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Vedno na vrhu"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnS Poveč velikost"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnS Poveč širino"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnS Povečaj višino"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnS Zmanj. velikost"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnS Zmanj. širino"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnS Zmanjšaj višino"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Prenašam podnapis(e), prosimo počakajte."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Razčlenjujem seznam..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "Ne najdem podnapisov."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d podnapis(ov) na voljo."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Želite redno preverjati za MPC-HC posodobitve?\n\nTo funkcijo lahko kasneje onemogočite na strani z raznimi možnostmi."
+msgstr ""
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Samodejno prilagodi"
+msgstr ""
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Samodejno prilagodi (Samo večje)"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Samodejno prilagodi povečavo (Samo večje)"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Povečava: Auto (Samo večje)"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Dvokliknite da odprete lokacijo datoteke"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Preklopi med pretečenim in preostalim časom"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Neveljavna zakasnitev"
+msgstr ""
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Prosimo vnesite število med 1 in 365."
+msgstr ""
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnS sredina"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnS Levo"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnS Desno"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnS Gor"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnS Dol"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnS Gor/Levo"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnS Gor/Desno"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnS Dol/Levo"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnS Dol/Desno"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Povečaj glasnost"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Zmanjšaj glasnost"
+msgstr ""
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Utišaj"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD Naslovni meni"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD Korenski Meni"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD Meni podnapisov"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD Zvočni meni"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD Meni zornega kota"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD Meni poglavij"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD Meni Levo"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD Meni desno"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD Meni Gor"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD Meni Dol"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD Meni aktiviraj"
+msgstr ""
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD Meni Nazaj"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD Zapusti meni"
+msgstr ""
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Šef tipka (Boss key)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Meni predvajalnika (kratek)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Meni predvajalnika (dolg)"
+msgstr ""
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Meni filtrov"
+msgstr ""
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Možnosti"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Naslednji zvočni zapis"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Prejš. zvok"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Naslednji podnapisi"
+msgstr ""
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Prejš. podnapis"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "Vklj/Izklj podnapise"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Ponovno naloži podnapise"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "Naslednji zvok (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "Prejšnji zvok (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "Naslednji podnapis (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "Prejšnji podnapis (OGM)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "Naslednji zorni kot (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "Prejšnji zorni kot (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "Naslednji zvok (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "Prejšnji zvok (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "Naslednji podnapis (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "Prejšnji podnapis (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "Vklj/Izklj podnapis (DVD)"
+msgstr ""
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "Preostali čas"
+msgstr ""
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Izberi imenik"
+msgstr ""
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Hitro dodaj priljubljenega"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Ime"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Frekvenca"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Šifrirano"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "Da"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "Ne"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Start"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Stop"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Radijske postaje"
+msgstr ""
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "TV postaje"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Format"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_2"
+msgid "Fokus izgubljen za: %s - %s"
+msgstr ""
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Podnapisi shranjeni"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Ne morem shraniti podnapisov"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Hitrost slik"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_6"
+msgid "narisanih: %d, izpuščenih: %d"
+msgstr ""
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Slike"
+msgstr ""
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Medpomnilniki"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Glasnost: %02d/%02d, Naslov: %02d/%02d, Poglavje: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Kot: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dHz %dbits %d %s"
+msgstr ""
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Dodaj v seznam predvajanja MPC-HC"
+msgstr ""
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Predvajaj z MPC-HC"
+msgstr ""
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "Media Player Classic - Home Cinema nima zadostnih pravic za spremembo povezav datotek. Prosimo kliknite na gumb \"Spremeni\" za pridobitev administratorskih pravic."
+msgstr ""
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "Eden izmed najbolj zmogljivih, nastavljivih multimedijskih predvajalnikov za Windows operacijski sistem. Prvotno izdelal Madžarski programer poznan kot Gabest, ta verzija ima dodatne lastnosti kot je Direct 3D celozaslonski način in boljšo podporo za Windows Vista/7."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_12"
+msgid "kanal"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_13"
+msgid "kanali"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE"
+msgid "Naslov %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Nepričakovana napaka"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: Napaka zaradi zaščite proti kopiranju"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Neveljaven DVD 1.x Disk"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Neveljavna regija diska"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Nizka stopnja starševske zaščite"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Macrovision napaka"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Nezdružljive regije sistema in dekoderja"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Nezdružljive regije diska in dekoderja"
+msgstr ""
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "Ta možnost je načrtovana v izogib trganju. Bo pa poleg tega preprečila MPC-HC, da prikaže priročni meni ali katerokoli drugo pogovorno okno med predvajanjem.\n\nZa izhod iz Direct3D celozaslonsko in zaustavitev predvajanja je potrebno pritisniti: Ctrl + C.\n\nRes želiš aktivirati to možnost?"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Zakasnitev podnapisov: %ld ms"
+msgstr ""
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Naslov: %02d/%02d"
+msgstr ""
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "Ime datoteke vsebuje nepodprte znake (uporabi samo A-Z, 0-9)"
+msgstr ""
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Vrstic:"
+msgstr ""
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Stolpci:"
+msgstr ""
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Širina slike"
+msgstr ""
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "URL izgleda pravilno!"
+msgstr ""
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "Verzija protokola neusklajena, prosimo nadgraditev svoj predvajalnik ali izberite drug naslov!"
+msgstr ""
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Razmerje stranic"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Skupno: %d, Izpuščenih: %d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Velikost: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Velikost: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Prosto: %I64dKB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Prosto: %I64dMB"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Prostih V/A medpomnilnikov: %03d/%03d"
+msgstr ""
+
+msgctxt "IDS_AG_ERROR"
+msgid "Napaka"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Podnapis: izklj"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Podnapis: %s"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_46"
+msgid "Izberi pot do DVD/BD:"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_47"
+msgid " uspešno naloženo"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_48"
+msgid "Vse datoteke (*.*)|*.*||"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_49"
+msgid "GetDIB neuspelo, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_51"
+msgid "GetCurrentImage neuspelo, hr = %08x"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_53"
+msgid "Ne morem ustvariti datoteke"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_54"
+msgid "Ne morem ustvariti predoglednih sličic za datoteke z nič trajanja."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_55"
+msgid "Neuspelo pridobivanje velikosti video slike"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_56"
+msgid "Zmanjkalo pomnilnika, pojdite ga kupiti!"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_57"
+msgid "Neveljaven format slike, ne morem ustvariti predoglednih sličic iz %d bpp dibs."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_58"
+msgid "Velikost datoteke: %s (%s bajtov)\\N"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Ime datoteke: %s\\N%sLočljivost: %dx%d %s\\NTrajanje: %02d:%02d:%02d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_60"
+msgid "Da bi naložili podnapise morate spremeniti vrsto video izrisovalnika in ponovno odpreti datoteko.\n- DirectShow: VMR-7/VMR-9 (brez izrisovalnika), EVR (CP), Sync, madVR or Haali\n- RealMedia: Poseben prikazovalnik za RealMedia, ali pa ga odprite s pomočjo DirectShow\n- QuickTime: DX7 ali DX9 prikazovalnika za QuickTime\n- ShockWave: n/a"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Razmerje stranic: %d:%d"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Razmerje stranic: Privzeto"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Zakasnitev zvoka: %I64dms"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "Poglavje %d"
+msgstr ""
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Zmanjkalo pomnilnika"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Napaka: Potreben je Flash predvajalnik za IE"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime še ni podprt za X64 (knjižnica Apple ni na voljo)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Neuspelo ustvarjanje objekta filterskega grafa"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Neveljaven podatek"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Odpiranje prekinjeno"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Neuspelo izrisovanje datoteke"
+msgstr ""
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "Nepravilen URL, ne najdem zbirke podnapisov!"
+msgstr ""
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "Poglavje: "
+msgstr ""
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Glasnost: %d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Ojačitev: +%u%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Ravnotežje: %s"
+msgstr ""
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Trenutno"
+msgstr ""
+
+msgctxt "IDS_MPC_CRASH"
+msgid "MPC-HC se je nepričakovano zaustavil. Za pomoč pri razrešitvi tega problema prosimo pošljite datoteko \"%s\" našemu sledilniku hroščev.\n\nŽelite zdaj odpreti imenik z minidump datoteko in obiskati sledilnik hroščev?"
+msgstr ""
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "Neuspela izdelava dump datoteke v \"%s\" (napaka %d)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Izberi imenik"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Vključi podimenike"
+msgstr ""
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Pavza"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Preklopi meni in napise"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Preklopi iskalec"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Preklopi kontrole"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Neveljavno ime datoteke"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Ne morem povezati filtrov"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Ne morem naložiti nobenega izvornega filtra"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_88"
+msgid "Ne morem izrisovati datoteke"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Neveljaven format datoteke"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_90"
+msgid "Datoteka ni bila najdena"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Neznan tip datoteke"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Nepodprt pretok"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_93"
+msgid "Ne morem najti DVD imenika"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_94"
+msgid "Ne morem ustvariti filtra za DVD krmarjenje"
+msgstr ""
+
+msgctxt "IDS_AG_FAILED"
+msgid "Neuspelo"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Ne morem ustvariti filtra za video zajem"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_98"
+msgid "Ni filtrov za zajem"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Ne morem ustvariti objekta za sestavo filtrov"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Ne morem odpreti nobene naprave"
+msgstr ""
+
+msgctxt "IDS_AG_SOUND"
+msgid "Zvok"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s ni bil najden, prosimo vstavite nosilec, ki vsebuje to datoteko."
+msgstr ""
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Prekinjeno"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Lastnosti..."
+msgstr ""
+
+msgctxt "IDS_MAINFRM_117"
+msgid " lastnosti (priključka)..."
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Neznan pretok"
+msgstr ""
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Neznan %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNC"
+msgid "VSync"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Komentar režiserja 1)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Komentar režiserja 2)"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLED"
+msgid "Omogočeno"
+msgstr ""
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Kot %d"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "Povečaj VSync Odmik"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Onemogočeno"
+msgstr ""
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "Zmanjšaj VSync Odmik"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D Celozaslonsko"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Neznan format"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Pomik podnapisov: %ld ms"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Povečanje ojačitve glasnosti"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Zmanjšanje ojačitve glasnosti"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Ojačitev glasnosti min"
+msgstr ""
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Ojačitev glasnosti maks"
+msgstr ""
+
+msgctxt "IDS_USAGE"
+msgid "Uporaba: mpc-hc.exe \"pot\" [stikala]\n\n\"pot\"\t\tGlavna datoteka ali imenik, ki naj bo naložen\n\t\t(nadomestni znaki dovoljeni)\n/dub \"ime\"\tNaloži dodatno zvočno datoteko\n/dubdelay \"ime\"\tNaloži dodatno zvočno datoteko zamaknjeno za XXms\n\t\t(če datoteka vsebuje \"...DELAY XXms...\")\n/d3dfs\t\tZačni izrisovanje v D3D celozaslonskem načinu\n/sub \"ime\"\tNaloži dodatno datoteko podnapisov\n/filter \"ime filtra\"\tNaloži DirectShow filtre iz dinamično povezane\n\t\tknjižnice (nadomestni znaki dovoljeni)\n/dvd\t\tZaženi v dvd načinu, \"pot\" pomeni dvd\n\t\timenik (opcija)\n/dvdpos T#C\tZačni predvajanje z naslovom T, poglavje C\n/dvdpos T#hh:mm\tZačni predvajanje z naslovom T, pozicijo hh:mm:ss\n/cd\t\tNaloži vse zapise zvočnega CDja ali (s)vcd,\n\t\t\"ime datoteke\" pomeni pot pogona (opcija)\n/open\t\tOdpri datoteko, ne začni samodejno predvajati\n/play\t\tZačni predvajati datoteko takoj ko se predvajalnik\n\t\tzažene\n/close\t\tZapri prevajalnik po predvajanju (deluje samo ko\n\t\tje uporabljen skupaj s /play)\n/shutdown\tZaustavi operacijski sistem po predvajanju\n/fullscreen\tZačni v celozaslonskem načinu\n/minimized\tZačni minimirano\n/new\t\tUporabi novo inačico predvajalnika\n/add\t\tDodaj \"pot\" v seznam predvajanja, lahko je\n\t\tkombinirano z /open in /play\n/regvid\t\tUstvari povezave za video datoteke\n/regaud\t\tUstvari povezave za zvočne datoteke\n/regpl\t\tUstvari povezave za datoteke seznama predvajanja\n/regall\t\tustvari povezave za vse podprte vrste datotek\n/unregall\t\tOdstrani vse povezave datotek\n/start ms\t\tZačni predvajanje pri \"ms\" (= milisekund)\n/startpos hh:mm:ss\tZačni predvajanje pri poziciji hh:mm:ss\n/fixedsize w,h\tNastavi okno fiksne velikosti\n/monitor N\tZačni predvajalnik na zaslonu N, N se začne z 1\n/audiorenderer N\tZačni uporabljati zvočni predvajalnik N, N se začne z 1\n\t\t(glej nastavitve \"Izhod\")\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tPonastavi privzete nastavitve\n/help /h /?\tPrikaži pomoč glede stikal ukazne vrstice\n"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "Nepoznano stikalo(a) najdeno v ukaznem nizu: \n\n"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Preklopi informacije"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Preklopi statistiko"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Preklopi stanje"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Preklopi vrstico resinhr. podnapisov"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Preklopi vrstico s seznamom predvajanja"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Preklopi vrstico za zajem"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Povečava 50%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Povečava 100%"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Povečava 200%"
+msgstr ""
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Naslednja AR prednastavitev"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "Slika raztegni"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "Slika znotraj"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "Slika zunaj"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "PnS Ponastavi"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "PnS Rotiraj X+"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "Slika povečava 1"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "Slika povečava 2"
+msgstr ""
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "Slika preklopi povečavo"
+msgstr ""
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "&Omogoči vse filtre"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Iskanje s kanalnikom"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Podnapisi niso naloženi ali nepodprt izrisovalnik."
+msgstr ""
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Avtor neznan. Obrnite se na nas, če ste naredili ta logo!"
+msgstr ""
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "V trenutnem imeniku ni več multimedijskih datotek."
+msgstr ""
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "Prva datoteka na seznamu je zdaj naložena."
+msgstr ""
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "Zadnja datoteka v imeniku je sedaj naložena."
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Spredaj levo"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Spredaj desno"
+msgstr ""
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Spredaj sredina"
+msgstr ""
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Nizka frekvenca"
+msgstr ""
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Nazaj levo"
+msgstr ""
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Nazaj desno"
+msgstr ""
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Spredaj levo od sredine"
+msgstr ""
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Spredaj desno od sredine"
+msgstr ""
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Nazaj sredina"
+msgstr ""
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Stransko levo"
+msgstr ""
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Stransko desno"
+msgstr ""
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Zgoraj sredina"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Zgoraj spredaj levo"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Zgoraj spredaj sredina"
+msgstr ""
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Zgoraj spredaj desno"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Zgoraj zadaj levo"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Zgoraj zadaj sredina"
+msgstr ""
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Zgoraj zadaj desno"
+msgstr ""
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "Sync izrisovalnik ponastavi stat."
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Podnapisi::Razno"
+msgstr ""
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "&Skrij okvir"
+msgstr ""
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "&Samo slika"
+msgstr ""
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Prikaži meni in napi&se"
+msgstr ""
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "&Skrij meni"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Nad iskalno vrstico"
+msgstr ""
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Pod iskalno vrstico"
+msgstr ""
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr ""
+
+msgctxt "IDS_APPLY"
+msgid "Uveljavi"
+msgstr ""
+
+msgctxt "IDS_CLEAR"
+msgid "Počisti"
+msgstr ""
+
+msgctxt "IDS_CANCEL"
+msgid "Prekliči"
+msgstr ""
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Razpored"
+msgstr ""
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pik:"
+msgstr ""
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Kodiranje:"
+msgstr ""
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "&Onemogoči vse filtre"
+msgstr ""
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Omogoči vse zvočne dekoderje"
+msgstr ""
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Onemogoči vse zvočne dekoderje"
+msgstr ""
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Omogoči vse video dekoderje"
+msgstr ""
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Onemogoči vse video dekoderje"
+msgstr ""
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Raztegni do okna"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Dotik okna od znotraj"
+msgstr ""
+
+msgctxt "IDS_ZOOM1"
+msgid "Povečava 1"
+msgstr ""
+
+msgctxt "IDS_ZOOM2"
+msgid "Povečava 2"
+msgstr ""
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Dotik okna od zunaj"
+msgstr ""
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Zvok: %s"
+msgstr ""
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Ponovno odpri datoteko"
+msgstr ""
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr ""
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr ""
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr ""
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr ""
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr ""
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr ""
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr ""
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Drugo"
+msgstr ""
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr ""
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Drug zvok"
+msgstr ""
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr ""
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr ""
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr ""
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr ""
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Zvočni CD zapis"
+msgstr ""
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr ""
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 zvok"
+msgstr ""
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr ""
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska zvok"
+msgstr ""
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG zvok"
+msgstr ""
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr ""
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr ""
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr ""
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus zvočni kodek"
+msgstr ""
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Seznam predvajanja"
+msgstr ""
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray seznam predvajanja"
+msgstr ""
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Ločljivost"
+msgstr ""
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Razmerje stranic"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "Uporabi WASAPI (ponovno zaženi predvajanje)"
+msgstr ""
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "Utišaj pri hitrem pomikanju naprej"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Zvočna naprava:"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "VSync: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "VSync: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Natančni VSync: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Natančni VSync: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Sinhroniziraj video z zaslonom: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Sinhroniziraj video z zaslonom: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Sinhroniziraj zaslon v videom: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Sinhroniziraj zaslon v videom: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Present pri najbližjem VSync: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Present pri najbližjem VSync: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Upravljanje barv: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Upravljanje barv: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Vrsta vhoda: Samodejno zaznaj"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Vrsta vhoda: HDTV"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Vrsta vhoda: SDTV NTSC"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Vrsta vhoda: SDTV PAL"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Okoliška svetloba: Svetlo (2.2 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Okoliška svetloba: Zatemnjeno (2.35 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Okoliška svetloba: Temno (2.4 Gamma)"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Namen izrisovalnika: Zaznavalno"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Namen izrisovalnika: Relatívno kolorimetrično"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Namen izrisovalnika: Nasičenje"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Namen izrisovalnika: Absolutno kolorimetrično"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Izhodni obseg: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "Izprazni GPU pred VSync: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "Izprazni GPU pred VSync: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "Izprazni GPU po Present: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "Izprazni GPU po Present: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Čakaj na izpraznitev GPU: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Čakaj na izpraznitev GPU: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D celozaslonsko (potreben ponovni zagon): Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D celozaslonsko (potreben ponovni zagon): Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Onemogoči sestavo namizja: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Onemogoči sestavo namizja: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Alternativni VSync: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Alternativni VSync: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Nastavitve izrisovalnika ponastavljene na privzete"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Nastavitve izrisovalnika ponastavljene na optimalne"
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "Podpora GUI za D3D celozaslonsko: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "Podpora GUI za D3D celozaslonsko: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10-bit RGB izhod: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10-bit RGB izhod: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "Vsili 10-bit RGB vhod: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "Vsili 10-bit RGB vhod: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Procesiranje s polno plavajočo vejico: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Procesiranje s polno plavajočo vejico: Izklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Procesiranje s polovično plavajočo vejico: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Procesiranje s polovično plavajočo vejico: Izklj."
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Zmanjšaj svetlost"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Povečaj kontrast"
+msgstr ""
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Zmanjšaj kontrast"
+msgstr ""
+
+msgctxt "IDS_HUE_INC"
+msgid "Odtenek +"
+msgstr ""
+
+msgctxt "IDS_HUE_DEC"
+msgid "Odtenek -"
+msgstr ""
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Nasičenje povečanje"
+msgstr ""
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Nasičenje zmanjšanje"
+msgstr ""
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Ponastavi barvne nastavitve"
+msgstr ""
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nŽe uporabljate najnovejšo stabilno različico."
+msgstr ""
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Vaša trenutna različica je v%u.%u.%u.%u.\n\nZadnja stabilna različica je v%u.%u.%u.%u."
+msgstr ""
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "MPC-HC v%s je sedaj na voljo. Uporabljate v%s.\n\nŽelite obiskati spletno stran MPC-HC za prenos?"
+msgstr ""
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Ne najdemo strežnika za posodobitve.\n\nProsimo preverite vašo internetno povezavo ali poskusite znova kasneje."
+msgstr ""
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Zapri"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Povečava: %.0lf%%"
+msgstr ""
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Povečava: Auto"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Preklopi razpored kanalov po meri"
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Razpored kanalov po meri: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Razpored kanalov po meri: Izklj."
+msgstr ""
+
+msgctxt "IDS_NORMALIZE"
+msgid "Preklopi normalizacijo"
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Normalizacija: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Normalizacija: Izklj."
+msgstr ""
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Preklopi ponastavitev jakosti zvoka"
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Ponastavi jakost zvoka: Vklj."
+msgstr ""
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Ponastavi jakost zvoka: Izklj."
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr ""
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Neuspela vzpostavitev kanalnika."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Neuspela vzpostavitev sprejemnika."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Neuspela povezava z omrežjem in kanalnikom."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Neuspela povezava s kanalnikom in sprejemnikom."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Neuspela povezava s kanalnikom."
+msgstr ""
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Neuspela vzpostavitev demultiplekserja."
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Napaka pri razčlenitvi vnešenega časa!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Napaka pri razčlenitvi vnešenega besedila!"
+msgstr ""
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Napaka pri razčlenitvi vnešene hitrosti prikaza slik!"
+msgstr ""
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Ne morem korakoma po slikah, poskusi z drugim video izrisovalnikom."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "Funkciji \"Shrani sliko\" in \"Shrani predogledno sličico\" ne delujeta z privzetim video izrisovalnikom za RealMedia.\nIzberi enega izmed DirectX izrisovalnikov za RealMedia v MPC-HC izhodnih nastavitvah in ponovno odpri datoteko."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "Funkciji \"Shrani sliko\" in \"Shrani predogledno sličico\" ne delujeta z privzetim video izrisovalnikom za QuickTime.\nIzberi enega izmed DirectX izrisovalnikov za QuickTime v MPC-HC izhodnih nastavitvah in ponovno odpri datoteko."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "Funkciji \"Shrani sliko\" in \"Shrani predogledno sličico\" ne delujeta pri datotekah Shockwave."
+msgstr ""
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "Funkciji \"Shrani sliko\" in \"Shrani predogledno sličico\" ne delujeta v video izrisovalniku - mešalniku s prekrivanjem.\nSpremeni video izrisovalnik v MPC izhodnih nastavitvah in ponovno odpri datoteko."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Ne morem se povezati s spletno zbirko podnapisov."
+msgstr ""
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Želiš aktivirati EDL urejevalnik?"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Napaka pri zajemu"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "video"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "zvok"
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "%s medpomnilniškega filtra ni mogoče dodati v graf."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "%s medpomnilniškega filtra ni mogoče priključiti v graf."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "%s kodirnega filtra ni mogoče dodati v graf."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "%s kodirnega filtra ni mogoče priključiti v graf."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Neuspela nastavitev formata stiskanja %s kodirnega filtra."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Pretoka %s ne morem priključiti na multiplekser filter."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "Nobenega priključka za zajem videa ni bilo mogoče najti."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "Nobenega priključka za zajem zvoka ni bilo mogoče najti."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Napaka pri vzpostavitvi začetnega stanja izhodne datoteke."
+msgstr ""
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Napaka pri vzpostavitvi začetnega stanja zvočne izhodne datoteke."
+msgstr ""
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "Pravilni zapis časa je [-]hh:mm:ss.ms (npr. 01:23:45.678)."
+msgstr ""
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "Ta vrsta je že na seznamu!"
+msgstr ""
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "Uveljaviti morate nove nastavitve, preden jih lahko testirate."
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "Po predvajanju: Izhod"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "Po predvajanju: V pripravljenosti"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "Po predvajanju: Spanje"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "Po predvajanju: Izklop"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "Po predvajanju: Odjava"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "Po predvajanju: Zakleni"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "Po predvajanju: Vedno izhod"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "Po predvajanju: Ne naredi ničesar"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "Po predvajanju: Predvajaj naslednje v imeniku"
+msgstr ""
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Svetlost: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Kontrast: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_HUE"
+msgid "Odtenek: %s°"
+msgstr ""
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Nasičenje: %s"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Nastavitve barv obnovljene"
+msgstr ""
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Nadzor barve ni podprt"
+msgstr ""
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Povečaj svetlost"
+msgstr ""
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Vpiši želene jezike tukaj.\nKot na primer: \"eng jap swe\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "Zunanji razdelilniki lahko imajo lastne nastavitve želenega jezika, zato MPC-HC privzeto ne spreminja njihove izvirne izbire.\nOmogočite to možnost, če želite da MPC-HC upravlja zunanje razdelilnike."
+msgstr ""
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Nastavitve"
+msgstr ""
+

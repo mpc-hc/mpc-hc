@@ -1,0 +1,30 @@
+//
+// untranslatable.rc2 - Untranslatable strings
+//
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Add manually edited resources here...
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "MPC-HC"
+    IDR_MAINFRAME           "Media Player Classic Home Cinema"
+END
+
+STRINGTABLE
+BEGIN
+    IDF_LOGO1               "Marcel Hoffs, marcelhoffs@hotmail.com"
+    IDF_LOGO2               "Steven W. Smith, smith78@sbcglobal.net"
+    IDF_LOGO3               "Robbie Khan, email@robbiekhan.co.uk"
+END

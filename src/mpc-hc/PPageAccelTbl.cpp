@@ -1470,6 +1470,12 @@ BOOL CPPageAccelTbl::OnInitDialog()
     m_UIceAddr = s.strUIceAddr;
     m_fGlobalMedia = s.fGlobalMedia;
 
+    CString text;
+    text.Format(IDS_STRING_COLON, _T("WinLIRC"));
+    m_WinLircLink.SetWindowText(text);
+    text.Format(IDS_STRING_COLON, _T("uICE"));
+    m_UIceLink.SetWindowText(text);
+
     UpdateData(FALSE);
 
     CRect r;
