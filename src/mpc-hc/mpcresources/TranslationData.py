@@ -24,6 +24,10 @@ import ConfigParser
 from datetime import datetime
 
 
+def xstr(s):
+    return '' if s is None else str(s)
+
+
 def detectEncoding(filename):
     encoding = 'cp1252'
 
@@ -109,7 +113,7 @@ class TranslationData:
     dialogEntry = re.compile(ur'^\s*[^ ]+\s+"((?:[^"]|"")+)"(?:\s*,\s*([^, ]+)\s*,)?', re.UNICODE)
     menuEntry = re.compile(ur'^\s*(?:POPUP|MENUITEM) "((?:[^"]|"")+)"(?:\s*,\s*([^, ]+)\r\n)?', re.UNICODE)
     stringTableEntry = re.compile(ur'^\s*([^ ]+)\s*(?:\s+"((?:[^"]|"")+)")?\r\n', re.UNICODE)
-    poLine = re.compile(ur'^\s*(msgctxt|msgid|msgstr)\s+"((?:[^"]|\\")*)"\r\n', re.UNICODE)
+    poLine = re.compile(ur'^\s*(?:(msgctxt|msgid|msgstr)\s+)?"((?:[^"]|\\")*)"\r?\n', re.UNICODE)
     versionInfo = versionInfo.replace('\n', '\r\n')
     potHeader = potHeader.replace('\n', '\r\n')
     excludedStrings = re.compile(ur'(?:http://|\.\.\.|\d+)$', re.UNICODE | re.IGNORECASE)
@@ -229,7 +233,7 @@ class TranslationData:
             header.append(line)
             for line in f:
                 header.append(line)
-                if line.startswith(u'\r\n'):
+                if line.startswith(u'\r') or line.startswith(u'\n'):
                     break
             header = ''.join(header)
         else:
@@ -241,21 +245,28 @@ class TranslationData:
         id = None
         str = None
         show = False
+
+        prevLineType = None
         for line in f:
             match = TranslationData.poLine.match(line)
             if match:
                 lineType = match.group(1)
+                if lineType is None:
+                    lineType = prevLineType
+
+                data = match.group(2).replace('\\"', '""')
                 if lineType == u'msgctxt':
-                    context = match.group(2).replace('\\"', '""')
+                    context = xstr(context) + data
                 elif lineType == u'msgid':
-                    id = match.group(2).replace('\\"', '""')
+                    id = xstr(id) + data
                 elif lineType == u'msgstr':
-                    str = match.group(2).replace('\\"', '""')
+                    str = xstr(str) + data
 
-                if (not needContext or context is not None) and id is not None and str is not None:
-                    return (context, id, str)
+                prevLineType = lineType
+            elif (not needContext or context is not None) and id is not None and str is not None:
+                return (context, id, str)
 
-        return None
+        return (context, id, str) if (not needContext or context is not None) and id is not None and str is not None else None
 
     def writePO(self, filename, ext, output=(True, True, True)):
         self.prepareHeaders(ext)
