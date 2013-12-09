@@ -1,0 +1,18 @@
+[main]
+host = https://www.transifex.com
+
+[mpc-hc.ui-dialogs]
+file_filter = PO/mpc-hc.<lang>.dialogs.po
+source_file = PO/mpc-hc.dialogs.pot
+source_lang = en
+
+[mpc-hc.ui-menus]
+file_filter = PO/mpc-hc.<lang>.menus.po
+source_file = PO/mpc-hc.menus.pot
+source_lang = en
+
+[mpc-hc.ui-string-tables]
+file_filter = PO/mpc-hc.<lang>.strings.po
+source_file = PO/mpc-hc.strings.pot
+source_lang = en
+
