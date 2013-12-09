@@ -230,12 +230,15 @@ class TranslationData:
         line = f.readline()
         if line.startswith(u'#'):
             header = []
-            header.append(line)
+            header.append(line.rstrip(u'\r\n'))
             for line in f:
+                line = line.rstrip(u'\r\n')
                 header.append(line)
-                if line.startswith(u'\r') or line.startswith(u'\n'):
+                if not line:
+                    # Ensure a final line-break is added
+                    header.append('')
                     break
-            header = ''.join(header)
+            header = '\r\n'.join(header)
         else:
             f.seek(0)
         return header
