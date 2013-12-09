@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Underground78, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:30:01+0000\n"
+"PO-Revision-Date: 2013-12-09 21:15+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -23,7 +26,7 @@ msgstr "Vidéo"
 
 msgctxt "IDS_INFOBAR_AUDIO"
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgctxt "IDS_INFOBAR_SUBTITLES"
 msgid "Subtitles"
@@ -67,7 +70,7 @@ msgstr "Fichiers"
 
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
-msgstr ""
+msgstr "DVDs"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -99,7 +102,7 @@ msgstr " (moy/act)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
-msgstr ""
+msgstr "Signal"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %d%%"
@@ -107,7 +110,7 @@ msgstr "Force : %d dB, Qualité : %d%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
-msgstr ""
+msgstr "Styles"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -191,7 +194,7 @@ msgstr "Barre de navigation"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr ""
+msgstr "Subresync"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -223,7 +226,7 @@ msgstr "Texte"
 
 msgctxt "IDS_SUBRESYNC_CLN_STYLE"
 msgid "Style"
-msgstr ""
+msgstr "Style"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
@@ -279,7 +282,7 @@ msgstr "Langue"
 
 msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgctxt "IDS_SUBDL_DLG_DISC_COL"
 msgid "Disc"
@@ -295,7 +298,7 @@ msgstr "Jeu de caractères"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
@@ -499,11 +502,11 @@ msgstr "Video Mixing Renderer 9 (sans rendu)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr ""
+msgstr "Enhanced Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr ""
+msgstr "Enhanced Video Renderer (custom presenter)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
@@ -519,7 +522,7 @@ msgstr "Pas de rendu vidéo (formats non compressés)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
-msgstr ""
+msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -559,7 +562,7 @@ msgstr "Divers"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr ""
+msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -731,15 +734,15 @@ msgstr "Le moteur de rendu sélectionné n'est pas installé."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Pas de rendu vidéo (tout format)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Pas de rendu vidéo (formats non compressés)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr ""
+msgstr "Moteur de rendu audio de MPC-HC"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -763,7 +766,7 @@ msgstr "Délai (ms):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
@@ -859,7 +862,7 @@ msgstr "Lecture\nLecture"
 
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
-msgstr ""
+msgstr "Pause\nPause"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -899,7 +902,7 @@ msgstr "Suivant\nSuivant"
 
 msgctxt "IDS_SUBRESYNC_ORIGINAL"
 msgid "&Original"
-msgstr ""
+msgstr "&Original"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
@@ -927,7 +930,7 @@ msgstr "&Augmenter"
 
 msgctxt "IDS_OPTIONS_CAPTION"
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
@@ -935,7 +938,7 @@ msgstr "&Sélectionner les pixels shaders..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "&Déboguer les pixels shaders..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1039,7 +1042,7 @@ msgstr "Zoom écran ultra-large,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "Hide on Fullscreen"
-msgstr "Cacher la liste de diffusion en plein écran"
+msgstr "Cacher la liste de lecture en plein écran"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1063,11 +1066,11 @@ msgstr "Fermé"
 
 msgctxt "IDS_SUBTITLES_OPTIONS"
 msgid "&Options..."
-msgstr ""
+msgstr "&Options..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
-msgstr ""
+msgstr "&Styles..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
@@ -1091,7 +1094,7 @@ msgstr "Auteur"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
@@ -1099,7 +1102,7 @@ msgstr "Débit"
 
 msgctxt "IDS_INFOBAR_DESCRIPTION"
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 msgctxt "IDS_INFOBAR_DOMAIN"
 msgid "Domain"
@@ -1163,35 +1166,35 @@ msgstr "Lancer un DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr ""
+msgstr "Impossible d'activer les shaders post-redimensionnement"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr ""
+msgstr "Impossible d'activer les shaders pré et post redimensionnement"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Les shaders sont recompilés automatiquement quand les fichiers correspondant sont modifiés."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr ""
+msgstr "Impossible de charger %s, les pixel shaders ne fonctionneront pas."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "Possible de trouver les fonctions nécessaires dans %s, les pixels shaders ne fonctionneront pas."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Présélection de shaders : %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Présélection de shaders suivante"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Présélection de shaders précédente"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1267,7 +1270,7 @@ msgstr "Émission/Jeu télévisé"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
-msgstr ""
+msgstr "Sports"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
@@ -1279,7 +1282,7 @@ msgstr "Musique/Ballet/Danse"
 
 msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
 msgid "Arts/Culture"
-msgstr ""
+msgstr "Arts/Culture"
 
 msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
 msgid "Social/Political issues/Economics"
@@ -1307,23 +1310,23 @@ msgstr "Image-clé la plus proche"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr ""
+msgstr "MPC-HC a rencontré un problème pendant son initialisation. La lecture DVD pourrait ne pas fonctionner correctement. Ceci peut être causé par des incompatibilités avec certains outils de sécurisation.\n\nSouhaitez-vous signaler ce problème ?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "Ne jamais afficher"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr ""
+msgstr "Afficher lors d'un déplacement de la souris, cacher après :"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr ""
+msgstr "Afficher lors du survol des contrôles, cacher après :"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
+msgstr "Impossible d'activer les shaders pré-redimensionnement"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1567,15 +1570,15 @@ msgstr "Souhaitez-vous vérifier régulièrement si des mises à jour sont dispo
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -1727,7 +1730,7 @@ msgstr "Menu filtres"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio"
@@ -1851,7 +1854,7 @@ msgstr "Chaines TV"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
@@ -1891,7 +1894,7 @@ msgstr "Angle : %02d/%02d, %dx%d %dHz %d :%d"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %dHz %dbits %d %s"
-msgstr ""
+msgstr "%s, %s %d Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2167,7 +2170,7 @@ msgstr "Inclure les sous-répertoires"
 
 msgctxt "IDS_AG_PAUSE"
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
@@ -2287,7 +2290,7 @@ msgstr "Activé"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"
-msgstr ""
+msgstr "Angle %d"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
@@ -2331,7 +2334,7 @@ msgstr "Gain du volume max"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Utilisation : mpc-hc.exe \"chemin du fichier\" [options]\n\n\"chemin du fichier\"\tFichier principal ou répertoire à charger (jockers\n\t\tautorisés, \"-\" désigne l'entrée standard)\n/dub \"fichier audio\"\tCharge un fichier audio supplémentaire\n/dubdelay \"fichier\"\tCharge un fichier audio avec décalage de XXms (si\n\t\tle nom contiens \"...DELAY XXms...\")\n/d3dfs\t\tLance le rendu en mode D3D plein écran (réduit le\n\t\ttearing)\n/sub \"fichier ST\"\tCharge un fichier de sous-titres\n/filter \"nom\"\tCharge un filtre DirectShow à partir d'une DLL\n\t\t(jockers autorisés)\n/dvd\t\tDémarre en mode DVD (possibilité de fournir le\n\t\tnom du répertoire)\n/dvdpos T#C\tDémarre la lecture du titre T, à partir du chapitre C\n/dvdpos T#hh:mm\tDémarre la lecture du titre T, à partir de la position hh:mm:ss\n/cd\t\tCharge toutes les pistes d'un CD audio ou d'un (S)Vcd\n/device\t\tOpen the default video device\n/open\t\tOuvrir un fichier en pause\n/play\t\tOuvrir un fichier et commencer la lecture\n/close\t\tQuitte automatiquement après la lecture\n/shutdown\tEteindre la machine après la lecture\n/fullscreen\tDémarrer en plein écran\n/minimized\tDémarrer en mode minimisé\n/new\t\tLance une nouvelle instance de MPC-HC\n/add\t\tAjoute un fichier à la playlist\n/regvid\t\tAssocie les formats vidéo à MPC-HC\n/regaud\t\tAssocie les formats audio à MPC-HC\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tSupprime l'association des formats vidéo à MPC-HC\n/start ms\t\tDémarre la lecture à \"ms\" (millisecondes)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize L,H\tFixe la taille de la fenêtre vidéo à LxH\n/monitor N\tDémarre MPC-HC sur l'écran N (N à partir de 1)\n/audiorenderer N\tUtiliser le rendu audio N, où N commence à partir de 1\n\t\t(cf. \"Sortie\" dans les options)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestaurer les paramètres par défaut\n/help /h /?\tAffiche l'aide pour les options de la ligne de commande\n"
+msgstr "Utilisation : mpc-hc.exe \"chemin du fichier\" [options]\n\n\"chemin du fichier\"\tFichier principal ou répertoire à charger (jockers\n\t\tautorisés, \"-\" désigne l'entrée standard)\n/dub \"fichier audio\"\tCharge un fichier audio supplémentaire\n/dubdelay \"fichier\"\tCharge un fichier audio avec décalage de XXms (si\n\t\tle nom contiens \"...DELAY XXms...\")\n/d3dfs\t\tLance le rendu en mode D3D plein écran (réduit le\n\t\ttearing)\n/sub \"fichier ST\"\tCharge un fichier de sous-titres\n/filter \"nom\"\tCharge un filtre DirectShow à partir d'une DLL\n\t\t(jockers autorisés)\n/dvd\t\tDémarre en mode DVD (possibilité de fournir le\n\t\tnom du répertoire)\n/dvdpos T#C\tDémarre la lecture du titre T, à partir du chapitre C\n/dvdpos T#hh:mm\tDémarre la lecture du titre T, à partir de la position hh:mm:ss\n/cd\t\tCharge toutes les pistes d'un CD audio ou d'un (S)Vcd\n/device\t\tOpen the default video device\n/open\t\tOuvrir un fichier en pause\n/play\t\tOuvrir un fichier et commencer la lecture\n/close\t\tQuitte automatiquement après la lecture\n/shutdown\tEteindre la machine après la lecture\n/fullscreen\tDémarrer en plein écran\n/minimized\tDémarrer en mode minimisé\n/new\t\tLance une nouvelle instance de MPC-HC\n/add\t\tAjoute un fichier à la playlist\n/regvid\t\tAssocie les formats vidéo à MPC-HC\n/regaud\t\tAssocie les formats audio à MPC-HC\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tSupprime l'association des formats vidéo à MPC-HC\n/start ms\t\tDémarre la lecture à \"ms\" (millisecondes)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize L,H\tFixe la taille de la fenêtre vidéo à LxH\n/monitor N\tDémarre MPC-HC sur l'écran N (N à partir de 1)\n/audiorenderer N\tUtiliser le moteur de rendu audio N, où N commence à partir de 1\n\t\t(cf. \"Sortie audio\" dans les options)\n/shaderpreset \"Pr\"\tUtiliser la présélection de shaders \"Pr\"\n/reset\t\tRestaurer les paramètres par défaut\n/help /h /?\tAffiche l'aide pour les options de la ligne de commande\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2363,19 +2366,19 @@ msgstr "Afficher la barre de capture"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "Activer le débogage des pixels shaders"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr ""
+msgstr "Zoom 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr ""
+msgstr "Zoom 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr ""
+msgstr "Zoom 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
@@ -2603,11 +2606,11 @@ msgstr "Toucher la fenêtre de l'intérieur"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr ""
+msgstr "Zoom 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
-msgstr ""
+msgstr "Zoom 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
@@ -2623,15 +2626,15 @@ msgstr "Réouverture du fichier"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
-msgstr ""
+msgstr "AVI"
 
 msgctxt "IDS_MFMT_MPEG"
 msgid "MPEG"
-msgstr ""
+msgstr "MPEG"
 
 msgctxt "IDS_MFMT_MPEGTS"
 msgid "MPEG-TS"
-msgstr ""
+msgstr "MPEG-TS"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
@@ -2639,15 +2642,15 @@ msgstr "DVD Vidéo"
 
 msgctxt "IDS_MFMT_MKV"
 msgid "Matroska"
-msgstr ""
+msgstr "Matroska"
 
 msgctxt "IDS_MFMT_WEBM"
 msgid "WebM"
-msgstr ""
+msgstr "WebM"
 
 msgctxt "IDS_MFMT_MP4"
 msgid "MP4"
-msgstr ""
+msgstr "MP4"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
@@ -2655,11 +2658,11 @@ msgstr "Fichier QuickTime"
 
 msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
-msgstr ""
+msgstr "3GP"
 
 msgctxt "IDS_MFMT_3G2"
 msgid "3G2"
-msgstr ""
+msgstr "3G2"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -2671,15 +2674,15 @@ msgstr "Media Ogg"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr ""
+msgstr "Media Real"
 
 msgctxt "IDS_MFMT_RT"
 msgid "Real Script"
-msgstr ""
+msgstr "Script Real"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
-msgstr ""
+msgstr "Vidéos Windows Media"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
@@ -2703,7 +2706,7 @@ msgstr "Autres"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
-msgstr ""
+msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
@@ -2711,27 +2714,27 @@ msgstr "Autres formats audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
-msgstr ""
+msgstr "AC-3/DTS"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
-msgstr ""
+msgstr "AIFF"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
-msgstr ""
+msgstr "Apple Lossless"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
-msgstr ""
+msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
-msgstr ""
+msgstr "Monkey's Audio"
 
 msgctxt "IDS_MFMT_AU"
 msgid "AU/SND"
-msgstr ""
+msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
@@ -2739,7 +2742,7 @@ msgstr "Piste CD Audio"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
-msgstr ""
+msgstr "FLAC"
 
 msgctxt "IDS_MFMT_M4A"
 msgid "MPEG-4 Audio"
@@ -2747,15 +2750,15 @@ msgstr "Audio MPEG-4"
 
 msgctxt "IDS_MFMT_MIDI"
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
-msgstr ""
+msgstr "Matroska audio"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
-msgstr ""
+msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
@@ -2763,47 +2766,47 @@ msgstr "Audio MPEG"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
-msgstr ""
+msgstr "Musepack"
 
 msgctxt "IDS_MFMT_OFR"
 msgid "OptimFROG"
-msgstr ""
+msgstr "OptimFROG"
 
 msgctxt "IDS_MFMT_OGG"
 msgid "Ogg Vorbis"
-msgstr ""
+msgstr "Ogg Vorbis"
 
 msgctxt "IDS_MFMT_RA"
 msgid "Real Audio"
-msgstr ""
+msgstr "Audio Real"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
-msgstr ""
+msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
+msgstr "True Audio"
 
 msgctxt "IDS_MFMT_WAV"
 msgid "WAV"
-msgstr ""
+msgstr "WAV"
 
 msgctxt "IDS_MFMT_WMA"
 msgid "Windows Media Audio"
-msgstr ""
+msgstr "Audio Windows Media"
 
 msgctxt "IDS_MFMT_WV"
 msgid "WavPack"
-msgstr ""
+msgstr "WavPack"
 
 msgctxt "IDS_MFMT_OPUS"
 msgid "Opus Audio Codec"
-msgstr ""
+msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
-msgstr ""
+msgstr "Liste de lecture"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
@@ -2815,7 +2818,7 @@ msgstr "Archive RAR"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr ""
+msgstr "IPS"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
@@ -3219,7 +3222,7 @@ msgstr "vidéo"
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
-msgstr ""
+msgstr "audio"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
