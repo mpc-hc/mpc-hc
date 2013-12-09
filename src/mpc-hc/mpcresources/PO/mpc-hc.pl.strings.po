@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# kasper93, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:30:01+0000\n"
+"PO-Revision-Date: 2013-12-09 14:19+0000\n"
+"Last-Translator: kasper93\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -79,23 +82,23 @@ msgstr "Czas"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr ""
+msgstr "Przes. synchr."
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr ""
+msgstr "średnie: %d ms, odchylenie: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
-msgstr ""
+msgstr "Jitter"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr ""
+msgstr "Bitrate"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid " (avg/cur)"
-msgstr ""
+msgstr " (śr./akt.)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -151,7 +154,7 @@ msgstr "Kat. wiekowa"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr ""
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
@@ -171,7 +174,7 @@ msgstr "Wiadomości/Bieżące wydarzenia"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr ""
+msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -207,11 +210,11 @@ msgstr "Wyświetlanie"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
-msgstr ""
+msgstr "Vob ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
-msgstr ""
+msgstr "Cell ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
@@ -259,7 +262,7 @@ msgstr "Nie można otworzyć, błędne parametry wejściowe."
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr "Zmodyfikuj edytor listy"
+msgstr "Edytor list montażowych"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
@@ -279,7 +282,7 @@ msgstr "Język"
 
 msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgctxt "IDS_SUBDL_DLG_DISC_COL"
 msgid "Disc"
@@ -295,7 +298,7 @@ msgstr "Zestaw znaków"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
@@ -395,7 +398,7 @@ msgstr "&Przywróć pierwotną kolejność"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
-msgstr ""
+msgstr "&Separator"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
@@ -479,47 +482,47 @@ msgstr "Stary renderer obrazu"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr ""
+msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
-msgstr ""
+msgstr "Video Mixing Renderer 7 (windowed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr ""
+msgstr "Video Mixing Renderer 9 (windowed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr ""
+msgstr "Video Mixing Renderer 7 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr ""
+msgstr "Video Mixing Renderer 9 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr ""
+msgstr "Enhanced Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr ""
+msgstr "Enhanced Video Renderer (custom presenter)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr ""
+msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Null (anything)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Null (uncompressed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
-msgstr ""
+msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -559,7 +562,7 @@ msgstr "Różne"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr ""
+msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -675,7 +678,7 @@ msgstr "MPC Audio Renderer nie jest w pełni funkcjonalny, zaleca się nie używ
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr ""
+msgstr "Sync Renderer"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
@@ -699,27 +702,27 @@ msgstr "Płaszczyzny 3D (zalecane)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr ""
+msgstr "Nearest neighbor"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr ""
+msgstr "Bilinear"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr ""
+msgstr "Bilinear (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
@@ -731,15 +734,15 @@ msgstr "Wybrany renderer nie jest zainstalowany."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Null (anything)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Null (uncompressed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr ""
+msgstr "MPC-HC Audio Renderer"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -763,7 +766,7 @@ msgstr "Przesunięcie (ms):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
@@ -935,7 +938,7 @@ msgstr "&Wybierz shadery..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "Debu&guj shadery"
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1091,7 +1094,7 @@ msgstr "Autor"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr ""
+msgstr "Prawa autor."
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
@@ -1163,39 +1166,39 @@ msgstr "Otwórz płytę DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr ""
+msgstr "Ustawienie shaderów po skalowaniu nie powiodło się"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr ""
+msgstr "Ustawienie shaderów przed oraz po skalowaniu nie powiodło się"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Shadery są kompilowane automatycznie gdy odpowiadające im pliki są edytowane."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr ""
+msgstr "Błąd ładowania %s, shader ten nie będzie działał."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "Nie można znaleźć odpowiedniego punkty wejście funkcji w %s, shader nie będzie działał."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Profil shaderów: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Następny profil shaderów"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Poprzedni profil shaderów"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1307,23 +1310,23 @@ msgstr "Najbliższa klatka klucz."
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr ""
+msgstr "MPC-HC napotkał problem podczas ładowania. Odtwarzanie DVD może nie działać w pełni poprawnie. Może to być spowodowane przez niekompatybilność z niektórymi programami zabezpieczającymi.\n\nChcesz zgłosić ten błąd?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "Nie pokazuj nigdy"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr ""
+msgstr "Pokaż podczas ruchu myszy, ukryj po:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr ""
+msgstr "Pokaż po najechaniu myszą, ukryj po:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
+msgstr "Ustawienie shaderów przed skalowaniem nie powiodło się"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1567,15 +1570,15 @@ msgstr "Chcesz, aby okresowo były sprawdzane aktualizacje MPC-HC?\n\nTa opcja m
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -1711,7 +1714,7 @@ msgstr "Opuść menu płyty DVD"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Ukryj natychmiast zawartość"
+msgstr "„Klawisz szefa” - natychmiast ukrywa odtwarzacz"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu (short)"
@@ -1851,7 +1854,7 @@ msgstr "Stacje TV"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
@@ -2363,7 +2366,7 @@ msgstr "Przełącz widoczność okna przechwytywania"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "Przełącz debugowanie shaderów"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2623,55 +2626,55 @@ msgstr "Otwórz ponownie plik"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
-msgstr ""
+msgstr "AVI"
 
 msgctxt "IDS_MFMT_MPEG"
 msgid "MPEG"
-msgstr ""
+msgstr "MPEG"
 
 msgctxt "IDS_MFMT_MPEGTS"
 msgid "MPEG-TS"
-msgstr ""
+msgstr "MPEG-TS"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
-msgstr ""
+msgstr "DVD-Wideo"
 
 msgctxt "IDS_MFMT_MKV"
 msgid "Matroska"
-msgstr ""
+msgstr "Matroska"
 
 msgctxt "IDS_MFMT_WEBM"
 msgid "WebM"
-msgstr ""
+msgstr "WebM"
 
 msgctxt "IDS_MFMT_MP4"
 msgid "MP4"
-msgstr ""
+msgstr "MP4"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
-msgstr ""
+msgstr "QuickTime Movie"
 
 msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
-msgstr ""
+msgstr "3GP"
 
 msgctxt "IDS_MFMT_3G2"
 msgid "3G2"
-msgstr ""
+msgstr "3G2"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
-msgstr ""
+msgstr "Flash Video"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
-msgstr ""
+msgstr "Ogg Media"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr ""
+msgstr "Real Media"
 
 msgctxt "IDS_MFMT_RT"
 msgid "Real Script"
@@ -2679,11 +2682,11 @@ msgstr "Skrypt Real"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
-msgstr ""
+msgstr "Windows Media Video"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
-msgstr ""
+msgstr "Smacker/Bink Video"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
@@ -2691,11 +2694,11 @@ msgstr "Animacja FLIC"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr ""
+msgstr "DirectShow Media"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
-msgstr ""
+msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -2703,7 +2706,7 @@ msgstr "Inny format"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
-msgstr ""
+msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
@@ -2711,27 +2714,27 @@ msgstr "Inne audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
-msgstr ""
+msgstr "AC-3/DTS"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
-msgstr ""
+msgstr "AIFF"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
-msgstr ""
+msgstr "Apple Lossless"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
-msgstr ""
+msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
-msgstr ""
+msgstr "Monkey's Audio"
 
 msgctxt "IDS_MFMT_AU"
 msgid "AU/SND"
-msgstr ""
+msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
@@ -2739,63 +2742,63 @@ msgstr "Ścieżka Audio CD"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
-msgstr ""
+msgstr "FLAC"
 
 msgctxt "IDS_MFMT_M4A"
 msgid "MPEG-4 Audio"
-msgstr ""
+msgstr "MPEG-4 Audio"
 
 msgctxt "IDS_MFMT_MIDI"
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
-msgstr ""
+msgstr "Matroska audio"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
-msgstr ""
+msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG audio"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
-msgstr ""
+msgstr "Musepack"
 
 msgctxt "IDS_MFMT_OFR"
 msgid "OptimFROG"
-msgstr ""
+msgstr "OptimFROG"
 
 msgctxt "IDS_MFMT_OGG"
 msgid "Ogg Vorbis"
-msgstr ""
+msgstr "Ogg Vorbis"
 
 msgctxt "IDS_MFMT_RA"
 msgid "Real Audio"
-msgstr ""
+msgstr "Real Audio"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
-msgstr ""
+msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
+msgstr "True Audio"
 
 msgctxt "IDS_MFMT_WAV"
 msgid "WAV"
-msgstr ""
+msgstr "WAV"
 
 msgctxt "IDS_MFMT_WMA"
 msgid "Windows Media Audio"
-msgstr ""
+msgstr "Windows Media Audio"
 
 msgctxt "IDS_MFMT_WV"
 msgid "WavPack"
-msgstr ""
+msgstr "WavPack"
 
 msgctxt "IDS_MFMT_OPUS"
 msgid "Opus Audio Codec"
@@ -3127,23 +3130,23 @@ msgstr "Utrzymywanie głośności (regain): wyłączone"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr ""
+msgstr "MB/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
