@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mplayerc.rc
+// Used by mpc-hc.rc
 //
 #define IDR_MAINFRAME                   128
 #define IDR_POPUP                       130

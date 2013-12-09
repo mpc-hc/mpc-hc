@@ -26,7 +26,7 @@ if __name__ == '__main__':
     filename = sys.argv[1]
 
     translationData = TranslationData()
-    translationData.loadFromRC(r'..\mplayerc.rc')
+    translationData.loadFromRC(r'..\mpc-hc.rc')
 
     translationDataOld = TranslationData()
     translationDataOld.loadFromRC(filename + '.rc')

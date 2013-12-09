@@ -233,7 +233,7 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 [Files]
 #if localize == "true"
 Source: {#bindir}\Lang\mpcresources.??.dll;     DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\Lang\mpcresources.??-??.dll;  DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.??_??.dll;  DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
 #ifndef MPCHC_LITE
 Source: {#bindir}\{#lavfiltersdir}\*.dll;       DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion
@@ -341,6 +341,14 @@ Type: files; Name: {app}\mpcresources.sv.dll
 Type: files; Name: {app}\mpcresources.tc.dll
 Type: files; Name: {app}\mpcresources.tr.dll
 Type: files; Name: {app}\mpcresources.ua.dll
+Type: files; Name: {app}\Lang\mpcresources.br.dll
+Type: files; Name: {app}\Lang\mpcresources.by.dll
+Type: files; Name: {app}\Lang\mpcresources.cz.dll
+Type: files; Name: {app}\Lang\mpcresources.en-GB.dll
+Type: files; Name: {app}\Lang\mpcresources.kr.dll
+Type: files; Name: {app}\Lang\mpcresources.sc.dll
+Type: files; Name: {app}\Lang\mpcresources.tc.dll
+Type: files; Name: {app}\Lang\mpcresources.ua.dll
 #endif
 
 

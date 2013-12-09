@@ -11,85 +11,85 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="mplayerc.br.rc">
+    <ResourceCompile Include="mpc-hc.be.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.by.rc">
+    <ResourceCompile Include="mpc-hc.ca.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ca.rc">
+    <ResourceCompile Include="mpc-hc.cs.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.cz.rc">
+    <ResourceCompile Include="mpc-hc.de.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.de.rc">
+    <ResourceCompile Include="mpc-hc.el.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.el.rc">
+    <ResourceCompile Include="mpc-hc.en_GB.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.en-GB.rc">
+    <ResourceCompile Include="mpc-hc.es.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.es.rc">
+    <ResourceCompile Include="mpc-hc.eu.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.eu.rc">
+    <ResourceCompile Include="mpc-hc.fr.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.fr.rc">
+    <ResourceCompile Include="mpc-hc.he.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.he.rc">
+    <ResourceCompile Include="mpc-hc.hu.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.hu.rc">
+    <ResourceCompile Include="mpc-hc.hy.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.hy.rc">
+    <ResourceCompile Include="mpc-hc.it.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.it.rc">
+    <ResourceCompile Include="mpc-hc.ja.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ja.rc">
+    <ResourceCompile Include="mpc-hc.ko.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.kr.rc">
+    <ResourceCompile Include="mpc-hc.nl.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.nl.rc">
+    <ResourceCompile Include="mpc-hc.pl.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.pl.rc">
+    <ResourceCompile Include="mpc-hc.pt_BR.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ro.rc">
+    <ResourceCompile Include="mpc-hc.ro.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ru.rc">
+    <ResourceCompile Include="mpc-hc.ru.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sc.rc">
+    <ResourceCompile Include="mpc-hc.sk.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sk.rc">
+    <ResourceCompile Include="mpc-hc.sl.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sl.rc">
+    <ResourceCompile Include="mpc-hc.sv.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sv.rc">
+    <ResourceCompile Include="mpc-hc.tr.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.tc.rc">
+    <ResourceCompile Include="mpc-hc.uk.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.tr.rc">
+    <ResourceCompile Include="mpc-hc.zh_CN.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ua.rc">
+    <ResourceCompile Include="mpc-hc.zh_TW.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

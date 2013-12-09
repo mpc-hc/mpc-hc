@@ -305,6 +305,7 @@ FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 )
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??.dll Lang
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??_??.dll Lang
 EXIT /B
 
 
@@ -453,8 +454,8 @@ IF /I "%NAME%" == "MPC-HC" (
   )
   COPY /Y /V "%VS_OUT_DIR%\mpciconlib.dll"                "%PCKG_NAME%\*.dll" >NUL
   IF NOT DEFINED MPCHC_LITE (
-    COPY /Y /V "%VS_OUT_DIR%\Lang\mpcresources.??.dll"    "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
-    COPY /Y /V "%VS_OUT_DIR%\Lang\mpcresources.??-??.dll" "%PCKG_NAME%\Lang\mpcresources.??-??.dll" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\Lang\mpcresources.??.dll"    "%PCKG_NAME%\Lang\" >NUL
+    COPY /Y /V "%VS_OUT_DIR%\Lang\mpcresources.??_??.dll" "%PCKG_NAME%\Lang\" >NUL
     COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.ax"        "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
     COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.dll"       "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
     COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.manifest"  "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL

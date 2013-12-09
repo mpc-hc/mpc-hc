@@ -1041,12 +1041,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="mplayerc.rc">
+    <ResourceCompile Include="mpc-hc.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuildStep Include="res\mplayerc.rc2">
+    <CustomBuildStep Include="res\mpc-hc.rc2">
       <Filter>Resource Files</Filter>
     </CustomBuildStep>
   </ItemGroup>

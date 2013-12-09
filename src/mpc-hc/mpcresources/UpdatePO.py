@@ -29,6 +29,6 @@ if __name__ == '__main__':
     translationDataOld.loadFromPO('PO\\' + filename, 'po')
 
     translationData = TranslationData()
-    translationData.loadFromPO(r'PO\mplayerc', 'pot')
+    translationData.loadFromPO(r'PO\mpc-hc', 'pot')
     translationData.translate(translationDataOld)
     translationData.writePO('PO\\' + filename, 'po')

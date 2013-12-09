@@ -378,9 +378,9 @@ class TranslationData:
                     fOut.write(line.replace(u'English (United States)', config.get('Info', 'langName')))
 
                     for line in fBase:
-                        if line != u'#include "res\\mplayerc.rc2"  // non-Microsoft Visual C++ edited resources\r\n':
+                        if line != u'#include "res\\mpc-hc.rc2"  // non-Microsoft Visual C++ edited resources\r\n':
                             fOut.write(line)
-                elif line != u'    "#include ""res\\\\mplayerc.rc2""  // non-Microsoft Visual C++ edited resources\\r\\n"\r\n':
+                elif line != u'    "#include ""res\\\\mpc-hc.rc2""  // non-Microsoft Visual C++ edited resources\\r\\n"\r\n':
                     fOut.write(line)
 
     def translateRCDialog(self, config, fBase, fOut, id):

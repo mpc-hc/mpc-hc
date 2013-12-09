@@ -625,7 +625,7 @@
     <None Include="res\mono.bmp">
       <FileType>BMP</FileType>
     </None>
-    <CustomBuildStep Include="res\mplayerc.rc2">
+    <CustomBuildStep Include="res\mpc-hc.rc2">
       <FileType>RC2</FileType>
     </CustomBuildStep>
     <CustomBuildStep Include="res\untranslatable.rc2">
@@ -713,7 +713,7 @@
     <CustomBuildStep Include="res\mpc-hc.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="mplayerc.rc" />
+    <ResourceCompile Include="mpc-hc.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeCSS\DeCSS.vcxproj">

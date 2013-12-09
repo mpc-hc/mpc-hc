@@ -47,7 +47,7 @@ BEGIN
     "LANGUAGE 9, 1\r\n"
     "#pragma code_page(1252)\r\n"
     "#include ""afxres.rc""     // Standard components\r\n"
-    "#include ""res\\mplayerc.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""res\\mpc-hc.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
     "#endif\r\n"
     "\r\n"
     "#include ""res\\untranslatable.rc2""  // untranslatable strings\0"
@@ -3305,7 +3305,7 @@ END
 LANGUAGE 9, 1
 #pragma code_page(1252)
 #include "afxres.rc"     // Standard components
-#include "res\mplayerc.rc2"  // non-Microsoft Visual C++ edited resources
+#include "res\mpc-hc.rc2"  // non-Microsoft Visual C++ edited resources
 #endif
 
 #include "res\untranslatable.rc2"  // untranslatable strings

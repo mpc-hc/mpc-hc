@@ -247,13 +247,13 @@
     <IntDir Condition="'$(PlatformToolsetVersion)'=='120'">$(SolutionDir)bin13\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)'=='Release Armenian'">$(ProjectName).hy</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Basque'">$(ProjectName).eu</TargetName>
-    <TargetName Condition="'$(Configuration)'=='Release Belarusian'">$(ProjectName).by</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Belarusian'">$(ProjectName).be</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Catalan'">$(ProjectName).ca</TargetName>
-    <TargetName Condition="'$(Configuration)'=='Release Chinese Simplified'">$(ProjectName).sc</TargetName>
-    <TargetName Condition="'$(Configuration)'=='Release Chinese Traditional'">$(ProjectName).tc</TargetName>
-    <TargetName Condition="'$(Configuration)'=='Release Czech'">$(ProjectName).cz</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Chinese Simplified'">$(ProjectName).zh_CN</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Chinese Traditional'">$(ProjectName).zh_TW</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Czech'">$(ProjectName).cs</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Dutch'">$(ProjectName).nl</TargetName>
-    <TargetName Condition="'$(Configuration)'=='Release English (British)'">$(ProjectName).en-GB</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release English (British)'">$(ProjectName).en_GB</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release French'">$(ProjectName).fr</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release German'">$(ProjectName).de</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Greek'">$(ProjectName).el</TargetName>
@@ -261,9 +261,9 @@
     <TargetName Condition="'$(Configuration)'=='Release Hungarian'">$(ProjectName).hu</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Italian'">$(ProjectName).it</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Japanese'">$(ProjectName).ja</TargetName>
-    <TargetName Condition="'$(Configuration)'=='Release Korean'">$(ProjectName).kr</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Korean'">$(ProjectName).ko</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Polish'">$(ProjectName).pl</TargetName>
-    <TargetName Condition="'$(Configuration)'=='Release Portuguese (Brazil)'">$(ProjectName).br</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Portuguese (Brazil)'">$(ProjectName).pt_BR</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Romanian'">$(ProjectName).ro</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Russian'">$(ProjectName).ru</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Slovak'">$(ProjectName).sk</TargetName>
@@ -271,7 +271,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Spanish'">$(ProjectName).es</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Swedish'">$(ProjectName).sv</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Turkish'">$(ProjectName).tr</TargetName>
-    <TargetName Condition="'$(Configuration)'=='Release Ukrainian'">$(ProjectName).ua</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Ukrainian'">$(ProjectName).uk</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
@@ -285,86 +285,86 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="mplayerc.br.rc">
-      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Portuguese (Brazil)'">true</ExcludedFromBuild>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.by.rc">
+    <ResourceCompile Include="mpc-hc.be.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Belarusian'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ca.rc">
+    <ResourceCompile Include="mpc-hc.ca.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Catalan'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.cz.rc">
+    <ResourceCompile Include="mpc-hc.cs.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Czech'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.de.rc">
+    <ResourceCompile Include="mpc-hc.de.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release German'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.el.rc">
+    <ResourceCompile Include="mpc-hc.el.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Greek'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.en-GB.rc">
+    <ResourceCompile Include="mpc-hc.en_GB.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release English (British)'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.es.rc">
+    <ResourceCompile Include="mpc-hc.es.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Spanish'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.eu.rc">
+    <ResourceCompile Include="mpc-hc.eu.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Basque'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.fr.rc">
+    <ResourceCompile Include="mpc-hc.fr.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release French'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.he.rc">
+    <ResourceCompile Include="mpc-hc.he.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Hebrew'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.hu.rc">
+    <ResourceCompile Include="mpc-hc.hu.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Hungarian'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.hy.rc">
+    <ResourceCompile Include="mpc-hc.hy.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Armenian'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.it.rc">
+    <ResourceCompile Include="mpc-hc.it.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Italian'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ja.rc">
+    <ResourceCompile Include="mpc-hc.ja.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Japanese'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.kr.rc">
+    <ResourceCompile Include="mpc-hc.ko.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Korean'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.nl.rc">
+    <ResourceCompile Include="mpc-hc.nl.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Dutch'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.pl.rc">
+    <ResourceCompile Include="mpc-hc.pl.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Polish'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ro.rc">
+    <ResourceCompile Include="mpc-hc.pt_BR.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Portuguese (Brazil)'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.ro.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Romanian'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ru.rc">
+    <ResourceCompile Include="mpc-hc.ru.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Russian'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sc.rc">
-      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Chinese Simplified'">true</ExcludedFromBuild>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sk.rc">
+    <ResourceCompile Include="mpc-hc.sk.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Slovak'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sl.rc">
+    <ResourceCompile Include="mpc-hc.sl.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Slovenian'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sv.rc">
+    <ResourceCompile Include="mpc-hc.sv.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Swedish'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.tc.rc">
-      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Chinese Traditional'">true</ExcludedFromBuild>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.tr.rc">
+    <ResourceCompile Include="mpc-hc.tr.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Turkish'">true</ExcludedFromBuild>
     </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ua.rc">
+    <ResourceCompile Include="mpc-hc.uk.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Ukrainian'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.zh_CN.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Chinese Simplified'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.zh_TW.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Chinese Traditional'">true</ExcludedFromBuild>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>

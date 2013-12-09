@@ -27,6 +27,6 @@ if __name__ == '__main__':
 
     translationData = TranslationData()
     translationData.loadFromPO('PO\\' + filename, 'po')
-    translationData.translateRC(r'..\mplayerc.rc', filename)
+    translationData.translateRC(r'..\mpc-hc.rc', filename)
     # Write back the PO file to ensure it's properly normalized
     translationData.writePO('PO\\' + filename, 'po')
