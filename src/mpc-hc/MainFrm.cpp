@@ -734,6 +734,7 @@ CMainFrame::CMainFrame()
     , m_pDebugShaders(nullptr)
     , m_bOpeningInAutochangedMonitorMode(false)
     , m_bPausedForAutochangeMonitorMode(false)
+    , m_wndPlaylistBar(this)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;

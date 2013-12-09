@@ -191,4 +191,7 @@ public:
     afx_msg void OnLbnSelChangeList1();
     afx_msg BOOL OnHdnItemchanging(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnXButtonDown(UINT nFlags, UINT nButton, CPoint point);
+    afx_msg void OnXButtonUp(UINT nFlags, UINT nButton, CPoint point);
+    afx_msg void OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point);
 };

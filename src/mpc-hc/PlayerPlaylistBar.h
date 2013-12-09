@@ -29,12 +29,16 @@
 
 class OpenMediaData;
 
+class CMainFrame;
+
 class CPlayerPlaylistBar : public CPlayerBar
 {
     DECLARE_DYNAMIC(CPlayerPlaylistBar)
 
 private:
     enum { COL_NAME, COL_TIME };
+
+    CMainFrame* m_pMainFrame;
 
     CImageList m_fakeImageList;
     CPlayerListCtrl m_list;
@@ -69,7 +73,7 @@ private:
     bool m_bHiddenDueToFullscreen;
 
 public:
-    CPlayerPlaylistBar();
+    CPlayerPlaylistBar(CMainFrame* pMainFrame);
     virtual ~CPlayerPlaylistBar();
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
@@ -136,4 +140,7 @@ public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
     afx_msg void OnLvnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnXButtonDown(UINT nFlags, UINT nButton, CPoint point);
+    afx_msg void OnXButtonUp(UINT nFlags, UINT nButton, CPoint point);
+    afx_msg void OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point);
 };

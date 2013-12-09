@@ -35,8 +35,9 @@
 
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
-CPlayerPlaylistBar::CPlayerPlaylistBar()
-    : m_list(0)
+CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
+    : m_pMainFrame(pMainFrame)
+    , m_list(0)
     , m_pDragImage(nullptr)
     , m_nDragIndex(0)
     , m_nDropIndex(0)
@@ -902,6 +903,9 @@ BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CPlayerBar)
     ON_WM_TIMER()
     ON_WM_CONTEXTMENU()
     ON_NOTIFY(LVN_ENDLABELEDIT, IDC_PLAYLIST, OnLvnEndlabeleditList)
+    ON_WM_XBUTTONDOWN()
+    ON_WM_XBUTTONUP()
+    ON_WM_XBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 
@@ -1623,4 +1627,37 @@ void CPlayerPlaylistBar::OnLvnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     *pResult = 0;
+}
+
+void CPlayerPlaylistBar::OnXButtonDown(UINT nFlags, UINT nButton, CPoint point)
+{
+    UNREFERENCED_PARAMETER(nFlags);
+    UNREFERENCED_PARAMETER(point);
+    if (m_pMainFrame->GetPlaybackMode() == PM_FILE && GetCount() > 1) {
+        switch (nButton) {
+            case XBUTTON1:
+                if (SetPrev()) {
+                    m_pMainFrame->OpenCurPlaylistItem();
+                }
+                break;
+            case XBUTTON2:
+                if (SetNext()) {
+                    m_pMainFrame->OpenCurPlaylistItem();
+                }
+                break;
+        }
+    }
+}
+
+void CPlayerPlaylistBar::OnXButtonUp(UINT nFlags, UINT nButton, CPoint point)
+{
+    UNREFERENCED_PARAMETER(nFlags);
+    UNREFERENCED_PARAMETER(nButton);
+    UNREFERENCED_PARAMETER(point);
+    // do nothing
+}
+
+void CPlayerPlaylistBar::OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point)
+{
+    OnXButtonDown(nFlags, nButton, point);
 }

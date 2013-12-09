@@ -871,6 +871,9 @@ BEGIN_MESSAGE_MAP(CPlayerListCtrl, CListCtrl)
     ON_NOTIFY_EX(HDN_ITEMCHANGINGA, 0, OnHdnItemchanging)
     ON_NOTIFY_EX(HDN_ITEMCHANGINGW, 0, OnHdnItemchanging)
     ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
+    ON_WM_XBUTTONDOWN()
+    ON_WM_XBUTTONUP()
+    ON_WM_XBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 // CPlayerListCtrl message handlers
@@ -1082,4 +1085,20 @@ BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 
     return !!GetParent()->SendMessage(WM_NOTIFY, id, (LPARAM)pNMHDR);
+}
+
+
+void CPlayerListCtrl::OnXButtonDown(UINT nFlags, UINT nButton, CPoint point)
+{
+    GetParent()->SendMessage(WM_XBUTTONDOWN, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
+}
+
+void CPlayerListCtrl::OnXButtonUp(UINT nFlags, UINT nButton, CPoint point)
+{
+    GetParent()->SendMessage(WM_XBUTTONUP, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
+}
+
+void CPlayerListCtrl::OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point)
+{
+    GetParent()->SendMessage(WM_XBUTTONDBLCLK, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
 }
