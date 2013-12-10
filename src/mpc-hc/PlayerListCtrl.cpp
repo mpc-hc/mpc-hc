@@ -1098,18 +1098,26 @@ BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     return !!GetParent()->SendMessage(WM_NOTIFY, id, (LPARAM)pNMHDR);
 }
 
-
 void CPlayerListCtrl::OnXButtonDown(UINT nFlags, UINT nButton, CPoint point)
 {
-    GetParent()->SendMessage(WM_XBUTTONDOWN, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
+    if (CWnd* pParent = GetParent()) {
+        MapWindowPoints(pParent, &point, 1);
+        pParent->SendMessage(WM_XBUTTONDOWN, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
+    }
 }
 
 void CPlayerListCtrl::OnXButtonUp(UINT nFlags, UINT nButton, CPoint point)
 {
-    GetParent()->SendMessage(WM_XBUTTONUP, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
+    if (CWnd* pParent = GetParent()) {
+        MapWindowPoints(pParent, &point, 1);
+        pParent->SendMessage(WM_XBUTTONUP, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
+    }
 }
 
 void CPlayerListCtrl::OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point)
 {
-    GetParent()->SendMessage(WM_XBUTTONDBLCLK, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
+    if (CWnd* pParent = GetParent()) {
+        MapWindowPoints(pParent, &point, 1);
+        pParent->SendMessage(WM_XBUTTONDBLCLK, MAKEWPARAM(nFlags, nButton), MAKELPARAM(point.x, point.y));
+    }
 }
