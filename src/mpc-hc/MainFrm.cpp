@@ -3277,9 +3277,6 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     SetPlaybackMode(PM_NONE);
     SetLoadState(MLS::CLOSED);
 
-    m_bOpeningInAutochangedMonitorMode = false;
-    m_bPausedForAutochangeMonitorMode = false;
-
     m_kfs.clear();
 
     m_nCurSubtitle = -1;
@@ -6876,6 +6873,10 @@ void CMainFrame::OnApiPlay()
 
 void CMainFrame::OnPlayStop()
 {
+    m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE);
+    m_bOpeningInAutochangedMonitorMode = false;
+    m_bPausedForAutochangeMonitorMode = false;
+
     m_wndSeekBar.SetPos(0);
     if (m_eMediaLoadState == MLS::LOADED) {
         if (GetPlaybackMode() == PM_FILE) {
