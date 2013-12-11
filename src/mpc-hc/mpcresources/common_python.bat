@@ -42,10 +42,10 @@ IF NOT DEFINED PYTHON_PATH GOTO MissingVar
 
 ECHO Backing up current translation files...
 IF NOT EXIST backup MD backup
-COPY /Y /V ..\mplayerc.rc backup
-COPY /Y /V *.rc backup
+COPY /Y ..\mpc-hc.rc backup
+COPY /Y *.rc backup
 IF NOT EXIST backup\PO MD backup\PO
-COPY /Y /V PO backup\PO
+COPY /Y PO backup\PO
 ECHO ----------------------
 
 EXIT /B
