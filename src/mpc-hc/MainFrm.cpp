@@ -3215,11 +3215,13 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
             OnPlayPlay();
         }
     } else {
+        // OnUpdatePlayPauseStop() will decide if we can pause the media
         if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
+            auto cb = [this]() { OnCommand(ID_PLAY_PAUSE, 0); };
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
-                                     std::bind(&CMainFrame::OnPlayPause, this), uModeChangeDelay);
+                                     std::move(cb), uModeChangeDelay);
         } else {
-            OnPlayPause();
+            OnCommand(ID_PLAY_PAUSE, 0);
         }
     }
     s.nCLSwitches &= ~CLSW_OPEN;
