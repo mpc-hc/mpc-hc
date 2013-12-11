@@ -2304,7 +2304,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_VIDRND_COMBO        "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
     IDC_AUDRND_COMBO        "MPC Audio Renderer is broken, do not use."
 END
 

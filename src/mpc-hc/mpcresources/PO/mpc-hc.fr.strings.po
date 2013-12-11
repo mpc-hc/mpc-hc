@@ -668,10 +668,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "La surface vidéo sera répartie comme une surface régulière hors-champ."
 
-msgctxt "IDC_VIDRND_COMBO"
-msgid "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
-msgstr "Les sous-titres ne sont supportés que par les moteurs de rendu VMR-7/VMR-9 (sans rendu), EVR (CP), Sync, madVR et Haali.\n\nLa sauvegarde d'images ne fonctionne pas avec les moteurs de rendu Overlay et madVR."
-
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
 msgstr "Le moteur de rendu audio MPC Audio n'est pas finalisé, il n'est pas conseillé de l'utiliser."

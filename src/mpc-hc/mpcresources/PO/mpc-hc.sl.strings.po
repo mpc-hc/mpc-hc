@@ -665,10 +665,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Video površina bo dodeljena kot redna izvenzaslonska površina."
 
-msgctxt "IDC_VIDRND_COMBO"
-msgid "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
-msgstr "Podnapisi so podprti samo na VMR-7/VMR-9 (brez izrisovanja), EVR (CP), Sync, madVR in Haali video izrisovalnikih.\n\nShranjevanje slik ne deluje pri prekrivajočih ali madVR video izrisovalnikih."
-
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
 msgstr "MPC zvočni izvajalnik je okvarjen, ne uporabljaj."

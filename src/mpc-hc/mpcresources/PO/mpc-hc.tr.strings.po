@@ -665,10 +665,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Video yüzeyi düzgün bir dış ekran olarak ayrılacaktır."
 
-msgctxt "IDC_VIDRND_COMBO"
-msgid "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
-msgstr "Altyazılar sadece VMR-7/VMR-9 (çevrilmeden), GVI (CP), Eşzam., madVR ve Haali video çeviricileri tarafından desteklenmektedir.\n\nKayıt işlemi Üst Süzme veya madVR video çözücüleri ile çalışmaz."
-
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
 msgstr "MPC Ses Çeviricisi bozuk durumda, lütfen kullanmayınız."

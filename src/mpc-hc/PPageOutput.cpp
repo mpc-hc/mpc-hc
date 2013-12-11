@@ -485,8 +485,6 @@ void CPPageOutput::OnDSRendererChange()
     m_iDSShaderSupport.SetIcon(m_cross);
     m_iDSRotationSupport.SetIcon(m_cross);
 
-    m_wndToolTip.UpdateTipText(ResStr(IDC_VIDRND_COMBO), GetDlgItem(IDC_VIDRND_COMBO));
-
     switch (m_iDSVideoRendererType) {
         case VIDRNDT_DS_DEFAULT:
             m_iDSSaveImageSupport.SetIcon(m_tick);

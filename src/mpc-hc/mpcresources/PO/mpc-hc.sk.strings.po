@@ -665,10 +665,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Obraz sa vykreslí ako textúra typu offscreen."
 
-msgctxt "IDC_VIDRND_COMBO"
-msgid "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
-msgstr "Titulky sú podporované len pri VMR-7/VMR-9 (bezstratové), EVR (CP), Sync, madVR a vykresľovaní Haali video.\n\nUkladanie obrázkov nefunguje s prekrývaním (Overlay) alebo vykresľovaním videa madVR."
-
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
 msgstr "Vykresľovanie zvuku MPC je nefunkčné, nepoužívajte ho."

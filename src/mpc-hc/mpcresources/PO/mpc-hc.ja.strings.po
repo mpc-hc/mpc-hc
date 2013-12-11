@@ -665,10 +665,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "映像の表面を通常のオフスクリーン サーフェスとして割り当てます。"
 
-msgctxt "IDC_VIDRND_COMBO"
-msgid "Subtitles are only supported by VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR and Haali video renderers.\n\nSaving images does not work with Overlay or madVR video renderers."
-msgstr "字幕が VMR-7/VMR-9 (レンダーレス)、EVR カスタムプレゼンタ、同期、madVR と Haali ビデオ レンダラのみでサポートされています。\n\n画像を保存することは、オーバーレイ または madVR ビデオ レンダラでは動作しません。"
-
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
 msgstr "MPC Audio Renderer が壊れている、使用しないでください。"
