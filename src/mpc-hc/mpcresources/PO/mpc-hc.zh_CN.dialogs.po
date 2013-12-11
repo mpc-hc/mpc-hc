@@ -1337,8 +1337,8 @@ msgid "Save"
 msgstr "保存"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
-msgid "F"
-msgstr "F"
+msgid "S"
+msgstr "S"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"

@@ -1334,7 +1334,7 @@ msgid "Save"
 msgstr "Salvează"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
-msgid "F"
+msgid "S"
 msgstr ""
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"

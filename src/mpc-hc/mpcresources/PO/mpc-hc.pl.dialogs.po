@@ -1337,12 +1337,12 @@ msgid "Save"
 msgstr "Zapisz"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
-msgid "F"
-msgstr "F"
+msgid "S"
+msgstr "S"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"
-msgstr "Q"
+msgstr "J"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"

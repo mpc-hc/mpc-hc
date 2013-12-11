@@ -1337,7 +1337,7 @@ msgid "Save"
 msgstr "Gorde"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
-msgid "F"
+msgid "S"
 msgstr "M"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"

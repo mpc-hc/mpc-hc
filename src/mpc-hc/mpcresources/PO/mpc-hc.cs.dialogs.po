@@ -1334,7 +1334,7 @@ msgid "Save"
 msgstr "Uložit"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
-msgid "F"
+msgid "S"
 msgstr "S"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
