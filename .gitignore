@@ -24,6 +24,7 @@
 /signinfo.txt
 /src/filters/transform/VSFilter/installer/*.exe
 /src/mpc-hc/mpcresources/backup
+/src/mpc-hc/mpcresources/tx.exe
 /src/mpc-hc/res/mpc-hc.exe.manifest
 /src/MPCTestAPI/bin
 /src/thirdparty/LAVFilters/obj
