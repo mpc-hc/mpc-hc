@@ -1906,8 +1906,8 @@ msgid "MPC-HC has not enough privileges to change files formats associations. Pl
 msgstr "MPC-HC no té suficients privilegis per cambiar les associacions del tipus d'arxiu. Sisplau faci clic al botó de \"Modificar\" per obtenir drets d'administrador."
 
 msgctxt "IDS_APP_DESCRIPTION"
-msgid "One of the most powerful, configurable multimedia players for Windows operating system. Originaly made by a Hungarian developer known as Gabest, this version has additional features such as Direct 3D fullscreen mode and better support for Windows Vista/7."
-msgstr "Un dels reproductors més potents i configurables pel sistema de Windows. Originalment programat per el desarrollador hongarès conegut com a Gabest, aquesta versió ademés té capacitats adicionals com el mode de Pantalla completa usant Direct3D i un millor suport per Windows Vista/7."
+msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
+msgstr ""
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
