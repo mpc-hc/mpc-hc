@@ -490,6 +490,8 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_COLOR_BRIGHTNESS_DEC,              0, FVIRTKEY | FNOINVERT,                    IDS_BRIGHTNESS_DEC));
     ADDCMD((ID_COLOR_CONTRAST_INC,                0, FVIRTKEY | FNOINVERT,                    IDS_CONTRAST_INC));
     ADDCMD((ID_COLOR_CONTRAST_DEC,                0, FVIRTKEY | FNOINVERT,                    IDS_CONTRAST_DEC));
+    ADDCMD((ID_COLOR_HUE_INC,                     0, FVIRTKEY | FNOINVERT,                    IDS_HUE_INC));
+    ADDCMD((ID_COLOR_HUE_DEC,                     0, FVIRTKEY | FNOINVERT,                    IDS_HUE_DEC));
     ADDCMD((ID_COLOR_SATURATION_INC,              0, FVIRTKEY | FNOINVERT,                    IDS_SATURATION_INC));
     ADDCMD((ID_COLOR_SATURATION_DEC,              0, FVIRTKEY | FNOINVERT,                    IDS_SATURATION_DEC));
     ADDCMD((ID_COLOR_RESET,                       0, FVIRTKEY | FNOINVERT,                    IDS_RESET_COLOR));

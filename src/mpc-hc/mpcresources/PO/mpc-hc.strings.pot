@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-11 22:21:45+0000\n"
+"POT-Creation-Date: 2013-12-14 22:28:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3038,11 +3038,11 @@ msgid "Contrast decrease"
 msgstr ""
 
 msgctxt "IDS_HUE_INC"
-msgid "Hue +"
+msgid "Hue increase"
 msgstr ""
 
 msgctxt "IDS_HUE_DEC"
-msgid "Hue -"
+msgid "Hue decrease"
 msgstr ""
 
 msgctxt "IDS_SATURATION_INC"

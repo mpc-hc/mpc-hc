@@ -3038,12 +3038,12 @@ msgid "Contrast decrease"
 msgstr "Snížení kontrastu"
 
 msgctxt "IDS_HUE_INC"
-msgid "Hue +"
-msgstr "Odstín +"
+msgid "Hue increase"
+msgstr ""
 
 msgctxt "IDS_HUE_DEC"
-msgid "Hue -"
-msgstr "Odstín -"
+msgid "Hue decrease"
+msgstr ""
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"

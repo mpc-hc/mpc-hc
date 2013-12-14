@@ -3038,11 +3038,11 @@ msgid "Contrast decrease"
 msgstr ""
 
 msgctxt "IDS_HUE_INC"
-msgid "Hue +"
+msgid "Hue increase"
 msgstr ""
 
 msgctxt "IDS_HUE_DEC"
-msgid "Hue -"
+msgid "Hue decrease"
 msgstr ""
 
 msgctxt "IDS_SATURATION_INC"

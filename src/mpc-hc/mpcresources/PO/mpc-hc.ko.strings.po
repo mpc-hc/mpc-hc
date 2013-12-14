@@ -3038,12 +3038,12 @@ msgid "Contrast decrease"
 msgstr "명암 감소"
 
 msgctxt "IDS_HUE_INC"
-msgid "Hue +"
-msgstr "색조 +"
+msgid "Hue increase"
+msgstr ""
 
 msgctxt "IDS_HUE_DEC"
-msgid "Hue -"
-msgstr "색조 -"
+msgid "Hue decrease"
+msgstr ""
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"

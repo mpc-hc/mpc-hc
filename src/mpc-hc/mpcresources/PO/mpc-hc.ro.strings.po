@@ -3038,12 +3038,12 @@ msgid "Contrast decrease"
 msgstr "Micșorare contrast"
 
 msgctxt "IDS_HUE_INC"
-msgid "Hue +"
-msgstr "Nuanță +"
+msgid "Hue increase"
+msgstr ""
 
 msgctxt "IDS_HUE_DEC"
-msgid "Hue -"
-msgstr "Nuanță -"
+msgid "Hue decrease"
+msgstr ""
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"

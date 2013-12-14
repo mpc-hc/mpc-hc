@@ -3041,12 +3041,12 @@ msgid "Contrast decrease"
 msgstr "降低对比度"
 
 msgctxt "IDS_HUE_INC"
-msgid "Hue +"
-msgstr "色调 +"
+msgid "Hue increase"
+msgstr ""
 
 msgctxt "IDS_HUE_DEC"
-msgid "Hue -"
-msgstr "色调 -"
+msgid "Hue decrease"
+msgstr ""
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
