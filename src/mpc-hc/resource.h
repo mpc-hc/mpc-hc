@@ -434,7 +434,8 @@
 #define IDC_STATIC7                     11266
 #define IDC_STATIC8                     11267
 #define IDC_STATIC9                     11268
-#define IDC_STATIC_BALANCE              11269
+#define IDC_STATIC10                    11269
+#define IDC_STATIC_BALANCE              11270
 #define IDC_DVDPATH                     12000
 #define IDC_SUBRESYNCLIST               12001
 #define IDC_PLAYLIST                    12002

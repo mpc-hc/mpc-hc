@@ -1449,7 +1449,7 @@ msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"
 msgstr "毫秒"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC"
+msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
 msgstr "要關閉或是重新啟動播放後, 變更才會有效。"
 

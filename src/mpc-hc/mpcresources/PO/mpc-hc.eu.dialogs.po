@@ -1452,7 +1452,7 @@ msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"
 msgstr "sm"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC"
+msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
 msgstr "Aldaketek eragina dute irakurketa itxi eta berrabiarazi ondoren."
 

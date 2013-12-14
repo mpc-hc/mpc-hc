@@ -129,6 +129,7 @@ BEGIN_MESSAGE_MAP(CPPageSync, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_STATIC7, OnUpdateRenderer)
     ON_UPDATE_COMMAND_UI(IDC_STATIC8, OnUpdateRenderer)
     ON_UPDATE_COMMAND_UI(IDC_STATIC9, OnUpdateRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC10, OnUpdateRenderer)
 END_MESSAGE_MAP()
 
 void CPPageSync::OnBnClickedSyncVideo()

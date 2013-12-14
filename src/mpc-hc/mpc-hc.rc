@@ -949,7 +949,7 @@ BEGIN
     LTEXT           "+/-",IDC_STATIC8,100,119,10,8
     EDITTEXT        IDC_CONTROLLIMIT,114,117,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
     LTEXT           "ms",IDC_STATIC9,158,119,24,8
-    LTEXT           "Changes take effect after the playback has been closed and restarted.",IDC_STATIC,10,138,276,18
+    LTEXT           "Changes take effect after the playback has been closed and restarted.",IDC_STATIC10,10,138,276,18
 END
 
 IDD_PPAGEFULLSCREEN DIALOGEX 0, 0, 296, 241
