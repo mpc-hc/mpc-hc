@@ -802,7 +802,7 @@ msgid "Improves performance at the cost of some compatability of the renderer."
 msgstr ""
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
+msgid "Reduces tearing but prevents the toolbar from being shown."
 msgstr ""
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"

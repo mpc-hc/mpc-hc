@@ -802,8 +802,8 @@ msgid "Improves performance at the cost of some compatability of the renderer."
 msgstr "以減少繪製器的相容性的代價來增加效能。"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
-msgstr "減少畫面撕裂但將阻止工具列出現。要在此模式下離開全螢幕請按 Ctrl+C 。"
+msgid "Reduces tearing but prevents the toolbar from being shown."
+msgstr "減少畫面撕裂但將阻止工具列出現。"
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."

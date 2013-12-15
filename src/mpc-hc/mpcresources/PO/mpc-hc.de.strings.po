@@ -804,12 +804,12 @@ msgid "Improves performance at the cost of some compatability of the renderer."
 msgstr "Verbessert die Leistung auf Kosten der Kompatibilität einiger Renderer."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
-msgstr "Reduziert Tearing-Effekte. Allerdings werden dabei keine Steuerelemente angezeigt. Um diesen Modus dennoch beenden zu können, bitte \"Strg+C\" drücken."
+msgid "Reduces tearing but prevents the toolbar from being shown."
+msgstr ""
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Reduziert Tearing-Effekte unter Umgehung des von Direct3D verwendeten VSync."
+msgstr ""
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"

@@ -802,8 +802,8 @@ msgid "Improves performance at the cost of some compatability of the renderer."
 msgstr "Підвищує продуктивність, але ціною сумісності рендерера."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
-msgstr "Зменшує дрижання, проте перешкоджає відображенню панелі інструментів. Для виходу з повноекранного режиму в данному випадку необхідно натискати Ctrl+C."
+msgid "Reduces tearing but prevents the toolbar from being shown."
+msgstr "Зменшує дрижання, проте перешкоджає відображенню панелі інструментів."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."

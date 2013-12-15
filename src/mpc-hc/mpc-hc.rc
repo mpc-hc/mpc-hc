@@ -2356,7 +2356,7 @@ END
 STRINGTABLE
 BEGIN
     IDC_FULLSCREEN_MONITOR_CHECK 
-                            "Reduces tearing but prevents the toolbar from being shown. To exit fullscreen in this mode press Ctrl+C."
+                            "Reduces tearing but prevents the toolbar from being shown."
 END
 
 STRINGTABLE
