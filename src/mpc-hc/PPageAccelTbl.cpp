@@ -1426,11 +1426,11 @@ void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CPPageAccelTbl, CPPageBase)
-    ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginlabeleditList)
-    ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDolabeleditList)
-    ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndlabeleditList)
-    ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-    ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
+    ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginListLabelEdit)
+    ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDoListLabelEdit)
+    ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndListLabelEdit)
+    ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedSelectAll)
+    ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedReset)
     ON_WM_TIMER()
     ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
@@ -1561,7 +1561,7 @@ BOOL CPPageAccelTbl::OnApply()
     return __super::OnApply();
 }
 
-void CPPageAccelTbl::OnBnClickedButton1()
+void CPPageAccelTbl::OnBnClickedSelectAll()
 {
     m_list.SetFocus();
 
@@ -1570,7 +1570,7 @@ void CPPageAccelTbl::OnBnClickedButton1()
     }
 }
 
-void CPPageAccelTbl::OnBnClickedButton2()
+void CPPageAccelTbl::OnBnClickedReset()
 {
     m_list.SetFocus();
 
@@ -1591,7 +1591,7 @@ void CPPageAccelTbl::OnBnClickedButton2()
     SetModified();
 }
 
-void CPPageAccelTbl::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageAccelTbl::OnBeginListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;
@@ -1611,7 +1611,7 @@ void CPPageAccelTbl::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 
 static BYTE s_mods[] = {0, FALT, FCONTROL, FSHIFT, FCONTROL | FALT, FCONTROL | FSHIFT, FALT | FSHIFT, FCONTROL | FALT | FSHIFT};
 
-void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageAccelTbl::OnDoListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;
@@ -1689,7 +1689,7 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;

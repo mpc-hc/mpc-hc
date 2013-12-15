@@ -31,8 +31,6 @@
 
 class CPPageAccelTbl : public CPPageBase
 {
-    DECLARE_DYNAMIC(CPPageAccelTbl)
-
 private:
     enum {
         COL_CMD,
@@ -44,25 +42,12 @@ private:
         COL_RMCMD,
         COL_RMREPCNT
     };
-    CList<wmcmd> m_wmcmds;
-    void SetupList();
-    int m_counter;
-
-public:
-    CPPageAccelTbl();
-    virtual ~CPPageAccelTbl();
-
-    static CString MakeAccelModLabel(BYTE fVirt);
-    static CString MakeAccelVkeyLabel(WORD key, bool fVirtKey);
-    static CString MakeAccelShortcutLabel(UINT id);
-    static CString MakeAccelShortcutLabel(const ACCEL& a);
-    static CString MakeMouseButtonLabel(UINT mouse);
-    static CString MakeAppCommandLabel(UINT id);
 
     enum { APPCOMMAND_LAST = APPCOMMAND_DWM_FLIP3D };
 
-    // Dialog Data
-    enum { IDD = IDD_PPAGEACCELTBL };
+    CList<wmcmd> m_wmcmds;
+    int m_counter;
+
     CPlayerListCtrl m_list;
     BOOL m_fWinLirc;
     CString m_WinLircAddr;
@@ -74,6 +59,25 @@ public:
     CStaticLink m_UIceLink;
     BOOL m_fGlobalMedia;
 
+    static CString MakeAccelModLabel(BYTE fVirt);
+    static CString MakeAccelVkeyLabel(WORD key, bool fVirtKey);
+    static CString MakeAccelShortcutLabel(const ACCEL& a);
+    static CString MakeMouseButtonLabel(UINT mouse);
+    static CString MakeAppCommandLabel(UINT id);
+
+    void SetupList();
+
+public:
+    DECLARE_DYNAMIC(CPPageAccelTbl)
+
+    CPPageAccelTbl();
+    virtual ~CPPageAccelTbl();
+
+    // Dialog Data
+    enum { IDD = IDD_PPAGEACCELTBL };
+
+    static CString MakeAccelShortcutLabel(UINT id);
+
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
@@ -84,12 +88,11 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
-public:
-    afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnBnClickedButton1();
-    afx_msg void OnBnClickedButton2();
+    afx_msg void OnBeginListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnDoListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnBnClickedSelectAll();
+    afx_msg void OnBnClickedReset();
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnTimer(UINT_PTR nIDEvent);
 
