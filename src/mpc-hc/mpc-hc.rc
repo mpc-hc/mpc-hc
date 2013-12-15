@@ -2440,7 +2440,6 @@ STRINGTABLE
 BEGIN
     IDS_AG_EDL_NEW_CLIP     "EDL new clip"
     IDS_RECENT_FILES_CLEAR  "&Clear list"
-    IDS_RECENT_FILES        "Recent Files"
     IDS_RECENT_FILES_QUESTION 
                             "Are you sure that you want to delete recent files list?"
     IDS_AG_EDL_SAVE         "EDL save"

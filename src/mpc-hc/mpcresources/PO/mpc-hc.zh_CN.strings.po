@@ -972,10 +972,6 @@ msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
 msgstr "清除列表(&C)"
 
-msgctxt "IDS_RECENT_FILES"
-msgid "Recent Files"
-msgstr "历史文件"
-
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
 msgstr "您确实要删除历史文件列表吗？"

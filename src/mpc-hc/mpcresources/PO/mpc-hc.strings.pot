@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-14 22:28:16+0000\n"
+"POT-Creation-Date: 2013-12-15 20:53:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -967,10 +967,6 @@ msgstr ""
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
-msgstr ""
-
-msgctxt "IDS_RECENT_FILES"
-msgid "Recent Files"
 msgstr ""
 
 msgctxt "IDS_RECENT_FILES_QUESTION"

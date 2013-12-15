@@ -971,10 +971,6 @@ msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
 msgstr "&Dateiliste löschen"
 
-msgctxt "IDS_RECENT_FILES"
-msgid "Recent Files"
-msgstr "Zuletzt geöffnete Dateien"
-
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
 msgstr "Soll die Liste der zuletzt geöffneten Dateien wirklich gelöscht werden?"

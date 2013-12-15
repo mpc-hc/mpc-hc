@@ -969,10 +969,6 @@ msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
 msgstr "Εκκαθάριση λίστας"
 
-msgctxt "IDS_RECENT_FILES"
-msgid "Recent Files"
-msgstr "Πρόσφατα αρχεία"
-
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
 msgstr "Είστε βέβαιος ότι θέλετε να διαγράψετε τη λίστα προσφάτων αρχείων;"

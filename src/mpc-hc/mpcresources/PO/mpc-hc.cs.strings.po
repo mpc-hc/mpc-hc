@@ -969,10 +969,6 @@ msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
 msgstr "Smazat seznam"
 
-msgctxt "IDS_RECENT_FILES"
-msgid "Recent Files"
-msgstr "Nedávno otevřené"
-
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
 msgstr "Opravdu chcete smazat seznam nedávno otevřených souborů?"

@@ -969,10 +969,6 @@ msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
 msgstr "Netejar la Llista"
 
-msgctxt "IDS_RECENT_FILES"
-msgid "Recent Files"
-msgstr "Arxius Recents"
-
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
 msgstr "Estàs segur que vols borrar la Llista d'arxius recents?"

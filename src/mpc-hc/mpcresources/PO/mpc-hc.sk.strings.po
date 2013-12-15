@@ -969,10 +969,6 @@ msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
 msgstr "Vyčistiť zoznam"
 
-msgctxt "IDS_RECENT_FILES"
-msgid "Recent Files"
-msgstr "Naposledy otvorené súbory"
-
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
 msgstr "Naozaj chcete vymazať zoznam naposledy otvorených súborov?"
