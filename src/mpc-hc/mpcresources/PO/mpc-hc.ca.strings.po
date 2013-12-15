@@ -2426,12 +2426,12 @@ msgid "No more media in the current folder."
 msgstr "No hi ha cap més mitjà a la carpeta actual."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
-msgid "The first file in the folder is loaded now."
-msgstr "El primer arxiu del directori es carrega ara."
+msgid "The first file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_LAST_IN_FOLDER"
-msgid "The last file in the folder is loaded now."
-msgstr "L'últim arxiu a la carpeta es carrega ara."
+msgid "The last file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"

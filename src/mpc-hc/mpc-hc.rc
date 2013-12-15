@@ -2951,8 +2951,8 @@ STRINGTABLE
 BEGIN
     IDS_LOGO_AUTHOR         "Author unknown. Contact us if you made this logo!"
     IDS_NO_MORE_MEDIA       "No more media in the current folder."
-    IDS_FIRST_IN_FOLDER     "The first file in the folder is loaded now."
-    IDS_LAST_IN_FOLDER      "The last file in the folder is loaded now."
+    IDS_FIRST_IN_FOLDER     "The first file of the folder is already loaded."
+    IDS_LAST_IN_FOLDER      "The last file of the folder is already loaded."
 END
 
 STRINGTABLE

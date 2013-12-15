@@ -2429,12 +2429,12 @@ msgid "No more media in the current folder."
 msgstr "在当前的文件夹中没有更多的媒体。"
 
 msgctxt "IDS_FIRST_IN_FOLDER"
-msgid "The first file in the folder is loaded now."
-msgstr "正在载入文件夹中的首个文件。"
+msgid "The first file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_LAST_IN_FOLDER"
-msgid "The last file in the folder is loaded now."
-msgstr "正在载入文件夹中的最后一个文件。"
+msgid "The last file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"

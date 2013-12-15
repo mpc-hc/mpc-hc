@@ -2429,12 +2429,12 @@ msgid "No more media in the current folder."
 msgstr "Plus de fichier multimédia dans le dossier courant."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
-msgid "The first file in the folder is loaded now."
-msgstr "Le premier fichier dans le dossier est déjà chargé."
+msgid "The first file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_LAST_IN_FOLDER"
-msgid "The last file in the folder is loaded now."
-msgstr "Le dernier fichier dans le dossier est déjà chargé."
+msgid "The last file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"

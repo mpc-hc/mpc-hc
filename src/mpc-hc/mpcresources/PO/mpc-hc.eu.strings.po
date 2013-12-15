@@ -2429,12 +2429,12 @@ msgid "No more media in the current folder."
 msgstr "Ez dago multimedia gehiagorik oraingo agiritegian."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
-msgid "The first file in the folder is loaded now."
-msgstr "Agiritegiko lehen agiria gertatzen da orain."
+msgid "The first file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_LAST_IN_FOLDER"
-msgid "The last file in the folder is loaded now."
-msgstr "Agiritegiko azken agiria gertatuko da orain."
+msgid "The last file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"

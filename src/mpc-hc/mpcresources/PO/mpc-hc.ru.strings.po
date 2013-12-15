@@ -2426,12 +2426,12 @@ msgid "No more media in the current folder."
 msgstr "Воспроизведение медиа-файлов из каталога закончено"
 
 msgctxt "IDS_FIRST_IN_FOLDER"
-msgid "The first file in the folder is loaded now."
-msgstr "Загружен первый файл в каталоге"
+msgid "The first file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_LAST_IN_FOLDER"
-msgid "The last file in the folder is loaded now."
-msgstr "Загружен последний файл в каталоге"
+msgid "The last file of the folder is already loaded."
+msgstr ""
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
