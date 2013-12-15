@@ -96,7 +96,7 @@ void CPPageExternalFilters::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_filters);
     DDX_Radio(pDX, IDC_RADIO1, m_iLoadType);
     DDX_Control(pDX, IDC_EDIT1, m_dwMerit);
-    DDX_Control(pDX, IDC_TREE2, m_tree);
+    DDX_Control(pDX, IDC_TREE1, m_tree);
 }
 
 void CPPageExternalFilters::StepUp(CCheckListBox& list)
@@ -323,8 +323,8 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
     ON_BN_CLICKED(IDC_RADIO2, OnClickedMeritRadioButton)
     ON_BN_CLICKED(IDC_RADIO3, OnClickedMeritRadioButton)
     ON_EN_CHANGE(IDC_EDIT1, OnChangeMerit)
-    ON_NOTIFY(NM_DBLCLK, IDC_TREE2, OnDoubleClickType)
-    ON_NOTIFY(TVN_KEYDOWN, IDC_TREE2, OnKeyDownType)
+    ON_NOTIFY(NM_DBLCLK, IDC_TREE1, OnDoubleClickType)
+    ON_NOTIFY(TVN_KEYDOWN, IDC_TREE1, OnKeyDownType)
     ON_WM_DROPFILES()
     ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()

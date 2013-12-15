@@ -417,8 +417,7 @@
 #define IDC_BUTTON13                    11132
 #define IDC_RESET_SETTINGS              11133
 #define IDC_EXPORT_SETTINGS             11134
-#define IDC_TREE2                       11141
-#define IDC_TREE2                       11141
+#define IDC_TREE1                       11140
 #define IDC_LIST1                       11160
 #define IDC_LIST2                       11161
 #define IDC_LIST3                       11162
@@ -569,7 +568,7 @@
 #define IDS_STATSBAR_SIGNAL_FORMAT      14200
 #define IDS_SUBTITLES_STYLES_CAPTION    14201
 #define IDD_TUNER_SCAN                  20002
-#define IDS_AG_RESET_STATS              20005
+#define IDS_AG_RESET_STATS              20004
 #define IDD_NAVIGATION_DLG              20005
 #define IDD_PPAGESUBMISC                20006
 #define IDS_VIEW_BORDERLESS             20007
@@ -588,9 +587,9 @@
 #define IDC_VERSION                     22011
 #define IDC_SHOW_OSD                    22013
 #define IDC_EVR_BUFFERS_TXT             22014
-#define IDC_MPC_COMPILER                22016
-#define IDC_LAVFILTERS_VERSION          22017
-#define IDC_DSVMR9ALTERNATIVEVSYNC      22018
+#define IDC_MPC_COMPILER                22015
+#define IDC_LAVFILTERS_VERSION          22016
+#define IDC_DSVMR9ALTERNATIVEVSYNC      22017
 #define IDC_HOMEPAGE_LINK               22018
 #define IDC_QUALITY                     22019
 #define IDC_PROGRESS                    22020
