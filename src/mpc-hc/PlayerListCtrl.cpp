@@ -486,6 +486,7 @@ void CInPlaceListBox::OnNcDestroy()
 IMPLEMENT_DYNAMIC(CPlayerListCtrl, CListCtrl)
 CPlayerListCtrl::CPlayerListCtrl(int tStartEditingDelay)
     : m_tStartEditingDelay(tStartEditingDelay)
+    , m_nTimerID(0)
     , m_nItemClicked(-1)
     , m_nSubItemClicked(-1)
     , m_fInPlaceDirty(false)
@@ -913,7 +914,10 @@ void CPlayerListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
         SetFocus();
     }
 
-    KillTimer(1);
+    if (m_nTimerID) {
+        KillTimer(m_nTimerID);
+        m_nTimerID = 0;
+    }
 
     int m_nItemClickedNow, m_nSubItemClickedNow;
 
@@ -931,7 +935,7 @@ void CPlayerListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
         dispinfo.item.iSubItem = m_nSubItemClicked;
         if (GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo)) {
             if (m_tStartEditingDelay > 0) {
-                SetTimer(1, m_tStartEditingDelay, nullptr);
+                m_nTimerID = SetTimer(1, m_tStartEditingDelay, nullptr);
             } else {
                 dispinfo.hdr.code = LVN_DOLABELEDIT;
                 GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo);
@@ -947,8 +951,9 @@ void CPlayerListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CPlayerListCtrl::OnTimer(UINT_PTR nIDEvent)
 {
-    if (nIDEvent == 1) {
-        KillTimer(1);
+    if (nIDEvent == m_nTimerID) {
+        KillTimer(m_nTimerID);
+        m_nTimerID = 0;
 
         UINT flag = LVIS_FOCUSED;
         if ((GetItemState(m_nItemClicked, flag) & flag) == flag && m_nSubItemClicked >= 0) {
@@ -961,14 +966,17 @@ void CPlayerListCtrl::OnTimer(UINT_PTR nIDEvent)
             dispinfo.item.iSubItem = m_nSubItemClicked;
             GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo);
         }
+    } else {
+        __super::OnTimer(nIDEvent);
     }
-
-    __super::OnTimer(nIDEvent);
 }
 
 void CPlayerListCtrl::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-    KillTimer(1);
+    if (m_nTimerID) {
+        KillTimer(m_nTimerID);
+        m_nTimerID = 0;
+    }
 
     CListCtrl::OnLButtonDblClk(nFlags, point);
 }
