@@ -2526,6 +2526,8 @@ BEGIN
     IDS_AG_SHADERS_PRESET_NEXT "Next Shader Preset"
     IDS_AG_SHADERS_PRESET_PREV "Prev Shader Preset"
     IDS_STRING_COLON        "%s:"
+    IDS_RECORD_START        "Record"
+    IDS_RECORD_STOP         "Stop"
 END
 
 STRINGTABLE

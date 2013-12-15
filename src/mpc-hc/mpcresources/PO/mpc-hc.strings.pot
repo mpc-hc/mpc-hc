@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 21:03:48+0000\n"
+"POT-Creation-Date: 2013-12-15 21:37:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1187,6 +1187,14 @@ msgstr ""
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
+msgstr ""
+
+msgctxt "IDS_RECORD_START"
+msgid "Record"
+msgstr ""
+
+msgctxt "IDS_RECORD_STOP"
+msgid "Stop"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"

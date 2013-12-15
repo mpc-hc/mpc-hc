@@ -968,7 +968,7 @@ void CPlayerCaptureDialog::EnableControls(CWnd* pWnd, bool fEnable)
             m_wndenabledmap.RemoveAll();
         }
 
-        m_recordbtn.SetWindowText(_T("Record"));
+        m_recordbtn.SetWindowText(ResStr(IDS_RECORD_START));
     } else {
         if (pWnd->m_hWnd == m_hWnd) {
             m_wndenabledmap.RemoveAll();
@@ -981,7 +981,7 @@ void CPlayerCaptureDialog::EnableControls(CWnd* pWnd, bool fEnable)
         }
 
         m_recordbtn.EnableWindow(TRUE);
-        m_recordbtn.SetWindowText(_T("Stop"));
+        m_recordbtn.SetWindowText(ResStr(IDS_RECORD_STOP));
     }
 }
 

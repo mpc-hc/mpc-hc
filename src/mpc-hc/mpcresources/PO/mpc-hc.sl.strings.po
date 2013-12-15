@@ -1189,6 +1189,14 @@ msgctxt "IDS_STRING_COLON"
 msgid "%s:"
 msgstr ""
 
+msgctxt "IDS_RECORD_START"
+msgid "Record"
+msgstr ""
+
+msgctxt "IDS_RECORD_STOP"
+msgid "Stop"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Odpri napravo"

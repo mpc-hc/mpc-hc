@@ -1433,6 +1433,8 @@
 #define ID_SHADERS_PRESET_PREV          57384
 #define IDS_AG_SHADERS_PRESET_PREV      57385
 #define IDS_STRING_COLON                57386
+#define IDS_RECORD_START                57387
+#define IDS_RECORD_STOP                 57388
 
 // Next default values for new objects
 // 
