@@ -2509,8 +2509,8 @@ msgid "Top Back Right"
 msgstr "Goi Atze Eskuinean"
 
 msgctxt "IDS_AG_RESET_STATS"
-msgid "Sync Renderer reset stats"
-msgstr "Aldib Aurkezlea berrezarri egoerak"
+msgid "Reset Display Stats"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"

@@ -2509,8 +2509,8 @@ msgid "Top Back Right"
 msgstr "上 后 右"
 
 msgctxt "IDS_AG_RESET_STATS"
-msgid "Sync Renderer reset stats"
-msgstr "同步渲染器重置状态"
+msgid "Reset Display Stats"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"

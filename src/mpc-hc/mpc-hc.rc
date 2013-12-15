@@ -2983,7 +2983,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_AG_RESET_STATS      "Sync Renderer reset stats"
+    IDS_AG_RESET_STATS      "Reset Display Stats"
     IDD_PPAGESUBMISC        "Subtitles::Misc"
     IDS_VIEW_BORDERLESS     "Hide &borders"
     IDS_VIEW_FRAMEONLY      "Frame Only"

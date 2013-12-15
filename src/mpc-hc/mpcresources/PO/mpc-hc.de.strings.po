@@ -2508,8 +2508,8 @@ msgid "Top Back Right"
 msgstr "Oben-hinten-rechts (TpBR)"
 
 msgctxt "IDS_AG_RESET_STATS"
-msgid "Sync Renderer reset stats"
-msgstr "EVR-Sync-Statistik zurücksetzen"
+msgid "Reset Display Stats"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"

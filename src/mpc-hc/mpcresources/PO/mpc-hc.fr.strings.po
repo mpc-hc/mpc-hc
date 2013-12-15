@@ -2509,8 +2509,8 @@ msgid "Top Back Right"
 msgstr "Top Arrière Droite"
 
 msgctxt "IDS_AG_RESET_STATS"
-msgid "Sync Renderer reset stats"
-msgstr "Remise à zéro des statistiques du rendu Sync"
+msgid "Reset Display Stats"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
