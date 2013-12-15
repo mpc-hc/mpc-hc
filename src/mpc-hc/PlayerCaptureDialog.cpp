@@ -536,6 +536,7 @@ CPlayerCaptureDialog::CPlayerCaptureDialog()
     , m_pAudBuffer(nullptr)
     , m_fSepAudio(FALSE)
     , m_muxtype(0)
+    , m_nRecordTimerID(0)
 {
 }
 
@@ -1677,9 +1678,10 @@ void CPlayerCaptureDialog::OnRecord()
 
         pFrame->StartCapture();
 
-        SetTimer(1, 100, nullptr);
+        m_nRecordTimerID = SetTimer(1, 100, nullptr);
     } else {
-        KillTimer(1);
+        KillTimer(m_nRecordTimerID);
+        m_nRecordTimerID = 0;
 
         pFrame->StopCapture();
         /*
@@ -1714,7 +1716,7 @@ void CPlayerCaptureDialog::OnEnChangeEdit12()
 
 void CPlayerCaptureDialog::OnTimer(UINT_PTR nIDEvent)
 {
-    if (nIDEvent == 1) {
+    if (nIDEvent == m_nRecordTimerID) {
         if (((CMainFrame*)AfxGetMainWnd())->m_fCapturing) {
             ULARGE_INTEGER FreeBytesAvailable, TotalNumberOfBytes, TotalNumberOfFreeBytes;
             if (GetDiskFreeSpaceEx(m_file.Left(m_file.ReverseFind('\\') + 1), &FreeBytesAvailable, &TotalNumberOfBytes, &TotalNumberOfFreeBytes)
@@ -1722,9 +1724,9 @@ void CPlayerCaptureDialog::OnTimer(UINT_PTR nIDEvent)
                 OnRecord();
             }
         }
+    } else {
+        __super::OnTimer(nIDEvent);
     }
-
-    __super::OnTimer(nIDEvent);
 }
 
 void CPlayerCaptureDialog::OnBnClickedVidAudPreview()

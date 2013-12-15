@@ -437,6 +437,7 @@ public:
     int m_nAudBuffers;
     CString m_file;
     CButton m_recordbtn;
+    UINT_PTR m_nRecordTimerID;
     BOOL m_fSepAudio;
     int m_muxtype;
     CComboBox m_muxctrl;

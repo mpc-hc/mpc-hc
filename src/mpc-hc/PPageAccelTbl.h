@@ -57,6 +57,7 @@ private:
     CString m_UIceAddr;
     CEdit m_UIceEdit;
     CStaticLink m_UIceLink;
+    UINT_PTR m_nStatusTimerID;
     BOOL m_fGlobalMedia;
 
     static CString MakeAccelModLabel(BYTE fVirt);

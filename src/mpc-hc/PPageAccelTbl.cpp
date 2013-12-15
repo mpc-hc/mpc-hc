@@ -119,6 +119,7 @@ CPPageAccelTbl::CPPageAccelTbl()
     , m_WinLircLink(_T("http://winlirc.sourceforge.net/"))
     , m_fUIce(FALSE)
     , m_UIceLink(_T("http://www.mediatexx.com/"))
+    , m_nStatusTimerID(0)
     , m_fGlobalMedia(FALSE)
 {
 }
@@ -1772,29 +1773,31 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
 {
-    UpdateData();
+    if (nIDEvent == m_nStatusTimerID) {
+        UpdateData();
 
-    CAppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
 
-    if (m_fWinLirc) {
-        CString addr;
-        m_WinLircEdit.GetWindowText(addr);
-        s.WinLircClient.Connect(addr);
+        if (m_fWinLirc) {
+            CString addr;
+            m_WinLircEdit.GetWindowText(addr);
+            s.WinLircClient.Connect(addr);
+        }
+
+        m_WinLircEdit.Invalidate();
+
+        if (m_fUIce) {
+            CString addr;
+            m_UIceEdit.GetWindowText(addr);
+            s.UIceClient.Connect(addr);
+        }
+
+        m_UIceEdit.Invalidate();
+
+        m_counter++;
+    } else {
+        __super::OnTimer(nIDEvent);
     }
-
-    m_WinLircEdit.Invalidate();
-
-    if (m_fUIce) {
-        CString addr;
-        m_UIceEdit.GetWindowText(addr);
-        s.UIceClient.Connect(addr);
-    }
-
-    m_UIceEdit.Invalidate();
-
-    m_counter++;
-
-    __super::OnTimer(nIDEvent);
 }
 
 HBRUSH CPPageAccelTbl::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
@@ -1821,14 +1824,15 @@ HBRUSH CPPageAccelTbl::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 BOOL CPPageAccelTbl::OnSetActive()
 {
-    SetTimer(1, 1000, nullptr);
+    m_nStatusTimerID = SetTimer(1, 1000, nullptr);
 
     return CPPageBase::OnSetActive();
 }
 
 BOOL CPPageAccelTbl::OnKillActive()
 {
-    KillTimer(1);
+    KillTimer(m_nStatusTimerID);
+    m_nStatusTimerID = 0;
 
     return CPPageBase::OnKillActive();
 }
