@@ -305,17 +305,17 @@ msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
 msgstr "Udržiavať históriu otváraných súborov"
 
-msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
-msgid "Remember DVD position"
-msgstr "Pamätať si pozíciu DVD"
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "Remember last playlist"
+msgstr "Pamätať si posledný playlist"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
 msgstr "Pamätať si pozíciu v súbore"
 
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
-msgid "Remember last playlist"
-msgstr "Pamätať si posledný playlist"
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "Remember DVD position"
+msgstr "Pamätať si pozíciu DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"

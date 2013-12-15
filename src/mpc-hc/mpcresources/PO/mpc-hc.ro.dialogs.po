@@ -305,17 +305,17 @@ msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
 msgstr "Ține un istoric al ultimelor fișiere deschise"
 
-msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
-msgid "Remember DVD position"
-msgstr "Ține minte poziția pe DVD"
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "Remember last playlist"
+msgstr "Ține minte ultima listă de redare"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
 msgstr "Ține minte poziția în fișier"
 
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
-msgid "Remember last playlist"
-msgstr "Ține minte ultima listă de redare"
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "Remember DVD position"
+msgstr "Ține minte poziția pe DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"

@@ -305,17 +305,17 @@ msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
 msgstr "Պահպանել բացված ֆայլերի պատ-ը"
 
-msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
-msgid "Remember DVD position"
-msgstr "Հիշել DVD-ի դիրքը"
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "Remember last playlist"
+msgstr "Հիշել վերջին խաղացանկը"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
 msgstr "Հիշել ֆայլի դիրքը"
 
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
-msgid "Remember last playlist"
-msgstr "Հիշել վերջին խաղացանկը"
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "Remember DVD position"
+msgstr "Հիշել DVD-ի դիրքը"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"

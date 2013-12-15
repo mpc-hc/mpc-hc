@@ -250,9 +250,9 @@ BEGIN
     GROUPBOX        "History",IDC_STATIC,124,129,167,98
     CONTROL         "Keep history of recently opened files",IDC_CHECK1,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,141,160,8
-    CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,153,160,8
+    CONTROL         "Remember last playlist",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,153,160,8
     CONTROL         "Remember File position",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,165,160,8
-    CONTROL         "Remember last playlist",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,177,160,8
+    CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,177,160,8
     CONTROL         "Remember last window position",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,189,160,8
     CONTROL         "Remember last window size",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,201,160,8
     CONTROL         "Remember last Pan-n-Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,213,160,8
