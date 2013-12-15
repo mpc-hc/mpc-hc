@@ -679,43 +679,46 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 
 bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
 {
-    if (!EnsureVisible(nRow, TRUE)) {
+    CHeaderCtrl* pHeaderCtrl = GetHeaderCtrl();
+    if (!pHeaderCtrl || nCol >= pHeaderCtrl->GetItemCount() || GetColumnWidth(nCol) < 5) {
         return false;
     }
 
-    int nColumnCount = ((CHeaderCtrl*)GetDlgItem(0))->GetItemCount();
-    if (nCol >= nColumnCount || GetColumnWidth(nCol) < 5) {
-        return false;
-    }
-
-    int offset = 0;
-    for (int i = 0; i < nCol; i++) {
-        offset += GetColumnWidth(i);
-    }
+    // Compute the position of the cell
+    CRect rcColHeader;
+    pHeaderCtrl->GetItemRect(nCol, &rcColHeader);
 
     GetItemRect(nRow, &rect, LVIR_BOUNDS);
+    
+    rect.left += rcColHeader.left;
+    rect.right = rect.left + rcColHeader.Width();
 
+    // Ensure the cell is visible by scrolling if necessary
     CRect rcClient;
     GetClientRect(&rcClient);
-    if (offset + rect.left < 0 || offset + rect.left > rcClient.right) {
-        CSize size(offset + rect.left, 0);
-        Scroll(size);
-        rect.left -= size.cx;
+    rcClient.TopLeft().Offset(0, rcColHeader.Height());
+
+    CSize scroll;
+    if (rect.left >= rcClient.right) {
+        scroll.cx = rcClient.right - rect.right;
+    } else if (rect.right <= rect.left) {
+        scroll.cx = rcClient.left - rect.left;
+    }
+    if (rect.top >= rcClient.bottom) {
+        scroll.cy = rcClient.bottom - rect.bottom;
+    } else if (rect.bottom <= rcClient.top) {
+        scroll.cy = rcClient.top - rect.top;
     }
 
-    rect.left += offset;
-    rect.right = rect.left + GetColumnWidth(nCol);
-    if (rect.right > rcClient.right) {
-        rect.right = rcClient.right;
+    if (scroll.cx || scroll.cy) {
+        rect.OffsetRect(scroll);
+        Scroll(-scroll);
     }
+
+    // The cell can be partially shown so we crop what is outside of the visible part
+    rect &= rcClient;
 
     rect.DeflateRect(1, 0, 0, 1);
-
-    if (nCol == 0) {
-        CRect r;
-        GetItemRect(nRow, r, LVIR_LABEL);
-        rect.left = r.left - 1;
-    }
 
     return true;
 }
