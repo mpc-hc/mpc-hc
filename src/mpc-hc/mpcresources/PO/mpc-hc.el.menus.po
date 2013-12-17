@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from menus
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# kasper93, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:19+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"PO-Revision-Date: 2013-12-17 21:37+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -139,7 +142,7 @@ msgstr "Περιήγηση"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "Εντοπισμός σ&φαλμάτων σκιάσεων"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -167,15 +170,15 @@ msgstr "&Μεγέθυνση"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -187,7 +190,7 @@ msgstr "Αυτόματη προσαρμογή (μόνο για μεγαλύτε�
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr "Γλώσσα / &Language"
+msgstr "Γλώσσα (&Language)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -323,7 +326,7 @@ msgstr "Κατακόρυφος συγχρονισμός (VSync)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr ""
+msgstr "Κατακόρυφος συγχρονισμός (VSync)"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
@@ -519,7 +522,7 @@ msgstr "Επι&λογές..."
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr "Αναπαρα&γωγή"
+msgstr "Α&ναπαραγωγή"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
@@ -551,7 +554,7 @@ msgstr "&Φίλτρα"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr ""
+msgstr "&Σκιάσεις"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
@@ -563,7 +566,7 @@ msgstr "&Υπότιτλοι"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
-msgstr "&Ροή βίντεο"
+msgstr "Ροή &βίντεο"
 
 msgctxt "POPUP"
 msgid "&Volume"

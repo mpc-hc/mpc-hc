@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-09 14:10+0000\n"
+"PO-Revision-Date: 2013-12-17 21:55+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -106,11 +106,11 @@ msgstr "Pasek &tytułu i menu"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "Pasek &położenia"
+msgstr "Pasek &postępu"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "Przy&ciski sterujące"
+msgstr "Przy&ciski sterowania"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -250,7 +250,7 @@ msgstr "&Niepełne przetwarzanie zmiennoprzecinkowe"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Wyłącz &kompozycję pulpitu"
+msgstr "Wyłącz &kompozycję pulpitu (Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
@@ -286,7 +286,7 @@ msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "&Oświetlenie naturalne"
+msgstr "&Oświetlenie otoczenia"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
@@ -594,7 +594,7 @@ msgstr "------ Jednorazowo ------"
 
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
-msgstr "&Zakończ program"
+msgstr "&Zamknij program"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
@@ -622,7 +622,7 @@ msgstr "------ Każdorazowo ------"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "E&xit"
-msgstr "Za&kończ program"
+msgstr "Za&mknij program"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do &Nothing"

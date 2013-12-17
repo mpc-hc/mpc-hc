@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:30:01+0000\n"
-"PO-Revision-Date: 2013-12-09 13:49+0000\n"
+"POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
+"PO-Revision-Date: 2013-12-17 21:55+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "Dźwięk do wav"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
-msgstr "Przechwyć"
+msgstr "Nagraj"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
@@ -90,7 +90,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
 msgid "Regain volume"
-msgstr "Utrzymuj głośność (regain)"
+msgstr "Utrzymuj głośność"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
@@ -154,7 +154,7 @@ msgstr "Otwieranie"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Proszę wprowadzić adres pliku znajdującego się na komputerze lokalnym bądź zdalnym:"
+msgstr "Proszę wprowadzić adres pliku znajdującego się na komputerze lokalnym bądź zdalnym."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -182,7 +182,7 @@ msgstr "Anuluj"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Dodaj do listy odtwarzania"
+msgstr "Dodaj do listy odtwarzania, bez otwierania."
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -346,7 +346,7 @@ msgstr "Zawsze otwieraj domyślną lokalizację:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Preferowany język dla menu DVD oraz zewnętrznego splitera OGM"
+msgstr "Preferowany język dla menu DVD oraz zewnętrznego splittera OGM"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -450,7 +450,7 @@ msgstr "Zezwól na zmianę ścieżki wybranej przez splitter"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Ustawienia ładowania"
+msgstr "Opcje otwierania"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
@@ -462,7 +462,7 @@ msgstr "Powiadamiaj o błędach w renderowaniu pinów"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Automatycznie wczytuj dodatkowe ścieżki audio"
+msgstr "Automatycznie wczytuj dodatkowe ścieżki dźwiękowe"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Auto-load subtitles"
@@ -514,7 +514,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Ustawienia tekstur (wymaga ponownego otwarcia pliku)"
+msgstr "Ustawienia tekstur (wymaga ponownego otworzenia pliku)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
@@ -602,7 +602,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "Sprawdzaj najpierw rozszerzenia"
+msgstr "Sprawdzaj najpierw rozszerzenie"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -634,11 +634,11 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "CD audio"
+msgstr "CD Audio"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Odstępy przejść (mały, średni, duży w ms)"
+msgstr "Odstępy skoków (mały, średni, duży w ms)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -822,7 +822,7 @@ msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "Profile kadrowania i skalowania"
+msgstr "Profile skalowania i kadrowania"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -878,7 +878,7 @@ msgstr "Ostrzeżenie"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "Program nie mógł renderować niektórych pinów grafu. Możliwe, że nie zainstalowano odpowiednich dekoderów lub filtrów."
+msgstr "MPC-HC nie mógł renderować niektórych pinów grafu. Możliwe, że nie zainstalowano odpowiednich dekoderów lub filtrów."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -986,7 +986,7 @@ msgstr "Jednolite tło"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
-msgstr "Szer. obramowania:"
+msgstr "Szerokość:"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Shadow"
@@ -1058,7 +1058,7 @@ msgstr "Filtry przetwarzające"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Ustawienia filtrów wewnętrznych LAV Filters"
+msgstr "Ustawienia filtrów wewnętrznych „LAV Filters”"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1198,7 +1198,7 @@ msgstr "Port nasłuchu:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Uruchom w przeglądarce internetowej"
+msgstr "Uruchom w przeglądarce internetowej..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1222,7 +1222,7 @@ msgstr "Przeglądaj..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
-msgstr "Rozmieść..."
+msgstr "Umieść..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
@@ -1430,7 +1430,7 @@ msgstr "kolumn"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "Wyświetlanie najbliższej synchronizacji pionowej"
+msgstr "Wyświetlanie na najbliższej synchronizacji pionowej"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
@@ -1462,7 +1462,7 @@ msgstr "Rozpoczynaj odtwarzanie w trybie pełnoekranowym"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Ukrywaj panel kontrolny w trybie pełnoekranowym"
+msgstr "Ukrywaj przyciski sterowania w trybie pełnoekranowym"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1470,7 +1470,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr "Ukrywaj dokowane panele"
+msgstr "Ukrywaj zadokowane panele"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
@@ -1506,15 +1506,15 @@ msgstr "Zastosuj domyślny tryb po opuszczeniu tryb pełnoekranowego"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Przywróć rozdzielczość przy wyłączaniu programu"
+msgstr "Przywróć rozdzielczość po wyłączaniu programu"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
-msgstr ""
+msgstr "Opóźnienie"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
 msgid "s"
-msgstr ""
+msgstr "s"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
@@ -1530,7 +1530,7 @@ msgstr "Preferuj ścieżki „forced” i/lub „default” napisów"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Wczytuj zewnętrzne napisy zamiast zawartych w kontenerze"
+msgstr "Preferuj zewnętrzne napisy zamiast zawartych w kontenerze"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
