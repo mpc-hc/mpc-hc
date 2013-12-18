@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 21:37:25+0000\n"
+"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1195,6 +1195,26 @@ msgstr ""
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
+msgstr ""
+
+msgctxt "IDS_BALANCE"
+msgid "L = R"
+msgstr ""
+
+msgctxt "IDS_BALANCE_L"
+msgid "L +%d%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_R"
+msgid "R +%d%%"
+msgstr ""
+
+msgctxt "IDS_VOLUME"
+msgid "%d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST"
+msgid "+%d%%"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"

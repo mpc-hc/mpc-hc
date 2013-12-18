@@ -1197,6 +1197,26 @@ msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
 msgstr ""
 
+msgctxt "IDS_BALANCE"
+msgid "L = R"
+msgstr ""
+
+msgctxt "IDS_BALANCE_L"
+msgid "L +%d%%"
+msgstr ""
+
+msgctxt "IDS_BALANCE_R"
+msgid "R +%d%%"
+msgstr ""
+
+msgctxt "IDS_VOLUME"
+msgid "%d%%"
+msgstr ""
+
+msgctxt "IDS_BOOST"
+msgid "+%d%%"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Obrir Dispositiu"

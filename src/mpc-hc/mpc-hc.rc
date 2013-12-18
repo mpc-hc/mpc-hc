@@ -2528,6 +2528,11 @@ BEGIN
     IDS_STRING_COLON        "%s:"
     IDS_RECORD_START        "Record"
     IDS_RECORD_STOP         "Stop"
+    IDS_BALANCE             "L = R"
+    IDS_BALANCE_L           "L +%d%%"
+    IDS_BALANCE_R           "R +%d%%"
+    IDS_VOLUME              "%d%%"
+    IDS_BOOST               "+%d%%"
 END
 
 STRINGTABLE

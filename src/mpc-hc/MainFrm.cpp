@@ -9987,11 +9987,11 @@ void CMainFrame::SetBalance(int balance)
         m_pBA->put_Balance(balance_dB);
 
         if (balance == 0) {
-            strBalance = L"L = R";
+            strBalance = ResStr(IDS_BALANCE);
         } else if (balance < 0) {
-            strBalance.Format(L"L +%d%%", -balance);
+            strBalance.Format(ResStr(IDS_BALANCE_L), -balance);
         } else { //if (m_nBalance > 0)
-            strBalance.Format(L"R +%d%%", balance);
+            strBalance.Format(ResStr(IDS_BALANCE_R), balance);
         }
 
         strBalanceOSD.Format(IDS_BALANCE_OSD, strBalance);

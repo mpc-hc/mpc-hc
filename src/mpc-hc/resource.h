@@ -1434,6 +1434,11 @@
 #define IDS_STRING_COLON                57386
 #define IDS_RECORD_START                57387
 #define IDS_RECORD_STOP                 57388
+#define IDS_BALANCE                     57389
+#define IDS_BALANCE_L                   57390
+#define IDS_BALANCE_R                   57391
+#define IDS_VOLUME                      57392
+#define IDS_BOOST                       57393
 
 // Next default values for new objects
 // 
