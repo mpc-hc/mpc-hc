@@ -13,7 +13,6 @@
 /.cov/*
 /.git-rewrite
 /bin
-/bin13
 /build.user.bat
 /contrib/[Aa][Ss]tyle.exe
 /contrib/cov-int
@@ -27,6 +26,5 @@
 /src/mpc-hc/mpcresources/backup
 /src/mpc-hc/res/mpc-hc.exe.manifest
 /src/MPCTestAPI/bin
-/src/MPCTestAPI/bin13
 /src/thirdparty/LAVFilters/obj
 ipch

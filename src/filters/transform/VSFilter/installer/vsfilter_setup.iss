@@ -26,7 +26,6 @@
 
 ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
 #define sse_required
-;#define VS2013
 ;#define x64Build
 
 
@@ -44,11 +43,7 @@
 #define app_vername     = app_name + " " + app_version
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
-#if defined(VS2013)
-  #define base_bindir   = AddBackslash(top_dir) + "bin13"
-#else
-  #define base_bindir   = AddBackslash(top_dir) + "bin"
-#endif
+#define base_bindir     = AddBackslash(top_dir) + "bin"
 
 #ifdef x64Build
   #define bindir        = AddBackslash(base_bindir) + "Filters_x64"
@@ -60,10 +55,6 @@
 
 #ifnexist AddBackslash(bindir) + "VSFilter.dll"
   #error Compile VSFilter first
-#endif
-
-#if defined(VS2013)
-  #define OutFilename    = OutFilename + ".VS2013"
 #endif
 
 #if MPC_NIGHTLY_RELEASE
