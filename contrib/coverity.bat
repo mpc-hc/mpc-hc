@@ -29,7 +29,7 @@ IF DEFINED COVDIR IF NOT EXIST "%COVDIR%" (
 )
 
 
-CALL "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" x86
+CALL "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 IF %ERRORLEVEL% NEQ 0 (
   ECHO vcvarsall.bat call failed.
   GOTO End

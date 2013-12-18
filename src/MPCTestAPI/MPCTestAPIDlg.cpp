@@ -167,11 +167,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 
     // TODO: Add extra initialization here
 
-#if (_MSC_VER == 1800)
-    m_strMPCPath = _T("..\\..\\..\\..\\bin13\\");
-#else
     m_strMPCPath = _T("..\\..\\..\\..\\bin\\");
-#endif
 #if defined(_WIN64)
     m_strMPCPath += _T("mpc-hc_x64");
 #else
