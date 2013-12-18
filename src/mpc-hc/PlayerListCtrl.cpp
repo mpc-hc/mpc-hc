@@ -690,7 +690,7 @@ bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
     pHeaderCtrl->GetItemRect(nCol, &rcColHeader);
 
     GetItemRect(nRow, &rect, LVIR_BOUNDS);
-    
+
     rect.left += rcColHeader.left;
     rect.right = rect.left + rcColHeader.Width();
 
