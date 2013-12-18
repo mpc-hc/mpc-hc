@@ -1627,12 +1627,8 @@ void CPlayerCaptureDialog::OnRecord()
 
         // Replace [time] with current timestamp in the file name.
         CString file = m_file;
-        time_t tNow = time(nullptr);
-        tm tLoc;
-        localtime_s(&tLoc, &tNow);
-        TCHAR time[100];
-        _tcsftime(time, sizeof(time), _T("%Y-%m-%d_%H-%M-%S"), &tLoc);
-        file.Replace(_T("[time]"), CString(time));
+        CString sTime = CTime::GetCurrentTime().Format(_T("%Y-%m-%d_%H-%M-%S"));
+        file.Replace(_T("[time]"), sTime);
 
         if (!pFSF
                 || FAILED(pFSF->SetFileName(CStringW(file), nullptr))
