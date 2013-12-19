@@ -502,24 +502,17 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 
 HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
 {
-    HRESULT hr;
-    CComPtr<ISectionList> pSectionList;
+    HRESULT hr = S_OK;
     DWORD dwLength;
     PSECTION data;
     ULONG ulGetSID;
     EventInformationSection InfoEvent;
-    int nLen;
-    int descriptorNumber;
-    int itemsLength;
-    CString itemDesc, itemText;
-    CString text;
+    NowNext = EventDescriptor();
 
     do {
+        CComPtr<ISectionList> pSectionList;
         CheckNoLog(m_pData->GetSection(PID_EIT, SI_EIT_act, nullptr, 5000, &pSectionList));
-
         CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
-
-        NowNext = EventDescriptor();
 
         CGolombBuffer gb((BYTE*)data, dwLength);
 
@@ -530,141 +523,139 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
         ulGetSID  = (ULONG)gb.BitRead(8);
         ulGetSID += 0x100 * (ULONG)gb.BitRead(8);
         InfoEvent.ServiceId = ulGetSID; // This is really strange, ServiceID should be uimsbf ???
-        gb.BitRead(2);
-        InfoEvent.VersionNumber = (UINT8)gb.BitRead(5);
-        InfoEvent.CurrentNextIndicator = (UINT8)gb.BitRead(1);
+        if (InfoEvent.ServiceId == ulSID) {
+            gb.BitRead(2);
+            InfoEvent.VersionNumber = (UINT8)gb.BitRead(5);
+            InfoEvent.CurrentNextIndicator = (UINT8)gb.BitRead(1);
+            if (InfoEvent.CurrentNextIndicator == 1) {
+                InfoEvent.SectionNumber = (UINT8)gb.BitRead(8);
+                InfoEvent.LastSectionNumber = (UINT8)gb.BitRead(8);
+                InfoEvent.TransportStreamID = (WORD)gb.BitRead(16);
+                InfoEvent.OriginalNetworkID = (WORD)gb.BitRead(16);
+                InfoEvent.SegmentLastSectionNumber = (UINT8)gb.BitRead(8);
+                InfoEvent.LastTableID = (UINT8)gb.BitRead(8);
 
-        InfoEvent.SectionNumber = (UINT8)gb.BitRead(8);
-        InfoEvent.LastSectionNumber = (UINT8)gb.BitRead(8);
-        InfoEvent.TransportStreamID = (WORD)gb.BitRead(16);
-        InfoEvent.OriginalNetworkID = (WORD)gb.BitRead(16);
-        InfoEvent.SegmentLastSectionNumber = (UINT8)gb.BitRead(8);
-        InfoEvent.LastTableID = (UINT8)gb.BitRead(8);
+                // Info event
+                InfoEvent.EventID = (WORD)gb.BitRead(16);
+                InfoEvent.StartDate = (WORD)gb.BitRead(16);
+                SetTime(gb, NowNext);
 
-        // Info event
-        InfoEvent.EventID   = (WORD)gb.BitRead(16);
-        InfoEvent.StartDate = (WORD)gb.BitRead(16);
-        SetTime(gb, NowNext);
+                InfoEvent.RunninStatus = (WORD)gb.BitRead(3);
+                InfoEvent.FreeCAMode = (WORD)gb.BitRead(1);
+                if (InfoEvent.RunninStatus == 4) {
+                    UINT8 nLen;
+                    UINT8 itemsLength;
 
-        InfoEvent.RunninStatus = (WORD)gb.BitRead(3);
-        InfoEvent.FreeCAMode   = (WORD)gb.BitRead(1);
+                    //  Descriptors:
+                    BeginEnumDescriptors(gb, nType, nLength) {
+                        switch (nType) {
+                            case DT_SHORT_EVENT:
+                                gb.BitRead(24);                         // ISO_639_language_code
 
-        if ((InfoEvent.ServiceId == ulSID) && (InfoEvent.CurrentNextIndicator == 1) && (InfoEvent.RunninStatus == 4)) {
-            //  Descriptors:
-            BeginEnumDescriptors(gb, nType, nLength) {
-                switch (nType) {
-                    case DT_SHORT_EVENT:
-                        gb.BitRead(24);                         // ISO_639_language_code
-
-                        nLen = (UINT8)gb.BitRead(8);            // event_name_length
-                        gb.ReadBuffer(DescBuffer, nLen);
-                        if (IsFreeviewEPG(InfoEvent.OriginalNetworkID, DescBuffer, nLen)) {
-                            NowNext.eventName = DecodeFreeviewEPG(DescBuffer, nLen);
-                        } else {
-                            NowNext.eventName = ConvertString(DescBuffer, nLen);
-                        }
-
-                        nLen = (UINT8)gb.BitRead(8);            // text_length
-                        gb.ReadBuffer(DescBuffer, nLen);
-                        if (IsFreeviewEPG(InfoEvent.OriginalNetworkID, DescBuffer, nLen)) {
-                            NowNext.eventDesc = DecodeFreeviewEPG(DescBuffer, nLen);
-                        } else {
-                            NowNext.eventDesc = ConvertString(DescBuffer, nLen);
-                        }
-                        break;
-                    case DT_EXTENDED_EVENT:
-                        descriptorNumber = (UINT8)gb.BitRead(4); // descriptor_number
-                        gb.BitRead(4);                          // last_descriptor_number
-                        gb.BitRead(24);                         // ISO_639_language_code
-
-                        itemsLength = (UINT8)gb.BitRead(8);     // length_of_items
-                        while (itemsLength > 0) {
-                            nLen = (UINT8)gb.BitRead(8);        // item_description_length
-                            gb.ReadBuffer(DescBuffer, nLen);
-                            itemDesc = ConvertString(DescBuffer, nLen);
-                            itemsLength -= nLen + 1;
-
-                            nLen = (UINT8)gb.BitRead(8);        // item_length
-                            gb.ReadBuffer(DescBuffer, nLen);
-                            itemText = ConvertString(DescBuffer, nLen);
-                            itemsLength -= nLen + 1;
-                            NowNext.extendedDescriptorsItems.emplace_back(itemDesc, itemText);
-                        }
-
-                        nLen = (UINT8)gb.BitRead(8);            // text_length
-                        if (nLen > 0) {
-                            gb.ReadBuffer(DescBuffer, nLen);
-                            text = ConvertString(DescBuffer, nLen);
-                            if (descriptorNumber == 0) {        // new descriptor set
-                                NowNext.extendedDescriptorsText = text;
-                            } else {
-                                NowNext.extendedDescriptorsText.Append(text);
-                            }
-                        }
-                        break;
-                    case DT_PARENTAL_RATING: {
-                        ASSERT(nLength % 4 == 0);
-                        int rating = -1;
-                        while (nLength >= 4) {
-                            gb.BitRead(24);                         // ISO 3166 country_code
-                            rating = (int)gb.BitRead(8);            // rating
-                            nLength -= 4;
-                        }
-                        if (rating >= 0 && rating <= 0x0f) {
-                            if (rating > 0) {                       // 0x00 undefined
-                                rating += 3;                        // 0x01 to 0x0F minimum age = rating + 3 years
-                            }
-                            NowNext.parentalRating = rating;
-                        }
-                    }
-                    break;
-                    case DT_CONTENT:
-                        ASSERT(nLength % 2 == 0);
-                        while (nLength >= 2) {
-                            BYTE content = (BYTE)gb.BitRead(4);     // content_nibble_level_1
-                            gb.BitRead(4);                          // content_nibble_level_2
-                            gb.BitRead(8);                          // user_byte
-                            if (1 <= content && content <= 10) {
-                                if (!NowNext.content.IsEmpty()) {
-                                    NowNext.content.Append(_T(", "));
+                                nLen = (UINT8)gb.BitRead(8);            // event_name_length
+                                gb.ReadBuffer(DescBuffer, nLen);
+                                if (IsFreeviewEPG(InfoEvent.OriginalNetworkID, DescBuffer, nLen)) {
+                                    NowNext.eventName = DecodeFreeviewEPG(DescBuffer, nLen);
+                                } else {
+                                    NowNext.eventName = ConvertString(DescBuffer, nLen);
                                 }
 
-                                static UINT contents[] = {
-                                    IDS_CONTENT_MOVIE_DRAMA,
-                                    IDS_CONTENT_NEWS_CURRENTAFFAIRS,
-                                    IDS_CONTENT_SHOW_GAMESHOW,
-                                    IDS_CONTENT_SPORTS,
-                                    IDS_CONTENT_CHILDREN_YOUTH_PROG,
-                                    IDS_CONTENT_MUSIC_BALLET_DANCE,
-                                    IDS_CONTENT_MUSIC_ART_CULTURE,
-                                    IDS_CONTENT_SOCIAL_POLITICAL_ECO,
-                                    IDS_CONTENT_EDUCATION_SCIENCE,
-                                    IDS_CONTENT_LEISURE
-                                };
+                                nLen = (UINT8)gb.BitRead(8);            // text_length
+                                gb.ReadBuffer(DescBuffer, nLen);
+                                if (IsFreeviewEPG(InfoEvent.OriginalNetworkID, DescBuffer, nLen)) {
+                                    NowNext.eventDesc = DecodeFreeviewEPG(DescBuffer, nLen);
+                                } else {
+                                    NowNext.eventDesc = ConvertString(DescBuffer, nLen);
+                                }
+                                break;
+                            case DT_EXTENDED_EVENT:
+                                gb.BitRead(4);                          // descriptor_number
+                                gb.BitRead(4);                          // last_descriptor_number
+                                gb.BitRead(24);                         // ISO_639_language_code
 
-                                NowNext.content.Append(ResStr(contents[content - 1]));
+                                itemsLength = (UINT8)gb.BitRead(8);     // length_of_items
+                                while (itemsLength > 0) {
+                                    nLen = (UINT8)gb.BitRead(8);        // item_description_length
+                                    gb.ReadBuffer(DescBuffer, nLen);
+                                    CString itemDesc = ConvertString(DescBuffer, nLen);
+                                    itemsLength -= nLen + 1;
+
+                                    nLen = (UINT8)gb.BitRead(8);        // item_length
+                                    gb.ReadBuffer(DescBuffer, nLen);
+                                    CString itemText = ConvertString(DescBuffer, nLen);
+                                    itemsLength -= nLen + 1;
+                                    NowNext.extendedDescriptorsItems.emplace_back(itemDesc, itemText);
+                                }
+
+                                nLen = (UINT8)gb.BitRead(8);            // text_length
+                                if (nLen > 0) {
+                                    gb.ReadBuffer(DescBuffer, nLen);
+                                    NowNext.extendedDescriptorsText += ConvertString(DescBuffer, nLen);
+                                }
+                                break;
+                            case DT_PARENTAL_RATING: {
+                                ASSERT(nLength % 4 == 0);
+                                int rating = -1;
+                                while (nLength >= 4) {
+                                    gb.BitRead(24);                         // ISO 3166 country_code
+                                    rating = (int)gb.BitRead(8);            // rating
+                                    nLength -= 4;
+                                }
+                                if (rating >= 0 && rating <= 0x0f) {
+                                    if (rating > 0) {                       // 0x00 undefined
+                                        rating += 3;                        // 0x01 to 0x0F minimum age = rating + 3 years
+                                    }
+                                    NowNext.parentalRating = rating;
+                                }
                             }
-                            nLength -= 2;
+                            break;
+                            case DT_CONTENT:
+                                ASSERT(nLength % 2 == 0);
+                                while (nLength >= 2) {
+                                    BYTE content = (BYTE)gb.BitRead(4);     // content_nibble_level_1
+                                    gb.BitRead(4);                          // content_nibble_level_2
+                                    gb.BitRead(8);                          // user_byte
+                                    if (1 <= content && content <= 10) {
+                                        if (!NowNext.content.IsEmpty()) {
+                                            NowNext.content.Append(_T(", "));
+                                        }
+
+                                        static UINT contents[] = {
+                                            IDS_CONTENT_MOVIE_DRAMA,
+                                            IDS_CONTENT_NEWS_CURRENTAFFAIRS,
+                                            IDS_CONTENT_SHOW_GAMESHOW,
+                                            IDS_CONTENT_SPORTS,
+                                            IDS_CONTENT_CHILDREN_YOUTH_PROG,
+                                            IDS_CONTENT_MUSIC_BALLET_DANCE,
+                                            IDS_CONTENT_MUSIC_ART_CULTURE,
+                                            IDS_CONTENT_SOCIAL_POLITICAL_ECO,
+                                            IDS_CONTENT_EDUCATION_SCIENCE,
+                                            IDS_CONTENT_LEISURE
+                                        };
+
+                                        NowNext.content.Append(ResStr(contents[content - 1]));
+                                    }
+                                    nLength -= 2;
+                                }
+                                break;
+                            default:
+                                SkipDescriptor(gb, nType, nLength);
+                                break;
                         }
-                        break;
-                    default:
-                        SkipDescriptor(gb, nType, nLength);
-                        break;
+                    }
+                    EndEnumDescriptors;
                 }
             }
-            EndEnumDescriptors;
         }
         m_Filter.SectionNumber++;
-        pSectionList.Release();
-    } while (((InfoEvent.ServiceId != ulSID) || (InfoEvent.CurrentNextIndicator != 1) || (InfoEvent.RunninStatus != 4)) &&
-             (m_Filter.SectionNumber <= 22));
+    } while ((InfoEvent.ServiceId != ulSID || InfoEvent.RunninStatus != 4) && m_Filter.SectionNumber <= 22);
 
-    if (InfoEvent.ServiceId != ulSID) {
+    if (m_Filter.SectionNumber > 22 || InfoEvent.CurrentNextIndicator != 1) {
         NowNext = EventDescriptor();
-        return E_FAIL;
+        hr = E_FAIL;
     }
 
-    return S_OK;
+    return hr;
 }
 
 HRESULT CMpeg2DataParser::ParseNIT()
