@@ -17,13 +17,13 @@
 
 import sys
 
-from TranslationData import *
+from TranslationDataRC import *
 
 if __name__ == '__main__':
-    translationData = TranslationData()
+    translationData = TranslationDataRC()
     translationData.loadFromRC(r'..\mpc-hc.rc')
 
-    translationDataOld = TranslationData()
+    translationDataOld = TranslationDataRC()
     translationDataOld.loadFromPO(r'PO\mpc-hc', 'pot')
     output = tuple(not b for b in translationData.areEqualsSections(translationDataOld))
 

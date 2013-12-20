@@ -17,7 +17,7 @@
 
 import sys
 
-from TranslationData import *
+from TranslationDataRC import *
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -25,10 +25,10 @@ if __name__ == '__main__':
 
     filename = sys.argv[1]
 
-    translationData = TranslationData()
+    translationData = TranslationDataRC()
     translationData.loadFromRC(r'..\mpc-hc.rc')
 
-    translationDataOld = TranslationData()
+    translationDataOld = TranslationDataRC()
     translationDataOld.loadFromRC(filename + '.rc')
     translationDataOld.writePO('PO\\' + filename, 'pot')
 
