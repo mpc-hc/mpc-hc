@@ -76,7 +76,7 @@ BEGIN
             VALUE "FileVersion",      MPC_VERSION_STR
             VALUE "InternalName",     "mpc-hc"
             VALUE "LegalCopyright",   MPC_COPYRIGHT_STR
-            VALUE "OriginalFilename", "%s"
+            VALUE "OriginalFilename", "mpcresources.%s.dll"
             VALUE "ProductName",      "MPC-HC"
             VALUE "ProductVersion",   MPC_VERSION_STR
         END
@@ -376,7 +376,7 @@ class TranslationData:
                     fOut.write(TranslationData.versionInfo % (config.getint('Info', 'langId'),
                                                               config.get('Info', 'fileDesc'),
                                                               config.get('Info', 'fileDesc'),
-                                                              config.get('Info', 'fileName'),
+                                                              config.get('Info', 'langShortName'),
                                                               config.getint('Info', 'langId')))
                     fOut.write(line.replace(u'English (United States)', config.get('Info', 'langName')))
 
