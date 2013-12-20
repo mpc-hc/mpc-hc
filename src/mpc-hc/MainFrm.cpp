@@ -3324,7 +3324,9 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
         m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
     }
 
-    OpenSetupWindowTitle(true);
+    if (!bNextIsQueued) {
+        OpenSetupWindowTitle(true);
+    }
 
     SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 
