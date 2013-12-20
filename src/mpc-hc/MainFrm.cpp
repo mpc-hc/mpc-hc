@@ -14303,7 +14303,21 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
         VERIFY(m_evClosePrivateFinished.ResetEvent());
         VERIFY(m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, 0));
-        VERIFY(WaitForSingleObject(m_evClosePrivateFinished, INFINITE) == WAIT_OBJECT_0);
+
+        HANDLE handle = m_evClosePrivateFinished;
+        DWORD dwWait;
+        // We don't want to block messages processing completely so we stop waiting
+        // on new message received from another thread or application.
+        while ((dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, INFINITE, QS_SENDMESSAGE)) != WAIT_OBJECT_0) {
+            // If we haven't got the event we were waiting for, we ensure that we have got a new message instead
+            if (dwWait == WAIT_OBJECT_0 + 1) {
+                // and we make sure it is handled before resuming waiting
+                MSG msg;
+                PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE);
+            } else {
+                ASSERT(FALSE);
+            }
+        }
     } else {
         CloseMediaPrivate();
     }
