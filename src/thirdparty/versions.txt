@@ -3,7 +3,7 @@ Project             Version
 ATL Server          -
 CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
-LAV Filters         0.59.1-57-80f1385 (custom build based on 0.59.1-52-0b90b46)
+LAV Filters         0.59.1-93-4cd23f1 (custom build based on 0.59.1-88-2b2c763)
 Little CMS          2.6b (git 69ecafd)
 Logitech SDK        3.01 (driver 8.00.100)
 MediaInfoLib        0.7.64
