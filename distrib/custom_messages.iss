@@ -231,7 +231,7 @@ cs.ViewChangelog=Zobrazit seznam změn
 
 
 ; German
-de.langid=00000002
+de.langid=00001031
 de.comp_mpciconlib=Dateisymbole für verknüpfte Mediendateien
 de.comp_mpcresources=Sprachdateien (darunter Deutsch)
 de.msg_DeleteSettings=Wollen Sie auch die Programmeinstellungen löschen?%n%nWenn Sie den MPC-HC wieder installieren möchten, dann müssen Sie diese nicht unbedingt löschen.
@@ -291,7 +291,7 @@ en_GB.ViewChangelog=View Changelog
 
 
 ; Spanish
-es.langid=00001034
+es.langid=00003082
 es.comp_mpciconlib=Librería de iconos
 es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
@@ -690,7 +690,7 @@ zh_CN.ViewChangelog=查看更新日志
 
 
 ; Chinese Traditional
-zh_TW.langid=00003076
+zh_TW.langid=00001028
 zh_TW.comp_mpciconlib=圖示庫
 zh_TW.comp_mpcresources=翻譯
 zh_TW.msg_DeleteSettings=您是否也要刪除 MPC-HC 設定？%n%n如果您打算再次安裝 MPC-HC 則無需刪除。
