@@ -36,19 +36,11 @@ IF NOT EXIST "%MPCHC_MSYS%"    GOTO MissingVar
 SET ARG=/%*
 SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
-SET ARGAPI=0
 SET ARGB=0
 SET ARGBC=0
 SET ARGC=0
-SET ARGCL=0
 SET ARGCOMP=0
-SET ARGD=0
-SET ARGF=0
-SET ARGLAVF=0
-SET ARGL=0
-SET ARGM=0
 SET ARGPL=0
-SET ARGRE=0
 SET INPUT=0
 SET VALID=0
 
@@ -60,31 +52,31 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "CopyDXDll"    ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
   IF /I "%%G" == "CopyDX"       ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
   IF /I "%%G" == "Build"        SET "BUILDTYPE=Build"    & SET /A ARGB+=1
-  IF /I "%%G" == "Clean"        SET "BUILDTYPE=Clean"    & SET /A ARGB+=1  & SET /A ARGCL+=1 & SET /A ARGLAVF+=1
-  IF /I "%%G" == "Rebuild"      SET "BUILDTYPE=Rebuild"  & SET /A ARGB+=1  & SET /A ARGRE+=1
+  IF /I "%%G" == "Clean"        SET "BUILDTYPE=Clean"    & SET /A ARGB+=1  & SET "NO_INST=True" & SET /A "NO_ZIP=True" & SET "NO_LAV=True"
+  IF /I "%%G" == "Rebuild"      SET "BUILDTYPE=Rebuild"  & SET /A ARGB+=1  & SET "NO_LAV=True"
   IF /I "%%G" == "Both"         SET "PPLATFORM=Both"     & SET /A ARGPL+=1
   IF /I "%%G" == "Win32"        SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
   IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
   IF /I "%%G" == "x64"          SET "PPLATFORM=x64"      & SET /A ARGPL+=1
   IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1
-  IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET /A ARGM+=1
-  IF /I "%%G" == "Filters"      SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
-  IF /I "%%G" == "Filter"       SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
-  IF /I "%%G" == "API"          SET "CONFIG=API"         & SET /A ARGC+=1  & SET /A ARGAPI+=2
+  IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" 
+  IF /I "%%G" == "Filters"      SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_LITE=True"
+  IF /I "%%G" == "Filter"       SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_LITE=True"
+  IF /I "%%G" == "API"          SET "CONFIG=API"         & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
   IF /I "%%G" == "MPCHC"        SET "CONFIG=MPCHC"       & SET /A ARGC+=1
   IF /I "%%G" == "MPC-HC"       SET "CONFIG=MPCHC"       & SET /A ARGC+=1
-  IF /I "%%G" == "Resources"    SET "CONFIG=Resources"   & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "MPCIconLib"   SET "CONFIG=IconLib"     & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "IconLib"      SET "CONFIG=IconLib"     & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "Translations" SET "CONFIG=Translation" & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
-  IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET /A ARGD+=1
+  IF /I "%%G" == "Resources"    SET "CONFIG=Resources"   & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
+  IF /I "%%G" == "MPCIconLib"   SET "CONFIG=IconLib"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
+  IF /I "%%G" == "IconLib"      SET "CONFIG=IconLib"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
+  IF /I "%%G" == "Translations" SET "CONFIG=Translation" & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
+  IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET "NO_INST=True"
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
   IF /I "%%G" == "VS2013"       SET "COMPILER=VS2013"    & SET /A ARGCOMP+=1
-  IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1 & SET /A ARGAPI+=1
-  IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1 & SET /A ARGAPI+=1
-  IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1 & SET /A ARGAPI+=1
-  IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1 & SET /A ARGL+=1 & SET /A ARGAPI+=1
-  IF /I "%%G" == "LAVFilters"   SET "Clean=LAVFilters"   & SET /A VALID+=1 & SET /A ARGLAVF+=1 & SET /A ARGRE+=1
+  IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1
+  IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1
+  IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1
+  IF /I "%%G" == "Lite"         SET "MPCHC_LITE=True"    & SET /A VALID+=1
+  IF /I "%%G" == "LAVFilters"   SET "CLEAN=LAVFilters"   & SET /A VALID+=1
   IF /I "%%G" == "Silent"       SET "SILENT=True"        & SET /A VALID+=1
   IF /I "%%G" == "Nocolors"     SET "NOCOLORS=True"      & SET /A VALID+=1
   IF /I "%%G" == "Analyze"      SET "ANALYZE=True"       & SET /A VALID+=1
@@ -92,7 +84,6 @@ FOR %%G IN (%ARG%) DO (
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
 SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGCOMP%
-
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
 IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTYPE=Build")
@@ -100,16 +91,13 @@ IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "PPLATFO
 IF %ARGC%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0    (SET "CONFIG=MPCHC")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "BUILDCFG=Release")
 IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2013")
-IF %ARGCL%   GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGD%    GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGF%    GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGLAVF% GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGL%    GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGM%    GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGRE%   GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGAPI%  GTR 2 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
+
+IF /I "%INSTALLER%" == "True"   IF "%NO_INST%" == "True" GOTO UnsupportedSwitch
+IF /I "%ZIP%" == "True"         IF "%NO_ZIP%" == "True"  GOTO UnsupportedSwitch
+IF /I "%MPCHC_LITE%" == "True"  IF "%NO_LITE%" == "True" GOTO UnsupportedSwitch
+IF /I "%CLEAN%" == "LAVFilters" IF "%NO_LAV%" == "True"  GOTO UnsupportedSwitch
 
 IF NOT DEFINED VS120COMNTOOLS GOTO MissingVar
 SET "TOOLSET=%VS120COMNTOOLS%..\..\VC\vcvarsall.bat"
@@ -153,7 +141,7 @@ IF /I "%PPLATFORM%" == "x64" (
   SET "LAVFILTERSDIR=LAVFilters"
 )
 
-IF /I "%Clean%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters.bat" Clean %PPLATFORM% %BUILDCFG% %COMPILER%
+IF /I "%CLEAN%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters.bat" Clean %PPLATFORM% %BUILDCFG% %COMPILER%
 IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
 REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
