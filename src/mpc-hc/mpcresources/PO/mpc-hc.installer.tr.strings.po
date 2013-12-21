@@ -1,0 +1,75 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+
+msgctxt "Messages_WelcomeLabel2"
+msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
+msgstr "[name] oynatıcısı bilgisayarınıza kurulacaktır.\n\nDevam etmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz."
+
+msgctxt "Messages_WinVersionTooLowError"
+msgid "[name] requires Windows XP Service Pack 3 or newer to run."
+msgstr "[name] oynatıcısı kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir."
+
+msgctxt "CustomMessages_comp_mpciconlib"
+msgid "Icon Library"
+msgstr "Simge Kütüphanesi"
+
+msgctxt "CustomMessages_comp_mpcresources"
+msgid "Translations"
+msgstr "Çeviriler"
+
+msgctxt "CustomMessages_msg_DeleteSettings"
+msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
+msgstr "MPC-HC ayarlarını silmek istiyor musunuz?\n\nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemeniz önerilir."
+
+msgctxt "CustomMessages_msg_SetupIsRunningWarning"
+msgid "MPC-HC setup is already running!"
+msgstr "MPC-HC kurulumu zaten çalışıyor."
+
+msgctxt "CustomMessages_msg_simd_sse"
+msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
+msgstr "Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.\n\nİşlemciniz bu özelliği desteklemiyor."
+
+msgctxt "CustomMessages_msg_simd_sse2"
+msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
+msgstr "Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.\n\nİşlemciniz bu özelliği desteklemiyor."
+
+msgctxt "CustomMessages_tsk_AllUsers"
+msgid "For all users"
+msgstr "Tüm kullanıcılar için"
+
+msgctxt "CustomMessages_tsk_CurrentUser"
+msgid "For the current user only"
+msgstr "Sadece mevcut kullanıcı için"
+
+msgctxt "CustomMessages_tsk_Other"
+msgid "Other tasks:"
+msgstr "Diğer görevler:"
+
+msgctxt "CustomMessages_tsk_ResetSettings"
+msgid "Reset settings"
+msgstr "Ayarları sıfırla"
+
+msgctxt "CustomMessages_types_DefaultInstallation"
+msgid "Default installation"
+msgstr "Varsayılan yükleme"
+
+msgctxt "CustomMessages_types_CustomInstallation"
+msgid "Custom installation"
+msgstr "Özel yükleme"
+
+msgctxt "CustomMessages_ViewChangelog"
+msgid "View Changelog"
+msgstr "Sürüm Notları"
+

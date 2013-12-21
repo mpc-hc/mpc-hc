@@ -81,15 +81,18 @@ class TranslationData:
         self.menus = OrderedDict()
         self.strings = OrderedDict()
 
-    def loadFromPO(self, filename, ext):
+    def loadFromPO(self, filename, ext, input=(True, True, True)):
         self.empty()
 
-        self.loadDataFromPO(filename + '.dialogs.' + ext,
-                            self.dialogs, 'dialogsHeader')
-        self.loadDataFromPO(filename + '.menus.' + ext,
-                            self.menus, 'menusHeader')
-        self.loadDataFromPO(filename + '.strings.' + ext,
-                            self.strings, 'stringsHeader')
+        if input[0]:
+            self.loadDataFromPO(filename + '.dialogs.' + ext,
+                                self.dialogs, 'dialogsHeader')
+        if input[1]:
+            self.loadDataFromPO(filename + '.menus.' + ext,
+                                self.menus, 'menusHeader')
+        if input[2]:
+            self.loadDataFromPO(filename + '.strings.' + ext,
+                                self.strings, 'stringsHeader')
 
     def loadDataFromPO(self, filename, data, header=None):
         with codecs.open(filename, 'r', 'utf8') as f:
