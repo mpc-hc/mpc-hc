@@ -62,6 +62,11 @@
 #define IDS_RS_PRIORITIZEEXTERNALSUBTITLES  _T("PrioritizeExternalSubtitles")
 #define IDS_RS_DISABLEINTERNALSUBTITLES     _T("DisableInternalSubtitles")
 #define IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER _T("AllowOverridingExternalSplitterSubtitleChoice")
+#define IDS_RS_AUTODOWNLOADSUBTITLES        _T("AutoDownloadSubtitles")
+#define IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE _T("AutoDownloadSubtitlesExclude")
+#define IDS_RS_AUTOUPLOADSUBTITLES          _T("AutoUploadSubtitles")
+#define IDS_RS_SUBTITLESPROVIDERS           _T("SubtitlesProviders")
+#define IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES _T("PreferHearingImpairedSubtitles")
 #define IDS_RS_SUBTITLEPATHS                _T("SubtitlePaths")
 #define IDS_RS_USEDEFAULTSUBTITLESSTYLE     _T("UseDefaultsubtitlesStyle")
 #define IDS_RS_THUMBWIDTH                   _T("ThumbWidth")
@@ -183,7 +188,6 @@
 #define IDS_RS_PRIORITY                     _T("Priority")
 #define IDS_RS_SNAPSHOTEXT                  _T("SnapshotExt")
 #define IDS_RS_LAUNCHFULLSCREEN             _T("LaunchFullScreen")
-#define IDS_RS_ISDB                         _T("ISDb")
 #define IDS_RS_WEBROOT                      _T("WebRoot")
 #define IDS_RS_WEBSERVERLOCALHOSTONLY       _T("WebServerLocalhostOnly")
 #define IDS_RS_ASPECTRATIO_X                _T("AspectRatioX")
@@ -275,6 +279,11 @@
 
 #define IDS_R_DLG_SUBTITLEDL                _T("Dialogs\\SubtitleDl")
 #define IDS_RS_DLG_SUBTITLEDL_COLWIDTH      _T("ColWidth")
+#define IDS_RS_DLG_SUBTITLEDL_SORTCOLUMN    _T("SortColumn")
+#define IDS_RS_DLG_SUBTITLEDL_SORTORDER     _T("SortOrder")
+
+#define IDS_R_DLG_SUBTITLEUP                _T("Dialogs\\SubtitleUp")
+#define IDS_RS_DLG_SUBTITLEUP_COLWIDTH      _T("ColWidth")
 
 #define IDS_R_DLG_ORGANIZE_FAV              _T("Dialogs\\OrganizeFavorites")
 

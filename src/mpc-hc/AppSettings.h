@@ -584,8 +584,12 @@ public:
     bool            fPrioritizeExternalSubtitles;
     bool            fDisableInternalSubtitles;
     bool            bAllowOverridingExternalSplitterChoice;
+    bool            bAutoDownloadSubtitles;
+    CString         strAutoDownloadSubtitlesExclude;
+    bool            bAutoUploadSubtitles;
+    bool            bPreferHearingImpairedSubtitles;
+    CString         strSubtitlesProviders;
     CString         strSubtitlePaths;
-    CString         strISDb;
 
     // Tweaks
     int             nJumpDistS;

@@ -169,9 +169,7 @@
     <ClCompile Include="Ifo.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="ISDb.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
+    <ClCompile Include="KeyProvider.cpp">
     <ClCompile Include="LcdSupport.cpp">
       <Filter>Integration\Logitech LCD</Filter>
     </ClCompile>
@@ -342,6 +340,21 @@
     </ClCompile>
     <ClCompile Include="StatusLabel.cpp">
       <Filter>Custom Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\TimXmlRpc\TimXmlRpc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitlesProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitlesProviders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitlesProvidersUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitleUpDlg.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SubtitleDlDlg.cpp">
       <Filter>Modal Dialogs</Filter>
@@ -524,9 +537,7 @@
     <ClInclude Include="InternalFiltersConfig.h">
       <Filter>Player Config</Filter>
     </ClInclude>
-    <ClInclude Include="ISDb.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
+    <ClInclude Include="KeyProvider.h">
     <ClInclude Include="LcdSupport.h">
       <Filter>Integration\Logitech LCD</Filter>
     </ClInclude>
@@ -706,6 +717,21 @@
     </ClInclude>
     <ClInclude Include="Struct.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\TimXmlRpc\TimXmlRpc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitlesProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitlesProviders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitlesProvidersUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleUpDlg.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SubtitleDlDlg.h">
       <Filter>Modal Dialogs</Filter>

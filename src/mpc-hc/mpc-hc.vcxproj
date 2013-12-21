@@ -311,6 +311,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\thirdparty\TimXmlRpc\TimXmlRpc.cpp" />
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="AppSettings.cpp" />
     <ClCompile Include="AuthDlg.cpp" />
@@ -345,7 +346,6 @@
     <ClCompile Include="GoToDlg.cpp" />
     <ClCompile Include="GraphThread.cpp" />
     <ClCompile Include="Ifo.cpp" />
-    <ClCompile Include="ISDb.cpp" />
     <ClCompile Include="KeyProvider.cpp" />
     <ClCompile Include="LcdSupport.cpp" />
     <ClCompile Include="MainFrm.cpp" />
@@ -425,6 +425,10 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SubtitleDlDlg.cpp" />
+    <ClCompile Include="SubtitlesProvider.cpp" />
+    <ClCompile Include="SubtitlesProviders.cpp" />
+    <ClCompile Include="SubtitlesProvidersUtils.cpp" />
+    <ClCompile Include="SubtitleUpDlg.cpp" />
     <ClCompile Include="TextPassThruFilter.cpp" />
     <ClCompile Include="TunerScanDlg.cpp" />
     <ClCompile Include="UpdateChecker.cpp" />
@@ -439,6 +443,7 @@
     <ClCompile Include="WinHotkeyCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\thirdparty\TimXmlRpc\TimXmlRpc.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />
@@ -474,7 +479,6 @@
     <ClInclude Include="Ifo.h" />
     <ClInclude Include="IGraphBuilder2.h" />
     <ClInclude Include="InternalFiltersConfig.h" />
-    <ClInclude Include="ISDb.h" />
     <ClInclude Include="KeyProvider.h" />
     <ClInclude Include="LcdSupport.h" />
     <ClInclude Include="MainFrm.h" />
@@ -557,6 +561,10 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="SubtitleDlDlg.h" />
+    <ClInclude Include="SubtitlesProvider.h" />
+    <ClInclude Include="SubtitlesProviders.h" />
+    <ClInclude Include="SubtitlesProvidersUtils.h" />
+    <ClInclude Include="SubtitleUpDlg.h" />
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TimerWrappers.h" />
     <ClInclude Include="Translations.h" />

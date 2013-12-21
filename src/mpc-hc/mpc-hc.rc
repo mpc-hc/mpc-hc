@@ -826,12 +826,30 @@ END
 
 IDD_SUBTITLEDL_DLG DIALOGEX 0, 0, 500, 200
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Subtitles available online"
+CAPTION "Download subtitles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "Download && Open",IDOK,397,166,98,14
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
-    CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,169,200,8
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
+    CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,169,145,8
+    DEFPUSHBUTTON   "Download",IDOK,341,166,50,14
+    PUSHBUTTON      "Refresh",IDC_BUTTON1,393,166,50,14
+    PUSHBUTTON      "Abort",IDC_BUTTON2,393,166,50,14
+    PUSHBUTTON      "Options",IDC_BUTTON3,445,166,50,14
+    CONTROL         "",IDC_STATUSBAR,"msctls_statusbar32",0x103,0,184,499,16
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",PBS_SMOOTH,213,166,82,14
+END
+
+IDD_SUBTITLEUP_DLG DIALOGEX 0, 0, 500, 200
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Upload subtitles"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
+    DEFPUSHBUTTON   "Upload",IDOK,341,166,50,14
+    PUSHBUTTON      "Abort",IDC_BUTTON1,393,166,50,14,WS_DISABLED
+    PUSHBUTTON      "Options",IDC_BUTTON2,445,166,50,14
+    CONTROL         "",IDC_STATUSBAR,"msctls_statusbar32",0x103,0,184,499,16
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",PBS_SMOOTH,213,166,82,14
 END
 
 IDD_FILEPROPRES DIALOGEX 0, 0, 234, 202
@@ -1008,14 +1026,21 @@ BEGIN
     CONTROL         "Prefer external subtitles over embedded subtitles",IDC_CHECK2,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,17,285,8
     CONTROL         "Ignore embedded subtitles",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,29,285,8
-    GROUPBOX        "Autoload paths",IDC_STATIC,5,41,287,31
-    EDITTEXT        IDC_EDIT1,10,53,224,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Reset",IDC_BUTTON1,237,53,50,14
-    GROUPBOX        "Online database",IDC_STATIC,6,78,286,45
-    LTEXT           "Base URL of the online subtitle database:",IDC_STATIC,10,89,222,8
-    LTEXT           "http://",IDC_STATIC,10,103,22,8
-    COMBOBOX        IDC_COMBO1,35,101,199,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Test",IDC_BUTTON2,237,100,50,14
+    GROUPBOX        "Autoload paths",IDC_STATIC,5,41,285,32
+    EDITTEXT        IDC_EDIT1,12,53,220,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Reset",IDC_BUTTON1,234,53,50,14
+    GROUPBOX        "Online search, download and upload subtitles",IDC_STATIC,6,76,285,160
+    CONTROL         "Automatically search and download subtitles if none are found locally",IDC_CHECK4,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,90,270,8
+    CONTROL         "Prefer subtitles for hearing impaired (when indicated by subtitles provider)",IDC_CHECK5,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,102,255,8
+    LTEXT           "Ignore files containing any of the following word(s):",IDC_STATIC,22,117,170,8
+    EDITTEXT        IDC_EDIT2,194,114,90,14,ES_AUTOHSCROLL
+    LTEXT           "Languages in order of preference (i.e. ""eng ell spa""):",IDC_STATIC,12,133,180,8
+    EDITTEXT        IDC_EDIT3,194,130,90,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,12,146,272,73
+    CONTROL         "Automatically upload active subtitles at the end of video playback",IDC_CHECK6,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,222,270,8
 END
 
 IDD_UPDATE_DIALOG DIALOGEX 0, 0, 300, 60
@@ -1235,6 +1260,14 @@ BEGIN
     BEGIN
     END
 
+    IDD_SUBTITLEDL_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_SUBTITLEUP_DLG, DIALOG
+    BEGIN
+    END
+
     IDD_PPAGEMISC, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1337,13 +1370,13 @@ BEGIN
         MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
         MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
         MENUITEM SEPARATOR
-        MENUITEM "&Load Subtitle...",           ID_FILE_LOAD_SUBTITLE
-        MENUITEM "Save S&ubtitle...",           ID_FILE_SAVE_SUBTITLE
-        POPUP "Subtitle Data&base"
+        POPUP "Subtitles"
         BEGIN
-            MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
-            MENUITEM "&Upload...",                  ID_FILE_ISDB_UPLOAD
-            MENUITEM "&Download...",                ID_FILE_ISDB_DOWNLOAD
+            MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
+            MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE
+            MENUITEM SEPARATOR
+            MENUITEM "&Download Subtitles...",      ID_FILE_SUBTITLES_DOWNLOAD
+            MENUITEM "&Upload Subtitles...",        ID_FILE_SUBTITLES_UPLOAD
         END
         MENUITEM SEPARATOR
         MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
@@ -1510,9 +1543,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Video Streams",              ID_VIDEO_STREAMS
+        MENUITEM "&Audio Streams",              ID_AUDIOS
+        MENUITEM "Su&btitles Streams",          ID_SUBTITLES
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -1578,13 +1611,13 @@ BEGIN
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
             MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            MENUITEM "&Load Subtitle...",           ID_FILE_LOAD_SUBTITLE
-            MENUITEM "Save S&ubtitle...",           ID_FILE_SAVE_SUBTITLE
-            POPUP "Subtitle Data&base"
+            POPUP "Subtitles"
             BEGIN
-                MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
-                MENUITEM "&Upload...",                  ID_FILE_ISDB_UPLOAD
-                MENUITEM "&Download...",                ID_FILE_ISDB_DOWNLOAD
+                MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
+                MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE
+                MENUITEM SEPARATOR
+                MENUITEM "&Download Subtitles...",      ID_FILE_SUBTITLES_DOWNLOAD
+                MENUITEM "&Upload Subtitles...",        ID_FILE_SUBTITLES_UPLOAD
             END
             MENUITEM SEPARATOR
             MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
@@ -1664,9 +1697,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Video Streams",              ID_VIDEO_STREAMS
+        MENUITEM "&Audio Streams",              ID_AUDIOS
+        MENUITEM "Su&btitles Streams",          ID_SUBTITLES
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -1808,13 +1841,13 @@ BEGIN
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
             MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            MENUITEM "&Load Subtitle...",           ID_FILE_LOAD_SUBTITLE
-            MENUITEM "Save S&ubtitle...",           ID_FILE_SAVE_SUBTITLE
-            POPUP "Subtitle Data&base"
+            POPUP "Subtitles"
             BEGIN
-                MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
-                MENUITEM "&Upload...",                  ID_FILE_ISDB_UPLOAD
-                MENUITEM "&Download...",                ID_FILE_ISDB_DOWNLOAD
+                MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
+                MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE
+                MENUITEM SEPARATOR
+                MENUITEM "&Download Subtitles...",      ID_FILE_SUBTITLES_DOWNLOAD
+                MENUITEM "&Upload Subtitles...",        ID_FILE_SUBTITLES_UPLOAD
             END
             MENUITEM SEPARATOR
             MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
@@ -2004,9 +2037,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Video Streams",              ID_VIDEO_STREAMS
+        MENUITEM "&Audio Streams",              ID_AUDIOS
+        MENUITEM "Su&btitles Streams",          ID_SUBTITLES
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -2372,7 +2405,8 @@ BEGIN
     IDS_EMB_RESOURCES_VIEWER_TYPE "MIME Type"
     IDS_EMB_RESOURCES_VIEWER_INFO 
                             "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the ""Save As"" button if you only want to save the information."
-    IDS_DOWNLOAD_SUBS       "Download subtitles"
+    IDS_SUBTITLES_DOWNLOAD  "Download Subtitles..."
+    IDS_SUBTITLES_UPLOAD    "Upload Subtitles..."
     IDS_SUBFILE_DELAY       "Delay (ms):"
     IDS_SPEEDSTEP_AUTO      "Auto"
     IDS_EXPORT_SETTINGS_NO_KEYS "There are no customized keys to export."
@@ -2678,7 +2712,7 @@ BEGIN
     IDS_OSD_RS_VSYNC_OFFSET "VSync Offset: %d"
     IDS_OSD_SPEED           "Speed: %.2lfx"
     IDS_OSD_THUMBS_SAVED    "Thumbnails saved successfully"
-    IDS_MENU_VIDEO_STREAM   "&Video Stream"
+    IDS_MENU_VIDEO_STREAM   "&Video Streams"
     IDS_MENU_VIDEO_ANGLE    "Video Ang&le"
     IDS_RESET_SETTINGS      "Reset settings"
     IDS_RESET_SETTINGS_WARNING 

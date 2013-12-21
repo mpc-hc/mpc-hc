@@ -126,6 +126,7 @@ public:
 class CSimpleTextSubtitle : public CAtlArray<STSEntry>
 {
     friend class CSubtitleEditorDlg;
+    friend class SubtitlesProvider;
 
 protected:
     CAtlArray<STSSegment> m_segments;
@@ -138,6 +139,9 @@ public:
     tmode m_mode;
     CTextFile::enc m_encoding;
     CString m_path;
+
+    CString m_provider;
+    int m_fHearingImpaired;
 
     CSize m_dstScreenSize;
     int m_defaultWrapStyle;
@@ -174,6 +178,7 @@ public:
     bool Open(CString fn, int CharSet, CString name = _T(""), CString videoName = _T(""));
     bool Open(CTextFile* f, int CharSet, CString name);
     bool Open(BYTE* data, int len, int CharSet, CString name);
+    bool Open(CString provider, BYTE* data, int len, int CharSet, CString name, int fHearingImpaired, LCID lcid);
     bool SaveAs(CString fn, Subtitle::SubType type, double fps = -1, int delay = 0, CTextFile::enc e = CTextFile::DEFAULT_ENCODING, bool bCreateExternalStyleFile = true);
 
     void Add(CStringW str, bool fUnicode, int start, int end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), const CRect& marginRect = CRect(0, 0, 0, 0), int layer = 0, int readorder = -1);

@@ -19,9 +19,9 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
+#include "AuthDlg.h"
 #include "PPageSubMisc.h"
-#include "ISDb.h"
+#include "SubtitlesProviders.h"
 
 // CPPageSubMisc dialog
 
@@ -32,6 +32,14 @@ CPPageSubMisc::CPPageSubMisc()
     , m_fPreferDefaultForcedSubtitles(TRUE)
     , m_fPrioritizeExternalSubtitles(TRUE)
     , m_fDisableInternalSubtitles(FALSE)
+    , m_bAutoDownloadSubtitles(FALSE)
+    , m_strAutoDownloadSubtitlesExclude(_T(""))
+    , m_bAutoUploadSubtitles(FALSE)
+    , m_bPreferHearingImpairedSubtitles(FALSE)
+    , m_strSubtitlesProviders(_T(""))
+    , m_strSubtitlesLanguageOrder(_T(""))
+    , m_szAutoloadPaths("")
+    , m_pSubtitlesProviders(SubtitlesProviders::Instance())
 {
 }
 
@@ -45,27 +53,65 @@ void CPPageSubMisc::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK1, m_fPreferDefaultForcedSubtitles);
     DDX_Check(pDX, IDC_CHECK2, m_fPrioritizeExternalSubtitles);
     DDX_Check(pDX, IDC_CHECK3, m_fDisableInternalSubtitles);
+    DDX_Check(pDX, IDC_CHECK4, m_bAutoDownloadSubtitles);
+    DDX_Check(pDX, IDC_CHECK5, m_bPreferHearingImpairedSubtitles);
+    DDX_Check(pDX, IDC_CHECK6, m_bAutoUploadSubtitles);
     DDX_Text(pDX, IDC_EDIT1, m_szAutoloadPaths);
-    DDX_Control(pDX, IDC_COMBO1, m_ISDbCombo);
-    DDX_CBString(pDX, IDC_COMBO1, m_ISDb);
+    DDX_Text(pDX, IDC_EDIT2, m_strAutoDownloadSubtitlesExclude);
+    DDX_Text(pDX, IDC_EDIT3, m_strSubtitlesLanguageOrder);
+    DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
 BOOL CPPageSubMisc::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    const CAppSettings& s = AfxGetAppSettings();
+    const auto& s(AfxGetAppSettings());
 
     m_fPreferDefaultForcedSubtitles = s.bPreferDefaultForcedSubtitles;
     m_fPrioritizeExternalSubtitles = s.fPrioritizeExternalSubtitles;
     m_fDisableInternalSubtitles = s.fDisableInternalSubtitles;
     m_szAutoloadPaths = s.strSubtitlePaths;
+    m_bAutoDownloadSubtitles = s.bAutoDownloadSubtitles;
+    m_strAutoDownloadSubtitlesExclude = s.strAutoDownloadSubtitlesExclude;
+    m_bAutoUploadSubtitles = s.bAutoUploadSubtitles;
+    m_bPreferHearingImpairedSubtitles = s.bPreferHearingImpairedSubtitles;
+    m_strSubtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
+    m_strSubtitlesProviders = s.strSubtitlesProviders;
 
-    m_ISDb = s.strISDb;
-    m_ISDbCombo.AddString(m_ISDb);
-    if (m_ISDb.CompareNoCase(_T("www.opensubtitles.org/isdb"))) {
-        m_ISDbCombo.AddString(_T("www.opensubtitles.org/isdb"));
+    m_list.SetExtendedStyle(m_list.GetExtendedStyle()
+                            | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
+                            | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
+
+    CArray<int> columnWidth;
+    if (columnWidth.GetCount() != COL_TOTAL_COLUMNS) {
+        // default sizes
+        columnWidth.RemoveAll();
+        columnWidth.Add(120);
+        columnWidth.Add(75);
+        columnWidth.Add(300);
     }
+
+    m_list.InsertColumn(COL_PROVIDER, _T("Provider")/*ResStr(IDS_SUBDL_DLG_PROVIDER_COL)*/, LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
+    m_list.InsertColumn(COL_USERNAME, _T("Username")/*ResStr(IDS_SUBDL_DLG_FILENAME_COL)*/, LVCFMT_LEFT, columnWidth[COL_USERNAME]);
+    m_list.InsertColumn(COL_LANGUAGES, _T("Languages")/*ResStr(IDS_SUBDL_DLG_LANGUAGE_COL)*/, LVCFMT_LEFT, columnWidth[COL_LANGUAGES]);
+
+    m_list.SetRedraw(FALSE);
+    m_list.DeleteAllItems();
+
+    int i(0);
+    for (const auto& iter : m_pSubtitlesProviders.Providers()) {
+        int iItem(m_list.InsertItem((int)i++, CString(iter->Name().c_str())));
+        m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
+        CString languages(UTF8To16(iter->Languages().c_str()));
+        m_list.SetItemText(iItem, COL_LANGUAGES, languages.GetLength() ? languages : _T("ERROR: Internet connection could not be established."));
+        m_list.SetCheck(iItem, iter->Enabled(SPF_SEARCH));
+        m_list.SetItemData(iItem, (DWORD_PTR)(iter));
+    }
+
+    m_list.SetRedraw(TRUE);
+    m_list.Invalidate();
+    m_list.UpdateWindow();
 
     UpdateData(FALSE);
 
@@ -76,15 +122,24 @@ BOOL CPPageSubMisc::OnApply()
 {
     UpdateData();
 
-    CAppSettings& s = AfxGetAppSettings();
+    auto& s(AfxGetAppSettings());
 
     s.bPreferDefaultForcedSubtitles = !!m_fPreferDefaultForcedSubtitles;
     s.fPrioritizeExternalSubtitles = !!m_fPrioritizeExternalSubtitles;
     s.fDisableInternalSubtitles = !!m_fDisableInternalSubtitles;
     s.strSubtitlePaths = m_szAutoloadPaths;
+    s.bAutoDownloadSubtitles = !!m_bAutoDownloadSubtitles;
+    s.strAutoDownloadSubtitlesExclude = m_strAutoDownloadSubtitlesExclude;
+    s.bAutoUploadSubtitles = !!m_bAutoUploadSubtitles;
+    s.bPreferHearingImpairedSubtitles = !!m_bPreferHearingImpairedSubtitles;
+    s.strSubtitlesLanguageOrder = m_strSubtitlesLanguageOrder;
 
-    s.strISDb = m_ISDb;
-    s.strISDb.TrimRight('/');
+    for (int i(0); i < m_list.GetItemCount(); ++i) {
+        SubtitlesProvider* provider((SubtitlesProvider*)(m_list.GetItemData(i)));
+        provider->Enabled(SPF_SEARCH, m_list.GetCheck(i));
+    }
+
+    s.strSubtitlesProviders = CString(m_pSubtitlesProviders.WriteSettings().c_str());
 
     return __super::OnApply();
 }
@@ -92,10 +147,79 @@ BOOL CPPageSubMisc::OnApply()
 
 BEGIN_MESSAGE_MAP(CPPageSubMisc, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedResetSubsPath)
-    ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedTestSubsDB)
-    ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButtonTestSubsDB)
-    ON_CBN_EDITCHANGE(IDC_COMBO1, OnURLModified)
+    ON_NOTIFY(NM_RCLICK, IDC_LIST1, OnRightClick)
+    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemChanged)
 END_MESSAGE_MAP()
+
+void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LPNMLISTVIEW lpnmlv((LPNMLISTVIEW)pNMHDR);
+
+    if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0) {
+        SubtitlesProvider& provider(*(SubtitlesProvider*)(m_list.GetItemData(lpnmlv->iItem)));
+
+        enum {
+            SET_CREDENTIALS = 0x1000,
+            RESET_CREDENTIALS,
+            MOVE_UP,
+            MOVE_DOWN,
+            OPEN_URL,
+        };
+
+        CMenu m;
+        m.CreatePopupMenu();
+        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) ? MF_ENABLED : MF_DISABLED), SET_CREDENTIALS, L"Setup"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) && provider.UserName().length() ? MF_ENABLED : MF_DISABLED), RESET_CREDENTIALS, L"Reset"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_SEPARATOR);
+        m.AppendMenu(MF_STRING | (lpnmlv->iItem > 0 ? MF_ENABLED : MF_DISABLED), MOVE_UP, L"Move Up"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | (lpnmlv->iItem < m_list.GetItemCount() - 1  ? MF_ENABLED : MF_DISABLED), MOVE_DOWN, L"Move Down"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_SEPARATOR);
+        m.AppendMenu(MF_STRING | MF_ENABLED, OPEN_URL, L"Open Url" /*ResStr(IDS_ENABLE_ALL_FILTERS)*/);
+
+        CPoint p(lpnmlv->ptAction);
+        ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &p, 1);
+
+        switch (m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, p.x, p.y, this)) {
+            case OPEN_URL:
+                provider.OpenUrl();
+                break;
+            case SET_CREDENTIALS: {
+                CString szUser(UTF8To16(provider.UserName().c_str()));
+                CString szPass(UTF8To16(provider.Password().c_str()));
+                CString szDomain(provider.Name().c_str());
+                if (ERROR_SUCCESS == PromptForCredentials(GetSafeHwnd(),
+                                                          L"Enter website credentitals", L"Enter your credentials to connect to: " + CString(provider.Url().c_str()),
+                                                          szDomain, szUser, szPass, /*&bSave*/nullptr)) {
+                    provider.UserName((const char*)UTF16To8(szUser));
+                    provider.Password((const char*)UTF16To8(szPass));
+                    m_list.SetItemText(lpnmlv->iItem, 1, szUser);
+                    SetModified();
+                }
+                break;
+            }
+            case RESET_CREDENTIALS:
+                provider.UserName("");
+                provider.Password("");
+                m_list.SetItemText(lpnmlv->iItem, 1, _T(""));
+                SetModified();
+                break;
+            case MOVE_UP: {
+                m_pSubtitlesProviders.MoveUp(lpnmlv->iItem);
+                ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, m_list.GetSafeHwnd());
+                SetModified();
+                break;
+            }
+            case MOVE_DOWN: {
+                m_pSubtitlesProviders.MoveDown(lpnmlv->iItem);
+                ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, m_list.GetSafeHwnd());
+                SetModified();
+                break;
+            }
+            default:
+                break;
+        }
+    }
+}
 
 void CPPageSubMisc::OnBnClickedResetSubsPath()
 {
@@ -105,37 +229,19 @@ void CPPageSubMisc::OnBnClickedResetSubsPath()
     SetModified();
 }
 
-void CPPageSubMisc::OnBnClickedTestSubsDB()
+void CPPageSubMisc::OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    CString ISDb, ver, str;
-    UINT msg;
+    LPNMLISTVIEW pNMLV((LPNMLISTVIEW)(pNMHDR));
 
-    m_ISDbCombo.GetWindowText(ISDb);
-    ISDb.TrimRight('/');
-
-    ver.Format(_T("ISDb v%d"), ISDb_PROTOCOL_VERSION);
-
-    CWebTextFile wtf;
-    UINT nIconType = MB_ICONEXCLAMATION;
-
-    if (wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver) {
-        msg = IDS_PPSDB_URLCORRECT;
-        nIconType = MB_ICONINFORMATION;
-    } else if (str.Find(_T("ISDb v")) == 0) {
-        msg = IDS_PPSDB_PROTOCOLERR;
-    } else {
-        msg = IDS_PPSDB_BADURL;
+    if (pNMLV->uOldState + pNMLV->uNewState == 0x3000) {
+        SetModified();
     }
-
-    AfxMessageBox(msg, nIconType | MB_OK, 0);
 }
 
-void CPPageSubMisc::OnUpdateButtonTestSubsDB(CCmdUI* pCmdUI)
+int CALLBACK CPPageSubMisc::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-    pCmdUI->Enable(m_ISDbCombo.GetWindowTextLength() > 0);
-}
-
-void CPPageSubMisc::OnURLModified()
-{
-    SetModified();
+    CListCtrl& list(*(CListCtrl*)CListCtrl::FromHandle((HWND)(lParamSort)));
+    size_t left(((SubtitlesProvider*)list.GetItemData((int)lParam1))->Index());
+    size_t right(((SubtitlesProvider*)list.GetItemData((int)lParam2))->Index());
+    return left == right ? 0 : (int)(left - right);
 }

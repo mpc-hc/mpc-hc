@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,93 +21,63 @@
 
 #pragma once
 
-#include "ISDb.h"
 #include "resource.h"
 #include "ResizableLib/ResizableDialog.h"
+#include <vector>
+#include <list>
 
-class CInternetSession;
+class CMainFrame;
+struct SubtitlesInfo;
+class SubtitlesProvider;
+typedef std::list<SubtitlesInfo> SubtitlesList;
+enum SRESULT;
 
 class CSubtitleDlDlg : public CResizableDialog
 {
 private:
-    struct isdb_movie_parsed {
-        CString titles;
-        CString name;
-        CString language;
-        CString format;
-        CString disc;
-        DWORD_PTR ptr;
-        bool checked;
+    enum {
+        COL_PROVIDER,
+        COL_FILENAME,
+        COL_LANGUAGE,
+        //COL_FORMAT,
+        COL_HEARINGIMPAIRED,
+        COL_DOWNLOADS,
+        COL_DISC,
+        COL_TITLES,
+#ifdef _DEBUG
+        COL_SCORE,
+#endif
+        COL_TOTAL_COLUMNS,
     };
-
-    struct THREADSTRUCT {
-        HWND hWND;
-        CInternetSession is;
-        CStringA url;
-        CStringA raw_list;
-        CStringA ticket;
-        CList<ISDb::movie> raw_movies;
-    };
-    typedef THREADSTRUCT* PTHREADSTRUCT;
 
     struct PARAMSORT {
-        PARAMSORT(HWND hWnd, int colIndex, bool ascending) :
-            m_hWnd(hWnd),
-            m_colIndex(colIndex),
-            m_ascending(ascending)
-        {}
+        PARAMSORT(HWND hWnd, int nSortColumn, int fSortOrder)
+            : m_hWnd(hWnd), m_nSortColumn(nSortColumn), m_fSortOrder(fSortOrder) {}
         HWND m_hWnd;
-        int m_colIndex;
-        bool m_ascending;
+        int m_nSortColumn;
+        int m_fSortOrder;
     };
     typedef PARAMSORT* PPARAMSORT;
 
-    struct DEFPARAMSORT {
-        DEFPARAMSORT(HWND hWnd, CString filename) :
-            m_hWnd(hWnd),
-            m_filename(filename)
-        {}
-        HWND m_hWnd;
-        CString m_filename;
-        CMap <CString, LPCTSTR, int, int> m_langPos;
-    };
-    typedef DEFPARAMSORT* PDEFPARAMSORT;
-
-    enum {
-        COL_FILENAME,
-        COL_LANGUAGE,
-        COL_FORMAT,
-        COL_DISC,
-        COL_TITLES
-    };
     PARAMSORT m_ps;
-    DEFPARAMSORT m_defps;
-    PTHREADSTRUCT m_pTA;
-
-    CArray<isdb_movie_parsed> m_parsed_movies;
-    CString m_url;
     bool m_fReplaceSubs;
 
     CListCtrl m_list;
-    CList<ISDb::subtitle> m_selsubs;
+    CProgressCtrl m_progress;
     CStatusBarCtrl m_status;
+    CMainFrame& m_pMainFrame;
+    SubtitlesList m_Subtitles;
 
-    void SetStatus(const CString& status);
-    bool Parse();
-    void LoadList();
-
-    static UINT RunThread(LPVOID pParam);
     static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
-    static int CALLBACK DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
-    static size_t StrMatch(LPCTSTR a, LPCTSTR b);
-    static CString LangCodeToName(LPCSTR code);
-    static bool OpenUrl(CInternetSession& is, CString url, CStringA& str);
+    void SetStatusText(const CString& status, BOOL bPropagate = TRUE);
+    void SetListViewSortColumn();
+    void DownloadSelectedSubtitles();
 
 public:
-    explicit CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename);
+    CSubtitleDlDlg(CWnd* pParentWnd);
     virtual ~CSubtitleDlDlg();
-
     enum { IDD = IDD_SUBTITLEDL_DLG };
+
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);
@@ -115,17 +85,42 @@ protected:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     virtual void OnOK();
 
-    void DownloadSelectedSubtitles();
 
     DECLARE_MESSAGE_MAP()
 
     afx_msg void OnSize(UINT nType, int cx, int cy);
-    afx_msg void OnParse();
     afx_msg void OnFailedConnection();
     afx_msg void OnUpdateOk(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateRefresh(CCmdUI* pCmdUI);
+    afx_msg void OnAbort();
+    afx_msg void OnRefresh();
+    afx_msg void OnOptions();
     afx_msg void OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDestroy();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnRightClick(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnItemChanging(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+
+    afx_msg LRESULT OnSearch(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnSearching(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnDownloading(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnDownloaded(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnCompleted(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnFinished(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnFailed(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnClear(WPARAM wParam, LPARAM lParam);
+
+public:
+    void DoSearch(INT _nCount);
+    void DoSearching(SubtitlesProvider& _provider);
+    void DoDownloading(SubtitlesInfo& _fileInfo);
+    void DoDownloaded(SubtitlesInfo& _fileInfo);
+    void DoCompleted(SRESULT _result, SubtitlesList& _subtitlesList);
+    void DoFinished(BOOL _bAborted, BOOL _bShowDialog);
+    void DoFailed();
+    void DoClear();
 };

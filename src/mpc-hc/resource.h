@@ -81,11 +81,10 @@
 #define ID_FILE_SAVE_IMAGE              806
 #define ID_FILE_SAVE_IMAGE_AUTO         807
 #define ID_FILE_SAVE_THUMBNAILS         808
-#define ID_FILE_LOAD_SUBTITLE           809
-#define ID_FILE_SAVE_SUBTITLE           810
-#define ID_FILE_ISDB_UPLOAD             811
-#define ID_FILE_ISDB_DOWNLOAD           812
-#define ID_FILE_ISDB_SEARCH             813
+#define ID_FILE_SUBTITLES_LOAD          809
+#define ID_FILE_SUBTITLES_SAVE          810
+#define ID_FILE_SUBTITLES_UPLOAD        811
+#define ID_FILE_SUBTITLES_DOWNLOAD      812
 #define ID_FILE_PROPERTIES              814
 #define ID_VIEW_OPTIONS                 815
 #define ID_FILE_EXIT                    816
@@ -301,6 +300,7 @@
 #define IDD_MEDIATYPES_DLG              10002
 #define IDD_SAVE_DLG                    10004
 #define IDD_SUBTITLEDL_DLG              10005
+#define IDD_SUBTITLEUP_DLG              10006
 #define IDD_FILEPROPDETAILS             10010
 #define IDD_FILEPROPCLIP                10011
 #define IDD_PNSPRESET_DLG               10015
@@ -1361,7 +1361,8 @@
 #define IDS_EMB_RESOURCES_VIEWER_NAME   41441
 #define IDS_EMB_RESOURCES_VIEWER_TYPE   41442
 #define IDS_EMB_RESOURCES_VIEWER_INFO   41443
-#define IDS_DOWNLOAD_SUBS               41444
+#define IDS_SUBTITLES_DOWNLOAD          41444
+#define IDS_SUBTITLES_UPLOAD            41445
 #define IDS_SUBFILE_DELAY               41448
 #define IDS_SPEEDSTEP_AUTO              41449
 #define IDS_EXPORT_SETTINGS_NO_KEYS     41450

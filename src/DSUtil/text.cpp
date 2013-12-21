@@ -176,6 +176,18 @@ CStringA HtmlSpecialChars(CStringA str, bool bQuotes /*= false*/)
     return str;
 }
 
+CStringA HtmlSpecialCharsDecode(CStringA str)
+{
+    str.Replace("&amp;", "&");
+    str.Replace("&quot;", "\"");
+    str.Replace("&#039;", "\'");
+    str.Replace("&lt;", "<");
+    str.Replace("&gt;", ">");
+    str.Replace("&rsquo;", "'");
+
+    return str;
+}
+
 CAtlList<CString>& MakeLower(CAtlList<CString>& sl)
 {
     POSITION pos = sl.GetHeadPosition();
