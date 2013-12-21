@@ -16,3 +16,8 @@ file_filter = PO/mpc-hc.<lang>.strings.po
 source_file = PO/mpc-hc.strings.pot
 source_lang = en
 
+[mpc-hc.installer]
+file_filter = PO/mpc-hc.installer.<lang>.strings.po
+source_file = PO/mpc-hc.installer.strings.pot
+source_lang = en
+
