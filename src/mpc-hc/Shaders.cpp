@@ -247,8 +247,10 @@ void __stdcall FileChangeNotifier::NotifierWinapiCallback(DWORD, DWORD, LPOVERLA
 
 FileChangeNotifier::StateItem::StateItem()
     : hDir(nullptr)
+    , pOwner(nullptr)
 {
     ZeroMemory(&overlapped, sizeof(overlapped));
+    ZeroMemory(&buffer, sizeof(buffer));
 }
 
 FileChangeNotifier::StateItem::~StateItem()
