@@ -70,7 +70,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET /A ARGM+=1
   IF /I "%%G" == "Filters"      SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
   IF /I "%%G" == "Filter"       SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
-  IF /I "%%G" == "API"          SET "CONFIG=API"         & SET /A ARGC+=1  & SET /A ARGAPI+=1
+  IF /I "%%G" == "API"          SET "CONFIG=API"         & SET /A ARGC+=1  & SET /A ARGAPI+=2
   IF /I "%%G" == "MPCHC"        SET "CONFIG=MPCHC"       & SET /A ARGC+=1
   IF /I "%%G" == "MPC-HC"       SET "CONFIG=MPCHC"       & SET /A ARGC+=1
   IF /I "%%G" == "Resources"    SET "CONFIG=Resources"   & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGM+=1
@@ -107,7 +107,7 @@ IF %ARGLAVF% GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGL%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%    GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGRE%   GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGAPI%  GTR 1 (GOTO UnsupportedSwitch)
+IF %ARGAPI%  GTR 2 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
