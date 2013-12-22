@@ -100,8 +100,8 @@ msgid "Bitrate"
 msgstr "Битрейт"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
-msgstr " (сред/тек)"
+msgid "(avg/cur)"
+msgstr "(сред/тек)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

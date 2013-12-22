@@ -98,7 +98,7 @@ msgid "Bitrate"
 msgstr "Tốc độ bit"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
+msgid "(avg/cur)"
 msgstr "(trung bình/giây)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"

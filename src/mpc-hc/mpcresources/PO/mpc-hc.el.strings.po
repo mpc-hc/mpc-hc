@@ -98,8 +98,8 @@ msgid "Bitrate"
 msgstr "Ρυθμός μετάδοσης bit"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
-msgstr " (μέσος/τρέχων)"
+msgid "(avg/cur)"
+msgstr "(μέσος/τρέχων)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

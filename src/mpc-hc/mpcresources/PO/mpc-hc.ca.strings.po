@@ -98,7 +98,7 @@ msgid "Bitrate"
 msgstr "Taxa de bits"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
+msgid "(avg/cur)"
 msgstr "(mitjana/actual)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"

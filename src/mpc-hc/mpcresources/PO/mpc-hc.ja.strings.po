@@ -97,8 +97,8 @@ msgid "Bitrate"
 msgstr "ビットレート"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
-msgstr " (平均/現在)"
+msgid "(avg/cur)"
+msgstr "(平均/現在)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

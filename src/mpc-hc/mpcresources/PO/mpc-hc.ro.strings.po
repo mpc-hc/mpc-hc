@@ -98,8 +98,8 @@ msgid "Bitrate"
 msgstr "Rată de biţi"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
-msgstr " (medie/curentă)"
+msgid "(avg/cur)"
+msgstr "(medie/curentă)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

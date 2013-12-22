@@ -97,8 +97,8 @@ msgid "Bitrate"
 msgstr "বিটরেট"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
-msgstr " (গড়/চলতি)"
+msgid "(avg/cur)"
+msgstr "(গড়/চলতি)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

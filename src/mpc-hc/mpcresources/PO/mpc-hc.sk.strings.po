@@ -98,8 +98,8 @@ msgid "Bitrate"
 msgstr "Dátový tok"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
-msgstr " (priemerný/aktuálny)"
+msgid "(avg/cur)"
+msgstr "(priemerný/aktuálny)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

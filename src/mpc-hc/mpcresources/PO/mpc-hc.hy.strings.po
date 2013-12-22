@@ -97,8 +97,8 @@ msgid "Bitrate"
 msgstr "Բիթրեյթ"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
-msgstr " (միջ./ընթ.)"
+msgid "(avg/cur)"
+msgstr "(միջ./ընթ.)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

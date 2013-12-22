@@ -101,8 +101,8 @@ msgid "Bitrate"
 msgstr "位元率"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
-msgid " (avg/cur)"
-msgstr " (平均/現時)"
+msgid "(avg/cur)"
+msgstr "(平均/現時)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

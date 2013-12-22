@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -202,8 +202,6 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWS
 {
     m_mts.Copy(mts);
     m_nBuffers = std::max(nBuffers, 1);
-    ZeroMemory(&m_brs, sizeof(m_brs));
-    m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
 }
 
 CBaseSplitterOutputPin::CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers, int QueueMaxPackets)
@@ -216,8 +214,6 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilt
     , m_rtStart(0)
 {
     m_nBuffers = std::max(nBuffers, 1);
-    ZeroMemory(&m_brs, sizeof(m_brs));
-    m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
 }
 
 CBaseSplitterOutputPin::~CBaseSplitterOutputPin()
@@ -364,7 +360,7 @@ HRESULT CBaseSplitterOutputPin::DeliverEndFlush()
 
 HRESULT CBaseSplitterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-    m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
+    m_BitRate.rtLastDeliverTime = Packet::INVALID_TIME;
     if (m_fFlushing) {
         return S_FALSE;
     }
@@ -521,32 +517,32 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         return S_OK;
     }
 
-    m_brs.nBytesSinceLastDeliverTime += nBytes;
+    m_BitRate.nBytesSinceLastDeliverTime += nBytes;
 
     if (p->rtStart != Packet::INVALID_TIME) {
-        if (m_brs.rtLastDeliverTime == Packet::INVALID_TIME) {
-            m_brs.rtLastDeliverTime = p->rtStart;
-            m_brs.nBytesSinceLastDeliverTime = 0;
+        if (m_BitRate.rtLastDeliverTime == Packet::INVALID_TIME) {
+            m_BitRate.rtLastDeliverTime = p->rtStart;
+            m_BitRate.nBytesSinceLastDeliverTime = 0;
         }
 
-        if (m_brs.rtLastDeliverTime + 10000000 < p->rtStart) {
-            REFERENCE_TIME rtDiff = p->rtStart - m_brs.rtLastDeliverTime;
+        if (m_BitRate.rtLastDeliverTime + 10000000 < p->rtStart) {
+            REFERENCE_TIME rtDiff = p->rtStart - m_BitRate.rtLastDeliverTime;
 
-            double secs, bits;
+            double dSecs, dBits;
 
-            secs = (double)rtDiff / 10000000;
-            bits = 8.0 * m_brs.nBytesSinceLastDeliverTime;
-            m_brs.nCurrentBitRate = (DWORD)(bits / secs);
+            dSecs = rtDiff / 10000000.0;
+            dBits = 8.0 * m_BitRate.nBytesSinceLastDeliverTime;
+            m_BitRate.nCurrentBitRate = (DWORD)(dBits / dSecs);
 
-            m_brs.rtTotalTimeDelivered += rtDiff;
-            m_brs.nTotalBytesDelivered += m_brs.nBytesSinceLastDeliverTime;
+            m_BitRate.rtTotalTimeDelivered += rtDiff;
+            m_BitRate.nTotalBytesDelivered += m_BitRate.nBytesSinceLastDeliverTime;
 
-            secs = (double)m_brs.rtTotalTimeDelivered / 10000000;
-            bits = 8.0 * m_brs.nTotalBytesDelivered;
-            m_brs.nAverageBitRate = (DWORD)(bits / secs);
+            dSecs = m_BitRate.rtTotalTimeDelivered / 10000000.0;
+            dBits = 8.0 * m_BitRate.nTotalBytesDelivered;
+            m_BitRate.nAverageBitRate = (DWORD)(dBits / dSecs);
 
-            m_brs.rtLastDeliverTime = p->rtStart;
-            m_brs.nBytesSinceLastDeliverTime = 0;
+            m_BitRate.rtLastDeliverTime = p->rtStart;
+            m_BitRate.nBytesSinceLastDeliverTime = 0;
             /*
                         TRACE(_T("[%d] c: %d kbps, a: %d kbps\n"),
                             p->TrackNumber,

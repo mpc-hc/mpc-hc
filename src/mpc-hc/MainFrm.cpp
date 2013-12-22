@@ -1911,92 +1911,81 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             rate.Format(_T("%.2fx"), m_dSpeedRate);
             if (m_pQP) {
                 CString info;
-                int val = 0;
+                int tmp, tmp1;
 
-                m_pQP->get_AvgFrameRate(&val); // We hang here due to a lock that never gets released.
-                info.Format(_T("%d.%02d (%s)"), val / 100, val % 100, rate);
+                if (SUCCEEDED(m_pQP->get_AvgFrameRate(&tmp))) { // We hang here due to a lock that never gets released.
+                    info.Format(_T("%d.%02d (%s)"), tmp / 100, tmp % 100, rate);
+                } else {
+                    info = _T("-");
+                }
                 m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
 
-                int avg, dev;
-                m_pQP->get_AvgSyncOffset(&avg);
-                m_pQP->get_DevSyncOffset(&dev);
-                info.Format(ResStr(IDS_STATSBAR_SYNC_OFFSET_FORMAT), avg, dev);
+                if (SUCCEEDED(m_pQP->get_AvgSyncOffset(&tmp))
+                        && SUCCEEDED(m_pQP->get_DevSyncOffset(&tmp1))) {
+                    info.Format(IDS_STATSBAR_SYNC_OFFSET_FORMAT, tmp, tmp1);
+                } else {
+                    info = _T("-");
+                }
                 m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
 
-                int drawn, dropped;
-                m_pQP->get_FramesDrawn(&drawn);
-                m_pQP->get_FramesDroppedInRenderer(&dropped);
-                info.Format(IDS_MAINFRM_6, drawn, dropped);
+                if (SUCCEEDED(m_pQP->get_FramesDrawn(&tmp))
+                        && SUCCEEDED(m_pQP->get_FramesDroppedInRenderer(&tmp1))) {
+                    info.Format(IDS_MAINFRM_6, tmp, tmp1);
+                } else {
+                    info = _T("-");
+                }
                 m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
 
-                m_pQP->get_Jitter(&val);
-                info.Format(_T("%d ms"), val);
+                if (SUCCEEDED(m_pQP->get_Jitter(&tmp))) {
+                    info.Format(_T("%d ms"), tmp);
+                } else {
+                    info = _T("-");
+                }
                 m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
             } else {
                 m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_PLAYBACK_RATE), rate);
             }
 
             if (m_pBI) {
-                CAtlList<CString> sl;
+                CString sInfo;
 
                 for (int i = 0, j = m_pBI->GetCount(); i < j; i++) {
                     int samples, size;
                     if (S_OK == m_pBI->GetStatus(i, samples, size)) {
-                        CString str;
-                        str.Format(_T("[%d]: %03d/%d KB"), i, samples, size / 1024);
-                        sl.AddTail(str);
+                        sInfo.AppendFormat(_T("[%d]: %03d/%d KB "), i, samples, size / 1024);
                     }
                 }
 
-                if (!sl.IsEmpty()) {
-                    CString str;
-                    str.Format(_T("%s (p%u)"), Implode(sl, ' '), m_pBI->GetPriority());
-
-                    m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), str);
+                if (!sInfo.IsEmpty()) {
+                    sInfo.AppendFormat(_T("(p%lu)"), m_pBI->GetPriority());
+                    m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), sInfo);
                 }
             }
 
-            CInterfaceList<IBitRateInfo> pBRIs;
+            {
+                // IBitRateInfo
+                CString sInfo;
+                BeginEnumFilters(m_pGB, pEF, pBF) {
+                    unsigned i = 0;
+                    BeginEnumPins(pBF, pEP, pPin) {
+                        if (CComQIPtr<IBitRateInfo> pBRI = pPin) {
+                            DWORD nAvg = pBRI->GetAverageBitRate() / 1000;
 
-            BeginEnumFilters(m_pGB, pEF, pBF) {
-                BeginEnumPins(pBF, pEP, pPin) {
-                    if (CComQIPtr<IBitRateInfo> pBRI = pPin) {
-                        pBRIs.AddTail(pBRI);
+                            if (nAvg > 0) {
+                                sInfo.AppendFormat(_T("[%d]: %lu/%lu Kb/s "), i, nAvg, pBRI->GetCurrentBitRate() / 1000);
+                            }
+                        }
+                        i++;
+                    }
+                    EndEnumPins;
+
+                    if (!sInfo.IsEmpty()) {
+                        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), sInfo + ResStr(IDS_STATSBAR_BITRATE_AVG_CUR));
+                        sInfo.Empty();
                     }
                 }
-                EndEnumPins;
-
-                if (!pBRIs.IsEmpty()) {
-                    CAtlList<CString> sl;
-
-                    POSITION pos = pBRIs.GetHeadPosition();
-                    for (int i = 0; pos; i++) {
-                        IBitRateInfo* pBRI = pBRIs.GetNext(pos);
-
-                        DWORD cur = pBRI->GetCurrentBitRate() / 1000;
-                        DWORD avg = pBRI->GetAverageBitRate() / 1000;
-
-                        if (avg == 0) {
-                            continue;
-                        }
-
-                        CString str;
-                        if (cur != avg) {
-                            str.Format(_T("[%d]: %lu/%lu Kb/s"), i, avg, cur);
-                        } else {
-                            str.Format(_T("[%d]: %lu Kb/s"), i, avg);
-                        }
-                        sl.AddTail(str);
-                    }
-
-                    if (!sl.IsEmpty()) {
-                        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), Implode(sl, ' ') + ResStr(IDS_STATSBAR_BITRATE_AVG_CUR));
-                    }
-
-                    break;
-                }
+                EndEnumFilters;
             }
-            EndEnumFilters;
 
             if (GetPlaybackMode() == PM_DVD) { // we also use this timer to update the info panel for DVD playback
                 ULONG ulAvailable, ulCurrent;

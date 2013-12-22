@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -134,16 +134,15 @@ private:
     HRESULT GetDeliveryBuffer(IMediaSample** ppSample, REFERENCE_TIME* pStartTime, REFERENCE_TIME* pEndTime, DWORD dwFlags);
     HRESULT Deliver(IMediaSample* pSample);
 
-    // bitrate stats
-
-    struct {
-        UINT64 nTotalBytesDelivered;
-        REFERENCE_TIME rtTotalTimeDelivered;
-        UINT64 nBytesSinceLastDeliverTime;
-        REFERENCE_TIME rtLastDeliverTime;
-        DWORD nCurrentBitRate;
-        DWORD nAverageBitRate;
-    } m_brs;
+    // IBitRateInfo
+    struct BitRateInfo {
+        UINT64 nTotalBytesDelivered         = 0;
+        REFERENCE_TIME rtTotalTimeDelivered = 0;
+        UINT64 nBytesSinceLastDeliverTime   = 0;
+        REFERENCE_TIME rtLastDeliverTime    = Packet::INVALID_TIME;
+        DWORD nCurrentBitRate               = 0;
+        DWORD nAverageBitRate               = 0;
+    } m_BitRate;
 
     int m_QueueMaxPackets;
 
@@ -231,8 +230,8 @@ public:
 
     // IBitRateInfo
 
-    STDMETHODIMP_(DWORD) GetCurrentBitRate() { return m_brs.nCurrentBitRate; }
-    STDMETHODIMP_(DWORD) GetAverageBitRate() { return m_brs.nAverageBitRate; }
+    STDMETHODIMP_(DWORD) GetCurrentBitRate() { return m_BitRate.nCurrentBitRate; }
+    STDMETHODIMP_(DWORD) GetAverageBitRate() { return m_BitRate.nAverageBitRate; }
 };
 
 class CBaseSplitterFilter
