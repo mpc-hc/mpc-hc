@@ -31,8 +31,8 @@
 #include "PlayerPlaylistBar.h"
 #include "SettingsDefines.h"
 #include "InternalFiltersConfig.h"
+#include "PathUtils.h"
 #include "WinAPIUtils.h"
-
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
@@ -1362,6 +1362,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         M_CLEAR,
         M_CLIPBOARD,
         M_SHOWFOLDER,
+        M_ADDFOLDER,
         M_RECYCLE,
         M_SAVEAS,
         M_SORTBYNAME,
@@ -1385,6 +1386,8 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     m.AppendMenu(MF_STRING | (!bOnItem ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_CLIPBOARD, ResStr(IDS_PLAYLIST_COPYTOCLIPBOARD));
     m.AppendMenu(MF_STRING | ((!bOnItem || !bIsLocalFile) ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_SHOWFOLDER, ResStr(IDS_PLAYLIST_SHOWFOLDER));
     m.AppendMenu(MF_STRING | ((!bOnItem || !bIsLocalFile) ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_RECYCLE, ResStr(IDS_FILE_RECYCLE));
+    m.AppendMenu(MF_STRING | ((!bOnItem || !bIsLocalFile) ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_ADDFOLDER, ResStr(IDS_PLAYLIST_ADDFOLDER));
+    m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | (!m_pl.GetCount() ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_SAVEAS, ResStr(IDS_PLAYLIST_SAVEAS));
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | (!m_pl.GetCount() ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_SORTBYNAME, ResStr(IDS_PLAYLIST_SORTBYLABEL));
@@ -1468,6 +1471,85 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         case M_SHOWFOLDER:
             ExploreToFile(m_pl.GetAt(pos).m_fns.GetHead());
             break;
+        case M_ADDFOLDER: {
+            // add all media files in current playlist item folder that are not yet in the playlist
+            const CString currentFileName = m_pl.GetAt(pos).m_fns.GetHead();
+            const CString dirName = PathUtils::DirName(currentFileName);
+            if (PathUtils::IsDir(dirName)) {
+                CAtlList<CString> fileListAtl;
+                if (SearchFiles(dirName, fileListAtl)) {
+                    std::set<CString, CStringUtils::LogicalLess> fileList;
+                    {
+                        // convert to stl
+                        POSITION pos = fileListAtl.GetHeadPosition();
+                        while (pos) {
+                            fileList.emplace_hint(fileList.end(), fileListAtl.GetNext(pos));
+                        }
+
+                        // deduplicate
+                        pos = m_pl.GetHeadPosition();
+                        while (pos) {
+                            const CPlaylistItem& pli = m_pl.GetNext(pos);
+                            POSITION subpos = pli.m_fns.GetHeadPosition();
+                            while (subpos) {
+                                fileList.erase(pli.m_fns.GetNext(subpos));
+                            }
+                        }
+                    }
+
+                    CStringUtils::LogicalLess less;
+                    for (auto rit = fileList.crbegin(); rit != fileList.crend(); ++rit) {
+                        // determine insert position
+                        bool bLower = false;
+                        while (pos) {
+                            const CString& fileName = m_pl.GetAt(pos).m_fns.GetHead();
+                            if (!less(*rit, fileName) || PathUtils::DirName(fileName).CompareNoCase(PathUtils::DirName(*rit))) {
+                                break;
+                            }
+                            bLower = true;
+                            m_pl.GetPrev(pos);
+                        }
+                        if (!bLower) {
+                            m_pl.GetNext(pos);
+                            while (pos) {
+                                const CString& fileName = m_pl.GetAt(pos).m_fns.GetHead();
+                                if (!less(fileName, *rit) || PathUtils::DirName(fileName).CompareNoCase(PathUtils::DirName(*rit))) {
+                                    break;
+                                }
+                                m_pl.GetNext(pos);
+                            }
+                        }
+
+                        // insert new item
+                        CPlaylistItem pli;
+                        pli.m_fns.AddTail(*rit);
+                        if (bLower) {
+                            pos = pos ? m_pl.InsertAfter(pos, pli) : m_pl.AddHead(pli);
+                        } else {
+                            pos = pos ? m_pl.InsertBefore(pos, pli) : m_pl.AddTail(pli);
+                        }
+                    }
+
+                    // rebuild list and restore selection
+                    if (!fileList.empty()) {
+                        size_t insertedBefore = 0;
+                        for (const auto& fileName : fileList) {
+                            if (less(fileName, currentFileName)) {
+                                insertedBefore++;
+                            } else {
+                                break;
+                            }
+                        }
+                        Refresh();
+                        m_list.SetItemState(lvhti.iItem + insertedBefore, LVIS_SELECTED, LVIS_SELECTED);
+                        m_list.SetSelectionMark(lvhti.iItem + insertedBefore);
+                        m_list.EnsureVisible(lvhti.iItem + insertedBefore, TRUE);
+                        SavePlaylist();
+                    }
+                }
+            }
+            break;
+        }
         case M_SAVEAS: {
             CSaveTextFileDialog fd(
                 CTextFile::DEFAULT_ENCODING, nullptr, nullptr,

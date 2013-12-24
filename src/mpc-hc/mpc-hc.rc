@@ -2531,8 +2531,13 @@ BEGIN
     IDS_BALANCE             "L = R"
     IDS_BALANCE_L           "L +%d%%"
     IDS_BALANCE_R           "R +%d%%"
+END
+
+STRINGTABLE
+BEGIN
     IDS_VOLUME              "%d%%"
     IDS_BOOST               "+%d%%"
+    IDS_PLAYLIST_ADDFOLDER  "Add containing folder"
 END
 
 STRINGTABLE

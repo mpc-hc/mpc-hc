@@ -1,10 +1,10 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1215,6 +1215,10 @@ msgstr ""
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_ADDFOLDER"
+msgid "Add containing folder"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"

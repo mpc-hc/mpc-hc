@@ -1439,6 +1439,7 @@
 #define IDS_BALANCE_R                   57391
 #define IDS_VOLUME                      57392
 #define IDS_BOOST                       57393
+#define IDS_PLAYLIST_ADDFOLDER          57394
 
 // Next default values for new objects
 // 

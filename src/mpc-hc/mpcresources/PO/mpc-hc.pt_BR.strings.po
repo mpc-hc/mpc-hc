@@ -1217,6 +1217,10 @@ msgctxt "IDS_BOOST"
 msgid "+%d%%"
 msgstr ""
 
+msgctxt "IDS_PLAYLIST_ADDFOLDER"
+msgid "Add containing folder"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Abrir dispositivo"
