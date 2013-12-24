@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Burak Garcı <public@burakgarci.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgstr "A&ygıt Aç..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Konum aç..."
+msgstr "Dizin aç..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
@@ -43,7 +43,7 @@ msgstr "CD-RO&M Aç"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "Belgelerim"
+msgstr "En Son Dosyalar"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -59,19 +59,19 @@ msgstr "Re&sim Kaydet..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Küçük Resim Kaydet..."
+msgstr "Küçük Resimler Kaydet..."
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
-msgstr "&Alt Yazı Yükle..."
+msgstr "&Altyazı Yükle..."
 
 msgctxt "ID_FILE_SAVE_SUBTITLE"
 msgid "Save S&ubtitle..."
-msgstr "Alt Yazı Kaydet..."
+msgstr "Altyazıyı Kaydet..."
 
 msgctxt "POPUP"
 msgid "Subtitle Data&base"
-msgstr "Alt Yazı Veritabanı"
+msgstr "Altyazı Veritabanı"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
@@ -79,15 +79,15 @@ msgstr "Ara..."
 
 msgctxt "ID_FILE_ISDB_UPLOAD"
 msgid "&Upload..."
-msgstr "Gönder..."
+msgstr "Yükle..."
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
-msgstr "innDir..."
+msgstr "İndir..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
-msgstr "S&eçenekler"
+msgstr "Ö&zellikler"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
@@ -103,7 +103,7 @@ msgstr "Başlık && Menü"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "&Arama Çubuğu"
+msgstr "&İlerleme Çubuğu"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
@@ -151,7 +151,7 @@ msgstr "En Az"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "Az"
+msgstr "Kompakt"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
@@ -515,7 +515,7 @@ msgstr "Video oynatılırken"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Ayarlar..."
+msgstr "&Seçenekler..."
 
 msgctxt "POPUP"
 msgid "&Play"
@@ -615,7 +615,7 @@ msgstr "Kilitle"
 
 msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
 msgid "------ Every time ------"
-msgstr "------- Her Zaman -------"
+msgstr "------- Her zaman -------"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "E&xit"
@@ -659,7 +659,7 @@ msgstr "&Kök Menüsü"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "&Alt Yazı Menüsü"
+msgstr "&Altyazı Menüsü"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
@@ -683,11 +683,11 @@ msgstr "&Yardım"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "Ana Sayfa"
+msgstr "Web sitesi"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Güncelleştirmelere bak"
+msgstr "Güncellemeleri kontrol et"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
@@ -695,7 +695,7 @@ msgstr "Komut Satırı Anahtarları"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Araç çubuğu resimlerini innDir"
+msgstr "Araç çubuğu resimlerini indir"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
