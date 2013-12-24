@@ -1350,6 +1350,11 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 
     POSITION pos = FindPos(lvhti.iItem);
     bool bOnItem = !!(lvhti.flags & LVHT_ONITEM);
+    if (!bOnItem && m_pl.GetSize() == 1) {
+        bOnItem = true;
+        pos = m_pl.GetHeadPosition();
+        lvhti.iItem = 0;
+    }
     bool bIsLocalFile = bOnItem ? FileExists(m_pl.GetAt(pos).m_fns.GetHead()) : false;
 
     CMenu m;
