@@ -196,6 +196,7 @@ void CPlayerSubresyncBar::ReloadSubtitle()
 
 void CPlayerSubresyncBar::ResetSubtitle()
 {
+    m_list.SetRedraw(FALSE);
     m_list.DeleteAllItems();
 
     if (m_mode == VOBSUB || m_mode == TEXTSUB) {
@@ -203,29 +204,39 @@ void CPlayerSubresyncBar::ResetSubtitle()
 
         int prevstart = INT_MIN;
 
-        for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
+        int nCount = (int)m_sts.GetCount();
+        m_list.SetItemCount(nCount);
+
+        for (int i = 0; i < nCount; i++) {
             m_subtimes[i].newstart = m_subtimes[i].orgstart;
             m_subtimes[i].newend = m_subtimes[i].orgend;
+
             FormatTime(i, buff, _countof(buff), 0, false);
-            m_list.InsertItem(i, buff, COL_START);
+            m_list.InsertItem(i, buff);
+            m_list.SetItemText(i, COL_PREVSTART, buff);
             FormatTime(i, buff, _countof(buff), 0, true);
             m_list.SetItemText(i, COL_END, buff);
+            m_list.SetItemText(i, COL_PREVEND, buff);
 
             if (prevstart > m_subtimes[i].orgstart) {
                 m_list.SetItemData(i, (DWORD_PTR)TSEP);
             }
             prevstart = m_subtimes[i].orgstart;
 
-            SetCheck(i, false, false);
+            // Since all items in COL_START and COL_PREVSTART have the same text size,
+            // we can compute it for the first element only so that it's faster.
+            if (i == 0) {
+                m_list.SetColumnWidth(COL_START, LVSCW_AUTOSIZE);
+                m_list.SetColumnWidth(COL_PREVSTART, LVSCW_AUTOSIZE);
+            }
         }
 
-        UpdatePreview();
-
-        m_list.SetColumnWidth(COL_START, LVSCW_AUTOSIZE);
-        m_list.SetColumnWidth(COL_PREVSTART, LVSCW_AUTOSIZE);
+        UpdateStrings();
     }
 
-    UpdateStrings();
+    m_list.SetRedraw(TRUE);
+    m_list.Invalidate();
+    m_list.UpdateWindow();
 }
 
 void CPlayerSubresyncBar::SaveSubtitle()
