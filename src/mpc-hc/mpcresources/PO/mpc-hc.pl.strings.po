@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013
+# M T <michtrz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 21:37:25+0000\n"
-"PO-Revision-Date: 2013-12-17 21:53+0000\n"
-"Last-Translator: kasper93\n"
+"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
+"PO-Revision-Date: 2013-12-22 12:54+0000\n"
+"Last-Translator: M T <michtrz@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -270,7 +271,7 @@ msgstr "Wprowadzony czas jest większy niż czas trwania pliku."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Biblioteka ikon „mpciconlib.dll” nie została odnaleziona.\nSkojarzonym plikom zostanie przypisana standardowa ikona odtwarzacza.\nProszę zainstalować ponownie MPC-HC, aby przywrócić plik „mpciconlib.dll”."
+msgstr "Biblioteka ikon „mpciconlib.dll” nie została odnaleziona.\nSkojarzonym plikom zostanie przypisana standardowa ikona odtwarzacza.\nZainstaluj ponownie MPC-HC, aby przywrócić plik „mpciconlib.dll”."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -390,7 +391,7 @@ msgstr "Posortuj według ś&cieżki"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "Lo&suj kolejność"
+msgstr "P&rzetasuj"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
@@ -846,7 +847,7 @@ msgstr "Odznaczenie opcji zmniejsza w niewielkim stopniu ilość używanej pami�
 
 msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
 msgid "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
-msgstr "Wyświetla animacje napisów w przypadku, gdy liczba buforowanych wierszy jest większa od zera. Zmniejsza w niewielkim stopniu obciążenie procesora. Opcja pomocna w przypadku, gdy problemu migotania napisów."
+msgstr "Wyświetla animacje napisów w przypadku, gdy liczba buforowanych wierszy jest większa od zera. Zmniejsza w niewielkim stopniu obciążenie procesora. Opcja pomocna w przypadku problemu migotania napisów."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -1202,23 +1203,23 @@ msgstr "Zakończ"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "L = P"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "L +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "P +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2054,7 +2055,7 @@ msgstr "Napisy: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
-msgstr "Proszę wskazać położenie napędu DVD/BD:"
+msgstr "Proszę wybrać położenie napędu DVD/BD"
 
 msgctxt "IDS_MAINFRM_47"
 msgid " loaded successfully"
@@ -3366,7 +3367,7 @@ msgstr "Wprowadź tutaj preferowane języki.\nNa przykład, wpisując: „eng ja
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Zewnętrzne splittery mogą posiadać własne ustawienia dot. preferencji językowych, dlatego też domyślnie MPC-HC nie zmienia ich wstępnego wyboru.\nWłącz tę opcję, jeżeli chcesz aby MPC-HC kontrolował również zewnętrzne spittery."
+msgstr "Zewnętrzne splittery mogą posiadać własne ustawienia dot. preferencji językowych, dlatego też domyślnie MPC-HC nie zmienia ich wstępnego wyboru.\nWłącz tę opcję, jeżeli chcesz aby MPC-HC kontrolował również zewnętrzne splittery."
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

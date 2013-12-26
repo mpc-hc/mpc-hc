@@ -2,12 +2,13 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# kasper93, 2013
 # BetaKing <yzonline@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-09 10:28+0000\n"
+"PO-Revision-Date: 2013-12-18 03:23+0000\n"
 "Last-Translator: BetaKing <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -346,7 +347,7 @@ msgstr "增加垂直同步偏移(&I)"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "GPU 控制(G)"
+msgstr "GPU 控制(&G)"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"

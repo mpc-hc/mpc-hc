@@ -1,17 +1,21 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# brk <burakgarci@gmail.com>, 2013
+# bosluk, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
+"PO-Revision-Date: 2013-12-24 18:56+0000\n"
+"Last-Translator: bosluk\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -19,7 +23,7 @@ msgstr "Yerleşim"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgctxt "IDS_INFOBAR_AUDIO"
 msgid "Audio"
@@ -55,7 +59,7 @@ msgstr "DVD Filmi Oynat"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
-msgstr "Seçenekler"
+msgstr "Özellikler"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -123,11 +127,11 @@ msgstr "Her zaman (en yavaş yöntem)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "Her aygıt tarafından desteklenmemektedir. Filtre grafiğinde iki çözücü de gösterilir."
+msgstr "Her aygıt tarafından desteklenmemektedir. Süzgeç grafiğinde iki çözücü de gösterilir."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Farklı video akışları oynatılmayacaksa hızlıdır. Filtre grafiğinde tek çözücü gösterilir."
+msgstr "Farklı video akışları oynatılmayacaksa hızlıdır. Süzgeç grafiğinde sadece tek bir çözücü gösterilir."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -151,7 +155,7 @@ msgstr "Ebeveyn denetimi"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr ""
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
@@ -171,7 +175,7 @@ msgstr "Güncel/Haberler"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr ""
+msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -231,7 +235,7 @@ msgstr "Yazı tipi"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "DVD Yönetim filtresi için gerekli bazı iliştirmeler çevrilemedi"
+msgstr "DVD Yönetim süzgeci için gerekli bazı iliştirmeler çevrilemedi"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
@@ -243,11 +247,11 @@ msgstr "Canlı"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "Video yakalama filtresi grafiğe eklenemiyor"
+msgstr "Video yakalama süzgeci grafiğe eklenemiyor"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr "Ses yakalama filtresi grafiğe eklenemiyor"
+msgstr "Ses yakalama süzgeci grafiğe eklenemiyor"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
@@ -295,7 +299,7 @@ msgstr "Karakter"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
@@ -351,7 +355,7 @@ msgstr "Grafiksel bilgi için hedef pencere oluşturulamadı"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "DVD Yönetim filtresi için gerekli bütün iliştirmeler çevrilemedi"
+msgstr "DVD Yönetim süzgeci için gerekli bütün iliştirmeler çevrilemedi"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -447,11 +451,11 @@ msgstr "İnce Ayarlar"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Dahili Filtreler::Ses Değiştiricisi"
+msgstr "Dahili Süzgeçler::Ses Değiştiricisi"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
-msgstr "Harici Filtreler"
+msgstr "Harici Süzgeçler"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
@@ -519,7 +523,7 @@ msgstr "Boş (sıkıştırılmadan)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
-msgstr ""
+msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -531,7 +535,7 @@ msgstr "Alt Yazılar::Görünüm"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
-msgstr "Dahili Filtreler"
+msgstr "Dahili Süzgeçler"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
@@ -727,15 +731,15 @@ msgstr "Seçilen işleyici yüklenmemiş."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Boş (herhangi)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Boş (sıkıştırılmadan)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr ""
+msgstr "MPC-HC Ses Çözücüsü"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -751,7 +755,7 @@ msgstr "Bütünleşik bir kaynağı internet tarayıcınızda görüntüleyebilm
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
-msgstr "Altyazı innDir"
+msgstr "Altyazı indir"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -823,7 +827,7 @@ msgstr "LAV Filters kullanılıyor"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "LAV Filters kullanılıyor. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "LAV Filters kullanılıyor. Microsoft süzgeçleri bu biçimler için daha kararlı olduğundan varsayılan olarak kapalı durumdadır.\nDahili süzgeçleri kullanmak istiyorsanız, hem kaynak hem de kodlama bakımından daha iyi bir deneyim elde etmek açısından aktif hale getiriniz."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -839,7 +843,7 @@ msgstr "Varsayılan durum hala tanımsız olduğu için diğer biçimlerden etki
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
-msgstr "Bunu kapatmak yerel video hafızası bant genişliğini korur ve az bir miktar video hafızasını boşaltır, ancak eski ekran kartları ile çalışmayabilir."
+msgstr "Bunu kapatmak yerel video hafızası bant genişliğini korur ve video hafızasını az bir miktar boşaltır, ancak eski ekran kartları ile çalışmayabilir."
 
 msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
 msgid "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
@@ -847,7 +851,7 @@ msgstr "0'dan büyük bir görüntü tamponu kullanırken alt yazı animasyonlar
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
-msgstr "Bu tuşa tıkladıktan sonra, seçili olan grup biçimi MPC-HC'nin geçerli dosya ilişkilendirmesi seçeneği olarak ayarlanacaktır. Genellikle yeni eklenen uzantı gri renkle gösterilecektir, yani bu ekranı kapatmadan önce uzantıyı tekrar seçmeniz gerektiğini unutmayınız!"
+msgstr "Bu tuşa tıkladıktan sonra, seçili olan grup biçimi MPC-HC 'nin geçerli dosya ilişkilendirmesi seçeneği olarak ayarlanacaktır. Genellikle yeni eklenen uzantı gri renkle gösterilecektir, yani bu ekranı kapatmadan önce uzantıyı tekrar seçmeniz gerektiğini unutmayınız!"
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -931,7 +935,7 @@ msgstr "&Tonlama seçimi..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "&Tonlama hata ayıklaması..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1071,7 +1075,7 @@ msgstr "&Aç"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
-msgstr "Düzenle..."
+msgstr "&Düzenle..."
 
 msgctxt "IDS_INFOBAR_TITLE"
 msgid "Title"
@@ -1155,67 +1159,67 @@ msgstr "DVD/BD Aç"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr ""
+msgstr "Arka tonlayıcılar ayarlanamadı"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr ""
+msgstr "Hem ön, hem arka tonlayıcılar ayarlanamadı"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Tonlamalar, ilişkili dosyalar değiştirildiğinde otomatik olarak derlenecektir."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr ""
+msgstr "%s yüklenemedi, piksel tonlamaları çalışmayacaktır."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "%s içinde gerekli özellik girişleri bulunamadığından, piksel tonlamaları çalışmayacaktır."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Varsayılan : %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Sonraki Tonlama"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Önceki Tonlama"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr ""
+msgstr "Kayıt"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr ""
+msgstr "Durdur"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "Sl = Sğ"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "Sol +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "Sağ +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1247,7 +1251,7 @@ msgstr "Alt Yazı Kaydet"
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
-msgstr "Seçenekler"
+msgstr "Özellikler"
 
 msgctxt "IDS_AG_EXIT"
 msgid "Exit"
@@ -1327,23 +1331,23 @@ msgstr "En yakın çerçeve"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr ""
+msgstr "MPC-HC açılırken bir hata ile karşılaştı. DVD oynatımı düzgün çalışmayabilir. Bu durum belirli güvenlik araçları uyumluluk sorunları nedeniyle oluşmuş olabilir.\n\nBu durumu tarafımıza bildirmek ister misiniz?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "Asla gösterme"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr ""
+msgstr "Fare imlecinin gizlenme süresi:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr ""
+msgstr "Kontrol vurgularının gizlenme süresi:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
+msgstr "Ön tonlayıcılar ayarlanamadı"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1567,7 +1571,7 @@ msgstr "SzT Yük Dah"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading subtitle(s), please wait."
-msgstr "Altyazı(lar) innDiriliyor, lütfen bekleyiniz."
+msgstr "Altyazı(lar) indiriliyor, lütfen bekleyiniz."
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -1587,15 +1591,15 @@ msgstr "MPC-HC güncelleştirmelerinin düzenli olarak denetlenmesini istiyor mu
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "%50"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr ""
+msgstr "%100"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "%200"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -1743,7 +1747,7 @@ msgstr "Oynatıcı Menüsü (uzun)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
-msgstr "Filtre Menüsü"
+msgstr "Süzgeç Menüsü"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
@@ -1927,7 +1931,7 @@ msgstr "MPC-HC, dosya biçimi ilişkilendirmelerini ayarlayabilmek için gerekli
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "MPC-HC son derece düşük sistem kaynağı kullanan, açık kaynak kodlu bir Windows medya oynatıcısıdır. Tüm bilinen video ve ses biçimlerini desteklemektedir. %100 casus yazılımsız, reklamsız ve araç çubuksuz uygulama ilkemizden ödün vermemekteyiz."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2131,7 +2135,7 @@ msgstr "QuickTime, henüz X64 sistemleri desteklemiyor (apple kütüphanesi geç
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
-msgstr "Filtre grafik nesnesi oluşturulamadı"
+msgstr "Süzgeç grafiği nesnesi oluşturulamadı"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
@@ -2183,7 +2187,7 @@ msgstr "Lütfen bir konum seçiniz"
 
 msgctxt "IDS_MAINFRM_DIR_CHECK"
 msgid "Include subdirectories"
-msgstr "Alt klasörler dahil"
+msgstr "Alt klasörleri dahil et"
 
 msgctxt "IDS_AG_PAUSE"
 msgid "Pause"
@@ -2207,11 +2211,11 @@ msgstr "Geçersiz dosya adı"
 
 msgctxt "IDS_MAINFRM_86"
 msgid "Cannot connect the filters"
-msgstr "Filtrelere bağlanılamadı"
+msgstr "Süzgeçlere bağlanılamadı"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
-msgstr "Bir kaynak filtresi yüklenemedi"
+msgstr "Bir kaynak süzgeci yüklenemedi"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
@@ -2239,7 +2243,7 @@ msgstr "DVD klasörü bulunamadı"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
-msgstr "DVD Yönetici filtresi oluşturulamadı"
+msgstr "DVD Yönetici süzgeci oluşturulamadı"
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
@@ -2247,11 +2251,11 @@ msgstr "Yapılamadı"
 
 msgctxt "IDS_MAINFRM_96"
 msgid "Can't create video capture filter"
-msgstr "Video yakalama filtresi oluşturulamadı"
+msgstr "Video yakalama süzgeci oluşturulamadı"
 
 msgctxt "IDS_MAINFRM_98"
 msgid "No capture filters"
-msgstr "Bir yakalama filtresi bulunmuyor"
+msgstr "Bir yakalama süzgeci bulunmuyor"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
@@ -2275,11 +2279,11 @@ msgstr "Durduruldu"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
-msgstr "&Seçenekler..."
+msgstr "&Özellikler..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr " (filtre) özellikleri..."
+msgstr "(süzgeç) özellikleri..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2351,7 +2355,7 @@ msgstr "Ses yüksekliği en fazla"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Kullanım: mpc-hc.exe \"konum\" [anahtarlar]\n\n\"yol_adı\"\t\tYüklenecek dosya veya klasör (özel\n\t\tkarakterler desteklenmektedir, \"-\" denotes standard input)\n/dub \"dublaj_adı\"\tHarici bir ses dosyası yüklemek için\n/dubdelay \"dosya\"\tXXms olarak atlanacak harici bir ses dosyası yüklemek için (eğer\n\t\tdosya \"...GECİKME_XXms...\" içeriyorsa)\n/d3dfs\t\tTam ekran D3D kipinde oynatmak için\n/sub \"alt_yazı\"\tHarici bir alt yazı kullanmak için\n/filter \"filtre_adı\"\tDeğişken bir bağlantıdan DirectShow filtrelerini\n\t\tyüklemek için. (karakterler desteklenir)\n/dvd\t\tDVD kipinde çalıştırmak için, \"konum\" DVD klasörünü\n\t\tgösterir (seçmeli)\n/dvdpos T#C\tOynatma T başlığının, C bölümünden başlar\n/dvdpos T#ss:dd\tOynatma T başlığının, ss:dd:ss süresinden başlar\n/cd\t\tSes veya (s)vcd'den tüm parçaları yüklemek için,\n\t\t\"konum\" Sürücü yolunu gösterir (seçmeli)\n/device\t\tOpen the default video device\n/open\t\tDosya açılır, ancak otomatik olarak oynatılmaz\n/play\t\tOynatıcı açılır açılmaz yürütme \n\t\tbaşlatılır\n/close\t\tYürütmeden sonra oynatıcı kapatılır (sadece /play komutuyla\n\t\tkullanılır)\n/shutdown\tOynatmadan sonra bilgisayar kapatılır\n/fullscreen\tTam ekran kipinde başlatılır\n/minimized\tSimge durumunda başlatılır\n/new\t\tYeni bir oynatıcı penceresi kullanılır\n/add\t\t\"konum\" oynatma listesine eklenir, bu komutlarla birlikte\n\t\tkullanılabilir: /open ve /play\n/regvid\t\tVideo biçimleri ilişkilendirilir\n/regaud\t\tSes biçimleri ilişkilendirilir\n/regpl\t\tOynatma listesindeki dosyalar uygulamayla ilişkilendirilir\n/regall\t\tTüm desteklenen dosya biçimleri uygulamayla ilişkilendirilir\n/unregall\t\tVideo biçimleri geri alınır\n/start ms\t\tOynatmaya \"ms\" (= mili saniye) sonra başlanır\n/startpos ss:dd:ss\tOynatmaya ss:dd:ss süresinden başlanılır\n/fixedsize w,h\tSabit pencere boyutu kullanılır\n/monitor N\tN monitöründe başlatılır; N, 1'den başlar\n/audiorenderer N\tSes çeviricisi N ile başlanılır; N, 1 ile başlar\n\t\t(\"Çıkış\" ayarlarına bakınız)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tVarsayılan ayarlara geri dönülür\n/help /h /?\tKomut satırı anahtarları hakkında yardım görüntülenir\n"
+msgstr "Kullanım: mpc-hc.exe \"konum\" [anahtarlar]\n\n\"yol_adı\"\t\tYüklenecek dosya veya klasör (özel\n\t\tkarakterler desteklenmektedir, \"-\" varsayılan girişi gösterir)\n/dub \"dublaj_adı\"\tHarici bir ses dosyası yüklemek için\n/dubdelay \"dosya\"\tXXms olarak atlanacak harici bir ses dosyası yüklemek için (eğer\n\t\tdosya \"...GECİKME_XXms...\" içeriyorsa)\n/d3dfs\t\tTam ekran D3D kipinde oynatmak için\n/sub \"alt_yazı\"\t   Harici bir alt yazı kullanmak için\n/filter \"filtre_adı\"   Değişken bir bağlantıdan DirectShow süzgeçlerini\n\t\tyüklemek için. (karakterler desteklenir)\n/dvd\t\tDVD kipinde çalıştırmak için, \"konum\" DVD klasörünü\n\t\tgösterir (seçmeli)\n/dvdpos T#C\tOynatma T başlığının, C bölümünden başlar\n/dvdpos T#ss:dd\tOynatma T başlığının, ss:dd:ss süresinden başlar\n/cd\t\tSes veya (s)vcd'den tüm parçaları yüklemek için,\n\t\t\"konum\" Sürücü yolunu gösterir (seçmeli)\n/device\t\tVarsayılan video aygıtını açar\n/open\t\tDosya açılır, ancak otomatik olarak oynatılmaz\n/play\t\tOynatıcı açılır açılmaz yürütme \n\t\tbaşlatılır\n/close\t\tYürütmeden sonra oynatıcı kapatılır (sadece /play komutuyla\n\t\tkullanılır)\n/shutdown\tOynatmadan sonra bilgisayar kapatılır\n/fullscreen\tTam ekran kipinde başlatılır\n/minimized\tSimge durumunda başlatılır\n/new\t\tYeni bir oynatıcı penceresi kullanılır\n/add\t\t\"konum\" oynatma listesine eklenir, bu komutlarla birlikte\n\t\tkullanılabilir: /open ve /play\n/regvid\t\tVideo biçimleri ilişkilendirilir\n/regaud\t\tSes biçimleri ilişkilendirilir\n/regpl\t\tOynatma listesindeki dosyalar uygulamayla ilişkilendirilir\n/regall\t\tTüm desteklenen dosya biçimleri uygulamayla ilişkilendirilir\n/unregall\t\tVideo biçimleri geri alınır\n/start ms\t\tOynatmaya \"ms\" (= mili saniye) sonra başlanır\n/startpos ss:dd:ss\tOynatmaya ss:dd:ss süresinden başlanılır\n/fixedsize w,h\tSabit pencere boyutu kullanılır\n/monitor N\tN monitöründe başlatılır; N, 1'den başlar\n/audiorenderer N\tSes çeviricisi N ile başlanılır; N, 1 ile başlar\n\t\t(\"Çıkış\" ayarlarına bakınız)\n/shaderpreset \"Pr\"\tKomut ile \"Pr\" tonlayıcı hazır ayarı kullanılır\n/reset\t\tVarsayılan ayarlara geri dönülür\n/help /h /?\tKomut satırı anahtarları hakkında yardım görüntülenir\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2383,7 +2387,7 @@ msgstr "Yakalama Çubuğuna Geç"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "Tonlama Hata Ayıklayıcısına geç"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2435,7 +2439,7 @@ msgstr "VidÇer Büyütme Ayarı"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
-msgstr "&Tüm filtreleri aç"
+msgstr "&Tüm süzgeçleri aç"
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -2455,11 +2459,11 @@ msgstr "Geçerli klasörde başka bir medya dosyası bulunmuyor."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Klasördeki ilk dosya zaten yüklendi."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "Klasördeki son dosya zaten yüklendi."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2535,7 +2539,7 @@ msgstr "Üst Arka - Sağ"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "Gösterim İstatistiklerini Sıfırla"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2555,7 +2559,7 @@ msgstr "Başlık && Menü'yü göster"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Menüyü gizle"
+msgstr "Menüyü &Gizle"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -2567,7 +2571,7 @@ msgstr "Araç çubuğu altında"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
-msgstr ""
+msgstr "Video: %s"
 
 msgctxt "IDS_APPLY"
 msgid "Apply"
@@ -2595,7 +2599,7 @@ msgstr "Kodlama:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
-msgstr "&Tüm filtreleri kapat"
+msgstr "&Tüm süzgeçleri kapat"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
@@ -2619,7 +2623,7 @@ msgstr "Pencereye Uzat"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
-msgstr "Pencereyi İçeriden Uyarla"
+msgstr "Pencereye İçeriden Uyarla"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
@@ -2631,7 +2635,7 @@ msgstr "Yakınlaştırma 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
-msgstr "Pencereyi Dışarıdan Uyarla"
+msgstr "Pencereye Dışarıdan Uyarla"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
@@ -2643,15 +2647,15 @@ msgstr "Dosyayı Tekrar Aç"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
-msgstr ""
+msgstr "AVI"
 
 msgctxt "IDS_MFMT_MPEG"
 msgid "MPEG"
-msgstr ""
+msgstr "MPEG"
 
 msgctxt "IDS_MFMT_MPEGTS"
 msgid "MPEG-TS"
-msgstr ""
+msgstr "MPEG-TS"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
@@ -2659,15 +2663,15 @@ msgstr "DVD-Videosu"
 
 msgctxt "IDS_MFMT_MKV"
 msgid "Matroska"
-msgstr ""
+msgstr "Matroska"
 
 msgctxt "IDS_MFMT_WEBM"
 msgid "WebM"
-msgstr ""
+msgstr "WebM"
 
 msgctxt "IDS_MFMT_MP4"
 msgid "MP4"
-msgstr ""
+msgstr "MP4"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
@@ -2675,11 +2679,11 @@ msgstr "QuickTime Videosu"
 
 msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
-msgstr ""
+msgstr "3GP"
 
 msgctxt "IDS_MFMT_3G2"
 msgid "3G2"
-msgstr ""
+msgstr "3G2"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -2687,15 +2691,15 @@ msgstr "Flash Videosu"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
-msgstr ""
+msgstr "Ogg Media'sı"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr ""
+msgstr "Real Media"
 
 msgctxt "IDS_MFMT_RT"
 msgid "Real Script"
-msgstr ""
+msgstr "Real Script"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
@@ -2711,7 +2715,7 @@ msgstr "FLIC Animasyonu"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr ""
+msgstr "DirectShow Media"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
@@ -2723,19 +2727,19 @@ msgstr "Diğer"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
-msgstr ""
+msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr ""
+msgstr "Other Audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
-msgstr ""
+msgstr "AC-3/DTS"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
-msgstr ""
+msgstr "AIFF"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
@@ -2743,15 +2747,15 @@ msgstr "Kayıpsız Apple"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
-msgstr ""
+msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
-msgstr ""
+msgstr "Monkey's Audio"
 
 msgctxt "IDS_MFMT_AU"
 msgid "AU/SND"
-msgstr ""
+msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
@@ -2759,7 +2763,7 @@ msgstr "Ses CD'si parçası"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
-msgstr ""
+msgstr "FLAC"
 
 msgctxt "IDS_MFMT_M4A"
 msgid "MPEG-4 Audio"
@@ -2767,7 +2771,7 @@ msgstr "MPEG-4 Ses"
 
 msgctxt "IDS_MFMT_MIDI"
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
@@ -2775,7 +2779,7 @@ msgstr "Matroska Sesi"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
-msgstr ""
+msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
@@ -2783,31 +2787,31 @@ msgstr "MPEG sesi"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
-msgstr ""
+msgstr "Musepack"
 
 msgctxt "IDS_MFMT_OFR"
 msgid "OptimFROG"
-msgstr ""
+msgstr "OptimFROG"
 
 msgctxt "IDS_MFMT_OGG"
 msgid "Ogg Vorbis"
-msgstr ""
+msgstr "Ogg Vorbis"
 
 msgctxt "IDS_MFMT_RA"
 msgid "Real Audio"
-msgstr ""
+msgstr "Real Audio"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
-msgstr ""
+msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
+msgstr "True Audio"
 
 msgctxt "IDS_MFMT_WAV"
 msgid "WAV"
-msgstr ""
+msgstr "WAV"
 
 msgctxt "IDS_MFMT_WMA"
 msgid "Windows Media Audio"
@@ -2815,11 +2819,11 @@ msgstr "Windows Media Sesi"
 
 msgctxt "IDS_MFMT_WV"
 msgid "WavPack"
-msgstr ""
+msgstr "WavPack"
 
 msgctxt "IDS_MFMT_OPUS"
 msgid "Opus Audio Codec"
-msgstr "Opus Ses ÇÖzücüsü"
+msgstr "Opus Ses Çözücüsü"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
@@ -2835,7 +2839,7 @@ msgstr "RAR Arşivi"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
@@ -3063,11 +3067,11 @@ msgstr "Karşıtlığı azalt"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Rengi arttır"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Rengi azalt"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3091,7 +3095,7 @@ msgstr "Mevcut sürümünüz : v%s.\n\nSon kararlı sürüm numarası : v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "MPC-HC v%s innDirilebilir durumda. Şu anda v%s sürümünü kullanmaktasınız.\n\nYeni sürüme geçmek için MPC-HC sitesini ziyaret etmek istiyor musunuz?"
+msgstr "MPC-HC v%s indirilebilir durumda. Şu anda v%s sürümünü kullanmaktasınız.\n\nYeni sürüme geçmek için MPC-HC sitesini ziyaret etmek istiyor musunuz?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
@@ -3147,23 +3151,23 @@ msgstr "Ses yükseltmesi: Kapalı"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr ""
+msgstr "MB/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
@@ -3223,7 +3227,7 @@ msgstr "'Resim Kaydet' ve 'Küçük Resim Kaydet' özellikleri, Ters Süzme Kar�
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
-msgstr "Çevrimiçi altyazı sitesine bağlanılamadı."
+msgstr "Çevrimiçi alt yazı sitesine bağlanılamadı."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
@@ -3235,7 +3239,7 @@ msgstr "Yakalama hatası"
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
-msgstr ""
+msgstr "video"
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
@@ -3243,23 +3247,23 @@ msgstr "ses"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr "Grafiğe %s tampon filtresi eklenemedi."
+msgstr "Grafiğe %s tampon süzgeci eklenemedi."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr "Grafiğe %s tampon filtresi bağlanamıyor."
+msgstr "Grafiğe %s tampon süzgeci bağlanamıyor."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "Grafiğe %s kodlayıcı filtresi eklenemedi."
+msgstr "Grafiğe %s kodlayıcı süzgeci eklenemedi."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "Grafiğe %s kodlayıcı filtresi bağlanamıyor."
+msgstr "Grafiğe %s kodlayıcı süzgeci bağlanamıyor."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr "%s kodlayıcı filtresindeki sıkıştırma biçimi ayarlanamıyor."
+msgstr "%s kodlayıcı süzgecindeki sıkıştırma biçimi ayarlanamıyor."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
@@ -3359,7 +3363,7 @@ msgstr "Parlaklığı arttır"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Lütfen bu alana tercih ettiğiniz dilleri giriniz.\nÖrneğin : \"eng jap tur\""
+msgstr "Lütfen bu alana tercih ettiğiniz dilleri giriniz.\nÖrnek : \"eng jap tur\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."

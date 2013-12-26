@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# hkenneth <extremekeny@hotmail.com>, 2013
 # BetaKing <yzonline@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 21:37:25+0000\n"
-"PO-Revision-Date: 2013-12-17 21:41+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
+"PO-Revision-Date: 2013-12-23 11:44+0000\n"
+"Last-Translator: BetaKing <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -474,7 +475,7 @@ msgstr "您要关联图标吗？"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "这可以修正在更新图标库后图标显示不正确的问题。\n不会修改文件关联,只会刷新图标的一致性。"
+msgstr "这将修正更新图标库后图标显示不正确的问题。\n文件关联不会被修改,仅对相应的图标进行刷新。"
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -1202,23 +1203,23 @@ msgstr "停止"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "左 = 右"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "左 +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "右 +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1550,23 +1551,23 @@ msgstr "PnS Inc 大小"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
-msgstr "PnS 宽度"
+msgstr "PnS Inc 宽度"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "PnS Inc Height"
-msgstr "PnS 高度"
+msgstr "PnS  Inc 高度"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "PnS Dec Size"
-msgstr "PnS 大小"
+msgstr "PnS Dec 大小"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "PnS Dec Width"
-msgstr "PnS 宽度"
+msgstr "PnS Dec 宽度"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
-msgstr "PnS 高度"
+msgstr "PnS Dec 高度"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading subtitle(s), please wait."
@@ -1930,7 +1931,7 @@ msgstr "MPC-HC 没有足够的权限更改文件格式关联。请单击 \"修�
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "MPC-HC 是一个非常轻量的，面向于 Windows 平台的开源媒体播放器。它支持播放所有常见的视频和音频格式。我们保证它 100% 无间谍软件, 广告或工具栏插件。"
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2174,7 +2175,7 @@ msgstr "当前"
 
 msgctxt "IDS_MPC_CRASH"
 msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC 已被异常终止。要帮助我们修复此问题, 请将此文件 \"%s\" 发送至我们的 bug 跟踪器上。\n\n您是否要打开含有迷你转储文件的文件夹并访问错误 bug 跟踪器？"
+msgstr "MPC-HC 已被异常终止。要帮助我们修复此问题, 请将此文件 \"%s\" 发送至我们的 bug 跟踪器上。\n\n您是否要打开含有迷你转储文件的文件夹并访问 bug 跟踪器？"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
 msgid "Failed to create dump file to \"%s\" (error %d)"
@@ -2458,11 +2459,11 @@ msgstr "在当前的文件夹中没有更多的媒体。"
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "文件夹中的首个文件已经被载入。"
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "文件夹中的最后一个文件已经被载入。"
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2538,7 +2539,7 @@ msgstr "上 后 右"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "重置显示状态"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -3066,11 +3067,11 @@ msgstr "降低对比度"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "增加色调"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "降低色调"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3098,7 +3099,7 @@ msgstr "有新版的 MPC-HC v%s 版本可用。 您正在使用 v%s。\n\n您要
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "找不到更新服务器。\n\n请检查您的 internet 或者稍后再试。"
+msgstr "找不到更新服务器。\n\n请检查您的 internet 连接或者稍后再试。"
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"

@@ -90,8 +90,8 @@ nl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 nl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ; Polish
-pl.WelcomeLabel2=Ten instalator zainstaluje [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
-pl.WinVersionTooLowError=[name] wymaga systemu Windows XP Service Pack 3 lub nowszego do uruchomienia.
+pl.WelcomeLabel2=Zostanie zainstalowane [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
+pl.WinVersionTooLowError=[name] wymaga systemu Windows XP Service Pack 3 lub nowszego do poprawnego działania.
 
 ; Portuguese (Brazil)
 pt_BR.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -106,8 +106,8 @@ ru.WelcomeLabel2=Программа установит [name] на ваш ком
 ru.WinVersionTooLowError=[name] Эта программа требует Windows XP Service Pack 3 или выше.
 
 ; Slovak
-sk.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-sk.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+sk.WelcomeLabel2=Teraz sa nainštaluje [name] do Vášho počítača.%n%nPredtým než budete pokračovať, odporúčame ukončiť všetky ostatné programy.
+sk.WinVersionTooLowError=[name] vyžaduje pre svoje fungovanie systém Windows XP Service Pack 3 alebo novší.
 
 ; Slovenian
 sl.WelcomeLabel2=[name] bo nameščen na tem računalniku.%n%nPriporočamo, da zaprete vse ostale programa pred nadaljevanjem.
@@ -118,8 +118,8 @@ sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekomm
 sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
 
 ; Turkish
-tr.WelcomeLabel2=[name] oynatıcısı bilgisayarınıza kurulacaktır.%n%nDevam etmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
-tr.WinVersionTooLowError=[name] oynatıcısı kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
+tr.WelcomeLabel2=[name] medya dosyaları oynatıcısı bilgisayarınıza kurulacaktır.%n%nDevam etmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
+tr.WinVersionTooLowError=[name] kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
 
 ; Ukrainian
 uk.WelcomeLabel2=На ваш комп'ютер буде встановлено [name].%n%nРекомендується завершити роботу інших додатків перед продовженням.
@@ -289,18 +289,18 @@ eu.ViewChangelog=Ikusi Aldaketa-oharra
 
 ; French (France)
 fr.langid=00001036
-fr.comp_mpciconlib=Bibliothèque d'icône
+fr.comp_mpciconlib=Bibliothèque d'icônes
 fr.comp_mpcresources=Traductions
-fr.msg_DeleteSettings=Souhaitez-vous supprimer également les paramètres de MPC-HC?%n%nSi vous réinstallez MPC-HC, il est conseillé de ne pas les supprimer.
-fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution!
+fr.msg_DeleteSettings=Souhaitez-vous également supprimer les paramètres de MPC-HC ?%n%nSi vous prévoyez de réinstaller MPC-HC, il est conseillé de ne pas les supprimer.
+fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution !
 #if defined(sse_required)
-fr.msg_simd_sse=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE.%n%nVotre CPU n'a pas cette capacité.
+fr.msg_simd_sse=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE.%n%nVotre processeur ne supporte pas cette fonctionnalité.
 #elif defined(sse2_required)
-fr.msg_simd_sse2=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE2.%n%nVotre CPU n'a pas cette capacité.
+fr.msg_simd_sse2=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE2.%n%nVotre processeur ne supporte pas cette fonctionnalité.
 #endif
 fr.tsk_AllUsers=Pour tous les utilisateurs
-fr.tsk_CurrentUser=Pour l'utilisateur courant seulement
-fr.tsk_Other=Autres tâches:
+fr.tsk_CurrentUser=Pour l'utilisateur actuel uniquement
+fr.tsk_Other=Autres tâches :
 fr.tsk_ResetSettings=Réinitialisation des paramètres
 fr.types_DefaultInstallation=Installation par défaut
 fr.types_CustomInstallation=Installation personnalisée
@@ -443,7 +443,7 @@ nl.ViewChangelog=Bekijk Wijzigingsoverzicht
 pl.langid=00001045
 pl.comp_mpciconlib=Ikony plików multimedialnych
 pl.comp_mpcresources=Tłumaczenia
-pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC?%n%nJeśli planujesz ponownie zainstalować MPC-HC, wtedy nie trzeba ich usuwać.
+pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC?%n%nJeśli planujesz ponownie zainstalować MPC-HC, nie musisz ich usuwać.
 pl.msg_SetupIsRunningWarning=Instalator MPC-HC jest już uruchomiony!
 #if defined(sse_required)
 pl.msg_simd_sse=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE.%n%nTwój procesor ich nie obsługuje.
@@ -454,8 +454,8 @@ pl.tsk_AllUsers=Dla wszystkich użytkowników
 pl.tsk_CurrentUser=Tylko dla bieżącego użytkownika
 pl.tsk_Other=Inne zadania:
 pl.tsk_ResetSettings=Resetuj ustawienia
-pl.types_DefaultInstallation=Instalacja domyślna
-pl.types_CustomInstallation=Instalacja częściowa
+pl.types_DefaultInstallation=Instalacja standardowa
+pl.types_CustomInstallation=Instalacja niestandardowa
 pl.ViewChangelog=Pokaż zmiany
 
 ; Portuguese (Brazil)
@@ -576,15 +576,15 @@ sv.ViewChangelog=Visa ändringslogg
 tr.langid=00001055
 tr.comp_mpciconlib=Simge Kütüphanesi
 tr.comp_mpcresources=Çeviriler
-tr.msg_DeleteSettings=MPC-HC ayarlarını silmek istiyor musunuz?%n%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemeniz önerilir.
-tr.msg_SetupIsRunningWarning=MPC-HC kurulumu zaten çalışıyor.
+tr.msg_DeleteSettings=MPC-HC ayarlarını da silmek istiyor musunuz?%n%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemenizi öneririz.
+tr.msg_SetupIsRunningWarning=MPC-HC kurulumu zaten çalışıyor!
 #if defined(sse_required)
 tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz bu özelliği desteklemiyor.
 #elif defined(sse2_required)
 tr.msg_simd_sse2=Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz bu özelliği desteklemiyor.
 #endif
 tr.tsk_AllUsers=Tüm kullanıcılar için
-tr.tsk_CurrentUser=Sadece mevcut kullanıcı için
+tr.tsk_CurrentUser=Sadece geçerli kullanıcı için
 tr.tsk_Other=Diğer görevler:
 tr.tsk_ResetSettings=Ayarları sıfırla
 tr.types_DefaultInstallation=Varsayılan yükleme

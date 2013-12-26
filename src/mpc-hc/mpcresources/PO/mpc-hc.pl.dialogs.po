@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2013-12-17 21:55+0000\n"
+"PO-Revision-Date: 2013-12-17 23:58+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -154,7 +154,7 @@ msgstr "Otwieranie"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Proszę wprowadzić adres pliku znajdującego się na komputerze lokalnym bądź zdalnym."
+msgstr "Wprowadź adres pliku znajdującego się na komputerze lokalnym bądź zdalnym."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -666,7 +666,7 @@ msgstr "Korzystaj z możliwości paska zadań systemu Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Otwieraj kolejne pliki w folderze podczas nawigacji, gdy na liście odtwarzania znajduje się tylko jeden element."
+msgstr "Otwieraj kolejne pliki w folderze podczas nawigacji, gdy na liście odtwarzania znajduje się tylko jeden element"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -678,11 +678,11 @@ msgstr "Czcionka OSD:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Włącz obsługę wyświetlacza LCD Logitech (eksperymentalna)"
+msgstr "Włącz obsługę wyświetlacza LCD Logitech (eksperymentalne)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Ukrywaj wskaźnik myszy podczas odtwarzania w trybie okienkowym."
+msgstr "Ukrywaj wskaźnik myszy podczas odtwarzania w trybie okienkowym"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -778,7 +778,7 @@ msgstr "Nowa zakładka"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
-msgstr "Proszę wprowadzić nazwę zakładki:"
+msgstr "Wprowadź nazwę zakładki:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -862,7 +862,7 @@ msgstr "Powiększ (0.2÷3.0)"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Obsługa klawiszy multimedialnych"
+msgstr "Globalne klawisze multimedialne"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
@@ -870,7 +870,7 @@ msgstr "Zaznacz wszystkie"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Resetuj wybrane"
+msgstr "Resetuj zaznaczone"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -1502,11 +1502,11 @@ msgstr "W dół"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Zastosuj domyślny tryb po opuszczeniu tryb pełnoekranowego"
+msgstr "Zastosuj domyślny tryb po opuszczeniu trybu pełnoekranowego"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Przywróć rozdzielczość po wyłączaniu programu"
+msgstr "Przywróć rozdzielczość po wyłączeniu programu"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"

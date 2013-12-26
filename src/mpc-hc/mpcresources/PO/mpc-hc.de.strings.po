@@ -2,13 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# M T <michtrz@gmail.com>, 2013
+# Underground78, 2013
 # Underground78, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 21:37:25+0000\n"
-"PO-Revision-Date: 2013-12-17 21:40+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
+"PO-Revision-Date: 2013-12-24 11:40+0000\n"
+"Last-Translator: LuanMax <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -806,7 +808,7 @@ msgstr "Verbessert die Leistung auf Kosten der Kompatibilität einiger Renderer.
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr ""
+msgstr "Reduziert Tearing-Effekte. Allerdings werden dabei keine Steuerelemente angezeigt."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
@@ -1202,23 +1204,23 @@ msgstr "Stopp"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "L = R"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "L +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "R +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1930,7 +1932,7 @@ msgstr "Es werden Administratorrechte benötigt, um dem MPC-HC Dateierweitungen 
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "Der MPC-HC ist ein extrem schlanker, quelloffener Media-Player für Windows. Er unterstützt alle gängigen Audio- und Videoformate. Er ist zu 100% frei von Spyware und beinhaltet keinerlei Werbung oder zusätzliche Browser-Symbolleisten."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2458,11 +2460,11 @@ msgstr "Kein weiteres abspielbares Medium im aktuellen Ordner."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Die bereits geladene Datei ist die erste im Ordner."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "Die bereits geladene Datei ist die letzte im Ordner."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2538,7 +2540,7 @@ msgstr "Oben-hinten-rechts (TpBR)"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "Anzeigestatistik zurücksetzen"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -3066,11 +3068,11 @@ msgstr "Kontrast verringern"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Farbton erhöhen"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Farbton verringern"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"

@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 21:37:25+0000\n"
-"PO-Revision-Date: 2013-12-17 21:42+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
+"PO-Revision-Date: 2013-12-26 15:07+0000\n"
+"Last-Translator: mhikanik <mhikanik@users.sourceforge.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -178,7 +178,7 @@ msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr "Súbor bol pridaný do obľúbených"
+msgstr "Súbor bol pridaný do obľúbených položiek"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
@@ -494,11 +494,11 @@ msgstr "VMR 9 (v okne)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "VMR 7 (bezstratové)"
+msgstr "VMR 7 (bez vykresľovania)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "VMR 9 (bezstratové)"
+msgstr "VMR 9 (bez vykresľovania)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -1202,23 +1202,23 @@ msgstr "Stop"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "Ľ = P"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "Ľ +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "P +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1930,7 +1930,7 @@ msgstr "Program MPC-HC nemá oprávnenia, dostatočné na zmenu asociácií k fo
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "MPC-HC je mimoriadne kompaktný prehrávač médií, s otvoreným zdrojovým kódom, pre systémy Windows. Podporuje prehrávanie všetkých bežných formátov videa a zvuku. Je 100 % bezpečný a neobsahuje žiadny spyware, reklamy a ani dodatkové panely nástrojov od tretích strán."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2458,11 +2458,11 @@ msgstr "V aktuálnom priečinku sa nenachádza viac médií."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Prvý súbor z priečinka je už načítaný."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "Posledný súbor z priečinka je už načítaný."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2538,7 +2538,7 @@ msgstr "Horný pravý - vzadu"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "Obnoviť štatistiku zobrazenia"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -3066,11 +3066,11 @@ msgstr "Znížiť kontrast"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Zvýšiť sýtosť farieb"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Znížiť sýtosť farieb"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
