@@ -14,9 +14,8 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 *We care about keeping an open project open and free for contributions wherever they may come from.*
 
-<a href="https://scan.coverity.com/projects/259">
-  <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/259/badge.svg"/>
-</a>
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/259/badge.svg)](https://scan.coverity.com/projects/259)
+
 
 ## Main Features:
 * Option to remove [tearing](http://en.wikipedia.org/wiki/Screen_tearing)
