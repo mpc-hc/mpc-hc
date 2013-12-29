@@ -10,4 +10,14 @@
     <exclude>
         <path name="src/thirdparty/"/>
     </exclude>
+    <libraries>
+        <library>windows</library>
+    </libraries>
+    <suppressions>
+        <suppression>cstyleCast</suppression>
+        <suppression>redundantAssignment</suppression>
+        <suppression>unreadVariable</suppression>
+        <suppression>unusedPrivateFunction</suppression>
+        <suppression>variableScope</suppression>
+    </suppressions>
 </project>
