@@ -41,15 +41,15 @@ public:
     Vector Normal(Vector& a, Vector& b);
     float Angle(Vector& a, Vector& b);
     float Angle(const Vector& a);
-    void Angle(float& u, float& v); // returns spherical coords in radian, -M_PI_2 <= u <= M_PI_2, -M_PI <= v <= M_PI
-    Vector Angle();                 // does like prev., returns 'u' in 'ret.x', and 'v' in 'ret.y'
+    void Angle(float& u, float& v);     // returns spherical coords in radian, -M_PI_2 <= u <= M_PI_2, -M_PI <= v <= M_PI
+    Vector Angle();                     // does like prev., returns 'u' in 'ret.x', and 'v' in 'ret.y'
 
     Vector Unit();
     Vector& Unitalize();
     float Length();
-    float Sum();        // x + y + z
-    float CrossSum();   // xy + xz + yz
-    Vector Cross();     // xy, xz, yz
+    float Sum();                        // x + y + z
+    float CrossSum();                   // xy + xz + yz
+    Vector Cross();                     // xy, xz, yz
     Vector Pow(float exp);
 
     Vector& Min(const Vector& a);
@@ -63,8 +63,8 @@ public:
     Vector operator - ();
     float& operator [](size_t i);
 
-    float operator | (const Vector& v);   // dot
-    Vector operator % (const Vector& v);  // cross
+    float operator | (const Vector& v);     // dot
+    Vector operator % (const Vector& v);    // cross
 
     bool operator == (const Vector& v) const;
     bool operator != (const Vector& v) const;
@@ -98,8 +98,8 @@ public:
     Ray(Vector& p, Vector& d);
     void Set(const Vector& p, const Vector& d);
 
-    float GetDistanceFrom(Ray& r);      // r = plane
-    float GetDistanceFrom(Vector& v);   // v = point
+    float GetDistanceFrom(Ray& r);          // r = plane
+    float GetDistanceFrom(Vector& v);       // v = point
 
     Vector operator [](float t);
 };
@@ -127,16 +127,16 @@ public:
     void Initalize();
     void Initalize(Ray& r, Vector& s, bool isWorldToLocal = true);
 
-    void operator *= (const Vector& s);   // scale
-    void operator += (const Vector& t);   // translate
-    void operator <<= (const Vector& r);  // rotate
+    void operator *= (const Vector& s);     // scale
+    void operator += (const Vector& t);     // translate
+    void operator <<= (const Vector& r);    // rotate
 
-    void operator /= (const Vector& s);   // scale
-    void operator -= (Vector& t);   // translate
-    void operator >>= (Vector& r);  // rotate
+    void operator /= (const Vector& s);     // scale
+    void operator -= (Vector& t);           // translate
+    void operator >>= (Vector& r);          // rotate
 
     //  transformations
-    Vector operator < (Vector& n);  // normal
-    Vector operator << (const Vector& v); // vector
-    Ray operator << (Ray& r);       // ray
+    Vector operator < (Vector& n);          // normal
+    Vector operator << (const Vector& v);   // vector
+    Ray operator << (Ray& r);               // ray
 };

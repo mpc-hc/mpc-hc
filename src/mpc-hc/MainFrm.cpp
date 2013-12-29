@@ -766,8 +766,6 @@ CMainFrame::CMainFrame()
 
 CMainFrame::~CMainFrame()
 {
-    //m_owner.DestroyWindow();
-    //delete m_pFullscreenWnd; // double delete see CMainFrame::OnDestroy
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
