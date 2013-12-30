@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -51,7 +51,7 @@ void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
 {
     ASSERT(m_pMainFrame);
     ASSERT(WaitForSingleObject(m_pMainFrame->m_evClosePrivateFinished, 0) == WAIT_TIMEOUT);
-    if (m_pMainFrame->m_eMediaLoadState == MLS::CLOSING) {
+    if (m_pMainFrame->GetLoadState() == MLS::CLOSING) {
         m_pMainFrame->CloseMediaPrivate();
     }
     VERIFY(m_pMainFrame->m_evClosePrivateFinished.SetEvent());
@@ -77,7 +77,7 @@ void CGraphThread::OnOpen(WPARAM wParam, LPARAM lParam)
     TRACE(_T("--> CGraphThread::OnOpen on thread: %d\n"), GetCurrentThreadId());
     ASSERT(m_pMainFrame);
     ASSERT(WaitForSingleObject(m_pMainFrame->m_evOpenPrivateFinished, 0) == WAIT_TIMEOUT);
-    if (m_pMainFrame->m_eMediaLoadState == MLS::LOADING) {
+    if (m_pMainFrame->GetLoadState() == MLS::LOADING) {
         CAutoPtr<OpenMediaData> pOMD((OpenMediaData*)lParam);
         m_pMainFrame->OpenMediaPrivate(pOMD);
     }

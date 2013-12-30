@@ -373,6 +373,8 @@ private:
     CAutoPtr<SkypeMoodMsgHandler> m_pSkypeMoodMsgHandler;
     void SendNowPlayingToSkype();
 
+    MLS m_eMediaLoadState;
+
 public:
     void StartWebServer(int nPort);
     void StopWebServer();
@@ -416,7 +418,6 @@ public:
     CControlBar* m_pLastBar;
 
 protected:
-    MLS m_eMediaLoadState;
     bool m_bFirstPlay;
     bool m_bOpeningInAutochangedMonitorMode;
     bool m_bPausedForAutochangeMonitorMode;
@@ -938,7 +939,7 @@ public:
     bool        m_fSetChannelActive;
 
     void        SetLoadState(MLS eState);
-    MLS         GetLoadState();
+    MLS         GetLoadState() const;
     void        SetPlayState(MPC_PLAYSTATE iState);
     bool        CreateFullScreenWindow();
     void        SetupEVRColorControl();
