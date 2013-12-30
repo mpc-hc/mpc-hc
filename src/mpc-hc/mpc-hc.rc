@@ -2538,6 +2538,8 @@ BEGIN
     IDS_VOLUME              "%d%%"
     IDS_BOOST               "+%d%%"
     IDS_PLAYLIST_ADDFOLDER  "Add containing folder"
+    IDS_HW_INDICATOR        "[H/W]"
+    IDS_TOOLTIP_SOFTWARE_DECODING "Software Decoding"
 END
 
 STRINGTABLE
