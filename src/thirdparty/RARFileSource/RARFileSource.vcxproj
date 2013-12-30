@@ -61,8 +61,8 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\common.props" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <NOMINMAX>False</NOMINMAX>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -71,7 +71,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <EnablePREfast>false</EnablePREfast>
-      <UndefinePreprocessorDefinitions>NOMINMAX</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(OutDir)$(ProjectName).res</ResourceOutputFileName>
@@ -84,7 +83,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <EnablePREfast>false</EnablePREfast>
-      <UndefinePreprocessorDefinitions>NOMINMAX</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(OutDir)$(ProjectName).res</ResourceOutputFileName>
@@ -97,7 +95,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <EnablePREfast>false</EnablePREfast>
-      <UndefinePreprocessorDefinitions>NOMINMAX</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(OutDir)$(ProjectName).res</ResourceOutputFileName>
@@ -110,7 +107,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <EnablePREfast>false</EnablePREfast>
-      <UndefinePreprocessorDefinitions>NOMINMAX</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(OutDir)$(ProjectName).res</ResourceOutputFileName>

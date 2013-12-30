@@ -65,15 +65,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\common.props" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <NOMINMAX>False</NOMINMAX>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
-      <UndefinePreprocessorDefinitions>NOMINMAX;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>strmiids.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -84,7 +83,6 @@
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
-      <UndefinePreprocessorDefinitions>NOMINMAX;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>strmiids.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -95,7 +93,6 @@
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
-      <UndefinePreprocessorDefinitions>NOMINMAX;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>strmiids.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -106,7 +103,6 @@
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
-      <UndefinePreprocessorDefinitions>NOMINMAX;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>strmiids.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
