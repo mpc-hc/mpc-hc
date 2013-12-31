@@ -49,6 +49,7 @@
 #include <olectl.h>
 #include <ddraw.h>
 #include <mmsystem.h>
+#include <algorithm>
 
 
 #ifndef NUMELMS

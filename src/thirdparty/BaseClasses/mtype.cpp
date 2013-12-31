@@ -280,7 +280,7 @@ CMediaType::ReallocFormatBuffer(ULONG length)
 
     if (cbFormat != 0) {
         ASSERT(pbFormat);
-        memcpy(pNewFormat,pbFormat,min(length,cbFormat));
+        memcpy(pNewFormat,pbFormat,std::min(length,cbFormat));
         CoTaskMemFree((PVOID)pbFormat);
     }
 
