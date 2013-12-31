@@ -415,7 +415,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
             };
             if (bOnWindow && !testHovering() &&
                     ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED &&
-                    bOnWindow && !CMouse::PointEqualsImprecise(screenPoint, st.lastShowPoint) &&
+                    !CMouse::PointEqualsImprecise(screenPoint, st.lastShowPoint) &&
                     !m_pMainFrame->m_wndView.Dragging() && uTimeout > 0) {
                 // show when corresponding hide policy is used, not hovering, non-zero timeout, the cursor moved, and not dragging
                 mask.show(maskAll);
