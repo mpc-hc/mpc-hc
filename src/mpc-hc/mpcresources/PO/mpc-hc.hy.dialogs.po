@@ -186,8 +186,8 @@ msgid "About"
 msgstr "Ծրագրի մասին"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2013 see Authors.txt"
-msgstr "Copyright © 2002-2013, կարդացե՛ք Authors.txt ֆայլը"
+msgid "Copyright © 2002-2014 see Authors.txt"
+msgstr "Copyright © 2002-2014, կարդացե՛ք Authors.txt ֆայլը"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
