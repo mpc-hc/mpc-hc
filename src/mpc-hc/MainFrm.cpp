@@ -735,6 +735,8 @@ CMainFrame::CMainFrame()
     , m_bOpeningInAutochangedMonitorMode(false)
     , m_bPausedForAutochangeMonitorMode(false)
     , m_wndPlaylistBar(this)
+    , m_wndInfoBar(this)
+    , m_wndStatsBar(this)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
