@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,6 +26,7 @@
 #define TOOLTIP_SHOW_DELAY 100
 #define TOOLTIP_HIDE_TIMEOUT 3000
 #define HOVER_CAPTURED_TIMEOUT 100
+#define ADD_TO_BOTTOM_WITHOUT_CONTROLBAR 2
 
 IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
@@ -92,7 +93,7 @@ CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
     if (!m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
-        ret.cy += 2;
+        ret.cy += ADD_TO_BOTTOM_WITHOUT_CONTROLBAR;
     }
     return ret;
 }
@@ -182,27 +183,21 @@ void CPlayerSeekBar::CreateThumb(bool bEnabled, CDC& parentDC)
         pThumb->Draw3dRect(&r, light, shadow);
         r.DeflateRect(1, 1, 1, 1);
 
-        CBrush b(bkg);
-
-        pThumb->FrameRect(&r, &b);
-        r.DeflateRect(0, 1, 0, 1);
-        pThumb->FrameRect(&r, &b);
-
-        r.DeflateRect(1, 1, 0, 0);
-        pThumb->Draw3dRect(&r, shadow, bkg);
-
         if (bEnabled) {
-            r.DeflateRect(1, 1, 1, 2);
-            CPen whitePen(PS_INSIDEFRAME, 1, white);
-            CPen* old = pThumb->SelectObject(&whitePen);
-            pThumb->MoveTo(r.left, r.top);
-            pThumb->LineTo(r.right, r.top);
-            pThumb->MoveTo(r.left, r.bottom);
-            pThumb->LineTo(r.right, r.bottom);
-            pThumb->SelectObject(old);
-            pThumb->SetPixel(r.CenterPoint().x, r.top, 0);
-            pThumb->SetPixel(r.CenterPoint().x, r.bottom, 0);
+            pThumb->ExcludeClipRect(ri);
+            ri.InflateRect(0, 1, 0, 1);
+            pThumb->FillSolidRect(ri, white);
+            pThumb->SetPixel(ri.CenterPoint().x, ri.top, 0);
+            pThumb->SetPixel(ri.CenterPoint().x, ri.bottom - 1, 0);
         }
+        pThumb->ExcludeClipRect(ri);
+
+        ri.InflateRect(1, 1, 1, 1);
+        pThumb->Draw3dRect(&ri, shadow, bkg);
+        pThumb->ExcludeClipRect(ri);
+
+        CBrush b(bkg);
+        pThumb->FillRect(&r, &b);
     } else {
         ASSERT(FALSE);
     }
@@ -212,23 +207,34 @@ CRect CPlayerSeekBar::GetChannelRect() const
 {
     CRect r;
     GetClientRect(&r);
-    r.DeflateRect(8, 9, 9, 0);
-    r.bottom = r.top + 5;
+    r.top += 1;
+    if (m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
+        r.bottom += ADD_TO_BOTTOM_WITHOUT_CONTROLBAR;
+    }
+    CSize s(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
+    r.DeflateRect(s.cx, s.cy, s.cx, s.cy);
     return r;
 }
 
 CRect CPlayerSeekBar::GetThumbRect() const
 {
     const CRect channelRect(GetChannelRect());
-    long x = channelRect.left + ChannelPointFromPosition(m_rtPos);
-    long y = channelRect.CenterPoint().y;
-    return CRect(x - 6, y - 7, x + 7, y + 8);
+    const long x = channelRect.left + ChannelPointFromPosition(m_rtPos);
+    CSize s;
+    s.cy = m_pMainFrame->m_dpi.ScaleFloorY(5);
+    s.cx = m_pMainFrame->m_dpi.TransposeScaledY(channelRect.Height()) / 2 + s.cy;
+    CRect r(x + 1 - s.cx, channelRect.top - s.cy, x + s.cx, channelRect.bottom + s.cy);
+    return r;
 }
 
 CRect CPlayerSeekBar::GetInnerThumbRect(bool bEnabled, const CRect& thumbRect) const
 {
+    CSize s(m_pMainFrame->m_dpi.ScaleFloorX(4) - 1, m_pMainFrame->m_dpi.ScaleFloorY(5));
+    if (!bEnabled) {
+        s.cy -= 1;
+    }
     CRect r(thumbRect);
-    r.DeflateRect(3, bEnabled ? 5 : 4, 3, bEnabled ? 5 : 4);
+    r.DeflateRect(s.cx, s.cy, s.cx, s.cy);
     return r;
 }
 
@@ -283,10 +289,10 @@ void CPlayerSeekBar::UpdateToolTipPosition()
 
     if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
         point.x -= bubbleSize.cx / 2 - 2;
-        point.y = GetChannelRect().TopLeft().y - (bubbleSize.cy + 13);
+        point.y = GetChannelRect().TopLeft().y - (bubbleSize.cy + m_pMainFrame->m_dpi.ScaleY(13));
     } else {
-        point.x += 10;
-        point.y += 20;
+        point.x += m_pMainFrame->m_dpi.ScaleX(10);
+        point.y += m_pMainFrame->m_dpi.ScaleY(20);
     }
     point.x = max(0l, min(point.x, windowRect.Width() - bubbleSize.cx));
     ClientToScreen(&point);
