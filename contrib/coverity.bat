@@ -53,9 +53,23 @@ GOTO End
 
 
 :SevenZip
-"7za.exe" a -ttar "MPC-HC.tar" "cov-int"
-"7za.exe" a -tgzip "MPC-HC.tgz" "MPC-HC.tar"
+CALL :SubDetectSevenzipPath
+"%SEVENZIP%" a -ttar "MPC-HC.tar" "cov-int"
+"%SEVENZIP%" a -tgzip "MPC-HC.tgz" "MPC-HC.tar"
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
+
+
+:SubDetectSevenzipPath
+FOR %%G IN (7z.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
+IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
+
+FOR %%G IN (7za.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
+IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
+
+FOR /F "tokens=2*" %%A IN (
+  'REG QUERY "HKLM\SOFTWARE\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ" ^|^|
+   REG QUERY "HKLM\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO SET "SEVENZIP=%%B\7z.exe"
+EXIT /B
 
 
 :End
