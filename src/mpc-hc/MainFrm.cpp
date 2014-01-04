@@ -1222,7 +1222,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
         a = max(a, b);
     };
 
-    const long saneSize = 110; // TODO: make it dpi-aware
+    const long saneSize = 110;
 
     {
         // Begin with docked controls
