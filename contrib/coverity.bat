@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013 see Authors.txt
+REM (C) 2013-2014 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -53,13 +53,8 @@ GOTO End
 
 
 :SevenZip
-IF NOT EXIST "%PROGRAMFILES%\7za.exe" (
-  ECHO.
-  ECHO ERROR: "%PROGRAMFILES%\7za.exe" not found
-  GOTO End
-)
-"%PROGRAMFILES%\7za.exe" a -ttar "MPC-HC.tar" "cov-int"
-"%PROGRAMFILES%\7za.exe" a -tgzip "MPC-HC.tgz" "MPC-HC.tar"
+"7za.exe" a -ttar "MPC-HC.tar" "cov-int"
+"7za.exe" a -tgzip "MPC-HC.tgz" "MPC-HC.tar"
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
 
 

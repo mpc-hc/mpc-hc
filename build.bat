@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2009-2013 see Authors.txt
+REM (C) 2009-2014 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -524,10 +524,7 @@ EXIT /B
 
 
 :SubDetectSevenzipPath
-IF EXIST "%PROGRAMFILES%\7za.exe" (SET "SEVENZIP=%PROGRAMFILES%\7za.exe" & EXIT /B)
-IF EXIST "7za.exe"                (SET "SEVENZIP=7za.exe" & EXIT /B)
-
-FOR %%G IN (7z.exe)  DO (SET "SEVENZIP_PATH=%%~$PATH:G")
+FOR %%G IN (7z.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
 IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 
 FOR %%G IN (7za.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
