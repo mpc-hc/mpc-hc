@@ -590,7 +590,7 @@ msgid "Default video renderer filter for DirectShow. Others will fall back to th
 msgstr "DirectShow için varsayılan video dönüştürücüsüdür. Diğerleri yüklenemezlerse bu dönüştürücüye çevrileceklerdir. Windows XP 'de VMR-7 ile aynıdır (pencerede)."
 
 msgctxt "IDC_DSOLD"
-msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilies, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
+msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
 msgstr "Windows 9x/me/2k için varsayılan dönüştürücüdür. Video penceresi veya ekran kartınızın yeteneklerine göre, dinamik olarak GDI, DirectDraw, Ters Süzme kipleri arasında değiştirilecektir."
 
 msgctxt "IDC_DSOVERLAYMIXER"
@@ -802,7 +802,7 @@ msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls 
 msgstr "VMR-9 (çevrilmeden) kipini karıştırıcı olarak atar, böylece özellik sayfasındaki birçok ayar çalışacaktır ve çerçeveler ile çalışmak için ayrı bir işlem oluşturulabilinecektir."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
-msgid "Improves performance at the cost of some compatability of the renderer."
+msgid "Improves performance at the cost of some compatibility of the renderer."
 msgstr "Uyumluluğu düşürerek performansı arttırır."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"

@@ -590,7 +590,7 @@ msgid "Default video renderer filter for DirectShow. Others will fall back to th
 msgstr "DirectShow 的默认渲染滤镜。 如果其它渲染器因为某些原因无法被装载那么将会返回到此。在 Windows XP 下这等同于 VMR-7 (窗口化)。"
 
 msgctxt "IDC_DSOLD"
-msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilies, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
+msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
 msgstr "这是 Windows 9x/me/2k 的默认渲染器。根据视频窗口的可见度和您显卡的功能,它将会在 GDI, DirectDraw ,覆盖渲染模式之间动态切换。"
 
 msgctxt "IDC_DSOVERLAYMIXER"
@@ -802,7 +802,7 @@ msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls 
 msgstr "将 VMR-9 (未渲染) 放置到混合器模式中,这将会使许多在属性页由它所控制功能生效并且它将使用独立的工作线程来渲染画面。"
 
 msgctxt "IDC_DSVMR9YUVMIXER"
-msgid "Improves performance at the cost of some compatability of the renderer."
+msgid "Improves performance at the cost of some compatibility of the renderer."
 msgstr "改进某些兼容渲染器的性能。"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
