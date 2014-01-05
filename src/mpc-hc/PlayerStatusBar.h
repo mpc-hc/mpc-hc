@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,12 +23,15 @@
 
 #include "StatusLabel.h"
 
+class CMainFrame;
 
 // CPlayerStatusBar
 
 class CPlayerStatusBar : public CDialogBar
 {
     DECLARE_DYNAMIC(CPlayerStatusBar)
+
+    CMainFrame* m_pMainFrame;
 
     CStatic m_type;
     CStatusLabel m_status, m_time;
@@ -43,7 +46,7 @@ class CPlayerStatusBar : public CDialogBar
     void Relayout();
 
 public:
-    CPlayerStatusBar();
+    CPlayerStatusBar(CMainFrame* pMainFrame);
     virtual ~CPlayerStatusBar();
 
     void Clear();
