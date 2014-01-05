@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -203,6 +203,24 @@ public:
     afx_msg void OnAppAbout();
     afx_msg void OnFileExit();
     afx_msg void OnHelpShowcommandlineswitches();
+};
+
+class DPI final
+{
+    int m_dpix, m_dpiy;
+public:
+    DPI() {
+        HDC hDC = ::GetDC(nullptr);
+        m_dpix = GetDeviceCaps(hDC, LOGPIXELSX);
+        m_dpiy = GetDeviceCaps(hDC, LOGPIXELSY);
+        ::ReleaseDC(nullptr, hDC);
+    }
+    int ScaleFloorX(int x) { return x * m_dpix / 96; }
+    int ScaleFloorY(int y) { return y * m_dpiy / 96; }
+    int ScaleX(int x) { return MulDiv(x, m_dpix, 96); }
+    int ScaleY(int y) { return MulDiv(y, m_dpiy, 96); }
+    int TransposeScaledX(int x) { return MulDiv(x, m_dpiy, m_dpix); }
+    int TransposeScaledY(int y) { return MulDiv(y, m_dpix, m_dpiy); }
 };
 
 #define AfxGetAppSettings() static_cast<CMPlayerCApp*>(AfxGetApp())->m_s
