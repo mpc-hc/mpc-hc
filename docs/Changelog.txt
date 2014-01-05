@@ -28,7 +28,8 @@ next version - not released yet
     - internal video renderers now always use the latest supported shader profile to compile
       pixel shaders
 * More flexible auto-hide controls in fullscreen configuration options
-* Updated LAV Filters to 0.59.1.96:
+* Updated LAV Filters to 0.59.1.107:
+    - Ticket #3540, LAV Splitter: The current/average bitrate is now shown in the Information panel
     - Ticket #3760, LAV Video: Fix a crash when opening some DVDs on 64-bit
     - Ticket #3793, LAV Video: Fix a decoding issue with some H264 files
     - Ticket #3849, LAV Video: DXVA VC1/WMV3 decoding now works on Intel cards
