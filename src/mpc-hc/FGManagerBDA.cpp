@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1000,11 +1000,11 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
 HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
 {
     HRESULT hr = E_ABORT;
-    bool fRadioToTV = false;
+    bool bRadioToTV = false;
     const CAppSettings& s = AfxGetAppSettings();
     ClearMaps();
 
-    if ((s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) && (GetState() != State_Stopped)) {
+    if (s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS && GetState() != State_Stopped) {
         ChangeState(State_Stopped);
     }
 
@@ -1019,8 +1019,8 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
             UpdateMediaType(&sMpv_fmt, pChannel);
             hr = pDemux->SetOutputPinMediaType(L"mpv", const_cast<AM_MEDIA_TYPE*>(&mt_Mpv));
         }
-        if ((m_nCurVideoType != pChannel->GetVideoType()) || (s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS)) {
-            if ((s.nDVBStopFilterGraph == DVB_STOP_FG_WHEN_SWITCHING) && (GetState() != State_Stopped)) {
+        if (m_nCurVideoType != pChannel->GetVideoType() || GetState() == State_Stopped) {
+            if (s.nDVBStopFilterGraph == DVB_STOP_FG_WHEN_SWITCHING && GetState() != State_Stopped) {
                 ChangeState(State_Stopped);
             }
             if (FAILED(hr = SwitchStream(m_nCurVideoType, pChannel->GetVideoType()))) {
@@ -1030,7 +1030,7 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         }
 
         if (m_fHideWindow) {
-            fRadioToTV = true;
+            bRadioToTV = true;
         }
     } else {
         m_fHideWindow = true;
@@ -1042,7 +1042,6 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
             LOG(_T("Audio switchStream failed. Result: 0x%08x"), hr);
             return hr;
         }
-
     }
 
     if (GetState() == State_Stopped) {
@@ -1068,7 +1067,7 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         m_DVBStreams[DVB_AC3].GetMappedPID(), m_DVBStreams[DVB_EAC3].GetMappedPID(), m_DVBStreams[DVB_LATM].GetMappedPID());
     LOG(_T("Mapped PID Subtitles: %d."), m_DVBStreams[DVB_SUB].GetMappedPID());
 
-    if (fRadioToTV) {
+    if (bRadioToTV) {
         m_fHideWindow = false;
         Sleep(1800);
         ((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
