@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -6713,48 +6713,40 @@ void CMainFrame::OnPlayPlay()
         return;
     }
 
-    if (GetLoadState() == MLS::LOADED && GetMediaState() == State_Stopped) {
-        MoveVideoWindow(false, true);
-    }
-
     if (m_eMediaLoadState == MLS::LOADED) {
-        if (GetMediaState() == State_Stopped) {
-            m_dSpeedRate = 1.0;
-        }
+        // If playback was previously stopped or ended, we need to reset the window size
+        bool bVideoWndNeedReset = GetMediaState() == State_Stopped || m_fEndOfStream;
 
         if (GetPlaybackMode() == PM_FILE) {
             if (m_fEndOfStream) {
                 SendMessage(WM_COMMAND, ID_PLAY_STOP);
             }
             m_pMS->SetRate(m_dSpeedRate);
-            m_pMC->Run();
         } else if (GetPlaybackMode() == PM_DVD) {
-            double dRate = 1.0;
             m_dSpeedRate = 1.0;
 
-            m_pDVDC->PlayForwards(dRate, DVD_CMD_FLAG_Block, nullptr);
+            m_pDVDC->PlayForwards(m_dSpeedRate, DVD_CMD_FLAG_Block, nullptr);
             m_pDVDC->Pause(FALSE);
-            m_pMC->Run();
         } else if (GetPlaybackMode() == PM_CAPTURE) {
             m_pMC->Stop(); // audio preview won't be in sync if we run it from paused state
-            m_pMC->Run();
             if (s.iDefaultCaptureDevice == 1) {
                 CComQIPtr<IBDATuner> pTun = m_pGB;
                 if (pTun) {
+                    bVideoWndNeedReset = false; // SetChannel deals with MoveVideoWindow
                     m_fSetChannelActive = false;
                     SetChannel(s.nDVBLastChannel);
-                    if (s.nDVBStopFilterGraph != DVB_STOP_FG_ALWAYS) {
-                        SetTimersPlay();
-                    }
                 }
-            } else {
-                SetTimersPlay();
             }
         }
 
-        if (GetPlaybackMode() != PM_CAPTURE) {
-            SetTimersPlay();
+        if (bVideoWndNeedReset) {
+            MoveVideoWindow(false, true);
         }
+
+        // Restart playback
+        m_pMC->Run();
+        SetTimersPlay();
+
         if (m_fFrameSteppingActive) { // FIXME
             m_fFrameSteppingActive = false;
             m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
