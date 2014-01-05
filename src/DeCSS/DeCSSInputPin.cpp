@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include <atlbase.h>
+#include <algorithm>
 #include "BaseClasses/streams.h"
 #include <dvdmedia.h>
 #include <ks.h>
@@ -120,7 +121,7 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
 
             len -= 4;
             p += 4;
-            int expected = ((p[0] << 8) | p[1]);
+            long expected = ((p[0] << 8) | p[1]);
             len -= 2;
             p += 2;
             BYTE* p0 = p;
@@ -171,8 +172,8 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
             }
 
             if (expected > 0) {
-                expected -= (int)(p - p0);
-                len = min(expected, len);
+                expected -= (long)(p - p0);
+                len = std::min(expected, len);
             }
         }
     }

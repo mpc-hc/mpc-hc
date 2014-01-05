@@ -19,6 +19,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "EVRAllocatorPresenter.h"
 #include "OuterEVR.h"
 #include <Mferror.h>
@@ -199,7 +200,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
     // Bufferize frame only with 3D texture!
     if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
-        m_nNbDXSurface  = max(min(r.iEvrBuffers, MAX_VIDEO_SURFACES), 4);
+        m_nNbDXSurface  = std::max(std::min(r.iEvrBuffers, MAX_VIDEO_SURFACES), 4);
     } else {
         m_nNbDXSurface = 1;
     }
@@ -466,7 +467,7 @@ bool CEVRAllocatorPresenter::GetState(DWORD dwMilliSecsTimeout, FILTER_STATE* St
     CAutoLock lock(&m_SampleQueueLock);
 
     if (m_bSignaledStarvation) {
-        size_t nSamples = max(m_nNbDXSurface / 2, 1);
+        size_t nSamples = std::max(m_nNbDXSurface / 2, 1);
         if ((m_ScheduledSamples.GetCount() < nSamples || m_LastSampleOffset < -m_rtTimePerFrame * 2) && !g_bNoDuration) {
             *State = (FILTER_STATE)Paused;
             _ReturnValue = VFW_S_STATE_INTERMEDIATE;
@@ -1619,7 +1620,7 @@ void CEVRAllocatorPresenter::GetMixerThread()
     //}
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
 
     while (!bQuit) {
@@ -1744,7 +1745,7 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
     }
     if (TimeChangeM) {
         int Pos = m_ClockTimeChangeHistoryPos % 100;
-        int nHistory = min(m_ClockTimeChangeHistoryPos, 100);
+        int nHistory = std::min(m_ClockTimeChangeHistoryPos, 100);
         ++m_ClockTimeChangeHistoryPos;
         if (nHistory > 50) {
             int iLastPos = (Pos - (nHistory)) % 100;
@@ -1910,8 +1911,8 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool fAll, LONGLONG PerformanceCou
         for (int i = 0; i < NB_JITTER; i++) {
             LONGLONG Offset = m_pllSyncOffset[i];
             AvrageSum += Offset;
-            m_MaxSyncOffset = max(m_MaxSyncOffset, Offset);
-            m_MinSyncOffset = min(m_MinSyncOffset, Offset);
+            m_MaxSyncOffset = std::max(m_MaxSyncOffset, Offset);
+            m_MinSyncOffset = std::min(m_MinSyncOffset, Offset);
         }
         double MeanOffset = double(AvrageSum) / NB_JITTER;
         double DeviationSum = 0;
@@ -2019,7 +2020,7 @@ void CEVRAllocatorPresenter::RenderThread()
     }
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
     const CRenderersSettings& r = GetRenderersSettings();
 
@@ -2030,7 +2031,7 @@ void CEVRAllocatorPresenter::RenderThread()
         if (!r.m_AdvRendSets.bVMR9VSyncAccurate && NextSleepTime == 0) {
             NextSleepTime = 1;
         }
-        dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
+        dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, std::max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
         /*      dwObject = WAIT_TIMEOUT;
                 if (m_bEvtFlush)
                     dwObject = WAIT_OBJECT_0 + 1;
@@ -2207,9 +2208,9 @@ void CEVRAllocatorPresenter::RenderThread()
                                 if (m_FrameTimeCorrection && 0) {
                                     MinMargin = MIN_FRAME_TIME;
                                 } else {
-                                    MinMargin = MIN_FRAME_TIME + min(LONGLONG(m_DetectedFrameTimeStdDev), 20000);
+                                    MinMargin = MIN_FRAME_TIME + std::min(LONGLONG(m_DetectedFrameTimeStdDev), 20000ll);
                                 }
-                                LONGLONG TimePerFrameMargin = min(max(TimePerFrame * 2 / 100, MinMargin), TimePerFrame * 11 / 100); // (0.02..0.11)TimePerFrame
+                                LONGLONG TimePerFrameMargin = std::min(std::max(TimePerFrame * 2l / 100l, MinMargin), TimePerFrame * 11l / 100l); // (0.02..0.11)TimePerFrame
                                 LONGLONG TimePerFrameMargin0 = TimePerFrameMargin / 2;
                                 LONGLONG TimePerFrameMargin1 = 0;
 
@@ -2293,8 +2294,8 @@ void CEVRAllocatorPresenter::RenderThread()
                                     LONGLONG VSyncOffsetMin = 30000000000000;
                                     LONGLONG VSyncOffsetMax = -30000000000000;
                                     for (int i = 0; i < 5; ++i) {
-                                        VSyncOffsetMin = min(m_VSyncOffsetHistory[i], VSyncOffsetMin);
-                                        VSyncOffsetMax = max(m_VSyncOffsetHistory[i], VSyncOffsetMax);
+                                        VSyncOffsetMin = std::min(m_VSyncOffsetHistory[i], VSyncOffsetMin);
+                                        VSyncOffsetMax = std::max(m_VSyncOffsetHistory[i], VSyncOffsetMax);
                                     }
 
                                     m_VSyncOffsetHistory[m_VSyncOffsetHistoryPos] = VSyncOffset0;
@@ -2331,7 +2332,7 @@ void CEVRAllocatorPresenter::RenderThread()
                         if (bStepForward) {
                             MoveToFreeList(pMFSample, true);
                             CheckWaitingSampleFromMixer();
-                            m_MaxSampleDuration = max(SampleDuration, m_MaxSampleDuration);
+                            m_MaxSampleDuration = std::max(SampleDuration, m_MaxSampleDuration);
                         } else {
                             MoveToScheduledList(pMFSample, true);
                         }
@@ -2377,7 +2378,7 @@ void CEVRAllocatorPresenter::VSyncThread()
     //}
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     dwUser = timeBeginPeriod(dwResolution);
     const CRenderersData* rd = GetRenderersData();
     const CRenderersSettings& r = GetRenderersSettings();
@@ -2394,8 +2395,8 @@ void CEVRAllocatorPresenter::VSyncThread()
                 if (m_pD3DDev && r.m_AdvRendSets.bVMR9VSync) {
                     if (m_nRenderState == Started) {
                         int VSyncPos  = GetVBlackPos();
-                        int WaitRange = max(m_ScreenSize.cy / 40, 5);
-                        int MinRange  = max(min(int(0.003 * double(m_ScreenSize.cy) * double(m_RefreshRate) + 0.5), m_ScreenSize.cy / 3), 5); // 1.8  ms or max 33 % of Time
+                        int WaitRange = std::max(m_ScreenSize.cy / 40l, 5l);
+                        int MinRange  = std::max(std::min(long(0.003 * m_ScreenSize.cy * m_RefreshRate + 0.5), m_ScreenSize.cy / 3l), 5l); // 1.8  ms or max 33 % of Time
 
                         VSyncPos += MinRange + WaitRange;
 
@@ -2462,7 +2463,7 @@ void CEVRAllocatorPresenter::VSyncThread()
                             m_ldDetectedRefreshRateList[iPos] = nSeconds;
                             double Average = 0;
                             double AverageScanline = 0;
-                            int nPos = min(iPos + 1, 100);
+                            int nPos = std::min(iPos + 1, 100);
                             for (int i = 0; i < nPos; ++i) {
                                 Average += m_ldDetectedRefreshRateList[i];
                                 AverageScanline += m_ldDetectedScanlineRateList[i];
@@ -2672,7 +2673,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
             m_DetectedFrameTimeHistory[iPos] = Diff;
 
             if (m_DetectedFrameTimePos >= 10) {
-                int nFrames = min(m_DetectedFrameTimePos, 60);
+                int nFrames = std::min(m_DetectedFrameTimePos, 60);
                 LONGLONG DectedSum = 0;
                 for (int i = 0; i < nFrames; ++i) {
                     DectedSum += m_DetectedFrameTimeHistory[i];

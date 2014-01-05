@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "BufferFilter.h"
 #include "../../../DSUtil/DSUtil.h"
 
@@ -229,9 +230,9 @@ HRESULT CBufferFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
         return S_FALSE;
     }
 
-    memcpy(pDataOut, pDataIn, min(len, size));
+    memcpy(pDataOut, pDataIn, std::min(len, size));
 
-    pOut->SetActualDataLength(min(len, size));
+    pOut->SetActualDataLength(std::min(len, size));
 
     return S_OK;
 }
@@ -260,7 +261,7 @@ HRESULT CBufferFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 
     pAllocatorIn->GetProperties(pProperties);
 
-    pProperties->cBuffers = max(m_nSamplesToBuffer, pProperties->cBuffers);
+    pProperties->cBuffers = std::max<long>(m_nSamplesToBuffer, pProperties->cBuffers);
 
     HRESULT hr;
     ALLOCATOR_PROPERTIES Actual;

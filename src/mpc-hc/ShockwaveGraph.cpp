@@ -292,7 +292,7 @@ STDMETHODIMP CShockwaveGraph::put_Volume(long lVolume)
     } else {
         lVolume = (lVolume <= -10000) ? 0 : (long)(pow(10.0, lVolume / 4000.0) * 100);
         lVolume = lVolume * 0x10000 / 100;
-        lVolume = max(min(lVolume, 0xffff), 0);
+        lVolume = std::max(std::min(lVolume, LONG_MAX), 0l);
         waveOutSetVolume(0, (lVolume << 16) | lVolume);
     }
 
@@ -314,7 +314,7 @@ STDMETHODIMP CShockwaveGraph::get_Volume(long* plVolume)
         waveOutGetVolume(0, (DWORD*)plVolume);
         *plVolume = (*plVolume & 0xffff + ((*plVolume >> 16) & 0xffff)) / 2 * 100 / 0x10000;
         if (*plVolume > 0) {
-            *plVolume = min((long)(4000 * log10(*plVolume / 100.0f)), 0);
+            *plVolume = std::min((long)(4000 * log10(*plVolume / 100.0f)), 0l);
         } else {
             *plVolume = -10000;
         }

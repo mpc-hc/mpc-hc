@@ -23,6 +23,7 @@
 #include "VobSubImage.h"
 #include "RTS.h"
 #include <math.h>
+#include <algorithm>
 
 CVobSubImage::CVobSubImage()
     : iLang(-1)
@@ -139,7 +140,7 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize,
         nPlane = 1 - nPlane;
     }
 
-    rect.bottom = min(p.y, rect.bottom);
+    rect.bottom = std::min(p.y, rect.bottom);
 
     if (fTrim) {
         TrimSubImage();

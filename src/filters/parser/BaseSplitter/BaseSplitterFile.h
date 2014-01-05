@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #pragma once
 
 #include <atlcoll.h>
+#include <algorithm>
 
 #define DEFAULT_CACHE_LENGTH 64*1024    // Beliyaal: Changed the default cache length to allow Bluray playback over network
 
@@ -53,7 +54,7 @@ public:
     __int64 GetPos();
     __int64 GetAvailable();
     __int64 GetLength(bool fUpdate = false);
-    __int64 GetRemaining() { return max(0, GetLength() - GetPos()); }
+    __int64 GetRemaining() { return std::max(0ll, GetLength() - GetPos()); }
     virtual void Seek(__int64 pos);
 
     UINT64 UExpGolombRead();

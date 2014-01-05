@@ -37,6 +37,20 @@
 #include "mpc-hc_config.h"
 #include "DSUtil.h"
 
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <map>
+#include <set>
+#include <vector>
+
+// Workaround compilation errors when including GDI+ with NOMINMAX defined
+namespace Gdiplus
+{
+    using std::min;
+    using std::max;
+};
+
 #include <afxole.h>
 #include <atlcoll.h>
 #include <atlconv.h>
@@ -63,13 +77,6 @@
 #include <vmr9.h>
 
 #include <Il21dec.h>
-
-#include <algorithm>
-#include <cmath>
-#include <functional>
-#include <map>
-#include <set>
-#include <vector>
 
 #include "sizecbar/scbarg.h"
 #include "ResizableLib/ResizableDialog.h"

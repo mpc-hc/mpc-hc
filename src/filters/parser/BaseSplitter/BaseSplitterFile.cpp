@@ -104,7 +104,7 @@ __int64 CBaseSplitterFile::GetLength(bool fUpdate)
 void CBaseSplitterFile::Seek(__int64 pos)
 {
     __int64 len = GetLength();
-    m_pos = min(max(pos, 0), len);
+    m_pos = std::min(std::max(pos, 0ll), len);
     BitFlush();
 }
 
@@ -132,7 +132,7 @@ HRESULT CBaseSplitterFile::Read(BYTE* pData, __int64 len)
     BYTE* pCache = m_pCache;
 
     if (m_cachepos <= m_pos && m_pos < m_cachepos + m_cachelen) {
-        __int64 minlen = min(len, m_cachelen - (m_pos - m_cachepos));
+        __int64 minlen = std::min(len, m_cachelen - (m_pos - m_cachepos));
 
         memcpy(pData, &pCache[m_pos - m_cachepos], (size_t)minlen);
 
@@ -154,8 +154,8 @@ HRESULT CBaseSplitterFile::Read(BYTE* pData, __int64 len)
 
     while (len > 0) {
         __int64 tmplen = GetLength();
-        __int64 maxlen = min(tmplen - m_pos, m_cachetotal);
-        __int64 minlen = min(len, maxlen);
+        __int64 maxlen = std::min(tmplen - m_pos, m_cachetotal);
+        __int64 minlen = std::min(len, maxlen);
         if (minlen <= 0) {
             return S_FALSE;
         }

@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include <winioctl.h>
+#include <algorithm>
 #include "TextFile.h"
 #include "VobSubFile.h"
 #include "mpc-hc_config.h"
@@ -267,7 +268,7 @@ bool CVobSubFile::Copy(CVobSubFile& vsf)
                     k < packetsize - 4;
                     k += size, sizeleft -= size) {
                 int hsize = buff[0x16] + 0x18 + ((buff[0x15] & 0x80) ? 4 : 0);
-                size = min(sizeleft, 2048 - hsize);
+                size = std::min(sizeleft, 2048 - hsize);
 
                 if (size != sizeleft) {
                     while (vsf.m_sub.Read(buff, 2048)) {
@@ -341,7 +342,7 @@ bool CVobSubFile::Open(CString fn)
                 m_img.delay = j + 1 < sp.GetCount() ? sp[j + 1].start - sp[j].start : 3000;
                 m_img.GetPacketInfo(buff, packetsize, datasize);
                 if (j + 1 < sp.GetCount()) {
-                    m_img.delay = min(m_img.delay, sp[j + 1].start - sp[j].start);
+                    m_img.delay = std::min(m_img.delay, sp[j + 1].start - sp[j].start);
                 }
 
                 sp[j].stop = sp[j].start + m_img.delay;
@@ -905,9 +906,9 @@ bool CVobSubFile::ReadIfo(CString fn)
 
         y = (y - 16) * 255 / 219;
 
-        m_orgpal[i].rgbRed = (BYTE)min(max(1.0 * y + 1.4022 * (u - 128), 0), 255);
-        m_orgpal[i].rgbGreen = (BYTE)min(max(1.0 * y - 0.3456 * (u - 128) - 0.7145 * (v - 128), 0), 255);
-        m_orgpal[i].rgbBlue = (BYTE)min(max(1.0 * y + 1.7710 * (v - 128), 0) , 255);
+        m_orgpal[i].rgbRed = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y + 1.4022 * (u - 128)), 0u), 255u);
+        m_orgpal[i].rgbGreen = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y - 0.3456 * (u - 128) - 0.7145 * (v - 128)), 0u), 255u);
+        m_orgpal[i].rgbBlue = std::min<BYTE>(std::max<BYTE>(BYTE(1.0 * y + 1.7710 * (v - 128)), 0u) , 255u);
     }
 
     return true;
@@ -1159,7 +1160,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
         int i = 0, sizeleft = packetsize;
         for (int size; i < packetsize; i += size, sizeleft -= size) {
             int hsize = 0x18 + buff[0x16];
-            size = min(sizeleft, 0x800 - hsize);
+            size = std::min(sizeleft, 0x800 - hsize);
             memcpy(&ret[i], &buff[hsize], size);
 
             if (size != sizeleft) {
@@ -1207,7 +1208,7 @@ bool CVobSubFile::GetFrame(int idx, int iLang)
         bool ret = m_img.Decode(buff, packetsize, datasize, m_fCustomPal, m_tridx, m_orgpal, m_cuspal, true);
 
         if ((size_t)idx < (sp.GetCount() - 1)) {
-            m_img.delay = min(m_img.delay, sp[idx + 1].start - m_img.start);
+            m_img.delay = std::min(m_img.delay, sp[idx + 1].start - m_img.start);
         }
 
         if (!ret) {
@@ -1446,7 +1447,7 @@ static void PixelAtBiLinear(RGBQUAD& c, int x, int y, CVobSubImage& src)
         h = src.rect.Height();
 
     int x1 = (x >> 16), y1 = (y >> 16) * w,
-        x2 = min(x1 + 1, w - 1), y2 = min(y1 + w, (h - 1) * w);
+        x2 = std::min(x1 + 1, w - 1), y2 = std::min(y1 + w, (h - 1) * w);
 
     RGBQUAD* ptr = src.lpPixels;
 
@@ -1650,8 +1651,8 @@ void CVobSubSettings::SetAlignment(bool fAlign, int x, int y, int hor, int ver)
     if (fAlign) {
         m_org.x = MulDiv(m_size.cx, x, 100);
         m_org.y = MulDiv(m_size.cy, y, 100);
-        m_alignhor = min(max(hor, 0), 2);
-        m_alignver = min(max(ver, 0), 2);
+        m_alignhor = std::min(std::max(hor, 0), 2);
+        m_alignver = std::min(std::max(ver, 0), 2);
     } else {
         m_org.x = m_x;
         m_org.y = m_y;
@@ -1966,7 +1967,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
             }
         }
 
-        for (ptrdiff_t y = max(m_img.rect.top + 1, 2); y < m_img.rect.bottom - 1; y++) {
+        for (ptrdiff_t y = std::max(m_img.rect.top + 1, 2l); y < m_img.rect.bottom - 1; y++) {
             ASSERT(m_size.cy - y - 1 >= 0);
             if (m_size.cy - y - 1 < 0) {
                 break;
@@ -2196,7 +2197,7 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
             }
         }
 
-        for (ptrdiff_t y = max(m_img.rect.top + 1, 2); y < m_img.rect.bottom - 1; y++) {
+        for (ptrdiff_t y = std::max(m_img.rect.top + 1, 2l); y < m_img.rect.bottom - 1; y++) {
             ASSERT(m_size.cy - y - 1 >= 0);
             if (m_size.cy - y - 1 < 0) {
                 break;

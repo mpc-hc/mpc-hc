@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
@@ -439,7 +440,7 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
     size_t len = (size_t)dwBytesToRead;
 
     if (pos < sizeof(m_header) && len > 0) {
-        size_t l = (size_t)min(len, sizeof(m_header) - pos);
+        size_t l = std::min(len, size_t(sizeof(m_header) - pos));
         memcpy(pbBuffer, &((BYTE*)&m_header)[pos], l);
         pbBuffer += l;
         pos += l;
@@ -465,7 +466,7 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
                      &BytesReturned, 0);
         UNREFERENCED_PARAMETER(b);
 
-        size_t l = (size_t)min(min(len, size_t(RAW_SECTOR_SIZE - offset)), size_t(m_llLength - pos));
+        size_t l = (size_t)std::min(std::min(len, size_t(RAW_SECTOR_SIZE - offset)), size_t(m_llLength - pos));
         memcpy(pbBuffer, &buff[offset], l);
 
         pbBuffer += l;

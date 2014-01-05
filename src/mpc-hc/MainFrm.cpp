@@ -6491,15 +6491,15 @@ void CMainFrame::OnViewPanNScan(UINT nID)
     }
 
     if (dx < 0 && m_PosX > 0) {
-        m_PosX = max(m_PosX - 0.005 * m_ZoomX, 0);
+        m_PosX = max(m_PosX - 0.005 * m_ZoomX, 0.0);
     } else if (dx > 0 && m_PosX < 1) {
-        m_PosX = min(m_PosX + 0.005 * m_ZoomX, 1);
+        m_PosX = min(m_PosX + 0.005 * m_ZoomX, 1.0);
     }
 
     if (dy < 0 && m_PosY > 0) {
-        m_PosY = max(m_PosY - 0.005 * m_ZoomY, 0);
+        m_PosY = max(m_PosY - 0.005 * m_ZoomY, 0.0);
     } else if (dy > 0 && m_PosY < 1) {
-        m_PosY = min(m_PosY + 0.005 * m_ZoomY, 1);
+        m_PosY = min(m_PosY + 0.005 * m_ZoomY, 1.0);
     }
 
     MoveVideoWindow(true);
@@ -6568,10 +6568,10 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
         return;
     }
 
-    m_PosX = min(max(m_PosX, 0), 1);
-    m_PosY = min(max(m_PosY, 0), 1);
-    m_ZoomX = min(max(m_ZoomX, 0.2), 3);
-    m_ZoomY = min(max(m_ZoomY, 0.2), 3);
+    m_PosX = min(max(m_PosX, 0.0), 1.0);
+    m_PosY = min(max(m_PosY, 0.0), 1.0);
+    m_ZoomX = min(max(m_ZoomX, 0.2), 3.0);
+    m_ZoomY = min(max(m_ZoomY, 0.2), 3.0);
 
     MoveVideoWindow(true);
 }
@@ -8481,7 +8481,7 @@ public:
     // ISequentialStream
     STDMETHODIMP Read(void* pv, ULONG cb, ULONG* pcbRead) {
         __int64 cbRead = min((__int64)(m_data.GetCount() - m_pos), (__int64)cb);
-        cbRead = max(cbRead, 0);
+        cbRead = max(cbRead, 0ll);
         memcpy(pv, &m_data[(INT_PTR)m_pos], (int)cbRead);
         if (pcbRead) {
             *pcbRead = (ULONG)cbRead;
@@ -8769,7 +8769,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
     args.RemoveHeadNoReturn(); // desc / name
     _stscanf_s(args.RemoveHead(), _T("%I64d"), &rtStart);    // pos
     _stscanf_s(args.RemoveHead(), _T("%d"), &bRelativeDrive);    // relative drive
-    rtStart = max(rtStart, 0);
+    rtStart = max(rtStart, 0ll);
 
     // NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
     //       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
@@ -8944,8 +8944,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         GetClientRect(&clientRect);
 
         CSize logoSize = m_wndView.GetLogoSize();
-        logoSize.cx = max(logoSize.cx, DEFCLIENTW);
-        logoSize.cy = max(logoSize.cy, DEFCLIENTH);
+        logoSize.cx = max<LONG>(logoSize.cx, DEFCLIENTW);
+        logoSize.cy = max<LONG>(logoSize.cy, DEFCLIENTH);
 
         unsigned uTop, uLeft, uRight, uBottom;
         m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -9073,8 +9073,8 @@ void CMainFrame::RestoreDefaultWindowRect()
             GetClientRect(&clientRect);
 
             CSize logoSize = m_wndView.GetLogoSize();
-            logoSize.cx = max(logoSize.cx, DEFCLIENTW);
-            logoSize.cy = max(logoSize.cy, DEFCLIENTH);
+            logoSize.cx = max<LONG>(logoSize.cx, DEFCLIENTW);
+            logoSize.cy = max<LONG>(logoSize.cy, DEFCLIENTH);
 
             unsigned uTop, uLeft, uRight, uBottom;
             m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -9743,7 +9743,7 @@ void CMainFrame::ZoomVideoWindow(bool snap/* = true*/, double scale/* = ZOOM_DEF
 
     CRect r;
     GetWindowRect(r);
-    int w = 0, h = 0;
+    long w = 0, h = 0;
 
     if (!m_fAudioOnly) {
         CSize videoSize = GetVideoSize();
@@ -11034,7 +11034,7 @@ void CMainFrame::UpdateChapterInInfoBar()
             CComBSTR bstr;
             long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
             if (bstr.Length()) {
-                chapter.Format(_T("%s (%d/%lu)"), bstr.m_str, max(0, currentChap + 1), dwChapCount);
+                chapter.Format(_T("%s (%d/%lu)"), bstr.m_str, max(0l, currentChap + 1l), dwChapCount);
             } else {
                 chapter.Format(_T("%d/%lu"), currentChap + 1, dwChapCount);
             }

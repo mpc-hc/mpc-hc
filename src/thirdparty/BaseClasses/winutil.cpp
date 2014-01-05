@@ -2140,7 +2140,7 @@ HRESULT CImagePalette::MakeIdentityPalette(__inout_ecount_full(iColours) PALETTE
 
     // Set the non VGA entries so that GDI doesn't map them
 
-    for (UINT Count = PalLoCount;INT(Count) < min(PalHiStart,iColours);Count++) {
+    for (UINT Count = PalLoCount; INT(Count) < std::min(PalHiStart, iColours); Count++) {
         pEntry[Count].peFlags = PC_NOCOLLAPSE;
     }
     return NOERROR;

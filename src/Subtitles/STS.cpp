@@ -23,6 +23,7 @@
 #include "STS.h"
 #include <atlbase.h>
 #include "atl/atlrx.h"
+#include <algorithm>
 
 #include "RealTextParser.h"
 #include <fstream>
@@ -941,7 +942,7 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         if (c == 2) {
             if (fCheck2 && ret.GetCount()) {
                 STSEntry& stse = ret[ret.GetCount() - 1];
-                stse.end = min(stse.end, start);
+                stse.end = std::min(stse.end, start);
                 fCheck2 = false;
             }
 
@@ -1473,7 +1474,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 
                 if (sver <= 4)  {
                     style->colors[2] = style->colors[3];    // style->colors[2] is used for drawing the outline
-                    alpha = max(min(alpha, 0xff), 0);
+                    alpha = std::max(std::min(alpha, 0xff), 0);
                     for (size_t i = 0; i < 3; i++) {
                         style->alpha[i] = alpha;
                     }
@@ -1484,15 +1485,15 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                         style->alpha[i] = (BYTE)(style->colors[i] >> 24);
                         style->colors[i] &= 0xffffff;
                     }
-                    style->fontScaleX = max(style->fontScaleX, 0);
-                    style->fontScaleY = max(style->fontScaleY, 0);
+                    style->fontScaleX = std::max(style->fontScaleX, 0.0);
+                    style->fontScaleY = std::max(style->fontScaleY, 0.0);
                 }
                 style->fontAngleX = style->fontAngleY = 0;
                 style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
-                style->outlineWidthX = max(style->outlineWidthX, 0);
-                style->outlineWidthY = max(style->outlineWidthY, 0);
-                style->shadowDepthX = max(style->shadowDepthX, 0);
-                style->shadowDepthY = max(style->shadowDepthY, 0);
+                style->outlineWidthX = std::max(style->outlineWidthX, 0.0);
+                style->outlineWidthY = std::max(style->outlineWidthY, 0.0);
+                style->shadowDepthX = std::max(style->shadowDepthX, 0.0);
+                style->shadowDepthY = std::max(style->shadowDepthY, 0.0);
                 if (sver <= 4) {
                     style->scrAlignment = (style->scrAlignment & 4) ? ((style->scrAlignment & 3) + 6) // top
                                           : (style->scrAlignment & 8) ? ((style->scrAlignment & 3) + 3) // mid
@@ -1539,7 +1540,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                 }
                 Effect = WToT(GetStrW(buff));
 
-                int len = min(Effect.GetLength(), buff.GetLength());
+                int len = std::min(Effect.GetLength(), buff.GetLength());
                 if (Effect.Left(len) == WToT(buff.Left(len))) {
                     Effect.Empty();
                 }
@@ -1655,14 +1656,14 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                 style->marginRect.top = style->marginRect.bottom = GetInt(buff);
                 style->charSet = GetInt(buff);
 
-                style->fontScaleX = max(style->fontScaleX, 0);
-                style->fontScaleY = max(style->fontScaleY, 0);
-                style->fontSpacing = max(style->fontSpacing, 0);
+                style->fontScaleX = std::max(style->fontScaleX, 0.0);
+                style->fontScaleY = std::max(style->fontScaleY, 0.0);
+                style->fontSpacing = std::max(style->fontSpacing, 0.0);
                 style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
-                style->outlineWidthX = max(style->outlineWidthX, 0);
-                style->outlineWidthY = max(style->outlineWidthY, 0);
-                style->shadowDepthX = max(style->shadowDepthX, 0);
-                style->shadowDepthY = max(style->shadowDepthY, 0);
+                style->outlineWidthX = std::max(style->outlineWidthX, 0.0);
+                style->outlineWidthY = std::max(style->outlineWidthY, 0.0);
+                style->shadowDepthX = std::max(style->shadowDepthX, 0.0);
+                style->shadowDepthY = std::max(style->shadowDepthY, 0.0);
 
                 ret.AddStyle(StyleName, style);
             } catch (...) {

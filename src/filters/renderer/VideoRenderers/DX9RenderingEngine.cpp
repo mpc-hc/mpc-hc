@@ -50,7 +50,7 @@ static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
         v[i].x -= offset;
         v[i].y -= offset;
 
-        for (int j = 0; j < max(texcoords - 1, 1); j++) {
+        for (int j = 0; j < std::max(texcoords - 1, 1); j++) {
             v[i].t[j].u -= (float)(offset * dx);
             v[i].t[j].v -= (float)(offset * dy);
         }
@@ -358,7 +358,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
         // Custom pixel shaders
         bCustomPixelShaders = !m_pCustomPixelShaders.IsEmpty();
 
-        hr = InitTemporaryVideoTextures(min((int)m_pCustomPixelShaders.GetCount(), 2));
+        hr = InitTemporaryVideoTextures(std::min((int)m_pCustomPixelShaders.GetCount(), 2));
         if (FAILED(hr)) {
             bCustomPixelShaders = false;
         }
@@ -568,7 +568,7 @@ HRESULT CDX9RenderingEngine::InitScreenSpacePipeline(int passCount, IDirect3DSur
     m_ScreenSpacePassSrc = 0;
     m_ScreenSpacePassDest = 1;
 
-    HRESULT hr = InitTemporaryScreenSpaceTextures(min(passCount - 1, 2));
+    HRESULT hr = InitTemporaryScreenSpaceTextures(std::min(passCount - 1, 2));
 
     // If the initialized have failed, disable the pipeline
     if (FAILED(hr)) {
@@ -584,8 +584,8 @@ HRESULT CDX9RenderingEngine::InitTemporaryScreenSpaceTextures(int count)
 
     for (int i = 0; i < count; i++) {
         if (m_pTemporaryScreenSpaceTextures[i] == nullptr) {
-            m_TemporaryScreenSpaceTextureSize = CSize(min(m_ScreenSize.cx, (int)m_Caps.MaxTextureWidth),
-                                                min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_Caps.MaxTextureHeight));
+            m_TemporaryScreenSpaceTextureSize = CSize(std::min(m_ScreenSize.cx, (long)m_Caps.MaxTextureWidth),
+                                                std::min(std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), (long)m_Caps.MaxTextureHeight));
             hr = m_pD3DDev->CreateTexture(
                      m_TemporaryScreenSpaceTextureSize.cx,
                      m_TemporaryScreenSpaceTextureSize.cy,

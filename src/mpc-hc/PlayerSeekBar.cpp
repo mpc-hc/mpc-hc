@@ -152,7 +152,7 @@ void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
             InvalidateRect(newThumbRect | m_lastThumbRect);
         }
         if (bSetTaskbar && AfxGetAppSettings().fUseWin7TaskBar && m_pMainFrame->m_pTaskbarList) {
-            VERIFY(S_OK == m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, max(m_rtPos, 1), m_rtStop));
+            VERIFY(S_OK == m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, max(m_rtPos, 1ll), m_rtStop));
         }
     }
 }
@@ -288,7 +288,7 @@ void CPlayerSeekBar::UpdateToolTipPosition()
         point.x += 10;
         point.y += 20;
     }
-    point.x = max(0, min(point.x, windowRect.Width() - bubbleSize.cx));
+    point.x = max(0l, min(point.x, windowRect.Width() - bubbleSize.cx));
     ClientToScreen(&point);
 
     m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x, point.y));

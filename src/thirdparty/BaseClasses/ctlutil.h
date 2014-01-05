@@ -617,9 +617,9 @@ protected:
     virtual HRESULT ChangeStop() PURE;
     virtual HRESULT ChangeRate() PURE;
 
-    CRefTime m_rtDuration;      // length of stream
-    CRefTime m_rtStart;         // source will start here
-    CRefTime m_rtStop;          // source will stop here
+    REFERENCE_TIME m_rtDuration;    // length of stream
+    REFERENCE_TIME m_rtStart;       // source will start here
+    REFERENCE_TIME m_rtStop;        // source will stop here
     double m_dRateSeeking;
 
     // seeking capabilities

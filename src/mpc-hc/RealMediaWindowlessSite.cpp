@@ -601,10 +601,10 @@ STDMETHODIMP CRealMediaWindowlessSite::SetCursor(PNxCursor cursor, REF(PNxCursor
 
 void CRealMediaWindowlessSite::IntersectRect(const PNxRect* pRect, const PNxRect* pBox, PNxRect* pRetVal)
 {
-    pRetVal->left   = max(pRect->left, pBox->left);
-    pRetVal->top    = max(pRect->top, pBox->top);
-    pRetVal->right  = min(pRect->right, pBox->right);
-    pRetVal->bottom = min(pRect->bottom, pBox->bottom);
+    pRetVal->left   = std::max(pRect->left, pBox->left);
+    pRetVal->top    = std::max(pRect->top, pBox->top);
+    pRetVal->right  = std::min(pRect->right, pBox->right);
+    pRetVal->bottom = std::min(pRect->bottom, pBox->bottom);
 }
 
 // protected

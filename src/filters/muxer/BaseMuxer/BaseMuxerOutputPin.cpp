@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "BaseMuxerOutputPin.h"
 
 #include <MMReg.h>
@@ -364,7 +365,7 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 
         while (DataSizeLeft > 0) {
             int BytesAvail = 0x7ec - (fTimeValid ? 9 : 4);
-            int Size = min(BytesAvail, DataSizeLeft);
+            int Size = std::min(BytesAvail, DataSizeLeft);
             int Padding = 0x800 - Size - 20 - (fTimeValid ? 9 : 4);
 
             pBitStream->BitWrite(0x000001ba, 32);

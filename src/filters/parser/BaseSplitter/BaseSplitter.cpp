@@ -25,6 +25,7 @@
 #include "moreuuids.h"
 #include "../../switcher/AudioSwitcher/AudioSwitcher.h"
 #include "BaseSplitter.h"
+#include <algorithm>
 
 
 //
@@ -48,7 +49,7 @@ void CPacketQueue::Add(CAutoPtr<Packet> p)
             Packet* tail = GetTail();
             size_t oldsize = tail->GetCount();
             size_t newsize = tail->GetCount() + p->GetCount();
-            tail->SetCount(newsize, max(1024, (int)newsize)); // doubles the reserved buffer size
+            tail->SetCount(newsize, std::max(1024, (int)newsize)); // doubles the reserved buffer size
             memcpy(tail->GetData() + oldsize, p->GetData(), p->GetCount());
             /*
             GetTail()->Append(*p); // too slow
@@ -200,7 +201,7 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWS
     , m_rtStart(0)
 {
     m_mts.Copy(mts);
-    m_nBuffers = max(nBuffers, 1);
+    m_nBuffers = std::max(nBuffers, 1);
     ZeroMemory(&m_brs, sizeof(m_brs));
     m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
 }
@@ -214,7 +215,7 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilt
     , m_QueueMaxPackets(QueueMaxPackets)
     , m_rtStart(0)
 {
-    m_nBuffers = max(nBuffers, 1);
+    m_nBuffers = std::max(nBuffers, 1);
     ZeroMemory(&m_brs, sizeof(m_brs));
     m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
 }
@@ -256,13 +257,13 @@ HRESULT CBaseSplitterOutputPin::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATO
 
     HRESULT hr = NOERROR;
 
-    pProperties->cBuffers = max(pProperties->cBuffers, m_nBuffers);
-    pProperties->cbBuffer = max(m_mt.lSampleSize, 1);
+    pProperties->cBuffers = std::max<long>(pProperties->cBuffers, m_nBuffers);
+    pProperties->cbBuffer = std::max((long)m_mt.lSampleSize, 1l);
 
     // TODO: is this still needed ?
     if (m_mt.subtype == MEDIASUBTYPE_Vorbis && m_mt.formattype == FORMAT_VorbisFormat) {
         // oh great, the oggds vorbis decoder assumes there will be two at least, stupid thing...
-        pProperties->cBuffers = max(pProperties->cBuffers, 2);
+        pProperties->cBuffers = std::max(pProperties->cBuffers, 2l);
     }
 
     ALLOCATOR_PROPERTIES Actual;

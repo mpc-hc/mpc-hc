@@ -101,7 +101,7 @@ HRESULT CDSMSplitterFile::Init(IDSMResourceBagImpl& res, IDSMChapterBagImpl& cha
         int limit = MAX_PROBE_SIZE;
 
         for (int i = 1, j = (int)((GetLength() + limit / 2) / limit); i <= j; i++) {
-            __int64 seekpos = max(0, (__int64)GetLength() - i * limit);
+            __int64 seekpos = std::max(0ll, GetLength() - i * limit);
             Seek(seekpos);
 
             while (Sync(type, len, limit) && GetPos() < seekpos + limit) {
@@ -110,7 +110,7 @@ HRESULT CDSMSplitterFile::Init(IDSMResourceBagImpl& res, IDSMChapterBagImpl& cha
                 if (type == DSMP_SAMPLE) {
                     Packet p;
                     if (Read(len, &p, false) && p.rtStart != Packet::INVALID_TIME) {
-                        m_rtDuration = max(m_rtDuration, p.rtStop - m_rtFirst); // max isn't really needed, only for safety
+                        m_rtDuration = std::max(m_rtDuration, p.rtStop - m_rtFirst); // max isn't really needed, only for safety
                         i = j;
                     }
                 } else if (type == DSMP_SYNCPOINTS) {
@@ -341,7 +341,7 @@ __int64 CDSMSplitterFile::FindSyncPoint(REFERENCE_TIME rt)
                 if (Read(len, &p, false) && p.rtStart != Packet::INVALID_TIME) {
                     REFERENCE_TIME dt = (p.rtStart -= m_rtFirst) - rt;
                     if (dt >= 0) {
-                        maxpos = max((__int64)syncpos - MAX_PROBE_SIZE, minpos);
+                        maxpos = std::max((__int64)syncpos - MAX_PROBE_SIZE, minpos);
                     } else {
                         minpos = syncpos;
                     }
@@ -397,7 +397,7 @@ __int64 CDSMSplitterFile::FindSyncPoint(REFERENCE_TIME rt)
     __int64 ret = maxpos;
 
     while (maxpos > 0 && !ids.IsEmpty()) {
-        minpos = max(0, maxpos - MAX_PROBE_SIZE);
+        minpos = std::max(0ll, maxpos - MAX_PROBE_SIZE);
 
         Seek(minpos);
 
@@ -410,7 +410,7 @@ __int64 CDSMSplitterFile::FindSyncPoint(REFERENCE_TIME rt)
                     BYTE id = (BYTE)p.TrackNumber, tmp;
                     if (ids.Lookup(id, tmp)) {
                         ids.RemoveKey((BYTE)p.TrackNumber);
-                        ret = min(ret, (__int64)syncpos);
+                        ret = std::min(ret, (__int64)syncpos);
                     }
                 }
             }

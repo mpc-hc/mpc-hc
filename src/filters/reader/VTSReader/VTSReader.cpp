@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "../../../DeCSS/VobFile.h"
 #include "VTSReader.h"
 #include "../../../DSUtil/DSUtil.h"
@@ -233,7 +234,7 @@ HRESULT CVTSStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
             break;
         }
 
-        int size = min(2048 - m_off, (int)min(len, 2048));
+        int size = std::min(2048 - m_off, (int)std::min(len, 2048ul));
 
         memcpy(ptr, &buff[m_off], size);
 

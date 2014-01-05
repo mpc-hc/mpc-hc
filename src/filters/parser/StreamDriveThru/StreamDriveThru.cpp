@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "StreamDriveThru.h"
 #include "../../../DSUtil/DSUtil.h"
 
@@ -163,7 +164,7 @@ DWORD CStreamDriveThruFilter::ThreadProc()
                                 break;
                             }
 
-                            LONG size = (LONG)min(PACKETSIZE, total - m_position);
+                            LONG size = std::min<LONG>(PACKETSIZE, LONG(total - m_position));
                             if (FAILED(pAsyncReader->SyncRead(m_position, size, buff))) {
                                 cmd = CMD_STOP;
                                 break;

@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-
+#include <algorithm>
 #include <math.h>
 #include <MMReg.h>
 #include "AudioSwitcher.h"
@@ -167,7 +167,7 @@ __forceinline void mix<int, INT64, INT24_MIN, INT24_MAX>(DWORD mask, int ch, int
         }
     }
 
-    sum = min(max(sum, INT24_MIN), INT24_MAX);
+    sum = std::min<INT64>(std::max<INT64>(sum, INT24_MIN), INT24_MAX);
 
     memcpy(dst, (BYTE*)&sum, 3);
 }

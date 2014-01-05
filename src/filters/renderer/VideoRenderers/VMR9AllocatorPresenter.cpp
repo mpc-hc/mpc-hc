@@ -19,6 +19,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include "RenderersSettings.h"
 #include "VMR9AllocatorPresenter.h"
 #include "OuterVMR.h"
@@ -239,7 +240,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
     if (m_nVMR9Surfaces && m_nVMR9Surfaces != (int)*lpNumBuffers) {
         m_nVMR9Surfaces = *lpNumBuffers;
     }
-    *lpNumBuffers = min(nOriginal, *lpNumBuffers);
+    *lpNumBuffers = std::min(nOriginal, *lpNumBuffers);
     m_iVMR9Surface = 0;
 
     return hr;

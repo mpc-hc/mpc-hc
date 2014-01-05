@@ -802,8 +802,8 @@ STDMETHODIMP CRealMediaGraph::put_Volume(long lVolume)
         return E_UNEXPECTED;
     }
 
-    UINT16 volume = (lVolume <= -10000) ? 0 : (UINT16)(pow(10.0, lVolume / 4000.0) * 100);
-    volume = max(min(volume, 100), 0);
+    UINT16 volume = (lVolume <= -10000) ? 0 : UINT16(pow(10.0, lVolume / 4000.0) * 100);
+    volume = max<UINT16>(min<UINT16>(volume, 100u), 0u);
 
     return PNR_OK == m_pRMP->m_pVolume->SetVolume(volume) ? S_OK : E_FAIL;
 }
@@ -818,7 +818,7 @@ STDMETHODIMP CRealMediaGraph::get_Volume(long* plVolume)
 
     *plVolume = (long)m_pRMP->m_pVolume->GetVolume(); // [?..100]
     if (*plVolume > 0) {
-        *plVolume = min((long)(4000 * log10(*plVolume / 100.0f)), 0);
+        *plVolume = min(long(4000 * log10(*plVolume / 100.0f)), 0l);
     } else {
         *plVolume = -10000;
     }

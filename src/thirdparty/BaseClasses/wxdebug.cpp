@@ -160,7 +160,7 @@ void WINAPI DbgInitKeyLevels(HKEY hKey, bool fTakeMax)
         }
         if(fTakeMax)
         {
-            m_Levels[lKeyPos] = max(dwKeyValue,m_Levels[lKeyPos]);
+            m_Levels[lKeyPos] = std::max(dwKeyValue, m_Levels[lKeyPos]);
         }
         else
         {

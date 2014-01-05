@@ -98,9 +98,9 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
     CGolombBuffer GBuffer(m_pRLEData, m_nRLEDataSize);
     BYTE  bSwitch;
     BYTE  nPaletteIndex = 0;
-    short nCount;
-    short nX = m_horizontal_position;
-    short nY = m_vertical_position;
+    LONG nCount;
+    LONG nX = m_horizontal_position;
+    LONG nY = m_vertical_position;
 
     while ((nY < (m_vertical_position + m_height)) && !GBuffer.IsEOF()) {
         BYTE bTemp = GBuffer.ReadByte();

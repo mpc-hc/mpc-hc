@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <algorithm>
 #include <MMReg.h>
 #include "BaseMuxer.h"
 #include "../../../DSUtil/DSUtil.h"
@@ -248,7 +249,7 @@ STDMETHODIMP CBaseMuxerInputPin::Receive(IMediaSample* pSample)
             pPacket->flags |= MuxerPacket::bogus;
         }
 
-        m_rtMaxStart = max(m_rtMaxStart, pPacket->rtStart);
+        m_rtMaxStart = std::max(m_rtMaxStart, pPacket->rtStart);
     } else if (pPacket->flags & MuxerPacket::syncpoint) {
         pPacket->flags &= ~MuxerPacket::syncpoint;
         pPacket->flags |= MuxerPacket::bogus;
