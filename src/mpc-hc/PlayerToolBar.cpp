@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,6 +36,7 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_nButtonHeight(16)
     , m_pButtonsImages(nullptr)
+    , m_volumeMinSizeInc(0)
 {
 }
 
@@ -138,16 +139,21 @@ void CPlayerToolBar::ArrangeControls()
     CRect r10;
     GetItemRect(10, &r10);
 
-    CRect vr;
-    m_volctrl.GetClientRect(&vr);
-    CRect vr2(r.right + br.right - 60, r.bottom - 25, r.right + br.right + 6, r.bottom);
-    m_volctrl.MoveWindow(vr2);
+    CRect vr(r.right + br.right - 60, r.top - 2, r.right + br.right + 6, r.bottom);
+    m_volctrl.MoveWindow(vr);
+
+    CRect thumbRect;
+    m_volctrl.GetThumbRect(thumbRect);
+    m_volctrl.MapWindowPoints(this, thumbRect);
+    vr.top += std::max((r.bottom - thumbRect.bottom - 4) / 2, 0l);
+    vr.left -= m_volumeMinSizeInc = MulDiv(thumbRect.Height(), 50, 19) - 50;
+    m_volctrl.MoveWindow(vr);
 
     UINT nID;
     UINT nStyle;
     int iImage;
     GetButtonInfo(12, nID, nStyle, iImage);
-    SetButtonInfo(11, GetItemID(11), TBBS_SEPARATOR, vr2.left - iImage - r10.right - (r10.bottom - r10.top) + 11);
+    SetButtonInfo(11, GetItemID(11), TBBS_SEPARATOR, vr.left - iImage - r10.right - (r10.bottom - r10.top) + 11);
 }
 
 void CPlayerToolBar::SetMute(bool fMute)
@@ -186,7 +192,7 @@ int CPlayerToolBar::GetVolume() const
 
 int CPlayerToolBar::GetMinWidth() const
 {
-    return m_nButtonHeight * 9 + 155;
+    return m_nButtonHeight * 9 + 155 + m_volumeMinSizeInc;
 }
 
 void CPlayerToolBar::SetVolume(int volume)

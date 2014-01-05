@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -100,10 +100,12 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     CDC dc;
                     dc.Attach(pNMCD->hdc);
 
-                    CRect r;
-                    GetClientRect(r);
-                    r.DeflateRect(8, 4, 10, 6);
-                    CopyRect(&pNMCD->rc, &r);
+                    CRect channelRect;
+                    GetChannelRect(channelRect);
+                    CRect thumbRect;
+                    GetThumbRect(thumbRect);
+
+                    CopyRect(&pNMCD->rc, CRect(channelRect.left, thumbRect.top + 2, channelRect.right - 2, thumbRect.bottom - 2));
                     CPen shadow(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
                     CPen light(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
                     CPen* old = dc.SelectObject(&light);
