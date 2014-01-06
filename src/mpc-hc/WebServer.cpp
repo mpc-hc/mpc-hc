@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -146,7 +146,7 @@ void CWebServer::Init()
             ULONG len2 = _countof(ext);
             if (ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
                     && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len2)) {
-                m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
+                m_mimes[CStringA(CString(ext).MakeLower())] = CStringA(CString(buff).MakeLower());
             }
         }
     }
