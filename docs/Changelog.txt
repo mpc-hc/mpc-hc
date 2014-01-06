@@ -20,6 +20,9 @@ next version - not released yet
 + New option to auto-hide docked panels together with toolbars
 + Support pixel shader presets (with shortcuts and command line options)
 + Show more descriptive window title in the capture mode
+* Optimized subtitle renderer:
+    - performance has been greatly improved both for subtitle parsing and rendering (often 5 times faster or more)
+    - some subtitles which might have been missing before will now be displayed
 * The storing mechanism of pixel shaders was redesigned:
     - each pixel shader is now stored in its own file with .hlsl extension
     - shader files are reloaded automatically when MPC-HC detects changes in them
