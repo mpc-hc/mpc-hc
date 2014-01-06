@@ -78,8 +78,8 @@ it.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 it.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ; Japanese
-ja.WelcomeLabel2=このプログラムはあなたのコンピュータの上に[name]をインストールします。%n%nセットアップを続ける前に他のすべてのアプリを閉じることを推奨します。
-ja.WinVersionTooLowError=[name] を実行する為に Windows XP Service Pack 3 以降が必要です。
+ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に[name]をインストールします。%n%nセットアップを続行する前に他のすべてのアプリを閉じることを推奨します。
+ja.WinVersionTooLowError=[name] を実行する為には Windows XP Service Pack 3 以降が必要です。
 
 ; Korean
 ko.WelcomeLabel2=이 설치프로그램은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
@@ -384,17 +384,17 @@ it.ViewChangelog=Visualizza Changelog
 
 ; Japanese
 ja.langid=00001041
-ja.comp_mpciconlib=アイコン ライブラリー
+ja.comp_mpciconlib=アイコンライブラリ
 ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
-ja.msg_SetupIsRunningWarning=MPC-HC のインストーラーは既に実行されています！
+ja.msg_SetupIsRunningWarning=MPC-HC のインストーラは既に実行されています！
 #if defined(sse_required)
-ja.msg_simd_sse=このバージョンの MPC-HC は CPU の SSE サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
+ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
 #elif defined(sse2_required)
-ja.msg_simd_sse2=このバージョンの MPC-HC は CPU の SSE2 サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
+ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
 #endif
-ja.tsk_AllUsers=全てのユーザーにインストールする。
-ja.tsk_CurrentUser=現在実行しているユーザーだけにインストールする。
+ja.tsk_AllUsers=全てのユーザーにインストールする
+ja.tsk_CurrentUser=現在実行しているユーザーにのみインストールする
 ja.tsk_Other=他のタスク :
 ja.tsk_ResetSettings=設定を初期化する
 ja.types_DefaultInstallation=デフォルト インストール

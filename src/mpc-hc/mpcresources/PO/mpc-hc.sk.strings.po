@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# mhikanik <mhikanik@users.sourceforge.net>, 2013
+# mhikanik <mhikanik@users.sourceforge.net>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
-"PO-Revision-Date: 2013-12-26 15:07+0000\n"
+"PO-Revision-Date: 2014-01-06 11:31+0000\n"
 "Last-Translator: mhikanik <mhikanik@users.sourceforge.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -138,7 +138,7 @@ msgstr "Neodporúča sa. Slúži iba na testovacie účely."
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
-msgstr "Nikdy, ak je to možné (najrýchlejšie, ale nie je podporované väčšinou filtrov)"
+msgstr "Nikdy, ak je to možné (najrýchlejšie, ale nepodporované väčšinou filtrov)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
@@ -146,7 +146,7 @@ msgstr "Len pri prepínaní rôznych typov videa (predvolené)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr "Vždy (niektoré zariadenia môžu vyžadovať túto možnosť)"
+msgstr "Vždy (vyžadované niektorými zariadeniami)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
@@ -190,7 +190,7 @@ msgstr "Nastavenia zaznamenávania"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
-msgstr "Navigačná lišta"
+msgstr "Navigačný panel"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
@@ -246,7 +246,7 @@ msgstr "Naživo"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "Do grafu nemožno pridať filter pre zaznamenávanie zvuku"
+msgstr "Do grafu nemožno pridať filter pre zaznamenávanie videa"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
@@ -450,7 +450,7 @@ msgstr "Vyladenie"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Interné filtre::Filter zvuku"
+msgstr "Interné filtre::Prepínač zvuku"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -462,7 +462,7 @@ msgstr "Prehrávanie::Shadery"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Filter zvuku"
+msgstr "Prepínač zvuku"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -494,11 +494,11 @@ msgstr "VMR 9 (v okne)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "VMR 7 (bez vykresľovania)"
+msgstr "VMR 7 (bez vykreslenia)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "VMR 9 (bez vykresľovania)"
+msgstr "VMR 9 (bez vykreslenia)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -574,7 +574,7 @@ msgstr "Prehrávanie::Nastavenie vykresľovania a synchronizácie"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Prehrávanie::Celoobrazovkový režim"
+msgstr "Prehrávanie::Režim na celú obrazovku"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -590,43 +590,43 @@ msgstr "Predvolený filter pre vykresľovanie videa pri použití DirectShow. V 
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "Predvolené vykresľovanie v systémoch Windows 9x/me/2k. V závislosti od viditeľnosti okna s videom a od grafickej karty sa aktivuje aj niektorá z funkcií GDI, DirectDraw, Overlay."
+msgstr "Predvolené vykresľovanie v systémoch Windows 9x/me/2k. V závislosti od viditeľnosti okna s videom a od grafickej karty sa dynamicky prepína aj niektorý z režimov vykresľovania GDI, DirectDraw, Overlay."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Vždy sa bude vykresľovať aj prekrývanie objektov. Povolené sú len formáty YUV, ktoré však sú zobrazované priamo, bez konverzie na RGB. Toto je najrýchlejšia metóda vykresľovania zo všetkých. Pri použití tejto metódy si môžete byť istí, že sa video v celoobrazovkovom režime zobrazí aj na výstupe tv-out."
+msgstr "Vždy sa bude vykresľovať prekrývanie. Povolené sú len formáty YUV, ktoré však sú zobrazované priamo, bez konverzie farieb na RGB. Toto je najrýchlejšia metóda vykresľovania. Pri použití tejto metódy si môžete byť istí, že sa video na celú obrazovku zobrazí aj na výstupe TV-out."
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Predvolené vykresľovanie systému Windows XP. Tento kodek je pomerne stabilný, je však trošku pomalší ako Overlay mixer. Používa sa funkcia DirectDraw a ak funkcia Overlay, ak je podporovaná."
+msgstr "Predvolené vykresľovanie systému Windows XP. Tento kodek je veľmi stabilný, je však trochu pomalší ako Overlay mixer. Používa sa funkcia DirectDraw a funkcia Overlay, ak je podporovaná."
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Táto funkcia je dostupná, len ak je v systéme nainštalovaný DirectX 9. Má rovnaké schopnosti ako kodek VMR-7 (s vykresľovaním v okne), ale nikdy sa nepoužíva vykresľovania videa s prekrývaním. Preto má tento kodek pomalšie vykresľovanie ako VMR-7 (s vykresľovaním v okne)."
+msgstr "Dostupné len ak je v systéme nainštalovaný DirectX 9. Má rovnaké schopnosti ako VMR-7 (s vykresľovaním v okne), ale nikdy sa nepoužíva vykresľovania videa s prekrývaním. Preto môže mať tento kodek pomalšie vykresľovanie ako VMR-7 (s vykresľovaním v okne)."
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "To isté ako VMR-7 (s vykresľovaním v okne), ale použije sa aj prídavný modul Allocator-Presenter, pre podporu titulkovania. Zrkadlenie videa s prekrytím NEBUDE funkčné. Odporúčame nastaviť farby zobrazenia na hodnotu 'True Color'."
+msgstr "Rovnaké ako VMR-7 (v okne), ale použije sa aj modul Allocator-Presenter, pre podporu titulkovania. Zrkadlenie videa s prekrytím NEBUDE funkčné. Odporúčame nastaviť farby na hodnotu \"True Color\"."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "To isté ako VMR-9 (s vykresľovaním v okne), ale použije sa aj prídavný modul Allocator-Presenter, pre podporu titulkovania. Zrkadlenie videa s prekrytím MôŽE byť funkčné. Odporúčame nastaviť farby zobrazenia na hodnotu 'True Color'."
+msgstr "Rovnaké ako VMR-9 (v okne), ale použije sa aj modul Allocator-Presenter, pre podporu titulkovania. Zrkadlenie videa s prekrytím MÔŽE fungovať. Odporúčame nastaviť farby na hodnotu \"True Color\". Odporúča sa pre Windows XP."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "Rovnaké ako VMR-9 (bezstratové), ale používa skutočnú dvojprechodovú zmenu veľkosti."
+msgstr "Rovnaké ako VMR-9 (bez vykreslenia), ale používa dvojprechodovú, bikubickú zmenu veľkosti."
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "Pripája sa k videu, neodosiela však prichádzajúce pakety. Môžete ho použiť vtedy, ak nepotrebujete obrazový výstup videa a chcete obmedziť zbytočnú prácu procesora."
+msgstr "Pripája sa k médiu s videom, neodosiela však prichádzajúce vzorky. Môžete ho použiť vtedy, ak nepotrebujete obrazový výstup videa a chcete obmedziť zbytočnú prácu procesora."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
-msgstr "To isté, ako voľba Null renderer, ale spracovávať sa dajú iba nekomprimované súbory."
+msgstr "Rovnaké ako voľba Null renderer, ale pripájať sa dajú iba nekomprimované typy."
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Dostupné len na systéme Vista alebo novšom alebo na systéme XP s nainštalovaným prostredím .NET Framework 3.5."
+msgstr "Dostupné len v systéme Vista alebo novšom alebo na systéme XP s nainštalovaným prostredím .NET Framework 3.5."
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
@@ -638,35 +638,35 @@ msgstr "Vysokokvalitné vykresľovanie, vyžaduje grafický čip s podporou D3D9
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "To isté ako EVR (CP), ale ponúka niekoľko možností na synchronizovanie rýchlosti snímkovania s obnovovacou frekvenciou monitora, aby sa eliminovali preskočené alebo duplikované snímky videa."
+msgstr "Rovnaké ako EVR (CP), ale ponúka niekoľko možností na synchronizovanie rýchlosti snímkovania videa s obnov. frekv. monitora, aby sa eliminovali preskočené alebo duplikované snímky videa."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Vlastné vykresľovanie programu Real. SMIL skripty zostanú funkčné, nebudú však interaktívne. Používa sa funkcia DirectDraw a aj funkcia Overlay, ak je podporovaná."
+msgstr "Vlastné vykresľovanie programu Real. SMIL skripty zostanú funkčné, nebudú však interaktívne. Používa sa DirectDraw a aj funkcia Overlay, ak je podporovaná."
 
 msgctxt "IDC_RMDX7"
 msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Výstup z engine Real vykresľovaný pomocou Allocator-Presentera na báze DX7 z VMR-7 (bezstratový kodek)."
+msgstr "Výstup z engine Real vykresľovaný pomocou Allocator-Presentera na báze DX7 z VMR-7 (bez vykreslenia)."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "Výstup z engine Real vykresľovaný pomocou Allocator-Presentera na báze DX9 z VMR-9 (bezstratový kodek)."
+msgstr "Výstup z engine Real vykresľovaný pomocou Allocator-Presentera na báze DX9 z VMR-9 (bez vykreslenia)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
-msgstr "Vlastné vykresľovanie programu QuickTime. Vykresľovanie sa spomalí pri zmene stranového pomeru videa. Ak nie je dostupná funkcia Overlay, použije sa namiesto nej GDI."
+msgstr "Vlastné vykresľovanie QuickTime. Vykresľovanie sa spomalí pri zmene oblasti s videom alebo pri čiastočnom prekrytí iným oknom. Ak nie je dostupná funkcia Overlay, použije sa GDI."
 
 msgctxt "IDC_QTDX7"
 msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Výstup z enginu Real vykresľovaný pomocou Allocator-Presentera na báze DX7 z VMR-7 (bezstratový kodek)."
+msgstr "Výstup z enginu QuickTime vykresľovaný pomocou Allocator-Presentera na báze DX7 z VMR-7 (bez vykreslenia)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "Výstup z enginu Real vykresľovaný pomocou Allocator-Presentera na báze DX9 z VMR-9 (bezstratový kodek)."
+msgstr "Výstup z enginu QuickTime vykresľovaný pomocou Allocator-Presentera na báze DX9 z VMR-9 (bez vykreslenia)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
-msgstr "Obraz sa vykreslí ako textúra typu offscreen."
+msgstr "Plocha videa sa vymedzí ako bežná plocha mimo obrazovky."
 
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
@@ -686,7 +686,7 @@ msgstr "MPC-HC bol neočakávané ukončený, avšak toto zostavenie bolo skompi
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
-msgstr "Regulérny povrch offscreen plain"
+msgstr "Bežná plocha mimo obrazovky"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
@@ -702,11 +702,11 @@ msgstr "Najbližšie susedné"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr "Bilineáne"
+msgstr "Bilineárne"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr "Bilineáne (PS 2.0)"
+msgstr "Bilineárne (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
@@ -766,7 +766,7 @@ msgstr "Auto"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr "Nie sú dostupné žiadne používateľom upravené kľúče pre exportovanie."
+msgstr "Nemožno exportovať žiadne používateľom upravené kľúče."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
@@ -778,7 +778,7 @@ msgstr "Komprimované súbory nie sú podporované"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "Kryptované súbory nie sú podporované"
+msgstr "Kódované súbory nie sú podporované"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
@@ -786,11 +786,11 @@ msgstr "Nemožno nájsť všetky archívne jednotky"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Plocha obrazu sa vykreslí ako textúra ale na kopírovanie a presúvanie do spätnej pamäte sa budú používať funkcie, ako pri 2D zobrazení. Táto funkcia vyžaduje grafickú kartu s podporou 32-bitovej alokácie, RGBA, dvojrozmerné textúry minimálne v rozlíšení videa."
+msgstr "Plocha videa sa vymedzí ako textúra ale na kopírovanie a presúvanie do spätnej pamäte sa budú stále používať 2D funkcie. Táto funkcia vyžaduje grafickú kartu s podporou 32-bitovej alokácie, RGBA, textúr s neumocňovanou veľkosťou a minimálne v rozlíšení videa."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Plocha obrazu sa vykreslí ako textúra a 3D efekty sa zobrazia použitím dvoch trojuholníkov. Zapne sa aj funkcia Antialiasing, čo môže spomaliť vykresľovanie."
+msgstr "Plocha videa sa vymedzí ako textúra a vykreslí sa ako dva trojuholníky v 3D. Zapnutá funkcia Antialiasing v nastaveniach displeja môže spomaliť vykresľovanie."
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
@@ -798,19 +798,19 @@ msgstr "Ak karta nepodporuje Pixel Shader 2.0, automaticky sa aktivuje jednoduch
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Nastaví VMR-9 (bezstratové) na mixovací mód, v ktorom bude fungovať väčšina ovládacích prvkov ale na vykresľovanie snímok sa bude používať zvláštne vlákno."
+msgstr "Nastaví VMR-9 (bez vykreslenia) na mixovací režim, v ktorom funguje väčšina ovládacích prvkov ale na vykresľovanie snímok sa bude používať zvláštne vlákno."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "Zlepšuje výkon na úkor kompatibility systému vykresľovania."
+msgstr "Zlepšuje výkon na úkor kompatibility vykresľovača."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "Zmenšuje trhanie ale bráni zobrazeniu lišty nástrojov."
+msgstr "Zmenšuje trhanie ale bráni zobrazeniu panela nástrojov."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Zmenšuje trhanie obídením predvolenej vert. synch., zabudovanej do D3D."
+msgstr "Zmenšuje trhanie ignorovaím predvol. VSync, zabudovanej do D3D."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -838,11 +838,11 @@ msgstr "Presná funkcia VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "Default state gets inherited to other styles where it is still undefined"
-msgstr "Predvolené hodnoty sa nastavia aj v iných štýloch, ak používateľ nastavenia nezmení"
+msgstr "Predvolený stav sa zdedí aj v iných štýloch, kde nie je stále definovaný"
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
-msgstr "Vypnutie tejto voľby spôsobí menšie vyťažovanie pamäte grafickej karty a zníži prenosovú rýchlosť karty, staršie graf. karty však môžu mať s týmto problémy."
+msgstr "Vypnutím uvoľníte malé množstvo pamäte pre video a ušetríte prenosové pásmo pri prenosoch z lokálnej do video-pamäte. Staršie graf. karty však nemusia fungovať."
 
 msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
 msgid "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
@@ -850,7 +850,7 @@ msgstr "Ak je použitá vyrovnávacia pamäť pre podobrázky väčšia ako 0, m
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
-msgstr "Po kliknutí na toto tlačidlo, sa zmenia asociácie vybraných koncoviek súborov a súbory sa budú otvárať v programe MPC-HC. Po pridaní nejakého ďalšieho rozšírenia programu sa však asociácie môžu opäť zmeniť. Preto si ich pred zatvorením tohto dialógového okna nezabudnite skontrolovať, prípadne nastaviť znova!"
+msgstr "Po kliknutí na toto tlačidlo sa vybraný stav skupiny formátov premietne aj do aktuálnej asociácie programu MPC-HC so súbormi. Po pridaní nového rozšírenia programu sa však asociácie môžu označiť šedou farbou. Preto si ich pred zatvorením tohto dialógu nezabudnite opäť skontrolovať!"
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -970,7 +970,7 @@ msgstr "EDL - nový klip"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
-msgstr "Vyčistiť zoznam"
+msgstr "Vy&čistiť zoznam"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
@@ -1034,11 +1034,11 @@ msgstr "Priblížiť na šírku obrazovky - ultra,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "Hide on Fullscreen"
-msgstr "Skryť pri celoobrazovkovom režime"
+msgstr "Skryť pri režime na celú obrazovku"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
-msgstr "Pozastavené"
+msgstr "Zastavené"
 
 msgctxt "IDS_CONTROLS_BUFFERING"
 msgid "Buffering... (%d%%)"
@@ -1046,7 +1046,7 @@ msgstr "Načítavanie... (%d%%)"
 
 msgctxt "IDS_CONTROLS_CAPTURING"
 msgid "Capturing..."
-msgstr "Prebieha snímanie..."
+msgstr "Prebieha zaznamenávanie..."
 
 msgctxt "IDS_CONTROLS_OPENING"
 msgid "Opening..."
@@ -1074,27 +1074,27 @@ msgstr "&Zapnúť"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
-msgstr "Úpravy..."
+msgstr "Ú&pravy..."
 
 msgctxt "IDS_INFOBAR_TITLE"
 msgid "Title"
-msgstr "Titul:"
+msgstr "Titul"
 
 msgctxt "IDS_INFOBAR_AUTHOR"
 msgid "Author"
-msgstr "Autor:"
+msgstr "Autor"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr "Autorské práva:"
+msgstr "Autorské práva"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
-msgstr "Hodnotenie:"
+msgstr "Hodnotenie"
 
 msgctxt "IDS_INFOBAR_DESCRIPTION"
 msgid "Description"
-msgstr "Popis:"
+msgstr "Popis"
 
 msgctxt "IDS_INFOBAR_DOMAIN"
 msgid "Domain"
@@ -1122,7 +1122,7 @@ msgstr "Myš - v okne"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr "Myš - v celoobrazovkovom režime"
+msgstr "Myš - na celú obrazovku"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
@@ -1146,7 +1146,7 @@ msgstr "Neznáme"
 
 msgctxt "IDS_MPLAYERC_0"
 msgid "Quick Open File"
-msgstr "Súbor pre rýchle otvorenie"
+msgstr "Rýchle otvorenie súboru"
 
 msgctxt "IDS_AG_OPEN_FILE"
 msgid "Open File"
@@ -1286,7 +1286,7 @@ msgstr "Zvýšiť rýchlosť"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr "Show/Herné show"
+msgstr "Show/Herná show"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
@@ -1358,11 +1358,11 @@ msgstr "Korekcia času snímky: vypnutá"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "Cieľový offset VSync: %.1f"
+msgstr "Cieľový posun VSync: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
-msgstr "VSync offset: %d"
+msgstr "VSync posun: %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
@@ -1374,7 +1374,7 @@ msgstr "Náhľady boli úspešne uložené"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Stream"
-msgstr "S&tream s videom"
+msgstr "Stream s &videom"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1422,11 +1422,11 @@ msgstr "Obnoviť pôvodnú rýchlosť"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10ms"
-msgstr "Oneskorenie zvuku +10ms"
+msgstr "Oneskorenie zvuku +10 ms"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10ms"
-msgstr "Oneskorenie zvuku -10ms"
+msgstr "Oneskorenie zvuku -10 ms"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -1478,7 +1478,7 @@ msgstr "Predchádzajúci súbor"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Prepnúť do celoobrazovkového režimu Direct3D"
+msgstr "Prepnúť do na celú obrazovku Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -1498,7 +1498,7 @@ msgstr "Posunúť titulok doprava"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
-msgstr "Zobraziť stav"
+msgstr "Zobraziť štatistiky"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -1530,15 +1530,15 @@ msgstr "Automatické prispôsobenie priblíženia"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
-msgstr "Tvar videa - polovičné"
+msgstr "Tvar videa: polovičné"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "VidFrm Normal"
-msgstr "Tvar videa - normálne"
+msgstr "Tvar videa: normálne"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "VidFrm Double"
-msgstr "Tvar videa - normálne"
+msgstr "Tvar videa: dvojité"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -1678,7 +1678,7 @@ msgstr "Znížiť hlasitosť"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "Umlčať"
+msgstr "Stlmiť"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
@@ -1726,7 +1726,7 @@ msgstr "DVD Menu - aktivovať"
 
 msgctxt "IDS_AG_DVD_MENU_BACK"
 msgid "DVD Menu Back"
-msgstr "DVD Menu - späť"
+msgstr "DVD Menu - dozadu"
 
 msgctxt "IDS_MPLAYERC_75"
 msgid "DVD Menu Leave"
@@ -1870,7 +1870,7 @@ msgstr "Rádio-stanice"
 
 msgctxt "IDS_DVB_TVNAV_SEETV"
 msgid "TV stations"
-msgstr "TV-stanice"
+msgstr "TV stanice"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
@@ -1906,7 +1906,7 @@ msgstr "Vyrovnávacie pamäte"
 
 msgctxt "IDS_MAINFRM_9"
 msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "Zvuk: %02d/%02d, Titul: %02d/%02d, Kapitola: %02d/%02d"
+msgstr "Hlasitosť: %02d/%02d, titul: %02d/%02d, kapitola: %02d/%02d"
 
 msgctxt "IDS_MAINFRM_10"
 msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
@@ -1926,7 +1926,7 @@ msgstr "Prehrať programom MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
-msgstr "Program MPC-HC nemá oprávnenia, dostatočné na zmenu asociácií k formátom. Kliknite prosím na tlačidlo \"Modifikovať\" a preberte práva administrátora PC."
+msgstr "Program MPC-HC nemá oprávnenia, dostatočné na zmenu asociácií k formátom. Kliknite prosím na tlačidlo \"Upraviť\" a preberte práva administrátora PC."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -1950,7 +1950,7 @@ msgstr "DVD: neočakávaná chyba"
 
 msgctxt "IDS_MAINFRM_17"
 msgid "DVD: Copy-Protect Fail"
-msgstr "DVD: zlyhanie ochrany proti kopírovaniu"
+msgstr "DVD: zlyhanie ochrany pred kopírovaním"
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
@@ -1970,15 +1970,15 @@ msgstr "DVD: zlyhanie ochrany Macrovision"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
-msgstr "DVD: nekompatibilný región v systéme a dekodéri"
+msgstr "DVD: nekompatibilný systém a regióny pre dekodér"
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
-msgstr "DVD: nekompatibliné regióny disku a dekodéra"
+msgstr "DVD: nekompatibilný disk a regióny pre dekodér"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Táto funkcia je určená na zredukovanie trhania obrazu. Takisto však môže programu MPC-HC zabrániť aj v tom, aby zobrazoval kontextové menu a dialógové okná počas prehrávania.\n\nNaozaj chcete aktivovať túto funkciu?"
+msgstr "Táto funkcia je určená na zredukovanie trhania obrazu. Takisto však programu MPC-HC zabráni v zobrazovaní kontextového menu a dialógového okna počas prehrávania.\n\nNaozaj chcete aktivovať túto funkciu?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2018,7 +2018,7 @@ msgstr "Stranový pomer"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %d, Dropped: %d"
-msgstr ", Celkom: %d, preskočené: %d"
+msgstr ", spolu: %d, preskočené: %d"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2038,7 +2038,7 @@ msgstr ", voľné: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ", voľné vyrovnávacie V/A pamäte: %03d/%03d"
+msgstr ", voľné vyrov. pamäte V/A: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
@@ -2102,7 +2102,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Názov súboru: %s\\N%sRozl�
 
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Pre načítanie titulkov musíte zmeniť typ vykresľovača videa a znovu otvorte súbor.\n- DirectShow: VMR-7/VMR-9 (bezstratové), EVR (CP), Sync, madVR alebo Haali\n- RealMedia: Špeciálne vykresľovanie pre RealMedia, alebo ho otvorte prostredníctvom DirectShow\n- QuickTime: vykresľovanie DX7 alebo DX9 pre QuickTime\n- ShockWave: n/a"
+msgstr "Pre načítanie titulkov musíte zmeniť typ vykresľovača videa a znovu otvorte súbor.\n- DirectShow: VMR-7/VMR-9 (bez vykreslenia), EVR (CP), Sync, madVR alebo Haali\n- RealMedia: Špeciálne vykresľovanie pre RealMedia, alebo otvorte prostredníctvom DirectShow\n- QuickTime: vykresľovač DX7 alebo DX9 pre QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2126,7 +2126,7 @@ msgstr "Nedostatok pamäte"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Flash player for IE is required"
-msgstr "Chyba: je potrebný program Flash pre IE"
+msgstr "Chyba: je potrebný Flash player pre IE"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2178,7 +2178,7 @@ msgstr "Program MPC-HC bol neočakávane ukončený. Ak nám chcete pomôcť vyr
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
 msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "Nepodarilo sa vytvoriť výpis pamäte v súbore '%s' (chyba %d)"
+msgstr "Nepodarilo sa vytvoriť výpis pamäte v súbore \"%s\" (chyba %d)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2194,15 +2194,15 @@ msgstr "Pozastaviť"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Prepnúť: titulok&menu"
+msgstr "Prepnúť kapitolu&menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seeker"
-msgstr "Prepnúť: vyhľadávač"
+msgstr "Prepnúť vyhľadávač"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
-msgstr "Prepnúť: ovládače"
+msgstr "Prepnúť ovládače"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
@@ -2250,15 +2250,15 @@ msgstr "Nepodarilo sa"
 
 msgctxt "IDS_MAINFRM_96"
 msgid "Can't create video capture filter"
-msgstr "Nemožno vytvoriť filter pre zachytávanie videa"
+msgstr "Nemožno vytvoriť filter pre zaznamenávanie videa"
 
 msgctxt "IDS_MAINFRM_98"
 msgid "No capture filters"
-msgstr "Žiadne filtre pre zachytávanie"
+msgstr "Žiadne filtre pre zaznamenávanie"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
-msgstr "Nemožno vytvoriť objekt grafu pre zachytávanie"
+msgstr "Nemožno vytvoriť objekt grafu pre zaznamenávanie"
 
 msgctxt "IDS_MAINFRM_108"
 msgid "Couldn't open any device"
@@ -2270,7 +2270,7 @@ msgstr "Zvuk"
 
 msgctxt "IDS_MAINFRM_114"
 msgid "%s was not found, please insert media containing this file."
-msgstr "%s sa nenašiel, prosím vložte médium, obsahujúce tento súbor."
+msgstr "%s sa nenašiel, prosím vložte médium obsahujúce tento súbor."
 
 msgctxt "IDS_AG_ABORTED"
 msgid "Aborted"
@@ -2314,7 +2314,7 @@ msgstr "Uhol %d"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Zvýšiť vyrovnávanie funkciou VSync"
+msgstr "Zvýšiť posun VSync"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -2322,11 +2322,11 @@ msgstr "Zablokované"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Znížiť vyrovnávanie funkciou VSync"
+msgstr "Znížiť posun VSync"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "MPC-HC D3D celoobrazovkový režim"
+msgstr "MPC-HC D3D na celú obrazovku"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
@@ -2338,23 +2338,23 @@ msgstr "Oneskorenie titulkov: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
-msgstr "Zväčšiť zvýrazňovanie zvuku"
+msgstr "Zväčšiť zvýraznenie hlasitosti"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
-msgstr "Zmenšiť zvýrazňovanie zvuku"
+msgstr "Znížiť zvýraznenie hlasitosti"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
-msgstr "Zvýraznenie zvuku Min"
+msgstr "Zvýraznenie hlasitosti Min"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Zvýraznenie zvuku Max"
+msgstr "Zvýraznenie hlasitosti Max"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Pouzitie: mpc-hc.exe \"cesta\" [parametre]\n\n\"cesta\"\tHlavny subor alebo priecinok, ktoreho obsah sa nacita (zastupne znaky\n\t\tsu povolene, \"-\" denotes standard input)\n/dub \"zvukova stopa\"\tNacitat pridavny zvukovy subor\n/dubdelay \"subor\"\tNacitat pridavny zvukovy subor, oneskoreny o XXms (ak\n\t\tsubor obsahuje \"...DELAY XXms...\")\n/d3dfs\t\tspustit vykreslovanie v celoobrazovkovom rezime D3D\n/sub \"nazov titulkov\"\tNacitat pridavny subor s titulkami\n/filter \"nazov filtra\"\tNacitat filtre DirectShow z dynamicky linkovanej\n\t\tkniznice (zastupne znaky su povolene)\n/dvd\t\tSpustit v mode DVD, \"cesta\" - udaj o ceste k priecinku na\n\t\tDVD (volitelne)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tNacitat vsetky stopy zvukoveho CD alebo (S)VCD,\n\t\t\"cesta\" - cesta k jednotke (volitelne)\n/device\t\tOpen the default video device\n/open\t\tOtvorit subor, nespustat automaticke prehravanie\n/play\t\tSpustit prehravanie ihned po spusteni \n\t\tprehravaca\n/close\t\tZatvorit prehravac po prehrati (funguje len s prepinacom\n\t\t /play)\n/shutdown\tVypnut operacny system po prehrati\n/fullscreen\tSpustit v celoobrazovkovom rezime\n/minimized\tSpustiť minimalizovane\n/new\t\tPouzit novu instanciu prehravaca\n/add\t\tPridat \"cestu\" k playlistu, parameter mozno kombinovat s prepinacmi\n\t\twith /open a /play\n/regvid\t\tZaregistrovat formaty videa\n/regaud\t\tZaregistrovat formaty zvuku\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tSpustit prehrávanie na pozicii v \"ms\" (= milisekundach)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tNastavit fixnu sirku okna\n/monitor N\tSpustit na monitore N, pricom cislo N zacina na hodnote 1\n/audiorenderer N\tSpustit pouzitim vykreslovaca zvuku N, kde N sa spusta od 1\n\t\t(pozrite si nastavenia \"Vystupu\")\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tObnovit predvolene nastavenia\n/help /h /?\tZobrazit pomocnika prepinacom na prikazovom riadku\n"
+msgstr "Pouzitie: mpc-hc.exe \"cesta\" [prepinace]\n\n\"cesta\"\tHlavny subor alebo priecinok, ktoreho obsah sa nacita (zastupne znaky\n\t\tsu povolene, znakom \"-\" oznacite standardny vstup)\n/dub \"zvukova stopa\"\tNacitat dalsi zvukovy subor\n/dubdelay \"subor\"\t Nacitat dalsi zvukovy subor, oneskoreny o XX ms (ak\n\t\tsubor obsahuje \"...DELAY XXms...\")\n/d3dfs\t\tspustit vykreslovanie v rezime na celu obrazovku D3D\n/sub \"nazov titulkov\"\tNacitat pridavny subor s titulkami\n/filter \"nazov filtra\"\t Nacitat filtre DirectShow z dynamicky linkovanej\n\t\tkniznice (zastupne znaky su povolene)\n/dvd\t\tSpustit v rezime DVD, \"cesta\" oznacuje priecinok na\n\t\tDVD (volitelne)\n/dvdpos T#C\tSpustit prehravanie titulu T, kapitoly C\n/dvdpos T#hh:mm\tSpustit prehravanie titulu T, na pozicii hh:mm:ss\n/cd\t\tNacitat vsetky stopy zvukoveho CD alebo (S)VCD,\n\t\t\"cesta\" - cesta k jednotke (volitelne)\n/device\t\tOtvorit predvolene zariadenie pre video\n/open\t\tOtvorit subor, neprehrat automaticky\n/play\t\tSpustit prehravanie ihned po spusteni \n\t\tprehravaca\n/close\t\tZatvorit prehravac po prehrati (funguje len s prepinacom\n\t\t /play)\n/shutdown\tVypnut operacny system po prehrati\n/fullscreen\tSpustit v rezime na celu obrazovku\n/minimized\tSpustiť minimalizovane\n/new\t\tPouzit novu instanciu prehravaca\n/add\t\tPridat \"cestu\" k playlistu, parameter mozno kombinovat s prepinacmi\n\t\t /open a /play\n/regvid\t\tZaregistrovat formaty videa\n/regaud\t\tZaregistrovat formaty zvuku\n/regpl\t\tVytvorit asociacie k suborom pre subory v playliste\n/regall\t\tVytvorit asociacie k suborom pre vsetky podporovane typy suborov\n/unregall\t\tOdstranit vsetky asociacie k suborom\n/start ms\t\tSpustit prehravanie na pozicii v \"ms\" (= milisekundach)\n/startpos hh:mm:ss\tSpustit prehravanie na pozicii hh:mm:ss\n/fixedsize w,h\tNastavit fixnu sirku okna\n/monitor N\tSpustit na monitore N, pricom cislo N zacina na hodnote 1\n/audiorenderer N\tSpustit s pouzitim vykreslovaca zvuku N, kde N sa zacina na hodnote 1\n\t\t(pozrite si nastavenia  v casti \"Vystup\")\n/shaderpreset \"Pr\"\tSpustit s pouzitim prednastavenia shadera \"Pr\"\n/reset\t\tObnovit predvolene nastavenia\n/help /h /?\tZobrazit pomocnika prepinacom na prikazovom riadku\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2362,27 +2362,27 @@ msgstr "V príkaze na príkazovom riadku sa našli neznáme parametre: \n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
-msgstr "Prepnúť: informácie"
+msgstr "Prepnúť informáciu"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
-msgstr "Prepnúť: štatistika"
+msgstr "Prepnúť štatistiky"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
-msgstr "Prepnúť: stav"
+msgstr "Prepnúť stav"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Prepnúť: panel funkcie Subresync"
+msgstr "Prepnúť panel funkcie Subresync"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Prepnúť: panel s playlistom"
+msgstr "Prepnúť panel s playlistom"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
-msgstr "Prepnúť: panel so snímkami"
+msgstr "Prepnúť panel zaznamenávania"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
@@ -2390,15 +2390,15 @@ msgstr "Prepnúť ladenie shaderov"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "Priblíženie: 50%"
+msgstr "Priblíženie: 50 %"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "Priblíženie: 100%"
+msgstr "Priblíženie: 100 %"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr "Priblíženie: 200%"
+msgstr "Priblíženie: 200 %"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
@@ -2406,19 +2406,19 @@ msgstr "Ďalšia predvoľba AR"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
-msgstr "Tvar videa - roztiahnuť"
+msgstr "Tvar videa: roztiahnuť"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "VidFrm Inside"
-msgstr "Tvar videa - vo vnútri"
+msgstr "Tvar videa: vnútri"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "VidFrm Outside"
-msgstr "Tvar videa - zvonku"
+msgstr "Tvar videa: zvonku"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "Obnoviť PnS"
+msgstr "PnS Reset"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
@@ -2426,15 +2426,15 @@ msgstr "PnS-otočenie X+"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
-msgstr "Tvar videa - priblíženie 1"
+msgstr "Tvar videa: priblíženie 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "VidFrm Zoom 2"
-msgstr "Tvar videa - priblíženie 2"
+msgstr "Tvar videa: priblíženie 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr "Tvar videa - prepnúť priblíženie"
+msgstr "Tvar videa: prepnúť priblíženie"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -2446,11 +2446,11 @@ msgstr "Skenovanie tunera"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Titulky nie sú načítané alebo je na vykresľovanie použitá nepodporovaná súčasť."
+msgstr "Titulky nie sú načítané alebo ich vykresľovanie nie je podporované."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
-msgstr "Autor neznámy. Ak ste autorom tohto loga, kontaktujte ma!"
+msgstr "Autor neznámy. Ak ste autorom tohto loga, kontaktujte nás!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
@@ -2546,7 +2546,7 @@ msgstr "Titulky::Rôzne"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "Skryť okraje"
+msgstr "Skryť o&kraje"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Frame Only"
@@ -2554,19 +2554,19 @@ msgstr "Len snímok"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
-msgstr "Zobraziť titulok&&menu"
+msgstr "Z&obraziť titulok&&menu"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Skryť menu"
+msgstr "Skryť &menu"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
-msgstr "Nad lištou vyhľadávania"
+msgstr "Nad panelom vyhľadávania"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
-msgstr "Pod lištou vyhľadávania"
+msgstr "Pod panelom vyhľadávania"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -2582,7 +2582,7 @@ msgstr "Vyčistiť"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
-msgstr "Storno"
+msgstr "Zrušiť"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
@@ -2730,7 +2730,7 @@ msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr "Iné audio"
+msgstr "Iný zvuk"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
@@ -2854,7 +2854,7 @@ msgstr "Použiť WASAPI (reštartovať prehrávanie)"
 
 msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
 msgid "Mute on fast forward"
-msgstr "Stlmiť zvuk pri rýchlo prevíjaní vpred"
+msgstr "Stlmiť zvuk pri rýchlom prevíjaní vpred"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
@@ -2894,11 +2894,11 @@ msgstr "Synchronizácia obrazovky a videa: vypnutá"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr "Dodanie pri najbližšej VSync: zapnuté"
+msgstr "Zobraziť pri najbližšej VSync: zapnuté"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Dodanie pri najbližšej VSync: vypnuté"
+msgstr "Zobraziť pri najbližšej VSync: vypnuté"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
@@ -2926,31 +2926,31 @@ msgstr "Typ vstupu: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
-msgstr "Okolité svetlo: Jasno (2,2 Gamma)"
+msgstr "Okolité svetlo: Jasno (Gamma 2,2)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
-msgstr "Okolité svetlo: Šero (2,35 Gamma)"
+msgstr "Okolité svetlo: Šero (Gamma 2,35)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
-msgstr "Okolité svetlo: Tma (2,4 Gamma)"
+msgstr "Okolité svetlo: Tma (Gamma 2,4)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "Vykresľovanie záberu: percepčné"
+msgstr "Vykresľovanie: percepčné"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "Vykresľovanie záberu: relatívne kolorimetrické"
+msgstr "Vykresľovanie: relatívne kolorimetrické"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "Vykresľovanie záberu: nasýtenie"
+msgstr "Vykresľovanie: sýtosť"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "Vykresľovanie záberu: absolútne kolorimetrické"
+msgstr "Vykresľovanie: absolútne kolorimetrické"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
@@ -2966,11 +2966,11 @@ msgstr "Uvoľnenie z GPU pred VSync: vypnuté"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "Uvoľnenie z GPU po dodaní: zapnuté"
+msgstr "Uvoľnenie z GPU po vykreslení: zapnuté"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Uvoľnenie z GPU po dodaní: vypnuté"
+msgstr "Uvoľnenie z GPU po vykreslení: vypnuté"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
@@ -3030,11 +3030,11 @@ msgstr "10-bitový výstup RGB: vypnutý"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr "Vynútenie 10-bitového vstupu RGB: zapnuté"
+msgstr "Vynútiť 10-bit. vstup RGB: zapnuté"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
-msgstr "Vynútenie 10-bitového vstupu RGB: vypnuté"
+msgstr "Vynútiť 10-bit. vstup RGB: vypnuté"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
@@ -3054,7 +3054,7 @@ msgstr "Spracovanie polovičného plávajúceho bodu: vypnuté"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr "Zníženie jasu"
+msgstr "Znížiť jas"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
@@ -3098,7 +3098,7 @@ msgstr "Je dostupná nová verzia programu MPC-HC v%s. Teraz používate verziu 
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Nenašiel sa aktualizačný server.\n\nSkontrolujte prosím dostupnosť internetového pripojenia alebo to neskôr skúste ešte raz."
+msgstr "Nenašiel sa aktualizačný server.\n\nProsím skontrolujte internetové pripojenie alebo to neskôr skúste znovu."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3138,15 +3138,15 @@ msgstr "Normalizovanie: vypnuté"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
-msgstr "Prepnúť zosilnenie hlasitosti"
+msgstr "Obnoviť hlasitosť"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"
-msgstr "Zosilnenie hlasitosti: zapnuté"
+msgstr "Obnovenie hlasitosti: zapnuté"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr "Zosilnenie hlasitosti: vypnuté"
+msgstr "Obnovenie hlasitosti: vypnuté"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
@@ -3202,7 +3202,7 @@ msgstr "Chyba pri analyzovaní zadaného textu!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr "Chyba pri analyzovaní zadaného stranového pomeru!"
+msgstr "Chyba pri analyzovaní zadanej rýchlosti snímkovania!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame step, try a different video renderer."
@@ -3210,19 +3210,19 @@ msgstr "Krokovanie snímkami nie je možné. Skúste použiť iný vykresľovač
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "Funkcie 'Uložiť obrázok' a 'Uložiť náhľady' nepracujú s predvoleným vykresľovačom videa pre RealMedia.\nVyberte jeden z vykresľovačov DirectX pre RealMedia v nastaveniach výstupu MPC-HC a súbor znovu otvorte."
+msgstr "Funkcie \"Uložiť obrázok\" a \"Uložiť náhľady\" nefungujú s predvoleným vykresľovačom videa pre RealMedia.\nVyberte jeden z vykresľovačov DirectX pre RealMedia v nastaveniach výstupu MPC-HC a súbor znovu otvorte."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "Funkcie 'Uložiť obrázok' a 'Uložiť náhľady' nepracujú s predvoleným vykresľovačom videa pre QuickTime.\nVyberte jeden z vykresľovačov DirectX pre QuickTime v nastaveniach výstupu MPC-HC a súbor znovu otvorte."
+msgstr "Funkcie \"Uložiť obrázok\" a \"Uložiť náhľady\" nefungujú s predvoleným vykresľovačom videa pre QuickTime.\nVyberte jeden z vykresľovačov DirectX pre QuickTime v nastaveniach výstupu MPC-HC a súbor znovu otvorte."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
-msgstr "Funkcie 'Uložiť obrázok' a 'Uložiť náhľady' nepracujú so súbormi ShockWave."
+msgstr "Funkcie \"Uložiť obrázok\" a \"Uložiť náhľady\" nefungujú so súbormi ShockWave."
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Funkcie 'Uložiť obrázok' a 'Uložiť náhľady' nefungujú s vykresľovaním videa Overlay Mixer.\nZmeňte vykresľovač videa v nastaveniach výstupu MPC a otvorte súboru znovu."
+msgstr "Funkcie \"Uložiť obrázok\" a \"Uložiť náhľady\" nefungujú s vykresľovaním videa Overlay Mixer.\nZmeňte vykresľovač videa v nastaveniach výstupu MPC a znovu otvorte súbor."
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
@@ -3254,15 +3254,15 @@ msgstr "Nemožno pripojiť filter vyrov. pamäte %s do grafu."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "Nemožno pridať filter enkodéra %s do grafu."
+msgstr "Nemožno pridať filter kodéra %s do grafu."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "Nemožno pripojiť filter enkodéra %s do grafu."
+msgstr "Nemožno pripojiť filter kodéra %s do grafu."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr "Nemožno nastaviť kompresný formát na filtri enkodéra %s."
+msgstr "Nemožno nastaviť kompresný formát na filtri kodéra %s."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
@@ -3302,7 +3302,7 @@ msgstr "Po prehratí: Ukončiť"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Po prehratí: Úsporný režim"
+msgstr "Po prehratí: Pohotovostný režim"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"

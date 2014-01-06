@@ -1,29 +1,32 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# ever_green, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2014-01-05 14:00+0000\n"
+"Last-Translator: ever_green\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "このプログラムはあなたのコンピュータの上に[name]をインストールします。\n\nセットアップを続ける前に他のすべてのアプリを閉じることを推奨します。"
+msgstr "このプログラムはあなたのコンピュータ上に[name]をインストールします。\n\nセットアップを続行する前に他のすべてのアプリを閉じることを推奨します。"
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] を実行する為に Windows XP Service Pack 3 以降が必要です。"
+msgstr "[name] を実行する為には Windows XP Service Pack 3 以降が必要です。"
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
-msgstr "アイコン ライブラリー"
+msgstr "アイコンライブラリ"
 
 msgctxt "CustomMessages_comp_mpcresources"
 msgid "Translations"
@@ -35,23 +38,23 @@ msgstr "MPC-HC の設定を削除してもよろしいですか？\n\nMPC-HC を
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
-msgstr "MPC-HC のインストーラーは既に実行されています！"
+msgstr "MPC-HC のインストーラは既に実行されています！"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "このバージョンの MPC-HC は CPU の SSE サポートが必要です。\n\nお使いの CPU はこの条件を満たしません。"
+msgstr "このバージョンの MPC-HC には CPU の SSE サポートが必要です。\n\nお使いの CPU はこの条件を満たしません。"
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "このバージョンの MPC-HC は CPU の SSE2 サポートが必要です。\n\nお使いの CPU はこの条件を満たしません。"
+msgstr "このバージョンの MPC-HC には CPU の SSE2 サポートが必要です。\n\nお使いの CPU はこの条件を満たしません。"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
-msgstr "全てのユーザーにインストールする。"
+msgstr "全てのユーザーにインストールする"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
-msgstr "現在実行しているユーザーだけにインストールする。"
+msgstr "現在実行しているユーザーにのみインストールする"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"

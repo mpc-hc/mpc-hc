@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# ever_green, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"PO-Revision-Date: 2014-01-05 14:20+0000\n"
+"Last-Translator: ever_green\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -35,7 +38,7 @@ msgstr "デバイスを開く(&V)..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "ディレクトリを開く..."
+msgstr "ディレクトリを開く(&E)..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
@@ -43,7 +46,7 @@ msgstr "ディスクを開く(&P)"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "最近使ったファイル"
+msgstr "最近使ったファイル(&F)"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -59,7 +62,7 @@ msgstr "画像を保存(&I)..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "サムネイルを保存..."
+msgstr "サムネイルを保存(&T)..."
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
@@ -67,23 +70,23 @@ msgstr "字幕を読み込む(&L)..."
 
 msgctxt "ID_FILE_SAVE_SUBTITLE"
 msgid "Save S&ubtitle..."
-msgstr "字幕を保存..."
+msgstr "字幕を保存(&U)..."
 
 msgctxt "POPUP"
 msgid "Subtitle Data&base"
-msgstr "字幕データベース"
+msgstr "字幕データベース(&B)"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
-msgstr "検索..."
+msgstr "検索(&S)..."
 
 msgctxt "ID_FILE_ISDB_UPLOAD"
 msgid "&Upload..."
-msgstr "アップロード..."
+msgstr "アップロード(&U)..."
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
-msgstr "ダウンロード..."
+msgstr "ダウンロード(&D)..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -99,15 +102,15 @@ msgstr "表示(&V)"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "タイトルバーとメニューバー"
+msgstr "タイトルバーとメニューバー(&M)"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "シークバー(&S)"
+msgstr "シークバー(&K)"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "コントロール(&R)"
+msgstr "コントロール(&C)"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -115,7 +118,7 @@ msgstr "ファイル情報(&I)"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
-msgstr "統計(&T)"
+msgstr "統計(&S)"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
@@ -123,75 +126,75 @@ msgstr "ステータス(&A)"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "字幕編集"
+msgstr "字幕編集(&B)"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "プレイリスト"
+msgstr "プレイリスト(&Y)"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "キャプチャ"
+msgstr "キャプチャ(&R)"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr "ナビゲーション"
+msgstr "ナビゲーション(&V)"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "シェーダのデバック(&D)"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "プリセット..."
+msgstr "プリセット(&P)..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "最小"
+msgstr "最小(&M)"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "コンパクト"
+msgstr "コンパクト(&C)"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "標準"
+msgstr "標準(&N)"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
-msgstr "フルスクリーン(&L)"
+msgstr "フルスクリーン(&U)"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr "拡大/縮小(&Z)"
+msgstr "拡大と縮小(&Z)"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "自動調整"
+msgstr "自動調整(&F)"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "自動調整（超過サイズのみ）"
+msgstr "自動調整（超過サイズのみ）(&L)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr ""
+msgstr "言語(&Language)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "レンダラ設定"
+msgstr "レンダラ設定(&E)"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
@@ -203,123 +206,123 @@ msgstr "ステータスを表示(&D)"
 
 msgctxt "ID_VIEW_REMAINING_TIME"
 msgid "&Remaining Time"
-msgstr "残り時間"
+msgstr "残り時間(&R)"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "出力範囲"
+msgstr "出力範囲(&O)"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "0 - 255"
+msgstr "&0 - 255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "16 - 235"
+msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "表示"
+msgstr "表示(&P)"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "D3D フルスクリーン モード"
+msgstr "D3D フルスクリーン モード(&M)"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "D3D フルスクリーン GUI 対応"
+msgstr "D3D フルスクリーン GUI 対応(&G)"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "10ビット RGB 出力"
+msgstr "10 ビット RGB 出力(&R)"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "強制的に 10ビット RGB 入力"
+msgstr "強制的に 10 ビット RGB 入力(&I)"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "完全な浮動小数点演算をする"
+msgstr "完全な浮動小数点演算をする(&F)"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "半浮動小数点演算をする"
+msgstr "半浮動小数点演算をする(&H)"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "デスクトップ コンポジション (Aero) の無効化"
+msgstr "デスクトップ コンポジション (Aero) の無効化(&A)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "フレーム時間補正"
+msgstr "フレーム時間補正を有効にする(&C)"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "カラー マネージメント"
+msgstr "カラー マネージメント(&C)"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "有効"
+msgstr "有効(&E)"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "入力 タイプ"
+msgstr "入力タイプ(&I)"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "自動検出"
+msgstr "自動検出(&A)"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
-msgstr "HDTV"
+msgstr "&HDTV"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr "SDTV NTSC"
+msgstr "SDTV &NTSC"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr "SDTV PAL"
+msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "アンビエント ライト"
+msgstr "アンビエント ライト(&L)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "明るい (ガンマ 2.2)"
+msgstr "明るい (ガンマ 2.2) (&B)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "薄暗い (ガンマ 2.35)"
+msgstr "薄暗い (ガンマ 2.35) (&D)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "暗い (ガンマ 2.4)"
+msgstr "暗い (ガンマ 2.4) (&A)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "色空間変換の方法"
+msgstr "色空間変換の方法(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "知覚的"
+msgstr "知覚(&P)"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "相対的な色域を維持"
+msgstr "相対的な色域を維持(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr "彩度"
+msgstr "彩度(&S)"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "絶対的な色域を維持"
+msgstr "絶対的な色域を維持(&A)"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "垂直同期"
+msgstr "垂直同期(&V)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
@@ -327,11 +330,11 @@ msgstr "垂直同期(&V)"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "正確な垂直同期"
+msgstr "正確な垂直同期(&A)"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "代替の垂直同期"
+msgstr "代替の垂直同期(&L)"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
@@ -343,39 +346,39 @@ msgstr "垂直同期オフセットの増加(&I)"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "GPU 制御"
+msgstr "GPU 制御(&G)"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "垂直同期前に GPU をフラッシュ"
+msgstr "垂直同期前に GPU をフラッシュ(&B)"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "表示後に GPU をフラッシュ"
+msgstr "表示後に GPU をフラッシュ(&A)"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "フラッシュを待機"
+msgstr "フラッシュを待機(&W)"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "リセット"
+msgstr "リセット(&E)"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "デフォルトのレンダラ設定"
+msgstr "デフォルトのレンダラ設定(&D)"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "最適なレンダラ設定"
+msgstr "最適なレンダラ設定(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "ビデオ フレーム(&V)"
+msgstr "ビデオ フレーム(&F)"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr "1/2サイズ(&H)"
+msgstr "1/2 サイズ(&H)"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
@@ -383,7 +386,7 @@ msgstr "標準サイズ(&N)"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr "2倍サイズ(&D)"
+msgstr "2 倍サイズ(&D)"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
@@ -411,107 +414,107 @@ msgstr "アスペクト比を保持(&K)"
 
 msgctxt "POPUP"
 msgid "Override &Aspect Ratio"
-msgstr "アスペクト比を調整"
+msgstr "アスペクト比を調整(&A)"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
-msgstr "デフォルト"
+msgstr "デフォルト(&D)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr "4:3"
+msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr "5:4"
+msgstr "&5:4"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr "16:9"
+msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "235:100"
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "185:100"
+msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "モニタとデスクトップのアスペクト比の相違を補正"
+msgstr "モニタとデスクトップのアスペクト比の相違を補正(&C)"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "パン＆スキャン(&C)"
+msgstr "パン＆スキャン(&N)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "サイズを拡大"
+msgstr "サイズを拡大(&I)"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr "サイズを縮小"
+msgstr "サイズを縮小(&D)"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr "幅を拡大"
+msgstr "幅を拡大(&N)"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "幅を縮小"
+msgstr "幅を縮小(&E)"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr "高さを拡大"
+msgstr "高さを拡大(&C)"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "高さを縮小"
+msgstr "高さを縮小(&A)"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "右へ移動"
+msgstr "右へ移動(&R)"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "左へ移動"
+msgstr "左へ移動(&L)"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "上へ移動"
+msgstr "上へ移動(&U)"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "下へ移動"
+msgstr "下へ移動(&D)"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "中央へ戻す"
+msgstr "中央へ戻す(&T)"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "リセット"
+msgstr "リセット(&S)"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "常に手前に表示"
+msgstr "常に手前に表示(&T)"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr "デフォルト(&D)"
+msgstr "しない(&D)"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
-msgstr "有効"
+msgstr "常に(&A)"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "再生中"
+msgstr "再生中(&P)"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "ビデオを再生している間"
+msgstr "ビデオを再生中(&V)"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
@@ -543,7 +546,7 @@ msgstr "再生速度増加(&I)"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "再生速度標準"
+msgstr "再生速度標準(&E)"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -567,7 +570,7 @@ msgstr "ビデオ ストリーム(&V)"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "音量(&U)"
+msgstr "音量(&V)"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
@@ -583,7 +586,7 @@ msgstr "ミュート(&M)"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "再生終了後"
+msgstr "再生終了後(&T)"
 
 msgctxt "ID_AFTERPLAYBACK_ONCE"
 msgid "--------- Once ---------"
@@ -591,27 +594,27 @@ msgstr "──── 今回のみ ────"
 
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
-msgstr "終了"
+msgstr "終了(&E)"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "スタンバイ"
+msgstr "スタンバイ(&S)"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "休止状態"
+msgstr "休止状態(&H)"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "シャットダウン"
+msgstr "シャットダウン(&D)"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "ログオフ"
+msgstr "ログオフ(&O)"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "ロック"
+msgstr "ロック(&L)"
 
 msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
 msgid "------ Every time ------"
@@ -619,15 +622,15 @@ msgstr "───── 毎回 ─────"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "E&xit"
-msgstr "終了"
+msgstr "終了(&X)"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do &Nothing"
-msgstr "何もしない"
+msgstr "何もしない(&N)"
 
 msgctxt "ID_AFTERPLAYBACK_NEXT"
 msgid "Play next in the &folder"
-msgstr "フォルダ内を順次再生"
+msgstr "フォルダ内を順次再生(&F)"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -683,7 +686,7 @@ msgstr "ヘルプ(&H)"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "ホームページ"
+msgstr "ホームページ(&H)"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
@@ -691,15 +694,15 @@ msgstr "更新を確認する(&U)"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "コマンドライン スイッチ"
+msgstr "コマンドライン スイッチ(&C)"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "ツールバー画像をダウンロード"
+msgstr "ツールバー画像をダウンロード(&T)"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "寄贈する"
+msgstr "寄付する(&D)"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."

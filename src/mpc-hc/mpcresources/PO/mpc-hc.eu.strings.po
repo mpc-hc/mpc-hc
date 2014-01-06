@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Xabier Aramendi <azpidatziak@gmail.com>, 2013
+# Xabier Aramendi <azpidatziak@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
-"PO-Revision-Date: 2013-12-22 11:54+0000\n"
+"PO-Revision-Date: 2014-01-05 23:53+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -590,7 +590,7 @@ msgstr "DirectShow-rako berezko bideo aurkezle iragazkiak. Besteak hauetara itzu
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "Hau da berezko aurkezlea Windows 9x/me/2k-rako. Bideo leihoaren ikusgarritasunaren eta zure bideo txartelaren gaitasunen arabera, aldatuko da GDI, DirectDraw, Gainjarpen aurkezpen moduen artean dinamikoki."
+msgstr "Hau da berezko aurkezlea Windows 9x/me/2k-rako. Bideo leihoaren ikusgarritasunaren eta zure bideo txartelaren gaitasunen arabera, dinamikoki aldatuko da GDI, DirectDraw, Gainjarpen aurkezpen moduen artean."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
@@ -802,7 +802,7 @@ msgstr "VMR-9 (aurkezgabe) nahastzaile modu barnean jartzen du, honek esanahi du
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "Egintza hobetzen du aurkezlearen bateragarritasun batzuen gain."
+msgstr "Egintza hobetzen du aurkezlearen bateragarritasun ordain apur batekin."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
