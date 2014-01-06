@@ -41,13 +41,14 @@ struct RasterizerNfo {
 
     const DWORD* sw;
     byte* s;
-    byte* src;
+    byte* srcBody;
+    byte* srcBorder;
     DWORD* dst;
 
     byte* am;
 
     RasterizerNfo(int w, int h, int xo, int yo, int overlayp, int spdw, int pitch, DWORD color,
-                  const DWORD* sw, byte* s, byte* src, DWORD* dst, byte* am)
+                  const DWORD* sw, byte* s, byte* srcBody, byte* srcBorder, DWORD* dst, byte* am)
         : w(w)
         , h(h)
         , xo(xo)
@@ -58,9 +59,94 @@ struct RasterizerNfo {
         , color(color)
         , sw(sw)
         , s(s)
-        , src(src)
+        , srcBody(srcBody)
+        , srcBorder(srcBorder)
         , dst(dst)
         , am(am) {
+    }
+};
+
+typedef std::pair<unsigned __int64, unsigned __int64> tSpan;
+typedef std::vector<tSpan> tSpanBuffer;
+
+struct COutlineData
+{
+    int mWidth, mHeight;
+    int mPathOffsetX, mPathOffsetY;
+    int mWideBorder;
+    tSpanBuffer mOutline, mWideOutline;
+};
+
+struct COverlayData
+{
+    int mOffsetX, mOffsetY;
+    int mOverlayWidth, mOverlayHeight, mOverlayPitch;
+    byte *mpOverlayBufferBody, *mpOverlayBufferBorder;
+
+    COverlayData::COverlayData()
+        : mOffsetX(0), mOffsetY(0), mOverlayWidth(0), mOverlayHeight(0), mOverlayPitch(0)
+        , mpOverlayBufferBody(nullptr), mpOverlayBufferBorder(nullptr) {}
+
+    COverlayData::COverlayData(const COverlayData& overlayData)
+        : mOffsetX(overlayData.mOffsetX)
+        , mOffsetY(overlayData.mOffsetY)
+        , mOverlayWidth(overlayData.mOverlayWidth)
+        , mOverlayHeight(overlayData.mOverlayHeight)
+        , mOverlayPitch(overlayData.mOverlayPitch)
+    {
+        if (mOverlayPitch > 0 && mOverlayHeight > 0) {
+            mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+            mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+            if (!mpOverlayBufferBody || !mpOverlayBufferBorder) {
+                mOffsetX = mOffsetY = 0;
+                mOverlayWidth = mOverlayHeight = 0;
+                DeleteOverlay();
+            }
+            memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayPitch * mOverlayHeight);
+            memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayPitch * mOverlayHeight);
+        } else {
+            mpOverlayBufferBody = mpOverlayBufferBorder = nullptr;
+        }
+    }
+
+    COverlayData::~COverlayData() {
+        DeleteOverlay();
+    }
+
+    COverlayData& operator=(const COverlayData& overlayData) {
+        mOffsetX = overlayData.mOffsetX;
+        mOffsetY = overlayData.mOffsetY;
+        mOverlayWidth = overlayData.mOverlayWidth;
+        mOverlayHeight = overlayData.mOverlayHeight;
+        mOverlayPitch = overlayData.mOverlayPitch;
+
+        DeleteOverlay();
+        if (mOverlayPitch > 0 && mOverlayHeight > 0) {
+            mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+            mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
+            if (!mpOverlayBufferBody || !mpOverlayBufferBorder) {
+                mOffsetX = mOffsetY = 0;
+                mOverlayWidth = mOverlayHeight = 0;
+                DeleteOverlay();
+            }
+            memcpy(mpOverlayBufferBody, overlayData.mpOverlayBufferBody, mOverlayPitch * mOverlayHeight);
+            memcpy(mpOverlayBufferBorder, overlayData.mpOverlayBufferBorder, mOverlayPitch * mOverlayHeight);
+        } else {
+            mpOverlayBufferBody = mpOverlayBufferBorder = nullptr;
+        }
+
+        return *this;
+    };
+
+    void DeleteOverlay() {
+        if (mpOverlayBufferBody) {
+            _aligned_free(mpOverlayBufferBody);
+            mpOverlayBufferBody = nullptr;
+        }
+        if (mpOverlayBufferBorder) {
+            _aligned_free(mpOverlayBufferBorder);
+            mpOverlayBufferBorder = nullptr;
+        }
     }
 };
 
@@ -76,15 +162,6 @@ protected:
     bool fSSE2;
 
 private:
-    int mWidth, mHeight;
-
-    typedef std::pair<unsigned __int64, unsigned __int64> tSpan;
-    typedef std::vector<tSpan> tSpanBuffer;
-
-    tSpanBuffer mOutline;
-    tSpanBuffer mWideOutline;
-    int mWideBorder;
-
     struct Edge {
         int next;
         int posandflag;
@@ -95,10 +172,8 @@ private:
     unsigned int* mpScanBuffer;
 
 protected:
-    int mPathOffsetX, mPathOffsetY;
-    int mOffsetX, mOffsetY;
-    int mOverlayWidth, mOverlayHeight;
-    byte* mpOverlayBuffer;
+    COutlineData m_outlineData;
+    COverlayData m_overlayData;
 
 private:
     void _TrashPath();
@@ -107,7 +182,7 @@ private:
     void _EvaluateBezier(int ptbase, bool fBSpline);
     void _EvaluateLine(int pt1idx, int pt2idx);
     void _EvaluateLine(int x0, int y0, int x1, int y1);
-    static void _OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int dy);
+    static void _OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx, int dy);
     // helpers
     void Draw_noAlpha_spFF_Body_0(RasterizerNfo& rnfo);
     void Draw_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo);

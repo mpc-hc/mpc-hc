@@ -37,6 +37,9 @@ public:
 private:
     enc m_encoding, m_defaultencoding;
     int m_offset;
+    CAutoVectorPtr<char> m_buffer;
+    CAutoVectorPtr<WCHAR> m_wbuffer;
+    LONGLONG m_posInBuffer, m_nInBuffer;
 
 public:
     CTextFile(enc e = DEFAULT_ENCODING);
@@ -65,6 +68,7 @@ public:
 
 protected:
     virtual bool ReopenAsText();
+    bool FillBuffer();
 };
 
 class CWebTextFile : public CTextFile

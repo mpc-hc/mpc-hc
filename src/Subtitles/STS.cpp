@@ -1206,9 +1206,14 @@ int GetInt(CStringW& buff, char sep = ',') //throw(...)
     str = GetStrW(buff, sep);
     str.MakeLower();
 
-    CStringW fmtstr = str.GetLength() > 2 && (str.Left(2) == L"&h" || str.Left(2) == L"0x")
-                      ? str = str.Mid(2), L"%x"
-                              : L"%d";
+    LPCWSTR fmtstr;
+    if (str.GetLength() > 2
+            && ((str[0] == L'&' && str[1] == L'h') || (str[0] == L'0' && str[1] == L'x'))) {
+        str = str.Mid(2);
+        fmtstr = L"%x";
+    } else {
+        fmtstr = L"%d";
+    }
 
     int ret;
     if (swscanf_s(str, fmtstr, &ret) != 1) {
@@ -1975,7 +1980,8 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
             m_segments.InsertAt(0, stss);
         }
 
-        for (size_t i = 0; i < m_segments.GetCount(); i++) {
+        size_t i;
+        for (i = 0; i < m_segments.GetCount(); i++) {
             STSSegment& s = m_segments[i];
 
             if (start >= s.end) {
@@ -1995,32 +2001,47 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
             }
 
             if (start <= s.start && s.end <= end) {
-                for (size_t j = 0, k = s.subs.GetCount(); j <= k; j++) {
-                    if (j == k || sub.readorder < GetAt(s.subs[j]).readorder) {
-                        s.subs.InsertAt(j, n);
+                size_t count = s.subs.GetCount();
+                // Take a shortcut when possible
+                if (!count || sub.readorder >= GetAt(s.subs[count - 1]).readorder) {
+                    s.subs.Add(n);
+                } else {
+                    for (size_t j = 0; j < count; j++) {
+                        if (sub.readorder < GetAt(s.subs[j]).readorder) {
+                            s.subs.InsertAt(j, n);
+                            break;
+                        }
                     }
                 }
-                //              s.subs.Add(n);
             }
 
             if (s.start < end && end < s.end) {
                 STSSegment stss(s.start, end);
                 stss.subs.Copy(s.subs);
-                for (size_t j = 0, k = s.subs.GetCount(); j <= k; j++) {
-                    if (j == k || sub.readorder < GetAt(stss.subs[j]).readorder) {
-                        stss.subs.InsertAt(j, n);
+
+                size_t count = stss.subs.GetCount();
+
+                // Take a shortcut when possible
+                if (!count || sub.readorder >= GetAt(stss.subs[count - 1]).readorder) {
+                    stss.subs.Add(n);
+                } else {
+                    for (size_t j = 0; j < count; j++) {
+                        if (sub.readorder < GetAt(stss.subs[j]).readorder) {
+                            stss.subs.InsertAt(j, n);
+                            break;
+                        }
                     }
                 }
-                //              stss.subs.Add(n);
+
                 s.start = end;
                 m_segments.InsertAt(i, stss);
             }
         }
 
-        if (end > m_segments[m_segments.GetCount() - 1].end) {
-            STSSegment stss(m_segments[m_segments.GetCount() - 1].end, end);
+        if (end > m_segments[i - 1].end) {
+            STSSegment stss(m_segments[i - 1].end, end);
             stss.subs.Add(n);
-            m_segments.Add(stss);
+            m_segments.InsertAt(i, stss);
         }
     }
 }
@@ -2400,17 +2421,17 @@ CStringA CSimpleTextSubtitle::GetStrA(int i, bool fSSA)
 
 CStringW CSimpleTextSubtitle::GetStrW(int i, bool fSSA)
 {
-    bool fUnicode = IsEntryUnicode(i);
+    STSEntry const& stse = GetAt(i);
     int CharSet = GetCharSet(i);
 
-    CStringW str = GetAt(i).str;
+    CStringW str = stse.str;
 
-    if (!fUnicode) {
+    if (!stse.fUnicode) {
         str = MBCSSSAToUnicode(str, CharSet);
     }
 
     if (!fSSA) {
-        str = RemoveSSATags(str, fUnicode, CharSet);
+        str = RemoveSSATags(str, true, CharSet);
     }
 
     return str;
@@ -2418,17 +2439,17 @@ CStringW CSimpleTextSubtitle::GetStrW(int i, bool fSSA)
 
 CStringW CSimpleTextSubtitle::GetStrWA(int i, bool fSSA)
 {
-    bool fUnicode = IsEntryUnicode(i);
+    STSEntry const& stse = GetAt(i);
     int CharSet = GetCharSet(i);
 
-    CStringW str = GetAt(i).str;
+    CStringW str = stse.str;
 
-    if (fUnicode) {
+    if (stse.fUnicode) {
         str = UnicodeSSAToMBCS(str, CharSet);
     }
 
     if (!fSSA) {
-        str = RemoveSSATags(str, fUnicode, CharSet);
+        str = RemoveSSATags(str, false, CharSet);
     }
 
     return str;
@@ -2477,37 +2498,45 @@ void CSimpleTextSubtitle::Sort(bool fRestoreReadorder)
     CreateSegments();
 }
 
-static int intcomp(const void* i1, const void* i2)
+struct Breakpoint
 {
-    return (*((int*)i1) - * ((int*)i2));
+    int t;
+    bool isStart;
+
+    Breakpoint(int t, bool isStart) : t(t), isStart(isStart) {};
+};
+
+static int BreakpointComp(const void* e1, const void* e2)
+{
+    const Breakpoint* bp1 = (const Breakpoint*)e1;
+    const Breakpoint* bp2 = (const Breakpoint*)e2;
+
+    return (bp1->t - bp2->t);
 }
 
 void CSimpleTextSubtitle::CreateSegments()
 {
     m_segments.RemoveAll();
 
-    size_t i, j;
+    CAtlArray<Breakpoint> breakpoints;
 
-    CAtlArray<int> breakpoints;
-
-    for (i = 0; i < GetCount(); i++) {
+    for (size_t i = 0; i < GetCount(); i++) {
         STSEntry& stse = GetAt(i);
-        breakpoints.Add(stse.start);
-        breakpoints.Add(stse.end);
+        breakpoints.Add(Breakpoint(stse.start, true));
+        breakpoints.Add(Breakpoint(stse.end, false));
     }
 
-    qsort(breakpoints.GetData(), breakpoints.GetCount(), sizeof(int), intcomp);
+    qsort(breakpoints.GetData(), breakpoints.GetCount(), sizeof(Breakpoint), BreakpointComp);
 
-    int* ptr = breakpoints.GetData(), prev = ptr ? *ptr : 0;
-
-    for (i = breakpoints.GetCount(); i > 0; i--, ptr++) {
-        if (*ptr != prev) {
-            m_segments.Add(STSSegment(prev, *ptr));
-            prev = *ptr;
+    ptrdiff_t startsCount = 0;
+    for (size_t i = 1, end = breakpoints.GetCount(); i < end; i++) {
+        startsCount += breakpoints[i - 1].isStart ? +1 : -1;
+        if (breakpoints[i - 1].t != breakpoints[i].t && startsCount > 0) {
+            m_segments.Add(STSSegment(breakpoints[i - 1].t, breakpoints[i].t));
         }
     }
 
-    for (i = 0; i < GetCount(); i++) {
+    for (size_t i = 0, j; i < GetCount(); i++) {
         STSEntry& stse = GetAt(i);
         for (j = 0; j < m_segments.GetCount() && m_segments[j].start < stse.start; j++) {
             ;
@@ -2519,14 +2548,12 @@ void CSimpleTextSubtitle::CreateSegments()
 
     OnChanged();
     /*
-        for (i = 0, j = m_segments.GetCount(); i < j; i++)
-        {
+        for (size_t i = 0, j = m_segments.GetCount(); i < j; i++) {
             STSSegment& stss = m_segments[i];
 
             TRACE(_T("%d - %d"), stss.start, stss.end);
 
-            for (size_t k = 0, l = stss.subs.GetCount(); k < l; k++)
-            {
+            for (size_t k = 0, l = stss.subs.GetCount(); k < l; k++) {
                 TRACE(_T(", %d"), stss.subs[k]);
             }
 
