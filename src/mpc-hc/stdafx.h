@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,10 @@
 #pragma once
 
 #define VC_EXTRALEAN                        // Exclude rarely-used stuff from Windows headers
+
+#ifndef STRICT_TYPED_ITEMIDS
+#define STRICT_TYPED_ITEMIDS
+#endif
 
 #include <afxwin.h>                         // MFC core and standard components
 #include <afxext.h>                         // MFC extensions

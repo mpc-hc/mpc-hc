@@ -4081,7 +4081,7 @@ void CMainFrame::OnFileOpendvd()
         bi.lParam = 0;
         bi.iImage = 0;
 
-        static LPITEMIDLIST iil;
+        static PIDLIST_ABSOLUTE iil;
         iil = SHBrowseForFolder(&bi);
         if (iil) {
             SHGetPathFromIDList(iil, _path);
@@ -15391,7 +15391,7 @@ void CMainFrame::OnFileOpendirectory()
         bi.lParam         = 0;
         bi.iImage         = 0;
 
-        static LPITEMIDLIST iil;
+        static PIDLIST_ABSOLUTE iil;
         iil = SHBrowseForFolder(&bi);
         if (iil) {
             SHGetPathFromIDList(iil, _path);

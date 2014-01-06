@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -122,9 +122,9 @@ BOOL COpenFileDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 BOOL COpenFileDlg::OnIncludeItem(OFNOTIFYEX* pOFNEx, LRESULT* pResult)
 {
     TCHAR buff[MAX_PATH];
-    if (!SHGetPathFromIDList((LPCITEMIDLIST)pOFNEx->pidl, buff)) {
+    if (!SHGetPathFromIDList((PIDLIST_ABSOLUTE)pOFNEx->pidl, buff)) {
         STRRET s;
-        HRESULT hr = ((IShellFolder*)pOFNEx->psf)->GetDisplayNameOf((LPCITEMIDLIST)pOFNEx->pidl, SHGDN_NORMAL | SHGDN_FORPARSING, &s);
+        HRESULT hr = ((IShellFolder*)pOFNEx->psf)->GetDisplayNameOf((PCUITEMID_CHILD)pOFNEx->pidl, SHGDN_NORMAL | SHGDN_FORPARSING, &s);
         if (S_OK != hr) {
             return FALSE;
         }
