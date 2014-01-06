@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2013 see Authors.txt
+ * (C) 2010-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -49,6 +49,12 @@ BOOL CPlayerNavigationDialog::Create(CWnd* pParent)
     if (!__super::Create(IDD, pParent)) {
         return FALSE;
     }
+
+    AddAnchor(IDC_LISTCHANNELS, TOP_LEFT, BOTTOM_RIGHT);
+    AddAnchor(IDC_NAVIGATION_INFO, BOTTOM_LEFT);
+    AddAnchor(IDC_NAVIGATION_SCAN, BOTTOM_RIGHT);
+    AddAnchor(IDC_NAVIGATION_FILTERSTATIONS, BOTTOM_LEFT, BOTTOM_RIGHT);
+
     return TRUE;
 }
 
