@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -917,11 +917,20 @@ void CPlayerPlaylistBar::ResizeListColumn()
         CRect r;
         GetClientRect(r);
         r.DeflateRect(2, 2);
+
         m_list.SetRedraw(FALSE);
-        m_list.MoveWindow(r);
-        m_list.GetClientRect(r);
-        m_list.SetColumnWidth(COL_NAME, r.Width() - m_nTimeColWidth); //LVSCW_AUTOSIZE_USEHEADER
+        m_list.SetColumnWidth(COL_NAME, 0);
         m_list.SetRedraw(TRUE);
+
+        m_list.MoveWindow(r, FALSE);
+        m_list.GetClientRect(r);
+
+        m_list.SetRedraw(FALSE);
+        m_list.SetColumnWidth(COL_NAME, r.Width() - m_nTimeColWidth);
+        m_list.SetRedraw(TRUE);
+
+        Invalidate();
+        m_list.RedrawWindow(nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE);
     }
 }
 
