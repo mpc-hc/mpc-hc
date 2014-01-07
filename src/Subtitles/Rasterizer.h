@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -69,19 +69,17 @@ struct RasterizerNfo {
 typedef std::pair<unsigned __int64, unsigned __int64> tSpan;
 typedef std::vector<tSpan> tSpanBuffer;
 
-struct COutlineData
-{
+struct COutlineData {
     int mWidth, mHeight;
     int mPathOffsetX, mPathOffsetY;
     int mWideBorder;
     tSpanBuffer mOutline, mWideOutline;
 };
 
-struct COverlayData
-{
+struct COverlayData {
     int mOffsetX, mOffsetY;
     int mOverlayWidth, mOverlayHeight, mOverlayPitch;
-    byte *mpOverlayBufferBody, *mpOverlayBufferBorder;
+    byte* mpOverlayBufferBody, *mpOverlayBufferBorder;
 
     COverlayData::COverlayData()
         : mOffsetX(0), mOffsetY(0), mOverlayWidth(0), mOverlayHeight(0), mOverlayPitch(0)
@@ -92,8 +90,7 @@ struct COverlayData
         , mOffsetY(overlayData.mOffsetY)
         , mOverlayWidth(overlayData.mOverlayWidth)
         , mOverlayHeight(overlayData.mOverlayHeight)
-        , mOverlayPitch(overlayData.mOverlayPitch)
-    {
+        , mOverlayPitch(overlayData.mOverlayPitch) {
         if (mOverlayPitch > 0 && mOverlayHeight > 0) {
             mpOverlayBufferBody = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);
             mpOverlayBufferBorder = (byte*)_aligned_malloc(mOverlayPitch * mOverlayHeight, 16);

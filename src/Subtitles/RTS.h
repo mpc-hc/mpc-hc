@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,8 +44,7 @@ public:
     CMyFont(STSStyle& style);
 };
 
-struct CTextDims
-{
+struct CTextDims {
     int ascent, descent;
     int width;
 };
@@ -327,7 +326,7 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
 {
     static CAtlMap<CStringW, SSATagCmd, CStringElementTraits<CStringW>> s_SSATagCmds;
     CAtlMap<int, CSubtitle*> m_subtitleCache;
-    
+
     CTextDimsCache m_textDimsCache;
     CSSATagsCache m_SSATagsCache;
     COutlineCache m_outlineCache;

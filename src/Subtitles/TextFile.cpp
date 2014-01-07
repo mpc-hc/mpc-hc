@@ -180,7 +180,7 @@ ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
     } else {
         newPos = ULONGLONG(lOff);
     }
-    
+
     return newPos;
 }
 
@@ -544,15 +544,15 @@ BOOL CTextFile::ReadString(CStringW& str)
                             }
 
                             switch (nContinuationBytes) {
-                            case 0: // 0xxxxxxx
-                                m_wbuffer[nCharsRead] = m_buffer[m_posInBuffer] & 0x7f;
-                                break;
-                            case 1: // 110xxxxx 10xxxxxx
-                                m_wbuffer[nCharsRead] = (m_buffer[m_posInBuffer] & 0x1f) << 6 | (m_buffer[m_posInBuffer + 1] & 0x3f);
-                                break;
-                            case 2: // 1110xxxx 10xxxxxx 10xxxxxx
-                                m_wbuffer[nCharsRead] = (m_buffer[m_posInBuffer] & 0x0f) << 12 | (m_buffer[m_posInBuffer + 1] & 0x3f) << 6 | (m_buffer[m_posInBuffer + 2] & 0x3f);
-                                break;
+                                case 0: // 0xxxxxxx
+                                    m_wbuffer[nCharsRead] = m_buffer[m_posInBuffer] & 0x7f;
+                                    break;
+                                case 1: // 110xxxxx 10xxxxxx
+                                    m_wbuffer[nCharsRead] = (m_buffer[m_posInBuffer] & 0x1f) << 6 | (m_buffer[m_posInBuffer + 1] & 0x3f);
+                                    break;
+                                case 2: // 1110xxxx 10xxxxxx 10xxxxxx
+                                    m_wbuffer[nCharsRead] = (m_buffer[m_posInBuffer] & 0x0f) << 12 | (m_buffer[m_posInBuffer + 1] & 0x3f) << 6 | (m_buffer[m_posInBuffer + 2] & 0x3f);
+                                    break;
                             }
                             m_posInBuffer += nContinuationBytes;
                         }
@@ -634,7 +634,7 @@ BOOL CTextFile::ReadString(CStringW& str)
             int nCharsRead;
 
             for (nCharsRead = 0; m_posInBuffer + 1 < m_nInBuffer; nCharsRead++, m_posInBuffer += sizeof(WCHAR)) {
-                m_wbuffer[nCharsRead] = ((WCHAR(m_buffer[m_posInBuffer]) << 8) & 0xff00) | (WCHAR(m_buffer[m_posInBuffer + 1]) & 0x00ff); 
+                m_wbuffer[nCharsRead] = ((WCHAR(m_buffer[m_posInBuffer]) << 8) & 0xff00) | (WCHAR(m_buffer[m_posInBuffer + 1]) & 0x00ff);
                 if (m_wbuffer[nCharsRead] == L'\n') {
                     bLineEndFound = true; // Stop at end of line
                     m_posInBuffer += sizeof(WCHAR);

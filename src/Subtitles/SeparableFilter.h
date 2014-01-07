@@ -81,7 +81,7 @@ void SeparableFilterY(unsigned char* src, unsigned char* dst, int width, int hei
 
         const unsigned char* in = src + y * stride;
         unsigned char* out = dst + y * stride;
-        
+
         int kOffset = kernel_size / 2;
         int kStart = 0;
         int kEnd = kernel_size;
@@ -188,7 +188,7 @@ void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, in
             accum2 = accum2 / divisorLibdivide;
             // Pack the 8 32-bit integers into 8 16-bit integers
             accum1 = _mm_packs_epi32(accum1, accum2);
-            
+
             // Load 4 32-bit integer values and divide them
             __m128i accum3 = _mm_load_si128((__m128i*)&tmp[x + 8]);
             accum3 = accum3 / divisorLibdivide;
@@ -226,7 +226,7 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
     int width16 = width & ~15;
     int* tmp = (int*)_aligned_malloc(stride * sizeof(int), 16);
     libdivide::divider<int> divisorLibdivide(divisor);
-    
+
 #ifdef _OPENMP
     #pragma omp parallel for
 #endif
@@ -235,7 +235,7 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
 
         const unsigned char* in = src + y * stride;
         unsigned char* out = dst + y * stride;
-        
+
         int kOffset = kernel_size / 2;
         int kStart = 0;
         int kEnd = kernel_size;
@@ -295,7 +295,7 @@ void SeparableFilterY_SSE2(unsigned char* src, unsigned char* dst, int width, in
             accum2 = accum2 / divisorLibdivide;
             // Pack the 8 32-bit integers into 8 16-bit integers
             accum1 = _mm_packs_epi32(accum1, accum2);
-            
+
             // Load 4 32-bit integer values and divide them
             __m128i accum3 = _mm_load_si128((__m128i*)&tmp[x + 8]);
             accum3 = accum3 / divisorLibdivide;

@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,7 @@
 
 #include <atlcoll.h>
 
-template<typename K, typename V, class KTraits = CElementTraits< K >, class VTraits = CElementTraits< V > > 
+template<typename K, typename V, class KTraits = CElementTraits<K>, class VTraits = CElementTraits<V>>
 class CRenderingCache : private CAtlMap<K, POSITION, KTraits>
 {
 private:

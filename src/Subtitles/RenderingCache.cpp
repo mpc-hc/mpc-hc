@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -66,14 +66,14 @@ void CTextDimsKey::UpdateHash()
 bool CTextDimsKey::operator==(const CTextDimsKey& textDimsKey) const
 {
     return m_str == textDimsKey.m_str
-            && m_style->charSet == textDimsKey.m_style->charSet
-            && m_style->fontName == textDimsKey.m_style->fontName
-            && NEARLY_EQ(m_style->fontSize, textDimsKey.m_style->fontSize, 1e-6)
-            && NEARLY_EQ(m_style->fontSpacing, textDimsKey.m_style->fontSpacing, 1e-6)
-            && m_style->fontWeight == textDimsKey.m_style->fontWeight
-            && m_style->fItalic == textDimsKey.m_style->fItalic
-            && m_style->fUnderline == textDimsKey.m_style->fUnderline
-            && m_style->fStrikeOut == textDimsKey.m_style->fStrikeOut;
+           && m_style->charSet == textDimsKey.m_style->charSet
+           && m_style->fontName == textDimsKey.m_style->fontName
+           && NEARLY_EQ(m_style->fontSize, textDimsKey.m_style->fontSize, 1e-6)
+           && NEARLY_EQ(m_style->fontSpacing, textDimsKey.m_style->fontSpacing, 1e-6)
+           && m_style->fontWeight == textDimsKey.m_style->fontWeight
+           && m_style->fItalic == textDimsKey.m_style->fItalic
+           && m_style->fUnderline == textDimsKey.m_style->fUnderline
+           && m_style->fStrikeOut == textDimsKey.m_style->fStrikeOut;
 }
 
 COutlineKey::COutlineKey(const CWord* word, CPoint org)
@@ -131,21 +131,21 @@ void COutlineKey::UpdateHash()
 bool COutlineKey::operator==(const COutlineKey& outLineKey) const
 {
     return __super::operator==(outLineKey) // CreatePath
-            && NEARLY_EQ(m_scalex, outLineKey.m_scalex, 1e-6)
-            && NEARLY_EQ(m_scaley, outLineKey.m_scaley, 1e-6)
-            // Transform
-            && NEARLY_EQ(m_style->fontScaleX, outLineKey.m_style->fontScaleX, 1e-6)
-            && NEARLY_EQ(m_style->fontScaleY, outLineKey.m_style->fontScaleY, 1e-6)
-            && NEARLY_EQ(m_style->fontAngleX, outLineKey.m_style->fontAngleX, 1e-6)
-            && NEARLY_EQ(m_style->fontAngleY, outLineKey.m_style->fontAngleY, 1e-6)
-            && NEARLY_EQ(m_style->fontAngleZ, outLineKey.m_style->fontAngleZ, 1e-6)
-            && NEARLY_EQ(m_style->fontShiftX, outLineKey.m_style->fontShiftX, 1e-6)
-            && NEARLY_EQ(m_style->fontShiftY, outLineKey.m_style->fontShiftY, 1e-6)
-            && m_org == outLineKey.m_org
-            // CreateWidenedRegion
-            && m_style->borderStyle == outLineKey.m_style->borderStyle
-            && NEARLY_EQ(m_style->outlineWidthX, outLineKey.m_style->outlineWidthX, 1e-6)
-            && NEARLY_EQ(m_style->outlineWidthY, outLineKey.m_style->outlineWidthY, 1e-6);
+           && NEARLY_EQ(m_scalex, outLineKey.m_scalex, 1e-6)
+           && NEARLY_EQ(m_scaley, outLineKey.m_scaley, 1e-6)
+           // Transform
+           && NEARLY_EQ(m_style->fontScaleX, outLineKey.m_style->fontScaleX, 1e-6)
+           && NEARLY_EQ(m_style->fontScaleY, outLineKey.m_style->fontScaleY, 1e-6)
+           && NEARLY_EQ(m_style->fontAngleX, outLineKey.m_style->fontAngleX, 1e-6)
+           && NEARLY_EQ(m_style->fontAngleY, outLineKey.m_style->fontAngleY, 1e-6)
+           && NEARLY_EQ(m_style->fontAngleZ, outLineKey.m_style->fontAngleZ, 1e-6)
+           && NEARLY_EQ(m_style->fontShiftX, outLineKey.m_style->fontShiftX, 1e-6)
+           && NEARLY_EQ(m_style->fontShiftY, outLineKey.m_style->fontShiftY, 1e-6)
+           && m_org == outLineKey.m_org
+           // CreateWidenedRegion
+           && m_style->borderStyle == outLineKey.m_style->borderStyle
+           && NEARLY_EQ(m_style->outlineWidthX, outLineKey.m_style->outlineWidthX, 1e-6)
+           && NEARLY_EQ(m_style->outlineWidthY, outLineKey.m_style->outlineWidthY, 1e-6);
 }
 
 COverlayKey::COverlayKey(const CWord* word, CPoint p, CPoint org)
@@ -176,7 +176,7 @@ void COverlayKey::UpdateHash()
 bool COverlayKey::operator==(const COverlayKey& overlayKey) const
 {
     return __super::operator==(overlayKey)
-            && m_subp == overlayKey.m_subp
-            && m_style->fBlur == overlayKey.m_style->fBlur
-            && NEARLY_EQ(m_style->fGaussianBlur, overlayKey.m_style->fGaussianBlur, 1e-6);
+           && m_subp == overlayKey.m_subp
+           && m_style->fBlur == overlayKey.m_style->fBlur
+           && NEARLY_EQ(m_style->fGaussianBlur, overlayKey.m_style->fGaussianBlur, 1e-6);
 }
