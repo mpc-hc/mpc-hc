@@ -253,7 +253,7 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
                         rowSize += pBar->m_cxEdge;
                         if (bNewRow) {
                             CSize size = pBar->CalcFixedLayout(TRUE, bHorz);
-                            stackSize += (bHorz ? size.cy : size.cx) - (stackSize ? 2 : 4);
+                            stackSize += (bHorz ? size.cy - 2 : (stackSize ? size.cx - 2 : size.cx - 4));
                             bNewRow = false;
                         }
                         break;
@@ -273,9 +273,6 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
     ret.cx = max(sizeLeft.cx + sizeRight.cx, max(sizeTop.cx, sizeBottom.cx));
     ret.cy = sizeTop.cy + sizeBottom.cy + max(sizeLeft.cy, sizeRight.cy);
     const unsigned uToolbars = GetToolbarsHeight();
-    if (sizeBottom.cy && uToolbars) {
-        ret.cy += 2;
-    }
     if (uToolbars) {
         ret.cx = std::max(ret.cx, saneX);
     }
@@ -710,7 +707,7 @@ void CMainFrameControls::GetDockZonesInternal(unsigned& uTop, unsigned& uLeft, u
                 for (const auto panel : panels) {
                     if (m_panels[panel] == pBar && (!bOnlyVisible || IsWindowVisible(*pBar))) {
                         CSize size = pBar->CalcFixedLayout(TRUE, bHorz);
-                        stackSize += (bHorz ? size.cy : size.cx) - (stackSize ? 2 : 4);
+                        stackSize += (bHorz ? size.cy - 2 : (stackSize ? size.cx - 2 : size.cx - 4));
                         bNewRow = false;
                         break;
                     }
@@ -726,9 +723,6 @@ void CMainFrameControls::GetDockZonesInternal(unsigned& uTop, unsigned& uLeft, u
     uBottom = (m_panelZones.find(DOCK_BOTTOM) != std::end(m_panelZones)) ? calcDock(DOCK_BOTTOM) : 0;
 
     unsigned uToolbars = bOnlyVisible ? GetVisibleToolbarsHeight() : GetToolbarsHeight();
-    if (uBottom && uToolbars) {
-        uBottom += 2;
-    }
     uBottom += uToolbars;
 }
 
