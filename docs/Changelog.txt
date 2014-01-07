@@ -31,7 +31,7 @@ next version - not released yet
     - internal video renderers now always use the latest supported shader profile to compile
       pixel shaders
 * More flexible auto-hide controls in fullscreen configuration options
-* Updated LAV Filters to 0.59.1.107:
+* Updated LAV Filters to 0.59.1.102:
     - Ticket #3540, LAV Splitter: The current/average bitrate is now shown in the Information panel
     - Ticket #3760, LAV Video: Fix a crash when opening some DVDs on 64-bit
     - Ticket #3793, LAV Video: Fix a decoding issue with some H264 files
@@ -48,7 +48,10 @@ next version - not released yet
 ! DVB: It was sometimes impossible to restart playback after it was stopped
 ! Ticket #720/#1807/#2625/#3161 Improve stability in analog capture mode when using EVR-CP/Sync renderer
 ! Ticket #1300/#2081, Toolbars auto-hiding now always works properly in multi-display configurations
+! Ticket #3243, Fix a crash when starting MPC-HC with the web internal enabled and certain regional settings
 ! Ticket #3479, Improve the behavior of MPC-HC when some security tools prevent it
   from initializing correctly
 ! Ticket #3650, Improve the speed of subtitles toggling (on/off) and switching
 ! Ticket #3668, MPC-HC could crash when reloading the subtitles
+! Ticket #3922, "Play > Subtitles" menu actions were off by one when playing a DVD
+  and only external subtitles were available

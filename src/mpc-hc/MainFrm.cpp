@@ -7571,7 +7571,8 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
     if (GetPlaybackMode() == PM_DVD) {
         ULONG ulStreamsAvailable, ulCurrentStream;
         BOOL bIsDisabled;
-        if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))) {
+        if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))
+                && ulStreamsAvailable) {
             if (i == 0) {
                 m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
             } else {
