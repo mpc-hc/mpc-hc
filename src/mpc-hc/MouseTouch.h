@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 #pragma once
 
 #include <map>
+#include <vector>
 
 #include "EventDispatcher.h"
 
@@ -152,4 +153,71 @@ private:
     virtual CWnd& GetWnd() override final {
         return *this;
     }
+};
+
+template <class T>
+class CMouseWheelHook
+{
+    HHOOK m_hHook;
+
+    static LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
+        if (nCode == HC_ACTION && wParam == WM_MOUSEWHEEL) {
+            const auto& msex = *reinterpret_cast<MOUSEHOOKSTRUCTEX*>(lParam);
+            if (CWnd* pFocus = CWnd::FromHandlePermanent(msex.hwnd)) {
+                if (CWnd* pFocusRoot = pFocus->GetAncestor(GA_ROOT)) {
+                    for (CWnd* pRoot : T::GetRoots()) {
+                        ASSERT(pRoot);
+                        // only intercept messages to focused windows that have white-listed root windows
+                        if (pRoot && *pRoot == *pFocusRoot) {
+                            if (CWnd* pUnder = CWnd::WindowFromPoint(msex.pt)) {
+                                if (CWnd* pUnderRoot = pUnder->GetAncestor(GA_ROOT)) {
+                                    if (*pUnderRoot == *pFocusRoot &&
+                                            GetCurrentThreadId() == GetWindowThreadProcessId(pUnder->m_hWnd, nullptr)) {
+                                        // prepare MSG struct
+                                        MSG msg = {
+                                            pUnder->m_hWnd,
+                                            wParam,
+                                            CMouse::GetMouseFlags() | msex.mouseData,
+                                            MAKELPARAM(msex.pt.x, msex.pt.y),
+                                            GetMessageTime(),
+                                            msex.pt
+                                        };
+
+                                        // walk through pre-translate
+                                        if (CWnd::WalkPreTranslateTree(pUnderRoot->m_hWnd, &msg)) {
+                                            // the message shouldn't be dispatched
+                                            return TRUE;
+                                        }
+
+                                        // dispatch the message
+                                        if (msg.hwnd) {
+                                            DispatchMessage(&msg);
+                                        }
+                                    }
+                                }
+                            }
+                            return TRUE;
+                        }
+                    }
+                }
+            }
+        }
+        return CallNextHookEx(nullptr, nCode, wParam, lParam);
+    }
+
+public:
+    CMouseWheelHook() {
+        m_hHook = SetWindowsHookEx(WH_MOUSE, MouseProc, nullptr, GetCurrentThreadId());
+        ASSERT(m_hHook);
+    }
+
+    virtual ~CMouseWheelHook() {
+        if (m_hHook) {
+            VERIFY(UnhookWindowsHookEx(m_hHook));
+        }
+    }
+};
+
+struct CMainFrameMouseHook : CMouseWheelHook<CMainFrameMouseHook> {
+    static std::vector<CWnd*> GetRoots();
 };

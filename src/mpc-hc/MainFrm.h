@@ -176,6 +176,8 @@ private:
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
 
+    CMainFrameMouseHook m_mouseHook;
+
     enum {
         TIMER_STREAMPOSPOLLER = 1,
         TIMER_STREAMPOSPOLLER2,
