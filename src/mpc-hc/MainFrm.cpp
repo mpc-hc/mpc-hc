@@ -715,7 +715,7 @@ CMainFrame::CMainFrame()
     , m_evOpenPrivateFinished(FALSE, TRUE)
     , m_evClosePrivateFinished(FALSE, TRUE)
     , m_pVisiblePopupMenu(nullptr)
-    , m_dwPopupMenuHideTick(0)
+    , m_iPopupMenuHideTime(0)
     , m_bWasSnapped(false)
     , m_bIsBDPlay(false)
     , m_bLockedZoomVideoWindow(false)
@@ -2923,7 +2923,7 @@ void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
     __super::OnUnInitMenuPopup(pPopupMenu, nFlags);
     if (m_pVisiblePopupMenu == pPopupMenu) {
         m_pVisiblePopupMenu = nullptr;
-        m_dwPopupMenuHideTick = GetTickCount();
+        m_iPopupMenuHideTime = GetMessageTime();
     }
 }
 

@@ -29,6 +29,8 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     : m_bD3DFS(bD3DFS)
     , m_pMainFrame(pMainFrm)
     , m_dwMouseHiderStartTick(0)
+    , m_bLeftDoubleStarted(false)
+    , m_leftDoubleStartTime(0)
 {
     m_cursors[Cursor::NONE] = nullptr;
     m_cursors[Cursor::ARROW] = LoadCursor(nullptr, IDC_ARROW);
@@ -94,7 +96,7 @@ bool CMouse::Dragging()
 void CMouse::ResetToBlankState()
 {
     StopMouseHider();
-    m_bLeftClicked = false;
+    m_bLeftDown = false;
     m_bTrackingMouseLeave = false;
     m_drag = Drag::NO_DRAG;
     m_cursor = Cursor::ARROW;
@@ -243,13 +245,13 @@ bool CMouse::MVRUp(UINT nFlags, const CPoint& point)
 void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
 {
     GetWnd().SetFocus();
-    m_bLeftClicked = false;
+    m_bLeftDown = false;
     SetCursor(nFlags, point);
     if (MVRDown(nFlags, point)) {
         return;
     }
     bool bIsOnFS = IsOnFullscreenWindow();
-    if ((!m_bD3DFS || !bIsOnFS) && ((ULONG)GetMessageTime() <= m_pMainFrame->m_dwPopupMenuHideTick + GetDoubleClickTime())) {
+    if ((!m_bD3DFS || !bIsOnFS) && (GetMessageTime() == m_pMainFrame->m_iPopupMenuHideTime)) {
         return;
     }
     if (m_pMainFrame->GetLoadState() == MLS::LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
@@ -260,9 +262,30 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
     if (m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonDown(nFlags, point)) {
         return;
     }
-    m_bLeftClicked = true;
-    m_drag = (!bIsOnFS && m_pMainFrame->IsCaptionHidden()) ||
-             (!OnButton(wmcmd::LDOWN, point, bIsOnFS) && !bIsOnFS) ? Drag::BEGIN_DRAG : Drag::NO_DRAG;
+    m_bLeftDown = true;
+    bool bDouble = false;
+    if (m_bLeftDoubleStarted &&
+            GetMessageTime() - m_leftDoubleStartTime < (int)GetDoubleClickTime() &&
+            CMouse::PointEqualsImprecise(m_leftDoubleStartPoint, point)) {
+        m_bLeftDoubleStarted = false;
+        bDouble = true;
+    } else {
+        m_bLeftDoubleStarted = true;
+        m_leftDoubleStartTime = GetMessageTime();
+        m_leftDoubleStartPoint = point;
+    }
+    auto onButton = [&]() {
+        GetWnd().SetCapture();
+        bool ret = OnButton(wmcmd::LDOWN, point, bIsOnFS);
+        if (bDouble) {
+            ret = OnButton(wmcmd::LDBLCLK, point, bIsOnFS) || ret;
+        }
+        if (!ret) {
+            ReleaseCapture();
+        }
+        return ret;
+    };
+    m_drag = (!bIsOnFS && m_pMainFrame->IsCaptionHidden()) || (!onButton() && !bIsOnFS) ? Drag::BEGIN_DRAG : Drag::NO_DRAG;
     if (m_drag == Drag::BEGIN_DRAG) {
         GetWnd().SetCapture();
         m_beginDragPoint = point;
@@ -274,26 +297,13 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
     ReleaseCapture();
     if (!MVRUp(nFlags, point)) {
         bool bIsOnFS = IsOnFullscreenWindow();
-        if (!(m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point)) && m_bLeftClicked) {
+        if (!(m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point)) && m_bLeftDown) {
             OnButton(wmcmd::LUP, point, bIsOnFS);
         }
     }
     m_drag = Drag::NO_DRAG;
-    m_bLeftClicked = false;
+    m_bLeftDown = false;
     SetCursor(nFlags, point);
-}
-void CMouse::InternalOnLButtonDblClk(UINT nFlags, const CPoint& point)
-{
-    m_bLeftClicked = false;
-    SetCursor(nFlags, point);
-    GetWnd().SetCapture(); // if DOWN or DBLCLK command changes window position, we still want to receive UP event
-    if (!m_pMainFrame->IsInteractiveVideo()) {
-        m_bLeftClicked = (m_bD3DFS && IsOnFullscreenWindow()) || ((ULONG)GetMessageTime() > m_pMainFrame->m_dwPopupMenuHideTick + GetDoubleClickTime());
-    }
-    if (m_bLeftClicked) {
-        OnButton(wmcmd::LDOWN, point);
-    }
-    OnButton(wmcmd::LDBLCLK, point);
 }
 
 // Middle button
@@ -439,7 +449,7 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
             VERIFY(ReleaseCapture());
             m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(m_beginDragPoint.x, m_beginDragPoint.y));
             m_drag = Drag::DRAGGED;
-            m_bLeftClicked = false;
+            m_bLeftDown = false;
             ret = true;
         }
     } else {
@@ -517,7 +527,7 @@ void CMouseWnd::OnLButtonUp(UINT nFlags, CPoint point)
 }
 void CMouseWnd::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-    CMouse::InternalOnLButtonDblClk(nFlags, point);
+    CMouse::InternalOnLButtonDown(nFlags, point);
 }
 
 void CMouseWnd::OnMButtonDown(UINT nFlags, CPoint point)

@@ -981,7 +981,7 @@ protected:
     void WTSUnRegisterSessionNotification();
 
     CMenu* m_pVisiblePopupMenu;
-    DWORD m_dwPopupMenuHideTick;
+    int m_iPopupMenuHideTime;
 
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();

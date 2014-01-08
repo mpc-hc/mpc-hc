@@ -64,7 +64,10 @@ private:
     Cursor m_cursor;
     CPoint m_beginDragPoint;
     CPoint m_hideCursorPoint;
-    bool m_bLeftClicked;
+    bool m_bLeftDown;
+    bool m_bLeftDoubleStarted;
+    CPoint m_leftDoubleStartPoint;
+    int m_leftDoubleStartTime;
 
     std::pair<bool, CPoint> m_switchingToFullscreen;
 
@@ -98,7 +101,6 @@ private:
 protected:
     void InternalOnLButtonDown(UINT nFlags, const CPoint& point);
     void InternalOnLButtonUp(UINT nFlags, const CPoint& point);
-    void InternalOnLButtonDblClk(UINT nFlags, const CPoint& point);
     void InternalOnMButtonDown(UINT nFlags, const CPoint& point);
     void InternalOnMButtonUp(UINT nFlags, const CPoint& point);
     void InternalOnMButtonDblClk(UINT nFlags, const CPoint& point);
