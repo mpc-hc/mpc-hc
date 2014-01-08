@@ -79,6 +79,7 @@ BEGIN_MESSAGE_MAP(CVolumeCtrl, CSliderCtrl)
     ON_WM_HSCROLL_REFLECT()
     ON_WM_SETCURSOR()
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
+    ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 // CVolumeCtrl message handlers
@@ -208,5 +209,17 @@ BOOL CVolumeCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
     *pResult = 0;
 
+    return TRUE;
+}
+
+BOOL CVolumeCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
+{
+    if (zDelta > 0) {
+        IncreaseVolume();
+    } else if (zDelta < 0) {
+        DecreaseVolume();
+    } else {
+        return FALSE;
+    }
     return TRUE;
 }
