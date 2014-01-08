@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -966,6 +966,12 @@ void CPlayerListCtrl::OnTimer(UINT_PTR nIDEvent)
             dispinfo.item.iSubItem = m_nSubItemClicked;
             GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo);
         }
+    } else if (nIDEvent == 43) {
+        // CListCtrl does really strange things on this timer.
+        // For example, when using mouse scroll right after mouse left button was clicked,
+        // this timer scrolls the control back to the clicked item after a while.
+        // There is no known problems with simply killing this timer.
+        VERIFY(KillTimer(nIDEvent));
     } else {
         __super::OnTimer(nIDEvent);
     }
