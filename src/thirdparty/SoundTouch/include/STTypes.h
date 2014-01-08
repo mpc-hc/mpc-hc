@@ -8,10 +8,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date$
+// Last changed  : $Date: 2014-01-07 18:24:28 +0000 (Tue, 07 Jan 2014) $
 // File revision : $Revision: 3 $
 //
-// $Id$
+// $Id: STTypes.h 183 2014-01-07 18:24:28Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -63,7 +63,11 @@ typedef unsigned long   ulong;
 #ifndef _WINDEF_
     // if these aren't defined already by Windows headers, define now
 
-    typedef int BOOL;
+#if defined(__APPLE__)
+   typedef signed char BOOL;
+#else
+   typedef int BOOL;
+#endif 
 
     #define FALSE   0
     #define TRUE    1
@@ -77,6 +81,13 @@ namespace soundtouch
     /// setting inherited from some other header file:
     //#undef SOUNDTOUCH_INTEGER_SAMPLES
     //#undef SOUNDTOUCH_FLOAT_SAMPLES
+
+    /// If following flag is defined, always uses multichannel processing 
+    /// routines also for mono and stero sound. This is for routine testing 
+    /// purposes; output should be same with either routines, yet disabling 
+    /// the dedicated mono/stereo processing routines will result in slower 
+    /// runtime performance so recommendation is to keep this off.
+    // #define USE_MULTICH_ALWAYS
 
     #if (defined(__SOFTFP__))
         // For Android compilation: Force use of Integer samples in case that

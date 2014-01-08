@@ -110,6 +110,9 @@
     <ClInclude Include="AAFilter.h" />
     <ClInclude Include="cpu_detect.h" />
     <ClInclude Include="FIRFilter.h" />
+    <ClInclude Include="InterpolateCubic.h" />
+    <ClInclude Include="InterpolateLinear.h" />
+    <ClInclude Include="InterpolateShannon.h" />
     <ClInclude Include="PeakFinder.h" />
     <ClInclude Include="RateTransposer.h" />
     <ClInclude Include="TDStretch.h" />
@@ -120,6 +123,9 @@
     <ClCompile Include="cpu_detect_x86.cpp" />
     <ClCompile Include="FIFOSampleBuffer.cpp" />
     <ClCompile Include="FIRFilter.cpp" />
+    <ClCompile Include="InterpolateCubic.cpp" />
+    <ClCompile Include="InterpolateLinear.cpp" />
+    <ClCompile Include="InterpolateShannon.cpp" />
     <ClCompile Include="mmx_optimized.cpp">
       <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
     </ClCompile>

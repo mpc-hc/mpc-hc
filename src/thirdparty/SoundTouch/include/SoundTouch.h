@@ -41,10 +41,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date$
+// Last changed  : $Date: 2014-01-07 19:26:29 +0000 (Tue, 07 Jan 2014) $
 // File revision : $Revision: 4 $
 //
-// $Id$
+// $Id: SoundTouch.h 185 2014-01-07 19:26:29Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -79,10 +79,10 @@ namespace soundtouch
 {
 
 /// Soundtouch library version string
-#define SOUNDTOUCH_VERSION          "1.7.1"
+#define SOUNDTOUCH_VERSION          "1.8.0"
 
 /// SoundTouch library version id
-#define SOUNDTOUCH_VERSION_ID       (10701)
+#define SOUNDTOUCH_VERSION_ID       (10800)
 
 //
 // Available setting IDs for the 'setSetting' & 'get_setting' functions:
