@@ -345,7 +345,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
             mask.show(DOCK_BOTTOM);
         } else {
             if (uTimeout == 0) {
-                // hide initially when the timeout is zero; testHovering() may override it
+                // hide initially when the timeout is zero; testCapture() and testHovering() may override it
                 mask.hide(maskAll);
                 // but exclude zone locks
                 for (const auto zone : m_zoneHideLocks) {
@@ -353,71 +353,108 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                 }
             }
             const bool bOnWindow = CMouse::CursorOnRootWindow(screenPoint, *m_pMainFrame);
-            auto testHovering = [&]() {
-                unsigned uTop, uLeft, uRight, uBottom;
-                GetDockZones(uTop, uLeft, uRight, uBottom, bEnumedPanelZones ? false : (bEnumedPanelZones = true));
-                unsigned uExclSeekbarHeight = 0;
-                if (bExclSeekbar) {
-                    uExclSeekbarHeight = 56; // TODO: query this through IMadVRInfo
-                    uBottom = 0;
-                }
-                if (!bCanHideDockedPanels) {
-                    uTop = uLeft = uRight = 0;
-                }
-                CRect clientRect;
-                m_pMainFrame->GetClientRect(clientRect);
-                const bool bHoveringExclSeekbar = (bExclSeekbar && clientPoint.y + (int)uExclSeekbarHeight >= clientRect.Height());
-                bool ret = true;
-                if (clientRect.PtInRect(clientPoint)) {
-                    if (ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED) {
-                        if (!bHoveringExclSeekbar) {
-                            CRect nondockRect(clientRect);
-                            nondockRect.DeflateRect(uLeft, uTop, uRight, uBottom);
-                            if (!nondockRect.PtInRect(clientPoint)) {
-                                // hovering any - show all
-                                mask.show(maskAll);
-                            } else {
-                                ret = false;
+            auto testCapture = [&]() {
+                bool ret = false;
+                if (HWND hWnd = GetCapture()) {
+                    if (hWnd != m_pMainFrame->m_hWnd) {
+                        if (GetAncestor(hWnd, GA_ROOT) == m_pMainFrame->m_hWnd) {
+                            if (!bEnumedPanelZones) {
+                                EnumPanelZones();
+                                bEnumedPanelZones = true;
+                            }
+                            std::map<HWND, DockZone> targetParents;
+                            for (const auto& pair : m_panelDocks) {
+                                targetParents.emplace(std::make_pair(pair.second->m_hWnd, pair.first));
+                            }
+                            for (const auto& pair : m_toolbars) {
+                                targetParents.emplace(std::make_pair(pair.second->m_hWnd, DOCK_BOTTOM));
+                            }
+                            while (hWnd && hWnd != m_pMainFrame->m_hWnd) {
+                                auto it = targetParents.find(hWnd);
+                                if (it != targetParents.end()) {
+                                    if (ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED) {
+                                        mask.show(maskAll);
+                                    } else {
+                                        ASSERT(ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_HOVERED);
+                                        mask.show(it->second);
+                                    }
+                                }
+                                hWnd = GetParent(hWnd);
                             }
                         }
-                    } else {
-                        ASSERT(ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_HOVERED);
-                        // show hovered
-                        auto hoveringZone = [&](unsigned uTargetTop, unsigned uTargetLeft, unsigned uTargetRight, unsigned uTargetBottom) {
-                            DockZone ret = DOCK_NONE;
-                            if (clientPoint.y <= (int)uTargetTop) {
-                                ret = DOCK_TOP;
-                            } else if (clientPoint.y + (int)uTargetBottom >= clientRect.Height()) {
-                                ret = DOCK_BOTTOM;
-                            } else if (clientPoint.x <= (int)uTargetLeft) {
-                                ret = DOCK_LEFT;
-                            } else if (clientPoint.x + (int)uTargetRight >= clientRect.Width()) {
-                                ret = DOCK_RIGHT;
-                            }
-                            return ret;
-                        };
-                        unsigned uVisibleTop, uVisibleLeft, uVisibleRight, uVisibleBottom;
-                        GetVisibleDockZones(uVisibleTop, uVisibleLeft, uVisibleRight, uVisibleBottom, bEnumedPanelZones ? false : (bEnumedPanelZones = true));
-                        DockZone hoverZone = hoveringZone(uVisibleTop, uVisibleLeft, uVisibleRight, uVisibleBottom);
-                        if (hoverZone == DOCK_NONE) {
+                        ret = true;
+                    }
+                }
+                return ret;
+            };
+            auto testHovering = [&]() {
+                bool ret = false;
+                if (bOnWindow) {
+                    unsigned uTop, uLeft, uRight, uBottom;
+                    GetDockZones(uTop, uLeft, uRight, uBottom, bEnumedPanelZones ? false : (bEnumedPanelZones = true));
+                    unsigned uExclSeekbarHeight = 0;
+                    if (bExclSeekbar) {
+                        uExclSeekbarHeight = 56; // TODO: query this through IMadVRInfo
+                        uBottom = 0;
+                    }
+                    if (!bCanHideDockedPanels) {
+                        uTop = uLeft = uRight = 0;
+                    }
+                    CRect clientRect;
+                    m_pMainFrame->GetClientRect(clientRect);
+                    const bool bHoveringExclSeekbar = (bExclSeekbar && clientPoint.y + (int)uExclSeekbarHeight >= clientRect.Height());
+                    ret = true;
+                    if (clientRect.PtInRect(clientPoint)) {
+                        if (ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED) {
                             if (!bHoveringExclSeekbar) {
-                                hoverZone = hoveringZone(uTop, uLeft, uRight, uBottom);
-                                if (hoverZone == DOCK_NONE) {
-                                    ret = false;
+                                CRect nondockRect(clientRect);
+                                nondockRect.DeflateRect(uLeft, uTop, uRight, uBottom);
+                                if (!nondockRect.PtInRect(clientPoint)) {
+                                    // hovering any - show all
+                                    mask.show(maskAll);
                                 } else {
-                                    mask.show(hoverZone);
+                                    ret = false;
                                 }
                             }
                         } else {
-                            mask.show(hoverZone);
+                            ASSERT(ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_HOVERED);
+                            // show hovered
+                            auto hoveringZone = [&](unsigned uTargetTop, unsigned uTargetLeft, unsigned uTargetRight, unsigned uTargetBottom) {
+                                DockZone ret = DOCK_NONE;
+                                if (clientPoint.y <= (int)uTargetTop) {
+                                    ret = DOCK_TOP;
+                                } else if (clientPoint.y + (int)uTargetBottom >= clientRect.Height()) {
+                                    ret = DOCK_BOTTOM;
+                                } else if (clientPoint.x <= (int)uTargetLeft) {
+                                    ret = DOCK_LEFT;
+                                } else if (clientPoint.x + (int)uTargetRight >= clientRect.Width()) {
+                                    ret = DOCK_RIGHT;
+                                }
+                                return ret;
+                            };
+                            unsigned uVisibleTop, uVisibleLeft, uVisibleRight, uVisibleBottom;
+                            GetVisibleDockZones(uVisibleTop, uVisibleLeft, uVisibleRight, uVisibleBottom, bEnumedPanelZones ? false : (bEnumedPanelZones = true));
+                            DockZone hoverZone = hoveringZone(uVisibleTop, uVisibleLeft, uVisibleRight, uVisibleBottom);
+                            if (hoverZone == DOCK_NONE) {
+                                if (!bHoveringExclSeekbar) {
+                                    hoverZone = hoveringZone(uTop, uLeft, uRight, uBottom);
+                                    if (hoverZone == DOCK_NONE) {
+                                        ret = false;
+                                    } else {
+                                        mask.show(hoverZone);
+                                    }
+                                }
+                            } else {
+                                mask.show(hoverZone);
+                            }
                         }
                     }
                 }
                 return ret;
             };
-            if (bOnWindow && !testHovering() &&
+            if (!testCapture() && !testHovering() &&
                     ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED &&
-                    !CMouse::PointEqualsImprecise(screenPoint, st.lastShowPoint) &&
+                    bOnWindow && !CMouse::PointEqualsImprecise(screenPoint, st.lastShowPoint) &&
                     !m_pMainFrame->m_wndView.Dragging() && uTimeout > 0) {
                 // show when corresponding hide policy is used, not hovering, non-zero timeout, the cursor moved, and not dragging
                 mask.show(maskAll);
