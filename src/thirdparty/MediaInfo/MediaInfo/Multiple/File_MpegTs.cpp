@@ -140,6 +140,9 @@ File_MpegTs::File_MpegTs()
     #if defined(MEDIAINFO_TSP_YES)
         TSP_Size=0; //No TSP footer
     #endif
+    #ifdef MEDIAINFO_ARIBSTDB24B37_YES
+        FromAribStdB24B37=false;
+    #endif
 
     //Data
     MpegTs_JumpTo_Begin=MediaInfoLib::Config.MpegTs_MaximumOffset_Get();
@@ -622,8 +625,18 @@ void File_MpegTs::Streams_Update_Programs_PerStream(size_t StreamID)
                 size_t ID_String_Pos=ID_String.find(__T('-'));
                 if (ID_String_Pos!=string::npos)
                     ID_String.erase(ID_String.begin(), ID_String.begin()+ID_String_Pos+1); //Removing the PS part
-                Fill(StreamKind_Last, StreamPos, General_ID, Ztring::ToZtring(StreamID)+__T('-')+ID, true);
-                Fill(StreamKind_Last, StreamPos, General_ID_String, Decimal_Hexa(StreamID)+__T('-')+ID_String, true);
+                #ifdef MEDIAINFO_ARIBSTDB24B37_YES
+                    if (FromAribStdB24B37)
+                    {
+                        Fill(StreamKind_Last, StreamPos, General_ID, ID, true);
+                        Fill(StreamKind_Last, StreamPos, General_ID_String, ID_String, true);
+                    }
+                    else
+                #endif //MEDIAINFO_ARIBSTDB24B37_YES
+                    {
+                        Fill(StreamKind_Last, StreamPos, General_ID, Ztring::ToZtring(StreamID)+__T('-')+ID, true);
+                        Fill(StreamKind_Last, StreamPos, General_ID_String, Decimal_Hexa(StreamID)+__T('-')+ID_String, true);
+                    }
             }
             else
             {
@@ -1243,7 +1256,11 @@ bool File_MpegTs::Synchronize()
             Buffer_Offset++;
     }
 
-    if (Buffer_Offset+188*16+BDAV_Size*16+TSP_Size*16>=Buffer_Size)
+    if (Buffer_Offset+188*16+BDAV_Size*16+TSP_Size*16>=Buffer_Size
+    #ifdef MEDIAINFO_ARIBSTDB24B37_YES
+     && !FromAribStdB24B37
+    #endif
+        )
         return false;
 
     //Synched is OK
@@ -1684,6 +1701,16 @@ void File_MpegTs::Synched_Init()
         Config_VbrDetection_GiveUp=MediaInfoLib::Config.MpegTs_VbrDetection_GiveUp_Get();
     #endif // MEDIAINFO_ADVANCED
 
+    #ifdef MEDIAINFO_ARIBSTDB24B37_YES
+        if (FromAribStdB24B37)
+        {
+            #if MEDIAINFO_EVENTS
+                StreamIDs_Width[0]=0;
+            #endif //MEDIAINFO_EVENTS
+            SetAllToPES();
+        }
+    #endif //MEDIAINFO_ARIBSTDB24B37_YES
+
     //Continue, again, for Duplicate and Filter
     Option_Manage();
 }
@@ -1777,30 +1804,7 @@ void File_MpegTs::Read_Buffer_AfterParsing()
              && !Complete_Stream->NoPatPmt)
             {
                 //Activating all streams as PES
-                Complete_Stream->Streams_NotParsedCount=(size_t)-1;
-                for (size_t StreamID=0; StreamID<0x2000; StreamID++)
-                {
-                    delete Complete_Stream->Streams[StreamID]; Complete_Stream->Streams[StreamID]=new complete_stream::stream;
-                }
-                for (size_t StreamID=0x20; StreamID<0x1FFF; StreamID++)
-                {
-                    Complete_Stream->Streams[StreamID]->Kind=complete_stream::stream::pes;
-                    Complete_Stream->Streams[StreamID]->Searching_Payload_Start_Set(true);
-                    Complete_Stream->Streams[StreamID]->Searching_Payload_Continue_Set(false);
-                    #if MEDIAINFO_TRACE
-                        if (Trace_Activated)
-                            Complete_Stream->Streams[StreamID]->Element_Info1="PES";
-                    #endif //MEDIAINFO_TRACE
-                    #ifdef MEDIAINFO_MPEGTS_PCR_YES
-                        Complete_Stream->Streams[StreamID]->Searching_TimeStamp_Start_Set(true);
-                        Complete_Stream->Streams[StreamID]->Searching_TimeStamp_End_Set(false);
-                    #endif //MEDIAINFO_MPEGTS_PCR_YES
-                    #ifdef MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
-                        Complete_Stream->Streams[StreamID]->Searching_ParserTimeStamp_Start_Set(true);
-                        Complete_Stream->Streams[StreamID]->Searching_ParserTimeStamp_End_Set(false);
-                    #endif //MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
-                }
-                Complete_Stream->NoPatPmt=true;
+                SetAllToPES();
                 Fill(Stream_General, 0, General_Format_Profile, "No PAT/PMT");
                 Buffer_TotalBytes=0;
                 Buffer_TotalBytes_LastSynched=(int64u)-1;
@@ -2760,6 +2764,10 @@ void File_MpegTs::PES()
                     }
                 }
             #endif //MEDIAINFO_DEMUX
+            #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+                if (FromAribStdB24B37)
+                    ((File_MpegPs*)Complete_Stream->Streams[pid]->Parser)->FromAribStdB24B37=true;
+            #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
             #ifdef MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
                 if (Searching_TimeStamp_Start)
                     Complete_Stream->Streams[pid]->Searching_ParserTimeStamp_Start_Set(true);
@@ -2820,6 +2828,10 @@ void File_MpegTs::PES()
             Complete_Stream->Streams[pid]->Parser->Ibi_SynchronizationOffset_Current=File_Offset+Buffer_Offset-Header_Size;
     #endif //MEDIAINFO_IBI
 
+    #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+        if (FromAribStdB24B37)
+            Complete_Stream->Streams[pid]->Parser->FrameInfo=FrameInfo;
+    #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
     Open_Buffer_Continue(Complete_Stream->Streams[pid]->Parser);
     PES_Parse_Finish();
 }
@@ -2906,12 +2918,6 @@ void File_MpegTs::PES_Parse_Finish()
 //---------------------------------------------------------------------------
 void File_MpegTs::PSI()
 {
-//    if (pid!=0 && pid!=0x101/*0x2f0*/)
-    {
-  //      Element_DoNotShow();
-    //    return;
-    }
-
     //Initializing
     if (payload_unit_start_indicator)
     {
@@ -3023,6 +3029,40 @@ void File_MpegTs::PSI()
     else
         //Waiting for more data
         Complete_Stream->Streams[pid]->Searching_Payload_Continue_Set(true);
+}
+
+//---------------------------------------------------------------------------
+void File_MpegTs::SetAllToPES()
+{
+    Complete_Stream->Streams_NotParsedCount=(size_t)-1;
+    for (size_t StreamID=0; StreamID<0x2000; StreamID++)
+    {
+        delete Complete_Stream->Streams[StreamID]; Complete_Stream->Streams[StreamID]=new complete_stream::stream;
+    }
+    #ifdef MEDIAINFO_ARIBSTDB24B37_YES
+        size_t StreamID=FromAribStdB24B37?0x00:0x20;
+    #else //MEDIAINFO_ARIBSTDB24B37_YES
+        size_t StreamID=0x20;
+    #endif //MEDIAINFO_ARIBSTDB24B37_YES
+    for (; StreamID<0x1FFF; StreamID++)
+    {
+        Complete_Stream->Streams[StreamID]->Kind=complete_stream::stream::pes;
+        Complete_Stream->Streams[StreamID]->Searching_Payload_Start_Set(true);
+        Complete_Stream->Streams[StreamID]->Searching_Payload_Continue_Set(false);
+        #if MEDIAINFO_TRACE
+            if (Trace_Activated)
+                Complete_Stream->Streams[StreamID]->Element_Info1="PES";
+        #endif //MEDIAINFO_TRACE
+        #ifdef MEDIAINFO_MPEGTS_PCR_YES
+            Complete_Stream->Streams[StreamID]->Searching_TimeStamp_Start_Set(true);
+            Complete_Stream->Streams[StreamID]->Searching_TimeStamp_End_Set(false);
+        #endif //MEDIAINFO_MPEGTS_PCR_YES
+        #ifdef MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
+            Complete_Stream->Streams[StreamID]->Searching_ParserTimeStamp_Start_Set(true);
+            Complete_Stream->Streams[StreamID]->Searching_ParserTimeStamp_End_Set(false);
+        #endif //MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
+    }
+    Complete_Stream->NoPatPmt=true;
 }
 
 } //NameSpace

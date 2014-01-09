@@ -47,29 +47,77 @@ namespace MediaInfoLib
 
 //---------------------------------------------------------------------------
 const int8u DolbyE_Programs[64]=
-{2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+{2, 3, 2, 3, 4, 5, 4, 5, 6, 7, 8, 1, 2, 3, 3, 4, 5, 6, 1, 2, 3, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 //---------------------------------------------------------------------------
 const int8u DolbyE_Channels[64]=
-{8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+{8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6, 6, 4, 4, 4, 4, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 //---------------------------------------------------------------------------
-const int8u DolbyE_Channels_PerProgram(int8u ProgramConfiguration, int8u ProgramNumber)
+const int8u DolbyE_Channels_PerProgram(int8u program_config, int8u program)
 {
-    switch (ProgramConfiguration)
+    switch (program_config)
     {
-        case  0 :   switch (ProgramNumber)
+        case  0 :   switch (program)
                     {
                         case  0 :   return 6;
                         default :   return 2;
                     }
-        case  1 :   switch (ProgramNumber)
+        case  1 :   switch (program)
                     {
                         case  0 :   return 6;
                         default :   return 1;
                     }
-        case 11 :   return 6;
+        case  2 :
+        case 18 :   return 4;
+        case  3 :
+        case 12 :   switch (program)
+                    {
+                        case  0 :   return 4;
+                        default :   return 2;
+                    }
+        case  4 :   switch (program)
+                    {
+                        case  0 :   return 4;
+                        case  1 :   return 2;
+                        default :   return 1;
+                    }
+        case  5 :
+        case 13 :   switch (program)
+                    {
+                        case  0 :   return 4;
+                        default :   return 1;
+                    }
+        case  6 :
+        case 14 :
         case 19 :   return 2;
+        case  7 :   switch (program)
+                    {
+                        case  0 :
+                        case  1 :
+                        case  2 :   return 2;
+                        default :   return 1;
+                    }
+        case  8 :
+        case 15 :   switch (program)
+                    {
+                        case  0 :
+                        case  1 :   return 2;
+                        default :   return 1;
+                    }
+        case  9 :
+        case 16 :
+        case 20 :   switch (program)
+                    {
+                        case  0 :   return 2;
+                        default :   return 1;
+                    }
+        case 10 :
+        case 17 :
+        case 21 :   return 1;
+        case 11 :   return 6;
+        case 22 :   return 8;
+        case 23 :   return 8;
         default :   return 0;
     }
 };
@@ -79,28 +127,28 @@ const char*  DolbyE_ChannelPositions[64]=
 {
     "Front: L C R, Side: L R, LFE / Front: L R",
     "Front: L C R, Side: L R, LFE / Front: C / Front: C",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "Front: L C R, LFE / Front: L C R, LFE",
+    "Front: L C R, LFE / Front: L R / Front: L R",
+    "Front: L C R, LFE / Front: L R / Front: C / Front: C",
+    "Front: L C R, LFE / Front: C / Front: C / Front: C / Front: C",
+    "Front: L R / Front: L R / Front: L R / Front: L R",
+    "Front: L R / Front: L R / Front: L R / Front: C / Front: C",
+    "Front: L R / Front: L R / Front: C / Front: C / Front: C / Front: C",
+    "Front: L R / Front: C / Front: C / Front: C / Front: C / Front: C / Front: C",
+    "Front: C / Front: C / Front: C / Front: C / Front: C / Front: C / Front: C / Front: C",
     "Front: L C R, Side: L R, LFE",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "Front: L C R, LFE / Front: L R",
+    "Front: L C R, LFE / Front: C / Front: C",
+    "Front: L R / Front: L R / Front: L R",
+    "Front: L R / Front: L R / Front: C / Front: C",
+    "Front: L R / Front: C / Front: C / Front: C / Front: C",
+    "Front: C / Front: C / Front: C / Front: C / Front: C / Front: C",
+    "Front: L C R, LFE",
     "Front: L R / Front: L R",
-    "",
-    "",
-    "",
-    "",
+    "Front: L R / Front: C / Front: C",
+    "Front: C / Front: C / Front: C / Front: C",
+    "Front: L C R, Side: L R, Rear: L R, LFE",
+    "Front: L C C C R, Side: L R, LFE",
     "",
     "",
     "",
@@ -144,22 +192,70 @@ const char*  DolbyE_ChannelPositions[64]=
 };
 
 //---------------------------------------------------------------------------
-const char*  DolbyE_ChannelPositions_PerProgram(int8u ProgramConfiguration, int8u ProgramNumber)
+const char*  DolbyE_ChannelPositions_PerProgram(int8u program_config, int8u program)
 {
-    switch (ProgramConfiguration)
+    switch (program_config)
     {
-        case  0 :   switch (ProgramNumber)
+        case  0 :   switch (program)
                     {
                         case  0 :   return "Front: L C R, Side: L R, LFE";
                         default :   return "Front: L R";
                     }
-        case  1 :   switch (ProgramNumber)
+        case  1 :   switch (program)
                     {
                         case  0 :   return "Front: L C R, Side: L R, LFE";
                         default :   return "Front: C";
                     }
-        case 11 :   return "Front: L C R, Side: L R, LFE";
+        case  2 :
+        case 18 :   return "Front: L C R, LFE";
+        case  3 :
+        case 12 :   switch (program)
+                    {
+                        case  0 :   return "Front: L C R, LFE";
+                        default :   return "Front: L R";
+                    }
+        case  4 :   switch (program)
+                    {
+                        case  0 :   return "Front: L C R, LFE";
+                        case  1 :   return "Front: L R";
+                        default :   return "Front: C";
+                    }
+        case  5 :
+        case 13 :   switch (program)
+                    {
+                        case  0 :   return "Front: L C R, LFE";
+                        default :   return "Front: C";
+                    }
+        case  6 :
+        case 14 :
         case 19 :   return "Front: L R";
+        case  7 :   switch (program)
+                    {
+                        case  0 :
+                        case  1 :
+                        case  2 :   return "Front: L R";
+                        default :   return "Front: C";
+                    }
+        case  8 :
+        case 15 :   switch (program)
+                    {
+                        case  0 :
+                        case  1 :   return "Front: L R";
+                        default :   return "Front: C";
+                    }
+        case  9 :
+        case 16 :
+        case 20 :   switch (program)
+                    {
+                        case  0 :   return "Front: L R";
+                        default :   return "Front: C";
+                    }
+        case 10 :
+        case 17 :
+        case 21 :   return "Front: C";
+        case 11 :   return "Front: L C R, Side: L R, LFE";
+        case 22 :   return "Front: L C R, Side: L R, Rear: L R, LFE";
+        case 23 :   return "Front: L C C C R, Side: L R, LFE";
         default :   return "";
     }
 };
@@ -169,28 +265,28 @@ const char*  DolbyE_ChannelPositions2[64]=
 {
     "3/2/0.1 / 2/0/0",
     "3/2/0.1 / 1/0/0 / 1/0/0",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "3/0/0.1 / 3/0/0.1",
+    "3/0/0.1 / 2/0/0 / 2/0/0",
+    "3/0/0.1 / 2/0/0 / 1/0/0 / 1/0/0",
+    "3/0/0.1 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0",
+    "2/0/0 / 2/0/0 / 2/0/0 / 2/0/0",
+    "2/0/0 / 2/0/0 / 2/0/0 / 1/0/0 / 1/0/0",
+    "2/0/0 / 2/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0",
+    "2/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0",
+    "1/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0",
     "3/2/0.1",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "3/0/0.1 / 2/0/0",
+    "3/0/0.1 / 1/0/0 / 1/0/0",
+    "2/0/0 / 2/0/0 / 2/0/0",
+    "2/0/0 / 2/0/0 / 1/0/0 / 1/0/0",
+    "2/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0",
+    "1/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0 / 1/0/0",
+    "3/0/0.1",
     "2/0/0 / 2/0/0",
-    "",
-    "",
-    "",
-    "",
+    "2/0/0 / 1/0/0 / 1/0/0",
+    "1/0/0 / 1/0/0 / 1/0/0 / 1/0/0",
+    "3/2/2.1",
+    "5/2/0.1",
     "",
     "",
     "",
@@ -234,22 +330,226 @@ const char*  DolbyE_ChannelPositions2[64]=
 };
 
 //---------------------------------------------------------------------------
-const char*  DolbyE_ChannelPositions2_PerProgram(int8u ProgramConfiguration, int8u ProgramNumber)
+const char*  DolbyE_ChannelPositions2_PerProgram(int8u program_config, int8u program)
+{
+    switch (program_config)
+    {
+        case  0 :   switch (program)
+                    {
+                        case  0 :   return "3/2/0.1";
+                        default :   return "2/0/0";
+                    }
+        case  1 :   switch (program)
+                    {
+                        case  0 :   return "3/2/0.1";
+                        default :   return "1/0/0";
+                    }
+        case  2 :
+        case 18 :   return "3/0/0.1";
+        case  3 :
+        case 12 :   switch (program)
+                    {
+                        case  0 :   return "3/0/0.1";
+                        default :   return "2/0/0";
+                    }
+        case  4 :   switch (program)
+                    {
+                        case  0 :   return "3/0/0.1";
+                        case  1 :   return "2/0/0";
+                        default :   return "1/0/0";
+                    }
+        case  5 :
+        case 13 :   switch (program)
+                    {
+                        case  0 :   return "3/0/0.1";
+                        default :   return "1/0/0";
+                    }
+        case  6 :
+        case 14 :
+        case 19 :   return "Front: L R";
+        case  7 :   switch (program)
+                    {
+                        case  0 :
+                        case  1 :
+                        case  2 :   return "2/0/0";
+                        default :   return "1/0/0";
+                    }
+        case  8 :
+        case 15 :   switch (program)
+                    {
+                        case  0 :
+                        case  1 :   return "2/0/0";
+                        default :   return "1/0/0";
+                    }
+        case  9 :
+        case 16 :
+        case 20 :   switch (program)
+                    {
+                        case  0 :   return "2/0/0";
+                        default :   return "1/0/0";
+                    }
+        case 10 :
+        case 17 :
+        case 21 :   return "1/0/0";
+        case 11 :   return "3/2/0.1";
+        case 22 :   return "3/2/2.1";
+        case 23 :   return "5/2/0.1";
+        default :   return "";
+    }
+};
+
+extern const char*  AC3_Surround[];
+
+//---------------------------------------------------------------------------
+const char*  DolbyE_ChannelLayout_PerProgram(int8u ProgramConfiguration, int8u ProgramNumber)
 {
     switch (ProgramConfiguration)
     {
         case  0 :   switch (ProgramNumber)
                     {
-                        case  0 :   return "3/2/0.1";
-                        default :   return "2/0/0";
+                        case  0 :   return "L C Ls X R LFE Rs X";
+                        default :   return "X X X L X X X R";
                     }
         case  1 :   switch (ProgramNumber)
                     {
-                        case  0 :   return "3/2/0.1";
-                        default :   return "1/0/0";
+                        case  0 :   return "L C Ls X R LFE Rs X";
+                        case  1 :   return "X X X C X X X X";
+                        default :   return "X X X X X X X C";
                     }
-        case 11 :   return "3/2/0.1";
-        case 19 :   return "2/0/0";
+        case  2 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L C X X R S X X";
+                        default :   return "X X L C X X R S";
+                    }
+        case  3 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L C X X R S X X";
+                        case  1 :   return "X X L X X X R X";
+                        default :   return "X X X L X X X R";
+                    }
+        case  4 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L C X X R S X X";
+                        case  1 :   return "X X L X X X R X";
+                        case  2 :   return "X X X C X X X X";
+                        default :   return "X X X X X X X C";
+                    }
+        case  5 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L C X X R S X X";
+                        case  1 :   return "X X C X X X X X";
+                        case  2 :   return "X X X X X X C X";
+                        case  3 :   return "X X X C X X X X";
+                        default :   return "X X X X X X X C";
+                    }
+        case  6 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X X X R X X X";
+                        case  1 :   return "X L X X X R X X";
+                        case  2 :   return "X X L X X X R X";
+                        default :   return "X X X L X X X R";
+                    }
+        case  7 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X X X R X X X";
+                        case  1 :   return "X L X X X R X X";
+                        case  2 :   return "X X L X X X R X";
+                        case  3 :   return "X X X C X X X X";
+                        default :   return "X X X X X X X C";
+                    }
+        case  8 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X X X R X X X";
+                        case  1 :   return "X L X X X R X X";
+                        case  2 :   return "X X C X X X X X";
+                        case  3 :   return "X X X X X X C X";
+                        case  4 :   return "X X X C X X X X";
+                        default :   return "X X X X X X X C";
+                    }
+        case  9 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X X X R X X X";
+                        case  1 :   return "X C X X X X X X";
+                        case  2 :   return "X X X X X C X X";
+                        case  3 :   return "X X C X X X X X";
+                        case  4 :   return "X X X X X X C X";
+                        case  5 :   return "X X X C X X X X";
+                        default :   return "X X X X X X X C";
+                    }
+        case 10 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "C X X X X X X X";
+                        case  1 :   return "X X X X C X X X";
+                        case  2 :   return "X C X X X X X X";
+                        case  3 :   return "X X X X X C X X";
+                        case  4 :   return "X X C X X X X X";
+                        case  5 :   return "X X X X X X C X";
+                        case  6 :   return "X X X C X X X X";
+                        default :   return "X X X X X X X C";
+                    }
+        case 11 :   return "L C Ls R LFE Rs";
+        case 12 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L C X R S X";
+                        default :   return "X X L X X R";
+                    }
+        case 13 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L C X R S X";
+                        case  1 :   return "X X C X X X";
+                        default :   return "X X X X X C";
+                    }
+        case 14 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X X R X X";
+                        case  1 :   return "X L X X R X";
+                        default :   return "X X L X X R";
+                    }
+        case 15 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X X R X X";
+                        case  1 :   return "X L X R X";
+                        case  2 :   return "X X C X X X";
+                        default :   return "X X X X X C";
+                    }
+        case 16 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X X R X X";
+                        case  1 :   return "X C X X X X";
+                        case  2 :   return "X X X X C X";
+                        case  3 :   return "X X C X X X";
+                        default :   return "X X X X X C";
+                    }
+        case 17 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "C X X X X X";
+                        case  1 :   return "X X X C X X";
+                        case  2 :   return "X C X X X X";
+                        case  3 :   return "X X X X C X";
+                        case  4 :   return "X X C X X X";
+                        default :   return "X X X X X C";
+                    }
+        case 18 :   return "L C R S";
+        case 19 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X R X";
+                        default :   return "X L X R";
+                    }
+        case 20 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "L X R X";
+                        case  1 :   return "X C X X";
+                        default :   return "X X X C";
+                    }
+        case 21 :   switch (ProgramNumber)
+                    {
+                        case  0 :   return "C X X X";
+                        case  1 :   return "X X C X";
+                        case  2 :   return "X C X X";
+                        default :   return "X X X C";
+                    }
+        case 22 :   return "L C Ls Lrs R LFE Rs Rrs";
+        case 23 :   return "L C Ls Lc R LFE Rs Rc";
         default :   return "";
     }
 };
@@ -302,6 +602,7 @@ void File_DolbyE::Streams_Fill()
         Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, DolbyE_Channels_PerProgram(ProgramConfiguration, program));
         Fill(Stream_Audio, StreamPos_Last, Audio_ChannelPositions, DolbyE_ChannelPositions_PerProgram(ProgramConfiguration, program));
         Fill(Stream_Audio, StreamPos_Last, Audio_ChannelPositions_String2, DolbyE_ChannelPositions2_PerProgram(ProgramConfiguration, program));
+        Fill(Stream_Audio, StreamPos_Last, Audio_ChannelLayout, DolbyE_ChannelLayout_PerProgram(ProgramConfiguration, program));
         Fill(Stream_Audio, StreamPos_Last, Audio_SamplingRate, 48000);
         Fill(Stream_Audio, StreamPos_Last, Audio_BitDepth, BitDepth);
         if (SMPTE_time_code_StartTimecode!=(int64u)-1)

@@ -86,7 +86,7 @@ const char*  DTS_ChannelPositions[16]=
     "Front: L C R, Back: C",
     "Front: L R, Side: L R",
     "Front: L C R, Side: L R",
-    "Front: L R, Side: L R, Back: L R",
+    "Front: L C C R, Side: L R",
     "Front: L C R, Side: L R",
     "Front: L R, Side: L R, Back: L R",
     "Front: L C R, Side: L R, Back: L R",
@@ -107,12 +107,33 @@ const char*  DTS_ChannelPositions2[16]=
     "3/1/0",
     "2/2/0",
     "3/2/0",
-    "2/2/2",
+    "4/2/0",
     "3/2/0",
     "2/2/2",
     "3/2/2",
     "2/2/4",
     "3/2/3",
+};
+
+//---------------------------------------------------------------------------
+const char*  DTS_ChannelLayout[16]=
+{
+    "C",
+    "1+1",
+    "L R",
+    "L R",
+    "Lt Rt",
+    "C L R",
+    "L R Cs",
+    "C L R Cs",
+    "L R Ls Rs",
+    "C L R Ls Rs",
+    "Cl Cr L R Ls Rs",
+    "C L R Ls Rs",
+    "C L R Ls Rs Rls Rrs",
+    "C L R Ls Rs Rls Rrs",
+    "L R Ls Rs Rls Cs Cs Rrs",
+    "C L R Ls Rs Rls Cs Rrs",
 };
 
 //---------------------------------------------------------------------------
@@ -444,12 +465,13 @@ void File_Dts::Streams_Fill()
             Fill(Stream_Audio, 0, Audio_Compression_Mode, "Lossless / Lossy", Unlimited, true, true);
 
         int8u Channels;
-        Ztring ChannelPositions, ChannelPositions2;
+        Ztring ChannelPositions, ChannelPositions2, ChannelLayout;
         if (channel_arrangement<16)
         {
             Channels=DTS_Channels[channel_arrangement]+(lfe_effects?1:0);
             ChannelPositions.From_Local(DTS_ChannelPositions[channel_arrangement]);
             ChannelPositions2.From_Local(DTS_ChannelPositions2[channel_arrangement]);
+            ChannelLayout.From_Local(DTS_ChannelLayout[channel_arrangement]);
         }
         else
         {
@@ -460,6 +482,7 @@ void File_Dts::Streams_Fill()
         {
             ChannelPositions+=__T(", LFE");
             ChannelPositions2+=__T(".1");
+            ChannelLayout+=__T(" LFE");
         }
         if (Channels!=Retrieve(Stream_Audio, 0, Audio_Channel_s_).To_int8u())
             Fill(Stream_Audio, 0, Audio_Channel_s_, Channels);
@@ -467,6 +490,8 @@ void File_Dts::Streams_Fill()
             Fill(Stream_Audio, 0, Audio_ChannelPositions, ChannelPositions);
         if (ChannelPositions2!=Retrieve(Stream_Audio, 0, Audio_ChannelPositions_String2))
             Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, ChannelPositions2);
+        if (ChannelLayout!=Retrieve(Stream_Audio, 0, Audio_ChannelLayout))
+            Fill(Stream_Audio, 0, Audio_ChannelLayout, ChannelLayout);
         if (DTS_Resolution[bits_per_sample]!=Retrieve(Stream_Audio, 0, Audio_BitDepth).To_int8u())
             Fill(Stream_Audio, 0, Audio_BitDepth, DTS_Resolution[bits_per_sample]);
     }

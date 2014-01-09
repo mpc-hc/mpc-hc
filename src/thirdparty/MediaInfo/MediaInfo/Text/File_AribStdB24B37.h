@@ -31,10 +31,12 @@ class File_AribStdB24B37 : public File__Analyze
 public :
     //Constructor/Destructor
     File_AribStdB24B37();
+    ~File_AribStdB24B37();
 
     //In
     bool    HasCcis;
     bool    ParseCcis;
+    bool    IsAncillaryData;
 
     //enums
     enum graphic_set
@@ -76,9 +78,10 @@ private :
     //Elements
     void caption_management();
     void caption_statement();
-    void data_unit_data();
+    void data_unit_data(int64u End);
     void Character(int16u CharacterSet, int8u G_Value, int8u FirstByte, int8u SecondByte);
     void Add(Char Character);
+    void Add(Ztring Character);
     void DefaultMacro();
     void control_code();
     void NUL();
@@ -157,6 +160,11 @@ private :
 
     //Config
     int8u Caption_conversion_type;
+
+    //Ancillary
+    #if defined(MEDIAINFO_MPEGTS_YES)
+        File__Analyze* Parser;
+    #endif
 };
 
 } //NameSpace

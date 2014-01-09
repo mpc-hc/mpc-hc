@@ -511,7 +511,9 @@ bool File_Vc1::Demux_UnpacketizeContainer_Test()
                         case 0x0D :
                         case 0x0F :
                                     MustBreak=true; break;
-                        default   : MustBreak=false;
+                        default   :
+                                    Demux_Offset+=3;
+                                    MustBreak=false;
                     }
                     if (MustBreak)
                         break; //while() loop

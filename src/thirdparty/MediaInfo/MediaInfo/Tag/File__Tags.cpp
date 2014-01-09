@@ -355,6 +355,11 @@ bool File__Tags_Helper::Synched_Test()
         //We continue
         if (Parser)
         {
+            if (!Parser_Buffer_Size)
+            {
+                delete Parser; Parser=NULL;
+                return false; //Probably stuck in a loop, exit
+            }
             int64u Size_ToParse=(Parser_Buffer_Size<Base->Buffer_Size-Base->Buffer_Offset)?Parser_Buffer_Size:(Base->Buffer_Size-Base->Buffer_Offset);
             Base->Open_Buffer_Continue(Parser, Base->Buffer+Base->Buffer_Offset, (size_t)Size_ToParse);
             Base->Buffer_Offset+=(size_t)Size_ToParse;

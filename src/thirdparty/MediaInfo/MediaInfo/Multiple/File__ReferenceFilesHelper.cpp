@@ -83,6 +83,152 @@ File__ReferenceFilesHelper::~File__ReferenceFilesHelper()
 bool File__ReferenceFilesHelper_Algo1 (const File__ReferenceFilesHelper::reference &Ref1, const File__ReferenceFilesHelper::reference &Ref2) { return (Ref1.StreamID<Ref2.StreamID);}
 bool File__ReferenceFilesHelper_Algo2 (const File__ReferenceFilesHelper::reference &Ref1, const File__ReferenceFilesHelper::reference &Ref2) { return (Ref1.StreamPos<Ref2.StreamPos);}
 bool File__ReferenceFilesHelper_Algo3 (const File__ReferenceFilesHelper::reference &Ref1, const File__ReferenceFilesHelper::reference &Ref2) { return (Ref1.StreamKind<Ref2.StreamKind);}
+void File__ReferenceFilesHelper_InfoFromFileName (File__ReferenceFilesHelper::references &References)
+{
+    ZtringListList List;
+    vector<File__ReferenceFilesHelper::references::iterator> Iterators;
+
+    for (File__ReferenceFilesHelper::references::iterator Reference=References.begin(); Reference<References.end(); ++Reference)
+    {
+        ZtringList List2;
+        List2.Separator_Set(0, __T(" "));
+        if ((*Reference).StreamKind==Stream_Audio && !(*Reference).FileNames.empty())
+        {
+            Ztring Name=(*Reference).FileNames[0];
+            while (Name.FindAndReplace(__T("51 "), Ztring()));
+            while (Name.FindAndReplace(__T("_"), __T(" ")));
+            while (Name.FindAndReplace(__T("."), __T(" ")));
+            while (Name.FindAndReplace(__T("  "), __T(" ")));
+            size_t PathSeparator_Pos=Name.rfind(PathSeparator);
+            if (PathSeparator_Pos!=(size_t)-1)
+                Name.erase(0, PathSeparator_Pos+1);
+
+            //Removing extension
+            if (Name.size()>4 && Name.rfind(__T('.'))==Name.size())
+                Name.resize(Name.size()-4);
+
+            List2.Write(Name);
+            for (size_t Pos=0; Pos<List2.size(); Pos++)
+                List2[Pos].MakeLowerCase();
+            List.push_back(List2);
+            Iterators.push_back(Reference);
+        }
+    }
+
+    if (List.size()<2)
+        return;
+
+    size_t ChannelLayout_Pos=(size_t)-1;
+    size_t Language_Pos=(size_t)-1;
+    for (size_t Pos2=0; Pos2<List[0].size(); Pos2++)
+    {
+        bool IsChannelLayout=true;
+        bool IsLanguage=true;
+        for (size_t Pos=0; Pos<List.size(); Pos++)
+        {
+            if (Pos2>=List[Pos].size())
+                break; //Maybe begin of title
+            const Ztring &Test=List[Pos][List[Pos].size()-1-Pos2];
+
+            //ChannelLayout
+            if (Test!=__T("l")
+             && Test!=__T("r")
+             && Test!=__T("c")
+             && Test!=__T("lfe")
+             && Test!=__T("sub")
+             && Test!=__T("ls")
+             && Test!=__T("rs")
+             && Test!=__T("b"))
+                IsChannelLayout=false;
+
+            //Language
+            if (Test!=__T("deu")
+             && Test!=__T("eng")
+             && Test!=__T("fra")
+             && Test!=__T("fre")
+             && Test!=__T("ita")
+             && Test!=__T("spa"))
+                IsLanguage=false;
+        }
+
+        if (IsChannelLayout)
+            ChannelLayout_Pos=Pos2;
+        if (IsLanguage)
+            Language_Pos=Pos2;
+    }
+
+    //ChannelLayout
+    if (ChannelLayout_Pos!=(size_t)-1)
+        for (size_t Pos=0; Pos<List.size(); Pos++)
+        {
+            Ztring ChannelPositions, ChannelPositions2, ChannelLayout;
+            if (List[Pos][List[Pos].size()-1-ChannelLayout_Pos]==__T("l"))
+            {
+                ChannelPositions=__T("Front: L");
+                ChannelPositions2=__T("1/0/0");
+                ChannelLayout=__T("L");
+            }
+            if (List[Pos][List[Pos].size()-1-ChannelLayout_Pos]==__T("r"))
+            {
+                ChannelPositions=__T("Front: R");
+                ChannelPositions2=__T("1/0/0");
+                ChannelLayout=__T("R");
+            }
+            if (List[Pos][List[Pos].size()-1-ChannelLayout_Pos]==__T("c"))
+            {
+                ChannelPositions=__T("Front: C");
+                ChannelPositions2=__T("1/0/0");
+                ChannelLayout=__T("C");
+            }
+            if (List[Pos][List[Pos].size()-1-ChannelLayout_Pos]==__T("lfe") || List[Pos][List[Pos].size()-1-ChannelLayout_Pos]==__T("sub"))
+            {
+                ChannelPositions=__T("LFE");
+                ChannelPositions2=__T(".1");
+                ChannelLayout=__T("LFE");
+            }
+            if (List[Pos][List[Pos].size()-1-ChannelLayout_Pos]==__T("ls"))
+            {
+                ChannelPositions=__T("Side: L");
+                ChannelPositions2=__T("0/1/0");
+                ChannelLayout=__T("Ls");
+            }
+            if (List[Pos][List[Pos].size()-1-ChannelLayout_Pos]==__T("rs"))
+            {
+                ChannelPositions=__T("Side: R");
+                ChannelPositions2=__T("0/1/0");
+                ChannelLayout=__T("Rs");
+            }
+            if (List[Pos][List[Pos].size()-1-ChannelLayout_Pos]==__T("b"))
+            {
+                ChannelPositions=__T("Back: C");
+                ChannelPositions2=__T("0/0/1");
+                ChannelLayout=__T("Cs");
+            }
+
+            (*Iterators[Pos]).Infos["ChannelPositions"]=ChannelPositions;
+            (*Iterators[Pos]).Infos["ChannelPositions/String2"]=ChannelPositions2;
+            (*Iterators[Pos]).Infos["ChannelLayout"]=ChannelLayout;
+        }
+
+    //Language
+    if (Language_Pos!=(size_t)-1)
+        for (size_t Pos=0; Pos<List.size(); Pos++)
+        {
+            Ztring Language;
+            if (List[Pos][List[Pos].size()-1-Language_Pos]==__T("deu"))
+                Language=__T("de");
+            if (List[Pos][List[Pos].size()-1-Language_Pos]==__T("eng"))
+                Language=__T("en");
+            if (List[Pos][List[Pos].size()-1-Language_Pos]==__T("fra") || List[Pos][List[Pos].size()-1-Language_Pos]==__T("fre"))
+                Language=__T("fr");
+            if (List[Pos][List[Pos].size()-1-Language_Pos]==__T("ita"))
+                Language=__T("it");
+            if (List[Pos][List[Pos].size()-1-Language_Pos]==__T("spa"))
+                Language=__T("es");
+
+            (*Iterators[Pos]).Infos["Language"]=Language;
+        }
+}
 void File__ReferenceFilesHelper::ParseReferences()
 {
     if (!Init_Done)
@@ -116,6 +262,9 @@ void File__ReferenceFilesHelper::ParseReferences()
         std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo1);
         std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo2);
         std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo3);
+
+        //InfoFromFileName
+        File__ReferenceFilesHelper_InfoFromFileName(References);
 
         //Configuring file names
         Reference=References.begin();

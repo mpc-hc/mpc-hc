@@ -1277,7 +1277,7 @@ void File_Mxf::Streams_Finish_Essence(int32u EssenceUID, int128u TrackUID)
     }
 
     //Special case - Multiple sub-streams in a stream
-    if ((*Parser)->Retrieve(Stream_General, 0, General_Format)==__T("ChannelGrouping") && (*Parser)->Count_Get(Stream_Audio))
+    if (((*Parser)->Retrieve(Stream_General, 0, General_Format)==__T("ChannelGrouping") || (*Parser)->Count_Get(StreamKind_Last)>1) && (*Parser)->Count_Get(Stream_Audio))
     {
         //Before
         if (StreamKind_Last==Stream_Audio)
@@ -1291,27 +1291,35 @@ void File_Mxf::Streams_Finish_Essence(int32u EssenceUID, int128u TrackUID)
         stream_t NewKind=StreamKind_Last;
         size_t NewPos1;
         Ztring ID;
-
-        //Searching second stream
-        size_t StreamPos_Difference=Essence->second.StreamPos-Essence->second.StreamPos_Initial;
-        essences::iterator Essence1=Essence;
-        --Essence1;
-        Essence->second.StreamPos=Essence1->second.StreamPos;
-        for (descriptors::iterator Descriptor=Descriptors.begin(); Descriptor!=Descriptors.end(); ++Descriptor)
+        if ((*Parser)->Retrieve(Stream_General, 0, General_Format)==__T("ChannelGrouping"))
         {
-            if (Descriptor->second.LinkedTrackID==Essence1->second.TrackID)
-                Descriptor->second.StreamPos=Essence1->second.StreamPos;
-            if (Descriptor->second.LinkedTrackID==Essence->second.TrackID)
-                Descriptor->second.StreamPos=Essence->second.StreamPos;
+            //Searching second stream
+            size_t StreamPos_Difference=Essence->second.StreamPos-Essence->second.StreamPos_Initial;
+            essences::iterator Essence1=Essence;
+            --Essence1;
+            Essence->second.StreamPos=Essence1->second.StreamPos;
+            for (descriptors::iterator Descriptor=Descriptors.begin(); Descriptor!=Descriptors.end(); ++Descriptor)
+            {
+                if (Descriptor->second.LinkedTrackID==Essence1->second.TrackID)
+                    Descriptor->second.StreamPos=Essence1->second.StreamPos;
+                if (Descriptor->second.LinkedTrackID==Essence->second.TrackID)
+                    Descriptor->second.StreamPos=Essence->second.StreamPos;
+            }
+
+            //Removing the 2 corresponding streams
+            NewPos1=(Essence->second.StreamPos_Initial/2)*2+StreamPos_Difference;
+            size_t NewPos2=NewPos1+1;
+            ID=Ztring::ToZtring(Essence1->second.TrackID)+__T(" / ")+Ztring::ToZtring(Essence->second.TrackID);
+
+            Stream_Erase(NewKind, NewPos2);
+            Stream_Erase(NewKind, NewPos1);
         }
-
-        //Removing the 2 corresponding streams
-        NewPos1=(Essence->second.StreamPos_Initial/2)*2+StreamPos_Difference;
-        size_t NewPos2=NewPos1+1;
-        ID=Ztring::ToZtring(Essence1->second.TrackID)+__T(" / ")+Ztring::ToZtring(Essence->second.TrackID);
-
-        Stream_Erase(NewKind, NewPos2);
-        Stream_Erase(NewKind, NewPos1);
+        else
+        {
+            NewPos1=StreamPos_Last;
+            ID=Ztring::ToZtring(Essence->second.TrackID);
+            Stream_Erase(NewKind, NewPos1);
+        }
 
         //After
         for (size_t StreamPos=0; StreamPos<(*Parser)->Count_Get(NewKind); StreamPos++)
@@ -1552,15 +1560,21 @@ void File_Mxf::Streams_Finish_Descriptor(const int128u DescriptorUID, const int1
     if (StreamPos_Last==(size_t)-1)
     {
         for (size_t Pos=0; Pos<Count_Get(StreamKind_Last); Pos++)
-            if (Ztring::ToZtring(Descriptor->second.LinkedTrackID)==Retrieve(StreamKind_Last, Pos, General_ID))
+        {
+            Ztring ID=Retrieve(StreamKind_Last, Pos, General_ID);
+            size_t ID_Dash_Pos=ID.find(__T('-'));
+            if (ID_Dash_Pos!=string::npos)
+                ID.resize(ID_Dash_Pos);
+            if (Ztring::ToZtring(Descriptor->second.LinkedTrackID)==ID)
             {
                 StreamPos_Last=Pos;
                 break;
             }
+        }
     }
     if (StreamPos_Last==(size_t)-1)
     {
-        if (Descriptors.size()==1 && Count_Get(StreamKind_Last)==1)
+        if (Descriptors.size()==1)
             StreamPos_Last=0;
         else if (Descriptor->second.LinkedTrackID!=(int32u)-1)
         {
@@ -1708,6 +1722,15 @@ void File_Mxf::Streams_Finish_Descriptor(const int128u DescriptorUID, const int1
         }
 
         //Info
+        const Ztring &ID=Retrieve(StreamKind_Last, StreamPos_Last, General_ID);
+        size_t ID_Dash_Pos=ID.find(__T('-'));
+        size_t StreamWithSameID=1;
+        if (ID_Dash_Pos!=(size_t)-1)
+        {
+            Ztring RealID=ID.substr(0, ID_Dash_Pos+1);
+            while (StreamPos_Last+StreamWithSameID<Count_Get(StreamKind_Last) && Retrieve(StreamKind_Last, StreamPos_Last+StreamWithSameID, General_ID).find(RealID)==0)
+                StreamWithSameID++;
+        }
         for (std::map<std::string, Ztring>::iterator Info=Descriptor->second.Infos.begin(); Info!=Descriptor->second.Infos.end(); ++Info)
             if (Retrieve(StreamKind_Last, StreamPos_Last, Info->first.c_str()).empty())
             {
@@ -1725,8 +1748,31 @@ void File_Mxf::Streams_Finish_Descriptor(const int128u DescriptorUID, const int1
                         Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_BitRate), Info->second.To_int64u()*2, 10, true);
                 }
                 else
-                    Fill(StreamKind_Last, StreamPos_Last, Info->first.c_str(), Info->second, true);
+                {
+                    for (size_t Pos=0; Pos<StreamWithSameID; Pos++)
+                        Fill(StreamKind_Last, StreamPos_Last+Pos, Info->first.c_str(), Info->second, true);
+                }
             }
+        Ztring CodecID;
+        if (Descriptor->second.EssenceContainer.hi!=(int64u)-1)
+        {
+            CodecID.From_Number(Descriptor->second.EssenceContainer.lo, 16);
+            if (CodecID.size()<16)
+                CodecID.insert(0, 16-CodecID.size(), __T('0'));
+        }
+        if (Descriptor->second.EssenceCompression.hi!=(int64u)-1)
+        {
+            if (!CodecID.empty())
+                CodecID+=__T('-');
+            Ztring EssenceCompression;
+            EssenceCompression.From_Number(Descriptor->second.EssenceCompression.lo, 16);
+            if (EssenceCompression.size()<16)
+                EssenceCompression.insert(0, 16-EssenceCompression.size(), __T('0'));
+            CodecID+=EssenceCompression;
+        }
+        if (!CodecID.empty())
+            for (size_t Pos=0; Pos<StreamWithSameID; Pos++)
+                Fill(StreamKind_Last, StreamPos_Last+Pos, Fill_Parameter(StreamKind_Last, Generic_CodecID), CodecID, true);
         if (StreamKind_Last==Stream_Video && Retrieve(Stream_Video, StreamPos_Last, Video_Format).empty() && Descriptor->second.HasMPEG2VideoDescriptor)
             Fill(Stream_Video, StreamPos_Last, Video_Format, "MPEG Video");
 
@@ -2315,7 +2361,7 @@ void File_Mxf::Read_Buffer_Unsynched()
             for (size_t Pos=0; Pos<IndexTables.size(); Pos++)
             {
                 //Searching the right index
-                if (!IndexTables[Pos].Entries.empty() && StreamOffset>=IndexTables[Pos].Entries[0].StreamOffset+(IndexTables[Pos].IndexStartPosition)*SDTI_SizePerFrame && (Pos+1>=IndexTables.size() || StreamOffset<IndexTables[Pos+1].Entries[0].StreamOffset+(IndexTables[Pos+1].IndexStartPosition)*SDTI_SizePerFrame))
+                if (!IndexTables[Pos].Entries.empty() && StreamOffset>=IndexTables[Pos].Entries[0].StreamOffset+(IndexTables[Pos].IndexStartPosition)*SDTI_SizePerFrame && (Pos+1>=IndexTables.size() || IndexTables[Pos+1].Entries.empty() || StreamOffset<IndexTables[Pos+1].Entries[0].StreamOffset+(IndexTables[Pos+1].IndexStartPosition)*SDTI_SizePerFrame))
                 {
                     //Searching the frame pos
                     for (size_t EntryPos=0; EntryPos<IndexTables[Pos].Entries.size(); EntryPos++)
@@ -2754,6 +2800,36 @@ size_t File_Mxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 //---------------------------------------------------------------------------
 bool File_Mxf::FileHeader_Begin()
 {
+    //AAF has some MXF start codes
+    if (Buffer[ 0x0]==0xD0
+     && Buffer[ 0x1]==0xCF
+     && Buffer[ 0x2]==0x11
+     && Buffer[ 0x3]==0xE0
+     && Buffer[ 0x4]==0xA1
+     && Buffer[ 0x5]==0xB1
+     && Buffer[ 0x6]==0x1A
+     && Buffer[ 0x7]==0xE1
+     && Buffer[ 0x8]==0x41
+     && Buffer[ 0x9]==0x41
+     && Buffer[ 0xA]==0x46
+     && Buffer[ 0xB]==0x42
+     && Buffer[ 0xC]==0x0D
+     && Buffer[ 0xD]==0x00
+     && Buffer[ 0xE]==0x4F
+     && Buffer[ 0xF]==0x4D
+     && Buffer[0x10]==0x06
+     && Buffer[0x11]==0x0E
+     && Buffer[0x12]==0x2B
+     && Buffer[0x13]==0x34
+     && Buffer[0x14]==0x01
+     && Buffer[0x15]==0x01
+     && Buffer[0x16]==0x01
+     && Buffer[0x17]==0xFF)
+    {
+        Reject("Mxf");
+        return false;
+    } 
+    
     //DCA uses buffer interface without filename
     if (File_Name.empty())
         File_Name=Config->File_FileName_Get();
@@ -3746,6 +3822,8 @@ else if (Code_Compare1==Elements::_ELEMENT##1 \
 //---------------------------------------------------------------------------
 void File_Mxf::AES3PCMDescriptor()
 {
+    Descriptors[InstanceUID].IsAes3Descriptor=true;
+
     switch(Code2)
     {
         ELEMENT(3D08, AES3PCMDescriptor_AuxBitsMode,            "Use of Auxiliary Bits")
@@ -6132,14 +6210,9 @@ void File_Mxf::IndexTableSegment_IndexEntryArray()
             #endif //MEDIAINFO_SEEK
         #if MEDIAINFO_SEEK
             Get_B8 (Stream_Offset,                              "Stream Offset");
-            if (IndexTables[IndexTables.size()-1].IndexDuration==0 //Filling in all cases if IndexDuration is not yet filled
-             || NIE==IndexTables[IndexTables.size()-1].IndexDuration
-             || (NIE/2==IndexTables[IndexTables.size()-1].IndexDuration && (Pos%2)==0)) //Detecting corrupted index having index position twice per frame
-            {
-                Entry.StreamOffset=Stream_Offset;
-                Entry.Type=(forward_rediction_flag?1:0)*2+(backward_prediction_flag?1:0);
-                IndexTables[IndexTables.size()-1].Entries.push_back(Entry);
-            }
+            Entry.StreamOffset=Stream_Offset;
+            Entry.Type=(forward_rediction_flag?1:0)*2+(backward_prediction_flag?1:0);
+            IndexTables[IndexTables.size()-1].Entries.push_back(Entry);
         #else //MEDIAINFO_SEEK
             Skip_B8(                                            "Stream Offset");
         #endif //MEDIAINFO_SEEK
@@ -8934,11 +9007,20 @@ void File_Mxf::ChooseParser(const essences::iterator &Essence, const descriptors
                                                                         case 0x02 : //SMPTE 338M Audio Coding
                                                                                     switch (Code7)
                                                                                     {
-                                                                                        case 0x01 : return ChooseParser_Ac3(Essence, Descriptor);
+                                                                                        case 0x01 : if (Descriptor->second.IsAes3Descriptor)
+                                                                                                        return ChooseParser_SmpteSt0337(Essence, Descriptor);
+                                                                                                    else
+                                                                                                        return ChooseParser_Ac3(Essence, Descriptor);
                                                                                         case 0x04 :
                                                                                         case 0x05 :
-                                                                                        case 0x06 : return ChooseParser_Mpega(Essence, Descriptor);
-                                                                                        case 0x1C : return ChooseParser_ChannelGrouping(Essence, Descriptor); //Dolby E (in 2 mono streams)
+                                                                                        case 0x06 : if (Descriptor->second.IsAes3Descriptor)
+                                                                                                        return ChooseParser_SmpteSt0337(Essence, Descriptor);
+                                                                                                    else
+                                                                                                        return ChooseParser_Mpega(Essence, Descriptor);
+                                                                                        case 0x1C : if (Descriptor->second.ChannelCount==1)
+                                                                                                        return ChooseParser_ChannelGrouping(Essence, Descriptor); //Dolby E (in 2 mono streams)
+                                                                                                    else
+                                                                                                        return ChooseParser_SmpteSt0337(Essence, Descriptor); //Dolby E (in 1 stereo streams)
                                                                                         default   : return;
                                                                                     }
                                                                         case 0x03 : //MPEG-2 Coding (not defined in SMPTE 338M)

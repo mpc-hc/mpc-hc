@@ -103,6 +103,10 @@ private :
     void sequence_end();
     void group_start();
 
+
+    //Helpers
+    void temporal_reference_Adapt();
+
     //Streams
     struct stream
     {
@@ -246,6 +250,7 @@ private :
     int16u bit_rate_extension;
     int16u temporal_reference;
     int16u temporal_reference_Old;
+    int16u temporal_reference_Max;
     int16u display_horizontal_size;
     int16u display_vertical_size;
     int16u vbv_delay;
@@ -289,10 +294,12 @@ private :
     bool   bit_rate_value_IsValid;
     bool   profile_and_level_indication_escape;
     bool   colour_description;
+    bool   low_delay;
     int8u  RefFramesCount;
     int8u  BVOPsSinceLastRefFrames;
     int16u temporal_reference_LastIFrame;
     int64u PTS_LastIFrame;
+    int16u PTS_End_temporal_reference;
     int64u tc;
     bool    IFrame_IsParsed;
     size_t  IFrame_Count;

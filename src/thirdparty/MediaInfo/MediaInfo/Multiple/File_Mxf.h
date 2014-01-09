@@ -566,6 +566,7 @@ protected :
         type Type;
         bool HasBFrames;
         bool HasMPEG2VideoDescriptor;
+        bool IsAes3Descriptor;
         int32u ByteRate;
 
         descriptor()
@@ -599,6 +600,7 @@ protected :
             Type=Type_Unknown;
             HasBFrames=false;
             HasMPEG2VideoDescriptor=false;
+            IsAes3Descriptor=false;
             ByteRate=(int32u)-1;
         }
     };

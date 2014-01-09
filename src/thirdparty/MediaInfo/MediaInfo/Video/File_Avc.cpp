@@ -874,7 +874,11 @@ bool File_Avc::Demux_UnpacketizeContainer_Test()
                 }
 
                 if (Demux_Offset+6>Buffer_Size)
+                {
+                    if (File_Offset+Buffer_Size==File_Size)
+                        Demux_Offset=Buffer_Size;
                     break;
+                }
 
                 zero_byte=Buffer[Demux_Offset+2]==0x00;
                 if (Demux_IntermediateItemFound)
@@ -2904,7 +2908,7 @@ void File_Avc::pic_parameter_set()
         while (Offset && Buffer[Buffer_Offset+(size_t)Offset]==0x00) //Searching if there are NULL bytes at the end of the data
             Offset--;
         size_t Bit_Pos=7;
-        while (!(Buffer[Buffer_Offset+(size_t)Offset]&(1<<(7-Bit_Pos))))
+        while (Bit_Pos && !(Buffer[Buffer_Offset+(size_t)Offset]&(1<<(7-Bit_Pos))))
             Bit_Pos--;
         if (Data_BS_Remain()>1+(7-Bit_Pos)+(Element_Size-Offset-1)*8)
             more_rbsp_data=true;

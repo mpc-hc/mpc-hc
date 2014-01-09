@@ -590,9 +590,6 @@
     <ClInclude Include="MediaInfo\Image\File_Tga.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
-    <ClInclude Include="MediaInfo\Export\Export_reVTMD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File_SequenceInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -628,6 +625,15 @@
     </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File_HdsF4m.h">
       <Filter>Source Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Export\Export_EbuCore.h">
+      <Filter>Header Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File_Aaf.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File_Ptx.h">
+      <Filter>Header Files\Multiple</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1162,9 +1168,6 @@
     <ClCompile Include="MediaInfo\Multiple\File_Ism.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
-    <ClCompile Include="MediaInfo\Export\Export_reVTMD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_SequenceInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1199,6 +1202,15 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_HdsF4m.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Export\Export_EbuCore.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File_Aaf.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File_Ptx.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
   </ItemGroup>

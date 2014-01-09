@@ -297,6 +297,8 @@ void File_Aac::Read_Buffer_Continue_raw_data_block()
         if (Frame_Count>=Frame_Count_Valid)
         {
             //No more need data
+            if (Mode==Mode_LATM)
+                File__Analyze::Accept();
             File__Analyze::Finish();
         }
     FILLING_END();
@@ -419,7 +421,6 @@ bool File_Aac::Synchronize_ADTS()
 
     //Synched is OK
     Mode=Mode_ADTS;
-    File__Tags_Helper::Accept("ADTS");
     return true;
 }
 
@@ -481,7 +482,6 @@ bool File_Aac::Synchronize_LATM()
 
     //Synched is OK
     Mode=Mode_LATM;
-    File__Analyze::Accept("LATM");
     return true;
 }
 
@@ -687,6 +687,9 @@ void File_Aac::Data_Parse()
             Element_Info1(Ztring::ToZtring(Frame_Count));
         }
 
+        if (!Status[IsAccepted])
+            File__Analyze::Accept();
+
         //Filling
         if (Frame_Count>=Frame_Count_Valid && Config->ParseSpeed<1.0)
         {
@@ -695,9 +698,12 @@ void File_Aac::Data_Parse()
             {
                 case Mode_ADTS        :
                 case Mode_LATM        :
-                                        Fill();
-                                        if (!IsSub)
-                                            File__Tags_Helper::Finish();
+                                        if (!Status[IsFilled])
+                                        {
+                                            Fill();
+                                            if (!IsSub)
+                                                File__Tags_Helper::Finish();
+                                        }
                                         break;
                 default               : ; //No header
             }

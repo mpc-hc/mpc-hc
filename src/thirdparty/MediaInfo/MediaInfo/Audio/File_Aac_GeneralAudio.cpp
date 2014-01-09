@@ -133,6 +133,12 @@ void File_Aac::program_config_element()
         Skip_S1(2,                                              "matrix_mixdown_idx");
         Skip_SB(                                                "pseudo_surround_enable");
     TEST_SB_END();
+    bool front1_element_is_cpe=false;
+    if (!num_side_channel_elements && num_back_channel_elements && num_back_channel_elements<3) // Hack: e.g. in case of 5.1,
+    {
+        num_side_channel_elements=num_back_channel_elements;
+        num_back_channel_elements=0;
+    }
     for (int8u Pos=0; Pos<num_front_channel_elements; Pos++)
     {
         Element_Begin1("front_element");
@@ -143,6 +149,8 @@ void File_Aac::program_config_element()
         {
             Channels_Front+=2;
             Channels+=2;
+            if (Pos==0)
+                front1_element_is_cpe=true;
         }
         else
         {
@@ -216,41 +224,43 @@ void File_Aac::program_config_element()
     Element_End0();
 
     //Filling
-    Ztring Channels_Positions, Channels_Positions2;
+    Ztring Channels_Positions, Channels_Positions2, ChannelLayout;
     switch (Channels_Front)
     {
         case  0 : break;
-        case  1 : Channels_Positions+=__T("Front: C"); break;
-        case  2 : Channels_Positions+=__T("Front: L R"); break;
-        case  3 : Channels_Positions+=__T("Front: L C R"); break;
-        default : Channels_Positions+=__T("Front: "); Channels_Positions+=Ztring::ToZtring(Channels_Front); //Which config?
+        case  1 : Channels_Positions+=__T("Front: C"); ChannelLayout+=__T("C "); break;
+        case  2 : Channels_Positions+=__T("Front: L R"); ChannelLayout+=__T("L R "); break;
+        case  3 : Channels_Positions+=__T("Front: L C R"); ChannelLayout+=num_front_channel_elements==2?(front1_element_is_cpe?__T("L R C "):__T("C L R ")):__T("? ? ? "); break;
+        default : Channels_Positions+=__T("Front: "); Channels_Positions+=Ztring::ToZtring(Channels_Front); ChannelLayout+=__T("? "); //Which config?
     }
     switch (Channels_Side)
     {
         case  0 : break;
-        case  1 : Channels_Positions+=__T(", Side: C"); break;
-        case  2 : Channels_Positions+=__T(", Side: L R"); break;
-        case  3 : Channels_Positions+=__T(", Side: L C R"); break;
-        default : Channels_Positions+=__T(", Side: "); Channels_Positions+=Ztring::ToZtring(Channels_Side); //Which config?
+        case  1 : Channels_Positions+=__T(", Side: C"); ChannelLayout+=__T("Cs "); break;
+        case  2 : Channels_Positions+=__T(", Side: L R"); ChannelLayout+=__T("Ls Rs "); break;
+        case  3 : Channels_Positions+=__T(", Side: L C R"); ChannelLayout+=__T("? ? ? "); break;
+        default : Channels_Positions+=__T(", Side: "); Channels_Positions+=Ztring::ToZtring(Channels_Side); ChannelLayout+=__T("? "); //Which config?
     }
     switch (Channels_Back)
     {
         case  0 : break;
-        case  1 : Channels_Positions+=__T(", Back: C"); break;
-        case  2 : Channels_Positions+=__T(", Back: L R"); break;
-        case  3 : Channels_Positions+=__T(", Back: L C R"); break;
-        default : Channels_Positions+=__T(", Back: "); Channels_Positions+=Ztring::ToZtring(Channels_Back); //Which config?
+        case  1 : Channels_Positions+=__T(", Back: C"); ChannelLayout+=__T("Cs "); break;
+        case  2 : Channels_Positions+=__T(", Back: L R"); ChannelLayout+=__T("Rls Rrs "); break;
+        case  3 : Channels_Positions+=__T(", Back: L C R"); ChannelLayout+=__T("Rls Cs Rrs "); break;
+        default : Channels_Positions+=__T(", Back: "); Channels_Positions+=Ztring::ToZtring(Channels_Back); ChannelLayout+=__T("? "); //Which config?
     }
     switch (Channels_LFE)
     {
         case  0 : break;
-        case  1 : Channels_Positions+=__T(", LFE"); break;
-        default : Channels_Positions+=__T(", LFE= "); Channels_Positions+=Ztring::ToZtring(Channels_LFE); //Which config?
+        case  1 : Channels_Positions+=__T(", LFE"); ChannelLayout+=__T("LFE "); break;
+        default : Channels_Positions+=__T(", LFE= "); Channels_Positions+=Ztring::ToZtring(Channels_LFE); ChannelLayout+=__T("? "); //Which config?
     }
     Channels_Positions2=Ztring::ToZtring(Channels_Front)+__T('/')
                        +Ztring::ToZtring(Channels_Side)+__T('/')
                        +Ztring::ToZtring(Channels_Back)
                        +(Channels_LFE?__T(".1"):__T(""));
+    if (!ChannelLayout.empty())
+        ChannelLayout.resize(ChannelLayout.size()-1);
 
     FILLING_BEGIN();
         //Integrity test
@@ -275,6 +285,7 @@ void File_Aac::program_config_element()
         Infos["Channel(s)"].From_Number(Channels);
         Infos["ChannelPositions"]=Channels_Positions;
         Infos["ChannelPositions/String2"]=Channels_Positions2;
+        Infos["ChannelLayout"]=ChannelLayout;
 
         if (!Infos["Format_Settings_SBR"].empty())
         {
@@ -319,17 +330,17 @@ void File_Aac::program_config_element()
 //---------------------------------------------------------------------------
 void File_Aac::raw_data_block()
 {
-    if (audioObjectType!=2)
-    {
-        Skip_BS(Data_BS_Remain(),                               "Data");
-        return; //We test only AAC LC
-    }
-
     if (sampling_frequency_index>=16 || Aac_sampling_frequency[sampling_frequency_index]==0)
     {
         Trusted_IsNot("(Problem)");
         Skip_BS(Data_BS_Remain(),                               "(Problem)");
         return;
+    }
+
+    if (audioObjectType!=2)
+    {
+        Skip_BS(Data_BS_Remain(),                               "Data");
+        return; //We test only AAC LC
     }
 
     //Parsing
@@ -1267,9 +1278,12 @@ void File_Aac::ELDSpecificConfig ()
     }
 
     int8u eldExtType;
-    Get_S1(4,eldExtType,"eldExtType");
-    while (eldExtType != 0/*ELDEXT_TERM*/)
+    for (;;)
     {
+        Get_S1(4,eldExtType,"eldExtType");
+        if (eldExtType == 0/*ELDEXT_TERM*/)
+            break;
+
         int8u eldExtLen,eldExtLenAdd=0;
         int16u eldExtLenAddAdd;
         Get_S1(4,eldExtLen,"eldExtLen");

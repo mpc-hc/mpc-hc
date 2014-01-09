@@ -24,6 +24,7 @@
 
 //---------------------------------------------------------------------------
 #include "ZenLib/Utils.h"
+#include "MediaInfo/Export/Export_EbuCore.h"
 #include "MediaInfo/Export/Export_Mpeg7.h"
 #include "MediaInfo/Export/Export_reVTMD.h"
 #include "MediaInfo/Export/Export_PBCore.h"
@@ -60,6 +61,8 @@ Ztring MediaInfo_Internal::Inform()
         }
     #endif //MEDIAINFO_TRACE
 
+    if (MediaInfoLib::Config.Inform_Get()==__T("EBUCore") || MediaInfoLib::Config.Inform_Get()==__T("EBUCore_1.4"))
+        return Export_EbuCore().Transform(*this);
     if (MediaInfoLib::Config.Inform_Get()==__T("MPEG-7"))
         return Export_Mpeg7().Transform(*this);
     if (MediaInfoLib::Config.Inform_Get()==__T("PBCore") || MediaInfoLib::Config.Inform_Get()==__T("PBCore_1.2"))

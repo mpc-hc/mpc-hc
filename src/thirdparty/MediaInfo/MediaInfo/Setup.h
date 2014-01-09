@@ -278,6 +278,9 @@
 #if !defined(MEDIAINFO_MULTI_NO) && !defined(MEDIAINFO_REFERENCES_NO) && !defined(MEDIAINFO_REFERENCES_YES)
     #define MEDIAINFO_REFERENCES_YES
 #endif
+#if !defined(MEDIAINFO_MULTI_NO) && !defined(MEDIAINFO_AAF_NO) && !defined(MEDIAINFO_AAF_YES)
+    #define MEDIAINFO_AAF_YES
+#endif
 #if !defined(MEDIAINFO_MULTI_NO) && !defined(MEDIAINFO_ANCILLARY_NO) && !defined(MEDIAINFO_ANCILLARY_YES)
     #define MEDIAINFO_ANCILLARY_YES
 #endif
@@ -367,6 +370,9 @@
 #endif
 #if !defined(MEDIAINFO_MULTI_NO) && !defined(MEDIAINFO_PMP_NO) && !defined(MEDIAINFO_PMP_YES)
     #define MEDIAINFO_PMP_YES
+#endif
+#if !defined(MEDIAINFO_MULTI_NO) && !defined(MEDIAINFO_PTX_NO) && !defined(MEDIAINFO_PTX_YES)
+    #define MEDIAINFO_PTX_YES
 #endif
 #if !defined(MEDIAINFO_MULTI_NO) && !defined(MEDIAINFO_RIFF_NO) && !defined(MEDIAINFO_RIFF_YES)
     #define MEDIAINFO_RIFF_YES

@@ -394,6 +394,7 @@ private :
         bool                    IsPriorityStream;
         bool                    IsFilled;
         bool                    IsChapter;
+        bool                    ScanOrder_StoredDisplayedInverted;
         float32                 CleanAperture_Width;
         float32                 CleanAperture_Height;
         float32                 CleanAperture_PixelAspectRatio;
@@ -447,6 +448,7 @@ private :
             IsPriorityStream=false;
             IsFilled=false;
             IsChapter=false;
+            ScanOrder_StoredDisplayedInverted=false;
             CleanAperture_Width=0;
             CleanAperture_Height=0;
             CleanAperture_PixelAspectRatio=0;

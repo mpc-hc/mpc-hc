@@ -31,6 +31,9 @@
 #if defined(MEDIAINFO_TIMECODE_YES)
     #include "MediaInfo/Multiple/File_Gxf_TimeCode.h"
 #endif
+#if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+    #include "MediaInfo/Text/File_AribStdB24B37.h"
+#endif
 #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 #include <cstring>
 //---------------------------------------------------------------------------
@@ -84,6 +87,14 @@ const char* Ancillary_DataID(int8u DataID, int8u SecondaryDataID)
         return "Internationally registered";
     else if (DataID<=0x5F)
         return "Reserved";
+    else if (DataID==0x5F)
+    {
+        switch (SecondaryDataID&0xF0)
+        {
+            case 0xD0 : return "ARIB B37";
+            default   : return "Reserved";
+        }
+    }
     else if (DataID==0x60)
         return "Ancillary time code"; //RP188
     else if (DataID==0x61)
@@ -151,6 +162,9 @@ File_Ancillary::File_Ancillary()
     #if defined(MEDIAINFO_CDP_YES)
         Cdp_Parser=NULL;
     #endif //defined(MEDIAINFO_CDP_YES)
+    #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+        AribStdB34B37_Parser=NULL;
+    #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
 }
 
 //---------------------------------------------------------------------------
@@ -165,6 +179,9 @@ File_Ancillary::~File_Ancillary()
         for (size_t Pos=0; Pos<AfdBarData_Data.size(); Pos++)
             delete AfdBarData_Data[Pos]; //AfdBarData_Data[Pos]=NULL;
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
+    #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+        delete AribStdB34B37_Parser; //AribStdB34B37_Parser=NULL;
+    #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
 }
 
 //---------------------------------------------------------------------------
@@ -189,6 +206,19 @@ void File_Ancillary::Streams_Finish()
                 Fill(Stream_General, 0, General_LawRating, LawRating, true);
         }
     #endif //defined(MEDIAINFO_CDP_YES)
+
+    #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+        if (AribStdB34B37_Parser && !AribStdB34B37_Parser->Status[IsFinished] && AribStdB34B37_Parser->Status[IsAccepted])
+        {
+            Finish(AribStdB34B37_Parser);
+            for (size_t StreamPos=0; StreamPos<AribStdB34B37_Parser->Count_Get(Stream_Text); StreamPos++)
+            {
+                Merge(*AribStdB34B37_Parser, Stream_Text, StreamPos, StreamPos);
+                Ztring MuxingMode=AribStdB34B37_Parser->Retrieve(Stream_Text, StreamPos, "MuxingMode");
+                Fill(Stream_Text, StreamPos, "MuxingMode", __T("Ancillary data / ")+MuxingMode, true);
+            }
+        }
+    #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
 }
 
 //***************************************************************************
@@ -347,6 +377,7 @@ void File_Ancillary::Data_Parse()
 
     //Buffer
     int8u* Payload=new int8u[DataCount];
+    Element_Begin1("Raw data");
     for(int8u Pos=0; Pos<DataCount; Pos++)
     {
         Get_L1 (Payload[Pos],                                   "Data");
@@ -359,6 +390,7 @@ void File_Ancillary::Data_Parse()
         Skip_L1(                                                "Checksum");
     if (WithTenBit)
         Skip_L1(                                                "Parity+Unused"); //even:1, odd:2
+    Element_End0();
 
     FILLING_BEGIN();
         switch (DataID)
@@ -406,6 +438,26 @@ void File_Ancillary::Data_Parse()
                                         break;
                             default   : ;
                             ;
+                        }
+                        break;
+            case 0x5F : // (from ARIB STD-B37)
+                        if ((SecondaryDataID&0xF0)==0xD0) //Digital Closed Caption
+                        {
+                            #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+                            if (AribStdB34B37_Parser==NULL)
+                            {
+                                AribStdB34B37_Parser=new File_AribStdB24B37;
+                                ((File_AribStdB24B37*)AribStdB34B37_Parser)->IsAncillaryData=true;
+                                ((File_AribStdB24B37*)AribStdB34B37_Parser)->ParseCcis=true;
+                                Open_Buffer_Init(AribStdB34B37_Parser);
+                            }
+                            if (!AribStdB34B37_Parser->Status[IsFinished])
+                            {
+                                if (AribStdB34B37_Parser->PTS_DTS_Needed)
+                                    AribStdB34B37_Parser->FrameInfo=FrameInfo;
+                                Open_Buffer_Continue(AribStdB34B37_Parser, Payload, (size_t)DataCount);
+                            }
+                            #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
                         }
                         break;
             case 0x60 :

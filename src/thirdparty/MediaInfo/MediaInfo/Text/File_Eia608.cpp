@@ -373,7 +373,6 @@ void File_Eia608::XDS_Current_ContentAdvisory()
                     case 5 : ContentAdvisory="TV-14"; break;
                     case 6 : ContentAdvisory="TV-MA"; break;
                     case 7 : ContentAdvisory="None"; break;
-                    default: ;
                 }
                 if (XDS_Data[XDS_Level][2]&0x20) //Suggestive dialogue
                     ContentDescriptors+='D';
@@ -421,7 +420,6 @@ void File_Eia608::XDS_Current_ContentAdvisory()
                         }
                 }
                 break;
-        default: ;
     }
 
     if (ContentAdvisory)

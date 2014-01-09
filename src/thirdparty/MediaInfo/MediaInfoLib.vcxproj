@@ -101,12 +101,15 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MediaInfo\Export\Export_EbuCore.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_Aaf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_DashMpd.h" />
     <ClInclude Include="MediaInfo\Multiple\File_DcpAm.h" />
     <ClInclude Include="MediaInfo\Multiple\File_DcpCpl.h" />
     <ClInclude Include="MediaInfo\Multiple\File_DcpPkl.h" />
     <ClInclude Include="MediaInfo\Multiple\File_HdsF4m.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Pmp.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_Ptx.h" />
     <ClInclude Include="MediaInfo\Text\File_SubRip.h" />
     <ClInclude Include="MediaInfo\Text\File_TimedText.h" />
     <ClInclude Include="MediaInfo\Text\File_Ttml.h" />
@@ -168,7 +171,6 @@
     <ClInclude Include="MediaInfo\Duplicate\File__Duplicate__Writer.h" />
     <ClInclude Include="MediaInfo\Export\Export_Mpeg7.h" />
     <ClInclude Include="MediaInfo\Export\Export_PBCore.h" />
-    <ClInclude Include="MediaInfo\Export\Export_reVTMD.h" />
     <ClInclude Include="MediaInfo\File_Dummy.h" />
     <ClInclude Include="MediaInfo\File_Other.h" />
     <ClInclude Include="MediaInfo\File_Unknown.h" />
@@ -343,9 +345,9 @@
     <ClCompile Include="MediaInfo\Duplicate\File__Duplicate_MpegTs.cpp" />
     <ClCompile Include="MediaInfo\Duplicate\File__Duplicate__Base.cpp" />
     <ClCompile Include="MediaInfo\Duplicate\File__Duplicate__Writer.cpp" />
+    <ClCompile Include="MediaInfo\Export\Export_EbuCore.cpp" />
     <ClCompile Include="MediaInfo\Export\Export_Mpeg7.cpp" />
     <ClCompile Include="MediaInfo\Export\Export_PBCore.cpp" />
-    <ClCompile Include="MediaInfo\Export\Export_reVTMD.cpp" />
     <ClCompile Include="MediaInfo\File_Dummy.cpp" />
     <ClCompile Include="MediaInfo\File_Other.cpp" />
     <ClCompile Include="MediaInfo\File_Unknown.cpp" />
@@ -378,12 +380,14 @@
     <ClCompile Include="MediaInfo\MediaInfo_File.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_Inform.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_Internal.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_Aaf.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_DashMpd.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_DcpAm.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_DcpCpl.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_DcpPkl.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_HdsF4m.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Pmp.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_Ptx.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File__ReferenceFilesHelper.cpp" />
     <ClCompile Include="MediaInfo\PreComp.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

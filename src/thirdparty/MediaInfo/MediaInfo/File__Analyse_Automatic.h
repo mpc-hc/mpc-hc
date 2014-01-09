@@ -599,6 +599,7 @@ enum video
     Video_ScanType_Original_String,
     Video_ScanOrder,
     Video_ScanOrder_String,
+    Video_ScanOrder_StoredDisplayedInverted,
     Video_ScanOrder_Original,
     Video_ScanOrder_Original_String,
     Video_Interlacement,

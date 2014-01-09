@@ -127,7 +127,7 @@ const int32u AC3_SamplingRate2[]=
 //---------------------------------------------------------------------------
 const char*  AC3_ChannelPositions[]=
 {
-    "Front: L R",
+    "Dual mono",
     "Front: C",
     "Front: L R",
     "Front: L C R",
@@ -140,7 +140,7 @@ const char*  AC3_ChannelPositions[]=
 //---------------------------------------------------------------------------
 const char*  AC3_ChannelPositions2[]=
 {
-    "2/0/0",
+    "1+1",
     "1/0/0",
     "2/0/0",
     "3/0/0",
@@ -148,6 +148,32 @@ const char*  AC3_ChannelPositions2[]=
     "3/1/0",
     "2/2/0",
     "3/2/0",
+};
+
+//---------------------------------------------------------------------------
+const char*  AC3_ChannelLayout_lfeoff[]=
+{
+    "1+1",
+    "C",
+    "L R",
+    "L C R",
+    "L R S",
+    "L C R Cs",
+    "L R Ls Rs",
+    "L C R Ls Rs",
+};
+
+//---------------------------------------------------------------------------
+const char*  AC3_ChannelLayout_lfeon[]=
+{
+    "1+1 LFE",
+    "C LFE",
+    "L R LFE",
+    "L C R LFE",
+    "L R S LFE",
+    "L C R LFE Cs",
+    "L R LFE Ls Rs",
+    "L C R LFE Ls Rs",
 };
 
 //---------------------------------------------------------------------------
@@ -253,6 +279,28 @@ int8u AC3_chanmap_Channels (int16u chanmap)
     }
 
     return Channels;
+}
+
+//---------------------------------------------------------------------------
+Ztring AC3_chanmap_ChannelLayout (int16u chanmap, const Ztring &ChannelLayout0)
+{
+    Ztring ToReturn=ChannelLayout0;
+
+    for (int8u Pos=0; Pos<16; Pos++)
+    {
+        if (chanmap&(1<<(15-Pos)))
+        {
+            switch (Pos)
+            {
+                case  5 :   ToReturn+=__T(" Lc Rc"); break;
+                case  6 :   ToReturn+=__T(" Lrs Rrs"); break;
+                case  7 :   ToReturn+=__T(" Cs");
+                default: ;
+            }
+        }
+    }
+
+    return ToReturn;
 }
 
 //---------------------------------------------------------------------------
@@ -745,6 +793,7 @@ void File_Ac3::Streams_Fill()
             int8u Channels=AC3_Channels[acmod_Max[0][0]];
             Ztring ChannelPositions; ChannelPositions.From_Local(AC3_ChannelPositions[acmod_Max[0][0]]);
             Ztring ChannelPositions2; ChannelPositions2.From_Local(AC3_ChannelPositions2[acmod_Max[0][0]]);
+            Ztring ChannelLayout; ChannelLayout.From_Local(lfeon_Max[0][0]?AC3_ChannelLayout_lfeon[acmod_Max[0][0]]:AC3_ChannelLayout_lfeoff[acmod_Max[0][0]]);
             if (lfeon_Max[0][0])
             {
                 Channels+=1;
@@ -757,6 +806,8 @@ void File_Ac3::Streams_Fill()
                 Fill(Stream_Audio, 0, Audio_ChannelPositions, ChannelPositions);
             if (ChannelPositions2!=Retrieve(Stream_Audio, 0, Audio_ChannelPositions_String2))
                 Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, ChannelPositions2);
+            if (ChannelLayout!=Retrieve(Stream_Audio, 0, Audio_ChannelLayout))
+                Fill(Stream_Audio, 0, Audio_ChannelLayout, ChannelLayout);
         }
         if (dsurmod_Max[0][0]==2)
         {
@@ -816,6 +867,8 @@ void File_Ac3::Streams_Fill()
 
                         Fill(Stream_Audio, 0, Audio_Channel_s_, AC3_chanmap_Channels(chanmap_Final));
                         Fill(Stream_Audio, 0, Audio_ChannelPositions, AC3_chanmap_ChannelPositions(chanmap_Final));
+                        Ztring ChannelLayout; ChannelLayout.From_Local(lfeon_Max[0][0]?AC3_ChannelLayout_lfeon[acmod_Max[0][0]]:AC3_ChannelLayout_lfeoff[acmod_Max[0][0]]);
+                        Fill(Stream_Audio, 0, Audio_ChannelLayout, AC3_chanmap_ChannelLayout(chanmap_Final, ChannelLayout));
                 }
                 if (acmod_Max[Pos][0]==0)
                 {
@@ -833,6 +886,7 @@ void File_Ac3::Streams_Fill()
                     }
                     Fill(Stream_Audio, 0, Audio_Channel_s_, Channels);
                     Fill(Stream_Audio, 0, Audio_ChannelPositions, ChannelPositions);
+                    Fill(Stream_Audio, 0, Audio_ChannelLayout, lfeon_Max[0][0]?AC3_ChannelLayout_lfeon[acmod_Max[0][0]]:AC3_ChannelLayout_lfeoff[acmod_Max[0][0]]);
                 }
             }
     }
@@ -1587,6 +1641,9 @@ void File_Ac3::Core()
         if (substreams_Count)
             Element_End0();
     }
+
+    if (acmod_Max[0][0]==(int8u)-1)
+        return; //Waiting for the first sync frame
 
     FILLING_BEGIN();
         //Counting

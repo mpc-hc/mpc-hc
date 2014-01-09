@@ -64,6 +64,9 @@ public :
     #if defined(MEDIAINFO_AFDBARDATA_YES)
         std::vector<buffered_data*> AfdBarData_Data;
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
+    #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+        File__Analyze*  AribStdB34B37_Parser;
+    #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
 
     //Constructor/Destructor
     File_Ancillary();

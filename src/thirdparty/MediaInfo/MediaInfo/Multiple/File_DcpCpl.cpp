@@ -268,10 +268,10 @@ bool File_DcpCpl::FileHeader_Begin()
     {
         FileName Directory(File_Name);
         ZtringList List;
-        if (IsDcp)
-            List=Dir::GetAllFileNames(Directory.Path_Get()+PathSeparator+__T("*_pkl.xml"), Dir::Include_Files);
         if (IsImf)
             List=Dir::GetAllFileNames(Directory.Path_Get()+PathSeparator+__T("PKL_*.xml"), Dir::Include_Files);
+        if (IsDcp || List.empty())
+            List=Dir::GetAllFileNames(Directory.Path_Get()+PathSeparator+__T("*_pkl.xml"), Dir::Include_Files);
         for (size_t Pos=0; Pos<List.size(); Pos++)
         {
             MediaInfo_Internal MI;

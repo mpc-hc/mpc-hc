@@ -1412,7 +1412,10 @@ void File_Mpegv::Streams_Fill()
         Streams[Pos].Searching_Payload=false;
     Streams[0xB8].Searching_TimeStamp_End=true;
     if (IsSub)
+    {
+        Streams[0xB3].Searching_TimeStamp_End=true;
         Streams[0x00].Searching_TimeStamp_End=true;
+    }
 
     //Caption may be in user_data, must be activated if full parsing is requested
     #if defined(MEDIAINFO_DTVCCTRANSPORT_YES) || defined(MEDIAINFO_SCTE20_YES) || (defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES))
@@ -1490,7 +1493,14 @@ void File_Mpegv::Streams_Finish()
 {
     //Duration
     if (PTS_End>PTS_Begin)
+    {
+        if (PTS_End_temporal_reference<temporal_reference_Max)
+        {
+            int64u tc_ToAdd=tc/((progressive_sequence || picture_structure==3)?1:2); //Progressive of Frame
+            PTS_End+=tc_ToAdd*(temporal_reference_Max-PTS_End_temporal_reference-1); //TODO: handle cases with 3:2 Pulldown (different progressive_sequence / picture_structure)
+        }
         Fill(Stream_Video, 0, Video_Duration, float64_int64s(((float64)(PTS_End-PTS_Begin))/1000000));
+    }
     else if (Frame_Count_NotParsedIncluded!=(int64u)-1)
     {
         Fill(Stream_Video, 0, Video_FrameCount, Frame_Count_NotParsedIncluded);
@@ -1701,6 +1711,7 @@ void File_Mpegv::Synched_Init()
     vertical_size_value=0;
     bit_rate_extension=0;
     temporal_reference_Old=(int16u)-1;
+    temporal_reference_Max=0;
     aspect_ratio_information=0;
     frame_rate_code=0;
     profile_and_level_indication_profile=(int8u)-1;
@@ -1725,9 +1736,11 @@ void File_Mpegv::Synched_Init()
     group_start_IsParsed=false;
     group_start_FirstPass=false;
     PTS_LastIFrame=(int64u)-1;
+    PTS_End_temporal_reference=(int16u)-1;
     bit_rate_value_IsValid=false;
     profile_and_level_indication_escape=false;
     colour_description=false;
+    low_delay=false;
     RefFramesCount=0;
     BVOPsSinceLastRefFrames=0;
     temporal_reference_LastIFrame=0;
@@ -1833,7 +1846,11 @@ bool File_Mpegv::Demux_UnpacketizeContainer_Test()
                     Demux_Offset--;
             }
             if (Demux_Offset+4>Buffer_Size)
+            {
+                if (File_Offset+Buffer_Size==File_Size)
+                    Demux_Offset=Buffer_Size;
                 break;
+            }
 
             if (Demux_IntermediateItemFound)
             {
@@ -1843,7 +1860,9 @@ bool File_Mpegv::Demux_UnpacketizeContainer_Test()
                     case 0x00 :
                     case 0xB3 :
                                 MustBreak=true; break;
-                    default   : MustBreak=false;
+                    default   :
+                                Demux_Offset+=3;
+                                MustBreak=false;
                 }
                 if (MustBreak)
                     break; //while() loop
@@ -2440,6 +2459,8 @@ void File_Mpegv::slice_start()
         else
         {
             temporal_reference_Old=temporal_reference;
+            if (temporal_reference_Max<temporal_reference)
+                temporal_reference_Max=temporal_reference;
         }
 
         if (picture_coding_type==1) //IFrame
@@ -2588,9 +2609,15 @@ void File_Mpegv::slice_start()
         }
         if (FrameInfo.PTS!=(int64u)-1)
         {
-            FrameInfo.PTS+=tc_ToAdd;
-            if (FrameInfo.PTS!=(int64u)-1 && (FrameInfo.PTS>PTS_End || (PTS_End>1000000000 && FrameInfo.PTS<=PTS_End-1000000000))) //More than current PTS_End or less than current PTS_End minus 1 second (there is a problem?)
-                PTS_End=FrameInfo.PTS;
+            if (FrameInfo.PTS+tc_ToAdd>PTS_End || (PTS_End>1000000000 && FrameInfo.PTS+tc_ToAdd<=PTS_End-1000000000)) //More than current PTS_End or less than current PTS_End minus 1 second (there is a problem?)
+            {
+                PTS_End=FrameInfo.PTS+tc_ToAdd;
+                PTS_End_temporal_reference=temporal_reference;
+            }
+            if (low_delay)
+                FrameInfo.PTS+=tc_ToAdd;
+            else
+                FrameInfo.PTS=(int64u)-1; //With repeat_first_field option, it is impossible to know what is the next PTS
         }
 
         //NextCode
@@ -3534,31 +3561,7 @@ void File_Mpegv::sequence_header()
     }
 
     FILLING_BEGIN_PRECISE();
-        //Temporal reference
-        temporal_reference_Old=(int16u)-1;
-        TemporalReference_Offset=TemporalReference.size();
-        if (TemporalReference_Offset>=0x800)
-        {
-            for (size_t Pos=0; Pos<0x400; Pos++)
-                delete TemporalReference[Pos]; //TemporalReference[Pos]=NULL;
-            TemporalReference.erase(TemporalReference.begin(), TemporalReference.begin()+0x400);
-            if (0x400<TemporalReference_Offset)
-                TemporalReference_Offset-=0x400;
-            else
-                TemporalReference_Offset=0;
-            #if defined(MEDIAINFO_DTVCCTRANSPORT_YES)
-                if (0x400<GA94_03_TemporalReference_Offset)
-                    GA94_03_TemporalReference_Offset-=0x400;
-                else
-                    GA94_03_TemporalReference_Offset=0;
-            #endif //defined(MEDIAINFO_DTVCCTRANSPORT_YES)
-            #if defined(MEDIAINFO_SCTE20_YES)
-                if (0x400<Scte_TemporalReference_Offset)
-                    Scte_TemporalReference_Offset-=0x400;
-                else
-                    Scte_TemporalReference_Offset=0;
-            #endif //defined(MEDIAINFO_SCTE20_YES)
-        }
+        temporal_reference_Adapt(); //TODO: this line should not exist but some streams do not have group_start and/or do not start from temporal_reference 0, fast and dirty patch
 
         //Bit_rate
         if (bit_rate_value_IsValid && bit_rate_value_temp!=bit_rate_value)
@@ -3656,7 +3659,7 @@ void File_Mpegv::extension_start()
                     Get_S2 (12, bit_rate_extension,             "bit_rate_extension");
                     Mark_1 ();
                     Get_S1 ( 8, vbv_buffer_size_extension,      "vbv_buffer_size_extension"); Param_Info2(2*1024*((((int32u)vbv_buffer_size_extension)<<10)+vbv_buffer_size_value), " bytes");
-                    Skip_SB(                                    "low_delay");
+                    Get_SB (    low_delay,                      "low_delay");
                     Get_S1 ( 2, frame_rate_extension_n,         "frame_rate_extension_n");
                     Get_S1 ( 5, frame_rate_extension_d,         "frame_rate_extension_d");
                     BS_End();
@@ -3924,6 +3927,8 @@ void File_Mpegv::group_start()
     #endif //MEDIAINFO_TRACE
 
     FILLING_BEGIN();
+        temporal_reference_Adapt();
+        
         //NextCode
         if (!Status[IsAccepted])
         {
@@ -3981,6 +3986,42 @@ void File_Mpegv::group_start()
             Searching_TimeStamp_Start_DoneOneTime=true;
         Streams[0x00].Searching_TimeStamp_End=true; //picture_start
     FILLING_END();
+}
+
+//***************************************************************************
+// Helpers
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+// Packet "B8"
+void File_Mpegv::temporal_reference_Adapt()
+{
+    //Temporal reference
+    temporal_reference_Old=(int16u)-1;
+    temporal_reference_Max=0;
+    TemporalReference_Offset=TemporalReference.size();
+    if (TemporalReference_Offset>=0x800)
+    {
+        for (size_t Pos=0; Pos<0x400; Pos++)
+            delete TemporalReference[Pos]; //TemporalReference[Pos]=NULL;
+        TemporalReference.erase(TemporalReference.begin(), TemporalReference.begin()+0x400);
+        if (0x400<TemporalReference_Offset)
+            TemporalReference_Offset-=0x400;
+        else
+            TemporalReference_Offset=0;
+        #if defined(MEDIAINFO_DTVCCTRANSPORT_YES)
+            if (0x400<GA94_03_TemporalReference_Offset)
+                GA94_03_TemporalReference_Offset-=0x400;
+            else
+                GA94_03_TemporalReference_Offset=0;
+        #endif //defined(MEDIAINFO_DTVCCTRANSPORT_YES)
+        #if defined(MEDIAINFO_SCTE20_YES)
+            if (0x400<Scte_TemporalReference_Offset)
+                Scte_TemporalReference_Offset-=0x400;
+            else
+                Scte_TemporalReference_Offset=0;
+        #endif //defined(MEDIAINFO_SCTE20_YES)
+    }
 }
 
 } //NameSpace

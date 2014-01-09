@@ -5183,12 +5183,20 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_fiel()
                         switch(detail)
                         {
                             case  1  :  // T is displayed earliest, T is stored first in the file.
-                            case 14 :   // T is displayed earliest, B is stored first in the file.
+                            case  9 :   // B is displayed earliest, T is stored first in the file.
                                         Fill(Stream_Video, StreamPos_Last, Video_ScanOrder, "TFF", Unlimited, true, true);
                                         break;
                             case  6  :  // B is displayed earliest, B is stored first in the file.
-                            case  9 :   // B is displayed earliest, T is stored first in the file.
+                            case 14 :   // T is displayed earliest, B is stored first in the file.
                                         Fill(Stream_Video, StreamPos_Last, Video_ScanOrder, "BFF", Unlimited, true, true);
+                                        break;
+                            default  :  ;
+                        }
+                        switch(detail)
+                        {
+                            case  9 :   // B is displayed earliest, T is stored first in the file.
+                            case 14 :   // T is displayed earliest, B is stored first in the file.
+                                        Streams[moov_trak_tkhd_TrackID].ScanOrder_StoredDisplayedInverted=true;
                                         break;
                             default  :  ;
                         }

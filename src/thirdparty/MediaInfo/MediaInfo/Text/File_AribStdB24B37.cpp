@@ -22,6 +22,9 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Text/File_AribStdB24B37.h"
+#if defined(MEDIAINFO_MPEGTS_YES)
+    #include "MediaInfo/Multiple/File_MpegTs.h"
+#endif
 #include <vector>
 #ifdef __WINDOWS__
     #undef __TEXT
@@ -41,10 +44,28 @@ const char* AribStdB24B37_Caption_conversion_type(int8u Caption_conversion_type)
 {
     switch (Caption_conversion_type)
     {
+        case 0 : return "Analog";
         case 1 : return "HD side panel";
         case 2 : return "SD (4:3)";
         case 3 : return "SD wide side panel";
         case 4 : return "Mobile closed caption";
+        default: return "";
+    }
+}
+
+//---------------------------------------------------------------------------
+const char* AribStdB24B37_Caption_DataIdentifier(int8u DataIdentifier)
+{
+    switch (DataIdentifier)
+    {
+        case 0 : return "Exchange format data (closed caption data label)";
+        case 1 : return "Exchange format data (program management information)";
+        case 2 : return "Exchange format data (page information 1)";
+        case 3 : return "Exchange format data (page information 2)";
+        case 4 : return "Short form data (closed caption management data)";
+        case 5 : return "Short form data (closed caption text data)";
+        case 6 : return "Undefined";
+        case 7 : return "Dummy data";
         default: return "";
     }
 }
@@ -313,9 +334,23 @@ File_AribStdB24B37::File_AribStdB24B37()
     //In
     HasCcis=false;
     ParseCcis=false;
+    IsAncillaryData=false;
 
     //Config
     Caption_conversion_type=(int8u)-1;
+
+    //Ancillary
+    #if defined(MEDIAINFO_MPEGTS_YES)
+        Parser=NULL;
+    #endif
+}
+
+//---------------------------------------------------------------------------
+File_AribStdB24B37::~File_AribStdB24B37()
+{
+    #if defined(MEDIAINFO_MPEGTS_YES)
+        delete Parser;
+    #endif
 }
 
 //***************************************************************************
@@ -344,6 +379,13 @@ void File_AribStdB24B37::Streams_Fill()
 //---------------------------------------------------------------------------
 void File_AribStdB24B37::Streams_Finish()
 {
+    #if defined(MEDIAINFO_MPEGTS_YES)
+        if (Parser)
+        {
+            Finish(Parser);
+            Merge(*Parser);
+        }
+    #endif
 }
 
 //***************************************************************************
@@ -353,14 +395,108 @@ void File_AribStdB24B37::Streams_Finish()
 //---------------------------------------------------------------------------
 void File_AribStdB24B37::Read_Buffer_Continue()
 {
+    if (Buffer_Size==0)
+        return;
+
+    if (IsAncillaryData)
+    {
+        if (!Status[IsAccepted])
+            Accept();
+        int8u DataIdentifier;
+        BS_Begin();
+        Skip_SB(                                                "Error correction");
+        Skip_SB(                                                "Undefined");
+        Skip_SB(                                                "Undefined");
+        Skip_SB(                                                "Undefined");
+        Skip_S1(4,                                              "Continuity Index");
+        Skip_S1(8,                                              "Undefined");
+        Skip_SB(                                                "Undefined");
+        Skip_SB(                                                "Start packet flag");
+        Skip_SB(                                                "End packet flag");
+        Skip_SB(                                                "Send mode");
+        Info_S1(4, Caption_conversion_type,                     "Format identifier"); Param_Info1(AribStdB24B37_Caption_conversion_type(Caption_conversion_type));
+        Skip_S1(2,                                              "Undefined");
+        Get_S1 (3, DataIdentifier,                              "Closed caption data identifier"); Param_Info1(AribStdB24B37_Caption_DataIdentifier(DataIdentifier));
+        Info_S1(3, data_group_id,                               "Language identifier"); if (DataIdentifier) {Param_Info1(AribStdB24B37_data_group_id(data_group_id));}
+        BS_End();
+
+        if (DataIdentifier>6)
+        {
+            Skip_XX(245,                                        "Dummy");
+        }
+        else if (DataIdentifier<4)
+        {
+            Skip_XX(245,                                        "Exchange format data, not supported");
+        }
+        else
+        {
+            Element_Begin1("Short form data");
+            int8u LEN, Label_01, Label_3A, Data_Length;
+            Get_B1(LEN,                                         "LEN");
+            Element_Begin1("display timing");
+                Get_B1(Label_01,                                "Label (01)");
+                BS_Begin();
+                Skip_S1(6,                                      "Undefined");
+                Skip_S1(2,                                      "Data-type identifier");
+                Skip_S1(6,                                      "Undefined");
+                Skip_S1(2,                                      "Timing-type identifier");
+                Skip_S1(6,                                      "Undefined");
+                Skip_S1(2,                                      "Timing-direction identifier");
+                Skip_B5(                                        "Display timing value");
+                BS_End();
+            Element_End0();
+            Element_Begin1("closed caption data");
+                Get_B1(Label_3A,                                "Label (3A)");
+                Get_B1(Data_Length,                             "Data Length");
+                #if defined(MEDIAINFO_MPEGTS_YES)
+                    if (Parser==NULL)
+                    {
+                        Parser=new File_MpegTs;
+                        ((File_MpegTs*)Parser)->FromAribStdB24B37=true;
+                        Open_Buffer_Init(Parser);
+                    }
+                    if (FrameInfo.PTS==(int64u)-1)
+                        FrameInfo.PTS=FrameInfo.DTS;
+                    Parser->FrameInfo=FrameInfo;
+                    Open_Buffer_Continue(Parser, Buffer+Buffer_Offset+(size_t)Element_Offset, 188);
+                    Element_Offset+=188;
+                #else
+                    Skip_XX(188,                                "TS data");
+                #endif
+                if (Data_Length==192)
+                {
+                    Skip_B2(                                    "Group-A CRC");
+                    Skip_B2(                                    "Group-B CRC");
+                }
+                else if (Data_Length>188)
+                    Skip_XX(Data_Length-188,                    "Unknown");
+            Element_End0();
+            if (LEN>203)
+                Skip_XX(LEN-204,                                "User Data");
+            if (LEN<244)
+                Skip_XX(244-LEN,                                "Unused");
+            Skip_XX(Element_Size-Element_Offset-6,              "Format data");
+            Element_End0();
+        }
+
+        Skip_B6(                                                "ECC");
+        return;
+    }
+
+
     if (ParseCcis)
     {
-        Skip_C4(                                                "CCIS_code");
+        int32u CCIS_code;
+        Get_C4 (   CCIS_code,                                   "CCIS_code");
+        if (CCIS_code==0xFFFFFFFF)
+        {
+            Skip_XX(Element_Size,                               "?");
+            return;
+        }
         Get_B1 (   Caption_conversion_type,                     "Caption_conversion_type"); Param_Info1(AribStdB24B37_Caption_conversion_type(Caption_conversion_type));
         BS_Begin();
         Info_S1(2, DRCS_conversion_type,                        "DRCS_conversion_type"); Param_Info1(AribStdB24B37_DRCS_conversion_type(DRCS_conversion_type));
         Skip_S1(6,                                              "reserved");
-        BS_End();
         BS_End();
         Skip_B2(                                                "reserved");
         Skip_B8(                                                "reserved");
@@ -559,7 +695,7 @@ void File_AribStdB24B37::caption_statement() //caption_data()
 
     while (Element_Offset<Element_Size)
     {
-        //data_unit
+        Element_Begin1("data_unit");
         int8u unit_separator;
         Get_B1 (unit_separator,                                 "unit_separator"); // Should always be 0x1F?
         if (unit_separator==0x1F)
@@ -570,18 +706,21 @@ void File_AribStdB24B37::caption_statement() //caption_data()
             Get_B3 (data_unit_size,                             "data_unit_size");
             switch (data_unit_parameter)
             {
-                case 0x20 : data_unit_data(); break;
+                case 0x20 : data_unit_data(Element_Offset+data_unit_size); break;
                 default   : Skip_XX(data_unit_size,             "(Not implemented)");
             }
         }
+        Element_End0();
     }
 }
 
 //---------------------------------------------------------------------------
-void File_AribStdB24B37::data_unit_data()
+void File_AribStdB24B37::data_unit_data(int64u End)
 {
+    Element_Begin1("data_unit_data");
+
     //data_unit_data_byte
-    while (Element_Offset<Element_Size)
+    while (Element_Offset<End)
     {
         int8u header;
         Peek_B1(header);
@@ -610,6 +749,8 @@ void File_AribStdB24B37::data_unit_data()
         else
             control_code(); // C0 or C1
     }
+
+    Element_End0();
 }
 
 //---------------------------------------------------------------------------
@@ -649,6 +790,12 @@ void File_AribStdB24B37::Add (Char Character)
 }
 
 //---------------------------------------------------------------------------
+void File_AribStdB24B37::Add (Ztring Character)
+{
+    Streams[(size_t)(Element_Code-1)].Line+=Character;
+}
+
+//---------------------------------------------------------------------------
 void File_AribStdB24B37::DefaultMacro()
 {
     Element_Begin1("Default Macro");
@@ -670,7 +817,7 @@ void File_AribStdB24B37::DefaultMacro()
         Element_Offset=0;
         Element_Size=Buffer_Size;
 
-        data_unit_data();
+        data_unit_data(Element_Size);
 
         Buffer=Save_Buffer; Save_Buffer=NULL;
         Buffer_Offset=Save_Buffer_Offset;
@@ -709,7 +856,9 @@ void File_AribStdB24B37::Character (int16u CharacterSet, int8u G_Value, int8u Fi
                                 case Compute(92,  3): JIS( 35,  44); break;
                                 case Compute(92,  4): JIS( 35,  45); break;
                                 case Compute(93, 79): JIS( 40, 110); break;
-                                case Compute(93, 90): JIS( 34, 124); break;
+                                case Compute(93, 88): Param_Info1(Ztring().From_UTF8("\xE2\x99\xAB")+__T(" (not exact)")); Add (Ztring().From_UTF8("\xE2\x99\xAB")); break; //Ending music note?
+                                case Compute(93, 89): Param_Info1(Ztring().From_UTF8("\xE2\x99\xAB")+__T(" (not exact)")); Add (Ztring().From_UTF8("\xE2\x99\xAB")); break; //Opening music note?
+                                case Compute(93, 90): Param_Info1(Ztring().From_UTF8("\xE2\x99\xAB")); Add (Ztring().From_UTF8("\xE2\x99\xAB")); break; //Music note
                                 default: Param_Info1("(Unsupported)"); //empty in spec or not yet mapped
                             }
                         break;

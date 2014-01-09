@@ -167,7 +167,7 @@ void File_Hevc::Streams_Fill(std::vector<seq_parameter_set_struct*>::iterator se
         {
             if ((*seq_parameter_set_Item)->profile_idc)
                 Profile+=__T('@');
-            Profile+=__T('L')+Ztring().From_Number(((float)(*seq_parameter_set_Item)->level_idc)/10, 1);
+            Profile+=__T('L')+Ztring().From_Number(((float)(*seq_parameter_set_Item)->level_idc)/30, 1);
         }
     }
     Fill(Stream_Video, 0, Video_Format_Profile, Profile);
