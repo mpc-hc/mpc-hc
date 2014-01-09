@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -38,6 +38,8 @@ enum class MpcEvent
     SHADER_LIST_CHANGED,
     DISPLAY_MODE_AUTOCHANGING,
     DISPLAY_MODE_AUTOCHANGED,
+    CONTEXT_MENU_POPUP_INITIALIZED,
+    CONTEXT_MENU_POPUP_UNINITIALIZED,
 };
 
 class EventClient;

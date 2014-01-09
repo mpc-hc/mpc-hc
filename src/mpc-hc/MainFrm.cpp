@@ -714,8 +714,7 @@ CMainFrame::CMainFrame()
     , m_bOpenedThroughThread(false)
     , m_evOpenPrivateFinished(FALSE, TRUE)
     , m_evClosePrivateFinished(FALSE, TRUE)
-    , m_pVisiblePopupMenu(nullptr)
-    , m_iPopupMenuHideTime(0)
+    , m_pActiveContextMenu(nullptr)
     , m_bWasSnapped(false)
     , m_bIsBDPlay(false)
     , m_bLockedZoomVideoWindow(false)
@@ -764,6 +763,8 @@ CMainFrame::CMainFrame()
     fires.insert(MpcEvent::SHADER_SELECTION_CHANGED);
     fires.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
     fires.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
+    fires.insert(MpcEvent::CONTEXT_MENU_POPUP_INITIALIZED);
+    fires.insert(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
     GetEventd().Connect(m_eventc, recieves, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
 }
 
@@ -2916,14 +2917,18 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND | MF_SEPARATOR);
         }
     }
+
+    if (m_pActiveContextMenu == pPopupMenu) {
+        m_eventc.FireEvent(MpcEvent::CONTEXT_MENU_POPUP_INITIALIZED);
+    }
 }
 
 void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
 {
     __super::OnUnInitMenuPopup(pPopupMenu, nFlags);
-    if (m_pVisiblePopupMenu == pPopupMenu) {
-        m_pVisiblePopupMenu = nullptr;
-        m_iPopupMenuHideTime = GetMessageTime();
+    if (m_pActiveContextMenu == pPopupMenu) {
+        m_pActiveContextMenu = nullptr;
+        m_eventc.FireEvent(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
     }
 }
 
@@ -2948,7 +2953,7 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
         return FALSE; //prevent crash when player closes with context menu open
     }
 
-    m_pVisiblePopupMenu = pMenu;
+    m_pActiveContextMenu = pMenu;
 
     pMenu->TrackPopupMenu(TPM_RIGHTBUTTON | TPM_NOANIMATION, point.x, point.y, this);
 

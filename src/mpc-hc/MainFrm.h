@@ -980,8 +980,7 @@ protected:
     void WTSRegisterSessionNotification();
     void WTSUnRegisterSessionNotification();
 
-    CMenu* m_pVisiblePopupMenu;
-    int m_iPopupMenuHideTime;
+    CMenu* m_pActiveContextMenu;
 
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();

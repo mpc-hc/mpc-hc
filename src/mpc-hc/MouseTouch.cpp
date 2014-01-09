@@ -31,6 +31,7 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     , m_dwMouseHiderStartTick(0)
     , m_bLeftDoubleStarted(false)
     , m_leftDoubleStartTime(0)
+    , m_popupMenuUninitTime(0)
 {
     m_cursors[Cursor::NONE] = nullptr;
     m_cursors[Cursor::ARROW] = LoadCursor(nullptr, IDC_ARROW);
@@ -43,6 +44,7 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     evs.insert(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
     evs.insert(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
     evs.insert(MpcEvent::MEDIA_LOADED);
+    evs.insert(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
     GetEventd().Connect(m_eventc, evs, std::bind(&CMouse::EventCallback, this, std::placeholders::_1));
 }
 
@@ -196,6 +198,9 @@ void CMouse::EventCallback(MpcEvent ev)
                 SetCursor(screenPoint);
             }
             break;
+        case MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED:
+            m_popupMenuUninitTime = GetMessageTime();
+            break;
         default:
             ASSERT(FALSE);
     }
@@ -251,7 +256,7 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         return;
     }
     bool bIsOnFS = IsOnFullscreenWindow();
-    if ((!m_bD3DFS || !bIsOnFS) && (GetMessageTime() == m_pMainFrame->m_iPopupMenuHideTime)) {
+    if ((!m_bD3DFS || !bIsOnFS) && (abs(GetMessageTime() - m_popupMenuUninitTime) < 2)) {
         return;
     }
     if (m_pMainFrame->GetLoadState() == MLS::LOADED && m_pMainFrame->GetPlaybackMode() == PM_DVD &&
