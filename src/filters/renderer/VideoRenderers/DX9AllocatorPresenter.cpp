@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1380,7 +1380,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     CRect rDstVid(m_VideoRect);
 
     CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
-    CRect rDstPri(m_WindowRect);
+    CRect rDstPri(rSrcPri);
 
     // Render the current video frame
     hr = RenderVideo(pBackBuffer, rSrcVid, rDstVid);
@@ -1516,17 +1516,20 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
 
         LONGLONG llPerf = rd->GetPerfCounter();
+        CRect presentationSrcRect(rDstPri), presentationDestRect(m_WindowRect);
+        // PresentEx() / Present() performs the clipping
+        ASSERT(presentationSrcRect.Size() == presentationDestRect.Size());
         if (m_pD3DDevEx) {
             if (m_bIsFullscreen) {
                 hr = m_pD3DDevEx->PresentEx(nullptr, nullptr, nullptr, nullptr, 0);
             } else {
-                hr = m_pD3DDevEx->PresentEx(rSrcPri, rDstPri, nullptr, nullptr, 0);
+                hr = m_pD3DDevEx->PresentEx(presentationSrcRect, presentationDestRect, nullptr, nullptr, 0);
             }
         } else {
             if (m_bIsFullscreen) {
                 hr = m_pD3DDev->Present(nullptr, nullptr, nullptr, nullptr);
             } else {
-                hr = m_pD3DDev->Present(rSrcPri, rDstPri, nullptr, nullptr);
+                hr = m_pD3DDev->Present(presentationSrcRect, presentationDestRect, nullptr, nullptr);
             }
         }
         // Issue an End event

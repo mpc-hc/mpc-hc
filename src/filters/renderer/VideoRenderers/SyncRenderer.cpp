@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2013 see Authors.txt
+ * (C) 2010-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1621,7 +1621,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     CRect rSrcVid(CPoint(0, 0), m_NativeVideoSize);
     CRect rDstVid(m_VideoRect);
     CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
-    CRect rDstPri(m_WindowRect);
+    CRect rDstPri(rSrcPri);
 
     m_pD3DDev->BeginScene();
     CComPtr<IDirect3DSurface9> pBackBuffer;
@@ -1833,17 +1833,20 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     }
     m_pD3DDev->EndScene();
 
+    CRect presentationSrcRect(rDstPri), presentationDestRect(m_WindowRect);
+    // PresentEx() / Present() performs the clipping
+    ASSERT(presentationSrcRect.Size() == presentationDestRect.Size());
     if (m_pD3DDevEx) {
         if (m_bIsFullscreen) {
             hr = m_pD3DDevEx->PresentEx(nullptr, nullptr, nullptr, nullptr, 0);
         } else {
-            hr = m_pD3DDevEx->PresentEx(rSrcPri, rDstPri, nullptr, nullptr, 0);
+            hr = m_pD3DDevEx->PresentEx(presentationSrcRect, presentationDestRect, nullptr, nullptr, 0);
         }
     } else {
         if (m_bIsFullscreen) {
             hr = m_pD3DDev->Present(nullptr, nullptr, nullptr, nullptr);
         } else {
-            hr = m_pD3DDev->Present(rSrcPri, rDstPri, nullptr, nullptr);
+            hr = m_pD3DDev->Present(presentationSrcRect, presentationDestRect, nullptr, nullptr);
         }
     }
     if (FAILED(hr)) {
