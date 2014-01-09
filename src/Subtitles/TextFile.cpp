@@ -255,7 +255,7 @@ bool CTextFile::FillBuffer()
     }
     m_posInBuffer = 0;
 
-    UINT nBytesRead = Read(&m_buffer[m_nInBuffer], size_t(TEXTFILE_BUFFER_SIZE - m_nInBuffer) * sizeof(char));
+    UINT nBytesRead = Read(&m_buffer[m_nInBuffer], UINT(TEXTFILE_BUFFER_SIZE - m_nInBuffer) * sizeof(char));
     if (nBytesRead) {
         m_nInBuffer += nBytesRead;
     }
