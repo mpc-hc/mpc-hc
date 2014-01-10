@@ -13,7 +13,7 @@ next version - not released yet
 + Added support for XySubFilter, only compatible with embedded subtitles for now
 + New option to auto-hide docked panels together with toolbars
 + Support pixel shader presets (with shortcuts and command line options)
-+ Show more descriptive window title in the capture mode
++ Show more descriptive window title in capture mode
 + Ability to add all media files in folder from playlist panel context menu
 + New Croatian and Malay translations
 + Ticket #1556, Ability to move the player window by dragging the video area during DVD playback
@@ -33,7 +33,7 @@ next version - not released yet
     - internal video renderers now always use the latest supported shader profile to compile
       pixel shaders
 * More flexible auto-hide controls in fullscreen configuration options
-* Multiple high dpi scaling interface improvements
+* Multiple high DPI scaling interface improvements
 * Updated LAV Filters to v0.60.1.5:
     - Ticket #3540, LAV Splitter: The current/average bitrate is now shown in the Information panel
     - Ticket #3760, LAV Video: Fix a crash when opening some DVDs on 64-bit
@@ -57,12 +57,12 @@ next version - not released yet
 ! Ticket #2460, Some subtitle entries were rendered twice depending on how entries overlapped. This led
   to incorrect transparency
 ! Ticket #2461, ASS reset style tag (\r) broke "Position subtitle relative to the video frame"
-! Ticket #3243, Fix a crash when starting MPC-HC with the web internal enabled and certain regional settings
+! Ticket #3243, Fix a crash when starting MPC-HC with the WebUI enabled and certain regional settings
 ! Ticket #3479, Improve the behavior of MPC-HC when some security tools prevent it
   from initializing correctly
 ! Ticket #3650, Improve the speed of subtitles toggling (on/off) and switching
-! Ticket #3668, MPC-HC could crash when reloading the subtitles
-! Ticket #3922, "Play > Subtitles" menu actions were off by one when playing a DVD
+! Ticket #3668, MPC-HC could crash when reloading subtitles
+! Ticket #3922, "Play -> Subtitles" menu actions were off by one when playing a DVD
   and only external subtitles were available
 ! Ticket #3963, Update the chapter marks on the seekbar when the media length changes.
   The bug was most often seen for MKV with multiple editions
