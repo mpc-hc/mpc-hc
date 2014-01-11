@@ -2513,6 +2513,11 @@ static int BreakpointComp(const void* e1, const void* e2)
     return (bp1->t - bp2->t);
 }
 
+static bool SegmentCompStart(const STSSegment& segment, int start)
+{
+    return (segment.start < start);
+}
+
 void CSimpleTextSubtitle::CreateSegments()
 {
     m_segments.RemoveAll();
@@ -2535,12 +2540,12 @@ void CSimpleTextSubtitle::CreateSegments()
         }
     }
 
-    for (size_t i = 0, j; i < GetCount(); i++) {
-        STSEntry& stse = GetAt(i);
-        for (j = 0; j < m_segments.GetCount() && m_segments[j].start < stse.start; j++) {
-            ;
-        }
-        for (; j < m_segments.GetCount() && m_segments[j].end <= stse.end; j++) {
+    STSSegment* segmentsStart = m_segments.GetData();
+    STSSegment* segmentsEnd   = segmentsStart + m_segments.GetCount();
+    for (size_t i = 0; i < GetCount(); i++) {
+        const STSEntry& stse = GetAt(i);
+        STSSegment* segment = std::lower_bound(segmentsStart, segmentsEnd, stse.start, SegmentCompStart);
+        for (size_t j = segment - segmentsStart; j < m_segments.GetCount() && m_segments[j].end <= stse.end; j++) {
             m_segments[j].subs.Add(int(i));
         }
     }
