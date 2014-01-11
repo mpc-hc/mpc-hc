@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -179,9 +179,14 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     m_pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-    m_pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
-    m_pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
-    m_pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
+    if (src == dst) {
+        m_pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_POINT);
+        m_pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFG_POINT);
+    } else {
+        m_pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
+        m_pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFG_LINEAR);
+    }
+    m_pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_NONE);
 
     m_pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
 
