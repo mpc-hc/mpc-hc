@@ -1931,6 +1931,11 @@ void CSimpleTextSubtitle::Empty()
     RemoveAll();
 }
 
+static bool SegmentCompStart(const STSSegment& segment, int start)
+{
+    return (segment.start < start);
+}
+
 void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, CString style, CString actor, CString effect, const CRect& marginRect, int layer, int readorder)
 {
     if (str.Trim().IsEmpty() || start > end) {
@@ -1958,88 +1963,72 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
 
     int n = (int)__super::Add(sub);
 
-    int len = (int)m_segments.GetCount();
+    size_t segmentsCount = m_segments.GetCount();
 
-    if (len == 0) {
-        STSSegment stss(start, end);
-        stss.subs.Add(n);
-        m_segments.Add(stss);
-    } else if (end <= m_segments[0].start) {
-        STSSegment stss(start, end);
-        stss.subs.Add(n);
-        m_segments.InsertAt(0, stss);
-    } else if (start >= m_segments[len - 1].end) {
+    if (segmentsCount == 0) { // First segment
         STSSegment stss(start, end);
         stss.subs.Add(n);
         m_segments.Add(stss);
     } else {
-        if (start < m_segments[0].start) {
-            STSSegment stss(start, m_segments[0].start);
-            stss.subs.Add(n);
-            start = m_segments[0].start;
-            m_segments.InsertAt(0, stss);
-        }
+        STSSegment* segmentsStart = m_segments.GetData();
+        STSSegment* segmentsEnd   = segmentsStart + segmentsCount;
+        STSSegment* segment = std::lower_bound(segmentsStart, segmentsEnd, start, SegmentCompStart);
 
-        size_t i;
-        for (i = 0; i < m_segments.GetCount(); i++) {
+        size_t i = segment - segmentsStart;
+        if (i > 0 && m_segments[i - 1].end > start) {
+            i--;
+        } else if (i < segmentsCount && start < m_segments[i].start) {
+            // The new entry doesn't start in an existing segment.
+            // It might even not overlap with any segment at all
+            STSSegment stss(start, std::min(end, m_segments[i].start));
+            stss.subs.Add(n);
+            m_segments.InsertAt(i, stss);
+            i++;
+        }
+        for (; i < m_segments.GetCount() && m_segments[i].start < end; i++) {
             STSSegment& s = m_segments[i];
 
-            if (start >= s.end) {
-                continue;
-            }
-
-            if (end <= s.start) {
-                break;
-            }
-
-            if (s.start < start && start < s.end) {
+            if (s.start < start) {
+                // The beginning of current segment isn't modified
+                // by the new entry so separate it in two segments
                 STSSegment stss(s.start, start);
                 stss.subs.Copy(s.subs);
                 s.start = start;
                 m_segments.InsertAt(i, stss);
-                continue;
-            }
+            } else {
+                if (end < s.end) {
+                    // The end of current segment isn't modified
+                    // by the new entry so separate it in two segments
+                    STSSegment stss(end, s.end);
+                    stss.subs.Copy(s.subs);
+                    s.end = end; // s might not point on the right segment after inserting so do the modification now
+                    m_segments.InsertAt(i + 1, stss);
+                }
 
-            if (start <= s.start && s.end <= end) {
-                size_t count = s.subs.GetCount();
+                // The array might have been reallocated so create a new reference
+                STSSegment& sAdd = m_segments[i];
+
+                // Add the entry to the current segment now that we are you it belongs to it
+                size_t entriesCount = sAdd.subs.GetCount();
                 // Take a shortcut when possible
-                if (!count || sub.readorder >= GetAt(s.subs[count - 1]).readorder) {
-                    s.subs.Add(n);
+                if (!entriesCount || sub.readorder >= GetAt(sAdd.subs[entriesCount - 1]).readorder) {
+                    sAdd.subs.Add(n);
                 } else {
-                    for (size_t j = 0; j < count; j++) {
-                        if (sub.readorder < GetAt(s.subs[j]).readorder) {
-                            s.subs.InsertAt(j, n);
+                    for (size_t j = 0; j < entriesCount; j++) {
+                        if (sub.readorder < GetAt(sAdd.subs[j]).readorder) {
+                            sAdd.subs.InsertAt(j, n);
                             break;
                         }
                     }
                 }
-            }
-
-            if (s.start < end && end < s.end) {
-                STSSegment stss(s.start, end);
-                stss.subs.Copy(s.subs);
-
-                size_t count = stss.subs.GetCount();
-
-                // Take a shortcut when possible
-                if (!count || sub.readorder >= GetAt(stss.subs[count - 1]).readorder) {
-                    stss.subs.Add(n);
-                } else {
-                    for (size_t j = 0; j < count; j++) {
-                        if (sub.readorder < GetAt(stss.subs[j]).readorder) {
-                            stss.subs.InsertAt(j, n);
-                            break;
-                        }
-                    }
-                }
-
-                s.start = end;
-                m_segments.InsertAt(i, stss);
             }
         }
 
         if (end > m_segments[i - 1].end) {
-            STSSegment stss(m_segments[i - 1].end, end);
+            // The new entry ends after the last segment.
+            // It might even not overlap with it at all
+            ASSERT(i == m_segments.GetCount());
+            STSSegment stss(std::max(start, m_segments[i - 1].end), end);
             stss.subs.Add(n);
             m_segments.InsertAt(i, stss);
         }
@@ -2511,11 +2500,6 @@ static int BreakpointComp(const void* e1, const void* e2)
     const Breakpoint* bp2 = (const Breakpoint*)e2;
 
     return (bp1->t - bp2->t);
-}
-
-static bool SegmentCompStart(const STSSegment& segment, int start)
-{
-    return (segment.start < start);
 }
 
 void CSimpleTextSubtitle::CreateSegments()
