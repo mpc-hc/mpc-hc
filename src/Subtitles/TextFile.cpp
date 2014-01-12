@@ -360,6 +360,9 @@ BOOL CTextFile::ReadString(CStringA& str)
                 }
 
                 if (!bValid) {
+                    abuffer[nCharsRead] = '?';
+                    m_posInBuffer++;
+                    nCharsRead++;
                     break;
                 } else if (abuffer[nCharsRead] == '\n') {
                     bLineEndFound = true; // Stop at end of line
@@ -370,13 +373,13 @@ BOOL CTextFile::ReadString(CStringA& str)
                 }
             }
 
-            if (bValid) {
+            if (bValid || m_offset) {
                 str.Append(abuffer, nCharsRead);
 
                 if (!bLineEndFound) {
                     fEOF = bLineEndFound = FillBuffer();
                 }
-            } else if (!m_offset) {
+            } else {
                 // Switch to text and read again
                 m_encoding = DEFAULT_ENCODING;
                 // Stop using the buffer
@@ -562,6 +565,9 @@ BOOL CTextFile::ReadString(CStringW& str)
                 }
 
                 if (!bValid) {
+                    m_wbuffer[nCharsRead] = L'?';
+                    m_posInBuffer++;
+                    nCharsRead++;
                     break;
                 } else if (m_wbuffer[nCharsRead] == L'\n') {
                     bLineEndFound = true; // Stop at end of line
@@ -572,13 +578,13 @@ BOOL CTextFile::ReadString(CStringW& str)
                 }
             }
 
-            if (bValid) {
+            if (bValid || m_offset) {
                 str.Append(m_wbuffer, nCharsRead);
 
                 if (!bLineEndFound) {
                     fEOF = bLineEndFound = FillBuffer();
                 }
-            } else if (!m_offset) {
+            } else {
                 // Switch to text and read again
                 m_encoding = DEFAULT_ENCODING;
                 // Stop using the buffer
