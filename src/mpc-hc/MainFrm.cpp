@@ -735,6 +735,9 @@ CMainFrame::CMainFrame()
     , m_bOpeningInAutochangedMonitorMode(false)
     , m_bPausedForAutochangeMonitorMode(false)
     , m_wndPlaylistBar(this)
+    , m_wndInfoBar(this)
+    , m_wndStatsBar(this)
+    , m_wndStatusBar(this)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -1220,7 +1223,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
         a = max(a, b);
     };
 
-    const long saneSize = 110; // TODO: make it dpi-aware
+    const long saneSize = 110;
 
     {
         // Begin with docked controls

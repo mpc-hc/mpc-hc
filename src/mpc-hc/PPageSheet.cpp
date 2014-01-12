@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,7 +33,7 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
     , m_audioswitcher(pFG)
     , m_bLockPage(false)
 {
-    SetTreeWidth(180);
+    SetTreeWidth(m_dpi.ScaleX(180));
     AddPage(&m_player);
     AddPage(&m_formats);
     AddPage(&m_acceltbl);

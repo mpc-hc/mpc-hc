@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -91,16 +91,29 @@ HICON LoadIcon(CString fn, bool fSmall)
         ext = _T(".") + fn.Mid(fn.ReverseFind('.') + 1);
     }
 
-    CSize size(fSmall ? 16 : 32, fSmall ? 16 : 32);
+    CSize size(fSmall ? GetSystemMetrics(SM_CXSMICON) : GetSystemMetrics(SM_CXICON),
+               fSmall ? GetSystemMetrics(SM_CYSMICON) : GetSystemMetrics(SM_CYICON));
+
+    typedef HRESULT(WINAPI * LIWSD)(HINSTANCE, PCWSTR, int, int, HICON*);
+    auto loadIcon = [&size](PCWSTR pszName) {
+        LIWSD pLIWSD = (LIWSD)GetProcAddress(GetModuleHandle(_T("comctl32.dll")), "LoadIconWithScaleDown");
+        HICON ret = nullptr;
+        if (pLIWSD) {
+            pLIWSD(AfxGetInstanceHandle(), pszName, size.cx, size.cy, &ret);
+        } else {
+            ret = (HICON)LoadImage(AfxGetInstanceHandle(), pszName, IMAGE_ICON, size.cx, size.cy, 0);
+        }
+        return ret;
+    };
 
     if (!ext.CompareNoCase(_T(".ifo"))) {
-        if (HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_DVD), IMAGE_ICON, size.cx, size.cy, 0)) {
+        if (HICON hIcon = loadIcon(MAKEINTRESOURCE(IDI_DVD))) {
             return hIcon;
         }
     }
 
     if (!ext.CompareNoCase(_T(".cda"))) {
-        if (HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_AUDIOCD), IMAGE_ICON, size.cx, size.cy, 0)) {
+        if (HICON hIcon = loadIcon(MAKEINTRESOURCE(IDI_AUDIOCD))) {
             return hIcon;
         }
     }
@@ -156,7 +169,7 @@ HICON LoadIcon(CString fn, bool fSmall)
         }
     } while (0);
 
-    return (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_UNKNOWN), IMAGE_ICON, size.cx, size.cy, 0);
+    return loadIcon(MAKEINTRESOURCE(IDI_UNKNOWN));
 }
 
 bool LoadType(CString fn, CString& type)

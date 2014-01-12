@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,8 +30,9 @@
 
 IMPLEMENT_DYNAMIC(CPlayerStatusBar, CDialogBar)
 
-CPlayerStatusBar::CPlayerStatusBar()
-    : m_status(false, false)
+CPlayerStatusBar::CPlayerStatusBar(CMainFrame* pMainFrame)
+    : m_pMainFrame(pMainFrame)
+    , m_status(false, false)
     , m_time(true, false)
     , m_bmid(0)
     , m_hIcon(0)
@@ -82,7 +83,7 @@ int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
     CRect r;
     r.SetRectEmpty();
 
-    m_type.Create(_T(""), WS_CHILD | WS_VISIBLE | SS_ICON,
+    m_type.Create(_T(""), WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE,
                   r, this, IDC_STATIC1);
 
     m_status.Create(_T(""), WS_CHILD | WS_VISIBLE | SS_OWNERDRAW,
@@ -109,8 +110,8 @@ void CPlayerStatusBar::Relayout()
     CRect r, r2;
     GetClientRect(r);
 
-    r.DeflateRect(27, 5, bm.bmWidth + 8, 4);
-    int div = r.right - (m_time.IsWindowVisible() ? 140 : 0);
+    r.DeflateRect(11 + m_pMainFrame->m_dpi.ScaleX(16), 5, bm.bmWidth + 8, 4);
+    int div = r.right - (m_time.IsWindowVisible() ? m_pMainFrame->m_dpi.ScaleX(140) : 0);
 
     CString str;
     m_time.GetWindowText(str);
@@ -131,7 +132,7 @@ void CPlayerStatusBar::Relayout()
     m_time_rect = r2;
 
     GetClientRect(r);
-    r.SetRect(6, r.top + 4, 22, r.bottom - 4);
+    r.SetRect(6, r.top + 4, 6 + m_pMainFrame->m_dpi.ScaleX(16), r.bottom - 4);
     m_type.MoveWindow(r);
 
     Invalidate();
@@ -321,16 +322,20 @@ void CPlayerStatusBar::OnPaint()
 {
     CPaintDC dc(this); // device context for painting
 
-    CRect r;
-
     if (m_bm.m_hObject) {
         BITMAP bm;
         m_bm.GetBitmap(&bm);
         CDC memdc;
         memdc.CreateCompatibleDC(&dc);
         memdc.SelectObject(&m_bm);
-        GetClientRect(&r);
-        dc.BitBlt(r.right - bm.bmWidth - 1, (r.Height() - bm.bmHeight) / 2, bm.bmWidth, bm.bmHeight, &memdc, 0, 0, SRCCOPY);
+        CRect clientRect;
+        GetClientRect(&clientRect);
+        CRect statusRect;
+        m_status.GetWindowRect(statusRect);
+        ScreenToClient(statusRect);
+        dc.BitBlt(clientRect.right - bm.bmWidth - 1,
+                  statusRect.CenterPoint().y - bm.bmHeight / 2,
+                  bm.bmWidth, bm.bmHeight, &memdc, 0, 0, SRCCOPY);
     }
     /*
     if (m_hIcon) {

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include "mplayerc.h"
 #include "PPagePlayer.h"
 #include "PPageFormats.h"
 #include "PPageAccelTbl.h"
@@ -100,6 +101,8 @@ public:
 
     void LockPage() { m_bLockPage = true; };
 protected:
+    DPI m_dpi;
+
     DECLARE_MESSAGE_MAP()
 public:
     virtual BOOL OnInitDialog();

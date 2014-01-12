@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -228,6 +228,9 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
 {
     EnumPanelZones();
 
+    const long saneX = m_pMainFrame->m_dpi.ScaleX(uSaneFallback);
+    const long saneY = m_pMainFrame->m_dpi.ScaleY(uSaneFallback);
+
     auto calcDock = [&](DockZone zone) {
         bool bHorz = (zone == DOCK_TOP || zone == DOCK_BOTTOM);
         const auto& panels = m_panelZones.find(zone)->second;
@@ -245,7 +248,9 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
             if (pBar) {
                 for (const auto panel : panels) {
                     if (m_panels[panel] == pBar) {
-                        rowSize += max((long)uSaneFallback, (bHorz ? pBar->m_szMinHorz.cx : pBar->m_szMinVert.cy)) + (rowSize ? 8 : 6) + pBar->m_cxEdge;
+                        rowSize += (rowSize ? 8 : 6);
+                        rowSize += (bHorz ? std::max(saneX, pBar->m_szMinHorz.cx) : std::max(saneY, pBar->m_szMinVert.cy));
+                        rowSize += pBar->m_cxEdge;
                         if (bNewRow) {
                             CSize size = pBar->CalcFixedLayout(TRUE, bHorz);
                             stackSize += (bHorz ? size.cy : size.cx) - (stackSize ? 2 : 4);
@@ -272,7 +277,7 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
         ret.cy += 2;
     }
     if (uToolbars) {
-        ret.cx = max(ret.cx, (long)uSaneFallback);
+        ret.cx = std::max(ret.cx, saneX);
     }
     ret.cy += uToolbars;
 

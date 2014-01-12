@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,6 +24,7 @@
 #include <atlcoll.h>
 #include "StatusLabel.h"
 
+class CMainFrame;
 
 // CPlayerInfoBar
 
@@ -32,17 +33,17 @@ class CPlayerInfoBar : public CDialogBar
     DECLARE_DYNAMIC(CPlayerInfoBar)
 
 private:
+    CMainFrame* m_pMainFrame;
+
     CAutoPtrArray<CStatusLabel> m_label;
     CAutoPtrArray<CStatusLabel> m_info;
-
-    int m_nFirstColWidth;
 
     CToolTipCtrl m_tooltip;
 
     void Relayout();
 
 public:
-    CPlayerInfoBar(int nFirstColWidth = 100);
+    CPlayerInfoBar(CMainFrame* pMainFrame);
     virtual ~CPlayerInfoBar();
 
     BOOL Create(CWnd* pParentWnd);

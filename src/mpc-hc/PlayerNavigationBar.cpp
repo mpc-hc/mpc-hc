@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2013 see Authors.txt
+ * (C) 2010-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,7 +25,7 @@
 #include <afxwin.h>
 
 
-// CPlayerCaptureBar
+// CPlayerNavigationBar
 
 IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CPlayerBar)
 CPlayerNavigationBar::CPlayerNavigationBar(CMainFrame* pMainFrame)
@@ -96,34 +96,16 @@ BEGIN_MESSAGE_MAP(CPlayerNavigationBar, CPlayerBar)
     ON_WM_NCLBUTTONUP()
 END_MESSAGE_MAP()
 
-// CPlayerShaderEditorBar message handlers
+// CPlayerNavigationBar message handlers
 
 void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 {
     __super::OnSize(nType, cx, cy);
-
     if (::IsWindow(m_navdlg.m_hWnd)) {
-        CRect r, rectButtonInfo, rectButtonScan;
-        LONG totalsize, separation, sizeButtonInfo, sizeButtonScan;
+        CRect r;
         GetClientRect(r);
         m_navdlg.MoveWindow(r);
-        r.DeflateRect(3, 3, 3, 58);
-        m_navdlg.m_ChannelList.MoveWindow(r);
-
-        m_navdlg.m_ButtonInfo.GetClientRect(rectButtonInfo);
-        m_navdlg.m_ButtonScan.GetClientRect(rectButtonScan);
-        sizeButtonInfo = rectButtonInfo.right - rectButtonInfo.left;
-        sizeButtonScan = rectButtonScan.right - rectButtonScan.left;
-        totalsize = r.right - r.left;
-        separation = (totalsize - sizeButtonInfo - sizeButtonScan);
-        if (separation < 0) {
-            separation = 0;
-        }
-        m_navdlg.m_ButtonInfo.SetWindowPos(nullptr, r.left, r.bottom + 8, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-        m_navdlg.m_ButtonScan.SetWindowPos(nullptr, r.left + sizeButtonInfo + separation, r.bottom + 8, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-        m_navdlg.m_ButtonFilterStations.SetWindowPos(nullptr, r.left, r.bottom + 35, totalsize, 21, SWP_NOZORDER);
     }
-
 }
 
 void CPlayerNavigationBar::OnNcLButtonUp(UINT nHitTest, CPoint point)
