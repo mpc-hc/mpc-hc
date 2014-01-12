@@ -330,7 +330,7 @@ BOOL CTextFile::ReadString(CStringA& str)
 
                     // We don't support characters wider than 16 bits
                     if (bValid) {
-                        if (m_posInBuffer + nContinuationBytes > m_nInBuffer) {
+                        if (m_posInBuffer + nContinuationBytes >= m_nInBuffer) {
                             // If we are at the end of the file, the buffer won't be full
                             // and we won't be able to read any more continuation bytes.
                             bValid = (m_nInBuffer == TEXTFILE_BUFFER_SIZE);
@@ -531,7 +531,7 @@ BOOL CTextFile::ReadString(CStringW& str)
 
                     // We don't support characters wider than 16 bits
                     if (bValid) {
-                        if (m_posInBuffer + nContinuationBytes > m_nInBuffer) {
+                        if (m_posInBuffer + nContinuationBytes >= m_nInBuffer) {
                             // If we are at the end of the file, the buffer won't be full
                             // and we won't be able to read any more continuation bytes.
                             bValid = (m_nInBuffer == TEXTFILE_BUFFER_SIZE);
