@@ -20,6 +20,7 @@ next version - not released yet
 + New option to auto-hide docked panels together with toolbars
 + Support pixel shader presets (with shortcuts and command line options)
 + Show more descriptive window title in the capture mode
++ Ability to add all media files in folder from playlist panel context menu
 * Optimized subtitle renderer:
     - performance has been greatly improved both for subtitle parsing and rendering (often 5 times faster or more)
     - some subtitles which might have been missing before will now be displayed
@@ -31,6 +32,7 @@ next version - not released yet
     - internal video renderers now always use the latest supported shader profile to compile
       pixel shaders
 * More flexible auto-hide controls in fullscreen configuration options
+* Multiple high dpi scaling interface improvements
 * Updated LAV Filters to v0.60:
     - Ticket #3540, LAV Splitter: The current/average bitrate is now shown in the Information panel
     - Ticket #3760, LAV Video: Fix a crash when opening some DVDs on 64-bit
