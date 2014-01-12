@@ -41,7 +41,7 @@ next version - not released yet
     - Ticket #3862, LAV Splitter: Fix a crash when opening MKV files with big attachments
 * Updated Basque, Czech, Simplified and Traditional Chinese, French, German, Greek, Japanese,
   Polish, Slovak, Slovenian and Turkish translations
-* Updated MediaInfoLib to v0.7.66
+* Updated MediaInfoLib to v0.7.67
 * Updated ZenLib to v0.4.29 r453
 * Updated Little CMS to v2.6b (git 579b3aa)
 * Updated Unrar to v5.0.0.14

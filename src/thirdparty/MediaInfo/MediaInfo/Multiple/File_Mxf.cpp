@@ -1204,7 +1204,7 @@ void File_Mxf::Streams_Finish_Essence(int32u EssenceUID, int128u TrackUID)
             if (DMSegment->second.TrackIDs[Pos]==TrackID)
                 DMScheme1s_List.push_back(DMSegment->second.Framework);
 
-    if (Config->ParseSpeed<1.0)
+    if (Config->ParseSpeed<1.0 && !(*Parser)->Status[IsFinished])
     {
         Fill(*Parser);
         (*Parser)->Open_Buffer_Unsynch();
@@ -3626,69 +3626,72 @@ void File_Mxf::Data_Parse()
             Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_MainStream);
         #endif //MEDIAINFO_DEMUX
 
-        if (Element_Size && !Essence->second.Parsers.empty() && !(*(Essence->second.Parsers.begin()))->Status[IsFinished])
+        if (!Essence->second.Parsers.empty() && !(*(Essence->second.Parsers.begin()))->Status[IsFinished])
         {
             if ((Code_Compare4&0xFF00FF00)==0x17000100 || (Code_Compare4&0xFF00FF00)==0x17000200)
             {
-                parsers::iterator Parser=Essence->second.Parsers.begin();
-
-                //Ancillary with
-                int16u Count;
-                Get_B2 (Count,                                  "Number of Lines");
-                if (Count*14>Element_Size)
+                if (Element_Size)
                 {
-                    (*Parser)->Finish();
-                    Skip_XX(Element_Size-2,                     "Unknown");
-                    Count=0;
-                }
-                for (int16u Pos=0; Pos<Count; Pos++)
-                {
-                    Element_Begin1("Packet");
-                    int32u Size2, Count2;
-                    int16u LineNumber, Size;
-                    Get_B2 (LineNumber,                         "Line Number");
-                    Skip_B1(                                    "Wrapping Type");
-                    Skip_B1(                                    "Payload Sample Coding");
-                    Get_B2 (Size,                               "Payload Sample Count");
-                    Get_B4 (Size2,                              "Size?");
-                    Get_B4 (Count2,                             "Count?");
+                    parsers::iterator Parser=Essence->second.Parsers.begin();
 
-                    if (Essence->second.Frame_Count_NotParsedIncluded!=(int64u)-1)
-                        (*Parser)->Frame_Count_NotParsedIncluded=Essence->second.Frame_Count_NotParsedIncluded;
-                    if (Essence->second.FrameInfo.DTS!=(int64u)-1)
-                        (*Parser)->FrameInfo.DTS=Essence->second.FrameInfo.DTS;
-                    if (Essence->second.FrameInfo.PTS!=(int64u)-1)
-                        (*Parser)->FrameInfo.PTS=Essence->second.FrameInfo.PTS;
-                    if (Essence->second.FrameInfo.DUR!=(int64u)-1)
-                        (*Parser)->FrameInfo.DUR=Essence->second.FrameInfo.DUR;
-                    if ((*Parser)->ParserName==__T("Ancillary"))
-                        ((File_Ancillary*)(*Parser))->LineNumber=LineNumber;
-                    if ((*Parser)->ParserName==__T("Ancillary") && (((File_Ancillary*)(*Parser))->FrameRate==0 || ((File_Ancillary*)(*Parser))->AspectRatio==0))
+                    //Ancillary with
+                    int16u Count;
+                    Get_B2 (Count,                                  "Number of Lines");
+                    if (Count*14>Element_Size)
                     {
-                        //Configuring with video info
-                        for (descriptors::iterator Descriptor=Descriptors.begin(); Descriptor!=Descriptors.end(); ++Descriptor)
-                            if (Descriptor->second.StreamKind==Stream_Video)
-                            {
-                                ((File_Ancillary*)(*Parser))->HasBFrames=Descriptor->second.HasBFrames;
-                                ((File_Ancillary*)(*Parser))->AspectRatio=Descriptor->second.DisplayAspectRatio;
-                                ((File_Ancillary*)(*Parser))->FrameRate=Descriptor->second.SampleRate;
-                                break;
-                            }
+                        (*Parser)->Finish();
+                        Skip_XX(Element_Size-2,                     "Unknown");
+                        Count=0;
                     }
-                    if (Element_Offset+Size>Element_Size)
-                        Size=(int16u)(Element_Size-Element_Offset);
-                    Open_Buffer_Continue((*Parser), Buffer+Buffer_Offset+(size_t)(Element_Offset), Size);
-                    if ((Code_Compare4&0xFF00FF00)==0x17000100 && LineNumber==21 && (*Parser)->Count_Get(Stream_Text)==0)
+                    for (int16u Pos=0; Pos<Count; Pos++)
                     {
-                        (*Parser)->Accept();
-                        (*Parser)->Stream_Prepare(Stream_Text);
-                        (*Parser)->Fill(Stream_Text, StreamPos_Last, Text_Format, "EIA-608");
-                        (*Parser)->Fill(Stream_Text, StreamPos_Last, Text_MuxingMode, "VBI / Line 21");
+                        Element_Begin1("Packet");
+                        int32u Size2, Count2;
+                        int16u LineNumber, Size;
+                        Get_B2 (LineNumber,                         "Line Number");
+                        Skip_B1(                                    "Wrapping Type");
+                        Skip_B1(                                    "Payload Sample Coding");
+                        Get_B2 (Size,                               "Payload Sample Count");
+                        Get_B4 (Size2,                              "Size?");
+                        Get_B4 (Count2,                             "Count?");
+
+                        if (Essence->second.Frame_Count_NotParsedIncluded!=(int64u)-1)
+                            (*Parser)->Frame_Count_NotParsedIncluded=Essence->second.Frame_Count_NotParsedIncluded;
+                        if (Essence->second.FrameInfo.DTS!=(int64u)-1)
+                            (*Parser)->FrameInfo.DTS=Essence->second.FrameInfo.DTS;
+                        if (Essence->second.FrameInfo.PTS!=(int64u)-1)
+                            (*Parser)->FrameInfo.PTS=Essence->second.FrameInfo.PTS;
+                        if (Essence->second.FrameInfo.DUR!=(int64u)-1)
+                            (*Parser)->FrameInfo.DUR=Essence->second.FrameInfo.DUR;
+                        if ((*Parser)->ParserName==__T("Ancillary"))
+                            ((File_Ancillary*)(*Parser))->LineNumber=LineNumber;
+                        if ((*Parser)->ParserName==__T("Ancillary") && (((File_Ancillary*)(*Parser))->FrameRate==0 || ((File_Ancillary*)(*Parser))->AspectRatio==0))
+                        {
+                            //Configuring with video info
+                            for (descriptors::iterator Descriptor=Descriptors.begin(); Descriptor!=Descriptors.end(); ++Descriptor)
+                                if (Descriptor->second.StreamKind==Stream_Video)
+                                {
+                                    ((File_Ancillary*)(*Parser))->HasBFrames=Descriptor->second.HasBFrames;
+                                    ((File_Ancillary*)(*Parser))->AspectRatio=Descriptor->second.DisplayAspectRatio;
+                                    ((File_Ancillary*)(*Parser))->FrameRate=Descriptor->second.SampleRate;
+                                    break;
+                                }
+                        }
+                        if (Element_Offset+Size>Element_Size)
+                            Size=(int16u)(Element_Size-Element_Offset);
+                        Open_Buffer_Continue((*Parser), Buffer+Buffer_Offset+(size_t)(Element_Offset), Size);
+                        if ((Code_Compare4&0xFF00FF00)==0x17000100 && LineNumber==21 && (*Parser)->Count_Get(Stream_Text)==0)
+                        {
+                            (*Parser)->Accept();
+                            (*Parser)->Stream_Prepare(Stream_Text);
+                            (*Parser)->Fill(Stream_Text, StreamPos_Last, Text_Format, "EIA-608");
+                            (*Parser)->Fill(Stream_Text, StreamPos_Last, Text_MuxingMode, "VBI / Line 21");
+                        }
+                        Element_Offset+=Size;
+                        if (Size<Size2*Count2)
+                            Skip_XX(Size2*Count2-Size,              "Padding");
+                        Element_End0();
                     }
-                    Element_Offset+=Size;
-                    if (Size<Size2*Count2)
-                        Skip_XX(Size2*Count2-Size,              "Padding");
-                    Element_End0();
                 }
             }
             else

@@ -512,6 +512,15 @@ void File_AribStdB24B37::Read_Buffer_Continue()
     BS_End();
 }
 
+//---------------------------------------------------------------------------
+void File_AribStdB24B37::Read_Buffer_Unsynched()
+{
+    #if defined(MEDIAINFO_MPEGTS_YES)
+        if (Parser)
+            Parser->Open_Buffer_Unsynch();
+    #endif
+}
+
 //***************************************************************************
 // Buffer - Per element
 //***************************************************************************

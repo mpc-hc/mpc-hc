@@ -263,7 +263,7 @@ void File_Aac::AudioSpecificConfig (size_t End)
     else
         sampling_frequency=Aac_sampling_frequency[sampling_frequency_index];
     Get_S1 (4, channelConfiguration,                            "channelConfiguration"); Param_Info1(Aac_ChannelConfiguration[channelConfiguration]);
-    if (audioObjectType==5 || audioObjectType==9)
+    if (audioObjectType==5 || audioObjectType==29)
     {
         extensionAudioObjectType=5;
         sbrPresentFlag=true;

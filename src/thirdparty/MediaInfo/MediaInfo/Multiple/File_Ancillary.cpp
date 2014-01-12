@@ -325,6 +325,10 @@ void File_Ancillary::Read_Buffer_Unsynched()
             delete AfdBarData_Data[Pos]; //AfdBarData_Data[Pos]=NULL;
         AfdBarData_Data.clear();
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
+    #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
+        if (AribStdB34B37_Parser)
+            AribStdB34B37_Parser->Open_Buffer_Unsynch();
+    #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
     AspectRatio=0;
 }
 //***************************************************************************
