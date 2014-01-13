@@ -232,7 +232,7 @@ struct SSATag {
     CAtlArray<double> paramsReal;
     SSATagsList subTagsList;
 
-    SSATag() {};
+    SSATag() : cmd(SSA_unknown) {};
 
     SSATag(const SSATag& tag)
         : cmd(tag.cmd)
