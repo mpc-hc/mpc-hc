@@ -608,17 +608,3 @@ void CMouseWnd::OnDestroy()
     CMouse::InternalOnDestroy();
     CWnd::OnDestroy();
 }
-
-std::vector<CWnd*> CMainFrameMouseHook::GetRoots()
-{
-    std::vector<CWnd*> ret;
-    ret.reserve(2);
-    CMainFrame* pMainFrame = AfxGetMainFrame();
-    if (pMainFrame) {
-        ret.emplace_back(pMainFrame);
-        if (pMainFrame->IsD3DFullScreenMode()) {
-            ret.emplace_back(pMainFrame->m_pFullscreenWnd);
-        }
-    }
-    return ret;
-}
