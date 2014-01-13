@@ -1546,7 +1546,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 
                     // rebuild list and restore selection
                     if (!fileList.empty()) {
-                        size_t insertedBefore = 0;
+                        int insertedBefore = 0;
                         for (const auto& fileName : fileList) {
                             if (less(fileName, currentFileName)) {
                                 insertedBefore++;
