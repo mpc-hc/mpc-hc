@@ -363,4 +363,6 @@ struct GaussianKernel {
     inline ~GaussianKernel() {
         delete [] kernel;
     }
+
+    GaussianKernel(const GaussianKernel&) = delete;
 };
