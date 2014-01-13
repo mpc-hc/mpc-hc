@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -74,17 +74,17 @@ private:
         ~StateItem();
         std::shared_ptr<StateItem> pApcThis; // we don't want this struct to be destroyed before it gets to NotifierWinapiCallback()
         FileChangeNotifier* pOwner;          // and we need to return control from that callback to FileChangeNotifier class
-    private:
-        StateItem(const StateItem&); // = delete;
-        StateItem& operator=(const StateItem&); // = delete;
+
+        StateItem(const StateItem&) = delete;
+        StateItem& operator=(const StateItem&) = delete;
     };
 
     const bool m_bLockDirs;
     static bool ArmStateItem(std::shared_ptr<StateItem> item);
     std::list<std::shared_ptr<StateItem>> m_State;
 
-    FileChangeNotifier(const FileChangeNotifier&); // = delete;
-    FileChangeNotifier& operator=(const FileChangeNotifier&); // = delete;
+    FileChangeNotifier(const FileChangeNotifier&) = delete;
+    FileChangeNotifier& operator=(const FileChangeNotifier&) = delete;
 };
 
 class ShaderPreset
