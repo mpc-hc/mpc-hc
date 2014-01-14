@@ -60,109 +60,113 @@ Translations are done by various translators (see
 MPC-HC makes use of the following third-party code:
 
 <table>
+  <thead>
     <tr>
-        <td><strong>Project</strong></td>
-        <td><strong>License</strong></td>
-        <td><strong>Website</strong></td>
+      <th>Project</th>
+      <th>License</th>
+      <th>Website</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ATL Server</td>
+      <td>Ms-LPL</td>
+      <td>http://atlserver.codeplex.com/</td>
     </tr>
     <tr>
-        <td>ATL Server</td>
-        <td>Ms-LPL</td>
-        <td>http://atlserver.codeplex.com/</td>
+      <td>CLineNumberEdit</td>
+      <td>-</td>
+      <td>http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box</td>
     </tr>
     <tr>
-        <td>CLineNumberEdit</td>
-        <td>-</td>
-        <td>http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box</td>
+      <td>CSizingControlBar</td>
+      <td>GPLv2</td>
+      <td>http://www.datamekanix.com/sizecbar/</td>
     </tr>
     <tr>
-        <td>CSizingControlBar</td>
-        <td>GPLv2</td>
-        <td>http://www.datamekanix.com/sizecbar/</td>
+      <td>LAV Filters</td>
+      <td>GPLv2</td>
+      <td>http://code.google.com/p/lavfilters/</td>
     </tr>
     <tr>
-        <td>LAV Filters</td>
-        <td>GPLv2</td>
-        <td>http://code.google.com/p/lavfilters/</td>
+      <td>Little CMS</td>
+      <td>MIT License</td>
+      <td>http://www.littlecms.com/</td>
     </tr>
     <tr>
-        <td>Little CMS</td>
-        <td>MIT License</td>
-        <td>http://www.littlecms.com/</td>
+      <td>Logitech SDK</td>
+      <td>-</td>
+      <td>-</td>
     </tr>
     <tr>
-        <td>Logitech SDK</td>
-        <td>-</td>
-        <td>-</td>
+      <td>MediaInfoLib</td>
+      <td>Simplified BSD License</td>
+      <td>http://mediaarea.net/MediaInfo</td>
     </tr>
     <tr>
-        <td>MediaInfoLib</td>
-        <td>Simplified BSD License</td>
-        <td>http://mediaarea.net/MediaInfo</td>
+      <td>Mhook</td>
+      <td>MIT License</td>
+      <td>http://codefromthe70s.org/mhook23.aspx</td>
     </tr>
     <tr>
-        <td>Mhook</td>
-        <td>MIT License</td>
-        <td>http://codefromthe70s.org/mhook23.aspx</td>
+      <td>MultiMon</td>
+      <td>CPOL</td>
+      <td>http://www.codeproject.com/KB/GDI/multimon.aspx</td>
     </tr>
     <tr>
-        <td>MultiMon</td>
-        <td>CPOL</td>
-        <td>http://www.codeproject.com/KB/GDI/multimon.aspx</td>
+      <td>QuickTime SDK</td>
+      <td>-</td>
+      <td>http://developer.apple.com/quicktime/</td>
     </tr>
     <tr>
-        <td>QuickTime SDK</td>
-        <td>-</td>
-        <td>http://developer.apple.com/quicktime/</td>
+      <td>RARFileSource</td>
+      <td>GPLv2+</td>
+      <td>http://www.v12pwr.com/RARFileSource/</td>
     </tr>
     <tr>
-        <td>RARFileSource</td>
-        <td>GPLv2+</td>
-        <td>http://www.v12pwr.com/RARFileSource/</td>
+      <td>RealMedia SDK</td>
+      <td>-</td>
+      <td>-</td>
     </tr>
     <tr>
-        <td>RealMedia SDK</td>
-        <td>-</td>
-        <td>-</td>
+      <td>ResizableLib</td>
+      <td>Artistic License</td>
+      <td>http://sourceforge.net/projects/resizablelib/</td>
     </tr>
     <tr>
-        <td>ResizableLib</td>
-        <td>Artistic License</td>
-        <td>http://sourceforge.net/projects/resizablelib/</td>
+      <td>Silk Icons</td>
+      <td>CC Attribution 2.5</td>
+      <td>http://www.famfamfam.com/lab/icons/silk/</td>
     </tr>
     <tr>
-        <td>Silk Icons</td>
-        <td>CC Attribution 2.5</td>
-        <td>http://www.famfamfam.com/lab/icons/silk/</td>
+      <td>SoundTouch</td>
+      <td>LGPLv2.1</td>
+      <td>http://www.surina.net/soundtouch/</td>
     </tr>
     <tr>
-        <td>SoundTouch</td>
-        <td>LGPLv2.1</td>
-        <td>http://www.surina.net/soundtouch/</td>
+      <td>TreePropSheet</td>
+      <td>-</td>
+      <td>http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P</td>
     </tr>
     <tr>
-        <td>TreePropSheet</td>
-        <td>-</td>
-        <td>http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P</td>
+      <td>UnRAR</td>
+      <td>freeware</td>
+      <td>http://www.rarlab.com/rar_add.htm</td>
     </tr>
     <tr>
-        <td>UnRAR</td>
-        <td>freeware</td>
-        <td>http://www.rarlab.com/rar_add.htm</td>
+      <td>VirtualDub</td>
+      <td>GPLv2</td>
+      <td>http://www.virtualdub.org/</td>
     </tr>
     <tr>
-        <td>VirtualDub</td>
-        <td>GPLv2</td>
-        <td>http://www.virtualdub.org/</td>
+      <td>ZenLib</td>
+      <td>zlib License</td>
+      <td>http://sourceforge.net/projects/zenlib/</td>
     </tr>
     <tr>
-        <td>ZenLib</td>
-        <td>zlib License</td>
-        <td>http://sourceforge.net/projects/zenlib/</td>
+      <td>zlib</td>
+      <td>zlib License</td>
+      <td>http://zlib.net/</td>
     </tr>
-    <tr>
-        <td>zlib</td>
-        <td>zlib License</td>
-        <td>http://zlib.net/</td>
-    </tr>
+  </tbody>
 </table>
