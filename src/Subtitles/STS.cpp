@@ -1963,6 +1963,15 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
 
     int n = (int)__super::Add(sub);
 
+    // Entries with a null duration don't belong to any segments since
+    // they are not to be rendered. We choose not to skip them completely
+    // so that they are not lost when saving a subtitle file from MPC-HC
+    // and so that one can change the timings of such entries using the
+    // Subresync bar if necessary.
+    if (start == end) {
+        return;
+    }
+
     size_t segmentsCount = m_segments.GetCount();
 
     if (segmentsCount == 0) { // First segment
