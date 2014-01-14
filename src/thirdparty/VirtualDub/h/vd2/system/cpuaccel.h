@@ -38,7 +38,8 @@
 #define CPUF_SUPPORTS_SSSE3			(0x00000200L)
 #define CPUF_SUPPORTS_SSE41			(0x00000400L)
 #define CPUF_SUPPORTS_AVX			(0x00000800L)
-#define CPUF_SUPPORTS_MASK			(0x000007FFL)
+#define CPUF_SUPPORTS_SSE42			(0x00001000L)
+#define CPUF_SUPPORTS_MASK			(0x00001FFFL)
 
 long CPUCheckForExtensions();
 long CPUEnableExtensions(long lEnableFlags);
