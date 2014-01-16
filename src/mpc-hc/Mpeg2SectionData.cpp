@@ -455,31 +455,36 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 {
     char    descBuffer[10];
-    time_t  tTime1, tTime2;
-    tm      tmTime1, tmTime2;
+    time_t  tNow, tTime;
+    tm      tmTime;
     long    timezone;
-    int     daylight;
 
     // init tm structures
-    time(&tTime1);
-    localtime_s(&tmTime1, &tTime1);
+    time(&tNow);
+    gmtime_s(&tmTime, &tNow);
     _tzset();
     _get_timezone(&timezone); // The difference in seconds between UTC and local time.
-    if (tmTime1.tm_isdst && !_get_daylight(&daylight)) {
-        timezone -= daylight * 3600;
-    }
 
     // Start time:
-    tmTime1.tm_hour  = (int)(gb.BitRead(4) * 10);
-    tmTime1.tm_hour += (int)gb.BitRead(4);
-    tmTime1.tm_min   = (int)(gb.BitRead(4) * 10);
-    tmTime1.tm_min  += (int)gb.BitRead(4);
-    tmTime1.tm_sec   = (int)(gb.BitRead(4) * 10);
-    tmTime1.tm_sec  += (int)gb.BitRead(4);
-    NowNext.startTime = tTime1 = mktime(&tmTime1) - timezone;
-    localtime_s(&tmTime2, &tTime1);
-    tTime1 = mktime(&tmTime2);
-    strftime(descBuffer, 6, "%H:%M", &tmTime2);
+    tmTime.tm_hour  = (int)(gb.BitRead(4) * 10);
+    tmTime.tm_hour += (int)gb.BitRead(4);
+    tmTime.tm_min   = (int)(gb.BitRead(4) * 10);
+    tmTime.tm_min  += (int)gb.BitRead(4);
+    tmTime.tm_sec   = (int)(gb.BitRead(4) * 10);
+    tmTime.tm_sec  += (int)gb.BitRead(4);
+    // Convert to time_t
+    // mktime() expect tm struct to be local time and since we are feeding it with GMT
+    // we need to compensate for timezone offset. Note that we don't compensate for DST.
+    // That is because tm_isdst is set to 0 (GMT) and in this case mktime() won't add any offset.
+    NowNext.startTime = tTime = mktime(&tmTime) - timezone;
+    while (tNow < tTime) {
+        // If current time is less than even start time it is likely that event started the day before.
+        // We go one day back
+        NowNext.startTime = tTime -= 86400;
+    }
+
+    localtime_s(&tmTime, &tTime);
+    strftime(descBuffer, 6, "%H:%M", &tmTime);
     descBuffer[6] = '\0';
     NowNext.strStartTime = descBuffer;
 
@@ -491,9 +496,9 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
     NowNext.duration += (time_t)(10 * gb.BitRead(4));
     NowNext.duration += (time_t)gb.BitRead(4);
 
-    tTime2 = tTime1 + NowNext.duration;
-    localtime_s(&tmTime2, &tTime2);
-    strftime(descBuffer, 6, "%H:%M", &tmTime2);
+    tTime += NowNext.duration;
+    localtime_s(&tmTime, &tTime);
+    strftime(descBuffer, 6, "%H:%M", &tmTime);
     descBuffer[6] = '\0';
     NowNext.strEndTime = descBuffer;
 
