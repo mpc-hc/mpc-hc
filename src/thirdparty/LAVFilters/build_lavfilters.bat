@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013 see Authors.txt
+REM (C) 2013-2014 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -114,7 +114,7 @@ EXIT /B
 
 
 :End
-IF %ERRORLEVEL% NEQ 0 EXIT /B 1
+IF %ERRORLEVEL% NEQ 0 EXIT /B
 TITLE Compiling LAV Filters %COMPILER% [FINISHED]
 SET END_TIME=%TIME%
 CALL :SubGetDuration
