@@ -3,7 +3,7 @@
 ## Reporting Issues
 
 1. Make sure you have access to our [Trac](https://trac.mpc-hc.org/login) (note that
-   [OpenID authentification](https://trac.mpc-hc.org/openidlogin) is available).
+   [OpenID authentication](https://trac.mpc-hc.org/openidlogin) is available).
 2. Please search our [Trac](https://trac.mpc-hc.org/report/1)
    for your problem since there's a good chance that someone has already reported it.
 3. In case you found a match, please try to provide as much info as you can
