@@ -533,10 +533,6 @@ void CMainFrameControls::UpdateToolbarsVisibility()
             if (zone & mask.maskShow) {
                 bool bSetTick = false;
                 if (zone == DOCK_BOTTOM) {
-                    if (DelayShowNotLoaded()) {
-                        DelayShowNotLoaded(false);
-                        mask.show(maskAll);
-                    }
                     if (ShowToolbarsSelection()) {
                         bRecalcLayout = true;
                     }
