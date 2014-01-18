@@ -29,6 +29,7 @@ CChildView::CChildView(CMainFrame* pMainFrame)
     , CMouseWnd(pMainFrame)
     , m_pMainFrame(pMainFrame)
     , m_bSwitchingFullscreen(false)
+    , m_bFirstMedia(true)
 {
     LoadLogo();
     GetEventd().Connect(m_eventc, {
@@ -36,6 +37,7 @@ CChildView::CChildView(CMainFrame* pMainFrame)
         MpcEvent::SWITCHED_TO_FULLSCREEN,
         MpcEvent::SWITCHING_FROM_FULLSCREEN,
         MpcEvent::SWITCHED_FROM_FULLSCREEN,
+        MpcEvent::MEDIA_LOADED,
     }, std::bind(&CChildView::EventCallback, this, std::placeholders::_1));
 }
 
@@ -53,6 +55,9 @@ void CChildView::EventCallback(MpcEvent ev)
         case MpcEvent::SWITCHED_TO_FULLSCREEN:
         case MpcEvent::SWITCHED_FROM_FULLSCREEN:
             m_bSwitchingFullscreen = false;
+            break;
+        case MpcEvent::MEDIA_LOADED:
+            m_bFirstMedia = false;
             break;
         default:
             ASSERT(FALSE);
@@ -165,7 +170,8 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
     CImage img;
     img.Attach(m_logo);
 
-    if (m_pMainFrame->GetLoadState() != MLS::CLOSED && !m_pMainFrame->IsD3DFullScreenMode()) {
+    if ((m_pMainFrame->GetLoadState() != MLS::CLOSED || (!m_bFirstMedia && m_pMainFrame->m_controls.DelayShowNotLoaded())) &&
+            !m_pMainFrame->IsD3DFullScreenMode()) {
         pDC->ExcludeClipRect(m_vrect);
     } else if (!img.IsNull()) {
         GetClientRect(r);

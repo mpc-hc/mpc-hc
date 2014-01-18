@@ -204,6 +204,7 @@ private:
     friend class CSubtitleDlDlg;
     friend class CMouse;
     friend class CPlayerSeekBar; // for accessing m_controls.ControlChecked()
+    friend class CChildView; // for accessing m_controls.DelayShowNotLoaded()
 
     // TODO: wrap these graph objects into a class to make it look cleaner
 

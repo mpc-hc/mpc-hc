@@ -33,6 +33,7 @@ class CChildView : public CMouseWnd
     CMainFrame* m_pMainFrame;
 
     bool m_bSwitchingFullscreen;
+    bool m_bFirstMedia;
 
     EventClient m_eventc;
 
