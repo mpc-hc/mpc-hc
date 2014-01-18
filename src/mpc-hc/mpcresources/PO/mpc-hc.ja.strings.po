@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-14 07:46+0000\n"
+"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
+"PO-Revision-Date: 2014-02-18 17:50+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1234,7 +1234,7 @@ msgstr "ソフトウェア デコーディング"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "再生速度"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1398,7 +1398,7 @@ msgstr "ビデオ アングル(&L)"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
-msgstr "設定をリセットする"
+msgstr "設定をリセット"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
@@ -1514,7 +1514,7 @@ msgstr "字幕を右へ移動"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
-msgstr "ステータスを表示"
+msgstr "統計の表示"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2554,7 +2554,7 @@ msgstr "トップ・リア・右"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr "ステータスの表示をリセット"
+msgstr "統計の表示をリセット"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -3098,7 +3098,7 @@ msgstr "彩度を下げる"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "カラー設定をリセットする"
+msgstr "カラー設定をリセット"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
@@ -3246,7 +3246,7 @@ msgstr "オンライン字幕データベースに接続できません。"
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr "EDLエディタを起動しますか？"
+msgstr "EDL エディタを起動しますか？"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
@@ -3386,23 +3386,23 @@ msgstr "外部スプリッタは独自の言語設定オプションを持つこ
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "Blu-ray プレイリスト(&B)"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "プレイリスト(&P)"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "チャプター(&C)"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "タイトル(&T)"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "チャンネル(&C)"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

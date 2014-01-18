@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-02-12 10:32+0000\n"
+"PO-Revision-Date: 2014-02-18 12:21+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -82,7 +82,7 @@ msgstr "Normalizálás"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr ""
+msgstr "Max. erősítés:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
@@ -126,7 +126,7 @@ msgstr "Ugrás..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr ""
+msgstr "Adjon meg egy időkódot az alábbi formátum használatával: [hh:]mm:ss.ms, egy adott időponthoz ugráshoz. Nem kell az elválasztójeleket pontosan megadni."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -198,11 +198,11 @@ msgstr "Ez a program freeware és a GNU General Public License alatt lett kiadva
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Magyarra fordította Kleiber Tamás."
+msgstr "Magyarra fordította Kleiber Tamás.\nFordítás frissítése: Mateus (2014)"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
-msgstr ""
+msgstr "Build információ"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
@@ -214,11 +214,11 @@ msgstr "Fordítóprogram:"
 
 msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
 msgid "Not used"
-msgstr ""
+msgstr "Nem használt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
-msgstr ""
+msgstr "Build dátum:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
@@ -330,7 +330,7 @@ msgstr "Utolsó ablakméret megjegyzése"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Utolsó Pan-n-Scan Zoom megjegyzése"
+msgstr "Utolsó Pan-n-Scan nagyítás megjegyzése"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -338,15 +338,15 @@ msgstr "\"DVD/BD megnyitása\" viselkedés"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr ""
+msgstr "Hely kérése"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr ""
+msgstr "Mindig az alapértelmezett helyet nyissa meg:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Preferált nyelv a DVD Navigátorhoz és a külső OGM hasítóhoz"
+msgstr "Preferált nyelv a DVD Navigátorhoz és a külső OGM Splitterhez"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -354,7 +354,7 @@ msgstr "Menü"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
 msgid "Audio"
-msgstr "Audió"
+msgstr "Hangsáv"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
 msgid "Subtitles"
@@ -366,7 +366,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr ""
+msgstr "Zárt feliratozás engedélyezése a Line 21 Dekóderben"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -434,7 +434,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr ""
+msgstr "Alapértelmezett nyelv preferencia"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
@@ -446,7 +446,7 @@ msgstr "&Hangsáv"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr ""
+msgstr "Külső Splitter beállításának felülírása"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -470,7 +470,7 @@ msgstr "Feliratok auto betöltése"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
-msgstr ""
+msgstr "Vezérlés"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
@@ -554,11 +554,11 @@ msgstr "Beállítás"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
 msgid "Windows 8 or later"
-msgstr ""
+msgstr "Windows 8 vagy újabb"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
 msgid "&Set default programs"
-msgstr ""
+msgstr "&Alapértelmezett programok beállítása"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Association"
@@ -630,7 +630,7 @@ msgstr "Zene"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
 msgid "DVD"
-msgstr ""
+msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
@@ -678,7 +678,7 @@ msgstr "OSD betűtípus:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr ""
+msgstr "Logitech LCD támogatás engedélyezése (kísérleti)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
@@ -858,7 +858,7 @@ msgstr "Poz: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr ""
+msgstr "Nagyítás: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
@@ -1046,7 +1046,7 @@ msgstr "Alfacsatornák összekötése"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Ha az önálló változatait vagy valamilyen más helyettesítőit szeretné használni ezeknek a szűrőknek , tiltsa le őket itt."
+msgstr "Ha az önálló változatait vagy valamilyen más helyettesítőit szeretné használni ezeknek a szűrőknek, tiltsa le őket itt."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1058,7 +1058,7 @@ msgstr "Dekódoló Szűrők"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr ""
+msgstr "Belső LAV Filters beállítások"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1254,11 +1254,11 @@ msgstr "Színbeállítások (VMR-9, EVR és madVR rendererhez)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
-msgstr "Világosság"
+msgstr "Fényerő"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Contrast"
-msgstr "Élesség"
+msgstr "Kontraszt"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Hue"
@@ -1330,7 +1330,7 @@ msgstr "Frek. Vége"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
-msgstr ""
+msgstr "Kódolt csatornák figyelmen kívül hagyása"
 
 msgctxt "IDD_TUNER_SCAN_ID_SAVE"
 msgid "Save"
@@ -1430,7 +1430,7 @@ msgstr "oszlop"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "Megjelenítés a legközelebbi vsync-nél"
+msgstr "Megjelenítés a legközelebbi függőleges szinkronizációnál"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
@@ -1518,7 +1518,7 @@ msgstr ""
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
-msgstr ""
+msgstr "Információ"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
 msgid "Scan"
@@ -1530,7 +1530,7 @@ msgstr "Kényszerített és/vagy alapértelmezett feliratok preferálása"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Always default to external subtitles if available"
+msgstr "Külső feliratok használata, ha elérhető"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
@@ -1538,7 +1538,7 @@ msgstr "Do not load embedded subtitles"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr ""
+msgstr "Automatikus betöltési helyek"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
@@ -1558,7 +1558,7 @@ msgstr "Tesztelés"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr ""
+msgstr "Frissítés kereső"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
@@ -1566,19 +1566,19 @@ msgstr "Letöltés most"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
-msgstr ""
+msgstr "Emlékeztess később"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr ""
+msgstr "Frissítés figyelmen kívül hagyása"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr ""
+msgstr "Az árnyékolók speciális effekteket tartalmaznak, amiket hozzá lehet adni a videó renderelési folyamatához."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr ""
+msgstr "Árnyékoló fájl hozzáadása"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1586,15 +1586,15 @@ msgstr "Eltávolítás"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr ""
+msgstr "Hozzáadás az átméretezés előttikhez"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr ""
+msgstr "Hozzáadás az átméretezés utánikhoz"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr ""
+msgstr "Árnyékoló előbeállítások"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"

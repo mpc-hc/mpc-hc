@@ -229,22 +229,22 @@ de.ViewChangelog=Änderungsprotokoll zeigen
 
 ; Greek (Greece)
 el.langid=00001032
-el.comp_mpciconlib=Βιβλιοθήκη Εικονιδίων
+el.comp_mpciconlib=Βιβλιοθήκη εικονιδίων
 el.comp_mpcresources=Μεταφράσεις
-el.msg_DeleteSettings=Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;%n%nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC πάλι τότε δεν χρειάζεται να τις διαγράψετε.
+el.msg_DeleteSettings=Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;%n%nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC ξανά, τότε δεν χρειάζεται να τις διαγράψετε.
 el.msg_SetupIsRunningWarning=Η εγκατάσταση του MPC-HC εκτελείται ήδη!
 #if defined(sse_required)
-el.msg_simd_sse=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή CPU με υποστήριξη SSE.%n%nΟ επεξεργαστής σας δεν το υποστηρίζει.
+el.msg_simd_sse=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE.%n%nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες.
 #elif defined(sse2_required)
-el.msg_simd_sse2=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή CPU με υποστήριξη SSE2.%n%nΟ επεξεργαστής σας δεν το υποστηρίζει.
+el.msg_simd_sse2=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE2.%n%nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες.
 #endif
 el.tsk_AllUsers=Για όλους τους χρήστες
-el.tsk_CurrentUser=Για τον τρέχων χρήστη μόνο
+el.tsk_CurrentUser=Για τον τρέχοντα χρήστη μόνο
 el.tsk_Other=Επιπλέον ενέργειες:
 el.tsk_ResetSettings=Επαναφορά ρυθμίσεων
 el.types_DefaultInstallation=Προκαθορισμένη εγκατάσταση
 el.types_CustomInstallation=Προσαρμοσμένη εγκατάσταση
-el.ViewChangelog=Εμφάνιση Λίστας Αλλαγών
+el.ViewChangelog=Εμφάνιση λίστας αλλαγών
 
 ; English (United Kingdom)
 en_GB.langid=00002057

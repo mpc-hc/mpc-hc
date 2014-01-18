@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# geogeo.gr <admin@geogeo.gr>, 2013
+# geogeo.gr <admin@geogeo.gr>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 21:37:25+0000\n"
-"PO-Revision-Date: 2013-12-17 21:40+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
+"PO-Revision-Date: 2014-02-18 18:30+0000\n"
+"Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1202,39 +1202,39 @@ msgstr "Διακοπή"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "Α = Δ"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "Α +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "Δ +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "Προσθήκη του φακέλου που περιέχει το αρχείο"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "Λογισμικό αποκωδικοποίησης"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "Ρυθμός αναπαραγωγής"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1946,7 +1946,7 @@ msgstr "Το MPC-HC δεν έχει δικαιώματα για να αλλάξ�
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "Το MPC-HC είναι ένας εξαιρετικά ελαφρύς, ανοικτού κώδικα αναπαραγωγός πολυμέσων για Windows. Υποστηρίζει όλες τις κοινές μορφές αρχείων βίντεο και ήχου που είναι διαθέσιμες για αναπαραγωγή. Είναι 100% ελεύθερο από προγράμματα κατασκοπείας (spyware) και δεν υπάρχουν διαφημίσεις ή εργαλειοθήκες."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2474,11 +2474,11 @@ msgstr "Δεν υπάρχουν άλλα μέσα στον τρέχοντα φά
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Το πρώτο αρχείο του φακέλου έχει ήδη φορτωθεί."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "Το τελευταίο αρχείο του φακέλου έχει ήδη φορτωθεί."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2554,7 +2554,7 @@ msgstr "Μπροστά πάνω δεξιά"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "Επαναφορά προβολής στατιστικών"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -3082,11 +3082,11 @@ msgstr "Μείωση αντίθεσης"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Αύξηση απόχρωσης"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Μείωση απόχρωσης"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3390,7 +3390,7 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Λίστα αναπαραγωγής"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
@@ -3398,7 +3398,7 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "&Τίτλοι"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"

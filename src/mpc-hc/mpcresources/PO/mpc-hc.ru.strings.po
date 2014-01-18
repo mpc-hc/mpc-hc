@@ -2,14 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# kefir500 <kefir500@gmail.com>, 2014
 # sayanvd <sayanvd@yandex.ru>, 2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-09 07:30+0000\n"
-"Last-Translator: sayanvd <sayanvd@yandex.ru>\n"
+"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
+"PO-Revision-Date: 2014-02-18 14:31+0000\n"
+"Last-Translator: kefir500 <kefir500@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1235,7 +1236,7 @@ msgstr "Программы декодирования"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "Скорость воспроизведения"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3387,23 +3388,23 @@ msgstr "Внешние сплиттеры могут иметь свои нас�
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "П&лейлисты Blu-ray "
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Плейлист"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "&Главы"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "&Названия"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "&Каналы"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

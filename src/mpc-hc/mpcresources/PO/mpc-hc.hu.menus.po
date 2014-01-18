@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Máté <lang.mate@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2014-02-12 10:00+0000\n"
+"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
+"PO-Revision-Date: 2014-02-18 10:01+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -138,7 +138,7 @@ msgstr "Rögzítés"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr "Navigation"
+msgstr "Navigálás"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
@@ -166,7 +166,7 @@ msgstr "&Teljes képernyő"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr ""
+msgstr "&Nagyítás"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
@@ -190,7 +190,7 @@ msgstr "Auto Fit (Larger Only)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr "Nyelv &Language"
+msgstr "Nyelv (&Language)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -398,11 +398,11 @@ msgstr "Ablak érintése &belülről"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr ""
+msgstr "Nagyítás &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr ""
+msgstr "Nagyítás &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
@@ -514,7 +514,7 @@ msgstr "Lejátszás alatt"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "While Playing Video"
+msgstr "Videó lejátszása alatt"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
@@ -558,7 +558,7 @@ msgstr "&Árnyékolók"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
-msgstr "&Hang"
+msgstr "&Hangsáv"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"
@@ -614,7 +614,7 @@ msgstr "Kijelentkezés"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "Lock"
+msgstr "Zárolás"
 
 msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
 msgid "------ Every time ------"
@@ -630,7 +630,7 @@ msgstr "Ne tegyen semmit"
 
 msgctxt "ID_AFTERPLAYBACK_NEXT"
 msgid "Play next in the &folder"
-msgstr "Play next in the folder"
+msgstr "Mappában következő fájl lejátszása"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -698,7 +698,7 @@ msgstr "Download Toolbar Images"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "Donate"
+msgstr "Támogatás"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."

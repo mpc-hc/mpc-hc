@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 20:55:19+0000\n"
-"PO-Revision-Date: 2014-02-17 20:10+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
+"PO-Revision-Date: 2014-02-18 10:50+0000\n"
+"Last-Translator: BetaKing <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1235,7 +1235,7 @@ msgstr "软件解码"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "回放速率"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3387,23 +3387,23 @@ msgstr "外部分离器可以拥有它们自己的语言预设选项, MPC-HC 默
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "Blu-Ray 播放列表(&B)"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "播放列表(&P)"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "章节(&C)"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "标题(&T)"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "频道(&C)"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

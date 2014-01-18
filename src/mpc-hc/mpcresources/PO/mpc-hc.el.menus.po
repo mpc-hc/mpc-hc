@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# geogeo.gr <admin@geogeo.gr>, 2014
 # kasper93, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-17 21:37+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
+"PO-Revision-Date: 2014-02-18 18:21+0000\n"
+"Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -526,7 +527,7 @@ msgstr "Α&ναπαραγωγή"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "&Αναπαραγωγή/Παύση"
+msgstr "Α&ναπαραγωγή/Παύση"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
@@ -570,7 +571,7 @@ msgstr "Ροή &βίντεο"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "Έ&νταση ήχου"
+msgstr "Έν&ταση ήχου"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
@@ -658,7 +659,7 @@ msgstr "&Κεντρικό μενού"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "Μενού υποτίτ&λων"
+msgstr "Μενού &υποτίτλων"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"

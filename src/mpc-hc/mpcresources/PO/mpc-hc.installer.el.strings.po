@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# geogeo.gr <admin@geogeo.gr>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2014-02-17 12:20+0000\n"
+"Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
@@ -23,7 +26,7 @@ msgstr "Το [name] χρειάζεται Windows XP Service Pack 3 ή νεότε
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
-msgstr "Βιβλιοθήκη Εικονιδίων"
+msgstr "Βιβλιοθήκη εικονιδίων"
 
 msgctxt "CustomMessages_comp_mpcresources"
 msgid "Translations"
@@ -31,7 +34,7 @@ msgstr "Μεταφράσεις"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;\n\nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC πάλι τότε δεν χρειάζεται να τις διαγράψετε."
+msgstr "Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;\n\nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC ξανά, τότε δεν χρειάζεται να τις διαγράψετε."
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
@@ -39,11 +42,11 @@ msgstr "Η εγκατάσταση του MPC-HC εκτελείται ήδη!"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή CPU με υποστήριξη SSE.\n\nΟ επεξεργαστής σας δεν το υποστηρίζει."
+msgstr "Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE.\n\nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή CPU με υποστήριξη SSE2.\n\nΟ επεξεργαστής σας δεν το υποστηρίζει."
+msgstr "Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE2.\n\nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες."
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
@@ -51,7 +54,7 @@ msgstr "Για όλους τους χρήστες"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
-msgstr "Για τον τρέχων χρήστη μόνο"
+msgstr "Για τον τρέχοντα χρήστη μόνο"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"
@@ -71,5 +74,5 @@ msgstr "Προσαρμοσμένη εγκατάσταση"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
-msgstr "Εμφάνιση Λίστας Αλλαγών"
+msgstr "Εμφάνιση λίστας αλλαγών"
 

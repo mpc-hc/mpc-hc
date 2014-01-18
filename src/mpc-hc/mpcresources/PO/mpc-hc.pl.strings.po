@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013-2014
-# M T <michtrz@gmail.com>, 2013
+# M T <michtrz@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-01-30 05:01+0000\n"
-"Last-Translator: kasper93\n"
+"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
+"PO-Revision-Date: 2014-02-18 11:11+0000\n"
+"Last-Translator: M T <michtrz@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1235,7 +1235,7 @@ msgstr "Dekodowanie Software"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "Szybkość odtwarzania"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3387,23 +3387,23 @@ msgstr "Zewnętrzne splittery mogą posiadać własne ustawienia dot. preferencj
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "Listy odtwarzania &Blu-ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Lista odtwarzania"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "R&ozdziały"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "T&ytuły"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "&Kanały"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
