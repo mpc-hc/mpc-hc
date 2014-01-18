@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # brk <burakgarci@gmail.com>, 2013
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2013-12-24 18:22+0000\n"
+"PO-Revision-Date: 2014-01-06 19:11+0000\n"
 "Last-Translator: bosluk\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"

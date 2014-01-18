@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-01-05 14:00+0000\n"
+"PO-Revision-Date: 2014-01-09 12:10+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "このプログラムはあなたのコンピュータ上に[name]をインストールします。\n\nセットアップを続行する前に他のすべてのアプリを閉じることを推奨します。"
+msgstr "このプログラムはあなたのコンピュータ上に [name] をインストールします。\n\nセットアップを続行する前に他のすべてのアプリを閉じることを推奨します。"
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
@@ -26,7 +26,7 @@ msgstr "[name] を実行する為には Windows XP Service Pack 3 以降が必�
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
-msgstr "アイコンライブラリ"
+msgstr "アイコン ライブラリ"
 
 msgctxt "CustomMessages_comp_mpcresources"
 msgid "Translations"
@@ -58,7 +58,7 @@ msgstr "現在実行しているユーザーにのみインストールする"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"
-msgstr "他のタスク :"
+msgstr "他のタスク:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
@@ -74,5 +74,5 @@ msgstr "カスタム インストール"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
-msgstr "変更履歴を見る"
+msgstr "変更履歴を表示する"
 

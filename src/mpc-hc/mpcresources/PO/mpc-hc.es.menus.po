@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# JellyFrog, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:19+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"PO-Revision-Date: 2013-12-17 21:38+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -167,15 +170,15 @@ msgstr ""
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -323,7 +326,7 @@ msgstr "VSync (Sincronía Vertical)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr ""
+msgstr "VSync (Sincronía Vertical)"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
@@ -499,7 +502,7 @@ msgstr "Siempre Visible"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr ""
+msgstr "Original"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
@@ -551,11 +554,11 @@ msgstr "&Filtros"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr ""
+msgstr "S&haders"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
-msgstr ""
+msgstr "&Audio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"
@@ -563,7 +566,7 @@ msgstr "Su&btítulos"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
-msgstr ""
+msgstr "Video S&tream"
 
 msgctxt "POPUP"
 msgid "&Volume"

@@ -1,17 +1,21 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Superb, 2013
+# Superb, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-18 11:30+0000\n"
+"Last-Translator: Superb\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/mpc-hc/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -31,7 +35,7 @@ msgstr "כתוביות"
 
 msgctxt "IDS_INFOBAR_CHAPTER"
 msgid "Chapter"
-msgstr ""
+msgstr "פרק"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
@@ -71,39 +75,39 @@ msgstr "דיסקי די.וי.די"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
-msgstr ""
+msgstr "ערוץ"
 
 msgctxt "IDS_INFOBAR_TIME"
 msgid "Time"
-msgstr ""
+msgstr "זמן"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr ""
+msgstr "פיצוי סנכרון"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr ""
+msgstr "ממוצע: %d מילי-שניות, סטייה: %d מילי-שניות."
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
-msgstr ""
+msgstr "סטייה"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr ""
+msgstr "קצב ביטים"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid " (avg/cur)"
-msgstr ""
+msgstr "(ממוצע/נוכחי)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
-msgstr ""
+msgstr "אות"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %d%%"
-msgstr ""
+msgstr "עוצמה: %d dB, איכות: %d%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -111,7 +115,7 @@ msgstr "סגנונות"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
-msgstr ""
+msgstr "אף פעם (הגישה המהירה ביותר)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
@@ -119,7 +123,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
-msgstr ""
+msgstr "תמיד (הכי איטי)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -143,91 +147,91 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr ""
+msgstr "תמיד (מכשירים מסויימים דורשים זאת)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr ""
+msgstr "סיווג צפייה"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr ""
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
-msgstr ""
+msgstr "לא מסווג"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
-msgstr ""
+msgstr "תוכן"
 
 msgctxt "IDS_CONTENT_MOVIE_DRAMA"
 msgid "Movie/Drama"
-msgstr ""
+msgstr "סרט/דרמה"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr ""
+msgstr "חדשות/ארועי היום"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr ""
+msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr ""
+msgstr "קובץ נוסף למועדפים"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
-msgstr ""
+msgstr "די.וי.די נוסף למועדפים"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr ""
+msgstr "הגדרות לכידה"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
-msgstr ""
+msgstr "סרגל ניווט"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr ""
+msgstr "מסנכרן כתוביות"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
-msgstr ""
+msgstr "זמן"
 
 msgctxt "IDS_SUBRESYNC_CLN_END"
 msgid "End"
-msgstr ""
+msgstr "סוף"
 
 msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
 msgid "Preview"
-msgstr ""
+msgstr "תצוגה מקדימה"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
-msgstr ""
+msgstr "מזהה VOB"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
-msgstr ""
+msgstr "מזהה תא"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
-msgstr ""
+msgstr "כפוי"
 
 msgctxt "IDS_SUBRESYNC_CLN_TEXT"
 msgid "Text"
-msgstr ""
+msgstr "טקסט"
 
 msgctxt "IDS_SUBRESYNC_CLN_STYLE"
 msgid "Style"
-msgstr ""
+msgstr "סגנון"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
-msgstr ""
+msgstr "גופן"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
@@ -239,107 +243,107 @@ msgstr ""
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
-msgstr ""
+msgstr "שידור חי"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr ""
+msgstr "לא מצליח להוסיף פילטר לכידת וידאו אל הגרף"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr ""
+msgstr "לא מצליח להוסיף פילטר לכידת שמע אל הגרף"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr ""
+msgstr "לא מצליח לפתוח התקן לכידה."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr ""
+msgstr "לא מצליח לפתוח, פרמטרים לא תקינים של קלט"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr ""
+msgstr "עורך רשימת עריכה"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr ""
+msgstr "הזמן שנכתב גדול יותר מאורך הקובץ."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr ""
+msgstr "ספריית הצלמיות \"mpciconlib.dll\" חסרה.\nצלמית ברירת המחדל של הנגן תהיה בשימוש עבור שיוכי קבצים.\nנא להתקין את MPC-HC מחדש כדי לקבל את \"mpciconlib.dll\"."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
-msgstr ""
+msgstr "קובץ"
 
 msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
 msgid "Language"
-msgstr ""
+msgstr "שפה"
 
 msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
 msgid "Format"
-msgstr ""
+msgstr "תבנית"
 
 msgctxt "IDS_SUBDL_DLG_DISC_COL"
 msgid "Disc"
-msgstr ""
+msgstr "דיסק"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr ""
+msgstr "כותרת"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
-msgstr ""
+msgstr "ערכת תווים"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
-msgstr ""
+msgstr "יוניקוד"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
-msgstr ""
+msgstr "שכבה"
 
 msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
 msgid "Actor"
-msgstr ""
+msgstr "שחקן"
 
 msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
 msgid "Effect"
-msgstr ""
+msgstr "אפקט"
 
 msgctxt "IDS_PLAYLIST_CAPTION"
 msgid "Playlist"
-msgstr ""
+msgstr "רשימת ניגון"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr ""
+msgstr "פועל/כבוי"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
-msgstr ""
+msgstr "מפריימים בשנייה"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To fps"
-msgstr ""
+msgstr "לפריימים בשנייה"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr ""
+msgstr "מצב תצוגה (הרץ)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
-msgstr ""
+msgstr "ברירת מחדל"
 
 msgctxt "IDS_PPAGE_FS_OTHER"
 msgid "Other"
-msgstr ""
+msgstr "הגדרות נוספות"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
 msgid "System Default"
-msgstr ""
+msgstr "ברירת מחדל של מערכת"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
@@ -519,7 +523,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
-msgstr ""
+msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -675,7 +679,7 @@ msgstr ""
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
-msgstr ""
+msgstr "MPC-HC - דיווח על באג"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
@@ -687,11 +691,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
-msgstr ""
+msgstr "משטחי 2D"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
 msgid "3D surfaces (recommended)"
-msgstr ""
+msgstr "משטחי 3D (מומלץ)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
@@ -739,11 +743,11 @@ msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
 msgid "MIME Type"
-msgstr ""
+msgstr "סוג MIME"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
@@ -755,11 +759,11 @@ msgstr ""
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
-msgstr ""
+msgstr "עיכוב (מילי-שניות)"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr ""
+msgstr "אוטומטי"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
@@ -819,7 +823,7 @@ msgstr ""
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr ""
+msgstr "משתמש ב-LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
@@ -879,7 +883,7 @@ msgstr "השתק"
 
 msgctxt "ID_VOLUME_MUTE_ON"
 msgid "Unmute"
-msgstr ""
+msgstr "ביטול השתקה"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
@@ -927,11 +931,11 @@ msgstr "הגדרות"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr ""
+msgstr "בחירת מצלילים..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "ניפוי באגים במצלילים..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -947,7 +951,7 @@ msgstr "ערבוב"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Open file location"
-msgstr ""
+msgstr "פתח מיקום קובץ"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1187,39 +1191,39 @@ msgstr ""
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr ""
+msgstr "הקלט"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr ""
+msgstr "עצור"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "שמאל = ימין"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "שמאל +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "ימין +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "הוסף תיקיה מכילה"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1287,23 +1291,23 @@ msgstr "הגבר מהירות"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr ""
+msgstr "סדרה/שעשועון"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
-msgstr ""
+msgstr "ספורט"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
-msgstr ""
+msgstr "ילדים/לגיל הרך"
 
 msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
 msgid "Music/Ballet/Dance"
-msgstr ""
+msgstr "מוזיקה/בלט/ריקוד"
 
 msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
 msgid "Arts/Culture"
-msgstr ""
+msgstr "אמנות/תרבות"
 
 msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
 msgid "Social/Political issues/Economics"
@@ -1315,19 +1319,19 @@ msgstr ""
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr ""
+msgstr "העבר לסל המחזור"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
-msgstr ""
+msgstr "שמור העתק"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr ""
+msgstr "פריים המפתח האחרון"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr ""
+msgstr "פריים המפתח הקרוב ביותר"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
@@ -1335,7 +1339,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "אל תציג לעולם"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
@@ -1411,7 +1415,7 @@ msgstr ""
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
-msgstr ""
+msgstr "שגיאת BDA"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
@@ -1475,7 +1479,7 @@ msgstr "הקובץ הבא"
 
 msgctxt "IDS_AG_PREVIOUS_FILE"
 msgid "Previous File"
-msgstr ""
+msgstr "קובץ קודם"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
@@ -1503,7 +1507,7 @@ msgstr "הצג סטטיסטיקה"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
-msgstr ""
+msgstr "קפוץ להתחלה"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1571,19 +1575,19 @@ msgstr "PnS הקטן גובה"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading subtitle(s), please wait."
-msgstr ""
+msgstr "מוריד כתוביות, אנא המתן."
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr ""
+msgstr "מפענח רשימה..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr ""
+msgstr "לא נמצאו כתוביות."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid " %d subtitle(s) available."
-msgstr ""
+msgstr " %d כתוביות זמינות."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -1591,47 +1595,47 @@ msgstr ""
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr ""
+msgstr "התאמה אוטומטית"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr ""
+msgstr "התאמה אוטומטית (רק אם גדול יותר)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr ""
+msgstr "זום מותאם אוטומטית (רק אם גדול יותר)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr ""
+msgstr "זום: מותאם אוטומטי (רק אם גדול יותר)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr ""
+msgstr "לחיצה כפולה כדי לפתוח את מיקום הקובץ"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
-msgstr ""
+msgstr "החלף בין זמן שעבר לזמן שנשאר"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
-msgstr ""
+msgstr "ערך עיכוב לא תקין"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr ""
+msgstr "אנא הזן מספר בין 1 ו-365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
@@ -1687,7 +1691,7 @@ msgstr "תפריט כותרת די.וי.די"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr ""
+msgstr "תפריט די.וי.די ראשי"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
@@ -1835,7 +1839,7 @@ msgstr "הוספה מהירה של מועדף"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
-msgstr ""
+msgstr "N"
 
 msgctxt "IDS_DVB_CHANNEL_NAME"
 msgid "Name"
@@ -1875,7 +1879,7 @@ msgstr "תחנות טלוויזייה"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
-msgstr ""
+msgstr "תבנית"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
@@ -2003,7 +2007,7 @@ msgstr "טורים:"
 
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
-msgstr ""
+msgstr "רוחב תמונה"
 
 msgctxt "IDS_PPSDB_URLCORRECT"
 msgid "The URL appears to be correct!"
@@ -2387,7 +2391,7 @@ msgstr "הפעל/כבה פאנל לכידה"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "הפעל/כבה ניפוי באגים במצלילים"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2459,11 +2463,11 @@ msgstr "אין מדיה נוספת בתיקיה הנוכחית."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "הקובץ הראשון בתיקיה כבר נטען."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "הקובץ האחרון בתיקיה כבר נטען."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2539,7 +2543,7 @@ msgstr "אחורי ימני למעלה"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "איפוס סטטיסטיקות תצוגה"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2571,31 +2575,31 @@ msgstr "מתחת פס הקפיצה"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
-msgstr ""
+msgstr "וידאו: %s"
 
 msgctxt "IDS_APPLY"
 msgid "Apply"
-msgstr ""
+msgstr "החל"
 
 msgctxt "IDS_CLEAR"
 msgid "Clear"
-msgstr ""
+msgstr "נקה"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
-msgstr ""
+msgstr "סידור"
 
 msgctxt "IDS_THUMB_PIXELS"
 msgid "Pixels:"
-msgstr ""
+msgstr "פיקסלים:"
 
 msgctxt "IDS_TEXTFILE_ENC"
 msgid "Encoding:"
-msgstr ""
+msgstr "קידוד:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -2603,19 +2607,19 @@ msgstr "כבה את כל הפילטרים"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr ""
+msgstr "הפעל את כל מפענחי השמע"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr ""
+msgstr "כבה את כל מפענחי השמע"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr ""
+msgstr "הפעל את כל מפענחי הוידאו"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr ""
+msgstr "כבה את כל מפענחי הוידאו"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
@@ -2647,59 +2651,59 @@ msgstr "פתח קובץ מחדש"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
-msgstr ""
+msgstr "AVI"
 
 msgctxt "IDS_MFMT_MPEG"
 msgid "MPEG"
-msgstr ""
+msgstr "MPEG"
 
 msgctxt "IDS_MFMT_MPEGTS"
 msgid "MPEG-TS"
-msgstr ""
+msgstr "MPEG-TS"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
-msgstr ""
+msgstr "DVD-וידאו"
 
 msgctxt "IDS_MFMT_MKV"
 msgid "Matroska"
-msgstr ""
+msgstr "Matroska"
 
 msgctxt "IDS_MFMT_WEBM"
 msgid "WebM"
-msgstr ""
+msgstr "WebM"
 
 msgctxt "IDS_MFMT_MP4"
 msgid "MP4"
-msgstr ""
+msgstr "MP4"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
-msgstr ""
+msgstr "סרט QuickTime"
 
 msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
-msgstr ""
+msgstr "3GP"
 
 msgctxt "IDS_MFMT_3G2"
 msgid "3G2"
-msgstr ""
+msgstr "3G2"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
-msgstr ""
+msgstr "וידאו Flash"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
-msgstr ""
+msgstr "מדיית Ogg"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr ""
+msgstr "מדיית Real"
 
 msgctxt "IDS_MFMT_RT"
 msgid "Real Script"
-msgstr ""
+msgstr "סקריפט Real"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
@@ -2723,7 +2727,7 @@ msgstr ""
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
-msgstr ""
+msgstr "הגדרות נוספות"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
@@ -2731,7 +2735,7 @@ msgstr ""
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr ""
+msgstr "שמע אחר"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
@@ -2827,7 +2831,7 @@ msgstr ""
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
-msgstr ""
+msgstr "רשימת ניגון"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
@@ -2839,15 +2843,15 @@ msgstr ""
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr ""
+msgstr "פריימים בשנייה"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
-msgstr ""
+msgstr "רזולוצייה"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "יחס גובה-רוחב"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
@@ -3067,11 +3071,11 @@ msgstr "הפחתת ניגודיות"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "הגברת גוון"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "הפחתת גוון"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3103,7 +3107,7 @@ msgstr ""
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
-msgstr ""
+msgstr "סגור"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
@@ -3111,7 +3115,7 @@ msgstr ""
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr ""
+msgstr "זום: אוטומטי"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -3151,23 +3155,23 @@ msgstr ""
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr ""
+msgstr "KB בשנייה"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr ""
+msgstr "MB בשנייה"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
@@ -3291,7 +3295,7 @@ msgstr ""
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
-msgstr ""
+msgstr "סוג זה כבר נמצא ברשימה!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
@@ -3371,5 +3375,5 @@ msgstr ""
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
-msgstr ""
+msgstr "הגדרות"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2014-01-05 14:20+0000\n"
+"PO-Revision-Date: 2014-01-14 14:35+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -142,7 +142,7 @@ msgstr "ナビゲーション(&V)"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "シェーダのデバック(&D)"
+msgstr "シェーダをデバッグ(&D)"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -186,11 +186,11 @@ msgstr "自動調整(&F)"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "自動調整（超過サイズのみ）(&L)"
+msgstr "自動調整 (超過サイズのみ) (&L)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr "言語(&Language)"
+msgstr "言語 (&Language)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -222,7 +222,7 @@ msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "表示(&P)"
+msgstr "プレゼンテーション(&P)"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
@@ -266,7 +266,7 @@ msgstr "有効(&E)"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "入力タイプ(&I)"
+msgstr "入力 タイプ(&I)"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
@@ -382,11 +382,11 @@ msgstr "1/2 サイズ(&H)"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "標準サイズ(&N)"
+msgstr "標準 サイズ(&N)"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr "2 倍サイズ(&D)"
+msgstr "2倍 サイズ(&D)"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
@@ -418,7 +418,7 @@ msgstr "アスペクト比を調整(&A)"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
-msgstr "デフォルト(&D)"
+msgstr "しない(&D)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -538,15 +538,15 @@ msgstr "コマ送り(&R)"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "再生速度減少(&D)"
+msgstr "再生速度　遅く(&D)"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "再生速度増加(&I)"
+msgstr "再生速度　速く(&I)"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "再生速度標準(&E)"
+msgstr "再生速度　標準(&E)"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -586,7 +586,7 @@ msgstr "ミュート(&M)"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "再生終了後(&T)"
+msgstr "再生終了後の動作(&T)"
 
 msgctxt "ID_AFTERPLAYBACK_ONCE"
 msgid "--------- Once ---------"

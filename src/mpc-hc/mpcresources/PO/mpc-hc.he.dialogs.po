@@ -1,17 +1,21 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Superb, 2013
+# Superb, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
+"PO-Revision-Date: 2014-01-18 11:30+0000\n"
+"Last-Translator: Superb\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/mpc-hc/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
@@ -79,11 +83,11 @@ msgstr "לנרמל"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr ""
+msgstr "הגברה מירבית:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
 msgid "Regain volume"
@@ -123,7 +127,7 @@ msgstr "קפוץ אל..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr ""
+msgstr "הזן זמן בפורמט ‎[hh:]mm:ss.ms כדי לקפוץ לנקודת זמן ספציפית. אינך חייב לכתוב את הסימנים המפרידים."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -199,11 +203,11 @@ msgstr "תרגום עברי ע\"י Superb"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
-msgstr ""
+msgstr "מידע מבנה"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
-msgstr ""
+msgstr "גרסה:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Compiler:"
@@ -211,27 +215,27 @@ msgstr "מהדר:"
 
 msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
 msgid "Not used"
-msgstr ""
+msgstr "לא בשימוש"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
-msgstr ""
+msgstr "תאריך בניה:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
-msgstr ""
+msgstr "מערכת הפעלה"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Name:"
-msgstr ""
+msgstr "שם:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "העתק ללוח העריכה"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "אישור"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Open options"
@@ -291,7 +295,7 @@ msgstr "שמור הגדרות בקובץ ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr ""
+msgstr "בטל תפריט \"פתיחת דיסק\""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -307,7 +311,7 @@ msgstr "שמור היסטורייה של קבצים שנפתחו לאחרונה"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr ""
+msgstr "זכור רשימת ניגון אחרונה"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
@@ -327,19 +331,19 @@ msgstr "זכור את הגודל האחרון של החלון"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr ""
+msgstr "זכור את ערך הזום האחרון של הזזה וסריקה"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr ""
+msgstr "התנהגות \"פתיחת די.וי.די/בלו-ריי\""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr ""
+msgstr "שאל מיקום"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr ""
+msgstr "פתח תמיד את מיקום ברירת המחדל:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
@@ -359,11 +363,11 @@ msgstr "כתוביות"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Additional settings"
-msgstr ""
+msgstr "הגדרות נוספות"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr ""
+msgstr "אפשר כתוביות צמודות ב-\"מפענח קו 21\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -423,11 +427,11 @@ msgstr "זום אוטומטי:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr ""
+msgstr "מקדם התאמה אוטומטית:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
@@ -443,7 +447,7 @@ msgstr "שמע:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr ""
+msgstr "אפשר דריסה של החלטת מפצל חיצוני"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -467,19 +471,19 @@ msgstr "טען אוטומטית כתוביות"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
-msgstr ""
+msgstr "שליטה"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
-msgstr ""
+msgstr "קפיצות שמע:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
-msgstr ""
+msgstr "קפיצות מהירות:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -491,7 +495,7 @@ msgstr "אופקי:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
 msgid "Vertical:"
@@ -499,7 +503,7 @@ msgstr "אנכי:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay interval"
@@ -551,11 +555,11 @@ msgstr "קבע"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
 msgid "Windows 8 or later"
-msgstr ""
+msgstr "חלונות 8 או חדש יותר"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
 msgid "&Set default programs"
-msgstr ""
+msgstr "קבע תוכנות ברירת מחדל"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Association"
@@ -587,15 +591,15 @@ msgstr "מטפל בפרוטוקול הזרמת Real-Time (עבור קישורי 
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
-msgstr ""
+msgstr "RealMedia"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
 msgid "QuickTime"
-msgstr ""
+msgstr "QuickTime"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
 msgid "DirectShow"
-msgstr ""
+msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
@@ -647,11 +651,11 @@ msgstr "קפיצות מהירות (לפריים מפתח)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr ""
+msgstr "הצג סימוני פרקים בפס הקפיצה"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr ""
+msgstr "הצג מידע \"עכשיו מתנגן\" בהודעת מצב הרוח של סקייפ"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -663,7 +667,7 @@ msgstr "אפשר שליטה ותצוגה מתקדמת בשורת המשימות 
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr ""
+msgstr "פתח את הקובץ הקודם/הבא בתיקייה בביצוע \"קפיצה אחורה/קדימה\" כאשר יש פריט אחד בלבד ברשימת הניגון"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -675,11 +679,11 @@ msgstr "גופן תצוגת מידע בוידאו:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr ""
+msgstr "הפעל תמיכה במסך LCD של לוגיטק (ניסיוני)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr ""
+msgstr "הסתר אוטומטית את מצביע העכבר בזמן ניגון במצב חלון"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -819,7 +823,7 @@ msgstr "אישור"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "הזזה&סריקה מותאמות מראש"
+msgstr "הזזה וסריקה מותאמות מראש"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -903,11 +907,11 @@ msgstr "קידוד:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
-msgstr ""
+msgstr "עיכוב:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
-msgstr ""
+msgstr "מילישניות"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1019,11 +1023,11 @@ msgstr "צבעים && שקיפות"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Primary"
@@ -1055,19 +1059,19 @@ msgstr "פילטרי פענוח"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr ""
+msgstr "הגדרות של ה-LAV Filters הפנימיים"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr ""
+msgstr "מפצל"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
-msgstr ""
+msgstr "מפענח וידאו"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr ""
+msgstr "מפענח אודיו"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
@@ -1099,7 +1103,7 @@ msgstr "מוסר האודיו"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr ""
+msgstr "הגדרות VMR-7/VMR-9 (renderless)‎ ו-EVR(-CP)‎."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1139,27 +1143,27 @@ msgstr "מאגר EVR:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
-msgstr ""
+msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles *"
-msgstr ""
+msgstr "כתוביות *"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr ""
+msgstr "צילום מסך"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
-msgstr ""
+msgstr "מצלילים"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
-msgstr ""
+msgstr "סיבוב"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr ""
+msgstr "* פילטרים חיצוניים (כמו VSFilter) מסוגלים להציג כתוביות בכל מציגי הוידאו."
 
 msgctxt "IDD_AUTH_DLG_CAPTION"
 msgid "Authentication needed"
@@ -1199,7 +1203,7 @@ msgstr "הפעל בדפדפן..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
-msgstr "אפשר כיווץ מידע"
+msgstr "הפעל  כיווץ מידע"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
@@ -1271,19 +1275,19 @@ msgstr "אפס"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr ""
+msgstr "בדיקת עדכון"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr ""
+msgstr "הפעל בדיקת עדכונים אוטומטית"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
-msgstr ""
+msgstr "משך זמן בין בדיקה לבדיקה:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
-msgstr ""
+msgstr "ימים"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
@@ -1299,7 +1303,7 @@ msgstr "יצוא"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr ""
+msgstr "יצוא מקשים"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1335,11 +1339,11 @@ msgstr "שמור"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "S"
-msgstr ""
+msgstr "S"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"
-msgstr ""
+msgstr "Q"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
@@ -1391,15 +1395,15 @@ msgstr "מקלט"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
 msgid "Channel switching approach:"
-msgstr ""
+msgstr "גישת החלפת ערוצים:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr ""
+msgstr "בנייה מחודשת של גרף הפילטרים"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr ""
+msgstr "עצירת גרף הפילטרים"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
@@ -1443,7 +1447,7 @@ msgstr "מגבלת שליטה:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
 msgid "+/-"
-msgstr ""
+msgstr "+/-"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"
@@ -1459,15 +1463,15 @@ msgstr "הפעל קבצים במסך מלא"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr ""
+msgstr "הסתר כלי שליטה במסך מלא"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
-msgstr ""
+msgstr "מילישניות"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr ""
+msgstr "הסתר פנלים מעוגנים"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
@@ -1479,23 +1483,23 @@ msgstr "צג המסך המלא"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr ""
+msgstr "השתמש בשינוי מצב אוטומטי של צג במסך מלא"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
-msgstr ""
+msgstr "הוסף"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
 msgid "Del"
-msgstr ""
+msgstr "מחק"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
 msgid "Up"
-msgstr ""
+msgstr "העלה"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
 msgid "Down"
-msgstr ""
+msgstr "הורד"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
@@ -1507,11 +1511,11 @@ msgstr "שחזר רזולוצייה ביציאה מהתוכנה"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
-msgstr ""
+msgstr "עיכוב"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
 msgid "s"
-msgstr ""
+msgstr "שניות"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
@@ -1523,7 +1527,7 @@ msgstr "סרוק"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr ""
+msgstr "העדף זרמי כתוביות המסומנים כברירת מחדל ו/או כפויים"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
@@ -1555,85 +1559,85 @@ msgstr "בדוק"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr ""
+msgstr "בודק העדכונים"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr ""
+msgstr "הורד כעת"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
-msgstr ""
+msgstr "הזכר לי מאוחר יותר"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr ""
+msgstr "התעלם מעדכון זה"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr ""
+msgstr "מצלילים מכילים אפקטים מיוחדים שניתן להוסיף לתהליך הצגת הוידאו."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr ""
+msgstr "הוסף קובץ מצלילים"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
-msgstr ""
+msgstr "הסר"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr ""
+msgstr "הוסף לפני שינוי הגודל"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr ""
+msgstr "הוסף אחרי שינוי גודל"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr ""
+msgstr "מצלילים מותאמים מראש"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
-msgstr ""
+msgstr "טען"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
 msgid "Save"
-msgstr ""
+msgstr "שמור"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
 msgid "Delete"
-msgstr ""
+msgstr "מחק"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr ""
+msgstr "מצלילים הפועלים לפני שינוי גודל"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr ""
+msgstr "מצלילים הפועלים אחרי שינוי גודל"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr ""
+msgstr "ניפוי באגים במצלילים"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr ""
+msgstr "מידע לניפוי באגים"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
-msgstr ""
+msgstr "מצליל פיקסלים 2.0"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
 msgid "PS 2.0b"
-msgstr ""
+msgstr "מצליל פיקסלים 2.0b"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
 msgid "PS 2.0a"
-msgstr ""
+msgstr "מצליל פיקסלים 2.0a"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
 msgid "PS 3.0"
-msgstr ""
+msgstr "מצליל פיקסלים 3.0"
 

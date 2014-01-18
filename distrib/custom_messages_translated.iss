@@ -62,8 +62,8 @@ fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est rec
 fr.WinVersionTooLowError=[name] nécessite Windows XP Service Pack 3 ou plus récent pour fonctionner.
 
 ; Hebrew (Israel)
-he.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-he.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+he.WelcomeLabel2=תוכנית התקנה זו תתקין את [name] על מחשבך.%n%nמומלץ לסגור את שאר האפליקציות לפני שממשיכים.
+he.WinVersionTooLowError=[name] דורש Windows XP Service Pack 3 או חדש יותר כדי לרוץ.
 
 ; Croatian
 hr.WelcomeLabel2=Ovo ce instalirati [name] na vase racunalo%n%nPreporucljivo je da zatvorite sve otvorene aplikacije prije nego nastavite
@@ -82,7 +82,7 @@ it.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 it.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ; Japanese
-ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に[name]をインストールします。%n%nセットアップを続行する前に他のすべてのアプリを閉じることを推奨します。
+ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリを閉じることを推奨します。
 ja.WinVersionTooLowError=[name] を実行する為には Windows XP Service Pack 3 以降が必要です。
 
 ; Korean
@@ -407,7 +407,7 @@ it.ViewChangelog=Visualizza Changelog
 
 ; Japanese
 ja.langid=00001041
-ja.comp_mpciconlib=アイコンライブラリ
+ja.comp_mpciconlib=アイコン ライブラリ
 ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
 ja.msg_SetupIsRunningWarning=MPC-HC のインストーラは既に実行されています！
@@ -418,11 +418,11 @@ ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 サポー�
 #endif
 ja.tsk_AllUsers=全てのユーザーにインストールする
 ja.tsk_CurrentUser=現在実行しているユーザーにのみインストールする
-ja.tsk_Other=他のタスク :
+ja.tsk_Other=他のタスク:
 ja.tsk_ResetSettings=設定を初期化する
 ja.types_DefaultInstallation=デフォルト インストール
 ja.types_CustomInstallation=カスタム インストール
-ja.ViewChangelog=変更履歴を見る
+ja.ViewChangelog=変更履歴を表示する
 
 ; Korean
 ko.langid=00001042
@@ -583,9 +583,9 @@ sv.comp_mpcresources=Översättningar
 sv.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
 sv.msg_SetupIsRunningWarning=Konfigurering av MPC-HC pågår redan!
 #if defined(sse_required)
-sv.msg_simd_sse=Detta bygge av MPC-HC kräver en processor med stöd för SSE-tillägget.%n%nDin processor saknar detta stöd.
+sv.msg_simd_sse=Denna version av MPC-HC kräver en processor med stöd för SSE.%n%nDin processor saknar detta stöd.
 #elif defined(sse2_required)
-sv.msg_simd_sse2=Detta bygge av MPC-HC kräver en processor med stöd för SSE2-tillägget.%n%nDin processor saknar detta stöd.
+sv.msg_simd_sse2=Denna version av MPC-HC kräver en processor med stöd för SSE2.%n%nDin processor saknar detta stöd.
 #endif
 sv.tsk_AllUsers=För alla användare
 sv.tsk_CurrentUser=Endast för den aktuella användaren

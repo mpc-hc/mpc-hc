@@ -1,17 +1,21 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Superb, 2013
+# Superb, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"PO-Revision-Date: 2014-01-18 11:00+0000\n"
+"Last-Translator: Superb\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/mpc-hc/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -27,7 +31,7 @@ msgstr "פתיחת קובץ..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr ""
+msgstr "פתח די.וי.די/בלו-ריי"
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
@@ -51,7 +55,7 @@ msgstr "סגור"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr ""
+msgstr "שמור העתק..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
@@ -139,7 +143,7 @@ msgstr "ניווט"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "ניפוי באגים במצלילים"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -167,15 +171,15 @@ msgstr "זום"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -187,7 +191,7 @@ msgstr "Auto Fit (Larger Only)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr ""
+msgstr "שפה"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -219,7 +223,7 @@ msgstr "16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr ""
+msgstr "תצוגה"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
@@ -443,7 +447,7 @@ msgstr "תקן הפרש יחס גובה-רוחב של מסך/שולחן עבוד
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "הזזה&&סריקה"
+msgstr "הזזה וסריקה"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -499,7 +503,7 @@ msgstr "מעל כל החלונות"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr ""
+msgstr "ברירת מחדל"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
@@ -563,7 +567,7 @@ msgstr "כתוביות"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
-msgstr ""
+msgstr "זרם וידאו"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -687,7 +691,7 @@ msgstr "אתר הבית"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr ""
+msgstr "בדוק לעדכונים"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"

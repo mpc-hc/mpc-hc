@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# rfrfrf <lipe2000@outlook.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:19+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-13 08:52+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -67,7 +70,7 @@ msgstr "Arquivos"
 
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
-msgstr ""
+msgstr "DVDs"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -171,7 +174,7 @@ msgstr "Notícias/Assuntos atuais"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr ""
+msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -727,11 +730,11 @@ msgstr "O Processador selecionado não está instalado."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Nulo (qualquer um)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Nulo (sem compressão)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
@@ -1191,11 +1194,11 @@ msgstr ""
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr ""
+msgstr "Gravar"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr ""
+msgstr "Parar"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
@@ -1335,7 +1338,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "Nunca mostrar"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
@@ -1875,7 +1878,7 @@ msgstr "Estações de TV"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
@@ -2723,7 +2726,7 @@ msgstr ""
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
-msgstr ""
+msgstr "Outros"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
@@ -2827,7 +2830,7 @@ msgstr ""
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
-msgstr ""
+msgstr "Lista Reprodução"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"

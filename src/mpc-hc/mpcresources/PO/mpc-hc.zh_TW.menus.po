@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# kenelin <kenelin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"PO-Revision-Date: 2013-12-17 21:38+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -139,7 +142,7 @@ msgstr "導覽"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "偵錯 Shader (&D)"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -167,15 +170,15 @@ msgstr "縮放(&Z)"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "50% (&5)"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "100% (&1)"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "200% (&2)"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"

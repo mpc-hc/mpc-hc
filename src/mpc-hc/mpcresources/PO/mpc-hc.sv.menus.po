@@ -1,17 +1,21 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# kasper93, 2013
+# JellyFrog, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"PO-Revision-Date: 2013-12-17 21:38+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -111,7 +115,7 @@ msgstr "Kont&roller"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
-msgstr ""
+msgstr "&Information"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
@@ -119,7 +123,7 @@ msgstr "S&tatistik"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr ""
+msgstr "St&atus"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
@@ -139,7 +143,7 @@ msgstr "Navigering"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "&Felsök Shaders"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -147,7 +151,7 @@ msgstr "&Mallar"
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr ""
+msgstr "&Minimal"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
@@ -155,7 +159,7 @@ msgstr "&Kompakt"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr ""
+msgstr "&Normal"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
@@ -163,7 +167,7 @@ msgstr "He&lskärm"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr ""
+msgstr "&Zoom"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
@@ -187,7 +191,7 @@ msgstr "Passa automatiskt (Enbart större)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr "&Språk"
+msgstr "&Språk (Language)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -271,19 +275,19 @@ msgstr "Identifiera automatiskt"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
-msgstr ""
+msgstr "&HDTV"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr ""
+msgstr "SDTV &NTSC"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr ""
+msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr ""
+msgstr "Ambient &Light"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
@@ -319,11 +323,11 @@ msgstr "&Absolut kolorimetri"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr ""
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr ""
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
@@ -395,11 +399,11 @@ msgstr "Berör Fönstret Från &Insidan"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr ""
+msgstr "Zoom &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr ""
+msgstr "Zoom &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
@@ -499,7 +503,7 @@ msgstr "Alltid överst"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr ""
+msgstr "Standard"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
@@ -551,7 +555,7 @@ msgstr "&Filter"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr ""
+msgstr "S&haders"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
@@ -563,7 +567,7 @@ msgstr "Un&dertexter"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
-msgstr ""
+msgstr "Video S&tream"
 
 msgctxt "POPUP"
 msgid "&Volume"

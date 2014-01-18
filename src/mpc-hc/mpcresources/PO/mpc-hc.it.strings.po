@@ -1,17 +1,19 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-13 08:52+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: Italian (http://www.transifex.com/projects/p/mpc-hc/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -75,7 +77,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_TIME"
 msgid "Time"
-msgstr ""
+msgstr "Tempo"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
@@ -227,7 +229,7 @@ msgstr "Stile"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
-msgstr ""
+msgstr "Carattere"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
@@ -739,7 +741,7 @@ msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
 msgid "MIME Type"
@@ -1191,11 +1193,11 @@ msgstr ""
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr ""
+msgstr "Registra"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr ""
+msgstr "Ferma"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
@@ -1263,11 +1265,11 @@ msgstr "Play/Pausa"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
-msgstr ""
+msgstr "Riproduci"
 
 msgctxt "IDS_AG_STOP"
 msgid "Stop"
-msgstr ""
+msgstr "Ferma"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Framestep"
@@ -1875,7 +1877,7 @@ msgstr "Stazioni TV"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
@@ -2595,7 +2597,7 @@ msgstr ""
 
 msgctxt "IDS_TEXTFILE_ENC"
 msgid "Encoding:"
-msgstr ""
+msgstr "Codifica:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -2723,7 +2725,7 @@ msgstr ""
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
-msgstr ""
+msgstr "Altre opzioni"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
@@ -2847,7 +2849,7 @@ msgstr ""
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "Proporzioni"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
@@ -3103,7 +3105,7 @@ msgstr "Server di aggiornamento non trovato.\n\nControllare la connessione a int
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
-msgstr ""
+msgstr "&Chiudi"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"

@@ -1,17 +1,21 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Devrim <devrim.extra@gmail.com>, 2013
+# kasper93, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"PO-Revision-Date: 2013-12-17 21:38+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -51,7 +55,7 @@ msgstr "Sl&uiten"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr ""
+msgstr "&Opslaan als"
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
@@ -167,15 +171,15 @@ msgstr "&In- en uit&zoomen"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -187,7 +191,7 @@ msgstr "Auto Fit (Larger Only)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr ""
+msgstr "&Talen (Language)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -499,7 +503,7 @@ msgstr "Op Voorgrond"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr ""
+msgstr "Standaard"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
@@ -547,7 +551,7 @@ msgstr "Normaal"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr ""
+msgstr "&Filters"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
@@ -563,11 +567,11 @@ msgstr "&Ondertiteling"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
-msgstr ""
+msgstr "Video S&tream"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr ""
+msgstr "&Volume"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
@@ -679,7 +683,7 @@ msgstr "F&avorieten"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr ""
+msgstr "&Help"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
@@ -687,7 +691,7 @@ msgstr "&Homepage"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr ""
+msgstr "Op updates &controleren"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"

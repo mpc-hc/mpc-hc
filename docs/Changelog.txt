@@ -41,8 +41,8 @@ next version - not released yet
     - Ticket #3849, LAV Video: DXVA VC1/WMV3 decoding now works on Intel cards
     - Ticket #3862, LAV Splitter: Fix a crash when opening MKV files with big attachments
     - Ticket #3929, LAV Video: Fix a crash when trying to decode WMV-3/VC1 with the DMO decoder unavailable
-* Updated Basque, Czech, Simplified and Traditional Chinese, French, German, Greek, Japanese,
-  Polish, Slovak, Slovenian and Turkish translations
+* Updated Armenian, Basque, Belarusian, British English, Catalan, Czech, Simplified and Traditional Chinese, Dutch, French, German, Hebrew, Hungarian, Italian, Greek, Japanese, Korean,
+  Polish, Portuguese (Brazil), Romanian, Russian, Slovak, Slovenian, Spanish, Swedish and Turkish translations
 * Updated MediaInfoLib to v0.7.67
 * Updated ZenLib to v0.4.29 r453
 * Updated Little CMS to v2.6b (git 579b3aa)

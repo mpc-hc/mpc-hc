@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# arestarh1986 <arestarh@ukr.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:22+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-15 13:59+0000\n"
+"Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/projects/p/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -151,7 +154,7 @@ msgstr "Батьківський рейтинг"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr ""
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
@@ -207,11 +210,11 @@ msgstr "Поперед. перегляд"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
-msgstr ""
+msgstr "Vob ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
-msgstr ""
+msgstr "Cell ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
@@ -475,31 +478,31 @@ msgstr "Це виправить іконки, що некоректно відо
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr ""
+msgstr "Old Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr ""
+msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
-msgstr ""
+msgstr "Video Mixing Renderer 7 (windowed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr ""
+msgstr "Video Mixing Renderer 9 (windowed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr ""
+msgstr "Video Mixing Renderer 7 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr ""
+msgstr "Video Mixing Renderer 9 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr ""
+msgstr "Enhanced Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
@@ -507,7 +510,7 @@ msgstr "Enhanced Video Renderer (користув.)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr ""
+msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
@@ -519,7 +522,7 @@ msgstr "Null (нестиснений)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
-msgstr ""
+msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -559,7 +562,7 @@ msgstr "Різне"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr ""
+msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -671,7 +674,7 @@ msgstr "Рендерер аудіо MPC є непрацюючим, не вико
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr ""
+msgstr "Sync Renderer"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
@@ -727,11 +730,11 @@ msgstr "Вибраний рендерер не встановлено."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Null (стиснений)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Null (нестиснений)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
@@ -931,7 +934,7 @@ msgstr "&Вибрати шейдери..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "&Відлагодження шейдерів..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1163,59 +1166,59 @@ msgstr ""
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Шейдери перекомпільовуються автоматично при змінах до відповідних файлів."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr ""
+msgstr "Не можливо завантажити %s, піксельні шейдери не будуть працювати."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "Не можливо знайти необхідні точки входу функції в %s, піксельні шейдери не будуть працювати."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Профіль шейдера: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Наступний профіль шейдера"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Попередній профіль шейдера"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr ""
+msgstr "Запис"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr ""
+msgstr "Зупинити"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "Л = П"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "Л +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "П +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
@@ -1331,19 +1334,19 @@ msgstr "Найближчий ключовий кадр"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr ""
+msgstr "З MPC-HC сталася помилка під час ініціалізації. Відтворення DVD може працювати некоректно. Це може бути викликано несумісністю з деякими додатками забезпечення безпеки.\n\nВи хочете повідомити про помилку?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "Ніколи не відображати"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr ""
+msgstr "Відображати при переміщенні курсора, приховувати після:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr ""
+msgstr "Відображати при наведенні курсора, приховувати після:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
@@ -1591,15 +1594,15 @@ msgstr "Ви хочете періодично перевіряти оновле
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -2295,7 +2298,7 @@ msgstr "Невідомий %d"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr ""
+msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
@@ -2459,11 +2462,11 @@ msgstr "Більше немає медіафайлів в поточній те�
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Перший файл в теці вже завантажений."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "Останній файл в теці вже завантажений."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2539,7 +2542,7 @@ msgstr "Верхній тиловий правий"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "Скинути екранну статистику"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2647,87 +2650,87 @@ msgstr "Повторно відкрити файл"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
-msgstr ""
+msgstr "AVI"
 
 msgctxt "IDS_MFMT_MPEG"
 msgid "MPEG"
-msgstr ""
+msgstr "MPEG"
 
 msgctxt "IDS_MFMT_MPEGTS"
 msgid "MPEG-TS"
-msgstr ""
+msgstr "MPEG-TS"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
-msgstr ""
+msgstr "DVD-Video"
 
 msgctxt "IDS_MFMT_MKV"
 msgid "Matroska"
-msgstr ""
+msgstr "Matroska"
 
 msgctxt "IDS_MFMT_WEBM"
 msgid "WebM"
-msgstr ""
+msgstr "WebM"
 
 msgctxt "IDS_MFMT_MP4"
 msgid "MP4"
-msgstr ""
+msgstr "MP4"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
-msgstr ""
+msgstr "QuickTime Movie"
 
 msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
-msgstr ""
+msgstr "3GP"
 
 msgctxt "IDS_MFMT_3G2"
 msgid "3G2"
-msgstr ""
+msgstr "3G2"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
-msgstr ""
+msgstr "Flash Video"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
-msgstr ""
+msgstr "Ogg Media"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr ""
+msgstr "Real Media"
 
 msgctxt "IDS_MFMT_RT"
 msgid "Real Script"
-msgstr ""
+msgstr "Real Script"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
-msgstr ""
+msgstr "Windows Media Video"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
-msgstr ""
+msgstr "Smacker/Bink Video"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
-msgstr ""
+msgstr "FLIC Animation"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr ""
+msgstr "DirectShow Media"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
-msgstr ""
+msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
-msgstr ""
+msgstr "Інше"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
-msgstr ""
+msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
@@ -2735,107 +2738,107 @@ msgstr "Інше аудіо"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
-msgstr ""
+msgstr "AC-3/DTS"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
-msgstr ""
+msgstr "AIFF"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
-msgstr ""
+msgstr "Apple Lossless"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
-msgstr ""
+msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
-msgstr ""
+msgstr "Monkey's Audio"
 
 msgctxt "IDS_MFMT_AU"
 msgid "AU/SND"
-msgstr ""
+msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr ""
+msgstr "Audio CD track"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
-msgstr ""
+msgstr "FLAC"
 
 msgctxt "IDS_MFMT_M4A"
 msgid "MPEG-4 Audio"
-msgstr ""
+msgstr "MPEG-4 Audio"
 
 msgctxt "IDS_MFMT_MIDI"
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
-msgstr ""
+msgstr "Matroska audio"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
-msgstr ""
+msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG audio"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
-msgstr ""
+msgstr "Musepack"
 
 msgctxt "IDS_MFMT_OFR"
 msgid "OptimFROG"
-msgstr ""
+msgstr "OptimFROG"
 
 msgctxt "IDS_MFMT_OGG"
 msgid "Ogg Vorbis"
-msgstr ""
+msgstr "Ogg Vorbis"
 
 msgctxt "IDS_MFMT_RA"
 msgid "Real Audio"
-msgstr ""
+msgstr "Real Audio"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
-msgstr ""
+msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
+msgstr "True Audio"
 
 msgctxt "IDS_MFMT_WAV"
 msgid "WAV"
-msgstr ""
+msgstr "WAV"
 
 msgctxt "IDS_MFMT_WMA"
 msgid "Windows Media Audio"
-msgstr ""
+msgstr "Windows Media Audio"
 
 msgctxt "IDS_MFMT_WV"
 msgid "WavPack"
-msgstr ""
+msgstr "WavPack"
 
 msgctxt "IDS_MFMT_OPUS"
 msgid "Opus Audio Codec"
-msgstr ""
+msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
-msgstr ""
+msgstr "Список відтворення"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr ""
+msgstr "Список відтворення Blu-ray"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
-msgstr ""
+msgstr "Архів RAR"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
@@ -3067,11 +3070,11 @@ msgstr "Зменшення контрасту"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Збільшення кольор. тону"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Зменшення кольор. тону"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"

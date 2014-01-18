@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Xabier Aramendi <azpidatziak@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
-"PO-Revision-Date: 2014-01-05 23:53+0000\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-14 14:36+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -1222,7 +1222,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "Gehitu edukiaren agiritegia"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

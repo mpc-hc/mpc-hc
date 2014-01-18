@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# JellyFrog, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2013-12-21 17:20+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
@@ -39,11 +42,11 @@ msgstr "Konfigurering av MPC-HC pågår redan!"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Detta bygge av MPC-HC kräver en processor med stöd för SSE-tillägget.\n\nDin processor saknar detta stöd."
+msgstr "Denna version av MPC-HC kräver en processor med stöd för SSE.\n\nDin processor saknar detta stöd."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Detta bygge av MPC-HC kräver en processor med stöd för SSE2-tillägget.\n\nDin processor saknar detta stöd."
+msgstr "Denna version av MPC-HC kräver en processor med stöd för SSE2.\n\nDin processor saknar detta stöd."
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

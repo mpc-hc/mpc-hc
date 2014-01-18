@@ -1,17 +1,19 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-13 08:52+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -19,11 +21,11 @@ msgstr "Lokatie"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgctxt "IDS_INFOBAR_AUDIO"
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgctxt "IDS_INFOBAR_SUBTITLES"
 msgid "Subtitles"
@@ -75,7 +77,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_TIME"
 msgid "Time"
-msgstr ""
+msgstr "Tijd"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
@@ -195,7 +197,7 @@ msgstr ""
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
-msgstr ""
+msgstr "Tijd"
 
 msgctxt "IDS_SUBRESYNC_CLN_END"
 msgid "End"
@@ -203,7 +205,7 @@ msgstr ""
 
 msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
 msgid "Preview"
-msgstr ""
+msgstr "Voorvertoning"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
@@ -227,7 +229,7 @@ msgstr ""
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
-msgstr ""
+msgstr "Lettertype"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
@@ -331,11 +333,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
-msgstr ""
+msgstr "Standaard"
 
 msgctxt "IDS_PPAGE_FS_OTHER"
 msgid "Other"
-msgstr ""
+msgstr "Overige"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
 msgid "System Default"
@@ -739,7 +741,7 @@ msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
 msgid "MIME Type"
@@ -1191,11 +1193,11 @@ msgstr ""
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr ""
+msgstr "Opname"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr ""
+msgstr "Stoppen"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
@@ -1383,7 +1385,7 @@ msgstr ""
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
-msgstr ""
+msgstr "Instellingen resetten"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
@@ -1595,7 +1597,7 @@ msgstr ""
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
@@ -1863,7 +1865,7 @@ msgstr ""
 
 msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
 msgid "Stop"
-msgstr ""
+msgstr "Stoppen"
 
 msgctxt "IDS_DVB_TVNAV_SEERADIO"
 msgid "Radio stations"
@@ -2583,7 +2585,7 @@ msgstr ""
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
@@ -2723,7 +2725,7 @@ msgstr ""
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
-msgstr ""
+msgstr "Overige"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
@@ -2847,7 +2849,7 @@ msgstr ""
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "Beeldverhouding"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
@@ -3103,7 +3105,7 @@ msgstr ""
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
-msgstr ""
+msgstr "Sl&uiten"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"

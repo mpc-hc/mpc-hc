@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # brk <burakgarci@gmail.com>, 2013
+# bosluk, 2014
 # bosluk, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
-"PO-Revision-Date: 2013-12-24 18:56+0000\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-14 14:36+0000\n"
 "Last-Translator: bosluk\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -1223,7 +1224,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "İçeren klasörü ekle"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

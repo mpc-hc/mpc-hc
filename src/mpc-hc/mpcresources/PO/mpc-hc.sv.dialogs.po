@@ -1,17 +1,20 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# JellyFrog, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
+"PO-Revision-Date: 2014-01-05 22:19+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
@@ -19,7 +22,7 @@ msgstr "Välj Mediatyp"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
 msgid "Cancel"
@@ -27,7 +30,7 @@ msgstr "Avbryt"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
 msgid "Set"
@@ -79,11 +82,11 @@ msgstr "Normalisera"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr ""
+msgstr "Max förstärkning:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
 msgid "Regain volume"
@@ -163,7 +166,7 @@ msgstr "Bläddra..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
-msgstr ""
+msgstr "Ljud:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
@@ -171,7 +174,7 @@ msgstr "Bläddra..."
 
 msgctxt "IDD_OPEN_DLG_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_OPEN_DLG_IDCANCEL"
 msgid "Cancel"
@@ -199,11 +202,11 @@ msgstr "Svensk översättning av JellyFrog, Aron, JonasNo"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
-msgstr ""
+msgstr "Versionsinformation"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
-msgstr ""
+msgstr "Version:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Compiler:"
@@ -215,23 +218,23 @@ msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
-msgstr ""
+msgstr "Versionsdatum:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
-msgstr ""
+msgstr "Operativsystem"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Name:"
-msgstr ""
+msgstr "Namn:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Kopiera till urklipp"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Open options"
@@ -331,7 +334,7 @@ msgstr "Kom ihåg senaste Pan-n-Scan Zoom"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr ""
+msgstr "\"Öppna DVD/BD\" beteende"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -375,11 +378,11 @@ msgstr "Volym"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Max"
-msgstr ""
+msgstr "Max"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
 msgid "Balance"
@@ -427,7 +430,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
@@ -475,7 +478,7 @@ msgstr "Volymsteg:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
@@ -491,7 +494,7 @@ msgstr "Horisontellt:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
 msgid "Vertical:"
@@ -499,7 +502,7 @@ msgstr "Vertikalt:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay interval"
@@ -507,7 +510,7 @@ msgstr "Fördröjnings intervall"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
@@ -551,7 +554,7 @@ msgstr "Ange"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
 msgid "Windows 8 or later"
-msgstr ""
+msgstr "Windows 8 eller nyare"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
 msgid "&Set default programs"
@@ -563,7 +566,7 @@ msgstr "Associering"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
 msgid "&Video"
-msgstr ""
+msgstr "&Video"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
 msgid "A&udio"
@@ -587,15 +590,15 @@ msgstr "Real-Time Strömnings protokollhanterare (för rtsp://... URLs)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
-msgstr ""
+msgstr "RealMedia"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
 msgid "QuickTime"
-msgstr ""
+msgstr "QuickTime"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
 msgid "DirectShow"
-msgstr ""
+msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
@@ -619,7 +622,7 @@ msgstr "Spela upp automatiskt"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
 msgid "Music"
@@ -627,7 +630,7 @@ msgstr "Musik"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
 msgid "DVD"
-msgstr ""
+msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
@@ -787,7 +790,7 @@ msgstr "Avbryt"
 
 msgctxt "IDD_FAVADD_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -815,7 +818,7 @@ msgstr "Ta bort"
 
 msgctxt "IDD_FAVORGANIZE_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
@@ -851,11 +854,11 @@ msgstr "&Spara"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
-msgstr ""
+msgstr "Pos: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr ""
+msgstr "Zoom: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
@@ -907,7 +910,7 @@ msgstr "Fördröjning:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -939,7 +942,7 @@ msgstr "Bläddra..."
 
 msgctxt "IDD_ADDREGFILTER_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_ADDREGFILTER_IDCANCEL"
 msgid "Cancel"
@@ -1019,15 +1022,15 @@ msgstr "Färger && Genomskinlighet"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Primary"
-msgstr ""
+msgstr "Primär"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Secondary"
@@ -1059,15 +1062,15 @@ msgstr ""
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr ""
+msgstr "Splitter"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
-msgstr ""
+msgstr "Videodekoder"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr ""
+msgstr "Ljuddekoder"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
@@ -1083,15 +1086,15 @@ msgstr "Bläddra..."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
-msgstr ""
+msgstr "DirectShow Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "RealMedia Video"
-msgstr ""
+msgstr "RealMedia Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "QuickTime Video"
-msgstr ""
+msgstr "QuickTime Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
@@ -1139,23 +1142,23 @@ msgstr "EVR Buffertar:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
-msgstr ""
+msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles *"
-msgstr ""
+msgstr "Undertexter *"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr ""
+msgstr "Skärmbild"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
-msgstr ""
+msgstr "Shaders"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
-msgstr ""
+msgstr "Rotation"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
@@ -1167,7 +1170,7 @@ msgstr "Verifiering krävs"
 
 msgctxt "IDD_AUTH_DLG_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_AUTH_DLG_IDCANCEL"
 msgid "Cancel"
@@ -1307,7 +1310,7 @@ msgstr "Tuner sökning"
 
 msgctxt "IDD_TUNER_SCAN_ID_START"
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 msgctxt "IDD_TUNER_SCAN_IDCANCEL"
 msgid "Cancel"
@@ -1315,7 +1318,7 @@ msgstr "Avbryt"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
-msgstr ""
+msgstr "Freq. Start"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Bandwidth"
@@ -1335,11 +1338,11 @@ msgstr "Spara"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "S"
-msgstr ""
+msgstr "F"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"
-msgstr ""
+msgstr "Q"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
@@ -1351,11 +1354,11 @@ msgstr "Standardenhet"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
-msgstr ""
+msgstr "Analog"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
 msgid "Digital"
-msgstr ""
+msgstr "Digital"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
@@ -1363,7 +1366,7 @@ msgstr "Analoga inställningar"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
 msgid "Audio"
@@ -1383,7 +1386,7 @@ msgstr "Nätleverantör"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
-msgstr ""
+msgstr "Mottagare"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
 msgid "Receiver"
@@ -1435,7 +1438,7 @@ msgstr "Önskad synkoffset:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
 msgid "Control limits:"
@@ -1443,11 +1446,11 @@ msgstr "Styrgränser:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
 msgid "+/-"
-msgstr ""
+msgstr "+/-"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
@@ -1463,7 +1466,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
@@ -1507,19 +1510,19 @@ msgstr "Återställ skärmupplösning när programmet avslutas"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
-msgstr ""
+msgstr "Fördröjning"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
 msgid "s"
-msgstr ""
+msgstr "s"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
 msgid "Scan"
-msgstr ""
+msgstr "Skanna"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
@@ -1575,65 +1578,65 @@ msgstr ""
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr ""
+msgstr "Lägg till shader-fil"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
-msgstr ""
+msgstr "Ta bort"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr ""
+msgstr "Lägg till pre-resize"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr ""
+msgstr "Lägg till post-resize"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr ""
+msgstr "Shader förinställningar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
-msgstr ""
+msgstr "Ladda"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
 msgid "Save"
-msgstr ""
+msgstr "Spara"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
 msgid "Delete"
-msgstr ""
+msgstr "Ta bort"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr ""
+msgstr "Aktiva pre-resize shaders"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr ""
+msgstr "Aktiva post-resize shaders"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr ""
+msgstr "Felsök Shaders"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr ""
+msgstr "Felsökningsinformation"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
-msgstr ""
+msgstr "PS 2.0"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
 msgid "PS 2.0b"
-msgstr ""
+msgstr "PS 2.0b"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
 msgid "PS 2.0a"
-msgstr ""
+msgstr "PS 2.0a"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
 msgid "PS 3.0"
-msgstr ""
+msgstr "PS 3.0"
 

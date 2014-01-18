@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# khagaroth, 2013
+# khagaroth, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
-"PO-Revision-Date: 2013-12-24 18:36+0000\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-14 14:36+0000\n"
 "Last-Translator: khagaroth\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -1222,7 +1222,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "Přidat nadřazený adresář"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2178,7 +2178,7 @@ msgstr "Aktuální"
 
 msgctxt "IDS_MPC_CRASH"
 msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC byl neočekávaně ukončen. Pokud nám chcete pomoci tento problém odstranit, nahrajte prosím soubor '%s' na náš bugtracker.\n\nChcete otevřít adresář s tímoto souborem a přejít na stránku bugtrackeru?"
+msgstr "MPC-HC byl neočekávaně ukončen. Pokud nám chcete pomoci tento problém odstranit, nahrajte prosím soubor '%s' na náš bugtracker.\n\nChcete otevřít adresář s tímto souborem a přejít na stránku bugtrackeru?"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
 msgid "Failed to create dump file to \"%s\" (error %d)"

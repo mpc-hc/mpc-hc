@@ -2,14 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# LuanMax <luanmail@gmx.net>, 2014
 # M T <michtrz@gmail.com>, 2013
 # Underground78, 2013
 # Underground78, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
-"PO-Revision-Date: 2013-12-24 11:40+0000\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-14 14:36+0000\n"
 "Last-Translator: LuanMax <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -388,7 +389,7 @@ msgstr "Nach Ein&trag sortieren"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Nach Pfad&name sortieren"
+msgstr "Nach Pfadna&me sortieren"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
@@ -952,7 +953,7 @@ msgstr "&Zufallswiedergabe"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Open file location"
-msgstr "Zuge&hörigen Ordner öffnen"
+msgstr "Zugehörigen Ordner öff&nen"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1224,7 +1225,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "Zugehörigen Ordner &hinzufügen"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

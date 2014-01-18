@@ -1,17 +1,21 @@
 # MPC-HC - Strings extracted from string tables
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# kenelin <kenelin@gmail.com>, 2013
+# roytam1 <roytam@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-02 10:32:21+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-17 00:54+0000\n"
+"Last-Translator: roytam1 <roytam@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
@@ -151,7 +155,7 @@ msgstr "家長分級"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr ""
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
@@ -171,7 +175,7 @@ msgstr "新聞/時事"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr ""
+msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -207,11 +211,11 @@ msgstr "預覽"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
-msgstr ""
+msgstr "Vob ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
-msgstr ""
+msgstr "Cell ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
@@ -519,7 +523,7 @@ msgstr "無 (非壓縮)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
-msgstr ""
+msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -695,27 +699,27 @@ msgstr "3D 繪圖頁 (推薦)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr ""
+msgstr "Nearest neighbor"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr ""
+msgstr "Bilinear"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr ""
+msgstr "Bilinear (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
@@ -931,7 +935,7 @@ msgstr "選擇 Shaders(&S)..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "偵錯 Shader... (&D)"
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1155,71 +1159,71 @@ msgstr "開啟 DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr ""
+msgstr "設定 post-resize shader 時失敗"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr ""
+msgstr "設定 pre-resize 及 post-resize shader 時失敗"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "當相關檔案被修改時 shader 將會被自動重新編譯。"
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr ""
+msgstr "無法載入 %s, Pixel Shader 將無法運作。"
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "無法在 %s 裡面找到必要的函式進入點, Pixel Shader 將無法運作。"
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Shader 先期設定: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "次一 Shader 先期設定"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "前一 Shader 先期設定"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr ""
+msgstr "錄製"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr ""
+msgstr "結束頻率"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "L = R"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "L +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "R +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "加入包含的資料夾"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1331,23 +1335,23 @@ msgstr "最接近的關鍵幀"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr ""
+msgstr "MPC-HC 在初始化時遇到了一個問題。DVD 播放可能會不正常。這可能與某些安全工具的不兼容性所致。\n\n你要報告這個問題嗎?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "從不顯示"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr ""
+msgstr "移動游標時顯示，隱藏在:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr ""
+msgstr "在控制項上停留時顯示，隱藏在:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
+msgstr "設定 pre-resize shader 時失敗"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1591,15 +1595,15 @@ msgstr "您要定期檢查 MPC-HC 的更新嗎?\n\n這個功能稍後可在設�
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -1835,7 +1839,7 @@ msgstr "快速新增我的最愛"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
-msgstr ""
+msgstr "N"
 
 msgctxt "IDS_DVB_CHANNEL_NAME"
 msgid "Name"
@@ -1915,7 +1919,7 @@ msgstr "角度: %02d/%02d, %dx%d %dHz %d:%d"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %dHz %dbits %d %s"
-msgstr ""
+msgstr "%s, %s %dHz %dbits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -1931,7 +1935,7 @@ msgstr "MPC-HC 沒有足夠的權力變更檔案關聯。請按 \"修改\" 按�
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "MPC-HC 是一個極其輕巧、開源的視窗媒體播放器。它支援播放所有一般的視訊和音樂檔案格式。我們絕不包含間諜軟體，也沒有廣告或工具列插件。"
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2387,7 +2391,7 @@ msgstr "切換擷取列"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "切換偵錯 Shader"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2459,11 +2463,11 @@ msgstr "目前的資料夾內已無更多媒體檔案。"
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "資料夾內的第一個檔案已經載入過。"
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "資料夾內的最後一個檔案已經載入過。"
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2539,7 +2543,7 @@ msgstr "右上後側"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "重設顯示統計"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2647,199 +2651,199 @@ msgstr "重新開啟檔案"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
-msgstr ""
+msgstr "AVI"
 
 msgctxt "IDS_MFMT_MPEG"
 msgid "MPEG"
-msgstr ""
+msgstr "MPEG"
 
 msgctxt "IDS_MFMT_MPEGTS"
 msgid "MPEG-TS"
-msgstr ""
+msgstr "MPEG-TS"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
-msgstr ""
+msgstr "DVD-Video"
 
 msgctxt "IDS_MFMT_MKV"
 msgid "Matroska"
-msgstr ""
+msgstr "Matroska"
 
 msgctxt "IDS_MFMT_WEBM"
 msgid "WebM"
-msgstr ""
+msgstr "WebM"
 
 msgctxt "IDS_MFMT_MP4"
 msgid "MP4"
-msgstr ""
+msgstr "MP4"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
-msgstr ""
+msgstr "QuickTime Movie"
 
 msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
-msgstr ""
+msgstr "3GP"
 
 msgctxt "IDS_MFMT_3G2"
 msgid "3G2"
-msgstr ""
+msgstr "3G2"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
-msgstr ""
+msgstr "Flash Video"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
-msgstr ""
+msgstr "Ogg Media"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr ""
+msgstr "Real Media"
 
 msgctxt "IDS_MFMT_RT"
 msgid "Real Script"
-msgstr ""
+msgstr "Real Script"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
-msgstr ""
+msgstr "Windows Media Video"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
-msgstr ""
+msgstr "Smacker/Bink Video"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
-msgstr ""
+msgstr "FLIC Animation"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr ""
+msgstr "DirectShow Media"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
-msgstr ""
+msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
-msgstr ""
+msgstr "其它選項"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
-msgstr ""
+msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr ""
+msgstr "其他音訊"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
-msgstr ""
+msgstr "AC-3/DTS"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
-msgstr ""
+msgstr "AIFF"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
-msgstr ""
+msgstr "Apple Lossless"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
-msgstr ""
+msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
-msgstr ""
+msgstr "Monkey's Audio"
 
 msgctxt "IDS_MFMT_AU"
 msgid "AU/SND"
-msgstr ""
+msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr ""
+msgstr "音樂 CD 曲目"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
-msgstr ""
+msgstr "FLAC"
 
 msgctxt "IDS_MFMT_M4A"
 msgid "MPEG-4 Audio"
-msgstr ""
+msgstr "MPEG-4 Audio"
 
 msgctxt "IDS_MFMT_MIDI"
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
-msgstr ""
+msgstr "Matroska 音訊"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
-msgstr ""
+msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG 音訊"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
-msgstr ""
+msgstr "Musepack"
 
 msgctxt "IDS_MFMT_OFR"
 msgid "OptimFROG"
-msgstr ""
+msgstr "OptimFROG"
 
 msgctxt "IDS_MFMT_OGG"
 msgid "Ogg Vorbis"
-msgstr ""
+msgstr "Ogg Vorbis"
 
 msgctxt "IDS_MFMT_RA"
 msgid "Real Audio"
-msgstr ""
+msgstr "Real Audio"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
-msgstr ""
+msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
+msgstr "True Audio"
 
 msgctxt "IDS_MFMT_WAV"
 msgid "WAV"
-msgstr ""
+msgstr "WAV"
 
 msgctxt "IDS_MFMT_WMA"
 msgid "Windows Media Audio"
-msgstr ""
+msgstr "Windows Media Audio"
 
 msgctxt "IDS_MFMT_WV"
 msgid "WavPack"
-msgstr ""
+msgstr "WavPack"
 
 msgctxt "IDS_MFMT_OPUS"
 msgid "Opus Audio Codec"
-msgstr ""
+msgstr "Opus 音訊"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
-msgstr ""
+msgstr "播放清單"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr ""
+msgstr "Blu-ray 播放清單"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
-msgstr ""
+msgstr "RAR 壓縮包"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
@@ -3067,11 +3071,11 @@ msgstr "減少對比"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "增加色調"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "減少色調"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3151,23 +3155,23 @@ msgstr "回復音量: 關閉"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr ""
+msgstr "MB/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."

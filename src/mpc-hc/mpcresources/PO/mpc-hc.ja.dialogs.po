@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-01-05 22:19+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-01-16 09:30+0000\n"
+"Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
-msgstr "メディア タイプの選択"
+msgstr "メディア タイプを選択"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
@@ -90,7 +90,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
 msgid "Regain volume"
-msgstr "音量を回復する"
+msgstr "音量を回復"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
@@ -102,7 +102,7 @@ msgstr "44100 Hz にダウン サンプリングする"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "音声のタイム シフト [ms]:"
+msgstr "音声のタイムシフト (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
@@ -242,7 +242,7 @@ msgstr "開くオプション"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "再生するメディア ファイルは同じプレーヤーを使う"
+msgstr "再生するメディア ファイルに同じプレーヤーを使う"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
@@ -258,7 +258,7 @@ msgstr "フルパスを表示"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "ファイル名のみ表示"
+msgstr "ファイル名のみ"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
@@ -266,7 +266,7 @@ msgstr "何も表示しない"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "ファイル名をタイトル名に置換えて表示"
+msgstr "ファイル名をタイトル名に置き換え"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -282,7 +282,7 @@ msgstr "OSD を表示 (要再起動)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "リサイズ時にウィンドウ サイズのアスペクト比を固定"
+msgstr "リサイズ時にウィンドウサイズのアスペクト比を固定"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
@@ -326,7 +326,7 @@ msgstr "終了時のウィンドウ位置を記憶"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
-msgstr "終了時のウィンドウ サイズを記憶"
+msgstr "終了時のウィンドウサイズを記憶"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
@@ -414,7 +414,7 @@ msgstr "回"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
 msgid "Rewind when done playing"
-msgstr "再生後に巻き戻す"
+msgstr "再生終了後に巻き戻す"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -646,7 +646,7 @@ msgstr "デフォルト"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
 msgid "Fast seek (on keyframe)"
-msgstr "高速 シーク(キーフレームに)"
+msgstr "高速 シーク (キーフレームに)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
@@ -658,7 +658,7 @@ msgstr "現在再生中のファイル情報を Skype ムード メッセージ�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "デフォルトのモニター以外でフルスクリーン時はプレーヤーを最小化しない"
+msgstr "デフォルトのモニター以外でフルスクリーン表示している時はプレーヤーを最小化しない"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
@@ -678,11 +678,11 @@ msgstr "OSD フォント:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Logitech LCD のサポートを有効にする(実験的)"
+msgstr "Logitech LCD のサポートを有効にする (実験的)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "ウィンドウモードで再生中にマウス ポインタを自動的に隠す"
+msgstr "ウィンドウ モードで再生中にマウス ポインタを自動で隠す"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -934,7 +934,7 @@ msgstr "ピクセル"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
-msgstr "フィルタの選択"
+msgstr "フィルタを選択"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
@@ -1114,7 +1114,7 @@ msgstr "補間方法:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "D3D9 レンダラ デバイスの選択"
+msgstr "D3D9 レンダラ デバイスを選択"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
@@ -1546,7 +1546,7 @@ msgstr "リセット"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online database"
-msgstr "オンライン字幕データベース"
+msgstr "オンラインデータベース"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
@@ -1574,11 +1574,11 @@ msgstr "この更新を無視する(&I)"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr ""
+msgstr "シェーダは、ビデオレンダリングのプロセスに特殊効果を加えることができます。"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "シェーダファイルを追加"
+msgstr "シェーダ ファイルを追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1586,11 +1586,11 @@ msgstr "消去"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr ""
+msgstr "リサイズ前のシェーダに追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr ""
+msgstr "リサイズ後のシェーダに追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
@@ -1610,19 +1610,19 @@ msgstr "削除"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr ""
+msgstr "アクティブなリサイズ前のシェーダ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr ""
+msgstr "アクティブなリサイズ後のシェーダ"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "シェーダのデバック"
+msgstr "シェーダのデバッグ情報"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "デバック情報"
+msgstr "デバッグ情報"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
