@@ -281,7 +281,10 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
     }
     auto onButton = [&]() {
         GetWnd().SetCapture();
-        bool ret = OnButton(wmcmd::LDOWN, point, bIsOnFS);
+        bool ret = false;
+        if (bIsOnFS || !m_pMainFrame->IsCaptionHidden()) {
+            ret = OnButton(wmcmd::LDOWN, point, bIsOnFS);
+        }
         if (bDouble) {
             ret = OnButton(wmcmd::LDBLCLK, point, bIsOnFS) || ret;
         }
