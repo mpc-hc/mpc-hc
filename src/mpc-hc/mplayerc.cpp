@@ -1431,7 +1431,12 @@ BOOL CMPlayerCApp::InitInstance()
         if (res == WAIT_OBJECT_0 || res == WAIT_ABANDONED) {
             HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, nullptr);
             if (hWnd) {
-                SetForegroundWindow(hWnd);
+                DWORD dwProcessId = 0;
+                if (GetWindowThreadProcessId(hWnd, &dwProcessId) && dwProcessId) {
+                    VERIFY(AllowSetForegroundWindow(dwProcessId));
+                } else {
+                    ASSERT(FALSE);
+                }
                 if (!(m_s.nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd)) {
                     ShowWindow(hWnd, SW_RESTORE);
                 }
