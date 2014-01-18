@@ -1,4 +1,4 @@
-; (C) 2009-2013 see Authors.txt
+; (C) 2009-2014 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -173,6 +173,7 @@ Name: es;    MessagesFile: compiler:Languages\Spanish.isl
 Name: eu;    MessagesFile: Languages\Basque.isl
 Name: fr;    MessagesFile: compiler:Languages\French.isl
 Name: he;    MessagesFile: compiler:Languages\Hebrew.isl
+Name: hr;    MessagesFile: Languages\Croatian.isl
 Name: hu;    MessagesFile: compiler:Languages\Hungarian.isl
 Name: hy;    MessagesFile: Languages\Armenian.islu
 Name: it;    MessagesFile: compiler:Languages\Italian.isl
