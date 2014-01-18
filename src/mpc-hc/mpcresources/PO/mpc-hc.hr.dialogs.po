@@ -1,0 +1,1643 @@
+# MPC-HC - Strings extracted from dialogs
+# Copyright (C) 2002 - 2014 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# iivana24 <iivana24@gmail.com>, 2014
+# Ico2005 <vukasinac@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
+"PO-Revision-Date: 2014-01-16 20:40+0000\n"
+"Last-Translator: Ico2005 <vukasinac@gmail.com>\n"
+"Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "Select Media Type"
+msgstr "Odaberite Media Type"
+
+msgctxt "IDD_SELECTMEDIATYPE_IDOK"
+msgid "OK"
+msgstr "U redu"
+
+msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
+msgid "Cancel"
+msgstr "Otkazi"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
+msgid "Video"
+msgstr "Video"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
+msgid "Set"
+msgstr "Podesi"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Audio"
+msgstr "Audio"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Output"
+msgstr "Izlaz"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
+msgid "Record Video"
+msgstr "Snimi Video"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
+msgid "Preview"
+msgstr "Pregledaj"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
+msgid "Record Audio"
+msgstr "Snimi Audio"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
+msgid "Preview"
+msgstr "Pregledaj"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "V/A Buffers:"
+msgstr "V/A Buffers:"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
+msgid "Audio to wav"
+msgstr "Audio u WAV"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
+msgid "Record"
+msgstr "Snimi"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
+msgid "Enable built-in audio switcher filter (requires restart)"
+msgstr "Omogucite ugradjen audio switcher filter (zahtijeva restart)"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
+msgid "Normalize"
+msgstr "Normaliziraj"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
+msgid "Max amplification:"
+msgstr "Maximalno pojacanje:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
+msgid "Regain volume"
+msgstr "vrati jacinu"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
+msgid "Boost:"
+msgstr "Podigni:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
+msgid "Down-sample to 44100 Hz"
+msgstr "Spusti - uzorak do 44100Hz"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
+msgid "Audio time shift (ms):"
+msgstr "Pomicanje audio zapisa (ms)"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
+msgid "Enable custom channel mapping"
+msgstr "Omogucite prilagodjeno mapiranje kanala"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
+msgid "Speaker configuration for "
+msgstr "Konfiguracija zvucnika za"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
+msgid "input channels:"
+msgstr "ulazni kanali:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
+msgid "Hold shift for immediate changes when clicking something "
+msgstr "Drzite pritisnutu tipku SHIFT za trenutne promjene kada kliknete nesto"
+
+msgctxt "IDD_GOTO_DLG_CAPTION"
+msgid "Go To..."
+msgstr "Idi na..."
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
+msgstr "Unesite timecode koristeci format [hh:]mm:ss da se pomaknete na zeljeno vrijeme. Ne morate unositi separatore."
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Time"
+msgstr "Vrijeme"
+
+msgctxt "IDD_GOTO_DLG_IDC_OK1"
+msgid "Go!"
+msgstr "Idi!"
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
+msgstr "Unesite dva broja da se pomaknete na odredjeni okvir, prvi je broj okvira a drugi je frame rate okvira"
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Frame"
+msgstr "Okvir"
+
+msgctxt "IDD_GOTO_DLG_IDC_OK2"
+msgid "Go!"
+msgstr "Idi!"
+
+msgctxt "IDD_OPEN_DLG_CAPTION"
+msgid "Open"
+msgstr "Otvori"
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
+msgstr "Unesite adresu video ili audio filea (sa interneta ili sa vaseg racunala) i player ce ga otvoriti za vas."
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Open:"
+msgstr "Otvori:"
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Trazi..."
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
+msgid "Dub:"
+msgstr "Dubliraj:"
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
+msgid "Browse..."
+msgstr "Trazi..."
+
+msgctxt "IDD_OPEN_DLG_IDOK"
+msgid "OK"
+msgstr "U redu."
+
+msgctxt "IDD_OPEN_DLG_IDCANCEL"
+msgid "Cancel"
+msgstr "Otkazi."
+
+msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
+msgid "Add to playlist without opening"
+msgstr "Dodaj na playlistu bez otvaranja"
+
+msgctxt "IDD_ABOUTBOX_CAPTION"
+msgid "About"
+msgstr "O"
+
+msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
+msgid "Copyright © 2002-2014 see Authors.txt"
+msgstr "Zasticeno  © 2002-2014 - pogledaj - Authots.txt"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "This program is freeware and released under the GNU General Public License."
+msgstr "Ovaj program je besplatan i pustem pod okriljem "
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "English translation made by MPC-HC Team"
+msgstr "Engleski prijevod od strane MPC-HC Teama"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Build information"
+msgstr "Informacije o nadogradnji"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Version:"
+msgstr "Verzija:"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Compiler:"
+msgstr "Kompajler"
+
+msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
+msgid "Not used"
+msgstr "Nije koristen"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Build date:"
+msgstr "Datum nadogradnje:"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Operating system"
+msgstr "Operativni sustav"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Name:"
+msgstr "Ime:"
+
+msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
+msgid "Copy to clipboard"
+msgstr "Kopiraj u medjuspremnik"
+
+msgctxt "IDD_ABOUTBOX_IDOK"
+msgid "OK"
+msgstr "U redu."
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Open options"
+msgstr "Otvori opcije"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
+msgid "Use the same player for each media file"
+msgstr "Koristi isti player za svaku medijsku datoteku"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
+msgid "Open a new player for each media file played"
+msgstr "Otvorite novi player za svaku medijsku datoteku koju planirate otvoriti"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Title bar"
+msgstr "Naslovna traka"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
+msgid "Display full path"
+msgstr "Prikazi cijelu putanju"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
+msgid "File name only"
+msgstr "Samo naziv datoteke"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
+msgid "Don't prefix anything"
+msgstr "Ne stavljajte prefiks nigdje"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
+msgid "Replace file name with title"
+msgstr "Zamijenite ime datoteke sa naslovom"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Other"
+msgstr "Drugo"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
+msgid "Tray icon"
+msgstr "Ikona"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
+msgid "Show OSD (requires restart)"
+msgstr "Prikazi OSD (zahtijeva restart)"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
+msgid "Limit window proportions on resize"
+msgstr "Ogranicite proporcije prozora kada mijenjate velicinu"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
+msgid "Snap to desktop edges"
+msgstr "Razvuci do ruba desktopa"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
+msgid "Store settings to .ini file"
+msgstr "Spremi postavke u .ini datoteku"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
+msgid "Disable \"Open Disc\" menu"
+msgstr "Onemoguci \"Open Disc\" menu"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
+msgid "Process priority above normal"
+msgstr "Prioritet procesa je povise normale"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "History"
+msgstr "Povijest"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
+msgid "Keep history of recently opened files"
+msgstr "Sacuvaj povijest za nedavno otvorene datoteke"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "Remember last playlist"
+msgstr "Zapamti poslijednju playlistu"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
+msgid "Remember File position"
+msgstr "Zapamti poziciju datoteke"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "Remember DVD position"
+msgstr "Zapamti poziciju DVD-a "
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
+msgid "Remember last window position"
+msgstr "Zapamti poslijednju poziciju prozora"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
+msgid "Remember last window size"
+msgstr "Zapamti poslijednju velicinu prozora"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
+msgid "Remember last Pan-n-Scan Zoom"
+msgstr "Zapamti poslijednji Pan-n-Scam zoom"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "\"Open DVD/BD\" behavior"
+msgstr "Otvori na \"DVD/BD\" način"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
+msgid "Prompt for location"
+msgstr "Ponudi lokaciju"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
+msgid "Always open the default location:"
+msgstr "Uvijek otvori pocetnu lokaciju:"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Preferred language for DVD Navigator and the external OGM Splitter"
+msgstr "Preferirani jezik za DVD Navigator i eksterni OGM Splittter"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
+msgid "Menu"
+msgstr "Izbornik"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
+msgid "Audio"
+msgstr "Audio."
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
+msgid "Subtitles"
+msgstr "Titlovi"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Additional settings"
+msgstr "Dodatne postavke"
+
+msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
+msgid "Allow closed captions in \"Line 21 Decoder\""
+msgstr "Dopustite zatvorene naslove u \"Line 21 Decoder\""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Audio"
+msgstr "Audio."
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume"
+msgstr "Jacina"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Min"
+msgstr "Minimalno"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Max"
+msgstr "Maximalno"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
+msgid "Balance"
+msgstr "Balans"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "L"
+msgstr "Lijevo"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "R"
+msgstr "Desno"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Playback"
+msgstr "Reprodukcija"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
+msgid "Play"
+msgstr "Pokreni"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
+msgid "Repeat forever"
+msgstr "Ponavljaj unedogled"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
+msgid "time(s)"
+msgstr "vrijeme (vremena)"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
+msgid "Rewind when done playing"
+msgstr "Vrati na pocetak kada izvodjenje zavrsi"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Output"
+msgstr "Izlaz."
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
+msgid "Auto-zoom:"
+msgstr "Automatsko zumiranje"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
+msgid "Auto fit factor:"
+msgstr "Automatsko podesavanje:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Default track preference"
+msgstr "Postavke glavnog zapisa"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Subtitles:"
+msgstr "Titlovi:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Audio:"
+msgstr "Audio:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
+msgid "Allow overriding external splitter choice"
+msgstr "Dozvoli zaobilaženje izbora vanjskih razdjelnika"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Open settings"
+msgstr "Otvori postavke"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
+msgid "Use worker thread to construct the filter graph"
+msgstr "Koristite valjanu nit za konstruiranje grafikona filtera"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
+msgid "Report pins which fail to render"
+msgstr "Prijavi pinove u neuspjelom renderiranju"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
+msgid "Auto-load audio files"
+msgstr "Automatski ucitaj audio datoteke"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
+msgid "Auto-load subtitles"
+msgstr "Automatski ucitaj titlove"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Control"
+msgstr "Control"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume step:"
+msgstr "Jacina"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Speed step:"
+msgstr "Brzina:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
+msgid "Override placement"
+msgstr "Preskoči mjesto"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
+msgid "Horizontal:"
+msgstr "Horizontalno:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
+msgid "Vertical:"
+msgstr "Vertikalno:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Delay interval"
+msgstr "Interval kasnjena"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Texture settings (open the video again to see the changes)"
+msgstr "Podešavanje tekstura (ponovo pokrenuti video)"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Sub pictures to buffer:"
+msgstr "Podslika u međuspremnik"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Maximum texture resolution:"
+msgstr "Maksimalna razlucivost:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Allow animation when buffering"
+msgstr "Dozvoli animaciju pri ucitavanju"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
+msgid "Round up to power of two"
+msgstr "Zaokružiti na dvostruko"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Warning"
+msgstr "Upozorenje"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgstr "Ako premostite i omogućite sliku na cijelom ekranu sa uključenim antiakiasing postavkama bilo gdje na grafičkoj kartici titlovi neće bolje izgledati, ali će Vam zasigurno opteretiti procesor."
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
+msgid "File extensions"
+msgstr "Nastavci datoteka"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
+msgid "Default"
+msgstr "Pocetni"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
+msgid "Set"
+msgstr "Podesi-"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
+msgid "Windows 8 or later"
+msgstr "Windows 8 ili novije"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
+msgid "&Set default programs"
+msgstr "& Namjesti zadane programe"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Association"
+msgstr "Asocijacija"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
+msgid "&Video"
+msgstr "& Video"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
+msgid "A&udio"
+msgstr "& Audio"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "A&ll"
+msgstr "A&ll"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
+msgid "With icons"
+msgstr "Sa ikonama"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
+msgid "&Modify"
+msgstr "& Izmjeni"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
+msgstr "Upravitelj streaminga u realnom vremenu (za rtsp://...URLadrese)"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
+msgid "RealMedia"
+msgstr "RealMedia"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
+msgid "QuickTime"
+msgstr "QuickTime"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
+msgid "DirectShow"
+msgstr "DirecrtShow"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
+msgid "Check file extension first"
+msgstr "Prvo provjerite nastavak datoteke"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Explorer Context Menu"
+msgstr "Kontekstni meni pretraživača"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
+msgid "Directory"
+msgstr "Mapa"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
+msgid "File(s)"
+msgstr "Datoteka(e)"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
+msgid "Autoplay"
+msgstr "Autoplay"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
+msgid "Video"
+msgstr "Video."
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
+msgid "Music"
+msgstr "Glazba"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
+msgid "DVD"
+msgstr "DVD"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
+msgid "Audio CD"
+msgstr "Audio CD"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Jump distances (small, medium, large in ms)"
+msgstr "Jump distances (small, medium, large in ms)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
+msgid "Default"
+msgstr "Pocetni."
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
+msgid "Fast seek (on keyframe)"
+msgstr "Brzo trazenje (na kljucnom okviru)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
+msgid "Show chapter marks in seek bar"
+msgstr "Prikazi oznake poglavlja u trazilici"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
+msgid "Display \"Now Playing\" information in Skype's mood message"
+msgstr "Prikazi \"Now playing\" informacije u poruci raspolozenja na Skypeu"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
+msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
+msgstr "Sprijeci minimiziranje playera kada je u fullscreen modu na sekundarnom monitoru"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
+msgid "Use Windows 7 Taskbar features"
+msgstr "Koristi znacajke Windows7 taskbara"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
+msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "Otvori iducu/prethodnu datoteku u folderu pri naredbi \"Odi naprijed/nazad\" kada je samo jedna stavka u playlisti"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
+msgid "Use time tooltip:"
+msgstr "Koristi vremenski tooltip:"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "OSD font:"
+msgstr "OSD font:"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Enable Logitech LCD support (experimental)"
+msgstr "Omoguci Logitech LCD podrsku (eksperimentalno)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr "Automatski sarij pokazivac misa tijekom izvodjenja sa otvorenim prozorom"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
+msgid "Add Filter..."
+msgstr "Dodaj filter..."
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
+msgid "Remove"
+msgstr "Ukloni"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
+msgid "Prefer"
+msgstr "Omiljeno"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
+msgid "Block"
+msgstr "Blokiraj"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
+msgid "Set merit:"
+msgstr "Set merit:"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
+msgid "Up"
+msgstr "Gore"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
+msgid "Down"
+msgstr "Dolje"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
+msgid "Add Media Type..."
+msgstr "Dodaj vrstu medija"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
+msgid "Add Sub Type..."
+msgstr "Dodaj podtip"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
+msgid "Delete"
+msgstr "Obrisi"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
+msgid "Reset List"
+msgstr "Resetiraj listu"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Type:"
+msgstr "Vrsta:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Size:"
+msgstr "Velicina:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Media length:"
+msgstr "Trajanje:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Video size:"
+msgstr "Velicina videa:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Created:"
+msgstr "Stvoren:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Clip:"
+msgstr "Isjecak:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Author:"
+msgstr "Autor:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Copyright:"
+msgstr "Autorsko pravo:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Rating:"
+msgstr "Rejting:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Location:"
+msgstr "Lokacija:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Description:"
+msgstr "Opis:"
+
+msgctxt "IDD_FAVADD_CAPTION"
+msgid "Add Favorite"
+msgstr "Dodaj u favorite"
+
+msgctxt "IDD_FAVADD_IDC_STATIC"
+msgid "Choose a name for your shortcut:"
+msgstr "Izaberi ime prečice:"
+
+msgctxt "IDD_FAVADD_IDC_CHECK1"
+msgid "Remember position"
+msgstr "Zapamti poziciju"
+
+msgctxt "IDD_FAVADD_IDCANCEL"
+msgid "Cancel"
+msgstr "Otkazi."
+
+msgctxt "IDD_FAVADD_IDOK"
+msgid "OK"
+msgstr "U redu."
+
+msgctxt "IDD_FAVADD_IDC_CHECK2"
+msgid "Relative drive"
+msgstr "Relative drive"
+
+msgctxt "IDD_FAVORGANIZE_CAPTION"
+msgid "Organize Favorites"
+msgstr "Organiziraj favorite"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
+msgid "Rename"
+msgstr "Preimenuj"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
+msgid "Move Up"
+msgstr "Pomakni gore"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
+msgid "Move Down"
+msgstr "Pomakni dolje"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
+msgid "Delete"
+msgstr "Obrisi,"
+
+msgctxt "IDD_FAVORGANIZE_IDOK"
+msgid "OK"
+msgstr "U redu."
+
+msgctxt "IDD_PNSPRESET_DLG_CAPTION"
+msgid "Pan&Scan Presets"
+msgstr "Pan&Scan Postavke"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
+msgid "New"
+msgstr "Novo"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
+msgid "Delete"
+msgstr "Obrisi."
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
+msgid "Up"
+msgstr "Gore"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
+msgid "Down"
+msgstr "Dolje"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
+msgid "&Set"
+msgstr "&namjesti"
+
+msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
+msgid "&Cancel"
+msgstr "&otkazi"
+
+msgctxt "IDD_PNSPRESET_DLG_IDOK"
+msgid "&Save"
+msgstr "&sacuvaj"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Pos: 0.0 -> 1.0"
+msgstr "Pos: 0.0 -> 1.0"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Zoom: 0.2 -> 3.0"
+msgstr "Zoom: 0.2 -> 3.0"
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
+msgid "Global Media Keys"
+msgstr "Global Media Keys"
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
+msgid "Select All"
+msgstr "Odaberi sve"
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
+msgid "Reset Selected"
+msgstr "Resetiraj odabrano"
+
+msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
+msgid "Warning"
+msgstr "Upozorenje."
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
+msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
+msgstr "MPC-HC ne moze pokrenuti neke dijelove, nemate potrebne codece ili filtere instalirane na vase racunalo"
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
+msgid "The following pin(s) failed to find a connectable filter:"
+msgstr "The following pin(s) failed to find a connectable filter:"
+
+msgctxt "IDD_MEDIATYPES_DLG_IDOK"
+msgid "Close"
+msgstr "Zatvori"
+
+msgctxt "IDD_SAVE_DLG_CAPTION"
+msgid "Saving..."
+msgstr "Spremam..."
+
+msgctxt "IDD_SAVE_DLG_IDCANCEL"
+msgid "Cancel"
+msgstr "Otkazi."
+
+msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Encoding:"
+msgstr "Kodiram:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Encoding:"
+msgstr "Kodiram:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "Delay:"
+msgstr "Kasnjenje:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Thumbnails:"
+msgstr "Thumbnailovi:"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "rows"
+msgstr "redovi"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "columns"
+msgstr "stupovi"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Image width:"
+msgstr "Sirina slike:"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "pixels"
+msgstr "Pikseli:"
+
+msgctxt "IDD_ADDREGFILTER_CAPTION"
+msgid "Select Filter"
+msgstr "Odaberi filter"
+
+msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Trazi...."
+
+msgctxt "IDD_ADDREGFILTER_IDOK"
+msgid "OK"
+msgstr "U redu"
+
+msgctxt "IDD_ADDREGFILTER_IDCANCEL"
+msgid "Cancel"
+msgstr "Otkazi"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Font"
+msgstr "Tip slova"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
+msgid "Font"
+msgstr "Tip slova"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Spacing"
+msgstr "Razmak"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Angle (z,°)"
+msgstr "Kut (z,°)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Scale (x,%)"
+msgstr "Razmjer (x, %)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Scale (y,%)"
+msgstr "Razmjer (y, %)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Border Style"
+msgstr "Granicni stil"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
+msgid "Outline"
+msgstr "obris"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
+msgid "Opaque box"
+msgstr "Neprozirnost"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Width"
+msgstr "Sirina"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Shadow"
+msgstr "Sjena"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Screen Alignment && Margins"
+msgstr "Podesavanje monitora & & Margine"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Left"
+msgstr "Lijevo"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Right"
+msgstr "Desno"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Top"
+msgstr "Vrh"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Bottom"
+msgstr "Dno"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
+msgid "Position subtitles relative to the video frame"
+msgstr "Pozicija titlova u odnosu na video okvir"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Colors && Transparency"
+msgstr "Boja && Prozirnost"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "0%"
+msgstr "0%"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "100%"
+msgstr "100%"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Primary"
+msgstr "Primaran"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Secondary"
+msgstr "Sekundaran"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Outline"
+msgstr "Kontura, obris"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
+msgid "Link alpha channels"
+msgstr "Povezi glavne kanale"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
+msgstr "Ako zelite koristiti samostalne verzije ovih filtera ili neku drugu zamjenu, onemogucite ih ovdje"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Source Filters"
+msgstr "Izvor (filteri)"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Transform Filters"
+msgstr "Transformiraj filtere"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Internal LAV Filters settings"
+msgstr "Interne postavke LAV filtera"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
+msgid "Splitter"
+msgstr "Djelitelj"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
+msgid "Video decoder"
+msgstr "video dekoder"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
+msgid "Audio decoder"
+msgstr "Audio dekoder"
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
+msgid "Internal:"
+msgstr "Unutrasnje:"
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
+msgid "External:"
+msgstr "Vanjsko:"
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "Browse..."
+msgstr "Trazi..."
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DirectShow Video"
+msgstr "DirectShow video"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "RealMedia Video"
+msgstr "RealMedia video"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "QuickTime Video"
+msgstr "QuickTime video"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Audio Renderer"
+msgstr "Audio Renderer"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Surface:"
+msgstr "Povrsina:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Resizer:"
+msgstr "Resizer:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
+msgid "Select D3D9 Render Device"
+msgstr "Select D3D9 Render Device"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
+msgid "Reinitialize when changing display"
+msgstr "Ponovno pocmi pri promjeni prikaza"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "D3D Fullscreen"
+msgstr "D3D Fullscreen"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Alternative VSync"
+msgstr "Alternativni VSync"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 Mixer Mode"
+msgstr "VMR-9 Mixer Mode"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
+msgid "YUV Mixing"
+msgstr "YUV miksanje"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
+msgid "EVR Buffers:"
+msgstr "EVR buffers:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DXVA"
+msgstr "DxVA"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Subtitles *"
+msgstr "Titlovi *"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Screenshot"
+msgstr "Screenshot"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Shaders"
+msgstr "Shaders"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Rotation"
+msgstr "Rotacija"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
+msgstr "* External filters (such as VSFilter) can display subtitles on all renderers."
+
+msgctxt "IDD_AUTH_DLG_CAPTION"
+msgid "Authentication needed"
+msgstr "Potrebna autenticnost"
+
+msgctxt "IDD_AUTH_DLG_IDOK"
+msgid "OK"
+msgstr "U redu"
+
+msgctxt "IDD_AUTH_DLG_IDCANCEL"
+msgid "Cancel"
+msgstr "Otkazi"
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Restricted area"
+msgstr "Ograniceno podrucje"
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Username:"
+msgstr "korisnicko ime:"
+
+msgctxt "IDD_AUTH_DLG_IDC_STATIC"
+msgid "Password:"
+msgstr "Lozinka:"
+
+msgctxt "IDD_AUTH_DLG_IDC_CHECK1"
+msgid "Remember my password"
+msgstr "Zapamti moju lozinku"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
+msgid "Listen on port:"
+msgstr "Slusaj na portu:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
+msgid "Launch in web browser..."
+msgstr "Pokreni u web pregledniku:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
+msgid "Enable compression"
+msgstr "Omoguci kompresiju"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
+msgid "Allow access from localhost only"
+msgstr "Dozvoli pristup samo lokalnom hostu"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
+msgid "Print debug information"
+msgstr "Printaj informacije o uklonjenim neispravnostima"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
+msgid "Serve pages from:"
+msgstr "Usluzi stranice iz:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Trazi..."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
+msgid "Deploy..."
+msgstr "Razvij..."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "Default page:"
+msgstr "Pocetna stranica:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
+msgstr "CGI handlers: (.ext1=path1;.ext2=path2;...)"
+
+msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
+msgid "Subtitles available online"
+msgstr "Titlovi dostupni online"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download && Open"
+msgstr "Downloadaj && Otvori"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
+msgid "Replace currently loaded subtitles"
+msgstr "Zamijeni trenutno ucitane titlove"
+
+msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
+msgid "Save As..."
+msgstr "Spremi kao..."
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Color controls (for VMR-9, EVR and madVR)"
+msgstr "Kontrola boja (za VMR-9, EVR i madVR)"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Brightness"
+msgstr "Svjetlost"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Contrast"
+msgstr "Kontrast"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Hue"
+msgstr "Nijansa"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Saturation"
+msgstr "Saturacija"
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET"
+msgid "Reset"
+msgstr "Resetiraj"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Update check"
+msgstr "Provjeri update"
+
+msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
+msgid "Enable automatic update check"
+msgstr "Omoguci automatsku provjeru updatea"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
+msgid "Delay between each check:"
+msgstr "Razmak izmedju svake provjere:"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
+msgid "day(s)"
+msgstr "dan(i)"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Settings management"
+msgstr "Upravljanje postavkama"
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
+msgid "Reset"
+msgstr "Resetiraj"
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
+msgid "Export"
+msgstr "Izvezi"
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
+msgid "Export keys"
+msgstr "Export keys"
+
+msgctxt "IDD_TUNER_SCAN_CAPTION"
+msgid "Tuner scan"
+msgstr "Pretraga tjunera"
+
+msgctxt "IDD_TUNER_SCAN_ID_START"
+msgid "Start"
+msgstr "Zapocni"
+
+msgctxt "IDD_TUNER_SCAN_IDCANCEL"
+msgid "Cancel"
+msgstr "Otkazi"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Freq. Start"
+msgstr "Freq. Start"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Bandwidth"
+msgstr "Propusnost"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Freq. End"
+msgstr "Freq. End"
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
+msgid "Ignore encrypted channels"
+msgstr "Ignoriraj kodirane kanale"
+
+msgctxt "IDD_TUNER_SCAN_ID_SAVE"
+msgid "Save"
+msgstr "Spremi"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "S"
+msgstr "S"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Q"
+msgstr "Q"
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
+msgid "Use an offset"
+msgstr "Use an offset"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Default Device"
+msgstr "pocetni uredjaj"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
+msgid "Analog"
+msgstr "Analogni"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
+msgid "Digital"
+msgstr "Digitalni"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Analog settings"
+msgstr "Postavke analognog"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
+msgid "Video"
+msgstr "Video"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
+msgid "Audio"
+msgstr "Audio"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
+msgid "Country"
+msgstr "Zemlja"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Digital settings (BDA)"
+msgstr "Postavke digitalnog (BDA)"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
+msgid "Network Provider"
+msgstr "davatelj mrezne usluge"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
+msgid "Tuner"
+msgstr "Tuner"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
+msgid "Receiver"
+msgstr "Prijamnik"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
+msgid "Channel switching approach:"
+msgstr "Pristup prebacivanju kanala"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
+msgid "Rebuild filter graph"
+msgstr "Obnovi graficki filter"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
+msgid "Stop filter graph"
+msgstr "Zaustavi graficki filter"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgid "Sync video to display"
+msgstr "Sinkroniziraj video za prikaz"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgid "Frequency adjustment:"
+msgstr "Podesavanje frekvencije:"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgid "Sync display to video"
+msgstr "Sinkroniziraj prikaz videa"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgid "Frequency adjustment:"
+msgstr "Podesavanje frekvencije:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgid "lines"
+msgstr "Linije"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgid "columns"
+msgstr "stupovi"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgid "Present at nearest VSync"
+msgstr "Present at nearest VSync"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgid "Target sync offset:"
+msgstr "Target sync offset:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgid "Control limits:"
+msgstr "Kontroliraj ogranicenja:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgid "+/-"
+msgstr "+/-"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
+msgid "Changes take effect after the playback has been closed and restarted."
+msgstr "Promjene ce stupiti na snagu nakon sto se playback zatvori i ponovno pokrene"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
+msgid "Launch files in fullscreen"
+msgstr "Pokreni datoteke u fullscreen modu"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
+msgid "Hide controls in fullscreen"
+msgstr "Sakrij kontrole u fullscreen modu"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
+msgid "Hide docked panels"
+msgstr "Hide docked panels"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
+msgid "Exit fullscreen at the end of playback"
+msgstr "Izadji iz fullsrreena na kraju izvodjenja"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "Fullscreen monitor"
+msgstr "Fullscreen monitor"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
+msgid "Use autochange fullscreen monitor mode"
+msgstr "Uporabi automatsku promjenu načina rada monitora u punom prikazu slike"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
+msgid "Add"
+msgstr "Dodaj"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
+msgid "Del"
+msgstr "Obrisi"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
+msgid "Up"
+msgstr "Gore"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
+msgid "Down"
+msgstr "Dolje"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
+msgid "Apply default monitor mode on fullscreen exit"
+msgstr "Primjeni pocetne postavke monitora kad izadjes iz fullscreena"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
+msgid "Restore resolution on program exit"
+msgstr "Vrati rezoluciju prilikom izlaska iz programa"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "Delay"
+msgstr "Kasnjenje"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
+msgid "s"
+msgstr "s"
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
+msgid "Info"
+msgstr "Info"
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
+msgid "Scan"
+msgstr "Scan"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
+msgid "Prefer forced and/or default subtitles tracks"
+msgstr "Prefer forced and/or default subtitles tracks"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
+msgid "Prefer external subtitles over embedded subtitles"
+msgstr "Daj prednost vanjskim titlovima"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
+msgid "Ignore embedded subtitles"
+msgstr "Ignoriraj ugradjene titlove"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Autoload paths"
+msgstr "Automatski ucitaj putanju"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
+msgid "Reset"
+msgstr "Resetiraj"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Online database"
+msgstr "Online baza podataka"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Base URL of the online subtitle database:"
+msgstr "Osnovni URL online baze titlova"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
+msgid "Test"
+msgstr "test"
+
+msgctxt "IDD_UPDATE_DIALOG_CAPTION"
+msgid "Update Checker"
+msgstr "Apdejtaj Checker"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
+msgid "&Download now"
+msgstr "& Downloadaj sada"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
+msgid "Remind me &later"
+msgstr "Podsjeti me kasnije"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
+msgid "&Ignore this update"
+msgstr "Ignoriraj ovaj update"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shaders contain special effects which can be added to the video rendering process."
+msgstr "Nijansiranje zahtijeva posebne efekte koji ne mogu biti dodani izvodjenju videa"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
+msgid "Add shader file"
+msgstr "Dodaj datoteku nijansi"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
+msgid "Remove"
+msgstr "Ukloni"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
+msgid "Add to pre-resize"
+msgstr "Dodaj prije promjene velicine"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
+msgid "Add to post-resize"
+msgstr "Dodaj poslije promjene velicine"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shader presets"
+msgstr "Tipovi sjene"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
+msgid "Load"
+msgstr "Ucitaj"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
+msgid "Save"
+msgstr "Spremi"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
+msgid "Delete"
+msgstr "Obrisi"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active pre-resize shaders"
+msgstr "Aktivne sjene prije promjene velicine"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active post-resize shaders"
+msgstr "Aktivne sjene poslije promjene velicine"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
+msgid "Debug Shaders"
+msgstr "Otkloni neispravne sjene"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
+msgid "Debug Information"
+msgstr "Informacije o otklanjanju neispravnosti"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
+msgid "PS 2.0"
+msgstr "PS 2.0"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
+msgid "PS 2.0b"
+msgstr "PS 2.0b"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
+msgid "PS 2.0a"
+msgstr "PS 2.0a"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
+msgid "PS 3.0"
+msgstr "PS 3.0"
+

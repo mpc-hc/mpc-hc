@@ -41,6 +41,9 @@
     <ResourceCompile Include="mpc-hc.he.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.hr.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
     <ResourceCompile Include="mpc-hc.hu.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

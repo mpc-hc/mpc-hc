@@ -11,16 +11,17 @@ Legend:
 next version - not released yet
 ===============================
 + Added support for XySubFilter, only compatible with embedded subtitles for now
++ New option to auto-hide docked panels together with toolbars
++ Support pixel shader presets (with shortcuts and command line options)
++ Show more descriptive window title in the capture mode
++ Ability to add all media files in folder from playlist panel context menu
++ New Croatian translation
 + Ticket #1556, Ability to move the player window by dragging the video area during DVD playback
 + Ticket #2251, Show hidden main menu with Alt key
 + Ticket #3235, Option to delay playback when auto-change fullscreen monitor mode feature is used
 + Ticket #3284, Option to auto-hide mouse pointer in windowed mode during playback
 + Ticket #3379, "Left Up" mouse keybinding now allows to move the player window by dragging the video area
 + Ticket #3614, Do medium jumps when pressing mouse navigation buttons on the seekbar
-+ New option to auto-hide docked panels together with toolbars
-+ Support pixel shader presets (with shortcuts and command line options)
-+ Show more descriptive window title in the capture mode
-+ Ability to add all media files in folder from playlist panel context menu
 * Optimized subtitle renderer:
     - performance has been greatly improved both for subtitle parsing and rendering (often 5 times faster or more)
     - some subtitles which might have been missing before will now be displayed

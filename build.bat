@@ -273,8 +273,8 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
- "Chinese Traditional" "Czech" "Dutch" "English (British)" "French" "German"
- "Greek" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean" "Polish"
+ "Chinese Traditional" "Croatian" "Czech" "Dutch" "English (British)" "French"
+ "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean" "Polish"
  "Portuguese (Brazil)" "Romanian" "Russian" "Slovak" "Slovenian" "Spanish"
  "Swedish" "Turkish" "Ukrainian"
 ) DO (

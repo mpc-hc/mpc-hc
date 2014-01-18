@@ -65,6 +65,10 @@ fr.WinVersionTooLowError=[name] nécessite Windows XP Service Pack 3 ou plus ré
 he.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 he.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
+; Croatian
+hr.WelcomeLabel2=Ovo ce instalirati [name] na vase racunalo%n%nPreporucljivo je da zatvorite sve otvorene aplikacije prije nego nastavite
+hr.WinVersionTooLowError=[name] zahtijeva Windows XP Service Pack 3 ili noviju verziju da bi se pokrenuo.
+
 ; Hungarian
 hu.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 hu.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
@@ -324,6 +328,25 @@ he.tsk_ResetSettings=אפס הגדרות
 he.types_DefaultInstallation=התקנת ברירת מחדל
 he.types_CustomInstallation=התקנה מותאמת אישית
 he.ViewChangelog=הצג רשימת עדכונים
+
+; Croatian
+hr.langid=00001050
+hr.comp_mpciconlib=Ikona Pojmovnika
+hr.comp_mpcresources=Prijevodi
+hr.msg_DeleteSettings=Zelite li obrisati i MPC-HC postavke?%n%nAko planirate ponovno instalirati MPC-HC, ne morate ih brisati.
+hr.msg_SetupIsRunningWarning=MPC-HC setup je vec pokrenut!
+#if defined(sse_required)
+hr.msg_simd_sse=Ova verzija MPC-HC zahtijeva CPU sa SSE podrskom.%n%nVas CPU nema te mogucnosti
+#elif defined(sse2_required)
+hr.msg_simd_sse2=Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrskom.%n%nVas CPU nema te mogucnosti
+#endif
+hr.tsk_AllUsers=Za sve korisnike
+hr.tsk_CurrentUser=Samo za trenutnog korisnika
+hr.tsk_Other=Ostali zadaci:
+hr.tsk_ResetSettings=Resetiraj postavke
+hr.types_DefaultInstallation=Pocetna instalacija
+hr.types_CustomInstallation=Prilagodjena instalacija
+hr.ViewChangelog=Pogledaj Log promjena
 
 ; Hungarian
 hu.langid=00001038

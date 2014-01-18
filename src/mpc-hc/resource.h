@@ -703,6 +703,7 @@
 #define ID_LANGUAGE_ROMANIAN            32812
 #define ID_LANGUAGE_ENGLISH_GB          32813
 #define ID_LANGUAGE_SLOVENIAN           32814
+#define ID_LANGUAGE_CROATIAN            32815
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
 #define IDS_AG_NONE                     32832
