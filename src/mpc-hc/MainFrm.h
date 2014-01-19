@@ -991,6 +991,12 @@ protected:
     virtual void OnHideMenuBar() override {
         m_bShowingFloatingMenubar = false;
     };
+    virtual void SetMenuBarVisibility(DWORD dwStyle) override {
+        __super::SetMenuBarVisibility(dwStyle);
+        if (dwStyle & AFX_MBV_KEEPVISIBLE) {
+            m_bShowingFloatingMenubar = false;
+        }
+    };
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
