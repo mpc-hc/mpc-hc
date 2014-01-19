@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-01-16 09:30+0000\n"
+"PO-Revision-Date: 2014-01-19 20:03+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +198,7 @@ msgstr "このプログラムはフリーウェアであり、GNU 一般公衆�
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Japanese translation made by Anonymous@2ch"
+msgstr "日本語訳は Transifex の Japanese 翻訳チームによって作成されています"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -334,7 +334,7 @@ msgstr "最近使った PnS 拡大率を記憶"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "\"DVD/BD を開く\" の挙動"
+msgstr "「DVD/BD を開く」 の挙動"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -366,7 +366,7 @@ msgstr "追加設定"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "\"Line 21 Decoder\" でクローズド キャプションを許可する"
+msgstr "「Line 21 Decoder」 でクローズド キャプションを許可する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -538,7 +538,7 @@ msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "ビデオカードの設定でフルスクリーン時のアンチ エイリアシングを有効にした場合、CPU 負荷が大きくなるだけで字幕は少しも綺麗にならないでしょう。"
+msgstr "ビデオカードの設定でフルスクリーン時のアンチエイリアスを有効にした場合、CPU 負荷が大きくなるだけで字幕は少しも綺麗にならないでしょう。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -654,7 +654,7 @@ msgstr "シークバーにチャプターマークを表示する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "現在再生中のファイル情報を Skype ムード メッセージに表示する"
+msgstr "「現在再生中」 のファイル情報を Skype のムード メッセージに表示する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -666,7 +666,7 @@ msgstr "Windows 7 のタスクバーを使う"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "プレイリストに1つの項目だけが残っている場合、 \"前へ/次へ\" でフォルダ内の前/次のファイルを開く"
+msgstr "プレイリストに1つの項目だけが残っている場合、 「前へ/次へ」 でフォルダ内の前/次のファイルを開く"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -1574,7 +1574,7 @@ msgstr "この更新を無視する(&I)"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr "シェーダは、ビデオレンダリングのプロセスに特殊効果を加えることができます。"
+msgstr "シェーダは、ビデオ レンダリングのプロセスに特殊効果を加えることができます。"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"

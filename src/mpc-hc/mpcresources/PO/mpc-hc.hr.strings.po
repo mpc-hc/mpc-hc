@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
-"PO-Revision-Date: 2014-01-17 18:29+0000\n"
+"PO-Revision-Date: 2014-01-19 13:32+0000\n"
 "Last-Translator: Ico2005 <vukasinac@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "Svojstva"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "& Zadani stil"
+msgstr "&Zadani stil"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -383,23 +383,23 @@ msgstr "&Spremi kao"
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
-msgstr "Sortiraj po & naljepnici"
+msgstr "Sortiraj po &naljepnici"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Sortiraj po & putanji"
+msgstr "Sortiraj po &putanji"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "Nasumicno"
+msgstr "N&asumicno"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "Restore"
+msgstr "R&estore"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
-msgstr "& Separator"
+msgstr "&Separator"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
@@ -407,11 +407,11 @@ msgstr "&Obrisi"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "Dupliraj"
+msgstr "D&upliraj"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
-msgstr "Resetiraj"
+msgstr "&Resetiraj"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
@@ -435,7 +435,7 @@ msgstr "Player"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD/OGM"
-msgstr "Playback: DVD/OGM"
+msgstr "Playback:: DVD/OGM"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -451,7 +451,7 @@ msgstr "Tweakovi"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Interni filteri: Audio Switcher"
+msgstr "Interni filteri::Audio Switcher"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -527,11 +527,11 @@ msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
-msgstr "Player: Kljucevi"
+msgstr "Player::Kljucevi"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Titlovi: Pocetni stil"
+msgstr "Titlovi::Pocetni stil"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -539,19 +539,19 @@ msgstr "Interni filteri"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
-msgstr "Player:Logo"
+msgstr "Player::Logo"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
-msgstr "Playback:Output"
+msgstr "Playback::Output"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr "Player:Web sucelje"
+msgstr "Player::Web sucelje"
 
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
-msgstr "Titlovi:Databaza"
+msgstr "Titlovi::Baza podataka"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -567,7 +567,7 @@ msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
-msgstr "Playback:Uhvati (zaustavi)"
+msgstr "Playback::Uhvati (zaustavi)"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
@@ -575,7 +575,7 @@ msgstr "Playback::Sync Renderer Settings"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Playback:Fullscreen"
+msgstr "Playback::Fullscreen"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
