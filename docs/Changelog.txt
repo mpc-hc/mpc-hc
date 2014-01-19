@@ -53,6 +53,8 @@ next version - not released yet
 ! DVB: It was sometimes impossible to restart playback after it was stopped
 ! Ticket #720/#1807/#2625/#3161 Improve stability in analog capture mode when using EVR-CP/Sync renderer
 ! Ticket #1300/#2081, Toolbars auto-hiding now always works properly in multi-display configurations
+! Ticket #2460, Some subtitle entries were rendered twice depending on how entries overlapped. This led
+  to incorrect transparency
 ! Ticket #2461, ASS reset style tag (\r) broke "Position subtitle relative to the video frame"
 ! Ticket #3243, Fix a crash when starting MPC-HC with the web internal enabled and certain regional settings
 ! Ticket #3479, Improve the behavior of MPC-HC when some security tools prevent it
