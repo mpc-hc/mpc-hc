@@ -308,7 +308,10 @@ BOOL CTextFile::ReadString(CStringA& str)
             }
 
             if (!bLineEndFound) {
-                fEOF = bLineEndFound = FillBuffer();
+                bLineEndFound = FillBuffer();
+                if (!nCharsRead) {
+                    fEOF = bLineEndFound;
+                }
             }
         } while (!bLineEndFound);
     } else if (m_encoding == UTF8) {
@@ -377,7 +380,10 @@ BOOL CTextFile::ReadString(CStringA& str)
                 str.Append(abuffer, nCharsRead);
 
                 if (!bLineEndFound) {
-                    fEOF = bLineEndFound = FillBuffer();
+                    bLineEndFound = FillBuffer();
+                    if (!nCharsRead) {
+                        fEOF = bLineEndFound;
+                    }
                 }
             } else {
                 // Switch to text and read again
@@ -429,7 +435,10 @@ BOOL CTextFile::ReadString(CStringA& str)
             }
 
             if (!bLineEndFound) {
-                fEOF = bLineEndFound = FillBuffer();
+                bLineEndFound = FillBuffer();
+                if (!nCharsRead) {
+                    fEOF = bLineEndFound;
+                }
             }
         } while (!bLineEndFound);
     } else if (m_encoding == BE16) {
@@ -459,7 +468,10 @@ BOOL CTextFile::ReadString(CStringA& str)
             str.Append(abuffer, nCharsRead);
 
             if (!bLineEndFound) {
-                fEOF = bLineEndFound = FillBuffer();
+                bLineEndFound = FillBuffer();
+                if (!nCharsRead) {
+                    fEOF = bLineEndFound;
+                }
             }
         } while (!bLineEndFound);
     }
@@ -513,7 +525,10 @@ BOOL CTextFile::ReadString(CStringW& str)
             }
 
             if (!bLineEndFound) {
-                fEOF = bLineEndFound = FillBuffer();
+                bLineEndFound = FillBuffer();
+                if (!nCharsRead) {
+                    fEOF = bLineEndFound;
+                }
             }
         } while (!bLineEndFound);
     } else if (m_encoding == UTF8) {
@@ -582,7 +597,10 @@ BOOL CTextFile::ReadString(CStringW& str)
                 str.Append(m_wbuffer, nCharsRead);
 
                 if (!bLineEndFound) {
-                    fEOF = bLineEndFound = FillBuffer();
+                    bLineEndFound = FillBuffer();
+                    if (!nCharsRead) {
+                        fEOF = bLineEndFound;
+                    }
                 }
             } else {
                 // Switch to text and read again
@@ -629,7 +647,10 @@ BOOL CTextFile::ReadString(CStringW& str)
             }
 
             if (!bLineEndFound) {
-                fEOF = bLineEndFound = FillBuffer();
+                bLineEndFound = FillBuffer();
+                if (!nCharsRead) {
+                    fEOF = bLineEndFound;
+                }
             }
         } while (!bLineEndFound);
     } else if (m_encoding == BE16) {
@@ -653,7 +674,10 @@ BOOL CTextFile::ReadString(CStringW& str)
             str.Append(m_wbuffer, nCharsRead);
 
             if (!bLineEndFound) {
-                fEOF = bLineEndFound = FillBuffer();
+                bLineEndFound = FillBuffer();
+                if (!nCharsRead) {
+                    fEOF = bLineEndFound;
+                }
             }
         } while (!bLineEndFound);
     }
