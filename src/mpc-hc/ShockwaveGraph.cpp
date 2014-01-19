@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -81,6 +81,7 @@ STDMETHODIMP CShockwaveGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
 {
     try {
         m_wndDestFrame.LoadMovie(0, CString(lpcwstrFile));
+        m_wndDestFrame.Stop();
     } catch (CException* e) {
         e->Delete();
         return E_FAIL;
