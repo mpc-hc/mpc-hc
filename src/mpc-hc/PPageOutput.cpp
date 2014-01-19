@@ -536,6 +536,17 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+            GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
+
+            if (!SysVersion::IsVistaOrLater()) {
+                m_iDSDXVASupport.SetIcon(m_tick);
+            }
+            if (m_iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
+                m_iDSShaderSupport.SetIcon(m_tick);
+                m_iDSRotationSupport.SetIcon(m_tick);
+            }
+            m_iDSSubtitleSupport.SetIcon(m_tick);
+            m_iDSSaveImageSupport.SetIcon(m_tick);
 
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR9REN), GetDlgItem(IDC_VIDRND_COMBO));
             break;
