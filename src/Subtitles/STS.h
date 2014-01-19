@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -191,6 +191,7 @@ public:
 
     STSStyle* GetStyle(int i);
     bool GetStyle(int i, STSStyle& stss);
+    bool GetStyle(CString styleName, STSStyle& stss);
     int GetCharSet(int i);
     bool IsEntryUnicode(int i);
     void ConvertUnicode(int i, bool fUnicode);

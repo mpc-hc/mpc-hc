@@ -2406,11 +2406,11 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                                    : m_defaultWrapStyle;
             }
             break;
-            case SSA_r: {
-                STSStyle* val;
-                style = (!tag.params[0].IsEmpty() && m_styles.Lookup(tag.params[0], val) && val) ? *val : org;
-            }
-            break;
+            case SSA_r:
+                if (tag.params[0].IsEmpty() || !GetStyle(tag.params[0], style)) {
+                    style = org;
+                }
+                break;
             case SSA_shad:
                 if (!tag.paramsReal.IsEmpty()) {
                     double nx = CalcAnimation(tag.paramsReal[0], style.shadowDepthX, fAnimate);

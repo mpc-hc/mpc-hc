@@ -2385,6 +2385,27 @@ bool CSimpleTextSubtitle::GetStyle(int i, STSStyle& stss)
     return true;
 }
 
+bool CSimpleTextSubtitle::GetStyle(CString styleName, STSStyle& stss)
+{
+    CString def = _T("Default");
+
+    STSStyle* style = nullptr;
+    m_styles.Lookup(styleName, style);
+    if (!style) {
+        return false;
+    }
+
+    stss = *style;
+
+    STSStyle* defstyle = nullptr;
+    m_styles.Lookup(def, defstyle);
+    if (defstyle && stss.relativeTo == 2) {
+        stss.relativeTo = defstyle->relativeTo;
+    }
+
+    return true;
+}
+
 int CSimpleTextSubtitle::GetCharSet(int i)
 {
     STSStyle stss;
