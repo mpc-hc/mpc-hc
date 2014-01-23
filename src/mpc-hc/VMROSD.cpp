@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -375,24 +375,37 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 
     if (m_pVMB || m_pMFVMB) {
         if (m_bCursorMoving) {
+            bRet = true;
             UpdateSeekBarPos(point);
             Invalidate();
-        } else if (!m_bSeekBarVisible && m_bShowSeekBar && m_rectSeekBar.PtInRect(point)) {
-            m_bSeekBarVisible = true;
-            Invalidate();
-        } else if (m_bSeekBarVisible && !m_rectSeekBar.PtInRect(point)) {
-            m_bSeekBarVisible = false;
-            // Add new timer for removing any messages
-            if (m_pWnd) {
-                m_pWnd->KillTimer((UINT_PTR)this);
-                m_pWnd->SetTimer((UINT_PTR)this, 1000, TimerFunc);
+        } else if (m_bShowSeekBar && m_rectSeekBar.PtInRect(point)) {
+            bRet = true;
+            if (!m_bSeekBarVisible) {
+                m_bSeekBarVisible = true;
+                Invalidate();
             }
-            Invalidate();
+        } else if (m_bSeekBarVisible) {
+            OnMouseLeave();
         }
-        bRet = !!m_rectSeekBar.PtInRect(point);
     }
 
     return bRet;
+}
+
+void CVMROSD::OnMouseLeave()
+{
+    const bool bHideSeekbar = (m_pVMB || m_pMFVMB) && m_bSeekBarVisible;
+    m_bCursorMoving = false;
+    m_bSeekBarVisible = false;
+
+    if (bHideSeekbar) {
+        // Add new timer for removing any messages
+        if (m_pWnd) {
+            m_pWnd->KillTimer((UINT_PTR)this);
+            m_pWnd->SetTimer((UINT_PTR)this, 1000, TimerFunc);
+        }
+        Invalidate();
+    }
 }
 
 bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
@@ -402,6 +415,10 @@ bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
         if (m_rectCursor.PtInRect(point)) {
             m_bCursorMoving = true;
             bRet = true;
+            if (m_pWnd) {
+                ASSERT(dynamic_cast<CMouseWnd*>(m_pWnd));
+                m_pWnd->SetCapture();
+            }
         } else if (m_rectSeekBar.PtInRect(point)) {
             bRet = true;
             UpdateSeekBarPos(point);

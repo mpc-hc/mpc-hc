@@ -492,6 +492,9 @@ void CMouse::InternalOnMouseLeave()
     StopMouseHider();
     m_bTrackingMouseLeave = false;
     m_cursor = Cursor::ARROW;
+    if (m_bD3DFS) {
+        m_pMainFrame->m_OSD.OnMouseLeave();
+    }
 }
 
 void CMouse::InternalOnDestroy()

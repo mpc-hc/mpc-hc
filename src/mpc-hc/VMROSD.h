@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -73,6 +73,7 @@ public:
 
     void SetSize(const CRect& wndRect, const CRect& videoRect);
     bool OnMouseMove(UINT nFlags, CPoint point);
+    void OnMouseLeave();
     bool OnLButtonDown(UINT nFlags, CPoint point);
     bool OnLButtonUp(UINT nFlags, CPoint point);
 
