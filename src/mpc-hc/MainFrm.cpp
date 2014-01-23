@@ -2599,7 +2599,14 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 REFERENCE_TIME rtDur = 0;
                 m_pMS->GetDuration(&rtDur);
                 m_wndPlaylistBar.SetCurTime(rtDur);
+                OnTimer(TIMER_STREAMPOSPOLLER);
+                OnTimer(TIMER_STREAMPOSPOLLER2);
                 LoadKeyFrames();
+                if (GetPlaybackMode() == PM_FILE) {
+                    SetupChapters();
+                } else if (GetPlaybackMode() == PM_DVD) {
+                    SetupDVDChapters();
+                }
             }
             break;
             case EC_BG_AUDIO_CHANGED:

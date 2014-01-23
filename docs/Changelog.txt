@@ -64,3 +64,5 @@ next version - not released yet
 ! Ticket #3668, MPC-HC could crash when reloading the subtitles
 ! Ticket #3922, "Play > Subtitles" menu actions were off by one when playing a DVD
   and only external subtitles were available
+! Ticket #3963, Update the chapter marks on the seekbar when the media length changes.
+  The bug was most often seen for MKV with multiple editions
