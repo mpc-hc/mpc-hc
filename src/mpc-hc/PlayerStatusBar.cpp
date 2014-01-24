@@ -113,7 +113,7 @@ void CPlayerStatusBar::Relayout()
 
     if (m_type.GetIcon()) {
         r2.SetRect(6, r.top + 4, 6 + m_pMainFrame->m_dpi.ScaleX(16), r.bottom - 4);
-        m_type.MoveWindow(r2);
+        m_type.MoveWindow(r2, FALSE);
     }
 
     r.DeflateRect(11 + m_pMainFrame->m_dpi.ScaleX(16), 5, bm.bmWidth + 8, 4);
@@ -123,7 +123,7 @@ void CPlayerStatusBar::Relayout()
         m_time.GetWindowText(str);
         r2 = r;
         r2.left = r2.right - pDC->GetTextExtent(str).cx;
-        m_time.MoveWindow(&r2);
+        m_time.MoveWindow(&r2, FALSE);
         m_time_rect = r2;
         pDC->SelectObject(pOld);
         m_time.ReleaseDC(pDC);
@@ -136,7 +136,7 @@ void CPlayerStatusBar::Relayout()
         m_status.GetWindowText(str);
         r2 = r;
         r2.right = r2.left + pDC->GetTextExtent(str).cx;
-        m_status.MoveWindow(&r2);
+        m_status.MoveWindow(&r2, FALSE);
         pDC->SelectObject(pOld);
         m_status.ReleaseDC(pDC);
     } else {
@@ -144,6 +144,7 @@ void CPlayerStatusBar::Relayout()
     }
 
     Invalidate();
+    UpdateWindow();
 }
 
 void CPlayerStatusBar::Clear()
@@ -201,10 +202,11 @@ CString CPlayerStatusBar::GetStatusMessage() const
 
 void CPlayerStatusBar::SetStatusMessage(CString str)
 {
+    str.Trim();
     if (GetStatusMessage() != str) {
-        str.Trim();
+        m_status.SetRedraw(FALSE);
         m_status.SetWindowText(str);
-
+        m_status.SetRedraw(TRUE);
         Relayout();
     }
 }
@@ -220,10 +222,11 @@ CString CPlayerStatusBar::GetStatusTimer() const
 
 void CPlayerStatusBar::SetStatusTimer(CString str)
 {
+    str.Trim();
     if (GetStatusTimer() != str) {
-        str.Trim();
+        m_time.SetRedraw(FALSE);
         m_time.SetWindowText(str);
-
+        m_time.SetRedraw(TRUE);
         Relayout();
     }
 }
