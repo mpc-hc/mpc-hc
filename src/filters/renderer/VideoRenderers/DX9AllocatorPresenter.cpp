@@ -1518,7 +1518,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         LONGLONG llPerf = rd->GetPerfCounter();
         CRect presentationSrcRect(rDstPri), presentationDestRect(m_WindowRect);
         // PresentEx() / Present() performs the clipping
-        ASSERT(presentationSrcRect.Size() == presentationDestRect.Size());
+        // TODO: fix the race and uncomment the assert
+        //ASSERT(presentationSrcRect.Size() == presentationDestRect.Size());
         if (m_pD3DDevEx) {
             if (m_bIsFullscreen) {
                 hr = m_pD3DDevEx->PresentEx(nullptr, nullptr, nullptr, nullptr, 0);
