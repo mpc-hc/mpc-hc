@@ -48,9 +48,10 @@ next version - not released yet
 * Updated ZenLib to v0.4.29 r453
 * Updated Little CMS to v2.6b (git 579b3aa)
 * Updated Unrar to v5.0.0.14
-! Internal subtiles renderer: Vobsub/PGS/DVB subtitles are now rendered relative to the video frame
+! Internal subtitles renderer: Vobsub/PGS/DVB subtitles are now rendered relative to the video frame
 ! Warnings were not displayed in pixel shader compilation output
 ! DVB: It was sometimes impossible to restart playback after it was stopped
+! Output property page: Fix VMR-9 renderless settings (some controls were disabled when they shouldn't have been)
 ! Ticket #720/#1807/#2625/#3161 Improve stability in analog capture mode when using EVR-CP/Sync renderer
 ! Ticket #1300/#2081, Toolbars auto-hiding now always works properly in multi-display configurations
 ! Ticket #2460, Some subtitle entries were rendered twice depending on how entries overlapped. This led

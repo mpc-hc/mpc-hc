@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -537,6 +537,8 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
+            GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
+            GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
 
             if (!SysVersion::IsVistaOrLater()) {
                 m_iDSDXVASupport.SetIcon(m_tick);
