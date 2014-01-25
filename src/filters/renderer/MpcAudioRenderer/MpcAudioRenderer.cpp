@@ -81,7 +81,7 @@ bool CALLBACK DSEnumProc2(LPGUID lpGUID,
 
     if (lpGUID != nullptr) { // nullptr only for "Primary Sound Driver".
         if (strGUID == lpszDesc) {
-            memcpy((VOID*)&lpSoundGUID, lpGUID, sizeof(GUID));
+            memcpy((void*)&lpSoundGUID, lpGUID, sizeof(GUID));
         }
     }
 
@@ -153,7 +153,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
 
     TRACE(_T("CMpcAudioRenderer constructor\n"));
     if (!m_useWASAPI) {
-        DirectSoundEnumerate((LPDSENUMCALLBACK)DSEnumProc2, (VOID*)&m_csSound_Device);
+        DirectSoundEnumerate((LPDSENUMCALLBACK)DSEnumProc2, (void*)&m_csSound_Device);
         m_pSoundTouch = DEBUG_NEW soundtouch::SoundTouch();
         *phr = DirectSoundCreate8(&lpSoundGUID, &m_pDS, nullptr);
     }
@@ -710,7 +710,7 @@ HRESULT CMpcAudioRenderer::CreateDSBuffer()
 HRESULT CMpcAudioRenderer::ClearBuffer()
 {
     HRESULT hr = S_FALSE;
-    VOID* pDSLockedBuffer = nullptr;
+    void* pDSLockedBuffer = nullptr;
     DWORD dwDSLockedSize = 0;
 
     if (m_pDSBuffer) {
@@ -822,7 +822,7 @@ HRESULT CMpcAudioRenderer::WriteSampleToDSBuffer(IMediaSample* pMediaSample, boo
     REFERENCE_TIME rtStop = 0;
     HRESULT hr;
     bool loop = false;
-    VOID* pDSLockedBuffers[2] = { nullptr, nullptr };
+    void* pDSLockedBuffers[2] = { nullptr, nullptr };
     DWORD dwDSLockedSize[2] = { 0, 0 };
     BYTE* pMediaBuffer = nullptr;
     long lSize = pMediaSample->GetActualDataLength();

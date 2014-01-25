@@ -122,7 +122,7 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
         return;
     }
 
-    if (FAILED(hr = pDirectDrawCreateEx(nullptr, (VOID**)&m_pDD, IID_IDirectDraw7, nullptr))
+    if (FAILED(hr = pDirectDrawCreateEx(nullptr, (void**)&m_pDD, IID_IDirectDraw7, nullptr))
             || FAILED(hr = m_pDD->SetCooperativeLevel(AfxGetMainWnd()->GetSafeHwnd(), DDSCL_NORMAL))) {
         return;
     }

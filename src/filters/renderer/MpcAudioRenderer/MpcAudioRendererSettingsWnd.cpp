@@ -90,7 +90,7 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 
     SetClassLongPtr(GetDlgItem(IDC_PP_SOUND_DEVICE)->m_hWnd, GCLP_HCURSOR, (LONG_PTR)AfxGetApp()->LoadStandardCursor(IDC_HAND));
 
-    DirectSoundEnumerate((LPDSENUMCALLBACK)DSEnumProc, (VOID*)&m_cbSoundDevice);
+    DirectSoundEnumerate((LPDSENUMCALLBACK)DSEnumProc, (void*)&m_cbSoundDevice);
 
     if (m_cbSoundDevice.GetCount() > 0) {
         int idx = m_cbSoundDevice.FindString(0, m_pMAR->GetSoundDevice());
