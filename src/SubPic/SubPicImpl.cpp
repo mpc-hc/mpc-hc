@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -122,20 +122,46 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pR
     CheckPointer(pRcDest,   E_POINTER);
 
     if (m_size.cx > 0 && m_size.cy > 0) {
-        CRect rcTarget = (m_relativeTo == WINDOW) ? rcWindow : rcVideo;
-        CSize szTarget = rcTarget.Size();
+        CPoint offset(0, 0);
+        double scaleX = 1.0, scaleY = 1.0;
+
+        if (m_relativeTo == BEST_FIT) {
+            double scaleFactor = 1.0;
+            CSize szVideo = CRect(rcVideo).Size();
+
+            double subtitleAR = double(m_VirtualTextureSize.cx) / m_VirtualTextureSize.cy;
+            double videoAR = double(szVideo.cx) / szVideo.cy;
+
+            double dCRVideoWidth = szVideo.cy * subtitleAR;
+            double dCRVideoHeight = szVideo.cx / subtitleAR;
+
+            if ((dCRVideoHeight > dCRVideoWidth) != (videoAR > subtitleAR)) {
+                scaleFactor = dCRVideoHeight / m_VirtualTextureSize.cy;
+                offset.y = lround((szVideo.cy - dCRVideoHeight) / 2.0);
+            } else {
+                scaleFactor = dCRVideoWidth / m_VirtualTextureSize.cx;
+                offset.x = lround((szVideo.cx - dCRVideoWidth) / 2.0);
+            }
+
+            scaleX = scaleY = scaleFactor;
+            offset += CRect(rcVideo).TopLeft();
+        } else {
+            CRect rcTarget = (m_relativeTo == WINDOW) ? rcWindow : rcVideo;
+            CSize szTarget = rcTarget.Size();
+            scaleX = double(szTarget.cx) / m_VirtualTextureSize.cx;
+            scaleY = double(szTarget.cy) / m_VirtualTextureSize.cy;
+            offset += rcTarget.TopLeft();
+        }
 
         CRect rcTemp = m_rcDirty;
-
         *pRcSource = rcTemp;
 
         rcTemp.OffsetRect(m_VirtualTextureTopLeft);
-        rcTemp = CRect(rcTemp.left   * szTarget.cx / m_VirtualTextureSize.cx,
-                       rcTemp.top    * szTarget.cy / m_VirtualTextureSize.cy,
-                       rcTemp.right  * szTarget.cx / m_VirtualTextureSize.cx,
-                       rcTemp.bottom * szTarget.cy / m_VirtualTextureSize.cy);
-        rcTemp.OffsetRect(rcTarget.TopLeft());
-
+        rcTemp = CRect(lround(rcTemp.left   * scaleX),
+                       lround(rcTemp.top    * scaleY),
+                       lround(rcTemp.right  * scaleX),
+                       lround(rcTemp.bottom * scaleY));
+        rcTemp.OffsetRect(offset);
         *pRcDest = rcTemp;
 
         return S_OK;

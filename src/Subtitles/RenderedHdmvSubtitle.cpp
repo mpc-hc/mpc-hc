@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -113,7 +113,7 @@ STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize(POSITION pos, SIZE& MaxTextur
 
 STDMETHODIMP CRenderedHdmvSubtitle::GetRelativeTo(POSITION pos, RelativeTo& relativeTo)
 {
-    relativeTo = VIDEO;
+    relativeTo = BEST_FIT;
     return S_OK;
 }
 
