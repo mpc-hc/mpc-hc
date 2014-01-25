@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-01-15 14:10+0000\n"
+"PO-Revision-Date: 2014-01-20 10:46+0000\n"
 "Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -646,7 +646,7 @@ msgstr "Типово"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
 msgid "Fast seek (on keyframe)"
-msgstr "Швидке перемотування (по ключовим кадрам)"
+msgstr "Швидке перемотування (по ключов. кадрам)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
@@ -682,7 +682,7 @@ msgstr "Задіяти підтримку Logitech LCD (експеримента
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Автоматично приховувати вказівник миші під час відтворення у віконному режимі"
+msgstr "Автоматично приховувати вказівник миші під час відтвор. у віконному режимі"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -1462,7 +1462,7 @@ msgstr "Запускати файли на повний екран"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr ""
+msgstr "Приховувати елементи керування якщо 'На весь екран'"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1470,7 +1470,7 @@ msgstr "мс"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr ""
+msgstr "Приховувати закріплені панелі"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"

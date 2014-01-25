@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
-"PO-Revision-Date: 2014-01-14 14:36+0000\n"
+"PO-Revision-Date: 2014-01-24 23:17+0000\n"
 "Last-Translator: LuanMax <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -385,15 +385,15 @@ msgstr "Wiedergabeliste &speichern..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
-msgstr "Nach Ein&trag sortieren"
+msgstr "Nach E&intrag sortieren"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Nach Pfadna&me sortieren"
+msgstr "Nach P&fadname sortieren"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "Nach Zu&fall sortieren"
+msgstr "Nach Z&ufall sortieren"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
@@ -937,7 +937,7 @@ msgstr "&Optionen..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "Shader-&Debugger"
+msgstr "Shader-&Debugger..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -953,7 +953,7 @@ msgstr "&Zufallswiedergabe"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Open file location"
-msgstr "Zugehörigen Ordner öff&nen"
+msgstr "&Ordner hier öffnen"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1225,7 +1225,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr "Zugehörigen Ordner &hinzufügen"
+msgstr "&Medienordner hinzufügen"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2361,7 +2361,7 @@ msgstr "Tonverstärkung (+300%)"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Aufruf: mpc-hc.exe \"Pfadname\" [Optionen]\n\n\"Pfadname\"\tGibt Datei oder Verzeichnis zur Wiedergabe an.\n\t\t(Wildcards sind möglich. Standardeingabe kann\n\t\tals \"-\" angegeben werden.)\n/dub \"Datei\"\tÖffnet zusätzliche Audiodatei.\n/dubdelay \"Datei\"\tÖffnet zusätzliche Audiodatei, deren Wiedergabe\n\t\tum X ms versetzt wird.\n\t\t(Dateiname muss \"DELAY Xms\" enthalten.)\n/d3dfs\t\tStartet Player im Direct3D-Vollbildmodus.\n/sub \"Datei\"\tÖffnet zusätzliche Untertiteldatei.\n/filter \"Filtername\"\tLädt DirectShow-Filter aus einer\n\t\tLaufzeitbibliothek. (Wildcards sind möglich.)\n/dvd\t\tStartet Player im DVD-Modus. (DVD-Verzeichnis\n\t\tkann als \"Pfadname\" angegeben werden.)\n/dvdpos T#C\tStartet DVD-Wiedergabe bei Titel T, Kapitel C.\n/dvdpos T#P\tStartet DVD-Wiedergabe bei Titel T, Position P\n\t\t(hh:mm:ss).\n/cd\t\tÖffnet Audio-CD oder (S)VCD. (Laufwerk kann\n\t\tals \"Pfadname\" angegeben werden.)\n/device\t\tÖffnet Videogerät.\n/open\t\tÖffnet Medieninhalt und pausiert Wiedergabe.\n/play\t\tÖffnet Medieninhalt und startet Wiedergabe.\n/close\t\tBeendet Player nach Wiedergabe (in\n\t\tKombination mit \"/play\").\n/shutdown\tFährt System nach Wiedergabe herunter.\n/fullscreen\tStartet Wiedergabe im Vollbild.\n/minimized\tStartet Player minimiert.\n/new\t\tÖffnet neues Playerfenster.\n/add\t\tFügt \"Pfadname\" zur Wiedergabeliste hinzu\n\t\t(in Kombination mit \"/open\" oder \"/play\").\n/regvid\t\tRegistriert alle verfügbaren Videoformate.\n/regaud\t\tRegistriert alle verfügbaren Audioformate.\n/regpl\t\tRegistriert alle verfügbaren Wiedergabelisten.\n/regall\t\tRegistriert alle verfügbaren Medienformate.\n/unregall\t\tDeregistriert alle verfügbaren Medienformate.\n/start X\t\tStartet Wiedergabe bei X ms.\n/startpos P\tStartet Wiedergabe bei Position P (hh:mm:ss).\n/fixedsize W,H\tFixiert Fenstergröße bei Breite W und Höhe H.\n/monitor N\tStartet Wiedergabe auf Monitor N (wobei N>0).\n/audiorenderer N\tLädt Audio-Renderer N (wobei N>0, siehe\n\t\tAusgabe-Optionen).\n/shaderpreset \"S\"\tStartet Player mit Shader-Profil \"S\"\n/reset\t\tSetzt alle Programm-Einstellungen zurück.\n/help /h /?\tZeigt diese Hilfe an.\n"
+msgstr "Aufruf: mpc-hc.exe \"Pfadname\" [Optionen]\n\n\"Pfadname\"\tGibt Datei oder Verzeichnis zur Wiedergabe an.\n\t\t(Wildcards sind möglich. Standardeingabe kann\n\t\tals \"-\" angegeben werden.)\n/dub \"Datei\"\tÖffnet zusätzliche Audiodatei.\n/dubdelay \"Datei\"\tÖffnet zusätzliche Audiodatei, deren Wiedergabe\n\t\tum X ms versetzt wird.\n\t\t(Dateiname muss \"DELAY Xms\" enthalten.)\n/d3dfs\t\tStartet Player im Direct3D-Vollbildmodus.\n/sub \"Datei\"\tÖffnet zusätzliche Untertiteldatei.\n/filter \"Filtername\"\tLädt DirectShow-Filter aus einer\n\t\tLaufzeitbibliothek. (Wildcards sind möglich.)\n/dvd\t\tStartet Player im DVD-Modus. (DVD-Verzeichnis\n\t\tkann als \"Pfadname\" angegeben werden.)\n/dvdpos T#C\tStartet DVD-Wiedergabe bei Titel T, Kapitel C.\n/dvdpos T#P\tStartet DVD-Wiedergabe bei Titel T, Position P\n\t\t(hh:mm:ss).\n/cd\t\tÖffnet Audio-CD oder (S)VCD. (Laufwerk kann\n\t\tals \"Pfadname\" angegeben werden.)\n/device\t\tÖffnet Videogerät.\n/open\t\tÖffnet Medieninhalt und pausiert Wiedergabe.\n/play\t\tÖffnet Medieninhalt und startet Wiedergabe.\n/close\t\tBeendet Player nach Wiedergabe (in\n\t\tKombination mit \"/play\").\n/shutdown\tFährt System nach Wiedergabe herunter.\n/fullscreen\tStartet Wiedergabe im Vollbild.\n/minimized\tStartet Player minimiert.\n/new\t\tÖffnet neues Playerfenster.\n/add\t\tFügt \"Pfadname\" zur Wiedergabeliste hinzu\n\t\t(in Kombination mit \"/open\" oder \"/play\").\n/regvid\t\tRegistriert alle verfügbaren Videoformate.\n/regaud\t\tRegistriert alle verfügbaren Audioformate.\n/regpl\t\tRegistriert alle verfügbaren Wiedergabelisten.\n/regall\t\tRegistriert alle verfügbaren Medienformate.\n/unregall\t\tDeregistriert alle verfügbaren Medienformate.\n/start X\t\tStartet Wiedergabe bei X ms.\n/startpos P\tStartet Wiedergabe bei Position P (hh:mm:ss).\n/fixedsize W,H\tFixiert Fenstergröße bei Breite W und Höhe H.\n/monitor N\tStartet Wiedergabe auf Monitor N (wobei N>0).\n/audiorenderer N\tLädt Audio-Renderer N (wobei N>0, siehe\n\t\tAusgabe-Optionen).\n/shaderpreset \"S\"\tStartet Player mit Shader-Profil \"S\".\n/reset\t\tSetzt alle Programm-Einstellungen zurück.\n/help /h /?\tZeigt diese Hilfe an.\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2393,7 +2393,7 @@ msgstr "Ansicht: Aufnahme (ein/aus)"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Shader-Debugger (ein/aus)"
+msgstr "Shader-Debugger"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"

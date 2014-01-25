@@ -2,12 +2,13 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# LuanMax <luanmail@gmx.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-17 21:38+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-01-24 23:20+0000\n"
+"Last-Translator: LuanMax <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -141,7 +142,7 @@ msgstr "&Navigation"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "Shader-&Debugger"
+msgstr "Shader-&Debugger..."
 
 msgctxt "POPUP"
 msgid "&Presets..."
