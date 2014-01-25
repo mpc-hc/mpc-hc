@@ -65,6 +65,7 @@ const LanguageResource CMPlayerCApp::languageResources[] = {
     {ID_LANGUAGE_ITALIAN,               1040,   _T("Italian"),                  _T("Lang\\mpcresources.it.dll")},
     {ID_LANGUAGE_JAPANESE,              1041,   _T("Japanese"),                 _T("Lang\\mpcresources.ja.dll")},
     {ID_LANGUAGE_KOREAN,                1042,   _T("Korean"),                   _T("Lang\\mpcresources.ko.dll")},
+    {ID_LANGUAGE_MALAY,                 1086,   _T("Malay"),                    _T("Lang\\mpcresources.ms_MY.dll")},
     {ID_LANGUAGE_POLISH,                1045,   _T("Polish"),                   _T("Lang\\mpcresources.pl.dll")},
     {ID_LANGUAGE_PORTUGUESE_BR,         1046,   _T("Portuguese (Brazil)"),      _T("Lang\\mpcresources.pt_BR.dll")},
     {ID_LANGUAGE_ROMANIAN,              1048,   _T("Romanian"),                 _T("Lang\\mpcresources.ro.dll")},

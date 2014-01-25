@@ -1,0 +1,3378 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# abuyop <abuyop@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
+"PO-Revision-Date: 2014-01-22 22:46+0000\n"
+"Last-Translator: abuyop <abuyop@gmail.com>\n"
+"Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/mpc-hc/language/ms_MY/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ms_MY\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Location"
+msgstr "Lokasi"
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Video"
+msgstr "Video"
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Audio"
+msgstr "Audio"
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Subtitles"
+msgstr "Sarikata"
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Chapter"
+msgstr "Bab"
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Completing..."
+msgstr "Menyelesaikan..."
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Play Video"
+msgstr "Main Video"
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Play Music"
+msgstr "Main Muzik"
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Play Audio CD"
+msgstr "Main CD Audio"
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "Play DVD Movie"
+msgstr "Main Cereka DVD"
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Properties"
+msgstr "Sifat"
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "&Default Style"
+msgstr "Ga&ya Lalai"
+
+msgctxt "IDS_FAVFILES"
+msgid "Files"
+msgstr "Fail"
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVDs"
+msgstr "DVD"
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Channel"
+msgstr "Saluran"
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Time"
+msgstr "Masa"
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Sync Offset"
+msgstr "Ofset Segerak"
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "avg: %d ms, dev: %d ms"
+msgstr "pur: %d ms, dev: %d ms"
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Jitter"
+msgstr "Ketaran"
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Bitrate"
+msgstr "Kadar Bit"
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid " (avg/cur)"
+msgstr "(pur/cur)"
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Signal"
+msgstr "Isyarat"
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Strength: %d dB, Quality: %d%%"
+msgstr "Kekuatan: %d dB, Kualiti: %d%%"
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Styles"
+msgstr "Gaya"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Never (fastest approach)"
+msgstr "Tidak sesekali (pendekatan terpantas)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Only when switching different video types (default)"
+msgstr "Hanya bila menukar jenis video berbeza (lalai)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Always (slowest option)"
+msgstr "Sentiasa (pilihan terlambat)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Not supported by some devices. Two video decoders always present in the filter graph."
+msgstr "Tidak disokong oleh sesetengah peranti. Dua penyahkod sentiasa hadir di dalam graf penapis."
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
+msgstr "Pantas kecuali bila bertukar diantara strim video berbeza. Hanya satu penyahkod video hadir di dalam graf penapis."
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Not recommended. Only for testing purposes."
+msgstr "Tidak disaran. Hanya untuk tujuan pengujian."
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Never if possible (fastest, but not supported by most filters)"
+msgstr "Tidak sesekali jika boleh (terpantas, tetapi tidak disokong oleh kebanyakan penapis)"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Only when switching different video types (default)"
+msgstr "Hanya bila bertukar ke jenis video yang berbeza (lalai)"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Always (may be required by some devices)"
+msgstr "Sentiasa (mungkin diperlukan oleh sesetengah peranti)"
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Parental rating"
+msgstr "Penarafan penjaga"
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr "%d+"
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Not rated"
+msgstr "Tidak dikadar"
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Content"
+msgstr "Kandungan"
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Movie/Drama"
+msgstr "Cereka/Drama"
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "News/Current affairs"
+msgstr "Berita/Semasa"
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr "GB/s"
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "File added to favorites"
+msgstr "Fail ditambah ke kegemaran"
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD added to favorites"
+msgstr "DVD ditambah ke kegemaran"
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Capture Settings"
+msgstr "Tetapan Tangkap"
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Navigation Bar"
+msgstr "Palang Navigasi"
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Subresync"
+msgstr "Sub-segerak-semula"
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Time"
+msgstr "Masa"
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "End"
+msgstr "Tamat"
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Preview"
+msgstr "Pratonton"
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr "ID Vob"
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr "ID Sel"
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Forced"
+msgstr "Dipaksa"
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Text"
+msgstr "Teks"
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Style"
+msgstr "Gaya"
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Font"
+msgstr "Fon"
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Failed to render some of the pins of the DVD Navigator filter"
+msgstr "Gagal menerap beberapa pin penapis Navigasi DVD"
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for DVD playback"
+msgstr "Gagal menanya antaramuka yang diperlukan untuk mainbalik DVD"
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Live"
+msgstr "Langsung"
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Can't add video capture filter to the graph"
+msgstr "Tidak dapat tambah penapis tangkap ke graf"
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Can't add audio capture filter to the graph"
+msgstr "Tidak dapat tambah penapis tangkap audio ke graf"
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Could not open capture device."
+msgstr "Tidak dapat buka peranti tangkap."
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Can't open, invalid input parameters"
+msgstr "Tidak dapat buka, parameter input tidak sah"
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Edit List Editor"
+msgstr "Sunting Penyunting Senarai"
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "The entered time is greater than the file duration."
+msgstr "Masa yang dimasukkan lebih besar berbanding tempoh fail."
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
+msgstr "Pustaka ikon \"mpciconlib.dll\" sudah hilang.\nIkon lalai pemain akan digunakan untuk perkaitan fail.\nSila, pasang semula MPC-HC untuk dapatkan semula mpciconlib.dll."
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "File"
+msgstr "Fail"
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Language"
+msgstr "Bahasa"
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Format"
+msgstr "Format"
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Disc"
+msgstr "Cakera"
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Title(s)"
+msgstr "Tajuk(s)"
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "CharSet"
+msgstr "Set Aksara"
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr "Unikod"
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Layer"
+msgstr "Lapisan"
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Actor"
+msgstr "Pelakon"
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Effect"
+msgstr "Kesan"
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Playlist"
+msgstr "Senarai Main"
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "On/Off"
+msgstr "Hidup/Mati"
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "From fps"
+msgstr "Dari fps"
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "To fps"
+msgstr "Ke fps"
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Display mode (Hz)"
+msgstr "Mod paparan (Hz)"
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Default"
+msgstr "Lalai"
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Other"
+msgstr "Lain-lain"
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "System Default"
+msgstr "Lalai Sistem"
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for playback"
+msgstr "Gagal menanya antaramuka yang diperlukan untuk mainbalik"
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Could not set target window for graph notification"
+msgstr "Tidak dapat tetapkan tetingkap sasaran untuk pemberitahuan graf"
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Failed to render all pins of the DVD Navigator filter"
+msgstr "Gagal menerap semua pin bagi penapis Navigasi DVD"
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "&Open"
+msgstr "&Buka"
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "A&dd"
+msgstr "T&ambah"
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "&Remove"
+msgstr "&Buang"
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "C&lear"
+msgstr "K&osongkan"
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "&Copy to clipboard"
+msgstr "&Salin ke papan keratan"
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "&Save As..."
+msgstr "&Simpan Semua..."
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Sort by &label"
+msgstr "Isih mengikut &label"
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Sort by &path"
+msgstr "Isih mengikut lal&uan"
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "R&andomize"
+msgstr "&Rawakkan"
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "R&estore"
+msgstr "Pul&ih"
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Separator"
+msgstr "Pe&misah"
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "&Delete"
+msgstr "Pa&dam"
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "D&uplicate"
+msgstr "&Gandakan"
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "&Reset"
+msgstr "&Tetap Semula"
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Subtitle Delay -"
+msgstr "Lengah Sarikata -"
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Subtitle Delay +"
+msgstr "Lengah Sarikata +"
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Save thumbnails"
+msgstr "Simpan lakaran kenit"
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Playback"
+msgstr "Main Balik"
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Player"
+msgstr "Pemain"
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Playback::DVD/OGM"
+msgstr "Mainbalik::DVD/OGM"
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Subtitles"
+msgstr "Sarikata"
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Player::Formats"
+msgstr "Pemain::Format"
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Tweaks"
+msgstr "Pulas"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Internal Filters::Audio Switcher"
+msgstr "Penapis Dalam::Penukar Audio"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "External Filters"
+msgstr "Penapis Dalaman"
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Playback::Shaders"
+msgstr "Mainbalik::Pelorek"
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Audio Switcher"
+msgstr "Penukar Audio"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "New version of the icon library"
+msgstr "Versi baharu bagi pustaka ikon"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Do you want to reassociate the icons?"
+msgstr "Anda mauh kaitkan semula ikon?"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
+msgstr "Ini akan membaiki ikon yang telah dipapar secara salah selepas kemaskini pustaka ikon.\nPerkaitan fail tidak akan diubahsuai, hanya ikon berkenaan akan disegar semula."
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Old Video Renderer"
+msgstr "Penerap Video Lama"
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Overlay Mixer Renderer"
+msgstr "Penerap Pengadun Tindihan"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Video Mixing Renderer 7 (windowed)"
+msgstr "Penerap Adunan Video 7 (bertetingkap)"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video Mixing Renderer 9 (windowed)"
+msgstr "Penerap Adunan Video 9 (bertetingkap)"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Video Mixing Renderer 7 (renderless)"
+msgstr "Penerap Adunan Video 7 (tanpa terap)"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video Mixing Renderer 9 (renderless)"
+msgstr "Penerap Adunan Video 9 (tak diterap)"
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Enhanced Video Renderer"
+msgstr "Penerap Video Dipertingkat"
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Enhanced Video Renderer (custom presenter)"
+msgstr "Penerap Video Dipertingkat (persembahan suai)"
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali Video Renderer"
+msgstr "Penerap Video Haali"
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Null (anything)"
+msgstr "Nol (apa jua)"
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr "Nol (tak mampat)"
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr "madVR"
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Player::Keys"
+msgstr "Pemain::Kekunci"
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Subtitles::Default Style"
+msgstr "Sarikata::Gaya Lalai"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Internal Filters"
+msgstr "Penapis Dalaman"
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Player::Logo"
+msgstr "Pemain::Logo"
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Playback::Output"
+msgstr "Mainbalik::Output"
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Player::Web Interface"
+msgstr "Pemain::Antaramuka Sesawang"
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "Subtitles::Database"
+msgstr "Sarikata::Pangkalan Data"
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Sumber"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Pelbagai"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "Maklumat Media"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Mainbalik::Tangkap"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Mainbalik::Tetapan Segera Tetapan"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Main Balik::Skrin Penuh"
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Details"
+msgstr "Terperinci"
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Clip"
+msgstr "Klip"
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
+msgstr "Penapis penerap video lalai untuk DirectShow. Lain-lain akan jatuh-balik yang ini bila ia tidak dapat dimuatkan atas beberapa sebab. Pada Windows XP ini adalah serupa dengan VMR-7 (bertetingkap)."
+
+msgctxt "IDC_DSOLD"
+msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
+msgstr "Ini adalah penerap lalai bagi Windows 9x/me/2k. Bergantung pada ketampakan tetingkap video dan keupayaan kad video anda, ia akan bertukar diantara GDI, DirectDraw, mod penerapan Tindihan secara dinamik."
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
+msgstr "Sentiasa terap dalam tindihan. Umumnya hanya format YUV dibenarkan, tetapi ia dipersembahkan secara langsung tanpa pertukaran warna ke RGB. Ini adalah kaedah penerapan terpantas dan dimana anda pasti mengenai pencerminan video berskrin penuh ke pengaktifan tv-out."
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
+msgstr "Penerap lalai Windows XP. Sangat stabil dan hanya sedikit lembab berbanding pengadun Tindihan. Menggunakan DirectDraw dan berjalan dalam Tindihan bila ia boleh."
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
+msgstr "Hanya tersedia jika anda mempunyai DirectX 9 dipasang. Mempunyai keupayaan yang sama seperti VMR-7 (bertetingkap), tetapi ia tidak sesekali guna penerapan Tindihan dan disebabkan ini ia menjadi lebih lembab berbanding VMR-7 (bertetingkap)."
+
+msgctxt "IDC_DSVMR7REN"
+msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
+msgstr "Sama seperti VMR-7 (bertetingkap), tetapi dengan pemalam Allocator-Presenter MPC-HC untuk sarikata. Pencerminan video Tindihan TIDAK AKAN berfungsi. Ruang warna desktop \"True Color\" disarankan."
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
+msgstr "Sama seperti VMR-9 (bertetingkap), tetapi dengan pemalam Allocator-Presenter MPC-HC untuk sarikata. Pencerminan video Tindihan TIDAK AKAN berfungsi. Ruang warna desktop \"True Color\" disarankan. Disarankan juga untuk Windows XP."
+
+msgctxt "IDC_DSDXR"
+msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
+msgstr "Sama seperti VMR-9 (tak diterap), tetapi gunakan pensaiz-semula dwi-kiub dua laluan yang sebenar."
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
+msgstr "Sambung ke mana-mana jenis media seakan-video dan akan menghantar sampel masuk ke mana-mana tempat. Guna ia bila anda tidak perlu paparan video dan mahu jimatkan cpu dari penggunaan tidak perlu."
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
+msgstr "Sama seperti penerap Nol biasa, tetapi ia hanya sambung kr jenis tak termampat."
+
+msgctxt "IDC_DSEVR"
+msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
+msgstr "Hanya tersedia pada Vista atau yang terbaharu atau pada XP sekurang-kurangnya .NET Framework 3.5 dipasang."
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
+msgstr "Sama seperti EVR, tetapi dengan Allocator-Presenter bagi MPC-HC untuk sarikata dan pasca-pemprosesan. Disarankan untuk WIndows Vista atau yang terkini."
+
+msgctxt "IDC_DSMADVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr "Penerap berkualiti-tinggi, memerlukan GPU yang menyokong D3D9 atau yang terkini."
+
+msgctxt "IDC_DSSYNC"
+msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
+msgstr "Sama seperti EVR (CP), tetapi menawarkan pilihan untuk segerakkan kadar bingkai video dengan kadar segar semula paparan untuk elakkan bingkai video berganda atau dilangkau."
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
+msgstr "Penerap Real sendiri. Skrip SMIL akan berfungsi, tetapi interaksi berkemungkinan tidak berfungsi. Gunakan DirectDraw dan dijalankan dalam Tindihan bila ia boleh."
+
+msgctxt "IDC_RMDX7"
+msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
+msgstr "Output bagi enjin Real diterap oleh Allocator-Presenter berasaskan-DX7 bagi VMR-7 (tak diterap)."
+
+msgctxt "IDC_RMDX9"
+msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+msgstr "Output bagi enjin Real diterap oleh Allocator-Presenter berasaskan-DX9 bagi VMR-9 (tak diterap)."
+
+msgctxt "IDC_QTSYSDEF"
+msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
+msgstr "Penerap QuikTime sendiri. Menjadi lebih perlahan jika kawasan videonya disaiz semula atau sebahagiannya ditutupi oleh tetingkap lain. Bila Tindihan tidak tersedia ia berkemungkinan akan jatuh-balik ke GDI."
+
+msgctxt "IDC_QTDX7"
+msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
+msgstr "Output bagi enjin QuickTime diterap oleh Allocator-Presenter berasaskan-DX7 bagi VMR-7 (tak diterap)."
+
+msgctxt "IDC_QTDX9"
+msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+msgstr "Output bagi enjin QuickTime diterap oleh Allocator-Presenter berasaskan-DX9 bagi VMR-9 (tak diterap)."
+
+msgctxt "IDC_REGULARSURF"
+msgid "Video surface will be allocated as a regular offscreen surface."
+msgstr "Permukaan video akan diperuntuk sebagai permukaan luar-skrin biasa."
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "MPC Audio Renderer is broken, do not use."
+msgstr "Penerap Audio MPC telah rosak, jangan guna."
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync Renderer"
+msgstr "Penerap Segerak"
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - Reporting a bug"
+msgstr "MPC-HC - Melaporkan pepijat"
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
+msgstr "MPC-HC mengalami kerosakan tetapi binaan ini telah dikompil tanpa maklumat\nnyahpepijat. Jika anda mahu lapor pepijat ini, anda patut cuba dahulu binaan rasmi.\n\nAnda mahu lawati laman muat turun sekarang?"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Regular offscreen plain surface"
+msgstr "Permukaan biasa luar-skrin biasa"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D surfaces"
+msgstr "Permukaan 2D"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D surfaces (recommended)"
+msgstr "Permukaan 3D (disarankan)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Nearest neighbor"
+msgstr "Jiran terhampir"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinear"
+msgstr "Dwi-linear"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinear (PS 2.0)"
+msgstr "Dwi-linear (PD 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bicubic A=-0.60 (PS 2.0)"
+msgstr "Dwi-kiub A=-0.60 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bicubic A=-0.75 (PS 2.0)"
+msgstr "Dwi-kiub A=-0.75 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bicubic A=-1.00 (PS 2.0)"
+msgstr "Dwi-kiub A=-1.00 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**unavailable**"
+msgstr "**tidak tersedia**"
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "The selected renderer is not installed."
+msgstr "Penerap terpilih tidak dipasang."
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr "Nol (apa jua)"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr "Nol (tak mampat)"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC Audio Renderer"
+msgstr "Penerap Audio MPC-HC"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Name"
+msgstr "Nama"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME Type"
+msgstr "Jenis MIME"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
+msgstr "Untuk melihat sumber terbenam dalam pelayar anda anda perlu benarkan antaramuka sesawang.\n\nGuna butang \"Simpan Sebagai\" jika anda hanya mahu simpan maklumat."
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Download subtitles"
+msgstr "Muat turun sarikata"
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Delay (ms):"
+msgstr "Lengah (ms):"
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Auto"
+msgstr "Auto"
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "There are no customized keys to export."
+msgstr "Tiada kekunci tersuai untuk dieskport."
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "No media files found in the archive"
+msgstr "Tiada fail media ditemui di dalam arkib"
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Compressed files are not supported"
+msgstr "Fail termampat tidak disokong"
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Encrypted files are not supported"
+msgstr "Fail tersulit tidak disokong"
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Couldn't find all archive volumes"
+msgstr "Tidak dapat cari semua volum arkib"
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Permukaan video akan diperuntuk sebagai tekstur tetapi fungsi 2d masih digunakan untuk menyalin dan meregang ia ke penimbal belakang. Perlukan kad video yang dapat peruntuk 32bit, RGBA, tekstri bersaiz dua-tanpa-kuasa dan sekurang-kurangnya dalam resolusi video."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Permukaan video akan diperuntuk sebagai tekstur dan dilukis sebagai dua segitiga dalam 3d. Antialias dihidupkan pada tetapan paparan mungkin memberi kesan tidak baik terhadap kelajuan penerapan."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Jika tiada sokongan Pelorek Piksel 2.0, dwi-linear mudah akan diguna secara automatik."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Letak VMR-9 (tak diterap) ke dalam mod pengadun, ini bermaksud kebanyakan kawalan pada halaman sifatnya akan berfungsi dan ia akan guna bebenang pekerja berasingan ke bingkai penerap."
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Improves performance at the cost of some compatibility of the renderer."
+msgstr "Tingkatkan prestasi dengan mengorbankan keserasian penerap."
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Reduces tearing but prevents the toolbar from being shown."
+msgstr "Kurangkan pengoyakan tetapi hindari palang alat dari dipaparkan."
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Reduces tearing by bypassing the default VSync built into D3D."
+msgstr "Kurangkan pengoyakan dengan melangkaui binaan VSync lalai ke D3D."
+
+msgctxt "IDS_SRC_VTS"
+msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
+msgstr "Buka VTS_xx_0.ifo untuk muatkan fail VTS_xx_x.vob dalam satu badan"
+
+msgctxt "IDS_SRC_RFS"
+msgid "Based on RARFileSource, doesn't support compressed files"
+msgstr "Berdasarkan RARFileSource, tidak menyokong fail termampat"
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Uses LAV Filters"
+msgstr "Guna Penapis LAV"
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "Guna Penapis LAV. Dilumpuh secara lali semenjak penapis Microsoft lebih stabil berbanding format tersebut.\nJika anda pilih untuk guna penapis dalaman, benarkannya untuk kedua-dua sumber dan penyahkodan supaya pengalaman main balik yang lebih baik."
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Toggle Navigation Bar"
+msgstr "Togol Palang Navigasi"
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Accurate VSync"
+msgstr "VSync Tepat"
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "Default state gets inherited to other styles where it is still undefined"
+msgstr "Tahap lalai diwarisi ke gaya lain dimana ia masih tidak ditakrif"
+
+msgctxt "IDC_CHECK_SPCPOW2TEX"
+msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
+msgstr "Menyahtanda ini bebaskan sedikit ingatan video dan jimatkan lebar jalur pada pemindahaningatan setempat ke video, tetapi ia mungkin tidak berfungsi dengan kad lebih lama."
+
+msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
+msgid "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
+msgstr "Benarkan animasi sarikat bila menggunakan penimbal subgambar lebih besar dari 0. Melumpuhkan pilihan ini akan rendahkan penggunaan CPU. Juga lumpuhkan jika anda hadapi sarikata yang berdenyar."
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
+msgstr "Selepas mengklik butang ini, keadaan ditanda bagi kumpulan format akan mengikut perkaitan fail sebenar bagi MPC-HC. Satu sambungan yang baharu ditambah akan menjadikannya kelabu, jadi lupa menanda ia semula sebelum menutup dialog ini!"
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Play\nPlay"
+msgstr "Main\nMain"
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Pause\nPause"
+msgstr "Jeda\nJeda"
+
+msgctxt "ID_PLAY_STOP"
+msgid "Stop\nStop"
+msgstr "Henti\nHenti"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Step\nStep"
+msgstr "Langkah\nLangkah"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Decrease speed\nDecrease speed"
+msgstr "Kelajuan kurang\nKelajuan kurang"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Increase speed\nIncrease speed"
+msgstr "Kelajuan bertambah\nKelajuan bertambah"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Mute"
+msgstr "Senyap"
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Unmute"
+msgstr "Suarakan"
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "No audio"
+msgstr "Tiada audio"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Skip back\nSkip back"
+msgstr "Langkau undur\nLangkau undur"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Skip forward\nSkip forward"
+msgstr "Langkau maju\nLangkau maju"
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "&Asal"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "&Semasa"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "&Sunting"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "&Ya"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "&Tidak"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "K&urangkan"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "T&ingkatkan"
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "Pilihan"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "&Pilih Pelorek..."
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr "&Nyahpepijat Pelorek..."
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "&Add to Favorites..."
+msgstr "T&ambah ke Kegemaran..."
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "&Organize Favorites..."
+msgstr "&Urus Kegemaran..."
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "Shuffle"
+msgstr "Kocok"
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Open file location"
+msgstr "Buka lokasi fail"
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Closing..."
+msgstr "Menutup..."
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Playing"
+msgstr "Dimainkan"
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Paused"
+msgstr "Dijeda"
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL new clip"
+msgstr "Klip baharu EDL"
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "&Clear list"
+msgstr "K&osongkan senarai"
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Are you sure that you want to delete recent files list?"
+msgstr "Anda pasti mahu memadam senarai fail baru-baru ini?"
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL save"
+msgstr "Simpan EDL"
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time Correction"
+msgstr "Benarkan Pembetulan Masa Bingkai"
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "Toggle EDL window"
+msgstr "Togol tetingkap EDL"
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL set In"
+msgstr "Set Masuk EDL"
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL set Out"
+msgstr "Set Keluar EDL"
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnS Rotate X-"
+msgstr "Putar X- PnS"
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnS Rotate Y+"
+msgstr "Putar Y+ PnS"
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnS Rotate Y-"
+msgstr "Putar Y- PnS"
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnS Rotate Z+"
+msgstr "Putar Z+ PnS"
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnS Rotate Z-"
+msgstr "Putar Z- PnS"
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Tearing Test"
+msgstr "Uji Koyakan"
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr "Skala ke TV 16:9,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Zum Ke Skrin Lebar,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Zum Ke Skrin Lebar-Ultra,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "Hide on Fullscreen"
+msgstr "Sembunyi bila Skrin Penuh"
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Stopped"
+msgstr "Dihentikan"
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Buffering... (%d%%)"
+msgstr "Menimbal... (%d%%)"
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Capturing..."
+msgstr "Menangkap..."
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Opening..."
+msgstr "Membuka..."
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Closed"
+msgstr "Ditutup"
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "&Options..."
+msgstr "&Pilihan..."
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Styles..."
+msgstr "&Gaya..."
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "&Reload"
+msgstr "&Muat Semula"
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "&Enable"
+msgstr "B&enarkan"
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "&Edit..."
+msgstr "&Sunting..."
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Title"
+msgstr "Tajuk"
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Author"
+msgstr "Pengarang"
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Copyright"
+msgstr "Hakcipta"
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Rating"
+msgstr "Penarafan"
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Description"
+msgstr "Keterangan"
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Domain"
+msgstr "Domain"
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Close"
+msgstr "Tutup"
+
+msgctxt "IDS_AG_NONE"
+msgid "None"
+msgstr "Tiada"
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Command"
+msgstr "Perintah"
+
+msgctxt "IDS_AG_KEY"
+msgid "Key"
+msgstr "Kunci"
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Mouse Windowed"
+msgstr "Tetikus Bertetingkap"
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Mouse Fullscreen"
+msgstr "Tetikus Skrin Penuh"
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "App Command"
+msgstr "Perintah Apl"
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Media files (all types)"
+msgstr "Fail media (semua jenis)"
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "All files (*.*)|*.*|"
+msgstr "Semua fail (*.*)|*.*|"
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Audio files (all types)"
+msgstr "Fail audio (semua jenis)"
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Not known"
+msgstr "Tidak diketahui"
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Quick Open File"
+msgstr "Buka Fail Pantas"
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Open File"
+msgstr "Buka Fail"
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "Open DVD/BD"
+msgstr "Buka DVD/BD"
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr "Gagal tetapkan pelorek pasca-saiz-semula"
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr "Gagal tetapkan kedua-dua pelorek pra-saiz-semula dan pasca-saiz semula"
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr "Pelorek dikompil semula secara automatik bila fail berkaitan diubahsuai."
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr "Tidak dapat muat %s, pelorek piksel tidak akan berfungsi."
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr "Tidak dapat cari titik masukan fungsi yang perlu dalam %s, pelorek piksel tidak akan berfungsi."
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr "Praset pelorek: %s"
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr "Praset Pelorek Berikutnya"
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr "Praset Pelorek Terdahulu"
+
+msgctxt "IDS_STRING_COLON"
+msgid "%s:"
+msgstr "%s:"
+
+msgctxt "IDS_RECORD_START"
+msgid "Record"
+msgstr "Rakam"
+
+msgctxt "IDS_RECORD_STOP"
+msgid "Stop"
+msgstr "Henti"
+
+msgctxt "IDS_BALANCE"
+msgid "L = R"
+msgstr "L = R"
+
+msgctxt "IDS_BALANCE_L"
+msgid "L +%d%%"
+msgstr "L +%d%%"
+
+msgctxt "IDS_BALANCE_R"
+msgid "R +%d%%"
+msgstr "R +%d%%"
+
+msgctxt "IDS_VOLUME"
+msgid "%d%%"
+msgstr "%d%%"
+
+msgctxt "IDS_BOOST"
+msgid "+%d%%"
+msgstr "+%d%%"
+
+msgctxt "IDS_PLAYLIST_ADDFOLDER"
+msgid "Add containing folder"
+msgstr "Tambah folder yang dikandungi"
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Open Device"
+msgstr "Buka Peranti"
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Save As"
+msgstr "Simpan Sebagai"
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Save Image"
+msgstr "Simpan Imej"
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Save Image (auto)"
+msgstr "Simpan Imej (auto)"
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Image saved successfully"
+msgstr "Imej berjaya disimpan"
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "Load Subtitle"
+msgstr "Muat Sarikata"
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "Save Subtitle"
+msgstr "Simpan Sarikata"
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Properties"
+msgstr "Sifat"
+
+msgctxt "IDS_AG_EXIT"
+msgid "Exit"
+msgstr "Keluar"
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Play/Pause"
+msgstr "Main/Jeda"
+
+msgctxt "IDS_AG_PLAY"
+msgid "Play"
+msgstr "Main"
+
+msgctxt "IDS_AG_STOP"
+msgid "Stop"
+msgstr "Henti"
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Framestep"
+msgstr "Langkah Bingkai"
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Framestep back"
+msgstr "Langkah bingkai undur"
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Go To"
+msgstr "Pergi Ke"
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Increase Rate"
+msgstr "Tingkatkan Kadar"
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Show/Game show"
+msgstr "Rancangan/Rancangan permainan"
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Sports"
+msgstr "Sukan"
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Children's/Youth programmes"
+msgstr "Program Kanak-Kanak/Remaja"
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Music/Ballet/Dance"
+msgstr "Muzik/Ballet/Tarian"
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Arts/Culture"
+msgstr "Seni/Budaya"
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Social/Political issues/Economics"
+msgstr "Sosial/Isu politik/Ekonomi"
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Leisure hobbies"
+msgstr "Hobi masa lapang"
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Move to Recycle Bin"
+msgstr "Alih ke Tong Sampah"
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Save a Copy"
+msgstr "Simpan satu Salinan"
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Latest keyframe"
+msgstr "Bingkai kunci terkini"
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Nearest keyframe"
+msgstr "Bingkai kunci terhampir"
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr "MPC-HC menghadapi masalah ketika pengawalan. Main balik DVD mungkin tidak berfungsi dengan baik. Ia akan mungkin disebabkan oleh beberapa ketidakserasian dengan sesetengah alat keselamatan.\n\nAnda mahu laporkan isu ini?"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr "Tidak sesekali tunjuk"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr "Tunjuk bila mengalih kursor, sembunyi selepas:"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr "Tunjuk bila terapung diatas kawalan, sembunyi selepas:"
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr "Gagal tetapkan pelorek pra-saiz-semula"
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Frame Time Correction: On"
+msgstr "Pembetulan Masa Bingkai: Hidup"
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Frame Time Correction: Off"
+msgstr "Pembetulan Masa Bingkai: Mati"
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Target VSync Offset: %.1f"
+msgstr "Ofset VSync Sasaran: %.1f"
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "VSync Offset: %d"
+msgstr "Ofset VSync: %d"
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Speed: %.2lfx"
+msgstr "Kelajuan: %.2lfx"
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Thumbnails saved successfully"
+msgstr "Lakaran kenit berjaya disimpan"
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "&Video Stream"
+msgstr "Strim &Video"
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "Video Ang&le"
+msgstr "Su&dut Video"
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Reset settings"
+msgstr "Tetap semula tetapan"
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
+msgstr "Anda pasti mahu pulihkan MPC-HC ke tetapan lalainya?\nBerhati-hati kerana SEMUA tetapan semasa anda akan hilang!"
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Please close all instances of MPC-HC so that the default settings can be restored."
+msgstr "Sila tutup semua kejadian MPC-HC supaya tetapan lalai dapat dipulihkan."
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Export settings"
+msgstr "Eksport tetapan"
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
+msgstr "Sesetengah perubahan belum disimpan lagi.\nAnda mahu menyimpannya sebelum dieskport?"
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "The settings have been successfully exported."
+msgstr "Tetapan berjaya dieksport."
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "The export failed! This can happen when you don't have the correct rights."
+msgstr "Eksport gagal! Ia berlaku bila anda tidak memiliki kelayakan yang betul."
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA Error"
+msgstr "Ralat BDA"
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Decrease Rate"
+msgstr "Kurangkan Kadar"
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Reset Rate"
+msgstr "Tetap Semula Kadar"
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Audio Delay +10ms"
+msgstr "Lengah Audio +10ms"
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Audio Delay -10ms"
+msgstr "Lengah Audio -10ms"
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Jump Forward (small)"
+msgstr "Lompat Maju (kecil)"
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Jump Backward (small)"
+msgstr "Lompat Undur (kecil)"
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Jump Forward (medium)"
+msgstr "Lompat Maju (sederhana)"
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Jump Backward (medium)"
+msgstr "Lompat Undur (sederhana)"
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Jump Forward (large)"
+msgstr "Lompat Maju (besar)"
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Jump Backward (large)"
+msgstr "Lompat Undur (besar)"
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Jump Forward (keyframe)"
+msgstr "Lompat Maju (bingkai kunci)"
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Jump Backward (keyframe)"
+msgstr "Lompat Undur (bingkai kunci)"
+
+msgctxt "IDS_AG_NEXT"
+msgid "Next"
+msgstr "Berikutnya"
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Previous"
+msgstr "Terdahulu"
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Next File"
+msgstr "Fail Berikutnya"
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Previous File"
+msgstr "Fail Terdahulu"
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Toggle Direct3D fullscreen"
+msgstr "Togol skrin penuh Direct3D"
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Goto Prev Subtitle"
+msgstr "Pergi ke Sarikata Terdahulu"
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Goto Next Subtitle"
+msgstr "Pergi ke Sarikata Berikutnya"
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Shift Subtitle Left"
+msgstr "Anjak Sarikata ke Kiri"
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Shift Subtitle Right"
+msgstr "Anjak Sarikata ke Kanan"
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "Display Stats"
+msgstr "Papar Stat"
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Jump to Beginning"
+msgstr "Lompat ke Permulaan"
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "View Minimal"
+msgstr "Paparan Minimum"
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "View Compact"
+msgstr "Paparan Padat"
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "View Normal"
+msgstr "Paparan Biasa"
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "Fullscreen"
+msgstr "Skrin Penuh"
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "Fullscreen (w/o res.change)"
+msgstr "Skrin Penuh (tanpa perubahan res.)"
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Zoom Auto Fit"
+msgstr "Zum Suai Muat Auto"
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "VidFrm Half"
+msgstr "BgkVid Separa"
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "VidFrm Normal"
+msgstr "BgkVid Biasa"
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "VidFrm Double"
+msgstr "BgkVid Ganda Dua"
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Always On Top"
+msgstr "Sentiasa Di Atas"
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnS Inc Size"
+msgstr "Saiz PnS Naik"
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnS Inc Width"
+msgstr "Lebar Pns Naik"
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnS Inc Height"
+msgstr "Tinggi PnS Naik"
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnS Dec Size"
+msgstr "Saiz PnS Turun"
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnS Dec Width"
+msgstr "Lebar PnS Turun"
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnS Dec Height"
+msgstr "Tinggi PnS Turun"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Downloading subtitle(s), please wait."
+msgstr "Memuat turun sarikata(s), tunggu sebentar."
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Parsing list..."
+msgstr "Menghurai senarai..."
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "No subtitles found."
+msgstr "Tiada sarikata ditemui."
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d subtitle(s) available."
+msgstr "%d sarikata(s) tersedia."
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
+msgstr "Anda mahu semak kemaskini MPC-HC secara berkala?\n\nFitur ini boleh dilumpuhkan kemudian menerusi laman pilihan Pelbagai."
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr "50%"
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr "100%"
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr "200%"
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Auto Fit"
+msgstr "Suai Muat Auto"
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (Larger Only)"
+msgstr "Suai Muat Auto (Lebih Besar Sahaja)"
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Zoom Auto Fit (Larger Only)"
+msgstr "Zum Suai Muat Auto (Lebih Besar Sahaja)"
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Zoom: Auto (Larger Only)"
+msgstr "Zum: Auto (Lebih Besar Sahaja)"
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Double click to open file location"
+msgstr "Dwi-klik untuk buka lokasi fail"
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Toggle between elapsed and remaining time"
+msgstr "Togol diantara masa berlalu dan berbaki"
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Invalid delay"
+msgstr "Lengah tidak sah"
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Please enter a number between 1 and 365."
+msgstr "Sila masukkan nombor diantara 1 hingga 365."
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnS Center"
+msgstr "Pusat Pns"
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnS Left"
+msgstr "Kiri PnS"
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnS Right"
+msgstr "Kanan PnS"
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnS Up"
+msgstr "Atas PnS"
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnS Down"
+msgstr "Bawah PnS"
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnS Up/Left"
+msgstr "Atas/Kiri PnS"
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnS Up/Right"
+msgstr "Naik/Kanan PnS"
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnS Down/Left"
+msgstr "Bawah/Kiri PnS"
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnS Down/Right"
+msgstr "Bawah/Kanan PnS"
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Volume Up"
+msgstr "Volum Naik"
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Volume Down"
+msgstr "Volum Turun"
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Volume Mute"
+msgstr "Volum Senyap"
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD Title Menu"
+msgstr "Menu Tajuk DVD"
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD Root Menu"
+msgstr "Menu Root DVD"
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD Subtitle Menu"
+msgstr "Menu Sarikata DVD"
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD Audio Menu"
+msgstr "Menu Audio DVD"
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD Angle Menu"
+msgstr "Menu Sudut DVD"
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD Chapter Menu"
+msgstr "Menu Bab DVD"
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD Menu Left"
+msgstr "Kiri Menu DVD"
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD Menu Right"
+msgstr "Kanan Menu DVD"
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD Menu Up"
+msgstr "Atas Menu DVD"
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD Menu Down"
+msgstr "Bawah Menu DVD"
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD Menu Activate"
+msgstr "Menu DVD Aktif"
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD Menu Back"
+msgstr "Menu DVD Undur"
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD Menu Leave"
+msgstr "Menu DVD Keluar"
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Boss key"
+msgstr "Kekunci Boss"
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Player Menu (short)"
+msgstr "Menu Pemain (pendek)"
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Player Menu (long)"
+msgstr "Menu Pemain (panjang)"
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Filters Menu"
+msgstr "Tapis Menu"
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Options"
+msgstr "Pilihan"
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Next Audio"
+msgstr "Audio Berikutnya"
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Prev Audio"
+msgstr "Audio Terdahulu"
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Next Subtitle"
+msgstr "Sarikata Berikutnya"
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Prev Subtitle"
+msgstr "Sarikata Terdahulu"
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "On/Off Subtitle"
+msgstr "Sarikata Hidup/Mati"
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Reload Subtitles"
+msgstr "Muat Semula Sarikata"
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "Next Audio (OGM)"
+msgstr "Audio Berikutnya (OGM)"
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "Prev Audio (OGM)"
+msgstr "Audio Terdahulu (OGM)"
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "Next Subtitle (OGM)"
+msgstr "Sarikata Berikutnya (OGM)"
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "Prev Subtitle (OGM)"
+msgstr "Sarikata Terdahulu (OGM)"
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "Next Angle (DVD)"
+msgstr "Sudut Berikutnya (DVD)"
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "Prev Angle (DVD)"
+msgstr "Sudut Terdahulu (DVD)"
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "Next Audio (DVD)"
+msgstr "Audio Berikutnya (DVD)"
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "Prev Audio (DVD)"
+msgstr "Audio Terdahulu (DVD)"
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "Next Subtitle (DVD)"
+msgstr "Sarikata Berikutnya (DVD)"
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "Prev Subtitle (DVD)"
+msgstr "Sarikata Terdahulu (DVD)"
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "On/Off Subtitle (DVD)"
+msgstr "Sarikata Hidup/Mati (DVD)"
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "Remaining Time"
+msgstr "Masa Berbaki"
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Select the directory"
+msgstr "Pilih direktori"
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Quick add favorite"
+msgstr "Tambah pantas kegemaran"
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N"
+msgstr "N"
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Name"
+msgstr "Nama"
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Frequency"
+msgstr "Frekuensi"
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Encrypted"
+msgstr "Disulitkan"
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "Yes"
+msgstr "Ya"
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "No"
+msgstr "Tidak"
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Start"
+msgstr "Mula"
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Stop"
+msgstr "Henti"
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Radio stations"
+msgstr "Stesen radio"
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "TV stations"
+msgstr "Stesen TV"
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Format"
+msgstr "Format"
+
+msgctxt "IDS_MAINFRM_2"
+msgid "Focus lost to: %s - %s"
+msgstr "Fokus hilang ke: %s - %s"
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Subtitles saved"
+msgstr "Sarikata disimpan"
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Cannot save subtitles"
+msgstr "Tidak dapat simpan sarikata"
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Frame rate"
+msgstr "Kadar bingkai"
+
+msgctxt "IDS_MAINFRM_6"
+msgid "drawn: %d, dropped: %d"
+msgstr "dilukis: %d, dilepas: %d"
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Frames"
+msgstr "Bingkai"
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Buffers"
+msgstr "Penimbal"
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
+msgstr "Volum: %02d/%02d, Tajuk: %02d/%02d, Bab: %02d/%02d"
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr "Sudut: %02d/%02d, %dx%d %dHz %d:%d"
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %dHz %dbits %d %s"
+msgstr "%s, %s %dHz %dbit %d %s"
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Add to MPC-HC Playlist"
+msgstr "Tambah ke Senarai Main MPC-HC"
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Play with MPC-HC"
+msgstr "Main dengan MPC-HC"
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
+msgstr "MPC-HC tidak mempunyai kelayakan yang mencukupi untuk menukar perkaitan format fail. Sila klik pada butang \"Ubahsuai\" untuk dapatkan hak pentadbiran."
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
+msgstr "MPC-HC adalah pemain media bersumber terbuka yang sangat ringan untuk Windows. Ia menyokong semua format fail audio dan video umum yang tersedia untuk mainbalik. Kami adalah 100% bebas dari perisian pengintip, dan tiada palang alat atau iklan di dalam pemain ini."
+
+msgctxt "IDS_MAINFRM_12"
+msgid "channel"
+msgstr "saluran"
+
+msgctxt "IDS_MAINFRM_13"
+msgid "channels"
+msgstr "saluran"
+
+msgctxt "IDS_AG_TITLE"
+msgid "Title %d"
+msgstr "Tajuk %d"
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Unexpected error"
+msgstr "DVD: Ralat tidak dijangka"
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: Copy-Protect Fail"
+msgstr "DVD: Lindung-Salin Gagal"
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Invalid DVD 1.x Disc"
+msgstr "DVD: Cakera DVD 1.x Tidak Sah"
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Invalid Disc Region"
+msgstr "DVD: Wilayah Cakera Tidak Sah"
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Low Parental Level"
+msgstr "DVD: Aras Penjaga Rendah"
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Macrovision Fail"
+msgstr "DVD: Macrovision Gagal"
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Incompatible System And Decoder Regions"
+msgstr "DVD: Wilayah Sistem Dan Penyahkod Tidak Serasi"
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Incompatible Disc And Decoder Regions"
+msgstr "DVD: Wilayah Cakera Dan Penyahkod Tidak Serasi"
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
+msgstr "Pilihan ini direka untuk menghindari pengoyakan. Walaubagaimanapun, ia juga menghalang MPC-HC dari memaparkan menu konteks dan mana-mana kotak dialog semasa mainbalik.\n\nAnda pasti mahu aktifkan pilihan ini?"
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Sub delay: %ld ms"
+msgstr "Lengah sarikata: %ld ms"
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Title: %02d/%02d"
+msgstr "Tajuk: %02d/%02d"
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
+msgstr "Nama fail mengandungi aksara tidak disokong (hanya guna A-Z, 0-9)"
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Rows:"
+msgstr "Baris:"
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Columns:"
+msgstr "Lajur:"
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Image width"
+msgstr "Lebar imej"
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "The URL appears to be correct!"
+msgstr "URL kelihatan ok!"
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
+msgstr "Versi protokol tidak sepadan, sila tatar pemain anda atau pilih alamat yang lain!"
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr "Nisbah Bidang"
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Total: %d, Dropped: %d"
+msgstr ", Jumlah: %d, Dilepas: %d"
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Size: %I64dKB"
+msgstr ", Saiz: %I64dKB"
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Size: %I64dMB"
+msgstr ", Saiz: %I64dMB"
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Free: %I64dKB"
+msgstr ", Bebas: %I64dKB"
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Free: %I64dMB"
+msgstr ", Bebas: %I64dMB"
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Free V/A Buffers: %03d/%03d"
+msgstr ", Penimbal V/A Bebas: %03d/%03d"
+
+msgctxt "IDS_AG_ERROR"
+msgid "Error"
+msgstr "Ralat"
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Subtitle: off"
+msgstr "Sarikata: mati"
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Subtitle: %s"
+msgstr "Sarikata: %s"
+
+msgctxt "IDS_MAINFRM_46"
+msgid "Select the path for the DVD/BD:"
+msgstr "Pilih laluan untuk DVD/BD:"
+
+msgctxt "IDS_MAINFRM_47"
+msgid " loaded successfully"
+msgstr "berjaya dimuatkan"
+
+msgctxt "IDS_MAINFRM_48"
+msgid "All files (*.*)|*.*||"
+msgstr "Semua fail (*.*)|*.*||"
+
+msgctxt "IDS_MAINFRM_49"
+msgid "GetDIB failed, hr = %08x"
+msgstr "GetDIB gagal, hr = %08x"
+
+msgctxt "IDS_MAINFRM_51"
+msgid "GetCurrentImage failed, hr = %08x"
+msgstr "GetCurrentImage gagal, hr = %08x"
+
+msgctxt "IDS_MAINFRM_53"
+msgid "Cannot create file"
+msgstr "Tidak dapat cipta fail"
+
+msgctxt "IDS_MAINFRM_54"
+msgid "Cannot create thumbnails for files with no duration"
+msgstr "Tidak dapat cipta lakaran kenit untuk fail tanpa jangkamasa"
+
+msgctxt "IDS_MAINFRM_55"
+msgid "Failed to get video frame size"
+msgstr "Gagal dapatkan saiz bingkai video"
+
+msgctxt "IDS_MAINFRM_56"
+msgid "Out of memory, go buy some more!"
+msgstr "Kehabisan ingatan, tambah lagi!"
+
+msgctxt "IDS_MAINFRM_57"
+msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
+msgstr "Format imej tidak sah, tidak dapat cipta lakaran kenit dari %d bpp dib."
+
+msgctxt "IDS_MAINFRM_58"
+msgid "File Size: %s (%s bytes)\\N"
+msgstr "Saiz Fail: %s (%s bait)\\N"
+
+msgctxt "IDS_MAINFRM_59"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nama Fail: %s\\N%sResolusi: %dx%d %s\\NTempoh: %02d:%02d:%02d"
+
+msgctxt "IDS_MAINFRM_60"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Untuk muatkan sarikata anda perlu menukar jenis penerap dan buka semula fail.\n- DirectShow: VMR-7/VMR-9 (tak diterap), EVR (CP), Sync, madVR atau Haali\n- RealMedia: Penerap khas untukRealMedia, atau buka ia menerusi DirectShow\n- QuickTime: Penerap DX7 atau DX9 untuk QuickTime\n- ShockWave: t/a"
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Aspect Ratio: %d:%d"
+msgstr "Nisbah BidangL %d:%d"
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Aspect Ratio: Default"
+msgstr "Nisbah Bidang: Lalai"
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Audio Delay: %I64dms"
+msgstr "Lengah Audio: %I64dms"
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "Chapter %d"
+msgstr "Bab %d"
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Out of memory"
+msgstr "Kehabisan ingatan"
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Error: Flash player for IE is required"
+msgstr "Ralat: Pemain Flash untuk IE diperlukan"
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime not yet supported for X64 (apple library not available)"
+msgstr "QuickTime belum lagi disokong untuk X64 (pustaka apple tidak tersedia)"
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Failed to create the filter graph object"
+msgstr "Gagal mencipta objek graf penapis"
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Invalid argument"
+msgstr "Argumen tidak sah"
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Opening aborted"
+msgstr "Pembukaan dihenti paksa"
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Failed to render the file"
+msgstr "Gagal menerap fail"
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "Bad URL, could not locate subtitle database there!"
+msgstr "URL teruk, tidak dapat cari pangkalan data sarikata di sini!"
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "Chapter: "
+msgstr "Bab:"
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Vol: %d%%"
+msgstr "Vol: %d%%"
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Boost: +%u%%"
+msgstr "Galak: +%u%%"
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Balance: %s"
+msgstr "Imbangan: %s"
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Current"
+msgstr "Semasa"
+
+msgctxt "IDS_MPC_CRASH"
+msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
+msgstr "MPC-HC ditamatkan tanpa jangka. Untuk membantu kami mengatasi masalah ini, sila hantar fail \"%s\" ini ke penjejak pepijat kami.\n\nAnda mahu buka folder yang mengandungi fail longgok mini dan lawati penjejak pepeijat sekarang?"
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "Failed to create dump file to \"%s\" (error %d)"
+msgstr "Gagal cipta fail longgok ke \"%s\" (ralat %d)"
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Select Directory"
+msgstr "Pilih Direktori"
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Include subdirectories"
+msgstr "Sertakan subdirektori"
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Pause"
+msgstr "Jeda"
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Toggle Caption&Menu"
+msgstr "Togol Menu&Kapsyen"
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Toggle Seeker"
+msgstr "Togol Penjangkau"
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Toggle Controls"
+msgstr "Togol Kawalan"
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Invalid file name"
+msgstr "Nama fail tidak sah"
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Cannot connect the filters"
+msgstr "Tidak dapat sambungkan penapis"
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Cannot load any source filter"
+msgstr "Tidak dapat muat mana-mana penapis sumber"
+
+msgctxt "IDS_MAINFRM_88"
+msgid "Cannot render the file"
+msgstr "Tidak dapat terap fail"
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Invalid file format"
+msgstr "Format fail tidak sah"
+
+msgctxt "IDS_MAINFRM_90"
+msgid "File not found"
+msgstr "Fail tidak ditemui"
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Unknown file type"
+msgstr "Jenis fail tidak diketahui"
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Unsupported stream"
+msgstr "Strim tidak disokong"
+
+msgctxt "IDS_MAINFRM_93"
+msgid "Cannot find DVD directory"
+msgstr "Tidak dapat cari direktori DVD"
+
+msgctxt "IDS_MAINFRM_94"
+msgid "Can't create the DVD Navigator filter"
+msgstr "Tidak dapat cipta penapis Navigator DVD"
+
+msgctxt "IDS_AG_FAILED"
+msgid "Failed"
+msgstr "Gagal"
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Can't create video capture filter"
+msgstr "Tidak dapat cipta penapis tangkapan video"
+
+msgctxt "IDS_MAINFRM_98"
+msgid "No capture filters"
+msgstr "Tiada penapis tangkapan"
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Can't create capture graph builder object"
+msgstr "Tidak dapat cipta objek pembina graf tangkapan"
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Couldn't open any device"
+msgstr "Tidak dapat buka mana-mana peranti"
+
+msgctxt "IDS_AG_SOUND"
+msgid "Sound"
+msgstr "Bunyi"
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s was not found, please insert media containing this file."
+msgstr "%s tidak ditemui, sila sisipkan media yang mengandungi fail ini."
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Aborted"
+msgstr "Dihenti Paksa"
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Properties..."
+msgstr "Si&fat..."
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (pin) properties..."
+msgstr "(cemat) sifat..."
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Unknown Stream"
+msgstr "Strim Tidak Diketahui"
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Unknown %d"
+msgstr "%d tidak diketahui"
+
+msgctxt "IDS_AG_VSYNC"
+msgid "VSync"
+msgstr "VSync"
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Director Comments 1)"
+msgstr "(Ulasan Pengarah 1)"
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Director Comments 2)"
+msgstr "(Ulasan Pengarah 2)"
+
+msgctxt "IDS_AG_ENABLED"
+msgid "Enabled"
+msgstr "Dibenarkan"
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Angle %d"
+msgstr "Sudut %d"
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "Increase VSync Offset"
+msgstr "Tingkatkan Ofset VSync"
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Disabled"
+msgstr "Dilumpuhkan"
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "Decrease VSync Offset"
+msgstr "Kurangkan Ofset VSync"
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D Fullscreen"
+msgstr "Skrin Penuh D3D MPC-HC"
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Unknown format"
+msgstr "Format tidak diketahui"
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Sub shift: %ld ms"
+msgstr "Anjah sarikata: %ld ms"
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Volume boost increase"
+msgstr "Galak volum naik"
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Volume boost decrease"
+msgstr "Galak volum turun"
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Volume boost Min"
+msgstr "Galak volum Min"
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Volume boost Max"
+msgstr "Galak volum Maks"
+
+msgctxt "IDS_USAGE"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Penggunaan: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tFail atau direktori utama akan dimuatkan (kad liar\n\t\tdibenarkan, \"-\" melibatkan input piawai)\n/dub \"dubname\"\tMuat satu fail audio tambahan\n/dubdelay \"file\"\tMuat fail audio tambahan yang dianjak denga XXms (jika\n\t\tfail mengandungi \"...DELAY XXms...\")\n/d3dfs\t\tMula menerap dalam mod skrin penuh D3D\n/sub \"subname\"\tMuat fail sarikata tambahan\n/filter \"filtername\"\tMuat penapis DirectShow dari pustaka pautan dinamik\n\t\t(kad liar dibenarkan)\n/dvd\t\tJalan dalam mod dvd, \"pathname\" bermaksud folder dvd\n\t\t(pilihan)\n/dvdpos T#C\tMula mainbalik pada tajuk T, bab C\n/dvdpos T#hh:mm\tMula mainbalik pada tajuk T, kedudukan hh:mm:ss\n/cd\t\tMuat semua trek cd audio atau (s)vcd,\n\t\t\"pathname\" bermaksud laluan pemacu (pilihan)\n/device\t\tBuka peranti video lalai\n/open\t\tBuka fail, jangan mula main balik secara automatik\n/play\t\tMula memainkan fail sebaik sahaja pemain\n\t\tdilancarkan\n/close\t\tTutup pemain selepas mainbalik (hanya berfungsi\n\t\tbila digunakan dengan /play)\n/shutdown\tMatikan sistem pengoperasian selepas mainbalik\n/fullscreen\tMula dalam mod skrin-penuh\n/minimized\tMua dalam mod diminimumkan\n/new\t\tGuna kejadian baharu pemain\n/add\t\tTambah \"pathname\" ke senarai main, boleh digabung\n\t\tdengan /open dan /play\n/regvid\t\tCipta perkaitan fail untuk fail video\n/regaud\t\tCipta perkaitan fail untuk fail audio\n/regpl\t\tCipta perkaitan fail untuk fail senarai main\n/regall\t\tCipta perkaitan fail untuk semua jenis fail disokong\n/unregall\t\tBuang semua perkaitan fail\n/start ms\t\tMula bermain pada \"ms\" (= milisaat)\n/startpos hh:mm:ss\tMula bermain pada kedudukan hh:mm:ss\n/fixedsize w,h\tTetakan saiz tetingkap tetap\n/monitor N\tMula pemain pada monitor N, dimana N bermula dari 1\n/audiorenderer N\tMula menggunakan penerapaudio N, dimana N bermul dari 1\n\t\t(rujuk tetapan \"Output\")\n/shaderpreset \"Pr\"\tMula menggunakan praset pelorek \"Pr\"\n/reset\t\tPulih tetapan lalai\n/help /h /?\tTunjuk bantuan mengenai suis baris perintah\n"
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "Unrecognized switch(es) found in command line string: \n\n"
+msgstr "Suis(es) tidak dikenali telah ditemui dalam rentetan baris perintah:\n\n"
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Toggle Information"
+msgstr "Togol Maklumat"
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Toggle Statistics"
+msgstr "Togol Statistik"
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Toggle Status"
+msgstr "Togol Status"
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Toggle Subresync Bar"
+msgstr "Togol Palang Sub-segerak-semula"
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Toggle Playlist Bar"
+msgstr "Togol Palang Senarai Main"
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Toggle Capture Bar"
+msgstr "Togol Palang Tangkapan"
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr "Togol Pelorek Nyahpepijat"
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Zoom 50%"
+msgstr "Zum 50%"
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Zoom 100%"
+msgstr "Zum 100%"
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Zoom 200%"
+msgstr "Zum 200%"
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Next AR Preset"
+msgstr "Praset AR Berikutnya"
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "VidFrm Stretch"
+msgstr "Regang BkgiVid"
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "VidFrm Inside"
+msgstr "Dalam BgkiVid"
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "VidFrm Outside"
+msgstr "Luar BgkiVid"
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "PnS Reset"
+msgstr "Tetap Semula PnS"
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "PnS Rotate X+"
+msgstr "Putar X+ PnS"
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "VidFrm Zoom 1"
+msgstr "Zum BgkiVid 1"
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "VidFrm Zoom 2"
+msgstr "Zum BgkiVid 2"
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "VidFrm Switch Zoom"
+msgstr "Zum Suis BgkiVid"
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "&Enable all filters"
+msgstr "B&enarkan semua penapis"
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Imbas penala"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Sarikata tidak dimuatkan atau penerap tidak disokong."
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Author unknown. Contact us if you made this logo!"
+msgstr "Pengarang tidak diketahui. Hubungi kami jika anda cipta logo ini!"
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "No more media in the current folder."
+msgstr "Tiada lagi media dalam folder semasa."
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "The first file of the folder is already loaded."
+msgstr "Fail pertama folder sudah dimuatkan."
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "The last file of the folder is already loaded."
+msgstr "Fail terakhir folder sudah dimuatkan."
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Front Left"
+msgstr "Kiri Hadapan"
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Front Right"
+msgstr "Kanan Hadapan"
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Front Center"
+msgstr "Tengah Hadapan"
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Low Frequency"
+msgstr "Frekuensi Rendah"
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Back Left"
+msgstr "Kiri Belakang"
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Back Right"
+msgstr "Kanan Belakang"
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Front Left of Center"
+msgstr "Kiri Hadapan bagi Tengah"
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Front Right of Center"
+msgstr "Kanan Hadapan bagi Tengah"
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Back Center"
+msgstr "Tengah Belakang"
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Side Left"
+msgstr "Kiri Sisi"
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Side Right"
+msgstr "Kanan Sisi"
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Top Center"
+msgstr "Tengah Atas"
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Top Front Left"
+msgstr "Kiri Hadapan Atas"
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Top Front Center"
+msgstr "Tengah Hadapan Atas"
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Top Front Right"
+msgstr "Kanan Hadapan Atas"
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Top Back Left"
+msgstr "Kiri Belakang Atas"
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Top Back Center"
+msgstr "Tengah Belakang Atas"
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Top Back Right"
+msgstr "Kanan Belakang Atas"
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "Reset Display Stats"
+msgstr "Tetap Semula Stat Paparan"
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "Sarikata::Pelbagai"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "Sembunyi s&empadan"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Frame Only"
+msgstr "Bingkai Sahaja"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "T&unjuk Menu&&Kapsyen"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "Sembunyi &Menu"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seekbar"
+msgstr "Atas palang jangkau"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seekbar"
+msgstr "Bawah palang jangkau"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "Video: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "Laksana"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "Kosongkan"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "Batal"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "Bentangan"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "Piksel:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "Pengekodan:"
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "&Disable all filters"
+msgstr "&Lumpuhkan semua penapis"
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Enable all audio decoders"
+msgstr "Benarkan semua penyahkod audio"
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Disable all audio decoders"
+msgstr "Lumpuhkan semua penyahkod audio"
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Enable all video decoders"
+msgstr "Benarkan semua penyahkod video"
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Disable all video decoders"
+msgstr "Lumpuhkan semua penyahkod video"
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Stretch To Window"
+msgstr "Regang Ke Tetingkap"
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Touch Window From Inside"
+msgstr "Sentuh Tetingkap Dari Dalam"
+
+msgctxt "IDS_ZOOM1"
+msgid "Zoom 1"
+msgstr "Zum 1"
+
+msgctxt "IDS_ZOOM2"
+msgid "Zoom 2"
+msgstr "Zum 2"
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Touch Window From Outside"
+msgstr "Sentuh Tetingkap Dari Luar"
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Audio: %s"
+msgstr "Audio: %s"
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Reopen File"
+msgstr "Buka Semula Fail"
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr "AVI"
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr "MPEG"
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr "MPEG-TS"
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr "Video-DVD"
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr "Matroska"
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr "WebM"
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr "MP4"
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr "Cereka QuickTime"
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr "3GP"
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr "3G2"
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr "Video Flash"
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr "Media Ogg"
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr "Media Real"
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr "Skrip Real"
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr "Video Media Windows"
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr "Video Smacker/Bink"
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr "Animasi FLIC"
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr "Media DirectShow"
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr "Format Video Indeo"
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr "Lain-lain"
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr "Flash Shockwave"
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Other Audio"
+msgstr "Audio Lain"
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr "AC-3/DTS"
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr "AIFF"
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr "Tak Hilang Apple"
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr "AMR"
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr "Audio Monkey"
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr "AU/SND"
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr "Trek CD audio"
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr "FLAC"
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr "Audio MPEG-4"
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr "MIDI"
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr "Audio Matroska"
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr "MP3"
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr "Audio MPEG"
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr "Musepack"
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr "OptimFROG"
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr "Ogg Vorbis"
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr "Audio Real"
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr "TAK"
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr "Audio True"
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr "WAV"
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr "Audio Media Windows"
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr "WavPack"
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr "Kodeks Audio Opus"
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr "Senarai Main"
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr "Senarai main Blu-ray"
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr "Arkib RAR"
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr "FPS"
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Resolution"
+msgstr "Resolusi"
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr "Nisbah Bidang"
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "Use WASAPI (restart playback)"
+msgstr "Guna WASAPI (mula semula mainbalik)"
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "Mute on fast forward"
+msgstr "Senyap bila dimaju pantas"
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr "Peranti Bunyi:"
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "VSync: On"
+msgstr "VSync: Hidup"
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "VSync: Off"
+msgstr "VSync: Mati"
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Accurate VSync: On"
+msgstr "VSync Tepat: Hidup"
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Accurate VSync: Off"
+msgstr "VSync Tepat: Mati"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Synchronize Video to Display: On"
+msgstr "Segerak Video untuk Paparan: Hidup"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Synchronize Video to Display: Off"
+msgstr "Segerak Video untuk Paparan: Mati"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Synchronize Display to Video: On"
+msgstr "Segerak Paparan untuk Video: Hidup"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Synchronize Display to Video: Off"
+msgstr "Segerak Paparan untuk Video: Mati"
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Present at Nearest VSync: On"
+msgstr "Hadir pada VSync terhampir: Hidup"
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Present at Nearest VSync: Off"
+msgstr "Hadir pada VSync terhampir: Mati"
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Color Management: On"
+msgstr "Pengurusan Warna: Hidup"
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Color Management: Off"
+msgstr "Pengurusan Warna: Mati"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Input Type: Auto-Detect"
+msgstr "Jenis Input: Kesan-Sendiri"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Input Type: HDTV"
+msgstr "Jenis Input: HDTV"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Input Type: SDTV NTSC"
+msgstr "Jenis Input: SDTV NTSC"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Input Type: SDTV PAL"
+msgstr "Jenis Input: SDTV PAL"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Ambient Light: Bright (2.2 Gamma)"
+msgstr "Cahaya Ambien: Cerah (Gamma 2.2)"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Ambient Light: Dim (2.35 Gamma)"
+msgstr "Cahaya Ambien: Malap (Gamma 2.35)"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Ambient Light: Dark (2.4 Gamma)"
+msgstr "Cahaya Ambien: Gelap (Gamma 2.4)"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Rendering Intent: Perceptual"
+msgstr "Niat Penerapan: Perseptual"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Rendering Intent: Relative Colorimetric"
+msgstr "Niat Penerapan: Kolorimetrik Relatif"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Rendering Intent: Saturation"
+msgstr "Niat Penerapan: Ketepuan"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Rendering Intent: Absolute Colorimetric"
+msgstr "Niat Penerapan: Kolorimetrik Mutlak"
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Output Range: %s"
+msgstr "Julat Output: %s"
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "Flush GPU before VSync: On"
+msgstr "Kosongkan GPU sebelum VSync: Hidup"
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "Flush GPU before VSync: Off"
+msgstr "Kosongkan GPU sebelum VSync: Mati"
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "Flush GPU after Present: On"
+msgstr "Kosongkan GPU selepas Ini: Hidup"
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "Flush GPU after Present: Off"
+msgstr "Kosongkan GPU selepas Ini: Mati"
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Wait for GPU Flush: On"
+msgstr "Tunggu untuk Kosongkan GPU: Hidup"
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Wait for GPU Flush: Off"
+msgstr "Tunggu untuk Kosongkan GPU: Mati"
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D Fullscreen: On"
+msgstr "Skrin Penuh D3D: Hidup"
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D Fullscreen: Off"
+msgstr "Skrin Penuh D3D: Mati"
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Disable desktop composition: On"
+msgstr "Lumpuhkan komposisi dekstop: Hidup"
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Disable desktop composition: Off"
+msgstr "Lumpuhkan komposisi dekstop: Mati"
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Alternative VSync: On"
+msgstr "VSync Alternatif: Hidup"
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Alternative VSync: Off"
+msgstr "VSync Alternatif: Mati"
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Renderer settings reset to default"
+msgstr "Tetap semula tetapan penerap ke lalai"
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Renderer settings reset to optimal"
+msgstr "Tetap semula tetapan penerap ke optimum"
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D Fullscreen GUI Support: On"
+msgstr "Sokongan GUI Skrin Penuh D3D: Hidup"
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D Fullscreen GUI Support: Off"
+msgstr "Sokongan GUI Skrin Penuh D3D: Mati"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10-bit RGB Output: On"
+msgstr "Output RGB 10-bit: Hidup"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10-bit RGB Output: Off"
+msgstr "Output RGB 10-bit: Mati"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "Force 10-bit RGB Input: On"
+msgstr "Paksa Input RGB 10-bit: Hidup"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "Force 10-bit RGB Input: Off"
+msgstr "Paksa Input RGB 10-bit: Mati"
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Full Floating Point Processing: On"
+msgstr "Pemprosesan Titik Apung Penuh: Hidup"
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Full Floating Point Processing: Off"
+msgstr "Pemprosesan Titik Apung Penuh: Mati"
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Half Floating Point Processing: On"
+msgstr "Pemprosesan Titik Apung Separa: Hidup"
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Half Floating Point Processing: Off"
+msgstr "Pemprosesan Titik Apung Separa: Mati"
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Brightness decrease"
+msgstr "Kecerahan kurang"
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Contrast increase"
+msgstr "Beza jelas naik"
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Contrast decrease"
+msgstr "Beza jelas turun"
+
+msgctxt "IDS_HUE_INC"
+msgid "Hue increase"
+msgstr "Rona naik"
+
+msgctxt "IDS_HUE_DEC"
+msgid "Hue decrease"
+msgstr "Rona turun"
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Saturation increase"
+msgstr "Ketepuan naik"
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Saturation decrease"
+msgstr "Ketepuan turun"
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Reset color settings"
+msgstr "Tetap semula tetapan warna"
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nYou are already using the latest stable version."
+msgstr "\nAnda menggunakan versi stabil yang terkini."
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
+msgstr "Versi semasa anda adalah v%s.\n\nVersi stabil terkini adalah v%s."
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
+msgstr "MPC-HC v%s kini sudah tersedia. Anda menggunakan v%s.\n\nAnda mahu lawati laman sesawang MPC-HC untuk memuat turunnya?"
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Update server not found.\n\nPlease check your internet connection or try again later."
+msgstr "Pelayan kemaskini tidak ditemui.\n\nSila semak sambungan internet anda atau cuba lagi kemudian."
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Close"
+msgstr "&Tutup"
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Zoom: %.0lf%%"
+msgstr "Zum: %.0lf%%"
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Zoom: Auto"
+msgstr "Zum: Auto"
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Toggle custom channel mapping"
+msgstr "Togol pemetaan saluran suai"
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Custom channel mapping: On"
+msgstr "Pemetaan saluran suai: Hidup"
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Custom channel mapping: Off"
+msgstr "Pemetaan saluran suai: Mati"
+
+msgctxt "IDS_NORMALIZE"
+msgid "Toggle normalization"
+msgstr "Togol penormalan"
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Normalization: On"
+msgstr "Penormalan: Hidup"
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Normalization: Off"
+msgstr "Penormalan: Mati"
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Toggle regain volume"
+msgstr "Togol volum gandaan-semula"
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Regain volume: On"
+msgstr "Volum gandaan-semula: Hidup"
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Regain volume: Off"
+msgstr "Volum gandaan-semula: Mati"
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr "KB"
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr "MB"
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr "GB"
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr "KB/s"
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr "MB/s"
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Could not create the tuner."
+msgstr "Tidak dapat cipta penala."
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Could not create the receiver."
+msgstr "Tidak dapat cipta penerima."
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Could not connect the network and the tuner."
+msgstr "Tidak dapat sambungkan rangkaian dan penala."
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Could not connect the tuner and the receiver."
+msgstr "Tidak dapat sambungkan penala dan penerima."
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Could not connect the tuner."
+msgstr "Tidak dapat sambungkan penala."
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Could not create the demultiplexer."
+msgstr "Tidak dapat cipta penyahmultipleks."
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Error parsing the entered time!"
+msgstr "Ralat menghurai masa dimasuki!"
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Error parsing the entered text!"
+msgstr "Ralat menghurai teks dimasuki!"
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Error parsing the entered frame rate!"
+msgstr "Ralat menghurai kadar bingkai dimasuki!"
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Cannot frame step, try a different video renderer."
+msgstr "Tidak dapat langkah bingkai, cuba penerap video yang lain."
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
+msgstr "Fungsi \"Simpan Imej\" dan \"Simpan Lakaran Kenit\" tidak berfungsi dengan penerap video lalai untuk RealMedia.\nPilih salah satu penerap DirectX untuk RealMedia di dalam pilihan output MPC-HC dan buka semula fail tersebut."
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
+msgstr "Fungsi \"Simpan Imej\" dan \"Simpan Lakaran Kenit\" tidak berfungsi dengan penerap video lalai untuk QuickTime.\nPilih salah satu penerap DirectX untuk QuickTime di dalam pilihan output MPC-HC dan buka semula fail tersebut."
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
+msgstr "Fungsi \"Simpan Imej\" dan \"Simpan Lakaran Kenit\" tidak berfungsi untuk fail Shockwave."
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
+msgstr "Fungsi \"Simpan Imej\" dan \"Simpan Lakaran Kenit\" tidak berfungsi dengan penerap video Pengadun Tindihan.\nUbah penerap video di dalam pilihan output MPC-HC dan buka semula fail tersebut."
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Cannot connect to the online subtitles database."
+msgstr "Tidak dapat sambungkan pangkalan data sarikata atas-talian."
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Do you want to activate the EDL editor?"
+msgstr "Anda mahu aktifkan penyunting EDL?"
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Capture Error"
+msgstr "Ralat Tangkapan"
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "video"
+msgstr "ideo"
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "audio"
+msgstr "audio"
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "Can't add the %s buffer filter to the graph."
+msgstr "Tidak dapat tambah penapis penimbal %s ke graf."
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Can't connect the %s buffer filter to the graph."
+msgstr "Tidak dapat sambung penapis penimbal %s ke graf."
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "Can't add the %s encoder filter to the graph."
+msgstr "Tidak dapat tambah penapis pengekod %s ke graf."
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Can't connect the %s encoder filter to the graph."
+msgstr "Tidak dapat sambungkan penapis pengekod %s ke graf."
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Can't set the compression format on the %s encoder filter."
+msgstr "Tidak dapat tetapkan format mampatan pada penapis pengekod %s."
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Can't connect the %s stream to the multiplexer filter."
+msgstr "Tidak dapat sambungkan strim %s ke penapis multipleks."
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "No video capture pin was found."
+msgstr "Tiada pin tangkapan video ditemui."
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "No audio capture pin was found."
+msgstr "Tiada pin tangkapan audio ditemui."
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Error initializing the output file."
+msgstr "Ralat mengawalkan fail output."
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Error initializing the audio output file."
+msgstr "Ralat mengawalkan fail output audio."
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
+msgstr "Format masa yang betul adalah [-]hh:mm:ss.ms (cth. 01:23:45.678)."
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "This type is already in the list!"
+msgstr "Jenis ini sudah berada di dalam senarai!"
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "You need to apply the new settings before testing them."
+msgstr "Anda perlu laksanakan tetapan baharu sebelum mengunjinya."
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Exit"
+msgstr "Selepas Mainbalik: Keluar"
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "After Playback: Stand By"
+msgstr "Selepas Mainbalik: Sedia"
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "After Playback: Hibernate"
+msgstr "Selepas Mainbalik: Hibernasi"
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "After Playback: Shutdown"
+msgstr "Selepas Mainbalik: Matikan"
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "After Playback: Log Off"
+msgstr "Selepas Mainbalik: Daftar Keluar"
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "After Playback: Lock"
+msgstr "Selepas Mainbalik: Kunci"
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "After Playback: Always exit"
+msgstr "Selepas Mainbalik: Sentiasa keluar"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do Nothing"
+msgstr "Selepas Mainbalik: Jangan Buat Apa-Apa"
+
+msgctxt "IDS_AFTERPLAYBACK_NEXT"
+msgid "After Playback: Play next in the folder"
+msgstr "Selepas Mainbalik: Main berikutnya dalam folder"
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Brightness: %s"
+msgstr "Kecerahan: %s"
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Contrast: %s"
+msgstr "Beza Jelas: %s"
+
+msgctxt "IDS_OSD_HUE"
+msgid "Hue: %s°"
+msgstr "Rona: %s°"
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Saturation: %s"
+msgstr "Ketepuan: %s"
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Color settings restored"
+msgstr "Tetapan warna dipulihkan"
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Color control is not supported"
+msgstr "Kawalan warna tidak disokong"
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Brightness increase"
+msgstr "Kecerahan naik"
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Masukkan bahasa dikehendaki anda di sini.\nContohnya, taip: \"eng ms jap\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Pemisah luaran boleh mempunyai pilihan keutamaan bahasa mereka sendiri maka kelakuan lalai MPC-HC adalah tidak menukar pilihan awal mereka.\nBenarkan pilihan ini jika anda mahu MPC-HC mengawal pemisah luaran."
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Settings"
+msgstr "Tetapan"
+

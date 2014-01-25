@@ -42,6 +42,8 @@ Global
 		Release Japanese|x64 = Release Japanese|x64
 		Release Korean|Win32 = Release Korean|Win32
 		Release Korean|x64 = Release Korean|x64
+		Release Malay|Win32 = Release Malay|Win32
+		Release Malay|x64 = Release Malay|x64
 		Release Polish|Win32 = Release Polish|Win32
 		Release Polish|x64 = Release Polish|x64
 		Release Portuguese (Brazil)|Win32 = Release Portuguese (Brazil)|Win32
@@ -136,6 +138,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Korean|Win32.Build.0 = Release Korean|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Korean|x64.ActiveCfg = Release Korean|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Korean|x64.Build.0 = Release Korean|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Malay|Win32.ActiveCfg = Release Malay|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Malay|Win32.Build.0 = Release Malay|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Malay|x64.ActiveCfg = Release Malay|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Malay|x64.Build.0 = Release Malay|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Polish|Win32.ActiveCfg = Release Polish|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Polish|Win32.Build.0 = Release Polish|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Polish|x64.ActiveCfg = Release Polish|x64

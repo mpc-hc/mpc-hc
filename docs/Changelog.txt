@@ -15,7 +15,7 @@ next version - not released yet
 + Support pixel shader presets (with shortcuts and command line options)
 + Show more descriptive window title in the capture mode
 + Ability to add all media files in folder from playlist panel context menu
-+ New Croatian translation
++ New Croatian and Malay translations
 + Ticket #1556, Ability to move the player window by dragging the video area during DVD playback
 + Ticket #2251, Show hidden main menu with Alt key
 + Ticket #3235, Option to delay playback when auto-change fullscreen monitor mode feature is used

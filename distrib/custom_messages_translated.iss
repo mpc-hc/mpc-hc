@@ -89,6 +89,10 @@ ja.WinVersionTooLowError=[name] を実行する為には Windows XP Service Pack
 ko.WelcomeLabel2=이 설치프로그램은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
 ko.WinVersionTooLowError=[name] 는(은) Windows XP Service Pack 3  또는 그 이상의 버전에서만 설치할 수 있습니다.
 
+; Malay (Malaysia)
+ms_MY.WelcomeLabel2=Ini akan memasang [name] ke dalam komputer anda.%n%nDisarankan anda tutup semua aplikasi lain sebelum diteruskan.
+ms_MY.WinVersionTooLowError=[name] memerlukan Windows XP Service Pack 3 atau yg lebih baharu untuk dijalankan.
+
 ; Dutch (Neutral)
 nl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 nl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
@@ -442,6 +446,25 @@ ko.tsk_ResetSettings=설정 초기화
 ko.types_DefaultInstallation=기본 설치
 ko.types_CustomInstallation=사용자정의 설치
 ko.ViewChangelog=버전 변경사항 보기
+
+; Malay (Malaysia)
+ms_MY.langid=00001086
+ms_MY.comp_mpciconlib=Pustaka Ikon
+ms_MY.comp_mpcresources=Terjemahan
+ms_MY.msg_DeleteSettings=Anda mahu padam tetapan MPC-HC?%n%nJika anda bercadang untuk memasang MPC-HC lagi, maka anda tidak perlu memadamnya.
+ms_MY.msg_SetupIsRunningWarning=Persediaan MPC-HC sedia dijalankan!
+#if defined(sse_required)
+ms_MY.msg_simd_sse=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SSE.%n%nCPU anda tidak mempunyai keupayaan tersebut.
+#elif defined(sse2_required)
+ms_MY.msg_simd_sse2=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SSE2.%n%nCPU anda tidak mempunyai keupayaan tersebut.
+#endif
+ms_MY.tsk_AllUsers=Untuk semua pengguna
+ms_MY.tsk_CurrentUser=Untuk pengguna semasa sahaja
+ms_MY.tsk_Other=Tugas lain:
+ms_MY.tsk_ResetSettings=Tetap semula tetapan
+ms_MY.types_DefaultInstallation=Pemasangan lalai
+ms_MY.types_CustomInstallation=Pemasangan suai
+ms_MY.ViewChangelog=Lihat Log Perubahan
 
 ; Dutch (Neutral)
 nl.langid=00001043
