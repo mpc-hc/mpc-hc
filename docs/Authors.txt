@@ -38,6 +38,11 @@ xpc1000                 <xpc1000@users.sourceforge.net>         Code
 
 Translators:
 ------------
+Translations are now handled using Transifex, a web-based translation platform. An up-to-date list
+of translators involved for each language can be found on https://www.transifex.com/projects/p/mpc-hc/.
+
+Translators (pre-Transifex era):
+------------
 Armenian                hrant77                 <hrant77@users.sourceforge.net>
 Basque                  Xabier Aramendi         <azpidatziak@users.sourceforge.net>
 Belarusian              Mister-sh               <mister-sh@users.sourceforge.net>
