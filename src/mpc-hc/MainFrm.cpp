@@ -737,6 +737,7 @@ CMainFrame::CMainFrame()
     , m_wndInfoBar(this)
     , m_wndStatsBar(this)
     , m_wndStatusBar(this)
+    , m_bAltDownClean(false)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -1148,6 +1149,19 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
         // mfc doesn't hide menubar on f10, but we want to
         VERIFY(SetMenuBarState(AFX_MBS_HIDDEN));
         return TRUE;
+    }
+
+    if (pMsg->message == WM_KEYDOWN) {
+        m_bAltDownClean = false;
+    }
+    if (pMsg->message == WM_SYSKEYDOWN) {
+        m_bAltDownClean = (pMsg->wParam == VK_MENU);
+    }
+    if ((m_dwMenuBarVisibility & AFX_MBV_DISPLAYONFOCUS) && pMsg->message == WM_SYSKEYUP && pMsg->wParam == VK_MENU) {
+        if (m_bAltDownClean) {
+            VERIFY(SetMenuBarState(m_dwMenuBarState == AFX_MBS_VISIBLE ? AFX_MBS_HIDDEN : AFX_MBS_VISIBLE));
+        }
+        return FALSE;
     }
 
     return __super::PreTranslateMessage(pMsg);

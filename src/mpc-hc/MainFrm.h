@@ -984,6 +984,7 @@ protected:
     void UpdateSeekbarChapterBag();
     void UpdateAudioSwitcher();
 
+    bool m_bAltDownClean;
     bool m_bShowingFloatingMenubar;
     virtual void OnShowMenuBar() override {
         m_bShowingFloatingMenubar = (GetMenuBarVisibility() != AFX_MBV_KEEPVISIBLE);
