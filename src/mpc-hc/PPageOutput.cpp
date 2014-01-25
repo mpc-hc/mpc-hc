@@ -331,6 +331,7 @@ BOOL CPPageOutput::OnInitDialog()
 
     CreateToolTip();
 
+    m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSSYSDEF));
     m_wndToolTip.AddTool(GetDlgItem(IDC_RMRND_COMBO), ResStr(IDC_RMSYSDEF));
     m_wndToolTip.AddTool(GetDlgItem(IDC_QTRND_COMBO), ResStr(IDC_QTSYSDEF));
     m_wndToolTip.AddTool(GetDlgItem(IDC_DX_SURFACE), ResStr(IDC_REGULARSURF));
