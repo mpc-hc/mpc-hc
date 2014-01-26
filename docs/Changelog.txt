@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-next version - not released yet
-===============================
+1.7.2 - 26 January 2014
+=======================
 + Added support for XySubFilter, only compatible with embedded subtitles for now
 + New option to auto-hide docked panels together with toolbars
 + Support pixel shader presets (with shortcuts and command line options)
