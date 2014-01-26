@@ -1161,9 +1161,11 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
     if (pMsg->message == WM_SYSKEYDOWN) {
         m_bAltDownClean = (pMsg->wParam == VK_MENU);
     }
-    if ((m_dwMenuBarVisibility & AFX_MBV_DISPLAYONFOCUS) && pMsg->message == WM_SYSKEYUP && pMsg->wParam == VK_MENU) {
+    if ((m_dwMenuBarVisibility & AFX_MBV_DISPLAYONFOCUS) && pMsg->message == WM_SYSKEYUP && pMsg->wParam == VK_MENU &&
+            m_dwMenuBarState == AFX_MBS_HIDDEN) {
+        // mfc shows menubar when Ctrl->Alt->K is released in reverse order, but we don't want to
         if (m_bAltDownClean) {
-            VERIFY(SetMenuBarState(m_dwMenuBarState == AFX_MBS_VISIBLE ? AFX_MBS_HIDDEN : AFX_MBS_VISIBLE));
+            VERIFY(SetMenuBarState(AFX_MBS_VISIBLE));
         }
         return FALSE;
     }
