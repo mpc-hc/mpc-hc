@@ -58,7 +58,8 @@ public:
     void SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision,
                         const GUID& timeFormat = TIME_FORMAT_MEDIA_TIME);
 
-    CString GetStatusTimer();
+    CString GetStatusTimer() const;
+    CString GetStatusMessage() const;
     void ShowTimer(bool fShow);
 
     // Overrides
@@ -77,4 +78,5 @@ protected:
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg BOOL PreTranslateMessage(MSG* pMsg);
     afx_msg void OnTimeDisplayClicked();
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 };

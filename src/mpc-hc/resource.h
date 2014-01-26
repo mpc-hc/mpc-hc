@@ -1442,6 +1442,8 @@
 #define IDS_VOLUME                      57392
 #define IDS_BOOST                       57393
 #define IDS_PLAYLIST_ADDFOLDER          57394
+#define IDS_HW_INDICATOR                57395
+#define IDS_TOOLTIP_SOFTWARE_DECODING   57396
 
 // Next default values for new objects
 // 

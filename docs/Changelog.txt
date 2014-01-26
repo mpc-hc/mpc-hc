@@ -8,6 +8,13 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
++ Ticket #3873, Display tooltip with H/W decoder name on hover over status message
+! Ticket #2870, Fix rare visual glitches on status bar 
+! Ticket #3881, DXVA status was invalid with certain decoders
+
+
 1.7.2 - 26 January 2014
 =======================
 + Added support for XySubFilter, only compatible with embedded subtitles for now

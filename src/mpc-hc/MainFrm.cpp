@@ -2093,6 +2093,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 }
                 // prevent screensaver activate, monitor sleep/turn off after playback
                 SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
+
+                UpdateDXVAStatus();
             }
         }
         break;
@@ -3004,7 +3006,7 @@ void CMainFrame::OnMenuFilters()
 void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 {
     if (m_eMediaLoadState == MLS::LOADING) {
-        pCmdUI->SetText(ResStr(IDS_CONTROLS_OPENING));
+        m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_OPENING));
         if (AfxGetAppSettings().fUseWin7TaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
@@ -3113,16 +3115,16 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             fs == State_Running ? ResStr(IDS_CONTROLS_PLAYING) :
             _T("");
         if (m_bUsingDXVA && (UI_Text == ResStr(IDS_CONTROLS_PAUSED) || UI_Text == ResStr(IDS_CONTROLS_PLAYING))) {
-            UI_Text += _T(" [DXVA]");
+            UI_Text.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR));
         }
-        pCmdUI->SetText(UI_Text);
+        m_wndStatusBar.SetStatusMessage(UI_Text);
     } else if (m_eMediaLoadState == MLS::CLOSING) {
-        pCmdUI->SetText(ResStr(IDS_CONTROLS_CLOSING));
+        m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_CLOSING));
         if (AfxGetAppSettings().fUseWin7TaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
     } else {
-        pCmdUI->SetText(m_closingmsg);
+        m_wndStatusBar.SetStatusMessage(m_closingmsg);
     }
 }
 
@@ -10915,36 +10917,11 @@ void CMainFrame::OpenSetupVideo()
         pWnd->EnableWindow(FALSE);
     }
 
-    CString DXVAInfo;
-
-    if (m_fAudioOnly) {
-        if (IsD3DFullScreenMode()) {
-            m_pFullscreenWnd->DestroyWindow();
-        }
-    } else {
-        CString DXVADecoderDescription = GetDXVADecoderDescription();
-        m_bUsingDXVA = (_T("Not using DXVA") != DXVADecoderDescription && _T("Unknown") != DXVADecoderDescription);
-
-        DXVAInfo.Format(_T("%-13s: %s"), GetDXVAVersion(), GetDXVADecoderDescription());
-
-        // If LAV Video is in the graph, we query it since it's always more reliable than the hook.
-        if (CComQIPtr<ILAVVideoStatus> pLAVVideoStatus = FindFilter(GUID_LAVVideo, m_pGB)) {
-            CStringW decoderName = pLAVVideoStatus->GetActiveDecoderName();
-            if (decoderName.Find(L"dxva") == 0 || decoderName == L"cuvid" || decoderName == L"quicksync") {
-                CString LAVDXVAInfo;
-                LAVDXVAInfo.Format(_T("LAV Video Decoder (%s)"), CFGFilterLAVVideo::GetUserFriendlyDecoderName(decoderName));
-
-                if (!m_bUsingDXVA) { // Don't trust the hook
-                    m_bUsingDXVA = true;
-                    DXVAInfo.Format(_T("DXVA2        : %s"), LAVDXVAInfo);
-                } else {
-                    DXVAInfo.AppendFormat(_T(" [%s]"), LAVDXVAInfo);
-                }
-            }
-        }
+    if (!m_fAudioOnly) {
+        UpdateDXVAStatus();
+    } else if (IsD3DFullScreenMode()) {
+        m_pFullscreenWnd->DestroyWindow();
     }
-
-    GetRenderersData()->m_strDXVAInfo = DXVAInfo;
 }
 
 // Called from GraphThread
@@ -14064,13 +14041,6 @@ void CMainFrame::StopWebServer()
     }
 }
 
-CString CMainFrame::GetStatusMessage() const
-{
-    CString str;
-    m_wndStatusBar.m_status.GetWindowText(str);
-    return str;
-}
-
 void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 {
     KillTimer(TIMER_STATUSERASER);
@@ -16130,4 +16100,42 @@ GUID CMainFrame::GetTimeFormat()
         ret = TIME_FORMAT_NONE;
     }
     return ret;
+}
+
+void CMainFrame::UpdateDXVAStatus()
+{
+    CString DXVADecoderDescription = GetDXVADecoderDescription();
+    m_bUsingDXVA = (_T("Not using DXVA") != DXVADecoderDescription && _T("Unknown") != DXVADecoderDescription);
+    m_HWAccelType = GetDXVAVersion();
+
+    CString DXVAInfo;
+    DXVAInfo.Format(_T("%-13s: %s"), m_HWAccelType, DXVADecoderDescription);
+
+    // If LAV Video is in the graph, we query it since it's always more reliable than the hook.
+    if (CComQIPtr<ILAVVideoStatus> pLAVVideoStatus = FindFilter(GUID_LAVVideo, m_pGB)) {
+        CStringW decoderName = pLAVVideoStatus->GetActiveDecoderName();
+        if (decoderName.Find(L"dxva") == 0 || decoderName == L"cuvid" || decoderName == L"quicksync") {
+            m_HWAccelType = CFGFilterLAVVideo::GetUserFriendlyDecoderName(decoderName);
+            CString LAVDXVAInfo;
+            LAVDXVAInfo.Format(_T("LAV Video Decoder (%s)"), m_HWAccelType);
+
+            if (!m_bUsingDXVA) { // Don't trust the hook
+                m_bUsingDXVA = true;
+                DXVAInfo.Format(_T("DXVA2        : %s"), LAVDXVAInfo);
+            } else {
+                DXVAInfo.AppendFormat(_T(" [%s]"), LAVDXVAInfo);
+            }
+        }
+    }
+    GetRenderersData()->m_strDXVAInfo = DXVAInfo;
+    return;
+}
+
+bool CMainFrame::GetDecoderType(CString& type) const
+{
+    if (!m_fAudioOnly) {
+        type = m_bUsingDXVA ? m_HWAccelType : ResStr(IDS_TOOLTIP_SOFTWARE_DECODING);
+        return true;
+    }
+    return false;
 }

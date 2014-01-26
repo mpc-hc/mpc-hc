@@ -244,6 +244,8 @@ private:
     CComPtr<IUnknown> m_pProv;
 
     bool m_bUsingDXVA;
+    CString m_HWAccelType;
+    void UpdateDXVAStatus();
 
     void SetVolumeBoost(UINT nAudioBoost);
     void SetBalance(int balance);
@@ -372,7 +374,6 @@ public:
     void StartWebServer(int nPort);
     void StopWebServer();
 
-    CString GetStatusMessage() const;
     int GetPlaybackMode() const { return m_iPlaybackMode; }
     void SetPlaybackMode(int iNewStatus);
     bool IsMuted() { return m_wndToolBar.GetVolume() == -10000; }
@@ -1022,6 +1023,8 @@ public:
     CAtlList<CHdmvClipInfo::PlaylistItem> m_MPLSPlaylist;
     bool m_bIsBDPlay;
     bool OpenBD(CString Path);
+
+    bool GetDecoderType(CString& type) const;
 
     DPI m_dpi;
 };

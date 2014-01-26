@@ -1223,6 +1223,14 @@ msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
 msgstr ""
 
+msgctxt "IDS_HW_INDICATOR"
+msgid "[H/W]"
+msgstr ""
+
+msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
+msgid "Software Decoding"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Адкрыць прыладу"
