@@ -51,10 +51,8 @@
 #define copyright_str   str(MPC_COPYRIGHT_STR)
 #define app_name        "MPC-HC"
 
-#define app_ver_full    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
-
 #if MPC_NIGHTLY_RELEASE
-  #define app_ver       app_ver_full
+  #define app_ver       str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
 #else
   #define app_ver       str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH)
 #endif
@@ -119,7 +117,7 @@ DefaultGroupName={#app_name}
 #endif
 
 AppName={#app_name}
-AppVersion={#app_ver_full}
+AppVersion={#app_ver}
 AppVerName={#app_vername}
 AppPublisher=MPC-HC Team
 AppPublisherURL={#WEBSITE_URL}
@@ -131,10 +129,10 @@ VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright={#copyright_str}
 VersionInfoDescription={#app_name} Setup
 VersionInfoProductName={#app_name}
-VersionInfoProductVersion={#app_ver_full}
-VersionInfoProductTextVersion={#app_ver_full}
-VersionInfoTextVersion={#app_ver_full}
-VersionInfoVersion={#app_ver_full}
+VersionInfoProductVersion={#app_ver}
+VersionInfoProductTextVersion={#app_ver}
+VersionInfoTextVersion={#app_ver}
+VersionInfoVersion={#app_ver}
 UninstallDisplayIcon={app}\{#mpchc_exe}
 UninstallDisplayName={#FullAppNameVer}
 OutputBaseFilename={#OutFilename}
