@@ -34,7 +34,7 @@ next version - not released yet
       pixel shaders
 * More flexible auto-hide controls in fullscreen configuration options
 * Multiple high dpi scaling interface improvements
-* Updated LAV Filters to v0.60.1.4:
+* Updated LAV Filters to v0.60.1.5:
     - Ticket #3540, LAV Splitter: The current/average bitrate is now shown in the Information panel
     - Ticket #3760, LAV Video: Fix a crash when opening some DVDs on 64-bit
     - Ticket #3793, LAV Video: Fix a decoding issue with some H264 files
