@@ -45,6 +45,7 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     evs.insert(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
     evs.insert(MpcEvent::MEDIA_LOADED);
     evs.insert(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
+    evs.insert(MpcEvent::MAIN_MENU_ENTER_MODAL_LOOP);
     GetEventd().Connect(m_eventc, evs, std::bind(&CMouse::EventCallback, this, std::placeholders::_1));
 }
 
@@ -200,6 +201,12 @@ void CMouse::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED:
             m_popupMenuUninitTime = GetMessageTime();
+            break;
+        case MpcEvent::MAIN_MENU_ENTER_MODAL_LOOP:
+            if (m_bTrackingMouseLeave) {
+                InternalOnMouseLeave();
+                StopMouseLeaveTracker();
+            }
             break;
         default:
             ASSERT(FALSE);

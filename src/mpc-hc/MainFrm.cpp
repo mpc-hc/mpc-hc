@@ -199,6 +199,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_INITMENUPOPUP()
     ON_WM_UNINITMENUPOPUP()
 
+    ON_WM_ENTERMENULOOP()
+
     ON_COMMAND(ID_MENU_PLAYER_SHORT, OnMenuPlayerShort)
     ON_COMMAND(ID_MENU_PLAYER_LONG, OnMenuPlayerLong)
     ON_COMMAND(ID_MENU_FILTERS, OnMenuFilters)
@@ -769,6 +771,7 @@ CMainFrame::CMainFrame()
     fires.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_INITIALIZED);
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
+    fires.insert(MpcEvent::MAIN_MENU_ENTER_MODAL_LOOP);
     GetEventd().Connect(m_eventc, recieves, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
 }
 
@@ -2983,6 +2986,14 @@ void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
     if (m_pActiveContextMenu == pPopupMenu) {
         m_pActiveContextMenu = nullptr;
         m_eventc.FireEvent(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
+    }
+}
+
+void CMainFrame::OnEnterMenuLoop(BOOL bIsTrackPopupMenu)
+{
+    __super::OnEnterMenuLoop(bIsTrackPopupMenu);
+    if (!bIsTrackPopupMenu) {
+        m_eventc.FireEvent(MpcEvent::MAIN_MENU_ENTER_MODAL_LOOP);
     }
 }
 
