@@ -365,11 +365,17 @@ void CPlayerSeekBar::GetRange(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) c
 void CPlayerSeekBar::SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
     if (rtStart < rtStop) {
-        m_rtStart = rtStart;
-        m_rtStop = rtStop;
-        if (!m_bHasDuration) {
+        if (m_rtStart != rtStart || m_rtStop != rtStop) {
+            m_rtStart = rtStart;
+            m_rtStop = rtStop;
+            auto hasChapters = [&]() {
+                CAutoLock lock(&m_csChapterBag);
+                return m_pChapterBag && m_pChapterBag->ChapGetCount();
+            };
+            if (!m_bHasDuration || hasChapters()) {
+                Invalidate();
+            }
             m_bHasDuration = true;
-            Invalidate();
         }
     } else {
         m_rtStart = 0;
