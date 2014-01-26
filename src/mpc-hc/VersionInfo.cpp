@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,7 +24,7 @@
 
 bool VersionInfo::IsNightly()
 {
-#ifdef MPC_NIGHTLY_RELEASE
+#if MPC_NIGHTLY_RELEASE
     return true;
 #else
     return false;
@@ -33,7 +33,7 @@ bool VersionInfo::IsNightly()
 
 CString VersionInfo::GetNightlyWord()
 {
-#ifdef MPC_NIGHTLY_RELEASE
+#if MPC_NIGHTLY_RELEASE
     return MPC_VERSION_NIGHTLY;
 #else
     return _T("");
