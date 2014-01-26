@@ -38,6 +38,8 @@ END
 
 3 TEXTINCLUDE 
 BEGIN
+    "#include ""res\\untranslatable.rc2""  // untranslatable strings\r\n"
+    "\r\n"
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
     "#define _AFX_NO_TRACKER_RESOURCES\r\n"
@@ -48,9 +50,7 @@ BEGIN
     "#pragma code_page(1252)\r\n"
     "#include ""afxres.rc""     // Standard components\r\n"
     "#include ""res\\mpc-hc.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
-    "#endif\r\n"
-    "\r\n"
-    "#include ""res\\untranslatable.rc2""  // untranslatable strings\0"
+    "#endif\0"
 END
 
 #endif    // APSTUDIO_INVOKED
@@ -3317,6 +3317,8 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
+#include "res\untranslatable.rc2"  // untranslatable strings
+
 #define _AFX_NO_SPLITTER_RESOURCES
 #define _AFX_NO_OLE_RESOURCES
 #define _AFX_NO_TRACKER_RESOURCES
@@ -3328,8 +3330,6 @@ LANGUAGE 9, 1
 #include "afxres.rc"     // Standard components
 #include "res\mpc-hc.rc2"  // non-Microsoft Visual C++ edited resources
 #endif
-
-#include "res\untranslatable.rc2"  // untranslatable strings
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 
