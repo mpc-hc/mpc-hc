@@ -568,6 +568,8 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                             dwHideTick = dwNewHideTick;
                         }
                     }
+                } else {
+                    m_zoneHideTicks.erase(zone);
                 }
             }
         };
