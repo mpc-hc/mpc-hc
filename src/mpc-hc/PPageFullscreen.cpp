@@ -430,6 +430,7 @@ void CPPageFullscreen::OnHideControlsPolicyChange()
         m_uHideFullscreenControlsDelay = SANE_TIMEOUT_FOR_SHOW_CONTROLS_ON_MOUSE_MOVE;
         UpdateData(FALSE);
     }
+    SetModified();
 }
 
 void CPPageFullscreen::OnUpdateHideDelay(CCmdUI* pCmdUI)
