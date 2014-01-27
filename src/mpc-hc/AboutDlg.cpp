@@ -103,7 +103,11 @@ BOOL CAboutDlg::OnInitDialog()
 #elif defined(_MSC_VER)
 #if (_MSC_VER == 1800)              // 2013
 #if (_MSC_FULL_VER == 180021005)
+#if (_MSC_BUILD > 0)
+    m_MPCCompiler = _T("MSVC 2013 Update ") MAKE_STR(_MSC_BUILD);
+#else
     m_MPCCompiler = _T("MSVC 2013");
+#endif
 #elif (_MSC_FULL_VER < 180021005)
     m_MPCCompiler = _T("MSVC 2013 Preview/Beta/RC");
 #endif
