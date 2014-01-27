@@ -1985,7 +1985,12 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
 
         size_t i = segment - segmentsStart;
         if (i > 0 && m_segments[i - 1].end > start) {
-            i--;
+            // The beginning of i-1th segment isn't modified
+            // by the new entry so separate it in two segments
+            STSSegment stss(m_segments[i - 1].start, start);
+            stss.subs.Copy(m_segments[i - 1].subs);
+            m_segments[i - 1].start = start;
+            m_segments.InsertAt(i - 1, stss);
         } else if (i < segmentsCount && start < m_segments[i].start) {
             // The new entry doesn't start in an existing segment.
             // It might even not overlap with any segment at all
@@ -1994,15 +1999,17 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
             m_segments.InsertAt(i, stss);
             i++;
         }
+
+        int lastEnd = INT_MAX;
         for (; i < m_segments.GetCount() && m_segments[i].start < end; i++) {
             STSSegment& s = m_segments[i];
 
-            if (s.start < start) {
-                // The beginning of current segment isn't modified
-                // by the new entry so separate it in two segments
-                STSSegment stss(s.start, start);
-                stss.subs.Copy(s.subs);
-                s.start = start;
+            if (lastEnd < s.start) {
+                // There is a gap between the segments overlapped by
+                // the new entry so we have to create a new one
+                STSSegment stss(lastEnd, s.start);
+                stss.subs.Add(n);
+                lastEnd = s.start; // s might not point on the right segment after inserting so do the modification now
                 m_segments.InsertAt(i, stss);
             } else {
                 if (end < s.end) {
@@ -2030,13 +2037,14 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
                         }
                     }
                 }
+
+                lastEnd = sAdd.end;
             }
         }
 
         if (end > m_segments[i - 1].end) {
-            // The new entry ends after the last segment.
-            // It might even not overlap with it at all
-            ASSERT(i == m_segments.GetCount());
+            // The new entry ends after the last overlapping segment.
+            // It might even not overlap with any segment at all
             STSSegment stss(std::max(start, m_segments[i - 1].end), end);
             stss.subs.Add(n);
             m_segments.InsertAt(i, stss);
