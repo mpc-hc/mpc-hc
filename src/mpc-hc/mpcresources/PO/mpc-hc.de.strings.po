@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # LuanMax <luanmail@gmx.net>, 2014
-# M T <michtrz@gmail.com>, 2013
+# M T <michtrz@gmail.com>, 2013-2014
 # Underground78, 2013
 # Underground78, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
-"PO-Revision-Date: 2014-01-24 23:17+0000\n"
+"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
+"PO-Revision-Date: 2014-01-27 19:01+0000\n"
 "Last-Translator: LuanMax <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -937,7 +937,7 @@ msgstr "&Optionen..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "Shader-&Debugger..."
+msgstr "Shader-&Debugger"
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1229,11 +1229,11 @@ msgstr "&Medienordner hinzufügen"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "Software Decoding"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

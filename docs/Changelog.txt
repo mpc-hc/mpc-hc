@@ -11,6 +11,8 @@ Legend:
 next version - not released yet
 ===============================
 + Ticket #3873, Display tooltip with H/W decoder name on hover over status message
+* Updated Armenian, Basque, Simplified Chinese, French, German, Japanese, Portuguese (Brazil),
+  Swedish, Turkish and Ukrainian translations
 ! Some subtitle entries could have been missing depending on how they overlapped in time
 ! Ticket #2870, Fix rare visual glitches on status bar
 ! Ticket #3881, DXVA status was invalid with certain decoders

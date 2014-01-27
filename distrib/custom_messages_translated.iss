@@ -74,7 +74,7 @@ hu.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 hu.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ; Armenian (Armenia)
-hy.WelcomeLabel2=Սա կտեղակայի [name]-ը Ձեր համակարգչում։%n%nԽորհուրդ ենք տալիս փակել բոլոր մյուս ծրագրերը։
+hy.WelcomeLabel2=[name]-ը կտեղադրվի ձեր համակարգչում։%n%nԽորհուրդ ենք տալիս փակել մյուս բոլոր ծրագրերը։
 hy.WinVersionTooLowError=[name]-ը պահանջում է Windows XP Service Pack 3 կամ ավելի բարձր։
 
 ; Italian
@@ -102,8 +102,8 @@ pl.WelcomeLabel2=Zostanie zainstalowane [name] na Twoim komputerze.%n%nZaleca si
 pl.WinVersionTooLowError=[name] wymaga systemu Windows XP Service Pack 3 lub nowszego do poprawnego działania.
 
 ; Portuguese (Brazil)
-pt_BR.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-pt_BR.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+pt_BR.WelcomeLabel2=Isto instalará o [name] no seu computador.%n%nÉ recomendável que você feche todos os outros programas antes de continuar.
+pt_BR.WinVersionTooLowError=[name] requer o Windows XP Service Pack 3 ou superior para ser executado.
 
 ; Romanian
 ro.WelcomeLabel2=Se va instala [name] pe calculatorul dumneavoastră.%n%nEste recomandat să închideţi toate celelalte aplicaţii înainte de a continua.
@@ -186,7 +186,7 @@ cs.langid=00001029
 cs.comp_mpciconlib=Ikony typů souborů
 cs.comp_mpcresources=Jazykové soubory
 cs.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC?%n%nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
-cs.msg_SetupIsRunningWarning=Instalátor MPC-HC je již spuštěn!
+cs.msg_SetupIsRunningWarning=Instalační program MPC-HC je již spuštěn!
 #if defined(sse_required)
 cs.msg_simd_sse=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE.%n%nVáš procesor tato rozšíření nepodporuje.
 #elif defined(sse2_required)
@@ -375,20 +375,20 @@ hu.ViewChangelog=Verziótörténet megtekintése
 hy.langid=00001067
 hy.comp_mpciconlib=Պատկերների գրադարան
 hy.comp_mpcresources=Թարգմանություններ
-hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%n%nԵթե նախատեսում եք վերատեղակայել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
+hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%n%nԵթե նախատեսում եք վերատեղադրել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
 hy.msg_SetupIsRunningWarning=MPC-HC-ի տեղակայիչը արդեն բացված է!
 #if defined(sse_required)
 hy.msg_simd_sse=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
 #elif defined(sse2_required)
 hy.msg_simd_sse2=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE2-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
 #endif
-hy.tsk_AllUsers=Այս համակարգչի բոլոր օգտագործողների համար
-hy.tsk_CurrentUser=Միայն Ձեր համար
+hy.tsk_AllUsers=Բոլորի համար
+hy.tsk_CurrentUser=Միայն ձեզ համար
 hy.tsk_Other=Լրացուցիչ.
 hy.tsk_ResetSettings=Ետարկել կարգավորումները
-hy.types_DefaultInstallation=Տեղակայել ըստ ծրագրայինի
-hy.types_CustomInstallation=Ընտրովի տեղակայում
-hy.ViewChangelog=Նայել փոփոխությունների ցանկը
+hy.types_DefaultInstallation=Տեղադրել ըստ ծրագրայինի
+hy.types_CustomInstallation=Հարմարեցված տեղակայում
+hy.ViewChangelog=Փոփոխությունների ցանկը
 
 ; Italian
 it.langid=00001040

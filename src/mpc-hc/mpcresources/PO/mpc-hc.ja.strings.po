@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
-"PO-Revision-Date: 2014-01-24 14:40+0000\n"
+"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
+"PO-Revision-Date: 2014-01-28 10:55+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -510,7 +510,7 @@ msgstr "EVR カスタムプレゼンタ"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr "Haali レンダラ"
+msgstr "Haali ビデオ レンダラ"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
@@ -934,7 +934,7 @@ msgstr "シェーダを選択(&S)..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "シェーダのデバッグ(&D)..."
+msgstr "シェーダ デバッガ(&D)..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -2398,7 +2398,7 @@ msgstr "キャプチャバーの表示"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "シェーダのデバッグの表示"
+msgstr "シェーダ デバッガの表示"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
