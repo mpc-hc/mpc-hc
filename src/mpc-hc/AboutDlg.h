@@ -23,6 +23,9 @@
 #include <afxwin.h>
 #include "resource.h"
 
+#define DO_MAKE_STR(x)          _T(#x)
+#define MAKE_STR(x)             DO_MAKE_STR(x)
+
 class CAboutDlg : public CDialog
 {
     CStatic m_icon;
