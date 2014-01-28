@@ -135,6 +135,9 @@ void SeparableFilterX_SSE2(unsigned char* src, unsigned char* dst, int width, in
             }
             int xStart16 = (xStart + 15) & ~15;
             int xEnd16 = xEnd & ~15;
+            if (xStart16 >= xEnd16) { // Don't use SSE2 at all
+                xStart16 = xEnd16 = xEnd;
+            }
             for (int x = xStart; x < xStart16; x++) {
                 tmp[x - xOffset] += (int)(in[x] * kernel[k]);
             }
