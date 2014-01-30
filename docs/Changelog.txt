@@ -17,6 +17,8 @@ next version - not released yet
 ! Ticket #2870, Fix rare visual glitches on status bar
 ! Ticket #3881, DXVA status was invalid with certain decoders
 ! Ticket #3981, Subtitle rendered: the blur filter was sometimes wrong on some part of the subpicture
+! Ticket #3988, Fix the DVD favorites: the position in the DVD was not restored. Additionally if "Remember DVD position"
+  is enabled and a DVD favorite has a position, the position from the favorite will be used instead of the remembered position
 
 
 1.7.2 - 26 January 2014

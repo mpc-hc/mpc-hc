@@ -2334,6 +2334,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             break;
             case EC_DVD_DOMAIN_CHANGE: {
                 m_iDVDDomain = (DVD_DOMAIN)evParam1;
+                OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(m_lastOMD.m_p);
+                ASSERT(pDVDData);
 
                 CString Domain('-');
 
@@ -2421,6 +2423,12 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                                 m_iDVDTitle   = s.lDVDTitle;
                                 s.lDVDTitle   = 0;
                                 s.lDVDChapter = 0;
+                            } else if (pDVDData->pDvdState) {
+                                // Set position from favorite
+                                VERIFY(SUCCEEDED(m_pDVDC->SetState(pDVDData->pDvdState, DVD_CMD_FLAG_Block, nullptr)));
+                                // We don't want to restore the position from the favorite
+                                // if the playback is reinitialized so we clear the saved state
+                                pDVDData->pDvdState.Release();
                             } else if (s.fKeepHistory && s.fRememberDVDPos && !s.dvdPositions.AddEntry(llDVDGuid)) {
                                 // Set last remembered position (if founded...)
                                 DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
@@ -10210,8 +10218,11 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
             m_bRememberFilePos = s.fKeepHistory && s.fRememberFilePos && rtDur > 0;
 
-            if (m_bRememberFilePos && !s.filePositions.AddEntry(fn)) {
-                // Seek only after all files are loaded
+            // Set start time but seek only after all files are loaded
+            if (pOFD->rtStart > 0) { // Check if an explicit start time was given
+                rtPos = pOFD->rtStart;
+            } else if (m_bRememberFilePos && !s.filePositions.AddEntry(fn)) {
+                // else check if we have a remembered position to restore
                 rtPos = s.filePositions.GetLatestEntry()->llPosition;
             }
         }
@@ -11569,17 +11580,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         if (s.rtShift != 0) {
             SetAudioDelay(s.rtShift);
             s.rtShift = 0;
-        }
-
-        if (pFileData) {
-            if (pFileData->rtStart > 0 && m_pMS) {
-                REFERENCE_TIME rtPos = pFileData->rtStart;
-                VERIFY(SUCCEEDED(m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning)));
-            }
-        } else if (pDVDData) {
-            if (pDVDData->pDvdState && m_pDVDC) {
-                VERIFY(m_pDVDC->SetState(pDVDData->pDvdState, DVD_CMD_FLAG_Block, nullptr) == S_OK);
-            }
         }
     } catch (LPCTSTR msg) {
         err = msg;
