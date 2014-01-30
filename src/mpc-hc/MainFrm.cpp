@@ -8499,7 +8499,7 @@ class CDVDStateStream : public CUnknown, public IStream
             CUnknown::NonDelegatingQueryInterface(riid, ppv);
     }
 
-    __int64 m_pos;
+    size_t m_pos;
 
 public:
     CDVDStateStream() : CUnknown(NAME("CDVDStateStream"), nullptr) {
@@ -8512,9 +8512,11 @@ public:
 
     // ISequentialStream
     STDMETHODIMP Read(void* pv, ULONG cb, ULONG* pcbRead) {
-        __int64 cbRead = min((__int64)(m_data.GetCount() - m_pos), (__int64)cb);
-        cbRead = max(cbRead, 0ll);
-        memcpy(pv, &m_data[(INT_PTR)m_pos], (int)cbRead);
+        size_t cbRead = min(m_data.GetCount() - m_pos, size_t(cb));
+        cbRead = max(cbRead, size_t(0));
+        if (cbRead) {
+            memcpy(pv, &m_data[m_pos], cbRead);
+        }
         if (pcbRead) {
             *pcbRead = (ULONG)cbRead;
         }
