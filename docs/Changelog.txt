@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
++ New Galician translation
 + Ticket #3873, Display tooltip with H/W decoder name on hover over status message
 * Updated Armenian, Basque, British English, Simplified Chinese, French, German, Japanese, Malay,
   Polish, Portuguese (Brazil), Slovak, Swedish, Turkish and Ukrainian translations

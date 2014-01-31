@@ -705,6 +705,7 @@
 #define ID_LANGUAGE_SLOVENIAN           32814
 #define ID_LANGUAGE_CROATIAN            32815
 #define ID_LANGUAGE_MALAY               32816
+#define ID_LANGUAGE_GALICIAN            32817
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
 #define IDS_AG_NONE                     32832

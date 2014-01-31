@@ -89,6 +89,14 @@
       <Configuration>Release French</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Galician|Win32">
+      <Configuration>Release Galician</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Galician|x64">
+      <Configuration>Release Galician</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release German|Win32">
       <Configuration>Release German</Configuration>
       <Platform>Win32</Platform>
@@ -269,6 +277,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Dutch'">$(ProjectName).nl</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release English (British)'">$(ProjectName).en_GB</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release French'">$(ProjectName).fr</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Galician'">$(ProjectName).gl</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release German'">$(ProjectName).de</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Greek'">$(ProjectName).el</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Hebrew'">$(ProjectName).he</TargetName>
@@ -326,6 +335,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.fr.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release French'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.gl.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Galician'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.he.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Hebrew'">true</ExcludedFromBuild>

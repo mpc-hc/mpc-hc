@@ -274,8 +274,8 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  "Chinese Traditional" "Croatian" "Czech" "Dutch" "English (British)" "French"
- "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean" "Malay"
- "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Slovak" "Slovenian"
+ "Galician" "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
+ "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Slovak" "Slovenian"
  "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
  TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...

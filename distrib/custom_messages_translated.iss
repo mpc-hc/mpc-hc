@@ -61,6 +61,10 @@ eu.WinVersionTooLowError=[name] Windows XP Service Pack 3 edo berriagoa behar du
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
 fr.WinVersionTooLowError=[name] nécessite Windows XP Service Pack 3 ou plus récent pour fonctionner.
 
+; Galician
+gl.WelcomeLabel2=Isto intalará [name] no teu ordenador.%n%nRecomendase que peches todas as aplicacións antes de seguir.
+gl.WinVersionTooLowError=[name] require Windows XP Service Pack 3 ou posterior.
+
 ; Hebrew (Israel)
 he.WelcomeLabel2=תוכנית התקנה זו תתקין את [name] על מחשבך.%n%nמומלץ לסגור את שאר האפליקציות לפני שממשיכים.
 he.WinVersionTooLowError=[name] דורש Windows XP Service Pack 3 או חדש יותר כדי לרוץ.
@@ -313,6 +317,25 @@ fr.tsk_ResetSettings=Réinitialisation des paramètres
 fr.types_DefaultInstallation=Installation par défaut
 fr.types_CustomInstallation=Installation personnalisée
 fr.ViewChangelog=Voir la liste des changements
+
+; Galician
+gl.langid=00001110
+gl.comp_mpciconlib=Libraría de iconas 
+gl.comp_mpcresources=Traducións
+gl.msg_DeleteSettings= Tamén queres eliminar os axustes de MPC-HC?%n%nSe te plantexas instalar MPC-HC outra vez entón non o tes que eliminar.
+gl.msg_SetupIsRunningWarning=O instalador de MPC-HC xa está correndo!
+#if defined(sse_required)
+gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE .%n%nO seu CPU non ten estas capacidades.
+#elif defined(sse2_required)
+gl.msg_simd_sse2=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE2 .%n%nO seu CPU non ten estas capacidades.
+#endif
+gl.tsk_AllUsers=Para todos os usuarios
+gl.tsk_CurrentUser=Só para o usuario actual 
+gl.tsk_Other=Outras tarefas: 
+gl.tsk_ResetSettings=Reiniciar axustes
+gl.types_DefaultInstallation=Instalación por defecto
+gl.types_CustomInstallation=Instalación personalizada
+gl.ViewChangelog=Ver rexistro de cambios 
 
 ; Hebrew (Israel)
 he.langid=00001037
