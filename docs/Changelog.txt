@@ -8,6 +8,12 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
+* If MPC-HC is configured to override the splitter choice when doing the initial track selection,
+  tracks selected at splitter level will be preferred in case more than one tracks match the criteria
+
+
 1.7.3 - 02 February 2014
 ========================
 + New Galician and Vietnamese translations

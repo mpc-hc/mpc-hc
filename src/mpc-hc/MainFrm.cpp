@@ -11241,6 +11241,7 @@ int CMainFrame::SetupAudioStreams()
                 continue;
             }
 
+            int rating = 0;
             // If the track is controlled by a splitter (directly or not) and isn't selected at splitter level
             if ((!bIsSplitter && dwGroup == 1)
                     || (bIsSplitter && !(dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)))) {
@@ -11266,12 +11267,16 @@ int CMainFrame::SetupAudioStreams()
                     id++;
                     continue;
                 }
+            } else if ((!bIsSplitter && dwGroup == 2)
+                       || (bIsSplitter && (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)))) {
+                // If the track is controlled by a splitter (directly or not) and is selected at splitter level, we give it
+                // a slightly higher priority so that we won't override selected track in case all have the same rating.
+                rating += 1;
             }
 
             name.Trim();
             name.MakeLower();
 
-            int rating = 0;
             for (size_t j = 0; j < langs.GetCount(); j++) {
                 int num = _tstoi(langs[j]) - 1;
                 if (num >= 0) { // this is track number
@@ -11284,7 +11289,7 @@ int CMainFrame::SetupAudioStreams()
                         continue; // not matched
                     }
                 }
-                rating = 16 * int(langs.GetCount() - j);
+                rating += 16 * int(langs.GetCount() - j);
                 break;
             }
             if (name.Find(_T("[default,forced]")) != -1) { // for LAV Splitter
@@ -11370,13 +11375,18 @@ int CMainFrame::SetupSubtitleStreams()
             for (int j = 0; j < count; j++) {
                 WCHAR* pName;
                 HRESULT hr;
+                int rating = 0;
                 if (pSSF) {
                     DWORD dwFlags, dwGroup = 2;
                     hr = pSSF->Info(j, nullptr, &dwFlags, nullptr, &dwGroup, &pName, nullptr, nullptr);
-                    if (dwGroup != 2) {
+                    if (dwGroup != 2) { // If the track isn't a subtitle track, we skip it
                         CoTaskMemFree(pName);
                         continue;
-                    } else if (!bAllowOverridingSplitterChoice && !(dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE))) {
+                    } else if (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
+                        // Give slightly higher priority to the track selected by splitter so that
+                        // we won't override selected track in case all have the same rating.
+                        rating += 1;
+                    } else if (!bAllowOverridingSplitterChoice) {
                         // If we aren't allowed to modify the splitter choice and the current
                         // track isn't already selected at splitter level we need to skip it.
                         CoTaskMemFree(pName);
@@ -11391,7 +11401,6 @@ int CMainFrame::SetupSubtitleStreams()
                 name.Trim();
                 name.MakeLower();
 
-                int rating = 0;
                 for (size_t k = 0; k < langs.GetCount(); k++) {
                     int num = _tstoi(langs[k]) - 1;
                     if (num >= 0) { // this is track number
@@ -11404,7 +11413,7 @@ int CMainFrame::SetupSubtitleStreams()
                             continue; // not matched
                         }
                     }
-                    rating = 16 * int(langs.GetCount() - k);
+                    rating += 16 * int(langs.GetCount() - k);
                     break;
                 }
                 if (externalPriority) { // External tracks are given a higher priority than language matches
