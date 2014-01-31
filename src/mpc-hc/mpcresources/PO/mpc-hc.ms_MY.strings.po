@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
-"PO-Revision-Date: 2014-01-22 22:46+0000\n"
+"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
+"PO-Revision-Date: 2014-01-31 12:37+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/mpc-hc/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -346,7 +346,7 @@ msgstr "Lalai Sistem"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Gagal menanya antaramuka yang diperlukan untuk mainbalik"
+msgstr "Gagal menanya antaramuka yang diperlukan untuk main balik"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
@@ -434,7 +434,7 @@ msgstr "Pemain"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD/OGM"
-msgstr "Mainbalik::DVD/OGM"
+msgstr "Main Balik::DVD/OGM"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -450,15 +450,15 @@ msgstr "Pulas"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Penapis Dalam::Penukar Audio"
+msgstr "Penapis Dalaman::Penukar Audio"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
-msgstr "Penapis Dalaman"
+msgstr "Penapis Luaran"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Mainbalik::Pelorek"
+msgstr "Main Balik::Pelorek"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -566,11 +566,11 @@ msgstr "Maklumat Media"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
-msgstr "Mainbalik::Tangkap"
+msgstr "Main Balik::Tangkap"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Mainbalik::Tetapan Segera Tetapan"
+msgstr "Main Balik::Tetapan Segera Tetapan"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -1226,11 +1226,11 @@ msgstr "Tambah folder yang dikandungi"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "Penyahkodan Perisian"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1942,7 +1942,7 @@ msgstr "MPC-HC tidak mempunyai kelayakan yang mencukupi untuk menukar perkaitan 
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC adalah pemain media bersumber terbuka yang sangat ringan untuk Windows. Ia menyokong semua format fail audio dan video umum yang tersedia untuk mainbalik. Kami adalah 100% bebas dari perisian pengintip, dan tiada palang alat atau iklan di dalam pemain ini."
+msgstr "MPC-HC adalah pemain media bersumber terbuka yang sangat ringan untuk Windows. Ia menyokong semua format fail audio dan video umum yang tersedia untuk main balik. Kami adalah 100% bebas dari perisian pengintip, dan tiada palang alat atau iklan di dalam pemain ini."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -1990,7 +1990,7 @@ msgstr "DVD: Wilayah Cakera Dan Penyahkod Tidak Serasi"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Pilihan ini direka untuk menghindari pengoyakan. Walaubagaimanapun, ia juga menghalang MPC-HC dari memaparkan menu konteks dan mana-mana kotak dialog semasa mainbalik.\n\nAnda pasti mahu aktifkan pilihan ini?"
+msgstr "Pilihan ini direka untuk menghindari pengoyakan. Walaubagaimanapun, ia juga menghalang MPC-HC dari memaparkan menu konteks dan mana-mana kotak dialog semasa main balik.\n\nAnda pasti mahu aktifkan pilihan ini?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2366,7 +2366,7 @@ msgstr "Galak volum Maks"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Penggunaan: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tFail atau direktori utama akan dimuatkan (kad liar\n\t\tdibenarkan, \"-\" melibatkan input piawai)\n/dub \"dubname\"\tMuat satu fail audio tambahan\n/dubdelay \"file\"\tMuat fail audio tambahan yang dianjak denga XXms (jika\n\t\tfail mengandungi \"...DELAY XXms...\")\n/d3dfs\t\tMula menerap dalam mod skrin penuh D3D\n/sub \"subname\"\tMuat fail sarikata tambahan\n/filter \"filtername\"\tMuat penapis DirectShow dari pustaka pautan dinamik\n\t\t(kad liar dibenarkan)\n/dvd\t\tJalan dalam mod dvd, \"pathname\" bermaksud folder dvd\n\t\t(pilihan)\n/dvdpos T#C\tMula mainbalik pada tajuk T, bab C\n/dvdpos T#hh:mm\tMula mainbalik pada tajuk T, kedudukan hh:mm:ss\n/cd\t\tMuat semua trek cd audio atau (s)vcd,\n\t\t\"pathname\" bermaksud laluan pemacu (pilihan)\n/device\t\tBuka peranti video lalai\n/open\t\tBuka fail, jangan mula main balik secara automatik\n/play\t\tMula memainkan fail sebaik sahaja pemain\n\t\tdilancarkan\n/close\t\tTutup pemain selepas mainbalik (hanya berfungsi\n\t\tbila digunakan dengan /play)\n/shutdown\tMatikan sistem pengoperasian selepas mainbalik\n/fullscreen\tMula dalam mod skrin-penuh\n/minimized\tMua dalam mod diminimumkan\n/new\t\tGuna kejadian baharu pemain\n/add\t\tTambah \"pathname\" ke senarai main, boleh digabung\n\t\tdengan /open dan /play\n/regvid\t\tCipta perkaitan fail untuk fail video\n/regaud\t\tCipta perkaitan fail untuk fail audio\n/regpl\t\tCipta perkaitan fail untuk fail senarai main\n/regall\t\tCipta perkaitan fail untuk semua jenis fail disokong\n/unregall\t\tBuang semua perkaitan fail\n/start ms\t\tMula bermain pada \"ms\" (= milisaat)\n/startpos hh:mm:ss\tMula bermain pada kedudukan hh:mm:ss\n/fixedsize w,h\tTetakan saiz tetingkap tetap\n/monitor N\tMula pemain pada monitor N, dimana N bermula dari 1\n/audiorenderer N\tMula menggunakan penerapaudio N, dimana N bermul dari 1\n\t\t(rujuk tetapan \"Output\")\n/shaderpreset \"Pr\"\tMula menggunakan praset pelorek \"Pr\"\n/reset\t\tPulih tetapan lalai\n/help /h /?\tTunjuk bantuan mengenai suis baris perintah\n"
+msgstr "Penggunaan: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tFail atau direktori utama akan dimuatkan (kad liar\n\t\tdibenarkan, \"-\" melibatkan input piawai)\n/dub \"dubname\"\tMuat satu fail audio tambahan\n/dubdelay \"file\"\tMuat fail audio tambahan yang dianjak denga XXms (jika\n\t\tfail mengandungi \"...DELAY XXms...\")\n/d3dfs\t\tMula menerap dalam mod skrin penuh D3D\n/sub \"subname\"\tMuat fail sarikata tambahan\n/filter \"filtername\"\tMuat penapis DirectShow dari pustaka pautan dinamik\n\t\t(kad liar dibenarkan)\n/dvd\t\tJalan dalam mod dvd, \"pathname\" bermaksud folder dvd\n\t\t(pilihan)\n/dvdpos T#C\tMula main balik pada tajuk T, bab C\n/dvdpos T#hh:mm\tMula main balik pada tajuk T, kedudukan hh:mm:ss\n/cd\t\tMuat semua trek cd audio atau (s)vcd,\n\t\t\"pathname\" bermaksud laluan pemacu (pilihan)\n/device\t\tBuka peranti video lalai\n/open\t\tBuka fail, jangan mula main balik secara automatik\n/play\t\tMula memainkan fail sebaik sahaja pemain\n\t\tdilancarkan\n/close\t\tTutup pemain selepas main balik (hanya berfungsi\n\t\tbila digunakan dengan /play)\n/shutdown\tMatikan sistem pengoperasian selepas main balik\n/fullscreen\tMula dalam mod skrin-penuh\n/minimized\tMua dalam mod diminimumkan\n/new\t\tGuna kejadian baharu pemain\n/add\t\tTambah \"pathname\" ke senarai main, boleh digabung\n\t\tdengan /open dan /play\n/regvid\t\tCipta perkaitan fail untuk fail video\n/regaud\t\tCipta perkaitan fail untuk fail audio\n/regpl\t\tCipta perkaitan fail untuk fail senarai main\n/regall\t\tCipta perkaitan fail untuk semua jenis fail disokong\n/unregall\t\tBuang semua perkaitan fail\n/start ms\t\tMula bermain pada \"ms\" (= milisaat)\n/startpos hh:mm:ss\tMula bermain pada kedudukan hh:mm:ss\n/fixedsize w,h\tTetakan saiz tetingkap tetap\n/monitor N\tMula pemain pada monitor N, dimana N bermula dari 1\n/audiorenderer N\tMula menggunakan penerap audio N, dimana N bermul dari 1\n\t\t(rujuk tetapan \"Output\")\n/shaderpreset \"Pr\"\tMula menggunakan praset pelorek \"Pr\"\n/reset\t\tPulih tetapan lalai\n/help /h /?\tTunjuk bantuan mengenai suis baris perintah\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2862,7 +2862,7 @@ msgstr "Nisbah Bidang"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
-msgstr "Guna WASAPI (mula semula mainbalik)"
+msgstr "Guna WASAPI (mula semula main balik)"
 
 msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
 msgid "Mute on fast forward"
@@ -3310,39 +3310,39 @@ msgstr "Anda perlu laksanakan tetapan baharu sebelum mengunjinya."
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
-msgstr "Selepas Mainbalik: Keluar"
+msgstr "Selepas Main Balik: Keluar"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Selepas Mainbalik: Sedia"
+msgstr "Selepas Main Balik: Sedia"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr "Selepas Mainbalik: Hibernasi"
+msgstr "Selepas Main Balik: Hibernasi"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Selepas Mainbalik: Matikan"
+msgstr "Selepas Main Balik: Matikan"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr "Selepas Mainbalik: Daftar Keluar"
+msgstr "Selepas Main Balik: Daftar Keluar"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Selepas Mainbalik: Kunci"
+msgstr "Selepas Main Balik: Kunci"
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Always exit"
-msgstr "Selepas Mainbalik: Sentiasa keluar"
+msgstr "Selepas Main Balik: Sentiasa keluar"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do Nothing"
-msgstr "Selepas Mainbalik: Jangan Buat Apa-Apa"
+msgstr "Selepas Main Balik: Jangan Buat Apa-Apa"
 
 msgctxt "IDS_AFTERPLAYBACK_NEXT"
 msgid "After Playback: Play next in the folder"
-msgstr "Selepas Mainbalik: Main berikutnya dalam folder"
+msgstr "Selepas Main Balik: Main berikutnya dalam folder"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

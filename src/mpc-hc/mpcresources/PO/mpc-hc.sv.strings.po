@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # JellyFrog, 2013-2014
+# Apa <sakcheen@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-01-28 09:24+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2014-01-31 15:23+0000\n"
+"Last-Translator: Apa <sakcheen@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +71,7 @@ msgstr "Filer"
 
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
-msgstr ""
+msgstr "DVD:er"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -86,7 +87,7 @@ msgstr "Synkförskjutning"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr ""
+msgstr "med: %d ms, avv: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -126,11 +127,11 @@ msgstr "Alltid (Långsammast)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr ""
+msgstr "Stöds inte av vissa enheter. Två videodekodare finns alltid med i filtergrafen."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr ""
+msgstr "Snabb förutom vid byte mellan olika videoströmmar. Enbart en videodekoder finns med i filtergrafen."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -170,7 +171,7 @@ msgstr "Film/Drama"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr ""
+msgstr "Nyheter"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
@@ -178,15 +179,15 @@ msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr ""
+msgstr "Fil tillagd i favoriter"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
-msgstr ""
+msgstr "DVD tillagd i favoriter"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr ""
+msgstr "Inspelarinställningar"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
@@ -210,11 +211,11 @@ msgstr "Förhandsgranska"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
-msgstr ""
+msgstr "Vob-ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
-msgstr ""
+msgstr "Cell-ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
@@ -222,7 +223,7 @@ msgstr "Tvingad"
 
 msgctxt "IDS_SUBRESYNC_CLN_TEXT"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 msgctxt "IDS_SUBRESYNC_CLN_STYLE"
 msgid "Style"
@@ -446,7 +447,7 @@ msgstr "Spelare::Format"
 
 msgctxt "IDD_PPAGETWEAKS"
 msgid "Tweaks"
-msgstr ""
+msgstr "Småjusteringar"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
@@ -466,7 +467,7 @@ msgstr "Ljud Växlare"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
-msgstr ""
+msgstr "Ny version av ikonbiblioteket"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
@@ -826,7 +827,7 @@ msgstr "Använder LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr ""
+msgstr "Använder LAV Filters. Inaktiverad som standard eftersom Microsofts filter oftast är mer stabila för dessa format.\nOm du väljer att använda de interna filtren, aktivera både käll- och dekoderfilter för bättre uppspelning."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1298,7 +1299,7 @@ msgstr "Öka Hastighet"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr ""
+msgstr "Gameshow/Lekprogram"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
@@ -1306,15 +1307,15 @@ msgstr "Sport"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
-msgstr ""
+msgstr "Barn-/Ungdomsprogram"
 
 msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
 msgid "Music/Ballet/Dance"
-msgstr ""
+msgstr "Musik-/Balett-/Dansprogram"
 
 msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
 msgid "Arts/Culture"
-msgstr ""
+msgstr "Konst-/Kulturprogram"
 
 msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
 msgid "Social/Political issues/Economics"
@@ -1962,7 +1963,7 @@ msgstr "DVD: Oväntat fel"
 
 msgctxt "IDS_MAINFRM_17"
 msgid "DVD: Copy-Protect Fail"
-msgstr ""
+msgstr "DVD: Kopieringskyddsfel"
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
@@ -1970,7 +1971,7 @@ msgstr ""
 
 msgctxt "IDS_MAINFRM_19"
 msgid "DVD: Invalid Disc Region"
-msgstr ""
+msgstr "DVD: Felaktig skivregion"
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
@@ -1978,7 +1979,7 @@ msgstr ""
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
-msgstr ""
+msgstr "DVD: Macrovisionsfel"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
@@ -2018,7 +2019,7 @@ msgstr "Bildbredd"
 
 msgctxt "IDS_PPSDB_URLCORRECT"
 msgid "The URL appears to be correct!"
-msgstr ""
+msgstr "URL:en verkar vara korrekt!"
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
@@ -2742,7 +2743,7 @@ msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr ""
+msgstr "Annat ljudformat"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
@@ -2786,7 +2787,7 @@ msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
-msgstr ""
+msgstr "Matroska-ljud"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
@@ -2794,7 +2795,7 @@ msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG-ljud"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
@@ -2818,7 +2819,7 @@ msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
+msgstr "True Audio"
 
 msgctxt "IDS_MFMT_WAV"
 msgid "WAV"
@@ -2826,7 +2827,7 @@ msgstr "WAV"
 
 msgctxt "IDS_MFMT_WMA"
 msgid "Windows Media Audio"
-msgstr ""
+msgstr "Windows Media Audio"
 
 msgctxt "IDS_MFMT_WV"
 msgid "WavPack"
@@ -2842,7 +2843,7 @@ msgstr "Spelningslista"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr ""
+msgstr "Blu-ray-spellista"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
