@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -58,7 +58,7 @@ CDebugShadersDlg::CDebugShadersDlg()
     GetEventd().Connect(m_eventc, recieves, std::bind(&CDebugShadersDlg::EventCallback, this, std::placeholders::_1));
 
     // Set window icon
-    VERIFY(SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), true) == nullptr);
+    VERIFY(SetIcon(AfxGetMainWnd()->GetIcon(true), true) == nullptr);
 
     // Setup window auto-resize and restore last position
     SetSizeGripVisibility(FALSE);

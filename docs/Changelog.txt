@@ -20,6 +20,7 @@ next version - not released yet
 ! Ticket #3988, DVD favorites: the position in the DVD was not restored. Additionally if "Remember DVD position"
   is enabled and a DVD favorite has a position, the position from the favorite will be used instead of the
   remembered position. Also fix loading of DVD favorites created with no position.
+! Ticket #3998, The "Debug Shaders" dialog icon was missing when a translation was used
 
 1.7.2 - 26 January 2014
 =======================
