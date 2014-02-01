@@ -324,7 +324,7 @@ fr.ViewChangelog=Voir la liste des changements
 
 ; Galician
 gl.langid=00001110
-gl.comp_mpciconlib=Libraría de iconas 
+gl.comp_mpciconlib=Libraría de iconas
 gl.comp_mpcresources=Traducións
 gl.msg_DeleteSettings= Tamén queres eliminar os axustes de MPC-HC?%n%nSe te plantexas instalar MPC-HC outra vez entón non o tes que eliminar.
 gl.msg_SetupIsRunningWarning=O instalador de MPC-HC xa está correndo!
@@ -334,12 +334,12 @@ gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a exte
 gl.msg_simd_sse2=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE2 .%n%nO seu CPU non ten estas capacidades.
 #endif
 gl.tsk_AllUsers=Para todos os usuarios
-gl.tsk_CurrentUser=Só para o usuario actual 
-gl.tsk_Other=Outras tarefas: 
+gl.tsk_CurrentUser=Só para o usuario actual
+gl.tsk_Other=Outras tarefas:
 gl.tsk_ResetSettings=Reiniciar axustes
 gl.types_DefaultInstallation=Instalación por defecto
 gl.types_CustomInstallation=Instalación personalizada
-gl.ViewChangelog=Ver rexistro de cambios 
+gl.ViewChangelog=Ver rexistro de cambios
 
 ; Hebrew (Israel)
 he.langid=00001037

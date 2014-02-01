@@ -13,7 +13,7 @@ next version - not released yet
 + New Galician and Vietnamese translations
 + Ticket #3873, Display tooltip with H/W decoder name on hover over status message
 * Updated Armenian, Basque, British English, Simplified Chinese, French, German, Japanese, Malay,
-  Polish, Portuguese (Brazil), Slovak, Swedish, Turkish and Ukrainian translations
+  Polish, Portuguese (Brazil), Romanian, Slovak, Spanish, Swedish, Turkish and Ukrainian translations
 ! Some subtitle entries could have been missing depending on how they overlapped in time
 ! Ticket #2870, Fix rare visual glitches on status bar
 ! Ticket #3881, DXVA status was invalid with certain decoders

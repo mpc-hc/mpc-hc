@@ -2,12 +2,13 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Danny3 <danny34ever@yahoo.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-17 21:38+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-02-01 21:40+0000\n"
+"Last-Translator: Danny3 <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -141,7 +142,7 @@ msgstr "Na&vigare"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "&Depanare shadere"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -149,15 +150,15 @@ msgstr "Setări &prestabilite..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr ""
+msgstr "&Minim"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr ""
+msgstr "&Compact"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr ""
+msgstr "&Normal"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
@@ -165,19 +166,19 @@ msgstr "Ecran comp&let"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr ""
+msgstr "&Scalare"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -273,15 +274,15 @@ msgstr "&Autodetecție"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
-msgstr ""
+msgstr "&HDTV"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr ""
+msgstr "SDTV &NTSC"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr ""
+msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
@@ -445,7 +446,7 @@ msgstr "&Corectează diferența RA Monitor/Desktop"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "Pa&n && Scan (Panoramare Trunchiată)"
+msgstr "Pa&n && Scan (Panoramare trunchiată)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -529,7 +530,7 @@ msgstr "&Redă/Pauză"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
-msgstr ""
+msgstr "&Stop"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
@@ -557,7 +558,7 @@ msgstr "S&hadere"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
-msgstr ""
+msgstr "&Audio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"

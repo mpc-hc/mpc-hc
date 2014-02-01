@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # JellyFrog, 2013
+# squallmx <squallmx@users.sourceforge.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-17 21:38+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-02-02 07:30+0000\n"
+"Last-Translator: squallmx <squallmx@users.sourceforge.net>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +55,7 @@ msgstr "&Cerrar"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr ""
+msgstr "&Guardar una Copia..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
@@ -142,7 +143,7 @@ msgstr "Navegación"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "&Depurar Shaders"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -166,7 +167,7 @@ msgstr "Pantalla &Completa"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr ""
+msgstr "&Acercamiento"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
@@ -190,7 +191,7 @@ msgstr "Auto Fit (Larger Only)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr ""
+msgstr "&Idioma"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -398,11 +399,11 @@ msgstr "Tocar Ventana desde A&fuera"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr ""
+msgstr "Acercamiento &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr ""
+msgstr "Acercamiento &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
@@ -690,7 +691,7 @@ msgstr "Página del Programa"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr ""
+msgstr "Comprobar por &actualizaciones"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
