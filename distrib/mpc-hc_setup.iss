@@ -189,6 +189,7 @@ Name: sl;    MessagesFile: compiler:Languages\Slovenian.isl
 Name: sv;    MessagesFile: Languages\Swedish.isl
 Name: tr;    MessagesFile: Languages\Turkish.isl
 Name: uk;    MessagesFile: compiler:Languages\Ukrainian.isl
+Name: vi;    MessagesFile: Languages\Vietnamese.isl
 Name: zh_CN; MessagesFile: Languages\ChineseSimplified.isl
 Name: zh_TW; MessagesFile: Languages\ChineseTraditional.isl
 #endif

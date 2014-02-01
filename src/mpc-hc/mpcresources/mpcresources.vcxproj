@@ -241,6 +241,14 @@
       <Configuration>Release Ukrainian</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Vietnamese|Win32">
+      <Configuration>Release Vietnamese</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Vietnamese|x64">
+      <Configuration>Release Vietnamese</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A57CBE1A-3703-4237-950A-FC5F594FDB43}</ProjectGuid>
@@ -296,6 +304,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Swedish'">$(ProjectName).sv</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Turkish'">$(ProjectName).tr</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Ukrainian'">$(ProjectName).uk</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Vietnamese'">$(ProjectName).vi</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
@@ -392,6 +401,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.uk.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Ukrainian'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.vi.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Vietnamese'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.zh_CN.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Chinese Simplified'">true</ExcludedFromBuild>

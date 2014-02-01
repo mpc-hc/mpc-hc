@@ -1,0 +1,711 @@
+# MPC-HC - Strings extracted from menus
+# Copyright (C) 2002 - 2014 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# datanhlg <datanhlg@gmail.com>, 2014
+# anhminhvks <anhminhvks@yahoo.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"PO-Revision-Date: 2014-01-20 01:40+0000\n"
+"Last-Translator: datanhlg <datanhlg@gmail.com>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "POPUP"
+msgid "&File"
+msgstr "&Tập tin"
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Quick Open File..."
+msgstr "&Mở nhanh tập tin..."
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Open File..."
+msgstr "&Mở tập tin..."
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Open &DVD/BD..."
+msgstr "Mở &DVD/BD..."
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Open De&vice..."
+msgstr "Mở Thiết &bị..."
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Open Dir&ectory..."
+msgstr "Mở thư &mục..."
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "O&pen Disc"
+msgstr "Mở &đĩa"
+
+msgctxt "ID_RECENT_FILES"
+msgid "Recent &Files"
+msgstr "Các tập tin &đã mở"
+
+msgctxt "ID_FILE_CLOSE_AND_RESTORE"
+msgid "&Close"
+msgstr "&Đóng"
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Save a Copy..."
+msgstr "&Lưu bản sao..."
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Save &Image..."
+msgstr "Lưu &hình ảnh"
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Save &Thumbnails..."
+msgstr "Lưu &ảnh nhỏ..."
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Load Subtitle..."
+msgstr "&Nạp phụ đề..."
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Save S&ubtitle..."
+msgstr "Lưu &phụ đề"
+
+msgctxt "POPUP"
+msgid "Subtitle Data&base"
+msgstr "Dữ &liệu phụ đề"
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "&Search..."
+msgstr "&Tìm kiếm..."
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "&Upload..."
+msgstr "&Tải lên..."
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "&Download..."
+msgstr "&Tải xuống"
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "P&roperties"
+msgstr "&Thuộc tính"
+
+msgctxt "ID_FILE_EXIT"
+msgid "E&xit"
+msgstr "&Thoát"
+
+msgctxt "POPUP"
+msgid "&View"
+msgstr "&Xem"
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Caption&&Menu"
+msgstr "Chú thích&&trình đơn"
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "See&k Bar"
+msgstr "Thanh tìm &kiếm"
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Controls"
+msgstr "&Điều khiển"
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Information"
+msgstr "&Thông tin"
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Statistics"
+msgstr "&Thống kê"
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&atus"
+msgstr "&Trạng thái"
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Su&bresync"
+msgstr "Đồng &bộ phụ đề"
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Pla&ylist"
+msgstr "&Danh sách"
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Captu&re"
+msgstr "&Bắt ảnh"
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Na&vigation"
+msgstr "&Điều hướng"
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr "Gỡ rối đổ b&óng"
+
+msgctxt "POPUP"
+msgid "&Presets..."
+msgstr "&Cài đặt trước"
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimal"
+msgstr "T&ối thiểu"
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compact"
+msgstr "N&hỏ gọn"
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr "&Bình thường"
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "F&ull Screen"
+msgstr "To&àn màn hình"
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr "&Phóng"
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr "&50%"
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr "&100%"
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr "&200%"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Auto &Fit"
+msgstr "Tự động &vừa"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (&Larger Only)"
+msgstr "Tự động vừa (Chỉ lớn hơn)"
+
+msgctxt "ID_MENU_LANGUAGE"
+msgid "&Language"
+msgstr "&Ngôn ngữ"
+
+msgctxt "POPUP"
+msgid "R&enderer Settings"
+msgstr "Th&iết lập bộ Render"
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Tearing Test"
+msgstr "&Kiểm tra"
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Display Stats"
+msgstr "&Hiện thông s"
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "&Remaining Time"
+msgstr "Th&ời gian còn lại"
+
+msgctxt "POPUP"
+msgid "&Output Range"
+msgstr "Luồng &ra"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "&0 - 255"
+msgstr "&0 - 255"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "&16 - 235"
+msgstr "&16 - 235"
+
+msgctxt "POPUP"
+msgid "&Presentation"
+msgstr "&Trình diễn"
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Fullscreen &Mode"
+msgstr "Chế độ toàn màn hình D3D"
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Fullscreen &GUI Support"
+msgstr "Hỗ trợ giao diện toàn màn hình D3D"
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit &RGB Output"
+msgstr "Ngõ ra RGB 10-bit"
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Force 10-bit RGB &Input"
+msgstr "Ngõ vào RGB 10-bit"
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "&Full Floating Point Processing"
+msgstr "Thực thi điểm"
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "&Half Floating Point Processing"
+msgstr "Nửa thực thi điểm"
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Disable desktop composition (&Aero)"
+msgstr "Vô hiệu hóa (&Aero)"
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time &Correction"
+msgstr "Kích hoạt chỉnh khung &thời gian"
+
+msgctxt "POPUP"
+msgid "&Color Management"
+msgstr "&Quản lí màu"
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Enable"
+msgstr "&Kích hoạt"
+
+msgctxt "POPUP"
+msgid "&Input Type"
+msgstr "&Loại ngõ vào"
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "&Auto-Detect"
+msgstr "Tự &động nhận diện"
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr "&HDTV"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr "SDTV &NTSC"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr "SDTV &PAL"
+
+msgctxt "POPUP"
+msgid "Ambient &Light"
+msgstr "Môi trường xung quanh và ánh sáng"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Bright (2.2 Gamma)"
+msgstr "&Sáng (2.2 Gamma)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Dim (2.35 Gamma)"
+msgstr "Dim (2.35 Gamma)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "D&ark (2.4 Gamma)"
+msgstr "Tối (2.4 Gamma)"
+
+msgctxt "POPUP"
+msgid "&Rendering Intent"
+msgstr "Thực thi rend&er"
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Perceptual"
+msgstr "&Nhận thức"
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "&Relative Colorimetric"
+msgstr "Đo &màu tương đối"
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "&Saturation"
+msgstr "Độ &bão hòa"
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "&Absolute Colorimetric"
+msgstr "Độ m&àu tuyệt đối"
+
+msgctxt "POPUP"
+msgid "&VSync"
+msgstr "&VSync"
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr "&VSync"
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Accurate VSync"
+msgstr "Định chính xác VSync"
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "A&lternative VSync"
+msgstr "VSync t&hay thế"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Decrease VSync Offset"
+msgstr "&Giảm VSync Offset"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Increase VSync Offset"
+msgstr "&TăngVSync Offset"
+
+msgctxt "POPUP"
+msgid "&GPU Control"
+msgstr "&Điều khiển GPU"
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Flush GPU &before VSync"
+msgstr "Làm bằng GPU trước khi VSync"
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Flush GPU &after Present"
+msgstr "Làm bằng GPU &sau khi VSync"
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "&Wait for flushes"
+msgstr "Đợi làm bằng"
+
+msgctxt "POPUP"
+msgid "R&eset"
+msgstr "&Đặt lại"
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Reset to &default renderer settings"
+msgstr "Thiết lập lại đến & các thiết lập mặc định render"
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Reset to &optimal renderer settings"
+msgstr "Thiết lập lại đến & thiết lập render tối ưu"
+
+msgctxt "POPUP"
+msgid "Video &Frame"
+msgstr "&Khung video"
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Half Size"
+msgstr "&Một nửa"
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normal Size"
+msgstr "&Bình thường"
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Double Size"
+msgstr "&Gấp đôi"
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Stretch To Window"
+msgstr "&Co dãn cửa số"
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Touch Window From &Inside"
+msgstr "Chạm vào cửa sổ từ bên &trong"
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr "Phóng &1"
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr "Phóng &2"
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Touch Window From &Outside"
+msgstr "Chạm vào cửa sổ từ bên &ngoài"
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Keep Aspect Ratio"
+msgstr "&Giữ tỉ lệ khung hình"
+
+msgctxt "POPUP"
+msgid "Override &Aspect Ratio"
+msgstr "Ghi đè và tỉ lệ khung hình"
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Default"
+msgstr "&Mặc định"
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "&4:3"
+msgstr "&4:3"
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "&5:4"
+msgstr "&5:4"
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "&16:9"
+msgstr "&16:9"
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "&235:100"
+msgstr "&235:100"
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "1&85:100"
+msgstr "1&85:100"
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "&Correct Monitor/Desktop AR Diff"
+msgstr "Chỉnh màn hình/Desktop AR Diff"
+
+msgctxt "POPUP"
+msgid "Pa&n&&Scan"
+msgstr "&Quét"
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "&Increase Size"
+msgstr "&Tăng kích thước"
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "&Decrease Size"
+msgstr "&Giảm kích thước"
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "I&ncrease Width"
+msgstr "Tăng &bề rộng"
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "D&ecrease Width"
+msgstr "Giảm bề rộng"
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "In&crease Height"
+msgstr "Tăng bề dài"
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Decre&ase Height"
+msgstr "Giảm bề dài"
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Move &Right"
+msgstr "Sang &phải"
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Move &Left"
+msgstr "Sang &trái"
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Move &Up"
+msgstr "Lên t&rên"
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Move &Down"
+msgstr "Dịch &xuống"
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Cen&ter"
+msgstr "&Căn giữa"
+
+msgctxt "ID_VIEW_RESET"
+msgid "Re&set"
+msgstr "&Đặt lại"
+
+msgctxt "POPUP"
+msgid "On &Top"
+msgstr "Trên &đỉnh"
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr "&Mặc định"
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Always"
+msgstr "&Luôn luôn"
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "While &Playing"
+msgstr "&Khi phát"
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "While Playing &Video"
+msgstr "Khi &phát video"
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Options..."
+msgstr "&Tuỳ chọn"
+
+msgctxt "POPUP"
+msgid "&Play"
+msgstr "Phát"
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Play/Pause"
+msgstr "&Phát/Dừng"
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stop"
+msgstr "&Ngừng"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "F&rame Step"
+msgstr "&Khung hình"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Decrease Rate"
+msgstr "Tăng đánh giá"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Increase Rate"
+msgstr "Giảm đánh giá"
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "R&eset Rate"
+msgstr "Đặt lại"
+
+msgctxt "ID_FILTERS"
+msgid "&Filters"
+msgstr "&Bộ lọc"
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr "&Bộ đổ bóng"
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio"
+msgstr "Âm thanh"
+
+msgctxt "ID_SUBTITLES"
+msgid "Su&btitles"
+msgstr "Phụ &đề"
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr "Luồng video"
+
+msgctxt "POPUP"
+msgid "&Volume"
+msgstr "&Âm lượng"
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Up"
+msgstr "Tăng"
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Down"
+msgstr "Giảm"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Mute"
+msgstr "&Im"
+
+msgctxt "POPUP"
+msgid "Af&ter Playback"
+msgstr "Sau khi phát lại"
+
+msgctxt "ID_AFTERPLAYBACK_ONCE"
+msgid "--------- Once ---------"
+msgstr "--------- Một lần---------"
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "&Exit"
+msgstr "Đóng"
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&Stand By"
+msgstr "Chuyển sang chế độ sẵn sàng"
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Hibernate"
+msgstr "Ngủ đông"
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Shut&down"
+msgstr "Tắt máy"
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Log &Off"
+msgstr "Chuyển chế độ"
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Lock"
+msgstr "Khoá máy"
+
+msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
+msgid "------ Every time ------"
+msgstr "------ Mọi lúc ------"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "E&xit"
+msgstr "&Thoát"
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do &Nothing"
+msgstr "Đừng làm gì"
+
+msgctxt "ID_AFTERPLAYBACK_NEXT"
+msgid "Play next in the &folder"
+msgstr "Phát tệp kế tiếp"
+
+msgctxt "POPUP"
+msgid "&Navigate"
+msgstr "Điều hướng"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Previous"
+msgstr "Lùi"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Next"
+msgstr "Tiếp"
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Go To..."
+msgstr "&Đi đến..."
+
+msgctxt "ID_NAVIGATE_JUMPTO"
+msgid "&Jump To..."
+msgstr "&Nhảy đến..."
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "&Title Menu"
+msgstr "Tiêu đề menu"
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Root Menu"
+msgstr "Menu chính"
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Subtitle Menu"
+msgstr "Menu phụ &đề"
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "&Audio Menu"
+msgstr "Menu âm thanh"
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "An&gle Menu"
+msgstr "Menu góc"
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "&Chapter Menu"
+msgstr "Menu phần"
+
+msgctxt "ID_FAVORITES"
+msgid "F&avorites"
+msgstr "&Ưa thích"
+
+msgctxt "POPUP"
+msgid "&Help"
+msgstr "&Trợ giúp"
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Home Page"
+msgstr "Trang &chủ"
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Check for &updates"
+msgstr "&Kiểm tra cập nh"
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Command Line Switches"
+msgstr "Chuyển chế độ dịch"
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Download &Toolbar Images"
+msgstr "Tải hình thanh công cụ"
+
+msgctxt "ID_HELP_DONATE"
+msgid "&Donate"
+msgstr "Ủng hộ"
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&About..."
+msgstr "&Về"
+

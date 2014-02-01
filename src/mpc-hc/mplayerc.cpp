@@ -76,7 +76,8 @@ const LanguageResource CMPlayerCApp::languageResources[] = {
     {ID_LANGUAGE_SWEDISH,               1053,   _T("Swedish"),                  _T("Lang\\mpcresources.sv.dll")},
     {ID_LANGUAGE_SPANISH,               3082,   _T("Spanish"),                  _T("Lang\\mpcresources.es.dll")},
     {ID_LANGUAGE_TURKISH,               1055,   _T("Turkish"),                  _T("Lang\\mpcresources.tr.dll")},
-    {ID_LANGUAGE_UKRAINIAN,             1058,   _T("Ukrainian"),                _T("Lang\\mpcresources.uk.dll")}
+    {ID_LANGUAGE_UKRAINIAN,             1058,   _T("Ukrainian"),                _T("Lang\\mpcresources.uk.dll")},
+    {ID_LANGUAGE_VIETNAMESE,            1066,   _T("Vietnamese"),               _T("Lang\\mpcresources.vi.dll")}
 };
 
 const size_t CMPlayerCApp::languageResourcesCount = _countof(CMPlayerCApp::languageResources);

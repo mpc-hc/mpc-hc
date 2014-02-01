@@ -137,6 +137,10 @@ tr.WinVersionTooLowError=[name] kurulumu, Windows XP Servis Paketi 3 veya daha y
 uk.WelcomeLabel2=На ваш комп'ютер буде встановлено [name].%n%nРекомендується завершити роботу інших додатків перед продовженням.
 uk.WinVersionTooLowError=[name] вимагає використання ОС Windows XP Service Pack 3 або пізнішої версії.
 
+; Vietnamese
+vi.WelcomeLabel2=Chuẩn bị cài đặt [name] vào máy tính của bạn.%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
+vi.WinVersionTooLowError=Để sử dụng, [name] yêu cầu Windows XP Service Pack 3 hoặc mới hơn.
+
 ; Chinese (P.R.C.)
 zh_CN.WelcomeLabel2=这将安装 [name] 到您的计算机中。%n%n建议您在继续之前关闭所有其它的应用程序。
 zh_CN.WinVersionTooLowError=[name] 要求 Windows XP Service Pack 3 或更高版本。
@@ -678,6 +682,25 @@ uk.tsk_ResetSettings=Скинути налаштування
 uk.types_DefaultInstallation=Типове встановлення
 uk.types_CustomInstallation=Вибіркове встановлення
 uk.ViewChangelog=Показати журнал змін
+
+; Vietnamese
+vi.langid=00001066
+vi.comp_mpciconlib=Thư viện biểu tượng
+vi.comp_mpcresources=Các gói ngôn ngữ
+vi.msg_DeleteSettings=Bạn cũng muốn xóa các thiết lập của MPC-HC?%nNếu bạn sẽ cài đặt lại MPC-HC thì bạn không cần phải xóa chúng.
+vi.msg_SetupIsRunningWarning=MPC-HC đang được cài đặt!
+#if defined(sse_required)
+vi.msg_simd_sse=Bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE.%nCPU của bạn không đáp ứng được yêu cầu này.
+#elif defined(sse2_required)
+vi.msg_simd_sse2=Bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE2.%nCPU của bạn không đáp ứng được yêu cầu này.
+#endif
+vi.tsk_AllUsers=Cho mọi người dùng
+vi.tsk_CurrentUser=Chỉ cho người dùng hiện tại
+vi.tsk_Other=Các tác vụ khác:
+vi.tsk_ResetSettings=Khôi phục các cài đặt
+vi.types_DefaultInstallation=Cài đặt mặc định
+vi.types_CustomInstallation=Cài đặt tùy chỉnh
+vi.ViewChangelog=Xem các thay đổi
 
 ; Chinese (P.R.C.)
 zh_CN.langid=00002052
