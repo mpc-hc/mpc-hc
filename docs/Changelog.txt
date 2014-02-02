@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-next version - not released yet
-===============================
+1.7.3 - 02 February 2014
+========================
 + New Galician and Vietnamese translations
 + Ticket #3873, Display tooltip with H/W decoder name on hover over status message
 * Updated Armenian, Basque, British English, Simplified Chinese, French, German, Japanese, Malay,
@@ -17,11 +17,12 @@ next version - not released yet
 ! Some subtitle entries could have been missing depending on how they overlapped in time
 ! Ticket #2870, Fix rare visual glitches on status bar
 ! Ticket #3881, DXVA status was invalid with certain decoders
-! Ticket #3981, Subtitle rendered: the blur filter was sometimes wrong on some part of the subpicture
+! Ticket #3981, Subtitle renderer: the blur filter was sometimes wrong on some part of the subpicture
 ! Ticket #3988, DVD favorites: the position in the DVD was not restored. Additionally if "Remember DVD position"
   is enabled and a DVD favorite has a position, the position from the favorite will be used instead of the
   remembered position. Also fix loading of DVD favorites created with no position.
 ! Ticket #3998, The "Debug Shaders" dialog icon was missing when a translation was used
+
 
 1.7.2 - 26 January 2014
 =======================
