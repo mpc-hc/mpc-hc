@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -273,7 +273,16 @@ LRESULT CPPageFileInfoDetails::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
 
 void CPPageFileInfoDetails::InitEncodingText(IFilterGraph* pFG)
 {
-    CAtlList<CString> sl;
+    CAtlList<CString> videoStreams;
+    CAtlList<CString> otherStreams;
+
+    auto addStream = [&](const AM_MEDIA_TYPE & mt, const CString & str) {
+        if (mt.majortype == MEDIATYPE_Video) {
+            videoStreams.AddTail(str);
+        } else {
+            otherStreams.AddTail(str);
+        }
+    };
 
     BeginEnumFilters(pFG, pEF, pBF) {
         CComPtr<IBaseFilter> pUSBF = GetUpStreamFilter(pBF);
@@ -296,38 +305,56 @@ void CPPageFileInfoDetails::InitEncodingText(IFilterGraph* pFG)
             }
         }
 
-        BeginEnumPins(pBF, pEP, pPin) {
-            CMediaTypeEx mt;
-            PIN_DIRECTION dir;
-            if (SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_OUTPUT
-                    && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+        bool bUsePins = true;
 
-                CString str = mt.ToString();
+        // If the filter claims to have tracks, we use that
+        if (CComQIPtr<IAMStreamSelect> pSS = pBF) {
+            DWORD nCount;
+            if (FAILED(pSS->Count(&nCount))) {
+                nCount = 0;
+            }
 
-                if (!str.IsEmpty()) {
-                    if (mt.majortype == MEDIATYPE_Video) { // Sort streams, set Video streams at head
-                        bool found_video = false;
-                        for (POSITION pos = sl.GetTailPosition(); pos; sl.GetPrev(pos)) {
-                            CString Item = sl.GetAt(pos);
-                            if (!Item.Find(_T("Video:"))) {
-                                sl.InsertAfter(pos, str + CString(L" [" + GetPinName(pPin) + L"]"));
-                                found_video = true;
-                                break;
-                            }
+            for (DWORD i = 0; i < nCount; i++) {
+                AM_MEDIA_TYPE* pmt = nullptr;
+                WCHAR* pszName = nullptr;
+                if (SUCCEEDED(pSS->Info(i, &pmt, nullptr, nullptr, nullptr, &pszName, nullptr, nullptr)) && pmt) {
+                    CMediaTypeEx mt = *pmt;
+                    CString str = mt.ToString();
+
+                    if (!str.IsEmpty()) {
+                        if (pszName && wcslen(pszName)) {
+                            str.AppendFormat(_T(" [%s]"), pszName);
                         }
-                        if (!found_video) {
-                            sl.AddHead(str + CString(L" [" + GetPinName(pPin) + L"]"));
-                        }
-                    } else {
-                        sl.AddTail(str + CString(L" [" + GetPinName(pPin) + L"]"));
+                        addStream(mt, str);
+                        bUsePins = false;
+                    }
+                }
+                DeleteMediaType(pmt);
+                CoTaskMemFree(pszName);
+            }
+        }
+        // We fall back to listing the pins only if we could not get any info from IAMStreamSelect
+        if (bUsePins) {
+            BeginEnumPins(pBF, pEP, pPin) {
+                CMediaTypeEx mt;
+                PIN_DIRECTION dir;
+                if (SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_OUTPUT
+                        && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                    CString str = mt.ToString();
+
+                    if (!str.IsEmpty()) {
+                        addStream(mt, str + CString(L" [" + GetPinName(pPin) + L"]"));
                     }
                 }
             }
+            EndEnumPins;
         }
-        EndEnumPins;
     }
     EndEnumFilters;
 
-    m_encodingtext = Implode(sl, '\n');
-    m_encodingtext.Replace(_T("\n"), _T("\r\n"));
+    m_encodingtext = Implode(videoStreams, _T("\r\n"));
+    if (!m_encodingtext.IsEmpty()) {
+        m_encodingtext += _T("\r\n");
+    }
+    m_encodingtext += Implode(otherStreams, _T("\r\n"));
 }

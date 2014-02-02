@@ -12,6 +12,7 @@ next version - not released yet
 ===============================
 * If MPC-HC is configured to override the splitter choice when doing the initial track selection,
   tracks selected at splitter level will be preferred in case more than one tracks match the criteria
+! Properties dialog: Some tracks could have been missing from the streams list
 
 
 1.7.3 - 02 February 2014
