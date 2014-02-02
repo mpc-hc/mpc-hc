@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2014-01-29 20:20+0000\n"
+"PO-Revision-Date: 2014-02-03 21:07+0000\n"
 "Last-Translator: anxo_cruel <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "POPUP"
 msgid "&File"
-msgstr "Ficheiro"
+msgstr "&Ficheiro"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
@@ -46,7 +46,7 @@ msgstr "A&brir Disco"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "Ficheiros Recentes "
+msgstr "Ficheiros Recentes"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -54,7 +54,7 @@ msgstr "&Pechar"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Gardar unha Copia.."
+msgstr "&Gardar unha Copia..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
@@ -338,11 +338,11 @@ msgstr "&VSync Alternativa"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "&Disminuir Compensación de Vsync "
+msgstr "&Disminuir Compensación de Vsync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "&Incrementar Compensación de Vsync "
+msgstr "&Incrementar Compensación de Vsync"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -398,11 +398,11 @@ msgstr "Tocar Xanela dende A&fora"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "Zoom &1 "
+msgstr "Zoom &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "Zoom &2 "
+msgstr "Zoom &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
@@ -434,7 +434,7 @@ msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "&235:100 "
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
@@ -450,7 +450,7 @@ msgstr "Pan&&S&can"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "&Incrementar Tamaño "
+msgstr "&Incrementar Tamaño"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
@@ -502,7 +502,7 @@ msgstr "Sempre &Visible"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr "&Orixinal "
+msgstr "&Orixinal"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
@@ -522,11 +522,11 @@ msgstr "&Opcións..."
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr "&Reproducir "
+msgstr "&Reproducir"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "&Reproducir/Pausa "
+msgstr "&Reproducir/Pausa"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
@@ -562,7 +562,7 @@ msgstr "&Audio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"
-msgstr "Su&btítulos "
+msgstr "Su&btítulos"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
@@ -570,11 +570,11 @@ msgstr "&Secuencia de Vídeo"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "&Volume "
+msgstr "&Volume"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
-msgstr "&Arriba "
+msgstr "&Arriba"
 
 msgctxt "ID_VOLUME_DOWN"
 msgid "&Down"
@@ -582,7 +582,7 @@ msgstr "A&baixo"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Silencio "
+msgstr "&Silencio"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
@@ -590,7 +590,7 @@ msgstr "De&spois da Reprodución"
 
 msgctxt "ID_AFTERPLAYBACK_ONCE"
 msgid "--------- Once ---------"
-msgstr "-------- Unha vez ------- "
+msgstr "-------- Unha vez -------"
 
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
@@ -606,7 +606,7 @@ msgstr "&Hibernar"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "&Apagar "
+msgstr "&Apagar"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
@@ -614,11 +614,11 @@ msgstr "Pechar &Sesión"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "&Bloquear o ordenador "
+msgstr "&Bloquear o ordenador"
 
 msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
 msgid "------ Every time ------"
-msgstr "------- Cada vez ------- "
+msgstr "------- Cada vez -------"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "E&xit"
@@ -634,11 +634,11 @@ msgstr "Reproducir o seguinte no cartafol"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "&Navegar "
+msgstr "&Navegar"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
-msgstr "&Previo "
+msgstr "&Previo"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "&Next"
@@ -646,7 +646,7 @@ msgstr "&Seguinte"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "&Ir a... "
+msgstr "&Ir a..."
 
 msgctxt "ID_NAVIGATE_JUMPTO"
 msgid "&Jump To..."
@@ -658,7 +658,7 @@ msgstr "Menú do &Titulo"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "Menú &Raíz "
+msgstr "Menú &Raíz"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
@@ -670,11 +670,11 @@ msgstr "Menú do &Audio"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr "Menú de An&gulos "
+msgstr "Menú de An&gulos"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Menú de &Capitulos "
+msgstr "Menú de &Capitulos"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
@@ -706,5 +706,5 @@ msgstr "D&oazón"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "&Acerca De... "
+msgstr "&Acerca De..."
 

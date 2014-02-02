@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
-"PO-Revision-Date: 2014-01-18 11:30+0000\n"
+"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
+"PO-Revision-Date: 2014-02-05 20:40+0000\n"
 "Last-Translator: Superb\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/mpc-hc/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -119,7 +119,7 @@ msgstr "אף פעם (הגישה המהירה ביותר)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
-msgstr ""
+msgstr "רק כאשר מתחלפים סוגי וידאו (ברירת מחדל)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
@@ -127,23 +127,23 @@ msgstr "תמיד (הכי איטי)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr ""
+msgstr "התקנים מסויימים לא תומכים בכך. שני מפענחי וידאו תמיד נמצאים בגרף."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr ""
+msgstr "מהיר, למעט כאשר זרמי וידאו שונים מתחלפים. מפענח וידאו אחד בלבד נמצא בגרף."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
-msgstr ""
+msgstr "לא מומלץ. למטרות בדיקה בלבד."
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
-msgstr ""
+msgstr "אף פעם, במידה וניתן (הכי מהיר, אך לא נתמך על ידי רוב הפילטרים)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
-msgstr ""
+msgstr "רק כאשר מתחלפים סוגי וידאו (ברירת מחדל)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
@@ -235,11 +235,11 @@ msgstr "גופן"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr ""
+msgstr "הצגת חלק מפיני היציאה של פילטר ניווט הדי.וי.די נכשלה"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr ""
+msgstr "מציאת הממשקים הנדרשים עבור ניגון די.וי.די נכשלה"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -347,15 +347,15 @@ msgstr "ברירת מחדל של מערכת"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr ""
+msgstr "מציאת הממשקים הנדרשים עבור ניגון נכשלה"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr ""
+msgstr "לא ניתן לקבוע חלון יעד עבור התראות הגרף"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr ""
+msgstr "הצגת כל פיני היציאה של פילטר ניווט הדי.וי.די נכשלה"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -467,15 +467,15 @@ msgstr "מחליף זרמי השמע"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
-msgstr ""
+msgstr "גרסה חדשה של ספריית הצלמיות"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr ""
+msgstr "האם ברצונך לשייך מחדש את הצלמיות?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr ""
+msgstr "פעולה זו תתקן הצגה לא נכונה של צלמיות אחרי עדכון של ספריית הצלמיות.\nשיוכי הקבצים לא ישונו, אלא רק יבוצע רענון לצלמיות השייכות להם."
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -515,11 +515,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "ריק (כל דבר)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "ריק (לא מכווץ)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
@@ -723,23 +723,23 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
-msgstr ""
+msgstr "**לא זמין**"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
 msgid "The selected renderer is not installed."
-msgstr ""
+msgstr "מציג הוידאו הנבחר אינו מותקן."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "ריק (כל דבר)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "ריק (לא מכווץ)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr ""
+msgstr "מוסר האודיו של MPC-HC"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -755,7 +755,7 @@ msgstr ""
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
-msgstr ""
+msgstr "הורד כתוביות"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -767,23 +767,23 @@ msgstr "אוטומטי"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr ""
+msgstr "אין שום מקשים מותאמים אישית לייצא."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr ""
+msgstr "לא נמצאו קבצי מדיה בקובץ הארכיון"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr ""
+msgstr "קבצים מכווצים אינם נתמכים"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr ""
+msgstr "קבצים מוצפנים אינם נתמכים"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
-msgstr ""
+msgstr "לא ניתן היה למצוא את כל חלקי הארכיון"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
@@ -819,7 +819,7 @@ msgstr "פתח VTS_xx_0.ifo בכדי לטעון קבצי VTS_xx_x.vob כחתיכ
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr ""
+msgstr "מבוסס על RARFileSource ולא תומך בקבצים מכווצים"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -827,11 +827,11 @@ msgstr "משתמש ב-LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr ""
+msgstr "משתמש ב-LAV Filters. כבוי כברירת מחדל, כיוון שהפילטרים של מיקרוסופט יוצר יציבים עבור פורמטים אלה בדרך כלל.\nאם ברצונך להשתמש בפילטרים המובנים, הדלק אותם גם כמקור וגם כמפענח לחווית ניגון טובה יותר."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr ""
+msgstr "הפעל/כבה סרגל ניווט"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
@@ -1227,11 +1227,11 @@ msgstr "הוסף תיקיה מכילה"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[חומרה]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "פענוח תוכנה"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1383,7 +1383,7 @@ msgstr "מהירות: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
-msgstr ""
+msgstr "תמונות ממוזערות נשמרו בהצלחה"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Stream"
@@ -1399,7 +1399,7 @@ msgstr "איפוס הגדרות"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr ""
+msgstr "אתה בטוח שברצונך להשיב את MPC-HC להגדרות ברירת המחדל?\nשים לב שכל ההגדרות הנוכחיות יאבדו!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -1411,15 +1411,15 @@ msgstr "יצוא הגדרות"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
-msgstr ""
+msgstr "ישנם שינויים שעדיין לא נשמרו.\nהאם ברצונך לשמור אותם לפני הייצוא?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr ""
+msgstr "ההגדרות יוצאו בהצלחה."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
-msgstr ""
+msgstr "היצוא נכשל. זה עלול לקרות כאשר אין ברשותך הרשאות נכונות."
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
@@ -1599,7 +1599,7 @@ msgstr " %d כתוביות זמינות."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr ""
+msgstr "האם ברצונך לבדוק לעדכוני MPC-HC מידי פעם?\n\nניתן לכבות את הבדיקה בעת מאוחרת יותר בדף השונות בהגדרות."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"

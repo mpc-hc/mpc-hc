@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-01 23:06+0000\n"
+"PO-Revision-Date: 2014-02-05 15:30+0000\n"
 "Last-Translator: anxo_cruel <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +18,15 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Ubicación "
+msgstr "Ubicación"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
-msgstr "Video "
+msgstr "Video"
 
 msgctxt "IDS_INFOBAR_AUDIO"
 msgid "Audio"
-msgstr "Son "
+msgstr "Audio"
 
 msgctxt "IDS_INFOBAR_SUBTITLES"
 msgid "Subtitles"
@@ -34,15 +34,15 @@ msgstr "Subtítulos"
 
 msgctxt "IDS_INFOBAR_CHAPTER"
 msgid "Chapter"
-msgstr "Capítulo "
+msgstr "Capítulo"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
-msgstr "Completando... "
+msgstr "Completando..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "Reproducir VÍdeo "
+msgstr "Reproducir VÍdeo"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
@@ -50,11 +50,11 @@ msgstr "Reproducir Música"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Reproducir CD de Audio "
+msgstr "Reproducir CD de Audio"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Reproducir Pelicua en DVD "
+msgstr "Reproducir Pelicua en DVD"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
@@ -62,7 +62,7 @@ msgstr "Propiedades"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "Estilo por &Defecto "
+msgstr "Estilo por &Defecto"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -82,7 +82,7 @@ msgstr "Tempo"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr "Desfase de sincronización "
+msgstr "Desfase de sincronización"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
@@ -98,7 +98,7 @@ msgstr "Taxa de bits"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid " (avg/cur)"
-msgstr "(promedio/actual) "
+msgstr "(promedio/actual)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -142,7 +142,7 @@ msgstr "Nunca se é posible (máis rápido, pero non soportado pola maioría dos
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
-msgstr "Só cando se cambia entre vídeos de diferentes tipos (predeterminado) "
+msgstr "Só cando se cambia entre vídeos de diferentes tipos (predeterminado)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
@@ -154,7 +154,7 @@ msgstr "Clasificación indicativa"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr "%d+ "
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
@@ -174,7 +174,7 @@ msgstr "Noticias/Actualidade"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr "GB/s "
+msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -194,7 +194,7 @@ msgstr "Barra de Navegación"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "Resincronizar Subtítulos "
+msgstr "Resincronizar Subtítulos"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -202,7 +202,7 @@ msgstr "Tempo"
 
 msgctxt "IDS_SUBRESYNC_CLN_END"
 msgid "End"
-msgstr "Fin "
+msgstr "Fin"
 
 msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
 msgid "Preview"
@@ -210,7 +210,7 @@ msgstr "Vista Previa"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
-msgstr "Vob ID "
+msgstr "Vob ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
@@ -218,7 +218,7 @@ msgstr "ID da célula"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
-msgstr "Forzado "
+msgstr "Forzado"
 
 msgctxt "IDS_SUBRESYNC_CLN_TEXT"
 msgid "Text"
@@ -286,7 +286,7 @@ msgstr "Formato"
 
 msgctxt "IDS_SUBDL_DLG_DISC_COL"
 msgid "Disc"
-msgstr "Disco "
+msgstr "Disco"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
@@ -302,15 +302,15 @@ msgstr "Unicode"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
-msgstr "Capa "
+msgstr "Capa"
 
 msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
 msgid "Actor"
-msgstr "Actor "
+msgstr "Actor"
 
 msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
 msgid "Effect"
-msgstr "Efecto "
+msgstr "Efecto"
 
 msgctxt "IDS_PLAYLIST_CAPTION"
 msgid "Playlist"
@@ -318,11 +318,11 @@ msgstr "Lista de reprodución"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "Encendido/Apagado "
+msgstr "Encendido/Apagado"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
-msgstr "De fps "
+msgstr "De fps"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To fps"
@@ -330,7 +330,7 @@ msgstr "A fps"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Modo de visualización (Hz) "
+msgstr "Modo de visualización (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
@@ -366,11 +366,11 @@ msgstr "E&ngadir"
 
 msgctxt "IDS_PLAYLIST_REMOVE"
 msgid "&Remove"
-msgstr "&Eliminar "
+msgstr "&Eliminar"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
-msgstr "&Limpiar "
+msgstr "&Limpar"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
@@ -378,23 +378,23 @@ msgstr "&Copiar ao Portapapeis"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
-msgstr "&Gardar Como... "
+msgstr "&Gardar Como..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
-msgstr "Agrupar por E&tiquetas "
+msgstr "Agrupar por E&tiquetas"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Agrupar por R&utas "
+msgstr "Agrupar por R&utas"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "&Aleatorio "
+msgstr "&Aleatorio"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "R&estaurar "
+msgstr "R&estaurar"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
@@ -402,23 +402,23 @@ msgstr "&Separador"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
-msgstr "&Borrar "
+msgstr "&Borrar"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "D&uplicar "
+msgstr "D&uplicar"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
-msgstr "&Reiniciar "
+msgstr "&Reiniciar"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Retraso de Subs - "
+msgstr "Retraso de Subs -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Retraso de Subs + "
+msgstr "Retraso de Subs +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
@@ -450,11 +450,11 @@ msgstr "Axustes"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Filtros Internos::Cambia Audio "
+msgstr "Filtros Internos::Cambia Audio"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
-msgstr "Filtros Externos "
+msgstr "Filtros Externos"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
@@ -462,7 +462,7 @@ msgstr "Reprodución::Shaders"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Cambia Audio "
+msgstr "Cambia Audio"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -870,7 +870,7 @@ msgstr "Paso\nPaso"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
-msgstr "Decrementar velocidade\nDecrementar velocidade"
+msgstr "Disminuir velocidade\nDisminuir velocidade"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "Increase speed\nIncrease speed"
@@ -934,7 +934,7 @@ msgstr "Escoller &sombreadores..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "&Sombreadores de depuración..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1158,39 +1158,39 @@ msgstr "Abrir DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr ""
+msgstr "Fallou en definir post-redimensionamento dos sombreadores"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr ""
+msgstr "Fallou en definir o pre e post-redimensionamentos dos sombreadores"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Os sombreadores son recompilados automaticamente cando os seus ficheiros correspondentes son modificados."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr ""
+msgstr "Non foi posible cargar %s pixeles dos sombreadores non funcionarán."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "Non foi posible atopar puntos de entrada de función necesarios en% s, pixeles dos sombreadores non funcionarán."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Sombreador predefinido: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Seguinte predefinición de sombreador"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Predefinición anterior de sombreador"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
@@ -1358,7 +1358,7 @@ msgstr "Amosar ao pasar por enriba do control, ocultar despois:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
+msgstr "Fallou en definir pre-redimensionamento de sombreadores"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1602,7 +1602,7 @@ msgstr "Desexas comprobar periódicamente se hai actualizacións dispoñibles pa
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
@@ -1610,7 +1610,7 @@ msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -3078,11 +3078,11 @@ msgstr "Disminuir contraste"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Incrementar Matiz"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Disminuir Matiz"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3222,165 +3222,165 @@ msgstr "Non é posible saltar o cadro, tenteo con procesador de vídeo diferente
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr ""
+msgstr "As funcións \"Gardar Imaxe\" e \"Gardar Miniaturas\" non funcionan co actual procesador de vídeo para RealMedia.\nSelecione un dos procesadores do DirectX para RealMedia nas opcións de saída do MPC-HC e re-abra o ficheiro."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr ""
+msgstr "As funcións \"Gardar Imaxe\" e \"Gardar Miniaturas\" non funcionan co actual procesador de vídeo para QuickTime.\nSelecione un dos procesadores do DirectX para QuickTime nas opcións de saída do MPC-HC e re-abra o ficheiro."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
-msgstr ""
+msgstr "As funcións \"Gardar Imaxe\" e \"Gardar Miniaturas\" non funcionan para ficheiros Shockwave."
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr ""
+msgstr "As funcións \"Gardar Imaxe\" e \"Gardar Miniaturas\" non funcionan co Procesador de vídeo Mesturador Overlay .\nCambie o procesador de vídeo nas opcións de saída do MPC-HC e re-abra o ficheiro."
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
-msgstr ""
+msgstr "Non foi posible conectarse ao servidor de subtítulos."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr ""
+msgstr "Vostede desexa activar o editor de EDL?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
-msgstr ""
+msgstr "Erro de Captura"
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
-msgstr ""
+msgstr "vídeo"
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
-msgstr ""
+msgstr "audio"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr ""
+msgstr "Non foi posible adicionar o filtro do búfer %s ao gráfico."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr ""
+msgstr "Non foi posible conectar o filtro do búfer %s ao gráfico."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr ""
+msgstr "Non foi posible adicionar o filtro do codificador %s ao gráfico."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr ""
+msgstr "Non foi posible conectar o filtro do codificador %s ao gráfico."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr ""
+msgstr "Non foi posible axustar o formato de compresión ao filtro do codificador %s."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr ""
+msgstr "Non foi posible conectar a secuencia %s ao filtro do multiplexador."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr ""
+msgstr "Non se atopou ningún pin de captura de vídeo."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr ""
+msgstr "Non se atopou ningún pin de captura de audio."
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."
-msgstr ""
+msgstr "Erro ao crear o ficheiro de saída."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
 msgid "Error initializing the audio output file."
-msgstr ""
+msgstr "Erro ao crear o ficheiro de audio de saída."
 
 msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
 msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
-msgstr ""
+msgstr "O formato de tempo correcto é [-]hh:mm:ss.ms (ex: 01:23:45.678)."
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
-msgstr ""
+msgstr "Este tipo xa existe na lista!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr ""
+msgstr "Vostede precisa aplicar as novas configuracións antes de probar."
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
-msgstr ""
+msgstr "Despois da reprodución: Pechar ficheiro"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr ""
+msgstr "Despois da reprodución: Suspender"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr ""
+msgstr "Despois da reprodución: Hibernar"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr ""
+msgstr "Despois da reprodución: Desligar"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr ""
+msgstr "Despois da reprodución: rematar sesión"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr ""
+msgstr "Despois da reprodución: Bloquear sesión"
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Always exit"
-msgstr ""
+msgstr "Despois da reprodución: Pechar programa"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do Nothing"
-msgstr ""
+msgstr "Despois da reprodución: Non Facer nada"
 
 msgctxt "IDS_AFTERPLAYBACK_NEXT"
 msgid "After Playback: Play next in the folder"
-msgstr ""
+msgstr "Despois da reprodución: Reproducir seguinte ficheiro"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
-msgstr ""
+msgstr "Brillo: %s"
 
 msgctxt "IDS_OSD_CONTRAST"
 msgid "Contrast: %s"
-msgstr ""
+msgstr "Contraste: %s"
 
 msgctxt "IDS_OSD_HUE"
 msgid "Hue: %s°"
-msgstr ""
+msgstr "Matiz: %s°"
 
 msgctxt "IDS_OSD_SATURATION"
 msgid "Saturation: %s"
-msgstr ""
+msgstr "Saturación: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr ""
+msgstr "Configuracións de cor reiniciadas"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr ""
+msgstr "Control de cor non soportado"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr ""
+msgstr "Aumentar brillo"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr ""
+msgstr "Insira o seu idioma preferido aqui.\nPor exemplo, tipo: \"eng jap swe\"\n                     "
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr ""
+msgstr "Divisores externos poden ter as súas propias opcións de preferencia de idioma, polo tanto o comportamento por defecto do MPC-HC non é alterar a elección inicial del.\nHabilite esta opción se desexa que o MPC-HC controle os divisores externos."
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
-msgstr ""
+msgstr "Axustes"
 

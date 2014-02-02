@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-01 09:30+0000\n"
+"PO-Revision-Date: 2014-02-02 17:10+0000\n"
 "Last-Translator: datanhlg <datanhlg@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -458,7 +458,7 @@ msgstr "Bộ lọc ngoài"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr ""
+msgstr "Phát lại::Trình đổ bóng"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -590,7 +590,7 @@ msgstr "Mặc định đoạn bộ lọc video render DirectShow. Những ngư�
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr ""
+msgstr "Đây là dựng hình mặc định của Windows 9x/me/2k. Tùy thuộc vào khả năng hiển thị của cửa sổ video và khả năng video card của bạn, nó sẽ chuyển đổi giữa GDI, DirectDraw, Overlay dựng chế độ tự động."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
@@ -802,11 +802,11 @@ msgstr "Đặt VMR-9 (ít render hơn) vào chế độ trộn, điều này có
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr ""
+msgstr "Cải thiện hiệu suất với chi phí của một số khả năng tương thích của trình phát."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr ""
+msgstr "Giảm nhiễu nhưng ngăn chặn các thanh công cụ được hiển thị."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
@@ -934,7 +934,7 @@ msgstr "&Chọn trình đổ bóng..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "&Gỡ rối trình đổ bóng"
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1158,39 +1158,39 @@ msgstr "Mở DVD/BD "
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr ""
+msgstr "Thất bại trong việc thiết lập sau thay đổi kích thước trình đổ bóng"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr ""
+msgstr "Thất bại trong việc thiết lập cả hai trước thay đổi kích thước và sau thay đổi kích thước trình đổ bóng"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Trình đổ bóng được biên dịch lại tự động khi các tập tin tương ứng được sửa đổi."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr ""
+msgstr "Không thể tải %s, trình đổ bóng pixel sẽ không làm việc."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "Không thể tìm thấy điểm cần thiết nhập chức năng trong %s, trình đổ bóng pixel sẽ không làm việc."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Đổ bóng cài sẵn: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Đổ bóng kế"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Đổ bóng trước"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
@@ -1202,23 +1202,23 @@ msgstr "Ngừng"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "T = P"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "T +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "P +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
@@ -1226,7 +1226,7 @@ msgstr "Thêm thư mục chứa"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
@@ -1358,7 +1358,7 @@ msgstr "Hiển thị khi lơ lửng kiểm soát, ẩn sau:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
+msgstr "Thất bại trong việc thiết lập trước thay đổi kích thước trình đổ bóng"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1602,7 +1602,7 @@ msgstr "Bạn có muốn kiểm tra định kỳ cho cập nhật MPC-HC?\nTính
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
@@ -1610,7 +1610,7 @@ msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -1942,7 +1942,7 @@ msgstr "MPC-HC không có đủ quyền để thay đổi các tập tin định
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "MPC-HC là một trọng lượng nhẹ vô cùng, phương tiện truyền thông máy nghe nhạc mở nguồn cho Windows. Nó hỗ trợ tất cả các video phổ biến và các định dạng tập tin âm thanh có sẵn để phát lại. Chúng tôi là 100% phần mềm miễn phí, không có quảng cáo hoặc các thanh công cụ."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2366,7 +2366,7 @@ msgstr "Khối lượng âm lớn nhất"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr ""
+msgstr "Cách sử dụng: mpc-hc.exe \"pathname\" [chuyển]\n\n\"pathname\"\tCác tập tin hoặc thư mục chính được nạp (ký tự đại diện\n\t\tcho phép, \"-\" biểu thị đầu vào tiêu chuẩn)\n/dub \"dubname\"\tNạp một tập tin âm thanh khác\n/dubdelay \"file\"\tNạp một tập tin âm thanh thêm dịch chuyển XXms (nếu\n\t\ttệp chứa \"...Độ trễ XXms...\")\n/d3dfs\t\tBắt đầu dựng hình trong chế độ toàn màn hình D3D\n/sub \"subname\"\tNạp một file phụ đề thêm\n/filter \"filtername\"\tBộ lọc DirectShow tải từ một liên thư viện\n\t\tkết động(ký tự đại diện)\n/dvd\t\tChạy chế độ dvd, \"pathname\" nghĩa là thư mục\n\t\tDVD(tùy chọn)\n/dvdpos T#C\tBắt đầu phát lại tại tiêu đề T, chương C\n/dvdpos T#hh:mm\tPhát lại tại tiêu đề T, vị trí gg:pp:gg\n/cd\t\tTải tất cả các bài hát của một đĩa CD âm thanh hoặc (s) VCD,\n\t\t\"pathname\" nghĩa là đường dẫn cd(tùy chọn)\n/device\t\tMở thiết bị video mặc định\n/open\t\tMở tập tin, không tự động bắt đầu phát lại\n/play\t\tBắt đầu chơi các tập tin ngay sau trình phát nhạc\n\t\tđã chạy\n/close\t\tĐóng trình phát nhạc sau khi phát lại (chỉ hoạt động khi\n\t\tdùng với /phát)\n/shutdown\tTắt máy tính, hệ điều hành sau khi phát lại\n/fullscreen\tBắt đầu trong chế độ toàn màn hình\n/minimized\tBắt đầu trong chế độ giảm thiểu\n/new\t\tSử dụng một trường hợp mới của trình phát nhạc\n/add\t\tThêm\"pathname\" vào danh sách phát, sẽ kết hợp\n\t\tvới/mở và/phát\n/regvid\t\tTạo ra các phần mở rộng cho các tập tin video\n/regaud\t\tTạo ra các phần mở rộng cho các tập tin âm thanh\n/regpl\t\tTạo ra các phần mở rộng cho các tập tin danh sách phát\n/regall\t\tTạo ra các phần mở rộng cho các tất cả các tập tin \n/unregall\t\tLoại bỏ phần mở rộng\n/start ms\t\tBắt đầu phát lúc \"mlg\" (= mili giây)\n/startpos hh:mm:ss\tPhát tại vị trí gg:pp:gg\n/fixedsize w,h\tThiết lập một kích thước cửa sổ cố định\n/monitor N\tBắt đầu chơi trên màn hình N, trong đó N bắt đầu từ 1\n/audiorenderer N\tBắt đầu sử dụng trình âm N, trong đó N bắt đầu từ 1\n\t\t(xem thiết lập\"Ngõ ra\")\n/shaderpreset \"Pr\"\tBắt đầu sử dụng \"Pr\" tạo bóng đặt trước\n/reset\t\tKhôi phục cài đặt mặc định\n/help /h /?\tHiện giúp đỡ về chuyển dòng lệnh\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2398,7 +2398,7 @@ msgstr "Chuyển đổi thanh bắt hìn"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "Chuyển đổi gỡ lỗi trình đổ bóng"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2470,7 +2470,7 @@ msgstr "Phương tiện truyền thông không trong thư mục hiện hành."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Các tập tin đầu tiên của thư mục đã được nạp."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
@@ -2494,63 +2494,63 @@ msgstr "Tần số thấp"
 
 msgctxt "IDS_BACK_LEFT"
 msgid "Back Left"
-msgstr ""
+msgstr "Trở lại trái"
 
 msgctxt "IDS_BACK_RIGHT"
 msgid "Back Right"
-msgstr ""
+msgstr "Trở lại phải"
 
 msgctxt "IDS_FRONT_LEFT_OF_CENTER"
 msgid "Front Left of Center"
-msgstr ""
+msgstr "Bên trái trung tâm"
 
 msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
 msgid "Front Right of Center"
-msgstr ""
+msgstr "Bên phải trung tâm"
 
 msgctxt "IDS_BACK_CENTER"
 msgid "Back Center"
-msgstr ""
+msgstr "Lùi trung tâm"
 
 msgctxt "IDS_SIDE_LEFT"
 msgid "Side Left"
-msgstr ""
+msgstr "Mép trái"
 
 msgctxt "IDS_SIDE_RIGHT"
 msgid "Side Right"
-msgstr ""
+msgstr "Mép phải"
 
 msgctxt "IDS_TOP_CENTER"
 msgid "Top Center"
-msgstr ""
+msgstr "Đỉnh trung tâm"
 
 msgctxt "IDS_TOP_FRONT_LEFT"
 msgid "Top Front Left"
-msgstr ""
+msgstr "Đỉnh bề trái"
 
 msgctxt "IDS_TOP_FRONT_CENTER"
 msgid "Top Front Center"
-msgstr ""
+msgstr "Đỉnh bề trung tâm"
 
 msgctxt "IDS_TOP_FRONT_RIGHT"
 msgid "Top Front Right"
-msgstr ""
+msgstr "Đỉnh bề phải"
 
 msgctxt "IDS_TOP_BACK_LEFT"
 msgid "Top Back Left"
-msgstr ""
+msgstr "Đỉnh trước trái"
 
 msgctxt "IDS_TOP_BACK_CENTER"
 msgid "Top Back Center"
-msgstr ""
+msgstr "Đỉnh trước trung tâm"
 
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
-msgstr ""
+msgstr "Đỉnh trước phải"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "Thiết lập lại hiển thị thống kê số liệu"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2882,43 +2882,43 @@ msgstr "VSync: Tắt"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr ""
+msgstr "VSync chính xác: Bật"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr ""
+msgstr "VSync chính xác: Tắt"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
-msgstr ""
+msgstr "Đồng bộ hóa video cho màn hình: Bật"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr ""
+msgstr "Đồng bộ hóa video cho màn hình: Tắt"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
-msgstr ""
+msgstr "Hiển thị đồng bộ hóa cho video: Bật"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
-msgstr ""
+msgstr "Hiển thị đồng bộ hóa cho video: Tắt"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr ""
+msgstr "Hiện nay gần nhất VSync: Bật"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr ""
+msgstr "Hiện nay gần nhất VSync: Tắt"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr ""
+msgstr "Quản lí màu: Bật"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr ""
+msgstr "Quản lí màu: Tắt"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
@@ -2938,163 +2938,163 @@ msgstr "Loại ngõ vào: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
-msgstr ""
+msgstr "Môi trường xung quanh sáng: Bright (2.2 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
-msgstr ""
+msgstr "Môi trường xung quanh sáng: Dim (2.35 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
-msgstr ""
+msgstr "Môi trường xung quanh sáng: Dark(2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr ""
+msgstr "Ra ý định: Tri giác"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr ""
+msgstr "Ra ý định: Đo màu tương đối"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr ""
+msgstr "Ra ý định: Độ bão hòa"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr ""
+msgstr "Ra ý định: Tuyệt đối đo màu"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr ""
+msgstr "Phạm vi đầu ra: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr ""
+msgstr "Flush GPU trước khi VSync: Bật"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr ""
+msgstr "Flush GPU trước khi VSync: Tắt"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr ""
+msgstr "Flush GPU sau khi hiện tại: Bật"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr ""
+msgstr "Flush GPU sau khi hiện tại: Tắt"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr ""
+msgstr "Đợi GPU Flush: Bật"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr ""
+msgstr "Đợi GPU Flush: Tắt"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
-msgstr ""
+msgstr "Toàn màn hình D3D: Bật"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr ""
+msgstr "Toàn màn hình D3D: Tắt"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
-msgstr ""
+msgstr "Vô hiệu hóa thành phần máy tính để bàn: Bật"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr ""
+msgstr "Vô hiệu hóa thành phần máy tính để bàn: Tắt"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr ""
+msgstr "Thay thế VSync: Bật"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr ""
+msgstr "Thay thế VSync: Tắt"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr ""
+msgstr "Thiết lập kết xuất để mặc định"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr ""
+msgstr "Thiết lập kết xuất để tối ưu"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr ""
+msgstr "GUI toàn màn hình D3D: Bật"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr ""
+msgstr "GUI toàn màn hình D3D: Tắt"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
-msgstr ""
+msgstr "Ngõ ra 10-bit RGB: Bật"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr ""
+msgstr "Ngõ ra 10-bit RGB: Tắt"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr ""
+msgstr "Ngõ vào 10-bit RGB: Bật"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
-msgstr ""
+msgstr "Ngõ vào 10-bit RGB: Tắt"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
-msgstr ""
+msgstr "Đầy đủ chế biến điểm nổi: Bật"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
 msgid "Full Floating Point Processing: Off"
-msgstr ""
+msgstr "Đầy đủ chế biến điểm nổi: Tắt"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr ""
+msgstr "Nửa chế biến điểm nổi: Bật"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
-msgstr ""
+msgstr "Nửa chế biến điểm nổi: Tắt"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr ""
+msgstr "Giảm độ sáng"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
-msgstr ""
+msgstr "Tăng độ tương phản"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
-msgstr ""
+msgstr "Giảm độ tương phản"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Tăng sắc"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Giảmsắc"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr ""
+msgstr "Tăng độ bão hòa"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
-msgstr ""
+msgstr "Giảm độ bão hòa"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr ""
+msgstr "Đặt lại thiết lập màu"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
@@ -3126,259 +3126,259 @@ msgstr "Phóng: Tự động"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
-msgstr ""
+msgstr "Chuyển đổi bản đồ kênh tùy chỉnh"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr ""
+msgstr "Tùy chọn bản đồ kênh tùy chỉnh: Bật"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr ""
+msgstr "Tùy chọn bản đồ kênh tùy chỉnh: Tắt"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
-msgstr ""
+msgstr "Chuyển đổi bình thường"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr ""
+msgstr "Bình thường hóa: Bật"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr ""
+msgstr "Bình thường hóa: Tắt"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
-msgstr ""
+msgstr "Chuyển đổi lấy lại khối lượng"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"
-msgstr ""
+msgstr "Lấy lại khối lượng: Bật"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr ""
+msgstr "Lấy lại khối lượng: Tắt"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr ""
+msgstr "KB/giây"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr ""
+msgstr "MB/giây"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
-msgstr ""
+msgstr "Không thể tạo ra các tuner."
 
 msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
 msgid "Could not create the receiver."
-msgstr ""
+msgstr "Không thể tạo người nhận."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
-msgstr ""
+msgstr "Không thể kết nối mạng và tuner."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
-msgstr ""
+msgstr "Không thể kết nối tuner và người nhận."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
 msgid "Could not connect the tuner."
-msgstr ""
+msgstr "Không thể kết nối tuner."
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
-msgstr ""
+msgstr "Không thể tạo ra các demultiplexer."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
-msgstr ""
+msgstr "Lỗi phân tích thời gian nhập!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
 msgid "Error parsing the entered text!"
-msgstr ""
+msgstr "Lỗi phân tích cú pháp văn bản đã nhập!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr ""
+msgstr "Lỗi phân tích tỷ lệ khung hình vào!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame step, try a different video renderer."
-msgstr ""
+msgstr "Không có thể hình thành bước, hãy thử một dựng hình video khác nhau."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr ""
+msgstr "\"Lưu ảnh\" và \"Lưu hình nhỏ\" chức năng không làm việc với trình phát video mặc định cho RealMedia.\nChọn một trong các kết xuất đồ họa DirectX cho RealMedia trong các tùy chọn đầu ra MPC-HC và mở lại tập tin."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr ""
+msgstr "\"Lưu ảnh\" và \"Lưu hình nhỏ\" chức năng không làm việc với trình phát video mặc định cho QuickTime.\nChọn một trong các kết xuất đồ họa DirectX cho QuickTime trong các tùy chọn đầu ra MPC-HC và mở lại tập tin."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
-msgstr ""
+msgstr "\"Lưu ảnh\" và \"Lưu hình nhỏ\" chức năng không làm việc cho các tập tin Shockwave."
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr ""
+msgstr "\"Lưu ảnh\" và \"Lưu hình nhỏ\" chức năng không làm việc với video dựng hình bộ trộn.\nThay đổi trình phát video trong các tùy chọn đầu ra của MPC và mở lại tập tin."
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
-msgstr ""
+msgstr "Không thể kết nối với cơ sở dữ liệu phụ đề trực tuyến."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr ""
+msgstr "Bạn có muốn kích hoạt  trình soạn thảo EDL?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
-msgstr ""
+msgstr "Bắt hình lỗi"
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
-msgstr ""
+msgstr "video"
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
-msgstr ""
+msgstr "âm"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr ""
+msgstr "Không thể thêm bộ lọc đệm %s để đồ thị."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr ""
+msgstr "Không thể kết nối bộ lọc đệm %s để đồ thị."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr ""
+msgstr "Không thể thêm bộ lọc mã hóa %s để đồ thị."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr ""
+msgstr "Không thể kết nối bộ lọc mã hóa %s để đồ thị."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr ""
+msgstr "Không thể thiết lập các định dạng nén trên bộ lọc mã hóa %s."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr ""
+msgstr "Không thể kết nối %s dòng để các bộ lọc đa."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr ""
+msgstr "Không có video chụp pin đã được tìm thấy."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr ""
+msgstr "Không có âm thanh pin chụp được tìm thấy."
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."
-msgstr ""
+msgstr "Lỗi khởi tạo các tập tin đầu ra."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
 msgid "Error initializing the audio output file."
-msgstr ""
+msgstr "Lỗi khởi tạo các tập tin đầu ra âm thanh."
 
 msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
 msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
-msgstr ""
+msgstr "Định dạng thời gian chính xác là [-]gg:pp:gg.mlg (ví dụ: 01:23:45.678)."
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
-msgstr ""
+msgstr "Loại này là đã có trong danh sách!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr ""
+msgstr "Bạn cần phải áp dụng các thiết lập mới trước khi thử nghiệm chúng."
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
-msgstr ""
+msgstr "Sau khi xem lại: Thoát"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr ""
+msgstr "Sau khi xem lại: Chuyển chế độ"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr ""
+msgstr "Sau khi xem lại: Ngủ đông"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr ""
+msgstr "Sau khi xem lại: Tắt máy"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr ""
+msgstr "Sau khi xem lại: Đổi"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr ""
+msgstr "Sau khi xem lại: Khóa"
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Always exit"
-msgstr ""
+msgstr "Sau khi xem lại: Luôn thoát"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do Nothing"
-msgstr ""
+msgstr "Sau khi xem lại: Không làm gì"
 
 msgctxt "IDS_AFTERPLAYBACK_NEXT"
 msgid "After Playback: Play next in the folder"
-msgstr ""
+msgstr "Sau khi xem lại: Chạy tệp kế"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
-msgstr ""
+msgstr "Độ sáng: %s"
 
 msgctxt "IDS_OSD_CONTRAST"
 msgid "Contrast: %s"
-msgstr ""
+msgstr "Tương phản: %s"
 
 msgctxt "IDS_OSD_HUE"
 msgid "Hue: %s°"
-msgstr ""
+msgstr "Sắc: %s°"
 
 msgctxt "IDS_OSD_SATURATION"
 msgid "Saturation: %s"
-msgstr ""
+msgstr "Độ bão hòa: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr ""
+msgstr "Thiết lập màu đã được khôi phục"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr ""
+msgstr "Điều chỉnh màu sắc không được hỗ trợ"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr ""
+msgstr "Tăng độ sáng"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr ""
+msgstr "Nhập ngôn ngữ của bạn ưa thích ở đây.\nVí dụ, gõ: \"eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr ""
+msgstr "Bộ tách bên ngoài có thể có các tùy chọn ngôn ngữ ưu tiên của mình do đó MPC-HC hành vi mặc định không phải là để thay đổi sự lựa chọn ban đầu của họ.\nKích hoạt tùy chọn này nếu bạn muốn MPC-HC để kiểm soát bộ tách bên ngoài."
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
