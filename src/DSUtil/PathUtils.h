@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,6 +30,7 @@ namespace PathUtils
     CString GetAfxModulePath(bool bWithModuleName = false);
     CString GetProgramPath(bool bWithExeName = false);
     CString CombinePaths(LPCTSTR dir, LPCTSTR path);
+    CString FilterInvalidCharsFromFileName(LPCTSTR fn, TCHAR replacementChar = _T('_'));
     bool IsInDir(LPCTSTR path, LPCTSTR dir);
     CString ToRelative(LPCTSTR dir, const LPCTSTR path, bool* pbRelative = nullptr);
     bool IsRelative(LPCTSTR path);

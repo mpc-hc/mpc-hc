@@ -35,6 +35,7 @@
 #include "mpc-hc_config.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include "OpenFileDlg.h"
 #include "OpenDlg.h"
 #include "SaveDlg.h"
@@ -4874,8 +4875,7 @@ void CMainFrame::OnFileSaveImage()
 
     CStringW prefix = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
-        CPath path(m_wndPlaylistBar.GetCurFileName());
-        path.StripPath();
+        CString path(PathUtils::FilterInvalidCharsFromFileName(GetFileName()));
         prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
     } else if (GetPlaybackMode() == PM_DVD) {
         prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
@@ -4935,8 +4935,7 @@ void CMainFrame::OnFileSaveImageAuto()
 
     CStringW prefix = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
-        CPath path(m_wndPlaylistBar.GetCurFileName());
-        path.StripPath();
+        CString path(PathUtils::FilterInvalidCharsFromFileName(GetFileName()));
         prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
     } else if (GetPlaybackMode() == PM_DVD) {
         prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
@@ -4965,8 +4964,7 @@ void CMainFrame::OnFileSaveThumbnails()
     CPath psrc(s.strSnapshotPath);
     CStringW prefix = _T("thumbs");
     if (GetPlaybackMode() == PM_FILE) {
-        CPath path(m_wndPlaylistBar.GetCurFileName());
-        path.StripPath();
+        CString path(PathUtils::FilterInvalidCharsFromFileName(GetFileName()));
         prefix.Format(_T("%s_thumbs"), path);
     }
     psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));

@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -95,6 +95,36 @@ namespace PathUtils
         CPath cp;
         cp.Combine(dir, path);
         return cp;
+    }
+
+    CString FilterInvalidCharsFromFileName(LPCTSTR fn, TCHAR replacementChar /*= _T('_')*/)
+    {
+        CString ret = fn;
+        int iLength = ret.GetLength();
+        LPTSTR buff = ret.GetBuffer();
+
+        for (int i = 0; i < iLength; i++) {
+            switch (buff[i]) {
+                case _T('<'):
+                case _T('>'):
+                case _T(':'):
+                case _T('"'):
+                case _T('/'):
+                case _T('\\'):
+                case _T('|'):
+                case _T('?'):
+                case _T('*'):
+                    buff[i] = replacementChar;
+                    break;
+                default:
+                    // Do nothing
+                    break;
+            }
+        }
+
+        ret.ReleaseBuffer();
+
+        return ret;
     }
 
     bool IsInDir(LPCTSTR path, LPCTSTR dir)
