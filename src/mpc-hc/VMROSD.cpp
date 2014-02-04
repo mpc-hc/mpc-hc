@@ -280,7 +280,8 @@ void CVMROSD::DrawMessage()
         CRect rectText(0, 0, 0, 0);
         CRect rectMessages;
 
-        m_memDC.DrawText(m_strMessage, &rectText, DT_CALCRECT);
+        DWORD uFormat = DT_SINGLELINE | DT_NOPREFIX;
+        m_memDC.DrawText(m_strMessage, &rectText, uFormat | DT_CALCRECT);
         rectText.InflateRect(20, 10);
         switch (m_nMessagePos) {
             case OSD_TOPLEFT:
@@ -292,10 +293,10 @@ void CVMROSD::DrawMessage()
                 break;
         }
         DrawRect(&rectMessages, &m_brushBack, &m_penBorder);
-        DWORD uFormat = DT_SINGLELINE | DT_CENTER | DT_VCENTER | DT_NOPREFIX;
+        uFormat |= DT_CENTER | DT_VCENTER;
         if (rectText.right > (m_rectWnd.right - 20)) {
             m_strMessage = _T(" ") + m_strMessage;
-            uFormat = uFormat | DT_END_ELLIPSIS;
+            uFormat |= DT_END_ELLIPSIS;
         }
         m_memDC.DrawText(m_strMessage, &rectMessages, uFormat);
     }

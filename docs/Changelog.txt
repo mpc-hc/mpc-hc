@@ -13,6 +13,7 @@ next version - not released yet
 * If MPC-HC is configured to override the splitter choice when doing the initial track selection,
   tracks selected at splitter level will be preferred in case more than one tracks match the criteria
 ! Properties dialog: Some tracks could have been missing from the streams list
+! Fix incorrectly displayed OSD in case the message contained the character '&'
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
 ! Ticket #4011, Fix image saving for streams with characters not supported in path names
 
