@@ -277,28 +277,31 @@ void CVMROSD::DrawMessage()
         return;
     }
     if (m_nMessagePos != OSD_NOMESSAGE) {
-        CRect rectText(0, 0, 0, 0);
-        CRect rectMessages;
+        CRect rectRestrictedWnd(m_rectWnd);
+        rectRestrictedWnd.DeflateRect(10, 10);
+        CRect rectText;
+        CRect rectOSD;
 
         DWORD uFormat = DT_SINGLELINE | DT_NOPREFIX;
         m_memDC.DrawText(m_strMessage, &rectText, uFormat | DT_CALCRECT);
-        rectText.InflateRect(20, 10);
+        rectText.InflateRect(10, 5);
+
+        rectOSD = rectText;
         switch (m_nMessagePos) {
             case OSD_TOPLEFT:
-                rectMessages = CRect(10, 10, min((rectText.right + 10), (m_rectWnd.right - 10)), (rectText.bottom + 10));
+                rectOSD.MoveToXY(10, 10);
                 break;
             case OSD_TOPRIGHT:
             default:
-                rectMessages = CRect(max<int>(10, m_rectWnd.right - 10 - rectText.Width()), 10, m_rectWnd.right - 10, rectText.bottom + 10);
+                rectOSD.MoveToXY(m_rectWnd.Width() - rectText.Width() - 10, 10);
                 break;
         }
-        DrawRect(&rectMessages, &m_brushBack, &m_penBorder);
-        uFormat |= DT_CENTER | DT_VCENTER;
-        if (rectText.right > (m_rectWnd.right - 20)) {
-            m_strMessage = _T(" ") + m_strMessage;
-            uFormat |= DT_END_ELLIPSIS;
-        }
-        m_memDC.DrawText(m_strMessage, &rectMessages, uFormat);
+        rectOSD &= rectRestrictedWnd;
+
+        DrawRect(&rectOSD, &m_brushBack, &m_penBorder);
+        uFormat |= DT_CENTER | DT_VCENTER | DT_END_ELLIPSIS;
+        rectOSD.DeflateRect(10, 5);
+        m_memDC.DrawText(m_strMessage, &rectOSD, uFormat);
     }
 }
 
