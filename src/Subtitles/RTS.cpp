@@ -2059,7 +2059,7 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
 bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsList& tagsList,
         STSStyle& style, STSStyle& org, bool fAnimate /*= false*/)
 {
-    if (!sub) {
+    if (!sub || !tagsList) {
         return false;
     }
 
@@ -2427,29 +2427,30 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                 style.fStrikeOut = (n == 0 ? false : n == 1 ? true : org.fStrikeOut);
             }
             break;
-            case SSA_t: { // \t([<t1>,<t2>,][<accel>,]<style modifiers>)
-                sub->m_bIsAnimated = true;
+            case SSA_t: // \t([<t1>,<t2>,][<accel>,]<style modifiers>)
+                if (tag.subTagsList) {
+                    sub->m_bIsAnimated = true;
 
-                m_animStart = m_animEnd = 0;
-                m_animAccel = 1;
+                    m_animStart = m_animEnd = 0;
+                    m_animAccel = 1;
 
-                size_t nParams = tag.paramsInt.GetCount() + tag.paramsReal.GetCount();
-                if (nParams == 1) {
-                    m_animAccel = tag.paramsReal[0];
-                } else if (nParams == 2) {
-                    m_animStart = (int)tag.paramsReal[0];
-                    m_animEnd = (int)tag.paramsReal[1];
-                } else if (nParams == 3) {
-                    m_animStart = tag.paramsInt[0];
-                    m_animEnd = tag.paramsInt[1];
-                    m_animAccel = tag.paramsReal[2];
+                    size_t nParams = tag.paramsInt.GetCount() + tag.paramsReal.GetCount();
+                    if (nParams == 1) {
+                        m_animAccel = tag.paramsReal[0];
+                    } else if (nParams == 2) {
+                        m_animStart = (int)tag.paramsReal[0];
+                        m_animEnd = (int)tag.paramsReal[1];
+                    } else if (nParams == 3) {
+                        m_animStart = tag.paramsInt[0];
+                        m_animEnd = tag.paramsInt[1];
+                        m_animAccel = tag.paramsReal[2];
+                    }
+
+                    CreateSubFromSSATag(sub, tag.subTagsList, style, org, true);
+
+                    sub->m_fAnimated = true;
                 }
-
-                CreateSubFromSSATag(sub, tag.subTagsList, style, org, true);
-
-                sub->m_fAnimated = true;
-            }
-            break;
+                break;
             case SSA_u: {
                 int n = !tag.paramsInt.IsEmpty() ? tag.paramsInt[0] : -1;
                 style.fUnderline = (n == 0 ? false : n == 1 ? true : org.fUnderline);

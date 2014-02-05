@@ -19,6 +19,7 @@ next version - not released yet
   which could lead to incorrect rendering because <t1> was used instead of <accel>
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
 ! Ticket #4011, Fix image saving for streams with characters not supported in path names
+! Ticket #4013, Subtitle renderer: Fix a crash on malformed animated transforms (\t tags with no parameters)
 
 
 1.7.3 - 02 February 2014
