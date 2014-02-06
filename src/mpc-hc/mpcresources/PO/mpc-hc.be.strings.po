@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-06 19:08+0000\n"
+"PO-Revision-Date: 2014-02-06 19:50+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: Belarusian (http://www.transifex.com/projects/p/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -2106,7 +2106,7 @@ msgstr "Няправільны фармат малюнка немагчыма с
 
 msgctxt "IDS_MAINFRM_58"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Памер файла: %s (%I64d байт)\\N"
+msgstr "Памер файла: %s (%s байт)\\N"
 
 msgctxt "IDS_MAINFRM_59"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
@@ -3346,11 +3346,11 @@ msgstr "Пасля прайгрвання: Прайгаць наступны"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
-msgstr "Яркасць: %s%%"
+msgstr "Яркасць: %s"
 
 msgctxt "IDS_OSD_CONTRAST"
 msgid "Contrast: %s"
-msgstr "Насычанасць: %d%%"
+msgstr "Насычанасць: %s"
 
 msgctxt "IDS_OSD_HUE"
 msgid "Hue: %s°"
