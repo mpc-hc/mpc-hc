@@ -654,8 +654,8 @@ void CPlayerSeekBar::OnMouseLeave()
 
 LRESULT CPlayerSeekBar::OnThemeChanged()
 {
-    m_pEnabledThumb.release();
-    m_pDisabledThumb.release();
+    m_pEnabledThumb = nullptr;
+    m_pDisabledThumb = nullptr;
     return __super::OnThemeChanged();
 }
 
