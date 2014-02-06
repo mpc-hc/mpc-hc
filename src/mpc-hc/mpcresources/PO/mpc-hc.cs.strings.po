@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
-"PO-Revision-Date: 2014-01-14 14:36+0000\n"
+"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
+"PO-Revision-Date: 2014-02-08 12:00+0000\n"
 "Last-Translator: khagaroth\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -826,7 +826,7 @@ msgstr "Používá LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "Používá LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "Používá LAV Filters. Ve výchozím nastavení vypnuto, protože filtry Microsoftu jsou pro tyto formáty stabilnější.\nPokud se rozhodnete použít interní filtry, povolte je pro zajištění optimálního přehrávání jak pro zdroj, tak pro dekódování."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1226,11 +1226,11 @@ msgstr "Přidat nadřazený adresář"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "Softwarové dekódování"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

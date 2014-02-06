@@ -30,8 +30,8 @@ be.WelcomeLabel2=Зараз будзе ўстаноўлена [name].%n%nРэк�
 be.WinVersionTooLowError=[name] патрабуецца Windows XP Service Pack 3 або навей.
 
 ; Catalan
-ca.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-ca.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+ca.WelcomeLabel2=Això instal·larà [name] al vostre ordinador%n%nEs recomana tancar totes les aplicacions abans de continuar.
+ca.WinVersionTooLowError=[name] requereix Windows XP Service Pack 3 o superior per funcionar.
 
 ; Czech
 cs.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDříve než budete pokračovat, doporučuje se ukončit veškeré spuštěné aplikace.
@@ -535,7 +535,7 @@ pl.ViewChangelog=Pokaż zmiany
 pt_BR.langid=00001046
 pt_BR.comp_mpciconlib=Biblioteca de ícones
 pt_BR.comp_mpcresources=Traduções
-pt_BR.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC?%n%nSe você quiser instalar o MPC-HC novamente então não precisa excluí-las.
+pt_BR.msg_DeleteSettings=Gostaria de apagar as configurações do MPC-HC?%n%nSe você quiser instalar o MPC-HC novamente então não precisa de apagar-las.
 pt_BR.msg_SetupIsRunningWarning=A instalação do MPC-HC ja está sendo executada!
 #if defined(sse_required)
 pt_BR.msg_simd_sse=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE.%n%nSua CPU não tem esse suporte.

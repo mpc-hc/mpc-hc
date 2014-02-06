@@ -2,11 +2,12 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# papu <usforos@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2013-12-21 16:02+0000\n"
+"PO-Revision-Date: 2014-02-09 21:00+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +18,11 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr ""
+msgstr "Això instal·larà [name] al vostre ordinador\n\nEs recomana tancar totes les aplicacions abans de continuar."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr ""
+msgstr "[name] requereix Windows XP Service Pack 3 o superior per funcionar."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

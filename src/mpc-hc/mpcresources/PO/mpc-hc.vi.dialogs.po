@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-01-24 17:50+0000\n"
+"PO-Revision-Date: 2014-02-07 12:44+0000\n"
 "Last-Translator: datanhlg <datanhlg@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,7 @@ msgstr "Nhảy đến..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Nhập một mã hóa thời gian sử dụng định dạng [hh:] mm: ss.ms để chuyển đến một thời gian quy định. Bạn không cần phải nhập dải phân cách một cách rõ ràng."
+msgstr "Nhập một mã hóa thời gian sử dụng định dạng [gg:] pp: gg.mgđể chuyển đến một thời gian quy định. Bạn không cần phải nhập dải phân cách một cách rõ ràng."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -330,7 +330,7 @@ msgstr "Nhớ kích thước cuối"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Nhớ phóng Quét cuối"
+msgstr "Nhớ phóng quét cuối"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -346,7 +346,7 @@ msgstr "Luôn luôn mở vị trí mặc định:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Ngôn ngữ ưa thích dành cho DVD Navigator và bên ngoài bộ chẻ OGM "
+msgstr "Ngôn ngữ ưa thích dành cho điều hướng DVD và bên ngoài bộ chẻ OGM "
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -586,7 +586,7 @@ msgstr "T&ùy chỉnh"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "Xử lý thực Time Streaming Protocol (cho rtsp :/ / URL ...)"
+msgstr "Xử lý giao thức luồng thời gian (cho rtsp ://... URL)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -634,7 +634,7 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "CD âm thanh"
+msgstr "CD âm "
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
@@ -654,11 +654,11 @@ msgstr "Dấu cho thấy chương trong seekbar"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Hiển thị \"Now Playing\" thông tin trong Skype nhắn tâm trạng"
+msgstr "Hiển thị \"Đang phát\" thông tin trong Skype nhắn tâm trạng"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Ngăn ngừa giảm thiểu trình phát nhạc khi trong toàn màn hình trên một màn hình mặc định "
+msgstr "Ngăn ngừa trình phát nhạc khi trong toàn màn hình trên một màn hình mặc định "
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
@@ -678,7 +678,7 @@ msgstr "Phông OSD:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Cho phép hỗ trợ màn hình LCD Logitech (thử nghiệm)"
+msgstr "Cho phép hỗ trợ màn hình LCD (thử nghiệm)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
@@ -830,7 +830,7 @@ msgstr "Tạo mới"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
 msgid "Delete"
-msgstr "óa"
+msgstr "Xóa"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
 msgid "Up"
@@ -1190,7 +1190,7 @@ msgstr "Mật khẩu;"
 
 msgctxt "IDD_AUTH_DLG_IDC_CHECK1"
 msgid "Remember my password"
-msgstr "Nhớ mật khẩu:"
+msgstr "Nhớ mật khẩu"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"

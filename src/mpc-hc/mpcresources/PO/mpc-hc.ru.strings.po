@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-06 19:09+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-02-09 07:30+0000\n"
+"Last-Translator: sayanvd <sayanvd@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -823,11 +823,11 @@ msgstr "Основан на RARFileSource, не поддерживает сжа�
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr "Использует фильтры LAV"
+msgstr "Использует LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "Использует фильтры LAV. По умолчанию отключено, так как фильтры Microsoft, как правило, более стабильны для этих форматов.\n Если вы решите использовать встроенные фильтры, включите их для источника и декодирование будет иметь более лучший опыт воспроизведения."
+msgstr "Использует LAV Filters. По умолчанию отключено, так как фильтры Microsoft, как правило, более стабильны для этих форматов.\n Если вы решите использовать встроенные фильтры, включите их для источника и декодирование будет иметь более лучший опыт воспроизведения."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1227,11 +1227,11 @@ msgstr "Добавить содержащую папку"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "Программы декодирования"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

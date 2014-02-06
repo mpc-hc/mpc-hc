@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-06 19:52+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-02-07 11:50+0000\n"
+"Last-Translator: datanhlg <datanhlg@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +50,7 @@ msgstr "Phát nhạc"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Phát CD âm than"
+msgstr "Phát CD âm thanh"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
@@ -606,7 +606,7 @@ msgstr "Chỉ có nếu bạn có cài đặt DirectX 9. Có khả năng tương
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Giống như VMR-7 (cửa sổ), nhưng với các plugin cấp phát-Presenter của MPC-HC cho phụ đề. Lớp phủ phản chiếu phim sẽ không làm việc. \"True Color\" không gian màu máy tính để bàn được khuyến khích."
+msgstr "Giống như VMR-7 (cửa sổ), nhưng với các plugin cấp phát của MPC-HC cho phụ đề. Lớp phủ phản chiếu phim sẽ không làm việc. \"True Color\" không gian màu máy tính để bàn được khuyến khích."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -2126,7 +2126,7 @@ msgstr "Tỉ lệ khung hình: Mặc định"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio Delay: %I64dms"
-msgstr "Độ trễ âm: %I64dms"
+msgstr "Độ trễ âm: %I64d mili giây"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -2142,7 +2142,7 @@ msgstr "Lỗi: Flash player cho trình duyệt IE là cần thiết"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr "QuickTime chưa được hỗ trợ cho X64 (thư viện táo không có sẵn)"
+msgstr "QuickTime chưa được hỗ trợ cho X64 (thư viện apple không có sẵn)"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -2770,7 +2770,7 @@ msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr "CD âm thanh"
+msgstr "Đĩa âm CD"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
