@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # shvala <simon.hvala@hotmail.com>, 2013
+# Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-18 00:41:02+0000\n"
-"PO-Revision-Date: 2013-12-22 08:53+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
+"PO-Revision-Date: 2014-02-06 19:08+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/mpc-hc/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3102,7 +3103,7 @@ msgstr "\nŽe uporabljate najnovejšo stabilno različico."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Vaša trenutna različica je v%u.%u.%u.%u.\n\nZadnja stabilna različica je v%u.%u.%u.%u."
+msgstr "Vaša trenutna različica je v%s.\n\nZadnja stabilna različica je v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
