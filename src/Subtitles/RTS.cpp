@@ -2443,7 +2443,7 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                     } else if (nParams == 3) {
                         m_animStart = tag.paramsInt[0];
                         m_animEnd = tag.paramsInt[1];
-                        m_animAccel = tag.paramsReal[2];
+                        m_animAccel = tag.paramsReal[0];
                     }
 
                     CreateSubFromSSATag(sub, tag.subTagsList, style, org, true);
