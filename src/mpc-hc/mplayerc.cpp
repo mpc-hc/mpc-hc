@@ -1196,6 +1196,8 @@ BOOL CMPlayerCApp::InitInstance()
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
     SetDllDirectory(_T(""));
 
+    WorkAroundMathLibraryBug();
+
     if (SetHeapOptions()) {
         TRACE(_T("Terminate on corruption enabled\n"));
     } else {

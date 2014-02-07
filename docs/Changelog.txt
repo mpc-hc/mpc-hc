@@ -36,6 +36,7 @@ next version - not released yet
   to fallback to normal decoding if bitstreaming isn't supported
 ! Ticket #3763, VMR-9 renderless and EVR-CP: The displayed subtitle was not updated when seeking while playback was paused
 ! Ticket #3775, "Play > Subtitles" menu could be mistakenly disabled when the internal subtitle renderer was unavailable
+! Ticket #3999, Workaround a crash in the math library for x64 builds
 ! Ticket #4011, Fix image saving for streams with characters not supported in path names
 ! Ticket #4013, Subtitle renderer: Fix a crash on malformed animated transforms (\t tags with no parameters)
 ! Ticket #4020, Update dialog: Fix incorrect version info when using Belarusian, Slovenian or Russian translations

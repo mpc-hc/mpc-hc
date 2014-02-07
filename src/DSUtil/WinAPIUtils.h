@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2013 see Authors.txt
+ * (C) 2011-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -49,3 +49,5 @@ public:
     CoInitializeHelper();
     ~CoInitializeHelper();
 };
+
+void WorkAroundMathLibraryBug();
