@@ -735,6 +735,8 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
         // There are artifacts if we don't make at least two overlaps of the line, even at same Y coord
         _OverlapRegion(m_outlineData.mWideOutline, m_outlineData.mOutline, rx, 0);
         _OverlapRegion(m_outlineData.mWideOutline, m_outlineData.mOutline, rx, 0);
+    } else { // if (ry == 0 && rx == 0)
+        _OverlapRegion(m_outlineData.mWideOutline, m_outlineData.mOutline, 0, 0);
     }
 
     return true;
