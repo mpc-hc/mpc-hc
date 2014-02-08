@@ -1040,19 +1040,19 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 
         // karaoke
 
-        double t = 0;
+        double t = 0.0;
 
         if (w->m_ktype == 0 || w->m_ktype == 2) {
-            t = time < w->m_kstart ? 0 : 1;
+            t = time < w->m_kstart ? 0.0 : 1.0;
         } else if (w->m_ktype == 1) {
             if (time < w->m_kstart) {
-                t = 0;
+                t = 0.0;
             } else if (time < w->m_kend) {
                 t = 1.0 * (time - w->m_kstart) / (w->m_kend - w->m_kstart);
 
                 double angle = fmod(w->m_style.fontAngleZ, 360.0);
                 if (angle > 90 && angle < 270) {
-                    t = 1 - t;
+                    t = 1.0 - t;
                     COLORREF tmp = sw[0];
                     sw[0] = sw[2];
                     sw[2] = tmp;
@@ -1062,8 +1062,8 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
             }
         }
 
-        if (t >= 1) {
-            sw[1] = 0xFFFFFFF;
+        if (t >= 1.0) {
+            sw[1] = DWORD_MAX;
         }
 
         // move dividerpoint
