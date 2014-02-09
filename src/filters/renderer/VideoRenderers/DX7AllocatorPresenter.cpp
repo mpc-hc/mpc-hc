@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -386,7 +386,6 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
 
     CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
     CRect rDstPri(m_WindowRect);
-    MapWindowRect(m_hWnd, HWND_DESKTOP, &rDstPri);
 
     if (fAll) {
         // clear the backbuffer
@@ -424,6 +423,7 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
 
     // blt to the primary surface
 
+    MapWindowRect(m_hWnd, HWND_DESKTOP, &rDstPri);
     hr = m_pPrimary->Blt(rDstPri, m_pBackBuffer, rSrcPri, DDBLT_WAIT, nullptr);
 
     if (hr == DDERR_SURFACELOST) {

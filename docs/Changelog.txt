@@ -19,6 +19,7 @@ next version - not released yet
 ! Properties dialog: Some tracks could have been missing from the streams list
 ! Fix incorrectly displayed OSD in case the message contained the character '&'. Also make top-left and
   top-right OSD size consistent and improve the behavior when the text is too big to be displayed entirely
+! VMR-7 renderless: subtitles were not displayed except in fullscreen
 ! Ticket #2588, Subtitle renderer: The subtitle's shadow was not drawn when the subtitle's border was very thin
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
 ! Ticket #4011, Fix image saving for streams with characters not supported in path names
