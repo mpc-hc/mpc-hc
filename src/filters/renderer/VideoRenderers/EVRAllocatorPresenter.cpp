@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -2119,7 +2119,7 @@ void CEVRAllocatorPresenter::RenderThread()
                                 CompleteFrameStep (false);
                                 bStepForward = true;
                             */
-                        } else if ((m_nRenderState == Started)) {
+                        } else if (m_nRenderState == Started) {
                             LONGLONG CurrentCounter = GetRenderersData()->GetPerfCounter();
                             // Calculate wake up timer
                             if (!m_bSignaledStarvation) {
@@ -2324,8 +2324,13 @@ void CEVRAllocatorPresenter::RenderThread()
                                         }
                                     }
                                 }
-
                             }
+                        } else if (m_nRenderState == Paused) {
+                            // Ensure that the renderer is properly updated when paused
+                            if (!g_bExternalSubtitleTime) {
+                                __super::SetTime(g_tSegmentStart + nsSampleTime);
+                            }
+                            Paint(false);
                         }
 
                         m_pCurrentDisplaydSample = nullptr;
