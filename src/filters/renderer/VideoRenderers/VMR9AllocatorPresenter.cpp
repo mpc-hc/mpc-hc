@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -417,13 +417,16 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
 
-    if (lpPresInfo->rtEnd > lpPresInfo->rtStart) {
-        if (m_pSubPicQueue) {
-            m_pSubPicQueue->SetFPS(m_fps);
+    if (lpPresInfo->rtEnd <= lpPresInfo->rtStart) {
+        TRACE(_T("VMR9: Invalid timestamps (%s - %s). The timestamp from the pin hook will be used anyway (%s).\n"),
+              ReftimeToString(lpPresInfo->rtStart), ReftimeToString(lpPresInfo->rtEnd), ReftimeToString(g_tSampleStart));
+    }
 
-            if (m_fUseInternalTimer && !g_bExternalSubtitleTime) {
-                __super::SetTime(g_tSegmentStart + g_tSampleStart);
-            }
+    if (m_pSubPicQueue) {
+        m_pSubPicQueue->SetFPS(m_fps);
+
+        if (m_fUseInternalTimer && !g_bExternalSubtitleTime) {
+            __super::SetTime(g_tSegmentStart + g_tSampleStart);
         }
     }
 

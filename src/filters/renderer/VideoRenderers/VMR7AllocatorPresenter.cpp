@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -262,13 +262,16 @@ STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESEN
     if (lpPresInfo->rtEnd > lpPresInfo->rtStart) {
         REFERENCE_TIME rtTimePerFrame = lpPresInfo->rtEnd - lpPresInfo->rtStart;
         m_fps = 10000000.0 / rtTimePerFrame;
+    } else {
+        TRACE(_T("VMR7: Invalid frame timestamps (%s - %s), not setting the FPS. The timestamp from the pin hook will be used anyway (%s).\n"),
+              ReftimeToString(lpPresInfo->rtStart), ReftimeToString(lpPresInfo->rtEnd), ReftimeToString(g_tSampleStart));
+    }
 
-        if (m_pSubPicQueue) {
-            m_pSubPicQueue->SetFPS(m_fps);
+    if (m_pSubPicQueue) {
+        m_pSubPicQueue->SetFPS(m_fps);
 
-            if (m_fUseInternalTimer && !g_bExternalSubtitleTime) {
-                __super::SetTime(g_tSegmentStart + g_tSampleStart);
-            }
+        if (m_fUseInternalTimer && !g_bExternalSubtitleTime) {
+            __super::SetTime(g_tSegmentStart + g_tSampleStart);
         }
     }
 

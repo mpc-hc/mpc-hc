@@ -22,6 +22,7 @@ next version - not released yet
 ! VMR-7 renderless: subtitles were not displayed except in fullscreen
 ! Ticket #2588, Subtitle renderer: The subtitle's shadow was not drawn when the subtitle's border was very thin
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
+! Ticket #3763, VMR-9 renderless: The displayed subtitle was not updated when seeking while playback was paused
 ! Ticket #4011, Fix image saving for streams with characters not supported in path names
 ! Ticket #4013, Subtitle renderer: Fix a crash on malformed animated transforms (\t tags with no parameters)
 ! Ticket #4020, Update dialog: Fix incorrect version info when using Belarusian, Slovenian or Russian translations
