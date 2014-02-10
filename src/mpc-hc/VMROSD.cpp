@@ -356,6 +356,10 @@ void CVMROSD::Invalidate()
     } else if (m_pMFVMB) {
         m_pMFVMB->SetAlphaBitmap(&m_MFVideoAlphaBitmap);
     }
+
+    if (m_pMainFrame->GetMediaState() == State_Paused) {
+        m_pMainFrame->RepaintVideo();
+    }
 }
 
 void CVMROSD::UpdateSeekBarPos(CPoint point)

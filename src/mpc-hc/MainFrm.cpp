@@ -1801,11 +1801,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     m_wndSubresyncBar.SetFPS(m_pCAP->GetFPS());
                     m_wndSubresyncBar.SetTime(pos);
                 }
-
-
-                if (!m_bDelaySetOutputRect && m_pCAP && GetMediaState() == State_Paused) {
-                    m_pCAP->Paint(false);
-                }
             }
             break;
         case TIMER_STATS: {
