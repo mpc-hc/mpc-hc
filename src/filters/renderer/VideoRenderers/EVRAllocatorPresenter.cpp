@@ -2001,7 +2001,7 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::DisplayChange()
 void CEVRAllocatorPresenter::RenderThread()
 {
     HANDLE   hEvts[] = { m_hEvtQuit, m_hEvtFlush};
-    bool     bQuit = false;
+    bool     bQuit = false, bForcePaint = false;
     TIMECAPS tc;
     DWORD    dwResolution;
     MFTIME   nsSampleTime;
@@ -2053,6 +2053,7 @@ void CEVRAllocatorPresenter::RenderThread()
                 FlushSamples();
                 m_bEvtFlush = false;
                 ResetEvent(m_hEvtFlush);
+                bForcePaint = true;
                 TRACE_EVR("EVR: Flush done!\n");
                 break;
 
@@ -2326,11 +2327,16 @@ void CEVRAllocatorPresenter::RenderThread()
                                 }
                             }
                         } else if (m_nRenderState == Paused) {
-                            // Ensure that the renderer is properly updated when paused
-                            if (!g_bExternalSubtitleTime) {
-                                __super::SetTime(g_tSegmentStart + nsSampleTime);
+                            if (bForcePaint) {
+                                bForcePaint = false;
+                                bStepForward = true;
+                                // Ensure that the renderer is properly updated after seeking when paused
+                                if (!g_bExternalSubtitleTime) {
+                                    __super::SetTime(g_tSegmentStart + nsSampleTime);
+                                }
+                                Paint(false);
                             }
-                            Paint(false);
+                            NextSleepTime = int(SampleDuration / 10000 - 2);
                         }
 
                         m_pCurrentDisplaydSample = nullptr;
