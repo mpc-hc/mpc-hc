@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #pragma once
 
 #include <math.h>
+#include <array>
 
 #define EPSILON      (1e-7)
 #define BIGNUMBER    (1e+9)
@@ -109,34 +110,34 @@ class XForm
     class Matrix
     {
     public:
-        float mat[4][4];
+        std::array<std::array<float, 4>, 4> mat;
 
         Matrix();
-        void Initalize();
 
         Matrix operator * (const Matrix& m);
         Matrix& operator *= (Matrix& m);
+        bool operator == (const Matrix& m) const;
     } m;
 
     bool m_isWorldToLocal;
 
 public:
-    XForm() : m_isWorldToLocal(true) {}
+    XForm() : m_isWorldToLocal(false) {}
     XForm(Ray& r, Vector& s, bool isWorldToLocal = true);
 
-    void Initalize();
-    void Initalize(Ray& r, Vector& s, bool isWorldToLocal = true);
+    void operator *= (const Vector& s);      // scale
+    void operator += (const Vector& t);      // translate
+    void operator <<= (const Vector& r);     // rotate
 
-    void operator *= (const Vector& s);     // scale
-    void operator += (const Vector& t);     // translate
-    void operator <<= (const Vector& r);    // rotate
+    void operator /= (const Vector& s);      // scale
+    void operator -= (Vector& t);            // translate
+    void operator >>= (Vector& r);           // rotate
 
-    void operator /= (const Vector& s);     // scale
-    void operator -= (Vector& t);           // translate
-    void operator >>= (Vector& r);          // rotate
+    bool operator == (const XForm& x) const; // compare
+    bool operator != (const XForm& x) const;
 
     //  transformations
-    Vector operator < (Vector& n);          // normal
-    Vector operator << (const Vector& v);   // vector
-    Ray operator << (Ray& r);               // ray
+    Vector operator < (Vector& n);           // normal
+    Vector operator << (const Vector& v);    // vector
+    Ray operator << (Ray& r);                // ray
 };

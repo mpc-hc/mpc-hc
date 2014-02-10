@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -90,7 +90,7 @@ public:
 
     STDMETHODIMP_(bool) DisplayChange() { return false; }
 
-    STDMETHODIMP SetVideoAngle(Vector v, bool fRepaint = true);
+    STDMETHODIMP SetVideoAngle(Vector v);
     STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) { return E_NOTIMPL; }
     STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) {
         if (!bScreenSpace) {

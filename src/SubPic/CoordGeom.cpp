@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -384,20 +384,9 @@ Vector Ray::operator [](float t)
 // XForm
 //
 
+
 XForm::XForm(Ray& r, Vector& s, bool isWorldToLocal)
 {
-    Initalize(r, s, isWorldToLocal);
-}
-
-void XForm::Initalize()
-{
-    m.Initalize();
-}
-
-void XForm::Initalize(Ray& r, Vector& s, bool isWorldToLocal)
-{
-    Initalize();
-
     m_isWorldToLocal = isWorldToLocal;
     if (isWorldToLocal) {
         *this -= r.p;
@@ -513,16 +502,21 @@ Ray XForm::operator << (Ray& r)
     return Ray(*this << r.p, *this < r.d);
 }
 
+bool XForm::operator == (const XForm& x) const
+{
+    return m_isWorldToLocal == x.m_isWorldToLocal && m == x.m;
+}
+
+bool XForm::operator != (const XForm& x) const
+{
+    return !(*this == x);
+}
+
 //
 // XForm::Matrix
 //
 
 XForm::Matrix::Matrix()
-{
-    Initalize();
-}
-
-void XForm::Matrix::Initalize()
 {
     mat[0][0] = 1;
     mat[0][1] = 0;
@@ -565,4 +559,9 @@ XForm::Matrix XForm::Matrix::operator * (const Matrix& m)
 XForm::Matrix& XForm::Matrix::operator *= (XForm::Matrix& m)
 {
     return (*this = *this * m);
+}
+
+bool XForm::Matrix::operator == (const XForm::Matrix& m) const
+{
+    return mat == m.mat;
 }

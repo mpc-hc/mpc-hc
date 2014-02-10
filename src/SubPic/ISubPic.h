@@ -181,7 +181,7 @@ public IUnknown {
 
     STDMETHOD(GetDIB)(BYTE * lpDib, DWORD * size) PURE;
 
-    STDMETHOD(SetVideoAngle)(Vector v, bool fRepaint = true) PURE;
+    STDMETHOD(SetVideoAngle)(Vector v) PURE;
     STDMETHOD(SetPixelShader)(LPCSTR pSrcData, LPCSTR pTarget) PURE;
 
     STDMETHOD_(bool, ResetDevice)() PURE;
