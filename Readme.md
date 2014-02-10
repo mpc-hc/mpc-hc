@@ -1,5 +1,9 @@
 # Media Player Classic - Home Cinema
 
+[![GitHub version](https://badge.fury.io/gh/mpc-hc%2Fmpc-hc.png)](http://badge.fury.io/gh/mpc-hc%2Fmpc-hc)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/259/badge.svg)](https://scan.coverity.com/projects/259)
+
+
 Media Player Classic - Home Cinema (MPC-HC) is a free and open source (OSS) video
 and audio player for Windows. MPC-HC is based on the original Guliverkli project
 and contains a lot of additional features and bug fixes.
@@ -13,8 +17,6 @@ or post the patch on [trac](https://trac.mpc-hc.org) or come on IRC and we'll re
 See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 *We care about keeping an open project open and free for contributions wherever they may come from.*
-
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/259/badge.svg)](https://scan.coverity.com/projects/259)
 
 
 ## Main Features:
