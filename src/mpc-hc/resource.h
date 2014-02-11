@@ -1450,6 +1450,7 @@
 #define IDS_PLAYLIST_ADDFOLDER          57394
 #define IDS_HW_INDICATOR                57395
 #define IDS_TOOLTIP_SOFTWARE_DECODING   57396
+#define IDS_STATSBAR_PLAYBACK_RATE      57397
 
 // Next default values for new objects
 // 

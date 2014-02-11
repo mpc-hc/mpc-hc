@@ -2537,6 +2537,7 @@ BEGIN
     IDS_PLAYLIST_ADDFOLDER  "Add containing folder"
     IDS_HW_INDICATOR        "[H/W]"
     IDS_TOOLTIP_SOFTWARE_DECODING "Software Decoding"
+    IDS_STATSBAR_PLAYBACK_RATE "Playback rate"
 END
 
 STRINGTABLE

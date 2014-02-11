@@ -1808,15 +1808,14 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             }
             break;
         case TIMER_STATS: {
+            CString rate;
+            rate.Format(_T("%.2fx"), m_dSpeedRate);
             if (m_pQP) {
-                CString rate;
-                rate.Format(_T("%.2f"), m_dSpeedRate);
-                rate = _T("(") + rate + _T("x)");
                 CString info;
                 int val = 0;
 
                 m_pQP->get_AvgFrameRate(&val); // We hang here due to a lock that never gets released.
-                info.Format(_T("%d.%02d %s"), val / 100, val % 100, rate);
+                info.Format(_T("%d.%02d (%s)"), val / 100, val % 100, rate);
                 m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
 
                 int avg, dev;
@@ -1834,6 +1833,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 m_pQP->get_Jitter(&val);
                 info.Format(_T("%d ms"), val);
                 m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
+            } else {
+                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_PLAYBACK_RATE), rate);
             }
 
             if (m_pBI) {
@@ -11047,27 +11048,47 @@ void CMainFrame::UpdateChapterInInfoBar()
 void CMainFrame::OpenSetupStatsBar()
 {
     CString info('-');
+    bool bFoundIBitRateInfo = false;
 
     BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (!m_pQP && (m_pQP = pBF)) {
-            m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
-            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
-            m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
-            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
-            if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), info);
-            } else if (GetPlaybackMode() != PM_ANALOG_CAPTURE) { // Those lines are not needed in capture mode.
-                m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
-                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info);
-            }
+        if (!m_pQP) {
+            m_pQP = pBF;
         }
-
-        if (!m_pBI && (m_pBI = pBF)) {
-            m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
-            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info); // FIXME: shouldn't be here
+        if (!m_pBI) {
+            m_pBI = pBF;
+        }
+        if (!bFoundIBitRateInfo) {
+            BeginEnumPins(pBF, pEP, pPin) {
+                if (CComQIPtr<IBitRateInfo> pBRI = pPin) {
+                    bFoundIBitRateInfo = true;
+                    break;
+                }
+            }
+            EndEnumPins;
+        }
+        if (m_pQP && m_pBI && bFoundIBitRateInfo) {
+            break;
         }
     }
     EndEnumFilters;
+
+    if (m_pQP) {
+        m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
+        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
+        m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
+        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
+    } else {
+        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_PLAYBACK_RATE), info);
+    }
+    if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), info);
+    }
+    if (m_pBI) {
+        m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
+    }
+    if (bFoundIBitRateInfo) {
+        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info);
+    }
 }
 
 void CMainFrame::OpenSetupStatusBar()

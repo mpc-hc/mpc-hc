@@ -1233,6 +1233,10 @@ msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
 msgstr ""
 
+msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
+msgid "Playback rate"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "開啟裝置"
