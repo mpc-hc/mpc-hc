@@ -4968,7 +4968,7 @@ static CString MakeSnapshotFileName(LPCTSTR prefix)
 {
     CTime t = CTime::GetCurrentTime();
     CString fn;
-    fn.Format(_T("%s_[%s]%s"), prefix, t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().strSnapshotExt);
+    fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix), t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().strSnapshotExt);
     return fn;
 }
 
@@ -5028,10 +5028,11 @@ void CMainFrame::OnFileSaveImage()
 
     CStringW prefix = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
-        CString path(PathUtils::FilterInvalidCharsFromFileName(GetFileName()));
-        prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
+        prefix.Format(_T("%s_snapshot_%s"), GetFileName(), GetVidPos());
     } else if (GetPlaybackMode() == PM_DVD) {
         prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
+    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        prefix.Format(_T("%s_snapshot"), m_DVBState.sChannelName);
     }
     psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
 
@@ -5088,10 +5089,11 @@ void CMainFrame::OnFileSaveImageAuto()
 
     CStringW prefix = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
-        CString path(PathUtils::FilterInvalidCharsFromFileName(GetFileName()));
-        prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
+        prefix.Format(_T("%s_snapshot_%s"), GetFileName(), GetVidPos());
     } else if (GetPlaybackMode() == PM_DVD) {
         prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
+    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        prefix.Format(_T("%s_snapshot"), m_DVBState.sChannelName);
     }
 
     CString fn;
@@ -5117,8 +5119,9 @@ void CMainFrame::OnFileSaveThumbnails()
     CPath psrc(s.strSnapshotPath);
     CStringW prefix = _T("thumbs");
     if (GetPlaybackMode() == PM_FILE) {
-        CString path(PathUtils::FilterInvalidCharsFromFileName(GetFileName()));
-        prefix.Format(_T("%s_thumbs"), path);
+        prefix.Format(_T("%s_thumbs"), GetFileName());
+    } else {
+        ASSERT(FALSE);
     }
     psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
 
