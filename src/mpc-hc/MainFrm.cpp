@@ -10978,6 +10978,8 @@ void CMainFrame::OpenSetupCaptureBar()
 
 void CMainFrame::OpenSetupInfoBar()
 {
+    m_wndInfoBar.RemoveAllLines();
+
     if (GetPlaybackMode() == PM_FILE) {
         CComBSTR bstr;
         CString title, author, copyright, rating, description;
@@ -11047,6 +11049,7 @@ void CMainFrame::UpdateChapterInInfoBar()
 
 void CMainFrame::OpenSetupStatsBar()
 {
+    m_wndStatsBar.RemoveAllLines();
     CString info('-');
     bool bFoundIBitRateInfo = false;
 
@@ -14812,6 +14815,8 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
     m_hMenuDefault = defaultMenu.Detach();
 
     CreateDynamicMenus();
+    OpenSetupInfoBar();
+    OpenSetupStatsBar();
 }
 
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
