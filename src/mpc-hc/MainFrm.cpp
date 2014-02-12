@@ -12603,16 +12603,27 @@ void CMainFrame::SetupNavChaptersSubMenu()
         return;
     }
 
-    UINT id = ID_NAVIGATE_CHAP_SUBITEM_START;
+    UINT id = ID_NAVIGATE_CHAP_SUBITEM_START, idStart, idSelected;
+
+    auto menuStartRadioSection = [&]() {
+        idStart = id;
+        idSelected = UINT_ERROR;
+    };
+    auto menuEndRadioSection = [&]() {
+        if (idSelected != UINT_ERROR) {
+            pSub->CheckMenuRadioItem(idStart, id - 1, idSelected,
+                                     idStart >= ID_NAVIGATE_CHAP_SUBITEM_START ? MF_BYCOMMAND : MF_BYPOSITION);
+        }
+    };
 
     if (GetPlaybackMode() == PM_FILE) {
         if (m_MPLSPlaylist.GetCount() > 1) {
+            menuStartRadioSection();
             DWORD idx = 1;
             POSITION pos = m_MPLSPlaylist.GetHeadPosition();
             while (pos) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 if (id != ID_NAVIGATE_CHAP_SUBITEM_START && pos == m_MPLSPlaylist.GetHeadPosition()) {
-                    //pSub->AppendMenu(MF_SEPARATOR);
                     flags |= MF_MENUBARBREAK;
                 }
                 if (idx == MENUBARBREAK) {
@@ -12626,12 +12637,13 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 CString name = StripPath(Item.m_strFileName);
 
                 if (name == m_wndPlaylistBar.m_pl.GetHead().GetLabel()) {
-                    flags |= MF_CHECKED;
+                    idSelected = id;
                 }
 
                 name.Replace(_T("&"), _T("&&"));
                 pSub->AppendMenu(flags, id++, name + '\t' + time);
             }
+            menuEndRadioSection();
         }
 
         SetupChapters();
@@ -12639,6 +12651,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
         DWORD j = m_pCB->ChapLookup(&rt, nullptr);
 
         if (m_pCB->ChapGetCount() > 1) {
+            menuStartRadioSection();
             for (DWORD i = 0, idx = 0; i < m_pCB->ChapGetCount(); i++, id++, idx++) {
                 rt = 0;
                 CComBSTR bstr;
@@ -12654,7 +12667,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
 
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 if (i == j) {
-                    flags |= MF_CHECKED;
+                    idSelected = id;
                 }
 
                 if (idx == MENUBARBREAK) {
@@ -12663,21 +12676,20 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 }
 
                 if (id != ID_NAVIGATE_CHAP_SUBITEM_START && i == 0) {
-                    //pSub->AppendMenu(MF_SEPARATOR);
-                    if (m_MPLSPlaylist.GetCount() > 1) {
-                        flags |= MF_MENUBARBREAK;
-                    }
+                    flags |= MF_MENUBARBREAK;
                 }
                 pSub->AppendMenu(flags, id, name + '\t' + time);
             }
+            menuEndRadioSection();
         }
 
         if (m_wndPlaylistBar.GetCount() > 1) {
+            menuStartRadioSection();
             POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition();
             while (pos) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 if (pos == m_wndPlaylistBar.m_pl.GetPos()) {
-                    flags |= MF_CHECKED;
+                    idSelected = id;
                 }
                 if (id != ID_NAVIGATE_CHAP_SUBITEM_START && pos == m_wndPlaylistBar.m_pl.GetHeadPosition()) {
                     pSub->AppendMenu(MF_SEPARATOR);
@@ -12687,6 +12699,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 name.Replace(_T("&"), _T("&&"));
                 pSub->AppendMenu(flags, id++, name);
             }
+            menuEndRadioSection();
         }
 
     } else if (GetPlaybackMode() == PM_DVD) {
@@ -12698,11 +12711,11 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 && SUCCEEDED(m_pDVDI->GetCurrentUOPS(&ulUOPs))
                 && SUCCEEDED(m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters))
                 && SUCCEEDED(m_pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles))) {
-
+            menuStartRadioSection();
             for (ULONG i = 1; i <= ulNumOfTitles; i++) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 if (i == Location.TitleNum) {
-                    flags |= MF_CHECKED;
+                    idSelected = id;
                 }
                 if (ulUOPs & UOP_FLAG_Play_Title) {
                     flags |= MF_DISABLED | MF_GRAYED;
@@ -12713,11 +12726,13 @@ void CMainFrame::SetupNavChaptersSubMenu()
 
                 pSub->AppendMenu(flags, id++, str);
             }
+            menuEndRadioSection();
 
+            menuStartRadioSection();
             for (ULONG i = 1; i <= ulNumOfChapters; i++) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 if (i == Location.ChapterNum) {
-                    flags |= MF_CHECKED;
+                    idSelected = id;
                 }
                 if (ulUOPs & UOP_FLAG_Play_Chapter) {
                     flags |= MF_DISABLED | MF_GRAYED;
@@ -12731,20 +12746,24 @@ void CMainFrame::SetupNavChaptersSubMenu()
 
                 pSub->AppendMenu(flags, id++, str);
             }
+            menuEndRadioSection();
         }
     } else if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1) {
         const CAppSettings& s = AfxGetAppSettings();
 
+        menuStartRadioSection();
         POSITION pos = s.m_DVBChannels.GetHeadPosition();
         while (pos) {
             const CDVBChannel& channel = s.m_DVBChannels.GetNext(pos);
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
 
             if ((UINT)channel.GetPrefNumber() == s.nDVBLastChannel) {
-                flags |= MF_CHECKED;
+                idSelected = id;
             }
             pSub->AppendMenu(flags, ID_NAVIGATE_CHAP_SUBITEM_START + channel.GetPrefNumber(), channel.GetName());
+            id++;
         }
+        menuEndRadioSection();
     }
 }
 
