@@ -8393,11 +8393,11 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             id -= (int)m_MPLSPlaylist.GetCount();
         }
 
-        if (SeekToFileChapter(id)) {
-            return;
-        }
-
         if (m_pCB->ChapGetCount() > 1) {
+            if (SeekToFileChapter(id)) {
+                return;
+            }
+
             id -= m_pCB->ChapGetCount();
         }
 
