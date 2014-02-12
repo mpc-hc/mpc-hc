@@ -12617,21 +12617,29 @@ void CMainFrame::SetupNavChaptersSubMenu()
     };
 
     if (GetPlaybackMode() == PM_FILE) {
+        SetupChapters();
+
+        CMenu subMenu;
+        bool bNeedSubMenus = (m_MPLSPlaylist.GetCount() > 1 && m_pCB->ChapGetCount() > 1)
+                             || (m_MPLSPlaylist.GetCount() > 1 && m_wndPlaylistBar.GetCount() > 1)
+                             || (m_pCB->ChapGetCount() > 1 && m_wndPlaylistBar.GetCount() > 1);
+
+        auto addSubMenuIfNeeded = [&](const CString& subMenuName) {
+            if (bNeedSubMenus) {
+                subMenu.Detach(); // Don't destroy the submenu if one was created
+                pSub = &subMenu;
+                pSub->CreatePopupMenu();
+                m_navchapters.AppendMenu(MF_POPUP, (UINT_PTR)pSub->m_hMenu, subMenuName);
+            }
+        };
+
         if (m_MPLSPlaylist.GetCount() > 1) {
+            addSubMenuIfNeeded(ResStr(IDS_NAVIGATE_BD_PLAYLISTS));
+
             menuStartRadioSection();
-            DWORD idx = 1;
             POSITION pos = m_MPLSPlaylist.GetHeadPosition();
             while (pos) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
-                if (id != ID_NAVIGATE_CHAP_SUBITEM_START && pos == m_MPLSPlaylist.GetHeadPosition()) {
-                    flags |= MF_MENUBARBREAK;
-                }
-                if (idx == MENUBARBREAK) {
-                    flags |= MF_MENUBARBREAK;
-                    idx = 0;
-                }
-                idx++;
-
                 CHdmvClipInfo::PlaylistItem Item = m_MPLSPlaylist.GetNext(pos);
                 CString time = _T("[") + ReftimeToString2(Item.Duration()) + _T("]");
                 CString name = StripPath(Item.m_strFileName);
@@ -12646,13 +12654,14 @@ void CMainFrame::SetupNavChaptersSubMenu()
             menuEndRadioSection();
         }
 
-        SetupChapters();
         REFERENCE_TIME rt = GetPos();
         DWORD j = m_pCB->ChapLookup(&rt, nullptr);
 
         if (m_pCB->ChapGetCount() > 1) {
+            addSubMenuIfNeeded(ResStr(IDS_NAVIGATE_CHAPTERS));
+
             menuStartRadioSection();
-            for (DWORD i = 0, idx = 0; i < m_pCB->ChapGetCount(); i++, id++, idx++) {
+            for (DWORD i = 0; i < m_pCB->ChapGetCount(); i++, id++) {
                 rt = 0;
                 CComBSTR bstr;
                 if (FAILED(m_pCB->ChapGet(i, &rt, &bstr))) {
@@ -12670,29 +12679,20 @@ void CMainFrame::SetupNavChaptersSubMenu()
                     idSelected = id;
                 }
 
-                if (idx == MENUBARBREAK) {
-                    flags |= MF_MENUBARBREAK;
-                    idx = 0;
-                }
-
-                if (id != ID_NAVIGATE_CHAP_SUBITEM_START && i == 0) {
-                    flags |= MF_MENUBARBREAK;
-                }
                 pSub->AppendMenu(flags, id, name + '\t' + time);
             }
             menuEndRadioSection();
         }
 
         if (m_wndPlaylistBar.GetCount() > 1) {
+            addSubMenuIfNeeded(ResStr(IDS_NAVIGATE_PLAYLIST));
+
             menuStartRadioSection();
             POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition();
             while (pos) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 if (pos == m_wndPlaylistBar.m_pl.GetPos()) {
                     idSelected = id;
-                }
-                if (id != ID_NAVIGATE_CHAP_SUBITEM_START && pos == m_wndPlaylistBar.m_pl.GetHeadPosition()) {
-                    pSub->AppendMenu(MF_SEPARATOR);
                 }
                 CPlaylistItem& pli = m_wndPlaylistBar.m_pl.GetNext(pos);
                 CString name = pli.GetLabel();
@@ -12701,6 +12701,8 @@ void CMainFrame::SetupNavChaptersSubMenu()
             }
             menuEndRadioSection();
         }
+
+        subMenu.Detach(); // Don't destroy the submenu if one was created
 
     } else if (GetPlaybackMode() == PM_DVD) {
         ULONG ulNumOfVolumes, ulVolume, ulNumOfTitles, ulNumOfChapters, ulUOPs;

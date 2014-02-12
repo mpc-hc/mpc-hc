@@ -3380,6 +3380,18 @@ msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
 msgstr "Зовнішні спліттери можуть мати свої власні налаштування щодо вибору мови доріжок, тому типова поведінка MPC-HC не має на меті змінювати їх.\nВвімкніть дану опцію, якщо хочете, щоб MPC-HC перевизначав вибір зовнішніх спліттерів у цьому аспекті."
 
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr ""
+
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Налаштування"

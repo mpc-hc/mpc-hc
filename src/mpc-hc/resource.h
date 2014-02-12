@@ -1394,6 +1394,9 @@
 #define IDC_SPLITTER_CONF               41458
 #define IDC_VIDEO_DEC_CONF              41459
 #define IDC_AUDIO_DEC_CONF              41460
+#define IDS_NAVIGATE_BD_PLAYLISTS       41461
+#define IDS_NAVIGATE_PLAYLIST           41462
+#define IDS_NAVIGATE_CHAPTERS           41463
 #define IDS_PPAGE_CAPTURE_FG0           57345
 #define IDS_PPAGE_CAPTURE_FG1           57346
 #define IDS_PPAGE_CAPTURE_FG2           57347
