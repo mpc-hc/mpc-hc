@@ -3394,6 +3394,10 @@ msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
 msgstr ""
 
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr ""
+
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Ayarlar"

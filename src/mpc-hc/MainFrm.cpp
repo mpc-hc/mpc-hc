@@ -12713,6 +12713,11 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 && SUCCEEDED(m_pDVDI->GetCurrentUOPS(&ulUOPs))
                 && SUCCEEDED(m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters))
                 && SUCCEEDED(m_pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles))) {
+            CMenu subMenu;
+            pSub = &subMenu;
+            pSub->CreatePopupMenu();
+            m_navchapters.AppendMenu(MF_POPUP, (UINT_PTR)pSub->m_hMenu, ResStr(IDS_NAVIGATE_TITLES));
+
             menuStartRadioSection();
             for (ULONG i = 1; i <= ulNumOfTitles; i++) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
@@ -12730,6 +12735,11 @@ void CMainFrame::SetupNavChaptersSubMenu()
             }
             menuEndRadioSection();
 
+            subMenu.Detach(); // Don't destroy the submenu
+            pSub = &subMenu;
+            pSub->CreatePopupMenu();
+            m_navchapters.AppendMenu(MF_POPUP, (UINT_PTR)pSub->m_hMenu, ResStr(IDS_NAVIGATE_CHAPTERS));
+
             menuStartRadioSection();
             for (ULONG i = 1; i <= ulNumOfChapters; i++) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
@@ -12739,9 +12749,6 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 if (ulUOPs & UOP_FLAG_Play_Chapter) {
                     flags |= MF_DISABLED | MF_GRAYED;
                 }
-                if (i == 1) {
-                    flags |= MF_MENUBARBREAK;
-                }
 
                 CString str;
                 str.Format(IDS_AG_CHAPTER, i);
@@ -12749,6 +12756,8 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 pSub->AppendMenu(flags, id++, str);
             }
             menuEndRadioSection();
+
+            subMenu.Detach(); // Don't destroy the submenu
         }
     } else if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1) {
         const CAppSettings& s = AfxGetAppSettings();
