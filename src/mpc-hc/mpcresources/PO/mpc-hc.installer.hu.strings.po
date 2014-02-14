@@ -2,12 +2,13 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Máté <lang.mate@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2013-12-21 16:10+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-02-12 11:10+0000\n"
+"Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,11 +18,11 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr ""
+msgstr "Ez telepíteni fogja a(z) [name]-t a számítógépére.\nAjánlott, hogy minden más alkalmazást zárjon be a folytatás előtt."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr ""
+msgstr "Windows XP Service Pack 3 vagy újabb szükséges a(z) [name] futtatásához."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

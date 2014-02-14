@@ -17,8 +17,8 @@ next version - not released yet
 * Updated LAV Filters to v0.60.1.22:
     - LAV Audio: Improve error recovery on slightly corrupted audio streams
     - LAV Video: Fix a rare crash that could occur for high resolutions
-* Updated Catalan, Simplified Chinese, Czech, Galician, German, Hebrew, Japanese, Malay, Portuguese (Brazil),
-  Romanian, Russian, Slovak, Swedish, Ukrainian and Vietnamese translations
+* Updated Catalan, Simplified Chinese, Czech, Galician, German, Hebrew, Hungarian, Japanese, Malay, Portuguese (Brazil),
+  Romanian, Russian, Slovenian, Slovak, Swedish, Ukrainian and Vietnamese translations
 ! Properties dialog: Some tracks could have been missing from the streams list
 ! Fix incorrectly displayed OSD in case the message contained the character '&'. Also make top-left and
   top-right OSD size consistent and improve the behavior when the text is too big to be displayed entirely

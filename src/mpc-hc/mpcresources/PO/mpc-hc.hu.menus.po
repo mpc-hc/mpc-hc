@@ -2,12 +2,13 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Máté <lang.mate@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-17 21:38+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-02-12 10:00+0000\n"
+"Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +54,7 @@ msgstr "&Bezárás"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr ""
+msgstr "&Másolat mentése"
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
@@ -141,7 +142,7 @@ msgstr "Navigation"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "&Árnyékoló hibakeresés"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -169,15 +170,15 @@ msgstr ""
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr ""
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr ""
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr ""
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -189,7 +190,7 @@ msgstr "Auto Fit (Larger Only)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr ""
+msgstr "Nyelv &Language"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -557,7 +558,7 @@ msgstr "&Árnyékolók"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
-msgstr ""
+msgstr "&Hang"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"
@@ -685,7 +686,7 @@ msgstr "Honlap"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr ""
+msgstr "&Frissítések keresése"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"

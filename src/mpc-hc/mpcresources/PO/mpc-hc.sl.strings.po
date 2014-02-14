@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# shvala <simon.hvala@hotmail.com>, 2013
+# shvala <simon.hvala@hotmail.com>, 2013-2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-06 19:08+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-02-10 19:40+0000\n"
+"Last-Translator: shvala <simon.hvala@hotmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/mpc-hc/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -823,11 +823,11 @@ msgstr "Osnovan na RARFileSource, ne podpira stisnjenih datotek"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr "Uporablja LAV filtre"
+msgstr "Uporablja LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "Uporablja LAV filtre. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "Uporablja LAV Filters. Privzeto izključeno, ker so Microsoft filtri običajno bolj stabilni za te formate.\nČe izbereš za uporabo interne filtre, jih omogoči tako za izvorne kot za dekodiranje zaradi boljšega predvajanja."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1203,35 +1203,35 @@ msgstr "Stop"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "L = D"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "L +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "D +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "Dodaj cel imenik"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "Programsko dekodiranje"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1943,7 +1943,7 @@ msgstr "Media Player Classic - Home Cinema nima zadostnih pravic za spremembo po
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "MPC-HC je izjemno nezahteven odprtokodni večpredstavnostni predvajalnik za Windows. Podpira vse običajne video in zvočne formate datotek, ki so primerne za predvajanje. Smo 100% brez vohunskih programov, brez oglasov in orodnih vrstic."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2471,11 +2471,11 @@ msgstr "V trenutnem imeniku ni več multimedijskih datotek."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Prva datoteka v imeniku je že naložena."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "Zadnja datoteka v imeniku je že naložena."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2551,7 +2551,7 @@ msgstr "Zgoraj zadaj desno"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "Ponastavi prikazano statistiko"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -3079,11 +3079,11 @@ msgstr "Zmanjšaj kontrast"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Povečanje nasičenja"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Zmanjšanje nasičenja"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"

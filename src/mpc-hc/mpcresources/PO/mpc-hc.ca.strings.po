@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-09 20:10+0000\n"
+"PO-Revision-Date: 2014-02-10 00:50+0000\n"
 "Last-Translator: papu <usforos@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -82,15 +82,15 @@ msgstr "Temps"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr ""
+msgstr "Desajustament de sincronització"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr ""
+msgstr "mitjana: %d, desviació: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
-msgstr ""
+msgstr "Jitter"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
@@ -98,7 +98,7 @@ msgstr "Taxa de bits"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid " (avg/cur)"
-msgstr ""
+msgstr "(mitjana/actual)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -146,35 +146,35 @@ msgstr "Només en canviar diferents tipus de vídeo (per defecte)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr ""
+msgstr "Sempre (pot ser requerit per alguns dispositius)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr ""
+msgstr "Control parental"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr ""
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
-msgstr ""
+msgstr "Sense classificar"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
-msgstr ""
+msgstr "Contingut"
 
 msgctxt "IDS_CONTENT_MOVIE_DRAMA"
 msgid "Movie/Drama"
-msgstr ""
+msgstr "Film/Drama"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr ""
+msgstr "Notícies/Actualitat"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr ""
+msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -190,7 +190,7 @@ msgstr "Configuració de la Captació"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
-msgstr ""
+msgstr "Barra de Navegació"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
@@ -282,11 +282,11 @@ msgstr "Llenguatge"
 
 msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgctxt "IDS_SUBDL_DLG_DISC_COL"
 msgid "Disc"
-msgstr ""
+msgstr "Disc"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
@@ -298,7 +298,7 @@ msgstr "Joc de caràcters"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
@@ -306,7 +306,7 @@ msgstr "Nivell"
 
 msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
 msgid "Actor"
-msgstr ""
+msgstr "Actor"
 
 msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
 msgid "Effect"
@@ -318,7 +318,7 @@ msgstr "Llista de Reproducció"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr ""
+msgstr "Encès/Apagat"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
@@ -478,11 +478,11 @@ msgstr "Això solucionarà les icones que es mostren incorrectament després de 
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr ""
+msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr ""
+msgstr "Renderitzador Overlay Mixer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
@@ -502,15 +502,15 @@ msgstr "Video Mixing Renderer 9 (sense res)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr ""
+msgstr "Enhanced Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr ""
+msgstr "Enhanced Video Renderer (custom presenter)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr ""
+msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
@@ -522,7 +522,7 @@ msgstr "Null (sense comprimir)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
-msgstr ""
+msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -562,7 +562,7 @@ msgstr "Miscel.lània"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr ""
+msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -582,7 +582,7 @@ msgstr "Detalls"
 
 msgctxt "IDD_FILEPROPCLIP"
 msgid "Clip"
-msgstr ""
+msgstr "Clip"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
@@ -674,7 +674,7 @@ msgstr "L'Àudio Renderer del MPC està trencat, no l'utilitzi.."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr ""
+msgstr "Sync Renderer"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
@@ -698,27 +698,27 @@ msgstr "Superfícies 3D (recomanat)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr ""
+msgstr "Nearest neighbor"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr ""
+msgstr "Bilinear"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr ""
+msgstr "Bilinear (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
@@ -738,7 +738,7 @@ msgstr "Null (sense comprimir)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr ""
+msgstr "MPC-HC Audio Renderer"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -746,15 +746,15 @@ msgstr "Nom"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
 msgid "MIME Type"
-msgstr ""
+msgstr "Tipus MIME"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr ""
+msgstr "Per visualitzar un recurs incrustat en el seu navegador has d'habilitar la interfície web.\n\nUseu el botó \"Guardar com\" si només vol guardar la informació."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
-msgstr ""
+msgstr "Descarregar Subtítols"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -762,7 +762,7 @@ msgstr "Retart (ms):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr ""
+msgstr "Automàtic"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
@@ -826,7 +826,7 @@ msgstr "Utilitza LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr ""
+msgstr "Usar LAV Filters. Desactivat per defecte ja que els filtres de Microsoft solen ser més estables per aquests formats.\nSi esculls usar els filtres interns, habilita'ls ambdos l'origen i la decodificació per tenir una millor experiéncia de reproducció."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -898,7 +898,7 @@ msgstr "Avançar\nAvançar"
 
 msgctxt "IDS_SUBRESYNC_ORIGINAL"
 msgid "&Original"
-msgstr ""
+msgstr "&Original"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
@@ -914,7 +914,7 @@ msgstr "&Si"
 
 msgctxt "IDS_SUBRESYNC_NO"
 msgid "&No"
-msgstr ""
+msgstr "&No"
 
 msgctxt "IDS_SUBRESYNC_DECREASE"
 msgid "&Decrease"
@@ -934,7 +934,7 @@ msgstr "&Seleccionar Shaders..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "&Depuració dels Shaders..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -950,7 +950,7 @@ msgstr "Al Atzar"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Open file location"
-msgstr ""
+msgstr "Obrir l'ubicació del fitxer"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1086,7 +1086,7 @@ msgstr "Autor"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
@@ -1158,39 +1158,39 @@ msgstr "Obrir DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr ""
+msgstr "Error en establir post-redimensionament dels shaders"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr ""
+msgstr "Error en establir ambdos pre i post redimensionament dels shaders"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Els shaders es tornen a compilar automàticament quan els arxius corresponents es modifiquen."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr ""
+msgstr "No es pot carregar %s, els pixel shaders no funcionaran."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "No es pot trobar la funcions necessàriess a %s, els pixel shaders no funcionaran."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Shader preestrablert: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Següent Shader Preestablert"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Anterior Shader Preestablert"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
-msgstr ""
+msgstr "%s"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
@@ -1202,35 +1202,35 @@ msgstr "Parar"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr ""
+msgstr "E = D"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr ""
+msgstr "E +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr ""
+msgstr "D +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr ""
+msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr ""
+msgstr "Afegeix carpeta contenidora"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[Descodificador per Maquinari]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "Descodificador per Programari"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1334,31 +1334,31 @@ msgstr "Desar una còpia"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr ""
+msgstr "Ùltim fotograma clau"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr ""
+msgstr "Fotograma clau veí"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr ""
+msgstr "MPC-HC ha trobat un problema durant la inicialització. La reproducció de DVD pot ser que no funcioni correctament. Això pot ser causat per algunes incompatibilitats amb certes eines de seguretat.\n\nVols informar d'aquest problema?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "No mostrar mai"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr ""
+msgstr "Mostra quan es mou el cursor, amagar-se després:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr ""
+msgstr "Mostra al voleiar el control, amagar-se després:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
+msgstr "Error en establir pre-redimensionament dels shaders"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1374,7 +1374,7 @@ msgstr "Desajustament de l'objectiu del Vsync(Offset): %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
-msgstr ""
+msgstr "Desajustament del VSync: %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
@@ -1546,7 +1546,7 @@ msgstr "VidFrm Mitad"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "VidFrm Normal"
-msgstr ""
+msgstr "VidFrm Normal"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "VidFrm Double"
@@ -1602,15 +1602,15 @@ msgstr "Vols comprovar periòdicament si hi ha actualitzacions del MPC-HC?\n\nAq
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -1846,7 +1846,7 @@ msgstr "Addició ràpida de favorits"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
-msgstr ""
+msgstr "N"
 
 msgctxt "IDS_DVB_CHANNEL_NAME"
 msgid "Name"
@@ -1866,7 +1866,7 @@ msgstr "Si"
 
 msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
 msgid "No"
-msgstr ""
+msgstr "No"
 
 msgctxt "IDS_DVB_CHANNEL_START_SCAN"
 msgid "Start"
@@ -1886,7 +1886,7 @@ msgstr "Estacions de TV"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
@@ -1922,11 +1922,11 @@ msgstr "Volum: %02d/%02d, Títol: %02d/%02d, Capítol: %02d/%02d"
 
 msgctxt "IDS_MAINFRM_10"
 msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr ""
+msgstr "Angle: %02d/%02d, %dx%d %dHz %d:%d"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %dHz %dbits %d %s"
-msgstr ""
+msgstr "%s, %s %dHz %dbits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -1942,7 +1942,7 @@ msgstr "MPC-HC no té suficients privilegis per cambiar les associacions del tip
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "MPC-HC és un el reproductor multimèdia de codi obert per a Windows, molt lleuger. És compatible amb tots els formats d'arxius d'àudio i vídeo més comuns disponibles per reproduir-se. És 100% lliure de spyware, no hi ha anuncis o qualsevol altre tipus de publicitat."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2054,7 +2054,7 @@ msgstr ", Memòries Intermitjes V/A Lliures: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
@@ -2178,7 +2178,7 @@ msgstr "Augmentar : +%u%%"
 
 msgctxt "IDS_BALANCE_OSD"
 msgid "Balance: %s"
-msgstr ""
+msgstr "Balanç"
 
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
@@ -2398,19 +2398,19 @@ msgstr "Commutar Barra de Captura"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "Commutar Depuració dels Shaders"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr ""
+msgstr "Zoom 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr ""
+msgstr "Zoom 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr ""
+msgstr "Zoom 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
@@ -2438,15 +2438,15 @@ msgstr "Rotar PnS X+"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
-msgstr ""
+msgstr "VidFrm Zoom 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "VidFrm Zoom 2"
-msgstr ""
+msgstr "VidFrm Zoom 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr ""
+msgstr "VidFrm Commutar Zoom"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -2470,11 +2470,11 @@ msgstr "No hi ha cap més mitjà a la carpeta actual."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "El primer arxiu de la carpeta ja està carregat."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "L'últim arxiu de la carpeta ja està carregat."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2550,7 +2550,7 @@ msgstr "Dalt Darrere Dreta"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr ""
+msgstr "Inicialitzar Estadistiques de Visualització"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2614,19 +2614,19 @@ msgstr "&Desactivar tots els filtres"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr ""
+msgstr "Activar tots els descodificadors d'àudio"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr ""
+msgstr "Desactivar tots els descodificadors d'àudio"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr ""
+msgstr "Activar tots els descodificadors de vídeo"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr ""
+msgstr "Desactivar totos els descodificadors de vídeo"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
@@ -2638,11 +2638,11 @@ msgstr "Tocar la finestra des de dins"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr ""
+msgstr "Zoom 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
-msgstr ""
+msgstr "Zoom 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
@@ -2658,79 +2658,79 @@ msgstr "Reobrir Arxiu"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
-msgstr ""
+msgstr "AVI"
 
 msgctxt "IDS_MFMT_MPEG"
 msgid "MPEG"
-msgstr ""
+msgstr "MPEG"
 
 msgctxt "IDS_MFMT_MPEGTS"
 msgid "MPEG-TS"
-msgstr ""
+msgstr "MPEG-TS"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
-msgstr ""
+msgstr "DVD-Video"
 
 msgctxt "IDS_MFMT_MKV"
 msgid "Matroska"
-msgstr ""
+msgstr "Matroska"
 
 msgctxt "IDS_MFMT_WEBM"
 msgid "WebM"
-msgstr ""
+msgstr "WebM"
 
 msgctxt "IDS_MFMT_MP4"
 msgid "MP4"
-msgstr ""
+msgstr "MP4"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
-msgstr ""
+msgstr "Vídeo QuickTime"
 
 msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
-msgstr ""
+msgstr "3GP"
 
 msgctxt "IDS_MFMT_3G2"
 msgid "3G2"
-msgstr ""
+msgstr "3G2"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
-msgstr ""
+msgstr "Flash Video"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
-msgstr ""
+msgstr "Ogg Media"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr ""
+msgstr "Real Media"
 
 msgctxt "IDS_MFMT_RT"
 msgid "Real Script"
-msgstr ""
+msgstr "Real Script"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
-msgstr ""
+msgstr "Windows Media Video"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
-msgstr ""
+msgstr "Vídeo Smacker/Bink"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
-msgstr ""
+msgstr "Animació FLIC"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr ""
+msgstr "DirectShow Media"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
-msgstr ""
+msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -2738,103 +2738,103 @@ msgstr "Altres"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
-msgstr ""
+msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr ""
+msgstr "Altre Àudio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
-msgstr ""
+msgstr "AC-3/DTS"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
-msgstr ""
+msgstr "AIFF"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
-msgstr ""
+msgstr "Apple Lossless"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
-msgstr ""
+msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
-msgstr ""
+msgstr "Monkey's Audio"
 
 msgctxt "IDS_MFMT_AU"
 msgid "AU/SND"
-msgstr ""
+msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr ""
+msgstr "Audio CD track"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
-msgstr ""
+msgstr "FLAC"
 
 msgctxt "IDS_MFMT_M4A"
 msgid "MPEG-4 Audio"
-msgstr ""
+msgstr "MPEG-4 Audio"
 
 msgctxt "IDS_MFMT_MIDI"
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
-msgstr ""
+msgstr "Matroska audio"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
-msgstr ""
+msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG audio"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
-msgstr ""
+msgstr "Musepack"
 
 msgctxt "IDS_MFMT_OFR"
 msgid "OptimFROG"
-msgstr ""
+msgstr "OptimFROG"
 
 msgctxt "IDS_MFMT_OGG"
 msgid "Ogg Vorbis"
-msgstr ""
+msgstr "Ogg Vorbis"
 
 msgctxt "IDS_MFMT_RA"
 msgid "Real Audio"
-msgstr ""
+msgstr "Real Audio"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
-msgstr ""
+msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
+msgstr "True Audio"
 
 msgctxt "IDS_MFMT_WAV"
 msgid "WAV"
-msgstr ""
+msgstr "WAV"
 
 msgctxt "IDS_MFMT_WMA"
 msgid "Windows Media Audio"
-msgstr ""
+msgstr "Windows Media Audio"
 
 msgctxt "IDS_MFMT_WV"
 msgid "WavPack"
-msgstr ""
+msgstr "WavPack"
 
 msgctxt "IDS_MFMT_OPUS"
 msgid "Opus Audio Codec"
-msgstr ""
+msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
@@ -2842,19 +2842,19 @@ msgstr "Llista de Reproducció"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr ""
+msgstr "Blu-ray playlist"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
-msgstr ""
+msgstr "RAR Archive"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
-msgstr ""
+msgstr "Resolució"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2874,11 +2874,11 @@ msgstr "Controlador de so:"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr ""
+msgstr "Vsync: Activat"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr ""
+msgstr "Vsync: Desactivat"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
@@ -2950,7 +2950,7 @@ msgstr "Llum Ambiental: Fosca (2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "Tipus de Renderització: Perceptual"
+msgstr "Tipus de Renderització: Perceptiu"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
@@ -3078,11 +3078,11 @@ msgstr "Disminuir el Contrast"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Augmentar Tint"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Disminuir Tint"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3118,11 +3118,11 @@ msgstr "&Tancar"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
-msgstr ""
+msgstr "Zoom: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr ""
+msgstr "Zoom: Automàtic"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -3142,11 +3142,11 @@ msgstr "Commutar normalizació"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr ""
+msgstr "Normalitzar"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr ""
+msgstr "Normalització: Activada"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
@@ -3162,23 +3162,23 @@ msgstr "Recuperar volum: Off"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr ""
+msgstr "MB/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
@@ -3254,7 +3254,7 @@ msgstr "vídeo"
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
-msgstr ""
+msgstr "àudio"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
@@ -3350,7 +3350,7 @@ msgstr "Brillantor: %s"
 
 msgctxt "IDS_OSD_CONTRAST"
 msgid "Contrast: %s"
-msgstr ""
+msgstr "Contrast: %s"
 
 msgctxt "IDS_OSD_HUE"
 msgid "Hue: %s°"
@@ -3374,11 +3374,11 @@ msgstr "Augmentar la Brillantor"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr ""
+msgstr "Introdueixi els seves idiomes preferits aquí.\nPer exemple, escriu: \"eng cat jap\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr ""
+msgstr "Els splitters externs poden tenir les seves pròpies opcions de preferències d'idioma per tant el comportament predeterminat MPC-HC no és per canviar la seva elecció inicial.\nActiveu aquesta opció si voleu MPC-HC  controli els splitters externs."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
@@ -3402,5 +3402,5 @@ msgstr ""
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
-msgstr ""
+msgstr "Configuració"
 

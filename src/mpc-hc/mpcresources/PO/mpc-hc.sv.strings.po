@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-07 21:30+0000\n"
+"PO-Revision-Date: 2014-02-11 19:10+0000\n"
 "Last-Translator: Apa <sakcheen@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -195,7 +195,7 @@ msgstr "Navigeringsfält"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr ""
+msgstr "Undertextåtersynkning"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -831,7 +831,7 @@ msgstr "Använder LAV Filters. Inaktiverad som standard eftersom Microsofts filt
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr ""
+msgstr "Växla Navigationslist"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
@@ -1403,7 +1403,7 @@ msgstr ""
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr ""
+msgstr "Var vänlig stäng alla exempel av MPC-HC så att standardinställningarna kan återställas."
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
@@ -1423,7 +1423,7 @@ msgstr ""
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
-msgstr ""
+msgstr "BDA-fel"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
@@ -2035,23 +2035,23 @@ msgstr ""
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
-msgstr ""
+msgstr ", Storlek: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
 msgid ", Size: %I64dMB"
-msgstr ""
+msgstr ", Storlek: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
 msgid ", Free: %I64dKB"
-msgstr ""
+msgstr ", Ledigt: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64dMB"
-msgstr ""
+msgstr ", Ledigt: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ""
+msgstr ", Lediga V/A Buffertar: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
@@ -2111,7 +2111,7 @@ msgstr "Fil Storlek: %s (%s bytes)\\N"
 
 msgctxt "IDS_MAINFRM_59"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
-msgstr ""
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Filnamn: %s\\N%Upplösning: %dx%d %s\\NLängd: %02d:%02d:%02d"
 
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2347,7 +2347,7 @@ msgstr "Okänt format"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr ""
+msgstr "Undertextförskjutning: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -2771,7 +2771,7 @@ msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr ""
+msgstr "Ljud-CD-spår"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
@@ -2863,11 +2863,11 @@ msgstr "Bildförhållande"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
-msgstr ""
+msgstr "Använd WASAPI (starta om uppspelning)"
 
 msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
 msgid "Mute on fast forward"
-msgstr ""
+msgstr "Dämpa ljud vid snabbspolning"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
@@ -2939,15 +2939,15 @@ msgstr "Inmatningstyp: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
-msgstr ""
+msgstr "Omgivningsljus: Ljust (2.2 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
-msgstr ""
+msgstr "Omgivningsljus: Svagt (2.35 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
-msgstr ""
+msgstr "Omgivningsljus: Mörkt (2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
