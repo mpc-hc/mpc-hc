@@ -108,8 +108,8 @@ void CPlayerNavigationDialog::OnDestroy()
 
 void CPlayerNavigationDialog::OnChangeChannel()
 {
-    int nItem = p_nItems[m_ChannelList.GetCurSel()] + ID_NAVIGATE_CHAP_SUBITEM_START;
-    m_pMainFrame->OnNavigateChapters(nItem);
+    int nItem = p_nItems[m_ChannelList.GetCurSel()] + ID_NAVIGATE_JUMPTO_SUBITEM_START;
+    m_pMainFrame->OnNavigateJumpTo(nItem);
 }
 
 void CPlayerNavigationDialog::UpdateElementList()

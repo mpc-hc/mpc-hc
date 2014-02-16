@@ -3397,6 +3397,10 @@ msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
 msgstr ""
 
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr ""
+
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "设置"

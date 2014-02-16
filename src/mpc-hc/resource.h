@@ -246,7 +246,6 @@
 #define ID_AUDIOS                       978
 #define ID_SUBTITLES                    979
 #define ID_VIDEO_STREAMS                980
-#define ID_NAVIGATE_JUMPTO              981
 #define ID_COLOR_BRIGHTNESS_INC         984
 #define ID_COLOR_BRIGHTNESS_DEC         985
 #define ID_COLOR_CONTRAST_INC           986
@@ -283,8 +282,8 @@
 #define ID_SHADERS_SELECT               4200
 #define ID_SHADERS_PRESETS_START        4201
 #define ID_SHADERS_PRESETS_END          4299
-#define ID_NAVIGATE_CHAP_SUBITEM_START  4300
-#define ID_NAVIGATE_CHAP_SUBITEM_END    4499
+#define ID_NAVIGATE_JUMPTO_SUBITEM_START 4300
+#define ID_NAVIGATE_JUMPTO_SUBITEM_END  4499
 #define ID_VIEW_ZOOM_AUTOFIT_LARGER     4500
 // filters
 #define IDS_FILTER_SETTINGS_CAPTION     7000
@@ -1398,6 +1397,7 @@
 #define IDS_NAVIGATE_PLAYLIST           41462
 #define IDS_NAVIGATE_CHAPTERS           41463
 #define IDS_NAVIGATE_TITLES             41464
+#define IDS_NAVIGATE_CHANNELS           41465
 #define IDS_PPAGE_CAPTURE_FG0           57345
 #define IDS_PPAGE_CAPTURE_FG1           57346
 #define IDS_PPAGE_CAPTURE_FG2           57347

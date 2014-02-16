@@ -12,6 +12,8 @@ next version - not released yet
 ===============================
 * If MPC-HC is configured to override the splitter choice when doing the initial track selection,
   tracks selected at splitter level will be preferred in case more than one tracks match the criteria
+* The "Jump to" menu has been split in several smaller submenus displayed in the "Navigate" menu
+  depending on the media currently playing
 * Updated LAV Filters to v0.60.1.22:
     - LAV Audio: Improve error recovery on slightly corrupted audio streams
     - LAV Video: Fix a rare crash that could occur for high resolutions

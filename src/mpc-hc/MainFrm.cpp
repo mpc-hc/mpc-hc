@@ -465,7 +465,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_NAVIGATE_GOTO, OnUpdateNavigateGoto)
     ON_COMMAND_RANGE(ID_NAVIGATE_TITLEMENU, ID_NAVIGATE_CHAPTERMENU, OnNavigateMenu)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_TITLEMENU, ID_NAVIGATE_CHAPTERMENU, OnUpdateNavigateMenu)
-    ON_COMMAND_RANGE(ID_NAVIGATE_CHAP_SUBITEM_START, ID_NAVIGATE_CHAP_SUBITEM_END, OnNavigateChapters)
+    ON_COMMAND_RANGE(ID_NAVIGATE_JUMPTO_SUBITEM_START, ID_NAVIGATE_JUMPTO_SUBITEM_END, OnNavigateJumpTo)
     ON_COMMAND_RANGE(ID_NAVIGATE_MENU_LEFT, ID_NAVIGATE_MENU_LEAVE, OnNavigateMenuItem)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_MENU_LEFT, ID_NAVIGATE_MENU_LEAVE, OnUpdateNavigateMenuItem)
 
@@ -739,6 +739,7 @@ CMainFrame::CMainFrame()
     , m_wndStatsBar(this)
     , m_wndStatusBar(this)
     , m_bAltDownClean(false)
+    , m_nJumpToSubMenusCount(0)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -2841,9 +2842,9 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
             SetupVideoStreamsSubMenu();
             pSubMenu = &m_videoStreamsMenu;
-        } else if (itemID == ID_NAVIGATE_JUMPTO) {
-            SetupNavChaptersSubMenu();
-            pSubMenu = &m_chaptersMenu;
+        } else if (itemID == ID_NAVIGATE_GOTO) {
+            // ID_NAVIGATE_GOTO is just a marker we use to insert the appropriate submenus
+            SetupJumpToSubMenus(pPopupMenu, i + 1);
         } else if (itemID == ID_FAVORITES) {
             SetupFavoritesSubMenu();
             pSubMenu = &m_favoritesMenu;
@@ -2875,7 +2876,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         if (nID == ID_SEPARATOR || nID == -1
                 || nID >= ID_FAVORITES_FILE_START && nID <= ID_FAVORITES_FILE_END
                 || nID >= ID_RECENT_FILE_START && nID <= ID_RECENT_FILE_END
-                || nID >= ID_NAVIGATE_CHAP_SUBITEM_START && nID <= ID_NAVIGATE_CHAP_SUBITEM_END) {
+                || nID >= ID_NAVIGATE_JUMPTO_SUBITEM_START && nID <= ID_NAVIGATE_JUMPTO_SUBITEM_END) {
             continue;
         }
 
@@ -3266,7 +3267,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     SetupAudioSubMenu();
     SetupSubtitlesSubMenu();
     SetupVideoStreamsSubMenu();
-    SetupNavChaptersSubMenu();
+    SetupJumpToSubMenus();
     SetupRecentFilesSubMenu();
 
     // notify listeners
@@ -3373,7 +3374,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     SetupAudioSubMenu();
     SetupSubtitlesSubMenu();
     SetupVideoStreamsSubMenu();
-    SetupNavChaptersSubMenu();
+    SetupJumpToSubMenus();
 
     SendNowPlayingToSkype();
 
@@ -8364,16 +8365,16 @@ void CMainFrame::OnUpdateNavigateMenu(CCmdUI* pCmdUI)
     pCmdUI->Enable(!(ulUOPs & (UOP_FLAG_ShowMenu_Title << nID)));
 }
 
-void CMainFrame::OnNavigateChapters(UINT nID)
+void CMainFrame::OnNavigateJumpTo(UINT nID)
 {
-    if (nID < ID_NAVIGATE_CHAP_SUBITEM_START) {
+    if (nID < ID_NAVIGATE_JUMPTO_SUBITEM_START) {
         return;
     }
 
     const CAppSettings& s = AfxGetAppSettings();
 
     if (GetPlaybackMode() == PM_FILE) {
-        int id = nID - ID_NAVIGATE_CHAP_SUBITEM_START;
+        int id = nID - ID_NAVIGATE_JUMPTO_SUBITEM_START;
 
         if (id < (int)m_MPLSPlaylist.GetCount() && m_MPLSPlaylist.GetCount() > 1) {
             POSITION pos = m_MPLSPlaylist.GetHeadPosition();
@@ -8410,9 +8411,9 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             OpenCurPlaylistItem();
         }
     } else if (GetPlaybackMode() == PM_DVD) {
-        SeekToDVDChapter(nID - ID_NAVIGATE_CHAP_SUBITEM_START + 1);
+        SeekToDVDChapter(nID - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1);
     } else if (GetPlaybackMode() == PM_CAPTURE) {
-        nID -= ID_NAVIGATE_CHAP_SUBITEM_START;
+        nID -= ID_NAVIGATE_JUMPTO_SUBITEM_START;
 
         if (s.iDefaultCaptureDevice == 1) {
             CComQIPtr<IBDATuner> pTun = m_pGB;
@@ -11897,6 +11898,10 @@ void CMainFrame::CreateDynamicMenus()
     VERIFY(m_audiosMenu.CreatePopupMenu());
     VERIFY(m_videoStreamsMenu.CreatePopupMenu());
     VERIFY(m_chaptersMenu.CreatePopupMenu());
+    VERIFY(m_titlesMenu.CreatePopupMenu());
+    VERIFY(m_playlistMenu.CreatePopupMenu());
+    VERIFY(m_BDPlaylistMenu.CreatePopupMenu());
+    VERIFY(m_channelsMenu.CreatePopupMenu());
     VERIFY(m_favoritesMenu.CreatePopupMenu());
     VERIFY(m_shadersMenu.CreatePopupMenu());
     VERIFY(m_recentFilesMenu.CreatePopupMenu());
@@ -11911,6 +11916,10 @@ void CMainFrame::DestroyDynamicMenus()
     VERIFY(m_audiosMenu.DestroyMenu());
     VERIFY(m_videoStreamsMenu.DestroyMenu());
     VERIFY(m_chaptersMenu.DestroyMenu());
+    VERIFY(m_titlesMenu.CreatePopupMenu());
+    VERIFY(m_playlistMenu.CreatePopupMenu());
+    VERIFY(m_BDPlaylistMenu.CreatePopupMenu());
+    VERIFY(m_channelsMenu.CreatePopupMenu());
     VERIFY(m_favoritesMenu.DestroyMenu());
     VERIFY(m_shadersMenu.DestroyMenu());
     VERIFY(m_recentFilesMenu.DestroyMenu());
@@ -12589,50 +12598,54 @@ static CString StripPath(CString path)
     return (p.IsEmpty() ? path : p);
 }
 
-void CMainFrame::SetupNavChaptersSubMenu()
+void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInsertPos /*= -1*/)
 {
-    CMenu& subMenu = m_chaptersMenu;
-    // Empty the menu
-    while (subMenu.RemoveMenu(0, MF_BYPOSITION));
+    auto emptyMenu = [&](CMenu& menu) {
+        while (menu.RemoveMenu(0, MF_BYPOSITION));
+    };
+
+    // Empty the submenus
+    emptyMenu(m_chaptersMenu);
+    emptyMenu(m_titlesMenu);
+    emptyMenu(m_playlistMenu);
+    emptyMenu(m_BDPlaylistMenu);
+    emptyMenu(m_channelsMenu);
+    // Remove the submenus from the "Navigate" menu
+    if (parentMenu && iInsertPos >= 0) {
+        for (; m_nJumpToSubMenusCount > 0; m_nJumpToSubMenusCount--) {
+            VERIFY(parentMenu->RemoveMenu(iInsertPos, MF_BYPOSITION));
+        }
+    }
 
     if (m_eMediaLoadState != MLS::LOADED) {
         return;
     }
 
-    CMenu* pMenu = &subMenu;
-    UINT id = ID_NAVIGATE_CHAP_SUBITEM_START, idStart, idSelected;
+    UINT id = ID_NAVIGATE_JUMPTO_SUBITEM_START, idStart, idSelected;
 
     auto menuStartRadioSection = [&]() {
         idStart = id;
         idSelected = UINT_ERROR;
     };
-    auto menuEndRadioSection = [&]() {
+    auto menuEndRadioSection = [&](CMenu& menu) {
         if (idSelected != UINT_ERROR) {
-            VERIFY(pMenu->CheckMenuRadioItem(idStart, id - 1, idSelected,
-                                             idStart >= ID_NAVIGATE_CHAP_SUBITEM_START ? MF_BYCOMMAND : MF_BYPOSITION));
+            VERIFY(menu.CheckMenuRadioItem(idStart, id - 1, idSelected,
+                                           idStart >= ID_NAVIGATE_JUMPTO_SUBITEM_START ? MF_BYCOMMAND : MF_BYPOSITION));
+        }
+    };
+    auto addSubMenuIfPossible = [&](const CString& subMenuName, CMenu& subMenu) {
+        if (parentMenu && iInsertPos >= 0) {
+            if (parentMenu->InsertMenu(iInsertPos + m_nJumpToSubMenusCount, MF_POPUP | MF_BYPOSITION,
+                                       (UINT_PTR)(HMENU)subMenu, subMenuName)) {
+                m_nJumpToSubMenusCount++;
+            } else {
+                ASSERT(FALSE);
+            }
         }
     };
 
     if (GetPlaybackMode() == PM_FILE) {
-        SetupChapters();
-
-        CMenu internalSubMenu;
-        bool bNeedSubMenus = (m_MPLSPlaylist.GetCount() > 1 && m_pCB->ChapGetCount() > 1)
-                             || (m_MPLSPlaylist.GetCount() > 1 && m_wndPlaylistBar.GetCount() > 1)
-                             || (m_pCB->ChapGetCount() > 1 && m_wndPlaylistBar.GetCount() > 1);
-
-        auto addSubMenuIfNeeded = [&](const CString & subMenuName) {
-            if (bNeedSubMenus) {
-                internalSubMenu.Detach(); // Don't destroy the submenu if one was created
-                pMenu = &internalSubMenu;
-                pMenu->CreatePopupMenu();
-                VERIFY(subMenu.AppendMenu(MF_POPUP, (UINT_PTR)pMenu->m_hMenu, subMenuName));
-            }
-        };
-
         if (m_MPLSPlaylist.GetCount() > 1) {
-            addSubMenuIfNeeded(ResStr(IDS_NAVIGATE_BD_PLAYLISTS));
-
             menuStartRadioSection();
             POSITION pos = m_MPLSPlaylist.GetHeadPosition();
             while (pos) {
@@ -12646,17 +12659,17 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 }
 
                 name.Replace(_T("&"), _T("&&"));
-                VERIFY(pMenu->AppendMenu(flags, id++, name + '\t' + time));
+                VERIFY(m_BDPlaylistMenu.AppendMenu(flags, id++, name + '\t' + time));
             }
-            menuEndRadioSection();
+            menuEndRadioSection(m_BDPlaylistMenu);
+            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_BD_PLAYLISTS), m_BDPlaylistMenu);
         }
 
+        SetupChapters();
         REFERENCE_TIME rt = GetPos();
         DWORD j = m_pCB->ChapLookup(&rt, nullptr);
 
         if (m_pCB->ChapGetCount() > 1) {
-            addSubMenuIfNeeded(ResStr(IDS_NAVIGATE_CHAPTERS));
-
             menuStartRadioSection();
             for (DWORD i = 0; i < m_pCB->ChapGetCount(); i++, id++) {
                 rt = 0;
@@ -12676,14 +12689,13 @@ void CMainFrame::SetupNavChaptersSubMenu()
                     idSelected = id;
                 }
 
-                VERIFY(pMenu->AppendMenu(flags, id, name + '\t' + time));
+                VERIFY(m_chaptersMenu.AppendMenu(flags, id, name + '\t' + time));
             }
-            menuEndRadioSection();
+            menuEndRadioSection(m_chaptersMenu);
+            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_CHAPTERS), m_chaptersMenu);
         }
 
         if (m_wndPlaylistBar.GetCount() > 1) {
-            addSubMenuIfNeeded(ResStr(IDS_NAVIGATE_PLAYLIST));
-
             menuStartRadioSection();
             POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition();
             while (pos) {
@@ -12694,13 +12706,11 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 CPlaylistItem& pli = m_wndPlaylistBar.m_pl.GetNext(pos);
                 CString name = pli.GetLabel();
                 name.Replace(_T("&"), _T("&&"));
-                VERIFY(pMenu->AppendMenu(flags, id++, name));
+                VERIFY(m_playlistMenu.AppendMenu(flags, id++, name));
             }
-            menuEndRadioSection();
+            menuEndRadioSection(m_playlistMenu);
+            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_PLAYLIST), m_playlistMenu);
         }
-
-        internalSubMenu.Detach(); // Don't destroy the submenu if one was created
-
     } else if (GetPlaybackMode() == PM_DVD) {
         ULONG ulNumOfVolumes, ulVolume, ulNumOfTitles, ulNumOfChapters, ulUOPs;
         DVD_DISC_SIDE Side;
@@ -12710,11 +12720,6 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 && SUCCEEDED(m_pDVDI->GetCurrentUOPS(&ulUOPs))
                 && SUCCEEDED(m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters))
                 && SUCCEEDED(m_pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles))) {
-            CMenu internalSubMenu;
-            pMenu = &internalSubMenu;
-            VERIFY(pMenu->CreatePopupMenu());
-            VERIFY(subMenu.AppendMenu(MF_POPUP, (UINT_PTR)pMenu->m_hMenu, ResStr(IDS_NAVIGATE_TITLES)));
-
             menuStartRadioSection();
             for (ULONG i = 1; i <= ulNumOfTitles; i++) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
@@ -12728,14 +12733,10 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 CString str;
                 str.Format(IDS_AG_TITLE, i);
 
-                VERIFY(pMenu->AppendMenu(flags, id++, str));
+                VERIFY(m_titlesMenu.AppendMenu(flags, id++, str));
             }
-            menuEndRadioSection();
-
-            internalSubMenu.Detach(); // Don't destroy the submenu
-            pMenu = &internalSubMenu;
-            VERIFY(pMenu->CreatePopupMenu());
-            VERIFY(subMenu.AppendMenu(MF_POPUP, (UINT_PTR)pMenu->m_hMenu, ResStr(IDS_NAVIGATE_CHAPTERS)));
+            menuEndRadioSection(m_titlesMenu);
+            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_TITLES), m_titlesMenu);
 
             menuStartRadioSection();
             for (ULONG i = 1; i <= ulNumOfChapters; i++) {
@@ -12750,11 +12751,10 @@ void CMainFrame::SetupNavChaptersSubMenu()
                 CString str;
                 str.Format(IDS_AG_CHAPTER, i);
 
-                VERIFY(pMenu->AppendMenu(flags, id++, str));
+                VERIFY(m_chaptersMenu.AppendMenu(flags, id++, str));
             }
-            menuEndRadioSection();
-
-            internalSubMenu.Detach(); // Don't destroy the submenu
+            menuEndRadioSection(m_chaptersMenu);
+            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_CHAPTERS), m_chaptersMenu);
         }
     } else if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1) {
         const CAppSettings& s = AfxGetAppSettings();
@@ -12768,10 +12768,11 @@ void CMainFrame::SetupNavChaptersSubMenu()
             if ((UINT)channel.GetPrefNumber() == s.nDVBLastChannel) {
                 idSelected = id;
             }
-            VERIFY(pMenu->AppendMenu(flags, ID_NAVIGATE_CHAP_SUBITEM_START + channel.GetPrefNumber(), channel.GetName()));
+            VERIFY(m_channelsMenu.AppendMenu(flags, ID_NAVIGATE_JUMPTO_SUBITEM_START + channel.GetPrefNumber(), channel.GetName()));
             id++;
         }
-        menuEndRadioSection();
+        menuEndRadioSection(m_channelsMenu);
+        addSubMenuIfPossible(_T("Channels"), m_channelsMenu);
     }
 }
 

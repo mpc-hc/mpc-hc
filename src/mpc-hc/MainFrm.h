@@ -285,7 +285,7 @@ private:
     void SetupAudioSubMenu();
     void SetupSubtitlesSubMenu();
     void SetupVideoStreamsSubMenu();
-    void SetupNavChaptersSubMenu();
+    void SetupJumpToSubMenus(CMenu* parentMenu = nullptr, int iInsertPos = -1);
     void SetupFavoritesSubMenu();
     void SetupShadersSubMenu();
     void SetupRecentFilesSubMenu();
@@ -299,10 +299,12 @@ private:
     CMenu m_openCDsMenu;
     CMenu m_filtersMenu, m_subtitlesMenu, m_audiosMenu, m_videoStreamsMenu;
     CMenu m_languageMenu;
-    CMenu m_chaptersMenu;
+    CMenu m_chaptersMenu, m_titlesMenu, m_playlistMenu, m_BDPlaylistMenu, m_channelsMenu;
     CMenu m_favoritesMenu;
     CMenu m_shadersMenu;
     CMenu m_recentFilesMenu;
+
+    UINT m_nJumpToSubMenusCount;
 
     CInterfaceArray<IUnknown, &IID_IUnknown> m_pparray;
     CInterfaceArray<IAMStreamSelect> m_ssarray;
@@ -885,7 +887,7 @@ public:
     afx_msg void OnUpdateNavigateGoto(CCmdUI* pCmdUI);
     afx_msg void OnNavigateMenu(UINT nID);
     afx_msg void OnUpdateNavigateMenu(CCmdUI* pCmdUI);
-    afx_msg void OnNavigateChapters(UINT nID);
+    afx_msg void OnNavigateJumpTo(UINT nID);
     afx_msg void OnNavigateMenuItem(UINT nID);
     afx_msg void OnUpdateNavigateMenuItem(CCmdUI* pCmdUI);
     afx_msg void OnTunerScan();

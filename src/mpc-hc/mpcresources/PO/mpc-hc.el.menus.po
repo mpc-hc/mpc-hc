@@ -648,10 +648,6 @@ msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
 msgstr "Μετά&βαση σε..."
 
-msgctxt "ID_NAVIGATE_JUMPTO"
-msgid "&Jump To..."
-msgstr "Μετά&βαση σε..."
-
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
 msgstr "Μενού τίτλων"

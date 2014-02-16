@@ -1,10 +1,10 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
+"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -643,10 +643,6 @@ msgstr ""
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr ""
-
-msgctxt "ID_NAVIGATE_JUMPTO"
-msgid "&Jump To..."
 msgstr ""
 
 msgctxt "ID_NAVIGATE_TITLEMENU"

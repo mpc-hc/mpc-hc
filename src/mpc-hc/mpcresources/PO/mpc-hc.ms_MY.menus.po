@@ -648,10 +648,6 @@ msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
 msgstr "Per&gi Ke..."
 
-msgctxt "ID_NAVIGATE_JUMPTO"
-msgid "&Jump To..."
-msgstr "&Lompat Ke..."
-
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
 msgstr "Menu &Tajuk"

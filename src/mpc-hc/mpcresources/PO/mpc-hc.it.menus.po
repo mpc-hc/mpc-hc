@@ -647,10 +647,6 @@ msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
 msgstr "&Vai a..."
 
-msgctxt "ID_NAVIGATE_JUMPTO"
-msgid "&Jump To..."
-msgstr "&Vai a..."
-
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
 msgstr "Menù &titoli"
