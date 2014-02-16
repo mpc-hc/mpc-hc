@@ -1512,14 +1512,15 @@ void CAppSettings::LoadSettings()
     for (int iChannel = 0; ; iChannel++) {
         CString strTemp;
         CString strChannel;
-        CDVBChannel Channel;
+        CDVBChannel channel;
         strTemp.Format(_T("%d"), iChannel);
         strChannel = pApp->GetProfileString(IDS_R_DVB, strTemp);
         if (strChannel.IsEmpty()) {
             break;
         }
-        Channel.FromString(strChannel);
-        m_DVBChannels.AddTail(Channel);
+        if (channel.FromString(strChannel)) {
+            m_DVBChannels.AddTail(channel);
+        }
     }
 
     // playback positions for last played files

@@ -32,6 +32,7 @@ next version - not released yet
 ! Ticket #4011, Fix image saving for streams with characters not supported in path names
 ! Ticket #4013, Subtitle renderer: Fix a crash on malformed animated transforms (\t tags with no parameters)
 ! Ticket #4020, Update dialog: Fix incorrect version info when using Belarusian, Slovenian or Russian translations
+! Ticket #4050, MPC-HC could crash when loading invalid DVB channel settings
 
 
 1.7.3 - 02 February 2014

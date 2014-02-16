@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -107,7 +107,7 @@ public:
     CDVBChannel();
     ~CDVBChannel();
 
-    void FromString(CString strValue);
+    bool FromString(CString strValue);
     CString ToString();
 
     LPCTSTR GetName() const { return m_strName; };

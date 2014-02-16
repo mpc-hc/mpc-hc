@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -124,10 +124,11 @@ void CTunerScanDlg::OnBnClickedSave()
     s.m_DVBChannels.RemoveAll();
 
     for (int i = 0; i < m_ChannelList.GetItemCount(); i++) {
-        CDVBChannel Channel;
-        Channel.FromString(m_ChannelList.GetItemText(i, TSCC_CHANNEL));
-        Channel.SetPrefNumber(i);
-        s.m_DVBChannels.AddTail(Channel);
+        CDVBChannel channel;
+        if (channel.FromString(m_ChannelList.GetItemText(i, TSCC_CHANNEL))) {
+            channel.SetPrefNumber(i);
+            s.m_DVBChannels.AddTail(channel);
+        }
     }
     ((CMainFrame*)AfxGetMainWnd())->SetChannel(0);
 
@@ -192,15 +193,14 @@ LRESULT CTunerScanDlg::OnStats(WPARAM wParam, LPARAM lParam)
 
 LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 {
-    CDVBChannel Channel;
+    CDVBChannel channel;
     CString strTemp;
-    Channel.FromString((LPCTSTR)lParam);
 
-    if (!m_bIgnoreEncryptedChannels || !Channel.IsEncrypted()) {
+    if (channel.FromString((LPCTSTR)lParam) && (!m_bIgnoreEncryptedChannels || !channel.IsEncrypted())) {
         int nItem, nChannelNumber;
 
-        if (Channel.GetOriginNumber() != 0) { // LCN is available
-            nChannelNumber = Channel.GetOriginNumber();
+        if (channel.GetOriginNumber() != 0) { // LCN is available
+            nChannelNumber = channel.GetOriginNumber();
             // Insert new channel so that channels are sorted by their logical number
             for (nItem = 0; nItem < m_ChannelList.GetItemCount(); nItem++) {
                 if ((int)m_ChannelList.GetItemData(nItem) > nChannelNumber || (int)m_ChannelList.GetItemData(nItem) == 0) {
@@ -215,32 +215,32 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
         strTemp.Format(_T("%d"), nChannelNumber);
         nItem = m_ChannelList.InsertItem(nItem, strTemp);
 
-        m_ChannelList.SetItemData(nItem, Channel.GetOriginNumber());
+        m_ChannelList.SetItemData(nItem, channel.GetOriginNumber());
 
-        m_ChannelList.SetItemText(nItem, TSCC_NAME, Channel.GetName());
+        m_ChannelList.SetItemText(nItem, TSCC_NAME, channel.GetName());
 
-        strTemp.Format(_T("%lu"), Channel.GetFrequency());
+        strTemp.Format(_T("%lu"), channel.GetFrequency());
         m_ChannelList.SetItemText(nItem, TSCC_FREQUENCY, strTemp);
 
-        strTemp = Channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
+        strTemp = channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
         m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, strTemp);
-        if (Channel.GetVideoType() == DVB_H264) {
+        if (channel.GetVideoType() == DVB_H264) {
             strTemp = _T(" H.264");
-        } else if (Channel.GetVideoPID()) {
+        } else if (channel.GetVideoPID()) {
             strTemp = _T("MPEG-2");
         } else {
             strTemp = _T("   -  ");
         }
         m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FORMAT, strTemp);
-        strTemp = Channel.GetVideoFpsDesc();
+        strTemp = channel.GetVideoFpsDesc();
         m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FPS, strTemp);
-        if (Channel.GetVideoWidth() || Channel.GetVideoHeight()) {
-            strTemp.Format(_T("%lux%lu"), Channel.GetVideoWidth(), Channel.GetVideoHeight());
+        if (channel.GetVideoWidth() || channel.GetVideoHeight()) {
+            strTemp.Format(_T("%lux%lu"), channel.GetVideoWidth(), channel.GetVideoHeight());
         } else {
             strTemp = _T("   -   ");
         }
         m_ChannelList.SetItemText(nItem, TSCC_VIDEO_RES, strTemp);
-        strTemp.Format(_T("%lu/%lu"), Channel.GetVideoARy(), Channel.GetVideoARx());
+        strTemp.Format(_T("%lu/%lu"), channel.GetVideoARy(), channel.GetVideoARx());
         m_ChannelList.SetItemText(nItem, TSCC_VIDEO_AR, strTemp);
         m_ChannelList.SetItemText(nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
     }
