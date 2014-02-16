@@ -278,6 +278,8 @@ private:
 
     // dynamic menus
 
+    void CreateDynamicMenus();
+    void DestroyDynamicMenus();
     void SetupOpenCDSubMenu();
     void SetupFiltersSubMenu();
     void SetupAudioSubMenu();
@@ -290,19 +292,17 @@ private:
     void SetupLanguageMenu();
 
     IBaseFilter* FindSourceSelectableFilter();
-    void SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGroup);
+    void SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup);
     void OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup);
 
-    CMenu m_popupmain, m_popup;
-    CMenu m_opencds;
-    CMenu m_filters, m_subtitles, m_audios, m_videoStreams;
-    CMenu m_language;
-    CAutoPtrArray<CMenu> m_filterpopups;
-    CMenu m_navangle;
-    CMenu m_navchapters;
-    CMenu m_favorites;
-    CMenu m_shaders;
-    CMenu m_recentfiles;
+    CMenu m_mainPopupMenu, m_popupMenu;
+    CMenu m_openCDsMenu;
+    CMenu m_filtersMenu, m_subtitlesMenu, m_audiosMenu, m_videoStreamsMenu;
+    CMenu m_languageMenu;
+    CMenu m_chaptersMenu;
+    CMenu m_favoritesMenu;
+    CMenu m_shadersMenu;
+    CMenu m_recentFilesMenu;
 
     CInterfaceArray<IUnknown, &IID_IUnknown> m_pparray;
     CInterfaceArray<IAMStreamSelect> m_ssarray;
@@ -388,7 +388,6 @@ public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
     bool m_fStartInD3DFullscreen;
-    CMenu m_navaudio, m_navsubtitle;
 
     CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
     CComPtr<ISyncClock> m_pSyncClock;
