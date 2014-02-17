@@ -15,6 +15,7 @@ next version - not released yet
 * The "Jump to" menu has been split in several smaller submenus displayed in the "Navigate" menu
   depending on the media currently playing
 * Updated SoundTouch to v1.8.0
+* Updated Little CMS to v2.6b (git 3337825)
 * Updated LAV Filters to v0.60.1.40:
     - LAV Audio: Improve error recovery on slightly corrupted audio streams
     - LAV Video: Fix a rare crash that could occur for high resolutions
