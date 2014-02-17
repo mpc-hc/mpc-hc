@@ -93,7 +93,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseSub.cpp" />
     <ClCompile Include="RenderingCache.cpp" />
     <ClCompile Include="CCDecoder.cpp" />
     <ClCompile Include="CompositionObject.cpp" />

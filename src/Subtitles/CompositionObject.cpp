@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -50,14 +50,14 @@ CompositionObject::~CompositionObject()
     delete [] m_pRLEData;
 }
 
-void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool bIsHD)
+void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool BT709, int sourceBlackLevel, int sourceWhiteLevel, int targetBlackLevel, int targetWhiteLevel)
 {
     m_nColorNumber = nNbEntry;
     for (int i = 0; i < nNbEntry; i++) {
-        if (bIsHD) {
-            m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709(pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+        if (BT709) {
+            m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709(pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb, sourceBlackLevel, sourceWhiteLevel, targetBlackLevel, targetWhiteLevel);
         } else {
-            m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601(pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+            m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601(pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb, sourceBlackLevel, sourceWhiteLevel, targetBlackLevel, targetWhiteLevel);
         }
     }
 }

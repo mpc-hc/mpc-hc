@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,25 +27,51 @@ enum SUBTITLE_TYPE {
     ST_HDMV
 };
 
+enum SOURCE_MATRIX {
+    NONE,
+    BT_709,
+    BT_601
+};
+
 class CBaseSub
 {
 public:
-
     static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
 
-    CBaseSub(SUBTITLE_TYPE nType);
-    virtual ~CBaseSub();
+    CBaseSub() = delete;
+    explicit CBaseSub(SUBTITLE_TYPE nType)
+        : m_nType(nType) {
+    }
+    virtual ~CBaseSub() = default;
 
-    virtual HRESULT         ParseSample(IMediaSample* pSample) = 0;
-    virtual void            EndOfStream() { /* Nothing to do */ };
-    virtual void            Reset() = 0;
-    virtual POSITION        GetStartPosition(REFERENCE_TIME rt, double fps) = 0;
-    virtual POSITION        GetNext(POSITION pos) = 0;
-    virtual REFERENCE_TIME  GetStart(POSITION nPos) = 0;
-    virtual REFERENCE_TIME  GetStop(POSITION nPos) = 0;
-    virtual void            Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox) = 0;
-    virtual HRESULT         GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft) = 0;
+    virtual HRESULT         ParseSample(IMediaSample* pSample) PURE;
+    virtual void            EndOfStream() PURE;
+    virtual void            Reset() PURE;
+    virtual POSITION        GetStartPosition(REFERENCE_TIME rt, double fps) PURE;
+    virtual POSITION        GetNext(POSITION pos) PURE;
+    virtual REFERENCE_TIME  GetStart(POSITION nPos) PURE;
+    virtual REFERENCE_TIME  GetStop(POSITION nPos) PURE;
+    virtual void            Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox) PURE;
+    virtual HRESULT         GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft) PURE;
+
+    void SetSourceTargetInfo(int sourceBlackLevel, int sourceWhiteLevel,
+                             int targetBlackLevel, int targetWhiteLevel, SOURCE_MATRIX sourceMatrix) {
+        m_infoSourceTarget.sourceBlackLevel = sourceBlackLevel;
+        m_infoSourceTarget.sourceWhiteLevel = sourceWhiteLevel;
+        m_infoSourceTarget.targetBlackLevel = targetBlackLevel;
+        m_infoSourceTarget.targetWhiteLevel = targetWhiteLevel;
+        m_infoSourceTarget.sourceMatrix = sourceMatrix;
+    }
 
 protected:
-    SUBTITLE_TYPE           m_nType;
+    SUBTITLE_TYPE m_nType;
+
+    struct SourceTarget {
+        int sourceBlackLevel = 16;
+        int sourceWhiteLevel = 235;
+        int targetBlackLevel = 0;
+        int targetWhiteLevel = 255;
+
+        SOURCE_MATRIX sourceMatrix = NONE;
+    } m_infoSourceTarget;
 };

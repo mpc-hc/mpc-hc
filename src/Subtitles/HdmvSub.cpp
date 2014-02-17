@@ -315,6 +315,8 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
     bbox.right  = 0;
     bbox.bottom = 0;
 
+    bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (pPresentationSegment->video_descriptor.nVideoWidth > 720) : false;
+
     if (pPresentationSegment) {
         POSITION pos = pPresentationSegment->objects.GetHeadPosition();
 
@@ -326,8 +328,8 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 
             if (pObject->GetRLEDataSize() && pObject->m_width > 0 && pObject->m_height > 0
                     && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
-                pObject->SetPalette(pPresentationSegment->CLUT.size, pPresentationSegment->CLUT.palette, pPresentationSegment->video_descriptor.nVideoWidth > 720);
-
+                pObject->SetPalette(pPresentationSegment->CLUT.size, pPresentationSegment->CLUT.palette, BT709,
+                                    m_infoSourceTarget.sourceBlackLevel, m_infoSourceTarget.sourceWhiteLevel, m_infoSourceTarget.targetBlackLevel, m_infoSourceTarget.targetWhiteLevel);
                 bbox.left   = std::min(pObject->m_horizontal_position, bbox.left);
                 bbox.top    = std::min(pObject->m_vertical_position, bbox.top);
                 bbox.right  = std::max(pObject->m_horizontal_position + pObject->m_width, bbox.right);

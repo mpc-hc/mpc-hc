@@ -11,9 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseSub.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CCDecoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

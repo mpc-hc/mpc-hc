@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,6 +45,7 @@ public:
     STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
     STDMETHODIMP GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
     STDMETHODIMP GetRelativeTo(POSITION pos, RelativeTo& relativeTo);
+    STDMETHODIMP SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel);
 
     // IPersist
     STDMETHODIMP GetClassID(CLSID* pClassID);

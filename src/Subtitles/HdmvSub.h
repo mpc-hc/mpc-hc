@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -117,6 +117,7 @@ public:
     void    Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
     HRESULT GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
     void    Reset();
+    void    EndOfStream() { /* Nothing to do */ };
 
 private:
 

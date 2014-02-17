@@ -87,6 +87,7 @@ namespace Gdiplus
 
 #include "../Subtitles/RTS.h"
 #include "../Subtitles/STS.h"
+#include "../Subtitles/RenderedHdmvSubtitle.h"
 
 template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S>> {};

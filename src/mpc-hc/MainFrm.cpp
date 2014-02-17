@@ -93,6 +93,10 @@
 #include "MPCPngImage.h"
 #include "DSMPropertyBag.h"
 
+#include "../Subtitles/RTS.h"
+#include "../Subtitles/STS.h"
+#include "../Subtitles/RenderedHdmvSubtitle.h"
+
 template<typename T>
 bool NEARLY_EQ(T a, T b, T tol)
 {
@@ -13411,6 +13415,35 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle /*= fal
             pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, &s.subtitlesDefStyle);
 
             pRTS->Deinit();
+        } else if (clsid == __uuidof(CRenderedHdmvSubtitle)) {
+            CRenderedHdmvSubtitle* pRHS = (CRenderedHdmvSubtitle*)(ISubStream*)pSubStream;
+
+            CComQIPtr<ISubRenderOptions> pSRO = m_pCAP;
+            CComQIPtr<IMadVRInfo> pMVRI = m_pCAP;
+
+            LPWSTR yuvMatrix = nullptr;
+            int nLen;
+            if (pMVRI) {
+                pMVRI->GetString("yuvMatrix", &yuvMatrix, &nLen);
+            } else if (pSRO) {
+                pSRO->GetString("yuvMatrix", &yuvMatrix, &nLen);
+            }
+
+            int targetBlackLevel = 0, targetWhiteLevel = 255;
+            if (m_pMVRS) {
+                m_pMVRS->SettingsGetInteger(L"Black", &targetBlackLevel);
+                m_pMVRS->SettingsGetInteger(L"White", &targetWhiteLevel);
+            } else if (pSRO) {
+                int range = 0;
+                pSRO->GetInt("supportedLevels", &range);
+                if (range == 3) {
+                    targetBlackLevel = 16;
+                    targetWhiteLevel = 235;
+                }
+            }
+
+            pRHS->SetSourceTargetInfo(yuvMatrix, targetBlackLevel, targetWhiteLevel);
+            LocalFree(yuvMatrix);
         }
     }
 

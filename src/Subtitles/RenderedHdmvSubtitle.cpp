@@ -117,6 +117,34 @@ STDMETHODIMP CRenderedHdmvSubtitle::GetRelativeTo(POSITION pos, RelativeTo& rela
     return S_OK;
 }
 
+STDMETHODIMP CRenderedHdmvSubtitle::SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel)
+{
+    int nPos = 0;
+    CString range = yuvMatrix.Tokenize(_T("."), nPos);
+    CString matrix = yuvMatrix.Mid(nPos);
+
+    int sourceBlackLevel = 16;
+    int sourceWhiteLevel = 235;
+    if (range == _T("PC")) {
+        sourceBlackLevel = 0;
+        sourceWhiteLevel = 255;
+    }
+
+    SOURCE_MATRIX sourceMatrix;
+    if (matrix == _T("709")) {
+        sourceMatrix = BT_709;
+    } else if (matrix == _T("240M")) {
+        sourceMatrix = BT_709;
+    } else if (matrix == _T("601")) {
+        sourceMatrix = BT_601;
+    } else {
+        sourceMatrix = NONE;
+    }
+
+    m_pSub->SetSourceTargetInfo(sourceBlackLevel, sourceWhiteLevel, targetBlackLevel, targetWhiteLevel, sourceMatrix);
+    return S_OK;
+}
+
 // IPersist
 
 STDMETHODIMP CRenderedHdmvSubtitle::GetClassID(CLSID* pClassID)
