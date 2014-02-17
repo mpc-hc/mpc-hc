@@ -12600,7 +12600,7 @@ static CString StripPath(CString path)
 
 void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInsertPos /*= -1*/)
 {
-    auto emptyMenu = [&](CMenu& menu) {
+    auto emptyMenu = [&](CMenu & menu) {
         while (menu.RemoveMenu(0, MF_BYPOSITION));
     };
 
@@ -12627,13 +12627,13 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
         idStart = id;
         idSelected = UINT_ERROR;
     };
-    auto menuEndRadioSection = [&](CMenu& menu) {
+    auto menuEndRadioSection = [&](CMenu & menu) {
         if (idSelected != UINT_ERROR) {
             VERIFY(menu.CheckMenuRadioItem(idStart, id - 1, idSelected,
                                            idStart >= ID_NAVIGATE_JUMPTO_SUBITEM_START ? MF_BYCOMMAND : MF_BYPOSITION));
         }
     };
-    auto addSubMenuIfPossible = [&](const CString& subMenuName, CMenu& subMenu) {
+    auto addSubMenuIfPossible = [&](const CString & subMenuName, CMenu & subMenu) {
         if (parentMenu && iInsertPos >= 0) {
             if (parentMenu->InsertMenu(iInsertPos + m_nJumpToSubMenusCount, MF_POPUP | MF_BYPOSITION,
                                        (UINT_PTR)(HMENU)subMenu, subMenuName)) {
