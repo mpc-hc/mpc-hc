@@ -508,7 +508,6 @@ LRESULT CPlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
     if (message == WM_CONTEXTMENU) {
         auto pBar = dynamic_cast<CPlayerBar*>(GetParent());
-        ASSERT(pBar);
         if (pBar) {
             pBar->HasActivePopup(true);
         }
