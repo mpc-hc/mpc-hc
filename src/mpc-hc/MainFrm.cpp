@@ -11050,47 +11050,50 @@ void CMainFrame::UpdateChapterInInfoBar()
 void CMainFrame::OpenSetupStatsBar()
 {
     m_wndStatsBar.RemoveAllLines();
-    CString info('-');
-    bool bFoundIBitRateInfo = false;
 
-    BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (!m_pQP) {
-            m_pQP = pBF;
-        }
-        if (!m_pBI) {
-            m_pBI = pBF;
-        }
-        if (!bFoundIBitRateInfo) {
-            BeginEnumPins(pBF, pEP, pPin) {
-                if (CComQIPtr<IBitRateInfo> pBRI = pPin) {
-                    bFoundIBitRateInfo = true;
-                    break;
-                }
+    if (GetLoadState() == MLS::LOADED) {
+        CString info('-');
+        bool bFoundIBitRateInfo = false;
+
+        BeginEnumFilters(m_pGB, pEF, pBF) {
+            if (!m_pQP) {
+                m_pQP = pBF;
             }
-            EndEnumPins;
+            if (!m_pBI) {
+                m_pBI = pBF;
+            }
+            if (!bFoundIBitRateInfo) {
+                BeginEnumPins(pBF, pEP, pPin) {
+                    if (CComQIPtr<IBitRateInfo> pBRI = pPin) {
+                        bFoundIBitRateInfo = true;
+                        break;
+                    }
+                }
+                EndEnumPins;
+            }
+            if (m_pQP && m_pBI && bFoundIBitRateInfo) {
+                break;
+            }
         }
-        if (m_pQP && m_pBI && bFoundIBitRateInfo) {
-            break;
-        }
-    }
-    EndEnumFilters;
+        EndEnumFilters;
 
-    if (m_pQP) {
-        m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
-        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
-        m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
-        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
-    } else {
-        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_PLAYBACK_RATE), info);
-    }
-    if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), info);
-    }
-    if (m_pBI) {
-        m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
-    }
-    if (bFoundIBitRateInfo) {
-        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info);
+        if (m_pQP) {
+            m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
+            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
+            m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
+            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
+        } else {
+            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_PLAYBACK_RATE), info);
+        }
+        if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), info);
+        }
+        if (m_pBI) {
+            m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
+        }
+        if (bFoundIBitRateInfo) {
+            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info);
+        }
     }
 }
 
