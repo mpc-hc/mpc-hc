@@ -11930,14 +11930,15 @@ void CMainFrame::DestroyDynamicMenus()
     VERIFY(m_audiosMenu.DestroyMenu());
     VERIFY(m_videoStreamsMenu.DestroyMenu());
     VERIFY(m_chaptersMenu.DestroyMenu());
-    VERIFY(m_titlesMenu.CreatePopupMenu());
-    VERIFY(m_playlistMenu.CreatePopupMenu());
-    VERIFY(m_BDPlaylistMenu.CreatePopupMenu());
-    VERIFY(m_channelsMenu.CreatePopupMenu());
+    VERIFY(m_titlesMenu.DestroyMenu());
+    VERIFY(m_playlistMenu.DestroyMenu());
+    VERIFY(m_BDPlaylistMenu.DestroyMenu());
+    VERIFY(m_channelsMenu.DestroyMenu());
     VERIFY(m_favoritesMenu.DestroyMenu());
     VERIFY(m_shadersMenu.DestroyMenu());
     VERIFY(m_recentFilesMenu.DestroyMenu());
     VERIFY(m_languageMenu.DestroyMenu());
+    m_nJumpToSubMenusCount = 0;
 }
 
 void CMainFrame::SetupOpenCDSubMenu()
