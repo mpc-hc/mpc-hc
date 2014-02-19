@@ -110,7 +110,7 @@ void CPlayerPlaylistBar::LoadState(CFrameWnd* pParent)
     CString section = _T("ToolBars\\") + m_strSettingName;
 
     if (AfxGetApp()->GetProfileInt(section, _T("Visible"), FALSE)) {
-        Autohidden(true);
+        SetAutohidden(true);
     }
 
     __super::LoadState(pParent);
@@ -123,7 +123,7 @@ void CPlayerPlaylistBar::SaveState()
     CString section = _T("ToolBars\\") + m_strSettingName;
 
     AfxGetApp()->WriteProfileInt(section, _T("Visible"),
-                                 IsWindowVisible() || (AfxGetAppSettings().bHidePlaylistFullScreen && m_bHiddenDueToFullscreen) || Autohidden());
+                                 IsWindowVisible() || (AfxGetAppSettings().bHidePlaylistFullScreen && m_bHiddenDueToFullscreen) || IsAutohidden());
 }
 
 bool CPlayerPlaylistBar::IsHiddenDueToFullscreen() const
@@ -134,7 +134,7 @@ bool CPlayerPlaylistBar::IsHiddenDueToFullscreen() const
 void CPlayerPlaylistBar::SetHiddenDueToFullscreen(bool bHiddenDueToFullscreen)
 {
     if (bHiddenDueToFullscreen) {
-        Autohidden(false);
+        SetAutohidden(false);
     }
     m_bHiddenDueToFullscreen = bHiddenDueToFullscreen;
 }

@@ -25,7 +25,7 @@
 
 class CPlayerBar : public CSizingControlBarG
 {
-    friend class CMainFrameControls; // for accessing m_szMinVert, m_szMinHorz and m_cxEdge
+    friend class CMainFrameControls; // for accessing m_szMinVert, m_szMinHorz, m_cxEdge and SetAutohidden(bool)
 
     DECLARE_DYNAMIC(CPlayerBar)
 
@@ -42,6 +42,8 @@ protected:
     afx_msg void OnEnterMenuLoop(BOOL bIsTrackPopupMenu);
     afx_msg void OnExitMenuLoop(BOOL bIsTrackPopupMenu);
 
+    void SetAutohidden(bool bValue);
+
 public:
     CPlayerBar();
     virtual ~CPlayerBar();
@@ -51,7 +53,6 @@ public:
     virtual void LoadState(CFrameWnd* pParent);
     virtual void SaveState();
 
-    void Autohidden(bool bValue);
-    bool Autohidden() const;
+    bool IsAutohidden() const;
     bool HasActivePopup() const;
 };

@@ -149,7 +149,7 @@ bool CMainFrameControls::ControlChecked(Toolbar toolbar)
 bool CMainFrameControls::ControlChecked(Panel panel)
 {
     auto pBar = m_panels[panel];
-    return pBar->Autohidden() || pBar->IsWindowVisible();
+    return pBar->IsAutohidden() || pBar->IsWindowVisible();
 }
 
 void CMainFrameControls::ToggleControl(Toolbar toolbar)
@@ -167,8 +167,8 @@ void CMainFrameControls::ToggleControl(Panel panel)
     auto pBar = m_panels[panel];
     if (pBar->IsWindowVisible()) {
         m_pMainFrame->ShowControlBar(pBar, FALSE, FALSE);
-    } else if (pBar->Autohidden()) {
-        pBar->Autohidden(false);
+    } else if (pBar->IsAutohidden()) {
+        pBar->SetAutohidden(false);
     } else {
         DockZone zone = GetPanelZone(panel);
         if (!InFullscreenWithPermahiddenDockedPanels() || zone == DOCK_NONE) {
@@ -177,7 +177,7 @@ void CMainFrameControls::ToggleControl(Panel panel)
                 LockHideZone(zone);
             }
         } else {
-            pBar->Autohidden(true);
+            pBar->SetAutohidden(true);
         }
     }
 }
@@ -200,8 +200,8 @@ void CMainFrameControls::LoadState()
     for (const auto& pair : m_panels) {
         auto pBar = pair.second;
         pBar->LoadState(m_pMainFrame);
-        if (pBar->IsFloating() && pBar->Autohidden()) {
-            pBar->Autohidden(false);
+        if (pBar->IsFloating() && pBar->IsAutohidden()) {
+            pBar->SetAutohidden(false);
             m_pMainFrame->ShowControlBar(pBar, TRUE, TRUE);
         }
     }
@@ -519,10 +519,10 @@ void CMainFrameControls::UpdateToolbarsVisibility()
 
     if (!bCanHideDockedPanels) {
         for (const auto& pair : m_panels) {
-            if (pair.second->Autohidden()) {
+            if (pair.second->IsAutohidden()) {
                 bRecalcLayout = true;
                 m_pMainFrame->ShowControlBar(pair.second, TRUE, TRUE);
-                pair.second->Autohidden(false);
+                pair.second->SetAutohidden(false);
             }
         }
     }
@@ -546,7 +546,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                 if (it != m_panelZones.end()) {
                     const auto& panels = it->second;
                     for (const auto panel : panels) {
-                        if (m_panels[panel]->Autohidden()) {
+                        if (m_panels[panel]->IsAutohidden()) {
                             bRecalcLayout = true;
                             m_pMainFrame->ShowControlBar(m_panels[panel], TRUE, TRUE);
                         }
@@ -615,10 +615,10 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                     const auto panels = it->second; // copy
                     for (const auto panel : panels) {
                         auto pBar = m_panels[panel];
-                        if (!pBar->Autohidden() && GetCapture() != pBar->m_hWnd) {
+                        if (!pBar->IsAutohidden() && GetCapture() != pBar->m_hWnd) {
                             bRecalcLayout = true;
                             m_pMainFrame->ShowControlBar(pBar, FALSE, TRUE);
-                            pBar->Autohidden(true);
+                            pBar->SetAutohidden(true);
                         }
                     }
                 }
@@ -715,7 +715,7 @@ void CMainFrameControls::EnumPanelZones()
 
     for (const auto& pair : m_panels) {
         auto& pBar = pair.second;
-        if (IsWindow(pBar->m_hWnd) && (pBar->Autohidden() || pBar->IsWindowVisible())) {
+        if (IsWindow(pBar->m_hWnd) && (pBar->IsAutohidden() || pBar->IsWindowVisible())) {
             DockZone zone = GetPanelZone(pBar);
             if (zone != DOCK_NONE) {
                 m_panelZones[zone].push_back(pair.first);

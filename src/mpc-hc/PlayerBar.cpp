@@ -22,6 +22,11 @@
 #include "PlayerBar.h"
 #include "MainFrm.h"
 
+void CPlayerBar::SetAutohidden(bool bValue)
+{
+    m_bAutohidden = bValue;
+}
+
 IMPLEMENT_DYNAMIC(CPlayerBar, CSizingControlBarG)
 CPlayerBar::CPlayerBar()
     : m_defDockBarID(0)
@@ -43,8 +48,8 @@ END_MESSAGE_MAP()
 void CPlayerBar::OnWindowPosChanged(WINDOWPOS* lpwndpos)
 {
     if (lpwndpos->flags & SWP_SHOWWINDOW) {
-        bool bWasAutohidden = Autohidden();
-        Autohidden(false);
+        bool bWasAutohidden = IsAutohidden();
+        SetAutohidden(false);
         if (lpwndpos->flags & SWP_FRAMECHANGED && !bWasAutohidden && !IsFloating()) {
             // the panel was re-docked
             if (auto pFrame = AfxGetMainFrame()) {
@@ -136,11 +141,7 @@ void CPlayerBar::SaveState()
     pApp->WriteProfileInt(section, _T("DockState"), dockBarID);
 }
 
-void CPlayerBar::Autohidden(bool bValue)
-{
-    m_bAutohidden = bValue;
-}
-bool CPlayerBar::Autohidden() const
+bool CPlayerBar::IsAutohidden() const
 {
     return m_bAutohidden;
 }
