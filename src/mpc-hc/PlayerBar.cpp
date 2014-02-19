@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,6 +36,8 @@ CPlayerBar::~CPlayerBar()
 
 BEGIN_MESSAGE_MAP(CPlayerBar, CSizingControlBarG)
     ON_WM_WINDOWPOSCHANGED()
+    ON_WM_ENTERMENULOOP()
+    ON_WM_EXITMENULOOP()
 END_MESSAGE_MAP()
 
 void CPlayerBar::OnWindowPosChanged(WINDOWPOS* lpwndpos)
@@ -55,6 +57,18 @@ void CPlayerBar::OnWindowPosChanged(WINDOWPOS* lpwndpos)
         }
     }
     __super::OnWindowPosChanged(lpwndpos);
+}
+
+void CPlayerBar::OnEnterMenuLoop(BOOL bIsTrackPopupMenu)
+{
+    m_bHasActivePopup = true;
+    __super::OnEnterMenuLoop(bIsTrackPopupMenu);
+}
+
+void CPlayerBar::OnExitMenuLoop(BOOL bIsTrackPopupMenu)
+{
+    m_bHasActivePopup = false;
+    __super::OnExitMenuLoop(bIsTrackPopupMenu);
 }
 
 BOOL CPlayerBar::Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName)
@@ -131,10 +145,6 @@ bool CPlayerBar::Autohidden() const
     return m_bAutohidden;
 }
 
-void CPlayerBar::HasActivePopup(bool bValue)
-{
-    m_bAutohidden = bValue;
-}
 bool CPlayerBar::HasActivePopup() const
 {
     return m_bAutohidden;

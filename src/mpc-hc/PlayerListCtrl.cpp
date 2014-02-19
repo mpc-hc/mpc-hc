@@ -504,23 +504,6 @@ void CPlayerListCtrl::PreSubclassWindow()
     CListCtrl::PreSubclassWindow();
 }
 
-LRESULT CPlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
-{
-    if (message == WM_CONTEXTMENU) {
-        auto pBar = dynamic_cast<CPlayerBar*>(GetParent());
-        if (pBar) {
-            pBar->HasActivePopup(true);
-        }
-        LRESULT ret = __super::WindowProc(message, wParam, lParam);
-        if (pBar) {
-            pBar->HasActivePopup(false);
-        }
-        return ret;
-    } else {
-        return __super::WindowProc(message, wParam, lParam);
-    }
-}
-
 int CPlayerListCtrl::HitTestEx(const CPoint& point, int* col) const
 {
     if (col) {

@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,6 +39,8 @@ protected:
     CString m_strSettingName;
 
     afx_msg void OnWindowPosChanged(WINDOWPOS* lpwndpos);
+    afx_msg void OnEnterMenuLoop(BOOL bIsTrackPopupMenu);
+    afx_msg void OnExitMenuLoop(BOOL bIsTrackPopupMenu);
 
 public:
     CPlayerBar();
@@ -51,6 +53,5 @@ public:
 
     void Autohidden(bool bValue);
     bool Autohidden() const;
-    void HasActivePopup(bool bValue);
     bool HasActivePopup() const;
 };

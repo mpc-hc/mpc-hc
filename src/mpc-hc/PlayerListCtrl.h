@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -170,7 +170,6 @@ public:
 
 protected:
     virtual void PreSubclassWindow();
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
     virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 
     DECLARE_MESSAGE_MAP()
