@@ -504,6 +504,10 @@ void CVMROSD::ClearMessage(bool hide)
     } else if (m_pMVTO) {
         m_pMVTO->OsdClearMessage();
     }
+
+    if (m_pMainFrame->GetMediaState() == State_Paused) {
+        m_pMainFrame->RepaintVideo();
+    }
 }
 
 void CVMROSD::DisplayMessage(OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration, int iFontSize, CString fontName)
