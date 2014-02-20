@@ -807,9 +807,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
-    const WinapiFunc<BOOL(HWND, UINT, DWORD, PCHANGEFILTERSTRUCT)> fnChangeWindowMessageFilterEx = {
-        "user32.dll", "ChangeWindowMessageFilterEx"
-    };
+    const WinapiFunc<BOOL(HWND, UINT, DWORD, PCHANGEFILTERSTRUCT)>
+    fnChangeWindowMessageFilterEx = { "user32.dll", "ChangeWindowMessageFilterEx" };
 
     // allow taskbar messages through UIPI
     if (fnChangeWindowMessageFilterEx) {
@@ -15986,39 +15985,21 @@ void CMainFrame::OnSessionChange(UINT nSessionState, UINT nId)
 
 void CMainFrame::WTSRegisterSessionNotification()
 {
-    typedef BOOL (WINAPI * WTSREGISTERSESSIONNOTIFICATION)(HWND, DWORD);
-    HINSTANCE hWtsLib = LoadLibrary(_T("wtsapi32.dll"));
+    const WinapiFunc<BOOL(HWND, DWORD)>
+    fnWtsRegisterSessionNotification = { "wtsapi32.dll", "WTSRegisterSessionNotification" };
 
-    if (hWtsLib) {
-        WTSREGISTERSESSIONNOTIFICATION fnWtsRegisterSessionNotification;
-
-        fnWtsRegisterSessionNotification = (WTSREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSRegisterSessionNotification");
-
-        if (fnWtsRegisterSessionNotification) {
-            fnWtsRegisterSessionNotification(m_hWnd, NOTIFY_FOR_THIS_SESSION);
-        }
-
-        FreeLibrary(hWtsLib);
-        hWtsLib = nullptr;
+    if (fnWtsRegisterSessionNotification) {
+        fnWtsRegisterSessionNotification(m_hWnd, NOTIFY_FOR_THIS_SESSION);
     }
 }
 
 void CMainFrame::WTSUnRegisterSessionNotification()
 {
-    typedef BOOL (WINAPI * WTSUNREGISTERSESSIONNOTIFICATION)(HWND);
-    HINSTANCE hWtsLib = LoadLibrary(_T("wtsapi32.dll"));
+    const WinapiFunc<BOOL(HWND)>
+    fnWtsUnRegisterSessionNotification = { "wtsapi32.dll", "WTSUnRegisterSessionNotification" };
 
-    if (hWtsLib) {
-        WTSUNREGISTERSESSIONNOTIFICATION fnWtsUnRegisterSessionNotification;
-
-        fnWtsUnRegisterSessionNotification = (WTSUNREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSUnRegisterSessionNotification");
-
-        if (fnWtsUnRegisterSessionNotification) {
-            fnWtsUnRegisterSessionNotification(m_hWnd);
-        }
-
-        FreeLibrary(hWtsLib);
-        hWtsLib = nullptr;
+    if (fnWtsUnRegisterSessionNotification) {
+        fnWtsUnRegisterSessionNotification(m_hWnd);
     }
 }
 

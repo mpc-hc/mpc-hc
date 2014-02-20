@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,136 +20,108 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
 #include "AuthDlg.h"
-#include "SettingsDefines.h"
+#include "SysVersion.h"
+#include "version.h"
 
+// We need to dynamically link to the functions provided by CredUI.lib in order
+// to be able to use the features available to the OS.
+#include <WinCred.h>
+#include "WinApiFunc.h"
 
-// CAuthDlg dialog
-
-IMPLEMENT_DYNAMIC(CAuthDlg, CDialog)
-CAuthDlg::CAuthDlg(CWnd* pParent /*=nullptr*/)
-    : CDialog(CAuthDlg::IDD, pParent)
-    , m_username(_T(""))
-    , m_password(_T(""))
-    , m_remember(FALSE)
+HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CString& strMessageText, CString& strDomain, CString& strUsername, CString& strPassword, BOOL* bSave)
 {
-}
+    CREDUI_INFO info = { sizeof(info) };
+    info.hwndParent = hWnd;
+    info.pszCaptionText = strCaptionText.Left(CREDUI_MAX_CAPTION_LENGTH);
+    info.pszMessageText = strMessageText.Left(CREDUI_MAX_MESSAGE_LENGTH);
 
-CAuthDlg::~CAuthDlg()
-{
-}
+    DWORD dwUsername = CREDUI_MAX_USERNAME_LENGTH + 1;
+    DWORD dwPassword = CREDUI_MAX_PASSWORD_LENGTH + 1;
+    DWORD dwDomain = CREDUI_MAX_GENERIC_TARGET_LENGTH + 1;
 
-void CAuthDlg::DoDataExchange(CDataExchange* pDX)
-{
-    CDialog::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_COMBO1, m_usernamectrl);
-    DDX_Text(pDX, IDC_COMBO1, m_username);
-    DDX_Text(pDX, IDC_EDIT3, m_password);
-    DDX_Check(pDX, IDC_CHECK1, m_remember);
-}
+    if (SysVersion::IsVistaOrLater()) {
+        // Define CredUI.dll functions for Windows Vista+
+        const WinapiFunc<BOOL(DWORD, LPWSTR, LPWSTR, PBYTE, DWORD*)>
+        fnCredPackAuthenticationBufferW = { "CREDUI.DLL", "CredPackAuthenticationBufferW" };
 
-CString CAuthDlg::DEncrypt(CString str)
-{
-    for (int i = 0; i < str.GetLength(); i++) {
-        str.SetAt(i, str[i] ^ 5);
-    }
-    return str;
-}
+        const WinapiFunc<DWORD(PCREDUI_INFOW, DWORD, ULONG*, LPCVOID, ULONG, LPVOID*, ULONG*, BOOL*, DWORD)>
+        fnCredUIPromptForWindowsCredentialsW = { "CREDUI.DLL", "CredUIPromptForWindowsCredentialsW" };
 
+        const WinapiFunc<BOOL(DWORD, PVOID, DWORD, LPWSTR, DWORD*, LPWSTR, DWORD*, LPWSTR, DWORD*)>
+        fnCredUnPackAuthenticationBufferW = { "CREDUI.DLL", "CredUnPackAuthenticationBufferW" };
 
-BEGIN_MESSAGE_MAP(CAuthDlg, CDialog)
-    ON_BN_CLICKED(IDOK, OnBnClickedOk)
-    ON_CBN_SELCHANGE(IDC_COMBO1, OnCbnSelchangeCombo1)
-    ON_EN_SETFOCUS(IDC_EDIT3, OnEnSetfocusEdit3)
-END_MESSAGE_MAP()
+        if (fnCredPackAuthenticationBufferW && fnCredUIPromptForWindowsCredentialsW && fnCredUnPackAuthenticationBufferW) {
+            PVOID pvInAuthBlob = nullptr;
+            ULONG cbInAuthBlob = 0;
+            PVOID pvAuthBlob = nullptr;
+            ULONG cbAuthBlob = 0;
+            ULONG ulAuthPackage = 0;
 
-
-// CAuthDlg message handlers
-
-BOOL CAuthDlg::OnInitDialog()
-{
-    CDialog::OnInitDialog();
-
-    CWinApp* pApp = AfxGetApp();
-
-    if (pApp->m_pszRegistryKey) {
-        CRegKey hSecKey(pApp->GetSectionKey(IDS_R_LOGINS));
-        if (hSecKey) {
-            int i = 0;
-            TCHAR username[256], password[256];
-            for (;;) {
-                DWORD unlen = _countof(username);
-                DWORD pwlen = sizeof(password);
-                DWORD type = REG_SZ;
-                if (ERROR_SUCCESS == RegEnumValue(
-                            hSecKey, i++, username, &unlen, 0, &type, (BYTE*)password, &pwlen)) {
-                    m_logins[username] = DEncrypt(password);
-                    m_usernamectrl.AddString(username);
-                } else {
-                    break;
+            // Call CredPackAuthenticationBufferW once to determine the size, in bytes, of the authentication buffer.
+            if (strUsername.GetLength()) {
+                BOOL bResult = fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, NULL, &cbInAuthBlob);
+                if (!bResult && GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                    if ((pvInAuthBlob = CoTaskMemAlloc(cbInAuthBlob)) != nullptr) {
+                        bResult = fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, (PBYTE)pvInAuthBlob, &cbInAuthBlob);
+                    }
                 }
             }
-        }
-    } else {
-        CAutoVectorPtr<TCHAR> buff;
-        if (buff.Allocate(SHORT_MAX)) {
-            DWORD len = GetPrivateProfileSection(IDS_R_LOGINS, buff, SHORT_MAX, pApp->m_pszProfileName);
-
-            TCHAR* p = buff;
-            while (*p && len > 0) {
-                CString str = p;
-                p += str.GetLength() + 1;
-                len -= str.GetLength() + 1;
-                CAtlList<CString> sl;
-                Explode(str, sl, '=', 2);
-                if (sl.GetCount() == 2) {
-                    m_logins[sl.GetHead()] = DEncrypt(sl.GetTail());
-                    m_usernamectrl.AddString(sl.GetHead());
-                }
+            const DWORD dwFlags = CREDUIWIN_GENERIC | CREDUIWIN_ENUMERATE_CURRENT_USER | (bSave ? CREDUIWIN_CHECKBOX : 0);
+            DWORD dwResult = fnCredUIPromptForWindowsCredentialsW(&info, 0, &ulAuthPackage, pvInAuthBlob, cbInAuthBlob, &pvAuthBlob, &cbAuthBlob, bSave, dwFlags);
+            if (dwResult == ERROR_SUCCESS) {
+                BOOL bResult = fnCredUnPackAuthenticationBufferW(0, pvAuthBlob, cbAuthBlob, strUsername.GetBufferSetLength(dwUsername), &dwUsername, strDomain.GetBufferSetLength(dwDomain), &dwDomain, strPassword.GetBufferSetLength(dwPassword), &dwPassword);
+                strUsername.ReleaseBuffer();
+                strPassword.ReleaseBuffer();
+                strDomain.ReleaseBuffer();
             }
+
+            // Delete the input authentication byte array.
+            if (pvInAuthBlob) {
+                SecureZeroMemory(pvInAuthBlob, cbInAuthBlob);
+                CoTaskMemFree(pvInAuthBlob);
+                pvInAuthBlob = nullptr;
+            }
+            // Delete the output authentication byte array.
+            if (pvAuthBlob) {
+                SecureZeroMemory(pvAuthBlob, cbAuthBlob);
+                CoTaskMemFree(pvAuthBlob);
+                pvAuthBlob = nullptr;
+            }
+            return dwResult; // ERROR_SUCCESS / ERROR_CANCELLED
+        }
+    } else if (SysVersion::IsXPOrLater()) {
+        // Define CredUI.dll functions for Windows XP
+        const WinapiFunc<DWORD(PCREDUI_INFOW, PCWSTR, PCtxtHandle, DWORD, PCWSTR, ULONG, PCWSTR, ULONG, PBOOL, DWORD)>
+        fnCredUIPromptForCredentialsW = { "CREDUI.DLL", "CredUIPromptForCredentialsW" };
+
+        const WinapiFunc<DWORD(PCWSTR, PWSTR, ULONG, PWSTR, ULONG)>
+        fnCredUIParseUserNameW = { "CREDUI.DLL", "CredUIParseUserNameW" };
+
+        if (fnCredUIPromptForCredentialsW && fnCredUIParseUserNameW) {
+            const DWORD dwAuthError = 0;
+            const DWORD dwFlags = CREDUI_FLAGS_ALWAYS_SHOW_UI | CREDUI_FLAGS_GENERIC_CREDENTIALS/* | CREDUI_FLAGS_EXPECT_CONFIRMATION*/ | CREDUI_FLAGS_COMPLETE_USERNAME | CREDUI_FLAGS_DO_NOT_PERSIST | (bSave ? CREDUI_FLAGS_SHOW_SAVE_CHECK_BOX : 0);
+            CString strUserDomain(strUsername);
+            if (!strDomain.GetLength()) {
+                strDomain = _T("mpc-hc/") MPC_VERSION_STR;
+            }
+
+            DWORD dwResult = fnCredUIPromptForCredentialsW(&info, strDomain.Left(dwDomain), NULL, dwAuthError,
+                             strUserDomain.GetBufferSetLength(dwUsername), dwUsername, strPassword.GetBufferSetLength(dwPassword), dwPassword, bSave, dwFlags);
+            strUserDomain.ReleaseBuffer();
+            strPassword.ReleaseBuffer();
+
+            fnCredUIParseUserNameW(strUserDomain, strUsername.GetBufferSetLength(dwUsername), dwUsername, strDomain.GetBufferSetLength(dwDomain), dwDomain);
+            strUsername.ReleaseBuffer();
+            strDomain.ReleaseBuffer();
+            //dwResult = CredUIConfirmCredentials(szDomain.Left(cchDomain), TRUE);
+
+            if (strDomain == _T("mpc-hc/") MPC_VERSION_STR) {
+                strDomain.Empty();
+            }
+
+            return dwResult; // ERROR_SUCCESS / ERROR_CANCELLED
         }
     }
-
-    m_usernamectrl.SetFocus();
-
-    return TRUE;  // return TRUE unless you set the focus to a control
-    // EXCEPTION: OCX Property Pages should return FALSE
-}
-
-void CAuthDlg::OnBnClickedOk()
-{
-    UpdateData();
-
-    if (!m_username.IsEmpty()) {
-        CWinApp* pApp = AfxGetApp();
-        pApp->WriteProfileString(IDS_R_LOGINS, m_username, m_remember ? DEncrypt(m_password) : _T(""));
-    }
-
-    OnOK();
-}
-
-void CAuthDlg::OnCbnSelchangeCombo1()
-{
-    CString username;
-    m_usernamectrl.GetLBText(m_usernamectrl.GetCurSel(), username);
-
-    CString password;
-    if (m_logins.Lookup(username, password)) {
-        m_password = password;
-        m_remember = TRUE;
-        UpdateData(FALSE);
-    }
-}
-
-void CAuthDlg::OnEnSetfocusEdit3()
-{
-    UpdateData();
-
-    CString password;
-    if (m_logins.Lookup(m_username, password)) {
-        m_password = password;
-        m_remember = TRUE;
-        UpdateData(FALSE);
-    }
+    return ERROR_CALL_NOT_IMPLEMENTED;
 }
