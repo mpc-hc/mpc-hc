@@ -255,6 +255,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
     WORD wTSID;
     WORD wONID;
     WORD wSectionLength;
+    WORD serviceType;
 
     CheckNoLog(m_pData->GetSection(PID_SDT, SI_SDT, &m_Filter, 15000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
@@ -283,7 +284,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
         BeginEnumDescriptors(gb, nType, nLength) {
             switch (nType) {
                 case DT_SERVICE:
-                    gb.BitRead(8);                              // service_type
+                    serviceType = (WORD)gb.BitRead(8);          // service_type
                     nLength = (WORD)gb.BitRead(8);              // service_provider_name_length
                     gb.ReadBuffer(DescBuffer, nLength);         // service_provider_name
 
@@ -302,7 +303,19 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 
 
         if (!Channels.Lookup(Channel.GetSID())) {
-            Channels [Channel.GetSID()] = Channel;
+            switch (serviceType) {
+                case DIGITAL_TV:
+                case DIGITAL_RADIO:
+                case AVC_DIGITAL_RADIO:
+                case MPEG2_HD_DIGITAL_TV:
+                case AVC_SD_TV:
+                case AVC_HD_TV:
+                    Channels[Channel.GetSID()] = Channel;
+                    break;
+                default:
+                    TRACE(_T("DVB: Skipping not supported service: %-20s %lu\n"), Channel.GetName(), Channel.GetSID());
+                    break;
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -158,6 +158,15 @@ enum MPEG_TYPES {
     mpeg_ts,
     mpeg_es,
     mpeg_pva
+};
+
+enum SERVICE_TYPE {
+    DIGITAL_TV          = 0x01,
+    DIGITAL_RADIO       = 0x02,
+    AVC_DIGITAL_RADIO   = 0x0A,
+    MPEG2_HD_DIGITAL_TV = 0x11,
+    AVC_SD_TV           = 0x16,
+    AVC_HD_TV           = 0x19
 };
 
 extern const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type);
