@@ -2590,6 +2590,12 @@ BEGIN
     IDS_PPAGEADVANCED_COL_VALUE "Value"
     IDS_PPAGEADVANCED_RECENT_FILES_NUMBER 
                             "Maximum number of files shown in the ""Recent files"" menu and for which the position is potentially saved."
+    IDS_NAVIGATION_WATCH    "Watch"
+    IDS_NAVIGATION_MOVE_UP  "Move Up"
+    IDS_NAVIGATION_MOVE_DOWN "Move Down"
+    IDS_NAVIGATION_SORT     "Sort by LCN"
+    IDS_NAVIGATION_REMOVE_ALL "Remove all"
+    IDS_REMOVE_CHANNELS_QUESTION "Are you sure you want to remove all channels from the list?"
 END
 
 STRINGTABLE

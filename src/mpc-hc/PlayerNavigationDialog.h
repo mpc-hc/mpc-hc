@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2013 see Authors.txt
+ * (C) 2010-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,28 +20,22 @@
 
 #pragma once
 
-#include <afxwin.h>
-#include <afxcmn.h>
-#include "../filters/transform/BufferFilter/BufferFilter.h"
-#include "FloatEdit.h"
-#include "DVBChannel.h"
+#include <atlcoll.h>
 #include "resource.h"
 #include "ResizableLib/ResizableDialog.h"
-
-#define MAX_CHANNELS_ALLOWED 200
 
 class CMainFrame;
 
 class CPlayerNavigationDialog : public CResizableDialog
 {
 public:
+    CPlayerNavigationDialog() = delete;
     CPlayerNavigationDialog(CMainFrame* pMainFrame);
-    virtual ~CPlayerNavigationDialog();
+    virtual ~CPlayerNavigationDialog() = default;
 
     BOOL Create(CWnd* pParent = nullptr);
     void UpdateElementList();
     void UpdatePos(int nID);
-    int p_nItems[MAX_CHANNELS_ALLOWED];
     bool m_bTVStations;
 
     // Dialog Data
@@ -66,4 +60,5 @@ protected:
     afx_msg void OnTunerScan();
     afx_msg void OnButtonInfo();
     afx_msg void OnTvRadioStations();
+    afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 };

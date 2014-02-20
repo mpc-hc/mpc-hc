@@ -12907,9 +12907,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
         const CAppSettings& s = AfxGetAppSettings();
 
         menuStartRadioSection();
-        POSITION pos = s.m_DVBChannels.GetHeadPosition();
-        while (pos) {
-            const CDVBChannel& channel = s.m_DVBChannels.GetNext(pos);
+        for (const auto& channel : s.m_DVBChannels) {
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
 
             if ((UINT)channel.GetPrefNumber() == s.nDVBLastChannel) {

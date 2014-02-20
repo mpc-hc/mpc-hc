@@ -23,105 +23,80 @@
 #include "DVBChannel.h"
 
 
-CDVBChannel::CDVBChannel()
-    : m_ulFrequency(0)
-    , m_nPrefNumber(0)
-    , m_nOriginNumber(0)
-    , m_bEncrypted(false)
-    , m_bNowNextFlag(false)
-    , m_ulONID(0)
-    , m_ulTSID(0)
-    , m_ulSID(0)
-    , m_ulPMT(0)
-    , m_ulPCR(0)
-    , m_ulVideoPID(0)
-    , m_nVideoType(DVB_MPV)
-    , m_nVideoFps(DVB_FPS_25_0)
-    , m_nVideoChroma(DVB_Chroma_4_2_0)
-    , m_nVideoWidth(0)
-    , m_nVideoHeight(0)
-    , m_nVideoAR(DVB_AR_NULL)
-    , m_nAudioCount(0)
-    , m_nDefaultAudio(0)
-    , m_nSubtitleCount(0)
-    , m_nDefaultSubtitle(-1)
+CDVBChannel::CDVBChannel(CString strChannel)
 {
+    FromString(strChannel);
 }
 
-CDVBChannel::~CDVBChannel()
+void CDVBChannel::FromString(CString strValue)
 {
-}
+    int i = 0;
 
-bool CDVBChannel::FromString(CString strValue)
-{
-    try {
-        int i = 0;
-
-        int nVersion    = _tstol(strValue.Tokenize(_T("|"), i));
-        // We don't try to parse versions newer than the one we support
-        if (nVersion > FORMAT_VERSION_CURRENT) {
-            return false;
-        }
-
-        m_strName       = strValue.Tokenize(_T("|"), i);
-        m_ulFrequency   = _tstol(strValue.Tokenize(_T("|"), i));
-        m_nPrefNumber   = _tstol(strValue.Tokenize(_T("|"), i));
-        m_nOriginNumber = _tstol(strValue.Tokenize(_T("|"), i));
-        if (nVersion > FORMAT_VERSION_0) {
-            m_bEncrypted = !!_tstol(strValue.Tokenize(_T("|"), i));
-        }
-        if (nVersion > FORMAT_VERSION_1) {
-            m_bNowNextFlag = !!_tstol(strValue.Tokenize(_T("|"), i));
-        }
-        m_ulONID      = _tstol(strValue.Tokenize(_T("|"), i));
-        m_ulTSID      = _tstol(strValue.Tokenize(_T("|"), i));
-        m_ulSID       = _tstol(strValue.Tokenize(_T("|"), i));
-        m_ulPMT       = _tstol(strValue.Tokenize(_T("|"), i));
-        m_ulPCR       = _tstol(strValue.Tokenize(_T("|"), i));
-        m_ulVideoPID  = _tstol(strValue.Tokenize(_T("|"), i));
-        m_nVideoType  = (DVB_STREAM_TYPE) _tstol(strValue.Tokenize(_T("|"), i));
-        m_nAudioCount = _tstol(strValue.Tokenize(_T("|"), i));
-        if (nVersion > FORMAT_VERSION_1) {
-            m_nDefaultAudio = _tstol(strValue.Tokenize(_T("|"), i));
-        }
-        m_nSubtitleCount = _tstol(strValue.Tokenize(_T("|"), i));
-        if (nVersion > FORMAT_VERSION_2) {
-            m_nDefaultSubtitle = _tstol(strValue.Tokenize(_T("|"), i));
-        }
-
-        for (int j = 0; j < m_nAudioCount; j++) {
-            m_Audios[j].PID      = _tstol(strValue.Tokenize(_T("|"), i));
-            m_Audios[j].Type     = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-            m_Audios[j].PesType  = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-            m_Audios[j].Language = strValue.Tokenize(_T("|"), i);
-        }
-
-        for (int j = 0; j < m_nSubtitleCount; j++) {
-            m_Subtitles[j].PID      = _tstol(strValue.Tokenize(_T("|"), i));
-            m_Subtitles[j].Type     = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-            m_Subtitles[j].PesType  = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-            m_Subtitles[j].Language = strValue.Tokenize(_T("|"), i);
-        }
-
-        if (nVersion > FORMAT_VERSION_3) {
-            m_nVideoFps    = (DVB_FPS_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-            m_nVideoChroma = (DVB_CHROMA_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-            m_nVideoWidth  = _tstol(strValue.Tokenize(_T("|"), i));
-            m_nVideoHeight = _tstol(strValue.Tokenize(_T("|"), i));
-            m_nVideoAR     = (DVB_AspectRatio_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-        }
-    } catch (CException* e) {
-        // The tokenisation can fail if the input string was invalid
-        TRACE(_T("Failed to parse a DVB channel from string \"%s\""), strValue);
-        e->Delete();
-        return false;
+    int nVersion    = _tstol(strValue.Tokenize(_T("|"), i));
+    // We don't try to parse versions newer than the one we support
+    if (nVersion > FORMAT_VERSION_CURRENT) {
+        AfxThrowInvalidArgException();
     }
 
-    return true;
+    m_strName       = strValue.Tokenize(_T("|"), i);
+    m_ulFrequency   = _tstol(strValue.Tokenize(_T("|"), i));
+    m_nPrefNumber   = _tstol(strValue.Tokenize(_T("|"), i));
+    m_nOriginNumber = _tstol(strValue.Tokenize(_T("|"), i));
+    if (nVersion > FORMAT_VERSION_0) {
+        m_bEncrypted = !!_tstol(strValue.Tokenize(_T("|"), i));
+    }
+    if (nVersion > FORMAT_VERSION_1) {
+        m_bNowNextFlag = !!_tstol(strValue.Tokenize(_T("|"), i));
+    }
+    m_ulONID      = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulTSID      = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulSID       = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulPMT       = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulPCR       = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulVideoPID  = _tstol(strValue.Tokenize(_T("|"), i));
+    m_nVideoType  = (DVB_STREAM_TYPE) _tstol(strValue.Tokenize(_T("|"), i));
+    m_nAudioCount = _tstol(strValue.Tokenize(_T("|"), i));
+    if (nVersion > FORMAT_VERSION_1) {
+        m_nDefaultAudio = _tstol(strValue.Tokenize(_T("|"), i));
+    }
+    m_nSubtitleCount = _tstol(strValue.Tokenize(_T("|"), i));
+    if (nVersion > FORMAT_VERSION_2) {
+        m_nDefaultSubtitle = _tstol(strValue.Tokenize(_T("|"), i));
+    }
+
+    for (int j = 0; j < m_nAudioCount; j++) {
+        m_Audios[j].ulPID     = _tstol(strValue.Tokenize(_T("|"), i));
+        m_Audios[j].nType     = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_Audios[j].nPesType  = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_Audios[j].sLanguage = strValue.Tokenize(_T("|"), i);
+    }
+
+    for (int j = 0; j < m_nSubtitleCount; j++) {
+        m_Subtitles[j].ulPID     = _tstol(strValue.Tokenize(_T("|"), i));
+        m_Subtitles[j].nType     = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_Subtitles[j].nPesType  = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_Subtitles[j].sLanguage = strValue.Tokenize(_T("|"), i);
+    }
+
+    if (nVersion > FORMAT_VERSION_3) {
+        m_nVideoFps    = (DVB_FPS_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_nVideoChroma = (DVB_CHROMA_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_nVideoWidth  = _tstol(strValue.Tokenize(_T("|"), i));
+        m_nVideoHeight = _tstol(strValue.Tokenize(_T("|"), i));
+        m_nVideoAR     = (DVB_AspectRatio_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+    }
 }
 
-CString CDVBChannel::ToString()
+CString CDVBChannel::ToString() const
 {
+    auto substituteEmpty = [](const CString & lang) -> CString {
+        if (lang.IsEmpty())
+        {
+            return _T(" ");
+        }
+        return lang;
+    };
+
     CString strValue;
     strValue.AppendFormat(_T("%d|%s|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
                           FORMAT_VERSION_CURRENT,
@@ -144,17 +119,11 @@ CString CDVBChannel::ToString()
                           m_nDefaultSubtitle);
 
     for (int i = 0; i < m_nAudioCount; i++) {
-        if (m_Audios[i].Language.IsEmpty()) {
-            m_Audios[i].Language = " ";
-        }
-        strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Audios[i].PID, m_Audios[i].Type, m_Audios[i].PesType, m_Audios[i].Language);
+        strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Audios[i].ulPID, m_Audios[i].nType, m_Audios[i].nPesType, substituteEmpty(m_Audios[i].sLanguage));
     }
 
     for (int i = 0; i < m_nSubtitleCount; i++) {
-        if (m_Subtitles[i].Language.IsEmpty()) {
-            m_Subtitles[i].Language = " ";
-        }
-        strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Subtitles[i].PID, m_Subtitles[i].Type, m_Subtitles[i].PesType, m_Subtitles[i].Language);
+        strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Subtitles[i].ulPID, m_Subtitles[i].nType, m_Subtitles[i].nPesType, substituteEmpty(m_Subtitles[i].sLanguage));
     }
 
     strValue.AppendFormat(_T("|%d|%d|%lu|%lu|%d"),
@@ -163,6 +132,7 @@ CString CDVBChannel::ToString()
                           m_nVideoWidth,
                           m_nVideoHeight,
                           m_nVideoAR);
+
     return strValue;
 }
 
@@ -188,19 +158,19 @@ void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_T
         case DVB_EAC3:
         case DVB_LATM:
             if (m_nAudioCount < DVB_MAX_AUDIO) {
-                m_Audios[m_nAudioCount].PID = ulPID;
-                m_Audios[m_nAudioCount].Type = nType;
-                m_Audios[m_nAudioCount].PesType = nPesType;
-                m_Audios[m_nAudioCount].Language = strLanguage;
+                m_Audios[m_nAudioCount].ulPID     = ulPID;
+                m_Audios[m_nAudioCount].nType     = nType;
+                m_Audios[m_nAudioCount].nPesType  = nPesType;
+                m_Audios[m_nAudioCount].sLanguage = strLanguage;
                 m_nAudioCount++;
             }
             break;
         case DVB_SUBTITLE:
             if (m_nSubtitleCount < DVB_MAX_SUBTITLE) {
-                m_Subtitles[m_nSubtitleCount].PID = ulPID;
-                m_Subtitles[m_nSubtitleCount].Type = nType;
-                m_Subtitles[m_nSubtitleCount].PesType = nPesType;
-                m_Subtitles[m_nSubtitleCount].Language = strLanguage;
+                m_Subtitles[m_nSubtitleCount].ulPID     = ulPID;
+                m_Subtitles[m_nSubtitleCount].nType     = nType;
+                m_Subtitles[m_nSubtitleCount].nPesType  = nPesType;
+                m_Subtitles[m_nSubtitleCount].sLanguage = strLanguage;
                 m_nSubtitleCount++;
             }
             break;
