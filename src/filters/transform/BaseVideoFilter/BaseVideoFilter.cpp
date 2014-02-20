@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -65,6 +65,7 @@ CBaseVideoFilter::CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, 
     m_hout = m_hin = m_h = 0;
     m_arxout = m_arxin = m_arx = 0;
     m_aryout = m_aryin = m_ary = 0;
+    m_cfout = m_cfin = m_cf = 0;
 
     f_need_set_aspect = false;
 }
@@ -159,9 +160,36 @@ HRESULT CBaseVideoFilter::GetDeliveryBuffer(int w, int h, IMediaSample** ppOut)
     return S_OK;
 }
 
+// Checks if the filter connected to the output pin possibly works with
+// extended format control flags. Returns true if it is the case,
+// false otherwise.
+bool CBaseVideoFilter::ConnectionWhitelistedForExtendedFormat()
+{
+    CLSID clsid = GetCLSID(m_pOutput->GetConnected());
+    bool ret = false;
+
+    // The white list
+    static const CLSID whitelist[] = {
+        CLSID_VideoMixingRenderer,
+        CLSID_VideoMixingRenderer9,
+        CLSID_EnhancedVideoRenderer,
+        CLSID_madVR
+    };
+
+    // Check if the CLSID matches to anything on the white list
+    for (int i = 0; i < _countof(whitelist); ++i) {
+        if (clsid == whitelist[i]) {
+            ret = true;
+        }
+    }
+
+    return ret;
+}
+
 HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int realWidth, int realHeight)
 {
     CMediaType& mt = m_pOutput->CurrentMediaType();
+    bool extformat = ConnectionWhitelistedForExtendedFormat();
 
     bool m_update_aspect = false;
     if (f_need_set_aspect) {
@@ -185,7 +213,7 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 
     HRESULT hr = S_OK;
 
-    if (m_update_aspect || fForceReconnection || m_w != m_wout || m_h != m_hout || m_arx != m_arxout || m_ary != m_aryout) {
+    if (m_update_aspect || fForceReconnection || m_w != m_wout || m_h != m_hout || m_arx != m_arxout || m_ary != m_aryout || (extformat && m_cf != m_cfout)) {
         if (GetCLSID(m_pOutput->GetConnected()) == CLSID_VideoRenderer) {
             NotifyEvent(EC_ERRORABORT, 0, 0);
             return E_FAIL;
@@ -217,6 +245,9 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
             bmi = &vih->bmiHeader;
             vih->dwPictAspectRatioX = m_arx;
             vih->dwPictAspectRatioY = m_ary;
+            if (extformat) {
+                vih->dwControlFlags = m_cf;
+            }
         } else {
             return E_FAIL;  //should never be here? prevent null pointer refs for bmi
         }
@@ -252,6 +283,7 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
         m_hout = m_h;
         m_arxout = m_arx;
         m_aryout = m_ary;
+        m_cfout = m_cf;
 
         // some renderers don't send this
         NotifyEvent(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(m_w, m_h), 0);
@@ -612,6 +644,15 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
         int RealHeight = -1;
         int vsfilter = 0;
         GetOutputSize(m_w, m_h, m_arx, m_ary, RealWidth, RealHeight, vsfilter);
+
+        m_cf = 0;
+        if (pmt->formattype == FORMAT_VideoInfo2) {
+            VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->Format();
+            if (vih->dwControlFlags & (AMCONTROL_USED | AMCONTROL_COLORINFO_PRESENT)) {
+                m_cf = vih->dwControlFlags & (0xFFFFFF00 | AMCONTROL_USED | AMCONTROL_COLORINFO_PRESENT);
+            }
+        }
+        m_cfin = m_cf;
 
         int gcd = GCD(m_arx, m_ary);
         if (gcd > 1) {

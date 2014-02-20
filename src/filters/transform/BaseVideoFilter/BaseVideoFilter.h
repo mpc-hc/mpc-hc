@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,15 +34,15 @@ private:
     HRESULT Receive(IMediaSample* pIn);
 
     // these are private for a reason, don't bother them
-    int m_win, m_hin, m_arxin, m_aryin;
-    int m_wout, m_hout, m_arxout, m_aryout;
+    int m_win, m_hin, m_arxin, m_aryin, m_cfin;
+    int m_wout, m_hout, m_arxout, m_aryout, m_cfout;
 
     long m_cBuffers;
 
 protected:
     CCritSec m_csReceive;
 
-    int m_w, m_h, m_arx, m_ary;
+    int m_w, m_h, m_arx, m_ary, m_cf;
 
     HRESULT GetDeliveryBuffer(int w, int h, IMediaSample** ppOut);
     HRESULT CopyBuffer(BYTE* pOut, BYTE* pIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
@@ -52,6 +52,7 @@ protected:
     virtual HRESULT Transform(IMediaSample* pIn) = 0;
     virtual bool IsVideoInterlaced() { return false; }
     virtual void GetOutputFormats(int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
+    bool ConnectionWhitelistedForExtendedFormat();
 
 public:
     CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers = 1);
