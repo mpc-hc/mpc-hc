@@ -11,6 +11,7 @@ Legend:
 next version - not released yet
 ===============================
 + DVB: Show current event time in the status bar
++ DVB: Add context menu to the navigation dialog
 
 
 1.7.7 - 05 October 2014

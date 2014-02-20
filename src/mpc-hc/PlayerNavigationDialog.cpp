@@ -19,28 +19,18 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
-#include "MainFrm.h"
 #include "PlayerNavigationDialog.h"
 #include "DSUtil.h"
-#include "moreuuids.h"
-
+#include "mplayerc.h"
+#include "MainFrm.h"
 
 // CPlayerNavigationDialog dialog
 
-#pragma warning(push)
-#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 // IMPLEMENT_DYNAMIC(CPlayerNavigationDialog, CResizableDialog)
 CPlayerNavigationDialog::CPlayerNavigationDialog(CMainFrame* pMainFrame)
     : CResizableDialog(CPlayerNavigationDialog::IDD, nullptr)
     , m_pMainFrame(pMainFrame)
     , m_bTVStations(true)
-    , p_nItems()
-{
-}
-#pragma warning(pop)
-
-CPlayerNavigationDialog::~CPlayerNavigationDialog()
 {
 }
 
@@ -82,6 +72,7 @@ BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
 
 BEGIN_MESSAGE_MAP(CPlayerNavigationDialog, CResizableDialog)
     ON_WM_DESTROY()
+    ON_WM_CONTEXTMENU()
     ON_LBN_SELCHANGE(IDC_LISTCHANNELS, OnChangeChannel)
     ON_BN_CLICKED(IDC_NAVIGATION_INFO, OnButtonInfo)
     ON_BN_CLICKED(IDC_NAVIGATION_SCAN, OnTunerScan)
@@ -113,30 +104,27 @@ void CPlayerNavigationDialog::OnDestroy()
 
 void CPlayerNavigationDialog::OnChangeChannel()
 {
-    int nItem = p_nItems[m_ChannelList.GetCurSel()] + ID_NAVIGATE_JUMPTO_SUBITEM_START;
-    m_pMainFrame->OnNavigateJumpTo(nItem);
+    int nItem = m_ChannelList.GetCurSel();
+    if (nItem != LB_ERR) {
+        UINT nChannelID = (UINT)m_ChannelList.GetItemData(nItem) + ID_NAVIGATE_JUMPTO_SUBITEM_START;
+        m_pMainFrame->OnNavigateJumpTo(nChannelID);
+    }
 }
 
 void CPlayerNavigationDialog::UpdateElementList()
 {
-    const CAppSettings& s = AfxGetAppSettings();
-
     if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        const auto& s = AfxGetAppSettings();
         m_ChannelList.ResetContent();
 
-        int nCurrentChannel = s.nDVBLastChannel;
-        POSITION pos = s.m_DVBChannels.GetHeadPosition();
-
-        while (pos) {
-            const CDVBChannel& channel = s.m_DVBChannels.GetNext(pos);
-            if (((m_bTVStations && channel.GetVideoPID() != 0) ||
-                    (!m_bTVStations && channel.GetVideoPID() == 0)) && channel.GetAudioCount() > 0) {
+        for (const auto& channel : s.m_DVBChannels) {
+            if (channel.GetAudioCount() && (m_bTVStations && channel.GetVideoPID() || !m_bTVStations && !channel.GetVideoPID())) {
                 int nItem = m_ChannelList.AddString(channel.GetName());
-                if (nItem < MAX_CHANNELS_ALLOWED) {
-                    p_nItems [nItem] = channel.GetPrefNumber();
-                }
-                if (nCurrentChannel == channel.GetPrefNumber()) {
-                    m_ChannelList.SetCurSel(nItem);
+                if (nItem != LB_ERR) {
+                    m_ChannelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());
+                    if (s.nDVBLastChannel == channel.GetPrefNumber()) {
+                        m_ChannelList.SetCurSel(nItem);
+                    }
                 }
             }
         }
@@ -145,8 +133,8 @@ void CPlayerNavigationDialog::UpdateElementList()
 
 void CPlayerNavigationDialog::UpdatePos(int nID)
 {
-    for (int i = 0; i < MAX_CHANNELS_ALLOWED; i++) {
-        if (p_nItems [i] == nID) {
+    for (int i = 0, count = m_ChannelList.GetCount(); i < count; i++) {
+        if ((int)m_ChannelList.GetItemData(i) == nID) {
             m_ChannelList.SetCurSel(i);
             break;
         }
@@ -175,3 +163,117 @@ void CPlayerNavigationDialog::OnTvRadioStations()
         m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
     }
 }
+
+void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+    auto& s = AfxGetAppSettings();
+    CPoint clientPoint = point;
+    m_ChannelList.ScreenToClient(&clientPoint);
+    BOOL bOutside;
+    const UINT nItem = m_ChannelList.ItemFromPoint(clientPoint, bOutside);
+    const int curSel = m_ChannelList.GetCurSel();
+    const int channelCount = m_ChannelList.GetCount();
+    CMenu m;
+    m.CreatePopupMenu();
+
+    enum {
+        M_WATCH = 1,
+        M_MOVE_UP,
+        M_MOVE_DOWN,
+        M_SORT,
+        M_REMOVE,
+        M_REMOVE_ALL
+    };
+
+    auto findChannelByItemNumber = [this](std::vector<CDVBChannel>& c, int nItem) {
+        int nPrefNumber = m_ChannelList.GetItemData(nItem);
+        return find_if(c.begin(), c.end(), [&](CDVBChannel const & channel) {
+            return channel.GetPrefNumber() == nPrefNumber;
+        });
+        ASSERT(FALSE);
+        return c.end();
+    };
+
+    if (!bOutside) {
+        m_ChannelList.SetCurSel(nItem);
+
+        m.AppendMenu(MF_STRING | (curSel != nItem ? MF_ENABLED : (MF_DISABLED | MF_GRAYED)), M_WATCH, ResStr(IDS_NAVIGATION_WATCH));
+        m.AppendMenu(MF_SEPARATOR);
+        m.AppendMenu(MF_STRING | (nItem == 0 ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_MOVE_UP, ResStr(IDS_NAVIGATION_MOVE_UP));
+        m.AppendMenu(MF_STRING | (nItem == channelCount - 1 ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_MOVE_DOWN, ResStr(IDS_NAVIGATION_MOVE_DOWN));
+    }
+    m.AppendMenu(MF_STRING | (channelCount > 1 ? MF_ENABLED : (MF_DISABLED | MF_GRAYED)), M_SORT, ResStr(IDS_NAVIGATION_SORT));
+    m.AppendMenu(MF_SEPARATOR);
+    if (!bOutside) {
+        m.AppendMenu(MF_STRING | MF_ENABLED, M_REMOVE, ResStr(IDS_PLAYLIST_REMOVE));
+    }
+    m.AppendMenu(MF_STRING | (channelCount > 0 ? MF_ENABLED : (MF_DISABLED | MF_GRAYED)), M_REMOVE_ALL, ResStr(IDS_NAVIGATION_REMOVE_ALL));
+
+    int nID = (int)m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this);
+
+    try {
+        switch (nID) {
+            case M_WATCH:
+                OnChangeChannel();
+                break;
+            case M_MOVE_UP:
+                iter_swap(findChannelByItemNumber(s.m_DVBChannels, nItem), findChannelByItemNumber(s.m_DVBChannels, nItem - 1));
+                UpdateElementList();
+                break;
+            case M_MOVE_DOWN:
+                iter_swap(findChannelByItemNumber(s.m_DVBChannels, nItem), findChannelByItemNumber(s.m_DVBChannels, nItem + 1));
+                UpdateElementList();
+                break;
+            case M_SORT:
+                sort(s.m_DVBChannels.begin(), s.m_DVBChannels.end());
+                UpdateElementList();
+                break;
+            case M_REMOVE: {
+                const auto it = findChannelByItemNumber(s.m_DVBChannels, nItem);
+                const int nRemovedPrefNumber = it->GetPrefNumber();
+                s.m_DVBChannels.erase(it);
+                // Update channels pref number
+                for (CDVBChannel& channel : s.m_DVBChannels) {
+                    const int nPrefNumber = channel.GetPrefNumber();
+                    ASSERT(nPrefNumber != nRemovedPrefNumber);
+                    if (nPrefNumber > nRemovedPrefNumber) {
+                        channel.SetPrefNumber(nPrefNumber - 1);
+                    }
+                }
+                UpdateElementList();
+
+                UINT newCurSel = (UINT)curSel;
+                if ((newCurSel >= nItem) && (channelCount - 1 == nItem || newCurSel > nItem)) {
+                    --newCurSel;
+                }
+
+                const auto NewChanIt = findChannelByItemNumber(s.m_DVBChannels, newCurSel);
+                if (NewChanIt != s.m_DVBChannels.end()) {
+                    // Update pref number of the current channel
+                    s.nDVBLastChannel = NewChanIt->GetPrefNumber();
+                    m_ChannelList.SetCurSel(newCurSel);
+                    if (curSel == nItem) {
+                        // Set closest channel on list after removing current channel
+                        m_pMainFrame->SetChannel(s.nDVBLastChannel);
+                    }
+                }
+            }
+            break;
+            case M_REMOVE_ALL:
+                if (IDYES == AfxMessageBox(IDS_REMOVE_CHANNELS_QUESTION, MB_ICONQUESTION | MB_YESNO, 0)) {
+                    s.m_DVBChannels.clear();
+                    UpdateElementList();
+                }
+                break;
+            default:
+                m_ChannelList.SetCurSel(curSel);
+                break;
+        }
+    } catch (std::exception& e) {
+        UNREFERENCED_PARAMETER(e);
+        TRACE(_T("Navigation Dialog requested operation failed: \"%s\""), e.what());
+        UpdateElementList();
+        ASSERT(FALSE);
+    }
+}
+

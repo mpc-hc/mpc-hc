@@ -727,21 +727,21 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
         if (lIndex >= 0 && lIndex < pChannel->GetAudioCount()) {
             DVBStreamInfo* pStreamInfo = pChannel->GetAudio(lIndex);
             if (pStreamInfo) {
-                CDVBStream* pStream = &m_DVBStreams[pStreamInfo->Type];
+                CDVBStream* pStream = &m_DVBStreams[pStreamInfo->nType];
                 if (pStream) {
                     if (pStream->GetMappedPID()) {
                         pStream->Unmap(pStream->GetMappedPID());
                     }
                     FILTER_STATE nState = GetState();
-                    if (m_nCurAudioType != pStreamInfo->Type) {
+                    if (m_nCurAudioType != pStreamInfo->nType) {
                         if ((s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) && (GetState() != State_Stopped)) {
                             ChangeState(State_Stopped);
                         }
-                        SwitchStream(m_nCurAudioType, pStreamInfo->Type);
-                        m_nCurAudioType = pStreamInfo->Type;
+                        SwitchStream(m_nCurAudioType, pStreamInfo->nType);
+                        m_nCurAudioType = pStreamInfo->nType;
                         CheckNoLog(Flush(m_nCurVideoType, m_nCurAudioType));
                     }
-                    pStream->Map(pStreamInfo->PID);
+                    pStream->Map(pStreamInfo->ulPID);
                     ChangeState((FILTER_STATE)nState);
 
                     hr = S_OK;
@@ -755,7 +755,7 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
             DVBStreamInfo* pStreamInfo = pChannel->GetSubtitle(lIndex - pChannel->GetAudioCount());
 
             if (pStreamInfo) {
-                m_DVBStreams[DVB_SUB].Map(pStreamInfo->PID);
+                m_DVBStreams[DVB_SUB].Map(pStreamInfo->ulPID);
                 hr = S_OK;
             }
         } else if (lIndex > 0 && m_DVBStreams[DVB_SUB].GetMappedPID() && lIndex == pChannel->GetAudioCount() + pChannel->GetSubtitleCount()) {
@@ -783,7 +783,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
             pCurrentStream = &m_DVBStreams[m_nCurAudioType];
             pStreamInfo = pChannel->GetAudio(lIndex);
             if (pStreamInfo) {
-                pStream = &m_DVBStreams[pStreamInfo->Type];
+                pStream = &m_DVBStreams[pStreamInfo->nType];
             }
             if (pdwGroup) {
                 *pdwGroup = 1;    // Audio group
@@ -792,7 +792,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
             pCurrentStream = &m_DVBStreams[DVB_SUB];
             pStreamInfo = pChannel->GetSubtitle(lIndex - pChannel->GetAudioCount());
             if (pStreamInfo) {
-                pStream = &m_DVBStreams[pStreamInfo->Type];
+                pStream = &m_DVBStreams[pStreamInfo->nType];
             }
             if (pdwGroup) {
                 *pdwGroup = 2;    // Subtitle group
@@ -830,7 +830,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
                 *ppmt = CreateMediaType(pStream->GetMediaType());
             }
             if (pdwFlags) {
-                *pdwFlags = (pCurrentStream->GetMappedPID() == pStreamInfo->PID) ? AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE : 0;
+                *pdwFlags = (pCurrentStream->GetMappedPID() == pStreamInfo->ulPID) ? AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE : 0;
             }
             if (plcid) {
                 *plcid = pStreamInfo->GetLCID();
@@ -844,11 +844,11 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
             if (ppszName) {
                 CStringW str;
 
-                str = StreamTypeToName(pStreamInfo->PesType);
+                str = StreamTypeToName(pStreamInfo->nPesType);
 
-                if (!pStreamInfo->Language.IsEmpty() && pStreamInfo->GetLCID() == 0) {
+                if (!pStreamInfo->sLanguage.IsEmpty() && pStreamInfo->GetLCID() == 0) {
                     // Try to convert language code even if LCID was not found.
-                    str += _T(" [") + ISO6392ToLanguage(CStringA(pStreamInfo->Language)) + _T("]");
+                    str += _T(" [") + ISO6392ToLanguage(CStringA(pStreamInfo->sLanguage)) + _T("]");
                 }
 
                 *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
@@ -891,7 +891,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     if (pChannel && (m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS)) {
         for (int i = 0; i < pChannel->GetAudioCount(); i++) {
-            switch ((pChannel->GetAudio(i))->Type) {
+            switch ((pChannel->GetAudio(i))->nType) {
                 case DVB_MPA:
                     bAudioMPA = true;
                     break;
