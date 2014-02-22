@@ -453,6 +453,7 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
         for (ptrdiff_t i = 0; i < m_nLangs; i++) {
             m_langs.AddString(CString(m_ppLangs[i]));
         }
+        CorrectComboListWidth(m_langs);
         m_langs.SetCurSel(m_iSelectedLanguage);
 
         m_PARCombo.ResetContent();
