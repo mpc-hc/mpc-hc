@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -86,7 +86,7 @@ void CStatusLabel::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     CPoint p = CPoint(m_fRightAlign ? r.Width() - size.cx : 0, (r.Height() - size.cy) / 2);
 
     if (m_fAddEllipses)
-        while (size.cx > r.Width() - 3 && str.GetLength() > 3) {
+        while (size.cx > r.Width() && str.GetLength() > 3) {
             str = str.Left(str.GetLength() - 4) + _T("...");
             size = dc.GetTextExtent(str);
         }
