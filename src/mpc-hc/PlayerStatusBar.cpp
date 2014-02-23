@@ -216,6 +216,20 @@ void CPlayerStatusBar::SetStatusMessage(CString str)
     }
 }
 
+CString CPlayerStatusBar::PreparePathStatusMessage(CPath path)
+{
+    if (CDC* pDC = m_status.GetDC()) {
+        CRect r;
+        m_status.GetClientRect(r);
+        path.CompactPath(pDC->m_hDC, m_time_rect.left - r.left - 1);
+        m_status.ReleaseDC(pDC);
+    } else {
+        ASSERT(FALSE);
+    }
+
+    return path;
+}
+
 CString CPlayerStatusBar::GetStatusTimer() const
 {
     CString strResult;

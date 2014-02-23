@@ -31,6 +31,7 @@ class CPlayerStatusBar : public CDialogBar
 {
     DECLARE_DYNAMIC(CPlayerStatusBar)
 
+private:
     CMainFrame* m_pMainFrame;
 
     CStatic m_type;
@@ -60,6 +61,9 @@ public:
 
     CString GetStatusTimer() const;
     CString GetStatusMessage() const;
+
+    CString PreparePathStatusMessage(CPath path);
+
     void ShowTimer(bool fShow);
 
     // Overrides

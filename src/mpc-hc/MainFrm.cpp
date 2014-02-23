@@ -4522,14 +4522,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
     path.m_strPath.Replace(_T("\\\\"), _T("\\"));
 
-    if (CDC* pDC = m_wndStatusBar.m_status.GetDC()) {
-        CRect r;
-        m_wndStatusBar.m_status.GetClientRect(r);
-        path.CompactPath(pDC->m_hDC, r.Width());
-        m_wndStatusBar.m_status.ReleaseDC(pDC);
-    }
-
-    SendStatusMessage((LPCTSTR)path, 3000);
+    SendStatusMessage(m_wndStatusBar.PreparePathStatusMessage(path), 3000);
 }
 
 void CMainFrame::SaveImage(LPCTSTR fn)
