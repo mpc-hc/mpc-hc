@@ -32,7 +32,7 @@ IMPLEMENT_DYNAMIC(CPlayerStatusBar, CDialogBar)
 
 CPlayerStatusBar::CPlayerStatusBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
-    , m_status(false, false)
+    , m_status(false, true)
     , m_time(true, false)
     , m_bmid(0)
     , m_hIcon(0)
@@ -136,6 +136,11 @@ void CPlayerStatusBar::Relayout()
         m_status.GetWindowText(str);
         r2 = r;
         r2.right = r2.left + pDC->GetTextExtent(str).cx;
+        // If the text is too long, ensure it won't overlap
+        // with the timer. Ellipses will be added if needed.
+        if (r2.right >= m_time_rect.left) {
+            r2.right = m_time_rect.left - 1;
+        }
         m_status.MoveWindow(&r2, FALSE);
         pDC->SelectObject(pOld);
         m_status.ReleaseDC(pDC);
