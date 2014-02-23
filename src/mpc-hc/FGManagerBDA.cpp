@@ -96,10 +96,8 @@ static VIDEOINFOHEADER2 vih2_H264 = {
     {
         // bmiHeader
         sizeof(BITMAPINFOHEADER),   // biSize
-        //720,                        // biWidth
-        //576,                        // biHeight
-        1920,                       // biWidth
-        1080,                       // biHeight
+        720,                        // biWidth
+        576,                        // biHeight
         1,                          // biPlanes
         0,                          // biBitCount
         FCC_h264                    // biCompression
@@ -120,15 +118,43 @@ static AM_MEDIA_TYPE mt_H264 = {
     (LPBYTE)& vih2_H264             // pbFormat
 };
 
-/// Format, Audio (common)
-static const WAVEFORMATEX wf_Audio = {
-    WAVE_FORMAT_PCM,                // wFormatTag
-    2,                              // nChannels
-    48000,                          // nSamplesPerSec
-    4 * 48000,                      // nAvgBytesPerSec
-    4,                              // nBlockAlign
-    16,                             // wBitsPerSample
-    0                               // cbSize
+// Format, Audio MPEG2
+static BYTE MPEG2AudioFormat[] = {
+    0x50, 0x00,             //wFormatTag
+    0x02, 0x00,             //nChannels
+    0x80, 0xbb, 0x00, 0x00, //nSamplesPerSec
+    0x00, 0x7d, 0x00, 0x00, //nAvgBytesPerSec
+    0x01, 0x00,             //nBlockAlign
+    0x00, 0x00,             //wBitsPerSample
+    0x16, 0x00,             //cbSize
+    0x02, 0x00,             //wValidBitsPerSample
+    0x00, 0xe8,             //wSamplesPerBlock
+    0x03, 0x00,             //wReserved
+    0x01, 0x00, 0x01, 0x00, //dwChannelMask
+    0x01, 0x00, 0x16, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+// Format, Audio (E)AC3
+static BYTE AC3AudioFormat[] = {
+    0x00, 0x20,             //wFormatTag
+    0x06, 0x00,             //nChannels
+    0x80, 0xBB, 0x00, 0x00, //nSamplesPerSec
+    0xC0, 0x5D, 0x00, 0x00, //nAvgBytesPerSec
+    0x00, 0x03,             //nBlockAlign
+    0x00, 0x00,             //wBitsPerSample
+    0x00, 0x00              //cbSize
+};
+
+// Format, Audio AAC
+static BYTE AACAudioFormat[] = {
+    0xFF, 0x00,             //wFormatTag
+    0x02, 0x00,             //nChannels
+    0x80, 0xBB, 0x00, 0x00, //nSamplesPerSec
+    0xCE, 0x3E, 0x00, 0x00, //nAvgBytesPerSec
+    0xAE, 0x02,             //nBlockAlign
+    0x00, 0x00,             //wBitsPerSample
+    0x02, 0x00,             //cbSize
+    0x11, 0x90
 };
 
 /// Media type, Audio MPEG2
@@ -140,8 +166,8 @@ static const AM_MEDIA_TYPE mt_Mpa = {
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
     nullptr,                        // pUnk
-    sizeof(wf_Audio),               // cbFormat
-    (LPBYTE)& wf_Audio              // pbFormat
+    sizeof(MPEG2AudioFormat),       // cbFormat
+    MPEG2AudioFormat                // pbFormat
 };
 
 /// Media type, Audio AC3
@@ -153,8 +179,8 @@ static const AM_MEDIA_TYPE mt_Ac3 = {
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
     nullptr,                        // pUnk
-    sizeof(wf_Audio),               // cbFormat
-    (LPBYTE)& wf_Audio,             // pbFormat
+    sizeof(AC3AudioFormat),         // cbFormat
+    AC3AudioFormat,                 // pbFormat
 };
 
 /// Media type, Audio EAC3
@@ -166,8 +192,8 @@ static const AM_MEDIA_TYPE mt_Eac3 = {
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
     nullptr,                        // pUnk
-    sizeof(wf_Audio),               // cbFormat
-    (LPBYTE)& wf_Audio,             // pbFormat
+    sizeof(AC3AudioFormat),         // cbFormat
+    AC3AudioFormat,                 // pbFormat
 };
 
 /// Media type, Audio AAC LATM
@@ -179,8 +205,8 @@ static const AM_MEDIA_TYPE mt_latm = {
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
     nullptr,                        // pUnk
-    sizeof(wf_Audio),               // cbFormat
-    (LPBYTE)& wf_Audio,             // pbFormat
+    sizeof(AACAudioFormat),         // cbFormat
+    AACAudioFormat,                 // pbFormat
 };
 
 /// Media type, PSI
@@ -1203,9 +1229,6 @@ void CFGManagerBDA::UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChanne
     if (pChannel->GetVideoHeight()) {
         NewVideoHeader->bmiHeader.biHeight = pChannel->GetVideoHeight();
         NewVideoHeader->bmiHeader.biWidth = pChannel->GetVideoWidth();
-    } else if (pChannel->GetVideoType() == DVB_H264) {
-        NewVideoHeader->bmiHeader.biHeight = 1080;   // 1080 was the default before this change (should be 576)
-        NewVideoHeader->bmiHeader.biWidth = 1920;    // 1920 was the default before this change (should be 720)
     } else {
         NewVideoHeader->bmiHeader.biHeight = 576;
         NewVideoHeader->bmiHeader.biWidth = 720;
