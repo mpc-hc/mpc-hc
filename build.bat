@@ -272,7 +272,7 @@ EXIT /B
 :SubMPCRresources
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
+FOR %%G IN ("Armenian" "Basque" "Belarusian" "Bengali" "Catalan" "Chinese Simplified"
  "Chinese Traditional" "Croatian" "Czech" "Dutch" "English (British)" "French"
  "Galician" "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
  "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Slovak" "Slovenian"

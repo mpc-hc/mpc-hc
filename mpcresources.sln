@@ -12,6 +12,8 @@ Global
 		Release Basque|x64 = Release Basque|x64
 		Release Belarusian|Win32 = Release Belarusian|Win32
 		Release Belarusian|x64 = Release Belarusian|x64
+		Release Bengali|Win32 = Release Bengali|Win32
+		Release Bengali|x64 = Release Bengali|x64
 		Release Catalan|Win32 = Release Catalan|Win32
 		Release Catalan|x64 = Release Catalan|x64
 		Release Chinese Simplified|Win32 = Release Chinese Simplified|Win32
@@ -78,6 +80,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Belarusian|Win32.Build.0 = Release Belarusian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Belarusian|x64.ActiveCfg = Release Belarusian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Belarusian|x64.Build.0 = Release Belarusian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Bengali|Win32.ActiveCfg = Release Bengali|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Bengali|Win32.Build.0 = Release Bengali|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Bengali|x64.ActiveCfg = Release Bengali|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Bengali|x64.Build.0 = Release Bengali|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Basque|Win32.ActiveCfg = Release Basque|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Basque|Win32.Build.0 = Release Basque|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Basque|x64.ActiveCfg = Release Basque|x64

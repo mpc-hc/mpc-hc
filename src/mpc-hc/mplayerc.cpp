@@ -49,6 +49,7 @@ const LanguageResource CMPlayerCApp::languageResources[] = {
     {ID_LANGUAGE_ARMENIAN,              1067,   _T("Armenian"),                 _T("Lang\\mpcresources.hy.dll")},
     {ID_LANGUAGE_BASQUE,                1069,   _T("Basque"),                   _T("Lang\\mpcresources.eu.dll")},
     {ID_LANGUAGE_BELARUSIAN,            1059,   _T("Belarusian"),               _T("Lang\\mpcresources.be.dll")},
+    {ID_LANGUAGE_BENGALI,               1093,   _T("Bengali"),                  _T("Lang\\mpcresources.bn.dll")},
     {ID_LANGUAGE_CATALAN,               1027,   _T("Catalan"),                  _T("Lang\\mpcresources.ca.dll")},
     {ID_LANGUAGE_CHINESE_SIMPLIFIED,    2052,   _T("Chinese (Simplified)"),     _T("Lang\\mpcresources.zh_CN.dll")},
     {ID_LANGUAGE_CHINESE_TRADITIONAL,   1028,   _T("Chinese (Traditional)"),    _T("Lang\\mpcresources.zh_TW.dll")},

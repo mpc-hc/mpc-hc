@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
++ New Bengali translation
 * If MPC-HC is configured to override the splitter choice when doing the initial track selection,
   tracks selected at splitter level will be preferred in case more than one tracks match the criteria
 * The "Jump to" menu has been split in several smaller submenus displayed in the "Navigate" menu
