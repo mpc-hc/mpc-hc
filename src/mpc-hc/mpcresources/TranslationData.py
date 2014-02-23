@@ -188,13 +188,13 @@ class TranslationData:
 
             for dataID in data:
                 f.write('msgctxt "')
-                f.write(dataID[0].replace('""', '\\"'))    # msgctxt
+                f.write(dataID[0].replace('""', '\\"'))     # msgctxt
                 f.write('"\r\n')
                 f.write('msgid "')
-                f.write(dataID[1].replace('""', '\\"'))    # msgid
+                f.write(dataID[1].replace('""', '\\"'))     # msgid
                 f.write('"\r\n')
                 f.write('msgstr "')
-                f.write(data[dataID].replace('""', '\\"')) # msgstr
+                f.write(data[dataID].replace('""', '\\"'))  # msgstr
                 f.write('"\r\n\r\n')
 
     def areEqualsSections(self, translationData):

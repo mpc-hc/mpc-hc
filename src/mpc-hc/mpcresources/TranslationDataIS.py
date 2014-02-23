@@ -31,7 +31,7 @@ class TranslationDataIS(TranslationData):
                 match = TranslationDataIS.stringEntry.match(line)
                 if section and match:
                     if match.group(1) != u'langid':
-                        self.strings[(section + '_' +  match.group(1), match.group(2).replace(u'%n', ur'\n'))] = ''
+                        self.strings[(section + '_' + match.group(1), match.group(2).replace(u'%n', ur'\n'))] = ''
                 else:
                     match = TranslationDataIS.sectionEntry.match(line)
                     if match:
@@ -77,7 +77,7 @@ class TranslationDataIS(TranslationData):
             match = TranslationDataIS.stringEntry.match(line)
             if match:
                 if match.group(1) != u'langid':
-                    s = self.strings.get((section + '_' +  match.group(1), match.group(2).replace(u'%n', ur'\n')))
+                    s = self.strings.get((section + '_' + match.group(1), match.group(2).replace(u'%n', ur'\n')))
                     if not s:
                         s = match.group(2)
                     line = '%s.%s=%s\r\n' % (config.get('Info', 'langShortName'), match.group(1), s.replace(ur'\n', u'%n'))
