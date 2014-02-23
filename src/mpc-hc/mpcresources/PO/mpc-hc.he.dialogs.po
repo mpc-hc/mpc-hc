@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-01-25 14:57+0000\n"
+"PO-Revision-Date: 2014-02-22 09:40+0000\n"
 "Last-Translator: Superb\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/mpc-hc/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -107,7 +107,7 @@ msgstr "הזזת רצועת השמע (מילישניות):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "הפעל מיפוי ערוצים מותאם אישים"
+msgstr "הפעל מיפוי ערוצים מותאם אישית"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for "
@@ -567,15 +567,15 @@ msgstr "שיוך קבצים"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
 msgid "&Video"
-msgstr "&ודיאו"
+msgstr "וידאו"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
 msgid "A&udio"
-msgstr "&אודיו"
+msgstr "אודיו"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "A&ll"
-msgstr "&הכל"
+msgstr "הכל"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "With icons"
@@ -583,7 +583,7 @@ msgstr "עם אייקונים"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
 msgid "&Modify"
-msgstr "&ערוך"
+msgstr "ערוך"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
@@ -843,15 +843,15 @@ msgstr "הורד"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
 msgid "&Set"
-msgstr "&קבע"
+msgstr "קבע"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&בטל"
+msgstr "ביטול"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
-msgstr "&שמור"
+msgstr "שמור"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
@@ -995,7 +995,7 @@ msgstr "צל"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "יישור במסך && גבולות"
+msgstr "יישור במסך וגבולות"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
@@ -1019,7 +1019,7 @@ msgstr "מקם כתוביות ביחס למסגרת הוידאו"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
-msgstr "צבעים && שקיפות"
+msgstr "צבעים ושקיפות"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
@@ -1239,7 +1239,7 @@ msgstr "כתוביות זמינות ברשת"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download && Open"
-msgstr "הורד && פתח"
+msgstr "הורד ופתח"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
@@ -1587,7 +1587,7 @@ msgstr "הסר"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "הוסף לפני שינוי הגודל"
+msgstr "הוסף לפני שינוי גודל"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"

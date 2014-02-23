@@ -5,13 +5,14 @@
 # brk <burakgarci@gmail.com>, 2013
 # Devrim <devrim.extra@gmail.com>, 2013
 # kasper93, 2013
+# bosluk, 2014
 # bosluk, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-02-17 08:49+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2014-02-19 20:30+0000\n"
+"Last-Translator: bosluk\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -661,7 +662,7 @@ msgstr "&Kök Menüsü"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "&Altyazı Menüsü"
+msgstr "&Alt yazı Menüsü"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"

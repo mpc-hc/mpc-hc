@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-08 15:40+0000\n"
+"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
+"PO-Revision-Date: 2014-02-24 11:28+0000\n"
 "Last-Translator: anxo_cruel <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -290,7 +290,7 @@ msgstr "Disco"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr "Titulo(s)"
+msgstr "Título(s)"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
@@ -1078,7 +1078,7 @@ msgstr "&Editar..."
 
 msgctxt "IDS_INFOBAR_TITLE"
 msgid "Title"
-msgstr "Titulo"
+msgstr "Título"
 
 msgctxt "IDS_INFOBAR_AUTHOR"
 msgid "Author"
@@ -1234,7 +1234,7 @@ msgstr "Decodificación por Software"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "Velocidade de reprodución"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1342,7 +1342,7 @@ msgstr "Último fotograma clave"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "Fotograma  clave máis preto"
+msgstr "Fotograma clave máis preto"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
@@ -1958,7 +1958,7 @@ msgstr "Canles"
 
 msgctxt "IDS_AG_TITLE"
 msgid "Title %d"
-msgstr "Titulo %d"
+msgstr "Título %d"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2002,7 +2002,7 @@ msgstr "Retraso de Subs: %ld ms"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
-msgstr "Titulo: %02d/%02d"
+msgstr "Título: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
@@ -2582,7 +2582,7 @@ msgstr "Sobre a barra de desprazamento"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
-msgstr "Abaixo da barra de desprazamento"
+msgstr "Baixo a barra de desprazamento"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -3386,23 +3386,23 @@ msgstr "Divisores externos poden ter as súas propias opcións de preferencia de
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "&Lista de reprodución Blu-ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Lista de reprodución"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "&Capítulos"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "&Títulos"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "&Canles"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

@@ -21,9 +21,9 @@ next version - not released yet
     - LAV Video: Fix a rare crash that could occur for high resolutions
     - Ticket #4035, LAV Video: Some frames were dropped when playing RealVideo files
     - Ticket #4057, LAV Splitter: Some WAV files were incorrectly detected as DTS
-* Updated Basque, Catalan, Simplified Chinese, Czech, French, Galician, German, Greek, Hebrew, Hungarian,
-  Japanese, Malay, Polish, Portuguese (Brazil), Romanian, Russian, Slovenian, Slovak, Swedish, Turkish,
-  Ukrainian and Vietnamese translations
+* Updated Armenian, Basque, Catalan, Simplified Chinese, Czech, French, Galician, German, Greek, Hebrew,
+  Hungarian, Japanese, Korean, Malay, Polish, Portuguese (Brazil), Romanian, Russian, Slovenian, Slovak,
+  Swedish, Turkish, Ukrainian and Vietnamese translations
 ! Properties dialog: Some tracks could have been missing from the streams list
 ! Fix incorrectly displayed OSD in case the message contained the character '&'. Also make top-left and
   top-right OSD size consistent and improve the behavior when the text is too big to be displayed entirely

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-01-14 15:07+0000\n"
+"PO-Revision-Date: 2014-02-27 07:20+0000\n"
 "Last-Translator: anhminhvks <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr "Chuẩn bị cài đặt [name] vào máy tính của bạn.\nĐề ngh�
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "Để sử dụng, [name] yêu cầu Windows XP Service Pack 3 hoặc mới hơn."
+msgstr "Để cài đặt, [name] yêu cầu Windows XP Service Pack 3 hoặc mới hơn."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -34,7 +34,7 @@ msgstr "Các gói ngôn ngữ"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Bạn cũng muốn xóa các thiết lập của MPC-HC?\nNếu bạn sẽ cài đặt lại MPC-HC thì bạn không cần phải xóa chúng."
+msgstr "Bạn cũng muốn xóa các thiết lập của MPC-HC?\nNếu bạn dự định cài đặt lại MPC-HC thì bạn không cần phải xóa chúng."
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
@@ -42,11 +42,11 @@ msgstr "MPC-HC đang được cài đặt!"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE.\nCPU của bạn không đáp ứng được yêu cầu này."
+msgstr "Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE.\nCPU của bạn không đáp ứng được yêu cầu này."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE2.\nCPU của bạn không đáp ứng được yêu cầu này."
+msgstr "Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE2.\nCPU của bạn không đáp ứng được yêu cầu này."
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
@@ -62,7 +62,7 @@ msgstr "Các tác vụ khác:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
-msgstr "Khôi phục các cài đặt"
+msgstr "Thiết lập lại"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-02-18 12:21+0000\n"
+"PO-Revision-Date: 2014-02-20 19:20+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +198,7 @@ msgstr "Ez a program freeware és a GNU General Public License alatt lett kiadva
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Magyarra fordította Kleiber Tamás.\nFordítás frissítése: Mateus (2014)"
+msgstr "Magyarra fordította Kleiber Tamás. Fordítást frissítette: Mateus (2014)"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -362,7 +362,7 @@ msgstr "Feliratok"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Additional settings"
-msgstr ""
+msgstr "További beállítások"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
@@ -1530,11 +1530,11 @@ msgstr "Kényszerített és/vagy alapértelmezett feliratok preferálása"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Külső feliratok használata, ha elérhető"
+msgstr "Külső feliratok használata, ha elérhetőek"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Do not load embedded subtitles"
+msgstr "Beágyazott feliratok figyelmen kívül hagyása"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"

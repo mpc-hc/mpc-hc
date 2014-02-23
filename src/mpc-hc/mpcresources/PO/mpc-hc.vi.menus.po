@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # datanhlg <datanhlg@gmail.com>, 2014
@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2014-02-07 12:44+0000\n"
-"Last-Translator: datanhlg <datanhlg@gmail.com>\n"
+"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
+"PO-Revision-Date: 2014-02-27 10:41+0000\n"
+"Last-Translator: anhminhvks <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,31 +23,31 @@ msgstr "&Tập tin"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "&Mở nhanh tập tin..."
+msgstr "&Mở nhanh tập tin"
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
-msgstr "&Mở tập tin..."
+msgstr "&Mở tập tin"
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "Mở &DVD/BD..."
+msgstr "&Mở DVD/BD"
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "Mở thiết &bị..."
+msgstr "&Mở thiết bị"
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Mở thư &mục..."
+msgstr "&Mở thư mục"
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "Mở &đĩa"
+msgstr "&Mở đĩa"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "Các tập tin &đã mở"
+msgstr "&Các tập tin đã mở"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -55,35 +55,35 @@ msgstr "&Đóng"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Lưu bản sao..."
+msgstr "&Lưu bản sao"
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Lưu &hình ảnh"
+msgstr "&Lưu hình ảnh"
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Lưu &ảnh nhỏ..."
+msgstr "&Lưu hình ảnh nhỏ"
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
-msgstr "&Nạp phụ đề..."
+msgstr "&Nạp phụ đề"
 
 msgctxt "ID_FILE_SAVE_SUBTITLE"
 msgid "Save S&ubtitle..."
-msgstr "Lưu &phụ đề"
+msgstr "&Lưu phụ đề"
 
 msgctxt "POPUP"
 msgid "Subtitle Data&base"
-msgstr "Dữ &liệu phụ đề"
+msgstr "&Dữ liệu phụ đề"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
-msgstr "&Tìm kiếm..."
+msgstr "&Tìm kiếm"
 
 msgctxt "ID_FILE_ISDB_UPLOAD"
 msgid "&Upload..."
-msgstr "&Tải lên..."
+msgstr "&Tải lên"
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
@@ -103,11 +103,11 @@ msgstr "&Xem"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "Chú thích&&trình đơn"
+msgstr "&Chú thích&Trình đơn"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "Thanh tìm &kiếm"
+msgstr "&Thanh tìm kiếm"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
@@ -127,7 +127,7 @@ msgstr "&Trạng thái"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Đồng &bộ phụ đề"
+msgstr "&Đồng bộ lại phụ đề"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
@@ -135,7 +135,7 @@ msgstr "&Danh sách"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "&Bắt ảnh"
+msgstr "&Bắt hình"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
@@ -147,15 +147,15 @@ msgstr "Gỡ rối đổ b&óng"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "&Cài đặt trước"
+msgstr "&Thiết lập sẵn"
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "T&ối thiểu"
+msgstr "&Tối giản"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "N&hỏ gọn"
+msgstr "&Nhỏ gọn"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
@@ -163,11 +163,11 @@ msgstr "&Bình thường"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
-msgstr "To&àn màn hình"
+msgstr "&Toàn màn hình"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr "&Phóng"
+msgstr "&Thu phóng"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
@@ -183,11 +183,11 @@ msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "Tự động &vừa"
+msgstr "&Tự động vừa"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "Tự động vừa (Chỉ lớn hơn)"
+msgstr "&Tự động vừa (chỉ làm lớn)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
@@ -195,11 +195,11 @@ msgstr "&Ngôn ngữ"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Th&iết lập bộ Render"
+msgstr "&Thiết lập bộ dựng hình"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "&Kiểm tra"
+msgstr "&Kiểm tra nhiễu"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
@@ -207,11 +207,11 @@ msgstr "&Hiện thông số"
 
 msgctxt "ID_VIEW_REMAINING_TIME"
 msgid "&Remaining Time"
-msgstr "Th&ời gian còn lại"
+msgstr "&Thời gian còn lại"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "Luồng &ra"
+msgstr "&Loại ngõ ra"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
@@ -227,43 +227,43 @@ msgstr "&Trình diễn"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "Chế độ toàn màn hình D3D"
+msgstr "&Toàn màn hình D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "Hỗ trợ giao diện toàn màn hình D3D"
+msgstr "&Toàn màn hình D3D có giao diện"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "Ngõ ra RGB 10-bit"
+msgstr "&Ngõ ra RGB 10-bit"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "Ngõ vào RGB 10-bit"
+msgstr "&Ngõ vào RGB 10-bit"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "Thực thi điểm"
+msgstr "&Xử lý điểm động đầy đủ"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "Nửa thực thi điểm"
+msgstr "&Xử lý điểm động không đầy đủ"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Vô hiệu hóa (&Aero)"
+msgstr "&Tắt hiệu ứng trong mờ (Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Kích hoạt chỉnh khung &thời gian"
+msgstr "&Điều chỉnh thời gian khung hình"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "&Quản lí màu"
+msgstr "&Quản lý màu sắc"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "&Kích hoạt"
+msgstr "&Điều chỉnh"
 
 msgctxt "POPUP"
 msgid "&Input Type"
@@ -271,7 +271,7 @@ msgstr "&Loại ngõ vào"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "Tự &động nhận diện"
+msgstr "&Tự động nhận diện"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
@@ -279,71 +279,71 @@ msgstr "&HDTV"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr "SDTV &NTSC"
+msgstr "&SDTV NTSC"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr "SDTV &PAL"
+msgstr "&SDTV PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "Môi trường xung quanh và ánh sáng"
+msgstr "&Ánh sáng môi trường"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "&Sáng (2.2 Gamma)"
+msgstr "&Sáng (2,2 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "Dim (2.35 Gamma)"
+msgstr "&Mờ (2,35 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "Tối (2.4 Gamma)"
+msgstr "&Tối (2,4 Gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "Thực thi rend&er"
+msgstr "&Đang dựng hình"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "&Nhận thức"
+msgstr "&Cảm quan"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "Đo &màu tương đối"
+msgstr "&Độ màu tương đối"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr "Độ &bão hòa"
+msgstr "&Độ màu bão hòa"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "Độ m&àu tuyệt đối"
+msgstr "&Độ màu tuyệt đối"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "&VSync"
+msgstr "&Đồng bộ dọc"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "&VSync"
+msgstr "&Đồng bộ dọc"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "Định chính xác VSync"
+msgstr "&Đồng bộ dọc đúng"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "VSync t&hay thế"
+msgstr "&Đồng bộ dọc sai"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "&Giảm VSync Offset"
+msgstr "&Giảm lệch đồng bộ dọc"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "&TăngVSync Offset"
+msgstr "&Tăng lệch đồng bộ dọc"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -351,35 +351,35 @@ msgstr "&Điều khiển GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Làm bằng GPU trước khi VSync"
+msgstr "&Ổn định GPU trước khi đồng bộ dọc"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Làm bằng GPU &sau khi VSync"
+msgstr "&Ổn định GPU sau khi đồng bộ dọc"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "Đợi làm bằng"
+msgstr "&Đang ổn định"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "&Đặt lại"
+msgstr "&Thiết lập lại"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Thiết lập lại đến & các thiết lập mặc định render"
+msgstr "&Thiết lập lại bộ dựng hình mặc định"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Thiết lập lại đến & thiết lập render tối ưu"
+msgstr "&Thiết lập lại bộ dựng hình tối ưu"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "&Khung video"
+msgstr "&Khung hình"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr "&Một nửa"
+msgstr "&Phân nửa"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
@@ -391,31 +391,31 @@ msgstr "&Gấp đôi"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "&Co dãn cửa số"
+msgstr "&Căng đầy cửa sổ"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "Chạm vào cửa sổ từ bên &trong"
+msgstr "&Căng đầy cửa sổ đến lề trong"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "Phóng &1"
+msgstr "&Thu phóng 1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "Phóng &2"
+msgstr "&Thu phóng 2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "Chạm vào cửa sổ từ bên &ngoài"
+msgstr "&Căng đầy cửa sổ đến lề ngoài"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
-msgstr "&Giữ tỉ lệ khung hình"
+msgstr "&Giữ tỷ lệ màn hình"
 
 msgctxt "POPUP"
 msgid "Override &Aspect Ratio"
-msgstr "Ghi đè và tỉ lệ khung hình"
+msgstr "&Không giữ tỷ lệ màn hình"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
@@ -443,7 +443,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "Chỉnh màn hình/Desktop AR Diff"
+msgstr "&Điều chỉnh tỷ lệ màn hình"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
