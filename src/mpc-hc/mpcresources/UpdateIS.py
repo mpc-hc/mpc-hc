@@ -23,15 +23,16 @@ from TranslationDataIS import *
 if __name__ == '__main__':
     translationsConfigAndData = []
     for cfgPath in glob.glob(r'cfg\*.cfg'):
-        config = ConfigParser.RawConfigParser()
+        config = ConfigParser.RawConfigParser({'installerIsTranslated': 'True'})
         config.readfp(codecs.open(cfgPath, 'r', 'utf8'))
 
-        poPath = r'PO\mpc-hc.installer.' + config.get('Info', 'langShortName')
-        translationData = TranslationDataIS()
-        translationData.loadFromPO(poPath, 'po', (False, False, True))
-        # Write back the PO file to ensure it's properly normalized
-        translationData.writePO(poPath, 'po', (False, False, True))
+        if config.getboolean('Info', 'installerIsTranslated'):
+            poPath = r'PO\mpc-hc.installer.' + config.get('Info', 'langShortName')
+            translationData = TranslationDataIS()
+            translationData.loadFromPO(poPath, 'po', (False, False, True))
+            # Write back the PO file to ensure it's properly normalized
+            translationData.writePO(poPath, 'po', (False, False, True))
 
-        translationsConfigAndData.append((config, translationData))
+            translationsConfigAndData.append((config, translationData))
 
     TranslationDataIS.translateIS(translationsConfigAndData, r'..\..\..\distrib\custom_messages.iss', r'..\..\..\distrib\custom_messages_translated.iss')
