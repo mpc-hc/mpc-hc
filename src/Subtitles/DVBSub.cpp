@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,6 @@
 #include "stdafx.h"
 #include "DVBSub.h"
 #include "../DSUtil/GolombBuffer.h"
-#include <algorithm>
 
 #if (0) // Set to 1 to activate DVB subtitles traces
 #define TRACE_DVB TRACE
@@ -145,7 +144,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
 
 #define MARKER                \
     if (gb.BitRead(1) != 1) { \
-        ASSERT(0);            \
+        ASSERT(FALSE);        \
         return E_FAIL;        \
     }
 
@@ -264,8 +263,6 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 
                             // Copy data from the previous page
                             DVB_PAGE* pPrevPage = m_Pages.GetTail();
-
-                            memcpy(m_pCurrentPage->regions, pPrevPage->regions, sizeof(m_pCurrentPage->regions));
 
                             for (POSITION pos = pPrevPage->objects.GetHeadPosition(); pos;) {
                                 m_pCurrentPage->objects.AddTail(pPrevPage->objects.GetNext(pos)->Copy());
