@@ -9364,15 +9364,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     m_fAudioOnly = fAudioOnly;
 
-    // If MPC-HC wasn't previously set "on top" by an external tool,
-    // we restore the current internal on top state.
-    // Note that this should be called after m_fAudioOnly is restored
-    // to its initial value.
-    if (!m_fFullScreen && !bExtOnTop) {
-        SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-        SetAlwaysOnTop(s.iOnTop);
-    }
-
     // Temporarily hide the OSD message if there is one, it will
     // be restored after. This avoid positioning problems.
     m_OSD.HideMessage(true);
@@ -9415,6 +9406,15 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         m_fFirstFSAfterLaunchOnFS = false;
     } else {
         SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
+    }
+
+    // If MPC-HC wasn't previously set "on top" by an external tool,
+    // we restore the current internal on top state.
+    // Note that this should be called after m_fAudioOnly is restored
+    // to its initial value.
+    if (!m_fFullScreen && !bExtOnTop) {
+        SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        SetAlwaysOnTop(s.iOnTop);
     }
 
     UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
@@ -9818,14 +9818,14 @@ void CMainFrame::ZoomVideoWindow(bool snap/* = true*/, double scale/* = ZOOM_DEF
             clientTargetSize.cy += m_controls.GetToolbarsHeight();
         }
 
-        CRect clientRect;
-        GetClientRect(&clientRect);
-
-        w = r.Width() - clientRect.Width() + clientTargetSize.cx;
-        h = r.Height() - clientRect.Height() + clientTargetSize.cy;
-
-        w = max(w, mmi.ptMinTrackSize.x);
-        h = max(h, mmi.ptMinTrackSize.y);
+        CRect rect(CPoint(0, 0), clientTargetSize);
+        if (AdjustWindowRectEx(rect, GetWindowStyle(m_hWnd),
+                               s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU, GetWindowExStyle(m_hWnd))) {
+            w = std::max<long>(rect.Width(), mmi.ptMinTrackSize.x);
+            h = std::max<long>(rect.Height(), mmi.ptMinTrackSize.y);
+        } else {
+            ASSERT(FALSE);
+        }
     } else {
         w = r.Width(); // mmi.ptMinTrackSize.x;
         h = mmi.ptMinTrackSize.y;
