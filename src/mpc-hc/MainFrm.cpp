@@ -1151,7 +1151,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
     }
 
     cs.dwExStyle &= ~WS_EX_CLIENTEDGE;
-    cs.lpszClass = MPC_WND_CLASS_NAME; //AfxRegisterWndClass(0);
+    cs.lpszClass = MPC_WND_CLASS_NAME; //AfxRegisterWndClass(nullptr);
 
     return TRUE;
 }
@@ -9333,7 +9333,7 @@ CSize CMainFrame::GetVideoSize() const
           : CSize(MulDiv(wh.cy, arxy.cx, arxy.cy), wh.cy);
 
     if (fCompMonDeskARDiff)
-        if (HDC hDC = ::GetDC(0)) {
+        if (HDC hDC = ::GetDC(nullptr)) {
             int _HORZSIZE = GetDeviceCaps(hDC, HORZSIZE);
             int _VERTSIZE = GetDeviceCaps(hDC, VERTSIZE);
             int _HORZRES = GetDeviceCaps(hDC, HORZRES);
@@ -9350,7 +9350,7 @@ CSize CMainFrame::GetVideoSize() const
                 }
             }
 
-            ::ReleaseDC(0, hDC);
+            ::ReleaseDC(nullptr, hDC);
         }
 
     return ret;

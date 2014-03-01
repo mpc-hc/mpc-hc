@@ -29,7 +29,7 @@ BOOL CGraphThread::InitInstance()
 {
     SetThreadName(DWORD(-1), "GraphThread");
     AfxSocketInit();
-    return SUCCEEDED(CoInitialize(0)) ? TRUE : FALSE;
+    return SUCCEEDED(CoInitialize(nullptr)) ? TRUE : FALSE;
 }
 
 int CGraphThread::ExitInstance()

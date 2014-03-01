@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -59,7 +59,9 @@ namespace Plugin
         DWORD_PTR m_SubPicProviderId;
 
     public:
-        CFilter() : m_fps(-1), m_SubPicProviderId(0) {
+        CFilter()
+            : m_fps(-1)
+            , m_SubPicProviderId(0) {
             CAMThread::Create();
         }
         virtual ~CFilter() {

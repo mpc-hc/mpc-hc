@@ -97,7 +97,9 @@ public:
     int start, end;
     CAtlArray<int> subs;
 
-    STSSegment() : start(0), end(0) {}
+    STSSegment()
+        : start(0)
+        , end(0) {}
     STSSegment(int s, int e) {
         start = s;
         end = e;

@@ -163,7 +163,7 @@ void CPlayerStatusBar::Clear()
 {
     m_status.SetWindowText(_T(""));
     m_time.SetWindowText(_T(""));
-    SetStatusTypeIcon(0);
+    SetStatusTypeIcon(nullptr);
     SetStatusBitmap(0);
 }
 

@@ -589,10 +589,10 @@ namespace GothSync
         class MovingAverage
         {
         public:
-            MovingAverage(int size):
-                fifoSize(size),
-                oldestSample(0),
-                sum(0) {
+            MovingAverage(int size)
+                : fifoSize(size)
+                , oldestSample(0)
+                , sum(0) {
                 if (fifoSize > MAX_FIFO_SIZE) {
                     fifoSize = MAX_FIFO_SIZE;
                 }

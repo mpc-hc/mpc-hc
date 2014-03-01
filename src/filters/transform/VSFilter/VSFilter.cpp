@@ -164,7 +164,7 @@ STDAPI DllUnregisterServer()
 
 void CALLBACK DirectVobSub(HWND hwnd, HINSTANCE hinst, LPSTR lpszCmdLine, int nCmdShow)
 {
-    if (FAILED(::CoInitialize(0))) {
+    if (FAILED(::CoInitialize(nullptr))) {
         return;
     }
 

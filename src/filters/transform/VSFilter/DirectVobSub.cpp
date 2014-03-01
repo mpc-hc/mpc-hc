@@ -344,9 +344,9 @@ STDMETHODIMP CDirectVobSub::put_TextSettings(void* lf, int lflen, COLORREF color
         m_defStyle.fUnderline = !!((LOGFONT*)lf)->lfUnderline;
 
         if (m_defStyle.fontSize < 0) {
-            HDC hdc = ::GetDC(0);
+            HDC hdc = ::GetDC(nullptr);
             m_defStyle.fontSize = -m_defStyle.fontSize * 72 / GetDeviceCaps(hdc, LOGPIXELSY);
-            ::ReleaseDC(0, hdc);
+            ::ReleaseDC(nullptr, hdc);
         }
 
     }

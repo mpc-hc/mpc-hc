@@ -1514,7 +1514,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     CFilterMapper2::Init();
 
-    if (FAILED(OleInitialize(0))) {
+    if (FAILED(OleInitialize(nullptr))) {
         AfxMessageBox(_T("OleInitialize failed!"));
         return FALSE;
     }

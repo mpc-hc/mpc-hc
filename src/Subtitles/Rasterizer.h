@@ -82,8 +82,13 @@ struct COverlayData {
     byte* mpOverlayBufferBody, *mpOverlayBufferBorder;
 
     COverlayData()
-        : mOffsetX(0), mOffsetY(0), mOverlayWidth(0), mOverlayHeight(0), mOverlayPitch(0)
-        , mpOverlayBufferBody(nullptr), mpOverlayBufferBorder(nullptr) {}
+        : mOffsetX(0)
+        , mOffsetY(0)
+        , mOverlayWidth(0)
+        , mOverlayHeight(0)
+        , mOverlayPitch(0)
+        , mpOverlayBufferBody(nullptr)
+        , mpOverlayBufferBorder(nullptr) {}
 
     COverlayData(const COverlayData& overlayData)
         : mOffsetX(overlayData.mOffsetX)

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -52,9 +52,9 @@ BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRec
         LOGFONT lf;
         ZeroMemory(&lf, sizeof(lf));
         _tcscpy_s(lf.lfFaceName, face);
-        HDC hDC = ::GetDC(0);
+        HDC hDC = ::GetDC(nullptr);
         lf.lfHeight = -MulDiv(height, GetDeviceCaps(hDC, LOGPIXELSY), 72);
-        ::ReleaseDC(0, hDC);
+        ::ReleaseDC(nullptr, hDC);
         lf.lfWeight = FW_NORMAL;
         lf.lfCharSet = DEFAULT_CHARSET;
         if (!m_font.CreateFontIndirect(&lf)) {
@@ -70,12 +70,12 @@ BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRec
             }
         }
 
-        hDC = ::GetDC(0);
+        hDC = ::GetDC(nullptr);
         HFONT hFontOld = (HFONT)::SelectObject(hDC, m_font.m_hObject);
         CSize size;
         ::GetTextExtentPoint32(hDC, _T("x"), 1, &size);
         ::SelectObject(hDC, hFontOld);
-        ::ReleaseDC(0, hDC);
+        ::ReleaseDC(nullptr, hDC);
 
         m_fontheight = size.cy;
     }

@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,16 +21,16 @@
 #include "stdafx.h"
 #include "RealTextParser.h"
 
-CRealTextParser::CRealTextParser():
-    m_bIgnoreFont(false),
-    m_bIgnoreFontSize(false),
-    m_bIgnoreFontColor(false),
-    m_bIgnoreFontWeight(false),
-    m_bIgnoreFontFace(false),
-    m_iMinFontSize(14),
-    m_iMaxFontSize(25),
-    m_iDefaultSubtitleDurationInMillisecs(4000),
-    m_bTryToIgnoreErrors(true)
+CRealTextParser::CRealTextParser()
+    : m_bIgnoreFont(false)
+    , m_bIgnoreFontSize(false)
+    , m_bIgnoreFontColor(false)
+    , m_bIgnoreFontWeight(false)
+    , m_bIgnoreFontFace(false)
+    , m_iMinFontSize(14)
+    , m_iMaxFontSize(25)
+    , m_iDefaultSubtitleDurationInMillisecs(4000)
+    , m_bTryToIgnoreErrors(true)
 {
 }
 
@@ -338,7 +338,7 @@ bool CRealTextParser::GetAttributes(std::wstring& p_rszLine, unsigned int& p_riP
             return false;
         }
 
-        bool bUsesQuotes(false);
+        bool bUsesQuotes = false;
         if (p_rszLine.at(p_riPos) == '\'' || p_rszLine.at(p_riPos) == '\"') {
             ++p_riPos;
             bUsesQuotes = true;
@@ -379,8 +379,8 @@ bool CRealTextParser::GetAttributes(std::wstring& p_rszLine, unsigned int& p_riP
 
 int CRealTextParser::GetTimecode(const std::wstring& p_crszTimecode)
 {
-    int iTimecode(0);
-    int iMultiplier(1);
+    int iTimecode = 0;
+    int iMultiplier = 1;
 
     // Exception: if the timecode doesn't contain any separators, assume the time code is in seconds (and change multiplier to reflect that)
     if (p_crszTimecode.find_first_of('.') == std::wstring::npos && p_crszTimecode.find_first_of(':') == std::wstring::npos) {
@@ -461,7 +461,7 @@ std::wstring CRealTextParser::StringToLower(const std::wstring& p_crszString)
 
 std::wstring CRealTextParser::RenderTags(const std::list<Tag>& p_crlTags)
 {
-    bool bEmpty(true);
+    bool bEmpty = true;
     std::wstring szString;
 
     for (auto iter = p_crlTags.cbegin(); iter != p_crlTags.cend(); ++iter) {
@@ -547,7 +547,7 @@ std::wstring CRealTextParser::RenderTags(const std::list<Tag>& p_crlTags)
 
 bool CRealTextParser::OutputSRT(std::wostream& p_rOutput)
 {
-    int iCounter(1);
+    int iCounter = 1;
     for (auto i = m_RealText.m_mapLines.cbegin(); i != m_RealText.m_mapLines.cend(); ++i) {
         p_rOutput << iCounter++;
         p_rOutput << std::endl;

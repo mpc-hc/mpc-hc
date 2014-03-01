@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1070,7 +1070,7 @@ HRESULT CMpcAudioRenderer::GetAvailableAudioDevices(IMMDeviceCollection** ppMMDe
     //LPWSTR pwszID = nullptr;
 
     enumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, ppMMDevices);
-    UINT count(0);
+    UINT count = 0;
     hr = (*ppMMDevices)->GetCount(&count);
     return hr;
 }
@@ -1092,7 +1092,7 @@ HRESULT CMpcAudioRenderer::GetAudioDevice(IMMDevice** ppMMDevice)
     TRACE(_T("CMpcAudioRenderer::GetAudioDevice - Target end point: %s\n"), m_csSound_Device);
 
     if (GetAvailableAudioDevices(&devices) == S_OK && devices) {
-        UINT count(0);
+        UINT count = 0;
         hr = devices->GetCount(&count);
         if (hr != S_OK) {
             TRACE(_T("CMpcAudioRenderer::GetAudioDevice - devices->GetCount failed: (0x%08x)\n"), hr);

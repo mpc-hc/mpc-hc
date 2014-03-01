@@ -41,7 +41,7 @@ CStatusLabel::CStatusLabel(bool fRightAlign, bool fAddEllipses)
     } else {
         HDC hdc = ::GetDC(nullptr);
         double scale = 1.0 * GetDeviceCaps(hdc, LOGPIXELSY) / 96.0;
-        ::ReleaseDC(0, hdc);
+        ::ReleaseDC(nullptr, hdc);
         VERIFY(m_font.CreateFont(int(14 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
                                  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
                                  _T("Microsoft Sans Serif")));

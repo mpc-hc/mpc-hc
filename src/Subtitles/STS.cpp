@@ -3013,9 +3013,9 @@ STSStyle& STSStyle::operator = (LOGFONT& lf)
 {
     charSet = lf.lfCharSet;
     fontName = lf.lfFaceName;
-    HDC hDC = GetDC(0);
+    HDC hDC = GetDC(nullptr);
     fontSize = -MulDiv(lf.lfHeight, 72, GetDeviceCaps(hDC, LOGPIXELSY));
-    ReleaseDC(0, hDC);
+    ReleaseDC(nullptr, hDC);
     //  fontAngleZ = lf.lfEscapement/10.0;
     fontWeight = lf.lfWeight;
     fItalic = lf.lfItalic;
@@ -3028,9 +3028,9 @@ LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 {
     lfa.lfCharSet = s.charSet;
     strncpy_s(lfa.lfFaceName, LF_FACESIZE, CStringA(s.fontName), _TRUNCATE);
-    HDC hDC = GetDC(0);
+    HDC hDC = GetDC(nullptr);
     lfa.lfHeight = -MulDiv((int)(s.fontSize + 0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
-    ReleaseDC(0, hDC);
+    ReleaseDC(nullptr, hDC);
     lfa.lfWeight = s.fontWeight;
     lfa.lfItalic = s.fItalic ? -1 : 0;
     lfa.lfUnderline = s.fUnderline ? -1 : 0;
@@ -3042,9 +3042,9 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 {
     lfw.lfCharSet = s.charSet;
     wcsncpy_s(lfw.lfFaceName, LF_FACESIZE, CStringW(s.fontName), _TRUNCATE);
-    HDC hDC = GetDC(0);
+    HDC hDC = GetDC(nullptr);
     lfw.lfHeight = -MulDiv((int)(s.fontSize + 0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
-    ReleaseDC(0, hDC);
+    ReleaseDC(nullptr, hDC);
     lfw.lfWeight = s.fontWeight;
     lfw.lfItalic = s.fItalic ? -1 : 0;
     lfw.lfUnderline = s.fUnderline ? -1 : 0;
