@@ -175,6 +175,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_SIZING()
     ON_WM_EXITSIZEMOVE()
     ON_MESSAGE_VOID(WM_DISPLAYCHANGE, OnDisplayChange)
+    ON_WM_WINDOWPOSCHANGING()
 
     ON_WM_SYSCOMMAND()
     ON_WM_ACTIVATEAPP()
@@ -1498,6 +1499,21 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
             m_pGraphThread->PostThreadMessage(CGraphThread::TM_DISPLAY_CHANGE, 0, 0);
         } else {
             DisplayChange();
+        }
+    }
+}
+
+void CMainFrame::OnWindowPosChanging(WINDOWPOS* lpwndpos)
+{
+    if (m_fFullScreen && !(lpwndpos->flags & SWP_NOMOVE)) {
+        HMONITOR hm = MonitorFromPoint(CPoint(lpwndpos->x, lpwndpos->y), MONITOR_DEFAULTTONULL);
+        MONITORINFO mi = { sizeof(mi) };
+        if (GetMonitorInfo(hm, &mi)) {
+            lpwndpos->flags &= ~SWP_NOSIZE;
+            lpwndpos->cx = mi.rcMonitor.right - mi.rcMonitor.left;
+            lpwndpos->cy = mi.rcMonitor.bottom - mi.rcMonitor.top;
+            lpwndpos->x = mi.rcMonitor.left;
+            lpwndpos->y = mi.rcMonitor.top;
         }
     }
 }

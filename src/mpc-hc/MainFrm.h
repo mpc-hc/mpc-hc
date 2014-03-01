@@ -620,6 +620,7 @@ public:
     afx_msg void OnSizing(UINT nSide, LPRECT lpRect);
     afx_msg void OnExitSizeMove();
     afx_msg void OnDisplayChange();
+    afx_msg void OnWindowPosChanging(WINDOWPOS* lpwndpos);
 
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
     afx_msg void OnActivateApp(BOOL bActive, DWORD dwThreadID);
