@@ -17,9 +17,12 @@ next version - not released yet
   depending on the media currently playing
 * Updated SoundTouch to v1.8.0
 * Updated Little CMS to v2.6b (git 3337825)
-* Updated LAV Filters to v0.60.1.40:
+* Updated LAV Filters to stable version 0.61.0:
     - LAV Audio: Improve error recovery on slightly corrupted audio streams
     - LAV Video: Fix a rare crash that could occur for high resolutions
+    - LAV Video: Fix artifacts on some H264 streams with both software and DXVA decoding
+    - LAV Splitter: Support ShoutCast metadata
+    - LAV Video: Various improvements for DXVA support (native and copy-back)
     - Ticket #4035, LAV Video: Some frames were dropped when playing RealVideo files
     - Ticket #4057, LAV Splitter: Some WAV files were incorrectly detected as DTS
 * Updated Armenian, Basque, Catalan, Simplified Chinese, Czech, French, Galician, German, Greek, Hebrew,
