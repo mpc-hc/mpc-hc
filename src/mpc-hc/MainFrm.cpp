@@ -9332,8 +9332,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         if (!m_fFirstFSAfterLaunchOnFS) {
             r = m_lastWindowRect;
         }
-        SetMenuBarVisibility(s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU ?
-                             AFX_MBV_KEEPVISIBLE : AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
+
         if (m_wndPlaylistBar.IsHiddenDueToFullscreen() && !m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
             m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
@@ -9415,6 +9414,11 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     if (!m_fFullScreen && !bExtOnTop) {
         SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         SetAlwaysOnTop(s.iOnTop);
+    }
+
+    if (!m_fFullScreen) {
+        SetMenuBarVisibility(s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU ?
+                             AFX_MBV_KEEPVISIBLE : AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
     }
 
     UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
