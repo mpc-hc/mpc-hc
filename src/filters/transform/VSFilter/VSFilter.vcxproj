@@ -180,6 +180,9 @@
     <ProjectReference Include="..\..\..\DSUtil\DSUtil.vcxproj">
       <Project>{fc70988b-1ae5-4381-866d-4f405e28ac42}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\MathLibFix\MathLibFix.vcxproj">
+      <Project>{fc9fc17f-70bf-4aca-8285-c24d1889bacb}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\SubPic\SubPic.vcxproj">
       <Project>{d514ea4d-eafb-47a9-a437-a582ca571251}</Project>
     </ProjectReference>

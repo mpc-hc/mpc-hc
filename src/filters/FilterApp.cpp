@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "FilterApp.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../MathLibFix/MathLibFix.h"
 
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
 

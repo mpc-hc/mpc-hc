@@ -322,15 +322,3 @@ HRESULT FileDelete(CString file, HWND hWnd, bool recycle /*= true*/)
     TRACE(_T("Delete recycle=%d hRes=0x%08x, file=%s\n"), recycle, hRes, file);
     return hRes;
 }
-
-void WorkAroundMathLibraryBug()
-{
-#ifdef _WIN64
-    // Temporary disable the use of FMA3 to workaround a bug affecting the x64 math library
-    // See http://connect.microsoft.com/VisualStudio/feedback/details/811093
-    _set_FMA3_enable(0);
-#if (_MSC_FULL_VER > 180021005)
-#pragma message("WARNING: Check if bug http://connect.microsoft.com/VisualStudio/feedback/details/811093 is fixed")
-#endif
-#endif
-}

@@ -24,7 +24,7 @@
 #include "DirectVobSubPropPage.h"
 #include "VSFilter.h"
 #include "../../../DSUtil/MediaTypes.h"
-#include "../../../DSUtil/WinAPIUtils.h"
+#include "../../../MathLibFix/MathLibFix.h"
 
 #include <InitGuid.h>
 #include "moreuuids.h"

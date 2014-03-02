@@ -43,6 +43,7 @@
 #include "atl/atlrx.h"
 #include <share.h>
 #include "mpc-hc_config.h"
+#include "../MathLibFix/MathLibFix.h"
 
 
 const LanguageResource CMPlayerCApp::languageResources[] = {

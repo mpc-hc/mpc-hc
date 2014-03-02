@@ -49,5 +49,3 @@ public:
     CoInitializeHelper();
     ~CoInitializeHelper();
 };
-
-void WorkAroundMathLibraryBug();
