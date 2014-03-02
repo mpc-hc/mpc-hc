@@ -1804,6 +1804,9 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 if (m_pCAP) {
                     m_wndSubresyncBar.SetFPS(m_pCAP->GetFPS());
                     m_wndSubresyncBar.SetTime(pos);
+                    if (!m_bDelaySetOutputRect && GetMediaState() == State_Paused) {
+                        m_pCAP->Paint(false); // TODO: Improve subpic queue and remove this call.
+                    }
                 }
             }
             break;
