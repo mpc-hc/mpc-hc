@@ -645,8 +645,8 @@ void CMainFrame::EventCallback(MpcEvent ev)
             }
             break;
         case MpcEvent::DISPLAY_MODE_AUTOCHANGED:
-            if (GetLoadState() == MLS::LOADED && s.uAutoChangeFullscrResDelay) {
-                if (m_bPausedForAutochangeMonitorMode) {
+            if (GetLoadState() == MLS::LOADED) {
+                if (m_bPausedForAutochangeMonitorMode && s.uAutoChangeFullscrResDelay) {
                     // delay play if was paused due to mode change
                     ASSERT(GetMediaState() != State_Stopped);
                     const unsigned uModeChangeDelay = s.uAutoChangeFullscrResDelay * 1000;
@@ -3168,6 +3168,13 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     // auto-change monitor mode if requested
     if (s.AutoChangeFullscrRes.bEnabled && (m_fFullScreen || IsD3DFullScreenMode())) {
         AutoChangeMonitorMode();
+        // make sure the fullscreen window is positioned properly after the mode change,
+        // OnWindowPosChanging() will take care of that
+        if (m_bOpeningInAutochangedMonitorMode && m_fFullScreen) {
+            CRect rect;
+            GetWindowRect(rect);
+            MoveWindow(rect);
+        }
     }
 
     // set shader selection
