@@ -499,45 +499,41 @@ HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
             pRegion = DEBUG_NEW DVB_REGION();
         }
 
-        if (pRegion != nullptr) {
-            pRegion->id = id;
-            pRegion->version_number = (BYTE)gb.BitRead(4);
-            pRegion->fill_flag = (BYTE)gb.BitRead(1);
-            gb.BitRead(3);  // Reserved
-            pRegion->width = gb.ReadShort();
-            pRegion->height = gb.ReadShort();
-            pRegion->level_of_compatibility = (BYTE)gb.BitRead(3);
-            pRegion->depth = (BYTE)gb.BitRead(3);
-            gb.BitRead(2);  // Reserved
-            pRegion->CLUT_id = gb.ReadByte();
-            pRegion->_8_bit_pixel_code = gb.ReadByte();
-            pRegion->_4_bit_pixel_code = (BYTE)gb.BitRead(4);
-            pRegion->_2_bit_pixel_code = (BYTE)gb.BitRead(2);
-            gb.BitRead(2);  // Reserved
+        pRegion->id = id;
+        pRegion->version_number = (BYTE)gb.BitRead(4);
+        pRegion->fill_flag = (BYTE)gb.BitRead(1);
+        gb.BitRead(3);  // Reserved
+        pRegion->width = gb.ReadShort();
+        pRegion->height = gb.ReadShort();
+        pRegion->level_of_compatibility = (BYTE)gb.BitRead(3);
+        pRegion->depth = (BYTE)gb.BitRead(3);
+        gb.BitRead(2);  // Reserved
+        pRegion->CLUT_id = gb.ReadByte();
+        pRegion->_8_bit_pixel_code = gb.ReadByte();
+        pRegion->_4_bit_pixel_code = (BYTE)gb.BitRead(4);
+        pRegion->_2_bit_pixel_code = (BYTE)gb.BitRead(2);
+        gb.BitRead(2);  // Reserved
 
-            while (gb.GetPos() < nEnd) {
-                DVB_OBJECT object;
-                object.object_id = gb.ReadShort();
-                object.object_type = (BYTE)gb.BitRead(2);
-                object.object_provider_flag = (BYTE)gb.BitRead(2);
-                object.object_horizontal_position = (short)gb.BitRead(12);
-                gb.BitRead(4);  // Reserved
-                object.object_vertical_position = (short)gb.BitRead(12);
-                if (object.object_type == 0x01 || object.object_type == 0x02) {
-                    object.foreground_pixel_code = gb.ReadByte();
-                    object.background_pixel_code = gb.ReadByte();
-                }
-                pRegion->objects.AddTail(object);
+        while (gb.GetPos() < nEnd) {
+            DVB_OBJECT object;
+            object.object_id = gb.ReadShort();
+            object.object_type = (BYTE)gb.BitRead(2);
+            object.object_provider_flag = (BYTE)gb.BitRead(2);
+            object.object_horizontal_position = (short)gb.BitRead(12);
+            gb.BitRead(4);  // Reserved
+            object.object_vertical_position = (short)gb.BitRead(12);
+            if (object.object_type == 0x01 || object.object_type == 0x02) {
+                object.foreground_pixel_code = gb.ReadByte();
+                object.background_pixel_code = gb.ReadByte();
             }
-
-            if (bIsNewRegion) {
-                m_pCurrentPage->regions.AddTail(pRegion);
-            }
-
-            hr = S_OK;
-        } else {
-            hr = E_OUTOFMEMORY;
+            pRegion->objects.AddTail(object);
         }
+
+        if (bIsNewRegion) {
+            m_pCurrentPage->regions.AddTail(pRegion);
+        }
+
+        hr = S_OK;
     }
 
     return hr;
@@ -557,51 +553,47 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
             pClut = DEBUG_NEW DVB_CLUT();
         }
 
-        if (pClut) {
-            pClut->id = id;
-            pClut->version_number = (BYTE)gb.BitRead(4);
+        pClut->id = id;
+        pClut->version_number = (BYTE)gb.BitRead(4);
+        gb.BitRead(4);  // Reserved
+
+        pClut->size = 0;
+        while (gb.GetPos() < nEnd) {
+            pClut->palette[pClut->size].entry_id = gb.ReadByte();
+
+            BYTE _2_bit   = (BYTE)gb.BitRead(1);
+            BYTE _4_bit   = (BYTE)gb.BitRead(1);
+            BYTE _8_bit   = (BYTE)gb.BitRead(1);
+            UNREFERENCED_PARAMETER(_2_bit);
+            UNREFERENCED_PARAMETER(_4_bit);
+            UNREFERENCED_PARAMETER(_8_bit);
             gb.BitRead(4);  // Reserved
 
-            pClut->size = 0;
-            while (gb.GetPos() < nEnd) {
-                pClut->palette[pClut->size].entry_id = gb.ReadByte();
-
-                BYTE _2_bit   = (BYTE)gb.BitRead(1);
-                BYTE _4_bit   = (BYTE)gb.BitRead(1);
-                BYTE _8_bit   = (BYTE)gb.BitRead(1);
-                UNREFERENCED_PARAMETER(_2_bit);
-                UNREFERENCED_PARAMETER(_4_bit);
-                UNREFERENCED_PARAMETER(_8_bit);
-                gb.BitRead(4);  // Reserved
-
-                if (gb.BitRead(1)) {
-                    pClut->palette[pClut->size].Y  = gb.ReadByte();
-                    pClut->palette[pClut->size].Cr = gb.ReadByte();
-                    pClut->palette[pClut->size].Cb = gb.ReadByte();
-                    pClut->palette[pClut->size].T  = 0xff - gb.ReadByte();
-                } else {
-                    pClut->palette[pClut->size].Y  = (BYTE)gb.BitRead(6) << 2;
-                    pClut->palette[pClut->size].Cr = (BYTE)gb.BitRead(4) << 4;
-                    pClut->palette[pClut->size].Cb = (BYTE)gb.BitRead(4) << 4;
-                    pClut->palette[pClut->size].T  = 0xff - ((BYTE)gb.BitRead(2) << 6);
-                }
-                if (!pClut->palette[pClut->size].Y) {
-                    pClut->palette[pClut->size].Cr = 0;
-                    pClut->palette[pClut->size].Cb = 0;
-                    pClut->palette[pClut->size].T  = 0;
-                }
-
-                pClut->size++;
+            if (gb.BitRead(1)) {
+                pClut->palette[pClut->size].Y  = gb.ReadByte();
+                pClut->palette[pClut->size].Cr = gb.ReadByte();
+                pClut->palette[pClut->size].Cb = gb.ReadByte();
+                pClut->palette[pClut->size].T  = 0xff - gb.ReadByte();
+            } else {
+                pClut->palette[pClut->size].Y  = (BYTE)gb.BitRead(6) << 2;
+                pClut->palette[pClut->size].Cr = (BYTE)gb.BitRead(4) << 4;
+                pClut->palette[pClut->size].Cb = (BYTE)gb.BitRead(4) << 4;
+                pClut->palette[pClut->size].T  = 0xff - ((BYTE)gb.BitRead(2) << 6);
+            }
+            if (!pClut->palette[pClut->size].Y) {
+                pClut->palette[pClut->size].Cr = 0;
+                pClut->palette[pClut->size].Cb = 0;
+                pClut->palette[pClut->size].T  = 0;
             }
 
-            if (bIsNewClut) {
-                m_pCurrentPage->CLUTs.AddTail(pClut);
-            }
-
-            hr = S_OK;
-        } else {
-            hr = E_OUTOFMEMORY;
+            pClut->size++;
         }
+
+        if (bIsNewClut) {
+            m_pCurrentPage->CLUTs.AddTail(pClut);
+        }
+
+        hr = S_OK;
     }
 
     return hr;
