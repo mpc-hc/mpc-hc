@@ -80,6 +80,10 @@
   #define OutFilename   = app_name + "." + app_ver + ".x86"
 #endif
 
+#if defined(MPCHC_LITE)
+  #define bindir        = bindir + " Lite"
+#endif
+
 #ifnexist AddBackslash(bindir) + mpchc_exe
   #error Compile MPC-HC first
 #endif
