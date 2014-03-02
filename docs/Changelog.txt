@@ -31,6 +31,8 @@ next version - not released yet
 ! VMR-7 renderless: subtitles were not displayed except in fullscreen
 ! Ensure dynamic menus dependent on the currently playing media are updated when the media changes while a menu is opened
 ! DVB subtitles: Subtitles were sometimes only partially rendered with some parts disappearing immediately
+! DVB and PGS subtitles: Subtitles were sometimes one frame late. This was invisible most of the time
+  but it could produce blinking in some cases
 ! Ticket #2588, Subtitle renderer: The subtitle's shadow was not drawn when the subtitle's border was very thin
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
 ! Ticket #3437, Audio Switcher: Support fallback to another media type. For example, this enables audio decoders

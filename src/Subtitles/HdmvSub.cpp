@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -66,7 +66,7 @@ POSITION CHdmvSub::GetStartPosition(REFERENCE_TIME rt, double fps)
     POSITION pos = m_pPresentationSegments.GetHeadPosition();
     while (pos) {
         HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(pos);
-        if (pPresentationSegment->rtStop < rt) {
+        if (pPresentationSegment->rtStop <= rt) {
             m_pPresentationSegments.GetNext(pos);
         } else {
             break;

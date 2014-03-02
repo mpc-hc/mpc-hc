@@ -394,7 +394,7 @@ POSITION CDVBSub::GetStartPosition(REFERENCE_TIME rt, double fps)
     POSITION pos = m_pages.GetHeadPosition();
     while (pos) {
         DVB_PAGE* pPage = m_pages.GetAt(pos);
-        if (pPage->rtStop < rt) {
+        if (pPage->rtStop <= rt) {
             m_pages.GetNext(pos);
         } else {
             break;
