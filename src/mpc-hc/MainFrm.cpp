@@ -761,12 +761,11 @@ CMainFrame::CMainFrame()
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::SWITCHING_TO_FULLSCREEN);
     fires.insert(MpcEvent::SWITCHED_TO_FULLSCREEN);
+    fires.insert(MpcEvent::SWITCHING_FROM_FULLSCREEN);
+    fires.insert(MpcEvent::SWITCHED_FROM_FULLSCREEN);
     fires.insert(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
     fires.insert(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
     fires.insert(MpcEvent::MEDIA_LOADED);
-    fires.insert(MpcEvent::SHADER_PRERESIZE_SELECTION_CHANGED);
-    fires.insert(MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED);
-    fires.insert(MpcEvent::SHADER_SELECTION_CHANGED);
     fires.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
     fires.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_INITIALIZED);
@@ -9324,6 +9323,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         }
         SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
     } else {
+        m_eventc.FireEvent(MpcEvent::SWITCHING_FROM_FULLSCREEN);
+
         if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault && s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
             SetDispMode(s.strFullScreenMonitor, s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes);
         }
@@ -9429,6 +9430,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     if (m_fFullScreen) {
         m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN);
+    } else {
+        m_eventc.FireEvent(MpcEvent::SWITCHED_FROM_FULLSCREEN);
     }
 }
 
@@ -9886,8 +9889,6 @@ void CMainFrame::ZoomVideoWindow(bool snap/* = true*/, double scale/* = ZOOM_DEF
     if ((m_fFullScreen || !s.HasFixedWindowSize()) && !IsD3DFullScreenMode()) {
         MoveWindow(r);
     }
-
-    MoveVideoWindow();
 }
 
 double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)

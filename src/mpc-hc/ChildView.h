@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,6 +31,12 @@ class CChildView : public CMouseWnd
     CMPCPngImage m_logo;
 
     CMainFrame* m_pMainFrame;
+
+    bool m_bSwitchingFullscreen;
+
+    EventClient m_eventc;
+
+    void EventCallback(MpcEvent ev);
 
 public:
     CChildView(CMainFrame* pMainFrm);

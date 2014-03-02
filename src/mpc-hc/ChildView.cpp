@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,12 +28,35 @@ CChildView::CChildView(CMainFrame* pMainFrame)
     : m_vrect(0, 0, 0, 0)
     , CMouseWnd(pMainFrame)
     , m_pMainFrame(pMainFrame)
+    , m_bSwitchingFullscreen(false)
 {
     LoadLogo();
+    GetEventd().Connect(m_eventc, {
+        MpcEvent::SWITCHING_TO_FULLSCREEN,
+        MpcEvent::SWITCHED_TO_FULLSCREEN,
+        MpcEvent::SWITCHING_FROM_FULLSCREEN,
+        MpcEvent::SWITCHED_FROM_FULLSCREEN,
+    }, std::bind(&CChildView::EventCallback, this, std::placeholders::_1));
 }
 
 CChildView::~CChildView()
 {
+}
+
+void CChildView::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::SWITCHING_TO_FULLSCREEN:
+        case MpcEvent::SWITCHING_FROM_FULLSCREEN:
+            m_bSwitchingFullscreen = true;
+            break;
+        case MpcEvent::SWITCHED_TO_FULLSCREEN:
+        case MpcEvent::SWITCHED_FROM_FULLSCREEN:
+            m_bSwitchingFullscreen = false;
+            break;
+        default:
+            ASSERT(FALSE);
+    }
 }
 
 BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
@@ -168,7 +191,9 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 void CChildView::OnSize(UINT nType, int cx, int cy)
 {
     __super::OnSize(nType, cx, cy);
-    m_pMainFrame->MoveVideoWindow();
+    if (!m_bSwitchingFullscreen) {
+        m_pMainFrame->MoveVideoWindow();
+    }
 }
 
 LRESULT CChildView::OnNcHitTest(CPoint point)
