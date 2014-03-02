@@ -152,15 +152,13 @@ STDMETHODIMP_(double) CSubPicAllocatorPresenterImpl::GetFPS()
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProvider* pSubPicProvider)
 {
-    if (m_SubPicProvider != pSubPicProvider) {
-        m_SubPicProvider = pSubPicProvider;
+    m_SubPicProvider = pSubPicProvider;
 
-        if (m_pSubPicQueue) {
-            m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
-        }
-
-        Paint(false);
+    if (m_pSubPicQueue) {
+        m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
     }
+
+    Paint(false);
 }
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::Invalidate(REFERENCE_TIME rtInvalidate)
