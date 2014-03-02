@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,9 +21,6 @@
 #pragma once
 
 #include "BaseSub.h"
-
-#define MAX_REGIONS     10
-#define MAX_OBJECTS     10          // Max number of objects per region
 
 class CGolombBuffer;
 
@@ -126,10 +123,20 @@ public:
         }
     };
 
-    struct DVB_REGION {
+    struct DVB_REGION_POS {
         BYTE       id;
         WORD       horizAddr;
         WORD       vertAddr;
+
+        DVB_REGION_POS()
+            : id(0)
+            , horizAddr(0)
+            , vertAddr(0) {
+        }
+    };
+
+    struct DVB_REGION {
+        BYTE       id;
         BYTE       version_number;
         BYTE       fill_flag;
         WORD       width;
@@ -140,13 +147,10 @@ public:
         BYTE       _8_bit_pixel_code;
         BYTE       _4_bit_pixel_code;
         BYTE       _2_bit_pixel_code;
-        int        objectCount;
-        DVB_OBJECT objects[MAX_OBJECTS];
+        CAtlList<DVB_OBJECT> objects;
 
         DVB_REGION()
             : id(0)
-            , horizAddr(0)
-            , vertAddr(0)
             , version_number(0)
             , fill_flag(0)
             , width(0)
@@ -156,8 +160,22 @@ public:
             , CLUT_id(0)
             , _8_bit_pixel_code(0)
             , _4_bit_pixel_code(0)
-            , _2_bit_pixel_code(0)
-            , objectCount(0) {
+            , _2_bit_pixel_code(0) {
+        }
+
+        DVB_REGION(const CDVBSub::DVB_REGION& region)
+            : id(region.id)
+            , version_number(region.version_number)
+            , fill_flag(region.fill_flag)
+            , width(region.width)
+            , height(region.height)
+            , level_of_compatibility(region.level_of_compatibility)
+            , depth(region.depth)
+            , CLUT_id(region.CLUT_id)
+            , _8_bit_pixel_code(region._8_bit_pixel_code)
+            , _4_bit_pixel_code(region._4_bit_pixel_code)
+            , _2_bit_pixel_code(region._2_bit_pixel_code)  {
+            objects.AddHeadList(&region.objects);
         }
     };
 
@@ -169,8 +187,8 @@ public:
         BYTE                         pageTimeOut;
         BYTE                         pageVersionNumber;
         BYTE                         pageState;
-        int                          regionCount;
-        DVB_REGION                   regions[MAX_REGIONS];
+        CAtlList<DVB_REGION_POS>     regionsPos;
+        CAtlList<DVB_REGION*>        regions;
         CAtlList<CompositionObject*> objects;
         CAtlList<DVB_CLUT*>          CLUTs;
         bool                         rendered;
@@ -179,21 +197,20 @@ public:
             : pageTimeOut(0)
             , pageVersionNumber(0)
             , pageState(0)
-            , regionCount(0)
             , rendered(false)
             , rtStart(0)
             , rtStop(0) {
         }
 
         ~DVB_PAGE() {
-            while (!objects.IsEmpty()) {
-                CompositionObject* pObject = objects.RemoveHead();
-                delete pObject;
+            while (!regions.IsEmpty()) {
+                delete regions.RemoveHead();
             }
-
+            while (!objects.IsEmpty()) {
+                delete objects.RemoveHead();
+            }
             while (!CLUTs.IsEmpty()) {
-                DVB_CLUT* pCLUT = CLUTs.RemoveHead();
-                delete pCLUT;
+                delete CLUTs.RemoveHead();
             }
         }
     };
@@ -203,7 +220,7 @@ private:
     int                 m_nBufferReadPos;
     int                 m_nBufferWritePos;
     BYTE*               m_pBuffer;
-    CAtlList<DVB_PAGE*> m_Pages;
+    CAtlList<DVB_PAGE*> m_pages;
     CAutoPtr<DVB_PAGE>  m_pCurrentPage;
     DVB_DISPLAY         m_Display;
     REFERENCE_TIME      m_rtStart;
