@@ -222,7 +222,7 @@ private:
     BYTE*               m_pBuffer;
     CAtlList<DVB_PAGE*> m_pages;
     CAutoPtr<DVB_PAGE>  m_pCurrentPage;
-    DVB_DISPLAY         m_Display;
+    DVB_DISPLAY         m_displayInfo;
     REFERENCE_TIME      m_rtStart;
     REFERENCE_TIME      m_rtStop;
 
