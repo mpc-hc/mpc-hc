@@ -9411,7 +9411,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         }
         m_fFirstFSAfterLaunchOnFS = false;
     } else {
-        SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
+        SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING | SWP_FRAMECHANGED);
     }
 
     // If MPC-HC wasn't previously set "on top" by an external tool,
