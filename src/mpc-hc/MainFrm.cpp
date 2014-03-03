@@ -1172,6 +1172,12 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
         return FALSE;
     }
 
+    // for compatibility with KatMouse and the like
+    if (pMsg->message == WM_MOUSEWHEEL && pMsg->hwnd == m_hWnd) {
+        pMsg->hwnd = m_wndView.m_hWnd;
+        return FALSE;
+    }
+
     return __super::PreTranslateMessage(pMsg);
 }
 
