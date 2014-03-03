@@ -39,12 +39,17 @@ next version - not released yet
   to fallback to normal decoding if bitstreaming isn't supported
 ! Ticket #3763, VMR-9 renderless and EVR-CP: The displayed subtitle was not updated when seeking while playback was paused
 ! Ticket #3775, "Play > Subtitles" menu could be mistakenly disabled when the internal subtitle renderer was unavailable
+! Ticket #3980/#4037, Exiting fullscreen sometimes produced visual artifacts
+! Ticket #3987, Entering fullscreen when mpc-hc window occupied the whole monitor produced visual artifacts
 ! Ticket #3999, Work around a crash in the math library for x64 builds
+! Ticket #4004, Fullscreen/windowed transition was not as smooth as in 1.7.1 and prior
 ! Ticket #4011, Fix image saving for streams with characters not supported in path names
 ! Ticket #4013, Subtitle renderer: Fix a crash on malformed animated transforms (\t tags with no parameters)
 ! Ticket #4020, Update dialog: Fix incorrect version info when using Belarusian, Slovenian or Russian translations
 ! Ticket #4050, MPC-HC could crash when loading invalid DVB channel settings
+! Ticket #4070, Restore compatibility with KatMouse
 ! Ticket #4079, The "Save image/thumbnails" path was cut off in the status bar
+! Ticket #4082, Fullscreen window was misplaced sometimes after monitor mode autochange
 
 
 1.7.3 - 02 February 2014
