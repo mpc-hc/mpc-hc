@@ -2106,7 +2106,13 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), Signal);
                 }
             } else if (GetPlaybackMode() == PM_FILE) {
-                UpdateChapterInInfoBar();
+                OpenSetupInfoBar(false);
+                const CAppSettings& s = AfxGetAppSettings();
+                if (s.iTitleBarTextStyle == 1 && s.fTitleBarTextTitle) {
+                    OpenSetupWindowTitle();
+                }
+                SendNowPlayingToSkype();
+                SendNowPlayingToApi();
             }
 
             if (GetMediaState() == State_Running && !m_fAudioOnly) {
@@ -11019,9 +11025,11 @@ void CMainFrame::OpenSetupCaptureBar()
         m_wndCaptureBar.m_capdlg.m_fAudPreview, false);
 }
 
-void CMainFrame::OpenSetupInfoBar()
+void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
 {
-    m_wndInfoBar.RemoveAllLines();
+    if (bClear) {
+        m_wndInfoBar.RemoveAllLines();
+    }
 
     if (GetPlaybackMode() == PM_FILE) {
         CComBSTR bstr;

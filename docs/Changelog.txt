@@ -11,6 +11,9 @@ Legend:
 next version - not released yet
 ===============================
 + New Bengali translation
++ Ticket #2348/#3583, Automatically refresh the information bar and title bar so that the correct information
+  are always shown for streaming (e.g. online radios)
++ Ticket #4043, Statistic: Show playback rate for audio files
 * If MPC-HC is configured to override the splitter choice when doing the initial track selection,
   tracks selected at splitter level will be preferred in case more than one tracks match the criteria
 * The "Jump to" menu has been split in several smaller submenus displayed in the "Navigate" menu

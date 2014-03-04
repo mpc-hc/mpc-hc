@@ -449,7 +449,7 @@ protected:
     void OpenCustomizeGraph();
     void OpenSetupVideo();
     void OpenSetupAudio();
-    void OpenSetupInfoBar();
+    void OpenSetupInfoBar(bool bClear = true);
     void UpdateChapterInInfoBar();
     void OpenSetupStatsBar();
     void OpenSetupStatusBar();
