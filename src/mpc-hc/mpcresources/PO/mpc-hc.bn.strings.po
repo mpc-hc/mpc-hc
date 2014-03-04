@@ -2557,7 +2557,7 @@ msgstr "ডিসপ্লে বৃত্তান্ত পুনর্বি�
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "::"
+msgstr "সাবটাইটেল::Misc"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
