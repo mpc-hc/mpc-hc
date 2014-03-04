@@ -24,6 +24,10 @@
   #error Update your Inno Setup version (5.5.4 or newer)
 #endif
 
+#if VER > EncodeVer(5,5,4)
+  #error Update script to use Turkish from the compiler dir and remove this check
+#endif
+
 #ifndef UNICODE
   #error Use the Unicode Inno Setup
 #endif
