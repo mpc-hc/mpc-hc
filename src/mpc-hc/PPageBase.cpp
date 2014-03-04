@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,7 +44,7 @@ void CPPageBase::DoDataExchange(CDataExchange* pDX)
 
 void CPPageBase::CreateToolTip()
 {
-    m_wndToolTip.Create(this);
+    m_wndToolTip.Create(this, TTS_NOPREFIX);
     m_wndToolTip.Activate(TRUE);
     m_wndToolTip.SetMaxTipWidth(300);
     m_wndToolTip.SetDelayTime(TTDT_AUTOPOP, 10000);

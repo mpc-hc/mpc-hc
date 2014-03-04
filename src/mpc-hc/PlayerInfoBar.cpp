@@ -115,7 +115,7 @@ BOOL CPlayerInfoBar::Create(CWnd* pParentWnd)
 {
     BOOL res = CDialogBar::Create(pParentWnd, IDD_PLAYERINFOBAR, WS_CHILD | WS_VISIBLE | CBRS_ALIGN_BOTTOM, IDD_PLAYERINFOBAR);
 
-    m_tooltip.Create(this);
+    m_tooltip.Create(this, TTS_NOPREFIX);
     m_tooltip.Activate(TRUE);
     m_tooltip.SetMaxTipWidth(m_pMainFrame->m_dpi.ScaleX(500));
     m_tooltip.SetDelayTime(TTDT_AUTOPOP, 10000);
