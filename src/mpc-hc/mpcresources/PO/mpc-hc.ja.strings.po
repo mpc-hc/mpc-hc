@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
-"PO-Revision-Date: 2014-02-18 17:50+0000\n"
+"PO-Revision-Date: 2014-03-03 07:40+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -586,7 +586,7 @@ msgstr "クリップ"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "DirectShow 用の標準ビデオレンダラです。他のレンダラが何らかの理由で読み込めなかった時に使用されます。Windows XP では VMR-7 (ウィンドウ) と同じです。"
+msgstr "DirectShow 用の標準ビデオ レンダラです。他のレンダラが何らかの理由で読み込めなかった時に使用されます。Windows XP では VMR-7 (ウィンドウ) と同じです。"
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -2482,15 +2482,15 @@ msgstr "フォルダの最後のファイルは、すでに読み込まれてい
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
-msgstr "フロント・左"
+msgstr "フロント 左"
 
 msgctxt "IDS_FRONT_RIGHT"
 msgid "Front Right"
-msgstr "フロント・右"
+msgstr "フロント 右"
 
 msgctxt "IDS_FRONT_CENTER"
 msgid "Front Center"
-msgstr "フロント・センタ"
+msgstr "フロント センター"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
@@ -2498,59 +2498,59 @@ msgstr "サブウーファー"
 
 msgctxt "IDS_BACK_LEFT"
 msgid "Back Left"
-msgstr "リア・左"
+msgstr "リア 左"
 
 msgctxt "IDS_BACK_RIGHT"
 msgid "Back Right"
-msgstr "リア・右"
+msgstr "リア 右"
 
 msgctxt "IDS_FRONT_LEFT_OF_CENTER"
 msgid "Front Left of Center"
-msgstr "フロント・センタ・左"
+msgstr "センター フロント 左"
 
 msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
 msgid "Front Right of Center"
-msgstr "フロント・センタ・右"
+msgstr "センター フロント 右"
 
 msgctxt "IDS_BACK_CENTER"
 msgid "Back Center"
-msgstr "リア・センタ"
+msgstr "リア センター"
 
 msgctxt "IDS_SIDE_LEFT"
 msgid "Side Left"
-msgstr "サイド・左"
+msgstr "サイド 左"
 
 msgctxt "IDS_SIDE_RIGHT"
 msgid "Side Right"
-msgstr "サイド・右"
+msgstr "サイド 右"
 
 msgctxt "IDS_TOP_CENTER"
 msgid "Top Center"
-msgstr "トップ・センタ"
+msgstr "トップ センター"
 
 msgctxt "IDS_TOP_FRONT_LEFT"
 msgid "Top Front Left"
-msgstr "トップ・フロント・左"
+msgstr "トップ フロント 左"
 
 msgctxt "IDS_TOP_FRONT_CENTER"
 msgid "Top Front Center"
-msgstr "トップ・フロント・センタ"
+msgstr "トップ フロント センター"
 
 msgctxt "IDS_TOP_FRONT_RIGHT"
 msgid "Top Front Right"
-msgstr "トップ・フロント・右"
+msgstr "トップ フロント 右"
 
 msgctxt "IDS_TOP_BACK_LEFT"
 msgid "Top Back Left"
-msgstr "トップ・リア・左"
+msgstr "トップ リア 左"
 
 msgctxt "IDS_TOP_BACK_CENTER"
 msgid "Top Back Center"
-msgstr "トップ・リア・センタ"
+msgstr "トップ リア センター"
 
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
-msgstr "トップ・リア・右"
+msgstr "トップ リア 右"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
@@ -2562,7 +2562,7 @@ msgstr "字幕::その他"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "境界線を隠す"
+msgstr "境界線を隠す(&B)"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Frame Only"
@@ -3222,15 +3222,15 @@ msgstr "入力されたフレーム レートを解析中エラーが発生し�
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame step, try a different video renderer."
-msgstr "フレームステップできません。別のビデオレンダラを試してください。"
+msgstr "フレーム ステップできません。別のビデオ レンダラを試してください。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "「画像を保存」 と 「サムネイルを保存」 の機能は、RealMedia のデフォルトビデオレンダラでは動作しません。\nMPC-HC の出力オプションで、 RealMedia の DirectX レンダラのいずれかを選択し、ファイルを再度開いて下さい。"
+msgstr "「画像を保存」 と 「サムネイルを保存」 の機能は、RealMedia のデフォルト ビデオ レンダラでは動作しません。\nMPC-HC の出力オプションで、 RealMedia の DirectX レンダラのいずれかを選択し、ファイルを再度開いて下さい。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "「画像を保存」 と 「サムネイルを保存」 の機能は、 QuickTime のデフォルトビデオレンダラでは動作しません。\nMPC-HC の出力オプションで、 QuickTime の DirectX レンダラのいずれかを選択し、ファイルを再度開いてください。"
+msgstr "「画像を保存」 と 「サムネイルを保存」 の機能は、 QuickTime のデフォルト ビデオ レンダラでは動作しません。\nMPC-HC の出力オプションで、 QuickTime の DirectX レンダラのいずれかを選択し、ファイルを再度開いてください。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."

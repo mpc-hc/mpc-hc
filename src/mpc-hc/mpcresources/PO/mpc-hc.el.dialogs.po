@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# geogeo.gr <admin@geogeo.gr>, 2013
+# geogeo.gr <admin@geogeo.gr>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-01-05 22:18+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-02-27 18:00+0000\n"
+"Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -518,7 +518,7 @@ msgstr "Ρυθμίσεις υφής (ανοίξτε πάλι το βίντεο �
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "Επιμ. εικόνες σε ενδιάμεση μνήμη:"
+msgstr "Επιμέρους εικόνες σε ενδιάμεση μνήμη:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
@@ -1210,7 +1210,7 @@ msgstr "Επιτρέπεται η πρόσβαση μόνο από τοπικό 
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
-msgstr "Εκτύπωση πληροφοριών αποσφαλμάτωσης"
+msgstr "Εκτύπωση πληροφοριών εντοπισμού σφαλμάτων"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
