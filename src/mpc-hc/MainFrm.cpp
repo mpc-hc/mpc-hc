@@ -174,6 +174,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_SETFOCUS()
     ON_WM_GETMINMAXINFO()
     ON_WM_MOVE()
+    ON_WM_ENTERSIZEMOVE()
     ON_WM_MOVING()
     ON_WM_SIZE()
     ON_WM_SIZING()
@@ -1317,42 +1318,69 @@ void CMainFrame::OnMove(int x, int y)
     }
 }
 
+void CMainFrame::OnEnterSizeMove()
+{
+    if (m_bWasSnapped) {
+        VERIFY(GetCursorPos(&m_snapStartPoint));
+        GetWindowRect(m_snapStartRect);
+    }
+}
+
 void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 {
-    __super::OnMoving(fwSide, pRect);
-    m_bWasSnapped = false;
-
     if (AfxGetAppSettings().fSnapToDesktopEdges) {
-        const CPoint threshold(5, 5);
+        const CSize threshold(m_dpi.ScaleX(16), m_dpi.ScaleY(16));
 
-        CRect r0;
-        CMonitors::GetNearestMonitor(this).GetMonitorRect(r0);
-        CRect r1 = r0 + threshold;
-        CRect r2 = r0 - threshold;
+        CRect rect(pRect);
 
-        RECT& wr = *pRect;
-        CSize ws = CRect(wr).Size();
+        CRect windowRect;
+        GetWindowRect(windowRect);
 
-        if (wr.left < r1.left && wr.left > r2.left) {
-            wr.right = (wr.left = r0.left) + ws.cx;
-            m_bWasSnapped = true;
+        if (windowRect.Size() != rect.Size()) {
+            // aero snap
+            return;
         }
 
-        if (wr.top < r1.top && wr.top > r2.top) {
-            wr.bottom = (wr.top = r0.top) + ws.cy;
-            m_bWasSnapped = true;
+        CPoint point;
+        VERIFY(GetCursorPos(&point));
+
+        if (m_bWasSnapped) {
+            rect.MoveToXY(point - m_snapStartPoint + m_snapStartRect.TopLeft());
         }
 
-        if (wr.right < r1.right && wr.right > r2.right) {
-            wr.left = (wr.right = r0.right) - ws.cx;
-            m_bWasSnapped = true;
+        CRect areaRect;
+        CMonitors::GetNearestMonitor(this).GetWorkAreaRect(areaRect);
+
+        bool bSnapping = false;
+
+        if (std::abs(rect.left - areaRect.left) < threshold.cx) {
+            bSnapping = true;
+            rect.MoveToX(areaRect.left);
+        } else if (std::abs(rect.right - areaRect.right) < threshold.cx) {
+            bSnapping = true;
+            rect.MoveToX(areaRect.right - rect.Width());
+        }
+        if (std::abs(rect.top - areaRect.top) < threshold.cy) {
+            bSnapping = true;
+            rect.MoveToY(areaRect.top);
+        } else if (std::abs(rect.bottom - areaRect.bottom) < threshold.cy) {
+            bSnapping = true;
+            rect.MoveToY(areaRect.bottom - rect.Height());
         }
 
-        if (wr.bottom < r1.bottom && wr.bottom > r2.bottom) {
-            wr.top = (wr.bottom = r0.bottom) - ws.cy;
-            m_bWasSnapped = true;
+        if (!m_bWasSnapped && bSnapping) {
+            m_snapStartPoint = point;
+            m_snapStartRect = pRect;
         }
+
+        *pRect = rect;
+
+        m_bWasSnapped = bSnapping;
+    } else {
+        m_bWasSnapped = false;
     }
+
+    __super::OnMoving(fwSide, pRect);
 }
 
 void CMainFrame::OnSize(UINT nType, int cx, int cy)

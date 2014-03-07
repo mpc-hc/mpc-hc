@@ -615,6 +615,7 @@ public:
     afx_msg void OnSetFocus(CWnd* pOldWnd);
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
     afx_msg void OnMove(int x, int y);
+    afx_msg void OnEnterSizeMove();
     afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnSizing(UINT nSide, LPRECT lpRect);
@@ -1005,6 +1006,9 @@ protected:
             m_bShowingFloatingMenubar = false;
         }
     };
+
+    CPoint m_snapStartPoint;
+    CRect m_snapStartRect;
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
