@@ -61,6 +61,7 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
     AddPage(&m_subMisc);
     AddPage(&m_tweaks);
     AddPage(&m_misc);
+    AddPage(&m_advance);
 
     EnableStackedTabs(FALSE);
 

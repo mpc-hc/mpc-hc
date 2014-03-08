@@ -1257,6 +1257,22 @@ msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
 msgstr "Vzdelávacie/Veda/Reálne témy"
 
+msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
+msgid "Hides controls and panels also in windowed mode."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
+msgid "Prevent external subtitle renderer to be loaded when internal is in use."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_COL_NAME"
+msgid "Name"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
+msgid "Value"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Načítať zo zariadenia"
@@ -2604,6 +2620,10 @@ msgstr "Z&obraziť titulok&&menu"
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
 msgstr "Skryť &menu"
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
+msgstr ""
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"

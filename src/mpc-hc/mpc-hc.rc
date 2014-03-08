@@ -1058,6 +1058,19 @@ BEGIN
     CONTROL         "PS 3.0",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,337,2,34,13
 END
 
+IDD_PPAGEADVANCED DIALOGEX 0, 0, 296, 241
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Advanced Settings, do not edit unless you know what you are doing.",IDC_STATIC,10,4,276,16
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,10,22,276,192
+    EDITTEXT        IDC_EDIT1,10,218,217,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO1,10,218,217,13,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "True",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,55,218,31,13
+    CONTROL         "False",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,129,218,33,13
+    PUSHBUTTON      "Default",IDC_BUTTON1,232,218,54,13
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1211,6 +1224,18 @@ BEGIN
         VERTGUIDE, 235
         VERTGUIDE, 288
         HORZGUIDE, 204
+    END
+
+    IDD_PPAGEADVANCED, DIALOG
+    BEGIN
+        VERTGUIDE, 10
+        VERTGUIDE, 286
+        HORZGUIDE, 4
+        HORZGUIDE, 20
+        HORZGUIDE, 22
+        HORZGUIDE, 214
+        HORZGUIDE, 218
+        HORZGUIDE, 231
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -2525,6 +2550,10 @@ BEGIN
     IDS_CREDENTIALS_CONNECT "Enter your credentials to connect"
     IDS_SUB_SAVE_EXTERNAL_STYLE_FILE "Save custom style"
     IDS_CONTENT_EDUCATION_SCIENCE "Education/Science/Factual topics"
+    IDS_PPAGEADVANCED_HIDE_WINDOWED "Hides controls and panels also in windowed mode."
+    IDS_PPAGEADVANCED_BLOCK_VSFILTER "Prevent external subtitle renderer to be loaded when internal is in use."
+    IDS_PPAGEADVANCED_COL_NAME "Name"
+    IDS_PPAGEADVANCED_COL_VALUE "Value"
 END
 
 STRINGTABLE
@@ -2993,6 +3022,7 @@ BEGIN
     IDS_VIEW_FRAMEONLY      "Frame Only"
     IDS_VIEW_CAPTIONMENU    "Sho&w Caption&&Menu"
     IDS_VIEW_HIDEMENU       "Hide &Menu"
+    IDD_PPAGEADVANCED       "Advanced"
 END
 
 STRINGTABLE

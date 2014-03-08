@@ -4,7 +4,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2014-06-26 20:30:22+0000\n"
+=======
+"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
+>>>>>>> Add advanced settings page.
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1251,6 +1255,22 @@ msgstr ""
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
+msgid "Hides controls and panels also in windowed mode."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
+msgid "Prevent external subtitle renderer to be loaded when internal is in use."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_COL_NAME"
+msgid "Name"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
+msgid "Value"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -2599,6 +2619,10 @@ msgstr ""
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
+msgstr ""
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
 msgstr ""
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"

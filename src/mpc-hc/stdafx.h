@@ -47,6 +47,8 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <memory>
+#include <utility>
 
 // Workaround compilation errors when including GDI+ with NOMINMAX defined
 namespace Gdiplus

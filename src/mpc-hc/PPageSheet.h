@@ -42,6 +42,7 @@
 #include "PPageMisc.h"
 #include "PPageCapture.h"
 #include "PPageShaders.h"
+#include "PPageAdvanced.h"
 #include "TreePropSheet/TreePropSheet.h"
 
 
@@ -92,6 +93,7 @@ private:
     CPPageSubMisc m_subMisc;
     CPPageTweaks m_tweaks;
     CPPageMisc m_misc;
+    CPPageAdvanced m_advance;
 
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);

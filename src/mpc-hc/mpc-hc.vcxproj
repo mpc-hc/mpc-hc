@@ -374,6 +374,7 @@
     <ClCompile Include="Playlist.cpp" />
     <ClCompile Include="PnSPresetsDlg.cpp" />
     <ClCompile Include="PPageAccelTbl.cpp" />
+    <ClCompile Include="PPageAdvanced.cpp" />
     <ClCompile Include="PPageAudioSwitcher.cpp" />
     <ClCompile Include="PPageBase.cpp" />
     <ClCompile Include="PPageCapture.cpp" />
@@ -505,6 +506,7 @@
     <ClInclude Include="Playlist.h" />
     <ClInclude Include="PnSPresetsDlg.h" />
     <ClInclude Include="PPageAccelTbl.h" />
+    <ClInclude Include="PPageAdvanced.h" />
     <ClInclude Include="PPageAudioSwitcher.h" />
     <ClInclude Include="PPageBase.h" />
     <ClInclude Include="PPageCapture.h" />
@@ -835,4 +837,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="mpc-hc.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
