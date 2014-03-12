@@ -146,7 +146,7 @@ zh_CN.WelcomeLabel2=这将安装 [name] 到您的计算机中。%n%n建议您在
 zh_CN.WinVersionTooLowError=[name] 要求 Windows XP Service Pack 3 或更高版本。
 
 ; Chinese (Taiwan)
-zh_TW.WelcomeLabel2=這將會安裝 [name] 在你的電腦中。%n%n建議您關閉所有其它應用程序然後再繼續。
+zh_TW.WelcomeLabel2=這將會安裝 [name] 在你的電腦中。%n%n建議您關閉所有其它應用程序後再繼續。
 zh_TW.WinVersionTooLowError=執行 [name] 需要 Windows XP Service Pack 3 或更新的版本。
 
 

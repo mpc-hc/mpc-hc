@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-03-03 07:40+0000\n"
+"PO-Revision-Date: 2014-03-15 09:28+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "44100 Hz にダウンサンプリングする"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "音声のタイムシフト (ms):"
+msgstr "音声のタイム シフト (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
@@ -122,7 +122,7 @@ msgstr "Shift を押したままクリックすると即座に変更されます
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "再生位置を移動"
+msgstr "再生位置を移動..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
@@ -222,7 +222,7 @@ msgstr "ビルド日付:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
-msgstr "オペレーティングシステム"
+msgstr "オペレーティング システム"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Name:"
@@ -250,7 +250,7 @@ msgstr "再生するメディア ファイルごとに新しいプレーヤー�
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
-msgstr "タイトルバー"
+msgstr "タイトル バー"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
@@ -282,7 +282,7 @@ msgstr "OSD を表示 (要再起動)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "リサイズ時にウィンドウサイズのアスペクト比を固定"
+msgstr "リサイズ時にウィンドウ サイズのアスペクト比を固定"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
@@ -326,7 +326,7 @@ msgstr "終了時のウィンドウ位置を記憶"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
-msgstr "終了時のウィンドウサイズを記憶"
+msgstr "終了時のウィンドウ サイズを記憶"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
@@ -346,7 +346,7 @@ msgstr "常にデフォルトの場所を開く:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "DVD ナビゲータと OGM スプリッタでの優先言語"
+msgstr "DVD ナビゲータと外部 OGM スプリッタでの優先言語"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -518,7 +518,7 @@ msgstr "テクスチャ設定 (変更を有効にするにはビデオを開き�
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "先読みサブピクチャ数:"
+msgstr "先読みサブ ピクチャ数:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
@@ -526,7 +526,7 @@ msgstr "テクスチャの最大解像度:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
 msgid "Allow animation when buffering"
-msgstr "バッファリング中のアニメーションを許可する"
+msgstr "バッファ中のアニメーションを許可する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
 msgid "Round up to power of two"
@@ -606,7 +606,7 @@ msgstr "最初に拡張子で判別"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "エクスプローラのコンテキストメニュー"
+msgstr "エクスプローラのコンテキスト メニュー"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
@@ -650,7 +650,7 @@ msgstr "高速シーク (キーフレームに)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "シークバーにチャプターマークを表示する"
+msgstr "シーク バーにチャプター マークを表示する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
@@ -662,7 +662,7 @@ msgstr "デフォルトのモニター以外でフルスクリーン表示して
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
-msgstr "Windows 7 のタスクバーを使う"
+msgstr "Windows 7 のタスクバーの機能を使う"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -1058,7 +1058,7 @@ msgstr "変換フィルタ"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "内部 LAV Filters の設定"
+msgstr "内蔵 LAV Filters の設定"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"

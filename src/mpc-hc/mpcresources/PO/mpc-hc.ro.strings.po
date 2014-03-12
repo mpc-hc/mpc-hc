@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-24 14:25:50+0000\n"
-"PO-Revision-Date: 2014-02-02 18:20+0000\n"
+"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
+"PO-Revision-Date: 2014-03-07 00:20+0000\n"
 "Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Locație"
+msgstr "Dosar"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
@@ -827,7 +827,7 @@ msgstr "Folosește filtrele LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "Folosește filtrele LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "Folosește filtrele LAV Filters. Dezactivate implicit deoarece filtrele Microsoft sunt de obicei mai stabile pentru aceste formate.\nDacă alegeți să folosiți filtrele interne, activați-le atât pentru sursă cât și pentru decodare pentru a avea o experiență mai bună de redare."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -839,7 +839,7 @@ msgstr "VSync precis"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "Default state gets inherited to other styles where it is still undefined"
-msgstr "Starea implicită va fi moștenită și de celelalte stiluri unde ea încă nu este definită."
+msgstr "Starea implicită va fi moștenită și de celelalte stiluri unde starea încă nu este definită."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -867,7 +867,7 @@ msgstr "Stop\nStop"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Step\nStep"
-msgstr "Pas\nPas"
+msgstr "Avansează câte un cadru\nAvansează câte un cadru"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
@@ -951,7 +951,7 @@ msgstr "Amestecă"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Open file location"
-msgstr "Deschide locația fișierului"
+msgstr "Deschide dosarul fișierului"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -983,7 +983,7 @@ msgstr "EDL: Salvare"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "Activează corecție de timp a cadrelor"
+msgstr "Activează corecția de timp a cadrelor"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
@@ -991,7 +991,7 @@ msgstr "Comută fereastra EDL"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
-msgstr "EDL: Punct de intrare"
+msgstr "EDL (Editor listă de editare): Punct de intrare"
 
 msgctxt "IDS_AG_EDL_OUT"
 msgid "EDL set Out"
@@ -999,23 +999,23 @@ msgstr "EDL: Punct de ieșire"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "PnS Rotate X-"
-msgstr "Rotație PnS X-"
+msgstr "PnS: Rotație X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "PnS Rotate Y+"
-msgstr "Rotație PnS Y+"
+msgstr "PnS: Rotație Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "PnS Rotate Y-"
-msgstr "Rotație PnS Y-"
+msgstr "PnS: Rotație Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "PnS Rotate Z+"
-msgstr "Rotație PnS Z+"
+msgstr "PnS: Rotație Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "PnS Rotate Z-"
-msgstr "Rotație PnS Z-"
+msgstr "PnS: Rotație Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1175,7 +1175,7 @@ msgstr "Nu se poate încărca %s, shaderele pixeli nu vor funcționa."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr "Nu se pot găsi punctele necesare de intrare ale funcției în %s, shaderele pixeli nu vor funcționa."
+msgstr "Nu se pot găsi punctele de intrare necesare ale funcției în %s, shaderele pixeli nu vor funcționa."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
@@ -1235,7 +1235,7 @@ msgstr "Decodare software"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "Rata de redare"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1483,15 +1483,15 @@ msgstr "Următorul"
 
 msgctxt "IDS_AG_PREVIOUS"
 msgid "Previous"
-msgstr "Precedent"
+msgstr "Precedentul"
 
 msgctxt "IDS_AG_NEXT_FILE"
 msgid "Next File"
-msgstr "Următorul fișier"
+msgstr "Fișierul următor"
 
 msgctxt "IDS_AG_PREVIOUS_FILE"
 msgid "Previous File"
-msgstr "Fișier precedent"
+msgstr "Fișierul precedent"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
@@ -1543,7 +1543,7 @@ msgstr "Ecran complet (fără schimbare rez.)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Autopotrivire Zoom"
+msgstr "Autopotrivire scalare"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1563,27 +1563,27 @@ msgstr "Întotdeauna în prim plan"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
-msgstr "PnS crește mărime"
+msgstr "PnS: Crește mărimea"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
-msgstr "PnS crește lățime"
+msgstr "PnS: Crește lățimea"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "PnS Inc Height"
-msgstr "PnS crește înălțime"
+msgstr "PnS: Crește înălțimea"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "PnS Dec Size"
-msgstr "PnS scade mărime"
+msgstr "PnS: Scade mărimea"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "PnS Dec Width"
-msgstr "PnS scade lățime"
+msgstr "PnS: Scade lățimea"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
-msgstr "PnS scade înălțime"
+msgstr "PnS: Scade înălțimea"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading subtitle(s), please wait."
@@ -1627,11 +1627,11 @@ msgstr "Autopotrivire (doar cele mari)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Autopotrivire Zoom (doar cele mari)"
+msgstr "Autopotrivire scalare (doar cele mari)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Zoom: Automat (doar cele mari)"
+msgstr "Scalare: Automată (doar cele mari)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -1651,39 +1651,39 @@ msgstr "Introduceţi un număr între 1 şi 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
-msgstr "PnS centrare"
+msgstr "PnS: Centrare"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "PnS Left"
-msgstr "PnS stânga"
+msgstr "PnS: Deplasare la stânga"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "PnS Right"
-msgstr "PnS dreapta"
+msgstr "PnS: Deplasare la dreapta"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "PnS Up"
-msgstr "PnS în sus"
+msgstr "PnS: Deplasare în sus"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "PnS Down"
-msgstr "PnS în jos"
+msgstr "PnS: Deplasare în jos"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "PnS Up/Left"
-msgstr "PnS Sus/Stânga"
+msgstr "PnS: Deplasare în Sus/Stânga"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "PnS Up/Right"
-msgstr "PnS Sus/Drepta"
+msgstr "PnS: Deplasare în Sus/Drepta"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "PnS Down/Left"
-msgstr "PnS Jos/Stânga"
+msgstr "PnS: Deplasare în Jos/Stânga"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "PnS Down/Right"
-msgstr "PnS Jos/Dreapta"
+msgstr "PnS: Deplasare în Jos/Dreapta"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -1699,55 +1699,55 @@ msgstr "Silenţios"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "Meniu DVD titlu"
+msgstr "Meniu DVD pentru titlu"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr "Meniu DVD rădăcină"
+msgstr "Meniu DVD principal"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
-msgstr "Meniu DVD subtitrări"
+msgstr "Meniu DVD pentru subtitrări"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
-msgstr "Meniu DVD audio"
+msgstr "Meniu DVD pentru audio"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
-msgstr "Meniu DVD unghiuri"
+msgstr "Meniu DVD pentru unghiuri"
 
 msgctxt "IDS_MPLAYERC_68"
 msgid "DVD Chapter Menu"
-msgstr "Meniu DVD capitole"
+msgstr "Meniu DVD pentru capitole"
 
 msgctxt "IDS_AG_DVD_MENU_LEFT"
 msgid "DVD Menu Left"
-msgstr "Meniu DVD stânga"
+msgstr "Meniu DVD: deplasare la stânga"
 
 msgctxt "IDS_MPLAYERC_70"
 msgid "DVD Menu Right"
-msgstr "Meniu DVD dreapta"
+msgstr "Meniu DVD: deplasare la dreapta"
 
 msgctxt "IDS_AG_DVD_MENU_UP"
 msgid "DVD Menu Up"
-msgstr "Meniu DVD în sus"
+msgstr "Meniu DVD: deplasare în sus"
 
 msgctxt "IDS_AG_DVD_MENU_DOWN"
 msgid "DVD Menu Down"
-msgstr "Meniu DVD în jos"
+msgstr "Meniu DVD: deplasare în jos"
 
 msgctxt "IDS_MPLAYERC_73"
 msgid "DVD Menu Activate"
-msgstr "Meniu DVD activare"
+msgstr "Meniu DVD: activare"
 
 msgctxt "IDS_AG_DVD_MENU_BACK"
 msgid "DVD Menu Back"
-msgstr "Meniu DVD înapoi"
+msgstr "Meniu DVD: înapoi"
 
 msgctxt "IDS_MPLAYERC_75"
 msgid "DVD Menu Leave"
-msgstr "Meniu DVD ieşire"
+msgstr "Meniu DVD: ieşire"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
@@ -1775,7 +1775,7 @@ msgstr "Următorul audio"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio"
-msgstr "Audio precedent"
+msgstr "Precedentul audio"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle"
@@ -1783,7 +1783,7 @@ msgstr "Următoarea subtitrare"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle"
-msgstr "Subtitrare precedentă"
+msgstr "Precedenta subtitrare"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1795,11 +1795,11 @@ msgstr "Reîncarcă subtitrările"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio (OGM)"
-msgstr "Audio următor (OGM)"
+msgstr "Următorul audio (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio (OGM)"
-msgstr "Audio precedent (OGM)"
+msgstr "Precedentul audio (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle (OGM)"
@@ -1819,11 +1819,11 @@ msgstr "Unghiul precedent (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio (DVD)"
-msgstr "Audio următor (DVD)"
+msgstr "Următorul audio (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio (DVD)"
-msgstr "Audio precedent (DVD)"
+msgstr "Precedentul audio (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle (DVD)"
@@ -1947,7 +1947,7 @@ msgstr "MPC-HC nu are destule drepturi pentru a schimba asocierea cu formatele d
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC este un player media cu sursă publică și extrem de ușor pentru Windows. Suportă toate formatele comune de fișiere audio și video disponibile pentru redare. Suntem 100% curați în privința programelor de spionare, nu există reclame sau bare de instrumente externe."
+msgstr "MPC-HC este un player media pentru Windows, ce necesită extrem de puține resurse și are sursă publică. Suportă toate formatele comune de fișiere audio și video disponibile pentru redare. Suntem 100% curați în privința programelor de spionare, nu există reclame sau bare de instrumente externe."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2371,7 +2371,7 @@ msgstr "Amplificare volum maximă"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]\n\n\"cale\"\tFișierul principal sau directorul ce trebuie încărcat (metacaractere\n\t\tpermise, \"-\" denotes standard input)\n/dub \"dublaj\"\tÎncarcă un fișier audio adițional\n/dubdelay \"fișier\"\tÎncarcă un fișier audio adițional decalat cu XXms (dacă\n\t\tfișierul conține \"...DELAY XXms...\")\n/d3dfs\t\tPornește randare în mod ecran complet D3D\n/sub \"nume subtitrare\"\tÎncarcă o subtitrare adițională\n/filter \"nume filtru\"\tÎncarcă filtre DirectShow dintr-o librărie\n\t\tcu încărcare dinamică (metacaractere permise)\n/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul\n\t\tdvd-ului (opțional)\n/dvdpos T#C\tPornește redarea la titlul T, capitolul C\n/dvdpos T#hh:mm\tPornește redarea la titlul T, poziția hh:mm:ss\n/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)\n/device\t\tDeschide dispozitivul video implicit\n/open\t\tDeschide fișierul, nu porni redarea în mod automat\n/play\t\tÎncepe redarea fișierului imediat ce playerul este lansat\n/close\t\tÎnchide playerul după redare (funcționează doar când\n\t\teste folosit cu /play)\n/shutdown\tÎnchide sistemul după redare\n/fullscreen\tPornește în modul ecran complet\n/minimized\tPornește în modul minimizat\n/new\t\tFolosește o instanță nouă a playerului\n/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat\n\t\tcu /open și /play\n/regvid\t\tCreează asocieri de fișiere pentru fișiere video\n/regaud\t\tCreează asocieri de fișiere pentru fișiere audio\n/regpl\t\tCreează asocieri de fișiere pentru fișiere listă de redare\n/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere suportate\n/unregall\t\tElimină toate asocierile de fișiere\n/start ms\t\tPornește redarea la \"ms\" (= milisecunde)\n/startpos hh:mm:ss\tPornește redarea la poziția hh:mm:ss\n/fixedsize L,l\tSetează o dimensiune fixă (Lxl) pentru fereastră\n/monitor N\tPornește redarea pe monitorul N, unde N începe de la 1\n/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1\n\t\t(vedeți setările \"Ieșire\")\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestaurează setări implicite\n/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă\n"
+msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]\n\n\"adresă\"\t\tFișierul principal sau directorul ce trebuie încărcat (metacaractere\n\t\tpermise, \"-\" indică intrare standard)\n/dub \"dublaj\"\tÎncarcă un fișier audio adițional\n/dubdelay \"fișier\"\tÎncarcă un fișier audio adițional decalat cu XXms (dacă\n\t\tfișierul conține \"...DELAY XXms...\")\n/d3dfs\t\tPornește randare în mod ecran complet D3D\n/sub \"subtitrare\"\tÎncarcă o subtitrare adițională\n/filter \"nume filtru\"\tÎncarcă filtre DirectShow dintr-o librărie\n\t\tcu încărcare dinamică (metacaractere permise)\n/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul\n\t\tdvd-ului (opțional)\n/dvdpos T#C\tPornește redarea la titlul T, capitolul C\n/dvdpos T#hh:mm\tPornește redarea la titlul T, poziția hh:mm:ss\n/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)\n/device\t\tDeschide dispozitivul video implicit\n/open\t\tDeschide fișierul, nu porni redarea în mod automat\n/play\t\tÎncepe redarea fișierului imediat ce playerul este lansat\n/close\t\tÎnchide playerul după redare (funcționează doar când\n\t\teste folosit cu /play)\n/shutdown\tÎnchide sistemul după redare\n/fullscreen\tPornește în modul ecran complet\n/minimized\tPornește în modul minimizat\n/new\t\tFolosește o instanță nouă a playerului\n/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat\n\t\tcu /open și /play\n/regvid\t\tCreează asocieri de fișiere pentru fișiere video\n/regaud\t\tCreează asocieri de fișiere pentru fișiere audio\n/regpl\t\tCreează asocieri de fișiere pentru fișiere listă de redare\n/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere suportate\n/unregall\t\tElimină toate asocierile de fișiere\n/start ms\t\tPornește redarea la \"ms\" (= milisecunde)\n/startpos hh:mm:ss\tPornește redarea la poziția hh:mm:ss\n/fixedsize L,l\tSetează o dimensiune fixă (Lxl) pentru fereastră\n/monitor N\tPornește redarea pe monitorul N, unde N începe de la 1\n/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1\n\t\t(vedeți setările \"Ieșire\")\n/shaderpreset \"Pr\"\tFolosește setarea implicită \"Pr\" pentru shader\n/reset\t\tRestaurează setări implicite\n/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2435,23 +2435,23 @@ msgstr "Cadru video: Atinge fereastra din exterior"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "Reseteză PnS"
+msgstr "Reseteză PnS (Pan & Scan)"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
-msgstr "Rotație PnS X+"
+msgstr "PnS: Rotație X+"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
-msgstr "Cadru video: Zoom 1"
+msgstr "Cadru video: Scalare 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "VidFrm Zoom 2"
-msgstr "Cadru video: Zoom 2"
+msgstr "Cadru video: Scalare 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr "Cadru video: Comutare Zoom"
+msgstr "Cadru video: Comutare scalare"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3127,7 +3127,7 @@ msgstr "Scalare: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "Zoom: Automat"
+msgstr "Scalare: Automată"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -3387,23 +3387,23 @@ msgstr "Separatoarele externe pot avea propriile opțiuni privind preferințele 
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "Liste de redare &Blu-Ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Listă de redare"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "&Capitole"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "&Titluri"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "&Canale"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

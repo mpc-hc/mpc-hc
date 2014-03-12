@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-02-02 17:21+0000\n"
+"PO-Revision-Date: 2014-03-06 23:20+0000\n"
 "Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr "Înregistrează"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Activează filtrul comutator audio încorporat (necesită repornire player)"
+msgstr "Activează filtrul încorporat de comutare audio (necesită repornire player)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -103,7 +103,7 @@ msgstr "Reeșantionează la 44100 Hz"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Decalare timp audio (ms):"
+msgstr "Decalare audio (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
@@ -111,7 +111,7 @@ msgstr "Activează repartizarea particularizată a canalelor "
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for "
-msgstr "Configurație difuzoare pentru "
+msgstr "Configurație a difuzoarelor pentru "
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
@@ -127,7 +127,7 @@ msgstr "Du-te la..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Introduceți un cod de timp folosind formatul [hh:]mm:ss.ms pentru a sări la un timp specificat. Nu este necesar să introduceţi separatorii explicit."
+msgstr "Introduceți un cod de timp folosind formatul [hh:]mm:ss.ms pentru a sări la un timp specificat. Nu este necesară introducerea explicită a separatorilor."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -339,11 +339,11 @@ msgstr "Acţiuni pentru meniul \"Deschide DVD/BD\""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr "Solicită locaţia"
+msgstr "Solicită dosarul"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Deschide întotdeauna locaţia implicită:"
+msgstr "Deschide întotdeauna dosarul implicit:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
@@ -767,7 +767,7 @@ msgstr "Apreciere:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
-msgstr "Locație:"
+msgstr "Dosar:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Description:"

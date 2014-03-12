@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Danny3 <danny34ever@yahoo.com>, 2014
@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2014-02-02 17:00+0000\n"
+"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
+"PO-Revision-Date: 2014-03-07 00:10+0000\n"
 "Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -255,7 +255,7 @@ msgstr "Dezactivează compoziție desktop (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Activează &corecție de timp a cadrelor"
+msgstr "Activează &corecția de timp a cadrelor"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -539,15 +539,15 @@ msgstr "Cad&rul următor"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "&Micșorează rata"
+msgstr "&Micșorează rata de redare"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "&Mărește rata"
+msgstr "&Mărește rata de redare"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "R&esetează rata"
+msgstr "R&esetează rata de redare"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -639,11 +639,11 @@ msgstr "&Navigare"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
-msgstr "&Precedent"
+msgstr "&Precedentul"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "&Next"
-msgstr "&Următor"
+msgstr "&Următorul"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."

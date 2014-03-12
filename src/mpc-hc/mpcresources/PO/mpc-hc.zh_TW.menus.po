@@ -1,14 +1,15 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kenelin <kenelin@gmail.com>, 2013
+# Peter Chen <petercpg@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-17 21:38+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
+"PO-Revision-Date: 2014-03-07 20:00+0000\n"
+"Last-Translator: Peter Chen <petercpg@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -350,27 +351,27 @@ msgstr "GPU 控制"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "在垂直同步之前洗刷 GPU"
+msgstr "在垂直同步之前清空 GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "在呈現之後洗刷 GPU"
+msgstr "在呈現之後清空 GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "等待洗刷"
+msgstr "等待清空"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "重新設定"
+msgstr "重設"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "重新設定為預設的繪製器設定"
+msgstr "重設為預設的繪製器設定"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "重新設定為最佳的繪製器設定"
+msgstr "重設為最佳的繪製器設定"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -694,7 +695,7 @@ msgstr "命令列選項(&C)"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "下載工具列圖示影像(&T)"
+msgstr "下載工具列圖示(&T)"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

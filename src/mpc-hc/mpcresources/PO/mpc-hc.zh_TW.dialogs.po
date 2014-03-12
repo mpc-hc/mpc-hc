@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kenelin <kenelin@gmail.com>, 2013
+# Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-01-17 00:20+0000\n"
-"Last-Translator: roytam1 <roytam@gmail.com>\n"
+"PO-Revision-Date: 2014-03-07 20:00+0000\n"
+"Last-Translator: Peter Chen <petercpg@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -335,7 +336,7 @@ msgstr "記憶上次的平移掃描縮放"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "\"開啟 DVD/BD\" 的行為"
+msgstr "「開啟 DVD/BD」行為"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -1331,7 +1332,7 @@ msgstr "結束頻率"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
-msgstr "忽略加密通道"
+msgstr "忽略加密的頻道"
 
 msgctxt "IDD_TUNER_SCAN_ID_SAVE"
 msgid "Save"

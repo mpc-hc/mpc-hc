@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kenelin <kenelin@gmail.com>, 2013
+# Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-01-12 20:55:19+0000\n"
-"PO-Revision-Date: 2014-01-17 00:54+0000\n"
-"Last-Translator: roytam1 <roytam@gmail.com>\n"
+"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
+"PO-Revision-Date: 2014-03-07 20:10+0000\n"
+"Last-Translator: Peter Chen <petercpg@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,7 +132,7 @@ msgstr "不被某些設備支援。在篩選器圖中總會出現兩個視訊解
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "除了在切換至不同的視訊類型時以外最快。只有一個視訊解碼器在篩選器圖中。"
+msgstr "除了在不同的視訊串流間切換時以外最快。篩選器圖中只有一個視訊解碼器。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -299,7 +300,7 @@ msgstr "字集"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
-msgstr "統一碼"
+msgstr "Unicode"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
@@ -435,7 +436,7 @@ msgstr "播放程式"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD/OGM"
-msgstr "播放::DVD/OGM"
+msgstr "播放器::DVD/OGM"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -471,11 +472,11 @@ msgstr "新版本的圖示庫"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "你要重新關聯圖示嗎?"
+msgstr "你要重新關聯圖示嗎？"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "這將會修正在更新圖示庫後被錯誤顯示的圖示。\n檔案關聯將不會更改, 只有相對應的圖示將會被刷新。"
+msgstr "將會修正在圖示庫更新後被錯誤顯示的圖示。\n檔案關聯將不會更改，只有會更新相對應的圖示。"
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -543,7 +544,7 @@ msgstr "播放程式::標誌"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
-msgstr "播放::輸出"
+msgstr "播放器::輸出"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
@@ -587,7 +588,7 @@ msgstr "短片"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "DirectShow 預設的視訊繪製篩選器。當其它繪製器因為某些原因無法載入時, 就會回復到這個設定。在 Windown XP 裡這個與 VMR-7 (視窗式) 相同。"
+msgstr "DirectShow 預設的視訊繪製篩選器。當其它繪製器因為某些原因無法載入時，就會回復到這個設定。在 Windown XP 裡這個與 VMR-7 (視窗式) 相同。"
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -595,35 +596,35 @@ msgstr "這是 Windows 9x/ME/2K 的預設繪製器。依據視訊視窗的可見
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "總是以覆疊模式繪製。一般說來只允許使用 YUV 格式, 但這會不做任何 RGB 色彩轉換而直接呈現。這是最快速的繪製方法, 而且是你唯一能確保全螢幕鏡射輸出到電視的方法。"
+msgstr "總是以覆疊模式繪製。一般說來只允許使用 YUV 格式，但這不會進行任何 RGB 色彩轉換而直接呈現。這是最快速的繪製方法，而且是你唯一能確保以全螢幕鏡射輸出到電視的方法。"
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Windows XP 的預設繪製器。非常穩定, 而且只比覆疊合成器慢一點。使用 DirectDraw, 並且可以的話會在覆疊模式下運行。"
+msgstr "Windows XP 的預設繪製器。非常穩定，只比覆疊合成器慢一點。使用 DirectDraw，可以的話會在覆疊模式下運行。"
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "只有在您安裝了 DirectX 9 之後才能用。它有著和 VMR-7 (視窗式) 相同的能力, 但永遠不會使用覆疊模式繪製。因此這可能會比 VMR-7 (視窗式) 慢一點。"
+msgstr "只有在您安裝了 DirectX 9 之後才能用。它有著和 VMR-7 (視窗式) 相同的能力，但永遠不會使用覆疊模式繪製。因此這可能會比 VMR-7 (視窗式) 慢一點。"
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "和 VMR-7 (視窗式) 相同, 但藉助 MPC-HC 的配置呈現器顯示字幕。覆疊式視訊鏡射輸出將不會運作。桌面建議使用 '全彩' 顯示。"
+msgstr "和 VMR-7 (視窗式) 相同，但藉助 MPC-HC 的配置呈現器顯示字幕。覆疊式視訊鏡射輸出將不會運作。建議使用「全彩」顯示桌面。"
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "和 VMR-9 (視窗式) 相同, 但藉助 MPC-HC 的配置呈現器顯示字幕。覆疊式視訊鏡射輸出可能能運作。桌面建議使用 '全彩' 顯示。"
+msgstr "和 VMR-9 (視窗式) 相同，但藉助 MPC-HC 的配置呈現器顯示字幕。覆疊式視訊鏡射輸出可能可以運作。建議使用「全彩」顯示桌面。"
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "和 VMR-9 (無轉換) 相同, 但使用了真正的 two-pass bicubic 縮放器。"
+msgstr "和 VMR-9 (無轉換) 相同，但使用了真正的 two-pass bicubic 縮放器。"
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "連到任何視訊媒體類型, 並且不傳送傳進來的取樣資料。當你不需要任何視訊顯示而又想節省不必要的 CPU 工作時可以用。"
+msgstr "連到任何視訊媒體類型，並且不傳送傳進來的取樣資料。當你不需要任何視訊顯示而又想節省不必要的 CPU 工作時可以用。"
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
-msgstr "與無繪製器相同, 但只會連到未壓縮的類型。"
+msgstr "與無繪製器相同，但只會連到未壓縮的類型。"
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
@@ -631,11 +632,11 @@ msgstr "只能在 Vista 或以後或安裝了 .NET Framework 3.5 或更新的 XP
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "和 EVR 相同, 但擁有 MPC-HC 配置呈現器作顯示字幕和後處理。推薦用在 Windows Vista 及以後。"
+msgstr "和 EVR 相同，但擁有 MPC-HC 配置呈現器作顯示字幕和後處理。推薦用在 Windows Vista 及以後。"
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "高質量的繪製器, 需要支援 D3D9 或更新的 GPU 。"
+msgstr "高品質的繪製器，需要支援 D3D9 或更新的 GPU。"
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
@@ -683,7 +684,7 @@ msgstr "MPC-HC - 回報錯誤"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC 未預期終止但是這個版本並未編入除錯資訊。\n如果您想回報這個錯誤, 您需要先嘗試使用官方版本。\n\n您要立即前往下載頁面嗎"
+msgstr "MPC-HC 未預期終止但是這個版本並未編入除錯資訊。\n如果您想回報這個錯誤, 您需要先嘗試使用官方版本。\n\n您要立即前往下載頁面嗎？"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -1227,15 +1228,15 @@ msgstr "加入包含的資料夾"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr ""
+msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "軟體解碼"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "播放速率"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2027,7 +2028,7 @@ msgstr "網址應該正確!"
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "協定的版本不合, 請升級您的播放程式或是選擇不同的網址!"
+msgstr "通訊協定版本不合，請升級您的播放程式或是選擇不同的網址！"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -3387,23 +3388,23 @@ msgstr "外部分離器可能有它們自己的語言偏好選項所以 MPC-HC �
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "&Blu-Ray 播放清單"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "播放清單 (&P)"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "章節 (&C)"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "標題 (&T)"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "頻道 (&C)"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

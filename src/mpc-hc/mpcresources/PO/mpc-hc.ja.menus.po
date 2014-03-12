@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-02-18 06:40+0000\n"
+"PO-Revision-Date: 2014-03-14 20:30+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -102,11 +102,11 @@ msgstr "表示(&V)"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "タイトルバーとメニューバー(&M)"
+msgstr "タイトルとメニュー(&M)"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "シークバー(&K)"
+msgstr "シーク バー(&K)"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
@@ -170,15 +170,15 @@ msgstr "拡大と縮小(&Z)"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr "&50%"
+msgstr "50%(&5)"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr "&100%"
+msgstr "100%(&1)"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr "&200%"
+msgstr "200%(&2)"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -198,7 +198,7 @@ msgstr "レンダラ設定(&E)"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "ティアリング テスト(&T)"
+msgstr "テアリング テスト(&T)"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
@@ -214,11 +214,11 @@ msgstr "出力範囲(&O)"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "&0 - 255"
+msgstr "0 - 255(&0)"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "&16 - 235"
+msgstr "16 - 235(&1)"
 
 msgctxt "POPUP"
 msgid "&Presentation"
@@ -274,15 +274,15 @@ msgstr "自動検出(&A)"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
-msgstr "&HDTV"
+msgstr "HDTV(&H)"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr "SDTV &NTSC"
+msgstr "SDTV NTSC(&N)"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr "SDTV &PAL"
+msgstr "SDTV PAL(&P)"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
@@ -366,11 +366,11 @@ msgstr "リセット(&E)"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "デフォルトのレンダラ設定(&D)"
+msgstr "デフォルトのレンダラ設定にリセット(&D)"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "最適なレンダラ設定(&O)"
+msgstr "最適なレンダラ設定にリセット(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -398,11 +398,11 @@ msgstr "ウィンドウサイズに合わせる(&I)"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "拡大 &1"
+msgstr "拡大 1(&1)"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "拡大 &2"
+msgstr "拡大 2(&2)"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
@@ -422,23 +422,23 @@ msgstr "しない(&D)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr "&4:3"
+msgstr "4:3(&4)"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr "&5:4"
+msgstr "5:4(&5)"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr "&16:9"
+msgstr "16:9(&1)"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "&235:100"
+msgstr "235:100(&2)"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "1&85:100"
+msgstr "185:100(&8)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -686,7 +686,7 @@ msgstr "ホームページ(&H)"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "更新を確認する(&U)"
+msgstr "更新のチェック(&U)"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
