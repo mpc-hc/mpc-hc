@@ -347,36 +347,31 @@ void CDVBSub::EndOfStream()
 void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 {
     RemoveOldPages(rt);
-
-    DVB_PAGE* pPage = FindPage(rt);
-
     bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (m_displayInfo.width > 720) : false;
 
-    if (pPage != nullptr) {
+    if (DVB_PAGE* pPage = FindPage(rt)) {
         pPage->rendered = true;
         TRACE_DVB(_T("DVB - Renderer - %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
 
         int nRegion = 1, nObject = 1;
         for (POSITION pos = pPage->regionsPos.GetHeadPosition(); pos; nRegion++) {
             DVB_REGION_POS regionPos = pPage->regionsPos.GetNext(pos);
-            DVB_REGION* pRegion = FindRegion(pPage, regionPos.id);
-
-            DVB_CLUT* pCLUT = FindClut(pPage, pRegion->CLUT_id);
-
-            if (pRegion && pCLUT) {
-                for (POSITION posO = pRegion->objects.GetHeadPosition(); posO; nObject++) {
-                    DVB_OBJECT objectPos = pRegion->objects.GetNext(posO);
-                    CompositionObject* pObject = FindObject(pPage, objectPos.object_id);
-                    if (pObject) {
-                        short nX, nY;
-                        nX = regionPos.horizAddr + objectPos.object_horizontal_position;
-                        nY = regionPos.vertAddr  + objectPos.object_vertical_position;
-                        pObject->m_width  = pRegion->width;
-                        pObject->m_height = pRegion->height;
-                        pObject->SetPalette(pCLUT->size, pCLUT->palette, BT709,
-                                            m_infoSourceTarget.sourceBlackLevel, m_infoSourceTarget.sourceWhiteLevel, m_infoSourceTarget.targetBlackLevel, m_infoSourceTarget.targetWhiteLevel);
-                        pObject->RenderDvb(spd, nX, nY);
-                        TRACE_DVB(_T(" --> %d/%d - %d/%d\n"), nRegion, pPage->regionsPos.GetCount(), nObject, pRegion->objects.GetCount());
+            if (DVB_REGION* pRegion = FindRegion(pPage, regionPos.id)) {
+                if (DVB_CLUT* pCLUT = FindClut(pPage, pRegion->CLUT_id)) {
+                    for (POSITION posO = pRegion->objects.GetHeadPosition(); posO; nObject++) {
+                        DVB_OBJECT objectPos = pRegion->objects.GetNext(posO);
+                        CompositionObject* pObject = FindObject(pPage, objectPos.object_id);
+                        if (pObject) {
+                            short nX, nY;
+                            nX = regionPos.horizAddr + objectPos.object_horizontal_position;
+                            nY = regionPos.vertAddr + objectPos.object_vertical_position;
+                            pObject->m_width = pRegion->width;
+                            pObject->m_height = pRegion->height;
+                            pObject->SetPalette(pCLUT->size, pCLUT->palette, BT709,
+                                                m_infoSourceTarget.sourceBlackLevel, m_infoSourceTarget.sourceWhiteLevel, m_infoSourceTarget.targetBlackLevel, m_infoSourceTarget.targetWhiteLevel);
+                            pObject->RenderDvb(spd, nX, nY);
+                            TRACE_DVB(_T(" --> %d/%d - %d/%d\n"), nRegion, pPage->regionsPos.GetCount(), nObject, pRegion->objects.GetCount());
+                        }
                     }
                 }
             }

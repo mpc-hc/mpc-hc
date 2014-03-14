@@ -7646,10 +7646,10 @@ void CMainFrame::OnPlayAudio(UINT nID)
     } else if (GetPlaybackMode() == PM_FILE) {
         OnNavStreamSelectSubMenu(i, 1);
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-
-        OnNavStreamSelectSubMenu(i, 1);
-        pChannel->SetDefaultAudio(i);
+        if (CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel)) {
+            OnNavStreamSelectSubMenu(i, 1);
+            pChannel->SetDefaultAudio(i);
+        }
     }
 }
 
@@ -7674,10 +7674,10 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
     }
 
     if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-
-        OnNavStreamSelectSubMenu(i, 2);
-        pChannel->SetDefaultSubtitle(i);
+        if (CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel)) {
+            OnNavStreamSelectSubMenu(i, 2);
+            pChannel->SetDefaultSubtitle(i);
+        }
     } else if (!m_pSubStreams.IsEmpty()) {
         // Currently the subtitles menu contains 5 items apart from the actual subtitles list when the ISR is used
         i -= 5;
