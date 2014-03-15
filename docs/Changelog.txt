@@ -60,6 +60,7 @@ next version - not released yet
 ! Ticket #4079, The "Save image/thumbnails" path was cut off in the status bar
 ! Ticket #4082, Fullscreen window was misplaced sometimes after monitor mode autochange
 ! Ticket #4116, "Snap to desktop edges" option wasn't working correctly
+! Ticket #4128, Moving mouse over tooltips in fullscreen hid the toolbar under some circumstances
 
 
 1.7.3 - 02 February 2014

@@ -70,13 +70,27 @@ UINT CMouse::GetMouseFlags()
 bool CMouse::CursorOnRootWindow(const CPoint& screenPoint, const CFrameWnd& frameWnd)
 {
     bool ret = false;
+
     CWnd* pWnd = CWnd::WindowFromPoint(screenPoint);
     CWnd* pRoot = pWnd ? pWnd->GetAncestor(GA_ROOT) : nullptr;
+
+    // tooltips are special case
+    if (pRoot && pRoot == pWnd) {
+        CString strClass;
+        VERIFY(GetClassName(pRoot->m_hWnd, strClass.GetBuffer(256), 256));
+        strClass.ReleaseBuffer();
+        if (strClass == _T("tooltips_class32")) {
+            CWnd* pTooltipOwner = pWnd->GetParent();
+            pRoot = pTooltipOwner ? pTooltipOwner->GetAncestor(GA_ROOT) : nullptr;
+        }
+    }
+
     if (pRoot) {
         ret = (pRoot->m_hWnd == frameWnd.m_hWnd);
     } else {
         ASSERT(FALSE);
     }
+
     return ret;
 }
 bool CMouse::CursorOnWindow(const CPoint& screenPoint, const CWnd& wnd)
