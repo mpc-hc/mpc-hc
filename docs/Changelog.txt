@@ -41,6 +41,7 @@ next version - not released yet
   but it could produce blinking in some cases
 ! Ticket #2588, Subtitle renderer: The subtitle's shadow was not drawn when the subtitle's border was very thin
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
+! Ticket #2994, Fix toolbar separators not being properly painted
 ! Ticket #3437, Audio Switcher: Support fallback to another media type. For example, this enables audio decoders
   to fallback to normal decoding if bitstreaming isn't supported
 ! Ticket #3763, VMR-9 renderless and EVR-CP: The displayed subtitle was not updated when seeking while playback was paused

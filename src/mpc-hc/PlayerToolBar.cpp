@@ -91,7 +91,12 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     };
 
     for (int i = 0; i < _countof(styles); ++i) {
-        SetButtonStyle(i, styles[i] | TBBS_DISABLED);
+        // This fixes missing separator in Win 7
+        if (styles[i] & TBBS_SEPARATOR) {
+            SetButtonInfo(i, GetItemID(i), styles[i], -1);
+        } else {
+            SetButtonStyle(i, styles[i] | TBBS_DISABLED);
+        }
     }
 
     m_volctrl.Create(this);
@@ -306,6 +311,9 @@ void CPlayerToolBar::OnNcPaint() // when using XP styles the NC area isn't drawn
     dc.FillSolidRect(wr, GetSysColor(COLOR_BTNFACE));
 
     // Do not call CToolBar::OnNcPaint() for painting messages
+    
+    // Invalidate window to force repaint the expanded separator
+    Invalidate(FALSE);
 }
 
 BOOL CPlayerToolBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
