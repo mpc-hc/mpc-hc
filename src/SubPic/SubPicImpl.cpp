@@ -125,7 +125,9 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pR
         CPoint offset(0, 0);
         double scaleX = 1.0, scaleY = 1.0;
 
-        if (m_relativeTo == BEST_FIT) {
+        // Enable best fit only for HD contents since SD contents
+        // are often anamorphic and thus break the auto-fit logic
+        if (m_relativeTo == BEST_FIT && m_VirtualTextureSize.cx > 720) {
             double scaleFactor = 1.0;
             CSize szVideo = CRect(rcVideo).Size();
 
