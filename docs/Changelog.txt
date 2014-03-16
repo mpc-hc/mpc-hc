@@ -19,6 +19,7 @@ next version - not released yet
   tracks selected at splitter level will be preferred in case more than one tracks match the criteria
 * The "Jump to" menu has been split in several smaller submenus displayed in the "Navigate" menu
   depending on the media currently playing
+* Cleaned up WebUI's Javascript code
 * Updated SoundTouch to v1.8.0
 * Updated Little CMS to v2.6 (git 40300b1)
 * Updated Unrar to v5.1.1
@@ -50,7 +51,7 @@ next version - not released yet
 ! Ticket #3437, Audio Switcher: Support fallback to another media type. For example, this enables audio decoders
   to fallback to normal decoding if bitstreaming isn't supported
 ! Ticket #3763, VMR-9 renderless and EVR-CP: The displayed subtitle was not updated when seeking while playback was paused
-! Ticket #3775, "Play > Subtitles" menu could be mistakenly disabled when the internal subtitle renderer was unavailable
+! Ticket #3775, "Play -> Subtitles" menu could be mistakenly disabled when the internal subtitle renderer was unavailable
 ! Ticket #3980/#4037, Exiting fullscreen sometimes produced visual artifacts
 ! Ticket #3987, Entering fullscreen when mpc-hc window occupied the whole monitor produced visual artifacts
 ! Ticket #3999, Work around a crash in the math library for x64 builds
