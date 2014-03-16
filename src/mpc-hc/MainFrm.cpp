@@ -9661,11 +9661,13 @@ void CMainFrame::AutoChangeMonitorMode()
 void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVideoRect/* = false*/)
 {
     if (!m_bDelaySetOutputRect && GetLoadState() == MLS::LOADED && !m_fAudioOnly && IsWindowVisible()) {
-        CRect wr;
+        CRect windowRect(0, 0, 0, 0);
+        CRect videoRect(0, 0, 0, 0);
+
         if (IsD3DFullScreenMode()) {
-            m_pFullscreenWnd->GetClientRect(wr);
+            m_pFullscreenWnd->GetClientRect(windowRect);
         } else {
-            m_wndView.GetClientRect(wr);
+            m_wndView.GetClientRect(windowRect);
         }
 
         const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
@@ -9676,115 +9678,117 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             if (!bToolbarsOnVideo) {
                 uBottom -= m_controls.GetVisibleToolbarsHeight();
             }
-            wr.InflateRect(uLeft, uTop, uRight, uBottom);
+            windowRect.InflateRect(uLeft, uTop, uRight, uBottom);
         } else if (bToolbarsOnVideo) {
-            wr.bottom += m_controls.GetVisibleToolbarsHeight();
+            windowRect.bottom += m_controls.GetVisibleToolbarsHeight();
         }
 
         int nCompensateForMenubar = m_bShowingFloatingMenubar ? GetSystemMetrics(SM_CYMENU) : 0;
-        wr.bottom += nCompensateForMenubar;
-
-        double dWRWidth  = (double)(wr.right - wr.left);
-        double dWRHeight = (double)(wr.bottom - wr.top);
-
-        RECT vr = {0, 0, 0, 0};
+        windowRect.bottom += nCompensateForMenubar;
 
         OAFilterState fs = GetMediaState();
-        if ((fs == State_Paused) || (fs == State_Running) ||
-                (fs == State_Stopped && (bSetStoppedVideoRect || m_fShockwaveGraph || m_fQuicktimeGraph))) {
-            SIZE arxy = GetVideoSize();
-            double dARx = (double)(arxy.cx);
-            double dARy = (double)(arxy.cy);
+        if (fs != State_Stopped || bSetStoppedVideoRect || m_fShockwaveGraph || m_fQuicktimeGraph) {
+            CSize szVideo = GetVideoSize();
+            double dVideoAR = double(szVideo.cx) / szVideo.cy;
 
             dvstype iDefaultVideoSize = static_cast<dvstype>(AfxGetAppSettings().iDefaultVideoSize);
-            double dVRWidth, dVRHeight;
-            if (iDefaultVideoSize == DVS_HALF) {
-                dVRWidth  = dARx * 0.5;
-                dVRHeight = dARy * 0.5;
-            } else if (iDefaultVideoSize == DVS_NORMAL) {
-                dVRWidth  = dARx;
-                dVRHeight = dARy;
-            } else if (iDefaultVideoSize == DVS_DOUBLE) {
-                dVRWidth  = dARx * 2.0;
-                dVRHeight = dARy * 2.0;
-            } else {
-                dVRWidth  = dWRWidth;
-                dVRHeight = dWRHeight;
-            }
 
-            if (!m_fShockwaveGraph) { // && !m_fQuicktimeGraph)
-                double dCRWidth = dVRHeight * dARx / dARy;
-
-                if (iDefaultVideoSize == DVS_FROMINSIDE) {
-                    if (dVRWidth < dCRWidth) {
-                        dVRHeight = dVRWidth * dARy / dARx;
-                    } else {
-                        dVRWidth = dCRWidth;
-                    }
-                } else if (iDefaultVideoSize == DVS_FROMOUTSIDE) {
-                    if (dVRWidth > dCRWidth) {
-                        dVRHeight = dVRWidth * dARy / dARx;
-                    } else {
-                        dVRWidth = dCRWidth;
-                    }
-                } else if ((iDefaultVideoSize == DVS_ZOOM1) || (iDefaultVideoSize == DVS_ZOOM2)) {
-                    double minw = dCRWidth;
-                    double maxw = dCRWidth;
-
-                    if (dVRWidth < dCRWidth) {
-                        minw = dVRWidth;
-                    } else {
-                        maxw = dVRWidth;
-                    }
-
-                    double scale = (iDefaultVideoSize == DVS_ZOOM1) ?
-                                   1.0 / 3.0 :
-                                   2.0 / 3.0;
-                    dVRWidth  = minw + (maxw - minw) * scale;
-                    dVRHeight = dVRWidth * dARy / dARx;
+            if (m_fShockwaveGraph) { // && m_fQuicktimeGraph)
+                if (iDefaultVideoSize != DVS_HALF || iDefaultVideoSize != DVS_DOUBLE) {
+                    // We don't support other scaling methods for Shockwave.
+                    iDefaultVideoSize = DVS_NORMAL;
                 }
             }
 
-            double dScaledVRWidth = m_ZoomX * dVRWidth;
+            double dWRWidth  = windowRect.Width();
+            double dWRHeight = windowRect.Height();
+
+            double dVRWidth = dWRHeight * dVideoAR;
+            double dVRHeight;
+
+            switch (iDefaultVideoSize) {
+                case DVS_HALF:
+                    dVRWidth = szVideo.cx * 0.5;
+                    dVRHeight = szVideo.cy * 0.5;
+                    break;
+                case DVS_NORMAL:
+                    dVRWidth = szVideo.cx;
+                    dVRHeight = szVideo.cy;
+                    break;
+                case DVS_DOUBLE:
+                    dVRWidth = szVideo.cx * 2.0;
+                    dVRHeight = szVideo.cy * 2.0;
+                    break;
+                case DVS_STRETCH:
+                    dVRWidth = dWRWidth;
+                    dVRHeight = dWRHeight;
+                    break;
+                case DVS_FROMINSIDE:
+                case DVS_FROMOUTSIDE:
+                    if ((windowRect.Width() < dVRWidth) != (iDefaultVideoSize == DVS_FROMOUTSIDE)) {
+                        dVRWidth = dWRWidth;
+                        dVRHeight = dVRWidth / dVideoAR;
+                    } else {
+                        dVRHeight = dWRHeight;
+                    }
+                    break;
+                case DVS_ZOOM1:
+                case DVS_ZOOM2: {
+                    double minw = dWRWidth < dVRWidth ? dWRWidth : dVRWidth;
+                    double maxw = dWRWidth > dVRWidth ? dWRWidth : dVRWidth;
+
+                    double scale = iDefaultVideoSize == DVS_ZOOM1 ? 1.0 / 3.0 : 2.0 / 3.0;
+                    dVRWidth = minw + (maxw - minw) * scale;
+                    dVRHeight = dVRWidth / dVideoAR;
+                    break;
+                }
+                default:
+                    ASSERT(FALSE);
+                    break;
+            }
+
+            // Scale video frame
+            double dScaledVRWidth  = m_ZoomX * dVRWidth;
             double dScaledVRHeight = m_ZoomY * dVRHeight;
-            // Rounding is required here, else the left-to-right and top-to-bottom sizes will get distorted through rounding twice each
-            // Todo: clean this up using decent intrinsic rounding instead of floor(x+.5) and truncation cast to LONG on (y+.5)
-            double dPPLeft = floor(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth + 0.5);
-            double dPPTop  = floor(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + 0.5);
+
+            // Position video frame
             // left and top parts are allowed to be negative
-            vr.left   = (LONG)(dPPLeft);
-            vr.top    = (LONG)(dPPTop);
+            videoRect.left   = lround(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth);
+            videoRect.top    = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight);
             // right and bottom parts are always at picture center or beyond, so never negative
-            vr.right  = (LONG)(dScaledVRWidth + dPPLeft + 0.5);
-            vr.bottom = (LONG)(dScaledVRHeight + dPPTop + 0.5);
+            videoRect.right  = lround(videoRect.left + dScaledVRWidth);
+            videoRect.bottom = lround(videoRect.top  + dScaledVRHeight);
+
+            ASSERT(videoRect.Width()  == lround(dScaledVRWidth));
+            ASSERT(videoRect.Height() == lround(dScaledVRHeight));
 
             if (fShowStats) {
                 CString info;
-                info.Format(_T("Pos %.3f %.3f, Zoom %.3f %.3f, AR %.3f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, dScaledVRWidth / dScaledVRHeight);
+                info.Format(_T("Pos %.3f %.3f, Zoom %.3f %.3f, AR %.3f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, double(videoRect.Width()) / videoRect.Height());
                 SendStatusMessage(info, 3000);
             }
         }
 
-        wr.top -= nCompensateForMenubar;
-        wr.bottom -= nCompensateForMenubar;
+        windowRect.top -= nCompensateForMenubar;
+        windowRect.bottom -= nCompensateForMenubar;
 
         if (m_pCAP) {
-            m_pCAP->SetPosition(wr, vr);
+            m_pCAP->SetPosition(windowRect, videoRect);
             Vector v(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(m_AngleZ));
             m_pCAP->SetVideoAngle(v);
         } else {
             HRESULT hr;
             hr = m_pBV->SetDefaultSourcePosition();
-            hr = m_pBV->SetDestinationPosition(vr.left, vr.top, vr.right - vr.left, vr.bottom - vr.top);
-            hr = m_pVW->SetWindowPosition(wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top);
+            hr = m_pBV->SetDestinationPosition(videoRect.left, videoRect.top, videoRect.Width(), videoRect.Height());
+            hr = m_pVW->SetWindowPosition(windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height());
 
             if (m_pMFVDC) {
-                m_pMFVDC->SetVideoPosition(nullptr, &wr);
+                m_pMFVDC->SetVideoPosition(nullptr, &windowRect);
             }
         }
 
-        m_wndView.SetVideoRect(&wr);
-        m_OSD.SetSize(wr, vr);
+        m_wndView.SetVideoRect(&windowRect);
+        m_OSD.SetSize(windowRect, videoRect);
     } else {
         m_wndView.SetVideoRect();
     }
