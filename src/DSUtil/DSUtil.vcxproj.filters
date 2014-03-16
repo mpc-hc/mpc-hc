@@ -130,5 +130,8 @@
     <ClInclude Include="PathUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WinapiFunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

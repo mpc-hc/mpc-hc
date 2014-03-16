@@ -153,6 +153,7 @@
     <ClInclude Include="text.h" />
     <ClInclude Include="vd.h" />
     <ClInclude Include="vd_asm.h" />
+    <ClInclude Include="WinapiFunc.h" />
     <ClInclude Include="WinAPIUtils.h" />
   </ItemGroup>
   <ItemGroup>
