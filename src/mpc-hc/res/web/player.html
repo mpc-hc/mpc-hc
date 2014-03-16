@@ -1,104 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>MPC-HC WebServer - Player</title>
-		<link rel="stylesheet" href="default.css">
-		<link rel="shortcut icon" href="favicon.ico">
-		<script src="javascript.js"></script>
-	</head>
-	<body onload="playerInit()">
-		<div>
-			<table id="player">
-				<tr>
-					<td colspan="3">
-						<table id="header">
-							<tr>
-								<td id="headerIcon"></td>
-								<td id="headerBack"><div class="nobr" id="title">&nbsp;</div></td>
-								<td id="headerClose" onclick="OnCommand(816)"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td id="leftside"></td>
-					<td>
-						<table id="center">
-							<tr>
-								<td>
-									<table id="menu">
-										<tr>
-											<td>File</td>
-											<td>View</td>
-											<td>Play</td>
-											<td>Navigate</td>
-											<td>Favorites</td>
-											<td id="menu-help" class="align-right">Help</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-							<tr>
-								<td id="video" onclick="OnCommand(889)">
-									<img src="snapshot.jpg" id="snapshot" alt="snapshot" onload="OnLoadSnapshot()" onabort="OnAbortErrorSnapshot()" onerror="OnAbortErrorSnapshot()">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<table id="seekbar">
-										<tr>
-											<td id="seekbarleft"><img src="img/seekbarleft.png" alt="seekbarleft"></td>
-											<td id="seekbarchleft" width="0%"></td>
-											<td id="seekbargrip"><img src="img/seekbargrip.png" alt="seekbargrip"></td>
-											<td id="seekbarchright" width="100%"></td>
-											<td id="seekbarright"><img src="img/seekbarright.png" alt="seekbarright"></td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<table id="controlbar">
-										<tr>
-											<td id="controlbuttonplay" onclick="OnCommand(887)"></td>
-											<td id="controlbuttonpause" onclick="OnCommand(888)"></td>
-											<td id="controlbuttonstop" onclick="OnCommand(890)"></td>
-											<td id="controlbuttonskipback" onclick="OnCommand(920)"></td>
-											<td id="controlbuttondecrate" onclick="OnCommand(894)"></td>
-											<td id="controlbuttonincrate" onclick="OnCommand(895)"></td>
-											<td id="controlbuttonskipforward" onclick="OnCommand(921)"></td>
-											<td id="controlbuttonstep" onclick="OnCommand(891)"></td>
-											<td>&nbsp;</td>
-											<td id="controlvolumemute" onclick="OnCommand(909)"></td>
-											<td id="controlvolumebar">
-												<img src="img/controlvolumegrip.png" id="controlvolumegrip" alt="control volume grip">
-											</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<table id="statusbar">
-										<tr>
-											<td><div id="status"></div></td>
-											<td class="align-right"><div id="timer">&nbsp;</div></td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td id="rightside"></td>
-				</tr>
-				<tr>
-					<td id="leftbottomside"></td>
-					<td id="bottomside"></td>
-					<td id="rightbottomside"></td>
-				</tr>
-			</table>
-		</div>
+    <head>
+        <meta charset="utf-8">
+        <title>MPC-HC WebServer - Player</title>
+        <link rel="stylesheet" href="default.css">
+        <link rel="shortcut icon" href="favicon.ico">
+        <script src="javascript.js"></script>
+    </head>
+    <body onload="playerInit()">
+        <div>
+            <table id="player">
+                <tr>
+                    <td colspan="3">
+                        <table id="header">
+                            <tr>
+                                <td id="headerIcon"></td>
+                                <td id="headerBack"><div class="nobr" id="title">&nbsp;</div></td>
+                                <td id="headerClose" onclick="OnCommand(816)"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="leftside"></td>
+                    <td>
+                        <table id="center">
+                            <tr>
+                                <td>
+                                    <table id="menu">
+                                        <tr>
+                                            <td>File</td>
+                                            <td>View</td>
+                                            <td>Play</td>
+                                            <td>Navigate</td>
+                                            <td>Favorites</td>
+                                            <td id="menu-help" class="align-right">Help</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="video" onclick="OnCommand(889)">
+                                    <img src="snapshot.jpg" id="snapshot" alt="snapshot" onload="OnLoadSnapshot()" onabort="OnAbortErrorSnapshot()" onerror="OnAbortErrorSnapshot()">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table id="seekbar">
+                                        <tr>
+                                            <td id="seekbarleft"><img src="img/seekbarleft.png" alt="seekbarleft"></td>
+                                            <td id="seekbarchleft" width="0%"></td>
+                                            <td id="seekbargrip"><img src="img/seekbargrip.png" alt="seekbargrip"></td>
+                                            <td id="seekbarchright" width="100%"></td>
+                                            <td id="seekbarright"><img src="img/seekbarright.png" alt="seekbarright"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table id="controlbar">
+                                        <tr>
+                                            <td id="controlbuttonplay" onclick="OnCommand(887)"></td>
+                                            <td id="controlbuttonpause" onclick="OnCommand(888)"></td>
+                                            <td id="controlbuttonstop" onclick="OnCommand(890)"></td>
+                                            <td id="controlbuttonskipback" onclick="OnCommand(920)"></td>
+                                            <td id="controlbuttondecrate" onclick="OnCommand(894)"></td>
+                                            <td id="controlbuttonincrate" onclick="OnCommand(895)"></td>
+                                            <td id="controlbuttonskipforward" onclick="OnCommand(921)"></td>
+                                            <td id="controlbuttonstep" onclick="OnCommand(891)"></td>
+                                            <td>&nbsp;</td>
+                                            <td id="controlvolumemute" onclick="OnCommand(909)"></td>
+                                            <td id="controlvolumebar">
+                                                <img src="img/controlvolumegrip.png" id="controlvolumegrip" alt="control volume grip">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table id="statusbar">
+                                        <tr>
+                                            <td><div id="status"></div></td>
+                                            <td class="align-right"><div id="timer">&nbsp;</div></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td id="rightside"></td>
+                </tr>
+                <tr>
+                    <td id="leftbottomside"></td>
+                    <td id="bottomside"></td>
+                    <td id="rightbottomside"></td>
+                </tr>
+            </table>
+        </div>
 [debug]
-	</body>
+    </body>
 </html>

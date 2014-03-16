@@ -42,251 +42,251 @@ body,
 th,
 td,
 .sectionInfo {
-	font: 0.9em Arial, Verdana, Helvetica, Sans-Serif;
+    font: 0.9em Arial, Verdana, Helvetica, Sans-Serif;
 }
 
 img {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #player {
-	margin: 0 auto;
+    margin: 0 auto;
 }
 
 #player,
 #player table,
 #player td,
 #player th {
-	border-collapse: separate;
-	border-spacing: 0;
-	padding: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    padding: 0;
 }
 
 #player td {
-	font: 13px Sans-Serif;
+    font: 13px Sans-Serif;
 }
 
 #header td {
-	height: 30px;
+    height: 30px;
 }
 
 #headerIcon {
-	background: url(img/headericon.png) no-repeat;
-	width: 22px;
+    background: url(img/headericon.png) no-repeat;
+    width: 22px;
 }
 
 #headerBack {
-	background: url(img/headerback.png) repeat-x;
-	color: white;
-	font-weight: bold !important;
+    background: url(img/headerback.png) repeat-x;
+    color: white;
+    font-weight: bold !important;
 }
 
 #headerClose {
-	background: url(img/headerclose.png) no-repeat;
-	width: 28px;
+    background: url(img/headerclose.png) no-repeat;
+    width: 28px;
 }
 
 #durstr,
 #posstr,
 #status,
 #title {
-	display: inline;
+    display: inline;
 }
 
 #menu td {
-	font-size: 12px;
-	padding: 2px 6px;
+    font-size: 12px;
+    padding: 2px 6px;
 }
 
 #menu-help {
-	width: 100%;
+    width: 100%;
 }
 
 #controlbar,
 #menu {
-	background-color: #ECE6D4;
-	width: 100%;
+    background-color: #ECE6D4;
+    width: 100%;
 }
 
 #statusbar {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 4px 2px 1px 2px !important;
-	width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 4px 2px 1px 2px !important;
+    width: 100%;
 }
 
 #statusbar td {
-	font-size: 12px;
+    font-size: 12px;
 }
 
 #statusbar,
 #video {
-	background-color: black;
-	color: white;
+    background-color: black;
+    color: white;
 }
 
 #video {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 #snapshot {
-	margin-bottom: -4px;
+    margin-bottom: -4px;
 }
 
 #controlbar {
-	background: url(img/controlback.png) repeat-x;
-	height: 28px;
+    background: url(img/controlback.png) repeat-x;
+    height: 28px;
 }
 
 #controlbuttonplay {
-	background: url(img/controlbuttonplay.png) no-repeat;
-	width: 25px;
-	height: 28px;
+    background: url(img/controlbuttonplay.png) no-repeat;
+    width: 25px;
+    height: 28px;
 }
 
 #controlbuttonpause {
-	background: url(img/controlbuttonpause.png) no-repeat;
-	width: 23px;
-	height: 28px;
+    background: url(img/controlbuttonpause.png) no-repeat;
+    width: 23px;
+    height: 28px;
 }
 
 #controlbuttonstop {
-	background: url(img/controlbuttonstop.png) no-repeat;
-	width: 25px;
-	height: 28px;
+    background: url(img/controlbuttonstop.png) no-repeat;
+    width: 25px;
+    height: 28px;
 }
 
 #controlbuttonskipback {
-	background: url(img/controlbuttonskipback.png) no-repeat;
-	width: 24px;
-	height: 28px;
+    background: url(img/controlbuttonskipback.png) no-repeat;
+    width: 24px;
+    height: 28px;
 }
 
 #controlbuttondecrate {
-	background: url(img/controlbuttondecrate.png) no-repeat;
-	width: 22px;
-	height: 28px;
+    background: url(img/controlbuttondecrate.png) no-repeat;
+    width: 22px;
+    height: 28px;
 }
 
 #controlbuttonincrate {
-	background: url(img/controlbuttonincrate.png) no-repeat;
-	width: 23px;
-	height: 28px;
+    background: url(img/controlbuttonincrate.png) no-repeat;
+    width: 23px;
+    height: 28px;
 }
 
 #controlbuttonskipforward {
-	background: url(img/controlbuttonskipforward.png) no-repeat;
-	width: 28px;
-	height: 28px;
+    background: url(img/controlbuttonskipforward.png) no-repeat;
+    width: 28px;
+    height: 28px;
 }
 
 #controlbuttonstep {
-	background: url(img/controlbuttonstep.png) no-repeat;
-	width: 31px;
-	height: 28px;
+    background: url(img/controlbuttonstep.png) no-repeat;
+    width: 31px;
+    height: 28px;
 }
 
 #controlvolumemute {
-	background: url(img/controlvolumeon.png) no-repeat;
-	width: 28px;
-	height: 28px;
+    background: url(img/controlvolumeon.png) no-repeat;
+    width: 28px;
+    height: 28px;
 }
 
 #controlvolumebar {
-	background: url(img/controlvolumebar.png) no-repeat;
-	width: 55px;
-	height: 28px;
+    background: url(img/controlvolumebar.png) no-repeat;
+    width: 55px;
+    height: 28px;
 }
 
 #seekbar {
-	background: url(img/seekbarmid.png) repeat-x;
-	margin-top: 1px;
-	width: 100%;
+    background: url(img/seekbarmid.png) repeat-x;
+    margin-top: 1px;
+    width: 100%;
 }
 
 #seekbar td {
-	font-size:0;
+    font-size:0;
 }
 
 #leftside {
-	background: url(img/leftside.png) repeat-y;
-	width: 4px;
+    background: url(img/leftside.png) repeat-y;
+    width: 4px;
 }
 
 #rightside {
-	background: url(img/rightside.png) repeat-y;
-	width: 4px;
+    background: url(img/rightside.png) repeat-y;
+    width: 4px;
 }
 
 #leftbottomside {
-	background: url(img/leftbottomside.png) repeat-x;
-	width: 4px;
-	height: 4px;
+    background: url(img/leftbottomside.png) repeat-x;
+    width: 4px;
+    height: 4px;
 }
 
 #bottomside {
-	background: url(img/bottomside.png) repeat-x;
-	height: 4px;
+    background: url(img/bottomside.png) repeat-x;
+    height: 4px;
 }
 
 #rightbottomside {
-	background: url(img/rightbottomside.png) repeat-x;
-	width: 4px;
-	height: 4px;
+    background: url(img/rightbottomside.png) repeat-x;
+    width: 4px;
+    height: 4px;
 }
 
 #center,
 #header {
-	width: 100%;
+    width: 100%;
 }
 
 #slider {
-	background: url(img/sliderback.png) no-repeat;
-	width: 515px;
-	height: 20px;
+    background: url(img/sliderback.png) no-repeat;
+    width: 515px;
+    height: 20px;
 }
 
 #v {
-	background: url(img/vbg.png) no-repeat;
-	width: 110px;
-	height: 20px;
+    background: url(img/vbg.png) no-repeat;
+    width: 110px;
+    height: 20px;
 }
 
 .browser-table {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	border-collapse: separate;
-	border-spacing: 1px;
-	padding: 1px;
-	width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-collapse: separate;
+    border-spacing: 1px;
+    padding: 1px;
+    width: 100%;
 }
 
 .browser-table,
 .browser-table th,
 .browser-table td {
-	border: 1px solid black;
+    border: 1px solid black;
 }
 
 .browser-table th {
-	font-weight: bold;
-	white-space: nowrap;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .browser-table th:first-child {
-	width: 100%;
+    width: 100%;
 }
 
 .nobr {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 .align-center {
-	text-align: center;
+    text-align: center;
 }
 
 .align-right {
-	text-align: right;
+    text-align: right;
 }
