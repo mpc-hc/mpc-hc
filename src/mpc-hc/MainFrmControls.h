@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -38,6 +38,7 @@ class CMainFrameControls
         CPoint lastShowPoint;
         bool bLastCanAutoHideToolbars;
         bool bLastCanAutoHidePanels;
+        bool bLastHaveExclusiveSeekbar;
         ControlsVisibilityState();
     } m_controlsVisibilityState;
 

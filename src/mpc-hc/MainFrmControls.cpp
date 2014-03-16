@@ -26,6 +26,7 @@ CMainFrameControls::ControlsVisibilityState::ControlsVisibilityState()
     : nVisibleCS(0)
     , bLastCanAutoHideToolbars(false)
     , bLastCanAutoHidePanels(false)
+    , bLastHaveExclusiveSeekbar(false)
 {
     nCurrentCS = AfxGetAppSettings().nCS;
 }
@@ -335,6 +336,8 @@ void CMainFrameControls::UpdateToolbarsVisibility()
         VERIFY(m_pMainFrame->m_pMVRS->SettingsGetBoolean(L"enableExclusive", &bOptExcl));
         VERIFY(m_pMainFrame->m_pMVRS->SettingsGetBoolean(L"enableSeekbar", &bOptExclSeekbar));
         bExclSeekbar = (bOptExcl && bOptExclSeekbar);
+    } else if (m_bDelayShowNotLoaded && st.bLastHaveExclusiveSeekbar) {
+        bExclSeekbar = true;
     }
 
     if (m_pMainFrame->m_fFullScreen && s.bHideFullscreenControls &&
@@ -647,6 +650,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
 
     st.bLastCanAutoHideToolbars = bCanAutoHide;
     st.bLastCanAutoHidePanels = bCanAutoHide && bCanHideDockedPanels;
+    st.bLastHaveExclusiveSeekbar = bExclSeekbar;
 }
 
 unsigned CMainFrameControls::GetVisibleToolbarsHeight() const
