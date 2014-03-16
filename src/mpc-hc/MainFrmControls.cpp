@@ -22,6 +22,8 @@
 #include "MainFrmControls.h"
 #include "MainFrm.h"
 
+#define DELAY_SHOW_NOT_LOADED_TIME_MS 3000
+
 CMainFrameControls::ControlsVisibilityState::ControlsVisibilityState()
     : nVisibleCS(0)
     , bLastCanAutoHideToolbars(false)
@@ -667,7 +669,8 @@ void CMainFrameControls::DelayShowNotLoaded(bool bDoDelay)
 {
     auto id = CMainFrame::TimerOneTimeSubscriber::TOOLBARS_DELAY_NOTLOADED;
     if (bDoDelay) {
-        m_pMainFrame->m_timerOneTime.Subscribe(id, std::bind(&CMainFrameControls::DelayShowNotLoadedCallback, this), 4000);
+        m_pMainFrame->m_timerOneTime.Subscribe(id, std::bind(&CMainFrameControls::DelayShowNotLoadedCallback, this),
+                                               DELAY_SHOW_NOT_LOADED_TIME_MS);
     } else if (m_bDelayShowNotLoaded) {
         m_pMainFrame->m_timerOneTime.Unsubscribe(id);
     }
