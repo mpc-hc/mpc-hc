@@ -1311,6 +1311,10 @@ void CMainFrame::OnMove(int x, int y)
     //MoveVideoWindow(); // This isn't needed, based on my limited tests. If it is needed then please add a description the scenario(s) where it is needed.
     m_wndView.Invalidate();
 
+    if (m_bWasSnapped && IsZoomed()) {
+        m_bWasSnapped = false;
+    }
+
     WINDOWPLACEMENT wp;
     GetWindowPlacement(&wp);
     if (!m_fFirstFSAfterLaunchOnFS && !m_fFullScreen && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
