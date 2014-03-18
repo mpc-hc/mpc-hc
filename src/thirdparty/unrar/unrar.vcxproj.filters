@@ -155,6 +155,9 @@
     <ClCompile Include="volume.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="archive.hpp">
@@ -347,6 +350,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="volume.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

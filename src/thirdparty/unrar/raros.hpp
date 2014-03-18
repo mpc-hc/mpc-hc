@@ -19,6 +19,11 @@
   #endif
 #endif
 
+#ifdef ANDROID
+  #define _UNIX
+  #define _ANDROID
+#endif
+
 #ifdef __APPLE__
   #define _UNIX
   #define _APPLE

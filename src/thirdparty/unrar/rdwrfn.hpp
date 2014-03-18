@@ -67,6 +67,7 @@ class ComprDataIO
     void SetUnpackToMemory(byte *Addr,uint Size);
     void SetCurrentCommand(wchar Cmd) {CurrentCommand=Cmd;}
 
+
     bool PackVolume;
     bool UnpVolume;
     bool NextVolumeMissing;

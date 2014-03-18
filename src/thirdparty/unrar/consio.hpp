@@ -2,11 +2,11 @@
 #define _RAR_CONSIO_
 
 void InitConsole();
-void InitConsoleOptions(MESSAGE_TYPE MsgStream,bool Sound);
+void InitConsoleOptions(MESSAGE_TYPE MsgStream);
 void OutComment(const wchar *Comment,size_t Size);
 
 #ifndef SILENT
-bool GetConsolePassword(PASSWORD_TYPE Type,const wchar *FileName,SecPassword *Password);
+bool GetConsolePassword(UIPASSWORD_TYPE Type,const wchar *FileName,SecPassword *Password);
 #endif
 
 #ifdef SILENT

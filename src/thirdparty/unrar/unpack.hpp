@@ -14,7 +14,7 @@
 #define UNPACK_MAX_WRITE     0x400000
 
 // Decode compressed bit fields to alphabet numbers.
-struct DecodeTable
+struct DecodeTable:PackDef
 {
   // Real size of DecodeNum table.
   uint MaxNum;
@@ -184,7 +184,7 @@ class FragmentedWindow
 };
 
 
-class Unpack
+class Unpack:PackDef
 {
   private:
 

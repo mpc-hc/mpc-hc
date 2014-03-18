@@ -27,79 +27,6 @@ typedef struct _REPARSE_DATA_BUFFER {
 } REPARSE_DATA_BUFFER, *PREPARSE_DATA_BUFFER;
 
 
-void GetReparsePoint(const wchar *Name,FileHeader *hd)
-{
-  static bool PrivSet=false;
-  if (!PrivSet)
-  {
-    SetPrivilege(SE_BACKUP_NAME);
-    PrivSet=true;
-  }
-
-  WIN32_FIND_DATA FindData;
-  HANDLE hFind=FindFirstFile(Name,&FindData);
-  if (hFind==INVALID_HANDLE_VALUE)
-    return;
-  FindClose(hFind);
-
-  if ((FindData.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT)==0 ||
-      FindData.dwReserved0!=IO_REPARSE_TAG_MOUNT_POINT &&
-      FindData.dwReserved0!=IO_REPARSE_TAG_SYMLINK)
-    return;
-
-  HANDLE hFile=CreateFile(
-    Name,FILE_READ_EA,FILE_SHARE_READ,NULL,OPEN_EXISTING,
-    FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,NULL);
-  if (hFile==INVALID_HANDLE_VALUE)
-  {
-    ErrHandler.OpenErrorMsg(NULL,Name);
-    ErrHandler.SetErrorCode(RARX_OPEN);
-    return;
-  }
-
-  const DWORD BufSize=MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
-  Array<byte> Buf(BufSize);
-  REPARSE_DATA_BUFFER *rdb=(REPARSE_DATA_BUFFER *)&Buf[0];
-
-  DWORD BytesReturned;
-  BOOL DevResult=DeviceIoControl(hFile,FSCTL_GET_REPARSE_POINT,NULL,0,rdb,BufSize,&BytesReturned,NULL);
-  CloseHandle(hFile);
-  if (!DevResult)
-  {
-    ErrHandler.ReadErrorMsg(Name);
-    return;
-  }
-
-  wchar TargetName[NM];
-  if (rdb->ReparseTag==IO_REPARSE_TAG_MOUNT_POINT)
-  {
-    uint SubstOffset=rdb->MountPointReparseBuffer.SubstituteNameOffset/sizeof(WCHAR);
-    uint SubstLength=rdb->MountPointReparseBuffer.SubstituteNameLength/sizeof(WCHAR);
-    wchar *SubstName=rdb->MountPointReparseBuffer.PathBuffer+SubstOffset;
-
-    if (SubstLength>=ASIZE(TargetName))
-      return;
-    wcsncpy(TargetName,SubstName,SubstLength);
-    TargetName[SubstLength]=0;
-    hd->RedirType=FSREDIR_JUNCTION;
-  }
-  if (rdb->ReparseTag==IO_REPARSE_TAG_SYMLINK)
-  {
-    uint SubstOffset=rdb->SymbolicLinkReparseBuffer.SubstituteNameOffset/sizeof(WCHAR);
-    uint SubstLength=rdb->SymbolicLinkReparseBuffer.SubstituteNameLength/sizeof(WCHAR);
-    wchar *SubstName=rdb->SymbolicLinkReparseBuffer.PathBuffer+SubstOffset;
-
-    if (SubstLength>=ASIZE(TargetName))
-      return;
-    wcsncpy(TargetName,SubstName,SubstLength);
-    TargetName[SubstLength]=0;
-    hd->RedirType=FSREDIR_WINSYMLINK;
-  }
-  if (hd->RedirType==FSREDIR_NONE)
-    return;
-  wcsncpyz(hd->RedirName,TargetName,ASIZE(hd->RedirName));
-  hd->DirTarget=(FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)!=0;
-}
 
 
 bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
@@ -210,9 +137,9 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
       rdb->ReparseDataLength,NULL,0,&Returned,NULL))
   { 
     CloseHandle(hFile);
-    Log(NULL,St(MErrCreateLnkS),Name);
+    uiMsg(UIERROR_SLINKCREATE,UINULL,Name);
     if (GetLastError()==ERROR_PRIVILEGE_NOT_HELD)
-      Log(NULL,St(MNeedAdmin));
+      uiMsg(UIERROR_NEEDADMIN);
     ErrHandler.SysErrMsg();
     ErrHandler.SetErrorCode(RARX_CREATE);
 

@@ -233,13 +233,19 @@ bool Unpack::UnpReadBuf()
   }
   else
     DataSize=ReadTop;
-  int ReadCode=UnpIO->UnpRead(Inp.InBuf+DataSize,BitInput::MAX_SIZE-DataSize);
-  if (ReadCode>0)
+  int ReadCode=0;
+  if (BitInput::MAX_SIZE!=DataSize)
+    ReadCode=UnpIO->UnpRead(Inp.InBuf+DataSize,BitInput::MAX_SIZE-DataSize);
+  if (ReadCode>0) // Can be also -1.
     ReadTop+=ReadCode;
   ReadBorder=ReadTop-30;
   BlockHeader.BlockStart=Inp.InAddr;
   if (BlockHeader.BlockSize!=-1) // '-1' means not defined yet.
+  {
+    // We may need to quit from main extraction loop and read new block header
+    // and trees earlier than data in input buffer ends.
     ReadBorder=Min(ReadBorder,BlockHeader.BlockStart+BlockHeader.BlockSize-1);
+  }
   return ReadCode!=-1;
 }
 
@@ -420,7 +426,7 @@ void Unpack::FilterItanium_SetBits(byte *Data,uint BitField,int BitPos,int BitCo
 
 inline uint GetFiltData32(byte *Data)
 {
-#if defined(BIG_ENDIAN) || !defined(ALLOW_NOT_ALIGNED_INT) || !defined(PRESENT_INT32)
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
   uint Value=GET_UINT32((uint)Data[0]|((uint)Data[1]<<8)|((uint)Data[2]<<16)|((uint)Data[3]<<24));
 #else
   uint Value=GET_UINT32(*(uint32 *)Data);
@@ -431,7 +437,7 @@ inline uint GetFiltData32(byte *Data)
 
 inline void SetFiltData32(byte *Data,uint Value)
 {
-#if defined(BIG_ENDIAN) || !defined(ALLOW_NOT_ALIGNED_INT) || !defined(PRESENT_INT32)
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
    Data[0]=(byte)Value;
    Data[1]=(byte)(Value>>8);
    Data[2]=(byte)(Value>>16);

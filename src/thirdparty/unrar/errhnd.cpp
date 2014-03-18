@@ -1,6 +1,5 @@
 #include "rar.hpp"
 
-
 ErrorHandler::ErrorHandler()
 {
   Clean();
@@ -22,7 +21,7 @@ void ErrorHandler::Clean()
 void ErrorHandler::MemoryError()
 {
   MemoryErrorMsg();
-  Throw(RARX_MEMORY);
+  Exit(RARX_MEMORY);
 }
 
 
@@ -30,22 +29,20 @@ void ErrorHandler::OpenError(const wchar *FileName)
 {
 #ifndef SILENT
   OpenErrorMsg(FileName);
-  Throw(RARX_OPEN);
+  Exit(RARX_OPEN);
 #endif
 }
 
 
 void ErrorHandler::CloseError(const wchar *FileName)
 {
-#ifndef SILENT
   if (!UserBreak)
   {
-    Log(NULL,St(MErrFClose),FileName);
+    uiMsg(UIERROR_FILECLOSE,FileName);
     SysErrMsg();
   }
-#endif
 #if !defined(SILENT) || defined(RARDLL)
-  Throw(RARX_FATAL);
+  Exit(RARX_FATAL);
 #endif
 }
 
@@ -56,7 +53,7 @@ void ErrorHandler::ReadError(const wchar *FileName)
   ReadErrorMsg(FileName);
 #endif
 #if !defined(SILENT) || defined(RARDLL)
-  Throw(RARX_FATAL);
+  Exit(RARX_FATAL);
 #endif
 }
 
@@ -67,9 +64,7 @@ bool ErrorHandler::AskRepeatRead(const wchar *FileName)
   if (!Silent)
   {
     SysErrMsg();
-    mprintf(L"\n");
-    Log(NULL,St(MErrRead),FileName);
-    return Ask(St(MRetryAbort))==1;
+    return uiAskRepeatRead(FileName);
   }
 #endif
   return false;
@@ -82,7 +77,7 @@ void ErrorHandler::WriteError(const wchar *ArcName,const wchar *FileName)
   WriteErrorMsg(ArcName,FileName);
 #endif
 #if !defined(SILENT) || defined(RARDLL)
-  Throw(RARX_WRITE);
+  Exit(RARX_WRITE);
 #endif
 }
 
@@ -90,12 +85,10 @@ void ErrorHandler::WriteError(const wchar *ArcName,const wchar *FileName)
 #ifdef _WIN_ALL
 void ErrorHandler::WriteErrorFAT(const wchar *FileName)
 {
-#if !defined(SILENT) && !defined(SFX_MODULE)
   SysErrMsg();
-  Log(NULL,St(MNTFSRequired),FileName);
-#endif
+  uiMsg(UIERROR_NTFSREQUIRED,FileName);
 #if !defined(SILENT) && !defined(SFX_MODULE) || defined(RARDLL)
-  Throw(RARX_WRITE);
+  Exit(RARX_WRITE);
 #endif
 }
 #endif
@@ -107,9 +100,7 @@ bool ErrorHandler::AskRepeatWrite(const wchar *FileName,bool DiskFull)
   if (!Silent)
   {
     SysErrMsg();
-    mprintf(L"\n");
-    Log(NULL,St(DiskFull ? MNotEnoughDisk:MErrWrite),FileName);
-    return Ask(St(MRetryAbort))==1;
+    return uiAskRepeatWrite(FileName,DiskFull);
   }
 #endif
   return false;
@@ -118,15 +109,13 @@ bool ErrorHandler::AskRepeatWrite(const wchar *FileName,bool DiskFull)
 
 void ErrorHandler::SeekError(const wchar *FileName)
 {
-#ifndef SILENT
   if (!UserBreak)
   {
-    Log(NULL,St(MErrSeek),FileName);
+    uiMsg(UIERROR_FILESEEK,FileName);
     SysErrMsg();
   }
-#endif
 #if !defined(SILENT) || defined(RARDLL)
-  Throw(RARX_FATAL);
+  Exit(RARX_FATAL);
 #endif
 }
 
@@ -136,21 +125,26 @@ void ErrorHandler::GeneralErrMsg(const wchar *fmt,...)
   va_list arglist;
   va_start(arglist,fmt);
   wchar Msg[1024];
+#ifdef _ANDROID
+  // vswprintf does not work in Android NDK. Conversion below should be ok
+  // as long as we do not pass Unicode strings in arguments.
+  char fmtA[NM],MsgA[ASIZE(Msg)];
+  WideToChar(fmt,fmtA,ASIZE(fmtA));
+  vsnprintf(MsgA,ASIZE(MsgA),fmtA,arglist);
+  CharToWide(MsgA,Msg,ASIZE(Msg));
+#else
   vswprintf(Msg,ASIZE(Msg),fmt,arglist);
-#ifndef SILENT
-  Log(NULL,L"%ls",Msg);
-  mprintf(L"\n");
-  SysErrMsg();
 #endif
+  uiMsg(UIERROR_GENERALERRMSG,Msg);
+  SysErrMsg();
   va_end(arglist);
 }
 
 
 void ErrorHandler::MemoryErrorMsg()
 {
-#ifndef SILENT
-  Log(NULL,St(MErrOutMem));
-#endif
+  uiMsg(UIERROR_MEMORY);
+  SetErrorCode(RARX_MEMORY);
 }
 
 
@@ -162,11 +156,9 @@ void ErrorHandler::OpenErrorMsg(const wchar *FileName)
 
 void ErrorHandler::OpenErrorMsg(const wchar *ArcName,const wchar *FileName)
 {
-#ifndef SILENT
-  if (FileName!=NULL)
-    Log(ArcName,St(MCannotOpen),FileName);
+  uiMsg(UIERROR_FILEOPEN,ArcName,FileName);
   SysErrMsg();
-#endif
+  SetErrorCode(RARX_OPEN);
 }
 
 
@@ -178,37 +170,9 @@ void ErrorHandler::CreateErrorMsg(const wchar *FileName)
 
 void ErrorHandler::CreateErrorMsg(const wchar *ArcName,const wchar *FileName)
 {
-#ifndef SILENT
-  Log(ArcName,St(MCannotCreate),FileName);
-
-#if defined(_WIN_ALL) && defined(MAX_PATH)
-  CheckLongPathErrMsg(FileName);
-#endif
-
+  uiMsg(UIERROR_FILECREATE,ArcName,FileName);
   SysErrMsg();
-#endif
-}
-
-
-// Check the path length and display the error message if it is too long.
-void ErrorHandler::CheckLongPathErrMsg(const wchar *FileName)
-{
-#if defined(_WIN_ALL) && !defined (SILENT) && defined(MAX_PATH)
-  if (GetLastError()==ERROR_PATH_NOT_FOUND)
-  {
-    size_t NameLength=wcslen(FileName);
-    if (!IsFullPath(FileName))
-    {
-      wchar CurDir[NM];
-      GetCurrentDirectory(ASIZE(CurDir),CurDir);
-      NameLength+=wcslen(CurDir)+1;
-    }
-    if (NameLength>MAX_PATH)
-    {
-      Log(NULL,St(MMaxPathLimit),MAX_PATH);
-    }
-  }
-#endif
+  SetErrorCode(RARX_CREATE);
 }
 
 
@@ -220,26 +184,45 @@ void ErrorHandler::ReadErrorMsg(const wchar *FileName)
 
 void ErrorHandler::ReadErrorMsg(const wchar *ArcName,const wchar *FileName)
 {
-#ifndef SILENT
-  Log(ArcName,St(MErrRead),FileName);
+  uiMsg(UIERROR_FILEREAD,ArcName,FileName);
   SysErrMsg();
-#endif
+  SetErrorCode(RARX_FATAL);
 }
 
 
 void ErrorHandler::WriteErrorMsg(const wchar *ArcName,const wchar *FileName)
 {
-#ifndef SILENT
-  Log(ArcName,St(MErrWrite),FileName);
+  uiMsg(UIERROR_FILEWRITE,ArcName,FileName);
   SysErrMsg();
-#endif
+  SetErrorCode(RARX_WRITE);
+}
+
+
+void ErrorHandler::ArcBrokenMsg(const wchar *ArcName)
+{
+  uiMsg(UIERROR_ARCBROKEN,ArcName);
+  SetErrorCode(RARX_CRC);
+}
+
+
+void ErrorHandler::ChecksumFailedMsg(const wchar *ArcName,const wchar *FileName)
+{
+  uiMsg(UIERROR_CHECKSUM,ArcName,FileName);
+  SetErrorCode(RARX_CRC);
+}
+
+
+void ErrorHandler::UnknownMethodMsg(const wchar *ArcName,const wchar *FileName)
+{
+  uiMsg(UIERROR_UNKNOWNMETHOD,ArcName,FileName);
+  ErrHandler.SetErrorCode(RARX_FATAL);
 }
 
 
 void ErrorHandler::Exit(RAR_EXIT ExitCode)
 {
 #ifndef GUI
-  Alarm();
+  uiAlarm(UIALARM_ERROR);
 #endif
   Throw(ExitCode);
 }
@@ -324,7 +307,6 @@ void ErrorHandler::SetSignalHandlers(bool Enable)
 #ifndef GUI
 #ifdef _WIN_ALL
   SetConsoleCtrlHandler(Enable ? ProcessSignal:NULL,TRUE);
-//  signal(SIGBREAK,Enable ? ProcessSignal:SIG_IGN);
 #else
   signal(SIGINT,Enable ? ProcessSignal:SIG_IGN);
   signal(SIGTERM,Enable ? ProcessSignal:SIG_IGN);
@@ -372,7 +354,7 @@ void ErrorHandler::SysErrMsg()
         *EndMsg=0;
         EndMsg++;
       }
-      Log(NULL,L"\n%ls",CurMsg);
+      uiMsg(UIERROR_SYSERRMSG,CurMsg);
       CurMsg=EndMsg;
     }
   }
@@ -382,12 +364,18 @@ void ErrorHandler::SysErrMsg()
 #if defined(_UNIX) || defined(_EMX)
   if (errno!=0)
   {
+#ifdef _ANDROID
+    // Android NDK sets errno to confusing "not a typewriter" ENOTTY code
+    // after write error reported by write().
+    if (errno == ENOTTY)
+      return;
+#endif
     char *err=strerror(errno);
     if (err!=NULL)
     {
-      wchar MsgW[1024];
-      CharToWide(err,MsgW,ASIZE(MsgW));
-      Log(NULL,L"\n%s",MsgW);
+      wchar Msg[1024];
+      CharToWide(err,Msg,ASIZE(Msg));
+      uiMsg(UIERROR_SYSERRMSG,Msg);
     }
   }
 #endif

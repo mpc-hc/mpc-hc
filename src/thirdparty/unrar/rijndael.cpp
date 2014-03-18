@@ -7,22 +7,26 @@
  ***************************************************************************/
 #include "rar.hpp"
 
+#ifdef USE_SSE
+#include <wmmintrin.h>
+#endif
+
 static byte S[256],S5[256],rcon[30];
 static byte T1[256][4],T2[256][4],T3[256][4],T4[256][4];
 static byte T5[256][4],T6[256][4],T7[256][4],T8[256][4];
 static byte U1[256][4],U2[256][4],U3[256][4],U4[256][4];
 
 
-inline void Xor128(byte *dest,const byte *arg1,const byte *arg2)
+inline void Xor128(void *dest,const void *arg1,const void *arg2)
 {
-#if defined(PRESENT_INT32) && defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(PRESENT_INT32) && defined(ALLOW_MISALIGNED)
   ((uint32*)dest)[0]=((uint32*)arg1)[0]^((uint32*)arg2)[0];
   ((uint32*)dest)[1]=((uint32*)arg1)[1]^((uint32*)arg2)[1];
   ((uint32*)dest)[2]=((uint32*)arg1)[2]^((uint32*)arg2)[2];
   ((uint32*)dest)[3]=((uint32*)arg1)[3]^((uint32*)arg2)[3];
 #else
   for (int I=0;I<16;I++)
-    dest[I]=arg1[I]^arg2[I];
+    ((byte*)dest)[I]=((byte*)arg1)[I]^((byte*)arg2)[I];
 #endif
 }
 
@@ -30,7 +34,7 @@ inline void Xor128(byte *dest,const byte *arg1,const byte *arg2)
 inline void Xor128(byte *dest,const byte *arg1,const byte *arg2,
                    const byte *arg3,const byte *arg4)
 {
-#if defined(PRESENT_INT32) && defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(PRESENT_INT32) && defined(ALLOW_MISALIGNED)
   (*(uint32*)dest)=(*(uint32*)arg1)^(*(uint32*)arg2)^(*(uint32*)arg3)^(*(uint32*)arg4);
 #else
   for (int I=0;I<4;I++)
@@ -41,7 +45,7 @@ inline void Xor128(byte *dest,const byte *arg1,const byte *arg2,
 
 inline void Copy128(byte *dest,const byte *src)
 {
-#if defined(PRESENT_INT32) && defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(PRESENT_INT32) && defined(ALLOW_MISALIGNED)
   ((uint32*)dest)[0]=((uint32*)src)[0];
   ((uint32*)dest)[1]=((uint32*)src)[1];
   ((uint32*)dest)[2]=((uint32*)src)[2];
@@ -61,11 +65,20 @@ Rijndael::Rijndael()
 {
   if (S[0]==0)
     GenerateTables();
+  CBCMode = true; // Always true for RAR.
 }
 
 
 void Rijndael::Init(bool Encrypt,const byte *key,uint keyLen,const byte * initVector)
 {
+#ifdef USE_SSE
+  // Check SSE here instead of constructor, so if object is a part of some
+  // structure memset'ed before use, this variable is not lost.
+  int CPUInfo[4];
+  __cpuid(CPUInfo, 1);
+  AES_NI=(CPUInfo[2] & 0x2000000)!=0;
+#endif
+
   uint uKeyLenInBytes;
   switch(keyLen)
   {
@@ -88,8 +101,11 @@ void Rijndael::Init(bool Encrypt,const byte *key,uint keyLen,const byte * initVe
   for(uint i = 0; i < uKeyLenInBytes; i++)
     keyMatrix[i >> 2][i & 3] = key[i]; 
 
-  for(int i = 0; i < MAX_IV_SIZE; i++)
-    m_initVector[i] = initVector[i];
+  if (initVector==NULL)
+    memset(m_initVector, 0, sizeof(m_initVector));
+  else
+    for(int i = 0; i < MAX_IV_SIZE; i++)
+      m_initVector[i] = initVector[i];
 
   keySched(keyMatrix);
 
@@ -99,34 +115,107 @@ void Rijndael::Init(bool Encrypt,const byte *key,uint keyLen,const byte * initVe
 
 
   
-size_t Rijndael::blockDecrypt(const byte *input, size_t inputLen, byte *outBuffer)
+void Rijndael::blockDecrypt(const byte *input, size_t inputLen, byte *outBuffer)
 {
-  if (input == 0 || inputLen <= 0)
-    return 0;
+  if (inputLen <= 0)
+    return;
+
+  size_t numBlocks=inputLen/16;
+#ifdef USE_SSE
+  if (AES_NI)
+  {
+    blockDecryptSSE(input,numBlocks,outBuffer);
+    return;
+  }
+#endif
 
   byte block[16], iv[4][4];
   memcpy(iv,m_initVector,16); 
 
-  size_t numBlocks=inputLen/16;
   for (size_t i = numBlocks; i > 0; i--)
   {
-    decrypt(input, block);
-    Xor128(block,block,(byte*)iv);
-#if STRICT_ALIGN
-    memcpy(iv, input, 16);
-    memcpy(outBuf, block, 16);
-#else
+    byte temp[4][4];
+    
+    Xor128(temp,input,m_expandedKey[m_uRounds]);
+
+    Xor128(block,   T5[temp[0][0]],T6[temp[3][1]],T7[temp[2][2]],T8[temp[1][3]]);
+    Xor128(block+4, T5[temp[1][0]],T6[temp[0][1]],T7[temp[3][2]],T8[temp[2][3]]);
+    Xor128(block+8, T5[temp[2][0]],T6[temp[1][1]],T7[temp[0][2]],T8[temp[3][3]]);
+    Xor128(block+12,T5[temp[3][0]],T6[temp[2][1]],T7[temp[1][2]],T8[temp[0][3]]);
+
+    for(int r = m_uRounds-1; r > 1; r--)
+    {
+      Xor128(temp,block,m_expandedKey[r]);
+      Xor128(block,   T5[temp[0][0]],T6[temp[3][1]],T7[temp[2][2]],T8[temp[1][3]]);
+      Xor128(block+4, T5[temp[1][0]],T6[temp[0][1]],T7[temp[3][2]],T8[temp[2][3]]);
+      Xor128(block+8, T5[temp[2][0]],T6[temp[1][1]],T7[temp[0][2]],T8[temp[3][3]]);
+      Xor128(block+12,T5[temp[3][0]],T6[temp[2][1]],T7[temp[1][2]],T8[temp[0][3]]);
+    }
+   
+    Xor128(temp,block,m_expandedKey[1]);
+    block[ 0] = S5[temp[0][0]];
+    block[ 1] = S5[temp[3][1]];
+    block[ 2] = S5[temp[2][2]];
+    block[ 3] = S5[temp[1][3]];
+    block[ 4] = S5[temp[1][0]];
+    block[ 5] = S5[temp[0][1]];
+    block[ 6] = S5[temp[3][2]];
+    block[ 7] = S5[temp[2][3]];
+    block[ 8] = S5[temp[2][0]];
+    block[ 9] = S5[temp[1][1]];
+    block[10] = S5[temp[0][2]];
+    block[11] = S5[temp[3][3]];
+    block[12] = S5[temp[3][0]];
+    block[13] = S5[temp[2][1]];
+    block[14] = S5[temp[1][2]];
+    block[15] = S5[temp[0][3]];
+    Xor128(block,block,m_expandedKey[0]);
+
+    if (CBCMode)
+      Xor128(block,block,iv);
+
     Copy128((byte*)iv,input);
     Copy128(outBuffer,block);
-#endif
+
     input += 16;
     outBuffer += 16;
   }
 
   memcpy(m_initVector,iv,16);
-  
-  return 16*numBlocks;
 }
+
+
+#ifdef USE_SSE
+void Rijndael::blockDecryptSSE(const byte *input, size_t numBlocks, byte *outBuffer)
+{
+  __m128i initVector = _mm_loadu_si128((__m128i*)m_initVector);
+  __m128i *src=(__m128i*)input;
+  __m128i *dest=(__m128i*)outBuffer;
+  __m128i *rkey=(__m128i*)m_expandedKey;
+  while (numBlocks > 0)
+  {
+    __m128i rl = _mm_loadu_si128(rkey + m_uRounds);
+    __m128i d = _mm_loadu_si128(src++);
+    __m128i v = _mm_xor_si128(rl, d);
+
+    for (int i=m_uRounds-1; i>0; i--)
+    {
+      __m128i ri = _mm_loadu_si128(rkey + i);
+      v = _mm_aesdec_si128(v, ri);
+    }
+    
+    __m128i r0 = _mm_loadu_si128(rkey);
+    v = _mm_aesdeclast_si128(v, r0);
+
+    if (CBCMode)
+      v = _mm_xor_si128(v, initVector);
+    initVector = d;
+    _mm_storeu_si128(dest++,v);
+    numBlocks--;
+  }
+  _mm_storeu_si128((__m128i*)m_initVector,initVector);
+}
+#endif
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -220,47 +309,6 @@ void Rijndael::keyEncToDec()
   }
 } 
 
-
-void Rijndael::decrypt(const byte a[16], byte b[16])
-{
-  int r;
-  byte temp[4][4];
-  
-  Xor128((byte*)temp,(byte*)a,(byte*)m_expandedKey[m_uRounds]);
-
-  Xor128(b,   T5[temp[0][0]],T6[temp[3][1]],T7[temp[2][2]],T8[temp[1][3]]);
-  Xor128(b+4, T5[temp[1][0]],T6[temp[0][1]],T7[temp[3][2]],T8[temp[2][3]]);
-  Xor128(b+8, T5[temp[2][0]],T6[temp[1][1]],T7[temp[0][2]],T8[temp[3][3]]);
-  Xor128(b+12,T5[temp[3][0]],T6[temp[2][1]],T7[temp[1][2]],T8[temp[0][3]]);
-
-  for(r = m_uRounds-1; r > 1; r--)
-  {
-    Xor128((byte*)temp,(byte*)b,(byte*)m_expandedKey[r]);
-    Xor128(b,   T5[temp[0][0]],T6[temp[3][1]],T7[temp[2][2]],T8[temp[1][3]]);
-    Xor128(b+4, T5[temp[1][0]],T6[temp[0][1]],T7[temp[3][2]],T8[temp[2][3]]);
-    Xor128(b+8, T5[temp[2][0]],T6[temp[1][1]],T7[temp[0][2]],T8[temp[3][3]]);
-    Xor128(b+12,T5[temp[3][0]],T6[temp[2][1]],T7[temp[1][2]],T8[temp[0][3]]);
-  }
- 
-  Xor128((byte*)temp,(byte*)b,(byte*)m_expandedKey[1]);
-  b[ 0] = S5[temp[0][0]];
-  b[ 1] = S5[temp[3][1]];
-  b[ 2] = S5[temp[2][2]];
-  b[ 3] = S5[temp[1][3]];
-  b[ 4] = S5[temp[1][0]];
-  b[ 5] = S5[temp[0][1]];
-  b[ 6] = S5[temp[3][2]];
-  b[ 7] = S5[temp[2][3]];
-  b[ 8] = S5[temp[2][0]];
-  b[ 9] = S5[temp[1][1]];
-  b[10] = S5[temp[0][2]];
-  b[11] = S5[temp[3][3]];
-  b[12] = S5[temp[3][0]];
-  b[13] = S5[temp[2][1]];
-  b[14] = S5[temp[1][2]];
-  b[15] = S5[temp[0][3]];
-  Xor128((byte*)b,(byte*)b,(byte*)m_expandedKey[0]);
-}
 
 #define ff_poly 0x011b
 #define ff_hi   0x80

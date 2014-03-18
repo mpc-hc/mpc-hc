@@ -312,13 +312,12 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
   SaveFilePos SavePos(*SrcFile);
 #ifndef SILENT
   int64 FileLength=SrcFile->FileLength();
-  if ((Flags & (CALCFSUM_SHOWTEXT|CALCFSUM_SHOWALL))!=0)
-  {
-    mprintf(St(MCalcCRC));
-    mprintf(L"     ");
-  }
-
 #endif
+
+#ifndef GUI
+  if ((Flags & (CALCFSUM_SHOWTEXT|CALCFSUM_SHOWALL))!=0)
+#endif
+    uiMsg(UIEVENT_FILESUMSTART);
 
   if ((Flags & CALCFSUM_CURPOS)==0)
     SrcFile->Seek(0,SEEK_SET);
@@ -346,8 +345,10 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
     if ((++BlockCount & 0xf)==0)
     {
 #ifndef SILENT
+#ifndef GUI
       if ((Flags & CALCFSUM_SHOWALL)!=0)
-        mprintf(L"\b\b\b\b%3d%%",ToPercent(BlockCount*int64(BufSize),FileLength));
+#endif
+        uiMsg(UIEVENT_FILESUMPROGRESS,ToPercent(BlockCount*int64(BufSize),FileLength));
 #endif
       Wait();
     }
@@ -360,10 +361,10 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
     if (Size!=INT64NDF)
       Size-=ReadSize;
   }
-#ifndef SILENT
+#ifndef GUI
   if ((Flags & CALCFSUM_SHOWALL)!=0)
-    mprintf(L"\b\b\b\b    ");
 #endif
+    uiMsg(UIEVENT_FILESUMEND);
 
   if (CRC32!=NULL)
     *CRC32=HashCRC.GetCRC32();

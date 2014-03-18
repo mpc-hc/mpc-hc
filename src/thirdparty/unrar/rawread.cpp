@@ -1,5 +1,12 @@
 #include "rar.hpp"
 
+RawRead::RawRead()
+{
+  RawRead::SrcFile=NULL;
+  Reset();
+}
+
+
 RawRead::RawRead(File *SrcFile)
 {
   RawRead::SrcFile=SrcFile;

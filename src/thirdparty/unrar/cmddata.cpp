@@ -1,6 +1,5 @@
 #include "rar.hpp"
 
-
 CommandData::CommandData()
 {
   Init();
@@ -45,7 +44,7 @@ static const wchar *AllocCmdParam(const wchar *CmdLine,wchar **Par)
 }
 
 
-#ifndef SFX_MODULE
+#if !defined(SFX_MODULE) && !defined(_ANDROID)
 void CommandData::ParseCommandLine(bool Preprocess,int argc, char *argv[])
 {
 #ifdef CUSTOM_CMDLINE_PARSER
@@ -90,7 +89,7 @@ void CommandData::ParseCommandLine(bool Preprocess,int argc, char *argv[])
 #endif
 
 
-#ifndef SFX_MODULE
+#if !defined(SFX_MODULE) && !defined(_ANDROID)
 void CommandData::ParseArg(wchar *Arg)
 {
   if (IsSwitch(*Arg) && !NoMoreSwitches)
@@ -182,7 +181,7 @@ void CommandData::ParseDone()
 }
 
 
-#ifndef SFX_MODULE
+#if !defined(SFX_MODULE) && !defined(_ANDROID)
 void CommandData::ParseEnvVar()
 {
   char *EnvStr=getenv("RAR");
@@ -197,7 +196,7 @@ void CommandData::ParseEnvVar()
 
 
 
-#ifndef SFX_MODULE
+#if !defined(SFX_MODULE) && !defined(_ANDROID)
 // Preprocess those parameters, which must be processed before the rest of
 // command line. Return 'false' to stop further processing.
 bool CommandData::PreprocessSwitch(const wchar *Switch)
@@ -235,7 +234,7 @@ bool CommandData::PreprocessSwitch(const wchar *Switch)
 #endif
 
 
-#if !defined(GUI) && !defined(SFX_MODULE)
+#if !defined(GUI) && !defined(SFX_MODULE) && !defined(_ANDROID)
 void CommandData::ReadConfig()
 {
   StringList List;
@@ -254,7 +253,7 @@ void CommandData::ReadConfig()
 #endif
 
 
-#ifndef SFX_MODULE
+#if !defined(SFX_MODULE) && !defined(_ANDROID)
 void CommandData::ProcessSwitchesString(const wchar *Str)
 {
   wchar *Par;
@@ -268,7 +267,7 @@ void CommandData::ProcessSwitchesString(const wchar *Str)
 #endif
 
 
-#if !defined(SFX_MODULE)
+#if !defined(SFX_MODULE) && !defined(_ANDROID)
 void CommandData::ProcessSwitch(const wchar *Switch)
 {
 
@@ -366,17 +365,14 @@ void CommandData::ProcessSwitch(const wchar *Switch)
               break;
           }
           break;
-        case 'E':
-          ProcessEA=false;
-          break;
         default:
           if (Switch[1]=='+')
           {
-            InclFileAttr=GetExclAttr(Switch+2);
+            InclFileAttr|=GetExclAttr(Switch+2);
             InclAttrSet=true;
           }
           else
-            ExclFileAttr=GetExclAttr(Switch+1);
+            ExclFileAttr|=GetExclAttr(Switch+1);
           break;
       }
       break;
@@ -399,7 +395,7 @@ void CommandData::ProcessSwitch(const wchar *Switch)
           else
             if (!Password.IsSet())
             {
-              GetPassword(PASSWORD_GLOBAL,NULL,&Password);
+              uiGetPassword(UIPASSWORD_GLOBAL,NULL,&Password);
               eprintf(L"\n");
             }
           break;
@@ -534,7 +530,7 @@ void CommandData::ProcessSwitch(const wchar *Switch)
                 Names++;
               wchar Mask[NM];
               if (wcspbrk(Names,L"*?.")==NULL)
-                swprintf(Mask,ASIZE(Mask),L"*.%s",Names);
+                swprintf(Mask,ASIZE(Mask),L"*.%ls",Names);
               else
                 wcsncpyz(Mask,Names,ASIZE(Mask));
               StoreArgs.AddString(Mask);
@@ -630,7 +626,7 @@ void CommandData::ProcessSwitch(const wchar *Switch)
     case 'P':
       if (Switch[1]==0)
       {
-        GetPassword(PASSWORD_GLOBAL,NULL,&Password);
+        uiGetPassword(UIPASSWORD_GLOBAL,NULL,&Password);
         eprintf(L"\n");
       }
       else
@@ -885,7 +881,7 @@ void CommandData::ProcessSwitch(const wchar *Switch)
 #endif
 
 
-#ifndef SFX_MODULE
+#if !defined(SFX_MODULE) && !defined(_ANDROID)
 void CommandData::BadSwitch(const wchar *Switch)
 {
   mprintf(St(MUnknownOption),Switch);
@@ -931,7 +927,7 @@ inline bool CmpMSGID(MSGID i1,MSGID i2)
   // If MSGID is const char*, we cannot compare pointers only.
   // Pointers to different instances of same string can differ,
   // so we need to compare complete strings.
-  return strcmp(i1,i2)==0;
+  return wcscmp(i1,i2)==0;
 #endif
 }
 
@@ -952,9 +948,10 @@ void CommandData::OutHelp(RAR_EXIT ExitCode)
     MCHelpSwDH,MCHelpSwEP,MCHelpSwEP3,MCHelpSwF,MCHelpSwIDP,MCHelpSwIERR,
     MCHelpSwINUL,MCHelpSwIOFF,MCHelpSwKB,MCHelpSwN,MCHelpSwNa,MCHelpSwNal,
     MCHelpSwO,MCHelpSwOC,MCHelpSwOR,MCHelpSwOW,MCHelpSwP,
-    MCHelpSwPm,MCHelpSwR,MCHelpSwRI,MCHelpSwSL,MCHelpSwSM,MCHelpSwTA,
-    MCHelpSwTB,MCHelpSwTN,MCHelpSwTO,MCHelpSwTS,MCHelpSwU,MCHelpSwVUnr,
-    MCHelpSwVER,MCHelpSwVP,MCHelpSwX,MCHelpSwXa,MCHelpSwXal,MCHelpSwY
+    MCHelpSwPm,MCHelpSwR,MCHelpSwRI,MCHelpSwSC,MCHelpSwSL,MCHelpSwSM,
+    MCHelpSwTA,MCHelpSwTB,MCHelpSwTN,MCHelpSwTO,MCHelpSwTS,MCHelpSwU,
+    MCHelpSwVUnr,MCHelpSwVER,MCHelpSwVP,MCHelpSwX,MCHelpSwXa,MCHelpSwXal,
+    MCHelpSwY
 #else
 #endif
   };
@@ -995,15 +992,6 @@ void CommandData::OutHelp(RAR_EXIT ExitCode)
     if (CmpMSGID(Help[I],MCHelpSwMT))
       continue;
 #endif
-    if (CmpMSGID(Help[I],MCHelpSwEE))
-    {
-#if defined(_EMX) && !defined(_DJGPP)
-      if (_osmode != OS2_MODE)
-        continue;
-#else
-      continue;
-#endif
-    }
 #endif
     mprintf(St(Help[I]));
   }
@@ -1228,7 +1216,7 @@ void CommandData::ProcessCommand()
     case 'I':
       {
         CmdExtract Extract(this);
-        Extract.DoExtract(this);
+        Extract.DoExtract();
       }
       break;
 #ifndef SILENT
@@ -1334,37 +1322,23 @@ void CommandData::ReportWrongSwitches(RARFORMAT Format)
   if (Format==RARFMT15)
   {
     if (HashType!=HASH_CRC32)
-    {
-      mprintf(St(MIncompatSwitch),L"-ht",4);
-    }
+      uiMsg(UIERROR_INCOMPATSWITCH,L"-ht",4);
 #ifdef _WIN_ALL
     if (SaveSymLinks)
-    {
-      mprintf(St(MIncompatSwitch),L"-ol",4);
-    }
+      uiMsg(UIERROR_INCOMPATSWITCH,L"-ol",4);
 #endif
     if (SaveHardLinks)
-    {
-      mprintf(St(MIncompatSwitch),L"-oh",4);
-    }
+      uiMsg(UIERROR_INCOMPATSWITCH,L"-oh",4);
 
 #ifdef _WIN_ALL
+    // Do not report a wrong dictionary size here, because we are not sure
+    // yet about archive format. We can switch to RAR5 mode later
+    // if we update RAR5 archive.
 
 
 #endif
     if (QOpenMode!=QOPEN_AUTO)
-    {
-      mprintf(St(MIncompatSwitch),L"-qo",4);
-    }
-/*
-    // We use 64 MB for both formats and reduce it for RAR 4.x later.
-    if (WinSize>0x400000)
-    {
-      wchar SwMD[10];
-      swprintf(SwMD,ASIZE(SwMD),L"-md%dm",WinSize/0x100000);
-      mprintf(St(MIncompatSwitch),SwMD,4);
-    }
-*/
+      uiMsg(UIERROR_INCOMPATSWITCH,L"-qo",4);
   }
   if (Format==RARFMT50)
   {

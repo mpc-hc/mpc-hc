@@ -2,7 +2,6 @@
 #include "log.cpp"
 
 static MESSAGE_TYPE MsgStream=MSG_STDOUT;
-static bool Sound=false;
 const int MaxMsgSize=2*NM+2048;
 
 #ifdef _WIN_ALL
@@ -47,10 +46,9 @@ void InitConsole()
 }
 
 
-void InitConsoleOptions(MESSAGE_TYPE MsgStream,bool Sound)
+void InitConsoleOptions(MESSAGE_TYPE MsgStream)
 {
   ::MsgStream=MsgStream;
-  ::Sound=Sound;
 }
 
 
@@ -125,25 +123,6 @@ void eprintf(const wchar *fmt,...)
 
 
 #ifndef SILENT
-void Alarm()
-{
-  if (Sound)
-  {
-    static clock_t LastTime=clock();
-    if ((clock()-LastTime)/CLOCKS_PER_SEC>5)
-    {
-#ifdef _WIN_ALL
-      MessageBeep(-1);
-#else
-      putwchar('\007');
-#endif
-    }
-  }
-}
-#endif
-
-
-#ifndef SILENT
 static void GetPasswordText(wchar *Str,uint MaxLength)
 {
   if (MaxLength==0)
@@ -181,22 +160,22 @@ static void GetPasswordText(wchar *Str,uint MaxLength)
 
 
 #ifndef SILENT
-bool GetConsolePassword(PASSWORD_TYPE Type,const wchar *FileName,SecPassword *Password)
+bool GetConsolePassword(UIPASSWORD_TYPE Type,const wchar *FileName,SecPassword *Password)
 {
-  Alarm();
+  uiAlarm(UIALARM_QUESTION);
   
   while (true)
   {
-    if (Type==PASSWORD_GLOBAL)
+    if (Type==UIPASSWORD_GLOBAL)
       eprintf(L"\n%s: ",St(MAskPsw));
     else
       eprintf(St(MAskPswFor),FileName);
 
     wchar PlainPsw[MAXPASSWORD];
     GetPasswordText(PlainPsw,ASIZE(PlainPsw));
-    if (*PlainPsw==0 && Type==PASSWORD_GLOBAL)
+    if (*PlainPsw==0 && Type==UIPASSWORD_GLOBAL)
       return false;
-    if (Type==PASSWORD_GLOBAL)
+    if (Type==UIPASSWORD_GLOBAL)
     {
       eprintf(St(MReAskPsw));
       wchar CmpStr[MAXPASSWORD];
@@ -266,7 +245,7 @@ bool getwstr(wchar *str,size_t n)
 #ifndef SILENT
 int Ask(const wchar *AskStr)
 {
-  Alarm();
+  uiAlarm(UIALARM_QUESTION);
 
   const int MaxItems=10;
   wchar Item[MaxItems][40];

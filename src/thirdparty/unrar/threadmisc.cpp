@@ -2,18 +2,75 @@
 static ThreadPool *GlobalPool=NULL;
 static uint GlobalPoolUseCount=0;
 
+static inline bool CriticalSectionCreate(CRITSECT_HANDLE *CritSection)
+{
+#ifdef _WIN_ALL
+  InitializeCriticalSection(CritSection);
+  return true;
+#elif defined(_UNIX)
+  return pthread_mutex_init(CritSection,NULL)==0;
+#endif
+}
+
+
+static inline void CriticalSectionDelete(CRITSECT_HANDLE *CritSection)
+{
+#ifdef _WIN_ALL
+  DeleteCriticalSection(CritSection);
+#elif defined(_UNIX)
+  pthread_mutex_destroy(CritSection);
+#endif
+}
+
+
+static inline void CriticalSectionStart(CRITSECT_HANDLE *CritSection)
+{
+#ifdef _WIN_ALL
+  EnterCriticalSection(CritSection);
+#elif defined(_UNIX)
+  pthread_mutex_lock(CritSection);
+#endif
+}
+
+
+static inline void CriticalSectionEnd(CRITSECT_HANDLE *CritSection)
+{
+#ifdef _WIN_ALL
+  LeaveCriticalSection(CritSection);
+#elif defined(_UNIX)
+  pthread_mutex_unlock(CritSection);
+#endif
+}
+
+
+static struct GlobalPoolCreateSync
+{
+  CRITSECT_HANDLE CritSection;
+  GlobalPoolCreateSync()  { CriticalSectionCreate(&CritSection); }
+  ~GlobalPoolCreateSync() { CriticalSectionDelete(&CritSection); }
+} PoolCreateSync;
+
+
 ThreadPool* CreateThreadPool()
 {
+  CriticalSectionStart(&PoolCreateSync.CritSection); 
+
   if (GlobalPoolUseCount++ == 0)
     GlobalPool=new ThreadPool(MaxPoolThreads);
+
+  CriticalSectionEnd(&PoolCreateSync.CritSection); 
   return GlobalPool;
 }
 
 
 void DestroyThreadPool(ThreadPool *Pool)
 {
+  CriticalSectionStart(&PoolCreateSync.CritSection); 
+
   if (Pool!=NULL && Pool==GlobalPool && GlobalPoolUseCount > 0 && --GlobalPoolUseCount == 0)
     delete GlobalPool;
+
+  CriticalSectionEnd(&PoolCreateSync.CritSection); 
 }
 
 
@@ -55,26 +112,6 @@ static void ThreadClose(THREAD_HANDLE hThread)
   pthread_join(hThread,NULL);
 #else
   CloseHandle(hThread);
-#endif
-}
-
-
-static inline void CriticalSectionStart(CRITSECT_HANDLE *CritSection)
-{
-#ifdef _WIN_ALL
-  EnterCriticalSection(CritSection);
-#elif defined(_UNIX)
-  pthread_mutex_lock(CritSection);
-#endif
-}
-
-
-static inline void CriticalSectionEnd(CRITSECT_HANDLE *CritSection)
-{
-#ifdef _WIN_ALL
-  LeaveCriticalSection(CritSection);
-#elif defined(_UNIX)
-  pthread_mutex_unlock(CritSection);
 #endif
 }
 

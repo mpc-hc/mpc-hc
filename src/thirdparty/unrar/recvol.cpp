@@ -11,7 +11,7 @@ bool RecVolumesRestore(RAROptions *Cmd,const wchar *Name,bool Silent)
   if (!Arc.Open(Name))
   {
     if (!Silent)
-      ErrHandler.OpenErrorMsg(NULL,Name);
+      ErrHandler.OpenErrorMsg(Name);
     return false;
   }
 

@@ -86,10 +86,10 @@ class Archive:public File
          const wchar *Name,uint Flags);
     bool ReadSubData(Array<byte> *UnpData,File *DestFile);
     HEADER_TYPE GetHeaderType() {return(CurHeaderType);};
-    void WriteCommentData(byte *Data,size_t DataSize,bool FileComment);
     RAROptions* GetRAROptions() {return(Cmd);}
     void SetSilentOpen(bool Mode) {SilentOpen=Mode;}
 #ifdef USE_QOPEN
+    bool Open(const wchar *Name,uint Mode=FMF_READ);
     int Read(void *Data,size_t Size);
     void Seek(int64 Offset,int Method);
     int64 Tell();

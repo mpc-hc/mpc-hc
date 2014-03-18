@@ -44,13 +44,15 @@ class ErrorHandler
     void OpenErrorMsg(const wchar *ArcName,const wchar *FileName);
     void CreateErrorMsg(const wchar *FileName);
     void CreateErrorMsg(const wchar *ArcName,const wchar *FileName);
-    void CheckLongPathErrMsg(const wchar *FileName);
     void ReadErrorMsg(const wchar *FileName);
     void ReadErrorMsg(const wchar *ArcName,const wchar *FileName);
     void WriteErrorMsg(const wchar *ArcName,const wchar *FileName);
+    void ArcBrokenMsg(const wchar *ArcName);
+    void ChecksumFailedMsg(const wchar *ArcName,const wchar *FileName);
+    void UnknownMethodMsg(const wchar *ArcName,const wchar *FileName);
     void Exit(RAR_EXIT ExitCode);
     void SetErrorCode(RAR_EXIT Code);
-    RAR_EXIT GetErrorCode() {return(ExitCode);}
+    RAR_EXIT GetErrorCode() {return ExitCode;}
     uint GetErrorCount() {return ErrCount;}
     void SetSignalHandlers(bool Enable);
     void Throw(RAR_EXIT Code);

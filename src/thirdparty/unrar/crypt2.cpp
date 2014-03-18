@@ -62,7 +62,7 @@ void CryptData::SetKey20(const char *Password)
 void CryptData::EncryptBlock20(byte *Buf)
 {
   uint A,B,C,D,T,TA,TB;
-#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_MISALIGNED)
   A=((uint)Buf[0]|((uint)Buf[1]<<8)|((uint)Buf[2]<<16)|((uint)Buf[3]<<24))^Key20[0];
   B=((uint)Buf[4]|((uint)Buf[5]<<8)|((uint)Buf[6]<<16)|((uint)Buf[7]<<24))^Key20[1];
   C=((uint)Buf[8]|((uint)Buf[9]<<8)|((uint)Buf[10]<<16)|((uint)Buf[11]<<24))^Key20[2];
@@ -85,7 +85,7 @@ void CryptData::EncryptBlock20(byte *Buf)
     C=TA;
     D=TB;
   }
-#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_MISALIGNED)
   C^=Key20[0];
   Buf[0]=(byte)C;
   Buf[1]=(byte)(C>>8);
@@ -120,7 +120,7 @@ void CryptData::DecryptBlock20(byte *Buf)
 {
   byte InBuf[16];
   uint A,B,C,D,T,TA,TB;
-#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_MISALIGNED)
   A=((uint)Buf[0]|((uint)Buf[1]<<8)|((uint)Buf[2]<<16)|((uint)Buf[3]<<24))^Key20[0];
   B=((uint)Buf[4]|((uint)Buf[5]<<8)|((uint)Buf[6]<<16)|((uint)Buf[7]<<24))^Key20[1];
   C=((uint)Buf[8]|((uint)Buf[9]<<8)|((uint)Buf[10]<<16)|((uint)Buf[11]<<24))^Key20[2];
@@ -144,7 +144,7 @@ void CryptData::DecryptBlock20(byte *Buf)
     C=TA;
     D=TB;
   }
-#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_MISALIGNED)
   C^=Key20[0];
   Buf[0]=(byte)C;
   Buf[1]=(byte)(C>>8);

@@ -44,7 +44,7 @@ inline uint RarVM::GetValue(bool ByteMode,uint *Addr)
   }
   else
   {
-#if defined(BIG_ENDIAN) || !defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED)
     if (IS_VM_MEM(Addr))
     {
       byte *B=(byte *)Addr;
@@ -58,7 +58,7 @@ inline uint RarVM::GetValue(bool ByteMode,uint *Addr)
   }
 }
 
-#if defined(BIG_ENDIAN) || !defined(ALLOW_NOT_ALIGNED_INT)
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED)
   #define GET_VALUE(ByteMode,Addr) GetValue(ByteMode,(uint *)Addr)
 #else
   #define GET_VALUE(ByteMode,Addr) ((ByteMode) ? (*(byte *)(Addr)):GET_UINT32(*(uint *)(Addr)))
@@ -80,7 +80,7 @@ inline void RarVM::SetValue(bool ByteMode,uint *Addr,uint Value)
   }
   else
   {
-#if defined(BIG_ENDIAN) || !defined(ALLOW_NOT_ALIGNED_INT) || !defined(PRESENT_INT32)
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
     if (IS_VM_MEM(Addr))
     {
       ((byte *)Addr)[0]=(byte)Value;
@@ -96,7 +96,7 @@ inline void RarVM::SetValue(bool ByteMode,uint *Addr,uint Value)
   }
 }
 
-#if defined(BIG_ENDIAN) || !defined(ALLOW_NOT_ALIGNED_INT) || !defined(PRESENT_INT32)
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
   #define SET_VALUE(ByteMode,Addr,Value) SetValue(ByteMode,(uint *)Addr,Value)
 #else
   #define SET_VALUE(ByteMode,Addr,Value) ((ByteMode) ? (*(byte *)(Addr)=((byte)(Value))):(*(uint32 *)(Addr)=((uint32)(Value))))
@@ -105,7 +105,7 @@ inline void RarVM::SetValue(bool ByteMode,uint *Addr,uint Value)
 
 void RarVM::SetLowEndianValue(uint *Addr,uint Value)
 {
-#if defined(BIG_ENDIAN) || !defined(ALLOW_NOT_ALIGNED_INT) || !defined(PRESENT_INT32)
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
   ((byte *)Addr)[0]=(byte)Value;
   ((byte *)Addr)[1]=(byte)(Value>>8);
   ((byte *)Addr)[2]=(byte)(Value>>16);

@@ -88,12 +88,9 @@ void Archive::UnexpEndArcMsg()
   // If block positions are equal to file size, this is not an error.
   // It can happen when we reached the end of older RAR 1.5 archive,
   // which did not have the end of archive block.
-  if (CurBlockPos>ArcSize || NextBlockPos>ArcSize || 
-      CurBlockPos!=ArcSize && NextBlockPos!=ArcSize && Format==RARFMT50)
+  if (CurBlockPos!=ArcSize || NextBlockPos!=ArcSize)
   {
-#ifndef SHELL_EXT
-    Log(FileName,St(MLogUnexpEOF));
-#endif
+    uiMsg(UIERROR_UNEXPEOF,FileName);
     ErrHandler.SetErrorCode(RARX_WARNING);
   }
 }
@@ -101,9 +98,7 @@ void Archive::UnexpEndArcMsg()
 
 void Archive::BrokenHeaderMsg()
 {
-#ifndef SHELL_EXT
-  Log(FileName,St(MHeaderBroken));
-#endif
+  uiMsg(UIERROR_HEADERBROKEN,FileName);
   BrokenHeader=true;
   ErrHandler.SetErrorCode(RARX_CRC);
 }
@@ -111,9 +106,7 @@ void Archive::BrokenHeaderMsg()
 
 void Archive::UnkEncVerMsg(const wchar *Name)
 {
-#ifndef SHELL_EXT
-  Log(FileName,St(MUnkEncMethod),Name);
-#endif
+  uiMsg(UIERROR_UNKNOWNENCMETHOD,FileName,Name);
   ErrHandler.SetErrorCode(RARX_WARNING);
 }
 
@@ -317,15 +310,10 @@ size_t Archive::ReadHeader15()
           {
             EncodeFileName NameCoder;
             size_t Length=strlen(FileName);
-            if (Length==NameSize)
-              UtfToWide(FileName,hd->FileName,ASIZE(hd->FileName)-1);
-            else
-            {
-              Length++;
-              NameCoder.Decode(FileName,(byte *)FileName+Length,
-                               NameSize-Length,hd->FileName,
-                               ASIZE(hd->FileName));
-            }
+            Length++;
+            NameCoder.Decode(FileName,(byte *)FileName+Length,
+                             NameSize-Length,hd->FileName,
+                             ASIZE(hd->FileName));
           }
           else
             *hd->FileName=0;
@@ -420,11 +408,7 @@ size_t Archive::ReadHeader15()
           // to have anything sensible in file name field, so it is useless
           // to display the file name.
           if (!Decrypt)
-          {
-#ifndef SHELL_EXT
-            Log(Archive::FileName,St(MLogFileHead),hd->FileName);
-#endif
-          }
+            uiMsg(UIERROR_FHEADERBROKEN,Archive::FileName,hd->FileName);
         }
       }
       break;
@@ -552,9 +536,7 @@ size_t Archive::ReadHeader15()
 
       if (Decrypt)
       {
-#ifndef SILENT
-        Log(FileName,St(MEncrBadCRC),FileName);
-#endif
+        uiMsg(UIERROR_CHECKSUMENC,FileName,FileName);
         FailedHeaderDecryption=true;
         return 0;
       }
@@ -596,7 +578,7 @@ size_t Archive::ReadHeader50()
     // Verify password validity.
     if (CryptHead.UsePswCheck && memcmp(PswCheck,CryptHead.PswCheck,SIZE_PSWCHECK)!=0)
     {
-      Log(FileName,St(MWrongPassword));
+      uiMsg(UIERROR_BADPSW,FileName);
       FailedHeaderDecryption=true;
       ErrHandler.SetErrorCode(RARX_BADPWD);
       return 0;
@@ -609,7 +591,7 @@ size_t Archive::ReadHeader50()
   // Header size must not occupy more than 3 variable length integer bytes
   // resulting in 2 MB maximum header size, so here we read 4 byte CRC32
   // followed by 3 bytes or less of header size.
-  const size_t FirstReadSize=7;
+  const size_t FirstReadSize=7; // Smallest possible block size.
   if (Raw.Read(FirstReadSize)<FirstReadSize)
   {
     UnexpEndArcMsg();
@@ -664,9 +646,7 @@ size_t Archive::ReadHeader50()
 
     if (Decrypt)
     {
-#ifndef SILENT
-      Log(FileName,St(MEncrBadCRC),FileName);
-#endif
+      uiMsg(UIERROR_CHECKSUMENC,FileName,FileName);
       FailedHeaderDecryption=true;
       return 0;
     }
@@ -850,13 +830,8 @@ size_t Archive::ReadHeader50()
           MainComment=true;
 
           
-        if (BadCRC)
-        {
-          // Add the file name to broken header message displayed above.
-#ifndef SHELL_EXT
-          Log(Archive::FileName,St(MLogFileHead),hd->FileName);
-#endif
-        }
+        if (BadCRC) // Add the file name to broken header message displayed above.
+          uiMsg(UIERROR_FHEADERBROKEN,Archive::FileName,hd->FileName);
       }
       break;
     case HEAD_ENDARC:
@@ -911,9 +886,10 @@ void Archive::RequestArcPassword()
       ErrHandler.Exit(RARX_USERBREAK);
     }
 #else
-    if (!GetPassword(PASSWORD_ARCHIVE,FileName,&Cmd->Password))
+    if (!uiGetPassword(UIPASSWORD_ARCHIVE,FileName,&Cmd->Password))
     {
       Close();
+      uiMsg(UIERROR_INCERRCOUNT);
       ErrHandler.Exit(RARX_USERBREAK);
     }
 #endif
@@ -1180,6 +1156,7 @@ size_t Archive::ReadHeader14()
     char FileName[NM];
     Raw.GetB((byte *)FileName,Min(NameSize,ASIZE(FileName)));
     FileName[NameSize]=0;
+    IntToExt(FileName,FileName,ASIZE(FileName));
     CharToWide(FileName,FileHead.FileName,ASIZE(FileHead.FileName));
     ConvertNameCase(FileHead.FileName);
 
@@ -1220,6 +1197,10 @@ void Archive::ConvertAttributes()
   // when creating a file or directory. The typical default value
   // for the process umask is S_IWGRP | S_IWOTH (octal 022),
   // resulting in 0644 mode for new files.
+  // Normally umask is applied automatically when creating a file,
+  // but we set attributes with chmod later, so we need to calculate
+  // resulting attributes here. We do it only for non-Unix archives.
+  // We restore native Unix attributes as is, because it can be backup.
   static mode_t mask = (mode_t) -1;
 
   if (mask == (mode_t) -1)
@@ -1333,17 +1314,13 @@ bool Archive::ReadSubData(Array<byte> *UnpData,File *DestFile)
 {
   if (BrokenHeader)
   {
-#ifndef SHELL_EXT
-    Log(FileName,St(MSubHeadCorrupt));
-#endif
+    uiMsg(UIERROR_SUBHEADERBROKEN,FileName);
     ErrHandler.SetErrorCode(RARX_CRC);
     return false;
   }
   if (SubHead.Method>5 || SubHead.UnpVer>(Format==RARFMT50 ? VER_UNPACK5:VER_UNPACK))
   {
-#ifndef SHELL_EXT
-    Log(FileName,St(MSubHeadUnknown));
-#endif
+    uiMsg(UIERROR_SUBHEADERUNKNOWN,FileName);
     return false;
   }
 
@@ -1359,9 +1336,7 @@ bool Archive::ReadSubData(Array<byte> *UnpData,File *DestFile)
     if (SubHead.UnpSize>0x1000000)
     {
       // So huge allocation must never happen in valid archives.
-#ifndef SHELL_EXT
-      Log(FileName,St(MSubHeadUnknown));
-#endif
+      uiMsg(UIERROR_SUBHEADERUNKNOWN,FileName);
       return false;
     }
     UnpData->Alloc((size_t)SubHead.UnpSize);
@@ -1388,9 +1363,7 @@ bool Archive::ReadSubData(Array<byte> *UnpData,File *DestFile)
 
   if (!SubDataIO.UnpHash.Cmp(&SubHead.FileHash,SubHead.UseHashKey ? SubHead.HashKey:NULL))
   {
-#ifndef SHELL_EXT
-    Log(FileName,St(MSubHeadDataCRC),SubHead.FileName);
-#endif
+    uiMsg(UIERROR_SUBHEADERDATABROKEN,FileName,SubHead.FileName);
     ErrHandler.SetErrorCode(RARX_CRC);
     if (UnpData!=NULL)
       UnpData->Reset();

@@ -12,6 +12,7 @@ class RawRead
     CryptData *Crypt;
 #endif
   public:
+    RawRead();
     RawRead(File *SrcFile);
     void Reset();
     size_t Read(size_t Size);
@@ -32,6 +33,8 @@ class RawRead
     size_t DataLeft() {return DataSize-ReadPos;}
     size_t GetPos() {return ReadPos;}
     void SetPos(size_t Pos) {ReadPos=Pos;}
+    void Skip(size_t Size) {ReadPos+=Size;}
+    void Rewind() {SetPos(0);}
 #ifndef SHELL_EXT
     void SetCrypt(CryptData *Crypt) {RawRead::Crypt=Crypt;}
 #endif
@@ -39,50 +42,56 @@ class RawRead
 
 uint64 RawGetV(const byte *Data,uint &ReadPos,uint DataSize,bool &Overflow);
 
-inline uint RawGet2(const byte *D)
+inline uint RawGet2(const void *Data)
 {
+  byte *D=(byte *)Data;
   return D[0]+(D[1]<<8);
 }
 
-inline uint RawGet4(const byte *D)
+inline uint RawGet4(const void *Data)
 {
+  byte *D=(byte *)Data;
   return D[0]+(D[1]<<8)+(D[2]<<16)+(D[3]<<24);
 }
 
-inline uint64 RawGet8(const byte *D)
+inline uint64 RawGet8(const void *Data)
 {
+  byte *D=(byte *)Data;
   return INT32TO64(RawGet4(D+4),RawGet4(D));
 }
 
 
 // We need these "put" functions also in UnRAR code. This is why they are
 // in rawread.hpp file even though they are "write" functions.
-inline void RawPut2(uint Field,byte *Data)
+inline void RawPut2(uint Field,void *Data)
 {
-  Data[0]=(byte)(Field);
-  Data[1]=(byte)(Field>>8);
+  byte *D=(byte *)Data;
+  D[0]=(byte)(Field);
+  D[1]=(byte)(Field>>8);
 }
 
 
-inline void RawPut4(uint Field,byte *Data)
+inline void RawPut4(uint Field,void *Data)
 {
-  Data[0]=(byte)(Field);
-  Data[1]=(byte)(Field>>8);
-  Data[2]=(byte)(Field>>16);
-  Data[3]=(byte)(Field>>24);
+  byte *D=(byte *)Data;
+  D[0]=(byte)(Field);
+  D[1]=(byte)(Field>>8);
+  D[2]=(byte)(Field>>16);
+  D[3]=(byte)(Field>>24);
 }
 
 
-inline void RawPut8(uint64 Field,byte *Data)
+inline void RawPut8(uint64 Field,void *Data)
 {
-  Data[0]=(byte)(Field);
-  Data[1]=(byte)(Field>>8);
-  Data[2]=(byte)(Field>>16);
-  Data[3]=(byte)(Field>>24);
-  Data[4]=(byte)(Field>>32);
-  Data[5]=(byte)(Field>>40);
-  Data[6]=(byte)(Field>>48);
-  Data[7]=(byte)(Field>>56);
+  byte *D=(byte *)Data;
+  D[0]=(byte)(Field);
+  D[1]=(byte)(Field>>8);
+  D[2]=(byte)(Field>>16);
+  D[3]=(byte)(Field>>24);
+  D[4]=(byte)(Field>>32);
+  D[5]=(byte)(Field>>40);
+  D[6]=(byte)(Field>>48);
+  D[7]=(byte)(Field>>56);
 }
 
 #endif

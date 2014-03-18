@@ -9,10 +9,10 @@ static bool UnixSymlink(const char *Target,const wchar *LinkName)
   if (symlink(Target,LinkNameA)==-1) // Error.
   {
     if (errno==EEXIST)
-      Log(NULL,St(MSymLinkExists),LinkName);
+      uiMsg(UIERROR_ULINKEXIST,LinkName);
     else
     {
-      Log(NULL,St(MErrCreateLnkS),LinkName);
+      uiMsg(UIERROR_SLINKCREATE,UINULL,LinkName);
       ErrHandler.SetErrorCode(RARX_WARNING);
     }
     return false;

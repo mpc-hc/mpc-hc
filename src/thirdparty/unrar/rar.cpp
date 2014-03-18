@@ -69,7 +69,8 @@ int main(int argc, char *argv[])
     ShutdownOnClose=Cmd->Shutdown;
 #endif
 
-    InitConsoleOptions(Cmd->MsgStream,Cmd->Sound);
+    uiInit(Cmd->Sound);
+    InitConsoleOptions(Cmd->MsgStream);
     InitLogOptions(Cmd->LogName,Cmd->ErrlogCharset);
     ErrHandler.SetSilent(Cmd->AllYes || Cmd->MsgStream==MSG_NULL);
     ErrHandler.SetShutdown(Cmd->Shutdown);
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
   {
     ErrHandler.SetErrorCode(ErrCode);
   }
-  catch (std::bad_alloc)
+  catch (std::bad_alloc&)
   {
     ErrHandler.MemoryErrorMsg();
     ErrHandler.SetErrorCode(RARX_MEMORY);

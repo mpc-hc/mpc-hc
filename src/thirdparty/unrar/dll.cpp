@@ -65,7 +65,10 @@ HANDLE PASCAL RAROpenArchiveEx(struct RAROpenArchiveDataEx *r)
     Data->Cmd.Callback=r->Callback;
     Data->Cmd.UserData=r->UserData;
 
-    if (!Data->Arc.Open(ArcName,0))
+    // Open shared mode is added by request of dll users, who need to
+    // browse and unpack archives while downloading.
+    Data->Cmd.OpenShared = true;
+    if (!Data->Arc.Open(ArcName,FMF_OPENSHARED))
     {
       r->OpenResult=ERAR_EOPEN;
       delete Data;
@@ -122,7 +125,7 @@ HANDLE PASCAL RAROpenArchiveEx(struct RAROpenArchiveDataEx *r)
     }
     else
       r->CmtState=r->CmtSize=0;
-    Data->Extract.ExtractArchiveInit(&Data->Cmd,Data->Arc);
+    Data->Extract.ExtractArchiveInit(Data->Arc);
     return (HANDLE)Data;
   }
   catch (RAR_EXIT ErrCode)
@@ -135,7 +138,7 @@ HANDLE PASCAL RAROpenArchiveEx(struct RAROpenArchiveDataEx *r)
       delete Data;
     return NULL;
   }
-  catch (std::bad_alloc) // Catch 'new' exception.
+  catch (std::bad_alloc&) // Catch 'new' exception.
   {
     r->OpenResult=ERAR_NO_MEMORY;
     if (Data != NULL)
@@ -339,7 +342,7 @@ int PASCAL ProcessFile(HANDLE hArcData,int Operation,char *DestPath,char *DestNa
       wcscpy(Data->Cmd.Command,Operation==RAR_EXTRACT ? L"X":L"T");
       Data->Cmd.Test=Operation!=RAR_EXTRACT;
       bool Repeat=false;
-      Data->Extract.ExtractCurrentFile(&Data->Cmd,Data->Arc,Data->HeaderSize,Repeat);
+      Data->Extract.ExtractCurrentFile(Data->Arc,Data->HeaderSize,Repeat);
 
       // Now we process extra file information if any.
       //
@@ -351,13 +354,13 @@ int PASCAL ProcessFile(HANDLE hArcData,int Operation,char *DestPath,char *DestNa
       while (Data->Arc.IsOpened() && Data->Arc.ReadHeader()!=0 && 
              Data->Arc.GetHeaderType()==HEAD_SERVICE)
       {
-        Data->Extract.ExtractCurrentFile(&Data->Cmd,Data->Arc,Data->HeaderSize,Repeat);
+        Data->Extract.ExtractCurrentFile(Data->Arc,Data->HeaderSize,Repeat);
         Data->Arc.SeekToNext();
       }
       Data->Arc.Seek(Data->Arc.CurBlockPos,SEEK_SET);
     }
   }
-  catch (std::bad_alloc)
+  catch (std::bad_alloc&)
   {
     return ERAR_NO_MEMORY;
   }

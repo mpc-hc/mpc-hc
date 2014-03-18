@@ -4,8 +4,7 @@
 // It is useful we we need to overwrite an existing folder or file,
 // but need user confirmation for that.
 bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
-                OVERWRITE_MODE Mode,bool *UserReject,int64 FileSize,
-                RarTime *FileTime,bool WriteOnly)
+                bool *UserReject,int64 FileSize,RarTime *FileTime,bool WriteOnly)
 {
   if (UserReject!=NULL)
     *UserReject=false;
@@ -30,77 +29,18 @@ bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
     // autorename below can change the name, so we need to check it again.
     ShortNameChanged=false;
 #endif
-    if (Mode==OVERWRITE_NONE)
+    UIASKREP_RESULT Choice=uiAskReplaceEx(Cmd,Name,MaxNameSize,FileSize,FileTime,(NewFile==NULL ? UIASKREP_F_NORENAME:0));
+
+    if (Choice==UIASKREP_R_REPLACE)
+      break;
+    if (Choice==UIASKREP_R_SKIP)
     {
       if (UserReject!=NULL)
         *UserReject=true;
       return false;
     }
-
-    // Must be before Cmd->AllYes check or -y switch would override -or.
-    if (Mode==OVERWRITE_AUTORENAME)
-    {
-      if (!GetAutoRenamedName(Name,MaxNameSize))
-        Mode=OVERWRITE_DEFAULT;
-      continue;
-    }
-
-#ifdef SILENT
-    Mode=OVERWRITE_ALL;
-#endif
-
-    // This check must be after OVERWRITE_AUTORENAME processing or -y switch
-    // would override -or.
-    if (Cmd->AllYes || Mode==OVERWRITE_ALL)
-      break;
-
-    if (Mode==OVERWRITE_DEFAULT || Mode==OVERWRITE_FORCE_ASK)
-    {
-      wchar NewName[NM];
-      *NewName=0;
-      eprintf(St(MFileExists),Name);
-      int Choice=Ask(St(MYesNoAllRenQ));
-      if (Choice==1)
-        break;
-      if (Choice==2)
-      {
-        if (UserReject!=NULL)
-          *UserReject=true;
-        return false;
-      }
-      if (Choice==3)
-      {
-        Cmd->Overwrite=OVERWRITE_ALL;
-        break;
-      }
-      if (Choice==4)
-      {
-        if (UserReject!=NULL)
-          *UserReject=true;
-        Cmd->Overwrite=OVERWRITE_NONE;
-        return false;
-      }
-      if (Choice==5)
-      {
-#ifndef GUI
-        mprintf(St(MAskNewName));
-        if (!getwstr(NewName,ASIZE(NewName)))
-        {
-          // Process fwgets failure as if user answered 'No'.
-          if (UserReject!=NULL)
-            *UserReject=true;
-          return false;
-        }
-#endif
-        if (PointToName(NewName)==NewName)
-          SetName(Name,NewName,MaxNameSize);
-        else
-          wcsncpyz(Name,NewName,MaxNameSize);
-        continue;
-      }
-      if (Choice==6)
-        ErrHandler.Exit(RARX_USERBREAK);
-    }
+    if (Choice==UIASKREP_R_CANCEL)
+      ErrHandler.Exit(RARX_USERBREAK);
   }
   uint FileMode=WriteOnly ? FMF_WRITE|FMF_SHAREREAD:FMF_UPDATE|FMF_SHAREREAD;
   if (NewFile!=NULL && NewFile->Create(Name,FileMode))
@@ -114,15 +54,26 @@ bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
 bool GetAutoRenamedName(wchar *Name,size_t MaxNameSize)
 {
   wchar NewName[NM];
-  if (wcslen(Name)>ASIZE(NewName)-10)
+  size_t NameLength=wcslen(Name);
+#ifdef _ANDROID
+  if (NameLength>ASIZE(NewName)-10)
     return false;
+#endif
   wchar *Ext=GetExt(Name);
   if (Ext==NULL)
-    Ext=Name+wcslen(Name);
-  *NewName=0;
+    Ext=Name+NameLength;
   for (uint FileVer=1;;FileVer++)
   {
+#ifdef _ANDROID // No swprintf in Android NDK r9.
+    uint NamePrefixLength=Ext-Name;
+    wcsncpy(NewName,Name,NamePrefixLength);
+    wcscpy(NewName+NamePrefixLength,L"(");
+    itoa(FileVer,NewName+NamePrefixLength+1);
+    wcscat(NewName,L")");
+    wcscat(NewName,Ext);
+#else
     swprintf(NewName,ASIZE(NewName),L"%.*ls(%u)%ls",uint(Ext-Name),Name,FileVer,Ext);
+#endif
     if (!FileExist(NewName))
     {
       wcsncpyz(Name,NewName,MaxNameSize);
@@ -201,7 +152,7 @@ bool UpdateExistingShortName(const wchar *Name)
   File KeepShortFile;
   bool Created=false;
   if (!FileExist(Name))
-    Created=KeepShortFile.Create(Name);
+    Created=KeepShortFile.Create(Name,FMF_WRITE|FMF_SHAREREAD);
 
   // Now we rename the existing file from temporary name to original long name.
   // Since its previous short name is occupied by another file, it should

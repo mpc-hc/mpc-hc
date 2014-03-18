@@ -1,10 +1,5 @@
 #include "rar.hpp"
 
-RarTime::RarTime()
-{
-  Reset();
-}
-
 #ifdef _WIN_ALL
 RarTime& RarTime::operator =(FILETIME &ft)
 {
@@ -46,7 +41,15 @@ void RarTime::GetLocal(RarLocalTime *lt)
   FILETIME ft;
   GetWin32(&ft);
   FILETIME lft;
-  FileTimeToLocalFileTime(&ft,&lft);
+
+  // We use these functions instead of FileTimeToLocalFileTime according to
+  // MSDN recommendation: "To account for daylight saving time
+  // when converting a file time to a local time ..."
+  SYSTEMTIME st1,st2;
+  FileTimeToSystemTime(&ft,&st1);
+  SystemTimeToTzSpecificLocalTime(NULL,&st1,&st2);
+  SystemTimeToFileTime(&st2,&lft);
+
   SYSTEMTIME st;
   FileTimeToSystemTime(&lft,&st);
   lt->Year=st.wYear;
@@ -84,7 +87,7 @@ void RarTime::GetLocal(RarLocalTime *lt)
   lt->Hour=t->tm_hour;
   lt->Minute=t->tm_min;
   lt->Second=t->tm_sec;
-  lt->Reminder=0;
+  lt->Reminder=itime % 10000000;
   lt->wDay=t->tm_wday;
   lt->yDay=t->tm_yday;
 #endif
@@ -108,8 +111,14 @@ void RarTime::SetLocal(RarLocalTime *lt)
     lft.dwLowDateTime+=lt->Reminder;
     if (lft.dwLowDateTime<lt->Reminder)
       lft.dwHighDateTime++;
+
+    // Reverse procedure which we do in GetLocal.
+    SYSTEMTIME st1,st2;
+    FileTimeToSystemTime(&lft,&st2);
+    TzSpecificLocalTimeToSystemTime(NULL,&st2,&st1);
     FILETIME ft;
-    LocalFileTimeToFileTime(&lft,&ft);
+    SystemTimeToFileTime(&st1,&ft);
+
     *this=ft;
   }
   else
@@ -125,6 +134,7 @@ void RarTime::SetLocal(RarLocalTime *lt)
   t.tm_year=lt->Year-1900;
   t.tm_isdst=-1;
   *this=mktime(&t);
+  itime+=lt->Reminder;
 #endif
 }
 
@@ -275,15 +285,7 @@ void RarTime::SetCurrentTime()
 #ifndef SFX_MODULE
 const wchar *GetMonthName(int Month)
 {
-#ifdef SILENT
-  return L"";
-#else
-  static MSGID MonthID[]={
-         MMonthJan,MMonthFeb,MMonthMar,MMonthApr,MMonthMay,MMonthJun,
-         MMonthJul,MMonthAug,MMonthSep,MMonthOct,MMonthNov,MMonthDec
-  };
-  return St(MonthID[Month]);
-#endif
+  return uiGetMonthName(Month);
 }
 #endif
 

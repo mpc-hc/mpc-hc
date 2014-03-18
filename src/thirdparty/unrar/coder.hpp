@@ -2,8 +2,6 @@
  *  Contents: 'Carryless rangecoder' by Dmitry Subbotin                     *
  ****************************************************************************/
 
-const uint TOP=1 << 24, BOT=1 << 15;
-
 
 class RangeCoder
 {

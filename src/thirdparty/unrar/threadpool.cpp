@@ -22,17 +22,15 @@ ThreadPool::ThreadPool(uint MaxThreads)
 
   Closing=false;
 
-  bool Success;
+  bool Success = CriticalSectionCreate(&CritSection);
 #ifdef _WIN_ALL
   QueuedTasksCnt=CreateSemaphore(NULL,0,ASIZE(TaskQueue),NULL);
   NoneActive=CreateEvent(NULL,TRUE,TRUE,NULL);
-  InitializeCriticalSection(&CritSection); 
-  Success=QueuedTasksCnt!=NULL && NoneActive!=NULL;
+  Success=Success && QueuedTasksCnt!=NULL && NoneActive!=NULL;
 #elif defined(_UNIX)
   AnyActive = false;
   QueuedTasksCnt = 0;
-  Success=pthread_mutex_init(&CritSection,NULL)==0 &&
-          pthread_cond_init(&AnyActiveCond,NULL)==0 &&
+  Success=Success && pthread_cond_init(&AnyActiveCond,NULL)==0 &&
           pthread_mutex_init(&AnyActiveMutex,NULL)==0 &&
           pthread_cond_init(&QueuedTasksCntCond,NULL)==0 &&
           pthread_mutex_init(&QueuedTasksCntMutex,NULL)==0;
@@ -86,12 +84,11 @@ ThreadPool::~ThreadPool()
     ThreadClose(ThreadHandles[I]);
   }
 
+  CriticalSectionDelete(&CritSection);
 #ifdef _WIN_ALL
-  DeleteCriticalSection(&CritSection);
   CloseHandle(QueuedTasksCnt);
   CloseHandle(NoneActive);
 #elif defined(_UNIX)
-  pthread_mutex_destroy(&CritSection);
   pthread_cond_destroy(&AnyActiveCond);
   pthread_mutex_destroy(&AnyActiveMutex);
   pthread_cond_destroy(&QueuedTasksCntCond);

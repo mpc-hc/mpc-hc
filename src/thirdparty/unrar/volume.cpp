@@ -22,9 +22,7 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
          hd->UnpVer>=20 && hd->FileHash.CRC32!=0xffffffff;
     if (PackedHashPresent && 
         !DataIO->PackedDataHash.Cmp(&hd->FileHash,hd->UseHashKey ? hd->HashKey:NULL))
-    {
-      Log(Arc.FileName,St(MDataBadCRC),hd->FileName,Arc.FileName);
-    }
+      uiMsg(UIERROR_CHECKSUMPACKED, Arc.FileName, hd->FileName);
   }
 
   int64 PosBeforeClose=Arc.Tell();
@@ -48,12 +46,14 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
   // In -vp mode we force the pause before next volume even if it is present
   // and even if we are on the hard disk. It is important when user does not
   // want to process partially downloaded volumes preliminary.
-  if (Cmd->VolumePause && !AskNextVol(NextName))
+  if (Cmd->VolumePause && !uiAskNextVolume(NextName,ASIZE(NextName)))
     FailedOpen=true;
 #endif
 
+  uint OpenMode = Cmd->OpenShared ? FMF_OPENSHARED : 0;
+
   if (!FailedOpen)
-    while (!Arc.Open(NextName,0))
+    while (!Arc.Open(NextName,OpenMode))
     {
       // We need to open a new volume which size was not calculated
       // in total size before, so we cannot calculate the total progress
@@ -70,7 +70,7 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
         wcscpy(AltNextName,Arc.FileName);
         NextVolumeName(AltNextName,ASIZE(AltNextName),true);
         OldSchemeTested=true;
-        if (Arc.Open(AltNextName,0))
+        if (Arc.Open(AltNextName,OpenMode))
         {
           wcscpy(NextName,AltNextName);
           break;
@@ -101,7 +101,7 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
       }
 #endif
 #ifndef SILENT
-      if (Cmd->AllYes || !AskNextVol(NextName))
+      if (Cmd->AllYes || !uiAskNextVolume(NextName,ASIZE(NextName)))
 #endif
       {
         FailedOpen=true;
@@ -113,10 +113,8 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
   
   if (FailedOpen)
   {
-#ifndef SILENT
-      Log(Arc.FileName,St(MAbsNextVol),NextName);
-#endif
-    Arc.Open(Arc.FileName,0);
+    uiMsg(UIERROR_MISSINGVOL,NextName);
+    Arc.Open(Arc.FileName,OpenMode);
     Arc.Seek(PosBeforeClose,SEEK_SET);
     return false;
   }
@@ -174,17 +172,6 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
 
 
 
-
-
-#ifndef SILENT
-bool AskNextVol(wchar *ArcName)
-{
-  eprintf(St(MAskNextVol),ArcName);
-  if (Ask(St(MContinueQuit))==2)
-    return false;
-  return true;
-}
-#endif
 
 
 #ifdef RARDLL

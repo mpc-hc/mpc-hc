@@ -64,7 +64,7 @@ bool ScanTree::GetNextMask()
     return false;
   CurMask[ASIZE(CurMask)-1]=0;
 #ifdef _WIN_ALL
-  UnixSlashToDos(CurMask);
+  UnixSlashToDos(CurMask,CurMask,ASIZE(CurMask));
 #endif
 
   // We wish to scan entire disk if mask like c:\ is specified
@@ -253,10 +253,7 @@ SCAN_CODE ScanTree::FindProc(FindData *FD)
 
     if (wcslen(CurMask)+wcslen(Mask)+1>=NM || Depth>=MAXSCANDEPTH-1)
     {
-#ifndef SILENT
-      Log(NULL,L"\n%ls%c%ls",CurMask,CPATHDIVIDER,Mask);
-      Log(NULL,St(MPathTooLong));
-#endif
+      uiMsg(UIERROR_PATHTOOLONG,CurMask,SPATHDIVIDER,Mask);
       return SCAN_ERROR;
     }
 
@@ -325,14 +322,12 @@ void ScanTree::ScanError(bool &Error)
   if (Error && Cmd!=NULL && Cmd->ExclCheck(CurMask,false,true,true))
     Error=false;
 
-#ifndef SILENT
   if (Error)
   {
     wchar FullName[NM];
     // This conversion works for wildcard masks too.
     ConvertNameToFull(CurMask,FullName,ASIZE(FullName));
-    Log(NULL,St(MScanError),FullName);
+    uiMsg(UIERROR_DIRSCAN,FullName);
     ErrHandler.SysErrMsg();
   }
-#endif
 }

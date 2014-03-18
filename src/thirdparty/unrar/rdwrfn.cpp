@@ -204,7 +204,7 @@ void ComprDataIO::ShowUnpRead(int64 ArcPos,int64 ArcSize)
     int CurPercent=ToPercent(ArcPos,ArcSize);
     if (!Cmd->DisablePercentage && CurPercent!=LastPercent)
     {
-      mprintf(L"\b\b\b\b%3d%%",CurPercent);
+      uiExtractProgress(CurUnpWrite,SrcArc->FileHead.UnpSize,ArcPos,ArcSize);
       LastPercent=CurPercent;
     }
   }
@@ -280,5 +280,3 @@ void ComprDataIO::SetUnpackToMemory(byte *Addr,uint Size)
   UnpackToMemoryAddr=Addr;
   UnpackToMemorySize=Size;
 }
-
-

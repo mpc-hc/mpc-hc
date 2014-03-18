@@ -145,6 +145,7 @@
     <ClCompile Include="system.cpp" />
     <ClCompile Include="threadpool.cpp" />
     <ClCompile Include="timefn.cpp" />
+    <ClCompile Include="ui.cpp" />
     <ClCompile Include="unicode.cpp" />
     <ClCompile Include="unpack.cpp" />
     <ClCompile Include="volume.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="system.hpp" />
     <ClInclude Include="threadpool.hpp" />
     <ClInclude Include="timefn.hpp" />
+    <ClInclude Include="ui.hpp" />
     <ClInclude Include="ulinks.hpp" />
     <ClInclude Include="unicode.hpp" />
     <ClInclude Include="unpack.hpp" />

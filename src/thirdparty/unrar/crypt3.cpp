@@ -47,28 +47,28 @@ void CryptData::SetKey30(bool Encrypt,SecPassword *Password,const wchar *PwdW,co
       memcpy(RawPsw+RawLength,Salt,SIZE_SALT30);
       RawLength+=SIZE_SALT30;
     }
-    hash_context c;
-    hash_initial(&c);
+    sha1_context c;
+    sha1_init(&c);
 
     const int HashRounds=0x40000;
     for (int I=0;I<HashRounds;I++)
     {
-      hash_process( &c, RawPsw, RawLength, false);
+      sha1_process( &c, RawPsw, RawLength, false);
       byte PswNum[3];
       PswNum[0]=(byte)I;
       PswNum[1]=(byte)(I>>8);
       PswNum[2]=(byte)(I>>16);
-      hash_process( &c, PswNum, 3, false);
+      sha1_process( &c, PswNum, 3, false);
       if (I%(HashRounds/16)==0)
       {
-        hash_context tempc=c;
+        sha1_context tempc=c;
         uint32 digest[5];
-        hash_final( &tempc, digest, false);
+        sha1_done( &tempc, digest, false);
         AESInit[I/(HashRounds/16)]=(byte)digest[4];
       }
     }
     uint32 digest[5];
-    hash_final( &c, digest, false);
+    sha1_done( &c, digest, false);
     for (int I=0;I<4;I++)
       for (int J=0;J<4;J++)
         AESKey[I*4+J]=(byte)(digest[I]>>(J*8));

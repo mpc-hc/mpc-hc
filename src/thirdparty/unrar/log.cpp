@@ -17,7 +17,7 @@ void Log(const wchar *ArcName,const wchar *fmt,...)
   // Preserve the error code for possible following system error message.
   int Code=ErrHandler.GetSystemErrorCode();
 
-  Alarm();
+  uiAlarm(UIALARM_ERROR);
 
   // This buffer is for format string only, not for entire output,
   // so it can be short enough.

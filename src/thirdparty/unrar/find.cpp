@@ -70,7 +70,7 @@ bool FindFile::Next(FindData *fd,bool GetSymLink)
       continue;
     wchar Name[NM];
     if (!CharToWide(ent->d_name,Name,ASIZE(Name)))
-      Log(NULL,St(MInvalidName),Name);
+      uiMsg(UIERROR_INVALIDNAME,UINULL,Name);
 
     if (CmpName(FindMask,Name,MATCH_NAMES))
     {
@@ -79,16 +79,13 @@ bool FindFile::Next(FindData *fd,bool GetSymLink)
       *PointToName(FullName)=0;
       if (wcslen(FullName)+wcslen(Name)>=ASIZE(FullName)-1)
       {
-#ifndef SILENT
-        Log(NULL,L"\n%ls%ls",FullName,Name);
-        Log(NULL,St(MPathTooLong));
-#endif
+        uiMsg(UIERROR_PATHTOOLONG,FullName,L"",Name);
         return false;
       }
       wcscat(FullName,Name);
       if (!FastFind(FullName,fd,GetSymLink))
       {
-        ErrHandler.OpenErrorMsg(NULL,FullName);
+        ErrHandler.OpenErrorMsg(FullName);
         continue;
       }
       wcscpy(fd->Name,FullName);

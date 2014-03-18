@@ -68,9 +68,7 @@ void Archive::CheckArc(bool EnableBroken)
     // If FailedHeaderDecryption is set, we already reported that archive
     // password is incorrect.
     if (!FailedHeaderDecryption)
-    {
-      Log(FileName,St(MBadArc),FileName);
-    }
+      uiMsg(UIERROR_BADARCHIVE,FileName);
     ErrHandler.Exit(RARX_FATAL);
   }
 }
@@ -92,9 +90,7 @@ bool Archive::WCheckOpen(const wchar *Name)
     return false;
   if (!IsArchive(false))
   {
-#ifndef SHELL_EXT
-    Log(FileName,St(MNotRAR),FileName);
-#endif
+    uiMsg(UIERROR_BADARCHIVE,FileName);
     Close();
     return false;
   }
@@ -133,25 +129,16 @@ bool Archive::IsArchive(bool EnableBroken)
 {
   Encrypted=false;
   BrokenHeader=false; // Might be left from previous volume.
-#ifdef USE_QOPEN
-  QOpen.Unload();
-#endif
-
-  // Important if we reuse Archive object and it has virtual QOpen
-  // file position not matching real. For example, for 'l -v volname'.
-  Seek(0,SEEK_SET);
   
 #ifndef SFX_MODULE
   if (IsDevice())
   {
-#ifndef SHELL_EXT
-    Log(FileName,St(MInvalidName),FileName);
-#endif
+    uiMsg(UIERROR_INVALIDNAME,FileName,FileName);
     return false;
   }
 #endif
   if (Read(MarkHead.Mark,SIZEOF_MARKHEAD3)!=SIZEOF_MARKHEAD3)
-    return(false);
+    return false;
   SFXSize=0;
   
   RARFORMAT Type;
@@ -159,7 +146,7 @@ bool Archive::IsArchive(bool EnableBroken)
   {
     Format=Type;
     if (Format==RARFMT14)
-      Seek(0,SEEK_SET);
+      Seek(Tell()-SIZEOF_MARKHEAD3,SEEK_SET);
   }
   else
   {
@@ -187,9 +174,7 @@ bool Archive::IsArchive(bool EnableBroken)
   }
   if (Format==RARFMT_FUTURE)
   {
-#if !defined(SHELL_EXT) && !defined(SFX_MODULE)
-    Log(FileName,St(MNewRarFormat));
-#endif
+    uiMsg(UIERROR_NEWRARFORMAT,FileName);
     return false;
   }
   if (Format==RARFMT50) // RAR 5.0 signature is by one byte longer.
@@ -229,30 +214,12 @@ bool Archive::IsArchive(bool EnableBroken)
     return false;
 
   SeekToNext();
-  if (BrokenHeader)
+  if (BrokenHeader) // Main archive header is corrupt.
   {
-#ifndef SHELL_EXT
-    Log(FileName,St(MMainHeaderBroken));
-#endif
+    uiMsg(UIERROR_MHEADERBROKEN,FileName);
     if (!EnableBroken)
       return false;
   }
-
-/*
-  if (MainHead.EncryptVer>VER_UNPACK)
-  {
-#ifdef RARDLL
-    Cmd->DllError=ERAR_UNKNOWN_FORMAT;
-#else
-    ErrHandler.SetErrorCode(RARX_WARNING);
-  #if !defined(SILENT) && !defined(SFX_MODULE)
-      Log(FileName,St(MUnknownMeth),FileName);
-      Log(FileName,St(MVerRequired),MainHead.EncryptVer/10,MainHead.EncryptVer%10);
-  #endif
-#endif
-    return(false);
-  }
-*/
 
   MainComment=MainHead.CommentInHeader;
 
@@ -274,10 +241,11 @@ bool Archive::IsArchive(bool EnableBroken)
       if (HeaderType==HEAD_SERVICE)
         FirstVolume=Volume && !SubHead.SplitBefore;
       else
-      {
-        FirstVolume=Volume && HeaderType==HEAD_FILE && !FileHead.SplitBefore;
-        break;
-      }
+        if (HeaderType==HEAD_FILE)
+        {
+          FirstVolume=Volume && !FileHead.SplitBefore;
+          break;
+        }
       SeekToNext();
     }
     CurBlockPos=SaveCurBlockPos;
@@ -320,6 +288,16 @@ uint Archive::FullHeaderSize(size_t Size)
 
 
 #ifdef USE_QOPEN
+bool Archive::Open(const wchar *Name,uint Mode)
+{
+  // Important if we reuse Archive object and it has virtual QOpen
+  // file position not matching real. For example, for 'l -v volname'.
+  QOpen.Unload();
+
+  return File::Open(Name,Mode);
+}
+
+
 int Archive::Read(void *Data,size_t Size)
 {
   size_t Result;

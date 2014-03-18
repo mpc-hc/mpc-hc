@@ -165,7 +165,9 @@ class RAROptions
     uint Threads; // We use it to init hash even if RAR_SMP is not defined.
 
 
-
+#ifdef _ANDROID
+    int64 FreeMem;
+#endif
 
 
 

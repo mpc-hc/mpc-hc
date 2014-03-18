@@ -2,6 +2,7 @@
 #define _RAR_RARCOMMON_
 
 #include "raros.hpp"
+#include "rartypes.hpp"
 #include "os.hpp"
 
 #ifdef RARDLL
@@ -9,7 +10,6 @@
 #endif
 
 #include "version.hpp"
-#include "rartypes.hpp"
 #include "rardefs.hpp"
 #include "rarlang.hpp"
 #include "unicode.hpp"
@@ -31,6 +31,7 @@
 #include "strlist.hpp"
 #include "file.hpp"
 #include "crc.hpp"
+#include "ui.hpp"
 #include "filefn.hpp"
 #include "filestr.hpp"
 #include "find.hpp"
@@ -83,5 +84,11 @@
 
 #include "global.hpp"
 
+
+
+
+#ifdef _ANDROID
+#include "GUI/rarjni.hpp"
+#endif
 
 #endif

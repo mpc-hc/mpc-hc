@@ -77,7 +77,7 @@ void RSEncode::EncodeBuf()
 bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
 {
   wchar ArcName[NM];
-  wcscpy(ArcName,Name);
+  wcsncpyz(ArcName,Name,ASIZE(ArcName));
   wchar *Ext=GetExt(ArcName);
   bool NewStyle=false;
   bool RevName=Ext!=NULL && wcsicomp(Ext,L".rev")==0;
@@ -105,7 +105,7 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       Archive Arc(Cmd);
       if (Arc.WOpen(fd.Name) && Arc.IsArchive(true))
       {
-        wcscpy(ArcName,fd.Name);
+        wcsncpyz(ArcName,fd.Name,ASIZE(ArcName));
         break;
       }
     }
@@ -116,23 +116,19 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
     return false;
   if (!Arc.Volume)
   {
-#ifndef SILENT
-    Log(ArcName,St(MNotVolume),ArcName);
-#endif
+    uiMsg(UIERROR_NOTVOLUME,ArcName);
     return false;
   }
   bool NewNumbering=Arc.NewNumbering;
   Arc.Close();
 
-  wchar *VolNumStart=VolNameToFirstName(ArcName,ArcName,NewNumbering);
+  wchar *VolNumStart=VolNameToFirstName(ArcName,ArcName,ASIZE(ArcName),NewNumbering);
   wchar RecVolMask[NM];
-  wcscpy(RecVolMask,ArcName);
+  wcsncpyz(RecVolMask,ArcName,ASIZE(RecVolMask));
   size_t BaseNamePartLength=VolNumStart-ArcName;
-  wcscpy(RecVolMask+BaseNamePartLength,L"*.rev");
+  wcsncpyz(RecVolMask+BaseNamePartLength,L"*.rev",ASIZE(RecVolMask)-BaseNamePartLength);
 
-#ifndef SILENT
   int64 RecFileSize=0;
-#endif
 
   // We cannot display "Calculating CRC..." message here, because we do not
   // know if we'll find any recovery volumes. We'll display it after finding
@@ -171,15 +167,11 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
     {
       if (!CalcCRCMessageDone)
       {
-#ifndef SILENT
-        mprintf(St(MCalcCRCAllVol));
-#endif
+        uiMsg(UIMSG_RECVOLCALCCHECKSUM);
         CalcCRCMessageDone=true;
       }
       
-#ifndef SILENT
-        mprintf(L"\n%s",CurName);
-#endif
+      uiMsg(UIMSG_STRING,CurName);
 
       File CurFile;
       CurFile.TOpen(CurName);
@@ -195,9 +187,7 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       CalcFileSum(&CurFile,&CalcCRC,NULL,Cmd->Threads,Length-4);
       if (FileCRC!=CalcCRC)
       {
-#ifndef SILENT
-        mprintf(St(MCRCFailed),CurName);
-#endif
+        uiMsg(UIMSG_CHECKSUM,CurName);
         continue;
       }
     }
@@ -224,10 +214,8 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       continue;
     if (RecVolNumber!=0 && RecVolNumber!=P[1] || FileNumber!=0 && FileNumber!=P[2])
     {
-#ifndef SILENT
-      Log(NULL,St(MRecVolDiffSets),CurName,PrevName);
-#endif
-      return(false);
+      uiMsg(UIERROR_RECVOLDIFFSETS,CurName,PrevName);
+      return false;
     }
     RecVolNumber=P[1];
     FileNumber=P[2];
@@ -236,17 +224,12 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
     NewFile->TOpen(CurName);
     SrcFile[FileNumber+P[0]-1]=NewFile;
     FoundRecVolumes++;
-#ifndef SILENT
+
     if (RecFileSize==0)
       RecFileSize=NewFile->FileLength();
-#endif
   }
-#ifndef SILENT
   if (!Silent || FoundRecVolumes!=0)
-  {
-    mprintf(St(MRecVolFound),FoundRecVolumes);
-  }
-#endif
+    uiMsg(UIMSG_RECVOLFOUND,FoundRecVolumes);
   if (FoundRecVolumes==0)
     return(false);
 
@@ -270,9 +253,8 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
         {
           if (NewFile->GetHeaderType()==HEAD_ENDARC)
           {
-#ifndef SILENT
-            mprintf(L"\n%s",ArcName);
-#endif
+            uiMsg(UIMSG_STRING,ArcName);
+
             if (NewFile->EndArcHead.DataCRC)
             {
               uint CalcCRC;
@@ -280,9 +262,7 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
               if (NewFile->EndArcHead.ArcDataCRC!=CalcCRC)
               {
                 ValidVolume=false;
-#ifndef SILENT
-                mprintf(St(MCRCFailed),ArcName);
-#endif
+                uiMsg(UIMSG_CHECKSUM,ArcName);
               }
             }
             break;
@@ -296,10 +276,9 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
         wchar NewName[NM];
         wcscpy(NewName,ArcName);
         wcscat(NewName,L".bad");
-#ifndef SILENT
-        mprintf(St(MBadArc),ArcName);
-        mprintf(St(MRenaming),ArcName,NewName);
-#endif
+
+        uiMsg(UIMSG_BADARCHIVE,ArcName);
+        uiMsg(UIMSG_RENAMING,ArcName,NewName);
         RenameFile(ArcName,NewName);
       }
       NewFile->Seek(0,SEEK_SET);
@@ -310,16 +289,16 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       // so if we are called from extraction, we will be able to continue
       // extracting. It may happen if .rar and .rev are on read-only disks
       // like CDs.
-      if (!NewFile->Create(ArcName))
+      if (!NewFile->Create(ArcName,FMF_WRITE|FMF_SHAREREAD))
       {
         // We need to display the title of operation before the error message,
         // to make clear for user that create error is related to recovery 
         // volumes. This is why we cannot use WCreate call here. Title must be
         // before create error, not after that.
-#ifndef SILENT
-        mprintf(St(MReconstructing));
-#endif
-        ErrHandler.CreateErrorMsg(NULL,ArcName);
+
+        uiMsg(UIERROR_RECVOLFOUND,FoundRecVolumes); // Intentionally not displayed in console mode.
+        uiMsg(UIERROR_RECONSTRUCTING);
+        ErrHandler.CreateErrorMsg(ArcName);
         return false;
       }
 
@@ -329,36 +308,28 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       if (CurArcNum==FileNumber-1)
         wcscpy(LastVolName,ArcName);
 
-#ifndef SILENT
-      mprintf(St(MAbsNextVol),ArcName);
-#endif
+      uiMsg(UIMSG_MISSINGVOL,ArcName);
     }
     SrcFile[CurArcNum]=(File*)NewFile;
     NextVolumeName(ArcName,ASIZE(ArcName),!NewNumbering);
   }
 
-#ifndef SILENT
-  mprintf(St(MRecVolMissing),MissingVolumes);
-#endif
+  uiMsg(UIMSG_RECVOLMISSING,MissingVolumes);
 
   if (MissingVolumes==0)
   {
-#ifndef SILENT
-    mprintf(St(MRecVolAllExist));
-#endif
+    uiMsg(UIERROR_RECVOLALLEXIST);
     return false;
   }
 
   if (MissingVolumes>FoundRecVolumes)
   {
-#ifndef SILENT
-    mprintf(St(MRecVolCannotFix));
-#endif
+    uiMsg(UIERROR_RECVOLFOUND,FoundRecVolumes); // Intentionally not displayed in console mode.
+    uiMsg(UIERROR_RECVOLCANNOTFIX);
     return false;
   }
-#ifndef SILENT
-  mprintf(St(MReconstructing));
-#endif
+
+  uiMsg(UIMSG_RECONSTRUCTING);
 
   int TotalFiles=FileNumber+RecVolNumber;
   int Erasures[256],EraSize=0;
@@ -367,12 +338,10 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
     if (WriteFlags[I] || SrcFile[I]==NULL)
       Erasures[EraSize++]=I;
 
-#ifndef SILENT
   int64 ProcessedSize=0;
 #ifndef GUI
   int LastPercent=-1;
   mprintf(L"     ");
-#endif
 #endif
   // Size of per file buffer.
   size_t RecBufferSize=TotalBufferSize/TotalFiles;
@@ -404,15 +373,14 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       }
     if (MaxRead==0)
       break;
-#ifndef SILENT
+
     int CurPercent=ToPercent(ProcessedSize,RecFileSize);
     if (!Cmd->DisablePercentage && CurPercent!=LastPercent)
     {
-      mprintf(L"\b\b\b\b%3d%%",CurPercent);
+      uiProcessProgress("RC",ProcessedSize,RecFileSize);
       LastPercent=CurPercent;
     }
     ProcessedSize+=MaxRead;
-#endif
 
     int BlockStart=0;
     int BlockSize=MaxRead/ThreadNumber;

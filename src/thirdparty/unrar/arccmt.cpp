@@ -28,14 +28,14 @@ bool Archive::GetComment(Array<wchar> *CmtData)
     {
       // Current (RAR 3.0+) version of archive comment.
       Seek(GetStartPos(),SEEK_SET);
-      return(SearchSubBlock(SUBHEAD_TYPE_CMT)!=0 && ReadCommentData(CmtData));
+      return SearchSubBlock(SUBHEAD_TYPE_CMT)!=0 && ReadCommentData(CmtData);
     }
 #ifndef SFX_MODULE
     // Old style (RAR 2.9) comment header embedded into the main 
     // archive header.
     if (BrokenHeader)
     {
-      Log(FileName,St(MLogCommHead));
+      uiMsg(UIERROR_CMTBROKEN,FileName);
       return false;
     }
     CmtLength=CommHead.HeadSize-SIZEOF_COMMHEAD;
@@ -75,7 +75,7 @@ bool Archive::GetComment(Array<wchar> *CmtData)
 
     if (Format!=RARFMT14 && (DataIO.UnpHash.GetCRC32()&0xffff)!=CommHead.CommCRC)
     {
-      Log(FileName,St(MLogCommBrk));
+      uiMsg(UIERROR_CMTBROKEN,FileName);
       return false;
     }
     else
@@ -99,7 +99,7 @@ bool Archive::GetComment(Array<wchar> *CmtData)
 
     if (Format!=RARFMT14 && CommHead.CommCRC!=(~CRC32(0xffffffff,&CmtRaw[0],CmtLength)&0xffff))
     {
-      Log(FileName,St(MLogCommBrk));
+      uiMsg(UIERROR_CMTBROKEN,FileName);
       return false;
     }
     CmtData->Alloc(CmtLength+1);

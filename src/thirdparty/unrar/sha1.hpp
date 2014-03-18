@@ -9,11 +9,11 @@ typedef struct {
     unsigned char buffer[64];
 
     unsigned char workspace[64]; // Temporary buffer.
-} hash_context;
+} sha1_context;
 
-void hash_initial( hash_context * c );
-void hash_process( hash_context * c, unsigned char * data, size_t len,
+void sha1_init( sha1_context * c );
+void sha1_process( sha1_context * c, const byte *data, size_t len,
                    bool handsoff);
-void hash_final( hash_context * c, uint32[HW], bool handsoff);
+void sha1_done( sha1_context * c, uint32[HW], bool handsoff);
 
 #endif

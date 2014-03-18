@@ -56,7 +56,7 @@ uint CRC32(uint StartCRC,const void *Addr,size_t Size)
   byte *Data=(byte *)Addr;
 
   // Align Data to 8 for better performance.
-  for (;Size>0 && ((long)Data & 7);Size--,Data++)
+  for (;Size>0 && ((size_t)Data & 7);Size--,Data++)
     StartCRC=crc_tables[0][(byte)(StartCRC^Data[0])]^(StartCRC>>8);
 
   for (;Size>=8;Size-=8,Data+=8)

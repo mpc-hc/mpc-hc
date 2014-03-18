@@ -87,15 +87,19 @@ void Unpack::Init(size_t WinSize,bool Solid)
   // extra cautious, we still handle the solid window grow case below.
   bool Grow=Solid && (Window!=NULL || Fragmented);
 
-  byte *NewWindow=(byte *)malloc(WinSize);
-
-  // We do not handle growth for fragmented window now.
-  if (Grow && (NewWindow==NULL || Fragmented))
+  // We do not handle growth for existing fragmented window.
+  if (Grow && Fragmented)
     throw std::bad_alloc();
 
+  byte *NewWindow=(byte *)malloc(WinSize);
+
   if (NewWindow==NULL)
-    if (WinSize<0x1000000) // Exclude RAR4 and small dictionaries.
+    if (Grow || WinSize<0x1000000)
+    {
+      // We do not support growth for new fragmented window.
+      // Also exclude RAR4 and small dictionaries.
       throw std::bad_alloc();
+    }
     else
     {
       FragWindow.Init(WinSize);

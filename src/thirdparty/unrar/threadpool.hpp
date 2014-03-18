@@ -4,7 +4,11 @@
 #ifndef RAR_SMP
 const uint MaxPoolThreads=1; // For single threaded version.
 #else
+#if defined(_ANDROID)
+const uint MaxPoolThreads=16;
+#else
 const uint MaxPoolThreads=32;
+#endif
 
 
 #ifdef _UNIX

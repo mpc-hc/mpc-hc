@@ -42,7 +42,4 @@ const wchar* GetCmdParam(const wchar *CmdLine,wchar *Param,size_t MaxSize);
 void PrintfPrepareFmt(const wchar *Org,wchar *Cvt,size_t MaxSize);
 #endif
 
-enum PASSWORD_TYPE {PASSWORD_GLOBAL,PASSWORD_FILE,PASSWORD_ARCHIVE};
-bool GetPassword(PASSWORD_TYPE Type,const wchar *FileName,SecPassword *Password);
-
 #endif

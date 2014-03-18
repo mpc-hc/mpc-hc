@@ -1,36 +1,43 @@
 #ifndef _RAR_COMPRESS_
 #define _RAR_COMPRESS_
 
-#define MAX_LZ_MATCH          0x1001
-#define MAX3_LZ_MATCH          0x101 // Maximum match length for RAR v3.
+// Combine pack and unpack constants to class to avoid polluting global
+// namespace with numerous short names.
+class PackDef
+{
+  public:
+    static const uint MAX_LZ_MATCH = 0x1001;
+    static const uint MAX3_LZ_MATCH = 0x101; // Maximum match length for RAR v3.
+    static const uint LOW_DIST_REP_COUNT = 16;
 
-#define LOW_DIST_REP_COUNT 16
+    static const uint NC    = 306; /* alphabet = {0, 1, 2, ..., NC - 1} */
+    static const uint DC    = 64;
+    static const uint LDC   = 16;
+    static const uint RC    = 44;
+    static const uint HUFF_TABLE_SIZE = NC + DC + RC + LDC;
+    static const uint BC    = 20;
 
-#define NC 306  /* alphabet = {0, 1, 2, ..., NC - 1} */
-#define DC  64
-#define LDC 16
-#define RC  44
-#define HUFF_TABLE_SIZE (NC+DC+RC+LDC)
-#define BC  20
+    static const uint NC30  = 299; /* alphabet = {0, 1, 2, ..., NC - 1} */
+    static const uint DC30  = 60;
+    static const uint LDC30 = 17;
+    static const uint RC30  = 28;
+    static const uint BC30  = 20;
+    static const uint HUFF_TABLE_SIZE30 = NC30 + DC30 + RC30 + LDC30;
 
-#define NC30 299  /* alphabet = {0, 1, 2, ..., NC - 1} */
-#define DC30  60
-#define LDC30 17
-#define RC30  28
-#define BC30  20
-#define HUFF_TABLE_SIZE30 (NC30+DC30+RC30+LDC30)
+    static const uint NC20  = 298; /* alphabet = {0, 1, 2, ..., NC - 1} */
+    static const uint DC20  = 48;
+    static const uint RC20  = 28;
+    static const uint BC20  = 19;
+    static const uint MC20  = 257;
 
-#define NC20 298  /* alphabet = {0, 1, 2, ..., NC - 1} */
-#define DC20 48
-#define RC20 28
-#define BC20 19
-#define MC20 257
+    // Largest alphabet size among all values listed above.
+    static const uint LARGEST_TABLE_SIZE = 306;
 
-// Largest alphabet size among all values listed above.
-#define LARGEST_TABLE_SIZE 306
-
-enum {CODE_HUFFMAN,CODE_LZ,CODE_REPEATLZ,CODE_CACHELZ,
-      CODE_STARTFILE,CODE_ENDFILE,CODE_FILTER,CODE_FILTERDATA};
+    enum {
+      CODE_HUFFMAN, CODE_LZ, CODE_REPEATLZ, CODE_CACHELZ, CODE_STARTFILE,
+      CODE_ENDFILE, CODE_FILTER, CODE_FILTERDATA
+    };
+};
 
 
 enum FilterType {

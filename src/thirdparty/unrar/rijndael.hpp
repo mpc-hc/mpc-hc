@@ -16,20 +16,29 @@
 class Rijndael
 { 
   private:
+#ifdef USE_SSE
+    void blockEncryptSSE(const byte *input,size_t numBlocks,byte *outBuffer);
+    void blockDecryptSSE(const byte *input, size_t numBlocks, byte *outBuffer);
+
+    bool AES_NI;
+#endif
     void keySched(byte key[_MAX_KEY_COLUMNS][4]);
     void keyEncToDec();
-    void encrypt(const byte a[16], byte b[16]);
-    void decrypt(const byte a[16], byte b[16]);
     void GenerateTables();
 
+    // RAR always uses CBC, but we may need to turn it off when calling
+    // this code from other archive formats with CTR and other modes.
+    bool     CBCMode;
+    
     int      m_uRounds;
     byte     m_initVector[MAX_IV_SIZE];
     byte     m_expandedKey[_MAX_ROUNDS+1][4][4];
   public:
     Rijndael();
     void Init(bool Encrypt,const byte *key,uint keyLen,const byte *initVector);
-    size_t blockEncrypt(const byte *input, size_t inputLen, byte *outBuffer);
-    size_t blockDecrypt(const byte *input, size_t inputLen, byte *outBuffer);
+    void blockEncrypt(const byte *input, size_t inputLen, byte *outBuffer);
+    void blockDecrypt(const byte *input, size_t inputLen, byte *outBuffer);
+    void SetCBCMode(bool Mode) {CBCMode=Mode;}
 };
   
 #endif // _RIJNDAEL_H_
