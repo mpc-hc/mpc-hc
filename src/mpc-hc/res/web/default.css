@@ -64,6 +64,17 @@ img {
     padding: 0;
 }
 
+/* common */
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+
+/* player.html */
 #player {
     margin: 0 auto;
 }
@@ -279,6 +290,12 @@ img {
     min-width: 24px;
 }
 
+.nobr {
+    white-space: nowrap;
+}
+
+
+/* browser.html */
 .browser-table {
     border-collapse: separate;
     border-spacing: 1px;
@@ -299,16 +316,4 @@ img {
 
 .browser-table th:first-child {
     width: 100%;
-}
-
-.nobr {
-    white-space: nowrap;
-}
-
-.align-center {
-    text-align: center;
-}
-
-.align-right {
-    text-align: right;
 }
