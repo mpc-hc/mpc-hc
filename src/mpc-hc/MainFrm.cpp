@@ -13298,6 +13298,14 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= nullptr*
     CAppSettings& s = AfxGetAppSettings();
     CComQIPtr<ISubStream> pSubStream;
 
+    if (FindFilter(CLSID_VSFilter, m_pGB) || FindFilter(CLSID_XySubFilter, m_pGB)) {
+        // Prevent ISR from loading if VSFilter is already in graph.
+        // TODO: Support VSFilter natively (see ticket #4122)
+        // Note that this doesn't affect ISR auto-loading if any sub renderer force loading itself into the graph.
+        // VSFilter like filters should be blocked when building the graph and ISR auto-loading is enabled.
+        return false;
+    }
+
     if (GetPlaybackMode() == PM_FILE && !s.fDisableInternalSubtitles && !FindFilter(__uuidof(CTextPassThruFilter), m_pGB)) {
         // Add TextPassThru filter if it isn't already in the graph. (i.e ISR hasn't been loaded before)
         // This will load all embedded subtitle tracks when user triggers ISR (load external subtitle file) for the first time.
