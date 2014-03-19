@@ -39,6 +39,19 @@ optgroup{font-weight:700}
 /* END OF normalize.css 2.1.3 */
 
 
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 body,
 th,
 td,
@@ -111,9 +124,6 @@ img {
 }
 
 #statusbar {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     padding: 4px 2px 1px 2px !important;
     width: 100%;
 }
@@ -145,54 +155,63 @@ img {
     background: url(img/controlbuttonplay.png) no-repeat;
     width: 25px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlbuttonpause {
     background: url(img/controlbuttonpause.png) no-repeat;
     width: 23px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlbuttonstop {
     background: url(img/controlbuttonstop.png) no-repeat;
     width: 25px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlbuttonskipback {
     background: url(img/controlbuttonskipback.png) no-repeat;
     width: 24px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlbuttondecrate {
     background: url(img/controlbuttondecrate.png) no-repeat;
     width: 22px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlbuttonincrate {
     background: url(img/controlbuttonincrate.png) no-repeat;
     width: 23px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlbuttonskipforward {
     background: url(img/controlbuttonskipforward.png) no-repeat;
     width: 28px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlbuttonstep {
     background: url(img/controlbuttonstep.png) no-repeat;
     width: 31px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlvolumemute {
     background: url(img/controlvolumeon.png) no-repeat;
     width: 28px;
     height: 28px;
+    cursor: pointer;
 }
 
 #controlvolumebar {
@@ -205,6 +224,7 @@ img {
     background: url(img/seekbarmid.png) repeat-x;
     margin-top: 1px;
     width: 100%;
+    cursor: pointer;
 }
 
 #seekbar td {
@@ -255,10 +275,11 @@ img {
     height: 20px;
 }
 
+#muted {
+    min-width: 24px;
+}
+
 .browser-table {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     border-collapse: separate;
     border-spacing: 1px;
     padding: 1px;
