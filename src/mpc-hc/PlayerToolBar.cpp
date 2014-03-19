@@ -311,7 +311,7 @@ void CPlayerToolBar::OnNcPaint() // when using XP styles the NC area isn't drawn
     dc.FillSolidRect(wr, GetSysColor(COLOR_BTNFACE));
 
     // Do not call CToolBar::OnNcPaint() for painting messages
-    
+
     // Invalidate window to force repaint the expanded separator
     Invalidate(FALSE);
 }
