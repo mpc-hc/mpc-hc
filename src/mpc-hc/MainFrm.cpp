@@ -3414,8 +3414,6 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     SetPlaybackMode(PM_NONE);
     SetLoadState(MLS::CLOSED);
 
-    m_kfs.clear();
-
     m_nCurSubtitle = -1;
     m_lSubtitleShift = 0;
 
