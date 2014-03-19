@@ -466,8 +466,8 @@ msgid "Auto-load audio files"
 msgstr "Ses dosyalarını otomatik olarak yükle"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Auto-load subtitles"
-msgstr "Alt yazıları otomatik olarak yükle"
+msgid "Use the built-in subtitle renderer"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"

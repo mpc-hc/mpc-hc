@@ -466,8 +466,8 @@ msgid "Auto-load audio files"
 msgstr "স্বয়ংক্রিয়ভাবে অডিও ফাইল লোড"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Auto-load subtitles"
-msgstr "স্বয়ংক্রিয়ভাবে সাবটাইটেল লোড"
+msgid "Use the built-in subtitle renderer"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"

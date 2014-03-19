@@ -464,8 +464,8 @@ msgid "Auto-load audio files"
 msgstr "Auto-carica i file audio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Auto-load subtitles"
-msgstr "Auto-carica i sottotitoli"
+msgid "Use the built-in subtitle renderer"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"

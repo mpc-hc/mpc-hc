@@ -315,7 +315,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,185,276,8
     CONTROL         "Report pins which fail to render",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,197,276,8
     CONTROL         "Auto-load audio files",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,209,276,8
-    CONTROL         "Auto-load subtitles",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,221,276,8
+    CONTROL         "Use the built-in subtitle renderer",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,221,276,8
     GROUPBOX        "Control",IDC_STATIC,5,62,126,46
     LTEXT           "Volume step:",IDC_STATIC,11,74,68,8
     EDITTEXT        IDC_VOLUMESTEP,81,71,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER

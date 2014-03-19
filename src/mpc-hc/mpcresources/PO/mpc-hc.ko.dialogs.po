@@ -464,8 +464,8 @@ msgid "Auto-load audio files"
 msgstr "오디오파일을 자동으로 열기"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Auto-load subtitles"
-msgstr "자막파일을 자동으로 열기"
+msgid "Use the built-in subtitle renderer"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
