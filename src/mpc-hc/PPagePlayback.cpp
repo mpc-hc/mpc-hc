@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -95,6 +95,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_EDIT4, OnUpdateAutoZoomFactor)
     ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdateAutoZoomFactor)
     ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdateAutoZoomFactor)
+    ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateISREnabled)
 
     ON_STN_DBLCLK(IDC_STATIC_BALANCE, OnBalanceTextDblClk)
     ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
@@ -228,6 +229,11 @@ void CPPagePlayback::OnUpdateAutoZoomFactor(CCmdUI* pCmdUI)
 {
     int iZoomLevel = m_zoomlevelctrl.GetCurSel();
     pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5) && (iZoomLevel == 3 || iZoomLevel == 4));
+}
+
+void CPPagePlayback::OnUpdateISREnabled(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(AfxGetAppSettings().IsISRAvailable());
 }
 
 void CPPagePlayback::OnUpdateSpeedStep(CCmdUI* pCmdUI)
