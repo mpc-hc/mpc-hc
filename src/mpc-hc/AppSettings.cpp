@@ -587,18 +587,19 @@ bool CAppSettings::IsD3DFullscreen() const
     }
 }
 
-bool CAppSettings::IsISREnabled() const
+bool CAppSettings::IsISRAvailable() const
 {
-    if (iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS ||
+    return (iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS ||
             iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
             iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
             iDSVideoRendererType == VIDRNDT_DS_DXR ||
             iDSVideoRendererType == VIDRNDT_DS_SYNC ||
-            iDSVideoRendererType == VIDRNDT_DS_MADVR) {
-        return fAutoloadSubtitles;
-    } else {
-        return false;
-    }
+            iDSVideoRendererType == VIDRNDT_DS_MADVR);
+}
+
+bool CAppSettings::IsISRAutoLoadEnabled() const
+{
+    return fAutoloadSubtitles && IsISRAvailable();
 }
 
 CString CAppSettings::SelectedAudioRenderer() const

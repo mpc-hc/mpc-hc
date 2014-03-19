@@ -2114,7 +2114,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{272D77A0-A852-4851-ADA4-9091FEAD4C86}")), MERIT64_DO_NOT_USE));
 
     // VSFilter blocking routines
-    if (s.fBlockVSFilter && s.IsISREnabled()) {
+    if (s.fBlockVSFilter && s.IsISRAutoLoadEnabled()) {
         // Prevent VSFilter from connecting while the ISR is active
         m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
         // Prevent XySubFilter from connecting while the ISR is active
