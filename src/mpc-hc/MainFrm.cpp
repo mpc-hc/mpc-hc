@@ -3460,13 +3460,6 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
 
     SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 
-    // Ensure the dynamically added menu items are cleared
-    SetupFiltersSubMenu();
-    SetupAudioSubMenu();
-    SetupSubtitlesSubMenu();
-    SetupVideoStreamsSubMenu();
-    SetupJumpToSubMenus();
-
     SendNowPlayingToSkype();
 
     // try to release external objects
@@ -14439,6 +14432,15 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 
     // clear any active osd messages
     m_OSD.ClearMessage();
+
+    // Ensure the dynamically added menu items are cleared and all references
+    // on objects belonging to the DirectShow graph they might hold are freed.
+    // Note that we need to be in closing state already when doing that
+    SetupFiltersSubMenu();
+    SetupAudioSubMenu();
+    SetupSubtitlesSubMenu();
+    SetupVideoStreamsSubMenu();
+    SetupJumpToSubMenus();
 
     // initiate graph destruction
     if (m_pGraphThread && m_bOpenedThroughThread) {
