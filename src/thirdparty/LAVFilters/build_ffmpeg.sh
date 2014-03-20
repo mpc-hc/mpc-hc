@@ -70,6 +70,7 @@ configure() {
     --enable-libopencore-amrwb      \
     --enable-libopus                \
     --enable-avresample             \
+    --enable-avisynth               \
     --disable-avdevice              \
     --disable-postproc              \
     --disable-swresample            \
