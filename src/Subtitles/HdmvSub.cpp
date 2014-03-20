@@ -236,10 +236,14 @@ void CHdmvSub::UpdateTimeStamp(REFERENCE_TIME rtStop)
     if (!m_pPresentationSegments.IsEmpty()) {
         HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetTail();
 
-        pPresentationSegment->rtStop = rtStop;
+        // Since we drop empty segments we might be trying to update a segment that isn't
+        // in the queue so we update the timestamp only if it was previously unknown.
+        if (pPresentationSegment->rtStop == INFINITE_TIME) {
+            pPresentationSegment->rtStop = rtStop;
 
-        TRACE_HDMVSUB(_T("CHdmvSub: Update Presentation Segment TimeStamp %d - %s => %s\n"), pPresentationSegment->composition_descriptor.nNumber,
-                      ReftimeToString(pPresentationSegment->rtStart), ReftimeToString(pPresentationSegment->rtStop));
+            TRACE_HDMVSUB(_T("CHdmvSub: Update Presentation Segment TimeStamp %d - %s => %s\n"), pPresentationSegment->composition_descriptor.nNumber,
+                          ReftimeToString(pPresentationSegment->rtStart), ReftimeToString(pPresentationSegment->rtStop));
+        }
     }
 }
 
