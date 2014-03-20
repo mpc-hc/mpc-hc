@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,6 +29,8 @@ using namespace DSObjects;
 
 #define ShaderStage_PreScale 0
 #define ShaderStage_PostScale 1
+
+extern bool g_bExternalSubtitleTime;
 
 //
 // CmadVRAllocatorPresenter
@@ -165,7 +167,9 @@ HRESULT CmadVRAllocatorPresenter::Render(
     CRect wndRect(0, 0, width, height);
     CRect videoRect(left, top, right, bottom);
     __super::SetPosition(wndRect, videoRect); // needed? should be already set by the player
-    SetTime(rtStart);
+    if (!g_bExternalSubtitleTime) {
+        SetTime(rtStart);
+    }
     if (atpf > 0 && m_pSubPicQueue) {
         m_fps = 10000000.0 / atpf;
         m_pSubPicQueue->SetFPS(m_fps);
