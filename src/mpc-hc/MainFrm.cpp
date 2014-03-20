@@ -3414,6 +3414,8 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     SetPlaybackMode(PM_NONE);
     SetLoadState(MLS::CLOSED);
 
+    m_kfs.clear();
+
     m_nCurSubtitle = -1;
     m_lSubtitleShift = 0;
 
@@ -11731,7 +11733,6 @@ void CMainFrame::CloseMediaPrivate()
     m_fEndOfStream = false;
     m_rtDurationOverride = -1;
     m_bUsingDXVA = false;
-    m_kfs.clear();
     m_pCB.Release();
 
     {
