@@ -19,6 +19,8 @@ next version - not released yet
   tracks selected at splitter level will be preferred in case more than one tracks match the criteria
 * The "Jump to" menu has been split in several smaller submenus displayed in the "Navigate" menu
   depending on the media currently playing
+* The internal LAV Splitter will now be used by default to demux AviSynth scripts instead of using the old VFW interface.
+  Note that AviSynth is still required even if LAV Splitter is used
 * Cleaned up WebUI's Javascript code
 * Updated SoundTouch to v1.8.0
 * Updated Little CMS to v2.6 (git 40300b1)
