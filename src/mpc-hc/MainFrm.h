@@ -170,6 +170,7 @@ public:
         DELAY_IDLE,
         ACTIVE_SHADER_FILES_CHANGE_COOLDOWN,
         DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
+        DVBINFO_UPDATE,
     };
     OneTimeTimerPool<TimerOneTimeSubscriber> m_timerOneTime;
 
@@ -182,7 +183,6 @@ private:
         TIMER_STREAMPOSPOLLER2,
         TIMER_STATS,
         TIMER_STATUSERASER,
-        TIMER_DVBINFO_UPDATER,
         TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS,
         TIMER_32HZ,
         TIMER_ONETIME_START,

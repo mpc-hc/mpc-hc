@@ -2175,11 +2175,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             m_playingmsg.Empty();
         }
         break;
-        case TIMER_DVBINFO_UPDATER: {
-            KillTimer(TIMER_DVBINFO_UPDATER);
-            ShowCurrentChannelInfo(false, false);
-        }
-        break;
         case TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS: {
             if (GetPlaybackMode() == PM_NONE) {
                 if (UnloadUnusedExternalObjects()) {
@@ -7274,7 +7269,7 @@ void CMainFrame::KillTimersStop()
     KillTimer(TIMER_STREAMPOSPOLLER2);
     KillTimer(TIMER_STREAMPOSPOLLER);
     KillTimer(TIMER_STATS);
-    KillTimer(TIMER_DVBINFO_UPDATER);
+    m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::DVBINFO_UPDATE);
 }
 
 void CMainFrame::OnPlaySeekKey(UINT nID)
@@ -14579,7 +14574,9 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
             }
             // We set a 15s delay to let some room for the program infos to change
             tElapse += 15;
-            SetTimer(TIMER_DVBINFO_UPDATER, 1000 * (UINT)tElapse, nullptr);
+            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DVBINFO_UPDATE,
+                                     [this] { ShowCurrentChannelInfo(false, false); },
+                                     1000 * (UINT)tElapse);
             m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow();
         } else {
             m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(FALSE);
