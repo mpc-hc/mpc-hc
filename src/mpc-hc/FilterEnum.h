@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2013 see Authors.txt
+ * (C) 2010-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -69,6 +69,9 @@ enum SOURCE_FILTER {
 #endif
 #if INTERNAL_SOURCEFILTER_AVI
     SRC_AVI,
+#endif
+#if INTERNAL_SOURCEFILTER_AVS
+    SRC_AVS,
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
     SRC_OGG,

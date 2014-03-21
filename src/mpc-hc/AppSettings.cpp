@@ -232,6 +232,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_AVI
     SrcFiltersKeys[SRC_AVI] = FilterKey(_T("SRC_AVI"), true);
 #endif
+#if INTERNAL_SOURCEFILTER_AVS
+    SrcFiltersKeys[SRC_AVS] = FilterKey(_T("SRC_AVS"), true);
+#endif
 #if INTERNAL_SOURCEFILTER_OGG
     SrcFiltersKeys[SRC_OGG] = FilterKey(_T("SRC_OGG"), true);
 #endif

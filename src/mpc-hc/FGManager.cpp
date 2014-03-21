@@ -1428,6 +1428,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_AVS
+    if (src[SRC_AVS]) {
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".avs"));
+        pFGLAVSplitterSource->AddFormat("avisynth");
+    }
+#endif
+
 #if INTERNAL_SOURCEFILTER_MP4
     if (src[SRC_MP4]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,4,,66747970")); // ftyp
@@ -1623,6 +1630,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (src[SRC_AVI]) {
         pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
         pFGLAVSplitter->AddFormat("avi");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_AVS
+    if (src[SRC_AVS]) {
+        pFGLAVSplitter->AddFormat("avisynth");
     }
 #endif
 
