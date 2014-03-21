@@ -335,9 +335,9 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
     bbox.right  = 0;
     bbox.bottom = 0;
 
-    bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (pPresentationSegment->video_descriptor.nVideoWidth > 720) : false;
-
     if (pPresentationSegment) {
+        bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (pPresentationSegment->video_descriptor.nVideoWidth > 720) : false;
+
         POSITION pos = pPresentationSegment->objects.GetHeadPosition();
 
         TRACE_HDMVSUB(_T("CHdmvSub:Render Presentation segment %d --> %s - %s\n"), pPresentationSegment->composition_descriptor.nNumber,

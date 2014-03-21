@@ -347,9 +347,10 @@ void CDVBSub::EndOfStream()
 void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 {
     RemoveOldPages(rt);
-    bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (m_displayInfo.width > 720) : false;
 
     if (DVB_PAGE* pPage = FindPage(rt)) {
+        bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (m_displayInfo.width > 720) : false;
+
         pPage->rendered = true;
         TRACE_DVB(_T("DVB - Renderer - %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
 
