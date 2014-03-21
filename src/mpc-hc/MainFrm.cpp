@@ -2170,11 +2170,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             }
         }
         break;
-        case TIMER_STATUSERASER: {
-            KillTimer(TIMER_STATUSERASER);
-            m_playingmsg.Empty();
-        }
-        break;
         case TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS: {
             if (GetPlaybackMode() == PM_NONE) {
                 if (UnloadUnusedExternalObjects()) {
@@ -14202,7 +14197,9 @@ void CMainFrame::StopWebServer()
 
 void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 {
-    KillTimer(TIMER_STATUSERASER);
+    const auto timerId = TimerOneTimeSubscriber::STATUS_ERASE;
+
+    m_timerOneTime.Unsubscribe(timerId);
 
     m_playingmsg.Empty();
     if (nTimeOut <= 0) {
@@ -14210,7 +14207,8 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
     }
 
     m_playingmsg = msg;
-    SetTimer(TIMER_STATUSERASER, nTimeOut, nullptr);
+    m_timerOneTime.Subscribe(timerId, [this] { m_playingmsg.Empty(); }, nTimeOut);
+
     m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
 
