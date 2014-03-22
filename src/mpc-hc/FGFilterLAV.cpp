@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -278,7 +278,7 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
                     settings.SetSettings(pLAVFSettings); // Set our settings in LAVSplitter
                 }
 
-                SetEnabledFormats(pLAVFSettings);
+                SetEnabledDisabledFormats(pLAVFSettings);
 
                 // Keep track of LAVFilters instances in runtime mode
                 s_instances.AddTail(*ppBF);
@@ -291,10 +291,10 @@ HRESULT CFGFilterLAVSplitterBase::Create(IBaseFilter** ppBF, CInterfaceList<IUnk
     return hr;
 }
 
-void CFGFilterLAVSplitterBase::SetEnabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings)
+void CFGFilterLAVSplitterBase::SetEnabledDisabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings)
 {
     // "*" is a special case and means all formats are enabled
-    if (m_formats.IsEmpty() || m_formats.GetHead() != "*") {
+    if (m_enabledFormats.IsEmpty() || m_enabledFormats.GetHead() != "*") {
         // We turn off all formats by default to ensure that we won't hijack other filters
         LPSTR* formats;
         UINT nFormats;
@@ -307,11 +307,18 @@ void CFGFilterLAVSplitterBase::SetEnabledFormats(CComQIPtr<ILAVFSettings> pLAVFS
             CoTaskMemFree(formats);
         }
         // We turn on only the formats specified explicitly
-        POSITION pos = m_formats.GetHeadPosition();
+        POSITION pos = m_enabledFormats.GetHeadPosition();
         while (pos) {
-            const CStringA& format = m_formats.GetNext(pos);
+            const CStringA& format = m_enabledFormats.GetNext(pos);
             pLAVFSettings->SetFormatEnabled(format, TRUE);
         }
+    }
+
+    // Explicitly disabled formats
+    POSITION pos = m_disabledFormats.GetHeadPosition();
+    while (pos) {
+        const CStringA& format = m_disabledFormats.GetNext(pos);
+        pLAVFSettings->SetFormatEnabled(format, FALSE);
     }
 }
 

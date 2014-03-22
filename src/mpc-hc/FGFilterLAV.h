@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -92,11 +92,11 @@ public:
 class CFGFilterLAVSplitterBase : public CFGFilterLAV
 {
 protected:
-    CAtlList<CStringA> m_formats;
+    CAtlList<CStringA> m_enabledFormats, m_disabledFormats;
 
     CFGFilterLAVSplitterBase(CString path, const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
 
-    void SetEnabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings);
+    void SetEnabledDisabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings);
 
 public:
     struct Settings {
@@ -131,8 +131,12 @@ public:
 
     static void ShowPropertyPages(CWnd* pParendWnd);
 
-    void AddFormat(CStringA format) {
-        m_formats.AddTail(format);
+    void AddEnabledFormat(CStringA format) {
+        m_enabledFormats.AddTail(format);
+    }
+
+    void AddDisabledFormat(CStringA format) {
+        m_disabledFormats.AddTail(format);
     }
 };
 

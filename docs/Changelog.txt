@@ -54,6 +54,7 @@ next version - not released yet
 ! Ticket #2994, Fix toolbar separators not being properly painted
 ! Ticket #3437, Audio Switcher: Support fallback to another media type. For example, this enables audio decoders
   to fallback to normal decoding if bitstreaming isn't supported
+! Ticket #3544, Prevent the low-merit fall-back on internal LAV Splitter to demux raw subtitle formats
 ! Ticket #3691, PGS subtitle timings were sometimes wrong (subtitles started or ended too late)
 ! Ticket #3763, VMR-9 renderless and EVR-CP: The displayed subtitle was not updated when seeking while playback was paused
 ! Ticket #3775, "Play -> Subtitles" menu could be mistakenly disabled when the internal subtitle renderer was unavailable
