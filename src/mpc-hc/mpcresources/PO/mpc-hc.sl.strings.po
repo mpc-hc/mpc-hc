@@ -2321,9 +2321,9 @@ msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
 msgstr " (Komentar režiserja 2)"
 
-msgctxt "IDS_AG_ENABLED"
-msgid "Enabled"
-msgstr "Omogočeno"
+msgctxt "IDS_DVD_SUBTITLES_ENABLE"
+msgid "Enable DVD subtitles"
+msgstr ""
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"

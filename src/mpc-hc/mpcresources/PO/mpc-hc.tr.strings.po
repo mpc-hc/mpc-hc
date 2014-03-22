@@ -2322,9 +2322,9 @@ msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
 msgstr " (Yönetici Komutları 2)"
 
-msgctxt "IDS_AG_ENABLED"
-msgid "Enabled"
-msgstr "Açıldı"
+msgctxt "IDS_DVD_SUBTITLES_ENABLE"
+msgid "Enable DVD subtitles"
+msgstr ""
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"

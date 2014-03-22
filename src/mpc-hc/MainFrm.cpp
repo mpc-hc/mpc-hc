@@ -12424,7 +12424,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 return;
             }
 
-            VERIFY(subMenu.AppendMenu(MF_STRING | (bIsDisabled ? 0 : MF_CHECKED), id++, ResStr(IDS_AG_ENABLED)));
+            VERIFY(subMenu.AppendMenu(MF_STRING | (bIsDisabled ? 0 : MF_CHECKED), id++, ResStr(IDS_DVD_SUBTITLES_ENABLE)));
             VERIFY(subMenu.AppendMenu(MF_SEPARATOR | MF_ENABLED));
 
             for (ULONG i = 0; i < ulStreamsAvailable; i++) {

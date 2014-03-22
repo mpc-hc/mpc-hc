@@ -904,7 +904,7 @@
 #define IDS_AG_VSYNC                    33114
 #define IDS_MAINFRM_121                 33115
 #define IDS_MAINFRM_122                 33116
-#define IDS_AG_ENABLED                  33117
+#define IDS_DVD_SUBTITLES_ENABLE        33117
 #define IDS_AG_ANGLE                    33118
 #define IDS_AG_VSYNCOFFSET_INCREASE     33119
 #define IDS_AG_DISABLED                 33120

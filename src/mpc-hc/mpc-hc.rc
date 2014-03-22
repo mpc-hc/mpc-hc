@@ -2905,7 +2905,7 @@ BEGIN
     IDS_AG_VSYNC            "VSync"
     IDS_MAINFRM_121         " (Director Comments 1)"
     IDS_MAINFRM_122         " (Director Comments 2)"
-    IDS_AG_ENABLED          "Enabled"
+    IDS_DVD_SUBTITLES_ENABLE "Enable DVD subtitles"
     IDS_AG_ANGLE            "Angle %d"
     IDS_AG_VSYNCOFFSET_INCREASE "Increase VSync Offset"
 END
