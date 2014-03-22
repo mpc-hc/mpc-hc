@@ -224,45 +224,44 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
         m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     }
 
-    CSize size;
     switch (GetRenderersSettings().nSPCMaxRes) {
         case 0:
         default:
-            size = szDesktopSize;
+            m_maxSubtitleTextureSize = szDesktopSize;
             break;
         case 1:
-            size.SetSize(1024, 768);
+            m_maxSubtitleTextureSize.SetSize(1024, 768);
             break;
         case 2:
-            size.SetSize(800, 600);
+            m_maxSubtitleTextureSize.SetSize(800, 600);
             break;
         case 3:
-            size.SetSize(640, 480);
+            m_maxSubtitleTextureSize.SetSize(640, 480);
             break;
         case 4:
-            size.SetSize(512, 384);
+            m_maxSubtitleTextureSize.SetSize(512, 384);
             break;
         case 5:
-            size.SetSize(384, 288);
+            m_maxSubtitleTextureSize.SetSize(384, 288);
             break;
         case 6:
-            size.SetSize(2560, 1600);
+            m_maxSubtitleTextureSize.SetSize(2560, 1600);
             break;
         case 7:
-            size.SetSize(1920, 1080);
+            m_maxSubtitleTextureSize.SetSize(1920, 1080);
             break;
         case 8:
-            size.SetSize(1320, 900);
+            m_maxSubtitleTextureSize.SetSize(1320, 900);
             break;
         case 9:
-            size.SetSize(1280, 720);
+            m_maxSubtitleTextureSize.SetSize(1280, 720);
             break;
     }
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
-        m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
+        m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, GetRenderersSettings().fSPCPow2Tex);
         if (!m_pAllocator || FAILED(hr)) {
             return E_FAIL;
         }

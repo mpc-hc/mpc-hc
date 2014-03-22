@@ -37,6 +37,7 @@ protected:
     HWND m_hWnd;
     REFERENCE_TIME m_rtSubtitleDelay;
 
+    CSize m_maxSubtitleTextureSize;
     CSize m_NativeVideoSize, m_AspectRatio;
     CRect m_VideoRect, m_WindowRect;
 

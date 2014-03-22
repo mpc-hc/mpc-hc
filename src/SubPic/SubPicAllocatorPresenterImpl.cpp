@@ -34,6 +34,7 @@
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)
     , m_hWnd(hWnd)
+    , m_maxSubtitleTextureSize(0, 0)
     , m_NativeVideoSize(0, 0)
     , m_AspectRatio(0, 0)
     , m_VideoRect(0, 0, 0, 0)
@@ -153,6 +154,15 @@ STDMETHODIMP_(double) CSubPicAllocatorPresenterImpl::GetFPS()
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProvider* pSubPicProvider)
 {
     m_SubPicProvider = pSubPicProvider;
+
+    // Reset the default state to be sure text subtitles will be displayed right.
+    // Subtitles with specific requirements will adapt those values later.
+    if (m_pAllocator) {
+        m_pAllocator->SetMaxTextureSize(m_maxSubtitleTextureSize);
+        m_pAllocator->SetCurSize(m_WindowRect.Size());
+        m_pAllocator->SetCurVidRect(m_VideoRect);
+        m_pAllocator->FreeStatic();
+    }
 
     if (m_pSubPicQueue) {
         m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
