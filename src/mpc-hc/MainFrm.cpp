@@ -7690,7 +7690,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                 && ulStreamsAvailable) {
             if (i == 0) {
                 m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
-            } else {
+            } else if (i <= int(ulStreamsAvailable)) {
                 m_pDVDC->SelectSubpictureStream(i - 1, DVD_CMD_FLAG_Block, nullptr);
                 m_pDVDC->SetSubpictureState(TRUE, DVD_CMD_FLAG_Block, nullptr);
             }
