@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -605,16 +605,10 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
     {
         CAutoLock cAutoLock(&m_csLock);
 
-        if (!m_pSubPic) {
-            if (FAILED(m_pAllocator->AllocDynamic(&m_pSubPic))) {
-                return false;
-            }
-        }
-
         pSubPic = m_pSubPic;
     }
 
-    if (pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop()) {
+    if (pSubPic && pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop()) {
         ppSubPic = pSubPic;
     } else {
         CComPtr<ISubPicProvider> pSubPicProvider;
@@ -633,11 +627,29 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
                 }
 
                 if (rtStart <= rtNow && rtNow < rtStop) {
+                    bool    bAllocSubPic = !pSubPic;
                     SIZE    MaxTextureSize, VirtualSize;
                     POINT   VirtualTopLeft;
                     HRESULT hr2;
                     if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(pos, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
                         m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+                        if (!bAllocSubPic) {
+                            // Ensure the previously allocated subpic is big enough to hold the subtitle to be rendered
+                            SIZE maxSize;
+                            bAllocSubPic = FAILED(pSubPic->GetMaxSize(&maxSize)) || maxSize.cx < MaxTextureSize.cx || maxSize.cy < MaxTextureSize.cy;
+                        }
+                    }
+
+                    if (bAllocSubPic) {
+                        CAutoLock cAutoLock(&m_csLock);
+
+                        m_pSubPic.Release();
+
+                        if (FAILED(m_pAllocator->AllocDynamic(&m_pSubPic))) {
+                            return false;
+                        }
+
+                        pSubPic = m_pSubPic;
                     }
 
                     if (m_pAllocator->IsDynamicWriteOnly()) {
