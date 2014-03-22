@@ -13312,29 +13312,23 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= nullptr*
         AddTextPassThruFilter();
     }
 
-    // TMP: maybe this will catch something for those who get a runtime error dialog when opening subtitles from cds
-    // TODO: Remove this try/catch from MainFrm
-    try {
-        if (!pSubStream) {
-            CAutoPtr<CVobSubFile> pVSF(DEBUG_NEW CVobSubFile(&m_csSubLock));
-            CString ext = CPath(fn).GetExtension().MakeLower();
-            // To avoid loading the same subtitles file twice, we ignore .sub file when auto-loading
-            if ((ext == _T(".idx") || (!bAutoLoad && ext == _T(".sub")))
-                    && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
-                pSubStream = pVSF.Detach();
-            }
+    if (!pSubStream) {
+        CAutoPtr<CVobSubFile> pVSF(DEBUG_NEW CVobSubFile(&m_csSubLock));
+        CString ext = CPath(fn).GetExtension().MakeLower();
+        // To avoid loading the same subtitles file twice, we ignore .sub file when auto-loading
+        if ((ext == _T(".idx") || (!bAutoLoad && ext == _T(".sub")))
+                && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
+            pSubStream = pVSF.Detach();
         }
+    }
 
-        if (!pSubStream) {
-            CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, &s.subtitlesDefStyle, s.fUseDefaultSubtitlesStyle));
+    if (!pSubStream) {
+        CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, &s.subtitlesDefStyle, s.fUseDefaultSubtitlesStyle));
 
-            CString videoName = GetPlaybackMode() == PM_FILE ? m_wndPlaylistBar.GetCurFileName() : _T("");
-            if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
-                pSubStream = pRTS.Detach();
-            }
+        CString videoName = GetPlaybackMode() == PM_FILE ? m_wndPlaylistBar.GetCurFileName() : _T("");
+        if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
+            pSubStream = pRTS.Detach();
         }
-    } catch (CException* e) {
-        e->Delete();
     }
 
     if (pSubStream) {

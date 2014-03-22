@@ -143,12 +143,12 @@ CString CTextFile::GetFilePath() const
 
 ULONGLONG CTextFile::GetPosition() const
 {
-    return (CStdioFile::GetPosition() - m_offset - (m_nInBuffer - m_posInBuffer));
+    return (__super::GetPosition() - m_offset - (m_nInBuffer - m_posInBuffer));
 }
 
 ULONGLONG CTextFile::GetLength() const
 {
-    return (CStdioFile::GetLength() - m_offset);
+    return (__super::GetLength() - m_offset);
 }
 
 ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
@@ -176,7 +176,7 @@ ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
     m_posInBuffer += LONGLONG(ULONGLONG(lOff) - pos);
     if (m_posInBuffer < 0 || m_posInBuffer >= m_nInBuffer) {
         m_nInBuffer = m_posInBuffer = 0;
-        newPos = CStdioFile::Seek(lOff + m_offset, begin) - m_offset;
+        newPos = __super::Seek(lOff + m_offset, begin) - m_offset;
     } else {
         newPos = ULONGLONG(lOff);
     }
