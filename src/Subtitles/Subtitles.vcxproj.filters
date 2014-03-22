@@ -65,6 +65,9 @@
     <ClCompile Include="RenderingCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StdioFile64.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseSub.h">
@@ -128,6 +131,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderingCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdioFile64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
