@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -111,9 +111,10 @@ public:
 
 class CSubPicAllocatorImpl : public CUnknown, public ISubPicAllocator
 {
+private:
+    CCritSec m_StaticLock;
     CComPtr<ISubPic> m_pStatic;
 
-private:
     CSize m_cursize;
     CRect m_curvidrect;
     bool m_fDynamicWriteOnly;
@@ -138,4 +139,5 @@ public:
     STDMETHODIMP_(bool) IsDynamicWriteOnly();
     STDMETHODIMP ChangeDevice(IUnknown* pDev);
     STDMETHODIMP SetMaxTextureSize(SIZE MaxTextureSize) { return E_NOTIMPL; };
+    STDMETHODIMP FreeStatic();
 };

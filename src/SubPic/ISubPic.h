@@ -114,6 +114,8 @@ public IUnknown {
 
     STDMETHOD(ChangeDevice)(IUnknown * pDev) PURE;
     STDMETHOD(SetMaxTextureSize)(SIZE MaxTextureSize) PURE;
+
+    STDMETHOD(FreeStatic)() PURE;
 };
 
 //

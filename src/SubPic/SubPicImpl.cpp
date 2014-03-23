@@ -278,21 +278,25 @@ STDMETHODIMP CSubPicAllocatorImpl::GetStatic(ISubPic** ppSubPic)
         return E_POINTER;
     }
 
-    SIZE maxSize;
-    if (m_pStatic && (FAILED(m_pStatic->GetMaxSize(&maxSize)) || maxSize.cx < m_cursize.cx || maxSize.cy < m_cursize.cy)) {
-        m_pStatic.Release();
-        m_pStatic = nullptr;
-    }
+    {
+        CAutoLock cAutoLock(&m_StaticLock);
 
-    if (!m_pStatic) {
-        if (!Alloc(true, &m_pStatic) || !m_pStatic) {
-            return E_OUTOFMEMORY;
+        SIZE maxSize;
+        if (m_pStatic && (FAILED(m_pStatic->GetMaxSize(&maxSize)) || maxSize.cx < m_cursize.cx || maxSize.cy < m_cursize.cy)) {
+            m_pStatic.Release();
         }
+
+        if (!m_pStatic) {
+            if (!Alloc(true, &m_pStatic) || !m_pStatic) {
+                return E_OUTOFMEMORY;
+            }
+        }
+
+        *ppSubPic = m_pStatic;
     }
 
-    m_pStatic->SetSize(m_cursize, m_curvidrect);
-
-    (*ppSubPic = m_pStatic)->AddRef();
+    (*ppSubPic)->AddRef();
+    (*ppSubPic)->SetSize(m_cursize, m_curvidrect);
 
     return S_OK;
 }
@@ -319,6 +323,12 @@ STDMETHODIMP_(bool) CSubPicAllocatorImpl::IsDynamicWriteOnly()
 
 STDMETHODIMP CSubPicAllocatorImpl::ChangeDevice(IUnknown* pDev)
 {
-    m_pStatic = nullptr;
+    return FreeStatic();
+}
+
+STDMETHODIMP CSubPicAllocatorImpl::FreeStatic()
+{
+    CAutoLock cAutoLock(&m_StaticLock);
+    m_pStatic.Release();
     return S_OK;
 }
