@@ -84,39 +84,7 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 {
     CheckPointer(pD3DDev, E_POINTER);
 
-    switch (GetRenderersSettings().nSPCMaxRes) {
-        case 0:
-        default:
-            m_maxSubtitleTextureSize = m_ScreenSize;
-            break;
-        case 1:
-            m_maxSubtitleTextureSize.SetSize(1024, 768);
-            break;
-        case 2:
-            m_maxSubtitleTextureSize.SetSize(800, 600);
-            break;
-        case 3:
-            m_maxSubtitleTextureSize.SetSize(640, 480);
-            break;
-        case 4:
-            m_maxSubtitleTextureSize.SetSize(512, 384);
-            break;
-        case 5:
-            m_maxSubtitleTextureSize.SetSize(384, 288);
-            break;
-        case 6:
-            m_maxSubtitleTextureSize.SetSize(2560, 1600);
-            break;
-        case 7:
-            m_maxSubtitleTextureSize.SetSize(1920, 1080);
-            break;
-        case 8:
-            m_maxSubtitleTextureSize.SetSize(1320, 900);
-            break;
-        case 9:
-            m_maxSubtitleTextureSize.SetSize(1280, 720);
-            break;
-    }
+    InitMaxSubtitleTextureSize(GetRenderersSettings().nSPCMaxRes, m_ScreenSize);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(pD3DDev);
