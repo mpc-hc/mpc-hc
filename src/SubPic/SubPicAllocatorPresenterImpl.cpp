@@ -460,7 +460,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
 
         CComPtr<ISubPicQueue> pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
 
-        if (pSubPicQueue && SUCCEEDED(hr)) {
+        if (SUCCEEDED(hr)) {
             CAutoLock(this);
             pSubPicQueue->SetSubPicProvider(pSubPicProvider);
             m_SubPicProvider = pSubPicProvider;

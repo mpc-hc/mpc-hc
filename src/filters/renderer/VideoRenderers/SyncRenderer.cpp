@@ -619,10 +619,6 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
         m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, GetRenderersSettings().fSPCPow2Tex, false);
-        if (!m_pAllocator) {
-            _Error += L"CDX9SubPicAllocator failed\n";
-            return E_FAIL;
-        }
     }
 
     hr = S_OK;
@@ -642,9 +638,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         m_pSubPicQueue->Invalidate();
     }
 
-    if (!m_pSubPicQueue || FAILED(hr)) {
+    if (FAILED(hr)) {
         _Error += L"m_pSubPicQueue failed\n";
-        return E_FAIL;
+        return hr;
     }
 
     if (pSubPicProvider) {
@@ -862,11 +858,6 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
         m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, GetRenderersSettings().fSPCPow2Tex, false);
-        if (!m_pAllocator) {
-            _Error += L"CDX9SubPicAllocator failed\n";
-
-            return E_FAIL;
-        }
     }
 
     hr = S_OK;
@@ -878,10 +869,10 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         m_pSubPicQueue->Invalidate();
     }
 
-    if (!m_pSubPicQueue || FAILED(hr)) {
+    if (FAILED(hr)) {
         _Error += L"m_pSubPicQueue failed\n";
 
-        return E_FAIL;
+        return hr;
     }
 
     if (pSubPicProvider) {

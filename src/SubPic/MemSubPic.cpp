@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -604,13 +604,16 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     spd.bpp = 32;
     spd.pitch = (spd.w * spd.bpp) >> 3;
     spd.type = m_type;
-    spd.bits = DEBUG_NEW BYTE[spd.pitch * spd.h];
-    if (!spd.bits) {
+    try {
+        spd.bits = DEBUG_NEW BYTE[spd.pitch * spd.h];
+    } catch (std::bad_alloc) {
         return false;
     }
 
-    *ppSubPic = DEBUG_NEW CMemSubPic(spd);
-    if (!(*ppSubPic)) {
+    try {
+        *ppSubPic = DEBUG_NEW CMemSubPic(spd);
+    } catch (std::bad_alloc) {
+        delete [] spd.bits;
         return false;
     }
 

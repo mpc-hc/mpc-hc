@@ -90,9 +90,6 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         m_pAllocator->ChangeDevice(pD3DDev);
     } else {
         m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize, GetRenderersSettings().fSPCPow2Tex, true);
-        if (!m_pAllocator) {
-            return E_FAIL;
-        }
     }
 
     HRESULT hr = S_OK;
@@ -105,15 +102,11 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         m_pSubPicQueue->Invalidate();
     }
 
-    if (!m_pSubPicQueue || FAILED(hr)) {
-        return E_FAIL;
-    }
-
-    if (m_SubPicProvider) {
+    if (SUCCEEDED(hr) && m_SubPicProvider) {
         m_pSubPicQueue->SetSubPicProvider(m_SubPicProvider);
     }
 
-    return S_OK;
+    return hr;
 }
 
 HRESULT CDXRAllocatorPresenter::Render(

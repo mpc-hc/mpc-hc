@@ -230,9 +230,6 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
         m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, GetRenderersSettings().fSPCPow2Tex);
-        if (!m_pAllocator || FAILED(hr)) {
-            return E_FAIL;
-        }
     }
 
     hr = S_OK;
@@ -245,15 +242,11 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
         m_pSubPicQueue->Invalidate();
     }
 
-    if (!m_pSubPicQueue || FAILED(hr)) {
-        return E_FAIL;
-    }
-
-    if (pSubPicProvider) {
+    if (SUCCEEDED(hr) && pSubPicProvider) {
         m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
     }
 
-    return S_OK;
+    return hr;
 }
 
 HRESULT CDX7AllocatorPresenter::AllocSurfaces()
