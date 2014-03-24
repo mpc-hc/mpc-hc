@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -85,12 +85,12 @@ BOOL CSaveThumbnailsDialog::OnInitDialog()
     __super::OnInitDialog();
 
     if (!SysVersion::IsVistaOrLater()) {
-        m_rowsctrl.SetRange(1, 20);
-        m_colsctrl.SetRange(1, 10);
-        m_widthctrl.SetRange(256, 2560);
-        m_rowsctrl.SetPos(m_rows);
-        m_colsctrl.SetPos(m_cols);
-        m_widthctrl.SetPos(m_width);
+        m_rowsctrl.SetRange32(1, 20);
+        m_colsctrl.SetRange32(1, 10);
+        m_widthctrl.SetRange32(256, 2560);
+        m_rowsctrl.SetPos32(m_rows);
+        m_colsctrl.SetPos32(m_cols);
+        m_widthctrl.SetPos32(m_width);
     }
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -120,9 +120,9 @@ BOOL CSaveThumbnailsDialog::OnFileNameOK()
 
         pfdc->Release();
     } else {
-        m_rows = m_rowsctrl.GetPos();
-        m_cols = m_colsctrl.GetPos();
-        m_width = m_widthctrl.GetPos();
+        m_rows = m_rowsctrl.GetPos32();
+        m_cols = m_colsctrl.GetPos32();
+        m_width = m_widthctrl.GetPos32();
     }
 
     return __super::OnFileNameOK();

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -771,8 +771,8 @@ void CPlayerCaptureDialog::UpdateMediaTypes()
                                     ? &((VIDEOINFOHEADER2*)pmt->pbFormat)->bmiHeader
                                     : nullptr;
             if (bih) {
-                bih->biWidth = m_vidhor.GetPos();
-                bih->biHeight = m_vidver.GetPos();
+                bih->biWidth = m_vidhor.GetPos32();
+                bih->biHeight = m_vidver.GetPos32();
                 bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
             }
             SaveMediaType(m_VidDisplayName, pmt);
@@ -838,11 +838,11 @@ void CPlayerCaptureDialog::UpdateUserDefinableControls()
 
     UDACCEL ua[3] = {{0, 0}, {2, 0}, {4, 0}};
 
-    int w = m_vidhor.GetPos(), h = m_vidver.GetPos();
+    int w = m_vidhor.GetPos32(), h = m_vidver.GetPos32();
     UNREFERENCED_PARAMETER(w);
     UNREFERENCED_PARAMETER(h);
 
-    m_vidhor.SetRange((short)pvfe->caps.MinOutputSize.cx, (short)pvfe->caps.MaxOutputSize.cx);
+    m_vidhor.SetRange32(pvfe->caps.MinOutputSize.cx, pvfe->caps.MaxOutputSize.cx);
     /*  if (bih->biCompression == mmioFOURCC('Y','U','Y','2')) // FIXME: bt8x8 drivers seem to crop the right side in yuv2 mode if the width is not dividable by 64
             pvfe->caps.OutputGranularityX = 64;
     */
@@ -851,14 +851,14 @@ void CPlayerCaptureDialog::UpdateUserDefinableControls()
     ua[2].nInc = pvfe->caps.OutputGranularityX * 4;
     m_vidhor.SetAccel(3, ua);
 
-    m_vidver.SetRange((short)pvfe->caps.MinOutputSize.cy, (short)pvfe->caps.MaxOutputSize.cy);
+    m_vidver.SetRange32(pvfe->caps.MinOutputSize.cy, pvfe->caps.MaxOutputSize.cy);
     ua[0].nInc = pvfe->caps.OutputGranularityY;
     ua[1].nInc = pvfe->caps.OutputGranularityY * 2;
     ua[2].nInc = pvfe->caps.OutputGranularityY * 4;
     m_vidver.SetAccel(3, ua);
 
-    m_vidhor.SetPos(bih->biWidth);
-    m_vidver.SetPos(abs(bih->biHeight));
+    m_vidhor.SetPos32(bih->biWidth);
+    m_vidver.SetPos32(abs(bih->biHeight));
 
     CString fps;
     fps.Format(_T("%.4f"), (float)(10000000.0 / ((VIDEOINFOHEADER*)pmt->pbFormat)->AvgTimePerFrame));
@@ -1464,10 +1464,10 @@ void CPlayerCaptureDialog::OnVideoDimension()
         return;
     }
 
-    m_vidhor.SetRange(0, UD_MAXVAL);
-    m_vidver.SetRange(0, UD_MAXVAL);
-    m_vidhor.SetPos(bih->biWidth);
-    m_vidver.SetPos(abs(bih->biHeight));
+    m_vidhor.SetRange32(0, UD_MAXVAL);
+    m_vidver.SetRange32(0, UD_MAXVAL);
+    m_vidhor.SetPos32(bih->biWidth);
+    m_vidver.SetPos32(abs(bih->biHeight));
     CString fps;
     fps.Format(_T("%.4f"), (float)(10000000.0 / ((VIDEOINFOHEADER*)pvfe->mt.pbFormat)->AvgTimePerFrame));
     m_vidfpsedit.SetWindowText(fps);

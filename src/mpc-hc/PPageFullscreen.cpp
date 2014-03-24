@@ -199,7 +199,7 @@ BOOL CPPageFullscreen::OnInitDialog()
     addHidePolicy(loadString(IDS_PPAGEFULLSCREEN_SHOWMOVED), CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED);
     addHidePolicy(loadString(IDS_PPAGEFULLSCREEN_SHOHHOVERED), CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_HOVERED);
 
-    m_delaySpinner.SetRange(0, 9);
+    m_delaySpinner.SetRange32(0, 9);
 
     ModesUpdate();
     UpdateData(FALSE);

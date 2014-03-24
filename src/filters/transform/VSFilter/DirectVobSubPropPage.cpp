@@ -429,8 +429,8 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 
         m_iSelectedLanguage = m_langs.GetCurSel();
         m_fOverridePlacement = !!m_oplacement.GetCheck();
-        m_PlacementXperc = m_subposx.GetPos();
-        m_PlacementYperc = m_subposy.GetPos();
+        m_PlacementXperc = m_subposx.GetPos32();
+        m_PlacementYperc = m_subposy.GetPos32();
         m_fOnlyShowForcedVobSubs = !!m_forcedsubs.GetCheck();
         if (m_PARCombo.GetCurSel() != CB_ERR) {
             m_ePARCompensationType = static_cast<CSimpleTextSubtitle::EPARCompensationType>(m_PARCombo.GetItemData(m_PARCombo.GetCurSel()));
@@ -440,11 +440,11 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
     } else {
         m_fnedit.SetWindowText(CString(m_fn));
         m_oplacement.SetCheck(m_fOverridePlacement);
-        m_subposx.SetRange(-20, 120);
-        m_subposx.SetPos(m_PlacementXperc);
+        m_subposx.SetRange32(-20, 120);
+        m_subposx.SetPos32(m_PlacementXperc);
         m_subposx.EnableWindow(m_fOverridePlacement);
-        m_subposy.SetRange(-20, 120);
-        m_subposy.SetPos(m_PlacementYperc);
+        m_subposy.SetRange32(-20, 120);
+        m_subposy.SetPos32(m_PlacementYperc);
         m_subposy.EnableWindow(m_fOverridePlacement);
         m_font.SetWindowText(m_defStyle.fontName);
         m_forcedsubs.SetCheck(m_fOnlyShowForcedVobSubs);
@@ -557,8 +557,8 @@ void CDVSGeneralPPage::UpdateControlData(bool fSave)
         if (m_resx2.GetCurSel() >= 0) {
             m_ResX2 = (int)m_resx2.GetItemData(m_resx2.GetCurSel());
         }
-        m_ResX2minw = m_resx2w.GetPos();
-        m_ResX2minh = m_resx2h.GetPos();
+        m_ResX2minw = m_resx2w.GetPos32();
+        m_ResX2minh = m_resx2h.GetPos32();
         if (m_load.GetCurSel() >= 0) {
             m_LoadLevel = (int)m_load.GetItemData(m_load.GetCurSel());
         }
@@ -591,11 +591,11 @@ void CDVSGeneralPPage::UpdateControlData(bool fSave)
         m_resx2.AddString(ResStr(IDS_DBLRESIF));
         m_resx2.SetItemData(2, 2);
         m_resx2.SetCurSel(m_ResX2);
-        m_resx2w.SetRange(0, 2048);
-        m_resx2w.SetPos(m_ResX2minw);
+        m_resx2w.SetRange32(0, 2048);
+        m_resx2w.SetPos32(m_ResX2minw);
         m_resx2w.EnableWindow(m_ResX2 == 2);
-        m_resx2h.SetRange(0, 2048);
-        m_resx2h.SetPos(m_ResX2minh);
+        m_resx2h.SetRange32(0, 2048);
+        m_resx2h.SetPos32(m_ResX2minh);
         m_resx2h.EnableWindow(m_ResX2 == 2);
         m_load.ResetContent();
         m_load.AddString(ResStr(IDS_DONOTLOAD));
@@ -696,8 +696,8 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_flipsub.SetCheck(m_fFlipSubtitles);
         m_hidesub.SetCheck(m_fHideSubtitles);
         m_savefullpath.SetCheck(m_fSaveFullPath);
-        m_subpicttobuff.SetPos(m_uSubPictToBuffer);
-        m_subpicttobuff.SetRange(0, 60);
+        m_subpicttobuff.SetPos32(m_uSubPictToBuffer);
+        m_subpicttobuff.SetRange32(0, 60);
         m_animwhenbuff.SetCheck(m_fAnimWhenBuffering);
         m_showosd.SetCheck(m_fOSD);
         m_autoreload.SetCheck(!m_fReloaderDisabled);
@@ -857,19 +857,19 @@ bool CDVSZoomPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 void CDVSZoomPPage::UpdateControlData(bool fSave)
 {
     if (fSave) {
-        m_rect.left = 1.0f * (short)m_posx.GetPos() / 100;
-        m_rect.top = 1.0f * (short)m_posy.GetPos() / 100;
-        m_rect.right = m_rect.left + 1.0f * (short)m_scalex.GetPos() / 100;
-        m_rect.bottom = m_rect.top + 1.0f * (short)m_scaley.GetPos() / 100;
+        m_rect.left = 1.0f * m_posx.GetPos32() / 100;
+        m_rect.top = 1.0f * m_posy.GetPos32() / 100;
+        m_rect.right = m_rect.left + 1.0f * m_scalex.GetPos32() / 100;
+        m_rect.bottom = m_rect.top + 1.0f * m_scaley.GetPos32() / 100;
     } else {
-        m_posx.SetRange(-100, 100);
-        m_posx.SetPos((int)(m_rect.left * 100));
-        m_posy.SetRange(-100, 100);
-        m_posy.SetPos((int)(m_rect.top * 100));
-        m_scalex.SetRange(-300, 300);
-        m_scalex.SetPos((int)((m_rect.right - m_rect.left) * 100));
-        m_scaley.SetRange(-300, 300);
-        m_scaley.SetPos((int)((m_rect.bottom - m_rect.top) * 100));
+        m_posx.SetRange32(-100, 100);
+        m_posx.SetPos32((int)(m_rect.left * 100));
+        m_posy.SetRange32(-100, 100);
+        m_posy.SetPos32((int)(m_rect.top * 100));
+        m_scalex.SetRange32(-300, 300);
+        m_scalex.SetPos32((int)((m_rect.right - m_rect.left) * 100));
+        m_scaley.SetRange32(-300, 300);
+        m_scaley.SetPos32((int)((m_rect.bottom - m_rect.top) * 100));
     }
 }
 

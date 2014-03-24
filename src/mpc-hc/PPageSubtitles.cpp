@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -128,11 +128,11 @@ BOOL CPPageSubtitles::OnInitDialog()
 
     m_fOverridePlacement = s.fOverridePlacement;
     m_nHorPos = s.nHorPos;
-    m_nHorPosCtrl.SetRange(-10, 110);
+    m_nHorPosCtrl.SetRange32(-10, 110);
     m_nVerPos = s.nVerPos;
-    m_nVerPosCtrl.SetRange(110, -10);
+    m_nVerPosCtrl.SetRange32(110, -10);
     m_nSPCSize = s.m_RenderersSettings.nSPCSize;
-    m_nSPCSizeCtrl.SetRange(0, 60);
+    m_nSPCSizeCtrl.SetRange32(0, 60);
     m_spmaxres.AddString(_T("Desktop"));
     m_spmaxres.AddString(_T("2560x1600"));
     m_spmaxres.AddString(_T("1920x1080"));
