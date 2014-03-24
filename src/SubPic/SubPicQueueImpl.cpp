@@ -612,26 +612,27 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
         ppSubPic = pSubPic;
     } else {
         CComPtr<ISubPicProvider> pSubPicProvider;
-        GetSubPicProvider(&pSubPicProvider);
-        if (pSubPicProvider) {
+        if (SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider) {
             double fps = m_fps;
-
             POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps);
-            if (pos != 0) {
-                REFERENCE_TIME rtStart = pSubPicProvider->GetStart(pos, fps);
-                REFERENCE_TIME rtStop = pSubPicProvider->GetStop(pos, fps);
+            if (pos) {
+                REFERENCE_TIME rtStart;
+                REFERENCE_TIME rtStop;
 
                 if (pSubPicProvider->IsAnimated(pos)) {
                     rtStart = rtNow;
                     rtStop = rtNow + 1;
+                } else {
+                    rtStart = pSubPicProvider->GetStart(pos, fps);
+                    rtStop = pSubPicProvider->GetStop(pos, fps);
                 }
 
                 if (rtStart <= rtNow && rtNow < rtStop) {
                     bool    bAllocSubPic = !pSubPic;
                     SIZE    MaxTextureSize, VirtualSize;
                     POINT   VirtualTopLeft;
-                    HRESULT hr2;
-                    if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(pos, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
+                    HRESULT hr;
+                    if (SUCCEEDED(hr = pSubPicProvider->GetTextureSize(pos, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
                         m_pAllocator->SetMaxTextureSize(MaxTextureSize);
                         if (!bAllocSubPic) {
                             // Ensure the previously allocated subpic is big enough to hold the subtitle to be rendered
@@ -654,28 +655,26 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
 
                     if (m_pAllocator->IsDynamicWriteOnly()) {
                         CComPtr<ISubPic> pStatic;
-                        HRESULT hr = m_pAllocator->GetStatic(&pStatic);
-                        if (SUCCEEDED(hr)) {
-                            hr = RenderTo(pStatic, rtStart, rtStop, fps, false);
-                        }
-                        if (SUCCEEDED(hr)) {
-                            hr = pStatic->CopyTo(pSubPic);
-                        }
-                        if (SUCCEEDED(hr)) {
+                        if (SUCCEEDED(m_pAllocator->GetStatic(&pStatic))
+                                && SUCCEEDED(RenderTo(pStatic, rtStart, rtStop, fps, false))
+                                && SUCCEEDED(pStatic->CopyTo(pSubPic))) {
                             ppSubPic = pSubPic;
                         }
                     } else {
-                        if (SUCCEEDED(RenderTo(m_pSubPic, rtStart, rtStop, fps, false))) {
+                        if (SUCCEEDED(RenderTo(pSubPic, rtStart, rtStop, fps, false))) {
                             ppSubPic = pSubPic;
                         }
                     }
-                    if (SUCCEEDED(hr2)) {
-                        pSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
-                    }
 
-                    RelativeTo relativeTo;
-                    if (SUCCEEDED(pSubPicProvider->GetRelativeTo(pos, relativeTo))) {
-                        pSubPic->SetRelativeTo(relativeTo);
+                    if (ppSubPic) {
+                        if (SUCCEEDED(hr)) {
+                            ppSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
+                        }
+
+                        RelativeTo relativeTo;
+                        if (SUCCEEDED(pSubPicProvider->GetRelativeTo(pos, relativeTo))) {
+                            ppSubPic->SetRelativeTo(relativeTo);
+                        }
                     }
                 }
             }
