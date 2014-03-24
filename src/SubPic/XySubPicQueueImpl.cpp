@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -226,9 +226,15 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
     GetSubPicProvider(&pSubPicProvider);
     CComQIPtr<IXyCompatProvider> pXySubPicProvider = pSubPicProvider;
 
+    {
+        CAutoLock cAutoLock(&m_csLock);
+
+        pSubPic = m_pSubPic;
+    }
+
     if (pXySubPicProvider) {
         double fps = m_fps;
-        REFERENCE_TIME rtTimePerFrame = (REFERENCE_TIME)(10000000.0 / fps);
+        REFERENCE_TIME rtTimePerFrame = static_cast<REFERENCE_TIME>(10000000.0 / fps);
 
         REFERENCE_TIME rtStart = rtNow;
         REFERENCE_TIME rtStop = rtNow + rtTimePerFrame;
@@ -238,22 +244,34 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
             ULONGLONG id;
             hr = pXySubPicProvider->GetID(&id);
             if (SUCCEEDED(hr)) {
+                bool    bAllocSubPic = !pSubPic;
                 SIZE    MaxTextureSize, VirtualSize;
                 POINT   VirtualTopLeft;
                 HRESULT hr2;
                 if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
                     m_pAllocator->SetMaxTextureSize(MaxTextureSize);
-                }
-
-                if (!pSubPic) {
-                    if (FAILED(m_pAllocator->AllocDynamic(&pSubPic))) {
-                        return false;
+                    if (!bAllocSubPic) {
+                        // Ensure the previously allocated subpic is big enough to hold the subtitle to be rendered
+                        SIZE maxSize;
+                        bAllocSubPic = FAILED(pSubPic->GetMaxSize(&maxSize)) || maxSize.cx < MaxTextureSize.cx || maxSize.cy < MaxTextureSize.cy;
                     }
                 }
 
-                if (m_pSubPic && m_llSubId == id) { // same subtitle as last time
+                if (bAllocSubPic) {
+                    CAutoLock cAutoLock(&m_csLock);
+
+                    m_pSubPic.Release();
+
+                    if (FAILED(m_pAllocator->AllocDynamic(&m_pSubPic))) {
+                        return false;
+                    }
+
+                    pSubPic = m_pSubPic;
+                }
+
+                if (!bAllocSubPic && m_llSubId == id) { // same subtitle as last time
                     pSubPic->SetStop(rtStop);
-                    ppSubPic = m_pSubPic;
+                    ppSubPic = pSubPic;
                 } else if (m_pAllocator->IsDynamicWriteOnly()) {
                     CComPtr<ISubPic> pStatic;
                     hr = m_pAllocator->GetStatic(&pStatic);
@@ -276,21 +294,17 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, C
                     }
                 }
 
-                if (SUCCEEDED(hr2)) {
-                    pSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
-                }
+                if (ppSubPic) {
+                    if (SUCCEEDED(hr2)) {
+                        ppSubPic->SetVirtualTextureSize(VirtualSize, VirtualTopLeft);
+                    }
 
-                RelativeTo relativeTo;
-                if (SUCCEEDED(pSubPicProvider->GetRelativeTo(0, relativeTo))) {
-                    pSubPic->SetRelativeTo(relativeTo);
+                    RelativeTo relativeTo;
+                    if (SUCCEEDED(pSubPicProvider->GetRelativeTo(0, relativeTo))) {
+                        ppSubPic->SetRelativeTo(relativeTo);
+                    }
                 }
             }
-        }
-
-        if (ppSubPic) {
-            CAutoLock cAutoLock(&m_csLock);
-
-            m_pSubPic = ppSubPic;
         }
     }
 
