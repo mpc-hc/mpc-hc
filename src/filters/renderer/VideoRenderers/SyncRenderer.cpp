@@ -629,7 +629,6 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     }
 
-    m_pSubPicQueue = nullptr;
     if (!m_pSubPicQueue) {
         m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
                          ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
