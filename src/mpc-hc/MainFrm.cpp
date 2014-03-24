@@ -775,7 +775,6 @@ CMainFrame::CMainFrame()
     fires.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_INITIALIZED);
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
-    fires.insert(MpcEvent::MAIN_MENU_ENTER_MODAL_LOOP);
     GetEventd().Connect(m_eventc, recieves, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
 }
 
@@ -3029,9 +3028,6 @@ void CMainFrame::OnEnterMenuLoop(BOOL bIsTrackPopupMenu)
     if (!bIsTrackPopupMenu && GetMenuBarState() == AFX_MBS_HIDDEN) {
         // mfc has problems synchronizing menu visibility with modal loop in certain situations
         VERIFY(SetMenuBarState(AFX_MBS_VISIBLE));
-    }
-    if (!bIsTrackPopupMenu) {
-        m_eventc.FireEvent(MpcEvent::MAIN_MENU_ENTER_MODAL_LOOP);
     }
     __super::OnEnterMenuLoop(bIsTrackPopupMenu);
 }
