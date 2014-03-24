@@ -1159,12 +1159,9 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
             m_dwMenuBarState == AFX_MBS_VISIBLE) {
         // mfc doesn't hide menubar on f10, but we want to
         VERIFY(SetMenuBarState(AFX_MBS_HIDDEN));
-        return TRUE;
+        return FALSE;
     }
 
-    if (pMsg->message == WM_KEYDOWN) {
-        m_bAltDownClean = false;
-    }
     if (pMsg->message == WM_SYSKEYDOWN) {
         m_bAltDownClean = (pMsg->wParam == VK_MENU);
     }
@@ -1173,8 +1170,9 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
         // mfc shows menubar when Ctrl->Alt->K is released in reverse order, but we don't want to
         if (m_bAltDownClean) {
             VERIFY(SetMenuBarState(AFX_MBS_VISIBLE));
+            return FALSE;
         }
-        return FALSE;
+        return TRUE;
     }
 
     // for compatibility with KatMouse and the like
@@ -3028,10 +3026,14 @@ void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
 
 void CMainFrame::OnEnterMenuLoop(BOOL bIsTrackPopupMenu)
 {
-    __super::OnEnterMenuLoop(bIsTrackPopupMenu);
+    if (!bIsTrackPopupMenu && GetMenuBarState() == AFX_MBS_HIDDEN) {
+        // mfc has problems synchronizing menu visibility with modal loop in certain situations
+        VERIFY(SetMenuBarState(AFX_MBS_VISIBLE));
+    }
     if (!bIsTrackPopupMenu) {
         m_eventc.FireEvent(MpcEvent::MAIN_MENU_ENTER_MODAL_LOOP);
     }
+    __super::OnEnterMenuLoop(bIsTrackPopupMenu);
 }
 
 BOOL CMainFrame::OnMenu(CMenu* pMenu)
