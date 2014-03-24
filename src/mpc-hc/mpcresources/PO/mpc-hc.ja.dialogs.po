@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # ever_green, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-03-15 09:28+0000\n"
+"POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
+"PO-Revision-Date: 2014-03-24 08:20+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -74,11 +74,11 @@ msgstr "開始"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "内蔵の音声切り替えフィルタを使用 (ファイルの開き直しが必要)"
+msgstr "内蔵の音声切り替えフィルタを使用する (ファイルの開き直しが必要)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
-msgstr "ノーマライズ"
+msgstr "音量の正規化"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
@@ -90,7 +90,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
 msgid "Regain volume"
-msgstr "音量を回復"
+msgstr "音量の回復"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
@@ -126,7 +126,7 @@ msgstr "再生位置を移動..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "指定した時間にジャンプするには [hh:]mm:ss.ms のフォーマットを使用してタイムコードを入力してください。あなたが区切り文字を入力する必要はありません。"
+msgstr "指定した時間にジャンプするには [hh:]mm:ss.ms の形式を使用してタイムコードを入力してください。区切り文字を入力する必要はありません。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -138,7 +138,7 @@ msgstr "移動"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "フレーム番号、フレームレートの順で数値を入力し、移動先フレームを指定してください。"
+msgstr "フレーム番号、フレーム レートの順で数値を入力し、移動先フレームを指定してください。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -242,11 +242,11 @@ msgstr "開くオプション"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "再生するメディア ファイルに同じプレーヤーを使う"
+msgstr "再生するメディア ファイルに同じ\nプレーヤーを使用する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "再生するメディア ファイルごとに新しいプレーヤーを開く"
+msgstr "再生するメディア ファイルごとに\n新しいプレーヤーを開く"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
@@ -254,7 +254,7 @@ msgstr "タイトル バー"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
-msgstr "フルパスを表示"
+msgstr "フル パスを表示する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
@@ -278,7 +278,7 @@ msgstr "タスクトレイ アイコン"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "OSD を表示 (要再起動)"
+msgstr "OSD を表示する (要再起動)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
@@ -290,7 +290,7 @@ msgstr "デスクトップの端にスナップさせる"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings to .ini file"
-msgstr "設定を .ini ファイルに保存"
+msgstr "設定を .ini ファイルに保存する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
@@ -310,27 +310,27 @@ msgstr "最近使ったファイルの履歴を保存"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "終了時のプレイリストを記憶"
+msgstr "終了時のプレイリストを記憶する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "ファイルの再生位置を記憶"
+msgstr "ファイルの再生位置を記憶する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
-msgstr "DVD の再生位置を記憶"
+msgstr "DVD の再生位置を記憶する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
-msgstr "終了時のウィンドウ位置を記憶"
+msgstr "終了時のウィンドウ位置を記憶する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
-msgstr "終了時のウィンドウ サイズを記憶"
+msgstr "終了時のウィンドウ サイズを記憶する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "最近使った PnS 拡大率を記憶"
+msgstr "最近使ったパン＆スキャンの拡大率を記憶する"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -466,7 +466,7 @@ msgstr "音声ファイルを自動で読み込む"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr ""
+msgstr "内蔵の字幕レンダラを使用する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -538,7 +538,7 @@ msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "ビデオカードの設定でフルスクリーン時のアンチエイリアスを有効にした場合、CPU 負荷が大きくなるだけで字幕は少しも綺麗にならないでしょう。"
+msgstr "ビデオカードの設定でフルスクリーン時のアンチエイリアスを有効にした場合、CPU 負荷が大きくなるのみで字幕は少しも綺麗にならないでしょう。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -602,7 +602,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "最初に拡張子で判別"
+msgstr "最初に拡張子で判別する"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -662,15 +662,15 @@ msgstr "デフォルトのモニター以外でフルスクリーン表示して
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
-msgstr "Windows 7 のタスクバーの機能を使う"
+msgstr "Windows 7 のタスクバーの機能を使用する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "プレイリストに1つの項目だけが残っている場合、 「前へ/次へ」 でフォルダ内の前/次のファイルを開く"
+msgstr "一つの項目のみがプレイリストに残っている場合、 「前へ/次へ」 でフォルダ内の前/次のファイルを開く"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
-msgstr "時間ツールチップを使う:"
+msgstr "時間ツールチップを使用する:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -842,7 +842,7 @@ msgstr "下へ"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
 msgid "&Set"
-msgstr "セット(&S)"
+msgstr "設定(&S)"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
@@ -870,7 +870,7 @@ msgstr "すべて選択"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "選択行をリセット"
+msgstr "選択項目をリセット"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -1102,7 +1102,7 @@ msgstr "オーディオ レンダラ"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (レンダーレス) と EVR カスタムプレゼンタ の設定"
+msgstr "VMR-7/VMR-9 (レンダーレス) と EVR (カスタム プレゼンタ) の設定"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1190,7 +1190,7 @@ msgstr "パスワード:"
 
 msgctxt "IDD_AUTH_DLG_IDC_CHECK1"
 msgid "Remember my password"
-msgstr "パスワードを保存する"
+msgstr "パスワードを保存"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1402,7 +1402,7 @@ msgstr "フィルタ グラフを再構築"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "フィルタ グラフを停止する"
+msgstr "フィルタ グラフを停止"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
@@ -1474,7 +1474,7 @@ msgstr "ドッキングされたパネルを隠す"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "再生終了時にフルスクリーンを解除"
+msgstr "再生終了時にフルスクリーンを解除する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
@@ -1482,7 +1482,7 @@ msgstr "フルスクリーン モニター"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "フルスクリーンでモニターモードの自動変更を使用"
+msgstr "フルスクリーンでモニター モードの自動変更を使用する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1502,7 +1502,7 @@ msgstr "下へ"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "フルスクリーン終了時にデフォルトのモニターモードを適用"
+msgstr "フルスクリーン終了時にデフォルトのモニター モードを適用する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"

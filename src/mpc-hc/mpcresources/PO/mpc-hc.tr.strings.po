@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
-"PO-Revision-Date: 2014-02-18 17:01+0000\n"
+"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
+"PO-Revision-Date: 2014-03-24 12:40+0000\n"
 "Last-Translator: bosluk\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -672,7 +672,7 @@ msgstr "Video yüzeyi düzgün bir dış ekran olarak ayrılacaktır."
 
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC Ses Çeviricisi bozuk durumda, lütfen kullanmayınız."
+msgstr "MPC Ses İşleyicisi bozuk durumda, lütfen kullanmayınız."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -740,7 +740,7 @@ msgstr "Boş (sıkıştırılmadan)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr "MPC-HC Ses Çözücüsü"
+msgstr "MPC-HC Ses İşleyicisi"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1596,11 +1596,11 @@ msgstr "Liste inceleniyor..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "Bir altyazı bulunamadı."
+msgstr "Bir alt yazı bulunamadı."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid " %d subtitle(s) available."
-msgstr " %d altyazı bulundu."
+msgstr " %d alt yazı bulundu."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -2324,7 +2324,7 @@ msgstr " (Yönetici Komutları 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "DVD alt yazılarını kullan"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"
