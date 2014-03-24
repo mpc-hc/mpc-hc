@@ -679,12 +679,6 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
                     }
                 }
             }
-
-            if (ppSubPic) {
-                CAutoLock cAutoLock(&m_csLock);
-
-                m_pSubPic = ppSubPic;
-            }
         }
     }
 
