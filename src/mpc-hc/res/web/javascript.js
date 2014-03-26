@@ -3,7 +3,7 @@
    strict:false, undef:true, unused:true */
 
 /* global ActiveXObject */
-/* exported init, positionUpdate, OnLoadSnapshot, OnAbortErrorSnapshot,
+/* exported controlsInit, positionUpdate, OnLoadSnapshot, OnAbortErrorSnapshot,
    OnCommand, playerInit */
 
 
@@ -14,7 +14,7 @@ var state;
 var pbr;
 var eta;
 var volume;
-var muted; /*-1 no sound*/
+var muted; // 1 no sound
 var startTime = new Date().getTime();
 var sliderSize = 500;
 var sliderButtonWidth = 15;
@@ -30,8 +30,6 @@ var cpf;
 var cp;
 var s;
 var m;
-var AP;
-var RL;
 var rpt;
 var sb1;
 var sb2;
@@ -43,57 +41,63 @@ var etaup = false;
 var httpRequestStatus;
 
 
-function pad(number, len) {
-    var str = "" + number;
-    while (str.length < len) {
-        str = "0" + str;
-    }
-    return str;
+// common functions
+function getById(id) {
+    return document.getElementById(id);
 }
 
+function getOffsetX(m) {
+    var x = m.offsetLeft;
+    while (m.offsetParent) {
+        x += (m = m.offsetParent).offsetLeft;
+    }
+    return x;
+}
+
+
+// controls.html
 function timeSyntax(ts) {
-    var a;
     var b = "";
-    for (a = 0; a < ts.length; a++) {
+    for (var a = 0; a < ts.length; a++) {
         switch (ts.charAt(a)) {
-        case "0":
-            b += "0";
-            break;
-        case "1":
-            b += "1";
-            break;
-        case "2":
-            b += "2";
-            break;
-        case "3":
-            b += "3";
-            break;
-        case "4":
-            b += "4";
-            break;
-        case "5":
-            b += "5";
-            break;
-        case "6":
-            b += "6";
-            break;
-        case "7":
-            b += "7";
-            break;
-        case "8":
-            b += "8";
-            break;
-        case "9":
-            b += "9";
-            break;
-        case ".":
-            b += ".";
-            break;
-        case ":":
-            b += ":";
-            break;
-        default:
-            break;
+            case "0":
+                b += "0";
+                break;
+            case "1":
+                b += "1";
+                break;
+            case "2":
+                b += "2";
+                break;
+            case "3":
+                b += "3";
+                break;
+            case "4":
+                b += "4";
+                break;
+            case "5":
+                b += "5";
+                break;
+            case "6":
+                b += "6";
+                break;
+            case "7":
+                b += "7";
+                break;
+            case "8":
+                b += "8";
+                break;
+            case "9":
+                b += "9";
+                break;
+            case ".":
+                b += ".";
+                break;
+            case ":":
+                b += ":";
+                break;
+            default:
+                break;
         }
     }
     return b;
@@ -110,7 +114,11 @@ function parseTime(y) {
     if (p4 !== -1 || (p1 !== -1 && p2 !== -1 && p2 > p1) || (p1 !== -1 && p3 !== -1 && p3 > p1)) {
         return -2000;
     }
-    p1 = (p1 === -1 ? ts.length + 1 : p1);
+    if (p1 === -1) {
+        p1 = ts.length + 1;
+    } else {
+        p1 = p1;
+    }
     if (p2 === -1) {
         t = parseFloat((ts + " ").substring(0, p1 + 4));
     }
@@ -128,9 +136,19 @@ function update(a, b) {
         return false;
     }
     if (b) {
-        m = (curPos = ((a > len && !Live) ? len : (a < 0 ? 0 : a))) * sliderSize / len;
+        if (a > len && !Live) {
+            curPos = len;
+        } else {
+            curPos = a < 0 ? 0 : a;
+        }
+        m = curPos * sliderSize / len;
     } else {
-        curPos = (m = (a > sliderSize ? sliderSize : (a < 0 ? 0 : a))) * len / sliderSize;
+        if (a > sliderSize) {
+            m = sliderSize;
+        } else {
+            m = a < 0 ? 0 : a;
+        }
+        curPos = m * len / sliderSize;
     }
     if (m > sb1.width) {
         sb3.width = sliderSize - Math.floor(m);
@@ -142,6 +160,14 @@ function update(a, b) {
     return true;
 }
 
+function pad(number, len) {
+    var str = "" + number;
+    while (str.length < len) {
+        str = "0" + str;
+    }
+    return str;
+}
+
 function secondsToTS(a, b) {
     var a1 = Math.floor(a / 3600000);
     var a2 = Math.floor(a / 60000) % 60;
@@ -151,49 +177,49 @@ function secondsToTS(a, b) {
     var a2s = pad(a2.toString(), 2);
     var a3s = pad(a3.toString(), 2);
     var a4s = pad(a4.toString(), 3);
+
     switch (b) {
-    case 1:
-        return a1s;
-    case 2:
-        return a2s;
-    case 3:
-        return a3s;
-    case 4:
-        return a4s;
-    case 5:
-    case 6:
-    case 7:
-        return a1s + ":" + a2s + ":" + a3s;
-    default:
-        return ((a1 > 0 ? (a1s + ":") : "") + a2s + ":" + a3s);
+        case 1:
+            return a1s;
+        case 2:
+            return a2s;
+        case 3:
+            return a3s;
+        case 4:
+            return a4s;
+        case 5:
+        case 6:
+        case 7:
+            return a1s + ":" + a2s + ":" + a3s;
+        default:
+            return ((a1 > 0 ? (a1s + ":") : "") + a2s + ":" + a3s);
     }
-    return "bahh";
 }
 
 function postForm(wmc, ext, extv) {
-    document.getElementById("fwmc").value = wmc;
-    document.getElementById("fextra").value = extv;
-    document.getElementById("fextra").name = ext;
-    document.getElementById("ef").submit();
+    getById("fwmc").value = wmc;
+    getById("fextra").value = extv;
+    getById("fextra").name = ext;
+    getById("ef").submit();
     return true;
 }
 
 function autoplay(a) {
     if (etaup && re.checked === true) {
         etaup = false;
-        RL = setTimeout(function () {
+        setTimeout(function () {
             etaup = true;
             if (re.checked === true) {
                 postForm(0, "null", 0);
             }
         }, 5000);
     }
-    AP = setTimeout(autoplay, rdirt);
+    setTimeout(autoplay, rdirt);
     var ct = new Date().getTime();
     var cap = pbr * (ct - startTime);
     if (cap > len && !Live) {
         if (re.checked === true) {
-            RL = setTimeout(function () {
+            setTimeout(function () {
                 window.location = window.location;
             }, 5000);
         }
@@ -209,14 +235,6 @@ function autoplay(a) {
     return true;
 }
 
-function getOffsetX(m) {
-    var x = m.offsetLeft;
-    while (m.offsetParent) {
-        x += (m = m.offsetParent).offsetLeft;
-    }
-    return x;
-}
-
 function sliderClick(e) {
     update((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getOffsetX(s) - Math.floor(sliderButtonWidth / 2) + sc, false);
     cpf.value = secondsToTS(curPos, 5, false);
@@ -226,9 +244,19 @@ function sliderClick(e) {
 
 function volumeUpdate(a, b) {
     if (b) {
-        m = (volume = ((a > 100) ? 100 : (a < 0 ? 0 : a))) * vss / 100;
+        if (a > 100) {
+            volume = 100;
+        } else {
+            volume = a < 0 ? 0 : a;
+        }
+        m = volume * vss / 100;
     } else {
-        volume = (m = (a > vss ? vss : (a < 0 ? 0 : a))) * 100 / vss;
+        if (a > vss) {
+            m = vss;
+        } else {
+            m = a < 0 ? 0 : a;
+        }
+        volume = m * 100 / vss;
     }
     volume = Math.ceil(volume);
     vs1.width = m;
@@ -243,10 +271,14 @@ function volSliderClick(e) {
 
 
 if (eta === 0) {
-    eta = (state < 0 && filePath.length > 0) ? 2 : 120;
+    if (state < 0 && filePath.length > 0) {
+        eta = 2;
+    } else {
+        eta = 120;
+    }
 }
 
-function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) {
+function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) {
     filePath = _filePath;
     curPos = _curPos;
     len = _length;
@@ -257,7 +289,7 @@ function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) 
     muted = _muted;
 
     if (eta > 0) {
-        RL = setTimeout(function () {
+        setTimeout(function () {
             etaup = true;
             if (re.checked === true) {
                 postForm(0, "null", 0);
@@ -268,19 +300,22 @@ function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) 
     startTime = startTime - curPos;
     rdirt = len * pbr / sliderSize;
     rdirt = Math.floor(rdirt > 1000 ? 1000 : (rdirt < 300 ? 300 : rdirt));
-    cpf = document.getElementById("pos");
-    cp = document.getElementById("time");
-    sas = document.getElementById("SliderAutoScroll");
-    re = document.getElementById("reloadenabled");
-    s = document.getElementById("slider");
-    sb1 = document.getElementById("c1");
-    sb2 = document.getElementById("c2");
-    sb3 = document.getElementById("c3");
-    vs = document.getElementById("v");
-    vs1 = document.getElementById("v1");
-    vs2 = document.getElementById("v2");
-    vs3 = document.getElementById("v3");
-    document.getElementById("muted").innerHTML = muted === -1 ? "X" : muted === 1 ? "M" : "&nbsp;&nbsp;";
+    cpf = getById("pos");
+    cp = getById("time");
+    sas = getById("SliderAutoScroll");
+    re = getById("reloadenabled");
+    s = getById("slider");
+    sb1 = getById("c1");
+    sb2 = getById("c2");
+    sb3 = getById("c3");
+    vs = getById("v");
+    vs1 = getById("v1");
+    vs2 = getById("v2");
+    vs3 = getById("v3");
+
+    if (muted === 1) {
+        getById("muted").innerHTML = "M";
+    }
     s.height = sb1.height = sb2.height = sb3.height = vs.height = vs1.height = vs2.height = vs3.height = 20;
     s.width = sliderSize + (sb2.width = sliderButtonWidth);
     vs.width = vss + (vs2.width = vsb);
@@ -307,8 +342,7 @@ function positionUpdate() {
 }
 
 
-
-//player.html
+// player.html
 function getXMLHTTP() {
     try {
         return new ActiveXObject("Msxml2.XMLHTTP");
@@ -333,55 +367,62 @@ function MakeRequest(req) {
 
 function OnStatus (title, status, pos, posStr, dur, durStr, muted, volume) {
     var maxTitle = 70;
-    var e;
-    if (title.length > maxTitle) {
-        title = title.substr(0, maxTitle - 3) + "...";
+    var timestr;
+    var el;
+
+    if (dur > 0 && posStr && durStr) {
+        timestr = posStr + "&nbsp;/&nbsp;" + durStr;
+    } else {
+        timestr = "&nbsp;";
     }
-    var timestr = dur > 0 && posStr && durStr ? posStr + "&nbsp;/&nbsp;" + durStr : "&nbsp;";
+
+    if (title.length > maxTitle) {
+        title = title.substr(0, maxTitle - 3) + "&hellip;";
+    }
     if (!dur || dur === 0) {
         dur = 1;
     }
 
-    e = document.getElementById("title");
-    if (e) {
-        e.innerHTML = title;
+    el = getById("title");
+    if (el) {
+        el.innerHTML = title;
     }
 
     var sbpercent = Math.floor(100 * pos / dur);
-    e = document.getElementById("seekbarchleft");
-    if (e) {
-        e.width = sbpercent > 0 ? sbpercent + "%" : "1px";
+    el = getById("seekbarchleft");
+    if (el) {
+        el.width = sbpercent > 0 ? sbpercent + "%" : "1px";
     }
 
-    e = document.getElementById("seekbarchright");
-    if (e) {
-        e.width = sbpercent < 100 ? (100 - sbpercent) + "%" : "1px";
+    el = getById("seekbarchright");
+    if (el) {
+        el.width = sbpercent < 100 ? (100 - sbpercent) + "%" : "1px";
     }
 
-    e = document.getElementById("status");
-    if (e && e.innerHTML !== status) {
-        e.innerHTML = status;
+    el = getById("status");
+    if (el && el.innerHTML !== status) {
+        el.innerHTML = status;
     }
 
-    e = document.getElementById("timer");
-    if (e && e.innerHTML !== timestr) {
-        e.innerHTML = timestr;
+    el = getById("timer");
+    if (el && el.innerHTML !== timestr) {
+        el.innerHTML = timestr;
     }
 
-    e = document.getElementById("controlvolumemute");
-    if (e) {
+    el = getById("controlvolumemute");
+    if (el) {
         var url = "url(img/controlvolume" + (muted ? "off" : "on") + ".png)";
-        if (e.style.backgroundImage !== url) {
-            e.style.backgroundImage = url;
+        if (el.style.backgroundImage !== url) {
+            el.style.backgroundImage = url;
         }
     }
 
-    e = document.getElementById("controlvolumegrip");
-    if (e) {
-        volume = (document.getElementById("controlvolumebar").offsetWidth - e.offsetWidth) * volume / 100;
-        e.style.position = "relative";
-        e.style.top = "2px";
-        e.style.left = Math.floor(volume) + "px";
+    el = getById("controlvolumegrip");
+    if (el) {
+        volume = (getById("controlvolumebar").offsetWidth - el.offsetWidth) * volume / 100;
+        el.style.position = "relative";
+        el.style.top = "2px";
+        el.style.left = Math.floor(volume) + "px";
     }
 }
 
@@ -413,7 +454,7 @@ function StatusLoop() {
 var snapshotCounter = 0;
 
 function LoadSnapshot() {
-    var img = document.getElementById("snapshot");
+    var img = getById("snapshot");
     if (img) {
         img.src = "snapshot.jpg" + "?" + snapshotCounter++;
     }
@@ -433,17 +474,17 @@ function OnSeek(e) {
     var percent;
     var sb;
 
-    sb = document.getElementById("seekbarchleft");
+    sb = getById("seekbarchleft");
     if (sb) {
         left = getOffsetX(sb);
     }
 
-    sb = document.getElementById("seekbarchright");
+    sb = getById("seekbarchright");
     if (sb) {
         right = getOffsetX(sb) + sb.offsetWidth;
     }
 
-    sb = document.getElementById("seekbargrip");
+    sb = getById("seekbargrip");
     if (sb) {
         left += sb.offsetWidth / 2;
         right -= sb.offsetWidth / 2;
@@ -463,7 +504,7 @@ function OnVolume(e) {
     var left = 0;
     var right = 0;
     var percent;
-    var cv = document.getElementById("controlvolumebar");
+    var cv = getById("controlvolumebar");
 
     if (cv) {
         left = getOffsetX(cv) + 3;
@@ -488,13 +529,13 @@ function playerInit() {
     StatusLoop();
     LoadSnapshot();
 
-    var e = document.getElementById("seekbar");
-    if (e) {
-        e.onclick = OnSeek;
+    var el = getById("seekbar");
+    if (el) {
+        el.onclick = OnSeek;
     }
 
-    e = document.getElementById("controlvolumebar");
-    if (e) {
-        e.onclick = OnVolume;
+    el = getById("controlvolumebar");
+    if (el) {
+        el.onclick = OnVolume;
     }
 }

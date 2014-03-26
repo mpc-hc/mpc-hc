@@ -7,7 +7,7 @@
         <link rel="shortcut icon" href="favicon.ico">
         <script src="javascript.js"></script>
     </head>
-<body onload='init("[filepath]", [position], [duration], [state], [playbackrate], [reloadtime], [volumelevel], [muted])'>
+<body onload='controlsInit("[filepath]", [position], [duration], [state], [playbackrate], [reloadtime], [volumelevel], [muted])'>
 <div>
 <span class="sectionInfo">File Info</span>
     <noscript>
@@ -215,7 +215,7 @@
                 </noscript>
                 <table border="1" cellspacing="1" cellpadding="4">
                     <tr>
-                        <td id="muted" class="align-center" valign="middle">U</td>
+                        <td id="muted" class="align-center" valign="middle"></td>
                         <td>
                             <form action="[commandpath]" method="post">
                                 <input type="hidden" name="[wmcname]" value="909">
