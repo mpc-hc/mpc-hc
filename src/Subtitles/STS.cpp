@@ -2138,8 +2138,8 @@ void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
         m_styles.RemoveKey(name);
         m_styles[name3] = val;
 
-        for (size_t k = 0, j = GetCount(); k < j; i++) {
-            STSEntry& stse = GetAt(k);
+        for (size_t j = 0, count = GetCount(); j < count; j++) {
+            STSEntry& stse = GetAt(j);
             if (stse.style == name) {
                 stse.style = name3;
             }

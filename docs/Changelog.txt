@@ -73,6 +73,7 @@ next version - not released yet
 ! Ticket #4128, Moving mouse over tooltips in fullscreen hid the toolbar under some circumstances
 ! Ticket #4141, Subtitles were incorrectly displayed in DVD and DVB mode when using the internal subtitle renderer and madVR
 ! Ticket #4141, DVD subtitles were always re-enabled when clicking on a menu entry related to external subtitles
+! Ticket #4173, ASS/SSA subtitles: Fix a possible infinite loop during parsing
 
 
 1.7.3 - 02 February 2014
