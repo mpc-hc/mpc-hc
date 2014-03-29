@@ -724,6 +724,7 @@ CMainFrame::CMainFrame()
     , m_evOpenPrivateFinished(FALSE, TRUE)
     , m_evClosePrivateFinished(FALSE, TRUE)
     , m_pActiveContextMenu(nullptr)
+    , m_pActiveSystemMenu(nullptr)
     , m_bWasSnapped(false)
     , m_bIsBDPlay(false)
     , m_bLockedZoomVideoWindow(false)
@@ -775,6 +776,8 @@ CMainFrame::CMainFrame()
     fires.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_INITIALIZED);
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
+    fires.insert(MpcEvent::SYSTEM_MENU_POPUP_INITIALIZED);
+    fires.insert(MpcEvent::SYSTEM_MENU_POPUP_UNINITIALIZED);
     GetEventd().Connect(m_eventc, recieves, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
 }
 
@@ -2835,6 +2838,12 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 {
     __super::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 
+    if (bSysMenu) {
+        m_pActiveSystemMenu = pPopupMenu;
+        m_eventc.FireEvent(MpcEvent::SYSTEM_MENU_POPUP_INITIALIZED);
+        return;
+    }
+
     UINT uiMenuCount = pPopupMenu->GetMenuItemCount();
     if (uiMenuCount == -1) {
         return;
@@ -3020,13 +3029,18 @@ void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
     if (m_pActiveContextMenu == pPopupMenu) {
         m_pActiveContextMenu = nullptr;
         m_eventc.FireEvent(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
+    } else if (m_pActiveSystemMenu == pPopupMenu) {
+        m_pActiveSystemMenu = nullptr;
+        SendMessage(WM_CANCELMODE); // unfocus main menu if system menu was entered with alt+space
+        m_eventc.FireEvent(MpcEvent::SYSTEM_MENU_POPUP_UNINITIALIZED);
     }
 }
 
 void CMainFrame::OnEnterMenuLoop(BOOL bIsTrackPopupMenu)
 {
-    if (!bIsTrackPopupMenu && GetMenuBarState() == AFX_MBS_HIDDEN) {
+    if (!bIsTrackPopupMenu && !m_pActiveSystemMenu && GetMenuBarState() == AFX_MBS_HIDDEN) {
         // mfc has problems synchronizing menu visibility with modal loop in certain situations
+        ASSERT(!m_pActiveContextMenu);
         VERIFY(SetMenuBarState(AFX_MBS_VISIBLE));
     }
     __super::OnEnterMenuLoop(bIsTrackPopupMenu);

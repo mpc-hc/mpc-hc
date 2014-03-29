@@ -988,6 +988,7 @@ protected:
     void WTSUnRegisterSessionNotification();
 
     CMenu* m_pActiveContextMenu;
+    CMenu* m_pActiveSystemMenu;
 
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
