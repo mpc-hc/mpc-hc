@@ -65,6 +65,8 @@ public:
 private:
     enum { IDD = IDD_PPAGESHADERS };
 
+    std::map<UINT, CImageList> m_buttonIcons;
+
     EventClient m_eventc;
     bool m_bCurrentPresetChanged;
 
