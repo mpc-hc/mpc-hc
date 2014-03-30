@@ -108,7 +108,7 @@ MPC-HC makes use of the following third-party code:
     <tr>
       <td>Mhook</td>
       <td>MIT License</td>
-      <td>http://codefromthe70s.org/mhook23.aspx</td>
+      <td>https://github.com/martona/mhook</td>
     </tr>
     <tr>
       <td>MultiMon</td>

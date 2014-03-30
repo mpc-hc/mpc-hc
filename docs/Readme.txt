@@ -59,7 +59,7 @@ LAV Filters         GPLv2                       http://code.google.com/p/lavfilt
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
 MediaInfoLib        Simplified BSD License      http://mediaarea.net/MediaInfo
-Mhook               MIT License                 http://codefromthe70s.org/mhook23.aspx
+Mhook               MIT License                 https://github.com/martona/mhook
 MultiMon            CPOL                        http://www.codeproject.com/KB/GDI/multimon.aspx
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
 RARFileSource       GPLv2+                      http://www.v12pwr.com/RARFileSource/
