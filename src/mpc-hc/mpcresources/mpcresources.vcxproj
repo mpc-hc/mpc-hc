@@ -233,6 +233,14 @@
       <Configuration>Release Swedish</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Tatar|Win32">
+      <Configuration>Release Tatar</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Tatar|x64">
+      <Configuration>Release Tatar</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Turkish|Win32">
       <Configuration>Release Turkish</Configuration>
       <Platform>Win32</Platform>
@@ -311,6 +319,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Slovenian'">$(ProjectName).sl</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Spanish'">$(ProjectName).es</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Swedish'">$(ProjectName).sv</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Tatar'">$(ProjectName).tt</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Turkish'">$(ProjectName).tr</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Ukrainian'">$(ProjectName).uk</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Vietnamese'">$(ProjectName).vi</TargetName>
@@ -410,6 +419,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.tr.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Turkish'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.tt.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Tatar'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.uk.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Ukrainian'">true</ExcludedFromBuild>

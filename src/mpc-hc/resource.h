@@ -707,6 +707,7 @@
 #define ID_LANGUAGE_GALICIAN            32817
 #define ID_LANGUAGE_VIETNAMESE          32818
 #define ID_LANGUAGE_BENGALI             32819
+#define ID_LANGUAGE_TATAR               32820
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
 #define IDS_AG_NONE                     32832

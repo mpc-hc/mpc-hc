@@ -10,7 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
-+ New Bengali translation
++ New Bengali and Tatar translations
 + Support for opening "icyx://" stream URLs
 + Ticket #2348/#3583, Automatically refresh the information bar and title bar so that the correct information
   are always shown for streaming (e.g. online radios)

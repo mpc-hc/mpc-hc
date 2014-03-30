@@ -133,6 +133,10 @@ sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
 tr.WelcomeLabel2=[name] medya dosyaları oynatıcısı bilgisayarınıza kurulacaktır.%n%nDevam etmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
 tr.WinVersionTooLowError=[name] kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
 
+; Tatar
+tt.WelcomeLabel2=Программа сезнең санакка [name] урнаштырачак.%n%nДәвам итү алдыннан барлык башка эшлекле кушымталарны ябарга кирәк.
+tt.WinVersionTooLowError=[name] программасы Windows XP Service Pack 3 яки югарырак таләп итә.
+
 ; Ukrainian
 uk.WelcomeLabel2=На ваш комп'ютер буде встановлено [name].%n%nРекомендується завершити роботу інших додатків перед продовженням.
 uk.WinVersionTooLowError=[name] вимагає використання ОС Windows XP Service Pack 3 або пізнішої версії.
@@ -663,6 +667,25 @@ tr.tsk_ResetSettings=Ayarları sıfırla
 tr.types_DefaultInstallation=Varsayılan yükleme
 tr.types_CustomInstallation=Özel yükleme
 tr.ViewChangelog=Sürüm Notları
+
+; Tatar
+tt.langid=00001092
+tt.comp_mpciconlib=Билгечекләр китапханәсе
+tt.comp_mpcresources=Телләштерү
+tt.msg_DeleteSettings=Шулай ук көйләнгән MPC-HC шартларын да бетерергәме?%n%nӘгәр ниятләнгән киредән MPC-HC урнаштыру булса, бу шартларны бетерергә кирәк түгел.
+tt.msg_SetupIsRunningWarning=MPC-HC урнаштыру программасы инде кабызылган!
+#if defined(sse_required)
+tt.msg_simd_sse=Бу MPC-HC бөрмәсе өчен SSE-кагыйдәләрен кулланган процессор кирәк.%n%nӘлеге процессорда алар кулланылмый.
+#elif defined(sse2_required)
+tt.msg_simd_sse2=Бу MPC-HC бөрмәсе өчен SSE2-кагыйдәләрен кулланган процессор кирәк.%n%nӘлеге процессорда алар кулланылмый.
+#endif
+tt.tsk_AllUsers=Әлеге санакны кулланган барлык кулланучылар өчен
+tt.tsk_CurrentUser=Хәзерге кулланучы өчен генә
+tt.tsk_Other=Башка йомышлар:
+tt.tsk_ResetSettings=Килешү буенча шартларны торгызырга
+tt.types_DefaultInstallation=Килешү буенча урнаштыру
+tt.types_CustomInstallation=Сайлаулы урнаштыру
+tt.ViewChangelog=Үзгәрешләр журналын карарга
 
 ; Ukrainian
 uk.langid=00001058
