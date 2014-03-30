@@ -301,6 +301,7 @@ CMPlayerCApp::CMPlayerCApp()
     : m_hNTDLL(nullptr)
     , m_fClosingState(false)
     , m_fProfileInitialized(false)
+    , m_bQueuedProfileFlush(false)
     , m_bDelayingIdle(false)
 {
     TCHAR strApp[MAX_PATH];
@@ -356,6 +357,18 @@ BOOL CMPlayerCApp::IsIdleMessage(MSG* pMsg)
             }
         }
     }
+    return ret;
+}
+
+BOOL CMPlayerCApp::OnIdle(LONG lCount)
+{
+    BOOL ret = __super::OnIdle(lCount);
+
+    if (m_bQueuedProfileFlush) {
+        FlushProfile();
+        ASSERT(!m_bQueuedProfileFlush);
+    }
+
     return ret;
 }
 
@@ -589,6 +602,8 @@ void CMPlayerCApp::FlushProfile()
 {
     ASSERT(m_fProfileInitialized);
 
+    m_bQueuedProfileFlush = false;
+
     if (!m_pszRegistryKey) {
         ASSERT(m_pszProfileName);
 
@@ -791,7 +806,11 @@ BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
         }
         valueStr.ReleaseBufferSetLength(nBytes * 2);
         m_ProfileCriticalSection.Lock();
-        m_ProfileMap[sectionStr][keyStr] = valueStr;
+        CString& old = m_ProfileMap[sectionStr][keyStr];
+        if (old != valueStr) {
+            old = valueStr;
+            m_bQueuedProfileFlush = true;
+        }
         m_ProfileCriticalSection.Unlock();
         return TRUE;
     }
@@ -821,7 +840,11 @@ BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int n
 
         valueStr.Format(_T("%d"), nValue);
         m_ProfileCriticalSection.Lock();
-        m_ProfileMap[sectionStr][keyStr] = valueStr;
+        CString& old = m_ProfileMap[sectionStr][keyStr];
+        if (old != valueStr) {
+            old = valueStr;
+            m_bQueuedProfileFlush = true;
+        }
         m_ProfileCriticalSection.Unlock();
         return TRUE;
     }
@@ -857,17 +880,25 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
 
             m_ProfileCriticalSection.Lock();
             if (lpszValue) {
-                m_ProfileMap[sectionStr][keyStr] = lpszValue;
+                CString& old = m_ProfileMap[sectionStr][keyStr];
+                if (old != lpszValue) {
+                    old = lpszValue;
+                    m_bQueuedProfileFlush = true;
+                }
             } else { // Delete key
                 auto it = m_ProfileMap.find(sectionStr);
                 if (it != m_ProfileMap.end()) {
-                    it->second.erase(keyStr);
+                    if (it->second.erase(keyStr)) {
+                        m_bQueuedProfileFlush = true;
+                    }
                 }
             }
             m_ProfileCriticalSection.Unlock();
         } else { // Delete section
             m_ProfileCriticalSection.Lock();
-            m_ProfileMap.erase(sectionStr);
+            if (m_ProfileMap.erase(sectionStr)) {
+                m_bQueuedProfileFlush = true;
+            }
             m_ProfileCriticalSection.Unlock();
         }
         return TRUE;

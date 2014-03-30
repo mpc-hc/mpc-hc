@@ -126,6 +126,7 @@ class CMPlayerCApp : public CWinApp
     bool m_bDelayingIdle;
     void DelayedIdle();
     virtual BOOL IsIdleMessage(MSG* pMsg) override;
+    virtual BOOL OnIdle(LONG lCount) override;
     virtual BOOL PumpMessage() override;
 
 public:
@@ -146,6 +147,7 @@ public:
 private:
     std::map<CString, std::map<CString, CString, CStringUtils::IgnoreCaseLess>, CStringUtils::IgnoreCaseLess> m_ProfileMap;
     bool m_fProfileInitialized;
+    bool m_bQueuedProfileFlush;
     void InitProfile();
     ::CCriticalSection m_ProfileCriticalSection;
 public:
