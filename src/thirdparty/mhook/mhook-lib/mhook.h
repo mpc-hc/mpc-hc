@@ -26,6 +26,3 @@
 
 BOOL Mhook_SetHook(PVOID *ppSystemFunction, PVOID pHookFunction);
 BOOL Mhook_Unhook(PVOID *ppHookedFunction);
-
-#define MHOOKS_MAX_SUPPORTED_HOOKS	64
-
