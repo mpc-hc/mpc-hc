@@ -1,15 +1,16 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Adolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2014
 # JellyFrog, 2013
 # squallmx <squallmx@users.sourceforge.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2014-02-02 07:30+0000\n"
-"Last-Translator: squallmx <squallmx@users.sourceforge.net>\n"
+"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
+"PO-Revision-Date: 2014-03-30 07:00+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,31 +24,31 @@ msgstr "&Archivo"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "Abrir Archivo &Rapido..."
+msgstr "Abrir archivo &rápido…"
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
-msgstr "&Abrir Archivo..."
+msgstr "&Abrir archivo…"
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "Abrir &DVD/BD..."
+msgstr "Abrir &DVD/BD…"
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "Abrir Dis&positivo..."
+msgstr "Abrir dispositi&vo…"
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Abrir Directorio..."
+msgstr "Abrir &carpeta…"
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "Abrir Di&sco"
+msgstr "Abrir di&sco"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "Archivos Recientes"
+msgstr "Archivos &recientes"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -55,39 +56,39 @@ msgstr "&Cerrar"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Guardar una Copia..."
+msgstr "&Guardar una copia…"
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Guardar &Imagen..."
+msgstr "Guardar &imagen…"
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Guardar &Miniaturas..."
+msgstr "Guardar &miniaturas…"
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
-msgstr "Cargar &Subtítulo..."
+msgstr "Cargar &subtítulos…"
 
 msgctxt "ID_FILE_SAVE_SUBTITLE"
 msgid "Save S&ubtitle..."
-msgstr "Guardar S&ubtitulo..."
+msgstr "Guardar s&ubtitulos…"
 
 msgctxt "POPUP"
 msgid "Subtitle Data&base"
-msgstr "Base de Datos de Subtítulos"
+msgstr "Base de &datos de subtítulos"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
-msgstr "Buscar..."
+msgstr "&Buscar…"
 
 msgctxt "ID_FILE_ISDB_UPLOAD"
 msgid "&Upload..."
-msgstr "Subir..."
+msgstr "S&ubir…"
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
-msgstr "Descargar..."
+msgstr "&Descargar…"
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -119,7 +120,7 @@ msgstr "&Información"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
-msgstr "Es&tatisticas"
+msgstr "E&stadísticas"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
@@ -171,15 +172,15 @@ msgstr "&Acercamiento"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr "&50%"
+msgstr "&50 %"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr "&100%"
+msgstr "&100 %"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr "&200%"
+msgstr "&200 %"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -215,11 +216,11 @@ msgstr "Rango de Salida"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "0 - 255"
+msgstr "&0-255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "16 - 235"
+msgstr "&16-235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
@@ -423,23 +424,23 @@ msgstr "Original"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr "4:3"
+msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr "5:4"
+msgstr "&5:4"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr "16:9"
+msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "235:100"
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "185:100"
+msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -679,29 +680,29 @@ msgstr "&Favoritos"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr "A&yuda"
+msgstr "Ay&uda"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "Página del Programa"
+msgstr "&Sitio web"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Comprobar por &actualizaciones"
+msgstr "&Buscar actualizaciones"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "Switches de Linea de Comandos"
+msgstr "&Opciones de consola"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Download Toolbar Images"
+msgstr "Descargar iconos de barra de &herramientas"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "Donate"
+msgstr "&Donar"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "&Acerca De..."
+msgstr "&Acerca de..."
 

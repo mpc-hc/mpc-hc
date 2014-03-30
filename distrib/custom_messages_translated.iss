@@ -50,8 +50,8 @@ en_GB.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommen
 en_GB.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ; Spanish
-es.WelcomeLabel2=Este programa instalara [name] en tu computadora.%n%nEs recomendable que cierres todas las aplicaciones antes de continuar.
-es.WinVersionTooLowError=[name] require Windows XP Service Pack 3 o superior para funcionar.
+es.WelcomeLabel2=Este programa instalará [name] en el equipo.%n%nSe recomienda que cierre todas las demás aplicaciones antes de continuar.
+es.WinVersionTooLowError=[name] requiere Windows XP Service Pack 3 o posterior para funcionar.
 
 ; Basque
 eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
@@ -82,8 +82,8 @@ hy.WelcomeLabel2=[name]-ը կտեղադրվի ձեր համակարգչում։%
 hy.WinVersionTooLowError=[name]-ը պահանջում է Windows XP Service Pack 3 կամ ավելի բարձր։
 
 ; Italian
-it.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-it.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%nE' consigliato chiudere tutte le altre applicazioni prima di continuare.
+it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
 
 ; Japanese
 ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリを閉じることを推奨します。
@@ -267,20 +267,20 @@ en_GB.ViewChangelog=View Changelog
 
 ; Spanish
 es.langid=00003082
-es.comp_mpciconlib=Librería de iconos
+es.comp_mpciconlib=Colección de iconos
 es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
-es.msg_SetupIsRunningWarning=La instalación de MPC-HC ya se esta ejecutando!
+es.msg_SetupIsRunningWarning=La instalación de MPC-HC ya está en ejecución.
 #if defined(sse_required)
 es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE.%n%nSu CPU carece de esta característica.
 #elif defined(sse2_required)
 es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE2.%n%nSu CPU carece de esta característica.
 #endif
 es.tsk_AllUsers=Para todos los usuarios
-es.tsk_CurrentUser=Para el usuario actual solamente
+es.tsk_CurrentUser=Solo para el usuario actual
 es.tsk_Other=Otras tareas:
 es.tsk_ResetSettings=Restaurar preferencias
-es.types_DefaultInstallation=Instalación por defecto
+es.types_DefaultInstallation=Instalación predeterminada
 es.types_CustomInstallation=Instalación personalizada
 es.ViewChangelog=Ver registro de cambios
 
