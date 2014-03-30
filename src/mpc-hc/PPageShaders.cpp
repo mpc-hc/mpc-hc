@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -264,8 +264,6 @@ BOOL CPPageShaders::OnInitDialog()
 
     m_bCurrentPresetChanged = false;
 
-    UpdateState();
-
     return TRUE;
 }
 
@@ -303,50 +301,6 @@ BOOL CPPageShaders::OnApply()
     return CPPageBase::OnApply();
 }
 
-void CPPageShaders::UpdateState()
-{
-    CString text;
-    BOOL state;
-    int sel;
-
-    sel = m_Shaders.GetCurSel();
-    state = (sel != LB_ERR);
-    GetDlgItem(IDC_BUTTON1)->EnableWindow(state); // "add to pre-resize" button
-    GetDlgItem(IDC_BUTTON2)->EnableWindow(state); // "add to post-resize" button
-    if (state) {
-        auto list = m_Shaders.GetList();
-        ASSERT(sel < (int)list.size());
-        if (list.at(sel).IsDefault()) { // default shaders are not allowed to be removed
-            state = FALSE;
-        }
-    }
-    GetDlgItem(IDC_BUTTON13)->EnableWindow(state); // "remove shader" button
-    // "add shader file" button is always enabled
-
-    state = (m_PresetsBox.GetCurSel() != CB_ERR);
-    GetDlgItem(IDC_BUTTON3)->EnableWindow(state); // "load preset" button
-    GetDlgItem(IDC_BUTTON5)->EnableWindow(state); // "delete preset" button
-    m_PresetsBox.GetWindowText(text);
-    state = (m_bCurrentPresetChanged && !text.IsEmpty());
-    GetDlgItem(IDC_BUTTON4)->EnableWindow(state); // "save preset" button
-
-    sel = m_PreResize.GetCurSel();
-    state = (sel != LB_ERR) && (sel > 0);
-    GetDlgItem(IDC_BUTTON6)->EnableWindow(state); // "up pre-resize shader" button
-    state = (sel != LB_ERR) && (sel + 1 < m_PreResize.GetCount());
-    GetDlgItem(IDC_BUTTON7)->EnableWindow(state); // "down pre-resize shader" button
-    state = (sel != LB_ERR);
-    GetDlgItem(IDC_BUTTON8)->EnableWindow(state); // "remove pre-resize shader" button
-
-    sel = m_PostResize.GetCurSel();
-    state = (sel != LB_ERR) && (sel > 0);
-    GetDlgItem(IDC_BUTTON9)->EnableWindow(state);  // "up post-resize shader" button
-    state = (sel != LB_ERR) && (sel + 1 < m_PostResize.GetCount());
-    GetDlgItem(IDC_BUTTON10)->EnableWindow(state); // "down post-resize shader" button
-    state = (sel != LB_ERR);
-    GetDlgItem(IDC_BUTTON11)->EnableWindow(state); // "remove post-resize shader" button
-}
-
 void CPPageShaders::OnLoadShaderPreset()
 {
     int sel = m_PresetsBox.GetCurSel();
@@ -368,7 +322,6 @@ void CPPageShaders::OnLoadShaderPreset()
         ASSERT(FALSE);
     }
     m_bCurrentPresetChanged = false;
-    UpdateState();
     SetModified();
 }
 
@@ -387,7 +340,6 @@ void CPPageShaders::OnSaveShaderPreset()
         ASSERT(FALSE);
     }
     m_bCurrentPresetChanged = false;
-    UpdateState();
 }
 
 void CPPageShaders::OnDeleteShaderPreset()
@@ -402,7 +354,6 @@ void CPPageShaders::OnDeleteShaderPreset()
         ASSERT(FALSE);
     }
     m_bCurrentPresetChanged = true;
-    UpdateState();
 }
 
 void CPPageShaders::OnChangeShaderPresetText()
@@ -414,7 +365,6 @@ void CPPageShaders::OnChangeShaderPresetText()
         VERIFY(m_PresetsBox.SetCurSel(sel) != CB_ERR);
     }
     m_bCurrentPresetChanged = true;
-    UpdateState();
 }
 
 void CPPageShaders::OnAddToPreResize()
@@ -423,7 +373,6 @@ void CPPageShaders::OnAddToPreResize()
     ASSERT(sel != LB_ERR);
     VERIFY(m_PreResize.AddShader(m_Shaders.GetList().at(sel)) >= 0);
     m_bCurrentPresetChanged = true;
-    UpdateState();
     SetModified();
 }
 
@@ -433,7 +382,6 @@ void CPPageShaders::OnAddToPostResize()
     ASSERT(sel != LB_ERR);
     VERIFY(m_PostResize.AddShader(m_Shaders.GetList().at(sel)) >= 0);
     m_bCurrentPresetChanged = true;
-    UpdateState();
     SetModified();
 }
 
@@ -441,7 +389,6 @@ void CPPageShaders::OnUpPreResize()
 {
     VERIFY(m_PreResize.UpCurrentShader());
     m_bCurrentPresetChanged = true;
-    UpdateState();
     SetModified();
 }
 
@@ -449,7 +396,6 @@ void CPPageShaders::OnDownPreResize()
 {
     VERIFY(m_PreResize.DownCurrentShader());
     m_bCurrentPresetChanged = true;
-    UpdateState();
     SetModified();
 }
 
@@ -457,7 +403,6 @@ void CPPageShaders::OnRemovePreResize()
 {
     VERIFY(m_PreResize.DeleteCurrentShader());
     m_bCurrentPresetChanged = true;
-    UpdateState();
     SetModified();
 }
 
@@ -465,7 +410,6 @@ void CPPageShaders::OnUpPostResize()
 {
     VERIFY(m_PostResize.UpCurrentShader());
     m_bCurrentPresetChanged = true;
-    UpdateState();
     SetModified();
 }
 
@@ -473,7 +417,6 @@ void CPPageShaders::OnDownPostResize()
 {
     VERIFY(m_PostResize.DownCurrentShader());
     m_bCurrentPresetChanged = true;
-    UpdateState();
     SetModified();
 }
 
@@ -481,7 +424,6 @@ void CPPageShaders::OnRemovePostResize()
 {
     VERIFY(m_PostResize.DeleteCurrentShader());
     m_bCurrentPresetChanged = true;
-    UpdateState();
     SetModified();
 }
 
@@ -508,7 +450,6 @@ void CPPageShaders::OnAddShaderFile()
             }
         }
 
-        UpdateState();
         SetModified();
     }
     buff.ReleaseBuffer(0);
@@ -517,14 +458,88 @@ void CPPageShaders::OnAddShaderFile()
 void CPPageShaders::OnRemoveShader()
 {
     VERIFY(m_Shaders.DeleteCurrentShader());
-    UpdateState();
     SetModified();
 }
 
+void CPPageShaders::OnUpdateAddToPreResize(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_Shaders.GetCurSel() != LB_ERR);
+}
+
+void CPPageShaders::OnUpdateAddToPostResize(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_Shaders.GetCurSel() != LB_ERR);
+}
+
+void CPPageShaders::OnUpdateLoadShaderPreset(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_PresetsBox.GetCurSel() != CB_ERR);
+}
+
+void CPPageShaders::OnUpdateSaveShaderPreset(CCmdUI* pCmdUI)
+{
+    CString text;
+    m_PresetsBox.GetWindowText(text);
+    pCmdUI->Enable(m_bCurrentPresetChanged && !text.IsEmpty());
+}
+
+void CPPageShaders::OnUpdateDeleteShaderPreset(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_PresetsBox.GetCurSel() != CB_ERR);
+}
+
+void CPPageShaders::OnUpdateUpPreResize(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_PreResize.GetCurSel() > 0);
+}
+
+void CPPageShaders::OnUpdateDownPreResize(CCmdUI* pCmdUI)
+{
+    const int sel = m_PreResize.GetCurSel();
+    pCmdUI->Enable((sel != LB_ERR) && (sel + 1 < m_PreResize.GetCount()));
+}
+
+void CPPageShaders::OnUpdateRemovePreResize(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_PreResize.GetCurSel() != LB_ERR);
+}
+
+void CPPageShaders::OnUpdateUpPostResize(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_PostResize.GetCurSel() > 0);
+}
+
+void CPPageShaders::OnUpdateDownPostResize(CCmdUI* pCmdUI)
+{
+    const int sel = m_PostResize.GetCurSel();
+    pCmdUI->Enable((sel != LB_ERR) && (sel + 1 < m_PostResize.GetCount()));
+}
+
+void CPPageShaders::OnUpdateRemovePostResize(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_PostResize.GetCurSel() != LB_ERR);
+}
+
+void CPPageShaders::OnUpdateAddShaderFile(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(TRUE);
+}
+
+void CPPageShaders::OnUpdateRemoveShader(CCmdUI* pCmdUI)
+{
+    const int sel = m_Shaders.GetCurSel();
+    BOOL bEnable = (sel != LB_ERR);
+    if (bEnable) {
+        auto list = m_Shaders.GetList();
+        ASSERT(sel < (int)list.size());
+        if (list.at(sel).IsDefault()) { // default shaders are not allowed to be removed
+            bEnable = FALSE;
+        }
+    }
+    pCmdUI->Enable(bEnable);
+}
+
 BEGIN_MESSAGE_MAP(CPPageShaders, CPPageBase)
-    ON_LBN_SELCHANGE(IDC_LIST1, UpdateState)
-    ON_LBN_SELCHANGE(IDC_LIST2, UpdateState)
-    ON_LBN_SELCHANGE(IDC_LIST3, UpdateState)
     ON_BN_CLICKED(IDC_BUTTON1, OnAddToPreResize)
     ON_BN_CLICKED(IDC_BUTTON2, OnAddToPostResize)
     ON_BN_CLICKED(IDC_BUTTON3, OnLoadShaderPreset)
@@ -539,5 +554,17 @@ BEGIN_MESSAGE_MAP(CPPageShaders, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON12, OnAddShaderFile)
     ON_BN_CLICKED(IDC_BUTTON13, OnRemoveShader)
     ON_CBN_EDITCHANGE(IDC_COMBO1, OnChangeShaderPresetText)
-    ON_CBN_SELCHANGE(IDC_COMBO1, UpdateState)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateAddToPreResize)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateAddToPostResize)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON3, OnUpdateLoadShaderPreset)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON4, OnUpdateSaveShaderPreset)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON5, OnUpdateDeleteShaderPreset)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON6, OnUpdateUpPreResize)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON7, OnUpdateDownPreResize)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON8, OnUpdateRemovePreResize)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON9, OnUpdateUpPostResize)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON10, OnUpdateDownPostResize)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON11, OnUpdateRemovePostResize)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON12, OnUpdateAddShaderFile)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON13, OnUpdateRemoveShader)
 END_MESSAGE_MAP()
