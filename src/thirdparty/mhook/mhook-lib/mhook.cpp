@@ -197,6 +197,11 @@ static PBYTE SkipJumps(PBYTE pbCode) {
 		INT32 lOffset = *(INT32 *)&pbCode[2];
 		// ... that shows us an absolute pointer
 		return SkipJumps(*(PBYTE*)(pbCode + 6 + lOffset));
+	} else if (pbCode[0] == 0x48 && pbCode[1] == 0xff && pbCode[2] == 0x25) {
+		// or we can have the same with a REX prefix
+		INT32 lOffset = *(INT32 *)&pbCode[3];
+		// ... that shows us an absolute pointer
+		return SkipJumps(*(PBYTE*)(pbCode + 7 + lOffset));
 #endif
 	} else if (pbCode[0] == 0xe9) {
 		// here the behavior is identical, we have...
@@ -560,25 +565,15 @@ static DWORD DisassembleAndSkip(PVOID pFunction, DWORD dwMinLen, MHOOKS_PATCHDAT
 		while ( (dwRet < dwMinLen) && (pins = GetInstruction(&dis, (ULONG_PTR)pLoc, pLoc, dwFlags)) ) {
 			ODPRINTF(("mhooks: DisassembleAndSkip: %p: %s", pLoc, pins->String));
 			if (pins->Type == ITYPE_RET		) break;
-			#if !defined _M_X64 // MPC-HC hack
-				if (pins->Type == ITYPE_BRANCH) break;
-			#endif
+			if (pins->Type == ITYPE_BRANCH	) break;
 			if (pins->Type == ITYPE_BRANCHCC) break;
 			if (pins->Type == ITYPE_CALL	) break;
 			if (pins->Type == ITYPE_CALLCC	) break;
 
 			#if defined _M_X64
 				BOOL bProcessRip = FALSE;
-				if (pins->Type == ITYPE_BRANCH) { // MPC-HC hack
-					if (dwRet == 0 && pins->OperandCount == 1 && (pins->Operands[0].Flags & OP_IPREL) && pins->Length >= dwMinLen) {
-						ODPRINTF((L"mhooks: DisassembleAndSkip: hooking the function using MPC-HC hack"));
-						bProcessRip = TRUE;
-					} else {
-						break;
-					}
-				}
 				// mov or lea to register from rip+imm32
-				else if ((pins->Type == ITYPE_MOV || pins->Type == ITYPE_LEA) && (pins->X86.Relative) && 
+				if ((pins->Type == ITYPE_MOV || pins->Type == ITYPE_LEA) && (pins->X86.Relative) && 
 					(pins->X86.OperandSize == 8) && (pins->OperandCount == 2) &&
 					(pins->Operands[1].Flags & OP_IPREL) && (pins->Operands[1].Register == AMD64_REG_RIP))
 				{
