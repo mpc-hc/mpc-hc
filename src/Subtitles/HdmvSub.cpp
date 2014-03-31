@@ -394,7 +394,9 @@ void CHdmvSub::Reset()
 void CHdmvSub::RemoveOldSegments(REFERENCE_TIME rt)
 {
     // Cleanup the old presentation segments. We keep a 2 min buffer to play nice with the queue.
-    while (!m_pPresentationSegments.IsEmpty() && m_pPresentationSegments.GetHead()->rtStop + 120 * 10000000i64 < rt) {
+    while (!m_pPresentationSegments.IsEmpty()
+            && m_pPresentationSegments.GetHead()->rtStop != INFINITE_TIME
+            && m_pPresentationSegments.GetHead()->rtStop + 120 * 10000000i64 < rt) {
         HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.RemoveHead();
         TRACE_HDMVSUB(_T("CHdmvSub::RemoveOldSegments Remove presentation segment %d %s => %s (rt=%s)\n"),
                       pPresentationSegment->composition_descriptor.nNumber,
