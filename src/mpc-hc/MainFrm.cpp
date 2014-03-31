@@ -9299,21 +9299,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         return;
     }
 
-    // HACK: in some cases when rapidly switching fullscreen on and off with
-    // madVR exclusive fullscreen mode enabled, madVR might produce a black screen
-    // TODO: discuss some clean solution with madshi
-    if (m_pMVRS) {
-        const HWND hActiveWnd = ::GetActiveWindow();
-        if (hActiveWnd != m_hWnd && ::GetParent(hActiveWnd) == m_wndView.m_hWnd) {
-            CString strClass;
-            VERIFY(GetClassName(hActiveWnd, strClass.GetBuffer(256), 256));
-            strClass.ReleaseBuffer();
-            if (strClass == _T("madVR")) {
-                SetForegroundWindow();
-            }
-        }
-    }
-
     CAppSettings& s = AfxGetAppSettings();
     CRect r;
     DWORD dwRemove = 0, dwAdd = 0;
