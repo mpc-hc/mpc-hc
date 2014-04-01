@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -201,6 +201,10 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
         pHdmvSubtitle->NewSegment(tStart, tStop, dRate);
     }
 
+    TRACE(_T("NewSegment: InvalidateSubtitle(%I64d, ...)\n"), tStart);
+    // IMPORTANT: m_pSubLock must not be locked when calling this
+    InvalidateSubtitle(tStart, m_pSubStream);
+
     return __super::NewSegment(tStart, tStop, dRate);
 }
 
@@ -348,7 +352,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
     }
 
     if (fInvalidate) {
-        TRACE(_T("InvalidateSubtitle(%I64d, ..)\n"), tStart);
+        TRACE(_T("Receive: InvalidateSubtitle(%I64d, ...)\n"), tStart);
         // IMPORTANT: m_pSubLock must not be locked when calling this
         InvalidateSubtitle(tStart, m_pSubStream);
     }
