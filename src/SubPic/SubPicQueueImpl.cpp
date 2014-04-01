@@ -546,10 +546,12 @@ DWORD CSubPicQueue::ThreadProc()
 
                 REFERENCE_TIME rtStart = pSubPic->GetStart();
                 REFERENCE_TIME rtStop = pSubPic->GetStop();
+                REFERENCE_TIME rtSegmentStop = pSubPic->GetSegmentStop();
 
-                if (rtStop > rtInvalidate) {
+                if (rtSegmentStop > rtInvalidate) {
 #if SUBPIC_TRACE_LEVEL >= 0
-                    TRACE(_T("Removed subtitle because of invalidation: %f->%f\n"), double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
+                    TRACE(_T("Removed subtitle because of invalidation: %f -> %f (%f)\n"),
+                          double(rtStart) / 10000000.0, double(rtStop) / 10000000.0, double(rtSegmentStop) / 10000000.0);
 #endif
                     m_Queue.RemoveAt(ThisPos);
                     continue;
