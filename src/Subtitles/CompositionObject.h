@@ -79,6 +79,12 @@ public:
         return pCompositionObject;
     }
 
+    // Forbid the use of direct affectation for now, it would be dangerous because
+    // of possible leaks and double frees. We could do a deep copy to be safe but
+    // it could possibly hurt the performance if we forgot about this and start
+    // using affectation a lot.
+    CompositionObject& operator=(const CompositionObject&) = delete;
+
 private:
     BYTE* m_pRLEData;
     int   m_nRLEDataSize;
