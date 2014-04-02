@@ -55,6 +55,9 @@ public:
     CompositionObject();
     ~CompositionObject();
 
+    void  Init();
+    void  Reset();
+
     void  SetRLEData(const BYTE* pBuffer, int nSize, int nTotalSize);
     void  AppendRLEData(const BYTE* pBuffer, int nSize);
     const BYTE* GetRLEData() { return m_pRLEData; };

@@ -24,30 +24,37 @@
 
 
 CompositionObject::CompositionObject()
-    : m_pRLEData(nullptr)
-    , m_nRLEDataSize(0)
-    , m_nRLEPos(0)
-    , m_nColorNumber(0)
-    , m_object_id_ref(0)
-    , m_window_id_ref(0)
-    , m_object_cropped_flag(false)
-    , m_forced_on_flag(false)
-    , m_version_number(0)
-    , m_horizontal_position(0)
-    , m_vertical_position(0)
-    , m_width(0)
-    , m_height(0)
-    , m_cropping_horizontal_position(0)
-    , m_cropping_vertical_position(0)
-    , m_cropping_width(0)
-    , m_cropping_height(0)
 {
-    memsetd(m_Colors, 0xff000000, sizeof(m_Colors));
+    Init();
 }
 
 CompositionObject::~CompositionObject()
 {
     delete [] m_pRLEData;
+}
+
+void CompositionObject::Init()
+{
+    m_pRLEData = nullptr;
+    m_nRLEDataSize = m_nRLEPos = 0;
+    m_nColorNumber = 0;
+    m_object_id_ref = 0;
+    m_window_id_ref = 0;
+    m_object_cropped_flag = false;
+    m_forced_on_flag = false;
+    m_version_number = 0;
+    m_horizontal_position = m_vertical_position = 0;
+    m_width = m_height = 0;
+    m_cropping_horizontal_position = m_cropping_vertical_position = 0;
+    m_cropping_width = m_cropping_height = 0;
+
+    memsetd(m_Colors, 0xff000000, sizeof(m_Colors));
+}
+
+void CompositionObject::Reset()
+{
+    delete[] m_pRLEData;
+    Init();
 }
 
 void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool BT709, int sourceBlackLevel, int sourceWhiteLevel, int targetBlackLevel, int targetWhiteLevel)

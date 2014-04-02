@@ -46,7 +46,6 @@ CHdmvSub::~CHdmvSub()
     Reset();
 
     delete [] m_pSegBuffer;
-    delete m_pCurrentPresentationSegment;
 }
 
 
@@ -385,9 +384,14 @@ HRESULT CHdmvSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& Video
 
 void CHdmvSub::Reset()
 {
+    m_nSegBufferPos = m_nSegSize = 0;
+    m_nCurSegment = NO_SEGMENT;
+    delete m_pCurrentPresentationSegment;
     while (!m_pPresentationSegments.IsEmpty()) {
-        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.RemoveHead();
-        delete pPresentationSegment;
+        delete m_pPresentationSegments.RemoveHead();
+    }
+    for (int i = 0; i < _countof(m_compositionObjects); i++) {
+        m_compositionObjects[i].Reset();
     }
 }
 
