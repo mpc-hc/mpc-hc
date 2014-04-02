@@ -92,6 +92,7 @@ BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)
 CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
+    ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
     if (!m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
         ret.cy += ADD_TO_BOTTOM_WITHOUT_CONTROLBAR;
     }
