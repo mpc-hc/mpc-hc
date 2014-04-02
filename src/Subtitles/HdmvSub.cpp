@@ -325,23 +325,22 @@ void CHdmvSub::ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_D
 
 void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 {
+    bool bRendered = false;
+
     RemoveOldSegments(rt);
 
     HDMV_PRESENTATION_SEGMENT* pPresentationSegment = FindPresentationSegment(rt);
 
-    bbox.left   = LONG_MAX;
-    bbox.top    = LONG_MAX;
-    bbox.right  = 0;
-    bbox.bottom = 0;
-
     if (pPresentationSegment) {
         bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (pPresentationSegment->video_descriptor.nVideoWidth > 720) : false;
-
-        POSITION pos = pPresentationSegment->objects.GetHeadPosition();
 
         TRACE_HDMVSUB(_T("CHdmvSub:Render Presentation segment %d --> %s - %s\n"), pPresentationSegment->composition_descriptor.nNumber,
                       ReftimeToString(pPresentationSegment->rtStart), (pPresentationSegment->rtStop == INFINITE_TIME) ? _T("?") : ReftimeToString(pPresentationSegment->rtStop));
 
+        bbox.left = bbox.top = LONG_MAX;
+        bbox.right = bbox.bottom = 0;
+
+        POSITION pos = pPresentationSegment->objects.GetHeadPosition();
         while (pos) {
             CompositionObject* pObject = pPresentationSegment->objects.GetNext(pos);
 
@@ -357,10 +356,16 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
                 TRACE_HDMVSUB(_T(" --> Object %d (Pos=%dx%d, Res=%dx%d, SPDRes=%dx%d)\n"),
                               pObject->m_object_id_ref, pObject->m_horizontal_position, pObject->m_vertical_position, pObject->m_width, pObject->m_height, spd.w, spd.h);
                 pObject->RenderHdmv(spd);
+
+                bRendered = true;
             } else {
                 TRACE_HDMVSUB(_T(" --> Invalid object %d\n"), pObject->m_object_id_ref);
             }
         }
+    }
+
+    if (!bRendered) {
+        bbox = { 0, 0, 0, 0 };
     }
 }
 
