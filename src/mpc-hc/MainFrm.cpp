@@ -54,6 +54,7 @@
 #include "ISDb.h"
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
+#include "WinapiFunc.h"
 
 #include "../DeCSS/VobFile.h"
 
@@ -798,6 +799,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
     if (__super::OnCreate(lpCreateStruct) == -1) {
         return -1;
+    }
+
+    const WinapiFunc<BOOL(HWND, UINT, DWORD, PCHANGEFILTERSTRUCT)> fnChangeWindowMessageFilterEx = {
+        "user32.dll", "ChangeWindowMessageFilterEx"
+    };
+
+    // allow taskbar messages through UIPI
+    if (fnChangeWindowMessageFilterEx) {
+        VERIFY(fnChangeWindowMessageFilterEx(m_hWnd, s_uTaskbarRestart, MSGFLT_ALLOW, nullptr));
+        VERIFY(fnChangeWindowMessageFilterEx(m_hWnd, s_uTBBC, MSGFLT_ALLOW, nullptr));
+        VERIFY(fnChangeWindowMessageFilterEx(m_hWnd, WM_COMMAND, MSGFLT_ALLOW, nullptr));
     }
 
     VERIFY(m_popupMenu.LoadMenu(IDR_POPUP));
