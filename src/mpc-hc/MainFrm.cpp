@@ -9723,6 +9723,9 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
                     dVRWidth = dWRWidth;
                     dVRHeight = dWRHeight;
                     break;
+                default:
+                    ASSERT(FALSE);
+                // Fallback to "Touch Window From Inside" if settings were corrupted.
                 case DVS_FROMINSIDE:
                 case DVS_FROMOUTSIDE:
                     if ((windowRect.Width() < dVRWidth) != (iDefaultVideoSize == DVS_FROMOUTSIDE)) {
@@ -9742,9 +9745,6 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
                     dVRHeight = dVRWidth / dVideoAR;
                     break;
                 }
-                default:
-                    ASSERT(FALSE);
-                    break;
             }
 
             // Scale video frame
