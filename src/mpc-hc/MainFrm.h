@@ -930,7 +930,6 @@ public:
 
     // ==== Added by CASIMIR666
     CWnd*           m_pVideoWnd;            // Current Video (main display screen or 2nd)
-    SIZE            m_fullWndSize;
     CFullscreenWnd* m_pFullscreenWnd;
     CVMROSD     m_OSD;
     bool        m_bRemainingTime;
@@ -982,7 +981,6 @@ public:
 
 protected:
     // GDI+
-    ULONG_PTR m_gdiplusToken;
     virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
     void WTSRegisterSessionNotification();
     void WTSUnRegisterSessionNotification();

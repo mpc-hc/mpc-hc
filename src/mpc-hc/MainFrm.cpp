@@ -749,6 +749,15 @@ CMainFrame::CMainFrame()
     , m_wndStatusBar(this)
     , m_bAltDownClean(false)
     , m_nJumpToSubMenusCount(0)
+    , m_pCurrentSubStream(nullptr)
+    , m_nVolumeBeforeFrameStepping(0)
+    , m_fAudioOnly(true)
+    , m_LastWindow_HM(nullptr)
+    , m_iDVDDomain(DVD_DOMAIN_Stop)
+    , m_iDVDTitle(0)
+    , m_rtCurSubPos(0)
+    , m_bStopTunerScan(false)
+    , m_fSetChannelActive(false)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -1510,8 +1519,6 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
         hMonitor = MonitorFromWindow(m_pFullscreenWnd->m_hWnd, 0);
         if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
             CRect MonitorRect = CRect(MonitorInfo.rcMonitor);
-            m_fullWndSize.cx  = MonitorRect.Width();
-            m_fullWndSize.cy  = MonitorRect.Height();
             m_pFullscreenWnd->SetWindowPos(nullptr,
                                            MonitorRect.left,
                                            MonitorRect.top,
@@ -14730,8 +14737,6 @@ bool CMainFrame::CreateFullScreenWindow()
         MonitorRect = CRect(MonitorInfo.rcMonitor);
         // Window creation
         DWORD dwStyle    = WS_POPUP | WS_VISIBLE;
-        m_fullWndSize.cx = MonitorRect.Width();
-        m_fullWndSize.cy = MonitorRect.Height();
 
         m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), dwStyle, MonitorRect.left, MonitorRect.top, MonitorRect.Width(), MonitorRect.Height(), nullptr, nullptr, nullptr);
         //SetWindowLongPtr(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST); // TODO : still freezing sometimes...
