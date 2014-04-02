@@ -2674,9 +2674,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
                 if (GetLoadState() == MLS::LOADED && s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
                     ZoomVideoWindow();
-                } else {
-                    MoveVideoWindow();
                 }
+                MoveVideoWindow();
             }
             break;
             case EC_LENGTH_CHANGED: {
@@ -14561,9 +14560,8 @@ HRESULT CMainFrame::SetChannel(int nChannel)
             if (s.fRememberZoomLevel
                     && !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED)) {
                 ZoomVideoWindow();
-            } else {
-                MoveVideoWindow();
             }
+            MoveVideoWindow();
         }
         m_fSetChannelActive = false;
     }
