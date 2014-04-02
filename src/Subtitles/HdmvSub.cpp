@@ -428,18 +428,3 @@ CHdmvSub::HDMV_PRESENTATION_SEGMENT* CHdmvSub::FindPresentationSegment(REFERENCE
 
     return nullptr;
 }
-
-CompositionObject* CHdmvSub::FindObject(HDMV_PRESENTATION_SEGMENT* pPresentationSegment, short sObjectId)
-{
-    POSITION pos = pPresentationSegment->objects.GetHeadPosition();
-
-    while (pos) {
-        CompositionObject* pObject = pPresentationSegment->objects.GetNext(pos);
-
-        if (pObject->m_object_id_ref == sObjectId) {
-            return pObject;
-        }
-    }
-
-    return nullptr;
-}
