@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -42,6 +42,9 @@ private:
 public:
     AudioStreamResampler(int bps, long orig_rate, long new_rate, bool fHighQuality);
     ~AudioStreamResampler();
+
+    AudioStreamResampler(const AudioStreamResampler&) = delete;
+    AudioStreamResampler& operator=(const AudioStreamResampler&) = delete;
 
     long Downsample(void* input, long samplesIn, void* output, long samplesOut);
 };
