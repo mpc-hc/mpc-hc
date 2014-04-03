@@ -56,7 +56,7 @@ body,
 th,
 td,
 .sectionInfo {
-    font: 0.9em Arial, Verdana, Helvetica, Sans-Serif;
+    font: 14px Arial, Verdana, Helvetica, Sans-Serif;
 }
 
 img {
@@ -65,13 +65,77 @@ img {
 }
 
 /* common */
-.align-center {
+.text-center {
     text-align: center;
 }
 
-.align-right {
+.text-right {
     text-align: right;
 }
+
+
+
+/* browser.html */
+.browser-table {
+    border-collapse: separate;
+    border-spacing: 1px;
+    padding: 1px;
+    width: 100%;
+}
+
+.browser-table,
+.browser-table th,
+.browser-table td {
+    border: 1px solid black;
+}
+
+.browser-table th {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.browser-table th:first-child {
+    width: 100%;
+}
+
+
+
+/* controls.html */
+#slider {
+    background: url(img/sliderback.png) no-repeat;
+    width: 515px;
+    height: 20px;
+}
+
+#slider img {
+    cursor: pointer;
+}
+
+#v {
+    background: url(img/vbg.png) no-repeat;
+    width: 110px;
+    height: 20px;
+    cursor: pointer;
+}
+
+#v img {
+    cursor: pointer;
+}
+
+#muted {
+    min-width: 29px;
+}
+
+.nobr {
+    white-space: nowrap;
+}
+
+form input {
+    min-width: 20px;
+    min-height: 24px;
+    vertical-align: middle;
+}
+
 
 
 /* player.html */
@@ -229,6 +293,7 @@ img {
     background: url(img/controlvolumebar.png) no-repeat;
     width: 55px;
     height: 28px;
+    cursor: pointer;
 }
 
 #seekbar {
@@ -271,49 +336,5 @@ img {
 
 #center,
 #header {
-    width: 100%;
-}
-
-#slider {
-    background: url(img/sliderback.png) no-repeat;
-    width: 515px;
-    height: 20px;
-}
-
-#v {
-    background: url(img/vbg.png) no-repeat;
-    width: 110px;
-    height: 20px;
-}
-
-#muted {
-    min-width: 24px;
-}
-
-.nobr {
-    white-space: nowrap;
-}
-
-
-/* browser.html */
-.browser-table {
-    border-collapse: separate;
-    border-spacing: 1px;
-    padding: 1px;
-    width: 100%;
-}
-
-.browser-table,
-.browser-table th,
-.browser-table td {
-    border: 1px solid black;
-}
-
-.browser-table th {
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.browser-table th:first-child {
     width: 100%;
 }
