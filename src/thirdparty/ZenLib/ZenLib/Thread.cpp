@@ -330,7 +330,7 @@ Thread::returnvalue Thread::ForceTerminate()
 bool Thread::IsRunning()
 {
     C.Enter();
-    bool ToReturn=State==State_Running;
+    bool ToReturn=State==State_Running || State==State_Terminating;
     C.Leave();
     return ToReturn;
 }
@@ -348,7 +348,7 @@ bool Thread::IsTerminating()
 bool Thread::IsExited()
 {
     C.Enter();
-    bool ToReturn=State==State_New || State==State_Terminating;
+    bool ToReturn=State==State_New || State==State_Terminated;
     C.Leave();
     return ToReturn;
 }

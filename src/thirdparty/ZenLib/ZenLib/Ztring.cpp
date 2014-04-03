@@ -1226,64 +1226,56 @@ Ztring& Ztring::Date_From_Milliseconds_1601 (const int64u Value)
 
 Ztring& Ztring::Date_From_Seconds_1601 (const int64u Value)
 {
-    if (Value>=11644473600LL) //Values <1970 are not supported
-        Date_From_Seconds_1970((int32u)(Value-11644473600LL));
-    else
-        clear(); //Not supported
+    return Date_From_Seconds_1970(((int64s)Value)-11644473600LL);
+}
 
-    return *this;
+Ztring& Ztring::Date_From_Seconds_1900 (const int32u Value)
+{
+    if (Value>2208988800)
+        return Date_From_Seconds_1970(((int64s)Value)-2208988800);
+    else
+        return Date_From_Seconds_1970(((int64s)Value)+0x100000000LL-2208988800); //Value is considering to loop e.g. NTP value
+}
+
+Ztring& Ztring::Date_From_Seconds_1900 (const int64s Value)
+{
+    return Date_From_Seconds_1970(Value-2208988800);
+}
+
+Ztring& Ztring::Date_From_Seconds_1904 (const int32u Value)
+{
+    return Date_From_Seconds_1970(((int64s)Value)-2082844800);
 }
 
 Ztring& Ztring::Date_From_Seconds_1904 (const int64u Value)
 {
-    #ifdef ZENLIB_USEWX
-        /*
-        wxDateTime Date;
-        Date.SetYear(1904);
-        Date.SetMonth(wxDateTime::Jan);
-        Date.SetDay(1);
-        Date.SetHour(0);
-        Date.SetMinute(0);
-        Date.SetSecond(0);
-        if (Value>=0x80000000)
-        {
-            //wxTimeSpan doesn't support unsigned int
-            int64u Value2=Value;
-            while (Value2>0x7FFFFFFF)
-            {
-                Date+=wxTimeSpan::Seconds(0x7FFFFFFF);
-                Value2-=0x7FFFFFFF;
-            }
-            Date+=wxTimeSpan::Seconds(Value2);
-        }
-        else
-            Date+=wxTimeSpan::Seconds(Value);
+    return Date_From_Seconds_1970(((int64s)Value)-2082844800);
+}
 
-        Ztring ToReturn=__T("UTC ");
-        ToReturn+=Date.FormatISODate();
-        ToReturn+=__T(" ");
-        ToReturn+=Date.FormatISOTime();
-
-        assign (ToReturn.c_str());
-        */ //WxDateTime is buggy???
-        if (Value>2082844800 && Value<2082844800+0x100000000LL) //Values <1970 and >2038 are not supported, 1970-01-01 00:00:00 is considered as not possible too
-            Date_From_Seconds_1970((int32u)(Value-2082844800));
-        else
-            clear(); //Not supported
-
-    #else //ZENLIB_USEWX
-        if (Value>2082844800 && Value<2082844800+0x100000000LL) //Values <1970 and >2038 are not supported, 1970-01-01 00:00:00 is considered as not possible too
-            Date_From_Seconds_1970((int32u)(Value-2082844800));
-        else
-            clear(); //Not supported
-    #endif //ZENLIB_USEWX
-    return *this;
+Ztring& Ztring::Date_From_Seconds_1904 (const int64s Value)
+{
+    return Date_From_Seconds_1970(Value-2082844800);
 }
 
 Ztring& Ztring::Date_From_Seconds_1970 (const int32u Value)
 {
+    return Date_From_Seconds_1970((int64s)Value);
+}
+
+Ztring& Ztring::Date_From_Seconds_1970 (const int32s Value)
+{
+    return Date_From_Seconds_1970((int64s)Value);
+}
+
+Ztring& Ztring::Date_From_Seconds_1970 (const int64s Value)
+{
     time_t Time=(time_t)Value;
     struct tm *Gmt=gmtime(&Time);
+    if (!Gmt)
+    {
+        clear();
+        return *this;
+    }
     Ztring DateT;
     Ztring Date=__T("UTC ");
     Date+=Ztring::ToZtring((Gmt->tm_year+1900));

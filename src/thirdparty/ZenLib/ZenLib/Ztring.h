@@ -194,10 +194,22 @@ public :
     Ztring& Date_From_Milliseconds_1601 (const int64u Milliseconds);
         /// @brief convert count of seconds since 1601 into a readable and sortable string
     Ztring& Date_From_Seconds_1601 (const int64u Seconds);
-        /// @brief convert count of seconds since 1970 into a readable and sortable string
+        /// @brief convert count of seconds since 1900 into a readable and sortable string
+    Ztring& Date_From_Seconds_1900 (const int32u Seconds);
+        /// @brief convert count of seconds since 1900 into a readable and sortable string
+    Ztring& Date_From_Seconds_1900 (const int64s Seconds);
+        /// @brief convert count of seconds since 1904 into a readable and sortable string
+    Ztring& Date_From_Seconds_1904 (const int32u Seconds);
+        /// @brief convert count of seconds since 1904 into a readable and sortable string
     Ztring& Date_From_Seconds_1904 (const int64u Seconds);
+        /// @brief convert count of seconds since 1904 into a readable and sortable string
+    Ztring& Date_From_Seconds_1904 (const int64s Seconds);
         /// @brief convert count of seconds since 1970 into a readable and sortable string
     Ztring& Date_From_Seconds_1970 (const int32u Seconds);
+        /// @brief convert count of seconds since 1970 into a readable and sortable string
+    Ztring& Date_From_Seconds_1970 (const int32s Seconds);
+        /// @brief convert count of seconds since 1970 into a readable and sortable string
+    Ztring& Date_From_Seconds_1970 (const int64s Seconds);
         /// @brief convert count of seconds since 1970 into a readable and sortable string (in local time)
     Ztring& Date_From_Seconds_1970_Local (const int32u Seconds);
         /// @brief convert a free formated string into a readable and sortable string
