@@ -1,9 +1,11 @@
 // ***************************************************************
-//  SubRenderIntf.h           version: 1.0.6  -  date: 2013-07-01
+//  SubRenderIntf.h           version: 1.0.8  -  date: 2014-03-06
 //  -------------------------------------------------------------
-//  Copyright (C) 2011-2013, BSD license
+//  Copyright (C) 2011-2014, BSD license
 // ***************************************************************
 
+// 2014-03-06 1.0.8 added ISubRenderConsumer2::Clear() interface/method
+// 2014-03-05 1.0.7 auto-loading is now the provider's own responsibility
 // 2013-07-01 1.0.6 added support for TV level subtitle transport
 // 2013-06-05 1.0.5 added support for BT.2020 matrix
 // 2012-12-04 1.0.4 changed auto-loading to supports multiple sub renderers
@@ -49,21 +51,6 @@
 //     it calls "ISubRenderConsumer.Connect()", providing the consumer with
 //     the "ISubRenderProvider" interface, which allows the consumer to
 //     configure the subtitle renderer and to fetch rendered subtitles.
-
-// ---------------------------------------------------------------------------
-// auto-loading, external subtitles
-// ---------------------------------------------------------------------------
-
-// Subtitle renderers based on this interface usually have no video input
-// pin. So if the video file has no internal subtitle tracks, the subtitle
-// renderer won't get loaded at all. Which means that it doesn't have a
-// chance to pick up external subtitle tracks.
-
-// In order to give the subtitle renderer a chance to find external subtitle
-// tracks, every consumer is required to enumerate and auto-load all subtitle
-// renderers registered in the following registry key:
-
-// HKEY_CLASSES_ROOT\Autoload.SubtitleProvider\YourSubProvName REG_SZ %GUID%
 
 // ---------------------------------------------------------------------------
 // subtitle color correction
@@ -250,7 +237,7 @@ interface ISubRenderOptions : public IUnknown
   // "supportedLevels",     int,       info,   read only,  0: PC only (default); 1: PC+TV, no preference; 2: PC+TV, PC preferred; 3: PC+TV, TV preferred
 
   // optional fields for providers:
-  // "outputLevels",        LPWSTR,    info,   read only,  are subtitles rendered/output in RGB "TV" or "PC" levels?
+  // "outputLevels",        LPWSTR,    info,   read only,  are subtitles rendered/output in RGB "PC" (default) or "TV" levels?
 };
 
 // ---------------------------------------------------------------------------
@@ -300,6 +287,16 @@ interface ISubRenderConsumer : public ISubRenderOptions
   // purposes. All properties of the "ISubRenderFrame" instance must return
   // the correct results until it is released by the consumer.
   STDMETHOD(DeliverFrame)(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame *subtitleFrame) = 0;
+};
+
+[uuid("1A1737C8-2BF8-4BEA-97EA-3AB4FA8F7AC9")]
+interface ISubRenderConsumer2 : public ISubRenderConsumer
+{
+  // Called by the subtitle renderer e.g. when the user switches to a
+  // different subtitle track. The consumer should immediately release
+  // all stored subtitle frames and request them anew from the subtitle
+  // renderer.
+  STDMETHOD(Clear)(REFERENCE_TIME clearNewerThan = 0) = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -380,6 +377,6 @@ interface ISubRenderFrame : public IUnknown
   STDMETHOD(GetBitmap)(int index, ULONGLONG *id, POINT *position, SIZE *size, LPCVOID *pixels, int *pitch) = 0;
 };
 
-// ---------------------------------------------------------------------------
+// ===========================================================================
 
 #endif // __SubtitelInterface__

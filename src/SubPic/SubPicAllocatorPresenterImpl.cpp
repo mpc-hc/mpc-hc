@@ -487,3 +487,10 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::DeliverFrame(REFERENCE_TIME start, R
 
     return hr;
 }
+
+// ISubRenderConsumer2
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::Clear(REFERENCE_TIME clearNewerThan /* = 0 */)
+{
+    return m_pSubPicQueue->Invalidate(clearNewerThan);
+}

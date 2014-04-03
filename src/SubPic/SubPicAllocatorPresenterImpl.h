@@ -31,7 +31,7 @@ class CSubPicAllocatorPresenterImpl
     : public CUnknown
     , public CCritSec
     , public ISubPicAllocatorPresenter2
-    , public ISubRenderConsumer
+    , public ISubRenderConsumer2
 {
 protected:
     HWND m_hWnd;
@@ -131,4 +131,8 @@ public:
     STDMETHODIMP Connect(ISubRenderProvider* subtitleRenderer);
     STDMETHODIMP Disconnect();
     STDMETHODIMP DeliverFrame(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame);
+
+    // ISubRenderConsumer2
+
+    STDMETHODIMP Clear(REFERENCE_TIME clearNewerThan = 0);
 };
