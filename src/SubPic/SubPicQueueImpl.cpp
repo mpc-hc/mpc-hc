@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include <algorithm>
+#include <intsafe.h>
 #include "SubPicQueueImpl.h"
 #include "../DSUtil/DSUtil.h"
 
@@ -239,7 +240,7 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISu
 
     CAutoLock cQueueLock(&m_csQueueLock);
 
-    REFERENCE_TIME rtBestStop = 0x7fffffffffffffffi64;
+    REFERENCE_TIME rtBestStop = LONGLONG_MAX;
     POSITION pos = m_Queue.GetHeadPosition();
 #if SUBPIC_TRACE_LEVEL > 2
     TRACE(_T("Find: "));
@@ -295,11 +296,11 @@ STDMETHODIMP CSubPicQueue::GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERE
     nSubPics = (int)m_Queue.GetCount();
     rtNow = m_rtNow;
     rtStart = m_rtQueueMin;
-    if (rtStart == 0x7fffffffffffffffi64) {
+    if (rtStart == LONGLONG_MAX) {
         rtStart = 0;
     }
     rtStop = m_rtQueueMax;
-    if (rtStop == 0xffffffffffffffffi64) {
+    if (rtStop == LONGLONG_ERROR) {
         rtStop = 0;
     }
 
@@ -339,13 +340,13 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
     } else {
         m_rtNowLast = rtNow;
 
-        m_rtQueueMin = 0x7fffffffffffffffi64;
-        m_rtQueueMax = 0xffffffffffffffffi64;
+        m_rtQueueMin = LONGLONG_MAX;
+        m_rtQueueMax = LONGLONG_ERROR;
 
         POSITION SavePos = 0;
         {
             POSITION Iter = m_Queue.GetHeadPosition();
-            REFERENCE_TIME rtBestStop = 0x7fffffffffffffffi64;
+            REFERENCE_TIME rtBestStop = LONGLONG_MAX;
             while (Iter) {
                 POSITION ThisPos = Iter;
                 ISubPic* pSubPic = m_Queue.GetNext(Iter);
