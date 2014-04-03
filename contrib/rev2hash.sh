@@ -1,5 +1,5 @@
 #!/bin/bash
-# (C) 2013 see Authors.txt
+# (C) 2013-2014 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -19,7 +19,6 @@
 
 OPTIND=1
 fullhash=0
-hashlength=7
 log=0
 
 show_help() {
