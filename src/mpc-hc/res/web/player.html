@@ -16,7 +16,7 @@
                             <tr>
                                 <td id="headerIcon"></td>
                                 <td id="headerBack"><div class="nobr" id="title">&nbsp;</div></td>
-                                <td id="headerClose" onclick="OnCommand(816)"></td>
+                                <td id="headerClose" onclick="onCommand(816)"></td>
                             </tr>
                         </table>
                     </td>
@@ -40,8 +40,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td id="video" onclick="OnCommand(889)">
-                                    <img src="snapshot.jpg" id="snapshot" alt="snapshot" onload="OnLoadSnapshot()" onabort="OnAbortErrorSnapshot()" onerror="OnAbortErrorSnapshot()">
+                                <td id="video" onclick="onCommand(889)">
+                                    <img src="snapshot.jpg" id="snapshot" alt="snapshot" onload="onLoadSnapshot()" onabort="onAbortErrorSnapshot()" onerror="onAbortErrorSnapshot()">
                                 </td>
                             </tr>
                             <tr>
@@ -61,16 +61,16 @@
                                 <td>
                                     <table id="controlbar">
                                         <tr>
-                                            <td id="controlbuttonplay" onclick="OnCommand(887)" title="Play"></td>
-                                            <td id="controlbuttonpause" onclick="OnCommand(888)" title="Pause"></td>
-                                            <td id="controlbuttonstop" onclick="OnCommand(890)" title="Stop"></td>
-                                            <td id="controlbuttonskipback" onclick="OnCommand(920)" title="Skip back"></td>
-                                            <td id="controlbuttondecrate" onclick="OnCommand(894)" title="Decrease speed"></td>
-                                            <td id="controlbuttonincrate" onclick="OnCommand(895)" title="Increase speed"></td>
-                                            <td id="controlbuttonskipforward" onclick="OnCommand(921)" title="Skip forward"></td>
-                                            <td id="controlbuttonstep" onclick="OnCommand(891)" title="Step"></td>
+                                            <td id="controlbuttonplay" onclick="onCommand(887)" title="Play"></td>
+                                            <td id="controlbuttonpause" onclick="onCommand(888)" title="Pause"></td>
+                                            <td id="controlbuttonstop" onclick="onCommand(890)" title="Stop"></td>
+                                            <td id="controlbuttonskipback" onclick="onCommand(920)" title="Skip back"></td>
+                                            <td id="controlbuttondecrate" onclick="onCommand(894)" title="Decrease speed"></td>
+                                            <td id="controlbuttonincrate" onclick="onCommand(895)" title="Increase speed"></td>
+                                            <td id="controlbuttonskipforward" onclick="onCommand(921)" title="Skip forward"></td>
+                                            <td id="controlbuttonstep" onclick="onCommand(891)" title="Step"></td>
                                             <td>&nbsp;</td>
-                                            <td id="controlvolumemute" onclick="OnCommand(909)" title="Mute"></td>
+                                            <td id="controlvolumemute" onclick="onCommand(909)" title="Mute"></td>
                                             <td id="controlvolumebar">
                                                 <img src="img/controlvolumegrip.png" id="controlvolumegrip" alt="control volume grip">
                                             </td>

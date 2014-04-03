@@ -1,10 +1,10 @@
 /* jshint browser:true, camelcase:true, curly:true, es3:true, eqeqeq:true,
-   immed:true, indent:4, latedef:true, newcap:false, quotmark:double,
-   strict:false, undef:true, unused:true */
+   immed:true, indent:4, latedef:true, quotmark:double, strict:true, undef:true,
+   unused:true */
 
 /* global ActiveXObject */
-/* exported controlsInit, positionUpdate, OnLoadSnapshot, OnAbortErrorSnapshot,
-   OnCommand, playerInit */
+/* exported controlsInit, positionUpdate, onLoadSnapshot, onAbortErrorSnapshot,
+   onCommand, playerInit */
 
 
 var filePath;
@@ -43,10 +43,12 @@ var httpRequestStatus;
 
 // common functions
 function getById(id) {
+    "use strict";
     return document.getElementById(id);
 }
 
 function getOffsetX(m) {
+    "use strict";
     var x = m.offsetLeft;
     while (m.offsetParent) {
         x += (m = m.offsetParent).offsetLeft;
@@ -57,6 +59,7 @@ function getOffsetX(m) {
 
 // controls.html
 function timeSyntax(ts) {
+    "use strict";
     var b = "";
     for (var a = 0; a < ts.length; a++) {
         switch (ts.charAt(a)) {
@@ -104,6 +107,7 @@ function timeSyntax(ts) {
 }
 
 function parseTime(y) {
+    "use strict";
     var ts = timeSyntax(y);
     var t = 0;
     var p1 = ts.indexOf(".");
@@ -132,6 +136,7 @@ function parseTime(y) {
 }
 
 function update(a, b) {
+    "use strict";
     if (a === -2000) {
         return false;
     }
@@ -161,6 +166,7 @@ function update(a, b) {
 }
 
 function pad(number, len) {
+    "use strict";
     var str = "" + number;
     while (str.length < len) {
         str = "0" + str;
@@ -169,6 +175,7 @@ function pad(number, len) {
 }
 
 function secondsToTS(a, b) {
+    "use strict";
     var a1 = Math.floor(a / 3600000);
     var a2 = Math.floor(a / 60000) % 60;
     var a3 = Math.floor(a / 1000) % 60;
@@ -197,6 +204,7 @@ function secondsToTS(a, b) {
 }
 
 function postForm(wmc, ext, extv) {
+    "use strict";
     getById("fwmc").value = wmc;
     getById("fextra").value = extv;
     getById("fextra").name = ext;
@@ -205,6 +213,7 @@ function postForm(wmc, ext, extv) {
 }
 
 function autoplay(a) {
+    "use strict";
     if (etaup && re.checked === true) {
         etaup = false;
         setTimeout(function () {
@@ -236,6 +245,7 @@ function autoplay(a) {
 }
 
 function sliderClick(e) {
+    "use strict";
     update((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getOffsetX(s) - Math.floor(sliderButtonWidth / 2) + sc, false);
     cpf.value = secondsToTS(curPos, 5, false);
     sas.checked = false;
@@ -243,6 +253,7 @@ function sliderClick(e) {
 }
 
 function volumeUpdate(a, b) {
+    "use strict";
     if (b) {
         if (a > 100) {
             volume = 100;
@@ -265,6 +276,7 @@ function volumeUpdate(a, b) {
 }
 
 function volSliderClick(e) {
+    "use strict";
     var ret = volumeUpdate((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getOffsetX(vs) - Math.floor(vsb / 2) + sc, false);
     return ret;
 }
@@ -279,6 +291,7 @@ if (eta === 0) {
 }
 
 function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) {
+    "use strict";
     filePath = _filePath;
     curPos = _curPos;
     len = _length;
@@ -332,6 +345,7 @@ function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, 
 }
 
 function positionUpdate() {
+    "use strict";
     if (event.keyCode < 46 || event.keyCode > 58 || event.keyCode === 47) {
         return false;
     }
@@ -344,6 +358,7 @@ function positionUpdate() {
 
 // player.html
 function getXMLHTTP() {
+    "use strict";
     try {
         return new ActiveXObject("Msxml2.XMLHTTP");
     } catch (e) {
@@ -357,7 +372,8 @@ function getXMLHTTP() {
     return null;
 }
 
-function MakeRequest(req) {
+function makeRequest(req) {
+    "use strict";
     var httpRequest = getXMLHTTP();
     try {
         httpRequest.open("GET", req, true);
@@ -365,7 +381,8 @@ function MakeRequest(req) {
     } catch (e) {}
 }
 
-function OnStatus (title, status, pos, posStr, dur, durStr, muted, volume) {
+function onStatus (title, status, pos, posStr, dur, durStr, muted, volume) {
+    "use strict";
     var maxTitle = 70;
     var timestr;
     var el;
@@ -426,12 +443,14 @@ function OnStatus (title, status, pos, posStr, dur, durStr, muted, volume) {
     }
 }
 
-function OnReadyStateChange() {
+function onReadyStateChange() {
+    "use strict";
     var statusRegExp = /OnStatus\("(.*)", "(.*)", (\d+), "(.*)", (\d+), "(.*)", (\d+), (\d+), "(.*)"\)/;
+
     if (httpRequestStatus && httpRequestStatus.readyState === 4 && httpRequestStatus.responseText) {
         if (httpRequestStatus.responseText.charAt(0) !== "<") {
             var params = statusRegExp.exec(httpRequestStatus.responseText);
-            OnStatus(params[1], params[2], parseInt(params[3], 10), params[4], parseInt(params[5], 10), params[6], parseInt(params[7], 10), parseInt(params[8], 10), params[9]);
+            onStatus(params[1], params[2], parseInt(params[3], 10), params[4], parseInt(params[5], 10), params[6], parseInt(params[7], 10), parseInt(params[8], 10), params[9]);
         } else {
             alert(httpRequestStatus.responseText);
         }
@@ -439,36 +458,42 @@ function OnReadyStateChange() {
     }
 }
 
-function StatusLoop() {
+function statusLoop() {
+    "use strict";
+
     if (!httpRequestStatus || httpRequestStatus.readyState === 0) {
         httpRequestStatus = getXMLHTTP();
         try {
             httpRequestStatus.open("GET", "status.html", true);
-            httpRequestStatus.onreadystatechange = OnReadyStateChange;
+            httpRequestStatus.onreadystatechange = onReadyStateChange;
             httpRequestStatus.send(null);
         } catch (e) {}
     }
-    setTimeout(StatusLoop, 500);
+    setTimeout(statusLoop, 500);
 }
 
 var snapshotCounter = 0;
 
-function LoadSnapshot() {
+function loadSnapshot() {
+    "use strict";
     var img = getById("snapshot");
     if (img) {
         img.src = "snapshot.jpg" + "?" + snapshotCounter++;
     }
 }
 
-function OnLoadSnapshot() {
-    setTimeout(LoadSnapshot, 5000);
+function onLoadSnapshot() {
+    "use strict";
+    setTimeout(loadSnapshot, 5000);
 }
 
-function OnAbortErrorSnapshot() {
-    setTimeout(LoadSnapshot, 10000);
+function onAbortErrorSnapshot() {
+    "use strict";
+    setTimeout(loadSnapshot, 10000);
 }
 
-function OnSeek(e) {
+function onSeek(e) {
+    "use strict";
     var left = 0;
     var right = 0;
     var percent;
@@ -496,11 +521,12 @@ function OnSeek(e) {
         } else if (percent > 100) {
             percent = 100;
         }
-        MakeRequest("command.html?wm_command=[setposcommand]&percent=" + percent);
+        makeRequest("command.html?wm_command=[setposcommand]&percent=" + percent);
     }
 }
 
-function OnVolume(e) {
+function onVolume(e) {
+    "use strict";
     var left = 0;
     var right = 0;
     var percent;
@@ -517,25 +543,27 @@ function OnVolume(e) {
         } else if (percent > 100) {
             percent = 100;
         }
-        MakeRequest("command.html?wm_command=[setvolumecommand]&volume=" + percent);
+        makeRequest("command.html?wm_command=[setvolumecommand]&volume=" + percent);
     }
 }
 
-function OnCommand(id) {
-    MakeRequest("command.html?wm_command=" + id);
+function onCommand(id) {
+    "use strict";
+    makeRequest("command.html?wm_command=" + id);
 }
 
 function playerInit() {
-    StatusLoop();
-    LoadSnapshot();
+    "use strict";
+    statusLoop();
+    loadSnapshot();
 
     var el = getById("seekbar");
     if (el) {
-        el.onclick = OnSeek;
+        el.onclick = onSeek;
     }
 
     el = getById("controlvolumebar");
     if (el) {
-        el.onclick = OnVolume;
+        el.onclick = onVolume;
     }
 }
