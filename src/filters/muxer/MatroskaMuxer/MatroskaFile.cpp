@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -835,14 +835,14 @@ HRESULT Seek::Write(IStream* pStream)
 
 SeekID::SeekID(DWORD id)
     : CID(id)
-    , m_id(0)
+    , m_cid(0)
 {
 }
 
 QWORD SeekID::Size(bool fWithHeader)
 {
     QWORD len = 0;
-    len += m_id.Size();
+    len += m_cid.Size();
     if (fWithHeader) {
         len += HeaderSize(len);
     }
@@ -852,7 +852,7 @@ QWORD SeekID::Size(bool fWithHeader)
 HRESULT SeekID::Write(IStream* pStream)
 {
     HeaderWrite(pStream);
-    m_id.Write(pStream);
+    m_cid.Write(pStream);
     return S_OK;
 }
 
