@@ -8,13 +8,13 @@
         <script src="javascript.js"></script>
     </head>
 <body onload='controlsInit("[filepath]", [position], [duration], [state], [playbackrate], [reloadtime], [volumelevel], [muted])'>
+<noscript>
+    <p>
+        <strong>JavaScript is disabled; some components may not work</strong>
+    </p>
+</noscript>
 <div>
-<span class="sectionInfo">File Info</span>
-    <noscript>
-        <span class="sectionInfo">
-            <strong>: JavaScript is disabled; some components may not work</strong>
-        </span>
-    </noscript>
+    <span>File Info</span>
     <table border="1" cellspacing="1" cellpadding="4">
         <tr>
             <td colspan="4">
@@ -49,10 +49,10 @@
 <div>
     <form action="[commandpath]" method="post">
         <input type="hidden" name="[wmcname]" value="-1">
-        <span class="sectionInfo">Goto control</span>
+        <span>Goto control</span>
         <noscript>
-            <span class="sectionInfo">
-                <strong>: (position slider disabled)</strong>
+            <span>
+                <strong>(position slider disabled)</strong>
             </span>
         </noscript>
         <table border="1" cellspacing="1" cellpadding="4">
@@ -211,7 +211,7 @@
         <tr>
             <td>Volume control
                 <noscript>
-                    :<strong> (integer between 0 &amp; 100)</strong>
+                    <strong> (integer between 0 &amp; 100)</strong>
                 </noscript>
                 <table border="1" cellspacing="1" cellpadding="4">
                     <tr>
@@ -1197,7 +1197,8 @@
     </table>
 </div>
 <br>
-<div><span class="sectionInfo">Always On Top</span>
+<div>
+    <span>Always On Top</span>
     <table border="1" cellspacing="1" cellpadding="4">
         <tr>
             <td>
