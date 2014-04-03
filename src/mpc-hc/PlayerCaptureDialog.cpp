@@ -272,11 +272,8 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 
                     if (mtCap.formattype == FORMAT_VideoInfo) {
                         VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mtCap.pbFormat;
-                        if (!vih->bmiHeader.biHeight) {
-                            vih->bmiHeader.biHeight = 1;
-                        }
                         vih->bmiHeader.biWidth = presets[j].cx;
-                        vih->bmiHeader.biHeight = presets[j].cy * (vih->bmiHeader.biHeight / vih->bmiHeader.biHeight);
+                        vih->bmiHeader.biHeight = presets[j].cy * (vih->bmiHeader.biHeight < 0 ? -1 : 1);
                         vih->bmiHeader.biSizeImage = presets[j].cx * presets[j].cy * vih->bmiHeader.biBitCount >> 3;
 
                         AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
@@ -303,11 +300,8 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                         }
                     } else if (mtCap.formattype == FORMAT_VideoInfo2) {
                         VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mtCap.pbFormat;
-                        if (!vih2->bmiHeader.biHeight) {
-                            vih2->bmiHeader.biHeight = 1;
-                        }
                         vih2->bmiHeader.biWidth = presets[j].cx;
-                        vih2->bmiHeader.biHeight = presets[j].cy * (vih2->bmiHeader.biHeight / vih2->bmiHeader.biHeight);
+                        vih2->bmiHeader.biHeight = presets[j].cy * (vih2->bmiHeader.biHeight < 0 ? -1 : 1);
                         vih2->bmiHeader.biSizeImage = presets[j].cx * presets[j].cy * vih2->bmiHeader.biBitCount >> 3;
                         vih2->dwPictAspectRatioX = 4;
                         vih2->dwPictAspectRatioY = 3;
