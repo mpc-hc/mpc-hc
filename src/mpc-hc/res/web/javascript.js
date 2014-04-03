@@ -329,6 +329,7 @@ function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, 
     if (muted === 1) {
         getById("muted").innerHTML = "M";
     }
+    vs2.title = volume;
     s.height = sb1.height = sb2.height = sb3.height = vs.height = vs1.height = vs2.height = vs3.height = 20;
     s.width = sliderSize + (sb2.width = sliderButtonWidth);
     vs.width = vss + (vs2.width = vsb);
@@ -436,6 +437,7 @@ function onStatus (title, status, pos, posStr, dur, durStr, muted, volume) {
 
     el = getById("controlvolumegrip");
     if (el) {
+        el.title = volume;
         volume = (getById("controlvolumebar").offsetWidth - el.offsetWidth) * volume / 100;
         el.style.position = "relative";
         el.style.top = "2px";
