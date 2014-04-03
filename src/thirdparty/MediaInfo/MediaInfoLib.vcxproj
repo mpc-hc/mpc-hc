@@ -197,6 +197,7 @@
     <ClInclude Include="MediaInfo\MediaInfoList_Internal.h" />
     <ClInclude Include="MediaInfo\MediaInfo_Config.h" />
     <ClInclude Include="MediaInfo\MediaInfo_Config_MediaInfo.h" />
+    <ClInclude Include="MediaInfo\MediaInfo_Config_PerPackage.h" />
     <ClInclude Include="MediaInfo\MediaInfo_Const.h" />
     <ClInclude Include="MediaInfo\MediaInfo_Events.h" />
     <ClInclude Include="MediaInfo\MediaInfo_Events_Internal.h" />
@@ -377,6 +378,7 @@
     <ClCompile Include="MediaInfo\MediaInfo_Config.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_Config_Automatic.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_Config_MediaInfo.cpp" />
+    <ClCompile Include="MediaInfo\MediaInfo_Config_PerPackage.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_File.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_Inform.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo_Internal.cpp" />

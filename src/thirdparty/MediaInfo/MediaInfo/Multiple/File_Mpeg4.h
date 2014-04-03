@@ -130,6 +130,7 @@ private :
     void moov_trak_mdia_minf_hmhd();
     void moov_trak_mdia_minf_nmhd();
     void moov_trak_mdia_minf_smhd();
+    void moov_trak_mdia_minf_sthd();
     void moov_trak_mdia_minf_vmhd();
     void moov_trak_mdia_minf_stbl();
     void moov_trak_mdia_minf_stbl_cslg();
@@ -141,6 +142,8 @@ private :
     void moov_trak_mdia_minf_stbl_stps();
     void moov_trak_mdia_minf_stbl_stsc();
     void moov_trak_mdia_minf_stbl_stsd();
+    void moov_trak_mdia_minf_stbl_stsd_stpp();
+    void moov_trak_mdia_minf_stbl_stsd_stpp_btrt() {moov_trak_mdia_minf_stbl_stsd_xxxx_btrt();}
     void moov_trak_mdia_minf_stbl_stsd_text();
     void moov_trak_mdia_minf_stbl_stsd_tmcd();
     void moov_trak_mdia_minf_stbl_stsd_tmcd_name();
@@ -348,6 +351,9 @@ private :
         timecode* TimeCode;
         stream_t                StreamKind;
         size_t                  StreamPos;
+        int32u                  hdlr_Type;
+        int32u                  hdlr_SubType;
+        int32u                  hdlr_Manufacturer;
         struct edts_struct
         {
             int32u  Duration;
@@ -426,6 +432,9 @@ private :
             TimeCode=NULL;
             StreamKind=Stream_Max;
             StreamPos=0;
+            hdlr_Type=0x00000000;
+            hdlr_SubType=0x00000000;
+            hdlr_Manufacturer=0x00000000;
             stsz_StreamSize=0;
             stsz_Sample_Size=0;
             stsz_Sample_Multiplier=1;
@@ -482,15 +491,23 @@ private :
         bool                    ReferenceFiles_IsParsing;
     #endif //MEDIAINFO_NEXTPACKET
 
+    //Hints
+    size_t* File_Buffer_Size_Hint_Pointer;
+
     //Positions
     struct mdat_Pos_Type
     {
-        int32u StreamID;
+        int64u Offset;
         int64u Size;
+        int32u StreamID;
+        int32u Reserved1;
+        int64u Reserved2;
     };
-    typedef std::map<int64u, mdat_Pos_Type> mdat_pos;
+    typedef std::vector<mdat_Pos_Type> mdat_pos;
+    static bool mdat_pos_sort (const File_Mpeg4::mdat_Pos_Type &i,const File_Mpeg4::mdat_Pos_Type &j) { return (i.Offset<j.Offset); }
     mdat_pos mdat_Pos;
-    mdat_pos::iterator mdat_Pos_Temp;
+    mdat_Pos_Type* mdat_Pos_Temp;
+    mdat_Pos_Type* mdat_Pos_Max;
     std::vector<int32u> mdat_Pos_ToParseInPriority_StreamIDs;
     bool                mdat_Pos_NormalParsing;
 

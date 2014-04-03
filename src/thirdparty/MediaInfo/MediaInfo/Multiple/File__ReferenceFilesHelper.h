@@ -49,6 +49,10 @@ public :
         {
             Ztring FileName;
             MediaInfo_Internal* MI;
+            int64u  IgnoreFramesBefore;
+            int64u  IgnoreFramesAfterDuration; //temporary value, some formats have duration instead of frame position
+            int64u  IgnoreFramesAfter;
+            float64 IgnoreFramesRate;
             #if MEDIAINFO_DEMUX
                 int64u Demux_Offset_Frame;
                 int64u Demux_Offset_DTS;
@@ -58,6 +62,10 @@ public :
             completeduration()
             {
                 MI=NULL;
+                IgnoreFramesBefore=0;
+                IgnoreFramesAfterDuration=(int64u)-1;
+                IgnoreFramesAfter=(int64u)-1;
+                IgnoreFramesRate=0;
                 #if MEDIAINFO_DEMUX
                     Demux_Offset_Frame=0;
                     Demux_Offset_DTS=0;
@@ -70,7 +78,7 @@ public :
                 delete MI;
             }
         };
-        vector<completeduration*>   CompleteDuration;
+        vector<completeduration>    CompleteDuration;
         size_t                      CompleteDuration_Pos;
         #if MEDIAINFO_FILTER
             int64u          Enabled;
@@ -101,12 +109,6 @@ public :
             #if MEDIAINFO_FILTER
                 Enabled=true;
             #endif //MEDIAINFO_FILTER
-        }
-
-        ~reference()
-        {
-            for (size_t Pos=0; Pos<CompleteDuration.size(); Pos++)
-                delete CompleteDuration[Pos]; //CompleteDuration[Pos]=NULL;
         }
     };
     typedef std::vector<reference>  references;

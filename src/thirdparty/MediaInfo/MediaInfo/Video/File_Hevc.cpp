@@ -23,6 +23,7 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Video/File_Hevc.h"
 #include <cmath>
+#include <algorithm>
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
     #include "MediaInfo/MediaInfo_Events.h"
@@ -37,6 +38,24 @@ namespace MediaInfoLib
 //***************************************************************************
 // Info
 //***************************************************************************
+
+//---------------------------------------------------------------------------
+const int8u Hevc_SubWidthC[]=
+{
+    1,
+    2,
+    2,
+    1,
+};
+
+//---------------------------------------------------------------------------
+const int8u Hevc_SubHeightC[]=
+{
+    1,
+    2,
+    1,
+    1,
+};
 
 //---------------------------------------------------------------------------
 const char* Hevc_profile_idc(int32u profile_idc)
@@ -158,6 +177,13 @@ void File_Hevc::Streams_Fill()
 //---------------------------------------------------------------------------
 void File_Hevc::Streams_Fill(std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item)
 {
+    int32u Width = (*seq_parameter_set_Item)->pic_width_in_luma_samples;
+    int32u Height= (*seq_parameter_set_Item)->pic_height_in_luma_samples;
+    int32u CropUnitX=Hevc_SubWidthC [(*seq_parameter_set_Item)->ChromaArrayType()];
+    int32u CropUnitY=Hevc_SubHeightC[(*seq_parameter_set_Item)->ChromaArrayType()];
+    Width -=((*seq_parameter_set_Item)->conf_win_left_offset+(*seq_parameter_set_Item)->conf_win_right_offset)*CropUnitX;
+    Height-=((*seq_parameter_set_Item)->conf_win_top_offset +(*seq_parameter_set_Item)->conf_win_bottom_offset)*CropUnitY;
+
     Ztring Profile;
     if ((*seq_parameter_set_Item)->profile_space==0)
     {
@@ -172,8 +198,8 @@ void File_Hevc::Streams_Fill(std::vector<seq_parameter_set_struct*>::iterator se
     }
     Fill(Stream_Video, 0, Video_Format_Profile, Profile);
     Fill(Stream_Video, 0, Video_Codec_Profile, Profile);
-    Fill(Stream_Video, StreamPos_Last, Video_Width, (*seq_parameter_set_Item)->pic_width_in_luma_samples);
-    Fill(Stream_Video, StreamPos_Last, Video_Height, (*seq_parameter_set_Item)->pic_height_in_luma_samples);
+    Fill(Stream_Video, StreamPos_Last, Video_Width, Width);
+    Fill(Stream_Video, StreamPos_Last, Video_Height, Height);
     //Fill(Stream_Video, 0, Video_PixelAspectRatio, PixelAspectRatio, 3, true);
     //Fill(Stream_Video, 0, Video_DisplayAspectRatio, Width*PixelAspectRatio/Height, 3, true); //More precise
 
@@ -181,6 +207,15 @@ void File_Hevc::Streams_Fill(std::vector<seq_parameter_set_struct*>::iterator se
     Fill(Stream_Video, 0, Video_Colorimetry, Hevc_chroma_format_idc((*seq_parameter_set_Item)->chroma_format_idc));
     if ((*seq_parameter_set_Item)->bit_depth_luma_minus8==(*seq_parameter_set_Item)->bit_depth_chroma_minus8)
         Fill(Stream_Video, 0, Video_BitDepth, (*seq_parameter_set_Item)->bit_depth_luma_minus8+8);
+
+    if ((*seq_parameter_set_Item)->vui_parameters)
+    {
+            if ((*seq_parameter_set_Item)->vui_parameters->timing_info_present_flag)
+            {
+                    if ((*seq_parameter_set_Item)->vui_parameters->time_scale && (*seq_parameter_set_Item)->vui_parameters->num_units_in_tick)
+                            Fill(Stream_Video, StreamPos_Last, Video_FrameRate, (float64)(*seq_parameter_set_Item)->vui_parameters->time_scale / (*seq_parameter_set_Item)->vui_parameters->num_units_in_tick);
+            }
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -803,6 +838,7 @@ void File_Hevc::video_parameter_set()
         delete *Data_Item; *Data_Item=new video_parameter_set_struct();
 
         //Filling from stream
+        (*Data_Item)->vps_max_sub_layers_minus1                     =vps_max_sub_layers_minus1;
         (*Data_Item)->IsSynched                                     =true;
 
         //NextCode
@@ -823,13 +859,12 @@ void File_Hevc::seq_parameter_set()
 {
     Element_Name("seq_parameter_set");
 
-    //Warning: based on a draft of the specification, it is maybe not compliant to the final specification
-
     //Parsing
-    void*   vui_parameters_Item=NULL;
+    seq_parameter_set_struct::vui_parameters_struct* vui_parameters_Item=NULL;
     int32u  sps_seq_parameter_set_id, chroma_format_idc, pic_width_in_luma_samples, pic_height_in_luma_samples, bit_depth_luma_minus8, bit_depth_chroma_minus8, log2_max_pic_order_cnt_lsb_minus4, num_short_term_ref_pic_sets;
+    int32u  conf_win_left_offset=0, conf_win_right_offset=0, conf_win_top_offset=0, conf_win_bottom_offset=0;
     int8u   sps_video_parameter_set_id, sps_max_sub_layers_minus1;
-    bool    sps_sub_layer_ordering_info_present_flag;
+    bool    separate_colour_plane_flag=false, sps_sub_layer_ordering_info_present_flag;
     BS_Begin();
     Get_S1 (4, sps_video_parameter_set_id,                      "sps_video_parameter_set_id");
     std::vector<video_parameter_set_struct*>::iterator video_parameter_set_Item;
@@ -852,14 +887,14 @@ void File_Hevc::seq_parameter_set()
         return; //Problem, not valid
     }
     if (chroma_format_idc==3)
-        Skip_SB(                                                "separate_colour_plane_flag");
+        Get_SB (separate_colour_plane_flag,                     "separate_colour_plane_flag");
     Get_UE (    pic_width_in_luma_samples,                      "pic_width_in_luma_samples");
     Get_UE (    pic_height_in_luma_samples,                     "pic_height_in_luma_samples");
-    TEST_SB_SKIP(                                               "conformance_window_flag ");
-        Skip_UE(                                                "conf_win_left_offset");
-        Skip_UE(                                                "conf_win_right_offset");
-        Skip_UE(                                                "conf_win_top_offset");
-        Skip_UE(                                                "conf_win_bottom_offset");
+    TEST_SB_SKIP(                                               "conformance_window_flag");
+        Get_UE (conf_win_left_offset,                           "conf_win_left_offset");
+        Get_UE (conf_win_right_offset,                          "conf_win_right_offset");
+        Get_UE (conf_win_top_offset,                            "conf_win_top_offset");
+        Get_UE (conf_win_bottom_offset,                         "conf_win_bottom_offset");
     TEST_SB_END();
     Get_UE (   bit_depth_luma_minus8,                           "bit_depth_luma_minus8");
     if (bit_depth_luma_minus8>6)
@@ -896,8 +931,7 @@ void File_Hevc::seq_parameter_set()
     Skip_UE(                                                    "max_transform_hierarchy_depth_intra");
     TEST_SB_SKIP(                                               "scaling_list_enabled_flag");
         TEST_SB_SKIP(                                           "sps_scaling_list_data_present_flag");
-            Trusted_IsNot("scaling_list_data not supported");
-            //scaling_list_data();
+            scaling_list_data();
         TEST_SB_END();
     TEST_SB_END();
     Skip_SB(                                                    "amp_enabled_flag");
@@ -933,7 +967,7 @@ void File_Hevc::seq_parameter_set()
     Skip_SB(                                                    "sps_temporal_mvp_enabled_flag");
     Skip_SB(                                                    "strong_intra_smoothing_enabled_flag");
     TEST_SB_SKIP(                                               "vui_parameters_present_flag");
-        vui_parameters(vui_parameters_Item);
+        vui_parameters(video_parameter_set_Item, vui_parameters_Item);
     TEST_SB_END();
     TESTELSE_SB_SKIP(                                           "sps_extension_flag");
         Skip_BS(Data_BS_Remain(),                               "sps_extension_data");
@@ -963,7 +997,12 @@ void File_Hevc::seq_parameter_set()
         (*Data_Item)->general_frame_only_constraint_flag            =general_frame_only_constraint_flag;
         (*Data_Item)->pic_width_in_luma_samples                     =pic_width_in_luma_samples;
         (*Data_Item)->pic_height_in_luma_samples                    =pic_height_in_luma_samples;
+        (*Data_Item)->conf_win_left_offset                          =conf_win_left_offset;
+        (*Data_Item)->conf_win_right_offset                         =conf_win_right_offset;
+        (*Data_Item)->conf_win_top_offset                           =conf_win_top_offset;
+        (*Data_Item)->conf_win_bottom_offset                        =conf_win_bottom_offset;
         (*Data_Item)->chroma_format_idc                             =(int8u)chroma_format_idc;
+        (*Data_Item)->separate_colour_plane_flag                    =separate_colour_plane_flag;
         (*Data_Item)->log2_max_pic_order_cnt_lsb_minus4             =(int8u)log2_max_pic_order_cnt_lsb_minus4;
         (*Data_Item)->bit_depth_luma_minus8                         =(int8u)bit_depth_luma_minus8;
         (*Data_Item)->bit_depth_chroma_minus8                       =(int8u)bit_depth_chroma_minus8;
@@ -1045,7 +1084,7 @@ void File_Hevc::pic_parameter_set()
         {
             for (int32u tile_pos=0; tile_pos<num_tile_columns_minus1; tile_pos++)
                Skip_UE(                                         "column_width_minus1");
-            for (int32u tile_pos=0; tile_pos<num_tile_columns_minus1; tile_pos++)
+            for (int32u tile_pos=0; tile_pos<num_tile_rows_minus1; tile_pos++)
                Skip_UE(                                         "row_height_minus1");
         }
         Skip_SB(                                                "loop_filter_across_tiles_enabled_flag");
@@ -1063,8 +1102,7 @@ void File_Hevc::pic_parameter_set()
         }
     TEST_SB_END();
     TEST_SB_SKIP(                                               "pps_scaling_list_data_present_flag ");
-        Trusted_IsNot("scaling_list_data not supported");
-        //scaling_list_data();
+        scaling_list_data();
     TEST_SB_END();
     Skip_SB(                                                    "lists_modification_present_flag");
     Skip_UE(                                                    "log2_parallel_merge_level_minus2");
@@ -1318,8 +1356,8 @@ void File_Hevc::profile_tier_level(int8u maxNumSubLayersMinus1)
             {
                 bool general_profile_compatibility_flag;
                 Get_SB (    general_profile_compatibility_flag, "general_profile_compatibility_flag");
-                if (!general_profile_compatibility_flag)
-                    Trusted_IsNot("general_profile_compatibility_flag not valid");
+                //if (!general_profile_compatibility_flag && !profile_space)  //found some files without this flag, ignoring the test for the moment (not really important)
+                //    Trusted_IsNot("general_profile_compatibility_flag not valid");
             }
             else
                 Skip_SB(                                        "general_profile_compatibility_flag");
@@ -1433,14 +1471,14 @@ void File_Hevc::short_term_ref_pic_sets(int8u num_short_term_ref_pic_sets)
 }
 
 //---------------------------------------------------------------------------
-void File_Hevc::vui_parameters(void* &vui_parameters_Item_)
+void File_Hevc::vui_parameters(std::vector<video_parameter_set_struct*>::iterator video_parameter_set_Item, seq_parameter_set_struct::vui_parameters_struct* &vui_parameters_Item_)
 {
     //Parsing
-    void    *NAL=NULL, *VCL=NULL;
+    seq_parameter_set_struct::vui_parameters_struct* vui_parameters_Item=new seq_parameter_set_struct::vui_parameters_struct();
     int32u  num_units_in_tick=(int32u)-1, time_scale=(int32u)-1;
     int16u  sar_width=(int16u)-1, sar_height=(int16u)-1;
     int8u   aspect_ratio_idc=0, video_format=5, colour_primaries=2, transfer_characteristics=2, matrix_coefficients=2;
-    bool    aspect_ratio_info_present_flag, video_signal_type_present_flag, colour_description_present_flag=false, timing_info_present_flag, fixed_frame_rate_flag=false, nal_hrd_parameters_present_flag, vcl_hrd_parameters_present_flag, pic_struct_present_flag;
+    bool    aspect_ratio_info_present_flag, video_signal_type_present_flag, colour_description_present_flag=false, timing_info_present_flag;
     TEST_SB_GET (aspect_ratio_info_present_flag,                "aspect_ratio_info_present_flag");
         Get_S1 (8, aspect_ratio_idc,                            "aspect_ratio_idc"); Param_Info1C((aspect_ratio_idc<Avc_PixelAspectRatio_Size), Avc_PixelAspectRatio[aspect_ratio_idc]);
         if (aspect_ratio_idc==0xFF)
@@ -1477,20 +1515,13 @@ void File_Hevc::vui_parameters(void* &vui_parameters_Item_)
     TEST_SB_GET (timing_info_present_flag,                      "timing_info_present_flag");
         Get_S4 (32, num_units_in_tick,                          "num_units_in_tick");
         Get_S4 (32, time_scale,                                 "time_scale");
-        Get_SB (    fixed_frame_rate_flag,                      "fixed_frame_rate_flag");
         TEST_SB_SKIP(                                           "vui_poc_proportional_to_timing_flag");
             Skip_UE(                                            "vui_num_ticks_poc_diff_one_minus1");
         TEST_SB_END();
+        TEST_SB_SKIP(                                           "hrd_parameters_present_flag");
+            hrd_parameters(true, (*video_parameter_set_Item)->vps_max_sub_layers_minus1, vui_parameters_Item);
+        TEST_SB_END();
     TEST_SB_END();
-    TEST_SB_GET (nal_hrd_parameters_present_flag,               "nal_hrd_parameters_present_flag");
-        hrd_parameters(NAL);
-    TEST_SB_END();
-    TEST_SB_GET (vcl_hrd_parameters_present_flag,               "vcl_hrd_parameters_present_flag");
-        hrd_parameters(VCL);
-    TEST_SB_END();
-    if (nal_hrd_parameters_present_flag || vcl_hrd_parameters_present_flag)
-        Skip_SB(                                                "low_delay_hrd_flag");
-    Get_SB (   pic_struct_present_flag,                         "pic_struct_present_flag");
     TEST_SB_SKIP(                                               "bitstream_restriction_flag");
         Skip_SB(                                                "tiles_fixed_structure_flag");
         Skip_SB(                                                "motion_vectors_over_pic_boundaries_flag");
@@ -1503,7 +1534,6 @@ void File_Hevc::vui_parameters(void* &vui_parameters_Item_)
     TEST_SB_END();
 
     FILLING_BEGIN();
-        seq_parameter_set_struct::vui_parameters_struct* vui_parameters_Item=new seq_parameter_set_struct::vui_parameters_struct();
         vui_parameters_Item_=vui_parameters_Item;
         vui_parameters_Item->aspect_ratio_info_present_flag=aspect_ratio_info_present_flag;
         if (aspect_ratio_info_present_flag)
@@ -1532,35 +1562,84 @@ void File_Hevc::vui_parameters(void* &vui_parameters_Item_)
         {
             vui_parameters_Item->num_units_in_tick=num_units_in_tick;
             vui_parameters_Item->time_scale=time_scale;
-            vui_parameters_Item->fixed_frame_rate_flag=fixed_frame_rate_flag;
         }
-        vui_parameters_Item->NAL=(seq_parameter_set_struct::vui_parameters_struct::xxl*)NAL;
-        vui_parameters_Item->VCL=(seq_parameter_set_struct::vui_parameters_struct::xxl*)VCL;
-        vui_parameters_Item->pic_struct_present_flag=pic_struct_present_flag;
     FILLING_ELSE();
-        delete (seq_parameter_set_struct::vui_parameters_struct::xxl*)NAL;
-        delete (seq_parameter_set_struct::vui_parameters_struct::xxl*)VCL;
+        delete (seq_parameter_set_struct::vui_parameters_struct*)vui_parameters_Item;
     FILLING_END();
 }
 
 //---------------------------------------------------------------------------
-void File_Hevc::hrd_parameters(void* &hrd_parameters_Item_)
+void File_Hevc::hrd_parameters(bool commonInfPresentFlag, int8u maxNumSubLayersMinus1, seq_parameter_set_struct::vui_parameters_struct* &vui_parameters_Item)
 {
     //Parsing
-    int32u cpb_cnt_minus1;
-    int8u  bit_rate_scale, cpb_size_scale, initial_cpb_removal_delay_length_minus1, cpb_removal_delay_length_minus1, dpb_output_delay_length_minus1, time_offset_length;
-    Get_UE (   cpb_cnt_minus1,                                  "cpb_cnt_minus1");
-    Get_S1 (4, bit_rate_scale,                                  "bit_rate_scale");
-    Get_S1 (4, cpb_size_scale,                                  "cpb_size_scale");
-    if (cpb_cnt_minus1>31)
+    int8u bit_rate_scale=0, cpb_size_scale=0;
+    bool nal_hrd_parameters_present_flag=false, vcl_hrd_parameters_present_flag=false, sub_pic_hrd_params_present_flag=false;
+    if (commonInfPresentFlag)
     {
-        Trusted_IsNot("cpb_cnt_minus1 too high");
-        cpb_cnt_minus1=0;
+        Get_SB (nal_hrd_parameters_present_flag,                "nal_hrd_parameters_present_flag");
+        Get_SB (vcl_hrd_parameters_present_flag,                "vcl_hrd_parameters_present_flag");
+        if (nal_hrd_parameters_present_flag || vcl_hrd_parameters_present_flag)
+        {
+            int8u  initial_cpb_removal_delay_length_minus1, cpb_removal_delay_length_minus1, dpb_output_delay_length_minus1;
+            TEST_SB_GET (sub_pic_hrd_params_present_flag,       "sub_pic_hrd_params_present_flag");
+                Skip_S1(8,                                      "tick_divisor_minus2");
+                Skip_S1(5,                                      "du_cpb_removal_delay_increment_length_minus1");
+                Skip_SB(                                        "sub_pic_cpb_params_in_pic_timing_sei_flag");
+                Skip_S1(5,                                      "dpb_output_delay_du_length_minus1");
+            TEST_SB_END();
+            Get_S1 (4, bit_rate_scale,                          "bit_rate_scale");
+            Get_S1 (4, cpb_size_scale,                          "cpb_size_scale");
+            if (sub_pic_hrd_params_present_flag)
+                Skip_S1(4,                                      "cpb_size_du_scale");
+            Get_S1 (5, initial_cpb_removal_delay_length_minus1, "initial_cpb_removal_delay_length_minus1");
+            Get_S1 (5, cpb_removal_delay_length_minus1,         "cpb_removal_delay_length_minus1");
+            Get_S1 (5, dpb_output_delay_length_minus1,          "dpb_output_delay_length_minus1");
+
+            FILLING_BEGIN();
+                vui_parameters_Item->initial_cpb_removal_delay_length_minus1                    =initial_cpb_removal_delay_length_minus1;
+                vui_parameters_Item->cpb_removal_delay_length_minus1                            =cpb_removal_delay_length_minus1;
+                vui_parameters_Item->dpb_output_delay_length_minus1                             =dpb_output_delay_length_minus1;
+            FILLING_ELSE();
+                return;
+            FILLING_END();
+        }
     }
+
+    for (int8u NumSubLayer=0; NumSubLayer<=maxNumSubLayersMinus1; NumSubLayer++)
+    {
+        int32u cpb_cnt_minus1=0;
+        bool fixed_pic_rate_general_flag, fixed_pic_rate_within_cvs_flag=false, low_delay_hrd_flag=false;
+        Get_SB (fixed_pic_rate_general_flag,                   "fixed_pic_rate_general_flag");
+        if (!fixed_pic_rate_general_flag)
+            Get_SB (fixed_pic_rate_within_cvs_flag,            "fixed_pic_rate_within_cvs_flag");
+        if (fixed_pic_rate_within_cvs_flag)
+            Skip_UE(                                           "elemental_duration_in_tc_minus1");
+        else
+            Get_SB (low_delay_hrd_flag,                        "low_delay_hrd_flag");
+        if (!low_delay_hrd_flag)
+        {
+            Get_UE (cpb_cnt_minus1,                            "cpb_cnt_minus1");
+            if (cpb_cnt_minus1>31)
+            {
+                Trusted_IsNot("cpb_cnt_minus1 too high");
+                cpb_cnt_minus1=0;
+                return;
+            }
+        }
+        if (nal_hrd_parameters_present_flag)
+            sub_layer_hrd_parameters(sub_pic_hrd_params_present_flag, bit_rate_scale, cpb_size_scale, cpb_cnt_minus1, vui_parameters_Item->NAL); //TODO: save HRD per NumSubLayer
+        if (vcl_hrd_parameters_present_flag)
+            sub_layer_hrd_parameters(sub_pic_hrd_params_present_flag, bit_rate_scale, cpb_size_scale, cpb_cnt_minus1, vui_parameters_Item->VCL); //TODO: save HRD per NumSubLayer
+    }
+}
+
+//---------------------------------------------------------------------------
+void File_Hevc::sub_layer_hrd_parameters(bool sub_pic_hrd_params_present_flag, int8u bit_rate_scale, int8u cpb_size_scale, int32u cpb_cnt_minus1, seq_parameter_set_struct::vui_parameters_struct::xxl* &hrd_parameters_Item_)
+{
+    //Parsing
     seq_parameter_set_struct::vui_parameters_struct::xxl* ToTest=new seq_parameter_set_struct::vui_parameters_struct::xxl();
-    hrd_parameters_Item_=ToTest;
     ToTest->SchedSel.resize(cpb_cnt_minus1+1);
-    for (int32u SchedSelIdx=0; SchedSelIdx<=cpb_cnt_minus1; SchedSelIdx++)
+    for (int8u SchedSelIdx=0; SchedSelIdx<=cpb_cnt_minus1; SchedSelIdx++)
     {
         Element_Begin1("ShedSel");
         int32u bit_rate_value_minus1, cpb_size_value_minus1;
@@ -1568,26 +1647,50 @@ void File_Hevc::hrd_parameters(void* &hrd_parameters_Item_)
         ToTest->SchedSel[SchedSelIdx].bit_rate_value=(int32u)((bit_rate_value_minus1+1)*pow(2.0, 6+bit_rate_scale)); Param_Info2(ToTest->SchedSel[SchedSelIdx].bit_rate_value, " bps");
         Get_UE (cpb_size_value_minus1,                          "cpb_size_value_minus1");
         ToTest->SchedSel[SchedSelIdx].cpb_size_value=(int32u)((cpb_size_value_minus1+1)*pow(2.0, 4+cpb_size_scale)); Param_Info2(ToTest->SchedSel[SchedSelIdx].cpb_size_value, " bits");
+        if (sub_pic_hrd_params_present_flag)
+        {
+            Skip_UE(                                            "cpb_size_du_value_minus1");
+            Skip_UE(                                            "bit_rate_du_value_minus1");
+        }
         Get_SB (ToTest->SchedSel[SchedSelIdx].cbr_flag,         "cbr_flag");
         Element_End0();
     }
-    Get_S1 (5, initial_cpb_removal_delay_length_minus1,         "initial_cpb_removal_delay_length_minus1");
-    Get_S1 (5, cpb_removal_delay_length_minus1,                 "cpb_removal_delay_length_minus1");
-    Get_S1 (5, dpb_output_delay_length_minus1,                  "dpb_output_delay_length_minus1");
-    Get_S1 (5, time_offset_length,                              "time_offset_length");
 
     //Validity test
-    if (!Element_IsOK() || (ToTest->SchedSel.size()==1 && ToTest->SchedSel[0].bit_rate_value==64))
-    {
-        delete ToTest; ToTest=NULL; hrd_parameters_Item_=NULL; //We do not trust this kind of data
-        return;
-    }
+    FILLING_BEGIN();
+        hrd_parameters_Item_=ToTest;
+    FILLING_ELSE();
+        delete (seq_parameter_set_struct::vui_parameters_struct::xxl*)ToTest; //We do not trust this kind of data
+    FILLING_END();
+}
 
-    //Filling
-    ToTest->initial_cpb_removal_delay_length_minus1                                 =initial_cpb_removal_delay_length_minus1;
-    ToTest->cpb_removal_delay_length_minus1                                         =cpb_removal_delay_length_minus1;
-    ToTest->dpb_output_delay_length_minus1                                          =dpb_output_delay_length_minus1;
-    ToTest->time_offset_length                                                      =time_offset_length;
+//---------------------------------------------------------------------------
+void File_Hevc::scaling_list_data()
+{
+    for(size_t sizeId=0; sizeId<4; sizeId++)
+        for(size_t matrixId=0; matrixId<((sizeId==3)?2:6); matrixId++)
+        {
+            bool scaling_list_pred_mode_flag;
+            Get_SB (scaling_list_pred_mode_flag,                "scaling_list_pred_mode_flag");
+            if(!scaling_list_pred_mode_flag)
+                Skip_UE(                                        "scaling_list_pred_matrix_id_delta");
+            else
+            {
+                //nextCoef = 8
+                size_t coefNum=std::min(64, (1<<(4+(sizeId<<1))));
+                if( sizeId > 1 )
+                {
+                    Skip_SE(                                    "scaling_list_dc_coef_minus8"); //[ sizeId ? 2 ][ matrixId ] se(v)
+                    //nextCoef = scaling_list_dc_coef_minus8[ sizeId ? 2 ][ matrixId ] + 8
+                }
+                for(size_t i=0; i<coefNum; i++)
+                {
+                    Skip_SE(                                    "scaling_list_delta_coef"); 
+                    //nextCoef = ( nextCoef + scaling_list_delta_coef + 256 ) % 256
+                    //ScalingList[ sizeId ][ matrixId ][ i ] = nextCoef
+                }
+            }
+        }
 }
 
 //***************************************************************************

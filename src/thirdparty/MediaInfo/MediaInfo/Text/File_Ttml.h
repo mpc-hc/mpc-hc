@@ -19,8 +19,11 @@
 #include "MediaInfo/File__Analyze.h"
 //---------------------------------------------------------------------------
 
-class tinyxml2::XMLDocument;
-class tinyxml2::XMLElement;
+namespace tinyxml2
+{
+    class XMLDocument;
+    class XMLElement;
+}
 
 namespace MediaInfoLib
 {

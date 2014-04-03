@@ -1696,72 +1696,47 @@ void File_Riff::AVI__hdlr_strl_strf_vids()
 
     //Filling
     Stream[Stream_ID].Compression=Compression;
-    if (((Compression&0x000000FF)>=0x00000020 && (Compression&0x000000FF)<=0x0000007E
-      && (Compression&0x0000FF00)>=0x00002000 && (Compression&0x0000FF00)<=0x00007E00
-      && (Compression&0x00FF0000)>=0x00200000 && (Compression&0x00FF0000)<=0x007E0000
-      && (Compression&0xFF000000)>=0x20000000 && (Compression&0xFF000000)<=0x7E000000)
-     ||   Compression==0x00000000
-     ||   Compression==0x01000000
-     ||   Compression==0x02000000
-     ||   Compression==0x03000000
-       ) //Sometimes this value is wrong, we have to test this
-    {
-        if (Compression==CC4("DXSB"))
-        {
-            //Divx.com hack for subtitle, this is a text stream in a DivX Format
-            Fill(Stream_General, 0, General_Format, "DivX", Unlimited, true, true);
-            Stream_Prepare(Stream_Text);
-        }
-        else
-            Stream_Prepare(Stream_Video);
 
-        //Filling
-        if (Compression==0x00000000 || Compression==0x01000000 || Compression==0x02000000 || Compression==0x03000000)
-        {
-            Ztring CodecID=__T("0x0000000")+Ztring::ToZtring(Compression>>24);
-            CodecID_Fill(CodecID, StreamKind_Last, StreamPos_Last, InfoCodecID_Format_Riff);
-            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec), CodecID); //FormatTag, may be replaced by codec parser
-            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec_CC), CodecID); //FormatTag
-        }
-        else
-        {
-            CodecID_Fill(Ztring().From_CC4(Compression), StreamKind_Last, StreamPos_Last, InfoCodecID_Format_Riff);
-            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec), Ztring().From_CC4(Compression).To_Local().c_str()); //FormatTag, may be replaced by codec parser
-            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec_CC), Ztring().From_CC4(Compression).To_Local().c_str()); //FormatTag
-        }
-        Fill(StreamKind_Last, StreamPos_Last, "Width", Width, 10, true);
-        Fill(StreamKind_Last, StreamPos_Last, "Height", Height>=0x80000000?(-Height):Height, 10, true); // AVI can use negative height for raw to signal that it's coded top-down, not bottom-up
-        if (Resolution==32 && Compression==0x74736363) //tscc
-            Fill(StreamKind_Last, StreamPos_Last, "BitDepth", 8);
-        else if (Compression==0x44495633) //DIV3
-            Fill(StreamKind_Last, StreamPos_Last, "BitDepth", 8);
-        else if (MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression)).find(__T("Canopus"))!=std::string::npos) //Canopus codecs
-            Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/3);
-         else if (Compression==0x44585342) //DXSB
-            Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution);
-        else if (MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_ColorSpace).find(__T("RGBA"))!=std::string::npos) //RGB codecs
-            Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/4);
-        else if (Compression==0x00000000 //RGB
-              || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_ColorSpace).find(__T("RGB"))!=std::string::npos) //RGB codecs
-        {
-            if (Resolution==32)
-            {
-                Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Format), "RGBA", Unlimited, true, true);
-                Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/4); //With Alpha
-            }
-            else
-                Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution<=16?8:(Resolution/3)); //indexed or normal
-        }
-        else if (Compression==0x56503632 //VP62
-              || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("H.263") //H.263
-              || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("VC-1")) //VC-1
-            Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/3);
+    if (Compression==CC4("DXSB"))
+    {
+        //Divx.com hack for subtitle, this is a text stream in a DivX Format
+        Fill(Stream_General, 0, General_Format, "DivX", Unlimited, true, true);
+        Stream_Prepare(Stream_Text);
     }
     else
-    {
-        //Some Stream headers are broken, must use AVISTREAMINFOA structure instead of AVIFILEINFOA
         Stream_Prepare(Stream_Video);
+
+    //Filling
+    CodecID_Fill(Ztring().From_CC4(Compression), StreamKind_Last, StreamPos_Last, InfoCodecID_Format_Riff);
+    Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec), Ztring().From_CC4(Compression).To_Local().c_str()); //FormatTag, may be replaced by codec parser
+    Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec_CC), Ztring().From_CC4(Compression).To_Local().c_str()); //FormatTag
+    Fill(StreamKind_Last, StreamPos_Last, "Width", Width, 10, true);
+    Fill(StreamKind_Last, StreamPos_Last, "Height", Height>=0x80000000?(-Height):Height, 10, true); // AVI can use negative height for raw to signal that it's coded top-down, not bottom-up
+    if (Resolution==32 && Compression==0x74736363) //tscc
+        Fill(StreamKind_Last, StreamPos_Last, "BitDepth", 8);
+    else if (Compression==0x44495633) //DIV3
+        Fill(StreamKind_Last, StreamPos_Last, "BitDepth", 8);
+    else if (MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression)).find(__T("Canopus"))!=std::string::npos) //Canopus codecs
+        Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/3);
+        else if (Compression==0x44585342) //DXSB
+        Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution);
+    else if (MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_ColorSpace).find(__T("RGBA"))!=std::string::npos) //RGB codecs
+        Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/4);
+    else if (Compression==0x00000000 //RGB
+            || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_ColorSpace).find(__T("RGB"))!=std::string::npos) //RGB codecs
+    {
+        if (Resolution==32)
+        {
+            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Format), "RGBA", Unlimited, true, true);
+            Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/4); //With Alpha
+        }
+        else
+            Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution<=16?8:(Resolution/3)); //indexed or normal
     }
+    else if (Compression==0x56503632 //VP62
+            || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("H.263") //H.263
+            || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("VC-1")) //VC-1
+        Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/3);
     Stream[Stream_ID].StreamKind=StreamKind_Last;
 
     //Creating the parser
@@ -2342,9 +2317,6 @@ void File_Riff::AVI__movi()
         }
     }
 
-    //Filling
-    movi_Size+=Element_TotalSize_Get();
-
     //Probing rec (with index, this is not always tested in the flow
     if (Element_Size<12)
     {
@@ -2353,6 +2325,10 @@ void File_Riff::AVI__movi()
     }
     if (CC4(Buffer+Buffer_Offset+8)==0x72656320) //"rec "
         rec__Present=true;
+
+    //Filling
+    if (!SecondPass)
+        movi_Size+=Element_TotalSize_Get();
 
     //We must parse moov?
     if (NeedOldIndex || (stream_Count==0 && Index_Pos.empty()))

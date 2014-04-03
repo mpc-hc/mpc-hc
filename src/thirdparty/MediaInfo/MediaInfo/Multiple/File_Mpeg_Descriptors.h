@@ -292,6 +292,7 @@ struct complete_stream
         bool                                        IsUpdated_Info;
         bool                                        CA_system_ID_MustSkipSlices;
         bool                                        Eia608_IsPresent;
+        bool                                        EBP_IsPresent;
         size_t                                      IsScrambled;
         int16u                                      CA_system_ID;
         int16u                                      SubStream_pid;
@@ -358,6 +359,7 @@ struct complete_stream
             CA_system_ID_MustSkipSlices=false;
             CA_system_ID=0x0000;
             Eia608_IsPresent=false;
+            EBP_IsPresent=false;
             SubStream_pid=0x0000;
             #if MEDIAINFO_IBI
                 Ibi_SynchronizationOffset_BeginOfFrame=(int64u)-1;
@@ -694,8 +696,10 @@ private :
     void Descriptor_AA();
     void Descriptor_AB() {Skip_XX(Element_Size, "Data");};
     void Descriptor_C1();
+    void Descriptor_C4() {Skip_XX(Element_Size, "Data");};
     void Descriptor_C8();
     void Descriptor_DE();
+    void Descriptor_E9();
     void Descriptor_FC();
     void Descriptor_FD();
 

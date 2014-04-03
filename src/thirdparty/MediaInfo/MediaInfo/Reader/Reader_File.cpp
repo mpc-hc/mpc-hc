@@ -45,7 +45,94 @@ using namespace std;
 namespace MediaInfoLib
 {
 
+void Reader_File_Thread::Entry()
+{
+    for (;;)
+    {
+        Base->CS.Enter();
+        if (Base->Buffer_Begin==Base->Buffer_Max)
+        {
+            Base->IsLooping=false;
+            Base->Buffer_End=Base->Buffer_End2;
+            Base->Buffer_End2=0;
+            Base->Buffer_Begin=0;
+        }
+
+        size_t ToRead;
+        size_t Buffer_ToReadOffset;
+        if (Base->IsLooping)
+        {
+            ToRead=Base->Buffer_Begin-Base->Buffer_End2;
+            Buffer_ToReadOffset=Base->Buffer_End2;
+        }
+        else
+        {
+            ToRead=Base->Buffer_Max-Base->Buffer_End;
+            Buffer_ToReadOffset=Base->Buffer_End;
+        }
+        Base->CS.Leave();
+
+        if (ToRead)
+        {
+            if (ToRead>4*1024*1024)
+                ToRead=4*1024*1024;
+            size_t BytesRead=Base->F.Read(Base->Buffer+Buffer_ToReadOffset, ToRead);
+            if (!BytesRead)
+                break;
+
+            Base->CS.Enter();
+            if (Base->IsLooping)
+            {
+                Base->Buffer_End2+=BytesRead;
+            }
+            else
+            {
+                Base->Buffer_End+=BytesRead;
+                if (Base->Buffer_End==Base->Buffer_Max)
+                {
+                    Base->IsLooping=true;
+                }
+            }
+            Base->CS.Leave();
+
+            #ifdef WINDOWS
+                SetEvent(Base->Condition_WaitingForMoreData);
+            #endif //WINDOWS
+        }
+        #ifdef WINDOWS
+            else
+                WaitForSingleObject(Base->Condition_WaitingForMorePlace, INFINITE);
+        #endif //WINDOWS
+
+        if (IsTerminating())
+            break;
+        Yield();
+    }
+}
+
 const size_t Buffer_NoJump=128*1024;
+
+//---------------------------------------------------------------------------
+Reader_File::~Reader_File()
+{
+    if (ThreadInstance)
+    {
+        ThreadInstance->RequestTerminate();
+        SetEvent(Condition_WaitingForMorePlace);
+        while (!ThreadInstance->IsExited())
+            Sleep(0);
+        #ifdef WINDOWS
+            CloseHandle(Condition_WaitingForMorePlace);
+            CloseHandle(Condition_WaitingForMoreData);
+        #endif //WINDOWS
+        delete ThreadInstance;
+
+        MI_Internal->Config.File_Buffer=NULL;
+        MI_Internal->Config.File_Buffer_Size=0;
+        MI_Internal->Config.File_Buffer_Size_Max=0;
+        delete[] Buffer;
+    }
+}
 
 //---------------------------------------------------------------------------
 size_t Reader_File::Format_Test(MediaInfo_Internal* MI, String File_Name)
@@ -53,14 +140,16 @@ size_t Reader_File::Format_Test(MediaInfo_Internal* MI, String File_Name)
     //std::cout<<Ztring(File_Name).To_Local().c_str()<<std::endl;
     #if MEDIAINFO_EVENTS
         {
+            string File_Name_Local=Ztring(File_Name).To_Local();
+            wstring File_Name_Unicode=Ztring(File_Name).To_Unicode();
             struct MediaInfo_Event_General_Start_0 Event;
             memset(&Event, 0xFF, sizeof(struct MediaInfo_Event_Generic));
             Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Start, 0);
             Event.EventSize=sizeof(struct MediaInfo_Event_General_Start_0);
             Event.StreamIDs_Size=0;
             Event.Stream_Size=File::Size_Get(File_Name);
-            Event.FileName=NULL;
-            Event.FileName_Unicode=NULL;
+            Event.FileName=File_Name_Local.c_str();
+            Event.FileName_Unicode=File_Name_Unicode.c_str();
             MI->Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
         }
     #endif //MEDIAINFO_EVENTS
@@ -117,6 +206,11 @@ size_t Reader_File::Format_Test(MediaInfo_Internal* MI, String File_Name)
 //---------------------------------------------------------------------------
 size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &File_Name)
 {
+    //Init
+    MI_Internal=MI;
+    ThreadInstance=NULL;
+    Buffer_End2=0; //Is also used for counting bytes before activating the thread
+
     //Opening the file
     F.Open(File_Name);
     if (!F.Opened_Get())
@@ -198,6 +292,21 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
 
         Status=MI->Open_Buffer_Continue(MI->Config.File_Buffer, MI->Config.File_Buffer_Size);
 
+        if (ThreadInstance && !MI->Config.File_Buffer_Repeat)
+        {
+            CS.Enter();
+            Buffer_Begin+=MI->Config.File_Buffer_Size;
+            #ifdef WINDOWS
+                if (Buffer_Begin==Buffer_Max)
+                {
+                    CS.Leave();
+                    SetEvent(Condition_WaitingForMorePlace);
+                }
+                else
+            #endif //WINDOWS
+                    CS.Leave();
+        }
+
         #if MEDIAINFO_DEMUX
             //Demux
             if (MI->Config.Demux_EventWasSent)
@@ -248,6 +357,31 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                     Reader_File_Count++;
                 #endif //MEDIAINFO_DEBUG
 
+                if (ThreadInstance)
+                {
+                    ThreadInstance->RequestTerminate();
+                    SetEvent(Condition_WaitingForMorePlace);
+                    while (!ThreadInstance->IsExited())
+                        Sleep(0);
+                    #ifdef WINDOWS
+                        CloseHandle(Condition_WaitingForMorePlace);
+                        CloseHandle(Condition_WaitingForMoreData);
+                    #endif //WINDOWS
+                    delete ThreadInstance; ThreadInstance=NULL;
+
+                    MI->Config.File_Buffer=NULL;
+                    MI->Config.File_Buffer_Size=0;
+                    MI->Config.File_Buffer_Size_Max=0;
+                    Buffer_Max=0;
+                    delete[] Buffer; Buffer=NULL;
+                    Buffer_Begin=0;
+                    Buffer_End=0;
+                    Buffer_End2=0;
+                    IsLooping=false;
+                }
+                if (Buffer_End2!=(size_t)-1)
+                    Buffer_End2=0;
+
                 int64u GoTo=Partial_Begin+MI->Open_Buffer_Continue_GoTo_Get();
                 MI->Config.File_Current_Offset=0;
                 int64u Buffer_NoJump_Temp=Buffer_NoJump;
@@ -287,10 +421,34 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                 }
             }
 
+            if (ThreadInstance==NULL && Buffer_End2!=(size_t)-1 && Buffer_End2>=16*1024*1024)
+            {
+                if (!MI->Config.File_IsGrowing && MI->Config.File_Names.size()==1)
+                {
+                    delete[] MI->Config.File_Buffer; MI->Config.File_Buffer=NULL;
+                    MI->Config.File_Buffer_Size_Max=0;
+                    Buffer_Max=64*1024*1024;
+                    Buffer=new int8u[Buffer_Max];
+                    Buffer_Begin=0;
+                    Buffer_End=0;
+                    Buffer_End2=0;
+                    IsLooping=false;
+                    #ifdef WINDOWS
+                        Condition_WaitingForMorePlace=CreateEvent(NULL, FALSE, FALSE, NULL);
+                        Condition_WaitingForMoreData=CreateEvent(NULL, FALSE, FALSE, NULL);
+                    #endif //WINDOWS
+                    ThreadInstance=new Reader_File_Thread();
+                    ThreadInstance->Base=this;
+                    ThreadInstance->Run();
+                }
+                else
+                    Buffer_End2=(size_t)-1;
+            }
+
             //Handling of hints
             if (MI->Config.File_Buffer_Size_ToRead==0)
                 break; //Problem while config
-            if (MI->Config.File_Buffer_Size_ToRead>MI->Config.File_Buffer_Size_Max)
+            if (ThreadInstance==NULL && MI->Config.File_Buffer_Size_ToRead>MI->Config.File_Buffer_Size_Max)
             {
                 delete[] MI->Config.File_Buffer;
                 if (MI->Config.File_Buffer_Size_Max==0)
@@ -301,7 +459,7 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
             }
 
             //Testing multiple file per stream
-            if (F.Position_Get()>=F.Size_Get())
+            if (ThreadInstance==NULL && F.Position_Get()>=F.Size_Get())
             {
                 if (MI->Config.File_Names_Pos<MI->Config.File_Names.size())
                 {
@@ -316,7 +474,75 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                 }
             }
 
-            MI->Config.File_Buffer_Size=F.Read(MI->Config.File_Buffer, (F.Position_Get()+MI->Config.File_Buffer_Size_ToRead<(Partial_End<=MI->Config.File_Size?Partial_End:MI->Config.File_Size))?MI->Config.File_Buffer_Size_ToRead:((size_t)((Partial_End<=MI->Config.File_Size?Partial_End:MI->Config.File_Size)-F.Position_Get())));
+            if (ThreadInstance)
+            {
+                CS.Enter();
+                #ifdef WINDOWS
+                    if (Buffer_End2+Buffer_End-Buffer_Begin<Buffer_Max/8*7)
+                    {
+                        CS.Leave();
+                        SetEvent(Condition_WaitingForMorePlace);
+                        CS.Enter();
+                    }
+                #endif //WINDOWS
+
+                for (;;)
+                {
+                    MI->Config.File_Buffer_Size=Buffer_End-Buffer_Begin;
+
+                    if (MI->Config.File_Buffer_Size)
+                        break;
+
+                    CS.Leave();
+                    #ifdef WINDOWS
+                        WaitForSingleObject(Condition_WaitingForMoreData, INFINITE);
+                    #else //WINDOWS
+                        Sleep(0);
+                    #endif //WINDOWS
+                    CS.Enter();
+                
+                    if (ThreadInstance->IsExited())
+                    {
+                        if (IsLooping)
+                        {
+                            IsLooping=false;
+                            Buffer_End=Buffer_End2;
+                            Buffer_End2=0;
+                            Buffer_Begin=0;
+                        }
+
+                        MI->Config.File_Buffer_Size=Buffer_End-Buffer_Begin;
+                        break;
+                    }
+                }
+                MI->Config.File_Buffer=Buffer+Buffer_Begin;
+                CS.Leave();
+                if (MI->Config.File_Buffer_Size>MI->Config.File_Buffer_Size_ToRead)
+                    MI->Config.File_Buffer_Size=MI->Config.File_Buffer_Size_ToRead;
+            }
+            else
+            {
+                MI->Config.File_Buffer_Size=F.Read(MI->Config.File_Buffer, (F.Position_Get()+MI->Config.File_Buffer_Size_ToRead<(Partial_End<=MI->Config.File_Size?Partial_End:MI->Config.File_Size))?MI->Config.File_Buffer_Size_ToRead:((size_t)((Partial_End<=MI->Config.File_Size?Partial_End:MI->Config.File_Size)-F.Position_Get())));
+                if (ThreadInstance==NULL && Buffer_End2!=(size_t)-1)
+                    Buffer_End2+=MI->Config.File_Buffer_Size;
+            }
+
+            /* High CPU usage
+            #if MEDIAINFO_EVENTS
+                if (MI->Config.File_Buffer_Size)
+                {
+                    struct MediaInfo_Event_Global_BytesRead_0 Event;
+                    memset(&Event, 0xFF, sizeof(struct MediaInfo_Event_Generic));
+                    Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_Global_BytesRead, 0);
+                    Event.EventSize=sizeof(struct MediaInfo_Event_Global_BytesRead_0);
+                    Event.StreamIDs_Size=0;
+                    Event.StreamOffset=F.Position_Get()-MI->Config.File_Buffer_Size;
+                    Event.Content_Size=MI->Config.File_Buffer_Size;
+                    Event.Content=MI->Config.File_Buffer;
+                    MI->Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_Global_BytesRead_0));
+                }
+            #endif //MEDIAINFO_EVENTS
+            */
 
             //Testing growing files
             int64u Growing_Temp=(int64u)-1;
@@ -380,6 +606,21 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
 
             //Parser
             Status=MI->Open_Buffer_Continue(MI->Config.File_Buffer, MI->Config.File_Buffer_Size);
+            
+            if (ThreadInstance && !MI->Config.File_Buffer_Repeat)
+            {
+                CS.Enter();
+                Buffer_Begin+=MI->Config.File_Buffer_Size;
+                #ifdef WINDOWS
+                    if (Buffer_Begin==Buffer_Max)
+                    {
+                        CS.Leave();
+                        SetEvent(Condition_WaitingForMorePlace);
+                    }
+                    else
+                #endif //WINDOWS
+                       CS.Leave();
+            }
 
             if (MI->Config.File_Buffer_Size==0)
             {
@@ -401,8 +642,33 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
     }
 
     //Deleting buffer
-    delete[] MI->Config.File_Buffer; MI->Config.File_Buffer=NULL;
-    MI->Config.File_Buffer_Size_Max=0;
+    if (ThreadInstance)
+    {
+        ThreadInstance->RequestTerminate();
+        SetEvent(Condition_WaitingForMorePlace);
+        while (!ThreadInstance->IsExited())
+            Sleep(0);
+        #ifdef WINDOWS
+            CloseHandle(Condition_WaitingForMorePlace);
+            CloseHandle(Condition_WaitingForMoreData);
+        #endif //WINDOWS
+        delete ThreadInstance; ThreadInstance=NULL;
+
+        MI->Config.File_Buffer=NULL;
+        MI->Config.File_Buffer_Size=0;
+        MI->Config.File_Buffer_Size_Max=0;
+        Buffer_Max=0;
+        delete[] Buffer; Buffer=NULL;
+        Buffer_Begin=0;
+        Buffer_End=0;
+        Buffer_End2=0;
+        IsLooping=false;
+    }
+    else
+    {
+        delete[] MI->Config.File_Buffer; MI->Config.File_Buffer=NULL;
+        MI->Config.File_Buffer_Size_Max=0;
+    }
 
     #ifdef MEDIAINFO_DEBUG
         std::cout<<std::hex<<Reader_File_Offset<<" - "<<Reader_File_Offset+Reader_File_BytesRead<<" : "<<std::dec<<Reader_File_BytesRead<<" bytes"<<std::endl;

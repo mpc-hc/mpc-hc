@@ -60,6 +60,18 @@ namespace Elements
     const int64u    Config_VbrDetection_Occurences=4;
 #endif // MEDIAINFO_ADVANCED
 
+const char* Scte128_tag (int8u tag)
+{
+    switch (tag)
+    {
+        case 0x00: return "Forbidden";
+        case 0x01: return "Used by DVB";
+        case 0x02: return "AU_Information";
+        case 0xDF: return "Registered";
+        case 0xFF: return "Reserved";
+        default  : return tag<0xE0?"Reserved":"User private";
+    }
+}
 //***************************************************************************
 // Depends of configuration
 //***************************************************************************
@@ -2374,7 +2386,7 @@ void File_MpegTs::Header_Parse_AdaptationField()
                 int8u transport_private_data_length;
                 Get_B1 (transport_private_data_length,              "transport_private_data_length");
                 if (Element_Offset+transport_private_data_length<=Element_Pos_Save+1+adaptation_field_length)
-                    Skip_XX(transport_private_data_length,          "transport_private_data");
+                    transport_private_data(transport_private_data_length);
                 else
                     Skip_XX(Element_Pos_Save+1+adaptation_field_length-Element_Offset, "problem");
             }
@@ -2448,6 +2460,9 @@ void File_MpegTs::Header_Parse_AdaptationField()
             {
                 bool discontinuity_indicator=(Buffer[Buffer_Offset+BDAV_Size+5]&0x80)!=0;
                 bool PCR_flag=(Buffer[Buffer_Offset+BDAV_Size+5]&0x10)!=0;
+                bool OPCR_flag=(Buffer[Buffer_Offset+BDAV_Size+5]&0x08)!=0;
+                bool splicing_point_flag=(Buffer[Buffer_Offset+BDAV_Size+5]&0x04)!=0;
+                bool transport_private_data_flag=(Buffer[Buffer_Offset+BDAV_Size+5]&0x02)!=0;
                 if (PCR_flag)
                 {
                     int64u program_clock_reference=(  (((int64u)Buffer[Buffer_Offset+BDAV_Size+6])<<25)
@@ -2578,6 +2593,17 @@ void File_MpegTs::Header_Parse_AdaptationField()
                                     MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
                             }
                         }
+                    }
+                }
+                if (transport_private_data_flag && adaptation_field_length>1+(PCR_flag?6:0)+(OPCR_flag?6:0)+(splicing_point_flag?1:0)+1)
+                {
+                    int8u transport_private_data_length=Buffer[Buffer_Offset+BDAV_Size+5+1+(PCR_flag?6:0)+(OPCR_flag?6:0)+(splicing_point_flag?1:0)];
+                    if (1+(PCR_flag?6:0)+(OPCR_flag?6:0)+(splicing_point_flag?1:0)+1+transport_private_data_length<=adaptation_field_length)
+                    {
+                        int64u Element_Offset_Save=Element_Offset;
+                        Element_Offset=5+1+(PCR_flag?6:0)+(OPCR_flag?6:0)+(splicing_point_flag?1:0)+1;
+                        transport_private_data(transport_private_data_length);
+                        Element_Offset=Element_Offset_Save;
                     }
                 }
             }
@@ -3063,6 +3089,126 @@ void File_MpegTs::SetAllToPES()
         #endif //MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
     }
     Complete_Stream->NoPatPmt=true;
+}
+
+//---------------------------------------------------------------------------
+void File_MpegTs::transport_private_data(int8u transport_private_data_length)
+{
+    //Trying SCTE 128
+    int64u End=Element_Offset+transport_private_data_length;
+    #if MEDIAINFO_TRACE
+        bool Trace_Activated_Save=Trace_Activated;
+        Trace_Activated=false;
+    #endif //MEDIAINFO_TRACE
+    Element_Begin1("SCTE 128 coherency test");
+    bool IsOk=true;
+    while (Element_Offset+2<=End)
+    {
+        int8u tag, length;
+        Get_B1 (tag,                                "tag");
+        Get_B1 (length,                             "length");
+        if (Element_Offset+length>End || (tag==0xDF && length<4))
+        {
+            Skip_XX(End-Element_Offset,             "problem");
+            IsOk=false;
+        }
+        else
+            Skip_XX(length,                         "data");
+    }
+    if (Element_Offset<End)
+    {
+        Skip_XX(End-Element_Offset,                 "problem");
+        IsOk=false;
+    }
+    Element_End0();
+    #if MEDIAINFO_TRACE
+        Trace_Activated=Trace_Activated_Save;
+    #endif //MEDIAINFO_TRACE
+    if (IsOk)
+    {
+        Element_Offset=End-transport_private_data_length;
+        while (Element_Offset+2<=End)
+        {
+            Element_Begin0();
+            int8u tag, length;
+            Get_B1 (tag,                                "tag"); Param_Info1(Scte128_tag(tag)); Element_Name(Scte128_tag(tag));
+            Get_B1 (length,                             "length");
+            if (tag==0xDF && length>=4)
+            {
+                int32u format_identifier;
+                Get_C4 (format_identifier,              "format identifier");
+                switch (format_identifier)
+                {
+                    case 0x45425030 : //EBP0
+                                        {
+                                            int64u End2=Element_Offset+length-4;
+                                            Element_Info1("CableLabs - Encoder Boundary Point");
+                                            BS_Begin();
+                                            bool EBP_fragment_flag, EBP_segment_flag, EBP_SAP_flag, EBP_grouping_flag, EBP_time_flag, EBP_concealment_flag, EBP_extension_flag;
+                                            Get_SB (EBP_fragment_flag,      "EBP_fragment_flag");
+                                            Get_SB (EBP_segment_flag,       "EBP_segment_flag");
+                                            Get_SB (EBP_SAP_flag,           "EBP_SAP_flag");
+                                            Get_SB (EBP_grouping_flag,      "EBP_grouping_flag");
+                                            Get_SB (EBP_time_flag,          "EBP_time_flag");
+                                            Get_SB (EBP_concealment_flag,   "EBP_concealment_flag");
+                                            Skip_SB(                        "Reserved");
+                                            Get_SB (EBP_extension_flag,     "EBP_extension_flag");
+                                            if (EBP_extension_flag)
+                                            {
+                                                Skip_SB(                    "EBP_ext_partition_flag");
+                                                Skip_S1(7,                  "reserved");
+                                            }
+                                            if (EBP_SAP_flag)
+                                            {
+                                                Skip_S1(3,                  "EBP_SAP_type");
+                                                Skip_S1(5,                  "reserved");
+                                            }
+                                            if (EBP_grouping_flag)
+                                            {
+                                                bool EBP_grouping_ext_flag=true;
+                                                while (EBP_grouping_ext_flag && Element_Offset<End2)
+                                                {
+                                                    Get_SB (EBP_grouping_ext_flag, "EBP_grouping_ext_flag");
+                                                    Skip_S1(7,              "EBP_grouping_id");
+                                                }
+                                            }
+                                            BS_End();
+                                            if (EBP_time_flag)
+                                            {
+                                                Element_Begin1("EBP_acquisition_time");
+                                                if (Complete_Stream->Streams[pid] && !Complete_Stream->Streams[pid]->EBP_IsPresent)
+                                                {
+                                                    int32u Seconds, Fraction;
+                                                    Get_B4 (Seconds, "Seconds");  Param_Info1(Ztring().Date_From_Seconds_1970((int32u)(Seconds-2208988800))); //Param_Info1(Ztring().Date_From_Seconds_1900(Seconds)); //Temp for old ZenLib
+                                                    Get_B4 (Fraction, "Fraction"); Param_Info1(Ztring::ToZtring(((float64)Fraction)/0x100000000LL, 9));
+                                                    Complete_Stream->Streams[pid]->Infos["EBP_AcquisitionTime"]=Ztring().Date_From_Seconds_1970((int32u)(Seconds-2208988800))+__T('.')+Ztring::ToZtring(((float64)Fraction)/0x100000000LL, 9).substr(2); //.Date_From_Seconds_1900(Seconds)); //Temp for old ZenLib
+                                                    Complete_Stream->Streams[pid]->EBP_IsPresent=true;
+                                                }
+                                                else
+                                                {
+                                                    Info_B4(Seconds, "Seconds"); Param_Info1(Ztring().Date_From_Seconds_1970((int32u)(Seconds-2208988800))); //Param_Info1(Ztring().Date_From_Seconds_1900(Seconds)); //Temp for old ZenLib
+                                                    Info_B4(Fraction, "Fraction"); Param_Info1(Ztring::ToZtring(((float64)Fraction)/0x100000000LL, 9));
+                                                }
+                                                Element_End0();
+                                            }
+                                            if (EBP_concealment_flag)
+                                            {
+                                                Skip_B8(                    "EBP_ext_partitions");
+                                            }
+                                            if (Element_Offset<End)
+                                                Skip_XX(End-Element_Offset, "EBP_reserved_bytes");
+                                        }
+                                        break;
+                    default         :   Skip_XX(length-4, "data");
+                }
+            }
+            else
+                Skip_XX(length,                         "data");
+            Element_End0();
+        }
+    }
+    else
+        Skip_XX(transport_private_data_length,          "transport_private_data");
 }
 
 } //NameSpace

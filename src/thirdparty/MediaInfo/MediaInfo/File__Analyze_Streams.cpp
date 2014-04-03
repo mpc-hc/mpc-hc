@@ -556,6 +556,11 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
                 Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
                 Fill(Stream_Video, StreamPos, Video_ScanOrder_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
             }
+            if (StreamKind==Stream_Video && Parameter==Video_ScanOrder_Stored)
+            {
+                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
+                Fill(Stream_Video, StreamPos, Video_ScanOrder_Stored_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
+            }
             if (StreamKind==Stream_Video && Parameter==Video_ScanOrder_Original)
             {
                 Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
@@ -862,7 +867,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
                             Language_Translated=Languages[Pos][0]; //No translation found
                         if (Languages[Pos].size()>=2)
                         {
-                            if (Languages[Pos].size()==2 && Languages[Pos][0].size()>=2 && Languages[Pos][0].size()<=3 && (Languages[Pos][1][0]&0xDF)>=__T('A') && (Languages[Pos][1][0]&0xDF)<=__T('Z') && (Languages[Pos][1][1]&0xDF)>=__T('A') && (Languages[Pos][1][1]&0xDF)<=__T('Z'))
+                            if (Languages[Pos].size()==2 && Languages[Pos][1].size()>=2 && Languages[Pos][1].size()<=3 && (Languages[Pos][1][0]&0xDF)>=__T('A') && (Languages[Pos][1][0]&0xDF)<=__T('Z') && (Languages[Pos][1][1]&0xDF)>=__T('A') && (Languages[Pos][1][1]&0xDF)<=__T('Z'))
                             {
                                 Language_Translated+=__T(" (");
                                 Language_Translated+=Ztring(Languages[Pos][1]).MakeUpperCase();
@@ -1833,21 +1838,21 @@ void File__Analyze::Tags()
     //-Movie/Album
     if (!Retrieve(Stream_General, 0, General_Title).empty() && Retrieve(Stream_General, 0, General_Movie).empty() && Retrieve(Stream_General, 0, General_Track).empty())
     {
-        if (Count_Get(Stream_Video))
+        if (Count_Get(Stream_Video) && Retrieve(Stream_General, 0, General_Collection).empty())
             Fill(Stream_General, 0, "Movie", Retrieve(Stream_General, 0, General_Title));
         else
             Fill(Stream_General, 0, "Track", Retrieve(Stream_General, 0, General_Title));
     }
     if (!Retrieve(Stream_General, 0, General_Title_More).empty() && Retrieve(Stream_General, 0, General_Movie_More).empty() && Retrieve(Stream_General, 0, General_Track_More).empty())
     {
-        if (Count_Get(Stream_Video))
+        if (Count_Get(Stream_Video) && Retrieve(Stream_General, 0, General_Collection).empty())
             Fill(Stream_General, 0, "Movie/More", Retrieve(Stream_General, 0, General_Title_More));
         else
             Fill(Stream_General, 0, "Track/More", Retrieve(Stream_General, 0, General_Title_More));
     }
     if (!Retrieve(Stream_General, 0, General_Title_Url).empty() && Retrieve(Stream_General, 0, General_Movie_Url).empty() && Retrieve(Stream_General, 0, General_Track_Url).empty())
     {
-        if (Count_Get(Stream_Video))
+        if (Count_Get(Stream_Video) && Retrieve(Stream_General, 0, General_Collection).empty())
             Fill(Stream_General, 0, "Movie/Url", Retrieve(Stream_General, 0, General_Title_Url));
         else
             Fill(Stream_General, 0, "Track/Url", Retrieve(Stream_General, 0, General_Title_Url));

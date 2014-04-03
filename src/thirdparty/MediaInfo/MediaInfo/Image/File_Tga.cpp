@@ -113,7 +113,15 @@ void File_Tga::Streams_Fill()
 //---------------------------------------------------------------------------
 bool File_Tga::FileHeader_Begin()
 {
-    //Element_Size
+    //Synchro
+    if (18>Buffer_Size)
+        return false;
+    if (Buffer[2]==0x00
+     || Buffer[16]>32) //bit depth
+    {
+        Reject();
+        return false;
+    }
     if (Buffer_Size<File_Size)
         return false; //Must wait for more data
 

@@ -113,7 +113,7 @@ bool File_Hls::FileHeader_Begin()
         return false;
     }
     Ztring LinesSeparator;
-    if (Document[LinesSeparator_Pos]==__T('\r') && Document[LinesSeparator_Pos+1]==__T('\n'))
+    if (Document[LinesSeparator_Pos]==__T('\r') && LinesSeparator_Pos+1<Document.size() && Document[LinesSeparator_Pos+1]==__T('\n'))
         LinesSeparator=__T("\r\n");
     else if (Document[LinesSeparator_Pos]==__T('\r'))
         LinesSeparator=__T("\r");

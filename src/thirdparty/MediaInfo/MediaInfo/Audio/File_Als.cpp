@@ -77,9 +77,12 @@ bool File_Als::FileHeader_Begin()
         return false;
 
     //Synchro
-    if (Buffer_Offset+4>Buffer_Size)
+    if (Buffer_Size<4)
         return false;
-    if (CC4(Buffer+Buffer_Offset)!=0x414C5300) //"ALS\0"
+    if (Buffer[0]!=0x41 //"ALS\0"
+     || Buffer[1]!=0x4C
+     || Buffer[2]!=0x53
+     || Buffer[3]!=0x00)
     {
         File__Tags_Helper::Reject("ALS");
         return false;

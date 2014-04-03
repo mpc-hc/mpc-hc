@@ -105,13 +105,19 @@ bool File_Rar::FileHeader_Begin()
     if (Buffer_Size<7)
         return false; //Must wait for more data
 
-    state=0;
-
-    if (CC7(Buffer)!=0x526172211A0700LL) //"Rar!"
+    if (Buffer[0]!=0x52 //"Rar!"
+     || Buffer[1]!=0x61
+     || Buffer[2]!=0x72
+     || Buffer[3]!=0x21
+     || Buffer[4]!=0x1A
+     || Buffer[5]!=0x07
+     || Buffer[6]!=0x00)
     {
         Reject("RAR");
         return false;
     }
+
+    state=0;
 
     //All should be OK...
     return true;

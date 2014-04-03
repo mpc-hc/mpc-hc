@@ -91,7 +91,7 @@ bool Aac_f_master_Compute_0(int8u &num_env_bands_Master, int8u* f_Master, sbr_ha
 
     int8u k2Achieved=k0+numBands*dk;
     int8s k2Diff=k2-k2Achieved;
-    int8s vDk[64];
+    int8s vDk[64] = { 0 };
     for (int8u k=0; k<numBands; k++)
         vDk[k]=dk;
 
@@ -186,7 +186,7 @@ bool Aac_f_master_Compute(int8u &num_env_bands_Master, int8u* f_Master, sbr_hand
 
     //With twoRegions
     int8u numBands1;
-    int8u vDk1[64];
+    int8u vDk1[64] = { 0 };
     int8u vk1[64];
     numBands1=2*Aac_bands_Compute(true, bands, k1, k2);
     if (numBands0+numBands1>=64)

@@ -1217,6 +1217,25 @@ void File__Analyze::Get_ISO_8859_1(int64u Bytes, Ztring &Info)
 void File__Analyze::Get_ISO_8859_2(int64u Bytes, Ztring &Info)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
+    Info.clear();
+    size_t End=Buffer_Offset+(size_t)(Element_Offset+Bytes);
+    for (size_t Pos=Buffer_Offset+(size_t)Element_Offset; Pos<End; ++Pos)
+    {
+        switch (Buffer[Pos])
+        {
+            case 0xAD : Info+=__T('\x00AD'); break;
+            case 0xF0 : Info+=__T('\x2116'); break;
+            case 0xFD : Info+=__T('\x00A7'); break;
+            default   : Info+=(Buffer[Pos]<=0xA0?0x0000:0x0360)+Buffer[Pos];
+        }
+    }
+    Element_Offset+=Bytes;
+}
+
+//---------------------------------------------------------------------------
+void File__Analyze::Get_ISO_8859_5(int64u Bytes, Ztring &Info)
+{
+    INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.From_ISO_8859_2((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes);
     Element_Offset+=Bytes;
 }

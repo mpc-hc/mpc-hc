@@ -1383,8 +1383,10 @@ void File_Mpeg_Descriptors::Data_Parse()
             ELEMENT_CASE(AA, "ATSC - Redistribution Control");
             ELEMENT_CASE(AB, "ATSC - DCC Location Code");
             ELEMENT_CASE(C1, "ARIB - Digital Copy Control");
+            ELEMENT_CASE(C4, "SMPTE - ANC"); //SMPTE ST 2038
             ELEMENT_CASE(C8, "ARIB - Video Decode Control");
             ELEMENT_CASE(DE, "ARIB - Content Availability");
+            ELEMENT_CASE(E9, "CableLabs - Encoder Boundary Point");
             ELEMENT_CASE(FC, "ARIB - Emergency Information");
             ELEMENT_CASE(FD, "ARIB - Data Component");
 
@@ -3004,6 +3006,75 @@ void File_Mpeg_Descriptors::Descriptor_DE()
 
     while (Element_Offset<Element_Size)
         Skip_B1(                                                "reserved_future_use");
+}
+
+//---------------------------------------------------------------------------
+void File_Mpeg_Descriptors::Descriptor_E9()
+{
+    //Parsing
+    int64u EBP_distance=(int64u)-1;
+    int32u ticks_per_second=1;
+    int8u num_partitions, EBP_distance_width_minus_1=0;
+    bool timescale_flag;
+    if (Element_Size==0)
+        return; // It is authorized
+    BS_Begin();
+    Get_S1 (5, num_partitions,                                  "num_partitions");
+    Get_SB (   timescale_flag,                                  "timescale_flag");
+    Skip_S1(2,                                                  "reserved");
+    if (timescale_flag)
+    {
+        Get_S3 (21, ticks_per_second,                           "ticks_per_second");
+        Get_S1 ( 3, EBP_distance_width_minus_1,                 "EBP_distance_width_minus_1");
+    }
+    for (int8u i=0; i<num_partitions; ++i)
+    {
+        Element_Begin1("partition");
+        bool EBP_data_explicit_flag, representation_id_flag;
+        Get_SB (   EBP_data_explicit_flag,                      "EBP_data_explicit_flag");
+        Get_SB (   representation_id_flag,                      "representation_id_flag");
+        Skip_S1(5,                                              "partition_id");
+        if (EBP_data_explicit_flag)
+        {
+            bool boundary_flag;
+            Get_SB (boundary_flag,                              "boundary_flag");
+            if (EBP_distance_width_minus_1<8)
+                Get_S8 (8*(EBP_distance_width_minus_1+1), EBP_distance, "EBP_distance");
+            else
+            {
+                //Not supported
+                Skip_S1(8,                                      "EBP_distance");
+                Skip_S8(64,                                     "EBP_distance");
+            }
+            if (boundary_flag)
+            {
+                Skip_S1(3,                                      "SAP_type_max");
+                Skip_S1(4,                                      "reserved");
+            }
+            else
+            {
+                Skip_S1(7,                                      "reserved");
+            }
+            Skip_SB(                                            "acquisition_time_flag");
+        }
+        else
+        {
+            Skip_SB(                                            "reserved");
+            Skip_S2(13,                                         "EBP_PID");
+            Skip_S1( 3,                                         "reserved");
+        }
+        if (representation_id_flag)
+        {
+            Skip_S8(64,                                         "representation_id");
+        }
+        Element_End0();
+
+        FILLING_BEGIN();
+            Complete_Stream->Streams[elementary_PID]->Infos["EBP_Mode"]=EBP_data_explicit_flag?__T("Explicit"):__T("Implicit");
+            if (EBP_distance!=(int64u)-1)
+                Complete_Stream->Streams[elementary_PID]->Infos["EBP_Distance"]=ticks_per_second==1?Ztring::ToZtring(EBP_distance):Ztring::ToZtring(((float64)EBP_distance)/ticks_per_second, 3);
+        FILLING_END();
+    }
 }
 
 //---------------------------------------------------------------------------

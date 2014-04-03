@@ -130,7 +130,7 @@ bool File_Aaf::FileHeader_Begin()
     }
 
     //Element_Size
-    if (Buffer_Size<File_Size)
+    if (Buffer_Size<0x18)
         return false; //Must wait for more data
 
     if (Buffer[ 0x0]!=0xD0
@@ -161,6 +161,10 @@ bool File_Aaf::FileHeader_Begin()
         Reject("Aaf");
         return false;
     }
+
+    //Element_Size
+    if (Buffer_Size<File_Size)
+        return false; //Must wait for more data
 
     //Accept the file
     Accept("Aaf");

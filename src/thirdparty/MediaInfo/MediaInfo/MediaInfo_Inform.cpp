@@ -61,7 +61,7 @@ Ztring MediaInfo_Internal::Inform()
         }
     #endif //MEDIAINFO_TRACE
 
-    if (MediaInfoLib::Config.Inform_Get()==__T("EBUCore") || MediaInfoLib::Config.Inform_Get()==__T("EBUCore_1.4"))
+    if (MediaInfoLib::Config.Inform_Get()==__T("EBUCore") || MediaInfoLib::Config.Inform_Get()==__T("EBUCore_1.5"))
         return Export_EbuCore().Transform(*this);
     if (MediaInfoLib::Config.Inform_Get()==__T("MPEG-7"))
         return Export_Mpeg7().Transform(*this);

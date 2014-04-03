@@ -36,6 +36,9 @@ public :
     File_Rm();
 
 private :
+    //Buffer - File header
+    bool FileHeader_Begin();
+
     //Buffer
     void Header_Parse();
     void Data_Parse();

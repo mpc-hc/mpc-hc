@@ -336,6 +336,12 @@ void File_Vc3::Header_Parse()
 void File_Vc3::Data_Parse()
 {
     //Parsing
+    if (Status[IsFilled])
+    {
+        Skip_XX(Element_Size,                                   "Data");
+    }
+    else
+    {
     Element_Info1(Frame_Count+1);
     HeaderPrefix();
     CodingControlA();
@@ -349,6 +355,7 @@ void File_Vc3::Data_Parse()
 
     Skip_XX(640-Element_Offset,                                 "ToDo");
     Skip_XX(Element_Size-Element_Offset,                        "Data");
+    }
 
     FILLING_BEGIN();
         Data_ToParse-=Buffer_Size-(size_t)Buffer_Offset;
@@ -364,8 +371,12 @@ void File_Vc3::Data_Parse()
         {
             FrameInfo.PTS=FrameInfo.DTS=FrameInfo.DUR=(int64u)-1;
         }
-        if (!Status[IsFinished] && Frame_Count>=Frame_Count_Valid)
-            Finish("VC-3");
+        if (!Status[IsFilled] && Frame_Count>=Frame_Count_Valid)
+        {    Fill("VC-3");
+
+            if (!IsSub && Config->ParseSpeed<1)
+                Finish("VC-1");
+        }
     FILLING_END();
 }
 

@@ -41,6 +41,7 @@
     #include "MediaInfo/Multiple/File__ReferenceFilesHelper.h"
 #endif //MEDIAINFO_REFERENCES_YES
 #include "ZenLib/Format/Http/Http_Utils.h"
+#include <algorithm>    // std::sort
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -149,6 +150,8 @@ namespace Elements
     const int64u moov_meta__xid_=0x78696420;
     const int64u moov_meta__year=0x79656172;
     const int64u moov_meta__yyrc=0x79797263;
+    const int64u moov_trak_mdia_hdlr_alis=0x616C6973;
+    const int64u moov_trak_mdia_hdlr_hint=0x68696E74;
     const int64u skip=0x736B6970;
     const int64u wide=0x77696465;
 }
@@ -263,6 +266,7 @@ void File_Mpeg4::Streams_Accept()
 
     //Configuration
     Buffer_MaximumSize=64*1024*1024; //Some big frames are possible (e.g YUV 4:2:2 10 bits 1080p)
+    File_Buffer_Size_Hint_Pointer=Config->File_Buffer_Size_Hint_Pointer_Get();
 }
 
 //---------------------------------------------------------------------------
@@ -321,6 +325,12 @@ void File_Mpeg4::Streams_Finish()
         //Preparing
         StreamKind_Last=Temp->second.StreamKind;
         StreamPos_Last=Temp->second.StreamPos;
+
+        if (StreamKind_Last==Stream_Max && Temp->second.hdlr_SubType)
+        {
+            Stream_Prepare(Stream_Other);
+            Fill(Stream_Other, StreamPos_Last, Other_Type, Ztring().From_CC4(Streams[moov_trak_tkhd_TrackID].hdlr_SubType));
+        }
 
         //if (Temp->second.stsz_StreamSize)
         //    Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_StreamSize), Temp->second.stsz_StreamSize);
@@ -555,8 +565,13 @@ void File_Mpeg4::Streams_Finish()
                     {
                         Clear(Stream_Audio, StreamPos_Last, Audio_Format_Settings_Sign);
                     }
-                    ZtringList StreamSave; StreamSave.Write((*File__Analyze::Stream)[StreamKind_Last][StreamPos_Last].Read());
-                    ZtringListList StreamMoreSave; StreamMoreSave.Write((*Stream_More)[StreamKind_Last][StreamPos_Last].Read());
+                    ZtringList StreamSave;
+                    ZtringListList StreamMoreSave; 
+                    if (StreamKind_Last!=Stream_Max)
+                    {
+                        StreamSave.Write((*File__Analyze::Stream)[StreamKind_Last][StreamPos_Last].Read());
+                        StreamMoreSave.Write((*Stream_More)[StreamKind_Last][StreamPos_Last].Read());
+                    }
 
                     //Erasing former streams data
                     stream_t NewKind=StreamKind_Last;
@@ -713,9 +728,15 @@ void File_Mpeg4::Streams_Finish()
         if (Temp->second.ScanOrder_StoredDisplayedInverted)
         {
             if (Retrieve(Stream_Video, 0, Video_ScanOrder)==__T("BFF"))
+            {
                 Fill(Stream_Video, 0, Video_ScanOrder, "TFF", Unlimited, true, true);
+                Fill(Stream_Video, 0, Video_ScanOrder_Stored, "BFF", Unlimited, true, true);
+            }
             else if (Retrieve(Stream_Video, 0, Video_ScanOrder)==__T("TFF"))
+            {
                 Fill(Stream_Video, 0, Video_ScanOrder, "BFF", Unlimited, true, true);
+                Fill(Stream_Video, 0, Video_ScanOrder_Stored, "TFF", Unlimited, true, true);
+            }
             Fill(Stream_Video, 0, Video_ScanOrder_StoredDisplayedInverted, "Yes");
         }
 
@@ -1021,12 +1042,17 @@ void File_Mpeg4::Read_Buffer_Unsynched()
     if (!IsSub && MajorBrand==0x6A703220) //"jp2 "
         return Read_Buffer_Unsynched_OneFramePerFile();
 
-    mdat_Pos_Temp=mdat_Pos.begin();
-    while (mdat_Pos_Temp!=mdat_Pos.end() && mdat_Pos_Temp->first<File_GoTo)
+    if (mdat_Pos.empty())
+    {
+        IsParsing_mdat=false;
+        return;
+    }
+    mdat_Pos_Temp=&mdat_Pos[0];
+    while (mdat_Pos_Temp!=mdat_Pos_Max && mdat_Pos_Temp->Offset<File_GoTo)
         mdat_Pos_Temp++;
-    if (mdat_Pos_Temp!=mdat_Pos.end() && mdat_Pos_Temp->first>File_GoTo)
+    if (mdat_Pos_Temp!=mdat_Pos_Max && mdat_Pos_Temp->Offset>File_GoTo)
         mdat_Pos_Temp--; //Previous frame
-    if (mdat_Pos_Temp==mdat_Pos.end())
+    if (mdat_Pos_Temp==mdat_Pos_Max)
     {
         IsParsing_mdat=false;
         return;
@@ -1042,7 +1068,7 @@ void File_Mpeg4::Read_Buffer_Unsynched()
         for (std::map<int32u, stream>::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
         {
             for (size_t Stco_Pos=0; Stco_Pos<Stream->second.stco.size(); Stco_Pos++)
-                if (Stream->second.stco[Stco_Pos]==mdat_Pos_Temp->first)
+                if (Stream->second.stco[Stco_Pos]==mdat_Pos_Temp->Offset)
                 {
                     Next_Stream=Stream;
                     #if MEDIAINFO_DEMUX
@@ -1063,8 +1089,8 @@ void File_Mpeg4::Read_Buffer_Unsynched()
         #if MEDIAINFO_SEEK && MEDIAINFO_DEMUX
             //Searching the next position for this stream
             int64u StreamOffset=(int64u)-1;
-            if (StreamOffset_Jump.empty() || File_GoTo==mdat_Pos.begin()->first)
-                StreamOffset=mdat_Pos_Temp->first;
+            if (StreamOffset_Jump.empty() || File_GoTo==mdat_Pos[0].Offset)
+                StreamOffset=mdat_Pos_Temp->Offset;
             else if (Next_Stream_Stco!=(size_t)-1)
             {
                 //Searching the right place for this stream
@@ -1339,7 +1365,7 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                                     if (stco_Pos==0) //The first Stco is considered as the last byte of previous stram
                                     {
                                         if (!mdat_Pos.empty())
-                                            Offset=mdat_Pos.begin()->first;
+                                            Offset=mdat_Pos[0].Offset;
                                     }
                                     else
                                     {
@@ -1393,12 +1419,16 @@ bool File_Mpeg4::Header_Begin()
 {
     #if MEDIAINFO_DEMUX
         //Handling of multiple frames in one block
-        if (IsParsing_mdat && Config->Demux_Unpacketize_Get() && Streams[(int32u)Element_Code].Demux_EventWasSent)
+        if (IsParsing_mdat && Config->Demux_Unpacketize_Get())
         {
-            Open_Buffer_Continue(Streams[(int32u)Element_Code].Parsers[0], Buffer+Buffer_Offset, 0);
-            if (Config->Demux_EventWasSent)
-                return false;
-            Stream->second.Demux_EventWasSent=false;
+            stream &Stream_Temp=Streams[(int32u)Element_Code];
+            if (Stream_Temp.Demux_EventWasSent)
+            {
+                Open_Buffer_Continue(Stream_Temp.Parsers[0], Buffer+Buffer_Offset, 0);
+                if (Config->Demux_EventWasSent)
+                    return false;
+                Stream_Temp.Demux_EventWasSent=false;
+            }
         }
     #endif //MEDIAINFO_DEMUX
 
@@ -1415,10 +1445,10 @@ void File_Mpeg4::Header_Parse()
     if (IsParsing_mdat)
     {
         //Positionning
-        if (mdat_Pos_Temp==mdat_Pos.end() || File_Offset+Buffer_Offset<mdat_Pos_Temp->first)
+        if (mdat_Pos_Temp==mdat_Pos_Max || File_Offset+Buffer_Offset<mdat_Pos_Temp->Offset)
         {
             Header_Fill_Code(0, "(Junk)");
-            int64u Size=mdat_Pos_Temp==mdat_Pos.end()?Element_TotalSize_Get():(mdat_Pos_Temp->first-(File_Offset+Buffer_Offset));
+            int64u Size=mdat_Pos_Temp==mdat_Pos_Max?Element_TotalSize_Get():(mdat_Pos_Temp->Offset-(File_Offset+Buffer_Offset));
             if (Size>1 && Size>=Buffer_MaximumSize/2)
                 Size=Buffer_MaximumSize;
             if (Size==Element_TotalSize_Get())
@@ -1428,28 +1458,52 @@ void File_Mpeg4::Header_Parse()
         }
 
         //Filling
-        Header_Fill_Code(mdat_Pos_Temp->second.StreamID, Ztring::ToZtring(mdat_Pos_Temp->second.StreamID));
-        Header_Fill_Size(mdat_Pos_Temp->second.Size);
-        if (Buffer_Offset+mdat_Pos_Temp->second.Size<=Buffer_Size) //Only if we will not need it later (in case of partial data, this function will be called again for the same chunk)
+        Header_Fill_Code2(mdat_Pos_Temp->StreamID, Ztring::ToZtring(mdat_Pos_Temp->StreamID));
+        Header_Fill_Size(mdat_Pos_Temp->Size);
+        if (Buffer_Offset+mdat_Pos_Temp->Size<=Buffer_Size) //Only if we will not need it later (in case of partial data, this function will be called again for the same chunk)
         {
             mdat_Pos_Temp++;
-            while (mdat_Pos_Temp!=mdat_Pos.end())
+            while (mdat_Pos_Temp!=mdat_Pos_Max)
             {
-                if (mdat_Pos_NormalParsing && !Streams[mdat_Pos_Temp->second.StreamID].IsPriorityStream)
+                if (mdat_Pos_NormalParsing && !Streams[mdat_Pos_Temp->StreamID].IsPriorityStream)
                     break;
-                if (!mdat_Pos_NormalParsing && Streams[mdat_Pos_Temp->second.StreamID].IsPriorityStream)
+                if (!mdat_Pos_NormalParsing && Streams[mdat_Pos_Temp->StreamID].IsPriorityStream)
                     break;
                 mdat_Pos_Temp++;
             }
         }
         else
             Element_WaitForMoreData();
+
+        //Hints
+        if (File_Buffer_Size_Hint_Pointer && mdat_Pos_Temp!=mdat_Pos_Max && mdat_Pos_Temp->Offset+mdat_Pos_Temp->Size>File_Offset+Buffer_Size && mdat_Pos_Temp->Offset<File_Offset+Buffer_Size+128*1024)
+        {
+            size_t Buffer_Size_Target=mdat_Pos_Temp->Offset+mdat_Pos_Temp->Size-(File_Offset+Buffer_Size);
+            if (Buffer_Size_Target<128*1024)
+                Buffer_Size_Target=128*1024;
+            (*File_Buffer_Size_Hint_Pointer)=Buffer_Size_Target;
+        }
+
         return;
     }
 
     //Parsing
     int64u Size;
     int32u Size_32, Name;
+    if (Element_Size==2)
+    {
+        int16u Size_16;
+        Peek_B2(Size_16);
+        if (!Size_16)
+        {
+            Skip_B2(                                            "Size");
+
+            //Filling
+            Header_Fill_Code(0, "Junk");
+            Header_Fill_Size(2);
+            return;
+        }
+    }
     Get_B4 (Size_32,                                            "Size");
     if (Size_32==0 && (Element_Size==4 || Element_Size==8))
     {
@@ -1503,6 +1557,20 @@ void File_Mpeg4::Header_Parse()
     //Filling
     Header_Fill_Code(Name, Ztring().From_CC4(Name));
     Header_Fill_Size(Size);
+
+    if (Name==0x6D6F6F76 && Buffer_Offset+Size>Buffer_Size-Buffer_Offset) //moov
+    {
+ 		File_Buffer_Size_Hint_Pointer=Config->File_Buffer_Size_Hint_Pointer_Get();
+        
+        //Hints
+        if (File_Buffer_Size_Hint_Pointer && Size>128*1024)
+        {
+            size_t Buffer_Size_Target=Buffer_Offset+Size-(Buffer_Size-Buffer_Offset);
+            if (Buffer_Size_Target<128*1024)
+                Buffer_Size_Target=128*1024;
+            (*File_Buffer_Size_Hint_Pointer)=Buffer_Size_Target;
+        }
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -1605,8 +1673,6 @@ bool File_Mpeg4::BookMark_Needed()
                         stco_IsDifferent=true;
                 }
 
-                size_t stsc_Pos=0;
-                size_t stsz_Pos=0;
                 size_t Chunk_FrameCount=0;
                 int32u Chunk_Number=1;
                 int32u Sample_ByteSize=0;
@@ -1616,46 +1682,60 @@ bool File_Mpeg4::BookMark_Needed()
                 #if MEDIAINFO_DEMUX
                     stream::stts_durations Temp_stts_Durations;
                 #endif //MEDIAINFO_DEMUX
-                for (size_t stco_Pos=0; stco_Pos<Temp->second.stco.size(); stco_Pos++)
+				int64u* stco_Current=Temp->second.stco.empty()?NULL:&Temp->second.stco[0];
+                int64u* stco_Max=stco_Current+Temp->second.stco.size();
+				stream::stsc_struct* stsc_Current=Temp->second.stco.empty()?NULL:&Temp->second.stsc[0];
+                stream::stsc_struct* stsc_Max=stsc_Current+Temp->second.stsc.size();
+				int64u* stsz_Current=Temp->second.stsz.empty()?NULL:&Temp->second.stsz[0];
+                int64u* stsz_Max=stsz_Current+Temp->second.stsz.size();
+                int64u MinimalOffset=(int64u)-1;
+                int64u MaximalOffset=0;
+                for (; stco_Current<stco_Max; ++stco_Current)
                 {
-                    if (Muxing[Temp->first].MinimalOffset>Temp->second.stco[stco_Pos])
-                        Muxing[Temp->first].MinimalOffset=Temp->second.stco[stco_Pos];
-                    if (Muxing[Temp->first].MaximalOffset<Temp->second.stco[stco_Pos])
-                        Muxing[Temp->first].MaximalOffset=Temp->second.stco[stco_Pos];
+                    if (MinimalOffset>*stco_Current)
+                        MinimalOffset=*stco_Current;
+                    if (MaximalOffset<*stco_Current)
+                        MaximalOffset=*stco_Current;
 
-                    while (stsc_Pos+1<Temp->second.stsc.size() && Chunk_Number>=Temp->second.stsc[stsc_Pos+1].FirstChunk)
-                        stsc_Pos++;
+                    while (stsc_Current+1<stsc_Max && Chunk_Number>=(stsc_Current+1)->FirstChunk)
+                        stsc_Current++;
 
-                    if (Temp->second.stsz_Sample_Size==0)
+                    if (Temp->second.stsz_Sample_Size==0 && stsc_Current && stsz_Current)
                     {
                         //Each sample has its own size
                         int64u Chunk_Offset=0;
-                        for (size_t Pos=0; Pos<Temp->second.stsc[stsc_Pos].SamplesPerChunk; Pos++)
-                            if (Temp->second.stsz[stsz_Pos])
+                        for (size_t Pos=0; Pos<stsc_Current->SamplesPerChunk; Pos++)
+                            if (*stsz_Current)
                             {
-                                mdat_Pos[Temp->second.stco[stco_Pos]+Chunk_Offset].StreamID=Temp->first;
-                                mdat_Pos[Temp->second.stco[stco_Pos]+Chunk_Offset].Size=Temp->second.stsz[stsz_Pos];
-                                Chunk_Offset+=Temp->second.stsz[stsz_Pos];
-                                stsz_Pos++;
-                                if (stsz_Pos>=Temp->second.stsz.size())
-                                break;
+                                mdat_Pos_Type mdat_Pos_Temp2;
+                                mdat_Pos_Temp2.Offset=*stco_Current+Chunk_Offset;
+                                mdat_Pos_Temp2.StreamID=Temp->first;
+                                mdat_Pos_Temp2.Size=*stsz_Current;
+                                mdat_Pos.push_back(mdat_Pos_Temp2);
+                                Chunk_Offset+=*stsz_Current;
+                                stsz_Current++;
+                                if (stsz_Current>=stsz_Max)
+                                    break;
                             }
-                        if (stsz_Pos>=Temp->second.stsz.size())
+                        if (stsz_Current>=stsz_Max)
                             break;
                     }
-                    else if (Temp->second.IsPcm && (!Sample_ByteSize || Temp->second.stsz_Sample_Size<=Sample_ByteSize) && Temp->second.stsc[stsc_Pos].SamplesPerChunk*Temp->second.stsz_Sample_Size*Temp->second.stsz_Sample_Multiplier<0x1000000)
+                    else if (Temp->second.IsPcm && (!Sample_ByteSize || Temp->second.stsz_Sample_Size<=Sample_ByteSize) && stsc_Current && stsc_Current->SamplesPerChunk*Temp->second.stsz_Sample_Size*Temp->second.stsz_Sample_Multiplier<0x1000000)
                     {
                         //Same size per sample, but granularity is too small
-                        mdat_Pos[Temp->second.stco[stco_Pos]].StreamID=Temp->first;
-                        mdat_Pos[Temp->second.stco[stco_Pos]].Size=Temp->second.stsc[stsc_Pos].SamplesPerChunk*Temp->second.stsz_Sample_Size*Temp->second.stsz_Sample_Multiplier;
+                        mdat_Pos_Type mdat_Pos_Temp2;
+                        mdat_Pos_Temp2.Offset=*stco_Current;
+                        mdat_Pos_Temp2.StreamID=Temp->first;
+                        mdat_Pos_Temp2.Size=stsc_Current->SamplesPerChunk*Temp->second.stsz_Sample_Size*Temp->second.stsz_Sample_Multiplier;
+                        mdat_Pos.push_back(mdat_Pos_Temp2);
 
                         #if MEDIAINFO_DEMUX
-                            if (Temp_stts_Durations.empty() || Temp->second.stsc[stsc_Pos].SamplesPerChunk!=Temp_stts_Durations[Temp_stts_Durations.size()-1].SampleDuration)
+                            if (Temp_stts_Durations.empty() || stsc_Current->SamplesPerChunk!=Temp_stts_Durations[Temp_stts_Durations.size()-1].SampleDuration)
                             {
                                 stream::stts_duration  stts_Duration;
                                 stts_Duration.Pos_Begin=Temp_stts_Durations.empty()?0:Temp_stts_Durations[Temp_stts_Durations.size()-1].Pos_End;
                                 stts_Duration.Pos_End=stts_Duration.Pos_Begin+1;
-                                stts_Duration.SampleDuration=Temp->second.stsc[stsc_Pos].SamplesPerChunk;
+                                stts_Duration.SampleDuration=stsc_Current->SamplesPerChunk;
                                 stts_Duration.DTS_Begin=Temp_stts_Durations.empty()?0:Temp_stts_Durations[Temp_stts_Durations.size()-1].DTS_End;
                                 stts_Duration.DTS_End=stts_Duration.DTS_Begin+stts_Duration.SampleDuration;
                                 Temp_stts_Durations.push_back(stts_Duration);
@@ -1668,16 +1748,20 @@ bool File_Mpeg4::BookMark_Needed()
                             }
                         #endif //MEDIAINFO_DEMUX
                     }
-                    else if (stsc_Pos<Temp->second.stsc.size())
+                    else if (stsc_Current<stsc_Max)
                     {
                         //Same size per sample
                         int64u Chunk_Offset=0;
-                        for (size_t Pos=0; Pos<Temp->second.stsc[stsc_Pos].SamplesPerChunk; Pos++)
+                        for (size_t Pos=0; Pos<stsc_Current->SamplesPerChunk; Pos++)
                             if (Temp->second.stsz_Sample_Size*Temp->second.stsz_Sample_Multiplier)
                             {
-                                mdat_Pos[Temp->second.stco[stco_Pos]+Chunk_Offset].StreamID=Temp->first;
-                                mdat_Pos[Temp->second.stco[stco_Pos]+Chunk_Offset].Size=Temp->second.stsz_Sample_Size*Temp->second.stsz_Sample_Multiplier;
-                                Chunk_Offset+=Temp->second.stsz_Sample_Size*Temp->second.stsz_Sample_Multiplier;
+                                int64u Size=Temp->second.stsz_Sample_Size*Temp->second.stsz_Sample_Multiplier;
+                                mdat_Pos_Type mdat_Pos_Temp2;
+                                mdat_Pos_Temp2.Offset=*stco_Current+Chunk_Offset;
+                                mdat_Pos_Temp2.StreamID=Temp->first;
+                                mdat_Pos_Temp2.Size=Size;
+                                mdat_Pos.push_back(mdat_Pos_Temp2);
+                                Chunk_Offset+=Size;
                                 Chunk_FrameCount++;
                             }
                         if (Chunk_FrameCount>=FrameCount_MaxPerStream)
@@ -1686,14 +1770,16 @@ bool File_Mpeg4::BookMark_Needed()
 
                     Chunk_Number++;
                 }
+                Muxing[Temp->first].MinimalOffset=MinimalOffset;
+                Muxing[Temp->first].MaximalOffset=MaximalOffset;
                 for (size_t Pos=0; Pos<Temp->second.Parsers.size(); Pos++)
                     Temp->second.Parsers[Pos]->Stream_BitRateFromContainer=Temp->second.stsz_StreamSize*8/(((float64)Temp->second.stts_Duration)/Temp->second.mdhd_TimeScale);
                 #if MEDIAINFO_DEMUX
                     if (FrameCount_MaxPerStream==(int64u)-1 && !Temp_stts_Durations.empty())
                     {
                         Temp->second.stts_Durations=Temp_stts_Durations;
-                        for (stsc_Pos=0; stsc_Pos<Temp->second.stsc.size(); stsc_Pos++)
-                            Temp->second.stsc[stsc_Pos].SamplesPerChunk=1;
+                        for (stsc_Current=&Temp->second.stsc[0]; stsc_Current<stsc_Max; ++stsc_Current)
+                            stsc_Current->SamplesPerChunk=1;
                         Temp->second.stts_FrameCount=Temp_stts_Durations[Temp_stts_Durations.size()-1].Pos_End;
                     }
                 #endif //MEDIAINFO_DEMUX
@@ -1711,7 +1797,9 @@ bool File_Mpeg4::BookMark_Needed()
                 }
             #endif //MEDIAINFO_DEMUX
         }
-        mdat_Pos_Temp=mdat_Pos.begin();
+        std::sort(mdat_Pos.begin(), mdat_Pos.end(), &mdat_pos_sort);
+		mdat_Pos_Temp=mdat_Pos.empty()?NULL:&mdat_Pos[0];
+        mdat_Pos_Max=mdat_Pos_Temp+mdat_Pos.size();
 
         #if MEDIAINFO_DEMUX
             if (!stco_IsDifferent && Muxing.size()==2)
@@ -1741,8 +1829,11 @@ bool File_Mpeg4::BookMark_Needed()
         //Hanlding StreamIDs to parse in priority (currently, only the first block of each stream is parsed in priority)
         if (!Streams[mdat_Pos_ToParseInPriority_StreamIDs[0]].stco.empty())
         {
-            mdat_pos::iterator Temp=mdat_Pos.find(Streams[mdat_Pos_ToParseInPriority_StreamIDs[0]].stco[0]);
-            if (Temp!=mdat_Pos.end() && Temp->first<File_Size) //Skipping data not in a truncated file
+            mdat_Pos_Type* Temp=&mdat_Pos[0];
+            int64u stco_ToFind=Streams[mdat_Pos_ToParseInPriority_StreamIDs[0]].stco[0];
+            while (Temp<mdat_Pos_Max && Temp->Offset!=stco_ToFind)
+                Temp++;
+            if (Temp<mdat_Pos_Max && Temp->Offset<File_Size) //Skipping data not in a truncated file
             {
                 Element_Show();
                 while (Element_Level>0)
@@ -1750,30 +1841,30 @@ bool File_Mpeg4::BookMark_Needed()
                 Element_Begin1("Priority streams");
 
                 mdat_Pos_Temp=Temp;
-                GoTo(Temp->first);
+                GoTo(Temp->Offset);
                 IsParsing_mdat=true;
             }
         }
         mdat_Pos_ToParseInPriority_StreamIDs.erase(mdat_Pos_ToParseInPriority_StreamIDs.begin());
     }
 
-    if (File_GoTo==(int64u)-1 && !mdat_Pos_NormalParsing && !mdat_Pos.empty() && mdat_Pos.begin()->first<File_Size)  //Skipping data not in a truncated file
+    if (File_GoTo==(int64u)-1 && !mdat_Pos_NormalParsing && !mdat_Pos.empty() && mdat_Pos.begin()->Offset<File_Size)  //Skipping data not in a truncated file
     {
         Element_Show();
         while (Element_Level>0)
             Element_End0();
         Element_Begin1("Second pass");
 
-        mdat_Pos_Temp=mdat_Pos.begin();
+        mdat_Pos_Temp=&mdat_Pos[0];
         #if MEDIAINFO_MD5
             if (Config->File_Md5_Get())
             {
                 GoTo(0);
-                Md5_ParseUpTo=mdat_Pos_Temp->first;
+                Md5_ParseUpTo=mdat_Pos_Temp->Offset;
             }
             else
         #endif //MEDIAINFO_MD5
-                GoTo(mdat_Pos_Temp->first);
+                GoTo(mdat_Pos_Temp->Offset);
         IsParsing_mdat=true;
         mdat_Pos_NormalParsing=true;
     }
@@ -1894,7 +1985,7 @@ File_Mpeg4::method File_Mpeg4::Metadata_Get(std::string &Parameter, int64u Meta)
         case Elements::moov_meta__tven : Parameter="Part_ID"; Method=Method_Binary; break; //TVEpisodeID
         case Elements::moov_meta__tves : Parameter="Part"; Method=Method_String; break; //TVEpisode
         case Elements::moov_meta__tvnn : Parameter="TVNetworkName"; Method=Method_String; break;
-        case Elements::moov_meta__tvsh : Parameter="Title"; Method=Method_String; break; //TVShow
+        case Elements::moov_meta__tvsh : Parameter="Collection"; Method=Method_String; break; //TVShow
         case Elements::moov_meta__tvsn : Parameter="Season"; Method=Method_String; break; //TVSeason
         case Elements::moov_meta__xid_ : Parameter="Vendor"; Method=Method_String; break;
         case Elements::moov_meta__year : Parameter="Recorded_Date"; Method=Method_String2; break;

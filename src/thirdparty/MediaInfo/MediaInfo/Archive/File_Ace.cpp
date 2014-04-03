@@ -38,7 +38,13 @@ bool File_Ace::FileHeader_Begin()
     if (Buffer_Size<7)
         return false; //Must wait for more data
 
-    if (CC7(Buffer)!=0x2A2A4143452A2ALL) //"**ACE**"
+    if (Buffer[0]!=0x2A //"**ACE**"
+     || Buffer[1]!=0x2A
+     || Buffer[2]!=0x41
+     || Buffer[3]!=0x43
+     || Buffer[4]!=0x45
+     || Buffer[5]!=0x2A
+     || Buffer[6]!=0x2A)
     {
         Reject("Ace");
         return false;

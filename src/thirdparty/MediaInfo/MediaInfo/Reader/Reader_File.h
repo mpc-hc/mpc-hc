@@ -19,6 +19,12 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Reader/Reader__Base.h"
 #include "ZenLib/File.h"
+#include "ZenLib/Thread.h"
+#include "ZenLib/CriticalSection.h"
+#ifdef WINDOWS
+    #undef __TEXT
+    #include "Windows.h"
+#endif //WINDOWS
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -28,11 +34,19 @@ namespace MediaInfoLib
 /// @brief Reader_File
 //***************************************************************************
 
+class Reader_File;
+class Reader_File_Thread : public Thread
+{
+public:
+    Reader_File* Base;
+    void Entry();
+};
+
 class Reader_File : public Reader__Base
 {
 public :
     //Constructor/Destructor
-    virtual ~Reader_File() {}
+    virtual ~Reader_File();
 
     //Format testing
     size_t Format_Test(MediaInfo_Internal* MI, String File_Name);
@@ -44,6 +58,21 @@ public :
     std::bitset<32> Status;
     int64u          Partial_Begin;
     int64u          Partial_End;
+
+    //Thread
+    Reader_File_Thread* ThreadInstance;
+    int8u* Buffer;
+    size_t Buffer_Max;
+    size_t Buffer_Begin;
+    size_t Buffer_End;
+    size_t Buffer_End2; //Is also used for counting bytes before activating the thread
+    bool   IsLooping;
+    #ifdef WINDOWS
+        HANDLE Condition_WaitingForMorePlace;
+        HANDLE Condition_WaitingForMoreData;
+    #endif //WINDOWS
+    CriticalSection CS;
+    MediaInfo_Internal* MI_Internal;
 };
 
 } //NameSpace

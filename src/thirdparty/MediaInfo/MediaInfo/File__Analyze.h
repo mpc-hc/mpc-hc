@@ -90,6 +90,7 @@ public :
         bool    Demux_IntermediateItemFound;
         size_t  Demux_Offset;
         int64u  Demux_TotalBytes;
+        File__Analyze* Demux_CurrentParser;
     #endif //MEDIAINFO_DEMUX
     Ztring  File_Name_WithoutDemux;
     bool   PTS_DTS_Needed;
@@ -212,6 +213,7 @@ protected :
     //Header - Info
     void Header_Fill_Code (int64u Code);
     void Header_Fill_Code (int64u Code, const Ztring &Name);
+    #define Header_Fill_Code2(A,B) Header_Fill_Code(A,B)
     void Header_Fill_Size (int64u Size);
 
     //***************************************************************************
@@ -656,8 +658,10 @@ public :
     //***************************************************************************
 
     void Get_Local  (int64u Bytes, Ztring      &Info, const char* Name);
+    void Get_ISO_6937_2(int64u Bytes, Ztring   &Info, const char* Name);
     void Get_ISO_8859_1(int64u Bytes, Ztring   &Info, const char* Name);
     void Get_ISO_8859_2(int64u Bytes, Ztring   &Info, const char* Name);
+    void Get_ISO_8859_5(int64u Bytes, Ztring   &Info, const char* Name);
     void Get_String (int64u Bytes, std::string &Info, const char* Name);
     void Get_UTF8   (int64u Bytes, Ztring      &Info, const char* Name);
     void Get_UTF16  (int64u Bytes, Ztring      &Info, const char* Name);
@@ -666,11 +670,13 @@ public :
     void Peek_Local (int64u Bytes, Ztring      &Info);
     void Peek_String(int64u Bytes, std::string &Info);
     void Skip_Local (int64u Bytes,                    const char* Name);
+    void Skip_ISO_6937_2(int64u Bytes,                const char* Name);
     void Skip_String(int64u Bytes,                    const char* Name);
     void Skip_UTF8  (int64u Bytes,                    const char* Name);
     void Skip_UTF16B(int64u Bytes,                    const char* Name);
     void Skip_UTF16L(int64u Bytes,                    const char* Name);
     #define Info_Local(_BYTES, _INFO, _NAME)  Ztring _INFO; Get_Local (_BYTES, _INFO, _NAME)
+    #define Info_ISO_6937_2(_BYTES, _INFO, _NAME)  Ztring _INFO; Get_ISO_6937_2 (_BYTES, _INFO, _NAME)
     #define Info_UTF8(_BYTES, _INFO, _NAME)   Ztring _INFO; Get_UTF8  (_BYTES, _INFO, _NAME)
     #define Info_UTF16B(_BYTES, _INFO, _NAME) Ztring _INFO; Get_UTF16B(_BYTES, _INFO, _NAME)
     #define Info_UTF16L(_BYTES, _INFO, _NAME) Ztring _INFO; Get_UTF16L(_BYTES, _INFO, _NAME)

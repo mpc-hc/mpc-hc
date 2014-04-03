@@ -67,10 +67,16 @@ const char* Pmp_audio_format(int32u audio_format)
 bool File_Pmp::FileHeader_Begin()
 {
     //Synchro
-    if (Buffer_Offset+4>Buffer_Size)
+    if (4>Buffer_Size)
         return false;
-    if (CC4(Buffer+Buffer_Offset)!=0x706D706D) //"pmpm"
+    if (Buffer[0]!=0x70 //"pmpm"
+     || Buffer[1]!=0x6D
+     || Buffer[2]!=0x70
+     || Buffer[3]!=0x6D)
+    {
+        Reject();
         return false;
+    }
 
     return true;
 }

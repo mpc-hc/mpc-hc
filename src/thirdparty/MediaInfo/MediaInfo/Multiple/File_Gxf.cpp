@@ -111,6 +111,7 @@ const char* Gxf_MediaTypes(int8u Type)
         case 22 : return "MPEG-1 Video"; //525 lines
         case 23 : return "MPEG-1 Video"; //625 lines
         case 24 : return "SMPTE 12M"; //HD
+        case 25 : return "DV"; //DVCPRO HD
         default : return "Unknown";
     }
 }
@@ -140,6 +141,7 @@ stream_t Gxf_MediaTypes_StreamKind(int8u Type)
         case 22 : return Stream_Video;
         case 23 : return Stream_Video;
         case 24 : return Stream_Max;
+        case 25 : return Stream_Video;
         default : return Stream_Max;
     }
 }
@@ -164,6 +166,7 @@ const char* Gxf_MediaTypes_Format(int8u Type)
         case 20 : return "MPEG Video"; //HD, Main Profile at High Level
         case 22 : return "MPEG Video"; //525 lines
         case 23 : return "MPEG Video"; //625 lines
+        case 25 : return "DV"; //DVCPRO HD
         default : return "";
     }
 }
@@ -364,6 +367,7 @@ void File_Gxf::Streams_Finish()
         if (TimeCode_FirstFrame_ms!=(int64u)-1)
         {
             Stream_Prepare(Stream_Other);
+            Fill(Stream_Other, StreamPos_Last, Other_CodecID, Streams[TimeCode->first].MediaType);
             Fill(Stream_Other, StreamPos_Last, Other_ID, TimeCode->first);
             Fill(Stream_Other, StreamPos_Last, Other_Type, "Time code");
             Fill(Stream_Other, StreamPos_Last, Other_Format, "SMPTE TC");
@@ -434,6 +438,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                     }
 
                 Merge(*Temp.Parsers[0], Stream_Video, 0, StreamPos_Last);
+                Fill(Stream_Video, StreamPos_Last, Video_CodecID, Temp.MediaType);
 
                 Ztring LawRating=Temp.Parsers[0]->Retrieve(Stream_General, 0, General_LawRating);
                 if (!LawRating.empty())
@@ -469,6 +474,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
             for (size_t Pos=0; Pos<Temp.Parsers[0]->Count_Get(Stream_Audio); Pos++)
             {
                 Stream_Prepare(Stream_Audio);
+                Fill(Stream_Audio, StreamPos_Last, Audio_CodecID, Temp.MediaType);
 
                 if (TimeCodes.empty())
                 {
@@ -555,6 +561,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                 for (size_t Parser_Other_Pos=0; Parser_Other_Pos<Parser_Other_Count; Parser_Other_Pos++)
                 {
                     Stream_Prepare(Stream_Other);
+                    Fill(Stream_Other, StreamPos_Last, Other_CodecID, Temp.MediaType);
                     Merge(*Temp.Parsers[0], Stream_Other, Parser_Other_Pos, StreamPos_Last);
                     Ztring ID=Retrieve(Stream_Other, StreamPos_Last, Other_ID);
                     Fill(Stream_Other, StreamPos_Last, Other_ID, Ztring::ToZtring(AncillaryData_StreamID)+__T("-")+ID, true);
@@ -1054,7 +1061,9 @@ void File_Gxf::map()
                         case 13 :
                         case 14 :
                         case 15 :
-                        case 16 :   //DV
+                        case 16 :   
+                        case 25 :   // was found for DVCPro HD in some files (not in SMPTE ST 360-2009, maybe it is present in a later version)
+                                    //DV
                                     {
                                         File__Analyze* Parser=new File_DvDif();
                                         Open_Buffer_Init(Parser);

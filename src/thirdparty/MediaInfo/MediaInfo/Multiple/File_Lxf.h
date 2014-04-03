@@ -43,6 +43,9 @@ protected :
     void Streams_Fill_PerStream (File__Analyze* Parser, stream_t Container_StreamKind, size_t Parser_Pos, int8u Format=(int8u)-1);
     void Streams_Finish ();
 
+    //Buffer - File header
+    bool FileHeader_Begin();
+
     //Buffer - Synchro
     bool Synchronize();
     bool Synched_Test();

@@ -116,6 +116,9 @@
     <ClInclude Include="MediaInfo\MediaInfo_Config_MediaInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\MediaInfo_Config_PerPackage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\MediaInfo_Const.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -683,6 +686,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\MediaInfo_Config_MediaInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\MediaInfo_Config_PerPackage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\MediaInfo_File.cpp">

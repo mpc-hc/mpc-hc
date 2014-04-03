@@ -844,7 +844,7 @@ int MediaInfo_Internal::ListFormats(const String &File_Name)
         delete Info; Info=new File_Flic();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
     #if defined(MEDIAINFO_H263_YES)
-        delete Info; Info=new File_H263();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
+        //delete Info; Info=new File_H263();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1; //At the end, too much sensible
     #endif
     #if defined(MEDIAINFO_MPEG4V_YES)
         delete Info; Info=new File_Mpeg4v();             if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
@@ -986,7 +986,7 @@ int MediaInfo_Internal::ListFormats(const String &File_Name)
         delete Info; Info=new File_Tiff();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
     #if defined(MEDIAINFO_TGA_YES)
-        delete Info; Info=new File_Tga();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
+        //delete Info; Info=new File_Tga();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1; //At the end, too much sensible
     #endif
 
     // Archive
@@ -1024,6 +1024,14 @@ int MediaInfo_Internal::ListFormats(const String &File_Name)
     // Other
     #if !defined(MEDIAINFO_OTHER_NO)
         delete Info; Info=new File_Other();              if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
+    #endif
+
+    //At the end, too much sensible
+    #if defined(MEDIAINFO_TGA_YES)
+        delete Info; Info=new File_Tga();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1; //At the end, too much sensible
+    #endif
+    #if defined(MEDIAINFO_H263_YES)
+        delete Info; Info=new File_H263();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
 
     // Default (empty)

@@ -199,9 +199,12 @@ bool File_Aac::FileHeader_Begin()
         return false;
 
     //Testing
-    if (Buffer_Offset+4>Buffer_Size)
+    if (Buffer_Size<4)
         return false;
-    if (CC4(Buffer+Buffer_Offset)==0x41444946) //"ADIF"
+    if (Buffer[0]==0x41 //"ADIF"
+     && Buffer[1]==0x44
+     && Buffer[2]==0x49
+     && Buffer[3]==0x46)
     {
         Mode=Mode_ADIF;
         File__Tags_Helper::Accept("ADIF");

@@ -164,7 +164,10 @@ bool File_Elf::FileHeader_Begin()
     if (Buffer_Size<4)
         return false; //Must wait for more data
 
-    if (CC4(Buffer)!=0x7F454C46) //".ELF"
+    if (Buffer[0]!=0x7F //".ELF"
+     || Buffer[1]!=0x45
+     || Buffer[2]!=0x4C
+     || Buffer[3]!=0x46)
     {
         Reject("ELF");
         return false;

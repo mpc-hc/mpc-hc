@@ -941,7 +941,8 @@ void MediaInfo_Config_DefaultLanguage (Translation &Info)
     "ScanType;Scan type\n"
     "ScanType_Original;Original scan type\n"
     "ScanOrder;Scan order\n"
-    "ScanOrder_StoredDisplayedInverted;Scan order, stored/displayed inverted\n"
+    "ScanOrder_Stored;Stored scan order\n"
+    "ScanOrder_StoredDisplayedInverted;Scan order, stored/displayed order inverted\n"
     "ScanOrder_Original;Original scan order\n"
     "ScreenplayBy;Screenplay by\n"
     "Season;Season\n"
@@ -1094,13 +1095,14 @@ void MediaInfo_Config_Format (InfoMap &Info)
     "LXF;;;M;Lxf;;lxf;video/lxf;\n"
     "Matroska;;;M;Mk;;mkv mk3d mka mks;;http://packs.matroska.org/\n"
     "MPEG-PS;;;M;MpegPs;;mpeg mpg m2p vob pss;video/MP2P;\n"
-    "MPEG-TS;;;M;MpegTs;;ts m2t m2s m4t m4s ts tp trp;video/MP2T;\n"
+    "MPEG-TS;;;M;MpegTs;;ts m2t m2s m2ts m4t m4s ts tp trp;video/MP2T;\n"
     "MPEG-4;;;M;Mpeg4;;mp4 m4v m4a m4b m4p 3gpp 3gp 3gpp2 3g2 k3g jpm jpx mqv ismv isma f4v;video/mp4;\n"
     "MTV;;;M;Other;Chinese hack of MPEG-1 layer 3;mtv;;http://en.wikipedia.org/wiki/Chinese_MP4/MTV_Player\n"
     "MXF;;;M;Mxf;;mxf;application/mxf;\n"
     "NSV;;;M;Nsv;Nullsoft Streaming Video;nsv;;http://winamp.com\n"
     "Ogg;;;M;Ogg;;ogg ogm opus;video/ogg;http://www.free-codecs.com/Ogg_DirectShow_Filters_download.htm\n"
     "PMP;;;M;Pmp;Playstation Portable;pmp;;\n"
+    "PTX;;;M;Ptx;;ptx;;\n"
     "QuickTime;;;M;Mpeg4;Original Apple specifications;mov qt;video/quicktime;http://www.apple.com/quicktime/download/standalone.html\n"
     "RealMedia;;;M;Rm;;rm rmvb ra;application/vnd.rn-realmedia;\n"
     "RIFF-MMP;;;M;Riff;RIFF Multimedia Movie;;;\n"
@@ -1512,9 +1514,10 @@ void MediaInfo_Config_CodecID_Video_Riff (InfoMap &Info)
     Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "0x00000000;RGB;;Basic Windows bitmap format. 1, 4 and 8 bpp versions are palettised. 16, 24 and 32bpp contain raw RGB samples;http://www.fourcc.org/indexrgb.htm;;;;\n"
-    "0x00000001;RLE;;Run length encoded 8bpp RGB image;http://www.fourcc.org/indexrgb.htm;;;;\n"
-    "0x00000002;RLE;;Run length encoded 4bpp RGB image;http://www.fourcc.org/indexrgb.htm;;;;\n"
-    "0x00000003;RGB;;Raw RGB with arbitrary sample packing within a pixel. Packing and precision of R, G and B components is determined by bit masks for each;http://www.fourcc.org/indexrgb.htm;;;;\n"
+    "0x01000000;RLE;;Run length encoded 8bpp RGB image;http://www.fourcc.org/indexrgb.htm;;;;\n"
+    "0x02000010;MPEG Video;;;;;;YUV;4:2:0\n"
+    "0x02000000;RLE;;Run length encoded 4bpp RGB image;http://www.fourcc.org/indexrgb.htm;;;;\n"
+    "0x03000000;RGB;;Raw RGB with arbitrary sample packing within a pixel. Packing and precision of R, G and B components is determined by bit masks for each;http://www.fourcc.org/indexrgb.htm;;;;\n"
     "1978;RGB;A.M.Paredes predictor;;http://www.pegasusimaging.com/cgi-bin/download2.cgi?LVIDB;;;RGB;\n"
     " BIT;RGB;;;;;;RGB;\n"
     " JPG;JPEG;;;;;;YUV\n"
@@ -2633,6 +2636,16 @@ void MediaInfo_Config_CodecID_Text_Riff (InfoMap &Info)
     Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "DXSB;DivX Subtitle;;Subtitle in AVI from DivX networks;http://www.divx.com\n"
+    ));
+    Info.Separator_Set(0, ZenLib::EOL);
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_CodecID_Other_Mpeg4 (InfoMap &Info)
+{
+    Info.Separator_Set(0, __T("\n"));
+    Info.Write(Ztring().From_UTF8(
+    "rtp ;RTP\n"
     ));
     Info.Separator_Set(0, ZenLib::EOL);
 }
@@ -4317,7 +4330,9 @@ void MediaInfo_Config_Video (ZtringListList &Info)
     "ScanType_Original/String;;;Y NT;;\n"
     "ScanOrder;;;N YT;;;\n"
     "ScanOrder/String;;;Y NT;;;\n"
-    "ScanOrder_StoredDisplayedInverted;;;Y YT;;;\n"
+    "ScanOrder_Stored;;;N YT;;;;In case the stored order is not same as the display order\n"
+    "ScanOrder_Stored/String;;;Y NT;;;;In case the stored order is not same as the display order\n"
+    "ScanOrder_StoredDisplayedInverted;;;N NT;;;\n"
     "ScanOrder_Original;;;N YT;;;\n"
     "ScanOrder_Original/String;;;Y NT;;;\n"
     "Interlacement;;;N NT;;;Deprecated, do not use in new projects\n"

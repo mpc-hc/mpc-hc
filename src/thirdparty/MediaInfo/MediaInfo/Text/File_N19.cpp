@@ -51,6 +51,20 @@ const char* N19_CodePageNumber(int32u CPN)
 }
 
 //---------------------------------------------------------------------------
+const char* N19_CharacterCodeTable(int16u CCT)
+{
+    switch (CCT)
+    {
+        case 0x3030 : return "Latin, ISO 6937-2";
+        case 0x3031 : return "Latin/Cyrillic, ISO 8859-5";
+        case 0x3032 : return "Latin/Arabic, ISO 8859-6";
+        case 0x3033 : return "Latin/Greek, ISO 8859-7";
+        case 0x3034 : return "Latin/Hebrew, ISO 8859-8";
+        default       : return "";
+    }
+}
+
+//---------------------------------------------------------------------------
 float32 N19_DiskFormatCode_FrameRate(int64u DFC)
 {
     switch (DFC)
@@ -240,7 +254,7 @@ void File_N19::FileHeader_Parse()
     Info_C3   (    CPN,                                         "CPN - Code Page Number"); Param_Info1(N19_CodePageNumber(CPN));
     Get_C8    (    DFC,                                         "DFC - Disk Format Code"); Param_Info1(N19_DiskFormatCode_FrameRate(DFC));
     Info_C1   (    DSC,                                         "DSC - Display Standard Code"); Param_Info1(N19_DisplayStandardCode(DSC));
-    Skip_C2   (                                                 "CCT - Character Code Table number");
+    Get_C2    (    CCT,                                         "CCT - Character Code Table number"); Param_Info1(N19_CharacterCodeTable(CCT));
     Get_C2    (    LC,                                          "LC - Language Code"); Param_Info1(N19_LanguageCode(LC));
     Get_Local (32, OPT,                                         "OPT - Original Programme Title");
     Skip_Local(32,                                              "OET - Original Episode Title");
@@ -363,6 +377,7 @@ void File_N19::Header_Parse()
 void File_N19::Data_Parse()
 {
     //Parsing
+    Ztring TF;
     int32u TCI, TCO;
     Skip_B1   (                                                 "SGN - Subtitle Group Number");
     Skip_B2   (                                                 "SN - Subtitle Number");
@@ -383,7 +398,23 @@ void File_N19::Data_Parse()
     Skip_B1   (                                                 "VP - Vertical Position");
     Skip_B1   (                                                 "JC - Justification Code");
     Skip_B1   (                                                 "CF - Comment Flag");
-    Skip_Local(112,                                             "TF - Text Field");
+    switch (CCT)
+    {
+        case 0x3030 :   //Latin ISO 6937-2
+                        Get_ISO_6937_2(112, TF,                 "TF - Text Field");
+                        break;
+        case 0x3031 :   //Latin ISO 8859-5
+                        Get_ISO_8859_5(112, TF,                 "TF - Text Field");
+                        break;
+        default:
+                        //Not yet supported, basic default
+                        Get_ISO_8859_1(112, TF,                 "TF - Text Field");
+    }
+    #if MEDIAINFO_TRACE
+        TF.FindAndReplace(__T("\x8A"), EOL, 0, Ztring_Recursive);
+        TF.FindAndReplace(__T("\x8F"), Ztring(), 0, Ztring_Recursive);
+        Param_Info1(TF);
+    #endif //MEDIAINFO_TRACE
 
     FILLING_BEGIN();
         if (FirstFrame_TCI==(int64u)-1)

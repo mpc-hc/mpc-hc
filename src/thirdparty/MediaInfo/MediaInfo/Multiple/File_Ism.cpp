@@ -67,6 +67,12 @@ File_Ism::~File_Ism()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+void File_Ism::Streams_Accept()
+{
+    Fill(Stream_General, 0, General_Format, "ISM");
+}
+
+//---------------------------------------------------------------------------
 void File_Ism::Streams_Finish()
 {
     if (ReferenceFiles==NULL)
@@ -105,9 +111,6 @@ bool File_Ism::FileHeader_Begin()
         XMLElement* Root=document.FirstChildElement("smil");
         if (Root)
         {
-            Accept("ISM");
-            Fill(Stream_General, 0, General_Format, "ISM");
-
             ReferenceFiles=new File__ReferenceFilesHelper(this, Config);
 
             std::set<Ztring> FileNames;
@@ -122,6 +125,8 @@ bool File_Ism::FileHeader_Begin()
                     {
                         if (string(Switch->Value())=="switch")
                         {
+                            Accept("ISM");
+
                             XMLElement* Stream=Switch->FirstChildElement();
                             while (Stream)
                             {

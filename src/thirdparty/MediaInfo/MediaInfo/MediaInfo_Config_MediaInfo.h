@@ -37,6 +37,7 @@ namespace MediaInfoLib
 
 #if MEDIAINFO_EVENTS
     class File__Analyze;
+    class MediaInfo_Config_PerPackage;
 #endif //MEDIAINFO_EVENTS
 
 //***************************************************************************
@@ -283,9 +284,13 @@ public :
     bool          File_IsNotGrowingAnymore;
     int64u        File_Current_Offset;
     int64u        File_Current_Size;
+    int64u        File_IgnoreFramesBefore;
+    int64u        File_IgnoreFramesAfter;
+    float64       File_IgnoreFramesRate;
     int64u        File_Size;
     float32       ParseSpeed;
     #if MEDIAINFO_EVENTS
+    MediaInfo_Config_PerPackage* Config_PerPackage;
     Ztring        File_Names_RootDirectory;
     #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX

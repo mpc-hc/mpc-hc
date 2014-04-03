@@ -60,7 +60,8 @@ bool File_Mz::FileHeader_Begin()
     if (Buffer_Size<2)
         return false; //Must wait for more data
 
-    if (CC2(Buffer)!=0x4D5A) //"MZ"
+    if (Buffer[0]!=0x4D //"MZ"
+     || Buffer[1]!=0x5A)
     {
         Reject("MZ");
         return false;

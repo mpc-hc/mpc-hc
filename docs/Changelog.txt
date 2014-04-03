@@ -25,6 +25,7 @@ next version - not released yet
 * Updated SoundTouch to v1.8.0
 * Updated Little CMS to v2.6 (git 40300b1)
 * Updated Unrar to v5.1.1
+* Updated MediaInfoLib to v0.7.68
 * Updated ZenLib to v0.4.29 r446
 * Updated LAV Filters to stable version 0.61.1:
     - LAV Audio: Improve error recovery on slightly corrupted audio streams

@@ -66,13 +66,14 @@ extern void DcpCpl_MergeFromPkl(File__ReferenceFilesHelper* FromCpl, File__Refer
         List.push_back(Reference);
     }
 
-    for (File__ReferenceFilesHelper::references::iterator Reference=FromCpl->References.begin(); Reference!=FromCpl->References.end(); ++Reference)
-        for (size_t Pos=0; Pos<Reference->FileNames.size(); Pos++)
+    for (size_t References_Pos=0; References_Pos<FromCpl->References.size(); ++References_Pos)
+    {
+        for (size_t Pos=0; Pos<FromCpl->References[References_Pos].FileNames.size(); ++Pos)
         {
-            map<Ztring, DcpCpl_info>::iterator Map_Item=Map.find(Reference->FileNames[Pos]);
+            map<Ztring, DcpCpl_info>::iterator Map_Item=Map.find(FromCpl->References[References_Pos].FileNames[Pos]);
             if (Map_Item!=Map.end())
             {
-                Reference->FileNames[Pos]=Map_Item->second.FileName;
+                FromCpl->References[References_Pos].FileNames[Pos]=Map_Item->second.FileName;
                 for (list<File__ReferenceFilesHelper::references::iterator>::iterator Reference2=List.begin(); Reference2!=List.end(); ++Reference2)
                     if (*Reference2==Map_Item->second.Reference)
                     {
@@ -80,12 +81,36 @@ extern void DcpCpl_MergeFromPkl(File__ReferenceFilesHelper* FromCpl, File__Refer
                         break;
                     }
             }
+            else
+            {
+                FromCpl->References[References_Pos].FileNames.erase(FromCpl->References[References_Pos].FileNames.begin()+Pos);
+                Pos--;
+            }
         }
-
-    for (list<File__ReferenceFilesHelper::references::iterator>::iterator Reference=List.begin(); Reference!=List.end(); ++Reference)
-    {
-        FromCpl->References.push_back(**Reference);
-        FromCpl->References[FromCpl->References.size()-1].StreamID=FromCpl->References.size()-1;
+        for (size_t Pos=0; Pos<FromCpl->References[References_Pos].CompleteDuration.size(); ++Pos)
+        {
+            map<Ztring, DcpCpl_info>::iterator Map_Item=Map.find(FromCpl->References[References_Pos].CompleteDuration[Pos].FileName);
+            if (Map_Item!=Map.end())
+            {
+                FromCpl->References[References_Pos].CompleteDuration[Pos].FileName=Map_Item->second.FileName;
+                for (list<File__ReferenceFilesHelper::references::iterator>::iterator Reference2=List.begin(); Reference2!=List.end(); ++Reference2)
+                    if (*Reference2==Map_Item->second.Reference)
+                    {
+                        List.erase(Reference2);
+                        break;
+                    }
+            }
+            else
+            {
+                FromCpl->References[References_Pos].CompleteDuration.erase(FromCpl->References[References_Pos].CompleteDuration.begin()+Pos);
+                Pos--;
+            }
+        }
+        if (FromCpl->References[References_Pos].FileNames.empty() && FromCpl->References[References_Pos].CompleteDuration.empty())
+        {
+            FromCpl->References.erase(FromCpl->References.begin()+References_Pos);
+            References_Pos--;
+        }
     }
 }
 
@@ -214,7 +239,7 @@ bool File_DcpCpl::FileHeader_Begin()
                                 // || (IsImf && (!strcmp(AssetList_Item->Value(), "cc:MainImageSequence") || !strcmp(AssetList_Item->Value(), "cc:MainImage"))))
                                 {
                                     File__ReferenceFilesHelper::reference ReferenceFile;
-                                    Ztring Id;
+                                    Ztring Asset_Id;
 
                                     if ((IsDcp && !strcmp(AssetList_Item->Value(), "MainPicture"))
                                      || (IsImf && !strcmp(AssetList_Item->Value(), "cc:MainImageSequence")))
@@ -226,8 +251,8 @@ bool File_DcpCpl::FileHeader_Begin()
                                     for (XMLElement* File_Item=AssetList_Item->FirstChildElement(); File_Item; File_Item=File_Item->NextSiblingElement())
                                     {
                                         //Id
-                                        if (!strcmp(File_Item->Value(), "Id") && Id.empty())
-                                            Id.From_UTF8(File_Item->GetText());
+                                        if (!strcmp(File_Item->Value(), "Id") && Asset_Id.empty())
+                                            Asset_Id.From_UTF8(File_Item->GetText());
 
                                         //ResourceList
                                         if (IsImf && !strcmp(File_Item->Value(), "ResourceList"))
@@ -237,19 +262,56 @@ bool File_DcpCpl::FileHeader_Begin()
                                                 //Resource
                                                 if (!strcmp(ResourceList_Item->Value(), "Resource"))
                                                 {
+                                                    Ztring Resource_Id;
+
+                                                    File__ReferenceFilesHelper::reference::completeduration Resource;
                                                     for (XMLElement* Resource_Item=ResourceList_Item->FirstChildElement(); Resource_Item; Resource_Item=Resource_Item->NextSiblingElement())
                                                     {
+                                                        //EditRate
+                                                        if (!strcmp(Resource_Item->Value(), "EditRate"))
+                                                        {
+                                                            const char* EditRate=Resource_Item->GetText();
+                                                            Resource.IgnoreFramesRate=atof(EditRate);
+                                                            const char* EditRate2=strchr(EditRate, ' ');
+                                                            if (EditRate2!=NULL)
+                                                            {
+                                                                float64 EditRate2f=atof(EditRate2);
+                                                                if (EditRate2f)
+                                                                    Resource.IgnoreFramesRate/=EditRate2f;
+                                                            }
+                                                        }
+
+                                                        //EntryPoint
+                                                        if (!strcmp(Resource_Item->Value(), "EntryPoint"))
+                                                            Resource.IgnoreFramesBefore=atoi(Resource_Item->GetText());
+
+                                                        //Id
+                                                        if (!strcmp(File_Item->Value(), "Id") && Resource_Id.empty())
+                                                            Resource_Id.From_UTF8(File_Item->GetText());
+
+                                                        //SourceDuration
+                                                        if (!strcmp(Resource_Item->Value(), "SourceDuration"))
+                                                            Resource.IgnoreFramesAfterDuration=atoi(Resource_Item->GetText());
+
                                                         //TrackFileId
                                                         if (!strcmp(Resource_Item->Value(), "TrackFileId"))
-                                                            ReferenceFile.FileNames.push_back(Resource_Item->GetText());
+                                                            Resource.FileName.From_UTF8(Resource_Item->GetText());
                                                     }
+
+                                                    if (Resource.FileName.empty())
+                                                        Resource.FileName=Resource_Id;
+                                                    ReferenceFile.CompleteDuration.push_back(Resource);
                                                 }
                                             }
                                         }
                                     }
 
-                                    if (ReferenceFile.FileNames.empty())
-                                        ReferenceFile.FileNames.push_back(Id);
+                                    if (ReferenceFile.CompleteDuration.empty())
+                                    {
+                                        File__ReferenceFilesHelper::reference::completeduration Resource;
+                                        Resource.FileName=Asset_Id;
+                                        ReferenceFile.CompleteDuration.push_back(Resource);
+                                    }
                                     ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
                                     ReferenceFiles->References.push_back(ReferenceFile);
                                 }

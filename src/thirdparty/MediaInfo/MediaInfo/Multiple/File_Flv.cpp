@@ -585,14 +585,32 @@ void File_Flv::Streams_Finish_PerStream(stream_t StreamKind)
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+bool File_Flv::FileHeader_Begin()
+{
+    //Synchro
+    if (3>Buffer_Size)
+        return false;
+    if (Buffer[0]!=0x46 //"FLV"
+     || Buffer[1]!=0x4C
+     || Buffer[2]!=0x56)
+    {
+        Reject();
+        return false;
+    }
+    if (9>Buffer_Size)
+        return false;
+
+    return true;
+}
+
+//---------------------------------------------------------------------------
 void File_Flv::FileHeader_Parse()
 {
     //Parsing
     Element_Begin1("FLV header");
-    std::string Signature;
     int32u Size;
     int8u  Version, Flags;
-    Get_String(3, Signature,                                    "Signature");
+    Skip_String(3,                                              "Signature");
     Get_B1 (Version,                                            "Version");
     Get_B1 (Flags,                                              "Flags");
         Get_Flags (Flags, 0, video_stream_Count,                "Video");
@@ -604,7 +622,7 @@ void File_Flv::FileHeader_Parse()
 
     FILLING_BEGIN();
         //Integrity
-        if (Signature!="FLV" || Version==0 || Size<9)
+        if (Version==0 || Size<9)
         {
             Reject();
             return;
@@ -635,6 +653,8 @@ void File_Flv::FileHeader_Parse()
             Finish();
             return; //Version more than 1 is not supported
         }
+    FILLING_ELSE()
+        Reject();
     FILLING_END();
 }
 
@@ -667,8 +687,12 @@ bool File_Flv::Synchronize()
               || Buffer[Buffer_Offset+1]
               || Buffer[Buffer_Offset+2]
               || Buffer[Buffer_Offset+3]>=11)
-             && BigEndian2int32u(Buffer+Buffer_Offset+15+BodyLength)==11+BodyLength) // PreviousTagSize
-                break;
+             && (BigEndian2int32u(Buffer+Buffer_Offset+15+BodyLength)==11+BodyLength // PreviousTagSize
+              || BigEndian2int32u(Buffer+Buffer_Offset+15+BodyLength)==BodyLength)) // PreviousTagSize without 11, found in some buggy files
+            {
+                 PreviousTagSize_Add11=(BigEndian2int32u(Buffer+Buffer_Offset+15+BodyLength)==BodyLength)?0:11;
+                 break;
+            }
         }
 
         Buffer_Offset++;
@@ -696,7 +720,7 @@ bool File_Flv::Synched_Test()
     if (Buffer[Buffer_Offset  ]==0
      && Buffer[Buffer_Offset+1]==0
      && Buffer[Buffer_Offset+2]==0
-     && Buffer[Buffer_Offset+3]<11
+     && Buffer[Buffer_Offset+3]<PreviousTagSize_Add11
      && File_Offset+Buffer_Offset>9)
     {
         Synched=false;

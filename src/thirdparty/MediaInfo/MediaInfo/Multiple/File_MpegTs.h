@@ -131,6 +131,7 @@ private :
     #endif //MEDIAINFO_MPEGTS_PCR_YES
     void Streams_Update_Duration_End();
     void SetAllToPES();
+    void transport_private_data(int8u transport_private_data_length);
 
     #if MEDIAINFO_DUPLICATE
         //File__Duplicate

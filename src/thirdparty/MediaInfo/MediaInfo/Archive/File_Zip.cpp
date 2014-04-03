@@ -96,7 +96,10 @@ bool File_Zip::FileHeader_Begin()
     if (Buffer_Size<4)
         return false; //Must wait for more data
 
-    if (CC4(Buffer)!=0x504B0304) //"PK.."
+    if (Buffer[0]!=0x50 //"PK.."
+     || Buffer[1]!=0x4B
+     || Buffer[2]!=0x03
+     || Buffer[3]!=0x04)
     {
         Reject("ZIP");
         return false;

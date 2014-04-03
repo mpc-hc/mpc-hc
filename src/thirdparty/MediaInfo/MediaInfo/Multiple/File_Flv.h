@@ -38,6 +38,7 @@ private :
     void Streams_Finish_PerStream(stream_t StreamID);
 
     //Buffer - File header
+    bool FileHeader_Begin();
     void FileHeader_Parse();
 
     //Buffer - Synchro
@@ -104,6 +105,7 @@ private :
     bool Searching_Duration;
     bool MetaData_NotTrustable;
     int32u PreviousTagSize;
+    int32u PreviousTagSize_Add11;
     int64u meta_filesize;
     float64 meta_duration;
 };

@@ -38,7 +38,8 @@ bool File_Gzip::FileHeader_Begin()
     if (Buffer_Size<2)
         return false; //Must wait for more data
 
-    if (CC2(Buffer)!=0x1F8B)
+    if (Buffer[0]!=0x1F
+     || Buffer[1]!=0x8B)
     {
         Reject("Gzip");
         return false;

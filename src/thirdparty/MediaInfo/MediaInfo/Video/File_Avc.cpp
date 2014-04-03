@@ -46,6 +46,7 @@ const char* Avc_profile_idc(int8u profile_idc)
         case 118 : return "Multiview High";
         case 122 : return "High 4:2:2";
         case 128 : return "Stereo High";
+        case 138 : return "Multiview Depth High";
         case 144 : return "High 4:4:4";
         case 244 : return "High 4:4:4 Predictive";
         default  : return "Unknown";
@@ -2947,7 +2948,7 @@ void File_Avc::pic_parameter_set()
             Trusted_IsNot("pic_parameter_set_id not valid");
             return; //Problem, not valid
         }
-        if (seq_parameter_set_id>=31)
+        if (seq_parameter_set_id>=32)
         {
             Trusted_IsNot("seq_parameter_set_id not valid");
             return; //Problem, not valid
@@ -3147,10 +3148,9 @@ bool File_Avc::seq_parameter_set_data(std::vector<seq_parameter_set_struct*> &Da
         Skip_SB(                                                "constraint_set1_flag");
         Skip_SB(                                                "constraint_set2_flag");
         Get_SB (constraint_set3_flag,                           "constraint_set3_flag");
-        Skip_SB(                                                "reserved_zero_4bits");
-        Skip_SB(                                                "reserved_zero_4bits");
-        Skip_SB(                                                "reserved_zero_4bits");
-        Skip_SB(                                                "reserved_zero_4bits");
+        Skip_SB(                                                "constraint_set4_flag");
+        Skip_SB(                                                "constraint_set5_flag");
+        Skip_BS(2,                                              "reserved_zero_2bits");
     Element_End0();
     Get_S1 ( 8, level_idc,                                      "level_idc");
     Get_UE (    Data_id,                                        "seq_parameter_set_id");
@@ -3165,6 +3165,7 @@ bool File_Avc::seq_parameter_set_data(std::vector<seq_parameter_set_struct*> &Da
         case  86 :
         case 118 :
         case 128 :  //High profiles
+        case 138 :
                     Element_Begin1("high profile specific");
                     Get_UE (chroma_format_idc,                  "chroma_format_idc"); Param_Info1C((chroma_format_idc<3), Avc_Colorimetry_format_idc[chroma_format_idc]);
                     if (chroma_format_idc==3)
@@ -3173,7 +3174,7 @@ bool File_Avc::seq_parameter_set_data(std::vector<seq_parameter_set_struct*> &Da
                     Get_UE (bit_depth_chroma_minus8,            "bit_depth_chroma_minus8");
                     Skip_SB(                                    "qpprime_y_zero_transform_bypass_flag");
                     TEST_SB_SKIP(                               "seq_scaling_matrix_present_flag");
-                        for (int32u Pos=0; Pos<8; Pos++)
+                        for (int32u Pos=0; Pos<(int32u)((chroma_format_idc!=3) ? 8 : 12); Pos++)
                         {
                             TEST_SB_SKIP(                       "seq_scaling_list_present_flag");
                                 scaling_list(Pos<6?16:64);
@@ -3278,6 +3279,7 @@ bool File_Avc::seq_parameter_set_data(std::vector<seq_parameter_set_struct*> &Da
         switch (pic_order_cnt_type)
         {
             case 0 : MaxNumber=(*Data_Item)->MaxPicOrderCntLsb      =(int32u)pow(2.0, (int)(log2_max_pic_order_cnt_lsb_minus4+4)); break;
+            case 1 :
             case 2 : MaxNumber=(*Data_Item)->MaxFrameNum            =(int32u)pow(2.0, (int)(log2_max_frame_num_minus4+4)); MaxNumber*=2; break;
             default: Trusted_IsNot("Not supported"); return false;
         }

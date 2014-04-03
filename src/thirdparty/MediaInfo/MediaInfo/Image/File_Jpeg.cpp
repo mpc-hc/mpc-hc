@@ -150,6 +150,10 @@ struct Jpeg_samplingfactor
 File_Jpeg::File_Jpeg()
 {
     //Config
+    #if MEDIAINFO_EVENTS
+        ParserIDs[0]=MediaInfo_Parser_Jpeg;
+        StreamIDs_Width[0]=0;
+    #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_TRACE
         Trace_Layers_Update(8); //Stream
     #endif //MEDIAINFO_TRACE
@@ -534,25 +538,24 @@ void File_Jpeg::SIZ()
 void File_Jpeg::COD()
 {
     //Parsing
-    int16u Levels;
-    int8u Style, Style2, MultipleComponentTransform;
+    int8u Style, Style2, Levels, MultipleComponentTransform;
     bool PrecinctUsed;
     Get_B1 (Style,                                              "Scod - Style");
         Get_Flags (Style, 0, PrecinctUsed,                      "Precinct used");
         Skip_Flags(Style, 1,                                    "Use SOP (start of packet)");
         Skip_Flags(Style, 2,                                    "Use EPH (end of packet header)");
-    Skip_B1(                                                    "Number of decomposition levels");
+    Get_B1 (Levels,                                             "Number of decomposition levels");
     Skip_B1(                                                    "Progression order");
-    Get_B2 (Levels,                                             "Number of layers");
+    Skip_B2(                                                    "Number of layers");
     Info_B1(DimX,                                               "Code-blocks dimensions X (2^(n+2))"); Param_Info2(1<<(DimX+2), " pixels");
     Info_B1(DimY,                                               "Code-blocks dimensions Y (2^(n+2))"); Param_Info2(1<<(DimY+2), " pixels");
     Get_B1 (Style2,                                             "Style of the code-block coding passes");
-        Skip_Flags(Style, 0,                                    "Selective arithmetic coding bypass");
-        Skip_Flags(Style, 1,                                    "MQ states for all contexts");
-        Skip_Flags(Style, 2,                                    "Regular termination");
-        Skip_Flags(Style, 3,                                    "Vertically stripe-causal context formation");
-        Skip_Flags(Style, 4,                                    "Error resilience info is embedded on MQ termination");
-        Skip_Flags(Style, 5,                                    "Segmentation marker is to be inserted at the end of each normalization coding pass");
+        Skip_Flags(Style2, 0,                                   "Selective arithmetic coding bypass");
+        Skip_Flags(Style2, 1,                                   "MQ states for all contexts");
+        Skip_Flags(Style2, 2,                                   "Regular termination");
+        Skip_Flags(Style2, 3,                                   "Vertically stripe-causal context formation");
+        Skip_Flags(Style2, 4,                                   "Error resilience info is embedded on MQ termination");
+        Skip_Flags(Style2, 5,                                   "Segmentation marker is to be inserted at the end of each normalization coding pass");
     Skip_B1(                                                    "Transform");
     Get_B1(MultipleComponentTransform,                          "Multiple component transform");
     if (PrecinctUsed)
@@ -598,17 +601,21 @@ void File_Jpeg::SOD()
 {
     SOS_SOD_Parsed=true;
     if (Interlaced)
+    {
         Field_Count++;
+        Field_Count_InThisBlock++;
+    }
     if (!Interlaced || Field_Count%2==0)
     {
         Frame_Count++;
+        Frame_Count_InThisBlock++;
         if (Frame_Count_NotParsedIncluded!=(int64u)-1)
             Frame_Count_NotParsedIncluded++;
+        if (Status[IsFilled])
+            Fill();
+        if (Config->ParseSpeed<1.0)
+            Finish("JPEG 2000"); //No need of more
     }
-    if (Status[IsFilled])
-        Fill();
-    if (Config->ParseSpeed<1.0)
-        Finish("JPEG 2000"); //No need of more
 }
 
 //---------------------------------------------------------------------------
@@ -769,10 +776,14 @@ void File_Jpeg::SOS()
     FILLING_BEGIN_PRECISE();
     SOS_SOD_Parsed=true;
     if (Interlaced)
+    {
         Field_Count++;
+        Field_Count_InThisBlock++;
+    }
     if (!Interlaced || Field_Count%2==0)
     {
         Frame_Count++;
+        Frame_Count_InThisBlock++;
         if (Frame_Count_NotParsedIncluded!=(int64u)-1)
             Frame_Count_NotParsedIncluded++;
     }

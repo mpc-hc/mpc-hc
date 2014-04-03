@@ -721,6 +721,9 @@ void File_AribStdB24B37::caption_statement() //caption_data()
         }
         Element_End0();
     }
+
+    Frame_Count++;
+    Frame_Count_NotParsedIncluded++;
 }
 
 //---------------------------------------------------------------------------

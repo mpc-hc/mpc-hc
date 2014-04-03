@@ -44,7 +44,7 @@ File_Dxw::File_Dxw()
 :File__Analyze()
 {
     #if MEDIAINFO_EVENTS
-        ParserIDs[0]=MediaInfo_Parser_None; //TODO
+        ParserIDs[0]=MediaInfo_Parser_Dxw;
         StreamIDs_Width[0]=sizeof(size_t)*2;
     #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX

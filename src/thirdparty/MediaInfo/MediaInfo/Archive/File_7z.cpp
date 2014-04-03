@@ -28,23 +28,29 @@ namespace MediaInfoLib
 {
 
 //***************************************************************************
-// Static stuff
+// Buffer - File header
 //***************************************************************************
 
 //---------------------------------------------------------------------------
 bool File_7z::FileHeader_Begin()
 {
-    //Element_Size
+    // Minimum buffer size
     if (Buffer_Size<6)
-        return false; //Must wait for more data
+        return false; // Must wait for more data
 
-    if (CC6(Buffer)!=0x377ABCAF271CLL) //"7z...."
+    // Testing
+    if (Buffer[0]!=0x37 // "7z...."
+     || Buffer[1]!=0x7A
+     || Buffer[2]!=0xBC
+     || Buffer[3]!=0xAF
+     || Buffer[4]!=0x27
+     || Buffer[5]!=0x1C)
     {
         Reject("7-Zip");
         return false;
     }
 
-    //All should be OK...
+    // All should be OK...
     return true;
 }
 

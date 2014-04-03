@@ -48,6 +48,7 @@ private :
     //Temp
     int64u FirstFrame_TCI;
     int64u DFC;
+    int16u CCT;
     #if MEDIAINFO_DEMUX
         int64u TCO_Latest;
     #endif //MEDIAINFO_DEMUX

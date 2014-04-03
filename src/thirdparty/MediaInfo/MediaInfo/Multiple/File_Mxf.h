@@ -61,6 +61,7 @@ public :
 
 protected :
     //Streams management
+    void Streams_Accept();
     void Streams_Fill ();
     void Streams_Finish ();
     void Streams_Finish_Preface (const int128u PrefaceUID);
@@ -460,6 +461,7 @@ protected :
         int32u TrackID;
         Ztring TrackName;
         int32u TrackNumber;
+        float64 EditRate_Real; //Before demux adaptation
         float64 EditRate;
         int64u  Origin;
         bool   Stream_Finish_Done;
@@ -469,6 +471,7 @@ protected :
             Sequence=0;
             TrackID=(int32u)-1;
             TrackNumber=(int32u)-1;
+            EditRate_Real=(float64)0;
             EditRate=(float64)0;
             Origin=0;
             Stream_Finish_Done=false;
@@ -493,6 +496,8 @@ protected :
         bool   Track_Number_IsMappedToTrack; //if !Track_Number_IsAvailable, is true when it was euristicly mapped
         bool   IsFilled;
         bool   IsChannelGrouping;
+        int64u      Field_Count_InThisBlock_1;
+        int64u      Field_Count_InThisBlock_2;
         int64u      Frame_Count_NotParsedIncluded;
         frame_info  FrameInfo;
 
@@ -508,6 +513,8 @@ protected :
             Track_Number_IsMappedToTrack=false;
             IsFilled=false;
             IsChannelGrouping=false;
+            Field_Count_InThisBlock_1=0;
+            Field_Count_InThisBlock_2=0;
             Frame_Count_NotParsedIncluded=(int64u)-1;
             FrameInfo.DTS=(int64u)-1;
         }
@@ -727,6 +734,8 @@ protected :
     void           ChooseParser__Aaf_GC_Compound(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser__Avid(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser__Avid_Picture(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser__Sony(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser__Sony_Picture(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser__FromEssenceContainer(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser_Avc(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
@@ -771,6 +780,7 @@ protected :
     int64u SystemScheme1_FrameRateFromDescriptor;
     bool   Essences_FirstEssence_Parsed;
     bool   StereoscopicPictureSubDescriptor_IsPresent;
+    int32u Essences_UsedForFrameCount;
     int32u IndexTable_NSL;
     int32u IndexTable_NPE;
     #if MEDIAINFO_ADVANCED
@@ -816,8 +826,13 @@ protected :
     bool                            Partitions_IsCalculatingSdtiByteCount;
     bool                            Partitions_IsFooter;
 
-    #if MEDIAINFO_DEMUX || MEDIAINFO_SEEK
+    //Demux
+    #if MEDIAINFO_DEMUX
         bool Demux_HeaderParsed;
+        essences::iterator Demux_CurrentEssence;
+    #endif //MEDIAINFO_DEMUX
+
+    #if MEDIAINFO_DEMUX || MEDIAINFO_SEEK
         size_t CountOfLocatorsToParse;
         float64 Demux_Rate;
 

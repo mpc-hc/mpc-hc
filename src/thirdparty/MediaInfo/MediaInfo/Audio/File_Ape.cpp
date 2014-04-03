@@ -101,9 +101,12 @@ bool File_Ape::FileHeader_Begin()
         return false;
 
     //Testing
-    if (Buffer_Offset+4>Buffer_Size)
+    if (Buffer_Size<Buffer_Offset+4)
         return false;
-    if (CC4(Buffer+Buffer_Offset)!=0x4D414320) //"MAC "
+    if (Buffer[Buffer_Offset  ]!=0x4D //"MAC "
+     || Buffer[Buffer_Offset+1]!=0x41
+     || Buffer[Buffer_Offset+2]!=0x43
+     || Buffer[Buffer_Offset+3]!=0x20)
     {
         File__Tags_Helper::Reject("APE");
         return false;

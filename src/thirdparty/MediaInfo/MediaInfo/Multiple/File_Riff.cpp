@@ -225,12 +225,22 @@ void File_Riff::Streams_Finish ()
                 Temp->second.Parsers[0]->Open_Buffer_Unsynch();
             }
             Finish(Temp->second.Parsers[0]);
+
             if (!Temp->second.Parsers.empty() && Temp->second.Parsers[0]->Count_Get(StreamKind_Last))
+            {
+                //Special case: Compressed audio hidden in PCM
+                if (StreamKind_Last==Stream_Audio
+                    && Temp->second.Compression==1
+                    && Retrieve(Stream_General, 0, General_Format)==__T("Wave")
+                    && Temp->second.Parsers[0]->Get(Stream_Audio, 0, Audio_Format)!=__T("PCM")) //Some DTS or SMPTE ST 337 streams are coded "1"
+                    Clear(Stream_Audio, 0, Audio_Channel_s_);
+
+                size_t StreamPos_Base=StreamPos_Last;
                 for (size_t Pos=0; Pos<Temp->second.Parsers[0]->Count_Get(StreamKind_Last); Pos++)
                 {
                     Ztring Temp_ID=ID;
                     Ztring Temp_ID_String=ID;
-                    Merge(*Temp->second.Parsers[0], StreamKind_Last, Pos, StreamPos_Last+Pos);
+                    Merge(*Temp->second.Parsers[0], StreamKind_Last, Pos, StreamPos_Base+Pos);
                     if (!Retrieve(StreamKind_Last, StreamPos_Last, General_ID).empty())
                     {
                         if (!Temp_ID.empty())
@@ -244,16 +254,32 @@ void File_Riff::Streams_Finish ()
                     Fill(StreamKind_Last, StreamPos_Last, General_ID, Temp_ID, true);
                     Fill(StreamKind_Last, StreamPos_Last, General_StreamOrder, Temp_ID_String, true);
 
-                    //Special case: Compressed audio hidden in PCM
-                    if (StreamKind_Last==Stream_Audio
-                     && Temp->second.Compression==1
-                     && Retrieve(Stream_General, 0, General_Format)==__T("Wave") //Some DTS or SMPTE ST 337 streams are coded "1"
-                     && !Retrieve(Stream_Audio, StreamPos_Last, Audio_Channel_s__Original).empty())
+
+                    //Special case - MPEG Video + Captions
+                    if (StreamKind_Last==Stream_Video && Temp->second.Parsers[0]->Count_Get(Stream_Text))
                     {
-                        Clear(Stream_Audio, StreamPos_Last, Audio_Channel_s__Original);
-                        Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, 6, 10, true); //The PCM channel count is fake
+                        //Video and Text are together
+                        size_t Parser_Text_Count=Temp->second.Parsers[0]->Count_Get(Stream_Text);
+                        for (size_t Parser_Text_Pos=0; Parser_Text_Pos<Parser_Text_Count; Parser_Text_Pos++)
+                        {
+                            size_t StreamPos_Video=StreamPos_Last;
+                            Fill_Flush();
+                            Stream_Prepare(Stream_Text);
+                            Temp->second.Parsers[0]->Finish();
+                            Merge(*Temp->second.Parsers[0], Stream_Text, Parser_Text_Pos, StreamPos_Last);
+                            Fill(Stream_Text, StreamPos_Last, Text_Duration, Retrieve(Stream_Video, StreamPos_Video, Video_Duration));
+                            Ztring ID=Retrieve(Stream_Text, StreamPos_Last, Text_ID);
+                            Fill(Stream_Text, StreamPos_Last, Text_ID, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_ID)+__T("-")+ID, true);
+                            Fill(Stream_Text, StreamPos_Last, Text_ID_String, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_ID_String)+__T("-")+ID, true);
+                            Fill(Stream_Text, StreamPos_Last, Text_Title, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_Title), true);
+                            Fill(Stream_Text, StreamPos_Last, "MuxingMode_MoreInfo", __T("Muxed in Video #")+Ztring().From_Number(Count_Get(Stream_Video)), true);
+                        }
+
+                        StreamKind_Last=Stream_Video;
+                        StreamPos_Last=Count_Get(Stream_Video)-1;
                     }
                 }
+            }
             else
             {
                 Fill(StreamKind_Last, StreamPos_Last, General_ID, ID, true);

@@ -44,9 +44,17 @@ namespace MediaInfoLib
 bool File_Ivf::FileHeader_Begin()
 {
     //Synchro
-    if (Buffer_Offset+4>Buffer_Size)
+    if (4>Buffer_Size)
         return false;
-    if (CC4(Buffer+Buffer_Offset)!=0x444B4946) //"DKIF"
+    if (Buffer[0]!=0x44 //"DKIF"
+     || Buffer[1]!=0x4B
+     || Buffer[2]!=0x49
+     || Buffer[3]!=0x46)
+    {
+        Reject();
+        return false;
+    }
+    if (6>Buffer_Size)
         return false;
 
     return true;

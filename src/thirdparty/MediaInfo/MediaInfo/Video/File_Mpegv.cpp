@@ -1832,52 +1832,60 @@ bool File_Mpegv::Demux_UnpacketizeContainer_Test()
             Demux_Offset=Buffer_Offset;
             Demux_IntermediateItemFound=false;
         }
-        while (Demux_Offset+4<=Buffer_Size)
+        if (ParserIDs[0]==MediaInfo_Parser_Mxf)
         {
-            //Synchronizing
-            while(Demux_Offset+4<=Buffer_Size && (Buffer[Demux_Offset  ]!=0x00
-                                                || Buffer[Demux_Offset+1]!=0x00
-                                                || Buffer[Demux_Offset+2]!=0x01))
-            {
-                Demux_Offset+=2;
-                while(Demux_Offset<Buffer_Size && Buffer[Buffer_Offset]!=0x00)
-                    Demux_Offset+=2;
-                if (Demux_Offset>=Buffer_Size || Buffer[Demux_Offset-1]==0x00)
-                    Demux_Offset--;
-            }
-            if (Demux_Offset+4>Buffer_Size)
-            {
-                if (File_Offset+Buffer_Size==File_Size)
-                    Demux_Offset=Buffer_Size;
-                break;
-            }
-
-            if (Demux_IntermediateItemFound)
-            {
-                bool MustBreak;
-                switch (Buffer[Demux_Offset+3])
-                {
-                    case 0x00 :
-                    case 0xB3 :
-                                MustBreak=true; break;
-                    default   :
-                                Demux_Offset+=3;
-                                MustBreak=false;
-                }
-                if (MustBreak)
-                    break; //while() loop
-            }
-            else
-            {
-                if (!Buffer[Demux_Offset+3])
-                    Demux_IntermediateItemFound=true;
-            }
-
-            Demux_Offset++;
+            Demux_Offset=Buffer_Size;
+            Demux_IntermediateItemFound=true;
         }
+        else
+        {
+            while (Demux_Offset+4<=Buffer_Size)
+            {
+                //Synchronizing
+                while(Demux_Offset+4<=Buffer_Size && (Buffer[Demux_Offset  ]!=0x00
+                                                    || Buffer[Demux_Offset+1]!=0x00
+                                                    || Buffer[Demux_Offset+2]!=0x01))
+                {
+                    Demux_Offset+=2;
+                    while(Demux_Offset<Buffer_Size && Buffer[Buffer_Offset]!=0x00)
+                        Demux_Offset+=2;
+                    if (Demux_Offset>=Buffer_Size || Buffer[Demux_Offset-1]==0x00)
+                        Demux_Offset--;
+                }
+                if (Demux_Offset+4>Buffer_Size)
+                {
+                    if (File_Offset+Buffer_Size==File_Size)
+                        Demux_Offset=Buffer_Size;
+                    break;
+                }
 
-        if (Demux_Offset+4>Buffer_Size && File_Offset+Buffer_Size!=File_Size)
-            return false; //No complete frame
+                if (Demux_IntermediateItemFound)
+                {
+                    bool MustBreak;
+                    switch (Buffer[Demux_Offset+3])
+                    {
+                        case 0x00 :
+                        case 0xB3 :
+                                    MustBreak=true; break;
+                        default   :
+                                    Demux_Offset+=3;
+                                    MustBreak=false;
+                    }
+                    if (MustBreak)
+                        break; //while() loop
+                }
+                else
+                {
+                    if (!Buffer[Demux_Offset+3])
+                        Demux_IntermediateItemFound=true;
+                }
+
+                Demux_Offset++;
+            }
+
+            if (Demux_Offset+4>Buffer_Size && File_Offset+Buffer_Size!=File_Size)
+                return false; //No complete frame
+        }
 
         bool RandomAccess=Buffer[Buffer_Offset+3]==0xB3;
         if (!Status[IsAccepted])

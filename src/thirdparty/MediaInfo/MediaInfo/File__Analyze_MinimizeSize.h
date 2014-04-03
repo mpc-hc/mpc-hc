@@ -64,6 +64,7 @@ public :
         bool    Demux_IntermediateItemFound;
         size_t  Demux_Offset;
         int64u  Demux_TotalBytes;
+        File__Analyze* Demux_CurrentParser;
     #endif //MEDIAINFO_DEMUX
     Ztring  File_Name_WithoutDemux;
     bool   PTS_DTS_Needed;
@@ -186,6 +187,7 @@ protected :
     //Header - Info
     void Header_Fill_Code (int64u Code);
     inline void Header_Fill_Code (int64u Code, const Ztring &) {Header_Fill_Code(Code);};
+    #define Header_Fill_Code2(A,B) Header_Fill_Code(A)
     void Header_Fill_Size (int64u Size);
 
     //***************************************************************************
@@ -637,16 +639,20 @@ public :
     //***************************************************************************
 
     void Get_Local  (int64u Bytes, Ztring      &Info);
+    void Get_ISO_6937_2 (int64u Bytes, Ztring  &Info);
     void Get_ISO_8859_1 (int64u Bytes, Ztring  &Info);
     void Get_ISO_8859_2 (int64u Bytes, Ztring  &Info);
+    void Get_ISO_8859_5 (int64u Bytes, Ztring  &Info);
     void Get_String (int64u Bytes, std::string &Info);
     void Get_UTF8   (int64u Bytes, Ztring      &Info);
     void Get_UTF16  (int64u Bytes, Ztring      &Info);
     void Get_UTF16B (int64u Bytes, Ztring      &Info);
     void Get_UTF16L (int64u Bytes, Ztring      &Info);
     inline void Get_Local  (int64u Bytes, Ztring      &Info, const char*) {Get_Local(Bytes, Info);}
+    inline void Get_ISO_6937_2 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_8859_1(Bytes, Info);}
     inline void Get_ISO_8859_1 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_8859_1(Bytes, Info);}
     inline void Get_ISO_8859_2 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_8859_2(Bytes, Info);}
+    inline void Get_ISO_8859_5 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_8859_5(Bytes, Info);}
     inline void Get_String (int64u Bytes, std::string &Info, const char*) {Get_String(Bytes, Info);}
     inline void Get_UTF8   (int64u Bytes, Ztring      &Info, const char*) {Get_UTF8(Bytes, Info);}
     inline void Get_UTF16  (int64u Bytes, Ztring      &Info, const char*) {Get_UTF16(Bytes, Info);}
@@ -655,11 +661,13 @@ public :
     void Peek_Local (int64u Bytes, Ztring      &Info);
     void Peek_String(int64u Bytes, std::string &Info);
     void Skip_Local (int64u Bytes,                    const char*) {if (Element_Offset+Bytes>Element_Size) {Trusted_IsNot(); return;} Element_Offset+=(size_t)Bytes;}
+    void Skip_ISO_6937_2(int64u Bytes,                const char*) {if (Element_Offset+Bytes>Element_Size) {Trusted_IsNot(); return;} Element_Offset+=(size_t)Bytes;}
     void Skip_String(int64u Bytes,                    const char*) {if (Element_Offset+Bytes>Element_Size) {Trusted_IsNot(); return;} Element_Offset+=(size_t)Bytes;}
     void Skip_UTF8  (int64u Bytes,                    const char*) {if (Element_Offset+Bytes>Element_Size) {Trusted_IsNot(); return;} Element_Offset+=(size_t)Bytes;}
     void Skip_UTF16B(int64u Bytes,                    const char*) {if (Element_Offset+Bytes>Element_Size) {Trusted_IsNot(); return;} Element_Offset+=(size_t)Bytes;}
     void Skip_UTF16L(int64u Bytes,                    const char*) {if (Element_Offset+Bytes>Element_Size) {Trusted_IsNot(); return;} Element_Offset+=(size_t)Bytes;}
     #define Info_Local(_BYTES, _INFO, _NAME)  Ztring _INFO; Get_Local (_BYTES, _INFO, _NAME)
+    #define Info_ISO_6937_2(_BYTES, _INFO, _NAME)  Ztring _INFO; Info_ISO_6937_2(_BYTES, _INFO, _NAME)
     #define Info_UTF8(_BYTES, _INFO, _NAME)   Ztring _INFO; Get_UTF8  (_BYTES, _INFO, _NAME)
     #define Info_UTF16B(_BYTES, _INFO, _NAME) Ztring _INFO; Get_UTF16B(_BYTES, _INFO, _NAME)
     #define Info_UTF16L(_BYTES, _INFO, _NAME) Ztring _INFO; Get_UTF16L(_BYTES, _INFO, _NAME)
