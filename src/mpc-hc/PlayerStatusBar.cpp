@@ -74,6 +74,13 @@ BOOL CPlayerStatusBar::PreCreateWindow(CREATESTRUCT& cs)
     return TRUE;
 }
 
+CSize CPlayerStatusBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
+{
+    CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
+    ret.cy = std::max<long>(ret.cy, 24);
+    return ret;
+}
+
 int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
     if (CDialogBar::OnCreate(lpCreateStruct) == -1) {

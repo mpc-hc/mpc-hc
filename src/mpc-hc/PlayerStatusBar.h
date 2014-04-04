@@ -69,6 +69,7 @@ public:
     // Overrides
     virtual BOOL Create(CWnd* pParentWnd);
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz) override;
 
     DECLARE_MESSAGE_MAP()
 
