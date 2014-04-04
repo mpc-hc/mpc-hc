@@ -1913,47 +1913,16 @@ void CBaseAP::DrawText(const RECT& rc, const CString& strText, int _Priority)
     if (_Priority < 1) {
         return;
     }
-    int Quality = 1;
+
     D3DXCOLOR Color1(1.0f, 0.2f, 0.2f, 1.0f);
     D3DXCOLOR Color0(0.0f, 0.0f, 0.0f, 1.0f);
     RECT Rect1 = rc;
     RECT Rect2 = rc;
-    if (Quality == 1) {
-        OffsetRect(&Rect2 , 2, 2);
-    } else {
-        OffsetRect(&Rect2 , -1, -1);
-    }
-    if (Quality > 0) {
-        m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    }
-    OffsetRect(&Rect2 , 1, 0);
-    if (Quality > 3) {
-        m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    }
-    OffsetRect(&Rect2 , 1, 0);
-    if (Quality > 2) {
-        m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    }
-    OffsetRect(&Rect2 , 0, 1);
-    if (Quality > 3) {
-        m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    }
-    OffsetRect(&Rect2 , 0, 1);
-    if (Quality > 1) {
-        m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    }
-    OffsetRect(&Rect2 , -1, 0);
-    if (Quality > 3) {
-        m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    }
-    OffsetRect(&Rect2 , -1, 0);
-    if (Quality > 2) {
-        m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    }
-    OffsetRect(&Rect2 , 0, -1);
-    if (Quality > 3) {
-        m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    }
+    OffsetRect(&Rect2, 2, 2);
+
+    // Draw shadow
+    m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+    // Draw text
     m_pFont->DrawText(m_pSprite, strText, -1, &Rect1, DT_NOCLIP, Color1);
 }
 
