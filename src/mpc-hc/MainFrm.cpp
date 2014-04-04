@@ -9694,7 +9694,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             dvstype iDefaultVideoSize = static_cast<dvstype>(AfxGetAppSettings().iDefaultVideoSize);
 
             if (m_fShockwaveGraph) { // && m_fQuicktimeGraph)
-                if (iDefaultVideoSize != DVS_HALF || iDefaultVideoSize != DVS_DOUBLE) {
+                if (iDefaultVideoSize != DVS_HALF && iDefaultVideoSize != DVS_DOUBLE) {
                     // We don't support other scaling methods for Shockwave.
                     iDefaultVideoSize = DVS_NORMAL;
                 }
