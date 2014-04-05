@@ -13,7 +13,7 @@ next version - not released yet
 + New Bengali and Tatar translations
 + Support for opening "icyx://" stream URLs
 + Ticket #2348/#3583, Automatically refresh the information bar and title bar so that the correct information
-  are always shown for streaming (e.g. online radios)
+  is always shown for streaming (e.g. online radios)
 + Ticket #4043, Statistic: Show playback rate for audio files
 * If MPC-HC is configured to override the splitter choice when doing the initial track selection,
   tracks selected at splitter level will be preferred in case more than one tracks match the criteria
@@ -45,28 +45,28 @@ next version - not released yet
 ! VMR-7 renderless: subtitles were not displayed except in fullscreen
 ! Ensure dynamic menus dependent on the currently playing media are updated when the media changes while a menu is opened
 ! DVB subtitles: Subtitles were sometimes only partially rendered with some parts disappearing immediately
-! DVB and PGS subtitles: Subtitles were sometimes one frame late. This was invisible most of the time
+! DVB and PGS subtitles: Subtitles were sometimes one frame late. This was invisible most of the time,
   but it could produce blinking in some cases
-! ISR: Crop PGS and DVB subtitles if they don't fit into video frame
+! ISR: Crop PGS and DVB subtitles if they don't fit into the video frame
 ! ISR/VSFilter: Use correct colorimetry information for PGS and DVB subtitles
 ! ISR: Subtitles could be partially rendered when using no subtitle queue
 ! ISR: Text subtitles were incorrectly displayed after switching from PGS/DVB subtitles
-! PGS subtitles: Subtitles displayed just after seeking could be wrong
-! Ticket #2588, Subtitle renderer: The subtitle's shadow was not drawn when the subtitle's border was very thin
+! PGS subtitles: Subtitles being displayed just after seeking could be wrong
+! Ticket #2588, Subtitle renderer: The subtitles' shadow was not drawn when their border was very thin
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
 ! Ticket #2994, Fix toolbar separators not being properly painted
-! Ticket #3437, Audio Switcher: Support fallback to another media type. For example, this enables audio decoders
+! Ticket #3437, Audio Switcher: Support fallback to another media type. For example, this allows audio decoders
   to fallback to normal decoding if bitstreaming isn't supported
 ! Ticket #3544, Prevent the low-merit fall-back on internal LAV Splitter to demux raw subtitle formats
 ! Ticket #3691, PGS subtitle timings were sometimes wrong (subtitles started or ended too late)
 ! Ticket #3763, VMR-9 renderless and EVR-CP: The displayed subtitle was not updated when seeking while playback was paused
 ! Ticket #3775, "Play -> Subtitles" menu could be mistakenly disabled when the internal subtitle renderer was unavailable
 ! Ticket #3980/#4037, Exiting fullscreen sometimes produced visual artifacts
-! Ticket #3987, Entering fullscreen when mpc-hc window occupied the whole monitor produced visual artifacts
+! Ticket #3987, Entering fullscreen when MPC-HC window occupied the whole monitor produced visual artifacts
 ! Ticket #3999, Work around a crash in the math library for x64 builds
 ! Ticket #4004, Fullscreen/windowed transition was not as smooth as in 1.7.1 and prior
 ! Ticket #4011, Fix image saving for streams with characters not supported in path names
-! Ticket #4013, Subtitle renderer: Fix a crash on malformed animated transforms (\t tags with no parameters)
+! Ticket #4013, Subtitle renderer: Fix a crash on malformed animated transforms ("\t" tags with no parameters)
 ! Ticket #4020, Update dialog: Fix incorrect version info when using Belarusian, Slovenian or Russian translations
 ! Ticket #4050, MPC-HC could crash when loading invalid DVB channel settings
 ! Ticket #4070, Restore compatibility with KatMouse
