@@ -236,9 +236,9 @@ function autoplay(a) {
     cap = ((cap > len && !Live) ? len : (cap < 0 ? 0 : cap));
     if (sas.checked === true || a === true) {
         update(cap, true);
-        cpf.value = secondsToTS(cap, 5, false);
+        cpf.value = secondsToTS(cap, 5);
     }
-    var gg = " " + secondsToTS(cap, 5, true) + " ";
+    var gg = " " + secondsToTS(cap, 5) + " ";
     cp.innerHTML = gg;
     rpt = cap;
     return true;
@@ -247,7 +247,7 @@ function autoplay(a) {
 function sliderClick(e) {
     "use strict";
     update((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getOffsetX(s) - Math.floor(sliderButtonWidth / 2) + sc, false);
-    cpf.value = secondsToTS(curPos, 5, false);
+    cpf.value = secondsToTS(curPos, 5);
     sas.checked = false;
     return true;
 }
@@ -337,7 +337,7 @@ function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, 
     sb1.onclick = sb2.onclick = sb3.onclick = sliderClick;
     vs1.onclick = vs2.onclick = vs3.onclick = volSliderClick;
     sas.checked = true;
-    cp.innerHTML = cpf.value = secondsToTS(curPos, 5, false);
+    cp.innerHTML = cpf.value = secondsToTS(curPos, 5);
     rpt = curPos;
     if (state === 2 && pbr !== 0) {
         autoplay();
