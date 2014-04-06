@@ -53,9 +53,7 @@ optgroup{font-weight:700}
     box-sizing: border-box;
 }
 
-body,
-th,
-td {
+body {
     font: 14px Arial, Verdana, Helvetica, Sans-Serif;
 }
 
@@ -100,6 +98,7 @@ img {
 .browser-table th:first-child {
     width: 100%;
 }
+
 
 
 
@@ -307,7 +306,7 @@ form input {
 }
 
 #seekbar td {
-    font-size:0;
+    font-size: 0;
 }
 
 #leftside {
