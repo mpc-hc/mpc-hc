@@ -330,6 +330,7 @@ function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, 
         getById("muted").innerHTML = "M";
     }
     vs2.title = volume;
+    sb2.title = secondsToTS(curPos, 5);
     s.height = sb1.height = sb2.height = sb3.height = vs.height = vs1.height = vs2.height = vs3.height = 20;
     s.width = sliderSize + (sb2.width = sliderButtonWidth);
     vs.width = vss + (vs2.width = vsb);
@@ -415,6 +416,11 @@ function onStatus (title, status, pos, posStr, dur, durStr, muted, volume) {
     el = getById("seekbarchright");
     if (el) {
         el.width = sbpercent < 100 ? (100 - sbpercent) + "%" : "1px";
+    }
+
+    el = getById("seekbargrip");
+    if (el) {
+        el.title = posStr;
     }
 
     el = getById("status");
