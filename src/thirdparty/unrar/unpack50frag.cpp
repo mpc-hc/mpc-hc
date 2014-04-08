@@ -7,14 +7,25 @@ FragmentedWindow::FragmentedWindow()
 
 FragmentedWindow::~FragmentedWindow()
 {
+  Reset();
+}
+
+
+void FragmentedWindow::Reset()
+{
   for (uint I=0;I<ASIZE(Mem);I++)
     if (Mem[I]!=NULL)
+    {
       free(Mem[I]);
+      Mem[I]=NULL;
+    }
 }
 
 
 void FragmentedWindow::Init(size_t WinSize)
 {
+  Reset();
+
   uint BlockNum=0;
   size_t TotalSize=0; // Already allocated.
   while (TotalSize<WinSize && BlockNum<ASIZE(Mem))

@@ -91,7 +91,7 @@ void Unpack::Init(size_t WinSize,bool Solid)
   if (Grow && Fragmented)
     throw std::bad_alloc();
 
-  byte *NewWindow=(byte *)malloc(WinSize);
+  byte *NewWindow=Fragmented ? NULL : (byte *)malloc(WinSize);
 
   if (NewWindow==NULL)
     if (Grow || WinSize<0x1000000)
@@ -102,6 +102,11 @@ void Unpack::Init(size_t WinSize,bool Solid)
     }
     else
     {
+      if (Window!=NULL) // If allocated by preceding files.
+      {
+        free(Window);
+        Window=NULL;
+      }
       FragWindow.Init(WinSize);
       Fragmented=true;
     }

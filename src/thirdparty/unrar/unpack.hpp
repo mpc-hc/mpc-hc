@@ -133,8 +133,8 @@ struct UnpackFilter
   uint BlockStart;
   uint BlockLength;
   byte Channels;
-  uint Width;
-  byte PosR;
+//  uint Width;
+//  byte PosR;
   bool NextWindow;
 };
 
@@ -171,6 +171,8 @@ class FragmentedWindow
 {
   private:
     enum {MAX_MEM_BLOCKS=32};
+
+    void Reset();
     byte *Mem[MAX_MEM_BLOCKS];
     size_t MemSize[MAX_MEM_BLOCKS];
   public:
@@ -192,8 +194,6 @@ class Unpack:PackDef
     void Unpack5MT(bool Solid);
     bool UnpReadBuf();
     void UnpWriteBuf();
-    uint FilterItanium_GetBits(byte *Data,int BitPos,int BitCount);
-    void FilterItanium_SetBits(byte *Data,uint BitField,int BitPos,int BitCount);
     byte* ApplyFilter(byte *Data,uint DataSize,UnpackFilter *Flt);
     void UnpWriteArea(size_t StartPtr,size_t EndPtr);
     void UnpWriteData(byte *Data,size_t Size);

@@ -1049,6 +1049,9 @@ void Archive::ProcessExtra50(RawRead *Raw,size_t ExtraSize,BaseBlock *bb)
               Raw->GetB(UtfName,NameSize);
               UtfName[NameSize]=0;
             }
+#ifdef _WIN_ALL
+            UnixSlashToDos(UtfName,UtfName,ASIZE(UtfName));
+#endif
             UtfToWide(UtfName,hd->RedirName,ASIZE(hd->RedirName));
           }
           break;

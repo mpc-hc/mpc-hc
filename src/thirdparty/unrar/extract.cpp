@@ -735,7 +735,7 @@ void CmdExtract::UnstoreFile(ComprDataIO &DataIO,int64 DestUnpSize)
 
 bool CmdExtract::ExtractFileCopy(File &New,wchar *ArcName,wchar *NameNew,wchar *NameExisting,size_t NameExistingSize)
 {
-  SlashToNative(NameExisting,NameExisting,NameExistingSize);
+  SlashToNative(NameExisting,NameExisting,NameExistingSize); // Not needed for RAR 5.1+ archives.
 
   File Existing;
   if (!Existing.WOpen(NameExisting))

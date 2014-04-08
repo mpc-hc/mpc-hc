@@ -260,7 +260,6 @@ void RarTime::SetAgeText(const wchar *TimeText)
     }
   }
   SetCurrentTime();
-  int64 RawTime=GetRaw();
   SetRaw(itime-uint64(Seconds)*10000000);
 }
 #endif

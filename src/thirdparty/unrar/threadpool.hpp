@@ -47,6 +47,7 @@ class ThreadPool
       void *Param;
     };
 
+    void CreateThreads();
     static NATIVE_THREAD_TYPE PoolThread(void *Param);
   	void PoolThreadLoop();
   	bool GetQueuedTask(QueueEntry *Task);
@@ -54,6 +55,9 @@ class ThreadPool
     // Number of threads in the pool. Must not exceed MaxPoolThreads.
     uint MaxAllowedThreads;
   	THREAD_HANDLE ThreadHandles[MaxPoolThreads];
+
+    // Number of actually created threads.
+    uint ThreadsCreatedCount;
 
     uint ActiveThreads;
 

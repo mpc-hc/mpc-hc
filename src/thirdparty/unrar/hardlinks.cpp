@@ -1,12 +1,12 @@
 bool ExtractHardlink(wchar *NameNew,wchar *NameExisting,size_t NameExistingSize)
 {
+  SlashToNative(NameExisting,NameExisting,NameExistingSize); // Not needed for RAR 5.1+ archives.
+
   if (!FileExist(NameExisting))
     return false;
   CreatePath(NameNew,true);
 
 #ifdef _WIN_ALL
-  UnixSlashToDos(NameExisting,NameExisting,NameExistingSize);
-
   bool Success=CreateHardLink(NameNew,NameExisting,NULL)!=0;
   if (!Success)
   {
@@ -16,8 +16,6 @@ bool ExtractHardlink(wchar *NameNew,wchar *NameExisting,size_t NameExistingSize)
   }
   return Success;
 #elif defined(_UNIX)
-  DosSlashToUnix(NameExisting,NameExisting,NameExistingSize);
-
   char NameExistingA[NM],NameNewA[NM];
   WideToChar(NameExisting,NameExistingA,ASIZE(NameExistingA));
   WideToChar(NameNew,NameNewA,ASIZE(NameNewA));

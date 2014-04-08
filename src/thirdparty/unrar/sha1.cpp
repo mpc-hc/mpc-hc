@@ -193,7 +193,7 @@ uint blen = ((uint)len)<<3;
 #ifdef BIG_ENDIAN
             if (!handsoff)
             {
-              unsigned char *d=data+i;
+              unsigned char *d=(unsigned char *)(data+i);
               for (int k=0;k<64;k+=4)
               {
                 byte b0=d[k],b1=d[k+1];

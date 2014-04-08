@@ -311,10 +311,12 @@ int PASCAL ProcessFile(HANDLE hArcData,int Operation,char *DestPath,char *DestNa
       if (DestPath!=NULL)
       {
         char ExtrPathA[NM];
-#ifdef _WIN_ALL
-        OemToCharBuffA(DestPath,ExtrPathA,ASIZE(ExtrPathA)-2);
-#else
         strncpyz(ExtrPathA,DestPath,ASIZE(ExtrPathA)-2);
+#ifdef _WIN_ALL
+        // We must not apply OemToCharBuffA directly to DestPath,
+        // because we do not know DestPath length and OemToCharBuffA
+        // does not stop at 0.
+        OemToCharA(ExtrPathA,ExtrPathA);
 #endif
         CharToWide(ExtrPathA,Data->Cmd.ExtrPath,ASIZE(Data->Cmd.ExtrPath));
         AddEndSlash(Data->Cmd.ExtrPath,ASIZE(Data->Cmd.ExtrPath));
@@ -322,10 +324,12 @@ int PASCAL ProcessFile(HANDLE hArcData,int Operation,char *DestPath,char *DestNa
       if (DestName!=NULL)
       {
         char DestNameA[NM];
-#ifdef _WIN_ALL
-        OemToCharBuffA(DestName,DestNameA,ASIZE(DestNameA)-2);
-#else
         strncpyz(DestNameA,DestName,ASIZE(DestNameA)-2);
+#ifdef _WIN_ALL
+        // We must not apply OemToCharBuffA directly to DestName,
+        // because we do not know DestName length and OemToCharBuffA
+        // does not stop at 0.
+        OemToCharA(DestNameA,DestNameA);
 #endif
         CharToWide(DestNameA,Data->Cmd.DllDestName,ASIZE(Data->Cmd.DllDestName));
       }

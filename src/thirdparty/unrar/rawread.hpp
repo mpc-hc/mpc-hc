@@ -51,7 +51,11 @@ inline uint RawGet2(const void *Data)
 inline uint RawGet4(const void *Data)
 {
   byte *D=(byte *)Data;
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
   return D[0]+(D[1]<<8)+(D[2]<<16)+(D[3]<<24);
+#else
+  return GET_UINT32(*(uint32 *)D);
+#endif
 }
 
 inline uint64 RawGet8(const void *Data)
@@ -74,10 +78,14 @@ inline void RawPut2(uint Field,void *Data)
 inline void RawPut4(uint Field,void *Data)
 {
   byte *D=(byte *)Data;
+#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
   D[0]=(byte)(Field);
   D[1]=(byte)(Field>>8);
   D[2]=(byte)(Field>>16);
   D[3]=(byte)(Field>>24);
+#else
+  *(uint32 *)D=Field;
+#endif
 }
 
 

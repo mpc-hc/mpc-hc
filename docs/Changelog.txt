@@ -24,7 +24,7 @@ next version - not released yet
 * Cleaned up WebUI's Javascript code
 * Updated SoundTouch to v1.8.0
 * Updated Little CMS to v2.6 (git 40300b1)
-* Updated Unrar to v5.1.1
+* Updated Unrar to v5.1.2
 * Updated MediaInfoLib to v0.7.68
 * Updated ZenLib to v0.4.29 r446
 * Updated LAV Filters to stable version 0.61.2:

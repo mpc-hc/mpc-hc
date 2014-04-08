@@ -415,12 +415,6 @@ void Unpack::UnpackDecode(UnpackThreadData &D)
       CurItem->Length=Filter.Channels;
       CurItem->Distance=Filter.BlockLength;
 
-      CurItem=D.Decoded+D.DecodedSize++;
-
-      CurItem->Type=UNPDT_FILTER;
-      CurItem->Length=Filter.PosR;
-      CurItem->Distance=Filter.Width;
-
       continue;
     }
     if (MainSlot==257)
@@ -503,11 +497,6 @@ bool Unpack::ProcessDecoded(UnpackThreadData &D)
 
               Filter.Channels=(byte)Item->Length;
               Filter.BlockLength=Item->Distance;
-
-              Item++;
-
-              Filter.PosR=(byte)Item->Length;
-              Filter.Width=Item->Distance;
 
               AddFilter(Filter);
             }

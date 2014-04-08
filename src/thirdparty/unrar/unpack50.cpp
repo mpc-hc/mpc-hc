@@ -177,19 +177,10 @@ bool Unpack::ReadFilter(BitInput &Inp,UnpackFilter &Filter)
   Filter.Type=Inp.fgetbits()>>13;
   Inp.faddbits(3);
 
-  if (Filter.Type==FILTER_DELTA || Filter.Type==FILTER_AUDIO)
+  if (Filter.Type==FILTER_DELTA)
   {
     Filter.Channels=(Inp.fgetbits()>>11)+1;
     Inp.faddbits(5);
-  }
-
-  if (Filter.Type==FILTER_RGB)
-  {
-    Filter.Channels=3;
-    Filter.Width=Inp.fgetbits()+1;
-    Inp.faddbits(16);
-    Filter.PosR=Inp.fgetbits()>>14;
-    Inp.faddbits(2);
   }
 
   return true;
@@ -392,62 +383,6 @@ void Unpack::UnpWriteBuf()
 }
 
 
-uint Unpack::FilterItanium_GetBits(byte *Data,int BitPos,int BitCount)
-{
-  int InAddr=BitPos/8;
-  int InBit=BitPos&7;
-  uint BitField=(uint)Data[InAddr++];
-  BitField|=(uint)Data[InAddr++] << 8;
-  BitField|=(uint)Data[InAddr++] << 16;
-  BitField|=(uint)Data[InAddr] << 24;
-  BitField >>= InBit;
-  return(BitField & (0xffffffff>>(32-BitCount)));
-}
-
-
-void Unpack::FilterItanium_SetBits(byte *Data,uint BitField,int BitPos,int BitCount)
-{
-  int InAddr=BitPos/8;
-  int InBit=BitPos&7;
-  uint AndMask=0xffffffff>>(32-BitCount);
-  AndMask=~(AndMask<<InBit);
-
-  BitField<<=InBit;
-
-  for (uint I=0;I<4;I++)
-  {
-    Data[InAddr+I]&=AndMask;
-    Data[InAddr+I]|=BitField;
-    AndMask=(AndMask>>8)|0xff000000;
-    BitField>>=8;
-  }
-}
-
-
-inline uint GetFiltData32(byte *Data)
-{
-#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
-  uint Value=GET_UINT32((uint)Data[0]|((uint)Data[1]<<8)|((uint)Data[2]<<16)|((uint)Data[3]<<24));
-#else
-  uint Value=GET_UINT32(*(uint32 *)Data);
-#endif
-  return Value;
-}
-
-
-inline void SetFiltData32(byte *Data,uint Value)
-{
-#if defined(BIG_ENDIAN) || !defined(ALLOW_MISALIGNED) || !defined(PRESENT_INT32)
-   Data[0]=(byte)Value;
-   Data[1]=(byte)(Value>>8);
-   Data[2]=(byte)(Value>>16);
-   Data[3]=(byte)(Value>>24);
-#else
-   *(int32 *)Data=Value;
-#endif
-}
-
-
 byte* Unpack::ApplyFilter(byte *Data,uint DataSize,UnpackFilter *Flt)
 {
   byte *SrcData=Data;
@@ -467,18 +402,18 @@ byte* Unpack::ApplyFilter(byte *Data,uint DataSize,UnpackFilter *Flt)
           if (CurByte==0xe8 || CurByte==CmpByte2)
           {
             uint Offset=(CurPos+FileOffset)%FileSize;
-            uint Addr=GetFiltData32(Data);
+            uint Addr=RawGet4(Data);
 
             // We check 0x80000000 bit instead of '< 0' comparison
             // not assuming int32 presence or uint size and endianness.
             if ((Addr & 0x80000000)!=0)              // Addr<0
             {
               if (((Addr+Offset) & 0x80000000)==0)   // Addr+Offset>=0
-                SetFiltData32(Data,Addr+FileSize);
+                RawPut4(Addr+FileSize,Data);
             }
             else
               if (((Addr-FileSize) & 0x80000000)!=0) // Addr<FileSize
-                SetFiltData32(Data,Addr-Offset);
+                RawPut4(Addr-Offset,Data);
 
             Data+=4;
             CurPos+=4;
@@ -503,109 +438,6 @@ byte* Unpack::ApplyFilter(byte *Data,uint DataSize,UnpackFilter *Flt)
         }
       }
       return SrcData;
-    case FILTER_ITANIUM:
-      {
-        uint FileOffset=(uint)WrittenFileSize;
-
-        uint CurPos=0;
-
-        FileOffset>>=4;
-
-        while ((int)CurPos<(int)DataSize-21)
-        {
-          int Byte=(Data[0]&0x1f)-0x10;
-          if (Byte>=0)
-          {
-            static byte Masks[16]={4,4,6,6,0,0,7,7,4,4,0,0,4,4,0,0};
-            byte CmdMask=Masks[Byte];
-            if (CmdMask!=0)
-              for (int I=0;I<=2;I++)
-                if (CmdMask & (1<<I))
-                {
-                  int StartPos=I*41+5;
-                  int OpType=FilterItanium_GetBits(Data,StartPos+37,4);
-                  if (OpType==5)
-                  {
-                    int Offset=FilterItanium_GetBits(Data,StartPos+13,20);
-                    FilterItanium_SetBits(Data,(Offset-FileOffset)&0xfffff,StartPos+13,20);
-                  }
-                }
-          }
-          Data+=16;
-          CurPos+=16;
-          FileOffset++;
-        }
-      }
-      return SrcData;
-    case FILTER_AUDIO:
-      {
-        uint Channels=Flt->Channels;
-
-        byte *SrcData=Data;
-
-        FilterDstMemory.Alloc(DataSize);
-        byte *DstData=&FilterDstMemory[0];
-        
-        for (uint CurChannel=0;CurChannel<Channels;CurChannel++)
-        {
-          uint PrevByte=0,PrevDelta=0,Dif[7];
-          int D1=0,D2=0,D3;
-          int K1=0,K2=0,K3=0;
-          memset(Dif,0,sizeof(Dif));
-
-          for (uint I=CurChannel,ByteCount=0;I<DataSize;I+=Channels,ByteCount++)
-          {
-            D3=D2;
-            D2=PrevDelta-D1;
-            D1=PrevDelta;
-
-            uint Predicted=8*PrevByte+K1*D1+K2*D2+K3*D3;
-            Predicted=(Predicted>>3) & 0xff;
-
-            uint CurByte=*(SrcData++);
-
-            Predicted-=CurByte;
-            DstData[I]=Predicted;
-            PrevDelta=(signed char)(Predicted-PrevByte);
-            PrevByte=Predicted;
-
-            int D=((signed char)CurByte)<<3;
-
-            Dif[0]+=abs(D);
-            Dif[1]+=abs(D-D1);
-            Dif[2]+=abs(D+D1);
-            Dif[3]+=abs(D-D2);
-            Dif[4]+=abs(D+D2);
-            Dif[5]+=abs(D-D3);
-            Dif[6]+=abs(D+D3);
-
-            if ((ByteCount & 0x1f)==0)
-            {
-              uint MinDif=Dif[0],NumMinDif=0;
-              Dif[0]=0;
-              for (uint J=1;J<ASIZE(Dif);J++)
-              {
-                if (Dif[J]<MinDif)
-                {
-                  MinDif=Dif[J];
-                  NumMinDif=J;
-                }
-                Dif[J]=0;
-              }
-              switch(NumMinDif)
-              {
-                case 1: if (K1>=-16) K1--; break;
-                case 2: if (K1 < 16) K1++; break;
-                case 3: if (K2>=-16) K2--; break;
-                case 4: if (K2 < 16) K2++; break;
-                case 5: if (K3>=-16) K3--; break;
-                case 6: if (K3 < 16) K3++; break;
-              }
-            }
-          }
-        }
-        return DstData;
-      }
     case FILTER_DELTA:
       {
         uint Channels=Flt->Channels,SrcPos=0;
@@ -620,55 +452,6 @@ byte* Unpack::ApplyFilter(byte *Data,uint DataSize,UnpackFilter *Flt)
           byte PrevByte=0;
           for (uint DestPos=CurChannel;DestPos<DataSize;DestPos+=Channels)
             DstData[DestPos]=(PrevByte-=Data[SrcPos++]);
-        }
-        return DstData;
-      }
-    case FILTER_RGB:
-      {
-        uint Width=Flt->Width,PosR=Flt->PosR;
-
-        byte *SrcData=Data;
-
-        FilterDstMemory.Alloc(DataSize);
-        byte *DstData=&FilterDstMemory[0];
-        
-        const int Channels=3;
-
-        for (uint CurChannel=0;CurChannel<Channels;CurChannel++)
-        {
-          uint PrevByte=0;
-
-          for (uint I=CurChannel;I<DataSize;I+=Channels)
-          {
-            uint Predicted;
-            int UpperPos=I-Width;
-            if (UpperPos>=3)
-            {
-              byte *UpperData=DstData+UpperPos;
-              uint UpperByte=*UpperData;
-              uint UpperLeftByte=*(UpperData-3);
-              Predicted=PrevByte+UpperByte-UpperLeftByte;
-              int pa=abs((int)(Predicted-PrevByte));
-              int pb=abs((int)(Predicted-UpperByte));
-              int pc=abs((int)(Predicted-UpperLeftByte));
-              if (pa<=pb && pa<=pc)
-                Predicted=PrevByte;
-              else
-                if (pb<=pc)
-                  Predicted=UpperByte;
-                else
-                  Predicted=UpperLeftByte;
-            }
-            else
-              Predicted=PrevByte;
-            DstData[I]=PrevByte=(byte)(Predicted-*(SrcData++));
-          }
-        }
-        for (uint I=PosR,Border=DataSize-2;I<Border;I+=3)
-        {
-          byte G=DstData[I+1];
-          DstData[I]+=G;
-          DstData[I+2]+=G;
         }
         return DstData;
       }
