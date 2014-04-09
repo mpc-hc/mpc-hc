@@ -27,7 +27,7 @@ next version - not released yet
 * Updated Unrar to v5.1.1
 * Updated MediaInfoLib to v0.7.68
 * Updated ZenLib to v0.4.29 r446
-* Updated LAV Filters to stable version 0.61.1:
+* Updated LAV Filters to stable version 0.61.2:
     - LAV Audio: Improve error recovery on slightly corrupted audio streams
     - LAV Video: Fix a rare crash that could occur for high resolutions
     - LAV Video: Fix artifacts on some H264 streams with both software and DXVA decoding
