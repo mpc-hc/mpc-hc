@@ -1185,6 +1185,9 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
         return FALSE;
     }
 
+    if (pMsg->message == WM_KEYDOWN) {
+        m_bAltDownClean = false;
+    }
     if (pMsg->message == WM_SYSKEYDOWN) {
         m_bAltDownClean = (pMsg->wParam == VK_MENU);
     }
