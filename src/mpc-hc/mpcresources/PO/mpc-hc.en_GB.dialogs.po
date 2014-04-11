@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Sir_Burpalot <doctor.z01db3rg@gmail.com>, 2013
+# Sir_Burpalot <doctor.z01db3rg@gmail.com>, 2013-2014
 # Underground78, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-01-07 14:37+0000\n"
+"POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
+"PO-Revision-Date: 2014-04-05 23:10+0000\n"
 "Last-Translator: Sir_Burpalot <doctor.z01db3rg@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/mpc-hc/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -467,7 +467,7 @@ msgstr "Auto-load audio files"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr ""
+msgstr "Use the built-in subtitle renderer"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"

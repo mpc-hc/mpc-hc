@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alex_Silva <alex.mooca@hotmail.com>, 2014
-# rfrfrf <lipe2000@outlook.com>, 2013
+# rfrfrf <lipe2000@outlook.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-02-17 08:49+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2014-04-01 20:10+0000\n"
+"Last-Translator: rfrfrf <lipe2000@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +51,7 @@ msgstr "Arquivos recentes"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "&Fechar"
+msgstr "Fechar"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
@@ -195,7 +195,7 @@ msgstr "&Idioma (Language)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Ajustes do renderizador"
+msgstr "Ajustes do Renderer"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
@@ -251,7 +251,7 @@ msgstr "Processamento em ponto flutuante de 16-bit"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Desativar composição da área de trabalho"
+msgstr "Desativar composição da área de trabalho (Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
@@ -663,15 +663,15 @@ msgstr "Menu de legendas"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr "Menu de &áudio"
+msgstr "Menu de &Áudio"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr "Menu de ân&gulos"
+msgstr "Menu de Ân&gulos"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Menu de &capítulos"
+msgstr "Menu de &Capítulos"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
@@ -679,7 +679,7 @@ msgstr "&Favoritos"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr "A&juda"
+msgstr "Ajuda"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
@@ -699,7 +699,7 @@ msgstr "Baixar imagens para barra de ferramentas"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "Doe para o projeto"
+msgstr "Doar para o projeto"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."

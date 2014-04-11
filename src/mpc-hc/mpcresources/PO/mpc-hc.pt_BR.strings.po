@@ -5,14 +5,14 @@
 # Alex_Silva <alex.mooca@hotmail.com>, 2014
 # Alex_Silva <alex.mooca@hotmail.com>, 2014
 # brunoarmanelli <brunoarmanelli@me.com>, 2014
-# rfrfrf <lipe2000@outlook.com>, 2013
+# rfrfrf <lipe2000@outlook.com>, 2013-2014
 # Rhapy <raphael.mendonca@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-03-26 20:40+0000\n"
-"Last-Translator: Rhapy <raphael.mendonca@hotmail.com>\n"
+"PO-Revision-Date: 2014-04-01 20:10+0000\n"
+"Last-Translator: rfrfrf <lipe2000@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -482,39 +482,39 @@ msgstr "Isto irá corrigir os ícones que aparecem incorretamente após uma atua
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr "Processador de vídeo antigo"
+msgstr "Video Renderer Antigo"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "Processador Overlay Mixer"
+msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Processador misturador de Video 7 (Janela)"
+msgstr "Video Mixing Renderer 7 (Janela)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Processador misturador de Video 9 (Janela)"
+msgstr "Video Mixing Renderer 9 (Janela)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Processador misturador de Video 7 (sem processamento)"
+msgstr "Video Mixing Renderer 7 (sem render)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Processador misturador de Video 9 (sem processamento)"
+msgstr "Video Mixing Renderer 9 (sem render)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "Processador de Vídeo aprimorado"
+msgstr "Video Renderer Aprimorado"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr "Processador de Vídeo aprimorado (personalizado)"
+msgstr "Video Renderer Aprimorado (personalizado)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr "Haali Video"
+msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
@@ -658,7 +658,7 @@ msgstr "A saída do mecanismo da Real será renderizado pelo \"Allocator-Present
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
-msgstr "O próprio Processador vídeo do QuickTime. Torna-se um pouco lento quando sua área de vídeo é redimensionada ou parcialmente coberta por outra janela. quando o Overlay não esta disponível ele retorna ao GDI."
+msgstr "O Processador de vídeo do QuickTime. Torna-se um pouco lento quando sua área de vídeo é redimensionada ou parcialmente coberta por outra janela. quando o Overlay não esta disponível ele retorna ao GDI."
 
 msgctxt "IDC_QTDX7"
 msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
@@ -678,7 +678,7 @@ msgstr "MPC Audio Renderer está danificado, não use."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr "Sync Processamento"
+msgstr "Sync Renderer"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
@@ -686,7 +686,7 @@ msgstr "MPC-HC - Reportar um bug"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC travou mas esta compilação está sem informação de depuração.\nSe quiser reportar este bug, você deve primeiro instalar uma compilação oficial.\n\nDo you want to visit the download page now?"
+msgstr "MPC-HC travou mas esta compilação está sem informação de depuração.\nSe quiser reportar este bug, você deve primeiro instalar uma compilação oficial.\n\nGostaria de visitar a página de download agora?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -730,7 +730,7 @@ msgstr "**Indisponível**"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
 msgid "The selected renderer is not installed."
-msgstr "O Processador selecionado não está instalado."
+msgstr "O Renderer selecionado não está instalado."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
@@ -742,7 +742,7 @@ msgstr "Nulo (sem compressão)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr "Renderizador de Áudio do MPC-HC"
+msgstr "Áudio Renderer do MPC-HC"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -754,7 +754,7 @@ msgstr "Tipo MIME"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "De maneira a ver um recurso embutido no seu navegador web, você tem de habilitar a interface web.\n\nUse o botão \"Salvar Como\" se gostaria apenas de salvar a informação."
+msgstr "De maneira a ver um recurso embutido no seu navegador, você tem de habilitar a interface web.\n\nUse o botão \"Salvar Como\" se gostaria apenas de salvar a informação."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -822,7 +822,7 @@ msgstr "Abre VTS_xx_0.ifo para carregar todos os arquivos VTS_xx_x.vob de uma s�
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "Baseado no RARFileSource, não suporta arquivos. comprimidos"
+msgstr "Baseado no RARFileSource, não suporta arquivos comprimidos"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -1338,7 +1338,7 @@ msgstr "Mover para a Lixeira"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
-msgstr "Salvar e Copiar"
+msgstr "Salvar uma Copia"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"

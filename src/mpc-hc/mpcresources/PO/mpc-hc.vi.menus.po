@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# datanhlg <datanhlg@gmail.com>, 2014
+# Luong Anh Dat <datanhlg@gmail.com>, 2014
 # anhminhvks <anhminhvks@yahoo.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-02-28 16:34+0000\n"
+"PO-Revision-Date: 2014-04-02 04:20+0000\n"
 "Last-Translator: anhminhvks <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -143,7 +143,7 @@ msgstr "&Điều hướng"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "Gỡ rối đổ b&óng"
+msgstr "&Hiệu chỉnh bộ đổ bóng"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -379,7 +379,7 @@ msgstr "&Khung hình"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr "&Phân nửa"
+msgstr "&Giảm phân nửa"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
@@ -387,7 +387,7 @@ msgstr "&Bình thường"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr "&Gấp đôi"
+msgstr "&Tăng gấp đôi"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
@@ -439,11 +439,11 @@ msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "1&85:100"
+msgstr "&185:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "&Điều chỉnh tỷ lệ hiển thị"
+msgstr "&Hiệu chỉnh tỷ lệ hiển thị"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -459,47 +459,47 @@ msgstr "&Giảm kích thước"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr "Tăng &bề rộng"
+msgstr "&Tăng chiều rộng"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "Giảm bề rộng"
+msgstr "&Giảm chiều rộng"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr "Tăng bề dài"
+msgstr "&Tăng chiều cao"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "Giảm bề dài"
+msgstr "&Giảm chiều cao"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "Sang &phải"
+msgstr "&Qua phải"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "Sang &trái"
+msgstr "&Qua trái"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "Lên t&rên"
+msgstr "&Lên trên"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "Dịch &xuống"
+msgstr "&Xuống dưới"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "&Căn giữa"
+msgstr "&Chính giữa"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "&Đặt lại"
+msgstr "&Thiết lập lại"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "Trên &đỉnh"
+msgstr "&Luôn ở trên"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -511,23 +511,23 @@ msgstr "&Luôn luôn"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "&Khi phát"
+msgstr "&Khi đang phát"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "Khi &phát video"
+msgstr "&Khi đang phát hình"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Tuỳ chọn"
+msgstr "&Tùy chọn"
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr "Phát"
+msgstr "&Phát"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "&Phát/Dừng"
+msgstr "&Phát/Tạm ngừng"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
@@ -535,19 +535,19 @@ msgstr "&Ngừng"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
-msgstr "&Khung hình"
+msgstr "&Xem từng khung hình"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "Tăng đánh giá"
+msgstr "&Giảm tốc độ"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "Giảm đánh giá"
+msgstr "&Tăng tốc độ"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "Đặt lại"
+msgstr "&Thiết lập lại tốc độ"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -559,15 +559,15 @@ msgstr "&Bộ đổ bóng"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
-msgstr "Âm thanh"
+msgstr "&Âm thanh"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"
-msgstr "Phụ &đề"
+msgstr "&Phụ đề"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
-msgstr "Luồng video"
+msgstr "&Hình ảnh"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -575,51 +575,51 @@ msgstr "&Âm lượng"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
-msgstr "Tăng"
+msgstr "&Tăng"
 
 msgctxt "ID_VOLUME_DOWN"
 msgid "&Down"
-msgstr "Giảm"
+msgstr "&Giảm"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Im"
+msgstr "&Im lặng"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "Sau khi phát lại"
+msgstr "&Sau khi phát"
 
 msgctxt "ID_AFTERPLAYBACK_ONCE"
 msgid "--------- Once ---------"
-msgstr "--------- Một lần---------"
+msgstr "----- Chỉ một lần -----"
 
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
-msgstr "Đóng"
+msgstr "&Thoát"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "Chuyển sang chế độ sẵn sàng"
+msgstr "&Chế độ chờ"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "Ngủ đông"
+msgstr "&Chế độ ngủ đông"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "Tắt máy"
+msgstr "&Tắt máy"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Chuyển chế độ"
+msgstr "&Đăng xuất"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "Khoá máy"
+msgstr "&Khoá máy"
 
 msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
 msgid "------ Every time ------"
-msgstr "------ Mọi lúc ------"
+msgstr "----- Cho mọi lần -----"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "E&xit"
@@ -627,51 +627,51 @@ msgstr "&Thoát"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do &Nothing"
-msgstr "Đừng làm gì"
+msgstr "&Không làm gì"
 
 msgctxt "ID_AFTERPLAYBACK_NEXT"
 msgid "Play next in the &folder"
-msgstr "Phát tệp kế tiếp"
+msgstr "&Phát tập tin kế tiếp"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "Điều hướng"
+msgstr "&Điều hướng"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
-msgstr "Lùi"
+msgstr "&Lui"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "&Next"
-msgstr "Tiếp"
+msgstr "&Tới"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "&Đi đến..."
+msgstr "&Đi đến"
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
-msgstr "Tiêu đề menu"
+msgstr "&Trình đơn tiêu đề"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "Menu chính"
+msgstr "&Trình đơn gốc"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "Menu phụ &đề"
+msgstr "&Trình đơn phụ đề"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr "Menu âm thanh"
+msgstr "&Trình đơn âm thanh"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr "Menu góc"
+msgstr "&Trình đơn góc"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Menu phần"
+msgstr "&Trình đơn chương"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
@@ -683,7 +683,7 @@ msgstr "&Trợ giúp"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "Trang &chủ"
+msgstr "&Trang chủ"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
@@ -691,17 +691,17 @@ msgstr "&Kiểm tra cập nhật"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "Chuyển chế độ dịch"
+msgstr "&Chế độ dòng lệnh"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Tải hình thanh công cụ"
+msgstr "&Tải xuống thanh công cụ khác"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "Ủng hộ"
+msgstr "&Tài trợ"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "&Về"
+msgstr "&Giới thiệu"
 

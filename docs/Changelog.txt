@@ -36,9 +36,9 @@ next version - not released yet
     - LAV Splitter: Fix the opening of some Blu-ray discs which would take several minutes and could hang the player
     - Ticket #4035, LAV Video: Some frames were dropped when playing RealVideo files
     - Ticket #4057, LAV Splitter: Some WAV files were incorrectly detected as DTS
-* Updated Armenian, Basque, Catalan, Simplified and Traditional Chinese, Czech, French, Galician, German, Greek,
-  Hebrew, Hungarian, Italian, Japanese, Korean, Malay, Polish, Portuguese (Brazil), Romanian, Russian, Slovenian,
-  Slovak, Spanish, Swedish, Turkish, Ukrainian and Vietnamese translations
+* Updated Armenian, Basque, British English, Catalan, Simplified and Traditional Chinese, Croatian, Czech, French,
+  Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay, Polish, Portuguese (Brazil), Romanian,
+  Russian, Slovenian, Slovak, Spanish, Swedish, Turkish, Ukrainian and Vietnamese translations
 ! Properties dialog: Some tracks could have been missing from the streams list
 ! Fix incorrectly displayed OSD in case the message contained the character '&'. Also make top-left and
   top-right OSD size consistent and improve the behavior when the text is too big to be displayed entirely

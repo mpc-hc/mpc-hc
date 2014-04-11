@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# khagaroth, 2013
+# khagaroth, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-15 20:40:48+0000\n"
-"PO-Revision-Date: 2014-02-06 13:44+0000\n"
+"POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
+"PO-Revision-Date: 2014-03-23 07:41+0000\n"
 "Last-Translator: khagaroth\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -466,7 +466,7 @@ msgstr "Automaticky načíst zvukové stopy"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr ""
+msgstr "Použít vestavěný zobrazovač titulků"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"

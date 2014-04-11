@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# datanhlg <datanhlg@gmail.com>, 2014
+# Luong Anh Dat <datanhlg@gmail.com>, 2014
+# anhminhvks <anhminhvks@yahoo.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
-"PO-Revision-Date: 2014-02-27 09:31+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
+"PO-Revision-Date: 2014-04-02 04:40+0000\n"
+"Last-Translator: anhminhvks <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1234,7 +1235,7 @@ msgstr "Phần mềm giải mã"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "&Tốc độ phát"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2322,7 +2323,7 @@ msgstr "(Giám đốc bình luận 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "&Kích hoạt phụ đề DVD"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"
@@ -3386,23 +3387,23 @@ msgstr "Bộ tách bên ngoài có thể có các tùy chọn ngôn ngữ ưu ti
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "&Danh sách Blu-Ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Danh sách"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "&Chương"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "&Tựa đề"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "&Kênh"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

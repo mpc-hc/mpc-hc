@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # anxo_cruel <feiticeiro2010@hotmail.es>, 2014
+# enfeitizador <enfeitizador@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
-"PO-Revision-Date: 2014-02-28 21:56+0000\n"
-"Last-Translator: anxo_cruel <feiticeiro2010@hotmail.es>\n"
+"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
+"PO-Revision-Date: 2014-04-08 19:10+0000\n"
+"Last-Translator: enfeitizador <enfeitizador@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +63,7 @@ msgstr "Propiedades"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "Estilo por &Defecto"
+msgstr "Estilo pre&definido"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -362,11 +363,11 @@ msgstr "&Abrir"
 
 msgctxt "IDS_PLAYLIST_ADD"
 msgid "A&dd"
-msgstr "E&ngadir"
+msgstr "Enga&dir"
 
 msgctxt "IDS_PLAYLIST_REMOVE"
 msgid "&Remove"
-msgstr "&Eliminar"
+msgstr "Elimina&r"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
@@ -374,7 +375,7 @@ msgstr "&Limpar"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
-msgstr "&Copiar ao Portapapeis"
+msgstr "&Copiar ao portapapeis"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
@@ -390,7 +391,7 @@ msgstr "Agrupar por R&utas"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "&Aleatorio"
+msgstr "Ale&atoriamente"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
@@ -902,7 +903,7 @@ msgstr "&Orixinal"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
-msgstr "&Actual"
+msgstr "A&ctual"
 
 msgctxt "IDS_SUBRESYNC_EDIT"
 msgid "&Edit"
@@ -918,7 +919,7 @@ msgstr "&Non"
 
 msgctxt "IDS_SUBRESYNC_DECREASE"
 msgid "&Decrease"
-msgstr "&Disminuir"
+msgstr "&Diminuír"
 
 msgctxt "IDS_SUBRESYNC_INCREASE"
 msgid "&Increase"
@@ -934,15 +935,15 @@ msgstr "Escoller &sombreadores..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Sombreadores de depuración..."
+msgstr "Sombreadores de &depuración..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
-msgstr "&Engadir a Favoritos"
+msgstr "Eng&adir a favoritos"
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
 msgid "&Organize Favorites..."
-msgstr "&Organizar Favoritos..."
+msgstr "&Organizar favoritos..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Shuffle"
@@ -1062,7 +1063,7 @@ msgstr "&Opcións..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
-msgstr "&Estilos..."
+msgstr "E&stilos..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
@@ -1390,11 +1391,11 @@ msgstr "Miniaturas gardadas satisfactoriamente"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Stream"
-msgstr "&Secuencia de Vídeo"
+msgstr "Secuencia de &vídeo"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
-msgstr "Ángu&lo de Vídeo"
+msgstr "Ángu&lo de vídeo"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
@@ -2322,7 +2323,7 @@ msgstr "(Comentario do Director N° 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "Activar subtítulos DVD"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"
@@ -2454,7 +2455,7 @@ msgstr "Trocar Zoom do VidFrm"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
-msgstr "&Habilitar todos os filtros"
+msgstr "Activ&e todos os filtros"
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -2574,7 +2575,7 @@ msgstr "Amosar Menú &&Subtítulos"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Agochar &Menú"
+msgstr "Agochar &menú"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3118,7 +3119,7 @@ msgstr "Servidor non atopado.\n\nPor favor verifique se está conectado ou tént
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
-msgstr "&Pechar"
+msgstr "Pe&char"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
@@ -3386,11 +3387,11 @@ msgstr "Divisores externos poden ter as súas propias opcións de preferencia de
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "&Lista de reprodución Blu-ray"
+msgstr "Lista de reprodución &Blu-ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr "&Lista de reprodución"
+msgstr "Lista de re&produción"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"

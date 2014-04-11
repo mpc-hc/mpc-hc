@@ -4,13 +4,14 @@
 # Translators:
 # Adolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2014
 # whippiii <whippiii@gmail.com>, 2013
+# fdelacruz <freddy@delacruz.cl>, 2014
 # squallmx <squallmx@users.sourceforge.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-03-30 07:10+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
+"PO-Revision-Date: 2014-03-31 19:21+0000\n"
+"Last-Translator: fdelacruz <freddy@delacruz.cl>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -972,7 +973,7 @@ msgstr "EDL Nuevo Clip"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
-msgstr "Lista Borrada"
+msgstr "Borrar Lista"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
@@ -3084,11 +3085,11 @@ msgstr ""
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "aumento de Tono"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "reducción de Tono"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"

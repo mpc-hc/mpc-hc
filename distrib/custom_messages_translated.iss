@@ -130,7 +130,7 @@ sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekomm
 sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
 
 ; Turkish
-tr.WelcomeLabel2=[name] medya dosyaları oynatıcısı bilgisayarınıza kurulacaktır.%n%nDevam etmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
+tr.WelcomeLabel2=[name] medya oynatıcısı programı bilgisayarınıza kurulacaktır.%n%nKuruluma geçmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
 tr.WinVersionTooLowError=[name] kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
 
 ; Tatar
@@ -142,7 +142,7 @@ uk.WelcomeLabel2=На ваш комп'ютер буде встановлено [
 uk.WinVersionTooLowError=[name] вимагає використання ОС Windows XP Service Pack 3 або пізнішої версії.
 
 ; Vietnamese
-vi.WelcomeLabel2=Chuẩn bị cài đặt [name] vào máy tính của bạn.%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
+vi.WelcomeLabel2=Chuẩn bị cài đặt [name] vào máy tính của bạn.%n%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
 vi.WinVersionTooLowError=Để cài đặt, [name] yêu cầu Windows XP Service Pack 3 hoặc mới hơn.
 
 ; Chinese (P.R.C.)
@@ -710,12 +710,12 @@ uk.ViewChangelog=Показати журнал змін
 vi.langid=00001066
 vi.comp_mpciconlib=Thư viện biểu tượng
 vi.comp_mpcresources=Các gói ngôn ngữ
-vi.msg_DeleteSettings=Bạn cũng muốn xóa các thiết lập của MPC-HC?%nNếu bạn dự định cài đặt lại MPC-HC thì bạn không cần phải xóa chúng.
+vi.msg_DeleteSettings=Bạn cũng muốn xóa các thiết lập của MPC-HC?%n%nNếu bạn dự định cài đặt lại MPC-HC thì bạn không cần phải xóa chúng.
 vi.msg_SetupIsRunningWarning=MPC-HC đang được cài đặt!
 #if defined(sse_required)
-vi.msg_simd_sse=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE.%nCPU của bạn không đáp ứng được yêu cầu này.
+vi.msg_simd_sse=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE.%n%nCPU của bạn không đáp ứng được yêu cầu này.
 #elif defined(sse2_required)
-vi.msg_simd_sse2=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE2.%nCPU của bạn không đáp ứng được yêu cầu này.
+vi.msg_simd_sse2=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE2.%n%nCPU của bạn không đáp ứng được yêu cầu này.
 #endif
 vi.tsk_AllUsers=Cho mọi người dùng
 vi.tsk_CurrentUser=Chỉ cho người dùng hiện tại

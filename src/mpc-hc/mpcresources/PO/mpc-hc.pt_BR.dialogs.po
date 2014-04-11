@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alex_Silva <alex.mooca@hotmail.com>, 2014
-# rfrfrf <lipe2000@outlook.com>, 2013
+# rfrfrf <lipe2000@outlook.com>, 2013-2014
 # Rhapy <raphael.mendonca@hotmail.com>, 2014
+# rfrfrf <lipe2000@outlook.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
-"PO-Revision-Date: 2014-03-26 20:40+0000\n"
-"Last-Translator: Rhapy <raphael.mendonca@hotmail.com>\n"
+"PO-Revision-Date: 2014-04-09 19:00+0000\n"
+"Last-Translator: rfrfrf <lipe2000@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,7 +137,7 @@ msgstr "Tempo"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "Ir"
+msgstr "Ir!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
@@ -148,7 +149,7 @@ msgstr "Quadro"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "Ir"
+msgstr "Ir!"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
@@ -196,7 +197,7 @@ msgstr "Copyright © 2002-2014 - veja o arquivo Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Este programa é gratuito e foi licenciado sob os termos da Licença Geral Pública do GNU."
+msgstr "Este programa é gratuito e foi licenciado sob os termos da Licença Geral Pública GNU."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -232,7 +233,7 @@ msgstr "Nome:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Copiar para a área de transferência"
+msgstr "Copiar para área de transferência"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -256,7 +257,7 @@ msgstr "Barra de títulos"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
-msgstr "Mostrar o caminho completo"
+msgstr "Exibir o caminho completo"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
@@ -276,11 +277,11 @@ msgstr "Outros"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
-msgstr "Mostrar ícone na bandeja"
+msgstr "Ícone da bandeja"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Mostrar OSD (necessário reiniciar)"
+msgstr "Exibir OSD (necessário reiniciar)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
@@ -456,7 +457,7 @@ msgstr "Opções de abertura"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Usar processo funcional para construir filtro gráfico"
+msgstr "Usar processo funcional para construir filtro do gráfico"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
@@ -468,7 +469,7 @@ msgstr "Autocarregamento de áudio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr "Use o processador renderizador de subtítulo "
+msgstr "Use o renderer interno de legendas"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -476,7 +477,7 @@ msgstr "Controle"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
-msgstr "Passo do Volume:"
+msgstr "Incremento do Volume:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -484,7 +485,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
-msgstr "Passo da Velocidade:"
+msgstr "Incremento da Velocidade:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -652,11 +653,11 @@ msgstr "Pular diretamente para quadros-chave"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "Mostrar marcas de capítulo na barra de progresso"
+msgstr "Exibir marcas de capítulo na barra de progresso"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Mostrar informação \"Reproduzindo Agora\" no Skype's"
+msgstr "Exibir informação \"Reproduzindo Agora\" no Skype"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -672,7 +673,7 @@ msgstr "Ir para o próximo arquivo ao clicar nos botões de Pular mesmo quando h
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
-msgstr "Mostrar tempo na barra de progresso:"
+msgstr "Exibir tempo decorrido na barra de progresso:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -1104,7 +1105,7 @@ msgstr "Áudio DirectShow"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (Sem processamento) e ajustes EVR (CP)"
+msgstr "VMR-7/VMR-9 (sem render) e ajustes EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1164,7 +1165,7 @@ msgstr "Rotação"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Filtros externos (como o VSFilter) podem mostrar legendas em todos os processadores de vídeo."
+msgstr "* Filtros externos (como o VSFilter) podem exibir legendas com todos os Video Renderers."
 
 msgctxt "IDD_AUTH_DLG_CAPTION"
 msgid "Authentication needed"
@@ -1400,11 +1401,11 @@ msgstr "Abordagem de comutação de canais:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "Reconstruir filtro gráfico"
+msgstr "Reconstruir filtro do gráfico"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "Parar filtro gráfico"
+msgstr "Parar filtro do gráfico"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
@@ -1456,7 +1457,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
-msgstr "As mudanças apenas terão efeito após o fechamento do vídeo."
+msgstr "As alterações terão efeito somente após o fechamento do vídeo e seu reinicio."
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
