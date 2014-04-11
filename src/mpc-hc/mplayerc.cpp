@@ -303,6 +303,7 @@ CMPlayerCApp::CMPlayerCApp()
     , m_fClosingState(false)
     , m_fProfileInitialized(false)
     , m_bQueuedProfileFlush(false)
+    , m_dwProfileLastAccessTick(0)
     , m_bDelayingIdle(false)
 {
     TCHAR strApp[MAX_PATH];
@@ -402,6 +403,8 @@ HWND g_hWnd = nullptr;
 
 bool CMPlayerCApp::StoreSettingsToIni()
 {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
     CString ini = GetIniPath();
     free((void*)m_pszRegistryKey);
     m_pszRegistryKey = nullptr;
@@ -413,6 +416,8 @@ bool CMPlayerCApp::StoreSettingsToIni()
 
 bool CMPlayerCApp::StoreSettingsToRegistry()
 {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
     free((void*)m_pszRegistryKey);
     m_pszRegistryKey = nullptr;
 
@@ -455,6 +460,8 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 
 bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
     bool success;
 
     // Load favorites so that they can be correctly saved to the new location
@@ -519,16 +526,18 @@ bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
 
 void CMPlayerCApp::InitProfile()
 {
-    // Calls to CMPlayerCApp::InitProfile() are not serialized,
-    // so we serialize its internals
-    CSingleLock lock(&m_ProfileCriticalSection, TRUE);
-
-    if (m_fProfileInitialized) {
-        return;
-    }
-    m_fProfileInitialized = true;
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (!m_pszRegistryKey) {
+        // Don't reread mpc-hc.ini if the cache needs to be flushed or it was accessed recently
+        if (m_fProfileInitialized && (m_bQueuedProfileFlush || GetTickCount() - m_dwProfileLastAccessTick < 100)) {
+            m_dwProfileLastAccessTick = GetTickCount();
+            return;
+        }
+
+        m_fProfileInitialized = true;
+        m_dwProfileLastAccessTick = GetTickCount();
+
         ASSERT(m_pszProfileName);
         if (!FileExists(m_pszProfileName)) {
             return;
@@ -565,6 +574,10 @@ void CMPlayerCApp::InitProfile()
         }
 
         CStdioFile file(fp);
+
+        ASSERT(!m_bQueuedProfileFlush);
+        m_ProfileMap.clear();
+
         CString line, section, var, val;
         while (file.ReadString(line)) {
             // Parse mpc-hc.ini file, this parser:
@@ -593,22 +606,23 @@ void CMPlayerCApp::InitProfile()
         }
         fpStatus = fclose(fp);
         ASSERT(fpStatus == 0);
+
+        m_dwProfileLastAccessTick = GetTickCount();
     }
 }
 
 void CMPlayerCApp::FlushProfile(bool bForce/* = true*/)
 {
-    ASSERT(m_fProfileInitialized);
-
-    CSingleLock lock(&m_ProfileCriticalSection, TRUE);
-
-    if (!bForce && !m_bQueuedProfileFlush) {
-        return;
-    }
-
-    m_bQueuedProfileFlush = false;
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (!m_pszRegistryKey) {
+        if (!bForce && !m_bQueuedProfileFlush) {
+            return;
+        }
+
+        m_bQueuedProfileFlush = false;
+
+        ASSERT(m_fProfileInitialized);
         ASSERT(m_pszProfileName);
 
         FILE* fp;
@@ -648,10 +662,7 @@ void CMPlayerCApp::FlushProfile(bool bForce/* = true*/)
 
 BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes)
 {
-    if (!m_fProfileInitialized) {
-        InitProfile();
-        ASSERT(m_fProfileInitialized);
-    }
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (m_pszRegistryKey) {
         return CWinApp::GetProfileBinary(lpszSection, lpszEntry, ppData, pBytes);
@@ -668,7 +679,7 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
         }
         CString valueStr;
 
-        m_ProfileCriticalSection.Lock();
+        InitProfile();
         auto it1 = m_ProfileMap.find(sectionStr);
         if (it1 != m_ProfileMap.end()) {
             auto it2 = it1->second.find(keyStr);
@@ -676,7 +687,6 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
                 valueStr = it2->second;
             }
         }
-        m_ProfileCriticalSection.Unlock();
         if (valueStr.IsEmpty()) {
             return FALSE;
         }
@@ -707,10 +717,7 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
 
 UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault)
 {
-    if (!m_fProfileInitialized) {
-        InitProfile();
-        ASSERT(m_fProfileInitialized);
-    }
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     int res = nDefault;
     if (m_pszRegistryKey) {
@@ -727,7 +734,7 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
             return res;
         }
 
-        m_ProfileCriticalSection.Lock();
+        InitProfile();
         auto it1 = m_ProfileMap.find(sectionStr);
         if (it1 != m_ProfileMap.end()) {
             auto it2 = it1->second.find(keyStr);
@@ -735,17 +742,13 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
                 res = _ttoi(it2->second);
             }
         }
-        m_ProfileCriticalSection.Unlock();
     }
     return res;
 }
 
 CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault)
 {
-    if (!m_fProfileInitialized) {
-        InitProfile();
-        ASSERT(m_fProfileInitialized);
-    }
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     CString res;
     if (m_pszRegistryKey) {
@@ -765,7 +768,7 @@ CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, L
             res = lpszDefault;
         }
 
-        m_ProfileCriticalSection.Lock();
+        InitProfile();
         auto it1 = m_ProfileMap.find(sectionStr);
         if (it1 != m_ProfileMap.end()) {
             auto it2 = it1->second.find(keyStr);
@@ -773,17 +776,13 @@ CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, L
                 res = it2->second;
             }
         }
-        m_ProfileCriticalSection.Unlock();
     }
     return res;
 }
 
 BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE pData, UINT nBytes)
 {
-    if (!m_fProfileInitialized) {
-        InitProfile();
-        ASSERT(m_fProfileInitialized);
-    }
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (m_pszRegistryKey) {
         return CWinApp::WriteProfileBinary(lpszSection, lpszEntry, pData, nBytes);
@@ -807,23 +806,20 @@ BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
             buffer[i * 2 + 1] = 'A' + (pData[i] >> 4 & 0xf);
         }
         valueStr.ReleaseBufferSetLength(nBytes * 2);
-        m_ProfileCriticalSection.Lock();
+
+        InitProfile();
         CString& old = m_ProfileMap[sectionStr][keyStr];
         if (old != valueStr) {
             old = valueStr;
             m_bQueuedProfileFlush = true;
         }
-        m_ProfileCriticalSection.Unlock();
         return TRUE;
     }
 }
 
 BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue)
 {
-    if (!m_fProfileInitialized) {
-        InitProfile();
-        ASSERT(m_fProfileInitialized);
-    }
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (m_pszRegistryKey) {
         return CWinApp::WriteProfileInt(lpszSection, lpszEntry, nValue);
@@ -839,25 +835,21 @@ BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int n
             return FALSE;
         }
         CString valueStr;
-
         valueStr.Format(_T("%d"), nValue);
-        m_ProfileCriticalSection.Lock();
+
+        InitProfile();
         CString& old = m_ProfileMap[sectionStr][keyStr];
         if (old != valueStr) {
             old = valueStr;
             m_bQueuedProfileFlush = true;
         }
-        m_ProfileCriticalSection.Unlock();
         return TRUE;
     }
 }
 
 BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue)
 {
-    if (!m_fProfileInitialized) {
-        InitProfile();
-        ASSERT(m_fProfileInitialized);
-    }
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (m_pszRegistryKey) {
         return CWinApp::WriteProfileString(lpszSection, lpszEntry, lpszValue);
@@ -871,16 +863,16 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
             ASSERT(FALSE);
             return FALSE;
         }
+        CString keyStr(lpszEntry);
+        if (lpszEntry && keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+
+        InitProfile();
 
         // Mimic CWinApp::WriteProfileString() behavior
         if (lpszEntry) {
-            CString keyStr(lpszEntry);
-            if (keyStr.IsEmpty()) {
-                ASSERT(FALSE);
-                return FALSE;
-            }
-
-            m_ProfileCriticalSection.Lock();
             if (lpszValue) {
                 CString& old = m_ProfileMap[sectionStr][keyStr];
                 if (old != lpszValue) {
@@ -895,13 +887,10 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
                     }
                 }
             }
-            m_ProfileCriticalSection.Unlock();
         } else { // Delete section
-            m_ProfileCriticalSection.Lock();
             if (m_ProfileMap.erase(sectionStr)) {
                 m_bQueuedProfileFlush = true;
             }
-            m_ProfileCriticalSection.Unlock();
         }
         return TRUE;
     }
@@ -909,6 +898,8 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
 
 bool CMPlayerCApp::HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
     bool ret = false;
     if (m_pszRegistryKey) {
         HKEY hSectionKey = GetSectionKey(lpszSection);
@@ -918,6 +909,7 @@ bool CMPlayerCApp::HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry)
             ret = (lResult == ERROR_SUCCESS);
         }
     } else {
+        InitProfile();
         auto it1 = m_ProfileMap.find(lpszSection);
         if (it1 != m_ProfileMap.end()) {
             auto& sectionMap = it1->second;

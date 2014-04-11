@@ -58,6 +58,7 @@
 #include "IBufferInfo.h"
 
 #include "WebServer.h"
+#include <afxmt.h>
 #include <d3d9.h>
 #include <vmr9.h>
 #include <evr.h>

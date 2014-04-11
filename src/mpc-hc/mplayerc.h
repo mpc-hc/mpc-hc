@@ -34,7 +34,7 @@
 #include <vmr9.h>
 #include <dxva2api.h> //#include <evr9.h>
 #include <map>
-#include <afxmt.h>
+#include <mutex>
 
 #include "EventDispatcher.h"
 
@@ -149,7 +149,8 @@ private:
     bool m_fProfileInitialized;
     bool m_bQueuedProfileFlush;
     void InitProfile();
-    ::CCriticalSection m_ProfileCriticalSection;
+    std::recursive_mutex m_profileMutex;
+    DWORD m_dwProfileLastAccessTick;
 public:
     void FlushProfile(bool bForce = true);
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes) override;
