@@ -146,7 +146,7 @@ public:
 
 private:
     std::map<CString, std::map<CString, CString, CStringUtils::IgnoreCaseLess>, CStringUtils::IgnoreCaseLess> m_ProfileMap;
-    bool m_fProfileInitialized;
+    bool m_bProfileInitialized;
     bool m_bQueuedProfileFlush;
     void InitProfile();
     std::recursive_mutex m_profileMutex;

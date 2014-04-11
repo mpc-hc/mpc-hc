@@ -301,7 +301,7 @@ END_MESSAGE_MAP()
 CMPlayerCApp::CMPlayerCApp()
     : m_hNTDLL(nullptr)
     , m_fClosingState(false)
-    , m_fProfileInitialized(false)
+    , m_bProfileInitialized(false)
     , m_bQueuedProfileFlush(false)
     , m_dwProfileLastAccessTick(0)
     , m_bDelayingIdle(false)
@@ -532,12 +532,12 @@ void CMPlayerCApp::InitProfile()
 
     if (!m_pszRegistryKey) {
         // Don't reread mpc-hc.ini if the cache needs to be flushed or it was accessed recently
-        if (m_fProfileInitialized && (m_bQueuedProfileFlush || GetTickCount() - m_dwProfileLastAccessTick < 100)) {
+        if (m_bProfileInitialized && (m_bQueuedProfileFlush || GetTickCount() - m_dwProfileLastAccessTick < 100)) {
             m_dwProfileLastAccessTick = GetTickCount();
             return;
         }
 
-        m_fProfileInitialized = true;
+        m_bProfileInitialized = true;
         m_dwProfileLastAccessTick = GetTickCount();
 
         ASSERT(m_pszProfileName);
@@ -624,7 +624,7 @@ void CMPlayerCApp::FlushProfile(bool bForce/* = true*/)
 
         m_bQueuedProfileFlush = false;
 
-        ASSERT(m_fProfileInitialized);
+        ASSERT(m_bProfileInitialized);
         ASSERT(m_pszProfileName);
 
         FILE* fp;
@@ -1331,7 +1331,7 @@ BOOL CMPlayerCApp::InitInstance()
         }
 
         // If the profile was already cached, it should be cleared here
-        ASSERT(!m_fProfileInitialized);
+        ASSERT(!m_bProfileInitialized);
 
         // Remove the settings
         if (IsIniValid()) {
