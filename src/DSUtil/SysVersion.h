@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,30 +22,18 @@
 
 #include <Windows.h>
 
-class SysVersion
+namespace SysVersion
 {
-    SysVersion() {};
-    ~SysVersion() {};
+    OSVERSIONINFOEX GetFullVersion();
+    DWORD GetVersion();
 
-    static OSVERSIONINFOEX InitFullVersion();
-    static bool InitIs64Bit();
+    bool IsXPOrLater();
+    bool IsVista();
+    bool IsVistaOrLater();
+    bool Is7();
+    bool Is7OrLater();
+    bool Is8();
+    bool Is8OrLater();
 
-    static const OSVERSIONINFOEX fullVersion;
-    static const DWORD version;
-
-    static const bool is64Bit;
-
-public:
-    static OSVERSIONINFOEX GetFullVersion() { return fullVersion; }
-    static DWORD GetVersion() { return version; }
-
-    static bool IsXPOrLater() { return (version >= 0x0501); }
-    static bool IsVista() { return (version == 0x0600); }
-    static bool IsVistaOrLater() { return (version >= 0x0600); }
-    static bool Is7() { return (version == 0x0601); }
-    static bool Is7OrLater() { return (version >= 0x0601); }
-    static bool Is8() { return (version == 0x0602); }
-    static bool Is8OrLater() { return (version >= 0x0602); }
-
-    static bool Is64Bit() { return is64Bit; }
+    bool Is64Bit();
 };
