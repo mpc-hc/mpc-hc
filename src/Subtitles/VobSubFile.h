@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -80,25 +80,6 @@ public:
 class __declspec(uuid("998D4C9A-460F-4de6-BDCD-35AB24F94ADF"))
     CVobSubFile : public CVobSubSettings, public ISubStream, public CSubPicProviderImpl
 {
-protected:
-    CString m_title;
-
-    void TrimExtension(CString& fn);
-    bool ReadIdx(CString fn, int& ver), ReadSub(CString fn), ReadRar(CString fn), ReadIfo(CString fn);
-    bool WriteIdx(CString fn, int delay), WriteSub(CString fn);
-
-    CMemFile m_sub;
-
-    BYTE* GetPacket(int idx, int& packetsize, int& datasize, int iLang = -1);
-    bool GetFrame(int idx, int iLang = -1);
-    bool GetFrameByTimeStamp(__int64 time);
-    int GetFrameIdxByTimeStamp(__int64 time);
-
-    bool SaveVobSub(CString fn, int delay);
-    bool SaveWinSubMux(CString fn, int delay);
-    bool SaveScenarist(CString fn, int delay);
-    bool SaveMaestro(CString fn, int delay);
-
 public:
     struct SubPos {
         __int64 filepos;
@@ -115,10 +96,30 @@ public:
         CAtlArray<SubPos> subpos;
     };
 
+protected:
+    CString m_title;
+
+    void TrimExtension(CString& fn);
+    bool ReadIdx(CString fn, int& ver), ReadSub(CString fn), ReadRar(CString fn), ReadIfo(CString fn);
+    bool WriteIdx(CString fn, int delay), WriteSub(CString fn);
+
+    CMemFile m_sub;
+
+    BYTE* GetPacket(int idx, int& packetsize, int& datasize, int iLang = -1);
+    const SubPos* GetFrameInfo(int idx, int iLang = -1) const;
+    bool GetFrame(int idx, int iLang = -1);
+    bool GetFrameByTimeStamp(__int64 time);
+    int GetFrameIdxByTimeStamp(__int64 time);
+
+    bool SaveVobSub(CString fn, int delay);
+    bool SaveWinSubMux(CString fn, int delay);
+    bool SaveScenarist(CString fn, int delay);
+    bool SaveMaestro(CString fn, int delay);
+
+public:
     int m_iLang;
     SubLang m_langs[32];
 
-public:
     CVobSubFile(CCritSec* pLock);
     virtual ~CVobSubFile();
 
