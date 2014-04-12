@@ -84,7 +84,7 @@ public:
     struct SubPos {
         __int64 filepos;
         __int64 start, stop;
-        bool fForced;
+        bool fForced, bAnimated;
         char vobid, cellid;
         __int64 celltimestamp;
         bool fValid;
@@ -107,7 +107,7 @@ protected:
 
     BYTE* GetPacket(int idx, int& packetsize, int& datasize, int iLang = -1);
     const SubPos* GetFrameInfo(int idx, int iLang = -1) const;
-    bool GetFrame(int idx, int iLang = -1);
+    bool GetFrame(int idx, int iLang = -1, REFERENCE_TIME rt = -1);
     bool GetFrameByTimeStamp(__int64 time);
     int GetFrameIdxByTimeStamp(__int64 time);
 
@@ -170,6 +170,7 @@ class __declspec(uuid("D7FBFB45-2D13-494F-9B3D-FFC9557D5C45"))
     CCritSec m_csSubPics;
     struct SubPic {
         REFERENCE_TIME tStart, tStop;
+        bool bAnimated;
         CAtlArray<BYTE> pData;
     };
     CAutoPtrList<SubPic> m_subpics;

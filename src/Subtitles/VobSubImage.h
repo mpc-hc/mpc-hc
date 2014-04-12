@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -60,7 +60,8 @@ private:
 
 public:
     int iLang, iIdx;
-    bool fForced;
+    bool fForced, bAnimated;
+    int tCurrent;
     __int64 start, delay;
     CRect rect;
     struct SubPal {
@@ -74,8 +75,8 @@ public:
 
     void Invalidate() { iLang = iIdx = -1; }
 
-    void GetPacketInfo(const BYTE* lpData, int packetsize, int datasize);
-    bool Decode(BYTE* lpData, int packetsize, int datasize,
+    void GetPacketInfo(const BYTE* lpData, int packetsize, int datasize, int t = INT_MAX);
+    bool Decode(BYTE* lpData, int packetsize, int datasize, int t,
                 bool fCustomPal,
                 int tridx,
                 RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/,

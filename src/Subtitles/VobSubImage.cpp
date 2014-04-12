@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,6 +29,7 @@ CVobSubImage::CVobSubImage()
     : iLang(-1)
     , iIdx(-1)
     , fForced(false)
+    , bAnimated(false)
     , start(0)
     , delay(0)
     , rect(CRect(0, 0, 0, 0))
@@ -89,13 +90,13 @@ void CVobSubImage::Free()
     lpPixels = nullptr;
 }
 
-bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize,
+bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize, int t,
                           bool fCustomPal,
                           int tridx,
                           RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/,
                           bool fTrim)
 {
-    GetPacketInfo(lpData, packetsize, datasize);
+    GetPacketInfo(lpData, packetsize, datasize, t);
 
     if (!Alloc(rect.Width(), rect.Height())) {
         return false;
@@ -149,17 +150,18 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize,
     return true;
 }
 
-void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasize)
+void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasize, int t /*= INT_MAX*/)
 {
     //  delay = 0;
 
     int i, nextctrlblk = datasize;
     WORD pal = 0, tr = 0;
+    WORD nPal = 0, nTr = 0;
 
     do {
         i = nextctrlblk;
 
-        int t = (lpData[i] << 8) | lpData[i + 1];
+        tCurrent = 1024 * ((lpData[i] << 8) | lpData[i + 1]) / 90;
         i += 2;
         nextctrlblk = (lpData[i] << 8) | lpData[i + 1];
         i += 2;
@@ -167,6 +169,10 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
         if (nextctrlblk > packetsize || nextctrlblk < datasize) {
             ASSERT(0);
             return;
+        }
+
+        if (tCurrent > t) {
+            break;
         }
 
         bool fBreak = false;
@@ -214,15 +220,17 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
                     fForced = false;
                     break;
                 case 0x02: // stop displaying
-                    delay = 1024 * t / 90;
+                    delay = tCurrent;
                     break;
                 case 0x03:
                     pal = (lpData[i] << 8) | lpData[i + 1];
                     i += 2;
+                    nPal++;
                     break;
                 case 0x04:
                     tr = (lpData[i] << 8) | lpData[i + 1];
                     i += 2;
+                    nTr++;
                     //tr &= 0x00f0;
                     break;
                 case 0x05:
@@ -252,6 +260,8 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
         this->pal[i].pal = (pal >> (i << 2)) & 0xf;
         this->pal[i].tr = (tr >> (i << 2)) & 0xf;
     }
+
+    bAnimated = (nPal > 1 || nTr > 1);
 }
 
 BYTE CVobSubImage::GetNibble(const BYTE* lpData)

@@ -52,6 +52,7 @@ next version - not released yet
 ! ISR: Subtitles could be partially rendered when using no subtitle queue
 ! ISR: Text subtitles were incorrectly displayed after switching from PGS/DVB subtitles
 ! PGS subtitles: Subtitles being displayed just after seeking could be wrong
+! Ticket #1814, Vobsub: Support animated subtitles (with fade in/out)
 ! Ticket #2588, Subtitle renderer: The subtitles' shadow was not drawn when their border was very thin
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
 ! Ticket #2994, Fix toolbar separators not being properly painted
