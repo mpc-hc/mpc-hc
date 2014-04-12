@@ -5383,6 +5383,9 @@ void CMainFrame::OnViewDisplayStatsSC()
         if (AfxGetMyApp()->m_Renderers.m_iDisplayStats > 3) {
             AfxGetMyApp()->m_Renderers.m_iDisplayStats = 0;
         }
+        if (GetMediaState() == State_Paused) {
+            RepaintVideo();
+        }
     }
 }
 
