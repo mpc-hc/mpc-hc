@@ -74,7 +74,7 @@ public:
     void GetDestrect(CRect& r); // destrect of m_img, considering the current alignment mode
     void GetDestrect(CRect& r, int w, int h); // this will scale it to the frame size of (w, h)
 
-    void SetAlignment(bool fAlign, int x, int y, int hor, int ver);
+    void SetAlignment(bool fAlign, int x, int y, int hor = 1, int ver = 1);
 };
 
 class __declspec(uuid("998D4C9A-460F-4de6-BDCD-35AB24F94ADF"))

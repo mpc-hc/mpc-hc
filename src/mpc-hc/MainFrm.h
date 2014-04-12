@@ -519,12 +519,13 @@ public:
     int SetupSubtitleStreams();
 
     bool LoadSubtitle(CString fn, SubtitleInput* pSubInput = nullptr, bool bAutoLoad = false);
-    bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false, bool bApplyDefStyle = false);
-    void SetSubtitle(const SubtitleInput& subInput, bool bApplyDefStyle = false);
+    bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false);
+    void SetSubtitle(const SubtitleInput& subInput);
     void ToggleSubtitleOnOff(bool bDisplayMessage = false);
     void ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = DWORD_PTR_MAX, REFERENCE_TIME rtInvalidate = -1);
     void ReloadSubtitle();
+    void UpdateOverridePlacement();
     HRESULT InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin* pPinto);
 
     void SetAudioTrackIdx(int index);

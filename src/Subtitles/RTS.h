@@ -346,6 +346,8 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
     int m_polygonBaselineOffset;
     STSStyle* m_pStyleOverride; // the app can decide to use this style instead of a built-in one
     bool m_doOverrideStyle;
+    bool m_bOverridePlacement;
+    CSize m_overridePlacement;
 
     void ParseEffect(CSubtitle* sub, CString str);
     void ParseString(CSubtitle* sub, CStringW str, STSStyle& style);
@@ -369,11 +371,16 @@ public:
     virtual void Empty();
 
     // call to signal this RTS to ignore any of the styles and apply the given override style
-    void SetOverride(bool doOverride = true, STSStyle* styleOverride = nullptr) {
+    void SetOverride(bool doOverride = true, STSStyle* pStyleOverride = nullptr) {
         m_doOverrideStyle = doOverride;
-        if (styleOverride != nullptr) {
-            m_pStyleOverride = styleOverride;
+        if (pStyleOverride) {
+            m_pStyleOverride = pStyleOverride;
         }
+    }
+
+    void SetAlignment(bool bOverridePlacement, LONG lHorPos, LONG lVerPos) {
+        m_bOverridePlacement = bOverridePlacement;
+        m_overridePlacement.SetSize(lHorPos, lVerPos);
     }
 
 public:

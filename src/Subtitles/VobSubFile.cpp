@@ -1666,7 +1666,7 @@ void CVobSubSettings::GetDestrect(CRect& r, int w, int h)
     r.bottom = MulDiv(r.bottom, h, m_size.cy);
 }
 
-void CVobSubSettings::SetAlignment(bool fAlign, int x, int y, int hor, int ver)
+void CVobSubSettings::SetAlignment(bool fAlign, int x, int y, int hor /*= 1*/, int ver /*= 1*/)
 {
     m_fAlign = fAlign;
     if (fAlign) {

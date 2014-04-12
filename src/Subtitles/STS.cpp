@@ -2149,7 +2149,7 @@ void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
     m_styles[name] = style;
 }
 
-bool CSimpleTextSubtitle::SetDefaultStyle(STSStyle& s)
+bool CSimpleTextSubtitle::SetDefaultStyle(const STSStyle& s)
 {
     STSStyle* val;
     if (!m_styles.Lookup(_T("Default"), val)) {
@@ -2160,7 +2160,7 @@ bool CSimpleTextSubtitle::SetDefaultStyle(STSStyle& s)
     return true;
 }
 
-bool CSimpleTextSubtitle::GetDefaultStyle(STSStyle& s)
+bool CSimpleTextSubtitle::GetDefaultStyle(STSStyle& s) const
 {
     STSStyle* val;
     if (!m_styles.Lookup(_T("Default"), val)) {

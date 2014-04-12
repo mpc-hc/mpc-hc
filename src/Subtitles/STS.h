@@ -172,8 +172,8 @@ public:
     void AddStyle(CString name, STSStyle* style); // style will be stored and freed in Empty() later
     bool CopyStyles(const CSTSStyleMap& styles, bool fAppend = false);
 
-    bool SetDefaultStyle(STSStyle& s);
-    bool GetDefaultStyle(STSStyle& s);
+    bool SetDefaultStyle(const STSStyle& s);
+    bool GetDefaultStyle(STSStyle& s) const;
 
     void ConvertToTimeBased(double fps);
     void ConvertToFrameBased(double fps);

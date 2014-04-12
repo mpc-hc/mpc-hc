@@ -162,25 +162,26 @@ BOOL CPPageSubtitles::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
 
-    if (s.fOverridePlacement != !!m_fOverridePlacement
-            || s.nHorPos != m_nHorPos
-            || s.nVerPos != m_nVerPos
-            || s.m_RenderersSettings.nSPCSize != m_nSPCSize
+    if (s.m_RenderersSettings.nSPCSize != m_nSPCSize
             || s.nSubDelayInterval != m_nSubDelayInterval
             || s.m_RenderersSettings.nSPCMaxRes != TranslateResOut(m_spmaxres.GetCurSel())
             || s.m_RenderersSettings.fSPCPow2Tex != !!m_fSPCPow2Tex
             || s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering != !!m_fSPCAllowAnimationWhenBuffering) {
-        s.fOverridePlacement = !!m_fOverridePlacement;
-        s.nHorPos = m_nHorPos;
-        s.nVerPos = m_nVerPos;
         s.m_RenderersSettings.nSPCSize = m_nSPCSize;
         s.nSubDelayInterval = m_nSubDelayInterval;
         s.m_RenderersSettings.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
         s.m_RenderersSettings.fSPCPow2Tex = !!m_fSPCPow2Tex;
         s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
+    }
 
-        if (CMainFrame* pFrame = (CMainFrame*)GetParentFrame()) {
-            pFrame->SetSubtitle(0, true, true);
+    if (s.fOverridePlacement != !!m_fOverridePlacement
+            || s.nHorPos != m_nHorPos
+            || s.nVerPos != m_nVerPos) {
+        s.fOverridePlacement = !!m_fOverridePlacement;
+        s.nHorPos = m_nHorPos;
+        s.nVerPos = m_nVerPos;
+        if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
+            pMainFrame->UpdateOverridePlacement();
         }
     }
 

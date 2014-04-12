@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -150,8 +150,8 @@ protected:
     CCritSec m_csSubLock;
     CInterfaceList<ISubStream> m_pSubStreams;
     DWORD_PTR m_nSubtitleId;
-    void UpdateSubtitle(bool fApplyDefStyle = true);
-    void SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle = true);
+    void UpdateSubtitle();
+    void SetSubtitle(ISubStream* pSubStream);
     void InvalidateSubtitle(REFERENCE_TIME rtInvalidate = -1, DWORD_PTR nSubtitleId = DWORD_PTR_MAX);
 
     // the text input pin is using these
