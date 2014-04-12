@@ -365,10 +365,7 @@ BOOL CMPlayerCApp::OnIdle(LONG lCount)
 {
     BOOL ret = __super::OnIdle(lCount);
 
-    if (m_bQueuedProfileFlush) {
-        FlushProfile();
-        ASSERT(!m_bQueuedProfileFlush);
-    }
+    FlushProfile(false);
 
     return ret;
 }
@@ -599,9 +596,15 @@ void CMPlayerCApp::InitProfile()
     }
 }
 
-void CMPlayerCApp::FlushProfile()
+void CMPlayerCApp::FlushProfile(bool bForce/* = true*/)
 {
     ASSERT(m_fProfileInitialized);
+
+    CSingleLock lock(&m_ProfileCriticalSection, TRUE);
+
+    if (!bForce && !m_bQueuedProfileFlush) {
+        return;
+    }
 
     m_bQueuedProfileFlush = false;
 
@@ -623,7 +626,6 @@ void CMPlayerCApp::FlushProfile()
         }
         CStdioFile file(fp);
         CString line;
-        m_ProfileCriticalSection.Lock();
         try {
             file.WriteString(_T("; MPC-HC\n"));
             for (auto it1 = m_ProfileMap.begin(); it1 != m_ProfileMap.end(); ++it1) {
@@ -639,7 +641,6 @@ void CMPlayerCApp::FlushProfile()
             UNREFERENCED_PARAMETER(e);
             ASSERT(FALSE);
         }
-        m_ProfileCriticalSection.Unlock();
         fpStatus = fclose(fp);
         ASSERT(fpStatus == 0);
     }

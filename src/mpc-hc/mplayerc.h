@@ -151,7 +151,7 @@ private:
     void InitProfile();
     ::CCriticalSection m_ProfileCriticalSection;
 public:
-    void FlushProfile();
+    void FlushProfile(bool bForce = true);
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes) override;
     virtual UINT GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault) override;
     virtual CString GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault = nullptr) override;
