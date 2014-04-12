@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -76,7 +76,7 @@ CStringA UrlEncode(CStringA str_in, bool fArg)
 
     for (int i = 0; i < str_in.GetLength(); i++) {
         char c = str_in[i];
-        if (fArg && (c == '#' || c == '?' || c == '%' || c == '&' || c == '=')) {
+        if (fArg && (c == ':' || c == '/' || c == '\\' || c == '#' || c == '?' || c == '%' || c == '&' || c == '=')) {
             str_out.AppendFormat("%%%02x", (BYTE)c);
         } else if (c > 0x20 && c < 0x7f) {
             str_out += c;

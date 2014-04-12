@@ -581,7 +581,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 
             files += "<tr>\r\n";
             files +=
-                "<td class=\"dirname\"><a href=\"[path]?path=" + UrlEncode(drive) + "\">" + drive + "</a></td>\r\n"
+                "<td class=\"dirname\"><a href=\"[path]?path=" + UrlEncode(drive, true) + "\">" + drive + "</a></td>\r\n"
                 "<td class=\"dirtype\">Directory</td>\r\n"
                 "<td class=\"dirsize\">&nbsp;</td>\r\n"
                 "<td class=\"dirdate\">&nbsp;</td>\r\n";
