@@ -78,16 +78,15 @@ img {
 
 /* browser.html */
 .browser-table {
-    border-collapse: separate;
-    border-spacing: 1px;
-    padding: 1px;
+    border-collapse: collapse;
     width: 100%;
 }
 
 .browser-table,
 .browser-table th,
 .browser-table td {
-    border: 1px solid black;
+    border: 2px solid black;
+    padding: 4px;
 }
 
 .browser-table th {
@@ -99,6 +98,9 @@ img {
     width: 100%;
 }
 
+.dirname {
+    font-weight: bold;
+}
 
 
 
