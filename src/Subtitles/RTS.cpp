@@ -2758,10 +2758,6 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         str = str.Mid(i);
     }
 
-    if (m_doOverrideStyle && m_pStyleOverride) {
-        sub->EmptyEffects();
-    }
-
     // just a "work-around" solution... in most cases nobody will want to use \org together with moving but without rotating the subs
     if (sub->m_effects[EF_ORG] && (sub->m_effects[EF_MOVE] || sub->m_effects[EF_BANNER] || sub->m_effects[EF_SCROLL])) {
         sub->m_fAnimated = true;
