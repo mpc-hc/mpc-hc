@@ -56,6 +56,7 @@ next version - not released yet
 ! Ticket #2588, Subtitle renderer: The subtitles' shadow was not drawn when their border was very thin
 ! Ticket #2773, Subtitle renderer: Fix possible artifacts when using karaoke effects
 ! Ticket #2994, Fix toolbar separators not being properly painted
+! Ticket #3296, Fix WebUI controls.html error due to unescaped file path
 ! Ticket #3437, Audio Switcher: Support fallback to another media type. For example, this allows audio decoders
   to fallback to normal decoding if bitstreaming isn't supported
 ! Ticket #3544, Prevent the low-merit fall-back on internal LAV Splitter to demux raw subtitle formats
