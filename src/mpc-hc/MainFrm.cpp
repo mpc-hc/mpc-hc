@@ -6869,6 +6869,7 @@ void CMainFrame::OnPlayPlay()
             CComQIPtr<IBDATuner> pTun = m_pGB;
             if (pTun) {
                 bVideoWndNeedReset = false; // SetChannel deals with MoveVideoWindow
+                m_fSetChannelActive = false;
                 SetChannel(s.nDVBLastChannel);
             } else {
                 ASSERT(FALSE);
