@@ -35,28 +35,38 @@ IF %ERRORLEVEL% NEQ 0 (
   GOTO End
 )
 
-IF EXIST "cov-int" RD /q /s "cov-int"
 
+:Cleanup
+IF EXIST "cov-int" RD /q /s "cov-int"
+IF EXIST "MPC-HC.lzma" DEL "MPC-HC.lzma"
+IF EXIST "MPC-HC.tar"  DEL "MPC-HC.tar"
+IF EXIST "MPC-HC.tgz"  DEL "MPC-HC.tgz"
+
+
+:Main
 "%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Lite Win32 main Release silent
 "%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Filters Win32 Release silent
 "%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild IconLib Win32 Release silent
 "%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Api Win32 Release silent
 
-IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
-IF EXIST "MPC-HC.tgz" DEL "MPC-HC.tgz"
-
 
 :tar
 tar --version 1>&2 2>NUL || (ECHO. & ECHO ERROR: tar not found & GOTO SevenZip)
-tar czvf "MPC-HC.tgz" "cov-int"
+tar caf "MPC-HC.lzma" "cov-int"
 GOTO End
 
 
 :SevenZip
 CALL :SubDetectSevenzipPath
-"%SEVENZIP%" a -ttar "MPC-HC.tar" "cov-int"
-"%SEVENZIP%" a -tgzip "MPC-HC.tgz" "MPC-HC.tar"
-IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
+
+rem Coverity is totally bogus with lzma...
+rem And since I cannot replicate the arguments with 7-Zip, just use tar/gzip.
+IF EXIST "%SEVENZIP%" (
+  "%SEVENZIP%" a -ttar "MPC-HC.tar" "cov-int"
+  "%SEVENZIP%" a -tgzip "MPC-HC.tgz" "MPC-HC.tar"
+  IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
+  GOTO End
+)
 
 
 :SubDetectSevenzipPath
