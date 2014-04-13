@@ -2,15 +2,16 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# schop <aprcel00@fesb.hr>, 2014
 # iivana24 <iivana24@gmail.com>, 2014
 # Ico2005 <vukasinac@gmail.com>, 2014
-# schop <za.svakakva.sranja@gmail.com>, 2014
+# schop <aprcel00@fesb.hr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
-"PO-Revision-Date: 2014-04-06 21:50+0000\n"
-"Last-Translator: schop <za.svakakva.sranja@gmail.com>\n"
+"PO-Revision-Date: 2014-04-13 10:50+0000\n"
+"Last-Translator: schop <aprcel00@fesb.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -468,7 +469,7 @@ msgstr "Automatski učitaj zvučne datoteke"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr ""
+msgstr "Koristi ugrađeni render za podnapise"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -1472,7 +1473,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr ""
+msgstr "Sakrij dodatni panel"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"

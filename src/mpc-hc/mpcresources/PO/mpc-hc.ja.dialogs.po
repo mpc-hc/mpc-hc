@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
-"PO-Revision-Date: 2014-03-29 04:40+0000\n"
+"PO-Revision-Date: 2014-04-13 15:00+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -638,7 +638,7 @@ msgstr "音楽 CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "ジャンプ間隔 (小、中、大 : ms単位)"
+msgstr "ジャンプ間隔 (小, 中, 大 : ms 単位)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -658,7 +658,7 @@ msgstr "「現在再生中」 のファイル情報を Skype のムード メッ
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "デフォルトのモニター以外でフルスクリーン表示している時はプレーヤーを最小化しない"
+msgstr "デフォルトのモニタ以外でフルスクリーン表示している時はプレーヤーを最小化しない"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
@@ -682,7 +682,7 @@ msgstr "Logitech LCD のサポートを有効にする (実験的)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "ウィンドウ モードで再生中にマウス ポインターを自動で隠す"
+msgstr "ウィンドウ モードで再生中にマウス ポインタを自動で隠す"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -782,7 +782,7 @@ msgstr "ショートカットの名前を選択してください:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
-msgstr "再生開始位置を保存"
+msgstr "再生開始位置を保存する"
 
 msgctxt "IDD_FAVADD_IDCANCEL"
 msgid "Cancel"
@@ -1058,7 +1058,7 @@ msgstr "変換フィルタ"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "内蔵 LAV Filters の設定"
+msgstr "内部 LAV Filters の設定"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1074,7 +1074,7 @@ msgstr "オーディオ デコーダ"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
-msgstr "内蔵:"
+msgstr "内部:"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
@@ -1478,11 +1478,11 @@ msgstr "再生終了時にフルスクリーンを解除する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "フルスクリーン モニター"
+msgstr "フルスクリーン モニタ"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "フルスクリーンでモニター モードの自動変更を使用する"
+msgstr "フルスクリーンでモニタ モードの自動変更を使用する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1502,7 +1502,7 @@ msgstr "下へ"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "フルスクリーン終了時にデフォルトのモニター モードを適用する"
+msgstr "フルスクリーン終了時にデフォルトのモニタ モードを適用する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
