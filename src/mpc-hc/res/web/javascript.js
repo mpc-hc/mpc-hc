@@ -292,7 +292,7 @@ if (eta === 0) {
 
 function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) {
     "use strict";
-    filePath = _filePath;
+    filePath = decodeURIComponent(_filePath);
     curPos = _curPos;
     len = _length;
     state = _state;
