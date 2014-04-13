@@ -2328,7 +2328,6 @@ void CEVRAllocatorPresenter::RenderThread()
                             }
                         } else if (m_nRenderState == Paused) {
                             if (bForcePaint) {
-                                bForcePaint = false;
                                 bStepForward = true;
                                 // Ensure that the renderer is properly updated after seeking when paused
                                 if (!g_bExternalSubtitleTime) {
@@ -2347,6 +2346,8 @@ void CEVRAllocatorPresenter::RenderThread()
                         } else {
                             MoveToScheduledList(pMFSample, true);
                         }
+
+                        bForcePaint = false;
                     } else if (m_bLastSampleOffsetValid && m_LastSampleOffset < -10000000) { // Only starve if we are 1 seconds behind
                         if (m_nRenderState == Started && !g_bNoDuration) {
                             m_pSink->Notify(EC_STARVATION, 0, 0);
