@@ -2636,9 +2636,22 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
     STSStyle stss;
     bool fScaledBAS = m_fScaledBAS;
-    if (m_doOverrideStyle && m_pStyleOverride != nullptr) {
+    if (m_doOverrideStyle && m_pStyleOverride) {
         // this RTS has been signaled to ignore embedded styles, use the built-in one
         stss = *m_pStyleOverride;
+
+        // Scale values relatively to subtitles without explicitly defined m_dstScreenSize, we use 384x288 px in this case
+        // This allow to produce constant font size for default style regardless of m_dstScreenSize value
+        // Technically this is a hack, but regular user might not understand why default style font size vary along different files
+        double scaleX = m_dstScreenSize.cx / 384.0;
+        double scaleY = m_dstScreenSize.cy / 288.0;
+
+        stss.fontSize         *= scaleY;
+        stss.fontSpacing      *= scaleX;
+        stss.marginRect.left   = lround(scaleX * stss.marginRect.left);
+        stss.marginRect.top    = lround(scaleY * stss.marginRect.top);
+        stss.marginRect.right  = lround(scaleX * stss.marginRect.right);
+        stss.marginRect.bottom = lround(scaleY * stss.marginRect.bottom);
         fScaledBAS = false;
     } else {
         // find the appropriate embedded style
@@ -2682,18 +2695,8 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     sub->m_wrapStyle = m_defaultWrapStyle;
     sub->m_fAnimated = false;
     sub->m_relativeTo = stss.relativeTo;
-    // this whole conditional is a work-around for what happens in STS.cpp:
-    // in CSimpleTextSubtitle::Open, we have m_dstScreenSize = CSize(384, 288)
-    // now, files containing embedded subtitles (and with styles) set m_dstScreenSize to a correct value
-    // but where no style is given, those defaults are taken - 384, 288
-    if (m_doOverrideStyle && m_pStyleOverride) {
-        // so mind the default values, stated here to increase comprehension
-        sub->m_scalex = m_size.cx / (384.0 * 8.0);
-        sub->m_scaley = m_size.cy / (288.0 * 8.0);
-    } else {
-        sub->m_scalex = m_dstScreenSize.cx > 0 ? double(stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
-        sub->m_scaley = m_dstScreenSize.cy > 0 ? double(stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
-    }
+    sub->m_scalex = m_dstScreenSize.cx > 0 ? double(stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
+    sub->m_scaley = m_dstScreenSize.cy > 0 ? double(stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
 
     m_animStart = m_animEnd = 0;
     m_animAccel = 1;
@@ -2739,8 +2742,8 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
         STSStyle tmp = stss;
 
-        tmp.fontSize       = sub->m_scaley * tmp.fontSize * 64.0;
-        tmp.fontSpacing    = sub->m_scalex * tmp.fontSpacing * 64.0;
+        tmp.fontSize      *= sub->m_scaley * 64.0;
+        tmp.fontSpacing   *= sub->m_scalex * 64.0;
         tmp.outlineWidthX *= (fScaledBAS ? sub->m_scalex : 1.0) * 8.0;
         tmp.outlineWidthY *= (fScaledBAS ? sub->m_scaley : 1.0) * 8.0;
         tmp.shadowDepthX  *= (fScaledBAS ? sub->m_scalex : 1.0) * 8.0;
