@@ -2634,9 +2634,11 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     CStringW str = GetStrW(entry, true);
 
     STSStyle stss, orgstss;
+    bool fScaledBAS = m_fScaledBAS;
     if (m_doOverrideStyle && m_pStyleOverride != nullptr) {
         // this RTS has been signaled to ignore embedded styles, use the built-in one
         stss = *m_pStyleOverride;
+        fScaledBAS = false;
     } else {
         // find the appropriate embedded style
         GetStyle(entry, stss);
@@ -2740,10 +2742,10 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
         tmp.fontSize = sub->m_scaley * tmp.fontSize * 64;
         tmp.fontSpacing = sub->m_scalex * tmp.fontSpacing * 64;
-        tmp.outlineWidthX *= (m_fScaledBAS ? sub->m_scalex : 1) * 8;
-        tmp.outlineWidthY *= (m_fScaledBAS ? sub->m_scaley : 1) * 8;
-        tmp.shadowDepthX *= (m_fScaledBAS ? sub->m_scalex : 1) * 8;
-        tmp.shadowDepthY *= (m_fScaledBAS ? sub->m_scaley : 1) * 8;
+        tmp.outlineWidthX *= (fScaledBAS ? sub->m_scalex : 1) * 8;
+        tmp.outlineWidthY *= (fScaledBAS ? sub->m_scaley : 1) * 8;
+        tmp.shadowDepthX *= (fScaledBAS ? sub->m_scalex : 1) * 8;
+        tmp.shadowDepthY *= (fScaledBAS ? sub->m_scaley : 1) * 8;
 
         if (m_nPolygon) {
             ParsePolygon(sub, str.Left(i), tmp);
