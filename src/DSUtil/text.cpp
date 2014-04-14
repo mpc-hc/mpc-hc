@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <atlutil.h>
 #include "text.h"
 
 DWORD CharSetToCodePage(DWORD dwCharSet)
@@ -70,63 +71,39 @@ CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet)
     return str;
 }
 
-CStringA UrlEncode(CStringA str_in, bool fArg)
+CStringA UrlEncode(const CStringA& strIn)
 {
-    CStringA str_out;
-
-    for (int i = 0; i < str_in.GetLength(); i++) {
-        char c = str_in[i];
-        if (fArg && (c == ':' || c == '/' || c == '\\' || c == '#' || c == '?' || c == '%' || c == '&' || c == '=')) {
-            str_out.AppendFormat("%%%02x", (BYTE)c);
-        } else if (c > 0x20 && c < 0x7f) {
-            str_out += c;
+    CStringA strOut;
+    DWORD dwStrLen = 0, dwMaxLength = 0;
+    // Request the buffer size needed to encode the URL
+    AtlEscapeUrl(strIn, strOut.GetBuffer(), &dwStrLen, dwMaxLength, ATL_URL_ENCODE_PERCENT);
+    dwMaxLength = dwStrLen;
+    // Encode the URL
+    if (dwMaxLength > 0) {
+        if (AtlEscapeUrl(strIn, strOut.GetBuffer(int(dwMaxLength)), &dwStrLen, dwMaxLength, ATL_URL_ENCODE_PERCENT)) {
+            dwStrLen--;
         } else {
-            str_out.AppendFormat("%%%02x", (BYTE)c);
+            dwStrLen = 0;
         }
+        strOut.ReleaseBuffer(dwStrLen);
     }
 
-    return str_out;
+    return strOut;
 }
 
-CStringA UrlDecode(CStringA str_in)
+CStringA UrlDecode(const CStringA& strIn)
 {
-    CStringA str_out;
+    CStringA strOut;
+    DWORD dwStrLen = 0, dwMaxLength = strIn.GetLength() + 1;
 
-    for (int i = 0, len = str_in.GetLength(); i < len; i++) {
-        if (str_in[i] == '%' && i + 2 < len) {
-            bool b = true;
-            char c1 = str_in[i + 1];
-            if (c1 >= '0' && c1 <= '9') {
-                c1 -= '0';
-            } else if (c1 >= 'A' && c1 <= 'F') {
-                c1 -= 'A' - 10;
-            } else if (c1 >= 'a' && c1 <= 'f') {
-                c1 -= 'a' - 10;
-            } else {
-                b = false;
-            }
-            if (b) {
-                char c2 = str_in[i + 2];
-                if (c2 >= '0' && c2 <= '9') {
-                    c2 -= '0';
-                } else if (c2 >= 'A' && c2 <= 'F') {
-                    c2 -= 'A' - 10;
-                } else if (c2 >= 'a' && c2 <= 'f') {
-                    c2 -= 'a' - 10;
-                } else {
-                    b = false;
-                }
-                if (b) {
-                    str_out += (char)((c1 << 4) | c2);
-                    i += 2;
-                    continue;
-                }
-            }
-        }
-        str_out += str_in[i];
+    if (AtlUnescapeUrl(strIn, strOut.GetBuffer(int(dwMaxLength)), &dwStrLen, dwMaxLength)) {
+        dwStrLen--;
+    } else {
+        dwStrLen = 0;
     }
+    strOut.ReleaseBuffer(dwStrLen);
 
-    return str_out;
+    return strOut;
 }
 
 CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)

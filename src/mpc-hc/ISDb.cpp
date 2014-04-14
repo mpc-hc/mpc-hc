@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -128,7 +128,7 @@ namespace ISDb
 
             CStringA str;
             str.Format("name[%d]=%s&size[%d]=%016I64x&hash[%d]=%016I64x",
-                       i, UrlEncode(CStringA(fh.name), true),
+                       i, UrlEncode(CStringA(fh.name)),
                        i, fh.size,
                        i, fh.mpc_filehash);
 

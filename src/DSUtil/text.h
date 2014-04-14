@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -124,8 +124,8 @@ T ImplodeEsc(const CAtlList<T>& sl, SEP sep, SEP esc = _T('\\'))
 
 extern CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing);
 extern CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet);
-extern CStringA UrlEncode(CStringA str_in, bool fArg = false);
-extern CStringA UrlDecode(CStringA str_in);
+extern CStringA UrlEncode(const CStringA& strIn);
+extern CStringA UrlDecode(const CStringA& strIn);
 extern CStringA HtmlSpecialChars(CStringA str, bool bQuotes = false);
 extern DWORD CharSetToCodePage(DWORD dwCharSet);
 extern CAtlList<CString>& MakeLower(CAtlList<CString>& sl);

@@ -5303,7 +5303,7 @@ void CMainFrame::OnFileISDBDownload()
         CStringA url = "http://" + s.strISDb + "/index.php?";
         CStringA args;
         args.Format("player=mpc-hc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
-                    UrlEncode(CStringA(fh.name), true), fh.size, fh.mpc_filehash);
+                    UrlEncode(CStringA(fh.name)), fh.size, fh.mpc_filehash);
         url.Append(args);
 
         CSubtitleDlDlg dlg(GetModalParent(), url, fh.name);

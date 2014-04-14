@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,7 +26,7 @@
 #include <atlpath.h>
 
 #define UTF8(str)     UTF16To8(TToW(str))
-#define UTF8Arg(str)  UrlEncode(UTF8(str), true)
+#define UTF8Arg(str)  UrlEncode(UTF8(str))
 #define CMD_SETPOS    "-1"
 #define CMD_SETVOLUME "-2"
 
