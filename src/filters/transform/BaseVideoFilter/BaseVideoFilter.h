@@ -50,7 +50,6 @@ protected:
 
     virtual void GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight, int& vsfilter) {}
     virtual HRESULT Transform(IMediaSample* pIn) = 0;
-    virtual bool IsVideoInterlaced() { return false; }
     virtual void GetOutputFormats(int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
     bool ConnectionWhitelistedForExtendedFormat();
 

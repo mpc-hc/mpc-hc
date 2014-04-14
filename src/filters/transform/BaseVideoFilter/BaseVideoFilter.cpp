@@ -577,6 +577,8 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
     bihOut.biCompression = fmts[iPosition / 2].biCompression;
     bihOut.biSizeImage = w * h * bihOut.biBitCount >> 3;
 
+    const CMediaType& mt = m_pInput->CurrentMediaType();
+
     if (iPosition & 1) {
         pmt->formattype = FORMAT_VideoInfo;
         VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
@@ -591,12 +593,8 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
         vih->bmiHeader = bihOut;
         vih->dwPictAspectRatioX = arx;
         vih->dwPictAspectRatioY = ary;
-        if (IsVideoInterlaced()) {
-            vih->dwInterlaceFlags = AMINTERLACE_IsInterlaced | AMINTERLACE_DisplayModeBobOrWeave;
-        }
+        vih->dwInterlaceFlags = ((VIDEOINFOHEADER2*)mt.Format())->dwInterlaceFlags;
     }
-
-    CMediaType& mt = m_pInput->CurrentMediaType();
 
     // these fields have the same field offset in all four structs
     ((VIDEOINFOHEADER*)pmt->Format())->AvgTimePerFrame = ((VIDEOINFOHEADER*)mt.Format())->AvgTimePerFrame;
@@ -607,9 +605,8 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 
     if (!vsfilter) {
         // copy source and target rectangles from input pin
-        CMediaType&     pmtInput    = m_pInput->CurrentMediaType();
         VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
-        VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
+        VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)mt.Format();
 
         ASSERT(vih);
         if (vihInput && (vihInput->rcSource.right != 0) && (vihInput->rcSource.bottom != 0)) {

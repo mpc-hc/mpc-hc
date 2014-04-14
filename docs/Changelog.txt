@@ -15,6 +15,7 @@ next version - not released yet
     - LAV Video: Support VP7 video
     - LAV Video: Use the MediaFondation WMV decoder on Windows 7+ instead of the DMO WMV decoder
 ! Ticket #34, VSFilter/ISR: Override placement feature was not working even if enabled
+! Ticket #2671, VSFilter: Video frames were not marked as interlaced
 ! Ticket #4288, Changing the zoom level when in fullscreen mode did nothing
 
 
