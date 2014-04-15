@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -70,7 +70,7 @@ void CPPageSubStyle::AskColor(int i)
     dlg.m_cc.Flags |= CC_FULLOPEN;
     if (dlg.DoModal() == IDOK) {
         m_stss.colors[i] = dlg.m_cc.rgbResult;
-        m_color[i].Invalidate();
+        m_color[i].SetColor(dlg.m_cc.rgbResult);
         SetModified();
     }
 }
@@ -122,10 +122,10 @@ void CPPageSubStyle::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPPageSubStyle, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-    ON_STN_CLICKED(IDC_COLORPRI, OnStnClickedColorpri)
-    ON_STN_CLICKED(IDC_COLORSEC, OnStnClickedColorsec)
-    ON_STN_CLICKED(IDC_COLOROUTL, OnStnClickedColoroutl)
-    ON_STN_CLICKED(IDC_COLORSHAD, OnStnClickedColorshad)
+    ON_BN_CLICKED(IDC_COLORPRI, OnStnClickedColorpri)
+    ON_BN_CLICKED(IDC_COLORSEC, OnStnClickedColorsec)
+    ON_BN_CLICKED(IDC_COLOROUTL, OnStnClickedColoroutl)
+    ON_BN_CLICKED(IDC_COLORSHAD, OnStnClickedColorshad)
     ON_BN_CLICKED(IDC_CHECK1, OnBnClickedCheck1)
     ON_WM_HSCROLL()
 END_MESSAGE_MAP()
@@ -179,7 +179,7 @@ BOOL CPPageSubStyle::OnInitDialog()
     m_iRelativeTo = m_stss.relativeTo;
 
     for (int i = 0; i < 4; i++) {
-        m_color[i].SetColorPtr(&m_stss.colors[i]);
+        m_color[i].SetColor(m_stss.colors[i]);
         m_alpha[i] = 255 - m_stss.alpha[i];
         m_alphasliders[i].SetRange(0, 255);
     }
