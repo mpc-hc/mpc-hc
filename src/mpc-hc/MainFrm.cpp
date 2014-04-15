@@ -12582,7 +12582,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         }
 
         // Build the static menu's items
-        bool bStyleEnabled = false;
+        bool bTextSubtitles = false;
         VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS)));
         VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES)));
         VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD)));
@@ -12678,7 +12678,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 CLSID clsid;
                 if (SUCCEEDED(subInput.pSubStream->GetClassID(&clsid))
                         && clsid == __uuidof(CRenderedTextSubtitle)) {
-                    bStyleEnabled = true;
+                    bTextSubtitles = true;
                 }
             }
 
@@ -12697,7 +12697,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         // Set the menu's items' state
         const CAppSettings& s = AfxGetAppSettings();
         // Style
-        if (!bStyleEnabled) {
+        if (!bTextSubtitles) {
             subMenu.EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
         }
         // Enabled
@@ -12706,7 +12706,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         }
         // Default style
         // TODO: foxX - default subtitles style toggle here; still wip
-        if (!s.fEnableSubtitles) {
+        if (!bTextSubtitles) {
             subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
         }
         if (s.fUseDefaultSubtitlesStyle) {
