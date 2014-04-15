@@ -1523,10 +1523,9 @@ CRect CScreenLayoutAllocator::AllocRect(const CSubtitle* s, int segment, int ent
 
 CAtlMap<CStringW, SSATagCmd, CStringElementTraits<CStringW>> CRenderedTextSubtitle::s_SSATagCmds;
 
-CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock, STSStyle* styleOverride, bool doOverride)
+CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     : CSubPicProviderImpl(pLock)
-    , m_doOverrideStyle(doOverride)
-    , m_pStyleOverride(styleOverride)
+    , m_bOverrideStyle(false)
     , m_bOverridePlacement(false)
     , m_overridePlacement(50, 90)
     , m_time(0)
@@ -2636,9 +2635,9 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
     STSStyle stss;
     bool fScaledBAS = m_fScaledBAS;
-    if (m_doOverrideStyle && m_pStyleOverride) {
+    if (m_bOverrideStyle) {
         // this RTS has been signaled to ignore embedded styles, use the built-in one
-        stss = *m_pStyleOverride;
+        stss = m_styleOverride;
 
         // Scale values relatively to subtitles without explicitly defined m_dstScreenSize, we use 384x288 px in this case
         // This allow to produce constant font size for default style regardless of m_dstScreenSize value

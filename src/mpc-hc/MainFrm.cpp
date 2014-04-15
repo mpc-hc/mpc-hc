@@ -7785,15 +7785,20 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     }
 
                     CPropertySheet dlg(ResStr(IDS_SUBTITLES_STYLES_CAPTION), GetModalParent());
-                    for (int l = 0; l < (int)pages.GetCount(); l++) {
+                    for (size_t l = 0; l < pages.GetCount(); l++) {
                         dlg.AddPage(pages[l]);
                     }
 
                     if (dlg.DoModal() == IDOK) {
-                        for (int l = 0; l < (int)pages.GetCount(); l++) {
-                            pages[l]->GetStyle(*styles[l]);
+                        {
+                            CAutoLock cAutoLock(&m_csSubLock);
+
+                            for (size_t l = 0; l < pages.GetCount(); l++) {
+                                pages[l]->GetStyle(*styles[l]);
+                            }
+                            pRTS->Deinit();
                         }
-                        SetSubtitle(0, true);
+                        InvalidateSubtitle();
                     }
                 }
             }
@@ -7807,7 +7812,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
             // override default style
             // TODO: default subtitles style toggle here
             s.fUseDefaultSubtitlesStyle = !s.fUseDefaultSubtitlesStyle;
-            SetSubtitle(0, true);
+            UpdateDefaultSubtitleStyle();
         } else if (i >= 0) {
             // this is an actual item from the subtitles list
             s.fEnableSubtitles = true;
@@ -13394,7 +13399,7 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
     }
 
     if (!pSubStream) {
-        CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, &s.subtitlesDefStyle, s.fUseDefaultSubtitlesStyle));
+        CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
 
         CString videoName = GetPlaybackMode() == PM_FILE ? m_wndPlaylistBar.GetCurFileName() : _T("");
         if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
@@ -13503,7 +13508,7 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
                 pRTS->SetDefaultStyle(style);
             }
 
-            pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, &s.subtitlesDefStyle);
+            pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, s.subtitlesDefStyle);
             pRTS->SetAlignment(s.fOverridePlacement, s.nHorPos, s.nVerPos);
             pRTS->Deinit();
         } else if (clsid == __uuidof(CRLECodedSubtitle)) {
@@ -16383,6 +16388,20 @@ void CMainFrame::UpdateOverridePlacement()
             CAutoLock cAutoLock(&m_csSubLock);
 
             pVSS->SetAlignment(s.fOverridePlacement, s.nHorPos, s.nVerPos);
+        }
+        InvalidateSubtitle();
+    }
+}
+
+void CMainFrame::UpdateDefaultSubtitleStyle()
+{
+    const CAppSettings& s = AfxGetAppSettings();
+    if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
+        {
+            CAutoLock cAutoLock(&m_csSubLock);
+
+            pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, s.subtitlesDefStyle);
+            pRTS->Deinit();
         }
         InvalidateSubtitle();
     }

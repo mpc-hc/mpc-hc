@@ -526,6 +526,7 @@ public:
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = DWORD_PTR_MAX, REFERENCE_TIME rtInvalidate = -1);
     void ReloadSubtitle();
     void UpdateOverridePlacement();
+    void UpdateDefaultSubtitleStyle();
     HRESULT InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin* pPinto);
 
     void SetAudioTrackIdx(int index);

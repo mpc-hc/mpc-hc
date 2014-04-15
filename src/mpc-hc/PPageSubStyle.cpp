@@ -220,10 +220,11 @@ BOOL CPPageSubStyle::OnApply()
 
     if (m_fUseDefaultStyle) {
         STSStyle& stss = AfxGetAppSettings().subtitlesDefStyle;
+
         if (stss != m_stss) {
             stss = m_stss;
             if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
-                pMainFrame->SetSubtitle(0, true, false);
+                pMainFrame->UpdateDefaultSubtitleStyle();
             }
         }
     }
