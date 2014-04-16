@@ -120,7 +120,7 @@ void CPlayerStatusBar::Relayout()
 
     if (m_type.GetIcon()) {
         r2.SetRect(6, r.top + 4, 6 + m_pMainFrame->m_dpi.ScaleX(16), r.bottom - 4);
-        m_type.MoveWindow(r2, FALSE);
+        m_type.MoveWindow(r2);
     }
 
     r.DeflateRect(11 + m_pMainFrame->m_dpi.ScaleX(16), 5, bm.bmWidth + 8, 4);
@@ -155,7 +155,7 @@ void CPlayerStatusBar::Relayout()
         ASSERT(FALSE);
     }
 
-    Invalidate();
+    InvalidateRect(r);
     UpdateWindow();
 }
 
@@ -163,10 +163,8 @@ void CPlayerStatusBar::Clear()
 {
     m_status.SetWindowText(_T(""));
     m_time.SetWindowText(_T(""));
-    SetStatusBitmap(0);
     SetStatusTypeIcon(0);
-
-    Relayout();
+    SetStatusBitmap(0);
 }
 
 void CPlayerStatusBar::SetStatusBitmap(UINT id)
@@ -186,6 +184,7 @@ void CPlayerStatusBar::SetStatusBitmap(UINT id)
     }
     m_bmid = id;
 
+    Invalidate();
     Relayout();
 }
 
@@ -398,6 +397,7 @@ void CPlayerStatusBar::OnSize(UINT nType, int cx, int cy)
 {
     CDialogBar::OnSize(nType, cx, cy);
 
+    Invalidate();
     Relayout();
 }
 
