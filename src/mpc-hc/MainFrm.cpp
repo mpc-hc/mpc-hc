@@ -1584,6 +1584,7 @@ void CMainFrame::OnWindowPosChanging(WINDOWPOS* lpwndpos)
             lpwndpos->y = mi.rcMonitor.top;
         }
     }
+    __super::OnWindowPosChanging(lpwndpos);
 }
 
 void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
