@@ -3,19 +3,19 @@ Project             Version
 ATL Server          -
 CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
-LAV Filters         0.60.1-10-d566e53 (custom build based on 0.60.1-5-eaf38b0)
-Little CMS          2.6b (git 579b3aa)
+LAV Filters         0.61.2-5-g7a393d4 (custom build based on 0.61.2)
+Little CMS          2.6 (git 40300b1)
 Logitech SDK        3.01 (driver 8.00.100)
-MediaInfoLib        0.7.67
+MediaInfoLib        0.7.68
 Mhook               2.3 (modified)
 MultiMon            28 Aug '03 (modified)
 QuickTime SDK       7.3
 RARFileSource       0.9.3 (modified)
 RealMedia SDK       -
 ResizableLib        1.3
-SoundTouch          1.7.1 r170
+SoundTouch          1.8.0
 TreePropSheet       7 Mar '03 (modified)
-UnRAR               5.0.0.14
+UnRAR               5.1.2
 VirtualDub          1.10.4
-ZenLib              0.4.29 r453
+ZenLib              0.4.29 r456
 zlib                1.2.8
