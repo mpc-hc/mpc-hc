@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,12 +20,20 @@
 
 #pragma once
 
+#include <functional>
 #include <map>
+#include <utility>
 
 template <class T>
 class OnDemandTimer
 {
 public:
+    typedef std::function<void()> TimerCallback;
+
+    OnDemandTimer() = delete;
+    OnDemandTimer(const OnDemandTimer&) = delete;
+    OnDemandTimer& operator=(const OnDemandTimer&) = delete;
+
     OnDemandTimer(CWnd* pWnd, UINT_PTR nIDEvent, UINT nElapse, TIMERPROC lpTimerFunc = nullptr)
         : m_pWnd(pWnd)
         , m_nIDEvent(nIDEvent)
@@ -33,12 +41,13 @@ public:
         , m_lpTimerFunc(lpTimerFunc) {
         ASSERT(nIDEvent != 0);
     }
+
     ~OnDemandTimer() {
         if (!m_subscribers.empty() && m_pWnd->m_hWnd) {
             VERIFY(m_pWnd->KillTimer(m_nIDEvent));
         }
     }
-    typedef std::function<void()> TimerCallback;
+
     void Subscribe(T id, const TimerCallback& callback) {
         if (m_pWnd->m_hWnd) {
             const bool bWasEmpty = m_subscribers.empty();
@@ -50,6 +59,7 @@ public:
             ASSERT(FALSE);
         }
     }
+
     void Unsubscribe(T id) {
         const bool bWasEmpty = m_subscribers.empty();
         m_subscribers.erase(id);
@@ -57,14 +67,15 @@ public:
             VERIFY(m_pWnd->KillTimer(m_nIDEvent));
         }
     }
+
     void NotifySubscribers() {
         auto subscribers = m_subscribers;
         for (const auto& kv : subscribers) {
             kv.second();
         }
     }
-private:
-    OnDemandTimer(const OnDemandTimer&);
+
+protected:
     CWnd* const m_pWnd;
     const UINT_PTR m_nIDEvent;
     const UINT m_uElapse;
@@ -76,6 +87,12 @@ template <class T>
 class OneTimeTimerPool
 {
 public:
+    typedef std::function<void()> TimerCallback;
+
+    OneTimeTimerPool() = delete;
+    OneTimeTimerPool(const OneTimeTimerPool&) = delete;
+    OneTimeTimerPool& operator=(const OneTimeTimerPool&) = delete;
+
     OneTimeTimerPool(CWnd* pWnd, UINT_PTR nIDEventStart, UINT nIDEventPoolSize, TIMERPROC lpTimerFunc = nullptr)
         : m_pWnd(pWnd)
         , m_nIDEventStart(nIDEventStart)
@@ -87,6 +104,7 @@ public:
             m_used[nIDEventStart + i] = false;
         }
     }
+
     ~OneTimeTimerPool() {
         if (m_pWnd->m_hWnd) {
             for (const auto& kv : m_subscribers) {
@@ -96,7 +114,7 @@ public:
             }
         }
     }
-    typedef std::function<void()> TimerCallback;
+
     void Subscribe(T id, const TimerCallback& callback, UINT nElapse) {
         Unsubscribe(id);
         const UINT_PTR nIDEventTarget = FindFree();
@@ -120,6 +138,7 @@ public:
             ASSERT(FALSE);
         }
     }
+
     void Unsubscribe(T id) {
         auto it = m_subscribers.find(id);
         if (it != m_subscribers.end()) {
@@ -132,6 +151,7 @@ public:
             m_used[nIDEvent] = false;
         }
     }
+
     void NotifySubscribers(UINT_PTR nIDEvent) {
         for (auto it = m_subscribers.begin(); it != m_subscribers.end(); ++it) {
             if (it->second.first == nIDEvent) {
@@ -145,14 +165,8 @@ public:
             }
         }
     }
-private:
-    OneTimeTimerPool(const OneTimeTimerPool&);
-    CWnd* const m_pWnd;
-    const UINT_PTR m_nIDEventStart;
-    const UINT_PTR m_nIDEventPoolSize;
-    const TIMERPROC m_lpTimerFunc;
-    std::map<T, std::pair<UINT_PTR, TimerCallback>> m_subscribers;
-    std::map<UINT_PTR, bool> m_used;
+
+protected:
     inline UINT_PTR FindFree() const {
         UINT_PTR ret = 0;
         for (const auto& kv : m_used) {
@@ -163,4 +177,11 @@ private:
         }
         return ret;
     }
+
+    CWnd* const m_pWnd;
+    const UINT_PTR m_nIDEventStart;
+    const UINT_PTR m_nIDEventPoolSize;
+    const TIMERPROC m_lpTimerFunc;
+    std::map<T, std::pair<UINT_PTR, TimerCallback>> m_subscribers;
+    std::map<UINT_PTR, bool> m_used;
 };
