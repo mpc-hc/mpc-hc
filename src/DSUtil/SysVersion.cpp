@@ -21,7 +21,7 @@
 #include "stdafx.h"
 #include "SysVersion.h"
 
-OSVERSIONINFOEX InitFullVersion()
+static OSVERSIONINFOEX InitFullVersion()
 {
     OSVERSIONINFOEX fullVersion;
     ZeroMemory(&fullVersion, sizeof(OSVERSIONINFOEX));
@@ -31,7 +31,7 @@ OSVERSIONINFOEX InitFullVersion()
     return fullVersion;
 }
 
-bool InitIs64Bit()
+static bool InitIs64Bit()
 {
 #if defined(_WIN64)
     return true;  // 64-bit programs run only on Win64
