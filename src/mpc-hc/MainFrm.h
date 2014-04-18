@@ -273,7 +273,9 @@ private:
     void SetDefaultWindowRect(int iMonitor = 0);
     void SetDefaultFullscreenState();
     void RestoreDefaultWindowRect();
-    void ZoomVideoWindow(bool snap = true, double scale = ZOOM_DEFAULT_LEVEL);
+    CSize GetZoomWindowSize(double dScale);
+    CRect GetZoomWindowRect(const CSize& size);
+    void ZoomVideoWindow(double dScale = ZOOM_DEFAULT_LEVEL);
     double GetZoomAutoFitScale(bool bLargerOnly = false);
 
     void SetAlwaysOnTop(int iOnTop);
@@ -1011,6 +1013,9 @@ protected:
 
     CPoint m_snapStartPoint;
     CRect m_snapStartRect;
+
+    double m_dLastVideoScaleFactor;
+    int m_nLastVideoWidth;
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);

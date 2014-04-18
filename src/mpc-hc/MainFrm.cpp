@@ -759,6 +759,8 @@ CMainFrame::CMainFrame()
     , m_rtCurSubPos(0)
     , m_bStopTunerScan(false)
     , m_fSetChannelActive(false)
+    , m_dLastVideoScaleFactor(0)
+    , m_nLastVideoWidth(0)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -2688,8 +2690,18 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 CSize size((DWORD)evParam1);
                 m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
 
-                if (GetLoadState() == MLS::LOADED && s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
-                    ZoomVideoWindow();
+                if (GetLoadState() == MLS::LOADED &&
+                        (s.fRememberZoomLevel || s.fLimitWindowProportions || m_fAudioOnly) &&
+                        !(m_fFullScreen || IsD3DFullScreenMode() || IsZoomed() || IsIconic() || IsAeroSnapped())) {
+                    CSize videoSize(0, 0);
+                    if (!m_fAudioOnly) {
+                        videoSize = GetVideoSize();
+                    }
+                    if (videoSize.cx) {
+                        ZoomVideoWindow(m_dLastVideoScaleFactor * m_nLastVideoWidth / videoSize.cx);
+                    } else {
+                        ZoomVideoWindow();
+                    }
                 }
                 MoveVideoWindow();
             }
@@ -3344,7 +3356,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 
     // auto-zoom if requested
     if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
-        ZoomVideoWindow(false);
+        ZoomVideoWindow();
     }
 
     // update control bar areas and paint bypassing the message queue
@@ -6439,7 +6451,7 @@ void CMainFrame::OnViewZoom(UINT nID)
 {
     double scale = (nID == ID_VIEW_ZOOM_50) ? 0.5 : (nID == ID_VIEW_ZOOM_200) ? 2.0 : 1.0;
 
-    ZoomVideoWindow(true, scale);
+    ZoomVideoWindow(scale);
 
     CString strODSMessage;
     strODSMessage.Format(IDS_OSD_ZOOM, scale * 100);
@@ -6453,13 +6465,13 @@ void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoomAutoFit()
 {
-    ZoomVideoWindow(true, ZOOM_AUTOFIT);
+    ZoomVideoWindow(ZOOM_AUTOFIT);
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO), 3000);
 }
 
 void CMainFrame::OnViewZoomAutoFitLarger()
 {
-    ZoomVideoWindow(true, ZOOM_AUTOFIT_LARGER);
+    ZoomVideoWindow(ZOOM_AUTOFIT_LARGER);
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO_LARGER), 3000);
 }
 
@@ -9662,6 +9674,9 @@ void CMainFrame::AutoChangeMonitorMode()
 
 void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVideoRect/* = false*/)
 {
+    m_dLastVideoScaleFactor = 0;
+    m_nLastVideoWidth = 0;
+
     if (!m_bDelaySetOutputRect && GetLoadState() == MLS::LOADED && !m_fAudioOnly && IsWindowVisible()) {
         CRect windowRect(0, 0, 0, 0);
         CRect videoRect(0, 0, 0, 0);
@@ -9690,8 +9705,13 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
 
         OAFilterState fs = GetMediaState();
         if (fs != State_Stopped || bSetStoppedVideoRect || m_fShockwaveGraph || m_fQuicktimeGraph) {
-            CSize szVideo = GetVideoSize();
-            double dVideoAR = double(szVideo.cx) / szVideo.cy;
+            const CSize szVideo = GetVideoSize();
+
+            m_dLastVideoScaleFactor = std::min((double)windowRect.Size().cx / szVideo.cx,
+                                               (double)windowRect.Size().cy / szVideo.cy);
+            m_nLastVideoWidth = szVideo.cx;
+
+            const double dVideoAR = double(szVideo.cx) / szVideo.cy;
 
             dvstype iDefaultVideoSize = static_cast<dvstype>(AfxGetAppSettings().iDefaultVideoSize);
 
@@ -9823,8 +9843,120 @@ void CMainFrame::HideVideoWindow(bool fHide)
     m_bLockedZoomVideoWindow = fHide;
 }
 
-void CMainFrame::ZoomVideoWindow(bool snap/* = true*/, double scale/* = ZOOM_DEFAULT_LEVEL*/)
+CSize CMainFrame::GetZoomWindowSize(double dScale)
 {
+    const auto& s = AfxGetAppSettings();
+    CSize ret(0, 0);
+
+    if (dScale > 0 && GetLoadState() == MLS::LOADED) {
+        MINMAXINFO mmi;
+        OnGetMinMaxInfo(&mmi);
+
+        if (!m_fAudioOnly) {
+            CSize videoSize = GetVideoSize();
+            CSize clientTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
+
+            const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
+            const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
+            if (!bPanelsOnVideo) {
+                unsigned uTop, uLeft, uRight, uBottom;
+                m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
+                if (bToolbarsOnVideo) {
+                    uBottom -= m_controls.GetToolbarsHeight();
+                }
+                clientTargetSize.cx += uLeft + uRight;
+                clientTargetSize.cy += uTop + uBottom;
+            } else if (!bToolbarsOnVideo) {
+                clientTargetSize.cy += m_controls.GetToolbarsHeight();
+            }
+
+            CRect rect(CPoint(0, 0), clientTargetSize);
+            if (AdjustWindowRectEx(rect, GetWindowStyle(m_hWnd), s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU,
+                                   GetWindowExStyle(m_hWnd))) {
+                ret.cx = std::max<long>(rect.Width(), mmi.ptMinTrackSize.x);
+                ret.cy = std::max<long>(rect.Height(), mmi.ptMinTrackSize.y);
+            } else {
+                ASSERT(FALSE);
+            }
+        } else {
+            CRect windowRect;
+            GetWindowRect(windowRect);
+            ret.cx = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
+            ret.cy = mmi.ptMinTrackSize.y;
+        }
+
+        // don't go larger than the current monitor working area
+        MONITORINFO mi = { sizeof(mi) };
+        if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+            ret.cx = std::min<long>(ret.cx, (mi.rcWork.right - mi.rcWork.left));
+            ret.cy = std::min<long>(ret.cy, (mi.rcWork.bottom - mi.rcWork.top));
+        } else {
+            ASSERT(FALSE);
+        }
+    } else {
+        ASSERT(FALSE);
+    }
+
+    return ret;
+}
+
+CRect CMainFrame::GetZoomWindowRect(const CSize& size)
+{
+    const auto& s = AfxGetAppSettings();
+    CRect ret;
+    GetWindowRect(ret);
+
+    MONITORINFO mi = { sizeof(mi) };
+    if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+        CSize windowSize(size);
+
+        // don't go larger than the current monitor working area
+        windowSize.cx = std::min<long>(windowSize.cx, (mi.rcWork.right - mi.rcWork.left));
+        windowSize.cy = std::min<long>(windowSize.cy, (mi.rcWork.bottom - mi.rcWork.top));
+
+        // retain snapping and center the window if we don't remember its position
+        if (m_bWasSnapped && ret.left == mi.rcWork.left) {
+            // do nothing
+        } else if (m_bWasSnapped && ret.right == mi.rcWork.right) {
+            ret.left = ret.right - windowSize.cx;
+        } else if (!s.fRememberWindowPos) {
+            ret.left += (ret.right - ret.left) / 2 - windowSize.cx / 2;
+        }
+        if (m_bWasSnapped && ret.top == mi.rcWork.top) {
+            // do nothing
+        } else if (m_bWasSnapped && ret.bottom == mi.rcWork.bottom) {
+            ret.top = ret.bottom - windowSize.cy;
+        } else if (!s.fRememberWindowPos) {
+            ret.top += (ret.bottom - ret.top) / 2 - windowSize.cy / 2;
+        }
+
+        ret.right = ret.left + windowSize.cx;
+        ret.bottom = ret.top + windowSize.cy;
+
+        // don't go beyond the current monitor working area
+        if (ret.right > mi.rcWork.right) {
+            ret.OffsetRect(mi.rcWork.right - ret.right, 0);
+        }
+        if (ret.left < mi.rcWork.left) {
+            ret.OffsetRect(mi.rcWork.left - ret.left, 0);
+        }
+        if (ret.bottom > mi.rcWork.bottom) {
+            ret.OffsetRect(0, mi.rcWork.bottom - ret.bottom);
+        }
+        if (ret.top < mi.rcWork.top) {
+            ret.OffsetRect(0, mi.rcWork.top - ret.top);
+        }
+    } else {
+        ASSERT(FALSE);
+    }
+
+    return ret;
+}
+
+void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
+{
+    const auto& s = AfxGetAppSettings();
+
     if ((GetLoadState() != MLS::LOADED) ||
             (m_nLockedZoomVideoWindow > 0) || m_bLockedZoomVideoWindow) {
         if (m_nLockedZoomVideoWindow > 0) {
@@ -9833,116 +9965,23 @@ void CMainFrame::ZoomVideoWindow(bool snap/* = true*/, double scale/* = ZOOM_DEF
         return;
     }
 
-    const CAppSettings& s = AfxGetAppSettings();
-
-    // We must leave fullscreen mode before computing the auto-fit zoom factor
-    if (m_fFullScreen) {
-        OnViewFullscreen();
-    }
-
-    if (scale == ZOOM_DEFAULT_LEVEL) {
-        scale =
-            s.iZoomLevel == 0 ? 0.5 :
-            s.iZoomLevel == 1 ? 1.0 :
-            s.iZoomLevel == 2 ? 2.0 :
-            s.iZoomLevel == 3 ? GetZoomAutoFitScale(false) :
-            s.iZoomLevel == 4 ? GetZoomAutoFitScale(true) : 1.0;
-    } else if (scale == ZOOM_AUTOFIT) {
-        scale = GetZoomAutoFitScale(false);
-    } else if (scale == ZOOM_AUTOFIT_LARGER) {
-        scale = GetZoomAutoFitScale(true);
-    } else if (scale <= 0.0) {
-        return;
-    }
-
-    MINMAXINFO mmi;
-    OnGetMinMaxInfo(&mmi);
-
-    CRect r;
-    GetWindowRect(r);
-    long w = 0, h = 0;
-
-    if (!m_fAudioOnly) {
-        CSize videoSize = GetVideoSize();
-        CSize clientTargetSize(int(videoSize.cx * scale + 0.5), int(videoSize.cy * scale + 0.5));
-
-        const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
-        const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
-        if (!bPanelsOnVideo) {
-            unsigned uTop, uLeft, uRight, uBottom;
-            m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
-            if (bToolbarsOnVideo) {
-                uBottom -= m_controls.GetToolbarsHeight();
-            }
-            clientTargetSize.cx += uLeft + uRight;
-            clientTargetSize.cy += uTop + uBottom;
-        } else if (!bToolbarsOnVideo) {
-            clientTargetSize.cy += m_controls.GetToolbarsHeight();
-        }
-
-        CRect rect(CPoint(0, 0), clientTargetSize);
-        if (AdjustWindowRectEx(rect, GetWindowStyle(m_hWnd),
-                               s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU, GetWindowExStyle(m_hWnd))) {
-            w = std::max<long>(rect.Width(), mmi.ptMinTrackSize.x);
-            h = std::max<long>(rect.Height(), mmi.ptMinTrackSize.y);
-        } else {
-            ASSERT(FALSE);
-        }
-    } else {
-        w = r.Width(); // mmi.ptMinTrackSize.x;
-        h = mmi.ptMinTrackSize.y;
-    }
-
-    // Prevention of going beyond the scopes of screen
-    MONITORINFO mi;
-    mi.cbSize = sizeof(MONITORINFO);
-    GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
-    w = min(w, (mi.rcWork.right - mi.rcWork.left));
-    h = min(h, (mi.rcWork.bottom - mi.rcWork.top));
-
-    if (!s.fRememberWindowPos) {
-        bool isSnapped = false;
-
-        if (snap && s.fSnapToDesktopEdges && m_bWasSnapped) { // check if snapped to edges
-            isSnapped = (r.left == mi.rcWork.left) || (r.top == mi.rcWork.top)
-                        || (r.right == mi.rcWork.right) || (r.bottom == mi.rcWork.bottom);
-        }
-
-        if (isSnapped) { // prefer left, top snap to right, bottom snap
-            if (r.left == mi.rcWork.left) {}
-            else if (r.right == mi.rcWork.right) {
-                r.left = r.right - w;
-            }
-
-            if (r.top == mi.rcWork.top) {}
-            else if (r.bottom == mi.rcWork.bottom) {
-                r.top = r.bottom - h;
-            }
-        } else {    // center window
-            r.left += (r.right - r.left) / 2 - w / 2;
-            r.top += (r.bottom - r.top) / 2 - h / 2;
-            m_bWasSnapped = false;
-        }
-    }
-
-    r.right = r.left + w;
-    r.bottom = r.top + h;
-
-    if (r.right > mi.rcWork.right) {
-        r.OffsetRect(mi.rcWork.right - r.right, 0);
-    }
-    if (r.left < mi.rcWork.left) {
-        r.OffsetRect(mi.rcWork.left - r.left, 0);
-    }
-    if (r.bottom > mi.rcWork.bottom) {
-        r.OffsetRect(0, mi.rcWork.bottom - r.bottom);
-    }
-    if (r.top < mi.rcWork.top) {
-        r.OffsetRect(0, mi.rcWork.top - r.top);
-    }
-
     if ((m_fFullScreen || !s.HasFixedWindowSize()) && !IsD3DFullScreenMode()) {
-        MoveWindow(r);
+        if (dScale == ZOOM_DEFAULT_LEVEL) {
+            dScale =
+                s.iZoomLevel == 0 ? 0.5 :
+                s.iZoomLevel == 1 ? 1.0 :
+                s.iZoomLevel == 2 ? 2.0 :
+                s.iZoomLevel == 3 ? GetZoomAutoFitScale(false) :
+                s.iZoomLevel == 4 ? GetZoomAutoFitScale(true) : 1.0;
+        } else if (dScale == ZOOM_AUTOFIT) {
+            dScale = GetZoomAutoFitScale(false);
+        } else if (dScale == ZOOM_AUTOFIT_LARGER) {
+            dScale = GetZoomAutoFitScale(true);
+        } else if (dScale <= 0.0) {
+            ASSERT(FALSE);
+            return;
+        }
+        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale)));
     }
 }
 
