@@ -13351,11 +13351,12 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream /*= nullptr*
     CAppSettings& s = AfxGetAppSettings();
     CComQIPtr<ISubStream> pSubStream;
 
-    if (FindFilter(CLSID_VSFilter, m_pGB) || FindFilter(CLSID_XySubFilter, m_pGB)) {
+    if (!s.IsISRAutoLoadEnabled() && (FindFilter(CLSID_VSFilter, m_pGB) || FindFilter(CLSID_XySubFilter, m_pGB))) {
         // Prevent ISR from loading if VSFilter is already in graph.
         // TODO: Support VSFilter natively (see ticket #4122)
         // Note that this doesn't affect ISR auto-loading if any sub renderer force loading itself into the graph.
-        // VSFilter like filters should be blocked when building the graph and ISR auto-loading is enabled.
+        // VSFilter like filters can be blocked when building the graph and ISR auto-loading is enabled but some
+        // users don't want that.
         return false;
     }
 
