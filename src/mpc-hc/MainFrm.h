@@ -1007,6 +1007,8 @@ protected:
         }
     };
 
+    bool IsAeroSnapped();
+
     CPoint m_snapStartPoint;
     CRect m_snapStartRect;
 

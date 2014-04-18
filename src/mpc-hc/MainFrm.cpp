@@ -1436,7 +1436,7 @@ void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
     bool bCtrl = GetKeyState(VK_CONTROL) < 0;
 
     if (GetLoadState() != MLS::LOADED || m_fFullScreen ||
-            s.iDefaultVideoSize == DVS_STRETCH || !bCtrl == !s.fLimitWindowProportions) {
+            s.iDefaultVideoSize == DVS_STRETCH || !bCtrl == !s.fLimitWindowProportions || IsAeroSnapped()) {
         return;
     }
 
@@ -3343,7 +3343,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     OnTimer(TIMER_STREAMPOSPOLLER2);
 
     // auto-zoom if requested
-    if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen && !IsZoomed() && !IsIconic()) {
+    if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
         ZoomVideoWindow(false);
     }
 
@@ -15890,6 +15890,18 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
     }
 
     return __super::WindowProc(message, wParam, lParam);
+}
+
+bool CMainFrame::IsAeroSnapped()
+{
+    bool ret = false;
+    WINDOWPLACEMENT wp = { sizeof(wp) };
+    if (IsWindowVisible() && !IsZoomed() && !IsIconic() && GetWindowPlacement(&wp)) {
+        CRect rect;
+        GetWindowRect(rect);
+        ret = !!(rect != wp.rcNormalPosition);
+    }
+    return ret;
 }
 
 UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData)
