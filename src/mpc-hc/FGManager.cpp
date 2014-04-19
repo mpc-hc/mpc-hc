@@ -2287,7 +2287,10 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
                       TRUE, 1, guidsAudio, nullptr, nullptr, TRUE, FALSE, 0, nullptr, nullptr, nullptr))) {
             for (CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, nullptr); pMoniker = nullptr) {
                 CFGFilterRegistry f(pMoniker);
-                m_armerit = std::max(m_armerit, f.GetMerit());
+                // Use the same RDP DShow Redirection Filter hack with audio, too
+                if (f.GetCLSID() != CLSID_RDPDShowRedirectionFilter) {
+                    m_armerit = std::max(m_armerit, f.GetMerit());
+                }
             }
         }
 
