@@ -1124,6 +1124,8 @@ void CPlayerPlaylistBar::OnDropFiles(HDROP hDropInfo)
     }
     ::DragFinish(hDropInfo);
 
+    m_pMainFrame->ParseDirs(sl);
+
     Append(sl, true);
 }
 
