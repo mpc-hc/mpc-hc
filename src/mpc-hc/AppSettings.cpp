@@ -1107,8 +1107,9 @@ void CAppSettings::LoadSettings()
     if (language == LANGID(-1)) {
         CMPlayerCApp::SetDefaultLanguage();
     } else if (language != 0) {
-        if (language <= 23) { // Here for compatibility with old settings
-            CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByResourceID(language + ID_LANGUAGE_ENGLISH));
+        if (language <= 23) {
+            // We must be updating from a really old version, use the default language
+            CMPlayerCApp::SetDefaultLanguage();
         } else {
             CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByLocaleID(language));
         }

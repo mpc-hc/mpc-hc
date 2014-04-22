@@ -27,23 +27,20 @@ namespace Translations
 {
     struct LanguageResource {
         LanguageResource()
-            : LanguageResource(UINT_ERROR, WORD_ERROR, nullptr, nullptr)
+            : LanguageResource(WORD_ERROR, nullptr, nullptr)
         {};
 
-        LanguageResource(UINT resourceID, LANGID localeID, LPCTSTR name, LPCTSTR dllPath)
-            : resourceID(resourceID)
-            , localeID(localeID)
+        LanguageResource(LANGID localeID, LPCTSTR name, LPCTSTR dllPath)
+            : localeID(localeID)
             , name(name)
             , dllPath(dllPath)
         {};
 
-        UINT resourceID;
         LANGID localeID; // Check http://msdn.microsoft.com/en-us/goglobal/bb964664
         LPCTSTR name;
         LPCTSTR dllPath;
     };
 
-    LanguageResource GetLanguageResourceByResourceID(UINT resourceID);
     LanguageResource GetLanguageResourceByLocaleID(LANGID localeID);
 
     std::list<const LanguageResource> GetAvailableLanguageResources();

@@ -2432,7 +2432,7 @@ bool CMPlayerCApp::SetLanguage(const Translations::LanguageResource& languageRes
         success = (languageResource.dllPath == nullptr);
     }
     // In case a dll was loaded, check if some special action is needed
-    else if (languageResource.resourceID == ID_LANGUAGE_HEBREW) {
+    else if (PRIMARYLANGID(languageResource.localeID) == LANG_HEBREW) {
         // Hebrew needs the RTL flag.
         SetProcessDefaultLayout(LAYOUT_RTL);
         SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, nullptr, GetCurrentThreadId());
