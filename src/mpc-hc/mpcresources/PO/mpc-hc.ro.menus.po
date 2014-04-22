@@ -189,10 +189,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Autopotrivire (&doar cele mari)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "&Limbă (Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "S&etări randor"

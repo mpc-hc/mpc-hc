@@ -188,10 +188,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Ինքնահարմարեցում (Միայն մեծերը)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "Լեզուն (&Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "Ցուցադրման կարգավորումներ"

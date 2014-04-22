@@ -252,6 +252,10 @@ msgid "Open a new player for each media file played"
 msgstr "Abrir un nuevo reproductor para cada archivo de medios que se reproduzca"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Language"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
 msgstr "Barra de título"
 

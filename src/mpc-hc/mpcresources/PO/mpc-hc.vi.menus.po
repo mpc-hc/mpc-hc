@@ -189,10 +189,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "&Tự động vừa (chỉ làm lớn)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "&Ngôn ngữ"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "&Thiết lập bộ dựng hình"

@@ -1260,7 +1260,6 @@
 #define IDS_SATURATION_INC              41317
 #define IDS_SATURATION_DEC              41318
 #define IDS_RESET_COLOR                 41319
-#define ID_MENU_LANGUAGE                41320
 #define ID_HELP_CHECKFORUPDATE          41321
 #define IDS_USING_LATEST_STABLE         41322
 #define IDS_USING_NEWER_VERSION         41323

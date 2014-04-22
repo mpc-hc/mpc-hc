@@ -234,11 +234,13 @@ BEGIN
     CONTROL         "Open a new player for each media file played",IDC_RADIO2,
                     "Button",BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE,10,72,105,27
     ICON            "",IDI_MULTI,51,103,32,32
-    GROUPBOX        "Title bar",IDC_STATIC,5,129,115,98
-    CONTROL         "Display full path",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,141,105,8
-    CONTROL         "File name only",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,10,153,105,8
-    CONTROL         "Don't prefix anything",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,10,165,105,8
-    CONTROL         "Replace file name with title",IDC_CHECK13,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,177,105,18
+    GROUPBOX        "Language",IDC_STATIC,5,129,115,30
+    COMBOBOX        IDC_COMBO1,10,141,105,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Title bar",IDC_STATIC,5,164,115,68
+    CONTROL         "Display full path",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,176,105,8
+    CONTROL         "File name only",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,10,188,105,8
+    CONTROL         "Don't prefix anything",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,10,200,105,8
+    CONTROL         "Replace file name with title",IDC_CHECK13,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,212,105,18
     GROUPBOX        "Other",IDC_STATIC,124,5,167,120,WS_GROUP
     CONTROL         "Tray icon",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,17,160,8
     CONTROL         "Show OSD (requires restart)",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,30,160,8
@@ -247,15 +249,15 @@ BEGIN
     CONTROL         "Store settings to .ini file",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,69,160,8
     CONTROL         "Disable ""Open Disc"" menu",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,82,160,8
     CONTROL         "Process priority above normal",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,95,160,8
-    GROUPBOX        "History",IDC_STATIC,124,129,167,98
+    GROUPBOX        "History",IDC_STATIC,124,129,167,103
     CONTROL         "Keep history of recently opened files",IDC_CHECK1,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,141,160,8
-    CONTROL         "Remember last playlist",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,153,160,8
-    CONTROL         "Remember File position",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,165,160,8
-    CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,177,160,8
-    CONTROL         "Remember last window position",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,189,160,8
-    CONTROL         "Remember last window size",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,201,160,8
-    CONTROL         "Remember last Pan-n-Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,213,160,8
+    CONTROL         "Remember last playlist",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,154,160,8
+    CONTROL         "Remember File position",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,167,160,8
+    CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,180,160,8
+    CONTROL         "Remember last window position",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,193,160,8
+    CONTROL         "Remember last window size",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,206,160,8
+    CONTROL         "Remember last Pan-n-Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,219,160,8
 END
 
 IDD_PPAGEDVD DIALOGEX 0, 0, 296, 241
@@ -1328,8 +1330,6 @@ BEGIN
             MENUITEM "Auto Fit (&Larger Only)",     ID_VIEW_ZOOM_AUTOFIT_LARGER
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Language",                   ID_MENU_LANGUAGE
-        MENUITEM SEPARATOR
         POPUP "R&enderer Settings"
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
@@ -1663,7 +1663,6 @@ BEGIN
             MENUITEM "Captu&re",                    ID_VIEW_CAPTURE
             MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
             MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
-            MENUITEM "&Language",                   ID_MENU_LANGUAGE
             POPUP "&Presets..."
             BEGIN
                 MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL
@@ -1789,7 +1788,6 @@ BEGIN
             MENUITEM "Captu&re",                    ID_VIEW_CAPTURE
             MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
             MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
-            MENUITEM "&Language",                   ID_MENU_LANGUAGE
             POPUP "&Presets..."
             BEGIN
                 MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL

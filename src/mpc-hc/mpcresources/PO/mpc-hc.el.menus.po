@@ -189,10 +189,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Αυτόματη προσαρμογή (μόνο για μεγαλύτερα)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "Γλώσσα (&Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "Ρυθμίσεις απόδοσης"

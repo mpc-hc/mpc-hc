@@ -189,10 +189,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Passa automatiskt (Enbart större)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "&Språk (Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "Renderingsinställningar"

@@ -420,7 +420,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_GOTO_PREV_SUB, ID_GOTO_NEXT_SUB, OnGotoSubtitle)
     ON_COMMAND_RANGE(ID_SHIFT_SUB_DOWN, ID_SHIFT_SUB_UP, OnShiftSubtitle)
     ON_COMMAND_RANGE(ID_SUB_DELAY_DOWN, ID_SUB_DELAY_UP, OnSubtitleDelay)
-    ON_COMMAND_RANGE(ID_LANGUAGE_ENGLISH, ID_LANGUAGE_LAST, OnLanguage)
 
     ON_COMMAND(ID_PLAY_PLAY, OnPlayPlay)
     ON_COMMAND(ID_PLAY_PAUSE, OnPlayPause)
@@ -2932,9 +2931,6 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         } else if (itemID == ID_FILTERS) {
             SetupFiltersSubMenu();
             pSubMenu = &m_filtersMenu;
-        } else if (itemID == ID_MENU_LANGUAGE) {
-            SetupLanguageMenu();
-            pSubMenu = &m_languageMenu;
         } else if (itemID == ID_AUDIOS) {
             SetupAudioSubMenu();
             pSubMenu = &m_audiosMenu;
@@ -12084,7 +12080,6 @@ void CMainFrame::CreateDynamicMenus()
     VERIFY(m_favoritesMenu.CreatePopupMenu());
     VERIFY(m_shadersMenu.CreatePopupMenu());
     VERIFY(m_recentFilesMenu.CreatePopupMenu());
-    VERIFY(m_languageMenu.CreatePopupMenu());
 }
 
 void CMainFrame::DestroyDynamicMenus()
@@ -12102,7 +12097,6 @@ void CMainFrame::DestroyDynamicMenus()
     VERIFY(m_favoritesMenu.DestroyMenu());
     VERIFY(m_shadersMenu.DestroyMenu());
     VERIFY(m_recentFilesMenu.DestroyMenu());
-    VERIFY(m_languageMenu.DestroyMenu());
     m_nJumpToSubMenusCount = 0;
 }
 
@@ -12331,26 +12325,6 @@ void CMainFrame::SetupFiltersSubMenu()
             idf++;
         }
         EndEnumFilters;
-    }
-}
-
-void CMainFrame::SetupLanguageMenu()
-{
-    const CAppSettings& s = AfxGetAppSettings();
-
-    CMenu& subMenu = m_languageMenu;
-    // Empty the menu
-    while (subMenu.RemoveMenu(0, MF_BYPOSITION));
-
-    auto availableLangResources = Translations::GetAvailableLanguageResources();
-    if (availableLangResources.size() > 1) {
-        for (auto& lr : availableLangResources) {
-            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, lr.resourceID, lr.name));
-
-            if (lr.localeID == s.language) {
-                subMenu.CheckMenuItem(lr.resourceID, MF_BYCOMMAND | MF_CHECKED);
-            }
-        }
     }
 }
 
@@ -14990,40 +14964,6 @@ afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
     }
 }
 
-afx_msg void CMainFrame::OnLanguage(UINT nID)
-{
-    CMenu  defaultMenu;
-    CMenu* oldMenu;
-
-    if (nID == ID_LANGUAGE_HEBREW) { // Show a warning when switching to Hebrew (must not be translated)
-        MessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
-                   _T("MPC-HC"), MB_ICONINFORMATION | MB_OK);
-    }
-
-    CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByResourceID(nID));
-
-    DestroyDynamicMenus();
-
-    m_popupMenu.DestroyMenu();
-    m_popupMenu.LoadMenu(IDR_POPUP);
-    m_mainPopupMenu.DestroyMenu();
-    m_mainPopupMenu.LoadMenu(IDR_POPUPMAIN);
-
-    oldMenu = GetMenu();
-    defaultMenu.LoadMenu(IDR_MAINFRAME);
-    if (oldMenu) {
-        // Attach the new menu to the window only if there was a menu before
-        SetMenu(&defaultMenu);
-        // and then destroy the old one
-        oldMenu->DestroyMenu();
-    }
-    m_hMenuDefault = defaultMenu.Detach();
-
-    CreateDynamicMenus();
-    OpenSetupInfoBar();
-    OpenSetupStatsBar();
-}
-
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 {
     CAtlList<CString> fns;
@@ -16082,6 +16022,43 @@ void CMainFrame::UpdateAudioSwitcher()
     }
 }
 
+void CMainFrame::UpdateLanguage()
+{
+    LANGID language = AfxGetAppSettings().language;
+
+    CMenu  defaultMenu;
+    CMenu* oldMenu;
+
+    // Show a warning when switching to Hebrew (must not be translated)
+    if (PRIMARYLANGID(language) == LANG_HEBREW) {
+        MessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
+                   _T("MPC-HC"), MB_ICONINFORMATION | MB_OK);
+    }
+
+    CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByLocaleID(language));
+
+    DestroyDynamicMenus();
+
+    m_popupMenu.DestroyMenu();
+    m_popupMenu.LoadMenu(IDR_POPUP);
+    m_mainPopupMenu.DestroyMenu();
+    m_mainPopupMenu.LoadMenu(IDR_POPUPMAIN);
+
+    oldMenu = GetMenu();
+    defaultMenu.LoadMenu(IDR_MAINFRAME);
+    if (oldMenu) {
+        // Attach the new menu to the window only if there was a menu before
+        SetMenu(&defaultMenu);
+        // and then destroy the old one
+        oldMenu->DestroyMenu();
+    }
+    m_hMenuDefault = defaultMenu.Detach();
+
+    CreateDynamicMenus();
+    OpenSetupInfoBar();
+    OpenSetupStatsBar();
+}
+
 void CMainFrame::UpdateControlState(UpdateControlTarget target)
 {
     const auto& s = AfxGetAppSettings();
@@ -16111,6 +16088,9 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             // HACK: windowed (not renderless) video renderers created in graph thread do not
             // produce WM_MOUSEMOVE message when we release mouse capture on top of it, here's a workaround
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::CHILDVIEW_CURSOR_HACK, std::bind(&CChildView::Invalidate, &m_wndView, FALSE), 16);
+            break;
+        case UPDATE_LANGUAGE:
+            UpdateLanguage();
             break;
         default:
             ASSERT(FALSE);

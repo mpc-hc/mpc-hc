@@ -187,10 +187,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Упісаць аўтаматычна (Толькі вялікія)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "&Language (Мова)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "Налады рэндэрэнгу"

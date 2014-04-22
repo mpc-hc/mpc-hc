@@ -294,7 +294,6 @@ private:
     void SetupFavoritesSubMenu();
     void SetupShadersSubMenu();
     void SetupRecentFilesSubMenu();
-    void SetupLanguageMenu();
 
     IBaseFilter* FindSourceSelectableFilter();
     void SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup);
@@ -303,7 +302,6 @@ private:
     CMenu m_mainPopupMenu, m_popupMenu;
     CMenu m_openCDsMenu;
     CMenu m_filtersMenu, m_subtitlesMenu, m_audiosMenu, m_videoStreamsMenu;
-    CMenu m_languageMenu;
     CMenu m_chaptersMenu, m_titlesMenu, m_playlistMenu, m_BDPlaylistMenu, m_channelsMenu;
     CMenu m_favoritesMenu;
     CMenu m_shadersMenu;
@@ -928,9 +926,6 @@ public:
 
     afx_msg void OnClose();
 
-    afx_msg void OnLanguage(UINT nID);
-    afx_msg void OnUpdateLanguage(CCmdUI* pCmdUI);
-
     CMPC_Lcd m_Lcd;
 
     // ==== Added by CASIMIR666
@@ -996,6 +991,7 @@ protected:
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
     void UpdateAudioSwitcher();
+    void UpdateLanguage();
 
     bool m_bAltDownClean;
     bool m_bShowingFloatingMenubar;
@@ -1033,6 +1029,7 @@ public:
         UPDATE_AUDIO_SWITCHER,
         UPDATE_CONTROLS_VISIBILITY,
         UPDATE_CHILDVIEW_CURSOR_HACK,
+        UPDATE_LANGUAGE,
     };
 
     void UpdateControlState(UpdateControlTarget target);

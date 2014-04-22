@@ -188,10 +188,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Suai Muat Automatik (&Lebih Besar Sahaja)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "&Bahasa"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "Tetapan P&enerap"

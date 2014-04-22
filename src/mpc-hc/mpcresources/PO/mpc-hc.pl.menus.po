@@ -188,10 +188,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Dopasuj do rozdzielczości ekranu (Tylko &większe)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "Język (&Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "Ustawienia &renderowania"

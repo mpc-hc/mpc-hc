@@ -189,10 +189,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Autoajustar (Diminuir apenas)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "&Idioma (Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "Ajustes do Renderer"

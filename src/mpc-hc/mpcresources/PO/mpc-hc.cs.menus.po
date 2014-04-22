@@ -189,10 +189,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Automaticky přizpůsobit (jen větší)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "Jazyk (&Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "Nastavení rendereru"

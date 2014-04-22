@@ -188,10 +188,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "自動調整 (超過サイズのみ) (&L)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "言語 (&Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "レンダラ設定(&E)"

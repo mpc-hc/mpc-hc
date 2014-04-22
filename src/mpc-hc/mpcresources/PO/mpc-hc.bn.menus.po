@@ -188,10 +188,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "স্বয়ংক্রিয় পরিব্যাপ্তি(শুধু বড়ো)(&L)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "(&Language)ভাষা"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "রেনডারার সেটিংসমূহ(&E)"

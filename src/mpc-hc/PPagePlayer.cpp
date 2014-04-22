@@ -24,6 +24,7 @@
 #include "MainFrm.h"
 #include "FileAssoc.h"
 #include "PPagePlayer.h"
+#include "Translations.h"
 
 
 // CPPagePlayer dialog
@@ -78,6 +79,7 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_DVD_POS, m_fRememberDVDPos);
     DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
     DDX_Check(pDX, IDC_CHECK2, m_bRememberPlaylistItems);
+    DDX_Control(pDX, IDC_COMBO1, m_langsComboBox);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
@@ -116,6 +118,18 @@ BOOL CPPagePlayer::OnInitDialog()
     m_fLimitWindowProportions = s.fLimitWindowProportions;
     m_bRememberPlaylistItems = s.bRememberPlaylistItems;
 
+    for (auto& lr : Translations::GetAvailableLanguageResources()) {
+        int pos = m_langsComboBox.AddString(lr.name);
+        if (pos != CB_ERR) {
+            m_langsComboBox.SetItemData(pos, lr.localeID);
+            if (lr.localeID == s.language) {
+                m_langsComboBox.SetCurSel(pos);
+            }
+        } else {
+            ASSERT(FALSE);
+        }
+    }
+
     UpdateData(FALSE);
 
     GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
@@ -147,6 +161,18 @@ BOOL CPPagePlayer::OnApply()
     s.fRememberDVDPos = !!m_fRememberDVDPos;
     s.fRememberFilePos = !!m_fRememberFilePos;
     s.bRememberPlaylistItems = !!m_bRememberPlaylistItems;
+
+    bool bLanguageModified = false;
+    int iLangSel = m_langsComboBox.GetCurSel();
+    if (iLangSel != CB_ERR) {
+        LANGID language = (LANGID)m_langsComboBox.GetItemData(iLangSel);
+        if (s.language != language) {
+            s.language = language;
+            bLanguageModified = true;
+        }
+    } else {
+        ASSERT(FALSE);
+    }
 
     if (!m_fKeepHistory) {
         // Empty MPC-HC's recent menu (iterating reverse because the indexes change)
@@ -189,6 +215,9 @@ BOOL CPPagePlayer::OnApply()
         pMainFrame->ShowTrayIcon(s.fTrayIcon);
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_LOGO);
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_WINDOW_TITLE);
+        if (bLanguageModified) {
+            pMainFrame->UpdateControlState(CMainFrame::UPDATE_LANGUAGE);
+        }
     }
 
     ::SetPriorityClass(::GetCurrentProcess(), s.dwPriority);

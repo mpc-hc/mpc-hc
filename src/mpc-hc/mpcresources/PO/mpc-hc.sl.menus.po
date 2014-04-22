@@ -189,10 +189,6 @@ msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
 msgstr "Samodejno prilagodi (&Samo večje)"
 
-msgctxt "ID_MENU_LANGUAGE"
-msgid "&Language"
-msgstr "&Jezik (Language)"
-
 msgctxt "POPUP"
 msgid "R&enderer Settings"
 msgstr "&Nastavitve izrisovalnika"
