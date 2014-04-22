@@ -28,6 +28,7 @@
 #include "EventDispatcher.h"
 #include "RenderersSettings.h"
 #include "resource.h"
+#include "Translations.h"
 
 #include <atlsync.h>
 #include <d3d9.h> // needed for dxva2api.h and vmr9.h
@@ -91,13 +92,6 @@ struct COLORPROPERTY_RANGE {
     int   MaxValue;
     int   DefaultValue;
     int   StepSize;
-};
-
-struct LanguageResource {
-    UINT resourceID;
-    LANGID localeID; // Check http://msdn.microsoft.com/en-us/goglobal/bb964664
-    LPCTSTR name;
-    LPCTSTR dllPath;
 };
 
 class CAppSettings;
@@ -177,12 +171,7 @@ public:
     VMR9ProcAmpControlRange*    GetVMR9ColorControl(ControlType nFlag);
     DXVA2_ValueRange*           GetEVRColorControl(ControlType nFlag);
 
-    static const LanguageResource languageResources[];
-    static const size_t languageResourcesCount;
-
-    static const LanguageResource& GetLanguageResourceByResourceID(UINT resourceID);
-    static const LanguageResource& GetLanguageResourceByLocaleID(LANGID localeID);
-    static bool SetLanguage(const LanguageResource& languageResource, bool showErrorMsg = true);
+    static bool SetLanguage(const Translations::LanguageResource& languageResource, bool showErrorMsg = true);
     static void SetDefaultLanguage();
 
     static void RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);

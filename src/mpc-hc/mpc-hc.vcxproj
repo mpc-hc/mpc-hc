@@ -415,6 +415,7 @@
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="ShockwaveGraph.cpp" />
     <ClCompile Include="SkypeMoodMsgHandler.cpp" />
+    <ClCompile Include="Translations.cpp" />
     <ClCompile Include="StaticLink.cpp" />
     <ClCompile Include="StatusLabel.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -555,6 +556,7 @@
     <ClInclude Include="SubtitleDlDlg.h" />
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TimerWrappers.h" />
+    <ClInclude Include="Translations.h" />
     <ClInclude Include="TunerScanDlg.h" />
     <ClInclude Include="..\..\include\version.h" />
     <ClInclude Include="UpdateChecker.h" />

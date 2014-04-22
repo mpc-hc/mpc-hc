@@ -27,6 +27,7 @@
 #include "MiniDump.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
+#include "Translations.h"
 #include "UpdateChecker.h"
 #include "moreuuids.h"
 
@@ -1107,9 +1108,9 @@ void CAppSettings::LoadSettings()
         CMPlayerCApp::SetDefaultLanguage();
     } else if (language != 0) {
         if (language <= 23) { // Here for compatibility with old settings
-            CMPlayerCApp::SetLanguage(CMPlayerCApp::GetLanguageResourceByResourceID(language + ID_LANGUAGE_ENGLISH));
+            CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByResourceID(language + ID_LANGUAGE_ENGLISH));
         } else {
-            CMPlayerCApp::SetLanguage(CMPlayerCApp::GetLanguageResourceByLocaleID(language));
+            CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByLocaleID(language));
         }
     }
 

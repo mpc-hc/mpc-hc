@@ -52,6 +52,7 @@
 #include "OpenDirHelper.h"
 #include "SubtitleDlDlg.h"
 #include "ISDb.h"
+#include "Translations.h"
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 #include "WinapiFunc.h"
@@ -12341,25 +12342,15 @@ void CMainFrame::SetupLanguageMenu()
     // Empty the menu
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
 
-    UINT uiCount = 0;
-    CString appPath = GetProgramPath();
-
-    for (size_t i = 0; i < CMPlayerCApp::languageResourcesCount; i++) {
-        const LanguageResource& lr = CMPlayerCApp::languageResources[i];
-
-        if (lr.dllPath == nullptr || FileExists(appPath + lr.dllPath)) {
+    auto availableLangResources = Translations::GetAvailableLanguageResources();
+    if (availableLangResources.size() > 1) {
+        for (auto& lr : availableLangResources) {
             VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, lr.resourceID, lr.name));
 
             if (lr.localeID == s.language) {
-                subMenu.CheckMenuItem(uiCount, MF_BYPOSITION | MF_CHECKED);
+                subMenu.CheckMenuItem(lr.resourceID, MF_BYCOMMAND | MF_CHECKED);
             }
-
-            uiCount++;
         }
-    }
-
-    if (uiCount == 1) {
-        VERIFY(subMenu.RemoveMenu(0, MF_BYPOSITION));
     }
 }
 
@@ -15009,7 +15000,7 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
                    _T("MPC-HC"), MB_ICONINFORMATION | MB_OK);
     }
 
-    CMPlayerCApp::SetLanguage(CMPlayerCApp::GetLanguageResourceByResourceID(nID));
+    CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByResourceID(nID));
 
     DestroyDynamicMenus();
 
