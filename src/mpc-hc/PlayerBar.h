@@ -50,6 +50,8 @@ public:
 
     BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName);
 
+    virtual void ReloadTranslatableResources() PURE;
+
     virtual void LoadState(CFrameWnd* pParent);
     virtual void SaveState();
 

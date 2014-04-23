@@ -538,6 +538,8 @@ CPlayerCaptureDialog::CPlayerCaptureDialog()
     , m_muxtype(0)
     , m_nRecordTimerID(0)
 {
+    EmptyVideo();
+    EmptyAudio();
 }
 
 CPlayerCaptureDialog::~CPlayerCaptureDialog()
@@ -548,14 +550,7 @@ CPlayerCaptureDialog::~CPlayerCaptureDialog()
 
 BOOL CPlayerCaptureDialog::Create(CWnd* pParent)
 {
-    if (!__super::Create(IDD, pParent)) {
-        return FALSE;
-    }
-
-    EmptyVideo();
-    EmptyAudio();
-
-    return TRUE;
+    return __super::Create(IDD, pParent);
 }
 
 void CPlayerCaptureDialog::DoDataExchange(CDataExchange* pDX)
@@ -1367,6 +1362,8 @@ void CPlayerCaptureDialog::OnDestroy()
         AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("FileFormat"), m_muxtype);
         AfxGetApp()->WriteProfileString(IDS_R_CAPTURE, _T("FileName"), m_file);
         AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("SepAudio"), m_fSepAudio);
+
+        m_bInitialized = false;
     }
 
     __super::OnDestroy();

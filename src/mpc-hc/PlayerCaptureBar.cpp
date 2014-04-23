@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,6 +54,24 @@ BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd, UINT defDockBarID)
     m_szFixedFloat = r.Size();
 
     return TRUE;
+}
+
+void CPlayerCaptureBar::ReloadTranslatableResources()
+{
+    SetWindowText(ResStr(IDS_CAPTURE_SETTINGS));
+
+    bool bWasInitialized = m_capdlg.IsInitialized();
+    m_capdlg.DestroyWindow();
+    m_capdlg.Create(this);
+    m_capdlg.ShowWindow(SW_SHOWNORMAL);
+    if (bWasInitialized) {
+        m_capdlg.InitControls();
+        m_capdlg.SetVideoInput(m_capdlg.GetVideoInput());
+        m_capdlg.SetVideoChannel(m_capdlg.GetVideoChannel());
+        m_capdlg.SetAudioInput(m_capdlg.GetAudioInput());
+        m_capdlg.UpdateVideoControls();
+        m_capdlg.UpdateAudioControls();
+    }
 }
 
 void CPlayerCaptureBar::InitControls()

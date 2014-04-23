@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -60,10 +60,12 @@ private:
         COL_LAYER,
         COL_ACTOR,
         COL_EFFECT,
+        COL_COUNT_TEXTSUB,
         // VOBSUB same as TEXTSUB
         COL_VOBID = COL_TEXT,
         COL_CELLID,
-        COL_FORCED
+        COL_FORCED,
+        COL_COUNT_VOBSUB
     };
 
     enum {
@@ -110,6 +112,8 @@ public:
     virtual ~CPlayerSubresyncBar();
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* pSubLock);
+
+    virtual void ReloadTranslatableResources();
 
     void SetTime(REFERENCE_TIME rt);
     void SetFPS(double fps);

@@ -59,6 +59,19 @@ BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd, UINT defDockBarID)
     return TRUE;
 }
 
+void CPlayerNavigationBar::ReloadTranslatableResources()
+{
+    SetWindowText(ResStr(IDS_NAVIGATION_BAR));
+
+    m_navdlg.DestroyWindow();
+    m_navdlg.Create(this);
+    CRect r;
+    GetClientRect(r);
+    m_navdlg.MoveWindow(r);
+    m_navdlg.UpdateElementList();
+    m_navdlg.ShowWindow(SW_SHOWNORMAL);
+}
+
 static WNDPROC g_parentFrameOrigWndProc = nullptr;
 LRESULT CALLBACK ParentFrameSubclassWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {

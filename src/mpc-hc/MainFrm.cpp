@@ -16037,8 +16037,10 @@ void CMainFrame::UpdateLanguage()
 
     CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByLocaleID(language));
 
+    // Destroy the dynamic menus before reloading the main menus
     DestroyDynamicMenus();
 
+    // Reload the main menus
     m_popupMenu.DestroyMenu();
     m_popupMenu.LoadMenu(IDR_POPUP);
     m_mainPopupMenu.DestroyMenu();
@@ -16054,9 +16056,17 @@ void CMainFrame::UpdateLanguage()
     }
     m_hMenuDefault = defaultMenu.Detach();
 
+    // Reload the dynamic menus
     CreateDynamicMenus();
+
+    // Reload the static bars
     OpenSetupInfoBar();
     OpenSetupStatsBar();
+
+    // Reload the dockable bars
+    for (const auto& pair : m_controls.m_panels) {
+        pair.second->ReloadTranslatableResources();
+    }
 }
 
 void CMainFrame::UpdateControlState(UpdateControlTarget target)

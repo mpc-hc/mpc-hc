@@ -80,6 +80,43 @@ BOOL CPlayerSubresyncBar::PreTranslateMessage(MSG* pMsg)
     return __super::PreTranslateMessage(pMsg);
 }
 
+void CPlayerSubresyncBar::ReloadTranslatableResources()
+{
+    SetWindowText(ResStr(IDS_SUBRESYNC_CAPTION));
+
+    CHeaderCtrl* pHeaderCtrl = m_list.GetHeaderCtrl();
+    if (pHeaderCtrl && pHeaderCtrl->GetItemCount() > 4) {
+        auto setColumnHeaderText = [pHeaderCtrl](int nPos, CString str) {
+            HDITEM item;
+            item.mask = HDI_TEXT;
+            item.pszText = (LPTSTR)(LPCTSTR)str;
+            item.cchTextMax = str.GetLength() + 1;
+            VERIFY(pHeaderCtrl->SetItem(nPos, &item));
+        };
+
+        setColumnHeaderText(COL_START, ResStr(IDS_SUBRESYNC_CLN_TIME));
+        setColumnHeaderText(COL_END, ResStr(IDS_SUBRESYNC_CLN_END));
+        setColumnHeaderText(COL_PREVSTART, ResStr(IDS_SUBRESYNC_CLN_PREVIEW));
+        setColumnHeaderText(COL_PREVEND, ResStr(IDS_SUBRESYNC_CLN_END));
+        if (m_mode == VOBSUB) {
+            ASSERT(pHeaderCtrl->GetItemCount() == COL_COUNT_VOBSUB);
+            setColumnHeaderText(COL_VOBID, ResStr(IDS_SUBRESYNC_CLN_VOB_ID));
+            setColumnHeaderText(COL_CELLID, ResStr(IDS_SUBRESYNC_CLN_CELL_ID));
+            setColumnHeaderText(COL_FORCED, ResStr(IDS_SUBRESYNC_CLN_FORCED));
+        } else if (m_mode == TEXTSUB) {
+            ASSERT(pHeaderCtrl->GetItemCount() == COL_COUNT_TEXTSUB);
+            setColumnHeaderText(COL_TEXT, ResStr(IDS_SUBRESYNC_CLN_TEXT));
+            setColumnHeaderText(COL_STYLE, ResStr(IDS_SUBRESYNC_CLN_STYLE));
+            setColumnHeaderText(COL_FONT, ResStr(IDS_SUBRESYNC_CLN_FONT));
+            setColumnHeaderText(COL_CHARSET, ResStr(IDS_SUBRESYNC_CLN_CHARSET));
+            setColumnHeaderText(COL_UNICODE, ResStr(IDS_SUBRESYNC_CLN_UNICODE));
+            setColumnHeaderText(COL_LAYER, ResStr(IDS_SUBRESYNC_CLN_LAYER));
+            setColumnHeaderText(COL_ACTOR, ResStr(IDS_SUBRESYNC_CLN_ACTOR));
+            setColumnHeaderText(COL_EFFECT, ResStr(IDS_SUBRESYNC_CLN_EFFECT));
+        }
+    }
+}
+
 void CPlayerSubresyncBar::SetTime(REFERENCE_TIME rt)
 {
     m_rt = rt;

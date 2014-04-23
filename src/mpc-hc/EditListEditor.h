@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -96,6 +96,8 @@ public:
     ~CEditListEditor();
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
+
+    virtual void ReloadTranslatableResources();
 
     void CloseFile();
     void OpenFile(LPCTSTR lpFileName);

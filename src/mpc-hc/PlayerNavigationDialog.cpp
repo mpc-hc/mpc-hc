@@ -94,8 +94,13 @@ END_MESSAGE_MAP()
 BOOL CPlayerNavigationDialog::OnInitDialog()
 {
     __super::OnInitDialog();
-    m_bTVStations = true;
-    m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
+
+    if (m_bTVStations) {
+        m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
+    } else {
+        m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
+    }
+
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }

@@ -68,6 +68,7 @@ BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
 
+    // The column titles don't have to be translated since they aren't displayed anyway
     m_list.InsertColumn(COL_NAME, _T("Name"), LVCFMT_LEFT, 380);
 
     CDC* pDC = m_list.GetDC();
@@ -103,6 +104,11 @@ BOOL CPlayerPlaylistBar::PreTranslateMessage(MSG* pMsg)
     }
 
     return __super::PreTranslateMessage(pMsg);
+}
+
+void CPlayerPlaylistBar::ReloadTranslatableResources()
+{
+    SetWindowText(ResStr(IDS_PLAYLIST_CAPTION));
 }
 
 void CPlayerPlaylistBar::LoadState(CFrameWnd* pParent)

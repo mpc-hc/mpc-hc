@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -140,6 +140,11 @@ BOOL CEditListEditor::Create(CWnd* pParentWnd, UINT defDockBarID)
     m_list.SetImageList(&m_fakeImageList, LVSIL_SMALL);
 
     return TRUE;
+}
+
+void CEditListEditor::ReloadTranslatableResources()
+{
+    SetWindowText(ResStr(IDS_EDIT_LIST_EDITOR));
 }
 
 void CEditListEditor::OnSize(UINT nType, int cx, int cy)

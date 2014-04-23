@@ -22,11 +22,6 @@
 #include "PlayerBar.h"
 #include "MainFrm.h"
 
-void CPlayerBar::SetAutohidden(bool bValue)
-{
-    m_bAutohidden = bValue;
-}
-
 IMPLEMENT_DYNAMIC(CPlayerBar, CSizingControlBarG)
 CPlayerBar::CPlayerBar()
     : m_defDockBarID(0)
@@ -139,6 +134,11 @@ void CPlayerBar::SaveState()
     }
 
     pApp->WriteProfileInt(section, _T("DockState"), dockBarID);
+}
+
+void CPlayerBar::SetAutohidden(bool bValue)
+{
+    m_bAutohidden = bValue;
 }
 
 bool CPlayerBar::IsAutohidden() const
