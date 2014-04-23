@@ -426,7 +426,7 @@ void CPlayerSubresyncBar::UpdateStrings()
             m_list.SetItemText(i, COL_FONT, stss.fontName);
             str.Format(_T("%d"), stss.charSet);
             m_list.SetItemText(i, COL_CHARSET, str);
-            m_list.SetItemText(i, COL_UNICODE, m_sts.IsEntryUnicode(i) ? _T("yes") : _T("no"));
+            m_list.SetItemText(i, COL_UNICODE, m_sts.IsEntryUnicode(i) ? ResStr(IDS_SUBRESYNC_YES) : ResStr(IDS_SUBRESYNC_NO));
             str.Format(_T("%d"), m_sts[i].layer);
             m_list.SetItemText(i, COL_LAYER, str);
             m_list.SetItemText(i, COL_ACTOR, m_sts[i].actor);
@@ -452,7 +452,7 @@ void CPlayerSubresyncBar::UpdateStrings()
                 str.Format(_T("%d"), cellid);
             }
             m_list.SetItemText(i, COL_CELLID, str);
-            str = forced ? _T("Yes") : _T("");
+            str = forced ? ResStr(IDS_SUBRESYNC_YES) : ResStr(IDS_SUBRESYNC_NO);
             m_list.SetItemText(i, COL_FORCED, str);
         }
     }
@@ -1055,7 +1055,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                             }
                         }
 
-                        CPropertySheet dlg(_T("Styles..."), this, iSelPage);
+                        CPropertySheet dlg(ResStr(IDS_SUBTITLES_STYLES_CAPTION), this, iSelPage);
                         for (size_t i = 0, l = pages.GetCount(); i < l; i++) {
                             dlg.AddPage(pages[i]);
                         }
@@ -1082,7 +1082,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     } else if (id == UNICODEYES || id == UNICODENO) {
                         m_sts.ConvertUnicode(iItem, id == UNICODEYES);
                         m_list.SetItemText(iItem, COL_TEXT, m_sts.GetStrW(iItem, true));
-                        m_list.SetItemText(iItem, COL_UNICODE, m_sts.IsEntryUnicode(iItem) ? _T("yes") : _T("no"));
+                        m_list.SetItemText(iItem, COL_UNICODE, m_sts.IsEntryUnicode(iItem) ? ResStr(IDS_SUBRESYNC_YES) : ResStr(IDS_SUBRESYNC_NO));
                         fNeedsUpdate = true;
                     } else if (id == LAYERDEC || id == LAYERINC) {
                         int d = (id == LAYERDEC) ? -1 : 1;
