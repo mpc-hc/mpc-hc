@@ -28,48 +28,45 @@
 
 // color conv
 
-unsigned char Clip_base[256 * 3];
-unsigned char* Clip = Clip_base + 256;
+static unsigned char clipBase[256 * 3];
+static unsigned char* clip = clipBase + 256;
 
-const int c2y_cyb = int(0.114 * 219 / 255 * 65536 + 0.5);
-const int c2y_cyg = int(0.587 * 219 / 255 * 65536 + 0.5);
-const int c2y_cyr = int(0.299 * 219 / 255 * 65536 + 0.5);
-const int c2y_cu  = int(1.0 / 2.018 * 1024 + 0.5);
-const int c2y_cv  = int(1.0 / 1.596 * 1024 + 0.5);
+static const int c2y_cyb = std::lround(0.114 * 219 / 255 * 65536);
+static const int c2y_cyg = std::lround(0.587 * 219 / 255 * 65536);
+static const int c2y_cyr = std::lround(0.299 * 219 / 255 * 65536);
+static const int c2y_cu = std::lround(1.0 / 2.018 * 1024);
+static const int c2y_cv = std::lround(1.0 / 1.596 * 1024);
 
 int c2y_yb[256];
 int c2y_yg[256];
 int c2y_yr[256];
 
-const int y2c_cbu = int(2.018 * 65536 + 0.5);
-const int y2c_cgu = int(0.391 * 65536 + 0.5);
-const int y2c_cgv = int(0.813 * 65536 + 0.5);
-const int y2c_crv = int(1.596 * 65536 + 0.5);
-int y2c_bu[256];
-int y2c_gu[256];
-int y2c_gv[256];
-int y2c_rv[256];
+static const int y2c_cbu = std::lround(2.018 * 65536);
+static const int y2c_cgu = std::lround(0.391 * 65536);
+static const int y2c_cgv = std::lround(0.813 * 65536);
+static const int y2c_crv = std::lround(1.596 * 65536);
+static int y2c_bu[256];
+static int y2c_gu[256];
+static int y2c_gv[256];
+static int y2c_rv[256];
 
-const int cy_cy  = int(255.0 / 219.0 * 65536 + 0.5);
-const int cy_cy2 = int(255.0 / 219.0 * 32768 + 0.5);
-
-bool fColorConvInitOK = false;
+static const int cy_cy = std::lround(255.0 / 219.0 * 65536);
+static const int cy_cy2 = std::lround(255.0 / 219.0 * 32768);
 
 void ColorConvInit()
 {
-    if (fColorConvInitOK) {
+    static bool bColorConvInitOK = false;
+    if (bColorConvInitOK) {
         return;
     }
 
-    int i;
-
-    for (i = 0; i < 256; i++) {
-        Clip_base[i] = 0;
-        Clip_base[i + 256] = i;
-        Clip_base[i + 512] = 255;
+    for (int i = 0; i < 256; i++) {
+        clipBase[i] = 0;
+        clipBase[i + 256] = i;
+        clipBase[i + 512] = 255;
     }
 
-    for (i = 0; i < 256; i++) {
+    for (int i = 0; i < 256; i++) {
         c2y_yb[i] = c2y_cyb * i;
         c2y_yg[i] = c2y_cyg * i;
         c2y_yr[i] = c2y_cyr * i;
@@ -80,14 +77,14 @@ void ColorConvInit()
         y2c_rv[i] = y2c_crv * (i - 128);
     }
 
-    fColorConvInitOK = true;
+    bColorConvInitOK = true;
 }
 
 //
 // CMemSubPic
 //
 
-CMemSubPic::CMemSubPic(SubPicDesc& spd)
+CMemSubPic::CMemSubPic(const SubPicDesc& spd)
     : m_spd(spd)
 {
     m_maxsize.SetSize(spd.w, spd.h);
@@ -231,8 +228,8 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 
                     int scaled_y = (s[1] + s[5] - 32) * cy_cy2;
 
-                    s[0] = Clip[(((((s[0] + s[4]) << 15) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16];
-                    s[4] = Clip[(((((s[2] + s[6]) << 15) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
+                    s[0] = clip[(((((s[0] + s[4]) << 15) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16];
+                    s[4] = clip[(((((s[2] + s[6]) << 15) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
                 } else {
                     s[1] = s[5] = 0x10;
                     s[0] = s[4] = 0x80;
@@ -248,8 +245,8 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
                 if (s[3] < 0xff) {
                     int y = (c2y_yb[s[0]] + c2y_yg[s[1]] + c2y_yr[s[2]] + 0x108000) >> 16;
                     int scaled_y = (y - 32) * cy_cy;
-                    s[1] = Clip[((((s[0] << 16) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16];
-                    s[0] = Clip[((((s[2] << 16) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
+                    s[1] = clip[((((s[0] << 16) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16];
+                    s[0] = clip[((((s[2] << 16) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
                     s[2] = y;
                 } else {
                     s[0] = s[1] = 0x80;
@@ -413,7 +410,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         dst.pitch = -dst.pitch;
     }
 
-    // TODO: m_invAlpha support
+    // TODO: m_bInvAlpha support
     switch (dst.type) {
         case MSP_RGBA:
             for (ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
@@ -495,11 +492,10 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
             }
             break;
         case MSP_YUY2: {
-            void (*alphablt_func)(int w, int h, BYTE * d, int dstpitch, BYTE * s, int srcpitch);
 #ifdef _WIN64
-            alphablt_func = AlphaBlt_YUY2_SSE2;
+            auto alphablt_func = AlphaBlt_YUY2_SSE2;
 #else
-            alphablt_func = AlphaBlt_YUY2_MMX;
+            auto alphablt_func = AlphaBlt_YUY2_MMX;
 #endif
             //alphablt_func = AlphaBlt_YUY2_C;
 
