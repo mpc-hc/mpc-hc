@@ -33,9 +33,8 @@
 //
 
 template<class T>
-class CFormatElem
+struct CFormatElem
 {
-public:
     CMediaType mt;
     T caps;
 };
@@ -45,9 +44,7 @@ class CFormat : public CAutoPtrArray<CFormatElem<T>>
 {
 public:
     CString name;
-    CFormat(CString name = _T("")) {
-        this->name = name;
-    }
+    CFormat(CString name = _T("")) : name(name) {}
     virtual ~CFormat() {}
 };
 
@@ -344,8 +341,8 @@ public:
 struct Codec {
     CComPtr<IMoniker> pMoniker;
     CComPtr<IBaseFilter> pBF;
-    CString FriendlyName;
-    CComBSTR DisplayName;
+    CString friendlyName;
+    CComBSTR displayName;
 };
 
 typedef CAtlArray<Codec> CCodecArray;
@@ -356,55 +353,8 @@ class CPlayerCaptureDialog : public CResizableDialog
 {
     //DECLARE_DYNAMIC(CPlayerCaptureDialog)
 
+private:
     bool m_bInitialized;
-
-    // video input
-    CStringW m_VidDisplayName;
-    CComPtr<IAMStreamConfig> m_pAMVSC;
-    CComPtr<IAMCrossbar> m_pAMXB;
-    CComPtr<IAMTVTuner> m_pAMTuner;
-    CComPtr<IAMVfwCaptureDialogs> m_pAMVfwCD;
-    CVidFormatArray m_vfa;
-
-    // audio input
-    CStringW m_AudDisplayName;
-    CComPtr<IAMStreamConfig> m_pAMASC;
-    CInterfaceArray<IAMAudioInputMixer> m_pAMAIM;
-    CAudFormatArray m_afa;
-
-    // video codec
-    CCodecArray m_pVidEncArray;
-    CVidFormatArray m_vcfa;
-
-    // audio codec
-    CCodecArray m_pAudEncArray;
-    CAudFormatArray m_acfa;
-
-    void EmptyVideo();
-    void EmptyAudio();
-
-    void UpdateMediaTypes();
-    void UpdateUserDefinableControls();
-    void UpdateVideoCodec();
-    void UpdateAudioCodec();
-    void UpdateMuxer();
-    void UpdateOutputControls();
-
-    void UpdateGraph();
-
-    CMap<HWND, HWND&, BOOL, BOOL&> m_wndenabledmap;
-    void EnableControls(CWnd* pWnd, bool fEnable);
-
-    bool m_fEnableOgm;
-
-public:
-    CPlayerCaptureDialog();   // standard constructor
-    virtual ~CPlayerCaptureDialog();
-
-    BOOL Create(CWnd* pParent = nullptr);
-
-    // Dialog Data
-    enum { IDD = IDD_CAPTURE_DLG };
 
     CComboBox m_vidinput;
     CComboBox m_vidtype;
@@ -422,37 +372,85 @@ public:
     CComboBox m_vidcodec;
     CComboBox m_vidcodectype;
     CComboBox m_vidcodecdimension;
-    BOOL m_fVidOutput;
     CButton m_vidoutput;
-    int m_fVidPreview;
     CButton m_vidpreview;
     CComboBox m_audcodec;
     CComboBox m_audcodectype;
     CComboBox m_audcodecdimension;
-    BOOL m_fAudOutput;
     CButton m_audoutput;
-    int m_fAudPreview;
     CButton m_audpreview;
     int m_nVidBuffers;
     int m_nAudBuffers;
-    CString m_file;
     CButton m_recordbtn;
     UINT_PTR m_nRecordTimerID;
     BOOL m_fSepAudio;
     int m_muxtype;
     CComboBox m_muxctrl;
+    bool m_fEnableOgm;
+
+    // video input
+    CStringW m_vidDisplayName;
+    CComPtr<IAMStreamConfig> m_pAMVSC;
+    CComPtr<IAMCrossbar> m_pAMXB;
+    CComPtr<IAMTVTuner> m_pAMTuner;
+    CComPtr<IAMVfwCaptureDialogs> m_pAMVfwCD;
+    CVidFormatArray m_vfa;
+
+    // audio input
+    CStringW m_audDisplayName;
+    CComPtr<IAMStreamConfig> m_pAMASC;
+    CInterfaceArray<IAMAudioInputMixer> m_pAMAIM;
+    CAudFormatArray m_afa;
+
+    // video codec
+    CCodecArray m_pVidEncArray;
+    CVidFormatArray m_vcfa;
+
+    // audio codec
+    CCodecArray m_pAudEncArray;
+    CAudFormatArray m_acfa;
+
+    CComPtr<IMoniker> m_pVidEncMoniker, m_pAudEncMoniker;
+
+    void EmptyVideo();
+    void EmptyAudio();
+
+    void UpdateMediaTypes();
+    void UpdateUserDefinableControls();
+    void UpdateVideoCodec();
+    void UpdateAudioCodec();
+    void UpdateMuxer();
+    void UpdateOutputControls();
+
+    void UpdateGraph();
+
+    CMap<HWND, HWND&, BOOL, BOOL&> m_wndenabledmap;
+    void EnableControls(CWnd* pWnd, bool fEnable);
+
+public:
+    CString m_file;
+    BOOL m_fVidOutput;
+    int m_fVidPreview;
+    BOOL m_fAudOutput;
+    int m_fAudPreview;
 
     CMediaType m_mtv, m_mta, m_mtcv, m_mtca;
     CComPtr<IBaseFilter> m_pVidEnc, m_pAudEnc, m_pMux, m_pDst, m_pAudMux, m_pAudDst;
-    CComPtr<IMoniker> m_pVidEncMoniker, m_pAudEncMoniker;
     CComPtr<IBaseFilter> m_pVidBuffer, m_pAudBuffer;
 
-public:
+    CPlayerCaptureDialog();
+    virtual ~CPlayerCaptureDialog();
+
+    BOOL Create(CWnd* pParent = nullptr);
+
+    // Dialog Data
+    enum { IDD = IDD_CAPTURE_DLG };
+
     void InitControls();
 
-    void SetupVideoControls(CStringW DisplayName, IAMStreamConfig* pAMSC, IAMCrossbar* pAMXB, IAMTVTuner* pAMTuner);
-    void SetupVideoControls(CStringW DisplayName, IAMStreamConfig* pAMSC, IAMVfwCaptureDialogs* pAMVfwCD);
-    void SetupAudioControls(CStringW DisplayName, IAMStreamConfig* pAMSC, const CInterfaceArray<IAMAudioInputMixer>& pAMAIM);
+    void SetupVideoControls(CStringW displayName, IAMStreamConfig* pAMSC, IAMCrossbar* pAMXB, IAMTVTuner* pAMTuner);
+    void SetupVideoControls(CStringW displayName, IAMStreamConfig* pAMSC, IAMVfwCaptureDialogs* pAMVfwCD);
+    void SetupAudioControls(CStringW displayName, IAMStreamConfig* pAMSC, const CInterfaceArray<IAMAudioInputMixer>& pAMAIM);
 
     void UpdateVideoControls();
     void UpdateAudioControls();
@@ -463,9 +461,9 @@ public:
     bool SetVideoChannel(int channel);
     bool SetAudioInput(int input);
 
-    int GetVideoInput();
-    int GetVideoChannel();
-    int GetAudioInput();
+    int GetVideoInput() const;
+    int GetVideoChannel(); // can't be const because of the IAMTVTuner interface
+    int GetAudioInput() const;
 
     bool IsInitialized() const {
         return m_bInitialized;
@@ -480,7 +478,6 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
-public:
     afx_msg void OnDestroy();
     afx_msg void OnVideoInput();
     afx_msg void OnVideoType();
@@ -499,10 +496,10 @@ public:
     afx_msg void OnAudioCodecDimension();
     afx_msg void OnOpenFile();
     afx_msg void OnRecord();
-    afx_msg void OnEnChangeEdit9();
-    afx_msg void OnEnChangeEdit12();
+    afx_msg void OnChangeVideoBuffers();
+    afx_msg void OnChangeAudioBuffers();
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnBnClickedVidAudPreview();
-    afx_msg void OnBnClickedCheck7();
-    afx_msg void OnCbnSelchangeCombo14();
+    afx_msg void OnBnClickedAudioToWav();
+    afx_msg void OnChangeFileType();
 };

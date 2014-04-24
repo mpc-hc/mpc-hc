@@ -30,7 +30,7 @@
 #include "../filters/muxer/DSMMuxer/DSMMuxer.h"
 
 
-static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
+static bool LoadMediaType(CStringW displayName, AM_MEDIA_TYPE** ppmt)
 {
     bool fRet = false;
 
@@ -47,7 +47,7 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
 
     BYTE* pData;
     UINT len;
-    if (AfxGetApp()->GetProfileBinary(IDS_R_CAPTURE _T("\\") + CString(DisplayName), _T("MediaType"), &pData, &len)) {
+    if (AfxGetApp()->GetProfileBinary(IDS_R_CAPTURE _T("\\") + CString(displayName), _T("MediaType"), &pData, &len)) {
         if (len != sizeof(AM_MEDIA_TYPE)) {
             CoTaskMemFree(*ppmt);
             delete [] pData;
@@ -61,7 +61,7 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
 
         fRet = true;
 
-        if (AfxGetApp()->GetProfileBinary(IDS_R_CAPTURE _T("\\") + CString(DisplayName), _T("Format"), &pData, &len)) {
+        if (AfxGetApp()->GetProfileBinary(IDS_R_CAPTURE _T("\\") + CString(displayName), _T("Format"), &pData, &len)) {
             if (!len) {
                 delete [] pData;
                 return fRet;
@@ -76,14 +76,14 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
     return fRet;
 }
 
-static void SaveMediaType(CStringW DisplayName, AM_MEDIA_TYPE* pmt)
+static void SaveMediaType(CStringW displayName, AM_MEDIA_TYPE* pmt)
 {
-    if (DisplayName.IsEmpty() || !pmt) {
+    if (displayName.IsEmpty() || !pmt) {
         return;
     }
 
-    AfxGetApp()->WriteProfileBinary(IDS_R_CAPTURE _T("\\") + CString(DisplayName), _T("MediaType"), (BYTE*)pmt, sizeof(AM_MEDIA_TYPE));
-    AfxGetApp()->WriteProfileBinary(IDS_R_CAPTURE _T("\\") + CString(DisplayName), _T("Format"), pmt->pbFormat, pmt->cbFormat);
+    AfxGetApp()->WriteProfileBinary(IDS_R_CAPTURE _T("\\") + CString(displayName), _T("MediaType"), (BYTE*)pmt, sizeof(AM_MEDIA_TYPE));
+    AfxGetApp()->WriteProfileBinary(IDS_R_CAPTURE _T("\\") + CString(displayName), _T("Format"), pmt->pbFormat, pmt->cbFormat);
 }
 
 static void LoadDefaultCodec(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& cat)
@@ -97,7 +97,7 @@ static void LoadDefaultCodec(CAtlArray<Codec>& codecs, CComboBox& box, const GUI
         return;
     }
 
-    CString DisplayName = AfxGetApp()->GetProfileString(IDS_R_CAPTURE _T("\\") + CStringFromGUID(cat), _T("DisplayName"));
+    CString displayName = AfxGetApp()->GetProfileString(IDS_R_CAPTURE _T("\\") + CStringFromGUID(cat), _T("DisplayName"));
 
     for (int i = 0; i < len; i++) {
         int iSel = (int)box.GetItemData(i);
@@ -106,7 +106,7 @@ static void LoadDefaultCodec(CAtlArray<Codec>& codecs, CComboBox& box, const GUI
         }
 
         Codec& c = codecs[iSel];
-        if (DisplayName == c.DisplayName) {
+        if (displayName == c.displayName) {
             box.SetCurSel(i);
             if (!c.pBF) {
                 c.pMoniker->BindToObject(nullptr, nullptr, IID_PPV_ARGS(&c.pBF));
@@ -137,7 +137,7 @@ static void SaveDefaultCodec(CAtlArray<Codec>& codecs, const CComboBox& box, con
 
     Codec& codec = codecs[iSel];
 
-    AfxGetApp()->WriteProfileString(IDS_R_CAPTURE _T("\\") + guid, _T("DisplayName"), CString(codec.DisplayName));
+    AfxGetApp()->WriteProfileString(IDS_R_CAPTURE _T("\\") + guid, _T("DisplayName"), CString(codec.displayName));
 }
 
 static void SetupDefaultCaps(AM_MEDIA_TYPE* pmt, VIDEO_STREAM_CONFIG_CAPS& caps)
@@ -429,9 +429,9 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
         c.pMoniker = pMoniker;
         /*
         CComPtr<IBaseFilter> pBF;
-        if (FAILED(pMoniker->BindToObject(0, 0, IID_PPV_ARGS(&pBF))) || !pBF)
+        if (FAILED(pMoniker->BindToObject(0, 0, IID_PPV_ARGS(&pBF))) || !pBF) {
             continue;
-
+        }
         c.pBF = pBF;
         */
         LPOLESTR strName = nullptr;
@@ -439,31 +439,29 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
             continue;
         }
 
-        c.DisplayName = strName;
+        c.displayName = strName;
         CoTaskMemFree(strName);
 
         CComPtr<IPropertyBag> pPB;
         pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (!pPB || FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
             continue;
         }
 
-        c.FriendlyName = var.bstrVal;
+        c.friendlyName = var.bstrVal;
 
-        CStringW str = CStringW(c.DisplayName).MakeLower();
+        CStringW str = CStringW(c.displayName).MakeLower();
         if (str.Find(L"@device:dmo:") == 0) {
-            c.FriendlyName = _T("(DMO) ") + c.FriendlyName;
+            c.friendlyName = _T("(DMO) ") + c.friendlyName;
         } else if (str.Find(L"@device:sw:") == 0) {
-            c.FriendlyName = _T("(DS) ") + c.FriendlyName;
+            c.friendlyName = _T("(DS) ") + c.friendlyName;
         } else if (str.Find(L"@device:cm:") == 0) {
-            c.FriendlyName = _T("(VfW) ") + c.FriendlyName;
+            c.friendlyName = _T("(VfW) ") + c.friendlyName;
         }
 
-        box.SetItemData(
-            box.AddString(c.FriendlyName),
-            (DWORD_PTR)codecs.Add(c));
+        box.SetItemData(box.AddString(c.friendlyName), (DWORD_PTR)codecs.Add(c));
     }
     EndEnumSysDev;
 
@@ -499,7 +497,7 @@ static int ShowPPage(CAtlArray<Codec>& codecs, const CComboBox& box, HWND hWnd =
             IUnknown* lpUnk = nullptr;
             pSPP.QueryInterface(&lpUnk);
             OleCreatePropertyFrame(
-                hWnd, 0, 0, CStringW(c.FriendlyName),
+                hWnd, 0, 0, CStringW(c.friendlyName),
                 1, (IUnknown**)&lpUnk,
                 caGUID.cElems, caGUID.pElems,
                 0, 0, nullptr);
@@ -651,11 +649,9 @@ void CPlayerCaptureDialog::InitControls()
         m_muxctrl.AddString(_T("Matroska"));
         m_muxctrl.AddString(_T("DirectShow Media"));
 
-        //  UpdateMuxer();
-
         UpdateData(FALSE);
 
-        OnCbnSelchangeCombo14();
+        OnChangeFileType();
     }
 }
 
@@ -663,13 +659,11 @@ void CPlayerCaptureDialog::EmptyVideo()
 {
     // first save channel from previous session
 
-    if (m_pAMTuner && !m_VidDisplayName.IsEmpty()) {
+    if (m_pAMTuner && !m_vidDisplayName.IsEmpty()) {
         long lChannel = 0, lVivSub = 0, lAudSub = 0;
         m_pAMTuner->get_Channel(&lChannel, &lVivSub, &lAudSub);
-        AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE _T("\\") + CString(m_VidDisplayName), _T("Channel"), lChannel);
+        AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE _T("\\") + CString(m_vidDisplayName), _T("Channel"), lChannel);
     }
-
-    //
 
     m_vfa.RemoveAll();
 
@@ -771,7 +765,7 @@ void CPlayerCaptureDialog::UpdateMediaTypes()
                 bih->biHeight = m_vidver.GetPos32();
                 bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
             }
-            SaveMediaType(m_VidDisplayName, pmt);
+            SaveMediaType(m_vidDisplayName, pmt);
 
             m_mtv = *pmt;
             DeleteMediaType(pmt);
@@ -792,7 +786,7 @@ void CPlayerCaptureDialog::UpdateMediaTypes()
         }
 
         if (pmt) {
-            SaveMediaType(m_AudDisplayName, pmt);
+            SaveMediaType(m_audDisplayName, pmt);
 
             m_mta = *pmt;
             DeleteMediaType(pmt);
@@ -839,8 +833,11 @@ void CPlayerCaptureDialog::UpdateUserDefinableControls()
     UNREFERENCED_PARAMETER(h);
 
     m_vidhor.SetRange32(pvfe->caps.MinOutputSize.cx, pvfe->caps.MaxOutputSize.cx);
-    /*  if (bih->biCompression == mmioFOURCC('Y','U','Y','2')) // FIXME: bt8x8 drivers seem to crop the right side in yuv2 mode if the width is not dividable by 64
-            pvfe->caps.OutputGranularityX = 64;
+    /*
+    // FIXME: bt8x8 drivers seem to crop the right side in yuv2 mode if the width is not dividable by 64
+    if (bih->biCompression == mmioFOURCC('Y','U','Y','2')) {
+        pvfe->caps.OutputGranularityX = 64;
+    }
     */
     ua[0].nInc = pvfe->caps.OutputGranularityX;
     ua[1].nInc = pvfe->caps.OutputGranularityX * 2;
@@ -873,14 +870,14 @@ void CPlayerCaptureDialog::UpdateVideoCodec()
     m_pVidEnc = iSel < 0 ? nullptr : m_pVidEncArray[iSel].pBF;
     m_pVidEncMoniker = iSel < 0 ? nullptr : m_pVidEncArray[iSel].pMoniker;
 
-    //  CString DisplayName = iSel < 0 ? _T("") : CString(m_pVidEncArray[iSel].DisplayName.m_str);
+    // CString displayName = iSel < 0 ? _T("") : CString(m_pVidEncArray[iSel].displayName.m_str);
     CComQIPtr<IAMStreamConfig> pAMSC = GetFirstPin(m_pVidEnc, PINDIR_OUTPUT);
 
     SetupMediaTypes(pAMSC, m_vcfa, m_vidcodectype, m_vidcodecdimension, m_mtcv);
 
     SaveDefaultCodec(m_pVidEncArray, m_vidcodec, CLSID_VideoCompressorCategory);
 
-    //  SaveMediaType(DisplayName, &m_mtcv);
+    // SaveMediaType(displayName, &m_mtcv);
 }
 
 void CPlayerCaptureDialog::UpdateAudioCodec()
@@ -893,14 +890,14 @@ void CPlayerCaptureDialog::UpdateAudioCodec()
     m_pAudEnc = iSel < 0 ? nullptr : m_pAudEncArray[iSel].pBF;
     m_pAudEncMoniker = iSel < 0 ? nullptr : m_pAudEncArray[iSel].pMoniker;
 
-    //  CString DisplayName = iSel < 0 ? _T("") : CString(m_pAudEncArray[iSel].DisplayName.m_str);
+    // CString displayName = iSel < 0 ? _T("") : CString(m_pAudEncArray[iSel].displayName.m_str);
     CComQIPtr<IAMStreamConfig> pAMSC = GetFirstPin(m_pAudEnc, PINDIR_OUTPUT);
 
     SetupMediaTypes(pAMSC, m_acfa, m_audcodectype, m_audcodecdimension, m_mtca);
 
     SaveDefaultCodec(m_pAudEncArray, m_audcodec, CLSID_AudioCompressorCategory);
 
-    //  SaveMediaType(DisplayName, &m_mtca);
+    // SaveMediaType(displayName, &m_mtca);
 }
 
 void CPlayerCaptureDialog::UpdateMuxer()
@@ -942,8 +939,6 @@ void CPlayerCaptureDialog::UpdateGraph()
 {
     UpdateMediaTypes();
 
-    //  UpdateMuxer();
-
     ((CMainFrame*)AfxGetMainWnd())->BuildGraphVideoAudio(m_fVidPreview, false, m_fAudPreview, false);
 
     UpdateUserDefinableControls();
@@ -982,12 +977,12 @@ void CPlayerCaptureDialog::EnableControls(CWnd* pWnd, bool fEnable)
 }
 
 void CPlayerCaptureDialog::SetupVideoControls(
-    CStringW DisplayName,
+    CStringW displayName,
     IAMStreamConfig* pAMSC, IAMCrossbar* pAMXB, IAMTVTuner* pAMTuner)
 {
     EmptyVideo();
 
-    m_VidDisplayName = DisplayName;
+    m_vidDisplayName = displayName;
     m_pAMXB = pAMXB;
     m_pAMTuner = pAMTuner;
     m_pAMVSC = pAMSC;
@@ -996,12 +991,12 @@ void CPlayerCaptureDialog::SetupVideoControls(
 }
 
 void CPlayerCaptureDialog::SetupVideoControls(
-    CStringW DisplayName,
+    CStringW displayName,
     IAMStreamConfig* pAMSC, IAMVfwCaptureDialogs* pAMVfwCD)
 {
     EmptyVideo();
 
-    m_VidDisplayName = DisplayName;
+    m_vidDisplayName = displayName;
     m_pAMVSC = pAMSC;
     m_pAMVfwCD = pAMVfwCD;
 
@@ -1131,7 +1126,7 @@ void CPlayerCaptureDialog::UpdateVideoControls()
 
     if (m_pAMVSC) {
         AM_MEDIA_TYPE* pmt;
-        if (LoadMediaType(m_VidDisplayName, &pmt)) {
+        if (LoadMediaType(m_vidDisplayName, &pmt)) {
             m_pAMVSC->SetFormat(pmt);
             DeleteMediaType(pmt);
         }
@@ -1161,12 +1156,12 @@ void CPlayerCaptureDialog::UpdateVideoControls()
 }
 
 void CPlayerCaptureDialog::SetupAudioControls(
-    CStringW DisplayName,
+    CStringW displayName,
     IAMStreamConfig* pAMSC, const CInterfaceArray<IAMAudioInputMixer>& pAMAIM)
 {
     EmptyAudio();
 
-    m_AudDisplayName = DisplayName;
+    m_audDisplayName = displayName;
     m_pAMASC = pAMSC;
     if (!pAMAIM.IsEmpty()) {
         m_pAMAIM.Copy(pAMAIM);
@@ -1206,7 +1201,7 @@ void CPlayerCaptureDialog::UpdateAudioControls()
 
     if (m_pAMASC) {
         AM_MEDIA_TYPE* pmt;
-        if (LoadMediaType(m_AudDisplayName, &pmt)) {
+        if (LoadMediaType(m_audDisplayName, &pmt)) {
             m_pAMASC->SetFormat(pmt);
             DeleteMediaType(pmt);
         }
@@ -1238,10 +1233,10 @@ bool CPlayerCaptureDialog::IsTunerActive()
         return false;
     }
 
-    long PinIndexRelated = -1, PhysicalType = -1;
+    long pinIndexRelated = -1, physicalType = -1;
     return (m_pAMXB
-            && SUCCEEDED(m_pAMXB->get_CrossbarPinInfo(TRUE, iSel, &PinIndexRelated, &PhysicalType))
-            && PhysicalType == PhysConn_Video_Tuner);
+            && SUCCEEDED(m_pAMXB->get_CrossbarPinInfo(TRUE, iSel, &pinIndexRelated, &physicalType))
+            && physicalType == PhysConn_Video_Tuner);
 }
 
 bool CPlayerCaptureDialog::SetVideoInput(int input)
@@ -1287,7 +1282,7 @@ bool CPlayerCaptureDialog::SetAudioInput(int input)
     return false;
 }
 
-int CPlayerCaptureDialog::GetVideoInput()
+int CPlayerCaptureDialog::GetVideoInput() const
 {
     int i = m_vidinput.GetCurSel();
     if (i < 0) {
@@ -1302,7 +1297,7 @@ int CPlayerCaptureDialog::GetVideoChannel()
     return m_pAMTuner && SUCCEEDED(m_pAMTuner->get_Channel(&lChannel, &lVivSub, &lAudSub)) ? lChannel : -1;
 }
 
-int CPlayerCaptureDialog::GetAudioInput()
+int CPlayerCaptureDialog::GetAudioInput() const
 {
     int i = m_audinput.GetCurSel();
     if (i < 0) {
@@ -1330,13 +1325,13 @@ BEGIN_MESSAGE_MAP(CPlayerCaptureDialog, CResizableDialog)
     ON_CBN_SELCHANGE(IDC_COMBO11, OnAudioCodecDimension)
     ON_BN_CLICKED(IDC_BUTTON3, OnOpenFile)
     ON_BN_CLICKED(IDC_BUTTON2, OnRecord)
-    ON_EN_CHANGE(IDC_EDIT5, OnEnChangeEdit9)
-    ON_EN_CHANGE(IDC_EDIT6, OnEnChangeEdit12)
+    ON_EN_CHANGE(IDC_EDIT5, OnChangeVideoBuffers)
+    ON_EN_CHANGE(IDC_EDIT6, OnChangeAudioBuffers)
     ON_WM_TIMER()
     ON_BN_CLICKED(IDC_CHECK2, OnBnClickedVidAudPreview)
     ON_BN_CLICKED(IDC_CHECK4, OnBnClickedVidAudPreview)
-    ON_BN_CLICKED(IDC_CHECK5, OnBnClickedCheck7)
-    ON_CBN_SELCHANGE(IDC_COMBO14, OnCbnSelchangeCombo14)
+    ON_BN_CLICKED(IDC_CHECK5, OnBnClickedAudioToWav)
+    ON_CBN_SELCHANGE(IDC_COMBO14, OnChangeFileType)
 END_MESSAGE_MAP()
 
 
@@ -1547,7 +1542,7 @@ void CPlayerCaptureDialog::OnAudioCodecDimension()
         m_pAudEncMoniker->BindToObject(0, 0, IID_PPV_ARGS(&m_pAudEnc));
         /*
                 SaveMediaType(
-                    CString(m_pAudEncArray[m_audcodec.GetItemData(m_audcodec.GetCurSel())].DisplayName.m_str),
+                    CString(m_pAudEncArray[m_audcodec.GetItemData(m_audcodec.GetCurSel())].displayName.m_str),
                     &m_mtca);
         */
     }
@@ -1674,13 +1669,13 @@ void CPlayerCaptureDialog::OnRecord()
     }
 }
 
-void CPlayerCaptureDialog::OnEnChangeEdit9()
+void CPlayerCaptureDialog::OnChangeVideoBuffers()
 {
     UpdateData();
     AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("VidBuffers"), max(m_nVidBuffers, 0));
 }
 
-void CPlayerCaptureDialog::OnEnChangeEdit12()
+void CPlayerCaptureDialog::OnChangeAudioBuffers()
 {
     UpdateData();
     AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("AudBuffers"), max(m_nAudBuffers, 0));
@@ -1707,12 +1702,12 @@ void CPlayerCaptureDialog::OnBnClickedVidAudPreview()
     UpdateGraph();
 }
 
-void CPlayerCaptureDialog::OnBnClickedCheck7()
+void CPlayerCaptureDialog::OnBnClickedAudioToWav()
 {
     //  UpdateMuxer();
 }
 
-void CPlayerCaptureDialog::OnCbnSelchangeCombo14()
+void CPlayerCaptureDialog::OnChangeFileType()
 {
     UpdateData();
 
