@@ -11077,11 +11077,11 @@ void CMainFrame::OpenSetupCaptureBar()
 
             m_wndCaptureBar.m_capdlg.SetupAudioControls(m_AudDispName, m_pAMASC, pAMAIM);
         }
-    }
 
-    BuildGraphVideoAudio(
-        m_wndCaptureBar.m_capdlg.m_fVidPreview, false,
-        m_wndCaptureBar.m_capdlg.m_fAudPreview, false);
+        BuildGraphVideoAudio(
+            m_wndCaptureBar.m_capdlg.m_fVidPreview, false,
+            m_wndCaptureBar.m_capdlg.m_fAudPreview, false);
+    }
 }
 
 void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
